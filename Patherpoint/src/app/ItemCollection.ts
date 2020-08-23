@@ -25,6 +25,7 @@ import { AlchemicalTool } from './AlchemicalTool';
 import { AlchemicalPoison } from './AlchemicalPoison';
 import { Snare } from './Snare';
 import { OtherConsumableBomb } from './OtherConsumableBOmb';
+import { Wand } from './Wand';
 
 export class ItemCollection {
     public readonly _className: string = this.constructor.name;
@@ -55,6 +56,7 @@ export class ItemCollection {
     public alchemicaltools: AlchemicalTool[] = [];
     public alchemicalpoisons: AlchemicalPoison[] = [];
     public snares: Snare[] = [];
+    public wands: Wand[] = [];
     public readonly names: {name: string, key: string}[] = [
         {name:"Weapons",key:"weapons"},
         {name:"Armors",key:"armors"},
@@ -75,7 +77,8 @@ export class ItemCollection {
         {name:"Snares",key:"snares"},
         {name:"Ammunition",key:"ammunition"},
         {name:"Other Consumables",key:"otherconsumables"},
-        {name:"Other Consumables (Bombs)",key:"otherconsumablesbombs"}
+        {name:"Other Consumables (Bombs)",key:"otherconsumablesbombs"},
+        {name:"Wands", key:"wands"}
     ]
     restore_FromSave(itemsService: ItemsService) {
         this.names.forEach(name => {
@@ -97,6 +100,7 @@ export class ItemCollection {
         items.push(...this.shields);
         items.push(...this.weapons);
         items.push(...this.wornitems);
+        items.push(...this.wands);
         return items;
     }
     allConsumables() {

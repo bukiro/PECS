@@ -273,10 +273,10 @@ export class EffectsService {
         
         //Character and Companion Items
         if (creature.type != "Familiar") {
-            characterService.get_Inventories(creature)[0].allEquipment().filter(item => item.invested && item.effects?.length && item.type != "armorrunes").forEach(item => {
+            characterService.get_Inventories(creature)[0].allEquipment().filter(item => item.invested && !item.broken && item.effects?.length && item.type != "armorrunes").forEach(item => {
                 simpleEffects = simpleEffects.concat(this.get_SimpleEffects(creature, characterService, item));
             });
-            characterService.get_Inventories(creature)[0].allEquipment().filter(item => item.equipped && item.propertyRunes?.length).forEach(item => {
+            characterService.get_Inventories(creature)[0].allEquipment().filter(item => item.equipped && !item.broken && item.propertyRunes?.length).forEach(item => {
                 item.propertyRunes.filter(rune => rune["effects"]?.length).forEach(rune => {
                     simpleEffects = simpleEffects.concat(this.get_SimpleEffects(creature, characterService, rune));
                 })
@@ -322,17 +322,17 @@ export class EffectsService {
 
             //Get parrying bonuses from raised weapons
             //If an item is a weapon that is raised, add +1 to AC.
-            items.weapons.filter(item => item.equipped && item.parrying).forEach(item => {
+            items.weapons.filter(item => item.equipped && item.parrying && !item.broken).forEach(item => {
                 itemEffects.push(new Effect(creature.id, 'circumstance', "AC", "+1", "", false, "Parrying", false));
             })
             //Get shield bonuses from raised shields
             //If a shield is raised, add its item bonus to AC with a + in front. If you are also taking cover while the shield is raised, add that bonus as well.
-            items.shields.filter(item => item.equipped && item.raised).forEach(item => {
-                let shieldBonus = item.acbonus;
-                if (item.takingCover) {
-                    shieldBonus += item.coverbonus;
+            items.shields.filter(shield => shield.equipped && shield.raised && !shield.broken).forEach(shield => {
+                let shieldBonus = shield.acbonus;
+                if (shield.takingCover) {
+                    shieldBonus += shield.coverbonus;
                 }
-                itemEffects.push(new Effect(creature.id, 'circumstance', "AC", "+" + shieldBonus, "", false, item.get_Name(), false));
+                itemEffects.push(new Effect(creature.id, 'circumstance', "AC", "+" + shieldBonus, "", false, shield.get_Name(), false));
                 //Reflexive Shield
                 if (character.get_FeatsTaken(1, character.level, "Reflexive Shield").length) {
                     itemEffects.push(new Effect(creature.id, 'circumstance', "Reflex", "+" + shieldBonus, "", false, "Reflexive Shield", false));
@@ -340,7 +340,7 @@ export class EffectsService {
             });
             items.armors.filter(armor => armor.equipped).forEach(armor => {
                 //For Saving Throws, add any resilient runes on the equipped armor
-                if (armor.get_ResilientRune() > 0) {
+                if (armor.get_ResilientRune() > 0 && !armor.broken) {
                     let resilient = armor.get_ResilientRune();
                     itemEffects.push(new Effect(creature.id, 'item', "Fortitude", "+" + resilient, "", false, armor.get_Resilient(resilient), false))
                     itemEffects.push(new Effect(creature.id, 'item', "Reflex", "+" + resilient, "", false, armor.get_Resilient(resilient), false))
@@ -350,8 +350,18 @@ export class EffectsService {
                 armor.get_ArmorSpecialization(creature, characterService).forEach(spec => {
                     itemEffects.push(...this.get_SimpleEffects(creature, characterService, spec))
                 })
+                //Add broken penalty if the armor is broken
+                if (armor.broken) {
+                    switch (armor.get_Prof()) {
+                        case "Light Armor":
+                            itemEffects.push(new Effect(creature.id, "untyped", "AC", "-1", "", false, "Broken Armor", true));
+                        case "Medium Armor":
+                            itemEffects.push(new Effect(creature.id, "untyped", "AC", "-2", "", false, "Broken Armor", true));
+                        case "Heavy Armor":
+                            itemEffects.push(new Effect(creature.id, "untyped", "AC", "-3", "", false, "Broken Armor", true));
+                    }
+                }
             });
-
 
             //Get skill and speed penalties from armor
             //Skip this if there is an "Ignore Armor Penalty" effect.

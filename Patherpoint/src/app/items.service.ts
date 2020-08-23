@@ -41,6 +41,7 @@ import { Snare } from './Snare';
 import { WeaponMaterial } from './WeaponMaterial';
 import { AlchemicalPoison } from './AlchemicalPoison';
 import { OtherConsumableBomb } from './OtherConsumableBOmb';
+import { Wand } from './Wand';
 
 @Injectable({
     providedIn: 'root'
@@ -99,6 +100,8 @@ export class ItemsService {
     private loading_Snares: Boolean = false;
     private loader_AlchemicalPoisons = [];
     private loading_AlchemicalPoisons: Boolean = false;
+    private loader_Wands = [];
+    private loading_Wands: Boolean = false;
     /*
     private loader_REPLACE1 = [];
     private loading_REPLACE1: Boolean = false;
@@ -232,6 +235,8 @@ export class ItemsService {
                     return Object.assign(new Talisman(), item);
                 case "snares":
                     return Object.assign(new Snare(), item);
+                case "wands":
+                    return Object.assign(new Snare(), item);
             }
         } else if (item._className) {
             return this.cast_ItemByClassName(item)
@@ -283,6 +288,8 @@ export class ItemsService {
                     return Object.assign(new Talisman(), item);
                 case "Snare":
                     return Object.assign(new Snare(), item);
+                case "Wand":
+                    return Object.assign(new Wand(), item);
             }
         } else if (item.type) {
             return this.cast_ItemByType(item)
@@ -544,6 +551,10 @@ export class ItemsService {
                     characterService.set_ToChange(creature.type, "defense");
                 }
             })
+            inv.wands.filter(wand => wand.cooldown > 0).forEach(wand => {
+                wand.cooldown = Math.max(wand.cooldown - turns, 0);
+                characterService.set_ToChange(creature.type, "inventory");
+            })
             //Removing an item brings the index out of order, and some items may be skipped. We just keep deleting items named DELETE until none are left.
             while (inv.allItems().filter(item => item.name == "DELETE").length) {
                 inv.allItems().filter(item => item.name == "DELETE").forEach(item => {
@@ -718,6 +729,12 @@ export class ItemsService {
                 .subscribe((results: String[]) => {
                     this.loader_AlchemicalPoisons = results;
                     this.finish_AlchemicalPoisons()
+                });
+            this.loading_Wands = true;
+            this.load_Wands()
+                .subscribe((results: String[]) => {
+                    this.loader_Wands = results;
+                    this.finish_Wands()
                 });
             /*
             this.loading_REPLACE1 = true;
@@ -1050,6 +1067,20 @@ export class ItemsService {
             this.loader_AlchemicalPoisons = [];
         }
         if (this.loading_AlchemicalPoisons) { this.loading_AlchemicalPoisons = false; }
+    }
+
+    load_Wands(): Observable<string[]> {
+        return this.http.get<string[]>('/assets/items/wands.json');
+    }
+
+    finish_Wands() {
+        if (this.loader_Wands) {
+            this.items.wands = this.loader_Wands.map(element => this.initialize_Item(Object.assign(new Wand(), element), true, false));
+            this.cleanItems.wands = this.loader_Wands.map(element => this.initialize_Item(Object.assign(new Wand(), element), true, false));
+            this.craftingItems.wands = this.loader_Wands.map(element => this.initialize_Item(Object.assign(new Wand(), element), true, false));
+            this.loader_Wands = [];
+        }
+        if (this.loading_Wands) { this.loading_Wands = false; }
     }
 
     /*

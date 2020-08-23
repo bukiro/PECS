@@ -9780,7 +9780,7 @@
             },
             {
                 "_className": "SpellChoice",
-                "available": 5,
+                "available": 3,
                 "castingType": "Spontaneous",
                 "charLevelAvailable": 1,
                 "className": "Sorcerer",
@@ -9795,6 +9795,16 @@
                         "sourceId": "54c13d55-8ec0-475c-94e1-8940c6767e9d"
                     }
                 ]
+            },
+            {
+                "_className": "SpellChoice",
+                "available": 2,
+                "castingType": "Spontaneous",
+                "charLevelAvailable": 1,
+                "className": "Sorcerer",
+                "id": "1652daf0-e3c9-4bd4-a1bc-81a40d36043b",
+                "level": 0,
+                "source": "Sorcerer Spellcasting"
             },
             {
                 "_className": "SpellChoice",
@@ -20137,6 +20147,283 @@
                 "id": "2204bf70-ec76-4c98-a27c-f39b8457d072",
                 "level": 0,
                 "source": "Feat: Adapted Cantrip"
+            }
+        ]
+    },
+    {
+        "name": "Arcane Tattoos",
+        "desc": "You have tattoos on your body corresponding to one of the ancient Thassilonian schools of magic. Choose one of the following schools of magic: abjuration (shield), conjuration (tanglefoot), enchantment (daze), evocation (electric arc), illusion (ghost sound), necromancy (chill touch), or transmutation (sigil). You can cast the associated cantrip (listed in parentheses) as an innate arcane spell at will.",
+        "access": "Varisian ethnicity or New Thassilon nationality",
+        "subType": "",
+        "subTypes": true,
+        "superType": "",
+        "shortdesc": "You have tattoos on your body corresponding to one of the ancient Thassilonian schools of magic.",
+        "sourceBook": "Character Guide",
+        "traits": [
+            "Uncommon",
+            "Human"
+        ],
+        "levelreq": 1,
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "spells": [
+                    {
+                        "name": "Shield"
+                    },
+                    {
+                        "name": "Tanglefoot"
+                    },
+                    {
+                        "name": "Daze"
+                    },
+                    {
+                        "name": "Electric Arc"
+                    },
+                    {
+                        "name": "Ghost Sound"
+                    },
+                    {
+                        "name": "Chill Touch"
+                    },
+                    {
+                        "name": "Sigil"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Arcane Tattoos: Abjuration",
+        "desc": "You have tattoos on your body corresponding to the ancient Thassilonian school of abjuration. You can cast shield as an innate arcane spell at will.",
+        "subType": "Abjuration",
+        "superType": "Arcane Tattoos",
+        "shortdesc": "You have tattoos on your body corresponding to one of the ancient Thassilonian schools of magic.",
+        "sourceBook": "Character Guide",
+        "traits": [
+            "Uncommon",
+            "Human"
+        ],
+        "levelreq": 1,
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Innate",
+                "className": "Innate",
+                "frequency": "at will",
+                "id": "1e3e62f2-2676-4a5e-8a75-c476366520c3",
+                "source": "Feat: Arcane Tattoos: Abjuration",
+                "spells": [
+                    {
+                        "_className": "SpellGain",
+                        "locked": true,
+                        "name": "Shield"
+                    }
+                ],
+                "tradition": "Arcane"
+            }
+        ]
+    },
+    {
+        "name": "Arcane Tattoos: Conjuration",
+        "desc": "You have tattoos on your body corresponding to the ancient Thassilonian school of conjuration. You can cast tanglefoot as an innate arcane spell at will.",
+        "subType": "Conjuration",
+        "superType": "Arcane Tattoos",
+        "shortdesc": "You have tattoos on your body corresponding to one of the ancient Thassilonian schools of magic.",
+        "sourceBook": "Character Guide",
+        "traits": [
+            "Uncommon",
+            "Human"
+        ],
+        "levelreq": 1,
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Innate",
+                "className": "Innate",
+                "frequency": "at will",
+                "id": "6f9f5f40-b8ff-481e-b1bc-7471c69b15f8",
+                "source": "Feat: Arcane Tattoos: Conjuration",
+                "spells": [
+                    {
+                        "_className": "SpellGain",
+                        "locked": true,
+                        "name": "Tanglefoot"
+                    }
+                ],
+                "tradition": "Arcane"
+            }
+        ]
+    },
+    {
+        "name": "Arcane Tattoos: Enchantment",
+        "desc": "You have tattoos on your body corresponding to the ancient Thassilonian school of enchantment. You can cast daze as an innate arcane spell at will.",
+        "subType": "Enchantment",
+        "superType": "Arcane Tattoos",
+        "shortdesc": "You have tattoos on your body corresponding to one of the ancient Thassilonian schools of magic.",
+        "sourceBook": "Character Guide",
+        "traits": [
+            "Uncommon",
+            "Human"
+        ],
+        "levelreq": 1,
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Innate",
+                "className": "Innate",
+                "frequency": "at will",
+                "id": "a66366d0-297e-40dd-8fc4-997d714d84b1",
+                "source": "Feat: Arcane Tattoos: Enchantment",
+                "spells": [
+                    {
+                        "_className": "SpellGain",
+                        "locked": true,
+                        "name": "Daze"
+                    }
+                ],
+                "tradition": "Arcane"
+            }
+        ]
+    },
+    {
+        "name": "Arcane Tattoos: Evocation",
+        "desc": "You have tattoos on your body corresponding to the ancient Thassilonian school of evocation. You can cast electric arc as an innate arcane spell at will.",
+        "subType": "Evocation",
+        "superType": "Arcane Tattoos",
+        "shortdesc": "You have tattoos on your body corresponding to one of the ancient Thassilonian schools of magic.",
+        "sourceBook": "Character Guide",
+        "traits": [
+            "Uncommon",
+            "Human"
+        ],
+        "levelreq": 1,
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Innate",
+                "className": "Innate",
+                "frequency": "at will",
+                "id": "fc8233c1-9514-419d-8045-fc4d112a2294",
+                "source": "Feat: Arcane Tattoos: Evocation",
+                "spells": [
+                    {
+                        "_className": "SpellGain",
+                        "locked": true,
+                        "name": "Electric Arc"
+                    }
+                ],
+                "tradition": "Arcane"
+            }
+        ]
+    },
+    {
+        "name": "Arcane Tattoos: Illusion",
+        "desc": "You have tattoos on your body corresponding to the ancient Thassilonian school of illusion. You can cast ghost sound as an innate arcane spell at will.",
+        "subType": "Illusion",
+        "superType": "Arcane Tattoos",
+        "shortdesc": "You have tattoos on your body corresponding to one of the ancient Thassilonian schools of magic.",
+        "sourceBook": "Character Guide",
+        "traits": [
+            "Uncommon",
+            "Human"
+        ],
+        "levelreq": 1,
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Innate",
+                "className": "Innate",
+                "frequency": "at will",
+                "id": "033498df-7b63-416e-85ba-8e51357ad749",
+                "source": "Feat: Arcane Tattoos: Illusion",
+                "spells": [
+                    {
+                        "_className": "SpellGain",
+                        "locked": true,
+                        "name": "Ghost Sound"
+                    }
+                ],
+                "tradition": "Arcane"
+            }
+        ]
+    },
+    {
+        "name": "Arcane Tattoos: Necromancy",
+        "desc": "You have tattoos on your body corresponding to the ancient Thassilonian school of necromancy. You can cast chill touch as an innate arcane spell at will.",
+        "subType": "Necromancy",
+        "superType": "Arcane Tattoos",
+        "shortdesc": "You have tattoos on your body corresponding to one of the ancient Thassilonian schools of magic.",
+        "sourceBook": "Character Guide",
+        "traits": [
+            "Uncommon",
+            "Human"
+        ],
+        "levelreq": 1,
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Innate",
+                "className": "Innate",
+                "frequency": "at will",
+                "id": "730b3798-ffb3-4513-bf3e-cf5d45d6060b",
+                "source": "Feat: Arcane Tattoos: Necromancy",
+                "spells": [
+                    {
+                        "_className": "SpellGain",
+                        "locked": true,
+                        "name": "Chill Touch"
+                    }
+                ],
+                "tradition": "Arcane"
+            }
+        ]
+    },
+    {
+        "name": "Arcane Tattoos: Transmutation",
+        "desc": "You have tattoos on your body corresponding to the ancient Thassilonian school of transmutation. You can cast sigil as an innate arcane spell at will.",
+        "subType": "Transmutation",
+        "superType": "Arcane Tattoos",
+        "shortdesc": "You have tattoos on your body corresponding to one of the ancient Thassilonian schools of magic.",
+        "sourceBook": "Character Guide",
+        "traits": [
+            "Uncommon",
+            "Human"
+        ],
+        "levelreq": 1,
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Innate",
+                "className": "Innate",
+                "frequency": "at will",
+                "id": "c0ae3b0a-8c7b-4994-835a-fd43a8ee49e7",
+                "source": "Feat: Arcane Tattoos: Transmutation",
+                "spells": [
+                    {
+                        "_className": "SpellGain",
+                        "locked": true,
+                        "name": "Sigil"
+                    }
+                ],
+                "tradition": "Arcane"
+            }
+        ]
+    },
+    {
+        "name": "Mountain's Stoutness",
+        "desc": "Your hardiness lets you withstand more punishment than most before going down. Increase your maximum Hit Points by your level. When you have the dying condition, the DC of your recovery checks is equal to 9 + your dying value (instead of 10 + your dying value).\n\nIf you also have the Toughness feat, the Hit Points gained from it and this feat are cumulative, and the DC of your recovery checks is equal to 6 + your dying value.",
+        "hint": "When you have the dying condition, the DC of your recovery checks is equal to 9 + your dying value (instead of 10 + your dying value). If you have the Toughness feat, the DC of your recovery checks is equal to 6 + your dying value.",
+        "showon": "Max Dying",
+        "shortdesc": "Your hardiness lets you withstand more punishment than most before going down.",
+        "traits": [
+            "Dwarf"
+        ],
+        "levelreq": 9,
+        "effects": [
+            {
+                "affected": "Max HP",
+                "value": "Level"
             }
         ]
     }

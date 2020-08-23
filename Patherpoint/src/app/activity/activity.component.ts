@@ -11,7 +11,6 @@ import { ItemActivity } from '../ItemActivity';
 import { Feat } from '../Feat';
 import { AnimalCompanion } from '../AnimalCompanion';
 import { Character } from '../Character';
-import { Creature } from '../Creature';
 import { Familiar } from '../Familiar';
 
 @Component({
@@ -39,7 +38,6 @@ export class ActivityComponent implements OnInit {
         private activitiesService: ActivitiesService,
         private timeService: TimeService,
         private itemsService: ItemsService
-
     ) { }
 
     get_Accent() {

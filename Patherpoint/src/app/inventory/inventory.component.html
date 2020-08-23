@@ -144,35 +144,45 @@
                                     <ng-container *ngFor="let spell of get_ItemSpell(item); trackBy:trackByIndex;">
                                         <button class="row center-aligned"
                                             (click)="on_SpellItemUse(item, creature, inventory)"
-                                            *ngIf="['self', 'ally'].includes(spell.target)">
-                                            <span>Use<app-actionIcons [actionString]="spell.actions">
+                                            *ngIf="['self', 'ally'].includes(spell.target)"
+                                            title="{{item.broken ? 'The item is broken and cannot be used.' : ''}}"
+                                            [disabled]="item.broken">
+                                            <span>{{item.type == "wands" && item.cooldown ? "Overcharge (Cooldown " + get_Duration(item.cooldown) + ")" : "Use"}}<app-actionIcons [actionString]="spell.actions">
                                             </app-actionIcons>{{(spell.activationType) ? spell.activationType : ""}} {{spell.target == 'ally' ? "(Cast spell on yourself)" : "(Cast spell)"}}
                                             </span>
                                         </button>
                                         <button class="row center-aligned"
                                             (click)="on_SpellItemUse(item, (creature=='Character' ? 'Companion' : 'Character'), inventory)"
-                                            *ngIf="['companion', 'ally'].includes(spell.target) && get_CompanionAvailable()">
-                                            <span>Use<app-actionIcons [actionString]="spell.actions">
+                                            *ngIf="['companion', 'ally'].includes(spell.target) && get_CompanionAvailable()"
+                                            title="{{item.broken ? 'The item is broken and cannot be used.' : ''}}"
+                                            [disabled]="item.broken">
+                                            <span>{{item.type == "wands" && item.cooldown ? "Overcharge (Cooldown " + get_Duration(item.cooldown) + ")" : "Use"}}<app-actionIcons [actionString]="spell.actions">
                                             </app-actionIcons>{{(spell.activationType) ? spell.activationType : ""}} (Cast spell on
                                             {{creature == "Character" ? "your animal companion" : "your master"}})
                                             </span>
                                         </button>
                                         <button class="row center-aligned"
                                             (click)="on_SpellItemUse(item, 'Familiar', inventory)"
-                                            *ngIf="['companion', 'ally'].includes(spell.target) && get_FamiliarAvailable()">
-                                            <span>Use<app-actionIcons [actionString]="spell.actions">
+                                            *ngIf="['companion', 'ally'].includes(spell.target) && get_FamiliarAvailable()"
+                                            title="{{item.broken ? 'The item is broken and cannot be used.' : ''}}"
+                                            [disabled]="item.broken">
+                                            <span>{{item.type == "wands" && item.cooldown ? "Overcharge (Cooldown " + get_Duration(item.cooldown) + ")" : "Use"}}<app-actionIcons [actionString]="spell.actions">
                                             </app-actionIcons>{{(spell.activationType) ? spell.activationType : ""}} (Cast spell on your familiar)
                                             </span>
                                         </button>
                                         <button class="row center-aligned" (click)="on_SpellItemUse(item, '', inventory)"
-                                            *ngIf="spell.target == 'ally'">
-                                            <span>Use<app-actionIcons [actionString]="spell.actions">
+                                            *ngIf="spell.target == 'ally'"
+                                            title="{{item.broken ? 'The item is broken and cannot be used.' : ''}}"
+                                            [disabled]="item.broken">
+                                            <span>{{item.type == "wands" && item.cooldown ? "Overcharge (Cooldown " + get_Duration(item.cooldown) + ")" : "Use"}}<app-actionIcons [actionString]="spell.actions">
                                             </app-actionIcons>{{(spell.activationType) ? spell.activationType : ""}} (Cast spell on ally)
                                             </span>
                                         </button>
                                         <button class="row center-aligned" (click)="on_SpellItemUse(item, '', inventory)"
-                                            *ngIf="spell.target == ''">
-                                            <span>Use<app-actionIcons [actionString]="spell.actions">
+                                            *ngIf="spell.target == ''"
+                                            title="{{item.broken ? 'The item is broken and cannot be used.' : ''}}"
+                                            [disabled]="item.broken">
+                                            <span>{{item.type == "wands" && item.cooldown ? "Overcharge (Cooldown " + get_Duration(item.cooldown) + ")" : "Use"}}<app-actionIcons [actionString]="spell.actions">
                                             </app-actionIcons>{{(spell.activationType) ? spell.activationType : ""}} (Cast spell)
                                             </span>
                                         </button>
@@ -246,7 +256,7 @@
                                 <div class="row" *ngIf="get_Price(item) && item.tradeable">
                                     <span *ngIf="item.can_Stack()">
                                         <button (click)="onAmountChange(item, -1, true)" title="Sell at half price"
-                                            [disabled]="item.amount <= 0">Sell 1</button>
+                                            [disabled]="item.amount <= 0 || item.broken">Sell 1</button>
                                         <button (click)="onAmountChange(item, 1, true)"
                                             [disabled]="!have_Funds(get_Price(item))">Buy 1</button>
                                     </span>
@@ -256,7 +266,8 @@
                                     </span>
                                     <span>
                                         <button (click)="drop_InventoryItem(item, inventory, true)"
-                                            title="Sell at half price" [disabled]="item.amount <= 0">
+                                            title="Sell at half price" [disabled]="item.amount <= 0"
+                                            [disabled]="item.broken">
                                             Sell
                                         </button>
                                     </span>
@@ -280,6 +291,9 @@
                                     <span><input id="{{item.id}}shownotes" type="checkbox"
                                             [(ngModel)]="item.showNotes"><label
                                             for="{{item.id}}shownotes">Notes</label></span>
+                                    <span><input id="{{item.id}}showstatus" type="checkbox"
+                                        [(ngModel)]="item.showStatus"><label
+                                        for="{{item.id}}showstatus">Status</label></span>
                                     <span *ngIf="item['get_Name']"><input id="{{item.id}}showname" type="checkbox"
                                             [(ngModel)]="item.showName"><label
                                             for="{{item.id}}showname">Name</label></span>
@@ -287,19 +301,22 @@
                                             id="{{item.id}}showrunes" type="checkbox"
                                             [(ngModel)]="item.showRunes"><label
                                             for="{{item.id}}showrunes">Runes</label></span>
-                                    <span *ngIf="item.moddable && item.moddable != '-'"><input
-                                            id="{{item.id}}showmaterial" type="checkbox"
-                                            [(ngModel)]="item.showMaterial"><label
-                                            for="{{item.id}}showmaterial">Material</label></span>
                                 </div>
                                 <!--Changing Notes-->
-                                <div class="row" *ngIf="item.showNotes">
+                                <div class="list-item row" *ngIf="item.showNotes">
                                     Notes <input type="textarea" class="fullwidth" [(ngModel)]="item.notes">
                                 </div>
+                                <!--Changing Notes-->
+                                <div class="list-item row" *ngIf="item.showStatus || item.broken">
+                                    Status
+                                    <span><input id="{{item.id}}broken" type="checkbox"
+                                        [(ngModel)]="item.broken" (ngModelChange)=onItemChange(item)><label
+                                        for="{{item.id}}broken">Broken</label></span>
+                                </div>
                                 <!--Changing Name-->
-                                <div class="row" *ngIf="item.showName">
+                                <div class="list-item row" *ngIf="item.showName">
                                     Name <input type="textarea" class="fullwidth" [(ngModel)]="item.displayName"
-                                        (blur)="onNameChange(item)">
+                                        (blur)="onItemChange(item)">
                                 </div>
                                 <app-itemRunes class="list-item" [item]=item [itemStore]=false *ngIf="item.showRunes">
                                 </app-itemRunes>

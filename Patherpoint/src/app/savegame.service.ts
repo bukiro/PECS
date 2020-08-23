@@ -67,6 +67,7 @@ import { ArmorMaterial } from './ArmorMaterial';
 import { ShieldMaterial } from './ShieldMaterial';
 import { AlchemicalPoison } from './AlchemicalPoison';
 import { OtherConsumableBomb } from './OtherConsumableBOmb';
+import { Wand } from './Wand';
 
 @Injectable({
     providedIn: 'root'
@@ -139,6 +140,7 @@ export class SavegameService {
     private WeaponMaterial = WeaponMaterial;
     private WeaponRune = WeaponRune;
     private WornItem = WornItem;
+    private Wand = Wand;
 
     constructor(
         private http: HttpClient

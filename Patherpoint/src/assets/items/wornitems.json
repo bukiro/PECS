@@ -720,8 +720,8 @@
             }
         ],
         "desc": "This item consists of two magically linked rings: an intricate, gleaming golden ring with a square-cut ruby, and a thick, plain iron ring. When you wield a melee weapon in the hand wearing the golden ring, the weapon's fundamental runes are replicated onto any melee weapon you wield in the hand wearing the iron ring. (The fundamental runes are weapon potency and striking, which add an item bonus to attack rolls and extra weapon damage dice, respectively.) Any fundamental runes on the weapon in the hand wearing the iron ring are suppressed.\n\nThe replication functions only if you wear both rings, and it ends as soon as you cease wielding a melee weapon in one of your hands. Consequently, the benefit doesn't apply to thrown attacks or if you're holding a weapon but not wielding it (such as holding in one hand a weapon that requires two hands to wield).",
-        "id": "89c3ecb9-8e09-11ea-9fab-e92c63c14723",
-        "level": 3,
+        "id": "138be671-c974-48ab-a280-c30e9556eb79",
+        "level": 11,
         "name": "Doubling Rings (Greater)",
         "price": 130000,
         "subType": "Greater",
@@ -734,6 +734,76 @@
         "_className": "WornItem",
         "isDoublingRings": "Doubling Rings (Greater)",
         "usage": "worn"
+    },
+    {
+        "bulk": "L",
+        "desc": "These bracers are made from plates of durable mithral and gleam like the summer sun.",
+        "id": "f9eb15ad-fccf-4682-b35a-2eba31964d78",
+        "level": 3,
+        "name": "Bracers of Missile Deflection",
+        "price": 52000,
+        "traits": [
+            "Abjuration",
+            "Invested",
+            "Magical"
+        ],
+        "activities": [
+            {
+                "actions": "Reaction",
+                "activationType": "Interact",
+                "cooldown": 144000,
+                "trigger": "A ranged weapon attack hits you but doesn’t critically hit",
+                "requirements": "You are aware of the attack and not flat-footed",
+                "desc": "The bracers send the missile off-course. You gain a +2 circumstance bonus to AC against the triggering attack. If this would cause the attack to be a failure, the attack misses you.",
+                "frequency": "once per day",
+                "name": "Bracers of Missile Deflection",
+                "traits": [
+                    "Abjuration",
+                    "Invested",
+                    "Magical"
+                ],
+                "_className": "ItemActivity",
+                "source": "f9eb15ad-fccf-4682-b35a-2eba31964d78"
+            }
+        ],
+        "subType": "Greater",
+        "subTypeDesc": "You can activate the bracers once every 10 minutes.",
+        "_className": "WornItem",
+        "usage": "worn bracers"
+    },
+    {
+        "bulk": "L",
+        "desc": "These bracers are made from plates of durable mithral and gleam like the summer sun.",
+        "id": "b34042cb-3303-4a1a-8aca-94b92fc48583",
+        "level": 9,
+        "name": "Bracers of Missile Deflection (Greater)",
+        "price": 650000,
+        "traits": [
+            "Abjuration",
+            "Invested",
+            "Magical"
+        ],
+        "activities": [
+            {
+                "actions": "Reaction",
+                "activationType": "Interact",
+                "cooldown": 1000,
+                "trigger": "A ranged weapon attack hits you but doesn’t critically hit",
+                "requirements": "You are aware of the attack and not flat-footed",
+                "desc": "The bracers send the missile off-course. You gain a +2 circumstance bonus to AC against the triggering attack. If this would cause the attack to be a failure, the attack misses you.",
+                "frequency": "once every 10 minutes",
+                "name": "Bracers of Missile Deflection (Greater)",
+                "traits": [
+                    "Abjuration",
+                    "Invested",
+                    "Magical"
+                ],
+                "_className": "ItemActivity",
+                "source": "b34042cb-3303-4a1a-8aca-94b92fc48583"
+            }
+        ],
+        "_className": "WornItem",
+        "usage": "worn bracers"
     },
     {
         "desc": "This polished wooden ring constantly refreshes your body and mind. You don't need to eat or drink while wearing it, and you need only 2 hours of sleep per day to gain the benefits of 8 hours of sleep. A ring of sustenance doesn't function until it's been worn and invested continuously for a week. Removing it resets this interval.",
@@ -1012,7 +1082,7 @@
         "desc": "Your mouth, esophagus, and stomach are incredibly elastic and tougher than metal. For the duration of the spell, you can reach down your throat to store or retrieve a single object of light or negligible Bulk in your stomach, as though your stomach were a backpack or other container. Storing and retrieving an item in this way requires an Interact action. The object must be small enough to reasonably fit within your stomach. It is very difficult for other creatures to notice that you are hiding an object in this way; passive observers can’t possibly notice and you gain a +4 circumstance bonus to your Stealth checks to Conceal the Object unless the searcher specifically searches your mouth and stomach. If at the end of the spell’s duration you still have an object stored in your stomach, it is violently expelled, dealing 1d6 damage to you.",
         "id": "00d7f12b-0dd1-4559-a596-22185ec7fa52",
         "name": "Iron Gut",
-        "hidden": true,
+        "hide": true,
         "gainInventory": [
             {
                 "_className": "InventoryGain",

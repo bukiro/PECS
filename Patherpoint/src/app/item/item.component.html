@@ -247,7 +247,7 @@
         </app-actionIcons>{{(activity.activationType) ? activity.activationType : ""}}
     </h4>
     <app-activity [creature]="creature" [activity]=activity [gain]=activity
-        [allowActivate]="allowActivate && (activity.resonant ? isSubItem : true)" [isSubItem]=isSubItem></app-activity>
+        [allowActivate]="allowActivate && !item.broken && (activity.resonant ? isSubItem : true)" [isSubItem]=isSubItem></app-activity>
 </div>
 <ng-container *ngFor="let gain of item.gainActivities; trackBy:trackByIndex;">
     <div class="list-item left-aligned" *ngFor="let activity of get_Activities(gain.name); trackBy:trackByIndex;">

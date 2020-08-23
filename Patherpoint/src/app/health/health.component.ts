@@ -178,8 +178,8 @@ export class HealthComponent implements OnInit {
     get_Resistances() {
         //There should be no absolutes in resistances. If there are, they will be treated as relatives here.
         let effects = this.effectsService.get_Effects(this.creature).all.filter(effect =>
-            effect.creature == this.get_Creature().id && (effect.target.includes("Resistance") ||
-            effect.target.includes("Hardness")) && effect.apply);
+            effect.creature == this.get_Creature().id && (effect.target.toLowerCase().includes("resistance") ||
+            effect.target.toLowerCase().includes("hardness")) && effect.apply);
         let resistances: any[] = [];
         effects.forEach(effect => {
             let value = effect.setValue || effect.value;
@@ -195,9 +195,10 @@ export class HealthComponent implements OnInit {
                 resistances.push({target:split[0], value:parseInt(value), exception:split[1], source:effect.source});
             }
         });
-        resistances.forEach(res => {
+        resistances.forEach((res: {value:number, target:string}) => {
             if (res.value < 0) {
-                res.target = res.target.replace("Resistance", "Weakness");
+                res.target = res.target.toLowerCase().replace("resistance", "weakness");
+                res.target = res.target.split(" ").map(word => word[0].toUpperCase() + word.substr(1).toLowerCase()).join(" ");
             }
         });
         return resistances;

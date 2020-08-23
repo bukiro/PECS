@@ -20,6 +20,7 @@ import { FormulaLearned } from '../FormulaLearned';
 import { Snare } from '../Snare';
 import { SpellsService } from '../spells.service';
 import { SpellGain } from '../SpellGain';
+import { Wand } from '../Wand';
 
 @Component({
     selector: 'app-inventory',
@@ -403,8 +404,9 @@ export class InventoryComponent implements OnInit {
         this.characterService.onInvest(this.get_Creature(), inventory, item, invested);
     }
 
-    onNameChange(item: Item) {
+    onItemChange(item: Item) {
         this.characterService.set_ItemViewChanges(this.get_Creature(), item);
+        this.characterService.process_ToChange();
     }
 
     onAmountChange(item: Consumable, amount: number, pay: boolean = false) {
@@ -429,11 +431,24 @@ export class InventoryComponent implements OnInit {
         let spellChoice = item.storedSpells[0];
         if (spellChoice && spellName) {
             let spell = this.get_Spells(item.storedSpells[0]?.spells[0]?.name)[0];
-            if (spell) {
+            if (spell && !(item instanceof Wand && item.overcharged)) {
                 let tempGain: SpellGain = new SpellGain();
                 this.spellsService.process_Spell(this.get_Character(), creature, this.characterService, this.itemsService, this.timeService, tempGain, spell, spellChoice.level, true, true, false);
             }
-            spellChoice.spells.shift();
+            if (item instanceof Wand) {
+                if (item.cooldown) {
+                    if (item.overcharged) {
+                        this.drop_InventoryItem(item, inventory, false);
+                    } else {
+                        item.overcharged = true;
+                        item.broken = true;
+                    }
+                } else {
+                    item.cooldown = 144000;
+                }
+            } else {
+                spellChoice.spells.shift();
+            }
         }
         if (item instanceof Consumable) {
             this.on_ConsumableUse(item, creature, inventory)

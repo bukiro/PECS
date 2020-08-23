@@ -29,7 +29,7 @@ export class DefenseService {
 
     get_EquippedShield(creature: Character|AnimalCompanion) {
         let shield = creature.inventories[0].shields;
-        return shield.filter(shield => shield.equipped);
+        return shield.filter(shield => shield.equipped && !shield.broken);
     }
 
     get_ParryWeapons(creature: Character|AnimalCompanion) {

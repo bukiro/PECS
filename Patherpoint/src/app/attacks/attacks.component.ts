@@ -102,7 +102,7 @@ export class AttacksComponent implements OnInit {
 
     get_EquippedWeapons() {
         this.get_AttackRestrictions();
-        return this.get_Creature().inventories[0].weapons.filter(weapon => weapon.equipped && weapon.equippable)
+        return this.get_Creature().inventories[0].weapons.filter(weapon => weapon.equipped && weapon.equippable && !weapon.broken)
             .concat(...this.get_Creature().inventories.map(inv => inv.alchemicalbombs))
             .concat(...this.get_Creature().inventories.map(inv => inv.otherconsumablesbombs))
             .sort(function(a,b) {

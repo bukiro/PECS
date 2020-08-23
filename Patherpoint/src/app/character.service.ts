@@ -940,11 +940,17 @@ export class CharacterService {
     set_EquipmentViewChanges(creature: Character|AnimalCompanion, item: Equipment) {
         //Prepare refresh list according to the item's properties.
         if (item.constructor == Shield || item.constructor == Armor || item.constructor == Weapon) {
-            //There are effects that are based on your currently equipped armor, shield or weapons.
+            this.set_ToChange(creature.type, "defense");
+            //There are effects that are based on your currently equipped armor and shield.
             //That means we have to check the effects whenever we equip or unequip one of those.
             this.set_ToChange(creature.type, "effects");
         }
-        this.set_ToChange(creature.type, "effects");
+        if (item.constructor == Weapon) {
+            this.set_ToChange(creature.type, "attacks");
+            //There are effects that are based on your currently weapons.
+            //That means we have to check the effects whenever we equip or unequip one of those.
+            this.set_ToChange(creature.type, "effects");
+        }
         if (item.showon) {
             this.set_TagsToChange(creature.type, item.showon);
         }
@@ -964,6 +970,9 @@ export class CharacterService {
             this.set_ToChange(creature.type, "defense");
         }
         if (item.activities?.length) {
+            this.set_ToChange(creature.type, "activities");
+        }
+        if (item.gainActivities?.length) {
             this.set_ToChange(creature.type, "activities");
         }
         item.propertyRunes?.forEach((rune: Rune) => {
@@ -1464,7 +1473,7 @@ export class CharacterService {
             // This is used for ticking down cooldowns.
             if (all) {
                 creature.inventories.forEach(inv => {
-                    inv.allEquipment().forEach((item: Equipment) => {
+                    inv.allEquipment().forEach(item => {
                         if (item.gainActivities.length) {
                             activities.push(...item.gainActivities);
                         }
@@ -1501,7 +1510,8 @@ export class CharacterService {
                 creature.inventories[0].allEquipment()
                 .filter(item => 
                     item.equipped &&
-                    (item.can_Invest() ? item.invested : true)
+                    (item.can_Invest() ? item.invested : true) &&
+                    !item.broken
                 ).forEach((item: Equipment) => {
                     if (item.gainActivities.length) {
                         activities.push(...item.gainActivities);
@@ -1568,7 +1578,7 @@ export class CharacterService {
             });
         }
         creature.inventories.forEach(inventory => {
-            inventory.allEquipment().filter(item => (item.equippable ? item.equipped : true) && (item.can_Invest() ? item.invested : true)).forEach(item => {
+            inventory.allEquipment().filter(item => (item.equippable ? item.equipped : true) && item.amount && !item.broken && (item.can_Invest() ? item.invested : true)).forEach(item => {
                 get_Hint(item);
                 item.oilsApplied.forEach(oil => {
                     get_Hint(oil);

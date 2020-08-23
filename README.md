@@ -84,9 +84,10 @@ The very latest in Assistive Technologies for Dungeon Master (ATDM)
 - [ ] Initiative tracker, battles, being a battle member, GM-Player-Communication.......
 - [ ] Stretch Goal: Include optional Stamina & Resolve system
 
-Active to-do
+Active to-do:
 
 Implement:
+Wand
 
 Next steps:
 - Implement Ancestry Feats
