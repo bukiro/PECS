@@ -87,7 +87,6 @@ The very latest in Assistive Technologies for Dungeon Master (ATDM)
 Active to-do:
 
 Implement:
-Wand
 
 Next steps:
 - Implement Ancestry Feats

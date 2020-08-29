@@ -2385,7 +2385,7 @@
     },
     {
         "name": "Fuse Stance",
-        "desc": "You have combined two stances into a single stance all your own. When you take this feat, choose two stances you know and combine them into a single fused stance. Give your new fused stance a unique name. When you enter your fused stance, you gain all the effects of both stances, including the requirements and restrictions.\\n\\nYou can't fuse stances with fundamentally incompatible requirements or restrictions (such as Ironblood Stance and Crane Stance, which both require using only one type of Strike).",
+        "desc": "You have combined two stances into a single stance all your own. When you take this feat, choose two stances you know and combine them into a single fused stance. Give your new fused stance a unique name. When you enter your fused stance, you gain all the effects of both stances, including the requirements and restrictions.\n\nYou can't fuse stances with fundamentally incompatible requirements or restrictions (such as Ironblood Stance and Crane Stance, which both require using only one type of Strike).",
         "internalNote": "The effect is hardcoded.",
         "shortdesc": "You have combined two stances into a single stance all your own.",
         "traits": [
@@ -4095,8 +4095,8 @@
     },
     {
         "name": "Read Lips",
-        "desc": "You can read lips of others nearby who you can clearly see. When you're at your leisure, you can do this automatically. In encounter mode or when attempting a more difficult feat of lipreading, you're fascinated and flat-footed during each round in which you focus on lip movements, and you must succeed at a Society check (DC determined by the GM) to successfully read someone's lips. In either case, the language read must be one that you know.\\n\\nIf you are deaf or hard of hearing and have Read Lips, you recognize the lip movements for the spoken form of your languages. You can also speak the spoken form of your languages clearly enough for others to understand you.",
-        "hint": "You can read lips of others nearby who you can clearly see. When you're at your leisure, you can do this automatically. In encounter mode or when attempting a more difficult feat of lipreading, you're fascinated and flat-footed during each round in which you focus on lip movements, and you must succeed at a Society check (DC determined by the GM) to successfully read someone's lips. In either case, the language read must be one that you know.\\n\\nIf you are deaf or hard of hearing and have Read Lips, you recognize the lip movements for the spoken form of your languages. You can also speak the spoken form of your languages clearly enough for others to understand you.",
+        "desc": "You can read lips of others nearby who you can clearly see. When you're at your leisure, you can do this automatically. In encounter mode or when attempting a more difficult feat of lipreading, you're fascinated and flat-footed during each round in which you focus on lip movements, and you must succeed at a Society check (DC determined by the GM) to successfully read someone's lips. In either case, the language read must be one that you know.\n\nIf you are deaf or hard of hearing and have Read Lips, you recognize the lip movements for the spoken form of your languages. You can also speak the spoken form of your languages clearly enough for others to understand you.",
+        "hint": "You can read lips of others nearby who you can clearly see. When you're at your leisure, you can do this automatically. In encounter mode or when attempting a more difficult feat of lipreading, you're fascinated and flat-footed during each round in which you focus on lip movements, and you must succeed at a Society check (DC determined by the GM) to successfully read someone's lips. In either case, the language read must be one that you know.\n\nIf you are deaf or hard of hearing and have Read Lips, you recognize the lip movements for the spoken form of your languages. You can also speak the spoken form of your languages clearly enough for others to understand you.",
         "showon": "Society",
         "shortdesc": "Read the lips of people you can see.",
         "traits": [
@@ -4232,7 +4232,7 @@
     },
     {
         "name": "Sacred Ki",
-        "desc": "The power of your faith suffuses your ki. When you select this feat, choose chaos, evil, good, or law. Your choice must match one of your deity's alignment components.\\n\\nWhen you cast the ki strike focus spell and damage a creature whose alignment is opposite your chosen alignment, you can choose for the ki strike damage to be of the chosen type. Additionally, you can substitute the damage from ki blast (or other ki spells that deal force damage, at the GM's discretion) with damage of your chosen alignment.",
+        "desc": "The power of your faith suffuses your ki. When you select this feat, choose chaos, evil, good, or law. Your choice must match one of your deity's alignment components.\n\nWhen you cast the ki strike focus spell and damage a creature whose alignment is opposite your chosen alignment, you can choose for the ki strike damage to be of the chosen type. Additionally, you can substitute the damage from ki blast (or other ki spells that deal force damage, at the GM's discretion) with damage of your chosen alignment.",
         "subTypes": true,
         "shortdesc": "The power of your faith suffuses your ki",
         "traits": [
@@ -4469,8 +4469,8 @@
     },
     {
         "name": "Sign Language",
-        "desc": "You learn the sign languages associated with the languages you know, allowing you to sign and understand signs. Sign languages typically require both hands to convey more complex concepts, and they are visual rather than auditory.\\n\\nSign language is difficult to understand during combat due to the level of attention needed, unlike basic gestures like pointing at a foe to suggest a target. Sign language is hard to use in areas of low visibility, just like speech is difficult in a noisy environment.",
-        "hint": "You have learned the sign languages associated with the languages you know, allowing you to sign and understand signs. Sign languages typically require both hands to convey more complex concepts, and they are visual rather than auditory.\\n\\nSign language is difficult to understand during combat due to the level of attention needed, unlike basic gestures like pointing at a foe to suggest a target. Sign language is hard to use in areas of low visibility, just like speech is difficult in a noisy environment.",
+        "desc": "You learn the sign languages associated with the languages you know, allowing you to sign and understand signs. Sign languages typically require both hands to convey more complex concepts, and they are visual rather than auditory.\n\nSign language is difficult to understand during combat due to the level of attention needed, unlike basic gestures like pointing at a foe to suggest a target. Sign language is hard to use in areas of low visibility, just like speech is difficult in a noisy environment.",
+        "hint": "You have learned the sign languages associated with the languages you know, allowing you to sign and understand signs. Sign languages typically require both hands to convey more complex concepts, and they are visual rather than auditory.\n\nSign language is difficult to understand during combat due to the level of attention needed, unlike basic gestures like pointing at a foe to suggest a target. Sign language is hard to use in areas of low visibility, just like speech is difficult in a noisy environment.",
         "showon": "Society",
         "shortdesc": "Learn sign languages.",
         "traits": [
@@ -5908,8 +5908,8 @@
     },
     {
         "name": "Wall Jump",
-        "desc": "You can use your momentum from a jump to propel yourself off a wall. If you're adjacent to a wall at the end of a jump (whether performing a High Jump, Long Jump, or Leap), you don't fall as long as your next action is another jump. Furthermore, since your previous jump gives you momentum, you can use High Jump or Long Jump as a single action, but you don't get to Stride as part of the activity.\\n\\nYou can use Wall Jump only once in a turn, unless you're legendary in Athletics, in which case you can use Wall Jump as many times as you can use consecutive jump actions in that turn.",
-        "hint": "If you're adjacent to a wall at the end of a jump (whether performing a High Jump, Long Jump, or Leap), you don't fall as long as your next action is another jump. Furthermore, since your previous jump gives you momentum, you can use High Jump or Long Jump as a single action, but you don't get to Stride as part of the activity.\\n\\nYou can use Wall Jump only once in a turn, unless you're legendary in Athletics, in which case you can use Wall Jump as many times as you can use consecutive jump actions in that turn.",
+        "desc": "You can use your momentum from a jump to propel yourself off a wall. If you're adjacent to a wall at the end of a jump (whether performing a High Jump, Long Jump, or Leap), you don't fall as long as your next action is another jump. Furthermore, since your previous jump gives you momentum, you can use High Jump or Long Jump as a single action, but you don't get to Stride as part of the activity.\n\nYou can use Wall Jump only once in a turn, unless you're legendary in Athletics, in which case you can use Wall Jump as many times as you can use consecutive jump actions in that turn.",
+        "hint": "If you're adjacent to a wall at the end of a jump (whether performing a High Jump, Long Jump, or Leap), you don't fall as long as your next action is another jump. Furthermore, since your previous jump gives you momentum, you can use High Jump or Long Jump as a single action, but you don't get to Stride as part of the activity.\n\nYou can use Wall Jump only once in a turn, unless you're legendary in Athletics, in which case you can use Wall Jump as many times as you can use consecutive jump actions in that turn.",
         "showon": "Athletics",
         "shortdesc": "Jump off walls.",
         "traits": [
@@ -15263,7 +15263,6 @@
                 "_className": "FeatChoice",
                 "available": 1,
                 "level": 1,
-                "showOnSheet": true,
                 "source": "Feat: Metamagical Experimentation",
                 "type": "Metamagic,Wizard"
             },
@@ -15272,6 +15271,7 @@
                 "available": 1,
                 "dynamicLevel": "level.number / 2",
                 "insertLevel": 4,
+                "showOnSheet": true,
                 "source": "Feat: Metamagical Experimentation",
                 "type": "Metamagic,Wizard"
             }

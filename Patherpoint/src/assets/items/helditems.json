@@ -1,5 +1,19 @@
 [
     {
+        "bulk": "L",
+        "desc": "An everburning torch is one of the most common applications of permanent magic. This torch sheds light constantly, requiring no oxygen and generating no heat. The flame can be covered or hidden, but can’t be smothered or quenched.",
+        "id": "8057670b-5a97-4fd0-97be-aacdf7f6a3ff",
+        "name": "Everburning Torch",
+        "price": 1500,
+        "usage": "held in 1 hand",
+        "hands": 1,
+        "traits": [
+            "Evocation",
+            "Light",
+            "Magical"
+        ]
+    },
+    {
         "desc": "A grinning skull tops the bow of this macabre key. This key can be used in place of thieves' tools when attempting to Pick a Lock, and it grants a +1 item bonus to the Thievery check. If the skeleton key becomes broken due to a critical failure on the check, it works as normal thieves' tools and loses its benefits until repaired.",
         "id": "89bd35f2-8e09-11ea-9fab-e92c63c14723",
         "level": 5,

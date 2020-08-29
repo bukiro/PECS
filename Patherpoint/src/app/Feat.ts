@@ -127,7 +127,7 @@ export class Feat {
         let skillreq = JSON.parse(JSON.stringify(this.skillreq));
         //The Versatile Performance feat allows to use Performance instead of Deception, Diplomacy or Intimidation to meet skill requirements for feats.
         //If you have the feat and any of these skills are required, add Performance to the requirements with the lowest required value.
-        if (character.get_FeatsTaken(1, charLevel, "Versatile Performance")) {
+        if (character.get_FeatsTaken(1, charLevel, "Versatile Performance").length) {
             let matchingreqs = skillreq.filter(requirement => ["Deception","Diplomacy","Intimidation"].includes(requirement.skill));
             if (matchingreqs.length) {
                 let lowest = Math.min(matchingreqs.map(requirement => requirement.value));

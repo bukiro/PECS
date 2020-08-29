@@ -315,7 +315,7 @@
       "shortdesc": "You gain one additional spell slot at least 3 levels lower than your highest-level spell slot; you must be able to cast 4th-level spells using spell slots to select this master ability.",
       "desc": "You gain one additional spell slot at least 3 levels lower than your highest-level spell slot; you must be able to cast 4th-level spells using spell slots to select this master ability.",
       "specialreqdesc": "ability to cast 4th-level spells using spell slots",
-      "specialreq":"character.class.spellCasting.filter(casting => ['Spontaneous','Prepared'].includes(casting.castingType) && casting.charLevelAvailable <= character.level && casting.spellChoices.filter(choice => choice.level >= 4).length).length",
+      "specialreq":"character.class.spellCasting.find(casting => ['Spontaneous','Prepared'].includes(casting.castingType) && casting.className == characterService.get_Familiar().originClass && casting.charLevelAvailable <= character.level && casting.spellChoices.find(choice => choice.charLevelAvailable <= character.level && choice.level >= 4))",
       "traits": [
          "Master Ability"
       ],
