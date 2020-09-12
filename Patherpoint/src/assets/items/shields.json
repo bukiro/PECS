@@ -144,6 +144,7 @@
         "brokenThreshold": 1,
         "hardness": 5,
         "hitpoints": 2,
+        "raised": true,
         "hide": true
     },
     {
@@ -163,6 +164,7 @@
         "brokenThreshold": 1,
         "hardness": 10,
         "hitpoints": 2,
+        "raised": true,
         "hide": true
     },
     {
@@ -182,6 +184,7 @@
         "brokenThreshold": 1,
         "hardness": 15,
         "hitpoints": 2,
+        "raised": true,
         "hide": true
     },
     {
@@ -201,6 +204,7 @@
         "brokenThreshold": 1,
         "hardness": 20,
         "hitpoints": 2,
+        "raised": true,
         "hide": true
     },
     {
@@ -220,6 +224,7 @@
         "brokenThreshold": 1,
         "hardness": 25,
         "hitpoints": 2,
+        "raised": true,
         "hide": true
     }
 ]

@@ -56,6 +56,7 @@ import { AlchemicalBomb } from './AlchemicalBomb';
 import { Snare } from './Snare';
 import { AlchemicalPoison } from './AlchemicalPoison';
 import { OtherConsumableBomb } from './OtherConsumableBOmb';
+import { isNgContainer } from '@angular/compiler';
 
 @Injectable({
     providedIn: 'root'
@@ -1003,12 +1004,20 @@ export class CharacterService {
             this.set_ToChange(creature.type, "inventory");
             this.set_EquipmentViewChanges(creature, item);
             if (item.equipped) {
-                if (item.type == "armors" || item.type == "shields") {
+                if (item instanceof Armor || item instanceof Shield) {
                     let allOfType = inventory[item.type];
+                    //If you equip a shield that is already raised, preserve that status (e.g. for the Shield spell).
+                    let raised = false;
+                    if (item instanceof Shield && item.raised) {
+                        raised = true;
+                    }
                     allOfType.forEach(typeItem => {
                         this.onEquip(creature, inventory, typeItem, false, false, false);
                     });
                     item.equipped = true;
+                    if (item instanceof Shield) {
+                        item.raised = raised;
+                    }
                 }
                 
                 //If you get an Activity from an item that doesn't need to be invested, immediately invest it in secret so the Activity is gained
@@ -1024,7 +1033,7 @@ export class CharacterService {
                         } else {
                             let equip = true;
                             //Don't equip the new item if it's a shield or armor and this one is too - only one shield or armor can be equipped
-                            if ((item.type == "armors" || item.type == "shields") && newItem.type == item.type) {
+                            if ((item instanceof Armor || item instanceof Shield) && newItem.type == item.type) {
                                 equip = false;
                             }
                             let grantedItem = this.grant_InventoryItem(creature, inventory, newItem, false, false, equip);
@@ -1040,24 +1049,24 @@ export class CharacterService {
                     this.equip_BasicItems(creature);
                 }
                 //If you are unequipping a shield, you should also be lowering it and losing cover
-                if (item.type == "shields") {
-                    item["takingCover"] = false;
-                    item["raised"] = false;
+                if (item instanceof Shield) {
+                    item.takingCover = false;
+                    item.raised = false;
                 }
                 //Same with currently parrying weapons
-                if (item.type == "weapons") {
-                    item["parrying"] = false;
+                if (item instanceof Weapon) {
+                    item.parrying = false;
                 }
                 //If the item was invested, it isn't now.
                 if (item.invested) {
                     this.onInvest(creature, inventory, item, false, false);
                 }
-                if (item["gainItems"] && item["gainItems"].length) {
-                    item["gainItems"].filter((gainItem: ItemGain) => gainItem.on == "equip").forEach(gainItem => {
+                if (item.gainItems?.length) {
+                    item.gainItems.filter((gainItem: ItemGain) => gainItem.on == "equip").forEach(gainItem => {
                         this.lose_GainedItem(creature, gainItem);
                     });
                 }
-                item["propertyRunes"]?.forEach(rune => {
+                item.propertyRunes?.forEach(rune => {
                     //Deactivate any active toggled activities of inserted runes.
                     rune.activities.filter(activity => activity.toggle && activity.active).forEach(activity => {
                     this.activitiesService.activate_Activity(this.get_Character(), "Character", this, this.timeService, this.itemsService, this.spellsService, activity, activity, false);

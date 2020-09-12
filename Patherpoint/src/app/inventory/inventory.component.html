@@ -266,8 +266,7 @@
                                     </span>
                                     <span>
                                         <button (click)="drop_InventoryItem(item, inventory, true)"
-                                            title="Sell at half price" [disabled]="item.amount <= 0"
-                                            [disabled]="item.broken">
+                                            title="Sell at half price" [disabled]="item.amount <= 0 || item.broken">
                                             Sell
                                         </button>
                                     </span>

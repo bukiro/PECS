@@ -112,11 +112,11 @@ export class SpellchoiceComponent implements OnInit {
         if (
             this.get_Available(this.choice) == 1 &&
             this.choice.level > 0 &&
+            this.spellCasting?.className == this.get_Character().class.name &&
             this.characterService.get_FeatsAndFeatures()
                 .filter(feature => feature.allowSignatureSpells)
                 .filter(feature => feature.have(this.get_Character(), this.characterService)).length &&
-            this.choice.source != "Feat: Esoteric Polymath" &&
-            this.spellCasting.className == this.get_Character().class.name
+            this.choice.source != "Feat: Esoteric Polymath"
             ) {
             return true;
         } else {

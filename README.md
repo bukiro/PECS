@@ -57,6 +57,12 @@ The very latest in Assistive Technologies for Dungeon Master (ATDM)
 - [x] Action Icons
 - [x] Implement all Ancestries
 - [ ] Implement all Ancestry Feats
+-- [ ] Human
+-- [ ] Halfling
+-- [ ] Goblin
+-- [ ] Half-Orc
+-- [ ] Half-Elf
+-- [ ] Lizardfolk
 - [x] Implement all Heritages
 - [x] Implement all Backgrounds
 - [ ] Implement all Classes and Multiclass Archetypes
