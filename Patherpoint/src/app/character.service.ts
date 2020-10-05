@@ -922,6 +922,9 @@ export class CharacterService {
                 this.sort_Cash();
             }
         }
+        if (this.get_Character().cash[0] < 0 || this.get_Character().cash[1] < 0 || this.get_Character().cash[2] < 0) {
+            this.sort_Cash();
+        }
         this.set_ToChange("Character", "inventory");
     }
 

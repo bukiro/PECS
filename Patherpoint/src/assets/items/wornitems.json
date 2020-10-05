@@ -152,6 +152,42 @@
         "usage": "worn"
     },
     {
+        "desc": "This arrowhead-shaped charm is not meant to be affixed to an arrow, but instead to be carried in a pocket or inside of a quiver. A hunter’s arrowhead is etched with images sacred to the elven god Ketephys. If you carry one on your person, you are infused with great skill at hunting, and gain a +1 item bonus to Survival skill checks and attack rolls against any creature you’ve currently designated as your prey for the Hunt Prey ranger ability (note that the bonus to attack rolls is an item bonus, and therefore not cumulative with an item bonus from a magic weapon). A hunter's arrowhead is also a religious symbol of Ketephys.",
+        "id": "27f7e66c-fd8f-45c7-a61e-d10c5fd7ff67",
+        "hint": "You gain a +1 item bonus to Survival skill checks and attack rolls against any creature you’ve currently designated as your prey for the Hunt Prey ranger ability (note that the bonus to attack rolls is an item bonus, and therefore not cumulative with an item bonus from a magic weapon).",
+        "showon": "Survival, Attacks",
+        "level": 4,
+        "name": "Hunter's Arrowhead",
+        "price": 8000,
+        "traits": [
+            "Rare",
+            "Enchantment",
+            "Invested",
+            "Magical"
+        ],
+        "activities": [
+            {
+                "actions": "Reaction",
+                "activationType": "Command",
+                "cooldown": 144000,
+                "desc": "You get a +2 circumstance bonus to your attack roll. This can turn a miss into a hit.",
+                "frequency": "once per day",
+                "trigger": "You would miss with an attack made with a bow.",
+                "name": "Hunter's Arrowhead",
+                "traits": [
+                    "Rare",
+                    "Enchantment",
+                    "Invested",
+                    "Magical"
+                ],
+                "_className": "ItemActivity",
+                "source": "27f7e66c-fd8f-45c7-a61e-d10c5fd7ff67"
+            }
+        ],
+        "_className": "WornItem",
+        "usage": "worn"
+    },
+    {
         "desc": "This terrifying mask is crafted in the visage of a leering demon and grants a +1 item bonus to Intimidation checks.",
         "id": "01adbda8-9131-11ea-bb37-0242ac130002",
         "bulk": "L",

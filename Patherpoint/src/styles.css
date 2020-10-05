@@ -196,7 +196,7 @@ app-familiar .character-only {
 
 .minimized h3,
 .minimized h5 {
-    margin: 0px 0px;
+    margin: 0.8em 0px 0px 0px;
 }
 
 h3.box-header {

@@ -15,7 +15,8 @@ export class Item {
         "notes",
         "refId",
         "save",
-        "showNotes"
+        "showNotes",
+        "displayName"
     ];
     //Allow changing of "equippable" by custom item creation
     public allowEquippable: boolean;

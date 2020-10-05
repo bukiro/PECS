@@ -53,9 +53,16 @@
             "Skill"
         ],
         "levelreq": 1,
-        "specialreq": "character.get_SkillIncreases(characterService,1,charLevel).filter(increase => increase.name.includes('Lore')).length",
+        "specialreq": "character.get_SkillIncreases(characterService,1,charLevel).find(increase => increase.name.includes('Lore'))",
         "specialreqdesc": "Trained in any Lore",
-        "gainLore": true
+        "gainLoreChoice": [
+            {
+                "_className": "LoreChoice",
+                "available": 1,
+                "maxRank": 2,
+                "source": "Feat: Additional Lore"
+            }
+        ]
     },
     {
         "name": "Adopted Ancestry",
@@ -13618,9 +13625,16 @@
         "gainSkillChoice": [
             {
                 "_className": "SkillChoice",
-                "available": 1,
                 "filter": [
                     "Survival"
+                ],
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Survival",
+                        "source": "Feat: Ranger Dedication"
+                    }
                 ],
                 "maxRank": 2,
                 "source": "Feat: Ranger Dedication",
@@ -16467,9 +16481,16 @@
         "gainSkillChoice": [
             {
                 "_className": "SkillChoice",
-                "available": 1,
                 "filter": [
                     "Arcana"
+                ],
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Arcana",
+                        "source": "Feat: Wizard Dedication"
+                    }
                 ],
                 "maxRank": 2,
                 "source": "Feat: Wizard Dedication",
@@ -17232,9 +17253,16 @@
         "gainSkillChoice": [
             {
                 "_className": "SkillChoice",
-                "available": 1,
                 "filter": [
                     "Intimidation"
+                ],
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Intimidation",
+                        "source": "Feat: Ruffian Racket"
+                    }
                 ],
                 "maxRank": 2,
                 "source": "Feat: Ruffian Racket",
@@ -17306,10 +17334,23 @@
         "gainSkillChoice": [
             {
                 "_className": "SkillChoice",
-                "available": 2,
                 "filter": [
                     "Deception",
                     "Diplomacy"
+                ],
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Deception",
+                        "source": "Feat: Scoundrel Racket"
+                    },
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Diplomacy",
+                        "source": "Feat: Scoundrel Racket"
+                    }
                 ],
                 "maxRank": 2,
                 "source": "Feat: Scoundrel Racket",
@@ -17340,9 +17381,16 @@
         "gainSkillChoice": [
             {
                 "_className": "SkillChoice",
-                "available": 1,
                 "filter": [
                     "Thievery"
+                ],
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Thievery",
+                        "source": "Feat: Thief Racket"
+                    }
                 ],
                 "maxRank": 2,
                 "source": "Feat: Thief Racket",
@@ -18721,7 +18769,7 @@
         "desc": "Your studies make you informed on every subject. You are trained in Bardic Lore, a special Lore skill that can be used only to Recall Knowledge, but on any topic. If you have legendary proficiency in Occultism, you gain expert proficiency in Bardic Lore, but you can't increase your proficiency rank in Bardic Lore by any other means.",
         "hint": "Bardic Lore can be used only to Recall Knowledge, but on any topic.",
         "showon": "Lore: Bardic",
-        "internalNote": "Adding the lore feats is hardcoded since this is the only specific lore gained by a feat. Also hardcoded is the increase from Occultism.",
+        "internalNote": "The increase from Occultism and the inability to increase the skill is hardcoded.",
         "shortdesc": "Your studies make you informed on every subject.",
         "traits": [
             "Bard"
@@ -18730,17 +18778,12 @@
         "featreq": [
             "Enigma Muse or Multifarious Muse: Enigma Muse"
         ],
-        "gainSkillChoice": [
+        "gainLoreChoice": [
             {
-                "_className": "SkillChoice",
-                "increases": [
-                    {
-                        "locked": true,
-                        "maxRank": 2,
-                        "name": "Lore: Bardic",
-                        "source": "Feat: Bardic Lore"
-                    }
-                ]
+                "_className": "LoreChoice",
+                "loreName": "Bardic",
+                "maxRank": 2,
+                "source": "Feat: Bardic Lore"
             }
         ]
     },
@@ -19773,10 +19816,23 @@
         "gainSkillChoice": [
             {
                 "_className": "SkillChoice",
-                "available": 2,
                 "filter": [
                     "Occultism",
                     "Performance"
+                ],
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Occultism",
+                        "source": "Feat: Bard Dedication"
+                    },
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Performance",
+                        "source": "Feat: Bard Dedication"
+                    }
                 ],
                 "maxRank": 2,
                 "source": "Feat: Bard Dedication",
@@ -20130,8 +20186,8 @@
     },
     {
         "name": "Adapted Cantrip",
-        "desc": "Through study of multiple magical traditions, you’ve altered a spell to suit your spellcasting style. Choose one cantrip from a magical tradition other than your own. If you have a spell repertoire or a spellbook, replace one of the cantrips you know or have in your spellbook with the chosen spell. If you prepare spells without a spellbook (if you’re a cleric or druid, for example), one of your cantrips must always be the chosen spell, and you prepare the rest normally. You can cast this cantrip as a spell of your class’s tradition.\n\nIf you swap or retrain this cantrip later, you can choose its replacement from the same alternate tradition or a different one.",
-        "shortdesc": "Through study of multiple magical traditions, you’ve altered a spell to suit your spellcasting style.",
+        "desc": "Through study of multiple magical traditions, you've altered a spell to suit your spellcasting style. Choose one cantrip from a magical tradition other than your own. If you have a spell repertoire or a spellbook, replace one of the cantrips you know or have in your spellbook with the chosen spell. If you prepare spells without a spellbook (if you're a cleric or druid, for example), one of your cantrips must always be the chosen spell, and you prepare the rest normally. You can cast this cantrip as a spell of your class's tradition.\n\nIf you swap or retrain this cantrip later, you can choose its replacement from the same alternate tradition or a different one.",
+        "shortdesc": "Through study of multiple magical traditions, you've altered a spell to suit your spellcasting style.",
         "traits": [
             "Human"
         ],
@@ -20433,5 +20489,95 @@
             "Half-Elf"
         ],
         "levelreq": 1
+    },
+    {
+        "name": "Goblin Lore",
+        "desc": "You've picked up skills and tales from your goblin community. You gain the trained proficiency rank in Nature and Stealth. If you would automatically become trained in one of those skills (from your background or class, for example), you instead become trained in a skill of your choice. You also become trained in Goblin Lore.",
+        "shortdesc": "You've picked up skills and tales from your goblin community.",
+        "traits": [
+            "Goblin"
+        ],
+        "levelreq": 1,
+        "gainLoreChoice": [
+            {
+                "_className": "LoreChoice",
+                "loreName": "Goblin",
+                "maxRank": 2,
+                "source": "Feat: Goblin Lore"
+            }
+        ],
+        "gainSkillChoice": [
+            {
+                "_className": "SkillChoice",
+                "filter": [
+                    "Nature",
+                    "Stealth"
+                ],
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Nature",
+                        "source": "Feat: Goblin Lore"
+                    },
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Stealth",
+                        "source": "Feat: Goblin Lore"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Feat: Goblin Lore",
+                "type": "Skill"
+            }
+        ]
+    },
+    {
+        "name": "Halfling Ingenuity",
+        "desc": "While your willingness to dig into a task you know little about might get you into trouble, your incredible luck often saves you from danger. You can attempt skill actions that normally require you to be trained even if you aren’t trained in that skill. If you use Halfling Luck when you fail a check for a skill with which you are untrained, you can add a proficiency bonus equal to your level, rather than 0, when you reroll the triggering skill check. You gain a +4 circumstance bonus to this rerolled skill check.",
+        "shortdesc": "While your willingness to dig into a task you know little about might get you into trouble, your incredible luck often saves you from danger.",
+        "hint": "You can attempt skill actions that normally require you to be trained even if you aren’t trained in that skill. If you use Halfling Luck when you fail a check for a skill with which you are untrained, you can add a proficiency bonus equal to your level, rather than 0, when you reroll the triggering skill check. You gain a +4 circumstance bonus to this rerolled skill check.",
+        "showon": "Skills, Halfling Luck",
+        "sourceBook":"Character Guide",
+        "traits": [
+            "Halfling"
+        ],
+        "levelreq": 5,
+        "featreq": [
+            "Halfling Luck"
+        ]
+    },
+    {
+        "name": "Shared Luck (Halfling)",
+        "desc": "You are evidence that it's lucky to travel with a halfling. You can use Halfling Luck when an ally within 30 feet fails a skill check or a saving throw to allow the ally to reroll the triggering check instead of you rerolling your own failed check. As usual, your ally must use the new result, even if it's worse than their first roll. If you have Guiding Luck, you can't use Guiding Luck's effect that applies to attack rolls and Perception checks to use Shared Luck to benefit an ally.",
+        "shortdesc": "You are evidence that it's lucky to travel with a halfling.",
+        "hint": "You can use Halfling Luck when an ally within 30 feet fails a skill check or a saving throw to allow the ally to reroll the triggering check instead of you rerolling your own failed check. As usual, your ally must use the new result, even if it's worse than their first roll. If you have Guiding Luck, you can't use Guiding Luck's effect that applies to attack rolls and Perception checks to use Shared Luck to benefit an ally.",
+        "showon": "Halfling Luck",
+        "sourceBook":"Character Guide",
+        "traits": [
+            "Halfling"
+        ],
+        "levelreq": 5,
+        "featreq": [
+            "Halfling Luck"
+        ]
+    },
+    {
+        "name": "Gecko's Grip",
+        "desc": "You stick to walls with a preternatural grip. You gain a climb Speed of 15 feet.",
+        "shortdesc": "You stick to walls with a preternatural grip.",
+        "sourceBook":"Character Guide",
+        "traits": [
+            "Lizardfolk"
+        ],
+        "levelreq": 5,
+        "heritagereq": "cliffscale lizardfolk",
+        "effects": [
+            {
+                "affected": "Climb Speed",
+                "setValue": "15"
+            }
+        ]
     }
 ]

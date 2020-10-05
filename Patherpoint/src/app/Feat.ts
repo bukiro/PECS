@@ -16,6 +16,7 @@ import { SpecializationGain } from './SpecializationGain';
 import { AbilityChoice } from './AbilityChoice';
 import { ItemGain } from './ItemGain';
 import { Heritage } from './Heritage';
+import { LoreChoice } from './LoreChoice';
 
 export class Feat {
     public readonly _className: string = this.constructor.name;
@@ -38,7 +39,7 @@ export class Feat {
     public gainFeatChoice: FeatChoice[] = [];
     public gainFormulaChoice: FormulaChoice[] = [];
     public gainItems: ItemGain[] = [];
-    public gainLore: true;
+    public gainLoreChoice: LoreChoice[] = [];
     public gainSkillChoice: SkillChoice[] = [];
     public gainSpellBookSlots: {spellBookSlots:number[], className:string}[] = [];
     public gainSpellCasting: SpellCasting[] = [];
@@ -194,7 +195,7 @@ export class Feat {
         //Returns [requirement met, requirement description]
         let result: Array<{met?:boolean, desc?:string}> = [];
         if (this.heritagereq) {
-            if (this.heritagereq.split(" or ").find(heritage => characterService.get_Character().class?.heritage?.name == heritage)) {
+            if (this.heritagereq.split(" or ").find(heritage => characterService.get_Character().class?.heritage?.name.toLowerCase() == heritage.toLowerCase())) {
                 result.push({met:true, desc:this.heritagereq});
             } else {
                 result.push({met:false, desc:this.heritagereq});

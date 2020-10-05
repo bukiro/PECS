@@ -303,14 +303,28 @@ export class FeatsService {
                 }
             }
 
-            //Gain free Lore
-            if (feat.gainLore) {
+            //Gain Lore
+            if (feat.gainLoreChoice.length) {
                 if (taken) {
-                    character.add_LoreChoice(level, Object.assign(new LoreChoice(), {available:1, increases:[], initialIncreases:1, maxRank:2, loreName:"", loreDesc:"", source:'Feat: '+featName, id:"", filter:[], type:""}));
+                    feat.gainLoreChoice.forEach(choice => {
+                        let newChoice = character.add_LoreChoice(level, choice);
+                        if (choice.loreName) {
+                            //If this feat gives you a specific lore, and you previously got the same lore from a free choice, that choice gets undone.
+                            if (character.customSkills.find(skill => skill.name == "Lore: "+choice.loreName)) {
+                                character.class.levels.forEach(searchLevel => {
+                                    searchLevel.loreChoices.filter(searchChoice => searchChoice.loreName == choice.loreName && searchChoice.available).forEach(searchChoice => {
+                                        character.remove_Lore(characterService, searchChoice);
+                                        searchChoice.loreName == "";
+                                    })
+                                })
+                            }
+                            character.add_Lore(characterService, newChoice);
+                        }
+                    })
                 } else {
                     let a = level.loreChoices;
                     let oldChoice = a.filter(choice => choice.source == 'Feat: '+featName)[0];
-                    if (oldChoice.increases.length) {
+                    if (oldChoice.loreName) {
                         character.remove_Lore(characterService, oldChoice);
                     }
                     a.splice(a.indexOf(oldChoice), 1);

@@ -164,6 +164,10 @@ export class SkillchoiceComponent implements OnInit {
             }
             reasons.push(cannotIncreaseHigher);
         }
+        //You can never raise Bardic Lore
+        if (skill.name == "Lore: Bardic") {
+            reasons.push("Cannot increase with skill training.")
+        }
         return reasons;
     }
 

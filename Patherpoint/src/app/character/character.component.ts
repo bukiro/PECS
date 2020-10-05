@@ -518,6 +518,7 @@ export class CharacterComponent implements OnInit {
         } else {
             this.get_Character().remove_Lore(this.characterService, choice);
         }
+        this.characterService.process_ToChange();
     }
 
     on_LoreNameChange() {

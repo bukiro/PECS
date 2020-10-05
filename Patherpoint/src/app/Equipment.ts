@@ -143,9 +143,9 @@ export class Equipment extends Item {
             let secondary: string = "";
             let properties: string = "";
             let material: string = "";
-            if (this.moddable == "weapon") {
+            if (this.moddable == "weapon" || (this.moddable == "-" && this.type == "weapons")) {
                 secondary = this.get_Striking(this.get_StrikingRune());
-            } else if (this.moddable == "armor") {
+            } else if (this.moddable == "armor" || (this.moddable == "-" && this.type == "armors")) {
                 secondary = this.get_Resilient(this.get_ResilientRune());
             }
             this.propertyRunes.forEach(rune => {

@@ -411,10 +411,6 @@ export class Character extends Creature {
                 //One background grants the "Lore" skill. We treat it as a Lore category skill, but don't generate any feats for it.
                 } else if (skillName == "Lore") {
                     characterService.add_CustomSkill(skillName, "Skill", "Intelligence");
-                //Bardic Lore is granted by the feat of the same name. It cannot be increased in any way.
-                } else if (skillName == "Lore: Bardic") {
-                    characterService.add_CustomSkill(skillName, "Skill", "Intelligence", true);
-                    this.add_LoreFeats(characterService, "Bardic");
                 } else {
                     characterService.add_CustomSkill(skillName, choice.type, "");
                 }
@@ -529,10 +525,6 @@ export class Character extends Creature {
                     characterService.get_Character().class.spellCasting.filter(casting => casting.className == "Monk").forEach(casting => {
                         casting.tradition = "";
                     })
-                }
-                //If you are removing Bardic Lore, also remove the lore feats.
-                if (skillName == "Lore: Bardic") {
-                    this.remove_LoreFeats(characterService, skillName);
                 }
             }
 
@@ -669,13 +661,11 @@ export class Character extends Creature {
             })
             level.skillChoices = level.skillChoices.filter(choice => choice.filter.filter(filter => filter == 'Lore: '+source.loreName).length == 0);
         });
-        let loreSkills: Skill[] = [];
-        loreSkills.push(...characterService.get_Character().customSkills.filter(skill => skill.name == 'Lore: '+source.loreName));
-        if (loreSkills.length) {
-            loreSkills.forEach(loreSkill => {
-                characterService.remove_CustomSkill(loreSkill);
-            })
+        let loreSkill: Skill = characterService.get_Character().customSkills.find(skill => skill.name == 'Lore: '+source.loreName);
+        if (loreSkill) {
+            characterService.remove_CustomSkill(loreSkill);
         }
+        this.remove_LoreFeats(characterService, source.loreName);
     }
     remove_LoreFeats(characterService: CharacterService, loreName: string) {
         let loreFeats: Feat[] = [];
@@ -695,7 +685,6 @@ export class Character extends Creature {
         for (let increase = 0; increase < source.initialIncreases; increase++) {
             characterService.get_Character().increase_Skill(characterService, 'Lore: '+source.loreName, true, source, true)
         }
-        
         //The Additional Lore feat grants a skill increase on Levels 3, 7 and 15 that can only be applied to this lore.
         if (source.source == "Feat: Additional Lore") {
             this.add_SkillChoice(characterService.get_Level(3), Object.assign(new SkillChoice(), {available:1, increases:[], filter:['Lore: '+source.loreName], type:"Skill", maxRank:4, source:"Feat: Additional Lore", id:""}))

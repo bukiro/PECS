@@ -106,10 +106,19 @@ export class AttacksComponent implements OnInit {
             .concat(...this.get_Creature().inventories.map(inv => inv.alchemicalbombs))
             .concat(...this.get_Creature().inventories.map(inv => inv.otherconsumablesbombs))
             .sort(function(a,b) {
-                if (a.type+a.name > b.type+b.name) {
+                if (a.name > b.name) {
                     return 1
                 }
-                if (a.type+a.name < b.type+b.name) {
+                if (a.name < b.name) {
+                    return -1
+                }
+                return 0;
+            })
+            .sort(function(a,b) {
+                if (a.type < b.type) {
+                    return 1
+                }
+                if (a.type > b.type) {
                     return -1
                 }
                 return 0;

@@ -11,7 +11,7 @@
         </button>
         <div class="list-item sublist" [ngClass]="{'fancy-list':(get_Available(choice) == choice.feats.length )}"
             *ngIf="get_showChoice()==listID">
-            <div title="{{(this.get_showFeat()==choice.id+featSet.feat.name+'desc') ? '' : featSet.feat.shortDesc}}" class="list-item"
+            <div title="{{(this.get_showFeat()==choice.id+featSet.feat.name+'desc') ? '' : featSet.feat.shortdesc}}" class="list-item"
                 *ngFor="let featSet of get_AvailableFeats(choice); trackBy:trackByIndex;"
                 [ngClass]="{'unavailable':(!featSet.available)}">
                 <div class="row left-aligned" style="justify-content: flex-end;" *ngFor="let itemID of [choice.id+featSet.feat.name+'desc']; trackBy:trackByIndex;">

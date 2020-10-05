@@ -56,7 +56,12 @@ export class SkillsComponent implements OnInit {
     }
 
     get_Skills(name: string = "", type: string = "") {
-        return this.characterService.get_Skills(this.get_Creature(), name, type);
+        let creature = this.get_Creature();
+        return this.characterService.get_Skills(creature, name, type)
+            .filter(skill =>
+                !skill.name.includes("Lore") ||
+                skill.level(creature as Character, this.characterService, creature.level)
+            );
     }
 
     get_Accent() {

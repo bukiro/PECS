@@ -376,10 +376,6 @@ export class ItemsService {
                         }
                     }
                 })
-                //Delete the "save" list last so it can be referenced during the cleanup, but still updated when loading.
-                if (item.save) {
-                    delete item.save;
-                }
             }
         }
         return item;
