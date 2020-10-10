@@ -93,6 +93,7 @@ The very latest in Assistive Technologies for Dungeon Master (ATDM)
 Active to-do:
 
 Implement:
+3rd level spells
 
 Next steps:
 - Implement Ancestry Feats

@@ -12456,53 +12456,53 @@
                 "skillChoices": [
                     {
                         "_className": "SkillChoice",
-                        "id": "5-Weapon Proficiency-Weapon Expertise-1",
+                        "id": "5-Weapon Proficiency-Weapon Tricks-1",
                         "increases": [
                             {
                                 "locked": true,
                                 "maxRank": 4,
                                 "name": "Simple Weapons",
-                                "source": "Weapon Expertise",
-                                "sourceId": "5-Weapon Proficiency-Weapon Expertise-1"
+                                "source": "Weapon Tricks",
+                                "sourceId": "5-Weapon Proficiency-Weapon Tricks-1"
                             },
                             {
                                 "locked": true,
                                 "maxRank": 4,
                                 "name": "Unarmed Attacks",
-                                "source": "Weapon Expertise",
-                                "sourceId": "5-Weapon Proficiency-Weapon Expertise-1"
+                                "source": "Weapon Tricks",
+                                "sourceId": "5-Weapon Proficiency-Weapon Tricks-1"
                             },
                             {
                                 "locked": true,
                                 "maxRank": 4,
                                 "name": "Rapier",
-                                "source": "Weapon Expertise",
-                                "sourceId": "5-Weapon Proficiency-Weapon Expertise-1"
+                                "source": "Weapon Tricks",
+                                "sourceId": "5-Weapon Proficiency-Weapon Tricks-1"
                             },
                             {
                                 "locked": true,
                                 "maxRank": 4,
                                 "name": "Sap",
-                                "source": "Weapon Expertise",
-                                "sourceId": "5-Weapon Proficiency-Weapon Expertise-1"
+                                "source": "Weapon Tricks",
+                                "sourceId": "5-Weapon Proficiency-Weapon Tricks-1"
                             },
                             {
                                 "locked": true,
                                 "maxRank": 4,
                                 "name": "Shortbow",
-                                "source": "Weapon Expertise",
-                                "sourceId": "5-Weapon Proficiency-Weapon Expertise-1"
+                                "source": "Weapon Tricks",
+                                "sourceId": "5-Weapon Proficiency-Weapon Tricks-1"
                             },
                             {
                                 "locked": true,
                                 "maxRank": 4,
                                 "name": "Shortsword",
-                                "source": "Weapon Expertise",
-                                "sourceId": "5-Weapon Proficiency-Weapon Expertise-1"
+                                "source": "Weapon Tricks",
+                                "sourceId": "5-Weapon Proficiency-Weapon Tricks-1"
                             }
                         ],
                         "maxRank": 4,
-                        "source": "Weapon Expertise",
+                        "source": "Weapon Tricks",
                         "type": "Weapon Proficiency"
                     },
                     {

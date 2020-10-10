@@ -29,10 +29,18 @@
             {{spell.traditions.join(', ')}}
         </span>
     </div>
-    <div class="row left-aligned" *ngIf="spell.castType">
-        <strong>Cast</strong>
-        <app-actionIcons [actionString]="spell.actions"></app-actionIcons><span>{{spell.castType}}&nbsp;</span>
-        <span *ngIf="spell.trigger">
+    <div class="row left-aligned" *ngIf="spell.castType || spell.cost">
+        <span *ngIf="spell.castType">
+            <strong>Cast</strong>
+            <app-actionIcons [actionString]="spell.actions"></app-actionIcons><span>{{spell.castType}}&nbsp;</span>
+        </span>
+        <span *ngIf="spell.cost">
+            <strong>Cost</strong>
+            {{spell.cost}}
+        </span>
+    </div>
+    <div class="row left-aligned" *ngIf="spell.trigger">
+        <span>
             <strong>Trigger</strong>
             {{spell.trigger}}
         </span>

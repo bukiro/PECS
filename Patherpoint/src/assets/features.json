@@ -474,7 +474,7 @@
                 "condition": "while composition active"
             },
             {
-                "weapon": "Longsword, Rapier, Sap, Shortbow, Shortsword, Whip",
+                "name": "Longsword, Rapier, Sap, Shortbow, Shortsword, Whip",
                 "condition": "while composition active"
             }
         ]
@@ -791,7 +791,7 @@
                 "condition": "against flat-footed creature"
             },
             {
-                "weapon": "Rapier, Sap, Shortbow, Shortsword",
+                "name": "Rapier, Sap, Shortbow, Shortsword",
                 "condition": "against flat-footed creature"
             }
         ]
