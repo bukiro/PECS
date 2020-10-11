@@ -2,7 +2,7 @@
     {
         "desc": "This baton is about a foot long and contains a single spell. The appearance typically relates to the spell within.",
         "id": "970235d0-d17b-4f20-b0fd-56bbf649cb7f",
-        "levelreq": 3,
+        "level": 3,
         "name": "Magic Wand (1st-Level Spell)",
         "activationType": "Cast a Spell",
         "storedSpells":[
@@ -22,7 +22,7 @@
     {
         "desc": "This baton is about a foot long and contains a single spell. The appearance typically relates to the spell within.",
         "id": "8776142b-538e-4711-8b57-5fef63a714c6",
-        "levelreq": 5,
+        "level": 5,
         "name": "Magic Wand (2nd-Level Spell)",
         "activationType": "Cast a Spell",
         "storedSpells":[
@@ -42,7 +42,7 @@
     {
         "desc": "This baton is about a foot long and contains a single spell. The appearance typically relates to the spell within.",
         "id": "c845e0c5-d19a-46cb-8cf3-11f2844e069f",
-        "levelreq": 7,
+        "level": 7,
         "name": "Magic Wand (3rd-Level Spell)",
         "activationType": "Cast a Spell",
         "storedSpells":[
@@ -60,9 +60,42 @@
         ]
     },
     {
+        "desc": "This blackened, heavily burned stick smells faintly of bat guano.",
+        "id": "8fa3dbbd-c3c4-44a3-a6c5-a3bb185509b7",
+        "level": 8,
+        "name": "Wand of Smoldering Fireballs (3rd-Level Spell)",
+        "displayName": "Wand of Smoldering Fireballs (3rd-Level Spell)",
+        "craftingRequirement": "Supply a casting of fireball of the appropriate level.",
+        "effect": "You cast fireball of the indicated level. Each creature that fails its save takes persistent fire damage.",
+        "activationType": "Cast a Spell",
+        "storedSpells":[
+            {
+                "_className": "SpellChoice",
+                "available": 1,
+                "level": 3,
+                "spells": [
+                    {
+                        "name": "Fireball",
+                        "locked": true
+                    }
+                ]
+            }
+        ],
+        "subType": "(3rd-Level Spell)",
+        "subTypeDesc": "Persistent Damage 1d6",
+        "_className": "Wand",
+        "price": 50000,
+        "traits": [
+            "Evocation",
+            "Fire",
+            "Magical",
+            "Wand"
+        ]
+    },
+    {
         "desc": "This baton is about a foot long and contains a single spell. The appearance typically relates to the spell within.",
         "id": "4043d431-2fa1-4b3c-8b7a-251740b27c8d",
-        "levelreq": 9,
+        "level": 9,
         "name": "Magic Wand (4th-Level Spell)",
         "activationType": "Cast a Spell",
         "storedSpells":[
@@ -82,7 +115,7 @@
     {
         "desc": "This baton is about a foot long and contains a single spell. The appearance typically relates to the spell within.",
         "id": "4368dda8-8d77-44aa-93cc-7b10d1fde838",
-        "levelreq": 11,
+        "level": 11,
         "name": "Magic Wand (5th-Level Spell)",
         "activationType": "Cast a Spell",
         "storedSpells":[
@@ -100,9 +133,42 @@
         ]
     },
     {
+        "desc": "This blackened, heavily burned stick smells faintly of bat guano.",
+        "id": "1e3ac3c5-d0e5-485e-9ce0-f1d0b3bbb86b",
+        "level": 12,
+        "name": "Wand of Smoldering Fireballs (5th-Level Spell)",
+        "displayName": "Wand of Smoldering Fireballs (5th-Level Spell)",
+        "craftingRequirement": "Supply a casting of fireball of the appropriate level.",
+        "effect": "You cast fireball of the indicated level. Each creature that fails its save takes persistent fire damage.",
+        "activationType": "Cast a Spell",
+        "storedSpells":[
+            {
+                "_className": "SpellChoice",
+                "level": 5,
+                "available": 1,
+                "spells": [
+                    {
+                        "name": "Fireball",
+                        "locked": true
+                    }
+                ]
+            }
+        ],
+        "subType": "(5th-Level Spell)",
+        "subTypeDesc": "Persistent Damage 2d6",
+        "_className": "Wand",
+        "price": 200000,
+        "traits": [
+            "Evocation",
+            "Fire",
+            "Magical",
+            "Wand"
+        ]
+    },
+    {
         "desc": "This baton is about a foot long and contains a single spell. The appearance typically relates to the spell within.",
         "id": "5d0a5b7c-7352-4652-ae67-2605e9bd736c",
-        "levelreq": 13,
+        "level": 13,
         "name": "Magic Wand (6th-Level Spell)",
         "activationType": "Cast a Spell",
         "storedSpells":[
@@ -122,7 +188,7 @@
     {
         "desc": "This baton is about a foot long and contains a single spell. The appearance typically relates to the spell within.",
         "id": "ae10fe03-1877-44f6-af26-2bafd897f513",
-        "levelreq": 15,
+        "level": 15,
         "name": "Magic Wand (7th-Level Spell)",
         "activationType": "Cast a Spell",
         "storedSpells":[
@@ -140,9 +206,42 @@
         ]
     },
     {
+        "desc": "This blackened, heavily burned stick smells faintly of bat guano.",
+        "id": "fbdcc6ef-903b-4506-aabc-167d5cf95957",
+        "level": 16,
+        "name": "Wand of Smoldering Fireballs (7th-Level Spell)",
+        "displayName": "Wand of Smoldering Fireballs (7th-Level Spell)",
+        "craftingRequirement": "Supply a casting of fireball of the appropriate level.",
+        "effect": "You cast fireball of the indicated level. Each creature that fails its save takes persistent fire damage.",
+        "activationType": "Cast a Spell",
+        "storedSpells":[
+            {
+                "_className": "SpellChoice",
+                "available": 1,
+                "level": 7,
+                "spells": [
+                    {
+                        "name": "Fireball",
+                        "locked": true
+                    }
+                ]
+            }
+        ],
+        "subType": "(7rd-Level Spell)",
+        "subTypeDesc": "Persistent Damage 3d6",
+        "_className": "Wand",
+        "price": 1000000,
+        "traits": [
+            "Evocation",
+            "Fire",
+            "Magical",
+            "Wand"
+        ]
+    },
+    {
         "desc": "This baton is about a foot long and contains a single spell. The appearance typically relates to the spell within.",
         "id": "60e424c2-48a8-4a27-af17-beec08cda098",
-        "levelreq": 17,
+        "level": 17,
         "name": "Magic Wand (8th-Level Spell)",
         "activationType": "Cast a Spell",
         "storedSpells":[
@@ -162,7 +261,7 @@
     {
         "desc": "This baton is about a foot long and contains a single spell. The appearance typically relates to the spell within.",
         "id": "ca50f5ab-e40b-45ae-a48b-bb7ee7a1c2c0",
-        "levelreq": 19,
+        "level": 19,
         "name": "Magic Wand (9th-Level Spell)",
         "activationType": "Cast a Spell",
         "storedSpells":[
@@ -175,6 +274,39 @@
         "_className": "Wand",
         "price": 400000,
         "traits": [
+            "Magical",
+            "Wand"
+        ]
+    },
+    {
+        "desc": "This blackened, heavily burned stick smells faintly of bat guano.",
+        "id": "17055cfa-b9d1-409a-b1b9-7285974893a6",
+        "level": 20,
+        "name": "Wand of Smoldering Fireballs (9th-Level Spell)",
+        "displayName": "Wand of Smoldering Fireballs (9th-Level Spell)",
+        "craftingRequirement": "Supply a casting of fireball of the appropriate level.",
+        "effect": "You cast fireball of the indicated level. Each creature that fails its save takes persistent fire damage.",
+        "activationType": "Cast a Spell",
+        "storedSpells":[
+            {
+                "_className": "SpellChoice",
+                "available": 1,
+                "level": 9,
+                "spells": [
+                    {
+                        "name": "Fireball",
+                        "locked": true
+                    }
+                ]
+            }
+        ],
+        "subType": "(9th-Level Spell)",
+        "subTypeDesc": "Persistent Damage 4d6",
+        "_className": "Wand",
+        "price": 7000000,
+        "traits": [
+            "Evocation",
+            "Fire",
             "Magical",
             "Wand"
         ]

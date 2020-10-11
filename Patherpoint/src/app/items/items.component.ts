@@ -300,7 +300,7 @@ export class ItemsComponent implements OnInit {
                 this.newItem = null;
         }
         if (this.newItem) {
-            this.newItem = this.itemsService.initialize_Item(this.newItem, true, false)
+            this.newItem = this.itemsService.initialize_Item(this.newItem, true, false, false)
         }
     }
 

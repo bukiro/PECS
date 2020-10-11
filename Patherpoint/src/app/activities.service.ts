@@ -67,12 +67,15 @@ export class ActivitiesService {
 
         if (activated && activity.toggle) {
             gain.active = true;
+            characterService.set_ToChange(creature.type, "activities");
             if (activity.sustained) {
                 gain.duration = activity.sustained;
-                characterService.set_ToChange(creature.type, "activities");
                 if (item) {characterService.set_ToChange(creature.type, "inventory");}
             }
         } else {
+            if (gain.active) {
+                characterService.set_ToChange(creature.type, "activities");
+            }
             gain.active = false;
             gain.duration = 0;
             //Start cooldown

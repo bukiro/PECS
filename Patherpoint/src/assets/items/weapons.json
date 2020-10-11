@@ -1092,6 +1092,7 @@
       "desc": "This strong but slender staff is tapered at the ends and well balanced. It's designed to be an offensive and defensive weapon.",
       "id": "0869324f-8daa-11ea-abca-ffb46fbada73",
       "name": "Bo Staff",
+      "weaponBase": "Staff",
       "price": 20,
       "traits": [
          "Monk",
@@ -1885,6 +1886,7 @@
       "desc": "A scorpion whip has a series of razor-sharp blades set along its tip. Unlike ordinary whips, a scorpion whip doesn't have the nonlethal trait, making it deadlier in combat but less effective when the wielder seeks to bring in foes alive.",
       "id": "0869593a-8daa-11ea-abca-ffb46fbada73",
       "name": "Scorpion Whip",
+      "weaponBase": "Whip",
       "price": 50,
       "traits": [
          "Disarm",
@@ -3230,5 +3232,40 @@
       "group": "Brawling",
       "melee": 5,
       "prof": "Unarmed Attacks"
+   },
+   {
+      "bulk": "1",
+      "desc": "This whip immediately jumps from your grasp and proceeds to attack your enemies until 1 minute has passed or it fails its flat check for dancing, at which point it vanishes. If the whip’s target isn’t prone, the whip uses its actions to attempt to Trip that creature instead of making a Strike. The whip’s total attack modifier for Striking or Tripping is +18 instead of the normal bonus for a dancing weapon.",
+      "id": "316df90b-4f78-4373-9c30-dab996e2434c",
+      "name": "Whip (Feather Token)",
+      "weaponBase": "Whip",
+      "traits": [
+         "Disarm",
+         "Finesse",
+         "Nonlethal",
+         "Reach",
+         "Trip"
+      ],
+      "_className": "Weapon",
+      "dicesize": 4,
+      "dmgType": "S",
+      "group": "Flail",
+      "hands": "1",
+      "melee": 10,
+      "potencyRune": 1,
+      "strikingRune": 1,
+      "propertyRunes": [
+         {
+            "name": "Dancing",
+            "activities": [
+               {
+                  "active": true
+               }
+            ]
+         }
+      ],
+      "moddable": "-",
+      "hide": true,
+      "prof": "Martial Weapons"
    }
 ]

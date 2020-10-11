@@ -6,9 +6,9 @@ The very latest in Assistive Technologies for Dungeon Master (ATDM)
 :x: Initialize basic Node.js app
 :x: We are using AngularJS now
 - [x] We are using TypeScript now
+- [x] Learn a language
 - [x] Recreate everything in Angular
 - [x] We are using Angular now
-- [x] Learn a language
 - [x] Get SSH key working in VSC >:|
 - [x] Fill character sheet
 - [x] - Abilities
@@ -63,6 +63,7 @@ The very latest in Assistive Technologies for Dungeon Master (ATDM)
 -- [ ] Half-Orc
 -- [ ] Half-Elf
 -- [ ] Lizardfolk
+-- [ ] ...
 - [x] Implement all Heritages
 - [x] Implement all Backgrounds
 - [ ] Implement all Classes and Multiclass Archetypes
@@ -91,6 +92,7 @@ The very latest in Assistive Technologies for Dungeon Master (ATDM)
 - [ ] Stretch Goal: Include optional Stamina & Resolve system
 
 Active to-do:
+Add sourcebooks and Adventure trait to backgrounds where applicable
 
 Implement:
 3rd level spells

@@ -1249,5 +1249,33 @@
                 "source": "Thickcoat Shoony"
             }
         ]
+    },
+    {
+        "_className": "Heritage",
+        "name": "Badlands Orc",
+        "sourceBook": "Advanced Player's Guide",
+        "desc": "You come from sun-scorched badlands, where long legs and an ability to withstand the elements helped you thrive. You can Hustle twice as long while exploring before you have to stop, and you treat environmental heat effects as if they were one step less extreme (incredible heat becomes extreme, extreme heat becomes severe, and so on).",
+        "featChoices": [
+            {
+                "_className": "FeatChoice",
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Badlands Orc",
+                        "source": "Badlands Orc",
+                        "sourceId": "1-Feat-Badlands Orc-0"
+                    },
+                    {
+                        "locked": true,
+                        "name": "Sandstrider Lizardfolk Hustle",
+                        "source": "Sandstrider Lizardfolk",
+                        "sourceId": "1-Feat-Badlands Orc-0"
+                    }
+                ],
+                "id": "1-Feat-Badlands Orc-0",
+                "level": 0,
+                "source": "Badlands Orc"
+            }
+        ]
     }
 ]

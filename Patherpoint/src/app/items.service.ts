@@ -299,7 +299,7 @@ export class ItemsService {
 
     }
 
-    initialize_Item(item: any, preassigned: boolean = false, newId: boolean = true) {
+    initialize_Item(item: any, preassigned: boolean = false, newId: boolean = true, resetPropertyRunes: boolean = false) {
         //Every new item has to be re-assigned its class and iterate over all its objects to reassign them as well.
         //Typescript does not seem to have the option to keep object properties' classes when assigning.
         let newItem: any;
@@ -340,6 +340,27 @@ export class ItemsService {
                 newItem.runeEffect.activities.forEach((activity: ItemActivity) => { activity.name += " (" + newItem.name + ")" });
             }
         }
+        //For base items that come with property Runes with name only, load the rune into the item here.
+        if (resetPropertyRunes && (newItem.type == "weapons" || newItem.moddable == "weapon") && newItem.propertyRunes?.length) {
+            let newRunes: WeaponRune[] = [];
+            newItem.propertyRunes.forEach((rune: WeaponRune) => {
+                let libraryItem = this.cleanItems.weaponrunes.find(newrune => newrune.name == rune.name)
+                if (libraryItem) {
+                    newRunes.push(this.savegameService.merge(libraryItem, rune))
+                }
+            })
+            newItem.propertyRunes = newRunes;
+        }
+        if (resetPropertyRunes && (newItem.type == "armors" || newItem.moddable == "armor") && newItem.propertyRunes?.length) {
+            let newRunes: ArmorRune[] = [];
+            newItem.propertyRunes.forEach((rune: ArmorRune) => {
+                let libraryItem = this.cleanItems.armorrunes.find(newrune => newrune.name == rune.name)
+                if (libraryItem) {
+                    newRunes.push(this.savegameService.merge(libraryItem, rune))
+                }
+            })
+            newItem.propertyRunes = newRunes;
+        }
 
         return newItem;
     }
@@ -357,7 +378,7 @@ export class ItemsService {
                 }
             }
         }
-        item = this.initialize_Item(item, true, false);
+        item = this.initialize_Item(item, true, false, false);
         return item;
     }
 
@@ -556,6 +577,7 @@ export class ItemsService {
                 inv.allItems().filter(item => item.name == "DELETE").forEach(item => {
                     characterService.drop_InventoryItem(creature, inv, item, false, true, true, item.amount);
                 })
+                characterService.set_ToChange(creature.type, "inventory");
             }
             inv.allItems().filter(item => item.oilsApplied && item.oilsApplied.length).forEach(item => {
                 item.oilsApplied.filter(oil => oil.duration != -1).forEach(oil => {
@@ -785,9 +807,9 @@ export class ItemsService {
 
     finish_Weapons() {
         if (this.loader_Weapons) {
-            this.items.weapons = this.loader_Weapons.map(element => this.initialize_Item(Object.assign(new Weapon(), element), true, false));
-            this.cleanItems.weapons = this.loader_Weapons.map(element => this.initialize_Item(Object.assign(new Weapon(), element), true, false));
-            this.craftingItems.weapons = this.loader_Weapons.map(element => this.initialize_Item(Object.assign(new Weapon(), element), true, false));
+            this.items.weapons = this.loader_Weapons.map(element => this.initialize_Item(Object.assign(new Weapon(), element), true, false, true));
+            this.cleanItems.weapons = this.loader_Weapons.map(element => this.initialize_Item(Object.assign(new Weapon(), element), true, false, true));
+            this.craftingItems.weapons = this.loader_Weapons.map(element => this.initialize_Item(Object.assign(new Weapon(), element), true, false, true));
             this.loader_Weapons = [];
         }
         if (this.loading_Weapons) { this.loading_Weapons = false; }
@@ -799,9 +821,9 @@ export class ItemsService {
 
     finish_Armors() {
         if (this.loader_Armors) {
-            this.items.armors = this.loader_Armors.map(element => this.initialize_Item(Object.assign(new Armor(), element), true, false));
-            this.cleanItems.armors = this.loader_Armors.map(element => this.initialize_Item(Object.assign(new Armor(), element), true, false));
-            this.craftingItems.armors = this.loader_Armors.map(element => this.initialize_Item(Object.assign(new Armor(), element), true, false));
+            this.items.armors = this.loader_Armors.map(element => this.initialize_Item(Object.assign(new Armor(), element), true, false, true));
+            this.cleanItems.armors = this.loader_Armors.map(element => this.initialize_Item(Object.assign(new Armor(), element), true, false, true));
+            this.craftingItems.armors = this.loader_Armors.map(element => this.initialize_Item(Object.assign(new Armor(), element), true, false, true));
             this.loader_Armors = [];
         }
         if (this.loading_Armors) { this.loading_Armors = false; }
@@ -813,9 +835,9 @@ export class ItemsService {
 
     finish_Shields() {
         if (this.loader_Shields) {
-            this.items.shields = this.loader_Shields.map(element => this.initialize_Item(Object.assign(new Shield(), element), true, false));
-            this.cleanItems.shields = this.loader_Shields.map(element => this.initialize_Item(Object.assign(new Shield(), element), true, false));
-            this.craftingItems.shields = this.loader_Shields.map(element => this.initialize_Item(Object.assign(new Shield(), element), true, false));
+            this.items.shields = this.loader_Shields.map(element => this.initialize_Item(Object.assign(new Shield(), element), true, false, true));
+            this.cleanItems.shields = this.loader_Shields.map(element => this.initialize_Item(Object.assign(new Shield(), element), true, false, true));
+            this.craftingItems.shields = this.loader_Shields.map(element => this.initialize_Item(Object.assign(new Shield(), element), true, false, true));
             this.loader_Shields = [];
         }
         if (this.loading_Shields) { this.loading_Shields = false; }
@@ -827,9 +849,9 @@ export class ItemsService {
 
     finish_WornItems() {
         if (this.loader_WornItems) {
-            this.items.wornitems = this.loader_WornItems.map(element => this.initialize_Item(Object.assign(new WornItem(), element), true, false));
-            this.cleanItems.wornitems = this.loader_WornItems.map(element => this.initialize_Item(Object.assign(new WornItem(), element), true, false));
-            this.craftingItems.wornitems = this.loader_WornItems.map(element => this.initialize_Item(Object.assign(new WornItem(), element), true, false));
+            this.items.wornitems = this.loader_WornItems.map(element => this.initialize_Item(Object.assign(new WornItem(), element), true, false, true));
+            this.cleanItems.wornitems = this.loader_WornItems.map(element => this.initialize_Item(Object.assign(new WornItem(), element), true, false, true));
+            this.craftingItems.wornitems = this.loader_WornItems.map(element => this.initialize_Item(Object.assign(new WornItem(), element), true, false, true));
             this.loader_WornItems = [];
         }
         if (this.loading_WornItems) { this.loading_WornItems = false; }
@@ -841,9 +863,9 @@ export class ItemsService {
 
     finish_HeldItems() {
         if (this.loader_HeldItems) {
-            this.items.helditems = this.loader_HeldItems.map(element => this.initialize_Item(Object.assign(new HeldItem(), element), true, false));
-            this.cleanItems.helditems = this.loader_HeldItems.map(element => this.initialize_Item(Object.assign(new HeldItem(), element), true, false));
-            this.craftingItems.helditems = this.loader_HeldItems.map(element => this.initialize_Item(Object.assign(new HeldItem(), element), true, false));
+            this.items.helditems = this.loader_HeldItems.map(element => this.initialize_Item(Object.assign(new HeldItem(), element), true, false, true));
+            this.cleanItems.helditems = this.loader_HeldItems.map(element => this.initialize_Item(Object.assign(new HeldItem(), element), true, false, true));
+            this.craftingItems.helditems = this.loader_HeldItems.map(element => this.initialize_Item(Object.assign(new HeldItem(), element), true, false, true));
             this.loader_HeldItems = [];
         }
         if (this.loading_HeldItems) { this.loading_HeldItems = false; }
@@ -855,9 +877,9 @@ export class ItemsService {
 
     finish_Ammunition() {
         if (this.loader_Ammunition) {
-            this.items.ammunition = this.loader_Ammunition.map(element => this.initialize_Item(Object.assign(new Ammunition(), element), true, false));
-            this.cleanItems.ammunition = this.loader_Ammunition.map(element => this.initialize_Item(Object.assign(new Ammunition(), element), true, false));
-            this.craftingItems.ammunition = this.loader_Ammunition.map(element => this.initialize_Item(Object.assign(new Ammunition(), element), true, false));
+            this.items.ammunition = this.loader_Ammunition.map(element => this.initialize_Item(Object.assign(new Ammunition(), element), true, false, true));
+            this.cleanItems.ammunition = this.loader_Ammunition.map(element => this.initialize_Item(Object.assign(new Ammunition(), element), true, false, true));
+            this.craftingItems.ammunition = this.loader_Ammunition.map(element => this.initialize_Item(Object.assign(new Ammunition(), element), true, false, true));
             this.loader_Ammunition = [];
         }
         if (this.loading_Ammunition) { this.loading_Ammunition = false; }
@@ -869,9 +891,9 @@ export class ItemsService {
 
     finish_AlchemicalElixirs() {
         if (this.loader_AlchemicalElixirs) {
-            this.items.alchemicalelixirs = this.loader_AlchemicalElixirs.map(element => this.initialize_Item(Object.assign(new AlchemicalElixir(), element), true, false));
-            this.cleanItems.alchemicalelixirs = this.loader_AlchemicalElixirs.map(element => this.initialize_Item(Object.assign(new AlchemicalElixir(), element), true, false));
-            this.craftingItems.alchemicalelixirs = this.loader_AlchemicalElixirs.map(element => this.initialize_Item(Object.assign(new AlchemicalElixir(), element), true, false));
+            this.items.alchemicalelixirs = this.loader_AlchemicalElixirs.map(element => this.initialize_Item(Object.assign(new AlchemicalElixir(), element), true, false, true));
+            this.cleanItems.alchemicalelixirs = this.loader_AlchemicalElixirs.map(element => this.initialize_Item(Object.assign(new AlchemicalElixir(), element), true, false, true));
+            this.craftingItems.alchemicalelixirs = this.loader_AlchemicalElixirs.map(element => this.initialize_Item(Object.assign(new AlchemicalElixir(), element), true, false, true));
             this.loader_AlchemicalElixirs = [];
         }
         if (this.loading_AlchemicalElixirs) { this.loading_AlchemicalElixirs = false; }
@@ -883,9 +905,9 @@ export class ItemsService {
 
     finish_Potions() {
         if (this.loader_Potions) {
-            this.items.potions = this.loader_Potions.map(element => this.initialize_Item(Object.assign(new Potion(), element), true, false));
-            this.cleanItems.potions = this.loader_Potions.map(element => this.initialize_Item(Object.assign(new Potion(), element), true, false));
-            this.craftingItems.potions = this.loader_Potions.map(element => this.initialize_Item(Object.assign(new Potion(), element), true, false));
+            this.items.potions = this.loader_Potions.map(element => this.initialize_Item(Object.assign(new Potion(), element), true, false, true));
+            this.cleanItems.potions = this.loader_Potions.map(element => this.initialize_Item(Object.assign(new Potion(), element), true, false, true));
+            this.craftingItems.potions = this.loader_Potions.map(element => this.initialize_Item(Object.assign(new Potion(), element), true, false, true));
             this.loader_Potions = [];
         }
         if (this.loading_Potions) { this.loading_Potions = false; }
@@ -897,9 +919,9 @@ export class ItemsService {
 
     finish_OtherConsumables() {
         if (this.loader_OtherConsumables) {
-            this.items.otherconsumables = this.loader_OtherConsumables.map(element => this.initialize_Item(Object.assign(new OtherConsumable(), element), true, false));
-            this.cleanItems.otherconsumables = this.loader_OtherConsumables.map(element => this.initialize_Item(Object.assign(new OtherConsumable(), element), true, false));
-            this.craftingItems.otherconsumables = this.loader_OtherConsumables.map(element => this.initialize_Item(Object.assign(new OtherConsumable(), element), true, false));
+            this.items.otherconsumables = this.loader_OtherConsumables.map(element => this.initialize_Item(Object.assign(new OtherConsumable(), element), true, false, true));
+            this.cleanItems.otherconsumables = this.loader_OtherConsumables.map(element => this.initialize_Item(Object.assign(new OtherConsumable(), element), true, false, true));
+            this.craftingItems.otherconsumables = this.loader_OtherConsumables.map(element => this.initialize_Item(Object.assign(new OtherConsumable(), element), true, false, true));
             this.loader_OtherConsumables = [];
         }
         if (this.loading_OtherConsumables) { this.loading_OtherConsumables = false; }
@@ -911,9 +933,9 @@ export class ItemsService {
 
     finish_OtherConsumablesBombs () {
         if (this.loader_OtherConsumablesBombs ) {
-            this.items.otherconsumablesbombs = this.loader_OtherConsumablesBombs .map(element => this.initialize_Item(Object.assign(new OtherConsumableBomb(), element), true, false));
-            this.cleanItems.otherconsumablesbombs = this.loader_OtherConsumablesBombs .map(element => this.initialize_Item(Object.assign(new OtherConsumableBomb(), element), true, false));
-            this.craftingItems.otherconsumablesbombs = this.loader_OtherConsumablesBombs .map(element => this.initialize_Item(Object.assign(new OtherConsumableBomb(), element), true, false));
+            this.items.otherconsumablesbombs = this.loader_OtherConsumablesBombs .map(element => this.initialize_Item(Object.assign(new OtherConsumableBomb(), element), true, false, true));
+            this.cleanItems.otherconsumablesbombs = this.loader_OtherConsumablesBombs .map(element => this.initialize_Item(Object.assign(new OtherConsumableBomb(), element), true, false, true));
+            this.craftingItems.otherconsumablesbombs = this.loader_OtherConsumablesBombs .map(element => this.initialize_Item(Object.assign(new OtherConsumableBomb(), element), true, false, true));
             this.loader_OtherConsumablesBombs  = [];
         }
         if (this.loading_OtherConsumablesBombs ) { this.loading_OtherConsumablesBombs  = false; }
@@ -925,9 +947,9 @@ export class ItemsService {
 
     finish_AdventuringGear() {
         if (this.loader_AdventuringGear) {
-            this.items.adventuringgear = this.loader_AdventuringGear.map(element => this.initialize_Item(Object.assign(new AdventuringGear(), element), true, false));
-            this.cleanItems.adventuringgear = this.loader_AdventuringGear.map(element => this.initialize_Item(Object.assign(new AdventuringGear(), element), true, false));
-            this.craftingItems.adventuringgear = this.loader_AdventuringGear.map(element => this.initialize_Item(Object.assign(new AdventuringGear(), element), true, false));
+            this.items.adventuringgear = this.loader_AdventuringGear.map(element => this.initialize_Item(Object.assign(new AdventuringGear(), element), true, false, true));
+            this.cleanItems.adventuringgear = this.loader_AdventuringGear.map(element => this.initialize_Item(Object.assign(new AdventuringGear(), element), true, false, true));
+            this.craftingItems.adventuringgear = this.loader_AdventuringGear.map(element => this.initialize_Item(Object.assign(new AdventuringGear(), element), true, false, true));
             this.loader_AdventuringGear = [];
         }
         if (this.loading_AdventuringGear) { this.loading_AdventuringGear = false; }
@@ -939,9 +961,9 @@ export class ItemsService {
 
     finish_ArmorRunes() {
         if (this.loader_ArmorRunes) {
-            this.items.armorrunes = this.loader_ArmorRunes.map(element => this.initialize_Item(Object.assign(new ArmorRune(), element), true, false));
-            this.cleanItems.armorrunes = this.loader_ArmorRunes.map(element => this.initialize_Item(Object.assign(new ArmorRune(), element), true, false));
-            this.craftingItems.armorrunes = this.loader_ArmorRunes.map(element => this.initialize_Item(Object.assign(new ArmorRune(), element), true, false));
+            this.items.armorrunes = this.loader_ArmorRunes.map(element => this.initialize_Item(Object.assign(new ArmorRune(), element), true, false, true));
+            this.cleanItems.armorrunes = this.loader_ArmorRunes.map(element => this.initialize_Item(Object.assign(new ArmorRune(), element), true, false, true));
+            this.craftingItems.armorrunes = this.loader_ArmorRunes.map(element => this.initialize_Item(Object.assign(new ArmorRune(), element), true, false, true));
             this.loader_ArmorRunes = [];
         }
         if (this.loading_ArmorRunes) { this.loading_ArmorRunes = false; }
@@ -953,9 +975,9 @@ export class ItemsService {
 
     finish_WeaponRunes() {
         if (this.loader_WeaponRunes) {
-            this.items.weaponrunes = this.loader_WeaponRunes.map(element => this.initialize_Item(Object.assign(new WeaponRune(), element), true, false));
-            this.cleanItems.weaponrunes = this.loader_WeaponRunes.map(element => this.initialize_Item(Object.assign(new WeaponRune(), element), true, false));
-            this.craftingItems.weaponrunes = this.loader_WeaponRunes.map(element => this.initialize_Item(Object.assign(new WeaponRune(), element), true, false));
+            this.items.weaponrunes = this.loader_WeaponRunes.map(element => this.initialize_Item(Object.assign(new WeaponRune(), element), true, false, true));
+            this.cleanItems.weaponrunes = this.loader_WeaponRunes.map(element => this.initialize_Item(Object.assign(new WeaponRune(), element), true, false, true));
+            this.craftingItems.weaponrunes = this.loader_WeaponRunes.map(element => this.initialize_Item(Object.assign(new WeaponRune(), element), true, false, true));
             this.loader_WeaponRunes = [];
         }
         if (this.loading_WeaponRunes) { this.loading_WeaponRunes = false; }
@@ -967,9 +989,9 @@ export class ItemsService {
 
     finish_Scrolls() {
         if (this.loader_Scrolls) {
-            this.items.scrolls = this.loader_Scrolls.map(element => this.initialize_Item(Object.assign(new Scroll(), element), true, false));
-            this.cleanItems.scrolls = this.loader_Scrolls.map(element => this.initialize_Item(Object.assign(new Scroll(), element), true, false));
-            this.craftingItems.scrolls = this.loader_Scrolls.map(element => this.initialize_Item(Object.assign(new Scroll(), element), true, false));
+            this.items.scrolls = this.loader_Scrolls.map(element => this.initialize_Item(Object.assign(new Scroll(), element), true, false, true));
+            this.cleanItems.scrolls = this.loader_Scrolls.map(element => this.initialize_Item(Object.assign(new Scroll(), element), true, false, true));
+            this.craftingItems.scrolls = this.loader_Scrolls.map(element => this.initialize_Item(Object.assign(new Scroll(), element), true, false, true));
             this.loader_Scrolls = [];
         }
         if (this.loading_Scrolls) { this.loading_Scrolls = false; }
@@ -986,9 +1008,9 @@ export class ItemsService {
             }, 100);
         } else {
             if (this.loader_Oils) {
-                this.items.oils = this.loader_Oils.map(element => this.initialize_Item(Object.assign(new Oil(), element), true, false));
-                this.cleanItems.oils = this.loader_Oils.map(element => this.initialize_Item(Object.assign(new Oil(), element), true, false));
-                this.craftingItems.oils = this.loader_Oils.map(element => this.initialize_Item(Object.assign(new Oil(), element), true, false));
+                this.items.oils = this.loader_Oils.map(element => this.initialize_Item(Object.assign(new Oil(), element), true, false, true));
+                this.cleanItems.oils = this.loader_Oils.map(element => this.initialize_Item(Object.assign(new Oil(), element), true, false, true));
+                this.craftingItems.oils = this.loader_Oils.map(element => this.initialize_Item(Object.assign(new Oil(), element), true, false, true));
                 this.loader_Oils = [];
             }
             if (this.loading_Oils) { this.loading_Oils = false; }
@@ -1001,9 +1023,9 @@ export class ItemsService {
 
     finish_Talismans() {
         if (this.loader_Talismans) {
-            this.items.talismans = this.loader_Talismans.map(element => this.initialize_Item(Object.assign(new Talisman(), element), true, false));
-            this.cleanItems.talismans = this.loader_Talismans.map(element => this.initialize_Item(Object.assign(new Talisman(), element), true, false));
-            this.craftingItems.talismans = this.loader_Talismans.map(element => this.initialize_Item(Object.assign(new Talisman(), element), true, false));
+            this.items.talismans = this.loader_Talismans.map(element => this.initialize_Item(Object.assign(new Talisman(), element), true, false, true));
+            this.cleanItems.talismans = this.loader_Talismans.map(element => this.initialize_Item(Object.assign(new Talisman(), element), true, false, true));
+            this.craftingItems.talismans = this.loader_Talismans.map(element => this.initialize_Item(Object.assign(new Talisman(), element), true, false, true));
             this.loader_Talismans = [];
         }
         if (this.loading_Talismans) { this.loading_Talismans = false; }
@@ -1015,9 +1037,9 @@ export class ItemsService {
 
     finish_AlchemicalBombs() {
         if (this.loader_AlchemicalBombs) {
-            this.items.alchemicalbombs = this.loader_AlchemicalBombs.map(element => this.initialize_Item(Object.assign(new AlchemicalBomb(), element), true, false));
-            this.cleanItems.alchemicalbombs = this.loader_AlchemicalBombs.map(element => this.initialize_Item(Object.assign(new AlchemicalBomb(), element), true, false));
-            this.craftingItems.alchemicalbombs = this.loader_AlchemicalBombs.map(element => this.initialize_Item(Object.assign(new AlchemicalBomb(), element), true, false));
+            this.items.alchemicalbombs = this.loader_AlchemicalBombs.map(element => this.initialize_Item(Object.assign(new AlchemicalBomb(), element), true, false, true));
+            this.cleanItems.alchemicalbombs = this.loader_AlchemicalBombs.map(element => this.initialize_Item(Object.assign(new AlchemicalBomb(), element), true, false, true));
+            this.craftingItems.alchemicalbombs = this.loader_AlchemicalBombs.map(element => this.initialize_Item(Object.assign(new AlchemicalBomb(), element), true, false, true));
             this.loader_AlchemicalBombs = [];
         }
         if (this.loading_AlchemicalBombs) { this.loading_AlchemicalBombs = false; }
@@ -1029,9 +1051,9 @@ export class ItemsService {
 
     finish_AlchemicalTools() {
         if (this.loader_AlchemicalTools) {
-            this.items.alchemicaltools = this.loader_AlchemicalTools.map(element => this.initialize_Item(Object.assign(new AlchemicalTool(), element), true, false));
-            this.cleanItems.alchemicaltools = this.loader_AlchemicalTools.map(element => this.initialize_Item(Object.assign(new AlchemicalTool(), element), true, false));
-            this.craftingItems.alchemicaltools = this.loader_AlchemicalTools.map(element => this.initialize_Item(Object.assign(new AlchemicalTool(), element), true, false));
+            this.items.alchemicaltools = this.loader_AlchemicalTools.map(element => this.initialize_Item(Object.assign(new AlchemicalTool(), element), true, false, true));
+            this.cleanItems.alchemicaltools = this.loader_AlchemicalTools.map(element => this.initialize_Item(Object.assign(new AlchemicalTool(), element), true, false, true));
+            this.craftingItems.alchemicaltools = this.loader_AlchemicalTools.map(element => this.initialize_Item(Object.assign(new AlchemicalTool(), element), true, false, true));
             this.loader_AlchemicalTools = [];
         }
         if (this.loading_AlchemicalTools) { this.loading_AlchemicalTools = false; }
@@ -1043,9 +1065,9 @@ export class ItemsService {
 
     finish_Snares() {
         if (this.loader_Snares) {
-            this.items.snares = this.loader_Snares.map(element => this.initialize_Item(Object.assign(new Snare(), element), true, false));
-            this.cleanItems.snares = this.loader_Snares.map(element => this.initialize_Item(Object.assign(new Snare(), element), true, false));
-            this.craftingItems.snares = this.loader_Snares.map(element => this.initialize_Item(Object.assign(new Snare(), element), true, false));
+            this.items.snares = this.loader_Snares.map(element => this.initialize_Item(Object.assign(new Snare(), element), true, false, true));
+            this.cleanItems.snares = this.loader_Snares.map(element => this.initialize_Item(Object.assign(new Snare(), element), true, false, true));
+            this.craftingItems.snares = this.loader_Snares.map(element => this.initialize_Item(Object.assign(new Snare(), element), true, false, true));
             this.loader_Snares = [];
         }
         if (this.loading_Snares) { this.loading_Snares = false; }
@@ -1057,9 +1079,9 @@ export class ItemsService {
 
     finish_AlchemicalPoisons() {
         if (this.loader_AlchemicalPoisons) {
-            this.items.alchemicalpoisons = this.loader_AlchemicalPoisons.map(element => this.initialize_Item(Object.assign(new AlchemicalPoison(), element), true, false));
-            this.cleanItems.alchemicalpoisons = this.loader_AlchemicalPoisons.map(element => this.initialize_Item(Object.assign(new AlchemicalPoison(), element), true, false));
-            this.craftingItems.alchemicalpoisons = this.loader_AlchemicalPoisons.map(element => this.initialize_Item(Object.assign(new AlchemicalPoison(), element), true, false));
+            this.items.alchemicalpoisons = this.loader_AlchemicalPoisons.map(element => this.initialize_Item(Object.assign(new AlchemicalPoison(), element), true, false, true));
+            this.cleanItems.alchemicalpoisons = this.loader_AlchemicalPoisons.map(element => this.initialize_Item(Object.assign(new AlchemicalPoison(), element), true, false, true));
+            this.craftingItems.alchemicalpoisons = this.loader_AlchemicalPoisons.map(element => this.initialize_Item(Object.assign(new AlchemicalPoison(), element), true, false, true));
             this.loader_AlchemicalPoisons = [];
         }
         if (this.loading_AlchemicalPoisons) { this.loading_AlchemicalPoisons = false; }
@@ -1071,9 +1093,9 @@ export class ItemsService {
 
     finish_Wands() {
         if (this.loader_Wands) {
-            this.items.wands = this.loader_Wands.map(element => this.initialize_Item(Object.assign(new Wand(), element), true, false));
-            this.cleanItems.wands = this.loader_Wands.map(element => this.initialize_Item(Object.assign(new Wand(), element), true, false));
-            this.craftingItems.wands = this.loader_Wands.map(element => this.initialize_Item(Object.assign(new Wand(), element), true, false));
+            this.items.wands = this.loader_Wands.map(element => this.initialize_Item(Object.assign(new Wand(), element), true, false, true));
+            this.cleanItems.wands = this.loader_Wands.map(element => this.initialize_Item(Object.assign(new Wand(), element), true, false, true));
+            this.craftingItems.wands = this.loader_Wands.map(element => this.initialize_Item(Object.assign(new Wand(), element), true, false, true));
             this.loader_Wands = [];
         }
         if (this.loading_Wands) { this.loading_Wands = false; }
@@ -1086,9 +1108,9 @@ export class ItemsService {
 
     finish_REPLACE1() {
         if (this.loader_REPLACE1) {
-            this.items.REPLACE2 = this.loader_REPLACE1.map(element => this.initialize_Item(Object.assign(new REPLACE0(), element), true, false));
-            this.cleanItems.REPLACE2 = this.loader_REPLACE1.map(element => this.initialize_Item(Object.assign(new REPLACE0(), element), true, false));
-            this.craftingItems.REPLACE2 = this.loader_REPLACE1.map(element => this.initialize_Item(Object.assign(new REPLACE0(), element), true, false));
+            this.items.REPLACE2 = this.loader_REPLACE1.map(element => this.initialize_Item(Object.assign(new REPLACE0(), element), true, false, true));
+            this.cleanItems.REPLACE2 = this.loader_REPLACE1.map(element => this.initialize_Item(Object.assign(new REPLACE0(), element), true, false, true));
+            this.craftingItems.REPLACE2 = this.loader_REPLACE1.map(element => this.initialize_Item(Object.assign(new REPLACE0(), element), true, false, true));
             this.loader_REPLACE1 = [];
         }
         if (this.loading_REPLACE1) { this.loading_REPLACE1 = false; }

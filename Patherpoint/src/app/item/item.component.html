@@ -108,6 +108,14 @@
             <strong>Requirements</strong>
             {{item.requirements}}
         </span>
+        <span *ngIf="item.frequency">
+            <strong>Frequency</strong>
+            {{item.frequency}}
+        </span>
+        <span *ngIf="item.effect">
+            <strong>Effect</strong>
+            {{item.effect}}
+        </span>
     </p>
 </div>
 <div class="row left-aligned">

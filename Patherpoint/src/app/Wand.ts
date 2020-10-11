@@ -8,6 +8,7 @@ export class Wand extends Equipment {
     public readonly _className: string = this.constructor.name;
     //Wands should be type "wands" to be found in the database
     readonly type = "wands";
+    readonly equippable = false;
     public actions: string = "";
     public frequency: string = "one per day, plus overcharge";
     public effect: string = "You Cast the Spell at the indicated level."

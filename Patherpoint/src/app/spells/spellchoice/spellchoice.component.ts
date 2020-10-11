@@ -541,7 +541,11 @@ export class SpellchoiceComponent implements OnInit {
     }
 
     spellTakenByThis(spellName: string, choice: SpellChoice) {
-        return choice.spells.filter(takenSpell => takenSpell.name == spellName || takenSpell.combinationSpellName == spellName).length;
+        return choice.spells.find(takenSpell => takenSpell.name == spellName || takenSpell.combinationSpellName == spellName);
+    }
+
+    lockedSpellTakenByThis(spellName: string, choice: SpellChoice) {
+        return choice.spells.find(takenSpell => takenSpell.locked && takenSpell.name == spellName);
     }
 
     on_SpellTaken(spellName: string, taken: boolean, choice: SpellChoice, locked: boolean) {

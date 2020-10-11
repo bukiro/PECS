@@ -1153,6 +1153,139 @@
         ]
     },
     {
+        "desc": "Sewn from several long strips of luxurious brown and black silk, this cloak grants you a +2 item bonus to Stealth checks as well as to Acrobatics checks to Maneuver in Flight. You can also use your feet to hang from any surface that can support your weight, without requiring any check, though you still must attempt Athletics checks to Climb in order to move around while inverted.",
+        "id": "95366e4c-5b77-47c2-9deb-411dc18534d4",
+        "bulk": "L",
+        "level": 10,
+        "name": "Cloak of the Bat",
+        "hint": "The cloak grants you a +2 item bonus to Acrobatics checks to Maneuver in Flight. You can also use your feet to hang from any surface that can support your weight, without requiring any check, though you still must attempt Athletics checks to Climb in order to move around while inverted.",
+        "showon": "Acrobatics, Movement",
+        "price": 95000,
+        "traits": [
+            "Invested",
+            "Magical",
+            "Transmutation"
+        ],
+        "activities": [
+            {
+                "actions": "2A",
+                "activationType": "Command, Interact",
+                "cooldown": 144000,
+                "inputRequired": "When you activate the item once per day, choose only one of the two activations.",
+                "desc": "You can either transform the cloak into bat-like wings that grant you a fly Speed of 30 feet for 10 minutes, or have the cloak turn you into a bat by casting a 4th-level pest form spell on you.",
+                "frequency": "once per day",
+                "name": "Bat Wings (Cloak of the Bat)",
+                "gainConditions": [
+                    {
+                        "name": "Cloak of the Bat",
+                        "duration": 1000
+                    }
+                ],
+                "traits": [
+                    "Invested",
+                    "Magical",
+                    "Transmutation"
+                ],
+                "_className": "ItemActivity",
+                "source": "95366e4c-5b77-47c2-9deb-411dc18534d4"
+            },
+            {
+                "actions": "2A",
+                "activationType": "Command, Interact",
+                "cooldown": 144000,
+                "inputRequired": "When you activate the item once per day, choose only one of the two activations.",
+                "desc": "You can either transform the cloak into bat-like wings that grant you a fly Speed of 30 feet for 10 minutes, or have the cloak turn you into a bat by casting a 4th-level pest form spell on you.",
+                "frequency": "once per day",
+                "name": "Bat Form (Cloak of the Bat)",
+                "castSpells": [
+                    {
+                        "_className": "SpellCast",
+                        "name": "Pest Form",
+                        "target": "self",
+                        "level": 4
+                    }
+                ],
+                "traits": [
+                    "Invested",
+                    "Magical",
+                    "Transmutation"
+                ],
+                "_className": "ItemActivity",
+                "source": "95366e4c-5b77-47c2-9deb-411dc18534d4"
+            }
+        ],
+        "_className": "WornItem",
+        "usage": "worn cloak",
+        "effects": [
+            {
+                "_className": "EffectGain",
+                "affected": "Stealth",
+                "value": "+2",
+                "type": "item"
+            }
+        ]
+    },
+    {
+        "desc": "Made from soft leather, with delicate white wings attached to the heel, these boots are ensorcelled with powerful air magic. Whenever you fall while wearing these boots, the boots automatically cast feather fall on you. This benefit can’t trigger again for 10 minutes.",
+        "id": "b45d0723-ade2-4ffe-a220-5bfaaa66b890",
+        "bulk": "L",
+        "level": 10,
+        "name": "Winged Boots",
+        "price": 85000,
+        "traits": [
+            "Invested",
+            "Magical",
+            "Transmutation"
+        ],
+        "activities": [
+            {
+                "actions": "",
+                "activationType": "",
+                "cooldown": 1000,
+                "inputRequired": "Activate the item when you fall.",
+                "desc": "Whenever you fall while wearing these boots, the boots automatically cast feather fall on you. This benefit can’t trigger again for 10 minutes.",
+                "name": "Feather Fall (Winged Boots)",
+                "castSpells": [
+                    {
+                        "_className": "SpellCast",
+                        "name": "Feather Fall",
+                        "target": "self"
+                    }
+                ],
+                "traits": [
+                    "Invested",
+                    "Magical",
+                    "Transmutation"
+                ],
+                "_className": "ItemActivity",
+                "source": "b45d0723-ade2-4ffe-a220-5bfaaa66b890"
+            },
+            {
+                "actions": "2A",
+                "activationType": "Command, Interact",
+                "gainConditions": [
+                    {
+                        "name": "Winged Boots",
+                        "duration": 1000
+                    }
+                ],
+                "cooldown": 144000,
+                "desc": "You speak a command word and click the boots’ heels together to cause the wings to animate and flap rapidly, granting you a fly Speed of 30 feet for 10 minutes.",
+                "frequency": "once per day",
+                "name": "Winged Boots",
+                "traits": [
+                    "Invested",
+                    "Magical",
+                    "Transmutation"
+                ],
+                "_className": "ItemActivity",
+                "source": "b45d0723-ade2-4ffe-a220-5bfaaa66b890"
+            }
+        ],
+        "_className": "WornItem",
+        "usage": "worn shoes"
+    },
+    {
         "desc": "Skilled awl work has imprinted images of a muscled weightlifter into these tiered leather bands, which grant you enhanced stamina and skill when performing athletic exercises. While fastened to your upper arms, the armbands give you a +2 item bonus to Athletics checks. In addition, whenever you use an action to Climb or Swim and you succeed at the Athletics check, add a +5-foot item bonus to the distance you move.",
         "id": "02546135-7000-40b4-8cc0-cac0200bc812",
         "hint": "Whenever you use an action to Climb or Swim and you succeed at the Athletics check, add a +10-foot item bonus to the distance you move.",
@@ -1174,6 +1307,75 @@
             {
                 "_className": "EffectGain",
                 "affected": "Athletics",
+                "value": "+3",
+                "type": "item"
+            }
+        ]
+    },
+    {
+        "desc": "Sewn from several long strips of luxurious brown and black silk, this cloak grants you a +2 item bonus to Stealth checks as well as to Acrobatics checks to Maneuver in Flight. You can also use your feet to hang from any surface that can support your weight, without requiring any check, though you still must attempt Athletics checks to Climb in order to move around while inverted.",
+        "id": "e85d2d73-fedf-4855-ab58-fcf143a45ba2",
+        "bulk": "L",
+        "level": 17,
+        "name": "Cloak of the Bat (Greater)",
+        "hint": "The cloak grants you a +3 item bonus to Acrobatics checks to Maneuver in Flight. You can also use your feet to hang from any surface that can support your weight, without requiring any check, though you still must attempt Athletics checks to Climb in order to move around while inverted.",
+        "showon": "Acrobatics, Movement",
+        "subType": "Greater",
+        "subTypeDesc": "The item bonus is +3, and you can activate the cloak any number of times per day.",
+        "price": 1300000,
+        "traits": [
+            "Invested",
+            "Magical",
+            "Transmutation"
+        ],
+        "activities": [
+            {
+                "actions": "2A",
+                "activationType": "Command, Interact",
+                "desc": "You can either transform the cloak into bat-like wings that grant you a fly Speed of 30 feet for 10 minutes, or have the cloak turn you into a bat by casting a 4th-level pest form spell on you.",
+                "name": "Bat Wings (Cloak of the Bat)",
+                "gainConditions": [
+                    {
+                        "name": "Cloak of the Bat",
+                        "duration": 1000
+                    }
+                ],
+                "traits": [
+                    "Invested",
+                    "Magical",
+                    "Transmutation"
+                ],
+                "_className": "ItemActivity",
+                "source": "e85d2d73-fedf-4855-ab58-fcf143a45ba2"
+            },
+            {
+                "actions": "2A",
+                "activationType": "Command, Interact",
+                "desc": "You can either transform the cloak into bat-like wings that grant you a fly Speed of 30 feet for 10 minutes, or have the cloak turn you into a bat by casting a 4th-level pest form spell on you.",
+                "name": "Bat Form (Cloak of the Bat)",
+                "castSpells": [
+                    {
+                        "_className": "SpellCast",
+                        "name": "Pest Form",
+                        "target": "self",
+                        "level": 4
+                    }
+                ],
+                "traits": [
+                    "Invested",
+                    "Magical",
+                    "Transmutation"
+                ],
+                "_className": "ItemActivity",
+                "source": "e85d2d73-fedf-4855-ab58-fcf143a45ba2"
+            }
+        ],
+        "_className": "WornItem",
+        "usage": "worn cloak",
+        "effects": [
+            {
+                "_className": "EffectGain",
+                "affected": "Stealth",
                 "value": "+3",
                 "type": "item"
             }

@@ -20579,5 +20579,19 @@
                 "setValue": "15"
             }
         ]
+    },
+    {
+        "name": "Badlands Orc",
+        "desc": "You come from sun-scorched badlands, where long legs and an ability to withstand the elements helped you thrive. You treat environmental heat effects as if they were one step less extreme (incredible heat becomes extreme, extreme heat becomes severe, and so on).",
+        "hint": "You treat environmental heat effects as if they were one step less extreme (incredible heat becomes extreme, extreme heat becomes severe, and so on).",
+        "showon": "Resistances",
+        "shortdesc": "You come from sun-scorched badlands, where long legs and an ability to withstand the elements helped you thrive."
+    },
+    {
+        "name": "Badlands Orc Hustle",
+        "desc": "You come from sun-scorched badlands, where long legs and an ability to withstand the elements helped you thrive. You can Hustle twice as long while exploring before you have to stop.",
+        "hint": "You can Hustle twice as long while exploring before you have to stop.",
+        "showon": "Movement",
+        "shortdesc": "You come from sun-scorched badlands, where long legs and an ability to withstand the elements helped you thrive."
     }
 ]

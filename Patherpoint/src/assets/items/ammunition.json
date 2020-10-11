@@ -63,6 +63,7 @@
                 "_className": "ItemActivity"
             }
         ],
+        "actions": "1A",
         "activationType": "Interact",
         "craftRequirement": "Supply one casting of sleep.",
         "id": "ed88f882-8ed4-11ea-bc55-0242ac130003",
@@ -179,6 +180,23 @@
             "Consumable",
             "Magical",
             "Transmutation"
+        ]
+    },
+    {
+        "desc": "This piece of ammunition is coated in gritty black soot. When activated explosive ammunition hits a target, the missile explodes in a 10-foot burst, dealing 6d6 fire damage to each creature in the area (including the target). Each creature must attempt a DC 25 basic Reflex save.",
+        "actions": "1A",
+        "activationType": "Interact",
+        "id": "c365ac2f-31cf-4f7c-b920-41ef47cd3e1a",
+        "levelreq": 9,
+        "name": "Explosive Ammunition",
+        "ammunition": "Any",
+        "_className": "Ammunition",
+        "price": 13000,
+        "traits": [
+            "Consumable",
+            "Evocation",
+            "Fire",
+            "Magical"
         ]
     }
 ]

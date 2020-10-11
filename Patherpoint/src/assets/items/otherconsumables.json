@@ -36,5 +36,122 @@
                 "source": "Candle of Truth"
             }
         ]
+    },
+    {
+        "desc": "You shout the name of an elemental lord and dash this glassy gem against a hard surface to activate it. It cracks open, casting a 5th-level summon elemental spell to summon forth an elemental you control as long as you spend an action each round to Sustain the Activation.\n\nThis gem comes in four varieties: transparent for a living whirlwind, light brown for a living landslide, reddish orange for a living wildfire, and blue-green for a living waterfall.",
+        "id": "3d4a42d4-6a76-4b1e-b5fb-8a1c50503cd0",
+        "level": 10,
+        "name": "Elemental Gem (Transparent)",
+        "price": 20000,
+        "actions": "2A",
+        "traits": [
+            "Conjuration",
+            "Consumable",
+            "Magical"
+        ],
+        "castSpells": [
+            {
+                "_className": "SpellCast",
+                "name": "Summon Elemental",
+                "level": 5
+            }
+        ],
+        "subType": "Transparent",
+        "subTypeDesc": "A transparent elemental gem summons a living whirlwind.",
+        "_className": "OtherConsumable",
+        "activationType": "Command, Interact"
+    },
+    {
+        "desc": "You shout the name of an elemental lord and dash this glassy gem against a hard surface to activate it. It cracks open, casting a 5th-level summon elemental spell to summon forth an elemental you control as long as you spend an action each round to Sustain the Activation.\n\nThis gem comes in four varieties: transparent for a living whirlwind, light brown for a living landslide, reddish orange for a living wildfire, and blue-green for a living waterfall.",
+        "id": "c6e361ef-663f-4c1d-9ddd-a354ad4c6f64",
+        "level": 10,
+        "name": "Elemental Gem (Light Brown)",
+        "price": 20000,
+        "actions": "2A",
+        "traits": [
+            "Conjuration",
+            "Consumable",
+            "Magical"
+        ],
+        "castSpells": [
+            {
+                "_className": "SpellCast",
+                "name": "Summon Elemental",
+                "level": 5
+            }
+        ],
+        "subType": "Transparent",
+        "subTypeDesc": "A light brown elemental gem summons a living landslide.",
+        "_className": "OtherConsumable",
+        "activationType": "Command, Interact"
+    },
+    {
+        "desc": "You shout the name of an elemental lord and dash this glassy gem against a hard surface to activate it. It cracks open, casting a 5th-level summon elemental spell to summon forth an elemental you control as long as you spend an action each round to Sustain the Activation.\n\nThis gem comes in four varieties: transparent for a living whirlwind, light brown for a living landslide, reddish orange for a living wildfire, and blue-green for a living waterfall.",
+        "id": "d14c16b0-e5f9-4619-af07-530f2988bf98",
+        "level": 10,
+        "name": "Elemental Gem (Reddish Orange)",
+        "price": 20000,
+        "actions": "2A",
+        "traits": [
+            "Conjuration",
+            "Consumable",
+            "Magical"
+        ],
+        "castSpells": [
+            {
+                "_className": "SpellCast",
+                "name": "Summon Elemental",
+                "level": 5
+            }
+        ],
+        "subType": "Transparent",
+        "subTypeDesc": "A reddish orange elemental gem summons a living wildfire.",
+        "_className": "OtherConsumable",
+        "activationType": "Command, Interact"
+    },
+    {
+        "desc": "This feather transforms into a +1 striking dancing whip when activated. The whip immediately jumps from your grasp and proceeds to attack your enemies until 1 minute has passed or it fails its flat check for dancing, at which point it vanishes. If the whip’s target isn’t prone, the whip uses its actions to attempt to Trip that creature instead of making a Strike. The whip’s total attack modifier for Striking or Tripping is +18 instead of the normal bonus for a dancing weapon.",
+        "id": "35f1b789-de33-4c43-a82b-7f8a62985020",
+        "level": 9,
+        "name": "Feather Token (Whip)",
+        "price": 13000,
+        "gainItems": [
+            {
+                "name": "Whip (Feather Token)",
+                "expiration": "100",
+                "type": "weapons"
+            }
+        ],
+        "traits": [
+            "Conjuration",
+            "Consumable",
+            "Magical"
+        ],
+        "_className": "OtherConsumable",
+        "activationType": "Interact"
+    },
+    {
+        "desc": "You shout the name of an elemental lord and dash this glassy gem against a hard surface to activate it. It cracks open, casting a 5th-level summon elemental spell to summon forth an elemental you control as long as you spend an action each round to Sustain the Activation.\n\nThis gem comes in four varieties: transparent for a living whirlwind, light brown for a living landslide, reddish orange for a living wildfire, and blue-green for a living waterfall.",
+        "id": "9d0763b7-e241-47b8-8b40-2ecddd4b5544",
+        "level": 10,
+        "name": "Elemental Gem (blue-green)",
+        "price": 20000,
+        "actions": "2A",
+        "traits": [
+            "Conjuration",
+            "Consumable",
+            "Magical"
+        ],
+        "castSpells": [
+            {
+                "_className": "SpellCast",
+                "name": "Summon Elemental",
+                "level": 5
+            }
+        ],
+        "subType": "Transparent",
+        "subTypeDesc": "A blue-green elemental gem summons a living waterfall.",
+        "_className": "OtherConsumable",
+        "activationType": "Command, Interact"
     }
 ]

@@ -146,7 +146,7 @@
                     </div>
                 </div>
             </ng-container>
-            <!-- Esoteric Polymath -->
+            <!-- End Esoteric Polymath -->
             <ng-container *ngFor="let spells of [get_AvailableSpells(choice)]; trackBy:trackByIndex;">
                 <div class="list-item" *ngIf="!available && !choice.spells.length">
                     <span>There are no spell slots available in this choice.</span>
@@ -163,7 +163,7 @@
                             (change)="on_SpellTaken(spell.name, $event.target.checked, choice, false)"
                             [checked]="spellTakenByThis(spell.name, choice)"
                             [disabled]="cannotTake(spell, choice).length && !spellTakenByThis(spell.name, choice)"
-                            *ngIf="spellCasting?.castingType!='Prepared'">
+                            *ngIf="spellCasting?.castingType!='Prepared' && !lockedSpellTakenByThis(spell.name, choice)">
                         <ng-container
                             *ngIf="!choice.spellCombination || (choice.spellCombination && (!choice.spells.length || choice.spells[0].name == spell.name))">
                             <span

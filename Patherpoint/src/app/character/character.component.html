@@ -360,6 +360,10 @@
                                         title="{{get_Traits('Rare')[0]?.description}}">Rare</cite>
                                     <cite class="trait" *ngIf="background.traits.includes('Uncommon')"
                                         title="{{get_Traits('Uncommon')[0]?.description}}">Uncommon</cite>
+                                    <cite class="trait" *ngIf="background.traits.includes('Adventure')"
+                                        title="{{get_Traits('Adventure')[0]?.description}}">Adventure</cite>
+                                    <cite class="trait" *ngIf="background.traits.includes('Regional')"
+                                        title="{{get_Traits('Regional')[0]?.description}}">Regional</cite>
                                 </label>
                             </span>
                             <button (click)="toggle_Item(itemID)">
