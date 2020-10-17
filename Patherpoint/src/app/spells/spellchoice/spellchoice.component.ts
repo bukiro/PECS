@@ -541,11 +541,13 @@ export class SpellchoiceComponent implements OnInit {
     }
 
     spellTakenByThis(spellName: string, choice: SpellChoice) {
-        return choice.spells.find(takenSpell => takenSpell.name == spellName || takenSpell.combinationSpellName == spellName);
+        //Returns the amount of times that this spell has been taken in this choice, exluding locked spells. Needs to be a number for prepared spells.
+        return choice.spells.filter(takenSpell => !takenSpell.locked && takenSpell.name == spellName || takenSpell.combinationSpellName == spellName).length;
     }
 
     lockedSpellTakenByThis(spellName: string, choice: SpellChoice) {
-        return choice.spells.find(takenSpell => takenSpell.locked && takenSpell.name == spellName);
+        //Returns the amount of times that this spell is included in this choice as a locked spell. Needs to be a number for prepared spells.
+        return choice.spells.filter(takenSpell => takenSpell.locked && takenSpell.name == spellName).length;
     }
 
     on_SpellTaken(spellName: string, taken: boolean, choice: SpellChoice, locked: boolean) {

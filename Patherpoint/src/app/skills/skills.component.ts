@@ -109,9 +109,11 @@ export class SkillsComponent implements OnInit {
                 senses.push(...ability.senses);
             })
         }
-        this.characterService.get_AppliedConditions(creature).filter(gain => gain.apply)
-            .map(gain => this.conditionsService.get_Conditions(gain.name)[0]).filter(condition => condition?.senses.length).forEach(condition => {
-                senses.push(...condition.senses)
+        this.characterService.get_AppliedConditions(creature).filter(gain => gain.apply).forEach(gain => {
+                let condition = this.conditionsService.get_Conditions(gain.name)[0]
+                if (condition?.senses.length) {
+                    senses.push(...condition.senses.filter(sense => !sense.conditionChoiceFilter || sense.conditionChoiceFilter == gain.choice).map(sense => sense.name))
+                }
             });
         if (this.have_Feat("Superior Sight")) {
             if (senses.includes("Low-Light Vision")) {

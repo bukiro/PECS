@@ -10,6 +10,8 @@
         <div class="list-item lower" title="{{get_SenseDesc(sense)}}" *ngFor="let sense of get_Senses(); trackBy:trackByIndex;">
             {{sense}}
         </div>
+        <app-tags [creature]="creature" [objectName]="'Senses'" [showTraits]=true [showFeats]=true [showItems]=true
+            [showActivities]=true [showConditions]=true></app-tags>
         <ng-container *ngIf="creature=='Familiar'">
             <h3 class="box-header">Attack Rolls</h3>
             <ng-container *ngFor="let skill of get_Skills('', 'Familiar Proficiency')|sortBy:'asc':'name'; trackBy:trackByIndex;">
@@ -24,6 +26,8 @@
             </app-skillchoice>
         </ng-container>
         <app-tags [creature]="creature" [objectName]="'Skills'" [showTraits]=true [showFeats]=true [showItems]=true
+            [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
+        <app-tags [creature]="creature" [objectName]="'Skill Checks'" [showTraits]=true [showFeats]=true [showItems]=true
             [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
         <ng-container *ngFor="let skill of get_Skills('', 'Skill')|sortBy:'asc':'name'; trackBy:trackByIndex;">
             <app-skill [creature]="creature" [skill]=skill></app-skill>

@@ -93,6 +93,10 @@ The very latest in Assistive Technologies for Dungeon Master (ATDM)
 
 Active to-do:
 Add sourcebooks and Adventure trait to backgrounds where applicable
+Improve Temporary Hit Points: Only one set of THP may be active at one time
+Esoteric Polymath spell slot needs to be movable to the desired spell level (or one per level, but exclusive)
+Turn Shifting Form into one spell (and fix on BB)
+Implement "You are trained with these attacks" from Insect Form
 
 Implement:
 3rd level spells

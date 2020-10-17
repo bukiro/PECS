@@ -3,11 +3,9 @@ import { EffectsService } from '../effects.service';
 import { CharacterService } from '../character.service';
 import { ConditionGain } from '../ConditionGain';
 import { TimeService } from '../time.service';
-import { AnimalCompanion } from '../AnimalCompanion';
-import { Character } from '../Character';
 import { Condition } from '../Condition';
-import { typeWithParameters } from '@angular/compiler/src/render3/util';
 import { TraitsService } from '../traits.service';
+import { v1 as uuidv1 } from 'uuid';
 
 @Component({
     selector: 'app-effects',
@@ -113,6 +111,7 @@ export class EffectsComponent implements OnInit {
 
     change_ConditionDuration(gain: ConditionGain, turns: number) {
         gain.duration += turns;
+        this.toggle_Item("");
     }
 
     change_ConditionValue(gain: ConditionGain, change: number) {
@@ -123,6 +122,7 @@ export class EffectsComponent implements OnInit {
             //We subtract level*change from damage because change is negative.
             this.get_Creature().health.damage -= this.get_Creature().level * change;
         }
+        this.toggle_Item("");
         this.characterService.set_ToChange(this.creature, "effects");
         this.characterService.process_ToChange();
     }
@@ -145,6 +145,10 @@ export class EffectsComponent implements OnInit {
 
     remove_Condition(conditionGain: ConditionGain) {
         this.characterService.remove_Condition(this.get_Creature(), conditionGain, true);
+    }
+
+    get_LabelID() {
+        return uuidv1();
     }
 
     finish_Loading() {

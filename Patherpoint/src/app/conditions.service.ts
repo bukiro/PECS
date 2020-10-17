@@ -60,14 +60,14 @@ export class ConditionsService {
         } else {
             let overrides: string[] = [];
             activeConditions.forEach(gain => {
-                let originalCondition = this.get_Conditions(gain.name);
-                if (originalCondition.length) {
-                    overrides.push(...originalCondition[0].overrideConditions);
+                let originalCondition = this.get_Conditions(gain.name)?.[0];
+                if (originalCondition) {
+                    overrides.push(...originalCondition.overrideConditions);
                 }
                 gain.apply = true;
             });
             activeConditions.forEach(gain => {
-                let condition = this.get_Conditions(gain.name)[0];
+                let condition = this.get_Conditions(gain.name)?.[0];
                 if (condition) {
                     //Mark any conditions for deletion that can have a value if their value is 0 or lower, or if their duration is 0
                     //Only process the rest
@@ -84,8 +84,10 @@ export class ConditionsService {
                             (otherGain.name == gain.name) &&
                             (otherGain.apply)
                         ).forEach(otherGain => {
-                            //Higher value conditions remain, same persistent damage value are exclusive.
-                            if (otherGain.value + otherGain.heightened > gain.value + gain.heightened) {
+                            //Unlimited conditions and higher value conditions remain, same persistent damage value conditions are exclusive.
+                            if (condition.unlimited) {
+                                gain.apply = true;
+                            } else if (otherGain.value + otherGain.heightened > gain.value + gain.heightened) {
                                 gain.apply = false;
                             } else if (
                                     otherGain.choice == gain.choice &&
@@ -235,7 +237,7 @@ export class ConditionsService {
             }
         }
 
-        if (condition.senses) {
+        if (condition.senses.length) {
             characterService.set_ToChange(creature.type, "skills");
         }
 

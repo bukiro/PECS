@@ -45,32 +45,28 @@
             {{spell.trigger}}
         </span>
     </div>
-    <div class="row left-aligned" *ngIf="spell.range || spell.area">
+    <div class="row left-aligned" *ngIf="spell.range || spell.area || spell.targets">
         <span *ngIf="spell.range">
             <strong>Range</strong>
             {{spell.range}}&nbsp;
         </span>
         <span *ngIf="spell.area">
             <strong>Area</strong>
-            {{spell.area}}
+            {{spell.area}}&nbsp;
         </span>
-    </div>
-    <div class="row left-aligned" *ngIf="spell.targets">
-        <span>
+        <span *ngIf="spell.targets">
             <strong>Targets</strong>
             {{spell.targets}}
         </span>
     </div>
-    <div class="row left-aligned" *ngIf="spell.duration">
-        <span>
+    <div class="row left-aligned" *ngIf="spell.savingThrow || spell.duration">
+        <span *ngIf="spell.savingThrow">
+            <strong>Saving Throw</strong>
+            {{spell.savingThrow}}&nbsp;
+        </span>
+        <span *ngIf="spell.duration">
             <strong>Duration</strong>
             {{spell.duration}}
-        </span>
-    </div>
-    <div class="row left-aligned" *ngIf="spell.savingThrow">
-        <span>
-            <strong>Saving Throw</strong>
-            {{spell.savingThrow}}
         </span>
     </div>
     <div class="row left-aligned" *ngFor="let desc of get_Heightened(spell.desc).split('\n\n'); trackBy:trackByIndex;">

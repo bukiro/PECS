@@ -120,7 +120,7 @@
                                                     </button>
                                                     <button class="row center-aligned"
                                                         (click)="on_Restore(spellTaken.gain, casting, level)"
-                                                        *ngIf="casting.castingType == 'Prepared' && casting.className == 'Wizard' && !spellTaken.gain.prepared && level > 0"
+                                                        *ngIf="casting.castingType == 'Prepared' && casting.className == 'Wizard' && !spellTaken.gain.prepared && level > 0 && !spellTaken.gain.duration"
                                                         title="{{!can_Restore(casting, level) ? 'No bonded item charges remaining.' : ''}}"
                                                         [disabled]="!can_Restore(casting, level)">
                                                         <span class="center-aligned">Restore with bonded item

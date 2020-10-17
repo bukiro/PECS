@@ -16,6 +16,7 @@ import { Snare } from '../Snare';
 import { SpellGain } from '../SpellGain';
 import { AlchemicalPoison } from '../AlchemicalPoison';
 import { OtherConsumableBomb } from '../OtherConsumableBOmb';
+import { AttackRestriction } from '../AttackRestriction';
 
 @Component({
     selector: 'app-attacks',
@@ -83,17 +84,16 @@ export class AttacksComponent implements OnInit {
 
     get_AttackRestrictions() {
         this.attackRestrictions = [];
-        let restrictionCollection: string[][] = this.characterService.get_AppliedConditions(this.get_Creature()).filter(gain => gain.apply).map(gain => this.characterService.get_Conditions(gain.name)[0]).filter(condition => condition.attackRestrictions.length).map(condition => condition.attackRestrictions);
-        restrictionCollection.forEach(coll => {
-            this.attackRestrictions.push(...coll);
-        })
-        //For Animal Form, only allow the weapons for the chosen form.
-        let animalForm = this.characterService.get_AppliedConditions(this.get_Creature()).filter(gain => gain.apply && gain.name.includes("Animal Form"))[0];
-        if (animalForm) {
-            this.attackRestrictions.filter(restriction => restriction.includes("Animal Form") && !restriction.includes(animalForm.choice)).forEach(restriction => {
-                this.attackRestrictions.splice((this.attackRestrictions.indexOf(restriction)), 1);
-            })
-        }
+        this.characterService.get_AppliedConditions(this.get_Creature()).filter(gain => gain.apply).forEach(gain => {
+            let condition = this.characterService.get_Conditions(gain.name)[0];
+            if (condition?.attackRestrictions.length) {
+                this.attackRestrictions.push(
+                    ...condition.attackRestrictions
+                        .filter(restriction => !restriction.conditionChoiceFilter || restriction.conditionChoiceFilter == gain.choice)
+                        .map(restriction => restriction.name)
+                    )
+            }
+        });
     }
 
     get_IsAllowed(weapon: Weapon) {

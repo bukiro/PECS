@@ -3,7 +3,7 @@
     <h3 class="box-header">Active Conditions</h3>
     <ng-container *ngFor="let conditionGain of get_AppliedConditions(true); trackBy:trackByIndex;">
         <div class="list-item" *ngFor="let condition of [get_Conditions(conditionGain.name)[0]]; trackBy:trackByIndex;">
-            <div class="row">
+            <div class="row left-aligned">
                 <span>
                     <strong [className]="condition.buff ? 'bonus' : 'penalty'"
                         title="Source: {{conditionGain.source}}">{{conditionGain.name}}{{conditionGain.choice ? ": "+conditionGain.choice : ""}}
@@ -11,6 +11,13 @@
                     </strong>
                     <cite class="trait" *ngFor="let trait of condition.traits; trackBy:trackByIndex;"
                         title="{{get_Traits(trait)[0].description}}">{{trait}}</cite>
+                </span><span class="fullsize-only" *ngFor="let id of [get_LabelID()]; trackBy:trackByIndex;">
+                    <input id="{{id+'notes'}}" class="invisible" type="checkbox" [(ngModel)]="conditionGain.showNotes">
+                    <label for="{{id+'notes'}}" title="Edit notes">&#9998;</label>
+                    <input id="{{id+'duration'}}" class="invisible" type="checkbox"
+                        [(ngModel)]="conditionGain.showVariables">
+                    <label for="{{id+'duration'}}" title="Change duration and value"
+                        *ngIf="conditionGain.duration > -1 || conditionGain.value">&#9881;</label>
                 </span>
             </div>
             <div class="row left-aligned fullsize-only">
@@ -21,16 +28,33 @@
             <div class="row fullsize-only" *ngIf="conditionGain.nextStage && conditionGain.nextStage != -1">
                 <span>Affliction onset: {{get_Duration(conditionGain.nextStage)}}</span>
             </div>
-            <div class="row fullsize-only" *ngIf="conditionGain.duration > -1">
-                <span><button (click)="change_ConditionDuration(conditionGain, -10)"
-                        [disabled]="conditionGain.duration <= 10">- 1 turn</button></span>
-                <span><button (click)="change_ConditionDuration(conditionGain, 10)">+ 1 turn</button></span>
-                <span><button (click)="change_ConditionDuration(conditionGain, 100)">+ 1 min.</button></span>
-                <span><button (click)="change_ConditionDuration(conditionGain, 1000)">+ 10 min.</button></span>
+            <div class="fullsize-only list-item row" *ngIf="conditionGain.showNotes">
+                <span>
+                    <strong>Notes</strong>
+                    <input type="textarea" class="fullwidth" [(ngModel)]="conditionGain.notes">
+                </span>
             </div>
-            <div class="row fullsize-only" *ngIf="conditionGain.value">
-                <span><button (click)="change_ConditionValue(conditionGain, -1)">Value - 1</button></span>
-                <span><button (click)="change_ConditionValue(conditionGain, 1)">Value + 1</button></span>
+            <div class="row list-item fullsize-only" *ngIf="conditionGain.showVariables && conditionGain.duration > -1">
+                <div class="row fullsize-only"><strong>Change Duration</strong></div>
+                <div class="row fullsize-only">
+                    <span><button (click)="change_ConditionDuration(conditionGain, -6000)">- 1 hour</button></span>
+                    <span><button (click)="change_ConditionDuration(conditionGain, -1000)">- 10 min.</button></span>
+                    <span><button (click)="change_ConditionDuration(conditionGain, -100)">- 1 min.</button></span>
+                    <span><button (click)="change_ConditionDuration(conditionGain, -10)">- 1 turn</button></span>
+                </div>
+                <div class="row fullsize-only">
+                    <span><button (click)="change_ConditionDuration(conditionGain, 10)">+ 1 turn</button></span>
+                    <span><button (click)="change_ConditionDuration(conditionGain, 100)">+ 1 min.</button></span>
+                    <span><button (click)="change_ConditionDuration(conditionGain, 1000)">+ 10 min.</button></span>
+                    <span><button (click)="change_ConditionDuration(conditionGain, 6000)">+ 1 hour</button></span>
+                </div>
+            </div>
+            <div class="row list-item fullsize-only" *ngIf="conditionGain.showVariables && conditionGain.value">
+                <div class="row fullsize-only"><strong>Change Value</strong></div>
+                <div class="row fullsize-only">
+                    <span><button (click)="change_ConditionValue(conditionGain, -1)">Value - 1</button></span>
+                    <span><button (click)="change_ConditionValue(conditionGain, 1)">Value + 1</button></span>
+                </div>
             </div>
             <div class="row">
                 <div class="list-item lower row problem"
@@ -71,7 +95,8 @@
                 </span>
             </div>
             <div class="row fullsize-only">
-                <div class="list-item lower row problem" *ngIf="condition.inputRequired && !conditionGain.acknowledgedInputRequired">
+                <div class="list-item lower row problem"
+                    *ngIf="condition.inputRequired && !conditionGain.acknowledgedInputRequired">
                     <strong>Player input required:</strong>
                     <div class="row left-aligned">
                         <p *ngFor="let inputRequired of condition.inputRequired.split('\n'); trackBy:trackByIndex;">
@@ -139,11 +164,21 @@
                         </strong>
                         <cite class="trait" *ngFor="let trait of condition.traits; trackBy:trackByIndex;"
                             title="{{get_Traits(trait)[0].description}}">{{trait}}</cite>
+                    </span><span class="fullsize-only" *ngFor="let id of [get_LabelID()]; trackBy:trackByIndex;">
+                        <input id="{{id+'notes'}}" class="invisible" type="checkbox"
+                            [(ngModel)]="conditionGain.showNotes">
+                        <label for="{{id+'notes'}}" title="Edit notes">&#9998;</label>
                     </span>
                 </div>
                 <div class="row left-aligned fullsize-only">
                     <span>{{get_Duration(conditionGain.duration)}}</span><span *ngIf="conditionGain.persistent"
                         title="This condition will remain if its source is removed.">, persistent</span>
+                </div>
+                <div class="fullsize-only row" *ngIf="conditionGain.showNotes">
+                    <span>
+                        <strong>Notes</strong>
+                        <input type="textarea" class="fullwidth" [(ngModel)]="conditionGain.notes">
+                    </span>
                 </div>
                 <ng-container *ngFor="let condition of [get_Conditions(conditionGain.name)[0]]; trackBy:trackByIndex;">
                     <div class="row">

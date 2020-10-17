@@ -231,7 +231,7 @@ export class SpellLibraryComponent implements OnInit {
             return !this.get_SpellsLearned(spell.name).length;
         }
         if (adaptedCantrip && casting.className == "Wizard" && casting.castingType == "Prepared" && (this.traditionFilter == "" || this.traditionFilter != "Arcane")) {
-            return !this.get_SpellsLearned(spell.name).length;
+            return this.have_Feat("Adapted Cantrip") && !this.get_SpellsLearned(spell.name).length;
         }
         if (casting.className == "Bard" && casting.castingType == "Spontaneous" && (this.traditionFilter == "" || this.traditionFilter == "Occult")) {
             return !this.get_SpellsLearned(spell.name).length;

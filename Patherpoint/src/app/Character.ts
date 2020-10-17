@@ -591,7 +591,7 @@ export class Character extends Creature {
                     (casting.castingType == castingType || castingType == ""))
                     .forEach(casting => {
                         casting.spellChoices.filter(choice => choice.charLevelAvailable >= minLevelNumber && choice.charLevelAvailable <= maxLevelNumber).forEach(choice => {
-                            if ((choice.level == spellLevel && !choice.dynamicLevel) || (choice.dynamicLevel && get_DynamicLevel(choice, casting, this, characterService) == spellLevel) || (signatureAllowed && choice.signatureSpell && spellLevel != 0 && spellLevel != -1)) {
+                            if (((choice.level == spellLevel || spellLevel == -1) && !choice.dynamicLevel) || (choice.dynamicLevel && get_DynamicLevel(choice, casting, this, characterService) == spellLevel) || (signatureAllowed && choice.signatureSpell && spellLevel != 0 && spellLevel != -1)) {
                                 choice.spells.filter(gain => 
                                     (gain.name == spellName || spellName == "") &&
                                     (casting.className == className || className == "") &&

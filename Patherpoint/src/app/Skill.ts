@@ -119,7 +119,8 @@ export class Skill {
     absolutes(creature: Character | AnimalCompanion | Familiar, characterService: CharacterService, effectsService: EffectsService, isDC: boolean = false) {
         return effectsService.get_AbsolutesOnThis(creature, this.name)
             .concat(effectsService.get_AbsolutesOnThis(creature, this.get_Ability(creature, characterService) + "-based Checks and DCs"))
-            .concat(effectsService.get_AbsolutesOnThis(creature, "Skill Checks"))
+            .concat(this.type == "Skill" ? effectsService.get_AbsolutesOnThis(creature, "Skill Checks") : [])
+            .concat(this.type == "Save" ? effectsService.get_AbsolutesOnThis(creature, "Saving Throws") : [])
             .concat(effectsService.get_AbsolutesOnThis(creature, "All Checks and DCs"))
             .concat(this.name.includes("Lore") ? effectsService.get_AbsolutesOnThis(creature, "Lore") : [])
             .concat(this.name.includes("Spell DC") && !isDC ? effectsService.get_AbsolutesOnThis(creature, "Attack Rolls") : []);
@@ -127,7 +128,8 @@ export class Skill {
     relatives(creature: Character | AnimalCompanion | Familiar, characterService: CharacterService, effectsService: EffectsService, isDC: boolean = false) {
         return effectsService.get_RelativesOnThis(creature, this.name)
             .concat(effectsService.get_RelativesOnThis(creature, this.get_Ability(creature, characterService) + "-based Checks and DCs"))
-            .concat(effectsService.get_RelativesOnThis(creature, "Skill Checks"))
+            .concat(this.type == "Skill" ? effectsService.get_RelativesOnThis(creature, "Skill Checks") : [])
+            .concat(this.type == "Save" ? effectsService.get_RelativesOnThis(creature, "Saving Throws") : [])
             .concat(effectsService.get_RelativesOnThis(creature, "All Checks and DCs"))
             .concat(this.name.includes("Lore") ? effectsService.get_RelativesOnThis(creature, "Lore") : [])
             .concat(this.name.includes("Spell DC") && !isDC ? effectsService.get_RelativesOnThis(creature, "Attack Rolls") : []);
@@ -135,7 +137,8 @@ export class Skill {
     bonuses(creature: Character | AnimalCompanion | Familiar, characterService: CharacterService, effectsService: EffectsService, isDC: boolean = false) {
         return effectsService.show_BonusesOnThis(creature, this.name) ||
             effectsService.show_BonusesOnThis(creature, this.get_Ability(creature, characterService) + "-based Checks and DCs") ||
-            effectsService.show_BonusesOnThis(creature, "Skill Checks") ||
+            (this.type == "Skill" && effectsService.show_BonusesOnThis(creature, "Skill Checks")) ||
+            (this.type == "Save" && effectsService.show_BonusesOnThis(creature, "Saving Throws")) ||
             effectsService.show_BonusesOnThis(creature, "All Checks and DCs") ||
             (this.name.includes("Lore") && effectsService.show_BonusesOnThis(creature, "Lore")) ||
             (this.name.includes("Spell DC") && !isDC && effectsService.show_BonusesOnThis(creature, "Attack Rolls"));
@@ -143,7 +146,8 @@ export class Skill {
     penalties(creature: Character | AnimalCompanion | Familiar, characterService: CharacterService, effectsService: EffectsService, isDC: boolean = false) {
         return effectsService.show_PenaltiesOnThis(creature, this.name) ||
             effectsService.show_PenaltiesOnThis(creature, this.get_Ability(creature, characterService) + "-based Checks and DCs") ||
-            effectsService.show_PenaltiesOnThis(creature, "Skill Checks") ||
+            (this.type == "Skill" && effectsService.show_PenaltiesOnThis(creature, "Skill Checks")) ||
+            (this.type == "Save" && effectsService.show_PenaltiesOnThis(creature, "Saving Throws")) ||
             effectsService.show_PenaltiesOnThis(creature, "All Checks and DCs") ||
             (this.name.includes("Lore") && effectsService.show_PenaltiesOnThis(creature, "Lore")) ||
             (this.name.includes("Spell DC") && !isDC && effectsService.show_PenaltiesOnThis(creature, "Attack Rolls"));

@@ -1251,7 +1251,24 @@ export class CharacterService {
     }
 
     remove_Condition(creature: Character|AnimalCompanion|Familiar, conditionGain: ConditionGain, reload: boolean = true, increaseWounded: boolean = true, keepPersistent: boolean = false) {
-        let oldConditionGain: ConditionGain = creature.conditions.find($condition => $condition.name == conditionGain.name && $condition.value == conditionGain.value && $condition.source == conditionGain.source);
+        //Find the correct condition to remove. This can be the exact same as the conditionGain parameter, but if it isn't, find the most similar one:
+        //- Find all conditions with similar name, value and source, then if there are more than one of those:
+        //-- Try finding one that has the exact same attributes.
+        //-- If none is found, find one that has the same duration.
+        //- If none is found or the list has only one, take the first.
+        let oldConditionGain: ConditionGain = creature.conditions.find($condition => $condition === conditionGain);
+        if (!oldConditionGain) {
+            let oldConditionGains: ConditionGain[] = creature.conditions.filter($condition => $condition.name == conditionGain.name && $condition.value == conditionGain.value && $condition.source == conditionGain.source);
+            if (oldConditionGains.length > 1) {
+                oldConditionGain = oldConditionGains.find($condition => JSON.stringify($condition) == JSON.stringify(conditionGain))
+                if (!oldConditionGain) {
+                    oldConditionGain = oldConditionGains.find($condition => $condition.duration == conditionGain.duration)
+                }
+            }
+            if (!oldConditionGain) {
+                oldConditionGain = oldConditionGains[0]
+            }
+        }
         let originalCondition = this.get_Conditions(conditionGain.name)[0];
         if (oldConditionGain && !(keepPersistent && oldConditionGain.persistent)) {
             if (oldConditionGain.nextStage) {

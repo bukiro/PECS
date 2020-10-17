@@ -13,6 +13,9 @@ export class ConditionGain {
     public nextStage: number = -1;
     public onset: boolean = false;
     public name: string = "";
+    public showNotes: boolean = false;
+    public showVariables: boolean = false;
+    public notes: string = "";
     public source: string = "";
     public value: number = 0;
     //Spells choose from multiple conditions those that match their level.

@@ -1,8 +1,9 @@
 import { ConditionGain } from './ConditionGain';
 import { EffectGain } from './EffectGain';
 import { ActivityGain } from './ActivityGain';
-import { SpecializationGain } from './SpecializationGain';
 import { ItemGain } from './ItemGain';
+import { AttackRestriction } from './AttackRestriction';
+import { SenseGain } from './SenseGain';
 
 export class Condition {
     public name: string = "";
@@ -22,9 +23,9 @@ export class Condition {
     public gainItems: ItemGain[] = [];
     public overrideConditions: string[] = [];
     public endConditions: string[] = [];
-    public attackRestrictions: string[] = [];
+    public attackRestrictions: AttackRestriction[] = [];
     public source: string = "";
-    public senses: string[] = [];
+    public senses: SenseGain[] = [];
     public nextCondition: ConditionGain = null;
     public previousCondition: ConditionGain = null;
     public nextStage: number = 0;
@@ -37,4 +38,5 @@ export class Condition {
     public choices: string[] = [];
     //This property is only used to select a choice before adding the condition. It is not read when evaluating the condition.
     public choice: string = "";
+    public unlimited: boolean = false;
 }
