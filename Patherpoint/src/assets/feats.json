@@ -16029,27 +16029,7 @@
                     {
                         "_className": "SpellGain",
                         "locked": true,
-                        "name": "Shifting Form (Speed bonus)"
-                    },
-                    {
-                        "locked": true,
-                        "name": "Shifting Form (climb Speed)"
-                    },
-                    {
-                        "locked": true,
-                        "name": "Shifting Form (swim Speed)"
-                    },
-                    {
-                        "locked": true,
-                        "name": "Shifting Form (darkvision)"
-                    },
-                    {
-                        "locked": true,
-                        "name": "Shifting Form (claws)"
-                    },
-                    {
-                        "locked": true,
-                        "name": "Shifting Form (scent)"
+                        "name": "Shifting Form"
                     }
                 ]
             }
@@ -18883,7 +18863,7 @@
                 "available": 1,
                 "castingType": "Spontaneous",
                 "className": "Bard",
-                "dynamicLevel": "highestSpellLevel",
+                "level": 1,
                 "id": "cebd89ea-6ae6-4148-a4ab-b2a396fea275",
                 "source": "Feat: Esoteric Polymath",
                 "spellBookOnly": true

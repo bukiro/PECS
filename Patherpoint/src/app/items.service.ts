@@ -480,7 +480,7 @@ export class ItemsService {
             item["castSpells"].forEach((cast: SpellCast) => {
                 cast.spellGain.duration = cast.duration;
                 let librarySpell = spellsService.get_Spells(cast.name)[0];
-                spellsService.process_Spell(creature, creature.type, characterService, itemsService, timeService, cast.spellGain, librarySpell, cast.level, true, true, false);
+                spellsService.process_Spell(creature, creature.type, characterService, itemsService, timeService, null, cast.spellGain, librarySpell, cast.level, true, true, false);
             })
         }
 

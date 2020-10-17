@@ -1007,7 +1007,7 @@
         "endEffects": [
             {
                 "affected": "Temporary HP",
-                "value": "-Temporary_HP()"
+                "value": "-Temporary_HP('',effect.sourceId)"
             }
         ]
     },
@@ -1251,7 +1251,6 @@
         "name": "Endure",
         "desc": "You have been granted a number of temporary Hit Points equal to 5 times the spell level for the duration of the spell.",
         "type": "spells",
-        "inputRequired": "When the condition ends, remove the temporary Hit Points.",
         "buff": true,
         "onceEffects": [
             {
@@ -1262,7 +1261,7 @@
         "endEffects": [
             {
                 "affected": "Temporary HP",
-                "value": "-Temporary_HP()"
+                "value": "-Temporary_HP('',effect.sourceId)"
             }
         ]
     },
@@ -1739,61 +1738,43 @@
         "type": "spells"
     },
     {
-        "name": "Shifting Form (Speed bonus)",
-        "desc": "You gain a 20-foot status bonus to your Speed.",
+        "name": "Shifting Form",
+        "desc": "You gain one of the following abilities of your choice. You can Dismiss this spell.\n\nYou gain a 20-foot status bonus to your Speed.\nYou gain a climb or swim Speed equal to half your Speed.\nYou gain darkvision.\nYou gain scent 60 feet (imprecise).",
         "type": "spells",
+        "inputRequired": "If you choose an ability other than the claws, ignore the claws in your inventory.",
         "buff": true,
+        "choice": "Speed Bonus",
+        "choices": [
+            "Speed Bonus",
+            "Climb Speed",
+            "Swim Speed",
+            "Darkvision",
+            "Claws",
+            "Scent"
+        ],
         "effects": [
             {
                 "affected": "Land Speed",
                 "type": "status",
-                "value": "20"
-            }
-        ]
-    },
-    {
-        "name": "Shifting Form (climb Speed)",
-        "desc": "You gain a climb Speed equal to half your Speed.",
-        "type": "spells",
-        "buff": true,
-        "effects": [
+                "value": "Choice == 'Speed Bonus' ? 20 : 0"
+            },
             {
                 "affected": "Climb Speed",
-                "setValue": "Math.max(Math.floor(Speed('Land Speed') / 2 / 5) * 5, 5)"
-            }
-        ]
-    },
-    {
-        "name": "Shifting Form (swim Speed)",
-        "desc": "You gain a swim Speed equal to half your Speed.",
-        "type": "spells",
-        "buff": true,
-        "effects": [
+                "setValue": "Choice == 'Climb Speed' ? Math.max(Math.floor(Speed('Land Speed') / 2 / 5) * 5, 5) : null"
+            },
             {
                 "affected": "Swim Speed",
-                "setValue": "Math.max(Math.floor(Speed('Land Speed') / 2 / 5) * 5, 5)"
+                "setValue": "Choice == 'Swim Speed' ? Math.max(Math.floor(Speed('Land Speed') / 2 / 5) * 5, 5) : null"
             }
-        ]
-    },
-    {
-        "name": "Shifting Form (darkvision)",
-        "desc": "You gain darkvision.",
-        "type": "spells",
-        "buff": true,
+        ],
         "senses": [
             {
-                "name": "Darkvision"
-            }
-        ]
-    },
-    {
-        "name": "Shifting Form (scent)",
-        "desc": "You gain scent 60 feet (imprecise).",
-        "type": "spells",
-        "buff": true,
-        "senses": [
+                "name": "Darkvision",
+                "conditionChoiceFilter": "Darkvision"
+            },
             {
-                "name": "Scent 60 feet (imprecise)"
+                "name": "Scent 60 feet (imprecise)",
+                "conditionChoiceFilter": "Scent"
             }
         ]
     },
@@ -5168,6 +5149,10 @@
                 "setValue": "Choice == 'Shark' ? 35 : null"
             },
             {
+                "affected": "Unarmed Attacks Proficiency Level",
+                "setValue": "2"
+            },
+            {
                 "affected": "Ignore Armor Penalty",
                 "toggle": true
             }
@@ -5181,7 +5166,7 @@
         "endEffects": [
             {
                 "affected": "Temporary HP",
-                "value": "-Temporary_HP()"
+                "value": "-Temporary_HP('',effect.sourceId)"
             }
         ],
         "gainItems": [
@@ -5370,6 +5355,10 @@
                 "setValue": "Choice == 'Shark' ? 35 : null"
             },
             {
+                "affected": "Unarmed Attacks Proficiency Level",
+                "setValue": "2"
+            },
+            {
                 "affected": "Ignore Armor Penalty",
                 "toggle": true
             }
@@ -5383,7 +5372,7 @@
         "endEffects": [
             {
                 "affected": "Temporary HP",
-                "value": "-Temporary_HP()"
+                "value": "-Temporary_HP('',effect.sourceId)"
             }
         ],
         "gainItems": [
@@ -5572,6 +5561,10 @@
                 "setValue": "Choice == 'Shark' ? 35 : null"
             },
             {
+                "affected": "Unarmed Attacks Proficiency Level",
+                "setValue": "2"
+            },
+            {
                 "affected": "Ignore Armor Penalty",
                 "toggle": true
             }
@@ -5585,7 +5578,7 @@
         "endEffects": [
             {
                 "affected": "Temporary HP",
-                "value": "-Temporary_HP()"
+                "value": "-Temporary_HP('',effect.sourceId)"
             }
         ],
         "gainItems": [
@@ -5774,6 +5767,10 @@
                 "setValue": "Choice == 'Shark' ? 35 : null"
             },
             {
+                "affected": "Unarmed Attacks Proficiency Level",
+                "setValue": "2"
+            },
+            {
                 "affected": "Ignore Armor Penalty",
                 "toggle": true
             }
@@ -5787,7 +5784,7 @@
         "endEffects": [
             {
                 "affected": "Temporary HP",
-                "value": "-Temporary_HP()"
+                "value": "-Temporary_HP('',effect.sourceId)"
             }
         ],
         "gainItems": [
@@ -5982,7 +5979,7 @@
         "endEffects": [
             {
                 "affected": "Temporary HP",
-                "value": "-Temporary_HP()"
+                "value": "-Temporary_HP('',effect.sourceId)"
             }
         ]
     },
@@ -6050,18 +6047,17 @@
         "name": "False Life",
         "desc": "You create a reservoir of vitality from necromantic energy, gaining a number of temporary Hit Points equal to 3 per spell level plus your spellcasting ability modifier.",
         "type": "spells",
-        "inputRequired": "Add your spellcasting modifier to the temporary HP gained from False Life and remove up to the same amount when the condition ends.",
         "buff": true,
         "onceEffects": [
             {
                 "affected": "Temporary HP",
-                "value": "Heightened * 3"
+                "value": "Heightened * 3 + SpellcastingModifier()"
             }
         ],
         "endEffects": [
             {
                 "affected": "Temporary HP",
-                "value": "-Temporary_HP()"
+                "value": "-Temporary_HP('',effect.sourceId)"
             }
         ]
     },
@@ -7084,6 +7080,10 @@
                 "setValue": "Choice == 'Ant' ? 30 : null"
             },
             {
+                "affected": "Unarmed Attacks Proficiency Level",
+                "setValue": "2"
+            },
+            {
                 "affected": "Ignore Armor Penalty",
                 "toggle": true
             }
@@ -7097,7 +7097,7 @@
         "endEffects": [
             {
                 "affected": "Temporary HP",
-                "value": "-Temporary_HP()"
+                "value": "-Temporary_HP('',effect.sourceId)"
             }
         ],
         "gainItems": [
@@ -7254,6 +7254,10 @@
                 "setValue": "Choice == 'Ant' ? 30 : null"
             },
             {
+                "affected": "Unarmed Attacks Proficiency Level",
+                "setValue": "2"
+            },
+            {
                 "affected": "Ignore Armor Penalty",
                 "toggle": true
             }
@@ -7267,7 +7271,7 @@
         "endEffects": [
             {
                 "affected": "Temporary HP",
-                "value": "-Temporary_HP()"
+                "value": "-Temporary_HP('',effect.sourceId)"
             }
         ],
         "gainItems": [
@@ -7424,6 +7428,10 @@
                 "setValue": "Choice == 'Ant' ? 30 : null"
             },
             {
+                "affected": "Unarmed Attacks Proficiency Level",
+                "setValue": "2"
+            },
+            {
                 "affected": "Ignore Armor Penalty",
                 "toggle": true
             }
@@ -7437,7 +7445,7 @@
         "endEffects": [
             {
                 "affected": "Temporary HP",
-                "value": "-Temporary_HP()"
+                "value": "-Temporary_HP('',effect.sourceId)"
             }
         ],
         "gainItems": [
@@ -7808,12 +7816,14 @@
     {
         "name": "Vampiric Touch",
         "desc": "You have leeched the lifeblood out of a target to empower yourself, and gained temporary Hit Points equal to half the negative damage the target takes (after applying resistances and the like). You lose any remaining temporary Hit Points after 1 minute.",
+        "inputRequired": "Manually set the appropriate amount of temporary Hit Points. When the condition ends, all manually added Hit Points will be lost.",
         "type": "spells",
         "buff": true,
         "endEffects": [
             {
                 "affected": "Temporary HP",
-                "value": "-Temporary_HP()"
+                "value": "-Temporary_HP('Manual')",
+                "source": "Manual"
             }
         ]
     },

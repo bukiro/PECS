@@ -16,7 +16,7 @@ export class Health {
     public immunities: any[] = [];
     public lessenedEffects: any[] = [];
     public resistances: any[] = [];
-    public temporaryHP: number = 0;
+    public temporaryHP: { amount: number, source: string, sourceId: string }[] = [ {amount: 0, source: "", sourceId: ""} ];
     calculate(creature: Character | AnimalCompanion | Familiar, characterService: CharacterService, effectsService: EffectsService) {
         this.$maxHP = this.maxHP(creature, characterService, effectsService);
         this.$currentHP = this.currentHP(creature, characterService, effectsService);
@@ -53,15 +53,15 @@ export class Health {
             effectsSum += parseInt(effect.value);
             explain += "\n" + effect.source + ": " + effect.value;
         });
-        let result = ancestryHP + classHP + effectsSum + this.temporaryHP;
+        let result = ancestryHP + classHP + effectsSum + this.temporaryHP[0].amount;
         return { result: result, explain: explain.trim() }
     }
     currentHP(creature: Character | AnimalCompanion | Familiar, characterService: CharacterService, effectsService: EffectsService) {
         let maxHP = this.maxHP(creature, characterService, effectsService)
         let sum = maxHP.result - this.damage;
         let explain = "Max HP: "+maxHP.result;
-        if (this.temporaryHP) {
-            explain += "\nTemporary HP: " + this.temporaryHP;
+        if (this.temporaryHP[0].amount) {
+            explain += "\nTemporary HP: " + this.temporaryHP[0].amount;
         }
         explain += "\nDamage taken: " + (this.damage);
         //You can never get under 0 HP. If you do (because you just took damage), that gets corrected here,
@@ -103,13 +103,17 @@ export class Health {
     }
     takeDamage(creature: Character | AnimalCompanion | Familiar, characterService: CharacterService, effectsService: EffectsService, amount: number, nonlethal: boolean = false) {
         //First, absorb damage with temporary HP and add the rest to this.damage.
-        //Then,
-        let diff = Math.min(this.temporaryHP, amount);
-        this.temporaryHP -= diff;
+        //Reset temp HP if it has reached 0, and remove other options if you are starting to use up your first amount of temp HP.
+        let diff = Math.min(this.temporaryHP[0].amount, amount);
+        this.temporaryHP[0].amount -= diff;
+        this.temporaryHP.length = 1;
+        if (this.temporaryHP[0].amount <= 0) {
+            this.temporaryHP[0] = {amount: 0, source: "", sourceId: ""}
+        }
         amount -= diff;
         this.damage += amount;
         let currentHP = this.currentHP(creature, characterService, effectsService).result;
-        //If you have reached 0 HP with lethal damage, get dying 1+wounded
+        //Then, if you have reached 0 HP with lethal damage, get dying 1+wounded
         //Dying and maxDying are compared in the Conditions service when Dying is added
         if (!nonlethal && currentHP == 0) {
             if (this.$dying == 0) {

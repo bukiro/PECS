@@ -195,7 +195,7 @@ export class AttacksComponent implements OnInit {
                     if (spell.target == 'self') {
                         target = "Character";
                     }
-                    this.characterService.spellsService.process_Spell(this.get_Creature('Character'), target, this.characterService, this.characterService.itemsService, this.characterService.timeService, tempGain, spell, spellChoice.level, true, true, false);
+                    this.characterService.spellsService.process_Spell(this.get_Creature('Character'), target, this.characterService, this.characterService.itemsService, this.characterService.timeService, null, tempGain, spell, spellChoice.level, true, true, false);
                 }
                 spellChoice.spells.shift();
             }

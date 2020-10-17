@@ -15,4 +15,7 @@ export class EffectGain {
     public toggle: boolean = false;
     public type: string = "";
     public duration: number = 0;
+    //Source and sourceId are currently only used to track temporary HP.
+    public source: string = "";
+    public sourceId: string = "";
 }

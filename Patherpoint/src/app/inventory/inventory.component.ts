@@ -433,7 +433,7 @@ export class InventoryComponent implements OnInit {
             let spell = this.get_Spells(item.storedSpells[0]?.spells[0]?.name)[0];
             if (spell && !(item instanceof Wand && item.overcharged)) {
                 let tempGain: SpellGain = new SpellGain();
-                this.spellsService.process_Spell(this.get_Character(), creature, this.characterService, this.itemsService, this.timeService, tempGain, spell, spellChoice.level, true, true, false);
+                this.spellsService.process_Spell(this.get_Character(), creature, this.characterService, this.itemsService, this.timeService, null, tempGain, spell, spellChoice.level, true, true, false);
             }
             if (item instanceof Wand) {
                 if (item.cooldown) {

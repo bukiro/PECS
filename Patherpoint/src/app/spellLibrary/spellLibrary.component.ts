@@ -298,6 +298,8 @@ export class SpellLibraryComponent implements OnInit {
     learn_Spell(spell: Spell, source: string) {
         this.get_Character().learn_Spell(spell, source);
         this.toggle_Item("");
+        this.characterService.set_Changed("spellchoices");
+        this.characterService.process_ToChange();
     }
 
     unlearn_Spell(spell: Spell) {

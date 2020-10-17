@@ -147,7 +147,7 @@ export class ActivitiesService {
                     cast.spellGain.duration = cast.duration;
                 }
                 let librarySpell = spellsService.get_Spells(cast.name)[0];
-                spellsService.process_Spell(creature, spellTarget, characterService, itemsService, timeService, cast.spellGain, librarySpell, cast.level, activated, true, false);
+                spellsService.process_Spell(creature, spellTarget, characterService, itemsService, timeService, null, cast.spellGain, librarySpell, cast.level, activated, true, false);
             })
         }
 

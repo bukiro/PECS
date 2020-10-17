@@ -248,6 +248,10 @@ export class SpellchoiceComponent implements OnInit {
         return choice.source == "Feat: Infinite Possibilities";
     }
 
+    is_EsotericPolymathSpell(choice: SpellChoice) {
+        return choice.source == "Feat: Esoteric Polymath";
+    }
+
     get_EsotericPolymathAllowed(casting: SpellCasting, tradition: string) {
         if (casting.className == "Bard" && casting.castingType == "Spontaneous" && this.have_Feat("Esoteric Polymath")) {
             if (["", "Occult"].includes(tradition)) {
@@ -273,6 +277,10 @@ export class SpellchoiceComponent implements OnInit {
         } else {
             return false;
         }
+    }
+
+    on_ChangeSpellLevel(choice: SpellChoice, amount: number) {
+        choice.level += amount;
     }
 
     on_SpellCombination(choice: SpellChoice) {

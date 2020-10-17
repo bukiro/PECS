@@ -1318,11 +1318,11 @@ export class CharacterService {
         this.process_ToChange();
     }
 
-    process_OnceEffect(creature: Character|AnimalCompanion|Familiar, effectGain: EffectGain, conditionValue: number = 0, conditionHeightened: number = 0) {
+    process_OnceEffect(creature: Character|AnimalCompanion|Familiar, effectGain: EffectGain, conditionValue: number = 0, conditionHeightened: number = 0, conditionChoice: string = "", conditionSpellCastingAbility: string = "") {
         let value = 0;
         try {
             //we eval the effect value by sending this effect gain to get_SimpleEffects() and receive the resulting effect.
-            let effects = this.effectsService.get_SimpleEffects(this.get_Character(), this, { effects: [effectGain], value: conditionValue, heightened: conditionHeightened });
+            let effects = this.effectsService.get_SimpleEffects(this.get_Character(), this, { effects: [effectGain], value: conditionValue, heightened: conditionHeightened, choice: conditionChoice, spellCastingAbility: conditionSpellCastingAbility});
             if (effects.length) {
                 let effect = effects[0];
                 if (effect && effect.value && effect.value != "0" && (parseInt(effect.value) || parseFloat(effect.value))) {
@@ -1346,7 +1346,39 @@ export class CharacterService {
                 this.set_ToChange(creature.type, "spellbook");
                 break;
             case "Temporary HP":
-                creature.health.temporaryHP += value;
+                //When you get temporary HP, some things to process:
+                //- If you already have temporary HP, add this amount to the selection. The player needs to choose one amount; they are not cumulative.
+                //- If you are setting temporary HP manually, or if the current amount is 0, skip the selection and remove all the other options.
+                //- If you are losing temporary HP, lose only those that come from the same source.
+                //-- If that's the current effective amount, remove all other options (if you are "using" your effective temporary HP, we assume that you have made the choice for this amount). 
+                //--- If the current amount is 0 after loss, reset the temporary HP.
+                //-- Remove it if it's not the effective amount.
+                if (value > 0) {
+                    if (effectGain.source == "Manual") {
+                        creature.health.temporaryHP[0] = {amount: value, source: effectGain.source, sourceId: ""};
+                        creature.health.temporaryHP.length = 1;
+                    } else if (creature.health.temporaryHP[0].amount == 0) {
+                        creature.health.temporaryHP[0] = {amount: value, source: effectGain.source, sourceId: effectGain.sourceId};
+                        creature.health.temporaryHP.length = 1;
+                    } else {
+                        creature.health.temporaryHP.push({amount: value, source: effectGain.source, sourceId: effectGain.sourceId});
+                    }
+                } else {
+                    let targetTempHPSet = creature.health.temporaryHP.find(tempHPSet => ((tempHPSet.source == "Manual") && (effectGain.source == "Manual")) || tempHPSet.sourceId == effectGain.sourceId)
+                    if (targetTempHPSet) {
+                        targetTempHPSet.amount += value;
+                        if (targetTempHPSet === creature.health.temporaryHP[0]) {
+                            creature.health.temporaryHP.length = 1;
+                            if (targetTempHPSet.amount <= 0) {
+                                creature.health.temporaryHP[0] = {amount: 0, source: "", sourceId: ""};
+                            }
+                        } else {
+                            if (targetTempHPSet.amount <= 0) {
+                                creature.health.temporaryHP.splice(creature.health.temporaryHP.indexOf(targetTempHPSet), 1);
+                            }
+                        }
+                    }
+                }
                 this.set_ToChange(creature.type, "health");
                 break;
             case "HP":

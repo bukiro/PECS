@@ -1357,7 +1357,7 @@
         "desc": "You use some of the spell's magic to heal yourself, regaining 1d8 Hit Points per level of the spell."
     },
     {
-        "name": "Shifting Form (Speed bonus)",
+        "name": "Shifting Form",
         "id": "98757e34-a5f3-11ea-bb37-0242ac130002",
         "shortDesc": "You morph to gain an ability of your choice.",
         "actions": "1A",
@@ -1374,183 +1374,19 @@
         ],
         "target": "self",
         "duration": "1 minute",
-        "desc": "You gain one of the following abilities of your choice. You can Dismiss this spell.\n\n<var>var1</var>\nYou gain a climb or swim Speed equal to half your Speed. \nYou gain darkvision. \nYou gain a pair of claws. These are agile finesse unarmed attacks that deal 1d8 slashing damage. \nYou gain scent 60 feet (imprecise).",
+        "desc": "You gain one of the following abilities of your choice. You can Dismiss this spell.\n\nYou gain a 20-foot status bonus to your Speed.\nYou gain a climb or swim Speed equal to half your Speed.\nYou gain darkvision.\nYou gain a pair of claws. These are agile finesse unarmed attacks that deal 1d8 slashing damage.\nYou gain scent 60 feet (imprecise).",
         "gainConditions": [
             {
                 "duration": 100,
-                "name": "Shifting Form (Speed bonus)",
+                "name": "Shifting Form",
                 "source": "Shifting Form"
             }
         ],
-        "desc1": [
-            {
-                "value": "You gain a 20-foot status bonus to your Speed. ",
-                "variable": "var1"
-            }
-        ]
-    },
-    {
-        "name": "Shifting Form (climb Speed)",
-        "id": "9875803c-a5f3-11ea-bb37-0242ac130002",
-        "shortDesc": "You morph to gain an ability of your choice.",
-        "actions": "1A",
-        "castType": "somatic",
-        "levelreq": 4,
-        "traditions": [
-            "Focus"
-        ],
-        "traits": [
-            "Uncommon",
-            "Morph",
-            "Transmutation",
-            "Wizard"
-        ],
-        "target": "self",
-        "duration": "1 minute",
-        "desc": "You gain one of the following abilities of your choice. You can Dismiss this spell.\n\nYou gain a 20-foot status bonus to your Speed.\n<var>var1</var>\nYou gain a swim Speed equal to half your Speed. \nYou gain darkvision. \nYou gain a pair of claws. These are agile finesse unarmed attacks that deal 1d8 slashing damage. \nYou gain scent 60 feet (imprecise).",
-        "gainConditions": [
-            {
-                "duration": 100,
-                "name": "Shifting Form (Climb Speed)",
-                "source": "Shifting Form"
-            }
-        ],
-        "desc1": [
-            {
-                "value": "You gain a climb Speed equal to half your Speed. ",
-                "variable": "var1"
-            }
-        ]
-    },
-    {
-        "name": "Shifting Form (swim Speed)",
-        "id": "98758136-a5f3-11ea-bb37-0242ac130002",
-        "shortDesc": "You morph to gain an ability of your choice.",
-        "actions": "1A",
-        "castType": "somatic",
-        "levelreq": 4,
-        "traditions": [
-            "Focus"
-        ],
-        "traits": [
-            "Uncommon",
-            "Morph",
-            "Transmutation",
-            "Wizard"
-        ],
-        "target": "self",
-        "duration": "1 minute",
-        "desc": "You gain one of the following abilities of your choice. You can Dismiss this spell.\n\nYou gain a 20-foot status bonus to your Speed.\nYou gain a climb Speed equal to half your Speed.\n<var>var1</var>\nYou gain darkvision. \nYou gain a pair of claws. These are agile finesse unarmed attacks that deal 1d8 slashing damage. \nYou gain scent 60 feet (imprecise).",
-        "gainConditions": [
-            {
-                "duration": 100,
-                "name": "Shifting Form (Swim Speed)",
-                "source": "Shifting Form"
-            }
-        ],
-        "desc1": [
-            {
-                "value": "You gain a swim Speed equal to half your Speed. ",
-                "variable": "var1"
-            }
-        ]
-    },
-    {
-        "name": "Shifting Form (darkvision)",
-        "id": "987582da-a5f3-11ea-bb37-0242ac130002",
-        "shortDesc": "You morph to gain an ability of your choice.",
-        "actions": "1A",
-        "castType": "somatic",
-        "levelreq": 4,
-        "traditions": [
-            "Focus"
-        ],
-        "traits": [
-            "Uncommon",
-            "Morph",
-            "Transmutation",
-            "Wizard"
-        ],
-        "target": "self",
-        "duration": "1 minute",
-        "desc": "You gain one of the following abilities of your choice. You can Dismiss this spell.\n\nYou gain a 20-foot status bonus to your Speed. \nYou gain a climb or swim Speed equal to half your Speed. \n<var>var1</var>\nYou gain a pair of claws. These are agile finesse unarmed attacks that deal 1d8 slashing damage. \nYou gain scent 60 feet (imprecise).",
-        "gainConditions": [
-            {
-                "duration": 100,
-                "name": "Shifting Form (darkvision)",
-                "source": "Shifting Form"
-            }
-        ],
-        "desc1": [
-            {
-                "value": "You gain darkvision.",
-                "variable": "var1"
-            }
-        ]
-    },
-    {
-        "name": "Shifting Form (claws)",
-        "id": "98758406-a5f3-11ea-bb37-0242ac130002",
-        "shortDesc": "You morph to gain an ability of your choice.",
-        "actions": "1A",
-        "castType": "somatic",
-        "levelreq": 4,
-        "traditions": [
-            "Focus"
-        ],
-        "traits": [
-            "Uncommon",
-            "Morph",
-            "Transmutation",
-            "Wizard"
-        ],
-        "target": "self",
-        "duration": "1 minute",
-        "desc": "You gain one of the following abilities of your choice. You can Dismiss this spell.\n\nYou gain a 20-foot status bonus to your Speed. \nYou gain a climb or swim Speed equal to half your Speed. \nYou gain darkvision. \n<var>var1</var>\nYou gain scent 60 feet (imprecise).",
         "gainItems": [
             {
                 "expiration": 100,
                 "name": "Shifting Form Claws",
                 "type": "weapons"
-            }
-        ],
-        "desc1": [
-            {
-                "value": "You gain a pair of claws. These are agile finesse unarmed attacks that deal 1d8 slashing damage.",
-                "variable": "var1"
-            }
-        ]
-    },
-    {
-        "name": "Shifting Form (scent)",
-        "id": "987584ce-a5f3-11ea-bb37-0242ac130002",
-        "shortDesc": "You morph to gain an ability of your choice.",
-        "actions": "1A",
-        "castType": "somatic",
-        "levelreq": 4,
-        "traditions": [
-            "Focus"
-        ],
-        "traits": [
-            "Uncommon",
-            "Morph",
-            "Transmutation",
-            "Wizard"
-        ],
-        "target": "self",
-        "duration": "1 minute",
-        "desc": "You gain one of the following abilities of your choice. You can Dismiss this spell.\n\nYou gain a 20-foot status bonus to your Speed. \nYou gain a climb or swim Speed equal to half your Speed. \nYou gain darkvision. \nYou gain a pair of claws. These are agile finesse unarmed attacks that deal 1d8 slashing damage. \n<var>var1</var>",
-        "gainConditions": [
-            {
-                "duration": 100,
-                "name": "Shifting Form (scent)",
-                "source": "Shifting Form"
-            }
-        ],
-        "desc1": [
-            {
-                "value": "You gain scent 60 feet (imprecise).",
-                "variable": "var1"
             }
         ]
     },

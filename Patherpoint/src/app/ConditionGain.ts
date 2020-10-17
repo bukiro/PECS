@@ -1,10 +1,12 @@
 import { Condition } from './Condition';
 import { ActivityGain } from './ActivityGain';
 import { ItemGain } from './ItemGain';
+import { v1 as uuidv1 } from 'uuid';
 
 export class ConditionGain {
     public readonly _className: string = this.constructor.name;
     public addValue: number = 0;
+    public id = uuidv1();
     public apply: boolean = true;
     public decreasingValue: boolean = false;
     //duration in turns * 10 or -1 for permanent
@@ -23,6 +25,8 @@ export class ConditionGain {
     public heightenedFilter: number = 0;
     //When casting a spell, the spell level is inserted here so it can be used for calculations.
     public heightened: number = 0;
+    //When casting a spell, some conditions want to calculate the spellcasting modifier, so we insert the spellcasting ability.
+    public spellCastingAbility: string = "";
     public customCondition: Condition = null;
     //A condition's gainActivities gets copied here to track.
     public gainActivities: ActivityGain[] = [];

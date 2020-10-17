@@ -132,6 +132,9 @@ export class EffectsComponent implements OnInit {
         if (condition.attackRestrictions.length) {
             this.characterService.set_ToChange(this.creature, "attacks");
         }
+        if (condition.senses.length) {
+            this.characterService.set_ToChange(this.creature, "skills");
+        }
         this.characterService.process_ToChange();
     }
 

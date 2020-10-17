@@ -129,10 +129,16 @@
             </ng-container>
             <!-- End Spell Combination -->
             <!-- Esoteric Polymath -->
-            <ng-container *ngIf="choice.spellCombinationAllowed">
+            <ng-container *ngIf="is_EsotericPolymathSpell(choice)">
                 <div class="list-item">
                     <strong>Esoteric Polymath</strong>
-                    <div class="row left-aligned" *ngIf="choice.spellCombination">
+                    <span class="row left-aligned">
+                        <strong>Spell Level&nbsp;</strong>
+                        <button (click)="on_ChangeSpellLevel(choice, -1)"
+                            [disabled]="choice.level <= 1">-</button>
+                        <button (click)="on_ChangeSpellLevel(choice, 1)"
+                            [disabled]="choice.level >= get_HighestSpellLevel()">+</button>
+                    </span>
                         <p>
                             During your daily preparations, choose any one spell from your book of occult spells.
                             If that spell is already in your spell repertoire, you can treat it as an additional signature spell that day.
@@ -143,7 +149,6 @@
                             and you can use the Occultism skill to Learn Spells (page 238) and add them to your spellbook by paying the approptiate cost,
                             similar to a wizard.
                         </p>
-                    </div>
                 </div>
             </ng-container>
             <!-- End Esoteric Polymath -->
@@ -151,7 +156,7 @@
                 <div class="list-item" *ngIf="!available && !choice.spells.length">
                     <span>There are no spell slots available in this choice.</span>
                 </div>
-                <div class="list-item" *ngIf="available && !spells.length">
+                <div class="list-item" *ngIf="available && !spells?.length">
                     <span>No available spell matches the requirements of this spell choice, or no spells are
                         available.</span>
                     <span *ngIf="!allowHeightened">More spells may be found if you allow heightened spells.</span>

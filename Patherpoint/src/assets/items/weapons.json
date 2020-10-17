@@ -3626,7 +3626,7 @@
    {
       "hide": true,
       "id": "c2e77ed3-715b-4c6e-82c0-50ee1b9ddddd",
-      "name": "Insect Form Ant Mandibles (4th Level)",
+      "name": "Insect Form Ant Mandibles (4th level)",
       "traits": [
          "Reach 10 feet",
          "Unarmed"
@@ -3644,7 +3644,7 @@
    {
       "hide": true,
       "id": "ec339a03-4386-4996-9862-c41fb021acbe",
-      "name": "Insect Form Beetle Mandibles (4th Level)",
+      "name": "Insect Form Beetle Mandibles (4th level)",
       "traits": [
          "Reach 10 feet",
          "Unarmed"
@@ -3662,7 +3662,7 @@
    {
       "hide": true,
       "id": "103ceb29-a2ff-4479-8339-36630ecde34a",
-      "name": "Insect Form Centipede Mandibles (4th Level)",
+      "name": "Insect Form Centipede Mandibles (4th level)",
       "traits": [
          "Agile",
          "Reach 10 feet",
@@ -3682,7 +3682,7 @@
    {
       "hide": true,
       "id": "c7feee39-8f28-4a09-be21-496ebe819cbc",
-      "name": "Insect Form Mantis Foreleg (4th Level)",
+      "name": "Insect Form Mantis Foreleg (4th level)",
       "traits": [
          "Reach 10 feet",
          "Unarmed"
@@ -3700,7 +3700,7 @@
    {
       "hide": true,
       "id": "15c402e2-b762-4bc8-ad03-c92070977338",
-      "name": "Insect Form Scorpion Stinger (4th Level)",
+      "name": "Insect Form Scorpion Stinger (4th level)",
       "traits": [
          "Reach 10 feet",
          "Unarmed"
@@ -3719,7 +3719,7 @@
    {
       "hide": true,
       "id": "6b5ede13-d127-401e-8bf8-5eecc914a89f",
-      "name": "Insect Form Scorpion Pincer (4th Level)",
+      "name": "Insect Form Scorpion Pincer (4th level)",
       "traits": [
          "Agile",
          "Reach 10 feet",
@@ -3738,7 +3738,7 @@
    {
       "hide": true,
       "id": "14d82658-4d27-46b6-aa5a-d852dabb9057",
-      "name": "Insect Form Spider Fangs (4th Level)",
+      "name": "Insect Form Spider Fangs (4th level)",
       "traits": [
          "Reach 10 feet",
          "Unarmed"
@@ -3757,7 +3757,7 @@
    {
       "hide": true,
       "id": "c8007d13-8804-4d57-bcdc-c994fdcb2e9e",
-      "name": "Insect Form Ant Mandibles (5th Level)",
+      "name": "Insect Form Ant Mandibles (5th level)",
       "traits": [
          "Reach 15 feet",
          "Unarmed"
@@ -3775,7 +3775,7 @@
    {
       "hide": true,
       "id": "2938146c-26ed-4e03-aabd-664c057af765",
-      "name": "Insect Form Beetle Mandibles (5th Level)",
+      "name": "Insect Form Beetle Mandibles (5th level)",
       "traits": [
          "Reach 15 feet",
          "Unarmed"
@@ -3793,7 +3793,7 @@
    {
       "hide": true,
       "id": "d5898aa5-d8f3-498c-9b29-e91de4e404bf",
-      "name": "Insect Form Centipede Mandibles (5th Level)",
+      "name": "Insect Form Centipede Mandibles (5th level)",
       "traits": [
          "Agile",
          "Reach 15 feet",
@@ -3813,7 +3813,7 @@
    {
       "hide": true,
       "id": "66c47162-6490-45f8-80e5-0cf81ef0dae0",
-      "name": "Insect Form Mantis Foreleg (5th Level)",
+      "name": "Insect Form Mantis Foreleg (5th level)",
       "traits": [
          "Reach 15 feet",
          "Unarmed"
@@ -3831,7 +3831,7 @@
    {
       "hide": true,
       "id": "7e174dac-b0a2-41bc-9908-2c11f78d63bc",
-      "name": "Insect Form Scorpion Stinger (5th Level)",
+      "name": "Insect Form Scorpion Stinger (5th level)",
       "traits": [
          "Reach 15 feet",
          "Unarmed"
@@ -3850,7 +3850,7 @@
    {
       "hide": true,
       "id": "aca28011-72e6-477c-bf7a-c1d1717958ce",
-      "name": "Insect Form Scorpion Pincer (5th Level)",
+      "name": "Insect Form Scorpion Pincer (5th level)",
       "traits": [
          "Agile",
          "Reach 15 feet",
@@ -3869,7 +3869,7 @@
    {
       "hide": true,
       "id": "6b1286f9-be0a-4de7-a5b7-a84451d3860e",
-      "name": "Insect Form Spider Fangs (5th Level)",
+      "name": "Insect Form Spider Fangs (5th level)",
       "traits": [
          "Reach 15 feet",
          "Unarmed"

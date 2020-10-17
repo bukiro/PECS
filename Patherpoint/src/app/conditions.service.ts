@@ -15,6 +15,7 @@ import { ItemGain } from './ItemGain';
 import { Item } from './Item';
 import { ItemsService } from './items.service';
 import { Equipment } from './Equipment';
+import { EffectGain } from './EffectGain';
 
 @Injectable({
     providedIn: 'root'
@@ -134,7 +135,12 @@ export class ConditionsService {
         if (condition.onceEffects.length) {
             if (taken) {
                 condition.onceEffects.forEach(effect => {
-                    characterService.process_OnceEffect(creature, effect, gain.value, gain.heightened);
+                    let tempEffect = Object.assign(new EffectGain, JSON.parse(JSON.stringify(effect)));
+                    if (!tempEffect.source) {
+                        tempEffect.source = condition.name;
+                        tempEffect.sourceId = gain.id;
+                    }
+                    characterService.process_OnceEffect(creature, tempEffect, gain.value, gain.heightened, gain.choice, gain.spellCastingAbility);
                 })
             }
         }
@@ -143,7 +149,12 @@ export class ConditionsService {
         if (condition.endEffects.length) {
             if (!taken) {
                 condition.endEffects.forEach(effect => {
-                    characterService.process_OnceEffect(creature, effect, gain.value, gain.heightened);
+                    let tempEffect = Object.assign(new EffectGain, JSON.parse(JSON.stringify(effect)));
+                    if (!tempEffect.source) {
+                        tempEffect.source = condition.name;
+                        tempEffect.sourceId = gain.id;
+                    }
+                    characterService.process_OnceEffect(creature, tempEffect, gain.value, gain.heightened, gain.choice, gain.spellCastingAbility);
                 })
             }
         }

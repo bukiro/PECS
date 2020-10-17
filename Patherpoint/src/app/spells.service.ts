@@ -12,6 +12,7 @@ import { ItemGain } from './ItemGain';
 import { AnimalCompanion } from './AnimalCompanion';
 import { Familiar } from './Familiar';
 import { Character } from './Character';
+import { SpellCasting } from './SpellCasting';
 
 @Injectable({
   providedIn: 'root'
@@ -38,7 +39,7 @@ export class SpellsService {
         }
     }
 
-    process_Spell(creature: Character|AnimalCompanion|Familiar, target: string = "", characterService: CharacterService, itemsService: ItemsService, timeService: TimeService, gain: SpellGain, spell: Spell, level: number, activated: boolean, manual: boolean = false, changeAfter: boolean = true) {
+    process_Spell(creature: Character|AnimalCompanion|Familiar, target: string = "", characterService: CharacterService, itemsService: ItemsService, timeService: TimeService, casting: SpellCasting, gain: SpellGain, spell: Spell, level: number, activated: boolean, manual: boolean = false, changeAfter: boolean = true) {
         //If this spell was cast by an activity, it may have a specified duration. Keep that here before the duration is changed to keep the spell active (or not).
         let customDuration: number = 0;
         if (activated && gain.duration) {
@@ -125,6 +126,10 @@ export class SpellsService {
                     let newConditionGain = Object.assign(new ConditionGain(), conditionGain);
                     //Pass the spell level in case that condition effects change with level
                     newConditionGain.heightened = level;
+                    //Pass the spellcasting ability in case the condition needs to use the modifier
+                    if (casting) {
+                        newConditionGain.spellCastingAbility = casting.ability;
+                    }
                     //If this spell was cast by an activity, it may have a specified duration. Apply that here.
                     if (customDuration) {
                         newConditionGain.duration = customDuration;
@@ -189,7 +194,7 @@ export class SpellsService {
                 if (taken.gain.duration == 0) {
                     let spell: Spell = this.get_Spells(taken.gain.name)[0];
                     if (spell) {
-                        this.process_Spell(character, taken.gain.target, characterService, itemsService, timeService, taken.gain, spell, 0, false, false)
+                        this.process_Spell(character, taken.gain.target, characterService, itemsService, timeService, null, taken.gain, spell, 0, false, false)
                         taken.gain.activeCooldown = taken.gain.cooldown;
                     }
                 }

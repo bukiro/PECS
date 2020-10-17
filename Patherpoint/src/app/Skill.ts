@@ -52,6 +52,7 @@ export class Skill {
     }
     level(creature: Character | AnimalCompanion, characterService: CharacterService, charLevel: number = characterService.get_Character().level, excludeTemporary: boolean = false) {
         if (characterService.still_loading()) { return 0; }
+        let effectsService = characterService.effectsService;
         let skillLevel: number = 0;
         let increases = creature.get_SkillIncreases(characterService, 0, charLevel, this.name, "", "", undefined, excludeTemporary);
         // Add 2 for each increase, but keep them to their max Rank
@@ -91,6 +92,16 @@ export class Skill {
             characterService.get_Feats("Stealthy Companion")[0]?.have(characterService.get_Character(), characterService)) {
                 skillLevel += 2;
         }
+        let skillLevelEffects = effectsService.get_AbsolutesOnThis(creature, this.name + " Proficiency Level");
+            skillLevelEffects.forEach(effect => {
+                skillLevel = parseInt(effect.setValue);
+            })
+        skillLevelEffects = effectsService.get_RelativesOnThis(creature, this.name + " Proficiency Level");
+        skillLevelEffects.forEach(effect => {
+            if ([-6,-4,-2,2,4,6].includes(parseInt(effect.setValue))) {
+                skillLevel += parseInt(effect.setValue);
+            }
+        })
         skillLevel = Math.min(skillLevel, 8);
         return skillLevel;
     }

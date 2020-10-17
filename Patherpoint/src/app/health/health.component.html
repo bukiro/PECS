@@ -25,9 +25,14 @@
                     </span>
                     <strong>Temp HP</strong>
                     <span>
+                        <select [(ngModel)]="selectedTempHP" (change)="on_TempHPSelected(selectedTempHP)" *ngIf="health.temporaryHP.length > 1">
+                            <option *ngFor="let tempHPSet of health.temporaryHP; trackBy:trackByIndex;"
+                                [ngValue]="tempHPSet">{{tempHPSet.amount + (tempHPSet.source ? " (" + tempHPSet.source + ")" : "")}}
+                            </option>
+                        </select>
                         <input class="number3" type="number"
-                            [ngClass]="{'penalty':(health.temporaryHP < 0), 'bonus':(health.temporaryHP > 0)}"
-                            value="{{health.temporaryHP}}" disabled>
+                            [ngClass]="{'bonus':(health.temporaryHP[0].amount > 0)}"
+                            title="{{health.temporaryHP[0].source ? 'Source: ' + health.temporaryHP[0].source : ''}}" value="{{health.temporaryHP[0].amount}}" disabled *ngIf="health.temporaryHP.length == 1">
                     </span>
                 </div>
                 <div class="row">
@@ -114,10 +119,10 @@
                 </span>
                 <span>&nbsp;</span>
                 <span>
-                    <input class="number4" type="number" [(ngModel)]="addTempHP" maxLength="3">
+                    <input class="number4" type="number" [(ngModel)]="setTempHP" maxLength="3">
                 </span>
                 <span>
-                    <button [disabled]="addTempHP == 0" (click)="add_TempHP(addTempHP)">Add</button>
+                    <button [disabled]="setTempHP < 0" (click)="set_TempHP(setTempHP)">Set</button>
                 </span>
             </div>
             <h5>Resistances</h5>

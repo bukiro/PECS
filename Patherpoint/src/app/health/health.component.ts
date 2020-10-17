@@ -23,7 +23,8 @@ export class HealthComponent implements OnInit {
     public damage: number = 0;
     public nonlethal: boolean = false;
     public healing: number = 0;
-    public addTempHP: number = 0;
+    public setTempHP: number = 0;
+    public selectedTempHP: {amount: number, source: string, sourceId: string};
     public Math = Math;
 
     constructor(
@@ -169,8 +170,16 @@ export class HealthComponent implements OnInit {
         this.characterService.process_ToChange();
     }
 
-    add_TempHP(amount: number) {
-        this.get_Health().temporaryHP = Math.max(0, this.get_Health().temporaryHP + amount);
+    set_TempHP(amount: number) {
+        this.get_Health().temporaryHP[0] = {amount: amount, source: "Manual", sourceId: ""};
+        this.get_Health().temporaryHP.length = 1;
+        this.characterService.set_ToChange(this.creature, "health");
+        this.characterService.process_ToChange();
+    }
+
+    on_TempHPSelected(tempSet: { amount: number, source: string, sourceId: string }) {
+        this.get_Health().temporaryHP[0] = tempSet;
+        this.get_Health().temporaryHP.length = 1;
         this.characterService.set_ToChange(this.creature, "health");
         this.characterService.process_ToChange();
     }

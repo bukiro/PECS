@@ -123,9 +123,16 @@ export class EffectsService {
         let Value = object.value;
         let Heightened = object.heightened;
         let Choice = object.choice;
+        let SpellCastingAbility = object.spellCastingAbility;
         //Some Functions for effect values
-        function Temporary_HP() {
-            return creature.health.temporaryHP;
+        function Temporary_HP(source: string = "", sourceId: string = "") {
+            if (sourceId) {
+                return creature.health.temporaryHP.find(tempHPSet => tempHPSet.sourceId == sourceId).amount;
+            } else if (source) {
+                return creature.health.temporaryHP.find(tempHPSet => tempHPSet.source == source).amount;
+            } else {
+                return creature.health.temporaryHP[0].amount;
+            }
         }
         function Current_HP() {
             return creature.health.currentHP(creature, characterService, effectsService).result;
@@ -166,7 +173,6 @@ export class EffectsService {
         let get_TestSpeed = this.get_TestSpeed;
         function Speed(name: string) {
             return (get_TestSpeed(name))?.value(creature, characterService, effectsService)[0] || 0;
-
         }
         function Has_Condition(name: string) {
             return characterService.get_AppliedConditions(creature, name).length
@@ -194,6 +200,13 @@ export class EffectsService {
         }
         function Has_Feat(name: string) {
             return Character.get_FeatsTaken(1, Character.level, name).length > 0;
+        }
+        function SpellcastingModifier() {
+            if (SpellCastingAbility) {
+                return abilitiesService.get_Abilities(SpellCastingAbility)?.[0]?.mod(Character, characterService, effectsService, Character.level).result || 0
+            } else {
+                return 0;
+            }
         }
         //effects come as {affected, value} where value is a string that contains a statement.
         //This statement is eval'd here. The statement can use characterService to check level, skills, abilities etc.
@@ -539,17 +552,18 @@ export class EffectsService {
         let health: string[] = ["HP", "Fast Healing", "Hardness", "Max Dying", "Max HP", "Resting HP Gain", "Temporary HP"];
         let healthWildcard: string[] = ["Resistance"];
         let defense: string[] = ["AC", "Saving Throws", "Fortitude", "Reflex", "Will", "Dexterity-based Checks and DCs", "Constitution-based Checks and DCs",
-            "Wisdom-based Checks and DCs", "All Checks and DCs", "Ignore Armor Penalty", "Ignore Armor Speed Penalty"];
+            "Wisdom-based Checks and DCs", "All Checks and DCs", "Ignore Armor Penalty", "Ignore Armor Speed Penalty", "Proficiency Level"];
+        let defenseWildcard: string[] = ["Proficiency Level"];
         let attacks: string[] = ["Damage Rolls", "Dexterity-based Checks and DCs", "Strength-based Checks and DCs", "All Checks and DCs",
             "Unarmed Damage per Die", "Weapon Damage per Die"];
-        let attacksWildcard: string[] = ["Attack Rolls", "Damage", "Dice Size", "Dice Number"];
+        let attacksWildcard: string[] = ["Attack Rolls", "Damage", "Dice Size", "Dice Number", "Proficiency Level"];
         let skills: string[] = ["Perception", "Fortitude", "Reflex", "Will", "Acrobatics", "Arcana", "Athletics", "Crafting", "Deception", "Diplomacy", "Intimidation", "Medicine",
             "Nature", "Occultism", "Performance", "Religion", "Society", "Stealth", "Survival", "Thievery", "Fortitude", "Reflex", "Will"];
         let individualSkillsWildcard: string[] = ["Lore", "Class DC", "Spell DC"];
-        let skillsWildcard: string[] = ["All Checks and DCs", "Skill Checks", "Untrained Skills"];
+        let skillsWildcard: string[] = ["All Checks and DCs", "Skill Checks", "Untrained Skills", "Proficiency Level"];
         let inventory: string[] = ["Bulk", "Encumbered Limit", "Max Bulk", "Max Invested"];
         let spellbook: string[] = ["Focus Points", "Focus Pool", "All Checks and DCs"];
-        let spellbookWildcard: string[] = ["Spell Slots"];
+        let spellbookWildcard: string[] = ["Spell Slots", "Proficiency Level"];
 
         let changedEffects: Effect[] = [];
         //Collect all new feats that don't exist in the old list or old feats that don't exist in the new list - that is, everything that has changed.
@@ -578,6 +592,9 @@ export class EffectsService {
                 characterService.set_ToChange(creature.type, "health");
             }
             if (defense.includes(effect.target)) {
+                characterService.set_ToChange(creature.type, "defense");
+            }
+            if (defenseWildcard.filter(name => effect.target.includes(name)).length) {
                 characterService.set_ToChange(creature.type, "defense");
             }
             if (attacks.includes(effect.target) || attacksWildcard.filter(name => effect.target.includes(name)).length) {
