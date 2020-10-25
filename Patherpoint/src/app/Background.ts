@@ -19,6 +19,7 @@ export class Background {
     public superType: string = "";
     public sourceBook: string = "";
     public region: string = "";
+    public adventurePath: string = "";
     public prerequisites: string = "";
     public inputRequired: string = "";
     public traits: string[] = [];

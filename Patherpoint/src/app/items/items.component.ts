@@ -175,11 +175,39 @@ export class ItemsComponent implements OnInit {
         
     }
 
-    get_InventoryItemSets(type: string) {
-        return this.characterService.get_Character().inventories.map(inventory => inventory[type]);
+    get_CopyItems(type: string) {
+        return this.itemsService.get_CleanItems()[type].filter(item => !item.hide).sort((a,b) => {
+            if (a.name > b.name) {
+                return 1;
+            }
+            
+            if (a.name < b.name) {
+                return -1;
+            }
+            
+            return 0;
+        });
     }
 
-    get_VisibleItems(items: Item[], creatureType: string) {
+    get_InventoryItems(type: string) {
+        let items = [];
+        this.characterService.get_Character().inventories.map(inventory => inventory[type]).forEach(itemSet => {
+            items.push(...itemSet);
+        })
+        return items.filter(item => !item.hide).sort((a,b) => {
+            if (a.name > b.name) {
+                return 1;
+            }
+            
+            if (a.name < b.name) {
+                return -1;
+            }
+            
+            return 0;
+        });
+    }
+
+    get_VisibleItems(items: Item[], creatureType: string = "") {
         let casting: SpellCasting;
         let character = this.get_Character();
         if (this.purpose == "scrollsavant") {

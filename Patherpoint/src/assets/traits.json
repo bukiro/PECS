@@ -30,6 +30,11 @@
       "showon": ""
     },
     {
+      "name": "Adventure",
+      "description": "These Backgrounds are specific to their respective adventures, and may contain spoilers for players of those adventures. Once you've played through the listed Adventure Path, legacy backgrounds can become available in your future campaigns after the events of this Adventure Path.",
+      "showon": ""
+    },
+    {
       "name": "Aeon",
       "description": "",
       "showon": ""
@@ -1166,6 +1171,11 @@
     },
     {
       "name": "Reckless",
+      "description": "",
+      "showon": ""
+    },
+    {
+      "name": "Regional",
       "description": "",
       "showon": ""
     },

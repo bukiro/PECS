@@ -228,7 +228,7 @@
                                 <div class="list-item sublist lower"
                                     *ngIf="get_ShowItem()==inventoryID">
                                     <h5>New Items</h5>
-                                    <div class="list-item" *ngFor="let item of get_Items()[newItemType]; trackBy:trackByIndex;">
+                                    <div class="list-item" *ngFor="let item of get_CopyItems(newItemType); trackBy:trackByIndex;">
                                         {{(item.get_Name) ? item.get_Name() : item.name}}
                                         <button class="row center-aligned"
                                             (click)="copy_Item(item);toggle_Item(0)">
@@ -236,15 +236,13 @@
                                         </button>
                                     </div>
                                     <h5>Inventory Items</h5>
-                                    <ng-container *ngFor="let itemset of get_InventoryItemSets(newItemType); trackBy:trackByIndex;">
-                                        <div class="list-item" *ngFor="let item of itemset; trackBy:trackByIndex;">
-                                            {{(item.get_Name) ? item.get_Name() : item.name}}
-                                            <button class="row center-aligned"
-                                                (click)="copy_Item(item);toggle_Item(0)">
-                                                Copy
-                                            </button>
-                                        </div>
-                                    </ng-container>
+                                    <div class="list-item" *ngFor="let item of get_InventoryItems(newItemType); trackBy:trackByIndex;">
+                                        {{(item.get_Name) ? item.get_Name() : item.name}}
+                                        <button class="row center-aligned"
+                                            (click)="copy_Item(item);toggle_Item(0)">
+                                            Copy
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                             <ng-container *ngFor="let property of get_NewItemProperties()|sortBy:'asc':'priority'|sortBy:'asc':'group'; trackBy:trackByIndex;">

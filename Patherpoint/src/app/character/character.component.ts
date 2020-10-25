@@ -49,7 +49,9 @@ export class CharacterComponent implements OnInit {
     public allowCharacterDelete: Boolean[] = [];
     public lowerLevelFeats: Boolean = true;
     public archetypeFeats: Boolean = true;
-    
+    public adventureBackgrounds: Boolean = true;
+    public regionalBackgrounds: Boolean = true;
+        
     constructor(
         private changeDetector:ChangeDetectorRef,
         public characterService: CharacterService,
@@ -740,7 +742,11 @@ export class CharacterComponent implements OnInit {
     }
 
     get_Backgrounds(name: string = "") {
-        return this.historyService.get_Backgrounds(name).filter(background => !background.subType);
+        return this.historyService.get_Backgrounds(name).filter(background => 
+            !background.subType &&
+            (!this.adventureBackgrounds ? !background.adventurePath : true) &&
+            (!this.regionalBackgrounds ? !background.region : true)
+        );
     }
 
     get_AvailableBackgrounds() {

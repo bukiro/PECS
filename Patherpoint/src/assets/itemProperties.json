@@ -242,8 +242,19 @@
     },
     {
         "parent": "activities",
-        "key": "cost",
+        "key": "charges",
         "priority": "8",
+        "group": "",
+        "name": "Charges",
+        "desc": "How often can you use this item within one cooldown period. If the item has any charges, the cooldown starts after the first use, but the item can still be used as long as it has charges left.",
+        "type": "number",
+        "validation": "0plus",
+        "examples": "activity"
+    },
+    {
+        "parent": "activities",
+        "key": "cost",
+        "priority": "9",
         "group": "",
         "name": "Cost",
         "desc": "Describe the cost (usually materials) for the activity. This is only for the player and has no mechanical function.",
@@ -252,7 +263,7 @@
     {
         "parent": "activities",
         "key": "trigger",
-        "priority": "9",
+        "priority": "10",
         "group": "",
         "name": "Trigger",
         "desc": "Some items can be activated in a certain situation, like when you are about to be attacked. You can describe this trigger here. This is not reflected in the program, but helps the user understand the item.",
@@ -261,7 +272,7 @@
     {
         "parent": "activities",
         "key": "requirements",
-        "priority": "10",
+        "priority": "11",
         "group": "",
         "name": "Requirements",
         "desc": "Some items can only be activated when certain requirements are met. You can describe the requirements here. This is not reflected in the program, but helps the user understand the item.",
@@ -270,7 +281,7 @@
     {
         "parent": "activities",
         "key": "gainItems",
-        "priority": "11",
+        "priority": "12",
         "group": "",
         "name": "Grant additional items",
         "desc": "Add additional items when this item is activated. If the activation is permanent, the item is lost at deactivation."
@@ -278,7 +289,7 @@
     {
         "parent": "activities",
         "key": "castSpells",
-        "priority": "12",
+        "priority": "13",
         "group": "",
         "name": "Cast spells",
         "desc": "Cast spells when this item is activated."
@@ -315,7 +326,7 @@
     {
         "parent": "activities",
         "key": "gainConditions",
-        "priority": "12",
+        "priority": "14",
         "group": "",
         "name": "Cause condition",
         "desc": "Add known conditions that will be caused when this item is activated."
@@ -323,7 +334,7 @@
     {
         "parent": "activities",
         "key": "critsuccess",
-        "priority": "13",
+        "priority": "15",
         "group": "",
         "name": "Critical success effect",
         "desc": "If you or the target must roll to decide the outcome of the item's activation, describe what happens at a critical success.",
@@ -332,7 +343,7 @@
     {
         "parent": "activities",
         "key": "success",
-        "priority": "14",
+        "priority": "16",
         "group": "",
         "name": "Success effect",
         "desc": "If you or the target must roll to decide the outcome of the item's activation, describe what happens at a success.",
@@ -341,7 +352,7 @@
     {
         "parent": "activities",
         "key": "failure",
-        "priority": "15",
+        "priority": "17",
         "group": "",
         "name": "Failure effect",
         "desc": "If you or the target must roll to decide the outcome of the item's activation, describe what happens at a failure.",
@@ -350,7 +361,7 @@
     {
         "parent": "activities",
         "key": "critfailure",
-        "priority": "16",
+        "priority": "18",
         "group": "",
         "name": "Critical failure effect",
         "desc": "If you or the target must roll to decide the outcome of the item's activation, describe what happens at a critical failure.",
@@ -359,7 +370,7 @@
     {
         "parent": "activities",
         "key": "effects",
-        "priority": "17",
+        "priority": "19",
         "group": "",
         "name": "Permanent numeral effects",
         "desc": "These bonuses or penalties will be applied while the item is activated."
@@ -367,7 +378,7 @@
     {
         "parent": "activities",
         "key": "onceEffects",
-        "priority": "18",
+        "priority": "20",
         "group": "",
         "name": "One-time effects",
         "desc": "These bonuses or penalties will be applied immediately when the item is activated, like granting temporary HP. There are only a few properties that can be affected this way. Dice rolls should be handled by the player."
@@ -394,7 +405,7 @@
     {
         "parent": "activities",
         "key": "inputRequired",
-        "priority": "17",
+        "priority": "21",
         "group": "",
         "name": "Player input required",
         "desc": "Certain effects are not automated, such as repeated effects under complicated circumstances, or anything that requires a dice roll. If this item requires the player to perform a certain action after activating it, you can describe the expectations here.",
@@ -403,7 +414,7 @@
     {
         "parent": "activities",
         "key": "resonant",
-        "priority": "18",
+        "priority": "22",
         "group": "",
         "name": "Resonant activity",
         "desc": "Check this box if the activity is only supposed to be used when the item is slotted into a Wayfinder. This should only be used for Aeon Stones.",
@@ -432,7 +443,6 @@
         "group": "5-Influence",
         "name": "Influenced attributes",
         "desc": "You can show a hint to this item on specific parts of the character sheet while the item is equipped or invested, e.g. on individual skills.",
-        "locked": true,
         "examples": "showon"
     },
     {
@@ -457,7 +467,6 @@
         "group": "",
         "name": "Affected attribute",
         "desc": "The effect will be applied to this attribute. This can be a skill, an ability or certain aspects of the character (like AC, Max Bulk etc.). An effect that lowers Bulk (like with a backpack) will be considered a bonus.",
-        "locked": true,
         "examples": "effects affected"
     },
     {
@@ -748,8 +757,7 @@
         "priority": "0",
         "group": "8-Weapons",
         "name": "Base weapon type",
-        "desc": "If this weapon is based on another weapon, the base weapon should be named here. This allows applying a specific weapon proficiency and critical specialization effect to the item even if it is not named after the armor. Example: If you are creating a magical Longsword named Sunblade, and you have master proficiency in Longswords, but trained proficiency in martial weapons, setting this to 'Longsword' will allow you to apply that master proficiency.",
-        
+        "desc": "If this weapon is based on another weapon, the base weapon should be named here. This allows applying a specific weapon proficiency and critical specialization effect to the item even if it is not named after the weapon. Example: If you are creating a magical Longsword named Sunblade, and you have master proficiency in Longswords, but trained proficiency in martial weapons, setting this to 'Longsword' will allow you to apply that master proficiency.",
         "examples": "weaponBase"
     },
     {

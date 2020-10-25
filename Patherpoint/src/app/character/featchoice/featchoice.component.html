@@ -11,6 +11,25 @@
         </button>
         <div class="list-item sublist" [ngClass]="{'fancy-list':(get_Available(choice) == choice.feats.length )}"
             *ngIf="get_showChoice()==listID">
+            <!-- Filter -->
+            <div class="list-item">
+                <strong>Filter</strong>
+                <div class="row">
+                    <span>
+                        <input id="lowerLevelFilter" type="checkbox"
+                            [(ngModel)]="lowerLevelFeats">
+                        <label for="lowerLevelFilter">Show lower and higher level feats</label>
+                    </span>
+                </div>
+                <div class="row">
+                    <span>
+                        <input id="archetypeFilter" type="checkbox"
+                            [(ngModel)]="archetypeFeats">
+                        <label for="archetypeFilter">Show archetype feats</label>
+                    </span>
+                </div>
+            </div>
+            <!-- End Filter -->
             <div title="{{(this.get_showFeat()==choice.id+featSet.feat.name+'desc') ? '' : featSet.feat.shortdesc}}" class="list-item"
                 *ngFor="let featSet of get_AvailableFeats(choice); trackBy:trackByIndex;"
                 [ngClass]="{'unavailable':(!featSet.available)}">

@@ -316,13 +316,11 @@ export class ItemsService {
         if (newItem.gainActivities) {
             (newItem as Equipment).gainActivities.forEach((gain: ActivityGain) => {
                 gain.source = newItem.id;
-                gain.active = false;
             });
         }
         if (newItem.activities) {
             (newItem as Equipment).activities.forEach((activity: ItemActivity) => {
                 activity.source = newItem.id;
-                activity.active = false;
             });
         }
         if (newItem.storedSpells) {

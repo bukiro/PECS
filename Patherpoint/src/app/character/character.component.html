@@ -115,7 +115,7 @@
             <strong>Feat choices</strong>
             <div class="list-item">
                 <span>
-                    <label for="lowerLevelFeats">Show lower level feats</label>
+                    <label for="lowerLevelFeats">Show lower and higher level feats</label>
                 </span>
                 <span>
                     <input id="lowerLevelFeats" type="checkbox" [(ngModel)]="lowerLevelFeats">
@@ -344,6 +344,25 @@
                 </button>
                 <div class="list-item sublist" [ngClass]="{'fancy-list':((get_Character().class.background.name))}"
                     *ngIf="get_showList()==listID">
+                    <!-- Filter -->
+                    <div class="list-item">
+                        <strong>Filter</strong>
+                        <div class="row">
+                            <span>
+                                <input id="backgroundfilterAdventure" type="checkbox"
+                                    [(ngModel)]="adventureBackgrounds">
+                                <label for="backgroundfilterAdventure">Show adventure backgrounds</label>
+                            </span>
+                        </div>
+                        <div class="row">
+                            <span>
+                                <input id="backgroundfilterRegional" type="checkbox"
+                                    [(ngModel)]="regionalBackgrounds">
+                                <label for="backgroundfilterRegional">Show regional backgrounds</label>
+                            </span>
+                        </div>
+                    </div>
+                    <!-- End Filter -->
                     <ng-container
                         *ngFor="let background of get_AvailableBackgrounds()|sortBy:'asc':'name'; trackBy:trackByIndex;">
                         <div class="row list-item"
@@ -360,9 +379,9 @@
                                         title="{{get_Traits('Rare')[0]?.description}}">Rare</cite>
                                     <cite class="trait" *ngIf="background.traits.includes('Uncommon')"
                                         title="{{get_Traits('Uncommon')[0]?.description}}">Uncommon</cite>
-                                    <cite class="trait" *ngIf="background.traits.includes('Adventure')"
+                                    <cite class="trait" *ngIf="background.adventurePath"
                                         title="{{get_Traits('Adventure')[0]?.description}}">Adventure</cite>
-                                    <cite class="trait" *ngIf="background.traits.includes('Regional')"
+                                    <cite class="trait" *ngIf="background.region"
                                         title="{{get_Traits('Regional')[0]?.description}}">Regional</cite>
                                 </label>
                             </span>
@@ -597,8 +616,8 @@
                 </ng-container>
                 <!--Skill Increases-->
                 <ng-container *ngFor="let choice of get_SkillChoices(level); trackBy:trackByIndex;">
-                    <app-skillchoice (showChoiceMessage)="receive_ChoiceMessage($event)"
-                        [choice]="choice" [showChoice]="get_showList()" [level]="level" [excludeTemporary]="true">
+                    <app-skillchoice (showChoiceMessage)="receive_ChoiceMessage($event)" [choice]="choice"
+                        [showChoice]="get_showList()" [level]="level" [excludeTemporary]="true">
                     </app-skillchoice>
                 </ng-container>
                 <!--Feat choices-->
@@ -861,6 +880,25 @@
                         </button>
                         <div class="list-item sublist" [ngClass]="{'fancy-list':((feat.data.background))}"
                             *ngIf="get_showList()==listID">
+                            <!-- Filter -->
+                            <div class="list-item">
+                                <strong>Filter</strong>
+                                <div class="row">
+                                    <span>
+                                        <input id="differentWorldsBackgroundfilterAdventure" type="checkbox"
+                                            [(ngModel)]="adventureBackgrounds">
+                                        <label for="differentWorldsBackgroundfilterAdventure">Show adventure backgrounds</label>
+                                    </span>
+                                </div>
+                                <div class="row">
+                                    <span>
+                                        <input id="differentWorldsBackgroundfilterRegional" type="checkbox"
+                                            [(ngModel)]="regionalBackgrounds">
+                                        <label for="differentWorldsBackgroundfilterRegional">Show regional backgrounds</label>
+                                    </span>
+                                </div>
+                            </div>
+                            <!-- End Filter -->
                             <div class="list-item" *ngFor="let background of get_Backgrounds(); trackBy:trackByIndex;">
                                 <div class="row"
                                     *ngFor="let itemID of ['differentWorlds_Background'+background.name]; trackBy:trackByIndex;">
@@ -873,6 +911,14 @@
                                             (click)="toggle_Item(itemID)">v</button>
                                         <label for="{{background.name}}">
                                             <strong>{{background.name}}</strong>
+                                            <cite class="trait" *ngIf="background.traits.includes('Rare')"
+                                                title="{{get_Traits('Rare')[0]?.description}}">Rare</cite>
+                                            <cite class="trait" *ngIf="background.traits.includes('Uncommon')"
+                                                title="{{get_Traits('Uncommon')[0]?.description}}">Uncommon</cite>
+                                            <cite class="trait" *ngIf="background.adventurePath"
+                                                title="{{get_Traits('Adventure')[0]?.description}}">Adventure</cite>
+                                            <cite class="trait" *ngIf="background.region"
+                                                title="{{get_Traits('Regional')[0]?.description}}">Regional</cite>
                                         </label>
                                     </span>
                                     <button (click)="toggle_Item(itemID)">
@@ -912,13 +958,17 @@
                 <!--Elf Atavism-->
                 <ng-container *ngIf="get_ElfAtavismFeat(level.number)">
                     <ng-container *ngFor="let heritageIndex of get_ElfAtavismHeritageIndex()">
-                        <div class="list-item" [ngClass]="{'fullsize-only':(get_Character().class.additionalHeritages[heritageIndex].name)}"
+                        <div class="list-item"
+                            [ngClass]="{'fullsize-only':(get_Character().class.additionalHeritages[heritageIndex].name)}"
                             *ngFor="let listID of [level.number+'elfAtavism']; trackBy:trackByIndex;">
-                            <button class="row sublist-toggle" [ngClass]="{'fancy-button':((get_Character().class.additionalHeritages[heritageIndex].name))}"
+                            <button class="row sublist-toggle"
+                                [ngClass]="{'fancy-button':((get_Character().class.additionalHeritages[heritageIndex].name))}"
                                 (click)="toggle_List(listID)">
-                                Heritage (Elf Atavism){{(get_Character().class.additionalHeritages[heritageIndex].name) ? ": "+ get_Character().class.additionalHeritages[heritageIndex].name : ""}}
+                                Heritage (Elf
+                                Atavism){{(get_Character().class.additionalHeritages[heritageIndex].name) ? ": "+ get_Character().class.additionalHeritages[heritageIndex].name : ""}}
                             </button>
-                            <div class="list-item sublist" [ngClass]="{'fancy-list':((get_Character().class.additionalHeritages[heritageIndex].name))}"
+                            <div class="list-item sublist"
+                                [ngClass]="{'fancy-list':((get_Character().class.additionalHeritages[heritageIndex].name))}"
                                 *ngIf="get_showList()==listID">
                                 <div class="list-item"
                                     *ngFor="let heritage of get_AvailableHeritages('', 'Elf', heritageIndex)|sortBy:'asc':'name'; trackBy:trackByIndex;">
@@ -926,7 +976,8 @@
                                         <input *ngIf="!heritage.subTypes.length" id="{{heritage.name}}" type="checkbox"
                                             (change)="on_ElfAtavismHeritageChange(heritage, $event.target.checked, heritageIndex)"
                                             [checked]="heritage.name === get_Character().class.additionalHeritages[heritageIndex].name">
-                                        <button class="lower left" *ngIf="heritage.subTypes.length" id="{{heritage.name}}"
+                                        <button class="lower left" *ngIf="heritage.subTypes.length"
+                                            id="{{heritage.name}}"
                                             (click)="toggle_Item(heritage.name+'desc')">v</button>
                                         <label for="{{heritage.name}}">
                                             <strong>{{heritage.name}}&nbsp;</strong>
@@ -941,7 +992,8 @@
                                     </button>
                                     <div class="row lower" *ngIf="this.get_showItem()==heritage.name+'desc'">
                                         <!--Subheritages-->
-                                        <div class="list-item" *ngFor="let subheritage of heritage.subTypes; trackBy:trackByIndex;">
+                                        <div class="list-item"
+                                            *ngFor="let subheritage of heritage.subTypes; trackBy:trackByIndex;">
                                             <span>
                                                 <input id="{{subheritage.name}}" type="checkbox"
                                                     (change)="on_ElfAtavismHeritageChange(subheritage, $event.target.checked, heritageIndex)"
@@ -956,14 +1008,17 @@
                                             <strong>Source</strong><i>&nbsp;{{heritage.sourceBook}}</i>
                                         </div>
                                         <div class="row left-aligned">
-                                            <ng-container *ngFor="let desc of heritage.desc.split('\n\n'); trackBy:trackByIndex;">
+                                            <ng-container
+                                                *ngFor="let desc of heritage.desc.split('\n\n'); trackBy:trackByIndex;">
                                                 <p *ngIf="desc.split('\n').length == 1">{{desc}}</p>
                                                 <ul *ngIf="desc.split('\n').length > 1">
-                                                    <li *ngFor="let line of desc.split('\n'); trackBy:trackByIndex;">{{line}}</li>
+                                                    <li *ngFor="let line of desc.split('\n'); trackBy:trackByIndex;">
+                                                        {{line}}</li>
                                                 </ul>
                                             </ng-container>
                                         </div>
-                                        <ng-container *ngFor="let activityName of heritage.gainActivities; trackBy:trackByIndex;">
+                                        <ng-container
+                                            *ngFor="let activityName of heritage.gainActivities; trackBy:trackByIndex;">
                                             <div class="row left-aligned"
                                                 *ngFor="let activity of get_Activities(activityName); trackBy:trackByIndex;">
                                                 <h4 class="left-aligned">{{activity.name}}

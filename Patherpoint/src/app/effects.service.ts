@@ -14,6 +14,9 @@ import { Feat } from './Feat';
 import { ItemProperty } from './ItemProperty';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
+import { ActivitiesComponent } from './activities/activities.component';
+import { ItemActivity } from './ItemActivity';
+import { ActivitiesService } from './activities.service';
 
 @Injectable({
     providedIn: 'root'
@@ -31,7 +34,8 @@ export class EffectsService {
     constructor(
         private http: HttpClient,
         private traitsService: TraitsService,
-        private abilitiesService: AbilitiesService
+        private abilitiesService: AbilitiesService,
+        private activitiesService: ActivitiesService
     ) { }
 
     get_Effects(creature: string) {
@@ -321,6 +325,17 @@ export class EffectsService {
                 simpleEffects = simpleEffects.concat(this.get_SimpleEffects(creature, characterService, effectsObject));
             }
         });
+        //Active activities
+        characterService.get_OwnedActivities(creature, creature.level, true).filter(activity => activity.active).forEach(activity => {
+            if (activity.constructor == ItemActivity && (activity as ItemActivity).effects?.length) {
+                simpleEffects = simpleEffects.concat(this.get_SimpleEffects(character, characterService, activity));
+            } else {
+                let originalActivity = this.activitiesService.get_Activities(activity.name)[0];
+                if (originalActivity?.effects?.length) {
+                    simpleEffects = simpleEffects.concat(this.get_SimpleEffects(character, characterService, originalActivity));
+                }
+            }
+        })
 
         let itemEffects: Effect[] = [];
 

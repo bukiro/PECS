@@ -762,6 +762,16 @@ export class CharacterService {
                 }
             });
         }
+        if (returnedInventoryItem.gainActivities) {
+            (returnedInventoryItem as Equipment).gainActivities.forEach((gain: ActivityGain) => {
+                gain.active = false;
+            });
+        }
+        if (returnedInventoryItem.activities) {
+            (returnedInventoryItem as Equipment).activities.forEach((activity: ItemActivity) => {
+                activity.active = false;
+            });
+        }
         if (returnedInventoryItem.constructor == AlchemicalBomb || returnedInventoryItem.constructor == OtherConsumableBomb || returnedInventoryItem.constructor == Ammunition || returnedInventoryItem.constructor == Snare) {
             this.set_ToChange(creature.type, "attacks");
         }

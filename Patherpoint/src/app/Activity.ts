@@ -10,6 +10,7 @@ export class Activity {
     public cooldown: number = 0;
     public cost: string = "";
     public sustained: number = 0;
+    public charges: number = 0;
     public critfailure: string = "";
     public critsuccess: string = "";
     public desc: string = "";

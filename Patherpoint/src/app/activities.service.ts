@@ -84,6 +84,12 @@ export class ActivitiesService {
                 characterService.set_ToChange(creature.type, "activities");
                 if (item) {characterService.set_ToChange(creature.type, "inventory");}
             }
+            //Use charges
+            if (activity.charges) {
+                gain.chargesUsed += 1;
+                characterService.set_ToChange(creature.type, "activities");
+                if (item) {characterService.set_ToChange(creature.type, "inventory");}
+            }
         }
 
         //Process various results of activating the activity
@@ -191,6 +197,7 @@ export class ActivitiesService {
             }
             if (activity.cooldown == 144000) {
                 gain.activeCooldown = 0;
+                gain.chargesUsed = 0;
             }
         });
     }
@@ -219,6 +226,9 @@ export class ActivitiesService {
                 }
             }
             gain.activeCooldown = Math.max(gain.activeCooldown - individualTurns, 0)
+            if (gain.chargesUsed && gain.activeCooldown == 0) {
+                gain.chargesUsed = 0;
+            }
             if (gain.constructor == ItemActivity) {
                 characterService.set_ToChange(creature.type, "inventory");
             }
