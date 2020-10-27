@@ -17766,6 +17766,7 @@
             {
                 "name": "Rogue Poison",
                 "amountPerLevel": 1,
+                "amount": 0,
                 "on": "rest",
                 "type": "alchemicalpoisons"
             }

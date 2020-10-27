@@ -35,6 +35,16 @@ The very latest in Assistive Technologies for Dungeon Master (ATDM)
 - [x] -- Implement all Alchemical Elixirs
 - [x] -- Implement all Alchemical Tools
 - [x] - Implement all Adventuring Gear
+- [ ] - Allow custom content
+- [ ] -- Custom classes
+- [x] -- Custom ancestries
+- [x] -- Custom heritages
+- [x] -- Custom backgrounds
+- [x] -- Custom feats
+- [x] -- Custom activities
+- [ ] -- Custom conditions
+- [x] -- Custom items
+- [ ] -- ???
 - [x] - Implement one full Class with Feats and Features
 - [x] - Feat requirements
 - [x] - Equipment (weapons, armor, shields) -> Abilities, Armor, Attacks, Skills
@@ -94,7 +104,6 @@ The very latest in Assistive Technologies for Dungeon Master (ATDM)
 Active to-do:
 
 Implement:
-Custom json files for homebrew campaign-specific Ancestries, Items etc.
 
 Next steps:
 - Implement Ancestry Feats

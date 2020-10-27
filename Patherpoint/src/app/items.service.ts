@@ -477,7 +477,7 @@ export class ItemsService {
         //Cast Spells
         if (item["castSpells"]) {
             item["castSpells"].forEach((cast: SpellCast) => {
-                cast.spellGain.duration = cast.zduration;
+                cast.spellGain.duration = cast.duration;
                 let librarySpell = spellsService.get_Spells(cast.name)[0];
                 spellsService.process_Spell(creature, creature.type, characterService, itemsService, timeService, null, cast.spellGain, librarySpell, cast.level, true, true, false);
             })
@@ -533,8 +533,8 @@ export class ItemsService {
                     feat.gainItems.filter(gain => gain.on == "rest").forEach(gainItem => {
                         let newItem: Item = this.get_CleanItemsOfType(gainItem.type, gainItem.name)[0];
                         let grantedItem: Item;
-                        if (newItem && newItem.can_Stack() && (gainItem.amount ? gainItem.amount : 0) + (gainItem.amountPerLevel ? gainItem.amountPerLevel : 0 * creature.level)) {
-                            grantedItem = characterService.grant_InventoryItem(creature, creature.inventories[0], newItem, true, false, false, (gainItem.amount ? gainItem.amount : 0) + (gainItem.amountPerLevel ? gainItem.amountPerLevel : 0 * creature.level), undefined, -2);
+                        if (newItem && newItem.can_Stack() && (gainItem.amount + (gainItem.amountPerLevel * creature.level))) {
+                            grantedItem = characterService.grant_InventoryItem(creature, creature.inventories[0], newItem, true, false, false, (gainItem.amount + (gainItem.amountPerLevel * creature.level)), undefined, -2);
                         } else if (newItem) {
                             grantedItem = characterService.grant_InventoryItem(creature, creature.inventories[0], newItem, true, false, true, 1, undefined, -2);
                         }
