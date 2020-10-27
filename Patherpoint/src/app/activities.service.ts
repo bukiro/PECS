@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, TimeInterval } from 'rxjs';
+import { Observable, of } from 'rxjs';
+import { map, catchError } from 'rxjs/operators';
 import { Activity } from './Activity';
 import { ActivityGain } from './ActivityGain';
 import { CharacterService } from './character.service';
@@ -8,7 +9,6 @@ import { ItemsService } from './items.service';
 import { Item } from './Item';
 import { TimeService } from './time.service';
 import { Equipment } from './Equipment';
-import { Weapon } from './Weapon';
 import { ItemActivity } from './ItemActivity';
 import { ConditionGain } from './ConditionGain';
 import { ItemGain } from './ItemGain';
@@ -17,6 +17,7 @@ import { AnimalCompanion } from './AnimalCompanion';
 import { Familiar } from './Familiar';
 import { SpellsService } from './spells.service';
 import { SpellCast } from './SpellCast';
+import { R3TargetBinder } from '@angular/compiler';
 
 @Injectable({
     providedIn: 'root'
@@ -24,8 +25,9 @@ import { SpellCast } from './SpellCast';
 export class ActivitiesService {
 
     private activities: Activity[];
-    private loader;
-    private loading: boolean = false;
+    private custom_activities: Activity[] = [];
+    private loader: {content: string[], loading: boolean} = {content: [], loading: false};
+    private loader_custom: {content: string[], loading: boolean} = {content: [], loading: false};
 
     constructor(
         private http: HttpClient
@@ -33,18 +35,10 @@ export class ActivitiesService {
 
     get_Activities(name: string = "") {
         if (!this.still_loading()) {
-            return this.activities.filter(action => action.name == name || name == "");
+            return this.activities.concat(this.custom_activities).filter(action => action.name == name || name == "");
         } else {
             return [new Activity()];
         }
-    }
-
-    still_loading() {
-        return (this.loading);
-    }
-
-    load_Activities(): Observable<string[]>{
-        return this.http.get<string[]>('/assets/activities.json');
     }
 
     activate_Activity(creature: Character|AnimalCompanion|Familiar, spellTarget: string, characterService: CharacterService, timeService: TimeService, itemsService: ItemsService, spellsService: SpellsService, gain: ActivityGain|ItemActivity, activity: Activity|ItemActivity, activated: boolean, changeAfter: boolean = true) {
@@ -237,26 +231,43 @@ export class ActivitiesService {
 
     initialize() {
         if (!this.activities) {
-        this.loading = true;
-        this.load_Activities()
+        this.loader.loading = true;
+        this.loader_custom.loading = true;
+        this.load_File('/assets/activities.json')
             .subscribe((results:string[]) => {
-                this.loader = results;
-                this.finish_loading()
+                this.loader.content = results;
+                this.activities = this.finish_Loading(this.loader)
+            });
+        this.load_File('/assets/custom/activities.json')
+            .subscribe((results:string[]) => {
+                this.loader_custom.content = results;
+                this.custom_activities = this.finish_Loading(this.loader_custom)
             });
         }
     }
 
-    finish_loading() {
-        if (this.loader) {
-            this.activities = this.loader.map(activity => Object.assign(new Activity(), activity));
+    still_loading() {
+        return (this.loader.loading || this.loader_custom.loading);
+    }
 
-            this.activities.forEach(activity => {
+    load_File(filepath): Observable<string[]>{
+        return this.http.get<string[]>(filepath)
+        .pipe(map(result => result), catchError(() => of([])));
+    }
+
+    finish_Loading(loader: {content: string[], loading: boolean}) {
+        let target: Activity[] = []
+        if (loader.content.length) {
+            target = loader.content.map(activity => Object.assign(new Activity(), activity));
+
+            target.forEach(activity => {
                 activity.castSpells = activity.castSpells.map(cast => Object.assign(new SpellCast(), cast));
             });
 
-            this.loader = [];
+            loader.content = [];
         }
-        if (this.loading) {this.loading = false;}
+        if (loader.loading) {loader.loading = false;}
+        return target;
     }
 
 }

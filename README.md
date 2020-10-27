@@ -94,6 +94,7 @@ The very latest in Assistive Technologies for Dungeon Master (ATDM)
 Active to-do:
 
 Implement:
+Custom json files for homebrew campaign-specific Ancestries, Items etc.
 
 Next steps:
 - Implement Ancestry Feats
