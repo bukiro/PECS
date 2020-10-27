@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Feat } from './Feat';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
+import { map, catchError } from 'rxjs/operators';
 import { Level } from './Level';
 import { CharacterService } from './character.service';
 import { FeatChoice } from './FeatChoice';
@@ -19,27 +20,27 @@ import { SpellCasting } from './SpellCasting';
 import { SpecializationGain } from './SpecializationGain';
 import { AbilityChoice } from './AbilityChoice';
 import { AnimalCompanionClass } from './AnimalCompanionClass';
-import { ItemCollection } from './ItemCollection';
 import { Heritage } from './Heritage';
+import { Loader } from './Loader';
 
 @Injectable({
     providedIn: 'root'
 })
 export class FeatsService {
     private feats: Feat[]; 
-    private features: Feat[]; 
-    private loader_Feats; 
-    private loader_Features; 
-    private loading_Feats: boolean = false;
-    private loading_Features: boolean = false;
-
+    private features: Feat[];
+    private custom_feats: Feat[];
+    private loader_Feats: Loader = new Loader();
+    private loader_Features: Loader = new Loader();
+    private loader_CustomFeats: Loader = new Loader();
+    
     constructor(
         private http: HttpClient,
     ) { }
 
     get_Feats(loreFeats: Feat[], name: string = "", type: string = "") {
         if (!this.still_loading()) {
-            let feats: Feat[] = this.feats.concat(loreFeats);
+            let feats: Feat[] = this.feats.concat(this.custom_feats).concat(loreFeats);
             //I wrote this function to use indexOf instead of == and don't remember why, but problems arose with feats that contained other feats' names.
             //I checked that all references to the function were specific, and changed it back. If any bugs should come from this, now it's documented.
             //It was probably for featreqs, which have now been changed to be arrays and allow to check for all possible options instead of a matching substring
@@ -57,7 +58,7 @@ export class FeatsService {
 
     get_All(loreFeats: Feat[], name: string = "", type: string = "", includeSubTypes: boolean = false) {
         if (!this.still_loading()) {
-            let feats: Feat[] = this.feats.concat(loreFeats).concat(this.features);
+            let feats: Feat[] = this.feats.concat(this.custom_feats).concat(loreFeats).concat(this.features);
             return feats.filter(feat =>
                     name == "" ||
                     //For names like "Aggressive Block or Brutish Shove", split the string into the two feat names and return both.
@@ -288,6 +289,9 @@ export class FeatsService {
                             }
                             insertSpellChoice.spells.forEach(gain => {
                                 gain.sourceId = insertSpellChoice.id;
+                                gain.source = insertSpellChoice.source;
+                                gain.frequency = insertSpellChoice.frequency;
+                                gain.cooldown = insertSpellChoice.cooldown;
                             })
                             insertSpellChoice.source == "Feat: "+feat.name;
                             character.add_SpellChoice(characterService, level.number, insertSpellChoice);
@@ -709,40 +713,41 @@ export class FeatsService {
     }
 
     still_loading() {
-        return (this.loading_Feats || this.loading_Features);
+        return (this.loader_Feats.loading || this.loader_Features.loading || this.loader_CustomFeats.loading);
     }
     
-    load_Feats(): Observable<string[]>{
-        return this.http.get<string[]>('/assets/feats.json');
-    }
-
-    load_Features(): Observable<string[]>{
-        return this.http.get<string[]>('/assets/features.json');
-    }
-
     initialize() {
         if (!this.feats) {
-        this.loading_Feats = true;
-        this.load_Feats()
-            .subscribe((results:string[]) => {
-                this.loader_Feats = results;
-                this.finish_loading_Feats()
-            });
+            this.load('/assets/feats.json', this.loader_Feats, "feats");
         }
         if (!this.features) {
-            this.loading_Features = true;
-        this.load_Features()
-            .subscribe((results:string[]) => {
-                this.loader_Features = results;
-                this.finish_loading_Features()
-            });
+            this.load('/assets/features.json', this.loader_Features, "features");
+        }
+        if (!this.custom_feats) {
+            this.load('/assets/custom/feats.json', this.loader_CustomFeats, "custom_feats");
         }
     }
 
-    finish_loading_Feats() {
-        if (this.loader_Feats) {
-            this.feats = this.loader_Feats.map(feat => Object.assign(new Feat(), feat));
-            this.feats.forEach(feat => {
+    load(filepath: string, loader: Loader, target: string) {
+        loader.loading = true;
+        this.load_File(filepath)
+            .subscribe((results:string[]) => {
+                loader.content = results;
+                this[target] = this.finish_Loading(loader)
+                let c = 1;
+            });
+    }
+
+    load_File(filepath:string): Observable<string[]>{
+        return this.http.get<string[]>(filepath)
+        .pipe(map(result => result), catchError(() => of([])));
+    }
+
+    finish_Loading(loader: Loader) {
+        let target = [];
+        if (loader.content.length) {
+            target = loader.content.map(feat => Object.assign(new Feat(), feat));
+            target.forEach(feat => {
                 feat.gainFeatChoice = feat.gainFeatChoice.map(choice => Object.assign(new FeatChoice(), choice));
                 feat.gainConditions = feat.gainConditions.map(choice => Object.assign(new ConditionGain(), choice));
                 feat.gainSpecialization = feat.gainSpecialization.map(spec => Object.assign(new SpecializationGain, spec));
@@ -752,26 +757,11 @@ export class FeatsService {
                 feat.gainSpellChoice = feat.gainSpellChoice.map(choice => Object.assign(new SpellChoice, choice));
                 feat.gainSpellCasting = feat.gainSpellCasting.map(choice => Object.assign(new SpellCasting(choice.castingType), choice));
             })
-            this.loader_Feats = [];
+
+            loader.content = [];
         }
-        if (this.loading_Feats) {this.loading_Feats = false;}
+        if (loader.loading) {loader.loading = false;}
+        return target;
     }
 
-    finish_loading_Features() {
-        if (this.loader_Features) {
-            this.features = this.loader_Features.map(feature => Object.assign(new Feat(), feature));
-            this.features.forEach(feature => {
-                feature.gainFeatChoice = feature.gainFeatChoice.map(choice => Object.assign(new FeatChoice(), choice));
-                feature.gainConditions = feature.gainConditions.map(choice => Object.assign(new ConditionGain(), choice));
-                feature.gainSpecialization = feature.gainSpecialization.map(spec => Object.assign(new SpecializationGain, spec));
-                //feature.gainFormulaChoice = feature.gainFormulaChoice.map(choice => Object.assign(new FormulaChoice(), choice));
-                feature.gainAbilityChoice = feature.gainAbilityChoice.map(choice => Object.assign(new AbilityChoice, choice));
-                feature.gainSkillChoice = feature.gainSkillChoice.map(choice => Object.assign(new SkillChoice, choice));
-                feature.gainSpellChoice = feature.gainSpellChoice.map(choice => Object.assign(new SpellChoice, choice));
-                feature.gainSpellCasting = feature.gainSpellCasting.map(choice => Object.assign(new SpellCasting(choice.castingType), choice));
-            })
-            this.loader_Features = [];
-        }
-        if (this.loading_Features) {this.loading_Features = false;}
-    }
 }

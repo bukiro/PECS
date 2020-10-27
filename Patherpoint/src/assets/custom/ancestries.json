@@ -2,6 +2,7 @@
     {
         "_className": "Ancestry",
         "name": "Kitsune",
+        "sourceBook": "Custom",
         "desc": [
             {
                 "name": "Description",
@@ -38,6 +39,14 @@
             {
                 "name": "Low-Light Vision",
                 "value": "You can see in dim light as though it were bright light, so you ignore the concealed condition due to dim light."
+            },
+            {
+                "name": "Jaws",
+                "value": "Your sharp fangs make your bite a considerable weapon. You have a jaws unarmed attack that deals 1d6 piercing damage. Your jaws are in the brawling group and have the finesse trait."
+            },
+            {
+                "name": "Human Form",
+                "value": "Choose a human form of your own gender which is static and cannot be changed. You can change to your human form at will. This works like a 2nd level humanoid form spell, except that there is only one form you can take, and the spell is permanent until dismissed. You cannot use your jaws attack in human form."
             }
         ],
         "ancestries": [
@@ -106,10 +115,34 @@
         "senses": [
             "Low-Light Vision"
         ],
+        "gainItems": [
+            {
+                "name": "Kitsune Jaws",
+                "type": "weapons"
+            }
+        ],
         "heritages": [
-            "Red Fox Kitsune",
+            "Desert Fox Kitsune",
             "Half-Elf",
-            "Half-Orc"
+            "Half-Orc",
+            "Red Fox Kitsune",
+            "Snow Fox Kitsune"
+        ],
+        "featChoices": [
+            {
+                "_className": "FeatChoice",
+                "feats": [
+                    {
+                        "name": "Kitsune Human Form",
+                        "source": "Ancestry",
+                        "locked": true,
+                        "sourceId": "1-Feat-Ancestry-0"
+                    }
+                ],
+                "id": "1-Feat-Ancestry-0",
+                "level": 0,
+                "source": "Ancestry"
+            }
         ]
     }
 ]

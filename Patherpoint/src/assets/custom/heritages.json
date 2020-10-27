@@ -1,0 +1,74 @@
+[
+    {
+        "_className": "Heritage",
+        "name": "Red Fox Kitsune",
+        "sourceBook": "Custom",
+        "desc": "Your people have long lived near settlements and learned to blend in and remain unnoticed when visiting. You gain a +2 circumstance bonus to Impersonate, Hide and Sneak in cities and other areas populated by humanoids.",
+        "featChoices": [
+            {
+                "_className": "FeatChoice",
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Red Fox Kitsune",
+                        "source": "Red Fox Kitsune",
+                        "sourceId": "1-Feat-Red Fox Kitsune-0"
+                    }
+                ],
+                "id": "1-Feat-Red Fox Kitsune-0",
+                "level": 0,
+                "source": "Red Fox Kitsune"
+            }
+        ]
+    },
+    {
+        "_className": "Heritage",
+        "name": "Desert Fox Kitsune",
+        "sourceBook": "Custom",
+        "desc": "Living in the desert's scorching heat, your people have grown bright fur and large ears. You gain a +2 circumstance bonus to locate undetected creatures that you could hear within 30 feet with a Seek action. Environmental heat effects are one step less extreme for you (incredible heat becomes extreme, extreme heat becomes severe, and so on).",
+        "featChoices": [
+            {
+                "_className": "FeatChoice",
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Desert Fox Hearing",
+                        "source": "Desert Fox Kitsune",
+                        "sourceId": "1-Feat-Desert Fox Kitsune-0"
+                    },
+                    {
+                        "locked": true,
+                        "name": "Desert Fox Kitsune",
+                        "source": "Desert Fox Kitsune",
+                        "sourceId": "1-Feat-Desert Fox Kitsune-0"
+                    }
+                ],
+                "id": "1-Feat-Desert Fox Kitsune-0",
+                "level": 0,
+                "source": "Desert Fox Kitsune"
+            }
+        ]
+    },
+    {
+        "_className": "Heritage",
+        "name": "Snow Fox Kitsune",
+        "sourceBook": "Custom",
+        "desc": "You are acclimated to living in arctic temperatures and have thick, white fur. You gain cold resistance equal to half your level (minimum 1). You treat environmental cold effects as if they were one step less extreme (incredible cold becomes extreme, extreme cold becomes severe, and so on).",
+        "featChoices": [
+            {
+                "_className": "FeatChoice",
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Snow Fox Kitsune",
+                        "source": "Snow Fox Kitsune",
+                        "sourceId": "1-Feat-Snow Fox Kitsune-0"
+                    }
+                ],
+                "id": "1-Feat-Snow Fox Kitsune-0",
+                "level": 0,
+                "source": "Snow Fox Kitsune"
+            }
+        ]
+    }
+]

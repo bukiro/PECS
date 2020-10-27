@@ -15,7 +15,7 @@
         <ng-container *ngFor="let casting of get_SpellCastings(); trackBy:trackByIndex;">
             <ng-container *ngFor="let globalspellslots of [get_MaxSpellSlots(0, casting)]">
                 <h3>
-                    {{((casting.className != "Innate" ? casting.className : "") + " " + casting.tradition + ((casting.castingType == "Focus") ? (" " + casting.source) : " Spells")).trim()}}
+                    {{(casting.className + " " + casting.tradition + ((casting.castingType == "Focus") ? (" " + casting.source) : " Spells")).trim()}}
                     <span class="lower" *ngIf="['Prepared', 'Spontaneous'].includes(casting.castingType)">
                         <span class="lower">
                             {{casting.castingType}}
@@ -107,7 +107,7 @@
                                                         <app-actionIcons [actionString]="spell.actions">
                                                         </app-actionIcons>{{spell.castType}}
                                                     </span>
-                                                    {{spellTaken.gain.frequency ? spellTaken.gain.frequency : ""}}
+                                                    &nbsp;{{spellTaken.gain.frequency ? spellTaken.gain.frequency : ""}}
                                                 </button>
                                                 <div class="list-item sublist lower"
                                                     [className]="{'inactive-list': casting.castingType=='Prepared'&&!spellTaken.gain.prepared && level > 0}"

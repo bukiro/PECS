@@ -24,7 +24,7 @@ import { AlchemicalBomb } from './AlchemicalBomb';
 import { AlchemicalTool } from './AlchemicalTool';
 import { AlchemicalPoison } from './AlchemicalPoison';
 import { Snare } from './Snare';
-import { OtherConsumableBomb } from './OtherConsumableBOmb';
+import { OtherConsumableBomb } from './OtherConsumableBomb';
 import { Wand } from './Wand';
 
 export class ItemCollection {

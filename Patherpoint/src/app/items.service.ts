@@ -3,7 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import { Weapon } from './Weapon';
 import { Armor } from './Armor';
 import { Shield } from './Shield';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
+import { map, catchError } from 'rxjs/operators';
 import { CharacterService } from './character.service';
 import { ItemCollection } from './ItemCollection';
 import { WornItem } from './WornItem';
@@ -42,6 +43,7 @@ import { WeaponMaterial } from './WeaponMaterial';
 import { AlchemicalPoison } from './AlchemicalPoison';
 import { OtherConsumableBomb } from './OtherConsumableBOmb';
 import { Wand } from './Wand';
+import { Loader } from './Loader';
 
 @Injectable({
     providedIn: 'root'
@@ -54,57 +56,56 @@ export class ItemsService {
     private itemProperties: ItemProperty[];
     private weaponMaterials: WeaponMaterial[];
     private specializations: Specialization[];
-    private loader_ItemProperties = [];
-    private loading_ItemProperties: Boolean = false;
-    private loader_WeaponMaterials = [];
-    private loading_WeaponMaterials: Boolean = false;
-    private loader_Specializations = [];
-    private loading_Specializations: Boolean = false;
-    private loader_Weapons = [];
-    private loading_Weapons: Boolean = false;
-    private loader_Armors = [];
-    private loading_Armors: Boolean = false;
-    private loader_Shields = [];
-    private loading_Shields: Boolean = false;
-    private loader_WornItems = [];
-    private loading_WornItems: Boolean = false;
-    private loader_HeldItems = [];
-    private loading_HeldItems: Boolean = false;
-    private loader_AlchemicalElixirs = [];
-    private loading_AlchemicalElixirs: Boolean = false;
-    private loader_Ammunition = [];
-    private loading_Ammunition: Boolean = false;
-    private loader_Potions = [];
-    private loading_Potions: Boolean = false;
-    private loader_OtherConsumables = [];
-    private loading_OtherConsumables: Boolean = false;
-    private loader_OtherConsumablesBombs  = [];
-    private loading_OtherConsumablesBombs : Boolean = false;
-    private loader_AdventuringGear = [];
-    private loading_AdventuringGear: Boolean = false;
-    private loader_ArmorRunes = [];
-    private loading_ArmorRunes: Boolean = false;
-    private loader_WeaponRunes = [];
-    private loading_WeaponRunes: Boolean = false;
-    private loader_Scrolls = [];
-    private loading_Scrolls: Boolean = false;
-    private loader_Oils = [];
-    private loading_Oils: Boolean = false;
-    private loader_Talismans = [];
-    private loading_Talismans: Boolean = false;
-    private loader_AlchemicalBombs = [];
-    private loading_AlchemicalBombs: Boolean = false;
-    private loader_AlchemicalTools = [];
-    private loading_AlchemicalTools: Boolean = false;
-    private loader_Snares = [];
-    private loading_Snares: Boolean = false;
-    private loader_AlchemicalPoisons = [];
-    private loading_AlchemicalPoisons: Boolean = false;
-    private loader_Wands = [];
-    private loading_Wands: Boolean = false;
+
+    private loader_ItemProperties: Loader = new Loader();
+    private loader_WeaponMaterials: Loader = new Loader();
+    private loader_Specializations: Loader = new Loader();
+    private loader_Weapons: Loader = new Loader();
+    private loader_Armors: Loader = new Loader();
+    private loader_Shields: Loader = new Loader();
+    private loader_WornItems: Loader = new Loader();
+    private loader_HeldItems: Loader = new Loader();
+    private loader_AlchemicalElixirs: Loader = new Loader();
+    private loader_Ammunition: Loader = new Loader();
+    private loader_Potions: Loader = new Loader();
+    private loader_OtherConsumables: Loader = new Loader();
+    private loader_OtherConsumablesBombs : Loader = new Loader();
+    private loader_AdventuringGear: Loader = new Loader();
+    private loader_ArmorRunes: Loader = new Loader();
+    private loader_WeaponRunes: Loader = new Loader();
+    private loader_Scrolls: Loader = new Loader();
+    private loader_Oils: Loader = new Loader();
+    private loader_Talismans: Loader = new Loader();
+    private loader_AlchemicalBombs: Loader = new Loader();
+    private loader_AlchemicalTools: Loader = new Loader();
+    private loader_Snares: Loader = new Loader();
+    private loader_AlchemicalPoisons: Loader = new Loader();
+    private loader_Wands: Loader = new Loader();
+
+    private loader_CustomWeapons: Loader = new Loader();
+    private loader_CustomArmors: Loader = new Loader();
+    private loader_CustomShields: Loader = new Loader();
+    private loader_CustomWornItems: Loader = new Loader();
+    private loader_CustomHeldItems: Loader = new Loader();
+    private loader_CustomAlchemicalElixirs: Loader = new Loader();
+    private loader_CustomAmmunition: Loader = new Loader();
+    private loader_CustomPotions: Loader = new Loader();
+    private loader_CustomOtherConsumables: Loader = new Loader();
+    private loader_CustomOtherConsumablesBombs : Loader = new Loader();
+    private loader_CustomAdventuringGear: Loader = new Loader();
+    private loader_CustomArmorRunes: Loader = new Loader();
+    private loader_CustomWeaponRunes: Loader = new Loader();
+    private loader_CustomScrolls: Loader = new Loader();
+    private loader_CustomOils: Loader = new Loader();
+    private loader_CustomTalismans: Loader = new Loader();
+    private loader_CustomAlchemicalBombs: Loader = new Loader();
+    private loader_CustomAlchemicalTools: Loader = new Loader();
+    private loader_CustomSnares: Loader = new Loader();
+    private loader_CustomAlchemicalPoisons: Loader = new Loader();
+    private loader_CustomWands: Loader = new Loader();
     /*
-    private loader_REPLACE1 = [];
-    private loading_REPLACE1: Boolean = false;
+    private loader_REPLACE1s: Loader = new Loader();
+    private loader_CustomREPLACE1s: Loader = new Loader();
     */
 
     itemsMenuState: string = 'out';
@@ -476,7 +477,7 @@ export class ItemsService {
         //Cast Spells
         if (item["castSpells"]) {
             item["castSpells"].forEach((cast: SpellCast) => {
-                cast.spellGain.duration = cast.duration;
+                cast.spellGain.duration = cast.zduration;
                 let librarySpell = spellsService.get_Spells(cast.name)[0];
                 spellsService.process_Spell(creature, creature.type, characterService, itemsService, timeService, null, cast.spellGain, librarySpell, cast.level, true, true, false);
             })
@@ -597,521 +598,138 @@ export class ItemsService {
     }
 
     still_loading() {
-        return (this.loading_ItemProperties || this.loading_Weapons || this.loading_Armors || this.loading_Shields || this.loading_WornItems || this.loading_AlchemicalElixirs || this.loading_OtherConsumables);
+        return (
+            this.loader_ItemProperties.loading ||
+            this.loader_WeaponMaterials.loading ||
+            this.loader_Specializations.loading ||
+            this.loader_Weapons.loading ||
+            this.loader_Armors.loading ||
+            this.loader_Shields.loading ||
+            this.loader_WornItems.loading ||
+            this.loader_HeldItems.loading ||
+            this.loader_AlchemicalElixirs.loading ||
+            this.loader_Ammunition.loading ||
+            this.loader_Potions.loading ||
+            this.loader_OtherConsumables.loading ||
+            this.loader_OtherConsumablesBombs .loading ||
+            this.loader_AdventuringGear.loading ||
+            this.loader_ArmorRunes.loading ||
+            this.loader_WeaponRunes.loading ||
+            this.loader_Scrolls.loading ||
+            this.loader_Oils.loading ||
+            this.loader_Talismans.loading ||
+            this.loader_AlchemicalBombs.loading ||
+            this.loader_AlchemicalTools.loading ||
+            this.loader_Snares.loading ||
+            this.loader_AlchemicalPoisons.loading ||
+            this.loader_Wands.loading
+        );
     }
 
     initialize(reset: boolean = true) {
         if (!this.items || reset) {
-            this.itemProperties = [];
-            this.loading_ItemProperties = true;
-            this.load_ItemProperties()
-                .subscribe((results: String[]) => {
-                    this.loader_ItemProperties = results;
-                    this.finish_ItemProperties()
-                });
-            this.weaponMaterials = [];
-            this.loading_WeaponMaterials = true;
-            this.load_WeaponMaterials()
-                .subscribe((results: String[]) => {
-                    this.loader_WeaponMaterials = results;
-                    this.finish_WeaponMaterials()
-                });
-            this.specializations = [];
-            this.loading_Specializations = true;
-            this.load_Specializations()
-                .subscribe((results: String[]) => {
-                    this.loader_Specializations = results;
-                    this.finish_Specializations()
-                });
+            this.load('/assets/itemProperties.json', this.loader_ItemProperties, "itemProperties", ItemProperty, "meta");
+            this.load('/assets/weaponMaterials.json', this.loader_WeaponMaterials, "weaponMaterials", WeaponMaterial, "meta");
+            this.load('/assets/specializations.json', this.loader_Specializations, "specializations", Specialization, "meta");
+
             this.items = new ItemCollection();
             this.cleanItems = new ItemCollection();
             this.craftingItems = new ItemCollection();
-            this.loading_Weapons = true;
-            this.load_Weapons()
-                .subscribe((results: String[]) => {
-                    this.loader_Weapons = results;
-                    this.finish_Weapons()
-                });
-            this.loading_Armors = true;
-            this.load_Armors()
-                .subscribe((results: String[]) => {
-                    this.loader_Armors = results;
-                    this.finish_Armors()
-                });
-            this.loading_Shields = true;
-            this.load_Shields()
-                .subscribe((results: String[]) => {
-                    this.loader_Shields = results;
-                    this.finish_Shields()
-                });
-            this.loading_WornItems = true;
-            this.load_WornItems()
-                .subscribe((results: String[]) => {
-                    this.loader_WornItems = results;
-                    this.finish_WornItems()
-                });
-            this.loading_HeldItems = true;
-            this.load_HeldItems()
-                .subscribe((results: String[]) => {
-                    this.loader_HeldItems = results;
-                    this.finish_HeldItems()
-                });
-            this.loading_Ammunition = true;
-            this.load_Ammunition()
-                .subscribe((results: String[]) => {
-                    this.loader_Ammunition = results;
-                    this.finish_Ammunition()
-                });
-            this.loading_AlchemicalElixirs = true;
-            this.load_AlchemicalElixirs()
-                .subscribe((results: String[]) => {
-                    this.loader_AlchemicalElixirs = results;
-                    this.finish_AlchemicalElixirs()
-                });
-            this.loading_Potions = true;
-            this.load_Potions()
-                .subscribe((results: String[]) => {
-                    this.loader_Potions = results;
-                    this.finish_Potions()
-                });
-            this.loading_OtherConsumables = true;
-            this.load_OtherConsumables()
-                .subscribe((results: String[]) => {
-                    this.loader_OtherConsumables = results;
-                    this.finish_OtherConsumables()
-                });
-            this.loading_OtherConsumablesBombs  = true;
-            this.load_OtherConsumablesBombs ()
-                .subscribe((results: String[]) => {
-                    this.loader_OtherConsumablesBombs  = results;
-                    this.finish_OtherConsumablesBombs ()
-                });
-            this.loading_AdventuringGear = true;
-            this.load_AdventuringGear()
-                .subscribe((results: String[]) => {
-                    this.loader_AdventuringGear = results;
-                    this.finish_AdventuringGear()
-                });
-            this.loading_ArmorRunes = true;
-            this.load_ArmorRunes()
-                .subscribe((results: String[]) => {
-                    this.loader_ArmorRunes = results;
-                    this.finish_ArmorRunes()
-                });
-            this.loading_WeaponRunes = true;
-            this.load_WeaponRunes()
-                .subscribe((results: String[]) => {
-                    this.loader_WeaponRunes = results;
-                    this.finish_WeaponRunes()
-                });
-            this.loading_Scrolls = true;
-            this.load_Scrolls()
-                .subscribe((results: String[]) => {
-                    this.loader_Scrolls = results;
-                    this.finish_Scrolls()
-                });
-            this.loading_Oils = true;
-            this.load_Oils()
-                .subscribe((results: String[]) => {
-                    this.loader_Oils = results;
-                    this.finish_Oils()
-                });
-            this.loading_Talismans = true;
-            this.load_Talismans()
-                .subscribe((results: String[]) => {
-                    this.loader_Talismans = results;
-                    this.finish_Talismans()
-                });
-            this.loading_AlchemicalBombs = true;
-            this.load_AlchemicalBombs()
-                .subscribe((results: String[]) => {
-                    this.loader_AlchemicalBombs = results;
-                    this.finish_AlchemicalBombs()
-                });
-            this.loading_AlchemicalTools = true;
-            this.load_AlchemicalTools()
-                .subscribe((results: String[]) => {
-                    this.loader_AlchemicalTools = results;
-                    this.finish_AlchemicalTools()
-                });
-            this.loading_Snares = true;
-            this.load_Snares()
-                .subscribe((results: String[]) => {
-                    this.loader_Snares = results;
-                    this.finish_Snares()
-                });
-            this.loading_AlchemicalPoisons = true;
-            this.load_AlchemicalPoisons()
-                .subscribe((results: String[]) => {
-                    this.loader_AlchemicalPoisons = results;
-                    this.finish_AlchemicalPoisons()
-                });
-            this.loading_Wands = true;
-            this.load_Wands()
-                .subscribe((results: String[]) => {
-                    this.loader_Wands = results;
-                    this.finish_Wands()
-                });
+            
+            this.load('/assets/items/weapons.json', this.loader_Weapons, "weapons", Weapon, "item");
+            this.load('/assets/items/armors.json', this.loader_Armors, "armors", Armor, "item");
+            this.load('/assets/items/shields.json', this.loader_Shields, "shields", Shield, "item");
+            this.load('/assets/items/wornitems.json', this.loader_WornItems, "wornitems", WornItem, "item");
+            this.load('/assets/items/helditems.json', this.loader_HeldItems, "helditems", HeldItem, "item");
+            this.load('/assets/items/ammunition.json', this.loader_Ammunition, "ammunition", Ammunition, "item");
+            this.load('/assets/items/alchemicalelixirs.json', this.loader_AlchemicalElixirs, "alchemicalelixirs", AlchemicalElixir, "item");
+            this.load('/assets/items/potions.json', this.loader_Potions, "potions", Potion, "item");
+            this.load('/assets/items/otherconsumables.json', this.loader_OtherConsumables, "otherconsumables", OtherConsumable, "item");
+            this.load('/assets/items/otherconsumablesbombs.json', this.loader_OtherConsumablesBombs, "otherconsumablesbombs", OtherConsumableBomb, "item");
+            this.load('/assets/items/adventuringgear.json', this.loader_AdventuringGear, "adventuringgear", AdventuringGear, "item");
+            this.load('/assets/items/armorrunes.json', this.loader_ArmorRunes, "armorrunes", ArmorRune, "item");
+            this.load('/assets/items/weaponrunes.json', this.loader_WeaponRunes, "weaponrunes", WeaponRune, "item");
+            this.load('/assets/items/scrolls.json', this.loader_Scrolls, "scrolls", Scroll, "item");
+            this.load('/assets/items/talismans.json', this.loader_Talismans, "talismans", Talisman, "item");
+            this.load('/assets/items/alchemicalbombs.json', this.loader_AlchemicalBombs, "alchemicalbombs", AlchemicalBomb, "item");
+            this.load('/assets/items/alchemicaltools.json', this.loader_AlchemicalTools, "alchemicaltools", AlchemicalTool, "item");
+            this.load('/assets/items/snares.json', this.loader_Snares, "snares", Snare, "item");
+            this.load('/assets/items/alchemicalpoisons.json', this.loader_AlchemicalPoisons, "alchemicalpoisons", AlchemicalPoison, "item");
+            this.load('/assets/items/wands.json', this.loader_Wands, "wands", Wand, "item");
+
+            this.load('/assets/custom/items/weapons.json', this.loader_CustomWeapons, "weapons", Weapon, "item");
+            this.load('/assets/custom/items/armors.json', this.loader_CustomArmors, "armors", Armor, "item");
+            this.load('/assets/custom/items/shields.json', this.loader_CustomShields, "shields", Shield, "item");
+            this.load('/assets/custom/items/wornitems.json', this.loader_CustomWornItems, "wornitems", WornItem, "item");
+            this.load('/assets/custom/items/helditems.json', this.loader_CustomHeldItems, "helditems", HeldItem, "item");
+            this.load('/assets/custom/items/ammunition.json', this.loader_CustomAmmunition, "ammunition", Ammunition, "item");
+            this.load('/assets/custom/items/alchemicalelixirs.json', this.loader_CustomAlchemicalElixirs, "alchemicalelixirs", AlchemicalElixir, "item");
+            this.load('/assets/custom/items/potions.json', this.loader_CustomPotions, "potions", Potion, "item");
+            this.load('/assets/custom/items/otherconsumables.json', this.loader_CustomOtherConsumables, "otherconsumables", OtherConsumable, "item");
+            this.load('/assets/custom/items/otherconsumablesbombs.json', this.loader_CustomOtherConsumablesBombs, "otherconsumablesbombs", OtherConsumableBomb, "item");
+            this.load('/assets/custom/items/adventuringgear.json', this.loader_CustomAdventuringGear, "adventuringgear", AdventuringGear, "item");
+            this.load('/assets/custom/items/armorrunes.json', this.loader_CustomArmorRunes, "armorrunes", ArmorRune, "item");
+            this.load('/assets/custom/items/weaponrunes.json', this.loader_CustomWeaponRunes, "weaponrunes", WeaponRune, "item");
+            this.load('/assets/custom/items/scrolls.json', this.loader_CustomScrolls, "scrolls", Scroll, "item");
+            this.load('/assets/custom/items/talismans.json', this.loader_CustomTalismans, "talismans", Talisman, "item");
+            this.load('/assets/custom/items/alchemicalbombs.json', this.loader_CustomAlchemicalBombs, "alchemicalbombs", AlchemicalBomb, "item");
+            this.load('/assets/custom/items/alchemicaltools.json', this.loader_CustomAlchemicalTools, "alchemicaltools", AlchemicalTool, "item");
+            this.load('/assets/custom/items/snares.json', this.loader_CustomSnares, "snares", Snare, "item");
+            this.load('/assets/custom/items/alchemicalpoisons.json', this.loader_CustomAlchemicalPoisons, "alchemicalpoisons", AlchemicalPoison, "item");
+            this.load('/assets/custom/items/wands.json', this.loader_CustomWands, "wands", Wand, "item");
             /*
-            this.loading_REPLACE1 = true;
-            this.load_REPLACE1()
-                .subscribe((results: String[]) => {
-                    this.loader_REPLACE1 = results;
-                    this.finish_REPLACE1()
-                });
+            this.load('/assets/items/REPLACE0.json', this.loader_REPLACE1s, "REPLACE0", REPLACE1, "item");
+            this.load('/assets/custom/items/REPLACE0.json', this.loader_CustomREPLACE1s, "REPLACE0", REPLACE1, "item");
             */
+            this.load_Oils();
         }
     }
 
-    load_ItemProperties(): Observable<string[]> {
-        return this.http.get<string[]>('/assets/itemProperties.json');
-    }
-
-    finish_ItemProperties() {
-        if (this.loader_ItemProperties) {
-            this.itemProperties = this.loader_ItemProperties.map(element => Object.assign(new ItemProperty(), element));
-            this.loader_ItemProperties = [];
-        }
-        if (this.loading_ItemProperties) { this.loading_ItemProperties = false; }
-    }
-
-    load_WeaponMaterials(): Observable<string[]> {
-        return this.http.get<string[]>('/assets/weaponMaterials.json');
-    }
-
-    finish_WeaponMaterials() {
-        if (this.loader_WeaponMaterials) {
-            this.weaponMaterials = this.loader_WeaponMaterials.map(element => Object.assign(new ItemProperty(), element));
-            this.loader_WeaponMaterials = [];
-        }
-        if (this.loading_WeaponMaterials) { this.loading_WeaponMaterials = false; }
-    }
-
-    load_Specializations(): Observable<string[]> {
-        return this.http.get<string[]>('/assets/specializations.json');
-    }
-
-    finish_Specializations() {
-        if (this.loader_Specializations) {
-            this.specializations = this.loader_Specializations.map(element => Object.assign(new Specialization(), element));
-            this.loader_Specializations = [];
-        }
-        if (this.loading_Specializations) { this.loading_Specializations = false; }
-    }
-
-    load_Weapons(): Observable<string[]> {
-        return this.http.get<string[]>('/assets/items/weapons.json');
-    }
-
-    finish_Weapons() {
-        if (this.loader_Weapons) {
-            this.items.weapons = this.loader_Weapons.map(element => this.initialize_Item(Object.assign(new Weapon(), element), true, false, true));
-            this.cleanItems.weapons = this.loader_Weapons.map(element => this.initialize_Item(Object.assign(new Weapon(), element), true, false, true));
-            this.craftingItems.weapons = this.loader_Weapons.map(element => this.initialize_Item(Object.assign(new Weapon(), element), true, false, true));
-            this.loader_Weapons = [];
-        }
-        if (this.loading_Weapons) { this.loading_Weapons = false; }
-    }
-
-    load_Armors(): Observable<string[]> {
-        return this.http.get<string[]>('/assets/items/armors.json');
-    }
-
-    finish_Armors() {
-        if (this.loader_Armors) {
-            this.items.armors = this.loader_Armors.map(element => this.initialize_Item(Object.assign(new Armor(), element), true, false, true));
-            this.cleanItems.armors = this.loader_Armors.map(element => this.initialize_Item(Object.assign(new Armor(), element), true, false, true));
-            this.craftingItems.armors = this.loader_Armors.map(element => this.initialize_Item(Object.assign(new Armor(), element), true, false, true));
-            this.loader_Armors = [];
-        }
-        if (this.loading_Armors) { this.loading_Armors = false; }
-    }
-
-    load_Shields(): Observable<string[]> {
-        return this.http.get<string[]>('/assets/items/shields.json');
-    }
-
-    finish_Shields() {
-        if (this.loader_Shields) {
-            this.items.shields = this.loader_Shields.map(element => this.initialize_Item(Object.assign(new Shield(), element), true, false, true));
-            this.cleanItems.shields = this.loader_Shields.map(element => this.initialize_Item(Object.assign(new Shield(), element), true, false, true));
-            this.craftingItems.shields = this.loader_Shields.map(element => this.initialize_Item(Object.assign(new Shield(), element), true, false, true));
-            this.loader_Shields = [];
-        }
-        if (this.loading_Shields) { this.loading_Shields = false; }
-    }
-
-    load_WornItems(): Observable<string[]> {
-        return this.http.get<string[]>('/assets/items/wornitems.json');
-    }
-
-    finish_WornItems() {
-        if (this.loader_WornItems) {
-            this.items.wornitems = this.loader_WornItems.map(element => this.initialize_Item(Object.assign(new WornItem(), element), true, false, true));
-            this.cleanItems.wornitems = this.loader_WornItems.map(element => this.initialize_Item(Object.assign(new WornItem(), element), true, false, true));
-            this.craftingItems.wornitems = this.loader_WornItems.map(element => this.initialize_Item(Object.assign(new WornItem(), element), true, false, true));
-            this.loader_WornItems = [];
-        }
-        if (this.loading_WornItems) { this.loading_WornItems = false; }
-    }
-
-    load_HeldItems(): Observable<string[]> {
-        return this.http.get<string[]>('/assets/items/helditems.json');
-    }
-
-    finish_HeldItems() {
-        if (this.loader_HeldItems) {
-            this.items.helditems = this.loader_HeldItems.map(element => this.initialize_Item(Object.assign(new HeldItem(), element), true, false, true));
-            this.cleanItems.helditems = this.loader_HeldItems.map(element => this.initialize_Item(Object.assign(new HeldItem(), element), true, false, true));
-            this.craftingItems.helditems = this.loader_HeldItems.map(element => this.initialize_Item(Object.assign(new HeldItem(), element), true, false, true));
-            this.loader_HeldItems = [];
-        }
-        if (this.loading_HeldItems) { this.loading_HeldItems = false; }
-    }
-
-    load_Ammunition(): Observable<string[]> {
-        return this.http.get<string[]>('/assets/items/ammunition.json');
-    }
-
-    finish_Ammunition() {
-        if (this.loader_Ammunition) {
-            this.items.ammunition = this.loader_Ammunition.map(element => this.initialize_Item(Object.assign(new Ammunition(), element), true, false, true));
-            this.cleanItems.ammunition = this.loader_Ammunition.map(element => this.initialize_Item(Object.assign(new Ammunition(), element), true, false, true));
-            this.craftingItems.ammunition = this.loader_Ammunition.map(element => this.initialize_Item(Object.assign(new Ammunition(), element), true, false, true));
-            this.loader_Ammunition = [];
-        }
-        if (this.loading_Ammunition) { this.loading_Ammunition = false; }
-    }
-
-    load_AlchemicalElixirs(): Observable<string[]> {
-        return this.http.get<string[]>('/assets/items/alchemicalelixirs.json');
-    }
-
-    finish_AlchemicalElixirs() {
-        if (this.loader_AlchemicalElixirs) {
-            this.items.alchemicalelixirs = this.loader_AlchemicalElixirs.map(element => this.initialize_Item(Object.assign(new AlchemicalElixir(), element), true, false, true));
-            this.cleanItems.alchemicalelixirs = this.loader_AlchemicalElixirs.map(element => this.initialize_Item(Object.assign(new AlchemicalElixir(), element), true, false, true));
-            this.craftingItems.alchemicalelixirs = this.loader_AlchemicalElixirs.map(element => this.initialize_Item(Object.assign(new AlchemicalElixir(), element), true, false, true));
-            this.loader_AlchemicalElixirs = [];
-        }
-        if (this.loading_AlchemicalElixirs) { this.loading_AlchemicalElixirs = false; }
-    }
-
-    load_Potions(): Observable<string[]> {
-        return this.http.get<string[]>('/assets/items/potions.json');
-    }
-
-    finish_Potions() {
-        if (this.loader_Potions) {
-            this.items.potions = this.loader_Potions.map(element => this.initialize_Item(Object.assign(new Potion(), element), true, false, true));
-            this.cleanItems.potions = this.loader_Potions.map(element => this.initialize_Item(Object.assign(new Potion(), element), true, false, true));
-            this.craftingItems.potions = this.loader_Potions.map(element => this.initialize_Item(Object.assign(new Potion(), element), true, false, true));
-            this.loader_Potions = [];
-        }
-        if (this.loading_Potions) { this.loading_Potions = false; }
-    }
-
-    load_OtherConsumables(): Observable<string[]> {
-        return this.http.get<string[]>('/assets/items/otherconsumables.json');
-    }
-
-    finish_OtherConsumables() {
-        if (this.loader_OtherConsumables) {
-            this.items.otherconsumables = this.loader_OtherConsumables.map(element => this.initialize_Item(Object.assign(new OtherConsumable(), element), true, false, true));
-            this.cleanItems.otherconsumables = this.loader_OtherConsumables.map(element => this.initialize_Item(Object.assign(new OtherConsumable(), element), true, false, true));
-            this.craftingItems.otherconsumables = this.loader_OtherConsumables.map(element => this.initialize_Item(Object.assign(new OtherConsumable(), element), true, false, true));
-            this.loader_OtherConsumables = [];
-        }
-        if (this.loading_OtherConsumables) { this.loading_OtherConsumables = false; }
-    }
-
-    load_OtherConsumablesBombs (): Observable<string[]> {
-        return this.http.get<string[]>('/assets/items/otherconsumablesbombs.json');
-    }
-
-    finish_OtherConsumablesBombs () {
-        if (this.loader_OtherConsumablesBombs ) {
-            this.items.otherconsumablesbombs = this.loader_OtherConsumablesBombs .map(element => this.initialize_Item(Object.assign(new OtherConsumableBomb(), element), true, false, true));
-            this.cleanItems.otherconsumablesbombs = this.loader_OtherConsumablesBombs .map(element => this.initialize_Item(Object.assign(new OtherConsumableBomb(), element), true, false, true));
-            this.craftingItems.otherconsumablesbombs = this.loader_OtherConsumablesBombs .map(element => this.initialize_Item(Object.assign(new OtherConsumableBomb(), element), true, false, true));
-            this.loader_OtherConsumablesBombs  = [];
-        }
-        if (this.loading_OtherConsumablesBombs ) { this.loading_OtherConsumablesBombs  = false; }
-    }
-
-    load_AdventuringGear(): Observable<string[]> {
-        return this.http.get<string[]>('/assets/items/adventuringgear.json');
-    }
-
-    finish_AdventuringGear() {
-        if (this.loader_AdventuringGear) {
-            this.items.adventuringgear = this.loader_AdventuringGear.map(element => this.initialize_Item(Object.assign(new AdventuringGear(), element), true, false, true));
-            this.cleanItems.adventuringgear = this.loader_AdventuringGear.map(element => this.initialize_Item(Object.assign(new AdventuringGear(), element), true, false, true));
-            this.craftingItems.adventuringgear = this.loader_AdventuringGear.map(element => this.initialize_Item(Object.assign(new AdventuringGear(), element), true, false, true));
-            this.loader_AdventuringGear = [];
-        }
-        if (this.loading_AdventuringGear) { this.loading_AdventuringGear = false; }
-    }
-
-    load_ArmorRunes(): Observable<string[]> {
-        return this.http.get<string[]>('/assets/items/armorrunes.json');
-    }
-
-    finish_ArmorRunes() {
-        if (this.loader_ArmorRunes) {
-            this.items.armorrunes = this.loader_ArmorRunes.map(element => this.initialize_Item(Object.assign(new ArmorRune(), element), true, false, true));
-            this.cleanItems.armorrunes = this.loader_ArmorRunes.map(element => this.initialize_Item(Object.assign(new ArmorRune(), element), true, false, true));
-            this.craftingItems.armorrunes = this.loader_ArmorRunes.map(element => this.initialize_Item(Object.assign(new ArmorRune(), element), true, false, true));
-            this.loader_ArmorRunes = [];
-        }
-        if (this.loading_ArmorRunes) { this.loading_ArmorRunes = false; }
-    }
-
-    load_WeaponRunes(): Observable<string[]> {
-        return this.http.get<string[]>('/assets/items/weaponrunes.json');
-    }
-
-    finish_WeaponRunes() {
-        if (this.loader_WeaponRunes) {
-            this.items.weaponrunes = this.loader_WeaponRunes.map(element => this.initialize_Item(Object.assign(new WeaponRune(), element), true, false, true));
-            this.cleanItems.weaponrunes = this.loader_WeaponRunes.map(element => this.initialize_Item(Object.assign(new WeaponRune(), element), true, false, true));
-            this.craftingItems.weaponrunes = this.loader_WeaponRunes.map(element => this.initialize_Item(Object.assign(new WeaponRune(), element), true, false, true));
-            this.loader_WeaponRunes = [];
-        }
-        if (this.loading_WeaponRunes) { this.loading_WeaponRunes = false; }
-    }
-
-    load_Scrolls(): Observable<string[]> {
-        return this.http.get<string[]>('/assets/items/scrolls.json');
-    }
-
-    finish_Scrolls() {
-        if (this.loader_Scrolls) {
-            this.items.scrolls = this.loader_Scrolls.map(element => this.initialize_Item(Object.assign(new Scroll(), element), true, false, true));
-            this.cleanItems.scrolls = this.loader_Scrolls.map(element => this.initialize_Item(Object.assign(new Scroll(), element), true, false, true));
-            this.craftingItems.scrolls = this.loader_Scrolls.map(element => this.initialize_Item(Object.assign(new Scroll(), element), true, false, true));
-            this.loader_Scrolls = [];
-        }
-        if (this.loading_Scrolls) { this.loading_Scrolls = false; }
-    }
-
-    load_Oils(): Observable<string[]> {
-        return this.http.get<string[]>('/assets/items/oils.json');
-    }
-
-    finish_Oils() {
-        if (this.loader_WeaponRunes.length || !this.cleanItems.weaponrunes.length) {
+    load_Oils() {
+        //Oils have to wait until WeaponRunes are finished, because they have to copy some of them.
+        if (this.loader_WeaponRunes.content.length || !this.cleanItems.weaponrunes.length) {
             setTimeout(() => {
-                this.finish_Oils();
+                this.load_Oils();
             }, 100);
         } else {
-            if (this.loader_Oils) {
-                this.items.oils = this.loader_Oils.map(element => this.initialize_Item(Object.assign(new Oil(), element), true, false, true));
-                this.cleanItems.oils = this.loader_Oils.map(element => this.initialize_Item(Object.assign(new Oil(), element), true, false, true));
-                this.craftingItems.oils = this.loader_Oils.map(element => this.initialize_Item(Object.assign(new Oil(), element), true, false, true));
-                this.loader_Oils = [];
-            }
-            if (this.loading_Oils) { this.loading_Oils = false; }
+            this.load('/assets/items/oils.json', this.loader_Oils, "oils", Oil, "item");
+            this.load('/assets/custom/items/oils.json', this.loader_CustomOils, "oils", Oil, "item");
         }
     }
 
-    load_Talismans(): Observable<string[]> {
-        return this.http.get<string[]>('/assets/items/talismans.json');
+    load(filepath: string, loader: Loader, target: string, type, category: "item"|"meta") {
+        loader.loading = true;
+        this.load_File(filepath)
+            .subscribe((results:string[]) => {
+                loader.content = results;
+                this.finish_Loading(loader, target, type, category)
+            });
     }
 
-    finish_Talismans() {
-        if (this.loader_Talismans) {
-            this.items.talismans = this.loader_Talismans.map(element => this.initialize_Item(Object.assign(new Talisman(), element), true, false, true));
-            this.cleanItems.talismans = this.loader_Talismans.map(element => this.initialize_Item(Object.assign(new Talisman(), element), true, false, true));
-            this.craftingItems.talismans = this.loader_Talismans.map(element => this.initialize_Item(Object.assign(new Talisman(), element), true, false, true));
-            this.loader_Talismans = [];
+    load_File(filepath): Observable<string[]>{
+        return this.http.get<string[]>(filepath)
+        .pipe(map(result => result), catchError(() => of([])));
+    }
+
+    finish_Loading(loader: Loader, target: string, type, category: "item"|"meta") {
+        switch(category) {
+            case "item":
+                if (loader.content.length) {
+                    this.items[target].push(...loader.content.map(element => this.initialize_Item(Object.assign(new type(), element), true, false, true)));
+                    this.cleanItems[target].push(...loader.content.map(element => this.initialize_Item(Object.assign(new type(), element), true, false, true)));
+                    this.craftingItems[target].push(...loader.content.map(element => this.initialize_Item(Object.assign(new type(), element), true, false, true)));
+                }
+                break;
+            case "meta":
+                if (loader.content.length) {
+                    this[target] = loader.content.map(element => Object.assign(new type(), element));
+                } else {
+                    this[target] = [];
+                }
+                break;
         }
-        if (this.loading_Talismans) { this.loading_Talismans = false; }
+        loader.content = [];
+        if (loader.loading) {loader.loading = false;}
     }
 
-    load_AlchemicalBombs(): Observable<string[]> {
-        return this.http.get<string[]>('/assets/items/alchemicalbombs.json');
-    }
-
-    finish_AlchemicalBombs() {
-        if (this.loader_AlchemicalBombs) {
-            this.items.alchemicalbombs = this.loader_AlchemicalBombs.map(element => this.initialize_Item(Object.assign(new AlchemicalBomb(), element), true, false, true));
-            this.cleanItems.alchemicalbombs = this.loader_AlchemicalBombs.map(element => this.initialize_Item(Object.assign(new AlchemicalBomb(), element), true, false, true));
-            this.craftingItems.alchemicalbombs = this.loader_AlchemicalBombs.map(element => this.initialize_Item(Object.assign(new AlchemicalBomb(), element), true, false, true));
-            this.loader_AlchemicalBombs = [];
-        }
-        if (this.loading_AlchemicalBombs) { this.loading_AlchemicalBombs = false; }
-    }
-
-    load_AlchemicalTools(): Observable<string[]> {
-        return this.http.get<string[]>('/assets/items/alchemicaltools.json');
-    }
-
-    finish_AlchemicalTools() {
-        if (this.loader_AlchemicalTools) {
-            this.items.alchemicaltools = this.loader_AlchemicalTools.map(element => this.initialize_Item(Object.assign(new AlchemicalTool(), element), true, false, true));
-            this.cleanItems.alchemicaltools = this.loader_AlchemicalTools.map(element => this.initialize_Item(Object.assign(new AlchemicalTool(), element), true, false, true));
-            this.craftingItems.alchemicaltools = this.loader_AlchemicalTools.map(element => this.initialize_Item(Object.assign(new AlchemicalTool(), element), true, false, true));
-            this.loader_AlchemicalTools = [];
-        }
-        if (this.loading_AlchemicalTools) { this.loading_AlchemicalTools = false; }
-    }
-
-    load_Snares(): Observable<string[]> {
-        return this.http.get<string[]>('/assets/items/snares.json');
-    }
-
-    finish_Snares() {
-        if (this.loader_Snares) {
-            this.items.snares = this.loader_Snares.map(element => this.initialize_Item(Object.assign(new Snare(), element), true, false, true));
-            this.cleanItems.snares = this.loader_Snares.map(element => this.initialize_Item(Object.assign(new Snare(), element), true, false, true));
-            this.craftingItems.snares = this.loader_Snares.map(element => this.initialize_Item(Object.assign(new Snare(), element), true, false, true));
-            this.loader_Snares = [];
-        }
-        if (this.loading_Snares) { this.loading_Snares = false; }
-    }
-    
-    load_AlchemicalPoisons(): Observable<string[]> {
-        return this.http.get<string[]>('/assets/items/alchemicalpoisons.json');
-    }
-
-    finish_AlchemicalPoisons() {
-        if (this.loader_AlchemicalPoisons) {
-            this.items.alchemicalpoisons = this.loader_AlchemicalPoisons.map(element => this.initialize_Item(Object.assign(new AlchemicalPoison(), element), true, false, true));
-            this.cleanItems.alchemicalpoisons = this.loader_AlchemicalPoisons.map(element => this.initialize_Item(Object.assign(new AlchemicalPoison(), element), true, false, true));
-            this.craftingItems.alchemicalpoisons = this.loader_AlchemicalPoisons.map(element => this.initialize_Item(Object.assign(new AlchemicalPoison(), element), true, false, true));
-            this.loader_AlchemicalPoisons = [];
-        }
-        if (this.loading_AlchemicalPoisons) { this.loading_AlchemicalPoisons = false; }
-    }
-
-    load_Wands(): Observable<string[]> {
-        return this.http.get<string[]>('/assets/items/wands.json');
-    }
-
-    finish_Wands() {
-        if (this.loader_Wands) {
-            this.items.wands = this.loader_Wands.map(element => this.initialize_Item(Object.assign(new Wand(), element), true, false, true));
-            this.cleanItems.wands = this.loader_Wands.map(element => this.initialize_Item(Object.assign(new Wand(), element), true, false, true));
-            this.craftingItems.wands = this.loader_Wands.map(element => this.initialize_Item(Object.assign(new Wand(), element), true, false, true));
-            this.loader_Wands = [];
-        }
-        if (this.loading_Wands) { this.loading_Wands = false; }
-    }
-
-    /*
-    load_REPLACE1(): Observable<string[]> {
-        return this.http.get<string[]>('/assets/items/REPLACE2.json');
-    }
-
-    finish_REPLACE1() {
-        if (this.loader_REPLACE1) {
-            this.items.REPLACE2 = this.loader_REPLACE1.map(element => this.initialize_Item(Object.assign(new REPLACE0(), element), true, false, true));
-            this.cleanItems.REPLACE2 = this.loader_REPLACE1.map(element => this.initialize_Item(Object.assign(new REPLACE0(), element), true, false, true));
-            this.craftingItems.REPLACE2 = this.loader_REPLACE1.map(element => this.initialize_Item(Object.assign(new REPLACE0(), element), true, false, true));
-            this.loader_REPLACE1 = [];
-        }
-        if (this.loading_REPLACE1) { this.loading_REPLACE1 = false; }
-    }
-    */
 }

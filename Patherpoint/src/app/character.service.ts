@@ -1632,10 +1632,10 @@ export class CharacterService {
     }
 
     get_ActivitiesShowingOn(creature: Character|AnimalCompanion|Familiar, objectName: string = "all") {
-        let activityGains = this.get_OwnedActivities(creature).filter(gain => gain.active);
+        let activityGains = this.get_OwnedActivities(creature);
         let returnedActivities: Activity[] = [];
         activityGains.forEach(gain => {
-            this.activitiesService.get_Activities(gain.name).forEach(activity => {
+            this.activitiesService.get_Activities(gain.name).filter(activity => gain.active || !activity.toggle).forEach(activity => {
                 activity?.showon.split(",").forEach(showon => {
                     if (objectName == "all" || showon == objectName || showon.substr(1) == objectName || (objectName == "Lore" && showon.includes(objectName))) {
                         returnedActivities.push(activity);

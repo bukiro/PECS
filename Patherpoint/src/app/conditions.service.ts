@@ -210,14 +210,16 @@ export class ConditionsService {
                     gain.gainItems = condition.gainItems.map(itemGain => Object.assign(new ItemGain(), itemGain));
                     gain.gainItems.forEach(gainItem => {
                         let newItem: Item = itemsService.get_CleanItems()[gainItem.type].filter(item => item.name == gainItem.name)[0];
-                        if (newItem.can_Stack()) {
-                            characterService.grant_InventoryItem(creature as Character|AnimalCompanion, creature.inventories[0], newItem, false, false, false, gainItem.amount);
-                        } else {
-                            let grantedItem = characterService.grant_InventoryItem(creature as Character|AnimalCompanion, creature.inventories[0], newItem, false, false, true);
-                            gainItem.id = grantedItem.id;
-                            if (grantedItem.get_Name) {
-                                grantedItem.grantedBy = "(Granted by " + condition.name + ")";
-                            };
+                        if (newItem) {
+                            if (newItem.can_Stack()) {
+                                characterService.grant_InventoryItem(creature as Character|AnimalCompanion, creature.inventories[0], newItem, false, false, false, gainItem.amount);
+                            } else {
+                                let grantedItem = characterService.grant_InventoryItem(creature as Character|AnimalCompanion, creature.inventories[0], newItem, false, false, true);
+                                gainItem.id = grantedItem.id;
+                                if (grantedItem.get_Name) {
+                                    grantedItem.grantedBy = "(Granted by " + condition.name + ")";
+                                };
+                            }
                         }
                     });
                 } else {

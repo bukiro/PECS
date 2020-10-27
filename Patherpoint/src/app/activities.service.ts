@@ -17,7 +17,7 @@ import { AnimalCompanion } from './AnimalCompanion';
 import { Familiar } from './Familiar';
 import { SpellsService } from './spells.service';
 import { SpellCast } from './SpellCast';
-import { R3TargetBinder } from '@angular/compiler';
+import { Loader } from './Loader';
 
 @Injectable({
     providedIn: 'root'
@@ -25,9 +25,9 @@ import { R3TargetBinder } from '@angular/compiler';
 export class ActivitiesService {
 
     private activities: Activity[];
-    private custom_activities: Activity[] = [];
-    private loader: {content: string[], loading: boolean} = {content: [], loading: false};
-    private loader_custom: {content: string[], loading: boolean} = {content: [], loading: false};
+    private custom_activities: Activity[];
+    private loader_Activities: Loader = new Loader();
+    private loader_CustomActivities: Loader = new Loader();
 
     constructor(
         private http: HttpClient
@@ -143,7 +143,7 @@ export class ActivitiesService {
         //Cast Spells
         if (activity.castSpells) {
             activity.castSpells.forEach(cast => {
-                if (activity.constructor == ItemActivity) {
+                if (cast.duration) {
                     cast.spellGain.duration = cast.duration;
                 }
                 let librarySpell = spellsService.get_Spells(cast.name)[0];
@@ -229,25 +229,26 @@ export class ActivitiesService {
         });
     }
 
+    still_loading() {
+        return (this.loader_Activities.loading || this.loader_CustomActivities.loading);
+    }
+
     initialize() {
         if (!this.activities) {
-        this.loader.loading = true;
-        this.loader_custom.loading = true;
-        this.load_File('/assets/activities.json')
-            .subscribe((results:string[]) => {
-                this.loader.content = results;
-                this.activities = this.finish_Loading(this.loader)
-            });
-        this.load_File('/assets/custom/activities.json')
-            .subscribe((results:string[]) => {
-                this.loader_custom.content = results;
-                this.custom_activities = this.finish_Loading(this.loader_custom)
-            });
+            this.load('/assets/activities.json', this.loader_Activities, "activities");
+        }
+        if (!this.custom_activities) {
+            this.load('/assets/custom/activities.json', this.loader_CustomActivities, "custom_activities");
         }
     }
 
-    still_loading() {
-        return (this.loader.loading || this.loader_custom.loading);
+    load(filepath: string, loader: Loader, target: string) {
+        loader.loading = true;
+        this.load_File(filepath)
+            .subscribe((results:string[]) => {
+                loader.content = results;
+                this.finish_Loading(loader, target)
+            });
     }
 
     load_File(filepath): Observable<string[]>{
@@ -255,19 +256,19 @@ export class ActivitiesService {
         .pipe(map(result => result), catchError(() => of([])));
     }
 
-    finish_Loading(loader: {content: string[], loading: boolean}) {
-        let target: Activity[] = []
+    finish_Loading(loader: Loader, target: string) {
         if (loader.content.length) {
-            target = loader.content.map(activity => Object.assign(new Activity(), activity));
+            this[target] = loader.content.map(activity => Object.assign(new Activity(), activity));
 
-            target.forEach(activity => {
+            this[target].forEach(activity => {
                 activity.castSpells = activity.castSpells.map(cast => Object.assign(new SpellCast(), cast));
             });
 
             loader.content = [];
+        } else {
+            this[target] = [];
         }
         if (loader.loading) {loader.loading = false;}
-        return target;
     }
 
 }

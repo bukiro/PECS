@@ -73,8 +73,10 @@ export class Class {
             //Grant all items and save their id in the ItemGain.
             this.gainItems.forEach((freeItem: ItemGain) => {
                 let item: Equipment = itemsService.get_Items()[freeItem.type].filter((item: Equipment) => item.name == freeItem.name)[0];
-                let grantedItem = characterService.grant_InventoryItem(characterService.get_Character(), characterService.get_Character().inventories[0], item, false, false, true, freeItem.amount);
-                freeItem.id = grantedItem.id;
+                if (item) {
+                    let grantedItem = characterService.grant_InventoryItem(characterService.get_Character(), characterService.get_Character().inventories[0], item, false, false, true, freeItem.amount);
+                    freeItem.id = grantedItem.id;
+                }
             });
             //Some feats get specially processed when taken.
             //We have to explicitly take these feats to process them.
@@ -136,12 +138,15 @@ export class Class {
             this.languages.push(...this.ancestry.languages);
             characterService.set_ToChange("Character", "general");
             level.abilityChoices.push(...this.ancestry.abilityChoices);
+            level.featChoices.push(...this.ancestry.featChoices);
             characterService.set_ToChange("Character", "charactersheet");
             //Grant all items and save their id in the ItemGain.
             this.ancestry.gainItems.forEach((freeItem: ItemGain) => {
                 let item: Equipment = itemsService.get_Items()[freeItem.type].filter((item: Equipment) => item.name == freeItem.name)[0];
-                let grantedItem = characterService.grant_InventoryItem(characterService.get_Character(), characterService.get_Character().inventories[0], item, false, false, true, freeItem.amount);
-                freeItem.id = grantedItem.id;
+                if (item) {
+                    let grantedItem = characterService.grant_InventoryItem(characterService.get_Character(), characterService.get_Character().inventories[0], item, false, false, true, freeItem.amount);
+                    freeItem.id = grantedItem.id;
+                }
             });
             //Some feats get specially processed when taken.
             //We have to explicitly take these feats to process them.
@@ -255,8 +260,10 @@ export class Class {
             //Grant all items and save their id in the ItemGain.
             heritage.gainItems.forEach((freeItem: ItemGain) => {
                 let item: Equipment = itemsService.get_CleanItems()[freeItem.type].filter((item: Equipment) => item.name == freeItem.name)[0];
-                let grantedItem = characterService.grant_InventoryItem(characterService.get_Character(), characterService.get_Character().inventories[0], item, false, false, true, freeItem.amount);
-                freeItem.id = grantedItem.id;
+                if (item) {
+                    let grantedItem = characterService.grant_InventoryItem(characterService.get_Character(), characterService.get_Character().inventories[0], item, false, false, true, freeItem.amount);
+                    freeItem.id = grantedItem.id;
+                }
             });
             //Some feats get specially processed when taken.
             //We have to explicitly take these feats to process them.
