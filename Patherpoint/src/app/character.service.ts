@@ -792,12 +792,13 @@ export class CharacterService {
         if (item["showon"]) {
             this.set_TagsToChange(creature.type, item["showon"]);
         }
+        this.set_ItemViewChanges(creature, item);
         if (amount < item.amount) {
             item.amount -= amount;
         } else {
             if (item["equipped"]) {
                 this.onEquip(creature, inventory, item as Equipment, false, false);
-            } else if (item["invested"]) {
+            } else if (item["invested"] && item.can_Invest()) {
                 this.onInvest(creature, inventory, item as Equipment, false, false);
             }
             if (item["propertyRunes"]) {
@@ -1034,7 +1035,7 @@ export class CharacterService {
                 }
                 
                 //If you get an Activity from an item that doesn't need to be invested, immediately invest it in secret so the Activity is gained
-                if (item.gainActivities && !item.traits.includes("Invested")) {
+                if ((item.gainActivities || item.activities) && !item.can_Invest()) {
                     this.onInvest(creature, inventory, item, true, false);
                 }
                 //Add all Items that you get from equipping this one
@@ -1588,7 +1589,7 @@ export class CharacterService {
                 //Without the all parameter, get activities only from equipped and invested items and their slotted items.
                 creature.inventories[0].allEquipment()
                 .filter(item => 
-                    item.equipped &&
+                    (item.equippable ? item.equipped : true) &&
                     (item.can_Invest() ? item.invested : true) &&
                     !item.broken
                 ).forEach((item: Equipment) => {

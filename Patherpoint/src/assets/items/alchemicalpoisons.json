@@ -6,7 +6,7 @@
         "price": 0,
         "bulk": "L",
         "id": "dc4f55f5-83d4-4188-a1b6-9b62bfd9273f",
-        "actions": "2A",
+        "actions": "1A",
         "activationType": "Interact",
         "usage": "held in 2 hands",
         "desc": "These poisons deal 1d4 poison damage. Only you can apply these poisons properly, and they expire the next time you prepare.",

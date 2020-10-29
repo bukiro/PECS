@@ -309,7 +309,7 @@
         "priority": "1",
         "group": "",
         "name": "Spell level",
-        "desc": "The spell level on which the spell is cast (between 1 and 10).",
+        "desc": "The spell level on which the spell is cast, between 0 and 10. 0 means the spell is heightened to the half the character level, rounded up.",
         "locked": true,
         "examples": "spelllevel"
     },

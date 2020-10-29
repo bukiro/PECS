@@ -21,6 +21,7 @@ import { Feat } from 'src/app/Feat';
 import { Skill } from 'src/app/Skill';
 import { Ability } from 'src/app/Ability';
 import { SpellChoice } from 'src/app/SpellChoice';
+import { InventoryGain } from 'src/app/InventoryGain';
 
 @Component({
     selector: 'app-newItemProperty',
@@ -259,6 +260,9 @@ export class NewItemPropertyComponent implements OnInit {
             case "castSpells":
                 this.get_Parent()[this.propertyKey].push("" as string)
                 break;
+            case "gainInventory":
+                this.get_Parent()[this.propertyKey].push(new InventoryGain())
+                break;
         }
     }
 
@@ -352,7 +356,7 @@ export class NewItemPropertyComponent implements OnInit {
                 examples.push(...this.spellsService.get_Spells().map(spell => spell.name ));
                 break;
             case "spelllevel":
-                examples = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+                examples = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
                 break;
             case "storedspelllevel":
                 examples = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
