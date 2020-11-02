@@ -234,9 +234,6 @@ export class SavegameService {
                 });
             } else {
                 let blank = new object.constructor();
-                if (object.refId == "b8d39cb3-40c3-4d00-84c7-082a1c3b658b") {   
-                    let c = 1;
-                }
                 Object.keys(object).forEach(key => {
                     //Don't cleanup the "_className" or any attributes that are in the "save" list.
                     if ((!object["save"] || !object["save"].includes(key)) && key != "_className" && key.substr(0, 1) != "$") {

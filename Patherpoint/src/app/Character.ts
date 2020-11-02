@@ -22,7 +22,6 @@ import { SpellGain } from './SpellGain';
 import { Familiar } from './Familiar';
 import { SkillIncrease } from './SkillIncrease';
 import { Spell } from './Spell';
-import { SpellLearned } from './SpellLearned';
 import { FeatTaken } from './FeatTaken';
 import { Item } from './Item';
 import { FormulaLearned } from './FormulaLearned';

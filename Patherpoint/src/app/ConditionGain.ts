@@ -27,7 +27,6 @@ export class ConditionGain {
     public heightened: number = 0;
     //When casting a spell, some conditions want to calculate the spellcasting modifier, so we insert the spellcasting ability.
     public spellCastingAbility: string = "";
-    public customCondition: Condition = null;
     //A condition's gainActivities gets copied here to track.
     public gainActivities: ActivityGain[] = [];
     //A condition's gainItems gets copied here to track.

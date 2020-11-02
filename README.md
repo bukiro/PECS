@@ -105,12 +105,6 @@ Active to-do:
 
 
 Implement:
-Boots of Elvenkind
-Goggles of Night
-Ring of the Ram
-Ring of Energy Resistance
-Clandestine Cloak
-Dragon's Eye Charm
 
 Next steps:
 - Implement Ancestry Feats
