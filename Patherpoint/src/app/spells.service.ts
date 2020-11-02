@@ -40,6 +40,16 @@ export class SpellsService {
     }
 
     process_Spell(creature: Character|AnimalCompanion|Familiar, target: string = "", characterService: CharacterService, itemsService: ItemsService, timeService: TimeService, casting: SpellCasting, gain: SpellGain, spell: Spell, level: number, activated: boolean, manual: boolean = false, changeAfter: boolean = true) {
+        
+        //Cantrips and Focus spells are automatically heightened to your maximum available spell level.
+        //If a spell is cast with a lower level than its minimum, the level is raised to the minimum.
+        let spellLevel: number = level;
+        if (!spellLevel || spellLevel == -1) {
+            spellLevel = characterService.get_Character().get_SpellLevel();
+        } else if (spell.levelreq && spellLevel < spell.levelreq) {
+            spellLevel = spell.levelreq;
+        }        
+
         //If this spell was cast by an activity, it may have a specified duration. Keep that here before the duration is changed to keep the spell active (or not).
         let customDuration: number = 0;
         if (activated && gain.duration) {
@@ -80,9 +90,9 @@ export class SpellsService {
 
         //Gain Items on Activation
         if (targetCreature && targetCreature.type != "Familiar")
-        if (spell.get_HeightenedItems(level).length) {
+        if (spell.get_HeightenedItems(spellLevel).length) {
             if (activated) {
-                gain.gainItems = spell.get_HeightenedItems(level).map(itemGain => Object.assign(new ItemGain(), itemGain));
+                gain.gainItems = spell.get_HeightenedItems(spellLevel).map(itemGain => Object.assign(new ItemGain(), itemGain));
                 gain.gainItems.forEach(gainItem => {
                     let newItem: Item = itemsService.get_CleanItems()[gainItem.type].filter(item => item.name == gainItem.name)[0];
                     if (newItem.can_Stack()) {
@@ -120,12 +130,12 @@ export class SpellsService {
         //If the spell ends by the time running out, the condition will also have a timer and run out by itself.
         //This allows us to manually change the duration for a condition and keep it running when the spell runs out
         //  (because it's much more difficult to change the spell duration -and- the condition duration).
-        if (spell.get_HeightenedConditions(level)) {
+        if (spell.get_HeightenedConditions(spellLevel)) {
             if (activated) {
-                spell.get_HeightenedConditions(level).forEach(conditionGain => {
+                spell.get_HeightenedConditions(spellLevel).forEach(conditionGain => {
                     let newConditionGain = Object.assign(new ConditionGain(), conditionGain);
                     //Pass the spell level in case that condition effects change with level
-                    newConditionGain.heightened = level;
+                    newConditionGain.heightened = spellLevel;
                     //Pass the spellcasting ability in case the condition needs to use the modifier
                     if (casting) {
                         newConditionGain.spellCastingAbility = casting.ability;
@@ -143,7 +153,7 @@ export class SpellsService {
                     }
                 });
             } else if (manual) {
-                spell.get_HeightenedConditions(level).forEach(conditionGain => {
+                spell.get_HeightenedConditions(spellLevel).forEach(conditionGain => {
                     let conditionTarget = targetCreature;
                     if (conditionGain.targetFilter == "caster") {
                         conditionTarget = creature;

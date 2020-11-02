@@ -401,7 +401,7 @@ export class InventoryComponent implements OnInit {
     }
 
     on_Invest(item: Equipment, inventory: ItemCollection, invested: boolean) {
-        this.characterService.onInvest(this.get_Creature(), inventory, item, invested);
+        this.characterService.on_Invest(this.get_Creature(), inventory, item, invested);
     }
 
     onItemChange(item: Item) {

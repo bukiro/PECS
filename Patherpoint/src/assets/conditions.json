@@ -5927,6 +5927,8 @@
     {
         "name": "Comprehend Language",
         "desc": "You can understand the meaning of a single language you were hearing or reading when the spell was cast. Starting from spell level 3, you can also speak the language. This doesn't let you understand codes, language couched in metaphor, and the like (subject to GM discretion). If you can hear multiple languages and know that, you can choose which language to understand; otherwise, choose one of the languages randomly.",
+        "hint": "You can understand the meaning of a single language you were hearing or reading when the spell was cast. Starting from spell level 3, you can also speak the language.",
+        "showon": "Languages",
         "type": "spells",
         "buff": true
     },
@@ -7910,6 +7912,180 @@
                 "affected": "Deception",
                 "type": "status",
                 "value": "-4"
+            }
+        ]
+    },
+    {
+        "name": "Boots of Elvenkind",
+        "desc": "Until the end of your turn, you ignore difficult terrain when moving on the ground. If you're wearing a cloak of elvenkind, you also gain a +5-foot status bonus to your land Speed until the end of your turn.",
+        "hint": "You ignore difficult terrain when moving on the ground.",
+        "showon": "Movement",
+        "type": "wornitems",
+        "buff": true,
+        "effects": [
+            {
+                "affected": "Land Speed",
+                "value": "(WornItems().find(wornItem => wornItem.name == 'Cloak of Elvenkind')) ? 5 : 0",
+                "type": "status"
+            }
+        ]
+    },
+    {
+        "name": "Cloak of Elvenkind",
+        "desc": "The cloak transforms to match the environment around you and muffles your sounds, granting you a +1 item bonus to Stealth checks.",
+        "type": "wornitems",
+        "buff": true,
+        "effects": [
+            {
+                "affected": "Stealth",
+                "value": "1",
+                "type": "item"
+            }
+        ]
+    },
+    {
+        "name": "Cloak of Elvenkind (Greater)",
+        "desc": "The cloak transforms to match the environment around you and muffles your sounds, granting you a +2 item bonus to Stealth checks.",
+        "type": "wornitems",
+        "buff": true,
+        "effects": [
+            {
+                "affected": "Stealth",
+                "value": "2",
+                "type": "item"
+            }
+        ]
+    },
+    {
+        "name": "Goggles of Night",
+        "desc": "You gain darkvision for the duration.",
+        "type": "wornitems",
+        "buff": true,
+        "senses": [
+            {
+                "name": "Darkvision"
+            }
+        ]
+    },
+    {
+        "name": "Goggles of Night (Major)",
+        "desc": "You gain greater darkvision for the duration.",
+        "type": "wornitems",
+        "buff": true,
+        "senses": [
+            {
+                "name": "Greater Darkvision"
+            }
+        ]
+    },
+    {
+        "name": "Clandestine Cloak",
+        "desc": "You become drab and uninteresting, gaining a +1 item bonus to Stealth checks and to Deception checks to Impersonate a forgettable background character, such as a servant, but also taking a -1 item penalty to Diplomacy and Intimidation checks.",
+        "hint": "You gain a +1 item bonus to Deception checks to Impersonate a forgettable background character, such as a servant.",
+        "showon": "Deception",
+        "type": "wornitems",
+        "buff": true,
+        "effects": [
+            {
+                "affected": "Stealth",
+                "value": "1",
+                "type": "item"
+            },
+            {
+                "affected": "Diplomacy",
+                "value": "-1",
+                "type": "item"
+            },
+            {
+                "affected": "Intimidation",
+                "value": "-1",
+                "type": "item"
+            }
+        ]
+    },
+    {
+        "name": "Clandestine Cloak (Greater)",
+        "desc": "You become drab and uninteresting, gaining a +2 item bonus to Stealth checks and to Deception checks to Impersonate a forgettable background character, such as a servant, but also taking a -1 item penalty to Diplomacy and Intimidation checks.",
+        "hint": "You gain a +2 item bonus to Deception checks to Impersonate a forgettable background character, such as a servant.",
+        "showon": "Deception",
+        "type": "wornitems",
+        "buff": true,
+        "effects": [
+            {
+                "affected": "Stealth",
+                "value": "2",
+                "type": "item"
+            },
+            {
+                "affected": "Diplomacy",
+                "value": "-1",
+                "type": "item"
+            },
+            {
+                "affected": "Intimidation",
+                "value": "-1",
+                "type": "item"
+            }
+        ]
+    },
+    {
+        "name": "Dragon's Eye Charm: Darkvision",
+        "desc": "The charm's pupil has become plainly visible. You can look through the charm to gain darkvision for the duration as long as you Sustain the Activation.",
+        "senses":[
+            {
+                "name": "Darkvision"
+            }
+        ],
+        "type": "helditems",
+        "buff": true
+    },
+    {
+        "name": "Dragon's Eye Charm: Fire Resistance",
+        "desc": "The dragon's eye charm shrouds you in a faintly glowing layer of golden energy. You gain fire resistance 5 for the duration.",
+        "type": "helditems",
+        "buff": true,
+        "effects": [
+            {
+                "affected": "Fire Resistance",
+                "value": "5",
+                "type": "item"
+            }
+        ]
+    },
+    {
+        "name": "Dragon's Eye Charm: Draconic",
+        "desc": "You can speak and understand Draconic for the duration as long as you Sustain the Activation.",
+        "hint": "You can speak and understand Draconic.",
+        "showon": "Languages",
+        "type": "helditems",
+        "buff": true
+    },
+    {
+        "name": "Vine Arrow (Hit)",
+        "desc": "You have been hit by an activated vine arrow and are wrapped in vines. You take a -10-foot circumstance penalty to your Speeds for the duration, or until you Escape against a DC of 19.",
+        "type": "ammunition",
+        "effects": [
+            {
+                "affected": "Speed",
+                "value": "-10",
+                "type": "circumstance"
+            }
+        ]
+    },
+    {
+        "name": "Vine Arrow (Critical Hit)",
+        "desc": "You have been critically hit by an activated vine arrow and are wrapped in vines. You are Immobilized and take a -10-foot circumstance penalty to your Speeds for the duration, or until you Escape against a DC of 19.",
+        "type": "ammunition",
+        "effects": [
+            {
+                "affected": "Speed",
+                "value": "-10",
+                "type": "circumstance"
+            }
+        ],
+        "gainConditions": [
+            {
+                "name":"Immobilized"
             }
         ]
     }

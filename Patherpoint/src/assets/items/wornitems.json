@@ -152,9 +152,9 @@
         "usage": "worn"
     },
     {
-        "desc": "This arrowhead-shaped charm is not meant to be affixed to an arrow, but instead to be carried in a pocket or inside of a quiver. A hunter’s arrowhead is etched with images sacred to the elven god Ketephys. If you carry one on your person, you are infused with great skill at hunting, and gain a +1 item bonus to Survival skill checks and attack rolls against any creature you’ve currently designated as your prey for the Hunt Prey ranger ability (note that the bonus to attack rolls is an item bonus, and therefore not cumulative with an item bonus from a magic weapon). A hunter's arrowhead is also a religious symbol of Ketephys.",
+        "desc": "This arrowhead-shaped charm is not meant to be affixed to an arrow, but instead to be carried in a pocket or inside of a quiver. A hunter's arrowhead is etched with images sacred to the elven god Ketephys. If you carry one on your person, you are infused with great skill at hunting, and gain a +1 item bonus to Survival skill checks and attack rolls against any creature you've currently designated as your prey for the Hunt Prey ranger ability (note that the bonus to attack rolls is an item bonus, and therefore not cumulative with an item bonus from a magic weapon). A hunter's arrowhead is also a religious symbol of Ketephys.",
         "id": "27f7e66c-fd8f-45c7-a61e-d10c5fd7ff67",
-        "hint": "You gain a +1 item bonus to Survival skill checks and attack rolls against any creature you’ve currently designated as your prey for the Hunt Prey ranger ability (note that the bonus to attack rolls is an item bonus, and therefore not cumulative with an item bonus from a magic weapon).",
+        "hint": "You gain a +1 item bonus to Survival skill checks and attack rolls against any creature you've currently designated as your prey for the Hunt Prey ranger ability (note that the bonus to attack rolls is an item bonus, and therefore not cumulative with an item bonus from a magic weapon).",
         "showon": "Survival, Attacks",
         "level": 4,
         "name": "Hunter's Arrowhead",
@@ -252,14 +252,15 @@
         ],
         "activities": [
             {
-                "activationType": "Interact",
+                "actions": "",
+                "desc": "The messenger's Ring lets you cast message as an arcane innate spell at will.",
                 "castSpells": [
                     {
                         "_className": "SpellCast",
                         "name": "Message"
                     }
                 ],
-                "name": "Message (Messenger's Ring)",
+                "name": "Messenger's Ring: Message",
                 "_className": "ItemActivity",
                 "source": "462510ac-d2fc-4f29-aa7c-dcc7272ebfcf"
             },
@@ -325,10 +326,10 @@
         "activities": [
             {
                 "_className": "ItemActivity",
-                "name": "Air Bubble",
-                "actions": "Reaction",
+                "name": "Aeon Stone (Clear Spindle): Air Bubble",
+                "actions": "",
                 "resonant": true,
-                "desc": "The resonant power allows you to cast air bubble as a primal innate spell once per day. ",
+                "desc": "The resonant power allows you to cast air bubble as a primal innate spell once per day.",
                 "cooldown": 144000,
                 "traits": [
                     "Uncommon",
@@ -788,7 +789,7 @@
                 "actions": "Reaction",
                 "activationType": "Interact",
                 "cooldown": 144000,
-                "trigger": "A ranged weapon attack hits you but doesn’t critically hit",
+                "trigger": "A ranged weapon attack hits you but doesn't critically hit",
                 "requirements": "You are aware of the attack and not flat-footed",
                 "desc": "The bracers send the missile off-course. You gain a +2 circumstance bonus to AC against the triggering attack. If this would cause the attack to be a failure, the attack misses you.",
                 "frequency": "once per day",
@@ -824,7 +825,7 @@
                 "actions": "Reaction",
                 "activationType": "Interact",
                 "cooldown": 1000,
-                "trigger": "A ranged weapon attack hits you but doesn’t critically hit",
+                "trigger": "A ranged weapon attack hits you but doesn't critically hit",
                 "requirements": "You are aware of the attack and not flat-footed",
                 "desc": "The bracers send the missile off-course. You gain a +2 circumstance bonus to AC against the triggering attack. If this would cause the attack to be a failure, the attack misses you.",
                 "frequency": "once every 10 minutes",
@@ -1115,7 +1116,7 @@
         "usage": "worn gloves"
     },
     {
-        "desc": "Your mouth, esophagus, and stomach are incredibly elastic and tougher than metal. For the duration of the spell, you can reach down your throat to store or retrieve a single object of light or negligible Bulk in your stomach, as though your stomach were a backpack or other container. Storing and retrieving an item in this way requires an Interact action. The object must be small enough to reasonably fit within your stomach. It is very difficult for other creatures to notice that you are hiding an object in this way; passive observers can’t possibly notice and you gain a +4 circumstance bonus to your Stealth checks to Conceal the Object unless the searcher specifically searches your mouth and stomach. If at the end of the spell’s duration you still have an object stored in your stomach, it is violently expelled, dealing 1d6 damage to you.",
+        "desc": "Your mouth, esophagus, and stomach are incredibly elastic and tougher than metal. For the duration of the spell, you can reach down your throat to store or retrieve a single object of light or negligible Bulk in your stomach, as though your stomach were a backpack or other container. Storing and retrieving an item in this way requires an Interact action. The object must be small enough to reasonably fit within your stomach. It is very difficult for other creatures to notice that you are hiding an object in this way; passive observers can't possibly notice and you gain a +4 circumstance bonus to your Stealth checks to Conceal the Object unless the searcher specifically searches your mouth and stomach. If at the end of the spell's duration you still have an object stored in your stomach, it is violently expelled, dealing 1d6 damage to you.",
         "id": "00d7f12b-0dd1-4559-a596-22185ec7fa52",
         "name": "Iron Gut",
         "hide": true,
@@ -1174,7 +1175,7 @@
                 "inputRequired": "When you activate the item once per day, choose only one of the two activations.",
                 "desc": "You can either transform the cloak into bat-like wings that grant you a fly Speed of 30 feet for 10 minutes, or have the cloak turn you into a bat by casting a 4th-level pest form spell on you.",
                 "frequency": "once per day",
-                "name": "Bat Wings (Cloak of the Bat)",
+                "name": "Cloak of the Bat: Bat Wings",
                 "gainConditions": [
                     {
                         "name": "Cloak of the Bat",
@@ -1196,7 +1197,7 @@
                 "inputRequired": "When you activate the item once per day, choose only one of the two activations.",
                 "desc": "You can either transform the cloak into bat-like wings that grant you a fly Speed of 30 feet for 10 minutes, or have the cloak turn you into a bat by casting a 4th-level pest form spell on you.",
                 "frequency": "once per day",
-                "name": "Bat Form (Cloak of the Bat)",
+                "name": "Cloak of the Bat: Bat Form",
                 "castSpells": [
                     {
                         "_className": "SpellCast",
@@ -1226,7 +1227,7 @@
         ]
     },
     {
-        "desc": "Made from soft leather, with delicate white wings attached to the heel, these boots are ensorcelled with powerful air magic. Whenever you fall while wearing these boots, the boots automatically cast feather fall on you. This benefit can’t trigger again for 10 minutes.",
+        "desc": "Made from soft leather, with delicate white wings attached to the heel, these boots are ensorcelled with powerful air magic. Whenever you fall while wearing these boots, the boots automatically cast feather fall on you. This benefit can't trigger again for 10 minutes.",
         "id": "b45d0723-ade2-4ffe-a220-5bfaaa66b890",
         "bulk": "L",
         "level": 10,
@@ -1243,8 +1244,8 @@
                 "activationType": "",
                 "cooldown": 1000,
                 "inputRequired": "Activate the item when you fall.",
-                "desc": "Whenever you fall while wearing these boots, the boots automatically cast feather fall on you. This benefit can’t trigger again for 10 minutes.",
-                "name": "Feather Fall (Winged Boots)",
+                "desc": "Whenever you fall while wearing these boots, the boots automatically cast feather fall on you. This benefit can't trigger again for 10 minutes.",
+                "name": "Winged Boots: Feather Fall",
                 "castSpells": [
                     {
                         "_className": "SpellCast",
@@ -1270,7 +1271,7 @@
                     }
                 ],
                 "cooldown": 144000,
-                "desc": "You speak a command word and click the boots’ heels together to cause the wings to animate and flap rapidly, granting you a fly Speed of 30 feet for 10 minutes.",
+                "desc": "You speak a command word and click the boots' heels together to cause the wings to animate and flap rapidly, granting you a fly Speed of 30 feet for 10 minutes.",
                 "frequency": "once per day",
                 "name": "Winged Boots",
                 "traits": [
@@ -1333,7 +1334,7 @@
                 "actions": "2A",
                 "activationType": "Command, Interact",
                 "desc": "You can either transform the cloak into bat-like wings that grant you a fly Speed of 30 feet for 10 minutes, or have the cloak turn you into a bat by casting a 4th-level pest form spell on you.",
-                "name": "Bat Wings (Cloak of the Bat)",
+                "name": "Cloak of the Bat (Greater): Bat Wings",
                 "gainConditions": [
                     {
                         "name": "Cloak of the Bat",
@@ -1352,7 +1353,7 @@
                 "actions": "2A",
                 "activationType": "Command, Interact",
                 "desc": "You can either transform the cloak into bat-like wings that grant you a fly Speed of 30 feet for 10 minutes, or have the cloak turn you into a bat by casting a 4th-level pest form spell on you.",
-                "name": "Bat Form (Cloak of the Bat)",
+                "name": "Cloak of the Bat (Greater): Bat Form",
                 "castSpells": [
                     {
                         "_className": "SpellCast",
@@ -1380,5 +1381,962 @@
                 "type": "item"
             }
         ]
+    },
+    {
+        "desc": "These tall, pointed boots are made from soft, supple black or green leather and are decorated with trim and buckles of gold. When worn, the boots allow you to move more nimbly, granting you a +1 item bonus to Acrobatics checks.",
+        "id": "65665afb-bfd6-465a-b897-f57e83624036",
+        "bulk": "L",
+        "level": 5,
+        "name": "Boots of Elvenkind",
+        "price": 14500,
+        "traits": [
+            "Invested",
+            "Magical",
+            "Transmutation"
+        ],
+        "activities": [
+            {
+                "actions": "Free",
+                "activationType": "Envision",
+                "cooldown": 6000,
+                "frequency": "once per hour",
+                "desc": "Until the end of your turn, you ignore difficult terrain when moving on the ground. If you're wearing a cloak of elvenkind, you also gain a +5-foot status bonus to your land Speed until the end of your turn.",
+                "name": "Boots of Elvenkind",
+                "gainConditions": [
+                    {
+                        "name": "Boots of Elvenkind",
+                        "duration": 5
+                    }
+                ],
+                "traits": [
+                    "Invested",
+                    "Magical",
+                    "Transmutation"
+                ],
+                "_className": "ItemActivity",
+                "source": "65665afb-bfd6-465a-b897-f57e83624036"
+            }
+        ],
+        "effects": [
+            {
+                "affected": "Acrobatics",
+                "value": "+1",
+                "type": "item"
+            }
+        ],
+        "_className": "WornItem",
+        "usage": "worn shoes"
+    },
+    {
+        "desc": "These tall, pointed boots are made from soft, supple black or green leather and are decorated with trim and buckles of gold. When worn, the boots allow you to move more nimbly, granting you a +1 item bonus to Acrobatics checks.",
+        "id": "c17fe719-2d55-4a0f-b74d-a90508aea9da",
+        "bulk": "L",
+        "level": 11,
+        "name": "Boots of Elvenkind (Greater)",
+        "subType": "Greater",
+        "subTypeDesc": "The boots grant a +2 bonus. If you're also wearing a cloak of elvenkind, greater boots of elvenkind constantly grant the effects of pass without trace (DC 30) in forest environments.",
+        "hint": "If you're also wearing a cloak of elvenkind, greater boots of elvenkind constantly grant the effects of pass without trace (DC 30) in forest environments. In that case, the DC of checks to Track you in forests gains a +4 status bonus or is 30, whichever results in a higher DC.",
+        "showon": "Movement",
+        "price": 125000,
+        "traits": [
+            "Invested",
+            "Magical",
+            "Transmutation"
+        ],
+        "activities": [
+            {
+                "actions": "Free",
+                "activationType": "Envision",
+                "cooldown": 6000,
+                "frequency": "once per hour",
+                "desc": "Until the end of your turn, you ignore difficult terrain when moving on the ground. If you're wearing a cloak of elvenkind, you also gain a +5-foot status bonus to your land Speed until the end of your turn.",
+                "name": "Boots of Elvenkind (Greater)",
+                "gainConditions": [
+                    {
+                        "name": "Boots of Elvenkind",
+                        "duration": 5
+                    }
+                ],
+                "traits": [
+                    "Invested",
+                    "Magical",
+                    "Transmutation"
+                ],
+                "_className": "ItemActivity",
+                "source": "c17fe719-2d55-4a0f-b74d-a90508aea9da"
+            }
+        ],
+        "effects": [
+            {
+                "affected": "Acrobatics",
+                "value": "+2",
+                "type": "item"
+            }
+        ],
+        "_className": "WornItem",
+        "usage": "worn shoes"
+    },
+    {
+        "desc": "This cloak is deep green with a voluminous hood, embroidered with gold trim and symbols significant in elven culture. The cloak allows you to cast the ghost sound cantrip as an arcane innate spell. When you adjust the cloak's clasp (an Interact action), the cloak transforms to match the environment around you and muffles your sounds, granting you a +1 item bonus to Stealth checks.",
+        "id": "b0a0fc41-b6cc-4dba-870c-efdd0468e448",
+        "bulk": "L",
+        "level": 7,
+        "name": "Cloak of Elvenkind",
+        "price": 36000,
+        "traits": [
+            "Illusion",
+            "Invested",
+            "Magical"
+        ],
+        "activities": [
+            {
+                "actions": "2A",
+                "activationType": "Interact",
+                "cooldown": 144000,
+                "charges": 2,
+                "frequency": "once per day",
+                "desc": "You draw the hood up and gain the effects of invisibility, with the spell's normal duration or until you pull the hood back down, whichever comes first. If you're also wearing boots of elvenkind, you can activate this ability twice per day.",
+                "name": "Cloak of Elvenkind",
+                "inputRequired": "Use the second charge of the activity only if you're wearing the boots of elvenkind.",
+                "castSpells": [
+                    {
+                        "_className": "SpellCast",
+                        "name": "Invisibility",
+                        "target": "self"
+                    }
+                ],
+                "toggle": true,
+                "duration": 1000,
+                "traits": [
+                    "Illusion",
+                    "Invested",
+                    "Magical"
+                ],
+                "_className": "ItemActivity",
+                "source": "b0a0fc41-b6cc-4dba-870c-efdd0468e448"
+            },
+            {
+                "actions": "",
+                "desc": "The cloak allows you to cast the ghost sound cantrip as an arcane innate spell.",
+                "name": "Cloak of Elvenkind: Ghost Sound",
+                "castSpells": [
+                    {
+                        "_className": "SpellCast",
+                        "name": "Ghost Sound",
+                        "level": 0
+                    }
+                ],
+                "traits": [
+                    "Illusion",
+                    "Invested",
+                    "Magical"
+                ],
+                "_className": "ItemActivity",
+                "source": "b0a0fc41-b6cc-4dba-870c-efdd0468e448"
+            },
+            {
+                "actions": "1A",
+                "activationType": "Interact",
+                "desc": "When you adjust the cloak's clasp, the cloak transforms to match the environment around you and muffles your sounds, granting you a +1 item bonus to Stealth checks.",
+                "name": "Cloak of Elvenkind: Adjust Clasp",
+                "toggle": true,
+                "traits": [
+                    "Illusion",
+                    "Invested",
+                    "Magical"
+                ],
+                "gainConditions": [
+                    {
+                        "name": "Cloak of Elvenkind",
+                        "duration": -1
+                    }
+                ],
+                "_className": "ItemActivity",
+                "source": "b0a0fc41-b6cc-4dba-870c-efdd0468e448"
+            }
+        ],
+        "effects": [
+            {
+                "affected": "Acrobatics",
+                "value": "+1",
+                "type": "item"
+            }
+        ],
+        "_className": "WornItem",
+        "usage": "worn cloak"
+    },
+    {
+        "desc": "This cloak is deep green with a voluminous hood, embroidered with gold trim and symbols significant in elven culture. The cloak allows you to cast the ghost sound cantrip as an arcane innate spell. When you adjust the cloak's clasp (an Interact action), the cloak transforms to match the environment around you and muffles your sounds, granting you a +1 item bonus to Stealth checks.",
+        "id": "df38a8cc-49f9-41d2-97b8-101a5cf020be",
+        "bulk": "L",
+        "level": 12,
+        "name": "Cloak of Elvenkind (Greater)",
+        "subType": "Greater",
+        "subTypeDesc": "The cloak grants a +2 item bonus, and the effects of 4th-level invisibility. If you're also wearing boots of elvenkind, the greater cloak of elvenkind allows you to Sneak in forest environments even when creatures are currently observing you.",
+        "hint": "If you are wearing boots of elvenkind, the greater cloak of elvenkind allows you to Sneak in forest environments even when creatures are currently observing you.",
+        "showon": "Stealth",
+        "price": 175000,
+        "traits": [
+            "Illusion",
+            "Invested",
+            "Magical"
+        ],
+        "activities": [
+            {
+                "actions": "2A",
+                "activationType": "Interact",
+                "cooldown": 144000,
+                "charges": 2,
+                "frequency": "once per day",
+                "desc": "You draw the hood up and gain the effects of 4th-level invisibility, with the spell's normal duration or until you pull the hood back down, whichever comes first. If you're also wearing boots of elvenkind, you can activate this ability twice per day.",
+                "name": "Cloak of Elvenkind (Greater)",
+                "inputRequired": "Use the second charge of the activity only if you're wearing the boots of elvenkind.",
+                "castSpells": [
+                    {
+                        "_className": "SpellCast",
+                        "name": "Invisibility",
+                        "level": 4,
+                        "duration": 100,
+                        "target": "self"
+                    }
+                ],
+                "toggle": true,
+                "duration": 100,
+                "traits": [
+                    "Illusion",
+                    "Invested",
+                    "Magical"
+                ],
+                "_className": "ItemActivity",
+                "source": "df38a8cc-49f9-41d2-97b8-101a5cf020be"
+            },
+            {
+                "actions": "",
+                "desc": "The cloak allows you to cast the ghost sound cantrip as an arcane innate spell.",
+                "name": "Cloak of Elvenkind (Greater): Ghost Sound",
+                "castSpells": [
+                    {
+                        "_className": "SpellCast",
+                        "name": "Ghost Sound",
+                        "level": 0
+                    }
+                ],
+                "traits": [
+                    "Illusion",
+                    "Invested",
+                    "Magical"
+                ],
+                "_className": "ItemActivity",
+                "source": "df38a8cc-49f9-41d2-97b8-101a5cf020be"
+            },
+            {
+                "actions": "1A",
+                "activationType": "Interact",
+                "desc": "When you adjust the cloak's clasp, the cloak transforms to match the environment around you and muffles your sounds, granting you a +2 item bonus to Stealth checks.",
+                "name": "Cloak of Elvenkind (Greater): Adjust Clasp",
+                "toggle": true,
+                "traits": [
+                    "Illusion",
+                    "Invested",
+                    "Magical"
+                ],
+                "gainConditions": [
+                    {
+                        "name": "Cloak of Elvenkind (Greater)",
+                        "duration": -1
+                    }
+                ],
+                "_className": "ItemActivity",
+                "source": "df38a8cc-49f9-41d2-97b8-101a5cf020be"
+            }
+        ],
+        "effects": [
+            {
+                "affected": "Acrobatics",
+                "value": "+1",
+                "type": "item"
+            }
+        ],
+        "_className": "WornItem",
+        "usage": "worn cloak"
+    },
+    {
+        "desc": "The opaque crystal lenses of these sleek goggles do not obscure vision, but rather enhance it. While wearing the goggles, you gain a +1 item bonus to Perception checks involving sight.",
+        "id": "6dfd996e-a954-49ca-bd65-57f823f53d89",
+        "bulk": "",
+        "level": 5,
+        "name": "Goggles of Night",
+        "hint": "While wearing the goggles, you gain a +1 item bonus to Perception checks involving sight.",
+        "showon": "Perception",
+        "price": 15000,
+        "traits": [
+            "Invested",
+            "Magical",
+            "Transmutation"
+        ],
+        "activities": [
+            {
+                "actions": "1A",
+                "activationType": "Interact",
+                "cooldown": 144000,
+                "frequency": "once per day",
+                "desc": "Rotating the lenses 90 degrees, you gain darkvision for 1 hour.",
+                "name": "Goggles of Night",
+                "traits": [
+                    "Invested",
+                    "Magical",
+                    "Transmutation"
+                ],
+                "gainConditions": [
+                    {
+                        "name": "Goggles of Night",
+                        "duration": 6000
+                    }
+                ],
+                "_className": "ItemActivity",
+                "source": "6dfd996e-a954-49ca-bd65-57f823f53d89"
+            }
+        ],
+        "_className": "WornItem",
+        "usage": "worn eyepiece"
+    },
+    {
+        "desc": "The opaque crystal lenses of these sleek goggles do not obscure vision, but rather enhance it. While wearing the goggles, you gain a +1 item bonus to Perception checks involving sight.",
+        "id": "b1af94db-6e0b-492f-ba0c-788c3c00d4e5",
+        "bulk": "",
+        "level": 11,
+        "name": "Goggles of Night (Greater)",
+        "subType": "Greater",
+        "subTypeDesc": "The item bonus is +2, and the darkvision lasts until you rotate the lenses back or the item is no longer invested by you, whichever comes first.",
+        "hint": "While wearing the goggles, you gain a +2 item bonus to Perception checks involving sight.",
+        "showon": "Perception",
+        "price": 125000,
+        "traits": [
+            "Invested",
+            "Magical",
+            "Transmutation"
+        ],
+        "activities": [
+            {
+                "actions": "1A",
+                "activationType": "Interact",
+                "cooldown": 144000,
+                "frequency": "once per day",
+                "toggle": true,
+                "desc": "Rotating the lenses 90 degrees, you gain darkvision until you rotate the lenses back or the item is no longer invested by you, whichever comes first.",
+                "name": "Goggles of Night (Greater)",
+                "traits": [
+                    "Invested",
+                    "Magical",
+                    "Transmutation"
+                ],
+                "gainConditions": [
+                    {
+                        "name": "Goggles of Night",
+                        "duration": -1
+                    }
+                ],
+                "_className": "ItemActivity",
+                "source": "b1af94db-6e0b-492f-ba0c-788c3c00d4e5"
+            }
+        ],
+        "_className": "WornItem",
+        "usage": "worn eyepiece"
+    },
+    {
+        "desc": "The opaque crystal lenses of these sleek goggles do not obscure vision, but rather enhance it. While wearing the goggles, you gain a +1 item bonus to Perception checks involving sight.",
+        "id": "c320dd0c-347a-4d66-8ad8-5fb0a6571bc4",
+        "bulk": "",
+        "level": 18,
+        "name": "Goggles of Night (Major)",
+        "subType": "Major",
+        "subTypeDesc": "The item bonus is +3, and the goggles grant greater darkvision, which lasts until you rotate the lenses back or the item is no longer invested by you, whichever comes first.",
+        "hint": "While wearing the goggles, you gain a +3 item bonus to Perception checks involving sight.",
+        "showon": "Perception",
+        "price": 2000000,
+        "traits": [
+            "Invested",
+            "Magical",
+            "Transmutation"
+        ],
+        "activities": [
+            {
+                "actions": "1A",
+                "activationType": "Interact",
+                "cooldown": 144000,
+                "frequency": "once per day",
+                "toggle": true,
+                "desc": "Rotating the lenses 90 degrees, you gain greater darkvision until you rotate the lenses back or the item is no longer invested by you, whichever comes first.",
+                "name": "Goggles of Night (Major)",
+                "traits": [
+                    "Invested",
+                    "Magical",
+                    "Transmutation"
+                ],
+                "gainConditions": [
+                    {
+                        "name": "Goggles of Night (Major)",
+                        "duration": -1
+                    }
+                ],
+                "_className": "ItemActivity",
+                "source": "c320dd0c-347a-4d66-8ad8-5fb0a6571bc4"
+            }
+        ],
+        "_className": "WornItem",
+        "usage": "worn eyepiece"
+    },
+    {
+        "desc": "This heavy iron ring is shaped to look like the head of a ram, with curling horns.",
+        "id": "08cedfef-2357-41fc-921b-23f1bdbc1208",
+        "bulk": "",
+        "level": 6,
+        "name": "Ring of the Ram",
+        "price": 22000,
+        "traits": [
+            "Evocation",
+            "Force",
+            "Invested",
+            "Magical"
+        ],
+        "activities": [
+            {
+                "actions": "1A or more",
+                "activationType": "Interact",
+                "cooldown": 100,
+                "frequency": "once per minute",
+                "desc": "A ram-shaped blast of force slams into one foe that you can see within 60 feet. The number of actions you spend to Activate this Item (from 1 to 3) determines the intensity of the force. The blow deals 2d6 force damage per action spent and pushes the target 5 feet per action spent. The target must attempt a DC 22 Fortitude save.",
+                "critsuccess": "The target is unaffected.",
+                "success": "The target takes half damage and is pushed half the distance.",
+                "failure": "The target takes full damage and is pushed the full distance.",
+                "critfailure": "The target takes double damage and is pushed twice the distance.",
+                "name": "Ring of the Ram",
+                "traits": [
+                    "Evocation",
+                    "Force",
+                    "Invested",
+                    "Magical"
+                ],
+                "_className": "ItemActivity",
+                "source": "08cedfef-2357-41fc-921b-23f1bdbc1208"
+            }
+        ],
+        "_className": "WornItem",
+        "usage": "worn"
+    },
+    {
+        "desc": "This heavy iron ring is shaped to look like the head of a ram, with curling horns.",
+        "id": "d47bf271-881a-461d-adb0-cb90e733b173",
+        "bulk": "",
+        "level": 13,
+        "name": "Ring of the Ram (Greater)",
+        "subType": "Greater",
+        "subTypeDesc": "The ring deals 3d6 force damage per action spent, and the save DC is 32. When you activate the ring using 3 actions, you can disperse the force into multiple magical rams, targeting all creatures in a 30-foot cone instead of one target within 60 feet.",
+        "price": 270000,
+        "traits": [
+            "Evocation",
+            "Force",
+            "Invested",
+            "Magical"
+        ],
+        "activities": [
+            {
+                "actions": "1A or more",
+                "activationType": "Interact",
+                "cooldown": 100,
+                "frequency": "once per minute",
+                "desc": "A ram-shaped blast of force slams into one foe that you can see within 60 feet. The number of actions you spend to Activate this Item (from 1 to 3) determines the intensity of the force. The blow deals 3d6 force damage per action spent and pushes the target 5 feet per action spent. The target must attempt a DC 32 Fortitude save. When you activate the ring using 3 actions, you can disperse the force into multiple magical rams, targeting all creatures in a 30-foot cone instead of one target within 60 feet.",
+                "critsuccess": "The target is unaffected.",
+                "success": "The target takes half damage and is pushed half the distance.",
+                "failure": "The target takes full damage and is pushed the full distance.",
+                "critfailure": "The target takes double damage and is pushed twice the distance.",
+                "name": "Ring of the Ram (Greater)",
+                "traits": [
+                    "Evocation",
+                    "Force",
+                    "Invested",
+                    "Magical"
+                ],
+                "_className": "ItemActivity",
+                "source": "d47bf271-881a-461d-adb0-cb90e733b173"
+            }
+        ],
+        "_className": "WornItem",
+        "usage": "worn"
+    },
+    {
+        "desc": "This ring grants you resistance 5 against one type of energy damage: acid, cold, electricity, fire, or sonic. Each ring is crafted to protect against a particular type of energy damage, and its design usually embodies the type of energy it protects the wearer from in some way. For instance, a ring of fire resistance might be capped with a ruby, whereas a ring of cold resistance features a sapphire instead.",
+        "id": "183b8611-da90-4a2d-a2ed-19a434a1f8ba",
+        "bulk": "",
+        "level": 6,
+        "name": "Ring of Energy Resistance (Acid)",
+        "subType": "Acid",
+        "subTypeDesc": "The ring grant resistance 5 against acid damage.",
+        "price": 24500,
+        "traits": [
+            "Abjuration",
+            "Invested",
+            "Magical"
+        ],
+        "effects": [
+            {
+                "affected": "Acid Resistance",
+                "value": "5"
+            }
+        ],
+        "_className": "WornItem",
+        "usage": "worn"
+    },
+    {
+        "desc": "This ring grants you resistance 5 against one type of energy damage: acid, cold, electricity, fire, or sonic. Each ring is crafted to protect against a particular type of energy damage, and its design usually embodies the type of energy it protects the wearer from in some way. For instance, a ring of fire resistance might be capped with a ruby, whereas a ring of cold resistance features a sapphire instead.",
+        "id": "12f84e34-2192-479e-8077-507b04fd8d89",
+        "bulk": "",
+        "level": 6,
+        "name": "Ring of Energy Resistance (Cold)",
+        "subType": "Cold",
+        "subTypeDesc": "The ring grant resistance 5 against cold damage.",
+        "price": 24500,
+        "traits": [
+            "Abjuration",
+            "Invested",
+            "Magical"
+        ],
+        "effects": [
+            {
+                "affected": "Cold Resistance",
+                "value": "5"
+            }
+        ],
+        "_className": "WornItem",
+        "usage": "worn"
+    },
+    {
+        "desc": "This ring grants you resistance 5 against one type of energy damage: acid, cold, electricity, fire, or sonic. Each ring is crafted to protect against a particular type of energy damage, and its design usually embodies the type of energy it protects the wearer from in some way. For instance, a ring of fire resistance might be capped with a ruby, whereas a ring of cold resistance features a sapphire instead.",
+        "id": "0b079ba2-b01a-436c-ac64-a2b52865812f",
+        "bulk": "",
+        "level": 6,
+        "name": "Ring of Energy Resistance (Electricity)",
+        "subType": "Electricity",
+        "subTypeDesc": "The ring grant resistance 5 against electricity damage.",
+        "price": 24500,
+        "traits": [
+            "Abjuration",
+            "Invested",
+            "Magical"
+        ],
+        "effects": [
+            {
+                "affected": "Electricity Resistance",
+                "value": "5"
+            }
+        ],
+        "_className": "WornItem",
+        "usage": "worn"
+    },
+    {
+        "desc": "This ring grants you resistance 5 against one type of energy damage: acid, cold, electricity, fire, or sonic. Each ring is crafted to protect against a particular type of energy damage, and its design usually embodies the type of energy it protects the wearer from in some way. For instance, a ring of fire resistance might be capped with a ruby, whereas a ring of cold resistance features a sapphire instead.",
+        "id": "524f8fcf-8e33-42df-9444-4299d5e9f06f",
+        "bulk": "",
+        "level": 6,
+        "name": "Ring of Energy Resistance (Fire)",
+        "subType": "Fire",
+        "subTypeDesc": "The ring grant resistance 5 against fire damage.",
+        "price": 24500,
+        "traits": [
+            "Abjuration",
+            "Invested",
+            "Magical"
+        ],
+        "effects": [
+            {
+                "affected": "Fire Resistance",
+                "value": "5"
+            }
+        ],
+        "_className": "WornItem",
+        "usage": "worn"
+    },
+    {
+        "desc": "This ring grants you resistance 5 against one type of energy damage: acid, cold, electricity, fire, or sonic. Each ring is crafted to protect against a particular type of energy damage, and its design usually embodies the type of energy it protects the wearer from in some way. For instance, a ring of fire resistance might be capped with a ruby, whereas a ring of cold resistance features a sapphire instead.",
+        "id": "95600cdc-03ca-4c3d-87e4-b823e7714cb9",
+        "bulk": "",
+        "level": 6,
+        "name": "Ring of Energy Resistance (Sonic)",
+        "subType": "Sonic",
+        "subTypeDesc": "The ring grant resistance 5 against sonic damage.",
+        "price": 24500,
+        "traits": [
+            "Abjuration",
+            "Invested",
+            "Magical"
+        ],
+        "effects": [
+            {
+                "affected": "Sonic Resistance",
+                "value": "5"
+            }
+        ],
+        "_className": "WornItem",
+        "usage": "worn"
+    },
+    {
+        "desc": "This ring grants you resistance 5 against one type of energy damage: acid, cold, electricity, fire, or sonic. Each ring is crafted to protect against a particular type of energy damage, and its design usually embodies the type of energy it protects the wearer from in some way. For instance, a ring of fire resistance might be capped with a ruby, whereas a ring of cold resistance features a sapphire instead.",
+        "id": "806cb90e-d915-47ff-b049-d1a9cd625107",
+        "bulk": "",
+        "level": 10,
+        "name": "Ring of Energy Resistance (Acid, Greater)",
+        "subType": "Acid, Greater",
+        "subTypeDesc": "The ring grant resistance 10 against acid damage.",
+        "price": 97500,
+        "traits": [
+            "Abjuration",
+            "Invested",
+            "Magical"
+        ],
+        "effects": [
+            {
+                "affected": "Acid Resistance",
+                "value": "10"
+            }
+        ],
+        "_className": "WornItem",
+        "usage": "worn"
+    },
+    {
+        "desc": "This ring grants you resistance 5 against one type of energy damage: acid, cold, electricity, fire, or sonic. Each ring is crafted to protect against a particular type of energy damage, and its design usually embodies the type of energy it protects the wearer from in some way. For instance, a ring of fire resistance might be capped with a ruby, whereas a ring of cold resistance features a sapphire instead.",
+        "id": "0dbb3f58-41be-4b0c-9da6-ac853877fe57",
+        "bulk": "",
+        "level": 10,
+        "name": "Ring of Energy Resistance (Cold, Greater)",
+        "subType": "Cold, Greater",
+        "subTypeDesc": "The ring grant resistance 10 against cold damage.",
+        "price": 97500,
+        "traits": [
+            "Abjuration",
+            "Invested",
+            "Magical"
+        ],
+        "effects": [
+            {
+                "affected": "Cold Resistance",
+                "value": "10"
+            }
+        ],
+        "_className": "WornItem",
+        "usage": "worn"
+    },
+    {
+        "desc": "This ring grants you resistance 5 against one type of energy damage: acid, cold, electricity, fire, or sonic. Each ring is crafted to protect against a particular type of energy damage, and its design usually embodies the type of energy it protects the wearer from in some way. For instance, a ring of fire resistance might be capped with a ruby, whereas a ring of cold resistance features a sapphire instead.",
+        "id": "5722eead-6f13-434f-a792-8e6384e5265d",
+        "bulk": "",
+        "level": 10,
+        "name": "Ring of Energy Resistance (Electricity, Greater)",
+        "subType": "Electricity, Greater",
+        "subTypeDesc": "The ring grant resistance 10 against electricity damage.",
+        "price": 97500,
+        "traits": [
+            "Abjuration",
+            "Invested",
+            "Magical"
+        ],
+        "effects": [
+            {
+                "affected": "Electricity Resistance",
+                "value": "10"
+            }
+        ],
+        "_className": "WornItem",
+        "usage": "worn"
+    },
+    {
+        "desc": "This ring grants you resistance 5 against one type of energy damage: acid, cold, electricity, fire, or sonic. Each ring is crafted to protect against a particular type of energy damage, and its design usually embodies the type of energy it protects the wearer from in some way. For instance, a ring of fire resistance might be capped with a ruby, whereas a ring of cold resistance features a sapphire instead.",
+        "id": "87c0a3b2-0a28-4f6e-822b-3a70c393c962",
+        "bulk": "",
+        "level": 10,
+        "name": "Ring of Energy Resistance (Fire, Greater)",
+        "subType": "Fire, Greater",
+        "subTypeDesc": "The ring grant resistance 10 against fire damage.",
+        "price": 97500,
+        "traits": [
+            "Abjuration",
+            "Invested",
+            "Magical"
+        ],
+        "effects": [
+            {
+                "affected": "Fire Resistance",
+                "value": "10"
+            }
+        ],
+        "_className": "WornItem",
+        "usage": "worn"
+    },
+    {
+        "desc": "This ring grants you resistance 5 against one type of energy damage: acid, cold, electricity, fire, or sonic. Each ring is crafted to protect against a particular type of energy damage, and its design usually embodies the type of energy it protects the wearer from in some way. For instance, a ring of fire resistance might be capped with a ruby, whereas a ring of cold resistance features a sapphire instead.",
+        "id": "970d5882-2c86-40fb-9d55-3d98bd829020",
+        "bulk": "",
+        "level": 10,
+        "name": "Ring of Energy Resistance (Sonic, Greater)",
+        "subType": "Sonic, Greater",
+        "subTypeDesc": "The ring grant resistance 10 against sonic damage.",
+        "price": 97500,
+        "traits": [
+            "Abjuration",
+            "Invested",
+            "Magical"
+        ],
+        "effects": [
+            {
+                "affected": "Sonic Resistance",
+                "value": "10"
+            }
+        ],
+        "_className": "WornItem",
+        "usage": "worn"
+    },
+    {
+        "desc": "This ring grants you resistance 5 against one type of energy damage: acid, cold, electricity, fire, or sonic. Each ring is crafted to protect against a particular type of energy damage, and its design usually embodies the type of energy it protects the wearer from in some way. For instance, a ring of fire resistance might be capped with a ruby, whereas a ring of cold resistance features a sapphire instead.",
+        "id": "c423fb02-a4dd-4fcf-8b15-70d46d719b60",
+        "bulk": "",
+        "level": 14,
+        "name": "Ring of Energy Resistance (Acid, Major)",
+        "subType": "Acid, Major",
+        "subTypeDesc": "The ring grant resistance 15 against acid damage.",
+        "price": 440000,
+        "traits": [
+            "Abjuration",
+            "Invested",
+            "Magical"
+        ],
+        "effects": [
+            {
+                "affected": "Acid Resistance",
+                "value": "15"
+            }
+        ],
+        "_className": "WornItem",
+        "usage": "worn"
+    },
+    {
+        "desc": "This ring grants you resistance 5 against one type of energy damage: acid, cold, electricity, fire, or sonic. Each ring is crafted to protect against a particular type of energy damage, and its design usually embodies the type of energy it protects the wearer from in some way. For instance, a ring of fire resistance might be capped with a ruby, whereas a ring of cold resistance features a sapphire instead.",
+        "id": "95398fbc-2f7f-4de5-adf2-a3da9413ab95",
+        "bulk": "",
+        "level": 14,
+        "name": "Ring of Energy Resistance (Cold, Major)",
+        "subType": "Cold, Major",
+        "subTypeDesc": "The ring grant resistance 15 against cold damage.",
+        "price": 440000,
+        "traits": [
+            "Abjuration",
+            "Invested",
+            "Magical"
+        ],
+        "effects": [
+            {
+                "affected": "Cold Resistance",
+                "value": "15"
+            }
+        ],
+        "_className": "WornItem",
+        "usage": "worn"
+    },
+    {
+        "desc": "This ring grants you resistance 5 against one type of energy damage: acid, cold, electricity, fire, or sonic. Each ring is crafted to protect against a particular type of energy damage, and its design usually embodies the type of energy it protects the wearer from in some way. For instance, a ring of fire resistance might be capped with a ruby, whereas a ring of cold resistance features a sapphire instead.",
+        "id": "c4727cc4-28b5-4d7a-b4ea-854b97de2542",
+        "bulk": "",
+        "level": 14,
+        "name": "Ring of Energy Resistance (Electricity, Major)",
+        "subType": "Electricity, Major",
+        "subTypeDesc": "The ring grant resistance 15 against electricity damage.",
+        "price": 440000,
+        "traits": [
+            "Abjuration",
+            "Invested",
+            "Magical"
+        ],
+        "effects": [
+            {
+                "affected": "Electricity Resistance",
+                "value": "15"
+            }
+        ],
+        "_className": "WornItem",
+        "usage": "worn"
+    },
+    {
+        "desc": "This ring grants you resistance 5 against one type of energy damage: acid, cold, electricity, fire, or sonic. Each ring is crafted to protect against a particular type of energy damage, and its design usually embodies the type of energy it protects the wearer from in some way. For instance, a ring of fire resistance might be capped with a ruby, whereas a ring of cold resistance features a sapphire instead.",
+        "id": "99b02a8a-b3ce-44ee-be45-8cfcf1a2835b",
+        "bulk": "",
+        "level": 14,
+        "name": "Ring of Energy Resistance (Fire, Major)",
+        "subType": "Fire, Major",
+        "subTypeDesc": "The ring grant resistance 15 against fire damage.",
+        "price": 440000,
+        "traits": [
+            "Abjuration",
+            "Invested",
+            "Magical"
+        ],
+        "effects": [
+            {
+                "affected": "Fire Resistance",
+                "value": "15"
+            }
+        ],
+        "_className": "WornItem",
+        "usage": "worn"
+    },
+    {
+        "desc": "This ring grants you resistance 5 against one type of energy damage: acid, cold, electricity, fire, or sonic. Each ring is crafted to protect against a particular type of energy damage, and its design usually embodies the type of energy it protects the wearer from in some way. For instance, a ring of fire resistance might be capped with a ruby, whereas a ring of cold resistance features a sapphire instead.",
+        "id": "5144f481-8875-436e-ad42-48b53ac93e08",
+        "bulk": "",
+        "level": 14,
+        "name": "Ring of Energy Resistance (Sonic, Major)",
+        "subType": "Sonic, Major",
+        "subTypeDesc": "The ring grant resistance 15 against sonic damage.",
+        "price": 440000,
+        "traits": [
+            "Abjuration",
+            "Invested",
+            "Magical"
+        ],
+        "effects": [
+            {
+                "affected": "Sonic Resistance",
+                "value": "15"
+            }
+        ],
+        "_className": "WornItem",
+        "usage": "worn"
+    },
+    {
+        "desc": "When you pull up the hood of this nondescript gray cloak (an Interact action), you become drab and uninteresting, gaining a +1 item bonus to Stealth checks and to Deception checks to Impersonate a forgettable background character, such as a servant, but also taking a -1 item penalty to Diplomacy and Intimidation checks.",
+        "id": "b403bd95-ae81-40b3-a246-aa178f4d4aea",
+        "bulk": "L",
+        "level": 6,
+        "name": "Clandestine Cloak",
+        "price": 23000,
+        "traits": [
+            "Uncommon",
+            "Illusion",
+            "Invested",
+            "Magical"
+        ],
+        "activities": [
+            {
+                "actions": "2A",
+                "activationType": "Interact",
+                "cooldown": 144000,
+                "frequency": "once per day",
+                "desc": "You pull the cloak's hood up and gain the benefits of nondetection for 1 hour or until you pull the hood back down, whichever comes first.",
+                "name": "Clandestine Cloak",
+                "castSpells": [
+                    {
+                        "_className": "SpellCast",
+                        "name": "Nondetection",
+                        "target": "self"
+                    }
+                ],
+                "toggle": true,
+                "duration": 6000,
+                "traits": [
+                    "Uncommon",
+                    "Illusion",
+                    "Invested",
+                    "Magical"
+                ],
+                "_className": "ItemActivity",
+                "source": "b403bd95-ae81-40b3-a246-aa178f4d4aea"
+            },
+            {
+                "actions": "1A",
+                "activationType": "Interact",
+                "desc": "When you pull up the hood of this nondescript gray cloak (an Interact action), you become drab and uninteresting, gaining a +1 item bonus to Stealth checks and to Deception checks to Impersonate a forgettable background character, such as a servant, but also taking a -1 item penalty to Diplomacy and Intimidation checks.",
+                "name": "Clandestine Cloak: Pull Up Hood",
+                "toggle": true,
+                "traits": [
+                    "Uncommon",
+                    "Illusion",
+                    "Invested",
+                    "Magical"
+                ],
+                "gainConditions": [
+                    {
+                        "name": "Clandestine Cloak"
+                    }
+                ],
+                "_className": "ItemActivity",
+                "source": "b403bd95-ae81-40b3-a246-aa178f4d4aea"
+            }
+        ],
+        "_className": "WornItem",
+        "usage": "worn cloak"
+    },
+    {
+        "desc": "When you pull up the hood of this nondescript gray cloak (an Interact action), you become drab and uninteresting, gaining a +1 item bonus to Stealth checks and to Deception checks to Impersonate a forgettable background character, such as a servant, but also taking a -1 item penalty to Diplomacy and Intimidation checks.",
+        "id": "9acbe7d9-081e-4058-9329-4b5dfe8e448c",
+        "bulk": "L",
+        "level": 10,
+        "name": "Clandestine Cloak (Greater)",
+        "subType": "Greater",
+        "subTypeDesc": "The item bonus is +2, and when you activate the cloak, you gain the benefits of 5th-level nondetection for 8 hours.",
+        "price": 90000,
+        "traits": [
+            "Uncommon",
+            "Illusion",
+            "Invested",
+            "Magical"
+        ],
+        "activities": [
+            {
+                "actions": "2A",
+                "activationType": "Interact",
+                "cooldown": 144000,
+                "frequency": "once per day",
+                "desc": "You pull the cloak's hood up and gain the benefits of 5th-level nondetection for 8 hours or until you pull the hood back down, whichever comes first.",
+                "name": "Clandestine Cloak (Greater)",
+                "castSpells": [
+                    {
+                        "_className": "SpellCast",
+                        "name": "Nondetection",
+                        "level": 5,
+                        "duration": 48000,
+                        "target": "self"
+                    }
+                ],
+                "toggle": true,
+                "duration": 48000,
+                "traits": [
+                    "Uncommon",
+                    "Illusion",
+                    "Invested",
+                    "Magical"
+                ],
+                "_className": "ItemActivity",
+                "source": "9acbe7d9-081e-4058-9329-4b5dfe8e448c"
+            },
+            {
+                "actions": "1A",
+                "activationType": "Interact",
+                "desc": "When you pull up the hood of this nondescript gray cloak (an Interact action), you become drab and uninteresting, gaining a +2 item bonus to Stealth checks and to Deception checks to Impersonate a forgettable background character, such as a servant, but also taking a -1 item penalty to Diplomacy and Intimidation checks.",
+                "name": "Clandestine Cloak (Greater): Pull Up Hood",
+                "toggle": true,
+                "traits": [
+                    "Uncommon",
+                    "Illusion",
+                    "Invested",
+                    "Magical"
+                ],
+                "gainConditions": [
+                    {
+                        "name": "Clandestine Cloak (Greater)"
+                    }
+                ],
+                "_className": "ItemActivity",
+                "source": "9acbe7d9-081e-4058-9329-4b5dfe8e448c"
+            }
+        ],
+        "_className": "WornItem",
+        "usage": "worn cloak"
     }
 ]

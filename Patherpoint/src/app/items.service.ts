@@ -416,7 +416,7 @@ export class ItemsService {
                     characterService.onEquip(creature, inventory, movedItem as Equipment, false)
                 }
                 if ((movedItem as Equipment).invested) {
-                    characterService.onInvest(creature, inventory, movedItem as Equipment, false)
+                    characterService.on_Invest(creature, inventory, movedItem as Equipment, false)
                 }
             } else {
                 let movedItem = JSON.parse(JSON.stringify(item));
@@ -449,7 +449,7 @@ export class ItemsService {
                     characterService.onEquip(creature, targetInventory, newItem as Equipment, false)
                 }
                 if ((newItem as Equipment).invested) {
-                    characterService.onInvest(creature, targetInventory, newItem as Equipment, false)
+                    characterService.on_Invest(creature, targetInventory, newItem as Equipment, false)
                 }
             }
 
@@ -479,7 +479,10 @@ export class ItemsService {
             item["castSpells"].forEach((cast: SpellCast) => {
                 cast.spellGain.duration = cast.duration;
                 let librarySpell = spellsService.get_Spells(cast.name)[0];
-                spellsService.process_Spell(creature, creature.type, characterService, itemsService, timeService, null, cast.spellGain, librarySpell, cast.level, true, true, false);
+                if (librarySpell) {
+                    spellsService.process_Spell(creature, creature.type, characterService, itemsService, timeService, null, cast.spellGain, librarySpell, cast.level, true, true, false);
+                }
+                
             })
         }
 

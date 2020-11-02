@@ -82,9 +82,9 @@
                                                 [disabled]="get_FocusPoints() >= get_MaxFocusPoints()">
                                                 Refocus
                                             </button>
-                                            <app-tags [creature]="'Character'" [objectName]="'Focus'" [showTraits]=true [showFeats]=true
-                                                [showItems]=true [showActivities]=true [showConditions]=true
-                                                [showEffects]=true></app-tags>
+                                            <app-tags [creature]="'Character'" [objectName]="'Focus'" [showTraits]=true
+                                                [showFeats]=true [showItems]=true [showActivities]=true
+                                                [showConditions]=true [showEffects]=true></app-tags>
                                         </div>
                                         <ng-container
                                             *ngFor="let spell of get_Spells(spellTaken.gain.name); trackBy:trackByIndex;">
@@ -92,7 +92,7 @@
                                                 *ngFor="let spellID of [get_ID()]; trackBy:trackByIndex;">
                                                 <button class="row sublist-toggle left-aligned"
                                                     (click)="toggle_Spell(casting.castingType+casting.class+spellTaken.gain.name+spellID)"
-                                                    [className]="{'inactive-button': casting.castingType=='Prepared' && !spellTaken.gain.prepared && level > 0}">
+                                                    [ngClass]="{'inactive-button': cannot_Cast(spell, level, casting, spellTaken.choice, spellTaken.gain, maxspellslots)}">
                                                     <span title="Signature spell"
                                                         *ngIf="is_SignatureSpell(spellTaken.choice)">&#9733;&nbsp;</span>
                                                     <span title="Combination spell"
@@ -110,7 +110,7 @@
                                                     &nbsp;{{spellTaken.gain.frequency ? spellTaken.gain.frequency : ""}}
                                                 </button>
                                                 <div class="list-item sublist lower"
-                                                    [className]="{'inactive-list': casting.castingType=='Prepared'&&!spellTaken.gain.prepared && level > 0}"
+                                                    [ngClass]="{'inactive-list': cannot_Cast(spell, level, casting, spellTaken.choice, spellTaken.gain, maxspellslots)}"
                                                     *ngIf="this.get_showSpell()==casting.castingType+casting.class+spellTaken.gain.name+spellID">
                                                     <button class="row center-aligned" (click)="on_RestoreFocusPoint()"
                                                         *ngIf="casting.castingType == 'Focus' && spell.allowReturnFocusPoint"

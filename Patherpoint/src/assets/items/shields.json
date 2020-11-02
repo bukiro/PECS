@@ -103,7 +103,7 @@
                     "Magical"
                 ],
                 "actions": "1A",
-                "activiationType": "Raise a Shield",
+                "activationType": "Raise a Shield",
                 "frequency": "once per day",
                 "cooldown": 144000,
                 "gainItems": [
@@ -124,6 +124,66 @@
         "usage": "held in 1 hand",
         "traits": [
             "Conjuration",
+            "Magical"
+        ]
+    },
+    {
+        "bulk": "1",
+        "desc": "Five jagged spines project from the surface of this steel shield (Hardness 6, HP 24, BT 12). The spines are +1 striking shield spikes. When you use the Shield Block reaction with this shield, the spines take the damage before the shield itself does. When the shield would take damage (after applying Hardness), one spine snaps off per 6 damage, reducing the damage by 6. The shield takes any remaining damage. When there are no spines left, the shield takes damage as normal.\n\nWhen all the spines are gone, you lose the ability to attack with them until the spines regenerate the next day.",
+        "id": "ac36c974-2ec3-41b5-b7af-1118acc1cc45",
+        "level": 7,
+        "price": 36000,
+        "name": "Spined Shield",
+        "shieldBase": "Steel Shield",
+        "gainItems": [
+            {
+                "_className": "ItemGain",
+                "name": "Spined Shield Spikes",
+                "type": "weapons",
+                "on": "equip"
+            }
+        ],
+        "activities": [
+            {
+                "_className": "ItemActivity",
+                "name": "Spined Shield",
+                "desc": "You shoot one of the shield's spines at a target. A fired spine uses the spikes' statistics, but it is a martial ranged weapon with a range increment of 120 feet.",
+                "traits": [
+                    "Evocation",
+                    "Magical"
+                ],
+                "actions": "1A",
+                "activationType": "Interact",
+                "cooldown": 144000,
+                "source": "ac36c974-2ec3-41b5-b7af-1118acc1cc45",
+                "charges": 5,
+                "sharedChargesID": 1
+            },
+            {
+                "_className": "ItemActivity",
+                "name": "Spined Shield: Snap Off Spine",
+                "desc": "",
+                "traits": [
+                    "Evocation",
+                    "Magical"
+                ],
+                "inputRequired": "When the shield would take damage (after applying Hardness), snaps off one spine per 6 damage, reducing the damage by 6. The shield takes any remaining damage. When there are no spines left, the shield takes damage as normal.",
+                "actions": "",
+                "activationType": "",
+                "cooldown": 144000,
+                "source": "ac36c974-2ec3-41b5-b7af-1118acc1cc45",
+                "charges": 5,
+                "sharedChargesID": 1
+            }
+        ],
+        "_className": "Shield",
+        "acbonus": 2,
+        "brokenThreshold": 12,
+        "hardness": 6,
+        "hitpoints": 24,
+        "usage": "held in 1 hand",
+        "traits": [
+            "Evocation",
             "Magical"
         ]
     },

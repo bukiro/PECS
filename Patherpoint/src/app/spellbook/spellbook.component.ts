@@ -166,7 +166,7 @@ export class SpellbookComponent implements OnInit {
     }
 
     get_MaxSpellLevel(casting: SpellCasting) {
-        //Get the available spell level of this casting. This is the higest spell level of the spell choices that are available at your character level.
+        //Get the available spell level of this casting. This is the highest spell level of the spell choices that are available at your character level.
         //Focus spells are heightened to half your level rounded up.
         if (casting.castingType == "Focus") {
             return this.get_Character().get_SpellLevel();
@@ -202,7 +202,7 @@ export class SpellbookComponent implements OnInit {
         let character = this.characterService.get_Character();
         if (levelNumber == -1) {
             if (casting.castingType == "Focus") {
-                return spellSort(character.get_SpellsTaken(this.characterService, 1, character.level, levelNumber, "", casting, "", "", "", "", "", undefined, this.get_SignatureSpellsAllowed()));
+                return spellSort(character.get_SpellsTaken(this.characterService, 1, character.level, levelNumber, "", casting, "", "", "", "", "", undefined, this.get_SignatureSpellsAllowed(), false));
             } else {
                 return [];
             }
@@ -336,10 +336,6 @@ export class SpellbookComponent implements OnInit {
     on_Cast(levelNumber: number, gain: SpellGain, casting: SpellCasting, choice: SpellChoice, creature: string = "", spell: Spell, activated: boolean) {
         if (gain.cooldown) {
             gain.activeCooldown = gain.cooldown;
-        }
-        //Cantrips and Focus spells are automatically heightened to your maximum available spell level.
-        if (!levelNumber || levelNumber == -1) {
-            levelNumber = this.get_MaxSpellLevel(casting);
         }
         //Focus spells cost Focus points.
         if (casting.castingType == "Focus" && activated && choice.level == -1) {

@@ -59,7 +59,7 @@
             <span>
                 <input type="number" class="number4" name="experiencePoints"
                     [(ngModel)]="get_Character().experiencePoints" (keypress)="numbersOnly($event)" maxLength="4"
-                    title="{{get_Character().experiencePoints >= 1000 && 'You are ready to level up!'}}"
+                    title="{{get_Character().experiencePoints >= 1000 ? 'You are ready to level up!' : ''}}"
                     [ngClass]="{'bonus':get_Character().experiencePoints >= 1000}">
             </span>
         </div>

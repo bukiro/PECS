@@ -706,6 +706,9 @@ export class CharacterService {
             if (equipAfter && Object.keys(createdInventoryItem).includes("equipped") && item.equippable) {
                 this.onEquip(creature, inventory, createdInventoryItem, true, false);
             }
+            if (!item.equippable && (item["gainActivities"]?.length || item["activities"]?.length)) {
+                this.set_ToChange(creature.type, "activities");
+            }
             returnedInventoryItem = createdInventoryItem;
             if (returnedInventoryItem["prof"] == "Advanced Weapons") {
                 this.create_AdvancedWeaponFeats([returnedInventoryItem]);
@@ -799,7 +802,7 @@ export class CharacterService {
             if (item["equipped"]) {
                 this.onEquip(creature, inventory, item as Equipment, false, false);
             } else if (item["invested"] && item.can_Invest()) {
-                this.onInvest(creature, inventory, item as Equipment, false, false);
+                this.on_Invest(creature, inventory, item as Equipment, false, false);
             }
             if (item["propertyRunes"]) {
                 item["propertyRunes"].filter((rune: Rune) => rune.loreChoices.length).forEach((rune: Rune) => {
@@ -1036,7 +1039,7 @@ export class CharacterService {
                 
                 //If you get an Activity from an item that doesn't need to be invested, immediately invest it in secret so the Activity is gained
                 if ((item.gainActivities || item.activities) && !item.can_Invest()) {
-                    this.onInvest(creature, inventory, item, true, false);
+                    this.on_Invest(creature, inventory, item, true, false);
                 }
                 //Add all Items that you get from equipping this one
                 if (item.gainItems && item.gainItems.length) {
@@ -1073,7 +1076,7 @@ export class CharacterService {
                 }
                 //If the item was invested, it isn't now.
                 if (item.invested) {
-                    this.onInvest(creature, inventory, item, false, false);
+                    this.on_Invest(creature, inventory, item, false, false);
                 }
                 if (item.gainItems?.length) {
                     item.gainItems.filter((gainItem: ItemGain) => gainItem.on == "equip").forEach(gainItem => {
@@ -1121,7 +1124,7 @@ export class CharacterService {
         }
     }
 
-    onInvest(creature: Character|AnimalCompanion, inventory: ItemCollection, item: Equipment, invested: boolean = true, changeAfter: boolean = true) {
+    on_Invest(creature: Character|AnimalCompanion, inventory: ItemCollection, item: Equipment, invested: boolean = true, changeAfter: boolean = true) {
         item.invested = invested;
         this.set_ToChange(creature.type, "inventory");
         if (item.invested) {
@@ -1131,9 +1134,15 @@ export class CharacterService {
                 this.set_EquipmentViewChanges(creature, item);
             }
         } else {
-            item.gainActivities.forEach((gainActivity: ActivityGain) => {
-                this.activitiesService.activate_Activity(creature, "", this, this.timeService, this.itemsService, this.spellsService, gainActivity, this.activitiesService.get_Activities(gainActivity.name)[0], false);
+            item.gainActivities.filter(gainActivity => gainActivity.active).forEach((gainActivity: ActivityGain) => {
+                let libraryActivity = this.activitiesService.get_Activities(gainActivity.name)[0];
+                if (libraryActivity) {
+                    this.activitiesService.activate_Activity(creature, "", this, this.timeService, this.itemsService, this.spellsService, gainActivity, libraryActivity, false);
+                }
             });
+            item.activities.filter(itemActivity => itemActivity.active).forEach((itemActivity: ItemActivity) => {
+                this.activitiesService.activate_Activity(creature, "", this, this.timeService, this.itemsService, this.spellsService, itemActivity, itemActivity, false);
+            })
             this.set_EquipmentViewChanges(creature, item);
         }
         if (changeAfter) {

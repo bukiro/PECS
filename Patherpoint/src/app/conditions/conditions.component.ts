@@ -194,6 +194,9 @@ export class ConditionsComponent implements OnInit {
             case "Worn Items":
                 typeKey = "wornitems";
                 break;         
+            case "Held Items":
+                typeKey = "helditems";
+                break;
         }
 
         if (typeKey) {
@@ -334,9 +337,9 @@ export class ConditionsComponent implements OnInit {
         this.characterService.process_ToChange();
     }
 
-    validate(propertyData: ItemProperty, propertyKey: string, index: number) {
-        let value = this.newEffect[propertyKey]
-        if (propertyKey == "value" && propertyData.parent == "effects") {
+    validate(propertyData: ItemProperty, index: number) {
+        let value = this.newEffect[propertyData.key]
+        if (propertyData.key == "value" && propertyData.parent == "effects") {
             if (value && value != "0") {
                 let effectGain = new EffectGain;
                 effectGain.value = value;
@@ -360,7 +363,7 @@ export class ConditionsComponent implements OnInit {
                     this.validationResult[index] = "";
                 }
             }
-        } else if (propertyKey == "setValue" && propertyData.parent == "effects") {
+        } else if (propertyData.key == "setValue" && propertyData.parent == "effects") {
             if (value && value != "0") {
                 let effectGain = new EffectGain;
                 effectGain.value = value;
@@ -388,36 +391,50 @@ export class ConditionsComponent implements OnInit {
             if (parseInt(value) >= 1) {
 
             } else {
-                this.newEffect[propertyKey] = 1
+                this.newEffect[propertyData.key] = 1
             }
         } else if (propertyData.validation == "0plus") {
             if (parseInt(value) >= 0) {
 
             } else {
-                this.newEffect[propertyKey] = 0
+                this.newEffect[propertyData.key] = 0
             }
         } else if (propertyData.validation == "=1plus") {
             if (parseInt(value) >= -1) {
 
             } else {
-                this.newEffect[propertyKey] = -1
+                this.newEffect[propertyData.key] = -1
             }
         } else if (propertyData.validation == "0minus") {
             if (parseInt(value) <= 0) {
 
             } else {
-                this.newEffect[propertyKey] = 0
+                this.newEffect[propertyData.key] = 0
             }
         }
     }
 
-    get_PropertyKeys() {
-        return Object.keys(this.newEffect);
-    }
-
-    get_PropertyData(key: string) {
-        //Return an array of one ItemProperty
-        return this.effectsService.get_EffectProperties().filter(property => property.key == key);
+    get_CustomEffectProperties() {
+        function get_PropertyData(key: string, effectsService: EffectsService) {
+            return effectsService.get_EffectProperties().filter(property => property.key == key)[0];
+        }
+        return Object.keys(this.newEffect).map((key) => get_PropertyData(key, this.effectsService)).filter(property => property != undefined).sort((a,b) => {
+            if (a.priority > b.priority) {
+                return 1;
+            }
+            if (a.priority < b.priority) {
+                return -1;
+            }
+            return 0;
+        }).sort((a,b) => {
+            if (a.group > b.group) {
+                return 1;
+            }
+            if (a.group < b.group) {
+                return -1;
+            }
+            return 0;
+        });
     }
 
     get_Examples(propertyData: ItemProperty) {

@@ -1,7 +1,7 @@
 [
     {
         "bulk": "L",
-        "desc": "An everburning torch is one of the most common applications of permanent magic. This torch sheds light constantly, requiring no oxygen and generating no heat. The flame can be covered or hidden, but can’t be smothered or quenched.",
+        "desc": "An everburning torch is one of the most common applications of permanent magic. This torch sheds light constantly, requiring no oxygen and generating no heat. The flame can be covered or hidden, but can't be smothered or quenched.",
         "id": "8057670b-5a97-4fd0-97be-aacdf7f6a3ff",
         "name": "Everburning Torch",
         "price": 1500,
@@ -155,5 +155,112 @@
             }
         ],
         "_className": "WornItem"
+    },
+    {
+        "desc": "This charm, a dragon-shaped pendant worn like a necklace or set into armor or clothing as a decoration, is warm and smooth to the touch. It must be held in one hand to be used (pressing the palm of one's hand to the charm also works, provided that your hand is otherwise empty). It has four distinct powers.",
+        "id": "c62657d8-931d-4942-8a9d-f10db9030ae7",
+        "bulk": "L",
+        "level": 7,
+        "name": "Dragon's Eye Charm",
+        "sourceBook": "Pathfinder #146: Cult of Cinders",
+        "price": 36000,
+        "traits": [
+            "Uncommon",
+            "Divination",
+            "Magical"
+        ],
+        "activities": [
+            {
+                "actions": "1A",
+                "activationType": "Interact",
+                "cooldown": 144000,
+                "frequency": "once per day",
+                "desc": "The dragon's eye charm manifests fire for you to wield against your foe. You cast a 5th-level produce flame spell with a spell attack roll of +13.",
+                "name": "Dragon's Eye Charm: Produce Flame",
+                "castSpells": [
+                    {
+                        "_className": "SpellCast",
+                        "name": "Produce Flame",
+                        "level": 5
+                    }
+                ],
+                "traits": [
+                    "Uncommon",
+                    "Divination",
+                    "Magical"
+                ],
+                "_className": "ItemActivity",
+                "source": "c62657d8-931d-4942-8a9d-f10db9030ae7"
+            },
+            {
+                "actions": "1A",
+                "activationType": "Interact",
+                "cooldown": 144000,
+                "frequency": "once per day",
+                "sustained": 1000,
+                "toggle": true,
+                "desc": "The charm's pupil becomes plainly visible. You can look through the charm to gain darkvision for as long as you Sustain the Activation, to a maximum of 10 minutes.",
+                "name": "Dragon's Eye Charm: Darkvision",
+                "gainConditions": [
+                    {
+                        "name": "Dragon's Eye Charm: Darkvision",
+                        "duration": 1000
+                    }
+                ],
+                "traits": [
+                    "Uncommon",
+                    "Divination",
+                    "Magical"
+                ],
+                "_className": "ItemActivity",
+                "source": "c62657d8-931d-4942-8a9d-f10db9030ae7"
+            },
+            {
+                "actions": "1A",
+                "activationType": "Interact",
+                "cooldown": 144000,
+                "frequency": "once per day",
+                "desc": "The dragon’s eye charm shrouds you in a faintly glowing layer of golden energy. You gain fire resistance 5 for 10 minutes.",
+                "name": "Dragon's Eye Charm: Fire Resistance",
+                "gainConditions": [
+                    {
+                        "name": "Dragon's Eye Charm: Fire Resistance",
+                        "duration": 1000
+                    }
+                ],
+                "traits": [
+                    "Uncommon",
+                    "Divination",
+                    "Magical"
+                ],
+                "_className": "ItemActivity",
+                "source": "c62657d8-931d-4942-8a9d-f10db9030ae7"
+            },
+            {
+                "actions": "1A",
+                "activationType": "Interact",
+                "cooldown": 144000,
+                "frequency": "once per day",
+                "sustained": 1000,
+                "toggle": true,
+                "desc": "You can speak and understand Draconic as long as you Sustain the Activation, to a maximum of 10 minutes.",
+                "name": "Dragon's Eye Charm: Draconic",
+                "gainConditions": [
+                    {
+                        "name": "Dragon's Eye Charm: Draconic",
+                        "duration": 1000
+                    }
+                ],
+                "traits": [
+                    "Uncommon",
+                    "Divination",
+                    "Magical"
+                ],
+                "_className": "ItemActivity",
+                "source": "c62657d8-931d-4942-8a9d-f10db9030ae7"
+            }
+        ],
+        "_className": "HeldItem",
+        "usage": "worn cloak"
     }
 ]

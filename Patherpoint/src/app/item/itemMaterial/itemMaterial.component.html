@@ -1,6 +1,6 @@
 <!--Changing Weapon Material-->
-<div class="list-item" *ngIf="['weapon', 'armor'].includes(item.moddable)">
-    <ng-container *ngIf="item.material && item.moddable=='weapon' && item.constructor.name == 'Weapon'">
+<div class="list-item" *ngIf="['weapon', 'armor'].includes(item.moddable) || customItemStore">
+    <ng-container *ngIf="item.material && ((item.moddable=='weapon' && item.constructor.name == 'Weapon') || (customItemStore && item.moddable=='-' && item.constructor.name == 'Weapon'))">
         <div class="row">
             <strong>Material</strong>
             <select [(ngModel)]="newWeaponMaterial[0]"

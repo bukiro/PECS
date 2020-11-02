@@ -61,30 +61,46 @@ export class ActivitiesService {
 
         if (activated && activity.toggle) {
             gain.active = true;
-            characterService.set_ToChange(creature.type, "activities");
             if (activity.sustained) {
                 gain.duration = activity.sustained;
-                if (item) {characterService.set_ToChange(creature.type, "inventory");}
             }
         } else {
-            if (gain.active) {
-                characterService.set_ToChange(creature.type, "activities");
-            }
             gain.active = false;
             gain.duration = 0;
             //Start cooldown
             if (activity.cooldown) {
                 gain.activeCooldown = activity.cooldown + timeService.get_YourTurn();
-                characterService.set_ToChange(creature.type, "activities");
-                if (item) {characterService.set_ToChange(creature.type, "inventory");}
             }
             //Use charges
             if (activity.charges) {
-                gain.chargesUsed += 1;
-                characterService.set_ToChange(creature.type, "activities");
-                if (item) {characterService.set_ToChange(creature.type, "inventory");}
+                //If this activity belongs to an item and has a sharedCharges ID, spend a charge for every activity with the same sharedChargesID and start their cooldown if necessary.
+                if (item && gain.sharedChargesID) {
+                    item.activities
+                        .filter(itemActivity => itemActivity.sharedChargesID == gain.sharedChargesID)
+                        .forEach(itemActivity => {
+                            itemActivity.chargesUsed += 1;
+                            if (!itemActivity.activeCooldown && itemActivity.cooldown) {
+                                itemActivity.activeCooldown = itemActivity.cooldown + timeService.get_YourTurn();
+                            }
+                        })
+                    item.gainActivities
+                        .filter(activityGain => activityGain.sharedChargesID == gain.sharedChargesID)
+                        .forEach(activityGain => {
+                            activityGain.chargesUsed += 1;
+                            if (!activityGain.activeCooldown) {
+                                let otherActivity = this.get_Activities(activityGain.name)[0];
+                                if (otherActivity?.cooldown) {
+                                    activityGain.activeCooldown = otherActivity.cooldown + timeService.get_YourTurn();
+                                }
+                            }
+                        })
+                } else {
+                    gain.chargesUsed += 1;
+                }
             }
         }
+        characterService.set_ToChange(creature.type, "activities");
+        if (item) {characterService.set_ToChange(creature.type, "inventory");}
 
         //Process various results of activating the activity
 
@@ -128,11 +144,14 @@ export class ActivitiesService {
             if (activated) {
                 activity.gainConditions.forEach(gain => {
                     let newConditionGain = Object.assign(new ConditionGain(), gain);
+                    if (!newConditionGain.source) {
+                        newConditionGain.source = activity.name;
+                    }
                     characterService.add_Condition(creature, newConditionGain, false);
                 });
             } else {
                 activity.gainConditions.forEach(gain => {
-                    let conditionGains = characterService.get_AppliedConditions(creature, gain.name).filter(conditionGain => conditionGain.source == gain.source);
+                    let conditionGains = characterService.get_AppliedConditions(creature, gain.name).filter(conditionGain => conditionGain.source == gain.source || conditionGain.source == activity.name);
                     if (conditionGains.length) {
                         characterService.remove_Condition(creature, conditionGains[0], false);
                     }
@@ -147,18 +166,20 @@ export class ActivitiesService {
                     cast.spellGain.duration = cast.duration;
                 }
                 let librarySpell = spellsService.get_Spells(cast.name)[0];
-                spellsService.process_Spell(creature, spellTarget, characterService, itemsService, timeService, null, cast.spellGain, librarySpell, cast.level, activated, true, false);
+                if (librarySpell) {
+                    spellsService.process_Spell(creature, spellTarget, characterService, itemsService, timeService, null, cast.spellGain, librarySpell, cast.level, activated, true, false);
+                }
             })
         }
 
         //Exclusive activity activation
-        //If you activate one activity of an Item, deactivate the other active activities on it.
-        if (item && activated && activity.toggle) {
+        //If you activate one activity of an Item that has an exclusiveActivityID, deactivate the other active activities on it that have the same ID.
+        if (item && activated && activity.toggle && gain.exclusiveActivityID) {
             if (item.activities.length + item.gainActivities.length > 1) {
-                item.gainActivities.filter((activityGain: ActivityGain) => activityGain !== gain && activityGain.active).forEach((activityGain: ActivityGain) => {
+                item.gainActivities.filter((activityGain: ActivityGain) => activityGain !== gain && activityGain.active && activityGain.exclusiveActivityID == gain.exclusiveActivityID).forEach((activityGain: ActivityGain) => {
                     this.activate_Activity(creature, creature.type, characterService, timeService, itemsService, spellsService, activityGain, this.get_Activities(activityGain.name)[0], false, false)
                 })
-                item.activities.filter((itemActivity: ItemActivity) => itemActivity !== gain && itemActivity.active).forEach((itemActivity: ItemActivity) => {
+                item.activities.filter((itemActivity: ItemActivity) => itemActivity !== gain && itemActivity.active && itemActivity.exclusiveActivityID == gain.exclusiveActivityID).forEach((itemActivity: ItemActivity) => {
                     this.activate_Activity(creature, creature.type, characterService, timeService, itemsService, spellsService, itemActivity, itemActivity, false, false)
                 })
             }
@@ -219,9 +240,12 @@ export class ActivitiesService {
                     }
                 }
             }
-            gain.activeCooldown = Math.max(gain.activeCooldown - individualTurns, 0)
-            if (gain.chargesUsed && gain.activeCooldown == 0) {
-                gain.chargesUsed = 0;
+            //Only if the activity has a cooldown active, reduce the cooldown and restore charges. If the activity does not have a cooldown, the charges are permanently spent.
+            if (gain.activeCooldown) {
+                gain.activeCooldown = Math.max(gain.activeCooldown - individualTurns, 0)
+                if (gain.chargesUsed && gain.activeCooldown == 0) {
+                    gain.chargesUsed = 0;
+                }
             }
             if (gain.constructor == ItemActivity) {
                 characterService.set_ToChange(creature.type, "inventory");

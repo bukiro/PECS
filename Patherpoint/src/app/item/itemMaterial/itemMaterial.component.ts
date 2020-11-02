@@ -18,6 +18,8 @@ export class ItemMaterialComponent implements OnInit {
     item: Weapon | Armor | Shield;
     @Input()
     craftingStation: boolean = false;
+    @Input()
+    customItemStore: boolean = false;
 
     public newWeaponMaterial: { material: Material, disabled?: boolean }[];
     public inventories: string[] = [];

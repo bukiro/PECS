@@ -565,7 +565,7 @@ export class Character extends Creature {
             )[0]), 1)
         }
     }
-    get_SpellsTaken(characterService: CharacterService, minLevelNumber: number, maxLevelNumber: number, spellLevel: number = -1, spellName: string = "", spellCasting: SpellCasting = undefined, className: string = "", tradition: string = "", castingType: string = "", source: string = "", sourceId: string = "", locked: boolean = undefined, signatureAllowed: boolean = false) {
+    get_SpellsTaken(characterService: CharacterService, minLevelNumber: number, maxLevelNumber: number, spellLevel: number = -1, spellName: string = "", spellCasting: SpellCasting = undefined, className: string = "", tradition: string = "", castingType: string = "", source: string = "", sourceId: string = "", locked: boolean = undefined, signatureAllowed: boolean = false, cantripAllowed: boolean = true) {
         if (this.class) {
             let spellsTaken: {choice:SpellChoice, gain:SpellGain}[] = [];
             function get_DynamicLevel(choice: SpellChoice, casting: SpellCasting, character: Character, characterService: CharacterService) {
@@ -599,7 +599,8 @@ export class Character extends Creature {
                                     (choice.source == source || source == "") &&
                                     (gain.sourceId == sourceId || sourceId == "") &&
                                     (gain.locked == locked || locked == undefined) &&
-                                    ((signatureAllowed && choice.signatureSpell) ? (spellLevel >= characterService.spellsService.get_Spells(gain.name)[0].levelreq) : true)
+                                    ((signatureAllowed && choice.signatureSpell) ? (spellLevel >= characterService.spellsService.get_Spells(gain.name)[0]?.levelreq) : true) &&
+                                    (cantripAllowed || (!characterService.spellsService.get_Spells(gain.name)[0]?.traits.includes("Cantrip")))
                                     ).forEach(gain => {
                                     spellsTaken.push({choice:choice, gain:gain});
                                 })

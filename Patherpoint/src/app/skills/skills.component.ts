@@ -140,6 +140,8 @@ export class SkillsComponent implements OnInit {
         switch (sense) {
             case "Darkvision":
                 return "You can see in darkness and dim light just as well as you can see in bright light, though your vision in darkness is in black and white."
+            case "Greater Darkvision":
+                return "You can see in darkness and dim light just as well as you can see in bright light, though your vision in darkness is in black and white. Some forms of magical darkness, such as a 4th-level darkness spell, block normal darkvision. A creature with greater darkvision, however, can see through even these forms of magical darkness."
             case "Low-Light Vision":
                 return "You can see in dim light as though it were bright light, and you ignore the concealed condition due to dim light."
             default:

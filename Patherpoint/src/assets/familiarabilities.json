@@ -204,7 +204,7 @@
       "effects": [
          {
             "affected": "Fly Speed",
-            "setValue": "40"
+            "setValue": "25"
          }
       ]
    },

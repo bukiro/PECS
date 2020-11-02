@@ -8,13 +8,13 @@
         <ng-container *ngFor="let gain of get_OwnedActivities(); trackBy:trackByIndex;">
             <ng-container *ngFor="let activity of (gain.can_Activate ? [gain] : get_Activities(gain.name)); trackBy:trackByIndex;">
                 <div class="list-item" *ngFor="let activityID of [get_ID()]; trackBy:trackByIndex;">
-                    <button class="row left-aligned sublist-toggle" [ngClass]="{'fancy-button':gain.active}"
+                    <button class="row left-aligned sublist-toggle" [ngClass]="{'fancy-button':gain.active, 'inactive-button':((gain.activeCooldown ? (activity.charges == gain.chargesUsed) : false) && !gain.active)}"
                         (click)="toggle_Action(activityID)">
                         <span *ngIf="activity.name == 'Fused Stance'">{{get_FuseStanceName()}}</span>
                         <span *ngIf="activity.name != 'Fused Stance'">{{activity.name}}</span>
                         <app-actionIcons [actionString]="activity.actions"></app-actionIcons>{{(activity.activationType) ? activity.activationType : ""}}
                     </button>
-                    <div class="list-item sublist lower" [ngClass]="{'fancy-list':gain.active}"
+                    <div class="list-item sublist lower" [ngClass]="{'fancy-list':gain.active, 'inactive-list':((gain.activeCooldown ? (activity.charges == gain.chargesUsed) : false) && !gain.active)}"
                         *ngIf="get_showAction()==activityID">
                         <app-activity [creature]="creature" [activity]=activity [gain]=gain [allowActivate]="true">
                         </app-activity>

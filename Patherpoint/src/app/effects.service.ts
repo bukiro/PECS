@@ -17,6 +17,7 @@ import { HttpClient } from '@angular/common/http';
 import { ActivitiesComponent } from './activities/activities.component';
 import { ItemActivity } from './ItemActivity';
 import { ActivitiesService } from './activities.service';
+import { WornItem } from './WornItem';
 
 @Injectable({
     providedIn: 'root'
@@ -110,9 +111,6 @@ export class EffectsService {
         //Return an array of Effect objects
         let objectEffects: Effect[] = [];
         let name = (object.get_Name) ? object.get_Name() : object.name;
-        if (object === creature) {
-            name = "Custom effect"
-        }
         //Define some values that may be relevant for effect values
         let effectsService = this;
         effectsService = effectsService;
@@ -202,6 +200,13 @@ export class EffectsService {
                 return creature.inventories[0].weapons.filter(weapon => weapon.equipped);
             }
         }
+        function WornItems() {
+            if (creature.type == "Familiar") {
+                return null;
+            } else {
+                return creature.inventories[0].wornitems.filter(wornItem => wornItem.can_Invest() ? wornItem.invested : true);
+            }
+        }
         function Has_Feat(name: string) {
             return Character.get_FeatsTaken(1, Character.level, name).length > 0;
         }
@@ -221,6 +226,9 @@ export class EffectsService {
             let value: string = "0";
             let setValue: string = "";
             let toggle: boolean = effect.toggle;
+            if (object === creature) {
+                name = effect.source || "Custom Effect"
+            }
             try {
                 value = eval(effect.value).toString();
                 if (parseInt(value) > 0) {

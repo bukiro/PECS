@@ -695,20 +695,25 @@ app-proficiency-form, .row app-proficiency-form {
     margin-right: 4px;
 }
 
-app-actionIcons,
-app-actionIcons svg {
+app-actionicons,
+app-actionicons svg {
     height: 1em;
     width: auto;
     padding: 0 2px 0 2px;
     display: inline-block;
 }
 
-h4 app-actionIcons svg {
+h4 app-actionicons svg {
     margin-bottom: -2px;
 }
 
-h4 app-actionIcons span {
+h4 app-actionicons span {
     color: #cbc18f;
+}
+
+button app-actionicons span {
+    position: relative;
+    bottom: 3px;
 }
 
 .list-item {

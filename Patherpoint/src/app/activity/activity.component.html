@@ -28,7 +28,7 @@
             </button>
             <button class="row center-aligned" (click)="on_Activate(gain, activity, false, creature)"
                 *ngIf="gain.active">
-                Deactivate {{gain.duration ? "(" + get_Duration(gain.duration) + " remaining)" : ""}} {{activity.charges ? "(" + (activity.charges - gain.chargesUsed) + " of " + activity.charges + " charges)" : ""}}
+                {{activity.sustained ? "Stop Sustaining" : "Deactivate"}} {{gain.duration ? "(" + get_Duration(gain.duration) + " remaining)" : ""}} {{activity.charges ? "(" + (activity.charges - gain.chargesUsed) + " of " + activity.charges + " charges)" : ""}}
             </button>
         </ng-container>
         <ng-container *ngIf="gain.name == 'Fused Stance' && (gain.activeCooldown ? (activity.charges > gain.chargesUsed) : true)">
@@ -39,6 +39,11 @@
             <button class="row center-aligned" (click)="on_ActivateFuseStance(false)" *ngIf="gain.active"
                 [disabled]="!get_FuseStanceFeat() || !get_FuseStanceFeat().data">
                 Deactivate {{activity.charges ? "(" + (activity.charges - gain.chargesUsed) + " of " + activity.charges + " charges)" : ""}}
+            </button>
+        </ng-container>
+        <ng-container *ngIf="!activity.can_Activate()">
+            <button class="row center-aligned" title="The results of this activation cannot be directly applied in the app. Pressing this button has no effect.">
+                Activate &#9774;
             </button>
         </ng-container>
     </div>
