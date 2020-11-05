@@ -208,42 +208,12 @@ export class ConditionsService {
                 characterService.set_ToChange(creature.type, "attacks");
                 if (taken) {
                     gain.gainItems = condition.gainItems.map(itemGain => Object.assign(new ItemGain(), itemGain));
-                    gain.gainItems.forEach(gainItem => {
-                        let newItem: Item = itemsService.get_CleanItems()[gainItem.type].filter(item => item.name == gainItem.name)[0];
-                        if (newItem) {
-                            if (newItem.can_Stack()) {
-                                characterService.grant_InventoryItem(creature as Character|AnimalCompanion, creature.inventories[0], newItem, false, false, false, gainItem.amount);
-                            } else {
-                                let grantedItem = characterService.grant_InventoryItem(creature as Character|AnimalCompanion, creature.inventories[0], newItem, false, false, true);
-                                gainItem.id = grantedItem.id;
-                                if (grantedItem.get_Name) {
-                                    grantedItem.grantedBy = "(Granted by " + condition.name + ")";
-                                };
-                            }
-                        }
+                    gain.gainItems.filter(gainItem => !gainItem.conditionChoiceFilter || gainItem.conditionChoiceFilter == gain.choice).forEach(gainItem => {
+                        this.add_ConditionItem(creature, characterService, itemsService, gainItem, condition);
                     });
                 } else {
-                    gain.gainItems.forEach(gainItem => {
-                        if (itemsService.get_Items()[gainItem.type].filter((item: Item) => item.name == gainItem.name)[0].can_Stack()) {
-                            let items: Item[] = creature.inventories[0][gainItem.type].filter((item: Item) => item.name == gainItem.name);
-                            if (items.length) {
-                                characterService.drop_InventoryItem(creature as Character|AnimalCompanion, creature.inventories[0], items[0], false, false, true, gainItem.amount);
-                            }
-                        } else {
-                            let item: Item = creature.inventories[0][gainItem.type].find((item: Item) => item.id == gainItem.id);
-                            if (item) {
-                                if ((item as Equipment).gainInventory && (item as Equipment).gainInventory.length) {
-                                    //If a temporary container is destroyed, return all contained items to the main inventory.
-                                    creature.inventories.filter(inv => inv.itemId == item.id).forEach(inv => {
-                                        inv.allItems().forEach(invItem => {
-                                            itemsService.move_InventoryItem(creature, invItem, creature.inventories[0], inv, characterService);
-                                        });
-                                    });
-                                }
-                                characterService.drop_InventoryItem(creature as Character|AnimalCompanion, creature.inventories[0], item, false, false, true);
-                            }
-                            gainItem.id = "";
-                        }
+                    gain.gainItems.filter(gainItem => !gainItem.conditionChoiceFilter || gainItem.conditionChoiceFilter == gain.choice).forEach(gainItem => {
+                        this.remove_ConditionItem(creature, characterService, itemsService, gainItem);
                     });
                     gain.gainItems = [];
                 }
@@ -254,6 +224,48 @@ export class ConditionsService {
             characterService.set_ToChange(creature.type, "skills");
         }
 
+    }
+
+    add_ConditionItem(creature: Character|AnimalCompanion, characterService: CharacterService, itemsService: ItemsService, gainItem: ItemGain, condition: Condition) {
+        let newItem: Item = itemsService.get_CleanItems()[gainItem.type].filter(item => item.name == gainItem.name)[0];
+        if (newItem) {
+            if (newItem.can_Stack()) {
+                //For consumables, add the appropriate amount and don't track them.
+                characterService.grant_InventoryItem(creature, creature.inventories[0], newItem, false, false, false, gainItem.amount);
+            } else {
+                //For equipment, track the ID of the newly added item for removal.
+                let grantedItem = characterService.grant_InventoryItem(creature, creature.inventories[0], newItem, false, false, true);
+                gainItem.id = grantedItem.id;
+                if (grantedItem.get_Name) {
+                    grantedItem.grantedBy = "(Granted by " + condition.name + ")";
+                };
+            }
+        }
+    }
+
+    remove_ConditionItem(creature: Character|AnimalCompanion, characterService: CharacterService, itemsService: ItemsService, gainItem: ItemGain) {
+        if (itemsService.get_Items()[gainItem.type].filter((item: Item) => item.name == gainItem.name)[0].can_Stack()) {
+            let items: Item[] = creature.inventories[0][gainItem.type].filter((item: Item) => item.name == gainItem.name);
+            //For consumables, remove the same amount as previously given. This is not ideal, but you can easily add more in the inventory.
+            if (items.length) {
+                characterService.drop_InventoryItem(creature, creature.inventories[0], items[0], false, false, true, gainItem.amount);
+            }
+        } else {
+            //For equipment, we have saved the ID and remove exactly that item.
+            let item: Item = creature.inventories[0][gainItem.type].find((item: Item) => item.id == gainItem.id);
+            if (item) {
+                if ((item as Equipment).gainInventory && (item as Equipment).gainInventory.length) {
+                    //If a temporary container is destroyed, return all contained items to the main inventory.
+                    creature.inventories.filter(inv => inv.itemId == item.id).forEach(inv => {
+                        inv.allItems().forEach(invItem => {
+                            itemsService.move_InventoryItem(creature, invItem, creature.inventories[0], inv, characterService);
+                        });
+                    });
+                }
+                characterService.drop_InventoryItem(creature, creature.inventories[0], item, false, false, true);
+            }
+            gainItem.id = "";
+        }
     }
 
     tick_Conditions(creature: Character|AnimalCompanion|Familiar, turns: number = 10, yourTurn: number) {

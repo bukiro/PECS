@@ -6,6 +6,13 @@ import { TimeService } from '../time.service';
 import { Condition } from '../Condition';
 import { TraitsService } from '../traits.service';
 import { v1 as uuidv1 } from 'uuid';
+import { ItemsService } from '../items.service';
+import { Item } from '../Item';
+import { Character } from '../Character';
+import { AnimalCompanion } from '../AnimalCompanion';
+import { Equipment } from '../Equipment';
+import { ConditionsService } from '../conditions.service';
+import { ItemGain } from '../ItemGain';
 
 @Component({
     selector: 'app-effects',
@@ -28,7 +35,9 @@ export class EffectsComponent implements OnInit {
         private traitsService: TraitsService,
         private effectsService: EffectsService,
         private characterService: CharacterService,
-        private timeService: TimeService
+        private timeService: TimeService,
+        private conditionsService: ConditionsService,
+        private itemsService: ItemsService
     ) { }
     
     minimize() {
@@ -127,7 +136,22 @@ export class EffectsComponent implements OnInit {
         this.characterService.process_ToChange();
     }
 
-    change_ConditionChoice(condition: Condition) {
+    change_ConditionChoice(gain: ConditionGain, condition: Condition, oldChoice: string) {
+        if (this.creature != "Familiar" && oldChoice != gain.choice) {
+            let creature = this.get_Creature();
+            //Remove any items that were granted by the previous choice.
+            if (oldChoice) {
+                gain.gainItems.filter(gainItem => gainItem.conditionChoiceFilter == oldChoice).forEach(gainItem => {
+                    this.conditionsService.remove_ConditionItem(creature as Character|AnimalCompanion, this.characterService, this.itemsService, gainItem);
+                });
+            }
+            //Add any items that are granted by the new choice.
+            if (gain.choice) {
+                gain.gainItems.filter(gainItem => !gainItem.conditionChoiceFilter || gainItem.conditionChoiceFilter == gain.choice).forEach(gainItem => {
+                    this.conditionsService.add_ConditionItem(creature as Character|AnimalCompanion, this.characterService, this.itemsService, gainItem, condition);
+                });
+            }
+        }
         this.characterService.set_ToChange(this.creature, "effects");
         if (condition.attackRestrictions.length) {
             this.characterService.set_ToChange(this.creature, "attacks");

@@ -12,4 +12,6 @@ export class ItemGain {
     //Spells choose from multiple item gains those that match their level.
     //For example, if a spell has an ItemGain with heightenedFilter 1 and one with heightenedFilter 2, and the spell is cast at 2nd level, only the heightenedFilter 2 ItemGain is used.
     public heightenedFilter: number = 0;
+    //For conditions that grant an item only on a certain choice, set conditionChoiceFilter.
+    public conditionChoiceFilter: string = "";
 }

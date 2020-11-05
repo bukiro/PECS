@@ -5172,51 +5172,63 @@
         "gainItems": [
             {
                 "name": "Animal Form Ape Fist",
-                "type": "weapons"
+                "type": "weapons",
+                "conditionChoiceFilter": "Ape"
             },
             {
                 "name": "Animal Form Bear Jaws",
-                "type": "weapons"
+                "type": "weapons",
+                "conditionChoiceFilter": "Bear"
             },
             {
                 "name": "Animal Form Bear Claw",
-                "type": "weapons"
+                "type": "weapons",
+                "conditionChoiceFilter": "Bear"
             },
             {
                 "name": "Animal Form Bull Horn",
-                "type": "weapons"
+                "type": "weapons",
+                "conditionChoiceFilter": "Bull"
             },
             {
                 "name": "Animal Form Canine Jaws",
-                "type": "weapons"
+                "type": "weapons",
+                "conditionChoiceFilter": "Canine"
             },
             {
                 "name": "Animal Form Cat Jaws",
-                "type": "weapons"
+                "type": "weapons",
+                "conditionChoiceFilter": "Cat"
             },
             {
                 "name": "Animal Form Cat Claw",
-                "type": "weapons"
+                "type": "weapons",
+                "conditionChoiceFilter": "Cat"
             },
             {
                 "name": "Animal Form Deer Antler",
-                "type": "weapons"
+                "type": "weapons",
+                "conditionChoiceFilter": "Deer"
             },
             {
                 "name": "Animal Form Frog Jaws",
-                "type": "weapons"
+                "type": "weapons",
+                "conditionChoiceFilter": "Frog"
             },
             {
                 "name": "Animal Form Frog Tongue",
-                "type": "weapons"
+                "type": "weapons",
+                "conditionChoiceFilter": "Frog"
             },
             {
                 "name": "Animal Form Shark Jaws",
-                "type": "weapons"
+                "type": "weapons",
+                "conditionChoiceFilter": "Shark"
             },
             {
                 "name": "Animal Form Snake Fangs",
-                "type": "weapons"
+                "type": "weapons",
+                "conditionChoiceFilter": "Snake"
             }
         ],
         "attackRestrictions": [
@@ -5378,51 +5390,63 @@
         "gainItems": [
             {
                 "name": "Animal Form Ape Fist",
-                "type": "weapons"
+                "type": "weapons",
+                "conditionChoiceFilter": "Ape"
             },
             {
                 "name": "Animal Form Bear Jaws",
-                "type": "weapons"
+                "type": "weapons",
+                "conditionChoiceFilter": "Bear"
             },
             {
                 "name": "Animal Form Bear Claw",
-                "type": "weapons"
+                "type": "weapons",
+                "conditionChoiceFilter": "Bear"
             },
             {
                 "name": "Animal Form Bull Horn",
-                "type": "weapons"
+                "type": "weapons",
+                "conditionChoiceFilter": "Bull"
             },
             {
                 "name": "Animal Form Canine Jaws",
-                "type": "weapons"
+                "type": "weapons",
+                "conditionChoiceFilter": "Canine"
             },
             {
                 "name": "Animal Form Cat Jaws",
-                "type": "weapons"
+                "type": "weapons",
+                "conditionChoiceFilter": "Cat"
             },
             {
                 "name": "Animal Form Cat Claw",
-                "type": "weapons"
+                "type": "weapons",
+                "conditionChoiceFilter": "Cat"
             },
             {
                 "name": "Animal Form Deer Antler",
-                "type": "weapons"
+                "type": "weapons",
+                "conditionChoiceFilter": "Deer"
             },
             {
                 "name": "Animal Form Frog Jaws",
-                "type": "weapons"
+                "type": "weapons",
+                "conditionChoiceFilter": "Frog"
             },
             {
                 "name": "Animal Form Frog Tongue",
-                "type": "weapons"
+                "type": "weapons",
+                "conditionChoiceFilter": "Frog"
             },
             {
                 "name": "Animal Form Shark Jaws",
-                "type": "weapons"
+                "type": "weapons",
+                "conditionChoiceFilter": "Shark"
             },
             {
                 "name": "Animal Form Snake Fangs",
-                "type": "weapons"
+                "type": "weapons",
+                "conditionChoiceFilter": "Snake"
             }
         ],
         "attackRestrictions": [
@@ -5584,51 +5608,63 @@
         "gainItems": [
             {
                 "name": "Animal Form Ape Fist (4th level)",
-                "type": "weapons"
+                "type": "weapons",
+                "conditionChoiceFilter": "Ape"
             },
             {
                 "name": "Animal Form Bear Jaws (4th level)",
-                "type": "weapons"
+                "type": "weapons",
+                "conditionChoiceFilter": "Bear"
             },
             {
                 "name": "Animal Form Bear Claw (4th level)",
-                "type": "weapons"
+                "type": "weapons",
+                "conditionChoiceFilter": "Bear"
             },
             {
                 "name": "Animal Form Bull Horn (4th level)",
-                "type": "weapons"
+                "type": "weapons",
+                "conditionChoiceFilter": "Bull"
             },
             {
                 "name": "Animal Form Canine Jaws (4th level)",
-                "type": "weapons"
+                "type": "weapons",
+                "conditionChoiceFilter": "Canine"
             },
             {
                 "name": "Animal Form Cat Jaws (4th level)",
-                "type": "weapons"
+                "type": "weapons",
+                "conditionChoiceFilter": "Cat"
             },
             {
                 "name": "Animal Form Cat Claw (4th level)",
-                "type": "weapons"
+                "type": "weapons",
+                "conditionChoiceFilter": "Cat"
             },
             {
                 "name": "Animal Form Deer Antler (4th level)",
-                "type": "weapons"
+                "type": "weapons",
+                "conditionChoiceFilter": "Deer"
             },
             {
                 "name": "Animal Form Frog Jaws (4th level)",
-                "type": "weapons"
+                "type": "weapons",
+                "conditionChoiceFilter": "Frog"
             },
             {
                 "name": "Animal Form Frog Tongue",
-                "type": "weapons"
+                "type": "weapons",
+                "conditionChoiceFilter": "Frog"
             },
             {
                 "name": "Animal Form Shark Jaws (4th level)",
-                "type": "weapons"
+                "type": "weapons",
+                "conditionChoiceFilter": "Shark"
             },
             {
                 "name": "Animal Form Snake Fangs (4th level)",
-                "type": "weapons"
+                "type": "weapons",
+                "conditionChoiceFilter": "Snake"
             }
         ],
         "attackRestrictions": [
@@ -5790,51 +5826,63 @@
         "gainItems": [
             {
                 "name": "Animal Form Ape Fist (5th level)",
-                "type": "weapons"
+                "type": "weapons",
+                "conditionChoiceFilter": "Ape"
             },
             {
                 "name": "Animal Form Bear Jaws (5th level)",
-                "type": "weapons"
+                "type": "weapons",
+                "conditionChoiceFilter": "Bear"
             },
             {
                 "name": "Animal Form Bear Claw (5th level)",
-                "type": "weapons"
+                "type": "weapons",
+                "conditionChoiceFilter": "Bear"
             },
             {
                 "name": "Animal Form Bull Horn (5th level)",
-                "type": "weapons"
+                "type": "weapons",
+                "conditionChoiceFilter": "Bull"
             },
             {
                 "name": "Animal Form Canine Jaws (5th level)",
-                "type": "weapons"
+                "type": "weapons",
+                "conditionChoiceFilter": "Canine"
             },
             {
                 "name": "Animal Form Cat Jaws (5th level)",
-                "type": "weapons"
+                "type": "weapons",
+                "conditionChoiceFilter": "Cat"
             },
             {
                 "name": "Animal Form Cat Claw (5th level)",
-                "type": "weapons"
+                "type": "weapons",
+                "conditionChoiceFilter": "Cat"
             },
             {
                 "name": "Animal Form Deer Antler (5th level)",
-                "type": "weapons"
+                "type": "weapons",
+                "conditionChoiceFilter": "Deer"
             },
             {
                 "name": "Animal Form Frog Jaws (5th level)",
-                "type": "weapons"
+                "type": "weapons",
+                "conditionChoiceFilter": "Frog"
             },
             {
                 "name": "Animal Form Frog Tongue (5th level)",
-                "type": "weapons"
+                "type": "weapons",
+                "conditionChoiceFilter": "Frog"
             },
             {
                 "name": "Animal Form Shark Jaws (5th level)",
-                "type": "weapons"
+                "type": "weapons",
+                "conditionChoiceFilter": "Shark"
             },
             {
                 "name": "Animal Form Snake Fangs (5th level)",
-                "type": "weapons"
+                "type": "weapons",
+                "conditionChoiceFilter": "Snake"
             }
         ],
         "attackRestrictions": [
@@ -7105,35 +7153,43 @@
         "gainItems": [
             {
                 "name": "Insect Form Ant Mandibles",
-                "type": "weapons"
+                "type": "weapons",
+                "conditionChoiceFilter": "Ant"
             },
             {
                 "name": "Insect Form Beetle Mandibles",
-                "type": "weapons"
+                "type": "weapons",
+                "conditionChoiceFilter": "Beetle"
             },
             {
                 "name": "Insect Form Centipede Mandibles",
-                "type": "weapons"
+                "type": "weapons",
+                "conditionChoiceFilter": "Centipede"
             },
             {
                 "name": "Insect Form Mantis Foreleg",
-                "type": "weapons"
+                "type": "weapons",
+                "conditionChoiceFilter": "Mantis"
             },
             {
                 "name": "Insect Form Scorpion Stinger",
-                "type": "weapons"
+                "type": "weapons",
+                "conditionChoiceFilter": "Scorpion"
             },
             {
                 "name": "Insect Form Scorpion Pincer",
-                "type": "weapons"
+                "type": "weapons",
+                "conditionChoiceFilter": "Scorpion"
             },
             {
                 "name": "Insect Form Spider Fangs",
-                "type": "weapons"
+                "type": "weapons",
+                "conditionChoiceFilter": "Spider"
             },
             {
                 "name": "Insect Form Spider Web",
-                "type": "weapons"
+                "type": "weapons",
+                "conditionChoiceFilter": "Spider"
             }
         ],
         "attackRestrictions": [
@@ -7279,35 +7335,43 @@
         "gainItems": [
             {
                 "name": "Insect Form Ant Mandibles (4th level)",
-                "type": "weapons"
+                "type": "weapons",
+                "conditionChoiceFilter": "Ant"
             },
             {
                 "name": "Insect Form Beetle Mandibles (4th level)",
-                "type": "weapons"
+                "type": "weapons",
+                "conditionChoiceFilter": "Beetle"
             },
             {
                 "name": "Insect Form Centipede Mandibles (4th level)",
-                "type": "weapons"
+                "type": "weapons",
+                "conditionChoiceFilter": "Centipede"
             },
             {
                 "name": "Insect Form Mantis Foreleg (4th level)",
-                "type": "weapons"
+                "type": "weapons",
+                "conditionChoiceFilter": "Mantis"
             },
             {
                 "name": "Insect Form Scorpion Stinger (4th level)",
-                "type": "weapons"
+                "type": "weapons",
+                "conditionChoiceFilter": "Scorpion"
             },
             {
                 "name": "Insect Form Scorpion Pincer (4th level)",
-                "type": "weapons"
+                "type": "weapons",
+                "conditionChoiceFilter": "Scorpion"
             },
             {
                 "name": "Insect Form Spider Fangs (4th level)",
-                "type": "weapons"
+                "type": "weapons",
+                "conditionChoiceFilter": "Spider"
             },
             {
                 "name": "Insect Form Spider Web",
-                "type": "weapons"
+                "type": "weapons",
+                "conditionChoiceFilter": "Spider"
             }
         ],
         "attackRestrictions": [
@@ -7453,35 +7517,43 @@
         "gainItems": [
             {
                 "name": "Insect Form Ant Mandibles (5th level)",
-                "type": "weapons"
+                "type": "weapons",
+                "conditionChoiceFilter": "Ant"
             },
             {
                 "name": "Insect Form Beetle Mandibles (5th level)",
-                "type": "weapons"
+                "type": "weapons",
+                "conditionChoiceFilter": "Beetle"
             },
             {
                 "name": "Insect Form Centipede Mandibles (5th level)",
-                "type": "weapons"
+                "type": "weapons",
+                "conditionChoiceFilter": "Centipede"
             },
             {
                 "name": "Insect Form Mantis Foreleg (5th level)",
-                "type": "weapons"
+                "type": "weapons",
+                "conditionChoiceFilter": "Mantis"
             },
             {
                 "name": "Insect Form Scorpion Stinger (5th level)",
-                "type": "weapons"
+                "type": "weapons",
+                "conditionChoiceFilter": "Scorpion"
             },
             {
                 "name": "Insect Form Scorpion Pincer (5th level)",
-                "type": "weapons"
+                "type": "weapons",
+                "conditionChoiceFilter": "Scorpion"
             },
             {
                 "name": "Insect Form Spider Fangs (5th level)",
-                "type": "weapons"
+                "type": "weapons",
+                "conditionChoiceFilter": "Spider"
             },
             {
                 "name": "Insect Form Spider Web",
-                "type": "weapons"
+                "type": "weapons",
+                "conditionChoiceFilter": "Spider"
             }
         ],
         "attackRestrictions": [
@@ -8149,6 +8221,18 @@
                 "name": "Persistent Damage",
                 "choice": "1d6 Fire"
             }
-        ]
+        ],
+        "gainItems": [
+            {
+                "name": "Boiling Spit Attack",
+                "type": "weapons",
+                "conditionChoiceFilter": "With Scalding Spit"
+            }
+        ],
+        "choices": [
+            "",
+            "With Scalding Spit"
+        ],
+        "choice": ""
     }
 ]
