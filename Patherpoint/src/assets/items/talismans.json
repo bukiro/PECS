@@ -18,7 +18,7 @@
         "actions": "Free",
         "activationType": "Envision",
         "trigger": "You critically succeed at an attack roll with the affixed weapon",
-        "desc": "This claw set in an iron clasp and chain isn’t always the claw of an owlbear. When you activate the claw, the triggering attack gains the weapon’s critical specialization effect."
+        "desc": "This claw set in an iron clasp and chain isn't always the claw of an owlbear. When you activate the claw, the triggering attack gains the weapon's critical specialization effect."
     },
     {
         "name": "Potency Crystal",
@@ -68,7 +68,7 @@
         "activationType": "Envision",
         "trigger": "You successfully Trip a foe",
         "requirements": "You are trained in Athletics",
-        "desc": "This wolf canine is bound in a strip of leather and tied to a buckle or strap of a suit of armor. When you activate the fang, you deal bludgeoning damage equal to your Strength modifier to the target of your Trip. If your Trip would already deal physical damage that doesn’t include an ability modifier, add your Strength modifier to that damage."
+        "desc": "This wolf canine is bound in a strip of leather and tied to a buckle or strap of a suit of armor. When you activate the fang, you deal bludgeoning damage equal to your Strength modifier to the target of your Trip. If your Trip would already deal physical damage that doesn't include an ability modifier, add your Strength modifier to that damage."
     },
     {
         "name": "Hunter's Bane",
@@ -90,7 +90,7 @@
         "activationType": "Envision",
         "trigger": "An undetected enemy hits you with an attack",
         "requirements": "You are trained in Survival",
-        "desc": "This talisman is a ring of dried, interwoven leaves. When you activate the hunter’s bane, you sense the exact location of the attacker, making it hidden from you instead of undetected. If the attacker is behind lead, the hunter’s bane fails and is wasted."
+        "desc": "This talisman is a ring of dried, interwoven leaves. When you activate the hunter's bane, you sense the exact location of the attacker, making it hidden from you instead of undetected. If the attacker is behind lead, the hunter's bane fails and is wasted."
     },
     {
         "name": "Jade Cat",
@@ -162,7 +162,7 @@
         "activationType": "Envision",
         "trigger": "You attempt an Athletics check to Shove, but you haven't rolled yet",
         "requirements": "You are trained in Athletics",
-        "desc": "This pendant is forged from grainy steel and depicts a snorting bull’s face. The pendant must be attached to the chest area or on a shoulder guard. When you activate the pendant, you gain a +2 status bonus to the Athletics check to Shove, and if you roll a critical failure on the check, you get a failure instead."
+        "desc": "This pendant is forged from grainy steel and depicts a snorting bull's face. The pendant must be attached to the chest area or on a shoulder guard. When you activate the pendant, you gain a +2 status bonus to the Athletics check to Shove, and if you roll a critical failure on the check, you get a failure instead."
     },
     {
         "name": "Crying Angel Pendant",
@@ -205,7 +205,7 @@
         "actions": "1A",
         "activationType": "Interact",
         "requirements": "You're an expert in Acrobatics",
-        "desc": "Light spring water fizzes and bubbles within this small glass globe, spilling onto the affixed armor when activated. Until the end of your turn, the armor lets you move across water and other liquids as if they were solid ground. If you Stride or Step over a weight-sensitive pressure plate, you don’t cause the plate to depress, which prevents you from triggering any device or hazard attached to the pressure plate. When the ampoule’s effect ends, you sink, fall, break through flimsy ground, or land on pressure plates as normal for your current location.",
+        "desc": "Light spring water fizzes and bubbles within this small glass globe, spilling onto the affixed armor when activated. Until the end of your turn, the armor lets you move across water and other liquids as if they were solid ground. If you Stride or Step over a weight-sensitive pressure plate, you don't cause the plate to depress, which prevents you from triggering any device or hazard attached to the pressure plate. When the ampoule's effect ends, you sink, fall, break through flimsy ground, or land on pressure plates as normal for your current location.",
         "gainConditions": [
             {
                 "duration": 5,
@@ -285,7 +285,7 @@
         "activationType": "Command",
         "trigger": "You attempt to Grab an Edge but haven't rolled",
         "requirements": "You're an expert in Reflex",
-        "desc": "This pyramid-shaped spike is attached to an armor’s chest piece. When you activate the spike, it shoots a strand of force to help you gain purchase. If you roll a success on the triggering attempt, you get a critical success instead (if you roll a critical failure, you get a failure instead)."
+        "desc": "This pyramid-shaped spike is attached to an armor's chest piece. When you activate the spike, it shoots a strand of force to help you gain purchase. If you roll a success on the triggering attempt, you get a critical success instead (if you roll a critical failure, you get a failure instead)."
     },
     {
         "name": "Feather Step Stone",
@@ -492,7 +492,7 @@
         "activationType": "Command",
         "trigger": "You attempt to Escape using Acrobatics for your roll, but you haven't rolled yet",
         "requirements": "You are an expert in Acrobatics",
-        "desc": "This dried seaweed bracelet is lined with charms shaped like small shark teeth. When you activate the bracelet, if you roll a success on the triggering check, you get a critical success instead (if you roll a critical failure, you get a failure instead). If you fail the Acrobatics check against a grabbing creature, the creature must either release you as a free action or take 2d8 piercing damage as shark’s teeth momentarily emerge from your skin."
+        "desc": "This dried seaweed bracelet is lined with charms shaped like small shark teeth. When you activate the bracelet, if you roll a success on the triggering check, you get a critical success instead (if you roll a critical failure, you get a failure instead). If you fail the Acrobatics check against a grabbing creature, the creature must either release you as a free action or take 2d8 piercing damage as shark's teeth momentarily emerge from your skin."
     },
     {
         "name": "Beckoning Cat Amulet",
@@ -515,8 +515,8 @@
         ],
         "actions": "Free",
         "activationType": "Envision",
-        "trigger": "You use a feat or ability to reroll a failed or critically failed Reflex saving throw (such as Cat’s Luck or Halfling Luck).",
-        "desc": "This clay figurine resembles a white cat with a paw outstretched. When it’s activated, any allies within 10 feet who also just failed or critically failed a Reflex saving throw from the same source (such as a fireball spell) can also reroll their saving throw and use the better result."
+        "trigger": "You use a feat or ability to reroll a failed or critically failed Reflex saving throw (such as Cat's Luck or Halfling Luck).",
+        "desc": "This clay figurine resembles a white cat with a paw outstretched. When it's activated, any allies within 10 feet who also just failed or critically failed a Reflex saving throw from the same source (such as a fireball spell) can also reroll their saving throw and use the better result."
     },
     {
         "name": "Emerald Grasshopper",
@@ -538,7 +538,7 @@
         "activationType": "Envision",
         "trigger": "You attempt a High Jump but haven't rolled yet",
         "requirements": "You're an expert in Athletics",
-        "desc": "This metal grasshopper studded with emeralds is usually clasped to the legs of a suit of armor. When you activate it, if you succeed at the Athletics check, you Leap up to 50 feet vertically and up to 10 feet horizontally. If you critically succeed, you can Leap up to 75 feet vertically and 20 feet horizontally. If you don’t end your jump on solid ground, you flutter in the air until the end of your turn, then fall harmlessly at a rate of 60 feet per round until you reach the ground."
+        "desc": "This metal grasshopper studded with emeralds is usually clasped to the legs of a suit of armor. When you activate it, if you succeed at the Athletics check, you Leap up to 50 feet vertically and up to 10 feet horizontally. If you critically succeed, you can Leap up to 75 feet vertically and 20 feet horizontally. If you don't end your jump on solid ground, you flutter in the air until the end of your turn, then fall harmlessly at a rate of 60 feet per round until you reach the ground."
     },
     {
         "name": "Tiger Menuki",
@@ -559,7 +559,7 @@
         "actions": "Free",
         "activationType": "Envision",
         "trigger": "You Strike with the affixed weapon",
-        "desc": "This tiger formed of pewter snarls viciously from your weapon’s grip. When you activate the tiger, the affixed weapon gains the sweep trait for the triggering attack and all other attacks for 1 minute.",
+        "desc": "This tiger formed of pewter snarls viciously from your weapon's grip. When you activate the tiger, the affixed weapon gains the sweep trait for the triggering attack and all other attacks for 1 minute.",
         "gainConditions": [
             {
                 "duration": 100,
@@ -656,7 +656,7 @@
         "actions": "Free",
         "activationType": "Envision",
         "trigger": "You take damage from a physical attack while you don't have the affixed shield raised",
-        "desc": "This clear quartz cabochon attaches to the center of your shield. When you activate the cabochon, you use the Shield Block reaction even if you hadn’t raised the affixed shield (and even if you don’t normally have that reaction)."
+        "desc": "This clear quartz cabochon attaches to the center of your shield. When you activate the cabochon, you use the Shield Block reaction even if you hadn't raised the affixed shield (and even if you don't normally have that reaction)."
     },
     {
         "name": "Gallows Tooth",
@@ -678,7 +678,7 @@
         "activationType": "Interact",
         "trigger": "You attack an adjacent creature and haven't rolled your attack roll",
         "requirements": "You're a master in Intimidation",
-        "desc": "This grisly molar hangs from a cord threaded through a tiny hole just above its dried, exposed root. When you activate this talisman, the creature you’re attacking becomes flat-footed until the end of the current turn."
+        "desc": "This grisly molar hangs from a cord threaded through a tiny hole just above its dried, exposed root. When you activate this talisman, the creature you're attacking becomes flat-footed until the end of the current turn."
     },
     {
         "name": "Jade Bauble",
@@ -786,7 +786,7 @@
         "actions": "1A",
         "activationType": "Command",
         "requirements": "You are a master in Perception",
-        "desc": "This talisman is the magically treated corpse of a tiny bat bound in papyrus. When you activate the bat, the affixed weapon detects vibrations around you and guides your perception. You gain the benefits of the fighter Blind-Fight class feat for 1 minute.\n\nIf you have the Blind-Fight feat, you gain imprecise echolocation with a range of 30 feet for 1 minute. This makes creatures that would be undetected by you because you can’t see them hidden instead.",
+        "desc": "This talisman is the magically treated corpse of a tiny bat bound in papyrus. When you activate the bat, the affixed weapon detects vibrations around you and guides your perception. You gain the benefits of the fighter Blind-Fight class feat for 1 minute.\n\nIf you have the Blind-Fight feat, you gain imprecise echolocation with a range of 30 feet for 1 minute. This makes creatures that would be undetected by you because you can't see them hidden instead.",
         "gainConditions": [
             {
                 "duration": 100,
@@ -817,7 +817,7 @@
         "actions": "Reaction",
         "activationType": "Envision",
         "trigger": "You fail a Reflex save against a damaging effect.",
-        "desc": "This treated rabbit’s foot has shockingly blue fur and is often carried by vagabonds who worship Desna. When you activate the foot, reroll the triggering Reflex save. If you fail the second roll as well, you can Stride up to your Speed."
+        "desc": "This treated rabbit's foot has shockingly blue fur and is often carried by vagabonds who worship Desna. When you activate the foot, reroll the triggering Reflex save. If you fail the second roll as well, you can Stride up to your Speed."
     },
     {
         "name": "Fade Band",
@@ -868,7 +868,7 @@
         "activationType": "Envision",
         "trigger": "You are about to roll Perception for initiative but haven't rolled yet",
         "requirements": "You are a master in Perception",
-        "desc": "This round piece of cymophane’s silky inclusion makes it look like a cat’s eye. While affixed, it makes you jittery. When you activate it, roll Perception twice and use the higher result."
+        "desc": "This round piece of cymophane's silky inclusion makes it look like a cat's eye. While affixed, it makes you jittery. When you activate it, roll Perception twice and use the higher result."
     },
     {
         "name": "Iron Equalizer",
@@ -889,7 +889,7 @@
         "actions": "1A",
         "activationType": "Certain Strike",
         "requirements": "You are a master with the affixed weapon",
-        "desc": "This small iron band has a shifting weight that helps equalize the affixed weapon’s balance. When you activate it, you use Certain Strike, as the fighter feat. You must meet the normal requirements, including those of the press trait.\n\nIf you have the Certain Strike feat, the failure effect increases to deal the weapon’s normal damage.",
+        "desc": "This small iron band has a shifting weight that helps equalize the affixed weapon's balance. When you activate it, you use Certain Strike, as the fighter feat. You must meet the normal requirements, including those of the press trait.\n\nIf you have the Certain Strike feat, the failure effect increases to deal the weapon's normal damage.",
         "showActivities": [
             "Certain Strike"
         ]
@@ -940,7 +940,7 @@
         "actions": "Free",
         "activationType": "Envision",
         "trigger": "You damage a flat-footed creature with the affixed weapon",
-        "desc": "This bone statuette of a sneering gremlin crumbles to dust when activated, imparting a fraction of its subject’s infamous misfortune unto those you strike. The damaged creature must attempt a DC 33 Will save.",
+        "desc": "This bone statuette of a sneering gremlin crumbles to dust when activated, imparting a fraction of its subject's infamous misfortune unto those you strike. The damaged creature must attempt a DC 33 Will save.",
         "critsuccess": "The creature is unaffected.",
         "success": "The creature must roll twice and take the worse result on the next check it attempts.",
         "failure": "The creature must roll twice and take the worse result on all checks until the end of its next turn."
@@ -965,7 +965,7 @@
         "activationType": "Envision",
         "trigger": "A creature within your reach uses a manipulate or move action, makes a ranged attack, or leaves a square during a moving action it's using",
         "requirements": "You are a master with the affixed weapon",
-        "desc": "When you activate this resin-strengthened viper skull, you make an Attack of Opportunity against the triggering creature.\n\nIf you have Attack of Opportunity, you can activate the viper’s fang as a free action.",
+        "desc": "When you activate this resin-strengthened viper skull, you make an Attack of Opportunity against the triggering creature.\n\nIf you have Attack of Opportunity, you can activate the viper's fang as a free action.",
         "showActivities": [
             "Attack of Opportunity"
         ]
@@ -1034,7 +1034,7 @@
         "actions": "1A",
         "activationType": "Envision",
         "requirements": "You're an Expert in Will saves",
-        "desc": "This piece of bronzite is shaped like an oval with points at both ends. It has a carved flame at its center and is traditionally worn over the heart. You can activate only one flame navette per day. When you activate the navette, you gain the benefit of the fighter’s Determination class feat, with a counteract modifier of +22. If you have the Determination feat, you can use your own modifier if it’s better.",
+        "desc": "This piece of bronzite is shaped like an oval with points at both ends. It has a carved flame at its center and is traditionally worn over the heart. You can activate only one flame navette per day. When you activate the navette, you gain the benefit of the fighter's Determination class feat, with a counteract modifier of +22. If you have the Determination feat, you can use your own modifier if it's better.",
         "showActivities": [
             "Determination"
         ]

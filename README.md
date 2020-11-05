@@ -65,18 +65,18 @@ The very latest in Assistive Technologies for Dungeon Master (ATDM)
 - [x] Cleanup Savegame
 - [x] Load/Save from/to Database
 - [x] Action Icons
-- [x] Implement all Ancestries
-- [ ] Implement all Ancestry Feats
--- [ ] Human
--- [ ] Halfling
--- [ ] Goblin
--- [ ] Half-Orc
--- [ ] Half-Elf
--- [ ] Lizardfolk
--- [ ] ...
-- [x] Implement all Heritages
-- [x] Implement all Backgrounds
-- [ ] Implement all Classes and Multiclass Archetypes
+- [x] Implement all Ancestries (excluding Advanced Character Guide)
+- [ ] Implement all Ancestry Feats (excluding Advanced Character Guide)
+- [ ] - Human
+- [ ] - Halfling
+- [x] - Goblin
+- [ ] - Half-Orc
+- [ ] - Half-Elf
+- [ ] - Lizardfolk
+- [ ] - ...
+- [x] Implement all Heritages (excluding Advanced Character Guide)
+- [x] Implement all Backgrounds (excluding Advanced Character Guide)
+- [ ] Implement all Classes and Multiclass Archetypes (excluding Advanced Character Guide)
 - [x] - Fighter
 - [x] - Monk
 - [x] - Ranger
@@ -110,7 +110,6 @@ Next steps:
 - Implement Ancestry Feats
 -- Human
 -- Halfling
--- Goblin
 -- Half-Orc
 -- Half-Elf
 -- Lizardfolk

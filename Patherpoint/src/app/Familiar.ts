@@ -1,6 +1,7 @@
 import { Creature } from './Creature';
 import { EffectsService } from './effects.service';
 import { FeatChoice } from './FeatChoice';
+import { FeatTaken } from './FeatTaken';
 import { Skill } from './Skill';
 
 export class Familiar extends Creature {
@@ -49,5 +50,13 @@ export class Familiar extends Creature {
             case 3:
                 return "Gargantuan"
         }
+    }
+    get_FeatsTaken(featName: string = "") {
+        let featsTaken: string[] = [];
+        this.abilities.feats.filter((feat: FeatTaken) => feat.name.toLowerCase() == featName.toLowerCase() || featName == "")
+            .forEach(feat => {
+            featsTaken.push(feat.name);
+        })
+        return featsTaken;
     }
 }

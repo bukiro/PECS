@@ -34,6 +34,7 @@ import { SavegameService } from '../savegame.service';
 import { Savegame } from '../Savegame';
 import { TraitsService } from '../traits.service';
 import { FamiliarsService } from '../familiars.service';
+import { HeritageGain } from '../HeritageGain';
 
 @Component({
     selector: 'app-character',
@@ -554,25 +555,32 @@ export class CharacterComponent implements OnInit {
         }
     }
 
-    get_ElfAtavismFeat(levelNumber: number) {
-        return this.get_Character().get_FeatsTaken(levelNumber, levelNumber, "Elf Atavism").length
+    get_AdditionalHeritagesAvailable(levelNumber: number) {
+        let heritageGains: HeritageGain[] = [];
+        this.get_Character().get_FeatsTaken(levelNumber, levelNumber)
+            .map(gain => this.characterService.get_FeatsAndFeatures(gain.name)[0])
+            .filter(feat => feat?.gainHeritage.length)
+            .forEach(feat => {
+                heritageGains.push(...feat.gainHeritage);
+            })
+        return heritageGains;
     }
 
-    get_ElfAtavismHeritageIndex() {
-        let oldHeritage = this.get_Character().class.additionalHeritages.find(heritage => heritage.source == "Elf Atavism");
+    get_AdditionalHeritageIndex(source: string) {
+        let oldHeritage = this.get_Character().class.additionalHeritages.find(heritage => heritage.source == source);
         if (oldHeritage) {
             return [this.get_Character().class.additionalHeritages.indexOf(oldHeritage)];
         } else {
-            return []
+            return [this.get_Character().class.additionalHeritages.length]
         }
     }
 
-    on_ElfAtavismHeritageChange(heritage: Heritage, taken: boolean, index: number) {
+    on_AdditionalHeritageChange(heritage: Heritage, taken: boolean, index: number, source: string) {
         if (taken) {
             this.showList="";
-            this.characterService.change_Heritage(heritage, index);
+            this.characterService.change_Heritage(heritage, index, source);
         } else {
-            this.characterService.change_Heritage(new Heritage(), index);
+            this.characterService.change_Heritage(new Heritage(), index, source);
         }
         this.characterService.set_ToChange("Character", "all");
         this.characterService.process_ToChange();
@@ -770,8 +778,6 @@ export class CharacterComponent implements OnInit {
         this.characterService.set_ToChange("Character", "all");
         this.characterService.process_ToChange();
     }
-
-    
 
     get_CompanionAvailable(levelNumber: number) {
         //Return the number of feats taken this level that granted you an animal companion

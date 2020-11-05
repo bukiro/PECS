@@ -404,6 +404,9 @@ export class Character extends Creature {
                         case "Wizard": 
                             characterService.add_CustomSkill(skillName, "Spell DC", "Intelligence");
                             break;
+                        case "Innate": 
+                            characterService.add_CustomSkill(skillName, "Spell DC", "Charisma");
+                            break;
                         default: 
                         characterService.add_CustomSkill(skillName, "Spell DC", "");
                     }

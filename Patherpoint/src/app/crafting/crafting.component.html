@@ -131,7 +131,17 @@
                                             Craft using Craft activity
                                         </button>
                                     </ng-container>
-                                    <app-itemMaterial class="row" [item]=item [craftingStation]="true"></app-itemMaterial>
+                                    <app-itemMaterial class="row" [item]=item [craftingStation]="true">
+                                    </app-itemMaterial>
+                                    <div class="row" *ngIf="item.baseType=='Equipment'">
+                                        <span>
+                                            <input id="{{item.id}}shoddy" type="checkbox"
+                                                title="When available, a shoddy item usually costs half the Price of a standard item, though you can never sell one in any case. Attacks and checks involving a shoddy item take a –2 item penalty. This penalty also applies to any DCs that a shoddy item applies to (such as AC, for shoddy armor). A shoddy suit of armor also worsens the armor's check penalty by 2. A shoddy item's Hit Points and Broken Threshold are each half that of a normal item of its type."
+                                                [(ngModel)]="item.shoddy">
+                                            <label for="{{item.id}}shoddy"
+                                                title="When available, a shoddy item usually costs half the Price of a standard item, though you can never sell one in any case. Attacks and checks involving a shoddy item take a –2 item penalty. This penalty also applies to any DCs that a shoddy item applies to (such as AC, for shoddy armor). A shoddy suit of armor also worsens the armor's check penalty by 2. A shoddy item's Hit Points and Broken Threshold are each half that of a normal item of its type.">Shoddy</label>
+                                        </span>
+                                    </div>
                                     <app-item [item]=item [itemStore]=true></app-item>
                                 </div>
                             </div>

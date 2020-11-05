@@ -106,7 +106,7 @@ export class ConditionsService {
                     }
                 }
             })
-            //Remove all conditions that were marked for deletion by setting its value to -1. We use while so we don't mess up the index.
+            //Remove all conditions that were marked for deletion by setting its value to -1. We use while so we don't mess up the index and skip some.
             while (activeConditions.filter(gain => gain.value == -1).length) {
                 characterService.remove_Condition(creature, activeConditions.filter(gain => gain.value == -1)[0], false);
             }

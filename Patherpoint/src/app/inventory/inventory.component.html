@@ -140,15 +140,18 @@
                                         </app-actionIcons>{{(item.activationType) ? item.activationType : ""}}
                                     </span>
                                 </button>
-                                <ng-container *ngIf="item.amount != undefined && item.storedSpells.length && !['weaponrunes', 'armorrunes', 'oils'].includes(this.item.type)">
+                                <ng-container
+                                    *ngIf="item.amount != undefined && item.storedSpells.length && !['weaponrunes', 'armorrunes', 'oils'].includes(this.item.type)">
                                     <ng-container *ngFor="let spell of get_ItemSpell(item); trackBy:trackByIndex;">
                                         <button class="row center-aligned"
                                             (click)="on_SpellItemUse(item, creature, inventory)"
                                             *ngIf="['self', 'ally'].includes(spell.target)"
                                             title="{{item.broken ? 'The item is broken and cannot be used.' : ''}}"
                                             [disabled]="item.broken">
-                                            <span>{{item.type == "wands" && item.cooldown ? "Overcharge (Cooldown " + get_Duration(item.cooldown) + ")" : "Use"}}<app-actionIcons [actionString]="spell.actions">
-                                            </app-actionIcons>{{(spell.activationType) ? spell.activationType : ""}} {{spell.target == 'ally' ? "(Cast spell on yourself)" : "(Cast spell)"}}
+                                            <span>{{item.type == "wands" && item.cooldown ? "Overcharge (Cooldown " + get_Duration(item.cooldown) + ")" : "Use"}}
+                                                <app-actionIcons [actionString]="spell.actions">
+                                                </app-actionIcons>{{(spell.activationType) ? spell.activationType : ""}}
+                                                {{spell.target == 'ally' ? "(Cast spell on yourself)" : "(Cast spell)"}}
                                             </span>
                                         </button>
                                         <button class="row center-aligned"
@@ -156,9 +159,11 @@
                                             *ngIf="['companion', 'ally'].includes(spell.target) && get_CompanionAvailable()"
                                             title="{{item.broken ? 'The item is broken and cannot be used.' : ''}}"
                                             [disabled]="item.broken">
-                                            <span>{{item.type == "wands" && item.cooldown ? "Overcharge (Cooldown " + get_Duration(item.cooldown) + ")" : "Use"}}<app-actionIcons [actionString]="spell.actions">
-                                            </app-actionIcons>{{(spell.activationType) ? spell.activationType : ""}} (Cast spell on
-                                            {{creature == "Character" ? "your animal companion" : "your master"}})
+                                            <span>{{item.type == "wands" && item.cooldown ? "Overcharge (Cooldown " + get_Duration(item.cooldown) + ")" : "Use"}}
+                                                <app-actionIcons [actionString]="spell.actions">
+                                                </app-actionIcons>{{(spell.activationType) ? spell.activationType : ""}}
+                                                (Cast spell on
+                                                {{creature == "Character" ? "your animal companion" : "your master"}})
                                             </span>
                                         </button>
                                         <button class="row center-aligned"
@@ -166,24 +171,31 @@
                                             *ngIf="['companion', 'ally'].includes(spell.target) && get_FamiliarAvailable()"
                                             title="{{item.broken ? 'The item is broken and cannot be used.' : ''}}"
                                             [disabled]="item.broken">
-                                            <span>{{item.type == "wands" && item.cooldown ? "Overcharge (Cooldown " + get_Duration(item.cooldown) + ")" : "Use"}}<app-actionIcons [actionString]="spell.actions">
-                                            </app-actionIcons>{{(spell.activationType) ? spell.activationType : ""}} (Cast spell on your familiar)
+                                            <span>{{item.type == "wands" && item.cooldown ? "Overcharge (Cooldown " + get_Duration(item.cooldown) + ")" : "Use"}}
+                                                <app-actionIcons [actionString]="spell.actions">
+                                                </app-actionIcons>{{(spell.activationType) ? spell.activationType : ""}}
+                                                (Cast spell on your familiar)
                                             </span>
                                         </button>
-                                        <button class="row center-aligned" (click)="on_SpellItemUse(item, '', inventory)"
+                                        <button class="row center-aligned"
+                                            (click)="on_SpellItemUse(item, '', inventory)"
                                             *ngIf="spell.target == 'ally'"
                                             title="{{item.broken ? 'The item is broken and cannot be used.' : ''}}"
                                             [disabled]="item.broken">
-                                            <span>{{item.type == "wands" && item.cooldown ? "Overcharge (Cooldown " + get_Duration(item.cooldown) + ")" : "Use"}}<app-actionIcons [actionString]="spell.actions">
-                                            </app-actionIcons>{{(spell.activationType) ? spell.activationType : ""}} (Cast spell on ally)
+                                            <span>{{item.type == "wands" && item.cooldown ? "Overcharge (Cooldown " + get_Duration(item.cooldown) + ")" : "Use"}}
+                                                <app-actionIcons [actionString]="spell.actions">
+                                                </app-actionIcons>{{(spell.activationType) ? spell.activationType : ""}}
+                                                (Cast spell on ally)
                                             </span>
                                         </button>
-                                        <button class="row center-aligned" (click)="on_SpellItemUse(item, '', inventory)"
-                                            *ngIf="spell.target == ''"
+                                        <button class="row center-aligned"
+                                            (click)="on_SpellItemUse(item, '', inventory)" *ngIf="spell.target == ''"
                                             title="{{item.broken ? 'The item is broken and cannot be used.' : ''}}"
                                             [disabled]="item.broken">
-                                            <span>{{item.type == "wands" && item.cooldown ? "Overcharge (Cooldown " + get_Duration(item.cooldown) + ")" : "Use"}}<app-actionIcons [actionString]="spell.actions">
-                                            </app-actionIcons>{{(spell.activationType) ? spell.activationType : ""}} (Cast spell)
+                                            <span>{{item.type == "wands" && item.cooldown ? "Overcharge (Cooldown " + get_Duration(item.cooldown) + ")" : "Use"}}
+                                                <app-actionIcons [actionString]="spell.actions">
+                                                </app-actionIcons>{{(spell.activationType) ? spell.activationType : ""}}
+                                                (Cast spell)
                                             </span>
                                         </button>
                                     </ng-container>
@@ -256,7 +268,7 @@
                                 <div class="row" *ngIf="get_Price(item) && item.tradeable">
                                     <span *ngIf="item.can_Stack()">
                                         <button (click)="onAmountChange(item, -1, true)" title="Sell at half price"
-                                            [disabled]="item.amount <= 0 || item.broken">Sell 1</button>
+                                            [disabled]="item.amount <= 0 || item.broken || item.shoddy">Sell 1</button>
                                         <button (click)="onAmountChange(item, 1, true)"
                                             [disabled]="!have_Funds(get_Price(item))">Buy 1</button>
                                     </span>
@@ -266,7 +278,8 @@
                                     </span>
                                     <span>
                                         <button (click)="drop_InventoryItem(item, inventory, true)"
-                                            title="Sell at half price" [disabled]="item.amount <= 0 || item.broken">
+                                            title="Sell at half price"
+                                            [disabled]="item.amount <= 0 || item.broken || item.shoddy">
                                             Sell
                                         </button>
                                     </span>
@@ -290,9 +303,11 @@
                                     <span><input id="{{item.id}}shownotes" type="checkbox"
                                             [(ngModel)]="item.showNotes"><label
                                             for="{{item.id}}shownotes">Notes</label></span>
-                                    <span><input id="{{item.id}}showstatus" type="checkbox"
-                                        [(ngModel)]="item.showStatus"><label
-                                        for="{{item.id}}showstatus">Status</label></span>
+                                    <span
+                                        *ngIf="!['Fist','Unarmored'].includes(item.name) && item.baseType == 'Equipment'"><input
+                                            id="{{item.id}}showstatus" type="checkbox"
+                                            [(ngModel)]="item.showStatus"><label
+                                            for="{{item.id}}showstatus">Status</label></span>
                                     <span *ngIf="item['get_Name']"><input id="{{item.id}}showname" type="checkbox"
                                             [(ngModel)]="item.showName"><label
                                             for="{{item.id}}showname">Name</label></span>
@@ -305,12 +320,24 @@
                                 <div class="list-item row" *ngIf="item.showNotes">
                                     Notes <input type="textarea" class="fullwidth" [(ngModel)]="item.notes">
                                 </div>
-                                <!--Changing Notes-->
-                                <div class="list-item row" *ngIf="item.showStatus || item.broken">
+                                <!--Changing Status-->
+                                <div class="list-item row left-aligned"
+                                    *ngIf="!['Fist','Unarmored'].includes(item.name) && item.baseType == 'Equipment' && (item.showStatus || item.broken || item.shoddy)">
                                     Status
-                                    <span><input id="{{item.id}}broken" type="checkbox"
-                                        [(ngModel)]="item.broken" (ngModelChange)=onItemChange(item)><label
-                                        for="{{item.id}}broken">Broken</label></span>
+                                    <span>
+                                        <input id="{{item.id}}broken" type="checkbox" [(ngModel)]="item.broken"
+                                            title="A broken object can't be used for its normal function, nor does it grant bonuses - with the exception of armor. Broken armor still grants its item bonus to AC, but it also imparts a status penalty to AC depending on its category: -1 for broken light armor, -2 for broken medium armor, or -3 for broken heavy armor. A broken item still imposes penalties and limitations normally incurred by carrying, holding, or wearing it. For example, broken armor would still impose its Dexterity modifier cap, check penalty, and so forth."
+                                            (ngModelChange)=onItemChange(item)>
+                                        <label for="{{item.id}}broken"
+                                            title="A broken object can't be used for its normal function, nor does it grant bonuses - with the exception of armor. Broken armor still grants its item bonus to AC, but it also imparts a status penalty to AC depending on its category: -1 for broken light armor, -2 for broken medium armor, or -3 for broken heavy armor. A broken item still imposes penalties and limitations normally incurred by carrying, holding, or wearing it. For example, broken armor would still impose its Dexterity modifier cap, check penalty, and so forth.">Broken</label>
+                                    </span>
+                                    <span>
+                                        <input id="{{item.id}}shoddy" type="checkbox"
+                                            title="When available, a shoddy item usually costs half the Price of a standard item, though you can never sell one in any case. Attacks and checks involving a shoddy item take a –2 item penalty. This penalty also applies to any DCs that a shoddy item applies to (such as AC, for shoddy armor). A shoddy suit of armor also worsens the armor's check penalty by 2. A shoddy item's Hit Points and Broken Threshold are each half that of a normal item of its type."
+                                            [(ngModel)]="item.shoddy" (ngModelChange)=onItemChange(item)>
+                                        <label for="{{item.id}}shoddy"
+                                            title="When available, a shoddy item usually costs half the Price of a standard item, though you can never sell one in any case. Attacks and checks involving a shoddy item take a –2 item penalty. This penalty also applies to any DCs that a shoddy item applies to (such as AC, for shoddy armor). A shoddy suit of armor also worsens the armor's check penalty by 2. A shoddy item's Hit Points and Broken Threshold are each half that of a normal item of its type.">Shoddy</label>
+                                    </span>
                                 </div>
                                 <!--Changing Name-->
                                 <div class="list-item row" *ngIf="item.showName">

@@ -10,6 +10,7 @@ import { Familiar } from './Familiar';
 import { Oil } from './Oil';
 import { SpecializationGain } from './SpecializationGain';
 import { AlchemicalPoison } from './AlchemicalPoison';
+import { ProficiencyChange } from './ProficiencyChange';
 
 export class Weapon extends Equipment {
     public readonly _className: string = this.constructor.name;
@@ -43,8 +44,8 @@ export class Weapon extends Equipment {
     public parrying: boolean = false;
     //Store any poisons applied to this item. There should be only one poison at a time.
     public poisonsApplied: AlchemicalPoison[] = [];
-    //What proficiency is used? "Simple Weapons", "Unarmed Attacks"?
-    public prof: string = "Simple Weapons";
+    //What proficiency is used? "Simple Weapons", "Unarmed Attacks", etc.?
+    public prof: "Unarmed Attacks"|"Simple Weapons"|"Martial Weapons"|"Advanced Weapons" = "Simple Weapons";
     //Ranged range in ft - also add for thrown weapons
     //Weapons can have a melee and a ranged value, e.g. Daggers that can thrown
     public ranged: number = 0;
@@ -95,17 +96,50 @@ export class Weapon extends Equipment {
                 if ((creature as Character).get_FeatsTaken(0, creature.level, "Golden Body").length && !this.traits.includes("Deadly d12")) {
                     traits = traits.concat("Deadly d12");
                 }
+                if ((creature as Character).get_FeatsTaken(0, creature.level, "Fang Sharpener (Razortooth Goblin)").length && (this.name == "Razortooth Goblin Jaws")) {
+                    traits = traits.filter(trait => trait != "Finesse");
+                }
             }
             return traits;
         } else {
             return this.traits;
         }
     }
+    get_Proficiency(creature: Character|AnimalCompanion, characterService: CharacterService, charLevel: number = characterService.get_Character().level) {
+        let proficiency = this.prof;
+        let proficiencyChanges: ProficiencyChange[] = [];
+        if (creature.type == "Character") {
+            let character = creature as Character;
+            character.get_FeatsTaken(0, charLevel).map(gain => characterService.get_FeatsAndFeatures(gain.name)[0])
+                .filter(feat => feat?.changeProficiency?.length).forEach(feat => {
+                    proficiencyChanges.push(...feat.changeProficiency.filter(change =>
+                        (change.trait ? this.traits.filter(trait => change.trait.includes(trait)).length : true) &&
+                        (change.proficiency ? (this.prof && change.proficiency.includes(this.prof)) : true)
+                    ))
+            });
+            let proficiencies: string[] = proficiencyChanges.map(change => change.result);
+            //Set the resulting proficiency to the best result by setting it in order of worst to best.
+            if (proficiencies.includes("Advanced Weapons")) {
+                proficiency = "Advanced Weapons";
+            }
+            if (proficiencies.includes("Martial Weapons")) {
+                proficiency = "Martial Weapons";
+            }
+            if (proficiencies.includes("Unarmed Attacks")) {
+                proficiency = "Unarmed Attacks";
+            }
+            if (proficiencies.includes("Simple Weapons")) {
+                proficiency = "Simple Weapons";
+            }
+        }
+        return proficiency;
+    }
     profLevel(creature: Character|AnimalCompanion, characterService: CharacterService, runeSource: Weapon|WornItem, charLevel: number = characterService.get_Character().level) {
         if (characterService.still_loading()) { return 0; }
         let skillLevel: number = 0;
+        let prof = this.get_Proficiency(creature, characterService, charLevel);
         //There are proficiencies for "Simple Sword" or "Advanced Bow" that we need to consider, so we build that phrase here.
-        let profAndGroup = this.prof.split(" ")[0] + " " + this.group;
+        let profAndGroup = prof.split(" ")[0] + " " + this.group;
         //There are a lot of ways to be trained with a weapon.
         //To determine the skill level, we have to find skills for the item's proficiency, its name, its weapon base and any of its traits.
         let levels: number[] = [];
@@ -116,7 +150,7 @@ export class Weapon extends Equipment {
         //Proficiency and Group, e.g. Martial Sword.
         levels.push(characterService.get_Skills(creature, profAndGroup)[0]?.level(creature, characterService, charLevel) || 0);
         //Proficiency, e.g. Martial Weapons.
-        levels.push(characterService.get_Skills(creature, this.prof)[0]?.level(creature, characterService, charLevel) || 0);
+        levels.push(characterService.get_Skills(creature, prof)[0]?.level(creature, characterService, charLevel) || 0);
         //Any traits, e.g. Monk.
         levels.push(...this.traits.map(trait => characterService.get_Skills(creature, trait)[0]?.level(creature, characterService, charLevel) || 0))
         //Get the skill level by applying the result with the most increases, but no higher than 8.
@@ -262,6 +296,14 @@ export class Weapon extends Equipment {
             effectsSum += parseInt(effect.value);
             explain += "\n" + effect.source + ": " + effect.value;
         });
+        //Shoddy items have a -2 penalty to attacks, unless you have the Junk Tinker feat and have crafted the item yourself.
+        if (this.shoddy && characterService.get_Feats("Junk Tinker")[0]?.have(creature, characterService) && this.crafted) {
+            explain += "\nShoddy (canceled by Junk Tinker): -0";
+        } else if (this.shoddy) {
+            effectsSum -= 2;
+            explain += "\nShoddy: -2";
+            penalties.push({value:-2, setValue:"", source:"Shoddy", penalty:true})
+        }
         //Add up all modifiers and return the attack bonus for this attack
         attackResult += runeSource[0].get_PotencyRune() + effectsSum;
         explain = explain.trim();

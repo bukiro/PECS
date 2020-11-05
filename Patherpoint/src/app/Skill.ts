@@ -71,8 +71,8 @@ export class Skill {
             skillLevel = 4;
         }
         //If your proficiency in spell attack rolls or spell DCs is expert or better, apply that proficiency to your innate spells, too.
-        if (this.name == "Innate Spell DC") {
-            let spellDCs = characterService.get_Skills(creature).filter(skill => skill !== this && skill.name.includes("Spell DC"));
+        if (this.name.includes("Innate") && this.name.includes("Spell DC")) {
+            let spellDCs = characterService.get_Skills(creature).filter(skill => skill !== this && skill.name.includes("Spell DC") && !skill.name.includes("Innate"));
             skillLevel = Math.max(skillLevel, ...spellDCs.map(skill => skill.level(creature, characterService, charLevel, excludeTemporary)));
         }
         //If this is an advanced weapon group and you have the Advanced Weapon Training feat for it,
@@ -83,6 +83,18 @@ export class Skill {
                     characterService.get_Skills(creature, "Martial "+this.name.split(" ")[1])[0]?.level(creature, characterService, charLevel, excludeTemporary) || 0,
                     characterService.get_Skills(creature, "Martial Weapons")[0]?.level(creature, characterService, charLevel, excludeTemporary) || 0,
                     skillLevel);
+            }
+        }
+        //If this is a goblin weapon, you are trained in it, and you have the Goblin Weapon Expertise feat,
+        //  you share the highest weapon proficiency that you gained by a class feature (so the skillChoice type is "Weapon Specialization", but the source does not include "Feat:")
+        //We check whether you are trained in it by checking if your skillLevel up to this point is higher than 0.
+        if (["Goblin", "Dogslicer", "Horsechopper"].includes(this.name)) {
+            if (creature.type == "Character" && (creature as Character).get_FeatsTaken(1, creature.level, "Goblin Weapon Expertise").length && skillLevel > 0) {
+                let featureLevels: number[] = [];
+                (creature as Character).class.levels.filter(level => level.number <= creature.level).forEach(level => {
+                    featureLevels.push(...level.skillChoices.filter(choice => choice.type == "Weapon Proficiency" && !choice.source.includes("Feat:")).map(choice => choice.maxRank))
+                })
+                skillLevel = Math.max(...featureLevels, skillLevel);
             }
         }
         //The Stealthy Companion feat increases the Animal Companion's Stealth rank.

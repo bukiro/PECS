@@ -8088,5 +8088,67 @@
                 "name":"Immobilized"
             }
         ]
+    },
+    {
+        "name": "Goblin Song",
+        "desc": "You take a -1 status penalty to Perception checks and Will saves for the duration.",
+        "type": "activities",
+        "effects": [
+            {
+                "affected": "Perception",
+                "type": "status",
+                "value": "-1"
+            },
+            {
+                "affected": "Will",
+                "type": "status",
+                "value": "-1"
+            }
+        ]
+    },
+    {
+        "name": "Goblin Song Immunity",
+        "desc": "You cannot be affected by annoying Goblin Songs for the duration.",
+        "type": "activities",
+        "buff": true
+    },
+    {
+        "name": "Freeze It! Immunity",
+        "desc": "You cannot be affected by the Freeze It! activity for the duration.",
+        "type": "activities",
+        "buff": true
+    },
+    {
+        "name": "Hungry Goblin",
+        "desc": "You gain temporary Hit Points equal to half your level for the duration.",
+        "onceEffects": [
+            {
+                "affected": "Temporary HP",
+                "value": "Math.floor(Level / 2)"
+            }
+        ],
+        "endEffects": [
+            {
+                "affected": "Temporary HP",
+                "value": "-Temporary_HP('',effect.sourceId)"
+            }
+        ],
+        "type": "activities",
+        "buff": true
+    },
+    {
+        "name": "Torch Goblin",
+        "desc": "As long as you are suffering persistent fire damage, all your melee attacks against adjacent creatures deal an additional 1 fire damage per weapon damage die. Any creature that successfully Grapples, Shoves, or Trips you takes 1d6 fire damage; if it uses a weapon for that action, the weapon takes the damage instead. You must still attempt the flat check to remove the persistent fire damage each round, as normal.\n\nIf you have the Scalding Spit feat, you gain a boiling spit ranged unarmed attack with a range of 30 feet that deals 1d6 fire damage.",
+        "hint": "As long as you are suffering persistent fire damage, all your melee attacks against adjacent creatures deal an additional 1 fire damage per weapon damage die. Any creature that successfully Grapples, Shoves, or Trips you takes 1d6 fire damage; if it uses a weapon for that action, the weapon takes the damage instead.",
+        "inputRequired": "When you extinguish the fire, remove this condition.",
+        "showon": "Attacks, Fortitude, Reflex",
+        "type": "activities",
+        "buff": true,
+        "gainConditions": [
+            {
+                "name": "Persistent Damage",
+                "choice": "1d6 Fire"
+            }
+        ]
     }
 ]

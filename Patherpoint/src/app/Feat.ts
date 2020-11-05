@@ -15,8 +15,9 @@ import { Speed } from './Speed';
 import { SpecializationGain } from './SpecializationGain';
 import { AbilityChoice } from './AbilityChoice';
 import { ItemGain } from './ItemGain';
-import { Heritage } from './Heritage';
 import { LoreChoice } from './LoreChoice';
+import { ProficiencyChange } from './ProficiencyChange';
+import { HeritageGain } from './HeritageGain';
 
 export class Feat {
     public readonly _className: string = this.constructor.name;
@@ -25,6 +26,7 @@ export class Feat {
     public advancedweaponbase: boolean = false;
     public anathema: string[] = [];
     public archetype: string = "";
+    public changeProficiency: ProficiencyChange[] = [];
     public data: {} = {};
     public desc: string = "";
     public effects: any[] = [];
@@ -38,6 +40,7 @@ export class Feat {
     public gainConditions: ConditionGain[] = [];
     public gainFeatChoice: FeatChoice[] = [];
     public gainFormulaChoice: FormulaChoice[] = [];
+    public gainHeritage: HeritageGain[] = [];
     public gainItems: ItemGain[] = [];
     public gainLoreChoice: LoreChoice[] = [];
     public gainSkillChoice: SkillChoice[] = [];
@@ -195,7 +198,12 @@ export class Feat {
         //Returns [requirement met, requirement description]
         let result: Array<{met?:boolean, desc?:string}> = [];
         if (this.heritagereq) {
-            if (this.heritagereq.split(" or ").find(heritage => characterService.get_Character().class?.heritage?.name.toLowerCase() == heritage.toLowerCase())) {
+            if (
+                this.heritagereq.split(" or ").find(heritage =>
+                    characterService.get_Character().class?.heritage?.name.toLowerCase() == heritage.toLowerCase() ||
+                    characterService.get_Character().class?.additionalHeritages.map(extraHeritage => extraHeritage.name.toLowerCase()).includes(heritage.toLowerCase())
+                    )
+                ) {
                 result.push({met:true, desc:this.heritagereq});
             } else {
                 result.push({met:false, desc:this.heritagereq});
@@ -230,6 +238,15 @@ export class Feat {
             let speeds: Speed[] = characterService.get_Speeds(characterService.get_Creature(creature)).filter(speed => speed.name == name);
             if (speeds.length) {
                 return speeds[0].value(characterService.get_Creature(creature), characterService, characterService.effectsService)[0];
+            } else {
+                return 0;
+            }
+        }
+        function Have_Feat(creature: string, name: string) {
+            if (creature == "Familiar") {
+                return characterService.get_FamiliarAvailable(charLevel) ? characterService.get_Familiar().get_FeatsTaken(name).length : 0;
+            } else if (creature == "Character") {
+                return character.get_FeatsTaken(1, charLevel, name).length;
             } else {
                 return 0;
             }

@@ -15,6 +15,8 @@ export class Armor extends Equipment {
     //For certain medium and light armors, set 1 if an "Armored Skirt" is equipped; For certain heavy armors, set -1 instead
     //This value influences acbonus, skillpenalty, dexcap and strength
     public $affectedByArmoredSkirt: -1|0|1 = 0;
+    //Shoddy armors give a penalty of -2 unless you have the Junk Tinker feat.
+    public $shoddy: -2|0 = 0;
     //The armor's inherent bonus to AC
     private acbonus: number = 0;
     //What kind of armor is this based on? Needed for armor proficiencies for specific magical items.
@@ -77,11 +79,21 @@ export class Armor extends Equipment {
             return null;
         }
     }
+    get_Shoddy(creature: Character|AnimalCompanion|Familiar, characterService: CharacterService) {
+        //Shoddy items have a -2 penalty to AC, unless you have the Junk Tinker feat and have crafted the item yourself.
+        if (this.shoddy && characterService.get_Feats("Junk Tinker")[0]?.have(creature, characterService) && this.crafted) {
+            this.$shoddy = 0;
+            return 0;
+        } else if (this.shoddy) {
+            this.$shoddy = -2;
+            return -2;
+        }
+    }
     get_ACBonus() {
-        return this.acbonus + this.$affectedByArmoredSkirt;
+        return this.acbonus + this.$affectedByArmoredSkirt + this.$shoddy;
     }
     get_SkillPenalty() {
-        return this.skillpenalty - this.$affectedByArmoredSkirt;
+        return this.skillpenalty - this.$affectedByArmoredSkirt + this.$shoddy;
     }
     get_DexCap() {
         if (this.dexcap != -1) {
@@ -162,8 +174,13 @@ export class Armor extends Equipment {
         //Add up all modifiers and return the AC gained from this armor
         //Also adding any inherent AC bonus
         let defenseResult: number = 10 + charLevelBonus + skillLevel + this.get_ACBonus() + dexBonus + this.get_PotencyRune();
-        if (this.get_ACBonus()) {
-            explain += "\nArmor Bonus: "+this.get_ACBonus();
+        if (this.get_ACBonus() || this.$shoddy) {
+            if (this.$shoddy) {
+                explain += "\nArmor Bonus: "+(this.get_ACBonus() + 2);
+                explain += "\nShoddy: -2";
+            } else {
+                explain += "\nArmor Bonus: "+this.get_ACBonus();
+            }
         }
         let endresult: [number, string] = [defenseResult, explain]
         return endresult;

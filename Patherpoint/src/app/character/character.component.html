@@ -955,26 +955,25 @@
                         </div>
                     </div>
                 </ng-container>
-                <!--Elf Atavism-->
-                <ng-container *ngIf="get_ElfAtavismFeat(level.number)">
-                    <ng-container *ngFor="let heritageIndex of get_ElfAtavismHeritageIndex()">
+                <!--Additional Heritages-->
+                <ng-container *ngFor="let heritageGain of get_AdditionalHeritagesAvailable(level.number)">
+                    <ng-container *ngFor="let heritageIndex of get_AdditionalHeritageIndex(heritageGain.source)">
                         <div class="list-item"
                             [ngClass]="{'fullsize-only':(get_Character().class.additionalHeritages[heritageIndex].name)}"
-                            *ngFor="let listID of [level.number+'elfAtavism']; trackBy:trackByIndex;">
+                            *ngFor="let listID of [level.number+'AdditionalHeritage'+heritageGain.source]; trackBy:trackByIndex;">
                             <button class="row sublist-toggle"
                                 [ngClass]="{'fancy-button':((get_Character().class.additionalHeritages[heritageIndex].name))}"
                                 (click)="toggle_List(listID)">
-                                Heritage (Elf
-                                Atavism){{(get_Character().class.additionalHeritages[heritageIndex].name) ? ": "+ get_Character().class.additionalHeritages[heritageIndex].name : ""}}
+                                Heritage ({{heritageGain.source}}){{(get_Character().class.additionalHeritages[heritageIndex].name) ? ": "+ get_Character().class.additionalHeritages[heritageIndex].name : ""}}
                             </button>
                             <div class="list-item sublist"
                                 [ngClass]="{'fancy-list':((get_Character().class.additionalHeritages[heritageIndex].name))}"
                                 *ngIf="get_showList()==listID">
                                 <div class="list-item"
-                                    *ngFor="let heritage of get_AvailableHeritages('', 'Elf', heritageIndex)|sortBy:'asc':'name'; trackBy:trackByIndex;">
+                                    *ngFor="let heritage of get_AvailableHeritages('', heritageGain.ancestry, heritageIndex)|sortBy:'asc':'name'; trackBy:trackByIndex;">
                                     <span>
                                         <input *ngIf="!heritage.subTypes.length" id="{{heritage.name}}" type="checkbox"
-                                            (change)="on_ElfAtavismHeritageChange(heritage, $event.target.checked, heritageIndex)"
+                                            (change)="on_AdditionalHeritageChange(heritage, $event.target.checked, heritageIndex, heritageGain.source)"
                                             [checked]="heritage.name === get_Character().class.additionalHeritages[heritageIndex].name">
                                         <button class="lower left" *ngIf="heritage.subTypes.length"
                                             id="{{heritage.name}}"
@@ -996,7 +995,7 @@
                                             *ngFor="let subheritage of heritage.subTypes; trackBy:trackByIndex;">
                                             <span>
                                                 <input id="{{subheritage.name}}" type="checkbox"
-                                                    (change)="on_ElfAtavismHeritageChange(subheritage, $event.target.checked, heritageIndex)"
+                                                    (change)="on_AdditionalHeritageChange(subheritage, $event.target.checked, heritageIndex, heritageGain.source)"
                                                     [checked]="subheritage.name === get_Character().class.heritage.name">
                                                 <label for="{{subheritage.name}}">
                                                     <strong>{{subheritage.subType}}</strong>

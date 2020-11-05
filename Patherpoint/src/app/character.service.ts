@@ -592,14 +592,13 @@ export class CharacterService {
         this.me.class.on_NewDeity(this, this.deitiesService, this.me.class.deity);
     }
 
-    change_Heritage(heritage: Heritage, index: number = -1) {
+    change_Heritage(heritage: Heritage, index: number = -1, source: string = "") {
         this.me.class.on_ChangeHeritage(this, index);
         if (index == -1) {
             this.me.class.heritage = new Heritage();
             this.me.class.heritage = Object.assign(new Heritage(), JSON.parse(JSON.stringify(heritage)))
             this.me.class.heritage = this.reassign(this.me.class.heritage);
         } else {
-            let source = this.me.class.additionalHeritages[index].source;
             this.me.class.additionalHeritages[index] = new Heritage();
             this.me.class.additionalHeritages[index] = Object.assign(new Heritage(), JSON.parse(JSON.stringify(heritage)))
             this.me.class.additionalHeritages[index] = this.reassign(this.me.class.additionalHeritages[index]);

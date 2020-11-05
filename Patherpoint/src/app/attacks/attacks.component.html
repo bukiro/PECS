@@ -129,6 +129,8 @@
             </div>
         </ng-container>
         <h3 class="fullsize-only box-header" *ngIf="!still_loading()">Weapon Proficiencies</h3>
+        <app-tags [creature]="creature" [objectName]="'Weapon Proficiencies'" [showTraits]=true [showFeats]=true [showItems]=true
+                [showActivities]=true [showConditions]=true></app-tags>
         <ng-container *ngFor="let skill of get_Skills('', 'Weapon Proficiency'); trackBy:trackByIndex;">
             <app-skill class="fullsize-only" [creature]="creature" [skill]=skill [showValue]=false></app-skill>
         </ng-container>

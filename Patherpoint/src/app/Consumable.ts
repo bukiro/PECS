@@ -8,6 +8,7 @@ export class Consumable extends Item {
     readonly allowEquippable = false;
     //Consumables can not be equipped.
     readonly equippable = false;
+    public readonly baseType = "Consumable";
     //How many Actions does it take to use this item?
     //Usually "Free", "Reaction", "1", "2" or "3", but can be something special like "1 hour"
     public actions: string = "1A";

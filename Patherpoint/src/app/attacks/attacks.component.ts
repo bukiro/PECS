@@ -248,8 +248,9 @@ export class AttacksComponent implements OnInit {
         if (weapon.traits.includes("Monk") && this.characterService.get_Feats("Monastic Weaponry")[0].have(this.get_Creature(), this.characterService)) {
             specialNames.push("Unarmed Attacks");
         }
-        specialNames.push(weapon.prof);
-        specialNames.push(...weapon.traits);
+        let creature = this.get_Creature();
+        specialNames.push(weapon.get_Proficiency(creature, this.characterService, creature.level));
+        specialNames.push(...weapon.get_Traits(this.characterService, creature));
         specialNames.push(range)
         return specialNames;
     }

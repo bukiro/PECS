@@ -182,6 +182,7 @@ export class CraftingComponent implements OnInit {
         if (item["stack"]) {
             amount = item["stack"];
         }
+        item.crafted = true;
         this.characterService.grant_InventoryItem(this.characterService.get_Character(), this.characterService.get_Character().inventories[0], item, false, true, true, amount);
     }
 

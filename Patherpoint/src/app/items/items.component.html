@@ -53,6 +53,9 @@
             <button (click)="toggle_Purpose('scrollsavant')" [className]="{'fancy-button':get_ShowPurpose()=='scrollsavant'}" *ngIf="have_Feat('Scroll Savant')">Scroll Savant</button>
             <button (click)="toggle_Purpose('formulas')" [className]="{'fancy-button':get_ShowPurpose()=='formulas'}">Learn Formulas</button>
         </div>
+        <app-tags [creature]="creature" [objectName]="'ItemStore'" [showTraits]=true [showFeats]=true [showItems]=true
+            [showActivities]=true [showConditions]=true [showEffects]=true>
+        </app-tags>
         <ng-container *ngFor="let items of [get_Items(true)]; trackBy:trackByIndex;">
             <ng-container *ngFor="let creatureType of ['Character','Companion']">
                 <h3 *ngIf="get_ShowPurpose()=='items'">Get {{creatureType == "Companion" ? "Animal Companion " : ""}}Items</h3>
@@ -129,7 +132,7 @@
                                             {{item.group}}
                                             {{(item.type=="armors" && (!["Unarmored Defense","Light Barding","Heavy Barding"].includes(item.prof))) ? "Armor" : ""}}</span>
                                         <span
-                                            *ngIf="item.type == 'weapons'">{{(item.prof == 'Unarmed') ? item.prof : item.prof.substr(0, item.prof.length - 8)}}
+                                            *ngIf="item.type == 'weapons'">{{(item.prof == 'Unarmed Attacks') ? item.prof : item.prof.substr(0, item.prof.length - 8)}}
                                             {{item.group}}</span>
                                         <span>{{(item.level) ? "Level "+item.level : "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"}}</span>
                                     </button>

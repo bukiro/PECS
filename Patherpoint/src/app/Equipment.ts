@@ -20,6 +20,7 @@ export class Equipment extends Item {
         "resilientRune",
         "strikingRune"
     ])
+    public readonly baseType = "Equipment";
     //Allow changing of "equippable" by custom item creation
     allowEquippable = true;
     //Equipment can normally be equipped.
@@ -27,6 +28,7 @@ export class Equipment extends Item {
     //Describe all activities that you gain from this item. The activity must be a fully described "Activity" type object
     public activities: ItemActivity[] = [];
     public broken: boolean = false;
+    public shoddy: boolean = false;
     //Some items have a different bulk when you are carrying them instead of wearing them, like backpacks
     public carryingBulk: string = "";
     //Is the item currently equipped - items with equippable==false are always equipped

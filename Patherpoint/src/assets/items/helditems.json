@@ -220,7 +220,7 @@
                 "activationType": "Interact",
                 "cooldown": 144000,
                 "frequency": "once per day",
-                "desc": "The dragon’s eye charm shrouds you in a faintly glowing layer of golden energy. You gain fire resistance 5 for 10 minutes.",
+                "desc": "The dragon's eye charm shrouds you in a faintly glowing layer of golden energy. You gain fire resistance 5 for 10 minutes.",
                 "name": "Dragon's Eye Charm: Fire Resistance",
                 "gainConditions": [
                     {

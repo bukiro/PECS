@@ -27,6 +27,7 @@ export class Item {
     //Bulk: Either "" or "L" or "<number>"
     public bulk: string = "";
     public craftable: boolean = true;
+    public crafted: boolean = false;
     //Some items need certain requirements to be crafted.
     public craftRequirement: string = "";
     //Some items need to store data - selected runes, spells, etc...

@@ -18,6 +18,7 @@ import { ActivitiesComponent } from './activities/activities.component';
 import { ItemActivity } from './ItemActivity';
 import { ActivitiesService } from './activities.service';
 import { WornItem } from './WornItem';
+import { ItemsService } from './items.service';
 
 @Injectable({
     providedIn: 'root'
@@ -361,19 +362,43 @@ export class EffectsService {
             items.weapons.filter(item => item.equipped && item.parrying && !item.broken).forEach(item => {
                 itemEffects.push(new Effect(creature.id, 'circumstance', "AC", "+1", "", false, "Parrying", false));
             })
+            //Initialize shoddy values for all shields.
+            creature.inventories.forEach(inv => {
+                inv.shields.forEach(shield => {
+                    let oldShoddy = shield.$shoddy;
+                    shield.get_Shoddy(creature, characterService);
+                    if (oldShoddy != shield.$shoddy) {
+                        characterService.set_ToChange(creature.type, "inventory");
+                    }
+                })
+            })
             //Get shield bonuses from raised shields
             //If a shield is raised, add its item bonus to AC with a + in front. If you are also taking cover while the shield is raised, add that bonus as well.
             items.shields.filter(shield => shield.equipped && shield.raised && !shield.broken).forEach(shield => {
-                let shieldBonus = shield.acbonus;
+                let shieldBonus = shield.get_ACBonus();
                 if (shield.takingCover) {
                     shieldBonus += shield.coverbonus;
                 }
-                itemEffects.push(new Effect(creature.id, 'circumstance', "AC", "+" + shieldBonus, "", false, shield.get_Name(), false));
+                if (shieldBonus) {
+                    itemEffects.push(new Effect(creature.id, 'circumstance', "AC", "+" + shieldBonus, "", false, shield.get_Name(), false));
+                }
                 //Reflexive Shield
                 if (character.get_FeatsTaken(1, character.level, "Reflexive Shield").length) {
                     itemEffects.push(new Effect(creature.id, 'circumstance', "Reflex", "+" + shieldBonus, "", false, "Reflexive Shield", false));
                 }
             });
+            //Initialize armored skirt and shoddy values for all armor.
+            creature.inventories.forEach(inv => {
+                inv.armors.forEach(armor => {
+                    let oldArmoredSkirt = armor.$affectedByArmoredSkirt;
+                    let oldShoddy = armor.$shoddy;
+                    armor.get_ArmoredSkirt(creature, characterService);
+                    armor.get_Shoddy(creature, characterService);
+                    if (oldArmoredSkirt != armor.$affectedByArmoredSkirt || oldShoddy != armor.$shoddy) {
+                        characterService.set_ToChange(creature.type, "inventory");
+                    }
+                })
+            })
             items.armors.filter(armor => armor.equipped).forEach(armor => {
                 //For Saving Throws, add any resilient runes on the equipped armor
                 if (armor.get_ResilientRune() > 0 && !armor.broken) {
@@ -391,10 +416,13 @@ export class EffectsService {
                     switch (armor.get_Prof()) {
                         case "Light Armor":
                             itemEffects.push(new Effect(creature.id, "untyped", "AC", "-1", "", false, "Broken Armor", true));
+                            break;
                         case "Medium Armor":
                             itemEffects.push(new Effect(creature.id, "untyped", "AC", "-2", "", false, "Broken Armor", true));
+                            break;
                         case "Heavy Armor":
                             itemEffects.push(new Effect(creature.id, "untyped", "AC", "-3", "", false, "Broken Armor", true));
+                            break;
                     }
                 }
             });
@@ -405,7 +433,9 @@ export class EffectsService {
                 //If an armor has a skillpenalty or a speedpenalty, check if Strength meets its strength requirement.
                 let Strength = characterService.get_Abilities("Strength")[0].value(creature, characterService, this).result;
                 items.armors.filter(item => item.equipped && item.get_SkillPenalty()).forEach(item => {
+                    //These methods the AC and skill penalty of the armor.
                     item.get_ArmoredSkirt(creature, characterService);
+                    item.get_Shoddy(creature, characterService);
                     let name = item.get_Name();
                     if (Strength < item.get_Strength()) {
                         //You are not strong enough to act freely in this armor.

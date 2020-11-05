@@ -1,6 +1,5 @@
 import { FeatChoice } from './FeatChoice';
 import { SkillChoice } from './SkillChoice';
-import { ActivityGain } from './ActivityGain';
 import { SpellChoice } from './SpellChoice';
 import { ItemGain } from './ItemGain';
 
