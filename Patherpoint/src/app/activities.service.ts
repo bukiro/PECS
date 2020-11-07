@@ -236,7 +236,7 @@ export class ActivitiesService {
                         activity = this.get_Activities(gain.name)[0];
                     }
                     if (activity) {
-                        this.activate_Activity(creature, creature.type, characterService, timeService, itemsService, spellsService, gain, activity, false);
+                        this.activate_Activity(creature, creature.type, characterService, timeService, itemsService, spellsService, gain, activity, false, false);
                     }
                 }
             }

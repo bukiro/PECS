@@ -2033,6 +2033,22 @@
                 "skillChoices": [
                     {
                         "_className": "SkillChoice",
+                        "id": "13-Save-Greater Juggernaut-0",
+                        "increases": [
+                            {
+                                "locked": true,
+                                "maxRank": 8,
+                                "name": "Fortitude",
+                                "source": "Juggernaut",
+                                "sourceId": "13-Save-Greater Juggernaut-0"
+                            }
+                        ],
+                        "maxRank": 8,
+                        "source": "Greater Juggernaut",
+                        "type": "Save"
+                    },
+                    {
+                        "_className": "SkillChoice",
                         "id": "13-Armor Proficiency-Medium Armor Expertise-0",
                         "increases": [
                             {
@@ -2045,7 +2061,7 @@
                             {
                                 "locked": true,
                                 "maxRank": 4,
-                                "name": "Medium Armor Expertise",
+                                "name": "Medium Armor",
                                 "source": "Medium Armor Expertise",
                                 "sourceId": "13-Armor Proficiency-Medium Armor Expertise-0"
                             },

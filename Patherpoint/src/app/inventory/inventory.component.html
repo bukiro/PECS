@@ -319,12 +319,12 @@
                                 </div>
                                 <!--Changing Notes-->
                                 <div class="list-item row" *ngIf="item.showNotes">
-                                    Notes <input type="textarea" class="fullwidth" [(ngModel)]="item.notes">
+                                    <span>Notes</span> <input type="textarea" class="fullwidth" [(ngModel)]="item.notes">
                                 </div>
                                 <!--Changing Status-->
                                 <div class="list-item row left-aligned"
                                     *ngIf="!['Fist','Unarmored'].includes(item.name) && item.baseType == 'Equipment' && (item.showStatus || item.broken || item.shoddy)">
-                                    Status
+                                    <span>Status</span>
                                     <span>
                                         <input id="{{item.id}}broken" type="checkbox" [(ngModel)]="item.broken"
                                             title="A broken object can't be used for its normal function, nor does it grant bonuses - with the exception of armor. Broken armor still grants its item bonus to AC, but it also imparts a status penalty to AC depending on its category: -1 for broken light armor, -2 for broken medium armor, or -3 for broken heavy armor. A broken item still imposes penalties and limitations normally incurred by carrying, holding, or wearing it. For example, broken armor would still impose its Dexterity modifier cap, check penalty, and so forth."
@@ -349,7 +349,7 @@
                                 </div>
                                 <!--Changing Name-->
                                 <div class="list-item row" *ngIf="item.showName">
-                                    Name <input type="textarea" class="fullwidth" [(ngModel)]="item.displayName"
+                                    <span>Name</span> <input type="textarea" class="fullwidth" [(ngModel)]="item.displayName"
                                         (blur)="onItemChange(item)">
                                 </div>
                                 <app-itemRunes class="list-item" [item]=item [itemStore]=false *ngIf="item.showRunes">

@@ -1141,7 +1141,7 @@
     },
     {
         "name": "Bestial Rage",
-        "desc": "When you Rage, you gain your chosen animal’s unarmed attack (or attacks). Your Rage action gains the morph, primal, and transmutation traits.",
+        "desc": "When you Rage, you gain your chosen animal's unarmed attack (or attacks). Your Rage action gains the morph, primal, and transmutation traits.",
         "type": "activities",
         "buff": true,
         "choice": "Ape",
@@ -1342,7 +1342,7 @@
     {
         "name": "Draconic Rage",
         "desc": "While raging, you can increase the additional damage from Rage from 2 to 4 and change its damage type to match that of your dragon's breath weapon instead of the damage type for your weapon or unarmed attack. If you do this, your Rage action gains the arcane and evocation traits, as well as the trait matching the damage type.\n\n<strong>Black</strong>: <strong>Type</strong> Chromatic, <strong>Breath Weapon</strong> Line of acid.\n<strong>Blue</strong>: <strong>Type</strong> Chromatic, <strong>Breath Weapon</strong> Line of electricity.\n<strong>Green</strong>: <strong>Type</strong> Chromatic, <strong>Breath Weapon</strong> Cone of poison.\n<strong>Red</strong>: <strong>Type</strong> Chromatic, <strong>Breath Weapon</strong> Cone of fire.\n<strong>White</strong>: <strong>Type</strong> Chromatic, <strong>Breath Weapon</strong> Cone of cold.\n<strong>Brass</strong>: <strong>Type</strong> Metallic, <strong>Breath Weapon</strong> Line of fire.\n<strong>Bronze</strong>: <strong>Type</strong> Metallic, <strong>Breath Weapon</strong> Line of electricity.\n<strong>Copper</strong>: <strong>Type</strong> Metallic, <strong>Breath Weapon</strong> Line of acid.\n<strong>Gold</strong>: <strong>Type</strong> Metallic, <strong>Breath Weapon</strong> Cone of fire.\n<strong>Silver</strong>: <strong>Type</strong> Metallic, <strong>Breath Weapon</strong> Cold of cold.",
-        "hint": "While raging, you can increase the additional damage from Rage from 2 to 4 and change its damage type to match that of your dragon's breath weapon instead of the damage type for your weapon or unarmed attack.",
+        "hint": "While raging, you can change the damage type of the additional damage from Rage to match that of your dragon's breath weapon instead of the damage type for your weapon or unarmed attack.",
         "showon": "Attacks",
         "type": "activities",
         "buff": true,
@@ -1397,8 +1397,6 @@
     {
         "name": "Titan Mauler",
         "desc": "You can use a weapon built for a Large creature if you are Small or Medium (both normally and when raging). If you're not Small or Medium, you can use a weapon built for a creature one size larger than you. You gain access to this larger weapon, of any weapon type otherwise available at character creation. It has the normal Price and Bulk for a weapon of its size. When wielding such a weapon in combat, increase your additional damage from Rage from 2 to 6, but you have the clumsy 1 condition (page 618) because of the weapon's unwieldy size. You can't remove this clumsy condition or ignore its penalties by any means while wielding the weapon.",
-        "hint": "While raging, you can increase the additional damage from Rage from 2 to 4 and change its damage type to match that of your dragon's breath weapon instead of the damage type for your weapon or unarmed attack.",
-        "showon": "Attacks",
         "type": "activities",
         "buff": true,
         "effects": [
@@ -1447,7 +1445,7 @@
             },
             {
                 "affected": "Agile Melee Damage",
-                "value": "Has_Feat(Creature.type, 'Spirit Instinct Specialization') ? (Has_Feat(Creature.type, 'Greater Weapon Specialization') ? 4 : 2) : 0"
+                "value": "Has_Feat(Creature.type, 'Spirit Instinct Specialization') ? (Has_Feat(Creature.type, 'Greater Weapon Specialization') ? 5 : 2) : 0"
             },
             {
                 "affected": "Negative Damage Resistance",

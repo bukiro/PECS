@@ -4160,7 +4160,6 @@
       "dicenum": 1,
       "dicesize": 10,
       "dmgType": "P",
-      "extraDamage": "+1d6 Poison",
       "group": "Brawling",
       "melee": 5,
       "prof": "Unarmed Attacks"

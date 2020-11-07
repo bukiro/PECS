@@ -168,8 +168,8 @@ export class FeatchoiceComponent implements OnInit {
 
     get_ChoiceLevel(choice: FeatChoice) {
         let featLevel = 0;
-        //Use character level for Familiar Abilities
-        if (choice.source == "Familiar") {
+        //Use character level for Familiar Abilities or for choices that don't look at the choice level, but the current character level.
+        if (choice.source == "Familiar" || choice.useCharacterLevel) {
             featLevel = this.get_Character().level;
         } else {
             if (choice.level) {
@@ -547,12 +547,18 @@ export class FeatchoiceComponent implements OnInit {
             this.characterService.get_Changed()
                 .subscribe((target) => {
                     if (target == "featchoices" || target == "all" || target == this.creature) {
+                        if (this.choice.useCharacterLevel) {
+                            this.featLevel = this.get_ChoiceLevel(this.choice);
+                        }
                         this.changeDetector.detectChanges();
                     }
                 });
             this.characterService.get_ViewChanged()
                 .subscribe((view) => {
                     if (view.creature == this.creature && ["featchoices", "all"].includes(view.target)) {
+                        if (this.choice.useCharacterLevel) {
+                            this.featLevel = this.get_ChoiceLevel(this.choice);
+                        }
                         this.changeDetector.detectChanges();
                     }
                 });

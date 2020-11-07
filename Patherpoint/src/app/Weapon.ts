@@ -104,7 +104,7 @@ export class Weapon extends Equipment {
             }
             //Find and apply effects that give this weapon reach.
             let effectsService = characterService.effectsService;
-            let reach = parseInt(traits.find(trait => trait.includes("Reach"))?.split(" ")[1]) || 0;
+            let reach = parseInt(traits.find(trait => trait.includes("Reach"))?.split(" ")[1]) || 5;
             let newReach = reach;
             effectsService.get_AbsolutesOnThis(creature, "Reach")
                 .concat(effectsService.get_AbsolutesOnThis(creature, this.name + " Reach"))
@@ -119,11 +119,11 @@ export class Weapon extends Equipment {
                     newReach += parseInt(effect.setValue);
                 })
             if (newReach != reach) {
-                if (newReach == 0) {
+                if (newReach == 5 || newReach == 0) {
                     traits = traits.filter(trait => !trait.includes("Reach"));
                 } else {
-                    if (!reach) {
-                        let reachString: string = traits.find(trait => trait.includes("Reach"));
+                    let reachString: string = traits.find(trait => trait.includes("Reach"));
+                    if (reachString) {
                         traits[traits.indexOf(reachString)] = "Reach " + newReach + " feet";
                     } else {
                         traits.push("Reach " + newReach + " feet");
@@ -137,6 +137,8 @@ export class Weapon extends Equipment {
     }
     get_Proficiency(creature: Character | AnimalCompanion, characterService: CharacterService, charLevel: number = characterService.get_Character().level) {
         let proficiency = this.prof;
+        //Some feats allow you to apply another proficiency to certain weapons, e.g.:
+        // "For the purpose of determining your proficiency, martial goblin weapons are simple weapons and advanced goblin weapons are martial weapons."
         let proficiencyChanges: ProficiencyChange[] = [];
         if (creature.type == "Character") {
             let character = creature as Character;
@@ -155,11 +157,11 @@ export class Weapon extends Equipment {
             if (proficiencies.includes("Martial Weapons")) {
                 proficiency = "Martial Weapons";
             }
-            if (proficiencies.includes("Unarmed Attacks")) {
-                proficiency = "Unarmed Attacks";
-            }
             if (proficiencies.includes("Simple Weapons")) {
                 proficiency = "Simple Weapons";
+            }
+            if (proficiencies.includes("Unarmed Attacks")) {
+                proficiency = "Unarmed Attacks";
             }
         }
         return proficiency;

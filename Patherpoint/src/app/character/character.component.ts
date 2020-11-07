@@ -278,6 +278,13 @@ export class CharacterComponent implements OnInit {
                 }
             })
         })
+        this.get_Character().class.levels.forEach(level => {
+            level.featChoices.forEach(choice => {
+                if (choice.useCharacterLevel) {
+                    this.characterService.set_ToChange("Character", "featchoices");
+                }
+            })
+        })
         this.characterService.set_ToChange("Character", "charactersheet");
         this.characterService.set_ToChange("Character", "character-sheet");
         this.characterService.set_ToChange("Character", "effects");

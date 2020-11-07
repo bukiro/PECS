@@ -28,6 +28,10 @@ export class AbilitiesComponent implements OnInit {
         this.characterService.get_Character().settings.abilitiesMinimized = !this.characterService.get_Character().settings.abilitiesMinimized;
     }
 
+    get_Minimized() {
+        return this.characterService.get_Character().settings.abilitiesMinimized;
+    }
+
     trackByIndex(index: number, obj: any): any {
         return index;
     }
@@ -55,8 +59,16 @@ export class AbilitiesComponent implements OnInit {
         }
     }
 
-    get_Abilities() {
-        return this.abilitiesService.get_Abilities();
+    get_Abilities(subset: number = 0) {
+        switch (subset) {
+            case 0:
+                return this.abilitiesService.get_Abilities();
+            case 1:
+                return this.abilitiesService.get_Abilities().filter((ability, index) => index <= 2);
+            case 2:
+                return this.abilitiesService.get_Abilities().filter((ability, index) => index >= 3);
+        }
+        
     }
 
     get_Accent() {

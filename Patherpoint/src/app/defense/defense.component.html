@@ -33,7 +33,7 @@
             </div>
             <ng-container *ngIf="creature != 'Familiar'">
                 <h5 class="fullsize-only">Armor</h5>
-                <div class="list-item" *ngFor="let armor of get_EquippedArmor(); trackBy:trackByIndex;">
+                <div class="fullsize-only list-item" *ngFor="let armor of get_EquippedArmor(); trackBy:trackByIndex;">
                     <div>
                         {{armor.get_Name()}} AC:
                         <span>

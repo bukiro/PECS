@@ -102,7 +102,16 @@ export class ActivityComponent implements OnInit {
     }
 
     get_FeatsShowingOn(activityName: string) {
-        return this.characterService.get_FeatsShowingOn(activityName);
+        return this.characterService.get_FeatsShowingOn(activityName)
+        .sort((a,b) => {
+            if (a.name > b.name) {
+                return 1;
+            }
+            if (a.name < b.name) {
+                return -1;
+            }
+            return 0;
+        });;
     }
 
     get_ActivitiesShowingOn(objectName: string) {
@@ -111,7 +120,16 @@ export class ActivityComponent implements OnInit {
             .filter((activity: ItemActivity|Activity) => activity.showon.split(",")
                 .filter(showon => showon == objectName || showon.substr(1) == objectName)
                 .length)
-            .length);
+            .length)
+            .sort((a,b) => {
+                if (a.name > b.name) {
+                    return 1;
+                }
+                if (a.name < b.name) {
+                    return -1;
+                }
+                return 0;
+            });
     }
 
     get_FuseStanceFeat() {

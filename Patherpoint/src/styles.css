@@ -222,6 +222,10 @@ router-outlet+* {
     padding: 0;
 }
 
+app-character-sheet {
+    width: 100%;
+}
+
 
 /* Text */
 

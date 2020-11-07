@@ -1343,7 +1343,6 @@
     {
         "name": "Brawling Focus",
         "desc": "You know how to make the most of your attacks when fighting hand-to-hand. You gain access to the critical specialization effects of unarmed strikes in the brawling group and weapons in the brawling group. If you have Monastic Weaponry, you also gain the critical specialization effects of all monk weapons in which you are trained.",
-        "internalNote": "The effect on Monastic Weaponry is hardcoded.",
         "shortdesc": "You know how to make the most of your attacks when fighting hand-to-hand.",
         "traits": [
             "Monk"
@@ -1357,7 +1356,8 @@
                 "featreq": [
                     "Monastic Weaponry"
                 ],
-                "trait": "Monk"
+                "trait": "Monk",
+                "skillLevel": 2
             }
         ]
     },
@@ -7976,7 +7976,8 @@
                 ],
                 "insertClass": "Barbarian",
                 "source": "Fury Instinct"
-            },{
+            },
+            {
                 "_className": "FeatChoice",
                 "feats": [
                     {
@@ -8126,9 +8127,9 @@
         "name": "Titan Mauler",
         "desc": "You can use a weapon built for a Large creature if you are Small or Medium (both normally and when raging). If you're not Small or Medium, you can use a weapon built for a creature one size larger than you. You gain access to this larger weapon, of any weapon type otherwise available at character creation. It has the normal Price and Bulk for a weapon of its size. When wielding such a weapon in combat, increase your additional damage from Rage from 2 to 6, but you have the clumsy 1 condition (page 618) because of the weapon's unwieldy size. You can't remove this clumsy condition or ignore its penalties by any means while wielding the weapon.\n\nYou can set a weapon to be larger in the inventory.",
         "hint": "You can use a weapon built for a Large creature if you are Small or Medium (both normally and when raging). If you're not Small or Medium, you can use a weapon built for a creature one size larger than you. You gain access to this larger weapon, of any weapon type otherwise available at character creation. It has the normal Price and Bulk for a weapon of its size. When wielding such a weapon in combat, increase your additional damage from Rage from 2 to 6, but you have the clumsy 1 condition (page 618) because of the weapon's unwieldy size. You can't remove this clumsy condition or ignore its penalties by any means while wielding the weapon.",
-        "showon": "Rage, Attacks",
-        "shortdesc": "You can use a weapon built for a Large creature if you are Small or Medium (both normally and when raging).",
+        "showon": "Rage, Inventory",
         "internalNote": "Making a weapon large is hardcoded.",
+        "shortdesc": "You can use a weapon built for a Large creature if you are Small or Medium (both normally and when raging).",
         "featreq": [
             "Giant Instinct"
         ]
@@ -8138,7 +8139,7 @@
         "desc": "Increase the damage from Rage when using a larger weapon from 6 to 10; if you have greater weapon specialization, increase it from 10 to 18.",
         "showon": "Rage",
         "featreq": [
-            "Spirit Instinct"
+            "Giant Instinct"
         ]
     },
     {
@@ -8189,6 +8190,7 @@
     {
         "name": "Spirit Rage",
         "desc": "When you are raging, you can increase your damage from Rage from 2 to 3 and deal negative or positive damage, instead of the normal damage type for your weapon or unarmed attack (choose each time you Rage). If you choose to deal negative or positive damage, your weapon or unarmed attack gains the effects of the ghost touch property rune, which makes it more effective against incorporeal creatures, and your Rage action gains the divine and necromancy traits, plus negative or positive, as appropriate.",
+        "hint": "When you are raging, you can increase your damage from Rage from 2 to 3 and deal negative or positive damage, instead of the normal damage type for your weapon or unarmed attack (choose each time you Rage). If you choose to deal negative or positive damage, your weapon or unarmed attack gains the effects of the ghost touch property rune, which makes it more effective against incorporeal creatures, and your Rage action gains the divine and necromancy traits, plus negative or positive, as appropriate.",
         "showon": "Rage",
         "shortdesc": "When you are raging, you can increase your damage from Rage and deal negative or positive damage.",
         "featreq": [
@@ -8206,18 +8208,7 @@
     {
         "name": "Spirit Instinct Resistance",
         "desc": "You resist negative damage, as well as damage dealt by the attacks and abilities of undead creatures, regardless of the damage type.",
-        "hint": "You resist negative damage, as well as damage dealt by the attacks and abilities of undead creatures, regardless of the damage type.",
         "showon": "Rage",
-        "featreq": [
-            "Spirit Instinct"
-        ]
-    },
-    {
-        "name": "Spirit Rage",
-        "desc": "When you are raging, you can increase your damage from Rage from 2 to 3 and deal negative or positive damage, instead of the normal damage type for your weapon or unarmed attack (choose each time you Rage). If you choose to deal negative or positive damage, your weapon or unarmed attack gains the effects of the ghost touch property rune, which makes it more effective against incorporeal creatures, and your Rage action gains the divine and necromancy traits, plus negative or positive, as appropriate.",
-        "hint": "When you are raging, you can increase your damage from Rage from 2 to 3 and deal negative or positive damage, instead of the normal damage type for your weapon or unarmed attack (choose each time you Rage). If you choose to deal negative or positive damage, your weapon or unarmed attack gains the effects of the ghost touch property rune, which makes it more effective against incorporeal creatures, and your Rage action gains the divine and necromancy traits, plus negative or positive, as appropriate.",
-        "showon": "Rage",
-        "shortdesc": "When you are raging, you can increase your damage from Rage and deal negative or positive damage.",
         "featreq": [
             "Spirit Instinct"
         ]
@@ -23956,5 +23947,29 @@
         "hint": "You can Hustle twice as long while exploring before you have to stop.",
         "showon": "Movement",
         "shortdesc": "You come from sun-scorched badlands, where long legs and an ability to withstand the elements helped you thrive."
+    },
+    {
+        "name": "Raging Intimidation",
+        "desc": "Your fury fills your foes with fear. While you are raging, your Demoralize and Scare to Death actions (from the Intimidation skill and an Intimidation skill feat, respectively) gain the rage trait, allowing you to use them while raging. As soon as you meet the prerequisites for the skill feats Intimidating Glare and Scare to Death, you gain these feats.",
+        "hint": "While you are raging, your Demoralize and Scare to Death actions (from the Intimidation skill and an Intimidation skill feat, respectively) gain the rage trait, allowing you to use them while raging.",
+        "showon": "Rage, Intimidation",
+        "shortdesc": "Your fury fills your foes with fear.",
+        "traits": [
+            "Barbarian"
+        ],
+        "levelreq": 1,
+        "gainFeatChoice": [
+            {
+                "_className": "FeatChoice",
+                "available": 2,
+                "filter": [
+                    "Intimidating Glare",
+                    "Scare to Death"
+                ],
+                "source": "Feat: Raging Intimidation",
+                "type": "Skill",
+                "useCharacterLevel": true
+            }
+        ]
     }
 ]
