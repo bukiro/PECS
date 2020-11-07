@@ -248,7 +248,7 @@ export class ConditionsService {
             let items: Item[] = creature.inventories[0][gainItem.type].filter((item: Item) => item.name == gainItem.name);
             //For consumables, remove the same amount as previously given. This is not ideal, but you can easily add more in the inventory.
             if (items.length) {
-                characterService.drop_InventoryItem(creature, creature.inventories[0], items[0], false, false, true, gainItem.amount);
+                characterService.drop_InventoryItem(creature, creature.inventories[0], items[0], false, true, true, gainItem.amount);
             }
         } else {
             //For equipment, we have saved the ID and remove exactly that item.
@@ -262,7 +262,7 @@ export class ConditionsService {
                         });
                     });
                 }
-                characterService.drop_InventoryItem(creature, creature.inventories[0], item, false, false, true);
+                characterService.drop_InventoryItem(creature, creature.inventories[0], item, false, true, true);
             }
             gainItem.id = "";
         }

@@ -987,15 +987,143 @@
         "effects": [
             {
                 "affected": "Non-Agile Melee Damage",
-                "value": "2"
+                "value": "Has_Feat(Creature.type, 'Fury Instinct Specialization') ? (Has_Feat(Creature.type, 'Greater Weapon Specialization') ? 12 : 6) : 2"
             },
             {
                 "affected": "Agile Melee Damage",
-                "value": "1"
+                "value": "Has_Feat(Creature.type, 'Fury Instinct Specialization') ? (Has_Feat(Creature.type, 'Greater Weapon Specialization') ? 6 : 3) : 1"
             },
             {
                 "affected": "AC",
                 "value": "-1"
+            },
+            {
+                "affected": "Physical Weapon Damage Resistance",
+                "value": "Has_Feat(Creature.type, 'Fury Instinct Resistance') ? 3 + Modifier('Constitution') : 0"
+            }
+        ],
+        "gainConditions": [
+            {
+                "name": "Bestial Rage",
+                "choice": "Ape",
+                "choiceLocked": true,
+                "activationPrerequisite":"Has_Feat(Creature.type, 'Bestial Rage: Ape') ? 1 : 0"
+            },
+            {
+                "name": "Bestial Rage",
+                "choice": "Bear",
+                "choiceLocked": true,
+                "activationPrerequisite":"Has_Feat(Creature.type, 'Bestial Rage: Bear') ? 1 : 0"
+            },
+            {
+                "name": "Bestial Rage",
+                "choice": "Bull",
+                "choiceLocked": true,
+                "activationPrerequisite":"Has_Feat(Creature.type, 'Bestial Rage: Bull') ? 1 : 0"
+            },
+            {
+                "name": "Bestial Rage",
+                "choice": "Cat",
+                "choiceLocked": true,
+                "activationPrerequisite":"Has_Feat(Creature.type, 'Bestial Rage: Cat') ? 1 : 0"
+            },
+            {
+                "name": "Bestial Rage",
+                "choice": "Deer",
+                "choiceLocked": true,
+                "activationPrerequisite":"Has_Feat(Creature.type, 'Bestial Rage: Deer') ? 1 : 0"
+            },
+            {
+                "name": "Bestial Rage",
+                "choice": "Frog",
+                "choiceLocked": true,
+                "activationPrerequisite":"Has_Feat(Creature.type, 'Bestial Rage: Frog') ? 1 : 0"
+            },
+            {
+                "name": "Bestial Rage",
+                "choice": "Shark",
+                "choiceLocked": true,
+                "activationPrerequisite":"Has_Feat(Creature.type, 'Bestial Rage: Shark') ? 1 : 0"
+            },
+            {
+                "name": "Bestial Rage",
+                "choice": "Snake",
+                "choiceLocked": true,
+                "activationPrerequisite":"Has_Feat(Creature.type, 'Bestial Rage: Snake') ? 1 : 0"
+            },
+            {
+                "name": "Bestial Rage",
+                "choice": "Wolf",
+                "choiceLocked": true,
+                "activationPrerequisite":"Has_Feat(Creature.type, 'Bestial Rage: Wolf') ? 1 : 0"
+            },
+            {
+                "name": "Draconic Rage",
+                "choice": "Black",
+                "choiceLocked": true,
+                "activationPrerequisite":"Has_Feat(Creature.type, 'Draconic Rage: Black') ? 1 : 0"
+            },
+            {
+                "name": "Draconic Rage",
+                "choice": "Blue",
+                "choiceLocked": true,
+                "activationPrerequisite":"Has_Feat(Creature.type, 'Draconic Rage: Blue') ? 1 : 0"
+            },
+            {
+                "name": "Draconic Rage",
+                "choice": "Green",
+                "choiceLocked": true,
+                "activationPrerequisite":"Has_Feat(Creature.type, 'Draconic Rage: Green') ? 1 : 0"
+            },
+            {
+                "name": "Draconic Rage",
+                "choice": "Red",
+                "choiceLocked": true,
+                "activationPrerequisite":"Has_Feat(Creature.type, 'Draconic Rage: Red') ? 1 : 0"
+            },
+            {
+                "name": "Draconic Rage",
+                "choice": "White",
+                "choiceLocked": true,
+                "activationPrerequisite":"Has_Feat(Creature.type, 'Draconic Rage: White') ? 1 : 0"
+            },
+            {
+                "name": "Draconic Rage",
+                "choice": "Brass",
+                "choiceLocked": true,
+                "activationPrerequisite":"Has_Feat(Creature.type, 'Draconic Rage: Brass') ? 1 : 0"
+            },
+            {
+                "name": "Draconic Rage",
+                "choice": "Bronze",
+                "choiceLocked": true,
+                "activationPrerequisite":"Has_Feat(Creature.type, 'Draconic Rage: Bronze') ? 1 : 0"
+            },
+            {
+                "name": "Draconic Rage",
+                "choice": "Copper",
+                "choiceLocked": true,
+                "activationPrerequisite":"Has_Feat(Creature.type, 'Draconic Rage: Copper') ? 1 : 0"
+            },
+            {
+                "name": "Draconic Rage",
+                "choice": "Gold",
+                "choiceLocked": true,
+                "activationPrerequisite":"Has_Feat(Creature.type, 'Draconic Rage: Gold') ? 1 : 0"
+            },
+            {
+                "name": "Draconic Rage",
+                "choice": "Silver",
+                "choiceLocked": true,
+                "activationPrerequisite":"Has_Feat(Creature.type, 'Draconic Rage: Silver') ? 1 : 0"
+            },
+            {
+                "name": "Titan Mauler",
+                "activationPrerequisite":"Has_Feat(Creature.type, 'Titan Mauler') ? 1 : 0"
+            },
+            {
+                "name": "Spirit Rage",
+                "activationPrerequisite":"Has_Feat(Creature.type, 'Spirit Rage') ? 1 : 0"
             }
         ],
         "onceEffects": [
@@ -1008,6 +1136,326 @@
             {
                 "affected": "Temporary HP",
                 "value": "-Temporary_HP('',effect.sourceId)"
+            }
+        ]
+    },
+    {
+        "name": "Bestial Rage",
+        "desc": "When you Rage, you gain your chosen animal’s unarmed attack (or attacks). Your Rage action gains the morph, primal, and transmutation traits.",
+        "type": "activities",
+        "buff": true,
+        "choice": "Ape",
+        "choices": [
+            "Ape",
+            "Bear",
+            "Bull",
+            "Cat",
+            "Deer",
+            "Frog",
+            "Shark",
+            "Snake",
+            "Wolf"
+        ],
+        "effects": [
+            {
+                "affected": "Piercing Damage Resistance",
+                "value": "Has_Feat(Creature.type, 'Animal Instinct Resistance') ? 3 + Modifier('Constitution') : 0"
+            },
+            {
+                "affected": "Slashing Damage Resistance",
+                "value": "Has_Feat(Creature.type, 'Animal Instinct Resistance') ? 3 + Modifier('Constitution') : 0"
+            },
+            {
+                "affected": "Bestial Rage Attacks Dice Size",
+                "value": "Has_Feat(Creature.type, 'Animal Instinct Specialization') ? 2 : 0"
+            },
+            {
+                "affected": "Bestial Rage Frog Tongue Reach",
+                "setValue": "Choice == 'Frog' && Has_Feat(Creature.type, 'Animal Instinct Specialization') ? 10 : null"
+            },
+            {
+                "affected": "Bestial Rage Deer Antler Reach",
+                "setValue": "Choice == 'Deer' && Has_Feat(Creature.type, 'Animal Instinct Specialization') ? 10 : null"
+            },
+            {
+                "affected": "Bestial Rage Ape Fist Damage",
+                "value": "Choice == 'Ape' && Has_Feat(Creature.type, 'Animal Instinct Specialization') ? (Has_Feat(Creature.type, 'Greater Weapon Specialization') ? 10 : 3) : 0"
+            },
+            {
+                "affected": "Bestial Rage Bear Jaws Damage",
+                "value": "Choice == 'Bear' && Has_Feat(Creature.type, 'Animal Instinct Specialization') ? (Has_Feat(Creature.type, 'Greater Weapon Specialization') ? 10 : 3) : 0"
+            },
+            {
+                "affected": "Bestial Rage Bear Claw Damage",
+                "value": "Choice == 'Bear' && Has_Feat(Creature.type, 'Animal Instinct Specialization') ? (Has_Feat(Creature.type, 'Greater Weapon Specialization') ? 5 : 1) : 0"
+            },
+            {
+                "affected": "Bestial Rage Bull Horn Damage",
+                "value": "Choice == 'Bull' && Has_Feat(Creature.type, 'Animal Instinct Specialization') ? (Has_Feat(Creature.type, 'Greater Weapon Specialization') ? 10 : 3) : 0"
+            },
+            {
+                "affected": "Bestial Rage Cat Jaws Damage",
+                "value": "Choice == 'Cat' && Has_Feat(Creature.type, 'Animal Instinct Specialization') ? (Has_Feat(Creature.type, 'Greater Weapon Specialization') ? 10 : 3) : 0"
+            },
+            {
+                "affected": "Bestial Rage Bear Claw Damage",
+                "value": "Choice == 'Cat' && Has_Feat(Creature.type, 'Animal Instinct Specialization') ? (Has_Feat(Creature.type, 'Greater Weapon Specialization') ? 5 : 1) : 0"
+            },
+            {
+                "affected": "Bestial Rage Deer Antler Damage",
+                "value": "Choice == 'Deer' && Has_Feat(Creature.type, 'Animal Instinct Specialization') ? (Has_Feat(Creature.type, 'Greater Weapon Specialization') ? 10 : 3) : 0"
+            },
+            {
+                "affected": "Bestial Rage Frog Jaws Damage",
+                "value": "Choice == 'Frog' && Has_Feat(Creature.type, 'Animal Instinct Specialization') ? (Has_Feat(Creature.type, 'Greater Weapon Specialization') ? 10 : 3) : 0"
+            },
+            {
+                "affected": "Bestial Rage Frog Tongue Damage",
+                "value": "Choice == 'Frog' && Has_Feat(Creature.type, 'Animal Instinct Specialization') ? (Has_Feat(Creature.type, 'Greater Weapon Specialization') ? 5 : 1) : 0"
+            },
+            {
+                "affected": "Bestial Rage Shark Jaws Damage",
+                "value": "Choice == 'Shark' && Has_Feat(Creature.type, 'Animal Instinct Specialization') ? (Has_Feat(Creature.type, 'Greater Weapon Specialization') ? 10 : 3) : 0"
+            },
+            {
+                "affected": "Bestial Rage Snake Fangs Damage",
+                "value": "Choice == 'Snake' && Has_Feat(Creature.type, 'Animal Instinct Specialization') ? (Has_Feat(Creature.type, 'Greater Weapon Specialization') ? 10 : 3) : 0"
+            },
+            {
+                "affected": "Bestial Rage Wolf Jaws Damage",
+                "value": "Choice == 'Wolf' && Has_Feat(Creature.type, 'Animal Instinct Specialization') ? (Has_Feat(Creature.type, 'Greater Weapon Specialization') ? 10 : 3) : 0"
+            }
+        ],
+        "gainItems": [
+            {
+                "name": "Bestial Rage Ape Fist",
+                "type": "weapons",
+                "conditionChoiceFilter": "Ape"
+            },
+            {
+                "name": "Bestial Rage Bear Jaws",
+                "type": "weapons",
+                "conditionChoiceFilter": "Bear"
+            },
+            {
+                "name": "Bestial Rage Bear Claw",
+                "type": "weapons",
+                "conditionChoiceFilter": "Bear"
+            },
+            {
+                "name": "Bestial Rage Bull Horn",
+                "type": "weapons",
+                "conditionChoiceFilter": "Bull"
+            },
+            {
+                "name": "Bestial Rage Cat Jaws",
+                "type": "weapons",
+                "conditionChoiceFilter": "Cat"
+            },
+            {
+                "name": "Bestial Rage Cat Claw",
+                "type": "weapons",
+                "conditionChoiceFilter": "Cat"
+            },
+            {
+                "name": "Bestial Rage Deer Antler",
+                "type": "weapons",
+                "conditionChoiceFilter": "Deer"
+            },
+            {
+                "name": "Bestial Rage Frog Jaws",
+                "type": "weapons",
+                "conditionChoiceFilter": "Frog"
+            },
+            {
+                "name": "Bestial Rage Frog Tongue",
+                "type": "weapons",
+                "conditionChoiceFilter": "Frog"
+            },
+            {
+                "name": "Bestial Rage Shark Jaws",
+                "type": "weapons",
+                "conditionChoiceFilter": "Shark"
+            },
+            {
+                "name": "Bestial Rage Snake Fangs",
+                "type": "weapons",
+                "conditionChoiceFilter": "Snake"
+            },
+            {
+                "name": "Bestial Rage Wolf Jaws",
+                "type": "weapons",
+                "conditionChoiceFilter": "Wolf"
+            }
+        ],
+        "attackRestrictions": [
+            {
+                "name": "Bestial Rage Ape Fist",
+                "conditionChoiceFilter": "Ape"
+            },
+            {
+                "name": "Bestial Rage Bear Jaws",
+                "conditionChoiceFilter": "Bear"
+            },
+            {
+                "name": "Bestial Rage Bear Claw",
+                "conditionChoiceFilter": "Bear"
+            },
+            {
+                "name": "Bestial Rage Bull Horn",
+                "conditionChoiceFilter": "Bull"
+            },
+            {
+                "name": "Bestial Rage Cat Jaws",
+                "conditionChoiceFilter": "Cat"
+            },
+            {
+                "name": "Bestial Rage Cat Claw",
+                "conditionChoiceFilter": "Cat"
+            },
+            {
+                "name": "Bestial Rage Deer Antler",
+                "conditionChoiceFilter": "Deer"
+            },
+            {
+                "name": "Bestial Rage Frog Jaws",
+                "conditionChoiceFilter": "Frog"
+            },
+            {
+                "name": "Bestial Rage Frog Tongue",
+                "conditionChoiceFilter": "Frog"
+            },
+            {
+                "name": "Bestial Rage Shark Jaws",
+                "conditionChoiceFilter": "Shark"
+            },
+            {
+                "name": "Bestial Rage Snake Fangs",
+                "conditionChoiceFilter": "Snake"
+            },
+            {
+                "name": "Bestial Rage Wolf Jaws",
+                "conditionChoiceFilter": "Wolf"
+            }
+        ]
+    },
+    {
+        "name": "Draconic Rage",
+        "desc": "While raging, you can increase the additional damage from Rage from 2 to 4 and change its damage type to match that of your dragon's breath weapon instead of the damage type for your weapon or unarmed attack. If you do this, your Rage action gains the arcane and evocation traits, as well as the trait matching the damage type.\n\n<strong>Black</strong>: <strong>Type</strong> Chromatic, <strong>Breath Weapon</strong> Line of acid.\n<strong>Blue</strong>: <strong>Type</strong> Chromatic, <strong>Breath Weapon</strong> Line of electricity.\n<strong>Green</strong>: <strong>Type</strong> Chromatic, <strong>Breath Weapon</strong> Cone of poison.\n<strong>Red</strong>: <strong>Type</strong> Chromatic, <strong>Breath Weapon</strong> Cone of fire.\n<strong>White</strong>: <strong>Type</strong> Chromatic, <strong>Breath Weapon</strong> Cone of cold.\n<strong>Brass</strong>: <strong>Type</strong> Metallic, <strong>Breath Weapon</strong> Line of fire.\n<strong>Bronze</strong>: <strong>Type</strong> Metallic, <strong>Breath Weapon</strong> Line of electricity.\n<strong>Copper</strong>: <strong>Type</strong> Metallic, <strong>Breath Weapon</strong> Line of acid.\n<strong>Gold</strong>: <strong>Type</strong> Metallic, <strong>Breath Weapon</strong> Cone of fire.\n<strong>Silver</strong>: <strong>Type</strong> Metallic, <strong>Breath Weapon</strong> Cold of cold.",
+        "hint": "While raging, you can increase the additional damage from Rage from 2 to 4 and change its damage type to match that of your dragon's breath weapon instead of the damage type for your weapon or unarmed attack.",
+        "showon": "Attacks",
+        "type": "activities",
+        "buff": true,
+        "choice": "Black",
+        "choices": [
+            "Black",
+            "Blue",
+            "Green",
+            "Red",
+            "White",
+            "Brass",
+            "Bronze",
+            "Copper",
+            "Gold",
+            "Silver"
+        ],
+        "effects": [
+            {
+                "affected": "Non-Agile Melee Damage",
+                "value": "Has_Feat(Creature.type, 'Dragon Instinct Specialization') ? (Has_Feat(Creature.type, 'Greater Weapon Specialization') ? 14 : 6) : 2"
+            },
+            {
+                "affected": "Agile Melee Damage",
+                "value": "Has_Feat(Creature.type, 'Dragon Instinct Specialization') ? (Has_Feat(Creature.type, 'Greater Weapon Specialization') ? 7 : 3) : 1"
+            },
+            {
+                "affected": "Piercing Resistance",
+                "value": "Has_Feat(Creature.type, 'Dragon Instinct Resistance') ? 3 + Modifier('Constitution') : 0"
+            },
+            {
+                "affected": "Acid Resistance",
+                "value": "['Black','Copper'].includes(Choice) && Has_Feat(Creature.type, 'Dragon Instinct Resistance') ? 3 + Modifier('Constitution') : 0"
+            },
+            {
+                "affected": "Electricity Resistance",
+                "value": "['Blue','Bronze'].includes(Choice) && Has_Feat(Creature.type, 'Dragon Instinct Resistance') ? 3 + Modifier('Constitution') : 0"
+            },
+            {
+                "affected": "Poison Resistance",
+                "value": "Choice == 'Green' && Has_Feat(Creature.type, 'Dragon Instinct Resistance') ? 3 + Modifier('Constitution') : 0"
+            },
+            {
+                "affected": "Fire Resistance",
+                "value": "['Red','Brass','Gold'].includes(Choice) && Has_Feat(Creature.type, 'Dragon Instinct Resistance') ? 3 + Modifier('Constitution') : 0"
+            },
+            {
+                "affected": "Cold Resistance",
+                "value": "['White','Silver'].includes(Choice) && Has_Feat(Creature.type, 'Dragon Instinct Resistance') ? 3 + Modifier('Constitution') : 0"
+            }
+        ]
+    },
+    {
+        "name": "Titan Mauler",
+        "desc": "You can use a weapon built for a Large creature if you are Small or Medium (both normally and when raging). If you're not Small or Medium, you can use a weapon built for a creature one size larger than you. You gain access to this larger weapon, of any weapon type otherwise available at character creation. It has the normal Price and Bulk for a weapon of its size. When wielding such a weapon in combat, increase your additional damage from Rage from 2 to 6, but you have the clumsy 1 condition (page 618) because of the weapon's unwieldy size. You can't remove this clumsy condition or ignore its penalties by any means while wielding the weapon.",
+        "hint": "While raging, you can increase the additional damage from Rage from 2 to 4 and change its damage type to match that of your dragon's breath weapon instead of the damage type for your weapon or unarmed attack.",
+        "showon": "Attacks",
+        "type": "activities",
+        "buff": true,
+        "effects": [
+            {
+                "affected": "Non-Agile Large Melee Weapon Damage",
+                "value": "Has_Feat(Creature.type, 'Giant Instinct Specialization') ? (Has_Feat(Creature.type, 'Greater Weapon Specialization') ? 16 : 8) : 4"
+            },
+            {
+                "affected": "Agile Large Melee Weapon Damage",
+                "value": "Has_Feat(Creature.type, 'Giant Instinct Specialization') ? (Has_Feat(Creature.type, 'Greater Weapon Specialization') ? 8 : 4) : 2"
+            },
+            {
+                "affected": "Bludgeoning Resistance",
+                "value": "((Has_Feat(Creature.type, 'Giant Instinct Resistance: Cold') || Has_Feat(Creature.type, 'Giant Instinct Resistance: Electricity') || Has_Feat(Creature.type, 'Giant Instinct Resistance: Fire')) ? 3 + Modifier('Constitution') : 0)"
+            },
+            {
+                "affected": "Cold Resistance",
+                "value": "(Has_Feat(Creature.type, 'Giant Instinct Resistance: Cold') ? 3 + Modifier('Constitution') : 0)"
+            },
+            {
+                "affected": "Electricity Resistance",
+                "value": "(Has_Feat(Creature.type, 'Giant Instinct Resistance: Electricity') ? 3 + Modifier('Constitution') : 0)"
+            },
+            {
+                "affected": "Fire Resistance",
+                "value": "(Has_Feat(Creature.type, 'Giant Instinct Resistance: Fire') ? 3 + Modifier('Constitution') : 0)"
+            }
+        ]
+    },
+    {
+        "name": "Spirit Rage",
+        "desc": "When you are raging, you can increase your damage from Rage from 2 to 3 and deal negative or positive damage, instead of the normal damage type for your weapon or unarmed attack (choose each time you Rage). If you choose to deal negative or positive damage, your weapon or unarmed attack gains the effects of the ghost touch property rune, which makes it more effective against incorporeal creatures, and your Rage action gains the divine and necromancy traits, plus negative or positive, as appropriate.",
+        "hint": "When you are raging, you can deal negative or positive damage, instead of the normal damage type for your weapon or unarmed attack. If you choose to deal negative or positive damage, your weapon or unarmed attack gains the effects of the ghost touch property rune, which makes it more effective against incorporeal creatures.",
+        "showon": "Attacks",
+        "type": "activities",
+        "buff": true,
+        "choice": "Positive Damage",
+        "choices": [
+            "Positive Damage",
+            "Negative Damage"
+        ],
+        "effects": [
+            {
+                "affected": "Non-Agile Melee Damage",
+                "value": "Has_Feat(Creature.type, 'Spirit Instinct Specialization') ? (Has_Feat(Creature.type, 'Greater Weapon Specialization') ? 11 : 5) : 1"
+            },
+            {
+                "affected": "Agile Melee Damage",
+                "value": "Has_Feat(Creature.type, 'Spirit Instinct Specialization') ? (Has_Feat(Creature.type, 'Greater Weapon Specialization') ? 4 : 2) : 0"
+            },
+            {
+                "affected": "Negative Damage Resistance",
+                "value": "Has_Feat(Creature.type, 'Spirit Instinct Resistance') ? 3 + Modifier('Constitution') : 0"
+            },
+            {
+                "affected": "Undead Creature Damage Resistance",
+                "value": "Has_Feat(Creature.type, 'Spirit Instinct Resistance') ? 3 + Modifier('Constitution') : 0"
             }
         ]
     },
@@ -4572,12 +5020,12 @@
         "effects": [
             {
                 "affected": "Swim Speed",
-                "setValue": "(Has_Feat('Wild Stride') && !effectsService.get_AbsolutesOnThis(creature, 'Swim Speed').concat(effectsService.get_RelativesOnThis(creature, 'Swim Speed')).find(effect => effect.source != name && !effect.penalty)) ? Speed('Land Speed') : null"
+                "setValue": "(Has_Feat(Creature.type, 'Wild Stride') && !effectsService.get_AbsolutesOnThis(creature, 'Swim Speed').concat(effectsService.get_RelativesOnThis(creature, 'Swim Speed')).find(effect => effect.source != name && !effect.penalty)) ? Speed('Land Speed') : null"
             },
             {
                 "affected": "Swim Speed",
                 "type": "status",
-                "value": "(Has_Feat('Wild Stride') && effectsService.get_AbsolutesOnThis(creature, 'Swim Speed').concat(effectsService.get_RelativesOnThis(creature, 'Swim Speed')).find(effect => effect.source != name && !effect.penalty)) ? +10 : 0"
+                "value": "(Has_Feat(Creature.type, 'Wild Stride') && effectsService.get_AbsolutesOnThis(creature, 'Swim Speed').concat(effectsService.get_RelativesOnThis(creature, 'Swim Speed')).find(effect => effect.source != name && !effect.penalty)) ? +10 : 0"
             }
         ]
     },
@@ -4605,12 +5053,12 @@
         "effects": [
             {
                 "affected": "Climb Speed",
-                "setValue": "(Has_Feat('Wild Stride') && !effectsService.get_AbsolutesOnThis(creature, 'Climb Speed').concat(effectsService.get_RelativesOnThis(creature, 'Climb Speed')).find(effect => effect.source != name && !effect.penalty)) ? Speed('Land Speed') : null"
+                "setValue": "(Has_Feat(Creature.type, 'Wild Stride') && !effectsService.get_AbsolutesOnThis(creature, 'Climb Speed').concat(effectsService.get_RelativesOnThis(creature, 'Climb Speed')).find(effect => effect.source != name && !effect.penalty)) ? Speed('Land Speed') : null"
             },
             {
                 "affected": "Climb Speed",
                 "type": "status",
-                "value": "(Has_Feat('Wild Stride') && effectsService.get_AbsolutesOnThis(creature, 'Climb Speed').concat(effectsService.get_RelativesOnThis(creature, 'Climb Speed')).find(effect => effect.source != name && !effect.penalty)) ? +10 : 0"
+                "value": "(Has_Feat(Creature.type, 'Wild Stride') && effectsService.get_AbsolutesOnThis(creature, 'Climb Speed').concat(effectsService.get_RelativesOnThis(creature, 'Climb Speed')).find(effect => effect.source != name && !effect.penalty)) ? +10 : 0"
             }
         ]
     },
@@ -4622,12 +5070,12 @@
         "effects": [
             {
                 "affected": "Climb Speed",
-                "setValue": "(Has_Feat('Wild Stride') && !effectsService.get_AbsolutesOnThis(creature, 'Climb Speed').concat(effectsService.get_RelativesOnThis(creature, 'Climb Speed')).find(effect => effect.source != name && !effect.penalty)) ? Speed('Land Speed') : null"
+                "setValue": "(Has_Feat(Creature.type, 'Wild Stride') && !effectsService.get_AbsolutesOnThis(creature, 'Climb Speed').concat(effectsService.get_RelativesOnThis(creature, 'Climb Speed')).find(effect => effect.source != name && !effect.penalty)) ? Speed('Land Speed') : null"
             },
             {
                 "affected": "Climb Speed",
                 "type": "status",
-                "value": "(Has_Feat('Wild Stride') && effectsService.get_AbsolutesOnThis(creature, 'Climb Speed').concat(effectsService.get_RelativesOnThis(creature, 'Climb Speed')).find(effect => effect.source != name && !effect.penalty)) ? +10 : 0"
+                "value": "(Has_Feat(Creature.type, 'Wild Stride') && effectsService.get_AbsolutesOnThis(creature, 'Climb Speed').concat(effectsService.get_RelativesOnThis(creature, 'Climb Speed')).find(effect => effect.source != name && !effect.penalty)) ? +10 : 0"
             }
         ]
     },
@@ -4640,7 +5088,7 @@
             {
                 "affected": "Land Speed",
                 "type": "status",
-                "value": "Has_Feat('Wild Stride') ? +10 : 0"
+                "value": "Has_Feat(Creature.type, 'Wild Stride') ? +10 : 0"
             }
         ]
     },
@@ -4653,7 +5101,7 @@
             {
                 "affected": "Fly Speed",
                 "type": "status",
-                "value": "Has_Feat('Wild Stride') && Speed('Fly Speed') ? +10 : 0"
+                "value": "Has_Feat(Creature.type, 'Wild Stride') && Speed('Fly Speed') ? +10 : 0"
             }
         ]
     },
@@ -4673,12 +5121,12 @@
         "effects": [
             {
                 "affected": "Climb Speed",
-                "setValue": "(Has_Feat('Wild Stride') && !effectsService.get_AbsolutesOnThis(creature, 'Climb Speed').concat(effectsService.get_RelativesOnThis(creature, 'Climb Speed')).find(effect => effect.source != name && !effect.penalty)) ? Speed('Land Speed') : null"
+                "setValue": "(Has_Feat(Creature.type, 'Wild Stride') && !effectsService.get_AbsolutesOnThis(creature, 'Climb Speed').concat(effectsService.get_RelativesOnThis(creature, 'Climb Speed')).find(effect => effect.source != name && !effect.penalty)) ? Speed('Land Speed') : null"
             },
             {
                 "affected": "Climb Speed",
                 "type": "status",
-                "value": "(Has_Feat('Wild Stride') && effectsService.get_AbsolutesOnThis(creature, 'Climb Speed').concat(effectsService.get_RelativesOnThis(creature, 'Climb Speed')).find(effect => effect.source != name && !effect.penalty)) ? +10 : 0"
+                "value": "(Has_Feat(Creature.type, 'Wild Stride') && effectsService.get_AbsolutesOnThis(creature, 'Climb Speed').concat(effectsService.get_RelativesOnThis(creature, 'Climb Speed')).find(effect => effect.source != name && !effect.penalty)) ? +10 : 0"
             }
         ]
     },
@@ -8210,7 +8658,7 @@
     },
     {
         "name": "Torch Goblin",
-        "desc": "As long as you are suffering persistent fire damage, all your melee attacks against adjacent creatures deal an additional 1 fire damage per weapon damage die. Any creature that successfully Grapples, Shoves, or Trips you takes 1d6 fire damage; if it uses a weapon for that action, the weapon takes the damage instead. You must still attempt the flat check to remove the persistent fire damage each round, as normal.\n\nIf you have the Scalding Spit feat, you gain a boiling spit ranged unarmed attack with a range of 30 feet that deals 1d6 fire damage.",
+        "desc": "As long as you are suffering persistent fire damage, all your melee attacks against adjacent creatures deal an additional 1 fire damage per weapon damage die. Any creature that successfully Grapples, Shoves, or Trips you takes 1d6 fire damage; if it uses a weapon for that action, the weapon takes the damage instead. You must still attempt the flat check to remove the persistent fire damage each round, as normal.",
         "hint": "As long as you are suffering persistent fire damage, all your melee attacks against adjacent creatures deal an additional 1 fire damage per weapon damage die. Any creature that successfully Grapples, Shoves, or Trips you takes 1d6 fire damage; if it uses a weapon for that action, the weapon takes the damage instead.",
         "inputRequired": "When you extinguish the fire, remove this condition.",
         "showon": "Attacks, Fortitude, Reflex",
@@ -8220,19 +8668,23 @@
             {
                 "name": "Persistent Damage",
                 "choice": "1d6 Fire"
+            },
+            {
+                "name": "Scalding Spit",
+                "activationPrerequisite": "Has_Feat(Creature.type, 'Scalding Spit') ? 1 : 0"
             }
-        ],
+        ]
+    },
+    {
+        "name": "Scalding Spit",
+        "desc": "You gain a boiling spit ranged unarmed attack with a range of 30 feet that deals 1d6 fire damage.",
+        "type": "activities",
+        "buff": true,
         "gainItems": [
             {
                 "name": "Boiling Spit Attack",
-                "type": "weapons",
-                "conditionChoiceFilter": "With Scalding Spit"
+                "type": "weapons"
             }
-        ],
-        "choices": [
-            "",
-            "With Scalding Spit"
-        ],
-        "choice": ""
+        ]
     }
 ]

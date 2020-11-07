@@ -61,8 +61,8 @@ export class ActivitiesService {
 
         if (activated && activity.toggle) {
             gain.active = true;
-            if (activity.sustained) {
-                gain.duration = activity.sustained;
+            if (activity.duration) {
+                gain.duration = activity.duration;
             }
         } else {
             gain.active = false;
@@ -189,7 +189,7 @@ export class ActivitiesService {
         if (activity.name == "Rage" &&
                 gain.activeCooldown > 0 &&
                 creature.type == "Character" &&
-                (creature as Character).get_FeatsTaken(1, creature.level, "Quick Rage")
+                (creature as Character).get_FeatsTaken(1, creature.level, "Quick Rage").length
             ) {
             gain.activeCooldown = 10;
             characterService.set_ToChange(creature.type, "activities");

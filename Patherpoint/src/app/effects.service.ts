@@ -208,8 +208,14 @@ export class EffectsService {
                 return creature.inventories[0].wornitems.filter(wornItem => wornItem.can_Invest() ? wornItem.invested : true);
             }
         }
-        function Has_Feat(name: string) {
-            return Character.get_FeatsTaken(1, Character.level, name).length > 0;
+        function Has_Feat(creature: string, name: string) {
+            if (creature == "Familiar") {
+                return characterService.featsService.get_All([], name, "", true).find(feat => feat.have(Familiar, characterService, Level, false));
+            } else if (creature == "Character") {
+                return characterService.featsService.get_All(Character.customFeats, name, "", true).find(feat => feat.have(Character, characterService, Level, false));
+            } else {
+                return 0;
+            }
         }
         function SpellcastingModifier() {
             if (SpellCastingAbility) {
@@ -609,7 +615,7 @@ export class EffectsService {
         let defenseWildcard: string[] = ["Proficiency Level"];
         let attacks: string[] = ["Damage Rolls", "Dexterity-based Checks and DCs", "Strength-based Checks and DCs", "All Checks and DCs",
             "Unarmed Damage per Die", "Weapon Damage per Die"];
-        let attacksWildcard: string[] = ["Attack Rolls", "Damage", "Dice Size", "Dice Number", "Proficiency Level"];
+        let attacksWildcard: string[] = ["Attack Rolls", "Damage", "Dice Size", "Dice Number", "Proficiency Level", "Reach"];
         let skills: string[] = ["Perception", "Fortitude", "Reflex", "Will", "Acrobatics", "Arcana", "Athletics", "Crafting", "Deception", "Diplomacy", "Intimidation", "Medicine",
             "Nature", "Occultism", "Performance", "Religion", "Society", "Stealth", "Survival", "Thievery", "Fortitude", "Reflex", "Will"];
         let individualSkillsWildcard: string[] = ["Lore", "Class DC", "Spell DC"];

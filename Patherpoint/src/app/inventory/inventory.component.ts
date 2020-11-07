@@ -153,6 +153,11 @@ export class InventoryComponent implements OnInit {
                     });
                 });
             })
+            if (this.get_Creature().inventories[0].weapons.find(weapon => weapon.large && weapon.equipped) && (this.characterService.get_AppliedConditions(this.get_Creature(), "Clumsy", "Large Weapon").length == 0)) {
+                this.characterService.add_Condition(this.get_Creature(), Object.assign(new ConditionGain, { name: "Clumsy", value: 1, source: "Large Weapon", apply: true }), true)
+            } else if (!this.get_Creature().inventories[0].weapons.find(weapon => weapon.large && weapon.equipped) && (this.characterService.get_AppliedConditions(this.get_Creature(), "Clumsy", "Large Weapon").length > 0)) {
+                this.characterService.remove_Condition(this.get_Creature(), Object.assign(new ConditionGain, { name: "Clumsy", value: 1, source: "Large Weapon", apply: true }), true)
+            }
             if (speedRune && this.characterService.get_AppliedConditions(this.get_Creature(), "Quickened", "Speed Rune").length == 0) {
                 this.characterService.add_Condition(this.get_Creature(), Object.assign(new ConditionGain, { name: "Quickened", value: 0, source: "Speed Rune", apply: true }), true)
             } else if (!speedRune && this.characterService.get_AppliedConditions(this.get_Creature(), "Quickened", "Speed Rune").length > 0) {
@@ -602,6 +607,10 @@ export class InventoryComponent implements OnInit {
         } else {
             return [];
         }
+    }
+
+    get_LargeWeaponAllowed(item: Item) {
+        return this.get_Character().get_FeatsTaken(1, this.get_Character().level, 'Titan Mauler') && item.type == "weapons";
     }
 
     finish_Loading() {

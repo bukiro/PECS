@@ -57,6 +57,7 @@ import { Snare } from './Snare';
 import { AlchemicalPoison } from './AlchemicalPoison';
 import { OtherConsumableBomb } from './OtherConsumableBOmb';
 import { isNgContainer } from '@angular/compiler';
+import { AdventuringGear } from './AdventuringGear';
 
 @Injectable({
     providedIn: 'root'
@@ -1011,6 +1012,22 @@ export class CharacterService {
                 this.set_ToChange(creature.type, "activities");
             }
         });
+        if (item.constructor == AdventuringGear) {
+            if ((item as AdventuringGear).isArmoredSkirt) {
+                this.set_ToChange(creature.type, "inventory");
+                this.set_ToChange(creature.type, "defense");
+            }
+        }
+        if (item.constructor == WornItem) {
+            if ((item as WornItem).isDoublingRings) {
+                this.set_ToChange(creature.type, "inventory");
+                this.set_ToChange(creature.type, "attacks");
+            }
+            if ((item as WornItem).isHandwrapsOfMightyBlows) {
+                this.set_ToChange(creature.type, "inventory");
+                this.set_ToChange(creature.type, "attacks");
+            }
+        }
     }
 
     onEquip(creature: Character|AnimalCompanion, inventory: ItemCollection, item: Equipment, equipped: boolean = true, changeAfter: boolean = true, equipBasicItems: boolean = true) {
@@ -1224,48 +1241,60 @@ export class CharacterService {
     }
 
     add_Condition(creature: Character|AnimalCompanion|Familiar, conditionGain: ConditionGain, reload: boolean = true) {
-        let originalCondition = this.get_Conditions(conditionGain.name)[0];
-        if (originalCondition.nextStage) {
-            this.set_ToChange(creature.type, "time");
-            this.set_ToChange(creature.type, "health");
+        let activate: boolean = true;
+        if (conditionGain.activationPrerequisite) {
+            let testEffectGain: EffectGain = new EffectGain();
+            testEffectGain.value = conditionGain.activationPrerequisite;
+            let effects = this.effectsService.get_SimpleEffects(this.get_Character(), this, { effects: [testEffectGain], value: conditionGain.value, heightened: conditionGain.heightened, choice: conditionGain.choice, spellCastingAbility: null});
+            //Do not activate the condition if activationPrerequisite doesn't evaluate to a nonzero number.
+            if (effects?.[0]?.value == "0" || !(parseInt(effects?.[0]?.value))) {
+                activate = false;
+            }
         }
-        conditionGain.nextStage = originalCondition.nextStage;
-        conditionGain.decreasingValue = originalCondition.decreasingValue;
-        //The gain may be persistent by itself, so don't overwrite it with the condition's persistence, but definitely set it if the condition is.
-        if (originalCondition.persistent) {
-            conditionGain.persistent = true;
-        }
-        if (originalCondition.choices.length && !conditionGain.choice) {
-            conditionGain.choice = originalCondition.choice ? originalCondition.choice : originalCondition.choices[0];
-        }
-        let newLength: number = 0;
-        if (conditionGain.addValue) {
-            let existingConditions = creature.conditions.filter(gain => gain.name == conditionGain.name);
-            if (existingConditions.length) {
-                existingConditions.forEach(gain => {
-                    gain.value += conditionGain.addValue;
-                })
+        if (activate) {
+            let originalCondition = this.get_Conditions(conditionGain.name)[0];
+            if (originalCondition.nextStage) {
+                this.set_ToChange(creature.type, "time");
+                this.set_ToChange(creature.type, "health");
+            }
+            conditionGain.nextStage = originalCondition.nextStage;
+            conditionGain.decreasingValue = originalCondition.decreasingValue;
+            //The gain may be persistent by itself, so don't overwrite it with the condition's persistence, but definitely set it if the condition is.
+            if (originalCondition.persistent) {
+                conditionGain.persistent = true;
+            }
+            if (originalCondition.choices.length && !conditionGain.choice) {
+                conditionGain.choice = originalCondition.choice ? originalCondition.choice : originalCondition.choices[0];
+            }
+            let newLength: number = 0;
+            if (conditionGain.addValue) {
+                let existingConditions = creature.conditions.filter(gain => gain.name == conditionGain.name);
+                if (existingConditions.length) {
+                    existingConditions.forEach(gain => {
+                        gain.value += conditionGain.addValue;
+                    })
+                } else {
+                    conditionGain.value = conditionGain.addValue;
+                    newLength = creature.conditions.push(conditionGain);
+                }
             } else {
-                conditionGain.value = conditionGain.addValue;
                 newLength = creature.conditions.push(conditionGain);
             }
-        } else {
-            newLength = creature.conditions.push(conditionGain);
-        }
-        if (newLength) {
-            let newConditionGain = creature.conditions[newLength - 1];
-            this.conditionsService.process_Condition(creature, this, this.effectsService, this.itemsService, conditionGain, this.conditionsService.get_Conditions(conditionGain.name)[0], true);
-            originalCondition.gainConditions.forEach(extraCondition => {
-                let addCondition = Object.assign(new ConditionGain, JSON.parse(JSON.stringify(extraCondition)));
-                addCondition.source = newConditionGain.name;
-                addCondition.apply = true;
-                this.add_Condition(creature, addCondition, false)
-            })
-            this.set_ToChange(creature.type, "effects");
-            if (reload) {
-                this.process_ToChange();
+            if (newLength) {
+                let newConditionGain = creature.conditions[newLength - 1];
+                this.conditionsService.process_Condition(creature, this, this.effectsService, this.itemsService, conditionGain, this.conditionsService.get_Conditions(conditionGain.name)[0], true);
+                originalCondition.gainConditions.filter(extraCondition => !extraCondition.conditionChoiceFilter || extraCondition.conditionChoiceFilter == newConditionGain.choice).forEach(extraCondition => {
+                    let addCondition = Object.assign(new ConditionGain, JSON.parse(JSON.stringify(extraCondition)));
+                    addCondition.source = newConditionGain.name;
+                    addCondition.apply = true;
+                    this.add_Condition(creature, addCondition, false)
+                })
+                this.set_ToChange(creature.type, "effects");
+                if (reload) {
+                    this.process_ToChange();
+                }
+                return newLength;
             }
-            return newLength;
         }
     }
 
@@ -1294,13 +1323,13 @@ export class CharacterService {
                 this.set_ToChange(creature.type, "time");
                 this.set_ToChange(creature.type, "health");
             }
-            originalCondition.gainConditions.forEach(extraCondition => {
+            originalCondition.gainConditions.filter(extraCondition => !extraCondition.conditionChoiceFilter || extraCondition.conditionChoiceFilter == oldConditionGain.choice).forEach(extraCondition => {
                 let addCondition = Object.assign(new ConditionGain, JSON.parse(JSON.stringify(extraCondition)));
                 addCondition.source = oldConditionGain.name;
                 this.remove_Condition(creature, addCondition, false, increaseWounded, true)
             })
             creature.conditions.splice(creature.conditions.indexOf(oldConditionGain), 1)
-            this.conditionsService.process_Condition(creature, this, this.effectsService, this.itemsService, conditionGain, this.conditionsService.get_Conditions(conditionGain.name)[0], false, increaseWounded);
+            this.conditionsService.process_Condition(creature, this, this.effectsService, this.itemsService, oldConditionGain, originalCondition, false, increaseWounded);
             this.set_ToChange(creature.type, "effects");
             if (reload) {
                 this.process_ToChange();
@@ -1344,7 +1373,8 @@ export class CharacterService {
             let effects = this.effectsService.get_SimpleEffects(this.get_Character(), this, { effects: [effectGain], value: conditionValue, heightened: conditionHeightened, choice: conditionChoice, spellCastingAbility: conditionSpellCastingAbility});
             if (effects.length) {
                 let effect = effects[0];
-                if (effect && effect.value && effect.value != "0" && (parseInt(effect.value) || parseFloat(effect.value))) {
+                if (effect?.value != "0" && (parseInt(effect.value) || parseFloat(effect.value))) {
+                    //I don't understand why this is done. I guess we don't want floats, but why not simply take the int?
                     if (parseFloat(effect.value) == parseInt(effect.value)) {
                         value = parseInt(effect.value);
                     }

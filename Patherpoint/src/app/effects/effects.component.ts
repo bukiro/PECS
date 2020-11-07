@@ -137,8 +137,8 @@ export class EffectsComponent implements OnInit {
     }
 
     change_ConditionChoice(gain: ConditionGain, condition: Condition, oldChoice: string) {
+        let creature = this.get_Creature();
         if (this.creature != "Familiar" && oldChoice != gain.choice) {
-            let creature = this.get_Creature();
             //Remove any items that were granted by the previous choice.
             if (oldChoice) {
                 gain.gainItems.filter(gainItem => gainItem.conditionChoiceFilter == oldChoice).forEach(gainItem => {
@@ -147,9 +147,29 @@ export class EffectsComponent implements OnInit {
             }
             //Add any items that are granted by the new choice.
             if (gain.choice) {
-                gain.gainItems.filter(gainItem => !gainItem.conditionChoiceFilter || gainItem.conditionChoiceFilter == gain.choice).forEach(gainItem => {
+                gain.gainItems.filter(gainItem => gainItem.conditionChoiceFilter == gain.choice).forEach(gainItem => {
                     this.conditionsService.add_ConditionItem(creature as Character|AnimalCompanion, this.characterService, this.itemsService, gainItem, condition);
                 });
+            }
+        }
+        if (oldChoice != gain.choice) {
+            let creature = this.get_Creature();
+            //Remove any conditions that were granted by the previous choice.
+            if (oldChoice) {
+                condition.gainConditions.filter(extraCondition => extraCondition.conditionChoiceFilter == oldChoice).forEach(extraCondition => {
+                    let addCondition = Object.assign(new ConditionGain, JSON.parse(JSON.stringify(extraCondition)));
+                    addCondition.source = gain.name;
+                    this.characterService.remove_Condition(creature, addCondition, false)
+                })
+            }
+            //Add any conditions that are granted by the new choice.
+            if (gain.choice) {
+                condition.gainConditions.filter(extraCondition => extraCondition.conditionChoiceFilter == gain.choice).forEach(extraCondition => {
+                    let addCondition = Object.assign(new ConditionGain, JSON.parse(JSON.stringify(extraCondition)));
+                    addCondition.source = gain.name;
+                    addCondition.apply = true;
+                    this.characterService.add_Condition(creature, addCondition, false)
+                })
             }
         }
         this.characterService.set_ToChange(this.creature, "effects");

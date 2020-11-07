@@ -102,7 +102,7 @@ The very latest in Assistive Technologies for Dungeon Master (ATDM)
 - [ ] Stretch Goal: Include optional Stamina & Resolve system
 
 Active to-do:
-
+Import and thoroughly test Instincts
 
 Implement:
 

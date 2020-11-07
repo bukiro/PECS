@@ -85,7 +85,7 @@
                         [(ngModel)]="conditionGain.choice" maxLength="30">
                 </span>
             </div>
-            <div class="row" *ngIf="condition.choices.length">
+            <div class="row" *ngIf="condition.choices.length && !conditionGain.choiceLocked">
                 <span *ngFor="let oldChoice of [conditionGain.choice]">Effect selection:
                     <select [(ngModel)]="conditionGain.choice" (ngModelChange)="change_ConditionChoice(conditionGain, condition, oldChoice)">
                         <option *ngFor="let choice of condition.choices; trackBy:trackByIndex;" [ngValue]="choice">

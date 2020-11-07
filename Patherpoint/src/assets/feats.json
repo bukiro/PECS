@@ -6812,19 +6812,1415 @@
         "name": "Mutagenist"
     },
     {
-        "name": "Animal Instinct"
+        "name": "Animal Instinct",
+        "desc": "The fury of a wild predator fills you when you Rage, granting you ferocious unarmed attacks. Cultures that revere vicious animals (such as apes or bears) give rise to barbarians with this instinct. You might also be at war with an uncontrollable, animalistic side of your personality, or you might be a descendant of a werewolf or another werecreature. Select an animal that best matches your chosen animal.\n\n<strong>Ape</strong>: <strong>Melee</strong> Fist (grapple), <strong>Damage</strong> 1d10 bludgeoning.\n<strong>Bear</strong>: <strong>Melee</strong> Jaws, <strong>Damage</strong> 1d10 piercing; <strong>Melee</strong> Claw (agile), <strong>Damage</strong> 1d6 slashing.\n<strong>Bull</strong>: <strong>Melee</strong> Horn (shove), <strong>Damage</strong> 1d10 piercing.\n<strong>Cat</strong>: <strong>Melee</strong> Jaws, <strong>Damage</strong> 1d10 piercing; <strong>Melee</strong> Claw (agile), <strong>Damage</strong> 1d6 slashing.\n<strong>Deer</strong>: <strong>Melee</strong> Antler (grapple), <strong>Damage</strong> 1d10 piercing.\n<strong>Frog</strong>: <strong>Melee</strong> Jaws, <strong>Damage</strong> 1d10 bludgeoning; <strong>Melee</strong> Tongue (agile), <strong>Damage</strong> 1d4 bludgeoning.\n<strong>Shark</strong>: <strong>Melee</strong> Jaws (grapple), <strong>Damage</strong> 1d10 piercing.\n<strong>Snake</strong>: <strong>Melee</strong> Fangs (grapple), <strong>Damage</strong> 1d10 piercing.\n<strong>Wolf</strong>: <strong>Melee</strong> Jaws (trip), <strong>Damage</strong> 1d10 piercing.\n\n<h6>Anathema</h6>\n\nFlagrantly disrespecting an animal of your chosen kind is anathema to your instinct, as is using weapons while raging.\n\n<h6>Bestial Rage (Instinct Ability)</h6>\n\nWhen you Rage, you gain your chosen animal's unarmed attack (or attacks). The specific attack gained, the damage it deals, and its traits are listed on Table 3-3: Animal Instincts. These attacks are in the brawling group. Your Rage action gains the morph, primal, and transmutation traits.\n\n<h6>Specialization Ability</h6>\n\nIncrease the damage die size for the unarmed attacks granted by your chosen animal by one step, and increase the additional damage from Rage from 2 to 5 for your chosen animal's unarmed attacks. The frog's tongue attack and deer's antler attack gain reach 10 feet. If you have greater weapon specialization, increase the damage from Rage from 5 to 12 for your chosen animal's unarmed attacks.\n\n<h6>Raging Resistance</h6>\n\nYou resist piercing and slashing damage.",
+        "subTypes": true,
+        "internalNote": "Many effects are coded into the rage activity and condition.",
+        "shortdesc": "The fury of a wild predator fills you when you Rage, granting you ferocious unarmed attacks."
     },
     {
-        "name": "Dragon Instinct"
+        "name": "Bestial Rage",
+        "desc": "When you Rage, you gain your chosen animal's unarmed attack (or attacks). The specific attack gained, the damage it deals, and its traits are listed on the following table. These attacks are in the brawling group. Your Rage action gains the morph, primal, and transmutation traits.\n\n<strong>Ape</strong>: <strong>Melee</strong> Fist (grapple), <strong>Damage</strong> 1d10 bludgeoning.\n<strong>Bear</strong>: <strong>Melee</strong> Jaws, <strong>Damage</strong> 1d10 piercing; <strong>Melee</strong> Claw (agile), <strong>Damage</strong> 1d6 slashing.\n<strong>Bull</strong>: <strong>Melee</strong> Horn (shove), <strong>Damage</strong> 1d10 piercing.\n<strong>Cat</strong>: <strong>Melee</strong> Jaws, <strong>Damage</strong> 1d10 piercing; <strong>Melee</strong> Claw (agile), <strong>Damage</strong> 1d6 slashing.\n<strong>Deer</strong>: <strong>Melee</strong> Antler (grapple), <strong>Damage</strong> 1d10 piercing.\n<strong>Frog</strong>: <strong>Melee</strong> Jaws, <strong>Damage</strong> 1d10 bludgeoning; <strong>Melee</strong> Tongue (agile), <strong>Damage</strong> 1d4 bludgeoning.\n<strong>Shark</strong>: <strong>Melee</strong> Jaws (grapple), <strong>Damage</strong> 1d10 piercing.\n<strong>Snake</strong>: <strong>Melee</strong> Fangs (grapple), <strong>Damage</strong> 1d10 piercing.\n<strong>Wolf</strong>: <strong>Melee</strong> Jaws (trip), <strong>Damage</strong> 1d10 piercing.",
+        "subTypes": true,
+        "shortdesc": "When you Rage, you gain your chosen animal's unarmed attack."
     },
     {
-        "name": "Fury Instinct"
+        "name": "Animal Instinct: Ape",
+        "desc": "The fury of a wild predator fills you when you Rage, granting you ferocious unarmed attacks. Cultures that revere vicious animals (such as apes or bears) give rise to barbarians with this instinct. You might also be at war with an uncontrollable, animalistic side of your personality, or you might be a descendant of a werewolf or another werecreature. \n\n<h6>Anathema</h6>\n\nFlagrantly disrespecting an animal of your chosen kind is anathema to your instinct, as is using weapons while raging.\n\n<h6>Bestial Rage (Instinct Ability)</h6>\n\nWhen you Rage, you gain your chosen animal's unarmed attack. You gain a fist attack that is in the brawling group, deals 1d10 bludgeoning damage and has the grapple trait. Your Rage action gains the morph, primal, and transmutation traits.\n\n<h6>Specialization Ability</h6>\n\nIncrease the damage die size for the unarmed attacks granted by your chosen animal by one step, and increase the additional damage from Rage from 2 to 5 for your chosen animal's unarmed attacks. If you have greater weapon specialization, increase the damage from Rage from 5 to 12 for your chosen animal's unarmed attack.\n\n<h6>Raging Resistance</h6>\n\nYou resist piercing and slashing damage.",
+        "subType": "Ape",
+        "superType": "Animal Instinct",
+        "anathema": [
+            "Flagrantly disrespecting an animal of your chosen kind is anathema to your instinct, as is using weapons while raging."
+        ],
+        "gainFeatChoice": [
+            {
+                "_className": "FeatChoice",
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Bestial Rage: Ape"
+                    }
+                ],
+                "insertClass": "Barbarian",
+                "source": "Animal Instinct: Ape"
+            },
+            {
+                "_className": "FeatChoice",
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Animal Instinct Specialization"
+                    }
+                ],
+                "insertClass": "Barbarian",
+                "insertLevel": 7,
+                "source": "Animal Instinct: Ape"
+            },
+            {
+                "_className": "FeatChoice",
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Animal Instinct Resistance"
+                    }
+                ],
+                "insertClass": "Barbarian",
+                "insertLevel": 9,
+                "source": "Animal Instinct: Ape"
+            }
+        ]
     },
     {
-        "name": "Giant Instinct"
+        "name": "Bestial Rage: Ape",
+        "desc": "When you Rage, you gain your chosen animal's unarmed attack. You gain a fist attack that is in the brawling group, deals 1d10 bludgeoning damage and has the grapple trait. Your Rage action gains the morph, primal, and transmutation traits.",
+        "showon": "Rage",
+        "subType": "Ape",
+        "superType": "Bestial Rage",
+        "shortdesc": "When you Rage, you gain your chosen animal's unarmed attack.",
+        "featreq": [
+            "Animal Instinct: Ape"
+        ]
     },
     {
-        "name": "Spirit Instinct"
+        "name": "Animal Instinct: Bear",
+        "desc": "The fury of a wild predator fills you when you Rage, granting you ferocious unarmed attacks. Cultures that revere vicious animals (such as apes or bears) give rise to barbarians with this instinct. You might also be at war with an uncontrollable, animalistic side of your personality, or you might be a descendant of a werewolf or another werecreature. \n\n<h6>Anathema</h6>\n\nFlagrantly disrespecting an animal of your chosen kind is anathema to your instinct, as is using weapons while raging.\n\n<h6>Bestial Rage (Instinct Ability)</h6>\n\nWhen you Rage, you gain your chosen animal's unarmed attack. You gain a jaws attack that deals 1d10 piercing damage, as well as a claw attack that deals 1d6 slashing damage and has the agile trait. These attacks are in the brawling group. Your Rage action gains the morph, primal, and transmutation traits.\n\n<h6>Specialization Ability</h6>\n\nIncrease the damage die size for the unarmed attacks granted by your chosen animal by one step, and increase the additional damage from Rage from 2 to 5 for your chosen animal's unarmed attacks. If you have greater weapon specialization, increase the damage from Rage from 5 to 12 for your chosen animal's unarmed attack.\n\n<h6>Raging Resistance</h6>\n\nYou resist piercing and slashing damage.",
+        "subType": "Bear",
+        "superType": "Animal Instinct",
+        "anathema": [
+            "Flagrantly disrespecting an animal of your chosen kind is anathema to your instinct, as is using weapons while raging."
+        ],
+        "gainFeatChoice": [
+            {
+                "_className": "FeatChoice",
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Bestial Rage: Bear"
+                    }
+                ],
+                "insertClass": "Barbarian",
+                "source": "Animal Instinct: Bear"
+            },
+            {
+                "_className": "FeatChoice",
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Animal Instinct Specialization"
+                    }
+                ],
+                "insertClass": "Barbarian",
+                "insertLevel": 7,
+                "source": "Animal Instinct: Bear"
+            },
+            {
+                "_className": "FeatChoice",
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Animal Instinct Resistance"
+                    }
+                ],
+                "insertClass": "Barbarian",
+                "insertLevel": 9,
+                "source": "Animal Instinct: Bear"
+            }
+        ]
+    },
+    {
+        "name": "Bestial Rage: Bear",
+        "desc": "When you Rage, you gain your chosen animal's unarmed attack. You gain a jaws attack that deals 1d10 piercing damage, as well as a claw attack that deals 1d6 slashing damage and has the agile trait. These attacks are in the brawling group. Your Rage action gains the morph, primal, and transmutation traits.",
+        "showon": "Rage",
+        "subType": "Bear",
+        "superType": "Bestial Rage",
+        "shortdesc": "When you Rage, you gain your chosen animal's unarmed attack.",
+        "featreq": [
+            "Animal Instinct: Bear"
+        ]
+    },
+    {
+        "name": "Animal Instinct: Bull",
+        "desc": "The fury of a wild predator fills you when you Rage, granting you ferocious unarmed attacks. Cultures that revere vicious animals (such as apes or bears) give rise to barbarians with this instinct. You might also be at war with an uncontrollable, animalistic side of your personality, or you might be a descendant of a werewolf or another werecreature. \n\n<h6>Anathema</h6>\n\nFlagrantly disrespecting an animal of your chosen kind is anathema to your instinct, as is using weapons while raging.\n\n<h6>Bestial Rage (Instinct Ability)</h6>\n\nWhen you Rage, you gain your chosen animal's unarmed attack. You gain a horn attack that is in the brawling group, deals 1d10 piercing damage and has the shove trait. Your Rage action gains the morph, primal, and transmutation traits.\n\n<h6>Specialization Ability</h6>\n\nIncrease the damage die size for the unarmed attacks granted by your chosen animal by one step, and increase the additional damage from Rage from 2 to 5 for your chosen animal's unarmed attacks. If you have greater weapon specialization, increase the damage from Rage from 5 to 12 for your chosen animal's unarmed attack.\n\n<h6>Raging Resistance</h6>\n\nYou resist piercing and slashing damage.",
+        "subType": "Bull",
+        "superType": "Animal Instinct",
+        "anathema": [
+            "Flagrantly disrespecting an animal of your chosen kind is anathema to your instinct, as is using weapons while raging."
+        ],
+        "gainFeatChoice": [
+            {
+                "_className": "FeatChoice",
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Bestial Rage: Bull"
+                    }
+                ],
+                "insertClass": "Barbarian",
+                "source": "Animal Instinct: Bull"
+            },
+            {
+                "_className": "FeatChoice",
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Animal Instinct Specialization"
+                    }
+                ],
+                "insertClass": "Barbarian",
+                "insertLevel": 7,
+                "source": "Animal Instinct: Bull"
+            },
+            {
+                "_className": "FeatChoice",
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Animal Instinct Resistance"
+                    }
+                ],
+                "insertClass": "Barbarian",
+                "insertLevel": 9,
+                "source": "Animal Instinct: Bull"
+            }
+        ]
+    },
+    {
+        "name": "Bestial Rage: Bull",
+        "desc": "When you Rage, you gain your chosen animal's unarmed attack. You gain a horn attack that is in the brawling group, deals 1d10 piercing damage and has the shove trait. Your Rage action gains the morph, primal, and transmutation traits.",
+        "showon": "Rage",
+        "subType": "Bull",
+        "superType": "Bestial Rage",
+        "shortdesc": "When you Rage, you gain your chosen animal's unarmed attack.",
+        "featreq": [
+            "Animal Instinct: Bull"
+        ]
+    },
+    {
+        "name": "Animal Instinct: Cat",
+        "desc": "The fury of a wild predator fills you when you Rage, granting you ferocious unarmed attacks. Cultures that revere vicious animals (such as apes or bears) give rise to barbarians with this instinct. You might also be at war with an uncontrollable, animalistic side of your personality, or you might be a descendant of a werewolf or another werecreature. \n\n<h6>Anathema</h6>\n\nFlagrantly disrespecting an animal of your chosen kind is anathema to your instinct, as is using weapons while raging.\n\n<h6>Bestial Rage (Instinct Ability)</h6>\n\nWhen you Rage, you gain your chosen animal's unarmed attack. You gain a jaws attack that deals 1d10 piercing damage, as well as a claw attack that deals 1d6 slashing damage and has the agile trait. These attacks are in the brawling group. Your Rage action gains the morph, primal, and transmutation traits.\n\n<h6>Specialization Ability</h6>\n\nIncrease the damage die size for the unarmed attacks granted by your chosen animal by one step, and increase the additional damage from Rage from 2 to 5 for your chosen animal's unarmed attacks. If you have greater weapon specialization, increase the damage from Rage from 5 to 12 for your chosen animal's unarmed attack.\n\n<h6>Raging Resistance</h6>\n\nYou resist piercing and slashing damage.",
+        "subType": "Cat",
+        "superType": "Animal Instinct",
+        "anathema": [
+            "Flagrantly disrespecting an animal of your chosen kind is anathema to your instinct, as is using weapons while raging."
+        ],
+        "gainFeatChoice": [
+            {
+                "_className": "FeatChoice",
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Bestial Rage: Cat"
+                    }
+                ],
+                "insertClass": "Barbarian",
+                "source": "Animal Instinct: Cat"
+            },
+            {
+                "_className": "FeatChoice",
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Animal Instinct Specialization"
+                    }
+                ],
+                "insertClass": "Barbarian",
+                "insertLevel": 7,
+                "source": "Animal Instinct: Cat"
+            },
+            {
+                "_className": "FeatChoice",
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Animal Instinct Resistance"
+                    }
+                ],
+                "insertClass": "Barbarian",
+                "insertLevel": 9,
+                "source": "Animal Instinct: Cat"
+            }
+        ]
+    },
+    {
+        "name": "Bestial Rage: Cat",
+        "desc": "When you Rage, you gain your chosen animal's unarmed attack. You gain a jaws attack that deals 1d10 piercing damage, as well as a claw attack that deals 1d6 slashing damage and has the agile trait. These attacks are in the brawling group. Your Rage action gains the morph, primal, and transmutation traits.",
+        "showon": "Rage",
+        "subType": "Cat",
+        "superType": "Bestial Rage",
+        "shortdesc": "When you Rage, you gain your chosen animal's unarmed attack.",
+        "featreq": [
+            "Animal Instinct: Cat"
+        ]
+    },
+    {
+        "name": "Animal Instinct: Deer",
+        "desc": "The fury of a wild predator fills you when you Rage, granting you ferocious unarmed attacks. Cultures that revere vicious animals (such as apes or bears) give rise to barbarians with this instinct. You might also be at war with an uncontrollable, animalistic side of your personality, or you might be a descendant of a werewolf or another werecreature. \n\n<h6>Anathema</h6>\n\nFlagrantly disrespecting an animal of your chosen kind is anathema to your instinct, as is using weapons while raging.\n\n<h6>Bestial Rage (Instinct Ability)</h6>\n\nWhen you Rage, you gain your chosen animal's unarmed attack. You gain an antler attack that is in the brawling group, deals 1d10 piercing damage and has the grapple trait. Your Rage action gains the morph, primal, and transmutation traits.\n\n<h6>Specialization Ability</h6>\n\nIncrease the damage die size for the unarmed attacks granted by your chosen animal by one step, and increase the additional damage from Rage from 2 to 5 for your chosen animal's unarmed attacks. If you have greater weapon specialization, increase the damage from Rage from 5 to 12 for your chosen animal's unarmed attack.\n\n<h6>Raging Resistance</h6>\n\nYou resist piercing and slashing damage.",
+        "subType": "Deer",
+        "superType": "Animal Instinct",
+        "anathema": [
+            "Flagrantly disrespecting an animal of your chosen kind is anathema to your instinct, as is using weapons while raging."
+        ],
+        "gainFeatChoice": [
+            {
+                "_className": "FeatChoice",
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Bestial Rage: Deer"
+                    }
+                ],
+                "insertClass": "Barbarian",
+                "source": "Animal Instinct: Deer"
+            },
+            {
+                "_className": "FeatChoice",
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Animal Instinct Specialization"
+                    }
+                ],
+                "insertClass": "Barbarian",
+                "insertLevel": 7,
+                "source": "Animal Instinct: Deer"
+            },
+            {
+                "_className": "FeatChoice",
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Animal Instinct Resistance"
+                    }
+                ],
+                "insertClass": "Barbarian",
+                "insertLevel": 9,
+                "source": "Animal Instinct: Deer"
+            }
+        ]
+    },
+    {
+        "name": "Bestial Rage: Deer",
+        "desc": "When you Rage, you gain your chosen animal's unarmed attack. You gain an antler attack that is in the brawling group, deals 1d10 piercing damage and has the grapple trait. Your Rage action gains the morph, primal, and transmutation traits.",
+        "showon": "Rage",
+        "subType": "Deer",
+        "superType": "Bestial Rage",
+        "shortdesc": "When you Rage, you gain your chosen animal's unarmed attack.",
+        "featreq": [
+            "Animal Instinct: Deer"
+        ]
+    },
+    {
+        "name": "Animal Instinct: Frog",
+        "desc": "The fury of a wild predator fills you when you Rage, granting you ferocious unarmed attacks. Cultures that revere vicious animals (such as apes or bears) give rise to barbarians with this instinct. You might also be at war with an uncontrollable, animalistic side of your personality, or you might be a descendant of a werewolf or another werecreature. \n\n<h6>Anathema</h6>\n\nFlagrantly disrespecting an animal of your chosen kind is anathema to your instinct, as is using weapons while raging.\n\n<h6>Bestial Rage (Instinct Ability)</h6>\n\nWhen you Rage, you gain your chosen animal's unarmed attack. You gain a jaws attack that deals 1d10 bludgeoning damage, as well as a tongue attack that deals 1d4 bludgeoning damage and has the agile trait. These attacks are in the brawling group. Your Rage action gains the morph, primal, and transmutation traits.\n\n<h6>Specialization Ability</h6>\n\nIncrease the damage die size for the unarmed attacks granted by your chosen animal by one step, and increase the additional damage from Rage from 2 to 5 for your chosen animal's unarmed attacks. If you have greater weapon specialization, increase the damage from Rage from 5 to 12 for your chosen animal's unarmed attack.\n\n<h6>Raging Resistance</h6>\n\nYou resist piercing and slashing damage.",
+        "subType": "Frog",
+        "superType": "Animal Instinct",
+        "anathema": [
+            "Flagrantly disrespecting an animal of your chosen kind is anathema to your instinct, as is using weapons while raging."
+        ],
+        "gainFeatChoice": [
+            {
+                "_className": "FeatChoice",
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Bestial Rage: Frog"
+                    }
+                ],
+                "insertClass": "Barbarian",
+                "source": "Animal Instinct: Frog"
+            },
+            {
+                "_className": "FeatChoice",
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Animal Instinct Specialization"
+                    }
+                ],
+                "insertClass": "Barbarian",
+                "insertLevel": 7,
+                "source": "Animal Instinct: Frog"
+            },
+            {
+                "_className": "FeatChoice",
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Animal Instinct Resistance"
+                    }
+                ],
+                "insertClass": "Barbarian",
+                "insertLevel": 9,
+                "source": "Animal Instinct: Frog"
+            }
+        ]
+    },
+    {
+        "name": "Bestial Rage: Frog",
+        "desc": "When you Rage, you gain your chosen animal's unarmed attack. You gain a jaws attack that deals 1d10 bludgeoning damage, as well as a tongue attack that deals 1d4 bludgeoning damage and has the agile trait. These attacks are in the brawling group. Your Rage action gains the morph, primal, and transmutation traits.",
+        "showon": "Rage",
+        "subType": "Frog",
+        "superType": "Bestial Rage",
+        "shortdesc": "When you Rage, you gain your chosen animal's unarmed attack.",
+        "featreq": [
+            "Animal Instinct: Frog"
+        ]
+    },
+    {
+        "name": "Animal Instinct: Shark",
+        "desc": "The fury of a wild predator fills you when you Rage, granting you ferocious unarmed attacks. Cultures that revere vicious animals (such as apes or bears) give rise to barbarians with this instinct. You might also be at war with an uncontrollable, animalistic side of your personality, or you might be a descendant of a werewolf or another werecreature. \n\n<h6>Anathema</h6>\n\nFlagrantly disrespecting an animal of your chosen kind is anathema to your instinct, as is using weapons while raging.\n\n<h6>Bestial Rage (Instinct Ability)</h6>\n\nWhen you Rage, you gain your chosen animal's unarmed attack. You gain a jaws attack that is in the brawling group, deals 1d10 piercing damage and has the grapple trait. Your Rage action gains the morph, primal, and transmutation traits.\n\n<h6>Specialization Ability</h6>\n\nIncrease the damage die size for the unarmed attacks granted by your chosen animal by one step, and increase the additional damage from Rage from 2 to 5 for your chosen animal's unarmed attacks. If you have greater weapon specialization, increase the damage from Rage from 5 to 12 for your chosen animal's unarmed attack.\n\n<h6>Raging Resistance</h6>\n\nYou resist piercing and slashing damage.",
+        "subType": "Shark",
+        "superType": "Animal Instinct",
+        "anathema": [
+            "Flagrantly disrespecting an animal of your chosen kind is anathema to your instinct, as is using weapons while raging."
+        ],
+        "gainFeatChoice": [
+            {
+                "_className": "FeatChoice",
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Bestial Rage: Shark"
+                    }
+                ],
+                "insertClass": "Barbarian",
+                "source": "Animal Instinct: Shark"
+            },
+            {
+                "_className": "FeatChoice",
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Animal Instinct Specialization"
+                    }
+                ],
+                "insertClass": "Barbarian",
+                "insertLevel": 7,
+                "source": "Animal Instinct: Shark"
+            },
+            {
+                "_className": "FeatChoice",
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Animal Instinct Resistance"
+                    }
+                ],
+                "insertClass": "Barbarian",
+                "insertLevel": 9,
+                "source": "Animal Instinct: Shark"
+            }
+        ]
+    },
+    {
+        "name": "Bestial Rage: Shark",
+        "desc": "When you Rage, you gain your chosen animal's unarmed attack. You gain a jaws attack that is in the brawling group, deals 1d10 piercing damage and has the grapple trait. Your Rage action gains the morph, primal, and transmutation traits.",
+        "showon": "Rage",
+        "subType": "Shark",
+        "superType": "Bestial Rage",
+        "shortdesc": "When you Rage, you gain your chosen animal's unarmed attack.",
+        "featreq": [
+            "Animal Instinct: Shark"
+        ]
+    },
+    {
+        "name": "Animal Instinct: Snake",
+        "desc": "The fury of a wild predator fills you when you Rage, granting you ferocious unarmed attacks. Cultures that revere vicious animals (such as apes or bears) give rise to barbarians with this instinct. You might also be at war with an uncontrollable, animalistic side of your personality, or you might be a descendant of a werewolf or another werecreature. \n\n<h6>Anathema</h6>\n\nFlagrantly disrespecting an animal of your chosen kind is anathema to your instinct, as is using weapons while raging.\n\n<h6>Bestial Rage (Instinct Ability)</h6>\n\nWhen you Rage, you gain your chosen animal's unarmed attack. You gain a fangs attack that is in the brawling group, deals 1d10 piercing damage and has the grapple trait. Your Rage action gains the morph, primal, and transmutation traits.\n\n<h6>Specialization Ability</h6>\n\nIncrease the damage die size for the unarmed attacks granted by your chosen animal by one step, and increase the additional damage from Rage from 2 to 5 for your chosen animal's unarmed attacks. If you have greater weapon specialization, increase the damage from Rage from 5 to 12 for your chosen animal's unarmed attack.\n\n<h6>Raging Resistance</h6>\n\nYou resist piercing and slashing damage.",
+        "subType": "Snake",
+        "superType": "Animal Instinct",
+        "anathema": [
+            "Flagrantly disrespecting an animal of your chosen kind is anathema to your instinct, as is using weapons while raging."
+        ],
+        "gainFeatChoice": [
+            {
+                "_className": "FeatChoice",
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Bestial Rage: Snake"
+                    }
+                ],
+                "insertClass": "Barbarian",
+                "source": "Animal Instinct: Snake"
+            },
+            {
+                "_className": "FeatChoice",
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Animal Instinct Specialization"
+                    }
+                ],
+                "insertClass": "Barbarian",
+                "insertLevel": 7,
+                "source": "Animal Instinct: Snake"
+            },
+            {
+                "_className": "FeatChoice",
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Animal Instinct Resistance"
+                    }
+                ],
+                "insertClass": "Barbarian",
+                "insertLevel": 9,
+                "source": "Animal Instinct: Snake"
+            }
+        ]
+    },
+    {
+        "name": "Bestial Rage: Snake",
+        "desc": "When you Rage, you gain your chosen animal's unarmed attack. You gain a fangs attack that is in the brawling group, deals 1d10 piercing damage and has the grapple trait. Your Rage action gains the morph, primal, and transmutation traits.",
+        "showon": "Rage",
+        "subType": "Snake",
+        "superType": "Bestial Rage",
+        "shortdesc": "When you Rage, you gain your chosen animal's unarmed attack.",
+        "featreq": [
+            "Animal Instinct: Snake"
+        ]
+    },
+    {
+        "name": "Animal Instinct: Wolf",
+        "desc": "The fury of a wild predator fills you when you Rage, granting you ferocious unarmed attacks. Cultures that revere vicious animals (such as apes or bears) give rise to barbarians with this instinct. You might also be at war with an uncontrollable, animalistic side of your personality, or you might be a descendant of a werewolf or another werecreature. \n\n<h6>Anathema</h6>\n\nFlagrantly disrespecting an animal of your chosen kind is anathema to your instinct, as is using weapons while raging.\n\n<h6>Bestial Rage (Instinct Ability)</h6>\n\nWhen you Rage, you gain your chosen animal's unarmed attack. You gain a jaws attack that is in the brawling group, deals 1d10 piercing damage and has the trip trait. Your Rage action gains the morph, primal, and transmutation traits.\n\n<h6>Specialization Ability</h6>\n\nIncrease the damage die size for the unarmed attacks granted by your chosen animal by one step, and increase the additional damage from Rage from 2 to 5 for your chosen animal's unarmed attacks. If you have greater weapon specialization, increase the damage from Rage from 5 to 12 for your chosen animal's unarmed attack.\n\n<h6>Raging Resistance</h6>\n\nYou resist piercing and slashing damage.",
+        "subType": "Wolf",
+        "superType": "Animal Instinct",
+        "anathema": [
+            "Flagrantly disrespecting an animal of your chosen kind is anathema to your instinct, as is using weapons while raging."
+        ],
+        "gainFeatChoice": [
+            {
+                "_className": "FeatChoice",
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Bestial Rage: Wolf"
+                    }
+                ],
+                "insertClass": "Barbarian",
+                "source": "Animal Instinct: Wolf"
+            },
+            {
+                "_className": "FeatChoice",
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Animal Instinct Specialization"
+                    }
+                ],
+                "insertClass": "Barbarian",
+                "insertLevel": 7,
+                "source": "Animal Instinct: Wolf"
+            },
+            {
+                "_className": "FeatChoice",
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Animal Instinct Resistance"
+                    }
+                ],
+                "insertClass": "Barbarian",
+                "insertLevel": 9,
+                "source": "Animal Instinct: Wolf"
+            }
+        ]
+    },
+    {
+        "name": "Bestial Rage: Wolf",
+        "desc": "When you Rage, you gain your chosen animal's unarmed attack. You gain a jaws attack that is in the brawling group, deals 1d10 piercing damage and has the trip trait. Your Rage action gains the morph, primal, and transmutation traits.",
+        "showon": "Rage",
+        "subType": "Wolf",
+        "superType": "Bestial Rage",
+        "shortdesc": "When you Rage, you gain your chosen animal's unarmed attack.",
+        "featreq": [
+            "Animal Instinct: Wolf"
+        ]
+    },
+    {
+        "name": "Animal Instinct Specialization",
+        "desc": "Increase the damage die size for the unarmed attacks granted by your chosen animal by one step, and increase the additional damage from Rage from 2 to 5 for your chosen animal's unarmed attacks. The frog's tongue attack and deer's antler attack gain reach 10 feet. If you have greater weapon specialization, increase the damage from Rage from 5 to 12 for your chosen animal's unarmed attacks.",
+        "showon": "Rage",
+        "featreq": [
+            "Animal Instinct"
+        ]
+    },
+    {
+        "name": "Animal Instinct Resistance",
+        "desc": "You resist piercing and slashing damage.",
+        "showon": "Rage",
+        "featreq": [
+            "Animal Instinct"
+        ]
+    },
+    {
+        "name": "Dragon Instinct",
+        "desc": "You summon the fury of a mighty dragon and manifest incredible abilities. Perhaps your culture reveres draconic majesty, or you gained your connection by drinking or bathing in dragon's blood or after watching a marauding wyrm burn your village. Select a type of dragon from Table 3-4: Dragon Instincts to be your instinct's dragon type. Chromatic dragons tend to be evil, and metallic dragons tend to be good.\n\n<strong>Black</strong>: <strong>Type</strong> Chromatic, <strong>Breath Weapon</strong> Line of acid.\n<strong>Blue</strong>: <strong>Type</strong> Chromatic, <strong>Breath Weapon</strong> Line of electricity.\n<strong>Green</strong>: <strong>Type</strong> Chromatic, <strong>Breath Weapon</strong> Cone of poison.\n<strong>Red</strong>: <strong>Type</strong> Chromatic, <strong>Breath Weapon</strong> Cone of fire.\n<strong>White</strong>: <strong>Type</strong> Chromatic, <strong>Breath Weapon</strong> Cone of cold.\n<strong>Brass</strong>: <strong>Type</strong> Metallic, <strong>Breath Weapon</strong> Line of fire.\n<strong>Bronze</strong>: <strong>Type</strong> Metallic, <strong>Breath Weapon</strong> Line of electricity.\n<strong>Copper</strong>: <strong>Type</strong> Metallic, <strong>Breath Weapon</strong> Line of acid.\n<strong>Gold</strong>: <strong>Type</strong> Metallic, <strong>Breath Weapon</strong> Cone of fire.\n<strong>Silver</strong>: <strong>Type</strong> Metallic, <strong>Breath Weapon</strong> Cold of cold.\n\n<h6>Anathema</h6>\n\nLetting a personal insult against you slide is anathema to your instinct. Choose whether your character respects or abhors your dragon type. If you respect it, defying such a dragon is anathema, and if you abhor it, failing to defeat such a dragon you come across is anathema.\n\n<h6>Draconic Rage (Instinct Ability)</h6>\n\nWhile raging, you can increase the additional damage from Rage from 2 to 4 and change its damage type to match that of your dragon's breath weapon instead of the damage type for your weapon or unarmed attack. If you do this, your Rage action gains the arcane and evocation traits, as well as the trait matching the damage type.\n\n<h6>Specialization Ability</h6>\n\nWhen you use draconic rage, you increase the additional damage from Rage from 4 to 8. If you have greater weapon specialization, instead increase the damage from Rage when using draconic rage from 8 to 16.\n\n<h6>Raging Resistance</h6>\n\nYou resist piercing damage and the damage type of your dragon's breath weapon.",
+        "subTypes": true,
+        "internalNote": "Many effects are coded into the rage activity and condition.",
+        "shortdesc": "You summon the fury of a mighty dragon and manifest incredible abilities."
+    },
+    {
+        "name": "Draconic Rage",
+        "desc": "While raging, you can increase the additional damage from Rage from 2 to 4 and change its damage type to match that of your dragon's breath weapon instead of the damage type for your weapon or unarmed attack. If you do this, your Rage action gains the arcane and evocation traits, as well as the trait matching the damage type.\n\n<strong>Black</strong>: <strong>Type</strong> Chromatic, <strong>Breath Weapon</strong> Line of acid.\n<strong>Blue</strong>: <strong>Type</strong> Chromatic, <strong>Breath Weapon</strong> Line of electricity.\n<strong>Green</strong>: <strong>Type</strong> Chromatic, <strong>Breath Weapon</strong> Cone of poison.\n<strong>Red</strong>: <strong>Type</strong> Chromatic, <strong>Breath Weapon</strong> Cone of fire.\n<strong>White</strong>: <strong>Type</strong> Chromatic, <strong>Breath Weapon</strong> Cone of cold.\n<strong>Brass</strong>: <strong>Type</strong> Metallic, <strong>Breath Weapon</strong> Line of fire.\n<strong>Bronze</strong>: <strong>Type</strong> Metallic, <strong>Breath Weapon</strong> Line of electricity.\n<strong>Copper</strong>: <strong>Type</strong> Metallic, <strong>Breath Weapon</strong> Line of acid.\n<strong>Gold</strong>: <strong>Type</strong> Metallic, <strong>Breath Weapon</strong> Cone of fire.\n<strong>Silver</strong>: <strong>Type</strong> Metallic, <strong>Breath Weapon</strong> Cold of cold.",
+        "subTypes": true
+    },
+    {
+        "name": "Dragon Instinct: Black",
+        "desc": "You summon the fury of a mighty dragon and manifest incredible abilities. Perhaps your culture reveres draconic majesty, or you gained your connection by drinking or bathing in dragon's blood or after watching a marauding wyrm burn your village.\n<h6>Anathema</h6>\n\nLetting a personal insult against you slide is anathema to your instinct. Choose whether your character respects or abhors your dragon type. If you respect it, defying such a dragon is anathema, and if you abhor it, failing to defeat such a dragon you come across is anathema.\n\n<h6>Draconic Rage (Instinct Ability)</h6>\n\nWhile raging, you can increase the additional damage from Rage from 2 to 4 and change its damage type to acid instead of the damage type for your weapon or unarmed attack. If you do this, your Rage action gains the arcane and evocation traits, as well as the trait matching the damage type.\n\n<h6>Specialization Ability</h6>\n\nWhen you use draconic rage, you increase the additional damage from Rage from 4 to 8. If you have greater weapon specialization, instead increase the damage from Rage when using draconic rage from 8 to 16.\n\n<h6>Raging Resistance</h6>\n\nYou resist piercing damage and acid damage.",
+        "subType": "Black",
+        "superType": "Dragon Instinct",
+        "anathema": [
+            "Letting a personal insult against you slide is anathema to your instinct.",
+            "If you respect your dragon type, defying such a dragon is anathema, and if you abhor it, failing to defeat such a dragon you come across is anathema."
+        ],
+        "gainFeatChoice": [
+            {
+                "_className": "FeatChoice",
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Draconic Rage: Black"
+                    }
+                ],
+                "insertClass": "Barbarian",
+                "source": "Dragon Instinct: Black"
+            },
+            {
+                "_className": "FeatChoice",
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Dragon Instinct Specialization"
+                    }
+                ],
+                "insertClass": "Barbarian",
+                "insertLevel": 7,
+                "source": "Dragon Instinct: Black"
+            },
+            {
+                "_className": "FeatChoice",
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Dragon Instinct Resistance"
+                    }
+                ],
+                "insertClass": "Barbarian",
+                "insertLevel": 9,
+                "source": "Dragon Instinct: Black"
+            }
+        ]
+    },
+    {
+        "name": "Draconic Rage: Black",
+        "desc": "While raging, you can increase the additional damage from Rage from 2 to 4 and change its damage type to acid instead of the damage type for your weapon or unarmed attack. If you do this, your Rage action gains the arcane and evocation traits, as well as the trait matching the damage type.",
+        "showon": "Rage",
+        "subType": "Black",
+        "superType": "Draconic Rage",
+        "shortdesc": "While raging, you can increase the additional damage from Rage.",
+        "featreq": [
+            "Dragon Instinct: Black"
+        ]
+    },
+    {
+        "name": "Dragon Instinct: Blue",
+        "desc": "You summon the fury of a mighty dragon and manifest incredible abilities. Perhaps your culture reveres draconic majesty, or you gained your connection by drinking or bathing in dragon's blood or after watching a marauding wyrm burn your village.\n<h6>Anathema</h6>\n\nLetting a personal insult against you slide is anathema to your instinct. Choose whether your character respects or abhors your dragon type. If you respect it, defying such a dragon is anathema, and if you abhor it, failing to defeat such a dragon you come across is anathema.\n\n<h6>Draconic Rage (Instinct Ability)</h6>\n\nWhile raging, you can increase the additional damage from Rage from 2 to 4 and change its damage type to electricity instead of the damage type for your weapon or unarmed attack. If you do this, your Rage action gains the arcane and evocation traits, as well as the trait matching the damage type.\n\n<h6>Specialization Ability</h6>\n\nWhen you use draconic rage, you increase the additional damage from Rage from 4 to 8. If you have greater weapon specialization, instead increase the damage from Rage when using draconic rage from 8 to 16.\n\n<h6>Raging Resistance</h6>\n\nYou resist piercing damage and electricity damage.",
+        "subType": "Blue",
+        "superType": "Dragon Instinct",
+        "anathema": [
+            "Letting a personal insult against you slide is anathema to your instinct.",
+            "If you respect your dragon type, defying such a dragon is anathema, and if you abhor it, failing to defeat such a dragon you come across is anathema."
+        ],
+        "gainFeatChoice": [
+            {
+                "_className": "FeatChoice",
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Draconic Rage: Blue"
+                    }
+                ],
+                "insertClass": "Barbarian",
+                "source": "Dragon Instinct: Blue"
+            },
+            {
+                "_className": "FeatChoice",
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Dragon Instinct Specialization"
+                    }
+                ],
+                "insertClass": "Barbarian",
+                "insertLevel": 7,
+                "source": "Dragon Instinct: Blue"
+            },
+            {
+                "_className": "FeatChoice",
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Dragon Instinct Resistance"
+                    }
+                ],
+                "insertClass": "Barbarian",
+                "insertLevel": 9,
+                "source": "Dragon Instinct: Blue"
+            }
+        ]
+    },
+    {
+        "name": "Draconic Rage: Blue",
+        "desc": "While raging, you can increase the additional damage from Rage from 2 to 4 and change its damage type to electricity instead of the damage type for your weapon or unarmed attack. If you do this, your Rage action gains the arcane and evocation traits, as well as the trait matching the damage type.",
+        "showon": "Rage",
+        "subType": "Blue",
+        "superType": "Draconic Rage",
+        "shortdesc": "While raging, you can increase the additional damage from Rage.",
+        "featreq": [
+            "Dragon Instinct: Blue"
+        ]
+    },
+    {
+        "name": "Dragon Instinct: Green",
+        "desc": "You summon the fury of a mighty dragon and manifest incredible abilities. Perhaps your culture reveres draconic majesty, or you gained your connection by drinking or bathing in dragon's blood or after watching a marauding wyrm burn your village.\n<h6>Anathema</h6>\n\nLetting a personal insult against you slide is anathema to your instinct. Choose whether your character respects or abhors your dragon type. If you respect it, defying such a dragon is anathema, and if you abhor it, failing to defeat such a dragon you come across is anathema.\n\n<h6>Draconic Rage (Instinct Ability)</h6>\n\nWhile raging, you can increase the additional damage from Rage from 2 to 4 and change its damage type to poison instead of the damage type for your weapon or unarmed attack. If you do this, your Rage action gains the arcane and evocation traits, as well as the trait matching the damage type.\n\n<h6>Specialization Ability</h6>\n\nWhen you use draconic rage, you increase the additional damage from Rage from 4 to 8. If you have greater weapon specialization, instead increase the damage from Rage when using draconic rage from 8 to 16.\n\n<h6>Raging Resistance</h6>\n\nYou resist piercing damage and poison damage.",
+        "subType": "Green",
+        "superType": "Dragon Instinct",
+        "anathema": [
+            "Letting a personal insult against you slide is anathema to your instinct.",
+            "If you respect your dragon type, defying such a dragon is anathema, and if you abhor it, failing to defeat such a dragon you come across is anathema."
+        ],
+        "gainFeatChoice": [
+            {
+                "_className": "FeatChoice",
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Draconic Rage: Green"
+                    }
+                ],
+                "insertClass": "Barbarian",
+                "source": "Dragon Instinct: Green"
+            },
+            {
+                "_className": "FeatChoice",
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Dragon Instinct Specialization"
+                    }
+                ],
+                "insertClass": "Barbarian",
+                "insertLevel": 7,
+                "source": "Dragon Instinct: Green"
+            },
+            {
+                "_className": "FeatChoice",
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Dragon Instinct Resistance"
+                    }
+                ],
+                "insertClass": "Barbarian",
+                "insertLevel": 9,
+                "source": "Dragon Instinct: Green"
+            }
+        ]
+    },
+    {
+        "name": "Draconic Rage: Green",
+        "desc": "While raging, you can increase the additional damage from Rage from 2 to 4 and change its damage type to poison instead of the damage type for your weapon or unarmed attack. If you do this, your Rage action gains the arcane and evocation traits, as well as the trait matching the damage type.",
+        "showon": "Rage",
+        "subType": "Green",
+        "superType": "Draconic Rage",
+        "shortdesc": "While raging, you can increase the additional damage from Rage.",
+        "featreq": [
+            "Dragon Instinct: Green"
+        ]
+    },
+    {
+        "name": "Dragon Instinct: Red",
+        "desc": "You summon the fury of a mighty dragon and manifest incredible abilities. Perhaps your culture reveres draconic majesty, or you gained your connection by drinking or bathing in dragon's blood or after watching a marauding wyrm burn your village.\n<h6>Anathema</h6>\n\nLetting a personal insult against you slide is anathema to your instinct. Choose whether your character respects or abhors your dragon type. If you respect it, defying such a dragon is anathema, and if you abhor it, failing to defeat such a dragon you come across is anathema.\n\n<h6>Draconic Rage (Instinct Ability)</h6>\n\nWhile raging, you can increase the additional damage from Rage from 2 to 4 and change its damage type to fire instead of the damage type for your weapon or unarmed attack. If you do this, your Rage action gains the arcane and evocation traits, as well as the trait matching the damage type.\n\n<h6>Specialization Ability</h6>\n\nWhen you use draconic rage, you increase the additional damage from Rage from 4 to 8. If you have greater weapon specialization, instead increase the damage from Rage when using draconic rage from 8 to 16.\n\n<h6>Raging Resistance</h6>\n\nYou resist piercing damage and fire damage.",
+        "subType": "Red",
+        "superType": "Dragon Instinct",
+        "anathema": [
+            "Letting a personal insult against you slide is anathema to your instinct.",
+            "If you respect your dragon type, defying such a dragon is anathema, and if you abhor it, failing to defeat such a dragon you come across is anathema."
+        ],
+        "gainFeatChoice": [
+            {
+                "_className": "FeatChoice",
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Draconic Rage: Red"
+                    }
+                ],
+                "insertClass": "Barbarian",
+                "source": "Dragon Instinct: Red"
+            },
+            {
+                "_className": "FeatChoice",
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Dragon Instinct Specialization"
+                    }
+                ],
+                "insertClass": "Barbarian",
+                "insertLevel": 7,
+                "source": "Dragon Instinct: Red"
+            },
+            {
+                "_className": "FeatChoice",
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Dragon Instinct Resistance"
+                    }
+                ],
+                "insertClass": "Barbarian",
+                "insertLevel": 9,
+                "source": "Dragon Instinct: Red"
+            }
+        ]
+    },
+    {
+        "name": "Draconic Rage: Red",
+        "desc": "While raging, you can increase the additional damage from Rage from 2 to 4 and change its damage type to fire instead of the damage type for your weapon or unarmed attack. If you do this, your Rage action gains the arcane and evocation traits, as well as the trait matching the damage type.",
+        "showon": "Rage",
+        "subType": "Red",
+        "superType": "Draconic Rage",
+        "shortdesc": "While raging, you can increase the additional damage from Rage.",
+        "featreq": [
+            "Dragon Instinct: Red"
+        ]
+    },
+    {
+        "name": "Dragon Instinct: White",
+        "desc": "You summon the fury of a mighty dragon and manifest incredible abilities. Perhaps your culture reveres draconic majesty, or you gained your connection by drinking or bathing in dragon's blood or after watching a marauding wyrm burn your village.\n<h6>Anathema</h6>\n\nLetting a personal insult against you slide is anathema to your instinct. Choose whether your character respects or abhors your dragon type. If you respect it, defying such a dragon is anathema, and if you abhor it, failing to defeat such a dragon you come across is anathema.\n\n<h6>Draconic Rage (Instinct Ability)</h6>\n\nWhile raging, you can increase the additional damage from Rage from 2 to 4 and change its damage type to cold instead of the damage type for your weapon or unarmed attack. If you do this, your Rage action gains the arcane and evocation traits, as well as the trait matching the damage type.\n\n<h6>Specialization Ability</h6>\n\nWhen you use draconic rage, you increase the additional damage from Rage from 4 to 8. If you have greater weapon specialization, instead increase the damage from Rage when using draconic rage from 8 to 16.\n\n<h6>Raging Resistance</h6>\n\nYou resist piercing damage and cold damage.",
+        "subType": "White",
+        "superType": "Dragon Instinct",
+        "anathema": [
+            "Letting a personal insult against you slide is anathema to your instinct.",
+            "If you respect your dragon type, defying such a dragon is anathema, and if you abhor it, failing to defeat such a dragon you come across is anathema."
+        ],
+        "gainFeatChoice": [
+            {
+                "_className": "FeatChoice",
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Draconic Rage: White"
+                    }
+                ],
+                "insertClass": "Barbarian",
+                "source": "Dragon Instinct: White"
+            },
+            {
+                "_className": "FeatChoice",
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Dragon Instinct Specialization"
+                    }
+                ],
+                "insertClass": "Barbarian",
+                "insertLevel": 7,
+                "source": "Dragon Instinct: White"
+            },
+            {
+                "_className": "FeatChoice",
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Dragon Instinct Resistance"
+                    }
+                ],
+                "insertClass": "Barbarian",
+                "insertLevel": 9,
+                "source": "Dragon Instinct: White"
+            }
+        ]
+    },
+    {
+        "name": "Draconic Rage: White",
+        "desc": "While raging, you can increase the additional damage from Rage from 2 to 4 and change its damage type to cold instead of the damage type for your weapon or unarmed attack. If you do this, your Rage action gains the arcane and evocation traits, as well as the trait matching the damage type.",
+        "showon": "Rage",
+        "subType": "White",
+        "superType": "Draconic Rage",
+        "shortdesc": "While raging, you can increase the additional damage from Rage.",
+        "featreq": [
+            "Dragon Instinct: White"
+        ]
+    },
+    {
+        "name": "Dragon Instinct: Brass",
+        "desc": "You summon the fury of a mighty dragon and manifest incredible abilities. Perhaps your culture reveres draconic majesty, or you gained your connection by drinking or bathing in dragon's blood or after watching a marauding wyrm burn your village.\n<h6>Anathema</h6>\n\nLetting a personal insult against you slide is anathema to your instinct. Choose whether your character respects or abhors your dragon type. If you respect it, defying such a dragon is anathema, and if you abhor it, failing to defeat such a dragon you come across is anathema.\n\n<h6>Draconic Rage (Instinct Ability)</h6>\n\nWhile raging, you can increase the additional damage from Rage from 2 to 4 and change its damage type to fire instead of the damage type for your weapon or unarmed attack. If you do this, your Rage action gains the arcane and evocation traits, as well as the trait matching the damage type.\n\n<h6>Specialization Ability</h6>\n\nWhen you use draconic rage, you increase the additional damage from Rage from 4 to 8. If you have greater weapon specialization, instead increase the damage from Rage when using draconic rage from 8 to 16.\n\n<h6>Raging Resistance</h6>\n\nYou resist piercing damage and fire damage.",
+        "subType": "Brass",
+        "superType": "Dragon Instinct",
+        "anathema": [
+            "Letting a personal insult against you slide is anathema to your instinct.",
+            "If you respect your dragon type, defying such a dragon is anathema, and if you abhor it, failing to defeat such a dragon you come across is anathema."
+        ],
+        "gainFeatChoice": [
+            {
+                "_className": "FeatChoice",
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Draconic Rage: Brass"
+                    }
+                ],
+                "insertClass": "Barbarian",
+                "source": "Dragon Instinct: Brass"
+            },
+            {
+                "_className": "FeatChoice",
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Dragon Instinct Specialization"
+                    }
+                ],
+                "insertClass": "Barbarian",
+                "insertLevel": 7,
+                "source": "Dragon Instinct: Brass"
+            },
+            {
+                "_className": "FeatChoice",
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Dragon Instinct Resistance"
+                    }
+                ],
+                "insertClass": "Barbarian",
+                "insertLevel": 9,
+                "source": "Dragon Instinct: Brass"
+            }
+        ]
+    },
+    {
+        "name": "Draconic Rage: Brass",
+        "desc": "While raging, you can increase the additional damage from Rage from 2 to 4 and change its damage type to fire instead of the damage type for your weapon or unarmed attack. If you do this, your Rage action gains the arcane and evocation traits, as well as the trait matching the damage type.",
+        "showon": "Rage",
+        "subType": "Brass",
+        "superType": "Draconic Rage",
+        "shortdesc": "While raging, you can increase the additional damage from Rage.",
+        "featreq": [
+            "Dragon Instinct: Brass"
+        ]
+    },
+    {
+        "name": "Dragon Instinct: Bronze",
+        "desc": "You summon the fury of a mighty dragon and manifest incredible abilities. Perhaps your culture reveres draconic majesty, or you gained your connection by drinking or bathing in dragon's blood or after watching a marauding wyrm burn your village.\n<h6>Anathema</h6>\n\nLetting a personal insult against you slide is anathema to your instinct. Choose whether your character respects or abhors your dragon type. If you respect it, defying such a dragon is anathema, and if you abhor it, failing to defeat such a dragon you come across is anathema.\n\n<h6>Draconic Rage (Instinct Ability)</h6>\n\nWhile raging, you can increase the additional damage from Rage from 2 to 4 and change its damage type to electricity instead of the damage type for your weapon or unarmed attack. If you do this, your Rage action gains the arcane and evocation traits, as well as the trait matching the damage type.\n\n<h6>Specialization Ability</h6>\n\nWhen you use draconic rage, you increase the additional damage from Rage from 4 to 8. If you have greater weapon specialization, instead increase the damage from Rage when using draconic rage from 8 to 16.\n\n<h6>Raging Resistance</h6>\n\nYou resist piercing damage and electricity damage.",
+        "subType": "Bronze",
+        "superType": "Dragon Instinct",
+        "anathema": [
+            "Letting a personal insult against you slide is anathema to your instinct.",
+            "If you respect your dragon type, defying such a dragon is anathema, and if you abhor it, failing to defeat such a dragon you come across is anathema."
+        ],
+        "gainFeatChoice": [
+            {
+                "_className": "FeatChoice",
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Draconic Rage: Bronze"
+                    }
+                ],
+                "insertClass": "Barbarian",
+                "source": "Dragon Instinct: Bronze"
+            },
+            {
+                "_className": "FeatChoice",
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Dragon Instinct Specialization"
+                    }
+                ],
+                "insertClass": "Barbarian",
+                "insertLevel": 7,
+                "source": "Dragon Instinct: Bronze"
+            },
+            {
+                "_className": "FeatChoice",
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Dragon Instinct Resistance"
+                    }
+                ],
+                "insertClass": "Barbarian",
+                "insertLevel": 9,
+                "source": "Dragon Instinct: Bronze"
+            }
+        ]
+    },
+    {
+        "name": "Draconic Rage: Bronze",
+        "desc": "While raging, you can increase the additional damage from Rage from 2 to 4 and change its damage type to electricity instead of the damage type for your weapon or unarmed attack. If you do this, your Rage action gains the arcane and evocation traits, as well as the trait matching the damage type.",
+        "showon": "Rage",
+        "subType": "Bronze",
+        "superType": "Draconic Rage",
+        "shortdesc": "While raging, you can increase the additional damage from Rage.",
+        "featreq": [
+            "Dragon Instinct: Bronze"
+        ]
+    },
+    {
+        "name": "Dragon Instinct: Copper",
+        "desc": "You summon the fury of a mighty dragon and manifest incredible abilities. Perhaps your culture reveres draconic majesty, or you gained your connection by drinking or bathing in dragon's blood or after watching a marauding wyrm burn your village.\n<h6>Anathema</h6>\n\nLetting a personal insult against you slide is anathema to your instinct. Choose whether your character respects or abhors your dragon type. If you respect it, defying such a dragon is anathema, and if you abhor it, failing to defeat such a dragon you come across is anathema.\n\n<h6>Draconic Rage (Instinct Ability)</h6>\n\nWhile raging, you can increase the additional damage from Rage from 2 to 4 and change its damage type to acid instead of the damage type for your weapon or unarmed attack. If you do this, your Rage action gains the arcane and evocation traits, as well as the trait matching the damage type.\n\n<h6>Specialization Ability</h6>\n\nWhen you use draconic rage, you increase the additional damage from Rage from 4 to 8. If you have greater weapon specialization, instead increase the damage from Rage when using draconic rage from 8 to 16.\n\n<h6>Raging Resistance</h6>\n\nYou resist piercing damage and acid damage.",
+        "subType": "Copper",
+        "superType": "Dragon Instinct",
+        "anathema": [
+            "Letting a personal insult against you slide is anathema to your instinct.",
+            "If you respect your dragon type, defying such a dragon is anathema, and if you abhor it, failing to defeat such a dragon you come across is anathema."
+        ],
+        "gainFeatChoice": [
+            {
+                "_className": "FeatChoice",
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Draconic Rage: Copper"
+                    }
+                ],
+                "insertClass": "Barbarian",
+                "source": "Dragon Instinct: Copper"
+            },
+            {
+                "_className": "FeatChoice",
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Dragon Instinct Specialization"
+                    }
+                ],
+                "insertClass": "Barbarian",
+                "insertLevel": 7,
+                "source": "Dragon Instinct: Copper"
+            },
+            {
+                "_className": "FeatChoice",
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Dragon Instinct Resistance"
+                    }
+                ],
+                "insertClass": "Barbarian",
+                "insertLevel": 9,
+                "source": "Dragon Instinct: Copper"
+            }
+        ]
+    },
+    {
+        "name": "Draconic Rage: Copper",
+        "desc": "While raging, you can increase the additional damage from Rage from 2 to 4 and change its damage type to acid instead of the damage type for your weapon or unarmed attack. If you do this, your Rage action gains the arcane and evocation traits, as well as the trait matching the damage type.",
+        "showon": "Rage",
+        "subType": "Copper",
+        "superType": "Draconic Rage",
+        "shortdesc": "While raging, you can increase the additional damage from Rage.",
+        "featreq": [
+            "Dragon Instinct: Copper"
+        ]
+    },
+    {
+        "name": "Dragon Instinct: Gold",
+        "desc": "You summon the fury of a mighty dragon and manifest incredible abilities. Perhaps your culture reveres draconic majesty, or you gained your connection by drinking or bathing in dragon's blood or after watching a marauding wyrm burn your village.\n<h6>Anathema</h6>\n\nLetting a personal insult against you slide is anathema to your instinct. Choose whether your character respects or abhors your dragon type. If you respect it, defying such a dragon is anathema, and if you abhor it, failing to defeat such a dragon you come across is anathema.\n\n<h6>Draconic Rage (Instinct Ability)</h6>\n\nWhile raging, you can increase the additional damage from Rage from 2 to 4 and change its damage type to fire instead of the damage type for your weapon or unarmed attack. If you do this, your Rage action gains the arcane and evocation traits, as well as the trait matching the damage type.\n\n<h6>Specialization Ability</h6>\n\nWhen you use draconic rage, you increase the additional damage from Rage from 4 to 8. If you have greater weapon specialization, instead increase the damage from Rage when using draconic rage from 8 to 16.\n\n<h6>Raging Resistance</h6>\n\nYou resist piercing damage and fire damage.",
+        "subType": "Gold",
+        "superType": "Dragon Instinct",
+        "anathema": [
+            "Letting a personal insult against you slide is anathema to your instinct.",
+            "If you respect your dragon type, defying such a dragon is anathema, and if you abhor it, failing to defeat such a dragon you come across is anathema."
+        ],
+        "gainFeatChoice": [
+            {
+                "_className": "FeatChoice",
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Draconic Rage: Gold"
+                    }
+                ],
+                "insertClass": "Barbarian",
+                "source": "Dragon Instinct: Gold"
+            },
+            {
+                "_className": "FeatChoice",
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Dragon Instinct Specialization"
+                    }
+                ],
+                "insertClass": "Barbarian",
+                "insertLevel": 7,
+                "source": "Dragon Instinct: Gold"
+            },
+            {
+                "_className": "FeatChoice",
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Dragon Instinct Resistance"
+                    }
+                ],
+                "insertClass": "Barbarian",
+                "insertLevel": 9,
+                "source": "Dragon Instinct: Gold"
+            }
+        ]
+    },
+    {
+        "name": "Draconic Rage: Gold",
+        "desc": "While raging, you can increase the additional damage from Rage from 2 to 4 and change its damage type to fire instead of the damage type for your weapon or unarmed attack. If you do this, your Rage action gains the arcane and evocation traits, as well as the trait matching the damage type.",
+        "showon": "Rage",
+        "subType": "Gold",
+        "superType": "Draconic Rage",
+        "shortdesc": "While raging, you can increase the additional damage from Rage.",
+        "featreq": [
+            "Dragon Instinct: Gold"
+        ]
+    },
+    {
+        "name": "Dragon Instinct: Silver",
+        "desc": "You summon the fury of a mighty dragon and manifest incredible abilities. Perhaps your culture reveres draconic majesty, or you gained your connection by drinking or bathing in dragon's blood or after watching a marauding wyrm burn your village.\n<h6>Anathema</h6>\n\nLetting a personal insult against you slide is anathema to your instinct. Choose whether your character respects or abhors your dragon type. If you respect it, defying such a dragon is anathema, and if you abhor it, failing to defeat such a dragon you come across is anathema.\n\n<h6>Draconic Rage (Instinct Ability)</h6>\n\nWhile raging, you can increase the additional damage from Rage from 2 to 4 and change its damage type to cold instead of the damage type for your weapon or unarmed attack. If you do this, your Rage action gains the arcane and evocation traits, as well as the trait matching the damage type.\n\n<h6>Specialization Ability</h6>\n\nWhen you use draconic rage, you increase the additional damage from Rage from 4 to 8. If you have greater weapon specialization, instead increase the damage from Rage when using draconic rage from 8 to 16.\n\n<h6>Raging Resistance</h6>\n\nYou resist piercing damage and cold damage.",
+        "subType": "Silver",
+        "superType": "Dragon Instinct",
+        "anathema": [
+            "Letting a personal insult against you slide is anathema to your instinct.",
+            "If you respect your dragon type, defying such a dragon is anathema, and if you abhor it, failing to defeat such a dragon you come across is anathema."
+        ],
+        "gainFeatChoice": [
+            {
+                "_className": "FeatChoice",
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Draconic Rage: Silver"
+                    }
+                ],
+                "insertClass": "Barbarian",
+                "source": "Dragon Instinct: Silver"
+            },
+            {
+                "_className": "FeatChoice",
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Dragon Instinct Specialization"
+                    }
+                ],
+                "insertClass": "Barbarian",
+                "insertLevel": 7,
+                "source": "Dragon Instinct: Silver"
+            },
+            {
+                "_className": "FeatChoice",
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Dragon Instinct Resistance"
+                    }
+                ],
+                "insertClass": "Barbarian",
+                "insertLevel": 9,
+                "source": "Dragon Instinct: Silver"
+            }
+        ]
+    },
+    {
+        "name": "Draconic Rage: Silver",
+        "desc": "While raging, you can increase the additional damage from Rage from 2 to 4 and change its damage type to cold instead of the damage type for your weapon or unarmed attack. If you do this, your Rage action gains the arcane and evocation traits, as well as the trait matching the damage type.",
+        "showon": "Rage",
+        "subType": "Silver",
+        "superType": "Draconic Rage",
+        "shortdesc": "While raging, you can increase the additional damage from Rage.",
+        "featreq": [
+            "Dragon Instinct: Silver"
+        ]
+    },
+    {
+        "name": "Dragon Instinct Specialization",
+        "desc": "When you use draconic rage, you increase the additional damage from Rage from 4 to 8. If you have greater weapon specialization, instead increase the damage from Rage when using draconic rage from 8 to 16.",
+        "showon": "Rage",
+        "featreq": [
+            "Dragon Instinct"
+        ]
+    },
+    {
+        "name": "Dragon Instinct Resistance",
+        "desc": "You resist piercing damage and the damage type of your dragon's breath weapon.",
+        "showon": "Rage",
+        "featreq": [
+            "Dragon Instinct"
+        ]
+    },
+    {
+        "name": "Fury Instinct",
+        "desc": "Your rage comes from a deep and purely personal well within you. You use your rage as you choose.\n\n<h6>Anathema and Instinct Ability</h6>\n\nYou don't have an anathema or an instinct ability. Instead, you gain an additional 1st-level barbarian feat.\n\n<h6>Specialization Ability</h6>\n\nIncrease the additional damage from Rage from 2 to 6. If you have greater weapon specialization, instead increase the additional damage from Rage to 12.\n\n<h6>Raging Resistance</h6>\n\nYou resist physical weapon damage, but not physical damage from other sources (such as unarmed attacks).",
+        "shortdesc": "Your rage comes from a deep and purely personal well within you.",
+        "gainFeatChoice": [
+            {
+                "_className": "FeatChoice",
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Fury Instinct: Extra 1st-level feat"
+                    }
+                ],
+                "insertClass": "Barbarian",
+                "source": "Fury Instinct"
+            },{
+                "_className": "FeatChoice",
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Fury Instinct Specialization"
+                    }
+                ],
+                "insertClass": "Barbarian",
+                "insertLevel": 7,
+                "source": "Fury Instinct"
+            },
+            {
+                "_className": "FeatChoice",
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Fury Instinct Resistance"
+                    }
+                ],
+                "insertClass": "Barbarian",
+                "insertLevel": 9,
+                "source": "Fury Instinct"
+            }
+        ]
+    },
+    {
+        "name": "Fury Instinct: Extra 1st-level feat",
+        "desc": "You don't have an instinct ability. Instead, you gain an additional 1st-level barbarian feat.",
+        "shortdesc": "You don't have an instinct ability. Instead, you gain an additional 1st-level barbarian feat.",
+        "featreq": [
+            "Fury Instinct"
+        ],
+        "gainFeatChoice": [
+            {
+                "_className": "FeatChoice",
+                "available": 1,
+                "level": 1,
+                "source": "Fury Instinct: Extra 1st-level feat",
+                "type": "Barbarian"
+            }
+        ]
+    },
+    {
+        "name": "Fury Instinct Specialization",
+        "desc": "Increase the additional damage from Rage from 2 to 6. If you have greater weapon specialization, instead increase the additional damage from Rage to 12.",
+        "showon": "Rage",
+        "featreq": [
+            "Fury Instinct"
+        ]
+    },
+    {
+        "name": "Fury Instinct Resistance",
+        "desc": "You resist physical weapon damage, but not physical damage from other sources (such as unarmed attacks).",
+        "showon": "Rage",
+        "featreq": [
+            "Fury Instinct"
+        ]
+    },
+    {
+        "name": "Giant Instinct",
+        "desc": "Your rage gives you the raw power and size of a giant. This doesn't necessarily mean you revere giants - you might scoff at them or even aspire to slay them! You could instead seem like a giant to other people due to your exceptional strength or larger-than-life emotions and ego.\n\n<h6>Anathema</h6>\n\nFailing to face a personal challenge of strength is anathema.\n\n<h6>Titan Mauler (Instinct Ability)</h6>\n\nYou can use a weapon built for a Large creature if you are Small or Medium (both normally and when raging). If you're not Small or Medium, you can use a weapon built for a creature one size larger than you. You gain access to this larger weapon, of any weapon type otherwise available at character creation. It has the normal Price and Bulk for a weapon of its size. When wielding such a weapon in combat, increase your additional damage from Rage from 2 to 6, but you have the clumsy 1 condition (page 618) because of the weapon's unwieldy size. You can't remove this clumsy condition or ignore its penalties by any means while wielding the weapon.\n\n<h6>Specialization Ability</h6>\n\nIncrease the damage from Rage when using a larger weapon from 6 to 10; if you have greater weapon specialization, increase it from 10 to 18.\n\n<h6>Raging Resistance</h6>\n\nYou resist bludgeoning damage and your choice of cold, electricity, or fire, chosen when you gain raging resistance.",
+        "shortdesc": "Your rage gives you the raw power and size of a giant.",
+        "anathema": [
+            "Failing to face a personal challenge of strength is anathema."
+        ],
+        "gainFeatChoice": [
+            {
+                "_className": "FeatChoice",
+                "available": 1,
+                "filter": [
+                    "Giant Instinct Resistance"
+                ],
+                "insertClass": "Barbarian",
+                "insertLevel": 9,
+                "source": "Giant Instinct",
+                "specialChoice": true,
+                "type": "Raging Resistance Element"
+            },
+            {
+                "_className": "FeatChoice",
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Giant Instinct Specialization"
+                    }
+                ],
+                "insertClass": "Barbarian",
+                "insertLevel": 7,
+                "source": "Giant Instinct"
+            },
+            {
+                "_className": "FeatChoice",
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Titan Mauler"
+                    }
+                ],
+                "insertClass": "Barbarian",
+                "source": "Giant Instinct"
+            }
+        ]
+    },
+    {
+        "name": "Giant Instinct Resistance",
+        "desc": "You resist bludgeoning damage and your choice of cold, electricity, or fire, chosen when you gain raging resistance.",
+        "subTypes": true,
+        "shortdesc": "You resist bludgeoning damage and your choice of cold, electricity, or fire, chosen when you gain raging resistance.",
+        "featreq": [
+            "Giant Instinct"
+        ]
+    },
+    {
+        "name": "Giant Instinct Resistance: Cold",
+        "desc": "You resist bludgeoning damage and cold damage.",
+        "showon": "Rage",
+        "subType": "Cold",
+        "superType": "Giant Instinct Resistance",
+        "shortdesc": "You resist bludgeoning damage and cold damage.",
+        "featreq": [
+            "Giant Instinct"
+        ]
+    },
+    {
+        "name": "Giant Instinct Resistance: Electricity",
+        "desc": "You resist bludgeoning damage and electricity damage.",
+        "showon": "Rage",
+        "subType": "Electricity",
+        "superType": "Giant Instinct Resistance",
+        "shortdesc": "You resist bludgeoning damage and electricity damage.",
+        "featreq": [
+            "Giant Instinct"
+        ]
+    },
+    {
+        "name": "Giant Instinct Resistance: Fire",
+        "desc": "You resist bludgeoning damage and fire damage.",
+        "showon": "Rage",
+        "subType": "Fire",
+        "superType": "Giant Instinct Resistance",
+        "shortdesc": "You resist bludgeoning damage and fire damage.",
+        "featreq": [
+            "Giant Instinct"
+        ]
+    },
+    {
+        "name": "Titan Mauler",
+        "desc": "You can use a weapon built for a Large creature if you are Small or Medium (both normally and when raging). If you're not Small or Medium, you can use a weapon built for a creature one size larger than you. You gain access to this larger weapon, of any weapon type otherwise available at character creation. It has the normal Price and Bulk for a weapon of its size. When wielding such a weapon in combat, increase your additional damage from Rage from 2 to 6, but you have the clumsy 1 condition (page 618) because of the weapon's unwieldy size. You can't remove this clumsy condition or ignore its penalties by any means while wielding the weapon.\n\nYou can set a weapon to be larger in the inventory.",
+        "hint": "You can use a weapon built for a Large creature if you are Small or Medium (both normally and when raging). If you're not Small or Medium, you can use a weapon built for a creature one size larger than you. You gain access to this larger weapon, of any weapon type otherwise available at character creation. It has the normal Price and Bulk for a weapon of its size. When wielding such a weapon in combat, increase your additional damage from Rage from 2 to 6, but you have the clumsy 1 condition (page 618) because of the weapon's unwieldy size. You can't remove this clumsy condition or ignore its penalties by any means while wielding the weapon.",
+        "showon": "Rage, Attacks",
+        "shortdesc": "You can use a weapon built for a Large creature if you are Small or Medium (both normally and when raging).",
+        "internalNote": "Making a weapon large is hardcoded.",
+        "featreq": [
+            "Giant Instinct"
+        ]
+    },
+    {
+        "name": "Giant Instinct Specialization",
+        "desc": "Increase the damage from Rage when using a larger weapon from 6 to 10; if you have greater weapon specialization, increase it from 10 to 18.",
+        "showon": "Rage",
+        "featreq": [
+            "Spirit Instinct"
+        ]
+    },
+    {
+        "name": "Spirit Instinct",
+        "desc": "Whether you are emotionally sensitive to the spirits around you; worship ancestors or apparitions; or are haunted by the specter of an ancestor, relative, friend, or foe, your rage takes the form of a spiritual possession.\n\n<h6>Anathema</h6>\n\nDisrespecting corpses or spirits is anathema to your instinct; defending yourself against undead creatures is not.\n\n<h6>Spirit Rage (Instinct Ability)</h6>\n\nWhen you are raging, you can increase your damage from Rage from 2 to 3 and deal negative or positive damage, instead of the normal damage type for your weapon or unarmed attack (choose each time you Rage). If you choose to deal negative or positive damage, your weapon or unarmed attack gains the effects of the ghost touch property rune, which makes it more effective against incorporeal creatures, and your Rage action gains the divine and necromancy traits, plus negative or positive, as appropriate.\n\n<h6>Specialization Ability</h6>\n\nWhen using spirit rage, increase the damage from Rage from 3 to 7. If you have greater weapon specialization, instead increase the damage when using spirit rage to 13.\n\n<h6>Raging Resistance</h6>\n\nYou resist negative damage, as well as damage dealt by the attacks and abilities of undead creatures, regardless of the damage type.",
+        "shortdesc": "Whether you are emotionally sensitive to the spirits around you; worship ancestors or apparitions; or are haunted by the specter of an ancestor, relative, friend, or foe, your rage takes the form of a spiritual possession.",
+        "anathema": [
+            "Disrespecting corpses or spirits is anathema to your instinct; defending yourself against undead creatures is not."
+        ],
+        "gainFeatChoice": [
+            {
+                "_className": "FeatChoice",
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Spirit Rage"
+                    }
+                ],
+                "insertClass": "Barbarian",
+                "source": "Spirit Instinct"
+            },
+            {
+                "_className": "FeatChoice",
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Spirit Instinct Specialization"
+                    }
+                ],
+                "insertClass": "Barbarian",
+                "insertLevel": 7,
+                "source": "Spirit Instinct"
+            },
+            {
+                "_className": "FeatChoice",
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Spirit Instinct Resistance"
+                    }
+                ],
+                "insertClass": "Barbarian",
+                "insertLevel": 9,
+                "source": "Spirit Instinct"
+            }
+        ]
+    },
+    {
+        "name": "Spirit Rage",
+        "desc": "When you are raging, you can increase your damage from Rage from 2 to 3 and deal negative or positive damage, instead of the normal damage type for your weapon or unarmed attack (choose each time you Rage). If you choose to deal negative or positive damage, your weapon or unarmed attack gains the effects of the ghost touch property rune, which makes it more effective against incorporeal creatures, and your Rage action gains the divine and necromancy traits, plus negative or positive, as appropriate.",
+        "showon": "Rage",
+        "shortdesc": "When you are raging, you can increase your damage from Rage and deal negative or positive damage.",
+        "featreq": [
+            "Spirit Instinct"
+        ]
+    },
+    {
+        "name": "Spirit Instinct Specialization",
+        "desc": "When using spirit rage, increase the damage from Rage from 3 to 7. If you have greater weapon specialization, instead increase the damage when using spirit rage to 13.",
+        "showon": "Rage",
+        "featreq": [
+            "Spirit Instinct"
+        ]
+    },
+    {
+        "name": "Spirit Instinct Resistance",
+        "desc": "You resist negative damage, as well as damage dealt by the attacks and abilities of undead creatures, regardless of the damage type.",
+        "hint": "You resist negative damage, as well as damage dealt by the attacks and abilities of undead creatures, regardless of the damage type.",
+        "showon": "Rage",
+        "featreq": [
+            "Spirit Instinct"
+        ]
+    },
+    {
+        "name": "Spirit Rage",
+        "desc": "When you are raging, you can increase your damage from Rage from 2 to 3 and deal negative or positive damage, instead of the normal damage type for your weapon or unarmed attack (choose each time you Rage). If you choose to deal negative or positive damage, your weapon or unarmed attack gains the effects of the ghost touch property rune, which makes it more effective against incorporeal creatures, and your Rage action gains the divine and necromancy traits, plus negative or positive, as appropriate.",
+        "hint": "When you are raging, you can increase your damage from Rage from 2 to 3 and deal negative or positive damage, instead of the normal damage type for your weapon or unarmed attack (choose each time you Rage). If you choose to deal negative or positive damage, your weapon or unarmed attack gains the effects of the ghost touch property rune, which makes it more effective against incorporeal creatures, and your Rage action gains the divine and necromancy traits, plus negative or positive, as appropriate.",
+        "showon": "Rage",
+        "shortdesc": "When you are raging, you can increase your damage from Rage and deal negative or positive damage.",
+        "featreq": [
+            "Spirit Instinct"
+        ]
     },
     {
         "name": "Paladin"
@@ -12137,8 +13533,7 @@
                         "name": "Powerful Fist"
                     }
                 ],
-                "source": "Feat: Monk Dedication",
-                "type": "Feature"
+                "source": "Feat: Monk Dedication"
             }
         ],
         "gainSkillChoice": [
@@ -13494,8 +14889,7 @@
                         "name": "Hunt Prey"
                     }
                 ],
-                "source": "Feat: Ranger Dedication",
-                "type": "Feature"
+                "source": "Feat: Ranger Dedication"
             }
         ],
         "gainSkillChoice": [
@@ -15109,7 +16503,7 @@
                 "_className": "FeatChoice",
                 "available": 1,
                 "level": 1,
-                "source": "Feat: Universalist",
+                "source": "Universalist Wizard",
                 "type": "Wizard"
             }
         ]
@@ -15136,8 +16530,7 @@
                         "name": "Familiar"
                     }
                 ],
-                "source": "Feat: Improved Familiar Attunement",
-                "type": "Feat"
+                "source": "Improved Familiar Attunement"
             }
         ]
     },
@@ -15153,7 +16546,7 @@
                 "_className": "FeatChoice",
                 "available": 1,
                 "level": 1,
-                "source": "Feat: Metamagical Experimentation",
+                "source": "Metamagical Experimentation",
                 "type": "Metamagic,Wizard"
             },
             {
@@ -15162,7 +16555,7 @@
                 "dynamicLevel": "level.number / 2",
                 "insertLevel": 4,
                 "showOnSheet": true,
-                "source": "Feat: Metamagical Experimentation",
+                "source": "Metamagical Experimentation",
                 "type": "Metamagic,Wizard"
             }
         ]
@@ -18279,8 +19672,7 @@
                         "name": "Surprise Attack"
                     }
                 ],
-                "source": "Feat: Rogue Dedication",
-                "type": "Feature"
+                "source": "Feat: Rogue Dedication"
             },
             {
                 "_className": "FeatChoice",
@@ -18463,8 +19855,7 @@
                         "name": "Deny Advantage (Rogue)"
                     }
                 ],
-                "source": "Feat: Uncanny Dodge",
-                "type": "Feature"
+                "source": "Feat: Uncanny Dodge"
             }
         ]
     },
@@ -18518,8 +19909,7 @@
                     }
                 ],
                 "insertClass": "Bard",
-                "source": "Enigma Muse",
-                "type": "Class"
+                "source": "Enigma Muse"
             }
         ],
         "gainSpellChoice": [
@@ -18558,8 +19948,7 @@
                     }
                 ],
                 "insertClass": "Bard",
-                "source": "Maestro Muse",
-                "type": "Class"
+                "source": "Maestro Muse"
             }
         ],
         "gainSpellChoice": [
@@ -18598,8 +19987,7 @@
                     }
                 ],
                 "insertClass": "Bard",
-                "source": "Polymath Muse",
-                "type": "Class"
+                "source": "Polymath Muse"
             }
         ],
         "gainSpellChoice": [
@@ -20338,7 +21726,7 @@
             "Goblin"
         ],
         "levelreq": 5,
-        "specialreq": "character.class.heritage.name == 'Razortooth Goblin' || Have_Feat('Character', 'Fang Sharpener: Irongut Goblin')",
+        "specialreq": "character.class.heritage.name == 'Razortooth Goblin' || Has_Feat('Character', 'Fang Sharpener: Irongut Goblin')",
         "specialreqdesc": "Fang Sharpener or razortooth goblin heritage",
         "gainActivities": [
             "Ankle Bite"

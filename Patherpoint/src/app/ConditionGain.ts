@@ -20,6 +20,10 @@ export class ConditionGain {
     public notes: string = "";
     public source: string = "";
     public value: number = 0;
+    //Only activate this condition if this string evaluates to a numeral nonzero value. This is tested at the add_condition stage, so it can be combined with conditionChoiceFilter.
+    public activationPrerequisite: string = "";
+    //For conditions within conditions, activate this dependent on the original condition's choice.
+    public conditionChoiceFilter: string = "";
     //Spells choose from multiple conditions those that match their level.
     //For example, if a spell has a ConditionGain with heightenedFilter 1 and one with heightenedFilter 2, and the spell is cast at 2nd level, only the heightenedFilter 2 ConditionGain is used.
     public heightenedFilter: number = 0;
@@ -37,6 +41,8 @@ export class ConditionGain {
     public targetFilter: string = "";
     //Some conditions have a choice that you can make. That is stored in this value.
     public choice: string = "";
+    //If choiceLocked is true, the choice can't be changed manually.
+    public choiceLocked: boolean = false;
     //If acknowledgedInputRequired is true, the inputRequired message is not shown.
     public acknowledgedInputRequired: boolean = false;
 }

@@ -159,7 +159,7 @@ export class Feat {
         return result;
     }
     meetsFeatReq(characterService: CharacterService, charLevel: number = characterService.get_Character().level) {
-        //If the feat has a featreq, check if you meet that.
+        //If the feat has a featreq, check if you meet that (or a feat that has this supertype).
         //Returns [requirement met, requirement description]
         //Requirements like "Aggressive Block or Brutish Shove" are split when receiving the feats to compare.
         let result: Array<{met?:boolean, desc?:string}> = [];
@@ -242,11 +242,11 @@ export class Feat {
                 return 0;
             }
         }
-        function Have_Feat(creature: string, name: string) {
+        function Has_Feat(creature: string, name: string) {
             if (creature == "Familiar") {
-                return characterService.get_FamiliarAvailable(charLevel) ? characterService.get_Familiar().get_FeatsTaken(name).length : 0;
+                return characterService.featsService.get_All([], name, "", true).find(feat => feat.have(familiar, characterService, charLevel, false));
             } else if (creature == "Character") {
-                return character.get_FeatsTaken(1, charLevel, name).length;
+                return characterService.featsService.get_All(character.customFeats, name, "", true).find(feat => feat.have(character, characterService, charLevel, false));
             } else {
                 return 0;
             }

@@ -112,6 +112,7 @@
                                 [ngClass]="{'fancy-button':((item.equippable && item.equipped) || (item.can_Invest() && item.invested))}"
                                 (click)="toggle_Item(inventoryID)">
                                 <span title="Temporary Item" *ngIf="item.expiration">&#9851;&nbsp;</span>
+                                <span title="Large Weapon" *ngIf="item.large">&#10034;&nbsp;</span>
                                 {{(item.amount != undefined && item.amount != 1) ? item.amount+" " : ""}}
                                 {{(item['get_Name']) ? item.get_Name() : item.name}}&nbsp;
                                 <span class="lower"
@@ -337,6 +338,13 @@
                                             [(ngModel)]="item.shoddy" (ngModelChange)=onItemChange(item)>
                                         <label for="{{item.id}}shoddy"
                                             title="When available, a shoddy item usually costs half the Price of a standard item, though you can never sell one in any case. Attacks and checks involving a shoddy item take a –2 item penalty. This penalty also applies to any DCs that a shoddy item applies to (such as AC, for shoddy armor). A shoddy suit of armor also worsens the armor's check penalty by 2. A shoddy item's Hit Points and Broken Threshold are each half that of a normal item of its type.">Shoddy</label>
+                                    </span>
+                                    <span *ngIf="get_LargeWeaponAllowed(item) || item.large">
+                                        <input id="{{item.id}}large" type="checkbox"
+                                            title="You can use a weapon built for a Large creature if you are Small or Medium (both normally and when raging). If you're not Small or Medium, you can use a weapon built for a creature one size larger than you. While wielding the weapon, you have the clumsy 1 condition because of its unwieldy size."
+                                            [(ngModel)]="item.large" (ngModelChange)=onItemChange(item)>
+                                        <label for="{{item.id}}large"
+                                            title="You can use a weapon built for a Large creature if you are Small or Medium (both normally and when raging). If you're not Small or Medium, you can use a weapon built for a creature one size larger than you. While wielding the weapon, you have the clumsy 1 condition because of its unwieldy size.">Large</label>
                                     </span>
                                 </div>
                                 <!--Changing Name-->

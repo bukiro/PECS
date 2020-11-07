@@ -3957,5 +3957,231 @@
       "group": "Brawling",
       "melee": 5,
       "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "5a2e924f-c509-41de-848e-f18abaf53325",
+      "name": "Bestial Rage Ape Fist",
+      "traits": [
+         "Grapple",
+         "Unarmed"
+      ],
+      "displayName": "Fist",
+      "weaponBase": "Bestial Rage Attacks",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 1,
+      "dicesize": 10,
+      "dmgType": "B",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "a4a39469-ad91-46c2-8be8-3a72afe57072",
+      "name": "Bestial Rage Bear Jaws",
+      "traits": [
+         "Unarmed"
+      ],
+      "displayName": "Jaws",
+      "weaponBase": "Bestial Rage Attacks",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 1,
+      "dicesize": 10,
+      "dmgType": "P",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "97f9cbab-5480-4de1-93be-11155ac676ba",
+      "name": "Bestial Rage Bear Claw",
+      "traits": [
+         "Agile",
+         "Unarmed"
+      ],
+      "displayName": "Claw",
+      "weaponBase": "Bestial Rage Attacks",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 1,
+      "dicesize": 6,
+      "dmgType": "S",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "761120ff-22bb-4abd-a304-29e79eb6c630",
+      "name": "Bestial Rage Bull Horn",
+      "traits": [
+         "Shove",
+         "Unarmed"
+      ],
+      "displayName": "Horn",
+      "weaponBase": "Bestial Rage Attacks",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 1,
+      "dicesize": 10,
+      "dmgType": "P",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "ec6f8626-0903-4224-bd53-6f9156830278",
+      "name": "Bestial Rage Cat Jaws",
+      "traits": [
+         "Unarmed"
+      ],
+      "displayName": "Jaws",
+      "weaponBase": "Bestial Rage Attacks",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 1,
+      "dicesize": 10,
+      "dmgType": "P",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "ec8f9662-2113-4151-b60f-10038bd1b419",
+      "name": "Bestial Rage Cat Claw",
+      "traits": [
+         "Agile",
+         "Unarmed"
+      ],
+      "displayName": "Claw",
+      "weaponBase": "Bestial Rage Attacks",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 1,
+      "dicesize": 6,
+      "dmgType": "S",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "5e04296c-f7ed-4013-929c-9acf451d9334",
+      "name": "Bestial Rage Deer Antler",
+      "traits": [
+         "Grapple",
+         "Unarmed"
+      ],
+      "displayName": "Antler",
+      "weaponBase": "Bestial Rage Attacks",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 1,
+      "dicesize": 10,
+      "dmgType": "P",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "fe71d89c-d7cb-4b68-9f21-8d09d477116f",
+      "name": "Bestial Rage Frog Jaws",
+      "traits": [
+         "Unarmed"
+      ],
+      "displayName": "Jaws",
+      "moddable": "-",
+      "_className": "Weapon",
+      "weaponBase": "Bestial Rage Attacks",
+      "dicenum": 1,
+      "dicesize": 10,
+      "dmgType": "B",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "5a909495-bb03-4fae-ab11-933d8ac77120",
+      "name": "Bestial Rage Frog Tongue",
+      "traits": [
+         "Agile",
+         "Unarmed"
+      ],
+      "displayName": "Tongue",
+      "weaponBase": "Bestial Rage Attacks",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 1,
+      "dicesize": 4,
+      "dmgType": "B",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "a7993555-88ea-4301-85dd-dd76b94ff865",
+      "name": "Bestial Rage Shark Jaws",
+      "traits": [
+         "Grapple",
+         "Unarmed"
+      ],
+      "displayName": "Jaws",
+      "weaponBase": "Bestial Rage Attacks",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 1,
+      "dicesize": 10,
+      "dmgType": "P",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "094a759c-0eb9-418b-bc4a-fe9b08820162",
+      "name": "Bestial Rage Snake Fangs",
+      "traits": [
+         "Grapple",
+         "Unarmed"
+      ],
+      "displayName": "Fangs",
+      "weaponBase": "Bestial Rage Attacks",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 1,
+      "dicesize": 10,
+      "dmgType": "P",
+      "extraDamage": "+1d6 Poison",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "28bd6dac-25c6-4a94-a4f4-2741f813617d",
+      "name": "Bestial Rage Wolf Jaws",
+      "traits": [
+         "Trip",
+         "Unarmed"
+      ],
+      "displayName": "Jaws",
+      "weaponBase": "Bestial Rage Attacks",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 1,
+      "dicesize": 10,
+      "dmgType": "P",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
    }
 ]

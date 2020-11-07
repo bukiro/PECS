@@ -70,7 +70,8 @@ export class FeatsService {
                         feat.name.toLowerCase() == alternative.toLowerCase() ||
                         (
                             includeSubTypes &&
-                            feat.superType.toLowerCase() == alternative.toLowerCase()) ||
+                            feat.superType.toLowerCase() == alternative.toLowerCase()
+                        ) ||
                         alternative == ""
                     )
                 ) &&
