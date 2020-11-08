@@ -560,18 +560,21 @@ export class CharacterService {
 
     change_Class($class: Class) {
         //Cleanup Heritage, Ancestry, Background and class skills
-        this.me.class.on_ChangeHeritage(this);
-        this.me.class.on_ChangeAncestry(this);
-        this.me.class.on_ChangeBackground(this);
-        this.me.class.on_ChangeClass(this);
-        this.me.class = new Class();
-        this.me.class = Object.assign(new Class(), JSON.parse(JSON.stringify($class)));
-        this.me.class = this.reassign(this.me.class);
-        this.me.class.on_NewClass(this, this.itemsService);
-        this.get_Character().get_FeatsTaken(1, this.get_Character().level).map((gain: FeatTaken) => this.get_FeatsAndFeatures(gain.name)[0])
-            .filter((feat: Feat) => feat?.onceEffects.length).forEach(feat => {
+        let character = this.get_Character();
+        character.class.on_ChangeHeritage(this);
+        character.class.on_ChangeAncestry(this);
+        character.class.on_ChangeBackground(this);
+        character.class.on_ChangeClass(this);
+        character.class = new Class();
+        character.class = Object.assign(new Class(), JSON.parse(JSON.stringify($class)));
+        character.class = this.reassign(character.class);
+        character.class.on_NewClass(this, this.itemsService);
+        //After the class change, process all immediate effects from feats (or rather features) that you get from the class - like gaining the Druidic language.
+        this.get_FeatsAndFeatures()
+            .filter(feat => feat.onceEffects.length && feat.have(character, this, character.level))
+            .forEach(feat => {
                 feat.onceEffects.forEach(effect => {
-                    this.process_OnceEffect(this.get_Character(), effect);
+                    this.process_OnceEffect(character, effect);
                 })
             })
         //Update everything because the class changes everything.
@@ -579,41 +582,45 @@ export class CharacterService {
     }
 
     change_Ancestry(ancestry: Ancestry, itemsService: ItemsService) {
+        let character = this.get_Character();
         this.change_Heritage(new Heritage());
-        this.me.class.on_ChangeAncestry(this);
-        this.me.class.ancestry = new Ancestry();
-        this.me.class.ancestry = Object.assign(new Ancestry(), JSON.parse(JSON.stringify(ancestry)))
-        this.me.class.ancestry = this.reassign(this.me.class.ancestry);
-        this.me.class.on_NewAncestry(this, itemsService);
+        character.class.on_ChangeAncestry(this);
+        character.class.ancestry = new Ancestry();
+        character.class.ancestry = Object.assign(new Ancestry(), JSON.parse(JSON.stringify(ancestry)))
+        character.class.ancestry = this.reassign(character.class.ancestry);
+        character.class.on_NewAncestry(this, itemsService);
     }
 
     change_Deity(deity: Deity) {
-        this.me.class.on_ChangeDeity(this, this.deitiesService, this.me.class.deity);
-        this.me.class.deity = deity.name;
-        this.me.class.on_NewDeity(this, this.deitiesService, this.me.class.deity);
+        let character = this.get_Character();
+        character.class.on_ChangeDeity(this, this.deitiesService, character.class.deity);
+        character.class.deity = deity.name;
+        character.class.on_NewDeity(this, this.deitiesService, character.class.deity);
     }
 
     change_Heritage(heritage: Heritage, index: number = -1, source: string = "") {
-        this.me.class.on_ChangeHeritage(this, index);
+        let character = this.get_Character();
+        character.class.on_ChangeHeritage(this, index);
         if (index == -1) {
-            this.me.class.heritage = new Heritage();
-            this.me.class.heritage = Object.assign(new Heritage(), JSON.parse(JSON.stringify(heritage)))
-            this.me.class.heritage = this.reassign(this.me.class.heritage);
+            character.class.heritage = new Heritage();
+            character.class.heritage = Object.assign(new Heritage(), JSON.parse(JSON.stringify(heritage)))
+            character.class.heritage = this.reassign(character.class.heritage);
         } else {
-            this.me.class.additionalHeritages[index] = new Heritage();
-            this.me.class.additionalHeritages[index] = Object.assign(new Heritage(), JSON.parse(JSON.stringify(heritage)))
-            this.me.class.additionalHeritages[index] = this.reassign(this.me.class.additionalHeritages[index]);
-            this.me.class.additionalHeritages[index].source = source;
+            character.class.additionalHeritages[index] = new Heritage();
+            character.class.additionalHeritages[index] = Object.assign(new Heritage(), JSON.parse(JSON.stringify(heritage)))
+            character.class.additionalHeritages[index] = this.reassign(character.class.additionalHeritages[index]);
+            character.class.additionalHeritages[index].source = source;
         }
-        this.me.class.on_NewHeritage(this, this.itemsService, index);
+        character.class.on_NewHeritage(this, this.itemsService, index);
     }
 
     change_Background(background: Background) {
-        this.me.class.on_ChangeBackground(this);
-        this.me.class.background = new Background();
-        this.me.class.background = Object.assign(new Background(), JSON.parse(JSON.stringify(background)));
-        this.me.class.background = this.reassign(this.me.class.background);
-        this.me.class.on_NewBackground(this);
+        let character = this.get_Character();
+        character.class.on_ChangeBackground(this);
+        character.class.background = new Background();
+        character.class.background = Object.assign(new Background(), JSON.parse(JSON.stringify(background)));
+        character.class.background = this.reassign(character.class.background);
+        character.class.on_NewBackground(this);
     }
 
     get_CleanItems() {
@@ -648,7 +655,7 @@ export class CharacterService {
             advancedWeapons.forEach(weapon => {
                 advancedWeaponFeats.forEach(feat => {
                     if (!this.get_Feats().find(libraryFeat => libraryFeat.name == feat.name.replace('Advanced Weapon', weapon.name)) &&
-                    !this.me.customFeats.find(customFeat => customFeat.name == feat.name.replace('Advanced Weapon', weapon.name))) {
+                    !this.get_Character().customFeats.find(customFeat => customFeat.name == feat.name.replace('Advanced Weapon', weapon.name))) {
                         let newLength = this.add_CustomFeat(feat);
                         let newFeat = this.get_Character().customFeats[newLength - 1];
                         newFeat.name = newFeat.name.replace("Advanced Weapon", weapon.name);
@@ -1211,21 +1218,21 @@ export class CharacterService {
     }
 
     add_CustomSkill(skillName: string, type: string, abilityName: string, locked: boolean = false) {
-        this.me.customSkills.push(new Skill(abilityName, skillName, type, locked));
+        this.get_Character().customSkills.push(new Skill(abilityName, skillName, type, locked));
     }
 
     remove_CustomSkill(oldSkill: Skill) {
-        this.me.customSkills = this.me.customSkills.filter(skill => skill !== oldSkill);
+        this.get_Character().customSkills = this.get_Character().customSkills.filter(skill => skill !== oldSkill);
     }
 
     add_CustomFeat(oldFeat: Feat) {
-        let newLength = this.me.customFeats.push(Object.assign(new Feat(), JSON.parse(JSON.stringify(oldFeat))));
+        let newLength = this.get_Character().customFeats.push(Object.assign(new Feat(), JSON.parse(JSON.stringify(oldFeat))));
         this.set_ToChange("Character", "charactersheet");
         return newLength;
     }
 
     remove_CustomFeat(oldFeat: Feat) {
-        this.me.customFeats = this.me.customFeats.filter(skill => skill !== oldFeat);
+        this.get_Character().customFeats = this.get_Character().customFeats.filter(skill => skill !== oldFeat);
     }
 
     get_Conditions(name: string = "", type: string = "") {
@@ -1474,7 +1481,7 @@ export class CharacterService {
     }
 
     get_Feats(name: string = "", type: string = "") {
-        return this.featsService.get_Feats(this.me.customFeats, name, type);
+        return this.featsService.get_Feats(this.get_Character().customFeats, name, type);
     }
 
     get_Features(name: string = "") {
@@ -1482,7 +1489,7 @@ export class CharacterService {
     }
 
     get_FeatsAndFeatures(name: string = "", type: string = "", includeSubTypes: boolean = false) {
-        return this.featsService.get_All(this.me.customFeats, name, type, includeSubTypes);
+        return this.featsService.get_All(this.get_Character().customFeats, name, type, includeSubTypes);
     }
 
     get_Health(creature: Character|AnimalCompanion|Familiar) {
@@ -1498,8 +1505,7 @@ export class CharacterService {
     }
 
     get_FeatsShowingOn(objectName: string = "all") {
-        let returnedFeats = []
-        this.get_FeatsAndFeatures().filter(feat => feat.showon.split(",").find(showon => 
+        return this.get_FeatsAndFeatures().filter(feat => feat.showon.split(",").find(showon => 
                 objectName == "all" ||
                 showon == objectName ||
                 showon.substr(1) == objectName ||
@@ -1507,18 +1513,7 @@ export class CharacterService {
                     objectName.includes("Lore") &&
                     (showon == "Lore" || showon.substr(1) == "Lore")
                 )
-            ) && feat.have(this.get_Character(), this, this.get_Character().level)).forEach(feat => {
-                returnedFeats.push(feat);
-            });
-
-        /*this.get_Character().get_FeatsTaken(0, this.get_Character().level, "", "").map(feat => this.get_FeatsAndFeatures(feat.name)[0]).forEach(feat => {
-            feat?.showon.split(",").forEach(showon => {
-                if (objectName == "all" || showon == objectName || showon.substr(1) == objectName || (objectName.includes("Lore") && (showon == "Lore" || showon.substr(1) == "Lore"))) {
-                    returnedFeats.push(feat);
-                }
-            })
-        });*/
-        return returnedFeats;
+            ) && feat.have(this.get_Character(), this, this.get_Character().level))
     }
 
     get_CompanionShowingOn(objectName: string = "all") {
@@ -1732,12 +1727,13 @@ export class CharacterService {
     }
 
     initialize_AnimalCompanion() {
-        if (this.me.class.animalCompanion) {
-            this.me.class.animalCompanion = Object.assign(new AnimalCompanion(), this.me.class.animalCompanion);
-            this.me.class.animalCompanion = this.reassign(this.me.class.animalCompanion);
-            this.me.class.animalCompanion.class.reset_levels(this);
-            this.me.class.animalCompanion.set_Level(this);
-            this.equip_BasicItems(this.me.class.animalCompanion);
+        let character = this.get_Character();
+        if (character.class.animalCompanion) {
+            character.class.animalCompanion = Object.assign(new AnimalCompanion(), character.class.animalCompanion);
+            character.class.animalCompanion = this.reassign(character.class.animalCompanion);
+            character.class.animalCompanion.class.reset_levels(this);
+            character.class.animalCompanion.set_Level(this);
+            this.equip_BasicItems(character.class.animalCompanion);
             this.set_ToChange("Companion", "all");
         }
     }
@@ -1749,9 +1745,10 @@ export class CharacterService {
     }
 
     initialize_Familiar() {
-        if (this.me.class.familiar) {
-            this.me.class.familiar = Object.assign(new Familiar(), this.me.class.familiar);
-            this.me.class.familiar = this.reassign(this.me.class.familiar);
+        let character = this.get_Character();
+        if (character.class.familiar) {
+            character.class.familiar = Object.assign(new Familiar(), character.class.familiar);
+            character.class.familiar = this.reassign(character.class.familiar);
             this.set_ToChange("Familiar", "all");
         }
     }

@@ -6,6 +6,7 @@ import { Speed } from '../Speed';
 import { Character } from '../Character';
 import { AnimalCompanion } from '../AnimalCompanion';
 import { FamiliarsService } from '../familiars.service';
+import { features } from 'process';
 
 @Component({
     selector: 'app-general',
@@ -97,23 +98,21 @@ export class GeneralComponent implements OnInit {
     }
 
     get_Tenets() {
-        //Remove tenets from all feats and features you have that include them.
-        return [].concat(...this.get_Character().get_FeatsTaken(1, this.get_Character().level)
-            .map(feat => this.characterService.get_FeatsAndFeatures(feat.name)[0])
-            .filter(feat => feat?.tenets?.length)
+        //Collect tenets from all feats and features you have that include them.
+        return [].concat(...this.characterService.get_FeatsAndFeatures()
+            .filter(feat => feat.tenets?.length && feat.have(this.get_Character(), this.characterService))
             .map(feat => feat.tenets))
     }
 
     get_Anathema() {
-        //Remove tenets from all feats and features you have that include them.
-        return [].concat(...this.get_Character().get_FeatsTaken(1, this.get_Character().level)
-            .map(feat => this.characterService.get_FeatsAndFeatures(feat.name)[0])
-            .filter(feat => feat?.anathema?.length)
-            .map(feat => feat.anathema))
+        //Collect anathema from all feats and features you have that include them.
+        return [].concat(...this.characterService.get_FeatsAndFeatures()
+        .filter(feat => feat.anathema?.length && feat.have(this.get_Character(), this.characterService))
+        .map(feat => feat.anathema))
     }
 
     get_Archetypes() {
-        return this.get_Character().get_FeatsTaken(1, this.get_Character().level).map(gain => this.characterService.get_FeatsAndFeatures(gain.name)[0]).filter(feat => feat?.traits.includes("Dedication"));
+        return this.characterService.get_FeatsAndFeatures().filter(feat => feat.traits.includes("Dedication") && feat.have(this.get_Character(), this.characterService));
     }
 
     get_Muse() {

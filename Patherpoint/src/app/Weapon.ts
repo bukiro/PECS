@@ -142,8 +142,9 @@ export class Weapon extends Equipment {
         let proficiencyChanges: ProficiencyChange[] = [];
         if (creature.type == "Character") {
             let character = creature as Character;
-            character.get_FeatsTaken(0, charLevel).map(gain => characterService.get_FeatsAndFeatures(gain.name)[0])
-                .filter(feat => feat?.changeProficiency?.length).forEach(feat => {
+            characterService.get_FeatsAndFeatures()
+                .filter(feat => feat.changeProficiency.length && feat.have(character, characterService, charLevel, false))
+                .forEach(feat => {
                     proficiencyChanges.push(...feat.changeProficiency.filter(change =>
                         (change.trait ? this.traits.filter(trait => change.trait.includes(trait)).length : true) &&
                         (change.proficiency ? (this.prof && change.proficiency.includes(this.prof)) : true)
@@ -170,16 +171,16 @@ export class Weapon extends Equipment {
         if (characterService.still_loading()) { return 0; }
         let skillLevel: number = 0;
         let prof = this.get_Proficiency(creature, characterService, charLevel);
-        //There are proficiencies for "Simple Sword" or "Advanced Bow" that we need to consider, so we build that phrase here.
-        let profAndGroup = prof.split(" ")[0] + " " + this.group;
         //There are a lot of ways to be trained with a weapon.
         //To determine the skill level, we have to find skills for the item's proficiency, its name, its weapon base and any of its traits.
         let levels: number[] = [];
-        //Weapon bame, e.g. Demon Sword.
+        //Weapon name, e.g. Demon Sword.
         levels.push(characterService.get_Skills(creature, this.name)[0]?.level(creature, characterService, charLevel) || 0);
         //Weapon base, e.g. Longsword.
         levels.push(this.weaponBase ? characterService.get_Skills(creature, this.weaponBase)[0]?.level(creature, characterService, charLevel) : 0);
         //Proficiency and Group, e.g. Martial Sword.
+        //There are proficiencies for "Simple Sword" or "Advanced Bow" that we need to consider, so we build that phrase here.
+        let profAndGroup = prof.split(" ")[0] + " " + this.group;
         levels.push(characterService.get_Skills(creature, profAndGroup)[0]?.level(creature, characterService, charLevel) || 0);
         //Proficiency, e.g. Martial Weapons.
         levels.push(characterService.get_Skills(creature, prof)[0]?.level(creature, characterService, charLevel) || 0);
@@ -639,8 +640,9 @@ export class Weapon extends Equipment {
             let character = creature as Character;
             let runeSource: (Weapon | WornItem)[] = this.get_RuneSource(creature, range);
             let skillLevel = this.profLevel(creature, characterService, runeSource[1]);
-            character.get_FeatsTaken(0, character.level).map(gain => characterService.get_FeatsAndFeatures(gain.name)[0])
-                .filter(feat => feat?.gainSpecialization?.length).forEach(feat => {
+            characterService.get_FeatsAndFeatures()
+                .filter(feat => feat.gainSpecialization.length && feat.have(character, characterService, character.level, false))
+                .forEach(feat => {
                     SpecializationGains.push(...feat.gainSpecialization.filter(spec =>
                         (spec.group ? (this.group && spec.group.includes(this.group)) : true) &&
                         (spec.range ? (range && spec.range.includes(range)) : true) &&

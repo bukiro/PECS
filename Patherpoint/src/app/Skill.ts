@@ -86,7 +86,7 @@ export class Skill {
             }
         }
         //If this is a goblin weapon, you are trained in it, and you have the Goblin Weapon Expertise feat,
-        //  you share the highest weapon proficiency that you gained by a class feature (so the skillChoice type is "Weapon Specialization", but the source does not include "Feat:")
+        //  you share the highest weapon proficiency that you gained by a class feature (so the skillChoice type is "Weapon Proficiency", but the source does not include "Feat:")
         //We check whether you are trained in it by checking if your skillLevel up to this point is higher than 0.
         if (["Goblin", "Dogslicer", "Horsechopper"].includes(this.name)) {
             if (creature.type == "Character" && (creature as Character).get_FeatsTaken(1, creature.level, "Goblin Weapon Expertise").length && skillLevel > 0) {

@@ -176,8 +176,8 @@ export class SpellbookComponent implements OnInit {
 
     get_SignatureSpellsAllowed() {
         if (this.characterService.get_FeatsAndFeatures()
-            .filter(feature => feature.name.includes("Signature Spells"))
-            .filter(feature => feature.have(this.get_Character(), this.characterService)).length) {
+                .find(feature => feature.name.includes("Signature Spells") && feature.have(this.get_Character(), this.characterService))
+            ) {
             return true;
         } else {
             return false;

@@ -99,9 +99,11 @@ export class SkillsComponent implements OnInit {
             if (heritageSenses.length) {
                 senses.push(...heritageSenses)
             }
-            character.get_FeatsTaken(0, character.level).map(gain => this.characterService.get_FeatsAndFeatures(gain.name)[0]).filter(feat => feat?.senses.length).forEach(feat => {
-                senses.push(...feat.senses);
-            });
+            this.characterService.get_FeatsAndFeatures()
+                .filter(feat => feat.senses?.length && feat.have(character, this.characterService))
+                .forEach(feat => {
+                    senses.push(...feat.senses);
+                });
         }
         if (this.creature == "Familiar") {
             let familiar = this.get_Creature() as Familiar;

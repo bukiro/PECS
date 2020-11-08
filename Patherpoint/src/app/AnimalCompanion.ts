@@ -60,10 +60,9 @@ export class AnimalCompanion extends Creature {
         //Level 3 is a placeholder, Levels 4 and 5 are Nimble and Savage - when you take a feat with growAnimalCompanion > 3,
         //  level 3 gets replaced with that level
         //  That means that level 3 is the highest we need to go, as Nimble or Savage will be placed there.
-        this.level = Math.min(3, Math.max(1, ...character.get_FeatsTaken(1, character.level)
-            .map(gain => characterService.get_FeatsAndFeatures(gain.name)[0])
-            .filter(feat => feat)
-            .map(feat => feat?.gainAnimalCompanion)));
+        this.level = Math.min(3, Math.max(1, ...characterService.get_FeatsAndFeatures()
+            .filter(feat => feat.gainAnimalCompanion && feat.have(character, characterService, character.level))
+            .map(feat => feat.gainAnimalCompanion)));
         characterService.set_ToChange("Companion", "all");
     }
     get_AbilityBoosts(minLevelNumber: number, maxLevelNumber: number, abilityName: string = "", type: string = "", source: string = "", sourceId: string = "", locked: boolean = undefined ) {

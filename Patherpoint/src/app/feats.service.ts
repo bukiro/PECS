@@ -24,7 +24,6 @@ import { Heritage } from './Heritage';
 import { Loader } from './Loader';
 import { ItemGain } from './ItemGain';
 import { Item } from './Item';
-import { getAllLifecycleHooks } from '@angular/compiler/src/lifecycle_reflector';
 
 @Injectable({
     providedIn: 'root'
@@ -550,7 +549,9 @@ export class FeatsService {
                     //Remove the latest specialization chosen on this level, only if all choices are taken
                     let specializations = companion.class.specializations.filter(spec => spec.level == level.number);
                     if (specializations.length) {
-                        if (specializations.length >= character.get_FeatsTaken(level.number, level.number).filter(gain => characterService.get_Feats(gain.name)[0]?.gainAnimalCompanion == 6).length) {
+                        if (specializations.length >= characterService.get_FeatsAndFeatures()
+                                .filter(feat => feat.gainAnimalCompanion == 6 && character.get_FeatsTaken(level.number, level.number, feat.name)).length
+                            ) {
                             companion.class.specializations = companion.class.specializations.filter(spec => spec.name != specializations[specializations.length - 1].name)
                         }
                     }
@@ -579,12 +580,14 @@ export class FeatsService {
                         newSpellChoice.className = spellCasting.className;
                         newSpellChoice.castingType = spellCasting.castingType;
                         newSpellChoice.source = "Feat: " + feat.name;
-                        let familiarLevel = character.class.levels
-                            .find(level => level.featChoices
-                                .filter(choice => choice.feats
-                                    .map(gain => characterService.get_FeatsAndFeatures(gain.name)[0])
-                                    .filter(feat => feat?.gainFamiliar).length).length
-                            );
+
+                        let familiarLevel = characterService.get_FeatsAndFeatures()
+                            .filter(feat => feat.gainFamiliar && feat.have(character, characterService, character.level))
+                            .map(feat => character.class.levels.find(level => level.featChoices
+                                .find(choice => choice.feats
+                                    .find(featTaken => featTaken.name == feat.name)
+                                )
+                            ))[0];
                         character.add_SpellChoice(characterService, familiarLevel.number, newSpellChoice)
                     }
                 } else {
@@ -606,12 +609,13 @@ export class FeatsService {
                         newSpellChoice.className = spellCasting.className;
                         newSpellChoice.castingType = spellCasting.castingType;
                         newSpellChoice.source = "Feat: " + feat.name;
-                        let familiarLevel = character.class.levels
-                            .find(level => level.featChoices
-                                .filter(choice => choice.feats
-                                    .map(gain => characterService.get_FeatsAndFeatures(gain.name)[0])
-                                    .filter(feat => feat?.gainFamiliar).length).length
-                            );
+                        let familiarLevel = characterService.get_FeatsAndFeatures()
+                            .filter(feat => feat.gainFamiliar && feat.have(character, characterService, character.level))
+                            .map(feat => character.class.levels.find(level => level.featChoices
+                                .find(choice => choice.feats
+                                    .find(featTaken => featTaken.name == feat.name)
+                                )
+                            ))[0];
                         character.add_SpellChoice(characterService, familiarLevel.number, newSpellChoice)
                     }
                 } else {

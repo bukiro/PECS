@@ -315,8 +315,8 @@ export class EffectsService {
             });
         }
         //Character Feats
-        character?.get_FeatsTaken(1, character.level).map(gain => characterService.get_FeatsAndFeatures(gain.name)[0])
-            .filter(feat => feat?.effects?.length)
+        characterService.get_FeatsAndFeatures()
+            .filter(feat => feat.effects?.length && feat.have(character, characterService, character.level))
             .forEach(feat => {
                 simpleEffects = simpleEffects.concat(this.get_SimpleEffects(character, characterService, feat));
             });
