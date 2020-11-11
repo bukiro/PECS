@@ -70,6 +70,8 @@
                                 <cite class="trait" *ngFor="let trait of shield.traits; trackBy:trackByIndex;"
                                     title="{{get_Traits(trait)[0].description}}">{{trait}}</cite>
                             </div>
+                            <app-tags [creature]="creature" [objectName]="'Shield'" [showTraits]=true [showFeats]=true
+                                [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
                             <div class="row">
                                 <button class="center-aligned" *ngIf="!shield.raised"
                                     (click)="shield.raised = true; set_DefenseChanged()">Raise shield</button>
@@ -83,8 +85,22 @@
                                     *ngIf="shield.raised && shield.coverbonus && shield.takingCover"
                                     (click)="shield.takingCover = false; set_DefenseChanged()">End cover</button>
                             </div>
-                            <app-tags [creature]="creature" [objectName]="'Shield'" [showTraits]=true [showFeats]=true
-                                [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
+                            <div class="list-item row">
+                                <strong>HP</strong> <span><input type="number" class="number2" [ngModel]="shield.get_HitPoints()" disabled></span>
+                                <strong>Max HP</strong> <span><input type="number" class="number2" [ngModel]="shield.get_MaxHP()" disabled></span>
+                                <strong>BT</strong> <span><input type="number" class="number2" [ngModel]="shield.get_BrokenThreshold()" disabled></span>
+                            </div>
+                            <div class="list-item row">
+                                <span>
+                                    <button [disabled]="shieldDamage == 0" (click)="on_ShieldHPChange(shield, shieldDamage)">Damage</button>
+                                </span>
+                                <span>
+                                    <input class="number3" type="number" [(ngModel)]="shieldDamage" maxLength="3">
+                                </span>
+                                <span>
+                                    <button [disabled]="shieldDamage == 0" (click)="on_ShieldHPChange(shield, -shieldDamage)">Repair</button>
+                                </span>
+                            </div>
                             <div class="fullsize-only lower row left-aligned"
                                 *ngFor="let talisman of shield.talismans; let index = index; trackBy:trackByIndex;">
                                 <button title="{{get_TalismanTitle(talisman)}}"

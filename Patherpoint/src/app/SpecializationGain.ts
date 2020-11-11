@@ -1,4 +1,5 @@
 export class SpecializationGain {
+    public bladeAlly: boolean = false;
     public condition: string = "";
     public featreq: string = "";
     public group: string = "";

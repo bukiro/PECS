@@ -290,7 +290,7 @@ export class EffectsService {
     }
 
     generate_Effects(creatureType: string, characterService: CharacterService, secondRun: boolean = false) {
-        //NEVER call this function.
+        //Never call this function.
         //It gets called by this.initialize whenever the character has changed.
         //Every other function can skip the whole process and just do get_Effects().
         let simpleEffects: Effect[] = [];
@@ -315,11 +315,13 @@ export class EffectsService {
             });
         }
         //Character Feats
-        characterService.get_FeatsAndFeatures()
+        if (character) {
+            characterService.get_FeatsAndFeatures()
             .filter(feat => feat.effects?.length && feat.have(character, characterService, character.level))
             .forEach(feat => {
                 simpleEffects = simpleEffects.concat(this.get_SimpleEffects(character, characterService, feat));
             });
+        }
         //Companion Specializations
         companion?.class.specializations.filter(spec => spec.effects.length).forEach(spec => {
             simpleEffects = simpleEffects.concat(this.get_SimpleEffects(companion, characterService, spec));
@@ -368,12 +370,17 @@ export class EffectsService {
             items.weapons.filter(item => item.equipped && item.parrying && !item.broken).forEach(item => {
                 itemEffects.push(new Effect(creature.id, 'circumstance', "AC", "+1", "", false, "Parrying", false));
             })
-            //Initialize shoddy values for all shields.
+            //Initialize shoddy values and shield ally for all shields.
             creature.inventories.forEach(inv => {
                 inv.shields.forEach(shield => {
                     let oldShoddy = shield.$shoddy;
                     shield.get_Shoddy(creature, characterService);
                     if (oldShoddy != shield.$shoddy) {
+                        characterService.set_ToChange(creature.type, "inventory");
+                    }
+                    let oldShieldAlly = shield.$shieldAlly;
+                    shield.get_ShieldAlly(creature, characterService);
+                    if (oldShieldAlly != shield.$shieldAlly) {
                         characterService.set_ToChange(creature.type, "inventory");
                     }
                 })

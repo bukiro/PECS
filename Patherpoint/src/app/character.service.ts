@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { Character } from './Character';
 import { Skill } from './Skill';
 import { Observable, BehaviorSubject } from 'rxjs';
@@ -48,7 +47,6 @@ import { InventoryGain } from './InventoryGain';
 import { Oil } from './Oil';
 import { WornItem } from './WornItem';
 import { Savegame } from './Savegame';
-import { FeatTaken } from './FeatTaken';
 import { ArmorRune } from './ArmorRune';
 import { Ammunition } from './Ammunition';
 import { Shield } from './Shield';
@@ -56,7 +54,6 @@ import { AlchemicalBomb } from './AlchemicalBomb';
 import { Snare } from './Snare';
 import { AlchemicalPoison } from './AlchemicalPoison';
 import { OtherConsumableBomb } from './OtherConsumableBOmb';
-import { isNgContainer } from '@angular/compiler';
 import { AdventuringGear } from './AdventuringGear';
 
 @Injectable({
@@ -593,9 +590,9 @@ export class CharacterService {
 
     change_Deity(deity: Deity) {
         let character = this.get_Character();
-        character.class.on_ChangeDeity(this, this.deitiesService, character.class.deity);
         character.class.deity = deity.name;
-        character.class.on_NewDeity(this, this.deitiesService, character.class.deity);
+        this.set_ToChange("Character", "general");
+        this.set_ToChange("Character", "attacks");
     }
 
     change_Heritage(heritage: Heritage, index: number = -1, source: string = "") {
@@ -1599,6 +1596,12 @@ export class CharacterService {
                                 activities.push(...rune.activities);
                             });
                         }
+                        //Get activities from runes
+                        if (item.bladeAllyRunes) {
+                            item.bladeAllyRunes.filter(rune => rune.activities.length).forEach(rune => {
+                                activities.push(...rune.activities);
+                            });
+                        }
                         //Get activities from Oils emulating runes
                         if (item.oilsApplied) {
                             item.oilsApplied.filter(oil => oil.runeEffect && oil.runeEffect.activities).forEach(oil => {
@@ -1636,6 +1639,12 @@ export class CharacterService {
                     //Get activities from runes
                     if (item.propertyRunes) {
                         item.propertyRunes.filter(rune => rune.activities.length).forEach(rune => {
+                            activities.push(...rune.activities);
+                        });
+                    }
+                    //Get activities from runes
+                    if (item.bladeAllyRunes && item["bladeAlly"]) {
+                        item.bladeAllyRunes.filter(rune => rune.activities.length).forEach(rune => {
                             activities.push(...rune.activities);
                         });
                     }
@@ -1843,6 +1852,8 @@ export class CharacterService {
         } else {
             //Update everything once.
             this.set_Changed();
+            this.set_ToChange("Character", "effects");
+            this.process_ToChange();
         }
     }
 

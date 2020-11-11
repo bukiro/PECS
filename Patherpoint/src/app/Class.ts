@@ -161,20 +161,6 @@ export class Class {
             });
         }
     }
-    on_ChangeDeity(characterService: CharacterService, deitiesService: DeitiesService, deity: string) {
-        let character = characterService.get_Character();
-        if (character.class.deity) {
-            //In the future, remove cleric skills, spells etc.
-        }
-        characterService.set_ToChange("Character", "general");
-    }
-    on_NewDeity(characterService: CharacterService, deitiesService: DeitiesService, deity: string) {
-        let character = characterService.get_Character();
-        if (character.class.deity) {
-            //In the future, add cleric skills, spells etc.
-        }
-        characterService.set_ToChange("Character", "general");
-    }
     on_ChangeHeritage(characterService: CharacterService, index: number = -1) {
         let heritage: Heritage = this.heritage;
         if (index != -1) {

@@ -21,6 +21,7 @@ import { Snare } from '../Snare';
 import { SpellsService } from '../spells.service';
 import { SpellGain } from '../SpellGain';
 import { Wand } from '../Wand';
+import { Shield } from '../Shield';
 
 @Component({
     selector: 'app-inventory',
@@ -35,9 +36,9 @@ export class InventoryComponent implements OnInit {
     private id: number = 0;
     private showItem: number = 0;
     private showList: string = "";
-    public hover: number = 0;
+    public shieldDamage: number = 0;
     public targetInventory = null;
-
+    
     constructor(
         private changeDetector: ChangeDetectorRef,
         public characterService: CharacterService,
@@ -610,9 +611,31 @@ export class InventoryComponent implements OnInit {
     }
 
     get_LargeWeaponAllowed(item: Item) {
-        return this.get_Character().get_FeatsTaken(1, this.get_Character().level, 'Titan Mauler') && item.type == "weapons";
+        return this.creature == "Character" && this.get_Character().get_FeatsTaken(1, this.get_Character().level, 'Titan Mauler').length && item.type == "weapons";
     }
 
+    get_BladeAllyAllowed(item: Item) {
+        return this.creature == "Character" && this.get_Character().get_FeatsTaken(1, this.get_Character().level, 'Divine Ally: Blade Ally').length && (item.type == "weapons" || (item.type == "wornitems" && (item as WornItem).isHandwrapsOfMightyBlows));
+    }
+
+    get_BladeAllyUsed() {
+        return this.get_Character().inventories.find(inventory => inventory.weapons.find(weapon => weapon.bladeAlly) || inventory.wornitems.find(wornItem => wornItem.isHandwrapsOfMightyBlows && wornItem.bladeAlly));
+    }
+
+    on_ShieldHPChange(shield: Shield, amount: number) {
+        shield.damage += amount;
+        if (shield.equipped) {
+            this.characterService.set_ToChange(this.creature, "defense");
+        }
+        if (shield.get_HitPoints() <= shield.get_BrokenThreshold()) {
+            shield.broken = true;
+        } else {
+            shield.broken = false;
+        }
+        this.characterService.set_ToChange(this.creature, "inventory");
+        this.characterService.process_ToChange();
+    }
+    
     finish_Loading() {
         if (this.still_loading()) {
             setTimeout(() => this.finish_Loading(), 500)

@@ -57,8 +57,8 @@ export class Armor extends Equipment {
     }
     get_ArmoredSkirt(creature: Character|AnimalCompanion|Familiar, characterService: CharacterService) {
         if (["Breastplate","Chain Shirt","Chain Mail","Scale Mail"].includes(this.name) ) {
-            let armoredSkirt = characterService.get_Inventories(creature).map(inventory => inventory.adventuringgear).filter(gear => gear.filter(item => item.isArmoredSkirt && item.equipped).length);
-            if (armoredSkirt.length) {
+            let armoredSkirt = characterService.get_Inventories(creature).map(inventory => inventory.adventuringgear).find(gear => gear.find(item => item.isArmoredSkirt && item.equipped));
+            if (armoredSkirt?.length) {
                 this.$affectedByArmoredSkirt = 1;
                 return armoredSkirt[0];
             } else {
@@ -66,8 +66,8 @@ export class Armor extends Equipment {
                 return null;
             }
         } else if (["Half Plate","Full Plate","Hellknight Plate"].includes(this.name) ) {
-            let armoredSkirt = characterService.get_Inventories(creature).map(inventory => inventory.adventuringgear).filter(gear => gear.filter(item => item.isArmoredSkirt && item.equipped).length);
-            if (armoredSkirt.length) {
+            let armoredSkirt = characterService.get_Inventories(creature).map(inventory => inventory.adventuringgear).find(gear => gear.find(item => item.isArmoredSkirt && item.equipped));
+            if (armoredSkirt?.length) {
                 this.$affectedByArmoredSkirt = -1;
                 return armoredSkirt[0];
             } else {
@@ -106,7 +106,7 @@ export class Armor extends Equipment {
     get_Strength() {
         //Fortification Runes raise the required strength
         let fortification = this.propertyRunes.filter(rune => rune.name.includes("Fortification")).length ? 2 : 0;
-        return this.strength + this.$affectedByArmoredSkirt + fortification;
+        return this.strength + (this.$affectedByArmoredSkirt * 2) + fortification;
     }
     get_Prof() {
         if (this.$affectedByArmoredSkirt == 1) {

@@ -55,6 +55,8 @@ export class Weapon extends Equipment {
     public weaponBase: string = "";
     //Giant Instinct Barbarians can wield larger weapons.
     public large: boolean = false;
+    //A Champion with the Divine Ally: Blade Ally Feat can designate one weapon or handwraps as his blade ally.
+    public bladeAlly: boolean = false;
     get_RuneSource(creature: Character | AnimalCompanion | Familiar, range: string) {
         //Under certain circumstances, other items' runes are applied when calculating attack bonus or damage.
         //[0] is the item whose fundamental runes will count, [1] is the item whose property runes will count, and [2] is the item that causes this change.
@@ -644,6 +646,7 @@ export class Weapon extends Equipment {
                 .filter(feat => feat.gainSpecialization.length && feat.have(character, characterService, character.level, false))
                 .forEach(feat => {
                     SpecializationGains.push(...feat.gainSpecialization.filter(spec =>
+                        (spec.bladeAlly ? (this.bladeAlly || runeSource[1].bladeAlly) : true) &&
                         (spec.group ? (this.group && spec.group.includes(this.group)) : true) &&
                         (spec.range ? (range && spec.range.includes(range)) : true) &&
                         (spec.name ? ((this.name && spec.name.includes(this.name)) || (this.weaponBase && spec.name.includes(this.weaponBase))) : true) &&

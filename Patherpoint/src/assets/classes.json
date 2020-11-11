@@ -4482,17 +4482,14 @@
                 "featChoices": [
                     {
                         "_className": "FeatChoice",
-                        "feats": [
-                            {
-                                "locked": true,
-                                "name": "Divine Ally",
-                                "source": "Champion",
-                                "sourceId": "3-Feature-Champion-0"
-                            }
+                        "available": 1,
+                        "filter": [
+                            "Divine Ally"
                         ],
                         "id": "3-Feature-Champion-0",
                         "source": "Champion",
-                        "type": "Feature"
+                        "specialChoice": true,
+                        "type": "Divine Ally"
                     },
                     {
                         "_className": "FeatChoice",
@@ -8607,7 +8604,9 @@
                     {
                         "_className": "FeatChoice",
                         "available": 1,
-                        "filter": "Fighter Weapon Mastery",
+                        "filter": [
+                            "Fighter Weapon Mastery"
+                        ],
                         "id": "5-Fighter Weapon Mastery-Fighter-2",
                         "source": "Fighter",
                         "specialChoice": true,
@@ -9014,7 +9013,9 @@
                     {
                         "_className": "FeatChoice",
                         "available": 1,
-                        "filter": "Weapon Legend",
+                        "filter": [
+                            "Weapon Legend"
+                        ],
                         "id": "13-Weapon Legend-Fighter-2",
                         "source": "Fighter",
                         "specialChoice": true,

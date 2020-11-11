@@ -1,5 +1,132 @@
 [
     {
+        "name": "Lay on Hands",
+        "id": "b785001e-fe71-437e-9b0e-a17b2c4c5113",
+        "shortDesc": "Your hands become infused with positive energy, healing a living creature or damaging an undead creature with a touch.",
+        "actions": "1A",
+        "castType": "somatic",
+        "levelreq": 1,
+        "traditions": [
+            "Focus"
+        ],
+        "traits": [
+            "Uncommon",
+            "Champion",
+            "Healing",
+            "Necromancy",
+            "Positive"
+        ],
+        "target": "",
+        "targets": "1 willing creature or 1 undead creature",
+        "desc": "Your hands become infused with positive energy, healing a living creature or damaging an undead creature with a touch. If you use lay on hands on a willing living target, you restore <var>var1</var> Hit Points; if the target is one of your allies, they also gain a +2 status bonus to AC for 1 round. Against an undead target, you deal <var>var2</var> damage and it must attempt a basic Fortitude save; if it fails, it also takes a -2 status penalty to AC for 1 round.",
+        "heightened": [
+            {
+                "desc": "The amount of healing increases by 6, and the damage to an undead target increases by 1d6.",
+                "level": "(+1)"
+            }
+        ],
+        "desc1": [
+            {
+                "value": "6",
+                "variable": "var1"
+            },
+            {
+                "value": "1d6",
+                "variable": "var2"
+            }
+        ],
+        "desc2": [
+            {
+                "value": "12",
+                "variable": "var1"
+            },
+            {
+                "value": "2d6",
+                "variable": "var2"
+            }
+        ],
+        "desc3": [
+            {
+                "value": "18",
+                "variable": "var1"
+            },
+            {
+                "value": "3d6",
+                "variable": "var2"
+            }
+        ],
+        "desc4": [
+            {
+                "value": "24",
+                "variable": "var1"
+            },
+            {
+                "value": "4d6",
+                "variable": "var2"
+            }
+        ],
+        "desc5": [
+            {
+                "value": "30",
+                "variable": "var1"
+            },
+            {
+                "value": "5d6",
+                "variable": "var2"
+            }
+        ],
+        "desc6": [
+            {
+                "value": "36",
+                "variable": "var1"
+            },
+            {
+                "value": "6d6",
+                "variable": "var2"
+            }
+        ],
+        "desc7": [
+            {
+                "value": "42",
+                "variable": "var1"
+            },
+            {
+                "value": "7d6",
+                "variable": "var2"
+            }
+        ],
+        "desc8": [
+            {
+                "value": "48",
+                "variable": "var1"
+            },
+            {
+                "value": "8d6",
+                "variable": "var2"
+            }
+        ],
+        "desc9": [
+            {
+                "value": "54",
+                "variable": "var1"
+            },
+            {
+                "value": "9d6",
+                "variable": "var2"
+            }
+        ],
+        "desc10": [
+            {
+                "value": "60",
+                "variable": "var1"
+            },
+            {
+                "value": "10d6",
+                "variable": "var2"
+            }
+        ]
+    },
+    {
         "name": "Ki Rush",
         "id": "4a76f1a4-9126-11ea-bb37-0242ac130002",
         "shortDesc": "Accelerated by your ki, you move with such speed you become a blur.",

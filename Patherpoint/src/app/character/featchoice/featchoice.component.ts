@@ -3,9 +3,6 @@ import { CharacterService } from 'src/app/character.service';
 import { FeatsService } from 'src/app/feats.service';
 import { Feat } from 'src/app/Feat';
 import { FeatChoice } from 'src/app/FeatChoice';
-import { SortByPipe } from 'src/app/sortBy.pipe';
-import { ActivitiesService } from 'src/app/activities.service';
-import { SpellsService } from 'src/app/spells.service';
 import { FamiliarsService } from 'src/app/familiars.service';
 import { Familiar } from 'src/app/Familiar';
 import { Character } from 'src/app/Character';
@@ -169,7 +166,7 @@ export class FeatchoiceComponent implements OnInit {
     get_ChoiceLevel(choice: FeatChoice) {
         let featLevel = 0;
         //Use character level for Familiar Abilities or for choices that don't look at the choice level, but the current character level.
-        if (choice.source == "Familiar" || choice.useCharacterLevel) {
+        if (choice.source == "Familiar") {
             featLevel = this.get_Character().level;
         } else {
             if (choice.level) {
@@ -547,7 +544,7 @@ export class FeatchoiceComponent implements OnInit {
             this.characterService.get_Changed()
                 .subscribe((target) => {
                     if (target == "featchoices" || target == "all" || target == this.creature) {
-                        if (this.choice.useCharacterLevel) {
+                        if (this.choice.dynamicLevel) {
                             this.featLevel = this.get_ChoiceLevel(this.choice);
                         }
                         this.changeDetector.detectChanges();
@@ -556,7 +553,7 @@ export class FeatchoiceComponent implements OnInit {
             this.characterService.get_ViewChanged()
                 .subscribe((view) => {
                     if (view.creature == this.creature && ["featchoices", "all"].includes(view.target)) {
-                        if (this.choice.useCharacterLevel) {
+                        if (this.choice.dynamicLevel) {
                             this.featLevel = this.get_ChoiceLevel(this.choice);
                         }
                         this.changeDetector.detectChanges();

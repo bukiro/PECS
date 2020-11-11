@@ -234,6 +234,19 @@ export class AttacksComponent implements OnInit {
         return runes;
     }
 
+    get_HandwrapsOfMightyBlows(weapon: Weapon) {
+        if (weapon.traits.includes("Unarmed")) {
+            let handwraps = this.get_Creature().inventories[0].wornitems.find(wornItem => wornItem.isHandwrapsOfMightyBlows && wornItem.invested);
+            if (handwraps) {
+                return [handwraps];
+            } else {
+                return [];
+            }
+        } else {
+            return [];
+        }
+    }
+
     get_GrievousData(weapon: Weapon, rune: WeaponRune) {
         let data = rune.data.filter(data => data.name == weapon.group);
         if (data.length) {

@@ -691,6 +691,33 @@ export class FeatsService {
                 characterService.set_ToChange(creature.type, "spellbook");
             }
 
+            //Reset changes made with Giant Instinct.
+            if (feat.name == "Giant Instinct") {
+                character.inventories.forEach(inv => {
+                    inv.weapons.forEach(weapon => {
+                        weapon.large = false;
+                    })
+                })
+                characterService.set_ToChange(creature.type, "inventory");
+                characterService.set_ToChange(creature.type, "attacks");
+            }
+
+            //Reset changes made with Blade Ally.
+            if (feat.name == "Divine Ally: Blade Ally") {
+                character.inventories.forEach(inv => {
+                    inv.weapons.forEach(weapon => {
+                        weapon.bladeAlly = false;
+                        weapon.bladeAllyRunes = [];
+                    })
+                    inv.wornitems.forEach(wornItem => {
+                        wornItem.bladeAlly = false;
+                        wornItem.bladeAllyRunes = [];
+                    })
+                    characterService.set_ToChange(creature.type, "inventory");
+                    characterService.set_ToChange(creature.type, "attacks");
+                })
+            }
+
             //Spell Combination changes certain spell choices permanently.
             if (feat.name == "Spell Combination") {
                 if (taken) {

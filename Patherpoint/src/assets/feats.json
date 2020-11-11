@@ -189,7 +189,6 @@
     {
         "name": "Advanced Blood Potency",
         "desc": "You gain one sorcerer feat. For the purpose of prerequisites, your sorcerer level is half your character level.",
-        "internalNote": "Feat Choices with Level 0 are given at half your character level.",
         "shortdesc": "You gain one sorcerer feat. For the purpose of prerequisites, your sorcerer level is half your character level.",
         "archetype": "Sorcerer",
         "unlimited": true,
@@ -8214,13 +8213,792 @@
         ]
     },
     {
-        "name": "Paladin"
+        "name": "Paladin",
+        "desc": "<h6>Paladin (Lawful Good)</h6>\n\nYou're honorable, forthright, and committed to pushing back the forces of cruelty. You gain the Retributive Strike champion's reaction and the lay on hands devotion spell. After the tenets of good, add these tenets:\n\nYou must act with honor, never taking advantage of others, lying, or cheating.\nYou must respect the lawful authority of legitimate leadership wherever you go, and follow its laws.\n\n<h6>Champion's Reaction</h6>\n\n<h4>Retributive Strike</h4>\n\n<strong>Trigger</strong> An enemy damages your ally, and both are within 15 feet of you.\n\nYou protect your ally and strike your foe. The ally gains resistance to all damage against the triggering damage equal to 2 + your level. If the foe is within reach, make a melee Strike against it.\n\n<h6>Divine Smite</h6>\n\nYou surround evil targets in a punishing halo. If you hit with your Retributive Strike, the target takes persistent good damage equal to your Charisma modifier.\n\n<h6>Exalt</h6>\n\nWhen you use Retributive Strike, each ally within 15 feet of you with the target in their melee reach can spend a reaction to Strike the target with a -5 penalty.",
+        "shortdesc": "(Lawful Good) You're honorable, forthright, and committed to pushing back the forces of cruelty.",
+        "specialreq": "character.alignment == \"Lawful Good\"",
+        "specialreqdesc": "Lawful Good",
+        "effects": [
+            {
+                "affected": "Focus Pool",
+                "value": "Character.class.name == 'Champion' ? 1 : 0"
+            }
+        ],
+        "onceEffects": [
+            {
+                "affected": "Focus Points",
+                "value": "Character.class.name == 'Champion' ? 1 : 0"
+            }
+        ],
+        "tenets": [
+            "You must never perform acts anathema to your deity or willingly commit an evil act, such as murder, torture, or the casting of an evil spell.",
+            "You must never knowingly harm an innocent, or allow immediate harm to one through inaction when you know you could reasonably prevent it. This tenet doesn't force you to take action against possible harm to innocents at an indefinite time in the future, or to sacrifice your life to protect them.",
+            "You must act with honor, never taking advantage of others, lying, or cheating.",
+            "You must respect the lawful authority of legitimate leadership wherever you go, and follow its laws."
+        ],
+        "gainFeatChoice": [
+            {
+                "_className": "FeatChoice",
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Champion's Reaction (Paladin)"
+                    }
+                ],
+                "insertClass": "Champion",
+                "source": "Paladin"
+            },
+            {
+                "_className": "FeatChoice",
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Divine Smite (Paladin)"
+                    }
+                ],
+                "insertClass": "Champion",
+                "insertLevel": 9,
+                "source": "Paladin"
+            },
+            {
+                "_className": "FeatChoice",
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Exalt (Paladin)"
+                    }
+                ],
+                "insertClass": "Champion",
+                "insertLevel": 11,
+                "source": "Paladin"
+            },
+            {
+                "_className": "FeatChoice",
+                "available": 1,
+                "filter": [
+                    "Divine Skill"
+                ],
+                "source": "Paladin",
+                "specialChoice": true,
+                "type": "Divine Skill"
+            }
+        ],
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Focus",
+                "className": "Champion",
+                "id": "a74866f1-686f-4557-a245-679fea042b11",
+                "insertClass": "Champion",
+                "level": -1,
+                "source": "Paladin",
+                "spells": [
+                    {
+                        "_className": "SpellGain",
+                        "locked": true,
+                        "name": "Lay On Hands"
+                    }
+                ]
+            }
+        ]
     },
     {
-        "name": "Redeemer"
+        "name": "Champion's Reaction (Paladin)",
+        "desc": "You gain the Retributive Strike champion's reaction.",
+        "shortdesc": "You gain the Retributive Strike champion's reaction.",
+        "featreq": [
+            "Paladin"
+        ],
+        "gainActivities": [
+            "Retributive Strike"
+        ]
     },
     {
-        "name": "Liberator"
+        "name": "Divine Smite (Paladin)",
+        "desc": "You surround evil targets in a punishing halo. If you hit with your Retributive Strike, the target takes persistent good damage equal to your Charisma modifier.",
+        "hint": "If you hit with your Retributive Strike, the target takes persistent good damage equal to your Charisma modifier.",
+        "showon": "Retributive Strike",
+        "shortdesc": "You surround evil targets in a punishing halo.",
+        "featreq": [
+            "Paladin"
+        ]
+    },
+    {
+        "name": "Exalt (Paladin)",
+        "desc": "When you use Retributive Strike, each ally within 15 feet of you with the target in their melee reach can spend a reaction to Strike the target with a -5 penalty.",
+        "showon": "Retributive Strike",
+        "shortdesc": "When you use Retributive Strike, each ally within 15 feet of you with the target in their melee reach can spend a reaction to Strike the target with a -5 penalty.",
+        "featreq": [
+            "Paladin"
+        ]
+    },
+    {
+        "name": "Redeemer",
+        "desc": "<h6>Redeemer (Neutral Good)</h6>\n\nYou're full of kindness and forgiveness. You gain the Glimpse of Redemption champion's reaction and the lay on hands devotion spell. After the tenets of good, add these:\n\nYou must first try to redeem those who commit evil acts, rather than killing them or meting out punishment. If they then continue on a wicked path, you might need to take more extreme measures.\nYou must show compassion for others, regardless of their authority or station.\n\n<h6>Champion's Reaction</h6>\n\n<h4>Glimpse of Redemption</h4>\n\n<strong>Trigger</strong> An enemy damages your ally, and both are within 15 feet of you.\n\nYour foe hesitates under the weight of sin as visions of redemption play in their mind's eye. The foe must choose one of the following options:\n\nThe ally is unharmed by the triggering damage.\nThe ally gains resistance to all damage against the triggering damage equal to 2 + your level. After the damaging effect is applied, the enemy becomes enfeebled 2 until the end of its next turn.\n\n<h6>Divine Smite</h6>\n\nA guilty conscience assails foes who spurn your Glimpse of Redemption. A foe that responds to your Glimpse of Redemption by dealing damage takes persistent good damage equal to your Charisma modifier.\n\n<h6>Exalt</h6>\n\nYou protect multiple allies. You can apply the resistance granted by Glimpse of Redemption to yourself and all allies within 15 feet of you, including the triggering ally, except the resistance is reduced by 2 for all.",
+        "shortdesc": "(Neutral Good) You're full of kindness and forgiveness.",
+        "specialreq": "character.alignment == \"Neutral Good\"",
+        "specialreqdesc": "Neutral Good",
+        "effects": [
+            {
+                "affected": "Focus Pool",
+                "value": "Character.class.name == 'Champion' ? 1 : 0"
+            }
+        ],
+        "onceEffects": [
+            {
+                "affected": "Focus Points",
+                "value": "Character.class.name == 'Champion' ? 1 : 0"
+            }
+        ],
+        "tenets": [
+            "You must never perform acts anathema to your deity or willingly commit an evil act, such as murder, torture, or the casting of an evil spell.",
+            "You must never knowingly harm an innocent, or allow immediate harm to one through inaction when you know you could reasonably prevent it. This tenet doesn't force you to take action against possible harm to innocents at an indefinite time in the future, or to sacrifice your life to protect them.",
+            "You must first try to redeem those who commit evil acts, rather than killing them or meting out punishment. If they then continue on a wicked path, you might need to take more extreme measures.",
+            "You must show compassion for others, regardless of their authority or station."
+        ],
+        "gainFeatChoice": [
+            {
+                "_className": "FeatChoice",
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Champion's Reaction (Redeemer)"
+                    }
+                ],
+                "insertClass": "Champion",
+                "source": "Redeemer"
+            },
+            {
+                "_className": "FeatChoice",
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Divine Smite (Redeemer)"
+                    }
+                ],
+                "insertClass": "Champion",
+                "insertLevel": 9,
+                "source": "Redeemer"
+            },
+            {
+                "_className": "FeatChoice",
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Exalt (Redeemer)"
+                    }
+                ],
+                "insertClass": "Champion",
+                "insertLevel": 11,
+                "source": "Redeemer"
+            },
+            {
+                "_className": "FeatChoice",
+                "available": 1,
+                "filter": [
+                    "Divine Skill"
+                ],
+                "source": "Redeemer",
+                "specialChoice": true,
+                "type": "Divine Skill"
+            }
+        ],
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Focus",
+                "className": "Champion",
+                "id": "c00be7e2-ca9b-4831-9f9d-9a8d54bbf572",
+                "insertClass": "Champion",
+                "level": -1,
+                "source": "Redeemer",
+                "spells": [
+                    {
+                        "_className": "SpellGain",
+                        "locked": true,
+                        "name": "Lay On Hands"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Champion's Reaction (Redeemer)",
+        "desc": "You gain the Glimpse of Redemption champion's reaction.",
+        "shortdesc": "You gain the Glimpse of Redemption champion's reaction.",
+        "featreq": [
+            "Redeemer"
+        ],
+        "gainActivities": [
+            "Glimpse of Redemption"
+        ]
+    },
+    {
+        "name": "Divine Smite (Redeemer)",
+        "desc": "A guilty conscience assails foes who spurn your Glimpse of Redemption. A foe that responds to your Glimpse of Redemption by dealing damage takes persistent good damage equal to your Charisma modifier.",
+        "hint": "A foe that responds to your Glimpse of Redemption by dealing damage takes persistent good damage equal to your Charisma modifier.",
+        "showon": "Glimpse of Redemption",
+        "shortdesc": "A guilty conscience assails foes who spurn your Glimpse of Redemption.",
+        "featreq": [
+            "Redeemer"
+        ]
+    },
+    {
+        "name": "Exalt (Redeemer)",
+        "desc": "You protect multiple allies. You can apply the resistance granted by Glimpse of Redemption to yourself and all allies within 15 feet of you, including the triggering ally, except the resistance is reduced by 2 for all.",
+        "hint": "You can apply the resistance granted by Glimpse of Redemption to yourself and all allies within 15 feet of you, including the triggering ally, except the resistance is reduced by 2 for all.",
+        "showon": "Glimpse of Redemption",
+        "shortdesc": "You protect multiple allies.",
+        "featreq": [
+            "Redeemer"
+        ]
+    },
+    {
+        "name": "Liberator",
+        "desc": "<h6>Liberator (Chaotic Good)</h6>\n\nYou're committed to defending the freedom of others. You gain the Liberating Step champion's reaction and the lay on hands devotion spell. After the tenets of good, add these tenets:\n\nYou must respect the choices others make over their own lives, and you can't force someone to act in a particular way or threaten them if they don't.\nYou must demand and fight for others' freedom to make their own decisions. You may never engage in or countenance slavery or tyranny.\n\n<h6>Champion's Reaction</h6>\n\n<h4>Liberating Step</h4>\n\n<strong>Trigger</strong> An enemy damages, Grabs, or Grapples your ally, and both are within 15 feet of you.\n\nYou free an ally from restraint. If the trigger was an ally taking damage, the ally gains resistance to all damage against the triggering damage equal to 2 + your level. The ally can attempt to break free of effects grabbing, restraining, immobilizing, or paralyzing them. They either attempt a new save against one such effect that allows a save, or attempt to Escape from one effect as a free action. If they can move, the ally can Step as a free action, even if they didn't need to escape.\n\n<h6>Divine Smite</h6>\n\nYou punish those who ensnare your allies in bondage. If the triggering enemy was using any effects to make your ally grabbed, restrained, immobilized, or paralyzed when you used Liberating Step, that enemy takes persistent good damage equal to your Charisma modifier.\n\n<h6>Exalt</h6>\n\nYou can help your whole group get into position. When you use Liberating Step, if your ally doesn't attempt to break free of an effect, you and all allies within 15 feet can Step, in addition to the triggering ally.",
+        "shortdesc": "(Chaotic Good) You're committed to defending the freedom of others.",
+        "specialreq": "character.alignment == \"Chaotic Good\"",
+        "specialreqdesc": "Chaotic Good",
+        "effects": [
+            {
+                "affected": "Focus Pool",
+                "value": "Character.class.name == 'Champion' ? 1 : 0"
+            }
+        ],
+        "onceEffects": [
+            {
+                "affected": "Focus Points",
+                "value": "Character.class.name == 'Champion' ? 1 : 0"
+            }
+        ],
+        "tenets": [
+            "You must never perform acts anathema to your deity or willingly commit an evil act, such as murder, torture, or the casting of an evil spell.",
+            "You must never knowingly harm an innocent, or allow immediate harm to one through inaction when you know you could reasonably prevent it. This tenet doesn't force you to take action against possible harm to innocents at an indefinite time in the future, or to sacrifice your life to protect them.",
+            "You must respect the choices others make over their own lives, and you can't force someone to act in a particular way or threaten them if they don't.",
+            "You must demand and fight for others' freedom to make their own decisions. You may never engage in or countenance slavery or tyranny."
+        ],
+        "gainFeatChoice": [
+            {
+                "_className": "FeatChoice",
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Champion's Reaction (Liberator)"
+                    }
+                ],
+                "insertClass": "Champion",
+                "source": "Liberator"
+            },
+            {
+                "_className": "FeatChoice",
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Divine Smite (Liberator)"
+                    }
+                ],
+                "insertClass": "Champion",
+                "insertLevel": 9,
+                "source": "Liberator"
+            },
+            {
+                "_className": "FeatChoice",
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Exalt (Liberator)"
+                    }
+                ],
+                "insertClass": "Champion",
+                "insertLevel": 11,
+                "source": "Liberator"
+            },
+            {
+                "_className": "FeatChoice",
+                "available": 1,
+                "filter": [
+                    "Divine Skill"
+                ],
+                "source": "Liberator",
+                "specialChoice": true,
+                "type": "Divine Skill"
+            }
+        ],
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Focus",
+                "className": "Champion",
+                "id": "7e062205-9a58-48b9-b059-7a880aae5463",
+                "insertClass": "Champion",
+                "level": -1,
+                "source": "Liberator",
+                "spells": [
+                    {
+                        "_className": "SpellGain",
+                        "locked": true,
+                        "name": "Lay On Hands"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Champion's Reaction (Liberator)",
+        "desc": "You gain the Liberating Step champion's reaction.",
+        "shortdesc": "You gain the Liberating Step champion's reaction.",
+        "featreq": [
+            "Liberator"
+        ],
+        "gainActivities": [
+            "Liberating Step"
+        ]
+    },
+    {
+        "name": "Divine Smite (Liberator)",
+        "desc": "You punish those who ensnare your allies in bondage. If the triggering enemy was using any effects to make your ally grabbed, restrained, immobilized, or paralyzed when you used Liberating Step, that enemy takes persistent good damage equal to your Charisma modifier.",
+        "hint": "If the triggering enemy was using any effects to make your ally grabbed, restrained, immobilized, or paralyzed when you used Liberating Step, that enemy takes persistent good damage equal to your Charisma modifier.",
+        "showon": "Liberating Step",
+        "shortdesc": "You punish those who ensnare your allies in bondage.",
+        "featreq": [
+            "Liberator"
+        ]
+    },
+    {
+        "name": "Exalt (Liberator)",
+        "desc": "You can help your whole group get into position. When you use Liberating Step, if your ally doesn�t attempt to break free of an effect, you and all allies within 15 feet can Step, in addition to the triggering ally.",
+        "hint": "When you use Liberating Step, if your ally doesn�t attempt to break free of an effect, you and all allies within 15 feet can Step, in addition to the triggering ally.",
+        "showon": "Liberating Step",
+        "shortdesc": "You can help your whole group get into position.",
+        "featreq": [
+            "Liberator"
+        ]
+    },
+    {
+        "name": "Divine Ally",
+        "desc": "Your devotion attracts a spirit of your deity's alignment. Once you choose an ally, your choice can't be changed.\n\nThe following are divine allies:\n\n<strong>Blade Ally:</strong> A spirit of battle dwells within your armaments. Select one weapon or handwraps of mighty blows when you make your daily preparations. In your hands, the item gains the effect of a property rune and you also gain the weapon's critical specialization effect. For a champion following the tenets of good, choose disrupting, ghost touch, returning, or shifting. For a champion following the tenets of evil, choose fearsome, returning, or shifting.\n\n<strong>Shield Ally:</strong> A spirit of protection dwells within your shield. In your hands, the shield's Hardness increases by 2 and its HP and BT increase by half.\n\n<strong>Steed Ally:</strong> You gain a young animal companion as a mount. Ordinarily, your animal companion is one that has the mount special ability, such as a horse. You can select a different animal companion (GM's discretion), but this ability doesn't grant it the mount special ability.",
+        "shortdesc": "Your devotion attracts a spirit of your deity's alignment.",
+        "subTypes": true
+    },
+    {
+        "name": "Divine Ally: Blade Ally",
+        "desc": "A spirit of battle dwells within your armaments. Select one weapon or handwraps of mighty blows when you make your daily preparations. In your hands, the item gains the effect of a property rune and you also gain the weapon's critical specialization effect. For a champion following the tenets of good, choose disrupting, ghost touch, returning, or shifting. For a champion following the tenets of evil, choose fearsome, returning, or shifting.",
+        "hint": "Select one weapon or handwraps of mighty blows when you make your daily preparations. In your hands, the item gains the effect of a property rune and you also gain the weapon's critical specialization effect. For a champion following the tenets of good, choose disrupting, ghost touch, returning, or shifting. For a champion following the tenets of evil, choose fearsome, returning, or shifting.",
+        "showon": "Inventory",
+        "subType": "Blade Ally",
+        "superType": "Divine Ally",
+        "internalNote": "Choosing the weapon and applying the effects is hardcoded.",
+        "shortdesc": "A spirit of battle dwells within your armaments.",
+        "gainSpecialization": [
+            {
+                "bladeAlly": true
+            }
+        ]
+    },
+    {
+        "name": "Divine Ally: Shield Ally",
+        "desc": "A spirit of protection dwells within your shield. In your hands, the shield's Hardness increases by 2 and its HP and BT increase by half.",
+        "subType": "Shield Ally",
+        "superType": "Divine Ally",
+        "internalNote": "The effects on the shield are hardcoded.",
+        "shortdesc": "A spirit of protection dwells within your shield."
+    },
+    {
+        "name": "Divine Ally: Steed Ally",
+        "desc": "You gain a young animal companion as a mount. Ordinarily, your animal companion is one that has the mount special ability, such as a horse. You can select a different animal companion (GM's discretion), but this ability doesn't grant it the mount special ability.",
+        "subType": "Steed Ally",
+        "superType": "Divine Ally",
+        "shortdesc": "You gain a young animal companion as a mount.",
+        "gainAnimalCompanion": 1
+    },
+    {
+        "name": "Divine Skill",
+        "desc": "You are trained in one skill determined by your choice of deity.",
+        "subTypes": true
+    },
+    {
+        "name": "Divine Skill: Acrobatics",
+        "desc": "You are trained in Acrobatics.",
+        "subType": "Acrobatics",
+        "superType": "Divine Skill",
+        "specialreq": "deity && deity.divineSkill.includes('Acrobatics')",
+        "specialreqdesc": "your deity's divine skill",
+        "gainSkillChoice": [
+            {
+                "_className": "SkillChoice",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Acrobatics",
+                        "source": "Divine Skill: Acrobatics"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Divine Skill: Acrobatics",
+                "type": "Skill"
+            }
+        ]
+    },
+    {
+        "name": "Divine Skill: Arcana",
+        "desc": "You are trained in Arcana.",
+        "subType": "Arcana",
+        "superType": "Divine Skill",
+        "specialreq": "deity && deity.divineSkill.includes('Arcana')",
+        "specialreqdesc": "your deity's divine skill",
+        "gainSkillChoice": [
+            {
+                "_className": "SkillChoice",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Arcana",
+                        "source": "Divine Skill: Arcana"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Divine Skill: Arcana",
+                "type": "Skill"
+            }
+        ]
+    },
+    {
+        "name": "Divine Skill: Athletics",
+        "desc": "You are trained in Athletics.",
+        "subType": "Athletics",
+        "superType": "Divine Skill",
+        "specialreq": "deity && deity.divineSkill.includes('Athletics')",
+        "specialreqdesc": "your deity's divine skill",
+        "gainSkillChoice": [
+            {
+                "_className": "SkillChoice",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Athletics",
+                        "source": "Divine Skill: Athletics"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Divine Skill: Athletics",
+                "type": "Skill"
+            }
+        ]
+    },
+    {
+        "name": "Divine Skill: Crafting",
+        "desc": "You are trained in Crafting.",
+        "subType": "Crafting",
+        "superType": "Divine Skill",
+        "specialreq": "deity && deity.divineSkill.includes('Crafting')",
+        "specialreqdesc": "your deity's divine skill",
+        "gainSkillChoice": [
+            {
+                "_className": "SkillChoice",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Crafting",
+                        "source": "Divine Skill: Crafting"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Divine Skill: Crafting",
+                "type": "Skill"
+            }
+        ]
+    },
+    {
+        "name": "Divine Skill: Deception",
+        "desc": "You are trained in Deception.",
+        "subType": "Deception",
+        "superType": "Divine Skill",
+        "specialreq": "deity && deity.divineSkill.includes('Deception')",
+        "specialreqdesc": "your deity's divine skill",
+        "gainSkillChoice": [
+            {
+                "_className": "SkillChoice",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Deception",
+                        "source": "Divine Skill: Deception"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Divine Skill: Deception",
+                "type": "Skill"
+            }
+        ]
+    },
+    {
+        "name": "Divine Skill: Diplomacy",
+        "desc": "You are trained in Diplomacy.",
+        "subType": "Diplomacy",
+        "superType": "Divine Skill",
+        "specialreq": "deity && deity.divineSkill.includes('Diplomacy')",
+        "specialreqdesc": "your deity's divine skill",
+        "gainSkillChoice": [
+            {
+                "_className": "SkillChoice",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Diplomacy",
+                        "source": "Divine Skill: Diplomacy"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Divine Skill: Diplomacy",
+                "type": "Skill"
+            }
+        ]
+    },
+    {
+        "name": "Divine Skill: Intimidation",
+        "desc": "You are trained in Intimidation.",
+        "subType": "Intimidation",
+        "superType": "Divine Skill",
+        "specialreq": "deity && deity.divineSkill.includes('Intimidation')",
+        "specialreqdesc": "your deity's divine skill",
+        "gainSkillChoice": [
+            {
+                "_className": "SkillChoice",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Intimidation",
+                        "source": "Divine Skill: Intimidation"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Divine Skill: Intimidation",
+                "type": "Skill"
+            }
+        ]
+    },
+    {
+        "name": "Divine Skill: Medicine",
+        "desc": "You are trained in Medicine.",
+        "subType": "Medicine",
+        "superType": "Divine Skill",
+        "specialreq": "deity && deity.divineSkill.includes('Medicine')",
+        "specialreqdesc": "your deity's divine skill",
+        "gainSkillChoice": [
+            {
+                "_className": "SkillChoice",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Medicine",
+                        "source": "Divine Skill: Medicine"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Divine Skill: Medicine",
+                "type": "Skill"
+            }
+        ]
+    },
+    {
+        "name": "Divine Skill: Nature",
+        "desc": "You are trained in Nature.",
+        "subType": "Nature",
+        "superType": "Divine Skill",
+        "specialreq": "deity && deity.divineSkill.includes('Nature')",
+        "specialreqdesc": "your deity's divine skill",
+        "gainSkillChoice": [
+            {
+                "_className": "SkillChoice",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Nature",
+                        "source": "Divine Skill: Nature"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Divine Skill: Nature",
+                "type": "Skill"
+            }
+        ]
+    },
+    {
+        "name": "Divine Skill: Occultism",
+        "desc": "You are trained in Occultism.",
+        "subType": "Occultism",
+        "superType": "Divine Skill",
+        "specialreq": "deity && deity.divineSkill.includes('Occultism')",
+        "specialreqdesc": "your deity's divine skill",
+        "gainSkillChoice": [
+            {
+                "_className": "SkillChoice",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Occultism",
+                        "source": "Divine Skill: Occultism"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Divine Skill: Occultism",
+                "type": "Skill"
+            }
+        ]
+    },
+    {
+        "name": "Divine Skill: Performance",
+        "desc": "You are trained in Performance.",
+        "subType": "Performance",
+        "superType": "Divine Skill",
+        "specialreq": "deity && deity.divineSkill.includes('Performance')",
+        "specialreqdesc": "your deity's divine skill",
+        "gainSkillChoice": [
+            {
+                "_className": "SkillChoice",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Performance",
+                        "source": "Divine Skill: Performance"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Divine Skill: Performance",
+                "type": "Skill"
+            }
+        ]
+    },
+    {
+        "name": "Divine Skill: Religion",
+        "desc": "You are trained in Religion.",
+        "subType": "Religion",
+        "superType": "Divine Skill",
+        "specialreq": "deity && deity.divineSkill.includes('Religion')",
+        "specialreqdesc": "your deity's divine skill",
+        "gainSkillChoice": [
+            {
+                "_className": "SkillChoice",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Religion",
+                        "source": "Divine Skill: Religion"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Divine Skill: Religion",
+                "type": "Skill"
+            }
+        ]
+    },
+    {
+        "name": "Divine Skill: Society",
+        "desc": "You are trained in Society.",
+        "subType": "Society",
+        "superType": "Divine Skill",
+        "specialreq": "deity && deity.divineSkill.includes('Society')",
+        "specialreqdesc": "your deity's divine skill",
+        "gainSkillChoice": [
+            {
+                "_className": "SkillChoice",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Society",
+                        "source": "Divine Skill: Society"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Divine Skill: Society",
+                "type": "Skill"
+            }
+        ]
+    },
+    {
+        "name": "Divine Skill: Stealth",
+        "desc": "You are trained in Stealth.",
+        "subType": "Stealth",
+        "superType": "Divine Skill",
+        "specialreq": "deity && deity.divineSkill.includes('Stealth')",
+        "specialreqdesc": "your deity's divine skill",
+        "gainSkillChoice": [
+            {
+                "_className": "SkillChoice",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Stealth",
+                        "source": "Divine Skill: Stealth"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Divine Skill: Stealth",
+                "type": "Skill"
+            }
+        ]
+    },
+    {
+        "name": "Divine Skill: Survival",
+        "desc": "You are trained in Survival.",
+        "subType": "Survival",
+        "superType": "Divine Skill",
+        "specialreq": "deity && deity.divineSkill.includes('Survival')",
+        "specialreqdesc": "your deity's divine skill",
+        "gainSkillChoice": [
+            {
+                "_className": "SkillChoice",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Survival",
+                        "source": "Divine Skill: Survival"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Divine Skill: Survival",
+                "type": "Skill"
+            }
+        ]
+    },
+    {
+        "name": "Divine Skill: Thievery",
+        "desc": "You are trained in Thievery.",
+        "subType": "Thievery",
+        "superType": "Divine Skill",
+        "specialreq": "deity && deity.divineSkill.includes('Thievery')",
+        "specialreqdesc": "your deity's divine skill",
+        "gainSkillChoice": [
+            {
+                "_className": "SkillChoice",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Thievery",
+                        "source": "Divine Skill: Thievery"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Divine Skill: Thievery",
+                "type": "Skill"
+            }
+        ]
     },
     {
         "name": "Cloistered Cleric"
@@ -11078,8 +11856,7 @@
                     {
                         "_className": "SpellGain",
                         "locked": true,
-                        "name": "Elemental Toss",
-                        "sourceId": "2c9eb94e-88fb-4306-adc5-04640ad33788"
+                        "name": "Elemental Toss"
                     }
                 ]
             },
@@ -11096,8 +11873,7 @@
                 "spells": [
                     {
                         "_className": "SpellGain",
-                        "name": "Produce Flame",
-                        "sourceId": "54c13d55-8ec0-475c-94e1-8940c6767e9d"
+                        "name": "Produce Flame"
                     }
                 ]
             },
@@ -11125,8 +11901,7 @@
                 "spells": [
                     {
                         "_className": "SpellGain",
-                        "name": "Burning Hands",
-                        "sourceId": "59039c22-a58a-11ea-bb37-0242ac130002"
+                        "name": "Burning Hands"
                     }
                 ]
             },
@@ -11177,8 +11952,7 @@
                 "spells": [
                     {
                         "_className": "SpellGain",
-                        "name": "Resist Energy",
-                        "sourceId": "59039b64-a58a-11ea-bb37-0242ac130002"
+                        "name": "Resist Energy"
                     }
                 ]
             },
@@ -11229,8 +12003,7 @@
                 "spells": [
                     {
                         "_className": "SpellGain",
-                        "name": "Fireball",
-                        "sourceId": "c75791c4-62f1-44f2-8b02-4305b0089cd4"
+                        "name": "Fireball"
                     }
                 ]
             },
@@ -11281,8 +12054,7 @@
                 "spells": [
                     {
                         "_className": "SpellGain",
-                        "name": "Freedom of Movement",
-                        "sourceId": "59039aa6-a58a-11ea-bb37-0242ac130002"
+                        "name": "Freedom of Movement"
                     }
                 ]
             },
@@ -11333,8 +12105,7 @@
                 "spells": [
                     {
                         "_className": "SpellGain",
-                        "name": "Elemental Form",
-                        "sourceId": "590399f2-a58a-11ea-bb37-0242ac130002"
+                        "name": "Elemental Form"
                     }
                 ]
             },
@@ -11385,8 +12156,7 @@
                 "spells": [
                     {
                         "_className": "SpellGain",
-                        "name": "Repulsion",
-                        "sourceId": "c391b12f-3e0e-44a0-94dd-4568c9e7df83"
+                        "name": "Repulsion"
                     }
                 ]
             },
@@ -11437,8 +12207,7 @@
                 "spells": [
                     {
                         "_className": "SpellGain",
-                        "name": "Energy Aegis",
-                        "sourceId": "78965232-2066-4dd6-930b-717546ea092c"
+                        "name": "Energy Aegis"
                     }
                 ]
             },
@@ -11489,8 +12258,7 @@
                 "spells": [
                     {
                         "_className": "SpellGain",
-                        "name": "Prismatic Wall",
-                        "sourceId": "1b847c5b-7a3d-4657-8987-77506e6870ce"
+                        "name": "Prismatic Wall"
                     }
                 ]
             },
@@ -11541,8 +12309,7 @@
                 "spells": [
                     {
                         "_className": "SpellGain",
-                        "name": "Storm of Vengeance",
-                        "sourceId": "95e53c4f-dc12-4cf7-8305-7747a14a4f27"
+                        "name": "Storm of Vengeance"
                     }
                 ]
             },
@@ -23968,8 +24735,22 @@
                 ],
                 "source": "Feat: Raging Intimidation",
                 "type": "Skill",
-                "useCharacterLevel": true
+                "dynamicLevel": "this.get_Character().level"
             }
+        ]
+    },
+    {
+        "name": "Ranged Reprisal",
+        "desc": "You can use Retributive Strike with a ranged weapon. In addition, if the foe that triggered your reaction is within 5 feet of your reach but not in your reach, as part of your reaction you can Step to put the foe in your reach before making a melee Retributive Strike.",
+        "hint": "You can use Retributive Strike with a ranged weapon. In addition, if the foe that triggered your reaction is within 5 feet of your reach but not in your reach, as part of your reaction you can Step to put the foe in your reach before making a melee Retributive Strike.",
+        "showon": "Retributive Strike",
+        "shortdesc": "You can use Retributive Strike with a ranged weapon.",
+        "traits": [
+            "Champion"
+        ],
+        "levelreq": 1,
+        "featreq": [
+            "Paladin"
         ]
     }
 ]

@@ -102,12 +102,13 @@ The very latest in Assistive Technologies for Dungeon Master (ATDM)
 - [ ] Stretch Goal: Include optional Stamina & Resolve system
 
 Active to-do:
-Maybe improve blood magic in feats
 
 Implement:
+Wondrous Figurine
+Thurible of Revelation
 
 Next steps:
-- Implement Paladin Causes and test Features
+- Implement Champion Causes and Allies and test Features
 - Implement Ancestry Feats
 -- Human
 -- Halfling
@@ -115,3 +116,4 @@ Next steps:
 -- Half-Elf
 -- Lizardfolk
 - Implement Conditions for Poisons
+- Maybe improve blood magic in feats

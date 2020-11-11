@@ -3434,5 +3434,32 @@
         "traits": [
             "Goblin"
         ]
+    },
+    {
+        "name": "Retributive Strike",
+        "actions": "Reaction",
+        "trigger": "An enemy damages your ally, and both are within 15 feet of you.",
+        "desc": "You protect your ally and strike your foe. The ally gains resistance to all damage against the triggering damage equal to 2 + your level. If the foe is within reach, make a melee Strike against it.",
+        "traits": [
+            "Champion"
+        ]
+    },
+    {
+        "name": "Glimpse of Redemption",
+        "actions": "Reaction",
+        "trigger": "An enemy damages your ally, and both are within 15 feet of you.",
+        "desc": "Your foe hesitates under the weight of sin as visions of redemption play in their mind’s eye. The foe must choose one of the following options:\n\nThe ally is unharmed by the triggering damage.\nThe ally gains resistance to all damage against the triggering damage equal to 2 + your level. After the damaging effect is applied, the enemy becomes enfeebled 2 until the end of its next turn.",
+        "traits": [
+            "Champion"
+        ]
+    },
+    {
+        "name": "Liberating Step",
+        "actions": "Reaction",
+        "trigger": "An enemy damages, Grabs, or Grapples your ally, and both are within 15 feet of you.",
+        "desc": "You free an ally from restraint. If the trigger was an ally taking damage, the ally gains resistance to all damage against the triggering damage equal to 2 + your level. The ally can attempt to break free of effects grabbing, restraining, immobilizing, or paralyzing them. They either attempt a new save against one such effect that allows a save, or attempt to Escape from one effect as a free action. If they can move, the ally can Step as a free action, even if they didn’t need to escape.",
+        "traits": [
+            "Champion"
+        ]
     }
 ]

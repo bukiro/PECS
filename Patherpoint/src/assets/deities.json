@@ -3,18 +3,15 @@
       "name": "Abadar",
       "category": "Gods of the Inner Sea",
       "alignment": "Lawful Neutral",
-      "divineAbility": [],
-      "divineAbilityFilter": [
-         "Constitution ",
+      "divineAbility": [
+         "Constitution",
          "Intelligence"
       ],
-      "divineFont": [],
-      "divineFontFilter": [
+      "divineFont": [
          "Harm",
          "Heal"
       ],
-      "divineSkill": [],
-      "divineSkillFilter": [
+      "divineSkill": [
          "Society"
       ],
       "favoredWeapon": [
@@ -54,21 +51,18 @@
       "name": "Asmodeus",
       "category": "Gods of the Inner Sea",
       "alignment": "Lawful Evil",
-      "divineAbility": [],
-      "divineAbilityFilter": [
-         "Strength ",
+      "divineAbility": [
+         "Strength",
          "Dexterity",
          "Constitution",
          "Intelligence",
          "Wisdom",
          "Charisma"
       ],
-      "divineFont": [],
-      "divineFontFilter": [
+      "divineFont": [
          "Harm"
       ],
-      "divineSkill": [],
-      "divineSkillFilter": [
+      "divineSkill": [
          "Deception"
       ],
       "favoredWeapon": [
@@ -107,18 +101,15 @@
       "name": "Calistria",
       "category": "Gods of the Inner Sea",
       "alignment": "Chaotic Neutral",
-      "divineAbility": [],
-      "divineAbilityFilter": [
-         "Dexterity ",
+      "divineAbility": [
+         "Dexterity",
          "Charisma"
       ],
-      "divineFont": [],
-      "divineFontFilter": [
+      "divineFont": [
          "Harm",
          "Heal"
       ],
-      "divineSkill": [],
-      "divineSkillFilter": [
+      "divineSkill": [
          "Deception"
       ],
       "favoredWeapon": [
@@ -157,17 +148,14 @@
       "name": "Cayden Cailean",
       "category": "Gods of the Inner Sea",
       "alignment": "Chaotic Good",
-      "divineAbility": [],
-      "divineAbilityFilter": [
-         "Constitution ",
+      "divineAbility": [
+         "Constitution",
          "Charisma"
       ],
-      "divineFont": [],
-      "divineFontFilter": [
+      "divineFont": [
          "Heal"
       ],
-      "divineSkill": [],
-      "divineSkillFilter": [
+      "divineSkill": [
          "Athletics"
       ],
       "favoredWeapon": [
@@ -206,17 +194,14 @@
       "name": "Desna",
       "category": "Gods of the Inner Sea",
       "alignment": "Chaotic Good",
-      "divineAbility": [],
-      "divineAbilityFilter": [
-         "Dexterity ",
+      "divineAbility": [
+         "Dexterity",
          "Charisma"
       ],
-      "divineFont": [],
-      "divineFontFilter": [
+      "divineFont": [
          "Heal"
       ],
-      "divineSkill": [],
-      "divineSkillFilter": [
+      "divineSkill": [
          "Acrobatics"
       ],
       "favoredWeapon": [
@@ -257,17 +242,14 @@
       "name": "Erastil",
       "category": "Gods of the Inner Sea",
       "alignment": "Lawful Good",
-      "divineAbility": [],
-      "divineAbilityFilter": [
-         "Constitution ",
+      "divineAbility": [
+         "Constitution",
          "Wisdom"
       ],
-      "divineFont": [],
-      "divineFontFilter": [
+      "divineFont": [
          "Heal"
       ],
-      "divineSkill": [],
-      "divineSkillFilter": [
+      "divineSkill": [
          "Survival"
       ],
       "favoredWeapon": [
@@ -307,18 +289,15 @@
       "name": "Gorum",
       "category": "Gods of the Inner Sea",
       "alignment": "Chaotic Neutral",
-      "divineAbility": [],
-      "divineAbilityFilter": [
-         "Strength ",
+      "divineAbility": [
+         "Strength",
          "Constitution"
       ],
-      "divineFont": [],
-      "divineFontFilter": [
+      "divineFont": [
          "Harm",
          "Heal"
       ],
-      "divineSkill": [],
-      "divineSkillFilter": [
+      "divineSkill": [
          "Athletics"
       ],
       "favoredWeapon": [
@@ -356,17 +335,14 @@
       "name": "Gozreh",
       "category": "Gods of the Inner Sea",
       "alignment": "Neutral",
-      "divineAbility": [],
-      "divineAbilityFilter": [
-         "Constitution ",
+      "divineAbility": [
+         "Constitution",
          "Wisdom"
       ],
-      "divineFont": [],
-      "divineFontFilter": [
+      "divineFont": [
          "Heal"
       ],
-      "divineSkill": [],
-      "divineSkillFilter": [
+      "divineSkill": [
          "Survival"
       ],
       "favoredWeapon": [
@@ -409,17 +385,14 @@
       "name": "Iomedae",
       "category": "Gods of the Inner Sea",
       "alignment": "Lawful Good",
-      "divineAbility": [],
-      "divineAbilityFilter": [
-         "Strength ",
+      "divineAbility": [
+         "Strength",
          "Constitution"
       ],
-      "divineFont": [],
-      "divineFontFilter": [
+      "divineFont": [
          "Heal"
       ],
-      "divineSkill": [],
-      "divineSkillFilter": [
+      "divineSkill": [
          "Intimidation"
       ],
       "favoredWeapon": [
@@ -458,18 +431,15 @@
       "name": "Irori",
       "category": "Gods of the Inner Sea",
       "alignment": "Lawful Neutral",
-      "divineAbility": [],
-      "divineAbilityFilter": [
-         "Intelligence ",
+      "divineAbility": [
+         "Intelligence",
          "Wisdom"
       ],
-      "divineFont": [],
-      "divineFontFilter": [
+      "divineFont": [
          "Harm",
          "Heal"
       ],
-      "divineSkill": [],
-      "divineSkillFilter": [
+      "divineSkill": [
          "Athletics"
       ],
       "favoredWeapon": [
@@ -510,18 +480,15 @@
       "name": "Lamashtu",
       "category": "Gods of the Inner Sea",
       "alignment": "Chaotic Evil",
-      "divineAbility": [],
-      "divineAbilityFilter": [
-         "Constitution ",
+      "divineAbility": [
+         "Constitution",
          "Strength"
       ],
-      "divineFont": [],
-      "divineFontFilter": [
+      "divineFont": [
          "Harm",
          "Heal"
       ],
-      "divineSkill": [],
-      "divineSkillFilter": [
+      "divineSkill": [
          "Survival"
       ],
       "favoredWeapon": [
@@ -559,18 +526,15 @@
       "name": "Nethys",
       "category": "Gods of the Inner Sea",
       "alignment": "Neutral",
-      "divineAbility": [],
-      "divineAbilityFilter": [
-         "Wisdom ",
+      "divineAbility": [
+         "Wisdom",
          "Intelligence"
       ],
-      "divineFont": [],
-      "divineFontFilter": [
+      "divineFont": [
          "Harm",
          "Heal"
       ],
-      "divineSkill": [],
-      "divineSkillFilter": [
+      "divineSkill": [
          "Arcana"
       ],
       "favoredWeapon": [
@@ -642,17 +606,14 @@
       "name": "Norgorber",
       "category": "Gods of the Inner Sea",
       "alignment": "Neutral Evil",
-      "divineAbility": [],
-      "divineAbilityFilter": [
-         "Dexterity ",
+      "divineAbility": [
+         "Dexterity",
          "Intelligence"
       ],
-      "divineFont": [],
-      "divineFontFilter": [
+      "divineFont": [
          "Harm"
       ],
-      "divineSkill": [],
-      "divineSkillFilter": [
+      "divineSkill": [
          "Stealth"
       ],
       "favoredWeapon": [
@@ -692,17 +653,14 @@
       "name": "Pharasma",
       "category": "Gods of the Inner Sea",
       "alignment": "Neutral",
-      "divineAbility": [],
-      "divineAbilityFilter": [
-         "Constitution ",
+      "divineAbility": [
+         "Constitution",
          "Wisdom"
       ],
-      "divineFont": [],
-      "divineFontFilter": [
+      "divineFont": [
          "Heal"
       ],
-      "divineSkill": [],
-      "divineSkillFilter": [
+      "divineSkill": [
          "Medicine"
       ],
       "favoredWeapon": [
@@ -744,17 +702,14 @@
       "name": "Rovagug",
       "category": "Gods of the Inner Sea",
       "alignment": "Chaotic Evil",
-      "divineAbility": [],
-      "divineAbilityFilter": [
-         "Strength ",
+      "divineAbility": [
+         "Strength",
          "Constitution"
       ],
-      "divineFont": [],
-      "divineFontFilter": [
+      "divineFont": [
          "Harm"
       ],
-      "divineSkill": [],
-      "divineSkillFilter": [
+      "divineSkill": [
          "Athletics"
       ],
       "favoredWeapon": [
@@ -794,17 +749,14 @@
       "name": "Sarenrae",
       "category": "Gods of the Inner Sea",
       "alignment": "Neutral Good",
-      "divineAbility": [],
-      "divineAbilityFilter": [
-         "Constitution ",
+      "divineAbility": [
+         "Constitution",
          "Wisdom"
       ],
-      "divineFont": [],
-      "divineFontFilter": [
+      "divineFont": [
          "Heal"
       ],
-      "divineSkill": [],
-      "divineSkillFilter": [
+      "divineSkill": [
          "Medicine"
       ],
       "favoredWeapon": [
@@ -844,18 +796,15 @@
       "name": "Shelyn",
       "category": "Gods of the Inner Sea",
       "alignment": "Neutral Good",
-      "divineAbility": [],
-      "divineAbilityFilter": [
-         "Wisdom ",
+      "divineAbility": [
+         "Wisdom",
          "Charisma"
       ],
-      "divineFont": [],
-      "divineFontFilter": [
+      "divineFont": [
          "Heal"
       ],
-      "divineSkill": [],
-      "divineSkillFilter": [
-         "Crafting ",
+      "divineSkill": [
+         "Crafting",
          "Performance"
       ],
       "favoredWeapon": [
@@ -895,17 +844,14 @@
       "name": "Torag",
       "category": "Gods of the Inner Sea",
       "alignment": "Lawful Good",
-      "divineAbility": [],
-      "divineAbilityFilter": [
-         "Constitution ",
+      "divineAbility": [
+         "Constitution",
          "Wisdom"
       ],
-      "divineFont": [],
-      "divineFontFilter": [
+      "divineFont": [
          "Heal"
       ],
-      "divineSkill": [],
-      "divineSkillFilter": [
+      "divineSkill": [
          "Crafting"
       ],
       "favoredWeapon": [
@@ -944,17 +890,14 @@
       "name": "Urgathoa",
       "category": "Gods of the Inner Sea",
       "alignment": "Neutral Evil",
-      "divineAbility": [],
-      "divineAbilityFilter": [
-         "Constitution ",
+      "divineAbility": [
+         "Constitution",
          "Wisdom"
       ],
-      "divineFont": [],
-      "divineFontFilter": [
+      "divineFont": [
          "Harm"
       ],
-      "divineSkill": [],
-      "divineSkillFilter": [
+      "divineSkill": [
          "Intimidation"
       ],
       "favoredWeapon": [
@@ -995,17 +938,14 @@
       "name": "Zon-Kuthon",
       "category": "Gods of the Inner Sea",
       "alignment": "Lawful Evil",
-      "divineAbility": [],
-      "divineAbilityFilter": [
-         "Constitution ",
+      "divineAbility": [
+         "Constitution",
          "Wisdom"
       ],
-      "divineFont": [],
-      "divineFontFilter": [
+      "divineFont": [
          "Harm"
       ],
-      "divineSkill": [],
-      "divineSkillFilter": [
+      "divineSkill": [
          "Intimidation"
       ],
       "favoredWeapon": [
@@ -1045,17 +985,14 @@
       "name": "Achaekek",
       "category": "Other Gods",
       "alignment": "Lawful Evil",
-      "divineAbility": [],
-      "divineAbilityFilter": [
-         "Strength ",
+      "divineAbility": [
+         "Strength",
          "Dexterity"
       ],
-      "divineFont": [],
-      "divineFontFilter": [
+      "divineFont": [
          "Harm"
       ],
-      "divineSkill": [],
-      "divineSkillFilter": [
+      "divineSkill": [
          "Stealth"
       ],
       "favoredWeapon": [
@@ -1094,17 +1031,14 @@
       "name": "Alseta",
       "category": "Other Gods",
       "alignment": "Lawful Neutral",
-      "divineAbility": [],
-      "divineAbilityFilter": [
-         "Intelligence ",
+      "divineAbility": [
+         "Intelligence",
          "Charisma"
       ],
-      "divineFont": [],
-      "divineFontFilter": [
+      "divineFont": [
          "Heal"
       ],
-      "divineSkill": [],
-      "divineSkillFilter": [
+      "divineSkill": [
          "Diplomacy"
       ],
       "favoredWeapon": [
@@ -1143,17 +1077,14 @@
       "name": "Apsu",
       "category": "Other Gods",
       "alignment": "Lawful Good",
-      "divineAbility": [],
-      "divineAbilityFilter": [
-         "Wisdom ",
+      "divineAbility": [
+         "Wisdom",
          "Charisma"
       ],
-      "divineFont": [],
-      "divineFontFilter": [
+      "divineFont": [
          "Heal"
       ],
-      "divineSkill": [],
-      "divineSkillFilter": [
+      "divineSkill": [
          "Diplomacy"
       ],
       "favoredWeapon": [
@@ -1192,17 +1123,14 @@
       "name": "Arazni",
       "category": "Other Gods",
       "alignment": "Neutral Evil",
-      "divineAbility": [],
-      "divineAbilityFilter": [
-         "Constitution ",
+      "divineAbility": [
+         "Constitution",
          "Intelligence"
       ],
-      "divineFont": [],
-      "divineFontFilter": [
+      "divineFont": [
          "Harm"
       ],
-      "divineSkill": [],
-      "divineSkillFilter": [
+      "divineSkill": [
          "Intimidation"
       ],
       "favoredWeapon": [
@@ -1244,18 +1172,15 @@
       "name": "Besmara",
       "category": "Other Gods",
       "alignment": "Chaotic Neutral",
-      "divineAbility": [],
-      "divineAbilityFilter": [
-         "Dexterity ",
+      "divineAbility": [
+         "Dexterity",
          "Constitution"
       ],
-      "divineFont": [],
-      "divineFontFilter": [
+      "divineFont": [
          "Harm",
          "Heal"
       ],
-      "divineSkill": [],
-      "divineSkillFilter": [
+      "divineSkill": [
          "Athletics"
       ],
       "favoredWeapon": [
@@ -1294,18 +1219,15 @@
       "name": "Brigh",
       "category": "Other Gods",
       "alignment": "Neutral",
-      "divineAbility": [],
-      "divineAbilityFilter": [
-         "Intelligence ",
+      "divineAbility": [
+         "Intelligence",
          "Wisdom"
       ],
-      "divineFont": [],
-      "divineFontFilter": [
+      "divineFont": [
          "Harm",
          "Heal"
       ],
-      "divineSkill": [],
-      "divineSkillFilter": [
+      "divineSkill": [
          "Crafting"
       ],
       "favoredWeapon": [
@@ -1347,18 +1269,15 @@
       "name": "Casandalee",
       "category": "Other Gods",
       "alignment": "Neutral",
-      "divineAbility": [],
-      "divineAbilityFilter": [
-         "Constitution ",
+      "divineAbility": [
+         "Constitution",
          "Intelligence"
       ],
-      "divineFont": [],
-      "divineFontFilter": [
+      "divineFont": [
          "Harm",
          "Heal"
       ],
-      "divineSkill": [],
-      "divineSkillFilter": [
+      "divineSkill": [
          "Society"
       ],
       "favoredWeapon": [
@@ -1401,17 +1320,14 @@
       "name": "Chaldira",
       "category": "Other Gods",
       "alignment": "Neutral Good",
-      "divineAbility": [],
-      "divineAbilityFilter": [
-         "Dexterity ",
+      "divineAbility": [
+         "Dexterity",
          "Charisma"
       ],
-      "divineFont": [],
-      "divineFontFilter": [
+      "divineFont": [
          "Heal"
       ],
-      "divineSkill": [],
-      "divineSkillFilter": [
+      "divineSkill": [
          "Thievery"
       ],
       "favoredWeapon": [
@@ -1450,17 +1366,14 @@
       "name": "Dahak",
       "category": "Other Gods",
       "alignment": "Chaotic Evil",
-      "divineAbility": [],
-      "divineAbilityFilter": [
-         "Strength ",
+      "divineAbility": [
+         "Strength",
          "Constitution"
       ],
-      "divineFont": [],
-      "divineFontFilter": [
+      "divineFont": [
          "Harm"
       ],
-      "divineSkill": [],
-      "divineSkillFilter": [
+      "divineSkill": [
          "Athletics"
       ],
       "favoredWeapon": [
@@ -1499,18 +1412,15 @@
       "name": "Erecura",
       "category": "Other Gods",
       "alignment": "Lawful Neutral",
-      "divineAbility": [],
-      "divineAbilityFilter": [
-         "Wisdom ",
+      "divineAbility": [
+         "Wisdom",
          "Charisma"
       ],
-      "divineFont": [],
-      "divineFontFilter": [
+      "divineFont": [
          "Harm",
          "Heal"
       ],
-      "divineSkill": [],
-      "divineSkillFilter": [
+      "divineSkill": [
          "Deception"
       ],
       "favoredWeapon": [
@@ -1549,17 +1459,14 @@
       "name": "Gendowyn",
       "category": "Other Gods",
       "alignment": "Chaotic Neutral",
-      "divineAbility": [],
-      "divineAbilityFilter": [
-         "Dexterity ",
+      "divineAbility": [
+         "Dexterity",
          "Charisma"
       ],
-      "divineFont": [],
-      "divineFontFilter": [
+      "divineFont": [
          "Heal"
       ],
-      "divineSkill": [],
-      "divineSkillFilter": [
+      "divineSkill": [
          "Stealth"
       ],
       "favoredWeapon": [
@@ -1599,17 +1506,14 @@
       "name": "Ghlaunder",
       "category": "Other Gods",
       "alignment": "Chaotic Evil",
-      "divineAbility": [],
-      "divineAbilityFilter": [
-         "Constitution ",
+      "divineAbility": [
+         "Constitution",
          "Wisdom"
       ],
-      "divineFont": [],
-      "divineFontFilter": [
+      "divineFont": [
          "Harm"
       ],
-      "divineSkill": [],
-      "divineSkillFilter": [
+      "divineSkill": [
          "Nature"
       ],
       "favoredWeapon": [
@@ -1647,18 +1551,15 @@
       "name": "Grandmother Spider",
       "category": "Other Gods",
       "alignment": "Neutral",
-      "divineAbility": [],
-      "divineAbilityFilter": [
-         "Intelligence ",
+      "divineAbility": [
+         "Intelligence",
          "Wisdom"
       ],
-      "divineFont": [],
-      "divineFontFilter": [
+      "divineFont": [
          "Harm",
          "Heal"
       ],
-      "divineSkill": [],
-      "divineSkillFilter": [
+      "divineSkill": [
          "Crafting"
       ],
       "favoredWeapon": [
@@ -1700,17 +1601,14 @@
       "name": "Groetus",
       "category": "Other Gods",
       "alignment": "Chaotic Neutral",
-      "divineAbility": [],
-      "divineAbilityFilter": [
-         "Strength ",
+      "divineAbility": [
+         "Strength",
          "Charisma"
       ],
-      "divineFont": [],
-      "divineFontFilter": [
+      "divineFont": [
          "Harm"
       ],
-      "divineSkill": [],
-      "divineSkillFilter": [
+      "divineSkill": [
          "Intimidation"
       ],
       "favoredWeapon": [
@@ -1749,17 +1647,14 @@
       "name": "Gyronna",
       "category": "Other Gods",
       "alignment": "Chaotic Evil",
-      "divineAbility": [],
-      "divineAbilityFilter": [
-         "Wisdom ",
+      "divineAbility": [
+         "Wisdom",
          "Charisma"
       ],
-      "divineFont": [],
-      "divineFontFilter": [
+      "divineFont": [
          "Harm"
       ],
-      "divineSkill": [],
-      "divineSkillFilter": [
+      "divineSkill": [
          "Intimidation"
       ],
       "favoredWeapon": [
@@ -1797,17 +1692,14 @@
       "name": "Hanspur",
       "category": "Other Gods",
       "alignment": "Chaotic Neutral",
-      "divineAbility": [],
-      "divineAbilityFilter": [
-         "Strength ",
+      "divineAbility": [
+         "Strength",
          "Dexterity"
       ],
-      "divineFont": [],
-      "divineFontFilter": [
+      "divineFont": [
          "Harm"
       ],
-      "divineSkill": [],
-      "divineSkillFilter": [
+      "divineSkill": [
          "Athletics"
       ],
       "favoredWeapon": [
@@ -1847,17 +1739,14 @@
       "name": "Jaidi",
       "category": "Other Gods",
       "alignment": "Neutral Good",
-      "divineAbility": [],
-      "divineAbilityFilter": [
-         "Strength ",
+      "divineAbility": [
+         "Strength",
          "Constitution"
       ],
-      "divineFont": [],
-      "divineFontFilter": [
+      "divineFont": [
          "Heal"
       ],
-      "divineSkill": [],
-      "divineSkillFilter": [
+      "divineSkill": [
          "Nature"
       ],
       "favoredWeapon": [
@@ -1896,17 +1785,14 @@
       "name": "Kazutal",
       "category": "Other Gods",
       "alignment": "Neutral Good",
-      "divineAbility": [],
-      "divineAbilityFilter": [
-         "Strength ",
+      "divineAbility": [
+         "Strength",
          "Wisdom"
       ],
-      "divineFont": [],
-      "divineFontFilter": [
+      "divineFont": [
          "Heal"
       ],
-      "divineSkill": [],
-      "divineSkillFilter": [
+      "divineSkill": [
          "Society"
       ],
       "favoredWeapon": [
@@ -1946,17 +1832,14 @@
       "name": "Kurgess",
       "category": "Other Gods",
       "alignment": "Neutral Good",
-      "divineAbility": [],
-      "divineAbilityFilter": [
-         "Strength ",
+      "divineAbility": [
+         "Strength",
          "Constitution"
       ],
-      "divineFont": [],
-      "divineFontFilter": [
+      "divineFont": [
          "Heal"
       ],
-      "divineSkill": [],
-      "divineSkillFilter": [
+      "divineSkill": [
          "Athletics"
       ],
       "favoredWeapon": [
@@ -1996,17 +1879,14 @@
       "name": "Lissala",
       "category": "Other Gods",
       "alignment": "Lawful Evil",
-      "divineAbility": [],
-      "divineAbilityFilter": [
-         "Intelligence ",
+      "divineAbility": [
+         "Intelligence",
          "Wisdom"
       ],
-      "divineFont": [],
-      "divineFontFilter": [
+      "divineFont": [
          "Harm"
       ],
-      "divineSkill": [],
-      "divineSkillFilter": [
+      "divineSkill": [
          "Arcana"
       ],
       "favoredWeapon": [
@@ -2044,17 +1924,14 @@
       "name": "Milani",
       "category": "Other Gods",
       "alignment": "Chaotic Good",
-      "divineAbility": [],
-      "divineAbilityFilter": [
-         "Strength ",
+      "divineAbility": [
+         "Strength",
          "Wisdom"
       ],
-      "divineFont": [],
-      "divineFontFilter": [
+      "divineFont": [
          "Heal"
       ],
-      "divineSkill": [],
-      "divineSkillFilter": [
+      "divineSkill": [
          "Society"
       ],
       "favoredWeapon": [
@@ -2093,17 +1970,14 @@
       "name": "Naderi",
       "category": "Other Gods",
       "alignment": "Neutral",
-      "divineAbility": [],
-      "divineAbilityFilter": [
-         "Constitution ",
+      "divineAbility": [
+         "Constitution",
          "Charisma"
       ],
-      "divineFont": [],
-      "divineFontFilter": [
+      "divineFont": [
          "Harm"
       ],
-      "divineSkill": [],
-      "divineSkillFilter": [
+      "divineSkill": [
          "Diplomacy"
       ],
       "favoredWeapon": [
@@ -2142,18 +2016,15 @@
       "name": "Nivi Rhombodazzle",
       "category": "Other Gods",
       "alignment": "Neutral",
-      "divineAbility": [],
-      "divineAbilityFilter": [
-         "Dexterity ",
+      "divineAbility": [
+         "Dexterity",
          "Intelligence"
       ],
-      "divineFont": [],
-      "divineFontFilter": [
+      "divineFont": [
          "Harm",
          "Heal"
       ],
-      "divineSkill": [],
-      "divineSkillFilter": [
+      "divineSkill": [
          "Stealth"
       ],
       "favoredWeapon": [
@@ -2195,17 +2066,14 @@
       "name": "Nocticula",
       "category": "Other Gods",
       "alignment": "Chaotic Neutral",
-      "divineAbility": [],
-      "divineAbilityFilter": [
-         "Dexterity ",
+      "divineAbility": [
+         "Dexterity",
          "Charisma"
       ],
-      "divineFont": [],
-      "divineFontFilter": [
+      "divineFont": [
          "Heal"
       ],
-      "divineSkill": [],
-      "divineSkillFilter": [
+      "divineSkill": [
          "Society"
       ],
       "favoredWeapon": [
@@ -2244,18 +2112,15 @@
       "name": "Sivanah",
       "category": "Other Gods",
       "alignment": "Neutral",
-      "divineAbility": [],
-      "divineAbilityFilter": [
-         "Wisdom ",
+      "divineAbility": [
+         "Wisdom",
          "Charisma"
       ],
-      "divineFont": [],
-      "divineFontFilter": [
+      "divineFont": [
          "Harm",
          "Heal"
       ],
-      "divineSkill": [],
-      "divineSkillFilter": [
+      "divineSkill": [
          "Deception"
       ],
       "favoredWeapon": [
@@ -2297,17 +2162,14 @@
       "name": "Thamir",
       "category": "Other Gods",
       "alignment": "Chaotic Evil",
-      "divineAbility": [],
-      "divineAbilityFilter": [
-         "Dexterity ",
+      "divineAbility": [
+         "Dexterity",
          "Charisma"
       ],
-      "divineFont": [],
-      "divineFontFilter": [
+      "divineFont": [
          "Harm"
       ],
-      "divineSkill": [],
-      "divineSkillFilter": [
+      "divineSkill": [
          "Thievery"
       ],
       "favoredWeapon": [
@@ -2345,17 +2207,14 @@
       "name": "Walkena",
       "category": "Other Gods",
       "alignment": "Lawful Evil",
-      "divineAbility": [],
-      "divineAbilityFilter": [
-         "Strength ",
+      "divineAbility": [
+         "Strength",
          "Wisdom"
       ],
-      "divineFont": [],
-      "divineFontFilter": [
+      "divineFont": [
          "Harm"
       ],
-      "divineSkill": [],
-      "divineSkillFilter": [
+      "divineSkill": [
          "Deception"
       ],
       "favoredWeapon": [
@@ -2393,17 +2252,14 @@
       "name": "Zyphus",
       "category": "Other Gods",
       "alignment": "Neutral Evil",
-      "divineAbility": [],
-      "divineAbilityFilter": [
-         "Dexterity ",
+      "divineAbility": [
+         "Dexterity",
          "Constitution"
       ],
-      "divineFont": [],
-      "divineFontFilter": [
+      "divineFont": [
          "Harm"
       ],
-      "divineSkill": [],
-      "divineSkillFilter": [
+      "divineSkill": [
          "Thievery"
       ],
       "favoredWeapon": [
@@ -2441,18 +2297,15 @@
       "name": "Anubis",
       "category": "Ancient Osirian Gods",
       "alignment": "Lawful Neutral",
-      "divineAbility": [],
-      "divineAbilityFilter": [
-         "Dexterity ",
+      "divineAbility": [
+         "Dexterity",
          "Wisdom"
       ],
-      "divineFont": [],
-      "divineFontFilter": [
+      "divineFont": [
          "Harm",
          "Heal"
       ],
-      "divineSkill": [],
-      "divineSkillFilter": [
+      "divineSkill": [
          "Occultism"
       ],
       "favoredWeapon": [
@@ -2491,17 +2344,14 @@
       "name": "Bastet",
       "category": "Ancient Osirian Gods",
       "alignment": "Chaotic Neutral",
-      "divineAbility": [],
-      "divineAbilityFilter": [
-         "Intelligence ",
+      "divineAbility": [
+         "Intelligence",
          "Charisma"
       ],
-      "divineFont": [],
-      "divineFontFilter": [
+      "divineFont": [
          "Heal"
       ],
-      "divineSkill": [],
-      "divineSkillFilter": [
+      "divineSkill": [
          "Deception"
       ],
       "favoredWeapon": [
@@ -2542,17 +2392,14 @@
       "name": "Bes",
       "category": "Ancient Osirian Gods",
       "alignment": "Neutral Good",
-      "divineAbility": [],
-      "divineAbilityFilter": [
-         "Constitution ",
+      "divineAbility": [
+         "Constitution",
          "Charisma"
       ],
-      "divineFont": [],
-      "divineFontFilter": [
+      "divineFont": [
          "Heal"
       ],
-      "divineSkill": [],
-      "divineSkillFilter": [
+      "divineSkill": [
          "Performance"
       ],
       "favoredWeapon": [
@@ -2591,17 +2438,14 @@
       "name": "Hathor",
       "category": "Ancient Osirian Gods",
       "alignment": "Chaotic Good",
-      "divineAbility": [],
-      "divineAbilityFilter": [
-         "Strength ",
+      "divineAbility": [
+         "Strength",
          "Charisma"
       ],
-      "divineFont": [],
-      "divineFontFilter": [
+      "divineFont": [
          "Heal"
       ],
-      "divineSkill": [],
-      "divineSkillFilter": [
+      "divineSkill": [
          "Performance"
       ],
       "favoredWeapon": [
@@ -2639,17 +2483,14 @@
       "name": "Horus",
       "category": "Ancient Osirian Gods",
       "alignment": "Lawful Neutral",
-      "divineAbility": [],
-      "divineAbilityFilter": [
-         "Strength ",
+      "divineAbility": [
+         "Strength",
          "Charisma"
       ],
-      "divineFont": [],
-      "divineFontFilter": [
+      "divineFont": [
          "Heal"
       ],
-      "divineSkill": [],
-      "divineSkillFilter": [
+      "divineSkill": [
          "Diplomacy"
       ],
       "favoredWeapon": [
@@ -2690,17 +2531,14 @@
       "name": "Isis",
       "category": "Ancient Osirian Gods",
       "alignment": "Neutral Good",
-      "divineAbility": [],
-      "divineAbilityFilter": [
-         "Wisdom ",
+      "divineAbility": [
+         "Wisdom",
          "Charisma"
       ],
-      "divineFont": [],
-      "divineFontFilter": [
+      "divineFont": [
          "Heal"
       ],
-      "divineSkill": [],
-      "divineSkillFilter": [
+      "divineSkill": [
          "Arcana"
       ],
       "favoredWeapon": [
@@ -2769,17 +2607,14 @@
       "name": "Ma'At",
       "category": "Ancient Osirian Gods",
       "alignment": "Lawful Neutral",
-      "divineAbility": [],
-      "divineAbilityFilter": [
-         "Intelligence ",
+      "divineAbility": [
+         "Intelligence",
          "Wisdom"
       ],
-      "divineFont": [],
-      "divineFontFilter": [
+      "divineFont": [
          "Heal"
       ],
-      "divineSkill": [],
-      "divineSkillFilter": [
+      "divineSkill": [
          "Society"
       ],
       "favoredWeapon": [
@@ -2818,17 +2653,14 @@
       "name": "Osiris",
       "category": "Ancient Osirian Gods",
       "alignment": "Lawful Good",
-      "divineAbility": [],
-      "divineAbilityFilter": [
-         "Constitution ",
+      "divineAbility": [
+         "Constitution",
          "Wisdom"
       ],
-      "divineFont": [],
-      "divineFontFilter": [
+      "divineFont": [
          "Heal"
       ],
-      "divineSkill": [],
-      "divineSkillFilter": [
+      "divineSkill": [
          "Nature"
       ],
       "favoredWeapon": [
@@ -2866,17 +2698,14 @@
       "name": "Ra",
       "category": "Ancient Osirian Gods",
       "alignment": "Lawful Neutral",
-      "divineAbility": [],
-      "divineAbilityFilter": [
-         "Strength ",
+      "divineAbility": [
+         "Strength",
          "Intelligence"
       ],
-      "divineFont": [],
-      "divineFontFilter": [
+      "divineFont": [
          "Heal"
       ],
-      "divineSkill": [],
-      "divineSkillFilter": [
+      "divineSkill": [
          "Society"
       ],
       "favoredWeapon": [
@@ -2915,18 +2744,15 @@
       "name": "Sekhmet",
       "category": "Ancient Osirian Gods",
       "alignment": "Chaotic Neutral",
-      "divineAbility": [],
-      "divineAbilityFilter": [
-         "Strength ",
+      "divineAbility": [
+         "Strength",
          "Wisdom"
       ],
-      "divineFont": [],
-      "divineFontFilter": [
+      "divineFont": [
          "Harm",
          "Heal"
       ],
-      "divineSkill": [],
-      "divineSkillFilter": [
+      "divineSkill": [
          "Medicine"
       ],
       "favoredWeapon": [
@@ -2967,17 +2793,14 @@
       "name": "Selket",
       "category": "Ancient Osirian Gods",
       "alignment": "Chaotic Good",
-      "divineAbility": [],
-      "divineAbilityFilter": [
-         "Dexterity ",
+      "divineAbility": [
+         "Dexterity",
          "Wisdom"
       ],
-      "divineFont": [],
-      "divineFontFilter": [
+      "divineFont": [
          "Heal"
       ],
-      "divineSkill": [],
-      "divineSkillFilter": [
+      "divineSkill": [
          "Medicine"
       ],
       "favoredWeapon": [
@@ -3016,18 +2839,15 @@
       "name": "Sobek",
       "category": "Ancient Osirian Gods",
       "alignment": "Chaotic Neutral",
-      "divineAbility": [],
-      "divineAbilityFilter": [
-         "Strength ",
+      "divineAbility": [
+         "Strength",
          "Constitution"
       ],
-      "divineFont": [],
-      "divineFontFilter": [
+      "divineFont": [
          "Harm",
          "Heal"
       ],
-      "divineSkill": [],
-      "divineSkillFilter": [
+      "divineSkill": [
          "Athletics"
       ],
       "favoredWeapon": [
@@ -3068,18 +2888,15 @@
       "name": "Thoth",
       "category": "Ancient Osirian Gods",
       "alignment": "Lawful Neutral",
-      "divineAbility": [],
-      "divineAbilityFilter": [
-         "Intelligence ",
+      "divineAbility": [
+         "Intelligence",
          "Wisdom"
       ],
-      "divineFont": [],
-      "divineFontFilter": [
+      "divineFont": [
          "Harm",
          "Heal"
       ],
-      "divineSkill": [],
-      "divineSkillFilter": [
+      "divineSkill": [
          "Arcana"
       ],
       "favoredWeapon": [
@@ -3118,17 +2935,14 @@
       "name": "Wadjet",
       "category": "Ancient Osirian Gods",
       "alignment": "Lawful Good",
-      "divineAbility": [],
-      "divineAbilityFilter": [
-         "Dexterity ",
+      "divineAbility": [
+         "Dexterity",
          "Wisdom"
       ],
-      "divineFont": [],
-      "divineFontFilter": [
+      "divineFont": [
          "Heal"
       ],
-      "divineSkill": [],
-      "divineSkillFilter": [
+      "divineSkill": [
          "Nature"
       ],
       "favoredWeapon": [
@@ -3167,17 +2981,14 @@
       "name": "Baalzebul",
       "category": "Archdevils",
       "alignment": "Lawful Evil",
-      "divineAbility": [],
-      "divineAbilityFilter": [
-         "Dexterity ",
+      "divineAbility": [
+         "Dexterity",
          "Charisma"
       ],
-      "divineFont": [],
-      "divineFontFilter": [
+      "divineFont": [
          "Harm"
       ],
-      "divineSkill": [],
-      "divineSkillFilter": [
+      "divineSkill": [
          "Deception"
       ],
       "favoredWeapon": [
@@ -3214,17 +3025,14 @@
       "name": "Barbatos",
       "category": "Archdevils",
       "alignment": "Lawful Evil",
-      "divineAbility": [],
-      "divineAbilityFilter": [
-         "Constitution ",
+      "divineAbility": [
+         "Constitution",
          "Wisdom"
       ],
-      "divineFont": [],
-      "divineFontFilter": [
+      "divineFont": [
          "Harm"
       ],
-      "divineSkill": [],
-      "divineSkillFilter": [
+      "divineSkill": [
          "Nature"
       ],
       "favoredWeapon": [
@@ -3261,17 +3069,14 @@
       "name": "Belial",
       "category": "Archdevils",
       "alignment": "Lawful Evil",
-      "divineAbility": [],
-      "divineAbilityFilter": [
-         "Intelligence ",
+      "divineAbility": [
+         "Intelligence",
          "Charisma"
       ],
-      "divineFont": [],
-      "divineFontFilter": [
+      "divineFont": [
          "Harm"
       ],
-      "divineSkill": [],
-      "divineSkillFilter": [
+      "divineSkill": [
          "Diplomacy"
       ],
       "favoredWeapon": [
@@ -3308,17 +3113,14 @@
       "name": "Dispater",
       "category": "Archdevils",
       "alignment": "Lawful Evil",
-      "divineAbility": [],
-      "divineAbilityFilter": [
-         "Strength ",
+      "divineAbility": [
+         "Strength",
          "Charisma"
       ],
-      "divineFont": [],
-      "divineFontFilter": [
+      "divineFont": [
          "Harm"
       ],
-      "divineSkill": [],
-      "divineSkillFilter": [
+      "divineSkill": [
          "Society"
       ],
       "favoredWeapon": [
@@ -3356,17 +3158,14 @@
       "name": "Geryon",
       "category": "Archdevils",
       "alignment": "Lawful Evil",
-      "divineAbility": [],
-      "divineAbilityFilter": [
-         "Intelligence ",
+      "divineAbility": [
+         "Intelligence",
          "Wisdom"
       ],
-      "divineFont": [],
-      "divineFontFilter": [
+      "divineFont": [
          "Harm"
       ],
-      "divineSkill": [],
-      "divineSkillFilter": [
+      "divineSkill": [
          "Occultism"
       ],
       "favoredWeapon": [
@@ -3404,17 +3203,14 @@
       "name": "Mammon",
       "category": "Archdevils",
       "alignment": "Lawful Evil",
-      "divineAbility": [],
-      "divineAbilityFilter": [
-         "Wisdom ",
+      "divineAbility": [
+         "Wisdom",
          "Charisma"
       ],
-      "divineFont": [],
-      "divineFontFilter": [
+      "divineFont": [
          "Harm"
       ],
-      "divineSkill": [],
-      "divineSkillFilter": [
+      "divineSkill": [
          "Thievery"
       ],
       "favoredWeapon": [
@@ -3451,17 +3247,14 @@
       "name": "Mephistopheles",
       "category": "Archdevils",
       "alignment": "Lawful Evil",
-      "divineAbility": [],
-      "divineAbilityFilter": [
-         "Intelligence ",
+      "divineAbility": [
+         "Intelligence",
          "Charisma"
       ],
-      "divineFont": [],
-      "divineFontFilter": [
+      "divineFont": [
          "Harm"
       ],
-      "divineSkill": [],
-      "divineSkillFilter": [
+      "divineSkill": [
          "Deception"
       ],
       "favoredWeapon": [
@@ -3498,17 +3291,14 @@
       "name": "Moloch",
       "category": "Archdevils",
       "alignment": "Lawful Evil",
-      "divineAbility": [],
-      "divineAbilityFilter": [
-         "Strength ",
+      "divineAbility": [
+         "Strength",
          "Constitution"
       ],
-      "divineFont": [],
-      "divineFontFilter": [
+      "divineFont": [
          "Harm"
       ],
-      "divineSkill": [],
-      "divineSkillFilter": [
+      "divineSkill": [
          "Athletics"
       ],
       "favoredWeapon": [
@@ -3545,17 +3335,14 @@
       "name": "Abraxas",
       "category": "Demon Lords",
       "alignment": "Chaotic Evil",
-      "divineAbility": [],
-      "divineAbilityFilter": [
-         "Intelligence ",
+      "divineAbility": [
+         "Intelligence",
          "Wisdom"
       ],
-      "divineFont": [],
-      "divineFontFilter": [
+      "divineFont": [
          "Harm"
       ],
-      "divineSkill": [],
-      "divineSkillFilter": [
+      "divineSkill": [
          "Arcana"
       ],
       "favoredWeapon": [
@@ -3623,17 +3410,14 @@
       "name": "Angazhan",
       "category": "Demon Lords",
       "alignment": "Chaotic Evil",
-      "divineAbility": [],
-      "divineAbilityFilter": [
-         "Strength ",
+      "divineAbility": [
+         "Strength",
          "Constitution"
       ],
-      "divineFont": [],
-      "divineFontFilter": [
+      "divineFont": [
          "Harm"
       ],
-      "divineSkill": [],
-      "divineSkillFilter": [
+      "divineSkill": [
          "Athletics"
       ],
       "favoredWeapon": [
@@ -3671,17 +3455,14 @@
       "name": "Baphomet",
       "category": "Demon Lords",
       "alignment": "Chaotic Evil",
-      "divineAbility": [],
-      "divineAbilityFilter": [
-         "Intelligence ",
+      "divineAbility": [
+         "Intelligence",
          "Wisdom"
       ],
-      "divineFont": [],
-      "divineFontFilter": [
+      "divineFont": [
          "Harm"
       ],
-      "divineSkill": [],
-      "divineSkillFilter": [
+      "divineSkill": [
          "Survival"
       ],
       "favoredWeapon": [
@@ -3719,18 +3500,15 @@
       "name": "Cyth-V'Sug",
       "category": "Demon Lords",
       "alignment": "Chaotic Evil",
-      "divineAbility": [],
-      "divineAbilityFilter": [
-         "Constitution ",
+      "divineAbility": [
+         "Constitution",
          "Wisdom"
       ],
-      "divineFont": [],
-      "divineFontFilter": [
+      "divineFont": [
          "Harm",
          "Heal"
       ],
-      "divineSkill": [],
-      "divineSkillFilter": [
+      "divineSkill": [
          "Nature"
       ],
       "favoredWeapon": [
@@ -3767,17 +3545,14 @@
       "name": "Dagon",
       "category": "Demon Lords",
       "alignment": "Chaotic Evil",
-      "divineAbility": [],
-      "divineAbilityFilter": [
-         "Strength ",
+      "divineAbility": [
+         "Strength",
          "Constitution"
       ],
-      "divineFont": [],
-      "divineFontFilter": [
+      "divineFont": [
          "Harm"
       ],
-      "divineSkill": [],
-      "divineSkillFilter": [
+      "divineSkill": [
          "Athletics"
       ],
       "favoredWeapon": [
@@ -3815,17 +3590,14 @@
       "name": "Gogunta",
       "category": "Demon Lords",
       "alignment": "Chaotic Evil",
-      "divineAbility": [],
-      "divineAbilityFilter": [
-         "Strength ",
+      "divineAbility": [
+         "Strength",
          "Wisdom"
       ],
-      "divineFont": [],
-      "divineFontFilter": [
+      "divineFont": [
          "Harm"
       ],
-      "divineSkill": [],
-      "divineSkillFilter": [
+      "divineSkill": [
          "Intimidation"
       ],
       "favoredWeapon": [
@@ -3862,17 +3634,14 @@
       "name": "Kabriri",
       "category": "Demon Lords",
       "alignment": "Chaotic Evil",
-      "divineAbility": [],
-      "divineAbilityFilter": [
-         "Dexterity ",
+      "divineAbility": [
+         "Dexterity",
          "Intelligence"
       ],
-      "divineFont": [],
-      "divineFontFilter": [
+      "divineFont": [
          "Harm"
       ],
-      "divineSkill": [],
-      "divineSkillFilter": [
+      "divineSkill": [
          "Stealth"
       ],
       "favoredWeapon": [
@@ -3911,17 +3680,14 @@
       "name": "Kostchtchie",
       "category": "Demon Lords",
       "alignment": "Chaotic Evil",
-      "divineAbility": [],
-      "divineAbilityFilter": [
-         "Strength ",
+      "divineAbility": [
+         "Strength",
          "Constitution"
       ],
-      "divineFont": [],
-      "divineFontFilter": [
+      "divineFont": [
          "Harm"
       ],
-      "divineSkill": [],
-      "divineSkillFilter": [
+      "divineSkill": [
          "Athletics"
       ],
       "favoredWeapon": [
@@ -3959,17 +3725,14 @@
       "name": "Nurgal",
       "category": "Demon Lords",
       "alignment": "Chaotic Evil",
-      "divineAbility": [],
-      "divineAbilityFilter": [
-         "Constitution ",
+      "divineAbility": [
+         "Constitution",
          "Charisma"
       ],
-      "divineFont": [],
-      "divineFontFilter": [
+      "divineFont": [
          "Harm"
       ],
-      "divineSkill": [],
-      "divineSkillFilter": [
+      "divineSkill": [
          "Survival"
       ],
       "favoredWeapon": [
@@ -4007,17 +3770,14 @@
       "name": "Pazuzu",
       "category": "Demon Lords",
       "alignment": "Chaotic Evil",
-      "divineAbility": [],
-      "divineAbilityFilter": [
-         "Dexterity ",
+      "divineAbility": [
+         "Dexterity",
          "Charisma"
       ],
-      "divineFont": [],
-      "divineFontFilter": [
+      "divineFont": [
          "Harm"
       ],
-      "divineSkill": [],
-      "divineSkillFilter": [
+      "divineSkill": [
          "Diplomacy"
       ],
       "favoredWeapon": [
@@ -4054,17 +3814,14 @@
       "name": "Shax",
       "category": "Demon Lords",
       "alignment": "Chaotic Evil",
-      "divineAbility": [],
-      "divineAbilityFilter": [
-         "Dexterity ",
+      "divineAbility": [
+         "Dexterity",
          "Charisma"
       ],
-      "divineFont": [],
-      "divineFontFilter": [
+      "divineFont": [
          "Harm"
       ],
-      "divineSkill": [],
-      "divineSkillFilter": [
+      "divineSkill": [
          "Intimidation"
       ],
       "favoredWeapon": [
@@ -4102,17 +3859,14 @@
       "name": "Sifkesh",
       "category": "Demon Lords",
       "alignment": "Chaotic Evil",
-      "divineAbility": [],
-      "divineAbilityFilter": [
-         "Wisdom ",
+      "divineAbility": [
+         "Wisdom",
          "Charisma"
       ],
-      "divineFont": [],
-      "divineFontFilter": [
+      "divineFont": [
          "Harm"
       ],
-      "divineSkill": [],
-      "divineSkillFilter": [
+      "divineSkill": [
          "Deception"
       ],
       "favoredWeapon": [
@@ -4150,18 +3904,15 @@
       "name": "Treerazer",
       "category": "Demon Lords",
       "alignment": "Chaotic Evil",
-      "divineAbility": [],
-      "divineAbilityFilter": [
-         "Strength ",
+      "divineAbility": [
+         "Strength",
          "Constitution"
       ],
-      "divineFont": [],
-      "divineFontFilter": [
+      "divineFont": [
          "Harm",
          "Heal"
       ],
-      "divineSkill": [],
-      "divineSkillFilter": [
+      "divineSkill": [
          "Survival"
       ],
       "favoredWeapon": [
@@ -4199,17 +3950,14 @@
       "name": "Zevgavizeb",
       "category": "Demon Lords",
       "alignment": "Chaotic Evil",
-      "divineAbility": [],
-      "divineAbilityFilter": [
-         "Strength ",
+      "divineAbility": [
+         "Strength",
          "Constitution"
       ],
-      "divineFont": [],
-      "divineFontFilter": [
+      "divineFont": [
          "Harm"
       ],
-      "divineSkill": [],
-      "divineSkillFilter": [
+      "divineSkill": [
          "Survival"
       ],
       "favoredWeapon": [
@@ -4247,17 +3995,14 @@
       "name": "Zura",
       "category": "Demon Lords",
       "alignment": "Chaotic Evil",
-      "divineAbility": [],
-      "divineAbilityFilter": [
-         "Strength ",
+      "divineAbility": [
+         "Strength",
          "Charisma"
       ],
-      "divineFont": [],
-      "divineFontFilter": [
+      "divineFont": [
          "Harm"
       ],
-      "divineSkill": [],
-      "divineSkillFilter": [
+      "divineSkill": [
          "Diplomacy"
       ],
       "favoredWeapon": [
@@ -4295,17 +4040,14 @@
       "name": "Angradd",
       "category": "Dwarven Gods",
       "alignment": "Lawful Good",
-      "divineAbility": [],
-      "divineAbilityFilter": [
-         "Strength ",
+      "divineAbility": [
+         "Strength",
          "Constitution"
       ],
-      "divineFont": [],
-      "divineFontFilter": [
+      "divineFont": [
          "Heal"
       ],
-      "divineSkill": [],
-      "divineSkillFilter": [
+      "divineSkill": [
          "Athletics"
       ],
       "favoredWeapon": [
@@ -4343,17 +4085,14 @@
       "name": "Bolka",
       "category": "Dwarven Gods",
       "alignment": "Neutral Good",
-      "divineAbility": [],
-      "divineAbilityFilter": [
-         "Wisdom ",
+      "divineAbility": [
+         "Wisdom",
          "Charisma"
       ],
-      "divineFont": [],
-      "divineFontFilter": [
+      "divineFont": [
          "Heal"
       ],
-      "divineSkill": [],
-      "divineSkillFilter": [
+      "divineSkill": [
          "Diplomacy"
       ],
       "favoredWeapon": [
@@ -4392,18 +4131,15 @@
       "name": "Dranngvit",
       "category": "Dwarven Gods",
       "alignment": "Lawful Neutral",
-      "divineAbility": [],
-      "divineAbilityFilter": [
-         "Constitution ",
+      "divineAbility": [
+         "Constitution",
          "Wisdom"
       ],
-      "divineFont": [],
-      "divineFontFilter": [
+      "divineFont": [
          "Harm",
          "Heal"
       ],
-      "divineSkill": [],
-      "divineSkillFilter": [
+      "divineSkill": [
          "Intimidation"
       ],
       "favoredWeapon": [
@@ -4441,17 +4177,14 @@
       "name": "Droskar",
       "category": "Dwarven Gods",
       "alignment": "Neutral Evil",
-      "divineAbility": [],
-      "divineAbilityFilter": [
-         "Constitution ",
+      "divineAbility": [
+         "Constitution",
          "Intelligence"
       ],
-      "divineFont": [],
-      "divineFontFilter": [
+      "divineFont": [
          "Harm"
       ],
-      "divineSkill": [],
-      "divineSkillFilter": [
+      "divineSkill": [
          "Crafting"
       ],
       "favoredWeapon": [
@@ -4493,17 +4226,14 @@
       "name": "Folgrit",
       "category": "Dwarven Gods",
       "alignment": "Lawful Good",
-      "divineAbility": [],
-      "divineAbilityFilter": [
-         "Constitution ",
+      "divineAbility": [
+         "Constitution",
          "Wisdom"
       ],
-      "divineFont": [],
-      "divineFontFilter": [
+      "divineFont": [
          "Heal"
       ],
-      "divineSkill": [],
-      "divineSkillFilter": [
+      "divineSkill": [
          "Medicine"
       ],
       "favoredWeapon": [
@@ -4542,17 +4272,14 @@
       "name": "Grundinnar",
       "category": "Dwarven Gods",
       "alignment": "Lawful Good",
-      "divineAbility": [],
-      "divineAbilityFilter": [
-         "Constitution ",
+      "divineAbility": [
+         "Constitution",
          "Charisma"
       ],
-      "divineFont": [],
-      "divineFontFilter": [
+      "divineFont": [
          "Heal"
       ],
-      "divineSkill": [],
-      "divineSkillFilter": [
+      "divineSkill": [
          "Diplomacy"
       ],
       "favoredWeapon": [
@@ -4590,18 +4317,15 @@
       "name": "Kols",
       "category": "Dwarven Gods",
       "alignment": "Lawful Neutral",
-      "divineAbility": [],
-      "divineAbilityFilter": [
-         "Strength ",
+      "divineAbility": [
+         "Strength",
          "Wisdom"
       ],
-      "divineFont": [],
-      "divineFontFilter": [
+      "divineFont": [
          "Harm",
          "Heal"
       ],
-      "divineSkill": [],
-      "divineSkillFilter": [
+      "divineSkill": [
          "Society"
       ],
       "favoredWeapon": [
@@ -4639,17 +4363,14 @@
       "name": "Magrim",
       "category": "Dwarven Gods",
       "alignment": "Lawful Neutral",
-      "divineAbility": [],
-      "divineAbilityFilter": [
-         "Constitution ",
+      "divineAbility": [
+         "Constitution",
          "Wisdom"
       ],
-      "divineFont": [],
-      "divineFontFilter": [
+      "divineFont": [
          "Heal"
       ],
-      "divineSkill": [],
-      "divineSkillFilter": [
+      "divineSkill": [
          "Crafting"
       ],
       "favoredWeapon": [
@@ -4688,17 +4409,14 @@
       "name": "Trudd",
       "category": "Dwarven Gods",
       "alignment": "Neutral Good",
-      "divineAbility": [],
-      "divineAbilityFilter": [
-         "Strength ",
+      "divineAbility": [
+         "Strength",
          "Constitution"
       ],
-      "divineFont": [],
-      "divineFontFilter": [
+      "divineFont": [
          "Heal"
       ],
-      "divineSkill": [],
-      "divineSkillFilter": [
+      "divineSkill": [
          "Athletics"
       ],
       "favoredWeapon": [
@@ -4736,18 +4454,15 @@
       "name": "Count Ranalc",
       "category": "Eldest",
       "alignment": "Chaotic Neutral",
-      "divineAbility": [],
-      "divineAbilityFilter": [
-         "Dexterity ",
+      "divineAbility": [
+         "Dexterity",
          "Charisma"
       ],
-      "divineFont": [],
-      "divineFontFilter": [
+      "divineFont": [
          "Harm",
          "Heal"
       ],
-      "divineSkill": [],
-      "divineSkillFilter": [
+      "divineSkill": [
          "Stealth"
       ],
       "favoredWeapon": [
@@ -4787,18 +4502,15 @@
       "name": "Imbrex",
       "category": "Eldest",
       "alignment": "Lawful Neutral",
-      "divineAbility": [],
-      "divineAbilityFilter": [
-         "Constitution ",
+      "divineAbility": [
+         "Constitution",
          "Wisdom"
       ],
-      "divineFont": [],
-      "divineFontFilter": [
+      "divineFont": [
          "Harm",
          "Heal"
       ],
-      "divineSkill": [],
-      "divineSkillFilter": [
+      "divineSkill": [
          "Occultism"
       ],
       "favoredWeapon": [
@@ -4837,18 +4549,15 @@
       "name": "Magdh",
       "category": "Eldest",
       "alignment": "Lawful Neutral",
-      "divineAbility": [],
-      "divineAbilityFilter": [
-         "Intelligence ",
+      "divineAbility": [
+         "Intelligence",
          "Wisdom"
       ],
-      "divineFont": [],
-      "divineFontFilter": [
+      "divineFont": [
          "Harm",
          "Heal"
       ],
-      "divineSkill": [],
-      "divineSkillFilter": [
+      "divineSkill": [
          "Occultism"
       ],
       "favoredWeapon": [
@@ -4886,18 +4595,15 @@
       "name": "Ng",
       "category": "Eldest",
       "alignment": "Neutral",
-      "divineAbility": [],
-      "divineAbilityFilter": [
-         "Wisdom ",
+      "divineAbility": [
+         "Wisdom",
          "Charisma"
       ],
-      "divineFont": [],
-      "divineFontFilter": [
+      "divineFont": [
          "Harm",
          "Heal"
       ],
-      "divineSkill": [],
-      "divineSkillFilter": [
+      "divineSkill": [
          "Survival"
       ],
       "favoredWeapon": [
@@ -4934,18 +4640,15 @@
       "name": "Ragadahn",
       "category": "Eldest",
       "alignment": "Chaotic Evil",
-      "divineAbility": [],
-      "divineAbilityFilter": [
-         "Strength ",
+      "divineAbility": [
+         "Strength",
          "Wisdom"
       ],
-      "divineFont": [],
-      "divineFontFilter": [
+      "divineFont": [
          "Harm",
          "Heal"
       ],
-      "divineSkill": [],
-      "divineSkillFilter": [
+      "divineSkill": [
          "Occultism"
       ],
       "favoredWeapon": [
@@ -4984,18 +4687,15 @@
       "name": "Shyka",
       "category": "Eldest",
       "alignment": "Neutral",
-      "divineAbility": [],
-      "divineAbilityFilter": [
-         "Dexterity ",
+      "divineAbility": [
+         "Dexterity",
          "Intelligence"
       ],
-      "divineFont": [],
-      "divineFontFilter": [
+      "divineFont": [
          "Harm",
          "Heal"
       ],
-      "divineSkill": [],
-      "divineSkillFilter": [
+      "divineSkill": [
          "Occultism"
       ],
       "favoredWeapon": [
@@ -5036,18 +4736,15 @@
       "name": "The Green Mother",
       "category": "Eldest",
       "alignment": "Neutral Evil",
-      "divineAbility": [],
-      "divineAbilityFilter": [
-         "Constitution ",
+      "divineAbility": [
+         "Constitution",
          "Charisma"
       ],
-      "divineFont": [],
-      "divineFontFilter": [
+      "divineFont": [
          "Harm",
          "Heal"
       ],
-      "divineSkill": [],
-      "divineSkillFilter": [
+      "divineSkill": [
          "Nature"
       ],
       "favoredWeapon": [
@@ -5085,18 +4782,15 @@
       "name": "The Lantern King",
       "category": "Eldest",
       "alignment": "Chaotic Neutral",
-      "divineAbility": [],
-      "divineAbilityFilter": [
-         "Intelligence ",
+      "divineAbility": [
+         "Intelligence",
          "Charisma"
       ],
-      "divineFont": [],
-      "divineFontFilter": [
+      "divineFont": [
          "Harm",
          "Heal"
       ],
-      "divineSkill": [],
-      "divineSkillFilter": [
+      "divineSkill": [
          "Deception"
       ],
       "favoredWeapon": [
@@ -5134,18 +4828,15 @@
       "name": "The Lost Prince",
       "category": "Eldest",
       "alignment": "Neutral",
-      "divineAbility": [],
-      "divineAbilityFilter": [
-         "Intelligence ",
+      "divineAbility": [
+         "Intelligence",
          "Wisdom"
       ],
-      "divineFont": [],
-      "divineFontFilter": [
+      "divineFont": [
          "Harm",
          "Heal"
       ],
-      "divineSkill": [],
-      "divineSkillFilter": [
+      "divineSkill": [
          "Society"
       ],
       "favoredWeapon": [
@@ -5183,17 +4874,14 @@
       "name": "Atreia",
       "category": "Elemental Lords",
       "alignment": "Neutral Good",
-      "divineAbility": [],
-      "divineAbilityFilter": [
-         "Wisdom ",
+      "divineAbility": [
+         "Wisdom",
          "Charisma"
       ],
-      "divineFont": [],
-      "divineFontFilter": [
+      "divineFont": [
          "Heal"
       ],
-      "divineSkill": [],
-      "divineSkillFilter": [
+      "divineSkill": [
          "Performance"
       ],
       "favoredWeapon": [
@@ -5233,17 +4921,14 @@
       "name": "Ayrzul",
       "category": "Elemental Lords",
       "alignment": "Neutral Evil",
-      "divineAbility": [],
-      "divineAbilityFilter": [
-         "Strength ",
+      "divineAbility": [
+         "Strength",
          "Constitution"
       ],
-      "divineFont": [],
-      "divineFontFilter": [
+      "divineFont": [
          "Harm"
       ],
-      "divineSkill": [],
-      "divineSkillFilter": [
+      "divineSkill": [
          "Deception"
       ],
       "favoredWeapon": [
@@ -5284,17 +4969,14 @@
       "name": "Hshurha",
       "category": "Elemental Lords",
       "alignment": "Neutral Evil",
-      "divineAbility": [],
-      "divineAbilityFilter": [
-         "Strength ",
+      "divineAbility": [
+         "Strength",
          "Dexterity"
       ],
-      "divineFont": [],
-      "divineFontFilter": [
+      "divineFont": [
          "Harm"
       ],
-      "divineSkill": [],
-      "divineSkillFilter": [
+      "divineSkill": [
          "Stealth"
       ],
       "favoredWeapon": [
@@ -5335,17 +5017,14 @@
       "name": "Kelizandri",
       "category": "Elemental Lords",
       "alignment": "Neutral Evil",
-      "divineAbility": [],
-      "divineAbilityFilter": [
-         "Constitution ",
+      "divineAbility": [
+         "Constitution",
          "Charisma"
       ],
-      "divineFont": [],
-      "divineFontFilter": [
+      "divineFont": [
          "Harm"
       ],
-      "divineSkill": [],
-      "divineSkillFilter": [
+      "divineSkill": [
          "Athletics"
       ],
       "favoredWeapon": [
@@ -5386,17 +5065,14 @@
       "name": "Lysianassa",
       "category": "Elemental Lords",
       "alignment": "Neutral Good",
-      "divineAbility": [],
-      "divineAbilityFilter": [
-         "Dexterity ",
+      "divineAbility": [
+         "Dexterity",
          "Constitution"
       ],
-      "divineFont": [],
-      "divineFontFilter": [
+      "divineFont": [
          "Heal"
       ],
-      "divineSkill": [],
-      "divineSkillFilter": [
+      "divineSkill": [
          "Survival"
       ],
       "favoredWeapon": [
@@ -5436,17 +5112,14 @@
       "name": "Ranginori",
       "category": "Elemental Lords",
       "alignment": "Neutral Good",
-      "divineAbility": [],
-      "divineAbilityFilter": [
-         "Dexterity ",
+      "divineAbility": [
+         "Dexterity",
          "Charisma"
       ],
-      "divineFont": [],
-      "divineFontFilter": [
+      "divineFont": [
          "Heal"
       ],
-      "divineSkill": [],
-      "divineSkillFilter": [
+      "divineSkill": [
          "Acrobatics"
       ],
       "favoredWeapon": [
@@ -5486,17 +5159,14 @@
       "name": "Sairazul",
       "category": "Elemental Lords",
       "alignment": "Neutral Good",
-      "divineAbility": [],
-      "divineAbilityFilter": [
-         "Constitution ",
+      "divineAbility": [
+         "Constitution",
          "Charisma"
       ],
-      "divineFont": [],
-      "divineFontFilter": [
+      "divineFont": [
          "Heal"
       ],
-      "divineSkill": [],
-      "divineSkillFilter": [
+      "divineSkill": [
          "Nature"
       ],
       "favoredWeapon": [
@@ -5536,17 +5206,14 @@
       "name": "Ymeri",
       "category": "Elemental Lords",
       "alignment": "Neutral Evil",
-      "divineAbility": [],
-      "divineAbilityFilter": [
-         "Strength ",
+      "divineAbility": [
+         "Strength",
          "Charisma"
       ],
-      "divineFont": [],
-      "divineFontFilter": [
+      "divineFont": [
          "Harm"
       ],
-      "divineSkill": [],
-      "divineSkillFilter": [
+      "divineSkill": [
          "Intimidation"
       ],
       "favoredWeapon": [
@@ -5587,17 +5254,14 @@
       "name": "Findeladlara",
       "category": "Elven Gods",
       "alignment": "Chaotic Good",
-      "divineAbility": [],
-      "divineAbilityFilter": [
-         "Charisma ",
+      "divineAbility": [
+         "Charisma",
          "Intelligence"
       ],
-      "divineFont": [],
-      "divineFontFilter": [
+      "divineFont": [
          "Heal"
       ],
-      "divineSkill": [],
-      "divineSkillFilter": [
+      "divineSkill": [
          "Crafting"
       ],
       "favoredWeapon": [
@@ -5637,17 +5301,14 @@
       "name": "Ketephys",
       "category": "Elven Gods",
       "alignment": "Chaotic Good",
-      "divineAbility": [],
-      "divineAbilityFilter": [
-         "Dexterity ",
+      "divineAbility": [
+         "Dexterity",
          "Wisdom"
       ],
-      "divineFont": [],
-      "divineFontFilter": [
+      "divineFont": [
          "Heal"
       ],
-      "divineSkill": [],
-      "divineSkillFilter": [
+      "divineSkill": [
          "Survival"
       ],
       "favoredWeapon": [
@@ -5685,17 +5346,14 @@
       "name": "Yuelral",
       "category": "Elven Gods",
       "alignment": "Neutral Good",
-      "divineAbility": [],
-      "divineAbilityFilter": [
-         "Intelligence ",
+      "divineAbility": [
+         "Intelligence",
          "Wisdom"
       ],
-      "divineFont": [],
-      "divineFontFilter": [
+      "divineFont": [
          "Heal"
       ],
-      "divineSkill": [],
-      "divineSkillFilter": [
+      "divineSkill": [
          "Arcana"
       ],
       "favoredWeapon": [
@@ -5765,17 +5423,14 @@
       "name": "Andoletta",
       "category": "Empyreal Lords",
       "alignment": "Lawful Good",
-      "divineAbility": [],
-      "divineAbilityFilter": [
-         "Wisdom ",
+      "divineAbility": [
+         "Wisdom",
          "Charisma"
       ],
-      "divineFont": [],
-      "divineFontFilter": [
+      "divineFont": [
          "Heal"
       ],
-      "divineSkill": [],
-      "divineSkillFilter": [
+      "divineSkill": [
          "Society"
       ],
       "favoredWeapon": [
@@ -5814,17 +5469,14 @@
       "name": "Arshea",
       "category": "Empyreal Lords",
       "alignment": "Neutral Good",
-      "divineAbility": [],
-      "divineAbilityFilter": [
-         "Constitution ",
+      "divineAbility": [
+         "Constitution",
          "Charisma"
       ],
-      "divineFont": [],
-      "divineFontFilter": [
+      "divineFont": [
          "Heal"
       ],
-      "divineSkill": [],
-      "divineSkillFilter": [
+      "divineSkill": [
          "Diplomacy"
       ],
       "favoredWeapon": [
@@ -5863,17 +5515,14 @@
       "name": "Ashava",
       "category": "Empyreal Lords",
       "alignment": "Chaotic Good",
-      "divineAbility": [],
-      "divineAbilityFilter": [
-         "Dexterity ",
+      "divineAbility": [
+         "Dexterity",
          "Charisma"
       ],
-      "divineFont": [],
-      "divineFontFilter": [
+      "divineFont": [
          "Heal"
       ],
-      "divineSkill": [],
-      "divineSkillFilter": [
+      "divineSkill": [
          "Performance"
       ],
       "favoredWeapon": [
@@ -5911,17 +5560,14 @@
       "name": "Black Butterfly",
       "category": "Empyreal Lords",
       "alignment": "Chaotic Good",
-      "divineAbility": [],
-      "divineAbilityFilter": [
-         "Dexterity ",
+      "divineAbility": [
+         "Dexterity",
          "Wisdom"
       ],
-      "divineFont": [],
-      "divineFontFilter": [
+      "divineFont": [
          "Heal"
       ],
-      "divineSkill": [],
-      "divineSkillFilter": [
+      "divineSkill": [
          "Stealth"
       ],
       "favoredWeapon": [
@@ -5959,17 +5605,14 @@
       "name": "Cernunnos",
       "category": "Empyreal Lords",
       "alignment": "Chaotic Good",
-      "divineAbility": [],
-      "divineAbilityFilter": [
-         "Strength ",
+      "divineAbility": [
+         "Strength",
          "Constitution"
       ],
-      "divineFont": [],
-      "divineFontFilter": [
+      "divineFont": [
          "Heal"
       ],
-      "divineSkill": [],
-      "divineSkillFilter": [
+      "divineSkill": [
          "Survival"
       ],
       "favoredWeapon": [
@@ -6008,18 +5651,15 @@
       "name": "Dammerich",
       "category": "Empyreal Lords",
       "alignment": "Lawful Good",
-      "divineAbility": [],
-      "divineAbilityFilter": [
-         "Constitution ",
+      "divineAbility": [
+         "Constitution",
          "Wisdom"
       ],
-      "divineFont": [],
-      "divineFontFilter": [
+      "divineFont": [
          "Harm",
          "Heal"
       ],
-      "divineSkill": [],
-      "divineSkillFilter": [
+      "divineSkill": [
          "Athletics"
       ],
       "favoredWeapon": [
@@ -6056,17 +5696,14 @@
       "name": "Eritrice",
       "category": "Empyreal Lords",
       "alignment": "Neutral Good",
-      "divineAbility": [],
-      "divineAbilityFilter": [
-         "Intelligence ",
+      "divineAbility": [
+         "Intelligence",
          "Charisma"
       ],
-      "divineFont": [],
-      "divineFontFilter": [
+      "divineFont": [
          "Heal"
       ],
-      "divineSkill": [],
-      "divineSkillFilter": [
+      "divineSkill": [
          "Diplomacy"
       ],
       "favoredWeapon": [
@@ -6105,17 +5742,14 @@
       "name": "Falayna",
       "category": "Empyreal Lords",
       "alignment": "Lawful Good",
-      "divineAbility": [],
-      "divineAbilityFilter": [
-         "Strength ",
+      "divineAbility": [
+         "Strength",
          "Charisma"
       ],
-      "divineFont": [],
-      "divineFontFilter": [
+      "divineFont": [
          "Heal"
       ],
-      "divineSkill": [],
-      "divineSkillFilter": [
+      "divineSkill": [
          "Athletics"
       ],
       "favoredWeapon": [
@@ -6154,17 +5788,14 @@
       "name": "Halcamora",
       "category": "Empyreal Lords",
       "alignment": "Neutral Good",
-      "divineAbility": [],
-      "divineAbilityFilter": [
-         "Constitution ",
+      "divineAbility": [
+         "Constitution",
          "Wisdom"
       ],
-      "divineFont": [],
-      "divineFontFilter": [
+      "divineFont": [
          "Heal"
       ],
-      "divineSkill": [],
-      "divineSkillFilter": [
+      "divineSkill": [
          "Nature"
       ],
       "favoredWeapon": [
@@ -6203,17 +5834,14 @@
       "name": "Irez",
       "category": "Empyreal Lords",
       "alignment": "Neutral Good",
-      "divineAbility": [],
-      "divineAbilityFilter": [
-         "Dexterity ",
+      "divineAbility": [
+         "Dexterity",
          "Intelligence"
       ],
-      "divineFont": [],
-      "divineFontFilter": [
+      "divineFont": [
          "Heal"
       ],
-      "divineSkill": [],
-      "divineSkillFilter": [
+      "divineSkill": [
          "Arcana"
       ],
       "favoredWeapon": [
@@ -6253,17 +5881,14 @@
       "name": "Jaidz",
       "category": "Empyreal Lords",
       "alignment": "Neutral Good",
-      "divineAbility": [],
-      "divineAbilityFilter": [
-         "Strength ",
+      "divineAbility": [
+         "Strength",
          "Wisdom"
       ],
-      "divineFont": [],
-      "divineFontFilter": [
+      "divineFont": [
          "Heal"
       ],
-      "divineSkill": [],
-      "divineSkillFilter": [
+      "divineSkill": [
          "Intimidation"
       ],
       "favoredWeapon": [
@@ -6303,17 +5928,14 @@
       "name": "Korada",
       "category": "Empyreal Lords",
       "alignment": "Neutral Good",
-      "divineAbility": [],
-      "divineAbilityFilter": [
-         "Wisdom ",
+      "divineAbility": [
+         "Wisdom",
          "Charisma"
       ],
-      "divineFont": [],
-      "divineFontFilter": [
+      "divineFont": [
          "Heal"
       ],
-      "divineSkill": [],
-      "divineSkillFilter": [
+      "divineSkill": [
          "Diplomacy"
       ],
       "favoredWeapon": [
@@ -6351,17 +5973,14 @@
       "name": "Lymnieris",
       "category": "Empyreal Lords",
       "alignment": "Lawful Good",
-      "divineAbility": [],
-      "divineAbilityFilter": [
-         "Wisdom ",
+      "divineAbility": [
+         "Wisdom",
          "Charisma"
       ],
-      "divineFont": [],
-      "divineFontFilter": [
+      "divineFont": [
          "Heal"
       ],
-      "divineSkill": [],
-      "divineSkillFilter": [
+      "divineSkill": [
          "Society"
       ],
       "favoredWeapon": [
@@ -6400,17 +6019,14 @@
       "name": "Pulura",
       "category": "Empyreal Lords",
       "alignment": "Chaotic Good",
-      "divineAbility": [],
-      "divineAbilityFilter": [
-         "Constitution ",
+      "divineAbility": [
+         "Constitution",
          "Wisdom"
       ],
-      "divineFont": [],
-      "divineFontFilter": [
+      "divineFont": [
          "Heal"
       ],
-      "divineSkill": [],
-      "divineSkillFilter": [
+      "divineSkill": [
          "Survival"
       ],
       "favoredWeapon": [
@@ -6448,18 +6064,15 @@
       "name": "Ragathiel",
       "category": "Empyreal Lords",
       "alignment": "Lawful Good",
-      "divineAbility": [],
-      "divineAbilityFilter": [
-         "Strength ",
+      "divineAbility": [
+         "Strength",
          "Charisma"
       ],
-      "divineFont": [],
-      "divineFontFilter": [
+      "divineFont": [
          "Harm",
          "Heal"
       ],
-      "divineSkill": [],
-      "divineSkillFilter": [
+      "divineSkill": [
          "Intimidation"
       ],
       "favoredWeapon": [
@@ -6496,17 +6109,14 @@
       "name": "Shei",
       "category": "Empyreal Lords",
       "alignment": "Neutral Good",
-      "divineAbility": [],
-      "divineAbilityFilter": [
-         "Intelligence ",
+      "divineAbility": [
+         "Intelligence",
          "Charisma"
       ],
-      "divineFont": [],
-      "divineFontFilter": [
+      "divineFont": [
          "Heal"
       ],
-      "divineSkill": [],
-      "divineSkillFilter": [
+      "divineSkill": [
          "Society"
       ],
       "favoredWeapon": [
@@ -6545,17 +6155,14 @@
       "name": "Soralyon",
       "category": "Empyreal Lords",
       "alignment": "Neutral Good",
-      "divineAbility": [],
-      "divineAbilityFilter": [
-         "Strength ",
+      "divineAbility": [
+         "Strength",
          "Intelligence"
       ],
-      "divineFont": [],
-      "divineFontFilter": [
+      "divineFont": [
          "Heal"
       ],
-      "divineSkill": [],
-      "divineSkillFilter": [
+      "divineSkill": [
          "Arcana"
       ],
       "favoredWeapon": [
@@ -6595,17 +6202,14 @@
       "name": "Tanagaar",
       "category": "Empyreal Lords",
       "alignment": "Lawful Good",
-      "divineAbility": [],
-      "divineAbilityFilter": [
-         "Strength ",
+      "divineAbility": [
+         "Strength",
          "Wisdom"
       ],
-      "divineFont": [],
-      "divineFontFilter": [
+      "divineFont": [
          "Heal"
       ],
-      "divineSkill": [],
-      "divineSkillFilter": [
+      "divineSkill": [
          "Stealth"
       ],
       "favoredWeapon": [
@@ -6644,18 +6248,15 @@
       "name": "Vildeis",
       "category": "Empyreal Lords",
       "alignment": "Lawful Good",
-      "divineAbility": [],
-      "divineAbilityFilter": [
-         "Constitution ",
+      "divineAbility": [
+         "Constitution",
          "Charisma"
       ],
-      "divineFont": [],
-      "divineFontFilter": [
+      "divineFont": [
          "Harm",
          "Heal"
       ],
-      "divineSkill": [],
-      "divineSkillFilter": [
+      "divineSkill": [
          "Medicine"
       ],
       "favoredWeapon": [
@@ -6693,17 +6294,14 @@
       "name": "Winlas",
       "category": "Empyreal Lords",
       "alignment": "Lawful Good",
-      "divineAbility": [],
-      "divineAbilityFilter": [
-         "Intelligence ",
+      "divineAbility": [
+         "Intelligence",
          "Wisdom"
       ],
-      "divineFont": [],
-      "divineFontFilter": [
+      "divineFont": [
          "Heal"
       ],
-      "divineSkill": [],
-      "divineSkillFilter": [
+      "divineSkill": [
          "Occultism"
       ],
       "favoredWeapon": [
@@ -6742,17 +6340,14 @@
       "name": "Ylimancha",
       "category": "Empyreal Lords",
       "alignment": "Neutral Good",
-      "divineAbility": [],
-      "divineAbilityFilter": [
-         "Dexterity ",
+      "divineAbility": [
+         "Dexterity",
          "Wisdom"
       ],
-      "divineFont": [],
-      "divineFontFilter": [
+      "divineFont": [
          "Heal"
       ],
-      "divineSkill": [],
-      "divineSkillFilter": [
+      "divineSkill": [
          "Acrobatics"
       ],
       "favoredWeapon": [
@@ -6792,17 +6387,14 @@
       "name": "Zohls",
       "category": "Empyreal Lords",
       "alignment": "Lawful Good",
-      "divineAbility": [],
-      "divineAbilityFilter": [
-         "Intelligence ",
+      "divineAbility": [
+         "Intelligence",
          "Wisdom"
       ],
-      "divineFont": [],
-      "divineFontFilter": [
+      "divineFont": [
          "Heal"
       ],
-      "divineSkill": [],
-      "divineSkillFilter": [
+      "divineSkill": [
          "Society"
       ],
       "favoredWeapon": [
@@ -6841,17 +6433,14 @@
       "name": "Apollyon",
       "category": "Horsemen",
       "alignment": "Neutral Evil",
-      "divineAbility": [],
-      "divineAbilityFilter": [
-         "Strength ",
+      "divineAbility": [
+         "Strength",
          "Constitution"
       ],
-      "divineFont": [],
-      "divineFontFilter": [
+      "divineFont": [
          "Harm"
       ],
-      "divineSkill": [],
-      "divineSkillFilter": [
+      "divineSkill": [
          "Medicine"
       ],
       "favoredWeapon": [
@@ -6890,17 +6479,14 @@
       "name": "Charon",
       "category": "Horsemen",
       "alignment": "Neutral Evil",
-      "divineAbility": [],
-      "divineAbilityFilter": [
-         "Constitution ",
+      "divineAbility": [
+         "Constitution",
          "Intelligence"
       ],
-      "divineFont": [],
-      "divineFontFilter": [
+      "divineFont": [
          "Harm"
       ],
-      "divineSkill": [],
-      "divineSkillFilter": [
+      "divineSkill": [
          "Occultism"
       ],
       "favoredWeapon": [
@@ -6939,17 +6525,14 @@
       "name": "Szuriel",
       "category": "Horsemen",
       "alignment": "Neutral Evil",
-      "divineAbility": [],
-      "divineAbilityFilter": [
-         "Strength ",
+      "divineAbility": [
+         "Strength",
          "Constitution"
       ],
-      "divineFont": [],
-      "divineFontFilter": [
+      "divineFont": [
          "Harm"
       ],
-      "divineSkill": [],
-      "divineSkillFilter": [
+      "divineSkill": [
          "Athletics"
       ],
       "favoredWeapon": [
@@ -6988,17 +6571,14 @@
       "name": "Trelmarixian",
       "category": "Horsemen",
       "alignment": "Neutral Evil",
-      "divineAbility": [],
-      "divineAbilityFilter": [
-         "Constitution ",
+      "divineAbility": [
+         "Constitution",
          "Wisdom"
       ],
-      "divineFont": [],
-      "divineFontFilter": [
+      "divineFont": [
          "Harm"
       ],
-      "divineSkill": [],
-      "divineSkillFilter": [
+      "divineSkill": [
          "Nature"
       ],
       "favoredWeapon": [
@@ -7037,17 +6617,14 @@
       "name": "Barzahk",
       "category": "Monitor Demigods",
       "alignment": "Neutral",
-      "divineAbility": [],
-      "divineAbilityFilter": [
-         "Constitution ",
+      "divineAbility": [
+         "Constitution",
          "Wisdom"
       ],
-      "divineFont": [],
-      "divineFontFilter": [
+      "divineFont": [
          "Heal"
       ],
-      "divineSkill": [],
-      "divineSkillFilter": [
+      "divineSkill": [
          "Survival"
       ],
       "favoredWeapon": [
@@ -7086,18 +6663,15 @@
       "name": "Imot",
       "category": "Monitor Demigods",
       "alignment": "Neutral",
-      "divineAbility": [],
-      "divineAbilityFilter": [
-         "Strength ",
+      "divineAbility": [
+         "Strength",
          "Intelligence"
       ],
-      "divineFont": [],
-      "divineFontFilter": [
+      "divineFont": [
          "Harm",
          "Heal"
       ],
-      "divineSkill": [],
-      "divineSkillFilter": [
+      "divineSkill": [
          "Occultism"
       ],
       "favoredWeapon": [
@@ -7136,18 +6710,15 @@
       "name": "Kerkamoth",
       "category": "Monitor Demigods",
       "alignment": "Lawful Neutral",
-      "divineAbility": [],
-      "divineAbilityFilter": [
-         "Constitution ",
+      "divineAbility": [
+         "Constitution",
          "Wisdom"
       ],
-      "divineFont": [],
-      "divineFontFilter": [
+      "divineFont": [
          "Harm",
          "Heal"
       ],
-      "divineSkill": [],
-      "divineSkillFilter": [
+      "divineSkill": [
          "Occultism"
       ],
       "favoredWeapon": [
@@ -7185,18 +6756,15 @@
       "name": "Monad",
       "category": "Monitor Demigods",
       "alignment": "Neutral",
-      "divineAbility": [],
-      "divineAbilityFilter": [
-         "Intelligence ",
+      "divineAbility": [
+         "Intelligence",
          "Wisdom"
       ],
-      "divineFont": [],
-      "divineFontFilter": [
+      "divineFont": [
          "Harm",
          "Heal"
       ],
-      "divineSkill": [],
-      "divineSkillFilter": [
+      "divineSkill": [
          "Occultism"
       ],
       "favoredWeapon": [
@@ -7234,17 +6802,14 @@
       "name": "Mother Vulture",
       "category": "Monitor Demigods",
       "alignment": "Neutral",
-      "divineAbility": [],
-      "divineAbilityFilter": [
-         "Constitution ",
+      "divineAbility": [
+         "Constitution",
          "Wisdom"
       ],
-      "divineFont": [],
-      "divineFontFilter": [
+      "divineFont": [
          "Heal"
       ],
-      "divineSkill": [],
-      "divineSkillFilter": [
+      "divineSkill": [
          "Survival"
       ],
       "favoredWeapon": [
@@ -7283,17 +6848,14 @@
       "name": "Narakaas",
       "category": "Monitor Demigods",
       "alignment": "Neutral",
-      "divineAbility": [],
-      "divineAbilityFilter": [
-         "Constitution ",
+      "divineAbility": [
+         "Constitution",
          "Wisdom"
       ],
-      "divineFont": [],
-      "divineFontFilter": [
+      "divineFont": [
          "Heal"
       ],
-      "divineSkill": [],
-      "divineSkillFilter": [
+      "divineSkill": [
          "Diplomacy"
       ],
       "favoredWeapon": [
@@ -7332,18 +6894,15 @@
       "name": "Narriseminek",
       "category": "Monitor Demigods",
       "alignment": "Chaotic Neutral",
-      "divineAbility": [],
-      "divineAbilityFilter": [
-         "Dexterity ",
+      "divineAbility": [
+         "Dexterity",
          "Wisdom"
       ],
-      "divineFont": [],
-      "divineFontFilter": [
+      "divineFont": [
          "Harm",
          "Heal"
       ],
-      "divineSkill": [],
-      "divineSkillFilter": [
+      "divineSkill": [
          "Occultism"
       ],
       "favoredWeapon": [
@@ -7381,17 +6940,14 @@
       "name": "Otolmens",
       "category": "Monitor Demigods",
       "alignment": "Lawful Neutral",
-      "divineAbility": [],
-      "divineAbilityFilter": [
-         "Dexterity ",
+      "divineAbility": [
+         "Dexterity",
          "Intelligence"
       ],
-      "divineFont": [],
-      "divineFontFilter": [
+      "divineFont": [
          "Heal"
       ],
-      "divineSkill": [],
-      "divineSkillFilter": [
+      "divineSkill": [
          "Crafting"
       ],
       "favoredWeapon": [
@@ -7429,17 +6985,14 @@
       "name": "Saloc",
       "category": "Monitor Demigods",
       "alignment": "Neutral",
-      "divineAbility": [],
-      "divineAbilityFilter": [
-         "Wisdom ",
+      "divineAbility": [
+         "Wisdom",
          "Charisma"
       ],
-      "divineFont": [],
-      "divineFontFilter": [
+      "divineFont": [
          "Heal"
       ],
-      "divineSkill": [],
-      "divineSkillFilter": [
+      "divineSkill": [
          "Diplomacy"
       ],
       "favoredWeapon": [
@@ -7478,18 +7031,15 @@
       "name": "Valmallos",
       "category": "Monitor Demigods",
       "alignment": "Lawful Neutral",
-      "divineAbility": [],
-      "divineAbilityFilter": [
-         "Intelligence ",
+      "divineAbility": [
+         "Intelligence",
          "Wisdom"
       ],
-      "divineFont": [],
-      "divineFontFilter": [
+      "divineFont": [
          "Harm",
          "Heal"
       ],
-      "divineSkill": [],
-      "divineSkillFilter": [
+      "divineSkill": [
          "Arcana"
       ],
       "favoredWeapon": [
@@ -7527,18 +7077,15 @@
       "name": "Ydajisk",
       "category": "Monitor Demigods",
       "alignment": "Chaotic Neutral",
-      "divineAbility": [],
-      "divineAbilityFilter": [
-         "Intelligence ",
+      "divineAbility": [
+         "Intelligence",
          "Charisma"
       ],
-      "divineFont": [],
-      "divineFontFilter": [
+      "divineFont": [
          "Harm",
          "Heal"
       ],
-      "divineSkill": [],
-      "divineSkillFilter": [
+      "divineSkill": [
          "Society"
       ],
       "favoredWeapon": [
@@ -7578,17 +7125,14 @@
       "name": "Azathoth",
       "category": "Outer Gods and Great Old Ones",
       "alignment": "Chaotic Neutral",
-      "divineAbility": [],
-      "divineAbilityFilter": [
-         "Constitution ",
+      "divineAbility": [
+         "Constitution",
          "Charisma"
       ],
-      "divineFont": [],
-      "divineFontFilter": [
+      "divineFont": [
          "Harm"
       ],
-      "divineSkill": [],
-      "divineSkillFilter": [
+      "divineSkill": [
          "Performance"
       ],
       "favoredWeapon": [
@@ -7626,17 +7170,14 @@
       "name": "Hastur",
       "category": "Outer Gods and Great Old Ones",
       "alignment": "Chaotic Evil",
-      "divineAbility": [],
-      "divineAbilityFilter": [
-         "Intelligence ",
+      "divineAbility": [
+         "Intelligence",
          "Charisma"
       ],
-      "divineFont": [],
-      "divineFontFilter": [
+      "divineFont": [
          "Harm"
       ],
-      "divineSkill": [],
-      "divineSkillFilter": [
+      "divineSkill": [
          "Deception"
       ],
       "favoredWeapon": [
@@ -7674,17 +7215,14 @@
       "name": "Nhimbaloth",
       "category": "Outer Gods and Great Old Ones",
       "alignment": "Chaotic Evil",
-      "divineAbility": [],
-      "divineAbilityFilter": [
-         "Constitution ",
+      "divineAbility": [
+         "Constitution",
          "Wisdom"
       ],
-      "divineFont": [],
-      "divineFontFilter": [
+      "divineFont": [
          "Harm"
       ],
-      "divineSkill": [],
-      "divineSkillFilter": [
+      "divineSkill": [
          "Nature"
       ],
       "favoredWeapon": [
@@ -7721,17 +7259,14 @@
       "name": "Nyarlathotep",
       "category": "Outer Gods and Great Old Ones",
       "alignment": "Chaotic Evil",
-      "divineAbility": [],
-      "divineAbilityFilter": [
-         "Dexterity ",
+      "divineAbility": [
+         "Dexterity",
          "Intelligence"
       ],
-      "divineFont": [],
-      "divineFontFilter": [
+      "divineFont": [
          "Harm"
       ],
-      "divineSkill": [],
-      "divineSkillFilter": [
+      "divineSkill": [
          "Arcana"
       ],
       "favoredWeapon": [
@@ -7799,17 +7334,14 @@
       "name": "Xhamen-Dor",
       "category": "Outer Gods and Great Old Ones",
       "alignment": "Neutral Evil",
-      "divineAbility": [],
-      "divineAbilityFilter": [
-         "Constitution ",
+      "divineAbility": [
+         "Constitution",
          "Wisdom"
       ],
-      "divineFont": [],
-      "divineFontFilter": [
+      "divineFont": [
          "Harm"
       ],
-      "divineSkill": [],
-      "divineSkillFilter": [
+      "divineSkill": [
          "Nature"
       ],
       "favoredWeapon": [
@@ -7847,17 +7379,14 @@
       "name": "Yog-Sothoth",
       "category": "Outer Gods and Great Old Ones",
       "alignment": "Chaotic Neutral",
-      "divineAbility": [],
-      "divineAbilityFilter": [
-         "Intelligence ",
+      "divineAbility": [
+         "Intelligence",
          "Charisma"
       ],
-      "divineFont": [],
-      "divineFontFilter": [
+      "divineFont": [
          "Harm"
       ],
-      "divineSkill": [],
-      "divineSkillFilter": [
+      "divineSkill": [
          "Occultism"
       ],
       "favoredWeapon": [
@@ -7895,17 +7424,14 @@
       "name": "Dwarven Pantheon",
       "category": "Pantheons",
       "alignment": "Lawful Good",
-      "divineAbility": [],
-      "divineAbilityFilter": [
-         "Constitution ",
+      "divineAbility": [
+         "Constitution",
          "Wisdom"
       ],
-      "divineFont": [],
-      "divineFontFilter": [
+      "divineFont": [
          "Heal"
       ],
-      "divineSkill": [],
-      "divineSkillFilter": [
+      "divineSkill": [
          "Diplomacy"
       ],
       "favoredWeapon": [
@@ -7947,17 +7473,14 @@
       "name": "Elven Pantheon",
       "category": "Pantheons",
       "alignment": "Chaotic Good",
-      "divineAbility": [],
-      "divineAbilityFilter": [
-         "Dexterity ",
+      "divineAbility": [
+         "Dexterity",
          "Intelligence"
       ],
-      "divineFont": [],
-      "divineFontFilter": [
+      "divineFont": [
          "Heal"
       ],
-      "divineSkill": [],
-      "divineSkillFilter": [
+      "divineSkill": [
          "Survival"
       ],
       "favoredWeapon": [
@@ -7997,18 +7520,15 @@
       "name": "The Godclaw",
       "category": "Pantheons",
       "alignment": "Lawful Neutral",
-      "divineAbility": [],
-      "divineAbilityFilter": [
-         "Strength ",
+      "divineAbility": [
+         "Strength",
          "Intelligence"
       ],
-      "divineFont": [],
-      "divineFontFilter": [
+      "divineFont": [
          "Harm",
          "Heal"
       ],
-      "divineSkill": [],
-      "divineSkillFilter": [
+      "divineSkill": [
          "Society"
       ],
       "favoredWeapon": [
@@ -8048,17 +7568,14 @@
       "name": "Ardad Lili",
       "category": "Queens of the Night",
       "alignment": "Lawful Evil",
-      "divineAbility": [],
-      "divineAbilityFilter": [
-         "Intelligence ",
+      "divineAbility": [
+         "Intelligence",
          "Charisma"
       ],
-      "divineFont": [],
-      "divineFontFilter": [
+      "divineFont": [
          "Harm"
       ],
-      "divineSkill": [],
-      "divineSkillFilter": [
+      "divineSkill": [
          "Diplomacy"
       ],
       "favoredWeapon": [
@@ -8097,17 +7614,14 @@
       "name": "Doloras",
       "category": "Queens of the Night",
       "alignment": "Lawful Evil",
-      "divineAbility": [],
-      "divineAbilityFilter": [
-         "Constitution ",
+      "divineAbility": [
+         "Constitution",
          "Wisdom"
       ],
-      "divineFont": [],
-      "divineFontFilter": [
+      "divineFont": [
          "Harm"
       ],
-      "divineSkill": [],
-      "divineSkillFilter": [
+      "divineSkill": [
          "Medicine"
       ],
       "favoredWeapon": [
@@ -8145,17 +7659,14 @@
       "name": "Eisheth",
       "category": "Queens of the Night",
       "alignment": "Lawful Evil",
-      "divineAbility": [],
-      "divineAbilityFilter": [
-         "Strength ",
+      "divineAbility": [
+         "Strength",
          "Dexterity"
       ],
-      "divineFont": [],
-      "divineFontFilter": [
+      "divineFont": [
          "Harm"
       ],
-      "divineSkill": [],
-      "divineSkillFilter": [
+      "divineSkill": [
          "Intimidation"
       ],
       "favoredWeapon": [
@@ -8192,17 +7703,14 @@
       "name": "Mahathallah",
       "category": "Queens of the Night",
       "alignment": "Lawful Evil",
-      "divineAbility": [],
-      "divineAbilityFilter": [
-         "Wisdom ",
+      "divineAbility": [
+         "Wisdom",
          "Charisma"
       ],
-      "divineFont": [],
-      "divineFontFilter": [
+      "divineFont": [
          "Harm"
       ],
-      "divineSkill": [],
-      "divineSkillFilter": [
+      "divineSkill": [
          "Deception"
       ],
       "favoredWeapon": [
@@ -8241,17 +7749,14 @@
       "name": "Alglenweis",
       "category": "Sarkorian Gods",
       "alignment": "Chaotic Good",
-      "divineAbility": [],
-      "divineAbilityFilter": [
-         "Strength ",
+      "divineAbility": [
+         "Strength",
          "Wisdom"
       ],
-      "divineFont": [],
-      "divineFontFilter": [
+      "divineFont": [
          "Heal"
       ],
-      "divineSkill": [],
-      "divineSkillFilter": [
+      "divineSkill": [
          "Nature"
       ],
       "favoredWeapon": [
@@ -8290,17 +7795,14 @@
       "name": "Stag Mother of The Forest of Stones",
       "category": "Sarkorian Gods",
       "alignment": "Neutral",
-      "divineAbility": [],
-      "divineAbilityFilter": [
-         "Constitution ",
+      "divineAbility": [
+         "Constitution",
          "Intelligence"
       ],
-      "divineFont": [],
-      "divineFontFilter": [
+      "divineFont": [
          "Heal"
       ],
-      "divineSkill": [],
-      "divineSkillFilter": [
+      "divineSkill": [
          "Medicine"
       ],
       "favoredWeapon": [
@@ -8345,17 +7847,14 @@
       "name": "Sturovenen",
       "category": "Sarkorian Gods",
       "alignment": "Lawful Good",
-      "divineAbility": [],
-      "divineAbilityFilter": [
-         "Dexterity ",
+      "divineAbility": [
+         "Dexterity",
          "Charisma"
       ],
-      "divineFont": [],
-      "divineFontFilter": [
+      "divineFont": [
          "Heal"
       ],
-      "divineSkill": [],
-      "divineSkillFilter": [
+      "divineSkill": [
          "Diplomacy"
       ],
       "favoredWeapon": [
@@ -8394,17 +7893,14 @@
       "name": "Daikitsu",
       "category": "Tian Gods",
       "alignment": "Neutral",
-      "divineAbility": [],
-      "divineAbilityFilter": [
-         "Dexterity ",
+      "divineAbility": [
+         "Dexterity",
          "Intelligence"
       ],
-      "divineFont": [],
-      "divineFontFilter": [
+      "divineFont": [
          "Heal"
       ],
-      "divineSkill": [],
-      "divineSkillFilter": [
+      "divineSkill": [
          "Crafting"
       ],
       "favoredWeapon": [
@@ -8444,17 +7940,14 @@
       "name": "Fumeiyoshi",
       "category": "Tian Gods",
       "alignment": "Neutral Evil",
-      "divineAbility": [],
-      "divineAbilityFilter": [
-         "Constitution ",
+      "divineAbility": [
+         "Constitution",
          "Charisma"
       ],
-      "divineFont": [],
-      "divineFontFilter": [
+      "divineFont": [
          "Harm"
       ],
-      "divineSkill": [],
-      "divineSkillFilter": [
+      "divineSkill": [
          "Intimidation"
       ],
       "favoredWeapon": [
@@ -8493,17 +7986,14 @@
       "name": "General Susumu",
       "category": "Tian Gods",
       "alignment": "Lawful Evil",
-      "divineAbility": [],
-      "divineAbilityFilter": [
-         "Strength ",
+      "divineAbility": [
+         "Strength",
          "Dexterity"
       ],
-      "divineFont": [],
-      "divineFontFilter": [
+      "divineFont": [
          "Harm"
       ],
-      "divineSkill": [],
-      "divineSkillFilter": [
+      "divineSkill": [
          "Athletics"
       ],
       "favoredWeapon": [
@@ -8541,18 +8031,15 @@
       "name": "Hei Feng",
       "category": "Tian Gods",
       "alignment": "Chaotic Neutral",
-      "divineAbility": [],
-      "divineAbilityFilter": [
-         "Constitution ",
+      "divineAbility": [
+         "Constitution",
          "Charisma"
       ],
-      "divineFont": [],
-      "divineFontFilter": [
+      "divineFont": [
          "Harm",
          "Heal"
       ],
-      "divineSkill": [],
-      "divineSkillFilter": [
+      "divineSkill": [
          "Performance"
       ],
       "favoredWeapon": [
@@ -8593,17 +8080,14 @@
       "name": "Kofusachi",
       "category": "Tian Gods",
       "alignment": "Chaotic Good",
-      "divineAbility": [],
-      "divineAbilityFilter": [
-         "Dexterity ",
+      "divineAbility": [
+         "Dexterity",
          "Constitution"
       ],
-      "divineFont": [],
-      "divineFontFilter": [
+      "divineFont": [
          "Heal"
       ],
-      "divineSkill": [],
-      "divineSkillFilter": [
+      "divineSkill": [
          "Performance"
       ],
       "favoredWeapon": [
@@ -8641,17 +8125,14 @@
       "name": "Lady Jingxi",
       "category": "Tian Gods",
       "alignment": "Neutral Good",
-      "divineAbility": [],
-      "divineAbilityFilter": [
-         "Intelligence ",
+      "divineAbility": [
+         "Intelligence",
          "Wisdom"
       ],
-      "divineFont": [],
-      "divineFontFilter": [
+      "divineFont": [
          "Heal"
       ],
-      "divineSkill": [],
-      "divineSkillFilter": [
+      "divineSkill": [
          "Performance"
       ],
       "favoredWeapon": [
@@ -8689,17 +8170,14 @@
       "name": "Lady Nanbyo",
       "category": "Tian Gods",
       "alignment": "Chaotic Evil",
-      "divineAbility": [],
-      "divineAbilityFilter": [
-         "Strength ",
+      "divineAbility": [
+         "Strength",
          "Constitution"
       ],
-      "divineFont": [],
-      "divineFontFilter": [
+      "divineFont": [
          "Harm"
       ],
-      "divineSkill": [],
-      "divineSkillFilter": [
+      "divineSkill": [
          "Nature"
       ],
       "favoredWeapon": [
@@ -8737,17 +8215,14 @@
       "name": "Lao Shu Po",
       "category": "Tian Gods",
       "alignment": "Neutral Evil",
-      "divineAbility": [],
-      "divineAbilityFilter": [
-         "Dexterity ",
+      "divineAbility": [
+         "Dexterity",
          "Intelligence"
       ],
-      "divineFont": [],
-      "divineFontFilter": [
+      "divineFont": [
          "Harm"
       ],
-      "divineSkill": [],
-      "divineSkillFilter": [
+      "divineSkill": [
          "Thievery"
       ],
       "favoredWeapon": [
@@ -8788,18 +8263,15 @@
       "name": "Nalinivati",
       "category": "Tian Gods",
       "alignment": "Neutral",
-      "divineAbility": [],
-      "divineAbilityFilter": [
-         "Wisdom ",
+      "divineAbility": [
+         "Wisdom",
          "Charisma"
       ],
-      "divineFont": [],
-      "divineFontFilter": [
+      "divineFont": [
          "Harm",
          "Heal"
       ],
-      "divineSkill": [],
-      "divineSkillFilter": [
+      "divineSkill": [
          "Arcana"
       ],
       "favoredWeapon": [
@@ -8870,17 +8342,14 @@
       "name": "Qi Zhong",
       "category": "Tian Gods",
       "alignment": "Neutral Good",
-      "divineAbility": [],
-      "divineAbilityFilter": [
-         "Intelligence ",
+      "divineAbility": [
+         "Intelligence",
          "Wisdom"
       ],
-      "divineFont": [],
-      "divineFontFilter": [
+      "divineFont": [
          "Heal"
       ],
-      "divineSkill": [],
-      "divineSkillFilter": [
+      "divineSkill": [
          "Medicine"
       ],
       "favoredWeapon": [
@@ -8920,17 +8389,14 @@
       "name": "Shizuru",
       "category": "Tian Gods",
       "alignment": "Lawful Good",
-      "divineAbility": [],
-      "divineAbilityFilter": [
-         "Strength ",
+      "divineAbility": [
+         "Strength",
          "Wisdom"
       ],
-      "divineFont": [],
-      "divineFontFilter": [
+      "divineFont": [
          "Heal"
       ],
-      "divineSkill": [],
-      "divineSkillFilter": [
+      "divineSkill": [
          "Society"
       ],
       "favoredWeapon": [
@@ -8970,18 +8436,15 @@
       "name": "Sun Wukong",
       "category": "Tian Gods",
       "alignment": "Chaotic Neutral",
-      "divineAbility": [],
-      "divineAbilityFilter": [
-         "Strength ",
+      "divineAbility": [
+         "Strength",
          "Charisma"
       ],
-      "divineFont": [],
-      "divineFontFilter": [
+      "divineFont": [
          "Harm",
          "Heal"
       ],
-      "divineSkill": [],
-      "divineSkillFilter": [
+      "divineSkill": [
          "Acrobatics"
       ],
       "favoredWeapon": [
@@ -9020,17 +8483,14 @@
       "name": "Tsukiyo",
       "category": "Tian Gods",
       "alignment": "Lawful Good",
-      "divineAbility": [],
-      "divineAbilityFilter": [
-         "Constitution ",
+      "divineAbility": [
+         "Constitution",
          "Intelligence"
       ],
-      "divineFont": [],
-      "divineFontFilter": [
+      "divineFont": [
          "Heal"
       ],
-      "divineSkill": [],
-      "divineSkillFilter": [
+      "divineSkill": [
          "Occultism"
       ],
       "favoredWeapon": [
@@ -9072,17 +8532,14 @@
       "name": "Yaezhing",
       "category": "Tian Gods",
       "alignment": "Lawful Evil",
-      "divineAbility": [],
-      "divineAbilityFilter": [
-         "Dexterity ",
+      "divineAbility": [
+         "Dexterity",
          "Intelligence"
       ],
-      "divineFont": [],
-      "divineFontFilter": [
+      "divineFont": [
          "Harm"
       ],
-      "divineSkill": [],
-      "divineSkillFilter": [
+      "divineSkill": [
          "Stealth"
       ],
       "favoredWeapon": [
@@ -9120,18 +8577,15 @@
       "name": "Yamatsumi",
       "category": "Tian Gods",
       "alignment": "Neutral",
-      "divineAbility": [],
-      "divineAbilityFilter": [
-         "Strength ",
+      "divineAbility": [
+         "Strength",
          "Wisdom"
       ],
-      "divineFont": [],
-      "divineFontFilter": [
+      "divineFont": [
          "Harm",
          "Heal"
       ],
-      "divineSkill": [],
-      "divineSkillFilter": [
+      "divineSkill": [
          "Athletics"
       ],
       "favoredWeapon": [
@@ -9171,17 +8625,14 @@
       "name": "Arundhat",
       "category": "Vudrani Gods",
       "alignment": "Neutral Good",
-      "divineAbility": [],
-      "divineAbilityFilter": [
-         "Intelligence ",
+      "divineAbility": [
+         "Intelligence",
          "Wisdom"
       ],
-      "divineFont": [],
-      "divineFontFilter": [
+      "divineFont": [
          "Heal"
       ],
-      "divineSkill": [],
-      "divineSkillFilter": [
+      "divineSkill": [
          "Nature"
       ],
       "favoredWeapon": [
@@ -9221,18 +8672,15 @@
       "name": "Ashukharma",
       "category": "Vudrani Gods",
       "alignment": "Chaotic Neutral",
-      "divineAbility": [],
-      "divineAbilityFilter": [
-         "Constitution ",
+      "divineAbility": [
+         "Constitution",
          "Intelligence"
       ],
-      "divineFont": [],
-      "divineFontFilter": [
+      "divineFont": [
          "Harm",
          "Heal"
       ],
-      "divineSkill": [],
-      "divineSkillFilter": [
+      "divineSkill": [
          "Crafting"
       ],
       "favoredWeapon": [
@@ -9271,18 +8719,15 @@
       "name": "Chamidu",
       "category": "Vudrani Gods",
       "alignment": "Neutral",
-      "divineAbility": [],
-      "divineAbilityFilter": [
-         "Strength ",
+      "divineAbility": [
+         "Strength",
          "Constitution"
       ],
-      "divineFont": [],
-      "divineFontFilter": [
+      "divineFont": [
          "Harm",
          "Heal"
       ],
-      "divineSkill": [],
-      "divineSkillFilter": [
+      "divineSkill": [
          "Medicine"
       ],
       "favoredWeapon": [
@@ -9321,18 +8766,15 @@
       "name": "Dhalavei",
       "category": "Vudrani Gods",
       "alignment": "Lawful Evil",
-      "divineAbility": [],
-      "divineAbilityFilter": [
-         "Strength ",
+      "divineAbility": [
+         "Strength",
          "Charisma"
       ],
-      "divineFont": [],
-      "divineFontFilter": [
+      "divineFont": [
          "Harm",
          "Heal"
       ],
-      "divineSkill": [],
-      "divineSkillFilter": [
+      "divineSkill": [
          "Deception"
       ],
       "favoredWeapon": [
@@ -9370,18 +8812,15 @@
       "name": "Diomazul",
       "category": "Vudrani Gods",
       "alignment": "Lawful Evil",
-      "divineAbility": [],
-      "divineAbilityFilter": [
-         "Strength ",
+      "divineAbility": [
+         "Strength",
          "Dexterity"
       ],
-      "divineFont": [],
-      "divineFontFilter": [
+      "divineFont": [
          "Harm",
          "Heal"
       ],
-      "divineSkill": [],
-      "divineSkillFilter": [
+      "divineSkill": [
          "Athletics"
       ],
       "favoredWeapon": [
@@ -9419,17 +8858,14 @@
       "name": "Gruhastha",
       "category": "Vudrani Gods",
       "alignment": "Lawful Good",
-      "divineAbility": [],
-      "divineAbilityFilter": [
-         "Intelligence ",
+      "divineAbility": [
+         "Intelligence",
          "Wisdom"
       ],
-      "divineFont": [],
-      "divineFontFilter": [
+      "divineFont": [
          "Heal"
       ],
-      "divineSkill": [],
-      "divineSkillFilter": [
+      "divineSkill": [
          "Society"
       ],
       "favoredWeapon": [
@@ -9469,17 +8905,14 @@
       "name": "Lahkgya",
       "category": "Vudrani Gods",
       "alignment": "Chaotic Evil",
-      "divineAbility": [],
-      "divineAbilityFilter": [
-         "Dexterity ",
+      "divineAbility": [
+         "Dexterity",
          "Intelligence"
       ],
-      "divineFont": [],
-      "divineFontFilter": [
+      "divineFont": [
          "Harm"
       ],
-      "divineSkill": [],
-      "divineSkillFilter": [
+      "divineSkill": [
          "Thievery"
       ],
       "favoredWeapon": [
@@ -9517,18 +8950,15 @@
       "name": "Likha",
       "category": "Vudrani Gods",
       "alignment": "Neutral",
-      "divineAbility": [],
-      "divineAbilityFilter": [
-         "Intelligence ",
+      "divineAbility": [
+         "Intelligence",
          "Charisma"
       ],
-      "divineFont": [],
-      "divineFontFilter": [
+      "divineFont": [
          "Harm",
          "Heal"
       ],
-      "divineSkill": [],
-      "divineSkillFilter": [
+      "divineSkill": [
          "Performance"
       ],
       "favoredWeapon": [
@@ -9568,17 +8998,14 @@
       "name": "Matravash",
       "category": "Vudrani Gods",
       "alignment": "Lawful Neutral",
-      "divineAbility": [],
-      "divineAbilityFilter": [
-         "Constitution ",
+      "divineAbility": [
+         "Constitution",
          "Wisdom"
       ],
-      "divineFont": [],
-      "divineFontFilter": [
+      "divineFont": [
          "Heal"
       ],
-      "divineSkill": [],
-      "divineSkillFilter": [
+      "divineSkill": [
          "Survival"
       ],
       "favoredWeapon": [
@@ -9617,17 +9044,14 @@
       "name": "Ragdya",
       "category": "Vudrani Gods",
       "alignment": "Neutral",
-      "divineAbility": [],
-      "divineAbilityFilter": [
-         "Dexterity ",
+      "divineAbility": [
+         "Dexterity",
          "Wisdom"
       ],
-      "divineFont": [],
-      "divineFontFilter": [
+      "divineFont": [
          "Heal"
       ],
-      "divineSkill": [],
-      "divineSkillFilter": [
+      "divineSkill": [
          "Acrobatics"
       ],
       "favoredWeapon": [
@@ -9667,18 +9091,15 @@
       "name": "Raumya",
       "category": "Vudrani Gods",
       "alignment": "Neutral Evil",
-      "divineAbility": [],
-      "divineAbilityFilter": [
-         "Strength ",
+      "divineAbility": [
+         "Strength",
          "Charisma"
       ],
-      "divineFont": [],
-      "divineFontFilter": [
+      "divineFont": [
          "Harm",
          "Heal"
       ],
-      "divineSkill": [],
-      "divineSkillFilter": [
+      "divineSkill": [
          "Performance"
       ],
       "favoredWeapon": [

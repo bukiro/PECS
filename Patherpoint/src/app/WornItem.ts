@@ -20,6 +20,8 @@ export class WornItem extends Equipment {
     public isDoublingRings: ""|"Doubling Rings"|"Doubling Rings (Greater)" = "";
     //Does this item count for the "Handwraps of Mighty Blows" functionality? If so, be sure to make it moddable like a weapon.
     public isHandwrapsOfMightyBlows: boolean = false;
+    //A Champion with the Divine Ally: Blade Ally Feat can designate one weapon or handwraps as his blade ally.
+    public bladeAlly: boolean = false;
     //Does this item use the Wayfinder functionality to store Aeon Stones, and how many?
     public isWayfinder: number = 0;
     //Is this an Aeon Stone and can be stored in a Wayfinder?

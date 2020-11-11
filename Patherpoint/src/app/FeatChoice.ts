@@ -21,9 +21,8 @@ export class FeatChoice {
     //In this case, we don't go looking for feats with a certain trait, but rely completely on the filter.
     //The choice's type will be the choice title in the character configuration.
     public specialChoice: boolean = false;
-    //Feats may give feat choices with a level attribute of "half your level", which can be formulated here and will be evaluated while taking the feat
+    //Feats may give feat choices with a level attribute of "half your level", which can be formulated here (e.g. as "level.number / 2") and will be evaluated while taking the feat.
+    //It will always be rounded down.
     public dynamicLevel: string = "";
-    //Allow the prerequisites check for this Feat Choice to work from the current character level instead of the level that it is stored in.
-    public useCharacterLevel: boolean = false;
     public type: string = "";
 }

@@ -62,8 +62,10 @@ export class Equipment extends Item {
     public moddable: ""|"-"|"weapon"|"armor"|"shield" = "";
     //Potency Rune level for weapons and armor
     public potencyRune:number = 0;
-    //Property Rune names for weapons and armor
+    //Property Runes for weapons and armor
     public propertyRunes:Rune[] = [];
+    //Blade Ally Runes can be emulated on weapons and handwraps
+    public bladeAllyRunes:Rune[] = [];
     //Resilient Rune level for armor
     public resilientRune:number = 0;
     //Is the name input visible in the inventory
@@ -159,6 +161,17 @@ export class Equipment extends Item {
                 }
                 properties += " " + name;
             })
+            if (this["bladeAlly"]) {
+                this.bladeAllyRunes.forEach(rune => {
+                    let name: string = rune.name;
+                    if (rune.name.includes("(Greater)")) {
+                        name = "Greater " + rune.name.substr(0, rune.name.indexOf("(Greater)"));
+                    } else if (rune.name.includes(", Greater)")) {
+                        name = "Greater " + rune.name.substr(0, rune.name.indexOf(", Greater)")) + ")";
+                    }
+                    properties += " " + name;
+                })
+            }
             this.material.forEach(mat => {
                 let name: string = mat.name;
                 if(mat.name.includes("(")) {

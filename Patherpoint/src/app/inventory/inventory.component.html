@@ -86,6 +86,8 @@
             </ng-container>
         </ng-container>
         <h3 class="fullsize-only box-header">Items</h3>
+        <app-tags [creature]="creature" [objectName]="'Inventory'" [showTraits]=true [showFeats]=true
+            [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
         <div class="fullsize-only list-item" *ngFor="let maxInvested of [get_MaxInvested()]; trackBy:trackByIndex;">
             <strong>Invested</strong><input type="number" class="number2"
                 [ngClass]="{'problem':(get_Invested() > maxInvested.value)}" [ngModel]="get_Invested()" disabled>
@@ -113,6 +115,7 @@
                                 (click)="toggle_Item(inventoryID)">
                                 <span title="Temporary Item" *ngIf="item.expiration">&#9851;&nbsp;</span>
                                 <span title="Large Weapon" *ngIf="item.large">&#10034;&nbsp;</span>
+                                <span title="Blade Ally" *ngIf="item.bladeAlly">&#10037;&nbsp;</span>
                                 {{(item.amount != undefined && item.amount != 1) ? item.amount+" " : ""}}
                                 {{(item['get_Name']) ? item.get_Name() : item.name}}&nbsp;
                                 <span class="lower"
@@ -319,38 +322,48 @@
                                 </div>
                                 <!--Changing Notes-->
                                 <div class="list-item row" *ngIf="item.showNotes">
-                                    <span>Notes</span> <input type="textarea" class="fullwidth" [(ngModel)]="item.notes">
+                                    <span>Notes</span> <input type="textarea" class="fullwidth"
+                                        [(ngModel)]="item.notes">
                                 </div>
                                 <!--Changing Status-->
                                 <div class="list-item row left-aligned"
                                     *ngIf="!['Fist','Unarmored'].includes(item.name) && item.baseType == 'Equipment' && (item.showStatus || item.broken || item.shoddy)">
                                     <span>Status</span>
-                                    <span>
+                                    <span
+                                        title="A broken object can't be used for its normal function, nor does it grant bonuses - with the exception of armor. Broken armor still grants its item bonus to AC, but it also imparts a status penalty to AC depending on its category: -1 for broken light armor, -2 for broken medium armor, or -3 for broken heavy armor. A broken item still imposes penalties and limitations normally incurred by carrying, holding, or wearing it. For example, broken armor would still impose its Dexterity modifier cap, check penalty, and so forth.">
                                         <input id="{{item.id}}broken" type="checkbox" [(ngModel)]="item.broken"
-                                            title="A broken object can't be used for its normal function, nor does it grant bonuses - with the exception of armor. Broken armor still grants its item bonus to AC, but it also imparts a status penalty to AC depending on its category: -1 for broken light armor, -2 for broken medium armor, or -3 for broken heavy armor. A broken item still imposes penalties and limitations normally incurred by carrying, holding, or wearing it. For example, broken armor would still impose its Dexterity modifier cap, check penalty, and so forth."
                                             (ngModelChange)=onItemChange(item)>
-                                        <label for="{{item.id}}broken"
-                                            title="A broken object can't be used for its normal function, nor does it grant bonuses - with the exception of armor. Broken armor still grants its item bonus to AC, but it also imparts a status penalty to AC depending on its category: -1 for broken light armor, -2 for broken medium armor, or -3 for broken heavy armor. A broken item still imposes penalties and limitations normally incurred by carrying, holding, or wearing it. For example, broken armor would still impose its Dexterity modifier cap, check penalty, and so forth.">Broken</label>
+                                        <label for="{{item.id}}broken">Broken</label>
                                     </span>
-                                    <span>
-                                        <input id="{{item.id}}shoddy" type="checkbox"
-                                            title="When available, a shoddy item usually costs half the Price of a standard item, though you can never sell one in any case. Attacks and checks involving a shoddy item take a –2 item penalty. This penalty also applies to any DCs that a shoddy item applies to (such as AC, for shoddy armor). A shoddy suit of armor also worsens the armor's check penalty by 2. A shoddy item's Hit Points and Broken Threshold are each half that of a normal item of its type."
-                                            [(ngModel)]="item.shoddy" (ngModelChange)=onItemChange(item)>
-                                        <label for="{{item.id}}shoddy"
-                                            title="When available, a shoddy item usually costs half the Price of a standard item, though you can never sell one in any case. Attacks and checks involving a shoddy item take a –2 item penalty. This penalty also applies to any DCs that a shoddy item applies to (such as AC, for shoddy armor). A shoddy suit of armor also worsens the armor's check penalty by 2. A shoddy item's Hit Points and Broken Threshold are each half that of a normal item of its type.">Shoddy</label>
-                                    </span>
-                                    <span *ngIf="get_LargeWeaponAllowed(item) || item.large">
-                                        <input id="{{item.id}}large" type="checkbox"
-                                            title="You can use a weapon built for a Large creature if you are Small or Medium (both normally and when raging). If you're not Small or Medium, you can use a weapon built for a creature one size larger than you. While wielding the weapon, you have the clumsy 1 condition because of its unwieldy size."
-                                            [(ngModel)]="item.large" (ngModelChange)=onItemChange(item)>
-                                        <label for="{{item.id}}large"
-                                            title="You can use a weapon built for a Large creature if you are Small or Medium (both normally and when raging). If you're not Small or Medium, you can use a weapon built for a creature one size larger than you. While wielding the weapon, you have the clumsy 1 condition because of its unwieldy size.">Large</label>
+                                    <span
+                                        title="When available, a shoddy item usually costs half the Price of a standard item, though you can never sell one in any case. Attacks and checks involving a shoddy item take a –2 item penalty. This penalty also applies to any DCs that a shoddy item applies to (such as AC, for shoddy armor). A shoddy suit of armor also worsens the armor's check penalty by 2. A shoddy item's Hit Points and Broken Threshold are each half that of a normal item of its type.">
+                                        <input id="{{item.id}}shoddy" type="checkbox" [(ngModel)]="item.shoddy"
+                                            (ngModelChange)=onItemChange(item)>
+                                        <label for="{{item.id}}shoddy">Shoddy</label>
                                     </span>
                                 </div>
                                 <!--Changing Name-->
                                 <div class="list-item row" *ngIf="item.showName">
-                                    <span>Name</span> <input type="textarea" class="fullwidth" [(ngModel)]="item.displayName"
-                                        (blur)="onItemChange(item)">
+                                    <span>Name</span> <input type="textarea" class="fullwidth"
+                                        [(ngModel)]="item.displayName" (blur)="onItemChange(item)">
+                                </div>
+                                <div class="list-item row" *ngIf="get_LargeWeaponAllowed(item) || item.large">
+                                    <span
+                                        title="You can use a weapon built for a Large creature if you are Small or Medium (both normally and when raging). If you're not Small or Medium, you can use a weapon built for a creature one size larger than you. While wielding the weapon, you have the clumsy 1 condition because of its unwieldy size.">
+                                        <input id="{{item.id}}large" type="checkbox" [(ngModel)]="item.large"
+                                            (ngModelChange)=onItemChange(item)>
+                                        <label for="{{item.id}}large">Large</label>
+                                    </span>
+                                </div>
+                                <div class="list-item row" *ngIf="get_BladeAllyAllowed(item) || item.bladeAlly">
+                                    <span
+                                        title="You can select one weapon or handwraps of mighty blows when you make your daily preparations. In your hands, the item gains the effect of a property rune and you also gain the weapon's critical specialization effect. For a champion following the tenets of good, choose disrupting, ghost touch, returning, or shifting. For a champion following the tenets of evil, choose fearsome, returning, or shifting.">
+                                        <input id="{{item.id}}bladeally" type="checkbox" [(ngModel)]="item.bladeAlly"
+                                            (ngModelChange)=onItemChange(item) title="{{(get_BladeAllyUsed() && !item.bladeAlly) ? 'Another item is already designated as your blade ally.' : ''}}" [disabled]="get_BladeAllyUsed() && !item.bladeAlly">
+                                        <label for="{{item.id}}bladeally">Blade Ally</label>
+                                    </span>
+                                    <app-itemBladeAlly class="list-item" [item]=item *ngIf="item.bladeAlly">
+                                    </app-itemBladeAlly>
                                 </div>
                                 <app-itemRunes class="list-item" [item]=item [itemStore]=false *ngIf="item.showRunes">
                                 </app-itemRunes>
@@ -360,6 +373,24 @@
                                 </app-itemPoisons>
                                 <app-itemTalismans [item]=item [itemStore]=false *ngIf="can_ApplyTalismans(item)">
                                 </app-itemTalismans>
+                                <ng-container *ngIf="item.type =='shields'">
+                                    <div class="list-item row">
+                                        <strong>HP</strong> <span><input type="number" class="number2" [ngModel]="item.get_HitPoints()" disabled></span>
+                                        <strong>Max HP</strong> <span><input type="number" class="number2" [ngModel]="item.get_MaxHP()" disabled></span>
+                                        <strong>BT</strong> <span><input type="number" class="number2" [ngModel]="item.get_BrokenThreshold()" disabled></span>
+                                    </div>
+                                    <div class="list-item row">
+                                        <span>
+                                            <button [disabled]="shieldDamage == 0" (click)="on_ShieldHPChange(item, shieldDamage)">Damage</button>
+                                        </span>
+                                        <span>
+                                            <input class="number3" type="number" [(ngModel)]="shieldDamage" maxLength="3">
+                                        </span>
+                                        <span>
+                                            <button [disabled]="shieldDamage == 0" (click)="on_ShieldHPChange(item, -shieldDamage)">Repair</button>
+                                        </span>
+                                    </div>
+                                </ng-container>
                                 <app-item class="lower" [creature]="creature" [item]=item
                                     [allowActivate]="(item.equippable ? item.equipped : true) && (item.can_Invest() ? item.invested : true)"
                                     [armoredSkirt]="item.get_ArmoredSkirt ? item.get_ArmoredSkirt(get_Creature(), characterService) : null">

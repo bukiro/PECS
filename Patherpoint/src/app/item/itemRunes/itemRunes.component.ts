@@ -27,6 +27,9 @@ export class ItemRunesComponent implements OnInit {
     itemStore: boolean = false;
     @Input()
     customItemStore: boolean = false;
+    @Input()
+    bladeAlly: boolean = false;
+    
 
     public newPropertyRune: { rune: Rune, inv: ItemCollection, disabled?: boolean }[];
     public inventories: string[] = [];

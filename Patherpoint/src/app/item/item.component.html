@@ -74,11 +74,19 @@
     </span>
     <span *ngIf="item.hardness">
         <strong>Hardness</strong>
-        {{item.hardness}}&nbsp;
+        <span
+            [ngClass]="{'penalty':(item.get_Hardness() < item.hardness), 'bonus':(item.get_Hardness() > item.hardness)}">&nbsp;{{item.get_Hardness ? item.get_Hardness() : item.hardness}}&nbsp;
+        </span>
     </span>
     <span *ngIf="item.hitpoints">
-        <strong>HP (BT)</strong>
-        {{item.hitpoints}} ({{item.breakpoint}})&nbsp;
+        <strong>HP</strong><strong *ngIf="item.brokenThreshold"> (BT)</strong>
+        <span
+            [ngClass]="{'penalty':(item.get_MaxHP() < item.hitpoints), 'bonus':(item.get_MaxHP() > item.hitpoints)}">&nbsp;{{item.get_MaxHP ? item.get_MaxHP() : item.hitpoints}}
+        </span>
+        <span *ngIf="item.brokenThreshold"
+            [ngClass]="{'penalty':(item.get_BrokenThreshold() < item.brokenThreshold), 'bonus':(item.get_BrokenThreshold() > item.brokenThreshold)}">({{item.get_BrokenThreshold ? item.get_BrokenThreshold() : item.brokenThreshold}})
+        </span>
+        &nbsp;
     </span>
 </div>
 <div class="row left-aligned">
@@ -255,7 +263,8 @@
         </app-actionIcons>{{(activity.activationType) ? activity.activationType : ""}}
     </h4>
     <app-activity [creature]="creature" [activity]=activity [gain]=activity
-        [allowActivate]="allowActivate && !item.broken && (activity.resonant ? isSubItem : true)" [isSubItem]=isSubItem></app-activity>
+        [allowActivate]="allowActivate && !item.broken && (activity.resonant ? isSubItem : true)" [isSubItem]=isSubItem>
+    </app-activity>
 </div>
 <ng-container *ngFor="let gain of item.gainActivities; trackBy:trackByIndex;">
     <div class="list-item left-aligned" *ngFor="let activity of get_Activities(gain.name); trackBy:trackByIndex;">
@@ -273,8 +282,8 @@
             {{activity.name}}<app-actionIcons [actionString]="activity.actions">
             </app-actionIcons>{{(activity.activationType) ? activity.activationType : ""}}
         </h4>
-        <app-activity [creature]="creature" [activity]=activity [gain]=null [allowActivate]=false
-            [isSubItem]=isSubItem></app-activity>
+        <app-activity [creature]="creature" [activity]=activity [gain]=null [allowActivate]=false [isSubItem]=isSubItem>
+        </app-activity>
     </div>
 </ng-container>
 <div class="list-item left-aligned" *ngFor="let oil of item.oilsApplied; trackBy:trackByIndex;">
@@ -304,6 +313,12 @@
     </ng-container>
     <app-item [creature]="creature" [item]=rune [allowActivate]=allowActivate [isSubItem]=true></app-item>
 </div>
+<ng-container *ngIf="item.bladeAlly">
+    <div class="list-item left-aligned" *ngFor="let rune of item.bladeAllyRunes; trackBy:trackByIndex;">
+        <h4>{{rune.name}} Rune</h4>
+        <app-item [creature]="creature" [item]=rune [allowActivate]="allowActivate" [isSubItem]=true></app-item>
+    </div>
+</ng-container>
 <div class="list-item left-aligned" *ngFor="let stone of item.aeonStones; trackBy:trackByIndex;">
     <h4>{{stone.name}}</h4>
     <app-item [creature]="creature" [item]=stone [allowActivate]=allowActivate [isSubItem]=true></app-item>

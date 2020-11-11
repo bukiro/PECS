@@ -20,6 +20,7 @@ export class DefenseComponent implements OnInit {
 
     @Input()
     creature: string = "Character";
+    public shieldDamage: number = 0;
 
     constructor(
         private changeDetector: ChangeDetectorRef,
@@ -94,6 +95,18 @@ export class DefenseComponent implements OnInit {
 
     get_EquippedShield() {
         return this.defenseService.get_EquippedShield(this.get_Creature() as Character|AnimalCompanion);
+    }
+
+    on_ShieldHPChange(shield: Shield, amount: number) {
+        shield.damage += amount;
+        if (shield.get_HitPoints() <= shield.get_BrokenThreshold()) {
+            shield.broken = true;
+        } else {
+            shield.broken = false;
+        }
+        this.characterService.set_ToChange(this.creature, "inventory");
+        this.characterService.set_ToChange(this.creature, "defense");
+        this.characterService.process_ToChange();
     }
 
     get_ParryWeapons() {

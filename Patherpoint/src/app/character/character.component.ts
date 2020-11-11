@@ -169,7 +169,8 @@ export class CharacterComponent implements OnInit {
         if (deity && ["Champion", "Cleric"].includes(this.get_Character().class.name)) {
             return alignments.filter(alignment => 
                 !deity.followerAlignments ||
-                deity.followerAlignments.includes(alignment)
+                deity.followerAlignments.includes(alignment) ||
+                alignment == ""
             )
         } else {
             return alignments;
@@ -240,6 +241,7 @@ export class CharacterComponent implements OnInit {
     on_AlignmentChange() {
         this.characterService.set_ToChange("Character", "general");
         this.characterService.set_ToChange("Character", "charactersheet");
+        this.characterService.set_ToChange("Character", "featchoices");
         this.characterService.process_ToChange();
     }
 
@@ -280,7 +282,7 @@ export class CharacterComponent implements OnInit {
         })
         this.get_Character().class.levels.forEach(level => {
             level.featChoices.forEach(choice => {
-                if (choice.useCharacterLevel) {
+                if (choice.dynamicLevel) {
                     this.characterService.set_ToChange("Character", "featchoices");
                 }
             })
@@ -711,7 +713,7 @@ export class CharacterComponent implements OnInit {
         if (!["Champion", "Cleric"].includes(this.get_Character().class.name)) {
             return this.deitiesService.get_Deities(name).filter(deity => !currentDeity || deity.name == currentDeity);
         } else {
-            return this.deitiesService.get_Deities(name).filter((deity: Deity) => (!currentDeity || deity.name == currentDeity) && !this.get_Character().alignment || deity.followerAlignments.includes(this.get_Character().alignment));
+            return this.deitiesService.get_Deities(name).filter((deity: Deity) => (!currentDeity || deity.name == currentDeity) && (!this.get_Character().alignment || deity.followerAlignments.includes(this.get_Character().alignment)));
         }
     }
 

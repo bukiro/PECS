@@ -3,8 +3,7 @@
         [ngClass]="{'problem':(cannotTakeSome(choice) || choice.feats.length > get_Available(choice)), 'fullsize-only':(get_Available(choice) == choice.feats.length)}">
         <button class="row left-aligned sublist-toggle" [ngClass]="{'fancy-button':(get_Available(choice) == choice.feats.length)}"
             (click)="toggle_List(listID)">
-            <span *ngIf="choice.useCharacterLevel" title="You can always choose feats up to your character level for this choice.">&#9826;&nbsp;</span>
-            {{(featLevel != levelNumber && !choice.useCharacterLevel) ? "Level "+featLevel+" " : ""}}{{choice.type.split(",").join(", ")}}{{choice.specialChoice ?
+            {{(featLevel != levelNumber) ? "Level "+featLevel+" " : ""}}{{choice.type.split(",").join(", ")}}{{choice.specialChoice ?
                 '' : (creature == 'Familiar' ? (get_Available(choice) > 1 ? ' Abilities' : ' Ability') : (get_Available(choice) > 1 ? ' Feats' : ' Feat'))}}{{creature == 'Familiar' ?
                 '' : ' ('+choice.source+')'}}{{(get_Available(choice) > 1) ?
                 ": "+ choice.feats.length +"/"+ get_Available(choice) : 
