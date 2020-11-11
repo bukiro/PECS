@@ -1246,58 +1246,60 @@ export class CharacterService {
 
     add_Condition(creature: Character|AnimalCompanion|Familiar, conditionGain: ConditionGain, reload: boolean = true) {
         let activate: boolean = true;
+        //If the condition has an activationPrerequisite, test that first and only activate if it evaluates to a nonzero number.
         if (conditionGain.activationPrerequisite) {
             let testEffectGain: EffectGain = new EffectGain();
             testEffectGain.value = conditionGain.activationPrerequisite;
             let effects = this.effectsService.get_SimpleEffects(this.get_Character(), this, { effects: [testEffectGain], value: conditionGain.value, heightened: conditionGain.heightened, choice: conditionGain.choice, spellCastingAbility: null});
-            //Do not activate the condition if activationPrerequisite doesn't evaluate to a nonzero number.
             if (effects?.[0]?.value == "0" || !(parseInt(effects?.[0]?.value))) {
                 activate = false;
             }
         }
         if (activate) {
             let originalCondition = this.get_Conditions(conditionGain.name)[0];
-            if (originalCondition.nextStage) {
-                this.set_ToChange(creature.type, "time");
-                this.set_ToChange(creature.type, "health");
-            }
-            conditionGain.nextStage = originalCondition.nextStage;
-            conditionGain.decreasingValue = originalCondition.decreasingValue;
-            //The gain may be persistent by itself, so don't overwrite it with the condition's persistence, but definitely set it if the condition is.
-            if (originalCondition.persistent) {
-                conditionGain.persistent = true;
-            }
-            if (originalCondition.choices.length && !conditionGain.choice) {
-                conditionGain.choice = originalCondition.choice ? originalCondition.choice : originalCondition.choices[0];
-            }
-            let newLength: number = 0;
-            if (conditionGain.addValue) {
-                let existingConditions = creature.conditions.filter(gain => gain.name == conditionGain.name);
-                if (existingConditions.length) {
-                    existingConditions.forEach(gain => {
-                        gain.value += conditionGain.addValue;
-                    })
+            if (originalCondition) {
+                if (originalCondition.nextStage) {
+                    this.set_ToChange(creature.type, "time");
+                    this.set_ToChange(creature.type, "health");
+                }
+                conditionGain.nextStage = originalCondition.nextStage;
+                conditionGain.decreasingValue = originalCondition.decreasingValue;
+                //The gain may be persistent by itself, so don't overwrite it with the condition's persistence, but definitely set it if the condition is.
+                if (originalCondition.persistent) {
+                    conditionGain.persistent = true;
+                }
+                if (originalCondition.choices.length && !conditionGain.choice) {
+                    conditionGain.choice = originalCondition.choice ? originalCondition.choice : originalCondition.choices[0];
+                }
+                let newLength: number = 0;
+                if (conditionGain.addValue) {
+                    let existingConditions = creature.conditions.filter(gain => gain.name == conditionGain.name);
+                    if (existingConditions.length) {
+                        existingConditions.forEach(gain => {
+                            gain.value += conditionGain.addValue;
+                        })
+                    } else {
+                        conditionGain.value = conditionGain.addValue;
+                        newLength = creature.conditions.push(conditionGain);
+                    }
                 } else {
-                    conditionGain.value = conditionGain.addValue;
                     newLength = creature.conditions.push(conditionGain);
                 }
-            } else {
-                newLength = creature.conditions.push(conditionGain);
-            }
-            if (newLength) {
-                let newConditionGain = creature.conditions[newLength - 1];
-                this.conditionsService.process_Condition(creature, this, this.effectsService, this.itemsService, conditionGain, this.conditionsService.get_Conditions(conditionGain.name)[0], true);
-                originalCondition.gainConditions.filter(extraCondition => !extraCondition.conditionChoiceFilter || extraCondition.conditionChoiceFilter == newConditionGain.choice).forEach(extraCondition => {
-                    let addCondition = Object.assign(new ConditionGain, JSON.parse(JSON.stringify(extraCondition)));
-                    addCondition.source = newConditionGain.name;
-                    addCondition.apply = true;
-                    this.add_Condition(creature, addCondition, false)
-                })
-                this.set_ToChange(creature.type, "effects");
-                if (reload) {
-                    this.process_ToChange();
+                if (newLength) {
+                    let newConditionGain = creature.conditions[newLength - 1];
+                    this.conditionsService.process_Condition(creature, this, this.effectsService, this.itemsService, conditionGain, this.conditionsService.get_Conditions(conditionGain.name)[0], true);
+                    originalCondition.gainConditions.filter(extraCondition => !extraCondition.conditionChoiceFilter || extraCondition.conditionChoiceFilter == newConditionGain.choice).forEach(extraCondition => {
+                        let addCondition = Object.assign(new ConditionGain, JSON.parse(JSON.stringify(extraCondition)));
+                        addCondition.source = newConditionGain.name;
+                        addCondition.apply = true;
+                        this.add_Condition(creature, addCondition, false)
+                    })
+                    this.set_ToChange(creature.type, "effects");
+                    if (reload) {
+                        this.process_ToChange();
+                    }
+                    return newLength;
                 }
-                return newLength;
             }
         }
     }

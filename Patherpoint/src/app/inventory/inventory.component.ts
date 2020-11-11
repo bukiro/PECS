@@ -627,13 +627,24 @@ export class InventoryComponent implements OnInit {
         if (shield.equipped) {
             this.characterService.set_ToChange(this.creature, "defense");
         }
-        if (shield.get_HitPoints() <= shield.get_BrokenThreshold()) {
+        if (shield.get_HitPoints() < shield.get_BrokenThreshold()) {
             shield.broken = true;
         } else {
             shield.broken = false;
         }
         this.characterService.set_ToChange(this.creature, "inventory");
         this.characterService.process_ToChange();
+    }
+
+    get_RepairAllowed(item: Item) {
+        if ((item as Equipment).broken) {
+            if (item.constructor == Shield) {
+                if ((item as Shield).get_HitPoints() < (item as Shield).get_BrokenThreshold()) {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
     
     finish_Loading() {

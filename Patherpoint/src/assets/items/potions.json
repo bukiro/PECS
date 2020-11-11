@@ -17,8 +17,7 @@
         ],
         "_className": "Potion",
         "activationType": "Interact",
-        "usage": "held in 1 hand",
-        "inputRequired": "Restore 1d8 Hit Points."
+        "usage": "held in 1 hand"
     },
     {
         "name": "Potion of Water Breathing",
@@ -63,8 +62,7 @@
         ],
         "_className": "Potion",
         "activationType": "Interact",
-        "usage": "held in 1 hand",
-        "inputRequired": "Restore 2d8+5 Hit Points."
+        "usage": "held in 1 hand"
     },
     {
         "name": "Barkskin Potion",
@@ -354,8 +352,7 @@
         ],
         "_className": "Potion",
         "activationType": "Interact",
-        "usage": "held in 1 hand",
-        "inputRequired": "Restore 3d8+10 Hit Points."
+        "usage": "held in 1 hand"
     },
     {
         "name": "Potion of Swimming (Moderate)",
@@ -1253,8 +1250,7 @@
         ],
         "_className": "Potion",
         "activationType": "Interact",
-        "usage": "held in 1 hand",
-        "inputRequired": "Restore 6d8+20 Hit Points."
+        "usage": "held in 1 hand"
     },
     {
         "name": "Panacea",
@@ -1795,7 +1791,6 @@
         ],
         "_className": "Potion",
         "activationType": "Interact",
-        "usage": "held in 1 hand",
-        "inputRequired": "Restore 8d8+30 Hit Points."
+        "usage": "held in 1 hand"
     }
 ]

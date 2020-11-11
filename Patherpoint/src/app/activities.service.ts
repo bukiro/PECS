@@ -59,17 +59,10 @@ export class ActivitiesService {
             characterService.set_TagsToChange(creature.type, activity.showon);
         }
 
-        if (activated && activity.toggle) {
-            gain.active = true;
-            if (activity.duration) {
-                gain.duration = activity.duration;
-            }
-        } else {
-            gain.active = false;
-            gain.duration = 0;
-            //Start cooldown
-            if (activity.cooldown) {
-                gain.activeCooldown = activity.cooldown + timeService.get_YourTurn();
+        if (activated) {
+            //Start cooldown, unless one is already in effect.
+            if (activity.cooldown && !gain.activeCooldown) {
+                gain.activeCooldown = activity.cooldown;
             }
             //Use charges
             if (activity.charges) {
@@ -80,7 +73,7 @@ export class ActivitiesService {
                         .forEach(itemActivity => {
                             itemActivity.chargesUsed += 1;
                             if (!itemActivity.activeCooldown && itemActivity.cooldown) {
-                                itemActivity.activeCooldown = itemActivity.cooldown + timeService.get_YourTurn();
+                                itemActivity.activeCooldown = itemActivity.cooldown;
                             }
                         })
                     item.gainActivities
@@ -88,9 +81,9 @@ export class ActivitiesService {
                         .forEach(activityGain => {
                             activityGain.chargesUsed += 1;
                             if (!activityGain.activeCooldown) {
-                                let otherActivity = this.get_Activities(activityGain.name)[0];
-                                if (otherActivity?.cooldown) {
-                                    activityGain.activeCooldown = otherActivity.cooldown + timeService.get_YourTurn();
+                                let originalActivity = this.get_Activities(activityGain.name)[0];
+                                if (originalActivity?.cooldown) {
+                                    activityGain.activeCooldown = originalActivity.cooldown;
                                 }
                             }
                         })
@@ -98,6 +91,16 @@ export class ActivitiesService {
                     gain.chargesUsed += 1;
                 }
             }
+        }
+
+        if (activated && activity.toggle) {
+            gain.active = true;
+            if (activity.maxDuration) {
+                gain.duration = activity.maxDuration;
+            }
+        } else {
+            gain.active = false;
+            gain.duration = 0;
         }
         characterService.set_ToChange(creature.type, "activities");
         if (item) {characterService.set_ToChange(creature.type, "inventory");}
@@ -219,14 +222,10 @@ export class ActivitiesService {
 
     tick_Activities(creature: Character|AnimalCompanion|Familiar, characterService: CharacterService, timeService: TimeService, itemsService: ItemsService, spellsService: SpellsService, turns: number = 10) {
         characterService.get_OwnedActivities(creature, undefined, true).filter(gain => gain.activeCooldown || gain.duration).forEach(gain => {
-            //If the activity is running out, take care of that first, and if it has run out, set the cooldown.
-            //Afterwards, reduce the cooldown by the remaining turns.
+            //Tick down the duration and the cooldown by the amount of turns.
             characterService.set_ToChange(creature.type, "activities");
-            let individualTurns = turns;
             if (gain.duration > 0) {
-                let diff = Math.min(gain.duration, individualTurns);
-                gain.duration -= diff;
-                individualTurns -= diff;
+                gain.duration = Math.max(gain.duration - turns, 0)
                 if (gain.duration == 0) {
                     let activity: Activity|ItemActivity
                     if (gain.constructor == ItemActivity) {
@@ -242,7 +241,7 @@ export class ActivitiesService {
             }
             //Only if the activity has a cooldown active, reduce the cooldown and restore charges. If the activity does not have a cooldown, the charges are permanently spent.
             if (gain.activeCooldown) {
-                gain.activeCooldown = Math.max(gain.activeCooldown - individualTurns, 0)
+                gain.activeCooldown = Math.max(gain.activeCooldown - turns, 0)
                 if (gain.chargesUsed && gain.activeCooldown == 0) {
                     gain.chargesUsed = 0;
                 }

@@ -771,9 +771,9 @@ button.list-item {
     border-radius: 2px;
 }
 
-.lower .list-item input {
+/*.lower .list-item input {
     margin-bottom: 4px;
-}
+}*/
 
 .list-item.sublist {
     border-width: 4px;
@@ -843,6 +843,26 @@ button:hover~.list-item.sublist.inactive-list {
     border-color: grey;
     border-color: #80808050;
     border-color: rgba(128, 128, 128, 0.8);
+}
+
+.list-item.sublist.problem {
+    border-color: #DAAAA0;
+}
+
+.darkmode .list-item.sublist.problem {
+    border-color: #500000;
+}
+
+button:hover~.list-item.sublist.problem {
+    border-color: #DAAAA0;
+    border-color: #DAAAA050;
+    border-color: rgba(218, 170, 160, 0.8);
+}
+
+.darkmode button:hover~.list-item.sublist.problem {
+    border-color: #500000;
+    border-color: #50000050;
+    border-color: rgba(80, 0, 0, 0.8);
 }
 
 .itemBox .fancybutton.list-item {
@@ -979,14 +999,14 @@ var:not(:empty),
     color: var(--textcolor);
 }
 
-.problem,
-.lower.problem {
+.problem:not(.sublist),
+.lower.problem:not(.sublist) {
     color: red;
     background-color: #DAAAA0;
 }
 
-.darkmode .problem,
-.darkmode .lower.problem {
+.darkmode .problem:not(.sublist),
+.darkmode .lower.problem:not(.sublist) {
     color: red;
     background-color: #500000;
 }

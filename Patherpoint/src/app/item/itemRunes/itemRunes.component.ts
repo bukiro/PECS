@@ -577,6 +577,7 @@ export class ItemRunesComponent implements OnInit {
             }
         }
         this.characterService.set_ToChange("Character", "inventory");
+        this.characterService.set_ToChange("Character", "attacks");
         this.set_PropertyRuneNames();
         this.characterService.process_ToChange();
     }

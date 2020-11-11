@@ -6950,6 +6950,12 @@
         "buff": true
     },
     {
+        "name": "See Invisibility",
+        "desc": "You can see invisible creatures and objects. They appear to you as translucent shapes, and they are concealed to you.",
+        "showon": "Perception",
+        "buff": true
+    },
+    {
         "name": "Shield Other",
         "desc": "A temporary link has been formed between the your essence and the caster's. You take half damage from all effects that deal Hit Point damage, and the caster takes the remainder of the damage. The spell ends if you are ever more than 30 feet away from the caster. If either you or the caster is reduced to 0 Hit Points, any damage from this spell is resolved and then the spell ends.",
         "type": "spells",
@@ -8682,6 +8688,98 @@
             {
                 "name": "Boiling Spit Attack",
                 "type": "weapons"
+            }
+        ]
+    },
+    {
+        "name": "Wondrous Figurine (Golden Lions)",
+        "desc": "The wondrous figurine has transformed into a pair of adult lions with the minion trait. They can understand your language and obey you to the best of their ability when you use an action to command them.\n\nIf either of the lions is slain, that lion cannot be summoned again until 1 week has passed, but this doesn’t prevent you from summoning the other. If both lions are slain while in animal form, the figurine reverts to its statue shape and cannot be activated again until 1 week has passed.",
+        "type": "helditems",
+        "buff": true
+    },
+    {
+        "name": "Wondrous Figurine (Jade Serpent)",
+        "desc": "The wondrous figurine has transformed into a giant viper with the minion trait. It can understand your language and obeys you to the best of its ability when you use an action to command it.\n\nIf the figurine is slain while in animal form, it reverts to its statue shape and cannot be activated again until 1 week has passed.",
+        "type": "helditems",
+        "buff": true
+    },
+    {
+        "name": "Wondrous Figurine (Marble Elephant)",
+        "desc": "The wondrous figurine has transformed into a fully grown elephant with the minion trait. It can understand your language and obeys you to the best of its ability when you use an action to command it. The elephant remains for the duration as long as it is being used as a beast of burden or for transport. If it attempts an attack or otherwise engages in combat, it reverts to statuette form after 1d4 rounds.\n\nIf the figurine is slain while in animal form, it reverts to its statue shape and cannot be activated again until 1 week has passed.",
+        "type": "helditems",
+        "buff": true
+    },
+    {
+        "name": "Wondrous Figurine (Obsidian Steed)",
+        "desc": "The wondrous figurine has transformed into a nightmare with the minion trait. It can understand your language and obeys you to the best of its ability when you use an action to command it. The nightmare won't use plane shift or its other abilities on behalf of its rider. Although evil, it allows itself to be ridden by creatures of any alignment, although if a good creature mounts it, the rider must attempt a DC 3 flat check. On a failure, the nightmare uses plane shift to take the rider to a random location in the Abyss, where it promptly returns to statue form, stranding its rider in that nightmarish place.\n\nIf the figurine is slain while in animal form, it reverts to its statue shape and cannot be activated again until 1 week has passed.",
+        "type": "helditems",
+        "buff": true
+    },
+    {
+        "name": "Wondrous Figurine (Onyx Dog)",
+        "desc": "The wondrous figurine has transformed into a guard dog with the minion trait. It can understand your language and obeys you to the best of its ability when you use an action to command it. The dog has a +4 circumstance bonus to Survival checks to Track, and it has darkvision. When the dog senses a hidden creature with its scent, that creature is instead observed and concealed.\n\nIf the figurine is slain while in animal form, it reverts to its statue shape and cannot be activated again until 1 week has passed.",
+        "type": "helditems",
+        "buff": true
+    },
+    {
+        "name": "Wondrous Figurine (Candy Constrictor)",
+        "desc": "The wondrous figurine has transformed into a rainbow-striped ball python with the minion trait, except it lacks the Stealth skill. It can understand your language and obeys you to the best of its ability when you use an action to command it.\n\nIf the figurine is slain while in animal form, it reverts to its statue shape and cannot be activated again until 1 week has passed.",
+        "type": "helditems",
+        "buff": true
+    },
+    {
+        "name": "Wondrous Figurine (Rubber Bear)",
+        "desc": "The wondrous figurine has transformed into a grizzly bear wearing a tutu and a fez and balancing on a ball slightly larger than its head. It can understand your language and obeys you to the best of its ability when you use an action to command it. The bear remains balanced upon its rubber ball, and is therefore ungainly: it cannot Climb or Swim, has a -10- foot circumstance penalty to its Speed, and is always flat-footed. If the bear leaves its ball, such as if it is repositioned with forced movement or knocked prone, it immediately reverts to statuette form.\n\nIf the figurine is slain while in animal form, it reverts to its statue shape and cannot be activated again until 1 week has passed.",
+        "type": "helditems",
+        "buff": true
+    },
+    {
+        "name": "Wondrous Figurine (Golden Lions) Cooldown",
+        "desc": "The lions have been slain, and the wondrous figurine has reverted to its statue shape. You cannot activate it again until 1 week has passed.",
+        "type": "helditems"
+    },
+    {
+        "name": "Wondrous Figurine (Jade Serpent) Cooldown",
+        "desc": "The viper has been slain, and the wondrous figurine has reverted to its statue shape. You cannot activate it again until 1 week has passed.",
+        "type": "helditems"
+    },
+    {
+        "name": "Wondrous Figurine (Marble Elephant) Cooldown",
+        "desc": "The elephant has been slain, and the wondrous figurine has reverted to its statue shape. You cannot activate it again until 1 week has passed.",
+        "type": "helditems"
+    },
+    {
+        "name": "Wondrous Figurine (Obsidian Steed) Cooldown",
+        "desc": "The nightmare has been slain, and the wondrous figurine has reverted to its statue shape. You cannot activate it again until 1 week has passed.",
+        "type": "helditems"
+    },
+    {
+        "name": "Wondrous Figurine (Onyx Dog) Cooldown",
+        "desc": "The guard dog has been slain, and the wondrous figurine has reverted to its statue shape. You cannot activate it again until 1 week has passed.",
+        "type": "helditems"
+    },
+    {
+        "name": "Wondrous Figurine (Candy Constrictor) Cooldown",
+        "desc": "The ball python has been slain, and the wondrous figurine has reverted to its statue shape. You cannot activate it again until 1 week has passed.",
+        "type": "helditems"
+    },
+    {
+        "name": "Wondrous Figurine (Rubber Bear) Cooldown",
+        "desc": "The grizzly bear has been slain, and the wondrous figurine has reverted to its statue shape. You cannot activate it again until 1 week has passed.",
+        "type": "helditems"
+    },
+    {
+        "name": "Thurible of Revelation",
+        "desc": "As long you are holding the thurible, you gain an item bonus equal to the value to Religion checks, and any critical failure you roll when you Decipher Writing of a religious nature is a failure instead.",
+        "hint": "As long you are holding the thurible, any critical failure you roll when you Decipher Writing of a religious nature is a failure instead.",
+        "showon": "Religion",
+        "hasValue": true,
+        "type": "helditems",
+        "buff": true,
+        "effects": [
+            {
+                "affected": "Religion",
+                "value": "Value"
             }
         ]
     }

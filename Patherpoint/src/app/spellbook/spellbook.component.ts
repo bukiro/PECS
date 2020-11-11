@@ -294,7 +294,7 @@ export class SpellbookComponent implements OnInit {
     }
 
     cannot_Cast(spell: Spell, levelNumber: number, casting: SpellCasting, choice: SpellChoice, gain: SpellGain, maxSpellSlots: number) {
-        if (gain.activeCooldown) {
+        if (gain.activeCooldown && !gain.active) {
             return "Cannot cast " + this.get_Duration(gain.activeCooldown, true, true);
         }
         switch (casting.castingType) {

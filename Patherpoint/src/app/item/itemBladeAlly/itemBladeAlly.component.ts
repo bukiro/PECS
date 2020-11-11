@@ -162,6 +162,7 @@ import { SpellsService } from 'src/app/spells.service';
             }
         }
         this.characterService.set_ToChange("Character", "inventory");
+        this.characterService.set_ToChange("Character", "attacks");
         if (rune.activities?.length) {
             this.characterService.set_ToChange("Character", "activities");
         }
@@ -172,6 +173,9 @@ import { SpellsService } from 'src/app/spells.service';
     remove_BladeAllyRune() {
         let weapon: Equipment = this.item;
         let oldRune: Rune = weapon.bladeAllyRunes[0];
+        if (oldRune.activities?.length) {
+            this.characterService.set_ToChange("Character", "activities");
+        }
         //Deactivate any active toggled activities of the removed rune.
         oldRune.activities.filter(activity => activity.toggle && activity.active).forEach(activity => {
             this.activitiesService.activate_Activity(this.get_Character(), "Character", this.characterService, this.timeService, this.itemsService, this.spellsService, activity, activity, false);

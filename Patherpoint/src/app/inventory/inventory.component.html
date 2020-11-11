@@ -86,8 +86,8 @@
             </ng-container>
         </ng-container>
         <h3 class="fullsize-only box-header">Items</h3>
-        <app-tags [creature]="creature" [objectName]="'Inventory'" [showTraits]=true [showFeats]=true
-            [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
+        <app-tags [creature]="creature" [objectName]="'Inventory'" [showTraits]=true [showFeats]=true [showItems]=true
+            [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
         <div class="fullsize-only list-item" *ngFor="let maxInvested of [get_MaxInvested()]; trackBy:trackByIndex;">
             <strong>Invested</strong><input type="number" class="number2"
                 [ngClass]="{'problem':(get_Invested() > maxInvested.value)}" [ngModel]="get_Invested()" disabled>
@@ -111,8 +111,9 @@
                     <ng-container *ngFor="let item of sort_ItemSet(inventory[itemSet.key]); trackBy:trackByIndex;">
                         <div class="list-item" *ngFor="let inventoryID of [item.id]; trackBy:trackByIndex;">
                             <button class="row left-aligned sublist-toggle"
-                                [ngClass]="{'fancy-button':((item.equippable && item.equipped) || (item.can_Invest() && item.invested))}"
+                                [ngClass]="{'fancy-button':((item.equippable && item.equipped) || (item.can_Invest() && item.invested)), 'problem':item.broken}"
                                 (click)="toggle_Item(inventoryID)">
+                                <span title="Broken" *ngIf="item.broken">&#9985;&nbsp;</span>
                                 <span title="Temporary Item" *ngIf="item.expiration">&#9851;&nbsp;</span>
                                 <span title="Large Weapon" *ngIf="item.large">&#10034;&nbsp;</span>
                                 <span title="Blade Ally" *ngIf="item.bladeAlly">&#10037;&nbsp;</span>
@@ -122,7 +123,7 @@
                                     *ngFor="let containedItems of [get_ContainedItems(item)]">{{containedItems ? "contains "+containedItems+" items" : ""}}</span>
                             </button>
                             <div class="list-item sublist lower"
-                                [ngClass]="{'fancy-list':((item.equippable && item.equipped) || (item.can_Invest() && item.invested))}"
+                                [ngClass]="{'fancy-list':((item.equippable && item.equipped) || (item.can_Invest() && item.invested)), 'problem':item.broken}"
                                 *ngIf="get_ShowItem()==inventoryID">
                                 <div class="row"
                                     *ngFor="let prof of [(item.get_Prof ? item.get_Prof() : item.prof)]; trackBy:trackByIndex;">
@@ -332,7 +333,9 @@
                                     <span
                                         title="A broken object can't be used for its normal function, nor does it grant bonuses - with the exception of armor. Broken armor still grants its item bonus to AC, but it also imparts a status penalty to AC depending on its category: -1 for broken light armor, -2 for broken medium armor, or -3 for broken heavy armor. A broken item still imposes penalties and limitations normally incurred by carrying, holding, or wearing it. For example, broken armor would still impose its Dexterity modifier cap, check penalty, and so forth.">
                                         <input id="{{item.id}}broken" type="checkbox" [(ngModel)]="item.broken"
-                                            (ngModelChange)=onItemChange(item)>
+                                            (ngModelChange)=onItemChange(item)
+                                            title="{{!get_RepairAllowed(item) ? 'You cannot repair a broken shield unless you restore its hit points above the Broken Threshold.' : ''}}"
+                                            [disabled]="!get_RepairAllowed(item)">
                                         <label for="{{item.id}}broken">Broken</label>
                                     </span>
                                     <span
@@ -359,7 +362,9 @@
                                     <span
                                         title="You can select one weapon or handwraps of mighty blows when you make your daily preparations. In your hands, the item gains the effect of a property rune and you also gain the weapon's critical specialization effect. For a champion following the tenets of good, choose disrupting, ghost touch, returning, or shifting. For a champion following the tenets of evil, choose fearsome, returning, or shifting.">
                                         <input id="{{item.id}}bladeally" type="checkbox" [(ngModel)]="item.bladeAlly"
-                                            (ngModelChange)=onItemChange(item) title="{{(get_BladeAllyUsed() && !item.bladeAlly) ? 'Another item is already designated as your blade ally.' : ''}}" [disabled]="get_BladeAllyUsed() && !item.bladeAlly">
+                                            (ngModelChange)=onItemChange(item)
+                                            title="{{(get_BladeAllyUsed() && !item.bladeAlly) ? 'Another item is already designated as your blade ally.' : ''}}"
+                                            [disabled]="get_BladeAllyUsed() && !item.bladeAlly">
                                         <label for="{{item.id}}bladeally">Blade Ally</label>
                                     </span>
                                     <app-itemBladeAlly class="list-item" [item]=item *ngIf="item.bladeAlly">
@@ -375,19 +380,25 @@
                                 </app-itemTalismans>
                                 <ng-container *ngIf="item.type =='shields'">
                                     <div class="list-item row">
-                                        <strong>HP</strong> <span><input type="number" class="number2" [ngModel]="item.get_HitPoints()" disabled></span>
-                                        <strong>Max HP</strong> <span><input type="number" class="number2" [ngModel]="item.get_MaxHP()" disabled></span>
-                                        <strong>BT</strong> <span><input type="number" class="number2" [ngModel]="item.get_BrokenThreshold()" disabled></span>
+                                        <strong>HP</strong> <span><input type="number" class="number2"
+                                                [ngModel]="item.get_HitPoints()" disabled></span>
+                                        <strong>Max HP</strong> <span><input type="number" class="number2"
+                                                [ngModel]="item.get_MaxHP()" disabled></span>
+                                        <strong>BT</strong> <span><input type="number" class="number2"
+                                                [ngModel]="item.get_BrokenThreshold()" disabled></span>
                                     </div>
                                     <div class="list-item row">
                                         <span>
-                                            <button [disabled]="shieldDamage == 0" (click)="on_ShieldHPChange(item, shieldDamage)">Damage</button>
+                                            <button [disabled]="shieldDamage == 0"
+                                                (click)="on_ShieldHPChange(item, shieldDamage)">Damage</button>
                                         </span>
                                         <span>
-                                            <input class="number3" type="number" [(ngModel)]="shieldDamage" maxLength="3">
+                                            <input class="number3" type="number" [(ngModel)]="shieldDamage"
+                                                maxLength="3">
                                         </span>
                                         <span>
-                                            <button [disabled]="shieldDamage == 0" (click)="on_ShieldHPChange(item, -shieldDamage)">Repair</button>
+                                            <button [disabled]="shieldDamage == 0"
+                                                (click)="on_ShieldHPChange(item, -shieldDamage)">Repair</button>
                                         </span>
                                     </div>
                                 </ng-container>

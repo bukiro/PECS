@@ -102,20 +102,25 @@ export class ActivityComponent implements OnInit {
     }
 
     get_FeatsShowingOn(activityName: string) {
-        return this.characterService.get_FeatsShowingOn(activityName)
-        .sort((a,b) => {
-            if (a.name > b.name) {
-                return 1;
-            }
-            if (a.name < b.name) {
-                return -1;
-            }
-            return 0;
-        });;
+        if (activityName) {
+            return this.characterService.get_FeatsShowingOn(activityName)
+            .sort((a,b) => {
+                if (a.name > b.name) {
+                    return 1;
+                }
+                if (a.name < b.name) {
+                    return -1;
+                }
+                return 0;
+            });;
+        } else {
+            return []
+        }
     }
 
     get_ActivitiesShowingOn(objectName: string) {
-        return this.characterService.get_OwnedActivities(this.get_Creature())
+        if (objectName) {
+            return this.characterService.get_OwnedActivities(this.get_Creature())
             .filter((gain: ItemActivity|ActivityGain) => (gain._className == "ItemActivity" ? [gain as ItemActivity] : this.get_Activities(gain.name))
             .filter((activity: ItemActivity|Activity) => activity.showon.split(",")
                 .filter(showon => showon == objectName || showon.substr(1) == objectName)
@@ -130,6 +135,9 @@ export class ActivityComponent implements OnInit {
                 }
                 return 0;
             });
+        } else {
+            return []
+        }
     }
 
     get_FuseStanceFeat() {

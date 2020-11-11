@@ -56,6 +56,14 @@ export class SpellsService {
             customDuration = gain.duration;
         }
 
+        if (activated) {
+            //Start cooldown
+            if (gain.cooldown && !gain.activeCooldown) {
+                gain.activeCooldown = gain.cooldown;
+                characterService.set_ToChange(creature.type, "spellbook");
+            }
+        }
+
         if (activated && spell.sustained) {
             gain.active = true;
             if (spell.sustained) {
@@ -67,11 +75,6 @@ export class SpellsService {
             gain.active = false;
             gain.duration = 0;
             gain.target = "";
-            //Start cooldown
-            if (gain.cooldown) {
-                gain.activeCooldown = gain.cooldown + timeService.get_YourTurn();
-                characterService.set_ToChange(creature.type, "spellbook");
-            }
         }
 
         //Find out if target was given. If no target is set, most effects will not be applied.
@@ -194,23 +197,18 @@ export class SpellsService {
 
     tick_Spells(character: Character, characterService: CharacterService, itemsService: ItemsService, timeService: TimeService, turns: number = 10) {
         character.get_SpellsTaken(characterService, 0, 20).filter(taken => taken.gain.activeCooldown || taken.gain.duration).forEach(taken => {
-            //If the spell is running out, take care of that first, and if it has run out, set the cooldown.
-            //Afterwards, reduce the cooldown by the remaining turns.
-            let individualTurns = turns;
+            //Tick down the duration and the cooldown.
             if (taken.gain.duration > 0) {
-                let diff = Math.min(taken.gain.duration, individualTurns);
-                taken.gain.duration -= diff;
-                individualTurns -= diff;
+                taken.gain.duration = Math.max(taken.gain.duration - turns, 0)
                 if (taken.gain.duration == 0) {
                     let spell: Spell = this.get_Spells(taken.gain.name)[0];
                     if (spell) {
                         this.process_Spell(character, taken.gain.target, characterService, itemsService, timeService, null, taken.gain, spell, 0, false, false)
-                        taken.gain.activeCooldown = taken.gain.cooldown;
                     }
                 }
             }
             characterService.set_ToChange("Character", "spellbook");
-            taken.gain.activeCooldown = Math.max(taken.gain.activeCooldown - individualTurns, 0)
+            taken.gain.activeCooldown = Math.max(taken.gain.activeCooldown - turns, 0)
         });
     }
 

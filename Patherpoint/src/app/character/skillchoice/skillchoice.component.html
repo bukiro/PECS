@@ -4,7 +4,7 @@
         <button class="row sublist-toggle"
             [ngClass]="{'fancy-button':(choice.increases.length == choice.available + get_SkillINTBonus(choice))}"
             (click)="toggle_List(listID)">
-            Skill Training
+            Skill {{choice.maxRank == 2 ? 'Training' : 'Increase'}}
             ({{choice.source}}){{(choice.available + get_SkillINTBonus(choice) > 1) ?
                 (": "+ choice.increases.length +"/"+ (choice.available + get_SkillINTBonus(choice)) ) : 
                 (choice.increases.length) ? ": "+ choice.increases[0].name : ""}}

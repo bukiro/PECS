@@ -9,7 +9,7 @@ export class Activity {
     public castSpells: SpellCast[] = [];
     public cooldown: number = 0;
     public cost: string = "";
-    public duration: number = 0;
+    public maxDuration: number = 0;
     public sustained: boolean = false;
     public charges: number = 0;
     public critfailure: string = "";

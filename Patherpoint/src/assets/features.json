@@ -572,7 +572,25 @@
     {
         "name": "Hero's Defiance",
         "desc": "You can defy fate and continue fighting as long as you have divine energy. You gain the hero's defiance devotion spell.",
-        "internalNote": "Spells gained through class features are handled in the class object."
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "className": "Champion",
+                "id": "46ceefc8-87ab-48d7-a244-7d1e0005901d",
+                "level": -1,
+                "charLevelAvailable": 19,
+                "source": "Hero's Defiance",
+                "spells": [
+                    {
+                        "_className": "SpellGain",
+                        "name": "Hero's Defiance",
+                        "locked": true,
+                        "sourceId": "46ceefc8-87ab-48d7-a244-7d1e0005901d"
+                    }
+                ],
+                "castingType": "Focus"
+            }
+        ]
     },
     {
         "name": "Legendary Armor",

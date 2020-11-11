@@ -99,7 +99,7 @@ export class DefenseComponent implements OnInit {
 
     on_ShieldHPChange(shield: Shield, amount: number) {
         shield.damage += amount;
-        if (shield.get_HitPoints() <= shield.get_BrokenThreshold()) {
+        if (shield.get_HitPoints() < shield.get_BrokenThreshold()) {
             shield.broken = true;
         } else {
             shield.broken = false;

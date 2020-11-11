@@ -5540,25 +5540,6 @@
                 "charLevelAvailable": 1,
                 "className": "Champion",
                 "source": "Devotion Spells",
-                "spellChoices": [
-                    {
-                        "_className": "SpellChoice",
-                        "className": "Champion",
-                        "id": "46ceefc8-87ab-48d7-a244-7d1e0005901d",
-                        "level": -1,
-                        "charLevelAvailable": 19,
-                        "source": "Hero's Defiance",
-                        "spells": [
-                            {
-                                "_className": "SpellGain",
-                                "name": "Hero's Defiance",
-                                "locked": true,
-                                "sourceId": "46ceefc8-87ab-48d7-a244-7d1e0005901d"
-                            }
-                        ],
-                        "castingType": "Focus"
-                    }
-                ],
                 "tradition": "Divine"
             }
         ]

@@ -1506,7 +1506,7 @@
                     }
                 ],
                 "toggle": true,
-                "duration": 1000,
+                "maxDuration": 1000,
                 "traits": [
                     "Illusion",
                     "Invested",
@@ -1601,7 +1601,7 @@
                     }
                 ],
                 "toggle": true,
-                "duration": 100,
+                "maxDuration": 100,
                 "traits": [
                     "Illusion",
                     "Invested",
@@ -2238,7 +2238,7 @@
                     }
                 ],
                 "toggle": true,
-                "duration": 6000,
+                "maxDuration": 6000,
                 "traits": [
                     "Uncommon",
                     "Illusion",
@@ -2305,7 +2305,7 @@
                     }
                 ],
                 "toggle": true,
-                "duration": 48000,
+                "maxDuration": 48000,
                 "traits": [
                     "Uncommon",
                     "Illusion",

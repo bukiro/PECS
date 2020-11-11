@@ -8566,8 +8566,8 @@
     },
     {
         "name": "Exalt (Liberator)",
-        "desc": "You can help your whole group get into position. When you use Liberating Step, if your ally doesn�t attempt to break free of an effect, you and all allies within 15 feet can Step, in addition to the triggering ally.",
-        "hint": "When you use Liberating Step, if your ally doesn�t attempt to break free of an effect, you and all allies within 15 feet can Step, in addition to the triggering ally.",
+        "desc": "You can help your whole group get into position. When you use Liberating Step, if your ally doesn't attempt to break free of an effect, you and all allies within 15 feet can Step, in addition to the triggering ally.",
+        "hint": "When you use Liberating Step, if your ally doesn't attempt to break free of an effect, you and all allies within 15 feet can Step, in addition to the triggering ally.",
         "showon": "Liberating Step",
         "shortdesc": "You can help your whole group get into position.",
         "featreq": [

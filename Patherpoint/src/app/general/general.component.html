@@ -106,10 +106,6 @@
                 <strong>Alternative Identity (Different Worlds)</strong>
                 {{feat.data.name}} {{(feat.data.background) ? "("+feat.data.background+")" : ""}}
             </div>
-            <ng-container *ngFor="let skill of get_ClassDCs(); let index = index; trackBy:trackByIndex;">
-                <h5 class="fullsize-only" *ngIf="index == 0">Class DCs</h5>
-                <app-skill [skill]=skill [isDC]=true></app-skill>
-            </ng-container>
         </ng-container>
         <ng-container *ngIf="creature=='Companion'">
             <div class="row left-aligned tags" *ngIf="get_Companion().class.ancestry.name">

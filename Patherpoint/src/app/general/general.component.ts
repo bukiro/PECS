@@ -162,10 +162,6 @@ export class GeneralComponent implements OnInit {
             "Undead Bloodline"].includes(gain.name))
     }
 
-    get_ClassDCs() {
-        return this.characterService.get_Skills(this.get_Creature(), "", "Class DC").filter(skill => skill.level(this.get_Creature() as Character|AnimalCompanion, this.characterService) > 0);
-    }
-
     get_Traits(name: string = "") {
         return this.traitsService.get_Traits(name);
     }

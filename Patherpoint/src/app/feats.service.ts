@@ -771,6 +771,11 @@ export class FeatsService {
                 characterService.set_ToChange(creature.type, "attacks");
             }
 
+            //Feats that grant tenets and anathema need to update general.
+            if (feat.tenets || feat.anathema) {
+                characterService.set_ToChange(creature.type, "general");
+            }
+
             //Some hardcoded effects change depending on feats. There is no good way to resolve this, so we calculate the effects whenever we take a feat.
             characterService.set_ToChange(creature.type, "effects");
 

@@ -113,6 +113,10 @@ export class ActivitiesComponent implements OnInit {
         return this.activitiesService.get_Activities(name);
     }
 
+    get_ClassDCs() {
+        return this.characterService.get_Skills(this.get_Creature(), "", "Class DC").filter(skill => skill.level(this.get_Creature() as Character|AnimalCompanion, this.characterService) > 0);
+    }
+
     get_OwnedActivities() {
         this.id = 0;
         let activities: ActivityGain[] = [];

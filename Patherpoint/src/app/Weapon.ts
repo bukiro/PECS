@@ -349,7 +349,8 @@ export class Weapon extends Equipment {
         if (this.extraDamage) {
             extraDamage += "\n" + this.extraDamage;
         }
-        this.get_RuneSource(creature, range)[1].propertyRunes
+        let runeSource = this.get_RuneSource(creature, range);
+        runeSource[1].propertyRunes
             .filter((weaponRune: WeaponRune) => weaponRune.extraDamage)
             .forEach((weaponRune: WeaponRune) => {
                 extraDamage += "\n" + weaponRune.extraDamage;
@@ -359,6 +360,13 @@ export class Weapon extends Equipment {
             .forEach((oil: Oil) => {
                 extraDamage += "\n" + oil.runeEffect.extraDamage;
             });
+        if (runeSource[1].bladeAlly) {
+            runeSource[1].bladeAllyRunes
+            .filter((weaponRune: WeaponRune) => weaponRune.extraDamage)
+            .forEach((weaponRune: WeaponRune) => {
+                extraDamage += "\n" + weaponRune.extraDamage;
+            });
+        }
         return extraDamage;
     }
     damage(creature: Character | AnimalCompanion, characterService: CharacterService, effectsService: EffectsService, range: string) {

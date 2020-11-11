@@ -5,6 +5,11 @@
     <ng-container *ngIf="!still_loading()">
         <app-tags [creature]="creature" [objectName]="'Activities'" [showTraits]=true [showFeats]=true [showItems]=true
             [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
+        <ng-container *ngFor="let skill of get_ClassDCs(); let index = index; trackBy:trackByIndex;">
+            <h5 class="fullsize-only" *ngIf="index == 0">Class DCs</h5>
+            <app-skill [skill]=skill [isDC]=true></app-skill>
+        </ng-container>
+        <h5>Actions and Activities</h5>
         <ng-container *ngFor="let gain of get_OwnedActivities(); trackBy:trackByIndex;">
             <ng-container *ngFor="let activity of (gain.can_Activate ? [gain] : get_Activities(gain.name)); trackBy:trackByIndex;">
                 <div class="list-item" *ngFor="let activityID of [get_ID()]; trackBy:trackByIndex;">

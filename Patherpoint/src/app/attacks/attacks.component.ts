@@ -221,16 +221,24 @@ export class AttacksComponent implements OnInit {
     get_HintRunes(weapon: Weapon, range: string) {
         //Return all runes and rune-emulating oil effects that have a hint to show
         let runes: WeaponRune[] = [];
-        runes.push(...weapon.get_RuneSource(this.get_Creature(), range)[1].propertyRunes.filter((rune: WeaponRune) => rune.hint.length) as WeaponRune[]);
+        let runeSource = weapon.get_RuneSource(this.get_Creature(), range);
+        runes.push(...runeSource[1].propertyRunes.filter((rune: WeaponRune) => rune.hint.length) as WeaponRune[]);
         runes.push(...weapon.oilsApplied.filter(oil => oil.runeEffect && oil.runeEffect.hint.length).map(oil => oil.runeEffect));
+        if (runeSource[1].bladeAlly) {
+            runes.push(...runeSource[1].bladeAllyRunes.filter((rune: WeaponRune) => rune.hint.length) as WeaponRune[]);
+        }
         return runes;
     }
 
     get_Runes(weapon: Weapon, range: string) {
         //Return all runes and rune-emulating oil effects
         let runes: WeaponRune[] = [];
+        let runeSource = weapon.get_RuneSource(this.get_Creature(), range);
         runes.push(...weapon.get_RuneSource(this.get_Creature(), range)[1].propertyRunes as WeaponRune[]);
         runes.push(...weapon.oilsApplied.filter(oil => oil.runeEffect).map(oil => oil.runeEffect));
+        if (runeSource[1].bladeAlly) {
+            runes.push(...runeSource[1].bladeAllyRunes as WeaponRune[]);
+        }
         return runes;
     }
 

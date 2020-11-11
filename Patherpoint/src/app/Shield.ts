@@ -66,8 +66,6 @@ export class Shield extends Equipment {
         let hitpoints: number = this.get_MaxHP() - this.damage;
         if (hitpoints < this.get_BrokenThreshold()) {
             this.broken = true;
-        } else {
-            this.broken = false;
         }
         return hitpoints;
     }

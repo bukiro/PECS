@@ -1,48 +1,70 @@
 <ng-container>
     <div class="row" *ngIf="allowActivate">
-        <ng-container *ngIf="gain.name != 'Fused Stance' && activity.can_Activate() && (gain.activeCooldown ? (activity.charges > gain.chargesUsed) : true)">
+        <ng-container
+            *ngIf="gain.name != 'Fused Stance' && activity.can_Activate() && (gain.activeCooldown ? (activity.charges > gain.chargesUsed) : true)">
             <button class="row center-aligned" (click)="on_Activate(gain, activity, true, creature)"
-                *ngIf="!gain.active && ['self', 'ally'].includes(get_SpellTarget())">
-                Activate {{get_SpellTarget() == 'ally' ? "(Cast spell on yourself)" : ""}} {{activity.charges ? "(" + (activity.charges - gain.chargesUsed) + " of " + activity.charges + " charges)" : ""}}
+                *ngIf="!gain.active && ['self', 'ally'].includes(get_SpellTarget())"
+                title="{{gain.activeCooldown ? (activity.charges ? '(Recharged in: ' : '(Cooldown: ') + get_Duration(gain.activeCooldown, true, false) + ')' : ''}}">
+                Activate {{get_SpellTarget() == 'ally' ? "(Cast spell on yourself)" : ""}}
+                {{activity.charges ? "(" + (activity.charges - gain.chargesUsed) + " of " + activity.charges + " charges)" : ""}}
             </button>
             <button class="row center-aligned"
                 (click)="on_Activate(gain, activity, true, (creature=='Character' ? 'Companion' : 'Character'))"
-                *ngIf="!gain.active && ['companion', 'ally'].includes(get_SpellTarget()) && get_CompanionAvailable()">
-                Activate (Cast spell on {{creature == "Character" ? "your animal companion" : "your master"}}) {{activity.charges ? "(" + (activity.charges - gain.chargesUsed) + " of " + activity.charges + " charges)" : ""}}
+                *ngIf="!gain.active && ['companion', 'ally'].includes(get_SpellTarget()) && get_CompanionAvailable()"
+                title="{{gain.activeCooldown ? (activity.charges ? '(Recharged in: ' : '(Cooldown: ') + get_Duration(gain.activeCooldown, true, false) + ')' : ''}}">
+                Activate (Cast spell on {{creature == "Character" ? "your animal companion" : "your master"}})
+                {{activity.charges ? "(" + (activity.charges - gain.chargesUsed) + " of " + activity.charges + " charges)" : ""}}
             </button>
             <button class="row center-aligned" (click)="on_Activate(gain, activity, true, 'Familiar')"
-                *ngIf="!gain.active && ['companion', 'ally'].includes(get_SpellTarget()) && get_FamiliarAvailable()">
-                Activate (Cast spell on your familiar) {{activity.charges ? "(" + (activity.charges - gain.chargesUsed) + " of " + activity.charges + " charges)" : ""}}
+                *ngIf="!gain.active && ['companion', 'ally'].includes(get_SpellTarget()) && get_FamiliarAvailable()"
+                title="{{gain.activeCooldown ? (activity.charges ? '(Recharged in: ' : '(Cooldown: ') + get_Duration(gain.activeCooldown, true, false) + ')' : ''}}">
+                Activate (Cast spell on your familiar)
+                {{activity.charges ? "(" + (activity.charges - gain.chargesUsed) + " of " + activity.charges + " charges)" : ""}}
             </button>
             <button class="row center-aligned" (click)="on_Activate(gain, activity, true, '')"
-                *ngIf="!gain.active && get_SpellTarget() == 'ally'">
-                Activate (Cast spell on other targets) {{activity.charges ? "(" + (activity.charges - gain.chargesUsed) + " of " + activity.charges + " charges)" : ""}}
+                *ngIf="!gain.active && get_SpellTarget() == 'ally'"
+                title="{{gain.activeCooldown ? (activity.charges ? '(Recharged in: ' : '(Cooldown: ') + get_Duration(gain.activeCooldown, true, false) + ')' : ''}}">
+                Activate (Cast spell on other targets)
+                {{activity.charges ? "(" + (activity.charges - gain.chargesUsed) + " of " + activity.charges + " charges)" : ""}}
             </button>
             <button class="row center-aligned" (click)="on_Activate(gain, activity, true, '')"
-                *ngIf="!gain.active && get_SpellTarget() == ''">
-                Activate {{activity.charges ? "(" + (activity.charges - gain.chargesUsed) + " of " + activity.charges + " charges)" : ""}}
+                *ngIf="!gain.active && get_SpellTarget() == ''"
+                title="{{gain.activeCooldown ? (activity.charges ? '(Recharged in: ' : '(Cooldown: ') + get_Duration(gain.activeCooldown, true, false) + ')' : ''}}">
+                Activate
+                {{activity.charges ? "(" + (activity.charges - gain.chargesUsed) + " of " + activity.charges + " charges)" : ""}}
             </button>
             <button class="row center-aligned" (click)="on_Activate(gain, activity, true, creature)"
-                *ngIf="!gain.active && get_SpellTarget() == 'no spell'">
-                Activate {{activity.charges ? "(" + (activity.charges - gain.chargesUsed) + " of " + activity.charges + " charges)" : ""}}
-            </button>
-            <button class="row center-aligned" (click)="on_Activate(gain, activity, false, creature)"
-                *ngIf="gain.active">
-                {{activity.sustained ? "Stop Sustaining" : "Deactivate"}} {{gain.duration ? "(" + get_Duration(gain.duration) + " remaining)" : ""}} {{activity.charges ? "(" + (activity.charges - gain.chargesUsed) + " of " + activity.charges + " charges)" : ""}}
+                *ngIf="!gain.active && get_SpellTarget() == 'no spell'"
+                title="{{gain.activeCooldown ? (activity.charges ? '(Recharged in: ' : '(Cooldown: ') + get_Duration(gain.activeCooldown, true, false) + ')' : ''}}">
+                Activate
+                {{activity.charges ? "(" + (activity.charges - gain.chargesUsed) + " of " + activity.charges + " charges)" : ""}}
             </button>
         </ng-container>
-        <ng-container *ngIf="gain.name == 'Fused Stance' && (gain.activeCooldown ? (activity.charges > gain.chargesUsed) : true)">
+        <button class="row center-aligned" (click)="on_Activate(gain, activity, false, creature)"
+            *ngIf="gain.name != 'Fused Stance' && activity.can_Activate() && gain.active"
+            title="{{gain.activeCooldown ? (activity.charges ? '(Recharged in: ' : '(Cooldown: ') + get_Duration(gain.activeCooldown, true, false) + ')' : ''}}">
+            {{activity.sustained ? "Stop Sustaining" : "Deactivate"}}
+            {{gain.duration ? "(" + get_Duration(gain.duration) + " remaining)" : ""}}
+            {{activity.charges ? "(" + (activity.charges - gain.chargesUsed) + " of " + activity.charges + " charges)" : ""}}
+        </button>
+        <ng-container
+            *ngIf="gain.name == 'Fused Stance' && (gain.activeCooldown ? (activity.charges > gain.chargesUsed) : true)">
             <button class="row center-aligned" (click)="on_ActivateFuseStance(true)" *ngIf="!gain.active"
-                [disabled]="!get_FuseStanceFeat() || !get_FuseStanceFeat().data">
-                Activate {{activity.charges ? "(" + (activity.charges - gain.chargesUsed) + " of " + activity.charges + " charges)" : ""}}
+                [disabled]="!get_FuseStanceFeat() || !get_FuseStanceFeat().data"
+                title="{{gain.activeCooldown ? (activity.charges ? '(Recharged in: ' : '(Cooldown: ') + get_Duration(gain.activeCooldown, true, false) + ')' : ''}}">
+                Activate
+                {{activity.charges ? "(" + (activity.charges - gain.chargesUsed) + " of " + activity.charges + " charges)" : ""}}
             </button>
             <button class="row center-aligned" (click)="on_ActivateFuseStance(false)" *ngIf="gain.active"
-                [disabled]="!get_FuseStanceFeat() || !get_FuseStanceFeat().data">
-                Deactivate {{activity.charges ? "(" + (activity.charges - gain.chargesUsed) + " of " + activity.charges + " charges)" : ""}}
+                [disabled]="!get_FuseStanceFeat() || !get_FuseStanceFeat().data"
+                title="{{gain.activeCooldown ? (activity.charges ? '(Recharged in: ' : '(Cooldown: ') + get_Duration(gain.activeCooldown, true, false) + ')' : ''}}">
+                Deactivate
+                {{activity.charges ? "(" + (activity.charges - gain.chargesUsed) + " of " + activity.charges + " charges)" : ""}}
             </button>
         </ng-container>
         <ng-container *ngIf="!activity.can_Activate()">
-            <button class="row center-aligned" title="The results of this activation cannot be directly applied in the app. Pressing this button has no effect.">
+            <button class="row center-aligned"
+                title="The results of this activation cannot be directly applied in the app. Pressing this button has no effect.">
                 Activate &#9774;
             </button>
         </ng-container>
@@ -50,9 +72,10 @@
     <div class="row" *ngIf="get_Resonant() && !isSubItem">
         <strong>Slot this item into a Wayfinder to unlock its resonant power.</strong>
     </div>
-    <div class="row" *ngIf="gain && (gain.activeCooldown ? (activity.charges == gain.chargesUsed) : false) && !gain.active">
+    <div class="row"
+        *ngIf="gain && (gain.activeCooldown ? (activity.charges == gain.chargesUsed) : false) && !gain.active">
         <button class="row center-aligned" disabled>
-            Cannot activate for {{get_Duration(gain.activeCooldown, true, true)}}
+            Cannot activate {{get_Duration(gain.activeCooldown, true, true)}}
         </button>
     </div>
     <div class="row left-aligned">
