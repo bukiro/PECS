@@ -84,35 +84,35 @@ export class Spell {
     get_Heightened(text: string, levelNumber: number) {
         this.get_DescriptionSet(levelNumber).forEach((descVar: SpellDesc) => {
             let regex = new RegExp(descVar.variable,"g")
-            text = text.replace(regex, descVar.value);
+            text = text.replace(regex, (descVar.value || ""));
         })
         return text;
     }
     get_HeightenedConditions(levelNumber: number) {
-        if (!this.gainConditions.length || this.gainConditions.filter(gain => !gain.heightenedFilter).length) {
+        if (!this.gainConditions.length || !this.gainConditions.find(gain => gain.heightenedFilter)) {
             return this.gainConditions;
         } else if (this.gainConditions.length) {
             switch (levelNumber) {
                 case 10: 
-                    if (this.gainConditions.filter(gain => gain.heightenedFilter == 10).length) { return this.gainConditions.filter(gain => gain.heightenedFilter == 10); }
+                    if (this.gainConditions.filter(gain => gain.heightenedFilter == 10).length) { return this.gainConditions.filter(gain => !gain.heightenedFilter || gain.heightenedFilter == 10); }
                 case 9: 
-                    if (this.gainConditions.filter(gain => gain.heightenedFilter == 9).length) { return this.gainConditions.filter(gain => gain.heightenedFilter == 9); }
+                    if (this.gainConditions.filter(gain => gain.heightenedFilter == 9).length) { return this.gainConditions.filter(gain => !gain.heightenedFilter || gain.heightenedFilter == 9); }
                 case 8: 
-                    if (this.gainConditions.filter(gain => gain.heightenedFilter == 8).length) { return this.gainConditions.filter(gain => gain.heightenedFilter == 8); }
+                    if (this.gainConditions.filter(gain => gain.heightenedFilter == 8).length) { return this.gainConditions.filter(gain => !gain.heightenedFilter || gain.heightenedFilter == 8); }
                 case 7: 
-                    if (this.gainConditions.filter(gain => gain.heightenedFilter == 7).length) { return this.gainConditions.filter(gain => gain.heightenedFilter == 7); }
+                    if (this.gainConditions.filter(gain => gain.heightenedFilter == 7).length) { return this.gainConditions.filter(gain => !gain.heightenedFilter || gain.heightenedFilter == 7); }
                 case 6: 
-                    if (this.gainConditions.filter(gain => gain.heightenedFilter == 6).length) { return this.gainConditions.filter(gain => gain.heightenedFilter == 6); }
+                    if (this.gainConditions.filter(gain => gain.heightenedFilter == 6).length) { return this.gainConditions.filter(gain => !gain.heightenedFilter || gain.heightenedFilter == 6); }
                 case 5: 
-                    if (this.gainConditions.filter(gain => gain.heightenedFilter == 5).length) { return this.gainConditions.filter(gain => gain.heightenedFilter == 5); }
+                    if (this.gainConditions.filter(gain => gain.heightenedFilter == 5).length) { return this.gainConditions.filter(gain => !gain.heightenedFilter || gain.heightenedFilter == 5); }
                 case 4: 
-                    if (this.gainConditions.filter(gain => gain.heightenedFilter == 4).length) { return this.gainConditions.filter(gain => gain.heightenedFilter == 4); }
+                    if (this.gainConditions.filter(gain => gain.heightenedFilter == 4).length) { return this.gainConditions.filter(gain => !gain.heightenedFilter || gain.heightenedFilter == 4); }
                 case 3: 
-                    if (this.gainConditions.filter(gain => gain.heightenedFilter == 3).length) { return this.gainConditions.filter(gain => gain.heightenedFilter == 3); }
+                    if (this.gainConditions.filter(gain => gain.heightenedFilter == 3).length) { return this.gainConditions.filter(gain => !gain.heightenedFilter || gain.heightenedFilter == 3); }
                 case 2: 
-                    if (this.gainConditions.filter(gain => gain.heightenedFilter == 2).length) { return this.gainConditions.filter(gain => gain.heightenedFilter == 2); }
+                    if (this.gainConditions.filter(gain => gain.heightenedFilter == 2).length) { return this.gainConditions.filter(gain => !gain.heightenedFilter || gain.heightenedFilter == 2); }
                 case 1:
-                    if (this.gainConditions.filter(gain => gain.heightenedFilter == 1).length) { return this.gainConditions.filter(gain => gain.heightenedFilter == 1); }
+                    if (this.gainConditions.filter(gain => gain.heightenedFilter == 1).length) { return this.gainConditions.filter(gain => !gain.heightenedFilter || gain.heightenedFilter == 1); }
                 default:
                     return [];
                 }

@@ -66,7 +66,7 @@ import { WeaponMaterial } from './WeaponMaterial';
 import { ArmorMaterial } from './ArmorMaterial';
 import { ShieldMaterial } from './ShieldMaterial';
 import { AlchemicalPoison } from './AlchemicalPoison';
-import { OtherConsumableBomb } from './OtherConsumableBOmb';
+import { OtherConsumableBomb } from './OtherConsumableBomb';
 import { Wand } from './Wand';
 
 @Injectable({

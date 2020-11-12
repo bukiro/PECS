@@ -53,7 +53,7 @@ import { Shield } from './Shield';
 import { AlchemicalBomb } from './AlchemicalBomb';
 import { Snare } from './Snare';
 import { AlchemicalPoison } from './AlchemicalPoison';
-import { OtherConsumableBomb } from './OtherConsumableBOmb';
+import { OtherConsumableBomb } from './OtherConsumableBomb';
 import { AdventuringGear } from './AdventuringGear';
 
 @Injectable({
@@ -90,7 +90,7 @@ export class CharacterService {
         public featsService: FeatsService,
         private traitsService: TraitsService,
         private historyService: HistoryService,
-        private conditionsService: ConditionsService,
+        public conditionsService: ConditionsService,
         public activitiesService: ActivitiesService,
         public itemsService: ItemsService,
         public spellsService: SpellsService,
@@ -159,7 +159,7 @@ export class CharacterService {
         if (inventory.includes(ability)) {
             this.set_ToChange(creature, "inventory");
         }
-
+        this.set_ToChange(creature, "effects");
     }
 
     process_ToChange() {
@@ -821,14 +821,14 @@ export class CharacterService {
             if (item["activities"]) {
                 item["activities"].forEach(activity => {
                     if (activity.active) {
-                        this.activitiesService.activate_Activity(creature, "", this, this.timeService, this.itemsService, this.spellsService, activity, activity, false);
+                        this.activitiesService.activate_Activity(creature, "", this, this.conditionsService, this.itemsService, this.spellsService, activity, activity, false);
                     }
                 })
             }
             if (item["gainActivities"]) {
                 item["gainActivities"].forEach(gain => {
                     if (gain.active) {
-                        this.activitiesService.activate_Activity(creature, "", this, this.timeService, this.itemsService, this.spellsService, gain, this.activitiesService.get_Activities(gain.name)[0], false);
+                        this.activitiesService.activate_Activity(creature, "", this, this.conditionsService, this.itemsService, this.spellsService, gain, this.activitiesService.get_Activities(gain.name)[0], false);
                     }
                 })
             }
@@ -1106,7 +1106,7 @@ export class CharacterService {
                 item.propertyRunes?.forEach(rune => {
                     //Deactivate any active toggled activities of inserted runes.
                     rune.activities.filter(activity => activity.toggle && activity.active).forEach(activity => {
-                    this.activitiesService.activate_Activity(this.get_Character(), "Character", this, this.timeService, this.itemsService, this.spellsService, activity, activity, false);
+                    this.activitiesService.activate_Activity(this.get_Character(), "Character", this, this.conditionsService, this.itemsService, this.spellsService, activity, activity, false);
                 })
         })
             }
@@ -1157,11 +1157,11 @@ export class CharacterService {
             item.gainActivities.filter(gainActivity => gainActivity.active).forEach((gainActivity: ActivityGain) => {
                 let libraryActivity = this.activitiesService.get_Activities(gainActivity.name)[0];
                 if (libraryActivity) {
-                    this.activitiesService.activate_Activity(creature, "", this, this.timeService, this.itemsService, this.spellsService, gainActivity, libraryActivity, false);
+                    this.activitiesService.activate_Activity(creature, "", this, this.conditionsService, this.itemsService, this.spellsService, gainActivity, libraryActivity, false);
                 }
             });
             item.activities.filter(itemActivity => itemActivity.active).forEach((itemActivity: ItemActivity) => {
-                this.activitiesService.activate_Activity(creature, "", this, this.timeService, this.itemsService, this.spellsService, itemActivity, itemActivity, false);
+                this.activitiesService.activate_Activity(creature, "", this, this.conditionsService, this.itemsService, this.spellsService, itemActivity, itemActivity, false);
             })
             this.set_EquipmentViewChanges(creature, item);
         }
@@ -1172,7 +1172,7 @@ export class CharacterService {
 
     on_ConsumableUse(creature: Character|AnimalCompanion, item: Consumable) {
         item.amount--
-        this.itemsService.process_Consumable(creature, this, this.itemsService, this.timeService, this.spellsService, item);
+        this.itemsService.process_Consumable(creature, this, this.itemsService, this.conditionsService, this.spellsService, item);
         this.set_ItemViewChanges(creature, item);
         this.set_ToChange(creature.type, "inventory");
     }

@@ -1,4 +1,5 @@
 import { Activity } from './Activity';
+import { SpellCast } from './SpellCast';
 
 //ItemActivity combines Activity and ActivityGain, so that an item can have its own contained activity.
 export class ItemActivity extends Activity {
@@ -16,4 +17,8 @@ export class ItemActivity extends Activity {
     //Resonant item activities are only available when the item is slotted into a wayfinder.
     public resonant: boolean = false;
     public data: {name:string, value:any}[] = [];
+    //We copy the activities castSpells here whenever we activate it, so we can store the item ID.
+    public castSpells: SpellCast[] = [];
+    //If the activity casts a spell, in order to select a choice from the spell before casting it, the choice is saved here for each duration for each spell, recursively.
+    public spellEffectChoices: string[][] = [];
 }

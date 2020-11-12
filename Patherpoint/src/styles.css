@@ -719,7 +719,7 @@ h4 app-actionicons span {
 
 button app-actionicons span {
     position: relative;
-    bottom: 3px;
+    bottom: 1px;
 }
 
 .list-item {
@@ -953,6 +953,10 @@ cite.effect.bonus {
     color: green;
 }
 
+.darkmode .bonus, .darkmode cite.condition.bonus, .darkmode cite.effect.bonus {
+    color: lightgreen;
+}
+
 .penalty,
 cite.condition.penalty,
 cite.effect.penalty {
@@ -962,7 +966,6 @@ cite.effect.penalty {
 .darkmode .penalty {
     color: red
 }
-
 
 .invisible {
     display: none;

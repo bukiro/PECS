@@ -1,4 +1,3 @@
-import { Consumable } from './Consumable';
 import { AlchemicalBomb } from './AlchemicalBomb';
 
 export class OtherConsumableBomb extends AlchemicalBomb {

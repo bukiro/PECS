@@ -10,7 +10,8 @@
                 <label for="showRestricted">Show restricted attacks</label>
                 <input id="showRestricted" type="checkbox" [(ngModel)]="showRestricted">
             </div>
-            <div class="list-item" [ngClass]="{'problem fullsize-only':!get_IsAllowed(weapon), 'invisible':!get_IsAllowed(weapon) && !showRestricted}"
+            <div class="list-item"
+                [ngClass]="{'problem fullsize-only':!get_IsAllowed(weapon), 'invisible':!get_IsAllowed(weapon) && !showRestricted}"
                 *ngFor="let attack of get_Attacks(weapon)">
                 <div class="row">
                     <span style="flex-basis:auto">
@@ -20,7 +21,8 @@
                         <strong *ngFor="let handwraps of get_HandwrapsOfMightyBlows(weapon)">
                             ({{handwraps.get_Name()}})
                         </strong>
-                        <button style="flex-basis:auto" [disabled]="!weapon.amount" (click)="on_ConsumableUse(weapon, null)"
+                        <button style="flex-basis:auto" [disabled]="!weapon.amount"
+                            (click)="on_ConsumableUse(weapon, null)"
                             *ngIf="['alchemicalbombs', 'otherconsumablesbombs'].includes(weapon.type)">
                             <span>{{(weapon.amount != undefined && weapon.amount != 1) ?
                                 weapon.amount+" " : ""}}{{weapon.get_Name()}}<app-actionIcons
@@ -38,13 +40,17 @@
                             <span *ngIf="!damage[0].includes('0d0')">&nbsp;Damage&nbsp;</span>
                             <strong *ngFor="let line of damage[0].split('\n'); trackBy:trackByIndex;"
                                 title="{{damage[1]}}">
-                                <span *ngIf="!line.includes('0d0')">{{line}}</span><br>
+                                <span
+                                    [ngClass]="{'penalty':damage[3].length, 'bonus':damage[2].length, 'absolute':damage[4].length}"
+                                    *ngIf="!line.includes('0d0')">{{line}}</span><br>
                             </strong>
                         </ng-container>
                     </span>
                 </div>
-                <div class="fullsize-only row left-aligned tags" *ngIf="weapon.get_Traits(characterService, get_Creature()).length">
-                    <cite class="trait" *ngFor="let trait of weapon.get_Traits(characterService, get_Creature()); trackBy:trackByIndex;"
+                <div class="fullsize-only row left-aligned tags"
+                    *ngIf="weapon.get_Traits(characterService, get_Creature()).length">
+                    <cite class="trait"
+                        *ngFor="let trait of weapon.get_Traits(characterService, get_Creature()); trackBy:trackByIndex;"
                         title="{{get_Traits(trait)[0].description}}">{{trait}}</cite>
                 </div>
                 <div class="fullsize-only row left-aligned"
@@ -62,7 +68,7 @@
                         <span>Spend/Remove {{poison.name}}</span>
                     </button>
                 </div>
-                    <div class="fullsize-only lower row left-aligned"
+                <div class="fullsize-only lower row left-aligned"
                     *ngFor="let talisman of weapon.talismans; let index = index; trackBy:trackByIndex;">
                     <button title="{{get_TalismanTitle(talisman)}}" (click)="on_TalismanUse(weapon, talisman, index)">
                         <span>Activate {{talisman.name}}<app-actionIcons [actionString]="talisman.actions">
@@ -109,9 +115,11 @@
                 <div class="list-item">
                     <strong>{{(ammo.item.amount != undefined && ammo.item.amount != 1) ? ammo.item.amount+" " : ""}}
                         {{ammo.item.get_Name()}}</strong>
-                    <button [disabled]="!ammo.item.amount" title="{{ammo.item.storedSpells.length ? 'Cast spell on your enemy. To choose another target (if applicable), use the item in the inventory instead.' : ''}}" (click)="on_ConsumableUse(ammo.item, ammo.inventory)">
+                    <button [disabled]="!ammo.item.amount"
+                        title="{{ammo.item.storedSpells.length ? 'Cast spell on your enemy. To choose another target (if applicable), use the item in the inventory instead.' : ''}}"
+                        (click)="on_ConsumableUse(ammo.item, ammo.inventory)">
                         <span>Use<app-actionIcons [actionString]="ammo.item.actions">
-                        </app-actionIcons>{{(ammo.item.activationType) ? ammo.item.activationType : ""}}</span>
+                            </app-actionIcons>{{(ammo.item.activationType) ? ammo.item.activationType : ""}}</span>
                     </button>
                 </div>
             </ng-container>
@@ -134,8 +142,8 @@
             </div>
         </ng-container>
         <h3 class="fullsize-only box-header" *ngIf="!still_loading()">Weapon Proficiencies</h3>
-        <app-tags [creature]="creature" [objectName]="'Weapon Proficiencies'" [showTraits]=true [showFeats]=true [showItems]=true
-                [showActivities]=true [showConditions]=true></app-tags>
+        <app-tags [creature]="creature" [objectName]="'Weapon Proficiencies'" [showTraits]=true [showFeats]=true
+            [showItems]=true [showActivities]=true [showConditions]=true></app-tags>
         <ng-container *ngFor="let skill of get_Skills('', 'Weapon Proficiency'); trackBy:trackByIndex;">
             <app-skill class="fullsize-only" [creature]="creature" [skill]=skill [showValue]=false></app-skill>
         </ng-container>

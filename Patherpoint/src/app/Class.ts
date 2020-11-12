@@ -204,7 +204,7 @@ export class Class {
             heritage.gainActivities.forEach((gainActivity: string) => {
                 let oldGain = character.class.activities.find(gain => gain.name == gainActivity && gain.source == heritage.name);
                 if (oldGain) {
-                    character.lose_Activity(characterService, characterService.timeService, characterService.itemsService, characterService.spellsService, characterService.activitiesService, oldGain);
+                    character.lose_Activity(characterService, characterService.conditionsService, characterService.itemsService, characterService.spellsService, characterService.activitiesService, oldGain);
                 }
             });
             //Gain Spell or Spell Option

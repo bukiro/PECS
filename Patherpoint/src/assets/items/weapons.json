@@ -3103,7 +3103,7 @@
       "id": "b0ac6d8d-b087-4d37-bb7d-8c1fcef8a779",
       "name": "Animal Form Ape Fist (4th level)",
       "traits": [
-         "Reach 10 feet",
+         "Reach",
          "Unarmed"
       ],
       "displayName": "Fist",
@@ -3121,7 +3121,7 @@
       "id": "a99f1b30-fec0-4e3a-9807-b55d1ff09c36",
       "name": "Animal Form Bear Jaws (4th level)",
       "traits": [
-         "Reach 10 feet",
+         "Reach",
          "Unarmed"
       ],
       "displayName": "Jaws",
@@ -3140,7 +3140,7 @@
       "name": "Animal Form Bear Claw (4th level)",
       "traits": [
          "Agile",
-         "Reach 10 feet",
+         "Reach",
          "Unarmed"
       ],
       "displayName": "Claw",
@@ -3158,7 +3158,7 @@
       "id": "76f51d3e-17f2-43a0-8e4b-eec856a64e3d",
       "name": "Animal Form Bull Horn (4th level)",
       "traits": [
-         "Reach 10 feet",
+         "Reach",
          "Unarmed"
       ],
       "displayName": "Horn",
@@ -3176,7 +3176,7 @@
       "id": "eb2d8c7e-01cd-4325-bcfe-2d1d7396237d",
       "name": "Animal Form Canine Jaws (4th level)",
       "traits": [
-         "Reach 10 feet",
+         "Reach",
          "Unarmed"
       ],
       "displayName": "Jaws",
@@ -3194,7 +3194,7 @@
       "id": "980286d9-e9ed-4d11-afc2-34f140861213",
       "name": "Animal Form Cat Jaws (4th level)",
       "traits": [
-         "Reach 10 feet",
+         "Reach",
          "Unarmed"
       ],
       "displayName": "Jaws",
@@ -3213,7 +3213,7 @@
       "name": "Animal Form Cat Claw (4th level)",
       "traits": [
          "Agile",
-         "Reach 10 feet",
+         "Reach",
          "Unarmed"
       ],
       "displayName": "Claw",
@@ -3231,7 +3231,7 @@
       "id": "76e4deaa-e2ac-47d2-a73d-9f7441c69194",
       "name": "Animal Form Deer Antler (4th level)",
       "traits": [
-         "Reach 10 feet",
+         "Reach",
          "Unarmed"
       ],
       "displayName": "Antler",
@@ -3249,7 +3249,7 @@
       "id": "035f5eed-c2c3-4135-a082-9ec304eeaa22",
       "name": "Animal Form Frog Jaws (4th level)",
       "traits": [
-         "Reach 10 feet",
+         "Reach",
          "Unarmed"
       ],
       "displayName": "Jaws",
@@ -3267,7 +3267,7 @@
       "id": "e81b8165-8884-4afd-9d37-09c1d1694858",
       "name": "Animal Form Shark Jaws (4th level)",
       "traits": [
-         "Reach 10 feet",
+         "Reach",
          "Unarmed"
       ],
       "displayName": "Jaws",
@@ -3285,7 +3285,7 @@
       "id": "580d878e-5b29-4c59-a562-aff092384be1",
       "name": "Animal Form Snake Fangs (4th level)",
       "traits": [
-         "Reach 10 feet",
+         "Reach",
          "Unarmed"
       ],
       "displayName": "Fangs",
@@ -3701,7 +3701,7 @@
       "id": "c2e77ed3-715b-4c6e-82c0-50ee1b9ddddd",
       "name": "Insect Form Ant Mandibles (4th level)",
       "traits": [
-         "Reach 10 feet",
+         "Reach",
          "Unarmed"
       ],
       "displayName": "Mandibles",
@@ -3719,7 +3719,7 @@
       "id": "ec339a03-4386-4996-9862-c41fb021acbe",
       "name": "Insect Form Beetle Mandibles (4th level)",
       "traits": [
-         "Reach 10 feet",
+         "Reach",
          "Unarmed"
       ],
       "displayName": "Mandibles",
@@ -3738,7 +3738,7 @@
       "name": "Insect Form Centipede Mandibles (4th level)",
       "traits": [
          "Agile",
-         "Reach 10 feet",
+         "Reach",
          "Unarmed"
       ],
       "displayName": "Mandibles",
@@ -3757,7 +3757,7 @@
       "id": "c7feee39-8f28-4a09-be21-496ebe819cbc",
       "name": "Insect Form Mantis Foreleg (4th level)",
       "traits": [
-         "Reach 10 feet",
+         "Reach",
          "Unarmed"
       ],
       "displayName": "Foreleg",
@@ -3775,7 +3775,7 @@
       "id": "15c402e2-b762-4bc8-ad03-c92070977338",
       "name": "Insect Form Scorpion Stinger (4th level)",
       "traits": [
-         "Reach 10 feet",
+         "Reach",
          "Unarmed"
       ],
       "displayName": "Stinger",
@@ -3795,7 +3795,7 @@
       "name": "Insect Form Scorpion Pincer (4th level)",
       "traits": [
          "Agile",
-         "Reach 10 feet",
+         "Reach",
          "Unarmed"
       ],
       "displayName": "Pincer",
@@ -3813,7 +3813,7 @@
       "id": "14d82658-4d27-46b6-aa5a-d852dabb9057",
       "name": "Insect Form Spider Fangs (4th level)",
       "traits": [
-         "Reach 10 feet",
+         "Reach",
          "Unarmed"
       ],
       "displayName": "Fangs",
@@ -4182,5 +4182,233 @@
       "group": "Brawling",
       "melee": 5,
       "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "9f00d672-a000-4ce9-ba97-b207f6b1b0dc",
+      "name": "Aerial Form Bat Fangs",
+      "traits": [
+         "Unarmed"
+      ],
+      "displayName": "Fangs",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 2,
+      "dicesize": 8,
+      "dmgType": "P",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks",
+      "dexterityBased": true
+   },
+   {
+      "hide": true,
+      "id": "74dec501-a9ec-4ece-a200-d2b6b9f42dbd",
+      "name": "Aerial Form Bat Wing",
+      "traits": [
+         "Agile",
+         "Unarmed"
+      ],
+      "displayName": "Wing",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 2,
+      "dicesize": 6,
+      "dmgType": "B",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks",
+      "dexterityBased": true
+   },
+   {
+      "hide": true,
+      "id": "42c74449-3749-438d-bd5b-c59648f325c9",
+      "name": "Aerial Form Bird Beak",
+      "traits": [
+         "Unarmed"
+      ],
+      "displayName": "Beak",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 2,
+      "dicesize": 8,
+      "dmgType": "P",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks",
+      "dexterityBased": true
+   },
+   {
+      "hide": true,
+      "id": "fb3880a8-176e-4deb-94b3-2e53f028680c",
+      "name": "Aerial Form Bird Talon",
+      "traits": [
+         "Agile",
+         "Unarmed"
+      ],
+      "displayName": "Talon",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 1,
+      "dicesize": 10,
+      "dmgType": "S",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks",
+      "dexterityBased": true
+   },
+   {
+      "hide": true,
+      "id": "2a0d49ce-6eb2-48fd-9f24-0461943eeee6",
+      "name": "Aerial Form Pterosaur Beak",
+      "traits": [
+         "Unarmed"
+      ],
+      "displayName": "Beak",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 3,
+      "dicesize": 6,
+      "dmgType": "P",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks",
+      "dexterityBased": true
+   },
+   {
+      "hide": true,
+      "id": "e0e2a772-07f8-403d-aa91-d3adf9952392",
+      "name": "Aerial Form Wasp Stinger",
+      "traits": [
+         "Unarmed"
+      ],
+      "displayName": "Stinger",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 1,
+      "dicesize": 8,
+      "dmgType": "P",
+      "extraDamage": "+1d6 persistent Poison",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks",
+      "dexterityBased": true
+   },
+   {
+      "hide": true,
+      "id": "fd37d73c-84c2-4e56-a896-a8c614e287ad",
+      "name": "Aerial Form Bat Fangs (6th level)",
+      "traits": [
+         "Reach",
+         "Unarmed"
+      ],
+      "displayName": "Fangs",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 4,
+      "dicesize": 8,
+      "dmgType": "P",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks",
+      "dexterityBased": true
+   },
+   {
+      "hide": true,
+      "id": "24fd9059-5764-422c-be8d-a6a587d5c171",
+      "name": "Aerial Form Bat Wing (6th level)",
+      "traits": [
+         "Agile",
+         "Reach",
+         "Unarmed"
+      ],
+      "displayName": "Wing",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 4,
+      "dicesize": 6,
+      "dmgType": "B",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks",
+      "dexterityBased": true
+   },
+   {
+      "hide": true,
+      "id": "fb32b16f-d43e-4ff8-b2a4-920a9de7db1b",
+      "name": "Aerial Form Bird Beak (6th level)",
+      "traits": [
+         "Reach",
+         "Unarmed"
+      ],
+      "displayName": "Beak",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 4,
+      "dicesize": 8,
+      "dmgType": "P",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks",
+      "dexterityBased": true
+   },
+   {
+      "hide": true,
+      "id": "7afb9275-0077-4aae-8dc9-ec9aecb1daef",
+      "name": "Aerial Form Bird Talon (6th level)",
+      "traits": [
+         "Agile",
+         "Reach",
+         "Unarmed"
+      ],
+      "displayName": "Talon",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 2,
+      "dicesize": 10,
+      "dmgType": "S",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks",
+      "dexterityBased": true
+   },
+   {
+      "hide": true,
+      "id": "7007640f-c3aa-4711-9132-5f4de20281c5",
+      "name": "Aerial Form Pterosaur Beak (6th level)",
+      "traits": [
+         "Reach",
+         "Unarmed"
+      ],
+      "displayName": "Beak",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 6,
+      "dicesize": 6,
+      "dmgType": "P",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks",
+      "dexterityBased": true
+   },
+   {
+      "hide": true,
+      "id": "0aa50e7e-23dd-4120-8b7d-1a3973c5be5d",
+      "name": "Aerial Form Wasp Stinger (6th level)",
+      "traits": [
+         "Reach",
+         "Unarmed"
+      ],
+      "displayName": "Stinger",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 2,
+      "dicesize": 8,
+      "dmgType": "P",
+      "extraDamage": "+2d6 persistent Poison",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks",
+      "dexterityBased": true
    }
 ]

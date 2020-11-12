@@ -34,16 +34,16 @@ import { Oil } from './Oil';
 import { Talisman } from './Talisman';
 import { Familiar } from './Familiar';
 import { SpellsService } from './spells.service';
-import { TimeService } from './time.service';
 import { SpellCast } from './SpellCast';
 import { AlchemicalBomb } from './AlchemicalBomb';
 import { AlchemicalTool } from './AlchemicalTool';
 import { Snare } from './Snare';
 import { WeaponMaterial } from './WeaponMaterial';
 import { AlchemicalPoison } from './AlchemicalPoison';
-import { OtherConsumableBomb } from './OtherConsumableBOmb';
+import { OtherConsumableBomb } from './OtherConsumableBomb';
 import { Wand } from './Wand';
 import { Loader } from './Loader';
+import { ConditionsService } from './conditions.service';
 
 @Injectable({
     providedIn: 'root'
@@ -457,7 +457,7 @@ export class ItemsService {
 
     }
 
-    process_Consumable(creature: Character | AnimalCompanion | Familiar, characterService: CharacterService, itemsService: ItemsService, timeService: TimeService, spellsService: SpellsService, item: Consumable) {
+    process_Consumable(creature: Character | AnimalCompanion | Familiar, characterService: CharacterService, itemsService: ItemsService, conditionsService: ConditionsService, spellsService: SpellsService, item: Consumable) {
 
         //One time effects
         if (item.onceEffects) {
@@ -480,7 +480,7 @@ export class ItemsService {
                 cast.spellGain.duration = cast.duration;
                 let librarySpell = spellsService.get_Spells(cast.name)[0];
                 if (librarySpell) {
-                    spellsService.process_Spell(creature, creature.type, characterService, itemsService, timeService, null, cast.spellGain, librarySpell, cast.level, true, true, false);
+                    spellsService.process_Spell(creature, creature.type, characterService, itemsService, conditionsService, null, cast.spellGain, librarySpell, cast.level, true, true, false);
                 }
                 
             })

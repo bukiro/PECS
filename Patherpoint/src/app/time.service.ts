@@ -28,7 +28,7 @@ export class TimeService {
         return this.yourTurn;
     }
 
-    start_Turn(characterService: CharacterService, timeService: TimeService, itemsService: ItemsService, spellsService: SpellsService, effectsService: EffectsService) {
+    start_Turn(characterService: CharacterService, conditionsService: ConditionsService, itemsService: ItemsService, spellsService: SpellsService, effectsService: EffectsService) {
         
         //Fast Healing
         let fastHealing: number = 0;
@@ -44,16 +44,16 @@ export class TimeService {
             }
         })
 
-        this.tick(characterService, timeService, itemsService, spellsService, 5);
+        this.tick(characterService, conditionsService, itemsService, spellsService, 5);
     }
 
-    end_Turn(characterService: CharacterService, timeService: TimeService, itemsService: ItemsService, spellsService: SpellsService) {
-        this.tick(characterService, timeService, itemsService, spellsService, 5);
+    end_Turn(characterService: CharacterService, conditionsService: ConditionsService, itemsService: ItemsService, spellsService: SpellsService) {
+        this.tick(characterService, conditionsService, itemsService, spellsService, 5);
     }
 
-    rest(characterService: CharacterService, timeService: TimeService, itemsService: ItemsService, spellsService: SpellsService, ) {
+    rest(characterService: CharacterService, conditionsService: ConditionsService, itemsService: ItemsService, spellsService: SpellsService, ) {
         let charLevel: number = characterService.get_Character().level;
-        this.tick(characterService, timeService, itemsService, spellsService, 48000, false);
+        this.tick(characterService, conditionsService, itemsService, spellsService, 48000, false);
         characterService.get_Creatures().forEach(creature => {
             characterService.set_ToChange(creature.type, "health");
             let con = 1;
@@ -105,7 +105,7 @@ export class TimeService {
         characterService.process_ToChange();
     }
 
-    tick(characterService: CharacterService, timeService: TimeService, itemsService: ItemsService, spellsService: SpellsService, turns: number = 10, reload: boolean = true) {
+    tick(characterService: CharacterService, conditionsService: ConditionsService, itemsService: ItemsService, spellsService: SpellsService, turns: number = 10, reload: boolean = true) {
         characterService.get_Creatures().forEach(creature => {
             if (creature.conditions.length) {
                 if (creature.conditions.filter(gain => gain.nextStage > 0)) {
@@ -116,12 +116,12 @@ export class TimeService {
                 characterService.set_ToChange(creature.type, "effects")
             }
             this.effectsService.tick_CustomEffects(creature, characterService, turns);
-            this.activitiesService.tick_Activities(creature, characterService, timeService, itemsService, spellsService, turns)
+            this.activitiesService.tick_Activities(creature, characterService, conditionsService, itemsService, spellsService, turns)
             if (creature.type != "Familiar") {
                 itemsService.tick_Items(creature, characterService, turns);
             }
             if (creature.type == "Character") {
-                this.spellsService.tick_Spells(creature, characterService, itemsService, this, turns);
+                this.spellsService.tick_Spells(creature, characterService, itemsService, conditionsService, turns);
             }
             //If you are at full health and rest for 10 minutes, you lose the wounded condition.
             if (turns >= 1000 && characterService.get_Health(creature).damage == 0) {

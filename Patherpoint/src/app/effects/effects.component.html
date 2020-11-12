@@ -56,6 +56,21 @@
                     <span><button (click)="change_ConditionValue(conditionGain, 1)">Value + 1</button></span>
                 </div>
             </div>
+            <div class="row list-item fullsize-only" *ngIf="conditionGain.showVariables && condition.name == 'Persistent Damage'">
+                <span>
+                    Damage type and amount: <input type="text" name="persistentDamage"
+                        [(ngModel)]="conditionGain.choice" maxLength="30">
+                </span>
+            </div>
+            <div class="row list-item fullsize-only" *ngIf="conditionGain.showVariables && condition.choices.length && !conditionGain.choiceLocked">
+                <span *ngFor="let oldChoice of [conditionGain.choice]">Effect selection:
+                    <select [(ngModel)]="conditionGain.choice" (ngModelChange)="change_ConditionChoice(conditionGain, condition, oldChoice)">
+                        <option *ngFor="let choice of condition.choices; trackBy:trackByIndex;" [ngValue]="choice">
+                            {{choice}}
+                        </option>
+                    </select>
+                </span>
+            </div>
             <div class="row">
                 <div class="list-item lower row problem"
                     *ngIf="conditionGain.nextStage == -1 && (condition.previousCondition || condition.nextCondition)">
@@ -78,21 +93,6 @@
                 <span *ngIf="!condition.nextCondition"><button
                         (click)="change_ConditionStage(conditionGain, condition, 0)">{{conditionGain.nextStage == -1 ? "Failure: " : ""}}Remain
                         at this stage</button></span>
-            </div>
-            <div class="row" *ngIf="condition.name == 'Persistent Damage'">
-                <span>
-                    Damage type and amount: <input type="text" name="persistentDamage"
-                        [(ngModel)]="conditionGain.choice" maxLength="30">
-                </span>
-            </div>
-            <div class="row" *ngIf="condition.choices.length && !conditionGain.choiceLocked">
-                <span *ngFor="let oldChoice of [conditionGain.choice]">Effect selection:
-                    <select [(ngModel)]="conditionGain.choice" (ngModelChange)="change_ConditionChoice(conditionGain, condition, oldChoice)">
-                        <option *ngFor="let choice of condition.choices; trackBy:trackByIndex;" [ngValue]="choice">
-                            {{choice}}
-                        </option>
-                    </select>
-                </span>
             </div>
             <div class="row fullsize-only">
                 <div class="list-item lower row problem"
@@ -159,7 +159,7 @@
                 <div class="row">
                     <span>
                         <strong [className]="get_Conditions(conditionGain.name)[0]?.buff ? 'bonus' : 'penalty'"
-                            title="Source: {{conditionGain.source}}">{{conditionGain.name}}
+                            title="Source: {{conditionGain.source}}">{{conditionGain.name}}{{conditionGain.choice ? ": "+conditionGain.choice : ""}}
                             {{(conditionGain.value) ? conditionGain.value : ""}}
                         </strong>
                         <cite class="trait" *ngFor="let trait of condition.traits; trackBy:trackByIndex;"

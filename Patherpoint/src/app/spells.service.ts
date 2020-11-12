@@ -13,6 +13,7 @@ import { AnimalCompanion } from './AnimalCompanion';
 import { Familiar } from './Familiar';
 import { Character } from './Character';
 import { SpellCasting } from './SpellCasting';
+import { ConditionsService } from './conditions.service';
 
 @Injectable({
   providedIn: 'root'
@@ -39,7 +40,7 @@ export class SpellsService {
         }
     }
 
-    process_Spell(creature: Character|AnimalCompanion|Familiar, target: string = "", characterService: CharacterService, itemsService: ItemsService, timeService: TimeService, casting: SpellCasting, gain: SpellGain, spell: Spell, level: number, activated: boolean, manual: boolean = false, changeAfter: boolean = true) {
+    process_Spell(creature: Character|AnimalCompanion|Familiar, target: string = "", characterService: CharacterService, itemsService: ItemsService, conditionsService: ConditionsService, casting: SpellCasting, gain: SpellGain, spell: Spell, level: number, activated: boolean, manual: boolean = false, changeAfter: boolean = true) {
         
         //Cantrips and Focus spells are automatically heightened to your maximum available spell level.
         //If a spell is cast with a lower level than its minimum, the level is raised to the minimum.
@@ -135,8 +136,18 @@ export class SpellsService {
         //  (because it's much more difficult to change the spell duration -and- the condition duration).
         if (spell.get_HeightenedConditions(spellLevel)) {
             if (activated) {
+                let choicesIndex = 0;
                 spell.get_HeightenedConditions(spellLevel).forEach(conditionGain => {
                     let newConditionGain = Object.assign(new ConditionGain(), conditionGain);
+                    //If this condition has choices, and the gain has choices prepared, apply the choice from the gain.
+                    // The order of gain.choices maps directly onto the order of the spell conditions that have choices.
+                    if (gain.choices.length >= choicesIndex - 1) {
+                        let condition = conditionsService.get_Conditions(conditionGain.name)[0]
+                        if (condition?.choices.length && condition.choices.includes(gain.choices[choicesIndex])) {
+                            newConditionGain.choice = gain.choices[choicesIndex];
+                            choicesIndex++;
+                        }
+                    }
                     //Pass the spell level in case that condition effects change with level
                     newConditionGain.heightened = spellLevel;
                     //Pass the spellcasting ability in case the condition needs to use the modifier
@@ -195,7 +206,7 @@ export class SpellsService {
         characterService.set_ToChange("Character", "spellbook");
     }
 
-    tick_Spells(character: Character, characterService: CharacterService, itemsService: ItemsService, timeService: TimeService, turns: number = 10) {
+    tick_Spells(character: Character, characterService: CharacterService, itemsService: ItemsService, conditionsService: ConditionsService, turns: number = 10) {
         character.get_SpellsTaken(characterService, 0, 20).filter(taken => taken.gain.activeCooldown || taken.gain.duration).forEach(taken => {
             //Tick down the duration and the cooldown.
             if (taken.gain.duration > 0) {
@@ -203,7 +214,7 @@ export class SpellsService {
                 if (taken.gain.duration == 0) {
                     let spell: Spell = this.get_Spells(taken.gain.name)[0];
                     if (spell) {
-                        this.process_Spell(character, taken.gain.target, characterService, itemsService, timeService, null, taken.gain, spell, 0, false, false)
+                        this.process_Spell(character, taken.gain.target, characterService, itemsService, conditionsService, null, taken.gain, spell, 0, false, false)
                     }
                 }
             }

@@ -22,6 +22,7 @@ import { SpellsService } from '../spells.service';
 import { SpellGain } from '../SpellGain';
 import { Wand } from '../Wand';
 import { Shield } from '../Shield';
+import { ConditionsService } from '../conditions.service';
 
 @Component({
     selector: 'app-inventory',
@@ -47,8 +48,9 @@ export class InventoryComponent implements OnInit {
         public effectsService: EffectsService,
         private timeService: TimeService,
         private spellsService: SpellsService,
-        public sortByPipe: SortByPipe
+        private conditionsService: ConditionsService
     ) { }
+    
     minimize() {
         this.characterService.get_Character().settings.inventoryMinimized = !this.characterService.get_Character().settings.inventoryMinimized;
     }
@@ -250,7 +252,15 @@ export class InventoryComponent implements OnInit {
     }
 
     sort_ItemSet(itemSet) {
-        return this.sortByPipe.transform(itemSet, "asc", "name");
+        return itemSet.sort((a,b) => {
+            if (a.name > b.name) {
+                return 1;
+            }
+            if (a.name < b.name) {
+                return -1;
+            }
+            return 0;
+        });
     }
 
     can_Equip(item: Item, inventoryIndex: number) {
@@ -439,7 +449,7 @@ export class InventoryComponent implements OnInit {
             let spell = this.get_Spells(item.storedSpells[0]?.spells[0]?.name)[0];
             if (spell && !(item instanceof Wand && item.overcharged)) {
                 let tempGain: SpellGain = new SpellGain();
-                this.spellsService.process_Spell(this.get_Character(), creature, this.characterService, this.itemsService, this.timeService, null, tempGain, spell, spellChoice.level, true, true, false);
+                this.spellsService.process_Spell(this.get_Character(), creature, this.characterService, this.itemsService, this.conditionsService, null, tempGain, spell, spellChoice.level, true, true, false);
             }
             if (item instanceof Wand) {
                 if (item.cooldown) {

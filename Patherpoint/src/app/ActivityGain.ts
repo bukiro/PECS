@@ -1,4 +1,5 @@
 import { ItemGain } from './ItemGain';
+import { SpellCast } from './SpellCast';
 
 export class ActivityGain {
     public readonly _className: string = this.constructor.name;
@@ -17,4 +18,8 @@ export class ActivityGain {
     public data: {name:string, value:any}[] = [];
     //We copy the activities ItemGains here whenever we activate it, so we can store the item ID.
     public gainItems: ItemGain[] = [];
+    //We copy the activities castSpells here whenever we activate it, so we can store its duration.
+    public castSpells: SpellCast[] = [];
+    //If the activity casts a spell, in order to select a choice from the spell before casting it, the choice is saved here for each duration for each spell, recursively.
+    public spellEffectChoices: string[][] = [];
 }

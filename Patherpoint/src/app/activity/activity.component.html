@@ -158,11 +158,22 @@
             {{activity.specialdesc}}
         </span>
     </div>
-    <div class="row left-aligned" *ngFor="let cast of activity.castSpells; trackBy:trackByIndex;">
+    <div class="row left-aligned" *ngFor="let cast of get_SpellCasts(); let spellCastIndex = index; trackBy:trackByIndex;">
         <div *ngFor="let spell of get_Spells(cast.name); trackBy:trackByIndex;">
             <h4>{{spell.name}}<app-actionIcons [actionString]="spell.actions">
                 </app-actionIcons>{{spell.castType.toString()}}
             </h4>
+            <ng-container *ngFor="let condition of get_SpellConditions(cast, spellCastIndex); let conditionIndex = index; trackBy:trackByIndex">
+                <div class="row list-item" *ngIf="condition && condition.choices.length">
+                    <span>{{condition.name}} Effect selection:
+                        <select [(ngModel)]="gain.spellEffectChoices[spellCastIndex][conditionIndex]" (ngModelChange)="on_SpellEffectChoiceChange()">
+                            <option *ngFor="let choice of condition.choices; trackBy:trackByIndex;" [ngValue]="choice">
+                                {{choice}}
+                            </option>
+                        </select>
+                    </span>
+                </div>
+            </ng-container>
             <app-spell [spell]=spell [spellLevel]="(cast.level) ? cast.level : 0"></app-spell>
         </div>
     </div>

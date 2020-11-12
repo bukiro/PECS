@@ -2187,7 +2187,6 @@
         "name": "Shifting Form",
         "desc": "You gain one of the following abilities of your choice. You can Dismiss this spell.\n\nYou gain a 20-foot status bonus to your Speed.\nYou gain a climb or swim Speed equal to half your Speed.\nYou gain darkvision.\nYou gain scent 60 feet (imprecise).",
         "type": "spells",
-        "inputRequired": "If you choose an ability other than the claws, ignore the claws in your inventory.",
         "buff": true,
         "choice": "Speed Bonus",
         "choices": [
@@ -2211,6 +2210,13 @@
             {
                 "affected": "Swim Speed",
                 "setValue": "Choice == 'Swim Speed' ? Math.max(Math.floor(Speed('Land Speed') / 2 / 5) * 5, 5) : null"
+            }
+        ],
+        "gainItems": [
+            {
+                "name": "Shifting Form Claws",
+                "type": "weapons",
+                "conditionChoiceFilter": "Claws"
             }
         ],
         "senses": [
@@ -5552,7 +5558,7 @@
             },
             {
                 "affected": "Melee Damage",
-                "value": "1"
+                "setValue": "1"
             },
             {
                 "affected": "Athletics",
@@ -5770,7 +5776,7 @@
             },
             {
                 "affected": "Melee Damage",
-                "value": "5"
+                "setValue": "5"
             },
             {
                 "affected": "Athletics",
@@ -5988,7 +5994,7 @@
             },
             {
                 "affected": "Melee Damage",
-                "value": "9"
+                "setValue": "9"
             },
             {
                 "affected": "Athletics",
@@ -6206,7 +6212,7 @@
             },
             {
                 "affected": "Melee Damage",
-                "value": "7"
+                "setValue": "7"
             },
             {
                 "affected": "Athletics",
@@ -6800,6 +6806,7 @@
             },
             {
                 "affected": "Melee Damage",
+                "type": "status",
                 "value": "(Choice == 'Medium' && BaseSize() < 0) || (Choice == 'Large' && BaseSize() < 1) ? 2 : 0"
             },
             {
@@ -7524,7 +7531,7 @@
     },
     {
         "name": "Insect Form (3rd Level)",
-        "desc": "You envision a simple bug and transform into a Medium animal battle form. When you cast this spell, choose ant, beetle, centipede, mantis, scorpion, or spider. You can decide the specific type of animal (such as such as a ladybug or scarab for beetle), but this has no effect on the form's Size or statistics. While in this form, you gain the animal trait. You can Dismiss this spell.\n\nYou gain the following statistics and abilities regardless of which battle form you choose:\n\nAC = 18 + your level. Ignore your armor's check penalty and Speed reduction.\n10 temporary Hit Points.\nLow-light vision.\nOne or more attacks specific to the battle form you choose, which are the only attacks you can use. You're trained with them. Your attack modifier is +13, and your damage bonus is +2. These attacks are Strength based (for the purpose of the enfeebled condition). If your unarmed attack modifier is higher, you can use it instead.\nAthletics modifier of +13, unless your own is higher.\n\nYou also gain specific abilities based on the form you choose:\n\n<strong>Ant</strong> Speed 30 feet, climb Speed 30 feet; <strong>Melee</strong> mandibles, <strong>Damage</strong> 2d6 bludgeoning.\n<strong>Beetle</strong> Speed 25 feet; <strong>Melee</strong> mandibles, <strong>Damage</strong> 2d10 bludgeoning.\n<strong>Centipede</strong> Speed 25 feet, climb Speed 25 feet; darkvision; <strong>Melee</strong> mandibles, <strong>Damage</strong> 1d8 piercing plus 1d4 persistent poison.\n<strong>Mantis</strong> Speed 40 feet; imprecise scent 30 feet; <strong>Melee</strong> foreleg, <strong>Damage</strong> 2d8 bludgeoning.\n<strong>Scorpion</strong> Speed 40 feet; darkvision, imprecise tremorsense 60 feet; <strong>Melee</strong> stinger, <strong>Damage</strong> 1d8 piercing plus 1d4 persistent poison; <strong>Melee</strong> pincer (agile), <strong>Damage</strong> 1d6 bludgeoning.\n<strong>Spider</strong> Speed 25 feet, climb Speed 25 feet; darkvision; <strong>Melee</strong> fangs, <strong>Damage</strong> 1d6 piercing plus 1d4 persistent poison; <strong>Ranged</strong> web (range increment 20 feet), <strong>Damage</strong> entangles the target for 1 round.",
+        "desc": "You envision a simple bug and transform into a Medium animal battle form. You can choose ant, beetle, centipede, mantis, scorpion, or spider. You can decide the specific type of animal (such as such as a ladybug or scarab for beetle), but this has no effect on the form's Size or statistics. While in this form, you gain the animal trait. You can Dismiss this spell.\n\nYou gain the following statistics and abilities regardless of which battle form you choose:\n\nAC = 18 + your level. Ignore your armor's check penalty and Speed reduction.\n10 temporary Hit Points.\nLow-light vision.\nOne or more attacks specific to the battle form you choose, which are the only attacks you can use. You're trained with them. Your attack modifier is +13, and your damage bonus is +2. These attacks are Strength based (for the purpose of the enfeebled condition). If your unarmed attack modifier is higher, you can use it instead.\nAthletics modifier of +13, unless your own is higher.\n\nYou also gain specific abilities based on the form you choose:\n\n<strong>Ant</strong> Speed 30 feet, climb Speed 30 feet; <strong>Melee</strong> mandibles, <strong>Damage</strong> 2d6 bludgeoning.\n<strong>Beetle</strong> Speed 25 feet; <strong>Melee</strong> mandibles, <strong>Damage</strong> 2d10 bludgeoning.\n<strong>Centipede</strong> Speed 25 feet, climb Speed 25 feet; darkvision; <strong>Melee</strong> mandibles, <strong>Damage</strong> 1d8 piercing plus 1d4 persistent poison.\n<strong>Mantis</strong> Speed 40 feet; imprecise scent 30 feet; <strong>Melee</strong> foreleg, <strong>Damage</strong> 2d8 bludgeoning.\n<strong>Scorpion</strong> Speed 40 feet; darkvision, imprecise tremorsense 60 feet; <strong>Melee</strong> stinger, <strong>Damage</strong> 1d8 piercing plus 1d4 persistent poison; <strong>Melee</strong> pincer (agile), <strong>Damage</strong> 1d6 bludgeoning.\n<strong>Spider</strong> Speed 25 feet, climb Speed 25 feet; darkvision; <strong>Melee</strong> fangs, <strong>Damage</strong> 1d6 piercing plus 1d4 persistent poison; <strong>Ranged</strong> web (range increment 20 feet), <strong>Damage</strong> entangles the target for 1 round.",
         "type": "spells",
         "buff": true,
         "choice": "Ant",
@@ -7555,7 +7562,7 @@
             },
             {
                 "affected": "Melee Damage",
-                "value": "2"
+                "setValue": "2"
             },
             {
                 "affected": "Athletics",
@@ -7706,7 +7713,7 @@
     },
     {
         "name": "Insect Form (4th level)",
-        "desc": "You envision a simple bug and transform into a Large animal battle form. When you cast this spell, choose ant, beetle, centipede, mantis, scorpion, or spider. You can decide the specific type of animal (such as such as a ladybug or scarab for beetle), but this has no effect on the form's Size or statistics. While in this form, you gain the animal trait. You can Dismiss this spell.\n\nYou gain the following statistics and abilities regardless of which battle form you choose:\n\nAC = 18 + your level. Ignore your armor's check penalty and Speed reduction.\n15 temporary Hit Points.\nLow-light vision.\nOne or more attacks specific to the battle form you choose, which are the only attacks you can use. You're trained with them. Your attack modifier is +16. Your attacks have 10-foot reach, and your damage bonus is +6. These attacks are Strength based (for the purpose of the enfeebled condition). If your unarmed attack modifier is higher, you can use it instead.\nAthletics modifier of +16, unless your own is higher.\n\nYou also gain specific abilities based on the form you choose:\n\n<strong>Ant</strong> Speed 30 feet, climb Speed 30 feet; <strong>Melee</strong> mandibles, <strong>Damage</strong> 2d6 bludgeoning.\n<strong>Beetle</strong> Speed 25 feet; <strong>Melee</strong> mandibles, <strong>Damage</strong> 2d10 bludgeoning.\n<strong>Centipede</strong> Speed 25 feet, climb Speed 25 feet; darkvision; <strong>Melee</strong> mandibles, <strong>Damage</strong> 1d8 piercing plus 1d4 persistent poison.\n<strong>Mantis</strong> Speed 40 feet; imprecise scent 30 feet; <strong>Melee</strong> foreleg, <strong>Damage</strong> 2d8 bludgeoning.\n<strong>Scorpion</strong> Speed 40 feet; darkvision, imprecise tremorsense 60 feet; <strong>Melee</strong> stinger, <strong>Damage</strong> 1d8 piercing plus 1d4 persistent poison; <strong>Melee</strong> pincer (agile), <strong>Damage</strong> 1d6 bludgeoning.\n<strong>Spider</strong> Speed 25 feet, climb Speed 25 feet; darkvision; <strong>Melee</strong> fangs, <strong>Damage</strong> 1d6 piercing plus 1d4 persistent poison; <strong>Ranged</strong> web (range increment 20 feet), <strong>Damage</strong> entangles the target for 1 round.",
+        "desc": "You envision a simple bug and transform into a Large animal battle form. You can choose ant, beetle, centipede, mantis, scorpion, or spider. You can decide the specific type of animal (such as such as a ladybug or scarab for beetle), but this has no effect on the form's Size or statistics. While in this form, you gain the animal trait. You can Dismiss this spell.\n\nYou gain the following statistics and abilities regardless of which battle form you choose:\n\nAC = 18 + your level. Ignore your armor's check penalty and Speed reduction.\n15 temporary Hit Points.\nLow-light vision.\nOne or more attacks specific to the battle form you choose, which are the only attacks you can use. You're trained with them. Your attack modifier is +16. Your attacks have 10-foot reach, and your damage bonus is +6. These attacks are Strength based (for the purpose of the enfeebled condition). If your unarmed attack modifier is higher, you can use it instead.\nAthletics modifier of +16, unless your own is higher.\n\nYou also gain specific abilities based on the form you choose:\n\n<strong>Ant</strong> Speed 30 feet, climb Speed 30 feet; <strong>Melee</strong> mandibles, <strong>Damage</strong> 2d6 bludgeoning.\n<strong>Beetle</strong> Speed 25 feet; <strong>Melee</strong> mandibles, <strong>Damage</strong> 2d10 bludgeoning.\n<strong>Centipede</strong> Speed 25 feet, climb Speed 25 feet; darkvision; <strong>Melee</strong> mandibles, <strong>Damage</strong> 1d8 piercing plus 1d4 persistent poison.\n<strong>Mantis</strong> Speed 40 feet; imprecise scent 30 feet; <strong>Melee</strong> foreleg, <strong>Damage</strong> 2d8 bludgeoning.\n<strong>Scorpion</strong> Speed 40 feet; darkvision, imprecise tremorsense 60 feet; <strong>Melee</strong> stinger, <strong>Damage</strong> 1d8 piercing plus 1d4 persistent poison; <strong>Melee</strong> pincer (agile), <strong>Damage</strong> 1d6 bludgeoning.\n<strong>Spider</strong> Speed 25 feet, climb Speed 25 feet; darkvision; <strong>Melee</strong> fangs, <strong>Damage</strong> 1d6 piercing plus 1d4 persistent poison; <strong>Ranged</strong> web (range increment 20 feet), <strong>Damage</strong> entangles the target for 1 round.",
         "type": "spells",
         "buff": true,
         "choice": "Ant",
@@ -7737,7 +7744,7 @@
             },
             {
                 "affected": "Melee Damage",
-                "value": "6"
+                "setValue": "6"
             },
             {
                 "affected": "Athletics",
@@ -7888,7 +7895,7 @@
     },
     {
         "name": "Insect Form (5th level)",
-        "desc": "You envision a simple bug and transform into a Large animal battle form. When you cast this spell, choose ant, beetle, centipede, mantis, scorpion, or spider. You can decide the specific type of animal (such as such as a ladybug or scarab for beetle), but this has no effect on the form's Size or statistics. While in this form, you gain the animal trait. You can Dismiss this spell.\n\nYou gain the following statistics and abilities regardless of which battle form you choose:\n\nAC = 18 + your level. Ignore your armor's check penalty and Speed reduction.\n20 temporary Hit Points.\nLow-light vision.\nOne or more attacks specific to the battle form you choose, which are the only attacks you can use. You're trained with them. Your attack modifier is +18. Your attacks have 15-foot reach, and your damage bonus is +2 with double damage dice (including persistent damage). These attacks are Strength based (for the purpose of the enfeebled condition). If your unarmed attack modifier is higher, you can use it instead.\nAthletics modifier of +20, unless your own is higher.\n\nYou also gain specific abilities based on the form you choose:\n\n<strong>Ant</strong> Speed 30 feet, climb Speed 30 feet; <strong>Melee</strong> mandibles, <strong>Damage</strong> 4d6 bludgeoning.\n<strong>Beetle</strong> Speed 25 feet; <strong>Melee</strong> mandibles, <strong>Damage</strong> 4d10 bludgeoning.\n<strong>Centipede</strong> Speed 25 feet, climb Speed 25 feet; darkvision; <strong>Melee</strong> mandibles, <strong>Damage</strong> 2d8 piercing plus 2d4 persistent poison.\n<strong>Mantis</strong> Speed 40 feet; imprecise scent 30 feet; <strong>Melee</strong> foreleg, <strong>Damage</strong> 4d8 bludgeoning.\n<strong>Scorpion</strong> Speed 40 feet; darkvision, imprecise tremorsense 60 feet; <strong>Melee</strong> stinger, <strong>Damage</strong> 2d8 piercing plus 2d4 persistent poison; <strong>Melee</strong> pincer (agile), <strong>Damage</strong> 2d6 bludgeoning.\n<strong>Spider</strong> Speed 25 feet, climb Speed 25 feet; darkvision; <strong>Melee</strong> fangs, <strong>Damage</strong> 2d6 piercing plus 2d4 persistent poison; <strong>Ranged</strong> web (range increment 20 feet), <strong>Damage</strong> entangles the target for 1 round.",
+        "desc": "You envision a simple bug and transform into a Large animal battle form. You can choose ant, beetle, centipede, mantis, scorpion, or spider. You can decide the specific type of animal (such as such as a ladybug or scarab for beetle), but this has no effect on the form's Size or statistics. While in this form, you gain the animal trait. You can Dismiss this spell.\n\nYou gain the following statistics and abilities regardless of which battle form you choose:\n\nAC = 18 + your level. Ignore your armor's check penalty and Speed reduction.\n20 temporary Hit Points.\nLow-light vision.\nOne or more attacks specific to the battle form you choose, which are the only attacks you can use. You're trained with them. Your attack modifier is +18. Your attacks have 15-foot reach, and your damage bonus is +2 with double damage dice (including persistent damage). These attacks are Strength based (for the purpose of the enfeebled condition). If your unarmed attack modifier is higher, you can use it instead.\nAthletics modifier of +20, unless your own is higher.\n\nYou also gain specific abilities based on the form you choose:\n\n<strong>Ant</strong> Speed 30 feet, climb Speed 30 feet; <strong>Melee</strong> mandibles, <strong>Damage</strong> 4d6 bludgeoning.\n<strong>Beetle</strong> Speed 25 feet; <strong>Melee</strong> mandibles, <strong>Damage</strong> 4d10 bludgeoning.\n<strong>Centipede</strong> Speed 25 feet, climb Speed 25 feet; darkvision; <strong>Melee</strong> mandibles, <strong>Damage</strong> 2d8 piercing plus 2d4 persistent poison.\n<strong>Mantis</strong> Speed 40 feet; imprecise scent 30 feet; <strong>Melee</strong> foreleg, <strong>Damage</strong> 4d8 bludgeoning.\n<strong>Scorpion</strong> Speed 40 feet; darkvision, imprecise tremorsense 60 feet; <strong>Melee</strong> stinger, <strong>Damage</strong> 2d8 piercing plus 2d4 persistent poison; <strong>Melee</strong> pincer (agile), <strong>Damage</strong> 2d6 bludgeoning.\n<strong>Spider</strong> Speed 25 feet, climb Speed 25 feet; darkvision; <strong>Melee</strong> fangs, <strong>Damage</strong> 2d6 piercing plus 2d4 persistent poison; <strong>Ranged</strong> web (range increment 20 feet), <strong>Damage</strong> entangles the target for 1 round.",
         "type": "spells",
         "buff": true,
         "choice": "Ant",
@@ -7919,7 +7926,7 @@
             },
             {
                 "affected": "Melee Damage",
-                "value": "2"
+                "setValue": "2"
             },
             {
                 "affected": "Athletics",
@@ -8780,6 +8787,454 @@
             {
                 "affected": "Religion",
                 "value": "Value"
+            }
+        ]
+    },
+    {
+        "name": "Aerial Form (4th Level)",
+        "desc": "You harness your mastery of primal forces to reshape your body into a Medium flying animal battle form. You can choose bat, bird, pterosaur, or wasp. You can decide the specific type of animal (such as an owl or eagle for bird), but this has no effect on the form's Size or statistics. While in this form, you gain the animal trait. You can Dismiss the spell.\n\nYou gain the following statistics and abilities regardless of which battle form you choose:\n\nAC = 18 + your level. Ignore your armor's check penalty and Speed reduction.\n5 temporary Hit Points.\nLow-light vision.\nOne or more unarmed melee attacks specific to the battle form you choose, which are the only attacks you can use. You're trained with them. Your attack modifier is +16, and your damage bonus is +5. These attacks are Dexterity based (for the purpose of the clumsy condition, for example). If your attack modifier for Dexterity-based unarmed attacks is higher, you can use it instead.\nAcrobatics modifier of +16, unless your own modifier is higher.\n\nYou also gain specific abilities based on the form you choose:\n\n<strong>Bat</strong> Speed 20 feet, fly Speed 30 feet; precise echolocation 40 feet; <strong>Melee</strong> fangs, <strong>Damage</strong> 2d8 piercing; <strong>Melee</strong> wing (agile), <strong>Damage</strong> 2d6 bludgeoning.\n<strong>Bird</strong> Speed 10 feet, fly Speed 50 feet; <strong>Melee</strong> beak, <strong>Damage</strong> 2d8 piercing; <strong>Melee</strong> talon (agile), <strong>Damage</strong> 1d10 slashing.\n<strong>Pterosaur</strong> Speed 10 feet, fly Speed 40 feet; imprecise scent 30 feet; <strong>Melee</strong> beak, <strong>Damage</strong> 3d6 piercing.\n<strong>Wasp</strong> Speed 20 feet, fly Speed 40 feet; <strong>Melee</strong> stinger, <strong>Damage</strong> 1d8 piercing plus 1d6 persistent poison.",
+        "type": "spells",
+        "buff": true,
+        "choice": "Bat",
+        "choices": [
+            "Bat",
+            "Bird",
+            "Pterosaur",
+            "Wasp"
+        ],
+        "effects": [
+            {
+                "affected": "Size",
+                "setValue": "0"
+            },
+            {
+                "affected": "AC",
+                "setValue": "18 + Level"
+            },
+            {
+                "affected": "Melee Attack Rolls",
+                "setValue": "(Skill('Unarmed Attacks') - Modifier('Strength') + Modifier('Dexterity')) > 16 ? null : 16"
+            },
+            {
+                "affected": "Melee Damage",
+                "setValue": "5"
+            },
+            {
+                "affected": "Acrobatics",
+                "setValue": "Skill('Athletics') > 16 ? null : 16"
+            },
+            {
+                "affected": "Land Speed",
+                "setValue": "['Bird', 'Pterosaur'].includes(Choice) ? 10 : null"
+            },
+            {
+                "affected": "Land Speed",
+                "setValue": "['Bat','Wasp'].includes(Choice) ? 20 : null"
+            },
+            {
+                "affected": "Fly Speed",
+                "setValue": "Choice == 'Bat' ? 30 : null"
+            },
+            {
+                "affected": "Fly Speed",
+                "setValue": "['Pterosaur','Wasp'].includes(Choice) ? 40 : null"
+            },
+            {
+                "affected": "Fly Speed",
+                "setValue": "Choice == 'Bird' ? 50 : null"
+            },
+            {
+                "affected": "Unarmed Attacks Proficiency Level",
+                "setValue": "2"
+            },
+            {
+                "affected": "Ignore Armor Penalty",
+                "toggle": true
+            }
+        ],
+        "onceEffects": [
+            {
+                "affected": "Temporary HP",
+                "value": "5"
+            }
+        ],
+        "endEffects": [
+            {
+                "affected": "Temporary HP",
+                "value": "-Temporary_HP('',effect.sourceId)"
+            }
+        ],
+        "gainItems": [
+            {
+                "name": "Aerial Form Bat Fangs",
+                "type": "weapons",
+                "conditionChoiceFilter": "Bat"
+            },
+            {
+                "name": "Aerial Form Bat Wing",
+                "type": "weapons",
+                "conditionChoiceFilter": "Bat"
+            },
+            {
+                "name": "Aerial Form Bird Beak",
+                "type": "weapons",
+                "conditionChoiceFilter": "Bird"
+            },
+            {
+                "name": "Aerial Form Bird Talon",
+                "type": "weapons",
+                "conditionChoiceFilter": "Bird"
+            },
+            {
+                "name": "Aerial Form Pterosaur Beak",
+                "type": "weapons",
+                "conditionChoiceFilter": "Pterosaur"
+            },
+            {
+                "name": "Aerial Form Wasp Stinger",
+                "type": "weapons",
+                "conditionChoiceFilter": "Wasp"
+            }
+        ],
+        "attackRestrictions": [
+            {
+                "name": "Aerial Form Bat Fangs",
+                "conditionChoiceFilter": "Bat"
+            },
+            {
+                "name": "Aerial Form Bat Wing",
+                "conditionChoiceFilter": "Bat"
+            },
+            {
+                "name": "Aerial Form Bird Beak",
+                "conditionChoiceFilter": "Bird"
+            },
+            {
+                "name": "Aerial Form Bird Talon",
+                "conditionChoiceFilter": "Bird"
+            },
+            {
+                "name": "Aerial Form Pterosaur Beak",
+                "conditionChoiceFilter": "Pterosaur"
+            },
+            {
+                "name": "Aerial Form Wasp Stinger",
+                "conditionChoiceFilter": "Wasp"
+            }
+        ],
+        "senses": [
+            {
+                "name": "Low-Light Vision"
+            },
+            {
+                "name": "Echolocation 40 feet (precise)",
+                "conditionChoiceFilter": "Bat"
+            },
+            {
+                "name": "Scent 30 feet (imprecise)",
+                "conditionChoiceFilter": "Pterosaur"
+            }
+        ]
+    },
+    {
+        "name": "Aerial Form (5th Level)",
+        "desc": "You harness your mastery of primal forces to reshape your body into a Large flying animal battle form. You can choose bat, bird, pterosaur, or wasp. You can decide the specific type of animal (such as an owl or eagle for bird), but this has no effect on the form's Size or statistics. While in this form, you gain the animal trait. You can Dismiss the spell.\n\nYou gain the following statistics and abilities regardless of which battle form you choose:\n\nAC = 18 + your level. Ignore your armor's check penalty and Speed reduction.\n10 temporary Hit Points.\nLow-light vision.\nOne or more unarmed melee attacks specific to the battle form you choose, which are the only attacks you can use. You're trained with them. Your attack modifier is +18, and your damage bonus is +8. These attacks are Dexterity based (for the purpose of the clumsy condition, for example). If your attack modifier for Dexterity-based unarmed attacks is higher, you can use it instead.\nAcrobatics modifier of +20, unless your own modifier is higher.\nYour fly Speed gains a +10-foot status bonus.\n\nYou also gain specific abilities based on the form you choose:\n\n<strong>Bat</strong> Speed 20 feet, fly Speed 30 feet; precise echolocation 40 feet; <strong>Melee</strong> fangs, <strong>Damage</strong> 2d8 piercing; <strong>Melee</strong> wing (agile), <strong>Damage</strong> 2d6 bludgeoning.\n<strong>Bird</strong> Speed 10 feet, fly Speed 50 feet; <strong>Melee</strong> beak, <strong>Damage</strong> 2d8 piercing; <strong>Melee</strong> talon (agile), <strong>Damage</strong> 1d10 slashing.\n<strong>Pterosaur</strong> Speed 10 feet, fly Speed 40 feet; imprecise scent 30 feet; <strong>Melee</strong> beak, <strong>Damage</strong> 3d6 piercing.\n<strong>Wasp</strong> Speed 20 feet, fly Speed 40 feet; <strong>Melee</strong> stinger, <strong>Damage</strong> 1d8 piercing plus 1d6 persistent poison.",
+        "type": "spells",
+        "buff": true,
+        "choice": "Bat",
+        "choices": [
+            "Bat",
+            "Bird",
+            "Pterosaur",
+            "Wasp"
+        ],
+        "effects": [
+            {
+                "affected": "Size",
+                "setValue": "1"
+            },
+            {
+                "affected": "AC",
+                "setValue": "18 + Level"
+            },
+            {
+                "affected": "Melee Attack Rolls",
+                "setValue": "(Skill('Unarmed Attacks') - Modifier('Strength') + Modifier('Dexterity')) > 18 ? null : 18"
+            },
+            {
+                "affected": "Melee Damage",
+                "setValue": "8"
+            },
+            {
+                "affected": "Acrobatics",
+                "setValue": "Skill('Athletics') > 20 ? null : 20"
+            },
+            {
+                "affected": "Land Speed",
+                "setValue": "['Bird', 'Pterosaur'].includes(Choice) ? 10 : null"
+            },
+            {
+                "affected": "Land Speed",
+                "setValue": "['Bat','Wasp'].includes(Choice) ? 20 : null"
+            },
+            {
+                "affected": "Fly Speed",
+                "setValue": "Choice == 'Bat' ? 30 : null"
+            },
+            {
+                "affected": "Fly Speed",
+                "setValue": "['Pterosaur','Wasp'].includes(Choice) ? 40 : null"
+            },
+            {
+                "affected": "Fly Speed",
+                "setValue": "Choice == 'Bird' ? 50 : null"
+            },
+            {
+                "affected": "Unarmed Attacks Proficiency Level",
+                "setValue": "2"
+            },
+            {
+                "affected": "Ignore Armor Penalty",
+                "toggle": true
+            },
+            {
+                "affected": "Fly Speed",
+                "type": "status",
+                "value": "+10"
+            }
+        ],
+        "onceEffects": [
+            {
+                "affected": "Temporary HP",
+                "value": "10"
+            }
+        ],
+        "endEffects": [
+            {
+                "affected": "Temporary HP",
+                "value": "-Temporary_HP('',effect.sourceId)"
+            }
+        ],
+        "gainItems": [
+            {
+                "name": "Aerial Form Bat Fangs",
+                "type": "weapons",
+                "conditionChoiceFilter": "Bat"
+            },
+            {
+                "name": "Aerial Form Bat Wing",
+                "type": "weapons",
+                "conditionChoiceFilter": "Bat"
+            },
+            {
+                "name": "Aerial Form Bird Beak",
+                "type": "weapons",
+                "conditionChoiceFilter": "Bird"
+            },
+            {
+                "name": "Aerial Form Bird Talon",
+                "type": "weapons",
+                "conditionChoiceFilter": "Bird"
+            },
+            {
+                "name": "Aerial Form Pterosaur Beak",
+                "type": "weapons",
+                "conditionChoiceFilter": "Pterosaur"
+            },
+            {
+                "name": "Aerial Form Wasp Stinger",
+                "type": "weapons",
+                "conditionChoiceFilter": "Wasp"
+            }
+        ],
+        "attackRestrictions": [
+            {
+                "name": "Aerial Form Bat Fangs",
+                "conditionChoiceFilter": "Bat"
+            },
+            {
+                "name": "Aerial Form Bat Wing",
+                "conditionChoiceFilter": "Bat"
+            },
+            {
+                "name": "Aerial Form Bird Beak",
+                "conditionChoiceFilter": "Bird"
+            },
+            {
+                "name": "Aerial Form Bird Talon",
+                "conditionChoiceFilter": "Bird"
+            },
+            {
+                "name": "Aerial Form Pterosaur Beak",
+                "conditionChoiceFilter": "Pterosaur"
+            },
+            {
+                "name": "Aerial Form Wasp Stinger",
+                "conditionChoiceFilter": "Wasp"
+            }
+        ],
+        "senses": [
+            {
+                "name": "Low-Light Vision"
+            },
+            {
+                "name": "Echolocation 40 feet (precise)",
+                "conditionChoiceFilter": "Bat"
+            },
+            {
+                "name": "Scent 30 feet (imprecise)",
+                "conditionChoiceFilter": "Pterosaur"
+            }
+        ]
+    },
+    {
+        "name": "Aerial Form (6th Level)",
+        "desc": "You harness your mastery of primal forces to reshape your body into a Huge flying animal battle form. You can choose bat, bird, pterosaur, or wasp. You can decide the specific type of animal (such as an owl or eagle for bird), but this has no effect on the form's Size or statistics. While in this form, you gain the animal trait. You can Dismiss the spell.\n\nYou gain the following statistics and abilities regardless of which battle form you choose:\n\nAC = 21 + your level. Ignore your armor's check penalty and Speed reduction.\n15 temporary Hit Points.\nLow-light vision.\nOne or more unarmed melee attacks specific to the battle form you choose, which are the only attacks you can use. You're trained with them. Your attack modifier is +21, and your damage bonus is +4 with double damage dice (including persistent damage). Your attacks have 10-foot reach. These attacks are Dexterity based (for the purpose of the clumsy condition, for example). If your attack modifier for Dexterity-based unarmed attacks is higher, you can use it instead.\nAcrobatics modifier of +23, unless your own modifier is higher.\nYour fly Speed gains a +15-foot status bonus.\n\nYou also gain specific abilities based on the form you choose:\n\n<strong>Bat</strong> Speed 20 feet, fly Speed 30 feet; precise echolocation 40 feet; <strong>Melee</strong> fangs, <strong>Damage</strong> 4d8 piercing; <strong>Melee</strong> wing (agile), <strong>Damage</strong> 4d6 bludgeoning.\n<strong>Bird</strong> Speed 10 feet, fly Speed 50 feet; <strong>Melee</strong> beak, <strong>Damage</strong> 4d8 piercing; <strong>Melee</strong> talon (agile), <strong>Damage</strong> 2d10 slashing.\n<strong>Pterosaur</strong> Speed 10 feet, fly Speed 40 feet; imprecise scent 30 feet; <strong>Melee</strong> beak, <strong>Damage</strong> 6d6 piercing.\n<strong>Wasp</strong> Speed 20 feet, fly Speed 40 feet; <strong>Melee</strong> stinger, <strong>Damage</strong> 2d8 piercing plus 2d6 persistent poison.",
+        "type": "spells",
+        "buff": true,
+        "choice": "Bat",
+        "choices": [
+            "Bat",
+            "Bird",
+            "Pterosaur",
+            "Wasp"
+        ],
+        "effects": [
+            {
+                "affected": "Size",
+                "setValue": "2"
+            },
+            {
+                "affected": "AC",
+                "setValue": "21 + Level"
+            },
+            {
+                "affected": "Melee Attack Rolls",
+                "setValue": "(Skill('Unarmed Attacks') - Modifier('Strength') + Modifier('Dexterity')) > 21 ? null : 21"
+            },
+            {
+                "affected": "Melee Damage",
+                "setValue": "4"
+            },
+            {
+                "affected": "Acrobatics",
+                "setValue": "Skill('Athletics') > 23 ? null : 23"
+            },
+            {
+                "affected": "Land Speed",
+                "setValue": "['Bird', 'Pterosaur'].includes(Choice) ? 10 : null"
+            },
+            {
+                "affected": "Land Speed",
+                "setValue": "['Bat','Wasp'].includes(Choice) ? 20 : null"
+            },
+            {
+                "affected": "Fly Speed",
+                "setValue": "Choice == 'Bat' ? 30 : null"
+            },
+            {
+                "affected": "Fly Speed",
+                "setValue": "['Pterosaur','Wasp'].includes(Choice) ? 40 : null"
+            },
+            {
+                "affected": "Fly Speed",
+                "setValue": "Choice == 'Bird' ? 50 : null"
+            },
+            {
+                "affected": "Unarmed Attacks Proficiency Level",
+                "setValue": "2"
+            },
+            {
+                "affected": "Ignore Armor Penalty",
+                "toggle": true
+            },
+            {
+                "affected": "Fly Speed",
+                "type": "status",
+                "value": "+15"
+            }
+        ],
+        "onceEffects": [
+            {
+                "affected": "Temporary HP",
+                "value": "15"
+            }
+        ],
+        "endEffects": [
+            {
+                "affected": "Temporary HP",
+                "value": "-Temporary_HP('',effect.sourceId)"
+            }
+        ],
+        "gainItems": [
+            {
+                "name": "Aerial Form Bat Fangs (6th level)",
+                "type": "weapons",
+                "conditionChoiceFilter": "Bat"
+            },
+            {
+                "name": "Aerial Form Bat Wing (6th level)",
+                "type": "weapons",
+                "conditionChoiceFilter": "Bat"
+            },
+            {
+                "name": "Aerial Form Bird Beak (6th level)",
+                "type": "weapons",
+                "conditionChoiceFilter": "Bird"
+            },
+            {
+                "name": "Aerial Form Bird Talon (6th level)",
+                "type": "weapons",
+                "conditionChoiceFilter": "Bird"
+            },
+            {
+                "name": "Aerial Form Pterosaur Beak (6th level)",
+                "type": "weapons",
+                "conditionChoiceFilter": "Pterosaur"
+            },
+            {
+                "name": "Aerial Form Wasp Stinger (6th level)",
+                "type": "weapons",
+                "conditionChoiceFilter": "Wasp"
+            }
+        ],
+        "attackRestrictions": [
+            {
+                "name": "Aerial Form Bat Fangs (6th level)",
+                "conditionChoiceFilter": "Bat"
+            },
+            {
+                "name": "Aerial Form Bat Wing (6th level)",
+                "conditionChoiceFilter": "Bat"
+            },
+            {
+                "name": "Aerial Form Bird Beak (6th level)",
+                "conditionChoiceFilter": "Bird"
+            },
+            {
+                "name": "Aerial Form Bird Talon (6th level)",
+                "conditionChoiceFilter": "Bird"
+            },
+            {
+                "name": "Aerial Form Pterosaur Beak (6th level)",
+                "conditionChoiceFilter": "Pterosaur"
+            },
+            {
+                "name": "Aerial Form Wasp Stinger (6th level)",
+                "conditionChoiceFilter": "Wasp"
+            }
+        ],
+        "senses": [
+            {
+                "name": "Low-Light Vision"
+            },
+            {
+                "name": "Echolocation 40 feet (precise)",
+                "conditionChoiceFilter": "Bat"
+            },
+            {
+                "name": "Scent 30 feet (imprecise)",
+                "conditionChoiceFilter": "Pterosaur"
             }
         ]
     }

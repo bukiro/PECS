@@ -12,6 +12,9 @@ import { Feat } from '../Feat';
 import { AnimalCompanion } from '../AnimalCompanion';
 import { Character } from '../Character';
 import { Familiar } from '../Familiar';
+import { ConditionsService } from '../conditions.service';
+import { Condition } from '../Condition';
+import { SpellCast } from '../SpellCast';
 
 @Component({
     selector: 'app-activity',
@@ -37,7 +40,8 @@ export class ActivityComponent implements OnInit {
         private spellsService: SpellsService,
         private activitiesService: ActivitiesService,
         private timeService: TimeService,
-        private itemsService: ItemsService
+        private itemsService: ItemsService,
+        private conditionsService: ConditionsService
     ) { }
 
     get_Accent() {
@@ -86,14 +90,14 @@ export class ActivityComponent implements OnInit {
     }
 
     on_Activate(gain: ActivityGain | ItemActivity, activity: Activity | ItemActivity, activated: boolean, target: string) {
-        this.activitiesService.activate_Activity(this.get_Creature(), target, this.characterService, this.timeService, this.itemsService, this.spellsService, gain, activity, activated);
+        this.activitiesService.activate_Activity(this.get_Creature(), target, this.characterService, this.conditionsService, this.itemsService, this.spellsService, gain, activity, activated);
     }
 
     on_ActivateFuseStance(activated: boolean) {
         this.gain.active = activated;
         this.get_FusedStances().forEach(gain => {
             let activity = (gain["can_Activate"] ? gain as ItemActivity : this.get_Activities(gain.name)[0])
-            this.activitiesService.activate_Activity(this.get_Creature(), "Character", this.characterService, this.timeService, this.itemsService, this.spellsService, gain, activity, activated);
+            this.activitiesService.activate_Activity(this.get_Creature(), "Character", this.characterService, this.conditionsService, this.itemsService, this.spellsService, gain, activity, activated);
         })
     }
 
@@ -176,6 +180,45 @@ export class ActivityComponent implements OnInit {
         } else {
             return "no spell";
         }
+    }
+    
+    get_SpellCasts() {
+        if (this.gain) {
+            while (this.gain.spellEffectChoices.length < this.activity.castSpells.length) {
+                this.gain.spellEffectChoices.push([]);
+            }
+        }
+        return this.activity.castSpells;
+    }
+
+    get_SpellConditions(spellCast: SpellCast, spellCastIndex: number) {
+        let conditions: Condition[] = [];
+        if (this.gain) {
+            let spell = this.spellsService.get_Spells(spellCast.name)[0];
+            if (spell?.gainConditions.length) {
+                spell.get_HeightenedConditions(spellCast.level)
+                .map(conditionGain => this.conditionsService.get_Conditions(conditionGain.name)[0])
+                .filter(condition => condition?.choices?.length)
+                .forEach((condition, index) => {
+                    //Add the condition to the list of conditions that need to display a choice,
+                    // then if the gain doesn't have a choice at that index or the choice isn't among the condition's choices, insert or replace that choice on the gain.
+                    conditions.push(condition);
+                    while (!this.gain.spellEffectChoices[spellCastIndex].length || this.gain.spellEffectChoices[spellCastIndex].length < index - 1) {
+                        this.gain.spellEffectChoices[spellCastIndex].push(condition.choice);
+                    }
+                    if (!condition.choices.includes(this.gain.spellEffectChoices[spellCastIndex][index])) {
+                        this.gain.spellEffectChoices[spellCastIndex][index] = condition.choice;
+                    }
+                })
+            }
+        }
+        return conditions;
+    }
+
+    on_SpellEffectChoiceChange() {
+        this.characterService.set_ToChange(this.creature, "inventory");
+        this.characterService.set_ToChange(this.creature, "activities");
+        this.characterService.process_ToChange();
     }
 
     ngOnInit() {

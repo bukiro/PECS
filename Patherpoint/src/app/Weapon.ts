@@ -57,6 +57,8 @@ export class Weapon extends Equipment {
     public large: boolean = false;
     //A Champion with the Divine Ally: Blade Ally Feat can designate one weapon or handwraps as his blade ally.
     public bladeAlly: boolean = false;
+    //Dexterity-based melee attacks force you to use dexterity for your attack modifier.
+    public dexterityBased: boolean = false;
     get_RuneSource(creature: Character | AnimalCompanion | Familiar, range: string) {
         //Under certain circumstances, other items' runes are applied when calculating attack bonus or damage.
         //[0] is the item whose fundamental runes will count, [1] is the item whose property runes will count, and [2] is the item that causes this change.
@@ -228,7 +230,8 @@ export class Weapon extends Equipment {
         let penalties: { value: number, setValue: string, source: string, penalty: boolean }[] = [];
         let bonuses: { value: number, setValue: string, source: string, penalty: boolean }[] = [];
         let absolutes: { value: number, setValue: string, source: string, penalty: boolean }[] = [];
-        //The Clumsy condition affects all Dexterity attacks
+        //Calculate dexterity and strength penalties for the decision on which to use and for later subtractions.
+        //The Clumsy condition affects all Dexterity attacks.
         let dexEffects = effectsService.get_RelativesOnThis(creature, "Dexterity-based Checks and DCs");
         let dexPenalty: { value: number, setValue: string, source: string, penalty: boolean }[] = [];
         let dexPenaltySum: number = 0;
@@ -244,55 +247,48 @@ export class Weapon extends Equipment {
             strPenalty.push({ value: parseInt(effect.value), setValue: "", source: effect.source, penalty: true });
             strPenaltySum += parseInt(effect.value);
         });
+        let dexUsed: boolean = false;
+        let strUsed: boolean = false;
         //Check if the weapon has any traits that affect its Ability bonus to attack, such as Finesse or Brutal, and run those calculations.
         let abilityMod: number = 0;
         if (range == "ranged") {
             if (characterService.have_Trait(this, "Brutal")) {
                 abilityMod = str;
                 explain += "\nStrength Modifier (Brutal): " + abilityMod;
-                if (strPenalty.length) {
-                    strPenalty.forEach(singleStrPenalty => {
-                        penalties.push(singleStrPenalty);
-                        abilityMod += singleStrPenalty.value;
-                        explain += "\n" + singleStrPenalty.source + ": " + singleStrPenalty.value;
-                    });
-                }
+                strUsed = true;
+
             } else {
                 abilityMod = dex;
                 explain += "\nDexterity Modifier: " + abilityMod;
-                if (dexPenalty.length) {
-                    dexPenalty.forEach(singleDexPenalty => {
-                        penalties.push(singleDexPenalty);
-                        abilityMod += singleDexPenalty.value;
-                        explain += "\n" + singleDexPenalty.source + ": " + singleDexPenalty.value;
-                    });
-                }
+                dexUsed = true;
             }
         } else {
             if (characterService.have_Trait(this, "Finesse") && dex + dexPenaltySum > str + strPenaltySum) {
                 abilityMod = dex;
                 explain += "\nDexterity Modifier (Finesse): " + abilityMod;
-                if (dexPenalty.length) {
-                    dexPenalty.forEach(singleDexPenalty => {
-                        penalties.push(singleDexPenalty);
-                        abilityMod += singleDexPenalty.value;
-                        explain += "\n" + singleDexPenalty.source + ": " + singleDexPenalty.value;
-                    });
-                }
+                dexUsed = true;
+            } else if (this.dexterityBased) {
+                abilityMod = dex;
+                explain += "\nDexterity Modifier (Dexterity-based): " + abilityMod;
+                dexUsed = true;
             } else {
                 abilityMod = str;
                 explain += "\nStrength Modifier: " + abilityMod;
-                if (strPenalty.length) {
-                    strPenalty.forEach(singleStrPenalty => {
-                        penalties.push(singleStrPenalty);
-                        abilityMod += singleStrPenalty.value;
-                        explain += "\n" + singleStrPenalty.source + ": " + singleStrPenalty.value;
-                    });
-                }
+                strUsed = true;
             }
         }
         //Add up all modifiers before effects and item bonus
         let attackResult = charLevelBonus + skillLevel + abilityMod;
+        //Add potency bonus
+        let potencyRune: number = runeSource[0].get_PotencyRune();
+        if (potencyRune) {
+            attackResult += potencyRune;
+            explain += "\nPotency: " + runeSource[0].get_Potency(potencyRune);
+            //If you're getting the potency because of another item (like Doubling Rings), name it here
+            if (runeSource[2]) {
+                explain += "\n(" + runeSource[2].get_Name() + ")";
+            }
+        }
         //Add absolute effects
         effectsService.get_AbsolutesOnThis(creature, this.name)
             .concat(effectsService.get_AbsolutesOnThis(creature, "Attack Rolls"))
@@ -306,15 +302,30 @@ export class Weapon extends Equipment {
                 explain = effect.source + ": " + effect.setValue;
                 absolutes.push({ value: 0, setValue: effect.setValue, source: effect.source, penalty: false })
             });
-        //Add potency bonus
-        if (runeSource[0].get_PotencyRune() > 0) {
-            explain += "\nPotency: " + runeSource[0].get_Potency(runeSource[0].get_PotencyRune());
-            if (runeSource[2]) {
-                explain += "\n(" + runeSource[2].get_Name() + ")";
-            }
-        }
-        //Add relative effects
         let effectsSum: number = 0;
+        //Add relative effects
+        if (strUsed && strPenalty.length) {
+            strPenalty.forEach(singleStrPenalty => {
+                if (singleStrPenalty.value < 0) {
+                    penalties.push(singleStrPenalty);
+                } else {
+                    bonuses.push(singleStrPenalty);
+                }
+                effectsSum += singleStrPenalty.value;
+                explain += "\n" + singleStrPenalty.source + ": " + singleStrPenalty.value;
+            });
+        }
+        if (dexUsed && dexPenalty.length) {
+            dexPenalty.forEach(singleDexPenalty => {
+                if (singleDexPenalty.value < 0) {
+                    penalties.push(singleDexPenalty);
+                } else {
+                    bonuses.push(singleDexPenalty);
+                }
+                effectsSum += singleDexPenalty.value;
+                explain += "\n" + singleDexPenalty.source + ": " + singleDexPenalty.value;
+            });
+        }
         effectsService.get_RelativesOnThis(creature, this.name)
             .concat(effectsService.get_RelativesOnThis(creature, "Attack Rolls"))
             //"Unarmed Attack Rolls", "Simple Attack Rolls" etc.
@@ -340,7 +351,7 @@ export class Weapon extends Equipment {
             penalties.push({ value: -2, setValue: "", source: "Shoddy", penalty: true })
         }
         //Add up all modifiers and return the attack bonus for this attack
-        attackResult += runeSource[0].get_PotencyRune() + effectsSum;
+        attackResult += effectsSum;
         explain = explain.trim();
         return [range, attackResult, explain, penalties.concat(bonuses).concat(absolutes), penalties, bonuses, absolutes];
     }
@@ -362,10 +373,10 @@ export class Weapon extends Equipment {
             });
         if (runeSource[1].bladeAlly) {
             runeSource[1].bladeAllyRunes
-            .filter((weaponRune: WeaponRune) => weaponRune.extraDamage)
-            .forEach((weaponRune: WeaponRune) => {
-                extraDamage += "\n" + weaponRune.extraDamage;
-            });
+                .filter((weaponRune: WeaponRune) => weaponRune.extraDamage)
+                .forEach((weaponRune: WeaponRune) => {
+                    extraDamage += "\n" + weaponRune.extraDamage;
+                });
         }
         return extraDamage;
     }
@@ -375,7 +386,9 @@ export class Weapon extends Equipment {
         let explain: string = "";
         let str = characterService.get_Abilities("Strength")[0].mod(creature, characterService, effectsService).result;
         let dex = characterService.get_Abilities("Dexterity")[0].mod(creature, characterService, effectsService).result;
-        let penalty: { value: number, source: string, penalty: boolean }[] = [];
+        let penalties: { value: number, setValue: string, source: string, penalty: boolean }[] = [];
+        let bonuses: { value: number, setValue: string, source: string, penalty: boolean }[] = [];
+        let absolutes: { value: number, setValue: string, source: string, penalty: boolean }[] = [];
         //Apply any mechanism that copy runes from another item, like Handwraps of Mighty Blows or Doubling Rings.
         //We set runeSource to the respective item and use it whenever runes are concerned.
         let runeSource: (Weapon | WornItem)[] = this.get_RuneSource(creature, range);
@@ -444,14 +457,14 @@ export class Weapon extends Equipment {
                 explain += "\nDeific Weapon: Dice size d" + dicesize;
             }
         }
-        //Get the basic "xdy" string from the weapon's dice values
+        //Get the basic "#d#" string from the weapon's dice values
         var baseDice = dicenum + "d" + dicesize;
         //The Enfeebled condition affects all Strength damage
         let strEffects = effectsService.get_RelativesOnThis(creature, "Strength-based Checks and DCs");
-        let strPenalty: { value: number, source: string, penalty: boolean }[] = [];
+        let strPenalty: { value: number, setValue: string, source: string, penalty: boolean }[] = [];
         let strPenaltySum: number = 0;
         strEffects.forEach(effect => {
-            strPenalty.push({ value: parseInt(effect.value), source: effect.source, penalty: true });
+            strPenalty.push({ value: parseInt(effect.value), setValue: "", source: effect.source, penalty: true });
             strPenaltySum += parseInt(effect.value);
         });
         //The Clumsy condition affects all Dexterity damage
@@ -462,6 +475,8 @@ export class Weapon extends Equipment {
             dexPenalty.push({ value: parseInt(effect.value), setValue: "", source: effect.source, penalty: true });
             dexPenaltySum += parseInt(effect.value);
         });
+        let strUsed: boolean = false;
+        let dexUsed: boolean = false;
         //Check if the Weapon has any traits that affect its damage Bonus, such as Thrown or Propulsive, and run those calculations.
         let abilityMod: number = 0;
         if (range == "ranged") {
@@ -469,34 +484,16 @@ export class Weapon extends Equipment {
                 if (str > 0) {
                     abilityMod = Math.floor(str / 2);
                     explain += "\nStrength Modifier (Propulsive): " + abilityMod;
-                    if (strPenalty.length) {
-                        strPenalty.forEach(singleStrPenalty => {
-                            penalty.push(singleStrPenalty);
-                            abilityMod += singleStrPenalty.value;
-                            explain += "\n" + singleStrPenalty.source + ": " + singleStrPenalty.value;
-                        });
-                    }
+                    strUsed = true;
                 } else if (str < 0) {
                     abilityMod = str;
                     explain += "\nStrength Modifier (Propulsive): " + abilityMod;
-                    if (strPenalty.length) {
-                        strPenalty.forEach(singleStrPenalty => {
-                            penalty.push(singleStrPenalty);
-                            abilityMod += singleStrPenalty.value;
-                            explain += "\n" + singleStrPenalty.source + ": " + singleStrPenalty.value;
-                        });
-                    }
+                    strUsed = true;
                 }
             } else if (characterService.have_Trait(this, "Thrown")) {
                 abilityMod = str;
                 explain += "\nStrength Modifier (Thrown): " + abilityMod;
-                if (strPenalty.length) {
-                    strPenalty.forEach(singleStrPenalty => {
-                        penalty.push(singleStrPenalty);
-                        abilityMod += singleStrPenalty.value;
-                        explain += "\n" + singleStrPenalty.source + ": " + singleStrPenalty.value;
-                    });
-                }
+                strUsed = true;
             }
         } else {
             //If the weapon is Finesse and you have the Thief Racket, you apply your Dexterity modifier to damage if it is higher.
@@ -506,23 +503,15 @@ export class Weapon extends Equipment {
                 (creature as Character).get_FeatsTaken(1, creature.level, "Thief Racket").length) {
                 abilityMod = dex;
                 explain += "\nDexterity Modifier (Thief): " + abilityMod;
-                if (dexPenalty.length) {
-                    dexPenalty.forEach(singleDexPenalty => {
-                        penalty.push(singleDexPenalty);
-                        abilityMod += singleDexPenalty.value;
-                        explain += "\n" + singleDexPenalty.source + ": " + singleDexPenalty.value;
-                    });
-                }
+                dexUsed = true;
+            } else if (this.dexterityBased) {
+                abilityMod = dex;
+                explain += "\nDexterity Modifier (Dexterity-based): " + abilityMod;
+                dexUsed = true;
             } else {
                 abilityMod = str;
                 explain += "\nStrength Modifier: " + abilityMod;
-                if (strPenalty.length) {
-                    strPenalty.forEach(singleStrPenalty => {
-                        penalty.push(singleStrPenalty);
-                        abilityMod += singleStrPenalty.value;
-                        explain += "\n" + singleStrPenalty.source + ": " + singleStrPenalty.value;
-                    });
-                }
+                strUsed = true;
             }
         }
         let featBonus: number = 0;
@@ -575,73 +564,82 @@ export class Weapon extends Equipment {
                 }
             })
         }
+        let dmgBonus: number = abilityMod + featBonus;
+        effectsService.get_AbsolutesOnThis(creature, range + " Damage")
+            .concat(this.traits.includes("Agile") ? effectsService.get_AbsolutesOnThis(creature, "Agile " + range + " Damage") : effectsService.get_AbsolutesOnThis(creature, "Non-Agile " + range + " Damage"))
+            .concat(this.large ? (this.traits.includes("Agile") ? effectsService.get_AbsolutesOnThis(creature, "Agile Large " + range + " Weapon Damage") : effectsService.get_AbsolutesOnThis(creature, "Non-Agile Large " + range + " Weapon Damage")) : [])
+            .forEach(effect => {
+                absolutes.push({ value: 0, setValue: effect.setValue, source: effect.source, penalty: false })
+                dmgBonus = parseInt(effect.setValue);
+                explain = effect.source + ": " + parseInt(effect.setValue);
+            })
         let effectBonus = 0;
-        if (range == "melee") {
-            effectsService.get_RelativesOnThis(creature, "Melee Damage").forEach(effect => {
+        if (strUsed && strPenalty.length) {
+            strPenalty.forEach(singleStrPenalty => {
+                if (singleStrPenalty.value < 0) {
+                    penalties.push(singleStrPenalty);
+                } else {
+                    bonuses.push(singleStrPenalty);
+                }
+                effectBonus += singleStrPenalty.value;
+                explain += "\n" + singleStrPenalty.source + ": " + singleStrPenalty.value;
+            });
+        }
+        if (dexUsed && dexPenalty.length) {
+            dexPenalty.forEach(singleDexPenalty => {
+                if (singleDexPenalty.value < 0) {
+                    penalties.push(singleDexPenalty);
+                } else {
+                    bonuses.push(singleDexPenalty);
+                }
+                effectBonus += singleDexPenalty.value;
+                explain += "\n" + singleDexPenalty.source + ": " + singleDexPenalty.value;
+            });
+        }
+        effectsService.get_RelativesOnThis(creature, "Damage Rolls")
+            .concat(effectsService.get_RelativesOnThis(creature, this.name + " Damage"))
+            .concat(effectsService.get_RelativesOnThis(creature, this.weaponBase + " Damage"))
+            .concat(effectsService.get_RelativesOnThis(creature, range + " Damage"))
+            .concat(this.traits.includes("Agile") ? effectsService.get_RelativesOnThis(creature, "Agile " + range + " Damage") : effectsService.get_RelativesOnThis(creature, "Non-Agile " + range + " Damage"))
+            .concat(this.large ? (this.traits.includes("Agile") ? effectsService.get_RelativesOnThis(creature, "Agile Large " + range + " Weapon Damage") : effectsService.get_RelativesOnThis(creature, "Non-Agile Large " + range + " Weapon Damage")) : [])
+            .forEach(effect => {
+                if (parseInt(effect.value) < 0) {
+                    penalties.push({ value: parseInt(effect.value), setValue: "", source: effect.source, penalty: true });
+                } else {
+                    bonuses.push({ value: parseInt(effect.value), setValue: "", source: effect.source, penalty: false });
+                }
                 effectBonus += parseInt(effect.value);
                 explain += "\n" + effect.source + ": " + parseInt(effect.value);
-            })
-            if (this.traits.includes("Agile")) {
-                effectsService.get_RelativesOnThis(creature, "Agile Melee Damage").forEach(effect => {
-                    effectBonus += parseInt(effect.value);
-                    explain += "\n" + effect.source + ": " + parseInt(effect.value);
-                })
-            } else {
-                effectsService.get_RelativesOnThis(creature, "Non-Agile Melee Damage").forEach(effect => {
-                    effectBonus += parseInt(effect.value);
-                    explain += "\n" + effect.source + ": " + parseInt(effect.value);
-                })
-            }
-            if (this.traits.includes("Agile") && this.large) {
-                effectsService.get_RelativesOnThis(creature, "Agile Large Melee Weapon Damage").forEach(effect => {
-                    effectBonus += parseInt(effect.value);
-                    explain += "\n" + effect.source + ": " + parseInt(effect.value);
-                })
-            } else if (this.large) {
-                effectsService.get_RelativesOnThis(creature, "Non-Agile Large Melee Weapon Damage").forEach(effect => {
-                    effectBonus += parseInt(effect.value);
-                    explain += "\n" + effect.source + ": " + parseInt(effect.value);
-                })
-            }
-        }
-
-        effectsService.get_RelativesOnThis(creature, this.name + " Damage").forEach(effect => {
-            effectBonus += parseInt(effect.value);
-            explain += "\n" + effect.source + ": " + parseInt(effect.value);
         })
-        if (this.weaponBase) {
-            effectsService.get_RelativesOnThis(creature, this.weaponBase + " Damage").forEach(effect => {
-                effectBonus += parseInt(effect.value);
-                explain += "\n" + effect.source + ": " + parseInt(effect.value);
-            })
-        }
-
-        effectsService.get_RelativesOnThis(creature, "Damage Rolls").forEach(effect => {
-            effectBonus += parseInt(effect.value);
-            explain += "\n" + effect.source + ": " + parseInt(effect.value);
-        })
-
         //Serene Mutagen reduces your weapon damage by the number of dice.
         if (this.prof == "Unarmed Attacks") {
             effectsService.get_RelativesOnThis(creature, "Unarmed Damage per Die").forEach(effect => {
+                if (parseInt(effect.value) < 0) {
+                    penalties.push({ value: parseInt(effect.value), setValue: "", source: effect.source, penalty: true });
+                } else {
+                    bonuses.push({ value: parseInt(effect.value), setValue: "", source: effect.source, penalty: false });
+                }
                 effectBonus += parseInt(effect.value) * dicenum;
                 explain += "\n" + effect.source + ": " + (parseInt(effect.value) * dicenum);
             })
         } else {
             effectsService.get_RelativesOnThis(creature, "Weapon Damage per Die").forEach(effect => {
+                if (parseInt(effect.value) < 0) {
+                    penalties.push({ value: parseInt(effect.value), setValue: "", source: effect.source, penalty: true });
+                } else {
+                    bonuses.push({ value: parseInt(effect.value), setValue: "", source: effect.source, penalty: false });
+                }
                 effectBonus += parseInt(effect.value) * dicenum;
                 explain += "\n" + effect.source + ": " + (parseInt(effect.value) * dicenum);
             })
         }
-
-
-        let dmgBonus: number = abilityMod + featBonus + effectBonus;
-        //Make a nice "+5" string from the Ability bonus if there is one, or else make it empty
+        dmgBonus += effectBonus;
+        //Make a nice "+#" string from the Ability bonus if there is one, or else make it empty
         let dmgBonusTotal: string = (dmgBonus) ? ((dmgBonus >= 0) && "+") + dmgBonus : "";
-        //Concatenate the strings for a readable damage die
+        //Concatenate the strings for a readable damage output
         var dmgResult = baseDice + dmgBonusTotal + " " + this.dmgType + this.get_ExtraDamage(creature, characterService, range);
-        explain = explain.substr(1);
-        return [dmgResult, explain];
+        explain = explain.trim();
+        return [dmgResult, explain, bonuses, penalties, absolutes];
     }
     get_CritSpecialization(creature: Character | AnimalCompanion | Familiar, characterService: CharacterService, range: string) {
         let SpecializationGains: SpecializationGain[] = [];

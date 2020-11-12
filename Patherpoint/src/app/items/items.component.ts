@@ -18,6 +18,7 @@ import { Ammunition } from '../Ammunition';
 import { Scroll } from '../Scroll';
 import { SpellCasting } from '../SpellCasting';
 import { ItemCollection } from '../ItemCollection';
+import { OtherConsumableBomb } from '../OtherConsumableBomb';
 
 @Component({
     selector: 'app-items',
@@ -288,7 +289,8 @@ export class ItemsComponent implements OnInit {
                 "alchemicalpoisons",
                 "oils",
                 "talismans",
-                "snares"
+                "snares",
+                "wands"
             ].includes(name.key)));
     }
     
@@ -317,6 +319,9 @@ export class ItemsComponent implements OnInit {
                 break;
             case "otherconsumables":
                 this.newItem = new OtherConsumable();
+                break;
+            case "otherconsumablesbombs":
+                this.newItem = new OtherConsumableBomb();
                 break;
             case "adventuringgear":
                 this.newItem = new AdventuringGear();

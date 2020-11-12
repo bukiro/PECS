@@ -25,6 +25,7 @@ import { Spell } from './Spell';
 import { FeatTaken } from './FeatTaken';
 import { Item } from './Item';
 import { FormulaLearned } from './FormulaLearned';
+import { ConditionsService } from './conditions.service';
 
 export class Character extends Creature {
     public readonly _className: string = this.constructor.name;
@@ -243,10 +244,10 @@ export class Character extends Creature {
         characterService.set_ToChange("Character", "activities");
         return this.class.activities[newLength-1];
     }
-    lose_Activity(characterService: CharacterService, timeService: TimeService, itemsService: ItemsService, spellsService: SpellsService, activitiesService: ActivitiesService, oldGain: ActivityGain) {
+    lose_Activity(characterService: CharacterService, conditionsService: ConditionsService, itemsService: ItemsService, spellsService: SpellsService, activitiesService: ActivitiesService, oldGain: ActivityGain) {
         let a = this.class.activities;
         if (oldGain.active) {
-            activitiesService.activate_Activity(this, "", characterService, timeService, itemsService, spellsService, oldGain, activitiesService.get_Activities(oldGain.name)[0], false);
+            activitiesService.activate_Activity(this, "", characterService, conditionsService, itemsService, spellsService, oldGain, activitiesService.get_Activities(oldGain.name)[0], false);
         }
         a.splice(a.indexOf(oldGain), 1);
         characterService.set_ToChange("Character", "activities");

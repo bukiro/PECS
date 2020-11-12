@@ -13,6 +13,7 @@ import { TimeService } from 'src/app/time.service';
 import { Armor } from 'src/app/Armor';
 import { ActivitiesService } from 'src/app/activities.service';
 import { SpellsService } from 'src/app/spells.service';
+import { ConditionsService } from 'src/app/conditions.service';
 
 @Component({
     selector: 'app-itemRunes',
@@ -39,7 +40,8 @@ export class ItemRunesComponent implements OnInit {
         private itemsService: ItemsService,
         private timeService: TimeService,
         private activitiesService: ActivitiesService,
-        private spellsService: SpellsService
+        private spellsService: SpellsService,
+        private conditionsService: ConditionsService
     ) { }
 
     trackByIndex(index: number, obj: any): any {
@@ -587,7 +589,7 @@ export class ItemRunesComponent implements OnInit {
         let oldRune: Rune = weapon.propertyRunes[index];
         //Deactivate any active toggled activities of the removed rune.
         oldRune.activities.filter(activity => activity.toggle && activity.active).forEach(activity => {
-            this.activitiesService.activate_Activity(this.get_Character(), "Character", this.characterService, this.timeService, this.itemsService, this.spellsService, activity, activity, false);
+            this.activitiesService.activate_Activity(this.get_Character(), "Character", this.characterService, this.conditionsService, this.itemsService, this.spellsService, activity, activity, false);
         })
         this.characterService.grant_InventoryItem(this.get_Character(), this.get_Character().inventories[0], oldRune, false, false, false, 1);
         //Remove the Ancestral Echoing Lore if applicable.
@@ -635,7 +637,7 @@ export class ItemRunesComponent implements OnInit {
         this.set_ToChange(oldRune as ArmorRune);
         //Deactivate any active toggled activities of the removed rune.
         oldRune.activities.filter(activity => activity.toggle && activity.active).forEach(activity => {
-            this.activitiesService.activate_Activity(this.get_Character(), "Character", this.characterService, this.timeService, this.itemsService, this.spellsService, activity, activity, false);
+            this.activitiesService.activate_Activity(this.get_Character(), "Character", this.characterService, this.conditionsService, this.itemsService, this.spellsService, activity, activity, false);
         })
         this.characterService.grant_InventoryItem(this.get_Character(), this.get_Character().inventories[0], oldRune, false, false, false, 1);
     }

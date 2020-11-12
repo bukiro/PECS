@@ -14886,7 +14886,7 @@
         ],
         "target": "self",
         "duration": "1 minute",
-        "desc": "You harness your mastery of primal forces to reshape your body into a <var>var01</var> flying animal battle form.<var>var11</var> When you cast this spell, choose bat, bird, pterosaur, or wasp. You can decide the specific type of animal (such as an owl or eagle for bird), but this has no effect on the form's Size or statistics. While in this form, you gain the animal trait. You can Dismiss the spell.\n\nYou gain the following statistics and abilities regardless of which battle form you choose:\n\nAC = <var>var2</var> + your level. Ignore your armor's check penalty and Speed reduction.\n<var>var3</var> temporary Hit Points.\nLow-light vision.\nOne or more unarmed melee attacks specific to the battle form you choose, which are the only attacks you can use. You're trained with them. Your attack modifier is <var>var4</var>, and your damage bonus is <var>var5</var>. These attacks are Dexterity based (for the purpose of the clumsy condition, for example). If your attack modifier for Dexterity-based unarmed attacks is higher, you can use it instead.\nAcrobatics modifier of <var>var6</var>, unless your own modifier is higher.\n\nYou also gain specific abilities based on the type of animal you choose:\n\n<strong>Bat</strong> Speed 20 feet, fly Speed 30 feet<var>var10</var>; precise echolocation 40 feet; <strong>Melee</strong> fangs, <strong>Damage</strong> <var>var7</var>d8 piercing; <strong>Melee</strong> wing (agile), <strong>Damage</strong> <var>var7</var>d6 bludgeoning.\n<strong>Bird</strong> Speed 10 feet, fly Speed 50 feet<var>var10</var>; <strong>Melee</strong> beak, <strong>Damage</strong> <var>var7</var>d8 piercing; <strong>Melee</strong> talon (agile), <strong>Damage</strong> <var>var8</var>d10 slashing.\n<strong>Pterosaur</strong> Speed 10 feet, fly speed 40 feet<var>var10</var>; imprecise scent 30 feet; <strong>Melee</strong> beak, <strong>Damage</strong> <var>var9</var>d6 piercing.\n<strong>Wasp</strong> Speed 20 feet,fly Speed 40 feet<var>var10</var>; <strong>Melee</strong> stinger, <strong>Damage</strong> <var>var8</var>d8 piercing plus <var>var8</var>d6 persistent poison.",
+        "desc": "You harness your mastery of primal forces to reshape your body into a <var>var1</var> flying animal battle form.<var>var11</var> When you cast this spell, choose bat, bird, pterosaur, or wasp. You can decide the specific type of animal (such as an owl or eagle for bird), but this has no effect on the form's Size or statistics. While in this form, you gain the animal trait. You can Dismiss the spell.\n\nYou gain the following statistics and abilities regardless of which battle form you choose:\n\nAC = <var>var2</var> + your level. Ignore your armor's check penalty and Speed reduction.\n<var>var3</var> temporary Hit Points.\nLow-light vision.\nOne or more unarmed melee attacks specific to the battle form you choose, which are the only attacks you can use. You're trained with them. Your attack modifier is <var>var4</var>, and your damage bonus is <var>var5</var>. These attacks are Dexterity based (for the purpose of the clumsy condition, for example). If your attack modifier for Dexterity-based unarmed attacks is higher, you can use it instead.\nAcrobatics modifier of <var>var6</var>, unless your own modifier is higher.\n\nYou also gain specific abilities based on the type of animal you choose:\n\n<strong>Bat</strong> Speed 20 feet, fly Speed 30 feet<var>var10</var>; precise echolocation 40 feet; <strong>Melee</strong> fangs, <strong>Damage</strong> <var>var7</var>d8 piercing; <strong>Melee</strong> wing (agile), <strong>Damage</strong> <var>var7</var>d6 bludgeoning.\n<strong>Bird</strong> Speed 10 feet, fly Speed 50 feet<var>var10</var>; <strong>Melee</strong> beak, <strong>Damage</strong> <var>var7</var>d8 piercing; <strong>Melee</strong> talon (agile), <strong>Damage</strong> <var>var8</var>d10 slashing.\n<strong>Pterosaur</strong> Speed 10 feet, fly speed 40 feet<var>var10</var>; imprecise scent 30 feet; <strong>Melee</strong> beak, <strong>Damage</strong> <var>var9</var>d6 piercing.\n<strong>Wasp</strong> Speed 20 feet,fly Speed 40 feet<var>var10</var>; <strong>Melee</strong> stinger, <strong>Damage</strong> <var>var8</var>d8 piercing plus <var>var8</var>d6 persistent poison.",
         "heightened": [
             {
                 "desc": "Your battle form is Large and your fly Speed gains a +10-foot status bonus. You must have enough space to expand into or the spell is lost. You instead gain 10 temporary HP, attack modifier +18, damage bonus +8, and Acrobatics +20.",
@@ -14920,7 +14920,7 @@
         "desc4": [
             {
                 "value": "Medium",
-                "variable": "var01"
+                "variable": "var1"
             },
             {
                 "value": "18",
@@ -14964,7 +14964,7 @@
         "desc5": [
             {
                 "value": "Large",
-                "variable": "var01"
+                "variable": "var1"
             },
             {
                 "value": "18",
@@ -15010,7 +15010,7 @@
         "desc6": [
             {
                 "value": "Huge",
-                "variable": "var01"
+                "variable": "var1"
             },
             {
                 "value": "21",
@@ -15025,7 +15025,7 @@
                 "variable": "var4"
             },
             {
-                "value": "+4 with double damage dice (including persistent damage). Your attacks have 10-foot reach",
+                "value": "+4 with double damage dice (including persistent damage). Your attacks have 15-foot reach",
                 "variable": "var5"
             },
             {

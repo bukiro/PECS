@@ -851,6 +851,14 @@
         "desc": "Describe anything that happens on a critical hit with this weapon."
     },
     {
+        "key": "dexterityBased",
+        "priority": "10",
+        "group": "8-Weapons",
+        "name": "Dexterity-based",
+        "desc": "A dexterity-based weapon uses your dexterity modifier for its attack and damage bonus instead of your strength modifier, even if it doen't have the Finesse trait.",
+        "type": "checkbox"
+    },
+    {
         "key": "actions",
         "priority": "00",
         "group": "9-Consumables",

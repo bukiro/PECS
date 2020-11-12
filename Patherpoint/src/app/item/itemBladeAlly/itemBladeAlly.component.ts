@@ -13,6 +13,7 @@ import { TimeService } from 'src/app/time.service';
 import { Armor } from 'src/app/Armor';
 import { ActivitiesService } from 'src/app/activities.service';
 import { SpellsService } from 'src/app/spells.service';
+import { ConditionsService } from 'src/app/conditions.service';
 
 @Component({
     selector: 'app-itemBladeAlly',
@@ -31,7 +32,8 @@ import { SpellsService } from 'src/app/spells.service';
         private itemsService: ItemsService,
         private timeService: TimeService,
         private activitiesService: ActivitiesService,
-        private spellsService: SpellsService
+        private spellsService: SpellsService,
+        private conditionsService: ConditionsService
     ) { }
 
     trackByIndex(index: number, obj: any): any {
@@ -178,7 +180,7 @@ import { SpellsService } from 'src/app/spells.service';
         }
         //Deactivate any active toggled activities of the removed rune.
         oldRune.activities.filter(activity => activity.toggle && activity.active).forEach(activity => {
-            this.activitiesService.activate_Activity(this.get_Character(), "Character", this.characterService, this.timeService, this.itemsService, this.spellsService, activity, activity, false);
+            this.activitiesService.activate_Activity(this.get_Character(), "Character", this.characterService, this.conditionsService, this.itemsService, this.spellsService, activity, activity, false);
         })
     }
 

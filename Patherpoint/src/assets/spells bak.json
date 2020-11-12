@@ -16,6 +16,7 @@
             "Necromancy",
             "Positive"
         ],
+        "target": "",
         "targets": "1 willing creature or 1 undead creature",
         "desc": "Your hands become infused with positive energy, healing a living creature or damaging an undead creature with a touch. If you use lay on hands on a willing living target, you restore <var>var1</var> Hit Points; if the target is one of your allies, they also gain a +2 status bonus to AC for 1 round. Against an undead target, you deal <var>var2</var> damage and it must attempt a basic Fortitude save; if it fails, it also takes a -2 status penalty to AC for 1 round.",
         "heightened": [
@@ -483,6 +484,7 @@
         ],
         "desc1": [
             {
+                "value": "",
                 "variable": "var1"
             }
         ],
@@ -1445,6 +1447,7 @@
         ],
         "desc4": [
             {
+                "value": "",
                 "variable": "var1"
             }
         ],
@@ -1616,6 +1619,7 @@
         ],
         "desc5": [
             {
+                "value": "",
                 "variable": "var1"
             }
         ],
@@ -2007,6 +2011,7 @@
         ],
         "desc1": [
             {
+                "value": "",
                 "variable": "var1"
             }
         ],
@@ -2439,6 +2444,7 @@
         ],
         "desc1": [
             {
+                "value": "",
                 "variable": "var1"
             }
         ],
@@ -2527,6 +2533,7 @@
         ],
         "desc1": [
             {
+                "value": "",
                 "variable": "var1"
             }
         ],
@@ -2611,6 +2618,7 @@
         ],
         "desc1": [
             {
+                "value": "",
                 "variable": "var1"
             }
         ],
@@ -2724,6 +2732,7 @@
         ],
         "desc1": [
             {
+                "value": "",
                 "variable": "var1"
             }
         ],
@@ -2778,6 +2787,7 @@
         ],
         "desc1": [
             {
+                "value": "",
                 "variable": "var1"
             }
         ],
@@ -3670,6 +3680,7 @@
         ],
         "desc1": [
             {
+                "value": "",
                 "variable": "var1"
             }
         ],
@@ -3998,6 +4009,7 @@
         ],
         "desc1": [
             {
+                "value": "",
                 "variable": "var1"
             }
         ],
@@ -4164,6 +4176,7 @@
         ],
         "desc1": [
             {
+                "value": "",
                 "variable": "var1"
             }
         ],
@@ -4321,6 +4334,7 @@
         ],
         "desc1": [
             {
+                "value": "",
                 "variable": "var1"
             },
             {
@@ -4330,6 +4344,7 @@
         ],
         "desc3": [
             {
+                "value": "",
                 "variable": "var1"
             },
             {
@@ -4535,6 +4550,7 @@
         ],
         "desc1": [
             {
+                "value": "",
                 "variable": "var1"
             }
         ],
@@ -5462,6 +5478,7 @@
         ],
         "desc1": [
             {
+                "value": "",
                 "variable": "var1"
             }
         ],
@@ -5517,6 +5534,7 @@
         ],
         "desc1": [
             {
+                "value": "",
                 "variable": "var1"
             }
         ],
@@ -5592,6 +5610,7 @@
         ],
         "desc1": [
             {
+                "value": "",
                 "variable": "var1"
             }
         ],
@@ -5641,6 +5660,7 @@
         ],
         "desc1": [
             {
+                "value": "",
                 "variable": "var1"
             }
         ],
@@ -5724,6 +5744,7 @@
                 "variable": "var1"
             },
             {
+                "value": "",
                 "variable": "var2"
             }
         ],
@@ -5812,6 +5833,7 @@
         ],
         "desc1": [
             {
+                "value": "",
                 "variable": "var1"
             }
         ],
@@ -6006,6 +6028,7 @@
         ],
         "desc1": [
             {
+                "value": "",
                 "variable": "var1"
             }
         ],
@@ -6106,6 +6129,7 @@
         ],
         "desc1": [
             {
+                "value": "",
                 "variable": "var1"
             }
         ],
@@ -6241,11 +6265,13 @@
         ],
         "desc1": [
             {
+                "value": "",
                 "variable": "var1"
             }
         ],
         "desc2": [
             {
+                "value": "",
                 "variable": "var1"
             }
         ],
@@ -6420,6 +6446,7 @@
         ],
         "desc1": [
             {
+                "value": "",
                 "variable": "var1"
             }
         ],
@@ -6721,14 +6748,17 @@
         ],
         "desc1": [
             {
+                "value": "",
                 "variable": "var1"
             },
             {
+                "value": "",
                 "variable": "var2"
             }
         ],
         "desc3": [
             {
+                "value": "",
                 "variable": "var1"
             },
             {
@@ -6801,6 +6831,7 @@
         ],
         "desc1": [
             {
+                "value": "",
                 "variable": "var1"
             }
         ],
@@ -7139,6 +7170,7 @@
         ],
         "desc1": [
             {
+                "value": "",
                 "variable": "var1"
             }
         ],
@@ -8387,6 +8419,7 @@
         ],
         "desc1": [
             {
+                "value": "",
                 "variable": "var1"
             }
         ],
@@ -8538,7 +8571,7 @@
         ],
         "target": "self",
         "duration": "1 minute",
-        "desc": "You transform into a <var>var1</var> animal battle form.<var>var9</var> You can choose ape, bear, bull, canine, cat, deer, frog, shark, or snake. While in this form, you gain the animal trait. You can Dismiss the spell.\n\nYou gain the following statistics and abilities regardless of which battle form you choose:\n\nAC = <var>var2</var> + your level. Ignore your armor's check penalty and Speed reduction.\n<var>var3</var> temporary Hit Points.\nLow-light vision and imprecise scent 30 feet.\nOne or more unarmed melee attacks specific to the battle form you choose, which are the only attacks you can use. You're trained with them. Your attack modifier is <var>var4</var>, and your damage bonus is <var>var5</var>. These attacks are Strength based (for the purpose of the enfeebled condition, for example). If your unarmed attack bonus is higher, you can use it instead.\nAthletics modifier of <var>var6</var>, unless your own modifier is higher.\n\nYou also gain specific abilities based on the type of animal you choose:\n\n<strong>Ape</strong> Speed 25 feet, climb Speed 20 feet; <strong>Melee</strong> fist, <strong>Damage</strong> <var>var7</var>d6 bludgeoning.\n<strong>Bear</strong> Speed 30 feet; <strong>Melee</strong> jaws, <strong>Damage</strong> <var>var7</var>d8 piercing; <strong>Melee</strong> claw (agile), <strong>Damage</strong> <var>var8</var>d8 slashing.\n<strong>Bull</strong> Speed 30 feet; <strong>Melee</strong> horn, <strong>Damage</strong> <var>var7</var>d8 piercing.\n<strong>Canine</strong> Speed 40 feet; <strong>Melee</strong> jaws, <strong>Damage</strong> <var>var7</var>d8 piercing.\n<strong>Cat</strong> Speed 40 feet; <strong>Melee</strong> jaws, <strong>Damage</strong> <var>var7</var>d6 piercing; <strong>Melee</strong> claw (agile), <strong>Damage</strong> <var>var8</var>d10 slashing.\n<strong>Deer</strong> Speed 50 feet; <strong>Melee</strong> antler, <strong>Damage</strong> <var>var7</var>d6 piercing.\n<strong>Frog</strong> Speed 25 feet, swim Speed 25 feet; <strong>Melee</strong> jaws, <strong>Damage</strong> <var>var7</var>d6 bludgeoning; <strong>Melee</strong> EN15tongue (reach 15 feet), <strong>Damage</strong> <var>var7</var>d4 bludgeoning.\n<strong>Shark</strong> swim Speed 35 feet; <strong>Melee</strong> jaws, <strong>Damage</strong> <var>var7</var>d8 piercing; breathe underwater but not in air.\n<strong>Snake</strong> Speed 20 feet, climb Speed 20 feet, swim Speed 20 feet; <strong>Melee</strong> fangs , <strong>Damage</strong> <var>var7</var>d4 piercing plus 1d6 poison.",
+        "desc": "You transform into a <var>var1</var> animal battle form. You can choose ape, bear, bull, canine, cat, deer, frog, shark, or snake. While in this form, you gain the animal trait. You can Dismiss the spell.\n\nYou gain the following statistics and abilities regardless of which battle form you choose:\n\nAC = <var>var2</var> + your level. Ignore your armor's check penalty and Speed reduction.\n<var>var3</var> temporary Hit Points.\nLow-light vision and imprecise scent 30 feet.\nOne or more unarmed melee attacks specific to the battle form you choose, which are the only attacks you can use. You're trained with them. Your attack modifier is <var>var4</var>, and your damage bonus is <var>var5</var>. These attacks are Strength based (for the purpose of the enfeebled condition, for example)<var>var9</var>. If your unarmed attack bonus is higher, you can use it instead.\nAthletics modifier of <var>var6</var>, unless your own modifier is higher.\n\nYou also gain specific abilities based on the type of animal you choose:\n\n<strong>Ape</strong> Speed 25 feet, climb Speed 20 feet; <strong>Melee</strong> fist, <strong>Damage</strong> <var>var7</var>d6 bludgeoning.\n<strong>Bear</strong> Speed 30 feet; <strong>Melee</strong> jaws, <strong>Damage</strong> <var>var7</var>d8 piercing; <strong>Melee</strong> claw (agile), <strong>Damage</strong> <var>var8</var>d8 slashing.\n<strong>Bull</strong> Speed 30 feet; <strong>Melee</strong> horn, <strong>Damage</strong> <var>var7</var>d8 piercing.\n<strong>Canine</strong> Speed 40 feet; <strong>Melee</strong> jaws, <strong>Damage</strong> <var>var7</var>d8 piercing.\n<strong>Cat</strong> Speed 40 feet; <strong>Melee</strong> jaws, <strong>Damage</strong> <var>var7</var>d6 piercing; <strong>Melee</strong> claw (agile), <strong>Damage</strong> <var>var8</var>d10 slashing.\n<strong>Deer</strong> Speed 50 feet; <strong>Melee</strong> antler, <strong>Damage</strong> <var>var7</var>d6 piercing.\n<strong>Frog</strong> Speed 25 feet, swim Speed 25 feet; <strong>Melee</strong> jaws, <strong>Damage</strong> <var>var7</var>d6 bludgeoning; <strong>Melee</strong> EN15tongue (reach 15 feet), <strong>Damage</strong> <var>var7</var>d4 bludgeoning.\n<strong>Shark</strong> swim Speed 35 feet; <strong>Melee</strong> jaws, <strong>Damage</strong> <var>var7</var>d8 piercing; breathe underwater but not in air.\n<strong>Snake</strong> Speed 20 feet, climb Speed 20 feet, swim Speed 20 feet; <strong>Melee</strong> fangs , <strong>Damage</strong> <var>var7</var>d4 piercing plus 1d6 poison.",
         "heightened": [
             {
                 "desc": "You instead gain 10 temporary HP, AC = 17 + your level, attack modifier +14, damage bonus +5, and Athletics +14.",
@@ -8613,6 +8646,7 @@
                 "variable": "var8"
             },
             {
+                "value": "",
                 "variable": "var9"
             }
         ],
@@ -8650,6 +8684,7 @@
                 "variable": "var8"
             },
             {
+                "value": "",
                 "variable": "var9"
             }
         ],
@@ -8671,7 +8706,7 @@
                 "variable": "var4"
             },
             {
-                "value": "+9. Your attacks have 10-foot reach",
+                "value": "+9",
                 "variable": "var5"
             },
             {
@@ -8683,11 +8718,11 @@
                 "variable": "var7"
             },
             {
-                "value": "1",
+                "value": 1,
                 "variable": "var8"
             },
             {
-                "value": " You must have enough space to expand into or the spell is lost.",
+                "value": " and have 10-foot reach",
                 "variable": "var9"
             }
         ],
@@ -8705,11 +8740,11 @@
                 "variable": "var3"
             },
             {
-                "value": "+18",
+                "value": "18",
                 "variable": "var4"
             },
             {
-                "value": "+7 with double damage dice (including persistent damage). Your attacks have 15-foot reach",
+                "value": 7,
                 "variable": "var5"
             },
             {
@@ -8721,11 +8756,11 @@
                 "variable": "var7"
             },
             {
-                "value": "2",
+                "value": 2,
                 "variable": "var8"
             },
             {
-                "value": " You must have enough space to expand into or the spell is lost.",
+                "value": " and have 15-foot reach",
                 "variable": "var9"
             }
         ]
@@ -9048,14 +9083,17 @@
         ],
         "desc2": [
             {
+                "value": "",
                 "variable": "var1"
             },
             {
+                "value": "",
                 "variable": "var2"
             }
         ],
         "desc4": [
             {
+                "value": "",
                 "variable": "var1"
             },
             {
@@ -9150,14 +9188,17 @@
         ],
         "desc2": [
             {
+                "value": "",
                 "variable": "var1"
             },
             {
+                "value": "",
                 "variable": "var2"
             }
         ],
         "desc3": [
             {
+                "value": "",
                 "variable": "var1"
             },
             {
@@ -9215,6 +9256,7 @@
         ],
         "desc2": [
             {
+                "value": "",
                 "variable": "var1"
             }
         ],
@@ -9364,6 +9406,7 @@
         ],
         "desc2": [
             {
+                "value": "",
                 "variable": "var1"
             }
         ],
@@ -9427,6 +9470,7 @@
         ],
         "desc2": [
             {
+                "value": "",
                 "variable": "var1"
             }
         ],
@@ -9620,6 +9664,7 @@
         ],
         "desc2": [
             {
+                "value": "",
                 "variable": "var1"
             }
         ],
@@ -9731,6 +9776,7 @@
         ],
         "desc2": [
             {
+                "value": "",
                 "variable": "var1"
             },
             {
@@ -9752,6 +9798,7 @@
         ],
         "desc4": [
             {
+                "value": "",
                 "variable": "var1"
             },
             {
@@ -9855,6 +9902,7 @@
                 "variable": "var1"
             },
             {
+                "value": "",
                 "variable": "var2"
             }
         ],
@@ -10275,6 +10323,7 @@
         ],
         "desc2": [
             {
+                "value": "",
                 "variable": "var1"
             }
         ],
@@ -10335,6 +10384,7 @@
         ],
         "desc2": [
             {
+                "value": "",
                 "variable": "var1"
             }
         ],
@@ -10475,6 +10525,7 @@
                 "variable": "var1"
             },
             {
+                "value": "",
                 "variable": "var2"
             }
         ],
@@ -10717,6 +10768,7 @@
         ],
         "desc2": [
             {
+                "value": "",
                 "variable": "var1"
             }
         ],
@@ -10891,6 +10943,7 @@
         ],
         "desc2": [
             {
+                "value": "",
                 "variable": "var1"
             }
         ],
@@ -11013,6 +11066,7 @@
         ],
         "desc2": [
             {
+                "value": "",
                 "variable": "var1"
             }
         ],
@@ -11053,6 +11107,7 @@
         ],
         "desc2": [
             {
+                "value": "",
                 "variable": "var1"
             }
         ],
@@ -11104,6 +11159,7 @@
         ],
         "desc2": [
             {
+                "value": "",
                 "variable": "var1"
             },
             {
@@ -11170,9 +11226,11 @@
                 "variable": "var1"
             },
             {
+                "value": "",
                 "variable": "var2"
             },
             {
+                "value": "",
                 "variable": "var3"
             }
         ],
@@ -11235,6 +11293,7 @@
         ],
         "desc2": [
             {
+                "value": "",
                 "variable": "var1"
             }
         ],
@@ -11287,6 +11346,7 @@
         ],
         "desc2": [
             {
+                "value": "",
                 "variable": "var1"
             },
             {
@@ -11347,6 +11407,7 @@
         ],
         "desc2": [
             {
+                "value": "",
                 "variable": "var1"
             },
             {
@@ -11416,6 +11477,7 @@
         ],
         "desc2": [
             {
+                "value": "",
                 "variable": "var1"
             }
         ],
@@ -11631,6 +11693,7 @@
         ],
         "desc2": [
             {
+                "value": "",
                 "variable": "var1"
             }
         ],
@@ -11676,6 +11739,7 @@
         ],
         "desc2": [
             {
+                "value": "",
                 "variable": "var1"
             }
         ],
@@ -11984,6 +12048,7 @@
         ],
         "desc2": [
             {
+                "value": "",
                 "variable": "var1"
             }
         ],
@@ -12350,6 +12415,7 @@
         ],
         "desc2": [
             {
+                "value": "",
                 "variable": "var1"
             }
         ],
@@ -12409,6 +12475,7 @@
         ],
         "desc2": [
             {
+                "value": "",
                 "variable": "var1"
             }
         ],
@@ -12463,6 +12530,7 @@
         ],
         "desc2": [
             {
+                "value": "",
                 "variable": "var1"
             }
         ],
@@ -12726,6 +12794,7 @@
         ],
         "desc3": [
             {
+                "value": "",
                 "variable": "var1"
             }
         ],
@@ -12983,9 +13052,11 @@
         ],
         "desc3": [
             {
+                "value": "",
                 "variable": "var1"
             },
             {
+                "value": "",
                 "variable": "var2"
             }
         ],
@@ -13103,6 +13174,7 @@
         ],
         "desc3": [
             {
+                "value": "",
                 "variable": "var1"
             }
         ],
@@ -13303,6 +13375,7 @@
         ],
         "desc3": [
             {
+                "value": "",
                 "variable": "var1"
             }
         ],
@@ -13451,7 +13524,7 @@
         ],
         "target": "self",
         "duration": "1 minute",
-        "desc": "You envision a simple bug and transform into a <var>var1</var> animal battle form.<var>var8</var> When you cast this spell, choose ant, beetle, centipede, mantis, scorpion, or spider. You can decide the specific type of animal (such as such as a ladybug or scarab for beetle), but this has no effect on the form's Size or statistics. While in this form, you gain the animal trait. You can Dismiss this spell.\n\nYou gain the following statistics and abilities regardless of which battle form you choose:\n\nAC = 18 + your level. Ignore your armor's check penalty and Speed reduction.\n<var>var2</var> temporary Hit Points.\nLow-light vision.\nOne or more attacks specific to the battle form you choose, which are the only attacks you can use. You're trained with them. Your attack modifier is <var>var3</var>, and your damage bonus is <var>var4</var>. These attacks are Strength based (for the purpose of the enfeebled condition). If your unarmed attack modifier is higher, you can use it instead.\nAthletics modifier of <var>var5</var>, unless your own is higher.\n\nYou also gain specific abilities based on the type of animal you choose:\n\n<strong>Ant</strong> Speed 30 feet, climb Speed 30 feet; <strong>Melee</strong> mandibles, <strong>Damage</strong> <var>var6</var>d6 bludgeoning.\n<strong>Beetle</strong> Speed 25 feet; <strong>Melee</strong> mandibles, <strong>Damage</strong> <var>var6</var>d10 bludgeoning.\n<strong>Centipede</strong> Speed 25 feet, climb Speed 25 feet; darkvision; <strong>Melee</strong> mandible, <strong>Damage</strong> <var>var7</var>d8 piercing plus <var>var7</var>d4 persistent poison.\n<strong>Mantis</strong> Speed 40 feet; imprecise scent 30 feet; <strong>Melee</strong> foreleg, <strong>Damage</strong> <var>var6</var>d8 piercing.\n<strong>Scorpion</strong> Speed 40 feet; darkvision, imprecise tremorsense 60 feet; <strong>Melee</strong> stinger, <strong>Damage</strong> <var>var7</var>d8 piercing plus <var>var7</var>d4 persistent poison; <strong>Melee</strong> pincer (agile), <strong>Damage</strong> <var>var7</var>d6 bludgeoning.\n<strong>Spider</strong> Speed 25 feet, climb Speed 25 feet; darkvision; <strong>Melee</strong> fangs, <strong>Damage</strong> <var>var7</var>d6 piercing plus <var>var7</var>d4 persistent poison; <strong>Ranged</strong> web (range increment 20 feet), <strong>Damage</strong> entangles the target for 1 round.",
+        "desc": "You envision a simple bug and transform into a <var>var1</var> animal battle form. When you cast this spell, choose ant, beetle, centipede, mantis, scorpion, or spider. You can decide the specific type of animal (such as such as a ladybug or scarab for beetle), but this has no effect on the form's Size or statistics. While in this form, you gain the animal trait. You can Dismiss this spell.\n\nYou gain the following statistics and abilities regardless of which battle form you choose:\n\nAC = 18 + your level. Ignore your armor's check penalty and Speed reduction.\n<var>var2</var> temporary Hit Points.\nLow-light vision.\nOne or more attacks specific to the battle form you choose, which are the only attacks you can use. You're trained with them. Your attack modifier is <var>var3</var>, and your damage bonus is <var>var4</var>. These attacks are Strength based (for the purpose of the enfeebled condition). If your unarmed attack modifier is higher, you can use it instead.\nAthletics modifier of <var>var5</var>, unless your own is higher.\n\nYou also gain specific abilities based on the type of animal you choose:\n\n<strong>Ant</strong> Speed 30 feet, climb Speed 30 feet; <strong>Melee</strong> mandibles, <strong>Damage</strong> <var>var6</var>d6 bludgeoning.\n<strong>Beetle</strong> Speed 25 feet; <strong>Melee</strong> mandibles, <strong>Damage</strong> <var>var6</var>d10 bludgeoning.\n<strong>Centipede</strong> Speed 25 feet, climb Speed 25 feet; darkvision; <strong>Melee</strong> mandible, <strong>Damage</strong> <var>var7</var>d8 piercing plus <var>var7</var>d4 persistent poison.\n<strong>Mantis</strong> Speed 40 feet; imprecise scent 30 feet; <strong>Melee</strong> foreleg, <strong>Damage</strong> <var>var6</var>d8 piercing.\n<strong>Scorpion</strong> Speed 40 feet; darkvision, imprecise tremorsense 60 feet; <strong>Melee</strong> stinger, <strong>Damage</strong> <var>var7</var>d8 piercing plus <var>var7</var>d4 persistent poison; <strong>Melee</strong> pincer (agile), <strong>Damage</strong> <var>var7</var>d6 bludgeoning.\n<strong>Spider</strong> Speed 25 feet, climb Speed 25 feet; darkvision; <strong>Melee</strong> fangs, <strong>Damage</strong> <var>var7</var>d6 piercing plus <var>var7</var>d4 persistent poison; <strong>Ranged</strong> web (range increment 20 feet), <strong>Damage</strong> entangles the target for 1 round.",
         "heightened": [
             {
                 "desc": "Your battle form is Large, and your attacks have 10-foot reach. You must have enough space to expand into or the spell is lost. You instead gain 15 temporary HP, attack modifier +16, damage bonus +6, and Athletics +16.",
@@ -13540,10 +13613,6 @@
             {
                 "value": 1,
                 "variable": "var7"
-            },
-            {
-                "value": " You must have enough space to expand into or the spell is lost.",
-                "variable": "var8"
             }
         ],
         "desc5": [
@@ -13564,7 +13633,7 @@
                 "variable": "var4"
             },
             {
-                "value": "+20",
+                "value": 20,
                 "variable": "var5"
             },
             {
@@ -13574,10 +13643,6 @@
             {
                 "value": 2,
                 "variable": "var7"
-            },
-            {
-                "value": " You must have enough space to expand into or the spell is lost.",
-                "variable": "var8"
             }
         ]
     },
@@ -13622,6 +13687,7 @@
         ],
         "desc3": [
             {
+                "value": "",
                 "variable": "var1"
             }
         ],
@@ -13778,6 +13844,7 @@
         ],
         "desc3": [
             {
+                "value": "",
                 "variable": "var1"
             }
         ],
@@ -13971,6 +14038,7 @@
         ],
         "desc3": [
             {
+                "value": "",
                 "variable": "var1"
             }
         ],
@@ -14283,6 +14351,7 @@
         ],
         "desc3": [
             {
+                "value": "",
                 "variable": "var1"
             },
             {
@@ -14428,6 +14497,7 @@
         ],
         "desc3": [
             {
+                "value": "",
                 "variable": "var1"
             }
         ],
@@ -14883,175 +14953,6 @@
         "traits": [
             "Polymorph",
             "Transmutation"
-        ],
-        "target": "self",
-        "duration": "1 minute",
-        "desc": "You harness your mastery of primal forces to reshape your body into a <var>var01</var> flying animal battle form.<var>var11</var> When you cast this spell, choose bat, bird, pterosaur, or wasp. You can decide the specific type of animal (such as an owl or eagle for bird), but this has no effect on the form's Size or statistics. While in this form, you gain the animal trait. You can Dismiss the spell.\n\nYou gain the following statistics and abilities regardless of which battle form you choose:\n\nAC = <var>var2</var> + your level. Ignore your armor's check penalty and Speed reduction.\n<var>var3</var> temporary Hit Points.\nLow-light vision.\nOne or more unarmed melee attacks specific to the battle form you choose, which are the only attacks you can use. You're trained with them. Your attack modifier is <var>var4</var>, and your damage bonus is <var>var5</var>. These attacks are Dexterity based (for the purpose of the clumsy condition, for example). If your attack modifier for Dexterity-based unarmed attacks is higher, you can use it instead.\nAcrobatics modifier of <var>var6</var>, unless your own modifier is higher.\n\nYou also gain specific abilities based on the type of animal you choose:\n\n<strong>Bat</strong> Speed 20 feet, fly Speed 30 feet<var>var10</var>; precise echolocation 40 feet; <strong>Melee</strong> fangs, <strong>Damage</strong> <var>var7</var>d8 piercing; <strong>Melee</strong> wing (agile), <strong>Damage</strong> <var>var7</var>d6 bludgeoning.\n<strong>Bird</strong> Speed 10 feet, fly Speed 50 feet<var>var10</var>; <strong>Melee</strong> beak, <strong>Damage</strong> <var>var7</var>d8 piercing; <strong>Melee</strong> talon (agile), <strong>Damage</strong> <var>var8</var>d10 slashing.\n<strong>Pterosaur</strong> Speed 10 feet, fly speed 40 feet<var>var10</var>; imprecise scent 30 feet; <strong>Melee</strong> beak, <strong>Damage</strong> <var>var9</var>d6 piercing.\n<strong>Wasp</strong> Speed 20 feet,fly Speed 40 feet<var>var10</var>; <strong>Melee</strong> stinger, <strong>Damage</strong> <var>var8</var>d8 piercing plus <var>var8</var>d6 persistent poison.",
-        "heightened": [
-            {
-                "desc": "Your battle form is Large and your fly Speed gains a +10-foot status bonus. You must have enough space to expand into or the spell is lost. You instead gain 10 temporary HP, attack modifier +18, damage bonus +8, and Acrobatics +20.",
-                "level": "(5th)"
-            },
-            {
-                "desc": "Your battle form is Huge, your fly Speed gains a +15-foot status bonus, and your attacks have 10-foot reach. You must have enough space to expand into or the spell is lost. You instead gain AC = 21 + your level, 15 temporary HP, attack modifier +21, damage bonus +4 and double damage dice (including persistent damage), and Acrobatics +23.",
-                "level": "(6th)"
-            }
-        ],
-        "gainConditions": [
-            {
-                "duration": 100,
-                "heightenedFilter": 4,
-                "name": "Aerial Form (4th level)",
-                "source": "Aerial Form"
-            },
-            {
-                "duration": 100,
-                "heightenedFilter": 5,
-                "name": "Aerial Form (5th level)",
-                "source": "Aerial Form"
-            },
-            {
-                "duration": 100,
-                "heightenedFilter": 6,
-                "name": "Aerial Form (6th level)",
-                "source": "Aerial Form"
-            }
-        ],
-        "desc4": [
-            {
-                "value": "Medium",
-                "variable": "var01"
-            },
-            {
-                "value": "18",
-                "variable": "var2"
-            },
-            {
-                "value": "5",
-                "variable": "var3"
-            },
-            {
-                "value": "+16",
-                "variable": "var4"
-            },
-            {
-                "value": "+5",
-                "variable": "var5"
-            },
-            {
-                "value": 16,
-                "variable": "var6"
-            },
-            {
-                "value": 2,
-                "variable": "var7"
-            },
-            {
-                "value": "1",
-                "variable": "var8"
-            },
-            {
-                "value": "3",
-                "variable": "var9"
-            },
-            {
-                "variable": "var10"
-            },
-            {
-                "variable": "var11"
-            }
-        ],
-        "desc5": [
-            {
-                "value": "Large",
-                "variable": "var01"
-            },
-            {
-                "value": "18",
-                "variable": "var2"
-            },
-            {
-                "value": "10",
-                "variable": "var3"
-            },
-            {
-                "value": "+18",
-                "variable": "var4"
-            },
-            {
-                "value": "+8",
-                "variable": "var5"
-            },
-            {
-                "value": 20,
-                "variable": "var6"
-            },
-            {
-                "value": 2,
-                "variable": "var7"
-            },
-            {
-                "value": "1",
-                "variable": "var8"
-            },
-            {
-                "value": "3",
-                "variable": "var9"
-            },
-            {
-                "value": " +10-foot status bonus",
-                "variable": "var10"
-            },
-            {
-                "value": " You must have enough space to expand into or the spell is lost.",
-                "variable": "var11"
-            }
-        ],
-        "desc6": [
-            {
-                "value": "Huge",
-                "variable": "var01"
-            },
-            {
-                "value": "21",
-                "variable": "var2"
-            },
-            {
-                "value": "15",
-                "variable": "var3"
-            },
-            {
-                "value": "+21",
-                "variable": "var4"
-            },
-            {
-                "value": "+4 with double damage dice (including persistent damage). Your attacks have 10-foot reach",
-                "variable": "var5"
-            },
-            {
-                "value": 23,
-                "variable": "var6"
-            },
-            {
-                "value": 4,
-                "variable": "var7"
-            },
-            {
-                "value": 2,
-                "variable": "var8"
-            },
-            {
-                "value": 6,
-                "variable": "var9"
-            },
-            {
-                "value": " +15-foot status bonus",
-                "variable": "var10"
-            },
-            {
-                "value": " You must have enough space to expand into or the spell is lost.",
-                "variable": "var11"
-            }
         ]
     },
     {
@@ -15162,6 +15063,7 @@
         ],
         "desc4": [
             {
+                "value": "",
                 "variable": "var1"
             }
         ],
@@ -15273,12 +15175,15 @@
         ],
         "desc4": [
             {
+                "value": "",
                 "variable": "var1"
             },
             {
+                "value": "",
                 "variable": "var2"
             },
             {
+                "value": "",
                 "variable": "var3"
             }
         ],
@@ -15422,6 +15327,7 @@
         ],
         "desc4": [
             {
+                "value": "",
                 "variable": "var1"
             }
         ],
@@ -17369,6 +17275,7 @@
         ],
         "desc7": [
             {
+                "value": "",
                 "variable": "var1"
             }
         ],

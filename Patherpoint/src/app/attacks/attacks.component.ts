@@ -15,8 +15,7 @@ import { Consumable } from '../Consumable';
 import { Snare } from '../Snare';
 import { SpellGain } from '../SpellGain';
 import { AlchemicalPoison } from '../AlchemicalPoison';
-import { OtherConsumableBomb } from '../OtherConsumableBOmb';
-import { AttackRestriction } from '../AttackRestriction';
+import { OtherConsumableBomb } from '../OtherConsumableBomb';
 
 @Component({
     selector: 'app-attacks',
@@ -195,7 +194,7 @@ export class AttacksComponent implements OnInit {
                     if (spell.target == 'self') {
                         target = "Character";
                     }
-                    this.characterService.spellsService.process_Spell(this.get_Creature('Character'), target, this.characterService, this.characterService.itemsService, this.characterService.timeService, null, tempGain, spell, spellChoice.level, true, true, false);
+                    this.characterService.spellsService.process_Spell(this.get_Creature('Character'), target, this.characterService, this.characterService.itemsService, this.characterService.conditionsService, null, tempGain, spell, spellChoice.level, true, true, false);
                 }
                 spellChoice.spells.shift();
             }

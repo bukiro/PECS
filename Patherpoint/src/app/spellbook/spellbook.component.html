@@ -182,6 +182,17 @@
                                                         [disabled]="cannot_Cast(spell, level, casting, spellTaken.choice, spellTaken.gain, maxspellslots)">
                                                         Expend to counter spell
                                                     </button>
+                                                    <ng-container *ngFor="let condition of get_SpellConditions(spell, level, spellTaken.gain); let conditionIndex = index; trackBy:trackByIndex">
+                                                        <div class="row list-item left-aligned" *ngIf="condition.choices.length">
+                                                            <span>{{condition.name}} effect selection:
+                                                                <select [(ngModel)]="spellTaken.gain.choices[conditionIndex]">
+                                                                    <option *ngFor="let choice of condition.choices; trackBy:trackByIndex;" [ngValue]="choice">
+                                                                        {{choice}}
+                                                                    </option>
+                                                                </select>
+                                                            </span>
+                                                        </div>
+                                                    </ng-container>
                                                     <ng-container *ngIf="!spellTaken.gain.combinationSpellName">
                                                         <app-spell class="list-item" [spell]="spell"
                                                             [spellLevel]="level">

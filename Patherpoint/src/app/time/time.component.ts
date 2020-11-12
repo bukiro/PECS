@@ -4,6 +4,7 @@ import { TimeService } from '../time.service';
 import { EffectsService } from '../effects.service';
 import { ItemsService } from '../items.service';
 import { SpellsService } from '../spells.service';
+import { ConditionsService } from '../conditions.service';
 
 @Component({
     selector: 'app-time',
@@ -19,7 +20,8 @@ export class TimeComponent implements OnInit {
         private timeService: TimeService,
         private itemsService: ItemsService,
         private spellsService: SpellsService,
-        private effectsService: EffectsService
+        private effectsService: EffectsService,
+        private conditionsService: ConditionsService
     ) { }
 
     minimize() {
@@ -63,15 +65,15 @@ export class TimeComponent implements OnInit {
     }
 
     start_Turn() {
-        this.timeService.start_Turn(this.characterService, this.timeService, this.itemsService, this.spellsService, this.effectsService);
+        this.timeService.start_Turn(this.characterService, this.conditionsService, this.itemsService, this.spellsService, this.effectsService);
     }
 
     end_Turn() {
-        this.timeService.end_Turn(this.characterService, this.timeService, this.itemsService, this.spellsService);
+        this.timeService.end_Turn(this.characterService, this.conditionsService, this.itemsService, this.spellsService);
     }
 
     tick(amount: number) {
-        this.timeService.tick(this.characterService, this.timeService, this.itemsService, this.spellsService, amount);
+        this.timeService.tick(this.characterService, this.conditionsService, this.itemsService, this.spellsService, amount);
     }
 
     finish_Loading() {

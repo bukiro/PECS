@@ -23,6 +23,14 @@
         </button>
         <div class="list-item sublist" [ngClass]="{'fancy-list':(available == choice.spells.length )}"
             *ngIf="get_ShowChoice()==choice.source+choice.id">
+            <!-- Heightened -->
+            <div class="list-item" *ngIf="spellbook">
+                <span>
+                    <input id="{{choice.id}}allowHeightened" type="checkbox" [(ngModel)]="allowHeightened">
+                    <label for="{{choice.id}}allowHeightened">Allow heightened spells</label>
+                </span>
+            </div>
+            <!-- End Heightened -->
             <!-- Signature Spells -->
             <ng-container *ngIf="signatureSpellsAllowed">
                 <div class="list-item">

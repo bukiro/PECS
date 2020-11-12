@@ -8,6 +8,7 @@ import { AnimalCompanion } from '../AnimalCompanion';
 import { TimeService } from '../time.service';
 import { ItemsService } from '../items.service';
 import { SpellsService } from '../spells.service';
+import { ConditionsService } from '../conditions.service';
 
 @Component({
     selector: 'app-health',
@@ -33,7 +34,8 @@ export class HealthComponent implements OnInit {
         private itemsService: ItemsService,
         private spellsService: SpellsService,
         public characterService: CharacterService,
-        public effectsService: EffectsService
+        public effectsService: EffectsService,
+        private conditionsService: ConditionsService
     ) { }
 
     minimize() {
@@ -77,7 +79,7 @@ export class HealthComponent implements OnInit {
     }
 
     rest() {
-        this.timeService.rest(this.characterService, this.timeService, this.itemsService, this.spellsService);
+        this.timeService.rest(this.characterService, this.conditionsService, this.itemsService, this.spellsService);
     }
 
     die(reason: string) {

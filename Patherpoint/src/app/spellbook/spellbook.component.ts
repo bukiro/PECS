@@ -12,6 +12,8 @@ import { SpellChoice } from '../SpellChoice';
 import { ConditionGain } from '../ConditionGain';
 import { EffectGain } from '../EffectGain';
 import { Level } from '../Level';
+import { Condition } from '../Condition';
+import { ConditionsService } from '../conditions.service';
 
 @Component({
     selector: 'app-spellbook',
@@ -35,7 +37,8 @@ export class SpellbookComponent implements OnInit {
         private spellsService: SpellsService,
         private itemsService: ItemsService,
         private timeService: TimeService,
-        private effectsService: EffectsService
+        private effectsService: EffectsService,
+        private conditionsService: ConditionsService
     ) { }
 
     minimize() {
@@ -215,6 +218,25 @@ export class SpellbookComponent implements OnInit {
         return this.spellsService.get_Spells(name);
     }
 
+    get_SpellConditions(spell: Spell, levelNumber: number, gain: SpellGain) {
+        let conditions: Condition[] = [];
+        spell.get_HeightenedConditions(levelNumber)
+            .map(conditionGain => this.conditionsService.get_Conditions(conditionGain.name)[0])
+            .filter(condition => condition?.choices?.length)
+            .forEach((condition, index) => {
+                //Add the condition to the list of conditions that need to display a choice,
+                // then if the gain doesn't have a choice at that index or the choice isn't among the condition's choices, insert or replace that choice on the gain.
+                conditions.push(condition);
+                while (!gain.choices.length || gain.choices.length < index - 1) {
+                    gain.choices.push(condition.choice);
+                }
+                if (!condition.choices.includes(gain.choices?.[index])) {
+                    gain.choices[index] = condition.choice;
+                }
+            })
+        return conditions;
+    }
+
     get_FocusPoints() {
         return Math.min(this.characterService.get_Character().class.focusPoints, this.get_MaxFocusPoints());
     }
@@ -282,7 +304,7 @@ export class SpellbookComponent implements OnInit {
         } else {
             this.characterService.process_OnceEffect(character, Object.assign(new EffectGain(), { affected: "Focus Points", value: "+1" }))
         }
-        this.timeService.tick(this.characterService, this.timeService, this.itemsService, this.spellsService, 1000);
+        this.timeService.tick(this.characterService, this.conditionsService, this.itemsService, this.spellsService, 1000);
     }
 
     on_RestoreFocusPoint() {
@@ -381,11 +403,11 @@ export class SpellbookComponent implements OnInit {
                 }
             }
         }
-        this.spellsService.process_Spell(character, creature, this.characterService, this.itemsService, this.timeService, casting, gain, spell, levelNumber, activated, true);
+        this.spellsService.process_Spell(character, creature, this.characterService, this.itemsService, this.conditionsService, casting, gain, spell, levelNumber, activated, true);
         if (gain.combinationSpellName) {
             let secondSpell = this.get_Spells(gain.combinationSpellName)[0];
             if (secondSpell) {
-                this.spellsService.process_Spell(character, creature, this.characterService, this.itemsService, this.timeService, casting, gain, secondSpell, levelNumber, activated, true);
+                this.spellsService.process_Spell(character, creature, this.characterService, this.itemsService, this.conditionsService, casting, gain, secondSpell, levelNumber, activated, true);
             }
         }
     }
