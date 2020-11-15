@@ -14,8 +14,6 @@
         "toggle": true,
         "requirements": "You are unarmored.",
         "desc": "You enter the stance of a crane, holding your arms in an imitation of a crane's wings and using flowing, defensive motions. You gain a +1 circumstance bonus to AC, but the only Strikes you can make are crane wing attacks. These deal 1d6 bludgeoning damage; are in the brawling group; and have the agile, finesse, nonlethal, and unarmed traits.\n\nWhile in Crane Stance, reduce the DC for High Jump and Long Jump by 5, and when you Leap, you can move an additional 5 feet horizontally or 2 feet vertically.",
-        "hint": "The only Strikes you can make are crane wing attacks.",
-        "showon": "Attacks",
         "gainConditions": [
             {
                 "duration": -1,
@@ -52,8 +50,6 @@
         "toggle": true,
         "requirements": "You are unarmored and touching the ground.",
         "desc": "You enter the stance of an implacable mountain - a technique first discovered by dwarven monks - allowing you to strike with the weight of an avalanche. The only Strikes you can make are falling stone unarmed attacks. These deal 1d8 bludgeoning damage; are in the brawling group; and have the forceful, nonlethal, and unarmed traits.\n\nWhile in Mountain Stance, you gain a +4 status bonus to AC and a +2 circumstance bonus to any defenses against being Shoved or Tripped. However, you have a Dexterity modifier cap to your AC of +0, meaning you don't add your Dexterity to your AC, and your Speeds are all reduced by 5 feet.",
-        "hint": "The only Strikes you can make are falling stone unarmed attacks.",
-        "showon": "Attacks",
         "gainConditions": [
             {
                 "duration": -1,
@@ -72,8 +68,6 @@
         "toggle": true,
         "requirements": "You are unarmored and touching the ground.",
         "desc": "You enter the stance of an enraged phoenix, holding your fingers as rigid as deadly talons while moving with quick, flickering gestures that flicker with dancing flames. The only Strikes you can make are fire talon Strikes. These deal 1d4 fire damage; are in the brawling group; and have the agile, finesse, fire, nonlethal, and unarmed traits.\n\nWhile in Rain of Embers Stance, you gain a +1 status bonus to AC and fire resistance equal to half your level (minimum 1).",
-        "hint": "The only Strikes you can make are fire talon Strikes.",
-        "showon": "Attacks",
         "gainConditions": [
             {
                 "duration": -1,
@@ -163,8 +157,6 @@
         "actions": "1A",
         "requirements": "You are in Dragon Stance.",
         "desc": "You bellow, instilling fear in your enemies. Enemies within a 15-foot emanation must succeed at a Will save against your Intimidation DC or be frightened 1 (frightened 2 on a critical failure). When a creature frightened by the roar begins its turn adjacent to you, it can't reduce its frightened value below 1 on that turn. Your first attack that hits a frightened creature after you roar and before the end of your next turn gains a +4 circumstance bonus to damage.\n\nAfter you use Dragon Roar, you can't use it again for 1d4 rounds. Its effects end immediately if you leave Dragon Stance. Creatures in the area of your roar are then temporarily immune for 1 minute.",
-        "hint": "Enemies within a 15-foot emanation must succeed at a Will save against your Intimidation DC or be frightened 1 (frightened 2 on a critical failure). When a creature frightened by the roar begins its turn adjacent to you, it can't reduce its frightened value below 1 on that turn. Your first attack that hits a frightened creature after you roar and before the end of your next turn gains a +4 circumstance bonus to damage.\n\nAfter you use Dragon Roar, you can't use it again for 1d4 rounds. Its effects end immediately if you leave Dragon Stance. Creatures in the area of your roar are then temporarily immune for 1 minute.",
-        "showon": "Dragon Stance",
         "traits": [
             "Auditory",
             "Emotion",
@@ -276,8 +268,6 @@
         "name": "Knockback Strike",
         "actions": "2A",
         "desc": "You focus your strength into a blow powerful enough to push an enemy away from you. Make an unarmed Strike. If you hit, attempt an Athletics check to Shove the target. This attack uses the same multiple attack penalty as your Strike, and doesn't count toward your multiple attack penalty.",
-        "hint": "If the Knockback Strike hits, attempt an Athletics check to Shove the target. This attack uses the same multiple attack penalty as your Strike, and doesn't count toward your multiple attack penalty.",
-        "showon": "Athletics",
         "traits": [
             "Monk"
         ]
@@ -422,9 +412,13 @@
         "name": "Hunt Prey",
         "actions": "1A",
         "toggle": true,
-        "desc": "You designate a single creature as your prey and focus your attacks against that creature. You must be able to see or hear the prey, or you must be tracking the prey during exploration.\n\nYou gain a +2 circumstance bonus to Perception checks when you Seek your prey and a +2 circumstance bonus to Survival checks when you Track your prey. You also ignore the penalty for making ranged attacks within your second range increment against the prey you're hunting.\n\nYou can have only one creature designated as your prey at a time. If you use Hunt Prey against a creature when you already have a creature designated, the prior creature loses the designation and the new prey gains the designation. Your designation lasts until your next daily preparations.",
-        "hint": "You gain a +2 circumstance bonus to Perception checks when you Seek your prey and a +2 circumstance bonus to Survival checks when you Track your prey. You also ignore the penalty for making ranged attacks within your second range increment against the prey you're hunting.",
-        "showon": "Perception, Survival, Attacks",
+        "maxDuration": -2,
+        "gainConditions": [
+            {
+                "name": "Hunt Prey",
+                "duration": -2
+            }
+        ],
         "traits": [
             "Concentrate",
             "Ranger"
@@ -947,8 +941,6 @@
         "actions": "Free",
         "trigger": "Your Strike hits a flat-footed creature and deals damage.",
         "desc": "You apply one of the following debilitations, which lasts until the end of your next turn.\n\n<strong>Debilitation</strong> The target takes a -10-foot status penalty to its Speeds.\n<strong>Debilitation</strong> The target becomes enfeebled 1.",
-        "hint": "When your strike hits a flat-footed creature and deals damage, you apply debilitations, which last until the end of your next turn.",
-        "showon": "Attacks",
         "traits": [
             "Rogue"
         ]
@@ -1677,8 +1669,6 @@
         "requirements": "You are wielding a two-handed melee weapon.",
         "desc": "Throwing your weight behind your attack, you hit your opponent hard enough to make it stumble back. Make a Strike with a two-handed melee weapon. If you hit a target that is your size or smaller, that creature is flat-footed until the end of your current turn, and you can automatically Shove it, with the same benefits as the Shove action (including the critical success effect, if your Strike was a critical hit). If you move to follow the target, your movement doesn't trigger reactions.\n\nThis Strike has the following failure effect.",
         "failure": "The target becomes flat-footed until the end of your current turn.",
-        "hint": "If the Strike made during Brutish Shove hit a target that is your size or smaller, that creature is flat-footed until the end of your current turn, and you can automatically Shove it, with the same benefits as the Shove action (including the critical success effect, if your Strike was a critical hit). If you move to follow the target, your movement doesn't trigger reactions.",
-        "showon": "Athletics",
         "traits": [
             "Fighter",
             "Press"

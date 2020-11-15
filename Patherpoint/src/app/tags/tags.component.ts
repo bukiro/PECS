@@ -141,6 +141,11 @@ export class TagsComponent implements OnInit {
         })
     }
 
+    on_ActivateEffect() {
+        this.characterService.set_ToChange(this.creature, "effects");
+        this.characterService.process_ToChange();
+    }
+
     ngOnInit() {
         this.finish_Loading();
     }

@@ -39,7 +39,9 @@ export class TraitsService {
                 trait.showon == name
                 && trait.haveOn(creature).length > 0
                 );
-        } else {return []}
+        } else {
+            return []
+        }
     }
 
     have_Trait(characterService: CharacterService, object: any, traitName: string) {

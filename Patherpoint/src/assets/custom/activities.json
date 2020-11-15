@@ -20,8 +20,12 @@
         "actions": "2A",
         "toggle": true,
         "desc": "You can change to your human form at will. This works like a 2nd level humanoid form spell, except that there is only one form you can take, and the spell is permanent until dismissed.\n\nYou cannot use your jaws attack in human form.",
-        "hint": "You cannot use your jaws attack in human form.",
-        "showon": "Attacks",
+        "hints": [
+            {
+                "desc": "You cannot use your jaws attack in human form.",
+                "showon": "Attacks"
+            }
+        ],
         "castSpells": [
             {
                 "name": "Humanoid Form",

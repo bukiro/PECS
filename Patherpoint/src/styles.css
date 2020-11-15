@@ -1128,6 +1128,10 @@ cite.problem {
     background-color: #eee;
 }
 
+cite input {
+    margin: 0;
+}
+
 select {
     white-space: nowrap;
     overflow: hidden;

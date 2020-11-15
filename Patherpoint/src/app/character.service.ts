@@ -55,6 +55,7 @@ import { Snare } from './Snare';
 import { AlchemicalPoison } from './AlchemicalPoison';
 import { OtherConsumableBomb } from './OtherConsumableBomb';
 import { AdventuringGear } from './AdventuringGear';
+import { Hint } from './Hint';
 
 @Injectable({
     providedIn: 'root'
@@ -119,13 +120,22 @@ export class CharacterService {
         this.toChange.push({creature:creature, target:target, subtarget:subtarget});
     }
 
-    set_TagsToChange(creature: string, showonString: string) {
+    set_TagsToChange(creature: string, showonString: string, hints: Hint[] = []) {
+        //For transition between single showon strings and multiple hints, we are currently doing both.
         showonString.split(",").forEach(subtarget => {
             this.set_ToChange(creature, "tags", subtarget.trim())
         })
         if (this.get_OwnedActivities(this.get_Creature(creature), this.get_Creature(creature).level).find(activity => showonString.includes(activity.name))) {
             this.set_ToChange(creature, "activities")
         }
+        hints.forEach(hint => {
+            hint.showon.split(",").forEach(subtarget => {
+                this.set_ToChange(creature, "tags", subtarget.trim())
+            })
+            if (this.get_OwnedActivities(this.get_Creature(creature), this.get_Creature(creature).level).find(activity => showonString.includes(activity.name))) {
+                this.set_ToChange(creature, "activities")
+            }
+        })
         this.set_ToChange(creature, "character-sheet");
     }
 
@@ -1681,11 +1691,13 @@ export class CharacterService {
         let returnedActivities: Activity[] = [];
         activityGains.forEach(gain => {
             this.activitiesService.get_Activities(gain.name).filter(activity => gain.active || !activity.toggle).forEach(activity => {
-                activity?.showon.split(",").forEach(showon => {
-                    if (objectName == "all" || showon == objectName || showon.substr(1) == objectName || (objectName == "Lore" && showon.includes(objectName))) {
-                        returnedActivities.push(activity);
-                    }
-                });
+                activity?.hints.forEach(hint => {
+                    hint.showon.split(",").forEach(showon => {
+                        if (objectName == "all" || showon == objectName || showon.substr(1) == objectName || (objectName == "Lore" && showon.includes(objectName))) {
+                            returnedActivities.push(activity);
+                        }
+                    });
+                })                
             });
         });
         return returnedActivities;

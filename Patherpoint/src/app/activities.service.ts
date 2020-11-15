@@ -19,6 +19,7 @@ import { SpellsService } from './spells.service';
 import { SpellCast } from './SpellCast';
 import { Loader } from './Loader';
 import { ConditionsService } from './conditions.service';
+import { Hint } from './Hint';
 
 @Injectable({
     providedIn: 'root'
@@ -56,8 +57,8 @@ export class ActivitiesService {
             });
         });
         
-        if (activity.showon) {
-            characterService.set_TagsToChange(creature.type, activity.showon);
+        if (activity.hints.length) {
+            characterService.set_TagsToChange(creature.type, activity.showon, activity.hints);
         }
 
         if (activated) {
@@ -66,13 +67,15 @@ export class ActivitiesService {
                 gain.activeCooldown = activity.cooldown;
             }
             //Use charges
-            if (activity.charges) {
+            if (activity.charges || gain.sharedChargesID) {
                 //If this activity belongs to an item and has a sharedCharges ID, spend a charge for every activity with the same sharedChargesID and start their cooldown if necessary.
                 if (item && gain.sharedChargesID) {
                     item.activities
                         .filter(itemActivity => itemActivity.sharedChargesID == gain.sharedChargesID)
                         .forEach(itemActivity => {
-                            itemActivity.chargesUsed += 1;
+                            if (itemActivity.charges) {
+                                itemActivity.chargesUsed += 1;
+                            }
                             if (!itemActivity.activeCooldown && itemActivity.cooldown) {
                                 itemActivity.activeCooldown = itemActivity.cooldown;
                             }
@@ -80,15 +83,15 @@ export class ActivitiesService {
                     item.gainActivities
                         .filter(activityGain => activityGain.sharedChargesID == gain.sharedChargesID)
                         .forEach(activityGain => {
-                            activityGain.chargesUsed += 1;
-                            if (!activityGain.activeCooldown) {
-                                let originalActivity = this.get_Activities(activityGain.name)[0];
-                                if (originalActivity?.cooldown) {
-                                    activityGain.activeCooldown = originalActivity.cooldown;
-                                }
+                            let originalActivity = this.get_Activities(activityGain.name)[0];
+                            if (originalActivity?.charges) {
+                                activityGain.chargesUsed += 1;
+                            }
+                            if (!activityGain.activeCooldown && originalActivity?.cooldown) {
+                                activityGain.activeCooldown = originalActivity.cooldown;
                             }
                         })
-                } else {
+                } else if (activity.charges) {
                     gain.chargesUsed += 1;
                 }
             }
@@ -219,12 +222,15 @@ export class ActivitiesService {
     rest(creature: Character|AnimalCompanion|Familiar, characterService: CharacterService) {
         //Get all owned activity gains that have a cooldown active.
         //Get the original activity information, and if its cooldown is exactly one day, the actvity gain's cooldown is reset.
-        characterService.get_OwnedActivities(creature).filter((gain: ActivityGain|ItemActivity) => gain.activeCooldown > 0).forEach(gain => {
+        characterService.get_OwnedActivities(creature).filter((gain: ActivityGain|ItemActivity) => gain.activeCooldown > 0 || gain.duration == -2).forEach(gain => {
             let activity: Activity|ItemActivity;
             if (gain.constructor == ItemActivity) {
                 activity = gain as ItemActivity;
             } else {
                 activity = this.get_Activities(gain.name)[0];
+            }
+            if (gain.duration == -2 && activity) {
+                this.activate_Activity(creature, creature.type, characterService, characterService.conditionsService, characterService.itemsService, characterService.spellsService, gain, activity, false, false);
             }
             if (activity.cooldown == 144000) {
                 gain.activeCooldown = 0;
@@ -296,8 +302,9 @@ export class ActivitiesService {
         if (loader.content.length) {
             this[target] = loader.content.map(activity => Object.assign(new Activity(), activity));
 
-            this[target].forEach(activity => {
+            this[target].forEach((activity: Activity) => {
                 activity.castSpells = activity.castSpells.map(cast => Object.assign(new SpellCast(), cast));
+                activity.hints = activity.hints.map(hint => Object.assign(new Hint(), hint));
             });
 
             loader.content = [];

@@ -105,13 +105,14 @@ export class EffectsService {
         return (new Speed(name));
     }
 
-    get_SimpleEffects(creature: Character | AnimalCompanion | Familiar, characterService: CharacterService, object: any) {
+    get_SimpleEffects(creature: Character | AnimalCompanion | Familiar, characterService: CharacterService, object: any, name: string = "") {
         //If an item has a simple instruction in effects, such as "Strength", "+2", turn it into an effect,
         // then mark the effect as a penalty if the change is negative (except for Bulk).
         //Try to get the type, too - if no type is given, set it to untyped.
         //Return an array of Effect objects
         let objectEffects: Effect[] = [];
-        let name = (object.get_Name) ? object.get_Name() : object.name;
+        //Get the object name unless a name is enforced.
+        name = name ? name : ((object.get_Name) ? object.get_Name() : object.name);
         //Define some values that may be relevant for effect values
         let effectsService = this;
         effectsService = effectsService;
@@ -344,13 +345,21 @@ export class EffectsService {
         });
         //Active activities
         characterService.get_OwnedActivities(creature, creature.level, true).filter(activity => activity.active).forEach(activity => {
-            if (activity.constructor == ItemActivity && (activity as ItemActivity).effects?.length) {
-                simpleEffects = simpleEffects.concat(this.get_SimpleEffects(character, characterService, activity));
+            if (activity.constructor == ItemActivity) {
+                if ((activity as ItemActivity).effects?.length) {
+                    simpleEffects = simpleEffects.concat(this.get_SimpleEffects(character, characterService, activity));
+                }
+                (activity as ItemActivity).hints.filter(hint => hint.active && hint.effects?.length).forEach(hint => {
+                    simpleEffects = simpleEffects.concat(this.get_SimpleEffects(character, characterService, hint, activity.name));
+                })
             } else {
                 let originalActivity = this.activitiesService.get_Activities(activity.name)[0];
                 if (originalActivity?.effects?.length) {
                     simpleEffects = simpleEffects.concat(this.get_SimpleEffects(character, characterService, originalActivity));
                 }
+                originalActivity?.hints?.filter(hint => hint.active && hint.effects?.length).forEach(hint => {
+                    simpleEffects = simpleEffects.concat(this.get_SimpleEffects(character, characterService, hint, activity.name));
+                })
             }
         })
 

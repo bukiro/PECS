@@ -2,6 +2,7 @@ import { EffectGain } from './EffectGain';
 import { ItemGain } from './ItemGain';
 import { SpellCast } from './SpellCast';
 import { ConditionGain } from './ConditionGain';
+import { Hint } from './Hint';
 
 export class Activity {
     public actions: string = "1A";
@@ -21,6 +22,7 @@ export class Activity {
     public gainConditions: ConditionGain[] = [];
     public gainItems: ItemGain[] = [];
     public hint: string = "";
+    public hints: Hint[] = [];
     public inputRequired: string = "";
     public name: string = "";
     public onceEffects: EffectGain[] = [];

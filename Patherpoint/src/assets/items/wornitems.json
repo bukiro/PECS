@@ -1172,7 +1172,6 @@
                 "actions": "2A",
                 "activationType": "Command, Interact",
                 "cooldown": 144000,
-                "inputRequired": "When you activate the item once per day, choose only one of the two activations.",
                 "desc": "You can either transform the cloak into bat-like wings that grant you a fly Speed of 30 feet for 10 minutes, or have the cloak turn you into a bat by casting a 4th-level pest form spell on you.",
                 "frequency": "once per day",
                 "name": "Cloak of the Bat: Bat Wings",
@@ -1188,13 +1187,13 @@
                     "Transmutation"
                 ],
                 "_className": "ItemActivity",
+                "sharedChargesID": "1",
                 "source": "95366e4c-5b77-47c2-9deb-411dc18534d4"
             },
             {
                 "actions": "2A",
                 "activationType": "Command, Interact",
                 "cooldown": 144000,
-                "inputRequired": "When you activate the item once per day, choose only one of the two activations.",
                 "desc": "You can either transform the cloak into bat-like wings that grant you a fly Speed of 30 feet for 10 minutes, or have the cloak turn you into a bat by casting a 4th-level pest form spell on you.",
                 "frequency": "once per day",
                 "name": "Cloak of the Bat: Bat Form",
@@ -1212,6 +1211,7 @@
                     "Transmutation"
                 ],
                 "_className": "ItemActivity",
+                "sharedChargesID": "1",
                 "source": "95366e4c-5b77-47c2-9deb-411dc18534d4"
             }
         ],
@@ -1347,6 +1347,7 @@
                     "Transmutation"
                 ],
                 "_className": "ItemActivity",
+                "sharedChargesID": "1",
                 "source": "e85d2d73-fedf-4855-ab58-fcf143a45ba2"
             },
             {
@@ -1368,6 +1369,7 @@
                     "Transmutation"
                 ],
                 "_className": "ItemActivity",
+                "sharedChargesID": "1",
                 "source": "e85d2d73-fedf-4855-ab58-fcf143a45ba2"
             }
         ],
