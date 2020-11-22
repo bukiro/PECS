@@ -1,13 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, of } from 'rxjs';
-import { map, catchError } from 'rxjs/operators';
 import { Activity } from './Activity';
 import { ActivityGain } from './ActivityGain';
 import { CharacterService } from './character.service';
 import { ItemsService } from './items.service';
 import { Item } from './Item';
-import { TimeService } from './time.service';
 import { Equipment } from './Equipment';
 import { ItemActivity } from './ItemActivity';
 import { ConditionGain } from './ConditionGain';
@@ -17,19 +14,17 @@ import { AnimalCompanion } from './AnimalCompanion';
 import { Familiar } from './Familiar';
 import { SpellsService } from './spells.service';
 import { SpellCast } from './SpellCast';
-import { Loader } from './Loader';
 import { ConditionsService } from './conditions.service';
 import { Hint } from './Hint';
+import * as json_activities from '../assets/json/activities';
 
 @Injectable({
     providedIn: 'root'
 })
 export class ActivitiesService {
 
-    private activities: Activity[];
-    private custom_activities: Activity[];
-    private loader_Activities: Loader = new Loader();
-    private loader_CustomActivities: Loader = new Loader();
+    private activities: Activity[] = [];
+    private loading: boolean = false;
 
     constructor(
         private http: HttpClient
@@ -37,7 +32,7 @@ export class ActivitiesService {
 
     get_Activities(name: string = "") {
         if (!this.still_loading()) {
-            return this.activities.concat(this.custom_activities).filter(action => action.name == name || name == "");
+            return this.activities.filter(action => action.name == name || name == "");
         } else {
             return [new Activity()];
         }
@@ -272,12 +267,14 @@ export class ActivitiesService {
     }
 
     still_loading() {
-        return (this.loader_Activities.loading || this.loader_CustomActivities.loading);
+        return (this.loading);
     }
 
     initialize() {
-        if (!this.activities) {
-            this.load('/assets/activities.json', this.loader_Activities, "activities");
+        if (!this.activities.length) {
+            this.loading = true;
+            this.load_Activities();
+            this.loading = false;
         } else {
             //Disable any active hint effects when loading a character.
             this.activities.forEach(activity => {
@@ -286,46 +283,17 @@ export class ActivitiesService {
                 })
             })
         }
-        if (!this.custom_activities) {
-            this.load('/assets/custom/activities.json', this.loader_CustomActivities, "custom_activities");
-        } else {
-            //Disable any active hint effects when loading a character.
-            this.custom_activities.forEach(activity => {
-                activity.hints.forEach(hint => {
-                    hint.active = false;
-                })
-            })
-        }
     }
 
-    load(filepath: string, loader: Loader, target: string) {
-        loader.loading = true;
-        this.load_File(filepath)
-            .subscribe((results:string[]) => {
-                loader.content = results;
-                this.finish_Loading(loader, target)
-            });
-    }
-
-    load_File(filepath): Observable<string[]>{
-        return this.http.get<string[]>(filepath)
-        .pipe(map(result => result), catchError(() => of([])));
-    }
-
-    finish_Loading(loader: Loader, target: string) {
-        if (loader.content.length) {
-            this[target] = loader.content.map(activity => Object.assign(new Activity(), activity));
-
-            this[target].forEach((activity: Activity) => {
-                activity.castSpells = activity.castSpells.map(cast => Object.assign(new SpellCast(), cast));
-                activity.hints = activity.hints.map(hint => Object.assign(new Hint(), hint));
-            });
-
-            loader.content = [];
-        } else {
-            this[target] = [];
-        }
-        if (loader.loading) {loader.loading = false;}
+    load_Activities() {
+        this.activities = []
+        Object.keys(json_activities).forEach(key => {
+            this.activities.push(...json_activities[key].map(activity => Object.assign(new Activity(), activity)));
+        });
+        this.activities.forEach((activity: Activity) => {
+            activity.castSpells = activity.castSpells.map(cast => Object.assign(new SpellCast(), cast));
+            activity.hints = activity.hints.map(hint => Object.assign(new Hint(), hint));
+        });
     }
 
 }
