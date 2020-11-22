@@ -21,13 +21,11 @@ export class Activity {
     public frequency: string = "";
     public gainConditions: ConditionGain[] = [];
     public gainItems: ItemGain[] = [];
-    public hint: string = "";
     public hints: Hint[] = [];
     public inputRequired: string = "";
     public name: string = "";
     public onceEffects: EffectGain[] = [];
     public requirements: string = "";
-    public showon: string = "";
     public showSpells: string[] = [];
     public specialdesc: string = "";
     public success: string = "";

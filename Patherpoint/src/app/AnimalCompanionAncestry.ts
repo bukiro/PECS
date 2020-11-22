@@ -3,6 +3,7 @@ import { AbilityChoice } from './AbilityChoice';
 import { SkillChoice } from './SkillChoice';
 import { ActivityGain } from './ActivityGain';
 import { EffectGain } from './EffectGain';
+import { Hint } from './Hint';
 
 export class AnimalCompanionAncestry {
     public readonly _className: string = this.constructor.name;
@@ -10,11 +11,10 @@ export class AnimalCompanionAncestry {
     public activities: ActivityGain[] = [];
     public desc: string = "";
     public gainItems: ItemGain[] = [];
-    public hint: string = "";
     public hitPoints: number = 0;
     public name: string = "";
     public senses: string[] = [];
-    public showon: string = "";
+    public hints: Hint[] = [];
     public size: number = 0;
     public skillChoices: SkillChoice[] = [];
     public specialdesc: string = "";

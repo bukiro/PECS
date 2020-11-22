@@ -125,11 +125,18 @@ export class ActivityComponent implements OnInit {
     get_ActivitiesShowingOn(objectName: string) {
         if (objectName) {
             return this.characterService.get_OwnedActivities(this.get_Creature())
-            .filter((gain: ItemActivity|ActivityGain) => (gain._className == "ItemActivity" ? [gain as ItemActivity] : this.get_Activities(gain.name))
-            .filter((activity: ItemActivity|Activity) => activity.showon.split(",")
-                .filter(showon => showon == objectName || showon.substr(1) == objectName)
-                .length)
-            .length)
+                .filter((gain: ItemActivity|ActivityGain) =>
+                    (gain._className == "ItemActivity" ? [gain as ItemActivity] : this.get_Activities(gain.name))
+                    .find((activity: ItemActivity|Activity) =>
+                        activity.hints
+                        .find(hint =>
+                            hint.showon.split(",")
+                            .find(showon => 
+                                showon.trim().toLowerCase() == objectName.toLowerCase()
+                            )
+                        )
+                    )
+                )
             .sort((a,b) => {
                 if (a.name > b.name) {
                     return 1;
@@ -142,6 +149,10 @@ export class ActivityComponent implements OnInit {
         } else {
             return []
         }
+    }
+
+    get_ActivitiesFromGain(gain: ActivityGain|ItemActivity) {
+        return gain.constructor == ItemActivity ? [gain] : this.get_Activities(gain.name)
     }
 
     get_FuseStanceFeat() {

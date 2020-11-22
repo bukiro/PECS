@@ -19,7 +19,7 @@
         </span>
     </div>
     <app-tags [creature]="creature" [objectName]=skill.name [showTraits]=true [showFeats]=true [showItems]=true
-        [showActivities]=true [showConditions]=true [showEffects]=true [specialNames]=get_specialShowon(skill)>
+        [showActivities]=true [showConditions]=true [specialNames]=get_SpecialShowon(skill) [specialEffects]="get_SpecialEffects(skill)">
     </app-tags>
     <div class="fullsize-only row" *ngIf="skill.showNotes">
         <span>

@@ -6,7 +6,6 @@ import { Speed } from '../Speed';
 import { Character } from '../Character';
 import { AnimalCompanion } from '../AnimalCompanion';
 import { FamiliarsService } from '../familiars.service';
-import { features } from 'process';
 
 @Component({
     selector: 'app-general',

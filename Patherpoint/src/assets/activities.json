@@ -535,7 +535,20 @@
             {
                 "duration": 100,
                 "name": "Eye of the Arclords",
-                "source": "Eye of the Arclords"
+                "source": "Eye of the Arclords",
+                "activationPrerequisite": "Skill_Level('Arcana') < 6 ? 1 : 0"
+            },
+            {
+                "duration": 200,
+                "name": "Eye of the Arclords",
+                "source": "Eye of the Arclords",
+                "activationPrerequisite": "Skill_Level('Arcana') == 6 ? 1 : 0"
+            },
+            {
+                "duration": 500,
+                "name": "Eye of the Arclords",
+                "source": "Eye of the Arclords",
+                "activationPrerequisite": "Skill_Level('Arcana') > 6 ? 1 : 0"
             }
         ],
         "traits": [

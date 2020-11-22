@@ -109,8 +109,9 @@ export class AnimalCompanion extends Creature {
         if (this.class) {
             //When animal companion species and levels are checked for skill increases, we don't care about the character level - so we replace minLevelNumber and maxLevelNumber here.
             let increases = [];
-            let levels = this.class.levels.filter(level => level.number >= 1 && this.level <= maxLevelNumber );
-            levels.forEach(level => {
+            this.class.levels
+                .filter(level => level.number >= 1 && level.number <= this.level )
+                .forEach(level => {
                 level.skillChoices.forEach(choice => {
                     choice.increases.filter(increase => 
                         (increase.name == skillName || skillName == "") &&
@@ -134,7 +135,7 @@ export class AnimalCompanion extends Creature {
                     })
                 })
             }
-            //When specializations are checked for skill increases, we want to be certain we don't get a specialization that is taken on a higher character level
+            //When specializations are checked for skill increases, we want to be certain we don't get a specialization that is taken on a higher character level (maxLevelNumber)
             let specializations: (AnimalCompanionSpecialization)[] = this.class.specializations.filter(spec => spec.level >= minLevelNumber && spec.level <= maxLevelNumber);
             //Only the first specialization may add the "First specialization" increases.
             specializations.forEach((spec: AnimalCompanionSpecialization, index) => {

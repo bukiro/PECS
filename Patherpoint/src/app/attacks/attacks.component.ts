@@ -272,18 +272,14 @@ export class AttacksComponent implements OnInit {
         specialNames.push(weapon.get_Proficiency(creature, this.characterService, creature.level));
         specialNames.push(...weapon.get_Traits(this.characterService, creature));
         specialNames.push(range)
+        specialNames.push(weapon.weaponBase)
         return specialNames;
     }
 
     get_Attacks(weapon: Weapon) {
-        let attacks = []
-        if (weapon.melee) {
-            attacks.push(weapon.attack(this.get_Creature(), this.characterService, this.effectsService, 'melee'));
-        }
-        if (weapon.ranged || weapon.traits.find(trait => trait.includes("Thrown"))) {
-            attacks.push(weapon.attack(this.get_Creature(), this.characterService, this.effectsService, 'ranged'));
-        }
-        return attacks;
+        return []
+        .concat((weapon.melee ? [weapon.attack(this.get_Creature(), this.characterService, this.effectsService, 'melee')] : []))
+        .concat(((weapon.ranged || weapon.traits.find(trait => trait.includes("Thrown"))) ? [weapon.attack(this.get_Creature(), this.characterService, this.effectsService, 'ranged')] : []));
     }
 
     get_Damage(weapon: Weapon, range: string) {

@@ -54,9 +54,10 @@ export class ConditionsService {
         }
     }
 
-    get_AppliedConditions(creature: Character|AnimalCompanion|Familiar, characterService: CharacterService, activeConditions: ConditionGain[]) {
+    get_AppliedConditions(creature: Character|AnimalCompanion|Familiar, characterService: CharacterService, activeConditions: ConditionGain[], readonly: boolean = false) {
         let creatureIndex: number = this.get_CalculatedIndex(creature.type);
-        if (JSON.stringify(activeConditions) == JSON.stringify(this.appliedConditions[creatureIndex])) {
+        //Readonly skips any modifications and just returns the currently applied conditions. The same happens if the conditions haven't changed since the last run.
+        if (readonly || JSON.stringify(activeConditions) == JSON.stringify(this.appliedConditions[creatureIndex])) {
             return this.sortByPipe.transform(activeConditions, "asc", "duration") as ConditionGain[];
         } else {
             let overrides: string[] = [];

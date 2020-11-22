@@ -1,6 +1,7 @@
 import { AbilityChoice } from './AbilityChoice';
 import { SkillChoice } from './SkillChoice';
 import { EffectGain } from './EffectGain';
+import { Hint } from './Hint';
 
 export class AnimalCompanionSpecialization {
     //A boost to damage dice and additional damage is hardcoded in the Weapon class.
@@ -8,10 +9,9 @@ export class AnimalCompanionSpecialization {
     public abilityChoices: AbilityChoice[] = [];
     public desc: string = "";
     public effects: EffectGain[] = [];
-    public hint: string = "";
+    public hints: Hint[] = [];
     public level: number = 0;
     public name: string = "";
-    public showon: string = "";
     public skillChoices: SkillChoice[] = [];
     reassign() {
         this.abilityChoices = this.abilityChoices.map(choice => Object.assign(new AbilityChoice(), choice));

@@ -8,7 +8,7 @@
         <div class="loading" *ngIf="still_loading()">Loading</div>
         <ng-container *ngIf="!still_loading()">
             <app-tags [creature]="creature" [objectName]="'AC'" [showTraits]=true [showFeats]=true [showItems]=true
-                [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
+                [showActivities]=true [showConditions]=true [showEffects]=false [specialEffects]="AC.$relatives[get_CalculatedIndex()].concat(AC.$absolutes[get_CalculatedIndex()])"></app-tags>
             <app-tags [creature]="creature" [objectName]="'Defense'" [showTraits]=true [showFeats]=true
                 [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
             <div class="list-item row">

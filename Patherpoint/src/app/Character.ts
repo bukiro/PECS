@@ -452,10 +452,9 @@ export class Character extends Creature {
                     characterService.set_ToChange("Character", "crafting");    
                     characterService.set_ToChange("Character", "inventory");
                     break;
-                case "Occultism":
-                    characterService.set_ToChange("Character", "individualskills", "Lore: Bardic");
-                    break;
             }
+            //Some effects depend on skill levels, so we refresh effects when changing skills.
+            characterService.set_ToChange("Character", "effects");
         } else {
             //If you are deselecting a skill that you increased with Skilled Heritage at level 1, you also lose the skill increase at level 5.
             let level = parseInt(choice.id.split("-")[0]);
@@ -515,10 +514,9 @@ export class Character extends Creature {
                     characterService.set_ToChange("Character", "crafting");    
                     characterService.set_ToChange("Character", "inventory");
                     break;
-                case "Occultism":
-                    characterService.set_ToChange("Character", "individualskills", "Lore: Bardic");
-                    break;
             }
+            //Some effects depend on skill levels, so we refresh effects when changing skills.
+            characterService.set_ToChange("Character", "effects");
             //Remove custom skill if previously created and this was the last increase of it
             let customSkills = characterService.get_Character().customSkills.filter(skill => skill.name == skillName);
             if (customSkills.length && this.get_SkillIncreases(characterService, 1, 20, skillName).length == 0) {
@@ -673,7 +671,10 @@ export class Character extends Creature {
     }
     remove_LoreFeats(characterService: CharacterService, loreName: string) {
         let loreFeats: Feat[] = [];
-        loreFeats.push(...characterService.get_Character().customFeats.filter(feat => feat.showon == 'Lore: '+loreName));
+        //If we find any custom feat that has lorebase == "Lore: "+lorename,
+        //  That feat was created when the lore was assigned, and can be removed.
+        //We build our own reference array first, because otherwise the forEach-index would get messed up while we remove feats.
+        loreFeats.push(...characterService.get_Character().customFeats.filter(feat => feat.lorebase == 'Lore: '+loreName));
         if (loreFeats.length) {
             loreFeats.forEach(loreFeat => {
                 characterService.remove_CustomFeat(loreFeat);
@@ -684,7 +685,7 @@ export class Character extends Creature {
     }
     add_Lore(characterService: CharacterService, source: LoreChoice) {
         //Create the skill on the character
-        characterService.add_CustomSkill('Lore: '+source.loreName, "Skill", "Intelligence");
+        characterService.add_CustomSkill('Lore: '+source.loreName, "Skill", "Intelligence", true);
         //Create as many skill increases as the source's initialIncreases value
         for (let increase = 0; increase < source.initialIncreases; increase++) {
             characterService.get_Character().increase_Skill(characterService, 'Lore: '+source.loreName, true, source, true)
@@ -698,7 +699,8 @@ export class Character extends Creature {
         this.add_LoreFeats(characterService, source.loreName);
     }
     add_LoreFeats(characterService: CharacterService, loreName: string) {
-        characterService.get_Feats().filter(feat => feat.lorebase).forEach(lorebaseFeat =>{
+        //There are particular feats that need to be cloned for every individual lore skill (mainly Assurance). They are marked as lorebase==true.
+        characterService.get_Feats().filter(feat => feat.lorebase == "Lore").forEach(lorebaseFeat =>{
             let newLength = characterService.add_CustomFeat(lorebaseFeat);
             let newFeat = characterService.get_Character().customFeats[newLength -1];
             newFeat.name = newFeat.name.replace('Lore', 'Lore: '+loreName);
@@ -706,9 +708,11 @@ export class Character extends Creature {
             newFeat.skillreq.forEach(requirement => {
                 requirement.skill = requirement.skill.replace('Lore', 'Lore: '+loreName);
             })
-            newFeat.showon = newFeat.showon.replace('Lore', 'Lore: '+loreName);
+            newFeat.hints.forEach(hint => {
+                hint.showon = hint.showon.replace('Lore', 'Lore: '+loreName)
+            });
             newFeat.featreq = newFeat.featreq.map(featreq => featreq.replace('Lore', 'Lore: '+loreName));
-            newFeat.lorebase = false;
+            newFeat.lorebase = "Lore: "+loreName;
             newFeat.hide = false;
             characterService.set_ToChange("Character", "skills");
             characterService.set_ToChange("Character", "charactersheet");

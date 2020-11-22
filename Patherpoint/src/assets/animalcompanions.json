@@ -356,8 +356,12 @@
             }
         ],
         "specialdesc": "mount; Your camel ignores the harmful effects of mild, severe, and extreme cold.",
-        "hint": "Your camel ignores the harmful effects of mild, severe, and extreme cold.",
-        "showon": "Resistances",
+        "hints": [
+            {
+                "desc": "Your camel ignores the harmful effects of mild, severe, and extreme cold.",
+                "showon": "Resistances"
+            }
+        ],
         "traits": [
             "Minion",
             "Mount"
@@ -444,8 +448,12 @@
             }
         ],
         "specialdesc": "mount; Your camel ignores the harmful effects of mild, severe, and extreme heat.",
-        "hint": "Your camel ignores the harmful effects of mild, severe, and extreme heat.",
-        "showon": "Resistances",
+        "hints": [
+            {
+                "desc": "Your camel ignores the harmful effects of mild, severe, and extreme heat.",
+                "showon": "Resistances"
+            }
+        ],
         "traits": [
             "Minion",
             "Mount"
@@ -532,8 +540,12 @@
             }
         ],
         "specialdesc": "mount; Your camel ignores the harmful effects of mild, severe, and extreme cold.",
-        "hint": "Your camel ignores the harmful effects of mild, severe, and extreme cold.",
-        "showon": "Resistances",
+        "hints": [
+            {
+                "desc": "Your camel ignores the harmful effects of mild, severe, and extreme cold.",
+                "showon": "Resistances"
+            }
+        ],
         "traits": [
             "Minion",
             "Mount"
@@ -620,8 +632,12 @@
             }
         ],
         "specialdesc": "mount; Your camel ignores the harmful effects of mild, severe, and extreme heat.",
-        "hint": "Your camel ignores the harmful effects of mild, severe, and extreme heat.",
-        "showon": "Resistances",
+        "hints": [
+            {
+                "desc": "Your camel ignores the harmful effects of mild, severe, and extreme heat.",
+                "showon": "Resistances"
+            }
+        ],
         "traits": [
             "Minion",
             "Mount"
@@ -1498,9 +1514,20 @@
                 "source": "Vulture"
             }
         ],
-        "specialdesc": "your vulture gains a +1 status bonus to all saves against disease, and if it rolls a success on a save against a disease, the result is a critical success instead.",
-        "hint": "Your vulture gains a +1 status bonus to all saves against disease, and if it rolls a success on a save against a disease, the result is a critical success instead.",
-        "showon": "Fortitude",
+        "specialdesc": "Your vulture gains a +1 status bonus to all saves against disease, and if it rolls a success on a save against a disease, the result is a critical success instead.",
+        "hints": [
+            {
+                "desc": "Your vulture gains a +1 status bonus to all saves against disease, and if it rolls a success on a save against a disease, the result is a critical success instead.",
+                "showon": "Saving Throws",
+                "effects": [
+                    {
+                        "affected": "Saving Throws",
+                        "value": "+1",
+                        "type": "status"
+                    }
+                ]
+            }
+        ],
         "traits": [
             "Minion"
         ]

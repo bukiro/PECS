@@ -528,11 +528,17 @@ export class NewItemPropertyComponent implements OnInit {
             case "showon":
                 examples.push(...this.characterService.get_Skills(this.get_Character()).map((skill: Skill) => skill.name));
                 examples.push(...this.characterService.get_Abilities().map((ability: Ability) => ability.name));
-                examples.push(...this.characterService.get_FeatsAndFeatures().filter(feat => feat.showon.length).map((feat: Feat) => feat.showon));
+                this.characterService.get_FeatsAndFeatures().filter(feat => feat.hints.length).forEach(feat => {
+                    examples.push(...feat.hints.filter(hint => hint.showon.length).map(hint => hint.showon));
+                })
                 examples.push(...this.characterService.get_Conditions().filter(condition => condition.showon.length).map((condition: Condition) => condition.showon));
-                examples.push(...this.activitiesService.get_Activities().filter(activity => activity.showon.length).map((activity: Activity) => activity.showon));
+                this.activitiesService.get_Activities().filter(activity => activity.hints.length).forEach(activity => {
+                    examples.push(...activity.hints.filter(hint => hint.showon.length).map(hint => hint.showon));
+                })
                 this.get_Items().allEquipment().concat(...this.get_Inventories().map(inventory => inventory.allEquipment())).filter(item => item.activities.length).forEach((item: Equipment) => {
-                    examples.push(...item.activities.filter(activity => activity.showon.length).map((activity: Activity) => activity.showon));
+                    item.activities.filter(activity => activity.hints.length).forEach(activity => {
+                        examples.push(...activity.hints.filter(hint => hint.showon.length).map(hint => hint.showon));
+                    })
                 });
                 examples.push(...this.get_Items().allEquipment().concat(...this.get_Inventories().map(inventory => inventory.allEquipment())).filter(item => item.showon.length).map((item: Equipment) => item.showon ));
                 break;

@@ -2,8 +2,12 @@
     {
         "name": "Adamantine Strikes",
         "desc": "When you focus your will into your limbs, your blows are as unyielding as the hardest of metals. Your unarmed attacks are treated as adamantine.",
-        "hint": "Your unarmed attacks are treated as adamantine.",
-        "showon": "Unarmed Attacks"
+        "hints": [
+            {
+                "desc": "Your unarmed attacks are treated as adamantine.",
+                "showon": "Unarmed Attacks"
+            }
+        ]
     },
     {
         "name": "Alertness",
@@ -13,8 +17,12 @@
     {
         "name": "Evasion",
         "desc": "You've learned to move quickly to avoid explosions, dragons' breath, and worse. Your proficiency rank for Reflex saves increases to master. When you roll a success on a Reflex save, you get a critical success instead.",
-        "hint": "When you roll a success on a Reflex save, you get a critical success instead.",
-        "showon": "Reflex",
+        "hints": [
+            {
+                "desc": "When you roll a success on a Reflex save, you get a critical success instead.",
+                "showon": "Reflex"
+            }
+        ],
         "internalNote": "Skill increases through class features are handled in the class object."
     },
     {
@@ -59,15 +67,23 @@
     {
         "name": "Improved Evasion",
         "desc": "Your ability to elude danger is matchless. Your proficiency rank for Reflex saves increases to legendary. When you roll a critical failure on a Reflex save, you get a failure instead. When you roll a failure on a Reflex save against a damaging effect, you take half damage.",
-        "hint": "When you roll a critical failure on a Reflex save, you get a failure instead. When you roll a failure on a Reflex save against a damaging effect, you take half damage.",
-        "showon": "Reflex",
+        "hints": [
+            {
+                "desc": "When you roll a critical failure on a Reflex save, you get a failure instead. When you roll a failure on a Reflex save against a damaging effect, you take half damage.",
+                "showon": "Reflex"
+            }
+        ],
         "internalNote": "Skill increases through class features are handled in the class object."
     },
     {
         "name": "Incredible Movement",
         "desc": "You move like the wind. You gain a +10-foot status bonus to your Speed whenever you're not wearing armor. The bonus increases by 5 feet for every 4 levels you have beyond 3rd.",
-        "hint": "You gain a +10-foot status bonus to your Speed whenever you're not wearing armor. The bonus increases by 5 feet for every 4 levels you have beyond 3rd.",
-        "showon": "Land Speed",
+        "hints": [
+            {
+                "desc": "You gain a +10-foot status bonus to your Speed whenever you're not wearing armor. The bonus increases by 5 feet for every 4 levels you have beyond 3rd.",
+                "showon": "Land Speed"
+            }
+        ],
         "effects": [
             {
                 "affected": "Land Speed",
@@ -88,8 +104,12 @@
     {
         "name": "Juggernaut",
         "desc": "Your body is accustomed to physical hardship and resistant to ailments. Your proficiency rank for Fortitude saves increases to master. When you roll a success on a Fortitude save, you get a critical success instead.",
-        "hint": "When you roll a success on a Fortitude save, you get a critical success instead.",
-        "showon": "Fortitude",
+        "hints": [
+            {
+                "desc": "When you roll a success on a Fortitude save, you get a critical success instead.",
+                "showon": "Fortitude"
+            }
+        ],
         "internalNote": "Skill increases through class features are handled in the class object."
     },
     {
@@ -100,27 +120,73 @@
     {
         "name": "Masterful Hunter",
         "desc": "You have honed your abilities as a hunter to incredible levels. Your proficiency rank for your ranger class DC increases to master. When using a ranged weapon that you have master proficiency in, you can ignore the penalty if attacking your hunted prey within the weapon's second and third range increments.\n\nIf you have master proficiency in Perception, you gain a +4 circumstance bonus to Perception checks when you Seek your prey, and if you have master proficiency in Survival, you gain a +4 circumstance bonus to Survival checks when you Track your prey. You also gain an additional benefit depending on your hunter's edge.",
-        "hint": "When using a ranged weapon that you have master proficiency in, you can ignore the penalty if attacking your hunted prey within the weapon's second and third range increments.\n\nIf you have master proficiency in Perception, you gain a +4 circumstance bonus to Perception checks when you Seek your prey, and if you have master proficiency in Survival, you gain a +4 circumstance bonus to Survival checks when you Track your prey.",
-        "showon": "Attacks, Survival",
+        "hints": [
+            {
+                "desc": "When using a ranged weapon that you have master proficiency in, you can ignore the penalty if attacking your hunted prey within the weapon's second and third range increments.",
+                "showon": "Attacks"
+            },
+            {
+                "desc": "If you have master proficiency in Perception, you gain a +4 circumstance bonus to Perception checks when you Seek your prey.",
+                "showon": "Perception",
+                "effects": [
+                    {
+                        "affected": "Perception",
+                        "value": "Skill_Level('Perception') >= 6 ? 4 : 0",
+                        "type": "circumstance"
+                    }
+                ]
+            },
+            {
+                "desc": "If you have master proficiency in Survival, you gain a +4 circumstance bonus to Survival checks when you Track your prey.",
+                "showon": "Survival",
+                "effects": [
+                    {
+                        "affected": "Survival",
+                        "value": "Skill_Level('Survival') >= 6 ? 4 : 0",
+                        "type": "circumstance"
+                    }
+                ]
+            }
+        ],
         "internalNote": "Skill increases through class features are handled in the class object."
     },
     {
         "name": "Masterful Hunter: Flurry",
         "desc": "You can blend your weapon mastery with skillful targeting to make a series of precise attacks. If you have master proficiency with your weapon, your multiple attack penalty for attacks against your hunted prey is -2 (-1 with an agile weapon) on your second attack of the turn, and -4 (-2 with an agile weapon) on your third and subsequent attacks of the turn.",
-        "hint": "If you have master proficiency with your weapon, your multiple attack penalty for attacks against your hunted prey is -2 (-1 with an agile weapon) on your second attack of the turn, and -4 (-2 with an agile weapon) on your third and subsequent attacks of the turn.",
-        "showon": "Hunt Prey, Attacks"
+        "hints": [
+            {
+                "desc": "If you have master proficiency with your weapon, your multiple attack penalty for attacks against your hunted prey is -2 (-1 with an agile weapon) on your second attack of the turn, and -4 (-2 with an agile weapon) on your third and subsequent attacks of the turn.",
+                "showon": "Hunt Prey, Attacks"
+            }
+        ]
     },
     {
         "name": "Masterful Hunter: Outwit",
         "desc": "Your mastery of skills allows you to overwhelm your prey. If you have master proficiency in Deception, Intimidation, Stealth, or the skill you use to Recall Knowledge about your prey, increase the circumstance bonus against the prey with that skill from +2 to +4. If you have master proficiency with your armor, increase the circumstance bonus to AC against the prey from +1 to +2.",
-        "hint": "If you have master proficiency in Deception, Intimidation, Stealth, or the skill you use to Recall Knowledge about your prey, increase the circumstance bonus against the prey with that skill from +2 to +4. If you have master proficiency with your armor, increase the circumstance bonus to AC against the prey from +1 to +2.",
-        "showon": "Hunt Prey, AC, Arcana, Crafting, Deception, Intimidation, Nature, Occultism, Religion, Society, Stealth"
+        "hints": [
+            {
+                "desc": "If you have master proficiency in Deception, Intimidation, Stealth, or the skill you use to Recall Knowledge about your prey, increase the circumstance bonus against the prey with that skill from +2 to +4. If you have master proficiency with your armor, increase the circumstance bonus to AC against the prey from +1 to +2.",
+                "showon": "Hunt Prey"
+            },
+            {
+                "desc": "If you have master proficiency in Deception, Intimidation, Stealth, or the skill you use to Recall Knowledge about your prey, increase the circumstance bonus against the prey with that skill from +2 to +4.",
+                "showon": "Hunt Prey, Arcana, Crafting, Deception, Intimidation, Nature, Occultism, Religion, Society, Stealth"
+            },
+            {
+                "desc": "If you have master proficiency with your armor, increase the circumstance bonus to AC against the prey from +1 to +2.",
+                "showon": "AC"
+            }
+        ]
     },
     {
         "name": "Masterful Hunter: Precision",
         "desc": "Your weapon mastery allows you to hit your prey's vital areas multiple times. The second time in a round you hit your hunted prey, you also deal 1d8 precision damage. At 19th level, your second hit in a round against your hunted prey deals 2d8 precision damage, and your third hit in a round against your hunted prey deals 1d8 precision damage.",
-        "hint": "The second time in a round you hit your hunted prey, you also deal 1d8 precision damage. At 19th level, your second hit in a round against your hunted prey deals 2d8 precision damage, and your third hit in a round against your hunted prey deals 1d8 precision damage.",
-        "showon": "Hunt Prey, Attacks"
+        "hints": [
+            {
+                "desc": "The second time in a round you hit your hunted prey, you also deal 1d8 precision damage. At 19th level, your second hit in a round against your hunted prey deals 2d8 precision damage, and your third hit in a round against your hunted prey deals 1d8 precision damage.",
+                "showon": "Hunt Prey, Attacks"
+            }
+        ]
     },
     {
         "name": "Medium Armor Expertise",
@@ -130,8 +196,12 @@
     {
         "name": "Metal Strikes",
         "desc": "You can adjust your body to make unarmed attacks infused with the mystic energy of rare metals. Your unarmed attacks are treated as cold iron and silver. This allows you to deal more damage to a variety of supernatural creatures, such as demons, devils, and fey.",
-        "hint": "Your unarmed attacks are treated as cold iron and silver. This allows you to deal more damage to a variety of supernatural creatures, such as demons, devils, and fey.",
-        "showon": "Unarmed Attacks"
+        "hints": [
+            {
+                "desc": "Your unarmed attacks are treated as cold iron and silver. This allows you to deal more damage to a variety of supernatural creatures, such as demons, devils, and fey.",
+                "showon": "Unarmed Attacks"
+            }
+        ]
     },
     {
         "name": "Monk Expertise",
@@ -141,34 +211,54 @@
     {
         "name": "Mystic Strikes",
         "desc": "Focusing your will into your physical attacks imbues them with mystical energy. Your unarmed attacks become magical, allowing them to get past resistances to non-magical attacks. However, you still need an item such as handwraps of mighty blows to gain an item bonus to attack rolls or increase your attacks' weapon damage dice.",
-        "hint": "Your unarmed attacks become magical, allowing them to get past resistances to non-magical attacks.",
-        "showon": "Unarmed Attacks"
+        "hints": [
+            {
+                "desc": "Your unarmed attacks become magical, allowing them to get past resistances to non-magical attacks.",
+                "showon": "Unarmed Attacks"
+            }
+        ]
     },
     {
         "name": "Nature's Edge",
         "desc": "You always find the weak points in your foes' defenses when they're on unfavorable terrain. Enemies are flat-footed to you if they're in natural difficult terrain or in difficult terrain resulting from a snare.",
-        "hint": "Enemies are flat-footed to you if they're in natural difficult terrain or in difficult terrain resulting from a snare.",
-        "showon": "Attacks"
+        "hints": [
+            {
+                "desc": "Enemies are flat-footed to you if they're in natural difficult terrain or in difficult terrain resulting from a snare.",
+                "showon": "Attacks"
+            }
+        ]
     },
     {
         "name": "Path to Perfection",
         "desc": "You have progressed along your own path to enlightenment. Choose your Fortitude, Reflex, or Will saving throw. Your proficiency rank for the chosen saving throw increases to master. When you roll a success on the chosen saving throw, you get a critical success instead.",
-        "hint": "When you roll a success on this saving throw, you get a critical success instead.",
-        "showon": "Path to Perfection",
+        "hints": [
+            {
+                "desc": "When you roll a success on this saving throw, you get a critical success instead.",
+                "showon": "Path to Perfection"
+            }
+        ],
         "internalNote": "Skill increases through class features are handled in the class object."
     },
     {
         "name": "Perfected Form",
         "desc": "You have purged incompetence from your techniques. On your first Strike of your turn, if you roll lower than 10, you can treat the attack roll as a 10. This is a fortune effect.",
-        "hint": "On your first Strike of your turn, if you roll lower than 10, you can treat the attack roll as a 10. This is a fortune effect.",
-        "showon": "Attacks"
+        "hints": [
+            {
+                "desc": "On your first Strike of your turn, if you roll lower than 10, you can treat the attack roll as a 10. This is a fortune effect.",
+                "showon": "Attacks"
+            }
+        ]
     },
     {
         "name": "Powerful Fist",
         "desc": "You know how to wield your fists as deadly weapons. The damage die for your fist increases to 1d6 instead of 1d4. Most people take a -2 circumstance penalty when making a lethal attack with nonlethal unarmed attacks, because they find it hard to use their fists with deadly force. You don't take this penalty when making a lethal attack with your fist or any other unarmed attacks.",
-        "hint": "You don't take the usual -2 circumstance penalty when making a lethal attack with your fist or any other unarmed attacks.",
-        "showon": "Unarmed Attacks",
-        "effects":[
+        "hints": [
+            {
+                "desc": "You don't take the usual -2 circumstance penalty when making a lethal attack with your fist or any other unarmed attacks.",
+                "showon": "Unarmed Attacks"
+            }
+        ],
+        "effects": [
             {
                 "affected": "Fist Dice Size",
                 "source": "Powerful Fist",
@@ -195,34 +285,54 @@
     {
         "name": "Second Path to Perfection",
         "desc": "You've learned to find perfection in every success. Choose a different saving throw than the one you chose for your path to perfection. Your proficiency rank for the chosen saving throw increases to master. If you roll a success with the chosen saving throw, you instead critically succeed.",
-        "hint": "If you roll a success with this saving throw, you instead critically succeed.",
-        "showon": "Second Path to Perfection",
+        "hints": [
+            {
+                "desc": "If you roll a success with this saving throw, you instead critically succeed.",
+                "showon": "Second Path to Perfection"
+            }
+        ],
         "internalNote": "Skill increases through class features are handled in the class object."
     },
     {
         "name": "Second Skin",
         "desc": "Your armor has become akin to a second skin for you. Your proficiency ranks for light armor, medium armor, and unarmored defense increase to master. When wearing light or medium armor, you can rest normally, rather than receiving poor rest that leaves you fatigued.",
-        "hint": "When wearing light or medium armor, you can rest normally, rather than receiving poor rest that leaves you fatigued.",
-        "showon": "Defense",
+        "hints": [
+            {
+                "decs": "When wearing light or medium armor, you can rest normally, rather than receiving poor rest that leaves you fatigued.",
+                "showon": "Defense"
+            }
+        ],
         "internalNote": "Skill increases through class features are handled in the class object."
     },
     {
         "name": "Swift Prey",
         "desc": "You size up your prey with only a glance. You can use Hunt Prey as a free action if it's your first action of your turn.",
-        "showon": "Hunt Prey, Activities, Hunt Prey: Flurry, Hunt Prey: Outwit, Hunt Prey: Precision"
+        "hints": [
+            {
+                "showon": "Hunt Prey, Activities, Hunt Prey: Flurry, Hunt Prey: Outwit, Hunt Prey: Precision"
+            }
+        ]
     },
     {
         "name": "Third Path to Perfection",
         "desc": "You have made great progress in your personal studies of enlightenment. Choose one of the saving throws you selected for path to perfection or second path to perfection. Your proficiency rank for the chosen type of save increases to legendary. When you roll a critical failure on the chosen type of save, you get a failure instead. When you roll a failure on the chosen type of save against an effect that deals damage, you take half damage.",
-        "hint": "When you roll a critical failure on this type of save, you get a failure instead. When you roll a failure on this type of save against an effect that deals damage, you take half damage.",
-        "showon": "Third Path to Perfection",
+        "hints": [
+            {
+                "desc": "When you roll a critical failure on this type of save, you get a failure instead. When you roll a failure on this type of save against an effect that deals damage, you take half damage.",
+                "showon": "Third Path to Perfection"
+            }
+        ],
         "internalNote": "Skill increases through class features are handled in the class object."
     },
     {
         "name": "Trackless Step",
         "desc": "When you move through natural terrains, you are difficult to track. You always gain the benefits of the Cover Tracks action in such terrains, without moving at half your Speed.",
-        "hint": "You always gain the benefits of the Cover Tracks action in natural terrains, without moving at half your Speed.",
-        "showon": "Survival, Movement"
+        "hints": [
+            {
+                "desc": "You always gain the benefits of the Cover Tracks action in natural terrains, without moving at half your Speed.",
+                "showon": "Survival, Movement"
+            }
+        ]
     },
     {
         "name": "Vigilant Senses",
@@ -242,8 +352,12 @@
     {
         "name": "Wild Stride",
         "desc": "You move quickly through obstacles, whether they're tumbled stone, tangled undergrowth, or sucking mud. You can ignore the effects of non-magical difficult terrain. As normal for ignoring difficult terrain, this also lets you treat the hindrances of greater difficult terrain as those of difficult terrain.",
-        "hint": "You can ignore the effects of non-magical difficult terrain. As normal for ignoring difficult terrain, this also lets you treat the hindrances of greater difficult terrain as those of difficult terrain.",
-        "showon": "Movement"
+        "hints": [
+            {
+                "desc": "You can ignore the effects of non-magical difficult terrain. As normal for ignoring difficult terrain, this also lets you treat the hindrances of greater difficult terrain as those of difficult terrain.",
+                "showon": "Movement"
+            }
+        ]
     },
     {
         "name": "Armor Mastery",
@@ -283,8 +397,12 @@
     {
         "name": "Resolve",
         "desc": "You've steeled your mind with resolve. Your proficiency rank for Will saves increases to master. When you roll a success at a Will save, you get a critical success instead.",
-        "hint": "When you roll a success at a Will save, you get a critical success instead.",
-        "showon": "Will",
+        "hints": [
+            {
+                "desc": "When you roll a success at a Will save, you get a critical success instead.",
+                "showon": "Will"
+            }
+        ],
         "internalNote": "Skill increases through class features are handled in the class object."
     },
     {
@@ -295,8 +413,12 @@
     {
         "name": "Alchemical Alacrity",
         "desc": "Your comfort in concocting items is such that you can create three at a time. When using the Quick Alchemy action, you can spend up to three batches of infused reagents to make up to three alchemical items as described in that action. These items do not have to be the same.",
-        "hint": "When using the Quick Alchemy action, you can spend up to three batches of infused reagents to make up to three alchemical items as described in that action. These items do not have to be the same.",
-        "showon": "Quick Alchemy"
+        "hints": [
+            {
+                "desc": "When using the Quick Alchemy action, you can spend up to three batches of infused reagents to make up to three alchemical items as described in that action. These items do not have to be the same.",
+                "showon": "Quick Alchemy"
+            }
+        ]
     },
     {
         "name": "Alchemical Expertise",
@@ -316,8 +438,12 @@
     {
         "name": "Double Brew",
         "desc": "You know your formulas so well that you can concoct two items at once. When using the Quick Alchemy action, instead of spending one batch of infused reagents to create a single item, you can spend up to two batches of infused reagents to make up to two alchemical items as described in that action. These items do not have to be the same.",
-        "hint": "When using the Quick Alchemy action, instead of spending one batch of infused reagents to create a single item, you can spend up to two batches of infused reagents to make up to two alchemical items as described in that action. These items do not have to be the same.",
-        "showon": "Quick Alchemy"
+        "hints": [
+            {
+                "desc": "When using the Quick Alchemy action, instead of spending one batch of infused reagents to create a single item, you can spend up to two batches of infused reagents to make up to two alchemical items as described in that action. These items do not have to be the same.",
+                "showon": "Quick Alchemy"
+            }
+        ]
     },
     {
         "name": "Field Discovery",
@@ -343,8 +469,12 @@
     {
         "name": "Juggernaut (Alchemist)",
         "desc": "Your body has become accustomed to physical hazards and resistant to pathogens and ailments. Your proficiency rank for Fortitude saves increases to master. When you roll a success on a Fortitude save, you get a critical success instead.",
-        "hint": "When you roll a success on a Fortitude save, you get a critical success instead.",
-        "showon": "Fortitude",
+        "hints": [
+            {
+                "desc": "When you roll a success on a Fortitude save, you get a critical success instead.",
+                "showon": "Fortitude"
+            }
+        ],
         "internalNote": "Skill increases through class features are handled in the class object.",
         "superType": "Juggernaut"
     },
@@ -393,22 +523,34 @@
     {
         "name": "Deny Advantage (Barbarian)",
         "desc": "Your foes struggle to pass your defenses. You aren't flat-footed to hidden, undetected, or flanking creatures of your level or lower, or creatures of your level or lower using surprise attack. However, they can still help their allies flank.",
-        "hint": "You aren't flat-footed to hidden, undetected, or flanking creatures of your level or lower, or creatures of your level or lower using surprise attack. However, they can still help their allies flank.",
-        "showon": "AC",
+        "hints": [
+            {
+                "desc": "You aren't flat-footed to hidden, undetected, or flanking creatures of your level or lower, or creatures of your level or lower using surprise attack. However, they can still help their allies flank.",
+                "showon": "AC"
+            }
+        ],
         "superType": "Deny Advantage"
     },
     {
         "name": "Devastator",
         "desc": "Your Strikes are so devastating that you hardly care about resistance, and your barbarian abilities are unparalleled. Your proficiency rank for your barbarian class DC increases to master. Your melee Strikes ignore 10 points of a creature's resistance to their physical damage.",
-        "hint": "Your melee Strikes ignore 10 points of a creature's resistance to their physical damage.",
-        "showon": "Attacks",
+        "hints": [
+            {
+                "desc": "Your melee Strikes ignore 10 points of a creature's resistance to their physical damage.",
+                "showon": "Attacks"
+            }
+        ],
         "internalNote": "Skill increases through class features are handled in the class object."
     },
     {
         "name": "Greater Juggernaut",
         "desc": "You have a stalwart physiology. Your proficiency rank for Fortitude saves increases to legendary. When you roll a critical failure on a Fortitude save, you get a failure instead. When you roll a failure on a Fortitude save against an effect that deals damage, you halve the damage you take.",
-        "hint": "When you roll a critical failure on a Fortitude save, you get a failure instead. When you roll a failure on a Fortitude save against an effect that deals damage, you halve the damage you take.",
-        "showon": "Fortitude",
+        "hints": [
+            {
+                "desc": "When you roll a critical failure on a Fortitude save, you get a failure instead. When you roll a failure on a Fortitude save against an effect that deals damage, you halve the damage you take.",
+                "showon": "Fortitude"
+            }
+        ],
         "internalNote": "Skill increases through class features are handled in the class object."
     },
     {
@@ -425,8 +567,12 @@
     {
         "name": "Indomitable Will",
         "desc": "Your rage makes it difficult to control you. Your proficiency rank for Will saves increases to master. When you roll a success on a Will save, you get a critical success instead.",
-        "hint": "When you roll a success on a Will save, you get a critical success instead.",
-        "showon": "Will",
+        "hints": [
+            {
+                "desc": "When you roll a success on a Will save, you get a critical success instead.",
+                "showon": "Will"
+            }
+        ],
         "internalNote": "Skill increases through class features are handled in the class object."
     },
     {
@@ -440,8 +586,12 @@
     {
         "name": "Quick Rage",
         "desc": "You recover from your Rage quickly, and are soon ready to begin anew. After you spend a full turn without raging, you can Rage again without needing to wait 1 minute.",
-        "hint": "After you spend a full turn without raging, you can Rage again without needing to wait 1 minute.",
-        "showon": "Rage",
+        "hints": [
+            {
+                "desc": "After you spend a full turn without raging, you can Rage again without needing to wait 1 minute.",
+                "showon": "Rage"
+            }
+        ],
         "internalNote": "The effect on the Rage activity is hardcoded."
     },
     {
@@ -454,8 +604,12 @@
     {
         "name": "Raging Resistance",
         "desc": "Repeated exposure and toughened skin allow you to fend off harm. While raging, you gain resistance equal to 3 + your Constitution modifier to damage types based on your instinct.",
-        "hint": "While raging, you gain resistance equal to 3 + your Constitution modifier to damage types based on your instinct.",
-        "showon": "Rage",
+        "hints": [
+            {
+                "desc": "While raging, you gain resistance equal to 3 + your Constitution modifier to damage types based on your instinct.",
+                "showon": "Rage"
+            }
+        ],
         "internalNote": "Implemented via the instincts"
     },
     {
@@ -493,8 +647,12 @@
     {
         "name": "Greater Resolve",
         "desc": "Your unbelievable training grants you mental resiliency. Your proficiency rank for Will saves increases to legendary. When you roll a success at a Will save, you get a critical success. When you roll a critical failure at a Will save, you get a failure instead. When you roll a failure on a Will save against a damaging effect, you take half damage.",
-        "hint": "When you roll a success at a Will save, you get a critical success. When you roll a critical failure at a Will save, you get a failure instead. When you roll a failure on a Will save against a damaging effect, you take half damage.",
-        "showon": "Will",
+        "hints": [
+            {
+                "desc": "When you roll a success at a Will save, you get a critical success. When you roll a critical failure at a Will save, you get a failure instead. When you roll a failure on a Will save against a damaging effect, you take half damage.",
+                "showon": "Will"
+            }
+        ],
         "internalNote": "Skill increases through class features are handled in the class object."
     },
     {
@@ -561,8 +719,12 @@
     {
         "name": "Divine Will",
         "desc": "Your faith grants mastery of your will. Your proficiency rank for Will saves increases to master. When you roll a success on a Will save, you get a critical success instead.",
-        "hint": "When you roll a success on a Will save, you get a critical success instead.",
-        "showon": "Will",
+        "hints": [
+            {
+                "desc": "When you roll a success on a Will save, you get a critical success instead.",
+                "showon": "Will"
+            }
+        ],
         "internalNote": "Skill increases through class features are handled in the class object."
     },
     {
@@ -690,8 +852,12 @@
     {
         "name": "Wild Empathy",
         "desc": "You have a connection to the creatures of the natural world that allows you to communicate with them on a rudimentary level. You can use Diplomacy to Make an Impression on animals and to make very simple Requests of them. In most cases, wild animals will give you time to make your case.",
-        "hint": "You can use Diplomacy to Make an Impression on animals and to make very simple Requests of them. In most cases, wild animals will give you time to make your case.",
-        "showon": "Diplomacy"
+        "hints": [
+            {
+                "desc": "You can use Diplomacy to Make an Impression on animals and to make very simple Requests of them. In most cases, wild animals will give you time to make your case.",
+                "showon": "Diplomacy"
+            }
+        ]
     },
     {
         "name": "Attack of Opportunity (Fighter)",
@@ -704,15 +870,30 @@
     {
         "name": "Bravery",
         "desc": "Having faced countless foes and the chaos of battle, you have learned how to stand strong in the face of fear and keep on fighting. Your proficiency rank for Will saves increases to expert. When you roll a success at a Will save against a fear effect, you get a critical success instead. In addition, anytime you gain the frightened condition, reduce its value by 1.",
-        "hint": "When you roll a success at a Will save against a fear effect, you get a critical success instead. In addition, anytime you gain the frightened condition, reduce its value by 1.",
-        "showon": "Will",
+        "hints": [
+            {
+                "desc": "When you roll a success at a Will save against a fear effect, you get a critical success instead. In addition, anytime you gain the frightened condition, reduce its value by 1.",
+                "showon": "Will"
+            }
+        ],
         "internalNote": "Skill increases through class features are handled in the class object."
     },
     {
         "name": "Battlefield Surveyor",
         "desc": "Whether taking stock of an enemy army or simply standing guard, you excel at observing your foes. Your proficiency rank for Perception increases to master. In addition, you gain a +2 circumstance bonus to Perception checks for initiative, making you faster to react during combat.",
-        "hint": "You gain a +2 circumstance bonus to Perception checks for initiative, making you faster to react during combat.",
-        "showon": "Perception"
+        "hints": [
+            {
+                "desc": "You gain a +2 circumstance bonus to Perception checks for initiative, making you faster to react during combat.",
+                "showon": "Perception",
+                "effects": [
+                    {
+                        "affected": "Perception",
+                        "value": "+2",
+                        "type": "circumstance"
+                    }
+                ]
+            }
+        ]
     },
     {
         "name": "Combat Flexibility",
@@ -754,15 +935,23 @@
     {
         "name": "Deny Advantage (Rogue)",
         "desc": "As someone who takes advantage of others' defenses, you are careful not to leave such openings yourself. You aren't flat-footed to hidden, undetected, or flanking creatures of your level or lower, or creatures of your level or lower using surprise attack. However, they can still help their allies flank.",
-        "hint": "You aren't flat-footed to hidden, undetected, or flanking creatures of your level or lower, or creatures of your level or lower using surprise attack. However, they can still help their allies flank.",
-        "showon": "AC",
+        "hints": [
+            {
+                "desc": "You aren't flat-footed to hidden, undetected, or flanking creatures of your level or lower, or creatures of your level or lower using surprise attack. However, they can still help their allies flank.",
+                "showon": "AC"
+            }
+        ],
         "superType": "Deny Advantage"
     },
     {
         "name": "Double Debilitation",
         "desc": "Your opportunistic attacks are particularly detrimental. When you use Debilitating Strike, you can apply two debilitations simultaneously; removing one removes both.",
-        "hint": "When you use Debilitating Strike, you can apply two debilitations simultaneously; removing one removes both.",
-        "showon": "Debilitating Strike"
+        "hints": [
+            {
+                "desc": "When you use Debilitating Strike, you can apply two debilitations simultaneously; removing one removes both.",
+                "showon": "Debilitating Strike"
+            }
+        ]
     },
     {
         "name": "Master Strike",
@@ -785,21 +974,33 @@
     {
         "name": "Slippery Mind",
         "desc": "You play mental games and employ cognitive tricks to throw off mind-altering effects. Your proficiency rank for Will saves increases to master. When you roll a success at a Will save, you get a critical success instead.",
-        "hint": "When you roll a success at a Will save, you get a critical success instead.",
-        "showon": "Will",
+        "hints": [
+            {
+                "desc": "When you roll a success at a Will save, you get a critical success instead.",
+                "showon": "Will"
+            }
+        ],
         "internalNote": "Skill increases through class features are handled in the class object."
     },
     {
         "name": "Sneak Attack",
         "desc": "When your enemy can't properly defend itself, you take advantage to deal extra damage. If you Strike a creature that has the flat-footed condition with an agile or finesse melee weapon, an agile or finesse unarmed attack, or a ranged weapon attack, you deal an extra 1d6 precision damage. For a ranged attack with a thrown melee weapon, that weapon must also be agile or finesse.\n\nAs your rogue level increases, so does the number of damage dice for your sneak attack. Increase the number of dice by one at 5th, 11th, and 17th levels.",
-        "hint": "If you Strike a creature that has the flat-footed condition with an agile or finesse melee weapon, an agile or finesse unarmed attack, or a ranged weapon attack, you deal an extra 1d6 precision damage. Increase the number of dice by one at 5th, 11th, and 17th levels. For a ranged attack with a thrown melee weapon, that weapon must also be agile or finesse.",
-        "showon": "Attacks"
+        "hints": [
+            {
+                "desc": "If you Strike a creature that has the flat-footed condition with an agile or finesse melee weapon, an agile or finesse unarmed attack, or a ranged weapon attack, you deal an extra 1d6 precision damage. Increase the number of dice by one at 5th, 11th, and 17th levels. For a ranged attack with a thrown melee weapon, that weapon must also be agile or finesse.",
+                "showon": "Attacks"
+            }
+        ]
     },
     {
         "name": "Surprise Attack",
         "desc": "You spring into combat faster than foes can react. On the first round of combat, if you roll Deception or Stealth for initiative, creatures that haven't acted are flat-footed to you.",
-        "hint": "On the first round of combat, if you roll Deception or Stealth for initiative, creatures that haven't acted are flat-footed to you.",
-        "showon": "Deception, Stealth"
+        "hints": [
+            {
+                "desc": "On the first round of combat, if you roll Deception or Stealth for initiative, creatures that haven't acted are flat-footed to you.",
+                "showon": "Deception, Stealth"
+            }
+        ]
     },
     {
         "name": "Weapon Tricks",

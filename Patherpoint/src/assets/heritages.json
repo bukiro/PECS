@@ -134,19 +134,7 @@
                 "feats": [
                     {
                         "locked": true,
-                        "name": "Oathkeeper Dwarf Perception",
-                        "source": "Oathkeeper Dwarf",
-                        "sourceId": "1-Feat-Oathkeeper Dwarf-0"
-                    },
-                    {
-                        "locked": true,
-                        "name": "Oathkeeper Dwarf Diplomacy",
-                        "source": "Oathkeeper Dwarf",
-                        "sourceId": "1-Feat-Oathkeeper Dwarf-0"
-                    },
-                    {
-                        "locked": true,
-                        "name": "Oathkeeper Dwarf Deception",
+                        "name": "Oathkeeper Dwarf",
                         "source": "Oathkeeper Dwarf",
                         "sourceId": "1-Feat-Oathkeeper Dwarf-0"
                     }
@@ -336,12 +324,6 @@
                     {
                         "locked": true,
                         "name": "Woodland Elf Climbing",
-                        "source": "Woodland Elf",
-                        "sourceId": "1-Feat-Woodland Elf-0"
-                    },
-                    {
-                        "locked": true,
-                        "name": "Woodland Elf Cover",
                         "source": "Woodland Elf",
                         "sourceId": "1-Feat-Woodland Elf-0"
                     }
@@ -830,12 +812,6 @@
                         "name": "Warmarch Hobgoblin",
                         "source": "Warmarch Hobgoblin",
                         "sourceId": "1-Feat-Warmarch Hobgoblin-0"
-                    },
-                    {
-                        "locked": true,
-                        "name": "Warmarch Hobgoblin Hustle",
-                        "source": "Warmarch Hobgoblin",
-                        "sourceId": "1-Feat-Warmarch Hobgoblin-0"
                     }
                 ],
                 "id": "1-Feat-Warmarch Hobgoblin-0",
@@ -856,12 +832,6 @@
                     {
                         "locked": true,
                         "name": "Warrenbred Hobgoblin",
-                        "source": "Warrenbred Hobgoblin",
-                        "sourceId": "1-Feat-Warrenbred Hobgoblin-0"
-                    },
-                    {
-                        "locked": true,
-                        "name": "Warrenbred Hobgoblin Perception",
                         "source": "Warrenbred Hobgoblin",
                         "sourceId": "1-Feat-Warrenbred Hobgoblin-0"
                     }
@@ -1102,12 +1072,6 @@
                         "name": "Sandstrider Lizardfolk",
                         "source": "Sandstrider Lizardfolk",
                         "sourceId": "1-Feat-Sandstrider Lizardfolk-0"
-                    },
-                    {
-                        "locked": true,
-                        "name": "Sandstrider Lizardfolk Resilience",
-                        "source": "Sandstrider Lizardfolk",
-                        "sourceId": "1-Feat-Sandstrider Lizardfolk-0"
                     }
                 ],
                 "id": "1-Feat-Sandstrider Lizardfolk-0",
@@ -1208,12 +1172,6 @@
                         "name": "Paddler Shoony",
                         "source": "Paddler Shoony",
                         "sourceId": "1-Feat-Paddler Shoony-0"
-                    },
-                    {
-                        "locked": true,
-                        "name": "Paddler Shoony Swimming",
-                        "source": "Paddler Shoony",
-                        "sourceId": "1-Feat-Paddler Shoony-0"
                     }
                 ],
                 "id": "1-Feat-Paddler Shoony-0",
@@ -1234,12 +1192,6 @@
                     {
                         "locked": true,
                         "name": "Thickcoat Shoony",
-                        "source": "Thickcoat Shoony",
-                        "sourceId": "1-Feat-Thickcoat Shoony-0"
-                    },
-                    {
-                        "locked": true,
-                        "name": "Thickcoat Shoony Perception",
                         "source": "Thickcoat Shoony",
                         "sourceId": "1-Feat-Thickcoat Shoony-0"
                     }
@@ -1263,12 +1215,6 @@
                         "locked": true,
                         "name": "Badlands Orc",
                         "source": "Badlands Orc",
-                        "sourceId": "1-Feat-Badlands Orc-0"
-                    },
-                    {
-                        "locked": true,
-                        "name": "Sandstrider Lizardfolk Hustle",
-                        "source": "Sandstrider Lizardfolk",
                         "sourceId": "1-Feat-Badlands Orc-0"
                     }
                 ],

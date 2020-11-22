@@ -45,9 +45,13 @@
             }
         ],
         "desc": "In your companion's natural environment, it can use a Sneak action even if it's currently observed. Its proficiency rank in Stealth increases to expert (or master if it was already an expert from its type) and its Dexterity modifier increases by 1. Its proficiency rank for unarmored defense increases to expert, or master if it's nimble.",
-        "hint": "In your companion's natural environment, it can use a Sneak action even if it's currently observed.",
+        "hints": [
+            {
+                "desc": "In your companion's natural environment, it can use a Sneak action even if it's currently observed.",
+                "showon": "Stealth"
+            }
+        ],
         "name": "Ambusher",
-        "showon": "Stealth",
         "skillChoices": [
             {
                 "_className": "SkillChoice",
@@ -316,9 +320,13 @@
             }
         ],
         "desc": "Your companion joins the fray with graceful leaps and dives. It gains the deny advantage ability, so it isn't flat-footed to hidden, undetected, or flanking creatures unless such a creature's level is greater than yours. Its proficiency rank in Acrobatics increases to master, and its Dexterity modifier increases by 1. Its proficiency rank in unarmored defense increases to expert, or master if it's nimble.",
-        "hint": "You aren't flat-footed to hidden, undetected, or flanking creatures of your level or lower, or creatures of your level or lower using surprise attack. However, they can still help their allies flank.",
+        "hints": [
+            {
+                "desc": "Your companion isn't flat-footed to hidden, undetected, or flanking creatures of your level or lower, or creatures of your level or lower using surprise attack. However, these creatures can still help their allies flank.",
+                "showon": "AC"
+            }
+        ],
         "name": "Daredevil",
-        "showon": "AC",
         "skillChoices": [
             {
                 "_className": "SkillChoice",
@@ -817,9 +825,13 @@
             }
         ],
         "desc": "Your companion is an incredible tracker. It can move at full Speed while following tracks. Its proficiency rank in Survival increases to expert (or master if it was already an expert from its type), and its Wisdom modifier increases by 1.",
-        "hint": "Your companion can move at full Speed while following tracks.",
+        "hints": [
+            {
+                "desc": "Your companion can move at full Speed while following tracks.",
+                "showon": "Movement"
+            }
+        ],
         "name": "Tracker",
-        "showon": "Movement",
         "skillChoices": [
             {
                 "_className": "SkillChoice",
@@ -936,9 +948,13 @@
             }
         ],
         "desc": "Your companion smashes things. Its unarmed attacks ignore half an object's Hardness. Its Athletics proficiency increases to master, and its Strength modifier increases by 1.",
-        "hint": "Your companion's unarmed attacks ignore half an object's Hardness.",
+        "hints": [
+            {
+                "desc": "Your companion's unarmed attacks ignore half an object's Hardness.",
+                "showon": "Attacks"
+            }
+        ],
         "name": "Wrecker",
-        "showon": "Attacks",
         "skillChoices": [
             {
                 "_className": "SkillChoice",

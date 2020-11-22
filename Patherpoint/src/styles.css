@@ -943,7 +943,7 @@ cite.effect.absolute {
     color: blue;
 }
 
-.darkmode .absolute {
+.darkmode .absolute:not(cite) {
     color: aqua;
 }
 
@@ -953,7 +953,7 @@ cite.effect.bonus {
     color: green;
 }
 
-.darkmode .bonus, .darkmode cite.condition.bonus, .darkmode cite.effect.bonus {
+.darkmode .bonus:not(cite) {
     color: lightgreen;
 }
 

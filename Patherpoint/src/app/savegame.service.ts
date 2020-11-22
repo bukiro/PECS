@@ -68,6 +68,7 @@ import { ShieldMaterial } from './ShieldMaterial';
 import { AlchemicalPoison } from './AlchemicalPoison';
 import { OtherConsumableBomb } from './OtherConsumableBomb';
 import { Wand } from './Wand';
+import { Hint } from './Hint';
 
 @Injectable({
     providedIn: 'root'
@@ -155,6 +156,24 @@ export class SavegameService {
         //Restore a lot of data from reference objects.
         //This allows us to save a lot of data at saving by removing all data from certain objects that is the same as in their original template.
         character.inventories = character.inventories.map(inventory => Object.assign(new ItemCollection(), inventory));
+
+        //Temporarily write this into every character that is loaded since it has been added after characters were created.
+        character.customSkills.forEach(skill => {
+            if (skill.name.includes("Lore")) {
+                skill.recallKnowledge = true;
+            }
+        })
+        character.customFeats.forEach(feat => {
+            if (feat["showon"]) {
+                if (feat["showon"].includes("Lore")) {
+                    feat.lorebase = feat["showon"];
+                }
+                feat.hints = [ (Object.assign(new Hint(), ({desc: (feat["hint"] ? feat["hint"] : ""), showon: feat["showon"]}))) ]
+                delete feat["showon"];
+                delete feat["hint"];
+            }
+        })
+
         character.inventories.forEach(inventory => inventory.restore_FromSave(itemsService));
         if (character.class.name) {
             if (character.class.ancestry && character.class.ancestry.name) {
@@ -235,6 +254,10 @@ export class SavegameService {
             } else {
                 let blank = new object.constructor();
                 Object.keys(object).forEach(key => {
+                    //Delete attributes that are in the "neversave" list, if it exists.
+                    if (object["neversave"] && object["neversave"].includes(key)) {
+                        delete object[key];
+                    }
                     //Don't cleanup the "_className" or any attributes that are in the "save" list.
                     if ((!object["save"] || !object["save"].includes(key)) && key != "_className" && key.substr(0, 1) != "$") {
                         //If the attribute has the same value as the default, delete it from the object.

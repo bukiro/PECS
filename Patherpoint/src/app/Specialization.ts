@@ -1,10 +1,10 @@
 import { Effect } from './Effect';
+import { Hint } from './Hint';
 
 export class Specialization {
     public desc: string = "";
     public effects: Effect[] = [];
-    public hint: string = "";
+    public hints: Hint[] = [];
     public name: string = "";
-    public showon: string = "";
     public type: string = "";
 }

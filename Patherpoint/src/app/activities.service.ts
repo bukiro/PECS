@@ -58,7 +58,7 @@ export class ActivitiesService {
         });
         
         if (activity.hints.length) {
-            characterService.set_TagsToChange(creature.type, activity.showon, activity.hints);
+            characterService.set_HintsToChange(creature.type, activity.hints);
         }
 
         if (activated) {
@@ -278,9 +278,23 @@ export class ActivitiesService {
     initialize() {
         if (!this.activities) {
             this.load('/assets/activities.json', this.loader_Activities, "activities");
+        } else {
+            //Disable any active hint effects when loading a character.
+            this.activities.forEach(activity => {
+                activity.hints.forEach(hint => {
+                    hint.active = false;
+                })
+            })
         }
         if (!this.custom_activities) {
             this.load('/assets/custom/activities.json', this.loader_CustomActivities, "custom_activities");
+        } else {
+            //Disable any active hint effects when loading a character.
+            this.custom_activities.forEach(activity => {
+                activity.hints.forEach(hint => {
+                    hint.active = false;
+                })
+            })
         }
     }
 

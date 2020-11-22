@@ -24,7 +24,7 @@
             {
                 "affected": "Dexterity-based Checks and DCs",
                 "type": "status",
-                "value": "-(Value)"
+                "value": "(-Value)"
             }
         ]
     },
@@ -98,7 +98,7 @@
         "effects": [
             {
                 "affected": "Max Dying",
-                "value": "-(Value)"
+                "value": "(-Value)"
             }
         ]
     },
@@ -112,11 +112,11 @@
             {
                 "affected": "Max HP",
                 "type": "status",
-                "value": "-(Value) * Level"
+                "value": "(-Value * Level)"
             },
             {
                 "affected": "Constitution-based Checks and DCs",
-                "value": "-(Value)"
+                "value": "(-Value)"
             }
         ]
     },
@@ -161,7 +161,7 @@
             {
                 "affected": "Strength-based Checks and DCs",
                 "type": "status",
-                "value": "-(Value)"
+                "value": "(-Value)"
             }
         ]
     },
@@ -250,7 +250,7 @@
             {
                 "affected": "All Checks and DCs",
                 "type": "status",
-                "value": "-(Value)"
+                "value": "(-Value)"
             }
         ]
     },
@@ -409,7 +409,7 @@
             {
                 "affected": "All Checks and DCs",
                 "type": "status",
-                "value": "-(Value)"
+                "value": "(-Value)"
             }
         ]
     },
@@ -421,7 +421,7 @@
         "effects": [
             {
                 "affected": "Actions per Turn",
-                "value": "-(Value)"
+                "value": "(-Value)"
             }
         ]
     },
@@ -434,7 +434,7 @@
         "effects": [
             {
                 "affected": "Actions per Turn",
-                "value": "-(Value)"
+                "value": "(-Value)"
             }
         ],
         "overrideConditions": [
@@ -451,15 +451,15 @@
         "effects": [
             {
                 "affected": "Intelligence-based Checks and DCs",
-                "value": "-(Value)"
+                "value": "(-Value)"
             },
             {
                 "affected": "Wisdom-based Checks and DCs",
-                "value": "-(Value)"
+                "value": "(-Value)"
             },
             {
                 "affected": "Charisma-based Checks and DCs",
-                "value": "-(Value)"
+                "value": "(-Value)"
             }
         ]
     },
@@ -2245,6 +2245,10 @@
             {
                 "affected": "Melee Damage",
                 "value": "2"
+            },
+            {
+                "affected": "Reach",
+                "value": "5"
             }
         ],
         "gainConditions": [
@@ -2475,7 +2479,7 @@
             },
             {
                 "affected": "Fire Resistance",
-                "value": "-Math.floor(Heightened / 2) * 3"
+                "value": "(-Math.floor(Heightened / 2) * 3)"
             }
         ]
     },
@@ -7054,8 +7058,8 @@
                 "toggle": true
             },
             {
-                "toggle": "Ignore proficiency bonuses and penalties",
-                "value": "TRUE"
+                "affected": "Ignore proficiency bonuses and penalties",
+                "toggle": true
             }
         ]
     },

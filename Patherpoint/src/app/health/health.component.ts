@@ -131,7 +131,7 @@ export class HealthComponent implements OnInit {
 
     on_HeroPointRecover() {
         this.characterService.get_AppliedConditions(this.get_Creature(), "Dying").forEach(gain => {
-            this.characterService.remove_Condition(this.get_Creature(), gain, false, false);
+            this.characterService.remove_Condition(this.get_Creature(), gain, false, false, false);
         });
         this.get_Character().heroPoints = 0;
         this.characterService.set_ToChange(this.creature, "effects");

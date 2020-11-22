@@ -96,9 +96,9 @@ export class FeatsService {
         if (feats.length) {
             let feat = feats[0];
 
-            if (feat.showon) {
-                characterService.set_TagsToChange(creature.type, feat.showon);
-            }
+            feat.hints.forEach(hint => {
+                characterService.set_TagsToChange(creature.type, hint.showon);
+            })
             if (feat.effects.length) {
                 characterService.set_ToChange(creature.type, "effects");
             }
@@ -550,8 +550,8 @@ export class FeatsService {
                     let specializations = companion.class.specializations.filter(spec => spec.level == level.number);
                     if (specializations.length) {
                         if (specializations.length >= characterService.get_FeatsAndFeatures()
-                                .filter(feat => feat.gainAnimalCompanion == 6 && character.get_FeatsTaken(level.number, level.number, feat.name)).length
-                            ) {
+                            .filter(feat => feat.gainAnimalCompanion == 6 && character.get_FeatsTaken(level.number, level.number, feat.name)).length
+                        ) {
                             companion.class.specializations = companion.class.specializations.filter(spec => spec.name != specializations[specializations.length - 1].name)
                         }
                     }
@@ -789,12 +789,34 @@ export class FeatsService {
     initialize() {
         if (!this.feats) {
             this.load('/assets/feats.json', this.loader_Feats, "feats");
+        } else {
+            //Disable any active hint effects when loading a character.
+            this.feats.forEach(feat => {
+                feat.hints.forEach(hint => {
+                    hint.active = false;
+                })
+            })
+
         }
         if (!this.features) {
             this.load('/assets/features.json', this.loader_Features, "features");
+        } else {
+            //Disable any active hint effects when loading a character.
+            this.features.forEach(feat => {
+                feat.hints.forEach(hint => {
+                    hint.active = false;
+                })
+            })
         }
         if (!this.custom_feats) {
             this.load('/assets/custom/feats.json', this.loader_CustomFeats, "custom_feats");
+        } else {
+            //Disable any active hint effects when loading a character.
+            this.custom_feats.forEach(feat => {
+                feat.hints.forEach(hint => {
+                    hint.active = false;
+                })
+            })
         }
     }
 

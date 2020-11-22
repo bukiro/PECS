@@ -47,12 +47,13 @@
                         </ng-container>
                     </span>
                 </div>
-                <div class="fullsize-only row left-aligned tags"
-                    *ngIf="weapon.get_Traits(characterService, get_Creature()).length">
-                    <cite class="trait"
-                        *ngFor="let trait of weapon.get_Traits(characterService, get_Creature()); trackBy:trackByIndex;"
-                        title="{{get_Traits(trait)[0].description}}">{{trait}}</cite>
-                </div>
+                <ng-container
+                    *ngFor="let traits of [weapon.get_Traits(characterService, get_Creature())]; trackBy:trackByIndex;">
+                    <div class="fullsize-only row left-aligned tags" *ngIf="traits.length">
+                        <cite class="trait" *ngFor="let trait of traits; trackBy:trackByIndex;"
+                            title="{{get_Traits(trait)[0].description}}">{{trait}}</cite>
+                    </div>
+                </ng-container>
                 <div class="fullsize-only row left-aligned"
                     *ngFor="let runes of [get_HintRunes(weapon, attack[0])]; trackBy:trackByIndex;"
                     style="margin-top:initial">

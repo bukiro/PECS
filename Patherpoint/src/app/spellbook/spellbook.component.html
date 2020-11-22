@@ -12,6 +12,8 @@
             <app-skill [skill]=skill [isDC]=false></app-skill>
             <app-skill [skill]=skill [isDC]=true></app-skill>
         </ng-container>
+        <app-tags [creature]="'Character'" [objectName]="'Spell DC'" [showTraits]=true [showFeats]=true
+            [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
         <ng-container *ngFor="let casting of get_SpellCastings(); trackBy:trackByIndex;">
             <ng-container *ngFor="let globalspellslots of [get_MaxSpellSlots(0, casting)]">
                 <h3>

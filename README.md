@@ -30,6 +30,8 @@ The very latest in Assistive Technologies for Dungeon Master (ATDM)
 - [x] -- Implement all Alchemical Bombs and Consumable Bombs
 - [ ] - Implement all Armors
 - [ ] - Implement all Shields
+- [ ] - Implement all Worn Items
+- [ ] - Implement all Held Items
 - [ ] - Implement all Consumables
 - [x] -- Implement all Potions
 - [x] -- Implement all Alchemical Elixirs
@@ -102,13 +104,19 @@ The very latest in Assistive Technologies for Dungeon Master (ATDM)
 - [ ] Stretch Goal: Include optional Stamina & Resolve system
 
 Active to-do:
+Change hint/showon to hints: Hint[] in order to allow multiple hints with conditional effects
+- [x] Activities
+- [x] Feats
+- [x] Features
+- [x] Animal Companions
+- [x] Familiar Abilities
+- [x] Specializations
+- [ ] Conditions
+- [ ] Items
 
 Implement:
-Wondrous Figurine
-Thurible of Revelation
 
 Next steps:
-- Implement Champion Causes and Allies and test Features
 - Implement Ancestry Feats
 -- Human
 -- Halfling

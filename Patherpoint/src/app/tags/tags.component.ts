@@ -3,6 +3,7 @@ import { CharacterService } from '../character.service';
 import { TraitsService } from '../traits.service';
 import { EffectsService } from '../effects.service';
 import { Effect } from '../Effect';
+import { Hint } from '../Hint';
 
 @Component({
     selector: 'app-tags',
@@ -75,7 +76,10 @@ export class TagsComponent implements OnInit {
 
     get_EffectsOnThis(name: string) {
         if (this.showEffects && name) {
-            return this.sortByName(this.effectsService.get_EffectsOnThis(this.get_Creature(), name));
+            return this.sortByName(
+                this.effectsService.get_AbsolutesOnThis(this.get_Creature(), name)
+                .concat(this.effectsService.get_RelativesOnThis(this.get_Creature(), name))
+                );
         } else {
             return [];
         }
@@ -103,6 +107,28 @@ export class TagsComponent implements OnInit {
         } else {
             return [];
         }
+    }
+
+    get_SpecializationsShowingOn(name: string) {
+        if (this.showItems && name) {
+            return this.sortByName(this.characterService.get_ArmorSpecializationsShowingOn(this.get_Creature(), name));
+        } else {
+            return [];
+        }
+    }
+
+    get_Hints(hints: Hint[], name: string) {
+        return hints
+            .filter(hint =>
+                hint.showon.split(",")
+                .find(showon => 
+                    showon.trim().toLowerCase() == name.toLowerCase() ||
+                    (
+                        name.toLowerCase().includes("lore") &&
+                        showon.trim().toLowerCase() == "lore"
+                    )
+                )
+            )
     }
 
     finish_Loading() {

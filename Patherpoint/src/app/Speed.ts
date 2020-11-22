@@ -12,28 +12,28 @@ export class Speed {
     public source: string = "";
     relatives(creature: Character|AnimalCompanion|Familiar, effectsService: EffectsService, name: string, both: boolean = false) {
         if (both && name != "Speed") {
-            return effectsService.get_RelativesOnThis(creature, name).concat(effectsService.get_RelativesOnThis(creature, "Speed"));
+            return effectsService.get_RelativesOnThese(creature, [name, "Speed"]);
         } else {
             return effectsService.get_RelativesOnThis(creature, name);
         }
     }
     absolutes(creature: Character|AnimalCompanion|Familiar, effectsService: EffectsService, name: string, both: boolean = false) {
         if (both && name != "Speed") {
-            return effectsService.get_AbsolutesOnThis(creature, name).concat(effectsService.get_AbsolutesOnThis(creature, "Speed"));
+            return effectsService.get_AbsolutesOnThese(creature, [name, "Speed"]);
         } else {
             return effectsService.get_AbsolutesOnThis(creature, name);
         }
     }
     bonuses(creature: Character|AnimalCompanion|Familiar, effectsService: EffectsService, name: string, both: boolean = false) {
         if (both && name != "Speed") {
-            return effectsService.show_BonusesOnThis(creature, name) || effectsService.show_BonusesOnThis(creature, "Speed");
+            return effectsService.show_BonusesOnThese(creature, [name, "Speed"]);
         } else {
             return effectsService.show_BonusesOnThis(creature, name);
         }
     }
     penalties(creature: Character|AnimalCompanion|Familiar, effectsService: EffectsService, name: string, both: boolean = false) {
         if (both && name != "Speed") {
-            return effectsService.show_PenaltiesOnThis(creature, name) || effectsService.show_PenaltiesOnThis(creature, "Speed");
+            return effectsService.show_PenaltiesOnThese(creature, [name, "Speed"]);
         } else {
             return effectsService.show_PenaltiesOnThis(creature, name);
         }

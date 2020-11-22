@@ -1,35 +1,62 @@
 [
     {
         "name": "Red Fox Kitsune",
-        "desc": "Your people have long lived near settlements and learned to blend in and remain unnoticed when visiting. You gain a +2 circumstance bonus to Impersonate, Hide and Sneak in cities and other populated areas as long as you are surrounded by other humanoids.",
+        "desc": "Your people have long lived near settlements and learned to blend in and remain unnoticed when visiting. You gain a +2 circumstance bonus to Deception to Impersonate and to Stealth to Hide and Sneak in cities and other populated areas as long as you are in a crowd of unsuspecting people.",
         "shortdesc": "Your people have long lived near settlements and learned to blend in and remain unnoticed when visiting.",
-        "hint": "You gain a +2 circumstance bonus to Impersonate, Hide and Sneak in cities and other populated areas as long as you are surrounded by other humanoids.",
-        "sourceBook":"Custom",
-        "showon": "Deception, Stealth"
-    },
-    {
-        "name": "Desert Fox Hearing",
-        "desc": "Living in the desert's scorching heat, your people have grown bright fur and large ears. You gain a +2 circumstance bonus to locate undetected creatures that you could hear within 30 feet with a Seek action.",
-        "hint": "You gain a +2 circumstance bonus to locate undetected creatures that you could hear within 30 feet with a Seek action.",
-        "showon": "Perception",
-        "sourceBook":"Custom",
-        "shortdesc": "Living in the desert's scorching heat, your people have grown bright fur and large ears."
+        "hints": [
+            {
+                "desc": "You gain a +2 circumstance bonus to Deception to Impersonate and to Stealth to Hide and Sneak in cities and other populated areas as long as you are in a crowd of unsuspecting people",
+                "showon": "Deception, Stealth",
+                "effects": [
+                    {
+                        "affected": "Deception",
+                        "value": "+2",
+                        "type": "circumstance"
+                    },
+                    {
+                        "affected": "Stealth",
+                        "value": "+2",
+                        "type": "circumstance"
+                    }
+                ]
+            }
+        ],
+        "sourceBook": "Custom"
     },
     {
         "name": "Desert Fox Kitsune",
-        "desc": "Living in the desert's scorching heat, your people have grown bright fur and large ears. Environmental heat effects are one step less extreme for you (incredible heat becomes extreme, extreme heat becomes severe, and so on).",
-        "hint": "Environmental heat effects are one step less extreme for you (incredible heat becomes extreme, extreme heat becomes severe, and so on).",
-        "showon": "Resistances",
-        "sourceBook":"Custom",
+        "desc": "Living in the desert's scorching heat, your people have grown bright fur and large ears. You gain a +2 circumstance bonus to locate undetected creatures that you could hear within 30 feet with a Seek action. Environmental heat effects are one step less extreme for you (incredible heat becomes extreme, extreme heat becomes severe, and so on).",
+        "hints": [
+            {
+                "desc": "Environmental heat effects are one step less extreme for you (incredible heat becomes extreme, extreme heat becomes severe, and so on).",
+                "showon": "Resistances"
+            },
+            {
+                "desc": "You gain a +2 circumstance bonus to locate undetected creatures that you could hear within 30 feet with a Seek action.",
+                "showon": "Perception",
+                "effects": [
+                    {
+                        "affected": "Perception",
+                        "value": "+2",
+                        "type": "circumstance"
+                    }
+                ]
+            }
+        ],
+        "sourceBook": "Custom",
         "shortdesc": "Living in the desert's scorching heat, your people have grown bright fur and large ears."
     },
     {
         "name": "Snow Fox Kitsune",
         "desc": "You are acclimated to living in arctic climates and have thick, white fur. You gain cold resistance equal to half your level (minimum 1). You treat environmental cold effects as if they were one step less extreme (incredible cold becomes extreme, extreme cold becomes severe, and so on).",
-        "hint": "You treat environmental cold effects as if they were one step less extreme (incredible cold becomes extreme, extreme cold becomes severe, and so on).",
-        "showon": "Resistances",
+        "hints": [
+            {
+                "desc": "You treat environmental cold effects as if they were one step less extreme (incredible cold becomes extreme, extreme cold becomes severe, and so on).",
+                "showon": "Resistances"
+            }
+        ],
         "shortdesc": "You are acclimated to living in arctic climates and have thick, white fur.",
-        "sourceBook":"Custom",
+        "sourceBook": "Custom",
         "effects": [
             {
                 "affected": "Cold Resistance",
@@ -41,7 +68,7 @@
         "name": "Kitsune Human Form",
         "desc": "",
         "shortdesc": "You can change to your human form at will.",
-        "sourceBook":"Custom",
+        "sourceBook": "Custom",
         "gainActivities": [
             "Kitsune Human Form"
         ]
@@ -50,7 +77,7 @@
         "name": "Duplicitous Kitsune",
         "desc": "You know how to twist the truth to get what you want. You become trained in Deception and gain the Charming Liar skill feat. If you are already trained in Deception, you become trained in a skill of your choice.",
         "shortdesc": "You know how to twist the truth to get what you want.",
-        "sourceBook":"Custom",
+        "sourceBook": "Custom",
         "traits": [
             "Kitsune"
         ],
@@ -91,9 +118,13 @@
         "name": "Fast Shifter (Kitsune)",
         "desc": "You can change into your human form using only one action and dismiss it as a free action.",
         "shortdesc": "You can change into your human form using only one action and dismiss it as a free action.",
-        "hint": "You can change into your human form using only one action and dismiss it as a free action.",
-        "showon": "Kitsune Human Form, Kitsune Fox Shape",
-        "sourceBook":"Custom",
+        "hints": [
+            {
+                "desc": "You can change into your human form using only one action and dismiss it as a free action.",
+                "showon": "Kitsune Human Form, Kitsune Fox Shape"
+            }
+        ],
+        "sourceBook": "Custom",
         "traits": [
             "Kitsune"
         ],
@@ -106,7 +137,7 @@
         "name": "Gregarious Kitsune",
         "desc": "",
         "shortdesc": "When tempers flare, you quickly catch your mistake and attempt to smoothen things over with honeyed words.",
-        "sourceBook":"Custom",
+        "sourceBook": "Custom",
         "traits": [
             "Kitsune"
         ],
@@ -125,7 +156,7 @@
         "name": "Kitsune Magic",
         "desc": "You can cast Dancing Lights as an arcane innate cantrip at will.",
         "shortdesc": "You can cast Dancing Lights as an arcane innate cantrip at will.",
-        "sourceBook":"Custom",
+        "sourceBook": "Custom",
         "traits": [
             "Kitsune"
         ],
@@ -154,7 +185,7 @@
         "desc": "In you flows the blood of the legendary nine-tailed fox, master of disguise and deception. Each time you take this feat, you grow an extra magic tail, allowing you to cast a different arcane innate spell, in order: 1st Level Illusory Disguise, 1nd Level Charm, 2nd Level Misdirection, 4th Level Invisibility, 4th Level Confusion, 5th Level Subconscious Suggestion, 6th Level Dominate, 7th Level Project Image.",
         "shortdesc": "In you flows the blood of the legendary nine-tailed fox, master of disguise and deception.",
         "specialdesc": "You can take this feat up to eight times. After the first time, it can be taken in place of a General feat. Each time, you must be on a level that allows you to cast spells at the new spell's level.",
-        "sourceBook":"Custom",
+        "sourceBook": "Custom",
         "limited": 8,
         "subTypes": true,
         "traits": [
@@ -435,7 +466,7 @@
         "name": "Nimble Kitsune",
         "desc": "Your body twists and springs like a cat. You become trained in acrobatics and gain the Cat Fall skill feat. If you are already trained in Acrobatics, you become trained in a skill of your choice.",
         "shortdesc": "Your body twists and springs like a cat.",
-        "sourceBook":"Custom",
+        "sourceBook": "Custom",
         "traits": [
             "Kitsune"
         ],
@@ -476,7 +507,7 @@
         "name": "Kitsune Fox Shape",
         "desc": "",
         "shortdesc": "You have a magical connection to your animal kin.",
-        "sourceBook":"Custom",
+        "sourceBook": "Custom",
         "traits": [
             "Kitsune"
         ],
@@ -489,9 +520,13 @@
         "name": "Swift Shapechanger (Kitsune)",
         "desc": "You can change to your human or fox form as a free action.",
         "shortdesc": "You can change to your human or fox form as a free action.",
-        "hint": "You can change to your human or fox form as a free action.",
-        "showon": "Kitsune Human Form, Kitsune Fox Shape",
-        "sourceBook":"Custom",
+        "hints": [
+            {
+                "desc": "You can change to your human or fox form as a free action.",
+                "showon": "Kitsune Human Form, Kitsune Fox Shape"
+            }
+        ],
+        "sourceBook": "Custom",
         "traits": [
             "Kitsune"
         ],
@@ -504,9 +539,13 @@
         "name": "Realistic Likeness (Kitsune)",
         "desc": "You gain more control over your transformations, putting on different faces. You can use Human Form to take the form of any humanoid you have encountered. The +4 status bonus to Deception also applies to Deception checks to Impersonate an individual when impersonating this humanoid, and you don't need to create a disguise to do so.",
         "shortdesc": "You gain more control over your transformations, putting on different faces.",
-        "hint": "You can use Human Form to take the form of any humanoid you have encountered. The +4 status bonus to Deception also applies to Deception checks to Impersonate an individual when impersonating this humanoid, and you don't need to create a disguise to do so.",
-        "showon": "Kitsune Human Form",
-        "sourceBook":"Custom",
+        "hints": [
+            {
+                "desc": "You can use Human Form to take the form of any humanoid you have encountered. The +4 status bonus to Deception also applies to Deception checks to Impersonate an individual when impersonating this humanoid, and you don't need to create a disguise to do so.",
+                "showon": "Kitsune Human Form"
+            }
+        ],
+        "sourceBook": "Custom",
         "traits": [
             "Kitsune"
         ],
@@ -519,7 +558,7 @@
         "name": "Vulpine Pounce",
         "desc": "",
         "shortdesc": "You change into your Kitsune form and pounce on your enemy in one swift motion.",
-        "sourceBook":"Custom",
+        "sourceBook": "Custom",
         "traits": [
             "Kitsune"
         ],
@@ -528,5 +567,4 @@
             "Vulpine Pounce"
         ]
     }
-
 ]

@@ -200,7 +200,7 @@
     <ng-container *ngIf="allowActivate">
         <ng-container *ngFor="let related_gain of get_ActivitiesShowingOn(activity.name); trackBy:trackByIndex;">
             <div class="row left-aligned"
-                *ngFor="let related_activity of (related_gain.can_Activate ? [related_gain] : get_Activities(related_gain.name)); trackBy:trackByIndex;">
+                *ngFor="let related_activity of get_ActivitiesFromGain(related_gain); trackBy:trackByIndex;">
                 <h4>{{related_activity.name}}<app-actionIcons [actionString]="related_activity.actions">
                     </app-actionIcons>{{(related_activity.activationType) ? related_activity.activationType : ""}}
                 </h4>
@@ -211,7 +211,7 @@
         <ng-container *ngIf="gain.name == 'Fused Stance'">
             <ng-container *ngFor="let gain of get_FusedStances(); trackBy:trackByIndex;">
                 <div class="row left-aligned"
-                    *ngFor="let related_activity of (gain.can_Activate ? [gain] : get_Activities(gain.name)); trackBy:trackByIndex;">
+                    *ngFor="let related_activity of get_ActivitiesFromGain(gain); trackBy:trackByIndex;">
                     <h4>{{related_activity.name}}<app-actionIcons [actionString]="related_activity.actions">
                         </app-actionIcons>{{(related_activity.activationType) ? related_activity.activationType : ""}}
                     </h4>

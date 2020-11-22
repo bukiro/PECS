@@ -32,12 +32,6 @@
                 "feats": [
                     {
                         "locked": true,
-                        "name": "Desert Fox Hearing",
-                        "source": "Desert Fox Kitsune",
-                        "sourceId": "1-Feat-Desert Fox Kitsune-0"
-                    },
-                    {
-                        "locked": true,
                         "name": "Desert Fox Kitsune",
                         "source": "Desert Fox Kitsune",
                         "sourceId": "1-Feat-Desert Fox Kitsune-0"

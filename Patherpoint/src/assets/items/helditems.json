@@ -758,7 +758,7 @@
                     }
                 ],
                 "cooldown": 144000,
-                "desc": "Once per day, when you activate the thurible, you can increase its revelations. During that activation, you can hold the thurible up to your eyes with an Interact action to gain the effects of see invisibility for 1 round by peering through the smoke.",
+                "desc": "Once per day, when you activate the thurible, you can increase its revelations. During that activation, you can hold the thurible up to your eyes with an Interact action to gain the effects of see invisibility for 1 round by peering through the smoke.",
                 "name": "Thurible of Revelation (Moderate): Increased Revelation",
                 "source": "8de9eeb2-2417-11eb-adc1-0242ac120002",
                 "traits": [
@@ -825,7 +825,7 @@
                     }
                 ],
                 "cooldown": 144000,
-                "desc": "Once per day, when you activate the thurible, you can increase its revelations. During that activation, you can hold the thurible up to your eyes with an Interact action to gain the effects of see invisibility and true seeing for 1 round by peering through the smoke.",
+                "desc": "Once per day, when you activate the thurible, you can increase its revelations. During that activation, you can hold the thurible up to your eyes with an Interact action to gain the effects of see invisibility and true seeing for 1 round by peering through the smoke.",
                 "name": "Thurible of Revelation (Greater): Increased Revelation",
                 "source": "8de9efac-2417-11eb-adc1-0242ac120002",
                 "traits": [

@@ -32,7 +32,7 @@
         "savingThrow": "DC 18 Fortitude",
         "stages": [
             "10 minutes",
-            "1d4 poison damage and sickened 1 (1 minute)",
+            "1d4 poison damage and sickened 1 (1 minute)",
             "1d6 poison damage and sickened 2 (1 minute)",
             "2d6 poison damage and sickened 3 (1 minute)"
         ],
@@ -246,7 +246,7 @@
         "savingThrow": "DC 16 Will",
         "stages": [
             "",
-            "fascinated by the poison cloud (1 round)",
+            "fascinated by the poison cloud (1 round)",
             "fascinated by the poison cloud, and can use no actions but to move closer to the cloud's point of origin (1 round)"
         ],
         "maxDuration": "2 rounds",
@@ -805,7 +805,7 @@
         "savingThrow": "DC 33 Fortitude",
         "stages": [
             "10 minutes",
-            "13d6 poison damage (1 minute)",
+            "13d6 poison damage (1 minute)",
             "17d6 poison damage and sickened 2 (1 minute)",
             "20d6 poison damage and sickened 3 (1 minute)"
         ],
@@ -1073,7 +1073,7 @@
         "savingThrow": "DC 41 Fortitude",
         "stages": [
             "1 day",
-            "drained 1 (1 day)",
+            "drained 1 (1 day)",
             "drained 1 (1 day)",
             "drained 2 (1 day)"
         ],

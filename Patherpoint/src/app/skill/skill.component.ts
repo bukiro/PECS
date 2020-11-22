@@ -76,7 +76,7 @@ export class SkillComponent implements OnInit {
         }
     }
 
-    get_specialShowon(skill: Skill) {
+    get_SpecialShowon(skill: Skill) {
         let creature = this.get_Creature();
         //Under certain circumstances, some Feats apply to skills independently of their name.
         //Return names that get_FeatsShowingOn should run on
@@ -94,6 +94,10 @@ export class SkillComponent implements OnInit {
             }
         }
         return specialNames;
+    }
+
+    get_SpecialEffects(skill: Skill) {
+        return skill.$absolutes[this.get_CalculatedIndex()].concat(skill.$relatives[this.get_CalculatedIndex()])
     }
 
     still_loading() {

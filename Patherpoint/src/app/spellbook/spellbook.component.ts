@@ -470,8 +470,9 @@ export class SpellbookComponent implements OnInit {
         if (this.have_Feat("Linked Focus")) {
             this.characterService.process_OnceEffect(character, Object.assign(new EffectGain(), { affected: "Focus Points", value: "+1" }))
         }
-        if (this.effectsService.get_EffectsOnThis(character, "Free Bonded Item Charge").length) {
-            this.effectsService.get_EffectsOnThis(character, "Free Bonded Item Charge").forEach(effect => {
+        let bondedItemCharges = this.effectsService.get_EffectsOnThis(character, "Free Bonded Item Charge");
+        if (bondedItemCharges.length) {
+            bondedItemCharges.forEach(effect => {
                 this.characterService.get_AppliedConditions(character, effect.source).forEach(gain => {
                     this.characterService.remove_Condition(character, gain, false, false);
                 });
