@@ -125,3 +125,4 @@ Next steps:
 -- Lizardfolk
 - Implement Conditions for Poisons
 - Maybe improve blood magic in feats
+- Implement Level 4 Spells

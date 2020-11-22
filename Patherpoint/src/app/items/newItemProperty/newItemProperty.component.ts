@@ -22,6 +22,7 @@ import { Skill } from 'src/app/Skill';
 import { Ability } from 'src/app/Ability';
 import { SpellChoice } from 'src/app/SpellChoice';
 import { InventoryGain } from 'src/app/InventoryGain';
+import { Hint } from 'src/app/Hint';
 
 @Component({
     selector: 'app-newItemProperty',
@@ -237,6 +238,9 @@ export class NewItemPropertyComponent implements OnInit {
                 break;
             case "castSpells":
                 this.get_Parent()[this.propertyKey].push(new SpellCast())
+                break;
+            case "hints":
+                this.get_Parent()[this.propertyKey].push(new Hint())
                 break;
             case "effects":
                 this.get_Parent()[this.propertyKey].push(new EffectGain())
@@ -541,6 +545,19 @@ export class NewItemPropertyComponent implements OnInit {
                     })
                 });
                 examples.push(...this.get_Items().allEquipment().concat(...this.get_Inventories().map(inventory => inventory.allEquipment())).filter(item => item.showon.length).map((item: Equipment) => item.showon ));
+                break;
+            case "hints desc":
+                this.characterService.get_FeatsAndFeatures().filter(feat => feat.hints.length).forEach(feat => {
+                    examples.push(...feat.hints.filter(hint => hint.desc.length).map(hint => hint.desc));
+                })
+                this.activitiesService.get_Activities().filter(activity => activity.hints.length).forEach(activity => {
+                    examples.push(...activity.hints.filter(hint => hint.desc.length).map(hint => hint.desc));
+                })
+                this.get_Items().allEquipment().concat(...this.get_Inventories().map(inventory => inventory.allEquipment())).filter(item => item.activities.length).forEach((item: Equipment) => {
+                    item.activities.filter(activity => activity.hints.length).forEach(activity => {
+                        examples.push(...activity.hints.filter(hint => hint.desc.length).map(hint => hint.desc));
+                    })
+                });
                 break;
             case "effects type":
                 examples = ["", "item", "circumstance", "status", "proficiency"];

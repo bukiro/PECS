@@ -805,6 +805,13 @@ export class CharacterService {
         if (returnedInventoryItem.constructor == AlchemicalBomb || returnedInventoryItem.constructor == OtherConsumableBomb || returnedInventoryItem.constructor == Ammunition || returnedInventoryItem.constructor == Snare) {
             this.set_ToChange(creature.type, "attacks");
         }
+        returnedInventoryItem["activities"]?.forEach((activity: ItemActivity) => {
+            activity.hints?.forEach((hint: Hint) => {
+                if (hint.showon) {
+                    this.set_TagsToChange(creature.type, hint.showon);
+                }
+            })
+        });
         if (returnedInventoryItem["showon"]) {
             this.set_TagsToChange(creature.type, item["showon"]);
         }
@@ -1724,9 +1731,9 @@ export class CharacterService {
             //Conflate ActivityGains and their respective Activities into one object...
             .map(gain => gain.constructor == ItemActivity ? [gain, gain] : [gain, this.activitiesService.get_Activities(gain.name)[0]])
             //...so that we can find the activities where the gain is active or the activity doesn't need to be toggled...
-            .filter((both: [ActivityGain|ItemActivity, Activity]) => both[1] && (both[0].active || !both[1].toggle))
+            .filter((gainAndActivity: [ActivityGain|ItemActivity, Activity]) => gainAndActivity[1] && (gainAndActivity[0].active || !gainAndActivity[1].toggle))
             //...and then keep only the activities.
-            .map((both: [ActivityGain|ItemActivity, Activity]) => both[1])
+            .map((gainAndActivity: [ActivityGain|ItemActivity, Activity]) => gainAndActivity[1])
             .filter(activity =>
                 activity?.hints.find(hint => 
                     hint.showon.split(",").find(showon => 

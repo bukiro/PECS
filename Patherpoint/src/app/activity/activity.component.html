@@ -198,7 +198,7 @@
         </div>
     </div>
     <ng-container *ngIf="allowActivate">
-        <ng-container *ngFor="let related_gain of get_ActivitiesShowingOn(activity.name); trackBy:trackByIndex;">
+        <ng-container *ngFor="let related_gain of get_ActivityGainsShowingOn(activity.name); trackBy:trackByIndex;">
             <div class="row left-aligned"
                 *ngFor="let related_activity of get_ActivitiesFromGain(related_gain); trackBy:trackByIndex;">
                 <h4>{{related_activity.name}}<app-actionIcons [actionString]="related_activity.actions">

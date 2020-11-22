@@ -122,7 +122,7 @@ export class ActivityComponent implements OnInit {
         }
     }
 
-    get_ActivitiesShowingOn(objectName: string) {
+    get_ActivityGainsShowingOn(objectName: string) {
         if (objectName) {
             return this.characterService.get_OwnedActivities(this.get_Creature())
                 .filter((gain: ItemActivity|ActivityGain) =>
