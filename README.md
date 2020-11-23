@@ -111,12 +111,15 @@ Change hint/showon to hints: Hint[] in order to allow multiple hints with condit
 - [x] Animal Companions
 - [x] Familiar Abilities
 - [x] Specializations
-- [ ] Conditions
+- [x] Conditions
 - [ ] Items
+- [x] Traits
+Apply json import method to all json files instead of using http.get
 
 Implement:
 
 Next steps:
+- Implement Level 4 Spells
 - Implement Ancestry Feats
 -- Human
 -- Halfling
@@ -125,4 +128,3 @@ Next steps:
 -- Lizardfolk
 - Implement Conditions for Poisons
 - Maybe improve blood magic in feats
-- Implement Level 4 Spells

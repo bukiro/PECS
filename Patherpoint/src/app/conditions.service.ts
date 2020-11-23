@@ -1,7 +1,5 @@
 import { Injectable } from '@angular/core';
 import { Condition } from './Condition';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
 import { ConditionGain } from './ConditionGain';
 import { CharacterService } from './character.service';
 import { EffectsService } from './effects.service';
@@ -10,25 +8,24 @@ import { Character } from './Character';
 import { AnimalCompanion } from './AnimalCompanion';
 import { Familiar } from './Familiar';
 import { ActivityGain } from './ActivityGain';
-import { Creature } from './Creature';
 import { ItemGain } from './ItemGain';
 import { Item } from './Item';
 import { ItemsService } from './items.service';
 import { Equipment } from './Equipment';
 import { EffectGain } from './EffectGain';
+import * as json_conditions from '../assets/json/conditions';
+import { Hint } from './Hint';
 
 @Injectable({
     providedIn: 'root'
 })
 export class ConditionsService {
 
-    private conditions: Condition[];
-    private loader;
+    private conditions: Condition[] = [];
     private loading: boolean = false;
     private appliedConditions: ConditionGain[][] = [[], [], []];
 
     constructor(
-        private http: HttpClient,
         private sortByPipe: SortByPipe
     ) { }
 
@@ -123,10 +120,12 @@ export class ConditionsService {
         if (condition.gainActivities.length) {
             characterService.set_ToChange(creature.type, "activities");
         }
-        if (condition.showon) {
-            characterService.set_TagsToChange(creature.type, condition.showon);
-        }
-
+        condition.hints.forEach(hint => {
+            if (hint.showon) {
+                characterService.set_TagsToChange(creature.type, hint.showon);
+            }
+        });
+    
         //Copy the condition's ActivityGains to the ConditionGain so we can track its duration, cooldown etc.
         gain.gainActivities = condition.gainActivities.map(activityGain => Object.assign(new ActivityGain(), JSON.parse(JSON.stringify(activityGain))));
 
@@ -358,30 +357,29 @@ export class ConditionsService {
         return (this.loading);
     }
 
-    load_Conditions(): Observable<string[]> {
-        return this.http.get<string[]>('/assets/conditions.json');
-    }
-
     initialize() {
-        if (!this.conditions) {
+        if (!this.conditions.length) {
             this.loading = true;
-            this.load_Conditions()
-                .subscribe((results: String[]) => {
-                    this.loader = results;
-                    this.finish_loading()
-                });
+            this.load_Conditions();
+            this.loading = false;
+        } else {
+            //Disable any active hint effects when loading a character.
+            this.conditions.forEach(condition => {
+                condition.hints.forEach(hint => {
+                    hint.active = false;
+                })
+            })
         }
     }
 
-    finish_loading() {
-        if (this.loader) {
-            this.conditions = this.loader.map(condition => Object.assign(new Condition(), condition));
-
-            //Don't reassign conditions because they don't have changing parts and never get stored in the Character
-
-            this.loader = [];
-        }
-        if (this.loading) { this.loading = false; }
+    load_Conditions() {
+        this.conditions = []
+        Object.keys(json_conditions).forEach(key => {
+            this.conditions.push(...json_conditions[key].map(condition => Object.assign(new Condition(), condition)));
+        });
+        this.conditions.forEach((condition: Condition) => {
+            condition.hints = condition.hints.map(hint => Object.assign(new Hint(), hint));
+        });
     }
 
 }

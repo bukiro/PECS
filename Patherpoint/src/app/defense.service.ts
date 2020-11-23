@@ -32,11 +32,6 @@ export class DefenseService {
         return shield.filter(shield => shield.equipped && !shield.broken);
     }
 
-    get_ParryWeapons(creature: Character|AnimalCompanion) {
-        let weapons = creature.inventories[0].weapons;
-        return weapons.filter(weapon => weapon.traits.includes("Parry"));
-    }
-
     get_ArmorBonus(creature: Character|AnimalCompanion, characterService: CharacterService, armor: Armor) {
         return armor.armorBonus(creature, characterService, this.effectsService);
     }

@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { Activity } from './Activity';
 import { ActivityGain } from './ActivityGain';
 import { CharacterService } from './character.service';
@@ -26,9 +25,7 @@ export class ActivitiesService {
     private activities: Activity[] = [];
     private loading: boolean = false;
 
-    constructor(
-        private http: HttpClient
-    ) { }
+    constructor() { }
 
     get_Activities(name: string = "") {
         if (!this.still_loading()) {

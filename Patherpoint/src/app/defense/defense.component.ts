@@ -109,10 +109,6 @@ export class DefenseComponent implements OnInit {
         this.characterService.process_ToChange();
     }
 
-    get_ParryWeapons() {
-        return this.defenseService.get_ParryWeapons(this.get_Creature() as Character|AnimalCompanion);
-    }
-
     get_Skills(name: string = "", type: string = "") {
         return this.characterService.get_Skills(this.get_Creature(), name, type);
     }

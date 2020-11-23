@@ -56,8 +56,6 @@ import { AlchemicalPoison } from './AlchemicalPoison';
 import { OtherConsumableBomb } from './OtherConsumableBomb';
 import { AdventuringGear } from './AdventuringGear';
 import { Hint } from './Hint';
-import { map } from 'rxjs/operators';
-import { Specialization } from './Specialization';
 
 @Injectable({
     providedIn: 'root'
@@ -91,7 +89,7 @@ export class CharacterService {
         private skillsService: SkillsService,
         public classesService: ClassesService,
         public featsService: FeatsService,
-        private traitsService: TraitsService,
+        public traitsService: TraitsService,
         private historyService: HistoryService,
         public conditionsService: ConditionsService,
         public activitiesService: ActivitiesService,
@@ -1014,8 +1012,10 @@ export class CharacterService {
         if (item.showon) {
             this.set_TagsToChange(creature.type, item.showon);
         }
-        item.traits.map(trait => this.traitsService.get_Traits(trait)[0])?.filter(trait => trait?.showon).forEach(trait => {
-            this.set_TagsToChange(creature.type, trait.showon);
+        item.traits.map(trait => this.traitsService.get_Traits(trait)[0])?.filter(trait => trait?.hints?.length).forEach(trait => {
+            trait.hints.forEach(hint => {
+                this.set_TagsToChange(creature.type, hint.showon);
+            })
         })
         if (item.effects?.length ||
             item.constructor == Armor && (item as Armor).get_Strength()) {
@@ -1025,8 +1025,7 @@ export class CharacterService {
             this.set_ToChange(creature.type, "attacks");
         }
         if (item.constructor == Armor ||
-            item.constructor == Shield ||
-            (item.constructor == Weapon && (item as Weapon).parrying)) {
+            item.constructor == Shield) {
             this.set_ToChange(creature.type, "defense");
         }
         if (item.activities?.length) {
@@ -1119,10 +1118,6 @@ export class CharacterService {
                 if (item instanceof Shield) {
                     item.takingCover = false;
                     item.raised = false;
-                }
-                //Same with currently parrying weapons
-                if (item instanceof Weapon) {
-                    item.parrying = false;
                 }
                 //If the item was invested, it isn't now.
                 if (item.invested) {
@@ -1601,22 +1596,21 @@ export class CharacterService {
     }
 
     get_ConditionsShowingOn(creature: Character | AnimalCompanion | Familiar, objectName: string = "all") {
-        let conditions = this.get_AppliedConditions(creature).filter(condition => condition.apply);
-        if (objectName.includes("Lore")) {
-            objectName = "Lore";
-        }
-        let returnedConditions = [];
-        if (conditions.length) {
-            conditions.forEach(condition => {
-                let originalCondition: Condition = this.get_Conditions(condition.name)[0];
-                originalCondition?.showon.split(",").forEach(showon => {
-                    if (objectName == "all" || showon == objectName || showon.substr(1) == objectName || (objectName == "Lore" && showon.includes(objectName))) {
-                        returnedConditions.push(originalCondition);
-                    }
-                });
-            });
-        }
-        return returnedConditions;
+        return this.get_AppliedConditions(creature)
+        .filter(conditionGain => conditionGain.apply)
+        .map(conditionGain => this.get_Conditions(conditionGain.name)[0])
+        .filter(condition =>
+            condition?.hints.find(hint => 
+                hint.showon.split(",").find(showon => 
+                    objectName.trim().toLowerCase() == "all" ||
+                    showon.trim().toLowerCase() == objectName.toLowerCase() ||
+                    (
+                        objectName.toLowerCase().includes("lore") &&
+                        showon.trim().toLowerCase() == "lore"
+                    )
+                )
+            )
+        )
     }
 
     get_OwnedActivities(creature: Character | AnimalCompanion | Familiar, levelNumber: number = creature.level, all: boolean = false) {

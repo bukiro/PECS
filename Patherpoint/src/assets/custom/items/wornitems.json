@@ -1,1 +1,78 @@
-[]
+[
+    {
+        "desc": "This cloak was hand-crafted by HAXNBAUER with the help of magical forest animals and is so dark that it reflects no light at all, granting you a +2 item bonus to Stealth checks. It always smells faintly of strawberries. Once per day, you can use one of the following activations:",
+        "id": "a730592b-aeb2-4ee4-8b01-699c2eac1067",
+        "bulk": "L",
+        "level": 12,
+        "name": "SUPERNINJA-Cloak by HAXNBAUER",
+        "price": 0,
+        "traits": [
+            "Illusion",
+            "Invested",
+            "Magical"
+        ],
+        "activities": [
+            {
+                "actions": "1A",
+                "activationType": "Interact",
+                "cooldown": 144000,
+                "sharedChargesID": 1,
+                "frequency": "once per day",
+                "desc": "You draw the hood up and gain the effects of invisibility, with the spell's normal duration or until you pull the hood back down, whichever comes first.",
+                "name": "SUPERNINJA-Cloak by HAXNBAUER: Invisibility",
+                "castSpells": [
+                    {
+                        "_className": "SpellCast",
+                        "name": "Invisibility",
+                        "level": 2,
+                        "duration": 1000,
+                        "target": "self"
+                    }
+                ],
+                "toggle": true,
+                "maxDuration": 1000,
+                "traits": [
+                    "Illusion",
+                    "Invested",
+                    "Magical"
+                ],
+                "_className": "ItemActivity",
+                "source": "a730592b-aeb2-4ee4-8b01-699c2eac1067"
+            },
+            {
+                "actions": "1A",
+                "activationType": "Interact",
+                "cooldown": 144000,
+                "sharedChargesID": 1,
+                "frequency": "once per day",
+                "desc": "You wrap the cloak over your shoulders and wear it as a huge scarf like a very cool ninja, increasing the cloak's item bonus to Stealth checks by 1d6 for 10 minutes or until you undo the scarf.",
+                "name": "SUPERNINJA-Cloak by HAXNBAUER: SUPERNINJA-mode",
+                "gainConditions": [
+                    {
+                        "name": "SUPERNINJA-mode",
+                        "duration": 1000,
+                        "value": 1
+                    }
+                ],
+                "toggle": true,
+                "maxDuration": 1000,
+                "traits": [
+                    "Illusion",
+                    "Invested",
+                    "Magical"
+                ],
+                "_className": "ItemActivity",
+                "source": "a730592b-aeb2-4ee4-8b01-699c2eac1067e"
+            }
+        ],
+        "effects": [
+            {
+                "affected": "Stealth",
+                "value": "+2",
+                "type": "item"
+            }
+        ],
+        "_className": "WornItem",
+        "usage": "worn cloak"
+    }
+]

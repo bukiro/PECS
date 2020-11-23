@@ -149,7 +149,7 @@ export class Skill {
         if (this.type == "Skill") { list.push("Skill Checks") }
         if (this.type == "Save") { list.push("Saving Throws") }
         if (this.name.includes("Lore")) { list.push("Lore") }
-        if (this.name.includes("Spell DC") && !isDC) { list.push("Attack Rolls") }
+        if (this.name.includes("Spell DC") && !isDC) { list.push("Attack Rolls"); list.push("Spell Attack Rolls") }
         if (this.name.includes("Spell DC") && isDC) { list.push("Spell DCs") }
         if (this.recallKnowledge) { list.push("Recall Knowledge Checks") }
         if (this.recallKnowledge && this.$level[index] >= 6) { list.push("Master Recall Knowledge Checks") }

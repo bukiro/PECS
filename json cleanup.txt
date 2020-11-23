@@ -1,8 +1,14 @@
 replace with nothing:
 
 ,\n[ ]*(""|null)
+
+not for conditions:
 \n[ ]*(""|null),
 \n[ ]*(""|null)
+
+only for conditions:
+\n[ ]*(""|null)(?!,)
+
 ,\n[ ]*"[_,A-Z,a-z,0-9]*": (""|null)
 \n[ ]*"[_,A-Z,a-z,0-9]*": (""|null),
 \n[ ]*"[_,A-Z,a-z,0-9]*": (""|null)

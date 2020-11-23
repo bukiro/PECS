@@ -1,0 +1,17 @@
+[
+    {
+        "name": "SUPERNINJA-mode",
+        "desc": "You wear your SUPERNINJA-cloak as a huge scarf like a very cool ninja, increasing the cloak's item bonus to Stealth checks by 1d6.",
+        "hasValue": true,
+        "inputRequired": "Set the value of the condition to the result of the dice roll.",
+        "type": "wornitems",
+        "buff": true,
+        "effects": [
+            {
+                "affected": "Stealth",
+                "type": "item",
+                "value": "Value + 2"
+            }
+        ]
+    }
+]

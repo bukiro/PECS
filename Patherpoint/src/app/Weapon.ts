@@ -11,13 +11,12 @@ import { Oil } from './Oil';
 import { SpecializationGain } from './SpecializationGain';
 import { AlchemicalPoison } from './AlchemicalPoison';
 import { ProficiencyChange } from './ProficiencyChange';
+import { Effect } from './Effect';
 
 export class Weapon extends Equipment {
     public readonly _className: string = this.constructor.name;
     //This is a list of all the attributes that should be saved if a refID exists. All others can be looked up via the refID when loading the character.
-    public readonly save = new Equipment().save.concat([
-        "parrying"
-    ])
+    public readonly save = new Equipment().save.concat([])
     //Weapons should be type "weapons" to be found in the database
     public type = "weapons";
     //Weapons are usually moddable like a weapon. Weapons that cannot be modded should be set to "-"
@@ -40,8 +39,6 @@ export class Weapon extends Equipment {
     public hands: string = "";
     //Melee range in ft: 5 or 10 for weapons with Reach trait
     public melee: number = 0;
-    //Is the weapon currently raised to parry?
-    public parrying: boolean = false;
     //Store any poisons applied to this item. There should be only one poison at a time.
     public poisonsApplied: AlchemicalPoison[] = [];
     //What proficiency is used? "Simple Weapons", "Unarmed Attacks", etc.?
@@ -222,9 +219,9 @@ export class Weapon extends Equipment {
         if (charLevelBonus) {
             explain += "\nCharacter Level: " + charLevelBonus;
         }
-        let penalties: { value: number, setValue: string, source: string, penalty: boolean }[] = [];
-        let bonuses: { value: number, setValue: string, source: string, penalty: boolean }[] = [];
-        let absolutes: { value: number, setValue: string, source: string, penalty: boolean }[] = [];
+        let penalties: { value: number, setValue: string, source: string, penalty: boolean, type: string }[] = [];
+        let bonuses: { value: number, setValue: string, source: string, penalty: boolean, type: string }[] = [];
+        let absolutes: { value: number, setValue: string, source: string, penalty: boolean, type: string }[] = [];
         //Calculate dexterity and strength penalties for the decision on which to use. They are not immediately applied.
         //The Clumsy condition affects all Dexterity attacks.
         let dexEffects = effectsService.get_RelativesOnThis(creature, "Dexterity-based Checks and DCs");
@@ -274,34 +271,59 @@ export class Weapon extends Equipment {
         }
         //Add up all modifiers before effects and item bonus
         let attackResult = charLevelBonus + skillLevel + abilityMod;
-        //Add potency bonus
-        let potencyRune: number = runeSource[0].get_PotencyRune();
-        if (potencyRune) {
-            attackResult += potencyRune;
-            explain += "\nPotency: " + runeSource[0].get_Potency(potencyRune);
-            //If you're getting the potency because of another item (like Doubling Rings), name it here
-            if (runeSource[2]) {
-                explain += "\n(" + runeSource[2].get_Name() + ")";
-            }
-        }
-        //Add absolute effects
-        effectsService.get_AbsolutesOnThese(creature, [
+        //Create names list for effects
+        let namesList = [
             this.name,
             "Attack Rolls",
             "All Checks and DCs",
+            //"Sword Attack Rolls", "Club Attack Rolls"
+            this.group + " Attack Rolls",
             //"Unarmed Attacks Attack Rolls", "Simple Weapons Attack Rolls"
             this.prof + " Attack Rolls",
             //"Unarmed Attack Rolls", "Simple Attack Rolls"
             this.prof.split(" ")[0] + " Attack Rolls",
+            //"Weapons Attack Rolls", also "Attacks Attack Rolls", but that's unlikely to be needed
+            this.prof.split(" ")[1] + " Attack Rolls",
+            //"Simple Sword Attack Rolls", "Martial Club Attack Rolls" etc.
+            this.prof.split(" ")[0] + this.group + " Attack Rolls",
+            //"Simple Longsword Attack Rolls", "Unarmed Fist Attack Rolls" etc.
+            this.prof.split(" ")[0] + this.weaponBase + " Attack Rolls",
             //"Melee Attack Rolls", "Ranged Attack Rolls"
             range + " Attack Rolls"
-            ]).forEach(effect => {
+        ];
+        this.get_Traits(characterService, creature).forEach(trait => {
+            if (trait.includes(" ft")) {
+                namesList.push(trait.split(" ")[0] + " Attack Rolls")
+            } else {
+                namesList.push(trait + " Attack Rolls");
+            }
+        })
+        //Add absolute effects
+        effectsService.get_AbsolutesOnThese(creature, namesList)
+            .forEach(effect => {
                 attackResult = parseInt(effect.setValue)
                 explain = effect.source + ": " + effect.setValue;
-                absolutes.push({ value: 0, setValue: effect.setValue, source: effect.source, penalty: false })
+                absolutes.push({ value: 0, setValue: effect.setValue, source: effect.source, penalty: false, type: effect.type })
             });
         let effectsSum: number = 0;
-        //Add relative effects
+        //Add relative effects, including potency bonus and shoddy penalty
+        //Generate potency bonus
+        let potencyRune: number = runeSource[0].get_PotencyRune();
+        let calculatedEffects: Effect[] = []
+        if (potencyRune) {
+            let source = "Potency"
+            //If you're getting the potency because of another item (like Doubling Rings), name it here
+            if (runeSource[2]) {
+                source = "Potency (" + runeSource[2].get_Name() + ")";
+            }
+            calculatedEffects.push(new Effect(creature.type, "item", this.name, potencyRune.toString(), "", false, source, false, true, true, 0))
+        }
+        //Shoddy items have a -2 item penalty to attacks, unless you have the Junk Tinker feat and have crafted the item yourself.
+        if (this.shoddy && characterService.get_Feats("Junk Tinker")[0]?.have(creature, characterService) && this.crafted) {
+            explain += "\nShoddy (canceled by Junk Tinker): -0";
+        } else if (this.shoddy) {
+            calculatedEffects.push(new Effect(creature.type, "item", this.name, "-2", "", false, "Shoddy", true, true, true, 0))
+        }
         let abilityName: string = "";
         if (strUsed) {
             abilityName = "Strength";
@@ -309,34 +331,20 @@ export class Weapon extends Equipment {
         if (dexUsed) {
             abilityName = "Dexterity";
         }
-        effectsService.get_RelativesOnThese(creature, [
-            this.name,
-            "Attack Rolls",
-            "All Checks and DCs",
-            abilityName + "-based Checks and DCs",
-            //"Unarmed Attacks Attack Rolls", "Simple Weapons Attack Rolls"
-            this.prof + " Attack Rolls",
-            //"Unarmed Attack Rolls", "Simple Attack Rolls"
-            this.prof.split(" ")[0] + " Attack Rolls",
-            //"Melee Attack Rolls", "Ranged Attack Rolls"
-            range + " Attack Rolls"
-            ]).forEach(effect => {
+        //Because of the Potency and Shoddy Effects, we need to filter the types a second time, even though get_RelativesOnThese comes pre-filtered.
+        effectsService.get_TypeFilteredEffects(
+            calculatedEffects
+                .concat(effectsService.get_RelativesOnThese(creature, namesList)
+            ), false)
+            .forEach(effect => {
                 if (parseInt(effect.value) < 0) {
-                    penalties.push({ value: parseInt(effect.value), setValue: "", source: effect.source, penalty: true });
-                } else {
-                    bonuses.push({ value: parseInt(effect.value), setValue: "", source: effect.source, penalty: false });
+                    penalties.push({ value: parseInt(effect.value), setValue: "", source: effect.source, penalty: true, type: effect.type });
+                } else if (!effect.source.includes("Potency")) {
+                    bonuses.push({ value: parseInt(effect.value), setValue: "", source: effect.source, penalty: false, type: effect.type });
                 }
                 effectsSum += parseInt(effect.value);
                 explain += "\n" + effect.source + ": " + effect.value;
             });
-        //Shoddy items have a -2 penalty to attacks, unless you have the Junk Tinker feat and have crafted the item yourself.
-        if (this.shoddy && characterService.get_Feats("Junk Tinker")[0]?.have(creature, characterService) && this.crafted) {
-            explain += "\nShoddy (canceled by Junk Tinker): -0";
-        } else if (this.shoddy) {
-            effectsSum -= 2;
-            explain += "\nShoddy: -2";
-            penalties.push({ value: -2, setValue: "", source: "Shoddy", penalty: true })
-        }
         //Add up all modifiers and return the attack bonus for this attack
         attackResult += effectsSum;
         explain = explain.trim();
@@ -412,13 +420,20 @@ export class Weapon extends Equipment {
             this.name + " Dice Number",
             //"Longsword Dice Number", "Fist Dice Number" etc.
             this.weaponBase + " Dice Number",
+            //"Sword Dice Number", "Club Dice Number"
+            this.group + " Dice Number",
             //"Unarmed Attacks Dice Number", "Simple Weapons Dice Number" etc.
             this.prof + " Dice Number",
             //"Unarmed Dice Number", "Simple Dice Number" etc.
             this.prof.split(" ")[0] + " Dice Number",
+            //"Weapons Dice Number", also "Attacks Dice Number", but that's unlikely to be needed
+            this.prof.split(" ")[1] + " Dice Number",
+            //"Simple Sword Dice Number", "Martial Club Dice Number" etc.
+            this.prof.split(" ")[0] + this.group + " Dice Number",
             //"Simple Longsword Dice Number", "Unarmed Fist Dice Number" etc.
             this.prof.split(" ")[0] + this.weaponBase + " Dice Number"
             ]).forEach(effect => {
+                absolutes.push({ value: parseInt(effect.value), setValue: "", source: effect.source, penalty: false });
                 dicenum = parseInt(effect.setValue);
                 explain += "\n" + effect.source + ": Dice number " + dicenum;
             })
@@ -427,13 +442,24 @@ export class Weapon extends Equipment {
             this.name + " Dice Number",
             //"Longsword Dice Number", "Fist Dice Number" etc.
             this.weaponBase + " Dice Number",
+            //"Sword Dice Number", "Club Dice Number"
+            this.group + " Dice Number",
             //"Unarmed Attacks Dice Number", "Simple Weapons Dice Number" etc.
             this.prof + " Dice Number",
             //"Unarmed Dice Number", "Simple Dice Number" etc.
             this.prof.split(" ")[0] + " Dice Number",
+            //"Weapons Dice Number", also "Attacks Dice Number", but that's unlikely to be needed
+            this.prof.split(" ")[1] + " Dice Number",
+            //"Simple Sword Dice Number", "Martial Club Dice Number" etc.
+            this.prof.split(" ")[0] + this.group + " Dice Number",
             //"Simple Longsword Dice Number", "Unarmed Fist Dice Number" etc.
             this.prof.split(" ")[0] + this.weaponBase + " Dice Number"
             ]).forEach(effect => {
+                if (parseInt(effect.value) < 0) {
+                    penalties.push({ value: parseInt(effect.value), setValue: "", source: effect.source, penalty: true });
+                } else {
+                    bonuses.push({ value: parseInt(effect.value), setValue: "", source: effect.source, penalty: false });
+                }
                 dicenum += parseInt(effect.value);
                 explain += "\n" + effect.source + ": Dice number +" + parseInt(effect.value);
             })
@@ -457,13 +483,20 @@ export class Weapon extends Equipment {
             this.name + " Dice Size",
             //"Longsword Dice Size", "Fist Dice Size" etc.
             this.weaponBase + " Dice Size",
+            //"Sword Dice Size", "Club Dice Size"
+            this.group + " Dice Size",
             //"Unarmed Attacks Dice Size", "Simple Weapons Dice Size" etc.
             this.prof + " Dice Size",
             //"Unarmed Dice Size", "Simple Dice Size" etc.
             this.prof.split(" ")[0] + " Dice Size",
+            //"Weapons Dice Size", also "Attacks Dice Size", but that's unlikely to be needed
+            this.prof.split(" ")[1] + " Dice Size",
+            //"Simple Sword Dice Size", "Martial Club Dice Size" etc.
+            this.prof.split(" ")[0] + this.group + " Dice Size",
             //"Simple Longsword Dice Size", "Unarmed Fist Dice Size" etc.
             this.prof.split(" ")[0] + this.weaponBase + " Dice Size",
             ]).forEach(effect => {
+                absolutes.push({ value: parseInt(effect.value), setValue: "", source: effect.source, penalty: false });
                 dicesize = parseInt(effect.setValue);
                 explain += "\n" + effect.source + ": Dice size d" + dicesize;
             })
@@ -472,13 +505,24 @@ export class Weapon extends Equipment {
             this.name + " Dice Size",
             //"Longsword Dice Size", "Fist Dice Size" etc.
             this.weaponBase + " Dice Size",
+            //"Sword Dice Size", "Club Dice Size"
+            this.group + " Dice Size",
             //"Unarmed Attacks Dice Size", "Simple Weapons Dice Size" etc.
             this.prof + " Dice Size",
             //"Unarmed Dice Size", "Simple Dice Size" etc.
             this.prof.split(" ")[0] + " Dice Size",
+            //"Weapons Dice Size", also "Attacks Dice Size", but that's unlikely to be needed
+            this.prof.split(" ")[1] + " Dice Size",
+            //"Simple Sword Dice Size", "Martial Club Dice Size" etc.
+            this.prof.split(" ")[0] + this.group + " Dice Size",
             //"Simple Longsword Dice Size", "Unarmed Fist Dice Size" etc.
             this.prof.split(" ")[0] + this.weaponBase + " Dice Size",
             ]).forEach(effect => {
+                if (parseInt(effect.value) < 0) {
+                    penalties.push({ value: parseInt(effect.value), setValue: "", source: effect.source, penalty: true });
+                } else {
+                    bonuses.push({ value: parseInt(effect.value), setValue: "", source: effect.source, penalty: false });
+                }
                 dicesize += parseInt(effect.value);
                 explain += "\n" + effect.source + ": Dice size d" + dicesize;
             })

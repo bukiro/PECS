@@ -13,7 +13,7 @@
   <button [ngClass]="{'fancy-button':get_SpellLibraryMenuState()=='out'}" (click)="toggleMenu('spelllibrary')" *ngIf="!still_loading()">Spell Library</button>
   <button [ngClass]="{'fancy-button':get_ConditionsMenuState()=='out'}" (click)="toggleMenu('conditions')" *ngIf="!still_loading()">Conditions</button>
   <button [ngClass]="{'fancy-button':get_DiceMenuState()=='out'}" (click)="toggleMenu('dice')" *ngIf="!still_loading()">Dice</button>
-  <button class="fancy-button" (click)="save()" *ngIf="!still_loading()" title="{{!get_Savegames() && 'Database connection failed.'}}" [disabled]="!get_Savegames()">Save</button>
+  <button class="fancy-button" (click)="save()" *ngIf="!still_loading()" title="{{!get_Savegames() ? 'Database connection failed.' : ''}}" [disabled]="!get_Savegames()">Save</button>
   <button class="fancy-button" (click)="set_Changed()" *ngIf="!still_loading()" title="Refresh all">⟳</button>
 </div>
 <app-items [ngStyle]="{'--accent':get_Accent()}" [ngClass]="{'darkmode':get_Darkmode()}" [@slideInOut]="get_ItemsMenuState()" *ngIf="!still_loading()"></app-items>

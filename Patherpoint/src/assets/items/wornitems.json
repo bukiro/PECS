@@ -1559,7 +1559,7 @@
         ],
         "effects": [
             {
-                "affected": "Acrobatics",
+                "affected": "Stealth",
                 "value": "+1",
                 "type": "item"
             }
@@ -1654,7 +1654,7 @@
         ],
         "effects": [
             {
-                "affected": "Acrobatics",
+                "affected": "Stealth",
                 "value": "+1",
                 "type": "item"
             }

@@ -6,6 +6,7 @@ import { CharacterService } from './character.service';
 import { Character } from './Character';
 import { AnimalCompanion } from './AnimalCompanion';
 import { Familiar } from './Familiar';
+import { Hint } from './Hint';
 
 @Injectable({
     providedIn: 'root'
@@ -22,9 +23,19 @@ export class TraitsService {
 
     get_Traits(traitName: string = "") {
         if (!this.still_loading()) {
-            //Some trait instances have more information after the trait name, so we allow trait.name == name.split(" ")[0] in the filter to compare only the first word.
-            //Because there is one (1) trait with two words in the database, we also have to allow trait.name == name to find that one.
-            return this.traits.filter(trait => trait.name == traitName || trait.name == traitName.split(" ")[0] || traitName == "");
+            //Some trait instances have range information after the trait name, so we allow traits that are included in the name as long as the name also contains " ft" or " d".
+            return this.traits
+                .filter(trait =>
+                    traitName == "" ||
+                    trait.name == traitName ||
+                    (
+                        traitName.includes(trait.name) &&
+                        (
+                            traitName.includes(" ft") ||
+                            traitName.includes(" d")
+                        )
+                    )
+                );
         } else {
             return [new Trait()];
         }
@@ -36,7 +47,7 @@ export class TraitsService {
             //uses the haveOn() method of Trait that returns any equipment that has this trait
             let traits = this.traits;
             return traits.filter(trait => 
-                trait.showon == name
+                trait.hints.find(hint => hint.showon.toLowerCase().includes(name.toLowerCase()))
                 && trait.haveOn(creature).length > 0
                 );
         } else {
@@ -71,7 +82,9 @@ export class TraitsService {
     finish_loading() {
         if (this.loader) {
             this.traits = this.loader.map(trait => Object.assign(new Trait(), trait));
-
+            this.traits.forEach(trait => {
+                trait.hints = trait.hints.map(hint => Object.assign(new Hint(), hint));
+            })
             this.loader = [];
         }
         if (this.loading) {this.loading = false;}

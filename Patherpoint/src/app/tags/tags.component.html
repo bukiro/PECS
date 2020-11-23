@@ -1,19 +1,59 @@
 <div class="fullsize-only row left-aligned">
-    <cite class="trait" *ngFor="let trait of get_TraitsForThis(objectName); trackBy:trackByIndex;"
-        [title]="trait.description">{{trait.name}}
-        ({{trait.haveOn(get_Creature(), this.characterService, true)}})</cite>
+    <ng-container *ngFor="let trait of get_TraitsForThis(objectName); trackBy:trackByIndex;">
+        <cite class="trait" *ngFor="let hint of get_Hints(trait.hints, objectName); trackBy:trackByIndex;"
+            [title]="hint.desc ? hint.desc : trait.description">{{trait.name}}
+            ({{trait.haveOn(get_Creature(), this.characterService, true)}})
+            <input type="checkbox" [(ngModel)]="hint.active" (ngModelChange)="on_ActivateEffect()"
+                *ngIf="hint.effects && hint.effects.length" title="Apply any numeral effects of this hint.">
+            <input type="checkbox" [(ngModel)]="hint.active2" (ngModelChange)="on_ActivateEffect()"
+                *ngIf="hint.effects && hint.effects.length && hint.extraActivations > 0"
+                title="Activate the second level of this hint's effects.">
+            <input type="checkbox" [(ngModel)]="hint.active3" (ngModelChange)="on_ActivateEffect()"
+                *ngIf="hint.effects && hint.effects.length && hint.extraActivations > 1"
+                title="Activate the third level of this hint's effects.">
+        </cite>
+    </ng-container>
+    <ng-container *ngFor="let specialName of specialNames; trackBy:trackByIndex;">
+        <ng-container *ngFor="let trait of get_TraitsForThis(specialName); trackBy:trackByIndex;">
+            <cite class="trait" *ngFor="let hint of get_Hints(trait.hints, specialName); trackBy:trackByIndex;"
+                [title]="hint.desc ? hint.desc : trait.description">{{trait.name}}
+                ({{trait.haveOn(get_Creature(), this.characterService, true)}})
+                <input type="checkbox" [(ngModel)]="hint.active" (ngModelChange)="on_ActivateEffect()"
+                    *ngIf="hint.effects && hint.effects.length" title="Apply any numeral effects of this hint.">
+                <input type="checkbox" [(ngModel)]="hint.active2" (ngModelChange)="on_ActivateEffect()"
+                    *ngIf="hint.effects && hint.effects.length && hint.extraActivations > 0"
+                    title="Activate the second level of this hint's effects.">
+                <input type="checkbox" [(ngModel)]="hint.active3" (ngModelChange)="on_ActivateEffect()"
+                    *ngIf="hint.effects && hint.effects.length && hint.extraActivations > 1"
+                    title="Activate the third level of this hint's effects.">
+            </cite>
+        </ng-container>
+    </ng-container>
     <ng-container *ngFor="let feat of get_FeatsShowingOn(objectName, showFeats); trackBy:trackByIndex;">
         <cite class="feat" *ngFor="let hint of get_Hints(feat.hints, objectName); trackBy:trackByIndex;"
-            [title]="hint.desc ? hint.desc : feat.desc">{{feat.name}} <input type="checkbox" [(ngModel)]="hint.active"
-                (ngModelChange)="on_ActivateEffect()" *ngIf="hint.effects && hint.effects.length">
+            [title]="hint.desc ? hint.desc : feat.desc">{{feat.name}}
+            <input type="checkbox" [(ngModel)]="hint.active" (ngModelChange)="on_ActivateEffect()"
+                *ngIf="hint.effects && hint.effects.length" title="Apply any numeral effects of this hint.">
+            <input type="checkbox" [(ngModel)]="hint.active2" (ngModelChange)="on_ActivateEffect()"
+                *ngIf="hint.effects && hint.effects.length && hint.extraActivations > 0"
+                title="Activate the second level of this hint's effects.">
+            <input type="checkbox" [(ngModel)]="hint.active3" (ngModelChange)="on_ActivateEffect()"
+                *ngIf="hint.effects && hint.effects.length && hint.extraActivations > 1"
+                title="Activate the third level of this hint's effects.">
         </cite>
     </ng-container>
     <ng-container *ngFor="let specialName of specialNames; trackBy:trackByIndex;">
         <ng-container *ngFor="let feat of get_FeatsShowingOn(specialName, true); trackBy:trackByIndex;">
-            <cite class="feat" *ngFor="let hint of get_Hints(feat.hints, objectName); trackBy:trackByIndex;"
-                [title]="hint.desc ? hint.desc : feat.desc">{{feat.name}} <input type="checkbox"
-                    [(ngModel)]="hint.active" (ngModelChange)="on_ActivateEffect()"
-                    *ngIf="hint.effects && hint.effects.length">
+            <cite class="feat" *ngFor="let hint of get_Hints(feat.hints, specialName); trackBy:trackByIndex;"
+                [title]="hint.desc ? hint.desc : feat.desc">{{feat.name}}
+                <input type="checkbox" [(ngModel)]="hint.active" (ngModelChange)="on_ActivateEffect()"
+                    *ngIf="hint.effects && hint.effects.length" title="Apply any numeral effects of this hint.">
+                <input type="checkbox" [(ngModel)]="hint.active2" (ngModelChange)="on_ActivateEffect()"
+                    *ngIf="hint.effects && hint.effects.length && hint.extraActivations > 0"
+                    title="Activate the second level of this hint's effects.">
+                <input type="checkbox" [(ngModel)]="hint.active3" (ngModelChange)="on_ActivateEffect()"
+                    *ngIf="hint.effects && hint.effects.length && hint.extraActivations > 1"
+                    title="Activate the third level of this hint's effects.">
             </cite>
         </ng-container>
     </ng-container>
@@ -21,24 +61,87 @@
         [title]="(item.hint) ? item.hint : item.desc">{{item.name}}</cite>
     <ng-container *ngFor="let spec of get_SpecializationsShowingOn(objectName); trackBy:trackByIndex;">
         <cite class="item" *ngFor="let hint of get_Hints(spec.hints, objectName); trackBy:trackByIndex;"
-            [title]="hint.desc ? hint.desc : spec.desc">{{spec.name}} <input type="checkbox" [(ngModel)]="hint.active"
-                (ngModelChange)="on_ActivateEffect()" *ngIf="hint.effects && hint.effects.length">
+            [title]="hint.desc ? hint.desc : spec.desc">{{spec.name}}
+            <input type="checkbox" [(ngModel)]="hint.active" (ngModelChange)="on_ActivateEffect()"
+                *ngIf="hint.effects && hint.effects.length" title="Apply any numeral effects of this hint.">
+            <input type="checkbox" [(ngModel)]="hint.active2" (ngModelChange)="on_ActivateEffect()"
+                *ngIf="hint.effects && hint.effects.length && hint.extraActivations > 0"
+                title="Activate the second level of this hint's effects.">
+            <input type="checkbox" [(ngModel)]="hint.active3" (ngModelChange)="on_ActivateEffect()"
+                *ngIf="hint.effects && hint.effects.length && hint.extraActivations > 1"
+                title="Activate the third level of this hint's effects.">
         </cite>
+    </ng-container>
+    <ng-container *ngFor="let specialName of specialNames; trackBy:trackByIndex;">
+        <ng-container *ngFor="let spec of get_SpecializationsShowingOn(specialName); trackBy:trackByIndex;">
+            <cite class="item" *ngFor="let hint of get_Hints(spec.hints, specialName); trackBy:trackByIndex;"
+                [title]="hint.desc ? hint.desc : spec.desc">{{spec.name}}
+                <input type="checkbox" [(ngModel)]="hint.active" (ngModelChange)="on_ActivateEffect()"
+                    *ngIf="hint.effects && hint.effects.length" title="Apply any numeral effects of this hint.">
+                <input type="checkbox" [(ngModel)]="hint.active2" (ngModelChange)="on_ActivateEffect()"
+                    *ngIf="hint.effects && hint.effects.length && hint.extraActivations > 0"
+                    title="Activate the second level of this hint's effects.">
+                <input type="checkbox" [(ngModel)]="hint.active3" (ngModelChange)="on_ActivateEffect()"
+                    *ngIf="hint.effects && hint.effects.length && hint.extraActivations > 1"
+                    title="Activate the third level of this hint's effects.">
+            </cite>
+        </ng-container>
     </ng-container>
     <ng-container *ngFor="let activity of get_ActivitiesShowingOn(objectName); trackBy:trackByIndex;">
         <cite class="activity" *ngFor="let hint of get_Hints(activity.hints, objectName); trackBy:trackByIndex;"
-            [title]="hint.desc ? hint.desc : activity.desc">{{activity.name}} <input type="checkbox"
-                [(ngModel)]="hint.active" (ngModelChange)="on_ActivateEffect()"
-                *ngIf="hint.effects && hint.effects.length">
+            [title]="hint.desc ? hint.desc : activity.desc">{{activity.name}}
+            <input type="checkbox" [(ngModel)]="hint.active" (ngModelChange)="on_ActivateEffect()"
+                *ngIf="hint.effects && hint.effects.length" title="Apply any numeral effects of this hint.">
+            <input type="checkbox" [(ngModel)]="hint.active2" (ngModelChange)="on_ActivateEffect()"
+                *ngIf="hint.effects && hint.effects.length && hint.extraActivations > 0"
+                title="Activate the second level of this hint's effects.">
+            <input type="checkbox" [(ngModel)]="hint.active3" (ngModelChange)="on_ActivateEffect()"
+                *ngIf="hint.effects && hint.effects.length && hint.extraActivations > 1"
+                title="Activate the third level of this hint's effects.">
         </cite>
     </ng-container>
-    <cite class="condition" *ngFor="let condition of get_ConditionsShowingOn(objectName); trackBy:trackByIndex;"
-        [className]="condition.buff ? 'bonus' : 'penalty'"
-        [title]="condition.hint ? condition.hint : condition.desc">{{condition.name}}&nbsp;</cite>
     <ng-container *ngFor="let specialName of specialNames; trackBy:trackByIndex;">
-        <cite class="condition" *ngFor="let condition of get_ConditionsShowingOn(specialName); trackBy:trackByIndex;"
-            [className]="condition.buff ? 'bonus' : 'penalty'"
-            [title]="condition.hint ? condition.hint : condition.desc">{{condition.name}}&nbsp;</cite>
+        <ng-container *ngFor="let activity of get_ActivitiesShowingOn(specialName); trackBy:trackByIndex;">
+            <cite class="activity" *ngFor="let hint of get_Hints(activity.hints, specialName); trackBy:trackByIndex;"
+                [title]="hint.desc ? hint.desc : activity.desc">{{activity.name}}
+                <input type="checkbox" [(ngModel)]="hint.active" (ngModelChange)="on_ActivateEffect()"
+                    *ngIf="hint.effects && hint.effects.length" title="Apply any numeral effects of this hint.">
+                <input type="checkbox" [(ngModel)]="hint.active2" (ngModelChange)="on_ActivateEffect()"
+                    *ngIf="hint.effects && hint.effects.length && hint.extraActivations > 0"
+                    title="Activate the second level of this hint's effects.">
+                <input type="checkbox" [(ngModel)]="hint.active3" (ngModelChange)="on_ActivateEffect()"
+                    *ngIf="hint.effects && hint.effects.length && hint.extraActivations > 1"
+                    title="Activate the third level of this hint's effects.">
+            </cite>
+        </ng-container>
+    </ng-container>
+    <ng-container *ngFor="let condition of get_ConditionsShowingOn(objectName); trackBy:trackByIndex;">
+        <cite class="condition" *ngFor="let hint of get_Hints(condition.hints, objectName); trackBy:trackByIndex;"
+            [title]="hint.desc ? hint.desc : condition.desc">{{condition.name}}
+            <input type="checkbox" [(ngModel)]="hint.active" (ngModelChange)="on_ActivateEffect()"
+                *ngIf="hint.effects && hint.effects.length" title="Apply any numeral effects of this hint.">
+            <input type="checkbox" [(ngModel)]="hint.active2" (ngModelChange)="on_ActivateEffect()"
+                *ngIf="hint.effects && hint.effects.length && hint.extraActivations > 0"
+                title="Activate the second level of this hint's effects.">
+            <input type="checkbox" [(ngModel)]="hint.active3" (ngModelChange)="on_ActivateEffect()"
+                *ngIf="hint.effects && hint.effects.length && hint.extraActivations > 1"
+                title="Activate the third level of this hint's effects.">
+        </cite>
+    </ng-container>
+    <ng-container *ngFor="let specialName of specialNames; trackBy:trackByIndex;">
+        <ng-container *ngFor="let condition of get_ConditionsShowingOn(specialName); trackBy:trackByIndex;">
+            <cite class="condition" *ngFor="let hint of get_Hints(condition.hints, specialName); trackBy:trackByIndex;"
+                [title]="hint.desc ? hint.desc : condition.desc">{{condition.name}}
+                <input type="checkbox" [(ngModel)]="hint.active" (ngModelChange)="on_ActivateEffect()"
+                    *ngIf="hint.effects && hint.effects.length" title="Apply any numeral effects of this hint.">
+                <input type="checkbox" [(ngModel)]="hint.active2" (ngModelChange)="on_ActivateEffect()"
+                    *ngIf="hint.effects && hint.effects.length && hint.extraActivations > 0"
+                    title="Activate the second level of this hint's effects.">
+                <input type="checkbox" [(ngModel)]="hint.active3" (ngModelChange)="on_ActivateEffect()"
+                    *ngIf="hint.effects && hint.effects.length && hint.extraActivations > 1"
+                    title="Activate the third level of this hint's effects.">
+            </cite>
+        </ng-container>
     </ng-container>
     <cite class="effect" *ngFor="let effect of get_EffectsOnThis(objectName); trackBy:trackByIndex;"
         [ngClass]="{'penalty':effect.penalty, 'bonus':!effect.penalty && !effect.setValue, 'absolute':effect.setValue}"

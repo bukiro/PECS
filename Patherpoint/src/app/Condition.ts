@@ -4,6 +4,7 @@ import { ActivityGain } from './ActivityGain';
 import { ItemGain } from './ItemGain';
 import { AttackRestriction } from './AttackRestriction';
 import { SenseGain } from './SenseGain';
+import { Hint } from './Hint';
 
 export class Condition {
     public name: string = "";
@@ -13,7 +14,7 @@ export class Condition {
     public decreasingValue: boolean = false;
     public value: number = 0;
     public desc: string = "";
-    public showon: string = "";
+    public hints: Hint[] = [];
     public inputRequired: string = "";
     public onceEffects: EffectGain[] = [];
     public endEffects: EffectGain[] = [];

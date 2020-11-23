@@ -17,6 +17,9 @@ import { HttpClient } from '@angular/common/http';
 import { ItemActivity } from './ItemActivity';
 import { ActivitiesService } from './activities.service';
 import { Activity } from './Activity';
+import { Condition } from './Condition';
+import { ConditionGain } from './ConditionGain';
+import { Item } from './Item';
 
 @Injectable({
     providedIn: 'root'
@@ -188,7 +191,7 @@ export class EffectsService {
         return (new Speed(name));
     }
 
-    get_SimpleEffects(creature: Character | AnimalCompanion | Familiar, characterService: CharacterService, object: any, name: string = "") {
+    get_SimpleEffects(creature: Character | AnimalCompanion | Familiar, characterService: CharacterService, object: any, name: string = "", parentConditionGain: ConditionGain = null) {
         //If an item has a simple instruction in effects, such as "Strength", "+2", turn it into an effect,
         // then mark the effect as a penalty if the change is negative (except for Bulk).
         //Try to get the type, too - if no type is given, set it to untyped.
@@ -207,10 +210,19 @@ export class EffectsService {
         let Familiar: Familiar = characterService.get_Familiar();
         let Level: number = Character.level;
         //Some values specific to conditions for effect values
-        let Value = object.value;
-        let Heightened = object.heightened;
-        let Choice = object.choice;
-        let SpellCastingAbility = object.spellCastingAbility;
+        let Value: number = object.value;
+        let Heightened: number = object.heightened;
+        let Choice: string = object.choice;
+        let SpellCastingAbility: string = object.spellCastingAbility;
+        //Hint effects of conditions pass their conditionGain for these values.
+        if (parentConditionGain) {
+            Value = parentConditionGain.value;
+            Heightened = parentConditionGain.heightened;
+            Choice = parentConditionGain.choice;
+            SpellCastingAbility = parentConditionGain.spellCastingAbility;
+        } else {
+            
+        }
         //Some Functions for effect values
         function Temporary_HP(source: string = "", sourceId: string = "") {
             if (sourceId) {
@@ -402,6 +414,12 @@ export class EffectsService {
                 })
             });
         }
+        //Traits that are on currently equipped items
+        characterService.traitsService.get_Traits().filter(trait => trait.hints.length).forEach(trait => {
+            trait.hints.filter(hint => (hint.active || hint.active2 || hint.active3) && hint.effects?.length && trait.haveOn(creature).length).forEach(hint => {
+                simpleEffects = simpleEffects.concat(this.get_SimpleEffects(character, characterService, hint, "conditional, "+trait.name));
+            })
+        })
         //Character Feats and active hints
         if (character) {
             characterService.get_FeatsAndFeatures()
@@ -410,21 +428,21 @@ export class EffectsService {
                 if (feat.effects?.length) {
                     simpleEffects = simpleEffects.concat(this.get_SimpleEffects(character, characterService, feat));
                 }
-                feat.hints?.filter(hint => hint.active && hint.effects?.length).forEach(hint => {
+                feat.hints?.filter(hint => (hint.active || hint.active2 || hint.active3) && hint.effects?.length).forEach(hint => {
                     simpleEffects = simpleEffects.concat(this.get_SimpleEffects(character, characterService, hint, "conditional, "+feat.name));
                 })
             });
         }
         //Companion Specializations and active hints
         if (companion) {
-            companion.class?.ancestry?.hints?.filter(hint => hint.active && hint.effects?.length).forEach(hint => {
+            companion.class?.ancestry?.hints?.filter(hint => (hint.active || hint.active2 || hint.active3) && hint.effects?.length).forEach(hint => {
                 simpleEffects = simpleEffects.concat(this.get_SimpleEffects(character, characterService, hint, "conditional, "+companion.class.ancestry.name));
             })
             companion.class?.specializations?.filter(spec => spec.effects?.length || spec.hints?.length).forEach(spec => {
                 if (spec.effects?.length) {
                     simpleEffects = simpleEffects.concat(this.get_SimpleEffects(companion, characterService, spec));
                 }
-                spec.hints?.filter(hint => hint.active && hint.effects?.length).forEach(hint => {
+                spec.hints?.filter(hint => (hint.active || hint.active2 || hint.active3) && hint.effects?.length).forEach(hint => {
                     simpleEffects = simpleEffects.concat(this.get_SimpleEffects(companion, characterService, hint, "conditional, "+spec.name));
                 })
             })
@@ -437,7 +455,7 @@ export class EffectsService {
                 if (ability.effects?.length) {
                     simpleEffects = simpleEffects.concat(this.get_SimpleEffects(familiar, characterService, ability));
                 }
-                ability.hints?.filter(hint => hint.active && hint.effects?.length).forEach(hint => {
+                ability.hints?.filter(hint => (hint.active || hint.active2 || hint.active3) && hint.effects?.length).forEach(hint => {
                     simpleEffects = simpleEffects.concat(this.get_SimpleEffects(familiar, characterService, hint, "conditional, "+ability.name));
                 })
             });
@@ -451,6 +469,9 @@ export class EffectsService {
                 let effectsObject = { name: gain.name, value: gain.value, choice: gain.choice, effects: originalCondition.effects, heightened: gain.heightened }
                 simpleEffects = simpleEffects.concat(this.get_SimpleEffects(creature, characterService, effectsObject));
             }
+            originalCondition?.hints?.filter(hint => (hint.active || hint.active2 || hint.active3) && hint.effects?.length).forEach(hint => {
+                simpleEffects = simpleEffects.concat(this.get_SimpleEffects(creature, characterService, hint, "conditional, "+originalCondition.name, gain));
+            })
         });
         //Active activities and active hints
         characterService.get_OwnedActivities(creature, creature.level, true).filter(activity => activity.active).forEach(activity => {
@@ -463,7 +484,7 @@ export class EffectsService {
             if (originalActivity?.effects?.length) {
                 simpleEffects = simpleEffects.concat(this.get_SimpleEffects(character, characterService, originalActivity));
             }
-            originalActivity?.hints?.filter(hint => hint.active && hint.effects?.length).forEach(hint => {
+            originalActivity?.hints?.filter(hint => (hint.active || hint.active2 || hint.active3) && hint.effects?.length).forEach(hint => {
                 simpleEffects = simpleEffects.concat(this.get_SimpleEffects(character, characterService, hint, "conditional, "+originalActivity.name));
             })
         })
@@ -480,11 +501,6 @@ export class EffectsService {
         if (!familiar) {
             let items = creature.inventories[0];
 
-            //Get parrying bonuses from raised weapons
-            //If an item is a weapon that is raised, add +1 to AC.
-            items.weapons.filter(item => item.equipped && item.parrying && !item.broken).forEach(item => {
-                itemEffects.push(new Effect(creature.id, 'circumstance', "AC", "+1", "", false, "Parrying", false));
-            })
             //Initialize shoddy values and shield ally for all shields.
             creature.inventories.forEach(inv => {
                 inv.shields.forEach(shield => {
@@ -746,7 +762,7 @@ export class EffectsService {
         let individualSkillsWildcard: string[] = ["Lore", "Class DC", "Spell DC", "Spell DCs"];
         let skillsWildcard: string[] = ["All Checks and DCs", "Skill Checks", "Untrained Skills", "Proficiency Level", "Recall Knowledge Checks", "Master Recall Knowledge Checks", "Saving Throws"];
         let inventory: string[] = ["Bulk", "Encumbered Limit", "Max Bulk", "Max Invested"];
-        let spellbook: string[] = ["Focus Points", "Focus Pool", "All Checks and DCs", "Spell DCs"];
+        let spellbook: string[] = ["Focus Points", "Focus Pool", "All Checks and DCs", "Attack Rolls", "Spell Attack Rolls", "Spell DCs"];
         let spellbookWildcard: string[] = ["Spell Slots", "Proficiency Level"];
 
         let changedEffects: Effect[] = [];
@@ -808,6 +824,16 @@ export class EffectsService {
                 characterService.set_ToChange("Familiar", "featchoices");
             }
         })
+        //If any equipped weapon is affected, update attacks, and if any equipped armor or shield is affected, update defense.
+        if (creature.inventories[0].weapons.find(weapon => weapon.equipped && changedEffects.find(effect => effect.target == weapon.name))) {
+            characterService.set_ToChange(creature.type, "attacks");   
+        }
+        if (creature.inventories[0].armors.find(armor => armor.equipped && changedEffects.find(effect => effect.target == armor.name))) {
+            characterService.set_ToChange(creature.type, "defense");
+        }
+        if (creature.inventories[0].shields.find(shield => shield.equipped && changedEffects.find(effect => effect.target == shield.name))) {
+            characterService.set_ToChange(creature.type, "defense");
+        }
     }
 
     tick_CustomEffects(creature: Character|AnimalCompanion|Familiar, characterService: CharacterService, turns: number) {
