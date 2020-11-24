@@ -46,9 +46,9 @@
                         <cite [ngClass]="{'problem':featSet.feat.levelreq > featLevel}" *ngIf="featSet.feat.levelreq">Level
                             {{featSet.feat.levelreq}}</cite>
                         <cite class="trait" *ngIf="featSet.feat.traits.includes('Uncommon')"
-                            title="{{get_Traits('Uncommon')[0]?.description}}">Uncommon</cite>
+                            title="{{get_Traits('Uncommon')[0]?.desc}}">Uncommon</cite>
                         <cite class="trait" *ngIf="featSet.feat.traits.includes('Dedication')"
-                            title="{{get_Traits('Dedication')[0]?.description}}">Dedication</cite>
+                            title="{{get_Traits('Dedication')[0]?.desc}}">Dedication</cite>
                         <cite title="{{reason.explain}}" class="problem" *ngFor="let reason of cannotTake(featSet.feat, choice, true); trackBy:trackByIndex;">
                             {{reason.reason}}
                         </cite>

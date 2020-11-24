@@ -1,7 +1,7 @@
 <div class="row lower" *ngIf="spell">
     <div class="row left-aligned" *ngIf="spell.traits.length">
         <cite class="trait" *ngFor="let trait of spell.traits; trackBy:trackByIndex;"
-            title="{{get_Traits(trait)[0].description}}">{{trait}}</cite>
+            title="{{get_Traits(trait)[0].desc}}">{{trait}}</cite>
     </div>
     <div class="list-item lower row problem" *ngIf="spell.inputRequired">
         <strong>Player input required:</strong>
@@ -109,7 +109,7 @@
         <h4>{{feat.name}}</h4>
         <div class="row left-aligned">
             <cite class="trait" *ngFor="let trait of feat.traits; trackBy:trackByIndex;"
-                title="{{get_Traits(trait)[0].description}}">{{trait}}</cite>
+                title="{{get_Traits(trait)[0].desc}}">{{trait}}</cite>
         </div>
         <div class="row left-aligned" *ngFor="let desc of feat.desc.split('\n\n'); trackBy:trackByIndex;">
             <p *ngIf="desc.split('\n').length == 1">{{desc}}</p>

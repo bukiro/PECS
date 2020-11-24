@@ -121,9 +121,7 @@ export class ConditionsService {
             characterService.set_ToChange(creature.type, "activities");
         }
         condition.hints.forEach(hint => {
-            if (hint.showon) {
-                characterService.set_TagsToChange(creature.type, hint.showon);
-            }
+            characterService.set_TagsToChange(creature.type, hint.showon);
         });
     
         //Copy the condition's ActivityGains to the ConditionGain so we can track its duration, cooldown etc.

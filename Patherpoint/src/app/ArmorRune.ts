@@ -10,6 +10,5 @@ export class ArmorRune extends Rune {
     public profreq: string[] = [];
     //Can only be applied to a nonmetallic armor
     public nonmetallic: boolean = false;
-    public showon: string = "";
     public effects: EffectGain[] = [];
 }

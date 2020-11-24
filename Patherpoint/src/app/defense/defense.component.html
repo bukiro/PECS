@@ -43,7 +43,7 @@
                     </div>
                     <div class="fullsize-only row left-aligned" *ngIf="armor.traits.length">
                         <cite class="trait" *ngFor="let trait of armor.traits; trackBy:trackByIndex;"
-                            title="{{get_Traits(trait)[0].description}}">{{trait}}</cite>
+                            title="{{get_Traits(trait)[0].desc}}">{{trait}}</cite>
                     </div>
                     <app-tags [creature]="creature" [objectName]="'Armor'" [showTraits]=true [showFeats]=true
                         [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
@@ -69,7 +69,7 @@
                             Hardness: <input type="number" class="number" [ngModel]="shield.get_Hardness()" disabled>
                             <div class="fullsize-only row left-aligned" *ngIf="shield.traits.length">
                                 <cite class="trait" *ngFor="let trait of shield.traits; trackBy:trackByIndex;"
-                                    title="{{get_Traits(trait)[0].description}}">{{trait}}</cite>
+                                    title="{{get_Traits(trait)[0].desc}}">{{trait}}</cite>
                             </div>
                             <app-tags [creature]="creature" [objectName]="'Shield'" [showTraits]=true [showFeats]=true
                                 [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>

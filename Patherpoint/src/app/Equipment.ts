@@ -7,6 +7,7 @@ import { ItemsService } from './items.service';
 import { InventoryGain } from './InventoryGain';
 import { Talisman } from './Talisman';
 import { Material } from './Material';
+import { Hint } from './Hint';
 
 export class Equipment extends Item {
     //This is a list of all the attributes that should be saved if a refID exists. All others can be looked up via the refID when loading the character.
@@ -54,7 +55,7 @@ export class Equipment extends Item {
     public gainInventory: InventoryGain[] = [];
     //What hint should show up for this item? This allows to be more concise and not use the entire description.
     //If no hint is set, desc will show instead
-    public hint: string = "";
+    public hints: Hint[] = [];
     //Is the item currently invested - items without the Invested trait are always invested and don't count against the limit
     public invested: boolean = false;
     public material: Material[] = [];
@@ -72,8 +73,6 @@ export class Equipment extends Item {
     public showName: boolean = false;
     //Striking Rune level for weapons
     public strikingRune:number = 0;
-    //Should this item show up on a skill, ability, etc.? If so, name the elements here as a comma separated string
-    public showon: string = "";
     //Store any talismans attached to this item.
     public talismans: Talisman[] = [];
     get_Bulk() {

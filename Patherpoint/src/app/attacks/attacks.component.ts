@@ -221,10 +221,10 @@ export class AttacksComponent implements OnInit {
         //Return all runes and rune-emulating oil effects that have a hint to show
         let runes: WeaponRune[] = [];
         let runeSource = weapon.get_RuneSource(this.get_Creature(), range);
-        runes.push(...runeSource[1].propertyRunes.filter((rune: WeaponRune) => rune.hint.length) as WeaponRune[]);
-        runes.push(...weapon.oilsApplied.filter(oil => oil.runeEffect && oil.runeEffect.hint.length).map(oil => oil.runeEffect));
+        runes.push(...runeSource[1].propertyRunes.filter((rune: WeaponRune) => rune.hints.length) as WeaponRune[]);
+        runes.push(...weapon.oilsApplied.filter(oil => oil.runeEffect && oil.runeEffect.hints.length).map(oil => oil.runeEffect));
         if (runeSource[1].bladeAlly) {
-            runes.push(...runeSource[1].bladeAllyRunes.filter((rune: WeaponRune) => rune.hint.length) as WeaponRune[]);
+            runes.push(...runeSource[1].bladeAllyRunes.filter((rune: WeaponRune) => rune.hints.length) as WeaponRune[]);
         }
         return runes;
     }

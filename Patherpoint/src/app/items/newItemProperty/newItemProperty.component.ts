@@ -546,7 +546,9 @@ export class NewItemPropertyComponent implements OnInit {
                         examples.push(...activity.hints.filter(hint => hint.showon.length).map(hint => hint.showon));
                     })
                 });
-                examples.push(...this.get_Items().allEquipment().concat(...this.get_Inventories().map(inventory => inventory.allEquipment())).filter(item => item.showon.length).map((item: Equipment) => item.showon ));
+                this.get_Items().allEquipment().concat(...this.get_Inventories().map(inventory => inventory.allEquipment())).filter(item => item.hints.length).forEach((item: Equipment) => {
+                    examples.push(...item.hints.filter(hint => hint.showon.length).map(hint => hint.showon));
+                });
                 break;
             case "hints desc":
                 this.characterService.get_FeatsAndFeatures().filter(feat => feat.hints.length).forEach(feat => {

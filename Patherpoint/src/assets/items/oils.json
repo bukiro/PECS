@@ -112,8 +112,19 @@
             "armors"
         ],
         "duration": 48000,
-        "hint": "The Salve of Slipperiness on your armor grants a +2 item bonus to Acrobatics checks to Escape or to Squeeze.",
-        "showon": "Acrobatics",
+        "hints": [
+            {
+                "desc": "The Salve of Slipperiness on your armor grants a +2 item bonus to Acrobatics checks to Escape or to Squeeze.",
+                "showon": "Acrobatics",
+                "effects": [
+                    {
+                        "affected": "Acrobatics",
+                        "value": "2",
+                        "type": "item"
+                    }
+                ]
+            }
+        ],
         "desc": "This greenish, persistent grease can be applied to armor to make it extremely slippery for 8 hours, granting the wearer a +2 item bonus to Acrobatics checks to Escape or to Squeeze.",
         "actions": "1A",
         "activationType": "Interact",
@@ -326,8 +337,12 @@
         "success": "The creature is unaffected.",
         "failure": "The creature is pushed up to 10 feet away from you (the GM determines the direction).",
         "critfailure": "As failure, and the creature is also knocked prone.",
-        "showon": "Defense",
-        "hint": "Any creature that hits you with a melee Strike must attempt a DC 28 Fortitude save with the following effects.\n\nSuccess: The creature is unaffected.\nFailure: The creature is pushed up to 10 feet away from you (the GM determines the direction).\nCritical Failure: As failure, and the creature is also knocked prone.",
+        "hints": [
+            {
+                "desc": "Any creature that hits you with a melee Strike must attempt a DC 28 Fortitude save with the following effects.\n\nSuccess: The creature is unaffected.\nFailure: The creature is pushed up to 10 feet away from you (the GM determines the direction).\nCritical Failure: As failure, and the creature is also knocked prone.",
+                "showon": "Defense"
+            }
+        ],
         "traits": [
             "Abjuration",
             "Consumable",
@@ -460,8 +475,12 @@
             "armors"
         ],
         "duration": 100,
-        "hint": "You are immune to all spells, effects of magic items (yours and those of others), and effects with the magical trait for 1 minute. The oil affects neither the magic of the armor nor the fundamental runes of weapons attacking you. Magical effects from a source of 20th level or higher, such as a deity, still function on the you.",
-        "showon": "Defense",
+        "hints": [
+            {
+                "desc": "You are immune to all spells, effects of magic items (yours and those of others), and effects with the magical trait for 1 minute. The oil affects neither the magic of the armor nor the fundamental runes of weapons attacking you. Magical effects from a source of 20th level or higher, such as a deity, still function on the you.",
+                "showon": "Defense, Spellbook"
+            }
+        ],
         "desc": "This oil contains energy that repels nearly all types of magic. When you apply this oil to armor, the creature wearing the armor becomes immune to all spells, effects of magic items (the wearer's and those of others), and effects with the magical trait for 1 minute. The oil affects neither the magic of the armor nor the fundamental runes of weapons attacking the wearer. Magical effects from a source of 20th level or higher, such as a deity, still function on the armor's wearer.",
         "actions": "1A",
         "activationType": "Interact",

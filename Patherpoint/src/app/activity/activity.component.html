@@ -80,9 +80,9 @@
     </div>
     <div class="row left-aligned">
         <cite class="trait" *ngFor="let trait of activity.traits; trackBy:trackByIndex;"
-            title="{{get_Traits(trait)[0].description}}">{{trait}}</cite>
+            title="{{get_Traits(trait)[0].desc}}">{{trait}}</cite>
         <cite class="trait" *ngFor="let trait of get_ActivationTraits(activity); trackBy:trackByIndex;"
-            title="{{get_Traits(trait)[0].description}}">{{trait}}</cite>
+            title="{{get_Traits(trait)[0].desc}}">{{trait}}</cite>
         <app-tags [creature]="creature" [objectName]="activity.name" [showTraits]=true [showFeats]=true [showItems]=true
             [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
     </div>
@@ -188,7 +188,7 @@
         <h4>{{feat.name}}</h4>
         <div class="row left-aligned">
             <cite class="trait" *ngFor="let trait of feat.traits; trackBy:trackByIndex;"
-                title="{{get_Traits(trait)[0].description}}">{{trait}}</cite>
+                title="{{get_Traits(trait)[0].desc}}">{{trait}}</cite>
         </div>
         <div class="row left-aligned" *ngFor="let desc of feat.desc.split('\n\n'); trackBy:trackByIndex;">
             <p *ngIf="desc.split('\n').length == 1" [innerHTML]="desc"></p>

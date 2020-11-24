@@ -676,9 +676,9 @@ export class ItemRunesComponent implements OnInit {
     }
 
     set_ToChange(rune: ArmorRune) {
-        if (rune.showon) {
-            this.characterService.set_TagsToChange("Character", rune.showon);
-        }
+        rune.hints?.forEach(hint => {
+            this.characterService.set_TagsToChange("Character", hint.showon);
+        })
         if (rune.effects?.length) {
             this.characterService.set_ToChange("Character", "effects");
         }

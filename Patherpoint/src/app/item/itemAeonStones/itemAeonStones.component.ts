@@ -122,9 +122,9 @@ export class ItemAeonStonesComponent implements OnInit {
     }
 
     set_ToChange(stone: WornItem) {
-        if (stone.showon) {
-            this.characterService.set_TagsToChange("Character", stone.showon);
-        }
+        stone.hints?.forEach(hint => {
+            this.characterService.set_TagsToChange("Character", hint.showon);
+        })
         if (stone.effects.length) {
             this.characterService.set_ToChange("Character", "effects");
         }

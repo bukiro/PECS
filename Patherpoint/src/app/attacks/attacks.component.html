@@ -51,14 +51,16 @@
                     *ngFor="let traits of [weapon.get_Traits(characterService, get_Creature())]; trackBy:trackByIndex;">
                     <div class="fullsize-only row left-aligned tags" *ngIf="traits.length">
                         <cite class="trait" *ngFor="let trait of traits; trackBy:trackByIndex;"
-                            title="{{get_Traits(trait)[0].description}}">{{trait}}</cite>
+                            title="{{get_Traits(trait)[0].desc}}">{{trait}}</cite>
                     </div>
                 </ng-container>
                 <div class="fullsize-only row left-aligned"
                     *ngFor="let runes of [get_HintRunes(weapon, attack[0])]; trackBy:trackByIndex;"
                     style="margin-top:initial">
-                    <cite class="rune" *ngFor="let rune of runes; trackBy:trackByIndex;"
-                        title="{{rune.hint}}">{{rune.name}}</cite>
+                    <ng-container *ngFor="let rune of runes; trackBy:trackByIndex;">
+                        <cite class="rune" *ngFor="let hint of rune.hints; trackBy:trackByIndex;"
+                            title="{{hint.desc}}">{{rune.name}}</cite>
+                    </ng-container>
                 </div>
                 <app-tags [creature]="creature" [objectName]=weapon.name [showTraits]=true [showFeats]=true
                     [showItems]=true [showActivities]=true [showConditions]=true

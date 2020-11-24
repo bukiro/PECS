@@ -20,6 +20,10 @@ import { Activity } from './Activity';
 import { Condition } from './Condition';
 import { ConditionGain } from './ConditionGain';
 import { Item } from './Item';
+import { Equipment } from './Equipment';
+import { Oil } from './Oil';
+import { WornItem } from './WornItem';
+import { ArmorRune } from './ArmorRune';
 
 @Injectable({
     providedIn: 'root'
@@ -221,7 +225,7 @@ export class EffectsService {
             Choice = parentConditionGain.choice;
             SpellCastingAbility = parentConditionGain.spellCastingAbility;
         } else {
-            
+
         }
         //Some Functions for effect values
         function Temporary_HP(source: string = "", sourceId: string = "") {
@@ -322,7 +326,7 @@ export class EffectsService {
         }
         function Has_Heritage(name: string) {
             return characterService.get_Character().class?.heritage?.name.toLowerCase() == name.toLowerCase() ||
-            characterService.get_Character().class?.additionalHeritages.find(extraHeritage => extraHeritage.name.toLowerCase() == name.toLowerCase())
+                characterService.get_Character().class?.additionalHeritages.find(extraHeritage => extraHeritage.name.toLowerCase() == name.toLowerCase())
         }
         //effects come as {affected, value} where value is a string that contains a statement.
         //This statement is eval'd here. The statement can use characterService to check level, skills, abilities etc.
@@ -402,7 +406,7 @@ export class EffectsService {
         //Create simple effects from equipped items, feats, conditions etc.
         //Creature Effects
         simpleEffects = simpleEffects.concat(this.get_SimpleEffects(creature, characterService, creature));
-        
+
         //Character and Companion Items
         if (!familiar) {
             characterService.get_Inventories(creature)[0].allEquipment().filter(item => item.invested && !item.broken && item.effects?.length && item.type != "armorrunes").forEach(item => {
@@ -417,48 +421,48 @@ export class EffectsService {
         //Traits that are on currently equipped items
         characterService.traitsService.get_Traits().filter(trait => trait.hints.length).forEach(trait => {
             trait.hints.filter(hint => (hint.active || hint.active2 || hint.active3) && hint.effects?.length && trait.haveOn(creature).length).forEach(hint => {
-                simpleEffects = simpleEffects.concat(this.get_SimpleEffects(character, characterService, hint, "conditional, "+trait.name));
+                simpleEffects = simpleEffects.concat(this.get_SimpleEffects(character, characterService, hint, "conditional, " + trait.name));
             })
         })
         //Character Feats and active hints
         if (character) {
             characterService.get_FeatsAndFeatures()
-            .filter(feat => (feat.effects?.length || feat.hints?.length) && feat.have(character, characterService, character.level))
-            .forEach(feat => {
-                if (feat.effects?.length) {
-                    simpleEffects = simpleEffects.concat(this.get_SimpleEffects(character, characterService, feat));
-                }
-                feat.hints?.filter(hint => (hint.active || hint.active2 || hint.active3) && hint.effects?.length).forEach(hint => {
-                    simpleEffects = simpleEffects.concat(this.get_SimpleEffects(character, characterService, hint, "conditional, "+feat.name));
-                })
-            });
+                .filter(feat => (feat.effects?.length || feat.hints?.length) && feat.have(character, characterService, character.level))
+                .forEach(feat => {
+                    if (feat.effects?.length) {
+                        simpleEffects = simpleEffects.concat(this.get_SimpleEffects(character, characterService, feat));
+                    }
+                    feat.hints?.filter(hint => (hint.active || hint.active2 || hint.active3) && hint.effects?.length).forEach(hint => {
+                        simpleEffects = simpleEffects.concat(this.get_SimpleEffects(character, characterService, hint, "conditional, " + feat.name));
+                    })
+                });
         }
         //Companion Specializations and active hints
         if (companion) {
             companion.class?.ancestry?.hints?.filter(hint => (hint.active || hint.active2 || hint.active3) && hint.effects?.length).forEach(hint => {
-                simpleEffects = simpleEffects.concat(this.get_SimpleEffects(character, characterService, hint, "conditional, "+companion.class.ancestry.name));
+                simpleEffects = simpleEffects.concat(this.get_SimpleEffects(character, characterService, hint, "conditional, " + companion.class.ancestry.name));
             })
             companion.class?.specializations?.filter(spec => spec.effects?.length || spec.hints?.length).forEach(spec => {
                 if (spec.effects?.length) {
                     simpleEffects = simpleEffects.concat(this.get_SimpleEffects(companion, characterService, spec));
                 }
                 spec.hints?.filter(hint => (hint.active || hint.active2 || hint.active3) && hint.effects?.length).forEach(hint => {
-                    simpleEffects = simpleEffects.concat(this.get_SimpleEffects(companion, characterService, hint, "conditional, "+spec.name));
+                    simpleEffects = simpleEffects.concat(this.get_SimpleEffects(companion, characterService, hint, "conditional, " + spec.name));
                 })
             })
         }
         //Familiar Feats and active hints
         if (familiar) {
             characterService.familiarsService.get_FamiliarAbilities().filter(ability => ability.have(familiar, characterService))
-            .filter(ability => ability.effects?.length || ability.hints?.length)
-            .forEach(ability => {
-                if (ability.effects?.length) {
-                    simpleEffects = simpleEffects.concat(this.get_SimpleEffects(familiar, characterService, ability));
-                }
-                ability.hints?.filter(hint => (hint.active || hint.active2 || hint.active3) && hint.effects?.length).forEach(hint => {
-                    simpleEffects = simpleEffects.concat(this.get_SimpleEffects(familiar, characterService, hint, "conditional, "+ability.name));
-                })
-            });
+                .filter(ability => ability.effects?.length || ability.hints?.length)
+                .forEach(ability => {
+                    if (ability.effects?.length) {
+                        simpleEffects = simpleEffects.concat(this.get_SimpleEffects(familiar, characterService, ability));
+                    }
+                    ability.hints?.filter(hint => (hint.active || hint.active2 || hint.active3) && hint.effects?.length).forEach(hint => {
+                        simpleEffects = simpleEffects.concat(this.get_SimpleEffects(familiar, characterService, hint, "conditional, " + ability.name));
+                    })
+                });
         }
         //Conditions
         let appliedConditions = characterService.get_AppliedConditions(creature).filter(condition => condition.apply);
@@ -470,7 +474,7 @@ export class EffectsService {
                 simpleEffects = simpleEffects.concat(this.get_SimpleEffects(creature, characterService, effectsObject));
             }
             originalCondition?.hints?.filter(hint => (hint.active || hint.active2 || hint.active3) && hint.effects?.length).forEach(hint => {
-                simpleEffects = simpleEffects.concat(this.get_SimpleEffects(creature, characterService, hint, "conditional, "+originalCondition.name, gain));
+                simpleEffects = simpleEffects.concat(this.get_SimpleEffects(creature, characterService, hint, "conditional, " + originalCondition.name, gain));
             })
         });
         //Active activities and active hints
@@ -485,9 +489,35 @@ export class EffectsService {
                 simpleEffects = simpleEffects.concat(this.get_SimpleEffects(character, characterService, originalActivity));
             }
             originalActivity?.hints?.filter(hint => (hint.active || hint.active2 || hint.active3) && hint.effects?.length).forEach(hint => {
-                simpleEffects = simpleEffects.concat(this.get_SimpleEffects(character, characterService, hint, "conditional, "+originalActivity.name));
+                simpleEffects = simpleEffects.concat(this.get_SimpleEffects(character, characterService, hint, "conditional, " + originalActivity.name));
             })
         })
+        //Active hints of equipped items
+        if (!familiar) {
+            function add_HintEffects(item: Equipment | Oil | WornItem | ArmorRune, effectsService: EffectsService) {
+                item.hints?.filter(hint => (hint.active || hint.active2 || hint.active3) && hint.effects?.length).forEach(hint => {
+                    simpleEffects = simpleEffects.concat(effectsService.get_SimpleEffects(character, characterService, hint, "conditional, " + (item.get_Name ? item.get_Name() : item.name)));
+                })
+            }
+            creature.inventories.forEach(inventory => {
+                inventory.allEquipment().filter(item => (item.equippable ? item.equipped : true) && item.amount && !item.broken && (item.can_Invest() ? item.invested : true)).forEach(item => {
+                    add_HintEffects(item, this);
+                    item.oilsApplied.forEach(oil => {
+                        add_HintEffects(oil, this);
+                    });
+                    if ((item as WornItem).aeonStones) {
+                        (item as WornItem).aeonStones.forEach(stone => {
+                            add_HintEffects(stone, this);
+                        });
+                    }
+                    if (item.moddable == "armor" && (item as Equipment).propertyRunes) {
+                        (item as Equipment).propertyRunes.forEach(rune => {
+                            add_HintEffects(rune as ArmorRune, this);
+                        });
+                    }
+                });
+            });
+        }
 
         let itemEffects: Effect[] = [];
 
@@ -575,7 +605,7 @@ export class EffectsService {
             //Skip this if there is an "Ignore Armor Penalty" effect.
             if (!simpleEffects.find(effect => effect.creature == creature.id && effect.target == "Ignore Armor Penalty" && effect.toggle)) {
                 //If an armor has a skillpenalty or a speedpenalty, check if Strength meets its strength requirement.
-                let Strength = characterService.get_Abilities("Strength")[0].value(creature as Character|AnimalCompanion, characterService, this).result;
+                let Strength = characterService.get_Abilities("Strength")[0].value(creature as Character | AnimalCompanion, characterService, this).result;
                 items.armors.filter(item => item.equipped && item.get_SkillPenalty()).forEach(item => {
                     //These methods the AC and skill penalty of the armor.
                     item.get_ArmoredSkirt(creature, characterService);
@@ -670,7 +700,7 @@ export class EffectsService {
 
         //If an effect with the target "Ignore [type] bonuses and penalties" exists, all effects of that type are disabled.
         this.bonusTypes.forEach(type => {
-            if (allEffects.find(effect => effect.target.toLowerCase() == "ignore "+type+" bonuses and penalties")) {
+            if (allEffects.find(effect => effect.target.toLowerCase() == "ignore " + type + " bonuses and penalties")) {
                 allEffects.filter(effect => effect.type == type && effect.apply == undefined).forEach(effect => {
                     effect.apply = false;
                 })
@@ -694,7 +724,7 @@ export class EffectsService {
         targets.forEach(target => {
             //Apply all untyped relative effects, but only the highest bonus and lowest penalty for each type for this target.
             this.get_TypeFilteredEffects(allEffects
-                .filter(effect => 
+                .filter(effect =>
                     effect.target == target && effect.apply == undefined && effect.value), false)
                 .forEach(effect => {
                     effect.apply = true;
@@ -702,7 +732,7 @@ export class EffectsService {
             //Apply only the highest one for each type for this target.
             // (There aren't actually any absolute penalties, and absolute effects are usually untyped.)
             this.get_TypeFilteredEffects(allEffects
-                .filter(effect => 
+                .filter(effect =>
                     effect.target == target && effect.apply == undefined && effect.setValue), true)
                 .forEach(effect => {
                     effect.apply = true;
@@ -826,7 +856,7 @@ export class EffectsService {
         })
         //If any equipped weapon is affected, update attacks, and if any equipped armor or shield is affected, update defense.
         if (creature.inventories[0].weapons.find(weapon => weapon.equipped && changedEffects.find(effect => effect.target == weapon.name))) {
-            characterService.set_ToChange(creature.type, "attacks");   
+            characterService.set_ToChange(creature.type, "attacks");
         }
         if (creature.inventories[0].armors.find(armor => armor.equipped && changedEffects.find(effect => effect.target == armor.name))) {
             characterService.set_ToChange(creature.type, "defense");
@@ -836,7 +866,7 @@ export class EffectsService {
         }
     }
 
-    tick_CustomEffects(creature: Character|AnimalCompanion|Familiar, characterService: CharacterService, turns: number) {
+    tick_CustomEffects(creature: Character | AnimalCompanion | Familiar, characterService: CharacterService, turns: number) {
         //Tick down all custom effects and set them to remove when they expire.
         creature.effects.filter(gain => gain.duration > 0).forEach(gain => {
             //Tick down all custom effects and set them to remove when they expire.
@@ -847,7 +877,7 @@ export class EffectsService {
             characterService.set_ToChange(creature.type, "effects");
         });
         //Remove all effects that were marked for removal.
-        creature.effects = creature.effects.filter(gain => gain.type != "DELETE"); 
+        creature.effects = creature.effects.filter(gain => gain.type != "DELETE");
     }
 
     initialize(characterService: CharacterService) {

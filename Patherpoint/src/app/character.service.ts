@@ -805,9 +805,7 @@ export class CharacterService {
         }
         returnedInventoryItem["activities"]?.forEach((activity: ItemActivity) => {
             activity.hints?.forEach((hint: Hint) => {
-                if (hint.showon) {
-                    this.set_TagsToChange(creature.type, hint.showon);
-                }
+                this.set_TagsToChange(creature.type, hint.showon);
             })
         });
         if (returnedInventoryItem["showon"]) {
@@ -1009,9 +1007,9 @@ export class CharacterService {
             //That means we have to check the effects whenever we equip or unequip one of those.
             this.set_ToChange(creature.type, "effects");
         }
-        if (item.showon) {
-            this.set_TagsToChange(creature.type, item.showon);
-        }
+        item.hints.forEach(hint => {
+            this.set_TagsToChange(creature.type, hint.showon);
+        })
         item.traits.map(trait => this.traitsService.get_Traits(trait)[0])?.filter(trait => trait?.hints?.length).forEach(trait => {
             trait.hints.forEach(hint => {
                 this.set_TagsToChange(creature.type, hint.showon);
@@ -1035,8 +1033,10 @@ export class CharacterService {
             this.set_ToChange(creature.type, "activities");
         }
         item.propertyRunes?.forEach((rune: Rune) => {
-            if (item.moddable == "armor" && (rune as ArmorRune).showon) {
-                this.set_TagsToChange(creature.type, (rune as ArmorRune).showon);
+            if (item.moddable == "armor" && rune.hints?.length) {
+                rune.hints.forEach(hint => {
+                    this.set_TagsToChange(creature.type, hint.showon);
+                })
             }
             if (item.moddable == "armor" && (rune as ArmorRune).effects?.length) {
                 this.set_ToChange(creature.type, "effects");
@@ -1744,13 +1744,22 @@ export class CharacterService {
 
     get_ItemsShowingOn(creature: Character | AnimalCompanion | Familiar, objectName: string = "all") {
         let returnedItems: Item[] = [];
-        //Prepare function to extract showon hints from all items and subitems.
+        //Prepare function to add items whose hints match the objectName.
         function get_Hint(item: Equipment | Oil | WornItem | ArmorRune) {
-            item.showon.split(",").forEach(showon => {
-                if (objectName == "all" || showon == objectName || showon.substr(1) == objectName || (objectName == "Lore" && showon.includes(objectName))) {
-                    returnedItems.push(item);
-                }
-            });
+            if (item.hints
+                .find(hint => 
+                    hint.showon.split(",").find(showon => 
+                        objectName.trim().toLowerCase() == "all" ||
+                        showon.trim().toLowerCase() == objectName.toLowerCase() ||
+                        (
+                            objectName.toLowerCase().includes("lore") &&
+                            showon.trim().toLowerCase() == "lore"
+                        )
+                    )
+                )
+            ) {
+                returnedItems.push(item);
+            }
         }
         creature.inventories.forEach(inventory => {
             inventory.allEquipment().filter(item => (item.equippable ? item.equipped : true) && item.amount && !item.broken && (item.can_Invest() ? item.invested : true)).forEach(item => {

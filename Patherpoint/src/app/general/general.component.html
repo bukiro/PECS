@@ -110,7 +110,7 @@
         <ng-container *ngIf="creature=='Companion'">
             <div class="row left-aligned tags" *ngIf="get_Companion().class.ancestry.name">
                 <cite class="trait" *ngFor="let trait of get_Companion().class.ancestry.traits; trackBy:trackByIndex;"
-                    title="{{get_Traits(trait)[0].description}}">{{trait}}</cite>
+                    title="{{get_Traits(trait)[0].desc}}">{{trait}}</cite>
             </div>
             <app-tags [creature]="'Character'" [objectName]="'Animal Companion'" [showTraits]=true [showFeats]=true
                 [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
@@ -140,7 +140,7 @@
         <ng-container *ngIf="creature=='Familiar'">
             <div class="row left-aligned tags">
                 <cite class="trait" *ngFor="let trait of get_Familiar().traits; trackBy:trackByIndex;"
-                    title="{{get_Traits(trait)[0].description}}">{{trait}}</cite>
+                    title="{{get_Traits(trait)[0].desc}}">{{trait}}</cite>
             </div>
             <app-tags [creature]="'Character'" [objectName]="'Familiar'" [showTraits]=true [showFeats]=true
                 [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
@@ -163,7 +163,7 @@
                 <strong>{{ability.name}}</strong>
                 <div class="row left-aligned tags">
                     <cite class="trait" *ngFor="let trait of get_FamiliarAbilities(ability.name)[0].traits; trackBy:trackByIndex;"
-                        title="{{get_Traits(trait).length ? get_Traits(trait)[0].description : ''}}">{{trait}}</cite>
+                        title="{{get_Traits(trait).length ? get_Traits(trait)[0].desc : ''}}">{{trait}}</cite>
                 </div>
                 <div class="row left-aligned">
                     {{get_FamiliarAbilities(ability.name)[0].desc}}

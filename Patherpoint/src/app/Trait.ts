@@ -5,7 +5,7 @@ import { Item } from './Item';
 import { Hint } from './Hint';
 
 export class Trait {
-    public description: string = "";
+    public desc: string = "";
     public name: string = "";
     public hints: Hint[] = [];
     public showon: string = "";

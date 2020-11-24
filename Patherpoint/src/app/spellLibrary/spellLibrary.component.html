@@ -73,9 +73,9 @@
                                         {{spell.name}}<app-actionIcons [actionString]="spell.actions">
                                         </app-actionIcons>{{spell.castType}}
                                         <cite class="trait" *ngIf="spell.traits.includes('Rare')"
-                                            title="{{get_Traits('Rare')[0]?.description}}">Rare</cite>
+                                            title="{{get_Traits('Rare')[0]?.desc}}">Rare</cite>
                                         <cite class="trait" *ngIf="spell.traits.includes('Uncommon')"
-                                            title="{{get_Traits('Uncommon')[0]?.description}}">Uncommon</cite>
+                                            title="{{get_Traits('Uncommon')[0]?.desc}}">Uncommon</cite>
                                     </span>
                                 </button>
                                 <div class="list-item sublist" *ngIf="get_ShowItem()==spell.id"

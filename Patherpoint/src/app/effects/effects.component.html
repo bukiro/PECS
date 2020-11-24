@@ -10,7 +10,7 @@
                         {{(conditionGain.value) ? conditionGain.value : ""}}
                     </strong>
                     <cite class="trait" *ngFor="let trait of condition.traits; trackBy:trackByIndex;"
-                        title="{{get_Traits(trait)[0].description}}">{{trait}}</cite>
+                        title="{{get_Traits(trait)[0].desc}}">{{trait}}</cite>
                 </span><span class="fullsize-only" *ngFor="let id of [get_LabelID()]; trackBy:trackByIndex;">
                     <input id="{{id+'notes'}}" class="invisible" type="checkbox" [(ngModel)]="conditionGain.showNotes">
                     <label for="{{id+'notes'}}" title="Edit notes">&#9998;</label>
@@ -163,7 +163,7 @@
                             {{(conditionGain.value) ? conditionGain.value : ""}}
                         </strong>
                         <cite class="trait" *ngFor="let trait of condition.traits; trackBy:trackByIndex;"
-                            title="{{get_Traits(trait)[0].description}}">{{trait}}</cite>
+                            title="{{get_Traits(trait)[0].desc}}">{{trait}}</cite>
                     </span><span class="fullsize-only" *ngFor="let id of [get_LabelID()]; trackBy:trackByIndex;">
                         <input id="{{id+'notes'}}" class="invisible" type="checkbox"
                             [(ngModel)]="conditionGain.showNotes">

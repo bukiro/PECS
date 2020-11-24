@@ -156,7 +156,7 @@
                         <div class="row lower" *ngIf="this.get_showItem()==itemID">
                             <div class="row left-aligned tags">
                                 <cite class="trait" *ngFor="let trait of class.traits; trackBy:trackByIndex;"
-                                    title="{{get_Traits(trait)[0]?.description}}">{{trait}}</cite>
+                                    title="{{get_Traits(trait)[0]?.desc}}">{{trait}}</cite>
                             </div>
                             <div class="row left-aligned" *ngIf="class.sourceBook">
                                 <strong>Source</strong><i>&nbsp;{{class.sourceBook}}</i>
@@ -199,9 +199,9 @@
                                 <label for="{{ancestry.name}}">
                                     <strong>{{ancestry.name}}&nbsp;</strong>
                                     <cite class="trait" *ngIf="ancestry.traits.includes('Rare')"
-                                        title="{{get_Traits('Rare')[0]?.description}}">Rare</cite>
+                                        title="{{get_Traits('Rare')[0]?.desc}}">Rare</cite>
                                     <cite class="trait" *ngIf="ancestry.traits.includes('Uncommon')"
-                                        title="{{get_Traits('Uncommon')[0]?.description}}">Uncommon</cite>
+                                        title="{{get_Traits('Uncommon')[0]?.desc}}">Uncommon</cite>
                                 </label>
                             </span>
                             <button (click)="toggle_Item(itemID)">
@@ -210,7 +210,7 @@
                             <div class="row lower" *ngIf="this.get_showItem()==itemID">
                                 <div class="row left-aligned tags">
                                     <cite class="trait" *ngFor="let trait of ancestry.traits; trackBy:trackByIndex;"
-                                        title="{{get_Traits(trait)[0]?.description}}">{{trait}}</cite>
+                                        title="{{get_Traits(trait)[0]?.desc}}">{{trait}}</cite>
                                 </div>
                                 <div class="row left-aligned" *ngIf="ancestry.sourceBook">
                                     <strong>Source</strong><i>&nbsp;{{ancestry.sourceBook}}</i>
@@ -255,9 +255,9 @@
                             <label for="{{heritage.name}}">
                                 <strong>{{heritage.name}}&nbsp;</strong>
                                 <cite class="trait" *ngIf="heritage.traits.includes('Rare')"
-                                    title="{{get_Traits('Rare')[0]?.description}}">Rare</cite>
+                                    title="{{get_Traits('Rare')[0]?.desc}}">Rare</cite>
                                 <cite class="trait" *ngIf="heritage.traits.includes('Uncommon')"
-                                    title="{{get_Traits('Uncommon')[0]?.description}}">Uncommon</cite>
+                                    title="{{get_Traits('Uncommon')[0]?.desc}}">Uncommon</cite>
                             </label>
                         </span>
                         <button (click)="toggle_Item(heritage.name+'desc')">
@@ -376,13 +376,13 @@
                                 <label for="{{background.name}}">
                                     <strong>{{background.name}}&nbsp;</strong>
                                     <cite class="trait" *ngIf="background.traits.includes('Rare')"
-                                        title="{{get_Traits('Rare')[0]?.description}}">Rare</cite>
+                                        title="{{get_Traits('Rare')[0]?.desc}}">Rare</cite>
                                     <cite class="trait" *ngIf="background.traits.includes('Uncommon')"
-                                        title="{{get_Traits('Uncommon')[0]?.description}}">Uncommon</cite>
+                                        title="{{get_Traits('Uncommon')[0]?.desc}}">Uncommon</cite>
                                     <cite class="trait" *ngIf="background.adventurePath"
-                                        title="{{get_Traits('Adventure')[0]?.description}}">Adventure</cite>
+                                        title="{{get_Traits('Adventure')[0]?.desc}}">Adventure</cite>
                                     <cite class="trait" *ngIf="background.region"
-                                        title="{{get_Traits('Regional')[0]?.description}}">Regional</cite>
+                                        title="{{get_Traits('Regional')[0]?.desc}}">Regional</cite>
                                 </label>
                             </span>
                             <button (click)="toggle_Item(itemID)">
@@ -404,7 +404,7 @@
                                 <!--End Subbackgrounds-->
                                 <div class="row left-aligned tags">
                                     <cite class="trait" *ngFor="let trait of background.traits; trackBy:trackByIndex;"
-                                        title="{{get_Traits(trait)[0]?.description}}">{{trait}}</cite>
+                                        title="{{get_Traits(trait)[0]?.desc}}">{{trait}}</cite>
                                 </div>
                                 <div class="row left-aligned" *ngIf="background.sourceBook">
                                     <strong>Source</strong><i>&nbsp;{{background.sourceBook}}</i>
@@ -689,7 +689,7 @@
                                             <div class="row left-aligned tags">
                                                 <cite class="trait"
                                                     *ngFor="let trait of type.traits; trackBy:trackByIndex;"
-                                                    title="{{get_Traits(trait)[0]?.description}}">{{trait}}</cite>
+                                                    title="{{get_Traits(trait)[0]?.desc}}">{{trait}}</cite>
                                             </div>
                                             <div class="row left-aligned" *ngIf="type.sourceBook">
                                                 <strong>Source</strong><i>&nbsp;{{type.sourceBook}}</i>
@@ -912,13 +912,13 @@
                                         <label for="{{background.name}}">
                                             <strong>{{background.name}}</strong>
                                             <cite class="trait" *ngIf="background.traits.includes('Rare')"
-                                                title="{{get_Traits('Rare')[0]?.description}}">Rare</cite>
+                                                title="{{get_Traits('Rare')[0]?.desc}}">Rare</cite>
                                             <cite class="trait" *ngIf="background.traits.includes('Uncommon')"
-                                                title="{{get_Traits('Uncommon')[0]?.description}}">Uncommon</cite>
+                                                title="{{get_Traits('Uncommon')[0]?.desc}}">Uncommon</cite>
                                             <cite class="trait" *ngIf="background.adventurePath"
-                                                title="{{get_Traits('Adventure')[0]?.description}}">Adventure</cite>
+                                                title="{{get_Traits('Adventure')[0]?.desc}}">Adventure</cite>
                                             <cite class="trait" *ngIf="background.region"
-                                                title="{{get_Traits('Regional')[0]?.description}}">Regional</cite>
+                                                title="{{get_Traits('Regional')[0]?.desc}}">Regional</cite>
                                         </label>
                                     </span>
                                     <button (click)="toggle_Item(itemID)">
@@ -981,9 +981,9 @@
                                         <label for="{{heritage.name}}">
                                             <strong>{{heritage.name}}&nbsp;</strong>
                                             <cite class="trait" *ngIf="heritage.traits.includes('Rare')"
-                                                title="{{get_Traits('Rare')[0]?.description}}">Rare</cite>
+                                                title="{{get_Traits('Rare')[0]?.desc}}">Rare</cite>
                                             <cite class="trait" *ngIf="heritage.traits.includes('Uncommon')"
-                                                title="{{get_Traits('Uncommon')[0]?.description}}">Uncommon</cite>
+                                                title="{{get_Traits('Uncommon')[0]?.desc}}">Uncommon</cite>
                                         </label>
                                     </span>
                                     <button (click)="toggle_Item(heritage.name+'desc')">

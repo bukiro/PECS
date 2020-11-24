@@ -99,9 +99,9 @@ The very latest in Assistive Technologies for Dungeon Master (ATDM)
 - [ ] - Level 9 Spells
 - [ ] - Level 10 Spells
 - [x] Add custom conditions with effects
-- [ ] Item Icons
-- [ ] Initiative tracker, battles, being a battle member, GM-Player-Communication.......
-- [ ] Stretch Goal: Include optional Stamina & Resolve system
+- [ ] Stretch Goal: Item Icons
+- [ ] Stretch Goal: Initiative tracker, battles, being a battle member, GM-Player-Communication.......
+- [ ] Stretch Goal: Include optional systems like Stamina & Resolve
 
 Active to-do:
 Change hint/showon to hints: Hint[] in order to allow multiple hints with conditional effects
@@ -112,7 +112,7 @@ Change hint/showon to hints: Hint[] in order to allow multiple hints with condit
 - [x] Familiar Abilities
 - [x] Specializations
 - [x] Conditions
-- [ ] Items
+- [ ] Items (helditems, oils, weapons are done)
 - [x] Traits
 Apply json import method to all json files instead of using http.get
 
