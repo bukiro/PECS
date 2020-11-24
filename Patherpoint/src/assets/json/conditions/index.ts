@@ -1,6 +1,6 @@
-import core_conditions from './core.json';
-import custom_conditions_schupfnudeln from './custom_schupfnudeln.json';
+import core from './core.json';
+import custom_schupfnudeln from './custom_schupfnudeln.json';
 export {
-    core_conditions,
-    custom_conditions_schupfnudeln
+    core,
+    custom_schupfnudeln
 };

@@ -1,19 +1,15 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { Ability } from './Ability';
-import { Observable } from 'rxjs';
+import * as json_abilities from '../assets/json/abilities';
 
 @Injectable({
     providedIn: 'root'
 })
 export class AbilitiesService {
-    private abilities: Ability[]; 
-    private loader; 
+    private abilities: Ability[] = []; 
     private loading: Boolean = false;
     
-    constructor(
-        private http: HttpClient,
-    ) { }
+    constructor() { }
     
     get_Abilities(name: string = "") {
         if (!this.still_loading()) {
@@ -27,29 +23,18 @@ export class AbilitiesService {
         return (this.loading);
     }
 
-    load_Abilities(): Observable<string[]>{
-        return this.http.get<string[]>('/assets/abilities.json');
-    }
-
     initialize() {
-        if (!this.abilities) {
+        if (!this.abilities.length) {
             this.loading = true;
-            this.load_Abilities()
-                .subscribe((results:string[]) => {
-                    this.loader = results;
-                    this.finish_loading()
-                });
+            this.load_Abilities();
+            this.loading = false;
         }
     }
 
-    finish_loading() {
-        if (this.loader) {
-            this.abilities = [];
-
-            this.loader.forEach(element => {
-                this.abilities.push(element.name = new Ability(element.name))});
-            this.loader = [];
-        }
-        if (this.loading) {this.loading = false;}
+    load_Abilities() {
+        this.abilities = [];
+        Object.keys(json_abilities).forEach(key => {
+            this.abilities.push(...json_abilities[key].map(obj => Object.assign(new Ability(), obj)));
+        });
     }
 }

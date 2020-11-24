@@ -8,7 +8,7 @@
             Hit Points
         </h3>
         <app-tags [creature]="creature" [objectName]="'Health'" [showTraits]=true [showFeats]=true [showItems]=true
-                [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
+            [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
         <div class="loading" *ngIf="still_loading()">Loading</div>
         <ng-container *ngIf="!still_loading()">
             <button class="list-item center-aligned" (click)="rest()" title="{{get_Waiting(48000)}}"
@@ -25,14 +25,16 @@
                     </span>
                     <strong>Temp HP</strong>
                     <span>
-                        <select [(ngModel)]="selectedTempHP" (change)="on_TempHPSelected(selectedTempHP)" *ngIf="health.temporaryHP.length > 1">
+                        <select [(ngModel)]="selectedTempHP" (change)="on_TempHPSelected(selectedTempHP)"
+                            *ngIf="health.temporaryHP.length > 1">
                             <option *ngFor="let tempHPSet of health.temporaryHP; trackBy:trackByIndex;"
-                                [ngValue]="tempHPSet">{{tempHPSet.amount + (tempHPSet.source ? " (" + tempHPSet.source + ")" : "")}}
+                                [ngValue]="tempHPSet">
+                                {{tempHPSet.amount + (tempHPSet.source ? " (" + tempHPSet.source + ")" : "")}}
                             </option>
                         </select>
-                        <input class="number3" type="number"
-                            [ngClass]="{'bonus':(health.temporaryHP[0].amount > 0)}"
-                            title="{{health.temporaryHP[0].source ? 'Source: ' + health.temporaryHP[0].source : ''}}" value="{{health.temporaryHP[0].amount}}" disabled *ngIf="health.temporaryHP.length == 1">
+                        <input class="number3" type="number" [ngClass]="{'bonus':(health.temporaryHP[0].amount > 0)}"
+                            title="{{health.temporaryHP[0].source ? 'Source: ' + health.temporaryHP[0].source : ''}}"
+                            value="{{health.temporaryHP[0].amount}}" disabled *ngIf="health.temporaryHP.length == 1">
                     </span>
                 </div>
                 <div class="row">
@@ -44,12 +46,12 @@
                 <div class="row">
                     <strong>Dying</strong>
                     <span>
-                        <input class="number2" type="number" [ngClass]="{'penalty':(health.$dying > 0)}"
+                        <input class="number1" type="number" [ngClass]="{'penalty':(health.$dying > 0)}"
                             value="{{health.$dying}}" disabled>
                     </span>
                     <strong>Max Dying</strong>
                     <span>
-                        <input class="number2" type="number"
+                        <input class="number1" type="number"
                             [ngClass]="{'penalty':show_PenaltiesOnThis('Max Dying'), 'bonus':show_BonusesOnThis('Max Dying'), 'absolute':get_AbsolutesOnThis('Max Dying').length}"
                             value="{{health.$maxDying}}" disabled>
                     </span>
@@ -69,8 +71,10 @@
                         to recover
                     </button>
                 </div>
-                <app-tags [creature]="creature" [objectName]="'Max Dying'" [showTraits]=true [showFeats]=true
-                    [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
+                <div class="row">
+                    <app-tags [creature]="creature" [objectName]="'Max Dying'" [showTraits]=true [showFeats]=true
+                        [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
+                </div>
             </div>
             <div class="list-item" [ngClass]="{'fullsize-only':(health.$wounded <= 0)}">
                 <strong>Wounded</strong><input class="number2" type="number"

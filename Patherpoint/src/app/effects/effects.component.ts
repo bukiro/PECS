@@ -95,7 +95,31 @@ export class EffectsComponent implements OnInit {
     }
 
     get_AppliedEffects() {
-        return this.get_Effects().all.filter(effect => effect.creature == this.get_Creature().id && effect.apply && !effect.hide);
+        return this.get_Effects().all.filter(effect => effect.creature == this.get_Creature().id && effect.apply && !effect.hide).sort(function(a,b) {
+            if (a.value > b.value) {
+                return 1;
+            }
+            if (a.value < b.value) {
+                return -1;
+            }
+            return 0;
+        }).sort(function(a,b) {
+            if (a.setValue > b.setValue) {
+                return 1;
+            }
+            if (a.setValue < b.setValue) {
+                return -1;
+            }
+            return 0;
+        }).sort(function(a,b) {
+            if (a.target > b.target) {
+                return 1;
+            }
+            if (a.target < b.target) {
+                return -1;
+            }
+            return 0;
+        });
     }
 
     get_NotAppliedEffects() {

@@ -79,31 +79,64 @@
                         </span>
                     </button>
                 </div>
-                <div class="fullsize-only lower row left-aligned"
-                    *ngFor="let spec of get_CritSpecialization(weapon, attack[0]); trackBy:trackByIndex;">
-                    <strong>Critical specialization effect&nbsp;</strong>{{spec.desc}}
+                <div class="fullsize-only list-item row" *ngIf="weapon.hitEffect">
+                    <button class="row sublist-toggle fancy-button" (click)="toggle_Item(weapon.id+attack[0]+'hiteffects')">
+                        Hit effect
+                    </button>
+                    <div class="list-item sublist fancy-list" *ngIf="get_ShowItem()==weapon.id+attack[0]+'hiteffects'">
+                        <div class="list-item lower row left-aligned">
+                            {{weapon.hitEffect}}
+                        </div>
+                    </div>
                 </div>
-                <div class="fullsize-only lower row left-aligned" *ngIf="weapon.criticalHint">
-                    <strong>Critical hit effect&nbsp;</strong>{{weapon.criticalHint}}
+                <div class="fullsize-only list-item row" *ngIf="weapon.criticalHint">
+                    <button class="row sublist-toggle fancy-button" (click)="toggle_Item(weapon.id+attack[0]+'criticalHint')">
+                        Critical hit effect
+                    </button>
+                    <div class="list-item sublist fancy-list" *ngIf="get_ShowItem()==weapon.id+attack[0]+'criticalHint'">
+                        <div class="list-item lower row left-aligned">
+                            {{weapon.criticalHint}}
+                        </div>
+                    </div>
                 </div>
+                <ng-container *ngFor="let specs of [get_CritSpecialization(weapon, attack[0])]">
+                    <div class="fullsize-only list-item row" *ngIf="specs.length">
+                        <button class="row sublist-toggle fancy-button" (click)="toggle_Item(weapon.id+attack[0]+'criteffects')">
+                            Critical specialization effects
+                        </button>
+                        <div class="list-item sublist fancy-list" *ngIf="get_ShowItem()==weapon.id+attack[0]+'criteffects'">
+                            <div class="list-item lower row left-aligned"
+                                *ngFor="let spec of get_CritSpecialization(weapon, attack[0]); trackBy:trackByIndex;">
+                                {{spec.desc}}
+                            </div>
+                        </div>
+                    </div>
+                </ng-container>
                 <ng-container *ngFor="let rune of get_Runes(weapon, attack[0]); trackBy:trackByIndex;"
                     style="margin-top:initial">
-                    <div class="fullsize-only lower row left-aligned" *ngIf="rune.criticalHint">
-                        <span>
-                            <strong>Critical hit effect&nbsp;</strong>{{rune.criticalHint}}
-                            <span *ngIf="rune.name=='Grievous'">{{get_GrievousData(weapon, rune)}}</span>
-                        </span>
-                        <div class="row left-aligned" *ngIf="rune.critsuccess">
-                            <strong>Critical Success</strong>&nbsp;{{rune.critsuccess}}
-                        </div>
-                        <div class="row left-aligned" *ngIf="rune.success">
-                            <strong>Success</strong>&nbsp;{{rune.success}}
-                        </div>
-                        <div class="row left-aligned" *ngIf="rune.failure">
-                            <strong>Failure</strong>&nbsp;{{rune.failure}}
-                        </div>
-                        <div class="row left-aligned" *ngIf="rune.critfailure">
-                            <strong>Critical Failure</strong>&nbsp;{{rune.critfailure}}
+                    <div class="fullsize-only list-item row" *ngIf="rune.criticalHint">
+                        <button class="row sublist-toggle fancy-button" (click)="toggle_Item(weapon.id+attack[0]+'criticalHint')">
+                            {{rune.name}} critical hit effect
+                        </button>
+                        <div class="list-item sublist fancy-list left-aligned" *ngIf="get_ShowItem()==weapon.id+attack[0]+'criticalHint'">
+                            <div class="list-item lower row left-aligned">
+                                <span>
+                                    {{rune.criticalHint}}
+                                    <span *ngIf="rune.name=='Grievous'">{{get_GrievousData(weapon, rune)}}</span>
+                                </span>
+                                <div class="row left-aligned" *ngIf="rune.critsuccess">
+                                    <strong>Critical Success</strong>&nbsp;{{rune.critsuccess}}
+                                </div>
+                                <div class="row left-aligned" *ngIf="rune.success">
+                                    <strong>Success</strong>&nbsp;{{rune.success}}
+                                </div>
+                                <div class="row left-aligned" *ngIf="rune.failure">
+                                    <strong>Failure</strong>&nbsp;{{rune.failure}}
+                                </div>
+                                <div class="row left-aligned" *ngIf="rune.critfailure">
+                                    <strong>Critical Failure</strong>&nbsp;{{rune.critfailure}}
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </ng-container>

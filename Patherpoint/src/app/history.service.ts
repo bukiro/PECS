@@ -1,53 +1,44 @@
-import { Injectable, Type } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable, of } from 'rxjs';
-import { map, catchError } from 'rxjs/operators';
+import { Injectable } from '@angular/core';
 import { Ancestry } from './Ancestry';
 import { Heritage } from './Heritage';
 import { Background } from './Background';
 import { SavegameService } from './savegame.service';
-import { Loader } from './Loader';
+import * as json_ancestries from '../assets/json/ancestries';
+import * as json_backgrounds from '../assets/json/backgrounds';
+import * as json_heritages from '../assets/json/heritages';
 
 @Injectable({
     providedIn: 'root'
 })
 export class HistoryService {
-    private ancestries: Ancestry[];
-    private custom_ancestries: Ancestry[];
-    private heritages: Heritage[];
-    private custom_heritages: Heritage[];
-    private backgrounds: Background[];
-    private custom_backgrounds: Background[];
-    private loader_Ancestries: Loader = new Loader();
-    private loader_Heritages: Loader = new Loader();
-    private loader_Backgrounds: Loader = new Loader();
-    private loader_CustomAncestries: Loader = new Loader();
-    private loader_CustomHeritages: Loader = new Loader();
-    private loader_CustomBackgrounds: Loader = new Loader();
+    private ancestries: Ancestry[] = [];
+    private heritages: Heritage[] = [];
+    private backgrounds: Background[] = [];
+    private loading_ancestries: boolean = false;
+    private loading_backgrounds: boolean = false;
+    private loading_heritages: boolean = false;
     
     constructor(
-        private http: HttpClient,
         private savegameService: SavegameService
     ) { }
 
     get_Ancestries(name: string = "") {
-        if (!this.loader_Ancestries.loading) {
-            return this.ancestries.concat(this.custom_ancestries).filter(ancestry => (ancestry.name == name || name == ""));
+        if (!this.loading_ancestries) {
+            return this.ancestries.filter(ancestry => (ancestry.name == name || name == ""));
         } else { return [new Ancestry()] }
     }
 
     get_Heritages(name: string = "", ancestryName: string = "") {
-        if (!this.loader_Heritages.loading) {
-            return this.heritages.concat(this.custom_heritages).filter(heritage => (heritage.name == name || name == "" )
+        if (!this.loading_heritages) {
+            return this.heritages.filter(heritage => (heritage.name == name || name == "" )
              && (ancestryName == "" || this.get_Ancestries(ancestryName)[0].heritages.includes(heritage.name)) );
         } else { return [new Heritage()] }
     }
 
-    get_HeritagesAndSubtypes(name: string = "", ancestryName: string = "") {
-        if (!this.loader_Heritages.loading) {
+    get_HeritagesAndSubtypes(name: string = "") {
+        if (!this.loading_heritages) {
             let heritages: Heritage[] = [];
             heritages.push(...this.heritages);
-            heritages.push(...this.custom_heritages);
             heritages.forEach(heritage => {
                 heritages.push(...heritage.subTypes);
             })
@@ -56,8 +47,8 @@ export class HistoryService {
     }
     
     get_Backgrounds(name: string = "") {
-        if (!this.loader_Backgrounds.loading) {
-            return this.backgrounds.concat(this.custom_backgrounds).filter(background => (background.name == name || name == ""));
+        if (!this.loading_backgrounds) {
+            return this.backgrounds.filter(background => (background.name == name || name == ""));
         } else { return [new Background()] }
     }
 
@@ -161,57 +152,35 @@ export class HistoryService {
     }
 
     still_loading() {
-        return (this.loader_Ancestries.loading || this.loader_Heritages.loading || this.loader_Backgrounds.loading || this.loader_CustomAncestries.loading || this.loader_CustomHeritages.loading || this.loader_CustomBackgrounds.loading)
+        return (this.loading_ancestries || this.loading_backgrounds || this.loading_heritages)
     }
 
     initialize() {
-        if (!this.ancestries) {
-            this.load('/assets/ancestries.json', this.loader_Ancestries, "ancestries", Ancestry);
+        if (!this.ancestries.length) {
+            this.loading_ancestries = true;
+            this.load(json_ancestries, "ancestries", Ancestry);
+            this.loading_ancestries = false;
         }
-        if (!this.custom_ancestries) {
-            this.load('/assets/custom/ancestries.json', this.loader_CustomAncestries, "custom_ancestries", Ancestry);
+        if (!this.backgrounds.length) {
+            this.loading_backgrounds = true;
+            this.load(json_backgrounds, "backgrounds", Background);
+            this.loading_backgrounds = false;
         }
-        if (!this.backgrounds) {
-            this.load('/assets/backgrounds.json', this.loader_Backgrounds, "backgrounds", Background);
-        }
-        if (!this.custom_backgrounds) {
-            this.load('/assets/custom/backgrounds.json', this.loader_CustomBackgrounds, "custom_backgrounds", Background);
-        }
-        if (!this.heritages) {
-            this.load('/assets/heritages.json', this.loader_Heritages, "heritages", Heritage);
-        }
-        if (!this.custom_heritages) {
-            this.load('/assets/custom/heritages.json', this.loader_CustomHeritages, "custom_heritages", Heritage);
+        if (!this.heritages.length) {
+            this.loading_heritages = true;
+            this.load(json_heritages, "heritages", Heritage);
+            this.loading_heritages = false;
         }
     }
 
-    load(filepath: string, loader: Loader, target: string, type) {
-        loader.loading = true;
-        this.load_File(filepath)
-            .subscribe((results:string[]) => {
-                loader.content = results;
-                this.finish_Loading(loader, target, type)
-            });
-    }
-
-    load_File(filepath): Observable<string[]>{
-        return this.http.get<string[]>(filepath)
-        .pipe(map(result => result), catchError(() => of([])));
-    }
-
-    finish_Loading(loader: Loader, target: string, type) {
-        if (loader.content.length) {
-            this[target] = loader.content.map(activity => Object.assign(new type(), activity));
-
-            this[target].forEach(obj => {
-                obj = this.savegameService.reassign(obj)
-            });
-
-            loader.content = [];
-        } else {
-            this[target] = [];
-        }
-        if (loader.loading) {loader.loading = false;}
+    load(source, target: string, type) {
+        this[target] = [];
+        Object.keys(source).forEach(key => {
+            this[target].push(...source[key].map(obj => Object.assign(new type(), obj)));
+        });
+        this[target].forEach(obj => {
+            obj = this.savegameService.reassign(obj)
+        });
     }
 
 }

@@ -13,8 +13,8 @@ import { Item } from './Item';
 import { ItemsService } from './items.service';
 import { Equipment } from './Equipment';
 import { EffectGain } from './EffectGain';
-import * as json_conditions from '../assets/json/conditions';
 import { Hint } from './Hint';
+import * as json_conditions from '../assets/json/conditions';
 
 @Injectable({
     providedIn: 'root'
@@ -371,12 +371,9 @@ export class ConditionsService {
     }
 
     load_Conditions() {
-        this.conditions = []
+        this.conditions = [];
         Object.keys(json_conditions).forEach(key => {
-            this.conditions.push(...json_conditions[key].map(condition => Object.assign(new Condition(), condition)));
-        });
-        this.conditions.forEach((condition: Condition) => {
-            condition.hints = condition.hints.map(hint => Object.assign(new Hint(), hint));
+            this.conditions.push(...json_conditions[key].map(obj => Object.assign(new Condition(), obj)));
         });
     }
 

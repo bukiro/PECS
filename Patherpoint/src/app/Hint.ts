@@ -2,7 +2,9 @@ import { EffectGain } from './EffectGain';
 
 export class Hint {
     public readonly neversave: string[] = [
-        "active"
+        "active",
+        "active2",
+        "active3"
     ];
     public desc: string = "";
     public showon: string = "";

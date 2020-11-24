@@ -349,6 +349,11 @@ input[disabled]:not(.bonus):not(.penalty):not(.absolute) {
     background-color: #202020;
 }
 
+input.number1 {
+    width: 36px;
+    margin-bottom: 0px;
+}
+
 input.number2 {
     width: 44px;
     margin-bottom: 0px;

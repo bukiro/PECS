@@ -1,32 +1,28 @@
 import { Injectable } from '@angular/core';
 import { AnimalCompanion } from './AnimalCompanion';
-import { Familiar } from './Familiar';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { CharacterService } from './character.service';
 import { AnimalCompanionLevel } from './AnimalCompanionLevel';
 import { AnimalCompanionAncestry } from './AnimalCompanionAncestry';
 import { AnimalCompanionSpecialization } from './AnimalCompanionSpecialization';
 import { AnimalCompanionClass } from './AnimalCompanionClass';
 import { SavegameService } from './savegame.service';
+import * as json_ancestries from '../assets/json/animalcompanions';
+import * as json_levels from '../assets/json/animalcompanionlevels';
+import * as json_specializations from '../assets/json/animalcompanionspecializations';
+
 
 @Injectable({
     providedIn: 'root'
 })
 export class AnimalCompanionsService {
 
-    private companionAncestries: AnimalCompanionAncestry[];
-    private companionLevels: AnimalCompanionLevel[];
-    private companionSpecializations: AnimalCompanionSpecialization[];
-    private loader_ancestries;
-    private loader_levels;
-    private loader_specializations;
+    private companionAncestries: AnimalCompanionAncestry[] = [];
+    private companionLevels: AnimalCompanionLevel[] = [];
+    private companionSpecializations: AnimalCompanionSpecialization[] = [];
     private loading_ancestries: boolean = false;
     private loading_levels: boolean = false;
     private loading_specializations: boolean = false;
     
     constructor(
-        private http: HttpClient,
         private savegameService: SavegameService
     ) { }
 
@@ -152,22 +148,6 @@ export class AnimalCompanionsService {
         return spec;
     }
 
-    still_loading() {
-        return (this.loading_ancestries || this.loading_levels);
-    }
-  
-    load_AnimalCompanions(): Observable<string[]>{
-        return this.http.get<string[]>('/assets/animalcompanions.json');
-    }
-
-    load_AnimalCompanionLevels(): Observable<string[]>{
-        return this.http.get<string[]>('/assets/animalcompanionlevels.json');
-    }
-
-    load_AnimalCompanionSpecializations(): Observable<string[]>{
-        return this.http.get<string[]>('/assets/animalcompanionspecializations.json');
-    }
-  
     change_Type(companion: AnimalCompanion, type: AnimalCompanionAncestry) {
         companion.class.ancestry = new AnimalCompanionAncestry();
         companion.class.ancestry = Object.assign(new AnimalCompanionAncestry(), JSON.parse(JSON.stringify(type)));
@@ -184,70 +164,50 @@ export class AnimalCompanionsService {
         companion.class.specializations = companion.class.specializations.filter(specialization => specialization.name != spec.name);
     }
 
-    initialize() {
-        if (!this.companionAncestries) {
-            this.loading_ancestries = true;
-            this.load_AnimalCompanions()
-                .subscribe((results:string[]) => {
-                    this.loader_ancestries = results;
-                    this.finish_loading_Ancestries()
-                });
-        }
-        if (!this.companionLevels) {
-            this.loading_levels = true;
-            this.load_AnimalCompanionLevels()
-                .subscribe((results:string[]) => {
-                    this.loader_levels = results;
-                    this.finish_loading_Levels()
-                });
-        }
-        if (!this.companionSpecializations) {
-            this.loading_specializations = true;
-            this.load_AnimalCompanionSpecializations()
-                .subscribe((results:string[]) => {
-                    this.loader_specializations = results;
-                    this.finish_loading_Specializations()
-                });
-        }
+    still_loading() {
+        return (this.loading_ancestries || this.loading_levels || this.loading_specializations);
     }
   
-    finish_loading_Ancestries() {
-        if (this.loader_ancestries) {
-            this.companionAncestries = this.loader_ancestries.map(ancestry => Object.assign(new AnimalCompanionAncestry(), ancestry));
-            
+    initialize() {
+        if (!this.companionAncestries.length) {
+            this.loading_ancestries = true;
+            this.load(json_ancestries, "companionAncestries", AnimalCompanionAncestry);
+            this.loading_ancestries = false;
+        } else {
+            //Disable any active hint effects when loading a character.
             this.companionAncestries.forEach(ancestry => {
-                ancestry = this.savegameService.reassign(ancestry);
-            });
-
-            this.loader_ancestries = [];
+                ancestry.hints?.forEach(hint => {
+                    hint.active = hint.active2 = hint.active3 = false;
+                })
+            })
         }
-        if (this.loading_ancestries) {this.loading_ancestries = false;}
+        if (!this.companionLevels.length) {
+            this.loading_levels = true;
+            this.load(json_levels, "companionLevels", AnimalCompanionLevel);
+            this.loading_levels = false;
+        }
+        if (!this.companionSpecializations.length) {
+            this.loading_specializations = true;
+            this.load(json_specializations, "companionSpecializations", AnimalCompanionSpecialization);
+            this.loading_specializations = false;
+        } else {
+            //Disable any active hint effects when loading a character.
+            this.companionSpecializations.forEach(spec => {
+                spec.hints?.forEach(hint => {
+                    hint.active = hint.active2 = hint.active3 = false;
+                })
+            })
+        }
     }
 
-    finish_loading_Levels() {
-        if (this.loader_levels) {
-            this.companionLevels = this.loader_levels.map(level => Object.assign(new AnimalCompanionLevel(), level));
-            
-            this.companionLevels.forEach(level => {
-                level = this.savegameService.reassign(level);
-            });
-
-            this.loader_levels = [];
-        }
-        if (this.loading_levels) {this.loading_levels = false;}
-    }
-
-    finish_loading_Specializations() {
-        if (this.loader_specializations) {
-            this.companionSpecializations = this.loader_specializations.map(specialization => Object.assign(new AnimalCompanionSpecialization(), specialization));
-            
-            this.companionSpecializations.forEach(specialization => {
-                specialization = this.savegameService.reassign(specialization);
-            });
-
-            this.loader_specializations = [];
-        }
-        if (this.loading_specializations) {this.loading_specializations = false;}
+    load(source, target: string, type) {
+        this[target] = [];
+        Object.keys(source).forEach(key => {
+            this[target].push(...source[key].map(obj => Object.assign(new type(), obj)));
+        });
+        this[target].forEach(obj => {
+            obj = this.savegameService.reassign(obj)
+        });
     }
 
 }

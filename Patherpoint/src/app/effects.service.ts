@@ -12,18 +12,16 @@ import { AbilitiesService } from './abilities.service';
 import { Creature } from './Creature';
 import { Feat } from './Feat';
 import { ItemProperty } from './ItemProperty';
-import { Observable } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
 import { ItemActivity } from './ItemActivity';
 import { ActivitiesService } from './activities.service';
 import { Activity } from './Activity';
-import { Condition } from './Condition';
 import { ConditionGain } from './ConditionGain';
-import { Item } from './Item';
 import { Equipment } from './Equipment';
 import { Oil } from './Oil';
 import { WornItem } from './WornItem';
 import { ArmorRune } from './ArmorRune';
+import { WeaponRune } from './WeaponRune';
+import * as json_effectproperties from '../assets/json/effectproperties';
 
 @Injectable({
     providedIn: 'root'
@@ -33,12 +31,9 @@ export class EffectsService {
     private effects: EffectCollection[] = [new EffectCollection(), new EffectCollection(), new EffectCollection()];
     //The bonus types are hardcoded. If Paizo ever adds a new bonus type, this is where we need to change them.
     private bonusTypes: string[] = ["item", "circumstance", "status", "proficiency", "untyped"];
-    private effectProperties: ItemProperty[];
-    private loader_EffectProperties = [];
-    private loading_EffectProperties: Boolean = false;
-
+    private effectProperties: ItemProperty[] = [];
+    
     constructor(
-        private http: HttpClient,
         private traitsService: TraitsService,
         private abilitiesService: AbilitiesService,
         private activitiesService: ActivitiesService
@@ -494,7 +489,7 @@ export class EffectsService {
         })
         //Active hints of equipped items
         if (!familiar) {
-            function add_HintEffects(item: Equipment | Oil | WornItem | ArmorRune, effectsService: EffectsService) {
+            function add_HintEffects(item: Equipment | Oil | WornItem | ArmorRune | WeaponRune, effectsService: EffectsService) {
                 item.hints?.filter(hint => (hint.active || hint.active2 || hint.active3) && hint.effects?.length).forEach(hint => {
                     simpleEffects = simpleEffects.concat(effectsService.get_SimpleEffects(character, characterService, hint, "conditional, " + (item.get_Name ? item.get_Name() : item.name)));
                 })
@@ -513,6 +508,11 @@ export class EffectsService {
                     if (item.moddable == "armor" && (item as Equipment).propertyRunes) {
                         (item as Equipment).propertyRunes.forEach(rune => {
                             add_HintEffects(rune as ArmorRune, this);
+                        });
+                    }
+                    if (item.moddable == "weapon" && (item as Equipment).propertyRunes) {
+                        (item as Equipment).propertyRunes.forEach(rune => {
+                            add_HintEffects(rune as WeaponRune, this);
                         });
                     }
                 });
@@ -884,13 +884,9 @@ export class EffectsService {
         if (characterService.still_loading()) {
             setTimeout(() => this.initialize(characterService), 500)
         } else {
-            this.effectProperties = [];
-            this.loading_EffectProperties = true;
-            this.load_EffectProperties()
-                .subscribe((results: String[]) => {
-                    this.loader_EffectProperties = results;
-                    this.finish_EffectProperties()
-                });
+            if (!this.effectProperties.length) {
+                this.load_EffectProperties();
+            }
             characterService.get_Changed()
                 .subscribe((target) => {
                     if (["effects", "all", "Character", "Companion", "Familiar"].includes(target)) {
@@ -914,16 +910,11 @@ export class EffectsService {
         }
     }
 
-    load_EffectProperties(): Observable<string[]> {
-        return this.http.get<string[]>('/assets/effectProperties.json');
-    }
-
-    finish_EffectProperties() {
-        if (this.loader_EffectProperties) {
-            this.effectProperties = this.loader_EffectProperties.map(element => Object.assign(new ItemProperty(), element));
-            this.loader_EffectProperties = [];
-        }
-        if (this.loading_EffectProperties) { this.loading_EffectProperties = false; }
+    load_EffectProperties() {
+        this.effectProperties = [];
+        Object.keys(json_effectproperties).forEach(key => {
+            this.effectProperties.push(...json_effectproperties[key].map(obj => Object.assign(new ItemProperty(), obj)));
+        });
     }
 
 }

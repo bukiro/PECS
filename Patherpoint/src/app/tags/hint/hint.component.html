@@ -1,7 +1,7 @@
 <cite class="{{className}}" *ngFor="let hint of get_Hints(object.hints, objectName); trackBy:trackByIndex;"
     [title]="hint.desc ? hint.desc : object.desc">{{description}}
     <input type="checkbox" [(ngModel)]="hint.active" (ngModelChange)="on_ActivateEffect()"
-        *ngIf="hint.effects && hint.effects.length" title="Apply any numeral effects of this hint.">
+        *ngIf="hint.effects && hint.effects.length" title="Apply any numerical effects of this hint.">
     <input type="checkbox" [(ngModel)]="hint.active2" (ngModelChange)="on_ActivateEffect()"
         *ngIf="hint.effects && hint.effects.length && hint.extraActivations > 0"
         title="Activate the second level of this hint's effects.">

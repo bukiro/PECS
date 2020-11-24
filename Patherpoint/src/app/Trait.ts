@@ -6,12 +6,12 @@ import { Hint } from './Hint';
 
 export class Trait {
     public desc: string = "";
+    public dynamic: boolean = false;
     public name: string = "";
     public hints: Hint[] = [];
-    public showon: string = "";
     public specialModifier: string[] = [];
-    //Return all equipped items that have this trait, or alternately only their names.
-    //Some trait instances have range information after the trait name, so we allow traits that include this trait's name and " ft" or " d".
+    //Return all equipped items that have this trait, or alternatively only their names.
+    //Some trait instances have information after the trait name, so we allow traits that include this trait's name as long as this trait is dynamic.
     haveOn(creature: Character|AnimalCompanion|Familiar, namesOnly: boolean = false) { 
         let filteredItems: Item[] = []
         creature.inventories.forEach(inventory => {
@@ -23,10 +23,7 @@ export class Trait {
                             this.name == trait ||
                             (
                                 trait.includes(this.name) &&
-                                (
-                                    trait.includes(" ft") ||
-                                    trait.includes(" d")
-                                )
+                                this.dynamic
                             )
                         )
                     )

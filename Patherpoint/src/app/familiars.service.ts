@@ -1,21 +1,16 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
 import { Feat } from './Feat';
-import { HttpClient } from '@angular/common/http';
-import { SavegameService } from './savegame.service';
+import * as json_abilities from '../assets/json/familiarabilities';
 
 @Injectable({
     providedIn: 'root'
 })
 export class FamiliarsService {
 
-    private familiarAbilities: Feat[];
+    private familiarAbilities: Feat[] = [];
     private loading_familiarAbilities: boolean = false;
-    private loader_familiarAbilities;
-
-    constructor(
-        private http: HttpClient,
-    ) { }
+    
+    constructor() { }
 
     still_loading() {
         return (this.loading_familiarAbilities);
@@ -26,29 +21,27 @@ export class FamiliarsService {
             return this.familiarAbilities.filter(ability => ability.name.toLowerCase() == name.toLowerCase() || name == "")
         } else { return [new Feat()] }
     }
-
-    load_FamiliarAbilities(): Observable<string[]>{
-        return this.http.get<string[]>('/assets/familiarabilities.json');
-    }
-
+    
     initialize() {
-        if (!this.familiarAbilities) {
+        if (!this.familiarAbilities.length) {
             this.loading_familiarAbilities = true;
-            this.load_FamiliarAbilities()
-                .subscribe((results:string[]) => {
-                    this.loader_familiarAbilities = results;
-                    this.finish_loading_Ancestries()
-                });
+            this.load_Abilities();
+            this.loading_familiarAbilities = false;
+        } else {
+            //Disable any active hint effects when loading a character.
+            this.familiarAbilities.forEach(ability => {
+                ability.hints?.forEach(hint => {
+                    hint.active = hint.active2 = hint.active3 = false;
+                })
+            })
         }
     }
-  
-    finish_loading_Ancestries() {
-        if (this.loader_familiarAbilities) {
-            this.familiarAbilities = this.loader_familiarAbilities.map(ability => Object.assign(new Feat(), ability));
-            
-            this.loader_familiarAbilities = [];
-        }
-        if (this.loading_familiarAbilities) {this.loading_familiarAbilities = false;}
+
+    load_Abilities() {
+        this.familiarAbilities = [];
+        Object.keys(json_abilities).forEach(key => {
+            this.familiarAbilities.push(...json_abilities[key].map(obj => Object.assign(new Feat(), obj)));
+        });
     }
 
 }

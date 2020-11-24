@@ -1,22 +1,17 @@
 import { Injectable } from '@angular/core';
 import { Class } from './Class';
-import { Level } from './Level';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { CharacterService } from './character.service';
 import { SavegameService } from './savegame.service';
+import * as json_classes from '../assets/json/classes';
 
 @Injectable({
     providedIn: 'root'
 })
 export class ClassesService {
 
-    classes: Class[];
-    private loader; 
+    classes: Class[] = [];
     private loading: boolean = false;
     
     constructor(
-        private http: HttpClient,
         private savegameService: SavegameService
     ) { }
 
@@ -30,10 +25,6 @@ export class ClassesService {
         return (this.loading);
     }
   
-    load_Classes(): Observable<string[]>{
-        return this.http.get<string[]>('/assets/classes.json');
-    }
-    
     restore_ClassFromSave($class: Class, savegameService: SavegameService) {
         if ($class.name) {
             let libraryObject = this.get_Classes($class.name)[0];
@@ -81,26 +72,21 @@ export class ClassesService {
     }
 
     initialize() {
-        if (!this.classes) {
-        this.loading = true;
-        this.load_Classes()
-            .subscribe((results:string[]) => {
-                this.loader = results;
-                this.finish_loading()
-            });
+        if (!this.classes.length) {
+            this.loading = true;
+            this.load_Classes();
+            this.loading = false;
         }
     }
-  
-    finish_loading() {
-        if (this.loader) {
-            this.classes = this.loader.map($class => Object.assign(new Class(), $class));
-            this.classes.forEach($class => {
-                $class = this.savegameService.reassign($class)
-            });
-  
-            this.loader = [];
-        }
-        if (this.loading) {this.loading = false;}
+
+    load_Classes() {
+        this.classes = [];
+        Object.keys(json_classes).forEach(key => {
+            this.classes.push(...json_classes[key].map(obj => Object.assign(new Class(), obj)));
+        });
+        this.classes.forEach(obj => {
+            obj = this.savegameService.reassign(obj)
+        });
     }
 
 }

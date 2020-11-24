@@ -485,7 +485,7 @@ export class InventoryComponent implements OnInit {
         return (["armors", "shields", "weapons"].includes(item.type)) &&
         (
             (item as Equipment).talismans.length ||
-            this.get_Creature().inventories.filter(inv => inv.talismans.length).length
+            this.get_Creature().inventories.some(inv => inv.talismans.some(talisman => talisman.targets.includes(item.type)))
         )
     }
 

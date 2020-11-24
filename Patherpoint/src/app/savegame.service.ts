@@ -360,6 +360,7 @@ export class SavegameService {
     }
 
     delete_CharacterFromDB(savegame: Savegame): Observable<string[]> {
+        //Why is this a get?
         return this.http.get<string[]>(this.server+'/delete/' + savegame.id);
     }
 

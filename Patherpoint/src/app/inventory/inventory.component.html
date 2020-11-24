@@ -127,11 +127,11 @@
                                 *ngIf="get_ShowItem()==inventoryID">
                                 <div class="row"
                                     *ngFor="let prof of [(item.get_Prof ? item.get_Prof() : item.prof)]; trackBy:trackByIndex;">
-                                    <span
-                                        *ngIf="item.type == 'armors'">{{(["Light Barding","Heavy Barding"].includes(item.prof)) ? item.prof : item.prof.split(" ")[0]}}
+                                    <span [className]="item.prof != prof ? 'absolute' : ''"
+                                        *ngIf="item.type == 'armors'">{{(["Light Barding","Heavy Barding"].includes(prof)) ? prof : prof.split(" ")[0]}}
                                         {{item.group}}
-                                        {{(item.type=="armors" && (!["Unarmored Defense","Light Barding","Heavy Barding"].includes(item.prof))) ? "Armor" : ""}}</span>
-                                    <span
+                                        {{(item.type=="armors" && (!["Unarmored Defense","Light Barding","Heavy Barding"].includes(prof))) ? "Armor" : ""}}</span>
+                                    <span [className]="item.prof != prof ? 'absolute' : ''"
                                         *ngIf="item.type == 'weapons'">{{(prof == 'Unarmed') ? prof : prof.substr(0, prof.length - 8)}}
                                         {{item.group}}</span>
                                 </div>
@@ -322,7 +322,7 @@
                                             for="{{item.id}}showrunes">Runes</label></span>
                                 </div>
                                 <!--Changing Notes-->
-                                <div class="list-item row" *ngIf="item.showNotes">
+                                <div class="list-item row left-aligned" *ngIf="item.showNotes">
                                     <span>Notes</span> <input type="textarea" class="fullwidth"
                                         [(ngModel)]="item.notes">
                                 </div>
@@ -346,7 +346,7 @@
                                     </span>
                                 </div>
                                 <!--Changing Name-->
-                                <div class="list-item row" *ngIf="item.showName">
+                                <div class="list-item row left-aligned" *ngIf="item.showName">
                                     <span>Name</span> <input type="textarea" class="fullwidth"
                                         [(ngModel)]="item.displayName" (blur)="onItemChange(item)">
                                 </div>

@@ -104,17 +104,6 @@ The very latest in Assistive Technologies for Dungeon Master (ATDM)
 - [ ] Stretch Goal: Include optional systems like Stamina & Resolve
 
 Active to-do:
-Change hint/showon to hints: Hint[] in order to allow multiple hints with conditional effects
-- [x] Activities
-- [x] Feats
-- [x] Features
-- [x] Animal Companions
-- [x] Familiar Abilities
-- [x] Specializations
-- [x] Conditions
-- [ ] Items (helditems, oils, weapons are done)
-- [x] Traits
-Apply json import method to all json files instead of using http.get
 
 Implement:
 

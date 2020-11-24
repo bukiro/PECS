@@ -1,19 +1,15 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { Skill } from './Skill';
-import { Observable } from 'rxjs';
+import * as json_skills from '../assets/json/skills';
 
 @Injectable({
     providedIn: 'root'
 })
 export class SkillsService {
-    private skills: Skill[]; 
-    private loader; 
+    private skills: Skill[] = []; 
     private loading: boolean = true;
     
-    constructor(
-        private http: HttpClient,
-    ) { }
+    constructor() { }
 
     get_Skills(customSkills: Skill[], name: string = "", type: string = "", locked: boolean = undefined) {
         if (!this.still_loading()) {
@@ -43,27 +39,19 @@ export class SkillsService {
         return (this.loading);
     }
 
-    load_Skills(): Observable<string[]>{
-        return this.http.get<string[]>('/assets/skills.json');
-    }
-
     initialize() {
-        if (!this.skills) {
-        this.loading = true;
-        this.load_Skills()
-            .subscribe((results:string[]) => {
-                this.loader = results;
-                this.finish_loading()
-            });
+        if (!this.skills.length) {
+            this.loading = true;
+            this.load_Skills();
+            this.loading = false;
         }
     }
 
-    finish_loading() {
-        if (this.loader) {
-            this.skills = this.loader.map(skill => Object.assign(new Skill(), skill));
-
-            this.loader = [];
-        }
-        if (this.loading) {this.loading = false;}
+    load_Skills() {
+        this.skills = [];
+        Object.keys(json_skills).forEach(key => {
+            this.skills.push(...json_skills[key].map(obj => Object.assign(new Skill(), obj)));
+        });
     }
+    
 }
