@@ -173,7 +173,8 @@ export class GeneralComponent implements OnInit {
             });
         }
         //We don't process the values yet - for now we just collect all Speeds that are mentioned in effects.
-        let speedEffects = this.effectsService.get_Effects(this.creature).all.filter(effect => effect.apply && (effect.target.includes("Speed")));
+        // Since we pick up every effect that includes "Speed", but we don't want "Ignore Circumstance Penalties To Speed" to show up, we filter out "Ignore".
+        let speedEffects = this.effectsService.get_Effects(this.creature).all.filter(effect => effect.apply && (effect.target.includes("Speed") && !effect.target.includes("Ignore")));
         speedEffects.forEach(effect => {
             if (!speeds.filter(speed => speed.name == effect.target).length) {
                 speeds.push(new Speed(effect.target))

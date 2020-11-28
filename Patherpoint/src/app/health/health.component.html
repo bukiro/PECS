@@ -130,16 +130,24 @@
                 </span>
             </div>
             <h5>Resistances</h5>
-            <ng-container *ngFor="let resistances of [get_Resistances()]; trackBy:trackByIndex;">
+            <ng-container *ngFor="let resistances of [get_Resistances()]; let index = index; trackBy:trackByIndex;">
                 <div class="list-item" *ngIf="resistances.length">
                     <div class="row" *ngFor="let resistance of resistances; trackBy:trackByIndex;">
                         <span title="{{resistance.source}}"
                             [className]="(resistance.value < 0) ? 'penalty' : 'bonus'">{{resistance.target}}:
-                            {{Math.abs(resistance.value)}}{{(resistance.exception) ? " /"+resistance.exception : ""}}</span>
+                            {{Math.abs(resistance.value)}}</span>
                     </div>
                 </div>
                 <app-tags [creature]="creature" [objectName]="'Resistances'" [showTraits]=true [showFeats]=true
                     [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
+            </ng-container>
+            <ng-container *ngFor="let immunities of [get_Immunities()]; trackBy:trackByIndex;">
+                <h5 *ngIf="immunities.length">Immunities</h5>
+                <div class="list-item" *ngIf="immunities.length">
+                    <div class="row" *ngFor="let immunity of immunities; trackBy:trackByIndex;">
+                        <span title="{{immunity.source}}" class="bonus">{{immunity.target}}</span>
+                    </div>
+                </div>
             </ng-container>
         </ng-container>
     </ng-container>

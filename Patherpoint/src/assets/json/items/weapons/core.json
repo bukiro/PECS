@@ -3117,7 +3117,7 @@
    {
       "hide": true,
       "id": "b0ac6d8d-b087-4d37-bb7d-8c1fcef8a779",
-      "name": "Animal Form Ape Fist (4th level)",
+      "name": "Animal Form Ape Fist (4th Level)",
       "traits": [
          "Reach",
          "Unarmed"
@@ -3135,7 +3135,7 @@
    {
       "hide": true,
       "id": "a99f1b30-fec0-4e3a-9807-b55d1ff09c36",
-      "name": "Animal Form Bear Jaws (4th level)",
+      "name": "Animal Form Bear Jaws (4th Level)",
       "traits": [
          "Reach",
          "Unarmed"
@@ -3153,7 +3153,7 @@
    {
       "hide": true,
       "id": "22ec7b8f-72e6-48c2-8b8c-1181e90ea423",
-      "name": "Animal Form Bear Claw (4th level)",
+      "name": "Animal Form Bear Claw (4th Level)",
       "traits": [
          "Agile",
          "Reach",
@@ -3172,7 +3172,7 @@
    {
       "hide": true,
       "id": "76f51d3e-17f2-43a0-8e4b-eec856a64e3d",
-      "name": "Animal Form Bull Horn (4th level)",
+      "name": "Animal Form Bull Horn (4th Level)",
       "traits": [
          "Reach",
          "Unarmed"
@@ -3190,7 +3190,7 @@
    {
       "hide": true,
       "id": "eb2d8c7e-01cd-4325-bcfe-2d1d7396237d",
-      "name": "Animal Form Canine Jaws (4th level)",
+      "name": "Animal Form Canine Jaws (4th Level)",
       "traits": [
          "Reach",
          "Unarmed"
@@ -3208,7 +3208,7 @@
    {
       "hide": true,
       "id": "980286d9-e9ed-4d11-afc2-34f140861213",
-      "name": "Animal Form Cat Jaws (4th level)",
+      "name": "Animal Form Cat Jaws (4th Level)",
       "traits": [
          "Reach",
          "Unarmed"
@@ -3226,7 +3226,7 @@
    {
       "hide": true,
       "id": "c8fc00a9-27ee-45c8-a317-05a0bc28c56b",
-      "name": "Animal Form Cat Claw (4th level)",
+      "name": "Animal Form Cat Claw (4th Level)",
       "traits": [
          "Agile",
          "Reach",
@@ -3245,7 +3245,7 @@
    {
       "hide": true,
       "id": "76e4deaa-e2ac-47d2-a73d-9f7441c69194",
-      "name": "Animal Form Deer Antler (4th level)",
+      "name": "Animal Form Deer Antler (4th Level)",
       "traits": [
          "Reach",
          "Unarmed"
@@ -3263,7 +3263,7 @@
    {
       "hide": true,
       "id": "035f5eed-c2c3-4135-a082-9ec304eeaa22",
-      "name": "Animal Form Frog Jaws (4th level)",
+      "name": "Animal Form Frog Jaws (4th Level)",
       "traits": [
          "Reach",
          "Unarmed"
@@ -3281,7 +3281,7 @@
    {
       "hide": true,
       "id": "e81b8165-8884-4afd-9d37-09c1d1694858",
-      "name": "Animal Form Shark Jaws (4th level)",
+      "name": "Animal Form Shark Jaws (4th Level)",
       "traits": [
          "Reach",
          "Unarmed"
@@ -3299,7 +3299,7 @@
    {
       "hide": true,
       "id": "580d878e-5b29-4c59-a562-aff092384be1",
-      "name": "Animal Form Snake Fangs (4th level)",
+      "name": "Animal Form Snake Fangs (4th Level)",
       "traits": [
          "Reach",
          "Unarmed"
@@ -3318,7 +3318,7 @@
    {
       "hide": true,
       "id": "e4cf01e4-b71c-4035-8007-0804ed2667c9",
-      "name": "Animal Form Ape Fist (5th level)",
+      "name": "Animal Form Ape Fist (5th Level)",
       "traits": [
          "Reach 15 feet",
          "Unarmed"
@@ -3336,7 +3336,7 @@
    {
       "hide": true,
       "id": "cc6e12ea-99aa-43dd-aba7-a950c130b6ad",
-      "name": "Animal Form Bear Jaws (5th level)",
+      "name": "Animal Form Bear Jaws (5th Level)",
       "traits": [
          "Reach 15 feet",
          "Unarmed"
@@ -3354,7 +3354,7 @@
    {
       "hide": true,
       "id": "347a4015-d379-4719-baa0-23e7b24cd117",
-      "name": "Animal Form Bear Claw (5th level)",
+      "name": "Animal Form Bear Claw (5th Level)",
       "traits": [
          "Agile",
          "Reach 15 feet",
@@ -3373,7 +3373,7 @@
    {
       "hide": true,
       "id": "9f89b5db-fc40-4733-8d22-8186cf084db7",
-      "name": "Animal Form Bull Horn (5th level)",
+      "name": "Animal Form Bull Horn (5th Level)",
       "traits": [
          "Reach 15 feet",
          "Unarmed"
@@ -3391,7 +3391,7 @@
    {
       "hide": true,
       "id": "c2a1c4ef-a2f4-4e6e-a09f-941a53fa1ff9",
-      "name": "Animal Form Canine Jaws (5th level)",
+      "name": "Animal Form Canine Jaws (5th Level)",
       "traits": [
          "Reach 15 feet",
          "Unarmed"
@@ -3409,7 +3409,7 @@
    {
       "hide": true,
       "id": "2d0f12ee-cb8b-4d6b-99cd-c5fe96a6fd59",
-      "name": "Animal Form Cat Jaws (5th level)",
+      "name": "Animal Form Cat Jaws (5th Level)",
       "traits": [
          "Reach 15 feet",
          "Unarmed"
@@ -3427,7 +3427,7 @@
    {
       "hide": true,
       "id": "64ed63dd-a317-4a36-8b44-59cfe1c260bf",
-      "name": "Animal Form Cat Claw (5th level)",
+      "name": "Animal Form Cat Claw (5th Level)",
       "traits": [
          "Agile",
          "Reach 15 feet",
@@ -3446,7 +3446,7 @@
    {
       "hide": true,
       "id": "7ea9a231-ebf1-4f3e-bf40-4818135c615b",
-      "name": "Animal Form Deer Antler (5th level)",
+      "name": "Animal Form Deer Antler (5th Level)",
       "traits": [
          "Reach 15 feet",
          "Unarmed"
@@ -3464,7 +3464,7 @@
    {
       "hide": true,
       "id": "883357ab-9635-468a-93a5-1749ac19a842",
-      "name": "Animal Form Frog Jaws (5th level)",
+      "name": "Animal Form Frog Jaws (5th Level)",
       "traits": [
          "Reach 15 feet",
          "Unarmed"
@@ -3482,7 +3482,7 @@
    {
       "hide": true,
       "id": "04cdfd97-f83a-456c-b094-fef670c7d4a5",
-      "name": "Animal Form Frog Tongue (5th level)",
+      "name": "Animal Form Frog Tongue (5th Level)",
       "traits": [
          "Reach 15 feet",
          "Unarmed"
@@ -3500,7 +3500,7 @@
    {
       "hide": true,
       "id": "55eb1009-f99f-4aec-8ade-30c4b0ebf3b7",
-      "name": "Animal Form Shark Jaws (5th level)",
+      "name": "Animal Form Shark Jaws (5th Level)",
       "traits": [
          "Reach 15 feet",
          "Unarmed"
@@ -3518,7 +3518,7 @@
    {
       "hide": true,
       "id": "a2daeeaf-c00b-421d-9c86-6f6efda2a67f",
-      "name": "Animal Form Snake Fangs (5th level)",
+      "name": "Animal Form Snake Fangs (5th Level)",
       "traits": [
          "Reach 15 feet",
          "Unarmed"
@@ -3715,7 +3715,7 @@
    {
       "hide": true,
       "id": "c2e77ed3-715b-4c6e-82c0-50ee1b9ddddd",
-      "name": "Insect Form Ant Mandibles (4th level)",
+      "name": "Insect Form Ant Mandibles (4th Level)",
       "traits": [
          "Reach",
          "Unarmed"
@@ -3733,7 +3733,7 @@
    {
       "hide": true,
       "id": "ec339a03-4386-4996-9862-c41fb021acbe",
-      "name": "Insect Form Beetle Mandibles (4th level)",
+      "name": "Insect Form Beetle Mandibles (4th Level)",
       "traits": [
          "Reach",
          "Unarmed"
@@ -3751,7 +3751,7 @@
    {
       "hide": true,
       "id": "103ceb29-a2ff-4479-8339-36630ecde34a",
-      "name": "Insect Form Centipede Mandibles (4th level)",
+      "name": "Insect Form Centipede Mandibles (4th Level)",
       "traits": [
          "Agile",
          "Reach",
@@ -3771,7 +3771,7 @@
    {
       "hide": true,
       "id": "c7feee39-8f28-4a09-be21-496ebe819cbc",
-      "name": "Insect Form Mantis Foreleg (4th level)",
+      "name": "Insect Form Mantis Foreleg (4th Level)",
       "traits": [
          "Reach",
          "Unarmed"
@@ -3789,7 +3789,7 @@
    {
       "hide": true,
       "id": "15c402e2-b762-4bc8-ad03-c92070977338",
-      "name": "Insect Form Scorpion Stinger (4th level)",
+      "name": "Insect Form Scorpion Stinger (4th Level)",
       "traits": [
          "Reach",
          "Unarmed"
@@ -3808,7 +3808,7 @@
    {
       "hide": true,
       "id": "6b5ede13-d127-401e-8bf8-5eecc914a89f",
-      "name": "Insect Form Scorpion Pincer (4th level)",
+      "name": "Insect Form Scorpion Pincer (4th Level)",
       "traits": [
          "Agile",
          "Reach",
@@ -3827,7 +3827,7 @@
    {
       "hide": true,
       "id": "14d82658-4d27-46b6-aa5a-d852dabb9057",
-      "name": "Insect Form Spider Fangs (4th level)",
+      "name": "Insect Form Spider Fangs (4th Level)",
       "traits": [
          "Reach",
          "Unarmed"
@@ -3846,7 +3846,7 @@
    {
       "hide": true,
       "id": "c8007d13-8804-4d57-bcdc-c994fdcb2e9e",
-      "name": "Insect Form Ant Mandibles (5th level)",
+      "name": "Insect Form Ant Mandibles (5th Level)",
       "traits": [
          "Reach 15 feet",
          "Unarmed"
@@ -3864,7 +3864,7 @@
    {
       "hide": true,
       "id": "2938146c-26ed-4e03-aabd-664c057af765",
-      "name": "Insect Form Beetle Mandibles (5th level)",
+      "name": "Insect Form Beetle Mandibles (5th Level)",
       "traits": [
          "Reach 15 feet",
          "Unarmed"
@@ -3882,7 +3882,7 @@
    {
       "hide": true,
       "id": "d5898aa5-d8f3-498c-9b29-e91de4e404bf",
-      "name": "Insect Form Centipede Mandibles (5th level)",
+      "name": "Insect Form Centipede Mandibles (5th Level)",
       "traits": [
          "Agile",
          "Reach 15 feet",
@@ -3902,7 +3902,7 @@
    {
       "hide": true,
       "id": "66c47162-6490-45f8-80e5-0cf81ef0dae0",
-      "name": "Insect Form Mantis Foreleg (5th level)",
+      "name": "Insect Form Mantis Foreleg (5th Level)",
       "traits": [
          "Reach 15 feet",
          "Unarmed"
@@ -3920,7 +3920,7 @@
    {
       "hide": true,
       "id": "7e174dac-b0a2-41bc-9908-2c11f78d63bc",
-      "name": "Insect Form Scorpion Stinger (5th level)",
+      "name": "Insect Form Scorpion Stinger (5th Level)",
       "traits": [
          "Reach 15 feet",
          "Unarmed"
@@ -3939,7 +3939,7 @@
    {
       "hide": true,
       "id": "aca28011-72e6-477c-bf7a-c1d1717958ce",
-      "name": "Insect Form Scorpion Pincer (5th level)",
+      "name": "Insect Form Scorpion Pincer (5th Level)",
       "traits": [
          "Agile",
          "Reach 15 feet",
@@ -3958,7 +3958,7 @@
    {
       "hide": true,
       "id": "6b1286f9-be0a-4de7-a5b7-a84451d3860e",
-      "name": "Insect Form Spider Fangs (5th level)",
+      "name": "Insect Form Spider Fangs (5th Level)",
       "traits": [
          "Reach 15 feet",
          "Unarmed"
@@ -4313,7 +4313,7 @@
    {
       "hide": true,
       "id": "fd37d73c-84c2-4e56-a896-a8c614e287ad",
-      "name": "Aerial Form Bat Fangs (6th level)",
+      "name": "Aerial Form Bat Fangs (6th Level)",
       "traits": [
          "Reach",
          "Unarmed"
@@ -4332,7 +4332,7 @@
    {
       "hide": true,
       "id": "24fd9059-5764-422c-be8d-a6a587d5c171",
-      "name": "Aerial Form Bat Wing (6th level)",
+      "name": "Aerial Form Bat Wing (6th Level)",
       "traits": [
          "Agile",
          "Reach",
@@ -4352,7 +4352,7 @@
    {
       "hide": true,
       "id": "fb32b16f-d43e-4ff8-b2a4-920a9de7db1b",
-      "name": "Aerial Form Bird Beak (6th level)",
+      "name": "Aerial Form Bird Beak (6th Level)",
       "traits": [
          "Reach",
          "Unarmed"
@@ -4371,7 +4371,7 @@
    {
       "hide": true,
       "id": "7afb9275-0077-4aae-8dc9-ec9aecb1daef",
-      "name": "Aerial Form Bird Talon (6th level)",
+      "name": "Aerial Form Bird Talon (6th Level)",
       "traits": [
          "Agile",
          "Reach",
@@ -4391,7 +4391,7 @@
    {
       "hide": true,
       "id": "7007640f-c3aa-4711-9132-5f4de20281c5",
-      "name": "Aerial Form Pterosaur Beak (6th level)",
+      "name": "Aerial Form Pterosaur Beak (6th Level)",
       "traits": [
          "Reach",
          "Unarmed"
@@ -4410,7 +4410,7 @@
    {
       "hide": true,
       "id": "0aa50e7e-23dd-4120-8b7d-1a3973c5be5d",
-      "name": "Aerial Form Wasp Stinger (6th level)",
+      "name": "Aerial Form Wasp Stinger (6th Level)",
       "traits": [
          "Reach",
          "Unarmed"
@@ -4426,5 +4426,608 @@
       "melee": 5,
       "prof": "Unarmed Attacks",
       "dexterityBased": true
+   },
+   {
+      "hide": true,
+      "id": "22efb2d3-17fe-48e9-bde4-6509c71aa407",
+      "name": "Dinosaur Form Ankylosaurus Tail",
+      "traits": [
+         "Back Swing",
+         "Reach 10 feet",
+         "Unarmed"
+      ],
+      "displayName": "Tail",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 2,
+      "dicesize": 6,
+      "dmgType": "B",
+      "group": "Brawling",
+      "melee": 10,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "2167f634-991d-486d-8439-aa06d9b3373e",
+      "name": "Dinosaur Form Ankylosaurus Foot",
+      "traits": [
+         "Unarmed"
+      ],
+      "displayName": "Foot",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 2,
+      "dicesize": 6,
+      "dmgType": "B",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "08ee159b-5ff4-47ef-b6b6-4b3154c26e39",
+      "name": "Dinosaur Form Brontosaurus Tail",
+      "traits": [
+         "Reach 15 feet",
+         "Unarmed"
+      ],
+      "displayName": "Tail",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 2,
+      "dicesize": 6,
+      "dmgType": "B",
+      "group": "Brawling",
+      "melee": 15,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "0b99c6a7-f28a-4cde-90be-d44888f57c31",
+      "name": "Dinosaur Form Brontosaurus Foot",
+      "traits": [
+         "Unarmed"
+      ],
+      "displayName": "Foot",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 2,
+      "dicesize": 8,
+      "dmgType": "B",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "36d2dd0d-c4d5-4985-81fc-bbd1f150ca66",
+      "name": "Dinosaur Form Deinonychus Talon",
+      "traits": [
+         "Agile",
+         "Unarmed"
+      ],
+      "displayName": "Talon",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 2,
+      "dicesize": 4,
+      "extraDamage":"+1 persistent Bleed",
+      "dmgType": "P",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "b7e22bd1-7d9b-4823-a462-bdea4c2a0339",
+      "name": "Dinosaur Form Deinonychus Jaws",
+      "traits": [
+         "Unarmed"
+      ],
+      "displayName": "Jaws",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 1,
+      "dicesize": 10,
+      "dmgType": "P",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "8398b466-cea6-4bcd-95be-356370b07919",
+      "name": "Dinosaur Form Stegosaurus Tail",
+      "traits": [
+         "Reach 10 feet",
+         "Unarmed"
+      ],
+      "displayName": "Tail",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 2,
+      "dicesize": 8,
+      "dmgType": "P",
+      "group": "Brawling",
+      "melee": 10,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "d83e3806-ce3d-498f-b5cf-4d05cc794c1c",
+      "name": "Dinosaur Form Triceratops Horn",
+      "traits": [
+         "Unarmed"
+      ],
+      "displayName": "Horn",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 2,
+      "dicesize": 8,
+      "dmgType": "P",
+      "criticalHint": "Whenever you score a critical hit with your Horn unarmed attack, your target takes 1d6 persistent bleed damage.",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "9c57d3ef-4b20-473e-a99f-5d6762032804",
+      "name": "Dinosaur Form Triceratops Foot",
+      "traits": [
+         "Unarmed"
+      ],
+      "displayName": "Foot",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 2,
+      "dicesize": 6,
+      "dmgType": "B",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "288afcd8-5913-4dea-bf78-0f1b7883307c",
+      "name": "Dinosaur Form Tyrannosaurus Jaws",
+      "traits": [
+         "Deadly",
+         "Reach 10 feet",
+         "Unarmed"
+      ],
+      "displayName": "Jaws",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 1,
+      "dicesize": 12,
+      "dmgType": "P",
+      "group": "Brawling",
+      "melee": 10,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "7b936348-3305-4fa3-8228-d15f91712b4e",
+      "name": "Dinosaur Form Tyrannosaurus Tail",
+      "traits": [
+         "Reach 10 feet",
+         "Unarmed"
+      ],
+      "displayName": "Tail",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 1,
+      "dicesize": 10,
+      "dmgType": "B",
+      "group": "Brawling",
+      "melee": 10,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "cd9dfbeb-e7cc-4a27-b63d-214574f647cc",
+      "name": "Dinosaur Form Ankylosaurus Tail (5th Level)",
+      "traits": [
+         "Back Swing",
+         "Reach 15 feet",
+         "Unarmed"
+      ],
+      "displayName": "Tail",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 4,
+      "dicesize": 6,
+      "dmgType": "B",
+      "group": "Brawling",
+      "melee": 15,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "171055a6-606f-4a73-b4c4-69b9bc3d62f1",
+      "name": "Dinosaur Form Ankylosaurus Foot (5th Level)",
+      "traits": [
+         "Reach 15 feet",
+         "Unarmed"
+      ],
+      "displayName": "Foot",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 4,
+      "dicesize": 6,
+      "dmgType": "B",
+      "group": "Brawling",
+      "melee": 15,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "a4dbe6fb-82cd-4d8a-9ea7-7dd8c04f5f27",
+      "name": "Dinosaur Form Brontosaurus Tail (5th Level)",
+      "traits": [
+         "Reach 20 feet",
+         "Unarmed"
+      ],
+      "displayName": "Tail",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 4,
+      "dicesize": 6,
+      "dmgType": "B",
+      "group": "Brawling",
+      "melee": 20,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "fccd1def-0474-41ad-a3af-76a5937155e1",
+      "name": "Dinosaur Form Brontosaurus Foot (5th Level)",
+      "traits": [
+         "Reach 15 feet",
+         "Unarmed"
+      ],
+      "displayName": "Foot",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 4,
+      "dicesize": 8,
+      "dmgType": "B",
+      "group": "Brawling",
+      "melee": 15,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "1efecc98-5565-42c4-a019-82f1215dd8eb",
+      "name": "Dinosaur Form Deinonychus Talon (5th Level)",
+      "traits": [
+         "Agile",
+         "Reach 15 feet",
+         "Unarmed"
+      ],
+      "displayName": "Talon",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 4,
+      "dicesize": 4,
+      "extraDamage":"+1 persistent Bleed",
+      "dmgType": "P",
+      "group": "Brawling",
+      "melee": 15,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "bdd9f1a8-46d2-4b34-bec5-ead284de9031",
+      "name": "Dinosaur Form Deinonychus Jaws (5th Level)",
+      "traits": [
+         "Reach 15 feet",
+         "Unarmed"
+      ],
+      "displayName": "Jaws",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 2,
+      "dicesize": 10,
+      "dmgType": "P",
+      "group": "Brawling",
+      "melee": 15,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "cd4afb9c-db81-45a7-9e5a-122d1beffa47",
+      "name": "Dinosaur Form Stegosaurus Tail (5th Level)",
+      "traits": [
+         "Reach 15 feet",
+         "Unarmed"
+      ],
+      "displayName": "Tail",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 4,
+      "dicesize": 8,
+      "dmgType": "P",
+      "group": "Brawling",
+      "melee": 15,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "91ef8171-aa64-435a-9590-592d0d0225b8",
+      "name": "Dinosaur Form Triceratops Horn (5th Level)",
+      "traits": [
+         "Reach 15 feet",
+         "Unarmed"
+      ],
+      "displayName": "Horn",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 4,
+      "dicesize": 8,
+      "dmgType": "P",
+      "criticalHint": "Whenever you score a critical hit with your Horn unarmed attack, your target takes 1d6 persistent bleed damage.",
+      "group": "Brawling",
+      "melee": 15,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "0faa3aaf-e8bd-4a65-a460-d379387ce6ab",
+      "name": "Dinosaur Form Triceratops Foot (5th Level)",
+      "traits": [
+         "Reach 15 feet",
+         "Unarmed"
+      ],
+      "displayName": "Foot",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 4,
+      "dicesize": 6,
+      "dmgType": "B",
+      "group": "Brawling",
+      "melee": 15,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "3ef8ef0b-df98-4d43-a4e3-2afbf9281454",
+      "name": "Dinosaur Form Tyrannosaurus Jaws (5th Level)",
+      "traits": [
+         "Deadly",
+         "Reach 15 feet",
+         "Unarmed"
+      ],
+      "displayName": "Jaws",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 2,
+      "dicesize": 12,
+      "dmgType": "P",
+      "group": "Brawling",
+      "melee": 15,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "b7234efc-23f8-4cbb-aebd-dbc5abb07923",
+      "name": "Dinosaur Form Tyrannosaurus Tail (5th Level)",
+      "traits": [
+         "Reach 15 feet",
+         "Unarmed"
+      ],
+      "displayName": "Tail",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 2,
+      "dicesize": 10,
+      "dmgType": "B",
+      "group": "Brawling",
+      "melee": 15,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "623becd8-b1ce-4072-a00e-56c177e1df1c",
+      "name": "Dinosaur Form Ankylosaurus Tail (7th Level)",
+      "traits": [
+         "Back Swing",
+         "Reach 20 feet",
+         "Unarmed"
+      ],
+      "displayName": "Tail",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 4,
+      "dicesize": 6,
+      "dmgType": "B",
+      "group": "Brawling",
+      "melee": 20,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "44f261a7-330b-4ce3-a347-d70fab8750c5",
+      "name": "Dinosaur Form Ankylosaurus Foot (7th Level)",
+      "traits": [
+         "Reach 20 feet",
+         "Unarmed"
+      ],
+      "displayName": "Foot",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 4,
+      "dicesize": 6,
+      "dmgType": "B",
+      "group": "Brawling",
+      "melee": 20,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "13244354-4456-4e51-b437-4836e9d4de9b",
+      "name": "Dinosaur Form Brontosaurus Tail (7th Level)",
+      "traits": [
+         "Reach 25 feet",
+         "Unarmed"
+      ],
+      "displayName": "Tail",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 4,
+      "dicesize": 6,
+      "dmgType": "B",
+      "group": "Brawling",
+      "melee": 25,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "4577b873-af14-4b10-9443-d3d4232fc83e",
+      "name": "Dinosaur Form Brontosaurus Foot (7th Level)",
+      "traits": [
+         "Reach 20 feet",
+         "Unarmed"
+      ],
+      "displayName": "Foot",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 4,
+      "dicesize": 8,
+      "dmgType": "B",
+      "group": "Brawling",
+      "melee": 20,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "a5f37cb7-4769-4809-bd6f-3e14d8402dd4",
+      "name": "Dinosaur Form Deinonychus Talon (7th Level)",
+      "traits": [
+         "Agile",
+         "Reach 20 feet",
+         "Unarmed"
+      ],
+      "displayName": "Talon",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 4,
+      "dicesize": 4,
+      "extraDamage":"+1 persistent Bleed",
+      "dmgType": "P",
+      "group": "Brawling",
+      "melee": 20,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "376f2b15-2fb0-4c5c-ba43-a38824a01209",
+      "name": "Dinosaur Form Deinonychus Jaws (7th Level)",
+      "traits": [
+         "Reach 20 feet",
+         "Unarmed"
+      ],
+      "displayName": "Jaws",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 2,
+      "dicesize": 10,
+      "dmgType": "P",
+      "group": "Brawling",
+      "melee": 20,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "16330cb3-1bc9-471f-b852-66659b2b93e4",
+      "name": "Dinosaur Form Stegosaurus Tail (7th Level)",
+      "traits": [
+         "Reach 20 feet",
+         "Unarmed"
+      ],
+      "displayName": "Tail",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 4,
+      "dicesize": 8,
+      "dmgType": "P",
+      "group": "Brawling",
+      "melee": 20,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "05e50bdd-8a9d-421a-8083-56d30a291e84",
+      "name": "Dinosaur Form Triceratops Horn (7th Level)",
+      "traits": [
+         "Reach 20 feet",
+         "Unarmed"
+      ],
+      "displayName": "Horn",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 4,
+      "dicesize": 8,
+      "dmgType": "P",
+      "criticalHint": "Whenever you score a critical hit with your Horn unarmed attack, your target takes 1d6 persistent bleed damage.",
+      "group": "Brawling",
+      "melee": 20,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "03d54479-9270-48d3-af54-04a30e03d5e2",
+      "name": "Dinosaur Form Triceratops Foot (7th Level)",
+      "traits": [
+         "Reach 20 feet",
+         "Unarmed"
+      ],
+      "displayName": "Foot",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 4,
+      "dicesize": 6,
+      "dmgType": "B",
+      "group": "Brawling",
+      "melee": 20,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "96ee6806-fb10-47c9-a39e-e994012afe3d",
+      "name": "Dinosaur Form Tyrannosaurus Jaws (7th Level)",
+      "traits": [
+         "Deadly",
+         "Reach 20 feet",
+         "Unarmed"
+      ],
+      "displayName": "Jaws",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 2,
+      "dicesize": 12,
+      "dmgType": "P",
+      "group": "Brawling",
+      "melee": 20,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "4f576af8-9edb-4f6b-9fd5-8af08a63e2b3",
+      "name": "Dinosaur Form Tyrannosaurus Tail (7th Level)",
+      "traits": [
+         "Reach 20 feet",
+         "Unarmed"
+      ],
+      "displayName": "Tail",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 2,
+      "dicesize": 10,
+      "dmgType": "B",
+      "group": "Brawling",
+      "melee": 20,
+      "prof": "Unarmed Attacks"
    }
 ]

@@ -3,7 +3,6 @@ import { CharacterService } from '../character.service';
 import { ClassesService } from '../classes.service';
 import { Class } from '../Class';
 import { Level } from '../Level';
-import { Skill } from '../Skill';
 import { AbilitiesService } from '../abilities.service';
 import { EffectsService } from '../effects.service';
 import { FeatsService } from '../feats.service';
@@ -34,7 +33,6 @@ import { SavegameService } from '../savegame.service';
 import { Savegame } from '../Savegame';
 import { TraitsService } from '../traits.service';
 import { FamiliarsService } from '../familiars.service';
-import { HeritageGain } from '../HeritageGain';
 
 @Component({
     selector: 'app-character',
@@ -255,6 +253,14 @@ export class CharacterComponent implements OnInit {
 
     get_Traits(traitName: string = "") {
         return this.traitsService.get_Traits(traitName);
+    }
+
+    on_LevelUp() {
+        let character = this.get_Character();
+        let oldLevel = character.level;
+        character.level += 1;
+        character.experiencePoints -= 1000;
+        this.on_LevelChange(oldLevel);
     }
 
     on_LevelChange(oldLevel: number) {

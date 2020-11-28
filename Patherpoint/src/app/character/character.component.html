@@ -36,37 +36,38 @@
     <div class="loading" *ngIf="still_loading()">Loading</div>
     <ng-container *ngIf="!still_loading() && get_CharacterMenuState() == 'in'">
         <div class="list-item">
-            <span>Color Accent</span>
+            <strong>Color Accent</strong>
             <span>
                 <input type="color" name="coloraccent" style="padding:0 2px"
                     [(ngModel)]="get_Character().settings.accent" maxLength="7">
             </span>
         </div>
         <div class="list-item">
-            <label for="darkmode">Dark mode</label>
+            <strong><label for="darkmode">Dark mode</label></strong>
             <input id="darkmode" type="checkbox" [(ngModel)]="get_Character().settings.darkmode"
                 (ngModelChange)="set_Changed('character-sheet')">
         </div>
         <div class="list-item">
-            <span>Name</span>
+            <strong>Name</strong>
             <span>
                 <input type="text" name="name" [(ngModel)]="get_Character().name" (blur)="on_NameChange()"
                     maxLength="100">
             </span>
         </div>
         <div class="list-item">
-            <span>Experience Points</span>
+            <strong>Experience Points</strong>
             <span>
+                <button (click)="on_LevelUp()" *ngIf="get_Character().experiencePoints >= 1000 && get_Character().level < 20">Level Up</button>
                 <input type="number" class="number4" name="experiencePoints"
                     [(ngModel)]="get_Character().experiencePoints" (keypress)="numbersOnly($event)" maxLength="4"
-                    title="{{get_Character().experiencePoints >= 1000 ? 'You are ready to level up!' : ''}}"
-                    [ngClass]="{'bonus':get_Character().experiencePoints >= 1000}">
+                    title="{{(get_Character().experiencePoints >= 1000 && get_Character().level < 20) ? 'You are ready to level up!' : ''}}"
+                    [ngClass]="{'bonus':(get_Character().experiencePoints >= 1000 && get_Character().level < 20)}">
             </span>
         </div>
         <div class="list-item">
-            <span>
+            <strong>
                 Alignment
-            </span>
+            </strong>
             <span>
                 <select [(ngModel)]="get_Character().alignment" (ngModelChange)="on_AlignmentChange()">
                     <option *ngFor="let alignment of get_Alignments(); trackBy:trackByIndex;" [ngValue]="alignment">
@@ -76,9 +77,9 @@
             </span>
         </div>
         <div class="list-item" *ngFor="let oldLevel of [get_Character().level]; trackBy:trackByIndex;">
-            <span>
+            <strong>
                 Level
-            </span>
+            </strong>
             <span>
                 <select [(ngModel)]="get_Character().level" (ngModelChange)="on_LevelChange(oldLevel)">
                     <option

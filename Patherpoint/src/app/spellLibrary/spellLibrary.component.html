@@ -19,6 +19,20 @@
             </select>
         </div>
         <div class="list-item">
+            <strong>
+                Show spells on level
+            </strong>
+            <span>
+                <select [(ngModel)]="showLevel">
+                    <option
+                        *ngFor="let levelOption of [0,1,2,3,4,5,6,7,8,9,10]; trackBy:trackByIndex;"
+                        [ngValue]="levelOption">
+                        {{levelOption == 0 ? "Default" : levelOption}}
+                    </option>
+                </select>
+            </span>
+        </div>
+        <div class="list-item">
             <button (click)="toggle_Tradition('')" [className]="{'fancy-button':get_ShowTradition()==''}">All except
                 Focus</button>
             <button (click)="toggle_Tradition('Arcane')"
@@ -117,7 +131,21 @@
                                         *ngIf="get_SpellMasterySelected(wizardCasting, spell)">
                                         Remove from Spell Mastery selection
                                     </button>
-                                    <app-spell [spell]="spell" [spellLevel]="level"></app-spell>
+                                    <div class="list-item">
+                                        <strong>
+                                            Show spells on level
+                                        </strong>
+                                        <span>
+                                            <select [(ngModel)]="showLevel">
+                                                <option
+                                                    *ngFor="let levelOption of [0,1,2,3,4,5,6,7,8,9,10]; trackBy:trackByIndex;"
+                                                    [ngValue]="levelOption">
+                                                    {{levelOption == 0 ? "Default" : levelOption}}
+                                                </option>
+                                            </select>
+                                        </span>
+                                    </div>
+                                    <app-spell [spell]="spell" [spellLevel]="showLevel ? showLevel : level"></app-spell>
                                 </div>
                             </div>
                         </ng-container>

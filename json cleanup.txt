@@ -1,4 +1,4 @@
-replace with nothing:
+regex replace with nothing:
 
 ,\n[ ]*(""|null)
 
@@ -9,9 +9,9 @@ not for conditions:
 only for conditions:
 \n[ ]*(""|null)(?!,)
 
-,\n[ ]*"[_,A-Z,a-z,0-9]*": (""|null)
-\n[ ]*"[_,A-Z,a-z,0-9]*": (""|null),
-\n[ ]*"[_,A-Z,a-z,0-9]*": (""|null)
+,\n[ ]*"[_,A-Z,a-z,0-9]*": (""|null|\{\})
+\n[ ]*"[_,A-Z,a-z,0-9]*": (""|null|\{\}),
+\n[ ]*"[_,A-Z,a-z,0-9]*": (""|null|\{\})
 ,\n[ ]*\{\n[ ]*\}
 \n[ ]*\{\n[ ]*\},
 \n[ ]*\{\n[ ]*\}

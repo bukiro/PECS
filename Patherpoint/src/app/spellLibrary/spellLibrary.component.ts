@@ -23,6 +23,7 @@ export class SpellLibraryComponent implements OnInit {
     public wordFilter: string = "";
     public traditionFilter: string = "";
     public spellSource: string = "spell library";
+    public showLevel: number = 0;
     
     constructor(
         private changeDetector: ChangeDetectorRef,

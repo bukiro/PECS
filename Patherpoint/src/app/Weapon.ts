@@ -301,9 +301,11 @@ export class Weapon extends Equipment {
         //Add absolute effects
         effectsService.get_AbsolutesOnThese(creature, namesList)
             .forEach(effect => {
+                if (!effect.hide) {
+                    absolutes.push({ value: 0, setValue: effect.setValue, source: effect.source, penalty: false, type: effect.type });
+                }
                 attackResult = parseInt(effect.setValue)
                 explain = effect.source + ": " + effect.setValue;
-                absolutes.push({ value: 0, setValue: effect.setValue, source: effect.source, penalty: false, type: effect.type })
             });
         let effectsSum: number = 0;
         //Add relative effects, including potency bonus and shoddy penalty
@@ -337,9 +339,10 @@ export class Weapon extends Equipment {
                 .concat(effectsService.get_RelativesOnThese(creature, namesList)
             ), false)
             .forEach(effect => {
-                if (parseInt(effect.value) < 0) {
+                if (parseInt(effect.value) < 0 && !effect.hide) {
                     penalties.push({ value: parseInt(effect.value), setValue: "", source: effect.source, penalty: true, type: effect.type });
-                } else if (!effect.source.includes("Potency")) {
+                } else if (!effect.source.includes("Potency") && !effect.hide) {
+                    //Don't turn the number green just from Potency.
                     bonuses.push({ value: parseInt(effect.value), setValue: "", source: effect.source, penalty: false, type: effect.type });
                 }
                 effectsSum += parseInt(effect.value);
@@ -433,7 +436,9 @@ export class Weapon extends Equipment {
             //"Simple Longsword Dice Number", "Unarmed Fist Dice Number" etc.
             this.prof.split(" ")[0] + this.weaponBase + " Dice Number"
             ]).forEach(effect => {
-                absolutes.push({ value: parseInt(effect.value), setValue: "", source: effect.source, penalty: false });
+                if (!effect.hide) {
+                    absolutes.push({ value: parseInt(effect.value), setValue: "", source: effect.source, penalty: false });
+                }
                 dicenum = parseInt(effect.setValue);
                 explain += "\n" + effect.source + ": Dice number " + dicenum;
             })
@@ -455,9 +460,9 @@ export class Weapon extends Equipment {
             //"Simple Longsword Dice Number", "Unarmed Fist Dice Number" etc.
             this.prof.split(" ")[0] + this.weaponBase + " Dice Number"
             ]).forEach(effect => {
-                if (parseInt(effect.value) < 0) {
+                if (parseInt(effect.value) < 0 && !effect.hide) {
                     penalties.push({ value: parseInt(effect.value), setValue: "", source: effect.source, penalty: true });
-                } else {
+                } else if (!effect.hide) {
                     bonuses.push({ value: parseInt(effect.value), setValue: "", source: effect.source, penalty: false });
                 }
                 dicenum += parseInt(effect.value);
@@ -496,7 +501,9 @@ export class Weapon extends Equipment {
             //"Simple Longsword Dice Size", "Unarmed Fist Dice Size" etc.
             this.prof.split(" ")[0] + this.weaponBase + " Dice Size",
             ]).forEach(effect => {
-                absolutes.push({ value: parseInt(effect.value), setValue: "", source: effect.source, penalty: false });
+                if (!effect.hide) {
+                    absolutes.push({ value: parseInt(effect.value), setValue: "", source: effect.source, penalty: false });
+                }
                 dicesize = parseInt(effect.setValue);
                 explain += "\n" + effect.source + ": Dice size d" + dicesize;
             })
@@ -518,9 +525,9 @@ export class Weapon extends Equipment {
             //"Simple Longsword Dice Size", "Unarmed Fist Dice Size" etc.
             this.prof.split(" ")[0] + this.weaponBase + " Dice Size",
             ]).forEach(effect => {
-                if (parseInt(effect.value) < 0) {
+                if (parseInt(effect.value) < 0 && !effect.hide) {
                     penalties.push({ value: parseInt(effect.value), setValue: "", source: effect.source, penalty: true });
-                } else {
+                } else if (!effect.hide) {
                     bonuses.push({ value: parseInt(effect.value), setValue: "", source: effect.source, penalty: false });
                 }
                 dicesize += parseInt(effect.value);
@@ -653,7 +660,9 @@ export class Weapon extends Equipment {
         }
         effectsService.get_AbsolutesOnThese(creature, list)
             .forEach(effect => {
-                absolutes.push({ value: 0, setValue: effect.setValue, source: effect.source, penalty: false })
+                if (!effect.hide) {
+                    absolutes.push({ value: 0, setValue: effect.setValue, source: effect.source, penalty: false })
+                }
                 dmgBonus = parseInt(effect.setValue);
                 explain = effect.source + ": " + parseInt(effect.setValue);
             })
@@ -697,9 +706,9 @@ export class Weapon extends Equipment {
         }
         effectsService.get_RelativesOnThese(creature, list)
             .forEach(effect => {
-                if (parseInt(effect.value) < 0) {
+                if (parseInt(effect.value) < 0 && !effect.hide) {
                     penalties.push({ value: parseInt(effect.value), setValue: "", source: effect.source, penalty: true });
-                } else {
+                } else if (!effect.hide) {
                     bonuses.push({ value: parseInt(effect.value), setValue: "", source: effect.source, penalty: false });
                 }
                 if (effect.target.includes("Damage per Die")) {

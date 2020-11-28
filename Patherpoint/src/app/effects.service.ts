@@ -376,8 +376,8 @@ export class EffectsService {
                 setValue = "";
                 value = "0";
             }
-            //Hide all relative effects that come from feats and are untyped, so we don't see green effects permanently after taking a feat.
-            if (object.constructor == Feat && type == "untyped") {
+            //Hide all relative effects that come from feats, so we don't see green effects permanently after taking a feat.
+            if (object.constructor == Feat) {
                 hide = true;
             }
             //Effects that have neither a value nor a toggle get ignored.
@@ -711,9 +711,54 @@ export class EffectsService {
             effect.apply = true;
         })
 
-        //Now we need to go over all the effects.  If one target is affected by two bonuses of the same type,
-        // only the bigger one is applied. The same goes for penalties, unless they are untyped.
-        //We only apply effects if the decision hasn't already been made (that is, if apply == undefined)
+        //Now we need to go over all the effects.
+        // If one target is affected by two bonuses of the same type, only the bigger one is applied.
+        // The same goes for penalties, unless they are untyped.
+        
+        //If there is an effect that says to ignore all <type> effects, bonuses or penalties,
+        // all effects (or bonuses or penalties) to that target (or all) with that type are disabled.
+        this.bonusTypes.forEach(type => {
+            allEffects
+                .filter(effect => effect.target.includes("Ignore " + type[0].toUpperCase() + type.substring(1) + " Effects"))
+                .forEach(ignoreeffect => {
+                    let target = "all";
+                    if (ignoreeffect.target.includes(" To ")) {
+                        target = ignoreeffect.target.split(" To ")[1];
+                    }
+                    allEffects
+                        .filter(effect => (target == "all" || effect.target == target) && effect.type == type)
+                        .forEach(effect => {
+                            effect.apply = false;
+                        })
+                })
+            allEffects
+            .filter(effect => effect.target.includes("Ignore " + type[0].toUpperCase() + type.substring(1) + " Bonuses"))
+            .forEach(ignoreeffect => {
+                let target = "all";
+                    if (ignoreeffect.target.includes(" To ")) {
+                        target = ignoreeffect.target.split(" To ")[1];
+                    }
+                allEffects
+                    .filter(effect => (target == "all" || effect.target == target) && effect.type == type && !effect.penalty)
+                    .forEach(effect => {
+                        effect.apply = false;
+                    })
+            })
+            allEffects
+            .filter(effect => effect.target.includes("Ignore " + type[0].toUpperCase() + type.substring(1) + " Penalties"))
+            .forEach(ignoreeffect => {
+                let target = "all";
+                    if (ignoreeffect.target.includes(" To ")) {
+                        target = ignoreeffect.target.split(" To ")[1];
+                    }
+                allEffects
+                    .filter(effect => (target == "all" || effect.target == target) && effect.type == type && effect.penalty)
+                    .forEach(effect => {
+                        effect.apply = false;
+                    })
+            })
+        })
+
         let targets: string[] = [];
         //Collect all targets of effects, but each only once
         allEffects.forEach(effect => {
@@ -723,17 +768,20 @@ export class EffectsService {
         });
         targets.forEach(target => {
             //Apply all untyped relative effects, but only the highest bonus and lowest penalty for each type for this target.
+            //We only apply effects if the decision hasn't already been made (that is, if apply == undefined)
             this.get_TypeFilteredEffects(allEffects
                 .filter(effect =>
-                    effect.target == target && effect.apply == undefined && effect.value), false)
+                    effect.target == target && effect.apply == undefined && effect.value
+                    ), false)
                 .forEach(effect => {
                     effect.apply = true;
                 })
-            //Apply only the highest one for each type for this target.
+            //Apply only the highest absolute effect for each type for this target.
             // (There aren't actually any absolute penalties, and absolute effects are usually untyped.)
             this.get_TypeFilteredEffects(allEffects
                 .filter(effect =>
-                    effect.target == target && effect.apply == undefined && effect.setValue), true)
+                    effect.target == target && effect.apply == undefined && effect.setValue
+                    ), true)
                 .forEach(effect => {
                     effect.apply = true;
                 })
@@ -779,8 +827,8 @@ export class EffectsService {
         let generalWildcard: string[] = ["Speed", "Checks and DCs"];
         let abilities: string[] = ["Strength", "Dexterity", "Constitution", "Intelligence", "Wisdom", "Charisma"];
         let abilitiesWildcard: string[] = ["Strength", "Dexterity", "Constitution", "Intelligence", "Wisdom", "Charisma"];
-        let health: string[] = ["HP", "Fast Healing", "Hardness", "Max Dying", "Max HP", "Resting HP Gain", "Temporary HP"];
-        let healthWildcard: string[] = ["Resistance"];
+        let health: string[] = ["HP", "Fast Healing", "Hardness", "Max Dying", "Max HP", "Resting HP Gain", "Temporary HP", "Resting Blocked"];
+        let healthWildcard: string[] = ["Resistance", "Immunity"];
         let defense: string[] = ["AC", "Saving Throws", "Fortitude", "Reflex", "Will", "Dexterity-based Checks and DCs", "Constitution-based Checks and DCs",
             "Wisdom-based Checks and DCs", "All Checks and DCs", "Ignore Armor Penalty", "Ignore Armor Speed Penalty", "Proficiency Level"];
         let defenseWildcard: string[] = ["Proficiency Level"];
@@ -807,6 +855,7 @@ export class EffectsService {
                 changedEffects.push(oldEffect);
             }
         })
+
         //Then prepare changes for everything that should be updated according to the effect.
         changedEffects.forEach(effect => {
             if (general.includes(effect.target) || generalWildcard.filter(name => effect.target.includes(name)).length) {
@@ -854,6 +903,7 @@ export class EffectsService {
                 characterService.set_ToChange("Familiar", "featchoices");
             }
         })
+
         //If any equipped weapon is affected, update attacks, and if any equipped armor or shield is affected, update defense.
         if (creature.inventories[0].weapons.find(weapon => weapon.equipped && changedEffects.find(effect => effect.target == weapon.name))) {
             characterService.set_ToChange(creature.type, "attacks");

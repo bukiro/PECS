@@ -71,8 +71,11 @@ export class HealthComponent implements OnInit {
     get_Waiting(duration: number) {
         let result: string = "";
         this.characterService.get_Creatures().forEach(creature => {
-            if (this.characterService.get_AppliedConditions(creature).filter(gain => (gain.nextStage < duration && gain.nextStage > 0) || gain.nextStage == -1).length) {
+            if (this.characterService.get_AppliedConditions(creature, "", "", true).filter(gain => (gain.nextStage < duration && gain.nextStage > 0) || gain.nextStage == -1).length) {
                 result = "One or more conditions need your attention before you can rest.";
+            }
+            if (this.effectsService.get_EffectsOnThis(creature, "Resting Blocked").length) {
+                result = "An effect is keeping you from resting."
             }
         })
         return result;
@@ -194,16 +197,12 @@ export class HealthComponent implements OnInit {
         let resistances: any[] = [];
         effects.forEach(effect => {
             let value = effect.setValue || effect.value;
-            let split = effect.target.split("/");
-            if (split.length == 1) {
-                split.push("");
-            }
-            if (resistances.filter(res => res.target == split[0] && res.exception == split[1]).length) {
-                let resistance = resistances.filter(res => res.target == split[0] && res.exception == split[1])[0];
+            let resistance = resistances.find(res => res.target == effect.target);
+            if (resistance) {
                 resistance.value += parseInt(value);
                 resistance.source += ", "+effect.source;
             } else {
-                resistances.push({target:split[0], value:parseInt(value), exception:split[1], source:effect.source});
+                resistances.push({target:effect.target, value:parseInt(value), source:effect.source});
             }
         });
         resistances.forEach((res: {value:number, target:string}) => {
@@ -213,6 +212,21 @@ export class HealthComponent implements OnInit {
             }
         });
         return resistances;
+    }
+
+    get_Immunities() {
+        let effects = this.effectsService.get_Effects(this.creature).all.filter(effect =>
+            effect.creature == this.get_Creature().id && (effect.target.toLowerCase().includes("immunity")));
+        let immunities: any[] = [];
+        effects.forEach(effect => {
+            if (!immunities.some(res => res.target == effect.target)) {
+                immunities.push({target:effect.target, source:effect.source});
+            }
+        });
+        immunities.forEach((res: {value:number, target:string}) => {
+            res.target = res.target.split(" ").map(word => word[0].toUpperCase() + word.substr(1).toLowerCase()).join(" ");
+        });
+        return immunities;
     }
 
     get_AbsolutesOnThis(name: string) {
