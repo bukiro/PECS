@@ -1,4 +1,3 @@
-import { Condition } from './Condition';
 import { ActivityGain } from './ActivityGain';
 import { ItemGain } from './ItemGain';
 import { v1 as uuidv1 } from 'uuid';

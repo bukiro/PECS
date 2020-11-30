@@ -7,12 +7,9 @@ import { Condition } from '../Condition';
 import { TraitsService } from '../traits.service';
 import { v1 as uuidv1 } from 'uuid';
 import { ItemsService } from '../items.service';
-import { Item } from '../Item';
 import { Character } from '../Character';
 import { AnimalCompanion } from '../AnimalCompanion';
-import { Equipment } from '../Equipment';
 import { ConditionsService } from '../conditions.service';
-import { ItemGain } from '../ItemGain';
 
 @Component({
     selector: 'app-effects',
@@ -35,9 +32,7 @@ export class EffectsComponent implements OnInit {
         private traitsService: TraitsService,
         private effectsService: EffectsService,
         private characterService: CharacterService,
-        private timeService: TimeService,
-        private conditionsService: ConditionsService,
-        private itemsService: ItemsService
+        private timeService: TimeService
     ) { }
     
     minimize() {
@@ -60,6 +55,10 @@ export class EffectsComponent implements OnInit {
 
     get_ShowItem() {
         return this.showItem;
+    }
+
+    receive_ItemMessage(name: string) {
+        this.toggle_Item(name);
     }
 
     get_Accent() {
@@ -142,84 +141,8 @@ export class EffectsComponent implements OnInit {
         });
     }
 
-    change_ConditionDuration(gain: ConditionGain, turns: number) {
-        gain.duration += turns;
-        this.toggle_Item("");
-    }
-
-    change_ConditionValue(gain: ConditionGain, change: number) {
-        gain.value += change;
-        if (gain.name == "Drained" && change < 0) {
-            //When you lower your drained value, you regain Max HP, but not the lost HP.
-            //Because HP is Max HP - Damage, we increase damage to represent not regaining the HP.
-            //We subtract level*change from damage because change is negative.
-            this.get_Creature().health.damage -= this.get_Creature().level * change;
-        }
-        this.toggle_Item("");
-        this.characterService.set_ToChange(this.creature, "effects");
-        this.characterService.process_ToChange();
-    }
-
-    change_ConditionChoice(gain: ConditionGain, condition: Condition, oldChoice: string) {
-        let creature = this.get_Creature();
-        if (this.creature != "Familiar" && oldChoice != gain.choice) {
-            //Remove any items that were granted by the previous choice.
-            if (oldChoice) {
-                gain.gainItems.filter(gainItem => gainItem.conditionChoiceFilter == oldChoice).forEach(gainItem => {
-                    this.conditionsService.remove_ConditionItem(creature as Character|AnimalCompanion, this.characterService, this.itemsService, gainItem);
-                });
-            }
-            //Add any items that are granted by the new choice.
-            if (gain.choice) {
-                gain.gainItems.filter(gainItem => gainItem.conditionChoiceFilter == gain.choice).forEach(gainItem => {
-                    this.conditionsService.add_ConditionItem(creature as Character|AnimalCompanion, this.characterService, this.itemsService, gainItem, condition);
-                });
-            }
-        }
-        if (oldChoice != gain.choice) {
-            let creature = this.get_Creature();
-            //Remove any conditions that were granted by the previous choice.
-            if (oldChoice) {
-                condition.gainConditions.filter(extraCondition => extraCondition.conditionChoiceFilter == oldChoice).forEach(extraCondition => {
-                    let addCondition = Object.assign(new ConditionGain, JSON.parse(JSON.stringify(extraCondition)));
-                    addCondition.source = gain.name;
-                    this.characterService.remove_Condition(creature, addCondition, false)
-                })
-            }
-            //Add any conditions that are granted by the new choice.
-            if (gain.choice) {
-                condition.gainConditions.filter(extraCondition => extraCondition.conditionChoiceFilter == gain.choice).forEach(extraCondition => {
-                    let addCondition = Object.assign(new ConditionGain, JSON.parse(JSON.stringify(extraCondition)));
-                    addCondition.source = gain.name;
-                    addCondition.apply = true;
-                    this.characterService.add_Condition(creature, addCondition, false)
-                })
-            }
-        }
-        this.characterService.set_ToChange(this.creature, "effects");
-        if (condition.attackRestrictions.length) {
-            this.characterService.set_ToChange(this.creature, "attacks");
-        }
-        if (condition.senses.length) {
-            this.characterService.set_ToChange(this.creature, "skills");
-        }
-        this.characterService.process_ToChange();
-    }
-
-    change_ConditionStage(gain: ConditionGain, condition: Condition, change: number) {
-        this.characterService.change_ConditionStage(this.get_Creature(), gain, condition, change);
-    }
-
     get_Duration(duration: number) {
         return this.timeService.get_Duration(duration);
-    }
-
-    remove_Condition(conditionGain: ConditionGain) {
-        this.characterService.remove_Condition(this.get_Creature(), conditionGain, true);
-    }
-
-    get_LabelID() {
-        return uuidv1();
     }
 
     finish_Loading() {
@@ -240,7 +163,8 @@ export class EffectsComponent implements OnInit {
                 if (view.creature == "Character" && view.target == "span") {
                     this.set_Span();
                 }
-            });return true;
+            });
+            return true;
         }
     }
 

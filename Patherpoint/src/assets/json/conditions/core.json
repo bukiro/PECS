@@ -6011,6 +6011,7 @@
         "name": "Arsenic (Stage 1)",
         "desc": "This toxin is a compound of arsenic and other substances. You can't reduce your sickened condition while affected.\n\n<strong>Saving Throw</strong> DC 18 Fortitude\n<strong>Onset</strong> 10 minutes\n<strong>Maximum Duration</strong> 5 minutes\n<var><strong>Stage 1</strong> 1d4 poison damage and sickened 1 (1 minute)</var>\n<strong>Stage 2</strong> 1d6 poison damage and sickened 2 (1 minute)\n<strong>Stage 3</strong> 2d6 poison damage and sickened 3 (1 minute)",
         "type": "afflictions",
+        "fixedDuration": 500,
         "inputRequired": "Every time you reach this stage, take 1d4 poison damage.",
         "gainConditions": [
             {
@@ -6027,6 +6028,7 @@
         "name": "Arsenic (Stage 2)",
         "desc": "This toxin is a compound of arsenic and other substances. You can't reduce your sickened condition while affected.\n\n<strong>Saving Throw</strong> DC 18 Fortitude\n<strong>Onset</strong> 10 minutes\n<strong>Maximum Duration</strong> 5 minutes\n<strong>Stage 1</strong> 1d4 poison damage and sickened 1 (1 minute)\n<var><strong>Stage 2</strong> 1d6 poison damage and sickened 2 (1 minute)</var>\n<strong>Stage 3</strong> 2d6 poison damage and sickened 3 (1 minute)",
         "type": "afflictions",
+        "fixedDuration": 500,
         "inputRequired": "Every time you reach this stage, take 1d6 poison damage.",
         "gainConditions": [
             {
@@ -6046,6 +6048,7 @@
         "name": "Arsenic (Stage 3)",
         "desc": "This toxin is a compound of arsenic and other substances. You can't reduce your sickened condition while affected.\n\n<strong>Saving Throw</strong> DC 18 Fortitude\n<strong>Onset</strong> 10 minutes\n<strong>Maximum Duration</strong> 5 minutes\n<strong>Stage 1</strong> 1d4 poison damage and sickened 1 (1 minute)\n<strong>Stage 2</strong> 1d6 poison damage and sickened 2 (1 minute)\n<var><strong>Stage 3</strong> 2d6 poison damage and sickened 3 (1 minute)</var>",
         "type": "afflictions",
+        "fixedDuration": 500,
         "inputRequired": "Every time you reach this stage or fail your saving throw to reduce the stage, take 2d6 poison damage.",
         "gainConditions": [
             {
@@ -6469,7 +6472,7 @@
         "hints": [
             {
                 "desc": "You gain a +2 circumstance bonus to Deception checks, Intimidation checks, Stealth checks, and any checks to Recall Knowledge about the prey.",
-                "showon": "Arcana,�Crafting,�Lore,�Medicine,�Nature,�Occultism,�Religion,�Society,�Deception,�Intimidation,�Stealth",
+                "showon": "Arcana, Crafting, Lore, Medicine, Nature, Occultism, Religion, Society, Deception, Intimidation, Stealth",
                 "effects": [
                     {
                         "affected": "Deception",
@@ -8201,7 +8204,6 @@
         "desc": "<strong>Ghoul Fever</strong> (disease)\n<strong>Saving Throw</strong> Fortitude\n<var><strong>Stage 1</strong>carrier with no ill effects (1 day)</var>\n<strong>Stage 2</strong> 3d8 negative damage and the creature regains half as many Hit Points from all healing (1 day)\n<strong>Stage 3</strong> as stage 2 (1 day)\n<strong>Stage 4</strong> 3d8 negative damage and the creature gains no benefit from healing (1 day)\n<strong>Stage 5</strong> as stage 4 (1 day)\n<strong>Stage 6</strong> the creature dies and rises as a ghoul at the next midnight",
         "type": "afflictions",
         "fixedDuration": -1,
-        "onset": true,
         "nextStage": 144000,
         "nextCondition": {
             "name": "Ghoul Fever (Stage 2)"
@@ -8211,6 +8213,7 @@
         "name": "Ghoul Fever (Stage 2)",
         "desc": "<strong>Ghoul Fever</strong> (disease)\n<strong>Saving Throw</strong> Fortitude\n<strong>Stage 1</strong>carrier with no ill effects (1 day)\n<var><strong>Stage 2</strong> 3d8 negative damage and the creature regains half as many Hit Points from all healing (1 day)</var>\n<strong>Stage 3</strong> as stage 2 (1 day)\n<strong>Stage 4</strong> 3d8 negative damage and the creature gains no benefit from healing (1 day)\n<strong>Stage 5</strong> as stage 4 (1 day)\n<strong>Stage 6</strong> the creature dies and rises as a ghoul at the next midnight",
         "type": "afflictions",
+        "fixedDuration": -1,
         "inputRequired": "Every time you reach this stage, take 3d8 negative damage.",
         "hints": [
             {
@@ -8230,6 +8233,7 @@
         "name": "Ghoul Fever (Stage 3)",
         "desc": "<strong>Ghoul Fever</strong> (disease)\n<strong>Saving Throw</strong> Fortitude\n<strong>Stage 1</strong>carrier with no ill effects (1 day)\n<strong>Stage 2</strong> 3d8 negative damage and the creature regains half as many Hit Points from all healing (1 day)\n<var><strong>Stage 3</strong> as stage 2 (1 day)</var>\n<strong>Stage 4</strong> 3d8 negative damage and the creature gains no benefit from healing (1 day)\n<strong>Stage 5</strong> as stage 4 (1 day)\n<strong>Stage 6</strong> the creature dies and rises as a ghoul at the next midnight",
         "type": "afflictions",
+        "fixedDuration": -1,
         "inputRequired": "Every time you reach this stage, take 3d8 negative damage.",
         "hints": [
             {
@@ -8249,6 +8253,7 @@
         "name": "Ghoul Fever (Stage 4)",
         "desc": "<strong>Ghoul Fever</strong> (disease)\n<strong>Saving Throw</strong> Fortitude\n<strong>Stage 1</strong>carrier with no ill effects (1 day)\n<strong>Stage 2</strong> 3d8 negative damage and the creature regains half as many Hit Points from all healing (1 day)\n<strong>Stage 3</strong> as stage 2 (1 day)\n<var><strong>Stage 4</strong> 3d8 negative damage and the creature gains no benefit from healing (1 day)</var>\n<strong>Stage 5</strong> as stage 4 (1 day)\n<strong>Stage 6</strong> the creature dies and rises as a ghoul at the next midnight",
         "type": "afflictions",
+        "fixedDuration": -1,
         "inputRequired": "Every time you reach this stage, take 3d8 negative damage.",
         "hints": [
             {
@@ -8268,6 +8273,7 @@
         "name": "Ghoul Fever (Stage 5)",
         "desc": "<strong>Ghoul Fever</strong> (disease)\n<strong>Saving Throw</strong> Fortitude\n<strong>Stage 1</strong>carrier with no ill effects (1 day)\n<strong>Stage 2</strong> 3d8 negative damage and the creature regains half as many Hit Points from all healing (1 day)\n<strong>Stage 3</strong> as stage 2 (1 day)\n<strong>Stage 4</strong> 3d8 negative damage and the creature gains no benefit from healing (1 day)\n<var><strong>Stage 5</strong> as stage 4 (1 day)</var>\n<strong>Stage 6</strong> the creature dies and rises as a ghoul at the next midnight",
         "type": "afflictions",
+        "fixedDuration": -1,
         "inputRequired": "Every time you reach this stage, take 3d8 negative damage.",
         "hints": [
             {
@@ -8287,6 +8293,7 @@
         "name": "Spider Venom (Stage 1)",
         "desc": "<strong>Spider Venom</strong> (poison)\n<strong>Level</strong> 1\n<strong>Maximum Duration</strong> 4 rounds.\n<var><strong>Stage 1</strong> 1d4 poison damage and enfeebled 1 (1 round)</var>\n<strong>Stage 2</strong> 1d4 poison damage and enfeebled 2 (1 round).",
         "type": "afflictions",
+        "fixedDuration": 40,
         "inputRequired": "Every time you reach this stage, take 1d4 poison damage.",
         "gainConditions": [
             {
@@ -8303,6 +8310,7 @@
         "name": "Spider Venom (Stage 2)",
         "desc": "<strong>Spider Venom</strong> (poison)\n<strong>Level</strong> 1\n<strong>Maximum Duration</strong> 4 rounds.\n<strong>Stage 1</strong> 1d4 poison damage and enfeebled 1 (1 round)\n<var><strong>Stage 2</strong> 1d4 poison damage and enfeebled 2 (1 round).</var>",
         "type": "afflictions",
+        "fixedDuration": 40,
         "inputRequired": "Every time you reach this stage, take 1d4 poison damage.",
         "gainConditions": [
             {
@@ -8542,6 +8550,7 @@
         "name": "Phantom Steed (2nd Level)",
         "desc": "You have conjured a Large, magical, equine creature that only you (or another Medium or Small creature you choose) can ride. The horse is clearly phantasmal in nature, has 20 AC and 10 Hit Points, and automatically fails all saves. If it's reduced to 0 Hit Points, it disappears and the spell ends. The steed has a Speed of 40 feet and can hold its rider's body weight, plus 20 Bulk.",
         "type": "spells",
+        "notes": "HP: 10",
         "inputRequired": "Remove the condition if the phantom steed is reduced to 0 Hit Points.",
         "buff": true,
         "hints": [
@@ -8555,11 +8564,12 @@
         "name": "Phantom Steed (4th Level)",
         "desc": "You have conjured a Large, magical, equine creature that only you (or another Medium or Small creature you choose) can ride. The horse is clearly phantasmal in nature, has 20 AC and 10 Hit Points, and automatically fails all saves. If it's reduced to 0 Hit Points, it disappears and the spell ends. The steed has a Speed of 60 feet, can walk on water, and ignores areas of natural difficult terrain. It can hold its rider's body weight, plus 20 Bulk.",
         "type": "spells",
+        "notes": "HP: 10",
         "inputRequired": "Remove the condition if the phantom steed is reduced to 0 Hit Points.",
         "buff": true,
         "hints": [
             {
-                "desc": "You or another Medium or Small creature you choose can ride the Phantom Steed. It can hold its rider's body weight plus 20 bulk.",
+                "desc": "You or another Medium or Small creature you choose can ride the Phantom Steed. It has a Speed of 60 feet, can walk on water, and ignores areas of natural difficult terrain. It can hold its rider's body weight plus 20 bulk.",
                 "showon": "Movement"
             }
         ]
@@ -8568,11 +8578,12 @@
         "name": "Phantom Steed (5th Level)",
         "desc": "You have conjured a Large, magical, equine creature that only you (or another Medium or Small creature you choose) can ride. The horse is clearly phantasmal in nature, has 20 AC and 10 Hit Points, and automatically fails all saves. If it's reduced to 0 Hit Points, it disappears and the spell ends. The steed has a Speed of 60 feet, can walk on water, and ignores areas of natural difficult terrain. It can also air walk but must end its turn on solid ground or fall. It can hold its rider's body weight, plus 20 Bulk.",
         "type": "spells",
+        "notes": "HP: 10",
         "inputRequired": "Remove the condition if the phantom steed is reduced to 0 Hit Points.",
         "buff": true,
         "hints": [
             {
-                "desc": "You or another Medium or Small creature you choose can ride the Phantom Steed. It can hold its rider's body weight plus 20 bulk.",
+                "desc": "You or another Medium or Small creature you choose can ride the Phantom Steed. It has a Speed of 60 feet, can walk on water, and ignores areas of natural difficult terrain. It can also air walk but must end its turn on solid ground or fall. It can hold its rider's body weight plus 20 bulk.",
                 "showon": "Movement"
             }
         ]
@@ -8581,11 +8592,12 @@
         "name": "Phantom Steed (6th Level)",
         "desc": "You have conjured a Large, magical, equine creature that only you (or another Medium or Small creature you choose) can ride. The horse is clearly phantasmal in nature, has 20 AC and 10 Hit Points, and automatically fails all saves. If it's reduced to 0 Hit Points, it disappears and the spell ends. The steed can walk or fly at a Speed of 80 feet, can walk on water, and ignores natural difficult terrain. It can hold its rider's body weight, plus 20 Bulk.",
         "type": "spells",
+        "notes": "HP: 10",
         "inputRequired": "Remove the condition if the phantom steed is reduced to 0 Hit Points.",
         "buff": true,
         "hints": [
             {
-                "desc": "You or another Medium or Small creature you choose can ride the Phantom Steed. It can hold its rider's body weight plus 20 bulk.",
+                "desc": "You or another Medium or Small creature you choose can ride the Phantom Steed. It can walk or fly at a Speed of 80 feet, can walk on water, and ignores natural difficult terrain. It can hold its rider's body weight plus 20 bulk.",
                 "showon": "Movement"
             }
         ]
@@ -10680,37 +10692,37 @@
     {
         "name": "Wondrous Figurine (Golden Lions) Cooldown",
         "desc": "The lions have been slain, and the wondrous figurine has reverted to its statue shape. You cannot activate it again until 1 week has passed.",
-        "type": "helditems"
+        "type": "hidden"
     },
     {
         "name": "Wondrous Figurine (Jade Serpent) Cooldown",
         "desc": "The viper has been slain, and the wondrous figurine has reverted to its statue shape. You cannot activate it again until 1 week has passed.",
-        "type": "helditems"
+        "type": "hidden"
     },
     {
         "name": "Wondrous Figurine (Marble Elephant) Cooldown",
         "desc": "The elephant has been slain, and the wondrous figurine has reverted to its statue shape. You cannot activate it again until 1 week has passed.",
-        "type": "helditems"
+        "type": "hidden"
     },
     {
         "name": "Wondrous Figurine (Obsidian Steed) Cooldown",
         "desc": "The nightmare has been slain, and the wondrous figurine has reverted to its statue shape. You cannot activate it again until 1 week has passed.",
-        "type": "helditems"
+        "type": "hidden"
     },
     {
         "name": "Wondrous Figurine (Onyx Dog) Cooldown",
         "desc": "The guard dog has been slain, and the wondrous figurine has reverted to its statue shape. You cannot activate it again until 1 week has passed.",
-        "type": "helditems"
+        "type": "hidden"
     },
     {
         "name": "Wondrous Figurine (Candy Constrictor) Cooldown",
         "desc": "The ball python has been slain, and the wondrous figurine has reverted to its statue shape. You cannot activate it again until 1 week has passed.",
-        "type": "helditems"
+        "type": "hidden"
     },
     {
         "name": "Wondrous Figurine (Rubber Bear) Cooldown",
         "desc": "The grizzly bear has been slain, and the wondrous figurine has reverted to its statue shape. You cannot activate it again until 1 week has passed.",
-        "type": "helditems"
+        "type": "hidden"
     },
     {
         "name": "Thurible of Revelation",
@@ -11236,7 +11248,8 @@
         "type": "spells",
         "hints": [
             {
-                "desc": "You must must move to the selected location via the most direct route possible, bypassing any obvious hazards and enemies in the way."
+                "desc": "You must must move to the selected location via the most direct route possible, bypassing any obvious hazards and enemies in the way.",
+                "showon": "Movement"
             }
         ]
     },
@@ -11280,6 +11293,16 @@
             {
                 "desc": "You must roll twice and use the worse result whenever attempting an Acrobatics, Stealth, or Thievery check. If you roll a failure at an Acrobatics, Stealth, or Thievery check, you get a critical failure instead.",
                 "showon": "Acrobatics, Stealth, Thievery"
+            }
+        ]
+    },
+    {
+        "name": "Confusion (Failure)",
+        "desc": "You are befuddled with strange impulses, causing you to act randomly.\n\nYou are confused for the duration. You can attempt a new save at the end of each of your turns to end the confusion.",
+        "type": "spells",
+        "gainConditions": [
+            {
+                "name": "Confused"
             }
         ]
     },
@@ -11477,7 +11500,7 @@
     },
     {
         "name": "Dinosaur Form (5th Level)",
-        "desc": "You have transformed into a Huge animal battle form, specifically that of a powerful and terrifying dinosaur chosen from ankylosaurus, brontosaurus, deinonychus, stegosaurus, triceratops, or tyrannosaurus. You can decide the specific type of animal, but this has no effect on the form's Size or statistics. While in this form, you gain the animal and dinosaur traits. You can Dismiss the spell.\n\nYou gain the following statistics and abilities regardless of which battle form you choose:\n\nAC = 18 + your level. Ignore your armor's check penalty and Speed reduction.\n20 temporary Hit Points.\nLow-light vision and imprecise scent 30 feet.\nOne or more unarmed melee attacks specific to the battle form you choose, which are the only attacks you can use. You're trained with them. Your attack modifier is +18, and your damage bonus is +6 with double damage dice. Your attacks have 15-foot reach, or 20-foot reach if they started with 15-foot reach. These attacks are Strength based (for the purpose of the enfeebled condition, for example). If your unarmed attack modifier is higher, you can use it instead.\nAthletics modifier of +21, unless your own modifier is higher.\n\nYou also gain specific abilities based on the type of animal you choose:\n\n<strong>Ankylosaurus</strong> Speed 25 feet; <strong>Melee</strong> tail (back swing, reach 15 feet), <strong>Damage</strong> 4d6 bludgeoning; <strong>Melee</strong> foot (reach 15 feet), <strong>Damage</strong> 4d6 bludgeoning.\n<strong>Brontosaurus</strong> Speed 25 feet; <strong>Melee</strong> tail (reach 20 feet), <strong>Damage</strong> 4d6 bludgeoning; <strong>Melee</strong> foot (reach 15 feet), <strong>Damage</strong> 4d8 bludgeoning.\n<strong>Deinonychus</strong> Speed 40 feet; <strong>Melee</strong> talon (agile, reach 15 feet), <strong>Damage</strong> 4d4 piercing plus 1 persistent bleed; <strong>Melee</strong> jaws (reach 15 feet), <strong>Damage</strong> 2d8 piercing.\n<strong>Stegosaurus</strong> Speed 30 feet; <strong>Melee</strong> tail (reach 15 feet), <strong>Damage</strong> 4d8 piercing.\n<strong>Triceratops</strong> Speed 30 feet; <strong>Melee</strong> horn (reach 15 feet), <strong>Damage</strong> 4d8 piercing, plus 1d6 persistent bleed on a critical hit; <strong>Melee</strong> foot (reach 15 feet), <strong>Damage</strong> 4d6 bludgeoning.\n<strong>Tyrannosaurus</strong> Speed 30 feet; <strong>Melee</strong> jaws (deadly, reach 15 feet), <strong>Damage</strong> 2d12 piercing; <strong>Melee</strong> tail (reach 15 feet), <strong>Damage</strong> 2d10 bludgeoning.\n",
+        "desc": "You have transformed into a Huge animal battle form, specifically that of a powerful and terrifying dinosaur chosen from ankylosaurus, brontosaurus, deinonychus, stegosaurus, triceratops, or tyrannosaurus. You can decide the specific type of animal, but this has no effect on the form's Size or statistics. While in this form, you gain the animal and dinosaur traits. You can Dismiss the spell.\n\nYou gain the following statistics and abilities regardless of which battle form you choose:\n\nAC = 18 + your level. Ignore your armor's check penalty and Speed reduction.\n20 temporary Hit Points.\nLow-light vision and imprecise scent 30 feet.\nOne or more unarmed melee attacks specific to the battle form you choose, which are the only attacks you can use. You're trained with them. Your attack modifier is +18, and your damage bonus is +6 with double damage dice. Your attacks have 15-foot reach, or 20-foot reach if they started with 15-foot reach. These attacks are Strength based (for the purpose of the enfeebled condition, for example). If your unarmed attack modifier is higher, you can use it instead.\nAthletics modifier of +21, unless your own modifier is higher.\n\nYou also gain specific abilities based on the type of animal you choose:\n\n<strong>Ankylosaurus</strong> Speed 25 feet; <strong>Melee</strong> tail (back swing, reach 15 feet), <strong>Damage</strong> 4d6 bludgeoning; <strong>Melee</strong> foot (reach 15 feet), <strong>Damage</strong> 4d6 bludgeoning.\n<strong>Brontosaurus</strong> Speed 25 feet; <strong>Melee</strong> tail (reach 20 feet), <strong>Damage</strong> 4d6 bludgeoning; <strong>Melee</strong> foot (reach 15 feet), <strong>Damage</strong> 4d8 bludgeoning.\n<strong>Deinonychus</strong> Speed 40 feet; <strong>Melee</strong> talon (agile, reach 15 feet), <strong>Damage</strong> 4d4 piercing plus 1 persistent bleed; <strong>Melee</strong> jaws (reach 15 feet), <strong>Damage</strong> 2d8 piercing.\n<strong>Stegosaurus</strong> Speed 30 feet; <strong>Melee</strong> tail (reach 15 feet), <strong>Damage</strong> 4d8 piercing.\n<strong>Triceratops</strong> Speed 30 feet; <strong>Melee</strong> horn (reach 15 feet), <strong>Damage</strong> 4d8 piercing, plus 1d6 persistent bleed on a critical hit; <strong>Melee</strong> foot (reach 15 feet), <strong>Damage</strong> 4d6 bludgeoning.\n<strong>Tyrannosaurus</strong> Speed 30 feet; <strong>Melee</strong> jaws (deadly, reach 15 feet), <strong>Damage</strong> 2d12 piercing; <strong>Melee</strong> tail (reach 15 feet), <strong>Damage</strong> 2d10 bludgeoning.",
         "type": "spells",
         "buff": true,
         "choice": "Ankylosaurus",
@@ -11657,7 +11680,7 @@
     },
     {
         "name": "Dinosaur Form (7th Level)",
-        "desc": "You have transformed into a Gargantuan animal battle form, specifically that of a powerful and terrifying dinosaur chosen from ankylosaurus, brontosaurus, deinonychus, stegosaurus, triceratops, or tyrannosaurus. You can decide the specific type of animal, but this has no effect on the form's Size or statistics. While in this form, you gain the animal and dinosaur traits. You can Dismiss the spell.\n\nYou gain the following statistics and abilities regardless of which battle form you choose:\n\nAC = 21 + your level. Ignore your armor's check penalty and Speed reduction.\n25 temporary Hit Points.\nLow-light vision and imprecise scent 30 feet.\nOne or more unarmed melee attacks specific to the battle form you choose, which are the only attacks you can use. You're trained with them. Your attack modifier is +25, and your damage bonus is +15 with double damage dice. Your attacks have 20-foot reach, or 25-foot reach if they started with 20-foot reach. These attacks are Strength based (for the purpose of the enfeebled condition, for example). If your unarmed attack modifier is higher, you can use it instead.\nAthletics modifier of +25, unless your own modifier is higher.\n\nYou also gain specific abilities based on the type of animal you choose:\n\n<strong>Ankylosaurus</strong> Speed 25 feet; <strong>Melee</strong> tail (back swing, reach 20 feet), <strong>Damage</strong> 4d6 bludgeoning; <strong>Melee</strong> foot (reach 20 feet), <strong>Damage</strong> 4d6 bludgeoning.\n<strong>Brontosaurus</strong> Speed 25 feet; <strong>Melee</strong> tail (reach 25 feet), <strong>Damage</strong> 4d6 bludgeoning; <strong>Melee</strong> foot (reach 20 feet), <strong>Damage</strong> 4d8 bludgeoning.\n<strong>Deinonychus</strong> Speed 40 feet; <strong>Melee</strong> talon (agile, reach 20 feet), <strong>Damage</strong> 4d4 piercing plus 1 persistent bleed; <strong>Melee</strong> jaws (reach 20 feet), <strong>Damage</strong> 2d8 piercing.\n<strong>Stegosaurus</strong> Speed 30 feet; <strong>Melee</strong> tail (reach 20 feet), <strong>Damage</strong> 4d8 piercing.\n<strong>Triceratops</strong> Speed 30 feet; <strong>Melee</strong> horn (reach 20 feet), <strong>Damage</strong> 4d8 piercing, plus 1d6 persistent bleed on a critical hit; <strong>Melee</strong> foot (reach 20 feet), <strong>Damage</strong> 4d6 bludgeoning.\n<strong>Tyrannosaurus</strong> Speed 30 feet; <strong>Melee</strong> jaws (deadly, reach 20 feet), <strong>Damage</strong> 2d12 piercing; <strong>Melee</strong> tail (reach 20 feet), <strong>Damage</strong> 2d10 bludgeoning.\n",
+        "desc": "You have transformed into a Gargantuan animal battle form, specifically that of a powerful and terrifying dinosaur chosen from ankylosaurus, brontosaurus, deinonychus, stegosaurus, triceratops, or tyrannosaurus. You can decide the specific type of animal, but this has no effect on the form's Size or statistics. While in this form, you gain the animal and dinosaur traits. You can Dismiss the spell.\n\nYou gain the following statistics and abilities regardless of which battle form you choose:\n\nAC = 21 + your level. Ignore your armor's check penalty and Speed reduction.\n25 temporary Hit Points.\nLow-light vision and imprecise scent 30 feet.\nOne or more unarmed melee attacks specific to the battle form you choose, which are the only attacks you can use. You're trained with them. Your attack modifier is +25, and your damage bonus is +15 with double damage dice. Your attacks have 20-foot reach, or 25-foot reach if they started with 20-foot reach. These attacks are Strength based (for the purpose of the enfeebled condition, for example). If your unarmed attack modifier is higher, you can use it instead.\nAthletics modifier of +25, unless your own modifier is higher.\n\nYou also gain specific abilities based on the type of animal you choose:\n\n<strong>Ankylosaurus</strong> Speed 25 feet; <strong>Melee</strong> tail (back swing, reach 20 feet), <strong>Damage</strong> 4d6 bludgeoning; <strong>Melee</strong> foot (reach 20 feet), <strong>Damage</strong> 4d6 bludgeoning.\n<strong>Brontosaurus</strong> Speed 25 feet; <strong>Melee</strong> tail (reach 25 feet), <strong>Damage</strong> 4d6 bludgeoning; <strong>Melee</strong> foot (reach 20 feet), <strong>Damage</strong> 4d8 bludgeoning.\n<strong>Deinonychus</strong> Speed 40 feet; <strong>Melee</strong> talon (agile, reach 20 feet), <strong>Damage</strong> 4d4 piercing plus 1 persistent bleed; <strong>Melee</strong> jaws (reach 20 feet), <strong>Damage</strong> 2d8 piercing.\n<strong>Stegosaurus</strong> Speed 30 feet; <strong>Melee</strong> tail (reach 20 feet), <strong>Damage</strong> 4d8 piercing.\n<strong>Triceratops</strong> Speed 30 feet; <strong>Melee</strong> horn (reach 20 feet), <strong>Damage</strong> 4d8 piercing, plus 1d6 persistent bleed on a critical hit; <strong>Melee</strong> foot (reach 20 feet), <strong>Damage</strong> 4d6 bludgeoning.\n<strong>Tyrannosaurus</strong> Speed 30 feet; <strong>Melee</strong> jaws (deadly, reach 20 feet), <strong>Damage</strong> 2d12 piercing; <strong>Melee</strong> tail (reach 20 feet), <strong>Damage</strong> 2d10 bludgeoning.",
         "type": "spells",
         "buff": true,
         "choice": "Ankylosaurus",
@@ -11872,13 +11895,13 @@
     },
     {
         "name": "Favorable Review (Failures)",
-        "desc": "You have enchanted a creature to ensure they have only good things to say about your show, specifically about a single creature, location, or performance, such as �Dame Ellendia,� �Savories Meats,� or �the Theater of the Mind�s latest magic show.�\n\nEvery target that has failed its will save cannot speak unfavorably about the subject for the duration. This doesn�t change the target�s opinion about the subject, but the target�s attempts to speak ill of the subject - whether in speech, writing, or other communication�always twist into compliments and praise instead. The target likely becomes aware of this effect quickly and can avoid speaking about the subject entirely if they choose.",
+        "desc": "You have enchanted a creature to ensure they have only good things to say about your show, specifically about a single creature, location, or performance, such as \"Dame Ellendia,\" \"Savories Meats,\" or \"the Theater of the Mind's latest magic show.\n\nEvery target that has failed its will save cannot speak unfavorably about the subject for the duration. This doesn't change the target's opinion about the subject, but the target's attempts to speak ill of the subject - whether in speech, writing, or other communication - always twist into compliments and praise instead. The target likely becomes aware of this effect quickly and can avoid speaking about the subject entirely if they choose.",
         "type": "spells",
         "buff": true
     },
     {
         "name": "Favorable Review (Critical Failures)",
-        "desc": "You have enchanted a creature to ensure they have only good things to say about your show, specifically about a single creature, location, or performance, such as �Dame Ellendia,� �Savories Meats,� or �the Theater of the Mind�s latest magic show.�\n\nEvery target that has critically failed its will save cannot speak unfavorably about the subject, and genuinely holds a favorable opinion about the subject, with their attitude toward the creature (or creatures associated with the subject, such as the owner of a location or artists in a performance) becoming two degrees better (for example, helpful instead of indifferent)",
+        "desc": "You have enchanted a creature to ensure they have only good things to say about your show, specifically about a single creature, location, or performance, such as \"Dame Ellendia,\" \"Savories Meats,\" or \"the Theater of the Mind's latest magic show.\n\nEvery target that has critically failed its will save cannot speak unfavorably about the subject, and genuinely holds a favorable opinion about the subject, with their attitude toward the creature (or creatures associated with the subject, such as the owner of a location or artists in a performance) becoming two degrees better (for example, helpful instead of indifferent)",
         "type": "spells",
         "buff": true
     },
@@ -11889,7 +11912,8 @@
         "buff": true,
         "hints": [
             {
-                "desc": "Adjacent creatures that hit you with a melee attack, as well as creatures that touch you or hit you with an unarmed attack, take 2d6 fire damage (plus 1d6 for every 2 spell levels after 4) each time they do."
+                "desc": "Adjacent creatures that hit you with a melee attack, as well as creatures that touch you or hit you with an unarmed attack, take 2d6 fire damage (plus 1d6 for every 2 spell levels after 4) each time they do.",
+                "showon": "Defense"
             }
         ],
         "effects": [
@@ -11907,7 +11931,7 @@
         "hints": [
             {
                 "desc": "When you attempt to Escape an effect that has you immobilized, grabbed, or restrained, you automatically succeed unless the effect is magical and of a higher level than the freedom of movement spell.",
-                "showon": "Unarmed, Unarmed Attacks, Acrobatics, Athletics"
+                "showon": "Unarmed Attacks, Acrobatics, Athletics"
             }
         ],
         "effects": [
@@ -12001,7 +12025,7 @@
     },
     {
         "name": "Modify Memory",
-        "desc": "You alter the memories of a willing target or a target that has failed its Will save, either erasing a memory, enhancing a memory's clarity, altering a memory, or adding a false memory.\n \nFor the spell's duration, you can Sustain the Spell to modify a memory once each round. When you do, you imagine up to 6 seconds of memory to modify, to a maximum of 5 continuous minutes of memory.\n\nAny memories you've altered remain changed as long as the spell is active. If the target moves out of range before the duration is up, you can't alter any further memories.",
+        "desc": "You alter the memories of a willing target or a target that has failed its Will save, either erasing a memory, enhancing a memory's clarity, altering a memory, or adding a false memory.\n\nFor the spell's duration, you can Sustain the Spell to modify a memory once each round. When you do, you imagine up to 6 seconds of memory to modify, to a maximum of 5 continuous minutes of memory.\n\nAny memories you've altered remain changed as long as the spell is active. If the target moves out of range before the duration is up, you can't alter any further memories.",
         "type": "spells",
         "buff": true
     },
@@ -12052,6 +12076,9 @@
                 "desc": "You must roll twice and use the worse result whenever attempting a Deception, Diplomacy, Intimidation, or Performance check. Creatures you encounter have an initial attitude toward you of two steps worse (for instance, hostile instead of indifferent).",
                 "showon": "Deception, Diplomacy, Intimidation, Performance"
             }
+        ],
+        "overrideConditions": [
+            "Outcast's Curse (Success or Failure)"
         ]
     },
     {
@@ -12064,7 +12091,14 @@
         "name": "Reflective Scales",
         "desc": "You have grown a set of colored glowing scales or scaled armor that stores energy before releasing it in a final burst. You gain resistance 5 (plus 5 for every 2 spell levels after 4th) against the chosen type of damage.\n\nThe scales store up energy as they protect you. Keep track of how much damage the scales have prevented. As a 2-action activity that has the concentrate and manipulate traits, you can explode your scales outward in a 20-foot radius around you, dealing 1d6 damage of the chosen type to all creatures in the area for every 10 damage the scales have prevented, to a maximum of 10d6 damage (plus 5d6 for every 2 spell levels after 4th) after preventing 100 damage (plus 50 for every 2 spell levels after 4th). Once you do so, the spell ends.",
         "type": "spells",
+        "hints": [
+            {
+                "desc": "The scales store up energy as they protect you. Keep track of how much damage the scales have prevented.",
+                "showon": "Resistances"
+            }
+        ],
         "buff": true,
+        "notes": "Damage prevented: ",
         "choice": "Acid",
         "choices": [
             "Acid",
@@ -12096,11 +12130,11 @@
             },
             {
                 "affected": "Reflective Scales Maximum Damage Prevented",
-                "setValue": "Math.max(10, Math.floor((Heightened * 2.5)/5)*5)"
+                "setValue": "Math.max(10, Math.floor((Heightened * 2.5)/5)*5) * 10"
             },
             {
                 "affected": "Reflective Scales Maximum Damage Dice",
-                "setValue": "Math.max(10, Math.floor((Heightened * 2.5)/5)*5) * 10"
+                "setValue": "Math.max(10, Math.floor((Heightened * 2.5)/5)*5)"
             }
         ],
         "gainActivities": [
@@ -12125,6 +12159,7 @@
         "desc": "An immobile sphere of force either traps or protects you, blocking anything that would pass through the sphere. The sphere has AC 5, Hardness 10, and 40 Hit Points. It's immune to critical hits and precision damage. Disintegrate destroys the sphere instantly.",
         "type": "spells",
         "buff": true,
+        "notes": "HP: 40",
         "hints": [
             {
                 "desc": "Anything that would pass through the sphere is blocked.",
@@ -12136,6 +12171,7 @@
         "name": "Resilient Sphere (Success)",
         "desc": "An immobile sphere of force either traps or protects you, blocking anything that would pass through the sphere. The sphere has AC 5, Hardness 10, and 10 Hit Points. It's immune to critical hits and precision damage. Disintegrate destroys the sphere instantly.",
         "type": "spells",
+        "notes": "HP: 40",
         "hints": [
             {
                 "desc": "Anything that would pass through the sphere is blocked.",
@@ -12182,9 +12218,11 @@
         "desc": "You are warded against the effects of a single spell, chosen by the caster. Spell immunity attempts to counteract that spell whenever you are the target of the named spell or in that spell's area. Successfully counteracting a spell that targets an area or multiple targets with spell immunity negates the effects only for the target affected by spell immunity.",
         "type": "spells",
         "buff": true,
+        "notes": "Chosen spell: ",
         "hints": [
             {
-                "desc": "You are warded against the effects of the chosen spell. Spell immunity attempts to counteract that spell whenever you are the target of the named spell or in that spell's area."
+                "desc": "You are warded against the effects of the chosen spell. Spell immunity attempts to counteract that spell whenever you are the target of the named spell or in that spell's area.",
+                "showon": "Saving Throws, Spellbook"
             }
         ]
     },
@@ -12242,6 +12280,7 @@
         "name": "Swarming Wasp Venom (Stage 1)",
         "desc": "<strong>Swarming Wasp Venom</strong> (poison)\n<strong>Level</strong> 7\n<strong>Maximum Duration</strong> 6 rounds.\n<var><strong>Stage 1</strong> 2d6 poison damage and clumsy 1 (1 round)</var>\n<strong>Stage 2</strong> 3d6 poison damage and clumsy 2 (1 round).",
         "type": "afflictions",
+        "fixedDuration": 60,
         "inputRequired": "Every time you reach this stage, take 2d6 poison damage.",
         "gainConditions": [
             {
@@ -12258,6 +12297,7 @@
         "name": "Swarming Wasp Venom (Stage 2)",
         "desc": "<strong>Swarming Wasp Venom</strong> (poison)\n<strong>Level</strong> 7\n<strong>Maximum Duration</strong> 6 rounds.\n<var><strong>Stage 1</strong> 2d6 poison damage and clumsy 1 (1 round)</var>\n<strong>Stage 2</strong> 3d6 poison damage and clumsy 2 (1 round).",
         "type": "afflictions",
+        "fixedDuration": 60,
         "inputRequired": "Every time you reach this stage, take 3d6 poison damage.",
         "gainConditions": [
             {

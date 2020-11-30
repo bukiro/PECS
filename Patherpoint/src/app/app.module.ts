@@ -63,6 +63,7 @@ import { DiceIcons_D20Component } from './dice/diceIcons_D20/diceIcons_D20.compo
 import { SkillchoiceComponent } from './character/skillchoice/skillchoice.component';
 import { ItemBladeAllyComponent } from './item/itemBladeAlly/itemBladeAlly.component';
 import { HintComponent } from './tags/hint/hint.component';
+import { ConditionComponent } from './effects/condition/condition.component';
 
 @NgModule({
    declarations: [
@@ -121,7 +122,8 @@ import { HintComponent } from './tags/hint/hint.component';
       DiceIcons_D20Component,
       SkillchoiceComponent,
       ItemBladeAllyComponent,
-      HintComponent
+      HintComponent,
+      ConditionComponent
    ],
    imports: [
       BrowserModule,

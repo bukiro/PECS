@@ -35,6 +35,8 @@ export class Condition {
     public persistent: boolean = false;
     public restricted: boolean = false;
     public traits: string[] = [];
+    //If a condition has notes (like the HP of a summoned object), they get copied on the conditionGain.
+    public notes: string = "";
     //List choices you can make for this condition.
     public choices: string[] = [];
     //This property is only used to select a choice before adding the condition. It is not read when evaluating the condition.

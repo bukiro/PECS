@@ -1289,6 +1289,8 @@ export class CharacterService {
                 }
                 conditionGain.nextStage = originalCondition.nextStage;
                 conditionGain.decreasingValue = originalCondition.decreasingValue;
+                conditionGain.notes = originalCondition.notes;
+                conditionGain.showNotes = conditionGain.notes && true;
                 //The gain may be persistent by itself, so don't overwrite it with the condition's persistence, but definitely set it if the condition is.
                 if (originalCondition.persistent) {
                     conditionGain.persistent = true;
@@ -1531,7 +1533,7 @@ export class CharacterService {
     get_FeatsShowingOn(objectName: string = "all") {
         return this.get_FeatsAndFeatures().filter(feat =>
             feat.hints.find(hint =>
-                hint.showon.split(",").find(showon => 
+                hint.showon?.split(",").find(showon => 
                     objectName.toLowerCase() == "all" ||
                     showon.trim().toLowerCase() == objectName.toLowerCase() ||
                     (
@@ -1551,7 +1553,7 @@ export class CharacterService {
                 .filter(ancestry => 
                     ancestry.hints
                     .find(hint => 
-                        hint.showon.split(",")
+                        hint.showon?.split(",")
                         .find(showon => 
                             objectName == "all" ||
                             showon.trim().toLowerCase() == objectName.toLowerCase()
@@ -1564,7 +1566,7 @@ export class CharacterService {
                 .filter(spec =>
                     spec.hints
                     .find(hint => 
-                        hint.showon.split(",")
+                        hint.showon?.split(",")
                         .find(showon => 
                             objectName == "all" ||
                             showon.trim().toLowerCase() == objectName.toLowerCase()
@@ -1582,7 +1584,7 @@ export class CharacterService {
         //Get showon elements from Familiar Abilities
         return this.familiarsService.get_FamiliarAbilities().filter(feat =>
             feat.hints.find(hint =>
-                hint.showon.split(",").find(showon => 
+                hint.showon?.split(",").find(showon => 
                     objectName.toLowerCase() == "all" ||
                     showon.trim().toLowerCase() == objectName.toLowerCase() ||
                     (
@@ -1601,7 +1603,7 @@ export class CharacterService {
         .map(conditionGain => this.get_Conditions(conditionGain.name)[0])
         .filter(condition =>
             condition?.hints.find(hint => 
-                hint.showon.split(",").find(showon => 
+                hint.showon?.split(",").find(showon => 
                     objectName.trim().toLowerCase() == "all" ||
                     showon.trim().toLowerCase() == objectName.toLowerCase() ||
                     (

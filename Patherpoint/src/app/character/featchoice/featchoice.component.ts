@@ -52,7 +52,7 @@ export class FeatchoiceComponent implements OnInit {
         } else {
             this.showFeat = name;
         }
-        this.showFeatMessage.emit(this.showFeat)
+        this.showFeatMessage.emit(this.showFeat);
     }
 
     toggle_List(name: string) {
@@ -61,7 +61,7 @@ export class FeatchoiceComponent implements OnInit {
         } else {
             this.showChoice = name;
         }
-        this.showChoiceMessage.emit(this.showChoice)
+        this.showChoiceMessage.emit(this.showChoice);
     }
 
     get_showFeat() {

@@ -4432,7 +4432,7 @@
       "id": "22efb2d3-17fe-48e9-bde4-6509c71aa407",
       "name": "Dinosaur Form Ankylosaurus Tail",
       "traits": [
-         "Back Swing",
+         "Backswing",
          "Reach 10 feet",
          "Unarmed"
       ],
@@ -4629,7 +4629,7 @@
       "id": "cd9dfbeb-e7cc-4a27-b63d-214574f647cc",
       "name": "Dinosaur Form Ankylosaurus Tail (5th Level)",
       "traits": [
-         "Back Swing",
+         "Backswing",
          "Reach 15 feet",
          "Unarmed"
       ],
@@ -4832,7 +4832,7 @@
       "id": "623becd8-b1ce-4072-a00e-56c177e1df1c",
       "name": "Dinosaur Form Ankylosaurus Tail (7th Level)",
       "traits": [
-         "Back Swing",
+         "Backswing",
          "Reach 20 feet",
          "Unarmed"
       ],

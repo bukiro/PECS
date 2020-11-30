@@ -8601,7 +8601,7 @@
                 "variable": "var5"
             },
             {
-                "value": 9,
+                "value": "+9",
                 "variable": "var6"
             },
             {
@@ -8630,15 +8630,15 @@
                 "variable": "var3"
             },
             {
-                "value": 14,
+                "value": "+14",
                 "variable": "var4"
             },
             {
-                "value": 5,
+                "value": "+5",
                 "variable": "var5"
             },
             {
-                "value": 14,
+                "value": "+14",
                 "variable": "var6"
             },
             {
@@ -8675,7 +8675,7 @@
                 "variable": "var5"
             },
             {
-                "value": 16,
+                "value": "+16",
                 "variable": "var6"
             },
             {
@@ -8713,7 +8713,7 @@
                 "variable": "var5"
             },
             {
-                "value": 20,
+                "value": "+20",
                 "variable": "var6"
             },
             {
@@ -11153,7 +11153,7 @@
         "targets": "1 creature",
         "target": "ally",
         "singleTarget": true,
-        "desc": "Restorative magic counters the effects of toxins or conditions that prevent a creature from functioning at its best. When you cast restoration, choose to either reduce a condition or lessen the effect of a toxin. A creature can benefit from only one restoration spell each day, and it can't benefit from restoration more than once to reduce the stage of the same exposure to a given toxin.\n\n<strong>Lessen a Toxin</strong> Reduce the stage of one toxin the target suffers from by <var>var1</var>. This can't reduce the stage below stage 1 or cure the affliction.\n<strong>Reduce a Condition</strong> Reduce the value of the target's clumsy, <var>var2</var>enfeebled, or stupefied condition by 2. You can instead reduce two of the listed conditions by 1 each.<var>var3</var>\n",
+        "desc": "Restorative magic counters the effects of toxins or conditions that prevent a creature from functioning at its best. When you cast restoration, choose to either reduce a condition or lessen the effect of a toxin. A creature can benefit from only one restoration spell each day, and it can't benefit from restoration more than once to reduce the stage of the same exposure to a given toxin.\n\n<strong>Lessen a Toxin</strong> Reduce the stage of one toxin the target suffers from by <var>var1</var>. This can't reduce the stage below stage 1 or cure the affliction.\n<strong>Reduce a Condition</strong> Reduce the value of the target's clumsy, <var>var2</var>enfeebled, or stupefied condition by 2. You can instead reduce two of the listed conditions by 1 each.<var>var3</var>",
         "heightened": [
             {
                 "desc": "Add drained to the list of conditions you can reduce. When you lessen a toxin, reduce the stage by two. You also gain a third option that allows you to reduce the target's doomed value by 1. You can't use this to reduce a permanent doomed condition.",
@@ -13496,11 +13496,11 @@
                 "variable": "var3"
             },
             {
-                "value": 2,
+                "value": "+2",
                 "variable": "var4"
             },
             {
-                "value": 13,
+                "value": "+13",
                 "variable": "var5"
             },
             {
@@ -14939,7 +14939,7 @@
                 "variable": "var5"
             },
             {
-                "value": 16,
+                "value": "+16",
                 "variable": "var6"
             },
             {
@@ -14983,7 +14983,7 @@
                 "variable": "var5"
             },
             {
-                "value": 20,
+                "value": "+20",
                 "variable": "var6"
             },
             {
@@ -15029,7 +15029,7 @@
                 "variable": "var5"
             },
             {
-                "value": 23,
+                "value": "+23",
                 "variable": "var6"
             },
             {
@@ -15557,7 +15557,8 @@
             {
                 "duration": 100,
                 "name": "Dimensional Anchor",
-                "source": "Dimensional Anchor"
+                "source": "Dimensional Anchor",
+                "targetFilter": "caster"
             }
         ]
     },
@@ -15577,7 +15578,7 @@
         ],
         "target": "self",
         "duration": "1 minute",
-        "desc": "You channel the primal forces of nature to transform into a <var>var_size</var> animal battle form, specifically that of a powerful and terrifying dinosaur. You must have space to expand or the spell is lost. When you cast this spell, choose ankylosaurus, brontosaurus, deinonychus, stegosaurus, triceratops, or tyrannosaurus. You can decide the specific type of animal, but this has no effect on the form's Size or statistics. While in this form, you gain the animal and dinosaur traits. You can Dismiss the spell.\n\nYou gain the following statistics and abilities regardless of which battle form you choose:\n\nAC = <var>var_ac</var> + your level. Ignore your armor's check penalty and Speed reduction.\n<var>var_temphp</var> temporary Hit Points.\nLow-light vision and imprecise scent 30 feet.\nOne or more unarmed melee attacks specific to the battle form you choose, which are the only attacks you can use. You're trained with them. Your attack modifier is <var>var_attack</var>, and your damage bonus is <var>var_dmgbonus</var>. These attacks are Strength based (for the purpose of the enfeebled condition, for example). If your unarmed attack modifier is higher, you can use it instead.\nAthletics modifier of <var>var_athletics</var>, unless your own modifier is higher.\n\nYou also gain specific abilities based on the type of animal you choose:\n\n<strong>Ankylosaurus</strong> Speed 25 feet; <strong>Melee</strong> tail (back swing, reach <var>var_reach10</var> feet), <strong>Damage</strong> <var>var_dice2</var>d6 bludgeoning; <strong>Melee</strong> foot<var>var_noreachnotraits</var>, <strong>Damage</strong> <var>var_dice2</var>d6 bludgeoning.\n<strong>Brontosaurus</strong> Speed 25 feet; <strong>Melee</strong> tail (reach <var>var_reach15</var> feet), <strong>Damage</strong> <var>var_dice2</var>d6 bludgeoning; <strong>Melee</strong> foot<var>var_noreachnotraits</var>, <strong>Damage</strong> <var>var_dice2</var>d8 bludgeoning.\n<strong>Deinonychus</strong> Speed 40 feet; <strong>Melee</strong> talon (agile<var>var_noreachwithtraits</var>), <strong>Damage</strong> <var>var_dice2</var>d4 piercing plus 1 persistent bleed; <strong>Melee</strong> jaws<var>var_noreachnotraits</var>, <strong>Damage</strong> <var>var_dice1</var>d8 piercing.\n<strong>Stegosaurus</strong> Speed 30 feet; <strong>Melee</strong> tail (reach <var>var_reach10</var> feet), <strong>Damage</strong> <var>var_dice2</var>d8 piercing.\n<strong>Triceratops</strong> Speed 30 feet; <strong>Melee</strong> horn<var>var_noreachnotraits</var>, <strong>Damage</strong> <var>var_dice2</var>d8 piercing, plus 1d6 persistent bleed on a critical hit; <strong>Melee</strong> foot<var>var_noreachnotraits</var>, <strong>Damage</strong> <var>var_dice2</var>d6 bludgeoning.\n<strong>Tyrannosaurus</strong> Speed 30 feet; <strong>Melee</strong> jaws (deadly, reach <var>var_reach10</var> feet), <strong>Damage</strong> <var>var_dice1</var>d12 piercing; <strong>Melee</strong> tail (reach <var>var_reach10</var> feet)), <strong>Damage</strong> <var>var_dice1</var>d10 bludgeoning.\n",
+        "desc": "You channel the primal forces of nature to transform into a <var>var_size</var> animal battle form, specifically that of a powerful and terrifying dinosaur. You must have space to expand or the spell is lost. When you cast this spell, choose ankylosaurus, brontosaurus, deinonychus, stegosaurus, triceratops, or tyrannosaurus. You can decide the specific type of animal, but this has no effect on the form's Size or statistics. While in this form, you gain the animal and dinosaur traits. You can Dismiss the spell.\n\nYou gain the following statistics and abilities regardless of which battle form you choose:\n\nAC = <var>var_ac</var> + your level. Ignore your armor's check penalty and Speed reduction.\n<var>var_temphp</var> temporary Hit Points.\nLow-light vision and imprecise scent 30 feet.\nOne or more unarmed melee attacks specific to the battle form you choose, which are the only attacks you can use. You're trained with them. Your attack modifier is <var>var_attack</var>, and your damage bonus is <var>var_dmgbonus</var>. These attacks are Strength based (for the purpose of the enfeebled condition, for example). If your unarmed attack modifier is higher, you can use it instead.\nAthletics modifier of <var>var_athletics</var>, unless your own modifier is higher.\n\nYou also gain specific abilities based on the type of animal you choose:\n\n<strong>Ankylosaurus</strong> Speed 25 feet; <strong>Melee</strong> tail (back swing, reach <var>var_reach10</var> feet), <strong>Damage</strong> <var>var_dice2</var>d6 bludgeoning; <strong>Melee</strong> foot<var>var_noreachnotraits</var>, <strong>Damage</strong> <var>var_dice2</var>d6 bludgeoning.\n<strong>Brontosaurus</strong> Speed 25 feet; <strong>Melee</strong> tail (reach <var>var_reach15</var> feet), <strong>Damage</strong> <var>var_dice2</var>d6 bludgeoning; <strong>Melee</strong> foot<var>var_noreachnotraits</var>, <strong>Damage</strong> <var>var_dice2</var>d8 bludgeoning.\n<strong>Deinonychus</strong> Speed 40 feet; <strong>Melee</strong> talon (agile<var>var_noreachwithtraits</var>), <strong>Damage</strong> <var>var_dice2</var>d4 piercing plus 1 persistent bleed; <strong>Melee</strong> jaws<var>var_noreachnotraits</var>, <strong>Damage</strong> <var>var_dice1</var>d8 piercing.\n<strong>Stegosaurus</strong> Speed 30 feet; <strong>Melee</strong> tail (reach <var>var_reach10</var> feet), <strong>Damage</strong> <var>var_dice2</var>d8 piercing.\n<strong>Triceratops</strong> Speed 30 feet; <strong>Melee</strong> horn<var>var_noreachnotraits</var>, <strong>Damage</strong> <var>var_dice2</var>d8 piercing, plus 1d6 persistent bleed on a critical hit; <strong>Melee</strong> foot<var>var_noreachnotraits</var>, <strong>Damage</strong> <var>var_dice2</var>d6 bludgeoning.\n<strong>Tyrannosaurus</strong> Speed 30 feet; <strong>Melee</strong> jaws (deadly, reach <var>var_reach10</var> feet), <strong>Damage</strong> <var>var_dice1</var>d12 piercing; <strong>Melee</strong> tail (reach <var>var_reach10</var> feet), <strong>Damage</strong> <var>var_dice1</var>d10 bludgeoning.",
         "heightened": [
             {
                 "desc": "Your battle form is Huge and your attacks have 15-foot reach, or 20-foot reach if they started with 15-foot reach. You instead gain 20 temporary HP, an attack modifier of +18, a damage bonus of +6, double the damage dice, and Athletics +21.",
@@ -15630,7 +15631,7 @@
                 "variable": "var_dmgbonus"
             },
             {
-                "value": 18,
+                "value": "+18",
                 "variable": "var_athletics"
             },
             {
@@ -15862,6 +15863,16 @@
         "shortDesc": "You enchant a creature to ensure they have only good things to say about your show.",
         "sourceBook": "Pathfinder #152: Legacy of the Lost God",
         "levelreq": 4,
+        "traditions": [
+            "Arcane",
+            "Occult"
+        ],
+        "traits": [
+            "Uncommon",
+            "Enchantment",
+            "Incapacitation",
+            "Mental"
+        ],
         "inputRequired": "You gain a condition each to represent targets that failed and critically failed their Will save. Remove those conditions that don't apply.",
         "range": "touch",
         "targets": "1 creature",
@@ -15881,7 +15892,7 @@
         ],
         "gainConditions": [
             {
-                "duration": 10008000,
+                "duration": 1008000,
                 "name": "Favorable Review (Failures)",
                 "source": "Favorable Review",
                 "targetFilter": "caster"
@@ -16057,7 +16068,7 @@
                 "level": "(6th)"
             },
             {
-                "desc": "The spell also reveals information the writer self-censored and didn�t commit to paper.",
+                "desc": "The spell also reveals information the writer self-censored and didn't commit to paper.",
                 "level": "(9th)"
             }
         ],
@@ -16083,7 +16094,7 @@
         ],
         "desc9": [
             {
-                "value": "all missing information regarding a specific topic of your choice, inluding information the writer self-censored and didn�t commit to paper",
+                "value": "all missing information regarding a specific topic of your choice, inluding information the writer self-censored and didn't commit to paper",
                 "variable": "var1"
             },
             {
@@ -16474,6 +16485,17 @@
         "castType": "material, somatic",
         "sourceBook": "Pathfinder #154: Siege of the Dinosaurs",
         "levelreq": 4,
+        "traditions": [
+            "Arcane",
+            "Divine",
+            "Occult"
+        ],
+        "traits": [
+            "Uncommon",
+            "Necromancy",
+            "Negative"
+        ],
+        "inputRequired": "If you cast the spell on an attended object, change the duration of the Necrotic Radiation condition according to the holder's Will save.",
         "range": "touch",
         "targets": "one object or one 10-foot-square area",
         "singleTarget": true,
@@ -16748,7 +16770,7 @@
         ],
         "traits": [
             "Rare",
-            "Animation"
+            "Abjuration"
         ],
         "trigger": "You are hit by a physical Strike.",
         "desc": "You swiftly raise a reflective barrier, reducing physical damage and rebounding it onto your attacker. You gain resistance <var>var1</var> against one physical damage type the triggering attack deals. Your attacker takes <var>var2</var> damage of the same type.",
@@ -16846,7 +16868,7 @@
         ],
         "target": "self",
         "duration": "1 minute",
-        "desc": "You grow a set of colored glowing scales or scaled armor that stores energy before releasing it in a final burst. When you cast this spell, choose acid, cold, fire, electricity, or poison damage. You gain resistance <var>var1</var> against that type of damage. The scales� color depends on the damage type you chose and is usually the color of a type of dragon or other creature associated with that damage type, such as red or gold for fire damage.\n\nThe scales store up energy as they protect you. Keep track of how much damage the scales have prevented. As a 2-action activity that has the concentrate and manipulate traits, you can explode your scales outward in a 20-foot radius around you, dealing 1d6 damage of the chosen type to all creatures in the area for every 10 damage the scales have prevented, to a maximum of <var>var2</var> damage (after preventing <var>var3</var> damage). Once you do so, the spell ends.",
+        "desc": "You grow a set of colored glowing scales or scaled armor that stores energy before releasing it in a final burst. When you cast this spell, choose acid, cold, fire, electricity, or poison damage. You gain resistance <var>var1</var> against that type of damage. The scales' color depends on the damage type you chose and is usually the color of a type of dragon or other creature associated with that damage type, such as red or gold for fire damage.\n\nThe scales store up energy as they protect you. Keep track of how much damage the scales have prevented. As a 2-action activity that has the concentrate and manipulate traits, you can explode your scales outward in a 20-foot radius around you, dealing 1d6 damage of the chosen type to all creatures in the area for every 10 damage the scales have prevented, to a maximum of <var>var2</var> damage (after preventing <var>var3</var> damage). Once you do so, the spell ends.",
         "heightened": [
             {
                 "desc": "The resistance increases by 5 and the maximum damage from the scale explosion increases by 5d6.",
@@ -16932,7 +16954,7 @@
             "Healing",
             "Necromancy"
         ],
-        "inputRequired": "You attempt to counteract one curse afflicting the target. If the curse comes from a cursed item or other external source, a success indicates that the target creature can rid itself of the cursed item, but it doesn't remove the curse from the item.",
+        "inputRequired": "Attempt to counteract one curse afflicting the target. If the curse comes from a cursed item or other external source, a success indicates that the target creature can rid itself of the cursed item, but it doesn't remove the curse from the item.",
         "range": "touch",
         "targets": "1 creature",
         "target": "ally",
@@ -17052,8 +17074,8 @@
         "gainConditions": [
             {
                 "duration": 100,
-                "name": "Obscuring Mist",
-                "source": "Obscuring Mist",
+                "name": "Solid Fog",
+                "source": "Solid Fog",
                 "targetFilter": "caster"
             }
         ]
@@ -17133,10 +17155,10 @@
         "targets": "1 creature",
         "singleTarget": true,
         "duration": "varies",
-        "desc": "Memories of a past life that seem incredibly real (and may even be) overwhelm the target�s mind. This is especially disorienting for undead and creatures that have lived a previous life (such as celestials, fiends, monitors, and many other extraplanar creatures); if such creatures roll a critical success on their save, they get a success instead, and if they roll a failure, they get a critical failure instead.",
+        "desc": "Memories of a past life that seem incredibly real (and may even be) overwhelm the target's mind. This is especially disorienting for undead and creatures that have lived a previous life (such as celestials, fiends, monitors, and many other extraplanar creatures); if such creatures roll a critical success on their save, they get a success instead, and if they roll a failure, they get a critical failure instead.",
         "savingThrow": "Will",
         "critsuccess": "The creature is unaffected.",
-        "success": "The creature is�slowed�1 for 1 round.",
+        "success": "The creature is slowed 1 for 1 round.",
         "failure": "The target is slowed 1 for 1 minute and babbles about the visions, possibly providing information about what they saw.",
         "critfailure": "As failure, but the target is also stunned 3."
     },
@@ -17293,6 +17315,7 @@
             "Uncommon",
             "Necromancy"
         ],
+        "inputRequired": "If the corpse rolls a critical success on its Will save, give yourself the Talking Corpse Haunting condition for 24 hours.",
         "range": "touch",
         "targets": "1 corpse",
         "singleTarget": true,
@@ -17383,7 +17406,7 @@
         "target": "ally",
         "singleTarget": true,
         "duration": "1 hour",
-        "desc": "You disguise the targets as other creatures of the same <var>var1</var>. The disguise can hide the targets' identities or let them appear to be of another ancestry<var>var1</var> You choose the disguise for each target; for example, you could make one target appear to be a dwarf and another an elf.\n\nCasting veil counts as setting up a disguise for the purpose of the Impersonate action. It allows the target to ignore any circumstance penalties they might take for being disguised as dissimilar creatures, and it gives the targets a +4 status bonus to Deception checks to prevent others from seeing through their disguises, and add their level even if untrained. You can Dismiss any or all of these disguises.",
+        "desc": "You disguise the targets as other creatures of the same <var>var1</var> The disguise can hide the targets' identities or let them appear to be of another ancestry<var>var2</var> You choose the disguise for each target; for example, you could make one target appear to be a dwarf and another an elf.\n\nCasting veil counts as setting up a disguise for the purpose of the Impersonate action. It allows the target to ignore any circumstance penalties they might take for being disguised as dissimilar creatures, and it gives the targets a +4 status bonus to Deception checks to prevent others from seeing through their disguises, and add their level even if untrained. You can Dismiss any or all of these disguises.",
         "heightened": [
             {
                 "desc": "The spell also disguises the targets' voices and scents; it gains the auditory trait.",
