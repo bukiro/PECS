@@ -12,7 +12,6 @@ import { ActivitiesService } from './activities.service';
 import { ItemsService } from './items.service';
 import { SpellChoice } from './SpellChoice';
 import { Settings } from './Settings';
-import { TimeService } from './time.service';
 import { SpellCasting } from './SpellCasting';
 import { Creature } from './Creature';
 import { AbilityBoost } from './AbilityBoost';
@@ -30,6 +29,7 @@ import { ConditionsService } from './conditions.service';
 export class Character extends Creature {
     public readonly _className: string = this.constructor.name;
     readonly type = "Character";
+    public partyName: string = "";
     public alignment: string = "";
     public baseValues: {name:string, baseValue:number}[] = [];
     public cash: number[] = [0,15,0,0];

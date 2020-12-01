@@ -136,7 +136,27 @@ export class CharacterComponent implements OnInit {
                 return -1;
             }
             return 0;
+        }).sort(function(a,b) {
+            if (a.partyName > b.partyName) {
+                return 1;
+            }
+            if (a.partyName < b.partyName) {
+                return -1;
+            }
+            return 0;
+        }).sort(function(a,b) {
+            if (b.partyName == "No Party" && a.partyName != "No Party") {
+                return 1;
+            }
+            if (a.partyName == "No Party" && b.partyName != "No Party") {
+                return -1;
+            }
+            return 0;
         });
+    }
+
+    get_Parties() {
+        return Array.from(new Set(this.get_Savegames().map(savegame => savegame.partyName)));
     }
 
     load_CharacterFromDB(savegame: Savegame) {

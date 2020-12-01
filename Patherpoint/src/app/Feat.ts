@@ -19,6 +19,7 @@ import { LoreChoice } from './LoreChoice';
 import { ProficiencyChange } from './ProficiencyChange';
 import { HeritageGain } from './HeritageGain';
 import { Hint } from './Hint';
+import { BloodMagic } from './BloodMagic';
 
 export class Feat {
     public readonly _className: string = this.constructor.name;
@@ -28,6 +29,7 @@ export class Feat {
     public anathema: string[] = [];
     public archetype: string = "";
     public changeProficiency: ProficiencyChange[] = [];
+    public bloodMagic: BloodMagic[] = [];
     public data: {} = {};
     public desc: string = "";
     public effects: any[] = [];

@@ -15,8 +15,10 @@
                 *ngFor="let attack of get_Attacks(weapon)">
                 <div class="row">
                     <span style="flex-basis:auto">
-                        <strong *ngIf="!['alchemicalbombs', 'otherconsumablesbombs'].includes(weapon.type)">{{weapon.get_Name()}}{{(attack[0] == 'melee') ?
-                            (weapon.ranged ? " melee" : "") : (weapon.melee ? " ranged" : "")}}
+                        <strong *ngIf="!['alchemicalbombs', 'otherconsumablesbombs'].includes(weapon.type)">
+                            <span title="Melee" *ngIf="attack[0] == 'melee'">&#10027;</span>
+                            <span title="Ranged {{weapon.ranged}} feet" *ngIf="attack[0] == 'ranged'">&#10168;</span>
+                            {{weapon.get_Name()}}
                         </strong>
                         <strong *ngFor="let handwraps of get_HandwrapsOfMightyBlows(weapon)">
                             ({{handwraps.get_Name()}})

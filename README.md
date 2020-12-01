@@ -108,7 +108,6 @@ Active to-do:
 Implement:
 
 Next steps:
-- Implement Level 4 Spells
 - Implement Ancestry Feats
 -- Human
 -- Halfling
@@ -116,4 +115,3 @@ Next steps:
 -- Half-Elf
 -- Lizardfolk
 - Implement Conditions for Poisons
-- Maybe improve blood magic in feats

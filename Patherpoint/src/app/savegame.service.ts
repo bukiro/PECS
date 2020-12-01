@@ -392,6 +392,7 @@ export class SavegameService {
                 this.savegames[newLength - 1].dbId = savegame._id || "";
                 this.savegames[newLength - 1].level = savegame.level || 1;
                 this.savegames[newLength - 1].name = savegame.name || "Unnamed";
+                this.savegames[newLength - 1].partyName = savegame.partyName || "No Party";
                 if (savegame.class) {
                     this.savegames[newLength - 1].class = savegame.class.name || "";
                     if (savegame.class.ancestry) {

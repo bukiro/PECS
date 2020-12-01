@@ -7,4 +7,5 @@ export class Savegame {
     heritage: string;
     ancestry: string;
     level: number;
+    partyName: string;
 }

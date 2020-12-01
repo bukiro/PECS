@@ -17,20 +17,25 @@
             <div class="list-item" *ngIf="!get_Savegames()">
                 Database connection failed.
             </div>
-            <div class="list-item" *ngFor="let savegame of get_Savegames(); let index = index; trackBy:trackByIndex;">
-                <span>
-                    <strong>{{savegame.name}}</strong> Level {{savegame.level}}
-                    {{savegame.heritage ? savegame.heritage + (!savegame.heritage.includes(savegame.ancestry) ? " " + savegame.ancestry : "") : savegame.ancestry}}
-                    {{savegame.class}}
-                </span>
-                <span>
-                    <button (click)="load_CharacterFromDB(savegame)">Load</button>
-                    <button (click)="delete_CharacterFromDB(savegame, index)"
-                        [disabled]="!allowCharacterDelete[index]">Delete</button>
-                    <input id="allowCharacterDelete{{index}}" type="checkbox" [(ngModel)]="allowCharacterDelete[index]">
-                    <label for="allowCharacterDelete{{index}}">Allow deletion</label>
-                </span>
-            </div>
+            <ng-container *ngFor="let savegame of get_Savegames(); let index = index; trackBy:trackByIndex;">
+                <h3 *ngIf="index == 0 || get_Savegames()[index].partyName != get_Savegames()[index-1].partyName">
+                    {{savegame.partyName}}</h3>
+                <div class="list-item">
+                    <span>
+                        <strong>{{savegame.name}}</strong> Level {{savegame.level}}
+                        {{savegame.heritage ? savegame.heritage + (!savegame.heritage.includes(savegame.ancestry) ? " " + savegame.ancestry : "") : savegame.ancestry}}
+                        {{savegame.class}}
+                    </span>
+                    <span>
+                        <button (click)="load_CharacterFromDB(savegame)">Load</button>
+                        <button (click)="delete_CharacterFromDB(savegame, index)"
+                            [disabled]="!allowCharacterDelete[index]">Delete</button>
+                        <input id="allowCharacterDelete{{index}}" type="checkbox"
+                            [(ngModel)]="allowCharacterDelete[index]">
+                        <label for="allowCharacterDelete{{index}}">Allow deletion</label>
+                    </span>
+                </div>
+            </ng-container>
         </div>
     </div>
     <div class="loading" *ngIf="still_loading()">Loading</div>
@@ -55,9 +60,28 @@
             </span>
         </div>
         <div class="list-item">
+            <div class="row">
+                <strong>Party name</strong>
+                <span>
+                    <input type="text" name="name" [(ngModel)]="get_Character().partyName" maxLength="100">
+                </span>
+            </div>
+            <div class="row">
+                <span></span>
+                <span>
+                    <select [(ngModel)]="get_Character().partyName">
+                        <option *ngFor="let partyName of get_Parties(); trackBy:trackByIndex;" [ngValue]="partyName">
+                            {{partyName}}
+                        </option>
+                    </select>
+                </span>
+            </div>
+        </div>
+        <div class="list-item">
             <strong>Experience Points</strong>
             <span>
-                <button (click)="on_LevelUp()" *ngIf="get_Character().experiencePoints >= 1000 && get_Character().level < 20">Level Up</button>
+                <button (click)="on_LevelUp()"
+                    *ngIf="get_Character().experiencePoints >= 1000 && get_Character().level < 20">Level Up</button>
                 <input type="number" class="number4" name="experiencePoints"
                     [(ngModel)]="get_Character().experiencePoints" (keypress)="numbersOnly($event)" maxLength="4"
                     title="{{(get_Character().experiencePoints >= 1000 && get_Character().level < 20) ? 'You are ready to level up!' : ''}}"
@@ -357,8 +381,7 @@
                         </div>
                         <div class="row">
                             <span>
-                                <input id="backgroundfilterRegional" type="checkbox"
-                                    [(ngModel)]="regionalBackgrounds">
+                                <input id="backgroundfilterRegional" type="checkbox" [(ngModel)]="regionalBackgrounds">
                                 <label for="backgroundfilterRegional">Show regional backgrounds</label>
                             </span>
                         </div>
@@ -888,14 +911,16 @@
                                     <span>
                                         <input id="differentWorldsBackgroundfilterAdventure" type="checkbox"
                                             [(ngModel)]="adventureBackgrounds">
-                                        <label for="differentWorldsBackgroundfilterAdventure">Show adventure backgrounds</label>
+                                        <label for="differentWorldsBackgroundfilterAdventure">Show adventure
+                                            backgrounds</label>
                                     </span>
                                 </div>
                                 <div class="row">
                                     <span>
                                         <input id="differentWorldsBackgroundfilterRegional" type="checkbox"
                                             [(ngModel)]="regionalBackgrounds">
-                                        <label for="differentWorldsBackgroundfilterRegional">Show regional backgrounds</label>
+                                        <label for="differentWorldsBackgroundfilterRegional">Show regional
+                                            backgrounds</label>
                                     </span>
                                 </div>
                             </div>
@@ -965,7 +990,8 @@
                             <button class="row sublist-toggle"
                                 [ngClass]="{'fancy-button':((get_Character().class.additionalHeritages[heritageIndex].name))}"
                                 (click)="toggle_List(listID)">
-                                Heritage ({{heritageGain.source}}){{(get_Character().class.additionalHeritages[heritageIndex].name) ? ": "+ get_Character().class.additionalHeritages[heritageIndex].name : ""}}
+                                Heritage
+                                ({{heritageGain.source}}){{(get_Character().class.additionalHeritages[heritageIndex].name) ? ": "+ get_Character().class.additionalHeritages[heritageIndex].name : ""}}
                             </button>
                             <div class="list-item sublist"
                                 [ngClass]="{'fancy-list':((get_Character().class.additionalHeritages[heritageIndex].name))}"

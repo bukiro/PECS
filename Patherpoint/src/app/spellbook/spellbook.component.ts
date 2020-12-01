@@ -179,8 +179,8 @@ export class SpellbookComponent implements OnInit {
 
     get_SignatureSpellsAllowed() {
         if (this.characterService.get_FeatsAndFeatures()
-                .find(feature => feature.name.includes("Signature Spells") && feature.have(this.get_Character(), this.characterService))
-            ) {
+            .find(feature => feature.name.includes("Signature Spells") && feature.have(this.get_Character(), this.characterService))
+        ) {
             return true;
         } else {
             return false;
@@ -263,11 +263,11 @@ export class SpellbookComponent implements OnInit {
             } else if (spellLevel == 0 && casting.className == "Bard" && this.have_Feat("Studious Capacity")) {
                 spellslots = 1;
             } else if (spellLevel > 0) {
-                casting.spellChoices.filter(choice => 
-                        choice.level == spellLevel &&
-                        choice.charLevelAvailable <= this.get_Character().level &&
-                        choice.source.includes(casting.className + " Spellcasting")
-                    ).forEach(choice => {
+                casting.spellChoices.filter(choice =>
+                    choice.level == spellLevel &&
+                    choice.charLevelAvailable <= this.get_Character().level &&
+                    choice.source.includes(casting.className + " Spellcasting")
+                ).forEach(choice => {
                     spellslots += choice.available;
                 });
                 if (spellLevel <= this.get_MaxSpellLevel(casting) - 2 && (casting.className == "Bard" && this.have_Feat("Occult Breadth"))) {
@@ -275,9 +275,9 @@ export class SpellbookComponent implements OnInit {
                 }
             }
             if (casting.className)
-            this.effectsService.get_RelativesOnThis(this.get_Character(), casting.className + " " + casting.castingType + " Level " + spellLevel + " Spell Slots").forEach(effect => {
-                spellslots += parseInt(effect.value);
-            });
+                this.effectsService.get_RelativesOnThis(this.get_Character(), casting.className + " " + casting.castingType + " Level " + spellLevel + " Spell Slots").forEach(effect => {
+                    spellslots += parseInt(effect.value);
+                });
             return spellslots;
         } else {
             return 0;
@@ -378,31 +378,20 @@ export class SpellbookComponent implements OnInit {
         }
         //Trigger bloodline powers for sorcerers if your main class is Sorcerer.
         let character = this.get_Character()
-        if (character.class.name == "Sorcerer" && casting.className == "Sorcerer") {
-            let bloodline: string = character.get_FeatsTaken(1, character.level).find(gain =>
-                ["Aberrant Bloodline",
-                    "Angelic Bloodline",
-                    "Demonic Bloodline",
-                    "Diabolic Bloodline",
-                    "Draconic Bloodline",
-                    "Elemental Bloodline",
-                    "Fey Bloodline",
-                    "Hag Bloodline",
-                    "Imperial Bloodline",
-                    "Undead Bloodline"].includes(gain.name)
-            )?.name;
-            if (bloodline) {
-                let data = this.characterService.get_Feats(bloodline)[0]?.data[0];
-                let conditionName: string = data?.["bloodmagic"];
-                if (conditionName && data["trigger"].includes(spell.name)) {
+        let bloodMagicFeats = this.characterService.get_Feats().filter(feat => feat.bloodMagic.length && feat.have(character, this.characterService, character.level));
+        bloodMagicFeats.forEach(feat => {
+            feat.bloodMagic.forEach(bloodMagic => {
+                if (bloodMagic.trigger.includes(spell.name)) {
                     let conditionGain = new ConditionGain();
-                    conditionGain.name = conditionName;
+                    conditionGain.name = bloodMagic.condition;
                     conditionGain.duration = 10;
-                    conditionGain.source = bloodline;
-                    this.characterService.add_Condition(this.get_Character(), conditionGain, false);
+                    conditionGain.source = feat.name;
+                    if (conditionGain.name) {
+                        this.characterService.add_Condition(this.get_Character(), conditionGain, false);
+                    }
                 }
-            }
-        }
+            })
+        })
         this.spellsService.process_Spell(character, creature, this.characterService, this.itemsService, this.conditionsService, casting, gain, spell, levelNumber, activated, true);
         if (gain.combinationSpellName) {
             let secondSpell = this.get_Spells(gain.combinationSpellName)[0];
