@@ -773,7 +773,7 @@ export class CharacterService {
         //Add all Items that you get from being granted this one
         if (returnedInventoryItem.gainItems && returnedInventoryItem.gainItems.length) {
             returnedInventoryItem.gainItems.filter((gainItem: ItemGain) => gainItem.on == "grant").forEach(gainItem => {
-                let newItem: Item = this.get_CleanItems()[gainItem.type].filter(libraryItem => libraryItem.name == gainItem.name)[0];
+                let newItem: Item = this.get_CleanItems()[gainItem.type].filter((libraryItem: Item) => libraryItem.name.toLowerCase() == gainItem.name.toLowerCase())[0];
                 if (newItem.can_Stack()) {
                     this.grant_InventoryItem(creature, inventory, newItem, true, false, false, gainItem.amount + (gainItem.amountPerLevel * creature.level));
                 } else {
@@ -1093,7 +1093,7 @@ export class CharacterService {
                 //Add all Items that you get from equipping this one
                 if (item.gainItems && item.gainItems.length) {
                     item.gainItems.filter((gainItem: ItemGain) => gainItem.on == "equip").forEach(gainItem => {
-                        let newItem: Item = this.itemsService.get_Items()[gainItem.type].filter((libraryItem: Item) => libraryItem.name == gainItem.name)[0]
+                        let newItem: Item = this.itemsService.get_Items()[gainItem.type].filter((libraryItem: Item) => libraryItem.name.toLowerCase() == gainItem.name.toLowerCase())[0]
                         if (newItem.can_Stack()) {
                             this.grant_InventoryItem(creature, inventory, newItem, false, false, false, gainItem.amount + (gainItem.amountPerLevel * creature.level));
                         } else {
@@ -1142,7 +1142,7 @@ export class CharacterService {
     }
 
     lose_GainedItem(creature: Character | AnimalCompanion, gainedItem: ItemGain) {
-        if (this.itemsService.get_CleanItems()[gainedItem.type].concat(...creature.inventories.map(inventory => inventory[gainedItem.type])).filter((item: Item) => item.name == gainedItem.name)[0].can_Stack()) {
+        if (this.itemsService.get_CleanItems()[gainedItem.type].concat(...creature.inventories.map(inventory => inventory[gainedItem.type])).filter((item: Item) => item.name.toLowerCase() == gainedItem.name.toLowerCase())[0]?.can_Stack()) {
             let amountToDrop = gainedItem.amount || 1;
             creature.inventories.forEach(inventory => {
                 let items: Item[] = inventory[gainedItem.type].filter((libraryItem: Item) => libraryItem.name == gainedItem.name);

@@ -66,7 +66,7 @@
                     <h5 class="fullsize-only">Shield</h5>
                     <div class="row list-item">
                         <div>{{shield.name}} AC: <input type="number" class="number1" [ngModel]="shield.get_ACBonus()" disabled>
-                            Hardness: <input type="number" class="number1" [ngModel]="shield.get_Hardness()" disabled>
+                            Hardness: <input type="number" class="number2" [ngModel]="shield.get_Hardness()" disabled>
                             <div class="fullsize-only row left-aligned" *ngIf="shield.traits.length">
                                 <cite class="trait" *ngFor="let trait of shield.traits; trackBy:trackByIndex;"
                                     title="{{get_Traits(trait)[0].desc}}">{{trait}}</cite>

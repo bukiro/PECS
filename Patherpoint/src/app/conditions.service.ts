@@ -206,12 +206,30 @@ export class ConditionsService {
                 characterService.set_ToChange(creature.type, "attacks");
                 if (taken) {
                     gain.gainItems = condition.gainItems.map(itemGain => Object.assign(new ItemGain(), itemGain));
-                    gain.gainItems.filter(gainItem => !gainItem.conditionChoiceFilter || gainItem.conditionChoiceFilter == gain.choice).forEach(gainItem => {
+                    gain.gainItems
+                        .filter(gainItem => 
+                            (
+                                !gainItem.conditionChoiceFilter ||
+                                gainItem.conditionChoiceFilter == gain.choice
+                            ) && (
+                                !gainItem.heightenedFilter ||
+                                gainItem.heightenedFilter == gain.heightened
+                            )
+                        ).forEach(gainItem => {
                         this.add_ConditionItem(creature, characterService, itemsService, gainItem, condition);
                     });
                 } else {
-                    gain.gainItems.filter(gainItem => !gainItem.conditionChoiceFilter || gainItem.conditionChoiceFilter == gain.choice).forEach(gainItem => {
-                        this.remove_ConditionItem(creature, characterService, itemsService, gainItem);
+                    gain.gainItems
+                        .filter(gainItem => 
+                            (
+                                !gainItem.conditionChoiceFilter ||
+                                gainItem.conditionChoiceFilter == gain.choice
+                            ) && (
+                                !gainItem.heightenedFilter ||
+                                gainItem.heightenedFilter == gain.heightened
+                            )
+                        ).forEach(gainItem => {
+                            this.remove_ConditionItem(creature, characterService, itemsService, gainItem);
                     });
                     gain.gainItems = [];
                 }
@@ -225,7 +243,7 @@ export class ConditionsService {
     }
 
     add_ConditionItem(creature: Character|AnimalCompanion, characterService: CharacterService, itemsService: ItemsService, gainItem: ItemGain, condition: Condition) {
-        let newItem: Item = itemsService.get_CleanItems()[gainItem.type].filter(item => item.name == gainItem.name)[0];
+        let newItem: Item = itemsService.get_CleanItems()[gainItem.type].filter((item: Item) => item.name.toLowerCase() == gainItem.name.toLowerCase())[0];
         if (newItem) {
             if (newItem.can_Stack()) {
                 //For consumables, add the appropriate amount and don't track them.
@@ -242,7 +260,7 @@ export class ConditionsService {
     }
 
     remove_ConditionItem(creature: Character|AnimalCompanion, characterService: CharacterService, itemsService: ItemsService, gainItem: ItemGain) {
-        if (itemsService.get_Items()[gainItem.type].filter((item: Item) => item.name == gainItem.name)[0].can_Stack()) {
+        if (itemsService.get_Items()[gainItem.type].filter((item: Item) => item.name.toLowerCase() == gainItem.name.toLowerCase())[0]?.can_Stack()) {
             let items: Item[] = creature.inventories[0][gainItem.type].filter((item: Item) => item.name == gainItem.name);
             //For consumables, remove the same amount as previously given. This is not ideal, but you can easily add more in the inventory.
             if (items.length) {

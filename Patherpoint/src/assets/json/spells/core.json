@@ -3131,7 +3131,7 @@
             {
                 "expiration": 10,
                 "heightenedFilter": 3,
-                "name": "Force Shield (3rd level)",
+                "name": "Force Shield (3rd Level)",
                 "type": "shields"
             },
             {
@@ -3664,7 +3664,7 @@
             {
                 "duration": 48000,
                 "heightenedFilter": 3,
-                "name": "Alarm (3rd level)",
+                "name": "Alarm (3rd Level)",
                 "source": "Alarm"
             }
         ],
@@ -3745,7 +3745,7 @@
             {
                 "duration": 1000,
                 "heightenedFilter": 3,
-                "name": "Anticipate Peril (3rd level)",
+                "name": "Anticipate Peril (3rd Level)",
                 "source": "Anticipate Peril"
             },
             {
@@ -4309,7 +4309,7 @@
             {
                 "duration": 100,
                 "heightenedFilter": 3,
-                "name": "Disrupting Weapons (3rd level)",
+                "name": "Disrupting Weapons (3rd Level)",
                 "source": "Disrupting Weapons"
             },
             {
@@ -4492,7 +4492,7 @@
             {
                 "duration": 6000,
                 "heightenedFilter": 3,
-                "name": "Illusory Disguise (3rd level)",
+                "name": "Illusory Disguise (3rd Level)",
                 "source": "Illusory Disguise",
                 "targetFilter": "caster"
             }
@@ -5288,7 +5288,7 @@
             {
                 "duration": 6000,
                 "heightenedFilter": 3,
-                "name": "Illusory Disguise (3rd level)",
+                "name": "Illusory Disguise (3rd Level)",
                 "source": "Illusory Disguise"
             }
         ],
@@ -5805,7 +5805,7 @@
             {
                 "duration": -2,
                 "heightenedFilter": 3,
-                "name": "Magic Aura (3rd level)",
+                "name": "Magic Aura (3rd Level)",
                 "source": "Magic Aura",
                 "targetFilter": "caster"
             }
@@ -6714,7 +6714,7 @@
             {
                 "duration": 100,
                 "heightenedFilter": 3,
-                "name": "Scouring Sand (3rd level)",
+                "name": "Scouring Sand (3rd Level)",
                 "source": "Scouring Sand",
                 "targetFilter": "caster"
             }
@@ -8563,7 +8563,7 @@
             {
                 "duration": 100,
                 "heightenedFilter": 3,
-                "name": "Animal Form (3rd level)",
+                "name": "Animal Form (3rd Level)",
                 "source": "Animal Form"
             },
             {
@@ -9556,7 +9556,7 @@
             {
                 "duration": -2,
                 "heightenedFilter": 3,
-                "name": "Endure Elements (3rd level)",
+                "name": "Endure Elements (3rd Level)",
                 "source": "Endure Elements"
             },
             {
@@ -10459,7 +10459,7 @@
             {
                 "duration": 1000,
                 "heightenedFilter": 3,
-                "name": "Humanoid Form (3rd level)",
+                "name": "Humanoid Form (3rd Level)",
                 "source": "Humanoid Form"
             },
             {

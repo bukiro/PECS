@@ -375,7 +375,7 @@ export class FeatsService {
             if (feat.gainItems.length) {
                 if (taken) {
                     feat.gainItems.filter(freeItem => freeItem.on == "grant").forEach((freeItem: ItemGain) => {
-                        let item: Item = characterService.itemsService.get_Items()[freeItem.type].filter((item: Item) => item.name == freeItem.name)[0];
+                        let item: Item = characterService.itemsService.get_Items()[freeItem.type].filter((item: Item) => item.name.toLowerCase() == freeItem.name.toLowerCase())[0];
                         if (item) {
                             characterService.grant_InventoryItem(characterService.get_Character(), characterService.get_Character().inventories[0], item, false, false, true, freeItem.amount);
                         }

@@ -38,11 +38,11 @@ export class WornItem extends Equipment {
                 price += itemsService.get_CleanItems().weaponrunes.filter(rune => rune.striking == this.strikingRune)[0].price;
             }
             this.propertyRunes.forEach(rune => {
-                price += itemsService.get_CleanItems().weaponrunes.find(weaponRune => weaponRune.name == rune.name).price;
+                price += itemsService.get_CleanItems().weaponrunes.find(weaponRune => weaponRune.name.toLowerCase() == rune.name.toLowerCase()).price;
             })
         }
         this.aeonStones.forEach(aeonStone => {
-            price += itemsService.get_CleanItems().wornitems.find(wornItem => wornItem.name == aeonStone.name).price;
+            price += itemsService.get_CleanItems().wornitems.find(wornItem => wornItem.name.toLowerCase() == aeonStone.name.toLowerCase()).price;
         })
         return price;
     }

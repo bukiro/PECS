@@ -489,7 +489,7 @@ export class ItemsService {
         //Gain Items on Activation
         if (item.gainItems.length && creature.type != "Familiar") {
             item.gainItems.forEach(gainItem => {
-                let newItem: Item = itemsService.get_CleanItems()[gainItem.type].filter(libraryItem => libraryItem.name == gainItem.name)[0];
+                let newItem: Item = itemsService.get_CleanItems()[gainItem.type].filter((libraryItem: Item) => libraryItem.name.toLowerCase() == gainItem.name.toLowerCase())[0];
                 if (newItem) {
                     let grantedItem = characterService.grant_InventoryItem(creature as Character | AnimalCompanion, creature.inventories[0], newItem, false, false, true);
                     gainItem.id = grantedItem.id;

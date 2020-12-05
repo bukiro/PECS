@@ -191,7 +191,7 @@ export class Equipment extends Item {
                 price += itemsService.get_CleanItems().weaponrunes.find(rune => rune.striking == this.strikingRune).price;
             }
             this.propertyRunes.forEach(rune => {
-                let cleanRune = itemsService.get_CleanItems().weaponrunes.find(weaponRune => weaponRune.name == rune.name);
+                let cleanRune = itemsService.get_CleanItems().weaponrunes.find(weaponRune => weaponRune.name.toLowerCase() == rune.name.toLowerCase());
                 if (cleanRune) {
                     if (cleanRune.name == "Speed" && this.material?.[0]?.name.includes("Orichalcum")) {
                         price += Math.floor(cleanRune.price / 2);
@@ -208,7 +208,7 @@ export class Equipment extends Item {
                 price += itemsService.get_CleanItems().armorrunes.find(rune => rune.resilient == this.strikingRune).price;
             }
             this.propertyRunes.forEach(rune => {
-                price += itemsService.get_CleanItems().armorrunes.find(armorRune => armorRune.name == rune.name).price;
+                price += itemsService.get_CleanItems().armorrunes.find(armorRune => armorRune.name.toLowerCase() == rune.name.toLowerCase()).price;
             })
         }
         this.material.forEach(mat => {
@@ -218,7 +218,7 @@ export class Equipment extends Item {
             }
         })
         this.talismans.forEach(talisman => {
-            price += itemsService.get_CleanItems().talismans.find(cleanTalisman => cleanTalisman.name == talisman.name).price;
+            price += itemsService.get_CleanItems().talismans.find(cleanTalisman => cleanTalisman.name.toLowerCase() == talisman.name.toLowerCase()).price;
         })
         return price;
     }

@@ -33,6 +33,7 @@ import { SavegameService } from '../savegame.service';
 import { Savegame } from '../Savegame';
 import { TraitsService } from '../traits.service';
 import { FamiliarsService } from '../familiars.service';
+import { Item } from '../Item';
 
 @Component({
     selector: 'app-character',
@@ -932,7 +933,7 @@ export class CharacterComponent implements OnInit {
     }
 
     get_ItemFromGain(gain: ItemGain) {
-        return this.characterService.get_CleanItems()[gain.type].filter(item => item.name == gain.name);
+        return this.characterService.get_CleanItems()[gain.type].filter((item: Item) => item.name.toLowerCase() == gain.name.toLowerCase());
     }
 
     get_AnimalCompanionAbilities(type: AnimalCompanionAncestry) {

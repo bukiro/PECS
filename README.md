@@ -104,6 +104,8 @@ The very latest in Assistive Technologies for Dungeon Master (ATDM)
 - [ ] Stretch Goal: Include optional systems like Stamina & Resolve
 
 Active to-do:
+Change Shield and Mage Armor to cause a condition and gain items via the condition, so that Shield Block can cause a Shield Cooldown condition and block Shield.
+itemGain.heightenedFilter should already work in conditions.
 
 Implement:
 

@@ -72,7 +72,7 @@ export class Class {
             let character = characterService.get_Character();
             //Grant all items and save their id in the ItemGain.
             this.gainItems.forEach((freeItem: ItemGain) => {
-                let item: Equipment = itemsService.get_Items()[freeItem.type].filter((item: Equipment) => item.name == freeItem.name)[0];
+                let item: Equipment = itemsService.get_Items()[freeItem.type].filter((item: Equipment) => item.name.toLowerCase() == freeItem.name.toLowerCase())[0];
                 if (item) {
                     let grantedItem = characterService.grant_InventoryItem(characterService.get_Character(), characterService.get_Character().inventories[0], item, false, false, true, freeItem.amount);
                     freeItem.id = grantedItem.id;
@@ -142,7 +142,7 @@ export class Class {
             characterService.set_ToChange("Character", "charactersheet");
             //Grant all items and save their id in the ItemGain.
             this.ancestry.gainItems.forEach((freeItem: ItemGain) => {
-                let item: Equipment = itemsService.get_Items()[freeItem.type].filter((item: Equipment) => item.name == freeItem.name)[0];
+                let item: Equipment = itemsService.get_Items()[freeItem.type].filter((item: Equipment) => item.name.toLowerCase() == freeItem.name.toLowerCase())[0];
                 if (item) {
                     let grantedItem = characterService.grant_InventoryItem(characterService.get_Character(), characterService.get_Character().inventories[0], item, false, false, true, freeItem.amount);
                     freeItem.id = grantedItem.id;
@@ -245,7 +245,7 @@ export class Class {
             level.skillChoices.push(...heritage.skillChoices);
             //Grant all items and save their id in the ItemGain.
             heritage.gainItems.forEach((freeItem: ItemGain) => {
-                let item: Equipment = itemsService.get_CleanItems()[freeItem.type].filter((item: Equipment) => item.name == freeItem.name)[0];
+                let item: Equipment = itemsService.get_CleanItems()[freeItem.type].filter((item: Equipment) => item.name.toLowerCase() == freeItem.name.toLowerCase())[0];
                 if (item) {
                     let grantedItem = characterService.grant_InventoryItem(characterService.get_Character(), characterService.get_Character().inventories[0], item, false, false, true, freeItem.amount);
                     freeItem.id = grantedItem.id;

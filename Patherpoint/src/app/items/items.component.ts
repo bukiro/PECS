@@ -177,7 +177,7 @@ export class ItemsComponent implements OnInit {
     }
 
     get_CopyItems(type: string) {
-        return this.itemsService.get_CleanItems()[type].filter(item => !item.hide).sort((a,b) => {
+        return this.itemsService.get_CleanItems()[type].filter((item: Item) => !item.hide).sort((a,b) => {
             if (a.name > b.name) {
                 return 1;
             }

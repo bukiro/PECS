@@ -93,7 +93,7 @@ export class SpellsService {
             if (activated) {
                 gain.gainItems = spell.get_HeightenedItems(spellLevel).map(itemGain => Object.assign(new ItemGain(), itemGain));
                 gain.gainItems.forEach(gainItem => {
-                    let newItem: Item = itemsService.get_CleanItems()[gainItem.type].filter(item => item.name == gainItem.name)[0];
+                    let newItem: Item = itemsService.get_CleanItems()[gainItem.type].filter((item: Item) => item.name.toLowerCase() == gainItem.name.toLowerCase())[0];
                     if (newItem.can_Stack()) {
                         characterService.grant_InventoryItem(targetCreature as Character|AnimalCompanion, targetCreature.inventories[0], newItem, false, false, false, gainItem.amount);
                     } else {
@@ -108,7 +108,7 @@ export class SpellsService {
             } else {
                 gain.gainItems.forEach(gainItem => {
                     if (itemsService.get_Items()[gainItem.type].filter((item: Item) => item.name == gainItem.name)[0].can_Stack()) {
-                        let items: Item[] = targetCreature.inventories[0][gainItem.type].filter((item: Item) => item.name == gainItem.name);
+                        let items: Item[] = targetCreature.inventories[0][gainItem.type].filter((item: Item) => item.name.toLowerCase() == gainItem.name.toLowerCase());
                         if (items.length) {
                             characterService.drop_InventoryItem(targetCreature as Character|AnimalCompanion, targetCreature.inventories[0], items[0], false, false, true, gainItem.amount);
                         }
