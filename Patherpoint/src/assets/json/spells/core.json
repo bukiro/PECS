@@ -3121,36 +3121,11 @@
                 "level": "(9th)"
             }
         ],
-        "gainItems": [
+        "gainConditions": [
             {
-                "expiration": 10,
-                "heightenedFilter": 1,
-                "name": "Force Shield (1st Level)",
-                "type": "shields"
-            },
-            {
-                "expiration": 10,
-                "heightenedFilter": 3,
-                "name": "Force Shield (3rd Level)",
-                "type": "shields"
-            },
-            {
-                "expiration": 10,
-                "heightenedFilter": 5,
-                "name": "Force Shield (5th Level)",
-                "type": "shields"
-            },
-            {
-                "expiration": 10,
-                "heightenedFilter": 7,
-                "name": "Force Shield (7th Level)",
-                "type": "shields"
-            },
-            {
-                "expiration": 10,
-                "heightenedFilter": 9,
-                "name": "Force Shield (9th Level)",
-                "type": "shields"
+                "duration": 10,
+                "name": "Shield",
+                "source": "Shield"
             }
         ],
         "desc1": [

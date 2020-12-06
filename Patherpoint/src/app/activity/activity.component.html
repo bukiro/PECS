@@ -197,6 +197,15 @@
             </ul>
         </div>
     </div>
+    <div class="row left-aligned" *ngFor="let condition of get_ConditionsShowingOn(activity.name); trackBy:trackByIndex;">
+        <h4>{{condition.name}}</h4>
+        <div class="row left-aligned" *ngFor="let desc of condition.desc.split('\n\n'); trackBy:trackByIndex;">
+            <p *ngIf="desc.split('\n').length == 1" [innerHTML]="desc"></p>
+            <ul *ngIf="desc.split('\n').length > 1">
+                <li *ngFor="let line of desc.split('\n'); trackBy:trackByIndex;" [innerHTML]="line"></li>
+            </ul>
+        </div>
+    </div>
     <ng-container *ngIf="allowActivate">
         <ng-container *ngFor="let related_gain of get_ActivityGainsShowingOn(activity.name); trackBy:trackByIndex;">
             <div class="row left-aligned"

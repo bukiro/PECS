@@ -122,6 +122,24 @@ export class ActivityComponent implements OnInit {
         }
     }
 
+
+    get_ConditionsShowingOn(activityName: string) {
+        if (activityName) {
+            return this.characterService.get_ConditionsShowingOn(this.get_Creature(), activityName)
+            .sort((a,b) => {
+                if (a.name > b.name) {
+                    return 1;
+                }
+                if (a.name < b.name) {
+                    return -1;
+                }
+                return 0;
+            });;
+        } else {
+            return []
+        }
+    }
+
     get_ActivityGainsShowingOn(objectName: string) {
         if (objectName) {
             return this.characterService.get_OwnedActivities(this.get_Creature())

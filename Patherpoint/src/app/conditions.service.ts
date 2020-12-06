@@ -51,7 +51,7 @@ export class ConditionsService {
         }
     }
 
-    get_AppliedConditions(creature: Character|AnimalCompanion|Familiar, characterService: CharacterService, activeConditions: ConditionGain[], readonly: boolean = false) {
+    get_AppliedConditions(creature: Character | AnimalCompanion | Familiar, characterService: CharacterService, activeConditions: ConditionGain[], readonly: boolean = false) {
         let creatureIndex: number = this.get_CalculatedIndex(creature.type);
         //Readonly skips any modifications and just returns the currently applied conditions. The same happens if the conditions haven't changed since the last run.
         if (readonly || JSON.stringify(activeConditions) == JSON.stringify(this.appliedConditions[creatureIndex])) {
@@ -89,10 +89,10 @@ export class ConditionsService {
                             } else if (otherGain.value + otherGain.heightened > gain.value + gain.heightened) {
                                 gain.apply = false;
                             } else if (
-                                    otherGain.choice == gain.choice &&
-                                    otherGain.value == gain.value &&
-                                    otherGain.heightened == gain.heightened
-                                ) {
+                                otherGain.choice == gain.choice &&
+                                otherGain.value == gain.value &&
+                                otherGain.heightened == gain.heightened
+                            ) {
                                 //If the value and choice is the same:
                                 //Deactivate this condition if the other one has a longer duration (and this one is not permanent), or is permanent (no matter if this one is)
                                 //The other condition will not be deactivated because it only gets compared to the ones that aren't deactivated yet
@@ -114,7 +114,7 @@ export class ConditionsService {
         }
     }
 
-    process_Condition(creature: Character|AnimalCompanion|Familiar, characterService: CharacterService, effectsService: EffectsService, itemsService: ItemsService, gain: ConditionGain, condition: Condition, taken: boolean, increaseWounded: boolean = true) {
+    process_Condition(creature: Character | AnimalCompanion | Familiar, characterService: CharacterService, effectsService: EffectsService, itemsService: ItemsService, gain: ConditionGain, condition: Condition, taken: boolean, increaseWounded: boolean = true) {
 
         //Prepare components for refresh
         if (condition.gainActivities.length) {
@@ -123,12 +123,12 @@ export class ConditionsService {
         condition.hints.forEach(hint => {
             characterService.set_TagsToChange(creature.type, hint.showon);
         });
-    
+
         //Copy the condition's ActivityGains to the ConditionGain so we can track its duration, cooldown etc.
         gain.gainActivities = condition.gainActivities.map(activityGain => Object.assign(new ActivityGain(), JSON.parse(JSON.stringify(activityGain))));
 
         gain.onset = condition.onset;
-        
+
         //One time effects
         if (condition.onceEffects.length) {
             if (taken) {
@@ -157,15 +157,25 @@ export class ConditionsService {
             }
         }
 
+        //Gain other conditions if applicable
+        if (taken) {
+            condition.gainConditions.filter(extraCondition => !extraCondition.conditionChoiceFilter || extraCondition.conditionChoiceFilter == gain.choice).forEach(extraCondition => {
+                let addCondition = Object.assign(new ConditionGain, JSON.parse(JSON.stringify(extraCondition)));
+                addCondition.source = gain.name;
+                addCondition.apply = true;
+                characterService.add_Condition(creature, addCondition, false)
+            })
+        }
+
         //Remove other conditions if applicable
         if (taken) {
             condition.endConditions.forEach(end => {
                 characterService.get_AppliedConditions(creature, end).forEach(gain => {
-                    characterService.remove_Condition(creature, gain, false);
+                    characterService.remove_Condition(creature, gain, false, true, true);
                 })
             })
         }
-        
+
         //Stuff that happens when your Dying value is raised or lowered beyond a limit.
         if (gain.name == "Dying") {
             if (taken) {
@@ -207,7 +217,7 @@ export class ConditionsService {
                 if (taken) {
                     gain.gainItems = condition.gainItems.map(itemGain => Object.assign(new ItemGain(), itemGain));
                     gain.gainItems
-                        .filter(gainItem => 
+                        .filter(gainItem =>
                             (
                                 !gainItem.conditionChoiceFilter ||
                                 gainItem.conditionChoiceFilter == gain.choice
@@ -216,11 +226,11 @@ export class ConditionsService {
                                 gainItem.heightenedFilter == gain.heightened
                             )
                         ).forEach(gainItem => {
-                        this.add_ConditionItem(creature, characterService, itemsService, gainItem, condition);
-                    });
+                            this.add_ConditionItem(creature, characterService, itemsService, gainItem, condition);
+                        });
                 } else {
                     gain.gainItems
-                        .filter(gainItem => 
+                        .filter(gainItem =>
                             (
                                 !gainItem.conditionChoiceFilter ||
                                 gainItem.conditionChoiceFilter == gain.choice
@@ -230,7 +240,7 @@ export class ConditionsService {
                             )
                         ).forEach(gainItem => {
                             this.remove_ConditionItem(creature, characterService, itemsService, gainItem);
-                    });
+                        });
                     gain.gainItems = [];
                 }
             }
@@ -242,7 +252,7 @@ export class ConditionsService {
 
     }
 
-    add_ConditionItem(creature: Character|AnimalCompanion, characterService: CharacterService, itemsService: ItemsService, gainItem: ItemGain, condition: Condition) {
+    add_ConditionItem(creature: Character | AnimalCompanion, characterService: CharacterService, itemsService: ItemsService, gainItem: ItemGain, condition: Condition) {
         let newItem: Item = itemsService.get_CleanItems()[gainItem.type].filter((item: Item) => item.name.toLowerCase() == gainItem.name.toLowerCase())[0];
         if (newItem) {
             if (newItem.can_Stack()) {
@@ -259,7 +269,7 @@ export class ConditionsService {
         }
     }
 
-    remove_ConditionItem(creature: Character|AnimalCompanion, characterService: CharacterService, itemsService: ItemsService, gainItem: ItemGain) {
+    remove_ConditionItem(creature: Character | AnimalCompanion, characterService: CharacterService, itemsService: ItemsService, gainItem: ItemGain) {
         if (itemsService.get_Items()[gainItem.type].filter((item: Item) => item.name.toLowerCase() == gainItem.name.toLowerCase())[0]?.can_Stack()) {
             let items: Item[] = creature.inventories[0][gainItem.type].filter((item: Item) => item.name == gainItem.name);
             //For consumables, remove the same amount as previously given. This is not ideal, but you can easily add more in the inventory.
@@ -284,17 +294,17 @@ export class ConditionsService {
         }
     }
 
-    tick_Conditions(creature: Character|AnimalCompanion|Familiar, turns: number = 10, yourTurn: number) {
+    tick_Conditions(creature: Character | AnimalCompanion | Familiar, turns: number = 10, yourTurn: number) {
         let activeConditions = creature.conditions;
         while (turns > 0) {
             let activeConditions = creature.conditions;
-            activeConditions = activeConditions.sort(function(a,b) {
+            activeConditions = activeConditions.sort(function (a, b) {
                 let compareA: number[] = [];
-                if (a.nextStage > 0) {compareA.push(a.nextStage);}
-                if (a.duration > 0) {compareA.push(a.duration);}
+                if (a.nextStage > 0) { compareA.push(a.nextStage); }
+                if (a.duration > 0) { compareA.push(a.duration); }
                 let compareB: number[] = [];
-                if (b.nextStage > 0) {compareB.push(b.nextStage);}
-                if (b.duration > 0) {compareB.push(b.duration);}
+                if (b.nextStage > 0) { compareB.push(b.nextStage); }
+                if (b.duration > 0) { compareB.push(b.duration); }
                 if (!compareA.length) {
                     return 1
                 } else if (!compareA.length) {
@@ -318,8 +328,8 @@ export class ConditionsService {
                     if (activeConditions.filter(gain => (gain.duration > 0 && !gain.onset) || gain.nextStage > 0).length) {
                         let firstObject: ConditionGain = activeConditions.filter(gain => gain.duration > 0 || gain.nextStage > 0)[0]
                         let durations: number[] = [];
-                        if (firstObject.duration > 0 && !firstObject.onset) {durations.push(firstObject.duration);}
-                        if (firstObject.nextStage > 0) {durations.push(firstObject.nextStage);}
+                        if (firstObject.duration > 0 && !firstObject.onset) { durations.push(firstObject.duration); }
+                        if (firstObject.nextStage > 0) { durations.push(firstObject.nextStage); }
                         first = Math.min(...durations);
                     }
                 }
@@ -348,11 +358,11 @@ export class ConditionsService {
         creature.conditions = activeConditions;
     }
 
-    rest(creature: Character|AnimalCompanion|Familiar, characterService: CharacterService) {
+    rest(creature: Character | AnimalCompanion | Familiar, characterService: CharacterService) {
         creature.conditions.filter(gain => gain.duration == -2).forEach(gain => {
             gain.duration = 0;
         });
-        
+
         //After resting with full HP, the Wounded condition is removed.
         if (characterService.get_Health(creature).damage == 0) {
             creature.conditions.filter(gain => gain.name == "Wounded").forEach(gain => characterService.remove_Condition(creature, gain));
@@ -361,8 +371,8 @@ export class ConditionsService {
         if (!creature.conditions.find(gain => this.get_Conditions(gain.name)?.[0]?.gainConditions.find(subgain => subgain.name == "Fatigued"))) {
             creature.conditions.filter(gain => gain.name == "Fatigued").forEach(gain => characterService.remove_Condition(creature, gain));
         }
-        
-        creature.conditions.filter(gain => gain.name == "Doomed").forEach(gain => {gain.value -= 1});
+
+        creature.conditions.filter(gain => gain.name == "Doomed").forEach(gain => { gain.value -= 1 });
         creature.conditions.filter(gain => gain.name == "Drained").forEach(gain => {
             gain.value -= 1;
             creature.health.damage += creature.level;

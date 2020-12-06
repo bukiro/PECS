@@ -1313,14 +1313,7 @@ export class CharacterService {
                     newLength = creature.conditions.push(conditionGain);
                 }
                 if (newLength) {
-                    let newConditionGain = creature.conditions[newLength - 1];
                     this.conditionsService.process_Condition(creature, this, this.effectsService, this.itemsService, conditionGain, this.conditionsService.get_Conditions(conditionGain.name)[0], true);
-                    originalCondition.gainConditions.filter(extraCondition => !extraCondition.conditionChoiceFilter || extraCondition.conditionChoiceFilter == newConditionGain.choice).forEach(extraCondition => {
-                        let addCondition = Object.assign(new ConditionGain, JSON.parse(JSON.stringify(extraCondition)));
-                        addCondition.source = newConditionGain.name;
-                        addCondition.apply = true;
-                        this.add_Condition(creature, addCondition, false)
-                    })
                     this.set_ToChange(creature.type, "effects");
                     if (reload) {
                         this.process_ToChange();
