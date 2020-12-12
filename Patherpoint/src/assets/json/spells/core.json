@@ -5661,36 +5661,11 @@
                 "level": "(10th)"
             }
         ],
-        "gainItems": [
+        "gainConditions": [
             {
-                "expiration": -2,
-                "heightenedFilter": 1,
-                "name": "Mage Armor (1st Level)",
-                "type": "armors"
-            },
-            {
-                "expiration": -2,
-                "heightenedFilter": 4,
-                "name": "Mage Armor (4th Level)",
-                "type": "armors"
-            },
-            {
-                "expiration": -2,
-                "heightenedFilter": 6,
-                "name": "Mage Armor (6th Level)",
-                "type": "armors"
-            },
-            {
-                "expiration": -2,
-                "heightenedFilter": 8,
-                "name": "Mage Armor (8th Level)",
-                "type": "armors"
-            },
-            {
-                "expiration": -2,
-                "heightenedFilter": 10,
-                "name": "Mage Armor (10th Level)",
-                "type": "armors"
+                "duration": -2,
+                "name": "Mage Armor",
+                "source": "Mage Armor"
             }
         ],
         "desc1": [

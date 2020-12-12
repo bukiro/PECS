@@ -165,31 +165,6 @@ export class GeneralComponent implements OnInit {
         return this.traitsService.get_Traits(name);
     }
 
-    get_Speeds() {
-        let speeds: Speed[] = this.characterService.get_Speeds(this.get_Creature());
-        if (["Character", "Companion"].includes(this.get_Creature().type)) {
-            (this.get_Creature() as Character).class?.ancestry?.speeds?.forEach(speed => {
-                speeds.push(new Speed(speed.name));
-            });
-        }
-        //We don't process the values yet - for now we just collect all Speeds that are mentioned in effects.
-        // Since we pick up every effect that includes "Speed", but we don't want "Ignore Circumstance Penalties To Speed" to show up, we filter out "Ignore".
-        let speedEffects = this.effectsService.get_Effects(this.creature).all.filter(effect => effect.apply && (effect.target.includes("Speed") && !effect.target.includes("Ignore")));
-        speedEffects.forEach(effect => {
-            if (!speeds.filter(speed => speed.name == effect.target).length) {
-                speeds.push(new Speed(effect.target))
-            }
-        });
-        //Remove any duplicates for display
-        let uniqueSpeeds: Speed[] = [];
-        speeds.forEach(speed => {
-            if (!uniqueSpeeds.find(uniqueSpeed => uniqueSpeed.name == speed.name)) {
-                uniqueSpeeds.push(speed);
-            }
-        })
-        return uniqueSpeeds.filter(speed => speed.value(this.get_Creature(), this.characterService, this.effectsService)[0] != 0);
-    }
-
     finish_Loading() {
         if (this.still_loading()) {
             setTimeout(() => this.finish_Loading(), 500)

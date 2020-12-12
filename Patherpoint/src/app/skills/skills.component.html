@@ -18,6 +18,27 @@
                 <app-skill [creature]="creature" [skill]=skill></app-skill>
             </ng-container>
         </ng-container>
+        <h3 class="box-header">Movement</h3>
+        <ng-container *ngFor="let speed of get_Speeds(); trackBy:trackByIndex;">
+            <div class="list-item">
+                <span>
+                    <strong>{{(speed.name=="Speed") ? "All Speeds" : speed.name}}</strong>
+                </span>
+                <span>
+                    Value: <input class="number3"
+                        title="{{speed.value(get_Creature(), characterService, effectsService)[1]}}"
+                        [ngClass]="{'penalty':speed.penalties(get_Creature(), effectsService, speed.name, true),
+                            'bonus':speed.bonuses(get_Creature(), effectsService, speed.name, true),
+                            'absolute':speed.absolutes(get_Creature(), effectsService, speed.name, true).length}"
+                        type="number" value="{{speed.value(get_Creature(), characterService, effectsService)[0]}}"
+                        disabled>
+                </span>
+                <app-tags [creature]="creature" [objectName]=speed.name [showTraits]=true [showFeats]=true
+                    [showItems]=true [showActivities]=true [showConditions]=true [specialEffects]="speed.absolutes(get_Creature(), effectsService, speed.name, true).concat(speed.relatives(get_Creature(), effectsService, speed.name, true))"></app-tags>
+            </div>
+        </ng-container>
+        <app-tags [creature]="creature" [objectName]="'Movement'" [showTraits]=true [showFeats]=true [showItems]=true
+            [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
         <h3 class="box-header">Skills</h3>
         <!--Skill Increases-->
         <ng-container *ngFor="let choice of get_SkillChoices(); trackBy:trackByIndex;">

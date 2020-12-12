@@ -12415,7 +12415,8 @@
         "name": "Vital Beacon",
         "desc": "Vitality radiates outward from you, allowing others to supplicate and receive healing. Once per round, either you or an ally can use an Interact action to supplicate and lay hands upon you to regain Hit Points. Each time the beacon heals someone, it decreases in strength. It restores 1d10 Hit Points per spell level to the first creature, 1d8 Hit Points per spell level to the second, 1d6 Hit Points per spell level to the third, and 1d4 Hit Points per spell level to the fourth, after which the spell ends. You can have only one vital beacon active at a time.",
         "type": "spells",
-        "inputRequired": "Reduce the value of the condition every time the vital beacon heals someone.",
+        "hasValue": true,
+        "inputRequired": "Reduce the value of the condition by 1 every time the vital beacon heals someone.",
         "buff": true
     },
     {
@@ -12436,7 +12437,17 @@
                 "type": "shields"
             },
             {
+                "heightenedFilter": 2,
+                "name": "Force Shield (1st Level)",
+                "type": "shields"
+            },
+            {
                 "heightenedFilter": 3,
+                "name": "Force Shield (3rd Level)",
+                "type": "shields"
+            },
+            {
+                "heightenedFilter": 4,
                 "name": "Force Shield (3rd Level)",
                 "type": "shields"
             },
@@ -12446,12 +12457,27 @@
                 "type": "shields"
             },
             {
+                "heightenedFilter": 6,
+                "name": "Force Shield (5th Level)",
+                "type": "shields"
+            },
+            {
                 "heightenedFilter": 7,
                 "name": "Force Shield (7th Level)",
                 "type": "shields"
             },
             {
+                "heightenedFilter": 8,
+                "name": "Force Shield (7th Level)",
+                "type": "shields"
+            },
+            {
                 "heightenedFilter": 9,
+                "name": "Force Shield (9th Level)",
+                "type": "shields"
+            },
+            {
+                "heightenedFilter": 10,
                 "name": "Force Shield (9th Level)",
                 "type": "shields"
             }
@@ -12463,6 +12489,64 @@
         "type": "hidden",
         "endConditions": [
             "Shield"
+        ]
+    },
+    {
+        "name": "Mage Armor",
+        "desc": "You ward yourself with shimmering magical energy, gaining a +1 item bonus to AC (+2 at 6th level and +3 at 10th level) and a maximum Dexterity modifier of +5. From 4th level on, you gain a +1 item bonus to saving throws (+2 at 8th level and +3 at 10th level). While wearing mage armor, you use your unarmored proficiency to calculate your AC.",
+        "type": "spells",
+        "buff": true,
+        "gainItems": [
+            {
+                "heightenedFilter": 1,
+                "name": "Mage Armor (1st Level)",
+                "type": "armors"
+            },
+            {
+                "heightenedFilter": 2,
+                "name": "Mage Armor (1st Level)",
+                "type": "armors"
+            },
+            {
+                "heightenedFilter": 3,
+                "name": "Mage Armor (1st Level)",
+                "type": "armors"
+            },
+            {
+                "heightenedFilter": 4,
+                "name": "Mage Armor (4th Level)",
+                "type": "armors"
+            },
+            {
+                "heightenedFilter": 5,
+                "name": "Mage Armor (4th Level)",
+                "type": "armors"
+            },
+            {
+                "heightenedFilter": 6,
+                "name": "Mage Armor (6th Level)",
+                "type": "armors"
+            },
+            {
+                "heightenedFilter": 7,
+                "name": "Mage Armor (6th Level)",
+                "type": "armors"
+            },
+            {
+                "heightenedFilter": 8,
+                "name": "Mage Armor (8th Level)",
+                "type": "armors"
+            },
+            {
+                "heightenedFilter": 9,
+                "name": "Mage Armor (8th Level)",
+                "type": "armors"
+            },
+            {
+                "heightenedFilter": 10,
+                "name": "Mage Armor (10th Level)",
+                "type": "armors"
+            }
         ]
     }
 ]

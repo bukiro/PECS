@@ -104,7 +104,6 @@ The very latest in Assistive Technologies for Dungeon Master (ATDM)
 - [ ] Stretch Goal: Include optional systems like Stamina & Resolve
 
 Active to-do:
-Change Mage Armor to cause a condition and gain items via the condition
 
 Implement:
 

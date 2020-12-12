@@ -823,8 +823,8 @@ export class EffectsService {
     set_ToChange(creature: Character | AnimalCompanion | Familiar, newEffects: Effect[], oldEffects: Effect[], characterService: CharacterService) {
         //Set refresh commands for all components of the application depending on whether there are new effects affecting their data,
         // or old effects have been removed.
-        let general: string[] = ["Languages", "Size", "Attack Rolls"];
-        let generalWildcard: string[] = ["Speed", "Checks and DCs"];
+        let general: string[] = ["Languages", "Size"];
+        let generalWildcard: string[] = [];
         let abilities: string[] = ["Strength", "Dexterity", "Constitution", "Intelligence", "Wisdom", "Charisma"];
         let abilitiesWildcard: string[] = ["Strength", "Dexterity", "Constitution", "Intelligence", "Wisdom", "Charisma"];
         let health: string[] = ["HP", "Fast Healing", "Hardness", "Max Dying", "Max HP", "Resting HP Gain", "Temporary HP", "Resting Blocked"];
@@ -838,10 +838,12 @@ export class EffectsService {
         let skills: string[] = ["Perception", "Fortitude", "Reflex", "Will", "Acrobatics", "Arcana", "Athletics", "Crafting", "Deception", "Diplomacy", "Intimidation", "Medicine",
             "Nature", "Occultism", "Performance", "Religion", "Society", "Stealth", "Survival", "Thievery", "Fortitude", "Reflex", "Will"];
         let individualSkillsWildcard: string[] = ["Lore", "Class DC", "Spell DC", "Spell DCs"];
-        let skillsWildcard: string[] = ["All Checks and DCs", "Skill Checks", "Untrained Skills", "Proficiency Level", "Recall Knowledge Checks", "Master Recall Knowledge Checks", "Saving Throws"];
+        let skillsWildcard: string[] = ["All Checks and DCs", "Skill Checks", "Untrained Skills", "Proficiency Level", "Recall Knowledge Checks", "Master Recall Knowledge Checks", "Saving Throws", "Speed"];
         let inventory: string[] = ["Bulk", "Encumbered Limit", "Max Bulk", "Max Invested"];
         let spellbook: string[] = ["Focus Points", "Focus Pool", "All Checks and DCs", "Attack Rolls", "Spell Attack Rolls", "Spell DCs"];
         let spellbookWildcard: string[] = ["Spell Slots", "Proficiency Level"];
+        let activities: string[] = ["Dexterity-based Checks and DCs", "Strength-based Checks and DCs", "All Checks and DCs"];
+        let activitiesWildcard: string[] = ["Attack Rolls"];
 
         let changedEffects: Effect[] = [];
         //Collect all new feats that don't exist in the old list or old feats that don't exist in the new list - that is, everything that has changed.
@@ -897,6 +899,12 @@ export class EffectsService {
             }
             if (spellbookWildcard.filter(name => effect.target.includes(name)).length) {
                 characterService.set_ToChange(creature.type, "spellbook");
+            }
+            if (activities.includes(effect.target)) {
+                characterService.set_ToChange(creature.type, "activities");
+            }
+            if (activitiesWildcard.filter(name => effect.target.includes(name)).length) {
+                characterService.set_ToChange(creature.type, "activities");
             }
             //Specific triggers
             if (effect.target == "Familiar Abilities") {
