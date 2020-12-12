@@ -176,35 +176,6 @@ export class ConditionsService {
             })
         }
 
-        //Stuff that happens when your Dying value is raised or lowered beyond a limit.
-        if (gain.name == "Dying") {
-            if (taken) {
-                if (creature.health.dying(creature, characterService) >= creature.health.maxDying(creature, effectsService)) {
-                    if (characterService.get_AppliedConditions(creature, "Dead").length == 0) {
-                        characterService.add_Condition(creature, Object.assign(new ConditionGain, { name: "Dead", source: "Dying value too high" }), false)
-                    }
-                }
-            } else {
-                if (creature.health.dying(creature, characterService) == 0) {
-                    if (increaseWounded) {
-                        if (creature.health.wounded(creature, characterService) > 0) {
-                            characterService.get_AppliedConditions(creature, "Wounded").forEach(gain => {
-                                gain.value += 1
-                                gain.source = "Recovered from Dying";
-                            });
-                        } else {
-                            characterService.add_Condition(creature, Object.assign(new ConditionGain, { name: "Wounded", value: 1, source: "Recovered from Dying" }), false)
-                        }
-                    }
-                    if (creature.health.currentHP(creature, characterService, effectsService).result == 0) {
-                        if (characterService.get_AppliedConditions(creature, "Unconscious", "0 Hit Points").length == 0) {
-                            characterService.add_Condition(creature, Object.assign(new ConditionGain, { name: "Unconscious", source: "0 Hit Points" }), false)
-                        }
-                    }
-                }
-            }
-        }
-
         //Conditions that start when this ends. This happens if there is a nextCondition and no nextStage value.
         if (!taken && condition.nextCondition && !gain.nextStage) {
             characterService.change_ConditionStage(creature, gain, condition, 1);
@@ -248,6 +219,41 @@ export class ConditionsService {
 
         if (condition.senses.length) {
             characterService.set_ToChange(creature.type, "skills");
+        }
+
+        //Stuff that happens when your Dying value is raised or lowered beyond a limit.
+        if (gain.name == "Dying") {
+            if (taken) {
+                if (creature.health.dying(creature, characterService) >= creature.health.maxDying(creature, effectsService)) {
+                    if (characterService.get_AppliedConditions(creature, "Dead").length == 0) {
+                        characterService.add_Condition(creature, Object.assign(new ConditionGain, { name: "Dead", source: "Dying value too high" }), false)
+                    }
+                }
+            } else {
+                if (creature.health.dying(creature, characterService) == 0) {
+                    if (increaseWounded) {
+                        if (creature.health.wounded(creature, characterService) > 0) {
+                            characterService.get_AppliedConditions(creature, "Wounded").forEach(gain => {
+                                gain.value += 1
+                                gain.source = "Recovered from Dying";
+                            });
+                        } else {
+                            characterService.add_Condition(creature, Object.assign(new ConditionGain, { name: "Wounded", value: 1, source: "Recovered from Dying" }), false)
+                        }
+                    }
+                    if (creature.health.currentHP(creature, characterService, effectsService).result == 0) {
+                        if (characterService.get_AppliedConditions(creature, "Unconscious", "0 Hit Points").length == 0) {
+                            characterService.add_Condition(creature, Object.assign(new ConditionGain, { name: "Unconscious", source: "0 Hit Points" }), false)
+                        }
+                    }
+                }
+            }
+            characterService.set_ToChange(creature.type, "health");
+        }
+
+        //Update Health when Wounded changes.
+        if (condition.name == "Wounded") {
+            characterService.set_ToChange(creature.type, "health");
         }
 
     }
