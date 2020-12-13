@@ -4,12 +4,23 @@
         Close
     </button>
     <div class="loading" *ngIf="still_loading()">Loading</div>
-    <div class="familiar-box" *ngIf="!still_loading() && get_Character().class && get_FamiliarAvailable() && get_FamiliarMenuState()=='in'">
-        <app-familiarabilities id="familiarabilities" class="charactersheet-app" [ngStyle]="{'--accent':get_Accent()}"></app-familiarabilities>
-        <app-general [creature]="'Familiar'" id="Familiar-general" class="charactersheet-app" [ngStyle]="{'--accent':get_Accent()}"></app-general>
-        <app-effects [creature]="'Familiar'" id="Familiar-effects" class="charactersheet-app" [ngStyle]="{'--accent':get_Accent()}"></app-effects>
-        <app-health [creature]="'Familiar'" id="Familiar-health" class="charactersheet-app" [ngStyle]="{'--accent':get_Accent()}"></app-health>
-        <app-defense [creature]="'Familiar'" id="Familiar-defense" class="charactersheet-app" [ngStyle]="{'--accent':get_Accent()}"></app-defense>
-        <app-skills [creature]="'Familiar'" id="Familiar-skills" class="charactersheet-app" [ngStyle]="{'--accent':get_Accent()}"></app-skills>
+    <div class="familiar-box"
+        *ngIf="!still_loading() && get_Character().class && get_FamiliarAvailable() && get_FamiliarMenuState()=='in'">
+        <div class="charactersheet-column">
+            <app-general [creature]="'Familiar'" id="Familiar-general" class="charactersheet-app"
+                [ngStyle]="{'--accent':get_Accent()}"></app-general>
+            <app-familiarabilities id="familiarabilities" class="charactersheet-app"
+                [ngStyle]="{'--accent':get_Accent()}"></app-familiarabilities>
+            <app-health [creature]="'Familiar'" id="Familiar-health" class="charactersheet-app"
+                [ngStyle]="{'--accent':get_Accent()}"></app-health>
+            <app-effects [creature]="'Familiar'" id="Familiar-effects" class="charactersheet-app"
+                [ngStyle]="{'--accent':get_Accent()}"></app-effects>
+        </div>
+        <div class="charactersheet-column">
+            <app-defense [creature]="'Familiar'" id="Familiar-defense" class="charactersheet-app"
+                [ngStyle]="{'--accent':get_Accent()}"></app-defense>
+            <app-skills [creature]="'Familiar'" id="Familiar-skills" class="charactersheet-app"
+                [ngStyle]="{'--accent':get_Accent()}"></app-skills>
+        </div>
     </div>
 </div>

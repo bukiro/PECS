@@ -33,6 +33,10 @@ export class CharacterSheetComponent implements OnInit {
         return this.characterService.get_Darkmode();
     }
 
+    trackByIndex(index: number, obj: any): any {
+        return index;
+    }
+
     get_GeneralMinimized() {
        return this.characterService.get_Character().settings.generalMinimized;
     }
@@ -75,6 +79,26 @@ export class CharacterSheetComponent implements OnInit {
 
     get_TimeMinimized() {
        return this.characterService.get_Character().settings.timeMinimized;
+    }
+
+    get_ClassOrder(fightingStyle: string) {
+        //Returns whether the fightingStyle (attacks or spells) should be first or second for this class (0 or 1).
+        //This checks whether you have a primary spellcasting for your class from level 1, and if so, spells should be first.
+        if (this.characterService.get_Character().get_DefaultSpellcasting()?.charLevelAvailable == 1) {
+            switch (fightingStyle) {
+                case "attacks":
+                    return 1;
+                case "spells":
+                    return 0;
+            }
+        } else {
+            switch (fightingStyle) {
+                case "attacks":
+                    return 0;
+                case "spells":
+                    return 1;
+            }
+        }
     }
     
     finish_Loading() {

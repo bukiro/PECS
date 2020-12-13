@@ -837,13 +837,13 @@ export class EffectsService {
         let attacksWildcard: string[] = ["Attack Rolls", "Damage", "Dice Size", "Dice Number", "Proficiency Level", "Reach"];
         let skills: string[] = ["Perception", "Fortitude", "Reflex", "Will", "Acrobatics", "Arcana", "Athletics", "Crafting", "Deception", "Diplomacy", "Intimidation", "Medicine",
             "Nature", "Occultism", "Performance", "Religion", "Society", "Stealth", "Survival", "Thievery", "Fortitude", "Reflex", "Will"];
-        let individualSkillsWildcard: string[] = ["Lore", "Class DC", "Spell DC", "Spell DCs"];
+        let individualSkillsWildcard: string[] = ["Lore", "Class DC", "Spell DC"];
         let skillsWildcard: string[] = ["All Checks and DCs", "Skill Checks", "Untrained Skills", "Proficiency Level", "Recall Knowledge Checks", "Master Recall Knowledge Checks", "Saving Throws", "Speed"];
         let inventory: string[] = ["Bulk", "Encumbered Limit", "Max Bulk", "Max Invested"];
         let spellbook: string[] = ["Focus Points", "Focus Pool", "All Checks and DCs", "Attack Rolls", "Spell Attack Rolls", "Spell DCs"];
         let spellbookWildcard: string[] = ["Spell Slots", "Proficiency Level"];
         let activities: string[] = ["Dexterity-based Checks and DCs", "Strength-based Checks and DCs", "All Checks and DCs"];
-        let activitiesWildcard: string[] = ["Attack Rolls"];
+        let activitiesWildcard: string[] = ["Class DC"];
 
         let changedEffects: Effect[] = [];
         //Collect all new feats that don't exist in the old list or old feats that don't exist in the new list - that is, everything that has changed.

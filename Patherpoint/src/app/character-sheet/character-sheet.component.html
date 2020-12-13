@@ -1,13 +1,34 @@
-<div class="charactersheet" [ngClass]="{'darkmode':get_Darkmode()}">
-    <app-time id="time" class="charactersheet-app" [ngStyle]="{'--accent':get_Accent()}" [ngClass]="{'minimized':(get_TimeMinimized())}" *ngIf="!still_loading()"></app-time>
-    <app-general id="Character-general" class="charactersheet-app" [ngStyle]="{'--accent':get_Accent()}" [ngClass]="{'minimized':(get_GeneralMinimized())}" *ngIf="!still_loading()"></app-general>
-    <app-effects id="Character-effects" class="charactersheet-app" [ngStyle]="{'--accent':get_Accent()}" [ngClass]="{'minimized':(get_EffectsMinimized())}" *ngIf="!still_loading()"></app-effects>
-    <app-abilities id="Character-abilities" class="charactersheet-app" [ngStyle]="{'--accent':get_Accent()}" [ngClass]="{'minimized':(get_AbilitiesMinimized())}" *ngIf="!still_loading()"></app-abilities>
-    <app-health id="Character-health" class="charactersheet-app" [ngStyle]="{'--accent':get_Accent()}" [ngClass]="{'minimized':(get_HealthMinimized())}" *ngIf="!still_loading()"></app-health>
-    <app-defense id="Character-defense" class="charactersheet-app" [ngStyle]="{'--accent':get_Accent()}" [ngClass]="{'minimized':(get_DefenseMinimized())}" *ngIf="!still_loading()"></app-defense>
-    <app-attacks id="Character-attacks" class="charactersheet-app" [ngStyle]="{'--accent':get_Accent()}" [ngClass]="{'minimized':(get_AttacksMinimized())}" *ngIf="!still_loading()"></app-attacks>
-    <app-skills id="Character-skills" class="charactersheet-app" [ngStyle]="{'--accent':get_Accent()}" [ngClass]="{'minimized':(get_SkillsMinimized())}" *ngIf="!still_loading()"></app-skills>
-    <app-inventory id="Character-inventory" class="charactersheet-app" [ngStyle]="{'--accent':get_Accent()}" [ngClass]="{'minimized':(get_InventoryMinimized())}" *ngIf="!still_loading()"></app-inventory>
-    <app-activities id="Character-activities" class="charactersheet-app" [ngStyle]="{'--accent':get_Accent()}" [ngClass]="{'minimized':(get_ActivitiesMinimized())}" *ngIf="!still_loading()"></app-activities>
-    <app-spellbook id="spellbook" class="charactersheet-app" [ngStyle]="{'--accent':get_Accent()}" [ngClass]="{'minimized':(get_SpellbookMinimized())}" *ngIf="!still_loading()"></app-spellbook>
+<div class="charactersheet" [ngClass]="{'darkmode':get_Darkmode()}" [ngStyle]="{'--accent':get_Accent()}">
+    <app-time id="time" class="charactersheet-app" [ngClass]="{'minimized':(get_TimeMinimized())}"
+        *ngIf="!still_loading()"></app-time>
+    <div class="charactersheet-column">
+        <app-general id="Character-general" class="charactersheet-app"
+            [ngClass]="{'minimized':(get_GeneralMinimized())}" *ngIf="!still_loading()"></app-general>
+        <app-health id="Character-health" class="charactersheet-app" [ngClass]="{'minimized':(get_HealthMinimized())}"
+            *ngIf="!still_loading()"></app-health>
+        <app-effects id="Character-effects" class="charactersheet-app"
+            [ngClass]="{'minimized':(get_EffectsMinimized())}" *ngIf="!still_loading()"></app-effects>
+    </div>
+    <div class="charactersheet-column">
+        <app-defense id="Character-defense" class="charactersheet-app"
+            [ngClass]="{'minimized':(get_DefenseMinimized())}" *ngIf="!still_loading()"></app-defense>
+        <ng-container *ngFor="let index of [0,1]; trackBy:trackByIndex;">
+            <app-attacks id="Character-attacks" class="charactersheet-app"
+                [ngClass]="{'minimized':(get_AttacksMinimized())}" *ngIf="!still_loading() && get_ClassOrder('attacks') == index"></app-attacks>
+            <app-spellbook id="spellbook" class="charactersheet-app"
+                [ngClass]="{'minimized':(get_SpellbookMinimized())}" *ngIf="!still_loading() && get_ClassOrder('spells') == index"></app-spellbook>
+        </ng-container>
+    </div>
+    <div class="charactersheet-column">
+        <app-abilities id="Character-abilities" class="charactersheet-app"
+            [ngClass]="{'minimized':(get_AbilitiesMinimized())}" *ngIf="!still_loading()"></app-abilities>
+        <app-skills id="Character-skills" class="charactersheet-app" [ngClass]="{'minimized':(get_SkillsMinimized())}"
+            *ngIf="!still_loading()"></app-skills>
+        <app-activities id="Character-activities" class="charactersheet-app"
+            [ngClass]="{'minimized':(get_ActivitiesMinimized())}" *ngIf="!still_loading()"></app-activities>
+    </div>
+    <div class="charactersheet-column">
+        <app-inventory id="Character-inventory" class="charactersheet-app"
+            [ngClass]="{'minimized':(get_InventoryMinimized())}" *ngIf="!still_loading()"></app-inventory>
+    </div>
 </div>

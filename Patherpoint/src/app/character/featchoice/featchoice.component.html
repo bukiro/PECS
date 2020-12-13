@@ -21,7 +21,7 @@
                         <label for="lowerLevelFilter">Show lower and higher level feats</label>
                     </span>
                 </div>
-                <div class="row">
+                <div class="row" *ngIf="choice.type=='Class'">
                     <span>
                         <input id="archetypeFilter" type="checkbox"
                             [(ngModel)]="archetypeFeats">

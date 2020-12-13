@@ -53,12 +53,12 @@ export class Health {
             effectsSum += parseInt(effect.value);
             explain += "\n" + effect.source + ": " + effect.value;
         });
-        let result = ancestryHP + classHP + effectsSum + this.temporaryHP[0].amount;
+        let result = ancestryHP + classHP + effectsSum;
         return { result: result, explain: explain.trim() }
     }
     currentHP(creature: Character | AnimalCompanion | Familiar, characterService: CharacterService, effectsService: EffectsService) {
         let maxHP = this.maxHP(creature, characterService, effectsService)
-        let sum = maxHP.result - this.damage;
+        let sum = maxHP.result + this.temporaryHP[0].amount - this.damage;
         let explain = "Max HP: "+maxHP.result;
         if (this.temporaryHP[0].amount) {
             explain += "\nTemporary HP: " + this.temporaryHP[0].amount;

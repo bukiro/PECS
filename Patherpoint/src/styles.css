@@ -6,7 +6,7 @@ body {
     --accent: 70, 90, 140;
     --textcolor: #616161;
     overflow-y: hidden;
-    background-color: #333333
+    background-color: #333333;
 }
 
 .darkmode {
@@ -20,6 +20,32 @@ body {
     box-sizing: border-box;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+}
+
+/* Scrollbar width */
+::-webkit-scrollbar {
+    width: 12px;
+}
+  
+/* Scrollbar Track */
+::-webkit-scrollbar-thumb {
+    background: #EFEFEF;
+    box-shadow: inset 0 0 5px #A0A0A0;
+    border-radius: 1px;
+}
+
+.darkmode ::-webkit-scrollbar-thumb {
+    background: #303030;
+}
+  
+/* Scrollbar Handle */
+::-webkit-scrollbar-track {
+    background: #EFEFEF;
+    border-radius: 1px;
+}
+
+.darkmode ::-webkit-scrollbar-track {
+    background: #303030;
 }
 
 .container {
@@ -51,8 +77,6 @@ svg g {
     display: grid;
     grid-gap: 0;
     grid-template-columns: 1fr 1fr 1fr 1fr;
-    grid-auto-rows: 50px;
-    grid-auto-flow: dense;
     overflow-y: auto;
     padding-bottom: 8px;
     background-color: white;
@@ -62,6 +86,15 @@ svg g {
     background-color: #EFEFEF;
     border-radius: 2px;
     margin: 8px;
+    position: relative;
+}
+
+.charactersheet-column {
+    overflow-y: auto;
+    position: relative;
+    display: grid;
+    grid-auto-rows: 50px;
+    grid-auto-flow: dense;
 }
 
 .darkmode .charactersheet-app {
@@ -80,103 +113,11 @@ svg g {
 }
 
 app-familiarabilities.charactersheet-app {
-    grid-column: 1 / span 2;
-    grid-row: span 2;
-    position: relative;
     overflow: visible;
 }
 
 app-time {
     grid-column: 1 / span 4;
-    grid-row: span 2;
-    position: relative;
-}
-
-app-general {
-    grid-column: 1 / span 1;
-    grid-row: span 2;
-    position: relative;
-}
-
-app-effects {
-    grid-column: 2 / span 1;
-    grid-row: span 2;
-    position: relative;
-}
-
-app-abilities {
-    grid-column: 3 / span 1;
-    grid-row: span 2;
-    position: relative;
-}
-
-.animalcompanion-box app-abilities {
-    grid-column: 1 / span 1;
-}
-
-app-health {
-    grid-column: 4 / span 1;
-    grid-row: span 2;
-    position: relative;
-}
-
-.animalcompanion-box app-health,
-.familiar-box app-health {
-    grid-column: 2 / span 1;
-}
-
-app-defense {
-    grid-column: 1 / span 1;
-    grid-row: span 2;
-    position: relative;
-}
-
-.familiar-box app-defense {
-    grid-column: 2 / span 1;
-}
-
-app-attacks {
-    grid-column: 2 / span 1;
-    grid-row: span 2;
-    position: relative;
-}
-
-app-skills {
-    grid-column: 3 / span 1;
-    grid-row: span 2;
-    position: relative;
-}
-
-.animalcompanion-box app-skills,
-.familiar-box app-skills {
-    grid-column: 1 / span 1;
-}
-
-app-inventory {
-    grid-column: 4 / span 1;
-    grid-row: span 2;
-    position: relative;
-}
-
-.animalcompanion-box app-inventory,
-.familiar-box app-inventory {
-    grid-column: 2 / span 1;
-}
-
-app-activities {
-    grid-column: 1 / span 1;
-    grid-row: span 2;
-    position: relative;
-}
-
-.animalcompanion-box app-activities,
-.familiar-box app-activities {
-    grid-column: 2 / span 1;
-}
-
-app-spellbook {
-    grid-column: 2 / span 1;
-    grid-row: span 2;
     position: relative;
 }
 
@@ -545,13 +486,13 @@ button:not([disabled]):active:before {
     opacity: 1;
     -webkit-transition: .2s;
     transition: opacity .2s;
-  }
+}
   
-  .slider:hover {
+.slider:hover {
     opacity: .8;
-  }
+}
   
-  .slider::-webkit-slider-thumb {
+.slider::-webkit-slider-thumb {
     -webkit-appearance: none;
     appearance: none;
     width: 20px;
@@ -560,15 +501,15 @@ button:not([disabled]):active:before {
     background: rgb(var(--accent));
     cursor: pointer;
     content: var(--thumbNumber);
-  }
+}
   
-  .slider::-moz-range-thumb {
+.slider::-moz-range-thumb {
     width: 20px;
     height: 20px;
     border-radius: 2px;
     background: rgb(var(--accent));
     cursor: pointer;
-  }
+}
 
 /* Top Bar */
 
@@ -630,14 +571,19 @@ button:not([disabled]):active:before {
 
 .itemBox {
     width: 900px;
-    overflow-y: scroll;
+    overflow-y: hidden;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     padding: 16px 32px;
     margin: 8px;
     border-radius: 2px;
-    background-color: #EFEFEF;
+    background-color: white;
+}
+
+.itemBox-inner {
+    overflow-y: auto;
+    height: 100%;
 }
 
 .diceBox {
