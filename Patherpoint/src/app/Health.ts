@@ -28,9 +28,10 @@ export class Health {
         let explain = "";
         let classHP = 0;
         let ancestryHP = 0;
+        let charLevel = characterService.get_Character().level
         if (creature.type == "Familiar") {
             //Your familiar has 5 Hit Points for each of your levels.
-            classHP = 5 * characterService.get_Character().level;
+            classHP = 5 * charLevel;
             explain = "Familiar base HP: " + classHP;
         } else {
             if (creature.class.hitPoints) {
@@ -38,10 +39,10 @@ export class Health {
                     ancestryHP = creature.class.ancestry.hitPoints;
                     explain = "Ancestry base HP: " + ancestryHP;
                 }
-                let constitution = characterService.get_Abilities("Constitution")[0].baseValue(creature, characterService, characterService.get_Character().level).result;
+                let constitution = characterService.get_Abilities("Constitution")[0].baseValue(creature, characterService, charLevel).result;
                 let CON: number = Math.floor((constitution - 10) / 2);
-                classHP = (creature.class.hitPoints + CON) * characterService.get_Character().level;
-                explain += "\nClass base HP + CON (" + (creature.class.hitPoints + CON) + ") * Level: " + classHP;
+                classHP = (creature.class.hitPoints + CON) * charLevel;
+                explain += "\n(Class base HP (" + creature.class.hitPoints + ") + CON (" + CON + ")) * Level (" + charLevel + "): " + classHP;
             }
         }
         let effectsSum = 0
