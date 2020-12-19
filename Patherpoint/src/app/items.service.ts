@@ -47,7 +47,7 @@ import * as json_adventuringgear from '../assets/json/items/adventuringgear';
 import * as json_alchemicalbombs from '../assets/json/items/alchemicalbombs';
 import * as json_alchemicalelixirs from '../assets/json/items/alchemicalelixirs';
 import * as json_alchemicaltools from '../assets/json/items/alchemicaltools';
-import * as json_alchemicalpoisons from '../assets/json/items/alchemicaltools';
+import * as json_alchemicalpoisons from '../assets/json/items/alchemicalpoisons';
 import * as json_ammunition from '../assets/json/items/ammunition';
 import * as json_armorrunes from '../assets/json/items/armorrunes';
 import * as json_armors from '../assets/json/items/armors';

@@ -104,6 +104,7 @@ The very latest in Assistive Technologies for Dungeon Master (ATDM)
 - [ ] Stretch Goal: Include optional systems like Stamina & Resolve
 
 Active to-do:
+Allow switching two-handed wielding for weapons with two-hand trait
 
 Implement:
 

@@ -26,6 +26,8 @@
                         <button style="flex-basis:auto" [disabled]="!weapon.amount"
                             (click)="on_ConsumableUse(weapon, null)"
                             *ngIf="['alchemicalbombs', 'otherconsumablesbombs'].includes(weapon.type)">
+                            <span title="Melee" *ngIf="attack[0] == 'melee'">&#10027;</span>
+                            <span title="Ranged {{weapon.ranged}} feet" *ngIf="attack[0] == 'ranged'">&#10168;</span>
                             <span>{{(weapon.amount != undefined && weapon.amount != 1) ?
                                 weapon.amount+" " : ""}}{{weapon.get_Name()}}<app-actionIcons
                                     [actionString]="weapon.actions">

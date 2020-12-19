@@ -271,6 +271,13 @@ export class Weapon extends Equipment {
         }
         //Add up all modifiers before effects and item bonus
         let attackResult = charLevelBonus + skillLevel + abilityMod;
+        let abilityName: string = "";
+        if (strUsed) {
+            abilityName = "Strength";
+        }
+        if (dexUsed) {
+            abilityName = "Dexterity";
+        }
         //Create names list for effects
         let namesList = [
             this.name,
@@ -289,7 +296,9 @@ export class Weapon extends Equipment {
             //"Simple Longsword Attack Rolls", "Unarmed Fist Attack Rolls" etc.
             this.prof.split(" ")[0] + this.weaponBase + " Attack Rolls",
             //"Melee Attack Rolls", "Ranged Attack Rolls"
-            range + " Attack Rolls"
+            range + " Attack Rolls",
+            //"Strength-based Checks and DCs"
+            abilityName + "-based Checks and DCs"
         ];
         this.get_Traits(characterService, creature).forEach(trait => {
             if (trait.includes(" ft")) {
@@ -325,13 +334,6 @@ export class Weapon extends Equipment {
             explain += "\nShoddy (canceled by Junk Tinker): -0";
         } else if (this.shoddy) {
             calculatedEffects.push(new Effect(creature.type, "item", this.name, "-2", "", false, "Shoddy", true, true, true, 0))
-        }
-        let abilityName: string = "";
-        if (strUsed) {
-            abilityName = "Strength";
-        }
-        if (dexUsed) {
-            abilityName = "Dexterity";
         }
         //Because of the Potency and Shoddy Effects, we need to filter the types a second time, even though get_RelativesOnThese comes pre-filtered.
         effectsService.get_TypeFilteredEffects(
@@ -533,8 +535,8 @@ export class Weapon extends Equipment {
                 dicesize += parseInt(effect.value);
                 explain += "\n" + effect.source + ": Dice size d" + dicesize;
             })
-        //Get the basic "#d#" string from the weapon's dice values
-        var baseDice = dicenum + "d" + dicesize;
+        //Get the basic "#d#" string from the weapon's dice values, unless dicenum is 0/null.
+        var baseDice = (dicenum ? dicenum + "d" : "") + dicesize;
         //Calculate dexterity and strength penalties for the decision on which to use. They are not immediately applied.
         //The Enfeebled condition affects all Strength damage
         let strEffects = effectsService.get_RelativesOnThis(creature, "Strength-based Checks and DCs");

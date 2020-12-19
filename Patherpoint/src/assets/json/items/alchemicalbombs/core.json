@@ -7,10 +7,10 @@
       "activationType": "Strike",
       "bulk": "L",
       "desc": "This flask filled with corrosive acid deals 1 acid damage, the listed persistent acid damage, and the listed acid splash damage. Many types grant an item bonus to attack rolls. ",
-      "dicenum": 1,
-      "dicesize": 6,
-      "dmgType": "Persistent Acid",
-      "extraDamage": "+1 Acid\n+1 Acid Splash",
+      "dicenum": 0,
+      "dicesize": 1,
+      "dmgType": "Acid",
+      "extraDamage": "+1d6 Persistent Acid\n+1 Acid Splash",
       "group": "Bomb",
       "hands": 1,
       "level": 1,
@@ -24,7 +24,8 @@
          "Alchemical",
          "Bomb",
          "Consumable",
-         "Splash"
+         "Splash",
+         "Thrown 20 ft."
       ],
       "usage": "held in 1 hand"
    },
@@ -53,7 +54,8 @@
          "Bomb",
          "Consumable",
          "Fire",
-         "Splash"
+         "Splash",
+         "Thrown 20 ft."
       ],
       "usage": "held in 1 hand"
    },
@@ -83,7 +85,8 @@
          "Bomb",
          "Consumable",
          "Electricity",
-         "Splash"
+         "Splash",
+         "Thrown 20 ft."
       ],
       "usage": "held in 1 hand"
    },
@@ -113,7 +116,8 @@
          "Bomb",
          "Cold",
          "Consumable",
-         "Splash"
+         "Splash",
+         "Thrown 20 ft."
       ],
       "usage": "held in 1 hand"
    },
@@ -140,7 +144,8 @@
       "traits": [
          "Alchemical",
          "Bomb",
-         "Consumable"
+         "Consumable",
+         "Thrown 20 ft."
       ],
       "usage": "held in 1 hand"
    },
@@ -170,7 +175,8 @@
          "Bomb",
          "Cold",
          "Consumable",
-         "Splash"
+         "Splash",
+         "Thrown 20 ft."
       ],
       "usage": "held in 1 hand"
    },
@@ -201,7 +207,8 @@
          "Alchemical",
          "Bomb",
          "Consumable",
-         "Splash"
+         "Splash",
+         "Thrown 20 ft."
       ],
       "usage": "held in 1 hand"
    },
@@ -232,7 +239,8 @@
          "Alchemical",
          "Bomb",
          "Consumable",
-         "Splash"
+         "Splash",
+         "Thrown 20 ft."
       ],
       "usage": "held in 1 hand"
    },
@@ -244,10 +252,10 @@
       "activationType": "Strike",
       "bulk": "L",
       "desc": "This flask filled with corrosive acid deals 1 acid damage, the listed persistent acid damage, and the listed acid splash damage. Many types grant an item bonus to attack rolls. ",
-      "dicenum": 2,
-      "dicesize": 6,
-      "dmgType": "Persistent Acid",
-      "extraDamage": "+1 Acid\n+2 Acid Splash",
+      "dicenum": 0,
+      "dicesize": 1,
+      "dmgType": "Acid",
+      "extraDamage": "+2d6 Persistent Acid\n+2 Acid Splash",
       "group": "Bomb",
       "hands": 1,
       "level": 3,
@@ -262,7 +270,8 @@
          "Alchemical",
          "Bomb",
          "Consumable",
-         "Splash"
+         "Splash",
+         "Thrown 20 ft."
       ],
       "usage": "held in 1 hand"
    },
@@ -292,7 +301,8 @@
          "Bomb",
          "Consumable",
          "Fire",
-         "Splash"
+         "Splash",
+         "Thrown 20 ft."
       ],
       "usage": "held in 1 hand"
    },
@@ -323,7 +333,8 @@
          "Bomb",
          "Consumable",
          "Electricity",
-         "Splash"
+         "Splash",
+         "Thrown 20 ft."
       ],
       "usage": "held in 1 hand"
    },
@@ -354,7 +365,8 @@
          "Bomb",
          "Cold",
          "Consumable",
-         "Splash"
+         "Splash",
+         "Thrown 20 ft."
       ],
       "usage": "held in 1 hand"
    },
@@ -382,7 +394,8 @@
       "traits": [
          "Alchemical",
          "Bomb",
-         "Consumable"
+         "Consumable",
+         "Thrown 20 ft."
       ],
       "usage": "held in 1 hand"
    },
@@ -413,7 +426,8 @@
          "Bomb",
          "Cold",
          "Consumable",
-         "Splash"
+         "Splash",
+         "Thrown 20 ft."
       ],
       "usage": "held in 1 hand"
    },
@@ -445,7 +459,8 @@
          "Alchemical",
          "Bomb",
          "Consumable",
-         "Splash"
+         "Splash",
+         "Thrown 20 ft."
       ],
       "usage": "held in 1 hand"
    },
@@ -476,7 +491,8 @@
          "Alchemical",
          "Bomb",
          "Consumable",
-         "Splash"
+         "Splash",
+         "Thrown 20 ft."
       ],
       "usage": "held in 1 hand"
    },
@@ -488,10 +504,10 @@
       "activationType": "Strike",
       "bulk": "L",
       "desc": "This flask filled with corrosive acid deals 1 acid damage, the listed persistent acid damage, and the listed acid splash damage. Many types grant an item bonus to attack rolls. ",
-      "dicenum": 3,
-      "dicesize": 6,
-      "dmgType": "Persistent Acid",
-      "extraDamage": "+1 Acid\n+3 Acid Splash",
+      "dicenum": 0,
+      "dicesize": 1,
+      "dmgType": "Acid",
+      "extraDamage": "+3d6 Persistent Acid\n+3 Acid Splash",
       "group": "Bomb",
       "hands": 1,
       "level": 11,
@@ -506,7 +522,8 @@
          "Alchemical",
          "Bomb",
          "Consumable",
-         "Splash"
+         "Splash",
+         "Thrown 20 ft."
       ],
       "usage": "held in 1 hand"
    },
@@ -536,7 +553,8 @@
          "Bomb",
          "Consumable",
          "Fire",
-         "Splash"
+         "Splash",
+         "Thrown 20 ft."
       ],
       "usage": "held in 1 hand"
    },
@@ -567,7 +585,8 @@
          "Bomb",
          "Consumable",
          "Electricity",
-         "Splash"
+         "Splash",
+         "Thrown 20 ft."
       ],
       "usage": "held in 1 hand"
    },
@@ -598,7 +617,8 @@
          "Bomb",
          "Cold",
          "Consumable",
-         "Splash"
+         "Splash",
+         "Thrown 20 ft."
       ],
       "usage": "held in 1 hand"
    },
@@ -626,7 +646,8 @@
       "traits": [
          "Alchemical",
          "Bomb",
-         "Consumable"
+         "Consumable",
+         "Thrown 20 ft."
       ],
       "usage": "held in 1 hand"
    },
@@ -657,7 +678,8 @@
          "Bomb",
          "Cold",
          "Consumable",
-         "Splash"
+         "Splash",
+         "Thrown 20 ft."
       ],
       "usage": "held in 1 hand"
    },
@@ -689,7 +711,8 @@
          "Alchemical",
          "Bomb",
          "Consumable",
-         "Splash"
+         "Splash",
+         "Thrown 20 ft."
       ],
       "usage": "held in 1 hand"
    },
@@ -701,10 +724,10 @@
       "activationType": "Strike",
       "bulk": "L",
       "desc": "This flask filled with corrosive acid deals 1 acid damage, the listed persistent acid damage, and the listed acid splash damage. Many types grant an item bonus to attack rolls. ",
-      "dicenum": 4,
-      "dicesize": 6,
-      "dmgType": "Persistent Acid",
-      "extraDamage": "+1 Acid\n+4 Acid Splash",
+      "dicenum": 0,
+      "dicesize": 1,
+      "dmgType": "Acid",
+      "extraDamage": "+4d6 Persistent Acid\n+4 Acid Splash",
       "group": "Bomb",
       "hands": 1,
       "level": 17,
@@ -719,7 +742,8 @@
          "Alchemical",
          "Bomb",
          "Consumable",
-         "Splash"
+         "Splash",
+         "Thrown 20 ft."
       ],
       "usage": "held in 1 hand"
    },
@@ -749,7 +773,8 @@
          "Bomb",
          "Consumable",
          "Fire",
-         "Splash"
+         "Splash",
+         "Thrown 20 ft."
       ],
       "usage": "held in 1 hand"
    },
@@ -780,7 +805,8 @@
          "Bomb",
          "Consumable",
          "Electricity",
-         "Splash"
+         "Splash",
+         "Thrown 20 ft."
       ],
       "usage": "held in 1 hand"
    },
@@ -811,7 +837,8 @@
          "Bomb",
          "Cold",
          "Consumable",
-         "Splash"
+         "Splash",
+         "Thrown 20 ft."
       ],
       "usage": "held in 1 hand"
    },
@@ -839,7 +866,8 @@
       "traits": [
          "Alchemical",
          "Bomb",
-         "Consumable"
+         "Consumable",
+         "Thrown 20 ft."
       ],
       "usage": "held in 1 hand"
    },
@@ -870,7 +898,8 @@
          "Bomb",
          "Cold",
          "Consumable",
-         "Splash"
+         "Splash",
+         "Thrown 20 ft."
       ],
       "usage": "held in 1 hand"
    },
@@ -902,7 +931,8 @@
          "Alchemical",
          "Bomb",
          "Consumable",
-         "Splash"
+         "Splash",
+         "Thrown 20 ft."
       ],
       "usage": "held in 1 hand"
    }
