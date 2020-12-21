@@ -58,6 +58,13 @@
                             title="{{get_Traits(trait)[0].desc}}">{{trait}}</cite>
                     </div>
                 </ng-container>
+                <div class="list-item row" *ngIf="get_TwoHandedAllowed(weapon)">
+                    <span>
+                        <input id="{{weapon.id}}twohanded" type="checkbox" [(ngModel)]="weapon.twohanded"
+                            (ngModelChange)=on_EquipmentChange(weapon)>
+                        <label for="{{weapon.id}}twohanded">Wield two-handed</label>
+                    </span>
+                </div>
                 <div class="fullsize-only row left-aligned"
                     *ngFor="let runes of [get_HintRunes(weapon, attack[0])]; trackBy:trackByIndex;"
                     style="margin-top:initial">
@@ -84,7 +91,8 @@
                     </button>
                 </div>
                 <div class="fullsize-only list-item row" *ngIf="weapon.hitEffect">
-                    <button class="row sublist-toggle fancy-button" (click)="toggle_Item(weapon.id+attack[0]+'hiteffects')">
+                    <button class="row sublist-toggle fancy-button"
+                        (click)="toggle_Item(weapon.id+attack[0]+'hiteffects')">
                         Hit effect
                     </button>
                     <div class="list-item sublist fancy-list" *ngIf="get_ShowItem()==weapon.id+attack[0]+'hiteffects'">
@@ -94,10 +102,12 @@
                     </div>
                 </div>
                 <div class="fullsize-only list-item row" *ngIf="weapon.criticalHint">
-                    <button class="row sublist-toggle fancy-button" (click)="toggle_Item(weapon.id+attack[0]+'criticalHint')">
+                    <button class="row sublist-toggle fancy-button"
+                        (click)="toggle_Item(weapon.id+attack[0]+'criticalHint')">
                         Critical hit effect
                     </button>
-                    <div class="list-item sublist fancy-list" *ngIf="get_ShowItem()==weapon.id+attack[0]+'criticalHint'">
+                    <div class="list-item sublist fancy-list"
+                        *ngIf="get_ShowItem()==weapon.id+attack[0]+'criticalHint'">
                         <div class="list-item lower row left-aligned">
                             {{weapon.criticalHint}}
                         </div>
@@ -105,10 +115,12 @@
                 </div>
                 <ng-container *ngFor="let specs of [get_CritSpecialization(weapon, attack[0])]">
                     <div class="fullsize-only list-item row" *ngIf="specs.length">
-                        <button class="row sublist-toggle fancy-button" (click)="toggle_Item(weapon.id+attack[0]+'criteffects')">
+                        <button class="row sublist-toggle fancy-button"
+                            (click)="toggle_Item(weapon.id+attack[0]+'criteffects')">
                             Critical specialization effects
                         </button>
-                        <div class="list-item sublist fancy-list" *ngIf="get_ShowItem()==weapon.id+attack[0]+'criteffects'">
+                        <div class="list-item sublist fancy-list"
+                            *ngIf="get_ShowItem()==weapon.id+attack[0]+'criteffects'">
                             <div class="list-item lower row left-aligned"
                                 *ngFor="let spec of get_CritSpecialization(weapon, attack[0]); trackBy:trackByIndex;">
                                 {{spec.desc}}
@@ -119,10 +131,12 @@
                 <ng-container *ngFor="let rune of get_Runes(weapon, attack[0]); trackBy:trackByIndex;"
                     style="margin-top:initial">
                     <div class="fullsize-only list-item row" *ngIf="rune.criticalHint">
-                        <button class="row sublist-toggle fancy-button" (click)="toggle_Item(weapon.id+attack[0]+'criticalHint')">
+                        <button class="row sublist-toggle fancy-button"
+                            (click)="toggle_Item(weapon.id+attack[0]+'criticalHint')">
                             {{rune.name}} critical hit effect
                         </button>
-                        <div class="list-item sublist fancy-list left-aligned" *ngIf="get_ShowItem()==weapon.id+attack[0]+'criticalHint'">
+                        <div class="list-item sublist fancy-list left-aligned"
+                            *ngIf="get_ShowItem()==weapon.id+attack[0]+'criticalHint'">
                             <div class="list-item lower row left-aligned">
                                 <span>
                                     {{rune.criticalHint}}

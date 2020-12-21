@@ -16,6 +16,7 @@ import { Snare } from '../Snare';
 import { SpellGain } from '../SpellGain';
 import { AlchemicalPoison } from '../AlchemicalPoison';
 import { OtherConsumableBomb } from '../OtherConsumableBomb';
+import { Equipment } from '../Equipment';
 
 @Component({
     selector: 'app-attacks',
@@ -130,6 +131,15 @@ export class AttacksComponent implements OnInit {
 
     get_PoisonTitle(poison: AlchemicalPoison) {
         return poison.desc;
+    }
+
+    get_TwoHandedAllowed(weapon: Weapon) {
+        return (this.traitsService.have_Trait(this.characterService, weapon, "Two-Hand"));
+    }
+
+    on_EquipmentChange(item: Equipment) {
+        this.characterService.set_EquipmentViewChanges(this.get_Creature(), item);
+        this.characterService.process_ToChange();
     }
 
     on_TalismanUse(weapon: Weapon, talisman: Talisman, index: number) {

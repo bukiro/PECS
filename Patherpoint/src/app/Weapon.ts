@@ -52,6 +52,8 @@ export class Weapon extends Equipment {
     public weaponBase: string = "";
     //Giant Instinct Barbarians can wield larger weapons.
     public large: boolean = false;
+    //Weapons with the Two-Hand trait can be wielded with two hands to increase their damage.
+    public twohanded: boolean = false;
     //A Champion with the Divine Ally: Blade Ally Feat can designate one weapon or handwraps as his blade ally.
     public bladeAlly: boolean = false;
     //Dexterity-based melee attacks force you to use dexterity for your attack modifier.
@@ -483,6 +485,18 @@ export class Weapon extends Equipment {
                 dicesize = Math.max(Math.min(dicesize + 2, 12), 6);
                 explain += "\nDeific Weapon: Dice size d" + dicesize;
             }
+        }
+        //Weapons with the Two-Hand trait get to change their dice size if they are wielded with two hands.
+        if (this.twohanded) {
+            this.get_Traits(characterService, creature).filter(trait => trait.includes("Two-Hand")).forEach(trait => {
+                let twoHandedDiceSize = parseInt(trait.substr(10))
+                if (twoHandedDiceSize) {
+                    if (twoHandedDiceSize > dicesize) {
+                        dicesize = twoHandedDiceSize;
+                        explain += "\nTwo-Hand: Dice size d" + dicesize;
+                    }
+                }
+            })
         }
         //Apply dice size effects.
         effectsService.get_AbsolutesOnThese(creature, [

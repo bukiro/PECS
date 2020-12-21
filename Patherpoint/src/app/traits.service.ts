@@ -49,6 +49,7 @@ export class TraitsService {
 
     have_Trait(characterService: CharacterService, object: any, traitName: string) {
         //Find out if this object - could be anything - has this trait. Sounds easy enough, but some items get traits added by certain circumstances, so here we are.
+        //Traits can have additional information, so we compare only the first word - but if the given traitName includes spaces, we compare the entire string.
         return (object.get_Traits ? object.get_Traits(characterService, characterService.get_Character()) : object.traits)
             .some((trait: string) =>
                 (
