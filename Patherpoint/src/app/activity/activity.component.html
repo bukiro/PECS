@@ -1,232 +1,249 @@
 <ng-container>
-    <div class="row" *ngIf="allowActivate">
-        <ng-container
-            *ngIf="gain.name != 'Fused Stance' && activity.can_Activate() && (gain.activeCooldown ? (activity.charges > gain.chargesUsed) : true)">
-            <button class="row center-aligned" (click)="on_Activate(gain, activity, true, creature)"
-                *ngIf="!gain.active && ['self', 'ally'].includes(get_SpellTarget())"
-                title="{{gain.activeCooldown ? (activity.charges ? '(Recharged in: ' : '(Cooldown: ') + get_Duration(gain.activeCooldown, true, false) + ')' : ''}}">
-                Activate {{get_SpellTarget() == 'ally' ? "(Cast spell on yourself)" : ""}}
-                {{activity.charges ? "(" + (activity.charges - gain.chargesUsed) + " of " + activity.charges + " charges)" : ""}}
-            </button>
-            <button class="row center-aligned"
-                (click)="on_Activate(gain, activity, true, (creature=='Character' ? 'Companion' : 'Character'))"
-                *ngIf="!gain.active && ['companion', 'ally'].includes(get_SpellTarget()) && get_CompanionAvailable()"
-                title="{{gain.activeCooldown ? (activity.charges ? '(Recharged in: ' : '(Cooldown: ') + get_Duration(gain.activeCooldown, true, false) + ')' : ''}}">
-                Activate (Cast spell on {{creature == "Character" ? "your animal companion" : "your master"}})
-                {{activity.charges ? "(" + (activity.charges - gain.chargesUsed) + " of " + activity.charges + " charges)" : ""}}
-            </button>
-            <button class="row center-aligned" (click)="on_Activate(gain, activity, true, 'Familiar')"
-                *ngIf="!gain.active && ['companion', 'ally'].includes(get_SpellTarget()) && get_FamiliarAvailable()"
-                title="{{gain.activeCooldown ? (activity.charges ? '(Recharged in: ' : '(Cooldown: ') + get_Duration(gain.activeCooldown, true, false) + ')' : ''}}">
-                Activate (Cast spell on your familiar)
-                {{activity.charges ? "(" + (activity.charges - gain.chargesUsed) + " of " + activity.charges + " charges)" : ""}}
-            </button>
-            <button class="row center-aligned" (click)="on_Activate(gain, activity, true, '')"
-                *ngIf="!gain.active && get_SpellTarget() == 'ally'"
-                title="{{gain.activeCooldown ? (activity.charges ? '(Recharged in: ' : '(Cooldown: ') + get_Duration(gain.activeCooldown, true, false) + ')' : ''}}">
-                Activate (Cast spell on other targets)
-                {{activity.charges ? "(" + (activity.charges - gain.chargesUsed) + " of " + activity.charges + " charges)" : ""}}
-            </button>
-            <button class="row center-aligned" (click)="on_Activate(gain, activity, true, '')"
-                *ngIf="!gain.active && get_SpellTarget() == ''"
-                title="{{gain.activeCooldown ? (activity.charges ? '(Recharged in: ' : '(Cooldown: ') + get_Duration(gain.activeCooldown, true, false) + ')' : ''}}">
-                Activate
-                {{activity.charges ? "(" + (activity.charges - gain.chargesUsed) + " of " + activity.charges + " charges)" : ""}}
-            </button>
-            <button class="row center-aligned" (click)="on_Activate(gain, activity, true, creature)"
-                *ngIf="!gain.active && get_SpellTarget() == 'no spell'"
-                title="{{gain.activeCooldown ? (activity.charges ? '(Recharged in: ' : '(Cooldown: ') + get_Duration(gain.activeCooldown, true, false) + ')' : ''}}">
-                Activate
-                {{activity.charges ? "(" + (activity.charges - gain.chargesUsed) + " of " + activity.charges + " charges)" : ""}}
-            </button>
-        </ng-container>
-        <button class="row center-aligned" (click)="on_Activate(gain, activity, false, creature)"
-            *ngIf="gain.name != 'Fused Stance' && activity.can_Activate() && gain.active"
-            title="{{gain.activeCooldown ? (activity.charges ? '(Recharged in: ' : '(Cooldown: ') + get_Duration(gain.activeCooldown, true, false) + ')' : ''}}">
-            {{activity.sustained ? "Stop Sustaining" : "Deactivate"}}
-            {{gain.duration ? "(" + get_Duration(gain.duration) + " remaining)" : ""}}
-            {{activity.charges ? "(" + (activity.charges - gain.chargesUsed) + " of " + activity.charges + " charges)" : ""}}
-        </button>
-        <ng-container
-            *ngIf="gain.name == 'Fused Stance' && (gain.activeCooldown ? (activity.charges > gain.chargesUsed) : true)">
-            <button class="row center-aligned" (click)="on_ActivateFuseStance(true)" *ngIf="!gain.active"
-                [disabled]="!get_FuseStanceFeat() || !get_FuseStanceFeat().data"
-                title="{{gain.activeCooldown ? (activity.charges ? '(Recharged in: ' : '(Cooldown: ') + get_Duration(gain.activeCooldown, true, false) + ')' : ''}}">
-                Activate
-                {{activity.charges ? "(" + (activity.charges - gain.chargesUsed) + " of " + activity.charges + " charges)" : ""}}
-            </button>
-            <button class="row center-aligned" (click)="on_ActivateFuseStance(false)" *ngIf="gain.active"
-                [disabled]="!get_FuseStanceFeat() || !get_FuseStanceFeat().data"
-                title="{{gain.activeCooldown ? (activity.charges ? '(Recharged in: ' : '(Cooldown: ') + get_Duration(gain.activeCooldown, true, false) + ')' : ''}}">
-                Deactivate
-                {{activity.charges ? "(" + (activity.charges - gain.chargesUsed) + " of " + activity.charges + " charges)" : ""}}
-            </button>
-        </ng-container>
-        <ng-container *ngIf="!activity.can_Activate()">
-            <button class="row center-aligned"
-                title="The results of this activation cannot be directly applied in the app. Pressing this button has no effect.">
-                Activate &#9774;
-            </button>
-        </ng-container>
-    </div>
-    <div class="row" *ngIf="get_Resonant() && !isSubItem">
-        <strong>Slot this item into a Wayfinder to unlock its resonant power.</strong>
-    </div>
-    <div class="row"
-        *ngIf="gain && (gain.activeCooldown ? (activity.charges == gain.chargesUsed) : false) && !gain.active">
-        <button class="row center-aligned" disabled>
-            Cannot activate {{get_Duration(gain.activeCooldown, true, true)}}
-        </button>
-    </div>
-    <div class="row left-aligned">
-        <cite class="trait" *ngFor="let trait of activity.traits; trackBy:trackByIndex;"
-            title="{{get_Traits(trait)[0].desc}}">{{trait}}</cite>
-        <cite class="trait" *ngFor="let trait of get_ActivationTraits(activity); trackBy:trackByIndex;"
-            title="{{get_Traits(trait)[0].desc}}">{{trait}}</cite>
-        <app-tags [creature]="creature" [objectName]="activity.name" [showTraits]=true [showFeats]=true [showItems]=true
-            [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
-    </div>
-    <div class="list-item lower row problem" *ngIf="activity.inputRequired">
-        <strong>Player input required:</strong>
-        <div class="row left-aligned">
-            <p *ngFor="let inputRequired of activity.inputRequired.split('\n'); trackBy:trackByIndex;">
-                {{inputRequired}}
-            </p>
-        </div>
-    </div>
-    <div class="row left-aligned" *ngIf="activity.frequency">
-        <span>
-            <strong>Frequency</strong>
-            {{activity.frequency}}
-        </span>
-    </div>
-    <div class="row left-aligned" *ngIf="activity.cost">
-        <span>
-            <strong>Cost</strong>
-            {{activity.cost}}
-        </span>
-    </div>
-    <div class="row left-aligned" *ngIf="activity.trigger">
-        <span>
-            <strong>Trigger</strong>
-            {{activity.trigger}}
-        </span>
-    </div>
-    <div class="row left-aligned" *ngIf="gain && gain.data && gain.data.length && gain.data[0].name == 'Trigger'">
-        <strong>Trigger</strong>
-        <input class="row" type="text" [(ngModel)]="gain.data[0].value">
-    </div>
-    <div class="row left-aligned" *ngIf="activity.requirements">
-        <span>
-            <strong>Requirements</strong>
-            {{activity.requirements}}
-        </span>
-    </div>
-    <div class="row left-aligned" *ngFor="let desc of activity.desc.split('\n\n'); trackBy:trackByIndex;">
-        <p *ngIf="desc.split('\n').length == 1" [innerHTML]="desc"></p>
-        <ul *ngIf="desc.split('\n').length > 1">
-            <li *ngFor="let line of desc.split('\n'); trackBy:trackByIndex;" [innerHTML]="line"></li>
-        </ul>
-    </div>
-    <div class="row left-aligned" *ngIf="activity.critsuccess">
-        <span>
-            <strong>Critical Success</strong>
-            {{activity.critsuccess}}
-        </span>
-    </div>
-    <div class="row left-aligned" *ngIf="activity.success">
-        <span>
-            <strong>Success</strong>
-            {{activity.success}}
-        </span>
-    </div>
-    <div class="row left-aligned" *ngIf="activity.failure">
-        <span>
-            <strong>Failure</strong>
-            {{activity.failure}}
-        </span>
-    </div>
-    <div class="row left-aligned" *ngIf="activity.critfailure">
-        <span>
-            <strong>Critical Failure</strong>
-            {{activity.critfailure}}
-        </span>
-    </div>
-    <div class="row left-aligned" *ngIf="activity.specialdesc">
-        <span>
-            <strong>Special</strong>
-            {{activity.specialdesc}}
-        </span>
-    </div>
-    <div class="row left-aligned" *ngFor="let cast of get_SpellCasts(); let spellCastIndex = index; trackBy:trackByIndex;">
-        <div *ngFor="let spell of get_Spells(cast.name); trackBy:trackByIndex;">
-            <h4>{{spell.name}}<app-actionIcons [actionString]="spell.actions">
-                </app-actionIcons>{{spell.castType.toString()}}
-            </h4>
-            <ng-container *ngFor="let condition of get_SpellConditions(cast, spellCastIndex); let conditionIndex = index; trackBy:trackByIndex">
-                <div class="row list-item" *ngIf="condition && condition.choices.length">
-                    <span>{{condition.name}} Effect selection:
-                        <select [(ngModel)]="gain.spellEffectChoices[spellCastIndex][conditionIndex]" (ngModelChange)="on_SpellEffectChoiceChange()">
-                            <option *ngFor="let choice of condition.choices; trackBy:trackByIndex;" [ngValue]="choice">
-                                {{choice}}
-                            </option>
-                        </select>
-                    </span>
-                </div>
-            </ng-container>
-            <app-spell [spell]=spell [spellLevel]="(cast.level) ? cast.level : 0"></app-spell>
-        </div>
-    </div>
-    <div class="list-item left-aligned" *ngFor="let shownSpellSet of activity.showSpells; trackBy:trackByIndex;">
-        <div *ngFor="let shownSpell of get_Spells(shownSpellSet.name); trackBy:trackByIndex;">
-            <h4>{{shownSpell.name}}<app-actionIcons [actionString]="shownSpell.actions">
-                </app-actionIcons> {{shownSpell.castType.toString()}}</h4>
-            <app-spell [spell]=shownSpell [spellLevel]="shownSpellSet.level || 0"></app-spell>
-        </div>
-    </div>
-    <div class="row left-aligned" *ngFor="let feat of get_FeatsShowingOn(activity.name); trackBy:trackByIndex;">
-        <h4>{{feat.name}}</h4>
-        <div class="row left-aligned">
-            <cite class="trait" *ngFor="let trait of feat.traits; trackBy:trackByIndex;"
-                title="{{get_Traits(trait)[0].desc}}">{{trait}}</cite>
-        </div>
-        <div class="row left-aligned" *ngFor="let desc of feat.desc.split('\n\n'); trackBy:trackByIndex;">
-            <p *ngIf="desc.split('\n').length == 1" [innerHTML]="desc"></p>
-            <ul *ngIf="desc.split('\n').length > 1">
-                <li *ngFor="let line of desc.split('\n'); trackBy:trackByIndex;" [innerHTML]="line"></li>
-            </ul>
-        </div>
-    </div>
-    <div class="row left-aligned" *ngFor="let condition of get_ConditionsShowingOn(activity.name); trackBy:trackByIndex;">
-        <h4>{{condition.name}}</h4>
-        <div class="row left-aligned" *ngFor="let desc of condition.desc.split('\n\n'); trackBy:trackByIndex;">
-            <p *ngIf="desc.split('\n').length == 1" [innerHTML]="desc"></p>
-            <ul *ngIf="desc.split('\n').length > 1">
-                <li *ngFor="let line of desc.split('\n'); trackBy:trackByIndex;" [innerHTML]="line"></li>
-            </ul>
-        </div>
-    </div>
-    <ng-container *ngIf="allowActivate">
-        <ng-container *ngFor="let related_gain of get_ActivityGainsShowingOn(activity.name); trackBy:trackByIndex;">
-            <div class="row left-aligned"
-                *ngFor="let related_activity of get_ActivitiesFromGain(related_gain); trackBy:trackByIndex;">
-                <h4>{{related_activity.name}}<app-actionIcons [actionString]="related_activity.actions">
-                    </app-actionIcons>{{(related_activity.activationType) ? related_activity.activationType : ""}}
-                </h4>
-                <app-activity [creature]="creature" [activity]=related_activity [gain]=related_gain
-                    [allowActivate]=true></app-activity>
+    <ng-container *ngFor="let maxCharges of [activity.maxCharges(get_Creature(), characterService)]">
+        <ng-container *ngFor="let cooldown of [activity.get_Cooldown(get_Creature(), characterService)]">
+            <div class="row" *ngIf="allowActivate">
+                <ng-container
+                    *ngIf="gain.name != 'Fused Stance' && activity.can_Activate() && (gain.activeCooldown ? (maxCharges > gain.chargesUsed) : true)">
+                    <button class="row center-aligned" (click)="on_Activate(gain, activity, true, creature)"
+                        *ngIf="!gain.active && ['self', 'ally'].includes(get_SpellTarget())"
+                        title="{{gain.activeCooldown ? (maxCharges ? '(Recharged in: ' : '(Cooldown: ') + get_Duration(gain.activeCooldown, true, false) + ')' : ''}}">
+                        Activate {{get_SpellTarget() == 'ally' ? "(Cast spell on yourself)" : ""}}
+                        {{maxCharges ? "(" + (maxCharges - gain.chargesUsed) + " of " + maxCharges + " charges)" : ""}}
+                    </button>
+                    <button class="row center-aligned"
+                        (click)="on_Activate(gain, activity, true, (creature=='Character' ? 'Companion' : 'Character'))"
+                        *ngIf="!gain.active && ['companion', 'ally'].includes(get_SpellTarget()) && get_CompanionAvailable()"
+                        title="{{gain.activeCooldown ? (maxCharges ? '(Recharged in: ' : '(Cooldown: ') + get_Duration(gain.activeCooldown, true, false) + ')' : ''}}">
+                        Activate (Cast spell on {{creature == "Character" ? "your animal companion" : "your master"}})
+                        {{maxCharges ? "(" + (maxCharges - gain.chargesUsed) + " of " + maxCharges + " charges)" : ""}}
+                    </button>
+                    <button class="row center-aligned" (click)="on_Activate(gain, activity, true, 'Familiar')"
+                        *ngIf="!gain.active && ['companion', 'ally'].includes(get_SpellTarget()) && get_FamiliarAvailable()"
+                        title="{{gain.activeCooldown ? (maxCharges ? '(Recharged in: ' : '(Cooldown: ') + get_Duration(gain.activeCooldown, true, false) + ')' : ''}}">
+                        Activate (Cast spell on your familiar)
+                        {{maxCharges ? "(" + (maxCharges - gain.chargesUsed) + " of " + maxCharges + " charges)" : ""}}
+                    </button>
+                    <button class="row center-aligned" (click)="on_Activate(gain, activity, true, '')"
+                        *ngIf="!gain.active && get_SpellTarget() == 'ally'"
+                        title="{{gain.activeCooldown ? (maxCharges ? '(Recharged in: ' : '(Cooldown: ') + get_Duration(gain.activeCooldown, true, false) + ')' : ''}}">
+                        Activate (Cast spell on other targets)
+                        {{maxCharges ? "(" + (maxCharges - gain.chargesUsed) + " of " + maxCharges + " charges)" : ""}}
+                    </button>
+                    <button class="row center-aligned" (click)="on_Activate(gain, activity, true, '')"
+                        *ngIf="!gain.active && get_SpellTarget() == ''"
+                        title="{{gain.activeCooldown ? (maxCharges ? '(Recharged in: ' : '(Cooldown: ') + get_Duration(gain.activeCooldown, true, false) + ')' : ''}}">
+                        Activate
+                        {{maxCharges ? "(" + (maxCharges - gain.chargesUsed) + " of " + maxCharges + " charges)" : ""}}
+                    </button>
+                    <button class="row center-aligned" (click)="on_Activate(gain, activity, true, creature)"
+                        *ngIf="!gain.active && get_SpellTarget() == 'no spell'"
+                        title="{{gain.activeCooldown ? (maxCharges ? '(Recharged in: ' : '(Cooldown: ') + get_Duration(gain.activeCooldown, true, false) + ')' : ''}}">
+                        Activate
+                        {{maxCharges ? "(" + (maxCharges - gain.chargesUsed) + " of " + maxCharges + " charges)" : ""}}
+                    </button>
+                </ng-container>
+                <button class="row center-aligned" (click)="on_Activate(gain, activity, false, creature)"
+                    *ngIf="gain.name != 'Fused Stance' && activity.can_Activate() && gain.active"
+                    title="{{gain.activeCooldown ? (maxCharges ? '(Recharged in: ' : '(Cooldown: ') + get_Duration(gain.activeCooldown, true, false) + ')' : ''}}">
+                    {{activity.sustained ? "Stop Sustaining" : "Deactivate"}}
+                    {{gain.duration ? "(" + get_Duration(gain.duration) + " remaining)" : ""}}
+                    {{maxCharges ? "(" + (maxCharges - gain.chargesUsed) + " of " + maxCharges + " charges)" : ""}}
+                </button>
+                <ng-container
+                    *ngIf="gain.name == 'Fused Stance' && (gain.activeCooldown ? (maxCharges > gain.chargesUsed) : true)">
+                    <button class="row center-aligned" (click)="on_ActivateFuseStance(true)" *ngIf="!gain.active"
+                        [disabled]="!get_FuseStanceFeat() || !get_FuseStanceFeat().data"
+                        title="{{gain.activeCooldown ? (maxCharges ? '(Recharged in: ' : '(Cooldown: ') + get_Duration(gain.activeCooldown, true, false) + ')' : ''}}">
+                        Activate
+                        {{maxCharges ? "(" + (maxCharges - gain.chargesUsed) + " of " + maxCharges + " charges)" : ""}}
+                    </button>
+                    <button class="row center-aligned" (click)="on_ActivateFuseStance(false)" *ngIf="gain.active"
+                        [disabled]="!get_FuseStanceFeat() || !get_FuseStanceFeat().data"
+                        title="{{gain.activeCooldown ? (maxCharges ? '(Recharged in: ' : '(Cooldown: ') + get_Duration(gain.activeCooldown, true, false) + ')' : ''}}">
+                        Deactivate
+                        {{maxCharges ? "(" + (maxCharges - gain.chargesUsed) + " of " + maxCharges + " charges)" : ""}}
+                    </button>
+                </ng-container>
+                <ng-container *ngIf="!activity.can_Activate()">
+                    <button class="row center-aligned"
+                        title="The results of this activation cannot be applied automatically. Pressing this button has no effect.">
+                        Activate &#9774;
+                    </button>
+                </ng-container>
             </div>
-        </ng-container>
-        <ng-container *ngIf="gain.name == 'Fused Stance'">
-            <ng-container *ngFor="let gain of get_FusedStances(); trackBy:trackByIndex;">
-                <div class="row left-aligned"
-                    *ngFor="let related_activity of get_ActivitiesFromGain(gain); trackBy:trackByIndex;">
-                    <h4>{{related_activity.name}}<app-actionIcons [actionString]="related_activity.actions">
-                        </app-actionIcons>{{(related_activity.activationType) ? related_activity.activationType : ""}}
-                    </h4>
-                    <app-activity [creature]="creature" [activity]=related_activity [gain]=gain [allowActivate]=true>
-                    </app-activity>
+            <div class="row" *ngIf="get_Resonant() && !isSubItem">
+                <strong>Slot this item into a Wayfinder to unlock its resonant power.</strong>
+            </div>
+            <div class="row"
+                *ngIf="gain && (gain.activeCooldown ? (maxCharges == gain.chargesUsed) : false) && !gain.active">
+                <button class="row center-aligned" disabled>
+                    Cannot activate {{get_Duration(gain.activeCooldown, true, true)}}
+                </button>
+            </div>
+            <div class="row left-aligned">
+                <cite class="trait" *ngFor="let trait of activity.traits; trackBy:trackByIndex;"
+                    title="{{get_Traits(trait)[0].desc}}">{{trait}}</cite>
+                <cite class="trait" *ngFor="let trait of get_ActivationTraits(activity); trackBy:trackByIndex;"
+                    title="{{get_Traits(trait)[0].desc}}">{{trait}}</cite>
+                <app-tags [creature]="creature" [objectName]="activity.name" [showTraits]=true [showFeats]=true
+                    [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
+            </div>
+            <div class="list-item lower row problem" *ngIf="activity.inputRequired">
+                <strong>Player input required:</strong>
+                <div class="row left-aligned">
+                    <p *ngFor="let inputRequired of activity.inputRequired.split('\n'); trackBy:trackByIndex;">
+                        {{inputRequired}}
+                    </p>
                 </div>
+            </div>
+            <div class="row left-aligned" *ngIf="activity.frequency">
+                <span>
+                    <strong>Frequency</strong>
+                    <span *ngIf="cooldown == activity.cooldown">&nbsp;{{activity.frequency}}</span>
+                    <span class="absolute" *ngIf="cooldown != activity.cooldown">&nbsp;{{maxCharges ? maxCharges + " times
+                        every " : "once every "}}{{get_Duration(cooldown, false, false)}}</span>
+                </span>
+            </div>
+            <div class="row left-aligned" *ngIf="activity.cost">
+                <span>
+                    <strong>Cost</strong>
+                    {{activity.cost}}
+                </span>
+            </div>
+            <div class="row left-aligned" *ngIf="activity.trigger">
+                <span>
+                    <strong>Trigger</strong>
+                    {{activity.trigger}}
+                </span>
+            </div>
+            <div class="row left-aligned"
+                *ngIf="gain && gain.data && gain.data.length && gain.data[0].name == 'Trigger'">
+                <strong>Trigger</strong>
+                <input class="row" type="text" [(ngModel)]="gain.data[0].value">
+            </div>
+            <div class="row left-aligned" *ngIf="activity.requirements">
+                <span>
+                    <strong>Requirements</strong>
+                    {{activity.requirements}}
+                </span>
+            </div>
+            <div class="row left-aligned" *ngFor="let desc of activity.desc.split('\n\n'); trackBy:trackByIndex;">
+                <p *ngIf="desc.split('\n').length == 1" [innerHTML]="desc"></p>
+                <ul *ngIf="desc.split('\n').length > 1">
+                    <li *ngFor="let line of desc.split('\n'); trackBy:trackByIndex;" [innerHTML]="line"></li>
+                </ul>
+            </div>
+            <div class="row left-aligned" *ngIf="activity.critsuccess">
+                <span>
+                    <strong>Critical Success</strong>
+                    {{activity.critsuccess}}
+                </span>
+            </div>
+            <div class="row left-aligned" *ngIf="activity.success">
+                <span>
+                    <strong>Success</strong>
+                    {{activity.success}}
+                </span>
+            </div>
+            <div class="row left-aligned" *ngIf="activity.failure">
+                <span>
+                    <strong>Failure</strong>
+                    {{activity.failure}}
+                </span>
+            </div>
+            <div class="row left-aligned" *ngIf="activity.critfailure">
+                <span>
+                    <strong>Critical Failure</strong>
+                    {{activity.critfailure}}
+                </span>
+            </div>
+            <div class="row left-aligned" *ngIf="activity.specialdesc">
+                <span>
+                    <strong>Special</strong>
+                    {{activity.specialdesc}}
+                </span>
+            </div>
+            <div class="row left-aligned"
+                *ngFor="let cast of get_SpellCasts(); let spellCastIndex = index; trackBy:trackByIndex;">
+                <div *ngFor="let spell of get_Spells(cast.name); trackBy:trackByIndex;">
+                    <h4>{{spell.name}}<app-actionIcons [actionString]="spell.actions">
+                        </app-actionIcons>{{spell.castType.toString()}}
+                    </h4>
+                    <ng-container
+                        *ngFor="let condition of get_SpellConditions(cast, spellCastIndex); let conditionIndex = index; trackBy:trackByIndex">
+                        <div class="row list-item" *ngIf="condition && condition.choices.length">
+                            <span>{{condition.name}} Effect selection:
+                                <select [(ngModel)]="gain.spellEffectChoices[spellCastIndex][conditionIndex]"
+                                    (ngModelChange)="on_SpellEffectChoiceChange()">
+                                    <option *ngFor="let choice of condition.choices; trackBy:trackByIndex;"
+                                        [ngValue]="choice">
+                                        {{choice}}
+                                    </option>
+                                </select>
+                            </span>
+                        </div>
+                    </ng-container>
+                    <app-spell [spell]=spell [spellLevel]="(cast.level) ? cast.level : 0"></app-spell>
+                </div>
+            </div>
+            <div class="list-item left-aligned"
+                *ngFor="let shownSpellSet of activity.showSpells; trackBy:trackByIndex;">
+                <div *ngFor="let shownSpell of get_Spells(shownSpellSet.name); trackBy:trackByIndex;">
+                    <h4>{{shownSpell.name}}<app-actionIcons [actionString]="shownSpell.actions">
+                        </app-actionIcons> {{shownSpell.castType.toString()}}</h4>
+                    <app-spell [spell]=shownSpell [spellLevel]="shownSpellSet.level || 0"></app-spell>
+                </div>
+            </div>
+            <div class="row left-aligned" *ngFor="let feat of get_FeatsShowingOn(activity.name); trackBy:trackByIndex;">
+                <h4>{{feat.name}}</h4>
+                <div class="row left-aligned">
+                    <cite class="trait" *ngFor="let trait of feat.traits; trackBy:trackByIndex;"
+                        title="{{get_Traits(trait)[0].desc}}">{{trait}}</cite>
+                </div>
+                <div class="row left-aligned" *ngFor="let desc of feat.desc.split('\n\n'); trackBy:trackByIndex;">
+                    <p *ngIf="desc.split('\n').length == 1" [innerHTML]="desc"></p>
+                    <ul *ngIf="desc.split('\n').length > 1">
+                        <li *ngFor="let line of desc.split('\n'); trackBy:trackByIndex;" [innerHTML]="line"></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="row left-aligned"
+                *ngFor="let condition of get_ConditionsShowingOn(activity.name); trackBy:trackByIndex;">
+                <h4>{{condition.name}}</h4>
+                <div class="row left-aligned" *ngFor="let desc of condition.desc.split('\n\n'); trackBy:trackByIndex;">
+                    <p *ngIf="desc.split('\n').length == 1" [innerHTML]="desc"></p>
+                    <ul *ngIf="desc.split('\n').length > 1">
+                        <li *ngFor="let line of desc.split('\n'); trackBy:trackByIndex;" [innerHTML]="line"></li>
+                    </ul>
+                </div>
+            </div>
+            <ng-container *ngIf="allowActivate">
+                <ng-container
+                    *ngFor="let related_gain of get_ActivityGainsShowingOn(activity.name); trackBy:trackByIndex;">
+                    <div class="row left-aligned"
+                        *ngFor="let related_activity of get_ActivitiesFromGain(related_gain); trackBy:trackByIndex;">
+                        <h4>{{related_activity.name}}<app-actionIcons [actionString]="related_activity.actions">
+                            </app-actionIcons>{{(related_activity.activationType) ? related_activity.activationType :
+                            ""}}
+                        </h4>
+                        <app-activity [creature]="creature" [activity]=related_activity [gain]=related_gain
+                            [allowActivate]=true></app-activity>
+                    </div>
+                </ng-container>
+                <ng-container *ngIf="gain.name == 'Fused Stance'">
+                    <ng-container *ngFor="let gain of get_FusedStances(); trackBy:trackByIndex;">
+                        <div class="row left-aligned"
+                            *ngFor="let related_activity of get_ActivitiesFromGain(gain); trackBy:trackByIndex;">
+                            <h4>{{related_activity.name}}<app-actionIcons [actionString]="related_activity.actions">
+                                </app-actionIcons>{{(related_activity.activationType) ? related_activity.activationType
+                                : ""}}
+                            </h4>
+                            <app-activity [creature]="creature" [activity]=related_activity [gain]=gain
+                                [allowActivate]=true>
+                            </app-activity>
+                        </div>
+                    </ng-container>
+                </ng-container>
             </ng-container>
         </ng-container>
     </ng-container>

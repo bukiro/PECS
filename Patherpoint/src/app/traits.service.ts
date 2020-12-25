@@ -5,6 +5,7 @@ import { Character } from './Character';
 import { AnimalCompanion } from './AnimalCompanion';
 import { Familiar } from './Familiar';
 import * as json_traits from '../assets/json/traits';
+import { Creature } from './Creature';
 
 @Injectable({
     providedIn: 'root'
@@ -33,7 +34,7 @@ export class TraitsService {
         }
     }
 
-    get_TraitsForThis(creature: Character | AnimalCompanion | Familiar, name: string) {
+    get_TraitsForThis(creature: Creature, name: string) {
         if (!this.still_loading()) {
             //Return all traits that are set to SHOW ON this named object and that are on any equipped equipment in your inventory
             //uses the haveOn() method of Trait that returns any equipment that has this trait

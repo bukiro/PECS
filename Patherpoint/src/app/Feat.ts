@@ -20,6 +20,8 @@ import { ProficiencyChange } from './ProficiencyChange';
 import { HeritageGain } from './HeritageGain';
 import { Hint } from './Hint';
 import { BloodMagic } from './BloodMagic';
+import { Creature } from './Creature';
+import { ProficiencyCopy } from './ProficiencyCopy';
 
 export class Feat {
     public readonly _className: string = this.constructor.name;
@@ -29,6 +31,7 @@ export class Feat {
     public anathema: string[] = [];
     public archetype: string = "";
     public changeProficiency: ProficiencyChange[] = [];
+    public copyProficiency: ProficiencyCopy[] = [];
     public bloodMagic: BloodMagic[] = [];
     public data: {} = {};
     public desc: string = "";
@@ -295,7 +298,7 @@ export class Feat {
         //Return true if all are true
         return levelreq && abilityreq && skillreq && featreq && specialreq && heritagereq;
     }
-    have(creature: Character | AnimalCompanion | Familiar, characterService: CharacterService, charLevel: number = characterService.get_Character().level, excludeTemporary: boolean = false) {
+    have(creature: Creature, characterService: CharacterService, charLevel: number = characterService.get_Character().level, excludeTemporary: boolean = false) {
         if (characterService.still_loading()) { return 0 }
         if (creature.type == "Character") {
             return (creature as Character).get_FeatsTaken(1, charLevel, this.name, "", "", undefined, excludeTemporary)?.length || 0;

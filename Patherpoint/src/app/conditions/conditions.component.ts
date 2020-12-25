@@ -253,7 +253,7 @@ export class ConditionsComponent implements OnInit {
         return this.timeService.get_Duration(duration, true);
     }
 
-    add_Condition(creature: Character|AnimalCompanion|Familiar, condition: Condition, duration: number = this.get_ConditionDuration(false)) {
+    add_Condition(creature: Creature, condition: Condition, duration: number = this.get_ConditionDuration(false)) {
         let newGain = new ConditionGain();
         newGain.name = condition.name;
         if (duration == -1) {
@@ -276,7 +276,7 @@ export class ConditionsComponent implements OnInit {
         return this.effectsService.get_EffectProperties().find(property => !property.parent && property.key == "effects");
     }
 
-    get_EffectValue(creature: Character|AnimalCompanion|Familiar, effect: EffectGain) {
+    get_EffectValue(creature: Creature, effect: EffectGain) {
         //Fit the custom effect into the box defined by get_SimpleEffects
         let effectsObject = { effects: [effect] }
         let result = this.effectsService.get_SimpleEffects(creature, this.characterService, effectsObject);

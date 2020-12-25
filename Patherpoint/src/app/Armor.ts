@@ -7,6 +7,7 @@ import { Character } from './Character';
 import { SpecializationGain } from './SpecializationGain';
 import { Specialization } from './Specialization';
 import { ArmorMaterial } from './ArmorMaterial';
+import { Creature } from './Creature';
 
 export class Armor extends Equipment {
     public readonly _className: string = this.constructor.name;
@@ -55,7 +56,7 @@ export class Armor extends Equipment {
         }
         
     }
-    get_ArmoredSkirt(creature: Character|AnimalCompanion|Familiar, characterService: CharacterService) {
+    get_ArmoredSkirt(creature: Creature, characterService: CharacterService) {
         if (["Breastplate","Chain Shirt","Chain Mail","Scale Mail"].includes(this.name) ) {
             let armoredSkirt = characterService.get_Inventories(creature).map(inventory => inventory.adventuringgear).find(gear => gear.find(item => item.isArmoredSkirt && item.equipped));
             if (armoredSkirt?.length) {
@@ -79,7 +80,7 @@ export class Armor extends Equipment {
             return null;
         }
     }
-    get_Shoddy(creature: Character|AnimalCompanion|Familiar, characterService: CharacterService) {
+    get_Shoddy(creature: Creature, characterService: CharacterService) {
         //Shoddy items have a -2 penalty to AC, unless you have the Junk Tinker feat and have crafted the item yourself.
         if (this.shoddy && characterService.get_Feats("Junk Tinker")[0]?.have(creature, characterService) && this.crafted) {
             this.$shoddy = 0;
@@ -108,7 +109,8 @@ export class Armor extends Equipment {
         let fortification = this.propertyRunes.filter(rune => rune.name.includes("Fortification")).length ? 2 : 0;
         return this.strength + (this.$affectedByArmoredSkirt * 2) + fortification;
     }
-    get_Prof() {
+    get_Proficiency(creature: Creature = null, characterService: CharacterService = null) {
+        //creature and characterService are not needed for armors, but for weapons.
         if (this.$affectedByArmoredSkirt == 1) {
             switch (this.prof) {
                 case "Light Armor":
@@ -120,7 +122,7 @@ export class Armor extends Equipment {
             return this.prof;
         }
     }
-    get_Traits(characterService: CharacterService, creature: Character|AnimalCompanion|Familiar) {
+    get_Traits(characterService: CharacterService, creature: Creature) {
         //characterService and creature are not needed for armors, but for other types of item.
         if (this.$affectedByArmoredSkirt != 0) {
             if (this.traits.includes("Noisy")) {
@@ -137,7 +139,7 @@ export class Armor extends Equipment {
         this.get_ArmoredSkirt(creature, characterService);
         let skillLevel: number = 0;
         let armorIncreases = creature.get_SkillIncreases(characterService, 0, charLevel, this.name);
-        let profIncreases = creature.get_SkillIncreases(characterService, 0, charLevel, this.get_Prof());
+        let profIncreases = creature.get_SkillIncreases(characterService, 0, charLevel, this.get_Proficiency());
         //Add either the armor category proficiency or the armor proficiency, whichever is better
         skillLevel = Math.min(Math.max(armorIncreases.length * 2, profIncreases.length * 2), 8)
         return skillLevel;
@@ -185,13 +187,13 @@ export class Armor extends Equipment {
         let endresult: [number, string] = [defenseResult, explain]
         return endresult;
     }
-    get_ArmorSpecialization(creature: Character|AnimalCompanion|Familiar, characterService: CharacterService) {
+    get_ArmorSpecialization(creature: Creature, characterService: CharacterService) {
         let SpecializationGains: SpecializationGain[] = [];
         let specializations: Specialization[] = [];
+        let prof = this.get_Proficiency();
         if (creature.type == "Character" && this.group) {
             let character = creature as Character;
-            let skillLevel = this.profLevel(creature, characterService);
-
+            let skillLevel = this.profLevel(character, characterService);
             characterService.get_FeatsAndFeatures()
                 .filter(feat => feat.gainSpecialization.length && feat.have(character, characterService, character.level))
                 .forEach(feat => {
@@ -199,7 +201,7 @@ export class Armor extends Equipment {
                         (spec.group ? (this.group && spec.group.includes(this.group)) : true) &&
                         (spec.name ? ((this.name && spec.name.includes(this.name)) || (this.armorBase && spec.name.includes(this.armorBase))) : true) &&
                         (spec.trait ? this.traits.filter(trait => trait && spec.trait.includes(trait)).length : true) &&
-                        (spec.proficiency ? (this.prof && spec.proficiency.includes(this.prof)) : true) &&
+                        (spec.proficiency ? (prof && spec.proficiency.includes(prof)) : true) &&
                         (spec.skillLevel ? skillLevel >= spec.skillLevel : true) &&
                         (spec.featreq ? characterService.get_FeatsAndFeatures(spec.featreq)[0]?.have(character, characterService) : true)
                     ))

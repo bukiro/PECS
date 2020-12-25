@@ -12,6 +12,7 @@ import { Character } from './Character';
 import { SpellCasting } from './SpellCasting';
 import { ConditionsService } from './conditions.service';
 import * as json_spells from '../assets/json/spells';
+import { Creature } from './Creature';
 
 @Injectable({
   providedIn: 'root'
@@ -35,7 +36,7 @@ export class SpellsService {
         }
     }
 
-    process_Spell(creature: Character|AnimalCompanion|Familiar, target: string = "", characterService: CharacterService, itemsService: ItemsService, conditionsService: ConditionsService, casting: SpellCasting, gain: SpellGain, spell: Spell, level: number, activated: boolean, manual: boolean = false, changeAfter: boolean = true) {
+    process_Spell(creature: Creature, target: string = "", characterService: CharacterService, itemsService: ItemsService, conditionsService: ConditionsService, casting: SpellCasting, gain: SpellGain, spell: Spell, level: number, activated: boolean, manual: boolean = false, changeAfter: boolean = true) {
         
         //Cantrips and Focus spells are automatically heightened to your maximum available spell level.
         //If a spell is cast with a lower level than its minimum, the level is raised to the minimum.
@@ -74,7 +75,7 @@ export class SpellsService {
         }
 
         //Find out if target was given. If no target is set, most effects will not be applied.
-        let targetCreature: Character|AnimalCompanion|Familiar|null = null;
+        let targetCreature: Creature|null = null;
         switch (target) {
             case "Character":
                 targetCreature = characterService.get_Character();

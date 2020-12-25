@@ -3,6 +3,7 @@ import { EffectsService } from './effects.service';
 import { Character } from './Character';
 import { AnimalCompanion } from './AnimalCompanion';
 import { Familiar } from './Familiar';
+import { Creature } from './Creature';
 
 export class Speed {
     public readonly _className = this.constructor.name;
@@ -10,35 +11,35 @@ export class Speed {
         public name: string = ""
     ) {};
     public source: string = "";
-    relatives(creature: Character|AnimalCompanion|Familiar, effectsService: EffectsService, name: string, both: boolean = false) {
+    relatives(creature: Creature, effectsService: EffectsService, name: string, both: boolean = false) {
         if (both && name != "Speed") {
             return effectsService.get_RelativesOnThese(creature, [name, "Speed"]);
         } else {
             return effectsService.get_RelativesOnThis(creature, name);
         }
     }
-    absolutes(creature: Character|AnimalCompanion|Familiar, effectsService: EffectsService, name: string, both: boolean = false) {
+    absolutes(creature: Creature, effectsService: EffectsService, name: string, both: boolean = false) {
         if (both && name != "Speed") {
             return effectsService.get_AbsolutesOnThese(creature, [name, "Speed"]);
         } else {
             return effectsService.get_AbsolutesOnThis(creature, name);
         }
     }
-    bonuses(creature: Character|AnimalCompanion|Familiar, effectsService: EffectsService, name: string, both: boolean = false) {
+    bonuses(creature: Creature, effectsService: EffectsService, name: string, both: boolean = false) {
         if (both && name != "Speed") {
             return effectsService.show_BonusesOnThese(creature, [name, "Speed"]);
         } else {
             return effectsService.show_BonusesOnThis(creature, name);
         }
     }
-    penalties(creature: Character|AnimalCompanion|Familiar, effectsService: EffectsService, name: string, both: boolean = false) {
+    penalties(creature: Creature, effectsService: EffectsService, name: string, both: boolean = false) {
         if (both && name != "Speed") {
             return effectsService.show_PenaltiesOnThese(creature, [name, "Speed"]);
         } else {
             return effectsService.show_PenaltiesOnThis(creature, name);
         }
     }
-    baseValue(creature: Character|AnimalCompanion|Familiar, characterService: CharacterService, effectsService: EffectsService) {
+    baseValue(creature: Creature, characterService: CharacterService, effectsService: EffectsService) {
     //Gets the basic speed and adds all effects
         if (characterService.still_loading()) { return 0; }
         let sum = 0;
@@ -52,10 +53,10 @@ export class Speed {
                 explain = "\nBase speed: "+sum;
             }
         } else {
-            if (creature.class.ancestry.name) {
-                creature.class.ancestry.speeds.filter(speed => speed.name == this.name).forEach(speed => {
+            if ((creature as AnimalCompanion|Character).class.ancestry.name) {
+                (creature as AnimalCompanion|Character).class.ancestry.speeds.filter(speed => speed.name == this.name).forEach(speed => {
                     sum = speed.value;
-                    explain = "\n"+creature.class.ancestry.name+" base speed: "+sum;
+                    explain = "\n"+(creature as AnimalCompanion|Character).class.ancestry.name+" base speed: "+sum;
                 });
             }
         }
@@ -77,7 +78,7 @@ export class Speed {
         explain = explain.trim();
         return [sum, explain];
     }
-    value(creature: Character|AnimalCompanion|Familiar, characterService: CharacterService, effectsService: EffectsService): [number, string] {
+    value(creature: Creature, characterService: CharacterService, effectsService: EffectsService): [number, string] {
         //If there is a general speed penalty (or bonus), it applies to all speeds. We apply it to the base speed here so we can still
         // copy the base speed for effects (e.g. "You gain a climb speed equal to your land speed") and not apply the general penalty twice.
         let baseValue = this.baseValue(creature, characterService, effectsService)

@@ -4361,7 +4361,7 @@
                 "effects": [
                     {
                         "affected": "AC",
-                        "value": "(Has_Feat(Creature.type, 'Masterful Hunter: Outwit') && Skill_Level(Armor().prof) >= 6) ? 2 : 1",
+                        "value": "(Has_Feat(Creature.type, 'Masterful Hunter: Outwit') && Skill_Level(Armor().get_Proficiency()) >= 6) ? 2 : 1",
                         "type": "circumstance"
                     }
                 ]
@@ -16264,7 +16264,7 @@
         "effects": [
             {
                 "affected": "Land Speed",
-                "value": "Armor().get_Prof() == \"Unarmored Defense\" ? 10 : 0"
+                "value": "Armor().get_Proficiency() == \"Unarmored Defense\" ? 10 : 0"
             }
         ]
     },

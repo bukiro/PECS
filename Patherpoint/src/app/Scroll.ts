@@ -3,6 +3,7 @@ import { CharacterService } from './character.service';
 import { Character } from './Character';
 import { AnimalCompanion } from './AnimalCompanion';
 import { Familiar } from './Familiar';
+import { Creature } from './Creature';
 
 export class Scroll extends Consumable {
     public readonly _className: string = this.constructor.name;
@@ -17,7 +18,7 @@ export class Scroll extends Consumable {
             return this.name;
         }
     }
-    get_Traits(characterService: CharacterService, creature: Character|AnimalCompanion|Familiar) {
+    get_Traits(characterService: CharacterService, creature: Creature) {
         //creature is not needed for scrolls, but for other types of item.
         if (this.storedSpells[0]?.spells.length) {
             let spell = characterService.spellsService.get_Spells(this.storedSpells[0].spells[0].name)[0];

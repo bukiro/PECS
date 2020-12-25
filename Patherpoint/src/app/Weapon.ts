@@ -12,6 +12,7 @@ import { SpecializationGain } from './SpecializationGain';
 import { AlchemicalPoison } from './AlchemicalPoison';
 import { ProficiencyChange } from './ProficiencyChange';
 import { Effect } from './Effect';
+import { Creature } from './Creature';
 
 export class Weapon extends Equipment {
     public readonly _className: string = this.constructor.name;
@@ -25,14 +26,14 @@ export class Weapon extends Equipment {
     public ammunition: string = "";
     //What happens on a critical hit with this weapon?
     public criticalHint: string = ""
-    //Number of dice for Damage: usually 1 for an unmodified weapon
+    //Number of dice for Damage: usually 1 for an unmodified weapon. Use 0 to notate exactly <dicesize> damage (e.g. 1 damage = 0d1).
     public dicenum: number = 1;
     //Size of the damage dice: usually 4-12
     public dicesize: number = 6;
     //What is the damage type? Usually S, B or P, but may include combinations"
     public dmgType: string = "";
-    //Some weapons add additional damage like +1d4F
-    public extraDamage: string = ""
+    //Some weapons add additional damage like +1d4F. Use get_ExtraDamage() to read.
+    private extraDamage: string = ""
     //The weapon group, needed for critical specialization effects
     public group: string = "";
     //How many hands are needed to wield this weapon?
@@ -41,7 +42,7 @@ export class Weapon extends Equipment {
     public melee: number = 0;
     //Store any poisons applied to this item. There should be only one poison at a time.
     public poisonsApplied: AlchemicalPoison[] = [];
-    //What proficiency is used? "Simple Weapons", "Unarmed Attacks", etc.?
+    //What proficiency is used? "Simple Weapons", "Unarmed Attacks", etc.? Use get_Proficiency() to get the proficiency for numbers and effects.
     public prof: "Unarmed Attacks" | "Simple Weapons" | "Martial Weapons" | "Advanced Weapons" = "Simple Weapons";
     //Ranged range in ft - also add for thrown weapons
     //Weapons can have a melee and a ranged value, e.g. Daggers that can thrown
@@ -58,7 +59,7 @@ export class Weapon extends Equipment {
     public bladeAlly: boolean = false;
     //Dexterity-based melee attacks force you to use dexterity for your attack modifier.
     public dexterityBased: boolean = false;
-    get_RuneSource(creature: Character | AnimalCompanion | Familiar, range: string) {
+    get_RuneSource(creature: Creature, range: string) {
         //Under certain circumstances, other items' runes are applied when calculating attack bonus or damage.
         //[0] is the item whose fundamental runes will count, [1] is the item whose property runes will count, and [2] is the item that causes this change.
         let runeSource: (Weapon | WornItem)[] = [this, this];
@@ -90,7 +91,7 @@ export class Weapon extends Equipment {
         }
         return runeSource;
     }
-    get_Traits(characterService: CharacterService, creature: Character | AnimalCompanion | Familiar) {
+    get_Traits(characterService: CharacterService, creature: Creature) {
         //characterService is not needed for armors, but for other types of item.
         //Test for certain feats that give traits to unarmed attacks.
         let traits: string[] = JSON.parse(JSON.stringify(this.traits));
@@ -145,7 +146,8 @@ export class Weapon extends Equipment {
                 .forEach(feat => {
                     proficiencyChanges.push(...feat.changeProficiency.filter(change =>
                         (change.trait ? this.traits.filter(trait => change.trait.includes(trait)).length : true) &&
-                        (change.proficiency ? (this.prof && change.proficiency.includes(this.prof)) : true)
+                        (change.proficiency ? (this.prof && change.proficiency == this.prof) : true) &&
+                        (change.group ? (this.group && change.group == this.group) : true)
                     ))
                 });
             let proficiencies: string[] = proficiencyChanges.map(change => change.result);
@@ -280,6 +282,7 @@ export class Weapon extends Equipment {
         if (dexUsed) {
             abilityName = "Dexterity";
         }
+        let prof = this.get_Proficiency(creature, characterService, charLevel);
         //Create names list for effects
         let namesList = [
             this.name,
@@ -288,15 +291,15 @@ export class Weapon extends Equipment {
             //"Sword Attack Rolls", "Club Attack Rolls"
             this.group + " Attack Rolls",
             //"Unarmed Attacks Attack Rolls", "Simple Weapons Attack Rolls"
-            this.prof + " Attack Rolls",
+            prof + " Attack Rolls",
             //"Unarmed Attack Rolls", "Simple Attack Rolls"
-            this.prof.split(" ")[0] + " Attack Rolls",
+            prof.split(" ")[0] + " Attack Rolls",
             //"Weapons Attack Rolls", also "Attacks Attack Rolls", but that's unlikely to be needed
-            this.prof.split(" ")[1] + " Attack Rolls",
+            prof.split(" ")[1] + " Attack Rolls",
             //"Simple Sword Attack Rolls", "Martial Club Attack Rolls" etc.
-            this.prof.split(" ")[0] + this.group + " Attack Rolls",
+            prof.split(" ")[0] + this.group + " Attack Rolls",
             //"Simple Longsword Attack Rolls", "Unarmed Fist Attack Rolls" etc.
-            this.prof.split(" ")[0] + this.weaponBase + " Attack Rolls",
+            prof.split(" ")[0] + this.weaponBase + " Attack Rolls",
             //"Melee Attack Rolls", "Ranged Attack Rolls"
             range + " Attack Rolls",
             //"Strength-based Checks and DCs"
@@ -357,7 +360,7 @@ export class Weapon extends Equipment {
         explain = explain.trim();
         return [range, attackResult, explain, penalties.concat(bonuses).concat(absolutes), penalties, bonuses, absolutes];
     }
-    get_ExtraDamage(creature: Character | AnimalCompanion | Familiar, characterService: CharacterService, range: string) {
+    get_ExtraDamage(creature: Creature, characterService: CharacterService, range: string) {
         let extraDamage: string = "";
         if (this.extraDamage) {
             extraDamage += "\n" + this.extraDamage;
@@ -384,13 +387,14 @@ export class Weapon extends Equipment {
     }
     damage(creature: Character | AnimalCompanion, characterService: CharacterService, effectsService: EffectsService, range: string) {
         //Lists the damage dice and damage bonuses for a ranged or melee attack with this weapon.
-        //Returns a string in the form of "1d6 +5"
+        //Returns a string in the form of "1d6+5 B\n+1d6 Fire"
         let explain: string = "";
         let str = characterService.get_Abilities("Strength")[0].mod(creature, characterService, effectsService).result;
         let dex = characterService.get_Abilities("Dexterity")[0].mod(creature, characterService, effectsService).result;
         let penalties: { value: number, setValue: string, source: string, penalty: boolean }[] = [];
         let bonuses: { value: number, setValue: string, source: string, penalty: boolean }[] = [];
         let absolutes: { value: number, setValue: string, source: string, penalty: boolean }[] = [];
+        let prof = this.get_Proficiency(creature, characterService);
         //Apply any mechanism that copy runes from another item, like Handwraps of Mighty Blows or Doubling Rings.
         //We set runeSource to the respective item and use it whenever runes are concerned.
         let runeSource: (Weapon | WornItem)[] = this.get_RuneSource(creature, range);
@@ -430,15 +434,15 @@ export class Weapon extends Equipment {
             //"Sword Dice Number", "Club Dice Number"
             this.group + " Dice Number",
             //"Unarmed Attacks Dice Number", "Simple Weapons Dice Number" etc.
-            this.prof + " Dice Number",
+            prof + " Dice Number",
             //"Unarmed Dice Number", "Simple Dice Number" etc.
-            this.prof.split(" ")[0] + " Dice Number",
+            prof.split(" ")[0] + " Dice Number",
             //"Weapons Dice Number", also "Attacks Dice Number", but that's unlikely to be needed
-            this.prof.split(" ")[1] + " Dice Number",
+            prof.split(" ")[1] + " Dice Number",
             //"Simple Sword Dice Number", "Martial Club Dice Number" etc.
-            this.prof.split(" ")[0] + this.group + " Dice Number",
+            prof.split(" ")[0] + this.group + " Dice Number",
             //"Simple Longsword Dice Number", "Unarmed Fist Dice Number" etc.
-            this.prof.split(" ")[0] + this.weaponBase + " Dice Number"
+            prof.split(" ")[0] + this.weaponBase + " Dice Number"
             ]).forEach(effect => {
                 if (!effect.hide) {
                     absolutes.push({ value: parseInt(effect.value), setValue: "", source: effect.source, penalty: false });
@@ -454,15 +458,15 @@ export class Weapon extends Equipment {
             //"Sword Dice Number", "Club Dice Number"
             this.group + " Dice Number",
             //"Unarmed Attacks Dice Number", "Simple Weapons Dice Number" etc.
-            this.prof + " Dice Number",
+            prof + " Dice Number",
             //"Unarmed Dice Number", "Simple Dice Number" etc.
-            this.prof.split(" ")[0] + " Dice Number",
+            prof.split(" ")[0] + " Dice Number",
             //"Weapons Dice Number", also "Attacks Dice Number", but that's unlikely to be needed
-            this.prof.split(" ")[1] + " Dice Number",
+            prof.split(" ")[1] + " Dice Number",
             //"Simple Sword Dice Number", "Martial Club Dice Number" etc.
-            this.prof.split(" ")[0] + this.group + " Dice Number",
+            prof.split(" ")[0] + this.group + " Dice Number",
             //"Simple Longsword Dice Number", "Unarmed Fist Dice Number" etc.
-            this.prof.split(" ")[0] + this.weaponBase + " Dice Number"
+            prof.split(" ")[0] + this.weaponBase + " Dice Number"
             ]).forEach(effect => {
                 if (parseInt(effect.value) < 0 && !effect.hide) {
                     penalties.push({ value: parseInt(effect.value), setValue: "", source: effect.source, penalty: true });
@@ -507,15 +511,15 @@ export class Weapon extends Equipment {
             //"Sword Dice Size", "Club Dice Size"
             this.group + " Dice Size",
             //"Unarmed Attacks Dice Size", "Simple Weapons Dice Size" etc.
-            this.prof + " Dice Size",
+            prof + " Dice Size",
             //"Unarmed Dice Size", "Simple Dice Size" etc.
-            this.prof.split(" ")[0] + " Dice Size",
+            prof.split(" ")[0] + " Dice Size",
             //"Weapons Dice Size", also "Attacks Dice Size", but that's unlikely to be needed
-            this.prof.split(" ")[1] + " Dice Size",
+            prof.split(" ")[1] + " Dice Size",
             //"Simple Sword Dice Size", "Martial Club Dice Size" etc.
-            this.prof.split(" ")[0] + this.group + " Dice Size",
+            prof.split(" ")[0] + this.group + " Dice Size",
             //"Simple Longsword Dice Size", "Unarmed Fist Dice Size" etc.
-            this.prof.split(" ")[0] + this.weaponBase + " Dice Size",
+            prof.split(" ")[0] + this.weaponBase + " Dice Size",
             ]).forEach(effect => {
                 if (!effect.hide) {
                     absolutes.push({ value: parseInt(effect.value), setValue: "", source: effect.source, penalty: false });
@@ -531,15 +535,15 @@ export class Weapon extends Equipment {
             //"Sword Dice Size", "Club Dice Size"
             this.group + " Dice Size",
             //"Unarmed Attacks Dice Size", "Simple Weapons Dice Size" etc.
-            this.prof + " Dice Size",
+            prof + " Dice Size",
             //"Unarmed Dice Size", "Simple Dice Size" etc.
-            this.prof.split(" ")[0] + " Dice Size",
+            prof.split(" ")[0] + " Dice Size",
             //"Weapons Dice Size", also "Attacks Dice Size", but that's unlikely to be needed
-            this.prof.split(" ")[1] + " Dice Size",
+            prof.split(" ")[1] + " Dice Size",
             //"Simple Sword Dice Size", "Martial Club Dice Size" etc.
-            this.prof.split(" ")[0] + this.group + " Dice Size",
+            prof.split(" ")[0] + this.group + " Dice Size",
             //"Simple Longsword Dice Size", "Unarmed Fist Dice Size" etc.
-            this.prof.split(" ")[0] + this.weaponBase + " Dice Size",
+            prof.split(" ")[0] + this.weaponBase + " Dice Size",
             ]).forEach(effect => {
                 if (parseInt(effect.value) < 0 && !effect.hide) {
                     penalties.push({ value: parseInt(effect.value), setValue: "", source: effect.source, penalty: true });
@@ -547,9 +551,11 @@ export class Weapon extends Equipment {
                     bonuses.push({ value: parseInt(effect.value), setValue: "", source: effect.source, penalty: false });
                 }
                 dicesize += parseInt(effect.value);
+                //Don't raise dice size over 12.
+                dicesize = Math.min(12,dicesize);
                 explain += "\n" + effect.source + ": Dice size d" + dicesize;
             })
-        //Get the basic "#d#" string from the weapon's dice values, unless dicenum is 0/null.
+        //Get the basic "#d#" string from the weapon's dice values, unless dicenum is 0 or null (for instance some weapons deal exactly 1 base damage, which is represented by 0d1)
         var baseDice = (dicenum ? dicenum + "d" : "") + dicesize;
         //Calculate dexterity and strength penalties for the decision on which to use. They are not immediately applied.
         //The Enfeebled condition affects all Strength damage
@@ -743,13 +749,14 @@ export class Weapon extends Equipment {
         explain = explain.trim();
         return [dmgResult, explain, bonuses, penalties, absolutes];
     }
-    get_CritSpecialization(creature: Character | AnimalCompanion | Familiar, characterService: CharacterService, range: string) {
+    get_CritSpecialization(creature: Creature, characterService: CharacterService, range: string) {
         let SpecializationGains: SpecializationGain[] = [];
         let specializations: Specialization[] = [];
+        let prof = this.get_Proficiency((creature as AnimalCompanion|Character), characterService);
         if (creature.type == "Character" && this.group) {
             let character = creature as Character;
             let runeSource: (Weapon | WornItem)[] = this.get_RuneSource(creature, range);
-            let skillLevel = this.profLevel(creature, characterService, runeSource[1]);
+            let skillLevel = this.profLevel((creature as AnimalCompanion|Character), characterService, runeSource[1]);
             characterService.get_FeatsAndFeatures()
                 .filter(feat => feat.gainSpecialization.length && feat.have(character, characterService, character.level, false))
                 .forEach(feat => {
@@ -759,7 +766,7 @@ export class Weapon extends Equipment {
                         (spec.range ? (range && spec.range.includes(range)) : true) &&
                         (spec.name ? ((this.name && spec.name.includes(this.name)) || (this.weaponBase && spec.name.includes(this.weaponBase))) : true) &&
                         (spec.trait ? this.traits.filter(trait => spec.trait.includes(trait)).length : true) &&
-                        (spec.proficiency ? (this.prof && spec.proficiency.includes(this.prof)) : true) &&
+                        (spec.proficiency ? (prof && spec.proficiency.includes(prof)) : true) &&
                         (spec.skillLevel ? skillLevel >= spec.skillLevel : true) &&
                         (spec.featreq ? characterService.get_FeatsAndFeatures(spec.featreq)[0]?.have(character, characterService) : true)
                     ))

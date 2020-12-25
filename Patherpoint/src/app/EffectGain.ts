@@ -13,6 +13,7 @@ export class EffectGain {
     public setValue: string = "";
     //Set if the effect does not need a value, but still needs to be applied.
     public toggle: boolean = false;
+    public hidden: boolean = false;
     public type: string = "";
     public duration: number = 0;
     //Source and sourceId are currently only used to track temporary HP.

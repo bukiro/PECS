@@ -15,6 +15,7 @@ import { Equipment } from './Equipment';
 import { EffectGain } from './EffectGain';
 import { Hint } from './Hint';
 import * as json_conditions from '../assets/json/conditions';
+import { Creature } from './Creature';
 
 @Injectable({
     providedIn: 'root'
@@ -51,7 +52,7 @@ export class ConditionsService {
         }
     }
 
-    get_AppliedConditions(creature: Character | AnimalCompanion | Familiar, characterService: CharacterService, activeConditions: ConditionGain[], readonly: boolean = false) {
+    get_AppliedConditions(creature: Creature, characterService: CharacterService, activeConditions: ConditionGain[], readonly: boolean = false) {
         let creatureIndex: number = this.get_CalculatedIndex(creature.type);
         //Readonly skips any modifications and just returns the currently applied conditions. The same happens if the conditions haven't changed since the last run.
         if (readonly || JSON.stringify(activeConditions) == JSON.stringify(this.appliedConditions[creatureIndex])) {
@@ -114,7 +115,7 @@ export class ConditionsService {
         }
     }
 
-    process_Condition(creature: Character | AnimalCompanion | Familiar, characterService: CharacterService, effectsService: EffectsService, itemsService: ItemsService, gain: ConditionGain, condition: Condition, taken: boolean, increaseWounded: boolean = true) {
+    process_Condition(creature: Creature, characterService: CharacterService, effectsService: EffectsService, itemsService: ItemsService, gain: ConditionGain, condition: Condition, taken: boolean, increaseWounded: boolean = true) {
 
         //Prepare components for refresh
         if (condition.gainActivities.length) {
@@ -197,7 +198,7 @@ export class ConditionsService {
                                 gainItem.heightenedFilter == gain.heightened
                             )
                         ).forEach(gainItem => {
-                            this.add_ConditionItem(creature, characterService, itemsService, gainItem, condition);
+                            this.add_ConditionItem((creature as AnimalCompanion|Character), characterService, itemsService, gainItem, condition);
                         });
                 } else {
                     gain.gainItems
@@ -210,7 +211,7 @@ export class ConditionsService {
                                 gainItem.heightenedFilter == gain.heightened
                             )
                         ).forEach(gainItem => {
-                            this.remove_ConditionItem(creature, characterService, itemsService, gainItem);
+                            this.remove_ConditionItem((creature as AnimalCompanion|Character), characterService, itemsService, gainItem);
                         });
                     gain.gainItems = [];
                 }
@@ -300,7 +301,7 @@ export class ConditionsService {
         }
     }
 
-    tick_Conditions(creature: Character | AnimalCompanion | Familiar, turns: number = 10, yourTurn: number) {
+    tick_Conditions(creature: Creature, turns: number = 10, yourTurn: number) {
         let activeConditions = creature.conditions;
         while (turns > 0) {
             let activeConditions = creature.conditions;
@@ -364,7 +365,7 @@ export class ConditionsService {
         creature.conditions = activeConditions;
     }
 
-    rest(creature: Character | AnimalCompanion | Familiar, characterService: CharacterService) {
+    rest(creature: Creature, characterService: CharacterService) {
         creature.conditions.filter(gain => gain.duration == -2).forEach(gain => {
             gain.duration = 0;
         });

@@ -15,6 +15,7 @@ import { Familiar } from '../Familiar';
 import { ConditionsService } from '../conditions.service';
 import { Condition } from '../Condition';
 import { SpellCast } from '../SpellCast';
+import { Creature } from '../Creature';
 
 @Component({
     selector: 'app-activity',
@@ -53,7 +54,7 @@ export class ActivityComponent implements OnInit {
     }
     
     get_Creature(creature: string = this.creature) {
-        return this.characterService.get_Creature(creature) as Character|AnimalCompanion|Familiar;
+        return this.characterService.get_Creature(creature) as Creature;
     }
 
     get_CompanionAvailable() {

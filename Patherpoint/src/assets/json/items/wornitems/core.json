@@ -1511,6 +1511,16 @@
                 "affected": "Acrobatics",
                 "value": "+1",
                 "type": "item"
+            },
+            {
+                "affected": "Cloak of Elvenkind Charges",
+                "setValue": "2",
+                "hidden": true
+            },
+            {
+                "affected": "Cloak of Elvenkind (Greater) Charges",
+                "setValue": "2",
+                "hidden": true
             }
         ],
         "_className": "WornItem",
@@ -1575,6 +1585,16 @@
                 "affected": "Acrobatics",
                 "value": "+2",
                 "type": "item"
+            },
+            {
+                "affected": "Cloak of Elvenkind Charges",
+                "setValue": "2",
+                "hidden": true
+            },
+            {
+                "affected": "Cloak of Elvenkind (Greater) Charges",
+                "setValue": "2",
+                "hidden": true
             }
         ],
         "_className": "WornItem",
@@ -1597,11 +1617,9 @@
                 "actions": "2A",
                 "activationType": "Interact",
                 "cooldown": 144000,
-                "charges": 2,
                 "frequency": "once per day",
                 "desc": "You draw the hood up and gain the effects of invisibility, with the spell's normal duration or until you pull the hood back down, whichever comes first. If you're also wearing boots of elvenkind, you can activate this ability twice per day.",
                 "name": "Cloak of Elvenkind",
-                "inputRequired": "Use the second charge of the activity only if you're wearing the boots of elvenkind.",
                 "castSpells": [
                     {
                         "_className": "SpellCast",
@@ -1694,11 +1712,9 @@
                 "actions": "2A",
                 "activationType": "Interact",
                 "cooldown": 144000,
-                "charges": 2,
                 "frequency": "once per day",
                 "desc": "You draw the hood up and gain the effects of 4th-level invisibility, with the spell's normal duration or until you pull the hood back down, whichever comes first. If you're also wearing boots of elvenkind, you can activate this ability twice per day.",
                 "name": "Cloak of Elvenkind (Greater)",
-                "inputRequired": "Use the second charge of the activity only if you're wearing the boots of elvenkind.",
                 "castSpells": [
                     {
                         "_className": "SpellCast",

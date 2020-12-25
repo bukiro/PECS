@@ -3,6 +3,7 @@ import { AnimalCompanion } from './AnimalCompanion';
 import { Familiar } from './Familiar';
 import { Item } from './Item';
 import { Hint } from './Hint';
+import { Creature } from './Creature';
 
 export class Trait {
     public desc: string = "";
@@ -12,7 +13,7 @@ export class Trait {
     public specialModifier: string[] = [];
     //Return all equipped items that have this trait, or alternatively only their names.
     //Some trait instances have information after the trait name, so we allow traits that include this trait's name as long as this trait is dynamic.
-    haveOn(creature: Character|AnimalCompanion|Familiar, namesOnly: boolean = false) { 
+    haveOn(creature: Creature, namesOnly: boolean = false) { 
         let filteredItems: Item[] = []
         creature.inventories.forEach(inventory => {
             filteredItems.push(...inventory.allEquipment()

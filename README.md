@@ -104,6 +104,10 @@ The very latest in Assistive Technologies for Dungeon Master (ATDM)
 - [ ] Stretch Goal: Include optional systems like Stamina & Resolve
 
 Active to-do:
+Convert feats
+Test halfling feats (including ProficiencyCopy)
+Test new Fighter Advanced Weapon Training feats (using ProficiencyCopy)
+Test goblin weapon expertise
 
 Implement:
 

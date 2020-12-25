@@ -10,6 +10,7 @@ import { Familiar } from 'src/app/Familiar';
 import { ItemsService } from 'src/app/items.service';
 import { TimeService } from 'src/app/time.service';
 import { TraitsService } from 'src/app/traits.service';
+import { Creature } from 'src/app/Creature';
 
 @Component({
     selector: 'app-condition',
@@ -53,7 +54,7 @@ export class ConditionComponent implements OnInit {
     }
 
     get_Creature() {
-        return this.characterService.get_Creature(this.creature) as Character | AnimalCompanion | Familiar;
+        return this.characterService.get_Creature(this.creature) as Creature;
     }
 
     trackByIndex(index: number, obj: any): any {

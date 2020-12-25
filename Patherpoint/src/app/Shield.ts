@@ -1,6 +1,7 @@
 import { AnimalCompanion } from './AnimalCompanion';
 import { Character } from './Character';
 import { CharacterService } from './character.service';
+import { Creature } from './Creature';
 import { Equipment } from './Equipment';
 import { Familiar } from './Familiar';
 
@@ -35,7 +36,7 @@ export class Shield extends Equipment {
     public $shieldAlly: boolean = false;
     //Shoddy shields take a -2 penalty to AC.
     public $shoddy: number = 0;
-    get_Shoddy(creature: Character | AnimalCompanion | Familiar, characterService: CharacterService) {
+    get_Shoddy(creature: Creature, characterService: CharacterService) {
         //Shoddy items have a -2 penalty to AC, unless you have the Junk Tinker feat and have crafted the item yourself.
         if (this.shoddy && characterService.get_Feats("Junk Tinker")[0]?.have(creature, characterService) && this.crafted) {
             this.$shoddy = 0;
@@ -45,7 +46,7 @@ export class Shield extends Equipment {
             return -2;
         }
     }
-    get_ShieldAlly(creature: Character | AnimalCompanion | Familiar, characterService: CharacterService) {
+    get_ShieldAlly(creature: Creature, characterService: CharacterService) {
         this.$shieldAlly = characterService.get_Feats("Divine Ally: Shield Ally")[0]?.have(creature, characterService) && true;
         return this.$shieldAlly;
     }

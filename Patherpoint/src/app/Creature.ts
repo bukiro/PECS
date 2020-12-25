@@ -5,12 +5,14 @@ import { Bulk } from './Bulk';
 import { ConditionGain } from './ConditionGain';
 import { v1 as uuidv1 } from 'uuid';
 import { EffectGain } from './EffectGain';
+import { Skill } from './Skill';
 
 export class Creature {
     public name: string = "";
     public id = uuidv1();
     public type: string = "";
     public level: number = 1;
+    public customSkills: Skill[] = [];
     public health: Health = new Health();
     public conditions: ConditionGain[] = [];
     public effects: EffectGain[] = [];

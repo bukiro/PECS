@@ -6,6 +6,8 @@ import { AnimalCompanion } from './AnimalCompanion';
 import { Familiar } from './Familiar';
 import { Character } from './Character';
 import { ThrowStmt } from '@angular/compiler';
+import { Creature } from './Creature';
+import { ProficiencyCopy } from './ProficiencyCopy';
 
 export class Skill {
     public readonly _className: string = this.constructor.name;
@@ -27,7 +29,7 @@ export class Skill {
         public locked: boolean = false,
         public recallKnowledge: boolean = false
     ) { }
-    get_Index(creature: Character | AnimalCompanion | Familiar) {
+    get_Index(creature: Creature) {
         let index = 0;
         switch (creature.type) {
             case "Companion":
@@ -39,13 +41,13 @@ export class Skill {
         }
         return index;
     }
-    calculate(creature: Character | AnimalCompanion | Familiar, characterService: CharacterService, abilitiesService: AbilitiesService, effectsService: EffectsService, charLevel: number = characterService.get_Character().level, isDC: boolean = false) {
+    calculate(creature: Creature, characterService: CharacterService, abilitiesService: AbilitiesService, effectsService: EffectsService, charLevel: number = characterService.get_Character().level, isDC: boolean = false) {
         let index = this.get_Index(creature);
         //Level is needed for getting the proper effects and needs to be calculated first.
         if (creature.type == "Familiar") {
             this.$level[index] = 0;
         } else {
-            this.$level[index] = this.level(creature, characterService, charLevel);
+            this.$level[index] = this.level((creature as AnimalCompanion|Character), characterService, charLevel);
         }
         this.$ability[index] = this.get_Ability(creature, characterService);
         this.$absolutes[index] = this.absolutes(creature, characterService, effectsService, isDC);
@@ -78,28 +80,30 @@ export class Skill {
                 let spellDCs = characterService.get_Skills(creature).filter(skill => skill !== this && skill.name.includes("Spell DC") && !skill.name.includes("Innate"));
                 skillLevel = Math.max(skillLevel, ...spellDCs.map(skill => skill.level(creature, characterService, charLevel, excludeTemporary)));
             }
-            //If this is an advanced weapon group and you have the Advanced Weapon Training feat for it,
-            //  you get the same proficiency as for martial weapons of the same group (or martial weapons in general).
-            if (this.name.includes("Advanced ") && this.name != "Advanced Weapons") {
-                if (creature.type == "Character" && (creature as Character).get_FeatsTaken(1, creature.level, "Advanced Weapon Training: "+this.name.split(" ")[1]).length) {
-                    skillLevel = Math.max(
-                        characterService.get_Skills(creature, "Martial "+this.name.split(" ")[1])[0]?.level(creature, characterService, charLevel, excludeTemporary) || 0,
-                        characterService.get_Skills(creature, "Martial Weapons")[0]?.level(creature, characterService, charLevel, excludeTemporary) || 0,
-                        skillLevel);
-                }
-            }
-            //If this is a goblin weapon, you are trained in it, and you have the Goblin Weapon Expertise feat,
-            //  you share the highest weapon proficiency that you gained by a class feature (so the skillChoice type is "Weapon Proficiency", but the source does not include "Feat:")
-            //We check whether you are trained in it by checking if your skillLevel up to this point is higher than 0.
-            if (["Goblin", "Dogslicer", "Horsechopper"].includes(this.name)) {
-                if (creature.type == "Character" && (creature as Character).get_FeatsTaken(1, creature.level, "Goblin Weapon Expertise").length && skillLevel > 0) {
-                    let featureLevels: number[] = [];
-                    (creature as Character).class.levels.filter(level => level.number <= creature.level).forEach(level => {
-                        featureLevels.push(...level.skillChoices.filter(choice => choice.type == "Weapon Proficiency" && !choice.source.includes("Feat:")).map(choice => choice.maxRank))
-                    })
-                    skillLevel = Math.max(...featureLevels, skillLevel);
-                }
-            }
+            let proficiencyCopies: ProficiencyCopy[] = [];
+            //Collect all the available proficiency copy instructions,
+            // (i.e. "Whenever you gain a class feature that grants you expert or greater proficiency in a given weapon or weapons, you also gain that proficiency in...").
+            //We check whether you meet the minimum proficiency level by comparing if your skillLevel up to this point.
+            characterService.get_FeatsAndFeatures()
+                .filter(feat => feat.copyProficiency.length && feat.have(creature, characterService, charLevel, false))
+                .forEach(feat => {
+                    proficiencyCopies.push(...feat.copyProficiency.filter(copy => 
+                        (this.name == copy.name) &&
+                        (copy.minLevel ? skillLevel >= copy.minLevel : true)
+                    ))
+                });
+            //For each proficiency copy instruction, collect the desired skill increases, then keep the highest.
+            let copyLevels: number[] = [];
+            proficiencyCopies.forEach(copy => {
+                (creature as Character).class.levels.filter(level => level.number <= creature.level).forEach(level => {
+                    copyLevels.push(...
+                        level.skillChoices.filter(choice =>
+                            (choice.type == copy.type) &&
+                            (copy.featuresOnly ? !choice.source.includes("Feat:") : true)
+                        ).map(choice => choice.maxRank))
+                })
+            })
+            skillLevel = Math.max(...copyLevels, skillLevel);
             //The Stealthy Companion feat increases the Animal Companion's Stealth rank.
             if (creature.type == "Companion" &&
                 this.name == "Stealth" &&
@@ -155,38 +159,38 @@ export class Skill {
         if (this.recallKnowledge && this.$level[index] >= 6) { list.push("Master Recall Knowledge Checks") }
         return list;
     }
-    absolutes(creature: Character | AnimalCompanion | Familiar, characterService: CharacterService, effectsService: EffectsService, isDC: boolean = false) {
+    absolutes(creature: Creature, characterService: CharacterService, effectsService: EffectsService, isDC: boolean = false) {
         let namesList = this.get_NamesList(this.get_Index(creature), isDC);
-        if (creature.type != "Familiar" && this.type == "Skill" && this.level(creature, characterService) == 0 && this.type == "Skill") {
+        if (creature.type != "Familiar" && this.type == "Skill" && this.level((creature as AnimalCompanion|Character), characterService) == 0 && this.type == "Skill") {
             namesList.push("Untrained Skills");
         }return effectsService.get_AbsolutesOnThese(creature, namesList);
     }
-    relatives(creature: Character | AnimalCompanion | Familiar, characterService: CharacterService, effectsService: EffectsService, isDC: boolean = false) {
+    relatives(creature: Creature, characterService: CharacterService, effectsService: EffectsService, isDC: boolean = false) {
         let namesList = this.get_NamesList(this.get_Index(creature), isDC);
-        if (creature.type != "Familiar" && this.type == "Skill" && this.level(creature, characterService) == 0) {
+        if (creature.type != "Familiar" && this.type == "Skill" && this.level((creature as AnimalCompanion|Character), characterService) == 0) {
             namesList.push("Untrained Skills");
         }
         return effectsService.get_RelativesOnThese(creature, namesList);
     }
-    bonuses(creature: Character | AnimalCompanion | Familiar, characterService: CharacterService, effectsService: EffectsService, isDC: boolean = false) {
+    bonuses(creature: Creature, characterService: CharacterService, effectsService: EffectsService, isDC: boolean = false) {
         let namesList = this.get_NamesList(this.get_Index(creature), isDC);
-        if (creature.type != "Familiar" && this.type == "Skill" && this.level(creature, characterService) == 0) {
+        if (creature.type != "Familiar" && this.type == "Skill" && this.level((creature as AnimalCompanion|Character), characterService) == 0) {
             namesList.push("Untrained Skills");
         }
         return effectsService.show_BonusesOnThese(creature, namesList);
     }
-    penalties(creature: Character | AnimalCompanion | Familiar, characterService: CharacterService, effectsService: EffectsService, isDC: boolean = false) {
+    penalties(creature: Creature, characterService: CharacterService, effectsService: EffectsService, isDC: boolean = false) {
         let namesList = this.get_NamesList(this.get_Index(creature), isDC);
-        if (creature.type != "Familiar" && this.type == "Skill" && this.level(creature, characterService) == 0) {
+        if (creature.type != "Familiar" && this.type == "Skill" && this.level((creature as AnimalCompanion|Character), characterService) == 0) {
             namesList.push("Untrained Skills");
         }
         return effectsService.show_PenaltiesOnThese(creature, namesList);
     }
-    get_Ability(creature: Character | AnimalCompanion | Familiar, characterService: CharacterService) {
+    get_Ability(creature: Creature, characterService: CharacterService) {
         if (creature.type == "Familiar") {
             let character = characterService.get_Character();
             //Get the correct ability by identifying the non-innate spellcasting with the same class name as the Familiar's originClass and retrieving its key ability.
-            return character.class.spellCasting.find(spellcasting => spellcasting.className == creature.originClass && spellcasting.castingType != "Innate").ability || "Charisma";
+            return character.class.spellCasting.find(spellcasting => spellcasting.className == (creature as Familiar).originClass && spellcasting.castingType != "Innate").ability || "Charisma";
         } else {
             if (this.ability) {
                 return this.ability;
@@ -200,7 +204,7 @@ export class Skill {
             }
         }
     }
-    baseValue(creature: Character | AnimalCompanion | Familiar, characterService: CharacterService, abilitiesService: AbilitiesService, effectsService: EffectsService, charLevel: number = characterService.get_Character().level) {
+    baseValue(creature: Creature, characterService: CharacterService, abilitiesService: AbilitiesService, effectsService: EffectsService, charLevel: number = characterService.get_Character().level) {
         let result: number = 0;
         let explain: string = "";
         let index = 0;
@@ -242,7 +246,7 @@ export class Skill {
                 //Add character level if the character is trained or better with the Skill
                 //Add half the level if the skill is unlearned and the character has the Untrained Improvisation feat (full level from 7 on).
                 //Gets applied to saves and perception, but they are never untrained
-                let skillLevel = this.level(creature, characterService, charLevel);
+                let skillLevel = this.level((creature as AnimalCompanion|Character), characterService, charLevel);
                 var charLevelBonus = 0;
                 if (skillLevel) {
                     charLevelBonus = charLevel;
@@ -253,7 +257,7 @@ export class Skill {
                 var abilityMod = 0;
                 let ability = this.get_Ability(creature, characterService)
                 if (ability) {
-                    abilityMod = abilitiesService.get_Abilities(ability)[0].mod(creature, characterService, effectsService).result;
+                    abilityMod = abilitiesService.get_Abilities(ability)[0].mod((creature as AnimalCompanion|Character), characterService, effectsService).result;
                 }
                 if (abilityMod) {
                     explain += "\n" + ability + " Modifier: " + abilityMod;
@@ -265,7 +269,7 @@ export class Skill {
         }
         return { result: result, explain: explain };
     }
-    value(creature: Character | AnimalCompanion | Familiar, characterService: CharacterService, abilitiesService: AbilitiesService, effectsService: EffectsService, charLevel: number = characterService.get_Character().level, isDC: boolean = false) {
+    value(creature: Creature, characterService: CharacterService, abilitiesService: AbilitiesService, effectsService: EffectsService, charLevel: number = characterService.get_Character().level, isDC: boolean = false) {
         //Calculates the effective bonus of the given Skill
         let index = 0;
         switch (creature.type) {

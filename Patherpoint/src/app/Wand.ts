@@ -3,6 +3,7 @@ import { Character } from './Character';
 import { AnimalCompanion } from './AnimalCompanion';
 import { Familiar } from './Familiar';
 import { Equipment } from './Equipment';
+import { Creature } from './Creature';
 
 export class Wand extends Equipment {
     public readonly _className: string = this.constructor.name;
@@ -24,7 +25,7 @@ export class Wand extends Equipment {
             return this.name;
         }
     }
-    get_Traits(characterService: CharacterService, creature: Character|AnimalCompanion|Familiar) {
+    get_Traits(characterService: CharacterService, creature: Creature) {
         //creature is not needed for wands, but for other types of item.
         if (this.storedSpells[0]?.spells.length) {
             let spell = characterService.spellsService.get_Spells(this.storedSpells[0].spells[0].name)[0];

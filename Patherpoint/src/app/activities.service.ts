@@ -16,6 +16,7 @@ import { SpellCast } from './SpellCast';
 import { ConditionsService } from './conditions.service';
 import { Hint } from './Hint';
 import * as json_activities from '../assets/json/activities';
+import { Creature } from './Creature';
 
 @Injectable({
     providedIn: 'root'
@@ -35,7 +36,7 @@ export class ActivitiesService {
         }
     }
 
-    activate_Activity(creature: Character|AnimalCompanion|Familiar, spellTarget: string, characterService: CharacterService, conditionsService: ConditionsService, itemsService: ItemsService, spellsService: SpellsService, gain: ActivityGain|ItemActivity, activity: Activity|ItemActivity, activated: boolean, changeAfter: boolean = true) {
+    activate_Activity(creature: Creature, spellTarget: string, characterService: CharacterService, conditionsService: ConditionsService, itemsService: ItemsService, spellsService: SpellsService, gain: ActivityGain|ItemActivity, activity: Activity|ItemActivity, activated: boolean, changeAfter: boolean = true) {
         //Find item, if it exists
         let item: Equipment = null;
         creature.inventories.forEach(inventory => {
@@ -53,37 +54,49 @@ export class ActivitiesService {
             characterService.set_HintsToChange(creature.type, activity.hints);
         }
 
+        if (activated || activity.cooldownAfterEnd) {
+            let cooldown = activity.get_Cooldown(creature, characterService);
+            //Start cooldown, unless one is already in effect. If the activity ends and cooldownAfterEnd is set, start the cooldown anew.
+            if (cooldown && (!gain.activeCooldown || (!activated && activity.cooldownAfterEnd))) {
+                gain.activeCooldown = cooldown;
+            }
+        }
+
         if (activated) {
+            let cooldown = activity.get_Cooldown(creature, characterService);
             //Start cooldown, unless one is already in effect.
-            if (activity.cooldown && !gain.activeCooldown) {
-                gain.activeCooldown = activity.cooldown;
+            if (cooldown && !gain.activeCooldown) {
+                gain.activeCooldown = cooldown;
             }
             //Use charges
-            if (activity.charges || gain.sharedChargesID) {
+            let maxCharges = activity.maxCharges(creature, characterService);
+            if (maxCharges || gain.sharedChargesID) {
                 //If this activity belongs to an item and has a sharedCharges ID, spend a charge for every activity with the same sharedChargesID and start their cooldown if necessary.
                 if (item && gain.sharedChargesID) {
                     item.activities
                         .filter(itemActivity => itemActivity.sharedChargesID == gain.sharedChargesID)
                         .forEach(itemActivity => {
-                            if (itemActivity.charges) {
+                            if (itemActivity.maxCharges(creature, characterService)) {
                                 itemActivity.chargesUsed += 1;
                             }
-                            if (!itemActivity.activeCooldown && itemActivity.cooldown) {
-                                itemActivity.activeCooldown = itemActivity.cooldown;
+                            let otherCooldown = itemActivity.get_Cooldown(creature, characterService)
+                            if (!itemActivity.activeCooldown && otherCooldown) {
+                                itemActivity.activeCooldown = otherCooldown;
                             }
                         })
                     item.gainActivities
                         .filter(activityGain => activityGain.sharedChargesID == gain.sharedChargesID)
                         .forEach(activityGain => {
                             let originalActivity = this.get_Activities(activityGain.name)[0];
-                            if (originalActivity?.charges) {
+                            if (originalActivity?.maxCharges(creature, characterService)) {
                                 activityGain.chargesUsed += 1;
                             }
-                            if (!activityGain.activeCooldown && originalActivity?.cooldown) {
-                                activityGain.activeCooldown = originalActivity.cooldown;
+                            let otherCooldown = originalActivity?.get_Cooldown(creature, characterService) || 0
+                            if (!activityGain.activeCooldown && otherCooldown) {
+                                activityGain.activeCooldown = otherCooldown;
                             }
                         })
-                } else if (activity.charges) {
+                } else if (maxCharges) {
                     gain.chargesUsed += 1;
                 }
             }
@@ -196,22 +209,12 @@ export class ActivitiesService {
             }
         }
 
-        //Quick Rage
-        if (activity.name == "Rage" &&
-                gain.activeCooldown > 0 &&
-                creature.type == "Character" &&
-                (creature as Character).get_FeatsTaken(1, creature.level, "Quick Rage").length
-            ) {
-            gain.activeCooldown = 10;
-            characterService.set_ToChange(creature.type, "activities");
-        }
-
         if (changeAfter) {
             characterService.process_ToChange();
         }
     }
 
-    rest(creature: Character|AnimalCompanion|Familiar, characterService: CharacterService) {
+    rest(creature: Creature, characterService: CharacterService) {
         //Get all owned activity gains that have a cooldown active.
         //Get the original activity information, and if its cooldown is exactly one day, the actvity gain's cooldown is reset.
         characterService.get_OwnedActivities(creature).filter((gain: ActivityGain|ItemActivity) => gain.activeCooldown > 0 || gain.duration == -2).forEach(gain => {
@@ -224,14 +227,14 @@ export class ActivitiesService {
             if (gain.duration == -2 && activity) {
                 this.activate_Activity(creature, creature.type, characterService, characterService.conditionsService, characterService.itemsService, characterService.spellsService, gain, activity, false, false);
             }
-            if (activity.cooldown == 144000) {
+            if (activity.get_Cooldown(creature, characterService) == 144000) {
                 gain.activeCooldown = 0;
                 gain.chargesUsed = 0;
             }
         });
     }
 
-    tick_Activities(creature: Character|AnimalCompanion|Familiar, characterService: CharacterService, conditionsService: ConditionsService, itemsService: ItemsService, spellsService: SpellsService, turns: number = 10) {
+    tick_Activities(creature: Creature, characterService: CharacterService, conditionsService: ConditionsService, itemsService: ItemsService, spellsService: SpellsService, turns: number = 10) {
         characterService.get_OwnedActivities(creature, undefined, true).filter(gain => gain.activeCooldown || gain.duration).forEach(gain => {
             //Tick down the duration and the cooldown by the amount of turns.
             characterService.set_ToChange(creature.type, "activities");

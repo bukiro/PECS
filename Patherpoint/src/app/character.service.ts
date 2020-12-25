@@ -56,6 +56,7 @@ import { AlchemicalPoison } from './AlchemicalPoison';
 import { OtherConsumableBomb } from './OtherConsumableBomb';
 import { AdventuringGear } from './AdventuringGear';
 import { Hint } from './Hint';
+import { Creature } from './Creature';
 
 @Injectable({
     providedIn: 'root'
@@ -474,13 +475,13 @@ export class CharacterService {
                 familiarAvailable = this.get_FamiliarAvailable() != null;
             }
             if (companionAvailable && familiarAvailable) {
-                return ([] as (Character | AnimalCompanion | Familiar)[]).concat(this.get_Character()).concat(this.get_Companion()).concat(this.get_Familiar());
+                return ([] as (Creature)[]).concat(this.get_Character()).concat(this.get_Companion()).concat(this.get_Familiar());
             } else if (companionAvailable) {
-                return ([] as (Character | AnimalCompanion | Familiar)[]).concat(this.get_Character()).concat(this.get_Companion());
+                return ([] as (Creature)[]).concat(this.get_Character()).concat(this.get_Companion());
             } else if (familiarAvailable) {
-                return ([] as (Character | AnimalCompanion | Familiar)[]).concat(this.get_Character()).concat(this.get_Familiar());
+                return ([] as (Creature)[]).concat(this.get_Character()).concat(this.get_Familiar());
             } else {
-                return ([] as (Character | AnimalCompanion | Familiar)[]).concat(this.get_Character());
+                return ([] as (Creature)[]).concat(this.get_Character());
             }
         } else { return [new Character()] }
     }
@@ -537,7 +538,7 @@ export class CharacterService {
         return this.deitiesService.get_Deities(name);
     }
 
-    get_Speeds(creature: Character | AnimalCompanion | Familiar, name: string = "") {
+    get_Speeds(creature: Creature, name: string = "") {
         return creature.speeds.filter(speed => speed.name == name || name == "");
     }
 
@@ -645,7 +646,7 @@ export class CharacterService {
         return this.itemsService.get_CleanItems();
     }
 
-    get_Inventories(creature: Character | AnimalCompanion | Familiar) {
+    get_Inventories(creature: Creature) {
         if (!this.still_loading()) {
             return creature.inventories;
         } else { return [new ItemCollection()] }
@@ -655,7 +656,7 @@ export class CharacterService {
         return this.itemsService.get_Specializations(group);
     }
 
-    get_InvestedItems(creature: Character | AnimalCompanion | Familiar) {
+    get_InvestedItems(creature: Creature) {
         return creature.inventories[0].allEquipment().filter(item => item.invested && item.traits.includes("Invested"));
     }
 
@@ -1261,7 +1262,7 @@ export class CharacterService {
         return this.conditionsService.get_Conditions(name, type);
     }
 
-    get_AppliedConditions(creature: Character | AnimalCompanion | Familiar, name: string = "", source: string = "", readonly: boolean = false) {
+    get_AppliedConditions(creature: Creature, name: string = "", source: string = "", readonly: boolean = false) {
         //Returns ConditionGain[] with apply=true/false for each
         return this.conditionsService.get_AppliedConditions(creature, this, creature.conditions, readonly).filter(condition =>
             (condition.name == name || name == "") &&
@@ -1269,7 +1270,7 @@ export class CharacterService {
         );
     }
 
-    add_Condition(creature: Character | AnimalCompanion | Familiar, conditionGain: ConditionGain, reload: boolean = true) {
+    add_Condition(creature: Creature, conditionGain: ConditionGain, reload: boolean = true) {
         let activate: boolean = true;
         //If the condition has an activationPrerequisite, test that first and only activate if it evaluates to a nonzero number.
         if (conditionGain.activationPrerequisite) {
@@ -1324,7 +1325,7 @@ export class CharacterService {
         }
     }
 
-    remove_Condition(creature: Character | AnimalCompanion | Familiar, conditionGain: ConditionGain, reload: boolean = true, increaseWounded: boolean = true, keepPersistent: boolean = false) {
+    remove_Condition(creature: Creature, conditionGain: ConditionGain, reload: boolean = true, increaseWounded: boolean = true, keepPersistent: boolean = false) {
         //Find the correct condition to remove. This can be the exact same as the conditionGain parameter, but if it isn't, find the most similar one:
         //- Find all conditions with similar name, value and source, then if there are more than one of those:
         //-- Try finding one that has the exact same attributes.
@@ -1364,7 +1365,7 @@ export class CharacterService {
 
     }
 
-    change_ConditionStage(creature: Character | AnimalCompanion | Familiar, gain: ConditionGain, condition: Condition, change: number) {
+    change_ConditionStage(creature: Creature, gain: ConditionGain, condition: Condition, change: number) {
         if (change == 0) {
             //If no change, the condition remains, but the onset is reset.
             gain.nextStage = condition.nextStage;
@@ -1392,7 +1393,7 @@ export class CharacterService {
         this.process_ToChange();
     }
 
-    process_OnceEffect(creature: Character | AnimalCompanion | Familiar, effectGain: EffectGain, conditionValue: number = 0, conditionHeightened: number = 0, conditionChoice: string = "", conditionSpellCastingAbility: string = "") {
+    process_OnceEffect(creature: Creature, effectGain: EffectGain, conditionValue: number = 0, conditionHeightened: number = 0, conditionChoice: string = "", conditionSpellCastingAbility: string = "") {
         let value = 0;
         try {
             //we eval the effect value by sending this effect gain to get_SimpleEffects() and receive the resulting effect.
@@ -1495,7 +1496,7 @@ export class CharacterService {
         return this.abilitiesService.get_Abilities(name)
     }
 
-    get_Skills(creature: Character | AnimalCompanion | Familiar, name: string = "", type: string = "", locked: boolean = undefined) {
+    get_Skills(creature: Creature, name: string = "", type: string = "", locked: boolean = undefined) {
         return this.skillsService.get_Skills(creature.customSkills, name, type, locked)
     }
 
@@ -1511,7 +1512,7 @@ export class CharacterService {
         return this.featsService.get_All(this.get_Character().customFeats, name, type, includeSubTypes);
     }
 
-    get_Health(creature: Character | AnimalCompanion | Familiar) {
+    get_Health(creature: Creature) {
         return creature.health;
     }
 
@@ -1590,7 +1591,7 @@ export class CharacterService {
         ).concat(this.get_FeatsShowingOn("Familiar:" + objectName))
     }
 
-    get_ConditionsShowingOn(creature: Character | AnimalCompanion | Familiar, objectName: string = "all") {
+    get_ConditionsShowingOn(creature: Creature, objectName: string = "all") {
         return this.get_AppliedConditions(creature)
         .filter(conditionGain => conditionGain.apply)
         .map(conditionGain => this.get_Conditions(conditionGain.name)[0])
@@ -1608,14 +1609,14 @@ export class CharacterService {
         )
     }
 
-    get_OwnedActivities(creature: Character | AnimalCompanion | Familiar, levelNumber: number = creature.level, all: boolean = false) {
+    get_OwnedActivities(creature: Creature, levelNumber: number = creature.level, all: boolean = false) {
         let activities: (ActivityGain | ItemActivity)[] = []
         if (!this.still_loading()) {
             if (creature.type == "Character") {
                 activities.push(...(creature as Character).class.activities.filter(gain => gain.level <= levelNumber));
             }
-            if (creature.type == "Companion" && creature.class.ancestry.name) {
-                activities.push(...(creature as AnimalCompanion).class.ancestry.activities.filter(gain => gain.level <= levelNumber));
+            if (creature.type == "Companion") {
+                activities.push(...(creature as AnimalCompanion).class?.ancestry?.activities.filter(gain => gain.level <= levelNumber));
             }
             this.get_AppliedConditions(creature, "", "", true).filter(gain => gain.apply).forEach(gain => {
                 activities.push(...this.get_Conditions(gain.name)[0]?.gainActivities)
@@ -1715,7 +1716,7 @@ export class CharacterService {
         })
     }
 
-    get_ActivitiesShowingOn(creature: Character | AnimalCompanion | Familiar, objectName: string = "all") {
+    get_ActivitiesShowingOn(creature: Creature, objectName: string = "all") {
         return this.get_OwnedActivities(creature)
             //Conflate ActivityGains and their respective Activities into one object...
             .map(gain => gain.constructor == ItemActivity ? [gain, gain] : [gain, this.activitiesService.get_Activities(gain.name)[0]])
@@ -1737,7 +1738,7 @@ export class CharacterService {
             )
     }
 
-    get_ItemsShowingOn(creature: Character | AnimalCompanion | Familiar, objectName: string = "all") {
+    get_ItemsShowingOn(creature: Creature, objectName: string = "all") {
         let returnedItems: Item[] = [];
         //Prepare function to add items whose hints match the objectName.
         function get_Hint(item: Equipment | Oil | WornItem | ArmorRune) {
@@ -1777,7 +1778,7 @@ export class CharacterService {
         return returnedItems;
     }
 
-    get_ArmorSpecializationsShowingOn(creature: Character | AnimalCompanion | Familiar, objectName: string = "all") {
+    get_ArmorSpecializationsShowingOn(creature: Creature, objectName: string = "all") {
         if (creature.type == "Character") {
             return creature.inventories[0].armors.find(armor => armor.equipped).get_ArmorSpecialization(creature, this)
                 .filter(spec => 

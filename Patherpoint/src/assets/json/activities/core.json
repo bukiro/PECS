@@ -934,6 +934,7 @@
         "maxDuration": 100,
         "toggle": true,
         "cooldown": 100,
+        "cooldownAfterEnd": true,
         "requirements": "You use the Rage action on your turn.",
         "desc": "You tap into your inner fury and begin raging. You gain a number of temporary Hit Points equal to your level plus your Constitution modifier. This frenzy lasts for 1 minute, until there are no enemies you can perceive, or until you fall unconscious, whichever comes first. You can't voluntarily stop raging. While you are raging: \n\nYou deal 2 additional damage with melee weapons and unarmed attacks. This additional damage is halved if your weapon or unarmed attack is agile.\nYou take a -1 penalty to AC.\nYou can't use actions with the concentrate trait unless they also have the rage trait. You can Seek while raging.\n\nAfter you stop raging, you lose any remaining temporary Hit Points from Rage, and you can't Rage again for 1 minute.",
         "gainConditions": [
@@ -996,6 +997,18 @@
         "cooldown": 144000,
         "trigger": "You fail a skill check or saving throw.",
         "desc": "Your happy-go-lucky nature makes it seem like misfortune avoids you, and to an extent, that might even be true. You can reroll the triggering check, but you must use the new result, even if it's worse than your first roll.",
+        "traits": [
+            "Fortune",
+            "Halfling"
+        ]
+    },
+    {
+        "name": "Halfling Luck (Guiding Luck)",
+        "actions": "Free",
+        "frequency": "once per day",
+        "cooldown": 144000,
+        "trigger": "You fail a perception check or attack roll.",
+        "desc": "Your luck guides you to look the right way and aim your blows unerringly. You can reroll the triggering check, but you must use the new result, even if it's worse than your first roll.",
         "traits": [
             "Fortune",
             "Halfling"
@@ -2663,6 +2676,7 @@
         "maxDuration": 100,
         "toggle": true,
         "cooldown": 100,
+        "cooldownAfterEnd": true,
         "requirements": "The badger isn't fatigued or raging.",
         "desc": "The badger enters a state of pure rage that lasts for 1 minute, until there are no enemies it can perceive, or until it falls unconscious, whichever comes first. It can't voluntarily stop raging. While raging, the badger is affected in the following ways.\n\nIt deals 4 additional damage with its bite attacks and 2 additional damage with its claw attacks.\nIt takes a -1 penalty to AC.\nIt can't use actions that have the concentrate trait unless they also have the rage trait. The animal companion can Seek even while raging.\n\nAfter it has stopped raging, it can't use Badger Rage again for 1 minute.",
         "gainConditions": [

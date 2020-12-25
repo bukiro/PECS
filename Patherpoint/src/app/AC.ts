@@ -5,6 +5,7 @@ import { Effect } from './Effect';
 import { AnimalCompanion } from './AnimalCompanion';
 import { Familiar } from './Familiar';
 import { Character } from './Character';
+import { Creature } from './Creature';
 
 export class AC {
     public name: string = "AC"
@@ -14,13 +15,13 @@ export class AC {
     public $penalties: (boolean)[] = [false, false, false];
     public $value: {result: number, explain: string}[] = [{result:0, explain:""},{result:0, explain:""},{result:0, explain:""}];
     //Are you currently taking cover?
-    cover(creature: Character|AnimalCompanion|Familiar) {
+    cover(creature: Creature) {
         return creature.cover;
     };
-    set_Cover(creature: Character|AnimalCompanion|Familiar, cover: number) {
+    set_Cover(creature: Creature, cover: number) {
         creature.cover = cover;
     };
-    calculate(creature: Character|AnimalCompanion|Familiar, characterService: CharacterService, defenseService: DefenseService, effectsService: EffectsService) {
+    calculate(creature: Creature, characterService: CharacterService, defenseService: DefenseService, effectsService: EffectsService) {
         let index = 0;
         switch (creature.type) {
             case "Companion":
@@ -36,45 +37,45 @@ export class AC {
         this.$penalties[index] = this.penalty(creature, effectsService);
         this.$value[index] = this.value(creature, characterService, defenseService, effectsService);
     }
-    absolutes(creature: Character|AnimalCompanion|Familiar, effectsService: EffectsService) {
+    absolutes(creature: Creature, effectsService: EffectsService) {
         return effectsService.get_AbsolutesOnThese(creature, [
             this.name,
             "All Checks and DCs",
             "Dexterity-based Checks and DCs"
         ]);
     }
-    relatives(creature: Character|AnimalCompanion|Familiar, effectsService: EffectsService) {
+    relatives(creature: Creature, effectsService: EffectsService) {
         return effectsService.get_RelativesOnThese(creature, [
             this.name,
             "All Checks and DCs",
             "Dexterity-based Checks and DCs"
         ]);
     }
-    bonus(creature: Character|AnimalCompanion|Familiar, effectsService: EffectsService) {
+    bonus(creature: Creature, effectsService: EffectsService) {
         return effectsService.show_BonusesOnThese(creature, [
             this.name,
             "All Checks and DCs",
             "Dexterity-based Checks and DCs"
         ]);
     }
-    penalty(creature: Character|AnimalCompanion|Familiar, effectsService: EffectsService) {
+    penalty(creature: Creature, effectsService: EffectsService) {
         return effectsService.show_PenaltiesOnThese(creature, [
             this.name,
             "All Checks and DCs",
             "Dexterity-based Checks and DCs"
         ]);
     }
-    value(creature: Character|AnimalCompanion|Familiar, characterService: CharacterService, defenseService: DefenseService, effectsService: EffectsService) {
+    value(creature: Creature, characterService: CharacterService, defenseService: DefenseService, effectsService: EffectsService) {
         if (characterService.still_loading()) { return {result:0, explain:""}; }
         //Get the bonus from the worn armor. This includes the basic 10
         let armorBonus: number = 10;
         let explain: string = "";
-        let armorCreature: Character|AnimalCompanion;
+        let armorCreature: AnimalCompanion|Character;
         //Familiars get the Character's AC
         if (creature.type == "Familiar") {
             armorCreature = characterService.get_Character();
         } else {
-            armorCreature = creature;
+            armorCreature = creature as AnimalCompanion|Character;
         }
         let armor = defenseService.get_EquippedArmor(armorCreature);
         if (armor.length > 0) {

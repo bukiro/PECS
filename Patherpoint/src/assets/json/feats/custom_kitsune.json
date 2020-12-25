@@ -1,11 +1,11 @@
 [
     {
         "name": "Red Fox Kitsune",
-        "desc": "Your people have long lived near settlements and learned to blend in and remain unnoticed when visiting. You gain a +2 circumstance bonus to Deception to Impersonate and to Stealth to Hide and Sneak in cities and other populated areas as long as you are in a crowd of unsuspecting people.",
+        "desc": "Your people have long lived near settlements and learned to blend in and remain unnoticed when visiting. You gain a +2 circumstance bonus to Deception to Impersonate and to Stealth to Hide and Sneak as long as you are in a crowd or well trafficked urban area.",
         "shortdesc": "Your people have long lived near settlements and learned to blend in and remain unnoticed when visiting.",
         "hints": [
             {
-                "desc": "You gain a +2 circumstance bonus to Deception to Impersonate and to Stealth to Hide and Sneak in cities and other populated areas as long as you are in a crowd of unsuspecting people",
+                "desc": "You gain a +2 circumstance bonus to Deception to Impersonate and to Stealth to Hide and Sneak as long as you are in a crowd or well trafficked urban area.",
                 "showon": "Deception, Stealth",
                 "effects": [
                     {

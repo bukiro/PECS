@@ -64,6 +64,7 @@ import * as json_wands from '../assets/json/items/wands';
 import * as json_weaponrunes from '../assets/json/items/weaponrunes';
 import * as json_weapons from '../assets/json/items/weapons';
 import * as json_wornitems from '../assets/json/items/wornitems';
+import { Creature } from './Creature';
 
 @Injectable({
     providedIn: 'root'
@@ -457,7 +458,7 @@ export class ItemsService {
 
     }
 
-    process_Consumable(creature: Character | AnimalCompanion | Familiar, characterService: CharacterService, itemsService: ItemsService, conditionsService: ConditionsService, spellsService: SpellsService, item: Consumable) {
+    process_Consumable(creature: Creature, characterService: CharacterService, itemsService: ItemsService, conditionsService: ConditionsService, spellsService: SpellsService, item: Consumable) {
 
         //One time effects
         if (item.onceEffects) {

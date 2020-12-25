@@ -399,7 +399,7 @@ export class ItemRunesComponent implements OnInit {
                     ) && (
                         //Show runes that require a proficiency if the armor has that proficiency.
                         rune.rune.profreq.length ?
-                            rune.rune.profreq.includes(armor.get_Prof())
+                            rune.rune.profreq.includes(armor.get_Proficiency())
                             : true
                     ) && (
                         //Show runes that require a nonmetallic armor if the armor is one.

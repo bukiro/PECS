@@ -126,7 +126,7 @@
                                 [ngClass]="{'fancy-list':((item.equippable && item.equipped) || (item.can_Invest() && item.invested)), 'problem':item.broken}"
                                 *ngIf="get_ShowItem()==inventoryID">
                                 <div class="row"
-                                    *ngFor="let prof of [(item.get_Prof ? item.get_Prof() : item.prof)]; trackBy:trackByIndex;">
+                                    *ngFor="let prof of [(item.get_Proficiency ? item.get_Proficiency(get_Creature(), characterService) : item.prof)]; trackBy:trackByIndex;">
                                     <span [className]="item.prof != prof ? 'absolute' : ''"
                                         *ngIf="item.type == 'armors'">{{(["Light Barding","Heavy Barding"].includes(prof)) ? prof : prof.split(" ")[0]}}
                                         {{item.group}}

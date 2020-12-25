@@ -87,7 +87,7 @@
         "effects": [
             {
                 "affected": "Land Speed",
-                "value": "Armor().get_Prof() == 'Unarmored Defense' ? (5 + (Level + 1 - ((Level + 1) % 4)) / 4 * 5) : 0"
+                "value": "Armor().get_Proficiency() == 'Unarmored Defense' ? (5 + (Level + 1 - ((Level + 1) % 4)) / 4 * 5) : 0"
             }
         ]
     },
@@ -592,7 +592,12 @@
                 "showon": "Rage"
             }
         ],
-        "internalNote": "The effect on the Rage activity is hardcoded."
+        "effects": [
+            {
+                "affected": "Rage Cooldown",
+                "setValue": "10"
+            }
+        ]
     },
     {
         "name": "Rage",

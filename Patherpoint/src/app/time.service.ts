@@ -8,6 +8,7 @@ import { SpellsService } from './spells.service';
 import { ItemsService } from './items.service';
 import { Character } from './Character';
 import { EffectGain } from './EffectGain';
+import { AnimalCompanion } from './AnimalCompanion';
 
 @Injectable({
     providedIn: 'root'
@@ -58,7 +59,7 @@ export class TimeService {
             characterService.set_ToChange(creature.type, "health");
             let con = 1;
             if (creature.type != "Familiar") {
-                con = Math.max(characterService.abilitiesService.get_Abilities("Constitution")[0].mod(creature, characterService, characterService.effectsService).result, 1);
+                con = Math.max(characterService.abilitiesService.get_Abilities("Constitution")[0].mod((creature as AnimalCompanion|Character), characterService, characterService.effectsService).result, 1);
             }
             let heal: number = con * charLevel;
             this.effectsService.get_RelativesOnThis(creature, "Resting HP Gain").forEach(effect => {
@@ -72,7 +73,7 @@ export class TimeService {
             this.conditionsService.rest(creature, characterService);
             //Remove all items that expire when you make your daily preparations.
             if (creature.type != "Familiar") {
-                itemsService.rest(creature, characterService);
+                itemsService.rest((creature as AnimalCompanion|Character), characterService);
             }
             //For the Character, reset all "once per day" spells, and regenerate spell slots, prepared formulas and bonded item charges.
             if (creature.type == "Character") {
@@ -118,10 +119,10 @@ export class TimeService {
             this.effectsService.tick_CustomEffects(creature, characterService, turns);
             this.activitiesService.tick_Activities(creature, characterService, conditionsService, itemsService, spellsService, turns)
             if (creature.type != "Familiar") {
-                itemsService.tick_Items(creature, characterService, turns);
+                itemsService.tick_Items((creature as AnimalCompanion|Character), characterService, turns);
             }
             if (creature.type == "Character") {
-                this.spellsService.tick_Spells(creature, characterService, itemsService, conditionsService, turns);
+                this.spellsService.tick_Spells((creature as Character), characterService, itemsService, conditionsService, turns);
             }
             //If you are at full health and rest for 10 minutes, you lose the wounded condition.
             if (turns >= 1000 && characterService.get_Health(creature).damage == 0) {

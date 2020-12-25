@@ -91,7 +91,7 @@
         "effects": [
             {
                 "affected": "Piercing Damage Resistance",
-                "value": "Armor() && (Armor().prof == 'Medium Armor' ? 1 + Armor().get_PotencyRune() : 2 + Armor().get_PotencyRune())"
+                "value": "Armor() && (Armor().get_Proficiency() == 'Medium Armor' ? 1 + Armor().get_PotencyRune() : 2 + Armor().get_PotencyRune())"
             }
         ],
         "type": "armors"
@@ -102,7 +102,7 @@
         "effects": [
             {
                 "affected": "Bludgeoning Damage Resistance",
-                "value": "Armor() && (Armor().prof == 'Medium Armor' ? 1 + Armor().get_PotencyRune() : 2 + Armor().get_PotencyRune())"
+                "value": "Armor() && (Armor().get_Proficiency() == 'Medium Armor' ? 1 + Armor().get_PotencyRune() : 2 + Armor().get_PotencyRune())"
             }
         ],
         "type": "armors"
@@ -113,7 +113,7 @@
         "effects": [
             {
                 "affected": "Slashing Damage Resistance",
-                "value": "Armor() && (Armor().prof == 'Medium Armor' ? 1 + Armor().get_PotencyRune() : 2 + Armor().get_PotencyRune())"
+                "value": "Armor() && (Armor().get_Proficiency() == 'Medium Armor' ? 1 + Armor().get_PotencyRune() : 2 + Armor().get_PotencyRune())"
             }
         ],
         "type": "armors"
