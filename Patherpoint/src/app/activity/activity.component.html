@@ -96,12 +96,18 @@
                     </p>
                 </div>
             </div>
-            <div class="row left-aligned" *ngIf="activity.frequency">
+            <div class="row left-aligned" *ngIf="activity.frequency || ((cooldown != activity.cooldown) && !activity.cooldownAfterEnd)">
                 <span>
                     <strong>Frequency</strong>
                     <span *ngIf="cooldown == activity.cooldown">&nbsp;{{activity.frequency}}</span>
                     <span class="absolute" *ngIf="cooldown != activity.cooldown">&nbsp;{{maxCharges ? maxCharges + " times
                         every " : "once every "}}{{get_Duration(cooldown, false, false)}}</span>
+                </span>
+            </div>
+            <div class="row left-aligned" *ngIf="cooldown && activity.cooldownAfterEnd">
+                <span>
+                    <strong>Cooldown after use</strong>
+                    <span [ngClass]="{'absolute':cooldown != activity.cooldown}">&nbsp;{{get_Duration(cooldown, false, false)}}</span>
                 </span>
             </div>
             <div class="row left-aligned" *ngIf="activity.cost">
