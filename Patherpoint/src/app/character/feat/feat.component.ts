@@ -18,6 +18,8 @@ export class FeatComponent implements OnInit {
     choice: FeatChoice
     @Input()
     levelNumber: number
+    @Input()
+    featLevel: number
 
     constructor(
         public characterService: CharacterService,
@@ -28,89 +30,65 @@ export class FeatComponent implements OnInit {
     trackByIndex(index: number, obj: any): any {
         return index;
     }
-    
-    get_FeatRequirements(choice: FeatChoice, feat: Feat, compare: Feat = undefined) {
-        let levelNumber = parseInt(choice?.id?.split("-")[0]) || this.levelNumber;
-        let featLevel = 0;
-        if (choice?.level) {
-            featLevel = choice.level;
-        } else {
-            featLevel = levelNumber;
+
+    create_IgnoreRequirementList(feat: Feat, choice: FeatChoice) {
+        //Prepare character and characterService for eval.
+        let character = this.characterService.get_Character();
+        let characterService = this.characterService;
+        //Build the ignoreRequirements list from both the feat and the choice.
+        let ignoreRequirementsList: string[] = [];
+        feat.ignoreRequirements.concat(choice.ignoreRequirements).forEach(ignoreReq => {
+            try {
+                ignoreRequirementsList.push(eval(ignoreReq));
+            } catch (error) {
+                console.log("Failed evaluating feat requirement ignore list item (" + ignoreReq + "): " + error)
+            }
+        })
+        return ignoreRequirementsList;
+    }
+
+    get_FeatRequirements(choice: FeatChoice, feat: Feat) {
+        let ignoreRequirementsList: string[] = this.create_IgnoreRequirementList(feat, choice);
+        let result: Array<{met?:boolean, ignored?:boolean, desc?:string}> = [];
+        if (feat.levelreq) {
+            result.push(feat.meetsLevelReq(this.characterService, this.featLevel));
+            result[result.length-1].ignored = ignoreRequirementsList.includes('levelreq');
         }
-        let result: Array<{met?:boolean, desc?:string}> = [];
-        //For subtypes, the supertype feat to compare is given. Only those requirements that differ from the supertype will be returned.
-        if (compare) {
-            if (feat.levelreq != compare.levelreq ||
-                JSON.stringify(feat.abilityreq) != JSON.stringify(compare.abilityreq) ||
-                JSON.stringify(feat.skillreq) != JSON.stringify(compare.skillreq) ||
-                feat.featreq != compare.featreq ||
-                feat.specialreqdesc != compare.specialreqdesc
-                ) {
-                result.push({met:true, desc:"requires "});
-                if (feat.levelreq && feat.levelreq != compare.levelreq) {
-                    result.push(feat.meetsLevelReq(this.characterService, featLevel));
-                }
-                if (JSON.stringify(feat.abilityreq) != JSON.stringify(compare.abilityreq)) {
-                    feat.meetsAbilityReq(this.characterService, featLevel).forEach(req => {
-                        result.push({met:true, desc:", "});
-                        result.push(req);
-                    })
-                }
-                if (JSON.stringify(feat.skillreq) != JSON.stringify(compare.skillreq)) {
-                    feat.meetsSkillReq(this.characterService, featLevel).forEach(req => {
-                        result.push({met:true, desc:", "});
-                        result.push(req);
-                    })
-                }
-                if (JSON.stringify(feat.featreq) != JSON.stringify(compare.featreq)) {
-                    feat.meetsFeatReq(this.characterService, featLevel).forEach(req => {
-                        result.push({met:true, desc:", "});
-                        result.push(req);
-                    })
-                }
-                if (JSON.stringify(feat.heritagereq) != JSON.stringify(compare.heritagereq)) {
-                    feat.meetsHeritageReq(this.characterService, this.levelNumber).forEach(req => {
-                        result.push({ met: true, desc: ", " });
-                        result.push(req);
-                    });
-                }
-                if (feat.specialreqdesc && feat.specialreqdesc != compare.specialreqdesc) {
-                    result.push({met:true, desc:", "});                    
-                    result.push(feat.meetsSpecialReq(this.characterService, featLevel));
-                }
-            }
-        } else {
-            if (feat.levelreq) {
-                result.push(feat.meetsLevelReq(this.characterService, featLevel));
-            }
-            if (feat.abilityreq.length) {
-                feat.meetsAbilityReq(this.characterService, featLevel).forEach(req => {
-                    result.push({met:true, desc:", "});
-                    result.push(req);
-                })
-            }
-            if (feat.skillreq.length) {
-                feat.meetsSkillReq(this.characterService, featLevel).forEach(req => {
-                    result.push({met:true, desc:", "});
-                    result.push(req);
-                })
-            }
-            if (feat.featreq.length) {
-                feat.meetsFeatReq(this.characterService, featLevel).forEach(req => {
-                    result.push({met:true, desc:", "});
-                    result.push(req);
-                })
-            }
-            if (feat.heritagereq) {
-                feat.meetsHeritageReq(this.characterService, this.levelNumber).forEach(req => {
+        if (feat.abilityreq.length) {
+            feat.meetsAbilityReq(this.characterService, this.levelNumber).forEach(req => {
+                result.push({ met: true, desc: ", " });
+                result.push(req);
+                result[result.length-1].ignored = ignoreRequirementsList.includes('abilityreq');
+            });
+        }
+        if (feat.skillreq.length) {
+            feat.meetsSkillReq(this.characterService, this.levelNumber).forEach((req, index) => {
+                if (index == 0) {
                     result.push({ met: true, desc: ", " });
-                    result.push(req);
-                });
-            }
-            if (feat.specialreqdesc) {
-                result.push({met:true, desc:", "});
-                result.push(feat.meetsSpecialReq(this.characterService, featLevel));
-            }
+                } else {
+                    result.push({ met: true, desc: " or " });
+                }
+                result.push(req);
+                result[result.length-1].ignored = ignoreRequirementsList.includes('skillreq');
+            });
+        }
+        if (feat.featreq.length) {
+            feat.meetsFeatReq(this.characterService, this.levelNumber).forEach(req => {
+                result.push({ met: true, desc: ", " });
+                result.push(req);
+                result[result.length-1].ignored = ignoreRequirementsList.includes('featreq');
+            });
+        }
+        if (feat.heritagereq) {
+            feat.meetsHeritageReq(this.characterService, this.levelNumber).forEach(req => {
+                result.push({ met: true, desc: ", " });
+                result.push(req);
+                result[result.length-1].ignored = ignoreRequirementsList.includes('heritagereq');
+            });
+        }
+        if (feat.specialreqdesc) {
+            result.push({ met: true, desc: ", " });
+            result.push(feat.meetsSpecialReq(this.characterService, this.levelNumber));
         }
         if (result.length > 1) {
             if (result[0].desc == ", ") {

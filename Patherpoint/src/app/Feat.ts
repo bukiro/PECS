@@ -43,6 +43,8 @@ export class Feat {
     public effects: any[] = [];
     public featreq: string[] = [];
     public heritagereq: string = "";
+    //You can add requirements to the ignore list. These get evaluated and must result in "levelreq", "abilityreq", "featreq", "skillreq", "heritagereq" or "dedicationlimit" to do anything.
+    public ignoreRequirements: string[] = [];
     public gainAbilityChoice: AbilityChoice[] = [];
     public gainActivities: string[] = [];
     public gainAnimalCompanion: number = 0;
@@ -285,7 +287,7 @@ export class Feat {
         //This function evaluates ALL the possible requirements for taking a feat
         //Returns true only if all the requirements are true. If the feat doesn't have a requirement, it is always true.
         if (characterService.still_loading()) { return false }
-        //Don't check the level if skipLevel is set. We don't want to list level mismatch when it's obvious.
+        //Don't check the level if skipLevel is set. This is used for subfeats, where we don't want to list level mismatch when it's obvious.
         let levelreq: boolean = ignoreRequirementsList.includes("levelreq") || skipLevel || this.meetsLevelReq(characterService, charLevel).met;
         //Check the ability reqs. True if ALL are true.
         let abilityreqs = this.meetsAbilityReq(characterService, charLevel)

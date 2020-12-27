@@ -1,13 +1,15 @@
 <ng-container *ngFor="let listID of [choice.source+choice.id]; trackBy:trackByIndex;">
     <div class="list-item" *ngIf="get_Available(choice)"
         [ngClass]="{'problem':(cannotTakeSome(choice) || choice.feats.length > get_Available(choice)), 'fullsize-only':(get_Available(choice) == choice.feats.length)}">
-        <button class="row left-aligned sublist-toggle" [ngClass]="{'fancy-button':(get_Available(choice) == choice.feats.length)}"
-            (click)="toggle_List(listID)">
-            {{(featLevel != levelNumber) ? "Level "+featLevel+" " : ""}}{{choice.type.split(",").join(", ")}}{{choice.specialChoice ?
-                '' : (creature == 'Familiar' ? (get_Available(choice) > 1 ? ' Abilities' : ' Ability') : (get_Available(choice) > 1 ? ' Feats' : ' Feat'))}}{{creature == 'Familiar' ?
-                '' : ' ('+choice.source+')'}}{{(get_Available(choice) > 1) ?
-                ": "+ choice.feats.length +"/"+ get_Available(choice) : 
-                (choice.feats.length) ? ": "+ choice.feats[0].name : ""}}
+        <button class="row left-aligned sublist-toggle"
+            [ngClass]="{'fancy-button':(get_Available(choice) == choice.feats.length)}" (click)="toggle_List(listID)">
+            {{(featLevel != levelNumber) ? "Level "+featLevel+" " : ""}}{{choice.type.split(",").join(",
+            ")}}{{choice.specialChoice ?
+            '' : (creature == 'Familiar' ? (get_Available(choice) > 1 ? ' Abilities' : ' Ability') :
+            (get_Available(choice) > 1 ? ' Feats' : ' Feat'))}}{{creature == 'Familiar' ?
+            '' : ' ('+choice.source+')'}}{{(get_Available(choice) > 1) ?
+            ": "+ choice.feats.length +"/"+ get_Available(choice) :
+            (choice.feats.length) ? ": "+ choice.feats[0].name : ""}}
         </button>
         <div class="list-item sublist" [ngClass]="{'fancy-list':(get_Available(choice) == choice.feats.length )}"
             *ngIf="get_showChoice()==listID">
@@ -16,40 +18,42 @@
                 <strong>Filter</strong>
                 <div class="row">
                     <span>
-                        <input id="lowerLevelFilter" type="checkbox"
-                            [(ngModel)]="lowerLevelFeats">
+                        <input id="lowerLevelFilter" type="checkbox" [(ngModel)]="lowerLevelFeats">
                         <label for="lowerLevelFilter">Show lower and higher level feats</label>
                     </span>
                 </div>
                 <div class="row" *ngIf="choice.type=='Class'">
                     <span>
-                        <input id="archetypeFilter" type="checkbox"
-                            [(ngModel)]="archetypeFeats">
+                        <input id="archetypeFilter" type="checkbox" [(ngModel)]="archetypeFeats">
                         <label for="archetypeFilter">Show archetype feats</label>
                     </span>
                 </div>
             </div>
             <!-- End Filter -->
-            <div title="{{(this.get_showFeat()==choice.id+featSet.feat.name+'desc') ? '' : featSet.feat.shortdesc}}" class="list-item"
-                *ngFor="let featSet of get_AvailableFeats(choice); trackBy:trackByIndex;"
+            <div title="{{(this.get_showFeat()==choice.id+featSet.feat.name+'desc') ? '' : featSet.feat.shortdesc}}"
+                class="list-item" *ngFor="let featSet of get_AvailableFeats(choice); trackBy:trackByIndex;"
                 [ngClass]="{'unavailable':(!featSet.available)}">
-                <div class="row left-aligned" style="justify-content: flex-end;" *ngFor="let itemID of [choice.id+featSet.feat.name+'desc']; trackBy:trackByIndex;">
+                <div class="row left-aligned" style="justify-content: flex-end;"
+                    *ngFor="let itemID of [choice.id+featSet.feat.name+'desc']; trackBy:trackByIndex;">
                     <span style="flex-grow:2">
-                        <input *ngIf="!featSet.feat.subTypes && featSet.available" id="{{choice.id+featSet.feat.name}}" type="checkbox"
+                        <input *ngIf="!featSet.feat.subTypes && featSet.available" id="{{choice.id+featSet.feat.name}}"
+                            type="checkbox"
                             (change)="on_FeatTaken(featSet.feat.name, $event.target.checked, choice, false)"
                             [checked]="featTakenByThis(featSet.feat, choice)">
                         <button class="lower left" *ngIf="featSet.feat.subTypes" id="{{choice.id+featSet.feat.name}}"
                             (click)="toggle_Item(itemID)">v</button>
                         <label for="{{choice.id+featSet.feat.name}}">
-                            <strong>{{["General", "Skill"].includes(choice.type) && featSet.feat.skillreq.length == 1 ? "(" + featSet.feat.skillreq[0].skill + ") " : ""}}{{featSet.feat.name}}&nbsp;</strong>
+                            <strong>{{["General", "Skill"].includes(choice.type) && featSet.feat.skillreq.length == 1 ?
+                                "(" + featSet.feat.skillreq[0].skill + ") " : ""}}{{featSet.feat.name}}&nbsp;</strong>
                         </label>
-                        <cite [ngClass]="{'problem':featSet.feat.levelreq > featLevel}" *ngIf="featSet.feat.levelreq">Level
+                        <cite *ngIf="featSet.feat.levelreq">Level
                             {{featSet.feat.levelreq}}</cite>
                         <cite class="trait" *ngIf="featSet.feat.traits.includes('Uncommon')"
                             title="{{get_Traits('Uncommon')[0]?.desc}}">Uncommon</cite>
                         <cite class="trait" *ngIf="featSet.feat.traits.includes('Dedication')"
                             title="{{get_Traits('Dedication')[0]?.desc}}">Dedication</cite>
-                        <cite title="{{reason.explain}}" class="problem" *ngFor="let reason of cannotTake(featSet.feat, choice, true); trackBy:trackByIndex;">
+                        <cite title="{{reason.explain}}" class="problem"
+                            *ngFor="let reason of cannotTake(featSet.feat, choice, true); trackBy:trackByIndex;">
                             {{reason.reason}}
                         </cite>
                     </span>
@@ -58,7 +62,8 @@
                     </button>
                     <div class="row lower" *ngIf="this.get_showFeat()==itemID">
                         <!--Subfeats-->
-                        <div class="list-item" *ngFor="let subfeatSet of get_SubFeats(featSet.feat, choice); trackBy:trackByIndex;"
+                        <div class="list-item"
+                            *ngFor="let subfeatSet of get_SubFeats(featSet.feat, choice); trackBy:trackByIndex;"
                             [ngClass]="{'unavailable':(!subfeatSet.available)}">
                             <span>
                                 <input id="{{choice.id+subfeatSet.subfeat.name}}" type="checkbox"
@@ -68,18 +73,22 @@
                                 <label for="{{choice.id+subfeatSet.subfeat.name}}">
                                     <span>
                                         <strong>{{subfeatSet.subfeat.subType}}&nbsp;</strong>
-                                        <span [ngClass]="{'problem':(req.met == false)}"
-                                            *ngFor="let req of get_FeatRequirements(choice, subfeatSet.subfeat, featSet.feat); trackBy:trackByIndex;">{{(req.desc == ", ") ? req.desc : req.desc }}</span>
+                                        <span [ngClass]="{'problem':(!req.met), 'disabled':(req.ignored)}"
+                                            title="{{req.ignored ? 'This requirement is ignored.' : ''}}"
+                                            *ngFor="let req of get_FeatRequirements(choice, subfeatSet.subfeat, featSet.feat); trackBy:trackByIndex;">{{req.ignored
+                                            ? "(" : ''}}{{req.desc}}{{req.ignored ? ")" : ''}}</span>
                                     </span>
                                     <span>
-                                        <cite class="problem" title="{{reason.explain}}" *ngFor="let reason of cannotTake(subfeatSet.subfeat, choice, true); trackBy:trackByIndex;">
+                                        <cite class="problem" title="{{reason.explain}}"
+                                            *ngFor="let reason of cannotTake(subfeatSet.subfeat, choice, true); trackBy:trackByIndex;">
                                             {{reason.reason}}
                                         </cite>
                                     </span>
                                 </label>
                             </span>
                         </div>
-                        <app-feat [feat]="featSet.feat" [choice]="choice" [levelNumber]="levelNumber"></app-feat>
+                        <app-feat [feat]="featSet.feat" [choice]="choice" [levelNumber]="levelNumber"
+                            [featLevel]="featLevel"></app-feat>
                     </div>
                 </div>
             </div>

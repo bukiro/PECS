@@ -11,8 +11,8 @@
         <ng-container *ngFor="let reqs of [get_FeatRequirements(choice, feat)]; trackBy:trackByIndex;">
             <p *ngIf="reqs.length">
                 <strong>Requirements&nbsp;</strong>
-                <span [ngClass]="{'problem':(req.met == false)}"
-                    *ngFor="let req of reqs; trackBy:trackByIndex;">{{req.desc}}</span>
+                <span [ngClass]="{'problem':(!req.met), 'disabled':(req.ignored)}" title="{{req.ignored ? 'This requirement is ignored.' : ''}}"
+                    *ngFor="let req of reqs; trackBy:trackByIndex;">{{req.ignored ? "(" : ''}}{{req.desc}}{{req.ignored ? ")" : ''}}</span>
             </p>
         </ng-container>
         <ng-container *ngFor="let desc of feat.desc.split('\n\n'); trackBy:trackByIndex;">

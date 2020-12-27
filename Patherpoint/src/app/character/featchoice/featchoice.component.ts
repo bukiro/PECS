@@ -322,13 +322,28 @@ export class FeatchoiceComponent implements OnInit {
         return anytrue;
     }
 
+    create_IgnoreRequirementList(feat: Feat, choice: FeatChoice) {
+        //Prepare character and characterService for eval.
+        let character = this.get_Character();
+        let characterService = this.characterService;
+        //Build the ignoreRequirements list from both the feat and the choice.
+        let ignoreRequirementsList: string[] = [];
+        feat.ignoreRequirements.concat(choice.ignoreRequirements).forEach(ignoreReq => {
+            try {
+                ignoreRequirementsList.push(eval(ignoreReq));
+            } catch (error) {
+                console.log("Failed evaluating feat requirement ignore list item (" + ignoreReq + "): " + error)
+            }
+        })
+        return ignoreRequirementsList;
+    }
+
     cannotTake(feat: Feat, choice: FeatChoice, skipLevel: boolean = false) {
+        //Don't run the test on a blank feat - does not go well.
         if (feat?.name) {
             let character = this.get_Character();
-            //Prepare characterService for eval.
-            let characterService = this.characterService;
-            //Don't run the test on a blank feat - does not go well.
             let levelNumber = parseInt(choice.id.split("-")[0]);
+            let ignoreRequirementsList: string[] = this.create_IgnoreRequirementList(feat, choice);
             let reasons: { reason: string, explain: string }[] = [];
             let traits: string[] = [];
             switch (choice.type) {
@@ -345,15 +360,6 @@ export class FeatchoiceComponent implements OnInit {
                     traits.push(...choice.type.split(","));
                     break;
             }
-            //Build the ignoreRequirements list
-            let ignoreRequirementsList: string[] = [];
-            choice.ignoreRequirements.forEach(ignoreReq => {
-                try {
-                    ignoreRequirementsList.push(eval(ignoreReq));
-                } catch (error) {
-                    console.log("Failed evaluating feat requirement ignore list item (" + ignoreReq + "): " + error)
-                }
-            })
             //Does the type not match a trait? (Unless it's a special choice, where the type doesn't matter and is just the title.)
             if (!choice.specialChoice && !feat.traits.find(trait => traits.includes(trait))) {
                 reasons.push({ reason: "Invalid type", explain: "The feat's traits do not match the choice type." });
@@ -440,7 +446,8 @@ export class FeatchoiceComponent implements OnInit {
     }
 
     get_FeatRequirements(choice: FeatChoice, feat: Feat, compare: Feat = undefined) {
-        let result: Array<{ met?: boolean, desc?: string }> = [];
+        let result: Array<{ met?: boolean, ignored?: boolean, desc?: string }> = [];
+        let ignoreRequirementsList: string[] = this.create_IgnoreRequirementList(feat, choice);
         //For subtypes, the supertype feat to compare is given. Only those requirements that differ from the supertype will be returned.
         if (compare) {
             if (feat.levelreq != compare.levelreq ||
@@ -449,14 +456,16 @@ export class FeatchoiceComponent implements OnInit {
                 feat.featreq != compare.featreq ||
                 feat.specialreqdesc != compare.specialreqdesc
             ) {
-                result.push({ met: true, desc: "requires " });
+                result.push({ met: true, ignored: false, desc: "requires " });
                 if (feat.levelreq && feat.levelreq != compare.levelreq) {
                     result.push(feat.meetsLevelReq(this.characterService, this.levelNumber));
+                    result[result.length-1].ignored = ignoreRequirementsList.includes('levelreq');
                 }
                 if (JSON.stringify(feat.abilityreq) != JSON.stringify(compare.abilityreq)) {
                     feat.meetsAbilityReq(this.characterService, this.levelNumber).forEach(req => {
                         result.push({ met: true, desc: ", " });
                         result.push(req);
+                        result[result.length-1].ignored = ignoreRequirementsList.includes('abilityreq');
                     });
                 }
                 if (JSON.stringify(feat.skillreq) != JSON.stringify(compare.skillreq)) {
@@ -467,18 +476,21 @@ export class FeatchoiceComponent implements OnInit {
                             result.push({ met: true, desc: " or " });
                         }
                         result.push(req);
+                        result[result.length-1].ignored = ignoreRequirementsList.includes('skillreq');
                     });
                 }
                 if (JSON.stringify(feat.featreq) != JSON.stringify(compare.featreq)) {
                     feat.meetsFeatReq(this.characterService, this.levelNumber).forEach(req => {
                         result.push({ met: true, desc: ", " });
                         result.push(req);
+                        result[result.length-1].ignored = ignoreRequirementsList.includes('featreq');
                     });
                 }
                 if (JSON.stringify(feat.heritagereq) != JSON.stringify(compare.heritagereq)) {
                     feat.meetsHeritageReq(this.characterService, this.levelNumber).forEach(req => {
                         result.push({ met: true, desc: ", " });
                         result.push(req);
+                        result[result.length-1].ignored = ignoreRequirementsList.includes('heritagereq');
                     });
                 }
                 if (feat.specialreqdesc && feat.specialreqdesc != compare.specialreqdesc) {
@@ -489,11 +501,13 @@ export class FeatchoiceComponent implements OnInit {
         } else {
             if (feat.levelreq) {
                 result.push(feat.meetsLevelReq(this.characterService, this.featLevel));
+                result[result.length-1].ignored = ignoreRequirementsList.includes('levelreq');
             }
             if (feat.abilityreq.length) {
                 feat.meetsAbilityReq(this.characterService, this.levelNumber).forEach(req => {
                     result.push({ met: true, desc: ", " });
                     result.push(req);
+                    result[result.length-1].ignored = ignoreRequirementsList.includes('abilityreq');
                 });
             }
             if (feat.skillreq.length) {
@@ -504,18 +518,21 @@ export class FeatchoiceComponent implements OnInit {
                         result.push({ met: true, desc: " or " });
                     }
                     result.push(req);
+                    result[result.length-1].ignored = ignoreRequirementsList.includes('skillreq');
                 });
             }
             if (feat.featreq.length) {
                 feat.meetsFeatReq(this.characterService, this.levelNumber).forEach(req => {
                     result.push({ met: true, desc: ", " });
                     result.push(req);
+                    result[result.length-1].ignored = ignoreRequirementsList.includes('featreq');
                 });
             }
             if (feat.heritagereq) {
                 feat.meetsHeritageReq(this.characterService, this.levelNumber).forEach(req => {
                     result.push({ met: true, desc: ", " });
                     result.push(req);
+                    result[result.length-1].ignored = ignoreRequirementsList.includes('heritagereq');
                 });
             }
             if (feat.specialreqdesc) {

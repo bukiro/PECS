@@ -26084,7 +26084,10 @@
             "Human"
         ],
         "levelreq": 5,
-        "specialreqdesc": "Bonuwat ethnicity"
+        "specialreqdesc": "Bonuwat ethnicity",
+        "ignoreRequirements": [
+            "(character.class.background.name == 'Bonuwat Wavetouched') ? 'levelreq' : ''"
+        ]
     },
     {
         "name": "Cooperative Soul",
@@ -27011,7 +27014,7 @@
         "featreq": [
             "Adapted Cantrip"
         ],
-        "specialreq": "character.get_DefaultSpellcasting().spellChoices.some(choice => choice.charLevelAvailable <= character.level && choice.level >= 3)",
+        "specialreq": "character.get_DefaultSpellcasting()?.spellChoices.some(choice => choice.charLevelAvailable <= character.level && choice.level >= 3)",
         "specialreqdesc": "can cast 3rd-level spells",
         "subTypes": true
     },
@@ -27027,7 +27030,7 @@
         "featreq": [
             "Adapted Cantrip"
         ],
-        "specialreq": "character.get_DefaultSpellcasting().spellChoices.some(choice => choice.charLevelAvailable <= character.level && choice.level >= 3)",
+        "specialreq": "character.get_DefaultSpellcasting()?.spellChoices.some(choice => choice.charLevelAvailable <= character.level && choice.level >= 3)",
         "specialreqdesc": "can cast 3rd-level spells",
         "subType": "Cantrip",
         "superType": "Adaptive Adept",
@@ -27055,7 +27058,7 @@
         "featreq": [
             "Adapted Cantrip"
         ],
-        "specialreq": "character.get_DefaultSpellcasting().spellChoices.some(choice => choice.charLevelAvailable <= character.level && choice.level >= 3)",
+        "specialreq": "character.get_DefaultSpellcasting()?.spellChoices.some(choice => choice.charLevelAvailable <= character.level && choice.level >= 3)",
         "specialreqdesc": "can cast 3rd-level spells",
         "subType": "1st-Level Spell",
         "superType": "Adaptive Adept",
