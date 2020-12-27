@@ -116,7 +116,7 @@ export class SpellchoiceComponent implements OnInit {
             this.characterService.get_FeatsAndFeatures()
                 .find(feature => feature.allowSignatureSpells && feature.have(this.get_Character(), this.characterService)) &&
             this.choice.source != "Feat: Esoteric Polymath"
-            ) {
+        ) {
             return true;
         } else {
             return false;
@@ -146,6 +146,20 @@ export class SpellchoiceComponent implements OnInit {
         return this.get_Character().get_FeatsTaken(1, this.get_Character().level, name).length;
     }
 
+    is_TradedIn() {
+        //For all spell choices that you gain from trading in another one, identify them by their source here.
+        // (Spell Blending, Adapted Cantrip, Infinite Possibilities, Spell Mastery, Spell Combination)
+        return [
+            "Spell Blending",
+            "Feat: Adapted Cantrip",
+            "Feat: Adaptive Adept: Cantrip",
+            "Feat: Adaptive Adept: 1st-Level Spell",
+            "Feat: Infinite Possibilities",
+            "Feat: Spell Mastery"
+        ].includes(this.choice.source) ||
+            this.choice.spellCombination;
+    }
+
     get_SpellBlendingAllowed() {
         //You can trade in a spell slot if:
         // - This choice is not a cantrip or focus spell and is above level 2
@@ -154,7 +168,7 @@ export class SpellchoiceComponent implements OnInit {
         // - This choice is not itself a bonus slot gained by trading in (Spell Blending, Infinite Possibilities, Spell Mastery, Spell Combination)
         // - You have the Spell Blending feat
         return (this.choice.level > 0 && !this.choice.dynamicLevel && this.spellCasting.className == "Wizard" && this.spellCasting.castingType == "Prepared" &&
-            !["Spell Blending", "Feat: Infinite Possibilities", "Feat: Spell Mastery"].includes(this.choice.source) && !this.choice.spellCombination &&
+            !this.is_TradedIn() &&
             this.have_Feat("Spell Blending"));
     }
 
@@ -213,7 +227,7 @@ export class SpellchoiceComponent implements OnInit {
         // - This choice is not itself a bonus slot gained by trading in
         // - You have the Infinite Possibilities feat
         return (this.choice.level > 2 && !this.choice.dynamicLevel && this.spellCasting.className == "Wizard" && this.spellCasting.castingType == "Prepared" &&
-            !["Spell Blending", "Feat: Infinite Possibilities", "Feat: Spell Mastery"].includes(this.choice.source) && this.choice.spellCombination &&
+            !this.is_TradedIn() &&
             this.have_Feat("Infinite Possibilities"));
     }
 
@@ -229,7 +243,7 @@ export class SpellchoiceComponent implements OnInit {
     }
 
     get_InfinitePossibilitiesUnlocked(level: number = 0) {
-        //This function is used both to unlock the Infinite Possibilities bonus spell slot (choice.source == "Feat: Infinite Possibilities")
+        //This function is used both to unlock the Infinite Possibilities bonus spell slot (is_InfinitePossibilitiesSpell())
         //  and to check if the current choice can be traded in for a spell slot at the given level (get_InfinitePossibilitiesAllowed()).
         if (this.get_InfinitePossibilitiesAllowed() || this.is_InfinitePossibilitiesSpell(this.choice)) {
             //Check if any spell slots have been traded in for IP (level == 0) or if the one on this level has been unlocked.
@@ -247,6 +261,86 @@ export class SpellchoiceComponent implements OnInit {
         return choice.source == "Feat: Infinite Possibilities";
     }
 
+    get_AdaptedCantripAllowed() {
+        //You can trade in a spell slot if:
+        // - This choice is a cantrip
+        // - This choice does not have a dynamic level
+        // - This choice is part of your default spellcasting
+        // - This choice is not itself a bonus slot gained by trading in
+        // - You have the Adapted Cantrip feat
+        return (this.choice.level == 0 && !this.choice.dynamicLevel && this.spellCasting === this.get_Character().get_DefaultSpellcasting() &&
+            !this.is_TradedIn() &&
+            this.have_Feat("Adapted Cantrip"));
+    }
+
+    get_AdaptedCantripUsed() {
+        //Return the amount of spell slots in this choice that have been traded in (so either 0 or 1).
+        return (this.choice.adaptedCantrip ? 1 : 0);
+    }
+
+    on_AdaptedCantrip() {
+        this.characterService.set_Changed("spellchoices");
+        this.characterService.set_Changed("spellbook");
+        this.characterService.process_ToChange();
+    }
+
+    get_AdaptedCantripUnlocked() {
+        //This function is used both to unlock the Adapted Cantrip bonus spell slot (is_AdaptedCantripSpell())
+        //  and to check if the current choice can be traded in for a spell slot at the given level (get_AdaptedCantripAllowed()).
+        if (this.get_AdaptedCantripAllowed() || this.is_AdaptedCantripSpell(this.choice)) {
+            //Check if any spell slots have been traded in for AC.
+            return this.spellCasting.spellChoices.find(choice => choice.adaptedCantrip) ? 1 : 0;
+        } else {
+            return 0;
+        }
+    }
+
+    is_AdaptedCantripSpell(choice: SpellChoice) {
+        return choice.source == "Feat: Adapted Cantrip";
+    }
+
+    get_AdaptiveAdeptAllowed() {
+        //You can trade in a spell slot if:
+        // - This choice is a cantrip and you have the Adaptive Adept: Cantrip feat 
+        //   OR this choice is 1st level and you have the Adaptive Adept: 1st-Level Spell feat 
+        // - This choice does not have a dynamic level
+        // - This choice is part of your default spellcasting
+        // - This choice is not itself a bonus slot gained by trading in
+        return (!this.choice.dynamicLevel && this.spellCasting === this.get_Character().get_DefaultSpellcasting() &&
+            !this.is_TradedIn() &&
+            (
+                (this.choice.level == 0 && this.have_Feat("Adaptive Adept: Cantrip")) ||
+                (this.choice.level == 1 && this.have_Feat("Adaptive Adept: 1st-Level Spell"))
+            )
+        );
+    }
+
+    get_AdaptiveAdeptUsed() {
+        //Return the amount of spell slots in this choice that have been traded in (so either 0 or 1).
+        return (this.choice.adaptiveAdept ? 1 : 0);
+    }
+
+    on_AdaptiveAdept() {
+        this.characterService.set_Changed("spellchoices");
+        this.characterService.set_Changed("spellbook");
+        this.characterService.process_ToChange();
+    }
+
+    get_AdaptiveAdeptUnlocked() {
+        //This function is used both to unlock the Adaptive Adept bonus spell slot (is_AdaptiveAdeptSpell())
+        //  and to check if the current choice can be traded in for a spell slot at the given level (get_AdaptiveAdeptAllowed()).
+        if (this.get_AdaptiveAdeptAllowed() || this.is_AdaptiveAdeptSpell(this.choice)) {
+            //Check if any spell slots have been traded in for AC.
+            return this.spellCasting.spellChoices.find(choice => choice.adaptiveAdept) ? 1 : 0;
+        } else {
+            return 0;
+        }
+    }
+
+    is_AdaptiveAdeptSpell(choice: SpellChoice) {
+        return choice.source.includes("Feat: Adaptive Adept");
+    }
+
     is_EsotericPolymathSpell(choice: SpellChoice) {
         return choice.source == "Feat: Esoteric Polymath";
     }
@@ -258,7 +352,7 @@ export class SpellchoiceComponent implements OnInit {
             } else if (this.have_Feat("Impossible Polymath")) {
                 let character = this.get_Character();
                 let skill: string = "";
-                switch(tradition) {
+                switch (tradition) {
                     case "Arcane":
                         skill = "Arcana";
                         break;
@@ -292,25 +386,14 @@ export class SpellchoiceComponent implements OnInit {
     get_HighestSpellLevel() {
         if (this.spellCasting) {
             //Get the available spell level of this casting. This is the higest spell level of the spell choices that are available at your character level.
-            return Math.max(...this.spellCasting.spellChoices.filter(spellChoice => spellChoice.charLevelAvailable <= this.get_Character().level).map(spellChoice => spellChoice.level), 0);
+            return Math.max(...this.spellCasting.spellChoices.filter(spellChoice => spellChoice.charLevelAvailable <= this.get_Character().level).map(spellChoice => spellChoice.dynamicLevel ? this.get_DynamicLevel(spellChoice) : spellChoice.level), 0);
         } else {
             return 1;
         }
     }
 
     get_DynamicLevel(choice: SpellChoice) {
-        //Prepare highest spell level for eval().
-        let highestSpellLevel = this.get_HighestSpellLevel();
-        let Character = this.get_Character();
-        function Skill_Level(name: string) {
-            return this.characterService.get_Skills(Character, name)[0]?.level(Character) || 0;
-        }
-        try {
-            return parseInt(eval(choice.dynamicLevel));
-        } catch (e) {
-            console.log("Error parsing spell level requirement (" + choice.dynamicLevel + "): " + e)
-            return 1;
-        }
+        return this.spellsService.get_DynamicSpellLevel(this.spellCasting, choice, this.characterService);
     }
 
     get_CHA() {
@@ -323,23 +406,24 @@ export class SpellchoiceComponent implements OnInit {
             available = Math.max(choice.available + this.get_CHA(), 0);
         } else if (choice.source == "Spell Blending") {
             available = Math.max(choice.available + this.get_SpellBlendingUnlocked(choice.level), 0);
-        } else if (choice.source == "Feat: Infinite Possibilities") {
+        } else if (this.is_InfinitePossibilitiesSpell(choice)) {
             available = Math.max(choice.available + this.get_InfinitePossibilitiesUnlocked(choice.level), 0);
+        } else if (this.is_AdaptedCantripSpell(choice)) {
+            available = Math.max(choice.available + this.get_AdaptedCantripUnlocked(), 0);
+        } else if (this.is_AdaptiveAdeptSpell(choice)) {
+            available = Math.max(choice.available + this.get_AdaptiveAdeptUnlocked(), 0);
         } else if (
-                ["Feat: Basic Wizard Spellcasting", "Feat: Expert Wizard Spellcasting", "Feat: Master Wizard Spellcasting"].includes(choice.source) &&
-                choice.level <= this.get_HighestSpellLevel() - 2
-            ) {
+            ["Feat: Basic Wizard Spellcasting", "Feat: Expert Wizard Spellcasting", "Feat: Master Wizard Spellcasting"].includes(choice.source) &&
+            choice.level <= this.get_HighestSpellLevel() - 2
+        ) {
             available = Math.max(choice.available + this.have_Feat("Arcane Breadth") - this.get_SpellBlendingUsed() - this.get_InfinitePossibilitiesUsed(), 0);
         } else if (
-                ["Feat: Basic Bard Spellcasting", "Feat: Expert Bard Spellcasting", "Feat: Master Bard Spellcasting"].includes(choice.source) &&
-                choice.level <= this.get_HighestSpellLevel() - 2
-            ) {
+            ["Feat: Basic Bard Spellcasting", "Feat: Expert Bard Spellcasting", "Feat: Master Bard Spellcasting"].includes(choice.source) &&
+            choice.level <= this.get_HighestSpellLevel() - 2
+        ) {
             available = Math.max(choice.available + this.have_Feat("Occult Breadth"), 0);
         } else {
-            available = Math.max(this.choice.available - this.get_SpellBlendingUsed() - this.get_InfinitePossibilitiesUsed(), 0);
-            if (this.have_Feat("Adapted Cantrip") && this.choice === this.get_Character().get_DefaultSpellcasting().spellChoices.find(spellChoice => spellChoice.level == 0)) {
-                available -= 1;
-            }
+            available = Math.max(this.choice.available - this.get_SpellBlendingUsed() - this.get_InfinitePossibilitiesUsed() - this.get_AdaptedCantripUsed() - this.get_AdaptiveAdeptUsed(), 0);
         }
         //If this choice has more spells than it should have (unless they are locked), remove the excess.
         if (choice.spells.length > available) {
@@ -387,11 +471,34 @@ export class SpellchoiceComponent implements OnInit {
                 //With Impossible Polymath, you can choose spells of any tradition in the Esoteric Polymath choice so long as you are trained in the associated skill.
                 if (choice.source == "Feat: Esoteric Polymath") {
                     spells.push(...allSpells.filter(spell => spell.traditions.find(tradition => this.get_EsotericPolymathAllowed(this.spellCasting, tradition)) && !spell.traditions.includes("Focus")));
-                //With Adapted Cantrip, you can choose spells of any tradition except your own.
+                    //With Adapted Cantrip, you can choose spells of any tradition except your own.
                 } else if (choice.source == "Feat: Adapted Cantrip") {
                     spells.push(...allSpells.filter(spell => !spell.traditions.includes(this.spellCasting.tradition) && !spell.traditions.includes("Focus")));
+                } else if (choice.source.includes("Feat: Adaptive Adept")) {
+                    //With Adaptive Adept, you can choose spells of the same tradition(s) as with Adapted Cantrip, but not your own.
+                    let adaptedcantrip = this.spellCasting.spellChoices.find(choice => choice.source == "Feat: Adapted Cantrip").spells[0];
+                    if (adaptedcantrip) {
+                        let originalSpell = this.spellsService.get_Spells(adaptedcantrip.name)[0];
+                        if (originalSpell) {
+                            spells.push(...allSpells.filter(spell => !spell.traditions.includes(this.spellCasting.tradition) && spell.traditions.some(tradition => originalSpell.traditions.includes(tradition)) && !spell.traditions.includes("Focus")));
+                        }
+                    }
                 } else if (traditionFilter) {
-                    spells.push(...allSpells.filter(spell => spell.traditions.includes(traditionFilter) && !spell.traditions.includes("Focus")));
+                    //If the tradition filter comes from the spellcasting, also include all spells that are on the spell list regardless of their tradition.
+                    if (!choice.tradition && this.spellCasting.tradition) {
+                        spells.push(...allSpells.filter(spell =>
+                            (
+                                spell.traditions.includes(traditionFilter) ||
+                                this.get_Character().get_SpellListSpell(spell.name).length
+                            ) &&
+                            !spell.traditions.includes("Focus")
+                        ));
+                    } else {
+                        spells.push(...allSpells.filter(spell =>
+                            spell.traditions.includes(traditionFilter) &&
+                            !spell.traditions.includes("Focus")
+                        ));
+                    }
                 } else {
                     spells.push(...allSpells.filter(spell => !spell.traditions.includes("Focus")));
                 }
@@ -558,6 +665,7 @@ export class SpellchoiceComponent implements OnInit {
     }
 
     on_SpellTaken(spellName: string, taken: boolean, choice: SpellChoice, locked: boolean) {
+        //Close the menu if all slots are filled, unless it's a spell combination choice.
         if (taken && !choice.spellCombination && (choice.spells.length == this.get_Available(choice) - 1)) { this.toggle_Choice("") }
         let prepared: boolean = this.prepared;
         let character = this.get_Character();

@@ -1748,6 +1748,79 @@
         ]
     },
     {
+        "name": "Dragon Breath",
+        "id": "b8ec290c-8416-4150-8eb8-c7bbab54aa28",
+        "shortDesc": "You spew draconic energy from your mouth.",
+        "actions": "2A",
+        "castType": "somatic, verbal",
+        "levelreq": 3,
+        "traditions": [
+            "Focus"
+        ],
+        "traits": [
+            "Uncommon",
+            "Evocation",
+            "Sorcerer"
+        ],
+        "area": "30-foot cone or 60-foot line originating from you",
+        "desc": "You spew energy from your mouth, dealing <var>var1</var> damage. The area, damage type, and save depend on the dragon type in your bloodline.\n\n<strong>Black and copper dragon</strong> 60-foot line of acid, Reflex save\n<strong>Blue and bronze dragon</strong> 60-foot line of electricity, Reflex save\n<strong>Brass dragon</strong> 60-foot line of fire, Reflex save\n<strong>Green dragon</strong> 30-foot cone of poison, Fortitude save\n<strong>Gold or red dragon</strong> 30-foot cone of fire, Reflex save\n<strong>Silver or white dragon</strong> 30-foot cone of cold, Reflex save",
+        "savingThrow": "basic Reflex or Fortitude",
+        "heightened": [
+            {
+                "desc": "The damage increases by 2d6.",
+                "level": "(+1)"
+            }
+        ],
+        "desc3": [
+            {
+                "value": "5d6",
+                "variable": "var1"
+            }
+        ],
+        "desc4": [
+            {
+                "value": "7d6",
+                "variable": "var1"
+            }
+        ],
+        "desc5": [
+            {
+                "value": "9d6",
+                "variable": "var1"
+            }
+        ],
+        "desc6": [
+            {
+                "value": "11d6",
+                "variable": "var1"
+            }
+        ],
+        "desc7": [
+            {
+                "value": "13d6",
+                "variable": "var1"
+            }
+        ],
+        "desc8": [
+            {
+                "value": "15d6",
+                "variable": "var1"
+            }
+        ],
+        "desc9": [
+            {
+                "value": "17d6",
+                "variable": "var1"
+            }
+        ],
+        "desc10": [
+            {
+                "value": "19d6",
+                "variable": "var1"
+            }
+        ]
+    },
+    {
         "name": "Acid Splash",
         "id": "29ed3e06-9122-11ea-bb37-0242ac130002",
         "shortDesc": "Damage creatures with acid.",

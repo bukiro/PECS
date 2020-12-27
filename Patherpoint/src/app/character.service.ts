@@ -139,7 +139,7 @@ export class CharacterService {
     set_TagsToChange(creature: string, showonString: string = "") {
         //For transition between single showon strings and multiple hints, we are currently doing both.
         //  Ideally, we can eventually delete this function and clean up every place that uses it.
-        
+
         //Update the tags for every element that is named here.
         showonString.split(",").forEach(subtarget => {
             this.set_ToChange(creature, "tags", subtarget.trim())
@@ -248,131 +248,39 @@ export class CharacterService {
         }
     }
 
-    toggleMenu(menu: string = "", parameter: string = "") {
-        switch (menu) {
-            case "character":
-                this.characterMenuState = (this.characterMenuState == 'out') ? 'in' : 'out';
-                this.companionMenuState = 'out';
-                this.familiarMenuState = 'out';
-                this.itemsMenuState = 'out';
-                this.craftingMenuState = 'out';
-                this.spellsMenuState = 'out';
-                this.spelllibraryMenuState = 'out';
-                this.conditionsMenuState = 'out';
-                this.diceMenuState = 'out';
-                if (this.characterMenuState == 'in') {
-                    this.set_Changed("charactersheet");
-                }
-                break;
-            case "companion":
-                this.characterMenuState = 'out';
-                this.companionMenuState = (this.companionMenuState == 'out') ? 'in' : 'out';
-                this.familiarMenuState = 'out';
-                this.itemsMenuState = 'out';
-                this.craftingMenuState = 'out';
-                this.spellsMenuState = 'out';
-                this.spelllibraryMenuState = 'out';
-                this.conditionsMenuState = 'out';
-                this.diceMenuState = 'out';
-                if (this.companionMenuState == 'in') {
-                    this.set_Changed("Companion");
-                }
-                break;
-            case "familiar":
-                this.characterMenuState = 'out';
-                this.companionMenuState = 'out';
-                this.familiarMenuState = (this.familiarMenuState == 'out') ? 'in' : 'out';
-                this.itemsMenuState = 'out';
-                this.craftingMenuState = 'out';
-                this.spellsMenuState = 'out';
-                this.spelllibraryMenuState = 'out';
-                this.conditionsMenuState = 'out';
-                this.diceMenuState = 'out';
-                if (this.familiarMenuState == 'in') {
-                    this.set_Changed("Familiar");
-                }
-                break;
-            case "items":
-                this.characterMenuState = 'out';
-                this.companionMenuState = 'out';
-                this.familiarMenuState = 'out';
-                this.itemsMenuState = (this.itemsMenuState == 'out') ? 'in' : 'out';
-                this.craftingMenuState = 'out';
-                this.spellsMenuState = 'out';
-                this.spelllibraryMenuState = 'out';
-                this.conditionsMenuState = 'out';
-                this.diceMenuState = 'out';
-                if (this.itemsMenuState == 'in') {
-                    this.set_Changed("items");
-                }
-                break;
-            case "crafting":
-                this.characterMenuState = 'out';
-                this.companionMenuState = 'out';
-                this.familiarMenuState = 'out';
-                this.itemsMenuState = 'out';
-                this.craftingMenuState = (this.craftingMenuState == 'out') ? 'in' : 'out';
-                this.spellsMenuState = 'out';
-                this.spelllibraryMenuState = 'out';
-                this.conditionsMenuState = 'out';
-                this.diceMenuState = 'out';
-                if (this.craftingMenuState == 'in') {
-                    this.set_Changed("crafting");
-                }
-                break;
-            case "spells":
-                this.characterMenuState = 'out';
-                this.companionMenuState = 'out';
-                this.familiarMenuState = 'out';
-                this.itemsMenuState = 'out';
-                this.craftingMenuState = 'out';
-                this.spellsMenuState = (this.spellsMenuState == 'out') ? 'in' : 'out';
-                this.spelllibraryMenuState = 'out';
-                this.conditionsMenuState = 'out';
-                this.diceMenuState = 'out';
-                if (this.spellsMenuState == 'in') {
-                    this.set_Changed("spells");
-                }
-                break;
-            case "spelllibrary":
-                this.characterMenuState = 'out';
-                this.companionMenuState = 'out';
-                this.familiarMenuState = 'out';
-                this.itemsMenuState = 'out';
-                this.craftingMenuState = 'out';
-                this.spellsMenuState = 'out';
-                this.spelllibraryMenuState = (this.spelllibraryMenuState == 'out') ? 'in' : 'out';
-                this.conditionsMenuState = 'out';
-                this.diceMenuState = 'out';
-                if (this.spelllibraryMenuState == 'in') {
-                    this.set_Changed("spelllibrary");
-                }
-                break;
-            case "conditions":
-                this.characterMenuState = 'out';
-                this.companionMenuState = 'out';
-                this.familiarMenuState = 'out';
-                this.craftingMenuState = 'out';
-                this.itemsMenuState = 'out';
-                this.spellsMenuState = 'out';
-                this.spelllibraryMenuState = 'out';
-                this.conditionsMenuState = (this.conditionsMenuState == 'out') ? 'in' : 'out';
-                this.diceMenuState = 'out';
-                if (this.conditionsMenuState == 'in') {
-                    this.set_Changed("conditions");
-                }
-                break;
-            case "dice":
-                this.characterMenuState = 'out';
-                this.companionMenuState = 'out';
-                this.familiarMenuState = 'out';
-                this.craftingMenuState = 'out';
-                this.itemsMenuState = 'out';
-                this.spellsMenuState = 'out';
-                this.spelllibraryMenuState = 'out';
-                this.conditionsMenuState = 'out';
-                this.diceMenuState = (this.diceMenuState == 'out') ? 'in' : 'out';
-                break;
+    toggle_Menu(menu: string = "", parameter: string = "") {
+        this.characterMenuState = (menu == "character" && (this.characterMenuState == 'out')) ? 'in' : 'out';
+        this.companionMenuState = (menu == "companion" && (this.companionMenuState == 'out')) ? 'in' : 'out';
+        this.familiarMenuState = (menu == "familiar" && (this.familiarMenuState == 'out')) ? 'in' : 'out';
+        this.itemsMenuState = (menu == "items" && (this.itemsMenuState == 'out')) ? 'in' : 'out';
+        this.craftingMenuState = (menu == "crafting" && (this.craftingMenuState == 'out')) ? 'in' : 'out';
+        this.spellsMenuState = (menu == "spells" && (this.spellsMenuState == 'out')) ? 'in' : 'out';
+        this.spelllibraryMenuState = (menu == "spelllibrary" && (this.spelllibraryMenuState == 'out')) ? 'in' : 'out';
+        this.conditionsMenuState = (menu == "conditions" && (this.conditionsMenuState == 'out')) ? 'in' : 'out';
+        this.diceMenuState = (menu == "dice" && (this.diceMenuState == 'out')) ? 'in' : 'out';
+        if (this.characterMenuState == 'in') {
+            this.set_Changed("charactersheet");
+        }
+        if (this.companionMenuState == 'in') {
+            this.set_Changed("Companion");
+        }
+        if (this.familiarMenuState == 'in') {
+            this.set_Changed("Familiar");
+        }
+        if (this.itemsMenuState == 'in') {
+            this.set_Changed("items");
+        }
+        if (this.craftingMenuState == 'in') {
+            this.set_Changed("crafting");
+        }
+        if (this.spellsMenuState == 'in') {
+            this.set_Changed("spells");
+        }
+        if (this.spelllibraryMenuState == 'in') {
+            this.set_Changed("spelllibrary");
+        }
+        if (this.conditionsMenuState == 'in') {
+            this.set_Changed("conditions");
         }
         this.set_Changed("top-bar");
         if (this.toChange.length) {
@@ -660,35 +568,43 @@ export class CharacterService {
         return creature.inventories[0].allEquipment().filter(item => item.invested && item.traits.includes("Invested"));
     }
 
-    create_AdvancedWeaponFeats(advancedWeapons: Weapon[]) {
+    create_WeaponFeats(weapons: Weapon[] = []) {
         //This function depends on the feats and items being loaded, and it will wait forever for them!
         if (this.featsService.still_loading() || this.itemsService.still_loading()) {
             setTimeout(() => {
-                this.create_AdvancedWeaponFeats(advancedWeapons);
+                this.create_WeaponFeats(weapons);
             }, 500)
         } else {
-            if (!advancedWeapons.length) {
-                advancedWeapons = this.itemsService.get_ItemsOfType("weapons").filter(weapon => weapon.prof == "Advanced Weapons");
+            if (!weapons.length) {
+                weapons = this.itemsService.get_ItemsOfType("weapons");
             }
-            let advancedWeaponFeats = this.get_Feats().filter(feat => feat.advancedweaponbase);
-            advancedWeapons.forEach(weapon => {
-                advancedWeaponFeats.forEach(feat => {
-                    if (!this.get_Feats().find(libraryFeat => libraryFeat.name == feat.name.replace('Advanced Weapon', weapon.name)) &&
-                        !this.get_Character().customFeats.find(customFeat => customFeat.name == feat.name.replace('Advanced Weapon', weapon.name))) {
-                        let newLength = this.add_CustomFeat(feat);
+            let weaponFeats = this.get_Feats().filter(feat => feat.weaponfeatbase);
+            weaponFeats.forEach(feat => {
+                let featweapons = weapons;
+                //These filters are hardcoded according to the needs of the weaponfeatbase feats. There is "Advanced Weapon", "Uncommon Ancestry Weapon" and "Uncommon Ancestry Advanced Weapon" so far.
+                if (feat.subType.includes("Uncommon")) {
+                    featweapons = featweapons.filter(weapon => weapon.traits.includes("Uncommon"));
+                }
+                if (feat.subType.includes("Advanced")) {
+                    featweapons = featweapons.filter(weapon => weapon.prof == "Advanced Weapons");
+                } else {
+                    featweapons = featweapons.filter(weapon => ["Simple Weapons", "Martial Weapons"].includes(weapon.prof));
+                }
+                if (feat.subType.includes("Ancestry")) {
+                    let ancestries: string[] = this.historyService.get_Ancestries().map(ancestry => ancestry.name);
+                    featweapons = featweapons.filter(weapon => weapon.traits.some(trait => ancestries.includes(trait)));
+                }
+                featweapons.forEach(weapon => {
+                    let replacementString = feat.subType;
+                    if (!this.get_Feats().find(libraryFeat => libraryFeat.name == feat.name.replace(replacementString, weapon.name))) {
+                        let regex = new RegExp(replacementString,"g")
+                        let featString = JSON.stringify(feat);
+                        featString = featString.replace(regex, weapon.name);
+                        let replacedFeat = Object.assign(new Feat(), JSON.parse(featString))
+                        let newLength = this.add_CustomFeat(replacedFeat);
                         let newFeat = this.get_Character().customFeats[newLength - 1];
-                        newFeat.name = newFeat.name.replace("Advanced Weapon", weapon.name);
                         newFeat.hide = false;
-                        newFeat.advancedweaponbase = false;
-                        newFeat.subType = newFeat.subType.replace("Advanced Weapon", weapon.name);
-                        newFeat.desc = newFeat.desc.replace("Advanced Weapon", weapon.name);
-                        newFeat.gainSkillChoice.forEach(choice => {
-                            choice.source = choice.source.replace("Advanced Weapon", weapon.name);
-                            choice.increases.forEach(increase => {
-                                increase.name = increase.name.replace("Advanced Weapon", weapon.name);
-                                increase.source = increase.source.replace("Advanced Weapon", weapon.name);
-                            })
-                        })
+                        newFeat.weaponfeatbase = false;
                     }
                 })
             })
@@ -737,7 +653,7 @@ export class CharacterService {
             }
             returnedInventoryItem = createdInventoryItem;
             if (returnedInventoryItem["prof"] == "Advanced Weapons") {
-                this.create_AdvancedWeaponFeats([returnedInventoryItem]);
+                this.create_WeaponFeats([returnedInventoryItem]);
             }
             if (resetRunes && returnedInventoryItem["moddable"]) {
                 if (returnedInventoryItem["potencyRune"]) {
@@ -1248,8 +1164,9 @@ export class CharacterService {
         this.get_Character().customSkills = this.get_Character().customSkills.filter(skill => skill !== oldSkill);
     }
 
-    add_CustomFeat(oldFeat: Feat) {
-        let newLength = this.get_Character().customFeats.push(Object.assign(new Feat(), JSON.parse(JSON.stringify(oldFeat))));
+    add_CustomFeat(newFeat: Feat) {
+        let newLength = this.get_Character().customFeats.push(Object.assign(new Feat(), JSON.parse(JSON.stringify(newFeat))));
+        this.get_Character().customFeats[newLength - 1] = this.savegameService.reassign(this.get_Character().customFeats[newLength - 1]);
         this.set_ToChange("Character", "charactersheet");
         return newLength;
     }
@@ -1527,7 +1444,7 @@ export class CharacterService {
     get_FeatsShowingOn(objectName: string = "all") {
         return this.get_FeatsAndFeatures().filter(feat =>
             feat.hints.find(hint =>
-                hint.showon?.split(",").find(showon => 
+                hint.showon?.split(",").find(showon =>
                     objectName.toLowerCase() == "all" ||
                     showon.trim().toLowerCase() == objectName.toLowerCase() ||
                     (
@@ -1544,29 +1461,29 @@ export class CharacterService {
         return []
             .concat(
                 [this.get_Companion().class.ancestry]
-                .filter(ancestry => 
-                    ancestry.hints
-                    .find(hint => 
-                        hint.showon?.split(",")
-                        .find(showon => 
-                            objectName == "all" ||
-                            showon.trim().toLowerCase() == objectName.toLowerCase()
-                        )
+                    .filter(ancestry =>
+                        ancestry.hints
+                            .find(hint =>
+                                hint.showon?.split(",")
+                                    .find(showon =>
+                                        objectName == "all" ||
+                                        showon.trim().toLowerCase() == objectName.toLowerCase()
+                                    )
+                            )
                     )
-                )
             )
             .concat(
                 ...this.get_Companion().class.specializations
-                .filter(spec =>
-                    spec.hints
-                    .find(hint => 
-                        hint.showon?.split(",")
-                        .find(showon => 
-                            objectName == "all" ||
-                            showon.trim().toLowerCase() == objectName.toLowerCase()
-                        )
+                    .filter(spec =>
+                        spec.hints
+                            .find(hint =>
+                                hint.showon?.split(",")
+                                    .find(showon =>
+                                        objectName == "all" ||
+                                        showon.trim().toLowerCase() == objectName.toLowerCase()
+                                    )
+                            )
                     )
-                )
             )
             //Return any feats that include e.g. Companion:Athletics
             .concat(
@@ -1578,7 +1495,7 @@ export class CharacterService {
         //Get showon elements from Familiar Abilities
         return this.familiarsService.get_FamiliarAbilities().filter(feat =>
             feat.hints.find(hint =>
-                hint.showon?.split(",").find(showon => 
+                hint.showon?.split(",").find(showon =>
                     objectName.toLowerCase() == "all" ||
                     showon.trim().toLowerCase() == objectName.toLowerCase() ||
                     (
@@ -1593,20 +1510,20 @@ export class CharacterService {
 
     get_ConditionsShowingOn(creature: Creature, objectName: string = "all") {
         return this.get_AppliedConditions(creature)
-        .filter(conditionGain => conditionGain.apply)
-        .map(conditionGain => this.get_Conditions(conditionGain.name)[0])
-        .filter(condition =>
-            condition?.hints.find(hint => 
-                hint.showon?.split(",").find(showon => 
-                    objectName.trim().toLowerCase() == "all" ||
-                    showon.trim().toLowerCase() == objectName.toLowerCase() ||
-                    (
-                        objectName.toLowerCase().includes("lore") &&
-                        showon.trim().toLowerCase() == "lore"
+            .filter(conditionGain => conditionGain.apply)
+            .map(conditionGain => this.get_Conditions(conditionGain.name)[0])
+            .filter(condition =>
+                condition?.hints.find(hint =>
+                    hint.showon?.split(",").find(showon =>
+                        objectName.trim().toLowerCase() == "all" ||
+                        showon.trim().toLowerCase() == objectName.toLowerCase() ||
+                        (
+                            objectName.toLowerCase().includes("lore") &&
+                            showon.trim().toLowerCase() == "lore"
+                        )
                     )
                 )
             )
-        )
     }
 
     get_OwnedActivities(creature: Creature, levelNumber: number = creature.level, all: boolean = false) {
@@ -1721,12 +1638,12 @@ export class CharacterService {
             //Conflate ActivityGains and their respective Activities into one object...
             .map(gain => gain.constructor == ItemActivity ? [gain, gain] : [gain, this.activitiesService.get_Activities(gain.name)[0]])
             //...so that we can find the activities where the gain is active or the activity doesn't need to be toggled...
-            .filter((gainAndActivity: [ActivityGain|ItemActivity, Activity]) => gainAndActivity[1] && (gainAndActivity[0].active || !gainAndActivity[1].toggle))
+            .filter((gainAndActivity: [ActivityGain | ItemActivity, Activity]) => gainAndActivity[1] && (gainAndActivity[0].active || !gainAndActivity[1].toggle))
             //...and then keep only the activities.
-            .map((gainAndActivity: [ActivityGain|ItemActivity, Activity]) => gainAndActivity[1])
+            .map((gainAndActivity: [ActivityGain | ItemActivity, Activity]) => gainAndActivity[1])
             .filter(activity =>
-                activity?.hints.find(hint => 
-                    hint.showon.split(",").find(showon => 
+                activity?.hints.find(hint =>
+                    hint.showon.split(",").find(showon =>
                         objectName.trim().toLowerCase() == "all" ||
                         showon.trim().toLowerCase() == objectName.toLowerCase() ||
                         (
@@ -1743,8 +1660,8 @@ export class CharacterService {
         //Prepare function to add items whose hints match the objectName.
         function get_Hint(item: Equipment | Oil | WornItem | ArmorRune) {
             if (item.hints
-                .find(hint => 
-                    hint.showon.split(",").find(showon => 
+                .find(hint =>
+                    hint.showon.split(",").find(showon =>
                         objectName.trim().toLowerCase() == "all" ||
                         showon.trim().toLowerCase() == objectName.toLowerCase() ||
                         (
@@ -1781,19 +1698,19 @@ export class CharacterService {
     get_ArmorSpecializationsShowingOn(creature: Creature, objectName: string = "all") {
         if (creature.type == "Character") {
             return creature.inventories[0].armors.find(armor => armor.equipped).get_ArmorSpecialization(creature, this)
-                .filter(spec => 
+                .filter(spec =>
                     spec?.hints
-                    .find(hint => 
-                        hint.showon.split(",")
-                        .find(showon => 
-                            objectName.trim().toLowerCase() == "all" ||
-                            showon.trim().toLowerCase() == objectName.toLowerCase() ||
-                            (
-                                objectName.toLowerCase().includes("lore") &&
-                                showon.trim().toLowerCase() == "lore"
-                            )
+                        .find(hint =>
+                            hint.showon.split(",")
+                                .find(showon =>
+                                    objectName.trim().toLowerCase() == "all" ||
+                                    showon.trim().toLowerCase() == objectName.toLowerCase() ||
+                                    (
+                                        objectName.toLowerCase().includes("lore") &&
+                                        showon.trim().toLowerCase() == "lore"
+                                    )
+                                )
                         )
-                    )
                 )
         } else {
             return [];
@@ -1910,6 +1827,7 @@ export class CharacterService {
             this.me = this.savegameService.load_Character(this.me, this.itemsService, this.classesService, this.historyService, this.animalCompanionsService)
             if (this.loading) { this.loading = false; }
             this.grant_BasicItems();
+            this.create_WeaponFeats();
             this.characterChanged$ = this.changed.asObservable();
             this.viewChanged$ = this.viewChanged.asObservable();
             this.trigger_FinalChange();

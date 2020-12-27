@@ -1,4 +1,4 @@
-<div class="list-item" *ngIf="get_Available(choice) || get_SpellBlendingUsed() || get_InfinitePossibilitiesUsed()"
+<div class="list-item" *ngIf="get_Available(choice) || get_SpellBlendingUsed() || get_InfinitePossibilitiesUsed() || get_AdaptedCantripUsed() || get_AdaptiveAdeptUsed()"
     [ngClass]="{'problem':(choice.spells.length > get_Available(choice) || cannotTakeSome(choice)), 'fullsize-only':(get_Available(choice) == choice.spells.length)}">
     <ng-container *ngFor="let signatureSpellsAllowed of [get_SignatureSpellsAllowed()]; trackBy:trackByIndex;">
         <ng-container *ngFor="let available of [get_Available(choice)]; trackBy:trackByIndex;">
@@ -11,7 +11,8 @@
             {{itemSpell || choice.showOnSheet ? "Level "+choice.level : ""}}
             {{choice.frequency ? capitalize(choice.frequency) : ""}}
             {{choice.tradition ? choice.tradition : ""}}
-            {{choice.source == 'Feat: Adapted Cantrip' ? "non-"+spellCasting.tradition : ""}}
+            {{is_AdaptedCantripSpell(choice) ? "non-"+spellCasting.tradition : ""}}
+            {{is_AdaptiveAdeptSpell(choice) ? "non-"+spellCasting.tradition : ""}}
             {{choice.traitFilter.length ? choice.traitFilter.join(" ") : ""}}
             {{is_SignatureSpell(choice, signatureSpellsAllowed) ? "Signature" : ""}}
             {{choice.spellCombinationAllowed ? "Combination" : ""}}
@@ -24,7 +25,7 @@
         <div class="list-item sublist" [ngClass]="{'fancy-list':(available == choice.spells.length )}"
             *ngIf="get_ShowChoice()==choice.source+choice.id">
             <!-- Heightened -->
-            <div class="list-item" *ngIf="spellbook">
+            <div class="list-item" *ngIf="spellbook && choice.level != 0">
                 <span>
                     <input id="{{choice.id}}allowHeightened" type="checkbox" [(ngModel)]="allowHeightened">
                     <label for="{{choice.id}}allowHeightened">Allow heightened spells</label>
@@ -48,6 +49,42 @@
                 </div>
             </ng-container>
             <!-- End Signature Spells -->
+            <!-- Adapted Cantrip -->
+            <ng-container *ngIf="get_AdaptedCantripAllowed()">
+                <div class="list-item">
+                    <strong>Adapted Cantrip</strong>
+                    <div class="row" *ngIf="get_AdaptedCantripUnlocked() && !choice.adaptedCantrip">
+                        There is already an Adapted Cantrip spell slot unlocked.
+                    </div>
+                    <div class="row" *ngIf="!get_AdaptedCantripUnlocked() || choice.adaptedCantrip">
+                        <span>
+                            <input id="{{choice.id}}adaptedCantrip" type="checkbox"
+                                [(ngModel)]="choice.adaptedCantrip" (ngModelChange)="on_AdaptedCantrip()"
+                                [disabled]="(available <= choice.spells.length) && !choice.adaptedCantrip">
+                            <label for="{{choice.id}}adaptedCantrip">Trade one spell slot in for an Adapted Cantrip spell slot.</label>
+                        </span>
+                    </div>
+                </div>
+            </ng-container>
+            <!-- End Adapted Cantrip -->
+            <!-- Adaptive Adept -->
+            <ng-container *ngIf="get_AdaptiveAdeptAllowed()">
+                <div class="list-item">
+                    <strong>Adaptive Adept</strong>
+                    <div class="row" *ngIf="get_AdaptiveAdeptUnlocked() && !choice.adaptiveAdept">
+                        There is already an Adaptive Adept spell slot unlocked.
+                    </div>
+                    <div class="row" *ngIf="!get_AdaptiveAdeptUnlocked() || choice.adaptiveAdept">
+                        <span>
+                            <input id="{{choice.id}}adaptiveAdept" type="checkbox"
+                                [(ngModel)]="choice.adaptiveAdept" (ngModelChange)="on_AdaptiveAdept()"
+                                [disabled]="(available <= choice.spells.length) && !choice.adaptiveAdept">
+                            <label for="{{choice.id}}adaptiveAdept">Trade one spell slot in for an Adaptive Adept spell slot of the same tradition as the Adapted Cantrip spell.</label>
+                        </span>
+                    </div>
+                </div>
+            </ng-container>
+            <!-- End Adaptive Adept -->
             <!-- Spell Blending -->
             <ng-container *ngIf="spellbook && get_SpellBlendingAllowed()">
                 <div class="list-item">

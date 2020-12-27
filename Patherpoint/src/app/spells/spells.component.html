@@ -45,7 +45,12 @@
                         <h5
                             *ngIf="level == -1 && casting.castingType == 'Focus' && get_SpellChoices(casting, level).length">
                             Focus Spells</h5>
-                        <h5 *ngIf="level == 0 && get_SpellChoices(casting, level).length">Cantrips</h5>
+                        <h5
+                            *ngIf="level == 0 && casting.castingType == 'Focus' && get_SpellChoices(casting, level).length">
+                            Focus Cantrips</h5>
+                        <h5
+                            *ngIf="level == 0 && casting.castingType != 'Focus' && get_SpellChoices(casting, level).length">
+                            Cantrips</h5>
                         <h5
                             *ngIf="level > 0 && casting.castingType != 'Focus' && get_SpellChoices(casting, level).length">
                             {{"Level "+level}}</h5>

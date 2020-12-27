@@ -48,4 +48,14 @@
             </ng-container>
         </ng-container>
     </ng-container>
+    <ng-container *ngFor="let spellName of feat.gainSpellListSpells; trackBy:trackByIndex;">
+        <ng-container *ngFor="let spell of get_Spells(spellName); trackBy:trackByIndex;">
+            <h4 class="left-aligned">{{spell.name}}<app-actionIcons
+                    [actionString]="spell.actions"></app-actionIcons>
+                {{(spell.castType) ? spell.castType : ""}}
+            </h4>
+            <app-spell class="row" [spell]=spell [spellLevel]="get_SpellLevel(levelNumber)">
+            </app-spell>
+        </ng-container>
+    </ng-container>
 </ng-container>

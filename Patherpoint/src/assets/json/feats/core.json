@@ -7458,7 +7458,7 @@
         "subType": "Advanced Weapon",
         "superType": "Weapon Proficiency",
         "shortdesc": "Become trained in a weapon type.",
-        "advancedweaponbase": true,
+        "weaponfeatbase": true,
         "traits": [
             "General"
         ],
@@ -7484,251 +7484,6 @@
                 ],
                 "maxRank": 2,
                 "source": "Feat: Weapon Proficiency: Advanced Weapon",
-                "type": "Specific Weapon Proficiency"
-            }
-        ]
-    },
-    {
-        "name": "Weapon Proficiency: Aklys",
-        "desc": "You become trained in the Aklys",
-        "subType": "Aklys",
-        "superType": "Weapon Proficiency",
-        "shortdesc": "Become trained in a weapon type.",
-        "traits": [
-            "General"
-        ],
-        "levelreq": 1,
-        "skillreq": [
-            {
-                "skill": "Martial Weapons",
-                "value": 2
-            }
-        ],
-        "specialreq": "!characterService.get_Skills(character, this.subType).length || characterService.get_Skills(character, this.subType)[0].level(character, characterService) < 2 || (this.have(character, characterService, charLevel) && characterService.get_Skills(character, this.subType)[0].level(character, characterService, charLevel) < 4)",
-        "specialreqdesc": "Untrained in Aklys",
-        "gainSkillChoice": [
-            {
-                "_className": "SkillChoice",
-                "increases": [
-                    {
-                        "locked": true,
-                        "maxRank": 2,
-                        "name": "Aklys",
-                        "source": "Feat: Weapon Proficiency: Aklys"
-                    }
-                ],
-                "maxRank": 2,
-                "source": "Feat: Weapon Proficiency: Aklys",
-                "type": "Specific Weapon Proficiency"
-            }
-        ]
-    },
-    {
-        "name": "Weapon Proficiency: Aldori Dueling Sword",
-        "desc": "You become trained in the Aldori Dueling Sword",
-        "subType": "Aldori Dueling Sword",
-        "superType": "Weapon Proficiency",
-        "shortdesc": "Become trained in a weapon type.",
-        "traits": [
-            "General"
-        ],
-        "levelreq": 1,
-        "skillreq": [
-            {
-                "skill": "Martial Weapons",
-                "value": 2
-            }
-        ],
-        "specialreq": "!characterService.get_Skills(character, this.subType).length || characterService.get_Skills(character, this.subType)[0].level(character, characterService) < 2 || (this.have(character, characterService, charLevel) && characterService.get_Skills(character, this.subType)[0].level(character, characterService, charLevel) < 4)",
-        "specialreqdesc": "Untrained in Aldori Dueling Sword",
-        "gainSkillChoice": [
-            {
-                "_className": "SkillChoice",
-                "increases": [
-                    {
-                        "locked": true,
-                        "maxRank": 2,
-                        "name": "Aldori Dueling Sword",
-                        "source": "Feat: Weapon Proficiency: Aldori Dueling Sword"
-                    }
-                ],
-                "maxRank": 2,
-                "source": "Feat: Weapon Proficiency: Aldori Dueling Sword",
-                "type": "Specific Weapon Proficiency"
-            }
-        ]
-    },
-    {
-        "name": "Weapon Proficiency: Bladed Diabolo",
-        "desc": "You become trained in the Bladed Diabolo",
-        "subType": "Bladed Diabolo",
-        "superType": "Weapon Proficiency",
-        "shortdesc": "Become trained in a weapon type.",
-        "traits": [
-            "General"
-        ],
-        "levelreq": 1,
-        "skillreq": [
-            {
-                "skill": "Martial Weapons",
-                "value": 2
-            }
-        ],
-        "specialreq": "!characterService.get_Skills(character, this.subType).length || characterService.get_Skills(character, this.subType)[0].level(character, characterService) < 2 || (this.have(character, characterService, charLevel) && characterService.get_Skills(character, this.subType)[0].level(character, characterService, charLevel) < 4)",
-        "specialreqdesc": "Untrained in Bladed Diabolo",
-        "gainSkillChoice": [
-            {
-                "_className": "SkillChoice",
-                "increases": [
-                    {
-                        "locked": true,
-                        "maxRank": 2,
-                        "name": "Bladed Diabolo",
-                        "source": "Feat: Weapon Proficiency: Bladed Diabolo"
-                    }
-                ],
-                "maxRank": 2,
-                "source": "Feat: Weapon Proficiency: Bladed Diabolo",
-                "type": "Specific Weapon Proficiency"
-            }
-        ]
-    },
-    {
-        "name": "Weapon Proficiency: Bladed Hoop",
-        "desc": "You become trained in the Bladed Hoop",
-        "subType": "Bladed Hoop",
-        "superType": "Weapon Proficiency",
-        "shortdesc": "Become trained in a weapon type.",
-        "traits": [
-            "General"
-        ],
-        "levelreq": 1,
-        "skillreq": [
-            {
-                "skill": "Martial Weapons",
-                "value": 2
-            }
-        ],
-        "specialreq": "!characterService.get_Skills(character, this.subType).length || characterService.get_Skills(character, this.subType)[0].level(character, characterService) < 2 || (this.have(character, characterService, charLevel) && characterService.get_Skills(character, this.subType)[0].level(character, characterService, charLevel) < 4)",
-        "specialreqdesc": "Untrained in Bladed Hoop",
-        "gainSkillChoice": [
-            {
-                "_className": "SkillChoice",
-                "increases": [
-                    {
-                        "locked": true,
-                        "maxRank": 2,
-                        "name": "Bladed Hoop",
-                        "source": "Feat: Weapon Proficiency: Bladed Hoop"
-                    }
-                ],
-                "maxRank": 2,
-                "source": "Feat: Weapon Proficiency: Bladed Hoop",
-                "type": "Specific Weapon Proficiency"
-            }
-        ]
-    },
-    {
-        "name": "Weapon Proficiency: Dwarven War Axe",
-        "desc": "You become trained in the Dwarven War Axe",
-        "subType": "Dwarven War Axe",
-        "superType": "Weapon Proficiency",
-        "shortdesc": "Become trained in a weapon type.",
-        "traits": [
-            "General"
-        ],
-        "levelreq": 1,
-        "skillreq": [
-            {
-                "skill": "Martial Weapons",
-                "value": 2
-            }
-        ],
-        "specialreq": "!characterService.get_Skills(character, this.subType).length || characterService.get_Skills(character, this.subType)[0].level(character, characterService) < 2 || (this.have(character, characterService, charLevel) && characterService.get_Skills(character, this.subType)[0].level(character, characterService, charLevel) < 4)",
-        "specialreqdesc": "Untrained in Dwarven War Axe",
-        "gainSkillChoice": [
-            {
-                "_className": "SkillChoice",
-                "increases": [
-                    {
-                        "locked": true,
-                        "maxRank": 2,
-                        "name": "Dwarven War Axe",
-                        "source": "Feat: Weapon Proficiency: Dwarven War Axe"
-                    }
-                ],
-                "maxRank": 2,
-                "source": "Feat: Weapon Proficiency: Dwarven War Axe",
-                "type": "Specific Weapon Proficiency"
-            }
-        ]
-    },
-    {
-        "name": "Weapon Proficiency: Fire Poi",
-        "desc": "You become trained in the Fire Poi",
-        "subType": "Fire Poi",
-        "superType": "Weapon Proficiency",
-        "shortdesc": "Become trained in a weapon type.",
-        "traits": [
-            "General"
-        ],
-        "levelreq": 1,
-        "skillreq": [
-            {
-                "skill": "Martial Weapons",
-                "value": 2
-            }
-        ],
-        "specialreq": "!characterService.get_Skills(character, this.subType).length || characterService.get_Skills(character, this.subType)[0].level(character, characterService) < 2 || (this.have(character, characterService, charLevel) && characterService.get_Skills(character, this.subType)[0].level(character, characterService, charLevel) < 4)",
-        "specialreqdesc": "Untrained in Fire Poi",
-        "gainSkillChoice": [
-            {
-                "_className": "SkillChoice",
-                "increases": [
-                    {
-                        "locked": true,
-                        "maxRank": 2,
-                        "name": "Fire Poi",
-                        "source": "Feat: Weapon Proficiency: Fire Poi"
-                    }
-                ],
-                "maxRank": 2,
-                "source": "Feat: Weapon Proficiency: Fire Poi",
-                "type": "Specific Weapon Proficiency"
-            }
-        ]
-    },
-    {
-        "name": "Weapon Proficiency: Gnome Flickmace",
-        "desc": "You become trained in the Gnome Flickmace",
-        "subType": "Gnome Flickmace",
-        "superType": "Weapon Proficiency",
-        "shortdesc": "Become trained in a weapon type.",
-        "traits": [
-            "General"
-        ],
-        "levelreq": 1,
-        "skillreq": [
-            {
-                "skill": "Martial Weapons",
-                "value": 2
-            }
-        ],
-        "specialreq": "!characterService.get_Skills(character, this.subType).length || characterService.get_Skills(character, this.subType)[0].level(character, characterService) < 2 || (this.have(character, characterService, charLevel) && characterService.get_Skills(character, this.subType)[0].level(character, characterService, charLevel) < 4)",
-        "specialreqdesc": "Untrained in Gnome Flickmace",
-        "gainSkillChoice": [
-            {
-                "_className": "SkillChoice",
-                "increases": [
-                    {
-                        "locked": true,
-                        "maxRank": 2,
-                        "name": "Gnome Flickmace",
-                        "source": "Feat: Weapon Proficiency: Gnome Flickmace"
-                    }
-                ],
-                "maxRank": 2,
-                "source": "Feat: Weapon Proficiency: Gnome Flickmace",
                 "type": "Specific Weapon Proficiency"
             }
         ]
@@ -7765,111 +7520,6 @@
                 "maxRank": 2,
                 "source": "Feat: Weapon Proficiency: Martial Weapons",
                 "type": "Weapon Proficiency"
-            }
-        ]
-    },
-    {
-        "name": "Weapon Proficiency: Ogre Hook",
-        "desc": "You become trained in the Ogre Hook",
-        "subType": "Ogre Hook",
-        "superType": "Weapon Proficiency",
-        "shortdesc": "Become trained in a weapon type.",
-        "traits": [
-            "General"
-        ],
-        "levelreq": 1,
-        "skillreq": [
-            {
-                "skill": "Martial Weapons",
-                "value": 2
-            }
-        ],
-        "specialreq": "!characterService.get_Skills(character, this.subType).length || characterService.get_Skills(character, this.subType)[0].level(character, characterService) < 2 || (this.have(character, characterService, charLevel) && characterService.get_Skills(character, this.subType)[0].level(character, characterService, charLevel) < 4)",
-        "specialreqdesc": "Untrained in Ogre Hook",
-        "gainSkillChoice": [
-            {
-                "_className": "SkillChoice",
-                "increases": [
-                    {
-                        "locked": true,
-                        "maxRank": 2,
-                        "name": "Ogre Hook",
-                        "source": "Feat: Weapon Proficiency: Ogre Hook"
-                    }
-                ],
-                "maxRank": 2,
-                "source": "Feat: Weapon Proficiency: Ogre Hook",
-                "type": "Specific Weapon Proficiency"
-            }
-        ]
-    },
-    {
-        "name": "Weapon Proficiency: Orc Necksplitter",
-        "desc": "You become trained in the Orc Necksplitter",
-        "subType": "Orc Necksplitter",
-        "superType": "Weapon Proficiency",
-        "shortdesc": "Become trained in a weapon type.",
-        "traits": [
-            "General"
-        ],
-        "levelreq": 1,
-        "skillreq": [
-            {
-                "skill": "Martial Weapons",
-                "value": 2
-            }
-        ],
-        "specialreq": "!characterService.get_Skills(character, this.subType).length || characterService.get_Skills(character, this.subType)[0].level(character, characterService) < 2 || (this.have(character, characterService, charLevel) && characterService.get_Skills(character, this.subType)[0].level(character, characterService, charLevel) < 4)",
-        "specialreqdesc": "Untrained in Orc Necksplitter",
-        "gainSkillChoice": [
-            {
-                "_className": "SkillChoice",
-                "increases": [
-                    {
-                        "locked": true,
-                        "maxRank": 2,
-                        "name": "Orc Necksplitter",
-                        "source": "Feat: Weapon Proficiency: Orc Necksplitter"
-                    }
-                ],
-                "maxRank": 2,
-                "source": "Feat: Weapon Proficiency: Orc Necksplitter",
-                "type": "Specific Weapon Proficiency"
-            }
-        ]
-    },
-    {
-        "name": "Weapon Proficiency: Sawtooth Saber",
-        "desc": "You become trained in the Sawtooth Saber",
-        "subType": "Sawtooth Saber",
-        "superType": "Weapon Proficiency",
-        "shortdesc": "Become trained in a weapon type.",
-        "traits": [
-            "General"
-        ],
-        "levelreq": 1,
-        "skillreq": [
-            {
-                "skill": "Martial Weapons",
-                "value": 2
-            }
-        ],
-        "specialreq": "!characterService.get_Skills(character, this.subType).length || characterService.get_Skills(character, this.subType)[0].level(character, characterService) < 2 || (this.have(character, characterService, charLevel) && characterService.get_Skills(character, this.subType)[0].level(character, characterService, charLevel) < 4)",
-        "specialreqdesc": "Untrained in Sawtooth Saber",
-        "gainSkillChoice": [
-            {
-                "_className": "SkillChoice",
-                "increases": [
-                    {
-                        "locked": true,
-                        "maxRank": 2,
-                        "name": "Sawtooth Saber",
-                        "source": "Feat: Weapon Proficiency: Sawtooth Saber"
-                    }
-                ],
-                "maxRank": 2,
-                "source": "Feat: Weapon Proficiency: Sawtooth Saber",
-                "type": "Specific Weapon Proficiency"
             }
         ]
     },
@@ -25698,7 +25348,7 @@
         "gainSpellChoice": [
             {
                 "_className": "SpellChoice",
-                "available": 1,
+                "available": 0,
                 "castingType": "Default",
                 "className": "Default",
                 "id": "2204bf70-ec76-4c98-a27c-f39b8457d072",
@@ -26449,13 +26099,40 @@
     },
     {
         "name": "Dragon Prince",
+        "desc": "The blood of the Dragon Kings runs strong in your veins. Your draconic heritage is clearly visible, with hair that is almost entirely crimson, azure, or the like, and that shines like a dragon’s scales. You can cast the dragon breath sorcerer bloodline spell as an innate arcane spell once per day, but you can use only the dragon breath that is associated with your heritage and that matches the energy type of your Dragon Spit feat. At 12th level and every 3 levels thereafter, the spell is heightened by an additional spell level.",
+        "hints": [
+            {
+                "desc": "When you cast dragon breath as an innate spell gained through the Dragon Prince feat, you can use only the dragon breath that is associated with your heritage and that matches the energy type of your Dragon Spit feat.",
+                "showon": "Dragon Breath"
+            }
+        ],
         "shortdesc": "The blood of the Dragon Kings runs strong in your veins.",
+        "sourceBook": "Character Guide",
         "traits": [
             "Human"
         ],
         "levelreq": 9,
         "featreq": [
             "Dragon Spit"
+        ],
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Innate",
+                "className": "Innate",
+                "cooldown": 144000,
+                "dynamicLevel": "Math.max(3, Math.floor(Character.level/3))",
+                "frequency": "once per day",
+                "id": "073f1877-29f1-49cb-adc9-e7c9b0da4235",
+                "source": "Feat: Dragon Prince",
+                "spells": [
+                    {
+                        "_className": "SpellGain",
+                        "locked": true,
+                        "name": "Dragon Breath"
+                    }
+                ]
+            }
         ]
     },
     {
@@ -26482,11 +26159,25 @@
     },
     {
         "name": "Multitalented",
-        "shortdesc": "You've learned to split your focus between multiple classes with ease.",
+        "sourceBook": "Character Guide",
+        "desc": "You've learned to split your focus between multiple classes with ease. You gain a 2nd-level multiclass dedication feat, even if you normally couldn't take another dedication feat until you take more feats from your current archetype.",
         "traits": [
             "Human"
         ],
-        "levelreq": 9
+        "levelreq": 9,
+        "gainFeatChoice": [
+            {
+                "_className": "FeatChoice",
+                "available": 1,
+                "level": 2,
+                "source": "Feat: Multitalented",
+                "type": "Multiclass",
+                "ignoreRequirements": [
+                    "'dedicationlimit'",
+                    "(character.class?.heritage?.name == 'Half-Elf' || character.class?.additionalHeritages.some(extraHeritage => extraHeritage.name = 'Half-Elf')) ? 'abilityreq' : ''"
+                ]
+            }
+        ]
     },
     {
         "name": "Shory Aeromancer",
@@ -27306,6 +26997,78 @@
         "levelreq": 1,
         "featreq": [
             "Paladin"
+        ]
+    },
+    {
+        "name": "Adaptive Adept",
+        "desc": "You've continued adapting your magic to blend your class's tradition with your adapted tradition. Choose a cantrip from the same magical tradition as your cantrip from Adapted Cantrip. You gain that spell, adding it to your spell repertoire, spellbook, or prepared spells just like the cantrip from Adapted Cantrip. You can cast this spell as a spell of your class's magical tradition.",
+        "internalNote": "Choosing from another tradition as well as losing a cantrip is hardcoded.",
+        "shortdesc": "You've continued adapting your magic to blend your class's tradition with your adapted tradition.",
+        "traits": [
+            "Human"
+        ],
+        "levelreq": 1,
+        "featreq": [
+            "Adapted Cantrip"
+        ],
+        "specialreq": "character.get_DefaultSpellcasting().spellChoices.some(choice => choice.charLevelAvailable <= character.level && choice.level >= 3)",
+        "specialreqdesc": "can cast 3rd-level spells",
+        "subTypes": true
+    },
+    {
+        "name": "Adaptive Adept: Cantrip",
+        "desc": "You've continued adapting your magic to blend your class's tradition with your adapted tradition. Choose a cantrip from the same magical tradition as your cantrip from Adapted Cantrip. You gain that spell, adding it to your spell repertoire, spellbook, or prepared spells just like the cantrip from Adapted Cantrip. You can cast this spell as a spell of your class's magical tradition.",
+        "internalNote": "Choosing from another tradition as well as losing a cantrip is hardcoded.",
+        "shortdesc": "You've continued adapting your magic to blend your class's tradition with your adapted tradition.",
+        "traits": [
+            "Human"
+        ],
+        "levelreq": 1,
+        "featreq": [
+            "Adapted Cantrip"
+        ],
+        "specialreq": "character.get_DefaultSpellcasting().spellChoices.some(choice => choice.charLevelAvailable <= character.level && choice.level >= 3)",
+        "specialreqdesc": "can cast 3rd-level spells",
+        "subType": "Cantrip",
+        "superType": "Adaptive Adept",
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "available": 0,
+                "castingType": "Default",
+                "className": "Default",
+                "id": "de4b3b45-63ba-4086-8e15-bbc98c8124b2",
+                "level": 0,
+                "source": "Feat: Adaptive Adept: Cantrip"
+            }
+        ]
+    },
+    {
+        "name": "Adaptive Adept: 1st-Level Spell",
+        "desc": "Through study of multiple magical traditions, you've altered a spell to suit your spellcasting style. Choose one cantrip from a magical tradition other than your own. If you have a spell repertoire or a spellbook, replace one of the cantrips you know or have in your spellbook with the chosen spell. If you prepare spells without a spellbook (if you're a cleric or druid, for example), one of your cantrips must always be the chosen spell, and you prepare the rest normally. You can cast this cantrip as a spell of your class's tradition.\n\nIf you swap or retrain this cantrip later, you can choose its replacement from the same alternate tradition or a different one.",
+        "internalNote": "Choosing from another tradition as well as losing a cantrip is hardcoded.",
+        "shortdesc": "You've continued adapting your magic to blend your class's tradition with your adapted tradition.",
+        "traits": [
+            "Human"
+        ],
+        "levelreq": 1,
+        "featreq": [
+            "Adapted Cantrip"
+        ],
+        "specialreq": "character.get_DefaultSpellcasting().spellChoices.some(choice => choice.charLevelAvailable <= character.level && choice.level >= 3)",
+        "specialreqdesc": "can cast 3rd-level spells",
+        "subType": "1st-Level Spell",
+        "superType": "Adaptive Adept",
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "available": 0,
+                "castingType": "Default",
+                "className": "Default",
+                "id": "6273c605-4b29-4a74-b431-01610f558a05",
+                "level": 1,
+                "source": "Feat: Adaptive Adept: 1st-Level Spell"
+            }
         ]
     }
 ]

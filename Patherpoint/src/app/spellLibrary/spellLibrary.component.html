@@ -118,6 +118,12 @@
                                             *ngIf="get_AvailableForLearning(wizardCasting, spell, true)">
                                             Learn via Adapted Cantrip
                                         </button>
+                                        <button class="row center-aligned"
+                                            (click)="learn_Spell(spell, 'adaptiveadept')"
+                                            [disabled]="!can_Learn(wizardCasting, level, spell, 'adaptiveadept')"
+                                            *ngIf="get_AvailableForLearning(wizardCasting, spell, false, true)">
+                                            Learn via Adaptive Adept
+                                        </button>
                                         <button class="row center-aligned" (click)="learn_Spell(spell, 'free')"
                                             *ngIf="!get_SpellsLearned(spell.name).length && !spell.traditions.includes('Focus')">
                                             Learn using Learn A Spell activity

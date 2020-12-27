@@ -29,7 +29,7 @@ export class SpellsComponent implements OnInit {
     }
 
     toggleSpellMenu() {
-        this.characterService.toggleMenu("spells");
+        this.characterService.toggle_Menu("spells");
     }
 
     get_SpellsMenuState() {
@@ -135,20 +135,7 @@ export class SpellsComponent implements OnInit {
     }
 
     get_DynamicLevel(casting: SpellCasting, choice: SpellChoice) {
-        //highestSpellLevel is used in the eval() process.
-        let highestSpellLevel = 1;
-        let Character = this.get_Character();
-        function Skill_Level(name: string) {
-            return this.characterService.get_Skills(Character, name)[0]?.level(Character) || 0;
-        }
-        //Get the available spell level of this casting. This is the highest spell level of the spell choices that are available at your character level.
-        highestSpellLevel = Math.max(...casting.spellChoices.filter(spellChoice => spellChoice.charLevelAvailable <= Character.level).map(spellChoice => spellChoice.level));
-        try {
-            return parseInt(eval(choice.dynamicLevel));
-        } catch (e) {
-            console.log("Error parsing spell level requirement ("+choice.dynamicLevel+"): "+e)
-            return 1;
-        }
+        return this.spellsService.get_DynamicSpellLevel(casting, choice, this.characterService);
     }
 
     get_SpellChoices(casting: SpellCasting, levelNumber: number) {
@@ -159,7 +146,8 @@ export class SpellsComponent implements OnInit {
     }
 
     get_SpellsTaken(minLevelNumber: number, maxLevelNumber: number, spellLevel: number, spellName: string, casting: SpellCasting, source: string = "", sourceId: string = "", locked: boolean = undefined) {
-        return this.get_Character().get_SpellsTaken(this.characterService, minLevelNumber, maxLevelNumber, spellLevel, spellName, casting, "", "", "", source, sourceId, locked);
+        let cantripAllowed: boolean = (spellLevel == 0);
+        return this.get_Character().get_SpellsTaken(this.characterService, minLevelNumber, maxLevelNumber, spellLevel, spellName, casting, "", "", "", source, sourceId, locked, false, cantripAllowed);
     }
 
     still_loading() {

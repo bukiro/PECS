@@ -69,8 +69,8 @@ export class InventoryComponent implements OnInit {
         this.characterService.set_ItemsMenuTarget(target);
     }
 
-    toggleMenu(menu: string = "") {
-        this.characterService.toggleMenu(menu);
+    toggle_Menu(menu: string = "") {
+        this.characterService.toggle_Menu(menu);
     }
 
     trackByIndex(index: number, obj: any): any {

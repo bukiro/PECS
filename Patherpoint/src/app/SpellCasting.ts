@@ -21,8 +21,8 @@ export class SpellCasting {
     public spellBookSlots: number[] = [10, 5, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2];
     //BondedItemCharges is for Wizards and contains charges to restore a used spell. The index is the spell level, and 0 is for all spell levels.
     //Universalists get 1 for each level per rest, and all other schools get 1 for all. These are added at Rest.
-    public bondedItemCharges: number[] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-    public source: string = ""
+    public bondedItemCharges: number[] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+    public source: string = "";
     public scrollSavant: Scroll[] = [];
     constructor(public castingType: "Focus"|"Innate"|"Prepared"|"Spontaneous") {
     }    

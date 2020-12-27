@@ -1,7 +1,9 @@
 <div class="row lower" *ngIf="spell">
-    <div class="row left-aligned" *ngIf="spell.traits.length">
+    <div class="row left-aligned">
         <cite class="trait" *ngFor="let trait of spell.traits; trackBy:trackByIndex;"
             title="{{get_Traits(trait)[0].desc}}">{{trait}}</cite>
+        <app-tags [creature]="'Character'" [objectName]="spell.name" [showTraits]=true [showFeats]=true
+            [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
     </div>
     <div class="list-item lower row problem" *ngIf="spell.inputRequired">
         <strong>Player input required:</strong>

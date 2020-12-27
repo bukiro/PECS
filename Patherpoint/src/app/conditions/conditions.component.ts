@@ -121,7 +121,7 @@ export class ConditionsComponent implements OnInit {
     }
 
     toggleConditionsMenu() {
-        this.characterService.toggleMenu("conditions");
+        this.characterService.toggle_Menu("conditions");
     }
 
     get_ConditionsMenuState() {

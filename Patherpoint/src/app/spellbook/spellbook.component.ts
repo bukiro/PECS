@@ -123,7 +123,7 @@ export class SpellbookComponent implements OnInit {
     }
 
     toggleSpellsMenu() {
-        this.characterService.toggleMenu('spells');
+        this.characterService.toggle_Menu('spells');
     }
 
     get_CompanionAvailable() {
@@ -171,10 +171,15 @@ export class SpellbookComponent implements OnInit {
     get_MaxSpellLevel(casting: SpellCasting) {
         //Get the available spell level of this casting. This is the highest spell level of the spell choices that are available at your character level.
         //Focus spells are heightened to half your level rounded up.
+        //Dynamic spell levels need to be evaluated.
         if (casting.castingType == "Focus") {
             return this.get_Character().get_SpellLevel();
         }
-        return Math.max(...casting.spellChoices.filter(spellChoice => spellChoice.charLevelAvailable <= this.get_Character().level).map(spellChoice => spellChoice.level), 0);
+        return Math.max(...casting.spellChoices.filter(spellChoice => spellChoice.charLevelAvailable <= this.get_Character().level).map(spellChoice => spellChoice.dynamicLevel ? this.get_DynamicLevel(casting, spellChoice) : spellChoice.level), 0);
+    }
+
+    get_DynamicLevel(casting: SpellCasting, choice: SpellChoice) {
+        return this.spellsService.get_DynamicSpellLevel(casting, choice, this.characterService);
     }
 
     get_SignatureSpellsAllowed() {

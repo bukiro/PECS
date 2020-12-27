@@ -91,8 +91,8 @@ export class TopBarComponent implements OnInit {
         return this.characterService.get_Darkmode();
     }
    
-    toggleMenu(menu: string) {
-        this.characterService.toggleMenu(menu);
+    toggle_Menu(menu: string) {
+        this.characterService.toggle_Menu(menu);
     }
 
     get_ItemsMenuState() {

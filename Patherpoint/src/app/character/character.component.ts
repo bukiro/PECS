@@ -76,7 +76,7 @@ export class CharacterComponent implements OnInit {
     }
 
     toggleCharacterMenu() {
-        this.characterService.toggleMenu("character");
+        this.characterService.toggle_Menu("character");
     }
 
     get_CharacterMenuState() {
@@ -342,27 +342,26 @@ export class CharacterComponent implements OnInit {
             }
             if (feat.gainSpellCasting.length || feat.gainSpellChoice.length) {
                 this.characterService.set_ToChange("Character", "spellbook");
-            }
-            if (feat.gainSpellChoice.length) {
+            } else if (feat.gainSpellChoice.length) {
                 this.characterService.set_ToChange("Character", "spellbook");
             }
             if (feat.superType == "Adopted Ancestry") {
                 this.characterService.set_ToChange("Character", "general");
-            }
-            if (feat.name == "Different Worlds") {
+            } else if (feat.name == "Different Worlds") {
                 this.characterService.set_ToChange("Character", "general");
             }
         });
+        //Reload spellbook if spells were learned between the levels
         if (this.get_Character().get_SpellsLearned().filter(learned => learned.level >= lowerLevel && learned.level <= higherLevel).length) {
             this.characterService.set_ToChange("Character", "spellbook");
-        }
-        if (this.get_Character().get_SpellsTaken(this.characterService, lowerLevel, higherLevel).length) {
+        //if spells were taken between the levels
+        } else if (this.get_Character().get_SpellsTaken(this.characterService, lowerLevel, higherLevel).length) {
             this.characterService.set_ToChange("Character", "spellbook");
-        }
-        if (this.characterService.get_CompanionAvailable()) {
-            this.get_Companion().set_Level(this.characterService);
-        }
-        if (this.characterService.get_FamiliarAvailable()) {
+        //if any spells have a dynamic level dependent on the character level
+        } else if (this.get_Character().get_SpellsTaken(this.characterService, 0, 20).some(taken => taken.choice.dynamicLevel.toLowerCase().includes("level"))) {
+            this.characterService.set_ToChange("Character", "spellbook");
+        //or if you have the cantrip connection or spell battery familiar ability.
+        } else if (this.characterService.get_FamiliarAvailable()) {
             this.characterService.set_ToChange("Familiar", "all");
             this.get_Familiar().abilities.feats.map(gain => this.familiarsService.get_FamiliarAbilities(gain.name)[0]).filter(feat => feat).forEach(feat => {
                 if (feat.name == "Cantrip Connection") {
@@ -372,6 +371,9 @@ export class CharacterComponent implements OnInit {
                     this.characterService.set_ToChange("Character", "spellbook");
                 }
             })
+        }
+        if (this.characterService.get_CompanionAvailable()) {
+            this.get_Companion().set_Level(this.characterService);
         }
         
         this.characterService.process_ToChange();

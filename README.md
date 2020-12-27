@@ -72,8 +72,8 @@ The very latest in Assistive Technologies for Dungeon Master (ATDM)
 - [ ] - Human
 - [ ] - Halfling
 - [x] - Goblin
-- [ ] - Half-Orc
-- [ ] - Half-Elf
+- [ ] - Half-Orc (including Orc)
+- [ ] - Half-Elf (including Elf)
 - [ ] - Lizardfolk
 - [ ] - ...
 - [x] Implement all Heritages (excluding Advanced Character Guide)
@@ -91,7 +91,7 @@ The very latest in Assistive Technologies for Dungeon Master (ATDM)
 - [x] - Level 1 Spells
 - [x] - Level 2 Spells
 - [x] - Level 3 Spells
-- [ ] - Level 4 Spells
+- [x] - Level 4 Spells
 - [ ] - Level 5 Spells
 - [ ] - Level 6 Spells
 - [ ] - Level 7 Spells
@@ -104,8 +104,9 @@ The very latest in Assistive Technologies for Dungeon Master (ATDM)
 - [ ] Stretch Goal: Include optional systems like Stamina & Resolve
 
 Active to-do:
+Show tags on spells, oops
 Convert feats
-Test halfling feats (including ProficiencyCopy)
+Test halfling feats (specifically ProficiencyCopy)
 Test new Fighter Advanced Weapon Training feats (using ProficiencyCopy)
 Test goblin weapon expertise
 

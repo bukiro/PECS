@@ -156,11 +156,14 @@ export class ActivitiesService {
         //The condition source is the activity name.
         if (activity.gainConditions) {
             if (activated) {
-                activity.gainConditions.forEach(gain => {
-                    let newConditionGain = Object.assign(new ConditionGain(), gain);
+                activity.gainConditions.forEach((conditionGain, conditionIndex) => {
+                    let newConditionGain = Object.assign(new ConditionGain(), conditionGain);
                     if (!newConditionGain.source) {
                         newConditionGain.source = activity.name;
                     }
+                    //If this ActivityGain has effectChoices prepared, apply the choice to the conditionGain.
+                    // The order of gain.effectChoices maps directly onto the order of the conditions, no matter if they have choices.
+                    newConditionGain.choice = gain.effectChoices?.[conditionIndex] || "";
                     characterService.add_Condition(creature, newConditionGain, false);
                 });
             } else {

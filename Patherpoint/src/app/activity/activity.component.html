@@ -96,18 +96,21 @@
                     </p>
                 </div>
             </div>
-            <div class="row left-aligned" *ngIf="activity.frequency || ((cooldown != activity.cooldown) && !activity.cooldownAfterEnd)">
+            <div class="row left-aligned"
+                *ngIf="activity.frequency || ((cooldown != activity.cooldown) && !activity.cooldownAfterEnd)">
                 <span>
                     <strong>Frequency</strong>
                     <span *ngIf="cooldown == activity.cooldown">&nbsp;{{activity.frequency}}</span>
-                    <span class="absolute" *ngIf="cooldown != activity.cooldown">&nbsp;{{maxCharges ? maxCharges + " times
+                    <span class="absolute" *ngIf="cooldown != activity.cooldown">&nbsp;{{maxCharges ? maxCharges + "
+                        times
                         every " : "once every "}}{{get_Duration(cooldown, false, false)}}</span>
                 </span>
             </div>
             <div class="row left-aligned" *ngIf="cooldown && activity.cooldownAfterEnd">
                 <span>
                     <strong>Cooldown after use</strong>
-                    <span [ngClass]="{'absolute':cooldown != activity.cooldown}">&nbsp;{{get_Duration(cooldown, false, false)}}</span>
+                    <span [ngClass]="{'absolute':cooldown != activity.cooldown}">&nbsp;{{get_Duration(cooldown, false,
+                        false)}}</span>
                 </span>
             </div>
             <div class="row left-aligned" *ngIf="activity.cost">
@@ -170,6 +173,19 @@
                 </span>
             </div>
             <div class="row left-aligned"
+                *ngFor="let condition of get_ActivityConditions(); let conditionIndex = index; trackBy:trackByIndex">
+                <div class="row list-item" *ngIf="condition && condition.choices.length">
+                    <span>{{condition.name}} Effect selection:
+                        <select [(ngModel)]="gain.effectChoices[conditionIndex]"
+                            (ngModelChange)="on_EffectChoiceChange()">
+                            <option *ngFor="let choice of condition.choices; trackBy:trackByIndex;" [ngValue]="choice">
+                                {{choice}}
+                            </option>
+                        </select>
+                    </span>
+                </div>
+            </div>
+            <div class="row left-aligned"
                 *ngFor="let cast of get_SpellCasts(); let spellCastIndex = index; trackBy:trackByIndex;">
                 <div *ngFor="let spell of get_Spells(cast.name); trackBy:trackByIndex;">
                     <h4>{{spell.name}}<app-actionIcons [actionString]="spell.actions">
@@ -180,7 +196,7 @@
                         <div class="row list-item" *ngIf="condition && condition.choices.length">
                             <span>{{condition.name}} Effect selection:
                                 <select [(ngModel)]="gain.spellEffectChoices[spellCastIndex][conditionIndex]"
-                                    (ngModelChange)="on_SpellEffectChoiceChange()">
+                                    (ngModelChange)="on_EffectChoiceChange()">
                                     <option *ngFor="let choice of condition.choices; trackBy:trackByIndex;"
                                         [ngValue]="choice">
                                         {{choice}}

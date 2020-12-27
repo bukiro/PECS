@@ -4,15 +4,15 @@
   </a>
   <div class="filler"></div>
   <button class="fancy-button loading" *ngIf="still_loading()">Loading</button>
-  <button [ngClass]="{'fancy-button':get_CharacterMenuState()=='out'}" (click)="toggleMenu('character')" *ngIf="!still_loading()">{{get_Character().name ? get_Character().name : "Character"}}</button>
-  <button [ngClass]="{'fancy-button':get_CompanionMenuState()=='out'}" (click)="toggleMenu('companion')" *ngIf="!still_loading() && get_CompanionAvailable()">{{get_Companion().name ? get_Companion().name : "Animal Companion"}}</button>
-  <button [ngClass]="{'fancy-button':get_FamiliarMenuState()=='out'}" (click)="toggleMenu('familiar')" *ngIf="!still_loading() && get_FamiliarAvailable()">{{get_Familiar().name ? get_Familiar().name : "Familiar"}}</button>
-  <button [ngClass]="{'fancy-button':get_ItemsMenuState()=='out'}" (click)="toggleMenu('items')" *ngIf="!still_loading()">Items</button>
-  <button [ngClass]="{'fancy-button':get_CraftingMenuState()=='out'}" (click)="toggleMenu('crafting')" *ngIf="!still_loading()">Crafting</button>
-  <button [ngClass]="{'fancy-button':get_SpellsMenuState()=='out'}" (click)="toggleMenu('spells')" *ngIf="!still_loading()">Spellbook</button>
-  <button [ngClass]="{'fancy-button':get_SpellLibraryMenuState()=='out'}" (click)="toggleMenu('spelllibrary')" *ngIf="!still_loading()">Spell Library</button>
-  <button [ngClass]="{'fancy-button':get_ConditionsMenuState()=='out'}" (click)="toggleMenu('conditions')" *ngIf="!still_loading()">Conditions</button>
-  <button [ngClass]="{'fancy-button':get_DiceMenuState()=='out'}" (click)="toggleMenu('dice')" *ngIf="!still_loading()">Dice</button>
+  <button [ngClass]="{'fancy-button':get_CharacterMenuState()=='out'}" (click)="toggle_Menu('character')" *ngIf="!still_loading()">{{get_Character().name ? get_Character().name : "Character"}}</button>
+  <button [ngClass]="{'fancy-button':get_CompanionMenuState()=='out'}" (click)="toggle_Menu('companion')" *ngIf="!still_loading() && get_CompanionAvailable()">{{get_Companion().name ? get_Companion().name : "Animal Companion"}}</button>
+  <button [ngClass]="{'fancy-button':get_FamiliarMenuState()=='out'}" (click)="toggle_Menu('familiar')" *ngIf="!still_loading() && get_FamiliarAvailable()">{{get_Familiar().name ? get_Familiar().name : "Familiar"}}</button>
+  <button [ngClass]="{'fancy-button':get_ItemsMenuState()=='out'}" (click)="toggle_Menu('items')" *ngIf="!still_loading()">Items</button>
+  <button [ngClass]="{'fancy-button':get_CraftingMenuState()=='out'}" (click)="toggle_Menu('crafting')" *ngIf="!still_loading()">Crafting</button>
+  <button [ngClass]="{'fancy-button':get_SpellsMenuState()=='out'}" (click)="toggle_Menu('spells')" *ngIf="!still_loading()">Spellbook</button>
+  <button [ngClass]="{'fancy-button':get_SpellLibraryMenuState()=='out'}" (click)="toggle_Menu('spelllibrary')" *ngIf="!still_loading()">Spell Library</button>
+  <button [ngClass]="{'fancy-button':get_ConditionsMenuState()=='out'}" (click)="toggle_Menu('conditions')" *ngIf="!still_loading()">Conditions</button>
+  <button [ngClass]="{'fancy-button':get_DiceMenuState()=='out'}" (click)="toggle_Menu('dice')" *ngIf="!still_loading()">Dice</button>
   <button class="fancy-button" (click)="save()" *ngIf="!still_loading()" title="{{!get_Savegames() ? 'Database connection failed.' : ''}}" [disabled]="!get_Savegames()">Save</button>
   <button class="fancy-button" (click)="set_Changed()" *ngIf="!still_loading()" title="Refresh all">⟳</button>
 </div>

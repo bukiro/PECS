@@ -11,7 +11,7 @@
         <label for="{{conditionGain.id+'notes'}}" title="Edit notes">&#9998;</label>
         <input id="{{conditionGain.id+'duration'}}" class="invisible" type="checkbox" [(ngModel)]="conditionGain.showVariables">
         <label for="{{conditionGain.id+'duration'}}" title="Change duration and value"
-            *ngIf="conditionGain.duration > -1 || conditionGain.value">&#9881;</label>
+            *ngIf="conditionGain.duration > -1 || conditionGain.value || condition.choices.length">&#9881;</label>
     </span>
 </div>
 <div class="row left-aligned lower fullsize-only">

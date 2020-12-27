@@ -289,6 +289,7 @@
         "name": "Winding Flow",
         "actions": "1A",
         "frequency": "once per round",
+        "cooldown": 5,
         "desc": "Any journey consists of more than simply reaching your destination. You use two of the following actions in any order: Stand, Step, and Stride. You can't use the same action twice.",
         "traits": [
             "Monk"
@@ -3458,7 +3459,7 @@
         "name": "Roll with It",
         "actions": "Reaction",
         "trigger": "A foe hits you with a melee weapon or unarmed attack.",
-        "desc": "When you take a big hit, your foe bounces you around like a rubber ball, but you escape the worst of the blow. Your foe can move you any distance of its choice up to 30 feet in a direction of its choice (this is not forced movement, and it triggers reactions as normal). You fall prone and are stunned 1. Attempt a DC 6 flat check. On a success, you take minimum damage from the attack, and on a critical success, if the attack was a critical hit, you don’t take double damage from the critical hit.",
+        "desc": "When you take a big hit, your foe bounces you around like a rubber ball, but you escape the worst of the blow. Your foe can move you any distance of its choice up to 30 feet in a direction of its choice (this is not forced movement, and it triggers reactions as normal). You fall prone and are stunned 1. Attempt a DC 6 flat check. On a success, you take minimum damage from the attack, and on a critical success, if the attack was a critical hit, you don't take double damage from the critical hit.",
         "gainConditions": [
             {
                 "name": "Prone",
@@ -3487,7 +3488,7 @@
         "name": "Glimpse of Redemption",
         "actions": "Reaction",
         "trigger": "An enemy damages your ally, and both are within 15 feet of you.",
-        "desc": "Your foe hesitates under the weight of sin as visions of redemption play in their mind’s eye. The foe must choose one of the following options:\n\nThe ally is unharmed by the triggering damage.\nThe ally gains resistance to all damage against the triggering damage equal to 2 + your level. After the damaging effect is applied, the enemy becomes enfeebled 2 until the end of its next turn.",
+        "desc": "Your foe hesitates under the weight of sin as visions of redemption play in their mind's eye. The foe must choose one of the following options:\n\nThe ally is unharmed by the triggering damage.\nThe ally gains resistance to all damage against the triggering damage equal to 2 + your level. After the damaging effect is applied, the enemy becomes enfeebled 2 until the end of its next turn.",
         "traits": [
             "Champion"
         ]
@@ -3496,7 +3497,7 @@
         "name": "Liberating Step",
         "actions": "Reaction",
         "trigger": "An enemy damages, Grabs, or Grapples your ally, and both are within 15 feet of you.",
-        "desc": "You free an ally from restraint. If the trigger was an ally taking damage, the ally gains resistance to all damage against the triggering damage equal to 2 + your level. The ally can attempt to break free of effects grabbing, restraining, immobilizing, or paralyzing them. They either attempt a new save against one such effect that allows a save, or attempt to Escape from one effect as a free action. If they can move, the ally can Step as a free action, even if they didn’t need to escape.",
+        "desc": "You free an ally from restraint. If the trigger was an ally taking damage, the ally gains resistance to all damage against the triggering damage equal to 2 + your level. The ally can attempt to break free of effects grabbing, restraining, immobilizing, or paralyzing them. They either attempt a new save against one such effect that allows a save, or attempt to Escape from one effect as a free action. If they can move, the ally can Step as a free action, even if they didn't need to escape.",
         "traits": [
             "Champion"
         ]
@@ -3515,6 +3516,80 @@
         "traits": [
             "Concentrate",
             "Manipulate"
+        ]
+    },
+    {
+        "name": "Keep Up Appearances",
+        "actions": "Reaction",
+        "desc": "Taldan pride means you never show weakness. Roll a Deception check and compare the result to any observing creatures' Perception DCs. On a success, that creature believes you were unaffected by the emotion effect. A creature tricked in this manner can't benefit from the emotion effect and can't use abilities that require you to be under this emotion effect; for example, if you successfully use this ability to trick a will-o'-wisp into believing you aren't under a fear effect, it can't use its Feed on Fear ability on you.",
+        "trigger": "You are affected by an emotion effect.",
+        "traits": [
+            "Uncommon",
+            "Human"
+        ]
+    },
+    {
+        "name": "Know Oneself",
+        "actions": "Reaction",
+        "frequency": "once per day",
+        "cooldown": 144000,
+        "desc": "You center yourself and call to mind the Vudrani monastic ideals of mindfulness and self-knowledge. You fail the save against the emotion effect instead of critically failing.",
+        "trigger": "You roll a critical failure on a saving throw against an emotion effect.",
+        "traits": [
+            "Uncommon",
+            "Fortune",
+            "Human"
+        ]
+    },
+    {
+        "name": "Saoc Astrology",
+        "actions": "1A",
+        "frequency": "3 times per day",
+        "cooldown": 144000,
+        "charges": 3,
+        "requirements": "You must spend 10 minutes just after your daily preparations examining the sky or consulting a star chart or you can't use this action that day.",
+        "desc": "The ancient Saoc Brethren were the masters of astrology, and while your knowledge may be but a pale shadow of their wisdom, it still comes in handy. You recall the stars' predictions about your current situation. If your next action requires you to attempt one or more skill checks, roll 1d8. On a result of 6, 7, or 8, you gain a +2 circumstance bonus to the first such skill check you attempt. On a 3, 4, or 5, you gain a +1 circumstance bonus. On a 2, you gain nothing. On a 1, you take a -1 circumstance penalty to the skill check.",
+        "gainConditions": [
+            {
+                "name": "Saoc Astrology",
+                "source": "Saoc Astrology",
+                "duration": 5
+            }
+        ],
+        "traits": [
+            "Uncommon",
+            "Concentrate",
+            "Human"
+        ]
+    },
+    {
+        "name": "Tupilac Carver",
+        "actions": "Free",
+        "desc": "You know the truth behind old stories that tell of sending a fetish of bone and sinew to seek vengeance. If your next action is to cast summon construct, you include a drop of blood, lock of hair, or other portion of a creature's body as part of the spell's material component, and the summoned construct gains a +4 status bonus to Perception checks to sense or locate that creature.",
+        "gainConditions": [
+            {
+                "name": "Tupilac Carver",
+                "source": "Tupilac Carver",
+                "duration": -1
+            }
+        ]
+    },
+    {
+        "name": "Incredible Improvisation",
+        "actions": "Free",
+        "frequency": "once per day",
+        "cooldown": 144000,
+        "desc": "A stroke of brilliance gives you a major advantage with a skill despite your inexperience. Gain a +4 circumstance bonus to the triggering skill check.",
+        "trigger": "You attempt a check using a skill you’re untrained in.",
+        "gainConditions": [
+            {
+                "name": "Incredible Improvisation",
+                "source": "Incredible Improvisation",
+                "duration": 5
+            }
+        ],
+        "traits": [
+            "Human"
         ]
     }
 ]

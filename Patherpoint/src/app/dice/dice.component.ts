@@ -17,7 +17,7 @@ export class DiceComponent implements OnInit {
     ) { }
 
     toggleDiceMenu() {
-        this.characterService.toggleMenu("dice");
+        this.characterService.toggle_Menu("dice");
     }
 
     roll(amount: number, size: number) {

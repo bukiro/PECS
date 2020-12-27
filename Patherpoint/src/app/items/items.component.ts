@@ -125,7 +125,7 @@ export class ItemsComponent implements OnInit {
     }
 
     toggleItemsMenu() {
-        this.characterService.toggleMenu("items");
+        this.characterService.toggle_Menu("items");
     }
 
     numbersOnly(event): boolean {

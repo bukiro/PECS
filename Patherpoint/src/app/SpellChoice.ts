@@ -36,11 +36,11 @@ export class SpellChoice {
     //You can choose to use a combination slot for a spell combination, which changes the available spells.
     public spellCombination: boolean = false;
     public signatureSpell: boolean = false;
-    //For some innate spells, there may be a tradition prerequisite.
+    //The spells chosen must match the tradition of the spell choice, if one is given, or otherwise the tradition of the spellcasting or nothing.
     public tradition: string = "";
     public source: string = "";
     //If showOnSheet is set, this choice is intended to be made on the character sheet instead of while building the character.
-    //  This is relevant for features like Infinite Possibilities.
+    // This is relevant for features like Infinite Possibilities.
     public showOnSheet: boolean = false;
     public singleTarget: boolean = false;
     //Only allow spells from your spellbook.
@@ -54,6 +54,10 @@ export class SpellChoice {
     public spellBlending: number[] = [0,0,0]
     //Infinite Possibilities is for Wizards and tracks whether one of the spell slots of this choice has been traded away for an Infinite Possibilities slot.
     public infinitePossibilities: boolean = false;
+    //Adapted Cantrip tracks whether one of the spell slots of this choice has been traded away for an Adapted Cantrip slot.
+    public adaptedCantrip: boolean = false;
+    //Adaptive Adept tracks whether one of the spell slots of this choice has been traded away for an Adaptive Adept slot.
+    public adaptiveAdept: boolean = false;
     //If target is set to "Others", you can only choose spells with target != "self".
     //If target is set to "Caster", you can only choose spells with target "self".
     //If target is set to "Allies", you can only choose spells with target "ally".

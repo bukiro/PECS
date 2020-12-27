@@ -84,7 +84,7 @@ export class CraftingComponent implements OnInit {
     }
 
     toggleCraftingMenu() {
-        this.characterService.toggleMenu("crafting");
+        this.characterService.toggle_Menu("crafting");
     }
 
     numbersOnly(event): boolean {

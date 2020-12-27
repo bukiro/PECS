@@ -26,7 +26,7 @@ export class FamiliarComponent implements OnInit {
     }
 
     toggleFamiliarMenu() {
-        this.characterService.toggleMenu("familiar");
+        this.characterService.toggle_Menu("familiar");
     }
 
     get_FamiliarMenuState() {

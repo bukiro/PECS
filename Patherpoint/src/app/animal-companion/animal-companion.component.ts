@@ -32,7 +32,7 @@ export class AnimalCompanionComponent implements OnInit {
     }
 
     toggleCompanionMenu() {
-        this.characterService.toggleMenu("companion");
+        this.characterService.toggle_Menu("companion");
     }
 
     get_Character() {

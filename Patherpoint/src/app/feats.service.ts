@@ -20,6 +20,7 @@ import { AnimalCompanionClass } from './AnimalCompanionClass';
 import { Heritage } from './Heritage';
 import { ItemGain } from './ItemGain';
 import { Item } from './Item';
+import { SpellLearned } from './SpellLearned';
 import * as json_feats from '../assets/json/feats';
 import * as json_features from '../assets/json/features';
 
@@ -31,7 +32,7 @@ export class FeatsService {
     private features: Feat[] = [];
     private loading_feats: boolean = false;
     private loading_features: boolean = false;
-    
+
     constructor() { }
 
     get_Feats(loreFeats: Feat[], name: string = "", type: string = "") {
@@ -41,8 +42,8 @@ export class FeatsService {
             //I checked that all references to the function were specific, and changed it back. If any bugs should come from this, now it's documented.
             //It was probably for featreqs, which have now been changed to be arrays and allow to check for all possible options instead of a matching substring
             return feats.filter(feat =>
-                ((feat.name.toLowerCase() == name.toLowerCase() || name == "") &&
-                    (feat.traits.map(trait => trait.toLowerCase()).includes(type.toLowerCase()) || type == "")));
+            ((feat.name.toLowerCase() == name.toLowerCase() || name == "") &&
+                (feat.traits.map(trait => trait.toLowerCase()).includes(type.toLowerCase()) || type == "")));
         } else { return [new Feat()]; }
     }
 
@@ -59,14 +60,14 @@ export class FeatsService {
                 name == "" ||
                 //For names like "Aggressive Block or Brutish Shove", split the string into the two feat names and return both.
                 name.split(" or ").find(alternative =>
+                (
+                    feat.name.toLowerCase() == alternative.toLowerCase() ||
                     (
-                        feat.name.toLowerCase() == alternative.toLowerCase() ||
-                        (
-                            includeSubTypes &&
-                            feat.superType.toLowerCase() == alternative.toLowerCase()
-                        ) ||
-                        alternative == ""
-                    )
+                        includeSubTypes &&
+                        feat.superType.toLowerCase() == alternative.toLowerCase()
+                    ) ||
+                    alternative == ""
+                )
                 ) &&
                 (
                     type == "" ||
@@ -397,6 +398,19 @@ export class FeatsService {
                 }
             }
 
+            //Add spells to your spell list.
+            if (feat.gainSpellListSpells.length) {
+                if (taken) {
+                    feat.gainSpellListSpells.forEach(spellName => {
+                        character.add_SpellListSpell(spellName, "Feat: " + feat.name, level.number)
+                    })
+                } else {
+                    feat.gainSpellListSpells.forEach(spellName => {
+                        character.remove_SpellListSpell(spellName, "Feat: " + feat.name, level.number)
+                    })
+                }
+            }
+
             //One time effects
             if (feat.onceEffects) {
                 if (taken) {
@@ -417,7 +431,7 @@ export class FeatsService {
                 characterService.set_ToChange("Character", "general");
             }
 
-            //Bargain Hunter
+            //Bargain Hunter adds to your starting cash at level 1
             if (feat.name == "Bargain Hunter") {
                 if (taken && level.number == 1) {
                     character.cash[1] += 2;
@@ -553,7 +567,7 @@ export class FeatsService {
                 }
             }
 
-            //Feats that add Speeds can be applied for both Familiars and Characters.
+            //Feats that add Speeds should add them to the Speeds list as well. This can be applied for both Familiars and Characters, so we use Creature.
             feat.effects.filter(effect => effect.affected.includes("Speed") && effect.affected != "Speed").forEach(effect => {
                 if (taken) {
                     let newLength = creature.speeds.push(new Speed(effect.affected));
@@ -681,6 +695,30 @@ export class FeatsService {
                         choice.infinitePossibilities = false;
                     })
                 })
+                characterService.set_ToChange(creature.type, "spells");
+                characterService.set_ToChange(creature.type, "spellbook");
+            }
+
+            //Reset changes made with Adapted Cantrip.
+            if (feat.name == "Adapted Cantrip") {
+                character.class.spellCasting.forEach(casting => {
+                    casting.spellChoices.forEach(choice => {
+                        choice.adaptedCantrip = false;
+                    })
+                })
+                character.class.spellBook = character.class.spellBook.filter(learned => learned.source != "adaptedcantrip")
+                characterService.set_ToChange(creature.type, "spells");
+                characterService.set_ToChange(creature.type, "spellbook");
+            }
+
+            //Reset changes made with Adaptive Adept.
+            if (feat.name.includes("Adaptive Adept")) {
+                character.class.spellCasting.forEach(casting => {
+                    casting.spellChoices.forEach(choice => {
+                        choice.adaptiveAdept = false;
+                    })
+                })
+                character.class.spellBook = character.class.spellBook.filter(learned => learned.source != "adaptiveadept")
                 characterService.set_ToChange(creature.type, "spells");
                 characterService.set_ToChange(creature.type, "spellbook");
             }

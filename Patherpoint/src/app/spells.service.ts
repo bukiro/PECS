@@ -13,6 +13,7 @@ import { SpellCasting } from './SpellCasting';
 import { ConditionsService } from './conditions.service';
 import * as json_spells from '../assets/json/spells';
 import { Creature } from './Creature';
+import { SpellChoice } from './SpellChoice';
 
 @Injectable({
   providedIn: 'root'
@@ -33,6 +34,23 @@ export class SpellsService {
         );
         } else {
             return [new Spell()];
+        }
+    }
+
+    get_DynamicSpellLevel(casting: SpellCasting, choice: SpellChoice, characterService: CharacterService) {
+        //highestSpellLevel is used in the eval() process.
+        let highestSpellLevel = 1;
+        let Character = characterService.get_Character();
+        function Skill_Level(name: string) {
+            return characterService.get_Skills(Character, name)[0]?.level(Character, characterService);
+        }
+        //Get the available spell level of this casting. This is the highest spell level of the spell choices that are available at your character level (and don't have a dynamic level).
+        highestSpellLevel = Math.max(...casting.spellChoices.filter(spellChoice => spellChoice.charLevelAvailable <= Character.level).map(spellChoice => spellChoice.level));
+        try {
+            return parseInt(eval(choice.dynamicLevel));
+        } catch (e) {
+            console.log("Error parsing spell level requirement ("+choice.dynamicLevel+"): "+e)
+            return 1;
         }
     }
 
@@ -215,7 +233,9 @@ export class SpellsService {
                 }
             }
             characterService.set_ToChange("Character", "spellbook");
-            taken.gain.activeCooldown = Math.max(taken.gain.activeCooldown - turns, 0)
+            if (taken.gain.activeCooldown) {
+                taken.gain.activeCooldown = Math.max(taken.gain.activeCooldown - turns, 0)
+            }
         });
     }
 

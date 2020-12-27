@@ -145,6 +145,7 @@ export class Weapon extends Equipment {
                 .filter(feat => feat.changeProficiency.length && feat.have(character, characterService, charLevel, false))
                 .forEach(feat => {
                     proficiencyChanges.push(...feat.changeProficiency.filter(change =>
+                        (change.name ? this.name.toLowerCase() == change.name.toLowerCase() : true) &&
                         (change.trait ? this.traits.filter(trait => change.trait.includes(trait)).length : true) &&
                         (change.proficiency ? (this.prof && change.proficiency == this.prof) : true) &&
                         (change.group ? (this.group && change.group == this.group) : true)

@@ -180,7 +180,7 @@ export class ItemsService {
 
     get_ItemsOfType(type: string, name: string = "") {
         if (!this.still_loading()) {
-            return this.items[type].filter(item => item.name.toLowerCase() == name.toLowerCase() || name == "");
+            return this.cleanItems[type].filter(item => item.name.toLowerCase() == name.toLowerCase() || name == "");
         } else { return [] }
     }
 

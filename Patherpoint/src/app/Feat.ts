@@ -27,7 +27,12 @@ export class Feat {
     public readonly _className: string = this.constructor.name;
     public abilityreq: any[] = [];
     public access: string = "";
-    public advancedweaponbase: boolean = false;
+    //If weaponfeatbase is true, the feat will be copied for every weapon that matches the description in the subtype:
+    // Advanced => Advanced Weapons
+    // Ancestry => Weapons with a trait that corresponds to an ancestry
+    // Uncommon => Weapons with the Uncommon trait
+    //These can be combined. Any more filters need to be hardcoded in characterService.create_WeaponFeats().
+    public weaponfeatbase: boolean = false;
     public anathema: string[] = [];
     public archetype: string = "";
     public changeProficiency: ProficiencyChange[] = [];
@@ -51,6 +56,7 @@ export class Feat {
     public gainLoreChoice: LoreChoice[] = [];
     public gainSkillChoice: SkillChoice[] = [];
     public gainSpellBookSlots: { spellBookSlots: number[], className: string }[] = [];
+    public gainSpellListSpells: string[] = [];
     public gainSpellCasting: SpellCasting[] = [];
     public gainSpellChoice: SpellChoice[] = [];
     public hide: boolean = false;
@@ -182,7 +188,7 @@ export class Feat {
                     requiredFeat = characterService.familiarsService.get_FamiliarAbilities(testfeat);
                 } else {
                     testcreature = characterService.get_Character();
-                    requiredFeat = characterService.get_FeatsAndFeatures(testfeat);
+                    requiredFeat = characterService.get_FeatsAndFeatures(testfeat, "", true);
                 }
                 if (requiredFeat.length) {
                     if (requiredFeat.find(feat => feat.have(testcreature, characterService, charLevel))) {
@@ -275,26 +281,26 @@ export class Feat {
         }
         return result;
     }
-    canChoose(characterService: CharacterService, charLevel: number = characterService.get_Character().level, skipLevel: boolean = false) {
+    canChoose(characterService: CharacterService, charLevel: number = characterService.get_Character().level, skipLevel: boolean = false, ignoreRequirementsList: string[] = []) {
         //This function evaluates ALL the possible requirements for taking a feat
         //Returns true only if all the requirements are true. If the feat doesn't have a requirement, it is always true.
         if (characterService.still_loading()) { return false }
         //Don't check the level if skipLevel is set. We don't want to list level mismatch when it's obvious.
-        let levelreq: boolean = skipLevel || this.meetsLevelReq(characterService, charLevel).met;
+        let levelreq: boolean = ignoreRequirementsList.includes("levelreq") || skipLevel || this.meetsLevelReq(characterService, charLevel).met;
         //Check the ability reqs. True if ALL are true.
         let abilityreqs = this.meetsAbilityReq(characterService, charLevel)
-        let abilityreq: boolean = abilityreqs.filter(req => req.met == false).length == 0;
+        let abilityreq: boolean = ignoreRequirementsList.includes("abilityreq") || abilityreqs.filter(req => req.met == false).length == 0;
         //Check the skill reqs. True if ANY is true.
         let skillreqs = this.meetsSkillReq(characterService, charLevel)
-        let skillreq: boolean = skillreqs.filter(req => req.met == true).length > 0;
+        let skillreq: boolean = ignoreRequirementsList.includes("skillreq") || skillreqs.filter(req => req.met == true).length > 0;
         //Check the feat reqs. True if ALL are true.
         let featreqs = this.meetsFeatReq(characterService, charLevel);
-        let featreq: boolean = featreqs.filter(req => req.met == false).length == 0;
+        let featreq: boolean = ignoreRequirementsList.includes("featreq") || featreqs.filter(req => req.met == false).length == 0;
         //Check the heritage reqs. True if ALL are true. (There is only one.)
         let heritagereqs = this.meetsHeritageReq(characterService, charLevel);
-        let heritagereq: boolean = heritagereqs.filter(req => req.met == false).length == 0;
+        let heritagereq: boolean = ignoreRequirementsList.includes("heritagereq") || heritagereqs.filter(req => req.met == false).length == 0;
         //Check the special req. True if returns true.
-        let specialreq: boolean = this.meetsSpecialReq(characterService, charLevel).met;
+        let specialreq: boolean = ignoreRequirementsList.includes("specialreq") || this.meetsSpecialReq(characterService, charLevel).met;
         //Return true if all are true
         return levelreq && abilityreq && skillreq && featreq && specialreq && heritagereq;
     }

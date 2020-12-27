@@ -40,6 +40,7 @@ export class Class {
     public sourceBook: string = "";
     public spellCasting: SpellCasting[] = [];
     public spellBook: SpellLearned[] = [];
+    public spellList: SpellLearned[] = [];
     public formulaBook: FormulaLearned[] = [];
     on_ChangeClass(characterService: CharacterService) {
         let character = characterService.get_Character();

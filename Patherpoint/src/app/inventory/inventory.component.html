@@ -4,7 +4,7 @@
     <div class="loading" *ngIf="still_loading()">Loading</div>
     <ng-container *ngIf="!still_loading()">
         <button class="fullsize-only list-item center-aligned"
-            (click)="set_ItemsMenuTarget(creature); toggleMenu('items')">
+            (click)="set_ItemsMenuTarget(creature); toggle_Menu('items')">
             Get Items
         </button>
         <h5 *ngIf="creature=='Character'">Currency</h5>

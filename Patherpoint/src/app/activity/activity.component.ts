@@ -221,6 +221,26 @@ export class ActivityComponent implements OnInit {
         return this.activity.castSpells;
     }
 
+    get_ActivityConditions() {
+        let conditions: Condition[] = [];
+        if (this.gain) {
+            this.activity.gainConditions
+            .map(conditionGain => this.conditionsService.get_Conditions(conditionGain.name)[0])
+            .forEach((condition, index) => {
+                //Add the condition to the list of conditions that need to display a choice,
+                // then if the gain doesn't have a choice at that index or the choice isn't among the condition's choices, insert or replace that choice on the gain.
+                conditions.push(condition);
+                while (!this.gain.effectChoices.length || this.gain.effectChoices.length < index - 1) {
+                    this.gain.effectChoices.push(condition.choice);
+                }
+                if (!condition?.choices?.includes(this.gain.effectChoices[index])) {
+                    this.gain.effectChoices[index] = condition.choice;
+                }
+            })
+        }
+        return conditions;
+    }
+
     get_SpellConditions(spellCast: SpellCast, spellCastIndex: number) {
         let conditions: Condition[] = [];
         if (this.gain) {
@@ -245,7 +265,7 @@ export class ActivityComponent implements OnInit {
         return conditions;
     }
 
-    on_SpellEffectChoiceChange() {
+    on_EffectChoiceChange() {
         this.characterService.set_ToChange(this.creature, "inventory");
         this.characterService.set_ToChange(this.creature, "activities");
         this.characterService.process_ToChange();

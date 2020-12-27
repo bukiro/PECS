@@ -3,6 +3,7 @@ export class ProficiencyChange {
     // trait:"Goblin", proficiency:"Advanced Weapons", public group:"Sword", result:"Martial Weapons"
     public result: "Unarmed Attacks"|"Simple Weapons"|"Martial Weapons"|"Advanced Weapons" = "Simple Weapons";
     public proficiency: "Unarmed Attacks"|"Simple Weapons"|"Martial Weapons"|"Advanced Weapons"|"" = "";
-    public group: "" = "";
+    public name: string = "";
+    public group: string = "";
     public trait: string = "";
 }

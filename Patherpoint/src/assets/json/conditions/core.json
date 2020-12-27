@@ -12548,5 +12548,75 @@
                 "type": "armors"
             }
         ]
+    },
+    {
+        "name": "Saoc Astrology",
+        "desc": "You recall the stars' predictions about your current situation. You gain a circumstance bonus or take a circumstance penalty to the first skill check of your next action based on a 1d8 roll. On a result of 6, 7, or 8, you gain a +2 circumstance bonus. On a 3, 4, or 5, you gain a +1 circumstance bonus. On a 2, you gain nothing. On a 1, you take a -1 circumstance penalty to the skill check.",
+        "type": "activity",
+        "inputRequired": "After you apply the bonus to a skill check, remove the condition.",
+        "buff": true,
+        "choice": "no effect",
+        "choices": [
+            "-1 penalty",
+            "no effect",
+            "+1 bonus",
+            "+2 bonus",
+            "+3 bonus",
+            "+4 bonus"
+        ],
+        "effects": [
+            {
+                "affected": "Skill Checks",
+                "type": "circumstance",
+                "value": "Choice == '-1 penalty' ? -1 : 0"
+            },
+            {
+                "affected": "Skill Checks",
+                "type": "circumstance",
+                "value": "Choice == '+1 bonus' ? 1 : 0"
+            },
+            {
+                "affected": "Skill Checks",
+                "type": "circumstance",
+                "value": "Choice == '+2 bonus' ? 2 : 0"
+            },
+            {
+                "affected": "Skill Checks",
+                "type": "circumstance",
+                "value": "Choice == '+3 bonus' ? 3 : 0"
+            },
+            {
+                "affected": "Skill Checks",
+                "type": "circumstance",
+                "value": "Choice == '+4 bonus' ? 4 : 0"
+            }
+        ]
+    },
+    {
+        "name": "Tupilac Carver",
+        "desc": "You have included a drop of blood, lock of hair, or other portion of a creature's body as part of casting summon construct. The summoned construct gains a +4 status bonus to Perception checks to sense or locate that creature.",
+        "type": "activity",
+        "hints": [
+            {
+                "desc": "The summoned construct gains a +4 status bonus to Perception checks to sense or locate that creature.",
+                "showon": "Perception, Spellbook"
+            }
+        ],
+        "inputRequired": "Remove the condition after the summoning ends.",
+        "buff": true
+    },
+    {
+        "name": "Incredible Improvisation",
+        "desc": "A stroke of brilliance gives you a major advantage with a skill despite your inexperience. Gain a +4 circumstance bonus to the triggering skill check.",
+        "type": "activity",
+        "inputRequired": "After you apply the bonus to a skill check, remove the condition.",
+        "buff": true,
+        "effects": [
+            {
+                "affected": "Skill Checks",
+                "type": "circumstance",
+                "value": "4"
+            }
+        ]
     }
 ]
