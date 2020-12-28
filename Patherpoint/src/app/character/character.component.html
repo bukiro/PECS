@@ -577,7 +577,7 @@
                                     </span>
                                 </div>
                                 <!--Fixed Feats-->
-                                <div title="{{get_FeatsAndFeatures(feat.name)[0]?.desc}}" class="list-item"
+                                <div class="list-item"
                                     *ngFor="let feat of get_FeatsTaken(level.number, level.number, '', '', '', true); trackBy:trackByIndex;">
                                     <span>
                                         Feat ({{feat.source}}): {{feat.name}}

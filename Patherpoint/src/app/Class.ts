@@ -24,6 +24,7 @@ export class Class {
     public readonly _className: string = this.constructor.name;
     public activities: ActivityGain[] = [];
     public ancestry: Ancestry = new Ancestry();
+    public anathema: string[] = [];
     public animalCompanion: AnimalCompanion = new AnimalCompanion();
     public background: Background = new Background();
     public customSkills: Skill[] = [];

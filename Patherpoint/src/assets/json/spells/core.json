@@ -1821,6 +1821,135 @@
         ]
     },
     {
+        "name": "Tempest Surge",
+        "id": "e1f6c167-632c-41ab-a6f1-e079921fcbfb",
+        "shortDesc": "You surround a foe in a swirling storm of violent winds, roiling clouds, and crackling lightning.",
+        "actions": "2A",
+        "castType": "somatic, verbal",
+        "levelreq": 1,
+        "traditions": [
+            "Focus"
+        ],
+        "traits": [
+            "Uncommon",
+            "Air",
+            "Druid",
+            "Electricity",
+            "Evocation"
+        ],
+        "range": "30 feet",
+        "targets": "1 creature",
+        "singleTarget": true,
+        "desc": "You surround a foe in a swirling storm of violent winds, roiling clouds, and crackling lightning. The storm deals <var>var1</var> electricity damage. The target must attempt a basic Reflex save. On a failure, the target also is clumsy 2 for 1 round and takes <var>var2</var> persistent electricity damage.",
+        "savingThrow": "Reflex",
+        "heightened": [
+            {
+                "desc": "The initial damage increases by 1d12, and the persistent electricity damage on a failure increases by 1.",
+                "level": "(+1)"
+            }
+        ],
+        "desc1": [
+            {
+                "value": "1d12",
+                "variable": "var1"
+            },
+            {
+                "value": "1",
+                "variable": "var2"
+            }
+        ],
+        "desc2": [
+            {
+                "value": "2d12",
+                "variable": "var1"
+            },
+            {
+                "value": "2",
+                "variable": "var2"
+            }
+        ],
+        "desc3": [
+            {
+                "value": "3d12",
+                "variable": "var1"
+            },
+            {
+                "value": "3",
+                "variable": "var2"
+            }
+        ],
+        "desc4": [
+            {
+                "value": "4d12",
+                "variable": "var1"
+            },
+            {
+                "value": "4",
+                "variable": "var2"
+            }
+        ],
+        "desc5": [
+            {
+                "value": "5d12",
+                "variable": "var1"
+            },
+            {
+                "value": "5",
+                "variable": "var2"
+            }
+        ],
+        "desc6": [
+            {
+                "value": "6d12",
+                "variable": "var1"
+            },
+            {
+                "value": "6",
+                "variable": "var2"
+            }
+        ],
+        "desc7": [
+            {
+                "value": "7d12",
+                "variable": "var1"
+            },
+            {
+                "value": "7",
+                "variable": "var2"
+            }
+        ],
+        "desc8": [
+            {
+                "value": "8d12",
+                "variable": "var1"
+            },
+            {
+                "value": "8",
+                "variable": "var2"
+            }
+        ],
+        "desc9": [
+            {
+                "value": "9d12",
+                "variable": "var1"
+            },
+            {
+                "value": "9",
+                "variable": "var2"
+            }
+        ],
+        "desc10": [
+            {
+                "value": "10d12",
+                "variable": "var1"
+            },
+            {
+                "value": "10",
+                "variable": "var2"
+            }
+        ]
+    },
+    {
         "name": "Acid Splash",
         "id": "29ed3e06-9122-11ea-bb37-0242ac130002",
         "shortDesc": "Damage creatures with acid.",

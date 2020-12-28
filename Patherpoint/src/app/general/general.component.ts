@@ -105,7 +105,7 @@ export class GeneralComponent implements OnInit {
 
     get_Anathema() {
         //Collect anathema from all feats and features you have that include them.
-        return [].concat(...this.characterService.get_FeatsAndFeatures()
+        return this.get_Character().class.anathema.concat(...this.characterService.get_FeatsAndFeatures()
         .filter(feat => feat.anathema?.length && feat.have(this.get_Character(), this.characterService))
         .map(feat => feat.anathema))
     }

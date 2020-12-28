@@ -449,7 +449,7 @@ export class SpellchoiceComponent implements OnInit {
         if ((this.spellCasting?.castingType == "Prepared" && this.spellCasting?.className == "Wizard" && !this.allowBorrow) || this.choice.spellBookOnly) {
             allSpells = this.spellsService.get_Spells().filter(spell =>
                 this.spellTakenByThis(spell.name, choice) ||
-                this.get_Character().class.spellBook.find((learned: SpellLearned) => learned.name == spell.name)
+                character.class.spellBook.find((learned: SpellLearned) => learned.name == spell.name)
             );
         } else {
             allSpells = this.spellsService.get_Spells();
@@ -468,11 +468,20 @@ export class SpellchoiceComponent implements OnInit {
             if (this.spellCasting.castingType == "Focus") {
                 spells.push(...allSpells.filter(spell => spell.traits.includes(character.class.name) && spell.traditions.includes("Focus")));
             } else {
-                //With Impossible Polymath, you can choose spells of any tradition in the Esoteric Polymath choice so long as you are trained in the associated skill.
-                if (choice.source == "Feat: Esoteric Polymath") {
+                if (choice.source == "Divine Font") {
+                    //Divine Font only allows spells listed in your deity's divine font attribute.
+                    let deity = character.class.deity ? this.characterService.get_Deities(character.class.deity)[0] : null;
+                    spells.push(...allSpells.filter(spell =>
+                        deity?.divineFont.includes(spell.name) &&
+                        (
+                            choice.spells.length ? this.spellTakenByThis(spell.name, choice) : true
+                        )
+                    ));
+                } else if (choice.source == "Feat: Esoteric Polymath") {
+                    //With Impossible Polymath, you can choose spells of any tradition in the Esoteric Polymath choice so long as you are trained in the associated skill.
                     spells.push(...allSpells.filter(spell => spell.traditions.find(tradition => this.get_EsotericPolymathAllowed(this.spellCasting, tradition)) && !spell.traditions.includes("Focus")));
-                    //With Adapted Cantrip, you can choose spells of any tradition except your own.
                 } else if (choice.source == "Feat: Adapted Cantrip") {
+                    //With Adapted Cantrip, you can choose spells of any tradition except your own.
                     spells.push(...allSpells.filter(spell => !spell.traditions.includes(this.spellCasting.tradition) && !spell.traditions.includes("Focus")));
                 } else if (choice.source.includes("Feat: Adaptive Adept")) {
                     //With Adaptive Adept, you can choose spells of the same tradition(s) as with Adapted Cantrip, but not your own.
@@ -616,6 +625,16 @@ export class SpellchoiceComponent implements OnInit {
                 return this.sortByPipe.transform(availableSpells, "asc", "name")
             }
         }
+    }
+
+    cleanup_ChoiceSpells(spellList: Spell[], choice: SpellChoice) {
+        choice.spells.forEach(gain => {
+            if (!spellList?.map(spell => spell.name)?.includes(gain.name)) {
+                if (!gain.locked) {
+                    this.get_Character().take_Spell(this.characterService, gain.name, false, choice, gain.locked);
+                }
+            }
+        })
     }
 
     cannotTakeSome(choice: SpellChoice) {

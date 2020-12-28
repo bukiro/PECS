@@ -6762,6 +6762,11 @@
     {
         "_className": "Class",
         "name": "Druid",
+        "anathema": [
+            "Using metal armor or shields.",
+            "Despoiling natural places.",
+            "Teaching the Druidic language to non-Druids."
+        ],
         "customSkills": [
             {
                 "ability": "Wisdom",

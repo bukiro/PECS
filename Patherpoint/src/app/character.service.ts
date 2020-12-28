@@ -159,6 +159,7 @@ export class CharacterService {
         let general: string[] = ["Strength", "Dexterity", "Intelligence", "Wisdom", "Charisma"];
         let health: string[] = ["Constitution"];
         let inventory: string[] = ["Strength"];
+        let spells: string[] = ["Intelligence", "Charisma", "Wisdom"];
 
         //Prepare changes for everything that should be updated according to the ability.
         this.set_ToChange(creature, "abilities");
@@ -181,7 +182,16 @@ export class CharacterService {
         if (inventory.includes(ability)) {
             this.set_ToChange(creature, "inventory");
         }
+        if (spells.includes(ability)) {
+            this.set_ToChange(creature, "spells");
+            this.set_ToChange(creature, "spellbook");
+            this.set_ToChange(creature, "spellchoices");
+        }
         this.set_ToChange(creature, "effects");
+        this.set_ToChange("Character", "charactersheet")
+        if (ability == "Intelligence") {
+            this.update_LanguageList();
+        }
     }
 
     process_ToChange() {
@@ -478,10 +488,6 @@ export class CharacterService {
                     languages = character.class.languages.push("");
                 }
             }
-            //If the language list has changed, update the character sheet.
-            if (oldLanguages != JSON.stringify(character.class.languages)) {
-                this.set_ToChange("Character", "charactersheet");
-            }
         }
     }
 
@@ -522,6 +528,7 @@ export class CharacterService {
         let character = this.get_Character();
         character.class.deity = deity.name;
         this.set_ToChange("Character", "general");
+        this.set_ToChange("Character", "spellchoices");
         this.set_ToChange("Character", "attacks");
     }
 

@@ -841,7 +841,7 @@ export class EffectsService {
                 this.generate_Effects(creatureType, characterService, true);
             }
         } else if (secondRun) {
-            //After all effects are generated, keep the language list length updated.
+            //After all effects are generated, keep the language list length updated and process all changes prepared by the effects.
             characterService.update_LanguageList();
             characterService.process_ToChange();
         }
@@ -851,7 +851,7 @@ export class EffectsService {
     set_ToChange(creature: Creature, newEffects: Effect[], oldEffects: Effect[], characterService: CharacterService) {
         //Set refresh commands for all components of the application depending on whether there are new effects affecting their data,
         // or old effects have been removed.
-        let general: string[] = ["Languages", "Size"];
+        let general: string[] = ["Max Languages", "Size"];
         let generalWildcard: string[] = [];
         let abilities: string[] = ["Strength", "Dexterity", "Constitution", "Intelligence", "Wisdom", "Charisma"];
         let abilitiesWildcard: string[] = ["Strength", "Dexterity", "Constitution", "Intelligence", "Wisdom", "Charisma"];

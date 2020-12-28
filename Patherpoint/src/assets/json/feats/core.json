@@ -86,7 +86,9 @@
         "levelreq": 1,
         "specialreq": "character.class.ancestry.name && !character.class.ancestry.ancestries.includes(this.subType) || this.have(character, characterService, charLevel)",
         "specialreqdesc": "Any Ancestry except Dwarf",
-        "gainAncestry": ["Dwarf"]
+        "gainAncestry": [
+            "Dwarf"
+        ]
     },
     {
         "name": "Adopted Ancestry: Elf",
@@ -100,7 +102,9 @@
         "levelreq": 1,
         "specialreq": "character.class.ancestry.name && !character.class.ancestry.ancestries.includes(this.subType) || this.have(character, characterService, charLevel)",
         "specialreqdesc": "Any Ancestry except Elf",
-        "gainAncestry": ["Elf"]
+        "gainAncestry": [
+            "Elf"
+        ]
     },
     {
         "name": "Adopted Ancestry: Gnome",
@@ -114,7 +118,9 @@
         "levelreq": 1,
         "specialreq": "character.class.ancestry.name && !character.class.ancestry.ancestries.includes(this.subType) || this.have(character, characterService, charLevel)",
         "specialreqdesc": "Any Ancestry except Gnome",
-        "gainAncestry": ["Gnome"]
+        "gainAncestry": [
+            "Gnome"
+        ]
     },
     {
         "name": "Adopted Ancestry: Goblin",
@@ -128,7 +134,9 @@
         "levelreq": 1,
         "specialreq": "character.class.ancestry.name && !character.class.ancestry.ancestries.includes(this.subType) || this.have(character, characterService, charLevel)",
         "specialreqdesc": "Any Ancestry except Goblin",
-        "gainAncestry": ["Goblin"]
+        "gainAncestry": [
+            "Goblin"
+        ]
     },
     {
         "name": "Adopted Ancestry: Halfling",
@@ -142,7 +150,9 @@
         "levelreq": 1,
         "specialreq": "character.class.ancestry.name && !character.class.ancestry.ancestries.includes(this.subType) || this.have(character, characterService, charLevel)",
         "specialreqdesc": "Any Ancestry except Halfling",
-        "gainAncestry": ["Halfling"]
+        "gainAncestry": [
+            "Halfling"
+        ]
     },
     {
         "name": "Adopted Ancestry: Human",
@@ -156,7 +166,9 @@
         "levelreq": 1,
         "specialreq": "character.class.ancestry.name && !character.class.ancestry.ancestries.includes(this.subType) || this.have(character, characterService, charLevel)",
         "specialreqdesc": "Any Ancestry except Human",
-        "gainAncestry": ["Human"]
+        "gainAncestry": [
+            "Human"
+        ]
     },
     {
         "name": "Adopted Ancestry: Hobgoblin",
@@ -170,7 +182,9 @@
         "levelreq": 1,
         "specialreq": "character.class.ancestry.name && !character.class.ancestry.ancestries.includes(this.subType) || this.have(character, characterService, charLevel)",
         "specialreqdesc": "Any Ancestry except Hobgoblin",
-        "gainAncestry": ["Hobgoblin"]
+        "gainAncestry": [
+            "Hobgoblin"
+        ]
     },
     {
         "name": "Adopted Ancestry: Leshy",
@@ -184,7 +198,9 @@
         "levelreq": 1,
         "specialreq": "character.class.ancestry.name && !character.class.ancestry.ancestries.includes(this.subType) || this.have(character, characterService, charLevel)",
         "specialreqdesc": "Any Ancestry except Leshy",
-        "gainAncestry": ["Leshy"]
+        "gainAncestry": [
+            "Leshy"
+        ]
     },
     {
         "name": "Adopted Ancestry: Lizardfolk",
@@ -198,7 +214,9 @@
         "levelreq": 1,
         "specialreq": "character.class.ancestry.name && !character.class.ancestry.ancestries.includes(this.subType) || this.have(character, characterService, charLevel)",
         "specialreqdesc": "Any Ancestry except Lizardfolk",
-        "gainAncestry": ["Lizardfolk"]
+        "gainAncestry": [
+            "Lizardfolk"
+        ]
     },
     {
         "name": "Adopted Ancestry: Shoony",
@@ -212,7 +230,9 @@
         "levelreq": 1,
         "specialreq": "character.class.ancestry.name && !character.class.ancestry.ancestries.includes(this.subType) || this.have(character, characterService, charLevel)",
         "specialreqdesc": "Any Ancestry except Shoony",
-        "gainAncestry": ["Shoony"]
+        "gainAncestry": [
+            "Shoony"
+        ]
     },
     {
         "name": "Advanced Blood Potency",
@@ -6779,7 +6799,7 @@
         "levelreq": 14,
         "effects": [
             {
-                "affected": "Languages",
+                "affected": "Max Languages",
                 "value": "1"
             }
         ],
@@ -10420,7 +10440,90 @@
         "name": "Leaf Order"
     },
     {
-        "name": "Storm Order"
+        "name": "Storm Order",
+        "desc": "You carry the fury of the storm within you, channeling it to terrifying effect and riding the winds through the sky. You are trained in Acrobatics. You also gain the Storm Born druid feat. You gain the tempest surge order spell, and you increase the number of Focus Points in your focus pool by 1. Polluting the air or allowing those who cause major air pollution or climate shifts to go unpunished is anathema to your order. (This doesn't force you to take action against merely potential harm to the environment or to sacrifice yourself against an obviously superior foe.)",
+        "shortdesc": "You carry the fury of the storm within you, channeling it to terrifying effect and riding the winds through the sky.",
+        "effects": [
+            {
+                "affected": "Focus Pool",
+                "value": "Character.class.name == 'Druid' ? 1 : 0"
+            }
+        ],
+        "onceEffects": [
+            {
+                "affected": "Focus Points",
+                "value": "Character.class.name == 'Druid' ? 1 : 0"
+            }
+        ],
+        "anathema": [
+            "Polluting the air or allowing those who cause major air pollution or climate shifts to go unpunished is anathema to your order. (This doesn't force you to take action against merely potential harm to the environment or to sacrifice yourself against an obviously superior foe.)"
+        ],
+        "gainFeatChoice": [
+            {
+                "_className": "FeatChoice",
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Storm Born"
+                    }
+                ],
+                "insertClass": "Druid",
+                "level": 1,
+                "source": "Storm Order"
+            }
+        ],
+        "gainSkillChoice": [
+            {
+                "_className": "SkillChoice",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Acrobatics",
+                        "source": "Storm Order"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Storm Order",
+                "type": "Skill"
+            }
+        ],
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Focus",
+                "className": "Druid",
+                "id": "62aa207d-8fb5-4a02-a002-99eff1f9418c",
+                "insertClass": "Druid",
+                "level": -1,
+                "source": "Storm Order",
+                "spells": [
+                    {
+                        "_className": "SpellGain",
+                        "locked": true,
+                        "name": "Tempest Surge"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Storm Born",
+        "desc": "You are at home out in the elements, reveling in the power of nature unleashed. You do not take circumstance penalties to ranged spell attacks or Perception checks caused by weather, and your targeted spells don't require a flat check to succeed against a target concealed by weather (such as fog).",
+        "hints": [
+            {
+                "desc": "You do not take circumstance penalties to ranged spell attacks or Perception checks caused by weather, and your targeted spells don't require a flat check to succeed against a target concealed by weather (such as fog).",
+                "showon": "Perception, Attacks, Spellbook"
+            }
+        ],
+        "shortdesc": "You are at home out in the elements, reveling in the power of nature unleashed.",
+        "traits": [
+            "Druid"
+        ],
+        "levelreq": 1,
+        "featreq": [
+            "Storm order"
+        ]
     },
     {
         "name": "Wild Order"
@@ -28493,11 +28596,25 @@
     },
     {
         "name": "Otherworldly Magic",
+        "desc": "Your elven magic manifests as a simple arcane spell, even if you aren't formally trained in magic. Choose one cantrip from the arcane spell list. You can cast this cantrip as an arcane innate spell at will. A cantrip is heightened to a spell level equal to half your level rounded up.",
         "shortdesc": "Your elven magic manifests as a simple arcane spell, even if you aren't formally trained in magic.",
         "traits": [
             "Elf"
         ],
-        "levelreq": 1
+        "levelreq": 1,
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "available": 1,
+                "castingType": "Innate",
+                "className": "Innate",
+                "frequency": "at will",
+                "id": "cfe25e1d-3c21-4812-b815-5099c0bf4ce0",
+                "level": 0,
+                "source": "Feat: Otherworldly Magic",
+                "tradition": "Arcane"
+            }
+        ]
     },
     {
         "name": "Share Thoughts",
