@@ -106,7 +106,7 @@ export class ConditionsService {
                 }
             })
             //Remove all conditions that were marked for deletion by setting its value to -1. We use while so we don't mess up the index and skip some.
-            while (activeConditions.filter(gain => gain.value == -1).length) {
+            while (activeConditions.some(gain => gain.value == -1)) {
                 characterService.remove_Condition(creature, activeConditions.filter(gain => gain.value == -1)[0], false);
             }
             this.appliedConditions[creatureIndex] = [];
@@ -320,19 +320,19 @@ export class ConditionsService {
                     return Math.min(...compareA) - Math.min(...compareB)
                 }
             });
-            if (activeConditions.filter(gain => (gain.duration > 0 && !gain.onset) || gain.nextStage > 0).length || activeConditions.filter(gain => gain.decreasingValue).length) {
+            if (activeConditions.some(gain => (gain.duration > 0 && !gain.onset) || gain.nextStage > 0) || activeConditions.some(gain => gain.decreasingValue)) {
                 //Get the first condition that will run out
                 let first: number;
                 //If any condition has a decreasing Value per round, step 5 (to the end of the Turn) if it is your Turn or 10 (1 turn) at most
                 //Otherwise find the next step from either the duration or the nextStage of the first gain of the sorted list.
-                if (activeConditions.filter(gain => gain.decreasingValue).length) {
+                if (activeConditions.some(gain => gain.decreasingValue)) {
                     if (yourTurn == 5) {
                         first = 5;
                     } else {
                         first = 10;
                     }
                 } else {
-                    if (activeConditions.filter(gain => (gain.duration > 0 && !gain.onset) || gain.nextStage > 0).length) {
+                    if (activeConditions.some(gain => (gain.duration > 0 && !gain.onset) || gain.nextStage > 0)) {
                         let firstObject: ConditionGain = activeConditions.filter(gain => gain.duration > 0 || gain.nextStage > 0)[0]
                         let durations: number[] = [];
                         if (firstObject.duration > 0 && !firstObject.onset) { durations.push(firstObject.duration); }

@@ -475,7 +475,7 @@ export class ItemsService {
                 item.name = "DELETE";
             })
             //Removing an item brings the index out of order, and some items may be skipped. We just keep deleting items named DELETE until none are left.
-            while (inv.allItems().filter(item => item.name == "DELETE").length) {
+            while (inv.allItems().some(item => item.name == "DELETE")) {
                 inv.allItems().filter(item => item.name == "DELETE").forEach(item => {
                     characterService.drop_InventoryItem(creature, inv, item, false, true, true, item.amount);
                 })
@@ -539,7 +539,7 @@ export class ItemsService {
                 characterService.set_ToChange(creature.type, "inventory");
             })
             //Removing an item brings the index out of order, and some items may be skipped. We just keep deleting items named DELETE until none are left.
-            while (inv.allItems().filter(item => item.name == "DELETE").length) {
+            while (inv.allItems().some(item => item.name == "DELETE")) {
                 inv.allItems().filter(item => item.name == "DELETE").forEach(item => {
                     characterService.drop_InventoryItem(creature, inv, item, false, true, true, item.amount);
                 })

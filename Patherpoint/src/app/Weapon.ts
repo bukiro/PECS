@@ -189,7 +189,7 @@ export class Weapon extends Equipment {
         skillLevel = Math.min(Math.max(...levels.filter(level => level != undefined)), 8);
         //If you have an Ancestral Echoing rune on this weapon, you get to raise the item's proficiency by one level, up to the highest proficiency you have.
         let bestSkillLevel: number = skillLevel;
-        if (runeSource.propertyRunes.filter(rune => rune.name == "Ancestral Echoing").length) {
+        if (runeSource.propertyRunes.some(rune => rune.name == "Ancestral Echoing")) {
             //First, we get all the weapon proficiencies...
             let skills: number[] = characterService.get_Skills(creature, "", "Weapon Proficiency").map(skill => skill.level(creature, characterService, charLevel));
             skills.push(...characterService.get_Skills(creature, "", "Specific Weapon Proficiency").map(skill => skill.level(creature, characterService, charLevel)));
@@ -197,7 +197,7 @@ export class Weapon extends Equipment {
             bestSkillLevel = Math.min(skillLevel + 2, Math.max(...skills));
         }
         //If you have an oil applied that emulates an Ancestral Echoing rune, apply the same rule (there is no such oil, but things can change)
-        if (this.oilsApplied.filter(oil => oil.runeEffect && oil.runeEffect.name == "Ancestral Echoing").length) {
+        if (this.oilsApplied.some(oil => oil.runeEffect && oil.runeEffect.name == "Ancestral Echoing")) {
             //First, we get all the weapon proficiencies...
             let skills: number[] = characterService.get_Skills(creature, "", "Weapon Proficiency").map(skill => skill.level(creature, characterService, charLevel));
             skills.push(...characterService.get_Skills(creature, "", "Specific Weapon Proficiency").map(skill => skill.level(creature, characterService, charLevel)));
@@ -615,7 +615,7 @@ export class Weapon extends Equipment {
         let featBonus: number = 0;
         //Weapon Specialization grants extra damage according to your proficiency.
         //For the Major Bestial Mutagen attacks, you gain Weapon Specialization, or greater if it already applies.
-        if (characterService.get_Features().filter(feature => feature.name.includes("Weapon Specialization") && feature.have(creature, characterService)).length) {
+        if (characterService.get_Features().some(feature => feature.name.includes("Weapon Specialization") && feature.have(creature, characterService))) {
             let greaterWeaponSpecialization = (characterService.get_Features().filter(feature => feature.name.includes("Greater Weapon Specialization") && feature.have(creature, characterService)).length > 0);
             switch (this.profLevel(creature, characterService, runeSource[1])) {
                 case 4:
@@ -764,7 +764,7 @@ export class Weapon extends Equipment {
                         (spec.group ? (this.group && spec.group.includes(this.group)) : true) &&
                         (spec.range ? (range && spec.range.includes(range)) : true) &&
                         (spec.name ? ((this.name && spec.name.includes(this.name)) || (this.weaponBase && spec.name.includes(this.weaponBase))) : true) &&
-                        (spec.trait ? this.traits.filter(trait => spec.trait.includes(trait)).length : true) &&
+                        (spec.trait ? this.traits.some(trait => spec.trait.includes(trait)) : true) &&
                         (spec.proficiency ? (prof && spec.proficiency.includes(prof)) : true) &&
                         (spec.skillLevel ? skillLevel >= spec.skillLevel : true) &&
                         (spec.featreq ? characterService.get_FeatsAndFeatures(spec.featreq)[0]?.have(character, characterService) : true)
@@ -776,7 +776,7 @@ export class Weapon extends Equipment {
                     if (critSpec.condition) {
                         spec.desc = "(" + critSpec.condition + ") " + spec.desc;
                     }
-                    if (!specializations.filter(existingspec => JSON.stringify(existingspec) == JSON.stringify(spec)).length) {
+                    if (!specializations.some(existingspec => JSON.stringify(existingspec) == JSON.stringify(spec))) {
                         specializations.push(spec);
                     }
                 });

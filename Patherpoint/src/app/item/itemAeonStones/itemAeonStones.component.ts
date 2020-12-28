@@ -75,7 +75,7 @@ export class ItemAeonStonesComponent implements OnInit {
 
     get_AeonStoneCooldown(stone: WornItem) {
         //If any resonant activity on this aeon Stone has a cooldown, return the lowest of these in a human readable format.
-        if (stone.activities && stone.activities.length && stone.activities.filter(activity => activity.resonant && activity.activeCooldown).length) {
+        if (stone.activities && stone.activities.length && stone.activities.some(activity => activity.resonant && activity.activeCooldown)) {
             let lowestCooldown = Math.min(...stone.activities.filter(activity => activity.resonant && activity.activeCooldown).map(activity => activity.activeCooldown));
             return " (Cooldown: "+this.timeService.get_Duration(lowestCooldown)+")";
         } else {

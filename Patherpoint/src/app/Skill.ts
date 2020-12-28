@@ -104,13 +104,6 @@ export class Skill {
                 })
             })
             skillLevel = Math.max(...copyLevels, skillLevel);
-            //The Stealthy Companion feat increases the Animal Companion's Stealth rank.
-            if (creature.type == "Companion" &&
-                this.name == "Stealth" &&
-                (creature as AnimalCompanion).class.specializations.find(spec => spec.name == "Ambusher") &&
-                characterService.get_Feats("Stealthy Companion")[0]?.have(characterService.get_Character(), characterService)) {
-                    skillLevel += 2;
-            }
         }
         //Add any relative proficiency level bonuses.
         skillLevelEffects = effectsService.get_RelativesOnThis(creature, this.name + " Proficiency Level");

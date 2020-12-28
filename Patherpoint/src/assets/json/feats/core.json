@@ -2895,7 +2895,7 @@
             "Monk"
         ],
         "levelreq": 20,
-        "specialreq": "character.get_FeatsTaken(0,charLevel).filter(gain => characterService.get_FeatsAndFeatures(gain.name).filter(feat => feat.traits.includes(\"Stance\")).length).length >= 2",
+        "specialreq": "character.get_FeatsTaken(0,charLevel).filter(gain => characterService.get_FeatsAndFeatures(gain.name).some(feat => feat.traits.includes(\"Stance\"))).length >= 2",
         "specialreqdesc": "at least two stances",
         "gainActivities": [
             "Fused Stance"
@@ -17144,7 +17144,6 @@
                 "showon": "Companion:Stealth"
             }
         ],
-        "internalNote": "The effect is hardcoded.",
         "shortdesc": "You've trained your animal companion to blend in to its surroundings.",
         "traits": [
             "Ranger"
@@ -17154,7 +17153,13 @@
             "Camouflage"
         ],
         "specialreq": "characterService.get_CompanionAvailable()",
-        "specialreqdesc": "an animal companion"
+        "specialreqdesc": "an animal companion",
+        "effects": [
+            {
+                "affected": "Companion:Stealth Proficiency Level",
+                "value": "Companion?.class?.specializations?.some(spec => spec.name == 'Ambusher') ? 2 : 0"
+            }
+        ]
     },
     {
         "name": "Targeting Shot",

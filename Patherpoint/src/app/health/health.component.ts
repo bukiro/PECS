@@ -71,7 +71,7 @@ export class HealthComponent implements OnInit {
     get_Waiting(duration: number) {
         let result: string = "";
         this.characterService.get_Creatures().forEach(creature => {
-            if (this.characterService.get_AppliedConditions(creature, "", "", true).filter(gain => (gain.nextStage < duration && gain.nextStage > 0) || gain.nextStage == -1).length) {
+            if (this.characterService.get_AppliedConditions(creature, "", "", true).some(gain => (gain.nextStage < duration && gain.nextStage > 0) || gain.nextStage == -1)) {
                 result = "One or more conditions need your attention before you can rest.";
             }
             if (this.effectsService.get_EffectsOnThis(creature, "Resting Blocked").length) {

@@ -194,8 +194,13 @@ export class FeatchoiceComponent implements OnInit {
         // If a subtype is in the filter
         let allFeats: Feat[] = this.get_Feats().filter(feat => !feat.superType && !feat.hide);
         if (choice.filter.length) {
-            allFeats = allFeats.filter(feat => choice.filter.includes(feat.name) ||
-                (feat.subTypes && this.get_Feats().filter(subFeat => !subFeat.hide && subFeat.superType == feat.name && choice.filter.includes(subFeat.name)).length))
+            allFeats = allFeats.filter(feat =>
+                choice.filter.includes(feat.name) ||
+                (
+                    feat.subTypes &&
+                    this.get_Feats().some(subFeat => !subFeat.hide && subFeat.superType == feat.name && choice.filter.includes(subFeat.name))
+                )
+            )
         }
         let feats: Feat[] = [];
         if (choice.specialChoice) {
@@ -459,13 +464,13 @@ export class FeatchoiceComponent implements OnInit {
                 result.push({ met: true, ignored: false, desc: "requires " });
                 if (feat.levelreq && feat.levelreq != compare.levelreq) {
                     result.push(feat.meetsLevelReq(this.characterService, this.levelNumber));
-                    result[result.length-1].ignored = ignoreRequirementsList.includes('levelreq');
+                    result[result.length - 1].ignored = ignoreRequirementsList.includes('levelreq');
                 }
                 if (JSON.stringify(feat.abilityreq) != JSON.stringify(compare.abilityreq)) {
                     feat.meetsAbilityReq(this.characterService, this.levelNumber).forEach(req => {
                         result.push({ met: true, desc: ", " });
                         result.push(req);
-                        result[result.length-1].ignored = ignoreRequirementsList.includes('abilityreq');
+                        result[result.length - 1].ignored = ignoreRequirementsList.includes('abilityreq');
                     });
                 }
                 if (JSON.stringify(feat.skillreq) != JSON.stringify(compare.skillreq)) {
@@ -476,21 +481,21 @@ export class FeatchoiceComponent implements OnInit {
                             result.push({ met: true, desc: " or " });
                         }
                         result.push(req);
-                        result[result.length-1].ignored = ignoreRequirementsList.includes('skillreq');
+                        result[result.length - 1].ignored = ignoreRequirementsList.includes('skillreq');
                     });
                 }
                 if (JSON.stringify(feat.featreq) != JSON.stringify(compare.featreq)) {
                     feat.meetsFeatReq(this.characterService, this.levelNumber).forEach(req => {
                         result.push({ met: true, desc: ", " });
                         result.push(req);
-                        result[result.length-1].ignored = ignoreRequirementsList.includes('featreq');
+                        result[result.length - 1].ignored = ignoreRequirementsList.includes('featreq');
                     });
                 }
                 if (JSON.stringify(feat.heritagereq) != JSON.stringify(compare.heritagereq)) {
                     feat.meetsHeritageReq(this.characterService, this.levelNumber).forEach(req => {
                         result.push({ met: true, desc: ", " });
                         result.push(req);
-                        result[result.length-1].ignored = ignoreRequirementsList.includes('heritagereq');
+                        result[result.length - 1].ignored = ignoreRequirementsList.includes('heritagereq');
                     });
                 }
                 if (feat.specialreqdesc && feat.specialreqdesc != compare.specialreqdesc) {
@@ -501,13 +506,13 @@ export class FeatchoiceComponent implements OnInit {
         } else {
             if (feat.levelreq) {
                 result.push(feat.meetsLevelReq(this.characterService, this.featLevel));
-                result[result.length-1].ignored = ignoreRequirementsList.includes('levelreq');
+                result[result.length - 1].ignored = ignoreRequirementsList.includes('levelreq');
             }
             if (feat.abilityreq.length) {
                 feat.meetsAbilityReq(this.characterService, this.levelNumber).forEach(req => {
                     result.push({ met: true, desc: ", " });
                     result.push(req);
-                    result[result.length-1].ignored = ignoreRequirementsList.includes('abilityreq');
+                    result[result.length - 1].ignored = ignoreRequirementsList.includes('abilityreq');
                 });
             }
             if (feat.skillreq.length) {
@@ -518,21 +523,21 @@ export class FeatchoiceComponent implements OnInit {
                         result.push({ met: true, desc: " or " });
                     }
                     result.push(req);
-                    result[result.length-1].ignored = ignoreRequirementsList.includes('skillreq');
+                    result[result.length - 1].ignored = ignoreRequirementsList.includes('skillreq');
                 });
             }
             if (feat.featreq.length) {
                 feat.meetsFeatReq(this.characterService, this.levelNumber).forEach(req => {
                     result.push({ met: true, desc: ", " });
                     result.push(req);
-                    result[result.length-1].ignored = ignoreRequirementsList.includes('featreq');
+                    result[result.length - 1].ignored = ignoreRequirementsList.includes('featreq');
                 });
             }
             if (feat.heritagereq) {
                 feat.meetsHeritageReq(this.characterService, this.levelNumber).forEach(req => {
                     result.push({ met: true, desc: ", " });
                     result.push(req);
-                    result[result.length-1].ignored = ignoreRequirementsList.includes('heritagereq');
+                    result[result.length - 1].ignored = ignoreRequirementsList.includes('heritagereq');
                 });
             }
             if (feat.specialreqdesc) {

@@ -46,7 +46,7 @@ export class ItemTalismansComponent implements OnInit {
             indexes.push(index);
         }
         //If Talismans are available, add one more slot.
-        if (this.itemStore || this.get_Character().inventories.filter(inv => this.get_Talismans(inv).length).length) {
+        if (this.itemStore || this.get_Character().inventories.some(inv => this.get_Talismans(inv).length)) {
             indexes.push(indexes.length);
         }
         return indexes;

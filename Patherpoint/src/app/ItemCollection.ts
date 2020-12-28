@@ -170,7 +170,7 @@ export class ItemCollection {
         if (!this.itemId) {
             characterService.get_Creatures().forEach(creature => {
                 if (creature.type != "Familiar") {
-                    if (creature.inventories.filter(inventory => inventory === this).length) {
+                    if (creature.inventories.some(inventory => inventory === this)) {
                         name = creature.name || creature.type;
                     }
                 }
@@ -178,7 +178,7 @@ export class ItemCollection {
         } else {
             characterService.get_Creatures().forEach(creature => {
                 if (creature.type != "Familiar") {
-                    if (creature.inventories.filter(inventory => inventory === this).length) {
+                    if (creature.inventories.some(inventory => inventory === this)) {
                         creature.inventories.forEach(creatureInventory => {
                             let items = creatureInventory.allEquipment().filter(item => item.id == this.itemId);
                             if (items.length) {

@@ -128,7 +128,7 @@ export class SkillchoiceComponent implements OnInit {
         let maxRank: number = choice.maxRank;
         let reasons: string[] = [];
         //The skill may have been increased by the same source, but as a fixed rule.
-        if (choice.increases.filter(increase => increase.name == skill.name && increase.locked).length) {
+        if (choice.increases.some(increase => increase.name == skill.name && increase.locked)) {
             let locked = "Fixed increase.";
             reasons.push(locked);
         }

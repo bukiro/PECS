@@ -41,10 +41,10 @@ export class ActivitiesService {
         let item: Equipment = null;
         creature.inventories.forEach(inventory => {
             inventory.allEquipment().filter((equipment: Equipment) => equipment.id == gain.source).forEach((equipment: Equipment) => {
-                if (equipment.activities.filter((itemActivity: ItemActivity) => itemActivity === activity).length) {
+                if (equipment.activities.some((itemActivity: ItemActivity) => itemActivity === activity)) {
                     item = equipment;
                 }
-                if (equipment.gainActivities.filter((activityGain: ActivityGain) => activityGain === gain).length) {
+                if (equipment.gainActivities.some((activityGain: ActivityGain) => activityGain === gain)) {
                     item = equipment;
                 }
             });

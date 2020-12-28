@@ -228,7 +228,7 @@ export class ItemRunesComponent implements OnInit {
 
     get_RuneCooldown(rune: Rune) {
         //If any activity on this rune has a cooldown, return the lowest of these in a human readable format.
-        if (rune.activities && rune.activities.length && rune.activities.filter(activity => activity.activeCooldown).length) {
+        if (rune.activities && rune.activities.length && rune.activities.some(activity => activity.activeCooldown)) {
             let lowestCooldown = Math.min(...rune.activities.filter(activity => activity.activeCooldown).map(activity => activity.activeCooldown));
             return " (Cooldown " + this.timeService.get_Duration(lowestCooldown) + ")";
         } else {

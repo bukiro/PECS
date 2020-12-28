@@ -69,6 +69,7 @@ import { AlchemicalPoison } from './AlchemicalPoison';
 import { OtherConsumableBomb } from './OtherConsumableBomb';
 import { Wand } from './Wand';
 import { Hint } from './Hint';
+import { Equipment } from './Equipment';
 
 @Injectable({
     providedIn: 'root'
@@ -295,13 +296,19 @@ export class SavegameService {
                 });
             } else {
                 //For items with a refId, merge them with their reference item if it exists.
-                if (object["refId"] && itemsService) {
+                if (object.refId && itemsService) {
                     let libraryItem = itemsService.get_CleanItemByID(object.refId);
                     if (libraryItem) {
                         //Map the restored object onto the library object and keep the result.
                         try {
                             object = this.merge(libraryItem, object);
                             object = itemsService.cast_ItemByClassName(object, libraryItem.constructor.name);
+                            //Disable any active hint effects when loading an item.
+                            if (object.hints?.length) {
+                                (object as Equipment).hints?.forEach(hint => {
+                                    hint.active = hint.active2 = hint.active3 = false;
+                                })
+                            }
                         } catch (e) {
                             console.log("Failed reassigning item " + object.id + ": " + e)
                         }

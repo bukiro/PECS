@@ -367,11 +367,11 @@ export class CharacterService {
     }
 
     get_Companion() {
-        return this.get_Character().class.animalCompanion;
+        return this.get_Character().class?.animalCompanion || new AnimalCompanion();
     }
 
     get_Familiar() {
-        return this.get_Character().class.familiar;
+        return this.get_Character().class?.familiar || new Familiar();
     }
 
     get_Creatures(companionAvailable: boolean = undefined, familiarAvailable: boolean = undefined) {
@@ -597,7 +597,7 @@ export class CharacterService {
                 featweapons.forEach(weapon => {
                     let replacementString = feat.subType;
                     if (!this.get_Feats().find(libraryFeat => libraryFeat.name == feat.name.replace(replacementString, weapon.name))) {
-                        let regex = new RegExp(replacementString,"g")
+                        let regex = new RegExp(replacementString, "g")
                         let featString = JSON.stringify(feat);
                         featString = featString.replace(regex, weapon.name);
                         let replacedFeat = Object.assign(new Feat(), JSON.parse(featString))
@@ -804,20 +804,19 @@ export class CharacterService {
         //Go through all the loreChoices (usually only one)
         rune.loreChoices.forEach(choice => {
             //Check if only one (=this) item's rune has this lore (and therefore no other item has already created it on the character), and if so, create it.
-            if (this.get_Character().inventories[0].allEquipment()
-                .filter(item => item.propertyRunes
-                    .filter(propertyRune => propertyRune.loreChoices
-                        .filter(otherchoice => otherchoice.loreName == choice.loreName)
-                        .length)
-                    .length)
-                .length +
+            if (
+                this.get_Character().inventories[0].allEquipment()
+                    .filter(item => item.propertyRunes
+                        .some(propertyRune => propertyRune.loreChoices
+                            .some(otherchoice => otherchoice.loreName == choice.loreName)
+                        )
+                    ).length +
                 this.get_Character().inventories[0].allEquipment()
                     .filter(item => item.oilsApplied
-                        .filter(oil => oil.runeEffect && oil.runeEffect.loreChoices
-                            .filter(otherchoice => otherchoice.loreName == choice.loreName)
-                            .length)
-                        .length)
-                    .length == 1) {
+                        .some(oil => oil.runeEffect && oil.runeEffect.loreChoices
+                            .some(otherchoice => otherchoice.loreName == choice.loreName)
+                        )
+                    ).length == 1) {
                 this.get_Character().add_Lore(this, choice);
             }
         });
@@ -1152,12 +1151,12 @@ export class CharacterService {
             if (!creature.inventories[0].armors.length) {
                 this.grant_InventoryItem(creature, creature.inventories[0], this.basicItems[1], true, false, false);
             }
-            if (!creature.inventories[0].weapons.filter(weapon => weapon.equipped == true).length) {
+            if (!creature.inventories[0].weapons.some(weapon => weapon.equipped == true)) {
                 if (creature.inventories[0].weapons.length) {
                     this.onEquip(creature, creature.inventories[0], creature.inventories[0].weapons[0], true, changeAfter);
                 }
             }
-            if (!creature.inventories[0].armors.filter(armor => armor.equipped == true).length) {
+            if (!creature.inventories[0].armors.some(armor => armor.equipped == true)) {
                 this.onEquip(creature, creature.inventories[0], creature.inventories[0].armors[0], true, changeAfter);
             }
         }
@@ -1480,7 +1479,7 @@ export class CharacterService {
                     )
             )
             .concat(
-                ...this.get_Companion().class.specializations
+                this.get_Companion().class.specializations
                     .filter(spec =>
                         spec.hints
                             .find(hint =>
@@ -1494,7 +1493,7 @@ export class CharacterService {
             )
             //Return any feats that include e.g. Companion:Athletics
             .concat(
-                ...this.get_FeatsShowingOn("Companion:" + objectName)
+                this.get_FeatsShowingOn("Companion:" + objectName)
             )
     }
 

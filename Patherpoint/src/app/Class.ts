@@ -302,7 +302,7 @@ export class Class {
             //We collect all Gnome feats that grant a primal spell and set that spell to the same tradition as the heritage:
             if (heritage.name.includes("Wellspring Gnome")) {
                 let feats: string[] = characterService.get_Feats("", "Gnome")
-                    .filter(feat => feat.gainSpellChoice.filter(choice => choice.castingType == "Innate" && choice.tradition == "Primal").length).map(feat => feat.name);
+                    .filter(feat => feat.gainSpellChoice.some(choice => choice.castingType == "Innate" && choice.tradition == "Primal")).map(feat => feat.name);
                 this.spellCasting.find(casting => casting.castingType == "Innate")
                     .spellChoices.filter(choice => feats.includes(choice.source.substr(6))).forEach(choice => {
                     choice.tradition = heritage.subType;

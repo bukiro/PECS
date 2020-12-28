@@ -212,7 +212,7 @@ export class Armor extends Equipment {
                     if (critSpec.condition) {
                         spec.desc = "(" + critSpec.condition + ") " + spec.desc;
                     }
-                    if (!specializations.filter(existingspec => JSON.stringify(existingspec) == JSON.stringify(spec)).length) {
+                    if (!specializations.some(existingspec => JSON.stringify(existingspec) == JSON.stringify(spec))) {
                         specializations.push(spec);
                     }
                 });

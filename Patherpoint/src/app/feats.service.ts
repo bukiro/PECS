@@ -190,7 +190,7 @@ export class FeatsService {
                                     if (existingIncreases.filter(existingIncrease => existingIncrease.maxRank == 2).length &&
                                         (
                                             level.number > 1 ||
-                                            !existingIncreases.filter(existingIncrease => existingIncrease.maxRank == 2 && !existingIncrease.locked).length)
+                                            !existingIncreases.some(existingIncrease => existingIncrease.maxRank == 2 && !existingIncrease.locked))
                                     ) {
                                         increase.name = "DELETE";
                                         insertSkillChoice.available += 1;

@@ -30,13 +30,14 @@ export class HintComponent implements OnInit {
         return hints
             .filter(hint =>
                 hint.showon.split(",")
-                .find(showon => 
-                    showon.trim().toLowerCase() == name.toLowerCase() ||
-                    (
-                        name.toLowerCase().includes("lore") &&
-                        showon.trim().toLowerCase() == "lore"
+                    .some(showon =>
+                        showon.trim().toLowerCase() == name.toLowerCase() ||
+                        showon.trim().toLowerCase() == (this.creature + ":" + name).toLowerCase() ||
+                        (
+                            name.toLowerCase().includes("lore") &&
+                            showon.trim().toLowerCase() == "lore"
+                        )
                     )
-                )
             )
     }
 
