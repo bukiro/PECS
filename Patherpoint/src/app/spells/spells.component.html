@@ -68,15 +68,18 @@
                                     *ngFor="let spellTaken of get_SpellsTaken(1, get_Character().level, level, '', casting, '', '', true); trackBy:trackByIndex;">
                                     {{spellTaken.gain.name}} {{spellTaken.gain.source ? "("+spellTaken.gain.source+")" :
                                     ""}}
-                                    <button class="right-bound"
-                                        (click)="toggle_Spell(spellTaken.choice.id+spellTaken.gain.name+'desc')">
-                                        Show Description
-                                    </button>
-                                    <div class="row left-aligned"
-                                        *ngIf="this.get_ShowSpell()==spellTaken.choice.id+spellTaken.gain.name+'desc'">
-                                        <app-spell [spell]="get_Spells(spellTaken.gain.name)[0]" [spellLevel]="level">
-                                        </app-spell>
-                                    </div>
+                                    <ng-container
+                                        *ngFor="let spellID of [spellTaken.choice.id+spellTaken.gain.name+'desc']">
+                                        <button class="right-bound" (click)="toggle_Spell(spellID)"
+                                            [ngClass]="{'fancy-button':get_ShowSpell()==spellID}">
+                                            {{get_ShowSpell()==spellID ? "Hide" : "Show"}} Description
+                                        </button>
+                                        <div class="row left-aligned" *ngIf="get_ShowSpell()==spellID">
+                                            <app-spell [spell]="get_Spells(spellTaken.gain.name)[0]"
+                                                [spellLevel]="level">
+                                            </app-spell>
+                                        </div>
+                                    </ng-container>
                                 </div>
                             </div>
                         </div>

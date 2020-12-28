@@ -11,7 +11,7 @@
             <button class="row sublist-toggle" (click)="toggle_List('load')">
                 Load Character
             </button>
-            <div class="list-item sublist" *ngIf="get_showList()=='load'">
+            <div class="list-item sublist" *ngIf="get_ShowList()=='load'">
                 <div class="list-item" *ngIf="get_Savegames() && !get_Savegames().length">
                     No characters available in database.
                 </div>
@@ -122,7 +122,7 @@
                 <button class="row sublist-toggle fancy-button" (click)="toggle_List('alternateBaseValues')">
                     Alternate Ability Values: {{(get_Character().baseValues.length) ? "Used" : "Not used"}}
                 </button>
-                <div class="list-item sublist fancy-list" *ngIf="get_showList()=='alternateBaseValues'">
+                <div class="list-item sublist fancy-list" *ngIf="get_ShowList()=='alternateBaseValues'">
                     <div class="list-item">
                         <span>
                             <input id="useAlternateBaseValues" type="checkbox" (change)="on_BaseValueChange()"
@@ -167,7 +167,7 @@
                     Class{{(get_Character().class.name) ? ": "+ get_Character().class.name : ""}}
                 </button>
                 <div class="list-item sublist" [ngClass]="{'fancy-list':get_Character().class.name}"
-                    *ngIf="get_showList()==listID">
+                    *ngIf="get_ShowList()==listID">
                     <ng-container
                         *ngFor="let class of get_AvailableClasses()|sortBy:'asc':'name'; trackBy:trackByIndex;">
                         <div class="row list-item" *ngFor="let itemID of ['class'+class.name]; trackBy:trackByIndex;">
@@ -179,10 +179,11 @@
                                     <strong>{{class.name}}</strong>
                                 </label>
                             </span>
-                            <button (click)="toggle_Item(itemID)">
-                                Show Description
+                            <button (click)="toggle_Item(itemID)"
+                                [ngClass]="{'fancy-button':get_ShowItem()==itemID}">
+                                {{get_ShowItem()==itemID ? "Hide" : "Show"}} Description
                             </button>
-                            <div class="row lower" *ngIf="this.get_showItem()==itemID">
+                            <div class="row lower" *ngIf="get_ShowItem()==itemID">
                                 <div class="row left-aligned tags">
                                     <cite class="trait" *ngFor="let trait of class.traits; trackBy:trackByIndex;"
                                         title="{{get_Traits(trait)[0]?.desc}}">{{trait}}</cite>
@@ -219,7 +220,7 @@
                         ""}}
                     </button>
                     <div class="list-item sublist" [ngClass]="{'fancy-list':((get_Character().class.ancestry.name))}"
-                        *ngIf="get_showList()==listID">
+                        *ngIf="get_ShowList()==listID">
                         <ng-container
                             *ngFor="let ancestry of get_AvailableAncestries()|sortBy:'asc':'name'; trackBy:trackByIndex;">
                             <div class="row list-item"
@@ -236,10 +237,11 @@
                                             title="{{get_Traits('Uncommon')[0]?.desc}}">Uncommon</cite>
                                     </label>
                                 </span>
-                                <button (click)="toggle_Item(itemID)">
-                                    Show Description
+                                <button (click)="toggle_Item(itemID)"
+                                    [ngClass]="{'fancy-button':get_ShowItem()==itemID}">
+                                    {{get_ShowItem()==itemID ? "Hide" : "Show"}} Description
                                 </button>
-                                <div class="row lower" *ngIf="this.get_showItem()==itemID">
+                                <div class="row lower" *ngIf="get_ShowItem()==itemID">
                                     <div class="row left-aligned tags">
                                         <cite class="trait" *ngFor="let trait of ancestry.traits; trackBy:trackByIndex;"
                                             title="{{get_Traits(trait)[0]?.desc}}">{{trait}}</cite>
@@ -279,7 +281,7 @@
                         ""}}
                     </button>
                     <div class="list-item sublist" [ngClass]="{'fancy-list':((get_Character().class.heritage.name))}"
-                        *ngIf="get_showList()==listID">
+                        *ngIf="get_ShowList()==listID">
                         <div class="list-item"
                             *ngFor="let heritage of get_AvailableHeritages('', get_Character().class.ancestry.name)|sortBy:'asc':'name'; trackBy:trackByIndex;">
                             <span>
@@ -296,10 +298,11 @@
                                         title="{{get_Traits('Uncommon')[0]?.desc}}">Uncommon</cite>
                                 </label>
                             </span>
-                            <button (click)="toggle_Item(heritage.name+'desc')">
-                                Show Description
+                            <button (click)="toggle_Item(heritage.name+'desc')"
+                                [ngClass]="{'fancy-button':get_ShowItem()==heritage.name+'desc'}">
+                                {{get_ShowItem()==heritage.name+'desc' ? "Hide" : "Show"}} Description
                             </button>
-                            <div class="row lower" *ngIf="this.get_showItem()==heritage.name+'desc'">
+                            <div class="row lower" *ngIf="get_ShowItem()==heritage.name+'desc'">
                                 <!--Subheritages-->
                                 <div class="list-item"
                                     *ngFor="let subheritage of heritage.subTypes; trackBy:trackByIndex;">
@@ -344,6 +347,14 @@
                     </div>
                 </div>
             </ng-container>
+            <!--Available Ancestry Feats-->
+            <div class="list-item fullsize-only" *ngIf="get_Character().class.ancestry.name">
+                <strong>Available Ancestry Feats</strong>
+                <div class="row left-aligned" *ngIf="get_Character().class.ancestry.ancestries.length">
+                    <cite class="trait"
+                        *ngFor="let ancestry of get_Character().class.ancestry.ancestries; trackBy:trackByIndex;">{{ancestry}}&nbsp;</cite>
+                </div>
+            </div>
             <!--Languages-->
             <div class="list-item" [ngClass]="{'fullsize-only':(!get_Character().class.languages.includes(''))}"
                 *ngIf="get_LanguagesAvailable()">
@@ -354,7 +365,7 @@
                 </button>
                 <div class="list-item sublist"
                     [ngClass]="{'fancy-list':(!get_Character().class.languages.includes(''))}"
-                    *ngIf="get_showList()=='languages'">
+                    *ngIf="get_ShowList()=='languages'">
                     <div class="row left-aligned">
                         <strong *ngIf="get_Character().class.ancestry.recommendedLanguages.length">Recommended
                             Languages&nbsp;</strong>{{get_Character().class.ancestry.recommendedLanguages.join(', ')}}
@@ -364,14 +375,6 @@
                         <input class="row" type="text" [(ngModel)]="get_Character().class.languages[index]"
                             (blur)="on_LanguageChange()">
                     </div>
-                </div>
-            </div>
-            <!--Available Ancestry Feats-->
-            <div class="list-item fullsize-only" *ngIf="get_Character().class.ancestry.name">
-                <strong>Available Ancestry Feats</strong>
-                <div class="row left-aligned" *ngIf="get_Character().class.ancestry.ancestries.length">
-                    <cite class="trait"
-                        *ngFor="let trait of get_Character().class.ancestry.ancestries; trackBy:trackByIndex;">{{trait}}&nbsp;</cite>
                 </div>
             </div>
             <!--Background-->
@@ -385,7 +388,7 @@
                         get_Character().class.background.name : ""}}
                     </button>
                     <div class="list-item sublist" [ngClass]="{'fancy-list':((get_Character().class.background.name))}"
-                        *ngIf="get_showList()==listID">
+                        *ngIf="get_ShowList()==listID">
                         <!-- Filter -->
                         <div class="list-item">
                             <strong>Filter</strong>
@@ -427,10 +430,11 @@
                                             title="{{get_Traits('Regional')[0]?.desc}}">Regional</cite>
                                     </label>
                                 </span>
-                                <button (click)="toggle_Item(itemID)">
-                                    Show Description
+                                <button (click)="toggle_Item(itemID)"
+                                    [ngClass]="{'fancy-button':get_ShowItem()==itemID}">
+                                    {{get_ShowItem()==itemID ? "Hide" : "Show"}} Description
                                 </button>
-                                <div class="row lower" *ngIf="this.get_showItem()==itemID">
+                                <div class="row lower" *ngIf="get_ShowItem()==itemID">
                                     <!--Subbackgrounds-->
                                     <div class="list-item"
                                         *ngFor="let subbackground of get_SubBackgrounds(background.name); trackBy:trackByIndex;">
@@ -493,7 +497,7 @@
                         Deity{{get_Character().class.deity ? ": "+get_Character().class.deity : ""}}
                     </button>
                     <div class="list-item sublist" [ngClass]="{'fancy-list':get_Character().class.deity}"
-                        *ngIf="get_showList()==listID">
+                        *ngIf="get_ShowList()==listID">
                         <ng-container *ngFor="let deity of get_AvailableDeities(); trackBy:trackByIndex;">
                             <div class="row list-item"
                                 *ngFor="let itemID of ['deity'+deity.name]; trackBy:trackByIndex;">
@@ -505,10 +509,11 @@
                                         <strong>{{deity.name}} ({{deity.alignment}})</strong>
                                     </label>
                                 </span>
-                                <button (click)="toggle_Item(itemID)">
-                                    Show Description
+                                <button (click)="toggle_Item(itemID)"
+                                    [ngClass]="{'fancy-button':get_ShowItem()==itemID}">
+                                    {{get_ShowItem()==itemID ? "Hide" : "Show"}} Description
                                 </button>
-                                <div class="row lower" *ngIf="this.get_showItem()==itemID">
+                                <div class="row lower" *ngIf="get_ShowItem()==itemID">
                                     <div class="row left-aligned">
                                         <strong>Follower Alignments&nbsp;</strong>{{deity.followerAlignments.join(",
                                         ")}}
@@ -554,7 +559,7 @@
                             <button class="row sublist-toggle fancy-button" (click)="toggle_List(listID)">
                                 Show fixed changes
                             </button>
-                            <div class="list-item sublist fancy-list" *ngIf="get_showList()==listID">
+                            <div class="list-item sublist fancy-list" *ngIf="get_ShowList()==listID">
                                 <!--Fixed Ability boosts-->
                                 <div class="list-item"
                                     *ngFor="let boost of get_AbilityBoosts(level.number, level.number, '', '', '', '', true); trackBy:trackByIndex;">
@@ -577,16 +582,17 @@
                                     <span>
                                         Feat ({{feat.source}}): {{feat.name}}
                                     </span>
-                                    <button class="right-bound"
-                                        (click)="toggle_Item(level.number+feat.name+feat.source+'desc')">
-                                        Show Description
-                                    </button>
-                                    <div class="row left-aligned"
-                                        *ngIf="this.get_showItem()==level.number+feat.name+feat.source+'desc'">
-                                        <app-feat [feat]="get_FeatsAndFeatures(feat.name)[0]" [choice]="null"
-                                            [levelNumber]="level.number"></app-feat>
-                                    </div>
-
+                                    <ng-container *ngFor="let itemID of [level.number+feat.name+feat.source+'desc']">
+                                        <button (click)="toggle_Item(itemID)"
+                                    [ngClass]="{'fancy-button':get_ShowItem()==itemID}">
+                                    {{get_ShowItem()==itemID ? "Hide" : "Show"}} Description
+                                </button>
+                                <div class="row left-aligned"
+                                            *ngIf="get_ShowItem()==itemID">
+                                            <app-feat [feat]="get_FeatsAndFeatures(feat.name)[0]" [choice]="null"
+                                                [levelNumber]="level.number"></app-feat>
+                                        </div>
+                                    </ng-container>
                                 </div>
                             </div>
                         </div>
@@ -601,7 +607,7 @@
                         </button>
                         <div class="list-item sublist"
                             [ngClass]="{'fancy-list':!get_Character().class.languages.includes('')}"
-                            *ngIf="get_showList()=='languages'+level.number">
+                            *ngIf="get_ShowList()=='languages'+level.number">
                             <div class="row left-aligned">
                                 <strong *ngIf="get_Character().class.ancestry.recommendedLanguages.length">Recommended
                                     Languages&nbsp;</strong>{{get_Character().class.ancestry.recommendedLanguages.join(',
@@ -631,7 +637,7 @@
                                 </button>
                                 <div class="list-item sublist"
                                     [ngClass]="{'fancy-list':(choice.boosts.length == get_MaxAvailable(choice))}"
-                                    *ngIf="get_showList()==listID">
+                                    *ngIf="get_ShowList()==listID">
                                     <div class="list-item"
                                         *ngFor="let ability of get_AvailableAbilities(choice); trackBy:trackByIndex;"
                                         [ngClass]="{'problem':abilityIllegal(level.number, ability)}">
@@ -667,7 +673,7 @@
                     <!--Skill Increases-->
                     <ng-container *ngFor="let choice of get_SkillChoices(level); trackBy:trackByIndex;">
                         <app-skillchoice (showChoiceMessage)="receive_ChoiceMessage($event)" [choice]="choice"
-                            [showChoice]="get_showList()" [level]="level" [excludeTemporary]="true">
+                            [showChoice]="get_ShowList()" [level]="level" [excludeTemporary]="true">
                         </app-skillchoice>
                     </ng-container>
                     <!--Feat choices-->
@@ -675,7 +681,7 @@
                         *ngFor="let choice of get_FeatChoices(level); let index = index; trackBy:trackByIndex;">
                         <app-featchoice (showChoiceMessage)="receive_ChoiceMessage($event)"
                             (showFeatMessage)="receive_FeatMessage($event)" [choice]="choice" [levelNumber]=level.number
-                            [showFeat]="get_showItem()" [showChoice]="get_showList()"
+                            [showFeat]="get_ShowItem()" [showChoice]="get_ShowList()"
                             [lowerLevelFeats]="lowerLevelFeats" [archetypeFeats]="archetypeFeats">
                         </app-featchoice>
                     </ng-container>
@@ -691,7 +697,7 @@
                             </button>
                             <div class="list-item sublist"
                                 [ngClass]="{'fancy-list':(get_Companion().name && get_Companion().species)}"
-                                *ngIf="get_showList()==listID">
+                                *ngIf="get_ShowList()==listID">
                                 <button class="list-item" (click)="on_NewCompanion(level)">
                                     Create New Animal Companion
                                 </button>
@@ -723,7 +729,7 @@
                             </button>
                             <div class="list-item sublist"
                                 [ngClass]="{'fancy-list':(get_Companion().class.ancestry.name)}"
-                                *ngIf="get_showList()==listID">
+                                *ngIf="get_ShowList()==listID">
                                 <div class="list-item"
                                     *ngFor="let type of get_AvailableCompanionTypes()|sortBy:'asc':'name'; trackBy:trackByIndex;">
                                     <div class="row"
@@ -736,10 +742,11 @@
                                                 <strong>{{type.name}}</strong>
                                             </label>
                                         </span>
-                                        <button (click)="toggle_Item(itemID)">
-                                            Show Description
+                                        <button (click)="toggle_Item(itemID)"
+                                            [ngClass]="{'fancy-button':get_ShowItem()==itemID}">
+                                            {{get_ShowItem()==itemID ? "Hide" : "Show"}} Description
                                         </button>
-                                        <div class="row lower" *ngIf="this.get_showItem()==itemID">
+                                        <div class="row lower" *ngIf="get_ShowItem()==itemID">
                                             <div class="row left-aligned">
                                                 <div class="row left-aligned tags">
                                                     <cite class="trait"
@@ -843,7 +850,7 @@
                                 </button>
                                 <div class="list-item sublist"
                                     [ngClass]="{'fancy-list':(get_TakenCompanionSpecializations(level.number).length == available)}"
-                                    *ngIf="get_showList()==listID">
+                                    *ngIf="get_ShowList()==listID">
                                     <div class="list-item"
                                         *ngFor="let spec of get_AvailableCompanionSpecializations(level.number)|sortBy:'asc':'name'; trackBy:trackByIndex;">
                                         <div class="row"
@@ -856,10 +863,11 @@
                                                     <strong>{{spec.name}}</strong>
                                                 </label>
                                             </span>
-                                            <button (click)="toggle_Item(itemID)">
-                                                Show Description
+                                            <button (click)="toggle_Item(itemID)"
+                                                [ngClass]="{'fancy-button':get_ShowItem()==itemID}">
+                                                {{get_ShowItem()==itemID ? "Hide" : "Show"}} Description
                                             </button>
-                                            <div class="row lower" *ngIf="this.get_showItem()==itemID">
+                                            <div class="row lower" *ngIf="get_ShowItem()==itemID">
                                                 <div class="row left-aligned">
                                                     <p>
                                                         {{spec.desc}}
@@ -884,7 +892,7 @@
                             </button>
                             <div class="list-item sublist"
                                 [ngClass]="{'fancy-list':(get_Familiar().name && get_Familiar().species)}"
-                                *ngIf="get_showList()==listID">
+                                *ngIf="get_ShowList()==listID">
 
                                 <button class="list-item" (click)="on_NewFamiliar()">
                                     Create New Familiar
@@ -925,7 +933,7 @@
                                 Alternative Name (Different Worlds){{(feat.data.name) ? ": "+ feat.data.name : ""}}
                             </button>
                             <div class="list-item sublist" [ngClass]="{'fancy-list':(feat.data.name != '')}"
-                                *ngIf="get_showList()==listID">
+                                *ngIf="get_ShowList()==listID">
                                 <div class="list-item">
                                     <strong>Name:
                                         <input type="text" [(ngModel)]="feat.data.name" (blur)=on_NameChange()
@@ -943,7 +951,7 @@
                                 Worlds){{(feat.data.background) ? ": "+ feat.data.background : ""}}
                             </button>
                             <div class="list-item sublist" [ngClass]="{'fancy-list':((feat.data.background))}"
-                                *ngIf="get_showList()==listID">
+                                *ngIf="get_ShowList()==listID">
                                 <!-- Filter -->
                                 <div class="list-item">
                                     <strong>Filter</strong>
@@ -988,10 +996,11 @@
                                                     title="{{get_Traits('Regional')[0]?.desc}}">Regional</cite>
                                             </label>
                                         </span>
-                                        <button (click)="toggle_Item(itemID)">
-                                            Show Description
+                                        <button (click)="toggle_Item(itemID)"
+                                            [ngClass]="{'fancy-button':get_ShowItem()==itemID}">
+                                            {{get_ShowItem()==itemID ? "Hide" : "Show"}} Description
                                         </button>
-                                        <div class="row lower" *ngIf="this.get_showItem()==itemID">
+                                        <div class="row lower" *ngIf="get_ShowItem()==itemID">
                                             <!--Subbackgrounds-->
                                             <div class="list-item"
                                                 *ngFor="let subbackground of get_SubBackgrounds(background.name); trackBy:trackByIndex;">
@@ -1038,7 +1047,7 @@
                                 </button>
                                 <div class="list-item sublist"
                                     [ngClass]="{'fancy-list':((get_Character().class.additionalHeritages[heritageIndex].name))}"
-                                    *ngIf="get_showList()==listID">
+                                    *ngIf="get_ShowList()==listID">
                                     <div class="list-item"
                                         *ngFor="let heritage of get_AvailableHeritages('', heritageGain.ancestry, heritageIndex)|sortBy:'asc':'name'; trackBy:trackByIndex;">
                                         <span>
@@ -1057,10 +1066,11 @@
                                                     title="{{get_Traits('Uncommon')[0]?.desc}}">Uncommon</cite>
                                             </label>
                                         </span>
-                                        <button (click)="toggle_Item(heritage.name+'desc')">
-                                            Show Description
+                                        <button (click)="toggle_Item(heritage.name+'desc')"
+                                            [ngClass]="{'fancy-button':get_ShowItem()==heritage.name+'desc'}">
+                                            {{get_ShowItem()==heritage.name+'desc' ? "Hide" : "Show"}} Description
                                         </button>
-                                        <div class="row lower" *ngIf="this.get_showItem()==heritage.name+'desc'">
+                                        <div class="row lower" *ngIf="get_ShowItem()==heritage.name+'desc'">
                                             <!--Subheritages-->
                                             <div class="list-item"
                                                 *ngFor="let subheritage of heritage.subTypes; trackBy:trackByIndex;">
@@ -1117,7 +1127,7 @@
                                 Fused Stance Name (Fuse Stance){{(feat.data.name) ? ": "+ feat.data.name : ""}}
                             </button>
                             <div class="list-item sublist" [ngClass]="{'fancy-list':(feat.data.name != '')}"
-                                *ngIf="get_showList()==listID">
+                                *ngIf="get_ShowList()==listID">
                                 <div class="list-item">
                                     <strong>Name:
                                         <input type="text" [(ngModel)]="feat.data.name"
@@ -1134,7 +1144,7 @@
                                 Fused Stance 1 (Fuse Stance){{(feat.data.stance1) ? ": "+ feat.data.stance1 : ""}}
                             </button>
                             <div class="list-item sublist" [ngClass]="{'fancy-list':((feat.data.stance1))}"
-                                *ngIf="get_showList()==listID">
+                                *ngIf="get_ShowList()==listID">
                                 <div class="list-item" [ngClass]="{'unavailable':stance.reason}"
                                     *ngFor="let stance of get_StancesToFuse(level.number); trackBy:trackByIndex;">
                                     <div class="row"
@@ -1165,7 +1175,7 @@
                                 Fused Stance 2 (Fuse Stance){{(feat.data.stance2) ? ": "+ feat.data.stance2 : ""}}
                             </button>
                             <div class="list-item sublist" [ngClass]="{'fancy-list':((feat.data.stance2))}"
-                                *ngIf="get_showList()==listID">
+                                *ngIf="get_ShowList()==listID">
                                 <div class="list-item" [ngClass]="{'unavailable':stance.reason}"
                                     *ngFor="let stance of get_StancesToFuse(level.number); trackBy:trackByIndex;">
                                     <div class="row"
@@ -1203,7 +1213,7 @@
                                 </button>
                                 <div class="list-item sublist"
                                     [ngClass]="{'fancy-list':(choice.available == choice.increases.length)}"
-                                    *ngIf="get_showList()==listID">
+                                    *ngIf="get_ShowList()==listID">
                                     <div class="list-item"
                                         *ngFor="let itemID of [choice.id+'LoreIncreaseBox']; trackBy:trackByIndex;">
                                         <span>

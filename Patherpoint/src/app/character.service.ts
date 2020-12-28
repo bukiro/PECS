@@ -611,6 +611,13 @@ export class CharacterService {
         }
     }
 
+    verify_Feats() {
+        //run meetsSpecialReq for every feat once, so that we can see in the console if a specialReq isn't working.
+        this.featsService.get_Feats(this.me.customFeats).filter(feat => feat.specialreq).forEach(feat => {
+            feat.meetsSpecialReq(this);
+        })
+    }
+
     grant_InventoryItem(creature: Character | AnimalCompanion, inventory: ItemCollection, item: Item, resetRunes: boolean = true, changeAfter: boolean = true, equipAfter: boolean = true, amount: number = 1, newId: boolean = true, expiration: number = 0) {
         this.set_ToChange(creature.type, "inventory");
         let newInventoryItem = this.itemsService.initialize_Item(item, false, newId);
@@ -1806,7 +1813,7 @@ export class CharacterService {
     }
 
     reassign(object: any) {
-        return this.savegameService.reassign(object);
+        return this.savegameService.reassign(object, "", this.itemsService);
     }
 
     finish_loading() {
@@ -1830,6 +1837,7 @@ export class CharacterService {
             this.create_WeaponFeats();
             this.characterChanged$ = this.changed.asObservable();
             this.viewChanged$ = this.viewChanged.asObservable();
+            this.verify_Feats();
             this.trigger_FinalChange();
         }
     }

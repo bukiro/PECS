@@ -85,15 +85,15 @@ export class SpellbookComponent implements OnInit {
         this.toggle_Spell(0);
     }
 
-    get_showSpell() {
+    get_ShowSpell() {
         return this.showSpell;
     }
 
-    get_showItem() {
+    get_ShowItem() {
         return this.showItem;
     }
 
-    get_showList() {
+    get_ShowList() {
         return this.showList;
     }
 

@@ -10,7 +10,7 @@
         </div>
         <h3>Duration: {{get_Duration()}}</h3>
         <div class="itemBox-inner">
-            <button class="list-item" (click)="toggleList('addCustomEffect')"
+            <button class="list-item" (click)="toggle_List('addCustomEffect')"
                 *ngIf="get_ShowPurpose()=='customeffects'">
                 <h3>Add Custom Effect</h3>
             </button>
@@ -50,7 +50,7 @@
                     *ngFor="let set of ['Generic','Activities','Afflictions','Alchemical Elixirs','Alchemical Tools','Ammunition','Blood Magic','Feats','Held Items','Other Consumables','Potions','Spells','Talismans','Worn Items']; trackBy:trackByIndex;">
                     <ng-container
                         *ngFor="let visibleConditions of [get_VisibleConditionsSet(set)]; trackBy:trackByIndex;">
-                        <button class="list-item" (click)="toggleList(set)" *ngIf="visibleConditions.length">
+                        <button class="list-item" (click)="toggle_List(set)" *ngIf="visibleConditions.length">
                             <h3>{{set}}</h3>
                         </button>
                         <ng-container *ngIf="get_ShowList()==set||get_ShowList()=='All'">
@@ -148,8 +148,8 @@
                                             </span>
                                         </div>
                                         <div class="row">
-                                            <button (click)="toggleItem(set+condition.name)">
-                                                Show Description
+                                            <button (click)="toggle_Item(set+condition.name)" [ngClass]="{'fancy-button':get_ShowItem()==set+condition.name}">
+                                                {{get_ShowItem()==set+condition.name ? "Hide" : "Show"}} Description
                                             </button>
                                         </div>
                                         <div class="row left-aligned" *ngIf="get_ShowItem()==set+condition.name">
@@ -216,7 +216,7 @@
                 </div>
                 <ng-container *ngFor="let creature of get_Creatures()">
                     <ng-container *ngIf="creature.effects.length">
-                        <button class="list-item" (click)="toggleList('customEffects'+creature.type)">
+                        <button class="list-item" (click)="toggle_List('customEffects'+creature.type)">
                             <h3>Custom effects on {{creature.type}}</h3>
                         </button>
                         <ng-container *ngIf="get_ShowList()=='customEffects'+creature.type">

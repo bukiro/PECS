@@ -7,12 +7,6 @@ import { Familiar } from './Familiar';
 
 export class Shield extends Equipment {
     public readonly _className: string = this.constructor.name;
-    //This is a list of all the attributes that should be saved if a refID exists. All others can be looked up via the refID when loading the character.
-    public readonly save = new Equipment().save.concat([
-        "raised",
-        "takingCover",
-        "currentHitpoints"
-    ])
     //Shields should be type "shields" to be found in the database
     readonly type = "shields";
     //Shields are usually moddable as shield, which means they get material but no runes

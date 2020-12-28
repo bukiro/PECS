@@ -46,7 +46,7 @@ export class FeatchoiceComponent implements OnInit {
         private effectsService: EffectsService,
     ) { }
 
-    toggle_Item(name: string) {
+    toggle_Feat(name: string) {
         if (this.showFeat == name) {
             this.showFeat = "";
         } else {
@@ -64,11 +64,11 @@ export class FeatchoiceComponent implements OnInit {
         this.showChoiceMessage.emit(this.showChoice);
     }
 
-    get_showFeat() {
+    get_ShowFeat() {
         return this.showFeat;
     }
 
-    get_showChoice() {
+    get_ShowChoice() {
         return this.showChoice;
     }
 
@@ -208,7 +208,7 @@ export class FeatchoiceComponent implements OnInit {
                     feats.push(...allFeats.filter(feat => feat.traits.includes(character.class.name) || feat.traits.includes("Archetype")));
                     break;
                 case "Ancestry":
-                    character.class.ancestry.ancestries.forEach(trait => {
+                    character.class.ancestry.ancestries.concat(["Ancestry"]).forEach(trait => {
                         feats.push(...allFeats.filter(feat => feat.traits.includes(trait)));
                     })
                     break;
@@ -328,7 +328,7 @@ export class FeatchoiceComponent implements OnInit {
         let characterService = this.characterService;
         //Build the ignoreRequirements list from both the feat and the choice.
         let ignoreRequirementsList: string[] = [];
-        feat.ignoreRequirements.concat(choice.ignoreRequirements).forEach(ignoreReq => {
+        feat.ignoreRequirements.concat((choice?.ignoreRequirements || [])).forEach(ignoreReq => {
             try {
                 ignoreRequirementsList.push(eval(ignoreReq));
             } catch (error) {
@@ -351,7 +351,7 @@ export class FeatchoiceComponent implements OnInit {
                     traits.push(this.get_Character().class?.name, "Archetype");
                     break;
                 case "Ancestry":
-                    traits.push(...this.get_Character().class?.ancestry?.ancestries);
+                    traits.push(...this.get_Character().class?.ancestry?.ancestries, "Ancestry");
                     break;
                 case "Familiar":
                     traits.push("Familiar Ability", "Master Ability");

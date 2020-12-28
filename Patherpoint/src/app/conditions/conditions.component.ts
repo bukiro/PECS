@@ -59,7 +59,7 @@ export class ConditionsComponent implements OnInit {
         private sortByPipe: SortByPipe
     ) { }
 
-    toggleList(type) {
+    toggle_List(type) {
         if (this.showList == type) {
             this.showList = "";
         } else {
@@ -67,7 +67,7 @@ export class ConditionsComponent implements OnInit {
         }
     }
 
-    toggleItem(type) {
+    toggle_Item(type) {
         if (this.showItem == type) {
             this.showItem = "";
         } else {

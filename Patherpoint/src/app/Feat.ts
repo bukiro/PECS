@@ -53,6 +53,7 @@ export class Feat {
     public gainConditions: ConditionGain[] = [];
     public gainFeatChoice: FeatChoice[] = [];
     public gainFormulaChoice: FormulaChoice[] = [];
+    public gainAncestry: string[] = [];
     public gainHeritage: HeritageGain[] = [];
     public gainItems: ItemGain[] = [];
     public gainLoreChoice: LoreChoice[] = [];
@@ -287,7 +288,7 @@ export class Feat {
         //This function evaluates ALL the possible requirements for taking a feat
         //Returns true only if all the requirements are true. If the feat doesn't have a requirement, it is always true.
         if (characterService.still_loading()) { return false }
-        //Don't check the level if skipLevel is set. This is used for subfeats, where we don't want to list level mismatch when it's obvious.
+        //Don't check the level if skipLevel is set. This is used for subFeats, where the superFeat's levelreq is enough.
         let levelreq: boolean = ignoreRequirementsList.includes("levelreq") || skipLevel || this.meetsLevelReq(characterService, charLevel).met;
         //Check the ability reqs. True if ALL are true.
         let abilityreqs = this.meetsAbilityReq(characterService, charLevel)

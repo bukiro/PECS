@@ -66,7 +66,7 @@
     },
     {
         "name": "Kitsune Human Form",
-        "desc": "",
+        "desc": "You can change to your human form at will.",
         "shortdesc": "You can change to your human form at will.",
         "sourceBook": "Custom",
         "gainActivities": [
@@ -135,7 +135,7 @@
     },
     {
         "name": "Gregarious Kitsune",
-        "desc": "",
+        "desc": "When tempers flare, you quickly catch your mistake and attempt to smoothen things over with honeyed words.",
         "shortdesc": "When tempers flare, you quickly catch your mistake and attempt to smoothen things over with honeyed words.",
         "sourceBook": "Custom",
         "traits": [
@@ -505,7 +505,7 @@
     },
     {
         "name": "Kitsune Fox Shape",
-        "desc": "",
+        "desc": "You have a magical connection to your animal kin.",
         "shortdesc": "You have a magical connection to your animal kin.",
         "sourceBook": "Custom",
         "traits": [
@@ -556,7 +556,7 @@
     },
     {
         "name": "Vulpine Pounce",
-        "desc": "",
+        "desc": "You change into your Kitsune form and pounce on your enemy in one swift motion.",
         "shortdesc": "You change into your Kitsune form and pounce on your enemy in one swift motion.",
         "sourceBook": "Custom",
         "traits": [
@@ -565,6 +565,53 @@
         "levelreq": 13,
         "gainActivities": [
             "Vulpine Pounce"
+        ]
+    },
+    {
+        "name": "Adopted Ancestry: Kitsune",
+        "desc": "You're fully immersed in another ancestry's culture and traditions, whether born into them, earned through rite of passage, or bonded through a deep friendship or romance. Choose a common ancestry. You can select ancestry feats from the ancestry you chose, in addition to your character's own ancestry, as long as the ancestry feats don't require any physiological feature that you lack, as determined by the GM.",
+        "subType": "Kitsune",
+        "superType": "Adopted Ancestry",
+        "shortdesc": "Gain access to ancestry feats from another ancestry.",
+        "traits": [
+            "General"
+        ],
+        "levelreq": 1,
+        "specialreq": "character.class.ancestry.name && !character.class.ancestry.ancestries.includes(this.subType) || this.have(character, characterService, charLevel)",
+        "specialreqdesc": "Any Ancestry except Kitsune",
+        "gainAncestry":"Kitsune"
+    },
+    {
+        "name": "Cultural Adaptability: Kitsune",
+        "desc": "During your adventures, you've honed your ability to adapt to the culture of the predominant ancestry around you. You gain the Adopted Ancestry general feat for the Kitsune ancestry, and you also gain one 1st-level ancestry feat from the Kitsune ancestry.",
+        "subType": "Kitsune",
+        "superType": "Cultural Adaptability",
+        "shortdesc": "During your adventures, you've honed your ability to adapt to the culture of the predominant ancestry around you.",
+        "traits": [
+            "Halfling"
+        ],
+        "levelreq": 5,
+        "specialreq": "character.class.ancestry.name && !character.class.ancestry.ancestries.includes(this.subType) || this.have(character, characterService, charLevel)",
+        "specialreqdesc": "Any Ancestry except Kitsune",
+        "gainFeatChoice": [
+            {
+                "_className": "FeatChoice",
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Adopted Ancestry: Kitsune"
+                    }
+                ],
+                "source": "Feat: Cultural Adaptability: Kitsune",
+                "type": "General"
+            },
+            {
+                "_className": "FeatChoice",
+                "available": 1,
+                "level": 1,
+                "source": "Feat: Cultural Adaptability: Kitsune",
+                "type": "Kitsune"
+            }
         ]
     }
 ]

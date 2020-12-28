@@ -65,7 +65,7 @@
                                         <app-spellchoice (showChoiceMessage)="receive_ChoiceMessage($event)"
                                             (showSpellMessage)="receive_SpellMessage($event)" [spellCasting]="casting"
                                             [choice]="choice" [allowHeightened]="true" [allowBorrow]="false"
-                                            [showChoice]="get_showList()" [showSpell]="get_showItem()"
+                                            [showChoice]="get_ShowList()" [showSpell]="get_ShowItem()"
                                             [level]="choice.level"
                                             [prepared]="choice.source == 'Infinite Possibilities'" [spellbook]="true">
                                         </app-spellchoice>
@@ -113,7 +113,7 @@
                                                 </button>
                                                 <div class="list-item sublist lower"
                                                     [ngClass]="{'inactive-list': cannot_Cast(spell, level, casting, spellTaken.choice, spellTaken.gain, maxspellslots)}"
-                                                    *ngIf="this.get_showSpell()==casting.castingType+casting.class+spellTaken.gain.name+spellID">
+                                                    *ngIf="get_ShowSpell()==casting.castingType+casting.class+spellTaken.gain.name+spellID">
                                                     <button class="row center-aligned" (click)="on_RestoreFocusPoint()"
                                                         *ngIf="casting.castingType == 'Focus' && spell.allowReturnFocusPoint"
                                                         title="{{get_FocusPoints() >= get_MaxFocusPoints() ? 'Focus points are full.' : ''}}"

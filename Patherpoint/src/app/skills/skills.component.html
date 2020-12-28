@@ -43,7 +43,7 @@
         <!--Skill Increases-->
         <ng-container *ngFor="let choice of get_SkillChoices(); trackBy:trackByIndex;">
             <app-skillchoice (showChoiceMessage)="receive_ChoiceMessage($event)"
-                [choice]="choice" [showChoice]="get_showList()">
+                [choice]="choice" [showChoice]="get_ShowList()">
             </app-skillchoice>
         </ng-container>
         <app-tags [creature]="creature" [objectName]="'Skills'" [showTraits]=true [showFeats]=true [showItems]=true

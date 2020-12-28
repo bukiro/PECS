@@ -37,7 +37,7 @@ export class FeatComponent implements OnInit {
         let characterService = this.characterService;
         //Build the ignoreRequirements list from both the feat and the choice.
         let ignoreRequirementsList: string[] = [];
-        feat.ignoreRequirements.concat(choice.ignoreRequirements).forEach(ignoreReq => {
+        feat.ignoreRequirements.concat((choice?.ignoreRequirements || [])).forEach(ignoreReq => {
             try {
                 ignoreRequirementsList.push(eval(ignoreReq));
             } catch (error) {

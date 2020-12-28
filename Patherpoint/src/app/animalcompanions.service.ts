@@ -66,7 +66,7 @@ export class AnimalCompanionsService {
                 Object.keys(ancestry).forEach(key => {
                     if (!["name", "_className"].includes(key)) {
                         //If the Object has a name, and a library item can be found with that name, compare the property with the library item
-                        //If they have the same value, delete the property from the item - it can be recovered during loading from the refId.
+                        //If they have the same value, delete the property from the item - it can be recovered during loading via the name.
                         if (JSON.stringify(ancestry[key]) == JSON.stringify(libraryObject[key])) {
                             delete ancestry[key];
                         }
@@ -102,7 +102,7 @@ export class AnimalCompanionsService {
                     Object.keys($class.levels[index]).forEach(key => {
                         if (!["name", "_className"].includes(key)) {
                             //If the Object has a name, and a library item can be found with that name, compare the property with the library item
-                            //If they have the same value, delete the property from the item - it can be recovered during loading from the refId.
+                            //If they have the same value, delete the property from the item - it can be recovered during loading from the database.
                             if (JSON.stringify($class.levels[index][key]) == JSON.stringify(libraryObject[index][key])) {
                                 delete $class.levels[index][key];
                             }
@@ -137,7 +137,7 @@ export class AnimalCompanionsService {
                 Object.keys(spec).forEach(key => {
                     if (!["name", "_className"].includes(key)) {
                         //If the Object has a name, and a library item can be found with that name, compare the property with the library item
-                        //If they have the same value, delete the property from the item - it can be recovered during loading from the refId.
+                        //If they have the same value, delete the property from the item - it can be recovered during loading via the name.
                         if (JSON.stringify(spec[key]) == JSON.stringify(libraryObject[key])) {
                             delete spec[key];
                         }

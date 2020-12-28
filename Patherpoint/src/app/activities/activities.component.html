@@ -25,7 +25,7 @@
                         </button>
                         <div class="list-item sublist lower"
                             [ngClass]="{'fancy-list':gain.active, 'inactive-list':((gain.activeCooldown ? (maxCharges == gain.chargesUsed) : false) && !gain.active)}"
-                            *ngIf="get_showAction()==activityID">
+                            *ngIf="get_ShowAction()==activityID">
                             <app-activity [creature]="creature" [activity]=activity [gain]=gain [allowActivate]="true">
                             </app-activity>
                         </div>
@@ -37,7 +37,7 @@
             <h3 class="box-header" *ngIf="index == 0">Temporary Feats</h3>
             <app-featchoice (showChoiceMessage)="receive_ChoiceMessage($event)"
                 (showFeatMessage)="receive_FeatMessage($event)" [choice]="choice" [levelNumber]="get_Creature().level"
-                [showFeat]="get_showItem()" [showChoice]="get_showList()">
+                [showFeat]="get_ShowItem()" [showChoice]="get_ShowList()">
             </app-featchoice>
         </ng-container>
     </ng-container>

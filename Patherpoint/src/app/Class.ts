@@ -18,6 +18,7 @@ import { SpellGain } from './SpellGain';
 import { ItemGain } from './ItemGain';
 import { SpellLearned } from './SpellLearned';
 import { FormulaLearned } from './FormulaLearned';
+import { HeritageGain } from './HeritageGain';
 
 export class Class {
     public readonly _className: string = this.constructor.name;
@@ -171,7 +172,8 @@ export class Class {
             let level = this.levels[1];
             let character = characterService.get_Character();
             heritage.ancestries.forEach(ancestryListing => {
-                this.ancestry.ancestries = this.ancestry.ancestries.filter(ancestry => ancestry != ancestryListing)
+                let a = this.ancestry.ancestries;
+                a.splice(a.indexOf(ancestryListing), 1);
             })
             heritage.traits.forEach(traitListing => {
                 this.ancestry.traits = this.ancestry.traits.filter(trait => trait != traitListing)

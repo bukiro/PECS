@@ -11,16 +11,9 @@ import { Hint } from './Hint';
 
 export class Equipment extends Item {
     //This is a list of all the attributes that should be saved if a refID exists. All others can be looked up via the refID when loading the character.
-    public readonly save = new Item().save.concat([
-        "equipped",
-        "gainItems",
-        "invested",
-        "material",
-        "potencyRune",
-        "propertyRunes",
-        "resilientRune",
-        "strikingRune"
-    ])
+    //If an attribute could be the same as a new Item, but different from its refID item, it should be on the save list.
+    //For example, a set of arrows comes with amount=10, but a standard item has amount=1.
+    // If you use up 9 arrows and then save, amount=1 will be deleted because it's the same as a new item, and you will have 10 arrows after loading.
     public readonly baseType = "Equipment";
     //Allow changing of "equippable" by custom item creation
     allowEquippable = true;
@@ -60,19 +53,19 @@ export class Equipment extends Item {
     public invested: boolean = false;
     public material: Material[] = [];
     //What kind of runes and material can be applied to this item? Some items that are not weapons can be modded like weapons, some weapons cannot be modded, etc.
-    public moddable: ""|"-"|"weapon"|"armor"|"shield" = "";
+    public moddable: "" | "-" | "weapon" | "armor" | "shield" = "";
     //Potency Rune level for weapons and armor
-    public potencyRune:number = 0;
+    public potencyRune: number = 0;
     //Property Runes for weapons and armor
-    public propertyRunes:Rune[] = [];
+    public propertyRunes: Rune[] = [];
     //Blade Ally Runes can be emulated on weapons and handwraps
-    public bladeAllyRunes:Rune[] = [];
+    public bladeAllyRunes: Rune[] = [];
     //Resilient Rune level for armor
-    public resilientRune:number = 0;
+    public resilientRune: number = 0;
     //Is the name input visible in the inventory
     public showName: boolean = false;
     //Striking Rune level for weapons
-    public strikingRune:number = 0;
+    public strikingRune: number = 0;
     //Store any talismans attached to this item.
     public talismans: Talisman[] = [];
     get_Bulk() {
@@ -101,7 +94,7 @@ export class Equipment extends Item {
     }
     get_Potency(potency: number) {
         if (potency > 0) {
-            return "+"+potency;
+            return "+" + potency;
         } else {
             return "";
         }
@@ -173,7 +166,7 @@ export class Equipment extends Item {
             }
             this.material.forEach(mat => {
                 let name: string = mat.name;
-                if(mat.name.includes("(")) {
+                if (mat.name.includes("(")) {
                     name = mat.name.substr(0, mat.name.indexOf(" ("));
                 }
                 material += " " + name;

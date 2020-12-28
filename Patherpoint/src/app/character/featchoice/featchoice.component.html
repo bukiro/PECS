@@ -12,7 +12,7 @@
             (choice.feats.length) ? ": "+ choice.feats[0].name : ""}}
         </button>
         <div class="list-item sublist" [ngClass]="{'fancy-list':(get_Available(choice) == choice.feats.length )}"
-            *ngIf="get_showChoice()==listID">
+            *ngIf="get_ShowChoice()==listID">
             <!-- Filter -->
             <div class="list-item">
                 <strong>Filter</strong>
@@ -30,7 +30,7 @@
                 </div>
             </div>
             <!-- End Filter -->
-            <div title="{{(this.get_showFeat()==choice.id+featSet.feat.name+'desc') ? '' : featSet.feat.shortdesc}}"
+            <div title="{{(get_ShowFeat()==choice.id+featSet.feat.name+'desc') ? '' : featSet.feat.shortdesc}}"
                 class="list-item" *ngFor="let featSet of get_AvailableFeats(choice); trackBy:trackByIndex;"
                 [ngClass]="{'unavailable':(!featSet.available)}">
                 <div class="row left-aligned" style="justify-content: flex-end;"
@@ -41,7 +41,7 @@
                             (change)="on_FeatTaken(featSet.feat.name, $event.target.checked, choice, false)"
                             [checked]="featTakenByThis(featSet.feat, choice)">
                         <button class="lower left" *ngIf="featSet.feat.subTypes" id="{{choice.id+featSet.feat.name}}"
-                            (click)="toggle_Item(itemID)">v</button>
+                            (click)="toggle_Feat(itemID)">v</button>
                         <label for="{{choice.id+featSet.feat.name}}">
                             <strong>{{["General", "Skill"].includes(choice.type) && featSet.feat.skillreq.length == 1 ?
                                 "(" + featSet.feat.skillreq[0].skill + ") " : ""}}{{featSet.feat.name}}&nbsp;</strong>
@@ -57,10 +57,10 @@
                             {{reason.reason}}
                         </cite>
                     </span>
-                    <button (click)="toggle_Item(itemID)">
-                        Show Description
+                    <button (click)="toggle_Feat(itemID)" [ngClass]="{'fancy-button':get_ShowFeat()==itemID}">
+                        {{get_ShowFeat()==itemID ? "Hide" : "Show"}} Description
                     </button>
-                    <div class="row lower" *ngIf="this.get_showFeat()==itemID">
+                    <div class="row lower" *ngIf="get_ShowFeat()==itemID">
                         <!--Subfeats-->
                         <div class="list-item"
                             *ngFor="let subfeatSet of get_SubFeats(featSet.feat, choice); trackBy:trackByIndex;"

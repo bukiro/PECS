@@ -80,16 +80,6 @@ export class ItemCollection {
         {name:"Other Consumables (Bombs)",key:"otherconsumablesbombs"},
         {name:"Wands", key:"wands"}
     ]
-    restore_FromSave(itemsService: ItemsService) {
-        this.names.forEach(name => {
-            this[name.key] = this[name.key].map(element => itemsService.restore_ItemFromSave(element))
-        })
-    }
-    clean_ForSave(itemsService: ItemsService) {
-        this.names.forEach(name => {
-            this[name.key] = this[name.key].map(element => itemsService.clean_ItemForSave(element))
-        })
-    }
     allEquipment() {
         let items: Equipment[] = [];
         items.push(...this.adventuringgear);

@@ -6,18 +6,6 @@ import { ItemGain } from './ItemGain';
 
 export class Item {
     public readonly _className: string = this.constructor.name;
-    //This is a list of all the attributes that should be saved if a refID exists. All others can be looked up via the refID when loading the character.
-    public readonly save = [
-        "_className",
-        "amount",
-        "data",
-        "id",
-        "notes",
-        "refId",
-        "save",
-        "showNotes",
-        "displayName"
-    ];
     //Allow changing of "equippable" by custom item creation
     public allowEquippable: boolean;
     //Number of items of this kind in your inventory.

@@ -1,6 +1,7 @@
 import { AbilityChoice } from './AbilityChoice';
 import { ItemGain } from './ItemGain';
 import { FeatChoice } from './FeatChoice';
+import { HeritageGain } from './HeritageGain';
 
 export class Ancestry {
     public readonly _className: string = this.constructor.name;

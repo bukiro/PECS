@@ -8,6 +8,9 @@
         <div class="row left-aligned" *ngIf="feat.sourceBook">
             <strong>Source</strong><i>&nbsp;{{feat.sourceBook}}</i>
         </div>
+        <div class="row left-aligned" *ngIf="feat.access">
+            <strong>Access</strong>&nbsp;{{feat.access}}
+        </div>
         <ng-container *ngFor="let reqs of [get_FeatRequirements(choice, feat)]; trackBy:trackByIndex;">
             <p *ngIf="reqs.length">
                 <strong>Requirements&nbsp;</strong>

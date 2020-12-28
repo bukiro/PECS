@@ -50,7 +50,7 @@ export class SkillsComponent implements OnInit {
         }
     }
 
-    get_showList() {
+    get_ShowList() {
         return this.showList;
     }
 

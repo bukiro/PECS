@@ -112,14 +112,13 @@
             </button>
         </span>
         <span>
-            <button
-                (click)="toggle_Item(conditionGain.id+'description')">
-                Show Description
+            <button (click)="toggle_Item(conditionGain.id+'description')" [ngClass]="{'fancy-button':get_ShowItem()==conditionGain.id+'description'}">
+                {{get_ShowItem()==conditionGain.id+'description' ? "Hide" : "Show"}} Description
             </button>
         </span>
     </div>
     <ng-container
-        *ngIf="this.get_ShowItem()==conditionGain.id+'description'">
+        *ngIf="get_ShowItem()==conditionGain.id+'description'">
         <div class="row  lower left-aligned" *ngFor="let desc of condition.desc.split('\n\n'); trackBy:trackByIndex;">
             <p *ngIf="desc.split('\n').length == 1" [innerHTML]="desc"></p>
             <ul *ngIf="desc.split('\n').length > 1">

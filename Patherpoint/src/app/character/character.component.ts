@@ -107,11 +107,11 @@ export class CharacterComponent implements OnInit {
         this.toggle_Item(name);
     }
 
-    get_showItem() {
+    get_ShowItem() {
         return this.showItem;
     }
 
-    get_showList() {
+    get_ShowList() {
         return this.showList;
     }
 

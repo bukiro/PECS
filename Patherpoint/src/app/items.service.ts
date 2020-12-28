@@ -310,7 +310,7 @@ export class ItemsService {
         if (newId) {
             newItem.id = uuidv1();
         }
-        newItem = this.savegameService.reassign(newItem);
+        newItem = this.savegameService.reassign(newItem, "", this);
         if (newItem.gainActivities) {
             (newItem as Equipment).gainActivities.forEach((gain: ActivityGain) => {
                 gain.source = newItem.id;
@@ -332,7 +332,7 @@ export class ItemsService {
             let rune = this.cleanItems.weaponrunes.find(rune => rune.name == newItem.runeEffect.name);
             if (rune) {
                 newItem.runeEffect = Object.assign(new WeaponRune(), JSON.parse(JSON.stringify(rune)));
-                this.savegameService.reassign(newItem.runeEffect);
+                this.savegameService.reassign(newItem.runeEffect, "", this);
                 newItem.runeEffect.activities.forEach((activity: ItemActivity) => { activity.name += " (" + newItem.name + ")" });
             }
         }
@@ -363,43 +363,6 @@ export class ItemsService {
         })
 
         return newItem;
-    }
-
-    restore_ItemFromSave(item: any) {
-        if (item.refId) {
-            let libraryItem = this.get_CleanItemByID(item.refId);
-            if (libraryItem) {
-                //Map the restored object onto the library object and keep the result.
-                try {
-                    item = this.savegameService.merge(libraryItem, item);
-                    item = this.cast_ItemByClassName(item, libraryItem.constructor.name);
-                } catch (e) {
-                    console.log("Failed reassigning: " + e)
-                }
-            }
-        }
-        item = this.initialize_Item(item, true, false, false);
-        return item;
-    }
-
-    clean_ItemForSave(item: any) {
-        if (item.refId) {
-            let libraryItem = this.get_CleanItemByID(item.refId);
-            if (libraryItem) {
-                Object.keys(item).forEach(key => {
-                    if (!item.save.includes(key)) {
-                        //If the item has a refId, a library item can be found with that id, and the property is not on the save list, compare the property with the library item
-                        //If they have the same value, delete the property from the item - it can be recovered during loading from the refId.
-                        //The save list is there to preserve values that might be different from the reference item, but the same as the default item,
-                        //  and would therefore not overwrite the reference item.
-                        if (JSON.stringify(item[key]) == JSON.stringify(libraryItem[key])) {
-                            delete item[key];
-                        }
-                    }
-                })
-            }
-        }
-        return item;
     }
 
     move_InventoryItem(creature: Character | AnimalCompanion, item: Item, targetInventory: ItemCollection, inventory: ItemCollection, characterService: CharacterService) {

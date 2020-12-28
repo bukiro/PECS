@@ -85,7 +85,8 @@
         ],
         "levelreq": 1,
         "specialreq": "character.class.ancestry.name && !character.class.ancestry.ancestries.includes(this.subType) || this.have(character, characterService, charLevel)",
-        "specialreqdesc": "Any Ancestry except Dwarf"
+        "specialreqdesc": "Any Ancestry except Dwarf",
+        "gainAncestry": ["Dwarf"]
     },
     {
         "name": "Adopted Ancestry: Elf",
@@ -98,7 +99,8 @@
         ],
         "levelreq": 1,
         "specialreq": "character.class.ancestry.name && !character.class.ancestry.ancestries.includes(this.subType) || this.have(character, characterService, charLevel)",
-        "specialreqdesc": "Any Ancestry except Elf"
+        "specialreqdesc": "Any Ancestry except Elf",
+        "gainAncestry": ["Elf"]
     },
     {
         "name": "Adopted Ancestry: Gnome",
@@ -111,7 +113,8 @@
         ],
         "levelreq": 1,
         "specialreq": "character.class.ancestry.name && !character.class.ancestry.ancestries.includes(this.subType) || this.have(character, characterService, charLevel)",
-        "specialreqdesc": "Any Ancestry except Gnome"
+        "specialreqdesc": "Any Ancestry except Gnome",
+        "gainAncestry": ["Gnome"]
     },
     {
         "name": "Adopted Ancestry: Goblin",
@@ -124,20 +127,8 @@
         ],
         "levelreq": 1,
         "specialreq": "character.class.ancestry.name && !character.class.ancestry.ancestries.includes(this.subType) || this.have(character, characterService, charLevel)",
-        "specialreqdesc": "Any Ancestry except Goblin"
-    },
-    {
-        "name": "Adopted Ancestry: Half-Elf",
-        "desc": "You're fully immersed in another ancestry's culture and traditions, whether born into them, earned through rite of passage, or bonded through a deep friendship or romance. Choose a common ancestry. You can select ancestry feats from the ancestry you chose, in addition to your character's own ancestry, as long as the ancestry feats don't require any physiological feature that you lack, as determined by the GM.",
-        "subType": "Half-Elf",
-        "superType": "Adopted Ancestry",
-        "shortdesc": "Gain access to ancestry feats from another ancestry.",
-        "traits": [
-            "General"
-        ],
-        "levelreq": 1,
-        "specialreq": "character.class.ancestry.name && !character.class.ancestry.ancestries.includes(this.subType) || this.have(character, characterService, charLevel)",
-        "specialreqdesc": "Any Ancestry except Half-Elf"
+        "specialreqdesc": "Any Ancestry except Goblin",
+        "gainAncestry": ["Goblin"]
     },
     {
         "name": "Adopted Ancestry: Halfling",
@@ -150,20 +141,8 @@
         ],
         "levelreq": 1,
         "specialreq": "character.class.ancestry.name && !character.class.ancestry.ancestries.includes(this.subType) || this.have(character, characterService, charLevel)",
-        "specialreqdesc": "Any Ancestry except Halfling"
-    },
-    {
-        "name": "Adopted Ancestry: Half-Orc",
-        "desc": "You're fully immersed in another ancestry's culture and traditions, whether born into them, earned through rite of passage, or bonded through a deep friendship or romance. Choose a common ancestry. You can select ancestry feats from the ancestry you chose, in addition to your character's own ancestry, as long as the ancestry feats don't require any physiological feature that you lack, as determined by the GM.",
-        "subType": "Half-Orc",
-        "superType": "Adopted Ancestry",
-        "shortdesc": "Gain access to ancestry feats from another ancestry.",
-        "traits": [
-            "General"
-        ],
-        "levelreq": 1,
-        "specialreq": "character.class.ancestry.name && !character.class.ancestry.ancestries.includes(this.subType) || this.have(character, characterService, charLevel)",
-        "specialreqdesc": "Any Ancestry except Half-Orc"
+        "specialreqdesc": "Any Ancestry except Halfling",
+        "gainAncestry": ["Halfling"]
     },
     {
         "name": "Adopted Ancestry: Human",
@@ -176,7 +155,64 @@
         ],
         "levelreq": 1,
         "specialreq": "character.class.ancestry.name && !character.class.ancestry.ancestries.includes(this.subType) || this.have(character, characterService, charLevel)",
-        "specialreqdesc": "Any Ancestry except Human"
+        "specialreqdesc": "Any Ancestry except Human",
+        "gainAncestry": ["Human"]
+    },
+    {
+        "name": "Adopted Ancestry: Hobgoblin",
+        "desc": "You're fully immersed in another ancestry's culture and traditions, whether born into them, earned through rite of passage, or bonded through a deep friendship or romance. Choose a common ancestry. You can select ancestry feats from the ancestry you chose, in addition to your character's own ancestry, as long as the ancestry feats don't require any physiological feature that you lack, as determined by the GM.",
+        "subType": "Hobgoblin",
+        "superType": "Adopted Ancestry",
+        "shortdesc": "Gain access to ancestry feats from another ancestry.",
+        "traits": [
+            "General"
+        ],
+        "levelreq": 1,
+        "specialreq": "character.class.ancestry.name && !character.class.ancestry.ancestries.includes(this.subType) || this.have(character, characterService, charLevel)",
+        "specialreqdesc": "Any Ancestry except Hobgoblin",
+        "gainAncestry": ["Hobgoblin"]
+    },
+    {
+        "name": "Adopted Ancestry: Leshy",
+        "desc": "You're fully immersed in another ancestry's culture and traditions, whether born into them, earned through rite of passage, or bonded through a deep friendship or romance. Choose a common ancestry. You can select ancestry feats from the ancestry you chose, in addition to your character's own ancestry, as long as the ancestry feats don't require any physiological feature that you lack, as determined by the GM.",
+        "subType": "Leshy",
+        "superType": "Adopted Ancestry",
+        "shortdesc": "Gain access to ancestry feats from another ancestry.",
+        "traits": [
+            "General"
+        ],
+        "levelreq": 1,
+        "specialreq": "character.class.ancestry.name && !character.class.ancestry.ancestries.includes(this.subType) || this.have(character, characterService, charLevel)",
+        "specialreqdesc": "Any Ancestry except Leshy",
+        "gainAncestry": ["Leshy"]
+    },
+    {
+        "name": "Adopted Ancestry: Lizardfolk",
+        "desc": "You're fully immersed in another ancestry's culture and traditions, whether born into them, earned through rite of passage, or bonded through a deep friendship or romance. Choose a common ancestry. You can select ancestry feats from the ancestry you chose, in addition to your character's own ancestry, as long as the ancestry feats don't require any physiological feature that you lack, as determined by the GM.",
+        "subType": "Lizardfolk",
+        "superType": "Adopted Ancestry",
+        "shortdesc": "Gain access to ancestry feats from another ancestry.",
+        "traits": [
+            "General"
+        ],
+        "levelreq": 1,
+        "specialreq": "character.class.ancestry.name && !character.class.ancestry.ancestries.includes(this.subType) || this.have(character, characterService, charLevel)",
+        "specialreqdesc": "Any Ancestry except Lizardfolk",
+        "gainAncestry": ["Lizardfolk"]
+    },
+    {
+        "name": "Adopted Ancestry: Shoony",
+        "desc": "You're fully immersed in another ancestry's culture and traditions, whether born into them, earned through rite of passage, or bonded through a deep friendship or romance. Choose a common ancestry. You can select ancestry feats from the ancestry you chose, in addition to your character's own ancestry, as long as the ancestry feats don't require any physiological feature that you lack, as determined by the GM.",
+        "subType": "Shoony",
+        "superType": "Adopted Ancestry",
+        "shortdesc": "Gain access to ancestry feats from another ancestry.",
+        "traits": [
+            "General"
+        ],
+        "levelreq": 1,
+        "specialreq": "character.class.ancestry.name && !character.class.ancestry.ancestries.includes(this.subType) || this.have(character, characterService, charLevel)",
+        "specialreqdesc": "Any Ancestry except Shoony",
+        "gainAncestry": ["Shoony"]
     },
     {
         "name": "Advanced Blood Potency",
@@ -320,7 +356,7 @@
                 "value": 2
             }
         ],
-        "specialreq": "characterService.get_Skills(character, this.subType)[0].level(character, characterService, charLevel) < 2 || (this.have(character, characterService, charLevel) && characterService.get_Skills(character, this.subType)[0].level(character, characterService, charLevel) < 4)",
+        "specialreq": "characterService.get_Skills(character, this.subType)[0]?.level(character, characterService, charLevel) < 2 || (this.have(character, characterService, charLevel) && characterService.get_Skills(character, this.subType)[0]?.level(character, characterService, charLevel) < 4)",
         "specialreqdesc": "Untrained in Heavy Armor",
         "gainSkillChoice": [
             {
@@ -349,7 +385,7 @@
             "General"
         ],
         "levelreq": 1,
-        "specialreq": "characterService.get_Skills(character, this.subType)[0].level(character, characterService, charLevel) < 2 || (this.have(character, characterService, charLevel) && characterService.get_Skills(character, this.subType)[0].level(character, characterService, charLevel) < 4)",
+        "specialreq": "characterService.get_Skills(character, this.subType)[0]?.level(character, characterService, charLevel) < 2 || (this.have(character, characterService, charLevel) && characterService.get_Skills(character, this.subType)[0]?.level(character, characterService, charLevel) < 4)",
         "specialreqdesc": "Untrained in Light Armor",
         "gainSkillChoice": [
             {
@@ -384,7 +420,7 @@
                 "value": 2
             }
         ],
-        "specialreq": "characterService.get_Skills(character, this.subType)[0].level(character, characterService, charLevel) < 2 || (this.have(character, characterService, charLevel) && characterService.get_Skills(character, this.subType)[0].level(character, characterService, charLevel) < 4)",
+        "specialreq": "characterService.get_Skills(character, this.subType)[0]?.level(character, characterService, charLevel) < 2 || (this.have(character, characterService, charLevel) && characterService.get_Skills(character, this.subType)[0]?.level(character, characterService, charLevel) < 4)",
         "specialreqdesc": "Untrained in Medium Armor",
         "gainSkillChoice": [
             {
@@ -977,7 +1013,8 @@
             "Skill"
         ],
         "levelreq": 2,
-        "specialreqdesc": "Any skill with Recall Knowledge E, Assurance in that skill"
+        "specialreq": "true",
+        "specialreqdesc": "Expert in any skill with Recall Knowledge, Assurance in that skill"
     },
     {
         "name": "Automatic Knowledge: Arcana",
@@ -1497,7 +1534,7 @@
                 "value": 6
             }
         ],
-        "specialreq": "deity && deity.divineFontFilter.includes('Heal')",
+        "specialreq": "deity && deity.divineFont.includes('Heal')",
         "specialreqdesc": "deity who grants heal divine font"
     },
     {
@@ -1524,7 +1561,7 @@
                 "value": 6
             }
         ],
-        "specialreq": "deity && deity.divineFontFilter.includes('Harm')",
+        "specialreq": "deity && deity.divineFont.includes('Harm')",
         "specialreqdesc": "deity who grants harm divine font"
     },
     {
@@ -1649,7 +1686,7 @@
             "General"
         ],
         "levelreq": 1,
-        "specialreq": "characterService.get_Skills(character, this.subType)[0].level(character, characterService, charLevel) < 4 || (this.have(character, characterService, charLevel) && characterService.get_Skills(character, this.subType)[0].level(character, characterService, charLevel) < 6)",
+        "specialreq": "characterService.get_Skills(character, this.subType)[0]?.level(character, characterService, charLevel) < 4 || (this.have(character, characterService, charLevel) && characterService.get_Skills(character, this.subType)[0]?.level(character, characterService, charLevel) < 6)",
         "specialreqdesc": "not expert in Fortitude",
         "gainSkillChoice": [
             {
@@ -1678,7 +1715,7 @@
             "General"
         ],
         "levelreq": 1,
-        "specialreq": "characterService.get_Skills(character, this.subType)[0].level(character, characterService, charLevel) < 4 || (this.have(character, characterService, charLevel) && characterService.get_Skills(character, this.subType)[0].level(character, characterService, charLevel) < 6)",
+        "specialreq": "characterService.get_Skills(character, this.subType)[0]?.level(character, characterService, charLevel) < 4 || (this.have(character, characterService, charLevel) && characterService.get_Skills(character, this.subType)[0]?.level(character, characterService, charLevel) < 6)",
         "specialreqdesc": "not expert in Perception",
         "gainSkillChoice": [
             {
@@ -1707,7 +1744,7 @@
             "General"
         ],
         "levelreq": 1,
-        "specialreq": "characterService.get_Skills(character, this.subType)[0].level(character, characterService, charLevel) < 4 || (this.have(character, characterService, charLevel) && characterService.get_Skills(character, this.subType)[0].level(character, characterService, charLevel) < 6)",
+        "specialreq": "characterService.get_Skills(character, this.subType)[0]?.level(character, characterService, charLevel) < 4 || (this.have(character, characterService, charLevel) && characterService.get_Skills(character, this.subType)[0]?.level(character, characterService, charLevel) < 6)",
         "specialreqdesc": "not expert in Reflex",
         "gainSkillChoice": [
             {
@@ -1736,7 +1773,7 @@
             "General"
         ],
         "levelreq": 1,
-        "specialreq": "characterService.get_Skills(character, this.subType)[0].level(character, characterService, charLevel) < 4 || (this.have(character, characterService, charLevel) && characterService.get_Skills(character, this.subType)[0].level(character, characterService, charLevel) < 6)",
+        "specialreq": "characterService.get_Skills(character, this.subType)[0]?.level(character, characterService, charLevel) < 4 || (this.have(character, characterService, charLevel) && characterService.get_Skills(character, this.subType)[0]?.level(character, characterService, charLevel) < 6)",
         "specialreqdesc": "not expert in Will",
         "gainSkillChoice": [
             {
@@ -4001,6 +4038,12 @@
             "Monk"
         ],
         "levelreq": 1,
+        "effects": [
+            {
+                "affected": "Monk Proficiency Level",
+                "setValue": "Math.min(Skill_Level('Unarmed Attacks'), 6)"
+            }
+        ],
         "gainSkillChoice": [
             {
                 "_className": "SkillChoice",
@@ -4015,12 +4058,6 @@
                 "maxRank": 2,
                 "source": "Feat: Monastic Weaponry",
                 "type": "Specific Weapon Proficiency"
-            }
-        ],
-        "effects": [
-            {
-                "affected": "Monk Proficiency Level",
-                "setValue": "Math.min(Skill_Level('Unarmed Attacks'), 6)"
             }
         ]
     },
@@ -4043,6 +4080,7 @@
         "featreq": [
             "Godless Healing"
         ],
+        "specialreq": "true",
         "specialreqdesc": "you follow the Laws of Mortality"
     },
     {
@@ -4231,6 +4269,7 @@
         "featreq": [
             "Diehard"
         ],
+        "specialreq": "true",
         "specialreqdesc": "you have died at least once"
     },
     {
@@ -4254,7 +4293,7 @@
                 "effects": [
                     {
                         "affected": "Diplomacy",
-                        "value": 2,
+                        "value": "2",
                         "type": "circumstance"
                     }
                 ]
@@ -4335,22 +4374,22 @@
                     },
                     {
                         "affected": "Deception",
-                        "value": "(Has_Feat(Creature.type, 'Masterful Hunter: Outwit') && Skill_Level('Deception') >= 6) ? 4 : 2",
+                        "value": "(Has_Feat(Creature.type,'Masterful Hunter: Outwit') && Skill_Level('Deception') >= 6) ? 4 : 2",
                         "type": "circumstance"
                     },
                     {
                         "affected": "Intimidation",
-                        "value": "(Has_Feat(Creature.type, 'Masterful Hunter: Outwit') && Skill_Level('Intimidation') >= 6) ? 4 : 2",
+                        "value": "(Has_Feat(Creature.type,'Masterful Hunter: Outwit') && Skill_Level('Intimidation') >= 6) ? 4 : 2",
                         "type": "circumstance"
                     },
                     {
                         "affected": "Stealth",
-                        "value": "(Has_Feat(Creature.type, 'Masterful Hunter: Outwit') && Skill_Level('Stealth') >= 6) ? 4 : 2",
+                        "value": "(Has_Feat(Creature.type,'Masterful Hunter: Outwit') && Skill_Level('Stealth') >= 6) ? 4 : 2",
                         "type": "circumstance"
                     },
                     {
                         "affected": "Master Recall Knowledge Checks",
-                        "value": "Has_Feat(Creature.type, 'Masterful Hunter: Outwit') ? 4 : 0",
+                        "value": "Has_Feat(Creature.type,'Masterful Hunter: Outwit') ? 4 : 0",
                         "type": "circumstance"
                     }
                 ]
@@ -4361,7 +4400,7 @@
                 "effects": [
                     {
                         "affected": "AC",
-                        "value": "(Has_Feat(Creature.type, 'Masterful Hunter: Outwit') && Skill_Level(Armor().get_Proficiency()) >= 6) ? 2 : 1",
+                        "value": "(Has_Feat(Creature.type,'Masterful Hunter: Outwit') && Skill_Level(Armor().get_Proficiency()) >= 6) ? 2 : 1",
                         "type": "circumstance"
                     }
                 ]
@@ -5296,7 +5335,7 @@
                     },
                     {
                         "affected": "Religion",
-                        "value": 1,
+                        "value": "1",
                         "type": "circumstance"
                     }
                 ]
@@ -5537,7 +5576,6 @@
                     "Imperial Bloodline",
                     "Undead Bloodline"
                 ],
-                "id": "1-Bloodline-Feat: Sorcerer Dedication-1",
                 "source": "Feat: Sorcerer Dedication",
                 "specialChoice": true,
                 "type": "Bloodline"
@@ -6971,8 +7009,8 @@
         "effects": [
             {
                 "affected": "Untrained Skills",
-                "value": "(Level >= 7) ? Level : Math.max(Math.floor(Level / 2), 0)",
-                "type": "proficiency"
+                "type": "proficiency",
+                "value": "(Level >= 7) ? Level : Math.max(Math.floor(Level / 2), 0)"
             }
         ]
     },
@@ -7469,7 +7507,7 @@
                 "value": 2
             }
         ],
-        "specialreq": "!characterService.get_Skills(character, this.subType).length || characterService.get_Skills(character, this.subType)[0].level(character, characterService) < 2 || (this.have(character, characterService, charLevel) && characterService.get_Skills(character, this.subType)[0].level(character, characterService, charLevel) < 4)",
+        "specialreq": "!characterService.get_Skills(character, this.subType).length || characterService.get_Skills(character, this.subType)[0]?.level(character, characterService) < 2 || (this.have(character, characterService, charLevel) && characterService.get_Skills(character, this.subType)[0]?.level(character, characterService, charLevel) < 4)",
         "specialreqdesc": "Untrained in Advanced Weapon",
         "gainSkillChoice": [
             {
@@ -7490,7 +7528,7 @@
     },
     {
         "name": "Weapon Proficiency: Martial Weapons",
-        "desc": "You become trained in all Martial weapons.",
+        "desc": "You become trained in all martial weapons.",
         "subType": "Martial Weapons",
         "superType": "Weapon Proficiency",
         "shortdesc": "Become trained in a weapon type.",
@@ -7504,7 +7542,7 @@
                 "value": 2
             }
         ],
-        "specialreq": "characterService.get_Skills(character, this.subType)[0].level(character, characterService, charLevel) < 2 || (this.have(character, characterService, charLevel) && characterService.get_Skills(character, this.subType)[0].level(character, characterService, charLevel) < 4)",
+        "specialreq": "characterService.get_Skills(character, this.subType)[0]?.level(character, characterService, charLevel) < 2 || (this.have(character, characterService, charLevel) && characterService.get_Skills(character, this.subType)[0]?.level(character, characterService, charLevel) < 4)",
         "specialreqdesc": "Untrained in Martial Weapons",
         "gainSkillChoice": [
             {
@@ -7533,7 +7571,7 @@
             "General"
         ],
         "levelreq": 1,
-        "specialreq": "characterService.get_Skills(character, this.subType)[0].level(character, characterService, charLevel) < 2 || (this.have(character, characterService, charLevel) && characterService.get_Skills(character, this.subType)[0].level(character, characterService, charLevel) < 4)",
+        "specialreq": "characterService.get_Skills(character, this.subType)[0]?.level(character, characterService, charLevel) < 2 || (this.have(character, characterService, charLevel) && characterService.get_Skills(character, this.subType)[0]?.level(character, characterService, charLevel) < 4)",
         "specialreqdesc": "Untrained in Simple Weapons",
         "gainSkillChoice": [
             {
@@ -9990,8 +10028,8 @@
         "desc": "You are trained in Acrobatics.",
         "subType": "Acrobatics",
         "superType": "Divine Skill",
-        "specialreq": "deity && deity.divineSkill.includes('Acrobatics')",
-        "specialreqdesc": "your deity's divine skill",
+        "specialreq": "deity && deity.divineSkill.includes(this.subType)",
+        "specialreqdesc": "your deity's divine skill is Acrobatics",
         "gainSkillChoice": [
             {
                 "_className": "SkillChoice",
@@ -10014,8 +10052,8 @@
         "desc": "You are trained in Arcana.",
         "subType": "Arcana",
         "superType": "Divine Skill",
-        "specialreq": "deity && deity.divineSkill.includes('Arcana')",
-        "specialreqdesc": "your deity's divine skill",
+        "specialreq": "deity && deity.divineSkill.includes(this.subType)",
+        "specialreqdesc": "your deity's divine skill is Arcana",
         "gainSkillChoice": [
             {
                 "_className": "SkillChoice",
@@ -10038,8 +10076,8 @@
         "desc": "You are trained in Athletics.",
         "subType": "Athletics",
         "superType": "Divine Skill",
-        "specialreq": "deity && deity.divineSkill.includes('Athletics')",
-        "specialreqdesc": "your deity's divine skill",
+        "specialreq": "deity && deity.divineSkill.includes(this.subType)",
+        "specialreqdesc": "your deity's divine skill is Athletics",
         "gainSkillChoice": [
             {
                 "_className": "SkillChoice",
@@ -10062,8 +10100,8 @@
         "desc": "You are trained in Crafting.",
         "subType": "Crafting",
         "superType": "Divine Skill",
-        "specialreq": "deity && deity.divineSkill.includes('Crafting')",
-        "specialreqdesc": "your deity's divine skill",
+        "specialreq": "deity && deity.divineSkill.includes(this.subType)",
+        "specialreqdesc": "your deity's divine skill is Crafting",
         "gainSkillChoice": [
             {
                 "_className": "SkillChoice",
@@ -10086,8 +10124,8 @@
         "desc": "You are trained in Deception.",
         "subType": "Deception",
         "superType": "Divine Skill",
-        "specialreq": "deity && deity.divineSkill.includes('Deception')",
-        "specialreqdesc": "your deity's divine skill",
+        "specialreq": "deity && deity.divineSkill.includes(this.subType)",
+        "specialreqdesc": "your deity's divine skill is Deception",
         "gainSkillChoice": [
             {
                 "_className": "SkillChoice",
@@ -10110,8 +10148,8 @@
         "desc": "You are trained in Diplomacy.",
         "subType": "Diplomacy",
         "superType": "Divine Skill",
-        "specialreq": "deity && deity.divineSkill.includes('Diplomacy')",
-        "specialreqdesc": "your deity's divine skill",
+        "specialreq": "deity && deity.divineSkill.includes(this.subType)",
+        "specialreqdesc": "your deity's divine skill is Diplomacy",
         "gainSkillChoice": [
             {
                 "_className": "SkillChoice",
@@ -10134,8 +10172,8 @@
         "desc": "You are trained in Intimidation.",
         "subType": "Intimidation",
         "superType": "Divine Skill",
-        "specialreq": "deity && deity.divineSkill.includes('Intimidation')",
-        "specialreqdesc": "your deity's divine skill",
+        "specialreq": "deity && deity.divineSkill.includes(this.subType)",
+        "specialreqdesc": "your deity's divine skill is Intimidation",
         "gainSkillChoice": [
             {
                 "_className": "SkillChoice",
@@ -10158,8 +10196,8 @@
         "desc": "You are trained in Medicine.",
         "subType": "Medicine",
         "superType": "Divine Skill",
-        "specialreq": "deity && deity.divineSkill.includes('Medicine')",
-        "specialreqdesc": "your deity's divine skill",
+        "specialreq": "deity && deity.divineSkill.includes(this.subType)",
+        "specialreqdesc": "your deity's divine skill is Medicine",
         "gainSkillChoice": [
             {
                 "_className": "SkillChoice",
@@ -10182,8 +10220,8 @@
         "desc": "You are trained in Nature.",
         "subType": "Nature",
         "superType": "Divine Skill",
-        "specialreq": "deity && deity.divineSkill.includes('Nature')",
-        "specialreqdesc": "your deity's divine skill",
+        "specialreq": "deity && deity.divineSkill.includes(this.subType)",
+        "specialreqdesc": "your deity's divine skill is Nature",
         "gainSkillChoice": [
             {
                 "_className": "SkillChoice",
@@ -10206,8 +10244,8 @@
         "desc": "You are trained in Occultism.",
         "subType": "Occultism",
         "superType": "Divine Skill",
-        "specialreq": "deity && deity.divineSkill.includes('Occultism')",
-        "specialreqdesc": "your deity's divine skill",
+        "specialreq": "deity && deity.divineSkill.includes(this.subType)",
+        "specialreqdesc": "your deity's divine skill is Occultism",
         "gainSkillChoice": [
             {
                 "_className": "SkillChoice",
@@ -10230,8 +10268,8 @@
         "desc": "You are trained in Performance.",
         "subType": "Performance",
         "superType": "Divine Skill",
-        "specialreq": "deity && deity.divineSkill.includes('Performance')",
-        "specialreqdesc": "your deity's divine skill",
+        "specialreq": "deity && deity.divineSkill.includes(this.subType)",
+        "specialreqdesc": "your deity's divine skill is Performance",
         "gainSkillChoice": [
             {
                 "_className": "SkillChoice",
@@ -10254,8 +10292,8 @@
         "desc": "You are trained in Religion.",
         "subType": "Religion",
         "superType": "Divine Skill",
-        "specialreq": "deity && deity.divineSkill.includes('Religion')",
-        "specialreqdesc": "your deity's divine skill",
+        "specialreq": "deity && deity.divineSkill.includes(this.subType)",
+        "specialreqdesc": "your deity's divine skill is Religion",
         "gainSkillChoice": [
             {
                 "_className": "SkillChoice",
@@ -10278,8 +10316,8 @@
         "desc": "You are trained in Society.",
         "subType": "Society",
         "superType": "Divine Skill",
-        "specialreq": "deity && deity.divineSkill.includes('Society')",
-        "specialreqdesc": "your deity's divine skill",
+        "specialreq": "deity && deity.divineSkill.includes(this.subType)",
+        "specialreqdesc": "your deity's divine skill is Society",
         "gainSkillChoice": [
             {
                 "_className": "SkillChoice",
@@ -10302,8 +10340,8 @@
         "desc": "You are trained in Stealth.",
         "subType": "Stealth",
         "superType": "Divine Skill",
-        "specialreq": "deity && deity.divineSkill.includes('Stealth')",
-        "specialreqdesc": "your deity's divine skill",
+        "specialreq": "deity && deity.divineSkill.includes(this.subType)",
+        "specialreqdesc": "your deity's divine skill is Stealth",
         "gainSkillChoice": [
             {
                 "_className": "SkillChoice",
@@ -10326,8 +10364,8 @@
         "desc": "You are trained in Survival.",
         "subType": "Survival",
         "superType": "Divine Skill",
-        "specialreq": "deity && deity.divineSkill.includes('Survival')",
-        "specialreqdesc": "your deity's divine skill",
+        "specialreq": "deity && deity.divineSkill.includes(this.subType)",
+        "specialreqdesc": "your deity's divine skill is Survival",
         "gainSkillChoice": [
             {
                 "_className": "SkillChoice",
@@ -10350,8 +10388,8 @@
         "desc": "You are trained in Thievery.",
         "subType": "Thievery",
         "superType": "Divine Skill",
-        "specialreq": "deity && deity.divineSkill.includes('Thievery')",
-        "specialreqdesc": "your deity's divine skill",
+        "specialreq": "deity && deity.divineSkill.includes(this.subType)",
+        "specialreqdesc": "your deity's divine skill is Thievery",
         "gainSkillChoice": [
             {
                 "_className": "SkillChoice",
@@ -10447,7 +10485,7 @@
                 ],
                 "maxRank": 6,
                 "source": "Fighter Weapon Mastery: Axe",
-                "type": "Weapon Proficiency"
+                "type": "Specific Weapon Proficiency"
             },
             {
                 "_className": "SkillChoice",
@@ -10467,7 +10505,7 @@
                 ],
                 "maxRank": 4,
                 "source": "Fighter Weapon Mastery: Axe",
-                "type": "Weapon Proficiency"
+                "type": "Specific Weapon Proficiency"
             }
         ]
     },
@@ -10525,7 +10563,7 @@
                 ],
                 "maxRank": 6,
                 "source": "Fighter Weapon Mastery: Bomb",
-                "type": "Weapon Proficiency"
+                "type": "Specific Weapon Proficiency"
             },
             {
                 "_className": "SkillChoice",
@@ -10545,7 +10583,7 @@
                 ],
                 "maxRank": 4,
                 "source": "Fighter Weapon Mastery: Bomb",
-                "type": "Weapon Proficiency"
+                "type": "Specific Weapon Proficiency"
             }
         ]
     },
@@ -10603,7 +10641,7 @@
                 ],
                 "maxRank": 6,
                 "source": "Fighter Weapon Mastery: Bow",
-                "type": "Weapon Proficiency"
+                "type": "Specific Weapon Proficiency"
             },
             {
                 "_className": "SkillChoice",
@@ -10623,7 +10661,7 @@
                 ],
                 "maxRank": 4,
                 "source": "Fighter Weapon Mastery: Bow",
-                "type": "Weapon Proficiency"
+                "type": "Specific Weapon Proficiency"
             }
         ]
     },
@@ -10681,7 +10719,7 @@
                 ],
                 "maxRank": 6,
                 "source": "Fighter Weapon Mastery: Brawling",
-                "type": "Weapon Proficiency"
+                "type": "Specific Weapon Proficiency"
             },
             {
                 "_className": "SkillChoice",
@@ -10701,7 +10739,7 @@
                 ],
                 "maxRank": 4,
                 "source": "Fighter Weapon Mastery: Brawling",
-                "type": "Weapon Proficiency"
+                "type": "Specific Weapon Proficiency"
             }
         ]
     },
@@ -10759,7 +10797,7 @@
                 ],
                 "maxRank": 6,
                 "source": "Fighter Weapon Mastery: Club",
-                "type": "Weapon Proficiency"
+                "type": "Specific Weapon Proficiency"
             },
             {
                 "_className": "SkillChoice",
@@ -10779,7 +10817,7 @@
                 ],
                 "maxRank": 4,
                 "source": "Fighter Weapon Mastery: Club",
-                "type": "Weapon Proficiency"
+                "type": "Specific Weapon Proficiency"
             }
         ]
     },
@@ -10837,7 +10875,7 @@
                 ],
                 "maxRank": 6,
                 "source": "Fighter Weapon Mastery: Dart",
-                "type": "Weapon Proficiency"
+                "type": "Specific Weapon Proficiency"
             },
             {
                 "_className": "SkillChoice",
@@ -10857,7 +10895,7 @@
                 ],
                 "maxRank": 4,
                 "source": "Fighter Weapon Mastery: Dart",
-                "type": "Weapon Proficiency"
+                "type": "Specific Weapon Proficiency"
             }
         ]
     },
@@ -10915,7 +10953,7 @@
                 ],
                 "maxRank": 6,
                 "source": "Fighter Weapon Mastery: Flail",
-                "type": "Weapon Proficiency"
+                "type": "Specific Weapon Proficiency"
             },
             {
                 "_className": "SkillChoice",
@@ -10935,7 +10973,7 @@
                 ],
                 "maxRank": 4,
                 "source": "Fighter Weapon Mastery: Flail",
-                "type": "Weapon Proficiency"
+                "type": "Specific Weapon Proficiency"
             }
         ]
     },
@@ -10993,7 +11031,7 @@
                 ],
                 "maxRank": 6,
                 "source": "Fighter Weapon Mastery: Hammer",
-                "type": "Weapon Proficiency"
+                "type": "Specific Weapon Proficiency"
             },
             {
                 "_className": "SkillChoice",
@@ -11013,7 +11051,7 @@
                 ],
                 "maxRank": 4,
                 "source": "Fighter Weapon Mastery: Hammer",
-                "type": "Weapon Proficiency"
+                "type": "Specific Weapon Proficiency"
             }
         ]
     },
@@ -11071,7 +11109,7 @@
                 ],
                 "maxRank": 6,
                 "source": "Fighter Weapon Mastery: Knife",
-                "type": "Weapon Proficiency"
+                "type": "Specific Weapon Proficiency"
             },
             {
                 "_className": "SkillChoice",
@@ -11091,7 +11129,7 @@
                 ],
                 "maxRank": 4,
                 "source": "Fighter Weapon Mastery: Knife",
-                "type": "Weapon Proficiency"
+                "type": "Specific Weapon Proficiency"
             }
         ]
     },
@@ -11149,7 +11187,7 @@
                 ],
                 "maxRank": 6,
                 "source": "Fighter Weapon Mastery: Pick",
-                "type": "Weapon Proficiency"
+                "type": "Specific Weapon Proficiency"
             },
             {
                 "_className": "SkillChoice",
@@ -11169,7 +11207,7 @@
                 ],
                 "maxRank": 4,
                 "source": "Fighter Weapon Mastery: Pick",
-                "type": "Weapon Proficiency"
+                "type": "Specific Weapon Proficiency"
             }
         ]
     },
@@ -11227,7 +11265,7 @@
                 ],
                 "maxRank": 6,
                 "source": "Fighter Weapon Mastery: Polearm",
-                "type": "Weapon Proficiency"
+                "type": "Specific Weapon Proficiency"
             },
             {
                 "_className": "SkillChoice",
@@ -11247,7 +11285,7 @@
                 ],
                 "maxRank": 4,
                 "source": "Fighter Weapon Mastery: Polearm",
-                "type": "Weapon Proficiency"
+                "type": "Specific Weapon Proficiency"
             }
         ]
     },
@@ -11305,7 +11343,7 @@
                 ],
                 "maxRank": 6,
                 "source": "Fighter Weapon Mastery: Shield",
-                "type": "Weapon Proficiency"
+                "type": "Specific Weapon Proficiency"
             },
             {
                 "_className": "SkillChoice",
@@ -11325,7 +11363,7 @@
                 ],
                 "maxRank": 4,
                 "source": "Fighter Weapon Mastery: Shield",
-                "type": "Weapon Proficiency"
+                "type": "Specific Weapon Proficiency"
             }
         ]
     },
@@ -11383,7 +11421,7 @@
                 ],
                 "maxRank": 6,
                 "source": "Fighter Weapon Mastery: Sling",
-                "type": "Weapon Proficiency"
+                "type": "Specific Weapon Proficiency"
             },
             {
                 "_className": "SkillChoice",
@@ -11403,7 +11441,7 @@
                 ],
                 "maxRank": 4,
                 "source": "Fighter Weapon Mastery: Sling",
-                "type": "Weapon Proficiency"
+                "type": "Specific Weapon Proficiency"
             }
         ]
     },
@@ -11461,7 +11499,7 @@
                 ],
                 "maxRank": 6,
                 "source": "Fighter Weapon Mastery: Spear",
-                "type": "Weapon Proficiency"
+                "type": "Specific Weapon Proficiency"
             },
             {
                 "_className": "SkillChoice",
@@ -11481,7 +11519,7 @@
                 ],
                 "maxRank": 4,
                 "source": "Fighter Weapon Mastery: Spear",
-                "type": "Weapon Proficiency"
+                "type": "Specific Weapon Proficiency"
             }
         ]
     },
@@ -11539,7 +11577,7 @@
                 ],
                 "maxRank": 6,
                 "source": "Fighter Weapon Mastery: Sword",
-                "type": "Weapon Proficiency"
+                "type": "Specific Weapon Proficiency"
             },
             {
                 "_className": "SkillChoice",
@@ -11559,7 +11597,7 @@
                 ],
                 "maxRank": 4,
                 "source": "Fighter Weapon Mastery: Sword",
-                "type": "Weapon Proficiency"
+                "type": "Specific Weapon Proficiency"
             }
         ]
     },
@@ -11630,7 +11668,7 @@
                 ],
                 "maxRank": 8,
                 "source": "Weapon Legend: Axe",
-                "type": "Weapon Proficiency"
+                "type": "Specific Weapon Proficiency"
             },
             {
                 "_className": "SkillChoice",
@@ -11656,7 +11694,7 @@
                 ],
                 "maxRank": 6,
                 "source": "Weapon Legend: Axe",
-                "type": "Weapon Proficiency"
+                "type": "Specific Weapon Proficiency"
             }
         ]
     },
@@ -11721,7 +11759,7 @@
                 ],
                 "maxRank": 8,
                 "source": "Weapon Legend: Bomb",
-                "type": "Weapon Proficiency"
+                "type": "Specific Weapon Proficiency"
             },
             {
                 "_className": "SkillChoice",
@@ -11747,7 +11785,7 @@
                 ],
                 "maxRank": 6,
                 "source": "Weapon Legend: Bomb",
-                "type": "Weapon Proficiency"
+                "type": "Specific Weapon Proficiency"
             }
         ]
     },
@@ -11812,7 +11850,7 @@
                 ],
                 "maxRank": 8,
                 "source": "Weapon Legend: Bow",
-                "type": "Weapon Proficiency"
+                "type": "Specific Weapon Proficiency"
             },
             {
                 "_className": "SkillChoice",
@@ -11838,7 +11876,7 @@
                 ],
                 "maxRank": 6,
                 "source": "Weapon Legend: Bow",
-                "type": "Weapon Proficiency"
+                "type": "Specific Weapon Proficiency"
             }
         ]
     },
@@ -11903,7 +11941,7 @@
                 ],
                 "maxRank": 8,
                 "source": "Weapon Legend: Brawling",
-                "type": "Weapon Proficiency"
+                "type": "Specific Weapon Proficiency"
             },
             {
                 "_className": "SkillChoice",
@@ -11929,7 +11967,7 @@
                 ],
                 "maxRank": 6,
                 "source": "Weapon Legend: Brawling",
-                "type": "Weapon Proficiency"
+                "type": "Specific Weapon Proficiency"
             }
         ]
     },
@@ -11994,7 +12032,7 @@
                 ],
                 "maxRank": 8,
                 "source": "Weapon Legend: Club",
-                "type": "Weapon Proficiency"
+                "type": "Specific Weapon Proficiency"
             },
             {
                 "_className": "SkillChoice",
@@ -12020,7 +12058,7 @@
                 ],
                 "maxRank": 6,
                 "source": "Weapon Legend: Club",
-                "type": "Weapon Proficiency"
+                "type": "Specific Weapon Proficiency"
             }
         ]
     },
@@ -12085,7 +12123,7 @@
                 ],
                 "maxRank": 8,
                 "source": "Weapon Legend: Dart",
-                "type": "Weapon Proficiency"
+                "type": "Specific Weapon Proficiency"
             },
             {
                 "_className": "SkillChoice",
@@ -12111,7 +12149,7 @@
                 ],
                 "maxRank": 6,
                 "source": "Weapon Legend: Dart",
-                "type": "Weapon Proficiency"
+                "type": "Specific Weapon Proficiency"
             }
         ]
     },
@@ -12176,7 +12214,7 @@
                 ],
                 "maxRank": 8,
                 "source": "Weapon Legend: Flail",
-                "type": "Weapon Proficiency"
+                "type": "Specific Weapon Proficiency"
             },
             {
                 "_className": "SkillChoice",
@@ -12202,7 +12240,7 @@
                 ],
                 "maxRank": 6,
                 "source": "Weapon Legend: Flail",
-                "type": "Weapon Proficiency"
+                "type": "Specific Weapon Proficiency"
             }
         ]
     },
@@ -12267,7 +12305,7 @@
                 ],
                 "maxRank": 8,
                 "source": "Weapon Legend: Hammer",
-                "type": "Weapon Proficiency"
+                "type": "Specific Weapon Proficiency"
             },
             {
                 "_className": "SkillChoice",
@@ -12293,7 +12331,7 @@
                 ],
                 "maxRank": 6,
                 "source": "Weapon Legend: Hammer",
-                "type": "Weapon Proficiency"
+                "type": "Specific Weapon Proficiency"
             }
         ]
     },
@@ -12358,7 +12396,7 @@
                 ],
                 "maxRank": 8,
                 "source": "Weapon Legend: Knife",
-                "type": "Weapon Proficiency"
+                "type": "Specific Weapon Proficiency"
             },
             {
                 "_className": "SkillChoice",
@@ -12384,7 +12422,7 @@
                 ],
                 "maxRank": 6,
                 "source": "Weapon Legend: Knife",
-                "type": "Weapon Proficiency"
+                "type": "Specific Weapon Proficiency"
             }
         ]
     },
@@ -12449,7 +12487,7 @@
                 ],
                 "maxRank": 8,
                 "source": "Weapon Legend: Pick",
-                "type": "Weapon Proficiency"
+                "type": "Specific Weapon Proficiency"
             },
             {
                 "_className": "SkillChoice",
@@ -12475,7 +12513,7 @@
                 ],
                 "maxRank": 6,
                 "source": "Weapon Legend: Pick",
-                "type": "Weapon Proficiency"
+                "type": "Specific Weapon Proficiency"
             }
         ]
     },
@@ -12540,7 +12578,7 @@
                 ],
                 "maxRank": 8,
                 "source": "Weapon Legend: Polearm",
-                "type": "Weapon Proficiency"
+                "type": "Specific Weapon Proficiency"
             },
             {
                 "_className": "SkillChoice",
@@ -12566,7 +12604,7 @@
                 ],
                 "maxRank": 6,
                 "source": "Weapon Legend: Polearm",
-                "type": "Weapon Proficiency"
+                "type": "Specific Weapon Proficiency"
             }
         ]
     },
@@ -12631,7 +12669,7 @@
                 ],
                 "maxRank": 8,
                 "source": "Weapon Legend: Shield",
-                "type": "Weapon Proficiency"
+                "type": "Specific Weapon Proficiency"
             },
             {
                 "_className": "SkillChoice",
@@ -12657,7 +12695,7 @@
                 ],
                 "maxRank": 6,
                 "source": "Weapon Legend: Shield",
-                "type": "Weapon Proficiency"
+                "type": "Specific Weapon Proficiency"
             }
         ]
     },
@@ -12722,7 +12760,7 @@
                 ],
                 "maxRank": 8,
                 "source": "Weapon Legend: Sling",
-                "type": "Weapon Proficiency"
+                "type": "Specific Weapon Proficiency"
             },
             {
                 "_className": "SkillChoice",
@@ -12748,7 +12786,7 @@
                 ],
                 "maxRank": 6,
                 "source": "Weapon Legend: Sling",
-                "type": "Weapon Proficiency"
+                "type": "Specific Weapon Proficiency"
             }
         ]
     },
@@ -12813,7 +12851,7 @@
                 ],
                 "maxRank": 8,
                 "source": "Weapon Legend: Spear",
-                "type": "Weapon Proficiency"
+                "type": "Specific Weapon Proficiency"
             },
             {
                 "_className": "SkillChoice",
@@ -12839,7 +12877,7 @@
                 ],
                 "maxRank": 6,
                 "source": "Weapon Legend: Spear",
-                "type": "Weapon Proficiency"
+                "type": "Specific Weapon Proficiency"
             }
         ]
     },
@@ -12904,7 +12942,7 @@
                 ],
                 "maxRank": 8,
                 "source": "Weapon Legend: Sword",
-                "type": "Weapon Proficiency"
+                "type": "Specific Weapon Proficiency"
             },
             {
                 "_className": "SkillChoice",
@@ -12930,7 +12968,7 @@
                 ],
                 "maxRank": 6,
                 "source": "Weapon Legend: Sword",
-                "type": "Weapon Proficiency"
+                "type": "Specific Weapon Proficiency"
             }
         ]
     },
@@ -12955,7 +12993,6 @@
             },
             {
                 "_className": "SkillChoice",
-                "id": "9-Spell DC-Monk Expertise-1",
                 "increases": [
                     {
                         "locked": true,
@@ -12972,7 +13009,6 @@
             },
             {
                 "_className": "SkillChoice",
-                "id": "17-Spell DC-Graceful Legend-2",
                 "increases": [
                     {
                         "locked": true,
@@ -13011,7 +13047,6 @@
             },
             {
                 "_className": "SkillChoice",
-                "id": "9-Spell DC-Monk Expertise-1",
                 "increases": [
                     {
                         "locked": true,
@@ -13028,7 +13063,6 @@
             },
             {
                 "_className": "SkillChoice",
-                "id": "17-Spell DC-Graceful Legend-2",
                 "increases": [
                     {
                         "locked": true,
@@ -13073,7 +13107,6 @@
                 "filter": [
                     "Elemental Type"
                 ],
-                "id": "1-Elemental Type-Elemental Bloodline-1",
                 "source": "Elemental Bloodline",
                 "specialChoice": true,
                 "type": "Elemental Type"
@@ -13107,7 +13140,6 @@
             },
             {
                 "_className": "SkillChoice",
-                "id": "1-Skill-Elemental Bloodline-1",
                 "increases": [
                     {
                         "locked": true,
@@ -13129,7 +13161,6 @@
             },
             {
                 "_className": "SkillChoice",
-                "id": "7-Spell DC-Expert Spellcaster-0",
                 "increases": [
                     {
                         "locked": true,
@@ -13147,7 +13178,6 @@
             },
             {
                 "_className": "SkillChoice",
-                "id": "15-Spell DC-Master Spellcaster-0",
                 "increases": [
                     {
                         "locked": true,
@@ -13165,7 +13195,6 @@
             },
             {
                 "_className": "SkillChoice",
-                "id": "19-Spell DC-Legendary Spellcaster-0",
                 "increases": [
                     {
                         "locked": true,
@@ -13717,17 +13746,6 @@
                 "level": 10,
                 "signatureSpell": true,
                 "source": "Sorcerer Spellcasting"
-            },
-            {
-                "_className": "SpellChoice",
-                "available": 1,
-                "castingType": "Spontaneous",
-                "charLevelAvailable": 19,
-                "className": "Sorcerer",
-                "id": "47646a40-d247-47ef-9c4d-39dce7b59732",
-                "insertClass": "Sorcerer",
-                "level": 10,
-                "source": "Sorcerer Spellcasting"
             }
         ]
     },
@@ -13820,7 +13838,20 @@
         "shortdesc": "You inundate your foes with torrents of water."
     },
     {
-        "name": "Fey Bloodline"
+        "name": "Fey Bloodline",
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "available": 1,
+                "castingType": "Spontaneous",
+                "charLevelAvailable": 19,
+                "className": "Sorcerer",
+                "id": "47646a40-d247-47ef-9c4d-39dce7b59732",
+                "insertClass": "Sorcerer",
+                "level": 10,
+                "source": "Sorcerer Spellcasting"
+            }
+        ]
     },
     {
         "name": "Hag Bloodline"
@@ -14232,6 +14263,13 @@
             "Fighter"
         ],
         "levelreq": 6,
+        "changeProficiency": [
+            {
+                "proficiency": "Advanced Weapons",
+                "group": "Axe",
+                "result": "Martial Weapons"
+            }
+        ],
         "gainSkillChoice": [
             {
                 "_className": "SkillChoice",
@@ -14251,7 +14289,7 @@
                 ],
                 "maxRank": 4,
                 "source": "Feat: Advanced Weapon Training: Axe",
-                "type": "Weapon Proficiency"
+                "type": "Specific Weapon Proficiency"
             }
         ]
     },
@@ -14265,6 +14303,13 @@
             "Fighter"
         ],
         "levelreq": 6,
+        "changeProficiency": [
+            {
+                "proficiency": "Advanced Weapons",
+                "group": "Bomb",
+                "result": "Martial Weapons"
+            }
+        ],
         "gainSkillChoice": [
             {
                 "_className": "SkillChoice",
@@ -14284,7 +14329,7 @@
                 ],
                 "maxRank": 4,
                 "source": "Feat: Advanced Weapon Training: Bomb",
-                "type": "Weapon Proficiency"
+                "type": "Specific Weapon Proficiency"
             }
         ]
     },
@@ -14298,6 +14343,13 @@
             "Fighter"
         ],
         "levelreq": 6,
+        "changeProficiency": [
+            {
+                "proficiency": "Advanced Weapons",
+                "group": "Bow",
+                "result": "Martial Weapons"
+            }
+        ],
         "gainSkillChoice": [
             {
                 "_className": "SkillChoice",
@@ -14317,7 +14369,7 @@
                 ],
                 "maxRank": 4,
                 "source": "Feat: Advanced Weapon Training: Bow",
-                "type": "Weapon Proficiency"
+                "type": "Specific Weapon Proficiency"
             }
         ]
     },
@@ -14331,6 +14383,13 @@
             "Fighter"
         ],
         "levelreq": 6,
+        "changeProficiency": [
+            {
+                "proficiency": "Advanced Weapons",
+                "group": "Brawling",
+                "result": "Martial Weapons"
+            }
+        ],
         "gainSkillChoice": [
             {
                 "_className": "SkillChoice",
@@ -14350,7 +14409,7 @@
                 ],
                 "maxRank": 4,
                 "source": "Feat: Advanced Weapon Training: Brawling",
-                "type": "Weapon Proficiency"
+                "type": "Specific Weapon Proficiency"
             }
         ]
     },
@@ -14364,6 +14423,13 @@
             "Fighter"
         ],
         "levelreq": 6,
+        "changeProficiency": [
+            {
+                "proficiency": "Advanced Weapons",
+                "group": "Club",
+                "result": "Martial Weapons"
+            }
+        ],
         "gainSkillChoice": [
             {
                 "_className": "SkillChoice",
@@ -14383,7 +14449,7 @@
                 ],
                 "maxRank": 4,
                 "source": "Feat: Advanced Weapon Training: Club",
-                "type": "Weapon Proficiency"
+                "type": "Specific Weapon Proficiency"
             }
         ]
     },
@@ -14397,6 +14463,13 @@
             "Fighter"
         ],
         "levelreq": 6,
+        "changeProficiency": [
+            {
+                "proficiency": "Advanced Weapons",
+                "group": "Dart",
+                "result": "Martial Weapons"
+            }
+        ],
         "gainSkillChoice": [
             {
                 "_className": "SkillChoice",
@@ -14416,7 +14489,7 @@
                 ],
                 "maxRank": 4,
                 "source": "Feat: Advanced Weapon Training: Dart",
-                "type": "Weapon Proficiency"
+                "type": "Specific Weapon Proficiency"
             }
         ]
     },
@@ -14430,6 +14503,13 @@
             "Fighter"
         ],
         "levelreq": 6,
+        "changeProficiency": [
+            {
+                "proficiency": "Advanced Weapons",
+                "group": "Flail",
+                "result": "Martial Weapons"
+            }
+        ],
         "gainSkillChoice": [
             {
                 "_className": "SkillChoice",
@@ -14449,7 +14529,7 @@
                 ],
                 "maxRank": 4,
                 "source": "Feat: Advanced Weapon Training: Flail",
-                "type": "Weapon Proficiency"
+                "type": "Specific Weapon Proficiency"
             }
         ]
     },
@@ -14463,6 +14543,13 @@
             "Fighter"
         ],
         "levelreq": 6,
+        "changeProficiency": [
+            {
+                "proficiency": "Advanced Weapons",
+                "group": "Hammer",
+                "result": "Martial Weapons"
+            }
+        ],
         "gainSkillChoice": [
             {
                 "_className": "SkillChoice",
@@ -14482,7 +14569,7 @@
                 ],
                 "maxRank": 4,
                 "source": "Feat: Advanced Weapon Training: Hammer",
-                "type": "Weapon Proficiency"
+                "type": "Specific Weapon Proficiency"
             }
         ]
     },
@@ -14496,6 +14583,13 @@
             "Fighter"
         ],
         "levelreq": 6,
+        "changeProficiency": [
+            {
+                "proficiency": "Advanced Weapons",
+                "group": "Knife",
+                "result": "Martial Weapons"
+            }
+        ],
         "gainSkillChoice": [
             {
                 "_className": "SkillChoice",
@@ -14515,7 +14609,7 @@
                 ],
                 "maxRank": 4,
                 "source": "Feat: Advanced Weapon Training: Knife",
-                "type": "Weapon Proficiency"
+                "type": "Specific Weapon Proficiency"
             }
         ]
     },
@@ -14529,6 +14623,13 @@
             "Fighter"
         ],
         "levelreq": 6,
+        "changeProficiency": [
+            {
+                "proficiency": "Advanced Weapons",
+                "group": "Pick",
+                "result": "Martial Weapons"
+            }
+        ],
         "gainSkillChoice": [
             {
                 "_className": "SkillChoice",
@@ -14548,7 +14649,7 @@
                 ],
                 "maxRank": 4,
                 "source": "Feat: Advanced Weapon Training: Pick",
-                "type": "Weapon Proficiency"
+                "type": "Specific Weapon Proficiency"
             }
         ]
     },
@@ -14562,6 +14663,13 @@
             "Fighter"
         ],
         "levelreq": 6,
+        "changeProficiency": [
+            {
+                "proficiency": "Advanced Weapons",
+                "group": "Polearm",
+                "result": "Martial Weapons"
+            }
+        ],
         "gainSkillChoice": [
             {
                 "_className": "SkillChoice",
@@ -14581,7 +14689,7 @@
                 ],
                 "maxRank": 4,
                 "source": "Feat: Advanced Weapon Training: Polearm",
-                "type": "Weapon Proficiency"
+                "type": "Specific Weapon Proficiency"
             }
         ]
     },
@@ -14595,6 +14703,13 @@
             "Fighter"
         ],
         "levelreq": 6,
+        "changeProficiency": [
+            {
+                "proficiency": "Advanced Weapons",
+                "group": "Shield",
+                "result": "Martial Weapons"
+            }
+        ],
         "gainSkillChoice": [
             {
                 "_className": "SkillChoice",
@@ -14614,7 +14729,7 @@
                 ],
                 "maxRank": 4,
                 "source": "Feat: Advanced Weapon Training: Shield",
-                "type": "Weapon Proficiency"
+                "type": "Specific Weapon Proficiency"
             }
         ]
     },
@@ -14628,6 +14743,13 @@
             "Fighter"
         ],
         "levelreq": 6,
+        "changeProficiency": [
+            {
+                "proficiency": "Advanced Weapons",
+                "group": "Sling",
+                "result": "Martial Weapons"
+            }
+        ],
         "gainSkillChoice": [
             {
                 "_className": "SkillChoice",
@@ -14647,7 +14769,7 @@
                 ],
                 "maxRank": 4,
                 "source": "Feat: Advanced Weapon Training: Sling",
-                "type": "Weapon Proficiency"
+                "type": "Specific Weapon Proficiency"
             }
         ]
     },
@@ -14661,6 +14783,13 @@
             "Fighter"
         ],
         "levelreq": 6,
+        "changeProficiency": [
+            {
+                "proficiency": "Advanced Weapons",
+                "group": "Spear",
+                "result": "Martial Weapons"
+            }
+        ],
         "gainSkillChoice": [
             {
                 "_className": "SkillChoice",
@@ -14680,7 +14809,7 @@
                 ],
                 "maxRank": 4,
                 "source": "Feat: Advanced Weapon Training: Spear",
-                "type": "Weapon Proficiency"
+                "type": "Specific Weapon Proficiency"
             }
         ]
     },
@@ -14694,6 +14823,13 @@
             "Fighter"
         ],
         "levelreq": 6,
+        "changeProficiency": [
+            {
+                "proficiency": "Advanced Weapons",
+                "group": "Sword",
+                "result": "Martial Weapons"
+            }
+        ],
         "gainSkillChoice": [
             {
                 "_className": "SkillChoice",
@@ -14713,7 +14849,7 @@
                 ],
                 "maxRank": 4,
                 "source": "Feat: Advanced Weapon Training: Sword",
-                "type": "Weapon Proficiency"
+                "type": "Specific Weapon Proficiency"
             }
         ]
     },
@@ -15495,7 +15631,6 @@
             {
                 "_className": "FeatChoice",
                 "available": 1,
-                "id": "20-Fighter-Ultimate Flexibility-1",
                 "level": 18,
                 "showOnSheet": true,
                 "source": "Ultimate Flexibility",
@@ -16816,7 +16951,7 @@
         "featreq": [
             "Mature Animal Companion (Ranger) or Mature Animal Companion (Druid)"
         ],
-        "specialreq": "!character.get_FeatsTaken(1, 20).filter(feat => feat.name != this.name && characterService.get_FeatsAndFeatures(feat.name).length && characterService.get_FeatsAndFeatures(feat.name)[0].gainAnimalCompanion == 5).length",
+        "specialreq": "!character.get_FeatsTaken(1, 20).filter(feat => feat.name != this.name && characterService.get_FeatsAndFeatures(feat.name).length && characterService.get_FeatsAndFeatures(feat.name)[0]?.gainAnimalCompanion == 5).length",
         "specialreqdesc": "no savage animal companion",
         "gainAnimalCompanion": 4
     },
@@ -16833,7 +16968,7 @@
         "featreq": [
             "Mature Animal Companion (Ranger) or Mature Animal Companion (Druid)"
         ],
-        "specialreq": "!character.get_FeatsTaken(1, 20).filter(feat => feat.name != this.name && characterService.get_FeatsAndFeatures(feat.name).length && characterService.get_FeatsAndFeatures(feat.name)[0].gainAnimalCompanion == 4).length",
+        "specialreq": "!character.get_FeatsTaken(1, 20).filter(feat => feat.name != this.name && characterService.get_FeatsAndFeatures(feat.name).length && characterService.get_FeatsAndFeatures(feat.name)[0]?.gainAnimalCompanion == 4).length",
         "specialreqdesc": "no nimble animal companion",
         "gainAnimalCompanion": 5
     },
@@ -19240,7 +19375,7 @@
             "Wizard"
         ],
         "levelreq": 1,
-        "specialreq": "!character.get_FeatsTaken(1, 20).filter(feat => feat.name != this.name && characterService.get_FeatsAndFeatures(feat.name).length && characterService.get_FeatsAndFeatures(feat.name)[0].gainFamiliar == true).length",
+        "specialreq": "!character.get_FeatsTaken(1, 20).filter(feat => feat.name != this.name && characterService.get_FeatsAndFeatures(feat.name).length && characterService.get_FeatsAndFeatures(feat.name)[0]?.gainFamiliar == true).length",
         "specialreqdesc": "no familiar",
         "gainFamiliar": true
     },
@@ -22736,18 +22871,18 @@
         "featreq": [
             "Enigma Muse or Multifarious Muse: Enigma Muse"
         ],
+        "effects": [
+            {
+                "affected": "Lore: Bardic Proficiency Level",
+                "setValue": "(Skill_Level('Occultism') >= 8 ? 4 : null)"
+            }
+        ],
         "gainLoreChoice": [
             {
                 "_className": "LoreChoice",
                 "loreName": "Bardic",
                 "maxRank": 2,
                 "source": "Feat: Bardic Lore"
-            }
-        ],
-        "effects": [
-            {
-                "affected": "Lore: Bardic Proficiency Level",
-                "setValue": "(Skill_Level('Occultism') >= 8 ? 4 : null)"
             }
         ]
     },
@@ -22965,7 +23100,6 @@
                     "Lingering Composition",
                     "Versatile Performance"
                 ],
-                "id": "1-Class-Feat: Multifarious Muse: Enigma Muse-1",
                 "source": "Feat: Multifarious Muse: Enigma Muse",
                 "specialChoice": true,
                 "type": "Class"
@@ -22993,7 +23127,6 @@
                     "Lingering Composition",
                     "Versatile Performance"
                 ],
-                "id": "1-Class-Feat: Multifarious Muse: Maestro Muse-1",
                 "source": "Feat: Multifarious Muse: Maestro Muse",
                 "specialChoice": true,
                 "type": "Class"
@@ -23021,7 +23154,6 @@
                     "Lingering Composition",
                     "Versatile Performance"
                 ],
-                "id": "1-Class-Feat: Multifarious Muse: Polymath Muse-1",
                 "source": "Feat: Multifarious Muse: Polymath Muse",
                 "specialChoice": true,
                 "type": "Class"
@@ -23188,8 +23320,8 @@
         "effects": [
             {
                 "affected": "Untrained Skills",
-                "value": "Level",
-                "type": "proficiency"
+                "type": "proficiency",
+                "value": "Level"
             }
         ]
     },
@@ -23809,7 +23941,6 @@
                     "Maestro Muse",
                     "Polymath Muse"
                 ],
-                "id": "1-Muse-Feat: Bard Dedication-1",
                 "source": "Feat: Bard Dedication",
                 "specialChoice": true,
                 "type": "Muse"
@@ -24538,7 +24669,7 @@
             "Goblin"
         ],
         "levelreq": 5,
-        "specialreq": "character.class.heritage.name == 'Razortooth Goblin' || Has_Feat(Creature.type, 'Fang Sharpener: Irongut Goblin')",
+        "specialreq": "character.class.heritage.name == 'Razortooth Goblin' || Has_Feat('Character', 'Fang Sharpener: Irongut Goblin')",
         "specialreqdesc": "Fang Sharpener or razortooth goblin heritage",
         "gainActivities": [
             "Ankle Bite"
@@ -24553,6 +24684,7 @@
             "Goblin"
         ],
         "levelreq": 5,
+        "specialreq": "deity && deity.name == 'Lamashtu'",
         "specialreqdesc": "worshipper of Lamashtu",
         "gainHeritage": [
             {
@@ -24569,16 +24701,7 @@
         "sourceBook": "Pathfinder Society Scenario #1-17: The Perennial Crown Part 2, The Thorned Monarch",
         "traits": [
             "Rare",
-            "Dwarf",
-            "Elf",
-            "Gnome",
-            "Goblin",
-            "Halfling",
-            "Human",
-            "Hobgoblin",
-            "Leshy",
-            "Lizardfolk",
-            "Shoony"
+            "Ancestry"
         ],
         "levelreq": 5,
         "gainSpellChoice": [
@@ -24610,16 +24733,7 @@
         "sourceBook": "Pathfinder Society Scenario #1-17: The Perennial Crown Part 2, The Thorned Monarch",
         "traits": [
             "Rare",
-            "Dwarf",
-            "Elf",
-            "Gnome",
-            "Goblin",
-            "Halfling",
-            "Human",
-            "Hobgoblin",
-            "Leshy",
-            "Lizardfolk",
-            "Shoony"
+            "Ancestry"
         ],
         "levelreq": 5,
         "gainSkillChoice": [
@@ -24667,16 +24781,7 @@
         "sourceBook": "Pathfinder Society Scenario #1-17: The Perennial Crown Part 2, The Thorned Monarch",
         "traits": [
             "Rare",
-            "Dwarf",
-            "Elf",
-            "Gnome",
-            "Goblin",
-            "Halfling",
-            "Human",
-            "Hobgoblin",
-            "Leshy",
-            "Lizardfolk",
-            "Shoony"
+            "Ancestry"
         ],
         "levelreq": 5,
         "gainSkillChoice": [
@@ -24724,16 +24829,7 @@
         "sourceBook": "Pathfinder Society Scenario #1-17: The Perennial Crown Part 2, The Thorned Monarch",
         "traits": [
             "Rare",
-            "Dwarf",
-            "Elf",
-            "Gnome",
-            "Goblin",
-            "Halfling",
-            "Human",
-            "Hobgoblin",
-            "Leshy",
-            "Lizardfolk",
-            "Shoony"
+            "Ancestry"
         ],
         "levelreq": 5,
         "gainSkillChoice": [
@@ -24781,16 +24877,7 @@
         "sourceBook": "Pathfinder Society Scenario #1-17: The Perennial Crown Part 2, The Thorned Monarch",
         "traits": [
             "Rare",
-            "Dwarf",
-            "Elf",
-            "Gnome",
-            "Goblin",
-            "Halfling",
-            "Human",
-            "Hobgoblin",
-            "Leshy",
-            "Lizardfolk",
-            "Shoony"
+            "Ancestry"
         ],
         "levelreq": 5,
         "gainSkillChoice": [
@@ -25014,7 +25101,6 @@
     {
         "name": "Goblin Weapon Expertise",
         "desc": "Your goblin affinity blends with your class training, granting you great skill with goblin weapons. Whenever you gain a class feature that grants you expert or greater proficiency in a given weapon or weapons, you also gain that proficiency in the dogslicer, horsechopper, and all goblin weapons in which you are trained.",
-        "inputRequired": "Hardcoded in the Skill class.",
         "shortdesc": "Your goblin affinity blends with your class training, granting you great skill with goblin weapons.",
         "traits": [
             "Goblin"
@@ -25022,6 +25108,23 @@
         "levelreq": 13,
         "featreq": [
             "Goblin Weapon Familiarity"
+        ],
+        "copyProficiency": [
+            {
+                "name": "Goblin",
+                "type": "Weapon Proficiency",
+                "featuresOnly": true
+            },
+            {
+                "name": "Dogslicer",
+                "type": "Weapon Proficiency",
+                "featuresOnly": true
+            },
+            {
+                "name": "Horsechopper",
+                "type": "Weapon Proficiency",
+                "featuresOnly": true
+            }
         ]
     },
     {
@@ -25067,15 +25170,50 @@
     },
     {
         "name": "Adroit Manipulation",
+        "desc": "You've fiddled with knots, locks, and blacksmith's puzzles since you were a child to give your hands something to do. You gain the trained proficiency rank in Thievery (or another skill of your choice, if you're already trained in Thievery). If you roll a success on a Thievery check to Pick a Lock, you get a critical success instead.",
+        "hints": [
+            {
+                "desc": "If you roll a success on a Thievery check to Pick a Lock, you get a critical success instead.",
+                "showon": "Thievery"
+            }
+        ],
+        "access": "Mihrini ethnicity",
         "shortdesc": "You've fiddled with knots, locks, and blacksmith's puzzles since you were a child to give your hands something to do.",
+        "sourceBook": "Character Guide",
         "traits": [
             "Uncommon",
             "Halfling"
         ],
-        "levelreq": 1
+        "levelreq": 1,
+        "gainSkillChoice": [
+            {
+                "_className": "SkillChoice",
+                "filter": [
+                    "Thievery"
+                ],
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Thievery",
+                        "source": "Feat: Adroit Manipulation"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Feat: Adroit Manipulation",
+                "type": "Skill"
+            }
+        ]
     },
     {
         "name": "Distracting Shadows",
+        "desc": "You have learned to remain hidden by using larger folk as a distraction to avoid drawing attention to yourself. You can use creatures that are at least one size larger than you (usually Medium or larger) as cover for the Hide and Sneak actions, though you still can't use such creatures as cover for other uses, such as the Take Cover action.",
+        "hints": [
+            {
+                "desc": "You can use creatures that are at least one size larger than you (usually Medium or larger) as cover for the Hide and Sneak actions, though you still can't use such creatures as cover for other uses, such as the Take Cover action.",
+                "showon": "Stealth"
+            }
+        ],
         "shortdesc": "You have learned to remain hidden by using larger folk as a distraction to avoid drawing attention to yourself.",
         "traits": [
             "Halfling"
@@ -25084,15 +25222,50 @@
     },
     {
         "name": "Halfling Lore",
+        "desc": "You've dutifully learned how to keep your balance and how to stick to the shadows where it's safe, important skills passed down through generations of halfling tradition. You gain the trained proficiency rank in Acrobatics and Stealth. If you would automatically become trained in one of those skills (from your background or class, for example), you instead become trained in a skill of your choice. You also become trained in Halfling Lore.",
         "shortdesc": "You've dutifully learned important skills passed down through generations of halfling tradition.",
         "traits": [
             "Halfling"
         ],
-        "levelreq": 1
+        "levelreq": 1,
+        "gainLoreChoice": [
+            {
+                "_className": "LoreChoice",
+                "loreName": "Halfling",
+                "maxRank": 2,
+                "source": "Feat: Halfling Lore"
+            }
+        ],
+        "gainSkillChoice": [
+            {
+                "_className": "SkillChoice",
+                "filter": [
+                    "Acrobatics",
+                    "Stealth"
+                ],
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Acrobatics",
+                        "source": "Feat: Halfling Lore"
+                    },
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Stealth",
+                        "source": "Feat: Halfling Lore"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Feat: Halfling Lore",
+                "type": "Skill"
+            }
+        ]
     },
     {
         "name": "Halfling Luck",
-        "desc": "Your happy-go-lucky nature makes it seem like misfortune avoids you, and to an extent, that might even be true. You can reroll the triggering check, but you must use the new result, even if it's worse than your first roll.",
+        "desc": "Your happy-go-lucky nature makes it seem like misfortune avoids you, and to an extent, that might even be true.",
         "shortdesc": "Your happy-go-lucky nature makes it seem like misfortune avoids you, and to an extent, that might even be true.",
         "traits": [
             "Fortune",
@@ -25105,23 +25278,119 @@
     },
     {
         "name": "Halfling Weapon Familiarity",
+        "desc": "You favor traditional halfling weapons, so you've learned how to use them more effectively. You have the trained proficiency with the sling, halfling sling staff, and shortsword. You gain access to all uncommon halfling weapons. For the purpose of determining your proficiency, martial halfling weapons are simple weapons and advanced halfling weapons are martial weapons.",
+        "hints": [
+            {
+                "desc": "You gain access to all uncommon halfling weapons. For the purpose of determining your proficiency, martial halfling weapons are simple weapons and advanced halfling weapons are martial weapons.",
+                "showon": "Itemstore, Weapon Proficiencies"
+            }
+        ],
         "shortdesc": "You favor traditional halfling weapons, so you've learned how to use them more effectively.",
         "traits": [
             "Halfling"
         ],
-        "levelreq": 1
+        "levelreq": 1,
+        "changeProficiency": [
+            {
+                "proficiency": "Martial Weapons",
+                "result": "Simple Weapons",
+                "trait": "Halfling"
+            },
+            {
+                "proficiency": "Advanced Weapons",
+                "result": "Martial Weapons",
+                "trait": "Halfling"
+            }
+        ],
+        "gainSkillChoice": [
+            {
+                "_className": "SkillChoice",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Sling",
+                        "source": "Feat: Halfling Weapon Familiarity"
+                    },
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Halfling Sling Staff",
+                        "source": "Feat: Halfling Weapon Familiarity"
+                    },
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Shortsword",
+                        "source": "Feat: Halfling Weapon Familiarity"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Feat: Halfling Weapon Familiarity",
+                "type": "Weapon Proficiency"
+            }
+        ]
     },
     {
         "name": "Innocuous",
+        "desc": "Halflings have been unobtrusive assistants of larger folk for untold ages, and your people count on this assumption of innocence. You gain the trained proficiency rank in Deception (or another skill of your choice, if you're already trained in Deception). If you fail a Deception check to Create a Diversion, humanoid creatures aren't aware that you were trying to trick them unless you get a critical failure on your roll.",
+        "hints": [
+            {
+                "desc": "If you fail a Deception check to Create a Diversion, humanoid creatures aren't aware that you were trying to trick them unless you get a critical failure on your roll.",
+                "showon": "Deception"
+            }
+        ],
+        "access": "Jaric ethnicity",
         "shortdesc": "Halflings have been unobtrusive assistants of larger folk for untold ages, and your people count on this assumption of innocence.",
+        "sourceBook": "Character Guide",
         "traits": [
             "Halfling"
         ],
-        "levelreq": 1
+        "levelreq": 1,
+        "gainSkillChoice": [
+            {
+                "_className": "SkillChoice",
+                "filter": [
+                    "Deception"
+                ],
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Deception",
+                        "source": "Feat: Innocuous"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Feat: Innocuous",
+                "type": "Skill"
+            }
+        ]
     },
     {
         "name": "Intuitive Cooperation",
+        "desc": "You are accustomed to working alongside others, relying on each other to get by. You gain a +2 circumstance bonus to checks to Aid, and your allies gain a +2 circumstance bonus to checks to Aid you.",
+        "hints": [
+            {
+                "desc": "You gain a +2 circumstance bonus to checks to Aid, and your allies gain a +2 circumstance bonus to checks to Aid you.",
+                "showon": "Skills",
+                "effects": [
+                    {
+                        "affected": "Skill Checks",
+                        "value": "2",
+                        "type": "circumstance"
+                    },
+                    {
+                        "affected": "Attack Rolls",
+                        "value": "2",
+                        "type": "circumstance"
+                    }
+                ]
+            }
+        ],
+        "access": "Jaric ethnicity",
         "shortdesc": "You are accustomed to working alongside others, relying on each other to get by.",
+        "sourceBook": "Character Guide",
         "traits": [
             "Uncommon",
             "Halfling"
@@ -25130,6 +25399,13 @@
     },
     {
         "name": "Sure Feet",
+        "desc": "Whether keeping your balance or scrambling up a tricky climb, your hairy, calloused feet easily find purchase. If you roll a success on an Acrobatics check to Balance or an Athletics check to Climb, you get a critical success instead. You're not flat-footed when you attempt to Balance or Climb.",
+        "hints": [
+            {
+                "desc": "You're not flat-footed when you attempt to Balance or Climb. If you roll a success on an Acrobatics check to Balance or an Athletics check to Climb, you get a critical success instead. ",
+                "showon": "Acrobatics, Athletics"
+            }
+        ],
         "shortdesc": "Whether keeping your balance or scrambling up a tricky climb, your hairy, calloused feet easily find purchase.",
         "traits": [
             "Halfling"
@@ -25138,6 +25414,19 @@
     },
     {
         "name": "Titan Slinger",
+        "desc": "You have learned how to use your sling to fell enormous creatures. When you hit on an attack with a sling against a Large or larger creature, increase the size of the weapon damage die by one step (details on increasing weapon damage die sizes can be found here).",
+        "hints": [
+            {
+                "desc": "When you hit on an attack with a sling against a Large or larger creature, increase the size of the weapon damage die by one step (details on increasing weapon damage die sizes can be found on page 279 of the core rulebook).",
+                "showon": "Sling",
+                "effects": [
+                    {
+                        "affected": "Sling Dice Size",
+                        "value": "2"
+                    }
+                ]
+            }
+        ],
         "shortdesc": "You have learned how to use your sling to fell enormous creatures.",
         "traits": [
             "Halfling"
@@ -25146,7 +25435,23 @@
     },
     {
         "name": "Unassuming Dedication",
+        "desc": "Your family instilled the values of care and patience into you from a young age. You gain a +1 circumstance bonus to checks to perform a downtime activity.",
+        "hints": [
+            {
+                "desc": "You gain a +1 circumstance bonus to checks to perform a downtime activity.",
+                "showon": "Skills",
+                "effects": [
+                    {
+                        "affected": "Skill Checks",
+                        "value": "1",
+                        "type": "circumstance"
+                    }
+                ]
+            }
+        ],
+        "access": "Uhlam ethnicity",
         "shortdesc": "Your family instilled the values of care and patience into you from a young age.",
+        "sourceBook": "Character Guide",
         "traits": [
             "Uncommon",
             "Halfling"
@@ -25155,6 +25460,21 @@
     },
     {
         "name": "Unfettered Halfling",
+        "desc": "You were forced into service as a laborer, either pressed into indentured servitude or shackled by the evils of slavery, but you've since escaped and have trained to ensure you'll never be caught again. Whenever you roll a success on a check to Escape or a saving throw against an effect that would impose the grabbed or restrained condition on you, you get a critical success instead. Whenever a creature rolls a failure on a check to Grapple you, they get a critical failure instead. If a creature uses the Grab ability on you, it must succeed at an Athletics check to grab you instead of automatically grabbing you.",
+        "hints": [
+            {
+                "desc": "Whenever you roll a success on a check to Escape, you get a critical success instead.",
+                "showon": "Acrobatics, Athletics, Unarmed"
+            },
+            {
+                "desc": "Whenever you roll a success on a saving throw against an effect that would impose the grabbed or restrained condition on you, you get a critical success instead.",
+                "showon": "Saving Throws"
+            },
+            {
+                "desc": "Whenever a creature rolls a failure on a check to Grapple you, they get a critical failure instead. If a creature uses the Grab ability on you, it must succeed at an Athletics check to grab you instead of automatically grabbing you.",
+                "showon": "Fortitude"
+            }
+        ],
         "shortdesc": "You were forced into service as a laborer, but you've since escaped and have trained to ensure you'll never be caught again.",
         "traits": [
             "Halfling"
@@ -25163,6 +25483,30 @@
     },
     {
         "name": "Watchful Halfling",
+        "desc": "Your communal lifestyle causes you to pay close attention to the people around you, allowing you to more easily notice when they act out of character. You gain a +2 circumstance bonus to Perception checks when using the Sense Motive basic action to notice enchanted or possessed characters. If you aren't actively using Sense Motive on an enchanted or possessed character, the GM rolls a secret check, without the usual circumstance and with a -2 circumstance penalty, for you to potentially notice the enchantment or possession anyway.\n\nIn addition to using it for skill checks, you can use the Aid basic action to grant a bonus to another creature's saving throw or other check to overcome enchantment or possession.\n\nAs usual for Aid, you need to prepare by using an action on your turn to encourage the creature to fight against the effect.",
+        "hints": [
+            {
+                "desc": "You gain a +2 circumstance bonus to Perception checks when using the Sense Motive basic action to notice enchanted or possessed characters.\n\n(Second Activation) If you aren't actively using Sense Motive on an enchanted or possessed character, the GM rolls a secret check, without the usual circumstance and with a -2 circumstance penalty, for you to potentially notice the enchantment or possession anyway.",
+                "showon": "Perception",
+                "effects": [
+                    {
+                        "affected": "Perception",
+                        "value": "object.active ? 2 : 0 ",
+                        "type": "circumstance"
+                    },
+                    {
+                        "affected": "Perception",
+                        "value": "object.active2 ? -2 : 0 ",
+                        "type": "circumstance"
+                    }
+                ],
+                "extraActivations": 1
+            },
+            {
+                "desc": "In addition to using it for skill checks, you can use the Aid basic action to grant a bonus to another creature's saving throw or other check to overcome enchantment or possession. As usual for Aid, you need to prepare by using an action on your turn to encourage the creature to fight against the effect.",
+                "showon": "Saving Throws"
+            }
+        ],
         "shortdesc": "Your communal lifestyle causes you to pay close attention to the people around you.",
         "traits": [
             "Halfling"
@@ -25171,6 +25515,9 @@
     },
     {
         "name": "Cultural Adaptability",
+        "desc": "During your adventures, you've honed your ability to adapt to the culture of the predominant ancestry around you. You gain the Adopted Ancestry general feat, and you also gain one 1st-level ancestry feat from the ancestry you chose for the Adopted Ancestry feat.",
+        "access": "Chelaxian nationality",
+        "subTypes": true,
         "shortdesc": "During your adventures, you've honed your ability to adapt to the culture of the predominant ancestry around you.",
         "traits": [
             "Halfling"
@@ -25178,8 +25525,313 @@
         "levelreq": 5
     },
     {
+        "name": "Cultural Adaptability: Dwarf",
+        "desc": "During your adventures, you've honed your ability to adapt to the culture of the predominant ancestry around you. You gain the Adopted Ancestry general feat for the Dwarf ancestry, and you also gain one 1st-level ancestry feat from the Dwarf ancestry.",
+        "subType": "Dwarf",
+        "superType": "Cultural Adaptability",
+        "shortdesc": "During your adventures, you've honed your ability to adapt to the culture of the predominant ancestry around you.",
+        "traits": [
+            "Halfling"
+        ],
+        "levelreq": 5,
+        "specialreq": "character.class.ancestry.name && !character.class.ancestry.ancestries.includes(this.subType) || this.have(character, characterService, charLevel)",
+        "specialreqdesc": "Any Ancestry except Dwarf",
+        "gainFeatChoice": [
+            {
+                "_className": "FeatChoice",
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Adopted Ancestry: Dwarf"
+                    }
+                ],
+                "source": "Feat: Cultural Adaptability: Dwarf",
+                "type": "General"
+            },
+            {
+                "_className": "FeatChoice",
+                "available": 1,
+                "level": 1,
+                "source": "Feat: Cultural Adaptability: Dwarf",
+                "type": "Dwarf"
+            }
+        ]
+    },
+    {
+        "name": "Cultural Adaptability: Elf",
+        "desc": "During your adventures, you've honed your ability to adapt to the culture of the predominant ancestry around you. You gain the Adopted Ancestry general feat for the Elf ancestry, and you also gain one 1st-level ancestry feat from the Elf ancestry.",
+        "subType": "Elf",
+        "superType": "Cultural Adaptability",
+        "shortdesc": "During your adventures, you've honed your ability to adapt to the culture of the predominant ancestry around you.",
+        "traits": [
+            "Halfling"
+        ],
+        "levelreq": 5,
+        "specialreq": "character.class.ancestry.name && !character.class.ancestry.ancestries.includes(this.subType) || this.have(character, characterService, charLevel)",
+        "specialreqdesc": "Any Ancestry except Elf",
+        "gainFeatChoice": [
+            {
+                "_className": "FeatChoice",
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Adopted Ancestry: Elf"
+                    }
+                ],
+                "source": "Feat: Cultural Adaptability: Elf",
+                "type": "General"
+            },
+            {
+                "_className": "FeatChoice",
+                "available": 1,
+                "level": 1,
+                "source": "Feat: Cultural Adaptability: Elf",
+                "type": "Elf"
+            }
+        ]
+    },
+    {
+        "name": "Cultural Adaptability: Gnome",
+        "desc": "During your adventures, you've honed your ability to adapt to the culture of the predominant ancestry around you. You gain the Adopted Ancestry general feat for the Gnome ancestry, and you also gain one 1st-level ancestry feat from the Gnome ancestry.",
+        "subType": "Gnome",
+        "superType": "Cultural Adaptability",
+        "shortdesc": "During your adventures, you've honed your ability to adapt to the culture of the predominant ancestry around you.",
+        "traits": [
+            "Halfling"
+        ],
+        "levelreq": 5,
+        "specialreq": "character.class.ancestry.name && !character.class.ancestry.ancestries.includes(this.subType) || this.have(character, characterService, charLevel)",
+        "specialreqdesc": "Any Ancestry except Gnome",
+        "gainFeatChoice": [
+            {
+                "_className": "FeatChoice",
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Adopted Ancestry: Gnome"
+                    }
+                ],
+                "source": "Feat: Cultural Adaptability: Gnome",
+                "type": "General"
+            },
+            {
+                "_className": "FeatChoice",
+                "available": 1,
+                "level": 1,
+                "source": "Feat: Cultural Adaptability: Gnome",
+                "type": "Gnome"
+            }
+        ]
+    },
+    {
+        "name": "Cultural Adaptability: Goblin",
+        "desc": "During your adventures, you've honed your ability to adapt to the culture of the predominant ancestry around you. You gain the Adopted Ancestry general feat for the Goblin ancestry, and you also gain one 1st-level ancestry feat from the Goblin ancestry.",
+        "subType": "Goblin",
+        "superType": "Cultural Adaptability",
+        "shortdesc": "During your adventures, you've honed your ability to adapt to the culture of the predominant ancestry around you.",
+        "traits": [
+            "Halfling"
+        ],
+        "levelreq": 5,
+        "specialreq": "character.class.ancestry.name && !character.class.ancestry.ancestries.includes(this.subType) || this.have(character, characterService, charLevel)",
+        "specialreqdesc": "Any Ancestry except Goblin",
+        "gainFeatChoice": [
+            {
+                "_className": "FeatChoice",
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Adopted Ancestry: Goblin"
+                    }
+                ],
+                "source": "Feat: Cultural Adaptability: Goblin",
+                "type": "General"
+            },
+            {
+                "_className": "FeatChoice",
+                "available": 1,
+                "level": 1,
+                "source": "Feat: Cultural Adaptability: Goblin",
+                "type": "Goblin"
+            }
+        ]
+    },
+    {
+        "name": "Cultural Adaptability: Human",
+        "desc": "During your adventures, you've honed your ability to adapt to the culture of the predominant ancestry around you. You gain the Adopted Ancestry general feat for the Human ancestry, and you also gain one 1st-level ancestry feat from the Human ancestry.",
+        "subType": "Human",
+        "superType": "Cultural Adaptability",
+        "shortdesc": "During your adventures, you've honed your ability to adapt to the culture of the predominant ancestry around you.",
+        "traits": [
+            "Halfling"
+        ],
+        "levelreq": 5,
+        "specialreq": "character.class.ancestry.name && !character.class.ancestry.ancestries.includes(this.subType) || this.have(character, characterService, charLevel)",
+        "specialreqdesc": "Any Ancestry except Human",
+        "gainFeatChoice": [
+            {
+                "_className": "FeatChoice",
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Adopted Ancestry: Human"
+                    }
+                ],
+                "source": "Feat: Cultural Adaptability: Human",
+                "type": "General"
+            },
+            {
+                "_className": "FeatChoice",
+                "available": 1,
+                "level": 1,
+                "source": "Feat: Cultural Adaptability: Human",
+                "type": "Human"
+            }
+        ]
+    },
+    {
+        "name": "Cultural Adaptability: Hobgoblin",
+        "desc": "During your adventures, you've honed your ability to adapt to the culture of the predominant ancestry around you. You gain the Adopted Ancestry general feat for the Hobgoblin ancestry, and you also gain one 1st-level ancestry feat from the Hobgoblin ancestry.",
+        "subType": "Hobgoblin",
+        "superType": "Cultural Adaptability",
+        "shortdesc": "During your adventures, you've honed your ability to adapt to the culture of the predominant ancestry around you.",
+        "traits": [
+            "Halfling"
+        ],
+        "levelreq": 5,
+        "specialreq": "character.class.ancestry.name && !character.class.ancestry.ancestries.includes(this.subType) || this.have(character, characterService, charLevel)",
+        "specialreqdesc": "Any Ancestry except Hobgoblin",
+        "gainFeatChoice": [
+            {
+                "_className": "FeatChoice",
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Adopted Ancestry: Hobgoblin"
+                    }
+                ],
+                "source": "Feat: Cultural Adaptability: Hobgoblin",
+                "type": "General"
+            },
+            {
+                "_className": "FeatChoice",
+                "available": 1,
+                "level": 1,
+                "source": "Feat: Cultural Adaptability: Hobgoblin",
+                "type": "Hobgoblin"
+            }
+        ]
+    },
+    {
+        "name": "Cultural Adaptability: Leshy",
+        "desc": "During your adventures, you've honed your ability to adapt to the culture of the predominant ancestry around you. You gain the Adopted Ancestry general feat for the Leshy ancestry, and you also gain one 1st-level ancestry feat from the Leshy ancestry.",
+        "subType": "Leshy",
+        "superType": "Cultural Adaptability",
+        "shortdesc": "During your adventures, you've honed your ability to adapt to the culture of the predominant ancestry around you.",
+        "traits": [
+            "Halfling"
+        ],
+        "levelreq": 5,
+        "specialreq": "character.class.ancestry.name && !character.class.ancestry.ancestries.includes(this.subType) || this.have(character, characterService, charLevel)",
+        "specialreqdesc": "Any Ancestry except Leshy",
+        "gainFeatChoice": [
+            {
+                "_className": "FeatChoice",
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Adopted Ancestry: Leshy"
+                    }
+                ],
+                "source": "Feat: Cultural Adaptability: Leshy",
+                "type": "General"
+            },
+            {
+                "_className": "FeatChoice",
+                "available": 1,
+                "level": 1,
+                "source": "Feat: Cultural Adaptability: Leshy",
+                "type": "Leshy"
+            }
+        ]
+    },
+    {
+        "name": "Cultural Adaptability: Lizardfolk",
+        "desc": "During your adventures, you've honed your ability to adapt to the culture of the predominant ancestry around you. You gain the Adopted Ancestry general feat for the Lizardfolk ancestry, and you also gain one 1st-level ancestry feat from the Lizardfolk ancestry.",
+        "subType": "Lizardfolk",
+        "superType": "Cultural Adaptability",
+        "shortdesc": "During your adventures, you've honed your ability to adapt to the culture of the predominant ancestry around you.",
+        "traits": [
+            "Halfling"
+        ],
+        "levelreq": 5,
+        "specialreq": "character.class.ancestry.name && !character.class.ancestry.ancestries.includes(this.subType) || this.have(character, characterService, charLevel)",
+        "specialreqdesc": "Any Ancestry except Lizardfolk",
+        "gainFeatChoice": [
+            {
+                "_className": "FeatChoice",
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Adopted Ancestry: Lizardfolk"
+                    }
+                ],
+                "source": "Feat: Cultural Adaptability: Lizardfolk",
+                "type": "General"
+            },
+            {
+                "_className": "FeatChoice",
+                "available": 1,
+                "level": 1,
+                "source": "Feat: Cultural Adaptability: Lizardfolk",
+                "type": "Lizardfolk"
+            }
+        ]
+    },
+    {
+        "name": "Cultural Adaptability: Shoony",
+        "desc": "During your adventures, you've honed your ability to adapt to the culture of the predominant ancestry around you. You gain the Adopted Ancestry general feat for the Shoony ancestry, and you also gain one 1st-level ancestry feat from the Shoony ancestry.",
+        "subType": "Shoony",
+        "superType": "Cultural Adaptability",
+        "shortdesc": "During your adventures, you've honed your ability to adapt to the culture of the predominant ancestry around you.",
+        "traits": [
+            "Halfling"
+        ],
+        "levelreq": 5,
+        "specialreq": "character.class.ancestry.name && !character.class.ancestry.ancestries.includes(this.subType) || this.have(character, characterService, charLevel)",
+        "specialreqdesc": "Any Ancestry except Shoony",
+        "gainFeatChoice": [
+            {
+                "_className": "FeatChoice",
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Adopted Ancestry: Shoony"
+                    }
+                ],
+                "source": "Feat: Cultural Adaptability: Shoony",
+                "type": "General"
+            },
+            {
+                "_className": "FeatChoice",
+                "available": 1,
+                "level": 1,
+                "source": "Feat: Cultural Adaptability: Shoony",
+                "type": "Shoony"
+            }
+        ]
+    },
+    {
         "name": "Easily Dismissed",
+        "desc": "You are practiced at blending into the background of the streets and halls of larger folk to ensure that you are overlooked. When you are in a crowd or well trafficked urban area, you can attempt to Hide and Sneak, even when observed. On a success, you aren't hidden or undetected, but other creatures simply don't take particular notice of you, even though they can see you. You can't use this ability on observers who have already seen you perform obtrusive or notable actions. If you perform any action other than to Hide or Sneak or otherwise take particularly salient actions (GM's discretion), observers notice you right away.",
+        "hints": [
+            {
+                "desc": "When you are in a crowd or well trafficked urban area, you can attempt to Hide and Sneak, even when observed. On a success, you aren't hidden or undetected, but other creatures simply don't take particular notice of you, even though they can see you. You can't use this ability on observers who have already seen you perform obtrusive or notable actions. If you perform any action other than to Hide or Sneak or otherwise take particularly salient actions (GM's discretion), observers notice you right away.",
+                "showon": "Stealth"
+            }
+        ],
         "shortdesc": "You are practiced at blending into the background of the streets and halls of larger folk to ensure that you are overlooked.",
+        "sourceBook": "Character Guide",
         "traits": [
             "Uncommon",
             "Halfling"
@@ -25219,6 +25871,7 @@
     },
     {
         "name": "Halfling Weapon Trickster",
+        "desc": "You are particularly adept at fighting with your people's favored weapons. Whenever you critically succeed at an attack roll using a shortsword, a sling, or a halfling weapon, you apply the weapon's critical specialization effect.",
         "shortdesc": "You are particularly adept at fighting with your people's favored weapons.",
         "traits": [
             "Halfling"
@@ -25226,6 +25879,17 @@
         "levelreq": 5,
         "featreq": [
             "Halfling Weapon Familiarity"
+        ],
+        "gainSpecialization": [
+            {
+                "name": "Sling"
+            },
+            {
+                "trait": "Halfling"
+            },
+            {
+                "name": "Shortsword"
+            }
         ]
     },
     {
@@ -25249,25 +25913,92 @@
     },
     {
         "name": "Cunning Climber",
+        "desc": "Whether you are climbing a ship's rigging, a jungle tree, or a clock tower, you have an uncanny knack for finding footholds and handholds where larger creatures can't. You gain a climb Speed of 10 feet. You can take the Legendary Climber feat even if you don't have the Quick Climb feat, provided you meet its other prerequisites.",
+        "specialdesc": "Note: The Legendary Climber feat does not exist.",
+        "internalNote": "There is no feat called Legendary Climber, and there is no climbing feat that requires legendary Athletics.",
         "shortdesc": "Whether you are climbing a ship's rigging, a jungle tree, or a clock tower, you have an uncanny knack for finding footholds and handholds where larger creatures can't.",
+        "sourceBook": "Character Guide",
         "traits": [
             "Halfling"
         ],
-        "levelreq": 9
+        "levelreq": 9,
+        "effects": [
+            {
+                "affected": "Climb Speed",
+                "setValue": "10"
+            }
+        ]
     },
     {
         "name": "Fade Away",
+        "desc": "Your ability to blend into the background allows you to fade away entirely or appear innocuous even to magical effects. You gain invisibility and misdirection as 2nd-level innate occult spells. You can target only yourself with invisibility, and you must be the primary target of misdirection. You can cast each spell once per day.",
+        "hints": [
+            {
+                "desc": "When casting invisibility as an innate spell gained from the Fade Away feat, you can target only yourself.",
+                "showon": "Invisibility"
+            },
+            {
+                "desc": "When casting misdirection as an innate spell gained from the Fade Away feat, you must be the primary target.",
+                "showon": "Misdirection"
+            }
+        ],
         "shortdesc": "Your ability to blend into the background allows you to fade away entirely or appear innocuous even to magical effects.",
+        "sourceBook": "Character Guide",
         "traits": [
             "Halfling"
         ],
         "levelreq": 9,
         "featreq": [
             "Easily Dismissed"
+        ],
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Innate",
+                "className": "Innate",
+                "cooldown": 144000,
+                "frequency": "once per day",
+                "id": "e4e49468-b54e-4834-abaa-e170cd088a3e",
+                "level": 2,
+                "source": "Feat: Fade Away",
+                "spells": [
+                    {
+                        "_className": "SpellGain",
+                        "locked": true,
+                        "name": "Invisibility"
+                    }
+                ],
+                "tradition": "Occult"
+            },
+            {
+                "_className": "SpellChoice",
+                "castingType": "Innate",
+                "className": "Innate",
+                "cooldown": 144000,
+                "frequency": "once per day",
+                "id": "76260ec2-5514-4dd5-b382-eb45014c40fc",
+                "level": 2,
+                "source": "Feat: Fade Away",
+                "spells": [
+                    {
+                        "_className": "SpellGain",
+                        "locked": true,
+                        "name": "Misdirection"
+                    }
+                ],
+                "tradition": "Occult"
+            }
         ]
     },
     {
         "name": "Guiding Luck",
+        "desc": "Your luck guides you to look the right way and aim your blows unerringly. You can use Halfling Luck twice per day: once in response to its normal trigger, and once when you fail a Perception check or attack roll instead of the normal trigger.",
+        "hints": [
+            {
+                "desc": "You can use Halfling Luck twice per day: once in response to its normal trigger, and once when you fail a Perception check or attack roll instead of the normal trigger.",
+                "showon": "Halfling Luck"
+            }
+        ],
         "shortdesc": "Your luck guides you to look the right way and aim your blows unerringly.",
         "traits": [
             "Halfling"
@@ -25275,11 +26006,22 @@
         "levelreq": 9,
         "featreq": [
             "Halfling Luck"
+        ],
+        "gainActivities": [
+            "Halfling Luck (Guiding Luck)"
         ]
     },
     {
         "name": "Helpful Halfling",
+        "desc": "When you aid a friend with a task, you find many ways to help and avoid interfering. On a critical success to Aid, you grant your ally a +3 circumstance bonus if you have expert proficiency in the skill (rather than +2), and you grant your ally a +4 circumstance bonus if you have master proficiency (rather than +3). If you roll a critical failure on a check to Aid, you don't give your ally a -1 circumstance penalty to their check.",
+        "hints": [
+            {
+                "desc": "On a critical success to Aid, you grant your ally a +3 circumstance bonus if you have expert proficiency in the skill (rather than +2), and you grant your ally a +4 circumstance bonus if you have master proficiency (rather than +3). If you roll a critical failure on a check to Aid, you don't give your ally a -1 circumstance penalty to their check.",
+                "showon": "Skills"
+            }
+        ],
         "shortdesc": "When you aid a friend with a task, you find many ways to help and avoid interfering.",
+        "sourceBook": "Character Guide",
         "traits": [
             "Halfling"
         ],
@@ -25287,6 +26029,13 @@
     },
     {
         "name": "Irrepressible",
+        "desc": "You are easily able to ward off attempts to play on your fears and emotions. When you roll a success on a saving throw against an emotion effect, you get a critical success instead. If your heritage is gutsy halfling, when you roll a critical failure on a saving throw against an emotion effect, you get a failure instead.",
+        "hints": [
+            {
+                "desc": "When you roll a success on a saving throw against an emotion effect, you get a critical success instead. If your heritage is gutsy halfling, when you roll a critical failure on a saving throw against an emotion effect, you get a failure instead.",
+                "showon": "Saving Throws"
+            }
+        ],
         "shortdesc": "You are easily able to ward off attempts to play on your fears and emotions.",
         "traits": [
             "Halfling"
@@ -25295,6 +26044,17 @@
     },
     {
         "name": "Ceaseless Shadows",
+        "desc": "You excel at going unnoticed, especially among a crowd. You no longer need to have cover or be concealed to Hide or Sneak. If you would have lesser cover from creatures, you gain cover and can Take Cover, and if you would have cover from creatures, you gain greater cover.",
+        "hints": [
+            {
+                "desc": "You no longer need to have cover or be concealed to Hide or Sneak.",
+                "showon": "Stealth"
+            },
+            {
+                "desc": "If you would have lesser cover from creatures, you gain cover and can Take Cover, and if you would have cover from creatures, you gain greater cover.",
+                "showon": "Defense"
+            }
+        ],
         "shortdesc": "You excel at going unnoticed, especially among a crowd.",
         "traits": [
             "Halfling"
@@ -25306,7 +26066,19 @@
     },
     {
         "name": "Cobble Dancer",
+        "desc": "You know how to take advantage of foes thrown off-balance by unstable flooring, loose cobblestones, or similar impediments. While in an outdoor urban environment, you can Step into difficult terrain and enemies in difficult terrain are flat-footed to you.",
+        "hints": [
+            {
+                "desc": "While in an outdoor urban environment, you can Step into difficult terrain.",
+                "showon": "Movement"
+            },
+            {
+                "desc": "While in an outdoor urban environment, enemies in difficult terrain are flat-footed to you.",
+                "showon": "Attacks"
+            }
+        ],
         "shortdesc": "You know how to take advantage of foes thrown off-balance by unstable flooring, loose cobblestones, or similar impediments.",
+        "sourceBook": "Character Guide",
         "traits": [
             "Halfling"
         ],
@@ -25314,6 +26086,7 @@
     },
     {
         "name": "Halfling Weapon Expertise",
+        "desc": "Your halfling affinity blends with your class training, granting you great skill with halfling weapons. Whenever you gain a class feature that grants you expert or greater proficiency in a given weapon or weapons, you also gain that proficiency in the sling, halfling sling staff, shortsword, and all halfling weapons in which you are trained.",
         "shortdesc": "Your halfling affinity blends with your class training, granting you great skill with halfling weapons.",
         "traits": [
             "Halfling"
@@ -25321,10 +26094,39 @@
         "levelreq": 13,
         "featreq": [
             "Halfling Weapon Familiarity"
+        ],
+        "copyProficiency": [
+            {
+                "name": "Halfling",
+                "type": "Weapon Proficiency",
+                "featuresOnly": true
+            },
+            {
+                "name": "Sling",
+                "type": "Weapon Proficiency",
+                "featuresOnly": true
+            },
+            {
+                "name": "Halfling Sling Staff",
+                "type": "Weapon Proficiency",
+                "featuresOnly": true
+            },
+            {
+                "name": "Shortsword",
+                "type": "Weapon Proficiency",
+                "featuresOnly": true
+            }
         ]
     },
     {
         "name": "Incredible Luck (Halfling)",
+        "desc": "Even other halflings consider you to be particularly lucky. You can use Halfling Luck once per hour, rather than once per day. If you have Guiding Luck, you can still use Halfling Luck when you fail a Perception check or attack roll only once per day (though you can use it within the same hour that you used Halfling Luck), and if you have Shared Luck, you can still use Halfling Luck on an ally instead of yourself only once per day.",
+        "hints": [
+            {
+                "desc": "You can use Halfling Luck once per hour, rather than once per day. If you have Guiding Luck, you can still use Halfling Luck when you fail a Perception check or attack roll only once per day (though you can use it within the same hour that you used Halfling Luck), and if you have Shared Luck, you can still use Halfling Luck on an ally instead of yourself only once per day.",
+                "showon": "Halfling Luck"
+            }
+        ],
         "shortdesc": "Even other halflings consider you to be particularly lucky.",
         "traits": [
             "Halfling"
@@ -25332,6 +26134,12 @@
         "levelreq": 13,
         "featreq": [
             "Halfling Luck"
+        ],
+        "effects": [
+            {
+                "affected": "Halfling Luck Cooldown",
+                "setValue": "6000"
+            }
         ]
     },
     {
@@ -25634,6 +26442,11 @@
                         "affected": "Skill Checks",
                         "value": "4",
                         "type": "circumstance"
+                    },
+                    {
+                        "affected": "Attack Rolls",
+                        "value": "4",
+                        "type": "circumstance"
                     }
                 ]
             }
@@ -25684,7 +26497,7 @@
                 "effects": [
                     {
                         "affected": "Diplomacy",
-                        "value": -5
+                        "value": "-5"
                     }
                 ]
             }
@@ -25709,6 +26522,7 @@
             "Human"
         ],
         "levelreq": 1,
+        "specialreq": "true",
         "specialreqdesc": "Tian-Dan ethnicity",
         "gainSpellChoice": [
             {
@@ -25900,15 +26714,29 @@
     },
     {
         "name": "Gloomseer",
+        "desc": "Gloom holds few terrors for you, and the pall of darkness over Nidal has made you comfortable in dim light. You gain low-light vision.",
+        "access": "Nidalese ethnicity",
         "shortdesc": "Gloom holds few terrors for you, and the pall of darkness over Nidal has made you comfortable in dim light.",
+        "sourceBook": "Character Guide",
         "traits": [
             "Human"
         ],
         "levelreq": 1,
-        "specialreqdesc": "Nidalese ethnicity"
+        "specialreq": "true",
+        "specialreqdesc": "Nidalese ethnicity",
+        "senses": [
+            "Low-Light Vision"
+        ]
     },
     {
         "name": "Haughty Obstinacy",
+        "desc": "Your powerful ego makes it harder for others to order you around. If you roll a success on a saving throw against a mental effect that attempts to directly control your actions, you critically succeed instead. If a creature rolls a failure on a check to Coerce you using Intimidation, it gets a critical failure instead (so it can't try to Coerce you again for 1 week).",
+        "hints": [
+            {
+                "desc": "If you roll a success on a saving throw against a mental effect that attempts to directly control your actions, you critically succeed instead. If a creature rolls a failure on a check to Coerce you using Intimidation, it gets a critical failure instead (so it can't try to Coerce you again for 1 week).",
+                "showon": "Saving Throws, Will"
+            }
+        ],
         "shortdesc": "Your powerful ego makes it harder for others to order you around.",
         "traits": [
             "Human"
@@ -25917,22 +26745,34 @@
     },
     {
         "name": "Keep Up Appearances",
+        "desc": "Taldan pride means you never show weakness.",
+        "access": "Taldan nationality",
         "shortdesc": "Taldan pride means you never show weakness.",
+        "sourceBook": "Character Guide",
         "traits": [
             "Uncommon",
             "Human"
         ],
-        "levelreq": 1
+        "levelreq": 1,
+        "gainActivities": [
+            "Keep Up Appearances"
+        ]
     },
     {
         "name": "Know Oneself",
+        "desc": "You center yourself and call to mind the Vudrani monastic ideals of mindfulness and self-knowledge.",
+        "access": "Vudrani ethnicity",
         "shortdesc": "You center yourself and call to mind the Vudrani monastic ideals of mindfulness and self-knowledge.",
+        "sourceBook": "Character Guide",
         "traits": [
             "Uncommon",
             "Human",
             "Fortune"
         ],
-        "levelreq": 1
+        "levelreq": 1,
+        "gainActivities": [
+            "Know Oneself"
+        ]
     },
     {
         "name": "Natural Ambition",
@@ -25954,15 +26794,29 @@
     },
     {
         "name": "Natural Skill",
+        "desc": "Your ingenuity allows you to learn a wide variety of skills. You gain the trained proficiency rank in two skills of your choice.",
         "shortdesc": "Your ingenuity allows you to learn a wide variety of skills.",
         "traits": [
             "Human"
         ],
-        "levelreq": 1
+        "levelreq": 1,
+        "gainSkillChoice": [
+            {
+                "_className": "SkillChoice",
+                "available": 2,
+                "maxRank": 2,
+                "source": "Feat: Natural Skill",
+                "type": "Skill"
+            }
+        ]
     },
     {
         "name": "Quah Bond",
+        "desc": "You grew up among the Shoanti tribes, with the spirits watching over you, and they offer you guidance. You gain the trained proficiency rank in the skill listed for your quah (or another skill of your choice, if you're already trained in that skill). You gain the Assurance skill feat in that skill, as the spirits' help guides your actions.\n\n<strong>Lyrune-Quah</strong> Religion\n<strong>Shadde-Quah</strong> Athletics\n<strong>Shriikirri-Quah</strong> Nature\n<strong>Shundar-Quah</strong> Diplomacy\n<strong>Sklar-Quah</strong> Intimidation\n<strong>Skoan-Quah</strong> Medicine\n<strong>Tamiir-Quah</strong> Acrobatics",
+        "access": "Shoanti ethnicity",
+        "subTypes": true,
         "shortdesc": "You grew up among the Shoanti tribes, with the spirits watching over you, and they offer you guidance.",
+        "sourceBook": "Character Guide",
         "traits": [
             "Uncommon",
             "Human"
@@ -25970,27 +26824,373 @@
         "levelreq": 1
     },
     {
-        "name": "Saoc Astrology",
-        "shortdesc": "The ancient Saoc Brethren were the masters of astrology, and while your knowledge may be but a pale shadow of their wisdom, it still comes in handy.",
-        "traits": [
-            "Uncommon",
-            "Human",
-            "Concentrate"
-        ],
-        "levelreq": 1
-    },
-    {
-        "name": "Tupilaq Carver",
-        "shortdesc": "You know the truth behind old stories that tell of sending a fetish of bone and sinew to seek vengeance.",
+        "name": "Quah Bond: Lyrune-Quah",
+        "desc": "You grew up among the Shoanti tribes, with the spirits watching over you, and they offer you guidance. You gain the trained proficiency rank in Religion (or another skill of your choice, if you're already trained in that skill). You gain the Assurance skill feat in Religion, as the spirits' help guides your actions.",
+        "access": "Shoanti ethnicity",
+        "subType": "Lyrune-Quah",
+        "superType": "Quah Bond",
+        "shortdesc": "You grew up among the Shoanti tribes, with the spirits watching over you, and they offer you guidance.",
+        "sourceBook": "Character Guide",
         "traits": [
             "Uncommon",
             "Human"
         ],
         "levelreq": 1,
-        "specialreqdesc": "You have a spellcasting class feature with the divine or primal tradition"
+        "gainFeatChoice": [
+            {
+                "_className": "FeatChoice",
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Assurance: Religion"
+                    }
+                ],
+                "source": "Feat: Quah Bond: Lyrune-Quah",
+                "type": "General"
+            }
+        ],
+        "gainSkillChoice": [
+            {
+                "_className": "SkillChoice",
+                "filter": [
+                    "Religion"
+                ],
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Religion",
+                        "source": "Feat: Quah Bond: Lyrune-Quah"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Feat: Quah Bond: Lyrune-Quah",
+                "type": "Skill"
+            }
+        ]
+    },
+    {
+        "name": "Quah Bond: Shadde-Quah",
+        "desc": "You grew up among the Shoanti tribes, with the spirits watching over you, and they offer you guidance. You gain the trained proficiency rank in Athletics (or another skill of your choice, if you're already trained in that skill). You gain the Assurance skill feat in Athletics, as the spirits' help guides your actions.",
+        "access": "Shoanti ethnicity",
+        "subType": "Shadde-Quah",
+        "superType": "Quah Bond",
+        "shortdesc": "You grew up among the Shoanti tribes, with the spirits watching over you, and they offer you guidance.",
+        "sourceBook": "Character Guide",
+        "traits": [
+            "Uncommon",
+            "Human"
+        ],
+        "levelreq": 1,
+        "gainFeatChoice": [
+            {
+                "_className": "FeatChoice",
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Assurance: Athletics"
+                    }
+                ],
+                "source": "Feat: Quah Bond: Shadde-Quah",
+                "type": "General"
+            }
+        ],
+        "gainSkillChoice": [
+            {
+                "_className": "SkillChoice",
+                "filter": [
+                    "Athletics"
+                ],
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Athletics",
+                        "source": "Feat: Quah Bond: Shadde-Quah"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Feat: Quah Bond: Shadde-Quah",
+                "type": "Skill"
+            }
+        ]
+    },
+    {
+        "name": "Quah Bond: Shriikirri-Quah",
+        "desc": "You grew up among the Shoanti tribes, with the spirits watching over you, and they offer you guidance. You gain the trained proficiency rank in Nature (or another skill of your choice, if you're already trained in that skill). You gain the Assurance skill feat in Nature, as the spirits' help guides your actions.",
+        "access": "Shoanti ethnicity",
+        "subType": "Shriikirri-Quah",
+        "superType": "Quah Bond",
+        "shortdesc": "You grew up among the Shoanti tribes, with the spirits watching over you, and they offer you guidance.",
+        "sourceBook": "Character Guide",
+        "traits": [
+            "Uncommon",
+            "Human"
+        ],
+        "levelreq": 1,
+        "gainFeatChoice": [
+            {
+                "_className": "FeatChoice",
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Assurance: Nature"
+                    }
+                ],
+                "source": "Feat: Quah Bond: Shriikirri-Quah",
+                "type": "General"
+            }
+        ],
+        "gainSkillChoice": [
+            {
+                "_className": "SkillChoice",
+                "filter": [
+                    "Nature"
+                ],
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Nature",
+                        "source": "Feat: Quah Bond: Shriikirri-Quah"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Feat: Quah Bond: Shriikirri-Quah",
+                "type": "Skill"
+            }
+        ]
+    },
+    {
+        "name": "Quah Bond: Shundar-Quah",
+        "desc": "You grew up among the Shoanti tribes, with the spirits watching over you, and they offer you guidance. You gain the trained proficiency rank in Diplomacy (or another skill of your choice, if you're already trained in that skill). You gain the Assurance skill feat in Diplomacy, as the spirits' help guides your actions.",
+        "access": "Shoanti ethnicity",
+        "subType": "Shundar-Quah",
+        "superType": "Quah Bond",
+        "shortdesc": "You grew up among the Shoanti tribes, with the spirits watching over you, and they offer you guidance.",
+        "sourceBook": "Character Guide",
+        "traits": [
+            "Uncommon",
+            "Human"
+        ],
+        "levelreq": 1,
+        "gainFeatChoice": [
+            {
+                "_className": "FeatChoice",
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Assurance: Diplomacy"
+                    }
+                ],
+                "source": "Feat: Quah Bond: Shundar-Quah",
+                "type": "General"
+            }
+        ],
+        "gainSkillChoice": [
+            {
+                "_className": "SkillChoice",
+                "filter": [
+                    "Diplomacy"
+                ],
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Diplomacy",
+                        "source": "Feat: Quah Bond: Shundar-Quah"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Feat: Quah Bond: Shundar-Quah",
+                "type": "Skill"
+            }
+        ]
+    },
+    {
+        "name": "Quah Bond: Sklar-Quah",
+        "desc": "You grew up among the Shoanti tribes, with the spirits watching over you, and they offer you guidance. You gain the trained proficiency rank in Intimidation (or another skill of your choice, if you're already trained in that skill). You gain the Assurance skill feat in Intimidation, as the spirits' help guides your actions.",
+        "access": "Shoanti ethnicity",
+        "subType": "Sklar-Quah",
+        "superType": "Quah Bond",
+        "shortdesc": "You grew up among the Shoanti tribes, with the spirits watching over you, and they offer you guidance.",
+        "sourceBook": "Character Guide",
+        "traits": [
+            "Uncommon",
+            "Human"
+        ],
+        "levelreq": 1,
+        "gainFeatChoice": [
+            {
+                "_className": "FeatChoice",
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Assurance: Intimidation"
+                    }
+                ],
+                "source": "Feat: Quah Bond: Sklar-Quah",
+                "type": "General"
+            }
+        ],
+        "gainSkillChoice": [
+            {
+                "_className": "SkillChoice",
+                "filter": [
+                    "Intimidation"
+                ],
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Intimidation",
+                        "source": "Feat: Quah Bond: Sklar-Quah"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Feat: Quah Bond: Sklar-Quah",
+                "type": "Skill"
+            }
+        ]
+    },
+    {
+        "name": "Quah Bond: Skoan-Quah",
+        "desc": "You grew up among the Shoanti tribes, with the spirits watching over you, and they offer you guidance. You gain the trained proficiency rank in Medicine (or another skill of your choice, if you're already trained in that skill). You gain the Assurance skill feat in Medicine, as the spirits' help guides your actions.",
+        "access": "Shoanti ethnicity",
+        "subType": "Skoan-Quah",
+        "superType": "Quah Bond",
+        "shortdesc": "You grew up among the Shoanti tribes, with the spirits watching over you, and they offer you guidance.",
+        "sourceBook": "Character Guide",
+        "traits": [
+            "Uncommon",
+            "Human"
+        ],
+        "levelreq": 1,
+        "gainFeatChoice": [
+            {
+                "_className": "FeatChoice",
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Assurance: Medicine"
+                    }
+                ],
+                "source": "Feat: Quah Bond: Skoan-Quah",
+                "type": "General"
+            }
+        ],
+        "gainSkillChoice": [
+            {
+                "_className": "SkillChoice",
+                "filter": [
+                    "Medicine"
+                ],
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Medicine",
+                        "source": "Feat: Quah Bond: Skoan-Quah"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Feat: Quah Bond: Skoan-Quah",
+                "type": "Skill"
+            }
+        ]
+    },
+    {
+        "name": "Quah Bond: Tamiir-Quah",
+        "desc": "You grew up among the Shoanti tribes, with the spirits watching over you, and they offer you guidance. You gain the trained proficiency rank in Acrobatics (or another skill of your choice, if you're already trained in that skill). You gain the Assurance skill feat in Acrobatics, as the spirits' help guides your actions.",
+        "access": "Shoanti ethnicity",
+        "subType": "Tamiir-Quah",
+        "superType": "Quah Bond",
+        "shortdesc": "You grew up among the Shoanti tribes, with the spirits watching over you, and they offer you guidance.",
+        "sourceBook": "Character Guide",
+        "traits": [
+            "Uncommon",
+            "Human"
+        ],
+        "levelreq": 1,
+        "gainFeatChoice": [
+            {
+                "_className": "FeatChoice",
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Assurance: Acrobatics"
+                    }
+                ],
+                "source": "Feat: Quah Bond: Tamiir-Quah",
+                "type": "General"
+            }
+        ],
+        "gainSkillChoice": [
+            {
+                "_className": "SkillChoice",
+                "filter": [
+                    "Acrobatics"
+                ],
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Acrobatics",
+                        "source": "Feat: Quah Bond: Tamiir-Quah"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Feat: Quah Bond: Tamiir-Quah",
+                "type": "Skill"
+            }
+        ]
+    },
+    {
+        "name": "Saoc Astrology",
+        "desc": "The ancient Saoc Brethren were the masters of astrology, and while your knowledge may be but a pale shadow of their wisdom, it still comes in handy.",
+        "access": "Lirgeni nationality",
+        "shortdesc": "The ancient Saoc Brethren were the masters of astrology, and while your knowledge may be but a pale shadow of their wisdom, it still comes in handy.",
+        "sourceBook": "Character Guide",
+        "traits": [
+            "Uncommon",
+            "Human",
+            "Concentrate"
+        ],
+        "levelreq": 1,
+        "gainActivities": [
+            "Saoc Astrology"
+        ]
+    },
+    {
+        "name": "Tupilaq Carver",
+        "desc": "You know the truth behind old stories that tell of sending a fetish of bone and sinew to seek vengeance. These old magics allow you to conjure constructs with ease. Add the summon construct spell to your spell list. The constructs you summon have a distinct ivory scrimshaw appearance, and if you include a drop of blood, lock of hair, or other portion of a creature's body as part of the spell's material component, the summoned construct gains a +4 status bonus to Perception checks to sense or locate that creature.",
+        "hints": [
+            {
+                "desc": "The constructs you summon have a distinct ivory scrimshaw appearance, and if you include a drop of blood, lock of hair, or other portion of a creature's body as part of the spell's material component, the summoned construct gains a +4 status bonus to Perception checks to sense or locate that creature.",
+                "showon": "Summon Construct"
+            }
+        ],
+        "access": "Erutaki ethnicity",
+        "shortdesc": "You know the truth behind old stories that tell of sending a fetish of bone and sinew to seek vengeance.",
+        "sourceBook": "Character Guide",
+        "traits": [
+            "Uncommon",
+            "Human"
+        ],
+        "levelreq": 1,
+        "specialreq": "character.get_DefaultSpellcasting() && ['Divine', 'Primal'].includes(character.get_DefaultSpellcasting().tradition)",
+        "specialreqdesc": "You have a spellcasting class feature with the divine or primal tradition",
+        "gainActivities": [
+            "Tupilaq Carver"
+        ],
+        "gainSpellListSpells": [
+            "Summon Construct"
+        ]
     },
     {
         "name": "Unconventional Weaponry",
+        "desc": "You've familiarized yourself with a particular weapon, potentially from another ancestry or culture. Choose an uncommon simple or martial weapon with a trait corresponding to an ancestry (such as dwarf, goblin, or orc) or that is common in another culture. You gain access to that weapon, and for the purpose of determining your proficiency, that weapon is a simple weapon.\n\nIf you are trained in all martial weapons, you can choose an uncommon advanced weapon with such a trait. You gain access to that weapon, and for the purpose of determining your proficiency, that weapon is a martial weapon.",
+        "subTypes": true,
         "shortdesc": "You've familiarized yourself with a particular weapon, potentially from another ancestry or culture.",
         "traits": [
             "Human"
@@ -25998,8 +27198,56 @@
         "levelreq": 1
     },
     {
+        "name": "Unconventional Weaponry: Uncommon Ancestry Weapon",
+        "desc": "You've familiarized yourself with a particular weapon, potentially from another ancestry or culture. You gain access to the Uncommon Ancestry Weapon, and for the purpose of determining your proficiency, that weapon is a simple weapon.",
+        "hide": true,
+        "subType": "Uncommon Ancestry Weapon",
+        "superType": "Unconventional Weaponry",
+        "shortdesc": "You've familiarized yourself with a particular weapon, potentially from another ancestry or culture.",
+        "weaponfeatbase": true,
+        "traits": [
+            "Human"
+        ],
+        "levelreq": 1,
+        "changeProficiency": [
+            {
+                "name": "Uncommon Ancestry Weapon",
+                "result": "Simple Weapons"
+            }
+        ]
+    },
+    {
+        "name": "Unconventional Weaponry: Uncommon Ancestry Advanced Weapon",
+        "desc": "You've familiarized yourself with a particular weapon, potentially from another ancestry or culture. You gain access to the Uncommon Ancestry Advanced Weapon, and for the purpose of determining your proficiency, that weapon is a martial weapon.",
+        "hide": true,
+        "subType": "Uncommon Ancestry Advanced Weapon",
+        "superType": "Unconventional Weaponry",
+        "shortdesc": "You've familiarized yourself with a particular weapon, potentially from another ancestry or culture.",
+        "weaponfeatbase": true,
+        "traits": [
+            "Human"
+        ],
+        "levelreq": 1,
+        "skillreq": [
+            {
+                "skill": "Martial Weapons",
+                "value": 2
+            }
+        ],
+        "changeProficiency": [
+            {
+                "name": "Uncommon Ancestry Advanced Weapon",
+                "result": "Martial Weapons"
+            }
+        ]
+    },
+    {
         "name": "Viking Shieldbearer",
+        "desc": "You trained with shields and weapons as soon as you were old enough to hold them, eager to win honor and glory for yourself. You gain the Shield Block reaction and are trained in your choice of the battle axe or longsword.",
+        "access": "Ulfen ethnicity",
+        "subTypes": true,
         "shortdesc": "You trained with shields and weapons as soon as you were old enough to hold them, eager to win honor and glory for yourself.",
+        "sourceBook": "Character Guide",
         "traits": [
             "Uncommon",
             "Human"
@@ -26007,8 +27255,90 @@
         "levelreq": 1
     },
     {
+        "name": "Viking Shieldbearer: Battle Axe",
+        "desc": "You trained with shields and weapons as soon as you were old enough to hold them, eager to win honor and glory for yourself. You gain the Shield Block reaction and are trained in the battle axe.",
+        "access": "Ulfen ethnicity",
+        "subType": "Battle Axe",
+        "superType": "Viking Shieldbearer",
+        "shortdesc": "You trained with shields and weapons as soon as you were old enough to hold them, eager to win honor and glory for yourself.",
+        "sourceBook": "Character Guide",
+        "traits": [
+            "Uncommon",
+            "Human"
+        ],
+        "levelreq": 1,
+        "gainActivities": [
+            "Shield Block"
+        ],
+        "gainSkillChoice": [
+            {
+                "_className": "SkillChoice",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Battle Axe",
+                        "source": "Feat: Viking Shieldbearer: Battle Axe"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Feat: Viking Shieldbearer: Battle Axe",
+                "type": "Specific Weapon Proficiency"
+            }
+        ]
+    },
+    {
+        "name": "Viking Shieldbearer: Longsword",
+        "desc": "You trained with shields and weapons as soon as you were old enough to hold them, eager to win honor and glory for yourself. You gain the Shield Block reaction and are trained in the longsword.",
+        "access": "Ulfen ethnicity",
+        "subType": "Longsword",
+        "superType": "Viking Shieldbearer",
+        "shortdesc": "You trained with shields and weapons as soon as you were old enough to hold them, eager to win honor and glory for yourself.",
+        "sourceBook": "Character Guide",
+        "traits": [
+            "Uncommon",
+            "Human"
+        ],
+        "levelreq": 1,
+        "gainActivities": [
+            "Shield Block"
+        ],
+        "gainSkillChoice": [
+            {
+                "_className": "SkillChoice",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Longsword",
+                        "source": "Feat: Viking Shieldbearer: Longsword"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Feat: Viking Shieldbearer: Longsword",
+                "type": "Specific Weapon Proficiency"
+            }
+        ]
+    },
+    {
         "name": "Witch Warden",
+        "desc": "You and your family have fought long and hard against witches, particularly the winter witches of Irrisen, and you've learned to be wary of their curses and the otherworldly powers their patrons grant. You gain a +1 circumstance bonus to saving throws against curses, and to saving throws against spells cast by a witch or hag. If you roll a success on a saving throw against a curse or a spell cast by a witch or hag, you get a critical success instead.",
+        "hints": [
+            {
+                "desc": "You gain a +1 circumstance bonus to saving throws against curses, and to saving throws against spells cast by a witch or hag. If you roll a success on a saving throw against a curse or a spell cast by a witch or hag, you get a critical success instead.",
+                "showon": "Saving Throws",
+                "effects": [
+                    {
+                        "affected": "Saving Throws",
+                        "value": "1",
+                        "type": "circumstance"
+                    }
+                ]
+            }
+        ],
+        "access": "Kellid ethnicity",
         "shortdesc": "You and your family have fought long and hard against witches, particularly the winter witches of Irrisen, and you've learned to be wary of their curses and the otherworldly powers their patrons grant.",
+        "sourceBook": "Character Guide",
         "traits": [
             "Uncommon",
             "Human"
@@ -26017,6 +27347,8 @@
     },
     {
         "name": "Adaptive Adept",
+        "desc": "You've continued adapting your magic to blend your class's tradition with your adapted tradition. Choose a cantrip or 1st-level spell from the same magical tradition as your cantrip from Adapted Cantrip. You gain that spell, adding it to your spell repertoire, spellbook, or prepared spells just like the cantrip from Adapted Cantrip. You can cast this spell as a spell of your class's magical tradition. If you choose a 1st-level spell, you don't gain access to the heightened versions of that spell, meaning you can't prepare them if you prepare spells and you can't learn them or select the spell as a signature spell if you have a spell repertoire.",
+        "subTypes": true,
         "shortdesc": "You've continued adapting your magic to blend your class's tradition with your adapted tradition.",
         "traits": [
             "Human"
@@ -26025,7 +27357,64 @@
         "featreq": [
             "Adapted Cantrip"
         ],
+        "specialreq": "character.get_DefaultSpellcasting()?.spellChoices.some(choice => choice.charLevelAvailable <= character.level && choice.level >= 3)",
         "specialreqdesc": "can cast 3rd-level spells"
+    },
+    {
+        "name": "Adaptive Adept: Cantrip",
+        "desc": "You've continued adapting your magic to blend your class's tradition with your adapted tradition. Choose a cantrip from the same magical tradition as your cantrip from Adapted Cantrip. You gain that spell, adding it to your spell repertoire, spellbook, or prepared spells just like the cantrip from Adapted Cantrip. You can cast this spell as a spell of your class's magical tradition.",
+        "subType": "Cantrip",
+        "superType": "Adaptive Adept",
+        "inputRequired": "Choosing from the same tradition as well as losing another spell is hardcoded.",
+        "shortdesc": "You've continued adapting your magic to blend your class's tradition with your adapted tradition.",
+        "traits": [
+            "Human"
+        ],
+        "levelreq": 5,
+        "featreq": [
+            "Adapted Cantrip"
+        ],
+        "specialreq": "character.get_DefaultSpellcasting()?.spellChoices.some(choice => choice.charLevelAvailable <= character.level && choice.level >= 3)",
+        "specialreqdesc": "can cast 3rd-level spells",
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "available": 0,
+                "castingType": "Default",
+                "className": "Default",
+                "id": "de4b3b45-63ba-4086-8e15-bbc98c8124b2",
+                "level": 0,
+                "source": "Feat: Adaptive Adept: Cantrip"
+            }
+        ]
+    },
+    {
+        "name": "Adaptive Adept: 1st-Level Spell",
+        "desc": "You've continued adapting your magic to blend your class's tradition with your adapted tradition. Choose a 1st-level spell from the same magical tradition as your cantrip from Adapted Cantrip. You gain that spell, adding it to your spell repertoire, spellbook, or prepared spells just like the cantrip from Adapted Cantrip. You can cast this spell as a spell of your class's magical tradition. You don't gain access to the heightened versions of that spell, meaning you can't prepare them if you prepare spells and you can't learn them or select the spell as a signature spell if you have a spell repertoire.",
+        "subType": "1st-Level Spell",
+        "superType": "Adaptive Adept",
+        "inputRequired": "Choosing from the same tradition as well as losing another spell is hardcoded.",
+        "shortdesc": "You've continued adapting your magic to blend your class's tradition with your adapted tradition.",
+        "traits": [
+            "Human"
+        ],
+        "levelreq": 5,
+        "featreq": [
+            "Adapted Cantrip"
+        ],
+        "specialreq": "character.get_DefaultSpellcasting()?.spellChoices.some(choice => choice.charLevelAvailable <= character.level && choice.level >= 3)",
+        "specialreqdesc": "can cast 3rd-level spells",
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "available": 0,
+                "castingType": "Default",
+                "className": "Default",
+                "id": "de4b3b45-63ba-4086-8e15-bbc98c8124b2",
+                "level": 1,
+                "source": "Feat: Adaptive Adept: 1st-Level Spell"
+            }
+        ]
     },
     {
         "name": "Clever Improviser",
@@ -26057,18 +27446,26 @@
     },
     {
         "name": "Darkseer",
+        "desc": "Zon-Kuthon smiles upon you - even if you curse his name - granting you pitch-black eyes that allow you to see in shadows and darkness. You gain darkvision.",
         "shortdesc": "Zon-Kuthon smiles upon you - even if you curse his name - granting you pitch-black eyes that allow you to see in shadows and darkness.",
+        "sourceBook": "Character Guide",
         "traits": [
             "Human"
         ],
         "levelreq": 5,
         "featreq": [
             "Gloomseer"
+        ],
+        "senses": [
+            "Darkvision"
         ]
     },
     {
         "name": "Ornate Tattoo",
+        "desc": "You expand your tattoos to encompass greater magic. Choose a 1st-level arcane spell from the same school as your Arcane Tattoos, either a common spell or another to which you have access. You can cast that spell once per day as an innate arcane spell.",
+        "subTypes": true,
         "shortdesc": "You expand your tattoos to encompass greater magic.",
+        "sourceBook": "Character Guide",
         "traits": [
             "Human"
         ],
@@ -26078,19 +27475,260 @@
         ]
     },
     {
-        "name": "Wavetouched Paragon",
-        "shortdesc": "You have been blessed by the sea, granting you the ability to swim like a fish.",
+        "name": "Ornate Tattoo: Abjuration",
+        "desc": "You expand your tattoos to encompass greater magic. Choose a 1st-level arcane spell from the Abjuration school, either a common spell or another to which you have access. You can cast that spell once per day as an innate arcane spell.",
+        "subType": "Abjuration",
+        "superType": "Ornate Tattoo",
+        "shortdesc": "You expand your tattoos to encompass greater magic.",
+        "sourceBook": "Character Guide",
         "traits": [
             "Human"
         ],
         "levelreq": 5,
+        "featreq": [
+            "Arcane Tattoos: Abjuration"
+        ],
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "available": 1,
+                "castingType": "Innate",
+                "className": "Innate",
+                "cooldown": 144000,
+                "frequency": "once per day",
+                "id": "75c97520-5cba-429d-afe3-f8fff71e91e0",
+                "level": 1,
+                "source": "Feat: Ornate Tattoo: Abjuration",
+                "tradition": "Arcane",
+                "traitFilter": [
+                    "Abjuration"
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Ornate Tattoo: Conjuration",
+        "desc": "You expand your tattoos to encompass greater magic. Choose a 1st-level arcane spell from the Conjuration school, either a common spell or another to which you have access. You can cast that spell once per day as an innate arcane spell.",
+        "subType": "Conjuration",
+        "superType": "Ornate Tattoo",
+        "shortdesc": "You expand your tattoos to encompass greater magic.",
+        "sourceBook": "Character Guide",
+        "traits": [
+            "Human"
+        ],
+        "levelreq": 5,
+        "featreq": [
+            "Arcane Tattoos: Conjuration"
+        ],
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "available": 1,
+                "castingType": "Innate",
+                "className": "Innate",
+                "cooldown": 144000,
+                "frequency": "once per day",
+                "id": "293f3855-9f9d-4a07-80d7-229c4c3979ad",
+                "level": 1,
+                "source": "Feat: Ornate Tattoo: Conjuration",
+                "tradition": "Arcane",
+                "traitFilter": [
+                    "Conjuration"
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Ornate Tattoo: Enchantment",
+        "desc": "You expand your tattoos to encompass greater magic. Choose a 1st-level arcane spell from the Enchantment school, either a common spell or another to which you have access. You can cast that spell once per day as an innate arcane spell.",
+        "subType": "Enchantment",
+        "superType": "Ornate Tattoo",
+        "shortdesc": "You expand your tattoos to encompass greater magic.",
+        "sourceBook": "Character Guide",
+        "traits": [
+            "Human"
+        ],
+        "levelreq": 5,
+        "featreq": [
+            "Arcane Tattoos: Enchantment"
+        ],
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "available": 1,
+                "castingType": "Innate",
+                "className": "Innate",
+                "cooldown": 144000,
+                "frequency": "once per day",
+                "id": "1e40a6df-dc55-47ef-a671-71de5bd418e4",
+                "level": 1,
+                "source": "Feat: Ornate Tattoo: Enchantment",
+                "tradition": "Arcane",
+                "traitFilter": [
+                    "Enchantment"
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Ornate Tattoo: Evocation",
+        "desc": "You expand your tattoos to encompass greater magic. Choose a 1st-level arcane spell from the Evocation school, either a common spell or another to which you have access. You can cast that spell once per day as an innate arcane spell.",
+        "subType": "Evocation",
+        "superType": "Ornate Tattoo",
+        "shortdesc": "You expand your tattoos to encompass greater magic.",
+        "sourceBook": "Character Guide",
+        "traits": [
+            "Human"
+        ],
+        "levelreq": 5,
+        "featreq": [
+            "Arcane Tattoos: Evocation"
+        ],
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "available": 1,
+                "castingType": "Innate",
+                "className": "Innate",
+                "cooldown": 144000,
+                "frequency": "once per day",
+                "id": "f19fbe57-c1b2-4fc2-915c-6658dc48cdd4",
+                "level": 1,
+                "source": "Feat: Ornate Tattoo: Evocation",
+                "tradition": "Arcane",
+                "traitFilter": [
+                    "Evocation"
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Ornate Tattoo: Illusion",
+        "desc": "You expand your tattoos to encompass greater magic. Choose a 1st-level arcane spell from the Illusion school, either a common spell or another to which you have access. You can cast that spell once per day as an innate arcane spell.",
+        "subType": "Illusion",
+        "superType": "Ornate Tattoo",
+        "shortdesc": "You expand your tattoos to encompass greater magic.",
+        "sourceBook": "Character Guide",
+        "traits": [
+            "Human"
+        ],
+        "levelreq": 5,
+        "featreq": [
+            "Arcane Tattoos: Illusion"
+        ],
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "available": 1,
+                "castingType": "Innate",
+                "className": "Innate",
+                "cooldown": 144000,
+                "frequency": "once per day",
+                "id": "98f90f55-844d-4868-93f1-2fb1760449d8",
+                "level": 1,
+                "source": "Feat: Ornate Tattoo: Illusion",
+                "tradition": "Arcane",
+                "traitFilter": [
+                    "Illusion"
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Ornate Tattoo: Necromancy",
+        "desc": "You expand your tattoos to encompass greater magic. Choose a 1st-level arcane spell from the Necromancy school, either a common spell or another to which you have access. You can cast that spell once per day as an innate arcane spell.",
+        "subType": "Necromancy",
+        "superType": "Ornate Tattoo",
+        "shortdesc": "You expand your tattoos to encompass greater magic.",
+        "sourceBook": "Character Guide",
+        "traits": [
+            "Human"
+        ],
+        "levelreq": 5,
+        "featreq": [
+            "Arcane Tattoos: Necromancy"
+        ],
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "available": 1,
+                "castingType": "Innate",
+                "className": "Innate",
+                "cooldown": 144000,
+                "frequency": "once per day",
+                "id": "346f6a1c-95f8-4c5f-9778-ff53bb384f13",
+                "level": 1,
+                "source": "Feat: Ornate Tattoo: Necromancy",
+                "tradition": "Arcane",
+                "traitFilter": [
+                    "Necromancy"
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Ornate Tattoo: Transmutation",
+        "desc": "You expand your tattoos to encompass greater magic. Choose a 1st-level arcane spell from the Transmutation school, either a common spell or another to which you have access. You can cast that spell once per day as an innate arcane spell.",
+        "subType": "Transmutation",
+        "superType": "Ornate Tattoo",
+        "shortdesc": "You expand your tattoos to encompass greater magic.",
+        "sourceBook": "Character Guide",
+        "traits": [
+            "Human"
+        ],
+        "levelreq": 5,
+        "featreq": [
+            "Arcane Tattoos: Transmutation"
+        ],
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "available": 1,
+                "castingType": "Innate",
+                "className": "Innate",
+                "cooldown": 144000,
+                "frequency": "once per day",
+                "id": "a5825d7f-cebb-4a12-bd91-ff8cd471e73f",
+                "level": 1,
+                "source": "Feat: Ornate Tattoo: Transmutation",
+                "tradition": "Arcane",
+                "traitFilter": [
+                    "Transmutation"
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Wavetouched Paragon",
+        "desc": "You have been blessed by the sea, granting you the ability to swim like a fish. You gain a 15-foot swim Speed.",
+        "specialdesc": "If you have the Bonuwat Wavetouched background, you can take this feat at 1st level instead of 5th.",
+        "shortdesc": "You have been blessed by the sea, granting you the ability to swim like a fish.",
+        "sourceBook": "Character Guide",
+        "traits": [
+            "Human"
+        ],
+        "levelreq": 5,
+        "specialreq": "true",
         "specialreqdesc": "Bonuwat ethnicity",
         "ignoreRequirements": [
             "(character.class.background.name == 'Bonuwat Wavetouched') ? 'levelreq' : ''"
+        ],
+        "effects": [
+            {
+                "affected": "Swim Speed",
+                "setValue": "15"
+            }
         ]
     },
     {
         "name": "Cooperative Soul",
+        "desc": "You have developed a soul-deep bond with your comrades and maintain an even greater degree of cooperation with them. If you are at least an expert in the skill you are Aiding, you get a success on any outcome rolled to Aid other than a critical success.",
+        "hints": [
+            {
+                "desc": "If you are at least an expert in the skill you are Aiding, you get a success on any outcome rolled to Aid other than a critical success.",
+                "showon": "Skills"
+            }
+        ],
         "shortdesc": "You have developed a soul-deep bond with your comrades and maintain an even greater degree of cooperation with them.",
         "traits": [
             "Human"
@@ -26102,7 +27740,7 @@
     },
     {
         "name": "Dragon Prince",
-        "desc": "The blood of the Dragon Kings runs strong in your veins. Your draconic heritage is clearly visible, with hair that is almost entirely crimson, azure, or the like, and that shines like a dragon’s scales. You can cast the dragon breath sorcerer bloodline spell as an innate arcane spell once per day, but you can use only the dragon breath that is associated with your heritage and that matches the energy type of your Dragon Spit feat. At 12th level and every 3 levels thereafter, the spell is heightened by an additional spell level.",
+        "desc": "The blood of the Dragon Kings runs strong in your veins. Your draconic heritage is clearly visible, with hair that is almost entirely crimson, azure, or the like, and that shines like a dragon's scales. You can cast the dragon breath sorcerer bloodline spell as an innate arcane spell once per day, but you can use only the dragon breath that is associated with your heritage and that matches the energy type of your Dragon Spit feat. At 12th level and every 3 levels thereafter, the spell is heightened by an additional spell level.",
         "hints": [
             {
                 "desc": "When you cast dragon breath as an innate spell gained through the Dragon Prince feat, you can use only the dragon breath that is associated with your heritage and that matches the energy type of your Dragon Spit feat.",
@@ -26126,7 +27764,7 @@
                 "cooldown": 144000,
                 "dynamicLevel": "Math.max(3, Math.floor(Character.level/3))",
                 "frequency": "once per day",
-                "id": "073f1877-29f1-49cb-adc9-e7c9b0da4235",
+                "id": "179dbde1-d116-48d9-84e5-a01fca435109",
                 "source": "Feat: Dragon Prince",
                 "spells": [
                     {
@@ -26134,13 +27772,22 @@
                         "locked": true,
                         "name": "Dragon Breath"
                     }
-                ]
+                ],
+                "tradition": "Focus"
             }
         ]
     },
     {
         "name": "Heir of the Saoc",
+        "desc": "In the past, you would have been a proud initiate of the Saoc Brethren. Today, you carry on their legacy. When you use Saoc Astrology, roll 1d4 instead; on a 1, you take a -1 penalty to the skill check. On any other result, you gain a circumstance bonus of that value (for instance, a +3 circumstance bonus on a 3).",
+        "hints": [
+            {
+                "desc": "When you use Saoc Astrology, roll 1d4 instead; on a 1, you take a -1 penalty to the skill check. On any other result, you gain a circumstance bonus of that value (for instance, a +3 circumstance bonus on a 3).",
+                "showon": "Saoc Astrology"
+            }
+        ],
         "shortdesc": "In the past, you would have been a proud initiate of the Saoc Brethren.",
+        "sourceBook": "Character Guide",
         "traits": [
             "Human"
         ],
@@ -26151,6 +27798,7 @@
     },
     {
         "name": "Incredible Improvisation",
+        "desc": "A stroke of brilliance gives you a major advantage with a skill despite your inexperience.",
         "shortdesc": "A stroke of brilliance gives you a major advantage with a skill despite your inexperience.",
         "traits": [
             "Human"
@@ -26158,12 +27806,15 @@
         "levelreq": 9,
         "featreq": [
             "Clever Improviser"
+        ],
+        "gainActivities": [
+            "Incredible Improvisation"
         ]
     },
     {
         "name": "Multitalented",
-        "sourceBook": "Character Guide",
-        "desc": "You've learned to split your focus between multiple classes with ease. You gain a 2nd-level multiclass dedication feat, even if you normally couldn't take another dedication feat until you take more feats from your current archetype.",
+        "desc": "You've learned to split your focus between multiple classes with ease. You gain a 2nd-level multiclass dedication feat, even if you normally couldn't take another dedication feat until you take more feats from your current archetype.\n\nIf you're a half-elf, you don't need to meet the feat's ability score prerequisites.",
+        "shortdesc": "You've learned to split your focus between multiple classes with ease.",
         "traits": [
             "Human"
         ],
@@ -26172,28 +27823,54 @@
             {
                 "_className": "FeatChoice",
                 "available": 1,
-                "level": 2,
-                "source": "Feat: Multitalented",
-                "type": "Multiclass",
                 "ignoreRequirements": [
                     "'dedicationlimit'",
                     "(character.class?.heritage?.name == 'Half-Elf' || character.class?.additionalHeritages.some(extraHeritage => extraHeritage.name = 'Half-Elf')) ? 'abilityreq' : ''"
-                ]
+                ],
+                "level": 2,
+                "source": "Feat: Multitalented",
+                "type": "Multiclass"
             }
         ]
     },
     {
         "name": "Shory Aeromancer",
+        "desc": "Your ancestors hailed from the flying cities of the Shory, and a few simple tricks have come down through the ages to you. You can cast 4th-level fly on yourself as an innate arcane spell once per day.",
         "shortdesc": "Your ancestors hailed from the flying cities of the Shory, and a few simple tricks have come down through the ages to you.",
+        "sourceBook": "Character Guide",
         "traits": [
             "Human"
         ],
         "levelreq": 9,
-        "specialreqdesc": "Garundi, Mauxi, or Tian-Yae ethnicity"
+        "specialreq": "true",
+        "specialreqdesc": "Garundi, Mauxi, or Tian-Yae ethnicity",
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Innate",
+                "className": "Innate",
+                "cooldown": 144000,
+                "frequency": "once per day",
+                "id": "66e32fdc-d98c-4152-a733-a165d1c879a5",
+                "level": 4,
+                "source": "Feat: Shory Aeromancer",
+                "spells": [
+                    {
+                        "_className": "SpellGain",
+                        "locked": true,
+                        "name": "Fly"
+                    }
+                ],
+                "tradition": "Arcane"
+            }
+        ]
     },
     {
         "name": "Virtue-Forged Tattoos",
+        "desc": "Your tattoos are a work of eldritch genius, a masterpiece of art, magic, and skin. Choose a 3rd-level arcane spell from the same school as your Arcane Tattoos, either a common spell or another to which you have access, including a lower-level spell heightened to 3rd level if you wish. You can cast that spell once per day as an innate arcane spell.",
+        "subTypes": true,
         "shortdesc": "Your tattoos are a work of eldritch genius, a masterpiece of art, magic, and skin.",
+        "sourceBook": "Character Guide",
         "traits": [
             "Human"
         ],
@@ -26203,35 +27880,346 @@
         ]
     },
     {
+        "name": "Virtue-Forged Tattoos: Abjuration",
+        "desc": "Your tattoos are a work of eldritch genius, a masterpiece of art, magic, and skin. Choose a 3rd-level arcane spell from the Abjuration school, either a common spell or another to which you have access, including a lower-level spell heightened to 3rd level if you wish. You can cast that spell once per day as an innate arcane spell.",
+        "subType": "Abjuration",
+        "superType": "Virtue-Forged Tattoos",
+        "shortdesc": "Your tattoos are a work of eldritch genius, a masterpiece of art, magic, and skin.",
+        "sourceBook": "Character Guide",
+        "traits": [
+            "Human"
+        ],
+        "levelreq": 9,
+        "featreq": [
+            "Ornate Tattoo: Abjuration"
+        ],
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "available": 1,
+                "castingType": "Innate",
+                "className": "Innate",
+                "cooldown": 144000,
+                "frequency": "once per day",
+                "id": "2dbc0e80-09c3-4c55-9201-9a629d6e0875",
+                "level": 3,
+                "source": "Feat: Virtue-Forged Tattoos: Abjuration",
+                "tradition": "Arcane",
+                "traitFilter": [
+                    "Abjuration"
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Virtue-Forged Tattoos: Conjuration",
+        "desc": "Your tattoos are a work of eldritch genius, a masterpiece of art, magic, and skin. Choose a 3rd-level arcane spell from the Conjuration school, either a common spell or another to which you have access, including a lower-level spell heightened to 3rd level if you wish. You can cast that spell once per day as an innate arcane spell.",
+        "subType": "Conjuration",
+        "superType": "Virtue-Forged Tattoos",
+        "shortdesc": "Your tattoos are a work of eldritch genius, a masterpiece of art, magic, and skin.",
+        "sourceBook": "Character Guide",
+        "traits": [
+            "Human"
+        ],
+        "levelreq": 9,
+        "featreq": [
+            "Ornate Tattoo: Conjuration"
+        ],
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "available": 1,
+                "castingType": "Innate",
+                "className": "Innate",
+                "cooldown": 144000,
+                "frequency": "once per day",
+                "id": "01f49e66-2f0a-4b37-80a9-7bde989ea8f4",
+                "level": 3,
+                "source": "Feat: Virtue-Forged Tattoos: Conjuration",
+                "tradition": "Arcane",
+                "traitFilter": [
+                    "Conjuration"
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Virtue-Forged Tattoos: Enchantment",
+        "desc": "Your tattoos are a work of eldritch genius, a masterpiece of art, magic, and skin. Choose a 3rd-level arcane spell from the Enchantment school, either a common spell or another to which you have access, including a lower-level spell heightened to 3rd level if you wish. You can cast that spell once per day as an innate arcane spell.",
+        "subType": "Enchantment",
+        "superType": "Virtue-Forged Tattoos",
+        "shortdesc": "Your tattoos are a work of eldritch genius, a masterpiece of art, magic, and skin.",
+        "sourceBook": "Character Guide",
+        "traits": [
+            "Human"
+        ],
+        "levelreq": 9,
+        "featreq": [
+            "Ornate Tattoo: Enchantment"
+        ],
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "available": 1,
+                "castingType": "Innate",
+                "className": "Innate",
+                "cooldown": 144000,
+                "frequency": "once per day",
+                "id": "27ecf8e4-2062-4583-b559-e061f1f494b7",
+                "level": 3,
+                "source": "Feat: Virtue-Forged Tattoos: Enchantment",
+                "tradition": "Arcane",
+                "traitFilter": [
+                    "Enchantment"
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Virtue-Forged Tattoos: Evocation",
+        "desc": "Your tattoos are a work of eldritch genius, a masterpiece of art, magic, and skin. Choose a 3rd-level arcane spell from the Evocation school, either a common spell or another to which you have access, including a lower-level spell heightened to 3rd level if you wish. You can cast that spell once per day as an innate arcane spell.",
+        "subType": "Evocation",
+        "superType": "Virtue-Forged Tattoos",
+        "shortdesc": "Your tattoos are a work of eldritch genius, a masterpiece of art, magic, and skin.",
+        "sourceBook": "Character Guide",
+        "traits": [
+            "Human"
+        ],
+        "levelreq": 9,
+        "featreq": [
+            "Ornate Tattoo: Evocation"
+        ],
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "available": 1,
+                "castingType": "Innate",
+                "className": "Innate",
+                "cooldown": 144000,
+                "frequency": "once per day",
+                "id": "a4b18ae8-8d58-4c9c-80cf-e378272a4b46",
+                "level": 3,
+                "source": "Feat: Virtue-Forged Tattoos: Evocation",
+                "tradition": "Arcane",
+                "traitFilter": [
+                    "Evocation"
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Virtue-Forged Tattoos: Illusion",
+        "desc": "Your tattoos are a work of eldritch genius, a masterpiece of art, magic, and skin. Choose a 3rd-level arcane spell from the Illusion school, either a common spell or another to which you have access, including a lower-level spell heightened to 3rd level if you wish. You can cast that spell once per day as an innate arcane spell.",
+        "subType": "Illusion",
+        "superType": "Virtue-Forged Tattoos",
+        "shortdesc": "Your tattoos are a work of eldritch genius, a masterpiece of art, magic, and skin.",
+        "sourceBook": "Character Guide",
+        "traits": [
+            "Human"
+        ],
+        "levelreq": 9,
+        "featreq": [
+            "Ornate Tattoo: Illusion"
+        ],
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "available": 1,
+                "castingType": "Innate",
+                "className": "Innate",
+                "cooldown": 144000,
+                "frequency": "once per day",
+                "id": "e265f172-72b7-45a0-825c-d30bda6a109f",
+                "level": 3,
+                "source": "Feat: Virtue-Forged Tattoos: Illusion",
+                "tradition": "Arcane",
+                "traitFilter": [
+                    "Illusion"
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Virtue-Forged Tattoos: Necromancy",
+        "desc": "Your tattoos are a work of eldritch genius, a masterpiece of art, magic, and skin. Choose a 3rd-level arcane spell from the Necromancy school, either a common spell or another to which you have access, including a lower-level spell heightened to 3rd level if you wish. You can cast that spell once per day as an innate arcane spell.",
+        "subType": "Necromancy",
+        "superType": "Virtue-Forged Tattoos",
+        "shortdesc": "Your tattoos are a work of eldritch genius, a masterpiece of art, magic, and skin.",
+        "sourceBook": "Character Guide",
+        "traits": [
+            "Human"
+        ],
+        "levelreq": 9,
+        "featreq": [
+            "Ornate Tattoo: Necromancy"
+        ],
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "available": 1,
+                "castingType": "Innate",
+                "className": "Innate",
+                "cooldown": 144000,
+                "frequency": "once per day",
+                "id": "80867cc4-f2f8-4f32-9cc8-7a3820fda0c7",
+                "level": 3,
+                "source": "Feat: Virtue-Forged Tattoos: Necromancy",
+                "tradition": "Arcane",
+                "traitFilter": [
+                    "Necromancy"
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Virtue-Forged Tattoos: Transmutation",
+        "desc": "Your tattoos are a work of eldritch genius, a masterpiece of art, magic, and skin. Choose a 3rd-level arcane spell from the Transmutation school, either a common spell or another to which you have access, including a lower-level spell heightened to 3rd level if you wish. You can cast that spell once per day as an innate arcane spell.",
+        "subType": "Transmutation",
+        "superType": "Virtue-Forged Tattoos",
+        "shortdesc": "Your tattoos are a work of eldritch genius, a masterpiece of art, magic, and skin.",
+        "sourceBook": "Character Guide",
+        "traits": [
+            "Human"
+        ],
+        "levelreq": 9,
+        "featreq": [
+            "Ornate Tattoo: Transmutation"
+        ],
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "available": 1,
+                "castingType": "Innate",
+                "className": "Innate",
+                "cooldown": 144000,
+                "frequency": "once per day",
+                "id": "e35f0771-e33f-4f89-89a4-689c135a9800",
+                "level": 3,
+                "source": "Feat: Virtue-Forged Tattoos: Transmutation",
+                "tradition": "Arcane",
+                "traitFilter": [
+                    "Transmutation"
+                ]
+            }
+        ]
+    },
+    {
         "name": "Irriseni Ice-Witch",
+        "desc": "You can trace your direct descent from one of the Queens of Irrisen and thus from Baba Yaga herself. Your resistance to cold increases to 5 + half your level, and you can cast 5th-level wall of ice as an innate arcane spell once per day.",
         "shortdesc": "You can trace your direct descent from one of the Queens of Irrisen and thus from Baba Yaga herself.",
+        "sourceBook": "Character Guide",
         "traits": [
             "Human"
         ],
         "levelreq": 13,
         "heritagereq": "wintertouched human",
-        "specialreqdesc": "Jadwiga ethnicity"
+        "specialreq": "true",
+        "specialreqdesc": "Jadwiga ethnicity",
+        "effects": [
+            {
+                "affected": "Cold Resistance",
+                "value": "5"
+            }
+        ],
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Innate",
+                "className": "Innate",
+                "cooldown": 144000,
+                "frequency": "once per day",
+                "id": "b9b9af85-68ef-422e-92e4-602e354d5606",
+                "level": 4,
+                "source": "Feat: Irriseni Ice-Witch",
+                "spells": [
+                    {
+                        "_className": "SpellGain",
+                        "locked": true,
+                        "name": "Wall of Ice"
+                    }
+                ],
+                "tradition": "Arcane"
+            }
+        ]
     },
     {
         "name": "Shadow Pact",
+        "desc": "Thousands of years ago, your ancestors made a pact with Zon-Kuthon. He has not forgotten, even if you might wish he had. You can take 1 damage to mix blood and shadows to cast 5th-level creation as an innate divine spell. You can use this ability as often as you wish, but you can have only one such object in existence at a time. If the object encounters bright light, the spell ends and the object dissolves into shadows.",
+        "hints": [
+            {
+                "desc": "When you cast 5th-level creation as an innate divine spell gained through the Shadow Pact feat, take 1 damage to mix blood and shadows to cast the spell. You can use this ability as often as you wish, but you can have only one such object in existence at a time. If the object encounters bright light, the spell ends and the object dissolves into shadows.",
+                "showon": "Creation"
+            }
+        ],
         "shortdesc": "Thousands of years ago, your ancestors made a pact with Zon-Kuthon.",
+        "sourceBook": "Character Guide",
         "traits": [
             "Human"
         ],
         "levelreq": 13,
-        "specialreqdesc": "Nidalese ethnicity"
+        "specialreq": "true",
+        "specialreqdesc": "Nidalese ethnicity",
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Innate",
+                "className": "Innate",
+                "cooldown": 144000,
+                "frequency": "once per day",
+                "id": "681a91f7-a8b9-47f1-b811-e80ca7225812",
+                "level": 4,
+                "source": "Feat: Shadow Pact",
+                "spells": [
+                    {
+                        "_className": "SpellGain",
+                        "locked": true,
+                        "name": "Creation"
+                    }
+                ],
+                "tradition": "Divine"
+            }
+        ]
     },
     {
         "name": "Shory Aerialist",
+        "desc": "Unique in Golarion's history, the Shory people developed fighting styles dedicated to combat in the air. You gain a +2 circumstance bonus to Acrobatics checks to Maneuver in Flight and a +5-foot status bonus to your fly Speed whenever you are flying via magic.",
+        "hints": [
+            {
+                "desc": "You gain a +2 circumstance bonus to Acrobatics checks to Maneuver in Flight.",
+                "showon": "Acrobatics",
+                "effects": [
+                    {
+                        "affected": "Acrobatics",
+                        "value": "2",
+                        "type": "circumstance"
+                    }
+                ]
+            },
+            {
+                "desc": "You gain a +5-foot status bonus to your fly Speed whenever you are flying via magic.",
+                "showon": "Movement",
+                "effects": [
+                    {
+                        "affected": "Fly Speed",
+                        "value": "5",
+                        "type": "status"
+                    }
+                ]
+            }
+        ],
         "shortdesc": "Unique in Golarion's history, the Shory people developed fighting styles dedicated to combat in the air.",
+        "sourceBook": "Character Guide",
         "traits": [
             "Human"
         ],
         "levelreq": 13,
+        "specialreq": "character.get_SpellsTaken(this, 1, character.level, -1, 'Fly').length || character.get_SpellsLearned('Fly').length || character.get_FeatsTaken(1, character.level, 'Shory Aeromancer')",
         "specialreqdesc": "Garundi, Mauxi, or Tian-Yae ethnicity; Shory Aeromancer or ability to cast fly"
     },
     {
         "name": "Unconventional Expertise",
+        "desc": "You've continued to advance your powers using your unconventional weapon. Whenever you gain a class feature that grants you expert or greater proficiency in certain weapons, you also gain that proficiency in the weapon you chose for Unconventional Weaponry.",
+        "subTypes": true,
         "shortdesc": "You've continued to advance your powers using your unconventional weapon.",
         "traits": [
             "Human"
@@ -26239,8 +28227,55 @@
         "levelreq": 13,
         "featreq": [
             "Unconventional Weaponry"
+        ]
+    },
+    {
+        "name": "Unconventional Expertise: Uncommon Ancestry Weapon",
+        "desc": "You've continued to advance your powers using your unconventional weapon. Whenever you gain a class feature that grants you expert or greater proficiency in certain weapons, you also gain that proficiency in the Uncommon Ancestry Weapon.",
+        "hide": true,
+        "subType": "Uncommon Ancestry Weapon",
+        "superType": "Unconventional Expertise",
+        "shortdesc": "You've familiarized yourself with a particular weapon, potentially from another ancestry or culture.",
+        "weaponfeatbase": true,
+        "traits": [
+            "Human"
         ],
-        "specialreqdesc": "trained in the weapon you chose for Unconventional Weaponry"
+        "levelreq": 13,
+        "featreq": [
+            "Unconventional Weaponry: Uncommon Ancestry Weapon"
+        ],
+        "specialreq": "characterService.get_Skills(character, this.subType)[0]?.level(character, characterService) >= 2",
+        "specialreqdesc": "trained in the Uncommon Ancestry Weapon",
+        "copyProficiency": [
+            {
+                "name": "Uncommon Ancestry Weapon",
+                "featuresOnly": true
+            }
+        ]
+    },
+    {
+        "name": "Unconventional Expertise: Uncommon Ancestry Advanced Weapon",
+        "desc": "You've continued to advance your powers using your unconventional weapon. Whenever you gain a class feature that grants you expert or greater proficiency in certain weapons, you also gain that proficiency in the Uncommon Ancestry Advanced Weapon.",
+        "hide": true,
+        "subType": "Uncommon Ancestry Advanced Weapon",
+        "superType": "Unconventional Expertise",
+        "shortdesc": "You've familiarized yourself with a particular weapon, potentially from another ancestry or culture.",
+        "weaponfeatbase": true,
+        "traits": [
+            "Human"
+        ],
+        "levelreq": 13,
+        "featreq": [
+            "Unconventional Weaponry: Uncommon Ancestry Advanced Weapon"
+        ],
+        "specialreq": "characterService.get_Skills(character, this.subType)[0]?.level(character, characterService) >= 2",
+        "specialreqdesc": "trained in the Uncommon Ancestry Advanced Weapon",
+        "copyProficiency": [
+            {
+                "name": "Uncommon Ancestry Advanced Weapon",
+                "featuresOnly": true
+            }
+        ]
     },
     {
         "name": "Ancestral Longevity",
@@ -26250,6 +28285,7 @@
             "Elf"
         ],
         "levelreq": 1,
+        "specialreq": "true",
         "specialreqdesc": "at least 100 years old",
         "gainSkillChoice": [
             {
@@ -26465,6 +28501,7 @@
             "Elf"
         ],
         "levelreq": 1,
+        "specialreq": "true",
         "specialreqdesc": "Mualijae, Ilverani, or Vourinoi ethnicity"
     },
     {
@@ -26618,6 +28655,7 @@
             "Elf"
         ],
         "levelreq": 13,
+        "specialreq": "true",
         "specialreqdesc": "arctic elf, cavern elf, desert elf, woodland elf, or any other elf heritage based on adapting to an environment"
     },
     {
@@ -27000,78 +29038,6 @@
         "levelreq": 1,
         "featreq": [
             "Paladin"
-        ]
-    },
-    {
-        "name": "Adaptive Adept",
-        "desc": "You've continued adapting your magic to blend your class's tradition with your adapted tradition. Choose a cantrip from the same magical tradition as your cantrip from Adapted Cantrip. You gain that spell, adding it to your spell repertoire, spellbook, or prepared spells just like the cantrip from Adapted Cantrip. You can cast this spell as a spell of your class's magical tradition.",
-        "internalNote": "Choosing from another tradition as well as losing a cantrip is hardcoded.",
-        "shortdesc": "You've continued adapting your magic to blend your class's tradition with your adapted tradition.",
-        "traits": [
-            "Human"
-        ],
-        "levelreq": 1,
-        "featreq": [
-            "Adapted Cantrip"
-        ],
-        "specialreq": "character.get_DefaultSpellcasting()?.spellChoices.some(choice => choice.charLevelAvailable <= character.level && choice.level >= 3)",
-        "specialreqdesc": "can cast 3rd-level spells",
-        "subTypes": true
-    },
-    {
-        "name": "Adaptive Adept: Cantrip",
-        "desc": "You've continued adapting your magic to blend your class's tradition with your adapted tradition. Choose a cantrip from the same magical tradition as your cantrip from Adapted Cantrip. You gain that spell, adding it to your spell repertoire, spellbook, or prepared spells just like the cantrip from Adapted Cantrip. You can cast this spell as a spell of your class's magical tradition.",
-        "internalNote": "Choosing from another tradition as well as losing a cantrip is hardcoded.",
-        "shortdesc": "You've continued adapting your magic to blend your class's tradition with your adapted tradition.",
-        "traits": [
-            "Human"
-        ],
-        "levelreq": 1,
-        "featreq": [
-            "Adapted Cantrip"
-        ],
-        "specialreq": "character.get_DefaultSpellcasting()?.spellChoices.some(choice => choice.charLevelAvailable <= character.level && choice.level >= 3)",
-        "specialreqdesc": "can cast 3rd-level spells",
-        "subType": "Cantrip",
-        "superType": "Adaptive Adept",
-        "gainSpellChoice": [
-            {
-                "_className": "SpellChoice",
-                "available": 0,
-                "castingType": "Default",
-                "className": "Default",
-                "id": "de4b3b45-63ba-4086-8e15-bbc98c8124b2",
-                "level": 0,
-                "source": "Feat: Adaptive Adept: Cantrip"
-            }
-        ]
-    },
-    {
-        "name": "Adaptive Adept: 1st-Level Spell",
-        "desc": "Through study of multiple magical traditions, you've altered a spell to suit your spellcasting style. Choose one cantrip from a magical tradition other than your own. If you have a spell repertoire or a spellbook, replace one of the cantrips you know or have in your spellbook with the chosen spell. If you prepare spells without a spellbook (if you're a cleric or druid, for example), one of your cantrips must always be the chosen spell, and you prepare the rest normally. You can cast this cantrip as a spell of your class's tradition.\n\nIf you swap or retrain this cantrip later, you can choose its replacement from the same alternate tradition or a different one.",
-        "internalNote": "Choosing from another tradition as well as losing a cantrip is hardcoded.",
-        "shortdesc": "You've continued adapting your magic to blend your class's tradition with your adapted tradition.",
-        "traits": [
-            "Human"
-        ],
-        "levelreq": 1,
-        "featreq": [
-            "Adapted Cantrip"
-        ],
-        "specialreq": "character.get_DefaultSpellcasting()?.spellChoices.some(choice => choice.charLevelAvailable <= character.level && choice.level >= 3)",
-        "specialreqdesc": "can cast 3rd-level spells",
-        "subType": "1st-Level Spell",
-        "superType": "Adaptive Adept",
-        "gainSpellChoice": [
-            {
-                "_className": "SpellChoice",
-                "available": 0,
-                "castingType": "Default",
-                "className": "Default",
-                "id": "6273c605-4b29-4a74-b431-01610f558a05",
-                "level": 1,
-                "source": "Feat: Adaptive Adept: 1st-Level Spell"
-            }
         ]
     }
 ]

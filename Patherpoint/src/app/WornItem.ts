@@ -4,10 +4,6 @@ import { ItemsService } from './items.service';
 
 export class WornItem extends Equipment {
     public readonly _className: string = this.constructor.name;
-    //This is a list of all the attributes that should be saved if a refID exists. All others can be looked up via the refID when loading the character.
-    public readonly save = new Equipment().save.concat([
-        "aeonStones"
-    ]);
     //Allow changing of "equippable" by custom item creation
     readonly allowEquippable = false;
     //Worn Items cannot be equipped or unequipped, but can be invested

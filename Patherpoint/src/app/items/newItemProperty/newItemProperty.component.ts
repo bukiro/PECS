@@ -17,7 +17,6 @@ import { ActivitiesService } from 'src/app/activities.service';
 import { SpellsService } from 'src/app/spells.service';
 import { Activity } from 'src/app/Activity';
 import { Condition } from 'src/app/Condition';
-import { Feat } from 'src/app/Feat';
 import { Skill } from 'src/app/Skill';
 import { Ability } from 'src/app/Ability';
 import { SpellChoice } from 'src/app/SpellChoice';

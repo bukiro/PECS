@@ -48,7 +48,7 @@ export class ClassesService {
                 Object.keys($class).forEach(key => {
                     if (!["name", "_className"].includes(key)) {
                         //If the Object has a name, and a library item can be found with that name, compare the property with the library item
-                        //If they have the same value, delete the property from the item - it can be recovered during loading from the refId.
+                        //If they have the same value, delete the property from the item - it can be recovered during loading via the name.
                         if (JSON.stringify($class[key]) == JSON.stringify(libraryObject[key])) {
                             delete $class[key];
                         }

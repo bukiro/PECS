@@ -835,7 +835,7 @@ export class EffectsService {
         let attacks: string[] = ["Damage Rolls", "Dexterity-based Checks and DCs", "Strength-based Checks and DCs", "All Checks and DCs",
             "Unarmed Damage per Die", "Weapon Damage per Die"];
         let attacksWildcard: string[] = ["Attack Rolls", "Damage", "Dice Size", "Dice Number", "Proficiency Level", "Reach"];
-        let skills: string[] = ["Perception", "Fortitude", "Reflex", "Will", "Acrobatics", "Arcana", "Athletics", "Crafting", "Deception", "Diplomacy", "Intimidation", "Medicine",
+        let individualskills: string[] = ["Perception", "Fortitude", "Reflex", "Will", "Acrobatics", "Arcana", "Athletics", "Crafting", "Deception", "Diplomacy", "Intimidation", "Medicine",
             "Nature", "Occultism", "Performance", "Religion", "Society", "Stealth", "Survival", "Thievery", "Fortitude", "Reflex", "Will"];
         let individualSkillsWildcard: string[] = ["Lore", "Class DC", "Spell DC"];
         let skillsWildcard: string[] = ["All Checks and DCs", "Skill Checks", "Untrained Skills", "Proficiency Level", "Recall Knowledge Checks", "Master Recall Knowledge Checks", "Saving Throws", "Speed"];
@@ -882,14 +882,14 @@ export class EffectsService {
                 characterService.set_ToChange(creature.type, "attacks");
                 characterService.set_ToChange(creature.type, "individualskills", "attacks");
             }
-            if (skills.includes(effect.target)) {
+            if (individualskills.includes(effect.target)) {
                 characterService.set_ToChange(creature.type, "individualskills", effect.target);
             }
             if (individualSkillsWildcard.filter(name => effect.target.includes(name)).length) {
                 characterService.set_ToChange(creature.type, "individualskills", effect.target);
             }
             if (skillsWildcard.filter(name => effect.target.includes(name)).length) {
-                characterService.set_ToChange(creature.type, "individualskills", "all");
+                characterService.set_ToChange(creature.type, "skills", "all");
             }
             if (inventory.includes(effect.target)) {
                 characterService.set_ToChange(creature.type, "inventory");

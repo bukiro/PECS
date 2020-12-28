@@ -5,7 +5,6 @@ import { ConditionGain } from './ConditionGain';
 import { Hint } from './Hint';
 import { CharacterService } from './character.service';
 import { Creature } from './Creature';
-import { Character } from './Character';
 
 export class Activity {
     public actions: string = "1A";

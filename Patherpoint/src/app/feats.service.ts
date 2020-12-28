@@ -411,6 +411,19 @@ export class FeatsService {
                 }
             }
 
+            //Gain ancestries
+            if (feat.gainAncestry.length) {
+                if (taken) {
+                    character.class.ancestry.ancestries.push(...feat.gainAncestry);
+                } else {
+                    feat.gainAncestry.forEach(ancestryGain => {
+                        let a = character.class.ancestry.ancestries;
+                        a.splice(a.indexOf(ancestryGain), 1);
+                    })
+                }
+                characterService.set_ToChange("Character", "general");
+            }
+
             //One time effects
             if (feat.onceEffects) {
                 if (taken) {
@@ -418,17 +431,6 @@ export class FeatsService {
                         characterService.process_OnceEffect(character, effect);
                     })
                 }
-            }
-
-            //Adopted Ancestry
-            if (feat.superType == "Adopted Ancestry") {
-                if (taken) {
-                    character.class.ancestry.ancestries.push(feat.subType);
-                } else {
-                    let a = character.class.ancestry.ancestries;
-                    a.splice(a.indexOf(feat.subType), 1);
-                }
-                characterService.set_ToChange("Character", "general");
             }
 
             //Bargain Hunter adds to your starting cash at level 1
@@ -797,10 +799,18 @@ export class FeatsService {
                 characterService.set_ToChange(creature.type, "spells");
             }
 
-            //Feats that grant specializations need to update defense and attacks.
-            if (feat.gainSpecialization) {
+            //Feats that grant specializations or change proficiencies need to update defense and attacks.
+            if (feat.gainSpecialization || feat.changeProficiency.length || feat.copyProficiency.length) {
                 characterService.set_ToChange(creature.type, "defense");
                 characterService.set_ToChange(creature.type, "attacks");
+                feat.changeProficiency.forEach(change => {
+                    if (change.name) {characterService.set_ToChange(creature.type, "individualskills", change.name);}
+                    if (change.group) {characterService.set_ToChange(creature.type, "individualskills", change.group);}
+                    if (change.trait) {characterService.set_ToChange(creature.type, "individualskills", change.name);}
+                })
+                feat.copyProficiency.forEach(change => {
+                    if (change.name) {characterService.set_ToChange(creature.type, "individualskills", change.name);}
+                })
             }
 
             //Feats that grant tenets and anathema need to update general.
@@ -850,7 +860,7 @@ export class FeatsService {
         Object.keys(source).forEach(key => {
             this[target].push(...source[key].map(obj => Object.assign(new Feat(), obj)));
         });
-        this[target].forEach(feat => {
+        this[target].forEach((feat: Feat) => {
             feat.gainFeatChoice = feat.gainFeatChoice.map(choice => Object.assign(new FeatChoice(), choice));
             feat.gainConditions = feat.gainConditions.map(choice => Object.assign(new ConditionGain(), choice));
             feat.gainSpecialization = feat.gainSpecialization.map(spec => Object.assign(new SpecializationGain, spec));
