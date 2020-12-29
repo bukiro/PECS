@@ -1345,11 +1345,6 @@ export class CharacterService {
         switch (effectGain.affected) {
             case "Focus Points":
                 (creature as Character).class.focusPoints += value;
-                this.get_AppliedConditions(creature, "Hero's Defiance Cooldown").forEach(gain => {
-                    this.remove_Condition(creature, gain);
-                    this.set_ToChange(creature.type, "conditions");
-                });
-                this.set_ToChange(creature.type, "spellbook");
                 break;
             case "Temporary HP":
                 //When you get temporary HP, some things to process:
@@ -1448,6 +1443,45 @@ export class CharacterService {
 
     get_AnimalCompanionLevels() {
         return this.animalCompanionsService.get_CompanionLevels();
+    }
+
+    get_Senses(creature: Creature, charLevel: number = this.get_Character().level) {
+        let senses: string[] = [];
+
+        let ancestrySenses: string[];
+        if (creature.type == "Familiar") {
+            ancestrySenses = (creature as Familiar).senses;
+        } else {
+            ancestrySenses = (creature as AnimalCompanion | Character).class?.ancestry?.senses;
+        }
+        if (ancestrySenses.length) {
+            senses.push(...ancestrySenses)
+        }
+        if (creature.type == "Character") {
+            let character = creature as Character;
+            let heritageSenses = character.class.heritage.senses
+            if (heritageSenses.length) {
+                senses.push(...heritageSenses)
+            }
+            this.get_FeatsAndFeatures()
+                .filter(feat => feat.senses?.length && feat.have(character, this, charLevel))
+                .forEach(feat => {
+                    senses.push(...feat.senses);
+                });
+        }
+        if (creature.type == "Familiar") {
+            let familiar = creature as Familiar;
+            familiar.abilities.feats.map(gain => this.familiarsService.get_FamiliarAbilities(gain.name)[0]).filter(ability => ability?.senses.length).forEach(ability => {
+                senses.push(...ability.senses);
+            })
+        }
+        this.get_AppliedConditions(creature).filter(gain => gain.apply).forEach(gain => {
+            let condition = this.conditionsService.get_Conditions(gain.name)[0]
+            if (condition?.senses.length) {
+                senses.push(...condition.senses.filter(sense => !sense.conditionChoiceFilter || sense.conditionChoiceFilter == gain.choice).map(sense => sense.name))
+            }
+        });
+        return Array.from(new Set(senses));
     }
 
     process_Feat(creature: Character | Familiar, featName: string, choice: FeatChoice, level: Level, taken: boolean) {

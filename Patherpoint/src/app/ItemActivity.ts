@@ -11,6 +11,7 @@ export class ItemActivity extends Activity {
     public sharedChargesID: number = 0;
     //If you activate an activity, and it has an exclusiveActivityID, all activities on the same item with the same sharedChargesID are automatically deactivated.
     public exclusiveActivityID: number = 0;
+    //The duration is copied from the activity when activated.
     public duration: number = 0;
     public level: number = 0;
     public source: string = "";

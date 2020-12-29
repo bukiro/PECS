@@ -267,6 +267,9 @@ export class Feat {
                 return 0;
             }
         }
+        function Has_Sense(creature: string, name: string) {
+            return (characterService.get_Senses(characterService.get_Creature(creature), charLevel).includes(name));
+        }
         let result: { met: boolean, desc: string };
         if (this.specialreq) {
             try {
@@ -284,12 +287,17 @@ export class Feat {
         }
         return result;
     }
-    canChoose(characterService: CharacterService, charLevel: number = characterService.get_Character().level, skipLevel: boolean = false, ignoreRequirementsList: string[] = []) {
+    canChoose(characterService: CharacterService, choiceLevel: number = characterService.get_Character().level, charLevel: number = characterService.get_Character().level, skipLevel: boolean = false, ignoreRequirementsList: string[] = []) {
         //This function evaluates ALL the possible requirements for taking a feat
         //Returns true only if all the requirements are true. If the feat doesn't have a requirement, it is always true.
+        //CharLevel is the level the character is at when the feat is taken (so the level extracted from choice.id).
+        //ChoiceLevel is choice.level and may differ, for example when you take a 1st-level general feat at 8th level via General Training. It is only used for the level requirement.
+        if (isNaN(charLevel)) {
+            charLevel == choiceLevel;
+        }
         if (characterService.still_loading()) { return false }
         //Don't check the level if skipLevel is set. This is used for subFeats, where the superFeat's levelreq is enough.
-        let levelreq: boolean = ignoreRequirementsList.includes("levelreq") || skipLevel || this.meetsLevelReq(characterService, charLevel).met;
+        let levelreq: boolean = ignoreRequirementsList.includes("levelreq") || skipLevel || this.meetsLevelReq(characterService, choiceLevel).met;
         //Check the ability reqs. True if ALL are true.
         let abilityreqs = this.meetsAbilityReq(characterService, charLevel)
         let abilityreq: boolean = ignoreRequirementsList.includes("abilityreq") || abilityreqs.filter(req => req.met == false).length == 0;

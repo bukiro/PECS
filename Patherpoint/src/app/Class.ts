@@ -32,6 +32,7 @@ export class Class {
     public desc: {name:string, value:string}[] = [];
     public familiar: Familiar = new Familiar();
     public focusPoints: number = 0;
+    public focusPointsLast: number = 0;
     public gainItems: ItemGain[] = [];
     public heritage: Heritage = new Heritage();
     public additionalHeritages: Heritage[] = [];

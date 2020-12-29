@@ -3998,14 +3998,19 @@
                 "showon": "Focus"
             }
         ],
-        "internalNote": "The effect is hardcoded.",
         "shortdesc": "Your meditation is so effective that you can achieve a deep focus.",
         "traits": [
             "Monk"
         ],
         "levelreq": 12,
         "specialreq": "character.class.spellCasting.find(casting => casting.className == 'Monk' && casting.castingType == 'Focus' && casting.spellChoices.length)",
-        "specialreqdesc": "ki spells"
+        "specialreqdesc": "ki spells",
+        "effects": [
+            {
+                "affected": "Refocus Bonus Points",
+                "setValue": "2"
+            }
+        ]
     },
     {
         "name": "Meditative Wellspring",
@@ -4016,7 +4021,6 @@
                 "showon": "Focus"
             }
         ],
-        "internalNote": "The effect is hardcoded.",
         "shortdesc": "When you clear your mind, your focus comes flowing back in a powerful rush.",
         "traits": [
             "Monk"
@@ -4024,6 +4028,12 @@
         "levelreq": 18,
         "featreq": [
             "Meditative Focus"
+        ],
+        "effects": [
+            {
+                "affected": "Refocus Bonus Points",
+                "setValue": "2"
+            }
         ]
     },
     {
@@ -17517,7 +17527,7 @@
                 "showon": "Attacks, Perception"
             }
         ],
-        "internalNote": "The vision gain is hardcoded.",
+        "subTypes": true,
         "shortdesc": "Increase your visual acuity.",
         "sourceBook": "Pathfinder #150: Broken Promises",
         "traits": [
@@ -17531,6 +17541,70 @@
                 "type": "circumstance",
                 "value": "2"
             }
+        ]
+    },
+    {
+        "name": "Superior Sight: Low-Light Vision",
+        "desc": "Your senses are peerless. You gain a +2 circumstance bonus to Perception checks, and you gain low-light vision. Furthermore, when you target an enemy, you automatically succeed at the flat check if that enemy is concealed, hidden, or undetected.",
+        "specialdesc": "The citizens of Promise represent some of the most capable experts, greatest minds, and powerful warriors on Golarion - ideal teachers and trainers for PCs who want to maximize their own potential. If the PCs secure Visitor's Pins or an alliance with Mengkare, their access to Promise's trainers and records unlock this uncommon class feat.",
+        "hints": [
+            {
+                "desc": "When you target an enemy, you automatically succeed at the flat check if that enemy is concealed, hidden, or undetected.",
+                "showon": "Attacks, Perception"
+            }
+        ],
+        "subType": "Low-Light Vision",
+        "superType": "Superior Sight",
+        "shortdesc": "Increase your visual acuity.",
+        "sourceBook": "Pathfinder #150: Broken Promises",
+        "traits": [
+            "Uncommon",
+            "Ranger"
+        ],
+        "levelreq": 20,
+        "specialreq": "!Has_Sense('Character', 'Low-Light Vision') || this.have(character, characterService, charLevel)",
+        "specialreqdesc": "no low-light vision",
+        "effects": [
+            {
+                "affected": "Perception",
+                "type": "circumstance",
+                "value": "2"
+            }
+        ],
+        "senses": [
+            "Low-Light Vision"
+        ]
+    },
+    {
+        "name": "Superior Sight: Darkvision",
+        "desc": "Your senses are peerless. You gain a +2 circumstance bonus to Perception checks, and you gain darkvision. Furthermore, when you target an enemy, you automatically succeed at the flat check if that enemy is concealed, hidden, or undetected.",
+        "specialdesc": "The citizens of Promise represent some of the most capable experts, greatest minds, and powerful warriors on Golarion - ideal teachers and trainers for PCs who want to maximize their own potential. If the PCs secure Visitor's Pins or an alliance with Mengkare, their access to Promise's trainers and records unlock this uncommon class feat.",
+        "hints": [
+            {
+                "desc": "When you target an enemy, you automatically succeed at the flat check if that enemy is concealed, hidden, or undetected.",
+                "showon": "Attacks, Perception"
+            }
+        ],
+        "subType": "Darkvision",
+        "superType": "Superior Sight",
+        "shortdesc": "Increase your visual acuity.",
+        "sourceBook": "Pathfinder #150: Broken Promises",
+        "traits": [
+            "Uncommon",
+            "Ranger"
+        ],
+        "levelreq": 20,
+        "specialreq": "Has_Sense('Character', 'Low-Light Vision')",
+        "specialreqdesc": "low-light vision",
+        "effects": [
+            {
+                "affected": "Perception",
+                "type": "circumstance",
+                "value": "2"
+            }
+        ],
+        "senses": [
+            "Darkvision"
         ]
     },
     {
@@ -20265,7 +20339,6 @@
                 "showon": "Focus"
             }
         ],
-        "internalNote": "The effect is hardcoded.",
         "shortdesc": "Your connection to your bonded item increases your focus pool.",
         "traits": [
             "Wizard"
@@ -20273,6 +20346,12 @@
         "levelreq": 14,
         "featreq": [
             "Arcane Bond"
+        ],
+        "effects": [
+            {
+                "affected": "Refocus Bonus Points",
+                "setValue": "2"
+            }
         ]
     },
     {
@@ -23567,12 +23646,17 @@
                 "showon": "Focus"
             }
         ],
-        "internalNote": "The effect is hardcoded.",
         "shortdesc": "Your connection to your muse has granted you unusual focus.",
         "traits": [
             "Bard"
         ],
-        "levelreq": 12
+        "levelreq": 12,
+        "effects": [
+            {
+                "affected": "Refocus Bonus Points",
+                "setValue": "2"
+            }
+        ]
     },
     {
         "name": "Silver's Refrain",
@@ -26576,7 +26660,10 @@
             "Fortune",
             "Human"
         ],
-        "levelreq": 1
+        "levelreq": 1,
+        "gainActivities": [
+            "Courteous Comeback"
+        ]
     },
     {
         "name": "Devil's Advocate",
@@ -27465,7 +27552,7 @@
         "featreq": [
             "Adapted Cantrip"
         ],
-        "specialreq": "character.get_DefaultSpellcasting()?.spellChoices.some(choice => choice.charLevelAvailable <= character.level && choice.level >= 3)",
+        "specialreq": "character.get_DefaultSpellcasting()?.spellChoices.some(choice => choice.charLevelAvailable <= charLevel && choice.level >= 3)",
         "specialreqdesc": "can cast 3rd-level spells"
     },
     {
@@ -27482,7 +27569,7 @@
         "featreq": [
             "Adapted Cantrip"
         ],
-        "specialreq": "character.get_DefaultSpellcasting()?.spellChoices.some(choice => choice.charLevelAvailable <= character.level && choice.level >= 3)",
+        "specialreq": "character.get_DefaultSpellcasting()?.spellChoices.some(choice => choice.charLevelAvailable <= charLevel && choice.level >= 3)",
         "specialreqdesc": "can cast 3rd-level spells",
         "gainSpellChoice": [
             {
@@ -27510,7 +27597,7 @@
         "featreq": [
             "Adapted Cantrip"
         ],
-        "specialreq": "character.get_DefaultSpellcasting()?.spellChoices.some(choice => choice.charLevelAvailable <= character.level && choice.level >= 3)",
+        "specialreq": "character.get_DefaultSpellcasting()?.spellChoices.some(choice => choice.charLevelAvailable <= charLevel && choice.level >= 3)",
         "specialreqdesc": "can cast 3rd-level spells",
         "gainSpellChoice": [
             {
@@ -28321,7 +28408,7 @@
             "Human"
         ],
         "levelreq": 13,
-        "specialreq": "character.get_SpellsTaken(this, 1, character.level, -1, 'Fly').length || character.get_SpellsLearned('Fly').length || character.get_FeatsTaken(1, character.level, 'Shory Aeromancer')",
+        "specialreq": "character.get_SpellsTaken(this, 1, charLevel, -1, 'Fly').length || character.get_SpellsLearned('Fly').length || character.get_FeatsTaken(1, charLevel, 'Shory Aeromancer')",
         "specialreqdesc": "Garundi, Mauxi, or Tian-Yae ethnicity; Shory Aeromancer or ability to cast fly"
     },
     {

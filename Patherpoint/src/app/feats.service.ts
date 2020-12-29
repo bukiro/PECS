@@ -789,11 +789,6 @@ export class FeatsService {
                 characterService.set_ToChange(creature.type, "inventory");
             }
 
-            //Superior Sight gives a hardcoded sense and needs to update the skills list (where senses are listed).
-            if (feat.name == "Superior Sight") {
-                characterService.set_ToChange(creature.type, "skills");
-            }
-
             //Arcane Breadth gives hardcoded spell slots and needs to update the spellbook menu.
             if (feat.name == "Arcane Breadth") {
                 characterService.set_ToChange(creature.type, "spells");
@@ -814,8 +809,13 @@ export class FeatsService {
             }
 
             //Feats that grant tenets and anathema need to update general.
-            if (feat.tenets || feat.anathema) {
+            if (feat.tenets.length || feat.anathema.length) {
                 characterService.set_ToChange(creature.type, "general");
+            }
+
+            //Feats that grant senses need to update skills.
+            if (feat.senses.length) {
+                characterService.set_ToChange(creature.type, "skills");
             }
 
             //Some hardcoded effects change depending on feats. There is no good way to resolve this, so we calculate the effects whenever we take a feat.

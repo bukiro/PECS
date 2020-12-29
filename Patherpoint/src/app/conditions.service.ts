@@ -386,6 +386,12 @@ export class ConditionsService {
         });
     }
 
+    refocus(creature: Creature, characterService: CharacterService) {
+        creature.conditions.filter(gain => gain.duration == -3).forEach(gain => {
+            gain.duration = 0;
+        });
+    }
+
     still_loading() {
         return (this.loading);
     }

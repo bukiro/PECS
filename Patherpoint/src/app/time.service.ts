@@ -15,13 +15,11 @@ import { AnimalCompanion } from './AnimalCompanion';
 })
 export class TimeService {
 
-    //yourTurn is 5 if it is your turn or 0 otherwise
+    //yourTurn is 5 if it is your turn or 0 if not.
     private yourTurn: number = 0;
 
     constructor(
-        private conditionsService: ConditionsService,
         private activitiesService: ActivitiesService,
-        private spellsService: SpellsService,
         private effectsService: EffectsService
     ) { }
 
@@ -70,7 +68,7 @@ export class TimeService {
             //Reset all "once per day" activity cooldowns.
             this.activitiesService.rest(creature, characterService);
             //Reset all conditions that are "until the next time you make your daily preparations".
-            this.conditionsService.rest(creature, characterService);
+            conditionsService.rest(creature, characterService);
             //Remove all items that expire when you make your daily preparations.
             if (creature.type != "Familiar") {
                 itemsService.rest((creature as AnimalCompanion|Character), characterService);
@@ -79,9 +77,8 @@ export class TimeService {
             if (creature.type == "Character") {
                 let character = creature as Character;
                 //Reset all "once per day" spell cooldowns and re-prepare spells.
-                this.spellsService.rest(character, characterService);
-                //Regenerate Focus Points.
-                characterService.process_OnceEffect(character, Object.assign(new EffectGain(), { affected: "Focus Points", value: "+3" }));
+                spellsService.rest(character, characterService);
+                this.refocus(characterService, conditionsService, itemsService, spellsService);
                 //Regenerate spell slots.
                 character.class.spellCasting.forEach(casting => {
                     casting.spellSlotsUsed = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
@@ -106,6 +103,40 @@ export class TimeService {
         characterService.process_ToChange();
     }
 
+    refocus(characterService: CharacterService, conditionsService: ConditionsService, itemsService: ItemsService, spellsService: SpellsService) {
+        this.tick(characterService, conditionsService, itemsService, spellsService, 1000, false);
+        let character = characterService.get_Character();
+        
+        //Reset all "until you refocus" activity cooldowns.
+        this.activitiesService.refocus(character, characterService);
+        //Reset all conditions that are "until you refocus".
+        conditionsService.refocus(character, characterService);
+        //Remove all items that expire when you refocus.
+        itemsService.refocus(character, characterService);
+        //Reset all "once per day" spell cooldowns and re-prepare spells.
+        spellsService.refocus(character, characterService);
+        
+        let focusPoints = character.class.focusPoints;
+        let focusPointsLast = character.class.focusPointsLast;
+        let recoverPoints = 1;
+        //Several feats recover more focus points if you spent at least that amount since the last time refocusing. Those feats all have an effect setting "Refocus Bonus Points" to the amount you get.
+        characterService.effectsService.get_AbsolutesOnThis(character, "Refocus Bonus Points").forEach(effect => {
+            let points = parseInt(effect.setValue);
+            if (focusPointsLast - focusPoints >= points) {
+                recoverPoints = Math.max(recoverPoints, points);
+            }
+        })
+        
+        recoverPoints = Math.min(recoverPoints, characterService.get_MaxFocusPoints());
+        
+        //Regenerate Focus Points.
+        characterService.process_OnceEffect(character, Object.assign(new EffectGain(), { affected: "Focus Points", value: "+"+recoverPoints }));
+
+        character.class.focusPointsLast = character.class.focusPoints;
+
+        characterService.process_ToChange();
+    }
+
     tick(characterService: CharacterService, conditionsService: ConditionsService, itemsService: ItemsService, spellsService: SpellsService, turns: number = 10, reload: boolean = true) {
         characterService.get_Creatures().forEach(creature => {
             if (creature.conditions.length) {
@@ -113,7 +144,7 @@ export class TimeService {
                     characterService.set_ToChange(creature.type, "time");
                     characterService.set_ToChange(creature.type, "health");
                 }
-                this.conditionsService.tick_Conditions(creature, turns, this.yourTurn);
+                conditionsService.tick_Conditions(creature, turns, this.yourTurn);
                 characterService.set_ToChange(creature.type, "effects")
             }
             this.effectsService.tick_CustomEffects(creature, characterService, turns);
@@ -122,7 +153,7 @@ export class TimeService {
                 itemsService.tick_Items((creature as AnimalCompanion|Character), characterService, turns);
             }
             if (creature.type == "Character") {
-                this.spellsService.tick_Spells((creature as Character), characterService, itemsService, conditionsService, turns);
+                spellsService.tick_Spells((creature as Character), characterService, itemsService, conditionsService, turns);
             }
             //If you are at full health and rest for 10 minutes, you lose the wounded condition.
             if (turns >= 1000 && characterService.get_Health(creature).damage == 0) {
@@ -136,7 +167,9 @@ export class TimeService {
     }
 
     get_Duration(duration: number, includeTurnState: boolean = true, inASentence: boolean = false) {
-        if (duration == -2) {
+        if (duration == -3) {
+            return inASentence ? "until you refocus" : "Until you refocus";
+        } else if (duration == -2) {
             return inASentence ? "until the next time you make your daily preparations" : "Until the next time you make your daily preparations";
         } else if (duration == -1) {
             return inASentence ? "permanently" : "Permanent";

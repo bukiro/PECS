@@ -2760,11 +2760,6 @@
         ]
     },
     {
-        "name": "Hero's Defiance Cooldown",
-        "desc": "Cheating death is difficult, and you can't use hero's defiance again until you Refocus or the next time you prepare.",
-        "type": "spells"
-    },
-    {
         "name": "Shifting Form",
         "desc": "You gain one of the following abilities of your choice. You can Dismiss this spell.\n\nYou gain a 20-foot status bonus to your Speed.\nYou gain a climb or swim Speed equal to half your Speed.\nYou gain darkvision.\nYou gain scent 60 feet (imprecise).",
         "type": "spells",
@@ -10692,37 +10687,79 @@
     {
         "name": "Wondrous Figurine (Golden Lions) Cooldown",
         "desc": "The lions have been slain, and the wondrous figurine has reverted to its statue shape. You cannot activate it again until 1 week has passed.",
-        "type": "hidden"
+        "type": "hidden",
+        "hints": [
+            {
+                "desc": "You can't activate the figurine again until 1 week has passed.",
+                "showon": "Wondrous Figurine (Golden Lions)"
+            }
+        ]
     },
     {
         "name": "Wondrous Figurine (Jade Serpent) Cooldown",
         "desc": "The viper has been slain, and the wondrous figurine has reverted to its statue shape. You cannot activate it again until 1 week has passed.",
-        "type": "hidden"
+        "type": "hidden",
+        "hints": [
+            {
+                "desc": "You can't activate the figurine again until 1 week has passed.",
+                "showon": "Wondrous Figurine (Jade Serpent)"
+            }
+        ]
     },
     {
         "name": "Wondrous Figurine (Marble Elephant) Cooldown",
         "desc": "The elephant has been slain, and the wondrous figurine has reverted to its statue shape. You cannot activate it again until 1 week has passed.",
-        "type": "hidden"
+        "type": "hidden",
+        "hints": [
+            {
+                "desc": "You can't activate the figurine again until 1 week has passed.",
+                "showon": "Wondrous Figurine (Marble Elephant)"
+            }
+        ]
     },
     {
         "name": "Wondrous Figurine (Obsidian Steed) Cooldown",
         "desc": "The nightmare has been slain, and the wondrous figurine has reverted to its statue shape. You cannot activate it again until 1 week has passed.",
-        "type": "hidden"
+        "type": "hidden",
+        "hints": [
+            {
+                "desc": "You can't activate the figurine again until 1 week has passed.",
+                "showon": "Wondrous Figurine (Obsidian Steed)"
+            }
+        ]
     },
     {
         "name": "Wondrous Figurine (Onyx Dog) Cooldown",
         "desc": "The guard dog has been slain, and the wondrous figurine has reverted to its statue shape. You cannot activate it again until 1 week has passed.",
-        "type": "hidden"
+        "type": "hidden",
+        "hints": [
+            {
+                "desc": "You can't activate the figurine again until 1 week has passed.",
+                "showon": "Wondrous Figurine (Onyx Dog)"
+            }
+        ]
     },
     {
         "name": "Wondrous Figurine (Candy Constrictor) Cooldown",
         "desc": "The ball python has been slain, and the wondrous figurine has reverted to its statue shape. You cannot activate it again until 1 week has passed.",
-        "type": "hidden"
+        "type": "hidden",
+        "hints": [
+            {
+                "desc": "You can't activate the figurine again until 1 week has passed.",
+                "showon": "Wondrous Figurine (Candy Constrictor)"
+            }
+        ]
     },
     {
         "name": "Wondrous Figurine (Rubber Bear) Cooldown",
         "desc": "The grizzly bear has been slain, and the wondrous figurine has reverted to its statue shape. You cannot activate it again until 1 week has passed.",
-        "type": "hidden"
+        "type": "hidden",
+        "hints": [
+            {
+                "desc": "You can't activate the figurine again until 1 week has passed.",
+                "showon": "Wondrous Figurine (Rubber Bear)"
+            }
+        ]
     },
     {
         "name": "Thurible of Revelation",
@@ -12489,6 +12526,12 @@
         "type": "hidden",
         "endConditions": [
             "Shield"
+        ],
+        "hints": [
+            {
+                "desc": "You can't cast Shield again for the duration.",
+                "showon": "Shield"
+            }
         ]
     },
     {

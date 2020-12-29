@@ -204,9 +204,9 @@ export class SpellsService {
 
     rest(character: Character, characterService: CharacterService) {
         //Get all owned spell gains that have a cooldown active.
-        //If its cooldown is exactly one day, the spell gain's cooldown is reset.
+        //If its cooldown is exactly one day or until rest (-2), the spell gain's cooldown is reset.
         character.get_SpellsTaken(characterService, 0, 20).filter(taken => taken.gain.activeCooldown).forEach(taken => {
-            if (taken.gain.cooldown == 144000) {
+            if ([-2, 144000].includes(taken.gain.cooldown)) {
                 taken.gain.activeCooldown = 0;
             }
         });
@@ -216,6 +216,17 @@ export class SpellsService {
                     gain.prepared = true;
                 });
             });
+        });
+        characterService.set_ToChange("Character", "spellbook");
+    }
+
+    refocus(character: Character, characterService: CharacterService) {
+        //Get all owned spell gains that have a cooldown active.
+        //If its cooldown is until refocus (-3), the spell gain's cooldown is reset.
+        character.get_SpellsTaken(characterService, 0, 20).filter(taken => taken.gain.activeCooldown).forEach(taken => {
+            if (taken.gain.cooldown == -3) {
+                taken.gain.activeCooldown = 0;
+            }
         });
         characterService.set_ToChange("Character", "spellbook");
     }

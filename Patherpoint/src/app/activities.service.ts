@@ -218,9 +218,9 @@ export class ActivitiesService {
     }
 
     rest(creature: Creature, characterService: CharacterService) {
-        //Get all owned activity gains that have a cooldown active.
-        //Get the original activity information, and if its cooldown is exactly one day, the actvity gain's cooldown is reset.
-        characterService.get_OwnedActivities(creature).filter((gain: ActivityGain|ItemActivity) => gain.activeCooldown > 0 || gain.duration == -2).forEach(gain => {
+        //Get all owned activity gains that have a cooldown active or have a current duration of -2 (until rest).
+        //Get the original activity information, and if its cooldown is exactly one day or until rest (-2), the activity gain's cooldown is reset.
+        characterService.get_OwnedActivities(creature).filter((gain: ActivityGain|ItemActivity) => gain.activeCooldown != 0 || gain.duration == -2).forEach(gain => {
             let activity: Activity|ItemActivity;
             if (gain.constructor == ItemActivity) {
                 activity = gain as ItemActivity;
@@ -230,7 +230,27 @@ export class ActivitiesService {
             if (gain.duration == -2 && activity) {
                 this.activate_Activity(creature, creature.type, characterService, characterService.conditionsService, characterService.itemsService, characterService.spellsService, gain, activity, false, false);
             }
-            if (activity.get_Cooldown(creature, characterService) == 144000) {
+            if ([144000,-2].includes(activity.get_Cooldown(creature, characterService))) {
+                gain.activeCooldown = 0;
+                gain.chargesUsed = 0;
+            }
+        });
+    }
+
+    refocus(creature: Creature, characterService: CharacterService) {
+        //Get all owned activity gains that have a cooldown or a current duration of -3 (until refocus).
+        //Get the original activity information, and if its cooldown is until refocus (-3), the activity gain's cooldown is reset.
+        characterService.get_OwnedActivities(creature).filter((gain: ActivityGain|ItemActivity) => gain.activeCooldown == -3 || gain.duration == -3).forEach(gain => {
+            let activity: Activity|ItemActivity;
+            if (gain.constructor == ItemActivity) {
+                activity = gain as ItemActivity;
+            } else {
+                activity = this.get_Activities(gain.name)[0];
+            }
+            if (gain.duration == -3 && activity) {
+                this.activate_Activity(creature, creature.type, characterService, characterService.conditionsService, characterService.itemsService, characterService.spellsService, gain, activity, false, false);
+            }
+            if ((activity.get_Cooldown(creature, characterService)) == -3) {
                 gain.activeCooldown = 0;
                 gain.chargesUsed = 0;
             }

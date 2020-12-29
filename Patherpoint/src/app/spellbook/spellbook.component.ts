@@ -295,21 +295,7 @@ export class SpellbookComponent implements OnInit {
     }
 
     refocus() {
-        let character = this.characterService.get_Character();
-        let focusPoints = character.class.focusPoints;
-        let maxFocusPoints = this.get_MaxFocusPoints();
-        if (this.have_Feat("Meditative Wellspring") && (maxFocusPoints - focusPoints >= 3)) {
-            this.characterService.process_OnceEffect(character, Object.assign(new EffectGain(), { affected: "Focus Points", value: "+3" }))
-        } else if (this.have_Feat("Meditative Focus") && (maxFocusPoints - focusPoints >= 2)) {
-            this.characterService.process_OnceEffect(character, Object.assign(new EffectGain(), { affected: "Focus Points", value: "+2" }))
-        } else if (this.have_Feat("Bonded Focus") && (maxFocusPoints - focusPoints >= 2)) {
-            this.characterService.process_OnceEffect(character, Object.assign(new EffectGain(), { affected: "Focus Points", value: "+2" }))
-        } else if (this.have_Feat("Inspirational Focus") && (maxFocusPoints - focusPoints >= 2)) {
-            this.characterService.process_OnceEffect(character, Object.assign(new EffectGain(), { affected: "Focus Points", value: "+2" }))
-        } else {
-            this.characterService.process_OnceEffect(character, Object.assign(new EffectGain(), { affected: "Focus Points", value: "+1" }))
-        }
-        this.timeService.tick(this.characterService, this.conditionsService, this.itemsService, this.spellsService, 1000);
+        this.timeService.refocus(this.characterService, this.conditionsService, this.itemsService, this.spellsService);
     }
 
     on_RestoreFocusPoint() {

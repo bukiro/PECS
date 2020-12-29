@@ -745,6 +745,7 @@
                 "className": "Champion",
                 "id": "46ceefc8-87ab-48d7-a244-7d1e0005901d",
                 "level": -1,
+                "cooldown": -3,
                 "charLevelAvailable": 19,
                 "source": "Hero's Defiance",
                 "spells": [

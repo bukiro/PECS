@@ -87,6 +87,9 @@ The very latest in Assistive Technologies for Dungeon Master (ATDM)
 - [x] - Bard
 - [ ] Implement all Spells
 - [ ] - Focus Spells
+- [x] -- Monk
+- [x] -- Wizard
+- [x] -- Bard
 - [x] - Cantrips
 - [x] - Level 1 Spells
 - [x] - Level 2 Spells

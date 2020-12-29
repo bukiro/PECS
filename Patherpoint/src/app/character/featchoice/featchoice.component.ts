@@ -252,8 +252,8 @@ export class FeatchoiceComponent implements OnInit {
             }
             if (choice.feats.length < available) {
                 return feats.map(feat => {
-                    let available = (this.cannotTake(feat, choice).length == 0 || this.featTakenByThis(feat, choice) || this.subFeatTakenByThis(feat, choice));
-                    return { available: available, feat: feat };
+                    let featAvailable = (this.cannotTake(feat, choice).length == 0 || this.featTakenByThis(feat, choice) || this.subFeatTakenByThis(feat, choice));
+                    return { available: featAvailable, feat: feat };
                     //Don't show unavailable feats if this choice is visible on the character sheet.
                 }).filter((featObj: { available: boolean, feat: Feat }) => choice.showOnSheet ? featObj.available : true).sort(function (a, b) {
                     //Sort by level, then name. Divide level by 100 to create leading zeroes (and not sort 10 before 2).
@@ -370,7 +370,7 @@ export class FeatchoiceComponent implements OnInit {
                 reasons.push({ reason: "Invalid type", explain: "The feat's traits do not match the choice type." });
             }
             //Are the basic requirements (level, ability, feat etc) not met?
-            if (!feat.canChoose(this.characterService, this.featLevel, skipLevel, ignoreRequirementsList)) {
+            if (!feat.canChoose(this.characterService, this.featLevel, levelNumber, skipLevel, ignoreRequirementsList)) {
                 reasons.push({ reason: "Requirements unmet", explain: "Not all requirements are met." });
             }
             //If the feat can be taken a limited number of times:
