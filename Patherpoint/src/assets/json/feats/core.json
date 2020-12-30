@@ -13197,7 +13197,677 @@
         "name": "Aberrant Bloodline"
     },
     {
-        "name": "Angelic Bloodline"
+        "name": "Angelic Bloodline",
+        "desc": "One of your forebears hailed from a celestial realm, or your ancestors' devotion led to their lineage being blessed.\n\nSpell List: divine\nBloodline Skills: Diplomacy, Religion\nGranted Spells: cantrip light, 1st: heal, 2nd: spiritual weapon, 3rd: searing light, 4th: divine wrath, 5th: flame strike, 6th: blade barrier, 7th: divine decree, 8th: divine aura, 9th: foresight\nBloodline Spells: initial: angelic halo, advanced: angelic wings, greater: celestial brand\nBlood Magic: An angelic aura protects you or one target, granting a +1 status bonus to saving throws for 1 round.",
+        "shortdesc": "One of your forebears hailed from a celestial realm, or your ancestors' devotion led to their lineage being blessed.",
+        "gainFeatChoice": [
+            {
+                "_className": "FeatChoice",
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Angelic Blood Magic"
+                    }
+                ],
+                "insertClass": "Sorcerer",
+                "source": "Angelic Bloodline"
+            }
+        ],
+        "gainSkillChoice": [
+            {
+                "_className": "SkillChoice",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Sorcerer Divine Spell DC",
+                        "source": "Angelic Bloodline"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Angelic Bloodline",
+                "type": "Spell DC"
+            },
+            {
+                "_className": "SkillChoice",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Diplomacy",
+                        "source": "Angelic Bloodline"
+                    },
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Religion",
+                        "source": "Angelic Bloodline"
+                    }
+                ],
+                "insertClass": "Sorcerer",
+                "maxRank": 4,
+                "source": "Angelic Bloodline",
+                "type": "Skill"
+            },
+            {
+                "_className": "SkillChoice",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 4,
+                        "name": "Sorcerer Divine Spell DC",
+                        "source": "Expert Spellcaster",
+                        "sourceId": "7-Spell DC-Expert Spellcaster-0"
+                    }
+                ],
+                "insertClass": "Sorcerer",
+                "insertLevel": 7,
+                "maxRank": 4,
+                "source": "Expert Spellcaster",
+                "type": "Spell DC"
+            },
+            {
+                "_className": "SkillChoice",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 6,
+                        "name": "Sorcerer Divine Spell DC",
+                        "source": "Master Spellcaster",
+                        "sourceId": "15-Spell DC-Master Spellcaster-0"
+                    }
+                ],
+                "insertClass": "Sorcerer",
+                "insertLevel": 15,
+                "maxRank": 6,
+                "source": "Master Spellcaster",
+                "type": "Spell DC"
+            },
+            {
+                "_className": "SkillChoice",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 8,
+                        "name": "Sorcerer Divine Spell DC",
+                        "source": "Legendary Spellcaster",
+                        "sourceId": "19-Spell DC-Legendary Spellcaster-0"
+                    }
+                ],
+                "insertClass": "Sorcerer",
+                "insertLevel": 19,
+                "maxRank": 8,
+                "source": "Legendary Spellcaster",
+                "type": "Spell DC"
+            }
+        ],
+        "gainSpellCasting": [
+            {
+                "_className": "SpellCasting",
+                "ability": "Charisma",
+                "castingType": "Focus",
+                "charLevelAvailable": 0,
+                "className": "Sorcerer",
+                "source": "Bloodline Spells",
+                "tradition": "Divine"
+            },
+            {
+                "_className": "SpellCasting",
+                "ability": "Charisma",
+                "castingType": "Spontaneous",
+                "charLevelAvailable": 1,
+                "className": "Sorcerer",
+                "source": "Sorcerer Spellcasting",
+                "tradition": "Divine"
+            }
+        ],
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Focus",
+                "charLevelAvailable": 1,
+                "className": "Sorcerer",
+                "id": "2c9eb94e-88fb-4306-adc5-04640ad33788",
+                "insertClass": "Sorcerer",
+                "level": -1,
+                "source": "Angelic Bloodline",
+                "spells": [
+                    {
+                        "_className": "SpellGain",
+                        "locked": true,
+                        "name": "Angelic Halo"
+                    }
+                ]
+            },
+            {
+                "_className": "SpellChoice",
+                "available": 3,
+                "castingType": "Spontaneous",
+                "charLevelAvailable": 1,
+                "className": "Sorcerer",
+                "id": "54c13d55-8ec0-475c-94e1-8940c6767e9d",
+                "insertClass": "Sorcerer",
+                "level": 0,
+                "source": "Sorcerer Spellcasting",
+                "spells": [
+                    {
+                        "_className": "SpellGain",
+                        "name": "Light"
+                    }
+                ]
+            },
+            {
+                "_className": "SpellChoice",
+                "available": 2,
+                "castingType": "Spontaneous",
+                "charLevelAvailable": 1,
+                "className": "Sorcerer",
+                "id": "1652daf0-e3c9-4bd4-a1bc-81a40d36043b",
+                "level": 0,
+                "source": "Sorcerer Spellcasting"
+            },
+            {
+                "_className": "SpellChoice",
+                "available": 1,
+                "castingType": "Spontaneous",
+                "charLevelAvailable": 1,
+                "className": "Sorcerer",
+                "id": "59039c22-a58a-11ea-bb37-0242ac130002",
+                "insertClass": "Sorcerer",
+                "level": 1,
+                "signatureSpell": true,
+                "source": "Sorcerer Spellcasting",
+                "spells": [
+                    {
+                        "_className": "SpellGain",
+                        "name": "Heal"
+                    }
+                ]
+            },
+            {
+                "_className": "SpellChoice",
+                "available": 1,
+                "castingType": "Spontaneous",
+                "charLevelAvailable": 1,
+                "className": "Sorcerer",
+                "id": "7afeedb8-803d-49df-b286-48ecab090e44",
+                "insertClass": "Sorcerer",
+                "level": 1,
+                "source": "Sorcerer Spellcasting"
+            },
+            {
+                "_className": "SpellChoice",
+                "available": 1,
+                "castingType": "Spontaneous",
+                "charLevelAvailable": 1,
+                "className": "Sorcerer",
+                "id": "fe08c6a6-4e04-4aa3-91c0-753af86dec03",
+                "insertClass": "Sorcerer",
+                "level": 1,
+                "source": "Sorcerer Spellcasting"
+            },
+            {
+                "_className": "SpellChoice",
+                "available": 1,
+                "castingType": "Spontaneous",
+                "charLevelAvailable": 2,
+                "className": "Sorcerer",
+                "id": "679299d9-d401-4d2e-8303-275595b5c37d",
+                "insertClass": "Sorcerer",
+                "level": 1,
+                "source": "Sorcerer Spellcasting"
+            },
+            {
+                "_className": "SpellChoice",
+                "available": 1,
+                "castingType": "Spontaneous",
+                "charLevelAvailable": 3,
+                "className": "Sorcerer",
+                "id": "59039b64-a58a-11ea-bb37-0242ac130002",
+                "insertClass": "Sorcerer",
+                "level": 2,
+                "signatureSpell": true,
+                "source": "Sorcerer Spellcasting",
+                "spells": [
+                    {
+                        "_className": "SpellGain",
+                        "name": "Spiritual Weapon"
+                    }
+                ]
+            },
+            {
+                "_className": "SpellChoice",
+                "available": 1,
+                "castingType": "Spontaneous",
+                "charLevelAvailable": 3,
+                "className": "Sorcerer",
+                "id": "20afa305-63f9-463f-b3f9-9d9a63d32813",
+                "insertClass": "Sorcerer",
+                "level": 2,
+                "source": "Sorcerer Spellcasting"
+            },
+            {
+                "_className": "SpellChoice",
+                "available": 1,
+                "castingType": "Spontaneous",
+                "charLevelAvailable": 3,
+                "className": "Sorcerer",
+                "id": "f92e0bef-e8b3-455e-8131-8e5f7c7ad717",
+                "insertClass": "Sorcerer",
+                "level": 2,
+                "source": "Sorcerer Spellcasting"
+            },
+            {
+                "_className": "SpellChoice",
+                "available": 1,
+                "castingType": "Spontaneous",
+                "charLevelAvailable": 4,
+                "className": "Sorcerer",
+                "id": "06ddccfe-07ed-4f18-bc76-81ba86c2ec09",
+                "insertClass": "Sorcerer",
+                "level": 2,
+                "source": "Sorcerer Spellcasting"
+            },
+            {
+                "_className": "SpellChoice",
+                "available": 1,
+                "castingType": "Spontaneous",
+                "charLevelAvailable": 5,
+                "className": "Sorcerer",
+                "id": "c75791c4-62f1-44f2-8b02-4305b0089cd4",
+                "insertClass": "Sorcerer",
+                "level": 3,
+                "signatureSpell": true,
+                "source": "Sorcerer Spellcasting",
+                "spells": [
+                    {
+                        "_className": "SpellGain",
+                        "name": "Searing Light"
+                    }
+                ]
+            },
+            {
+                "_className": "SpellChoice",
+                "available": 1,
+                "castingType": "Spontaneous",
+                "charLevelAvailable": 5,
+                "className": "Sorcerer",
+                "id": "bb47a634-d133-4ef0-8c12-4bca0ee1e464",
+                "insertClass": "Sorcerer",
+                "level": 3,
+                "source": "Sorcerer Spellcasting"
+            },
+            {
+                "_className": "SpellChoice",
+                "available": 1,
+                "castingType": "Spontaneous",
+                "charLevelAvailable": 5,
+                "className": "Sorcerer",
+                "id": "92e03b5b-96ce-4a69-811c-e6ec14445f03",
+                "insertClass": "Sorcerer",
+                "level": 3,
+                "source": "Sorcerer Spellcasting"
+            },
+            {
+                "_className": "SpellChoice",
+                "available": 1,
+                "castingType": "Spontaneous",
+                "charLevelAvailable": 6,
+                "className": "Sorcerer",
+                "id": "d126e3f3-fd78-428a-8827-99e9def662ca",
+                "insertClass": "Sorcerer",
+                "level": 3,
+                "source": "Sorcerer Spellcasting"
+            },
+            {
+                "_className": "SpellChoice",
+                "available": 1,
+                "castingType": "Spontaneous",
+                "charLevelAvailable": 7,
+                "className": "Sorcerer",
+                "id": "59039aa6-a58a-11ea-bb37-0242ac130002",
+                "insertClass": "Sorcerer",
+                "level": 4,
+                "signatureSpell": true,
+                "source": "Sorcerer Spellcasting",
+                "spells": [
+                    {
+                        "_className": "SpellGain",
+                        "name": "Divine Wrath"
+                    }
+                ]
+            },
+            {
+                "_className": "SpellChoice",
+                "available": 1,
+                "castingType": "Spontaneous",
+                "charLevelAvailable": 7,
+                "className": "Sorcerer",
+                "id": "cbce83d6-ffd5-40ad-84c1-c36a084bcad4",
+                "insertClass": "Sorcerer",
+                "level": 4,
+                "source": "Sorcerer Spellcasting"
+            },
+            {
+                "_className": "SpellChoice",
+                "available": 1,
+                "castingType": "Spontaneous",
+                "charLevelAvailable": 7,
+                "className": "Sorcerer",
+                "id": "d1d95e04-7deb-4181-b8d7-705accd0a851",
+                "insertClass": "Sorcerer",
+                "level": 4,
+                "source": "Sorcerer Spellcasting"
+            },
+            {
+                "_className": "SpellChoice",
+                "available": 1,
+                "castingType": "Spontaneous",
+                "charLevelAvailable": 8,
+                "className": "Sorcerer",
+                "id": "14f3688f-7d0a-4a16-b8bd-305df9f466ba",
+                "insertClass": "Sorcerer",
+                "level": 4,
+                "source": "Sorcerer Spellcasting"
+            },
+            {
+                "_className": "SpellChoice",
+                "available": 1,
+                "castingType": "Spontaneous",
+                "charLevelAvailable": 9,
+                "className": "Sorcerer",
+                "id": "590399f2-a58a-11ea-bb37-0242ac130002",
+                "insertClass": "Sorcerer",
+                "level": 5,
+                "signatureSpell": true,
+                "source": "Sorcerer Spellcasting",
+                "spells": [
+                    {
+                        "_className": "SpellGain",
+                        "name": "Flame Strike"
+                    }
+                ]
+            },
+            {
+                "_className": "SpellChoice",
+                "available": 1,
+                "castingType": "Spontaneous",
+                "charLevelAvailable": 9,
+                "className": "Sorcerer",
+                "id": "afdc69ca-c228-4918-802e-78d5d05360e1",
+                "insertClass": "Sorcerer",
+                "level": 5,
+                "source": "Sorcerer Spellcasting"
+            },
+            {
+                "_className": "SpellChoice",
+                "available": 1,
+                "castingType": "Spontaneous",
+                "charLevelAvailable": 9,
+                "className": "Sorcerer",
+                "id": "b2017a60-3d4b-43aa-b173-cf9e37873fab",
+                "insertClass": "Sorcerer",
+                "level": 5,
+                "source": "Sorcerer Spellcasting"
+            },
+            {
+                "_className": "SpellChoice",
+                "available": 1,
+                "castingType": "Spontaneous",
+                "charLevelAvailable": 10,
+                "className": "Sorcerer",
+                "id": "ae3f9c5f-d042-4eaa-ad34-64de9b7f4c30",
+                "insertClass": "Sorcerer",
+                "level": 5,
+                "source": "Sorcerer Spellcasting"
+            },
+            {
+                "_className": "SpellChoice",
+                "available": 1,
+                "castingType": "Spontaneous",
+                "charLevelAvailable": 11,
+                "className": "Sorcerer",
+                "id": "c391b12f-3e0e-44a0-94dd-4568c9e7df83",
+                "insertClass": "Sorcerer",
+                "level": 6,
+                "signatureSpell": true,
+                "source": "Sorcerer Spellcasting",
+                "spells": [
+                    {
+                        "_className": "SpellGain",
+                        "name": "Blade Barrier"
+                    }
+                ]
+            },
+            {
+                "_className": "SpellChoice",
+                "available": 1,
+                "castingType": "Spontaneous",
+                "charLevelAvailable": 11,
+                "className": "Sorcerer",
+                "id": "5dbab9ef-8f3d-4393-8f1d-69a4a1c4cbc4",
+                "insertClass": "Sorcerer",
+                "level": 6,
+                "source": "Sorcerer Spellcasting"
+            },
+            {
+                "_className": "SpellChoice",
+                "available": 1,
+                "castingType": "Spontaneous",
+                "charLevelAvailable": 11,
+                "className": "Sorcerer",
+                "id": "20f43245-793d-471b-8f50-9a8c5561eb00",
+                "insertClass": "Sorcerer",
+                "level": 6,
+                "source": "Sorcerer Spellcasting"
+            },
+            {
+                "_className": "SpellChoice",
+                "available": 1,
+                "castingType": "Spontaneous",
+                "charLevelAvailable": 12,
+                "className": "Sorcerer",
+                "id": "3e65fb58-a467-426c-9f8b-656e6503b4ae",
+                "insertClass": "Sorcerer",
+                "level": 6,
+                "source": "Sorcerer Spellcasting"
+            },
+            {
+                "_className": "SpellChoice",
+                "available": 1,
+                "castingType": "Spontaneous",
+                "charLevelAvailable": 13,
+                "className": "Sorcerer",
+                "id": "78965232-2066-4dd6-930b-717546ea092c",
+                "insertClass": "Sorcerer",
+                "level": 7,
+                "signatureSpell": true,
+                "source": "Sorcerer Spellcasting",
+                "spells": [
+                    {
+                        "_className": "SpellGain",
+                        "name": "Divine Decree"
+                    }
+                ]
+            },
+            {
+                "_className": "SpellChoice",
+                "available": 1,
+                "castingType": "Spontaneous",
+                "charLevelAvailable": 13,
+                "className": "Sorcerer",
+                "id": "d6b1cab8-4083-4c4a-a903-ae552851c4b8",
+                "insertClass": "Sorcerer",
+                "level": 7,
+                "source": "Sorcerer Spellcasting"
+            },
+            {
+                "_className": "SpellChoice",
+                "available": 1,
+                "castingType": "Spontaneous",
+                "charLevelAvailable": 13,
+                "className": "Sorcerer",
+                "id": "180c2ca2-b287-4242-b58f-37fb5a7b7afb",
+                "insertClass": "Sorcerer",
+                "level": 7,
+                "source": "Sorcerer Spellcasting"
+            },
+            {
+                "_className": "SpellChoice",
+                "available": 1,
+                "castingType": "Spontaneous",
+                "charLevelAvailable": 14,
+                "className": "Sorcerer",
+                "id": "b9ec9b98-e144-4d80-a115-94ac9de8a460",
+                "insertClass": "Sorcerer",
+                "level": 7,
+                "source": "Sorcerer Spellcasting"
+            },
+            {
+                "_className": "SpellChoice",
+                "available": 1,
+                "castingType": "Spontaneous",
+                "charLevelAvailable": 15,
+                "className": "Sorcerer",
+                "id": "1b847c5b-7a3d-4657-8987-77506e6870ce",
+                "insertClass": "Sorcerer",
+                "level": 8,
+                "signatureSpell": true,
+                "source": "Sorcerer Spellcasting",
+                "spells": [
+                    {
+                        "_className": "SpellGain",
+                        "name": "Divine Aura"
+                    }
+                ]
+            },
+            {
+                "_className": "SpellChoice",
+                "available": 1,
+                "castingType": "Spontaneous",
+                "charLevelAvailable": 15,
+                "className": "Sorcerer",
+                "id": "d89ae392-4562-4fb4-a6ae-c8f281a247e4",
+                "insertClass": "Sorcerer",
+                "level": 8,
+                "source": "Sorcerer Spellcasting"
+            },
+            {
+                "_className": "SpellChoice",
+                "available": 1,
+                "castingType": "Spontaneous",
+                "charLevelAvailable": 15,
+                "className": "Sorcerer",
+                "id": "a5e8cb2d-40ac-4bf5-b6cd-7bc64625d3e6",
+                "insertClass": "Sorcerer",
+                "level": 8,
+                "source": "Sorcerer Spellcasting"
+            },
+            {
+                "_className": "SpellChoice",
+                "available": 1,
+                "castingType": "Spontaneous",
+                "charLevelAvailable": 16,
+                "className": "Sorcerer",
+                "id": "47cf2599-a269-4478-a682-c684d6a613e9",
+                "insertClass": "Sorcerer",
+                "level": 8,
+                "source": "Sorcerer Spellcasting"
+            },
+            {
+                "_className": "SpellChoice",
+                "available": 1,
+                "castingType": "Spontaneous",
+                "charLevelAvailable": 17,
+                "className": "Sorcerer",
+                "id": "95e53c4f-dc12-4cf7-8305-7747a14a4f27",
+                "insertClass": "Sorcerer",
+                "level": 9,
+                "signatureSpell": true,
+                "source": "Sorcerer Spellcasting",
+                "spells": [
+                    {
+                        "_className": "SpellGain",
+                        "name": "Foresight"
+                    }
+                ]
+            },
+            {
+                "_className": "SpellChoice",
+                "available": 1,
+                "castingType": "Spontaneous",
+                "charLevelAvailable": 17,
+                "className": "Sorcerer",
+                "id": "e0d25a47-d68f-4cb5-bf9f-68bbd7a7a5de",
+                "insertClass": "Sorcerer",
+                "level": 9,
+                "source": "Sorcerer Spellcasting"
+            },
+            {
+                "_className": "SpellChoice",
+                "available": 1,
+                "castingType": "Spontaneous",
+                "charLevelAvailable": 17,
+                "className": "Sorcerer",
+                "id": "fbe6e0bf-6533-49ad-a1b1-6150200539ae",
+                "insertClass": "Sorcerer",
+                "level": 9,
+                "source": "Sorcerer Spellcasting"
+            },
+            {
+                "_className": "SpellChoice",
+                "available": 1,
+                "castingType": "Spontaneous",
+                "charLevelAvailable": 18,
+                "className": "Sorcerer",
+                "id": "2ed2f22c-94ed-425b-a2bc-faff619ff47c",
+                "insertClass": "Sorcerer",
+                "level": 9,
+                "source": "Sorcerer Spellcasting"
+            },
+            {
+                "_className": "SpellChoice",
+                "available": 1,
+                "castingType": "Spontaneous",
+                "charLevelAvailable": 19,
+                "className": "Sorcerer",
+                "id": "59039466-a58a-11ea-bb37-0242ac130002",
+                "insertClass": "Sorcerer",
+                "level": 10,
+                "signatureSpell": true,
+                "source": "Sorcerer Spellcasting"
+            }
+        ]
+    },
+    {
+        "name": "Angelic Blood Magic",
+        "desc": "An angelic aura protects you or one target, granting a +1 status bonus to saving throws for 1 round.",
+        "hints": [
+            {
+                "desc": "An angelic aura protects you or one target, granting a +1 status bonus to saving throws for 1 round.",
+                "showon": "Light, Heal, Spiritual Weapon, Searing Light, Divine Wrath, Flame Strike, Blade Barrier, Divine Decree, Divine Aura, Foresight, Angelic Halo, Angelic Wings, Celestial Brand"
+            }
+        ],
+        "bloodMagic": [
+            {
+                "condition": "Angelic Blood Magic",
+                "trigger": [
+                    "Light",
+                    "Heal",
+                    "Spiritual Weapon",
+                    "Searing Light",
+                    "Divine Wrath",
+                    "Flame Strike",
+                    "Blade Barrier",
+                    "Divine Decree",
+                    "Divine Aura",
+                    "Foresight",
+                    "Angelic Halo",
+                    "Angelic Wings",
+                    "Celestial Brand"
+                ]
+            }
+        ]
     },
     {
         "name": "Demonic Bloodline"

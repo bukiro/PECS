@@ -200,7 +200,7 @@
                     },
                     {
                         "locked": true,
-                        "name": "Wisdom",
+                        "name": "Intelligence",
                         "source": "Ancestry",
                         "sourceId": "1-Ability-Ancestry-0",
                         "type": "Boost"

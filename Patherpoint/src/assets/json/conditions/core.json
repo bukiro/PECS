@@ -1016,6 +1016,55 @@
         ]
     },
     {
+        "name": "Angelic Blood Magic",
+        "desc": "An angelic aura protects you or one target, granting a +1 status bonus to saving throws for 1 round.",
+        "type": "bloodmagic",
+        "inputRequired": "If you choose to target another creature, remove this condition.",
+        "buff": true,
+        "effects": [
+            {
+                "affected": "Saving Throws",
+                "type": "status",
+                "value": "1"
+            }
+        ]
+    },
+    {
+        "name": "Angelic Halo",
+        "desc": "You gain an angelic halo with an aura that increases allies' healing from the heal spell. Allies in your halo's emanation who are healed by a heal spell gain a status bonus to Hit Points regained equal to double the heal spell's level.",
+        "type": "bloodmagic",
+        "buff": true,
+        "hints": [
+            {
+                "desc": "Allies in your halo's emanation who are healed by a heal spell gain a status bonus to Hit Points regained equal to double the heal spell's level.",
+                "showon": "Heal"
+            },
+            {
+                "desc": "Whenever you are healed by a heal spell, you gain a status bonus to Hit Points regained equal to double the heal spell's level.",
+                "showon": "Health"
+            }
+        ],
+        "effects": [
+            {
+                "affected": "Hit Points regained by Heal",
+                "type": "status",
+                "value": "Heightened * 2"
+            }
+        ]
+    },
+    {
+        "name": "Angelic Halo (Area)",
+        "desc": "You are in the emanation of an angelic halo, and your healing from the heal spell is increased. Whenever you are healed by a heal spell, you gain a status bonus to Hit Points regained equal to double the heal spell's level.",
+        "type": "bloodmagic",
+        "buff": true,
+        "hints": [
+            {
+                "desc": "Whenever you are healed by a heal spell, you gain a status bonus to Hit Points regained equal to double the heal spell's level.",
+                "showon": "Health"
+            }
+        ]
+    },
+    {
         "name": "Elemental Blood Magic",
         "desc": "Elemental energy surrounds you or a target. Either you gain a +1 status bonus to Intimidation checks for 1 round, or a target takes 1 damage per spell level. The damage is bludgeoning or fire, according to your elemental type (fire for fire, or else bludgeoning). If the spell already deals that kind of damage, combine it with the spell's initial damage before determining weaknesses and resistances.",
         "type": "bloodmagic",

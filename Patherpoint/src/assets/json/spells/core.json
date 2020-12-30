@@ -1741,6 +1741,119 @@
         "desc": "You shout in defiance, filling you with a sudden burst of healing. Just before applying the attack's damage, you recover 10d4+20 Hit Points. If this is enough to prevent the attack from bringing you to 0 Hit Points, you don't become unconscious or dying. Either way, cheating death is difficult, and you can't use hero's defiance again until you Refocus or the next time you prepare. Hero's defiance cannot be used against effects with the death trait or that would leave no remains, such as disintegrate."
     },
     {
+        "name": "Angelic Halo",
+        "id": "4f9f2ab0-1f40-4d80-aad8-ae2d967f0a49",
+        "shortDesc": "You gain an angelic halo with an aura that increases allies' healing from the heal spell.",
+        "actions": "1A",
+        "castType": "verbal",
+        "levelreq": 1,
+        "traditions": [
+            "Focus"
+        ],
+        "traits": [
+            "Uncommon",
+            "Abjuration",
+            "Good",
+            "Sorcerer"
+        ],
+        "area": "15-foot emanation",
+        "duration": "1 minute",
+        "desc": "You gain an angelic halo with an aura that increases allies' healing from the heal spell. Allies in your halo's emanation who are healed by a heal spell gain a status bonus to Hit Points regained equal to double the heal spell's level.",
+        "gainConditions": [
+            {
+                "duration": 100,
+                "name": "Angelic Halo",
+                "source": "Angelic Halo"
+            }
+        ]
+    },
+    {
+        "name": "Elemental Toss",
+        "id": "8a08b870-c26e-4f4f-848d-c572c4e0690d",
+        "shortDesc": "With a flick of your wrist, you fling a chunk of your elemental matter at your foe.",
+        "actions": "1A",
+        "castType": "somatic",
+        "levelreq": 1,
+        "traditions": [
+            "Focus"
+        ],
+        "traits": [
+            "Uncommon",
+            "Attack",
+            "Evocation",
+            "Sorcerer"
+        ],
+        "range": "30 feet",
+        "singleTarget": true,
+        "desc": "With a flick of your wrist, you fling a chunk of your elemental matter at your foe. Make a spell attack roll, dealing <var>var1</var> bludgeoning damage (or fire damage if your element is fire) on a success, and double damage on a critical success. This spell has your element's trait.",
+        "heightened": [
+            {
+                "desc": "The damage increases by 1d8.",
+                "level": "(+1)"
+            }
+        ],
+        "desc1": [
+            {
+                "value": "1d8",
+                "variable": "var1"
+            }
+        ],
+        "desc2": [
+            {
+                "value": "2d8",
+                "variable": "var1"
+            }
+        ],
+        "desc3": [
+            {
+                "value": "3d8",
+                "variable": "var1"
+            }
+        ],
+        "desc4": [
+            {
+                "value": "4d8",
+                "variable": "var1"
+            }
+        ],
+        "desc5": [
+            {
+                "value": "5d8",
+                "variable": "var1"
+            }
+        ],
+        "desc6": [
+            {
+                "value": "6d8",
+                "variable": "var1"
+            }
+        ],
+        "desc7": [
+            {
+                "value": "7d8",
+                "variable": "var1"
+            }
+        ],
+        "desc8": [
+            {
+                "value": "8d8",
+                "variable": "var1"
+            }
+        ],
+        "desc9": [
+            {
+                "value": "9d8",
+                "variable": "var1"
+            }
+        ],
+        "desc10": [
+            {
+                "value": "10d8",
+                "variable": "var1"
+            }
+        ]
+    },
+    {
         "name": "Dragon Breath",
         "id": "b8ec290c-8416-4150-8eb8-c7bbab54aa28",
         "shortDesc": "You spew draconic energy from your mouth.",

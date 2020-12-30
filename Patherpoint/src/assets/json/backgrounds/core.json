@@ -3821,7 +3821,9 @@
                 "source": "Background",
                 "type": "Skill"
             }
-        ]
+        ],
+        "sourceBook": "Age of Ashes Player's Guide",
+        "adventurePath": "Age of Ashes"
     },
     {
         "_className": "Background",
