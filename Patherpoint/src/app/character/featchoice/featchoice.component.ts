@@ -23,6 +23,7 @@ export class FeatchoiceComponent implements OnInit {
     showChoice: string = "";
     @Input()
     showFeat: string = "";
+    showSubFeat: string = "";
     @Output()
     showChoiceMessage = new EventEmitter<string>();
     @Output()
@@ -64,12 +65,24 @@ export class FeatchoiceComponent implements OnInit {
         this.showChoiceMessage.emit(this.showChoice);
     }
 
+    toggle_SubFeat(name: string) {
+        if (this.showSubFeat == name) {
+            this.showSubFeat = "";
+        } else {
+            this.showSubFeat = name;
+        }
+    }
+
     get_ShowFeat() {
         return this.showFeat;
     }
 
     get_ShowChoice() {
         return this.showChoice;
+    }
+
+    get_ShowSubFeat() {
+        return this.showSubFeat;
     }
 
     trackByIndex(index: number, obj: any): any {

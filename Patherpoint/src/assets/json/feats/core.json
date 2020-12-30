@@ -29918,5 +29918,2010 @@
         "featreq": [
             "Paladin"
         ]
+    },
+    {
+        "name": "Deity's Domain",
+        "desc": "You embody an aspect of your deity. Choose one of your deity's domains. You gain the domain's initial domain spell as a devotion spell.",
+        "subTypes": true,
+        "shortdesc": "You embody an aspect of your deity.",
+        "traits": [
+            "Champion"
+        ],
+        "levelreq": 1
+    },
+    {
+        "name": "Deity's Domain: Air",
+        "desc": "You embody an aspect of your deity. You gain the Air domain's Pushing Gust spell as a devotion spell.",
+        "hints": [
+            {
+                "desc": "Disperse into Air"
+            }
+        ],
+        "subType": "Air",
+        "superType": "Deity's Domain",
+        "shortdesc": "You embody an aspect of your deity.",
+        "traits": [
+            "Champion"
+        ],
+        "levelreq": 1,
+        "specialreq": "deity && deity.domains.includes(this.subType)",
+        "specialreqdesc": "deity who grants the air domain",
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Focus",
+                "className": "Champion",
+                "id": "dfa6a9de-4a37-11eb-b378-0242ac130002",
+                "level": -1,
+                "source": "Feat: Deity's Domain: Air",
+                "spells": [
+                    {
+                        "_className": "SpellGain",
+                        "locked": true,
+                        "name": "Pushing Gust"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Deity's Domain: Ambition",
+        "desc": "You embody an aspect of your deity. You gain the Ambition domain's Blind Ambition spell as a devotion spell.",
+        "hints": [
+            {
+                "desc": "Competitive Edge"
+            }
+        ],
+        "subType": "Ambition",
+        "superType": "Deity's Domain",
+        "shortdesc": "You embody an aspect of your deity.",
+        "traits": [
+            "Champion"
+        ],
+        "levelreq": 1,
+        "specialreq": "deity && deity.domains.includes(this.subType)",
+        "specialreqdesc": "deity who grants the ambition domain",
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Focus",
+                "className": "Champion",
+                "id": "dfa6a9de-4a37-11eb-b378-0242ac130002",
+                "level": -1,
+                "source": "Feat: Deity's Domain: Ambition",
+                "spells": [
+                    {
+                        "_className": "SpellGain",
+                        "locked": true,
+                        "name": "Blind Ambition"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Deity's Domain: Change",
+        "desc": "You embody an aspect of your deity. You gain the Change domain's Adapt Self spell as a devotion spell.",
+        "hints": [
+            {
+                "desc": "Adaptive Ablation"
+            }
+        ],
+        "subType": "Change",
+        "superType": "Deity's Domain",
+        "shortdesc": "You embody an aspect of your deity.",
+        "traits": [
+            "Champion"
+        ],
+        "levelreq": 1,
+        "specialreq": "deity && deity.domains.includes(this.subType)",
+        "specialreqdesc": "deity who grants the change domain",
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Focus",
+                "className": "Champion",
+                "id": "dfa6a9de-4a37-11eb-b378-0242ac130002",
+                "level": -1,
+                "source": "Feat: Deity's Domain: Change",
+                "spells": [
+                    {
+                        "_className": "SpellGain",
+                        "locked": true,
+                        "name": "Adapt Self"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Deity's Domain: Cities",
+        "desc": "You embody an aspect of your deity. You gain the Cities domain's Face in the Crowd spell as a devotion spell.",
+        "hints": [
+            {
+                "desc": "Pulse of the City"
+            }
+        ],
+        "subType": "Cities",
+        "superType": "Deity's Domain",
+        "shortdesc": "You embody an aspect of your deity.",
+        "traits": [
+            "Champion"
+        ],
+        "levelreq": 1,
+        "specialreq": "deity && deity.domains.includes(this.subType)",
+        "specialreqdesc": "deity who grants the cities domain",
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Focus",
+                "className": "Champion",
+                "id": "dfa6a9de-4a37-11eb-b378-0242ac130002",
+                "level": -1,
+                "source": "Feat: Deity's Domain: Cities",
+                "spells": [
+                    {
+                        "_className": "SpellGain",
+                        "locked": true,
+                        "name": "Face in the Crowd"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Deity's Domain: Cold",
+        "desc": "You embody an aspect of your deity. You gain the Cold domain's Winter Bolt spell as a devotion spell.",
+        "hints": [
+            {
+                "desc": "Diamond Dust"
+            }
+        ],
+        "subType": "Cold",
+        "superType": "Deity's Domain",
+        "shortdesc": "You embody an aspect of your deity.",
+        "traits": [
+            "Champion"
+        ],
+        "levelreq": 1,
+        "specialreq": "deity && deity.domains.includes(this.subType)",
+        "specialreqdesc": "deity who grants the cold domain",
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Focus",
+                "className": "Champion",
+                "id": "dfa6a9de-4a37-11eb-b378-0242ac130002",
+                "level": -1,
+                "source": "Feat: Deity's Domain: Cold",
+                "spells": [
+                    {
+                        "_className": "SpellGain",
+                        "locked": true,
+                        "name": "Winter Bolt"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Deity's Domain: Confidence",
+        "desc": "You embody an aspect of your deity. You gain the Confidence domain's Veil of Confidence spell as a devotion spell.",
+        "hints": [
+            {
+                "desc": "Delusional Pride"
+            }
+        ],
+        "subType": "Confidence",
+        "superType": "Deity's Domain",
+        "shortdesc": "You embody an aspect of your deity.",
+        "traits": [
+            "Champion"
+        ],
+        "levelreq": 1,
+        "specialreq": "deity && deity.domains.includes(this.subType)",
+        "specialreqdesc": "deity who grants the confidence domain",
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Focus",
+                "className": "Champion",
+                "id": "dfa6a9de-4a37-11eb-b378-0242ac130002",
+                "level": -1,
+                "source": "Feat: Deity's Domain: Confidence",
+                "spells": [
+                    {
+                        "_className": "SpellGain",
+                        "locked": true,
+                        "name": "Veil of Confidence"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Deity's Domain: Creation",
+        "desc": "You embody an aspect of your deity. You gain the Creation domain's Splash of Art spell as a devotion spell.",
+        "hints": [
+            {
+                "desc": "Artistic Flourish"
+            }
+        ],
+        "subType": "Creation",
+        "superType": "Deity's Domain",
+        "shortdesc": "You embody an aspect of your deity.",
+        "traits": [
+            "Champion"
+        ],
+        "levelreq": 1,
+        "specialreq": "deity && deity.domains.includes(this.subType)",
+        "specialreqdesc": "deity who grants the creation domain",
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Focus",
+                "className": "Champion",
+                "id": "dfa6a9de-4a37-11eb-b378-0242ac130002",
+                "level": -1,
+                "source": "Feat: Deity's Domain: Creation",
+                "spells": [
+                    {
+                        "_className": "SpellGain",
+                        "locked": true,
+                        "name": "Splash of Art"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Deity's Domain: Darkness",
+        "desc": "You embody an aspect of your deity. You gain the Darkness domain's Cloak of Shadow spell as a devotion spell.",
+        "hints": [
+            {
+                "desc": "Darkened Eyes"
+            }
+        ],
+        "subType": "Darkness",
+        "superType": "Deity's Domain",
+        "shortdesc": "You embody an aspect of your deity.",
+        "traits": [
+            "Champion"
+        ],
+        "levelreq": 1,
+        "specialreq": "deity && deity.domains.includes(this.subType)",
+        "specialreqdesc": "deity who grants the darkness domain",
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Focus",
+                "className": "Champion",
+                "id": "dfa6a9de-4a37-11eb-b378-0242ac130002",
+                "level": -1,
+                "source": "Feat: Deity's Domain: Darkness",
+                "spells": [
+                    {
+                        "_className": "SpellGain",
+                        "locked": true,
+                        "name": "Cloak of Shadow"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Deity's Domain: Death",
+        "desc": "You embody an aspect of your deity. You gain the Death domain's Death's Call spell as a devotion spell.",
+        "hints": [
+            {
+                "desc": "Eradicate Undeath"
+            }
+        ],
+        "subType": "Death",
+        "superType": "Deity's Domain",
+        "shortdesc": "You embody an aspect of your deity.",
+        "traits": [
+            "Champion"
+        ],
+        "levelreq": 1,
+        "specialreq": "deity && deity.domains.includes(this.subType)",
+        "specialreqdesc": "deity who grants the death domain",
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Focus",
+                "className": "Champion",
+                "id": "dfa6a9de-4a37-11eb-b378-0242ac130002",
+                "level": -1,
+                "source": "Feat: Deity's Domain: Death",
+                "spells": [
+                    {
+                        "_className": "SpellGain",
+                        "locked": true,
+                        "name": "Death's Call"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Deity's Domain: Decay",
+        "desc": "You embody an aspect of your deity. You gain the Decay domain's Withering Grasp spell as a devotion spell.",
+        "hints": [
+            {
+                "desc": "Fallow Field"
+            }
+        ],
+        "subType": "Decay",
+        "superType": "Deity's Domain",
+        "shortdesc": "You embody an aspect of your deity.",
+        "traits": [
+            "Champion"
+        ],
+        "levelreq": 1,
+        "specialreq": "deity && deity.domains.includes(this.subType)",
+        "specialreqdesc": "deity who grants the decay domain",
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Focus",
+                "className": "Champion",
+                "id": "dfa6a9de-4a37-11eb-b378-0242ac130002",
+                "level": -1,
+                "source": "Feat: Deity's Domain: Decay",
+                "spells": [
+                    {
+                        "_className": "SpellGain",
+                        "locked": true,
+                        "name": "Withering Grasp"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Deity's Domain: Delirium",
+        "desc": "You embody an aspect of your deity. You gain the Delirium domain's Hyperfocus spell as a devotion spell.",
+        "hints": [
+            {
+                "desc": "Ephemeral Hazards"
+            }
+        ],
+        "subType": "Delirium",
+        "superType": "Deity's Domain",
+        "shortdesc": "You embody an aspect of your deity.",
+        "traits": [
+            "Champion"
+        ],
+        "levelreq": 1,
+        "specialreq": "deity && deity.domains.includes(this.subType)",
+        "specialreqdesc": "deity who grants the delirium domain",
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Focus",
+                "className": "Champion",
+                "id": "dfa6a9de-4a37-11eb-b378-0242ac130002",
+                "level": -1,
+                "source": "Feat: Deity's Domain: Delirium",
+                "spells": [
+                    {
+                        "_className": "SpellGain",
+                        "locked": true,
+                        "name": "Hyperfocus"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Deity's Domain: Destruction",
+        "desc": "You embody an aspect of your deity. You gain the Destruction domain's Cry of Destruction spell as a devotion spell.",
+        "hints": [
+            {
+                "desc": "Destructive Aura"
+            }
+        ],
+        "subType": "Destruction",
+        "superType": "Deity's Domain",
+        "shortdesc": "You embody an aspect of your deity.",
+        "traits": [
+            "Champion"
+        ],
+        "levelreq": 1,
+        "specialreq": "deity && deity.domains.includes(this.subType)",
+        "specialreqdesc": "deity who grants the destruction domain",
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Focus",
+                "className": "Champion",
+                "id": "dfa6a9de-4a37-11eb-b378-0242ac130002",
+                "level": -1,
+                "source": "Feat: Deity's Domain: Destruction",
+                "spells": [
+                    {
+                        "_className": "SpellGain",
+                        "locked": true,
+                        "name": "Cry of Destruction"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Deity's Domain: Dreams",
+        "desc": "You embody an aspect of your deity. You gain the Dreams domain's Sweet Dream spell as a devotion spell.",
+        "hints": [
+            {
+                "desc": "Dreamer's Call"
+            }
+        ],
+        "subType": "Dreams",
+        "superType": "Deity's Domain",
+        "shortdesc": "You embody an aspect of your deity.",
+        "traits": [
+            "Champion"
+        ],
+        "levelreq": 1,
+        "specialreq": "deity && deity.domains.includes(this.subType)",
+        "specialreqdesc": "deity who grants the dreams domain",
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Focus",
+                "className": "Champion",
+                "id": "dfa6a9de-4a37-11eb-b378-0242ac130002",
+                "level": -1,
+                "source": "Feat: Deity's Domain: Dreams",
+                "spells": [
+                    {
+                        "_className": "SpellGain",
+                        "locked": true,
+                        "name": "Sweet Dream"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Deity's Domain: Dust",
+        "desc": "You embody an aspect of your deity. You gain the Dust domain's Parch spell as a devotion spell.",
+        "hints": [
+            {
+                "desc": "Dust Storm"
+            }
+        ],
+        "subType": "Dust",
+        "superType": "Deity's Domain",
+        "shortdesc": "You embody an aspect of your deity.",
+        "traits": [
+            "Champion"
+        ],
+        "levelreq": 1,
+        "specialreq": "deity && deity.domains.includes(this.subType)",
+        "specialreqdesc": "deity who grants the dust domain",
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Focus",
+                "className": "Champion",
+                "id": "dfa6a9de-4a37-11eb-b378-0242ac130002",
+                "level": -1,
+                "source": "Feat: Deity's Domain: Dust",
+                "spells": [
+                    {
+                        "_className": "SpellGain",
+                        "locked": true,
+                        "name": "Parch"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Deity's Domain: Duty",
+        "desc": "You embody an aspect of your deity. You gain the Duty domain's Oathkeeper's Insignia spell as a devotion spell.",
+        "hints": [
+            {
+                "desc": "Dutiful Challenge"
+            }
+        ],
+        "subType": "Duty",
+        "superType": "Deity's Domain",
+        "shortdesc": "You embody an aspect of your deity.",
+        "traits": [
+            "Champion"
+        ],
+        "levelreq": 1,
+        "specialreq": "deity && deity.domains.includes(this.subType)",
+        "specialreqdesc": "deity who grants the duty domain",
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Focus",
+                "className": "Champion",
+                "id": "dfa6a9de-4a37-11eb-b378-0242ac130002",
+                "level": -1,
+                "source": "Feat: Deity's Domain: Duty",
+                "spells": [
+                    {
+                        "_className": "SpellGain",
+                        "locked": true,
+                        "name": "Oathkeeper's Insignia"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Deity's Domain: Earth",
+        "desc": "You embody an aspect of your deity. You gain the Earth domain's Hurtling Stone spell as a devotion spell.",
+        "hints": [
+            {
+                "desc": "Localized Quake"
+            }
+        ],
+        "subType": "Earth",
+        "superType": "Deity's Domain",
+        "shortdesc": "You embody an aspect of your deity.",
+        "traits": [
+            "Champion"
+        ],
+        "levelreq": 1,
+        "specialreq": "deity && deity.domains.includes(this.subType)",
+        "specialreqdesc": "deity who grants the earth domain",
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Focus",
+                "className": "Champion",
+                "id": "dfa6a9de-4a37-11eb-b378-0242ac130002",
+                "level": -1,
+                "source": "Feat: Deity's Domain: Earth",
+                "spells": [
+                    {
+                        "_className": "SpellGain",
+                        "locked": true,
+                        "name": "Hurtling Stone"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Deity's Domain: Family",
+        "desc": "You embody an aspect of your deity. You gain the Family domain's Soothing Words spell as a devotion spell.",
+        "hints": [
+            {
+                "desc": "Unity"
+            }
+        ],
+        "subType": "Family",
+        "superType": "Deity's Domain",
+        "shortdesc": "You embody an aspect of your deity.",
+        "traits": [
+            "Champion"
+        ],
+        "levelreq": 1,
+        "specialreq": "deity && deity.domains.includes(this.subType)",
+        "specialreqdesc": "deity who grants the family domain",
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Focus",
+                "className": "Champion",
+                "id": "dfa6a9de-4a37-11eb-b378-0242ac130002",
+                "level": -1,
+                "source": "Feat: Deity's Domain: Family",
+                "spells": [
+                    {
+                        "_className": "SpellGain",
+                        "locked": true,
+                        "name": "Soothing Words"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Deity's Domain: Fate",
+        "desc": "You embody an aspect of your deity. You gain the Fate domain's Read Fate spell as a devotion spell.",
+        "hints": [
+            {
+                "desc": "Tempt Fate"
+            }
+        ],
+        "subType": "Fate",
+        "superType": "Deity's Domain",
+        "shortdesc": "You embody an aspect of your deity.",
+        "traits": [
+            "Champion"
+        ],
+        "levelreq": 1,
+        "specialreq": "deity && deity.domains.includes(this.subType)",
+        "specialreqdesc": "deity who grants the fate domain",
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Focus",
+                "className": "Champion",
+                "id": "dfa6a9de-4a37-11eb-b378-0242ac130002",
+                "level": -1,
+                "source": "Feat: Deity's Domain: Fate",
+                "spells": [
+                    {
+                        "_className": "SpellGain",
+                        "locked": true,
+                        "name": "Read Fate"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Deity's Domain: Fire",
+        "desc": "You embody an aspect of your deity. You gain the Fire domain's Fire Ray spell as a devotion spell.",
+        "hints": [
+            {
+                "desc": "Flame Barrier"
+            }
+        ],
+        "subType": "Fire",
+        "superType": "Deity's Domain",
+        "shortdesc": "You embody an aspect of your deity.",
+        "traits": [
+            "Champion"
+        ],
+        "levelreq": 1,
+        "specialreq": "deity && deity.domains.includes(this.subType)",
+        "specialreqdesc": "deity who grants the fire domain",
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Focus",
+                "className": "Champion",
+                "id": "dfa6a9de-4a37-11eb-b378-0242ac130002",
+                "level": -1,
+                "source": "Feat: Deity's Domain: Fire",
+                "spells": [
+                    {
+                        "_className": "SpellGain",
+                        "locked": true,
+                        "name": "Fire Ray"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Deity's Domain: Freedom",
+        "desc": "You embody an aspect of your deity. You gain the Freedom domain's Unimpeded Stride spell as a devotion spell.",
+        "hints": [
+            {
+                "desc": "Word of Freedom"
+            }
+        ],
+        "subType": "Freedom",
+        "superType": "Deity's Domain",
+        "shortdesc": "You embody an aspect of your deity.",
+        "traits": [
+            "Champion"
+        ],
+        "levelreq": 1,
+        "specialreq": "deity && deity.domains.includes(this.subType)",
+        "specialreqdesc": "deity who grants the freedom domain",
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Focus",
+                "className": "Champion",
+                "id": "dfa6a9de-4a37-11eb-b378-0242ac130002",
+                "level": -1,
+                "source": "Feat: Deity's Domain: Freedom",
+                "spells": [
+                    {
+                        "_className": "SpellGain",
+                        "locked": true,
+                        "name": "Unimpeded Stride"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Deity's Domain: Glyph",
+        "desc": "You embody an aspect of your deity. You gain the Glyph domain's Redact spell as a devotion spell.",
+        "hints": [
+            {
+                "desc": "Ghostly Transcription"
+            }
+        ],
+        "subType": "Glyph",
+        "superType": "Deity's Domain",
+        "shortdesc": "You embody an aspect of your deity.",
+        "traits": [
+            "Champion"
+        ],
+        "levelreq": 1,
+        "specialreq": "deity && deity.domains.includes(this.subType)",
+        "specialreqdesc": "deity who grants the glyph domain",
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Focus",
+                "className": "Champion",
+                "id": "dfa6a9de-4a37-11eb-b378-0242ac130002",
+                "level": -1,
+                "source": "Feat: Deity's Domain: Glyph",
+                "spells": [
+                    {
+                        "_className": "SpellGain",
+                        "locked": true,
+                        "name": "Redact"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Deity's Domain: Healing",
+        "desc": "You embody an aspect of your deity. You gain the Healing domain's Healer's Blessing spell as a devotion spell.",
+        "hints": [
+            {
+                "desc": "Rebuke Death"
+            }
+        ],
+        "subType": "Healing",
+        "superType": "Deity's Domain",
+        "shortdesc": "You embody an aspect of your deity.",
+        "traits": [
+            "Champion"
+        ],
+        "levelreq": 1,
+        "specialreq": "deity && deity.domains.includes(this.subType)",
+        "specialreqdesc": "deity who grants the healing domain",
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Focus",
+                "className": "Champion",
+                "id": "dfa6a9de-4a37-11eb-b378-0242ac130002",
+                "level": -1,
+                "source": "Feat: Deity's Domain: Healing",
+                "spells": [
+                    {
+                        "_className": "SpellGain",
+                        "locked": true,
+                        "name": "Healer's Blessing"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Deity's Domain: Indulgence",
+        "desc": "You embody an aspect of your deity. You gain the Indulgence domain's Overstuff spell as a devotion spell.",
+        "hints": [
+            {
+                "desc": "Take its Course"
+            }
+        ],
+        "subType": "Indulgence",
+        "superType": "Deity's Domain",
+        "shortdesc": "You embody an aspect of your deity.",
+        "traits": [
+            "Champion"
+        ],
+        "levelreq": 1,
+        "specialreq": "deity && deity.domains.includes(this.subType)",
+        "specialreqdesc": "deity who grants the indulgence domain",
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Focus",
+                "className": "Champion",
+                "id": "dfa6a9de-4a37-11eb-b378-0242ac130002",
+                "level": -1,
+                "source": "Feat: Deity's Domain: Indulgence",
+                "spells": [
+                    {
+                        "_className": "SpellGain",
+                        "locked": true,
+                        "name": "Overstuff"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Deity's Domain: Knowledge",
+        "desc": "You embody an aspect of your deity. You gain the Knowledge domain's Scholarly Recollection spell as a devotion spell.",
+        "hints": [
+            {
+                "desc": "Know the Enemy"
+            }
+        ],
+        "subType": "Knowledge",
+        "superType": "Deity's Domain",
+        "shortdesc": "You embody an aspect of your deity.",
+        "traits": [
+            "Champion"
+        ],
+        "levelreq": 1,
+        "specialreq": "deity && deity.domains.includes(this.subType)",
+        "specialreqdesc": "deity who grants the knowledge domain",
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Focus",
+                "className": "Champion",
+                "id": "dfa6a9de-4a37-11eb-b378-0242ac130002",
+                "level": -1,
+                "source": "Feat: Deity's Domain: Knowledge",
+                "spells": [
+                    {
+                        "_className": "SpellGain",
+                        "locked": true,
+                        "name": "Scholarly Recollection"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Deity's Domain: Lightning",
+        "desc": "You embody an aspect of your deity. You gain the Lightning domain's Charged Javelin spell as a devotion spell.",
+        "hints": [
+            {
+                "desc": "Bottle the Storm"
+            }
+        ],
+        "subType": "Lightning",
+        "superType": "Deity's Domain",
+        "shortdesc": "You embody an aspect of your deity.",
+        "traits": [
+            "Champion"
+        ],
+        "levelreq": 1,
+        "specialreq": "deity && deity.domains.includes(this.subType)",
+        "specialreqdesc": "deity who grants the lightning domain",
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Focus",
+                "className": "Champion",
+                "id": "dfa6a9de-4a37-11eb-b378-0242ac130002",
+                "level": -1,
+                "source": "Feat: Deity's Domain: Lightning",
+                "spells": [
+                    {
+                        "_className": "SpellGain",
+                        "locked": true,
+                        "name": "Charged Javelin"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Deity's Domain: Luck",
+        "desc": "You embody an aspect of your deity. You gain the Luck domain's Bit of Luck spell as a devotion spell.",
+        "hints": [
+            {
+                "desc": "Lucky Break"
+            }
+        ],
+        "subType": "Luck",
+        "superType": "Deity's Domain",
+        "shortdesc": "You embody an aspect of your deity.",
+        "traits": [
+            "Champion"
+        ],
+        "levelreq": 1,
+        "specialreq": "deity && deity.domains.includes(this.subType)",
+        "specialreqdesc": "deity who grants the luck domain",
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Focus",
+                "className": "Champion",
+                "id": "dfa6a9de-4a37-11eb-b378-0242ac130002",
+                "level": -1,
+                "source": "Feat: Deity's Domain: Luck",
+                "spells": [
+                    {
+                        "_className": "SpellGain",
+                        "locked": true,
+                        "name": "Bit of Luck"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Deity's Domain: Magic",
+        "desc": "You embody an aspect of your deity. You gain the Magic domain's Magic's Vessel spell as a devotion spell.",
+        "hints": [
+            {
+                "desc": "Mystic Beacon"
+            }
+        ],
+        "subType": "Magic",
+        "superType": "Deity's Domain",
+        "shortdesc": "You embody an aspect of your deity.",
+        "traits": [
+            "Champion"
+        ],
+        "levelreq": 1,
+        "specialreq": "deity && deity.domains.includes(this.subType)",
+        "specialreqdesc": "deity who grants the magic domain",
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Focus",
+                "className": "Champion",
+                "id": "dfa6a9de-4a37-11eb-b378-0242ac130002",
+                "level": -1,
+                "source": "Feat: Deity's Domain: Magic",
+                "spells": [
+                    {
+                        "_className": "SpellGain",
+                        "locked": true,
+                        "name": "Magic's Vessel"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Deity's Domain: Might",
+        "desc": "You embody an aspect of your deity. You gain the Might domain's Athletic Rush spell as a devotion spell.",
+        "hints": [
+            {
+                "desc": "Enduring Might"
+            }
+        ],
+        "subType": "Might",
+        "superType": "Deity's Domain",
+        "shortdesc": "You embody an aspect of your deity.",
+        "traits": [
+            "Champion"
+        ],
+        "levelreq": 1,
+        "specialreq": "deity && deity.domains.includes(this.subType)",
+        "specialreqdesc": "deity who grants the might domain",
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Focus",
+                "className": "Champion",
+                "id": "dfa6a9de-4a37-11eb-b378-0242ac130002",
+                "level": -1,
+                "source": "Feat: Deity's Domain: Might",
+                "spells": [
+                    {
+                        "_className": "SpellGain",
+                        "locked": true,
+                        "name": "Athletic Rush"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Deity's Domain: Moon",
+        "desc": "You embody an aspect of your deity. You gain the Moon domain's Moonbeam spell as a devotion spell.",
+        "hints": [
+            {
+                "desc": "Touch of the Moon"
+            }
+        ],
+        "subType": "Moon",
+        "superType": "Deity's Domain",
+        "shortdesc": "You embody an aspect of your deity.",
+        "traits": [
+            "Champion"
+        ],
+        "levelreq": 1,
+        "specialreq": "deity && deity.domains.includes(this.subType)",
+        "specialreqdesc": "deity who grants the moon domain",
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Focus",
+                "className": "Champion",
+                "id": "dfa6a9de-4a37-11eb-b378-0242ac130002",
+                "level": -1,
+                "source": "Feat: Deity's Domain: Moon",
+                "spells": [
+                    {
+                        "_className": "SpellGain",
+                        "locked": true,
+                        "name": "Moonbeam"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Deity's Domain: Naga",
+        "desc": "You embody an aspect of your deity. You gain the Naga domain's Split the Tongue spell as a devotion spell.",
+        "hints": [
+            {
+                "desc": "Ordained Purpose"
+            }
+        ],
+        "subType": "Naga",
+        "superType": "Deity's Domain",
+        "shortdesc": "You embody an aspect of your deity.",
+        "traits": [
+            "Champion"
+        ],
+        "levelreq": 1,
+        "specialreq": "deity && deity.domains.includes(this.subType)",
+        "specialreqdesc": "deity who grants the naga domain",
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Focus",
+                "className": "Champion",
+                "id": "dfa6a9de-4a37-11eb-b378-0242ac130002",
+                "level": -1,
+                "source": "Feat: Deity's Domain: Naga",
+                "spells": [
+                    {
+                        "_className": "SpellGain",
+                        "locked": true,
+                        "name": "Split the Tongue"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Deity's Domain: Nature",
+        "desc": "You embody an aspect of your deity. You gain the Nature domain's Vibrant Thorns spell as a devotion spell.",
+        "hints": [
+            {
+                "desc": "Nature's Bounty"
+            }
+        ],
+        "subType": "Nature",
+        "superType": "Deity's Domain",
+        "shortdesc": "You embody an aspect of your deity.",
+        "traits": [
+            "Champion"
+        ],
+        "levelreq": 1,
+        "specialreq": "deity && deity.domains.includes(this.subType)",
+        "specialreqdesc": "deity who grants the nature domain",
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Focus",
+                "className": "Champion",
+                "id": "dfa6a9de-4a37-11eb-b378-0242ac130002",
+                "level": -1,
+                "source": "Feat: Deity's Domain: Nature",
+                "spells": [
+                    {
+                        "_className": "SpellGain",
+                        "locked": true,
+                        "name": "Vibrant Thorns"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Deity's Domain: Nightmares",
+        "desc": "You embody an aspect of your deity. You gain the Nightmares domain's Waking Nightmare spell as a devotion spell.",
+        "hints": [
+            {
+                "desc": "Shared Nightmare"
+            }
+        ],
+        "subType": "Nightmares",
+        "superType": "Deity's Domain",
+        "shortdesc": "You embody an aspect of your deity.",
+        "traits": [
+            "Champion"
+        ],
+        "levelreq": 1,
+        "specialreq": "deity && deity.domains.includes(this.subType)",
+        "specialreqdesc": "deity who grants the nightmares domain",
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Focus",
+                "className": "Champion",
+                "id": "dfa6a9de-4a37-11eb-b378-0242ac130002",
+                "level": -1,
+                "source": "Feat: Deity's Domain: Nightmares",
+                "spells": [
+                    {
+                        "_className": "SpellGain",
+                        "locked": true,
+                        "name": "Waking Nightmare"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Deity's Domain: Pain",
+        "desc": "You embody an aspect of your deity. You gain the Pain domain's Savor the Sting spell as a devotion spell.",
+        "hints": [
+            {
+                "desc": "Retributive Pain"
+            }
+        ],
+        "subType": "Pain",
+        "superType": "Deity's Domain",
+        "shortdesc": "You embody an aspect of your deity.",
+        "traits": [
+            "Champion"
+        ],
+        "levelreq": 1,
+        "specialreq": "deity && deity.domains.includes(this.subType)",
+        "specialreqdesc": "deity who grants the pain domain",
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Focus",
+                "className": "Champion",
+                "id": "dfa6a9de-4a37-11eb-b378-0242ac130002",
+                "level": -1,
+                "source": "Feat: Deity's Domain: Pain",
+                "spells": [
+                    {
+                        "_className": "SpellGain",
+                        "locked": true,
+                        "name": "Savor the Sting"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Deity's Domain: Passion",
+        "desc": "You embody an aspect of your deity. You gain the Passion domain's Charming Touch spell as a devotion spell.",
+        "hints": [
+            {
+                "desc": "Captivating Adoration"
+            }
+        ],
+        "subType": "Passion",
+        "superType": "Deity's Domain",
+        "shortdesc": "You embody an aspect of your deity.",
+        "traits": [
+            "Champion"
+        ],
+        "levelreq": 1,
+        "specialreq": "deity && deity.domains.includes(this.subType)",
+        "specialreqdesc": "deity who grants the passion domain",
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Focus",
+                "className": "Champion",
+                "id": "dfa6a9de-4a37-11eb-b378-0242ac130002",
+                "level": -1,
+                "source": "Feat: Deity's Domain: Passion",
+                "spells": [
+                    {
+                        "_className": "SpellGain",
+                        "locked": true,
+                        "name": "Charming Touch"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Deity's Domain: Perfection",
+        "desc": "You embody an aspect of your deity. You gain the Perfection domain's Perfected Mind spell as a devotion spell.",
+        "hints": [
+            {
+                "desc": "Perfected Form"
+            }
+        ],
+        "subType": "Perfection",
+        "superType": "Deity's Domain",
+        "shortdesc": "You embody an aspect of your deity.",
+        "traits": [
+            "Champion"
+        ],
+        "levelreq": 1,
+        "specialreq": "deity && deity.domains.includes(this.subType)",
+        "specialreqdesc": "deity who grants the perfection domain",
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Focus",
+                "className": "Champion",
+                "id": "dfa6a9de-4a37-11eb-b378-0242ac130002",
+                "level": -1,
+                "source": "Feat: Deity's Domain: Perfection",
+                "spells": [
+                    {
+                        "_className": "SpellGain",
+                        "locked": true,
+                        "name": "Perfected Mind"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Deity's Domain: Plague",
+        "desc": "You embody an aspect of your deity. You gain the Plague domain's Divine Plagues spell as a devotion spell.",
+        "hints": [
+            {
+                "desc": "Foul Miasma"
+            }
+        ],
+        "subType": "Plague",
+        "superType": "Deity's Domain",
+        "shortdesc": "You embody an aspect of your deity.",
+        "traits": [
+            "Champion"
+        ],
+        "levelreq": 1,
+        "specialreq": "deity && deity.domains.includes(this.subType)",
+        "specialreqdesc": "deity who grants the plague domain",
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Focus",
+                "className": "Champion",
+                "id": "dfa6a9de-4a37-11eb-b378-0242ac130002",
+                "level": -1,
+                "source": "Feat: Deity's Domain: Plague",
+                "spells": [
+                    {
+                        "_className": "SpellGain",
+                        "locked": true,
+                        "name": "Divine Plagues"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Deity's Domain: Protection",
+        "desc": "You embody an aspect of your deity. You gain the Protection domain's Protector's Sacrifice spell as a devotion spell.",
+        "hints": [
+            {
+                "desc": "Protector's Sphere"
+            }
+        ],
+        "subType": "Protection",
+        "superType": "Deity's Domain",
+        "shortdesc": "You embody an aspect of your deity.",
+        "traits": [
+            "Champion"
+        ],
+        "levelreq": 1,
+        "specialreq": "deity && deity.domains.includes(this.subType)",
+        "specialreqdesc": "deity who grants the protection domain",
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Focus",
+                "className": "Champion",
+                "id": "dfa6a9de-4a37-11eb-b378-0242ac130002",
+                "level": -1,
+                "source": "Feat: Deity's Domain: Protection",
+                "spells": [
+                    {
+                        "_className": "SpellGain",
+                        "locked": true,
+                        "name": "Protector's Sacrifice"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Deity's Domain: Repose",
+        "desc": "You embody an aspect of your deity. You gain the Repose domain's Share Burden spell as a devotion spell.",
+        "hints": [
+            {
+                "desc": "Font of Serenity"
+            }
+        ],
+        "subType": "Repose",
+        "superType": "Deity's Domain",
+        "shortdesc": "You embody an aspect of your deity.",
+        "traits": [
+            "Champion"
+        ],
+        "levelreq": 1,
+        "specialreq": "deity && deity.domains.includes(this.subType)",
+        "specialreqdesc": "deity who grants the repose domain",
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Focus",
+                "className": "Champion",
+                "id": "dfa6a9de-4a37-11eb-b378-0242ac130002",
+                "level": -1,
+                "source": "Feat: Deity's Domain: Repose",
+                "spells": [
+                    {
+                        "_className": "SpellGain",
+                        "locked": true,
+                        "name": "Share Burden"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Deity's Domain: Secrecy",
+        "desc": "You embody an aspect of your deity. You gain the Secrecy domain's Forced Quiet spell as a devotion spell.",
+        "hints": [
+            {
+                "desc": "Safeguard Secret"
+            }
+        ],
+        "subType": "Secrecy",
+        "superType": "Deity's Domain",
+        "shortdesc": "You embody an aspect of your deity.",
+        "traits": [
+            "Champion"
+        ],
+        "levelreq": 1,
+        "specialreq": "deity && deity.domains.includes(this.subType)",
+        "specialreqdesc": "deity who grants the secrecy domain",
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Focus",
+                "className": "Champion",
+                "id": "dfa6a9de-4a37-11eb-b378-0242ac130002",
+                "level": -1,
+                "source": "Feat: Deity's Domain: Secrecy",
+                "spells": [
+                    {
+                        "_className": "SpellGain",
+                        "locked": true,
+                        "name": "Forced Quiet"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Deity's Domain: Sorrow",
+        "desc": "You embody an aspect of your deity. You gain the Sorrow domain's Lament spell as a devotion spell.",
+        "hints": [
+            {
+                "desc": "Overflowing Sorrow"
+            }
+        ],
+        "subType": "Sorrow",
+        "superType": "Deity's Domain",
+        "shortdesc": "You embody an aspect of your deity.",
+        "traits": [
+            "Champion"
+        ],
+        "levelreq": 1,
+        "specialreq": "deity && deity.domains.includes(this.subType)",
+        "specialreqdesc": "deity who grants the sorrow domain",
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Focus",
+                "className": "Champion",
+                "id": "dfa6a9de-4a37-11eb-b378-0242ac130002",
+                "level": -1,
+                "source": "Feat: Deity's Domain: Sorrow",
+                "spells": [
+                    {
+                        "_className": "SpellGain",
+                        "locked": true,
+                        "name": "Lament"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Deity's Domain: Soul",
+        "desc": "You embody an aspect of your deity. You gain the Soul domain's Eject Soul spell as a devotion spell.",
+        "hints": [
+            {
+                "desc": "Ectoplasmic Interstice"
+            }
+        ],
+        "subType": "Soul",
+        "superType": "Deity's Domain",
+        "shortdesc": "You embody an aspect of your deity.",
+        "traits": [
+            "Champion"
+        ],
+        "levelreq": 1,
+        "specialreq": "deity && deity.domains.includes(this.subType)",
+        "specialreqdesc": "deity who grants the soul domain",
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Focus",
+                "className": "Champion",
+                "id": "dfa6a9de-4a37-11eb-b378-0242ac130002",
+                "level": -1,
+                "source": "Feat: Deity's Domain: Soul",
+                "spells": [
+                    {
+                        "_className": "SpellGain",
+                        "locked": true,
+                        "name": "Eject Soul"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Deity's Domain: Star",
+        "desc": "You embody an aspect of your deity. You gain the Star domain's Zenith Star spell as a devotion spell.",
+        "hints": [
+            {
+                "desc": "Asterism"
+            }
+        ],
+        "subType": "Star",
+        "superType": "Deity's Domain",
+        "shortdesc": "You embody an aspect of your deity.",
+        "traits": [
+            "Champion"
+        ],
+        "levelreq": 1,
+        "specialreq": "deity && deity.domains.includes(this.subType)",
+        "specialreqdesc": "deity who grants the star domain",
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Focus",
+                "className": "Champion",
+                "id": "dfa6a9de-4a37-11eb-b378-0242ac130002",
+                "level": -1,
+                "source": "Feat: Deity's Domain: Star",
+                "spells": [
+                    {
+                        "_className": "SpellGain",
+                        "locked": true,
+                        "name": "Zenith Star"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Deity's Domain: Sun",
+        "desc": "You embody an aspect of your deity. You gain the Sun domain's Dazzling Flash spell as a devotion spell.",
+        "hints": [
+            {
+                "desc": "Positive Luminance"
+            }
+        ],
+        "subType": "Sun",
+        "superType": "Deity's Domain",
+        "shortdesc": "You embody an aspect of your deity.",
+        "traits": [
+            "Champion"
+        ],
+        "levelreq": 1,
+        "specialreq": "deity && deity.domains.includes(this.subType)",
+        "specialreqdesc": "deity who grants the sun domain",
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Focus",
+                "className": "Champion",
+                "id": "dfa6a9de-4a37-11eb-b378-0242ac130002",
+                "level": -1,
+                "source": "Feat: Deity's Domain: Sun",
+                "spells": [
+                    {
+                        "_className": "SpellGain",
+                        "locked": true,
+                        "name": "Dazzling Flash"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Deity's Domain: Swarm",
+        "desc": "You embody an aspect of your deity. You gain the Swarm domain's Swarmsense spell as a devotion spell.",
+        "hints": [
+            {
+                "desc": "Swarm Form"
+            }
+        ],
+        "subType": "Swarm",
+        "superType": "Deity's Domain",
+        "shortdesc": "You embody an aspect of your deity.",
+        "traits": [
+            "Champion"
+        ],
+        "levelreq": 1,
+        "specialreq": "deity && deity.domains.includes(this.subType)",
+        "specialreqdesc": "deity who grants the swarm domain",
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Focus",
+                "className": "Champion",
+                "id": "dfa6a9de-4a37-11eb-b378-0242ac130002",
+                "level": -1,
+                "source": "Feat: Deity's Domain: Swarm",
+                "spells": [
+                    {
+                        "_className": "SpellGain",
+                        "locked": true,
+                        "name": "Swarmsense"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Deity's Domain: Time",
+        "desc": "You embody an aspect of your deity. You gain the Time domain's Delay Consequence spell as a devotion spell.",
+        "hints": [
+            {
+                "desc": "Stasis"
+            }
+        ],
+        "subType": "Time",
+        "superType": "Deity's Domain",
+        "shortdesc": "You embody an aspect of your deity.",
+        "traits": [
+            "Champion"
+        ],
+        "levelreq": 1,
+        "specialreq": "deity && deity.domains.includes(this.subType)",
+        "specialreqdesc": "deity who grants the time domain",
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Focus",
+                "className": "Champion",
+                "id": "dfa6a9de-4a37-11eb-b378-0242ac130002",
+                "level": -1,
+                "source": "Feat: Deity's Domain: Time",
+                "spells": [
+                    {
+                        "_className": "SpellGain",
+                        "locked": true,
+                        "name": "Delay Consequence"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Deity's Domain: Toil",
+        "desc": "You embody an aspect of your deity. You gain the Toil domain's Practice Makes Perfect spell as a devotion spell.",
+        "hints": [
+            {
+                "desc": "Tireless Worker"
+            }
+        ],
+        "subType": "Toil",
+        "superType": "Deity's Domain",
+        "shortdesc": "You embody an aspect of your deity.",
+        "traits": [
+            "Champion"
+        ],
+        "levelreq": 1,
+        "specialreq": "deity && deity.domains.includes(this.subType)",
+        "specialreqdesc": "deity who grants the toil domain",
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Focus",
+                "className": "Champion",
+                "id": "dfa6a9de-4a37-11eb-b378-0242ac130002",
+                "level": -1,
+                "source": "Feat: Deity's Domain: Toil",
+                "spells": [
+                    {
+                        "_className": "SpellGain",
+                        "locked": true,
+                        "name": "Practice Makes Perfect"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Deity's Domain: Travel",
+        "desc": "You embody an aspect of your deity. You gain the Travel domain's Agile Feet spell as a devotion spell.",
+        "hints": [
+            {
+                "desc": "Traveler's Transit"
+            }
+        ],
+        "subType": "Travel",
+        "superType": "Deity's Domain",
+        "shortdesc": "You embody an aspect of your deity.",
+        "traits": [
+            "Champion"
+        ],
+        "levelreq": 1,
+        "specialreq": "deity && deity.domains.includes(this.subType)",
+        "specialreqdesc": "deity who grants the travel domain",
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Focus",
+                "className": "Champion",
+                "id": "dfa6a9de-4a37-11eb-b378-0242ac130002",
+                "level": -1,
+                "source": "Feat: Deity's Domain: Travel",
+                "spells": [
+                    {
+                        "_className": "SpellGain",
+                        "locked": true,
+                        "name": "Agile Feet"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Deity's Domain: Trickery",
+        "desc": "You embody an aspect of your deity. You gain the Trickery domain's Sudden Shift spell as a devotion spell.",
+        "hints": [
+            {
+                "desc": "Trickster's Twin"
+            }
+        ],
+        "subType": "Trickery",
+        "superType": "Deity's Domain",
+        "shortdesc": "You embody an aspect of your deity.",
+        "traits": [
+            "Champion"
+        ],
+        "levelreq": 1,
+        "specialreq": "deity && deity.domains.includes(this.subType)",
+        "specialreqdesc": "deity who grants the trickery domain",
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Focus",
+                "className": "Champion",
+                "id": "dfa6a9de-4a37-11eb-b378-0242ac130002",
+                "level": -1,
+                "source": "Feat: Deity's Domain: Trickery",
+                "spells": [
+                    {
+                        "_className": "SpellGain",
+                        "locked": true,
+                        "name": "Sudden Shift"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Deity's Domain: Truth",
+        "desc": "You embody an aspect of your deity. You gain the Truth domain's Word of Truth spell as a devotion spell.",
+        "hints": [
+            {
+                "desc": "Glimpse the Truth"
+            }
+        ],
+        "subType": "Truth",
+        "superType": "Deity's Domain",
+        "shortdesc": "You embody an aspect of your deity.",
+        "traits": [
+            "Champion"
+        ],
+        "levelreq": 1,
+        "specialreq": "deity && deity.domains.includes(this.subType)",
+        "specialreqdesc": "deity who grants the truth domain",
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Focus",
+                "className": "Champion",
+                "id": "dfa6a9de-4a37-11eb-b378-0242ac130002",
+                "level": -1,
+                "source": "Feat: Deity's Domain: Truth",
+                "spells": [
+                    {
+                        "_className": "SpellGain",
+                        "locked": true,
+                        "name": "Word of Truth"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Deity's Domain: Tyranny",
+        "desc": "You embody an aspect of your deity. You gain the Tyranny domain's Touch of Obedience spell as a devotion spell.",
+        "hints": [
+            {
+                "desc": "Commanding Lash"
+            }
+        ],
+        "subType": "Tyranny",
+        "superType": "Deity's Domain",
+        "shortdesc": "You embody an aspect of your deity.",
+        "traits": [
+            "Champion"
+        ],
+        "levelreq": 1,
+        "specialreq": "deity && deity.domains.includes(this.subType)",
+        "specialreqdesc": "deity who grants the tyranny domain",
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Focus",
+                "className": "Champion",
+                "id": "dfa6a9de-4a37-11eb-b378-0242ac130002",
+                "level": -1,
+                "source": "Feat: Deity's Domain: Tyranny",
+                "spells": [
+                    {
+                        "_className": "SpellGain",
+                        "locked": true,
+                        "name": "Touch of Obedience"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Deity's Domain: Undeath",
+        "desc": "You embody an aspect of your deity. You gain the Undeath domain's Touch of Undeath spell as a devotion spell.",
+        "hints": [
+            {
+                "desc": "Malignant Sustenance"
+            }
+        ],
+        "subType": "Undeath",
+        "superType": "Deity's Domain",
+        "shortdesc": "You embody an aspect of your deity.",
+        "traits": [
+            "Champion"
+        ],
+        "levelreq": 1,
+        "specialreq": "deity && deity.domains.includes(this.subType)",
+        "specialreqdesc": "deity who grants the undeath domain",
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Focus",
+                "className": "Champion",
+                "id": "dfa6a9de-4a37-11eb-b378-0242ac130002",
+                "level": -1,
+                "source": "Feat: Deity's Domain: Undeath",
+                "spells": [
+                    {
+                        "_className": "SpellGain",
+                        "locked": true,
+                        "name": "Touch of Undeath"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Deity's Domain: Vigil",
+        "desc": "You embody an aspect of your deity. You gain the Vigil domain's Object Memory spell as a devotion spell.",
+        "hints": [
+            {
+                "desc": "Remember the Lost"
+            }
+        ],
+        "subType": "Vigil",
+        "superType": "Deity's Domain",
+        "shortdesc": "You embody an aspect of your deity.",
+        "traits": [
+            "Champion"
+        ],
+        "levelreq": 1,
+        "specialreq": "deity && deity.domains.includes(this.subType)",
+        "specialreqdesc": "deity who grants the vigil domain",
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Focus",
+                "className": "Champion",
+                "id": "dfa6a9de-4a37-11eb-b378-0242ac130002",
+                "level": -1,
+                "source": "Feat: Deity's Domain: Vigil",
+                "spells": [
+                    {
+                        "_className": "SpellGain",
+                        "locked": true,
+                        "name": "Object Memory"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Deity's Domain: Void",
+        "desc": "You embody an aspect of your deity. You gain the Void domain's Empty Inside spell as a devotion spell.",
+        "hints": [
+            {
+                "desc": "Door to Beyond"
+            }
+        ],
+        "subType": "Void",
+        "superType": "Deity's Domain",
+        "shortdesc": "You embody an aspect of your deity.",
+        "traits": [
+            "Champion"
+        ],
+        "levelreq": 1,
+        "specialreq": "deity && deity.domains.includes(this.subType)",
+        "specialreqdesc": "deity who grants the void domain",
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Focus",
+                "className": "Champion",
+                "id": "dfa6a9de-4a37-11eb-b378-0242ac130002",
+                "level": -1,
+                "source": "Feat: Deity's Domain: Void",
+                "spells": [
+                    {
+                        "_className": "SpellGain",
+                        "locked": true,
+                        "name": "Empty Inside"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Deity's Domain: Water",
+        "desc": "You embody an aspect of your deity. You gain the Water domain's Tidal Surge spell as a devotion spell.",
+        "hints": [
+            {
+                "desc": "Downpour"
+            }
+        ],
+        "subType": "Water",
+        "superType": "Deity's Domain",
+        "shortdesc": "You embody an aspect of your deity.",
+        "traits": [
+            "Champion"
+        ],
+        "levelreq": 1,
+        "specialreq": "deity && deity.domains.includes(this.subType)",
+        "specialreqdesc": "deity who grants the water domain",
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Focus",
+                "className": "Champion",
+                "id": "dfa6a9de-4a37-11eb-b378-0242ac130002",
+                "level": -1,
+                "source": "Feat: Deity's Domain: Water",
+                "spells": [
+                    {
+                        "_className": "SpellGain",
+                        "locked": true,
+                        "name": "Tidal Surge"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Deity's Domain: Wealth",
+        "desc": "You embody an aspect of your deity. You gain the Wealth domain's Appearance of Wealth spell as a devotion spell.",
+        "hints": [
+            {
+                "desc": "Precious Metals"
+            }
+        ],
+        "subType": "Wealth",
+        "superType": "Deity's Domain",
+        "shortdesc": "You embody an aspect of your deity.",
+        "traits": [
+            "Champion"
+        ],
+        "levelreq": 1,
+        "specialreq": "deity && deity.domains.includes(this.subType)",
+        "specialreqdesc": "deity who grants the wealth domain",
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Focus",
+                "className": "Champion",
+                "id": "dfa6a9de-4a37-11eb-b378-0242ac130002",
+                "level": -1,
+                "source": "Feat: Deity's Domain: Wealth",
+                "spells": [
+                    {
+                        "_className": "SpellGain",
+                        "locked": true,
+                        "name": "Appearance of Wealth"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Deity's Domain: Wyrmkin",
+        "desc": "You embody an aspect of your deity. You gain the Wyrmkin domain's Draconic Barrage spell as a devotion spell.",
+        "hints": [
+            {
+                "desc": "Roar of the Wyrm"
+            }
+        ],
+        "subType": "Wyrmkin",
+        "superType": "Deity's Domain",
+        "shortdesc": "You embody an aspect of your deity.",
+        "traits": [
+            "Champion"
+        ],
+        "levelreq": 1,
+        "specialreq": "deity && deity.domains.includes(this.subType)",
+        "specialreqdesc": "deity who grants the wyrmkin domain",
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Focus",
+                "className": "Champion",
+                "id": "dfa6a9de-4a37-11eb-b378-0242ac130002",
+                "level": -1,
+                "source": "Feat: Deity's Domain: Wyrmkin",
+                "spells": [
+                    {
+                        "_className": "SpellGain",
+                        "locked": true,
+                        "name": "Draconic Barrage"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Deity's Domain: Zeal",
+        "desc": "You embody an aspect of your deity. You gain the Zeal domain's Weapon Surge spell as a devotion spell.",
+        "hints": [
+            {
+                "desc": "Zeal for Battle"
+            }
+        ],
+        "subType": "Zeal",
+        "superType": "Deity's Domain",
+        "shortdesc": "You embody an aspect of your deity.",
+        "traits": [
+            "Champion"
+        ],
+        "levelreq": 1,
+        "specialreq": "deity && deity.domains.includes(this.subType)",
+        "specialreqdesc": "deity who grants the zeal domain",
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Focus",
+                "className": "Champion",
+                "id": "dfa6a9de-4a37-11eb-b378-0242ac130002",
+                "level": -1,
+                "source": "Feat: Deity's Domain: Zeal",
+                "spells": [
+                    {
+                        "_className": "SpellGain",
+                        "locked": true,
+                        "name": "Weapon Surge"
+                    }
+                ]
+            }
+        ]
     }
 ]

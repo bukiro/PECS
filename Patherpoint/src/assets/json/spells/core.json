@@ -1721,6 +1721,32 @@
         ]
     },
     {
+        "name": "Athletic Rush",
+        "id": "9018c7eb-e7cd-44ff-bb67-b3a69b60a36b",
+        "shortDesc": "Your body fills with physical power and skill.",
+        "actions": "1A",
+        "castType": "somatic",
+        "levelreq": 1,
+        "traditions": [
+            "Focus"
+        ],
+        "traits": [
+            "Uncommon",
+            "Cleric",
+            "Transmutation"
+        ],
+        "target": "self",
+        "duration": "1 round",
+        "desc": "Your body fills with physical power and skill. You gain a +10-foot status bonus to Speed and a +2 status bonus to Athletics checks. As a part of Casting this Spell, you can use a Stride, Leap, Climb, or Swim action. The spell's bonuses apply during that action.",
+        "gainConditions": [
+            {
+                "duration": 10,
+                "name": "Athletic Rush",
+                "source": "Athletic Rush"
+            }
+        ]
+    },
+    {
         "name": "Hero's Defiance",
         "id": "5e847bbe-4463-47d0-aae8-e9ff1b666570",
         "shortDesc": "You shout in defiance, filling you with a sudden burst of healing.",
@@ -1757,6 +1783,7 @@
             "Sorcerer"
         ],
         "area": "15-foot emanation",
+        "target": "self",
         "duration": "1 minute",
         "desc": "You gain an angelic halo with an aura that increases allies' healing from the heal spell. Allies in your halo's emanation who are healed by a heal spell gain a status bonus to Hit Points regained equal to double the heal spell's level.",
         "gainConditions": [
