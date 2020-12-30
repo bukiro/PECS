@@ -13200,6 +13200,18 @@
         "name": "Angelic Bloodline",
         "desc": "One of your forebears hailed from a celestial realm, or your ancestors' devotion led to their lineage being blessed.\n\nSpell List: divine\nBloodline Skills: Diplomacy, Religion\nGranted Spells: cantrip light, 1st: heal, 2nd: spiritual weapon, 3rd: searing light, 4th: divine wrath, 5th: flame strike, 6th: blade barrier, 7th: divine decree, 8th: divine aura, 9th: foresight\nBloodline Spells: initial: angelic halo, advanced: angelic wings, greater: celestial brand\nBlood Magic: An angelic aura protects you or one target, granting a +1 status bonus to saving throws for 1 round.",
         "shortdesc": "One of your forebears hailed from a celestial realm, or your ancestors' devotion led to their lineage being blessed.",
+        "effects": [
+            {
+                "affected": "Focus Pool",
+                "value": "Character.class.name == 'Sorcerer' ? 1 : 0"
+            }
+        ],
+        "onceEffects": [
+            {
+                "affected": "Focus Points",
+                "value": "Character.class.name == 'Sorcerer' ? 1 : 0"
+            }
+        ],
         "gainFeatChoice": [
             {
                 "_className": "FeatChoice",
@@ -13883,6 +13895,18 @@
         "desc": "A genie ancestor or some other elemental influence has imbued your blood with primal fury, affecting how the bloodline spells and granted spells marked with an asterisk (*), as well as your blood magic, function.\n\nSpell List: primal\nBloodline Skills: Intimidation, Nature\nGranted Spells: cantrip produce flame*, 1st: burning hands*, 2nd: resist energy, 3rd: fireball*, 4th: freedom of movement, 5th: elemental form, 6th: repulsion, 7th: energy aegis, 8th: prismatic wall, 9th: storm of vengeance\nBloodline Spells: initial: elemental toss*, advanced: elemental motion, greater: elemental blast*\nBlood Magic: Elemental energy surrounds you or a target. Either you gain a +1 status bonus to Intimidation checks for 1 round, or a target takes 1 damage per spell level. The damage is bludgeoning or fire, according to your elemental type (see below). If the spell already deals that type of damage, combine it with the spell's initial damage before determining weaknesses and resistances.",
         "specialdesc": "At 1st level, choose the type of elemental that influenced your bloodline: air, earth, fire, or water. If your element is air, you buffet your foes with powerful winds; if it's earth, you toss huge chunks of rock; if it's fire, you incinerate your foes with flame; and if it's water, you inundate your foes with torrents of water. For fire, all marked spells deal fire damage. For other elements, they deal bludgeoning damage. Replace any existing elemental traits with the trait of the element you chose.",
         "shortdesc": "A genie ancestor or some other elemental influence has imbued your blood with primal fury, affecting how your bloodline spells and granted spells, as well as your blood magic, function.",
+        "effects": [
+            {
+                "affected": "Focus Pool",
+                "value": "Character.class.name == 'Sorcerer' ? 1 : 0"
+            }
+        ],
+        "onceEffects": [
+            {
+                "affected": "Focus Points",
+                "value": "Character.class.name == 'Sorcerer' ? 1 : 0"
+            }
+        ],
         "gainFeatChoice": [
             {
                 "_className": "FeatChoice",
