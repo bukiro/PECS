@@ -69,7 +69,7 @@ The very latest in Assistive Technologies for Dungeon Master (ATDM)
 - [x] Action Icons
 - [x] Implement all Ancestries (excluding Advanced Character Guide)
 - [ ] Implement all Ancestry Feats (excluding Advanced Character Guide)
-- [ ] - Human
+- [x] - Human
 - [x] - Halfling
 - [x] - Goblin
 - [ ] - Half-Orc (including Orc, but excluding ACG)
@@ -107,15 +107,11 @@ The very latest in Assistive Technologies for Dungeon Master (ATDM)
 - [ ] Stretch Goal: Include optional systems like Stamina & Resolve
 
 Active to-do:
-Test Human Feats
-Test new Fighter Advanced Weapon Training feats (using ProficiencyCopy)
-Test goblin weapon expertise
 
 Implement:
 
 Next steps:
 - Implement Ancestry Feats
--- Human
 -- Half-Orc
 -- Half-Elf
 -- Lizardfolk

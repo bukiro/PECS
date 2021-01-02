@@ -12728,5 +12728,23 @@
                 "value": "2"
             }
         ]
+    },
+    {
+        "name": "Shadow Pact",
+        "desc": "You have mixed blood and shadows to cast 5th-level creation as an innate divine spell. You lose 1 HP. You can have only one such object in existence at a time. If the object encounters bright light, the spell ends and the object dissolves into shadows.",
+        "inputRequired": "If the object encounters bright light, remove the condition.",
+        "type": "activities",
+        "buff": true,
+        "onceEffects": [
+            {
+                "affected": "HP",
+                "value": "-1"
+            }
+        ],
+        "gainConditions": [
+            {
+                "name": "Creation (5th Level)"
+            }
+        ]
     }
 ]

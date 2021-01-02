@@ -57,7 +57,7 @@
             <div class="list-item">
                 <strong>Name</strong>
                 <span>
-                    <input type="text" name="name" [(ngModel)]="get_Character().name" (blur)="on_NameChange()"
+                    <input type="text" name="charactername" [(ngModel)]="get_Character().name" (blur)="on_NameChange()"
                         maxLength="100">
                 </span>
             </div>
@@ -65,7 +65,7 @@
                 <div class="row">
                     <strong>Party name</strong>
                     <span>
-                        <input type="text" name="name" [(ngModel)]="get_Character().partyName" maxLength="100">
+                        <input type="text" name="partyname" [(ngModel)]="get_Character().partyName" maxLength="100">
                     </span>
                 </div>
                 <div class="row">
@@ -704,14 +704,14 @@
                                 <div class="list-item">
                                     <span>Animal Companion Name</span>
                                     <span>
-                                        <input type="text" name="name" [(ngModel)]="get_Companion().name"
+                                        <input type="text" name="companionname" [(ngModel)]="get_Companion().name"
                                             maxLength="30">
                                     </span>
                                 </div>
                                 <div class="list-item">
                                     <span>Animal Companion Species</span>
                                     <span>
-                                        <input type="text" name="name" [(ngModel)]="get_Companion().species"
+                                        <input type="text" name="companionspecies" [(ngModel)]="get_Companion().species"
                                             maxLength="30">
                                     </span>
                                 </div>
@@ -900,13 +900,13 @@
                                 <div class="list-item">
                                     <span>Familiar Name</span>
                                     <span>
-                                        <input type="text" name="name" [(ngModel)]="get_Familiar().name" maxLength="30">
+                                        <input type="text" name="familiarname" [(ngModel)]="get_Familiar().name" maxLength="30">
                                     </span>
                                 </div>
                                 <div class="list-item">
                                     <span>Familiar Species</span>
                                     <span>
-                                        <input type="text" name="species" [(ngModel)]="get_Familiar().species"
+                                        <input type="text" name="familiarspecies" [(ngModel)]="get_Familiar().species"
                                             maxLength="30">
                                     </span>
                                 </div>

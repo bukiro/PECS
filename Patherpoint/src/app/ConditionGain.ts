@@ -14,6 +14,7 @@ export class ConditionGain {
     public nextStage: number = -1;
     public onset: boolean = false;
     public name: string = "";
+    public showChoices: boolean = false;
     public showNotes: boolean = false;
     public showVariables: boolean = false;
     public notes: string = "";

@@ -1,5 +1,4 @@
 import { Component, OnInit, Input, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
 import { Skill } from '../Skill';
 import { CharacterService } from '../character.service';
 import { AnimalCompanion } from '../AnimalCompanion';
@@ -38,10 +37,10 @@ export class ProficiencyFormComponent implements OnInit {
 
     get_Levels() {
         return [
-            {value:2, key:"T"},
-            {value:4, key:"E"},
-            {value:6, key:"M"},
-            {value:8, key:"L"}
+            {value:2, key:"T", title:"Trained"},
+            {value:4, key:"E", title:"Expert"},
+            {value:6, key:"M", title:"Master"},
+            {value:8, key:"L", title:"Legendary"}
         ]
     }
 

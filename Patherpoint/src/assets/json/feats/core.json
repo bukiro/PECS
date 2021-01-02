@@ -15622,7 +15622,7 @@
     },
     {
         "name": "Advanced Weapon Training: Sword",
-        "desc": "You've studied the art of wielding advanced swords. You gain proficiency with all advanced spears as if they were martial swords.",
+        "desc": "You've studied the art of wielding advanced swords. You gain proficiency with all advanced swords as if they were martial swords.",
         "subType": "Sword",
         "superType": "Advanced Weapon Training",
         "shortdesc": "You've studied the art of wielding advanced swords.",
@@ -16925,7 +16925,7 @@
                 ],
                 "maxRank": 6,
                 "source": "Feat: Perfection's Path: Fortitude",
-                "type": "Weapon Proficiency"
+                "type": "Save"
             }
         ]
     },
@@ -16962,7 +16962,7 @@
                 ],
                 "maxRank": 6,
                 "source": "Feat: Perfection's Path: Reflex",
-                "type": "Weapon Proficiency"
+                "type": "Save"
             }
         ]
     },
@@ -16999,7 +16999,7 @@
                 ],
                 "maxRank": 6,
                 "source": "Feat: Perfection's Path: Will",
-                "type": "Weapon Proficiency"
+                "type": "Save"
             }
         ]
     },
@@ -25458,7 +25458,7 @@
                 ],
                 "maxRank": 2,
                 "source": "Feat: Goblin Weapon Familiarity",
-                "type": "Weapon Proficiency"
+                "type": "Specific Weapon Proficiency"
             }
         ]
     },
@@ -26213,7 +26213,7 @@
                 ],
                 "maxRank": 2,
                 "source": "Feat: Halfling Weapon Familiarity",
-                "type": "Weapon Proficiency"
+                "type": "Specific Weapon Proficiency"
             }
         ]
     },
@@ -28087,10 +28087,16 @@
         "levelreq": 1
     },
     {
-        "name": "Unconventional Weaponry: Uncommon Ancestry Weapon",
-        "desc": "You've familiarized yourself with a particular weapon, potentially from another ancestry or culture. You gain access to the Uncommon Ancestry Weapon, and for the purpose of determining your proficiency, that weapon is a simple weapon.",
+        "name": "Unconventional Weaponry: Uncommon Ancestry Simple Weapon",
+        "desc": "You've familiarized yourself with a particular weapon, potentially from another ancestry or culture. You gain access to the Uncommon Ancestry Simple Weapon, and for the purpose of determining your proficiency, that weapon is a simple weapon.",
+        "hints": [
+            {
+                "desc": "You gain access to the Uncommon Ancestry Simple Weapon, and for the purpose of determining your proficiency, that weapon is a simple weapon.",
+                "showon": "Weapon Proficiencies"
+            }
+        ],
         "hide": true,
-        "subType": "Uncommon Ancestry Weapon",
+        "subType": "Uncommon Ancestry Simple Weapon",
         "superType": "Unconventional Weaponry",
         "shortdesc": "You've familiarized yourself with a particular weapon, potentially from another ancestry or culture.",
         "weaponfeatbase": true,
@@ -28100,7 +28106,32 @@
         "levelreq": 1,
         "changeProficiency": [
             {
-                "name": "Uncommon Ancestry Weapon",
+                "name": "Uncommon Ancestry Simple Weapon",
+                "result": "Simple Weapons"
+            }
+        ]
+    },
+    {
+        "name": "Unconventional Weaponry: Uncommon Ancestry Martial Weapon",
+        "desc": "You've familiarized yourself with a particular weapon, potentially from another ancestry or culture. You gain access to the Uncommon Ancestry Martial Weapon, and for the purpose of determining your proficiency, that weapon is a simple weapon.",
+        "hints": [
+            {
+                "desc": "You gain access to the Uncommon Ancestry Martial Weapon, and for the purpose of determining your proficiency, that weapon is a simple weapon.",
+                "showon": "Weapon Proficiencies"
+            }
+        ],
+        "hide": true,
+        "subType": "Uncommon Ancestry Martial Weapon",
+        "superType": "Unconventional Weaponry",
+        "shortdesc": "You've familiarized yourself with a particular weapon, potentially from another ancestry or culture.",
+        "weaponfeatbase": true,
+        "traits": [
+            "Human"
+        ],
+        "levelreq": 1,
+        "changeProficiency": [
+            {
+                "name": "Uncommon Ancestry Martial Weapon",
                 "result": "Simple Weapons"
             }
         ]
@@ -28108,6 +28139,12 @@
     {
         "name": "Unconventional Weaponry: Uncommon Ancestry Advanced Weapon",
         "desc": "You've familiarized yourself with a particular weapon, potentially from another ancestry or culture. You gain access to the Uncommon Ancestry Advanced Weapon, and for the purpose of determining your proficiency, that weapon is a martial weapon.",
+        "hints": [
+            {
+                "desc": "You gain access to the Uncommon Ancestry Advanced Weapon, and for the purpose of determining your proficiency, that weapon is a martial weapon.",
+                "showon": "Weapon Proficiencies"
+            }
+        ],
         "hide": true,
         "subType": "Uncommon Ancestry Advanced Weapon",
         "superType": "Unconventional Weaponry",
@@ -28725,6 +28762,12 @@
     {
         "name": "Shory Aeromancer",
         "desc": "Your ancestors hailed from the flying cities of the Shory, and a few simple tricks have come down through the ages to you. You can cast 4th-level fly on yourself as an innate arcane spell once per day.",
+        "hints": [
+            {
+                "desc": "When you cast fly as an innate spell gained through the Shory Aeromancer feat, you can only target yourself.",
+                "showon": "Fly"
+            }
+        ],
         "shortdesc": "Your ancestors hailed from the flying cities of the Shory, and a few simple tricks have come down through the ages to you.",
         "sourceBook": "Character Guide",
         "traits": [
@@ -29018,7 +29061,7 @@
                 "cooldown": 144000,
                 "frequency": "once per day",
                 "id": "b9b9af85-68ef-422e-92e4-602e354d5606",
-                "level": 4,
+                "level": 5,
                 "source": "Feat: Irriseni Ice-Witch",
                 "spells": [
                     {
@@ -29034,12 +29077,6 @@
     {
         "name": "Shadow Pact",
         "desc": "Thousands of years ago, your ancestors made a pact with Zon-Kuthon. He has not forgotten, even if you might wish he had. You can take 1 damage to mix blood and shadows to cast 5th-level creation as an innate divine spell. You can use this ability as often as you wish, but you can have only one such object in existence at a time. If the object encounters bright light, the spell ends and the object dissolves into shadows.",
-        "hints": [
-            {
-                "desc": "When you cast 5th-level creation as an innate divine spell gained through the Shadow Pact feat, take 1 damage to mix blood and shadows to cast the spell. You can use this ability as often as you wish, but you can have only one such object in existence at a time. If the object encounters bright light, the spell ends and the object dissolves into shadows.",
-                "showon": "Creation"
-            }
-        ],
         "shortdesc": "Thousands of years ago, your ancestors made a pact with Zon-Kuthon.",
         "sourceBook": "Character Guide",
         "traits": [
@@ -29048,25 +29085,8 @@
         "levelreq": 13,
         "specialreq": "true",
         "specialreqdesc": "Nidalese ethnicity",
-        "gainSpellChoice": [
-            {
-                "_className": "SpellChoice",
-                "castingType": "Innate",
-                "className": "Innate",
-                "cooldown": 144000,
-                "frequency": "once per day",
-                "id": "681a91f7-a8b9-47f1-b811-e80ca7225812",
-                "level": 4,
-                "source": "Feat: Shadow Pact",
-                "spells": [
-                    {
-                        "_className": "SpellGain",
-                        "locked": true,
-                        "name": "Creation"
-                    }
-                ],
-                "tradition": "Divine"
-            }
+        "gainActivities": [
+            "Shadow Pact"
         ]
     },
     {
@@ -29090,7 +29110,7 @@
                 "effects": [
                     {
                         "affected": "Fly Speed",
-                        "value": "5",
+                        "value": "Speed('Fly Speed') ? 5 : 0",
                         "type": "status"
                     }
                 ]
@@ -29102,7 +29122,7 @@
             "Human"
         ],
         "levelreq": 13,
-        "specialreq": "character.get_SpellsTaken(this, 1, charLevel, -1, 'Fly').length || character.get_SpellsLearned('Fly').length || character.get_FeatsTaken(1, charLevel, 'Shory Aeromancer')",
+        "specialreq": "character.get_SpellsTaken(this, 1, charLevel, -1, 'Fly').length || character.get_SpellsLearned('Fly').length || character.get_FeatsTaken(1, charLevel, 'Shory Aeromancer').length",
         "specialreqdesc": "Garundi, Mauxi, or Tian-Yae ethnicity; Shory Aeromancer or ability to cast fly"
     },
     {
@@ -29119,10 +29139,10 @@
         ]
     },
     {
-        "name": "Unconventional Expertise: Uncommon Ancestry Weapon",
-        "desc": "You've continued to advance your powers using your unconventional weapon. Whenever you gain a class feature that grants you expert or greater proficiency in certain weapons, you also gain that proficiency in the Uncommon Ancestry Weapon.",
+        "name": "Unconventional Expertise: Uncommon Ancestry Simple Weapon",
+        "desc": "You've continued to advance your powers using your unconventional weapon. Whenever you gain a class feature that grants you expert or greater proficiency in certain weapons, you also gain that proficiency in the Uncommon Ancestry Simple Weapon.",
         "hide": true,
-        "subType": "Uncommon Ancestry Weapon",
+        "subType": "Uncommon Ancestry Simple Weapon",
         "superType": "Unconventional Expertise",
         "shortdesc": "You've familiarized yourself with a particular weapon, potentially from another ancestry or culture.",
         "weaponfeatbase": true,
@@ -29131,14 +29151,72 @@
         ],
         "levelreq": 13,
         "featreq": [
-            "Unconventional Weaponry: Uncommon Ancestry Weapon"
+            "Unconventional Weaponry: Uncommon Ancestry Simple Weapon"
         ],
-        "specialreq": "characterService.get_Skills(character, this.subType)[0]?.level(character, characterService) >= 2",
-        "specialreqdesc": "trained in the Uncommon Ancestry Weapon",
+        "specialreq": "characterService.get_Skills(character, 'Simple Weapons')[0]?.level(character, characterService) >= 2 || characterService.get_Skills(character, this.subType)[0]?.level(character, characterService) >= 2",
+        "specialreqdesc": "trained in the Uncommon Ancestry Simple Weapon",
         "copyProficiency": [
             {
-                "name": "Uncommon Ancestry Weapon",
+                "name": "Uncommon Ancestry Simple Weapon",
+                "type": "Weapon Proficiency",
                 "featuresOnly": true
+            }
+        ],
+        "gainSkillChoice": [
+            {
+                "_className": "SkillChoice",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Uncommon Ancestry Simple Weapon",
+                        "source": "Feat: Unconventional Expertise: Uncommon Ancestry Simple Weapon"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Feat: Unconventional Expertise: Uncommon Ancestry Simple Weapon",
+                "type": "Specific Weapon Proficiency"
+            }
+        ]
+    },
+    {
+        "name": "Unconventional Expertise: Uncommon Ancestry Martial Weapon",
+        "desc": "You've continued to advance your powers using your unconventional weapon. Whenever you gain a class feature that grants you expert or greater proficiency in certain weapons, you also gain that proficiency in the Uncommon Ancestry Martial Weapon.",
+        "hide": true,
+        "subType": "Uncommon Ancestry Martial Weapon",
+        "superType": "Unconventional Expertise",
+        "shortdesc": "You've familiarized yourself with a particular weapon, potentially from another ancestry or culture.",
+        "weaponfeatbase": true,
+        "traits": [
+            "Human"
+        ],
+        "levelreq": 13,
+        "featreq": [
+            "Unconventional Weaponry: Uncommon Ancestry Martial Weapon"
+        ],
+        "specialreq": "characterService.get_Skills(character, 'Martial Weapons')[0]?.level(character, characterService) >= 2 || characterService.get_Skills(character, this.subType)[0]?.level(character, characterService) >= 2",
+        "specialreqdesc": "trained in the Uncommon Ancestry Martial Weapon",
+        "copyProficiency": [
+            {
+                "name": "Uncommon Ancestry Martial Weapon",
+                "type": "Weapon Proficiency",
+                "featuresOnly": true
+            }
+        ],
+        "gainSkillChoice": [
+            {
+                "_className": "SkillChoice",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Uncommon Ancestry Martial Weapon",
+                        "source": "Feat: Unconventional Expertise: Uncommon Ancestry Martial Weapon"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Feat: Unconventional Expertise: Uncommon Ancestry Martial Weapon",
+                "type": "Specific Weapon Proficiency"
             }
         ]
     },
@@ -29157,12 +29235,29 @@
         "featreq": [
             "Unconventional Weaponry: Uncommon Ancestry Advanced Weapon"
         ],
-        "specialreq": "characterService.get_Skills(character, this.subType)[0]?.level(character, characterService) >= 2",
+        "specialreq": "characterService.get_Skills(character, 'Advanced Weapons')[0]?.level(character, characterService) >= 2 || characterService.get_Skills(character, this.subType)[0]?.level(character, characterService) >= 2",
         "specialreqdesc": "trained in the Uncommon Ancestry Advanced Weapon",
         "copyProficiency": [
             {
                 "name": "Uncommon Ancestry Advanced Weapon",
+                "type": "Weapon Proficiency",
                 "featuresOnly": true
+            }
+        ],
+        "gainSkillChoice": [
+            {
+                "_className": "SkillChoice",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Uncommon Ancestry Advanced Weapon",
+                        "source": "Feat: Unconventional Expertise: Uncommon Ancestry Advanced Weapon"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Feat: Unconventional Expertise: Uncommon Ancestry Advanced Weapon",
+                "type": "Specific Weapon Proficiency"
             }
         ]
     },

@@ -592,10 +592,12 @@ export class CharacterService {
                 if (feat.subType.includes("Uncommon")) {
                     featweapons = featweapons.filter(weapon => weapon.traits.includes("Uncommon"));
                 }
-                if (feat.subType.includes("Advanced")) {
+                if (feat.subType.includes("Simple")) {
+                    featweapons = featweapons.filter(weapon => weapon.prof == "Simple Weapons");
+                } else if (feat.subType.includes("Martial")) {
+                    featweapons = featweapons.filter(weapon => weapon.prof == "Martial Weapons");
+                } else if (feat.subType.includes("Advanced")) {
                     featweapons = featweapons.filter(weapon => weapon.prof == "Advanced Weapons");
-                } else {
-                    featweapons = featweapons.filter(weapon => ["Simple Weapons", "Martial Weapons"].includes(weapon.prof));
                 }
                 if (feat.subType.includes("Ancestry")) {
                     let ancestries: string[] = this.historyService.get_Ancestries().map(ancestry => ancestry.name);
@@ -603,16 +605,18 @@ export class CharacterService {
                 }
                 featweapons.forEach(weapon => {
                     let replacementString = feat.subType;
-                    if (!this.get_Feats().find(libraryFeat => libraryFeat.name == feat.name.replace(replacementString, weapon.name))) {
-                        let regex = new RegExp(replacementString, "g")
-                        let featString = JSON.stringify(feat);
-                        featString = featString.replace(regex, weapon.name);
-                        let replacedFeat = Object.assign(new Feat(), JSON.parse(featString))
-                        let newLength = this.add_CustomFeat(replacedFeat);
-                        let newFeat = this.get_Character().customFeats[newLength - 1];
-                        newFeat.hide = false;
-                        newFeat.weaponfeatbase = false;
+                    let oldFeat = this.get_Feats().find(libraryFeat => libraryFeat.name == feat.name.replace(replacementString, weapon.name));
+                    if (oldFeat) {
+                        this.remove_CustomFeat(oldFeat);
                     }
+                    let regex = new RegExp(replacementString, "g")
+                    let featString = JSON.stringify(feat);
+                    featString = featString.replace(regex, weapon.name);
+                    let replacedFeat = Object.assign(new Feat(), JSON.parse(featString))
+                    let newLength = this.add_CustomFeat(replacedFeat);
+                    let newFeat = this.get_Character().customFeats[newLength - 1];
+                    newFeat.hide = false;
+                    newFeat.weaponfeatbase = false;
                 })
             })
         }

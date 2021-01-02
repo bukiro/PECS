@@ -88,7 +88,7 @@ export class Skill {
                 .filter(feat => feat.copyProficiency.length && feat.have(creature, characterService, charLevel, false))
                 .forEach(feat => {
                     proficiencyCopies.push(...feat.copyProficiency.filter(copy => 
-                        (this.name == copy.name) &&
+                        (this.name.toLowerCase() == copy.name.toLowerCase()) &&
                         (copy.minLevel ? skillLevel >= copy.minLevel : true)
                     ))
                 });
@@ -98,8 +98,9 @@ export class Skill {
                 (creature as Character).class.levels.filter(level => level.number <= creature.level).forEach(level => {
                     copyLevels.push(...
                         level.skillChoices.filter(choice =>
-                            (choice.type == copy.type) &&
-                            (copy.featuresOnly ? !choice.source.includes("Feat:") : true)
+                            //Use .includes so "Specific Weapon Proficiency" matches "Weapon Proficiency".
+                            (choice.type.toLowerCase().includes(copy.type.toLowerCase())) &&
+                            (copy.featuresOnly ? !choice.source.toLowerCase().includes("feat:") : true)
                         ).map(choice => choice.maxRank))
                 })
             })
