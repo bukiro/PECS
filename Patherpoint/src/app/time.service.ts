@@ -78,11 +78,12 @@ export class TimeService {
                 let character = creature as Character;
                 //Reset all "once per day" spell cooldowns and re-prepare spells.
                 spellsService.rest(character, characterService);
-                this.refocus(characterService, conditionsService, itemsService, spellsService);
                 //Regenerate spell slots.
                 character.class.spellCasting.forEach(casting => {
                     casting.spellSlotsUsed = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
                 });
+                //Reset all "until you refocus" spell cooldowns.
+                this.refocus(characterService, conditionsService, itemsService, spellsService, false);
                 //Regenerate Snare Specialist formulas.
                 character.class.formulaBook.filter(learned => learned.snareSpecialistPrepared).forEach(learned => {
                     learned.snareSpecialistAvailable = learned.snareSpecialistPrepared;
@@ -103,7 +104,7 @@ export class TimeService {
         characterService.process_ToChange();
     }
 
-    refocus(characterService: CharacterService, conditionsService: ConditionsService, itemsService: ItemsService, spellsService: SpellsService) {
+    refocus(characterService: CharacterService, conditionsService: ConditionsService, itemsService: ItemsService, spellsService: SpellsService, reload: boolean = true) {
         this.tick(characterService, conditionsService, itemsService, spellsService, 1000, false);
         let character = characterService.get_Character();
         
@@ -133,8 +134,9 @@ export class TimeService {
         characterService.process_OnceEffect(character, Object.assign(new EffectGain(), { affected: "Focus Points", value: "+"+recoverPoints }));
 
         character.class.focusPointsLast = character.class.focusPoints;
-
-        characterService.process_ToChange();
+        if (reload) {
+            characterService.process_ToChange();
+        }
     }
 
     tick(characterService: CharacterService, conditionsService: ConditionsService, itemsService: ItemsService, spellsService: SpellsService, turns: number = 10, reload: boolean = true) {
