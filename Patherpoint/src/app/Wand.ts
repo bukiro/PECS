@@ -20,7 +20,11 @@ export class Wand extends Equipment {
         if (this.displayName) {
             return this.displayName;
         } else if (this.storedSpells.length && this.storedSpells[0].spells.length) {
-            return "Wand of "+this.storedSpells[0].spells[0].name;
+            if (this.name.includes("Magic Wand (")) {
+                return "Wand of "+this.storedSpells[0].spells[0].name;
+            } else {
+                return this.name.split("(")[0] + "(" + this.storedSpells[0].spells[0].name + ")";
+            }
         } else {
             return this.name;
         }

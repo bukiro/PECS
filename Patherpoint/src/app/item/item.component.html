@@ -27,7 +27,8 @@
         <strong>AC Bonus</strong>
         <span
             [ngClass]="{'penalty':item.get_ACBonus && (item.get_ACBonus() < item.acbonus), 'bonus':item.get_ACBonus && (item.get_ACBonus() > item.acbonus)}">
-            {{item.get_ACBonus ? item.get_ACBonus() : item.acbonus}}{{item.coverbonus ? " (" + (item.acbonus+item.coverbonus) + ")" : ""}}&nbsp;
+            {{item.get_ACBonus ? item.get_ACBonus() : item.acbonus}}{{item.coverbonus ? " (" +
+            (item.acbonus+item.coverbonus) + ")" : ""}}&nbsp;
         </span>
     </span>
     <span *ngIf="(item.type == 'armors' && (item.get_DexCap ? item.get_DexCap() != -1 : item.dexcap != -1))">
@@ -75,16 +76,19 @@
     <span *ngIf="item.hardness">
         <strong>Hardness</strong>
         <span
-            [ngClass]="{'penalty':(item.get_Hardness() < item.hardness), 'bonus':(item.get_Hardness() > item.hardness)}">&nbsp;{{item.get_Hardness ? item.get_Hardness() : item.hardness}}&nbsp;
+            [ngClass]="{'penalty':(item.get_Hardness() < item.hardness), 'bonus':(item.get_Hardness() > item.hardness)}">&nbsp;{{item.get_Hardness
+            ? item.get_Hardness() : item.hardness}}&nbsp;
         </span>
     </span>
     <span *ngIf="item.hitpoints">
         <strong>HP</strong><strong *ngIf="item.brokenThreshold"> (BT)</strong>
         <span
-            [ngClass]="{'penalty':(item.get_MaxHP() < item.hitpoints), 'bonus':(item.get_MaxHP() > item.hitpoints)}">&nbsp;{{item.get_MaxHP ? item.get_MaxHP() : item.hitpoints}}
+            [ngClass]="{'penalty':(item.get_MaxHP() < item.hitpoints), 'bonus':(item.get_MaxHP() > item.hitpoints)}">&nbsp;{{item.get_MaxHP
+            ? item.get_MaxHP() : item.hitpoints}}
         </span>
         <span *ngIf="item.brokenThreshold"
-            [ngClass]="{'penalty':(item.get_BrokenThreshold() < item.brokenThreshold), 'bonus':(item.get_BrokenThreshold() > item.brokenThreshold)}">({{item.get_BrokenThreshold ? item.get_BrokenThreshold() : item.brokenThreshold}})
+            [ngClass]="{'penalty':(item.get_BrokenThreshold() < item.brokenThreshold), 'bonus':(item.get_BrokenThreshold() > item.brokenThreshold)}">({{item.get_BrokenThreshold
+            ? item.get_BrokenThreshold() : item.brokenThreshold}})
         </span>
         &nbsp;
     </span>
@@ -253,10 +257,20 @@
     <h4>Armored Skirt</h4>
     <app-item [item]=armoredSkirt></app-item>
 </div>
-<div class="list-item left-aligned" *ngFor="let choice of item.storedSpells; trackBy:trackByIndex;">
+<div class="list-item left-aligned" *ngFor="let choice of get_StoredSpells(item); trackBy:trackByIndex;">
     <app-spellchoice [choice]="choice" [allowHeightened]="true" [level]="choice.level" [itemSpell]="true">
     </app-spellchoice>
 </div>
+<div class="list-item left-aligned" *ngFor="let choice of get_StoredSpellsTaken(item); trackBy:trackByIndex;">
+    <ng-container *ngFor="let taken of choice.spells; trackBy:trackByIndex;">
+        <div *ngFor="let spell of get_Spells(taken.name); trackBy:trackByIndex;">
+            <h4>{{spell.name}}<app-actionIcons [actionString]="spell.actions">
+                </app-actionIcons> {{spell.castType.toString()}}</h4>
+            <app-spell [spell]=spell [spellLevel]="(taken.level) ? taken.level : (choice.level ? choice.level : 0)"></app-spell>
+        </div>
+    </ng-container>
+</div>
+
 <div class="list-item left-aligned" *ngFor="let activity of item.activities; trackBy:trackByIndex;">
     <h4 *ngIf="activity.name">
         {{activity.name}}<app-actionIcons [actionString]="activity.actions">

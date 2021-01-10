@@ -163,6 +163,14 @@ export class ItemComponent implements OnInit {
         }
     }
 
+    get_StoredSpells(item: Item) {
+        return item.storedSpells.filter(choice => choice.available);
+    }
+
+    get_StoredSpellsTaken(item: Item) {
+        return item.storedSpells.filter(choice => choice.spells.length);
+    }
+
     on_SpellItemUse(item: Item) {
         let spellName = item.storedSpells[0]?.spells[0]?.name || "";
         let spellChoice = item.storedSpells[0];
