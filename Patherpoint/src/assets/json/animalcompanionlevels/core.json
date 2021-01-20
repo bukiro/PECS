@@ -11,76 +11,76 @@
                     {
                         "name": "Strength",
                         "type": "Boost",
-                        "source": "Ancestry",
+                        "source": "Young",
                         "locked": true,
-                        "sourceId": "1-Ability-Class-0"
+                        "sourceId": "1-Ability-Young-0"
                     },
                     {
                         "name": "Strength",
                         "type": "Boost",
-                        "source": "Ancestry",
+                        "source": "Young",
                         "locked": true,
-                        "sourceId": "1-Ability-Class-0"
+                        "sourceId": "1-Ability-Young-0"
                     },
                     {
                         "name": "Dexterity",
                         "type": "Boost",
-                        "source": "Ancestry",
+                        "source": "Young",
                         "locked": true,
-                        "sourceId": "1-Ability-Class-0"
+                        "sourceId": "1-Ability-Young-0"
                     },
                     {
                         "name": "Dexterity",
                         "type": "Boost",
-                        "source": "Ancestry",
+                        "source": "Young",
                         "locked": true,
-                        "sourceId": "1-Ability-Class-0"
+                        "sourceId": "1-Ability-Young-0"
                     },
                     {
                         "name": "Constitution",
                         "type": "Boost",
-                        "source": "Ancestry",
+                        "source": "Young",
                         "locked": true,
-                        "sourceId": "1-Ability-Class-0"
+                        "sourceId": "1-Ability-Young-0"
                     },
                     {
                         "name": "Intelligence",
                         "type": "Flaw",
-                        "source": "Ancestry",
+                        "source": "Young",
                         "locked": true,
-                        "sourceId": "1-Ability-Class-0"
+                        "sourceId": "1-Ability-Young-0"
                     },
                     {
                         "name": "Intelligence",
                         "type": "Flaw",
-                        "source": "Ancestry",
+                        "source": "Young",
                         "locked": true,
-                        "sourceId": "1-Ability-Class-0"
+                        "sourceId": "1-Ability-Young-0"
                     },
                     {
                         "name": "Intelligence",
                         "type": "Flaw",
-                        "source": "Ancestry",
+                        "source": "Young",
                         "locked": true,
-                        "sourceId": "1-Ability-Class-0"
+                        "sourceId": "1-Ability-Young-0"
                     },
                     {
                         "name": "Intelligence",
                         "type": "Flaw",
-                        "source": "Ancestry",
+                        "source": "Young",
                         "locked": true,
-                        "sourceId": "1-Ability-Class-0"
+                        "sourceId": "1-Ability-Young-0"
                     },
                     {
                         "name": "Wisdom",
                         "type": "Boost",
-                        "source": "Ancestry",
+                        "source": "Young",
                         "locked": true,
-                        "sourceId": "1-Ability-Class-0"
+                        "sourceId": "1-Ability-Young-0"
                     }
                 ],
-                "source": "Class",
-                "id": "1-Ability-Class-0"
+                "source": "Young",
+                "id": "1-Ability-Young-0"
             }
         ],
         "name": "Young",
@@ -91,79 +91,79 @@
                 "increases": [
                     {
                         "name": "Unarmed Attacks",
-                        "source": "Class",
+                        "source": "Young",
                         "maxRank": 2,
                         "locked": true,
-                        "sourceId": "1-Skill-Class-0"
+                        "sourceId": "1-Skill-Young-0"
                     },
                     {
                         "name": "Unarmored Defense",
-                        "source": "Class",
+                        "source": "Young",
                         "maxRank": 2,
                         "locked": true,
-                        "sourceId": "1-Skill-Class-0"
+                        "sourceId": "1-Skill-Young-0"
                     },
                     {
                         "name": "Light Barding",
-                        "source": "Class",
+                        "source": "Young",
                         "maxRank": 2,
                         "locked": true,
-                        "sourceId": "1-Skill-Class-0"
+                        "sourceId": "1-Skill-Young-0"
                     },
                     {
                         "name": "Heavy Barding",
-                        "source": "Class",
+                        "source": "Young",
                         "maxRank": 2,
                         "locked": true,
-                        "sourceId": "1-Skill-Class-0"
+                        "sourceId": "1-Skill-Young-0"
                     },
                     {
                         "name": "Fortitude",
-                        "source": "Class",
+                        "source": "Young",
                         "maxRank": 2,
                         "locked": true,
-                        "sourceId": "1-Skill-Class-0"
+                        "sourceId": "1-Skill-Young-0"
                     },
                     {
                         "name": "Reflex",
-                        "source": "Class",
+                        "source": "Young",
                         "maxRank": 2,
                         "locked": true,
-                        "sourceId": "1-Skill-Class-0"
+                        "sourceId": "1-Skill-Young-0"
                     },
                     {
                         "name": "Will",
-                        "source": "Class",
+                        "source": "Young",
                         "maxRank": 2,
                         "locked": true,
-                        "sourceId": "1-Skill-Class-0"
+                        "sourceId": "1-Skill-Young-0"
                     },
                     {
                         "name": "Perception",
-                        "source": "Class",
+                        "source": "Young",
                         "maxRank": 2,
                         "locked": true,
-                        "sourceId": "1-Skill-Class-0"
+                        "sourceId": "1-Skill-Young-0"
                     },
                     {
                         "name": "Acrobatics",
-                        "source": "Class",
+                        "source": "Young",
                         "maxRank": 2,
                         "locked": true,
-                        "sourceId": "1-Skill-Class-0"
+                        "sourceId": "1-Skill-Young-0"
                     },
                     {
                         "name": "Athletics",
-                        "source": "Class",
+                        "source": "Young",
                         "maxRank": 2,
                         "locked": true,
-                        "sourceId": "1-Skill-Class-0"
+                        "sourceId": "1-Skill-Young-0"
                     }
                 ],
                 "type": "Any",
                 "maxRank": 2,
-                "source": "Class",
-                "id": "1-Skill-Class-0"
+                "source": "Young",
+                "id": "1-Skill-Young-0"
             }
         ]
     },
@@ -176,34 +176,34 @@
                     {
                         "name": "Strength",
                         "type": "Boost",
-                        "source": "Ancestry",
+                        "source": "Mature",
                         "locked": true,
-                        "sourceId": "2-Ability-Class-0"
+                        "sourceId": "2-Ability-Mature-0"
                     },
                     {
                         "name": "Dexterity",
                         "type": "Boost",
-                        "source": "Ancestry",
+                        "source": "Mature",
                         "locked": true,
-                        "sourceId": "2-Ability-Class-0"
+                        "sourceId": "2-Ability-Mature-0"
                     },
                     {
                         "name": "Constitution",
                         "type": "Boost",
-                        "source": "Ancestry",
+                        "source": "Mature",
                         "locked": true,
-                        "sourceId": "2-Ability-Class-0"
+                        "sourceId": "2-Ability-Mature-0"
                     },
                     {
                         "name": "Wisdom",
                         "type": "Boost",
-                        "source": "Ancestry",
+                        "source": "Mature",
                         "locked": true,
-                        "sourceId": "2-Ability-Class-0"
+                        "sourceId": "2-Ability-Mature-0"
                     }
                 ],
                 "source": "Ancestry",
-                "id": "2-Ability-Class-0"
+                "id": "2-Ability-Mature-0"
             }
         ],
         "extraDice": 1,
@@ -216,58 +216,58 @@
                 "increases": [
                     {
                         "name": "Fortitude",
-                        "source": "Class",
+                        "source": "Mature",
                         "maxRank": 4,
                         "locked": true,
-                        "sourceId": "2-Skill-Class-0"
+                        "sourceId": "2-Skill-Mature-0"
                     },
                     {
                         "name": "Reflex",
                         "source": "Class",
                         "maxRank": 4,
                         "locked": true,
-                        "sourceId": "2-Skill-Class-0"
+                        "sourceId": "2-Skill-Mature-0"
                     },
                     {
                         "name": "Will",
-                        "source": "Class",
+                        "source": "Mature",
                         "maxRank": 4,
                         "locked": true,
-                        "sourceId": "2-Skill-Class-0"
+                        "sourceId": "2-Skill-Mature-0"
                     },
                     {
                         "name": "Perception",
-                        "source": "Class",
+                        "source": "Mature",
                         "maxRank": 4,
                         "locked": true,
-                        "sourceId": "2-Skill-Class-0"
+                        "sourceId": "2-Skill-Mature-0"
                     },
                     {
                         "name": "Intimidation",
-                        "source": "Class",
+                        "source": "Mature",
                         "maxRank": 4,
                         "locked": true,
-                        "sourceId": "2-Skill-Class-0"
+                        "sourceId": "2-Skill-Mature-0"
                     },
                     {
                         "name": "Stealth",
-                        "source": "Class",
+                        "source": "Mature",
                         "maxRank": 4,
                         "locked": true,
-                        "sourceId": "2-Skill-Class-0"
+                        "sourceId": "2-Skill-Mature-0"
                     },
                     {
                         "name": "Survival",
-                        "source": "Class",
+                        "source": "Mature",
                         "maxRank": 4,
                         "locked": true,
-                        "sourceId": "2-Skill-Class-0"
+                        "sourceId": "2-Skill-Mature-0"
                     }
                 ],
                 "type": "Any",
                 "maxRank": 4,
-                "source": "Class",
-                "id": "2-Skill-Class-0"
+                "source": "Mature",
+                "id": "2-Skill-Mature-0"
             }
         ]
     },
@@ -285,41 +285,41 @@
                     {
                         "name": "Strength",
                         "type": "Boost",
-                        "source": "Ancestry",
+                        "source": "Nimble",
                         "locked": true,
-                        "sourceId": "3-Ability-Class-0"
+                        "sourceId": "3-Ability-Nimble-0"
                     },
                     {
                         "name": "Dexterity",
                         "type": "Boost",
-                        "source": "Ancestry",
+                        "source": "Nimble",
                         "locked": true,
-                        "sourceId": "3-Ability-Class-0"
+                        "sourceId": "3-Ability-Nimble-0"
                     },
                     {
                         "name": "Dexterity",
                         "type": "Boost",
-                        "source": "Ancestry",
+                        "source": "Nimble",
                         "locked": true,
-                        "sourceId": "3-Ability-Class-0"
+                        "sourceId": "3-Ability-Nimble-0"
                     },
                     {
                         "name": "Constitution",
                         "type": "Boost",
-                        "source": "Ancestry",
+                        "source": "Nimble",
                         "locked": true,
-                        "sourceId": "3-Ability-Class-0"
+                        "sourceId": "3-Ability-Nimble-0"
                     },
                     {
                         "name": "Wisdom",
                         "type": "Boost",
-                        "source": "Ancestry",
+                        "source": "Nimble",
                         "locked": true,
-                        "sourceId": "3-Ability-Class-0"
+                        "sourceId": "3-Ability-Nimble-0"
                     }
                 ],
-                "source": "Ancestry",
-                "id": "3-Ability-Class-0"
+                "source": "Nimble",
+                "id": "3-Ability-Nimble-0"
             }
         ],
         "extraDamage": 2,
@@ -331,23 +331,23 @@
                 "increases": [
                     {
                         "name": "Acrobatics",
-                        "source": "Class",
+                        "source": "Nimble",
                         "maxRank": 4,
                         "locked": true,
-                        "sourceId": "3-Skill-Class-0"
+                        "sourceId": "3-Skill-Nimble-0"
                     },
                     {
                         "name": "Unarmored Defense",
-                        "source": "Class",
+                        "source": "Nimble",
                         "maxRank": 4,
                         "locked": true,
-                        "sourceId": "3-Skill-Class-0"
+                        "sourceId": "3-Skill-Nimble-0"
                     }
                 ],
                 "type": "Any",
                 "maxRank": 4,
-                "source": "Class",
-                "id": "3-Skill-Class-0"
+                "source": "Nimble",
+                "id": "3-Skill-Nimble-0"
             }
         ]
     },
@@ -360,41 +360,41 @@
                     {
                         "name": "Strength",
                         "type": "Boost",
-                        "source": "Ancestry",
+                        "source": "Savage",
                         "locked": true,
-                        "sourceId": "3-Ability-Class-0"
+                        "sourceId": "3-Ability-Savage-0"
                     },
                     {
                         "name": "Strength",
                         "type": "Boost",
-                        "source": "Ancestry",
+                        "source": "Savage",
                         "locked": true,
-                        "sourceId": "3-Ability-Class-0"
+                        "sourceId": "3-Ability-Savage-0"
                     },
                     {
                         "name": "Dexterity",
                         "type": "Boost",
-                        "source": "Ancestry",
+                        "source": "Savage",
                         "locked": true,
-                        "sourceId": "3-Ability-Class-0"
+                        "sourceId": "3-Ability-Savage-0"
                     },
                     {
                         "name": "Constitution",
                         "type": "Boost",
-                        "source": "Ancestry",
+                        "source": "Savage",
                         "locked": true,
-                        "sourceId": "3-Ability-Class-0"
+                        "sourceId": "3-Ability-Savage-0"
                     },
                     {
                         "name": "Wisdom",
                         "type": "Boost",
-                        "source": "Ancestry",
+                        "source": "Savage",
                         "locked": true,
-                        "sourceId": "3-Ability-Class-0"
+                        "sourceId": "3-Ability-Savage-0"
                     }
                 ],
-                "source": "Ancestry",
-                "id": "3-Ability-Class-0"
+                "source": "Savage",
+                "id": "3-Ability-Savage-0"
             }
         ],
         "extraDamage": 3,
@@ -407,16 +407,16 @@
                 "increases": [
                     {
                         "name": "Athletics",
-                        "source": "Class",
+                        "source": "Savage",
                         "maxRank": 4,
                         "locked": true,
-                        "sourceId": "3-Skill-Class-0"
+                        "sourceId": "3-Skill-Savage-0"
                     }
                 ],
                 "type": "Any",
                 "maxRank": 4,
-                "source": "Class",
-                "id": "3-Skill-Class-0"
+                "source": "Savage",
+                "id": "3-Skill-Savage-0"
             }
         ]
     }

@@ -24,6 +24,7 @@ export class AnimalCompanionComponent implements OnInit {
     minimize() {
         this.characterService.get_Character().settings.companionMinimized = !this.characterService.get_Character().settings.companionMinimized;
         this.characterService.set_ToChange("Companion", "companion");
+        this.characterService.set_ToChange("Companion", "abilities");
         this.characterService.process_ToChange();
     }
 

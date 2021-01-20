@@ -12746,5 +12746,51 @@
                 "name": "Creation (5th Level)"
             }
         ]
+    },
+    {
+        "name": "Orc Superstition",
+        "desc": "You defend yourself against magic by relying on techniques derived from orc cultural superstitions. You gain a +1 circumstance bonus to your saving throw against the triggering spell or magical effect.",
+        "type": "activity",
+        "inputRequired": "After you apply the bonus to the triggering saving throw, remove the condition.",
+        "buff": true,
+        "effects": [
+            {
+                "affected": "Saving Throws",
+                "type": "circumstance",
+                "value": "1"
+            }
+        ]
+    },
+    {
+        "name": "Ki Strike",
+        "desc": "You focus your ki into magical attacks. You make an unarmed Strike or Flurry of Blows and gain a +1 status bonus to your attack rolls with these Strikes, and the Strikes deal extra damage equal to 1d6 plus 1d6 for every fourth spell level after 1st. This damage can be any of the following types of your choice, chosen each time you Strike: force, lawful (only if you're lawful), negative, or positive.",
+        "type": "activity",
+        "inputRequired": "After you apply the bonus to the strikes, remove the condition.",
+        "buff": true,
+        "effects": [
+            {
+                "affected": "Unarmed Attack Rolls",
+                "type": "status",
+                "value": "1"
+            }
+        ]
+    },
+    {
+        "name": "Victorious Vigor",
+        "desc": "Your victories in battle fill you with pride and imbue you with the energy to fight a bit longer despite your wounds. You gain temporary Hit Points equal to your Constitution modifier for the duration.",
+        "type": "activities",
+        "buff": true,
+        "onceEffects": [
+            {
+                "affected": "Temporary HP",
+                "value": "Modifier('Constitution')"
+            }
+        ],
+        "endEffects": [
+            {
+                "affected": "Temporary HP",
+                "value": "-Temporary_HP('',effect.sourceId)"
+            }
+        ]
     }
 ]

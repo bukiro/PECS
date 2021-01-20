@@ -28,7 +28,7 @@ export class TimeService {
     }
 
     start_Turn(characterService: CharacterService, conditionsService: ConditionsService, itemsService: ItemsService, spellsService: SpellsService, effectsService: EffectsService) {
-        
+
         //Fast Healing
         let fastHealing: number = 0;
         characterService.get_Creatures().forEach(creature => {
@@ -50,28 +50,28 @@ export class TimeService {
         this.tick(characterService, conditionsService, itemsService, spellsService, 5);
     }
 
-    rest(characterService: CharacterService, conditionsService: ConditionsService, itemsService: ItemsService, spellsService: SpellsService, ) {
+    rest(characterService: CharacterService, conditionsService: ConditionsService, itemsService: ItemsService, spellsService: SpellsService,) {
         let charLevel: number = characterService.get_Character().level;
         this.tick(characterService, conditionsService, itemsService, spellsService, 48000, false);
         characterService.get_Creatures().forEach(creature => {
             characterService.set_ToChange(creature.type, "health");
             let con = 1;
             if (creature.type != "Familiar") {
-                con = Math.max(characterService.abilitiesService.get_Abilities("Constitution")[0].mod((creature as AnimalCompanion|Character), characterService, characterService.effectsService).result, 1);
+                con = Math.max(characterService.abilitiesService.get_Abilities("Constitution")[0].mod((creature as AnimalCompanion | Character), characterService, characterService.effectsService).result, 1);
             }
             let heal: number = con * charLevel;
             this.effectsService.get_RelativesOnThis(creature, "Resting HP Gain").forEach(effect => {
                 heal += parseInt(effect.value);
             })
             characterService.get_Health(creature).heal(creature, characterService, characterService.effectsService, heal, true, true);
-            
+
             //Reset all "once per day" activity cooldowns.
             this.activitiesService.rest(creature, characterService);
             //Reset all conditions that are "until the next time you make your daily preparations".
             conditionsService.rest(creature, characterService);
             //Remove all items that expire when you make your daily preparations.
             if (creature.type != "Familiar") {
-                itemsService.rest((creature as AnimalCompanion|Character), characterService);
+                itemsService.rest((creature as AnimalCompanion | Character), characterService);
             }
             //For the Character, reset all "once per day" spells, and regenerate spell slots, prepared formulas and bonded item charges.
             if (creature.type == "Character") {
@@ -82,8 +82,8 @@ export class TimeService {
                 character.class.spellCasting.forEach(casting => {
                     casting.spellSlotsUsed = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
                 });
-                //Reset all "until you refocus" spell cooldowns.
-                this.refocus(characterService, conditionsService, itemsService, spellsService, false);
+                //Refocus and reset all "until you refocus" spell cooldowns.
+                this.refocus(characterService, conditionsService, itemsService, spellsService, 3, false);
                 //Regenerate Snare Specialist formulas.
                 character.class.formulaBook.filter(learned => learned.snareSpecialistPrepared).forEach(learned => {
                     learned.snareSpecialistAvailable = learned.snareSpecialistPrepared;
@@ -100,14 +100,14 @@ export class TimeService {
                 });
             }
         });
-        
+
         characterService.process_ToChange();
     }
 
-    refocus(characterService: CharacterService, conditionsService: ConditionsService, itemsService: ItemsService, spellsService: SpellsService, reload: boolean = true) {
+    refocus(characterService: CharacterService, conditionsService: ConditionsService, itemsService: ItemsService, spellsService: SpellsService, recoverPoints: number = 1, reload: boolean = true) {
         this.tick(characterService, conditionsService, itemsService, spellsService, 1000, false);
         let character = characterService.get_Character();
-        
+
         //Reset all "until you refocus" activity cooldowns.
         this.activitiesService.refocus(character, characterService);
         //Reset all conditions that are "until you refocus".
@@ -116,22 +116,21 @@ export class TimeService {
         itemsService.refocus(character, characterService);
         //Reset all "once per day" spell cooldowns and re-prepare spells.
         spellsService.refocus(character, characterService);
-        
+
         let focusPoints = character.class.focusPoints;
         let focusPointsLast = character.class.focusPointsLast;
-        let recoverPoints = 1;
-        //Several feats recover more focus points if you spent at least that amount since the last time refocusing. Those feats all have an effect setting "Refocus Bonus Points" to the amount you get.
-        characterService.effectsService.get_AbsolutesOnThis(character, "Refocus Bonus Points").forEach(effect => {
-            let points = parseInt(effect.setValue);
-            if (focusPointsLast - focusPoints >= points) {
-                recoverPoints = Math.max(recoverPoints, points);
-            }
-        })
-        
-        recoverPoints = Math.min(recoverPoints, characterService.get_MaxFocusPoints());
-        
-        //Regenerate Focus Points.
-        characterService.process_OnceEffect(character, Object.assign(new EffectGain(), { affected: "Focus Points", value: "+"+recoverPoints }));
+        if (recoverPoints < 3) {
+            //Several feats recover more focus points if you spent at least that amount since the last time refocusing. Those feats all have an effect setting "Refocus Bonus Points" to the amount you get.
+            characterService.effectsService.get_AbsolutesOnThis(character, "Refocus Bonus Points").forEach(effect => {
+                let points = parseInt(effect.setValue);
+                if (focusPointsLast - focusPoints >= points) {
+                    recoverPoints = Math.max(recoverPoints, points);
+                }
+            })
+        }
+
+        //Regenerate Focus Points by calling a onceEffect (so we don't have the code twice).
+        characterService.process_OnceEffect(character, Object.assign(new EffectGain(), { affected: "Focus Points", value: "+" + recoverPoints }));
 
         character.class.focusPointsLast = character.class.focusPoints;
         if (reload) {
@@ -152,7 +151,7 @@ export class TimeService {
             this.effectsService.tick_CustomEffects(creature, characterService, turns);
             this.activitiesService.tick_Activities(creature, characterService, conditionsService, itemsService, spellsService, turns)
             if (creature.type != "Familiar") {
-                itemsService.tick_Items((creature as AnimalCompanion|Character), characterService, turns);
+                itemsService.tick_Items((creature as AnimalCompanion | Character), characterService, turns);
             }
             if (creature.type == "Character") {
                 spellsService.tick_Spells((creature as Character), characterService, itemsService, conditionsService, turns);
@@ -184,22 +183,22 @@ export class TimeService {
             }
             returnString += inASentence ? "for " : "";
             if (duration >= 144000) {
-                returnString += Math.floor(duration / 144000)+" Day";
+                returnString += Math.floor(duration / 144000) + " Day";
                 if (duration / 144000 >= 2) { returnString += "s"; }
                 duration %= 144000;
             }
             if (duration >= 6000) {
-                returnString += " "+Math.floor(duration / 6000)+" Hour";
+                returnString += " " + Math.floor(duration / 6000) + " Hour";
                 if (duration / 6000 >= 2) { returnString += "s"; }
                 duration %= 6000;
             }
             if (duration >= 100) {
-                returnString += " "+Math.floor(duration / 100)+" Minute";
+                returnString += " " + Math.floor(duration / 100) + " Minute";
                 if (duration / 100 >= 2) { returnString += "s"; }
                 duration %= 100;
             }
             if (duration >= 10) {
-                returnString += " "+Math.floor(duration / 10)+" Turn";
+                returnString += " " + Math.floor(duration / 10) + " Turn";
                 if (duration / 10 >= 2) { returnString += "s"; }
                 duration %= 10;
             }

@@ -870,6 +870,24 @@ export class FeatsService {
             feat.gainSpellChoice = feat.gainSpellChoice.map(choice => Object.assign(new SpellChoice, choice));
             feat.gainSpellCasting = feat.gainSpellCasting.map(choice => Object.assign(new SpellCasting(choice.castingType), choice));
         })
+        
+        let duplicates: string[] = Array.from(new Set(
+            this[target]
+                .filter((feat: Feat) => 
+                    this[target].filter((otherFeat: Feat) =>
+                        otherFeat.name == feat.name
+                    ).length > 1
+                ).map((feat: Feat) => feat.name)
+            ));
+        duplicates.forEach((featName) => {
+            let highestPriority = Math.max(
+                ...this[target]
+                    .filter((feat: Feat) => feat.name == featName)
+                    .map((feat: Feat) => feat.overridePriority)
+                );
+            let highestFeat = this[target].find((feat: Feat) => feat.name == featName && feat.overridePriority == highestPriority);
+            this[target] = this[target].filter((feat: Feat) => !(feat.name == featName && feat !== highestFeat));
+        })
     }
 
 }

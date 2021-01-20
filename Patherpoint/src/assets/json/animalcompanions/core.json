@@ -23,38 +23,38 @@
                     {
                         "locked": true,
                         "name": "Constitution",
-                        "source": "Ancestry",
-                        "sourceId": "1-Ability-Ancestry-0",
+                        "source": "Badger",
+                        "sourceId": "#REF!",
                         "type": "Boost"
                     },
                     {
                         "locked": true,
                         "name": "Wisdom",
-                        "source": "Ancestry",
-                        "sourceId": "1-Ability-Ancestry-0",
+                        "source": "Badger",
+                        "sourceId": "#REF!",
                         "type": "Boost"
                     }
                 ],
-                "id": "1-Ability-Ancestry-0",
-                "source": "Ancestry"
+                "id": "#REF!",
+                "source": "Badger"
             }
         ],
         "hitPoints": 8,
         "skillChoices": [
             {
                 "_className": "SkillChoice",
-                "id": "1-Skill-Ancestry-0",
+                "id": "#REF!",
                 "increases": [
                     {
                         "locked": true,
                         "maxRank": 2,
                         "name": "Survival",
-                        "source": "Ancestry",
-                        "sourceId": "1-Skill-Ancestry-0"
+                        "source": "Badger",
+                        "sourceId": "#REF!"
                     }
                 ],
                 "maxRank": 2,
-                "source": "Ancestry",
+                "source": "Badger",
                 "type": "Skill"
             }
         ],
@@ -119,38 +119,38 @@
                     {
                         "locked": true,
                         "name": "Strength",
-                        "source": "Ancestry",
-                        "sourceId": "1-Ability-Ancestry-0",
+                        "source": "Bear",
+                        "sourceId": "#REF!",
                         "type": "Boost"
                     },
                     {
                         "locked": true,
                         "name": "Constitution",
-                        "source": "Ancestry",
-                        "sourceId": "1-Ability-Ancestry-0",
+                        "source": "Bear",
+                        "sourceId": "#REF!",
                         "type": "Boost"
                     }
                 ],
-                "id": "1-Ability-Ancestry-0",
-                "source": "Ancestry"
+                "id": "#REF!",
+                "source": "Bear"
             }
         ],
         "hitPoints": 8,
         "skillChoices": [
             {
                 "_className": "SkillChoice",
-                "id": "1-Skill-Ancestry-0",
+                "id": "#REF!",
                 "increases": [
                     {
                         "locked": true,
                         "maxRank": 2,
                         "name": "Intimidation",
-                        "source": "Ancestry",
-                        "sourceId": "1-Skill-Ancestry-0"
+                        "source": "Bear",
+                        "sourceId": "#REF!"
                     }
                 ],
                 "maxRank": 2,
-                "source": "Ancestry",
+                "source": "Bear",
                 "type": "Skill"
             }
         ],
@@ -207,38 +207,38 @@
                     {
                         "locked": true,
                         "name": "Dexterity",
-                        "source": "Ancestry",
-                        "sourceId": "1-Ability-Ancestry-0",
+                        "source": "Bird",
+                        "sourceId": "#REF!",
                         "type": "Boost"
                     },
                     {
                         "locked": true,
                         "name": "Wisdom",
-                        "source": "Ancestry",
-                        "sourceId": "1-Ability-Ancestry-0",
+                        "source": "Bird",
+                        "sourceId": "#REF!",
                         "type": "Boost"
                     }
                 ],
-                "id": "1-Ability-Ancestry-0",
-                "source": "Ancestry"
+                "id": "#REF!",
+                "source": "Bird"
             }
         ],
         "hitPoints": 4,
         "skillChoices": [
             {
                 "_className": "SkillChoice",
-                "id": "1-Skill-Ancestry-0",
+                "id": "#REF!",
                 "increases": [
                     {
                         "locked": true,
                         "maxRank": 2,
                         "name": "Stealth",
-                        "source": "Ancestry",
-                        "sourceId": "1-Skill-Ancestry-0"
+                        "source": "Bird",
+                        "sourceId": "#REF!"
                     }
                 ],
                 "maxRank": 2,
-                "source": "Ancestry",
+                "source": "Bird",
                 "type": "Skill"
             }
         ],
@@ -278,7 +278,6 @@
     {
         "_className": "AnimalCompanionAncestry",
         "name": "Camel (Medium, cold resistant)",
-        "sourceBook": "Pathfinder #149: Against the Scarlet Triad",
         "desc": "Your companion is a camel or llama.",
         "size": 0,
         "gainItems": [
@@ -295,38 +294,38 @@
                     {
                         "locked": true,
                         "name": "Strength",
-                        "source": "Ancestry",
-                        "sourceId": "1-Ability-Ancestry-0",
+                        "source": "Camel",
+                        "sourceId": "#REF!",
                         "type": "Boost"
                     },
                     {
                         "locked": true,
                         "name": "Constitution",
-                        "source": "Ancestry",
-                        "sourceId": "1-Ability-Ancestry-0",
+                        "source": "Camel",
+                        "sourceId": "#REF!",
                         "type": "Boost"
                     }
                 ],
-                "id": "1-Ability-Ancestry-0",
-                "source": "Ancestry"
+                "id": "#REF!",
+                "source": "Camel"
             }
         ],
         "hitPoints": 8,
         "skillChoices": [
             {
                 "_className": "SkillChoice",
-                "id": "1-Skill-Ancestry-0",
+                "id": "#REF!",
                 "increases": [
                     {
                         "locked": true,
                         "maxRank": 2,
                         "name": "Survival",
-                        "source": "Ancestry",
-                        "sourceId": "1-Skill-Ancestry-0"
+                        "source": "Camel",
+                        "sourceId": "#REF!"
                     }
                 ],
                 "maxRank": 2,
-                "source": "Ancestry",
+                "source": "Camel",
                 "type": "Skill"
             }
         ],
@@ -355,22 +354,22 @@
                 "source": "Camel"
             }
         ],
+        "traits": [
+            "Minion",
+            "Mount"
+        ],
+        "sourceBook": "Pathfinder #149: Against the Scarlet Triad",
         "specialdesc": "mount; Your camel ignores the harmful effects of mild, severe, and extreme cold.",
         "hints": [
             {
                 "desc": "Your camel ignores the harmful effects of mild, severe, and extreme cold.",
                 "showon": "Resistances"
             }
-        ],
-        "traits": [
-            "Minion",
-            "Mount"
         ]
     },
     {
         "_className": "AnimalCompanionAncestry",
         "name": "Camel (Medium, heat resistant)",
-        "sourceBook": "Pathfinder #149: Against the Scarlet Triad",
         "desc": "Your companion is a camel or llama.",
         "size": 0,
         "gainItems": [
@@ -387,38 +386,38 @@
                     {
                         "locked": true,
                         "name": "Strength",
-                        "source": "Ancestry",
-                        "sourceId": "1-Ability-Ancestry-0",
+                        "source": "Camel",
+                        "sourceId": "#REF!",
                         "type": "Boost"
                     },
                     {
                         "locked": true,
                         "name": "Constitution",
-                        "source": "Ancestry",
-                        "sourceId": "1-Ability-Ancestry-0",
+                        "source": "Camel",
+                        "sourceId": "#REF!",
                         "type": "Boost"
                     }
                 ],
-                "id": "1-Ability-Ancestry-0",
-                "source": "Ancestry"
+                "id": "#REF!",
+                "source": "Camel"
             }
         ],
         "hitPoints": 8,
         "skillChoices": [
             {
                 "_className": "SkillChoice",
-                "id": "1-Skill-Ancestry-0",
+                "id": "#REF!",
                 "increases": [
                     {
                         "locked": true,
                         "maxRank": 2,
                         "name": "Survival",
-                        "source": "Ancestry",
-                        "sourceId": "1-Skill-Ancestry-0"
+                        "source": "Camel",
+                        "sourceId": "#REF!"
                     }
                 ],
                 "maxRank": 2,
-                "source": "Ancestry",
+                "source": "Camel",
                 "type": "Skill"
             }
         ],
@@ -447,22 +446,22 @@
                 "source": "Camel"
             }
         ],
+        "traits": [
+            "Minion",
+            "Mount"
+        ],
+        "sourceBook": "Pathfinder #149: Against the Scarlet Triad",
         "specialdesc": "mount; Your camel ignores the harmful effects of mild, severe, and extreme heat.",
         "hints": [
             {
                 "desc": "Your camel ignores the harmful effects of mild, severe, and extreme heat.",
                 "showon": "Resistances"
             }
-        ],
-        "traits": [
-            "Minion",
-            "Mount"
         ]
     },
     {
         "_className": "AnimalCompanionAncestry",
         "name": "Camel (Large, cold resistant)",
-        "sourceBook": "Pathfinder #149: Against the Scarlet Triad",
         "desc": "Your companion is a camel or llama.",
         "size": 1,
         "gainItems": [
@@ -479,38 +478,38 @@
                     {
                         "locked": true,
                         "name": "Strength",
-                        "source": "Ancestry",
-                        "sourceId": "1-Ability-Ancestry-0",
+                        "source": "Camel",
+                        "sourceId": "#REF!",
                         "type": "Boost"
                     },
                     {
                         "locked": true,
                         "name": "Constitution",
-                        "source": "Ancestry",
-                        "sourceId": "1-Ability-Ancestry-0",
+                        "source": "Camel",
+                        "sourceId": "#REF!",
                         "type": "Boost"
                     }
                 ],
-                "id": "1-Ability-Ancestry-0",
-                "source": "Ancestry"
+                "id": "#REF!",
+                "source": "Camel"
             }
         ],
         "hitPoints": 8,
         "skillChoices": [
             {
                 "_className": "SkillChoice",
-                "id": "1-Skill-Ancestry-0",
+                "id": "#REF!",
                 "increases": [
                     {
                         "locked": true,
                         "maxRank": 2,
                         "name": "Survival",
-                        "source": "Ancestry",
-                        "sourceId": "1-Skill-Ancestry-0"
+                        "source": "Camel",
+                        "sourceId": "#REF!"
                     }
                 ],
                 "maxRank": 2,
-                "source": "Ancestry",
+                "source": "Camel",
                 "type": "Skill"
             }
         ],
@@ -539,22 +538,22 @@
                 "source": "Camel"
             }
         ],
+        "traits": [
+            "Minion",
+            "Mount"
+        ],
+        "sourceBook": "Pathfinder #149: Against the Scarlet Triad",
         "specialdesc": "mount; Your camel ignores the harmful effects of mild, severe, and extreme cold.",
         "hints": [
             {
                 "desc": "Your camel ignores the harmful effects of mild, severe, and extreme cold.",
                 "showon": "Resistances"
             }
-        ],
-        "traits": [
-            "Minion",
-            "Mount"
         ]
     },
     {
         "_className": "AnimalCompanionAncestry",
         "name": "Camel (Large, heat resistant)",
-        "sourceBook": "Pathfinder #149: Against the Scarlet Triad",
         "desc": "Your companion is a camel or llama.",
         "size": 1,
         "gainItems": [
@@ -571,38 +570,38 @@
                     {
                         "locked": true,
                         "name": "Strength",
-                        "source": "Ancestry",
-                        "sourceId": "1-Ability-Ancestry-0",
+                        "source": "Camel",
+                        "sourceId": "#REF!",
                         "type": "Boost"
                     },
                     {
                         "locked": true,
                         "name": "Constitution",
-                        "source": "Ancestry",
-                        "sourceId": "1-Ability-Ancestry-0",
+                        "source": "Camel",
+                        "sourceId": "#REF!",
                         "type": "Boost"
                     }
                 ],
-                "id": "1-Ability-Ancestry-0",
-                "source": "Ancestry"
+                "id": "#REF!",
+                "source": "Camel"
             }
         ],
         "hitPoints": 8,
         "skillChoices": [
             {
                 "_className": "SkillChoice",
-                "id": "1-Skill-Ancestry-0",
+                "id": "#REF!",
                 "increases": [
                     {
                         "locked": true,
                         "maxRank": 2,
                         "name": "Survival",
-                        "source": "Ancestry",
-                        "sourceId": "1-Skill-Ancestry-0"
+                        "source": "Camel",
+                        "sourceId": "#REF!"
                     }
                 ],
                 "maxRank": 2,
-                "source": "Ancestry",
+                "source": "Camel",
                 "type": "Skill"
             }
         ],
@@ -631,16 +630,17 @@
                 "source": "Camel"
             }
         ],
+        "traits": [
+            "Minion",
+            "Mount"
+        ],
+        "sourceBook": "Pathfinder #149: Against the Scarlet Triad",
         "specialdesc": "mount; Your camel ignores the harmful effects of mild, severe, and extreme heat.",
         "hints": [
             {
                 "desc": "Your camel ignores the harmful effects of mild, severe, and extreme heat.",
                 "showon": "Resistances"
             }
-        ],
-        "traits": [
-            "Minion",
-            "Mount"
         ]
     },
     {
@@ -667,38 +667,38 @@
                     {
                         "locked": true,
                         "name": "Dexterity",
-                        "source": "Ancestry",
-                        "sourceId": "1-Ability-Ancestry-0",
+                        "source": "Cat",
+                        "sourceId": "#REF!",
                         "type": "Boost"
                     },
                     {
                         "locked": true,
                         "name": "Wisdom",
-                        "source": "Ancestry",
-                        "sourceId": "1-Ability-Ancestry-0",
+                        "source": "Cat",
+                        "sourceId": "#REF!",
                         "type": "Boost"
                     }
                 ],
-                "id": "1-Ability-Ancestry-0",
-                "source": "Ancestry"
+                "id": "#REF!",
+                "source": "Cat"
             }
         ],
         "hitPoints": 4,
         "skillChoices": [
             {
                 "_className": "SkillChoice",
-                "id": "1-Skill-Ancestry-0",
+                "id": "#REF!",
                 "increases": [
                     {
                         "locked": true,
                         "maxRank": 2,
                         "name": "Stealth",
-                        "source": "Ancestry",
-                        "sourceId": "1-Skill-Ancestry-0"
+                        "source": "Cat",
+                        "sourceId": "#REF!"
                     }
                 ],
                 "maxRank": 2,
-                "source": "Ancestry",
+                "source": "Cat",
                 "type": "Skill"
             }
         ],
@@ -734,7 +734,6 @@
     {
         "_className": "AnimalCompanionAncestry",
         "name": "Cave Gecko",
-        "sourceBook": "Pathfinder #154: Siege of the Dinosaurs",
         "desc": "Your companion is a sticky-footed lizard like a gecko or anole.",
         "size": -1,
         "gainItems": [
@@ -751,38 +750,38 @@
                     {
                         "locked": true,
                         "name": "Dexterity",
-                        "source": "Ancestry",
-                        "sourceId": "1-Ability-Ancestry-0",
+                        "source": "Cave Gecko",
+                        "sourceId": "#REF!",
                         "type": "Boost"
                     },
                     {
                         "locked": true,
                         "name": "Wisdom",
-                        "source": "Ancestry",
-                        "sourceId": "1-Ability-Ancestry-0",
+                        "source": "Cave Gecko",
+                        "sourceId": "#REF!",
                         "type": "Boost"
                     }
                 ],
-                "id": "1-Ability-Ancestry-0",
-                "source": "Ancestry"
+                "id": "#REF!",
+                "source": "Cave Gecko"
             }
         ],
         "hitPoints": 6,
         "skillChoices": [
             {
                 "_className": "SkillChoice",
-                "id": "1-Skill-Ancestry-0",
+                "id": "#REF!",
                 "increases": [
                     {
                         "locked": true,
                         "maxRank": 2,
                         "name": "Stealth",
-                        "source": "Ancestry",
-                        "sourceId": "1-Skill-Ancestry-0"
+                        "source": "Cave Gecko",
+                        "sourceId": "#REF!"
                     }
                 ],
                 "maxRank": 2,
-                "source": "Ancestry",
+                "source": "Cave Gecko",
                 "type": "Skill"
             }
         ],
@@ -817,12 +816,12 @@
         ],
         "traits": [
             "Minion"
-        ]
+        ],
+        "sourceBook": "Pathfinder #154: Siege of the Dinosaurs"
     },
     {
         "_className": "AnimalCompanionAncestry",
         "name": "Cave Pterosaur",
-        "sourceBook": "Pathfinder #154: Siege of the Dinosaurs",
         "desc": "Your companion is a flying prehistoric creature, such as a dimorphodon or pterodactyl, that has adapted to life in the cavern vaults beneath the ground.",
         "size": -1,
         "gainItems": [
@@ -844,38 +843,38 @@
                     {
                         "locked": true,
                         "name": "Dexterity",
-                        "source": "Ancestry",
-                        "sourceId": "1-Ability-Ancestry-0",
+                        "source": "Cave Pterosaur",
+                        "sourceId": "#REF!",
                         "type": "Boost"
                     },
                     {
                         "locked": true,
                         "name": "Wisdom",
-                        "source": "Ancestry",
-                        "sourceId": "1-Ability-Ancestry-0",
+                        "source": "Cave Pterosaur",
+                        "sourceId": "#REF!",
                         "type": "Boost"
                     }
                 ],
-                "id": "1-Ability-Ancestry-0",
-                "source": "Ancestry"
+                "id": "#REF!",
+                "source": "Cave Pterosaur"
             }
         ],
         "hitPoints": 4,
         "skillChoices": [
             {
                 "_className": "SkillChoice",
-                "id": "1-Skill-Ancestry-0",
+                "id": "#REF!",
                 "increases": [
                     {
                         "locked": true,
                         "maxRank": 2,
                         "name": "Thievery",
-                        "source": "Ancestry",
-                        "sourceId": "1-Skill-Ancestry-0"
+                        "source": "Cave Pterosaur",
+                        "sourceId": "#REF!"
                     }
                 ],
                 "maxRank": 2,
-                "source": "Ancestry",
+                "source": "Cave Pterosaur",
                 "type": "Skill"
             }
         ],
@@ -909,7 +908,8 @@
         ],
         "traits": [
             "Minion"
-        ]
+        ],
+        "sourceBook": "Pathfinder #154: Siege of the Dinosaurs"
     },
     {
         "_className": "AnimalCompanionAncestry",
@@ -935,38 +935,38 @@
                     {
                         "locked": true,
                         "name": "Dexterity",
-                        "source": "Ancestry",
-                        "sourceId": "1-Ability-Ancestry-0",
+                        "source": "Dromaeosaur",
+                        "sourceId": "#REF!",
                         "type": "Boost"
                     },
                     {
                         "locked": true,
                         "name": "Constitution",
-                        "source": "Ancestry",
-                        "sourceId": "1-Ability-Ancestry-0",
+                        "source": "Dromaeosaur",
+                        "sourceId": "#REF!",
                         "type": "Boost"
                     }
                 ],
-                "id": "1-Ability-Ancestry-0",
-                "source": "Ancestry"
+                "id": "#REF!",
+                "source": "Dromaeosaur"
             }
         ],
         "hitPoints": 6,
         "skillChoices": [
             {
                 "_className": "SkillChoice",
-                "id": "1-Skill-Ancestry-0",
+                "id": "#REF!",
                 "increases": [
                     {
                         "locked": true,
                         "maxRank": 2,
                         "name": "Stealth",
-                        "source": "Ancestry",
-                        "sourceId": "1-Skill-Ancestry-0"
+                        "source": "Dromaeosaur",
+                        "sourceId": "#REF!"
                     }
                 ],
                 "maxRank": 2,
-                "source": "Ancestry",
+                "source": "Dromaeosaur",
                 "type": "Skill"
             }
         ],
@@ -1018,38 +1018,38 @@
                     {
                         "locked": true,
                         "name": "Strength",
-                        "source": "Ancestry",
-                        "sourceId": "1-Ability-Ancestry-0",
+                        "source": "Horse",
+                        "sourceId": "#REF!",
                         "type": "Boost"
                     },
                     {
                         "locked": true,
                         "name": "Constitution",
-                        "source": "Ancestry",
-                        "sourceId": "1-Ability-Ancestry-0",
+                        "source": "Horse",
+                        "sourceId": "#REF!",
                         "type": "Boost"
                     }
                 ],
-                "id": "1-Ability-Ancestry-0",
-                "source": "Ancestry"
+                "id": "#REF!",
+                "source": "Horse"
             }
         ],
         "hitPoints": 8,
         "skillChoices": [
             {
                 "_className": "SkillChoice",
-                "id": "1-Skill-Ancestry-0",
+                "id": "#REF!",
                 "increases": [
                     {
                         "locked": true,
                         "maxRank": 2,
                         "name": "Survival",
-                        "source": "Ancestry",
-                        "sourceId": "1-Skill-Ancestry-0"
+                        "source": "Horse",
+                        "sourceId": "#REF!"
                     }
                 ],
                 "maxRank": 2,
-                "source": "Ancestry",
+                "source": "Horse",
                 "type": "Skill"
             }
         ],
@@ -1078,11 +1078,11 @@
                 "source": "Horse"
             }
         ],
-        "specialdesc": "mount",
         "traits": [
             "Minion",
             "Mount"
-        ]
+        ],
+        "specialdesc": "mount"
     },
     {
         "_className": "AnimalCompanionAncestry",
@@ -1103,38 +1103,38 @@
                     {
                         "locked": true,
                         "name": "Strength",
-                        "source": "Ancestry",
-                        "sourceId": "1-Ability-Ancestry-0",
+                        "source": "Horse",
+                        "sourceId": "#REF!",
                         "type": "Boost"
                     },
                     {
                         "locked": true,
                         "name": "Constitution",
-                        "source": "Ancestry",
-                        "sourceId": "1-Ability-Ancestry-0",
+                        "source": "Horse",
+                        "sourceId": "#REF!",
                         "type": "Boost"
                     }
                 ],
-                "id": "1-Ability-Ancestry-0",
-                "source": "Ancestry"
+                "id": "#REF!",
+                "source": "Horse"
             }
         ],
         "hitPoints": 8,
         "skillChoices": [
             {
                 "_className": "SkillChoice",
-                "id": "1-Skill-Ancestry-0",
+                "id": "#REF!",
                 "increases": [
                     {
                         "locked": true,
                         "maxRank": 2,
                         "name": "Survival",
-                        "source": "Ancestry",
-                        "sourceId": "1-Skill-Ancestry-0"
+                        "source": "Horse",
+                        "sourceId": "#REF!"
                     }
                 ],
                 "maxRank": 2,
-                "source": "Ancestry",
+                "source": "Horse",
                 "type": "Skill"
             }
         ],
@@ -1163,16 +1163,15 @@
                 "source": "Horse"
             }
         ],
-        "specialdesc": "mount",
         "traits": [
             "Minion",
             "Mount"
-        ]
+        ],
+        "specialdesc": "mount"
     },
     {
         "_className": "AnimalCompanionAncestry",
         "name": "Hyena",
-        "sourceBook": "Pathfinder #149: Against the Scarlet Triad",
         "desc": "Your companion is a hyena.",
         "size": -1,
         "gainItems": [
@@ -1189,38 +1188,38 @@
                     {
                         "locked": true,
                         "name": "Dexterity",
-                        "source": "Ancestry",
-                        "sourceId": "1-Ability-Ancestry-0",
+                        "source": "Hyena",
+                        "sourceId": "#REF!",
                         "type": "Boost"
                     },
                     {
                         "locked": true,
                         "name": "Constitution",
-                        "source": "Ancestry",
-                        "sourceId": "1-Ability-Ancestry-0",
+                        "source": "Hyena",
+                        "sourceId": "#REF!",
                         "type": "Boost"
                     }
                 ],
-                "id": "1-Ability-Ancestry-0",
-                "source": "Ancestry"
+                "id": "#REF!",
+                "source": "Hyena"
             }
         ],
         "hitPoints": 6,
         "skillChoices": [
             {
                 "_className": "SkillChoice",
-                "id": "1-Skill-Ancestry-0",
+                "id": "#REF!",
                 "increases": [
                     {
                         "locked": true,
                         "maxRank": 2,
                         "name": "Intimidation",
-                        "source": "Ancestry",
-                        "sourceId": "1-Skill-Ancestry-0"
+                        "source": "Hyena",
+                        "sourceId": "#REF!"
                     }
                 ],
                 "maxRank": 2,
-                "source": "Ancestry",
+                "source": "Hyena",
                 "type": "Skill"
             }
         ],
@@ -1251,12 +1250,12 @@
         ],
         "traits": [
             "Minion"
-        ]
+        ],
+        "sourceBook": "Pathfinder #149: Against the Scarlet Triad"
     },
     {
         "_className": "AnimalCompanionAncestry",
         "name": "Monitor Lizard",
-        "sourceBook": "Pathfinder #154: Siege of the Dinosaurs",
         "desc": "Your companion is a stocky-limbed lizard with a long, almost serpentine body.",
         "size": 0,
         "gainItems": [
@@ -1273,38 +1272,38 @@
                     {
                         "locked": true,
                         "name": "Strength",
-                        "source": "Ancestry",
-                        "sourceId": "1-Ability-Ancestry-0",
+                        "source": "Monitor Lizard",
+                        "sourceId": "#REF!",
                         "type": "Boost"
                     },
                     {
                         "locked": true,
                         "name": "Constitution",
-                        "source": "Ancestry",
-                        "sourceId": "1-Ability-Ancestry-0",
+                        "source": "Monitor Lizard",
+                        "sourceId": "#REF!",
                         "type": "Boost"
                     }
                 ],
-                "id": "1-Ability-Ancestry-0",
-                "source": "Ancestry"
+                "id": "#REF!",
+                "source": "Monitor Lizard"
             }
         ],
         "hitPoints": 8,
         "skillChoices": [
             {
                 "_className": "SkillChoice",
-                "id": "1-Skill-Ancestry-0",
+                "id": "#REF!",
                 "increases": [
                     {
                         "locked": true,
                         "maxRank": 2,
                         "name": "Survival",
-                        "source": "Ancestry",
-                        "sourceId": "1-Skill-Ancestry-0"
+                        "source": "Monitor Lizard",
+                        "sourceId": "#REF!"
                     }
                 ],
                 "maxRank": 2,
-                "source": "Ancestry",
+                "source": "Monitor Lizard",
                 "type": "Skill"
             }
         ],
@@ -1333,11 +1332,12 @@
                 "source": "Monitor Lizard"
             }
         ],
-        "specialdesc": "mount",
         "traits": [
             "Minion",
             "Mount"
-        ]
+        ],
+        "sourceBook": "Pathfinder #154: Siege of the Dinosaurs",
+        "specialdesc": "mount"
     },
     {
         "_className": "AnimalCompanionAncestry",
@@ -1358,38 +1358,38 @@
                     {
                         "locked": true,
                         "name": "Strength",
-                        "source": "Ancestry",
-                        "sourceId": "1-Ability-Ancestry-0",
+                        "source": "Snake",
+                        "sourceId": "#REF!",
                         "type": "Boost"
                     },
                     {
                         "locked": true,
                         "name": "Dexterity",
-                        "source": "Ancestry",
-                        "sourceId": "1-Ability-Ancestry-0",
+                        "source": "Snake",
+                        "sourceId": "#REF!",
                         "type": "Boost"
                     }
                 ],
-                "id": "1-Ability-Ancestry-0",
-                "source": "Ancestry"
+                "id": "#REF!",
+                "source": "Snake"
             }
         ],
         "hitPoints": 6,
         "skillChoices": [
             {
                 "_className": "SkillChoice",
-                "id": "1-Skill-Ancestry-0",
+                "id": "#REF!",
                 "increases": [
                     {
                         "locked": true,
                         "maxRank": 2,
                         "name": "Stealth",
-                        "source": "Ancestry",
-                        "sourceId": "1-Skill-Ancestry-0"
+                        "source": "Snake",
+                        "sourceId": "#REF!"
                     }
                 ],
                 "maxRank": 2,
-                "source": "Ancestry",
+                "source": "Snake",
                 "type": "Skill"
             }
         ],
@@ -1433,7 +1433,6 @@
     {
         "_className": "AnimalCompanionAncestry",
         "name": "Vulture",
-        "sourceBook": "Pathfinder #149: Against the Scarlet Triad",
         "desc": "Your companion is a vulture, condor, or other large scavenging bird.",
         "size": -1,
         "gainItems": [
@@ -1450,38 +1449,38 @@
                     {
                         "locked": true,
                         "name": "Constitution",
-                        "source": "Ancestry",
-                        "sourceId": "1-Ability-Ancestry-0",
+                        "source": "Vulture",
+                        "sourceId": "#REF!",
                         "type": "Boost"
                     },
                     {
                         "locked": true,
                         "name": "Wisdom",
-                        "source": "Ancestry",
-                        "sourceId": "1-Ability-Ancestry-0",
+                        "source": "Vulture",
+                        "sourceId": "#REF!",
                         "type": "Boost"
                     }
                 ],
-                "id": "1-Ability-Ancestry-0",
-                "source": "Ancestry"
+                "id": "#REF!",
+                "source": "Vulture"
             }
         ],
         "hitPoints": 6,
         "skillChoices": [
             {
                 "_className": "SkillChoice",
-                "id": "1-Skill-Ancestry-0",
+                "id": "#REF!",
                 "increases": [
                     {
                         "locked": true,
                         "maxRank": 2,
                         "name": "Survival",
-                        "source": "Ancestry",
-                        "sourceId": "1-Skill-Ancestry-0"
+                        "source": "Vulture",
+                        "sourceId": "#REF!"
                     }
                 ],
                 "maxRank": 2,
-                "source": "Ancestry",
+                "source": "Vulture",
                 "type": "Skill"
             }
         ],
@@ -1514,6 +1513,10 @@
                 "source": "Vulture"
             }
         ],
+        "traits": [
+            "Minion"
+        ],
+        "sourceBook": "Pathfinder #149: Against the Scarlet Triad",
         "specialdesc": "Your vulture gains a +1 status bonus to all saves against disease, and if it rolls a success on a save against a disease, the result is a critical success instead.",
         "hints": [
             {
@@ -1522,14 +1525,11 @@
                 "effects": [
                     {
                         "affected": "Saving Throws",
-                        "value": "+1",
+                        "value": 1,
                         "type": "status"
                     }
                 ]
             }
-        ],
-        "traits": [
-            "Minion"
         ]
     },
     {
@@ -1551,38 +1551,38 @@
                     {
                         "locked": true,
                         "name": "Dexterity",
-                        "source": "Ancestry",
-                        "sourceId": "1-Ability-Ancestry-0",
+                        "source": "Wolf",
+                        "sourceId": "#REF!",
                         "type": "Boost"
                     },
                     {
                         "locked": true,
                         "name": "Constitution",
-                        "source": "Ancestry",
-                        "sourceId": "1-Ability-Ancestry-0",
+                        "source": "Wolf",
+                        "sourceId": "#REF!",
                         "type": "Boost"
                     }
                 ],
-                "id": "1-Ability-Ancestry-0",
-                "source": "Ancestry"
+                "id": "#REF!",
+                "source": "Wolf"
             }
         ],
         "hitPoints": 6,
         "skillChoices": [
             {
                 "_className": "SkillChoice",
-                "id": "1-Skill-Ancestry-0",
+                "id": "#REF!",
                 "increases": [
                     {
                         "locked": true,
                         "maxRank": 2,
                         "name": "Survival",
-                        "source": "Ancestry",
-                        "sourceId": "1-Skill-Ancestry-0"
+                        "source": "Wolf",
+                        "sourceId": "#REF!"
                     }
                 ],
                 "maxRank": 2,
-                "source": "Ancestry",
+                "source": "Wolf",
                 "type": "Skill"
             }
         ],

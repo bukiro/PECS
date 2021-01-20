@@ -45,5 +45,27 @@
                 "type": "Orc"
             }
         ]
+    },
+    {
+        "name": "Tusks",
+        "desc": "You have particularly long, jagged tusks perfect for tearing meat from bone. You gain a tusks unarmed attack that deals 1d6 piercing damage. Your tusks are in the brawling group and have the finesse and unarmed traits.",
+        "specialdesc": "You can take this feat only at 1st level, and you can't retrain into this feat. You can retrain out of this feat only through drastic measures such as breaking or filing your tusks.",
+        "shortdesc": "You have particularly long, jagged tusks perfect for tearing meat from bone.",
+        "sourceBook": "Advanced Character Guide, Character Guide",
+        "PFSnote": "The Tusks orc ancestry feat requires the character to file down their tusks or perform a similar action to retrain; this is part of the normal retraining process and does not take any additional time.",
+        "traits": [
+            "Orc"
+        ],
+        "levelreq": 1,
+        "specialreq": "charLevel == 1",
+        "specialreqdesc": "1st level only",
+        "gainItems": [
+            {
+                "name": "Orc Tusks",
+                "on": "grant",
+                "type": "weapons"
+            }
+        ],
+        "overridePriority": 1
     }
 ]

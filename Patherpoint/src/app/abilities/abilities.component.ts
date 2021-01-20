@@ -29,7 +29,12 @@ export class AbilitiesComponent implements OnInit {
     }
 
     get_Minimized() {
-        return this.characterService.get_Character().settings.abilitiesMinimized;
+        switch (this.creature) {
+            case "Character":
+                return this.characterService.get_Character().settings.abilitiesMinimized;
+            case "Companion":
+                return this.characterService.get_Character().settings.companionMinimized;
+        }
     }
 
     trackByIndex(index: number, obj: any): any {

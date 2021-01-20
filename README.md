@@ -72,7 +72,7 @@ The very latest in Assistive Technologies for Dungeon Master (ATDM)
 - [x] - Human
 - [x] - Halfling
 - [x] - Goblin
-- [ ] - Half-Orc (including Orc, but excluding ACG)
+- [x] - Half-Orc (including Orc, but excluding ACG)
 - [ ] - Half-Elf (including Elf, but excluding ACG)
 - [ ] - Lizardfolk
 - [ ] - ...
@@ -112,7 +112,6 @@ Implement:
 
 Next steps:
 - Implement Ancestry Feats
--- Half-Orc
 -- Half-Elf
 -- Lizardfolk
 - Implement Conditions for Poisons

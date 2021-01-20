@@ -35,13 +35,13 @@
                     {
                         "name": "Dexterity",
                         "type": "Boost",
-                        "source": "Specialization",
+                        "source": "Ambusher",
                         "locked": true,
-                        "sourceId": "1-Ability-Specialization-0"
+                        "sourceId": "1-Ability-Ambusher-0"
                     }
                 ],
-                "source": "Specialization",
-                "id": "1-Ability-Specialization-0"
+                "source": "Ambusher",
+                "id": "1-Ability-Ambusher-0"
             }
         ],
         "desc": "In your companion's natural environment, it can use a Sneak action even if it's currently observed. Its proficiency rank in Stealth increases to expert (or master if it was already an expert from its type) and its Dexterity modifier increases by 1. Its proficiency rank for unarmored defense increases to expert, or master if it's nimble.",
@@ -109,23 +109,23 @@
                 "increases": [
                     {
                         "name": "Stealth",
-                        "source": "Specialization",
+                        "source": "Ambusher",
                         "maxRank": 6,
                         "locked": true,
-                        "sourceId": "1-Skill-Specialization-0"
+                        "sourceId": "1-Skill-Ambusher-0"
                     },
                     {
                         "name": "Unarmored Defense",
-                        "source": "Specialization",
+                        "source": "Ambusher",
                         "maxRank": 6,
                         "locked": true,
-                        "sourceId": "1-Skill-Specialization-0"
+                        "sourceId": "1-Skill-Ambusher-0"
                     }
                 ],
                 "type": "Any",
                 "maxRank": 6,
-                "source": "Specialization",
-                "id": "1-Skill-Specialization-0"
+                "source": "Ambusher",
+                "id": "1-Skill-Ambusher-0"
             }
         ]
     },
@@ -165,34 +165,34 @@
                     {
                         "name": "Strength",
                         "type": "Boost",
-                        "source": "Specialization",
+                        "source": "Bully",
                         "locked": true,
-                        "sourceId": "1-Ability-Specialization-0"
+                        "sourceId": "1-Ability-Bully-0"
                     },
                     {
                         "name": "Charisma",
                         "type": "Boost",
-                        "source": "Specialization",
+                        "source": "Bully",
                         "locked": true,
-                        "sourceId": "1-Ability-Specialization-0"
+                        "sourceId": "1-Ability-Bully-0"
                     },
                     {
                         "name": "Charisma",
                         "type": "Boost",
-                        "source": "Specialization",
+                        "source": "Bully",
                         "locked": true,
-                        "sourceId": "1-Ability-Specialization-0"
+                        "sourceId": "1-Ability-Bully-0"
                     },
                     {
                         "name": "Charisma",
                         "type": "Boost",
-                        "source": "Specialization",
+                        "source": "Bully",
                         "locked": true,
-                        "sourceId": "1-Ability-Specialization-0"
+                        "sourceId": "1-Ability-Bully-0"
                     }
                 ],
-                "source": "Specialization",
-                "id": "1-Ability-Specialization-0"
+                "source": "Bully",
+                "id": "1-Ability-Bully-0"
             }
         ],
         "desc": "Your companion terrorizes foes with dominance displays and pushes them around the battlefield. Its proficiency ranks for Athletics and Intimidation increase to expert (or master if it was already expert from its type), its Strength modifier increases by 1, and its Charisma modifier increases by 3.",
@@ -254,23 +254,23 @@
                 "increases": [
                     {
                         "name": "Athletics",
-                        "source": "Specialization",
+                        "source": "Bully",
                         "maxRank": 6,
                         "locked": true,
-                        "sourceId": "1-Skill-Specialization-0"
+                        "sourceId": "1-Skill-Bully-0"
                     },
                     {
                         "name": "Intimidation",
-                        "source": "Specialization",
+                        "source": "Bully",
                         "maxRank": 6,
                         "locked": true,
-                        "sourceId": "1-Skill-Specialization-0"
+                        "sourceId": "1-Skill-Bully-0"
                     }
                 ],
                 "type": "Any",
                 "maxRank": 6,
-                "source": "Specialization",
-                "id": "1-Skill-Specialization-0"
+                "source": "Bully",
+                "id": "1-Skill-Bully-0"
             }
         ]
     },
@@ -310,13 +310,13 @@
                     {
                         "name": "Dexterity",
                         "type": "Boost",
-                        "source": "Specialization",
+                        "source": "Daredevil",
                         "locked": true,
-                        "sourceId": "1-Ability-Specialization-0"
+                        "sourceId": "1-Ability-Daredevil-0"
                     }
                 ],
-                "source": "Specialization",
-                "id": "1-Ability-Specialization-0"
+                "source": "Daredevil",
+                "id": "1-Ability-Daredevil-0"
             }
         ],
         "desc": "Your companion joins the fray with graceful leaps and dives. It gains the deny advantage ability, so it isn't flat-footed to hidden, undetected, or flanking creatures unless such a creature's level is greater than yours. Its proficiency rank in Acrobatics increases to master, and its Dexterity modifier increases by 1. Its proficiency rank in unarmored defense increases to expert, or master if it's nimble.",
@@ -384,23 +384,23 @@
                 "increases": [
                     {
                         "name": "Acrobatics",
-                        "source": "Specialization",
+                        "source": "Daredevil",
                         "maxRank": 6,
                         "locked": true,
-                        "sourceId": "1-Skill-Specialization-0"
+                        "sourceId": "1-Skill-Daredevil-0"
                     },
                     {
                         "name": "Unarmored Defense",
-                        "source": "Specialization",
+                        "source": "Daredevil",
                         "maxRank": 6,
                         "locked": true,
-                        "sourceId": "1-Skill-Specialization-0"
+                        "sourceId": "1-Skill-Daredevil-0"
                     }
                 ],
                 "type": "Any",
                 "maxRank": 6,
-                "source": "Specialization",
-                "id": "1-Skill-Specialization-0"
+                "source": "Daredevil",
+                "id": "1-Skill-Daredevil-0"
             }
         ]
     },
@@ -440,24 +440,16 @@
                     {
                         "name": "Constitution",
                         "type": "Boost",
-                        "source": "Specialization",
+                        "source": "Racer",
                         "locked": true,
-                        "sourceId": "1-Ability-Specialization-0"
+                        "sourceId": "1-Ability-Racer-0"
                     }
                 ],
-                "source": "Specialization",
-                "id": "1-Ability-Specialization-0"
+                "source": "Racer",
+                "id": "1-Ability-Racer-0"
             }
         ],
         "desc": "Your companion races. It gains a +10-foot status bonus to its Speed. Its proficiency in Fortitude saves increases to legendary, and its Constitution modifier increases by 1.",
-        "effects": [
-            {
-                "_className": "EffectGain",
-                "affected": "Land Speed",
-                "value": "+10",
-                "type": "status"
-            }
-        ],
         "name": "Racer (Land Speed)",
         "skillChoices": [
             {
@@ -516,16 +508,24 @@
                 "increases": [
                     {
                         "name": "Fortitude",
-                        "source": "Specialization",
+                        "source": "Racer",
                         "maxRank": 8,
                         "locked": true,
-                        "sourceId": "1-Skill-Specialization-0"
+                        "sourceId": "1-Skill-Racer-0"
                     }
                 ],
                 "type": "Any",
                 "maxRank": 8,
-                "source": "Specialization",
-                "id": "1-Skill-Specialization-0"
+                "source": "Racer",
+                "id": "1-Skill-Racer-0"
+            }
+        ],
+        "effects": [
+            {
+                "_className": "EffectGain",
+                "affected": "Land Speed",
+                "value": 10,
+                "type": "status"
             }
         ]
     },
@@ -565,24 +565,16 @@
                     {
                         "name": "Constitution",
                         "type": "Boost",
-                        "source": "Specialization",
+                        "source": "Racer",
                         "locked": true,
-                        "sourceId": "1-Ability-Specialization-0"
+                        "sourceId": "1-Ability-Racer-0"
                     }
                 ],
-                "source": "Specialization",
-                "id": "1-Ability-Specialization-0"
+                "source": "Racer",
+                "id": "1-Ability-Racer-0"
             }
         ],
         "desc": "Your companion races. It gains a +10-foot status bonus to its swim Speed. Its proficiency in Fortitude saves increases to legendary, and its Constitution modifier increases by 1.",
-        "effects": [
-            {
-                "_className": "EffectGain",
-                "affected": "Swim Speed",
-                "value": "+10",
-                "type": "status"
-            }
-        ],
         "name": "Racer (Swim Speed)",
         "skillChoices": [
             {
@@ -641,16 +633,24 @@
                 "increases": [
                     {
                         "name": "Fortitude",
-                        "source": "Specialization",
+                        "source": "Racer",
                         "maxRank": 8,
                         "locked": true,
-                        "sourceId": "1-Skill-Specialization-0"
+                        "sourceId": "1-Skill-Racer-0"
                     }
                 ],
                 "type": "Any",
                 "maxRank": 8,
-                "source": "Specialization",
-                "id": "1-Skill-Specialization-0"
+                "source": "Racer",
+                "id": "1-Skill-Racer-0"
+            }
+        ],
+        "effects": [
+            {
+                "_className": "EffectGain",
+                "affected": "Swim Speed",
+                "value": 10,
+                "type": "status"
             }
         ]
     },
@@ -690,24 +690,16 @@
                     {
                         "name": "Constitution",
                         "type": "Boost",
-                        "source": "Specialization",
+                        "source": "Racer",
                         "locked": true,
-                        "sourceId": "1-Ability-Specialization-0"
+                        "sourceId": "1-Ability-Racer-0"
                     }
                 ],
-                "source": "Specialization",
-                "id": "1-Ability-Specialization-0"
+                "source": "Racer",
+                "id": "1-Ability-Racer-0"
             }
         ],
         "desc": "Your companion races. It gains a +10-foot status bonus to its fly Speed. Its proficiency in Fortitude saves increases to legendary, and its Constitution modifier increases by 1.",
-        "effects": [
-            {
-                "_className": "EffectGain",
-                "affected": "Fly Speed",
-                "value": "+10",
-                "type": "status"
-            }
-        ],
         "name": "Racer (Fly Speed)",
         "skillChoices": [
             {
@@ -766,16 +758,24 @@
                 "increases": [
                     {
                         "name": "Fortitude",
-                        "source": "Specialization",
+                        "source": "Racer",
                         "maxRank": 8,
                         "locked": true,
-                        "sourceId": "1-Skill-Specialization-0"
+                        "sourceId": "1-Skill-Racer-0"
                     }
                 ],
                 "type": "Any",
                 "maxRank": 8,
-                "source": "Specialization",
-                "id": "1-Skill-Specialization-0"
+                "source": "Racer",
+                "id": "1-Skill-Racer-0"
+            }
+        ],
+        "effects": [
+            {
+                "_className": "EffectGain",
+                "affected": "Fly Speed",
+                "value": 10,
+                "type": "status"
             }
         ]
     },
@@ -815,13 +815,13 @@
                     {
                         "name": "Wisdom",
                         "type": "Boost",
-                        "source": "Specialization",
+                        "source": "Tracker",
                         "locked": true,
-                        "sourceId": "1-Ability-Specialization-0"
+                        "sourceId": "1-Ability-Tracker-0"
                     }
                 ],
-                "source": "Specialization",
-                "id": "1-Ability-Specialization-0"
+                "source": "Tracker",
+                "id": "1-Ability-Tracker-0"
             }
         ],
         "desc": "Your companion is an incredible tracker. It can move at full Speed while following tracks. Its proficiency rank in Survival increases to expert (or master if it was already an expert from its type), and its Wisdom modifier increases by 1.",
@@ -889,16 +889,16 @@
                 "increases": [
                     {
                         "name": "Survival",
-                        "source": "Specialization",
+                        "source": "Tracker",
                         "maxRank": 6,
                         "locked": true,
-                        "sourceId": "1-Skill-Specialization-0"
+                        "sourceId": "1-Skill-Tracker-0"
                     }
                 ],
                 "type": "Any",
                 "maxRank": 6,
-                "source": "Specialization",
-                "id": "1-Skill-Specialization-0"
+                "source": "Tracker",
+                "id": "1-Skill-Tracker-0"
             }
         ]
     },
@@ -938,13 +938,13 @@
                     {
                         "name": "Strength",
                         "type": "Boost",
-                        "source": "Specialization",
+                        "source": "Wrecker",
                         "locked": true,
-                        "sourceId": "1-Ability-Specialization-0"
+                        "sourceId": "1-Ability-Wrecker-0"
                     }
                 ],
-                "source": "Specialization",
-                "id": "1-Ability-Specialization-0"
+                "source": "Wrecker",
+                "id": "1-Ability-Wrecker-0"
             }
         ],
         "desc": "Your companion smashes things. Its unarmed attacks ignore half an object's Hardness. Its Athletics proficiency increases to master, and its Strength modifier increases by 1.",
@@ -1012,16 +1012,16 @@
                 "increases": [
                     {
                         "name": "Athletics",
-                        "source": "Specialization",
+                        "source": "Wrecker",
                         "maxRank": 6,
                         "locked": true,
-                        "sourceId": "1-Skill-Specialization-0"
+                        "sourceId": "1-Skill-Wrecker-0"
                     }
                 ],
                 "type": "Any",
                 "maxRank": 6,
-                "source": "Specialization",
-                "id": "1-Skill-Specialization-0"
+                "source": "Wrecker",
+                "id": "1-Skill-Wrecker-0"
             }
         ]
     }

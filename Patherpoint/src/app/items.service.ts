@@ -737,6 +737,28 @@ export class ItemsService {
                     this.cleanItems[target].push(...source[key].map(obj => this.initialize_Item(Object.assign(new type(), obj), true, false, true)));
                     this.craftingItems[target].push(...source[key].map(obj => this.initialize_Item(Object.assign(new type(), obj), true, false, true)));
                 });
+
+                let duplicates: string[] = Array.from(new Set(
+                    this.items[target]
+                        .filter((item: Item) => 
+                        this.items[target].filter((otherItem: Item) =>
+                                otherItem.id == item.id
+                            ).length > 1
+                        ).map((item: Item) => item.id)
+                    ));
+                duplicates.forEach((itemID) => {
+                    let highestPriority = Math.max(
+                        ...this.items[target]
+                            .filter((item: Item) => item.id == itemID)
+                            .map((item: Item) => item.overridePriority)
+                        );
+                    let highestItem = this.items[target].find((item: Item) => item.id == itemID && item.overridePriority == highestPriority);
+                    this.items[target] = this.items[target].filter((item: Item) => !(item.id == itemID && item !== highestItem));
+                    let highestCleanItem = this.cleanItems[target].find((item: Item) => item.id == itemID && item.overridePriority == highestPriority);
+                    this.cleanItems[target] = this.cleanItems[target].filter((item: Item) => !(item.id == itemID && item !== highestCleanItem));
+                    let highestCraftingItem = this.craftingItems[target].find((item: Item) => item.id == itemID && item.overridePriority == highestPriority);
+                    this.craftingItems[target] = this.craftingItems[target].filter((item: Item) => !(item.id == itemID && item !== highestCraftingItem));
+                })
                 break;
             case "meta":
                 this[target] = [];

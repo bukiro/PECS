@@ -68,6 +68,8 @@ export class Item {
     public traits: string[] = [];
     //Type of item - very important. Must be set by the specific Item class and decides which database is searched for the item
     public type: string;
+    //For items with the same id (from different source files for example), higher overridePriority wins. If two have the same priority, the first in the list wins.
+    public overridePriority: number = 0;
     get_Bulk() {
         //Return either the bulk set by an oil, or else the actual bulk of the item.
         let oilBulk: string = "";

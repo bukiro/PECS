@@ -898,6 +898,16 @@ cite.effect.absolute {
     color: aqua;
 }
 
+input.absolute {
+    background-color: lightblue;
+    color: #616161;
+    color: var(--textcolor);
+}
+
+.darkmode input.absolute {
+    background-color: blue;
+}
+
 .bonus,
 cite.condition.bonus,
 cite.effect.bonus {
@@ -908,14 +918,35 @@ cite.effect.bonus {
     color: lightgreen;
 }
 
+input.bonus {
+    background-color: lightgreen;
+    color: #616161;
+    color: var(--textcolor);
+}
+
+.darkmode input.bonus {
+    background-color: darkgreen;
+}
+
 .penalty,
 cite.condition.penalty,
 cite.effect.penalty {
     color: #500000;
 }
 
-.darkmode .penalty {
+/* add '.darkmode .penalty:not(cite)' only to override the equivalent .bonus and .absolute rules. */
+.darkmode .penalty, .darkmode .penalty:not(cite) {
     color: red
+}
+
+input.penalty {
+    background-color: lightpink;
+    color: #616161;
+    color: var(--textcolor);
+}
+
+.darkmode input.penalty {
+    background-color: #500000;
 }
 
 .invisible {
@@ -993,36 +1024,6 @@ span.problem {
     font-size: 90%;
     margin-top: auto;
     margin-bottom: auto;
-}
-
-input.absolute {
-    background-color: lightblue;
-    color: #616161;
-    color: var(--textcolor);
-}
-
-.darkmode input.absolute {
-    background-color: blue;
-}
-
-input.bonus {
-    background-color: lightgreen;
-    color: #616161;
-    color: var(--textcolor);
-}
-
-.darkmode input.bonus {
-    background-color: darkgreen;
-}
-
-input.penalty {
-    background-color: lightpink;
-    color: #616161;
-    color: var(--textcolor);
-}
-
-.darkmode input.penalty {
-    background-color: #500000;
 }
 
 .notapplied {

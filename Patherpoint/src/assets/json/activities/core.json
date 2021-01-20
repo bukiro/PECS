@@ -447,6 +447,7 @@
         "name": "Orc Ferocity",
         "actions": "Reaction",
         "frequency": "once per day",
+        "trigger": "You would be reduced to 0 Hit Points but not immediately killed.",
         "cooldown": 144000,
         "desc": "Fierceness in battle runs through your blood, and you refuse to fall from your injuries. You avoid being knocked out and remain at 1 Hit Point, and your wounded condition increases by 1.",
         "gainConditions": [
@@ -661,7 +662,7 @@
         "critsuccess": "You gain 10 temporary Hit Points. You lose any remaining temporary Hit Points after 1 minute.",
         "success": "You gain 5 temporary Hit Points. You lose any remaining temporary Hit Points after 1 minute.",
         "critfailure": "Your deity withholds their blessing. You cannot attempt to call to your deity again for 1 day.",
-        "inputRequired": "Add and remove any temporary Hit Points after determining the success.",
+        "inputRequired": "Add and remove the appropriate amount of temporary Hit Points after determining the success.",
         "traits": [
             "Divine",
             "General",
@@ -3607,11 +3608,44 @@
             {
                 "name": "Shadow Pact",
                 "source": "Shadow Pact",
-                "duration": "6000"
+                "duration": 6000
             }
         ],
         "traits": [
             "Human"
+        ]
+    },
+    {
+        "name": "Orc Superstition",
+        "actions": "Reaction",
+        "trigger": "You attempt a saving throw against a spell or magical effect, before rolling.",
+        "desc": "You defend yourself against magic by relying on techniques derived from orc cultural superstitions. You gain a +1 circumstance bonus to your saving throw against the triggering spell or magical effect.",
+        "gainConditions": [
+            {
+                "name": "Orc Superstition",
+                "source": "Orc Superstition",
+                "duration": 5
+            }
+        ],
+        "traits": [
+            "Concentrate",
+            "Orc"
+        ]
+    },
+    {
+        "name": "Victorious Vigor",
+        "actions": "Reaction",
+        "trigger": "You bring a foe to 0 Hit Points.",
+        "desc": "Your victories in battle fill you with pride and imbue you with the energy to fight a bit longer despite your wounds. You gain temporary Hit Points equal to your Constitution modifier until the end of your next turn.",
+        "gainConditions": [
+            {
+                "name": "Victorious Vigor",
+                "source": "Victorious Vigor",
+                "duration": 15
+            }
+        ],
+        "traits": [
+            "Orc"
         ]
     }
 ]

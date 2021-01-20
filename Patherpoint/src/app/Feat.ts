@@ -83,6 +83,9 @@ export class Feat {
     public unlimited: boolean = false;
     public sourceBook: string = "";
     public allowSignatureSpells: boolean = false;
+    public PFSnote: string = "";
+    //For feats with the same name (from different source files for example), higher overridePriority wins. If two have the same priority, the first in the list wins.
+    public overridePriority: number = 0;
     prof(skillLevel: number) {
         switch (skillLevel) {
             case 2:
@@ -240,6 +243,8 @@ export class Feat {
         //
         //Here we prepare variables and functions to use in specialreq evaluations.
         let character: Character = characterService.get_Character();
+        //charLevel is usually the level on which you take the feat. If none is given, the current character level is used for calculations.
+        //The variable is recast here so it can be used in eval().
         charLevel = charLevel;
         let familiar: Familiar = characterService.get_Familiar();
         let deity: Deity = character.class.deity ? characterService.get_Deities(character.class.deity)[0] : null;

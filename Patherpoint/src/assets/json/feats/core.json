@@ -1033,7 +1033,7 @@
             "Skill"
         ],
         "levelreq": 2,
-        "specialreq": "true",
+        "specialreq": "TRUE",
         "specialreqdesc": "Expert in any skill with Recall Knowledge, Assurance in that skill"
     },
     {
@@ -2915,7 +2915,7 @@
             "Monk"
         ],
         "levelreq": 20,
-        "specialreq": "character.get_FeatsTaken(0,charLevel).filter(gain => characterService.get_FeatsAndFeatures(gain.name).some(feat => feat.traits.includes(\"Stance\"))).length >= 2",
+        "specialreq": "character.get_FeatsTaken(0,charLevel).filter(gain => characterService.get_FeatsAndFeatures(gain.name).some(feat => feat.traits.includes(\\\"Stance\\\"))).length >= 2",
         "specialreqdesc": "at least two stances",
         "gainActivities": [
             "Fused Stance"
@@ -4032,7 +4032,7 @@
         "effects": [
             {
                 "affected": "Refocus Bonus Points",
-                "setValue": "2"
+                "setValue": "3"
             }
         ]
     },
@@ -4110,7 +4110,7 @@
         "featreq": [
             "Godless Healing"
         ],
-        "specialreq": "true",
+        "specialreq": "TRUE",
         "specialreqdesc": "you follow the Laws of Mortality"
     },
     {
@@ -4299,7 +4299,7 @@
         "featreq": [
             "Diehard"
         ],
-        "specialreq": "true",
+        "specialreq": "TRUE",
         "specialreqdesc": "you have died at least once"
     },
     {
@@ -13848,6 +13848,17 @@
                 "level": 10,
                 "signatureSpell": true,
                 "source": "Sorcerer Spellcasting"
+            },
+            {
+                "_className": "SpellChoice",
+                "available": 1,
+                "castingType": "Spontaneous",
+                "charLevelAvailable": 19,
+                "className": "Sorcerer",
+                "id": "47646a40-d247-47ef-9c4d-39dce7b59732",
+                "insertClass": "Sorcerer",
+                "level": 10,
+                "source": "Sorcerer Spellcasting"
             }
         ]
     },
@@ -14553,6 +14564,17 @@
                 "level": 10,
                 "signatureSpell": true,
                 "source": "Sorcerer Spellcasting"
+            },
+            {
+                "_className": "SpellChoice",
+                "available": 1,
+                "castingType": "Spontaneous",
+                "charLevelAvailable": 19,
+                "className": "Sorcerer",
+                "id": "47646a40-d247-47ef-9c4d-39dce7b59732",
+                "insertClass": "Sorcerer",
+                "level": 10,
+                "source": "Sorcerer Spellcasting"
             }
         ]
     },
@@ -14645,20 +14667,7 @@
         "shortdesc": "You inundate your foes with torrents of water."
     },
     {
-        "name": "Fey Bloodline",
-        "gainSpellChoice": [
-            {
-                "_className": "SpellChoice",
-                "available": 1,
-                "castingType": "Spontaneous",
-                "charLevelAvailable": 19,
-                "className": "Sorcerer",
-                "id": "47646a40-d247-47ef-9c4d-39dce7b59732",
-                "insertClass": "Sorcerer",
-                "level": 10,
-                "source": "Sorcerer Spellcasting"
-            }
-        ]
+        "name": "Fey Bloodline"
     },
     {
         "name": "Hag Bloodline"
@@ -17734,7 +17743,7 @@
     },
     {
         "name": "Incredible Companion (Ranger)",
-        "desc": "Your animal companion continues to grow and develop. It becomes a nimble or savage animal companion (your choice), gaining additional capabilities determined by the type of companion (page 214).",
+        "desc": "Your animal companion continues to grow and develop. It becomes a nimble or savage animal companion (your choice), gaining additional capabilities determined by the type of companion (page 214).\n\nTo advance a mature animal companion to a nimble animal companion, increase its Dexterity modifier by 2 and its Strength, Constitution, and Wisdom modifiers by 1. It deals 2 additional damage with its unarmed attacks. Increase its proficiency ranks in Acrobatics and unarmored defense to expert. It also learns the advanced maneuver for its type. Its attacks become magical for the purpose of ignoring resistances.\n\nTo advance a mature animal companion to a savage animal companion, increase its Strength modifier by 2 and its Dexterity, Constitution, and Wisdom modifiers by 1. It deals 3 additional damage with its unarmed attacks. Increase its proficiency rank in Athletics to expert. It also learns the advanced maneuver for its type. If your companion is Medium or smaller, it grows by one size. Its attacks become magical for the purpose of ignoring resistances.",
         "subTypes": true,
         "shortdesc": "Your animal companion continues to grow and develop.",
         "traits": [
@@ -17747,7 +17756,7 @@
     },
     {
         "name": "Incredible Companion (Ranger): Nimble",
-        "desc": "Your animal companion continues to grow and develop. It becomes a nimble animal companion (your choice), gaining additional capabilities determined by the type of companion (page 214).",
+        "desc": "Your animal companion continues to grow and develop. It becomes a nimble animal companion (your choice), gaining additional capabilities determined by the type of companion (page 214).\n\nTo advance a mature animal companion to a nimble animal companion, increase its Dexterity modifier by 2 and its Strength, Constitution, and Wisdom modifiers by 1. It deals 2 additional damage with its unarmed attacks. Increase its proficiency ranks in Acrobatics and unarmored defense to expert. It also learns the advanced maneuver for its type. Its attacks become magical for the purpose of ignoring resistances.",
         "subType": "Nimble",
         "superType": "Incredible Companion (Ranger)",
         "shortdesc": "Your animal companion continues to grow and develop.",
@@ -17764,7 +17773,7 @@
     },
     {
         "name": "Incredible Companion (Ranger): Savage",
-        "desc": "Your animal companion continues to grow and develop. It becomes a nimble animal companion (your choice), gaining additional capabilities determined by the type of companion (page 214).",
+        "desc": "Your animal companion continues to grow and develop. It becomes a savage animal companion (your choice), gaining additional capabilities determined by the type of companion (page 214).\n\nTo advance a mature animal companion to a savage animal companion, increase its Strength modifier by 2 and its Dexterity, Constitution, and Wisdom modifiers by 1. It deals 3 additional damage with its unarmed attacks. Increase its proficiency rank in Athletics to expert. It also learns the advanced maneuver for its type. If your companion is Medium or smaller, it grows by one size. Its attacks become magical for the purpose of ignoring resistances.",
         "subType": "Savage",
         "superType": "Incredible Companion (Ranger)",
         "shortdesc": "Your animal companion continues to grow and develop.",
@@ -27006,7 +27015,7 @@
     },
     {
         "name": "Incredible Luck (Halfling)",
-        "desc": "Even other halflings consider you to be particularly lucky. You can use Halfling Luck once per hour, rather than once per day. If you have Guiding Luck, you can still use Halfling Luck when you fail a Perception check or attack roll only once per day (though you can use it within the same hour that you used Halfling Luck), and if you have Shared Luck, you can still use Halfling Luck on an ally instead of yourself only once per day.",
+        "desc": "Even other halflings consider you to be particularly lucky. You can use Halfling Luck once per hour, rather than once per day. If you have Guiding Luck, you can still use Halfling Luck when you fail a Perception check or attack roll only once per day (though you can use it within the same hour that you used Halfling Luck), and if you have Helpful Halfling, you can still use Halfling Luck on an ally instead of yourself only once per day.",
         "hints": [
             {
                 "desc": "You can use Halfling Luck once per hour, rather than once per day. If you have Guiding Luck, you can still use Halfling Luck when you fail a Perception check or attack roll only once per day (though you can use it within the same hour that you used Halfling Luck), and if you have Shared Luck, you can still use Halfling Luck on an ally instead of yourself only once per day.",
@@ -27031,6 +27040,11 @@
     {
         "name": "Adapted Cantrip",
         "desc": "Through study of multiple magical traditions, you've altered a spell to suit your spellcasting style. Choose one cantrip from a magical tradition other than your own. If you have a spell repertoire or a spellbook, replace one of the cantrips you know or have in your spellbook with the chosen spell. If you prepare spells without a spellbook (if you're a cleric or druid, for example), one of your cantrips must always be the chosen spell, and you prepare the rest normally. You can cast this cantrip as a spell of your class's tradition.\n\nIf you swap or retrain this cantrip later, you can choose its replacement from the same alternate tradition or a different one.",
+        "hints": [
+            {
+                "desc": "Through study of multiple magical traditions, you've altered a spell to suit your spellcasting style. Choose one cantrip from a magical tradition other than your own. If you have a spell repertoire or a spellbook, replace one of the cantrips you know or have in your spellbook with the chosen spell. If you prepare spells without a spellbook (if you're a cleric or druid, for example), one of your cantrips must always be the chosen spell, and you prepare the rest normally. You can cast this cantrip as a spell of your class's tradition.\n\nIf you swap or retrain this cantrip later, you can choose its replacement from the same alternate tradition or a different one."
+            }
+        ],
         "internalNote": "Choosing from another tradition as well as losing a cantrip is hardcoded.",
         "shortdesc": "Through study of multiple magical traditions, you've altered a spell to suit your spellcasting style.",
         "traits": [
@@ -27411,7 +27425,7 @@
             "Human"
         ],
         "levelreq": 1,
-        "specialreq": "true",
+        "specialreq": "TRUE",
         "specialreqdesc": "Tian-Dan ethnicity",
         "gainSpellChoice": [
             {
@@ -27611,7 +27625,7 @@
             "Human"
         ],
         "levelreq": 1,
-        "specialreq": "true",
+        "specialreq": "TRUE",
         "specialreqdesc": "Nidalese ethnicity",
         "senses": [
             "Low-Light Vision"
@@ -28092,7 +28106,7 @@
         "hints": [
             {
                 "desc": "You gain access to the Uncommon Ancestry Simple Weapon, and for the purpose of determining your proficiency, that weapon is a simple weapon.",
-                "showon": "Weapon Proficiencies"
+                "showon": "ItemStore, Weapon Proficiencies"
             }
         ],
         "hide": true,
@@ -28117,7 +28131,7 @@
         "hints": [
             {
                 "desc": "You gain access to the Uncommon Ancestry Martial Weapon, and for the purpose of determining your proficiency, that weapon is a simple weapon.",
-                "showon": "Weapon Proficiencies"
+                "showon": "ItemStore, Weapon Proficiencies"
             }
         ],
         "hide": true,
@@ -28142,7 +28156,7 @@
         "hints": [
             {
                 "desc": "You gain access to the Uncommon Ancestry Advanced Weapon, and for the purpose of determining your proficiency, that weapon is a martial weapon.",
-                "showon": "Weapon Proficiencies"
+                "showon": "ItemStore, Weapon Proficiencies"
             }
         ],
         "hide": true,
@@ -28634,7 +28648,7 @@
             "Human"
         ],
         "levelreq": 5,
-        "specialreq": "true",
+        "specialreq": "TRUE",
         "specialreqdesc": "Bonuwat ethnicity",
         "ignoreRequirements": [
             "(character.class.background.name == 'Bonuwat Wavetouched') ? 'levelreq' : ''"
@@ -28774,7 +28788,7 @@
             "Human"
         ],
         "levelreq": 9,
-        "specialreq": "true",
+        "specialreq": "TRUE",
         "specialreqdesc": "Garundi, Mauxi, or Tian-Yae ethnicity",
         "gainSpellChoice": [
             {
@@ -29045,7 +29059,7 @@
         ],
         "levelreq": 13,
         "heritagereq": "wintertouched human",
-        "specialreq": "true",
+        "specialreq": "TRUE",
         "specialreqdesc": "Jadwiga ethnicity",
         "effects": [
             {
@@ -29083,7 +29097,7 @@
             "Human"
         ],
         "levelreq": 13,
-        "specialreq": "true",
+        "specialreq": "TRUE",
         "specialreqdesc": "Nidalese ethnicity",
         "gainActivities": [
             "Shadow Pact"
@@ -29269,7 +29283,7 @@
             "Elf"
         ],
         "levelreq": 1,
-        "specialreq": "true",
+        "specialreq": "TRUE",
         "specialreqdesc": "at least 100 years old",
         "gainSkillChoice": [
             {
@@ -29499,7 +29513,7 @@
             "Elf"
         ],
         "levelreq": 1,
-        "specialreq": "true",
+        "specialreq": "TRUE",
         "specialreqdesc": "Mualijae, Ilverani, or Vourinoi ethnicity"
     },
     {
@@ -29653,7 +29667,7 @@
             "Elf"
         ],
         "levelreq": 13,
-        "specialreq": "true",
+        "specialreq": "TRUE",
         "specialreqdesc": "arctic elf, cavern elf, desert elf, woodland elf, or any other elf heritage based on adapting to an environment"
     },
     {
@@ -29811,6 +29825,8 @@
             "Half-Elf"
         ],
         "levelreq": 1,
+        "specialreq": "charLevel == 1",
+        "specialreqdesc": "1st level only",
         "gainHeritage": [
             {
                 "ancestry": "Elf",
@@ -29852,6 +29868,31 @@
     },
     {
         "name": "Monstrous Peacemaker",
+        "desc": "Your dual human and orc nature has given you a unique perspective, allowing you to bridge the gap between humans and the many intelligent creatures in the world that humans consider monsters. You gain a +1 circumstance bonus to Diplomacy checks against non-humanoid intelligent creatures and against humanoids that are marginalized in human society (at the GM's discretion, but typically at least including giants, goblins, kobolds, and orcs). You also gain this bonus on Perception checks to Sense the Motives of such creatures.",
+        "hints": [
+            {
+                "desc": "You gain a +1 circumstance bonus to Diplomacy checks against non-humanoid intelligent creatures and against humanoids that are marginalized in human society (at the GM's discretion, but typically at least including giants, goblins, kobolds, and orcs)",
+                "showon": "Diplomacy",
+                "effects": [
+                    {
+                        "affected": "Diplomacy",
+                        "value": "1",
+                        "type": "circumstance"
+                    }
+                ]
+            },
+            {
+                "desc": "You gain a +1 circumstance bonus to Perception checks to Sense the Motives of non-humanoid intelligent creatures and of humanoids that are marginalized in human society (at the GM's discretion, but typically at least including giants, goblins, kobolds, and orcs).",
+                "showon": "Perception",
+                "effects": [
+                    {
+                        "affected": "Perception",
+                        "value": "1",
+                        "type": "circumstance"
+                    }
+                ]
+            }
+        ],
         "shortdesc": "Your dual human and orc nature has given you a unique perspective.",
         "traits": [
             "Half-Orc"
@@ -29872,40 +29913,146 @@
     },
     {
         "name": "Orc Sight",
+        "desc": "Your orc blood is strong enough to grant you the keen vision of your orc forebears. You gain darkvision, allowing you to see in darkness and dim light just as well as you can in bright light. However, in darkness, you see in black and white only.",
+        "specialdesc": "You can take this feat only at 1st level, and you can't retrain out of this feat or into this feat.",
         "shortdesc": "Your orc blood is strong enough to grant you the keen vision of your orc forebears.",
         "traits": [
             "Half-Orc"
         ],
         "levelreq": 1,
-        "specialreqdesc": "low-light vision"
+        "specialreq": "Has_Sense('Character', 'Low-Light Vision') && charLevel == 1",
+        "specialreqdesc": "low-light vision, 1st level only",
+        "senses": [
+            "Darkvision"
+        ]
     },
     {
         "name": "Orc Superstition",
+        "desc": "You defend yourself against magic by relying on techniques derived from orc cultural superstitions.",
         "shortdesc": "You defend yourself against magic by relying on techniques derived from orc cultural superstitions.",
         "traits": [
             "Orc",
             "Concentrate"
         ],
-        "levelreq": 1
+        "levelreq": 1,
+        "gainActivities": [
+            "Orc Superstition"
+        ]
     },
     {
         "name": "Orc Weapon Familiarity",
+        "desc": "In combat, you favor the brutal weapons that are traditional for your orc ancestors. You are trained with the falchion and greataxe. In addition, you gain access to all uncommon orc weapons. For the purpose of determining your proficiency, martial orc weapons are simple weapons and advanced orc weapons are martial weapons.",
+        "hints": [
+            {
+                "desc": "You gain access to all uncommon orc weapons. For the purpose of determining your proficiency, martial orc weapons are simple weapons and advanced orc weapons are martial weapons.",
+                "showon": "Itemstore, Weapon Proficiencies"
+            }
+        ],
         "shortdesc": "In combat, you favor the brutal weapons that are traditional for your orc ancestors.",
         "traits": [
             "Orc"
         ],
-        "levelreq": 1
+        "levelreq": 1,
+        "changeProficiency": [
+            {
+                "proficiency": "Martial Weapons",
+                "result": "Simple Weapons",
+                "trait": "Orc"
+            },
+            {
+                "proficiency": "Advanced Weapons",
+                "result": "Martial Weapons",
+                "trait": "Orc"
+            }
+        ],
+        "gainSkillChoice": [
+            {
+                "_className": "SkillChoice",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Falchion",
+                        "source": "Feat: Orc Weapon Familiarity"
+                    },
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Greataxe",
+                        "source": "Feat: Orc Weapon Familiarity"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Feat: Orc Weapon Familiarity",
+                "type": "Specific Weapon Proficiency"
+            }
+        ]
     },
     {
         "name": "Overlooked Mastermind",
+        "desc": "Many consider half-orcs little more than dumb brutes. This is offensive to you, but it can occasionally be useful. You are trained in Deception (or another skill of your choice if you were already trained in Deception), and you gain a +2 circumstance bonus to Deception checks to Lie when specifically claiming ignorance and to Deception DCs against Sense Motive checks to uncover such lies.",
+        "hints": [
+            {
+                "desc": "You gain a +2 circumstance bonus to Deception checks to Lie when specifically claiming ignorance and to Deception DCs against Sense Motive checks to uncover such lies.",
+                "showon": "Deception",
+                "effects": [
+                    {
+                        "affected": "Deception",
+                        "value": "2",
+                        "type": "circumstance"
+                    }
+                ]
+            }
+        ],
         "shortdesc": "Many consider half-orcs little more than dumb brutes.",
+        "sourceBook": "Character Guide",
         "traits": [
             "Half-Orc"
         ],
-        "levelreq": 1
+        "levelreq": 1,
+        "gainSkillChoice": [
+            {
+                "_className": "SkillChoice",
+                "filter": [
+                    "Deception"
+                ],
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Deception",
+                        "source": "Feat: Overlooked Mastermind"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Feat: Overlooked Mastermind",
+                "type": "Skill"
+            }
+        ]
+    },
+    {
+        "name": "Tusks",
+        "desc": "You have particularly long, jagged tusks perfect for tearing meat from bone. You gain a tusks unarmed attack that deals 1d6 piercing damage.",
+        "specialdesc": "You can take this feat only at 1st level, and you can't retrain into this feat. You can retrain out of this feat only through drastic measures such as breaking or filing your tusks.",
+        "shortdesc": "You have particularly long, jagged tusks perfect for tearing meat from bone.",
+        "sourceBook": "Character Guide",
+        "traits": [
+            "Orc"
+        ],
+        "levelreq": 1,
+        "specialreq": "charLevel == 1",
+        "specialreqdesc": "1st level only",
+        "gainItems": [
+            {
+                "name": "Orc Tusks",
+                "on": "grant",
+                "type": "weapons"
+            }
+        ]
     },
     {
         "name": "Orc Weapon Carnage",
+        "desc": "You are brutally efficient with the weapons of your orc ancestors. Whenever you critically hit using a falchion, a greataxe, or an orc weapon, you apply the weapon's critical specialization effect.",
         "shortdesc": "You are brutally efficient with the weapons of your orc ancestors.",
         "traits": [
             "Orc"
@@ -29913,18 +30060,47 @@
         "levelreq": 5,
         "featreq": [
             "Orc Weapon Familiarity"
+        ],
+        "gainSpecialization": [
+            {
+                "name": "Falchion"
+            },
+            {
+                "trait": "Orc"
+            },
+            {
+                "name": "Greataxe"
+            }
         ]
     },
     {
         "name": "Victorious Vigor",
+        "desc": "Your victories in battle fill you with pride and imbue you with the energy to fight a bit longer despite your wounds.",
         "shortdesc": "Your victories in battle fill you with pride and imbue you with the energy to fight a bit longer despite your wounds.",
         "traits": [
             "Orc"
         ],
-        "levelreq": 5
+        "levelreq": 5,
+        "gainActivities": [
+            "Victorious Vigor"
+        ]
     },
     {
         "name": "Pervasive Superstition",
+        "desc": "You steep yourself in superstition and practice ancient orc mental exercises for shrugging off the effects of magic. You gain a +1 circumstance bonus to saving throws against spells and magical effects at all times.",
+        "hints": [
+            {
+                "desc": "You gain a +1 circumstance bonus to saving throws against spells and magical effects at all times.",
+                "showon": "Saving Throws",
+                "effects": [
+                    {
+                        "affected": "Saving Throws",
+                        "value": "1",
+                        "type": "circumstance"
+                    }
+                ]
+            }
+        ],
         "shortdesc": "You steep yourself in superstition and practice ancient orc mental exercises for shrugging off the effects of magic.",
         "traits": [
             "Orc"
@@ -29936,6 +30112,13 @@
     },
     {
         "name": "Incredible Ferocity",
+        "desc": "Given time to collect yourself after a near-death scrape, you can rebuild your ferocity and withstand additional finishing blows. You can use Orc Ferocity with a frequency of once per hour, rather than once per day.",
+        "hints": [
+            {
+                "desc": "You can use Orc Ferocity with a frequency of once per hour, rather than once per day.",
+                "showon": "Orc Ferocity"
+            }
+        ],
         "shortdesc": "Given time to collect yourself after a near-death scrape, you can rebuild your ferocity and withstand additional finishing blows.",
         "traits": [
             "Orc"
@@ -29943,10 +30126,17 @@
         "levelreq": 13,
         "featreq": [
             "Orc Ferocity"
+        ],
+        "effects": [
+            {
+                "affected": "Orc Ferocity Cooldown",
+                "setValue": "6000"
+            }
         ]
     },
     {
         "name": "Orc Weapon Expertise",
+        "desc": "Your orc affinity blends with your class training, granting you great skill with orc weapons. Whenever you gain a class feature that grants you expert or greater proficiency in a given weapon or weapons, you also gain that proficiency in the falchion, the greataxe, and all orc weapons in which you are trained.",
         "shortdesc": "Your orc affinity blends with your class training, granting you great skill with orc weapons.",
         "traits": [
             "Orc"
@@ -29954,6 +30144,23 @@
         "levelreq": 13,
         "featreq": [
             "Orc Weapon Familiarity"
+        ],
+        "copyProficiency": [
+            {
+                "name": "Orc",
+                "type": "Weapon Proficiency",
+                "featuresOnly": true
+            },
+            {
+                "name": "Falchion",
+                "type": "Weapon Proficiency",
+                "featuresOnly": true
+            },
+            {
+                "name": "Greataxe",
+                "type": "Weapon Proficiency",
+                "featuresOnly": true
+            }
         ]
     },
     {

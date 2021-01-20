@@ -1348,7 +1348,7 @@ export class CharacterService {
         }
         switch (effectGain.affected) {
             case "Focus Points":
-                (creature as Character).class.focusPoints += value;
+                (creature as Character).class.focusPoints = Math.min((creature as Character).class.focusPoints + value, this.get_MaxFocusPoints());
                 break;
             case "Temporary HP":
                 //When you get temporary HP, some things to process:
