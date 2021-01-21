@@ -12795,7 +12795,7 @@
     },
     {
         "name": "Brightness Seeker",
-        "desc": "You have studied your surroundings in search of omens related to a particular course of action and cast augury. Unless the result of the augury was \"nothing,\" you gain the following reaction for the next 30 minutes:",
+        "desc": "You have studied your surroundings in search of omens related to a particular course of action and cast augury. Unless the result of the augury was \"nothing,\" you gain the Call Upon the Brightness reaction for the duration.",
         "type": "activity",
         "inputRequired": "If the result of the augury was \"nothing,\" remove the condition.",
         "buff": true,

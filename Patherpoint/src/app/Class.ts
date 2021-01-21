@@ -11,14 +11,12 @@ import { ActivityGain } from './ActivityGain';
 import { Equipment } from './Equipment';
 import { AnimalCompanion } from './AnimalCompanion';
 import { Familiar } from './Familiar';
-import { DeitiesService } from './deities.service';
 import { SpellCasting } from './SpellCasting';
 import { SpellChoice } from './SpellChoice';
 import { SpellGain } from './SpellGain';
 import { ItemGain } from './ItemGain';
 import { SpellLearned } from './SpellLearned';
 import { FormulaLearned } from './FormulaLearned';
-import { HeritageGain } from './HeritageGain';
 
 export class Class {
     public readonly _className: string = this.constructor.name;

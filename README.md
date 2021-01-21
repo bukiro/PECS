@@ -69,13 +69,18 @@ The very latest in Assistive Technologies for Dungeon Master (ATDM)
 - [x] Action Icons
 - [x] Implement all Ancestries (excluding Advanced Character Guide)
 - [ ] Implement all Ancestry Feats (excluding Advanced Character Guide)
-- [x] - Human
-- [x] - Halfling
+- [ ] - Dwarf
+- [x] - Elf
+- [ ] - Gnome
 - [x] - Goblin
+- [x] - Halfling
+- [x] - Human
 - [x] - Half-Orc (including Orc, but excluding ACG)
-- [ ] - Half-Elf (including Elf, but excluding ACG)
+- [x] - Half-Elf (including Elf, but excluding ACG)
+- [ ] - Hobgoblin
+- [ ] - Leshy
 - [ ] - Lizardfolk
-- [ ] - ...
+- [ ] - Shoony
 - [x] Implement all Heritages (excluding Advanced Character Guide)
 - [x] Implement all Backgrounds (excluding Advanced Character Guide)
 - [ ] Implement all Classes and Multiclass Archetypes (excluding Advanced Character Guide)
@@ -112,6 +117,5 @@ Implement:
 
 Next steps:
 - Implement Ancestry Feats
--- Half-Elf
 -- Lizardfolk
 - Implement Conditions for Poisons

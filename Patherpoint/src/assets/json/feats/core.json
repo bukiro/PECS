@@ -13095,13 +13095,13 @@
                 "increases": [
                     {
                         "locked": true,
-                        "maxRank": 4,
+                        "maxRank": 2,
                         "name": "Monk Divine Spell DC",
-                        "source": "Class"
+                        "source": "Class (Divine Ki Spells)"
                     }
                 ],
                 "maxRank": 2,
-                "source": "Class",
+                "source": "Class (Divine Ki Spells)",
                 "type": "Spell DC"
             },
             {
@@ -13109,15 +13109,15 @@
                 "increases": [
                     {
                         "locked": true,
-                        "maxRank": 4,
+                        "maxRank": 2,
                         "name": "Monk Divine Spell DC",
-                        "source": "Monk Expertise"
+                        "source": "Monk Expertise (Divine Ki Spells)"
                     }
                 ],
                 "insertClass": "Monk",
                 "insertLevel": 9,
                 "maxRank": 4,
-                "source": "Monk Expertise",
+                "source": "Monk Expertise (Divine Ki Spells)",
                 "type": "Spell DC"
             },
             {
@@ -13127,14 +13127,13 @@
                         "locked": true,
                         "maxRank": 6,
                         "name": "Monk Divine Spell DC",
-                        "source": "Graceful Legend",
-                        "sourceId": "17-Spell DC-Graceful Legend-2"
+                        "source": "Graceful Legend (Divine Ki Spells)"
                     }
                 ],
                 "insertClass": "Monk",
                 "insertLevel": 17,
                 "maxRank": 6,
-                "source": "Graceful Legend",
+                "source": "Graceful Legend (Divine Ki Spells)",
                 "type": "Spell DC"
             }
         ]
@@ -13149,13 +13148,13 @@
                 "increases": [
                     {
                         "locked": true,
-                        "maxRank": 4,
+                        "maxRank": 2,
                         "name": "Monk Occult Spell DC",
-                        "source": "Class"
+                        "source": "Class (Occult Ki Spells)"
                     }
                 ],
                 "maxRank": 2,
-                "source": "Class",
+                "source": "Class (Occult Ki Spells)",
                 "type": "Spell DC"
             },
             {
@@ -13165,13 +13164,13 @@
                         "locked": true,
                         "maxRank": 4,
                         "name": "Monk Occult Spell DC",
-                        "source": "Monk Expertise"
+                        "source": "Monk Expertise (Occult Ki Spells)"
                     }
                 ],
                 "insertClass": "Monk",
                 "insertLevel": 9,
                 "maxRank": 4,
-                "source": "Monk Expertise",
+                "source": "Monk Expertise (Occult Ki Spells)",
                 "type": "Spell DC"
             },
             {
@@ -13181,14 +13180,13 @@
                         "locked": true,
                         "maxRank": 6,
                         "name": "Monk Occult Spell DC",
-                        "source": "Graceful Legend",
-                        "sourceId": "17-Spell DC-Graceful Legend-2"
+                        "source": "Graceful Legend (Occult Ki Spells)"
                     }
                 ],
                 "insertClass": "Monk",
                 "insertLevel": 17,
                 "maxRank": 6,
-                "source": "Graceful Legend",
+                "source": "Graceful Legend (Occult Ki Spells)",
                 "type": "Spell DC"
             }
         ]
@@ -29689,7 +29687,7 @@
         "desc": "Your mystic control and meditations allow you to resist external influences upon your consciousness. Whenever you are affected by a mental effect that lasts at least 2 rounds, you can reduce the duration by 1 round.\n\nYou still require natural sleep, but you treat your saving throws against effects that would cause you to fall asleep as one degree of success better. This protects only against sleep effects, not against other forms of falling unconscious.",
         "hints": [
             {
-                "desc": "Whenever you are affected by a mental effect that lasts at least 2 rounds, you can reduce the duration by 1 round. You still require natural sleep, but you treat your saving throws against effects that would cause you to fall asleep as one degree of success better. This protects only against sleep effects, not against other forms of falling unconscious.",
+                "desc": "Whenever you are affected by a mental effect that lasts at least 2 rounds, you can reduce the duration by 1 round.\n\nYou still require natural sleep, but you treat your saving throws against effects that would cause you to fall asleep as one degree of success better. This protects only against sleep effects, not against other forms of falling unconscious.",
                 "showon": "Saving Throws"
             }
         ],
@@ -30055,18 +30053,18 @@
         "desc": "While all elves adapt to their environments over time, you have traveled so widely and become attuned to so many environs that your body now changes more rapidly than other elves. After spending a week in an environment associated with an elf heritage (such as snow for arctic elf, or a forest or jungle for woodland elf) your heritage automatically changes to become that heritage. This never causes you to change to an elf heritage that isn't related to an environment, such as ancient elf, seer elf, or whisper elf.",
         "hints": [
             {
-                "desc": "After spending a week in an environment associated with an elf heritage (such as snow for arctic elf, or a forest or jungle for woodland elf) your heritage automatically changes to become that heritage. This never causes you to change to an elf heritage that isn't related to an environment, such as ancient elf, seer elf, or whisper elf.\n\nInstead of the heritage automatically changing, you can change your heritage in the character management when the condition is met.",
-                "showon": "Ancestry"
+                "desc": "After spending a week in an environment associated with an elf heritage (such as snow for arctic elf, or a forest or jungle for woodland elf) your heritage automatically changes to become that heritage. This never causes you to change to an elf heritage that isn't related to an environment, such as ancient elf, seer elf, or whisper elf.\n\n(Instead of the heritage automatically changing, you can change your heritage in the character management when the condition is met.)",
+                "showon": "Ancestry, Rest"
             }
         ],
-        "internalNote": "There is no effect; you can just change your heritage according to the rule.",
+        "internalNote": "There is no effect; you can just change your heritage according to the rule. The requirement only verifies that you are an elf or have the Elf Atavism feat, but does not check the heritage (or you would lose the feat when you change it).",
         "shortdesc": "While all elves adapt to their environments over time, you have traveled so widely and become attuned to so many environs that your body now changes more rapidly than other elves.",
         "sourceBook": "Character Guide",
         "traits": [
             "Elf"
         ],
         "levelreq": 13,
-        "specialreq": "true",
+        "specialreq": "character.class.ancestry.name == 'Elf' || character.get_FeatsTaken(1, charLevel, 'Elf Atavism').length",
         "specialreqdesc": "arctic elf, cavern elf, desert elf, woodland elf, or any other elf heritage based on adapting to an environment"
     },
     {
@@ -30221,50 +30219,148 @@
         "specialdesc": "You can take this feat only at 1st level, and you can't retrain out of this feat or into this feat.",
         "shortdesc": "Your elven blood runs particularly strong, granting you features far more elven than those of a typical half-elf.",
         "traits": [
-            "Half-Elf"
+           "Half-Elf"
         ],
         "levelreq": 1,
         "specialreq": "charLevel == 1",
         "specialreqdesc": "1st level only",
         "gainHeritage": [
-            {
-                "ancestry": "Elf",
-                "source": "Elf Atavism"
-            }
+           {
+              "ancestry": "Elf",
+              "source": "Elf Atavism"
+           }
         ]
-    },
-    {
+     },
+      {
         "name": "Round Ears",
+        "desc": "Your elven lineage is subtle enough that you look barely different from other humans, and you've learned to use that to your advantage. You gain the trained proficiency rank in Deception (or another skill of your choice, if you were already trained in Deception). You gain a +4 circumstance bonus to Impersonate checks to pretend you aren't a half-elf. Observers are never granted circumstance bonuses to Perception checks due to you Impersonating a full-blooded human, and you never take circumstance penalties due to you Impersonating a full-blooded human.",
+        "specialdesc": "You can take this feat only at 1st level, and you can't retrain out of this feat or into this feat.",
+        "hints": [
+           {
+              "desc": "You gain a +4 circumstance bonus to Impersonate checks to pretend you aren't a half-elf. Observers are never granted circumstance bonuses to Perception checks due to you Impersonating a full-blooded human, and you never take circumstance penalties due to you Impersonating a full-blooded human.",
+              "showon": "Deception",
+              "effects": [
+                 {
+                    "affected": "Deception",
+                    "value": 4,
+                    "type": "circumstance"
+                 }
+              ]
+           }
+        ],
         "shortdesc": "Your elven lineage is subtle enough that you look barely different from other humans, and you've learned to use that to your advantage.",
+        "sourceBook": "Character Guide",
         "traits": [
-            "Half-Elf"
+           "Half-Elf"
         ],
-        "levelreq": 1
-    },
-    {
+        "levelreq": 1,
+        "specialreq": "charLevel == 1",
+        "specialreqdesc": "1st level only",
+        "gainSkillChoice": [
+           {
+              "_className": "SkillChoice",
+              "filter": [
+                 "Deception"
+              ],
+              "increases": [
+                 {
+                    "locked": true,
+                    "maxRank": 2,
+                    "name": "Deception",
+                    "source": "Feat: Round Ears"
+                 }
+              ],
+              "maxRank": 2,
+              "source": "Feat: Round Ears",
+              "type": "Skill"
+           }
+        ]
+     },
+      {
         "name": "Sociable",
+        "desc": "You're extremely extroverted, and you often spend your time carousing or otherwise socializing. You are trained in Diplomacy (or another skill of your choice if you were already trained in Diplomacy), and you gain the Hobnobber skill feat.",
         "shortdesc": "You're extremely extroverted, and you often spend your time carousing or otherwise socializing.",
+        "sourceBook": "Character Guide",
         "traits": [
-            "Half-Elf"
+           "Half-Elf"
         ],
-        "levelreq": 1
-    },
-    {
+        "levelreq": 1,
+        "gainFeatChoice": [
+           {
+              "_className": "FeatChoice",
+              "feats": [
+                 {
+                    "locked": true,
+                    "name": "Hobnobber"
+                 }
+              ],
+              "source": "Feat: Sociable",
+              "type": "General"
+           }
+        ],
+        "gainSkillChoice": [
+           {
+              "_className": "SkillChoice",
+              "filter": [
+                 "Diplomacy"
+              ],
+              "increases": [
+                 {
+                    "locked": true,
+                    "maxRank": 2,
+                    "name": "Diplomacy",
+                    "source": "Feat: Round Ears"
+                 }
+              ],
+              "maxRank": 2,
+              "source": "Feat: Round Ears",
+              "type": "Skill"
+           }
+        ]
+     },
+      {
         "name": "Inspire Imitation",
+        "desc": "Your own actions inspire your allies to great achievements. Whenever you critically succeed at a skill check, you automatically qualify to use the Aid reaction when attempting to help an ally using the same skill, even without spending an action to prepare to do so.",
+        "hints": [
+           {
+              "desc": "Whenever you critically succeed at a skill check, you automatically qualify to use the Aid reaction when attempting to help an ally using the same skill, even without spending an action to prepare to do so.",
+              "showon": "Skills"
+           }
+        ],
         "shortdesc": "Your own actions inspire your allies to great achievements.",
         "traits": [
-            "Half-Elf"
+           "Half-Elf"
         ],
         "levelreq": 5
-    },
-    {
+     },
+      {
         "name": "Supernatural Charm",
+        "desc": "The elven magic in your blood manifests as a force you can use to become more appealing or alluring. You can cast 1st-level charm as an arcane innate spell once per day.",
         "shortdesc": "The elven magic in your blood manifests as a force you can use to become more appealing or alluring.",
         "traits": [
-            "Half-Elf"
+           "Half-Elf"
         ],
-        "levelreq": 5
-    },
+        "levelreq": 5,
+        "gainSpellChoice": [
+           {
+              "_className": "SpellChoice",
+              "castingType": "Innate",
+              "className": "Innate",
+              "cooldown": 144000,
+              "frequency": "once per day",
+              "id": "e2ba651c-91e8-48d4-8734-43ea995295ab",
+              "level": 1,
+              "source": "Feat: Supernatural Charm",
+              "spells": [
+                 {
+                    "locked": true,
+                    "name": "Charm"
+                 }
+              ],
+              "tradition": "Arcane"
+           }
+        ]
+     },
     {
         "name": "Monstrous Peacemaker",
         "desc": "Your dual human and orc nature has given you a unique perspective, allowing you to bridge the gap between humans and the many intelligent creatures in the world that humans consider monsters. You gain a +1 circumstance bonus to Diplomacy checks against non-humanoid intelligent creatures and against humanoids that are marginalized in human society (at the GM's discretion, but typically at least including giants, goblins, kobolds, and orcs). You also gain this bonus on Perception checks to Sense the Motives of such creatures.",
