@@ -1033,7 +1033,7 @@
             "Skill"
         ],
         "levelreq": 2,
-        "specialreq": "TRUE",
+        "specialreq": "true",
         "specialreqdesc": "Expert in any skill with Recall Knowledge, Assurance in that skill"
     },
     {
@@ -2915,7 +2915,7 @@
             "Monk"
         ],
         "levelreq": 20,
-        "specialreq": "character.get_FeatsTaken(0,charLevel).filter(gain => characterService.get_FeatsAndFeatures(gain.name).some(feat => feat.traits.includes(\\\"Stance\\\"))).length >= 2",
+        "specialreq": "character.get_FeatsTaken(0,charLevel).filter(gain => characterService.get_FeatsAndFeatures(gain.name).some(feat => feat.traits.includes(\"Stance\"))).length >= 2",
         "specialreqdesc": "at least two stances",
         "gainActivities": [
             "Fused Stance"
@@ -4110,7 +4110,7 @@
         "featreq": [
             "Godless Healing"
         ],
-        "specialreq": "TRUE",
+        "specialreq": "true",
         "specialreqdesc": "you follow the Laws of Mortality"
     },
     {
@@ -4299,7 +4299,7 @@
         "featreq": [
             "Diehard"
         ],
-        "specialreq": "TRUE",
+        "specialreq": "true",
         "specialreqdesc": "you have died at least once"
     },
     {
@@ -27425,7 +27425,7 @@
             "Human"
         ],
         "levelreq": 1,
-        "specialreq": "TRUE",
+        "specialreq": "true",
         "specialreqdesc": "Tian-Dan ethnicity",
         "gainSpellChoice": [
             {
@@ -27625,7 +27625,7 @@
             "Human"
         ],
         "levelreq": 1,
-        "specialreq": "TRUE",
+        "specialreq": "true",
         "specialreqdesc": "Nidalese ethnicity",
         "senses": [
             "Low-Light Vision"
@@ -28648,7 +28648,7 @@
             "Human"
         ],
         "levelreq": 5,
-        "specialreq": "TRUE",
+        "specialreq": "true",
         "specialreqdesc": "Bonuwat ethnicity",
         "ignoreRequirements": [
             "(character.class.background.name == 'Bonuwat Wavetouched') ? 'levelreq' : ''"
@@ -28788,7 +28788,7 @@
             "Human"
         ],
         "levelreq": 9,
-        "specialreq": "TRUE",
+        "specialreq": "true",
         "specialreqdesc": "Garundi, Mauxi, or Tian-Yae ethnicity",
         "gainSpellChoice": [
             {
@@ -29059,7 +29059,7 @@
         ],
         "levelreq": 13,
         "heritagereq": "wintertouched human",
-        "specialreq": "TRUE",
+        "specialreq": "true",
         "specialreqdesc": "Jadwiga ethnicity",
         "effects": [
             {
@@ -29097,7 +29097,7 @@
             "Human"
         ],
         "levelreq": 13,
-        "specialreq": "TRUE",
+        "specialreq": "true",
         "specialreqdesc": "Nidalese ethnicity",
         "gainActivities": [
             "Shadow Pact"
@@ -29283,7 +29283,7 @@
             "Elf"
         ],
         "levelreq": 1,
-        "specialreq": "TRUE",
+        "specialreq": "true",
         "specialreqdesc": "at least 100 years old",
         "gainSkillChoice": [
             {
@@ -29330,6 +29330,10 @@
         "superType": "Elemental Wrath",
         "shortdesc": "You are so attuned to the land that you can call forth a bolt of energy from your surroundings.",
         "sourceBook": "Character Guide",
+        "traits": [
+            "Elf"
+        ],
+        "levelreq": 1,
         "gainSpellChoice": [
             {
                 "_className": "SpellChoice",
@@ -29339,7 +29343,6 @@
                 "source": "Feat: Elemental Wrath: Acid",
                 "spells": [
                     {
-                        "_className": "SpellGain",
                         "locked": true,
                         "name": "Acid Splash"
                     }
@@ -29360,6 +29363,10 @@
         "superType": "Elemental Wrath",
         "shortdesc": "You are so attuned to the land that you can call forth a bolt of energy from your surroundings.",
         "sourceBook": "Character Guide",
+        "traits": [
+            "Elf"
+        ],
+        "levelreq": 1,
         "gainSpellChoice": [
             {
                 "_className": "SpellChoice",
@@ -29369,7 +29376,6 @@
                 "source": "Feat: Elemental Wrath: Cold",
                 "spells": [
                     {
-                        "_className": "SpellGain",
                         "locked": true,
                         "name": "Acid Splash"
                     }
@@ -29390,6 +29396,10 @@
         "superType": "Elemental Wrath",
         "shortdesc": "You are so attuned to the land that you can call forth a bolt of energy from your surroundings.",
         "sourceBook": "Character Guide",
+        "traits": [
+            "Elf"
+        ],
+        "levelreq": 1,
         "gainSpellChoice": [
             {
                 "_className": "SpellChoice",
@@ -29399,7 +29409,6 @@
                 "source": "Feat: Elemental Wrath: Electricity",
                 "spells": [
                     {
-                        "_className": "SpellGain",
                         "locked": true,
                         "name": "Acid Splash"
                     }
@@ -29420,6 +29429,10 @@
         "superType": "Elemental Wrath",
         "shortdesc": "You are so attuned to the land that you can call forth a bolt of energy from your surroundings.",
         "sourceBook": "Character Guide",
+        "traits": [
+            "Elf"
+        ],
+        "levelreq": 1,
         "gainSpellChoice": [
             {
                 "_className": "SpellChoice",
@@ -29429,7 +29442,6 @@
                 "source": "Feat: Elemental Wrath: Fire",
                 "spells": [
                     {
-                        "_className": "SpellGain",
                         "locked": true,
                         "name": "Acid Splash"
                     }
@@ -29439,15 +29451,65 @@
     },
     {
         "name": "Elven Lore",
+        "desc": "You've studied in traditional elven arts, learning about arcane magic and the world around you. You gain the trained proficiency rank in Arcana and Nature. If you would automatically become trained in one of those skills (from your background or class, for example), you instead become trained in a skill of your choice. You also become trained in Elven Lore.",
         "shortdesc": "You've studied in traditional elven arts, learning about arcane magic and the world around you.",
         "traits": [
             "Elf"
         ],
-        "levelreq": 1
+        "levelreq": 1,
+        "gainLoreChoice": [
+            {
+                "_className": "LoreChoice",
+                "loreName": "Elven",
+                "maxRank": 2,
+                "source": "Feat: Elven Lore"
+            }
+        ],
+        "gainSkillChoice": [
+            {
+                "_className": "SkillChoice",
+                "filter": [
+                    "Arcana",
+                    "Nature"
+                ],
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Arcana",
+                        "source": "Feat: Elven Lore"
+                    },
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Nature",
+                        "source": "Feat: Elven Lore"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Feat: Elven Lore",
+                "type": "Skill"
+            }
+        ]
     },
     {
         "name": "Elven Verve",
+        "desc": "While all elves are immune to the paralyzing touch of ghouls, you can shake off flesh-numbing magic of all kinds. You gain a +1 circumstance bonus to saves against effects that would impose the immobilized, paralyzed, or slowed conditions. When you would be immobilized, paralyzed, or slowed for at least 2 rounds, reduce that duration by 1 round.",
+        "hints": [
+            {
+                "desc": "You gain a +1 circumstance bonus to saves against effects that would impose the immobilized, paralyzed, or slowed conditions. When you would be immobilized, paralyzed, or slowed for at least 2 rounds, reduce that duration by 1 round.",
+                "showon": "Saving Throws",
+                "effects": [
+                    {
+                        "affected": "Saving Throws",
+                        "value": 1,
+                        "type": "circumstance"
+                    }
+                ]
+            }
+        ],
         "shortdesc": "While all elves are immune to the paralyzing touch of ghouls, you can shake off flesh-numbing magic of all kinds.",
+        "sourceBook": "Character Guide",
         "traits": [
             "Elf"
         ],
@@ -29455,14 +29517,93 @@
     },
     {
         "name": "Elven Weapon Familiarity",
+        "desc": "You favor bows and other elegant weapons. You are trained with longbows, composite longbows, longswords, rapiers, shortbows, and composite shortbows.\n\nIn addition, you gain access to all uncommon elf weapons. For the purpose of determining your proficiency, martial elf weapons are simple weapons and advanced elf weapons are martial weapons.",
+        "hints": [
+            {
+                "desc": "You gain access to all uncommon elf weapons. For the purpose of determining your proficiency, martial elf weapons are simple weapons and advanced elf weapons are martial weapons.",
+                "showon": "Itemstore, Weapon Proficiencies"
+            }
+        ],
         "shortdesc": "You favor bows and other elegant weapons.",
         "traits": [
             "Elf"
         ],
-        "levelreq": 1
+        "levelreq": 1,
+        "changeProficiency": [
+            {
+                "proficiency": "Martial Weapons",
+                "result": "Simple Weapons",
+                "trait": "Elf"
+            },
+            {
+                "proficiency": "Advanced Weapons",
+                "result": "Martial Weapons",
+                "trait": "Elf"
+            }
+        ],
+        "gainSkillChoice": [
+            {
+                "_className": "SkillChoice",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Longbow",
+                        "source": "Feat: Elven Weapon Familiarity"
+                    },
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Composite Longbow",
+                        "source": "Feat: Elven Weapon Familiarity"
+                    },
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Longsword",
+                        "source": "Feat: Elven Weapon Familiarity"
+                    },
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Rapier",
+                        "source": "Feat: Elven Weapon Familiarity"
+                    },
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Shortbow",
+                        "source": "Feat: Elven Weapon Familiarity"
+                    },
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Composite Shortbow",
+                        "source": "Feat: Elven Weapon Familiarity"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Feat: Elven Weapon Familiarity",
+                "type": "Specific Weapon Proficiency"
+            }
+        ]
     },
     {
         "name": "Forlorn",
+        "desc": "Watching your friends age and die fills you with moroseness that protects you against harmful emotions. You gain a +1 circumstance bonus to saving throws against emotion effects. If you roll a success on a saving throw against an emotion effect, you get a critical success instead.",
+        "hints": [
+            {
+                "desc": "You gain a +1 circumstance bonus to saving throws against emotion effects. If you roll a success on a saving throw against an emotion effect, you get a critical success instead.",
+                "showon": "Saving Throws",
+                "effects": [
+                    {
+                        "affected": "Saving Throws",
+                        "value": 1,
+                        "type": "circumstance"
+                    }
+                ]
+            }
+        ],
         "shortdesc": "Watching your friends age and die fills you with moroseness that protects you against harmful emotions.",
         "traits": [
             "Elf"
@@ -29480,7 +29621,7 @@
         "effects": [
             {
                 "affected": "Land Speed",
-                "value": "5"
+                "value": 5
             }
         ]
     },
@@ -29508,16 +29649,50 @@
     },
     {
         "name": "Share Thoughts",
+        "desc": "You have an uncanny knack of communicating with other elves without speaking, though this habit that is often uncomfortable to observers. You can cast mindlink as an innate occult spell once per day, but you can target only other elves or half-elves.",
+        "hints": [
+            {
+                "desc": "When you cast mindlink as an innate spell gained through the Share Thoughts feat, you can target only other elves or half-elves.",
+                "showon": "Mindlink"
+            }
+        ],
         "shortdesc": "You have an uncanny knack of communicating with other elves without speaking, though this habit that is often uncomfortable to observers.",
+        "sourceBook": "Character Guide",
         "traits": [
             "Elf"
         ],
         "levelreq": 1,
-        "specialreq": "TRUE",
-        "specialreqdesc": "Mualijae, Ilverani, or Vourinoi ethnicity"
+        "specialreq": "true",
+        "specialreqdesc": "Mualijae, Ilverani, or Vourinoi ethnicity",
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Innate",
+                "className": "Innate",
+                "cooldown": 144000,
+                "frequency": "once per day",
+                "id": "9e4c31cc-3349-4ae7-a8ae-0581f31c2365",
+                "level": 1,
+                "source": "Feat: Share Thoughts",
+                "spells": [
+                    {
+                        "locked": true,
+                        "name": "Mindlink"
+                    }
+                ],
+                "tradition": "Arcane"
+            }
+        ]
     },
     {
         "name": "Unwavering Mien",
+        "desc": "Your mystic control and meditations allow you to resist external influences upon your consciousness. Whenever you are affected by a mental effect that lasts at least 2 rounds, you can reduce the duration by 1 round.\n\nYou still require natural sleep, but you treat your saving throws against effects that would cause you to fall asleep as one degree of success better. This protects only against sleep effects, not against other forms of falling unconscious.",
+        "hints": [
+            {
+                "desc": "Whenever you are affected by a mental effect that lasts at least 2 rounds, you can reduce the duration by 1 round. You still require natural sleep, but you treat your saving throws against effects that would cause you to fall asleep as one degree of success better. This protects only against sleep effects, not against other forms of falling unconscious.",
+                "showon": "Saving Throws"
+            }
+        ],
         "shortdesc": "Your mystic control and meditations allow you to resist external influences upon your consciousness.",
         "traits": [
             "Elf"
@@ -29526,15 +29701,39 @@
     },
     {
         "name": "Wildborn Magic",
+        "desc": "You have learned to access the old magic of wild places. Choose one cantrip from the primal spell list. You can cast this cantrip as an innate primal spell at will. A cantrip is heightened to a spell level equal to half your level rounded up.",
         "shortdesc": "You have learned to access the old magic of wild places.",
+        "sourceBook": "Character Guide",
         "traits": [
-            "Elf, Uncommon"
+            "Elf",
+            "Uncommon"
         ],
-        "levelreq": 1
+        "levelreq": 1,
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "available": 1,
+                "castingType": "Innate",
+                "className": "Innate",
+                "frequency": "at will",
+                "id": "0510d96d-0292-496e-ba2c-f812c4765fe5",
+                "level": 0,
+                "source": "Feat: Wildborn Magic",
+                "tradition": "Primal"
+            }
+        ]
     },
     {
         "name": "Woodcraft",
+        "desc": "You have a innate familiarity with forested areas. When in a forest or jungle environment, if you roll a critical failure on a Survival skill check to Sense Direction, Subsist, or Cover Tracks, you get a failure instead, and if you roll a success, you get a critical success instead.",
+        "hints": [
+            {
+                "desc": "When in a forest or jungle environment, if you roll a critical failure on a Survival skill check to Sense Direction, Subsist, or Cover Tracks, you get a failure instead, and if you roll a success, you get a critical success instead.",
+                "showon": "Survival"
+            }
+        ],
         "shortdesc": "You have a innate familiarity with forested areas.",
+        "sourceBook": "Character Guide",
         "traits": [
             "Elf"
         ],
@@ -29542,6 +29741,25 @@
     },
     {
         "name": "Ageless Patience",
+        "desc": "You work at a pace born from longevity that enhances your thoroughness. You can voluntarily spend twice as much time as normal on a Perception check or skill check to gain a +2 circumstance bonus to that check. You also don't treat a natural 1 as worse than usual on these checks; you get a critical failure only if your result is 10 lower than the DC. For example, you could get these benefits if you spent 2 actions to Seek, which normally takes 1 action. You can get these benefits during exploration by taking twice as long exploring as normal, or in downtime by spending twice as much downtime.\n\nThe GM might determine a situation doesn't grant you a benefit if a delay would be directly counterproductive to your success, such as a tense negotiation with an impatient creature.",
+        "hints": [
+            {
+                "desc": "You can voluntarily spend twice as much time as normal on a Perception check or skill check to gain a +2 circumstance bonus to that check. You also don't treat a natural 1 as worse than usual on these checks; you get a critical failure only if your result is 10 lower than the DC. For example, you could get these benefits if you spent 2 actions to Seek, which normally takes 1 action. You can get these benefits during exploration by taking twice as long exploring as normal, or in downtime by spending twice as much downtime.\n\nThe GM might determine a situation doesn't grant you a benefit if a delay would be directly counterproductive to your success, such as a tense negotiation with an impatient creature.",
+                "showon": "Perception, Skills",
+                "effects": [
+                    {
+                        "affected": "Perception",
+                        "value": 2,
+                        "type": "circumstance"
+                    },
+                    {
+                        "affected": "Skill Checks",
+                        "value": 2,
+                        "type": "circumstance"
+                    }
+                ]
+            }
+        ],
         "shortdesc": "You work at a pace born from longevity that enhances your thoroughness.",
         "traits": [
             "Elf"
@@ -29550,15 +29768,39 @@
     },
     {
         "name": "Defiance Unto Death",
+        "desc": "You loathe the alghollthus and their mind magic, and you've been trained to be willing to die rather than give into mental manipulation. If you would start your turn confused, controlled, or fleeing due to a failed Will save, you can attempt a Will save against the same DC; on a success, you become paralyzed until your next turn, rather than act against your will.",
+        "hints": [
+            {
+                "desc": "If you would start your turn confused, controlled, or fleeing due to a failed Will save, you can attempt a Will save against the same DC; on a success, you become paralyzed until your next turn, rather than act against your will.",
+                "showon": "Will"
+            }
+        ],
         "shortdesc": "You loathe the alghollthus and their mind magic, and you've been trained to be willing to die rather than give into mental manipulation.",
+        "sourceBook": "Character Guide",
         "traits": [
-            "Elf, Uncommon"
+            "Elf",
+            "Uncommon"
         ],
         "levelreq": 5
     },
     {
         "name": "Elven Instincts",
+        "desc": "Your senses let you react rapidly. You gain a +2 circumstance bonus to Perception checks made as initiative rolls. Additionally, if your initiative roll result is tied with that of an opponent, you go first, regardless of whether you rolled Perception or not.",
+        "hints": [
+            {
+                "desc": "You gain a +2 circumstance bonus to Perception checks made as initiative rolls. Additionally, if your initiative roll result is tied with that of an opponent, you go first, regardless of whether you rolled Perception or not.",
+                "showon": "Perception",
+                "effects": [
+                    {
+                        "affected": "Perception",
+                        "value": 2,
+                        "type": "circumstance"
+                    }
+                ]
+            }
+        ],
         "shortdesc": "Your senses let you react rapidly.",
+        "sourceBook": "Character Guide",
         "traits": [
             "Elf"
         ],
@@ -29566,6 +29808,7 @@
     },
     {
         "name": "Elven Weapon Elegance",
+        "desc": "You are attuned to the weapons of your elven ancestors and are particularly deadly when using them. Whenever you critically hit using an elf weapon or one of the weapons listed in Elven Weapon Familiarity, you apply the weapon's critical specialization effect.",
         "shortdesc": "You are attuned to the weapons of your elven ancestors and are particularly deadly when using them.",
         "traits": [
             "Elf"
@@ -29573,11 +29816,36 @@
         "levelreq": 5,
         "featreq": [
             "Elven Weapon Familiarity"
+        ],
+        "gainSpecialization": [
+            {
+                "trait": "Elf"
+            },
+            {
+                "name": "Longbow"
+            },
+            {
+                "name": "Composite Longbow"
+            },
+            {
+                "name": "Longsword"
+            },
+            {
+                "name": "Rapier"
+            },
+            {
+                "name": "Shortbow"
+            },
+            {
+                "name": "Composite Shortbow"
+            }
         ]
     },
     {
         "name": "Forest Stealth",
+        "desc": "You are skilled at quickly hiding behind bits of underbrush or foliage.",
         "shortdesc": "You are skilled at quickly hiding behind bits of underbrush or foliage.",
+        "sourceBook": "Character Guide",
         "traits": [
             "Elf"
         ],
@@ -29587,37 +29855,84 @@
                 "skill": "Stealth",
                 "value": 4
             }
+        ],
+        "gainActivities": [
+            "Forest Stealth"
         ]
     },
     {
         "name": "Wildborn Adept",
+        "desc": "The whispers of the jungle grant you more diverse access to simple primal magic. You can cast dancing lights, disrupt undead, and tanglefoot as innate primal spells at will. If you chose one of those spells with Wildborn Magic, you can select a new spell for Wildborn Magic.",
         "shortdesc": "The whispers of the jungle grant you more diverse access to simple primal magic.",
+        "sourceBook": "Character Guide",
         "traits": [
             "Elf"
         ],
         "levelreq": 5,
         "featreq": [
             "Wildborn Magic"
+        ],
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Innate",
+                "className": "Innate",
+                "frequency": "at will",
+                "id": "845b98c3-c662-448c-a4c6-97a7e6f0d05b",
+                "level": 0,
+                "source": "Feat: Wildborn Adept",
+                "spells": [
+                    {
+                        "locked": true,
+                        "name": "Dancing Lights"
+                    },
+                    {
+                        "locked": true,
+                        "name": "Disrupt Undead"
+                    },
+                    {
+                        "locked": true,
+                        "name": "Tanglefoot"
+                    }
+                ],
+                "tradition": "Primal"
+            }
         ]
     },
     {
         "name": "Brightness Seeker",
+        "desc": "Once per day, you can spend 10 minutes studying your surroundings in search of omens related to a particular course of action to cast augury as an innate divine spell.",
         "shortdesc": "Once per day, you can spend 10 minutes studying your surroundings in search of omens related to a particular course of action to cast augury as an innate divine spell.",
+        "sourceBook": "Character Guide",
         "traits": [
             "Elf"
         ],
-        "levelreq": 9
+        "levelreq": 9,
+        "gainActivities": [
+            "Brightness Seeker"
+        ]
     },
     {
         "name": "Elf Step",
+        "desc": "You move in a graceful dance, and even your steps are broad.",
         "shortdesc": "You move in a graceful dance, and even your steps are broad.",
         "traits": [
             "Elf"
         ],
-        "levelreq": 9
+        "levelreq": 9,
+        "gainActivities": [
+            "Elf Step"
+        ]
     },
     {
         "name": "Expert Longevity",
+        "desc": "You've continued to refine the knowledge and skills you've gained through your life. When you choose a skill in which to become trained with Ancestral Longevity, you can also choose a skill in which you are already trained and become an expert in that skill. This lasts until your Ancestral Longevity expires.\n\nWhen the effects of Ancestral Longevity and Expert Longevity expire, you can retrain one of your skill increases. The skill increase you gain from this retraining must either make you trained in the skill you chose with Ancestral Longevity or make you an expert in the skill you chose with Expert Longevity.",
+        "hints": [
+            {
+                "desc": "When the effects of Ancestral Longevity and Expert Longevity expire, you can retrain one of your skill increases. The skill increase you gain from this retraining must either make you trained in the skill you chose with Ancestral Longevity or make you an expert in the skill you chose with Expert Longevity.",
+                "showon": "Rest"
+            }
+        ],
         "shortdesc": "You've continued to refine the knowledge and skills you've gained through your life.",
         "traits": [
             "Elf"
@@ -29625,21 +29940,55 @@
         "levelreq": 9,
         "featreq": [
             "Ancestral Longevity"
+        ],
+        "gainSkillChoice": [
+            {
+                "_className": "SkillChoice",
+                "available": 1,
+                "minRank": 2,
+                "maxRank": 4,
+                "showOnSheet": true,
+                "source": "Feat: Expert Longevity",
+                "type": "Skill"
+            }
         ]
     },
     {
         "name": "Sense Thoughts",
+        "desc": "You have an even stranger knack for knowing what other people are thinking. You can cast mind reading as an innate occult spell once per day.",
         "shortdesc": "You have an even stranger knack for knowing what other people are thinking.",
+        "sourceBook": "Character Guide",
         "traits": [
-            "Elf, Uncommon"
+            "Elf",
+            "Uncommon"
         ],
         "levelreq": 9,
         "featreq": [
             "Share Thoughts"
+        ],
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Innate",
+                "className": "Innate",
+                "cooldown": 144000,
+                "frequency": "once per day",
+                "id": "14794499-ebfe-42be-8176-a7be489b12ec",
+                "level": 1,
+                "source": "Feat: Sense Thoughts",
+                "spells": [
+                    {
+                        "locked": true,
+                        "name": "Mind Reading"
+                    }
+                ],
+                "tradition": "Occult"
+            }
         ]
     },
     {
         "name": "Elven Weapon Expertise",
+        "desc": "Your elven affinity blends with your class training, granting you great skill with elven weapons. Whenever you gain a class feature that grants you expert or greater proficiency in certain weapons, you also gain that proficiency in longbows, composite longbows, longswords, rapiers, shortbows, composite shortbows, and all elf weapons in which you are trained.",
         "shortdesc": "Your elven affinity blends with your class training, granting you great skill with elven weapons.",
         "traits": [
             "Elf"
@@ -29647,10 +29996,48 @@
         "levelreq": 13,
         "featreq": [
             "Elven Weapon Familiarity"
+        ],
+        "copyProficiency": [
+            {
+                "name": "Elf",
+                "type": "Weapon Proficiency",
+                "featuresOnly": true
+            },
+            {
+                "name": "Longbow",
+                "type": "Weapon Proficiency",
+                "featuresOnly": true
+            },
+            {
+                "name": "Composite Longbow",
+                "type": "Weapon Proficiency",
+                "featuresOnly": true
+            },
+            {
+                "name": "Longsword",
+                "type": "Weapon Proficiency",
+                "featuresOnly": true
+            },
+            {
+                "name": "Rapier",
+                "type": "Weapon Proficiency",
+                "featuresOnly": true
+            },
+            {
+                "name": "Shortbow",
+                "type": "Weapon Proficiency",
+                "featuresOnly": true
+            },
+            {
+                "name": "Composite Shortbow",
+                "type": "Weapon Proficiency",
+                "featuresOnly": true
+            }
         ]
     },
     {
         "name": "Universal Longevity",
+        "desc": "You've perfected your ability to keep up with all the skills you've learned over your long life.",
         "shortdesc": "You've perfected your ability to keep up with all the skills you've learned over your long life.",
         "traits": [
             "Elf"
@@ -29658,16 +30045,28 @@
         "levelreq": 13,
         "featreq": [
             "Expert Longevity"
+        ],
+        "gainActivities": [
+            "Universal Longevity"
         ]
     },
     {
         "name": "Wandering Heart",
+        "desc": "While all elves adapt to their environments over time, you have traveled so widely and become attuned to so many environs that your body now changes more rapidly than other elves. After spending a week in an environment associated with an elf heritage (such as snow for arctic elf, or a forest or jungle for woodland elf) your heritage automatically changes to become that heritage. This never causes you to change to an elf heritage that isn't related to an environment, such as ancient elf, seer elf, or whisper elf.",
+        "hints": [
+            {
+                "desc": "After spending a week in an environment associated with an elf heritage (such as snow for arctic elf, or a forest or jungle for woodland elf) your heritage automatically changes to become that heritage. This never causes you to change to an elf heritage that isn't related to an environment, such as ancient elf, seer elf, or whisper elf.\n\nInstead of the heritage automatically changing, you can change your heritage in the character management when the condition is met.",
+                "showon": "Ancestry"
+            }
+        ],
+        "internalNote": "There is no effect; you can just change your heritage according to the rule.",
         "shortdesc": "While all elves adapt to their environments over time, you have traveled so widely and become attuned to so many environs that your body now changes more rapidly than other elves.",
+        "sourceBook": "Character Guide",
         "traits": [
             "Elf"
         ],
         "levelreq": 13,
-        "specialreq": "TRUE",
+        "specialreq": "true",
         "specialreqdesc": "arctic elf, cavern elf, desert elf, woodland elf, or any other elf heritage based on adapting to an environment"
     },
     {

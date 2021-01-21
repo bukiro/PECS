@@ -27,6 +27,8 @@
                     <cite class="trait"
                         *ngFor="let trait of get_Character().class.ancestry.traits; trackBy:trackByIndex;">{{trait}}&nbsp;</cite>
                 </div>
+                <app-tags [creature]="creature" [objectName]="'Ancestry'" [showTraits]=true [showFeats]=true
+                    [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
             </div>
             <div class="fullsize-only list-item"
                 *ngIf="get_Character().class.background && get_Character().class.background.name">

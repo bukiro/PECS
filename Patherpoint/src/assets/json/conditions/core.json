@@ -12792,5 +12792,48 @@
                 "value": "-Temporary_HP('',effect.sourceId)"
             }
         ]
+    },
+    {
+        "name": "Brightness Seeker",
+        "desc": "You have studied your surroundings in search of omens related to a particular course of action and cast augury. Unless the result of the augury was \"nothing,\" you gain the following reaction for the next 30 minutes:",
+        "type": "activity",
+        "inputRequired": "If the result of the augury was \"nothing,\" remove the condition.",
+        "buff": true,
+        "gainActivities": [
+            {
+                "_className": "ActivityGain",
+                "name": "Call Upon the Brightness",
+                "source": "Brightness Seeker"
+            }
+        ]
+    },
+    {
+        "name": "Call Upon the Brightness",
+        "desc": "You attempt an attack roll, skill check, or saving throw while performing the course of action from your augury. You gain a +1 status bonus to the triggering check, or a +2 status bonus if the result of the augury was \"woe\" and you proceeded anyway.",
+        "type": "activity",
+        "inputRequired": "After you apply the bonus to the triggering attack roll, skill check, or saving throw, remove the condition.",
+        "choice": "Other",
+        "choices": [
+            "Other",
+            "Woe"
+        ],
+        "buff": true,
+        "effects": [
+            {
+                "affected": "Attack Rolls",
+                "type": "status",
+                "value": "Choice == 'Woe' ? 2 : 1"
+            },
+            {
+                "affected": "Skill Checks",
+                "type": "status",
+                "value": "Choice == 'Woe' ? 2 : 1"
+            },
+            {
+                "affected": "Saving Throws",
+                "type": "status",
+                "value": "Choice == 'Woe' ? 2 : 1"
+            }
+        ]
     }
 ]

@@ -185,6 +185,14 @@
                     </span>
                 </div>
             </div>
+            <div class="list-item left-aligned"
+                *ngFor="let shownActivityName of activity.showActivities; trackBy:trackByIndex;">
+                <div *ngFor="let shownActivity of get_Activities(shownActivityName); trackBy:trackByIndex;">
+                    <h4>{{shownActivity.name}}<app-actionIcons [actionString]="shownActivity.actions">
+                        </app-actionIcons> {{shownActivity.activationType.toString()}}</h4>
+                    <app-activity [activity]=shownActivity [allowActivate]="false"></app-activity>
+                </div>
+            </div>
             <div class="row left-aligned"
                 *ngFor="let cast of get_SpellCasts(); let spellCastIndex = index; trackBy:trackByIndex;">
                 <div *ngFor="let spell of get_Spells(cast.name); trackBy:trackByIndex;">

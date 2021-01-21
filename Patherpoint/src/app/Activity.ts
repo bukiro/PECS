@@ -31,6 +31,7 @@ export class Activity {
     public name: string = "";
     public onceEffects: EffectGain[] = [];
     public requirements: string = "";
+    public showActivities: string[] = [];
     public showSpells: string[] = [];
     public specialdesc: string = "";
     public success: string = "";

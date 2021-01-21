@@ -9156,7 +9156,7 @@
             "Divination",
             "Prediction"
         ],
-        "desc": "You gain a vague glimpse of the future. During the casting of this spell, ask about the results of a particular course of action. The spell can predict results up to 30 minutes into the future and reveals the GM's best guess among the following outcomes:\n\n<strong>Weal</strong> The results will be good.\n<strong>Woe</strong> The results will be bad.\n<strong>Weal and Woe</strong> The results will be a mix of good and bad.\n<strong>Nothing</strong> There won't be particularly good or bad results.\n\nThe GM rolls a secret DC 6 flat check. On a failure, the result is always â€œnothing.â€ This makes it impossible to tell whether a â€œnothingâ€ result is accurate. If anyone asks about the same topic as the first casting of augury during an additional casting, the GM uses the secret roll result from the first casting. If circumstances change, though, it's possible to get a different result."
+        "desc": "You gain a vague glimpse of the future. During the casting of this spell, ask about the results of a particular course of action. The spell can predict results up to 30 minutes into the future and reveals the GM's best guess among the following outcomes:\n\n<strong>Weal</strong> The results will be good.\n<strong>Woe</strong> The results will be bad.\n<strong>Weal and Woe</strong> The results will be a mix of good and bad.\n<strong>Nothing</strong> There won't be particularly good or bad results.\n\nThe GM rolls a secret DC 6 flat check. On a failure, the result is always \"nothing.\" This makes it impossible to tell whether a \"nothing\" result is accurate. If anyone asks about the same topic as the first casting of augury during an additional casting, the GM uses the secret roll result from the first casting. If circumstances change, though, it's possible to get a different result."
     },
     {
         "name": "Barkskin",
@@ -9291,7 +9291,7 @@
         "targets": "1 creature",
         "singleTarget": true,
         "duration": "varies",
-        "desc": "You brand the target with an ethereal copy of your deityâ€™s religious symbol. This brand canâ€™t be hidden, but it is visible only to followers of your faith, who see it as clearly as a lit torch. Followers of your faith ignore the targetâ€™s concealed condition, if any, and the target gains a -1 status penalty to AC against attacks by followers of your faith. If the target is a follower of your deity in good standing, the spell fails.",
+        "desc": "You brand the target with an ethereal copy of your deity's religious symbol. This brand can't be hidden, but it is visible only to followers of your faith, who see it as clearly as a lit torch. Followers of your faith ignore the target's concealed condition, if any, and the target gains a -1 status penalty to AC against attacks by followers of your faith. If the target is a follower of your deity in good standing, the spell fails.",
         "savingThrow": "Fortitude",
         "critsuccess": "The target is unaffected.",
         "success": "The spell lasts for 1 round.",
@@ -10331,7 +10331,7 @@
         "savingThrow": "Fortitude",
         "critsuccess": "The creature is unaffected and is temporarily immune for 1 hour.",
         "success": "The creature is fatigued for 1 round.",
-        "failure": "The creature is immediately afflicted by hunger as if it hadnâ€™t eaten food in days. It becomes fatigued and takes <var>var1</var> damage each day that canâ€™t be healed until it sates its hunger. No amount of eating can sate the creatureâ€™s hunger during the spellâ€™s duration. After the spellâ€™s duration, the creature takes damage from starvation.",
+        "failure": "The creature is immediately afflicted by hunger as if it hadn't eaten food in days. It becomes fatigued and takes <var>var1</var> damage each day that can't be healed until it sates its hunger. No amount of eating can sate the creature's hunger during the spell's duration. After the spell's duration, the creature takes damage from starvation.",
         "critfailure": "As failure but the creature takes <var>var2</var> damage each day, twice as much as usual for hunger.",
         "heightened": [
             {
@@ -10539,7 +10539,7 @@
         "desc": "Thin hyphae grow from your feet and plunge into the earth, creating a symbiotic fungal network that attaches to plants within 30 feet and connects you to their root systems. You gain an imprecise tremorsense allowing you to sense anything directly touching plants within that distance. <var>var1</var>If you move, the hyphae snap and the spell ends.",
         "heightened": [
             {
-                "desc": "You can control plants in the area to a small degree, allowing you to make Strikes with tree branches, exposed roots, or similarly solid plants. To do so, you use a Strike action, but you can Strike any creature you can detect with your tremorsense. These are melee spell attacks that deal 2d8 bludgeoning damage plus your spellcasting ability modifier. Unusual plants, such as thorny vines, might deal a different type of damage at the GMâ€™s discretion. You canâ€™t make any other attacks through these plants, or take any other actions through them, other than these Strikes.",
+                "desc": "You can control plants in the area to a small degree, allowing you to make Strikes with tree branches, exposed roots, or similarly solid plants. To do so, you use a Strike action, but you can Strike any creature you can detect with your tremorsense. These are melee spell attacks that deal 2d8 bludgeoning damage plus your spellcasting ability modifier. Unusual plants, such as thorny vines, might deal a different type of damage at the GM's discretion. You can't make any other attacks through these plants, or take any other actions through them, other than these Strikes.",
                 "level": "(4th)"
             },
             {
@@ -10574,13 +10574,13 @@
         ],
         "desc4": [
             {
-                "value": "You can control plants in the area to a small degree, allowing you to make Strikes with tree branches, exposed roots, or similarly solid plants. To do so, you use a Strike action, but you can Strike any creature you can detect with your tremorsense. These are melee spell attacks that deal 2d8 bludgeoning damage plus your spellcasting ability modifier. Unusual plants, such as thorny vines, might deal a different type of damage at the GMâ€™s discretion. You canâ€™t make any other attacks through these plants, or take any other actions through them, other than these Strikes. ",
+                "value": "You can control plants in the area to a small degree, allowing you to make Strikes with tree branches, exposed roots, or similarly solid plants. To do so, you use a Strike action, but you can Strike any creature you can detect with your tremorsense. These are melee spell attacks that deal 2d8 bludgeoning damage plus your spellcasting ability modifier. Unusual plants, such as thorny vines, might deal a different type of damage at the GM's discretion. You can't make any other attacks through these plants, or take any other actions through them, other than these Strikes. ",
                 "variable": "var1"
             }
         ],
         "desc6": [
             {
-                "value": "You can control plants in the area to a small degree, allowing you to make Strikes with tree branches, exposed roots, or similarly solid plants. To do so, you use a Strike action, but you can Strike any creature you can detect with your tremorsense. These are melee spell attacks that deal 2d8 bludgeoning damage plus your spellcasting ability modifier. Unusual plants, such as thorny vines, might deal a different type of damage at the GMâ€™s discretion. You canâ€™t make any other attacks through these plants than these Strikes. You can use other simple manipulate actions through the plants, including having a branch pick an object up or open a door, though more complex actions, such as picking a lock or disabling a trap, remain impossible.",
+                "value": "You can control plants in the area to a small degree, allowing you to make Strikes with tree branches, exposed roots, or similarly solid plants. To do so, you use a Strike action, but you can Strike any creature you can detect with your tremorsense. These are melee spell attacks that deal 2d8 bludgeoning damage plus your spellcasting ability modifier. Unusual plants, such as thorny vines, might deal a different type of damage at the GM's discretion. You can't make any other attacks through these plants than these Strikes. You can use other simple manipulate actions through the plants, including having a branch pick an object up or open a door, though more complex actions, such as picking a lock or disabling a trap, remain impossible.",
                 "variable": "var1"
             }
         ]
@@ -10988,7 +10988,7 @@
         ],
         "target": "self",
         "duration": "1 hour",
-        "desc": "<var>var1</var>Your mouth, esophagus, and stomach become incredibly elastic and tougher than metal. For the duration of the spell, you can reach down your throat to store or retrieve a single object of light or negligible Bulk in your stomach, as though your stomach were a backpack or other container. Storing and retrieving an item in this way requires an Interact action. The object must be small enough to reasonably fit within your stomach. It is very difficult for other creatures to notice that you are hiding an object in this way; passive observers canâ€™t possibly notice and you gain a +4 circumstance bonus to your Stealth checks to Conceal the Object unless the searcher specifically searches your mouth and stomach. If at the end of the spellâ€™s duration you still have an object stored in your stomach, it is violently expelled, dealing 1d6 damage to you.",
+        "desc": "<var>var1</var>Your mouth, esophagus, and stomach become incredibly elastic and tougher than metal. For the duration of the spell, you can reach down your throat to store or retrieve a single object of light or negligible Bulk in your stomach, as though your stomach were a backpack or other container. Storing and retrieving an item in this way requires an Interact action. The object must be small enough to reasonably fit within your stomach. It is very difficult for other creatures to notice that you are hiding an object in this way; passive observers can't possibly notice and you gain a +4 circumstance bonus to your Stealth checks to Conceal the Object unless the searcher specifically searches your mouth and stomach. If at the end of the spell's duration you still have an object stored in your stomach, it is violently expelled, dealing 1d6 damage to you.",
         "heightened": [
             {
                 "desc": "The duration increases to 8 hours.",
@@ -11630,7 +11630,7 @@
         "desc": "You slap or stomp on a nearby solid or liquid surface, sending a surge of water rushing away from you. The water forms a flat, 5-foot-thick, 10-foot-high wall of water between 5 and 15 feet wide (you decide). It moves 60 feet in a direction of your choice along the struck surface, extinguishing all non-magical fires, carrying along unattended objects of 1 Bulk or less, and pushing larger objects. The wave moves another 60 feet in the same direction at the start of your next turn, then vanishes. Large or smaller creatures in the area or that enter the area the wave moves through must attempt a Fortitude save.",
         "success": "The creature is unaffected.",
         "failure": "The creature is knocked prone. If the creature was Swimming, it gets a critical failure instead.",
-        "critfailure": "The creature is pushed 20 feet in the waveâ€™s direction, is knocked prone, and takes 3d6 bludgeoning damage.",
+        "critfailure": "The creature is pushed 20 feet in the wave's direction, is knocked prone, and takes 3d6 bludgeoning damage.",
         "gainConditions": [
             {
                 "duration": 10,
@@ -11996,7 +11996,7 @@
         ],
         "target": "self",
         "duration": "1 hour",
-        "desc": "You continually and harmlessly slough off the top layer of your skin while new skin regenerates immediately, quickly moving damaging substances away from your body. The flat check to remove persistent damage from effects that coat your skin (such as most persistent acid damage) is reduced to 5, and you gain a +2 status bonus to your initial save against contact poison (but not to further saves, since by that point, the toxin has already entered your system). If youâ€™re suffering from an effect other than persistent damage that depends on continuous contact with your skin, if that effect allows a saving throw, you receive a new saving throw against that effect at the end of each turn when you attempt your flat checks against persistent damage, and you also receive a +2 status bonus to those saving throws.\n\nWhile affected by this spell, your continually shedding skin makes you much easier to Track. Anyone Tracking you gains a +2 circumstance bonus to do so, and you cannot Hide Your Tracks.",
+        "desc": "You continually and harmlessly slough off the top layer of your skin while new skin regenerates immediately, quickly moving damaging substances away from your body. The flat check to remove persistent damage from effects that coat your skin (such as most persistent acid damage) is reduced to 5, and you gain a +2 status bonus to your initial save against contact poison (but not to further saves, since by that point, the toxin has already entered your system). If you're suffering from an effect other than persistent damage that depends on continuous contact with your skin, if that effect allows a saving throw, you receive a new saving throw against that effect at the end of each turn when you attempt your flat checks against persistent damage, and you also receive a +2 status bonus to those saving throws.\n\nWhile affected by this spell, your continually shedding skin makes you much easier to Track. Anyone Tracking you gains a +2 circumstance bonus to do so, and you cannot Hide Your Tracks.",
         "gainConditions": [
             {
                 "duration": 6000,

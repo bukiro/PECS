@@ -1414,6 +1414,11 @@ export class CharacterService {
                     this.set_ToChange(creature.type, "effects");
                 }
                 break;
+            case "Cover":
+                this.defenseService.get_AC().set_Cover(creature, value);    
+                this.set_ToChange(creature.type, "defense");
+                this.set_ToChange(creature.type, "effects");
+                break;
         }
     }
 
@@ -1586,8 +1591,9 @@ export class CharacterService {
             if (creature.type == "Companion") {
                 activities.push(...(creature as AnimalCompanion).class?.ancestry?.activities.filter(gain => gain.level <= levelNumber));
             }
+            //Get all applied condition gains' activity gains. These were copied from the condition when it was added.
             this.get_AppliedConditions(creature, "", "", true).filter(gain => gain.apply).forEach(gain => {
-                activities.push(...this.get_Conditions(gain.name)[0]?.gainActivities)
+                activities.push(...gain.gainActivities);
             });
             //With the all parameter, get all activities of all items regardless of whether they are equipped or invested or slotted.
             // This is used for ticking down cooldowns.

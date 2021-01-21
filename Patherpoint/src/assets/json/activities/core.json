@@ -413,7 +413,7 @@
         "name": "Hunt Prey",
         "actions": "1A",
         "toggle": true,
-        "desc": "You designate a single creature as your prey and focus your attacks against that creature. You must be able to see or hear the prey, or you must be tracking the prey during exploration.\n\nYou gain a +2 circumstance bonus to Perception checks when you Seek your prey and a +2 circumstance bonus to Survival checks when you Track your prey. You also ignore the penalty for making ranged attacks within your second range increment against the prey you’re hunting.\n\nYou can have only one creature designated as your prey at a time. If you use Hunt Prey against a creature when you already have a creature designated, the prior creature loses the designation and the new prey gains the designation. Your designation lasts until your next daily preparations.",
+        "desc": "You designate a single creature as your prey and focus your attacks against that creature. You must be able to see or hear the prey, or you must be tracking the prey during exploration.\n\nYou gain a +2 circumstance bonus to Perception checks when you Seek your prey and a +2 circumstance bonus to Survival checks when you Track your prey. You also ignore the penalty for making ranged attacks within your second range increment against the prey you're hunting.\n\nYou can have only one creature designated as your prey at a time. If you use Hunt Prey against a creature when you already have a creature designated, the prior creature loses the designation and the new prey gains the designation. Your designation lasts until your next daily preparations.",
         "maxDuration": -2,
         "gainConditions": [
             {
@@ -3582,7 +3582,7 @@
         "frequency": "once per day",
         "cooldown": 144000,
         "desc": "A stroke of brilliance gives you a major advantage with a skill despite your inexperience. Gain a +4 circumstance bonus to the triggering skill check.",
-        "trigger": "You attempt a check using a skill you’re untrained in.",
+        "trigger": "You attempt a check using a skill you're untrained in.",
         "gainConditions": [
             {
                 "name": "Incredible Improvisation",
@@ -3646,6 +3646,83 @@
         ],
         "traits": [
             "Orc"
+        ]
+    },
+    {
+        "name": "Forest Stealth",
+        "actions": "1A",
+        "requirements": "You are in a forest or jungle environment near an environmental feature that would allow you to Take Cover.",
+        "desc": "You are skilled at quickly hiding behind bits of underbrush or foliage. You Take Cover and then use that cover to Hide.",
+        "onceEffects": [
+            {
+                "affected": "Cover",
+                "value": "4"
+            }
+        ],
+        "traits": [
+            "Elf"
+        ]
+    },
+    {
+        "name": "Brightness Seeker",
+        "actions": "10 minutes",
+        "frequency": "once per day",
+        "cooldown": 144000,
+        "desc": "Once per day, you can spend 10 minutes studying your surroundings in search of omens related to a particular course of action to cast augury as an innate divine spell. Unless the result of the augury was \"nothing,\" you gain the following reaction for the next 30 minutes:",
+        "showActivities": [
+            "Call Upon the Brightness"
+        ],
+        "gainConditions": [
+            {
+                "name": "Brightness Seeker",
+                "source": "Brightness Seeker",
+                "duration": 3000
+            }
+        ],
+        "castSpells": [
+            {
+                "name": "Augury",
+                "level": 2,
+                "_className": "SpellCast"
+            }
+        ],
+        "traits": [
+            "Elf"
+        ]
+    },
+    {
+        "name": "Call Upon the Brightness",
+        "actions": "Reaction",
+        "trigger": "You attempt an attack roll, skill check, or saving throw while performing the course of action from your augury, but you haven't rolled yet.",
+        "desc": "You gain a +1 status bonus to the triggering check, or a +2 status bonus if the result of the augury was \"woe\" and you proceeded anyway.",
+        "gainConditions": [
+            {
+                "name": "Call Upon the Brightness",
+                "source": "Call Upon the Brightness",
+                "duration": 5
+            }
+        ],
+        "traits": [
+            "Elf"
+        ]
+    },
+    {
+        "name": "Elf Step",
+        "actions": "1A",
+        "desc": "You move in a graceful dance, and even your steps are broad. You Step 5 feet twice.",
+        "traits": [
+            "Elf"
+        ]
+    },
+    {
+        "name": "Universal Longevity",
+        "actions": "1A",
+        "frequency": "once per day",
+        "cooldown": 144000,
+        "desc": "You've perfected your ability to keep up with all the skills you've learned over your long life, so you're almost never truly untrained at a skill. You reflect on your life experiences, changing the skills you selected with Ancestral Longevity and Expert Longevity.",
+        "inputRequired": "You can already freely change the skills you selected with Ancestral Longevity and Expert Longevity. Universal Longevity gives you in-game permission to do once per day without making your daily preparations.",
+        "traits": [
+            "Elf"
         ]
     }
 ]
