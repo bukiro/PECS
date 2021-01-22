@@ -1,5 +1,5 @@
 <ng-container *ngFor="let listID of [choice.id]; trackBy:trackByIndex;">
-    <div class="list-item" *ngIf="choice.available + get_SkillINTBonus(choice)"
+    <div class="list-item" *ngIf="(choice.available + get_SkillINTBonus(choice)) > 0"
         [ngClass]="{'problem':(choice.increases.length > choice.available + get_SkillINTBonus(choice) || someIllegal(choice)), 'fullsize-only':(choice.increases.length == choice.available + get_SkillINTBonus(choice))}">
         <button class="row sublist-toggle"
             [ngClass]="{'fancy-button':(choice.increases.length == choice.available + get_SkillINTBonus(choice))}"

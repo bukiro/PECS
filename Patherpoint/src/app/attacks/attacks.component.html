@@ -6,7 +6,7 @@
         <app-tags [creature]="creature" [objectName]="'Attacks'" [showTraits]=true [showFeats]=true [showItems]=true
             [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
         <ng-container *ngFor="let weapon of get_EquippedWeapons(); let weaponIndex = index; trackBy:trackByIndex;">
-            <div class="fullsize-only list-item" *ngIf="attackRestrictions.length && weaponIndex == 0">
+            <div class="fullsize-only list-item" *ngIf="(onlyAttacks.length || forbiddenAttacks.length) && weaponIndex == 0">
                 <label for="showRestricted">Show restricted attacks</label>
                 <input id="showRestricted" type="checkbox" [(ngModel)]="showRestricted">
             </div>

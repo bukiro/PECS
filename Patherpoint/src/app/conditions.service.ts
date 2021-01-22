@@ -257,6 +257,11 @@ export class ConditionsService {
             characterService.set_ToChange(creature.type, "health");
         }
 
+        //Update Attacks if attack restrictions apply.
+        if (condition.attackRestrictions.length) {
+            characterService.set_ToChange(creature.type, "attacks");
+        }
+
     }
 
     add_ConditionItem(creature: Character | AnimalCompanion, characterService: CharacterService, itemsService: ItemsService, gainItem: ItemGain, condition: Condition) {

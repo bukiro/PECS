@@ -28,7 +28,8 @@ export class AttacksComponent implements OnInit {
 
     @Input()
     public creature: string = "Character";
-    public attackRestrictions: string[] = []
+    public onlyAttacks: string[] = [];
+    public forbiddenAttacks: string[] = [];
     public showRestricted: boolean = false;
     private showItem: string = "";
 
@@ -83,21 +84,25 @@ export class AttacksComponent implements OnInit {
     }
 
     get_AttackRestrictions() {
-        this.attackRestrictions = [];
+        this.onlyAttacks = [];
+        this.forbiddenAttacks = [];
         this.characterService.get_AppliedConditions(this.get_Creature()).filter(gain => gain.apply).forEach(gain => {
             let condition = this.characterService.get_Conditions(gain.name)[0];
-            if (condition?.attackRestrictions.length) {
-                this.attackRestrictions.push(
-                    ...condition.attackRestrictions
-                        .filter(restriction => !restriction.conditionChoiceFilter || restriction.conditionChoiceFilter == gain.choice)
-                        .map(restriction => restriction.name)
-                    )
-            }
+            this.onlyAttacks.push(
+                ...condition?.attackRestrictions
+                    .filter(restriction => !restriction.excluding && (!restriction.conditionChoiceFilter || restriction.conditionChoiceFilter == gain.choice))
+                    .map(restriction => restriction.name)
+                )
+            this.forbiddenAttacks.push(
+                ...condition?.attackRestrictions
+                .filter(restriction => restriction.excluding && (!restriction.conditionChoiceFilter || restriction.conditionChoiceFilter == gain.choice))
+                    .map(restriction => restriction.name)
+                )
         });
     }
 
     get_IsAllowed(weapon: Weapon) {
-        return !(this.attackRestrictions.length && !this.attackRestrictions.includes(weapon.name));
+        return !(this.onlyAttacks.length && !this.onlyAttacks.includes(weapon.name)) && !this.forbiddenAttacks.includes(weapon.name);
     }
 
     get_EquippedWeapons() {

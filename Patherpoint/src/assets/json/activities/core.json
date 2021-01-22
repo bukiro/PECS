@@ -3724,5 +3724,41 @@
         "traits": [
             "Elf"
         ]
+    },
+    {
+        "name": "Envenom Fangs",
+        "actions": "1A",
+        "frequency": "a number of times per day equal to your level",
+        "charges": 1,
+        "cooldown": 144000,
+        "desc": "You envenom your fangs. If the next fangs Strike you make before the end of your next turn hits and deals damage, the Strike deals an additional 1d6 poison damage. On a critical failure, the poison is wasted as normal.",
+        "gainConditions": [
+            {
+                "name": "Envenom Fangs",
+                "source": "Envenom Fangs",
+                "duration": 15
+            }
+        ],
+        "traits": [
+            "Lizardfolk"
+        ]
+    },
+    {
+        "name": "Shed Tail",
+        "actions": "Reaction",
+        "requirements": "You have a fully grown tail.",
+        "trigger": "You become grabbed.",
+        "cooldown": 1008000,
+        "desc": "You can shed your tail to escape. You cease being grabbed, then Stride without triggering any reactions from the creature that grabbed you. It takes 1 week for your tail to fully grow back. Until it does, you can’t use your tail unarmed attack, and you take a –2 circumstance penalty on checks to Balance.",
+        "gainConditions": [
+            {
+                "name": "Shed Tail",
+                "source": "Shed Tail",
+                "duration": 1008000
+            }
+        ],
+        "traits": [
+            "Lizardfolk"
+        ]
     }
 ]

@@ -76,7 +76,6 @@ The very latest in Assistive Technologies for Dungeon Master (ATDM)
 - [x] - Halfling
 - [x] - Human
 - [x] - Half-Orc (including Orc, but excluding ACG)
-- [x] - Half-Elf (including Elf, but excluding ACG)
 - [ ] - Hobgoblin
 - [ ] - Leshy
 - [ ] - Lizardfolk
@@ -84,12 +83,18 @@ The very latest in Assistive Technologies for Dungeon Master (ATDM)
 - [x] Implement all Heritages (excluding Advanced Character Guide)
 - [x] Implement all Backgrounds (excluding Advanced Character Guide)
 - [ ] Implement all Classes and Multiclass Archetypes (excluding Advanced Character Guide)
+- [ ] - Alchemist
+- [ ] - Barbarian
+- [x] - Bard
+- [ ] - Champion
+- [ ] - Cleric
+- [ ] - Druid
 - [x] - Fighter
 - [x] - Monk
 - [x] - Ranger
 - [x] - Rogue
+- [ ] - Sorcerer
 - [x] - Wizard
-- [x] - Bard
 - [ ] Implement all Spells
 - [ ] - Focus Spells
 - [x] -- Monk

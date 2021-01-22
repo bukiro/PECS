@@ -1,5 +1,5 @@
 <ng-container *ngFor="let listID of [choice.source+choice.id]; trackBy:trackByIndex;">
-    <div class="list-item" *ngIf="get_Available(choice)"
+    <div class="list-item" *ngIf="get_Available(choice) > 0"
         [ngClass]="{'problem':(cannotTakeSome(choice) || choice.feats.length > get_Available(choice)), 'fullsize-only':(get_Available(choice) == choice.feats.length)}">
         <button class="row left-aligned sublist-toggle"
             [ngClass]="{'fancy-button':(get_Available(choice) == choice.feats.length)}" (click)="toggle_List(listID)">

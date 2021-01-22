@@ -385,9 +385,47 @@
       "_className": "Weapon",
       "dicesize": 4,
       "dmgType": "S",
-      "group": "",
+      "group": "Brawling",
       "melee": 5,
-      "prof": "Unarmed Attacks"
+      "prof": "Unarmed Attacks",
+      "internalNote": "The brawling group is not specified, but we assume that every unarmed attack is like a fist unless otherwise specified."
+   },
+   {
+      "hide": true,
+      "id": "74cf862b-eb12-46e4-8d7d-6455b2690589",
+      "name": "Lizardfolk Fangs",
+      "desc": "Your teeth are formidable weapons. You gain a fangs unarmed attack that deals 1d8 piercing damage.",
+      "traits": [
+         "Unarmed"
+      ],
+      "displayName": "Fangs",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicesize": 8,
+      "dmgType": "P",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks",
+      "internalNote": "The brawling group is not specified, but we assume that every unarmed attack is like a fist unless otherwise specified."
+   },
+   {
+      "hide": true,
+      "id": "b3f9d9f4-dbdd-4d4f-952e-f3de3048dcc0",
+      "name": "Lizardfolk Tail",
+      "desc": "By birth or through training, your tail is strong enough to make for a powerful melee weapon. You gain a tail unarmed attack that deals 1d6 bludgeoning damage and has the sweep trait.",
+      "traits": [
+         "Sweep",
+         "Unarmed"
+      ],
+      "displayName": "Tail",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicesize": 6,
+      "dmgType": "B",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks",
+      "internalNote": "The brawling group is not specified, but we assume that every unarmed attack is like a fist unless otherwise specified."
    },
    {
       "hide": true,
@@ -403,9 +441,10 @@
       "dicesize": 4,
       "dmgType": "P",
       "criticalHint": "Whenever you score a critical hit with your jaws unarmed attack, your target takes 1 persistent bleed damage per weapon damage die.",
-      "group": "",
+      "group": "Brawling",
       "melee": 5,
-      "prof": "Unarmed Attacks"
+      "prof": "Unarmed Attacks",
+      "internalNote": "The brawling group is not specified, but we assume that every unarmed attack is like a fist unless otherwise specified."
    },
    {
       "hide": true,
@@ -420,9 +459,10 @@
       "_className": "Weapon",
       "dicesize": 6,
       "dmgType": "B",
-      "group": "",
+      "group": "Brawling",
       "melee": 5,
-      "prof": "Unarmed Attacks"
+      "prof": "Unarmed Attacks",
+      "internalNote": "The brawling group is not specified, but we assume that every unarmed attack is like a fist unless otherwise specified."
    },
    {
       "hide": true,
@@ -455,9 +495,10 @@
       "_className": "Weapon",
       "dicesize": 6,
       "dmgType": "Fire",
-      "group": "",
+      "group": "Brawling",
       "ranged": 30,
-      "prof": "Unarmed Attacks"
+      "prof": "Unarmed Attacks",
+      "internalNote": "The brawling group is not specified, but we assume that every unarmed attack is like a fist unless otherwise specified."
    },
    {
       "hide": true,
@@ -5043,8 +5084,9 @@
       "_className": "Weapon",
       "dicesize": 6,
       "dmgType": "P",
-      "group": "",
+      "group": "Brawling",
       "melee": 5,
-      "prof": "Unarmed Attacks"
+      "prof": "Unarmed Attacks",
+      "internalNote": "The brawling group is not specified, but we assume that every unarmed attack is like a fist unless otherwise specified."
    }
 ]

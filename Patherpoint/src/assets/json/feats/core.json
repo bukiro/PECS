@@ -30069,54 +30069,128 @@
     },
     {
         "name": "Lizardfolk Lore",
+        "desc": "You listened carefully to the tales passed down among your community. You gain the trained proficiency rank in Nature and Survival. If you would automatically become trained in one of those skills (from your background or class, for example), you instead become trained in a skill of your choice. You also become trained in Iruxi Lore.",
         "shortdesc": "You listened carefully to the tales passed down among your community.",
-        "traits": [
-            "Lizardfolk"
-        ],
-        "levelreq": 1
-    },
-    {
-        "name": "Marsh Runner",
-        "shortdesc": "You are adept at moving through marshy terrain.",
+        "sourceBook": "Character Guide",
         "traits": [
             "Lizardfolk"
         ],
         "levelreq": 1,
+        "gainLoreChoice": [
+            {
+                "_className": "LoreChoice",
+                "loreName": "Iruxi",
+                "maxRank": 2,
+                "source": "Feat: Lizardfolk Lore"
+            }
+        ],
+        "gainSkillChoice": [
+            {
+                "_className": "SkillChoice",
+                "filter": [
+                    "Nature",
+                    "Survival"
+                ],
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Nature",
+                        "source": "Feat: Lizardfolk Lore"
+                    },
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Survival",
+                        "source": "Feat: Lizardfolk Lore"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Feat: Lizardfolk Lore",
+                "type": "Skill"
+            }
+        ]
+    },
+    {
+        "name": "Marsh Runner",
+        "desc": "You are adept at moving through marshy terrain. When you use the Step action, you can ignore difficult terrain caused by flooding, swamps, or quicksand. In addition, when you use the Acrobatics skill to Balance on narrow surfaces or uneven marshy ground, you aren't flat-footed, and if you roll a success on the Acrobatics check, you get a critical success instead.",
+        "hints": [
+            {
+                "desc": "When you use the Step action, you can ignore difficult terrain caused by flooding, swamps, or quicksand.",
+                "showon": "Movement"
+            },
+            {
+                "desc": "When you use the Acrobatics skill to Balance on narrow surfaces or uneven marshy ground, you aren't flat-footed, and if you roll a success on the Acrobatics check, you get a critical success instead.",
+                "showon": "Acrobatics"
+            }
+        ],
+        "shortdesc": "You are adept at moving through marshy terrain.",
+        "sourceBook": "Character Guide",
+        "traits": [
+            "Lizardfolk"
+        ],
+        "levelreq": 1,
+        "specialreq": "Speed('Character', 'Swim Speed')",
         "specialreqdesc": "You have a swim Speed."
     },
     {
         "name": "Parthenogenic Hatchling",
         "desc": "You were hatched from an unfertilized egg during hard times for your people, and you are a biological copy of your mother. You gain a +1 circumstance bonus to saving throws against diseases. Each of your successful saving throws against a disease reduces its stage by 2, or by 1 for a virulent disease. Each critical success against an ongoing disease reduces its stage by 3, or by 2 for a virulent disease. You take damage only every 2 hours from thirst and every 2 days from starvation, rather than every hour and every day.",
+        "specialdesc": "You can take this feat only at 1st level.",
         "hints": [
             {
                 "desc": "You gain a +1 circumstance bonus to saving throws against diseases. Each of your successful saving throws against a disease reduces its stage by 2, or by 1 for a virulent disease. Each critical success against an ongoing disease reduces its stage by 3, or by 2 for a virulent disease. You take damage only every 2 hours from thirst and every 2 days from starvation, rather than every hour and every day.",
-                "showon": "Saving Throws, Health",
+                "showon": "Saving Throws",
                 "effects": [
                     {
                         "affected": "Saving Throws",
-                        "value": "1",
+                        "value": 1,
                         "type": "circumstance"
                     }
                 ]
+            },
+            {
+                "desc": "You take damage only every 2 hours from thirst and every 2 days from starvation, rather than every hour and every day.",
+                "showon": "Health"
             }
         ],
         "shortdesc": "You were hatched from an unfertilized egg during hard times for your people, and you are a biological copy of your mother.",
+        "sourceBook": "Character Guide",
         "traits": [
             "Lizardfolk"
         ],
-        "levelreq": 1
+        "levelreq": 1,
+        "specialreq": "charLevel == 1",
+        "specialreqdesc": "1st level only"
     },
     {
         "name": "Razor Claws",
+        "desc": "Your have honed your claws to be deadly. Your claw attack deals 1d6 slashing damage instead of 1d4 and gains the versatile (piercing) trait.",
+        "internalNote": "Adding the Versatile P trait and changing the dmgType is hardcoded.",
         "shortdesc": "Your have honed your claws to be deadly.",
+        "sourceBook": "Character Guide",
         "traits": [
             "Lizardfolk"
         ],
-        "levelreq": 1
+        "levelreq": 1,
+        "effects": [
+            {
+                "affected": "Lizardfolk Claw Dice Size",
+                "setValue": "6"
+            }
+        ]
     },
     {
         "name": "Reptile Speaker",
+        "desc": "You hear the sounds of reptiles as language. You can ask questions of, receive answers from, and use the Diplomacy skill with animals that are reptiles (the GM determines which animals count as reptiles).",
+        "hints": [
+            {
+                "desc": "You can ask questions of, receive answers from, and use the Diplomacy skill with animals that are reptiles (the GM determines which animals count as reptiles).",
+                "showon": "Languages, Diplomacy"
+            }
+        ],
         "shortdesc": "You hear the sounds of reptiles as language.",
+        "sourceBook": "Character Guide",
         "traits": [
             "Lizardfolk"
         ],
@@ -30124,29 +30198,58 @@
     },
     {
         "name": "Sharp Fangs",
+        "desc": "Your teeth are formidable weapons. You gain a fangs unarmed attack that deals 1d8 piercing damage.",
         "shortdesc": "Your teeth are formidable weapons.",
+        "sourceBook": "Character Guide",
         "traits": [
             "Lizardfolk"
         ],
-        "levelreq": 1
+        "levelreq": 1,
+        "gainItems": [
+            {
+                "name": "Lizardfolk Fangs",
+                "on": "grant",
+                "type": "weapons"
+            }
+        ]
     },
     {
         "name": "Tail Whip",
+        "desc": "By birth or through training, your tail is strong enough to make for a powerful melee weapon. You gain a tail unarmed attack that deals 1d6 bludgeoning damage and has the sweep trait.",
         "shortdesc": "By birth or through training, your tail is strong enough to make for a powerful melee weapon.",
+        "sourceBook": "Character Guide",
         "traits": [
             "Lizardfolk"
         ],
-        "levelreq": 1
+        "levelreq": 1,
+        "gainItems": [
+            {
+                "name": "Lizardfolk Tail",
+                "on": "grant",
+                "type": "weapons"
+            }
+        ]
     },
     {
         "name": "Envenom Fangs",
+        "desc": "You envenom your fangs.",
         "shortdesc": "You envenom your fangs.",
+        "sourceBook": "Character Guide",
         "traits": [
             "Lizardfolk"
         ],
         "levelreq": 5,
         "featreq": [
             "Sharp Fangs"
+        ],
+        "effects": [
+            {
+                "affected": "Envenom Fangs Charges",
+                "setValue": "Level"
+            }
+        ],
+        "gainActivities": [
+            "Envenom Fangs"
         ]
     },
     {
@@ -30168,35 +30271,69 @@
     },
     {
         "name": "Iruxi Unarmed Cunning",
+        "desc": "You make the most of your iruxi unarmed attacks. Whenever you score a critical hit with a claw or an unarmed attack you gained from a lizardfolk ancestry feat, you apply the unarmed attack's critical specialization effect.",
         "shortdesc": "You make the most of your iruxi unarmed attacks.",
+        "sourceBook": "Character Guide",
         "traits": [
             "Lizardfolk"
         ],
-        "levelreq": 5
+        "levelreq": 5,
+        "gainSpecialization": [
+            {
+                "name": "Lizardfolk Claw"
+            },
+            {
+                "name": "Lizardfolk Fangs"
+            },
+            {
+                "name": "Lizardfolk Tail"
+            }
+        ]
     },
     {
         "name": "Shed Tail",
+        "desc": "You can shed your tail to escape. ",
         "shortdesc": "You can shed your tail to escape.",
+        "sourceBook": "Character Guide",
         "traits": [
             "Lizardfolk"
         ],
         "levelreq": 5,
         "featreq": [
             "Tail Whip"
+        ],
+        "gainActivities": [
+            "Shed Tail"
         ]
     },
     {
         "name": "Swift Swimmer",
+        "desc": "You swim faster than most iruxi. Your swim Speed increases to 25 feet.",
         "shortdesc": "You swim faster than most iruxi.",
+        "sourceBook": "Character Guide",
         "traits": [
             "Lizardfolk"
         ],
         "levelreq": 5,
-        "heritagereq": "wetlander lizardfolk"
+        "heritagereq": "wetlander lizardfolk",
+        "effects": [
+            {
+                "affected": "Swim Speed",
+                "value": 10
+            }
+        ]
     },
     {
         "name": "Terrain Advantage",
+        "desc": "You can take advantage of the terrain to bypass foes' defenses. Non-lizardfolk creatures in difficult terrain are flat-footed to you. If you have a swim Speed, non-lizardfolk creatures that are in water and lack a swim Speed are also flat-footed to you.",
+        "hints": [
+            {
+                "desc": "Non-lizardfolk creatures in difficult terrain are flat-footed to you. If you have a swim Speed, non-lizardfolk creatures that are in water and lack a swim Speed are also flat-footed to you.",
+                "showon": "Movement, Attacks"
+            }
+        ],
         "shortdesc": "You can take advantage of the terrain to bypass foes' defenses.",
+        "sourceBook": "Character Guide",
         "traits": [
             "Lizardfolk"
         ],
@@ -30204,13 +30341,32 @@
     },
     {
         "name": "Iruxi Unarmed Expertise",
+        "desc": "Your unarmed attacks blend tradition and training. Whenever you gain a class feature that grants you expert or greater proficiency in certain weapons, you also gain that proficiency in the claw and unarmed attacks you gained from lizardfolk ancestry feats.",
         "shortdesc": "Your unarmed attacks blend tradition and training.",
+        "sourceBook": "Character Guide",
         "traits": [
             "Lizardfolk"
         ],
         "levelreq": 13,
         "featreq": [
             "Iruxi Unarmed Cunning"
+        ],
+        "copyProficiency": [
+            {
+                "name": "Lizardfolk Claw",
+                "type": "Weapon Proficiency",
+                "featuresOnly": true
+            },
+            {
+                "name": "Lizardfolk Fangs",
+                "type": "Weapon Proficiency",
+                "featuresOnly": true
+            },
+            {
+                "name": "Lizardfolk Tail",
+                "type": "Weapon Proficiency",
+                "featuresOnly": true
+            }
         ]
     },
     {
@@ -30219,148 +30375,148 @@
         "specialdesc": "You can take this feat only at 1st level, and you can't retrain out of this feat or into this feat.",
         "shortdesc": "Your elven blood runs particularly strong, granting you features far more elven than those of a typical half-elf.",
         "traits": [
-           "Half-Elf"
+            "Half-Elf"
         ],
         "levelreq": 1,
         "specialreq": "charLevel == 1",
         "specialreqdesc": "1st level only",
         "gainHeritage": [
-           {
-              "ancestry": "Elf",
-              "source": "Elf Atavism"
-           }
+            {
+                "ancestry": "Elf",
+                "source": "Elf Atavism"
+            }
         ]
-     },
-      {
+    },
+    {
         "name": "Round Ears",
         "desc": "Your elven lineage is subtle enough that you look barely different from other humans, and you've learned to use that to your advantage. You gain the trained proficiency rank in Deception (or another skill of your choice, if you were already trained in Deception). You gain a +4 circumstance bonus to Impersonate checks to pretend you aren't a half-elf. Observers are never granted circumstance bonuses to Perception checks due to you Impersonating a full-blooded human, and you never take circumstance penalties due to you Impersonating a full-blooded human.",
         "specialdesc": "You can take this feat only at 1st level, and you can't retrain out of this feat or into this feat.",
         "hints": [
-           {
-              "desc": "You gain a +4 circumstance bonus to Impersonate checks to pretend you aren't a half-elf. Observers are never granted circumstance bonuses to Perception checks due to you Impersonating a full-blooded human, and you never take circumstance penalties due to you Impersonating a full-blooded human.",
-              "showon": "Deception",
-              "effects": [
-                 {
-                    "affected": "Deception",
-                    "value": 4,
-                    "type": "circumstance"
-                 }
-              ]
-           }
+            {
+                "desc": "You gain a +4 circumstance bonus to Impersonate checks to pretend you aren't a half-elf. Observers are never granted circumstance bonuses to Perception checks due to you Impersonating a full-blooded human, and you never take circumstance penalties due to you Impersonating a full-blooded human.",
+                "showon": "Deception",
+                "effects": [
+                    {
+                        "affected": "Deception",
+                        "value": 4,
+                        "type": "circumstance"
+                    }
+                ]
+            }
         ],
         "shortdesc": "Your elven lineage is subtle enough that you look barely different from other humans, and you've learned to use that to your advantage.",
         "sourceBook": "Character Guide",
         "traits": [
-           "Half-Elf"
+            "Half-Elf"
         ],
         "levelreq": 1,
         "specialreq": "charLevel == 1",
         "specialreqdesc": "1st level only",
         "gainSkillChoice": [
-           {
-              "_className": "SkillChoice",
-              "filter": [
-                 "Deception"
-              ],
-              "increases": [
-                 {
-                    "locked": true,
-                    "maxRank": 2,
-                    "name": "Deception",
-                    "source": "Feat: Round Ears"
-                 }
-              ],
-              "maxRank": 2,
-              "source": "Feat: Round Ears",
-              "type": "Skill"
-           }
+            {
+                "_className": "SkillChoice",
+                "filter": [
+                    "Deception"
+                ],
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Deception",
+                        "source": "Feat: Round Ears"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Feat: Round Ears",
+                "type": "Skill"
+            }
         ]
-     },
-      {
+    },
+    {
         "name": "Sociable",
         "desc": "You're extremely extroverted, and you often spend your time carousing or otherwise socializing. You are trained in Diplomacy (or another skill of your choice if you were already trained in Diplomacy), and you gain the Hobnobber skill feat.",
         "shortdesc": "You're extremely extroverted, and you often spend your time carousing or otherwise socializing.",
         "sourceBook": "Character Guide",
         "traits": [
-           "Half-Elf"
+            "Half-Elf"
         ],
         "levelreq": 1,
         "gainFeatChoice": [
-           {
-              "_className": "FeatChoice",
-              "feats": [
-                 {
-                    "locked": true,
-                    "name": "Hobnobber"
-                 }
-              ],
-              "source": "Feat: Sociable",
-              "type": "General"
-           }
+            {
+                "_className": "FeatChoice",
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Hobnobber"
+                    }
+                ],
+                "source": "Feat: Sociable",
+                "type": "General"
+            }
         ],
         "gainSkillChoice": [
-           {
-              "_className": "SkillChoice",
-              "filter": [
-                 "Diplomacy"
-              ],
-              "increases": [
-                 {
-                    "locked": true,
-                    "maxRank": 2,
-                    "name": "Diplomacy",
-                    "source": "Feat: Round Ears"
-                 }
-              ],
-              "maxRank": 2,
-              "source": "Feat: Round Ears",
-              "type": "Skill"
-           }
+            {
+                "_className": "SkillChoice",
+                "filter": [
+                    "Diplomacy"
+                ],
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Diplomacy",
+                        "source": "Feat: Round Ears"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Feat: Round Ears",
+                "type": "Skill"
+            }
         ]
-     },
-      {
+    },
+    {
         "name": "Inspire Imitation",
         "desc": "Your own actions inspire your allies to great achievements. Whenever you critically succeed at a skill check, you automatically qualify to use the Aid reaction when attempting to help an ally using the same skill, even without spending an action to prepare to do so.",
         "hints": [
-           {
-              "desc": "Whenever you critically succeed at a skill check, you automatically qualify to use the Aid reaction when attempting to help an ally using the same skill, even without spending an action to prepare to do so.",
-              "showon": "Skills"
-           }
+            {
+                "desc": "Whenever you critically succeed at a skill check, you automatically qualify to use the Aid reaction when attempting to help an ally using the same skill, even without spending an action to prepare to do so.",
+                "showon": "Skills"
+            }
         ],
         "shortdesc": "Your own actions inspire your allies to great achievements.",
         "traits": [
-           "Half-Elf"
+            "Half-Elf"
         ],
         "levelreq": 5
-     },
-      {
+    },
+    {
         "name": "Supernatural Charm",
         "desc": "The elven magic in your blood manifests as a force you can use to become more appealing or alluring. You can cast 1st-level charm as an arcane innate spell once per day.",
         "shortdesc": "The elven magic in your blood manifests as a force you can use to become more appealing or alluring.",
         "traits": [
-           "Half-Elf"
+            "Half-Elf"
         ],
         "levelreq": 5,
         "gainSpellChoice": [
-           {
-              "_className": "SpellChoice",
-              "castingType": "Innate",
-              "className": "Innate",
-              "cooldown": 144000,
-              "frequency": "once per day",
-              "id": "e2ba651c-91e8-48d4-8734-43ea995295ab",
-              "level": 1,
-              "source": "Feat: Supernatural Charm",
-              "spells": [
-                 {
-                    "locked": true,
-                    "name": "Charm"
-                 }
-              ],
-              "tradition": "Arcane"
-           }
+            {
+                "_className": "SpellChoice",
+                "castingType": "Innate",
+                "className": "Innate",
+                "cooldown": 144000,
+                "frequency": "once per day",
+                "id": "e2ba651c-91e8-48d4-8734-43ea995295ab",
+                "level": 1,
+                "source": "Feat: Supernatural Charm",
+                "spells": [
+                    {
+                        "locked": true,
+                        "name": "Charm"
+                    }
+                ],
+                "tradition": "Arcane"
+            }
         ]
-     },
+    },
     {
         "name": "Monstrous Peacemaker",
         "desc": "Your dual human and orc nature has given you a unique perspective, allowing you to bridge the gap between humans and the many intelligent creatures in the world that humans consider monsters. You gain a +1 circumstance bonus to Diplomacy checks against non-humanoid intelligent creatures and against humanoids that are marginalized in human society (at the GM's discretion, but typically at least including giants, goblins, kobolds, and orcs). You also gain this bonus on Perception checks to Sense the Motives of such creatures.",

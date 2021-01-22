@@ -12644,7 +12644,7 @@
     {
         "name": "Saoc Astrology",
         "desc": "You recall the stars' predictions about your current situation. You gain a circumstance bonus or take a circumstance penalty to the first skill check of your next action based on a 1d8 roll. On a result of 6, 7, or 8, you gain a +2 circumstance bonus. On a 3, 4, or 5, you gain a +1 circumstance bonus. On a 2, you gain nothing. On a 1, you take a -1 circumstance penalty to the skill check.",
-        "type": "activity",
+        "type": "activities",
         "inputRequired": "After you apply the bonus to a skill check, remove the condition.",
         "buff": true,
         "choice": "no effect",
@@ -12687,7 +12687,7 @@
     {
         "name": "Tupilac Carver",
         "desc": "You have included a drop of blood, lock of hair, or other portion of a creature's body as part of casting summon construct. The summoned construct gains a +4 status bonus to Perception checks to sense or locate that creature.",
-        "type": "activity",
+        "type": "activities",
         "hints": [
             {
                 "desc": "The summoned construct gains a +4 status bonus to Perception checks to sense or locate that creature.",
@@ -12700,7 +12700,7 @@
     {
         "name": "Incredible Improvisation",
         "desc": "A stroke of brilliance gives you a major advantage with a skill despite your inexperience. Gain a +4 circumstance bonus to the triggering skill check.",
-        "type": "activity",
+        "type": "activities",
         "inputRequired": "After you apply the bonus to a skill check, remove the condition.",
         "buff": true,
         "effects": [
@@ -12750,7 +12750,7 @@
     {
         "name": "Orc Superstition",
         "desc": "You defend yourself against magic by relying on techniques derived from orc cultural superstitions. You gain a +1 circumstance bonus to your saving throw against the triggering spell or magical effect.",
-        "type": "activity",
+        "type": "activities",
         "inputRequired": "After you apply the bonus to the triggering saving throw, remove the condition.",
         "buff": true,
         "effects": [
@@ -12764,7 +12764,7 @@
     {
         "name": "Ki Strike",
         "desc": "You focus your ki into magical attacks. You make an unarmed Strike or Flurry of Blows and gain a +1 status bonus to your attack rolls with these Strikes, and the Strikes deal extra damage equal to 1d6 plus 1d6 for every fourth spell level after 1st. This damage can be any of the following types of your choice, chosen each time you Strike: force, lawful (only if you're lawful), negative, or positive.",
-        "type": "activity",
+        "type": "activities",
         "inputRequired": "After you apply the bonus to the strikes, remove the condition.",
         "buff": true,
         "effects": [
@@ -12796,7 +12796,7 @@
     {
         "name": "Brightness Seeker",
         "desc": "You have studied your surroundings in search of omens related to a particular course of action and cast augury. Unless the result of the augury was \"nothing,\" you gain the Call Upon the Brightness reaction for the duration.",
-        "type": "activity",
+        "type": "activities",
         "inputRequired": "If the result of the augury was \"nothing,\" remove the condition.",
         "buff": true,
         "gainActivities": [
@@ -12810,7 +12810,7 @@
     {
         "name": "Call Upon the Brightness",
         "desc": "You attempt an attack roll, skill check, or saving throw while performing the course of action from your augury. You gain a +1 status bonus to the triggering check, or a +2 status bonus if the result of the augury was \"woe\" and you proceeded anyway.",
-        "type": "activity",
+        "type": "activities",
         "inputRequired": "After you apply the bonus to the triggering attack roll, skill check, or saving throw, remove the condition.",
         "choice": "Other",
         "choices": [
@@ -12833,6 +12833,47 @@
                 "affected": "Saving Throws",
                 "type": "status",
                 "value": "Choice == 'Woe' ? 2 : 1"
+            }
+        ]
+    },
+    {
+        "name": "Envenom Fangs",
+        "desc": "You have envenomed your fangs. If the next fangs Strike you make before the end of your next turn hits and deals damage, the Strike deals an additional 1d6 poison damage. On a critical failure, the poison is wasted as normal.",
+        "type": "activities",
+        "inputRequired": "After a fangs Strike hits and deals damage, or critically fails, remove the condition.",
+        "buff": true,
+        "hints": [
+            {
+                "desc": "If the next fangs Strike you make before the end of your next turn hits and deals damage, the Strike deals an additional 1d6 poison damage. On a critical failure, the poison is wasted as normal.",
+                "showon": "Attacks, Lizardfolk Fangs"
+            }
+        ]
+    },
+    {
+        "name": "Shed Tail",
+        "desc": "You have shed your tail to escape from being grabbed. For the duration of the condition, you can't use your tail unarmed attack, and you take a -2 circumstance penalty on checks to Balance.",
+        "type": "activities",
+        "hints": [
+            {
+                "desc": "You can't use your tail unarmed attack.",
+                "showon": "Attacks, Lizardfolk Tail"
+            },
+            {
+                "desc": "You take a -2 circumstance penalty on checks to Balance.",
+                "showon": "Acrobatics",
+                "effects": [
+                    {
+                        "affected": "Acrobatics",
+                        "value": "-2",
+                        "type": "circumstance"
+                    }
+                ]
+            }
+        ],
+        "attackRestrictions": [
+            {
+                "name": "Lizardfolk Tail",
+                "excluding": true
             }
         ]
     }

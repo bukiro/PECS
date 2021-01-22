@@ -703,8 +703,8 @@ export class Character extends Creature {
         characterService.set_ToChange("Character", "charactersheet");
     }
     add_Lore(characterService: CharacterService, source: LoreChoice) {
-        //Create the skill on the character
-        characterService.add_CustomSkill('Lore: ' + source.loreName, "Skill", "Intelligence", true);
+        //Create the skill on the character. Lore can be increased, so it's locked:false.
+        characterService.add_CustomSkill('Lore: ' + source.loreName, "Skill", "Intelligence", false);
         //Create as many skill increases as the source's initialIncreases value
         for (let increase = 0; increase < source.initialIncreases; increase++) {
             characterService.get_Character().increase_Skill(characterService, 'Lore: ' + source.loreName, true, source, true)

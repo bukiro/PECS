@@ -6,13 +6,13 @@ import { WeaponRune } from './WeaponRune';
 import { Specialization } from './Specialization';
 import { Character } from './Character';
 import { AnimalCompanion } from './AnimalCompanion';
-import { Familiar } from './Familiar';
 import { Oil } from './Oil';
 import { SpecializationGain } from './SpecializationGain';
 import { AlchemicalPoison } from './AlchemicalPoison';
 import { ProficiencyChange } from './ProficiencyChange';
 import { Effect } from './Effect';
 import { Creature } from './Creature';
+import { Skill } from './Skill';
 
 export class Weapon extends Equipment {
     public readonly _className: string = this.constructor.name;
@@ -95,14 +95,27 @@ export class Weapon extends Equipment {
         let traits: string[] = JSON.parse(JSON.stringify(this.traits));
         if (this.prof == "Unarmed Attacks") {
             if (creature.type == "Character") {
-                if ((creature as Character).get_FeatsTaken(0, creature.level, "Diamond Fists").length && !this.traits.includes("Forceful")) {
+                if (!this.traits.includes("Forceful") && (creature as Character).get_FeatsTaken(0, creature.level, "Diamond Fists").length) {
                     traits = traits.concat("Forceful");
                 }
-                if ((creature as Character).get_FeatsTaken(0, creature.level, "Golden Body").length && !this.traits.includes("Deadly d12")) {
+                if (!this.traits.includes("Deadly d12") && (creature as Character).get_FeatsTaken(0, creature.level, "Golden Body").length) {
                     traits = traits.concat("Deadly d12");
                 }
-                if ((creature as Character).get_FeatsTaken(0, creature.level, "Fang Sharpener (Razortooth Goblin)").length && (this.name == "Razortooth Goblin Jaws")) {
+                if ((this.name == "Razortooth Goblin Jaws") && (creature as Character).get_FeatsTaken(0, creature.level, "Fang Sharpener (Razortooth Goblin)").length) {
                     traits = traits.filter(trait => trait != "Finesse");
+                }
+                if (this.name == "Lizardfolk Claw") {
+                    //The Razor Claws feat adds Versatile P to the Lizardfolk Claw. This means we also have to change the dmgType (in a somewhat brute force way).
+                    if ((creature as Character).get_FeatsTaken(0, creature.level, "Razor Claws").length) {
+                        traits = traits.concat("Versatile P");
+                        if (this.dmgType != "S/P") {
+                            this.dmgType = "S/P"
+                        }
+                    } else {
+                        if (this.dmgType != "S") {
+                            this.dmgType = "S"
+                        }
+                    }
                 }
             }
         }
@@ -174,17 +187,20 @@ export class Weapon extends Equipment {
         //To determine the skill level, we have to find skills for the item's proficiency, its name, its weapon base and any of its traits.
         let levels: number[] = [];
         //Weapon name, e.g. Demon Sword.
-        levels.push(characterService.get_Skills(creature, this.name)[0]?.level(creature, characterService, charLevel) || 0);
+        let nameSkill: Skill = new Skill("", this.name, "Specific Weapon Proficiency");
+        levels.push((characterService.get_Skills(creature, this.name)[0] || nameSkill).level(creature, characterService, charLevel) || 0);
         //Weapon base, e.g. Longsword.
-        levels.push(this.weaponBase ? characterService.get_Skills(creature, this.weaponBase)[0]?.level(creature, characterService, charLevel) : 0);
+        let baseSkill: Skill = new Skill("", this.weaponBase, "Specific Weapon Proficiency");
+        levels.push(this.weaponBase ? (characterService.get_Skills(creature, this.weaponBase)[0] || baseSkill).level(creature, characterService, charLevel) : 0);
         //Proficiency and Group, e.g. Martial Sword.
         //There are proficiencies for "Simple Sword" or "Advanced Bow" that we need to consider, so we build that phrase here.
         let profAndGroup = prof.split(" ")[0] + " " + this.group;
-        levels.push(characterService.get_Skills(creature, profAndGroup)[0]?.level(creature, characterService, charLevel) || 0);
+        let profAndGroupSkill: Skill = new Skill("", profAndGroup, "Specific Weapon Proficiency");
+        levels.push((characterService.get_Skills(creature, profAndGroup)[0] || profAndGroupSkill).level(creature, characterService, charLevel) || 0);
         //Proficiency, e.g. Martial Weapons.
         levels.push(characterService.get_Skills(creature, prof)[0]?.level(creature, characterService, charLevel) || 0);
         //Any traits, e.g. Monk.
-        levels.push(...this.traits.map(trait => characterService.get_Skills(creature, trait)[0]?.level(creature, characterService, charLevel) || 0))
+        levels.push(...this.traits.map(trait => (characterService.get_Skills(creature, trait)[0] || new Skill("", trait, "Specific Weapon Proficiency")).level(creature, characterService, charLevel) || 0))
         //Get the skill level by applying the result with the most increases, but no higher than 8.
         skillLevel = Math.min(Math.max(...levels.filter(level => level != undefined)), 8);
         //If you have an Ancestral Echoing rune on this weapon, you get to raise the item's proficiency by one level, up to the highest proficiency you have.
