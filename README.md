@@ -78,7 +78,7 @@ The very latest in Assistive Technologies for Dungeon Master (ATDM)
 - [x] - Half-Orc (including Orc, but excluding ACG)
 - [ ] - Hobgoblin
 - [ ] - Leshy
-- [ ] - Lizardfolk
+- [x] - Lizardfolk
 - [ ] - Shoony
 - [x] Implement all Heritages (excluding Advanced Character Guide)
 - [x] Implement all Backgrounds (excluding Advanced Character Guide)
@@ -121,6 +121,4 @@ Active to-do:
 Implement:
 
 Next steps:
-- Implement Ancestry Feats
--- Lizardfolk
 - Implement Conditions for Poisons

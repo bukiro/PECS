@@ -45,13 +45,12 @@
                 "cooldown": 144000,
                 "sharedChargesID": 1,
                 "frequency": "once per day",
-                "desc": "You wrap the cloak over your shoulders and wear it as a huge scarf like a very cool ninja, increasing the cloak's item bonus to Stealth checks by 1d6 for 10 minutes or until you undo the scarf.",
+                "desc": "You wrap the cloak over your shoulders and wear it as a huge scarf like a very cool ninja. Roll a d6 and increase the cloak's item bonus to Stealth the result for 10 minutes or until you undo the scarf.",
                 "name": "SUPERNINJA-Cloak by HAXNBAUER: SUPERNINJA-mode",
                 "gainConditions": [
                     {
                         "name": "SUPERNINJA-mode",
-                        "duration": 1000,
-                        "value": 1
+                        "duration": 1000
                     }
                 ],
                 "toggle": true,

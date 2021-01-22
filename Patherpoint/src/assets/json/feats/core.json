@@ -30319,7 +30319,7 @@
         "effects": [
             {
                 "affected": "Swim Speed",
-                "value": 10
+                "setValue": 25
             }
         ]
     },

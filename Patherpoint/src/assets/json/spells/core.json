@@ -1619,7 +1619,14 @@
         "gainConditions": [
             {
                 "duration": 100,
-                "name": "Wind Jump",
+                "heightenedFilter": 5,
+                "name": "Wind Jump (5th Level)",
+                "source": "Wind Jump"
+            },
+            {
+                "duration": 100,
+                "heightenedFilter": 6,
+                "name": "Wind Jump (6th Level)",
                 "source": "Wind Jump"
             }
         ],

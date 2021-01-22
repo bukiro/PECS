@@ -87,7 +87,8 @@
         "effects": [
             {
                 "affected": "Land Speed",
-                "value": "Armor().get_Proficiency() == 'Unarmored Defense' ? (5 + (Level + 1 - ((Level + 1) % 4)) / 4 * 5) : 0"
+                "value": "Armor().get_Proficiency() == 'Unarmored Defense' ? (5 + (Level + 1 - ((Level + 1) % 4)) / 4 * 5) : 0",
+                "type": "status"
             }
         ]
     },
