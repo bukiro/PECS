@@ -3,9 +3,11 @@ import { DefenseService } from './defense.service';
 import { CharacterService } from './character.service';
 import { Effect } from './Effect';
 import { AnimalCompanion } from './AnimalCompanion';
-import { Familiar } from './Familiar';
 import { Character } from './Character';
 import { Creature } from './Creature';
+import { Shield } from './Shield';
+import { ConditionsService } from './conditions.service';
+import { ConditionGain } from './ConditionGain';
 
 export class AC {
     public name: string = "AC"
@@ -14,13 +16,53 @@ export class AC {
     public $bonuses: (boolean)[] = [false, false, false];
     public $penalties: (boolean)[] = [false, false, false];
     public $value: {result: number, explain: string}[] = [{result:0, explain:""},{result:0, explain:""},{result:0, explain:""}];
-    //Are you currently taking cover?
-    cover(creature: Creature) {
-        return creature.cover;
-    };
-    set_Cover(creature: Creature, cover: number) {
-        creature.cover = cover;
-    };
+    set_Cover(creature: Creature, cover: number, shield: Shield = null, characterService: CharacterService, conditionsService: ConditionsService) {
+        let conditions: ConditionGain[] = conditionsService.get_AppliedConditions(creature, characterService, creature.conditions, true)
+            .filter(gain => ["Lesser Cover", "Standard Cover", "Greater Cover"].includes(gain.name) && gain.source == "Defense");
+        let lesserCover = conditions.find(gain => gain.name == "Lesser Cover");
+        let standardCover = conditions.find(gain => gain.name == "Standard Cover");
+        let greaterCover = conditions.find(gain => gain.name == "Greater Cover");
+        let coverName: string = "";
+        switch (cover) {
+            case 0: 
+                if (shield) {
+                    shield.takingCover == false;
+                }
+                break;
+            case 1: 
+                if (!lesserCover) {
+                    coverName = "Lesser Cover";
+                }
+                break;
+            case 2:
+                if (!standardCover) {
+                    coverName = "Standard Cover";
+                }
+                break;
+            case 4:
+                if (shield) {
+                    shield.takingCover == true;
+                }
+                if (!greaterCover) {
+                    coverName = "Greater Cover";
+                }
+                break;
+        }
+        if (lesserCover && cover != 1) {
+            characterService.remove_Condition(creature, lesserCover, false);
+        }
+        if (standardCover && cover != 2) {
+            characterService.remove_Condition(creature, standardCover, false);
+        }
+        if (greaterCover && cover != 4) {
+            characterService.remove_Condition(creature, greaterCover, false);
+        }
+        if (coverName) {
+            let newCondition: ConditionGain = Object.assign(new ConditionGain(), {name: coverName, source: "Defense", duration: -1, locked: true})
+            characterService.add_Condition(creature, newCondition, false);
+        }
+        characterService.process_ToChange();
+    }
     calculate(creature: Creature, characterService: CharacterService, defenseService: DefenseService, effectsService: EffectsService) {
         let index = 0;
         switch (creature.type) {

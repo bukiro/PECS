@@ -9,6 +9,8 @@ import { Character } from '../Character';
 import { AnimalCompanion } from '../AnimalCompanion';
 import { Talisman } from '../Talisman';
 import { Shield } from '../Shield';
+import { ConditionGain } from '../ConditionGain';
+import { ConditionsService } from '../conditions.service';
 
 @Component({
     selector: 'app-defense',
@@ -27,6 +29,7 @@ export class DefenseComponent implements OnInit {
         public characterService: CharacterService,
         private defenseService: DefenseService,
         private traitsService: TraitsService,
+        private conditionsService: ConditionsService,
         public effectsService: EffectsService,
         public abilitiesService: AbilitiesService
     ) { }
@@ -82,11 +85,56 @@ export class DefenseComponent implements OnInit {
     }
 
     get_Cover() {
-        return this.get_AC().cover(this.get_Creature());
+        let creature = this.get_Creature();
+        let conditions: string[] = this.conditionsService.get_AppliedConditions(creature, this.characterService, creature.conditions, true)
+            .filter(gain => ["Lesser Cover", "Standard Cover", "Greater Cover"].includes(gain.name) && gain.source == "Defense")
+            .map(gain => gain.name);
+        if (conditions.includes("Greater Cover")) {
+            return 4;
+        }
+        if (conditions.includes("Standard Cover")) {
+            return 2;
+        }
+        if (conditions.includes("Lesser Cover")) {
+            return 1;
+        }
+        return 0;
     }
 
-    set_Cover(cover: number) {
-        this.get_AC().set_Cover(this.get_Creature(), cover);
+    set_Cover(cover: number, shield: Shield = null) {
+        this.get_AC().set_Cover(this.get_Creature(), cover, shield, this.characterService, this.conditionsService);
+    }
+
+    raise_Shield(raised: boolean = false, shield: Shield) {
+        if (shield) {
+            shield.raised = raised;
+            if (!raised && shield.takingCover) {
+                this.set_Cover(0, shield);
+            }
+            this.set_DefenseChanged();
+        }
+    }
+
+    get_FlatFooted() {
+        let creature = this.get_Creature();
+        return this.conditionsService.get_AppliedConditions(creature, this.characterService, creature.conditions, true)
+            .find(gain => gain.name == "Flat-Footed" && gain.source == "Defense");
+    }
+
+    set_FlatFooted(active: boolean) {
+        let creature = this.get_Creature();
+        let flatFooted = this.get_FlatFooted();
+        if (active) {
+            if (!flatFooted) {
+                let newCondition: ConditionGain = Object.assign(new ConditionGain(), {name: "Flat-Footed", source: "Defense", duration: -1, locked: true})
+                this.characterService.add_Condition(creature, newCondition, false);
+            }
+        } else {
+            if (flatFooted) {
+                this.characterService.remove_Condition(creature, flatFooted, false);
+            }
+        }
+        this.characterService.process_ToChange();
     }
 
     get_EquippedArmor() {

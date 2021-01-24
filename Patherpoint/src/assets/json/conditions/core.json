@@ -10693,7 +10693,7 @@
     },
     {
         "name": "Wondrous Figurine (Golden Lions)",
-        "desc": "The wondrous figurine has transformed into a pair of adult lions with the minion trait. They can understand your language and obey you to the best of their ability when you use an action to command them.\n\nIf either of the lions is slain, that lion cannot be summoned again until 1 week has passed, but this doesn’t prevent you from summoning the other. If both lions are slain while in animal form, the figurine reverts to its statue shape and cannot be activated again until 1 week has passed.",
+        "desc": "The wondrous figurine has transformed into a pair of adult lions with the minion trait. They can understand your language and obey you to the best of their ability when you use an action to command them.\n\nIf either of the lions is slain, that lion cannot be summoned again until 1 week has passed, but this doesn't prevent you from summoning the other. If both lions are slain while in animal form, the figurine reverts to its statue shape and cannot be activated again until 1 week has passed.",
         "type": "helditems",
         "buff": true
     },
@@ -12874,6 +12874,96 @@
             {
                 "name": "Lizardfolk Tail",
                 "excluding": true
+            }
+        ]
+    },
+    {
+        "name": "Lesser Cover",
+        "desc": "If cover is especially light, typically when it's provided by a creature, you have lesser cover, which grants a +1 circumstance bonus to AC. A creature with standard cover or greater cover can attempt to use Stealth to Hide, but lesser cover isn't sufficient.",
+        "type": "generic",
+        "hide": true,
+        "buff": true,
+        "effects": [
+            {
+                "affected": "AC",
+                "type": "circumstance",
+                "value": "+1"
+            }
+        ]
+    },
+    {
+        "name": "Standard Cover",
+        "desc": "Standard cover gives you a +2 circumstance bonus to AC, to Reflex saves against area effects, and to Stealth checks to Hide, Sneak, or otherwise avoid detection. A creature with standard cover or greater cover can attempt to use Stealth to Hide.",
+        "type": "generic",
+        "hide": true,
+        "buff": true,
+        "effects": [
+            {
+                "affected": "AC",
+                "type": "circumstance",
+                "value": "2"
+            }
+        ],
+        "hints": [
+            {
+                "desc": "You gain a +2 circumstance bonus to Reflex saves against area effects.",
+                "showon": "Reflex",
+                "effects": [
+                    {
+                        "affected": "Reflex",
+                        "value": "+2",
+                        "type": "circumstance"
+                    }
+                ]
+            },
+            {
+                "desc": "You gain a +2 circumstance bonus to Stealth checks to Hide, Sneak, or otherwise avoid detection. You can attempt to use Stealth to Hide.",
+                "showon": "Stealth",
+                "effects": [
+                    {
+                        "affected": "Stealth",
+                        "value": "+2",
+                        "type": "circumstance"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Greater Cover",
+        "desc": "Greater cover gives you a +4 circumstance bonus to AC, to Reflex saves against area effects, and to Stealth checks to Hide, Sneak, or otherwise avoid detection. A creature with standard cover or greater cover can attempt to use Stealth to Hide.",
+        "type": "generic",
+        "hide": true,
+        "buff": true,
+        "effects": [
+            {
+                "affected": "AC",
+                "type": "circumstance",
+                "value": "4"
+            }
+        ],
+        "hints": [
+            {
+                "desc": "You gain a +4 circumstance bonus to Reflex saves against area effects.",
+                "showon": "Reflex",
+                "effects": [
+                    {
+                        "affected": "Reflex",
+                        "value": "+4",
+                        "type": "circumstance"
+                    }
+                ]
+            },
+            {
+                "desc": "You gain a +4 circumstance bonus to Stealth checks to Hide, Sneak, or otherwise avoid detection. You can attempt to use Stealth to Hide.",
+                "showon": "Stealth",
+                "effects": [
+                    {
+                        "affected": "Stealth",
+                        "value": "+4",
+                        "type": "circumstance"
+                    }
+                ]
             }
         ]
     }

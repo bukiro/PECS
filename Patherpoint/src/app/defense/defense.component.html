@@ -8,28 +8,30 @@
         <div class="loading" *ngIf="still_loading()">Loading</div>
         <ng-container *ngIf="!still_loading()">
             <app-tags [creature]="creature" [objectName]="'AC'" [showTraits]=true [showFeats]=true [showItems]=true
-                [showActivities]=true [showConditions]=true [showEffects]=false [specialEffects]="AC.$relatives[get_CalculatedIndex()].concat(AC.$absolutes[get_CalculatedIndex()])"></app-tags>
-            <app-tags [creature]="creature" [objectName]="'Defense'" [showTraits]=true [showFeats]=true
-                [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
+                [showActivities]=true [showConditions]=true [showEffects]=false
+                [specialEffects]="AC.$relatives[get_CalculatedIndex()].concat(AC.$absolutes[get_CalculatedIndex()])">
+            </app-tags>
+            <app-tags [creature]="creature" [objectName]="'Defense'" [showTraits]=true [showFeats]=true [showItems]=true
+                [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
             <div class="list-item row">
-                <span>
-                    <button class="center-aligned" *ngIf="get_Cover() != 1"
-                        (click)="set_Cover(1); set_DefenseChanged()">Lesser cover</button>
-                    <button class="center-aligned" *ngIf="get_Cover() == 1"
-                        (click)="set_Cover(0); set_DefenseChanged()">End cover</button>
-                </span>
-                <span>
-                    <button class="center-aligned" *ngIf="get_Cover() != 2"
-                        (click)="set_Cover(2); set_DefenseChanged()">Behind cover</button>
-                    <button class="center-aligned" *ngIf="get_Cover() == 2"
-                        (click)="set_Cover(0); set_DefenseChanged()">End cover</button>
-                </span>
-                <span>
-                    <button class="center-aligned" *ngIf="get_Cover() != 4"
-                        (click)="set_Cover(4); set_DefenseChanged()">Take cover</button>
-                    <button class="center-aligned" *ngIf="get_Cover() == 4"
-                        (click)="set_Cover(0); set_DefenseChanged()">End cover</button>
-                </span>
+                <button class="center-aligned" *ngIf="get_Cover() != 1" (click)="set_Cover(1)">Lesser Cover</button>
+                <button class="center-aligned" *ngIf="get_Cover() == 1" (click)="set_Cover(0)">End Cover</button>
+            </div>
+            <div class="list-item row">
+                <button class="center-aligned" *ngIf="get_Cover() != 2" (click)="set_Cover(2)">Standard
+                    Cover</button>
+                <button class="center-aligned" *ngIf="get_Cover() == 2" (click)="set_Cover(0)">End Cover</button>
+            </div>
+            <div class="list-item row">
+                <button class="center-aligned" *ngIf="get_Cover() != 4" (click)="set_Cover(4)">Greater
+                    Cover</button>
+                <button class="center-aligned" *ngIf="get_Cover() == 4" (click)="set_Cover(0)">End Cover</button>
+            </div>
+            <div class="list-item row">
+                <button class="center-aligned" *ngIf="!get_FlatFooted()" (click)="set_FlatFooted(true)">Enable
+                    Flat-Footed</button>
+                <button class="center-aligned" *ngIf="get_FlatFooted()" (click)="set_FlatFooted(false)">Disable
+                    Flat-Footed</button>
             </div>
             <ng-container *ngIf="creature != 'Familiar'">
                 <h5 class="fullsize-only">Armor</h5>
@@ -37,8 +39,8 @@
                     <div>
                         {{armor.get_Name()}} AC:
                         <span>
-                            <input type="number" class="number2"
-                            title="{{get_ArmorBonus(armor)[1]}}" [ngModel]="get_ArmorBonus(armor)[0]" disabled>
+                            <input type="number" class="number2" title="{{get_ArmorBonus(armor)[1]}}"
+                                [ngModel]="get_ArmorBonus(armor)[0]" disabled>
                         </span>
                     </div>
                     <div class="fullsize-only row left-aligned" *ngIf="armor.traits.length">
@@ -65,41 +67,48 @@
                 <ng-container *ngFor="let shield of get_EquippedShield(); trackBy:trackByIndex;">
                     <h5 class="fullsize-only">Shield</h5>
                     <div class="row list-item">
-                        <div>{{shield.get_Name()}} AC: <input type="number" class="number1" [ngModel]="shield.get_ACBonus()" disabled>
+                        <div>{{shield.get_Name()}} AC: <input type="number" class="number1"
+                                [ngModel]="shield.get_ACBonus()" disabled>
                             Hardness: <input type="number" class="number2" [ngModel]="shield.get_Hardness()" disabled>
                             <div class="fullsize-only row left-aligned" *ngIf="shield.traits.length">
                                 <cite class="trait" *ngFor="let trait of shield.traits; trackBy:trackByIndex;"
                                     title="{{get_Traits(trait)[0].desc}}">{{trait}}</cite>
                             </div>
                             <app-tags [creature]="creature" [objectName]="'Shield'" [showTraits]=true [showFeats]=true
-                                [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
+                                [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true>
+                            </app-tags>
                             <div class="row">
                                 <button class="center-aligned" *ngIf="!shield.raised"
-                                    (click)="shield.raised = true; set_DefenseChanged()">Raise shield</button>
+                                    (click)="raise_Shield(true, shield)">Raise shield</button>
                                 <button class="center-aligned" *ngIf="shield.raised"
-                                    (click)="shield.raised = false; shield.takingCover = false; set_DefenseChanged()">Lower
+                                    (click)="raise_Shield(false, shield)">Lower
                                     shield</button>
                                 <button class="center-aligned"
                                     *ngIf="shield.raised && shield.coverbonus && !shield.takingCover"
-                                    (click)="shield.takingCover = true; set_DefenseChanged()">Take cover</button>
+                                    (click)="set_Cover(4, shield)">Take cover</button>
                                 <button class="center-aligned"
                                     *ngIf="shield.raised && shield.coverbonus && shield.takingCover"
-                                    (click)="shield.takingCover = false; set_DefenseChanged()">End cover</button>
+                                    (click)="set_Cover(0, shield)">End cover</button>
                             </div>
                             <div class="list-item row">
-                                <strong>HP</strong> <span><input type="number" class="number2" [ngModel]="shield.get_HitPoints()" disabled></span>
-                                <strong>Max HP</strong> <span><input type="number" class="number2" [ngModel]="shield.get_MaxHP()" disabled></span>
-                                <strong>BT</strong> <span><input type="number" class="number2" [ngModel]="shield.get_BrokenThreshold()" disabled></span>
+                                <strong>HP</strong> <span><input type="number" class="number2"
+                                        [ngModel]="shield.get_HitPoints()" disabled></span>
+                                <strong>Max HP</strong> <span><input type="number" class="number2"
+                                        [ngModel]="shield.get_MaxHP()" disabled></span>
+                                <strong>BT</strong> <span><input type="number" class="number2"
+                                        [ngModel]="shield.get_BrokenThreshold()" disabled></span>
                             </div>
                             <div class="list-item row">
                                 <span>
-                                    <button [disabled]="shieldDamage == 0" (click)="on_ShieldHPChange(shield, shieldDamage)">Damage</button>
+                                    <button [disabled]="shieldDamage == 0"
+                                        (click)="on_ShieldHPChange(shield, shieldDamage)">Damage</button>
                                 </span>
                                 <span>
                                     <input class="number3" type="number" [(ngModel)]="shieldDamage" maxLength="3">
                                 </span>
                                 <span>
-                                    <button [disabled]="shieldDamage == 0" (click)="on_ShieldHPChange(shield, -shieldDamage)">Repair</button>
+                                    <button [disabled]="shieldDamage == 0"
+                                        (click)="on_ShieldHPChange(shield, -shieldDamage)">Repair</button>
                                 </span>
                             </div>
                             <div class="fullsize-only lower row left-aligned"

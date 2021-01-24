@@ -4,7 +4,6 @@ import { EffectsService } from './effects.service';
 import { Armor } from './Armor';
 import { AC } from './AC';
 import { AnimalCompanion } from './AnimalCompanion';
-import { Familiar } from './Familiar';
 import { Character } from './Character';
 
 @Injectable({

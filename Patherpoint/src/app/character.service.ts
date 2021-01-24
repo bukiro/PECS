@@ -1050,7 +1050,10 @@ export class CharacterService {
                 }
                 //If you are unequipping a shield, you should also be lowering it and losing cover
                 if (item instanceof Shield) {
-                    item.takingCover = false;
+                    if (item.takingCover) {
+                        this.get_AC().set_Cover(creature, 0, item, this, this.conditionsService);
+                        item.takingCover = false;
+                    }
                     item.raised = false;
                 }
                 //If the item was invested, it isn't now.
@@ -1415,9 +1418,7 @@ export class CharacterService {
                 }
                 break;
             case "Cover":
-                this.defenseService.get_AC().set_Cover(creature, value);    
-                this.set_ToChange(creature.type, "defense");
-                this.set_ToChange(creature.type, "effects");
+                this.defenseService.get_AC().set_Cover(creature, value, null, this, this.conditionsService);
                 break;
         }
     }

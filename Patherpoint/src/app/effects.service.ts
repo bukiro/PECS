@@ -543,12 +543,6 @@ export class EffectsService {
 
         let itemEffects: Effect[] = [];
 
-        //Get cover bonuses
-        let coverBonus = characterService.get_AC().cover(creature);
-        if (coverBonus > 0) {
-            itemEffects.push(new Effect(creature.id, 'circumstance', "AC", "+" + coverBonus, "", false, "Cover", false));
-        }
-
         //Get Item bonuses for Character or Companion
         if (!familiar) {
             let items = creature.inventories[0];
@@ -569,12 +563,9 @@ export class EffectsService {
                 })
             })
             //Get shield bonuses from raised shields
-            //If a shield is raised, add its item bonus to AC with a + in front. If you are also taking cover while the shield is raised, add that bonus as well.
+            //If a shield is raised, add its circumstance bonus to AC with a + in front. If you are taking cover with the shield raised, you gain the "Greater Cover" condition; This doesn't need to be handled here.
             items.shields.filter(shield => shield.equipped && shield.raised && !shield.broken).forEach(shield => {
                 let shieldBonus = shield.get_ACBonus();
-                if (shield.takingCover) {
-                    shieldBonus += shield.coverbonus;
-                }
                 if (shieldBonus) {
                     itemEffects.push(new Effect(creature.id, 'circumstance', "AC", "+" + shieldBonus, "", false, shield.get_Name(), false));
                 }

@@ -262,6 +262,11 @@ export class ConditionsService {
             characterService.set_ToChange(creature.type, "attacks");
         }
 
+        //Update Defense if Defense conditions are changed.
+        if (gain.source == "Defense") {
+            characterService.set_ToChange(creature.type, "defense");
+        }
+
     }
 
     add_ConditionItem(creature: Character | AnimalCompanion, characterService: CharacterService, itemsService: ItemsService, gainItem: ItemGain, condition: Condition) {
