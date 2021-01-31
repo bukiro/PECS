@@ -285,6 +285,7 @@ export class FeatsService {
                                     insertSpellChoice.tradition = character.class.heritage.subType;
                                 }
                             }
+                            //Copy some information for functions that know the SpellGain, but not the SpellChoice.
                             insertSpellChoice.spells.forEach(gain => {
                                 gain.sourceId = insertSpellChoice.id;
                                 gain.source = insertSpellChoice.source;

@@ -168,6 +168,7 @@ export class SpellsService {
                     if (casting) {
                         newConditionGain.spellCastingAbility = casting.ability;
                     }
+                    newConditionGain.spellSource = gain?.source || "";
                     //If this spell was cast by an activity, it may have a specified duration. Apply that here.
                     if (customDuration) {
                         newConditionGain.duration = customDuration;

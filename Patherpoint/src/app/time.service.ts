@@ -60,11 +60,21 @@ export class TimeService {
                 con = Math.max(characterService.abilitiesService.get_Abilities("Constitution")[0].mod((creature as AnimalCompanion | Character), characterService, characterService.effectsService).result, 1);
             }
             let heal: number = con * charLevel;
+            this.effectsService.get_AbsolutesOnThis(creature, "Resting HP Gain").forEach(effect => {
+                heal = parseInt(effect.setValue);
+            })
             this.effectsService.get_RelativesOnThis(creature, "Resting HP Gain").forEach(effect => {
                 heal += parseInt(effect.value);
             })
-            characterService.get_Health(creature).heal(creature, characterService, characterService.effectsService, heal, true, true);
-
+            let multiplier = 1;
+            this.effectsService.get_AbsolutesOnThis(creature, "Resting HP Multiplier").forEach(effect => {
+                multiplier = parseInt(effect.setValue);
+            })
+            this.effectsService.get_RelativesOnThis(creature, "Resting HP Multiplier").forEach(effect => {
+                multiplier += parseInt(effect.value);
+            })
+            multiplier = Math.max(1, multiplier);
+            characterService.get_Health(creature).heal(creature, characterService, characterService.effectsService, heal * multiplier, true, true);
             //Reset all "once per day" activity cooldowns.
             this.activitiesService.rest(creature, characterService);
             //Reset all conditions that are "until the next time you make your daily preparations".

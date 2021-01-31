@@ -55,6 +55,8 @@ export class Weapon extends Equipment {
     public twohanded: boolean = false;
     //A Champion with the Divine Ally: Blade Ally Feat can designate one weapon or handwraps as his blade ally.
     public bladeAlly: boolean = false;
+    //A Dwarf with the Battleforger feat can sharpen a weapon to grant the effect of a +1 potency rune.
+    public battleforged: boolean = false;
     //Dexterity-based melee attacks force you to use dexterity for your attack modifier.
     public dexterityBased: boolean = false;
     get_RuneSource(creature: Creature, range: string) {
@@ -348,6 +350,14 @@ export class Weapon extends Equipment {
                 source = "Potency (" + runeSource[2].get_Name() + ")";
             }
             calculatedEffects.push(new Effect(creature.type, "item", this.name, potencyRune.toString(), "", false, source, false, true, true, 0))
+        }
+        if (runeSource[0].battleforged) {
+            let source = "Battleforged"
+            //If you're getting the battleforged bonus because of another item (like Handwraps of Mighty Blows), name it here
+            if (runeSource[2]) {
+                source = "Battleforged (" + runeSource[2].get_Name() + ")";
+            }
+            calculatedEffects.push(new Effect(creature.type, "item", this.name, "+1", "", false, source, false, true, true, 0))
         }
         //Shoddy items have a -2 item penalty to attacks, unless you have the Junk Tinker feat and have crafted the item yourself.
         if (this.shoddy && characterService.get_Feats("Junk Tinker")[0]?.have(creature, characterService) && this.crafted) {

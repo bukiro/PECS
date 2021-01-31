@@ -29,8 +29,10 @@ export class ConditionGain {
     public heightenedFilter: number = 0;
     //When casting a spell, the spell level is inserted here so it can be used for calculations.
     public heightened: number = 0;
-    //When casting a spell, some conditions want to calculate the spellcasting modifier, so we insert the spellcasting ability.
+    //When casting a spell, some conditions want to calculate the spellcasting modifier, so we copy the spellcasting ability.
     public spellCastingAbility: string = "";
+    //Some conditions change depending on how the spell was cast (particularly if they were cast as an Innate spell), so we copy the spell's source.
+    public spellSource: string = "";
     //A condition's gainActivities gets copied here to track.
     public gainActivities: ActivityGain[] = [];
     //A condition's gainItems gets copied here to track.

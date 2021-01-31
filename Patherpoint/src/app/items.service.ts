@@ -493,6 +493,38 @@ export class ItemsService {
                 });
             }
 
+            //If you have Battleforger, all your battleforged items are reset.
+            if (character.get_FeatsTaken(1, character.level, "Battleforger").length) {
+                let attacksChanged: boolean = false;
+                let defenseChanged: boolean = false;
+                character.inventories.forEach(inv => {
+                    inv.weapons.forEach(weapon => {
+                        if (weapon.battleforged) {
+                            attacksChanged = true;
+                        }
+                        weapon.battleforged = false;
+                    })
+                    inv.armors.forEach(armor => {
+                        if (armor.battleforged) {
+                            defenseChanged = true;
+                        }
+                        armor.battleforged = false;
+                    })
+                    inv.wornitems.forEach(wornitem => {
+                        if (wornitem.battleforged) {
+                            attacksChanged = true;
+                        }
+                        wornitem.battleforged = false;
+                    })
+                })
+                if (attacksChanged) {
+                    characterService.set_ToChange("Character", "attacks");
+                }
+                if (defenseChanged) {
+                    characterService.set_ToChange("Character", "defense");
+                }
+            }
+
             //For feats that grant you an item on rest, grant these here and set an expiration until the next rest.
             characterService.featsService.get_All(creature.customFeats)
                 .filter(feat => feat.gainItems.find(gain => gain.on == "rest") && feat.have(creature, characterService, creature.level))

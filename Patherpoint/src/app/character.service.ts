@@ -1334,7 +1334,7 @@ export class CharacterService {
         let value = 0;
         try {
             //we eval the effect value by sending this effect gain to get_SimpleEffects() and receive the resulting effect.
-            let effects = this.effectsService.get_SimpleEffects(this.get_Character(), this, { effects: [effectGain], value: conditionValue, heightened: conditionHeightened, choice: conditionChoice, spellCastingAbility: conditionSpellCastingAbility });
+            let effects = this.effectsService.get_SimpleEffects(this.get_Character(), this, { effects: [effectGain], spellSource: effectGain.spellSource, value: conditionValue, heightened: conditionHeightened, choice: conditionChoice, spellCastingAbility: conditionSpellCastingAbility });
             if (effects.length) {
                 let effect = effects[0];
                 if (effect?.value != "0" && (parseInt(effect.value) || parseFloat(effect.value))) {
@@ -1396,6 +1396,7 @@ export class CharacterService {
                     creature.health.takeDamage(creature, this, this.effectsService, -value, false)
                 }
                 this.set_ToChange(creature.type, "health");
+                this.set_ToChange(creature.type, "effects");
                 break;
             case "Languages":
                 let languages = (creature as Character).class.languages;

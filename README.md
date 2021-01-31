@@ -69,7 +69,7 @@ The very latest in Assistive Technologies for Dungeon Master (ATDM)
 - [x] Action Icons
 - [x] Implement all Ancestries (excluding Advanced Character Guide)
 - [ ] Implement all Ancestry Feats (excluding Advanced Character Guide)
-- [ ] - Dwarf
+- [x] - Dwarf
 - [x] - Elf
 - [ ] - Gnome
 - [x] - Goblin

@@ -23,6 +23,7 @@ import { SpellGain } from '../SpellGain';
 import { Wand } from '../Wand';
 import { Shield } from '../Shield';
 import { ConditionsService } from '../conditions.service';
+import { Weapon } from '../Weapon';
 
 @Component({
     selector: 'app-inventory',
@@ -39,7 +40,7 @@ export class InventoryComponent implements OnInit {
     private showList: string = "";
     public shieldDamage: number = 0;
     public targetInventory = null;
-    
+
     constructor(
         private changeDetector: ChangeDetectorRef,
         public characterService: CharacterService,
@@ -50,7 +51,7 @@ export class InventoryComponent implements OnInit {
         private spellsService: SpellsService,
         private conditionsService: ConditionsService
     ) { }
-    
+
     minimize() {
         this.characterService.get_Character().settings.inventoryMinimized = !this.characterService.get_Character().settings.inventoryMinimized;
     }
@@ -76,11 +77,11 @@ export class InventoryComponent implements OnInit {
     trackByIndex(index: number, obj: any): any {
         return index;
     }
-    
+
     get_Accent() {
         return this.characterService.get_Accent();
     }
-    
+
     toggle_List(type: string) {
         if (this.showList == type) {
             this.showList = "";
@@ -116,7 +117,7 @@ export class InventoryComponent implements OnInit {
     get_CompanionAvailable() {
         return this.characterService.get_CompanionAvailable();
     }
-    
+
     get_FamiliarAvailable() {
         return this.characterService.get_FamiliarAvailable();
     }
@@ -252,7 +253,7 @@ export class InventoryComponent implements OnInit {
     }
 
     sort_ItemSet(itemSet) {
-        return itemSet.sort((a,b) => {
+        return itemSet.sort((a, b) => {
             if (a.name > b.name) {
                 return 1;
             }
@@ -280,7 +281,7 @@ export class InventoryComponent implements OnInit {
     can_DropAll(item: Item) {
         //You can use the "Drop All" button if this item grants other items on grant or equip.
         return item.gainItems && item.gainItems.filter(gain => gain.on != "use").length;
-    }    
+    }
 
     drop_InventoryItem(item: Item, inventory: ItemCollection, pay: boolean = false) {
         this.showItem = 0;
@@ -483,10 +484,10 @@ export class InventoryComponent implements OnInit {
 
     can_ApplyTalismans(item: Item) {
         return (["armors", "shields", "weapons"].includes(item.type)) &&
-        (
-            (item as Equipment).talismans.length ||
-            this.get_Creature().inventories.some(inv => inv.talismans.some(talisman => talisman.targets.includes(item.type)))
-        )
+            (
+                (item as Equipment).talismans.length ||
+                this.get_Creature().inventories.some(inv => inv.talismans.some(talisman => talisman.targets.includes(item.type)))
+            )
     }
 
     get_Price(item: Item) {
@@ -523,7 +524,7 @@ export class InventoryComponent implements OnInit {
 
     have_QuickCrafting() {
         if (this.creature == "Character") {
-            return this.have_Feat("Quick Alchemy") || 
+            return this.have_Feat("Quick Alchemy") ||
                 this.have_Feat("Snare Specialist");
         }
     }
@@ -536,8 +537,8 @@ export class InventoryComponent implements OnInit {
         if (type == 'snarespecialist') {
             return this.get_FormulasLearned()
                 .filter(learned => learned.snareSpecialistPrepared)
-                .map(learned => Object.assign(new Object(), {learned:learned, item:this.itemsService.get_CleanItemByID(learned.id)}))
-                .sort(function(a,b) {
+                .map(learned => Object.assign(new Object(), { learned: learned, item: this.itemsService.get_CleanItemByID(learned.id) }))
+                .sort(function (a, b) {
                     if (a.item.name > b.item.name) {
                         return 1;
                     }
@@ -625,11 +626,27 @@ export class InventoryComponent implements OnInit {
     }
 
     get_BladeAllyAllowed(item: Item) {
-        return this.creature == "Character" && this.get_Character().get_FeatsTaken(1, this.get_Character().level, 'Divine Ally: Blade Ally').length && (item.type == "weapons" || (item.type == "wornitems" && (item as WornItem).isHandwrapsOfMightyBlows));
+        return this.creature == "Character" && this.get_Character().get_FeatsTaken(1, this.get_Character().level, 'Divine Ally: Blade Ally').length && ((item.type == "weapons" && (item as Weapon).prof != "Unarmed Attacks") || (item.type == "wornitems" && (item as WornItem).isHandwrapsOfMightyBlows));
     }
 
     get_BladeAllyUsed() {
         return this.get_Character().inventories.find(inventory => inventory.weapons.find(weapon => weapon.bladeAlly) || inventory.wornitems.find(wornItem => wornItem.isHandwrapsOfMightyBlows && wornItem.bladeAlly));
+    }
+
+    get_BattleforgedAllowed(item: Item) {
+        return (
+            this.get_Character().get_FeatsTaken(1, this.get_Character().level, 'Battleforger').length ||
+            this.effectsService.get_EffectsOnThis(this.get_Character(), "Allow Battleforger").length
+        ) && (
+                (
+                    item.type == "weapons" &&
+                    (item as Weapon).prof != "Unarmed Attacks"
+                ) ||
+                item.type == "armors" ||
+                (
+                    item.type == "wornitems" &&
+                    (item as WornItem).isHandwrapsOfMightyBlows)
+            );
     }
 
     on_ShieldHPChange(shield: Shield, amount: number) {
@@ -656,26 +673,26 @@ export class InventoryComponent implements OnInit {
         }
         return true;
     }
-    
+
     finish_Loading() {
         if (this.still_loading()) {
             setTimeout(() => this.finish_Loading(), 500)
         } else {
             this.characterService.get_Changed()
-            .subscribe((target) => {
-                if (["inventory", "all", this.creature].includes(target)) {
-                    this.changeDetector.detectChanges();
-                }
-            });
+                .subscribe((target) => {
+                    if (["inventory", "all", this.creature].includes(target)) {
+                        this.changeDetector.detectChanges();
+                    }
+                });
             this.characterService.get_ViewChanged()
-            .subscribe((view) => {
-                if (view.creature == this.creature && ["inventory", "all"].includes(view.target)) {
-                    this.changeDetector.detectChanges();
-                }
-                if (view.creature == "Character" && view.target == "span") {
-                    this.set_Span();
-                }
-            });
+                .subscribe((view) => {
+                    if (view.creature == this.creature && ["inventory", "all"].includes(view.target)) {
+                        this.changeDetector.detectChanges();
+                    }
+                    if (view.creature == "Character" && view.target == "span") {
+                        this.set_Span();
+                    }
+                });
             return true;
         }
     }

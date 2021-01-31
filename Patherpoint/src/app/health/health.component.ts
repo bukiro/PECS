@@ -172,6 +172,7 @@ export class HealthComponent implements OnInit {
     on_TakeDamage(health: Health) {
         health.takeDamage(this.get_Creature(), this.characterService, this.effectsService, this.damage, this.nonlethal);
         this.characterService.set_ToChange(this.creature, "health");
+        this.characterService.set_ToChange(this.creature, "effects");
         this.characterService.process_ToChange();
     }
 

@@ -3760,5 +3760,81 @@
         "traits": [
             "Lizardfolk"
         ]
+    },
+    {
+        "name": "Avenge in Glory",
+        "actions": "Reaction",
+        "trigger": "An ally within 30 feet gains the dying condition.",
+        "frequency": "once per day",
+        "cooldown": 144000,
+        "desc": "You honor your ally’s life, gaining temporary Hit Points equal to your level for 1 minute. As long as you have these temporary Hit Points, you gain a +1 circumstance bonus to attack and damage rolls.",
+        "gainConditions": [
+            {
+                "name": "Avenge in Glory",
+                "source": "Avenge in Glory",
+                "duration": 100
+            }
+        ],
+        "traits": [
+            "Uncommon",
+            "Dwarf"
+        ]
+    },
+    {
+        "name": "Clan's Edge",
+        "actions": "2A",
+        "desc": "By moving your clan dagger with rapid precision, you can protect yourself more effectively. Make two clan dagger Strikes against different targets. Your multiple attack penalty applies normally to these Strikes. You then use an Interact action to gain the +1 circumstance bonus to your AC from your clan dagger's parrying trait.",
+        "gainConditions": [
+            {
+                "name": "Clan's Edge",
+                "source": "Clan's Edge",
+                "duration": 10
+            }
+        ],
+        "traits": [
+            "Dwarf"
+        ]
+    },
+    {
+        "name": "Forge-Day's Rest",
+        "actions": "",
+        "desc": "Your unusual rest cycle allows you to recover faster. As long as you rest for 12 hours, you gain the effects of the Fast Recovery general feat and you can go 20 hours without resting before becoming fatigued.\n\nYour body quickly bounces back from afflictions. You regain twice as many Hit Points from resting. Each time you succeed at a Fortitude save against an ongoing disease or poison, you reduce its stage by 2, or by 1 against a virulent disease or poison. Each critical success you achieve against an ongoing disease or poison reduces its stage by 3, or by 2 against a virulent disease or poison. In addition, you reduce the severity of your drained condition by 2 when you rest for a night instead of by 1.",
+        "inputRequired": "As long as this activity is activated, the effects apply. Activate this activity before you rest in order to gain the bonus to hit points recovered. Tick 4 hours after resting to fill up the 12 hours if needed.",
+        "toggle": true,
+        "gainConditions": [
+            {
+                "name": "Forge-Day's Rest",
+                "source": "Forge-Day's Rest",
+                "duration": -1
+            }
+        ],
+        "traits": [
+            "Uncommon",
+            "Dwarf"
+        ]
+    },
+    {
+        "name": "Vengeful Hatred",
+        "actions": "",
+        "desc": "In addition to your bonus against your dwarven ancestral foes, if a creature critically succeeds at an attack against you and deals damage to you, you gain your bonus to damage against that creature for 1 minute regardless of whether it has the chosen trait. You gain a +1 circumstance bonus to damage with weapons and unarmed attacks against this creature. If your attack would deal more than one weapon die of damage (as is common at higher levels than 1st), the bonus is equal to the number of weapon dice or unarmed attack dice.",
+        "inputRequired": "Activate this activity whenever a creature critically succeeds at an attack against you and deals damage to you.",
+        "gainConditions": [
+            {
+                "name": "Vengeful Hatred",
+                "source": "Vengeful Hatred",
+                "duration": 100
+            }
+        ],
+        "traits": [
+            "Dwarf"
+        ]
+    },
+    {
+        "name": "Boulder Roll",
+        "actions": "2A",
+        "desc": "Your dwarven build allows you to push foes around, just like a mighty boulder tumbles through a subterranean cavern. Take a Step into the square of a foe that is your size or smaller, and the foe must move into the empty space directly behind it. The foe must move even if doing so places it in harm's way. The foe can attempt a Fortitude saving throw against your Athletics DC to block your Step. If the foe attempts this saving throw, unless it critically succeeds, it takes bludgeoning damage equal to your level plus your Strength modifier.\n\nIf the foe can't move into an empty space (if it is surrounded by solid objects or other creatures, for example), your Boulder Roll has no effect.",
+        "traits": [
+            "Dwarf"
+        ]
     }
 ]

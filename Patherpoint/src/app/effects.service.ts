@@ -191,8 +191,9 @@ export class EffectsService {
     }
 
     get_SimpleEffects(creature: Creature, characterService: CharacterService, object: any, name: string = "", parentConditionGain: ConditionGain = null) {
-        //If an item has a simple instruction in effects, such as "Strength", "+2", turn it into an effect,
+        //If an object has a simple instruction in effects, such as "Athletics", "+2", turn it into an effect,
         // then mark the effect as a penalty if the change is negative (except for Bulk).
+        //The effect can have a formula as well, for example "Max HP", "Character.level + 2", which is evaluated with the variables and functions listed here.
         //Try to get the type, too - if no type is given, set it to untyped.
         //Return an array of Effect objects
         let objectEffects: Effect[] = [];
@@ -213,6 +214,7 @@ export class EffectsService {
         let Heightened: number = object.heightened;
         let Choice: string = object.choice;
         let SpellCastingAbility: string = object.spellCastingAbility;
+        let SpellSource: string = object.spellSource;
         //Hint effects of conditions pass their conditionGain for these values.
         if (parentConditionGain) {
             Value = parentConditionGain.value;
@@ -849,7 +851,7 @@ export class EffectsService {
         let health: string[] = ["HP", "Fast Healing", "Hardness", "Max Dying", "Max HP", "Resting HP Gain", "Temporary HP", "Resting Blocked"];
         let healthWildcard: string[] = ["Resistance", "Immunity"];
         let defense: string[] = ["AC", "Saving Throws", "Fortitude", "Reflex", "Will", "Dexterity-based Checks and DCs", "Constitution-based Checks and DCs",
-            "Wisdom-based Checks and DCs", "All Checks and DCs", "Ignore Armor Penalty", "Ignore Armor Speed Penalty", "Proficiency Level"];
+            "Wisdom-based Checks and DCs", "All Checks and DCs", "Ignore Armor Penalty", "Ignore Armor Speed Penalty", "Proficiency Level", "Dexterity Modifier Cap"];
         let defenseWildcard: string[] = ["Proficiency Level"];
         let attacks: string[] = ["Damage Rolls", "Dexterity-based Checks and DCs", "Strength-based Checks and DCs", "All Checks and DCs",
             "Unarmed Damage per Die", "Weapon Damage per Die"];

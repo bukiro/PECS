@@ -67,5 +67,21 @@
             }
         ],
         "overridePriority": 1
+    },
+    {
+        "name": "Sheltering Slab",
+        "desc": "The stone around you is your ally, and you have learned to use it to shore up your weaknesses. As long as you remain on the ground and are adjacent to a vertical stone wall that rises to your height or taller, you aren't flat-footed against attacks as a result of being flanked. This works even if you are at the outside corner of the wall.",
+        "hints": [
+            {
+                "desc": "As long as you remain on the ground and are adjacent to a vertical stone wall that rises to your height or taller, you aren't flat-footed against attacks as a result of being flanked. This works even if you are at the outside corner of the wall.",
+                "showon": "Defense"
+            }
+        ],
+        "shortdesc": "The stone around you is your ally, and you have learned to use it to shore up your weaknesses.",
+        "sourceBook": "Advanced Character Guide",
+        "traits": [
+            "Dwarf"
+        ],
+        "levelreq": 5
     }
 ]

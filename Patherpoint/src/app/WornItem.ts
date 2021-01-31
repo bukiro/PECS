@@ -24,6 +24,8 @@ export class WornItem extends Equipment {
     public isAeonStone: boolean = false;
     //How is this item worn? Example: "worn belt"
     public usage: string = "";
+    //A Dwarf with the Battleforger feat can sharpen a weapon to grant the effect of a +1 potency rune. This applies to Handwraps of Mighty Blows only.
+    public battleforged: boolean = false;
     get_Price(itemsService: ItemsService) {
         let price = this.price;
         if (this.moddable == "weapon") {

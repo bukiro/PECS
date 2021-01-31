@@ -2701,6 +2701,7 @@
                 "showon": "Fortitude"
             }
         ],
+        "internalNote": "The Drained reduction is hardcoded in ConditionsService.rest()",
         "shortdesc": "Regain more HP from rest, recover faster from disease and poisons.",
         "traits": [
             "General"
@@ -2710,6 +2711,12 @@
             {
                 "ability": "Constitution",
                 "value": 14
+            }
+        ],
+        "effects": [
+            {
+                "affected": "Resting HP Multiplier",
+                "setValue": "2"
             }
         ]
     },
@@ -4244,28 +4251,6 @@
             {
                 "skill": "Acrobatics",
                 "value": 4
-            }
-        ]
-    },
-    {
-        "name": "Unburdened Iron",
-        "desc": "You've learned techniques first devised by your ancestors during their ancient wars, allowing you to comfortably wear massive suits of armor. Ignore the reduction to your Speed from any armor you wear.\n\nIn addition, any time you're taking a penalty to your Speed from some other reason (such as from the encumbered condition or from a spell), deduct 5 feet from the penalty. For example, the encumbered condition normally gives a -10-foot penalty to Speed, but it gives you only a -5-foot penalty. If your Speed is taking multiple penalties, pick only one penalty to reduce.",
-        "hints": [
-            {
-                "desc": "Any time you're taking a penalty to your Speed from any reason other than your armor (such as from the encumbered condition or from a spell), 5 feet are automatically deducted from the penalty. For example, the encumbered condition normally gives a -10-foot penalty to Speed, but it gives you only a -5-foot penalty. If your Speed is taking multiple penalties, only one penalty is reduced.",
-                "showon": "Movement"
-            }
-        ],
-        "internalNote": "The secondary effect is hardcoded.",
-        "shortdesc": "You've learned techniques first devised by your ancestors during their ancient wars, allowing you to comfortably wear massive suits of armor.",
-        "traits": [
-            "Dwarf"
-        ],
-        "levelreq": 1,
-        "effects": [
-            {
-                "affected": "Ignore Armor Speed Penalty",
-                "toggle": true
             }
         ]
     },
@@ -30815,27 +30800,6 @@
         ]
     },
     {
-        "name": "Mountain's Stoutness",
-        "desc": "Your hardiness lets you withstand more punishment than most before going down. Increase your maximum Hit Points by your level. When you have the dying condition, the DC of your recovery checks is equal to 9 + your dying value (instead of 10 + your dying value).\n\nIf you also have the Toughness feat, the Hit Points gained from it and this feat are cumulative, and the DC of your recovery checks is equal to 6 + your dying value.",
-        "hints": [
-            {
-                "desc": "When you have the dying condition, the DC of your recovery checks is equal to 9 + your dying value (instead of 10 + your dying value). If you have the Toughness feat, the DC of your recovery checks is equal to 6 + your dying value.",
-                "showon": "Max Dying"
-            }
-        ],
-        "shortdesc": "Your hardiness lets you withstand more punishment than most before going down.",
-        "traits": [
-            "Dwarf"
-        ],
-        "levelreq": 9,
-        "effects": [
-            {
-                "affected": "Max HP",
-                "value": "Level"
-            }
-        ]
-    },
-    {
         "name": "Badlands Orc",
         "desc": "You come from sun-scorched badlands, where long legs and an ability to withstand the elements helped you thrive. You can Hustle twice as long while exploring before you have to stop, and you treat environmental heat effects as if they were one step less extreme (incredible heat becomes extreme, extreme heat becomes severe, and so on).",
         "hints": [
@@ -32898,6 +32862,688 @@
                         "name": "Weapon Surge"
                     }
                 ]
+            }
+        ]
+    },
+    {
+        "name": "Avenge in Glory",
+        "desc": "You honor your ally's life, gaining temporary Hit Points equal to your level for 1 minute.",
+        "shortdesc": "You honor your ally's life, gaining temporary Hit Points equal to your level for 1 minute.",
+        "sourceBook": "Character Guide",
+        "traits": [
+            "Dwarf",
+            "Uncommon"
+        ],
+        "levelreq": 1,
+        "gainActivities": [
+            "Avenge in Glory"
+        ]
+    },
+    {
+        "name": "Clan's Edge",
+        "desc": "By moving your clan dagger with rapid precision, you can protect yourself more effectively.",
+        "shortdesc": "By moving your clan dagger with rapid precision, you can protect yourself more effectively.",
+        "sourceBook": "Character Guide",
+        "traits": [
+            "Dwarf"
+        ],
+        "levelreq": 1,
+        "specialreq": "characterService.get_Skills(character, 'Simple Weapons')[0]?.level(character, characterService) >= 2 || characterService.get_Skills(character, 'Clan Dagger')[0]?.level(character, characterService) >= 2",
+        "specialreqdesc": "trained in clan daggers",
+        "gainActivities": [
+            "Clan's Edge"
+        ]
+    },
+    {
+        "name": "Dwarven Lore",
+        "desc": "You eagerly absorbed the old stories and traditions of your ancestors, your gods, and your people, studying in subjects and techniques passed down for generation upon generation. You gain the trained proficiency rank in Crafting and Religion. If you would automatically become trained in one of those skills (from your background or class, for example), you instead become trained in a skill of your choice. You also become trained in Dwarven Lore.",
+        "shortdesc": "You eagerly absorbed the old stories and traditions of your ancestors, your gods, and your people.",
+        "traits": [
+            "Dwarf"
+        ],
+        "levelreq": 1,
+        "gainLoreChoice": [
+            {
+                "_className": "LoreChoice",
+                "loreName": "Dwarven",
+                "maxRank": 2,
+                "source": "Feat: Dwarven Lore"
+            }
+        ],
+        "gainSkillChoice": [
+            {
+                "_className": "SkillChoice",
+                "filter": [
+                    "Crafting",
+                    "Religion"
+                ],
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Crafting",
+                        "source": "Feat: Dwarven Lore"
+                    },
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Religion",
+                        "source": "Feat: Dwarven Lore"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Feat: Dwarven Lore",
+                "type": "Skill"
+            }
+        ]
+    },
+    {
+        "name": "Dwarven Weapon Familiarity",
+        "desc": "Your kin have instilled in you an affinity for hard-hitting weapons, and you prefer these to more elegant arms. You are trained with the battle axe, pick, and warhammer.\n\nYou also gain access to all uncommon dwarf weapons. For the purpose of determining your proficiency, martial dwarf weapons are simple weapons and advanced dwarf weapons are martial weapons.",
+        "hints": [
+            {
+                "desc": "You gain access to all uncommon dwarf weapons. For the purpose of determining your proficiency, martial dwarf weapons are simple weapons and advanced dwarf weapons are martial weapons.",
+                "showon": "Itemstore, Weapon Proficiencies"
+            }
+        ],
+        "shortdesc": "Your kin have instilled in you an affinity for hard-hitting weapons, and you prefer these to more elegant arms.",
+        "traits": [
+            "Dwarf"
+        ],
+        "levelreq": 1,
+        "changeProficiency": [
+            {
+                "proficiency": "Martial Weapons",
+                "result": "Simple Weapons",
+                "trait": "Dwarf"
+            },
+            {
+                "proficiency": "Advanced Weapons",
+                "result": "Martial Weapons",
+                "trait": "Dwarf"
+            }
+        ],
+        "gainSkillChoice": [
+            {
+                "_className": "SkillChoice",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Battle Axe",
+                        "source": "Feat: Dwarven Weapon Familiarity"
+                    },
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Pick",
+                        "source": "Feat: Dwarven Weapon Familiarity"
+                    },
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Warhammer",
+                        "source": "Feat: Dwarven Weapon Familiarity"
+                    },
+                    {
+                        "locked": true
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Feat: Dwarven Weapon Familiarity",
+                "type": "Specific Weapon Proficiency"
+            }
+        ]
+    },
+    {
+        "name": "Forge-Day's Rest",
+        "desc": "Your unusual rest cycle allows you to recover faster. As long as you rest for 12 hours, you gain the effects of the Fast Recovery general feat and you can go 20 hours without resting before becoming fatigued.",
+        "hints": [
+            {
+                "desc": "As long as you rest for 12 hours, you gain the effects of the Fast Recovery general feat and you can go 20 hours without resting before becoming fatigued. (Activate this under Actions and Activities before resting.)",
+                "showon": "Health"
+            }
+        ],
+        "access": "underground dwarf ethnicity",
+        "internalNote": "The Doomed reduction is hardcoded in ConditionsService.rest()",
+        "shortdesc": "Your unusual rest cycle allows you to recover faster.",
+        "sourceBook": "Character Guide",
+        "traits": [
+            "Dwarf",
+            "Uncommon"
+        ],
+        "levelreq": 1,
+        "gainActivities": [
+            "Forge-Day's Rest"
+        ]
+    },
+    {
+        "name": "Rock Runner",
+        "desc": "Your innate connection to stone makes you adept at moving across uneven surfaces. You can ignore difficult terrain caused by rubble and uneven ground made of stone and earth. In addition, when you use the Acrobatics skill to Balance on narrow surfaces or uneven ground made of stone or earth, you aren't flat-footed, and when you roll a success at one of these Acrobatics checks, you get a critical success instead.",
+        "hints": [
+            {
+                "desc": "You can ignore difficult terrain caused by rubble and uneven ground made of stone and earth.",
+                "showon": "Movement"
+            },
+            {
+                "desc": "When you use the Acrobatics skill to Balance on narrow surfaces or uneven ground made of stone or earth, you aren't flat-footed, and when you roll a success at one of these Acrobatics checks, you get a critical success instead.",
+                "showon": "Acrobatics"
+            }
+        ],
+        "shortdesc": "Your innate connection to stone makes you adept at moving across uneven surfaces.",
+        "traits": [
+            "Dwarf"
+        ],
+        "levelreq": 1
+    },
+    {
+        "name": "Stonecunning",
+        "desc": "You have a knack for noticing even small inconsistencies and craftsmanship techniques in the stonework around you. You gain a +2 circumstance bonus to Perception checks to notice unusual stonework. This bonus applies to checks to discover mechanical traps made of stone or hidden within stone.\n\nIf you aren't using the Seek action or searching, the GM automatically rolls a secret check for you to notice unusual stonework anyway. This check doesn't gain the circumstance bonus, and it takes a -2 circumstance penalty.",
+        "hints": [
+            {
+                "desc": "You gain a +2 circumstance bonus to Perception checks to notice unusual stonework. This bonus applies to checks to discover mechanical traps made of stone or hidden within stone.\n\n(Second activation) If you aren't using the Seek action or searching, the GM automatically rolls a secret check for you to notice unusual stonework anyway. This check doesn't gain the circumstance bonus, and it takes a -2 circumstance penalty.",
+                "showon": "Perception",
+                "effects": [
+                    {
+                        "affected": "Perception",
+                        "value": "object.active2 ?  -2 : (object.active ? 2 : 0)",
+                        "type": "circumstance"
+                    }
+                ],
+                "extraActivations": 1
+            }
+        ],
+        "shortdesc": "You have a knack for noticing even small inconsistencies and craftsmanship techniques in the stonework around you.",
+        "traits": [
+            "Dwarf"
+        ],
+        "levelreq": 1
+    },
+    {
+        "name": "Surface Culture",
+        "desc": "Your interactions with other cultures on the surface have not only taught you about many other ancestries, but have also helped you realize the value of your own. You gain the trained proficiency rank in the Society skill (or another skill of your choice if you were already trained in Society), and you gain the Additional Lore skill feat for the Lore corresponding to your culture (for instance, Ouat Lore or Pahmet Lore).",
+        "access": "any surface dwarf ethnicity",
+        "shortdesc": "Your interactions with other cultures on the surface have not only taught you about many other ancestries, but have also helped you realize the value of your own.",
+        "sourceBook": "Character Guide",
+        "traits": [
+            "Dwarf",
+            "Uncommon"
+        ],
+        "levelreq": 1,
+        "gainFeatChoice": [
+            {
+                "_className": "FeatChoice",
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Additional Lore"
+                    }
+                ],
+                "source": "Feat: Surface Culture",
+                "type": "Skill"
+            }
+        ],
+        "gainSkillChoice": [
+            {
+                "_className": "SkillChoice",
+                "filter": [
+                    "Society"
+                ],
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Society",
+                        "source": "Feat: Surface Culture"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Feat: Surface Culture",
+                "type": "Skill"
+            }
+        ]
+    },
+    {
+        "name": "Unburdened Iron",
+        "desc": "You've learned techniques first devised by your ancestors during their ancient wars, allowing you to comfortably wear massive suits of armor. Ignore the reduction to your Speed from any armor you wear.\n\nIn addition, any time you're taking a penalty to your Speed from some other reason (such as from the encumbered condition or from a spell), deduct 5 feet from the penalty. For example, the encumbered condition normally gives a -10-foot penalty to Speed, but it gives you only a -5-foot penalty. If your Speed is taking multiple penalties, pick only one penalty to reduce.",
+        "hints": [
+            {
+                "desc": "Any time you're taking a penalty to your Speed from any reason other than your armor (such as from the encumbered condition or from a spell), 5 feet are automatically deducted from the penalty. For example, the encumbered condition normally gives a -10-foot penalty to Speed, but it gives you only a -5-foot penalty. If your Speed is taking multiple penalties, only one penalty is reduced.",
+                "showon": "Movement"
+            }
+        ],
+        "internalNote": "The secondary effect is hardcoded.",
+        "shortdesc": "You've learned techniques first devised by your ancestors during their ancient wars, allowing you to comfortably wear massive suits of armor.",
+        "traits": [
+            "Dwarf"
+        ],
+        "levelreq": 1,
+        "effects": [
+            {
+                "affected": "Ignore Armor Speed Penalty",
+                "toggle": true
+            }
+        ]
+    },
+    {
+        "name": "Vengeful Hatred",
+        "desc": "You heart aches for vengeance against those who have wronged your people. Choose one of the following dwarven ancestral foes when you gain Vengeful Hatred: drow, duergar, giant, or orc. You gain a +1 circumstance bonus to damage with weapons and unarmed attacks against creatures with that trait. If your attack would deal more than one weapon die of damage (as is common at higher levels than 1st), the bonus is equal to the number of weapon dice or unarmed attack dice. In addition, if a creature critically succeeds at an attack against you and deals damage to you, you gain your bonus to damage against that creature for 1 minute regardless of whether it has the chosen trait.",
+        "specialdesc": "Your GM can add appropriate creature traits to the ancestral foes list if your character is from a community that commonly fights other types of enemies.",
+        "subTypes": true,
+        "shortdesc": "You heart aches for vengeance against those who have wronged your people.",
+        "traits": [
+            "Dwarf"
+        ],
+        "levelreq": 1
+    },
+    {
+        "name": "Vengeful Hatred: Drow",
+        "desc": "You heart aches for vengeance against those who have wronged your people. You gain a +1 circumstance bonus to damage with weapons and unarmed attacks against creatures with the Drow trait. If your attack would deal more than one weapon die of damage (as is common at higher levels than 1st), the bonus is equal to the number of weapon dice or unarmed attack dice. In addition, if a creature critically succeeds at an attack against you and deals damage to you, you gain your bonus to damage against that creature for 1 minute regardless of whether it has the Drow trait.",
+        "hints": [
+            {
+                "desc": "You gain a +1 circumstance bonus to damage with weapons and unarmed attacks against creatures with the Drow trait. If your attack would deal more than one weapon die of damage, the bonus is equal to the number of weapon dice or unarmed attack dice. In addition, if a creature critically succeeds at an attack against you and deals damage to you, you gain your bonus to damage against that creature for 1 minute regardless of whether it has the Drow trait.",
+                "showon": "Attacks",
+                "effects": [
+                    {
+                        "affected": "Unarmed Damage per Die",
+                        "value": "1",
+                        "type": "circumstance"
+                    },
+                    {
+                        "affected": "Weapon Damage per Die",
+                        "value": 1,
+                        "type": "circumstance"
+                    }
+                ]
+            }
+        ],
+        "subType": "Drow",
+        "superType": "Vengeful Hatred",
+        "shortdesc": "You heart aches for vengeance against those who have wronged your people.",
+        "traits": [
+            "Dwarf"
+        ],
+        "levelreq": 1,
+        "gainActivities": [
+            "Vengeful Hatred"
+        ]
+    },
+    {
+        "name": "Vengeful Hatred: Duergar",
+        "desc": "You heart aches for vengeance against those who have wronged your people. You gain a +1 circumstance bonus to damage with weapons and unarmed attacks against creatures with the Duergar trait. If your attack would deal more than one weapon die of damage (as is common at higher levels than 1st), the bonus is equal to the number of weapon dice or unarmed attack dice. In addition, if a creature critically succeeds at an attack against you and deals damage to you, you gain your bonus to damage against that creature for 1 minute regardless of whether it has the Duergar trait.",
+        "hints": [
+            {
+                "desc": "You gain a +1 circumstance bonus to damage with weapons and unarmed attacks against creatures with the Duergar trait. If your attack would deal more than one weapon die of damage, the bonus is equal to the number of weapon dice or unarmed attack dice. In addition, if a creature critically succeeds at an attack against you and deals damage to you, you gain your bonus to damage against that creature for 1 minute regardless of whether it has the Duergar trait.",
+                "showon": "Attacks",
+                "effects": [
+                    {
+                        "affected": "Unarmed Damage per Die",
+                        "value": "1",
+                        "type": "circumstance"
+                    },
+                    {
+                        "affected": "Weapon Damage per Die",
+                        "value": 1,
+                        "type": "circumstance"
+                    }
+                ]
+            }
+        ],
+        "subType": "Duergar",
+        "superType": "Vengeful Hatred",
+        "shortdesc": "You heart aches for vengeance against those who have wronged your people.",
+        "traits": [
+            "Dwarf"
+        ],
+        "levelreq": 1,
+        "gainActivities": [
+            "Vengeful Hatred"
+        ]
+    },
+    {
+        "name": "Vengeful Hatred: Giant",
+        "desc": "You heart aches for vengeance against those who have wronged your people. You gain a +1 circumstance bonus to damage with weapons and unarmed attacks against creatures with the Giant trait. If your attack would deal more than one weapon die of damage (as is common at higher levels than 1st), the bonus is equal to the number of weapon dice or unarmed attack dice. In addition, if a creature critically succeeds at an attack against you and deals damage to you, you gain your bonus to damage against that creature for 1 minute regardless of whether it has the Giant trait.",
+        "hints": [
+            {
+                "desc": "You gain a +1 circumstance bonus to damage with weapons and unarmed attacks against creatures with the Giant trait. If your attack would deal more than one weapon die of damage, the bonus is equal to the number of weapon dice or unarmed attack dice. In addition, if a creature critically succeeds at an attack against you and deals damage to you, you gain your bonus to damage against that creature for 1 minute regardless of whether it has the Giant trait.",
+                "showon": "Attacks",
+                "effects": [
+                    {
+                        "affected": "Unarmed Damage per Die",
+                        "value": "1",
+                        "type": "circumstance"
+                    },
+                    {
+                        "affected": "Weapon Damage per Die",
+                        "value": 1,
+                        "type": "circumstance"
+                    }
+                ]
+            }
+        ],
+        "subType": "Giant",
+        "superType": "Vengeful Hatred",
+        "shortdesc": "You heart aches for vengeance against those who have wronged your people.",
+        "traits": [
+            "Dwarf"
+        ],
+        "levelreq": 1,
+        "gainActivities": [
+            "Vengeful Hatred"
+        ]
+    },
+    {
+        "name": "Vengeful Hatred: Orc",
+        "desc": "You heart aches for vengeance against those who have wronged your people. You gain a +1 circumstance bonus to damage with weapons and unarmed attacks against creatures with the Orc trait. If your attack would deal more than one weapon die of damage (as is common at higher levels than 1st), the bonus is equal to the number of weapon dice or unarmed attack dice. In addition, if a creature critically succeeds at an attack against you and deals damage to you, you gain your bonus to damage against that creature for 1 minute regardless of whether it has the Orc trait.",
+        "hints": [
+            {
+                "desc": "You gain a +1 circumstance bonus to damage with weapons and unarmed attacks against creatures with the Orc trait. If your attack would deal more than one weapon die of damage, the bonus is equal to the number of weapon dice or unarmed attack dice. In addition, if a creature critically succeeds at an attack against you and deals damage to you, you gain your bonus to damage against that creature for 1 minute regardless of whether it has the Orc trait.",
+                "showon": "Attacks",
+                "effects": [
+                    {
+                        "affected": "Unarmed Damage per Die",
+                        "value": "1",
+                        "type": "circumstance"
+                    },
+                    {
+                        "affected": "Weapon Damage per Die",
+                        "value": 1,
+                        "type": "circumstance"
+                    }
+                ]
+            }
+        ],
+        "subType": "Orc",
+        "superType": "Vengeful Hatred",
+        "shortdesc": "You heart aches for vengeance against those who have wronged your people.",
+        "traits": [
+            "Dwarf"
+        ],
+        "levelreq": 1,
+        "gainActivities": [
+            "Vengeful Hatred"
+        ]
+    },
+    {
+        "name": "Boulder Roll",
+        "desc": "Your dwarven build allows you to push foes around, just like a mighty boulder.",
+        "shortdesc": "Your dwarven build allows you to push foes around, just like a mighty boulder.",
+        "traits": [
+            "Dwarf"
+        ],
+        "levelreq": 5,
+        "featreq": [
+            "Rock Runner"
+        ],
+        "gainActivities": [
+            "Boulder Roll"
+        ]
+    },
+    {
+        "name": "Clan Protector",
+        "desc": "Your clan dagger can protect your allies as easily as yourself. When you use an Interact action to gain a circumstance bonus to AC from your clan dagger's parry trait, you can grant the circumstance bonus to an adjacent ally instead of gaining it yourself. You can use multiple Interact actions to protect multiple allies, or to protect yourself and an ally. The ally benefits from the bonus to AC only when they are adjacent to you.",
+        "hints": [
+            {
+                "desc": "When you use an Interact action to gain a circumstance bonus to AC from your clan dagger's parry trait, you can grant the circumstance bonus to an adjacent ally instead of gaining it yourself. You can use multiple Interact actions to protect multiple allies, or to protect yourself and an ally. The ally benefits from the bonus to AC only when they are adjacent to you.\n\n(Your allies can apply the bonus with the Clan Protector condition.)",
+                "showon": "AC, Clan Dagger"
+            }
+        ],
+        "shortdesc": "Your clan dagger can protect your allies as easily as yourself.",
+        "sourceBook": "Character Guide",
+        "traits": [
+            "Dwarf"
+        ],
+        "levelreq": 5
+    },
+    {
+        "name": "Dwarven Weapon Cunning",
+        "desc": "You've learned cunning techniques to get the best effects out of your dwarven weapons. Whenever you critically hit using a battle axe, pick, warhammer, or a dwarf weapon, you apply the weapon's critical specialization effect.",
+        "shortdesc": "You've learned cunning techniques to get the best effects out of your dwarven weapons.",
+        "traits": [
+            "Dwarf"
+        ],
+        "levelreq": 5,
+        "featreq": [
+            "Dwarven Weapon Familiarity"
+        ],
+        "gainSpecialization": [
+            {
+                "trait": "Dwarf"
+            },
+            {
+                "name": "Battle Axe"
+            },
+            {
+                "name": "Pick"
+            },
+            {
+                "name": "Warhammer"
+            }
+        ]
+    },
+    {
+        "name": "Protective Sheath",
+        "desc": "When you lash out with your clan dagger, you keep its sheath close at hand. When you use Clan's Edge, if the hand you're not holding the dagger with is empty, you can use your clan dagger's sheath to block attacks as well. The circumstance bonus to your AC from parrying increases to a +2 against any target you hit with a Strike this turn.",
+        "hints": [
+            {
+                "desc": "When you use Clan's Edge, if the hand you're not holding the dagger with is empty, you can use your clan dagger's sheath to block attacks as well. The circumstance bonus to your AC from parrying increases to a +2 against any target you hit with a Strike this turn.",
+                "showon": "AC, Clan's Edge",
+                "effects": [
+                    {
+                        "affected": "AC",
+                        "value": "2",
+                        "type": "circumstance"
+                    }
+                ]
+            }
+        ],
+        "shortdesc": "When you lash out with your clan dagger, you keep its sheath close at hand.",
+        "sourceBook": "Character Guide",
+        "traits": [
+            "Dwarf"
+        ],
+        "levelreq": 5,
+        "featreq": [
+            "Clan's Edge"
+        ]
+    },
+    {
+        "name": "Tomb-Watcher's Glare",
+        "desc": "When you critically hit an undead creature, or an undead creature critically fails a saving throw against one of your abilities, you drive your divine wrath home in your enemy's heart. The undead is enfeebled 1 for 1 round.",
+        "hints": [
+            {
+                "desc": "When you critically hit an undead creature, or an undead creature critically fails a saving throw against one of your abilities, you drive your divine wrath home in your enemy's heart. The undead is enfeebled 1 for 1 round.",
+                "showon": "Activities, Attacks"
+            }
+        ],
+        "shortdesc": "When you critically hit an undead creature, or an undead creature critically fails a saving throw against one of your abilities, you drive your divine wrath home in your enemy's heart.",
+        "sourceBook": "Character Guide",
+        "traits": [
+            "Dwarf",
+            "Divine"
+        ],
+        "levelreq": 5,
+        "heritagereq": "death warden dwarf"
+    },
+    {
+        "name": "Battleforger",
+        "desc": "You can sharpen weapons, polish armor, and apply special techniques to temporarily gain better effects from your armaments. By spending 1 hour working on a weapon or armor, you can grant it the effects of a +1 potency rune until your next daily preparations, gaining a +1 item bonus to attack rolls for a weapon or increasing armor's item bonus to AC by 1. This has no effect if the weapon or armor already had a potency rune.",
+        "hints": [
+            {
+                "desc": "By spending 1 hour working on a weapon or armor, you can grant it the effects of a +1 potency rune until your next daily preparations, gaining a +1 item bonus to attack rolls for a weapon or increasing an armor's item bonus to AC by 1. This has no effect if the weapon or armor already had a potency rune.\n\nYour allies can take advantage of this feat by granting themselves the Battleforger condition.",
+                "showon": "Inventory"
+            }
+        ],
+        "internalNote": "The functionality is hardcoded on weapons, armors and worn items and in the inventory component.",
+        "shortdesc": "You can sharpen weapons, polish armor, and apply special techniques to temporarily gain better effects from your armaments.",
+        "sourceBook": "Character Guide",
+        "traits": [
+            "Dwarf"
+        ],
+        "levelreq": 9,
+        "skillreq": [
+            {
+                "skill": "Crafting",
+                "value": 6
+            }
+        ]
+    },
+    {
+        "name": "Energy Blessed",
+        "desc": "Energy runs through your blood more powerfully. When you use Energy Emanation, you can create an emanation of 5 feet, 10 feet, or 15 feet. The damage increases to 6d6 plus an additional 1d6 for every level you have above 9th, instead of 1d6 plus an additional 1d6 for every 2 levels above 1st.",
+        "hints": [
+            {
+                "desc": "When you use Energy Emanation, you can create an emanation of 5 feet, 10 feet, or 15 feet. The damage increases to 6d6 plus an additional 1d6 for every level you have above 9th, instead of 1d6 plus an additional 1d6 for every 2 levels above 1st.",
+                "showon": "Energy Emanation"
+            }
+        ],
+        "shortdesc": "Energy runs through your blood more powerfully.",
+        "sourceBook": "Character Guide",
+        "traits": [
+            "Dwarf"
+        ],
+        "levelreq": 9,
+        "heritagereq": "elemental heart dwarf (acid) or elemental heart dwarf (cold) or elemental heart dwarf (electricity) or elemental heart dwarf (fire)"
+    },
+    {
+        "name": "Heroes' Call",
+        "desc": "The songs of ancient heroes echo through your mind and quicken your pulse, especially in dire straits. You gain heroism as a 3rd-level innate occult spell that you can cast once per day. If you Cast the Spell when you have half or fewer Hit Points, you also gain temporary Hit Points equal to twice your level.",
+        "hints": [
+            {
+                "desc": "When you cast heroism as an innate spell gained through the Heroes' Call feat, and you have half or fewer Hit Points, you gain temporary Hit Points equal to twice your level.",
+                "showon": "Heroism"
+            }
+        ],
+        "shortdesc": "The songs of ancient heroes echo through your mind and quicken your pulse, especially in dire straits.",
+        "sourceBook": "Character Guide",
+        "traits": [
+            "Dwarf"
+        ],
+        "levelreq": 9,
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Innate",
+                "className": "Innate",
+                "cooldown": 144000,
+                "frequency": "once per day",
+                "id": "321c61e5-9a3c-40a2-afe1-01be4dff4547",
+                "level": 3,
+                "source": "Feat: Heroes' Call",
+                "spells": [
+                    {
+                        "locked": true,
+                        "name": "Heroism"
+                    }
+                ],
+                "tradition": "Occult"
+            }
+        ]
+    },
+    {
+        "name": "Kneel for No God",
+        "desc": "Your ancestors' defiance of magic and your people's strictly egalitarian mindset mean that certain forms of magic have little effect on you. When you use your Call on Ancient Blood reaction against a divine spell and roll a critical failure on the saving throw against that spell, you get a failure instead.",
+        "hints": [
+            {
+                "desc": "When you use your Call on Ancient Blood reaction against a divine spell and roll a critical failure on the saving throw against that spell, you get a failure instead.",
+                "showon": "Call on Ancient Blood: Fortitude, Call on Ancient Blood: Reflex, Call on Ancient Blood: Will"
+            }
+        ],
+        "access": "Vahird ethnicity",
+        "shortdesc": "Your ancestors' defiance of magic and your people's strictly egalitarian mindset mean that certain forms of magic have little effect on you.",
+        "sourceBook": "Character Guide",
+        "traits": [
+            "Dwarf"
+        ],
+        "levelreq": 9,
+        "heritagereq": "ancient-blooded dwarf"
+    },
+    {
+        "name": "Mountain's Stoutness",
+        "desc": "Your hardiness lets you withstand more punishment than most before going down. Increase your maximum Hit Points by your level. When you have the dying condition, the DC of your recovery checks is equal to 9 + your dying value (instead of 10 + your dying value).\n\nIf you also have the Toughness feat, the Hit Points gained from it and this feat are cumulative, and the DC of your recovery checks is equal to 6 + your dying value.",
+        "hints": [
+            {
+                "desc": "When you have the dying condition, the DC of your recovery checks is equal to 9 + your dying value (instead of 10 + your dying value). If you have the Toughness feat, the DC of your recovery checks is equal to 6 + your dying value.",
+                "showon": "Max Dying"
+            }
+        ],
+        "shortdesc": "Your hardiness lets you withstand more punishment than most before going down.",
+        "traits": [
+            "Dwarf"
+        ],
+        "levelreq": 9,
+        "effects": [
+            {
+                "affected": "Max HP",
+                "value": "Level"
+            }
+        ]
+    },
+    {
+        "name": "Stonewalker",
+        "desc": "You have a deep reverence for and connection to stone. You gain meld into stone as a 3rd-level divine innate spell that you can cast once per day.\n\nIf you have the Stonecunning dwarf ancestry feat, you can attempt to find unusual stonework and stonework traps that require legendary proficiency in Perception. If you have both Stonecunning and legendary proficiency in Perception, when you're not Seeking and the GM rolls a secret check for you to notice unusual stonework, you keep the bonus from Stonecunning and don't take the -2 circumstance penalty.",
+        "hints": [
+            {
+                "desc": "If you have the Stonecunning dwarf ancestry feat, you can attempt to find unusual stonework and stonework traps that require legendary proficiency in Perception. If you have both Stonecunning and legendary proficiency in Perception, when you're not Seeking and the GM rolls a secret check for you to notice unusual stonework, you keep the bonus from Stonecunning and don't take the -2 circumstance penalty.",
+                "showon": "Perception"
+            }
+        ],
+        "shortdesc": "You have a deep reverence for and connection to stone.",
+        "traits": [
+            "Dwarf"
+        ],
+        "levelreq": 9,
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Innate",
+                "className": "Innate",
+                "cooldown": 144000,
+                "frequency": "once per day",
+                "id": "4a719495-d4cb-43ac-b2e2-bfadd6699147",
+                "level": 3,
+                "source": "Feat: Stonewalker",
+                "spells": [
+                    {
+                        "locked": true,
+                        "name": "Meld into Stone"
+                    }
+                ],
+                "tradition": "Divine"
+            }
+        ]
+    },
+    {
+        "name": "Dwarven Weapon Expertise",
+        "desc": "Your dwarven affinity blends with your training, granting you great skill with dwarven weapons. Whenever you gain a class feature that grants you expert or greater proficiency in certain weapons, you also gain that proficiency for battle axes, picks, warhammers, and all dwarven weapons in which you are trained.",
+        "shortdesc": "Your dwarven affinity blends with your training, granting you great skill with dwarven weapons.",
+        "traits": [
+            "Dwarf"
+        ],
+        "levelreq": 13,
+        "featreq": [
+            "Dwarven Weapon Familiarity"
+        ],
+        "copyProficiency": [
+            {
+                "name": "Dwarf",
+                "type": "Weapon Proficiency",
+                "featuresOnly": true
+            },
+            {
+                "name": "Battle Axe",
+                "type": "Weapon Proficiency",
+                "featuresOnly": true
+            },
+            {
+                "name": "Pick",
+                "type": "Weapon Proficiency",
+                "featuresOnly": true
+            },
+            {
+                "name": "Warhammer",
+                "type": "Weapon Proficiency",
+                "featuresOnly": true
             }
         ]
     }

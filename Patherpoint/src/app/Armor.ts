@@ -39,6 +39,8 @@ export class Armor extends Equipment {
     public speedpenalty: number = 0;
     //The strength requirement (strength, not STR) to overcome skill and speed penalties
     private strength: number = 0;
+    //A Dwarf with the Battleforger feat can polish armor to grant the effect of a +1 potency rune.
+    public battleforged: boolean = false;
     get_Bulk() {
         //Return either the bulk set by an oil, or else the actual bulk of the item.
         let oilBulk: string = "";
@@ -162,20 +164,33 @@ export class Armor extends Equipment {
             explain += "\nCharacter Level: "+charLevelBonus;
         }
         //Add the dexterity modifier up to the armor's dex cap, unless there is no cap
-        let dexBonus = (this.dexcap != -1) ? Math.min(dex, (this.get_DexCap())) : dex;
+        let dexcap = this.get_DexCap();
+        effectsService.get_AbsolutesOnThis(creature, "Dexterity Modifier Cap").forEach(effect => {
+                dexcap = parseInt(effect.setValue);
+                explain += "\n" + effect.source + ": Dexterity modifier cap " + dexcap;
+            })
+        effectsService.get_RelativesOnThis(creature, "Dexterity Modifier Cap").forEach(effect => {
+                dexcap += parseInt(effect.value);
+                explain += "\n" + effect.source + ": Dexterity modifier cap " + parseInt(effect.value);
+            })
+        let dexBonus = (dexcap != -1) ? Math.max(Math.min(dex, dexcap), 0) : dex;
         if (dexBonus) {
-            if (this.dexcap != -1 && this.get_DexCap() < dex) {
+            if (dexcap != -1 && this.get_DexCap() < dex) {
                 explain += "\nDexterity Modifier (capped): "+dexBonus;
             } else {
                 explain += "\nDexterity Modifier: "+dexBonus;
             }
         }
-        if (this.get_PotencyRune() > 0) {
+        let potency = this.get_PotencyRune();
+        if (potency) {
             explain += "\nPotency: "+this.get_Potency(this.get_PotencyRune());
+        } else if (this.battleforged) {
+            potency = 1;
+            explain += "\nBattleforged: "+this.get_Potency(this.get_PotencyRune());
         }
         //Add up all modifiers and return the AC gained from this armor
         //Also adding any inherent AC bonus
-        let defenseResult: number = 10 + charLevelBonus + skillLevel + this.get_ACBonus() + dexBonus + this.get_PotencyRune();
+        let defenseResult: number = 10 + charLevelBonus + skillLevel + this.get_ACBonus() + dexBonus + potency;
         if (this.get_ACBonus() || this.$shoddy) {
             if (this.$shoddy) {
                 explain += "\nArmor Bonus: "+(this.get_ACBonus() + 2);

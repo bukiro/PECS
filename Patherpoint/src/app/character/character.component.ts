@@ -771,7 +771,7 @@ export class CharacterComponent implements OnInit {
         }
         return this.get_Heritages(name, ancestryName)
             .filter(availableHeritage =>
-                (!heritage?.name || availableHeritage.name == heritage.name) &&
+                (!heritage?.name || availableHeritage.name == heritage.name || availableHeritage.subTypes?.some(subType => subType.name == heritage.name)) &&
                 (
                     index == -1
                     ? true

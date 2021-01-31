@@ -135,9 +135,13 @@ export class ConditionsService {
             if (taken) {
                 condition.onceEffects.forEach(effect => {
                     let tempEffect = Object.assign(new EffectGain, JSON.parse(JSON.stringify(effect)));
+                    //Copy some data to allow calculations and tracking temporary HP.
                     if (!tempEffect.source) {
                         tempEffect.source = condition.name;
                         tempEffect.sourceId = gain.id;
+                    }
+                    if (!tempEffect.spellSource) {
+                        tempEffect.spellSource = gain.spellSource;
                     }
                     characterService.process_OnceEffect(creature, tempEffect, gain.value, gain.heightened, gain.choice, gain.spellCastingAbility);
                 })
@@ -149,9 +153,13 @@ export class ConditionsService {
             if (!taken) {
                 condition.endEffects.forEach(effect => {
                     let tempEffect = Object.assign(new EffectGain, JSON.parse(JSON.stringify(effect)));
+                    //Copy some data to allow calculations and tracking temporary HP.
                     if (!tempEffect.source) {
                         tempEffect.source = condition.name;
                         tempEffect.sourceId = gain.id;
+                    }
+                    if (!tempEffect.spellSource) {
+                        tempEffect.spellSource = gain.spellSource;
                     }
                     characterService.process_OnceEffect(creature, tempEffect, gain.value, gain.heightened, gain.choice, gain.spellCastingAbility);
                 })
@@ -198,7 +206,7 @@ export class ConditionsService {
                                 gainItem.heightenedFilter == gain.heightened
                             )
                         ).forEach(gainItem => {
-                            this.add_ConditionItem((creature as AnimalCompanion|Character), characterService, itemsService, gainItem, condition);
+                            this.add_ConditionItem((creature as AnimalCompanion | Character), characterService, itemsService, gainItem, condition);
                         });
                 } else {
                     gain.gainItems
@@ -211,7 +219,7 @@ export class ConditionsService {
                                 gainItem.heightenedFilter == gain.heightened
                             )
                         ).forEach(gainItem => {
-                            this.remove_ConditionItem((creature as AnimalCompanion|Character), characterService, itemsService, gainItem);
+                            this.remove_ConditionItem((creature as AnimalCompanion | Character), characterService, itemsService, gainItem);
                         });
                     gain.gainItems = [];
                 }
@@ -388,10 +396,18 @@ export class ConditionsService {
         if (!creature.conditions.find(gain => this.get_Conditions(gain.name)?.[0]?.gainConditions.find(subgain => subgain.name == "Fatigued"))) {
             creature.conditions.filter(gain => gain.name == "Fatigued").forEach(gain => characterService.remove_Condition(creature, gain));
         }
-
         creature.conditions.filter(gain => gain.name == "Doomed").forEach(gain => { gain.value -= 1 });
         creature.conditions.filter(gain => gain.name == "Drained").forEach(gain => {
             gain.value -= 1;
+            if (
+                (
+                    creature.type == "Character" &&
+                    (creature as Character).get_FeatsTaken(1, creature.level, "Fast Recovery").length
+                ) ||
+                characterService.get_AppliedConditions(creature, "Forge-Day's Rest", "", true).length
+            ) {
+                gain.value -= 1;
+            }
             creature.health.damage += creature.level;
         });
     }

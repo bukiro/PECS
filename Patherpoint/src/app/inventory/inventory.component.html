@@ -117,6 +117,7 @@
                                 <span title="Temporary Item" *ngIf="item.expiration">&#9851;&nbsp;</span>
                                 <span title="Large Weapon" *ngIf="item.large">&#10034;&nbsp;</span>
                                 <span title="Blade Ally" *ngIf="item.bladeAlly">&#10037;&nbsp;</span>
+                                <span title="Battleforged" *ngIf="item.battleforged">&#9826;&nbsp;</span>
                                 {{(item.amount != undefined && item.amount != 1) ? item.amount+" " : ""}}
                                 {{(item['get_Name']) ? item.get_Name() : item.name}}&nbsp;
                                 <span class="lower"
@@ -369,6 +370,14 @@
                                     </span>
                                     <app-itemBladeAlly class="list-item" [item]=item *ngIf="item.bladeAlly">
                                     </app-itemBladeAlly>
+                                </div>
+                                <div class="list-item row" *ngIf="get_BattleforgedAllowed(item) || item.battleforged">
+                                    <span
+                                        title="You can sharpen weapons, polish armor, and apply special techniques to temporarily gain better effects from your armaments. By spending 1 hour working on a weapon or armor, you can grant it the effects of a +1 potency rune until your next daily preparations, gaining a +1 item bonus to attack rolls for a weapon or increasing armor’s item bonus to AC by 1. This has no effect if the weapon or armor already had a potency rune.">
+                                        <input id="{{item.id}}battleforged" type="checkbox" [(ngModel)]="item.battleforged"
+                                            (ngModelChange)=onItemChange(item)>
+                                        <label for="{{item.id}}battleforged">Battleforged</label>
+                                    </span>
                                 </div>
                                 <app-itemRunes class="list-item" [item]=item [itemStore]=false *ngIf="item.showRunes">
                                 </app-itemRunes>

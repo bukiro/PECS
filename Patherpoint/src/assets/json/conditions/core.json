@@ -760,8 +760,8 @@
                 "value": "4"
             },
             {
-                "affected": "AC",
-                "value": "- Math.max(0, Math.min(Modifier('Dexterity'), DexCap()) - (Character.get_FeatsTaken(1, Level, 'Mountain Stronghold').length ? 1 : 0) - (Character.get_FeatsTaken(1, Level, 'Mountain Quake').length ? 1 : 0))"
+                "affected": "Dexterity Modifier Cap",
+                "setValue": "(Character.get_FeatsTaken(1, Level, 'Mountain Quake').length ? 1 : (Character.get_FeatsTaken(1, Level, 'Mountain Stronghold').length ? 1 : 0))"
             },
             {
                 "affected": "Speed",
@@ -9399,6 +9399,18 @@
                 "type": "status",
                 "value": "(Heightened >= 9 ? 3 : (Heightened >= 6 ? 2 : 1)) "
             }
+        ],
+        "onceEffects": [
+            {
+                "affected": "Temporary HP",
+                "value": "(SpellSource == \"Feat: Heroes' Call\" && (Max_HP() / 2) >= Current_HP()) ? Level * 2 : 0"
+            }
+        ],
+        "endEffects": [
+            {
+                "affected": "Temporary HP",
+                "value": "-Temporary_HP('',effect.sourceId)"
+            }
         ]
     },
     {
@@ -12129,7 +12141,7 @@
     },
     {
         "name": "Nightmare (Critical Failure)",
-        "desc": "You have experienced disturbing nightmares and awakened fatigued. You are drained 2 until it is no longer fatigued.",
+        "desc": "You have experienced disturbing nightmares and awakened fatigued. You are drained 2 until you are no longer fatigued.",
         "type": "spells",
         "inputRequired": "Remove the condition when you are no longer fatigued.",
         "gainConditions": [
@@ -12966,5 +12978,125 @@
                 ]
             }
         ]
+    },
+    {
+        "name": "Avenge in Glory",
+        "desc": "You honor your ally’s life, gaining temporary Hit Points equal to your level for the duration. As long as you have these temporary Hit Points, you gain a +1 circumstance bonus to attack and damage rolls.",
+        "type": "activities",
+        "buff": true,
+        "effects": [
+            {
+                "affected": "Attack Rolls",
+                "type": "circumstance",
+                "value": "Temporary_HP('',effect.sourceId) ? 1 : 0"
+            },
+            {
+                "affected": "Damage Rolls",
+                "type": "circumstance",
+                "value": "Temporary_HP('',effect.sourceId) ? 1 : 0"
+            }
+        ],
+        "onceEffects": [
+            {
+                "affected": "Temporary HP",
+                "value": "Level"
+            }
+        ],
+        "endEffects": [
+            {
+                "affected": "Temporary HP",
+                "value": "-Temporary_HP('',effect.sourceId)"
+            }
+        ]
+    },
+    {
+        "name": "Clan's Edge",
+        "desc": "By moving your clan dagger with rapid precision, you can protect yourself more effectively. You gain the +1 circumstance bonus to your AC from your clan dagger's parrying trait.",
+        "type": "activities",
+        "buff": true,
+        "effects": [
+            {
+                "affected": "AC",
+                "type": "circumstance",
+                "value": "1"
+            }
+        ]
+    },
+    {
+        "name": "Forge-Day's Rest",
+        "desc": "Your unusual rest cycle allows you to recover faster. As long as you rest for 12 hours, you gain the effects of the Fast Recovery general feat and you can go 20 hours without resting before becoming fatigued.\n\nYour body quickly bounces back from afflictions. You regain twice as many Hit Points from resting. Each time you succeed at a Fortitude save against an ongoing disease or poison, you reduce its stage by 2, or by 1 against a virulent disease or poison. Each critical success you achieve against an ongoing disease or poison reduces its stage by 3, or by 2 against a virulent disease or poison. In addition, you reduce the severity of your drained condition by 2 when you rest for a night instead of by 1.",
+        "type": "activities",
+        "buff": true,
+        "hints": [
+            {
+                "desc": "You can go 20 hours without resting before becoming fatigued.",
+                "showon": "Health"
+            },
+            {
+                "desc": "You regain twice as many Hit Points from resting. In addition, you reduce the severity of your drained condition by 2 when you rest for a night instead of by 1.",
+                "showon": "Rest"
+            },
+            {
+                "desc": "Each time you succeed at a Fortitude save against an ongoing disease or poison, you reduce its stage by 2, or by 1 against a virulent disease or poison. Each critical success you achieve against an ongoing disease or poison reduces its stage by 3, or by 2 against a virulent disease or poison.",
+                "showon": "Fortitude"
+            }
+        ],
+        "effects": [
+            {
+                "affected": "Resting HP Multiplier",
+                "setValue": "2"
+            }
+        ]
+    },
+    {
+        "name": "Vengeful Hatred",
+        "desc": "You heart aches for vengeance against those who have wronged your people. You gain a +1 circumstance bonus to damage with weapons and unarmed attacks against the triggering creature. If your attack would deal more than one weapon die of damage (as is common at higher levels than 1st), the bonus is equal to the number of weapon dice or unarmed attack dice.",
+        "type": "activities",
+        "buff": true,
+        "hints": [
+            {
+                "desc": "You gain a +1 circumstance bonus to damage with weapons and unarmed attacks against the triggering creature. If your attack would deal more than one weapon die of damage, the bonus is equal to the number of weapon dice or unarmed attack dice.",
+                "showon": "Attacks",
+                "effects": [
+                    {
+                        "affected": "Unarmed Damage per Die",
+                        "value": "1",
+                        "type": "circumstance"
+                    },
+                    {
+                        "affected": "Weapon Damage per Die",
+                        "value": "1",
+                        "type": "circumstance"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Clan Protector",
+        "desc": "Your ally's clan dagger protects you, granting you a +1 circumstance bonus to AC. You benefit from this bonus to AC only when you are adjacent to the parrying ally.",
+        "inputRequired": "Remove this condition if you are no longer adjacent to your ally.",
+        "type": "activities",
+        "buff": true,
+        "effects": [
+            {
+                "affected": "AC",
+                "type": "circumstance",
+                "value": "1"
+            }
+        ] 
+    },
+    {
+        "name": "Battleforger",
+        "desc": "Your ally can sharpen weapons, polish armor, and apply special techniques to temporarily gain better effects from armaments. By spending 1 hour working on a weapon or armor, they can grant it the effects of a +1 potency rune until your next daily preparations, gaining a +1 item bonus to attack rolls for a weapon or increasing armor's item bonus to AC by 1. This has no effect if the weapon or armor already had a potency rune.",
+        "inputRequired": "While this condition is active, you can apply the Battleforged property to your weapons and armor.",
+        "type": "feats",
+        "buff": true,
+        "effects": [
+            {
+                "affected": "Allow Battleforger",
+                "toggle": true
+            }
+        ] 
     }
 ]
