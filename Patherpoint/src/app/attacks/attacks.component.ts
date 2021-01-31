@@ -194,7 +194,7 @@ export class AttacksComponent implements OnInit {
                 ammoList.push({ item: ammo, name: ammo.get_Name(), inventory: inv })
             })
         });
-        return ammoList.sort((a,b) => {
+        return ammoList.sort((a, b) => {
             if (a.name > b.name) {
                 return 1;
             }
@@ -212,7 +212,7 @@ export class AttacksComponent implements OnInit {
                 snares.push({ item: snare, name: snare.get_Name(), inventory: inv })
             })
         });
-        return snares.sort((a,b) => {
+        return snares.sort((a, b) => {
             if (a.name > b.name) {
                 return 1;
             }
@@ -331,46 +331,78 @@ export class AttacksComponent implements OnInit {
         return weapon.damage(this.get_Creature(), this.characterService, this.effectsService, range);
     }
 
+    get_FlurryAllowed() {
+        let creature = this.get_Creature();
+        let character = this.characterService.get_Character();
+        if (creature.type == "Character" || (creature.type == "Companion" && character.get_FeatsTaken(1, creature.level, "Animal Companion (Ranger)").length)) {
+            return character.get_FeatsTaken(1, creature.level, "Flurry").length + character.get_FeatsTaken(1, creature.level, "Manifold Edge").length;
+        } else {
+            return 0;
+        }
+    }
+
     get_MultipleAttackPenalty() {
         let creature = this.get_Creature();
         let conditions: string[] = this.conditionsService.get_AppliedConditions(creature, this.characterService, creature.conditions, true)
-            .filter(gain => ["Multiple Attack Penalty: Second Attack", "Multiple Attack Penalty: Third Attack"].includes(gain.name) && gain.source == "Attacks")
+        .filter(gain => ["Multiple Attack Penalty: Second Attack", "Multiple Attack Penalty: Third Attack", "Multiple Attack Penalty: Second Attack (Flurry)", "Multiple Attack Penalty: Third Attack (Flurry)"].includes(gain.name) && gain.source == "Attacks")
             .map(gain => gain.name);
+        if (conditions.includes("Multiple Attack Penalty: Third Attack (Flurry)")) {
+            return "3f";
+        }
         if (conditions.includes("Multiple Attack Penalty: Third Attack")) {
-            return 3;
+            return "3";
+        }
+        if (conditions.includes("Multiple Attack Penalty: Second Attack (Flurry)")) {
+            return "2f";
         }
         if (conditions.includes("Multiple Attack Penalty: Second Attack")) {
-            return 2;
+            return "2";
         }
-        return 1;
+        return "1";
     }
 
-    set_MultipleAttackPenalty(map: 1 | 2 | 3) {
+    set_MultipleAttackPenalty(map: "1" | "2" | "3" | "2f" | "3f") {
         let creature = this.get_Creature();
         let conditions: ConditionGain[] = this.conditionsService.get_AppliedConditions(creature, this.characterService, creature.conditions, true)
-            .filter(gain => ["Multiple Attack Penalty: Second Attack", "Multiple Attack Penalty: Third Attack"].includes(gain.name) && gain.source == "Attacks");
+            .filter(gain => ["Multiple Attack Penalty: Second Attack", "Multiple Attack Penalty: Third Attack", "Multiple Attack Penalty: Second Attack (Flurry)", "Multiple Attack Penalty: Third Attack (Flurry)"].includes(gain.name) && gain.source == "Attacks");
         let map2 = conditions.find(gain => gain.name == "Multiple Attack Penalty: Second Attack");
         let map3 = conditions.find(gain => gain.name == "Multiple Attack Penalty: Third Attack");
+        let map2f = conditions.find(gain => gain.name == "Multiple Attack Penalty: Second Attack (Flurry)");
+        let map3f = conditions.find(gain => gain.name == "Multiple Attack Penalty: Third Attack (Flurry)");
         let mapName: string = "";
         switch (map) {
-            case 1:
-                break;
-            case 2:
+            case "2":
                 if (!map2) {
                     mapName = "Multiple Attack Penalty: Second Attack";
                 }
                 break;
-            case 3:
+            case "3":
                 if (!map3) {
                     mapName = "Multiple Attack Penalty: Third Attack";
                 }
                 break;
+            case "2f":
+                if (!map2f) {
+                    mapName = "Multiple Attack Penalty: Second Attack (Flurry)";
+                }
+                break;
+            case "3f":
+                if (!map3f) {
+                    mapName = "Multiple Attack Penalty: Third Attack (Flurry)";
+                }
+                break;
         }
-        if (map2 && map != 2) {
+        if (map2 && map != "2") {
             this.characterService.remove_Condition(creature, map2, false);
         }
-        if (map3 && map != 3) {
+        if (map3 && map != "3") {
             this.characterService.remove_Condition(creature, map3, false);
+        }
+        if (map2f && map != "2f") {
+            this.characterService.remove_Condition(creature, map2f, false);
+        }
+        if (map3f && map != "3f") {
+            this.characterService.remove_Condition(creature, map3f, false);
         }
         if (mapName) {
             let newCondition: ConditionGain = Object.assign(new ConditionGain(), { name: mapName, source: "Attacks", duration: 5, locked: true })

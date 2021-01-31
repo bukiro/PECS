@@ -13111,7 +13111,7 @@
             },
             {
                 "affected": "Agile Attack Rolls",
-                "value": "-4"
+                "value": "Character.get_FeatsTaken(1, Level, 'Agile Grace').length ? -3 : -4"
             },
             {
                 "affected": "Spell Attack Rolls",
@@ -13131,11 +13131,54 @@
             },
             {
                 "affected": "Agile Attack Rolls",
-                "value": "-8"
+                "value": "Character.get_FeatsTaken(1, Level, 'Agile Grace').length ? -6 : -8"
             },
             {
                 "affected": "Spell Attack Rolls",
                 "value": "-10"
+            }
+        ],
+        "endConditions": [
+            "Multiple Attack Penalty: Second Attack"
+        ]
+    },
+    {
+        "name": "Multiple Attack Penalty: Second Attack (Flurry)",
+        "desc": "You have trained to unleash a devastating flurry of attacks upon your prey. Your multiple attack penalty for attacks against your hunted prey is -3 (-2 with an agile weapon) on your second attack of the turn instead of -5.",
+        "hide": true,
+        "type": "generic",
+        "effects": [
+            {
+                "affected": "Non-Agile Attack Rolls",
+                "value": "-3"
+            },
+            {
+                "affected": "Agile Attack Rolls",
+                "value": "-2"
+            },
+            {
+                "affected": "Spell Attack Rolls",
+                "value": "-3"
+            }
+        ] 
+    },
+    {
+        "name": "Multiple Attack Penalty: Third Attack (Flurry)",
+        "desc": "You have trained to unleash a devastating flurry of attacks upon your prey. Your multiple attack penalty for attacks against your hunted prey is -6 (-4 with an agile weapon) on your third or subsequent attack of the turn, instead of -10.",
+        "hide": true,
+        "type": "generic",
+        "effects": [
+            {
+                "affected": "Non-Agile Attack Rolls",
+                "value": "-6"
+            },
+            {
+                "affected": "Agile Attack Rolls",
+                "value": "-4"
+            },
+            {
+                "affected": "Spell Attack Rolls",
+                "value": "-6"
             }
         ],
         "endConditions": [

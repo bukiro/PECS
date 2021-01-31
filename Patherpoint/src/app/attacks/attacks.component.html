@@ -11,15 +11,37 @@
             </button>
             <div class="list-item sublist" *ngIf="get_ShowList()=='QuickStatus'">
                 <div class="list-item row">
-                    <button class="center-aligned" *ngIf="get_MultipleAttackPenalty() != 2" (click)="set_MultipleAttackPenalty(2)">Multiple Attack Penalty: Second Attack</button>
-                    <button class="center-aligned" *ngIf="get_MultipleAttackPenalty() == 2" (click)="set_MultipleAttackPenalty(1)">End
+                    <button class="center-aligned" *ngIf="get_MultipleAttackPenalty() != '2'"
+                        (click)="set_MultipleAttackPenalty('2')">Multiple Attack Penalty: Second Attack</button>
+                    <button class="center-aligned" *ngIf="get_MultipleAttackPenalty() == '2'"
+                        (click)="set_MultipleAttackPenalty('1')">End
                         Multiple Attack Penalty</button>
                 </div>
                 <div class="list-item row">
-                    <button class="center-aligned" *ngIf="get_MultipleAttackPenalty() != 3" (click)="set_MultipleAttackPenalty(3)">Multiple Attack Penalty: Third Attack</button>
-                    <button class="center-aligned" *ngIf="get_MultipleAttackPenalty() == 3" (click)="set_MultipleAttackPenalty(1)">End
+                    <button class="center-aligned" *ngIf="get_MultipleAttackPenalty() != '3'"
+                        (click)="set_MultipleAttackPenalty('3')">Multiple Attack Penalty: Third Attack</button>
+                    <button class="center-aligned" *ngIf="get_MultipleAttackPenalty() == '3'"
+                        (click)="set_MultipleAttackPenalty('1')">End
                         Multiple Attack Penalty</button>
                 </div>
+                <ng-container *ngIf="get_FlurryAllowed()">
+                    <div class="list-item row">
+                        <button class="center-aligned" *ngIf="get_MultipleAttackPenalty() != '2f'"
+                            (click)="set_MultipleAttackPenalty('2f')">Multiple Attack Penalty: Second Attack
+                            (Flurry)</button>
+                        <button class="center-aligned" *ngIf="get_MultipleAttackPenalty() == '2f'"
+                            (click)="set_MultipleAttackPenalty('1')">End
+                            Multiple Attack Penalty</button>
+                    </div>
+                    <div class="list-item row">
+                        <button class="center-aligned" *ngIf="get_MultipleAttackPenalty() != '3f'"
+                            (click)="set_MultipleAttackPenalty('3f')">Multiple Attack Penalty: Third Attack
+                            (Flurry)</button>
+                        <button class="center-aligned" *ngIf="get_MultipleAttackPenalty() == '3f'"
+                            (click)="set_MultipleAttackPenalty('1')">End
+                            Multiple Attack Penalty</button>
+                    </div>
+                </ng-container>
             </div>
         </div>
         <ng-container *ngFor="let weapon of get_EquippedWeapons(); let weaponIndex = index; trackBy:trackByIndex;">
