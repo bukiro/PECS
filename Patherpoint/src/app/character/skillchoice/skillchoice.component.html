@@ -3,7 +3,7 @@
         [ngClass]="{'problem':(choice.increases.length > choice.available + get_SkillINTBonus(choice) || someIllegal(choice)), 'fullsize-only':(choice.increases.length == choice.available + get_SkillINTBonus(choice))}">
         <button class="row sublist-toggle"
             [ngClass]="{'fancy-button':(choice.increases.length == choice.available + get_SkillINTBonus(choice))}"
-            (click)="toggle_List(listID)">
+            (click)="toggle_Choice(listID)">
             Skill {{choice.maxRank == 2 ? 'Training' : 'Increase'}}
             ({{choice.source}}){{(choice.available + get_SkillINTBonus(choice) > 1) ?
                 (": "+ choice.increases.length +"/"+ (choice.available + get_SkillINTBonus(choice)) ) : 

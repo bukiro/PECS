@@ -322,13 +322,17 @@ export class Weapon extends Equipment {
             //"Strength-based Checks and DCs"
             abilityName + "-based Checks and DCs"
         ];
-        this.get_Traits(characterService, creature).forEach(trait => {
+        let traits = this.get_Traits(characterService, creature);
+        traits.forEach(trait => {
             if (trait.includes(" ft")) {
                 namesList.push(trait.split(" ")[0] + " Attack Rolls")
             } else {
                 namesList.push(trait + " Attack Rolls");
             }
         })
+        if (!traits.includes("Agile")) {
+            namesList.push("Non-Agile Attack Rolls");
+        }
         //Add absolute effects
         effectsService.get_AbsolutesOnThese(creature, namesList)
             .forEach(effect => {

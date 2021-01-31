@@ -23,6 +23,7 @@ export class DefenseComponent implements OnInit {
     @Input()
     creature: string = "Character";
     public shieldDamage: number = 0;
+    private showList: string = "";
 
     constructor(
         private changeDetector: ChangeDetectorRef,
@@ -54,6 +55,18 @@ export class DefenseComponent implements OnInit {
     
     trackByIndex(index: number, obj: any): any {
         return index;
+    }
+
+    toggle_List(name: string) {
+        if (this.showList == name) {
+            this.showList = "";
+        } else {
+            this.showList = name;
+        }
+    }
+
+    get_ShowList() {
+        return this.showList;
     }
     
     get_ArmorSpecialization(armor: Armor) {

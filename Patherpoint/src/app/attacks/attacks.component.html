@@ -5,8 +5,26 @@
     <ng-container *ngIf="!still_loading()">
         <app-tags [creature]="creature" [objectName]="'Attacks'" [showTraits]=true [showFeats]=true [showItems]=true
             [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
+        <div class="list-item">
+            <button class="row sublist-toggle center-aligned" (click)="toggle_List('QuickStatus')">
+                Quick Status
+            </button>
+            <div class="list-item sublist" *ngIf="get_ShowList()=='QuickStatus'">
+                <div class="list-item row">
+                    <button class="center-aligned" *ngIf="get_MultipleAttackPenalty() != 2" (click)="set_MultipleAttackPenalty(2)">Multiple Attack Penalty: Second Attack</button>
+                    <button class="center-aligned" *ngIf="get_MultipleAttackPenalty() == 2" (click)="set_MultipleAttackPenalty(1)">End
+                        Multiple Attack Penalty</button>
+                </div>
+                <div class="list-item row">
+                    <button class="center-aligned" *ngIf="get_MultipleAttackPenalty() != 3" (click)="set_MultipleAttackPenalty(3)">Multiple Attack Penalty: Third Attack</button>
+                    <button class="center-aligned" *ngIf="get_MultipleAttackPenalty() == 3" (click)="set_MultipleAttackPenalty(1)">End
+                        Multiple Attack Penalty</button>
+                </div>
+            </div>
+        </div>
         <ng-container *ngFor="let weapon of get_EquippedWeapons(); let weaponIndex = index; trackBy:trackByIndex;">
-            <div class="fullsize-only list-item" *ngIf="(onlyAttacks.length || forbiddenAttacks.length) && weaponIndex == 0">
+            <div class="fullsize-only list-item"
+                *ngIf="(onlyAttacks.length || forbiddenAttacks.length) && weaponIndex == 0">
                 <label for="showRestricted">Show restricted attacks</label>
                 <input id="showRestricted" type="checkbox" [(ngModel)]="showRestricted">
             </div>

@@ -7,7 +7,6 @@ import { WeaponRune } from '../WeaponRune';
 import { Character } from '../Character';
 import { AnimalCompanion } from '../AnimalCompanion';
 import { Ammunition } from '../Ammunition';
-import { SortByPipe } from '../sortBy.pipe';
 import { ItemCollection } from '../ItemCollection';
 import { Talisman } from '../Talisman';
 import { AlchemicalBomb } from '../AlchemicalBomb';
@@ -17,6 +16,8 @@ import { SpellGain } from '../SpellGain';
 import { AlchemicalPoison } from '../AlchemicalPoison';
 import { OtherConsumableBomb } from '../OtherConsumableBomb';
 import { Equipment } from '../Equipment';
+import { ConditionsService } from '../conditions.service';
+import { ConditionGain } from '../ConditionGain';
 
 @Component({
     selector: 'app-attacks',
@@ -32,13 +33,14 @@ export class AttacksComponent implements OnInit {
     public forbiddenAttacks: string[] = [];
     public showRestricted: boolean = false;
     private showItem: string = "";
+    private showList: string = "";
 
     constructor(
         private changeDetector: ChangeDetectorRef,
         private traitsService: TraitsService,
         public characterService: CharacterService,
         public effectsService: EffectsService,
-        public sortByPipe: SortByPipe
+        public conditionsService: ConditionsService
     ) { }
 
     minimize() {
@@ -47,16 +49,16 @@ export class AttacksComponent implements OnInit {
 
     set_Span() {
         setTimeout(() => {
-            this.characterService.set_Span(this.creature+"-attacks");
+            this.characterService.set_Span(this.creature + "-attacks");
         })
     }
 
     still_loading() {
         return this.characterService.still_loading()
     }
-    
+
     get_Creature(type: string = this.creature) {
-        return this.characterService.get_Creature(type) as Character|AnimalCompanion;
+        return this.characterService.get_Creature(type) as Character | AnimalCompanion;
     }
 
     get_Accent() {
@@ -65,6 +67,18 @@ export class AttacksComponent implements OnInit {
 
     trackByIndex(index: number, obj: any): any {
         return index;
+    }
+
+    toggle_List(name: string) {
+        if (this.showList == name) {
+            this.showList = "";
+        } else {
+            this.showList = name;
+        }
+    }
+
+    get_ShowList() {
+        return this.showList;
     }
 
     toggle_Item(id: string) {
@@ -78,7 +92,7 @@ export class AttacksComponent implements OnInit {
     get_ShowItem() {
         return this.showItem;
     }
-    
+
     get_CritSpecialization(weapon: Weapon, range: string) {
         return weapon.get_CritSpecialization(this.get_Creature(), this.characterService, range);
     }
@@ -92,12 +106,12 @@ export class AttacksComponent implements OnInit {
                 ...condition?.attackRestrictions
                     .filter(restriction => !restriction.excluding && (!restriction.conditionChoiceFilter || restriction.conditionChoiceFilter == gain.choice))
                     .map(restriction => restriction.name)
-                )
+            )
             this.forbiddenAttacks.push(
                 ...condition?.attackRestrictions
-                .filter(restriction => restriction.excluding && (!restriction.conditionChoiceFilter || restriction.conditionChoiceFilter == gain.choice))
+                    .filter(restriction => restriction.excluding && (!restriction.conditionChoiceFilter || restriction.conditionChoiceFilter == gain.choice))
                     .map(restriction => restriction.name)
-                )
+            )
         });
     }
 
@@ -110,7 +124,7 @@ export class AttacksComponent implements OnInit {
         return this.get_Creature().inventories[0].weapons.filter(weapon => weapon.equipped && weapon.equippable && !weapon.broken)
             .concat(...this.get_Creature().inventories.map(inv => inv.alchemicalbombs))
             .concat(...this.get_Creature().inventories.map(inv => inv.otherconsumablesbombs))
-            .sort(function(a,b) {
+            .sort(function (a, b) {
                 if (a.name > b.name) {
                     return 1
                 }
@@ -119,7 +133,7 @@ export class AttacksComponent implements OnInit {
                 }
                 return 0;
             })
-            .sort(function(a,b) {
+            .sort(function (a, b) {
                 if (a.type < b.type) {
                     return 1
                 }
@@ -174,30 +188,46 @@ export class AttacksComponent implements OnInit {
     get_Ammo(type: string) {
         //Return all ammo from all inventories that has this type in its group
         //We need the inventory for using up items and the name just for sorting
-        let ammoList: {item:Ammunition, name:string, inventory:ItemCollection}[] = [];
+        let ammoList: { item: Ammunition, name: string, inventory: ItemCollection }[] = [];
         this.get_Creature().inventories.forEach(inv => {
             inv.ammunition.filter(ammo => ammo.ammunition == type || ammo.ammunition == "Any").forEach(ammo => {
-                ammoList.push({item:ammo, name:ammo.get_Name(), inventory:inv})
+                ammoList.push({ item: ammo, name: ammo.get_Name(), inventory: inv })
             })
         });
-        return this.sortByPipe.transform(ammoList, "asc", "name") as Ammunition[];
+        return ammoList.sort((a,b) => {
+            if (a.name > b.name) {
+                return 1;
+            }
+            if (a.name < b.name) {
+                return -1;
+            }
+            return 0;
+        });;
     }
 
     get_Snares() {
-        let snares: {item:Snare, name:string, inventory:ItemCollection}[] = [];
+        let snares: { item: Snare, name: string, inventory: ItemCollection }[] = [];
         this.get_Creature().inventories.forEach(inv => {
             inv.snares.forEach(snare => {
-                snares.push({item:snare, name:snare.get_Name(), inventory:inv})
+                snares.push({ item: snare, name: snare.get_Name(), inventory: inv })
             })
         });
-        return this.sortByPipe.transform(snares, "asc", "name") as Snare[];
+        return snares.sort((a,b) => {
+            if (a.name > b.name) {
+                return 1;
+            }
+            if (a.name < b.name) {
+                return -1;
+            }
+            return 0;
+        });;
     }
 
     get_Spells(name: string = "", type: string = "", tradition: string = "") {
         return this.characterService.spellsService.get_Spells(name, type, tradition);
     }
 
-    on_ConsumableUse(item: Ammunition|AlchemicalBomb|OtherConsumableBomb, inv: ItemCollection) {
+    on_ConsumableUse(item: Ammunition | AlchemicalBomb | OtherConsumableBomb, inv: ItemCollection) {
         if (item.storedSpells.length) {
             let spellName = item.storedSpells[0]?.spells[0]?.name || "";
             let spellChoice = item.storedSpells[0];
@@ -221,7 +251,7 @@ export class AttacksComponent implements OnInit {
         } else {
             this.characterService.drop_InventoryItem(this.get_Creature(), inv, item, true);
         }
-        
+
     }
 
     get_Skills(name: string = "", type: string = "") {
@@ -293,12 +323,60 @@ export class AttacksComponent implements OnInit {
 
     get_Attacks(weapon: Weapon) {
         return []
-        .concat((weapon.melee ? [weapon.attack(this.get_Creature(), this.characterService, this.effectsService, 'melee')] : []))
-        .concat(((weapon.ranged || weapon.traits.find(trait => trait.includes("Thrown"))) ? [weapon.attack(this.get_Creature(), this.characterService, this.effectsService, 'ranged')] : []));
+            .concat((weapon.melee ? [weapon.attack(this.get_Creature(), this.characterService, this.effectsService, 'melee')] : []))
+            .concat(((weapon.ranged || weapon.traits.find(trait => trait.includes("Thrown"))) ? [weapon.attack(this.get_Creature(), this.characterService, this.effectsService, 'ranged')] : []));
     }
 
     get_Damage(weapon: Weapon, range: string) {
         return weapon.damage(this.get_Creature(), this.characterService, this.effectsService, range);
+    }
+
+    get_MultipleAttackPenalty() {
+        let creature = this.get_Creature();
+        let conditions: string[] = this.conditionsService.get_AppliedConditions(creature, this.characterService, creature.conditions, true)
+            .filter(gain => ["Multiple Attack Penalty: Second Attack", "Multiple Attack Penalty: Third Attack"].includes(gain.name) && gain.source == "Attacks")
+            .map(gain => gain.name);
+        if (conditions.includes("Multiple Attack Penalty: Third Attack")) {
+            return 3;
+        }
+        if (conditions.includes("Multiple Attack Penalty: Second Attack")) {
+            return 2;
+        }
+        return 1;
+    }
+
+    set_MultipleAttackPenalty(map: 1 | 2 | 3) {
+        let creature = this.get_Creature();
+        let conditions: ConditionGain[] = this.conditionsService.get_AppliedConditions(creature, this.characterService, creature.conditions, true)
+            .filter(gain => ["Multiple Attack Penalty: Second Attack", "Multiple Attack Penalty: Third Attack"].includes(gain.name) && gain.source == "Attacks");
+        let map2 = conditions.find(gain => gain.name == "Multiple Attack Penalty: Second Attack");
+        let map3 = conditions.find(gain => gain.name == "Multiple Attack Penalty: Third Attack");
+        let mapName: string = "";
+        switch (map) {
+            case 1:
+                break;
+            case 2:
+                if (!map2) {
+                    mapName = "Multiple Attack Penalty: Second Attack";
+                }
+                break;
+            case 3:
+                if (!map3) {
+                    mapName = "Multiple Attack Penalty: Third Attack";
+                }
+                break;
+        }
+        if (map2 && map != 2) {
+            this.characterService.remove_Condition(creature, map2, false);
+        }
+        if (map3 && map != 3) {
+            this.characterService.remove_Condition(creature, map3, false);
+        }
+        if (mapName) {
+            let newCondition: ConditionGain = Object.assign(new ConditionGain(), { name: mapName, source: "Attacks", duration: 5, locked: true })
+            this.characterService.add_Condition(creature, newCondition, false);
+        }
+        this.characterService.process_ToChange();
     }
 
     finish_Loading() {
@@ -306,20 +384,20 @@ export class AttacksComponent implements OnInit {
             setTimeout(() => this.finish_Loading(), 500)
         } else {
             this.characterService.get_Changed()
-            .subscribe((target) => {
-                if (target == "attacks" || target == "all" || target == this.creature) {
-                    this.changeDetector.detectChanges();
-                }
-            });
+                .subscribe((target) => {
+                    if (target == "attacks" || target == "all" || target == this.creature) {
+                        this.changeDetector.detectChanges();
+                    }
+                });
             this.characterService.get_ViewChanged()
-            .subscribe((view) => {
-                if (view.creature == this.creature && ["attacks", "all"].includes(view.target)) {
-                    this.changeDetector.detectChanges();
-                }
-                if (view.creature == "Character" && view.target == "span") {
-                    this.set_Span();
-                }
-            });
+                .subscribe((view) => {
+                    if (view.creature == this.creature && ["attacks", "all"].includes(view.target)) {
+                        this.changeDetector.detectChanges();
+                    }
+                    if (view.creature == "Character" && view.target == "span") {
+                        this.set_Span();
+                    }
+                });
             return true;
         }
     }

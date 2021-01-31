@@ -13,25 +13,36 @@
             </app-tags>
             <app-tags [creature]="creature" [objectName]="'Defense'" [showTraits]=true [showFeats]=true [showItems]=true
                 [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
-            <div class="list-item row">
-                <button class="center-aligned" *ngIf="get_Cover() != 1" (click)="set_Cover(1)">Lesser Cover</button>
-                <button class="center-aligned" *ngIf="get_Cover() == 1" (click)="set_Cover(0)">End Cover</button>
-            </div>
-            <div class="list-item row">
-                <button class="center-aligned" *ngIf="get_Cover() != 2" (click)="set_Cover(2)">Standard
-                    Cover</button>
-                <button class="center-aligned" *ngIf="get_Cover() == 2" (click)="set_Cover(0)">End Cover</button>
-            </div>
-            <div class="list-item row">
-                <button class="center-aligned" *ngIf="get_Cover() != 4" (click)="set_Cover(4)">Greater
-                    Cover</button>
-                <button class="center-aligned" *ngIf="get_Cover() == 4" (click)="set_Cover(0)">End Cover</button>
-            </div>
-            <div class="list-item row">
-                <button class="center-aligned" *ngIf="!get_FlatFooted()" (click)="set_FlatFooted(true)">Enable
-                    Flat-Footed</button>
-                <button class="center-aligned" *ngIf="get_FlatFooted()" (click)="set_FlatFooted(false)">Disable
-                    Flat-Footed</button>
+            <div class="list-item">
+                <button class="row sublist-toggle center-aligned" (click)="toggle_List('QuickStatus')">
+                    Quick Status
+                </button>
+                <div class="list-item sublist" *ngIf="get_ShowList()=='QuickStatus'">
+                    <div class="list-item row">
+                        <button class="center-aligned" *ngIf="get_Cover() != 1" (click)="set_Cover(1)">Lesser
+                            Cover</button>
+                        <button class="center-aligned" *ngIf="get_Cover() == 1" (click)="set_Cover(0)">End
+                            Cover</button>
+                    </div>
+                    <div class="list-item row">
+                        <button class="center-aligned" *ngIf="get_Cover() != 2" (click)="set_Cover(2)">Standard
+                            Cover</button>
+                        <button class="center-aligned" *ngIf="get_Cover() == 2" (click)="set_Cover(0)">End
+                            Cover</button>
+                    </div>
+                    <div class="list-item row">
+                        <button class="center-aligned" *ngIf="get_Cover() != 4" (click)="set_Cover(4)">Greater
+                            Cover</button>
+                        <button class="center-aligned" *ngIf="get_Cover() == 4" (click)="set_Cover(0)">End
+                            Cover</button>
+                    </div>
+                    <div class="list-item row">
+                        <button class="center-aligned" *ngIf="!get_FlatFooted()" (click)="set_FlatFooted(true)">Enable
+                            Flat-Footed</button>
+                        <button class="center-aligned" *ngIf="get_FlatFooted()" (click)="set_FlatFooted(false)">Disable
+                            Flat-Footed</button>
+                    </div>
+                </div>
             </div>
             <ng-container *ngIf="creature != 'Familiar'">
                 <h5 class="fullsize-only">Armor</h5>

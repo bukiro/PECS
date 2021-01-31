@@ -13098,5 +13098,48 @@
                 "toggle": true
             }
         ] 
+    },
+    {
+        "name": "Multiple Attack Penalty: Second Attack",
+        "desc": "The second time you use an attack action during your turn, you take a -5 penalty to your attack roll. Every check that has the attack trait counts toward your multiple attack penalty, including Strikes, spell attack rolls, certain skill actions like Shove, and many others.\n\nSome weapons and abilities reduce multiple attack penalties, such as agile weapons, which reduce these penalties to -4 on the second attack.",
+        "hide": true,
+        "type": "generic",
+        "effects": [
+            {
+                "affected": "Non-Agile Attack Rolls",
+                "value": "-5"
+            },
+            {
+                "affected": "Agile Attack Rolls",
+                "value": "-4"
+            },
+            {
+                "affected": "Spell Attack Rolls",
+                "value": "-5"
+            }
+        ] 
+    },
+    {
+        "name": "Multiple Attack Penalty: Third Attack",
+        "desc": "The third time you attack, and on any subsequent attacks, you take a -10 penalty to your attack roll. Every check that has the attack trait counts toward your multiple attack penalty, including Strikes, spell attack rolls, certain skill actions like Shove, and many others.\n\nSome weapons and abilities reduce multiple attack penalties, such as agile weapons, which reduce these penalties to -8 on the third and further attacks.",
+        "hide": true,
+        "type": "generic",
+        "effects": [
+            {
+                "affected": "Non-Agile Attack Rolls",
+                "value": "-10"
+            },
+            {
+                "affected": "Agile Attack Rolls",
+                "value": "-8"
+            },
+            {
+                "affected": "Spell Attack Rolls",
+                "value": "-10"
+            }
+        ],
+        "endConditions": [
+            "Multiple Attack Penalty: Second Attack"
+        ]
     }
 ]
