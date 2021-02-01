@@ -174,6 +174,10 @@ app-character-sheet {
     grid-template-columns: auto auto auto auto auto;
 }
 
+#levelBox.levelBoxTop {
+    grid-template-columns: auto auto;
+}
+
 /* Text */
 
 h1 {
@@ -772,11 +776,13 @@ button.choicecleared::after, .button.choicecleared::after {
 .list-item.sublist :not(.list-item) > span > strong {
     color: rgb(var(--accent));
     text-shadow: 0 0 2px white, 0 0 2px white, 0 0 2px white, 0 0 2px white, 0 0 2px white;
+    text-shadow: 0.05em 0 2px white, 0 0.05em 2px white, -0.05em 0 2px white, 0 -0.05em 2px white, -0.05em -0.05em 2px white, -0.05em 0.05em 2px white, 0.05em -0.05em 2px white, 0.05em 0.05em 2px white;
 }
 
 .darkmode .list-item.sublist :not(.list-item) > strong,
 .darkmode .list-item.sublist :not(.list-item) > span > strong {
     text-shadow: 0 0 2px var(--textcolor), 0 0 2px var(--textcolor), 0 0 2px var(--textcolor), 0 0 2px var(--textcolor), 0 0 2px var(--textcolor);
+    text-shadow: 0.05em 0 2px var(--textcolor), 0 0.05em 2px var(--textcolor), -0.05em 0 2px var(--textcolor), 0 -0.05em 2px var(--textcolor), -0.05em -0.05em 2px var(--textcolor), -0.05em 0.05em 2px var(--textcolor), 0.05em -0.05em 2px var(--textcolor), 0.05em 0.05em 2px var(--textcolor);
 }
 
 .list-item.sublist.fancy-list {
@@ -982,11 +988,11 @@ input.penalty {
     font-weight: bolder;
     color: #465A8C;
     color: rgb(var(--accent));
-    text-shadow: 0 0 5px #616161;
+    text-shadow: 0 0 5px #616161, 0 0 5px #616161;
 }
 
 .darkmode .proficiency.checked {
-    text-shadow: 0 0 5px #CCC;
+    text-shadow: 0 0 5px #CCC, 0 0 5px #CCC;
 }
 
 var:not(:empty),
@@ -995,6 +1001,7 @@ var:not(:empty),
     font-style: normal;
     color: white;
     text-shadow: 0 0 2px rgb(var(--accent)), 0 0 2px rgb(var(--accent)), 0 0 2px rgb(var(--accent)), 0 0 2px rgb(var(--accent)), 0 0 2px rgb(var(--accent));
+    text-shadow: 0.05em 0 2px rgb(var(--accent)), 0 0.05em 2px rgb(var(--accent)), -0.05em 0 2px rgb(var(--accent)), 0 -0.05em 2px rgb(var(--accent)), -0.05em -0.05em 2px rgb(var(--accent)), -0.05em 0.05em 2px rgb(var(--accent)), 0.05em -0.05em 2px rgb(var(--accent)), 0.05em 0.05em 2px rgb(var(--accent));
 }
 
 .darkmode var:not(:empty),

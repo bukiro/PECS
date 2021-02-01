@@ -51,16 +51,65 @@
         <div class="loading" *ngIf="still_loading()">Loading</div>
         <ng-container *ngIf="!still_loading() && get_CharacterMenuState() == 'in'">
             <div class="list-item">
-                <strong>Color Accent</strong>
-                <span>
-                    <input type="color" name="coloraccent" style="padding:0 2px"
-                        [(ngModel)]="get_Character().settings.accent" maxLength="7">
-                </span>
-            </div>
-            <div class="list-item">
-                <strong><label for="darkmode">Dark mode</label></strong>
-                <input id="darkmode" type="checkbox" [(ngModel)]="get_Character().settings.darkmode"
-                    (ngModelChange)="set_Changed('character-sheet')">
+                <button class="row sublist-toggle" (click)="toggle_List('settings')">
+                    Settings
+                </button>
+                <div class="list-item sublist" *ngIf="get_ShowList() == 'settings'">
+                    <div class="list-item">
+                        <strong>Color Accent</strong>
+                        <span>
+                            <input type="color" name="coloraccent" style="padding:0 2px"
+                                [(ngModel)]="get_Character().settings.accent" maxLength="7">
+                        </span>
+                    </div>
+                    <div class="list-item">
+                        <strong><label for="darkmode">Dark mode</label></strong>
+                        <input id="darkmode" type="checkbox" [(ngModel)]="get_Character().settings.darkmode"
+                            (ngModelChange)="set_Changed('character-sheet')">
+                    </div>
+                    <div class="list-item">
+                        <strong>Choices</strong>
+                        <div class="list-item">
+                            <span>
+                                <label for="autoCloseChoices">Automatically close choices when they are finished</label>
+                            </span>
+                            <span>
+                                <input id="autoCloseChoices" type="checkbox"
+                                    [(ngModel)]="get_Character().settings.autoCloseChoices">
+                            </span>
+                        </div>
+                        <div class="list-item">
+                            <span>
+                                <label for="showOtherOptions">Keep showing the other options in finished choices</label>
+                            </span>
+                            <span>
+                                <input id="showOtherOptions" type="checkbox"
+                                    [(ngModel)]="get_Character().settings.showOtherOptions">
+                            </span>
+                        </div>
+                    </div>
+                    <div class="list-item">
+                        <strong>Feats</strong>
+                        <div class="list-item">
+                            <span>
+                                <label for="lowerLevelFeats">Show lower and higher level feats</label>
+                            </span>
+                            <span>
+                                <input id="lowerLevelFeats" type="checkbox"
+                                    [(ngModel)]="get_Character().settings.lowerLevelFeats">
+                            </span>
+                        </div>
+                        <div class="list-item">
+                            <span>
+                                <label for="archetypeFeats">Show archetype feats</label>
+                            </span>
+                            <span>
+                                <input id="archetypeFeats" type="checkbox"
+                                    [(ngModel)]="get_Character().settings.archetypeFeats">
+                            </span>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="list-item">
                 <strong>Name</strong>
@@ -125,71 +174,10 @@
                     </select>
                 </span>
             </div>
-            <!--BaseValues-->
-            <div class="list-item">
-                <button class="row sublist-toggle fancy-button" (click)="toggle_List('alternateBaseValues')">
-                    Alternate Ability Values: {{(get_Character().baseValues.length) ? "Used" : "Not used"}}
-                </button>
-                <div class="list-item sublist fancy-list" *ngIf="get_ShowList()=='alternateBaseValues'">
-                    <div class="list-item">
-                        <span>
-                            <input id="useAlternateBaseValues" type="checkbox" (change)="on_BaseValueChange()"
-                                [checked]="get_Character().baseValues.length">
-                            <label for="useAlternateBaseValues">
-                                <strong>Enter your own Ability values</strong>
-                            </label>
-                        </span>
-                    </div>
-                    <div class="list-item" *ngFor="let ability of get_Character().baseValues; trackBy:trackByIndex;">
-                        {{ability.name}}
-                        <input type="number" class="number2" [(ngModel)]="ability.baseValue"
-                            (blur)="on_AbilityChange(ability.name)" maxlength="2" (keypress)="numbersOnly($event)">
-                    </div>
-                </div>
-            </div>
-            <div class="list-item">
-                <strong>Choices</strong>
-                <div class="list-item">
-                    <span>
-                        <label for="autoCloseChoices">Automatically close choices when they are finished</label>
-                    </span>
-                    <span>
-                        <input id="autoCloseChoices" type="checkbox"
-                            [(ngModel)]="get_Character().settings.autoCloseChoices">
-                    </span>
-                </div>
-                <div class="list-item">
-                    <span>
-                        <label for="showOtherOptions">Keep showing the other options in finished choices</label>
-                    </span>
-                    <span>
-                        <input id="showOtherOptions" type="checkbox"
-                            [(ngModel)]="get_Character().settings.showOtherOptions">
-                    </span>
-                </div>
-                <div class="list-item">
-                    <span>
-                        <label for="lowerLevelFeats">Show lower and higher level feats</label>
-                    </span>
-                    <span>
-                        <input id="lowerLevelFeats" type="checkbox"
-                            [(ngModel)]="get_Character().settings.lowerLevelFeats">
-                    </span>
-                </div>
-                <div class="list-item">
-                    <span>
-                        <label for="archetypeFeats">Show archetype feats</label>
-                    </span>
-                    <span>
-                        <input id="archetypeFeats" type="checkbox"
-                            [(ngModel)]="get_Character().settings.archetypeFeats">
-                    </span>
-                </div>
-            </div>
             <h5>Levels</h5>
             <!--Level selection-->
             <div class="list-item">
-                <div class="row">
+                <div id="levelBox" class="row levelBoxTop">
                     <button class="center-aligned" (click)="toggle_Level(0)"
                         [ngClass]="{'fancy-button':get_ShowLevel()==0}">Show everything</button>
                     <button class="center-aligned" (click)="toggle_Level(-1)"
@@ -198,12 +186,35 @@
                 <div id="levelBox" class="row">
                     <button class="center-aligned"
                         *ngFor="let levelNumber of [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]; trackBy:trackByIndex;"
-                        (click)="toggle_Level(levelNumber)"
+                        (click)="toggle_Level(levelNumber)" [disabled]="!get_Character().class.name"
                         [ngClass]="{'fancy-button':get_ShowLevel()==levelNumber}">{{levelNumber}}</button>
                 </div>
             </div>
             <ng-container *ngIf="get_ShowLevel() <= 0">
                 <h3>History</h3>
+                <!--BaseValues-->
+                <div class="list-item">
+                    <button class="row sublist-toggle fancy-button" (click)="toggle_List('alternateBaseValues')">
+                        Alternate Ability Values: {{(get_Character().baseValues.length) ? "Used" : "Not used"}}
+                    </button>
+                    <div class="list-item sublist fancy-list" *ngIf="get_ShowList()=='alternateBaseValues'">
+                        <div class="list-item">
+                            <span>
+                                <input id="useAlternateBaseValues" type="checkbox" (change)="on_BaseValueChange()"
+                                    [checked]="get_Character().baseValues.length">
+                                <label for="useAlternateBaseValues">
+                                    <strong>Enter your own Ability values</strong>
+                                </label>
+                            </span>
+                        </div>
+                        <div class="list-item"
+                            *ngFor="let ability of get_Character().baseValues; trackBy:trackByIndex;">
+                            {{ability.name}}
+                            <input type="number" class="number2" [(ngModel)]="ability.baseValue"
+                                (blur)="on_AbilityChange(ability.name)" maxlength="2" (keypress)="numbersOnly($event)">
+                        </div>
+                    </div>
+                </div>
                 <!--Class-->
                 <div class="list-item" [ngClass]="{'fullsize-only':get_Character().class.name}"
                     *ngFor="let listID of ['class']; trackBy:trackByIndex;">
