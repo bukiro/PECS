@@ -1,6 +1,8 @@
 <button class="minimizebutton lower" (click)="minimize()">&#8691;</button>
 <div id="spells-height" class="itemBox">
-    <button class="list-item" (click)="toggleSpellMenu()">Close</button>
+    <button class="list-item center-aligned" (click)="toggleSpellMenu()">
+        <h3>Close</h3>
+    </button>
     <div class="loading" *ngIf="still_loading()">Loading</div>
     <ng-container *ngIf="!still_loading() && get_Character().class && get_SpellsMenuState()=='in'">
         <div class="list-item">

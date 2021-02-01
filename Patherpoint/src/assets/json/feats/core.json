@@ -2141,6 +2141,10 @@
         "name": "Deflect Arrows",
         "desc": "Your reflexes allow you to deflect ranged attacks.",
         "shortdesc": "Your reflexes allow you to deflect ranged attacks.",
+        "traits": [
+            "Monk"
+        ],
+        "levelreq": 4,
         "gainActivities": [
             "Deflect Arrows"
         ]
@@ -2838,6 +2842,10 @@
         "name": "Flying Kick",
         "desc": "You launch yourself at a foe.",
         "shortdesc": "You launch yourself at a foe.",
+        "traits": [
+            "Monk"
+        ],
+        "levelreq": 4,
         "gainActivities": [
             "Flying Kick"
         ]
@@ -3074,7 +3082,11 @@
                 ]
             }
         ],
-        "shortdesc": "Your guard is up, even while moving."
+        "shortdesc": "Your guard is up, even while moving.",
+        "traits": [
+            "Monk"
+        ],
+        "levelreq": 4
     },
     {
         "name": "Gutsy Halfling",
@@ -6029,6 +6041,10 @@
         "name": "Stand Still",
         "desc": "You strike out when your foe tries to flee.",
         "shortdesc": "You strike out when your foe tries to flee.",
+        "traits": [
+            "Monk"
+        ],
+        "levelreq": 4,
         "gainActivities": [
             "Stand Still"
         ]
@@ -8667,7 +8683,7 @@
     },
     {
         "name": "Dragon Instinct: Black",
-        "desc": "You summon the fury of a mighty dragon and manifest incredible abilities. Perhaps your culture reveres draconic majesty, or you gained your connection by drinking or bathing in dragon's blood or after watching a marauding wyrm burn your village.\n<h6>Anathema</h6>\n\nLetting a personal insult against you slide is anathema to your instinct. Choose whether your character respects or abhors your dragon type. If you respect it, defying such a dragon is anathema, and if you abhor it, failing to defeat such a dragon you come across is anathema.\n\n<h6>Draconic Rage (Instinct Ability)</h6>\n\nWhile raging, you can increase the additional damage from Rage from 2 to 4 and change its damage type to acid instead of the damage type for your weapon or unarmed attack. If you do this, your Rage action gains the arcane and evocation traits, as well as the trait matching the damage type.\n\n<h6>Specialization Ability</h6>\n\nWhen you use draconic rage, you increase the additional damage from Rage from 4 to 8. If you have greater weapon specialization, instead increase the damage from Rage when using draconic rage from 8 to 16.\n\n<h6>Raging Resistance</h6>\n\nYou resist piercing damage and acid damage.",
+        "desc": "You summon the fury of a mighty dragon and manifest incredible abilities. Perhaps your culture reveres draconic majesty, or you gained your connection by drinking or bathing in dragon's blood or after watching a marauding wyrm burn your village.\n\n<h6>Anathema</h6>\n\nLetting a personal insult against you slide is anathema to your instinct. Choose whether your character respects or abhors your dragon type. If you respect it, defying such a dragon is anathema, and if you abhor it, failing to defeat such a dragon you come across is anathema.\n\n<h6>Draconic Rage (Instinct Ability)</h6>\n\nWhile raging, you can increase the additional damage from Rage from 2 to 4 and change its damage type to acid instead of the damage type for your weapon or unarmed attack. If you do this, your Rage action gains the arcane and evocation traits, as well as the trait matching the damage type.\n\n<h6>Specialization Ability</h6>\n\nWhen you use draconic rage, you increase the additional damage from Rage from 4 to 8. If you have greater weapon specialization, instead increase the damage from Rage when using draconic rage from 8 to 16.\n\n<h6>Raging Resistance</h6>\n\nYou resist piercing damage and acid damage.",
         "subType": "Black",
         "superType": "Dragon Instinct",
         "anathema": [
@@ -8729,7 +8745,7 @@
     },
     {
         "name": "Dragon Instinct: Blue",
-        "desc": "You summon the fury of a mighty dragon and manifest incredible abilities. Perhaps your culture reveres draconic majesty, or you gained your connection by drinking or bathing in dragon's blood or after watching a marauding wyrm burn your village.\n<h6>Anathema</h6>\n\nLetting a personal insult against you slide is anathema to your instinct. Choose whether your character respects or abhors your dragon type. If you respect it, defying such a dragon is anathema, and if you abhor it, failing to defeat such a dragon you come across is anathema.\n\n<h6>Draconic Rage (Instinct Ability)</h6>\n\nWhile raging, you can increase the additional damage from Rage from 2 to 4 and change its damage type to electricity instead of the damage type for your weapon or unarmed attack. If you do this, your Rage action gains the arcane and evocation traits, as well as the trait matching the damage type.\n\n<h6>Specialization Ability</h6>\n\nWhen you use draconic rage, you increase the additional damage from Rage from 4 to 8. If you have greater weapon specialization, instead increase the damage from Rage when using draconic rage from 8 to 16.\n\n<h6>Raging Resistance</h6>\n\nYou resist piercing damage and electricity damage.",
+        "desc": "You summon the fury of a mighty dragon and manifest incredible abilities. Perhaps your culture reveres draconic majesty, or you gained your connection by drinking or bathing in dragon's blood or after watching a marauding wyrm burn your village.\n\n<h6>Anathema</h6>\n\nLetting a personal insult against you slide is anathema to your instinct. Choose whether your character respects or abhors your dragon type. If you respect it, defying such a dragon is anathema, and if you abhor it, failing to defeat such a dragon you come across is anathema.\n\n<h6>Draconic Rage (Instinct Ability)</h6>\n\nWhile raging, you can increase the additional damage from Rage from 2 to 4 and change its damage type to electricity instead of the damage type for your weapon or unarmed attack. If you do this, your Rage action gains the arcane and evocation traits, as well as the trait matching the damage type.\n\n<h6>Specialization Ability</h6>\n\nWhen you use draconic rage, you increase the additional damage from Rage from 4 to 8. If you have greater weapon specialization, instead increase the damage from Rage when using draconic rage from 8 to 16.\n\n<h6>Raging Resistance</h6>\n\nYou resist piercing damage and electricity damage.",
         "subType": "Blue",
         "superType": "Dragon Instinct",
         "anathema": [
@@ -8791,7 +8807,7 @@
     },
     {
         "name": "Dragon Instinct: Green",
-        "desc": "You summon the fury of a mighty dragon and manifest incredible abilities. Perhaps your culture reveres draconic majesty, or you gained your connection by drinking or bathing in dragon's blood or after watching a marauding wyrm burn your village.\n<h6>Anathema</h6>\n\nLetting a personal insult against you slide is anathema to your instinct. Choose whether your character respects or abhors your dragon type. If you respect it, defying such a dragon is anathema, and if you abhor it, failing to defeat such a dragon you come across is anathema.\n\n<h6>Draconic Rage (Instinct Ability)</h6>\n\nWhile raging, you can increase the additional damage from Rage from 2 to 4 and change its damage type to poison instead of the damage type for your weapon or unarmed attack. If you do this, your Rage action gains the arcane and evocation traits, as well as the trait matching the damage type.\n\n<h6>Specialization Ability</h6>\n\nWhen you use draconic rage, you increase the additional damage from Rage from 4 to 8. If you have greater weapon specialization, instead increase the damage from Rage when using draconic rage from 8 to 16.\n\n<h6>Raging Resistance</h6>\n\nYou resist piercing damage and poison damage.",
+        "desc": "You summon the fury of a mighty dragon and manifest incredible abilities. Perhaps your culture reveres draconic majesty, or you gained your connection by drinking or bathing in dragon's blood or after watching a marauding wyrm burn your village.\n\n<h6>Anathema</h6>\n\nLetting a personal insult against you slide is anathema to your instinct. Choose whether your character respects or abhors your dragon type. If you respect it, defying such a dragon is anathema, and if you abhor it, failing to defeat such a dragon you come across is anathema.\n\n<h6>Draconic Rage (Instinct Ability)</h6>\n\nWhile raging, you can increase the additional damage from Rage from 2 to 4 and change its damage type to poison instead of the damage type for your weapon or unarmed attack. If you do this, your Rage action gains the arcane and evocation traits, as well as the trait matching the damage type.\n\n<h6>Specialization Ability</h6>\n\nWhen you use draconic rage, you increase the additional damage from Rage from 4 to 8. If you have greater weapon specialization, instead increase the damage from Rage when using draconic rage from 8 to 16.\n\n<h6>Raging Resistance</h6>\n\nYou resist piercing damage and poison damage.",
         "subType": "Green",
         "superType": "Dragon Instinct",
         "anathema": [
@@ -8853,7 +8869,7 @@
     },
     {
         "name": "Dragon Instinct: Red",
-        "desc": "You summon the fury of a mighty dragon and manifest incredible abilities. Perhaps your culture reveres draconic majesty, or you gained your connection by drinking or bathing in dragon's blood or after watching a marauding wyrm burn your village.\n<h6>Anathema</h6>\n\nLetting a personal insult against you slide is anathema to your instinct. Choose whether your character respects or abhors your dragon type. If you respect it, defying such a dragon is anathema, and if you abhor it, failing to defeat such a dragon you come across is anathema.\n\n<h6>Draconic Rage (Instinct Ability)</h6>\n\nWhile raging, you can increase the additional damage from Rage from 2 to 4 and change its damage type to fire instead of the damage type for your weapon or unarmed attack. If you do this, your Rage action gains the arcane and evocation traits, as well as the trait matching the damage type.\n\n<h6>Specialization Ability</h6>\n\nWhen you use draconic rage, you increase the additional damage from Rage from 4 to 8. If you have greater weapon specialization, instead increase the damage from Rage when using draconic rage from 8 to 16.\n\n<h6>Raging Resistance</h6>\n\nYou resist piercing damage and fire damage.",
+        "desc": "You summon the fury of a mighty dragon and manifest incredible abilities. Perhaps your culture reveres draconic majesty, or you gained your connection by drinking or bathing in dragon's blood or after watching a marauding wyrm burn your village.\n\n<h6>Anathema</h6>\n\nLetting a personal insult against you slide is anathema to your instinct. Choose whether your character respects or abhors your dragon type. If you respect it, defying such a dragon is anathema, and if you abhor it, failing to defeat such a dragon you come across is anathema.\n\n<h6>Draconic Rage (Instinct Ability)</h6>\n\nWhile raging, you can increase the additional damage from Rage from 2 to 4 and change its damage type to fire instead of the damage type for your weapon or unarmed attack. If you do this, your Rage action gains the arcane and evocation traits, as well as the trait matching the damage type.\n\n<h6>Specialization Ability</h6>\n\nWhen you use draconic rage, you increase the additional damage from Rage from 4 to 8. If you have greater weapon specialization, instead increase the damage from Rage when using draconic rage from 8 to 16.\n\n<h6>Raging Resistance</h6>\n\nYou resist piercing damage and fire damage.",
         "subType": "Red",
         "superType": "Dragon Instinct",
         "anathema": [
@@ -8915,7 +8931,7 @@
     },
     {
         "name": "Dragon Instinct: White",
-        "desc": "You summon the fury of a mighty dragon and manifest incredible abilities. Perhaps your culture reveres draconic majesty, or you gained your connection by drinking or bathing in dragon's blood or after watching a marauding wyrm burn your village.\n<h6>Anathema</h6>\n\nLetting a personal insult against you slide is anathema to your instinct. Choose whether your character respects or abhors your dragon type. If you respect it, defying such a dragon is anathema, and if you abhor it, failing to defeat such a dragon you come across is anathema.\n\n<h6>Draconic Rage (Instinct Ability)</h6>\n\nWhile raging, you can increase the additional damage from Rage from 2 to 4 and change its damage type to cold instead of the damage type for your weapon or unarmed attack. If you do this, your Rage action gains the arcane and evocation traits, as well as the trait matching the damage type.\n\n<h6>Specialization Ability</h6>\n\nWhen you use draconic rage, you increase the additional damage from Rage from 4 to 8. If you have greater weapon specialization, instead increase the damage from Rage when using draconic rage from 8 to 16.\n\n<h6>Raging Resistance</h6>\n\nYou resist piercing damage and cold damage.",
+        "desc": "You summon the fury of a mighty dragon and manifest incredible abilities. Perhaps your culture reveres draconic majesty, or you gained your connection by drinking or bathing in dragon's blood or after watching a marauding wyrm burn your village.\n\n<h6>Anathema</h6>\n\nLetting a personal insult against you slide is anathema to your instinct. Choose whether your character respects or abhors your dragon type. If you respect it, defying such a dragon is anathema, and if you abhor it, failing to defeat such a dragon you come across is anathema.\n\n<h6>Draconic Rage (Instinct Ability)</h6>\n\nWhile raging, you can increase the additional damage from Rage from 2 to 4 and change its damage type to cold instead of the damage type for your weapon or unarmed attack. If you do this, your Rage action gains the arcane and evocation traits, as well as the trait matching the damage type.\n\n<h6>Specialization Ability</h6>\n\nWhen you use draconic rage, you increase the additional damage from Rage from 4 to 8. If you have greater weapon specialization, instead increase the damage from Rage when using draconic rage from 8 to 16.\n\n<h6>Raging Resistance</h6>\n\nYou resist piercing damage and cold damage.",
         "subType": "White",
         "superType": "Dragon Instinct",
         "anathema": [
@@ -8977,7 +8993,7 @@
     },
     {
         "name": "Dragon Instinct: Brass",
-        "desc": "You summon the fury of a mighty dragon and manifest incredible abilities. Perhaps your culture reveres draconic majesty, or you gained your connection by drinking or bathing in dragon's blood or after watching a marauding wyrm burn your village.\n<h6>Anathema</h6>\n\nLetting a personal insult against you slide is anathema to your instinct. Choose whether your character respects or abhors your dragon type. If you respect it, defying such a dragon is anathema, and if you abhor it, failing to defeat such a dragon you come across is anathema.\n\n<h6>Draconic Rage (Instinct Ability)</h6>\n\nWhile raging, you can increase the additional damage from Rage from 2 to 4 and change its damage type to fire instead of the damage type for your weapon or unarmed attack. If you do this, your Rage action gains the arcane and evocation traits, as well as the trait matching the damage type.\n\n<h6>Specialization Ability</h6>\n\nWhen you use draconic rage, you increase the additional damage from Rage from 4 to 8. If you have greater weapon specialization, instead increase the damage from Rage when using draconic rage from 8 to 16.\n\n<h6>Raging Resistance</h6>\n\nYou resist piercing damage and fire damage.",
+        "desc": "You summon the fury of a mighty dragon and manifest incredible abilities. Perhaps your culture reveres draconic majesty, or you gained your connection by drinking or bathing in dragon's blood or after watching a marauding wyrm burn your village.\n\n<h6>Anathema</h6>\n\nLetting a personal insult against you slide is anathema to your instinct. Choose whether your character respects or abhors your dragon type. If you respect it, defying such a dragon is anathema, and if you abhor it, failing to defeat such a dragon you come across is anathema.\n\n<h6>Draconic Rage (Instinct Ability)</h6>\n\nWhile raging, you can increase the additional damage from Rage from 2 to 4 and change its damage type to fire instead of the damage type for your weapon or unarmed attack. If you do this, your Rage action gains the arcane and evocation traits, as well as the trait matching the damage type.\n\n<h6>Specialization Ability</h6>\n\nWhen you use draconic rage, you increase the additional damage from Rage from 4 to 8. If you have greater weapon specialization, instead increase the damage from Rage when using draconic rage from 8 to 16.\n\n<h6>Raging Resistance</h6>\n\nYou resist piercing damage and fire damage.",
         "subType": "Brass",
         "superType": "Dragon Instinct",
         "anathema": [
@@ -9039,7 +9055,7 @@
     },
     {
         "name": "Dragon Instinct: Bronze",
-        "desc": "You summon the fury of a mighty dragon and manifest incredible abilities. Perhaps your culture reveres draconic majesty, or you gained your connection by drinking or bathing in dragon's blood or after watching a marauding wyrm burn your village.\n<h6>Anathema</h6>\n\nLetting a personal insult against you slide is anathema to your instinct. Choose whether your character respects or abhors your dragon type. If you respect it, defying such a dragon is anathema, and if you abhor it, failing to defeat such a dragon you come across is anathema.\n\n<h6>Draconic Rage (Instinct Ability)</h6>\n\nWhile raging, you can increase the additional damage from Rage from 2 to 4 and change its damage type to electricity instead of the damage type for your weapon or unarmed attack. If you do this, your Rage action gains the arcane and evocation traits, as well as the trait matching the damage type.\n\n<h6>Specialization Ability</h6>\n\nWhen you use draconic rage, you increase the additional damage from Rage from 4 to 8. If you have greater weapon specialization, instead increase the damage from Rage when using draconic rage from 8 to 16.\n\n<h6>Raging Resistance</h6>\n\nYou resist piercing damage and electricity damage.",
+        "desc": "You summon the fury of a mighty dragon and manifest incredible abilities. Perhaps your culture reveres draconic majesty, or you gained your connection by drinking or bathing in dragon's blood or after watching a marauding wyrm burn your village.\n\n<h6>Anathema</h6>\n\nLetting a personal insult against you slide is anathema to your instinct. Choose whether your character respects or abhors your dragon type. If you respect it, defying such a dragon is anathema, and if you abhor it, failing to defeat such a dragon you come across is anathema.\n\n<h6>Draconic Rage (Instinct Ability)</h6>\n\nWhile raging, you can increase the additional damage from Rage from 2 to 4 and change its damage type to electricity instead of the damage type for your weapon or unarmed attack. If you do this, your Rage action gains the arcane and evocation traits, as well as the trait matching the damage type.\n\n<h6>Specialization Ability</h6>\n\nWhen you use draconic rage, you increase the additional damage from Rage from 4 to 8. If you have greater weapon specialization, instead increase the damage from Rage when using draconic rage from 8 to 16.\n\n<h6>Raging Resistance</h6>\n\nYou resist piercing damage and electricity damage.",
         "subType": "Bronze",
         "superType": "Dragon Instinct",
         "anathema": [
@@ -9101,7 +9117,7 @@
     },
     {
         "name": "Dragon Instinct: Copper",
-        "desc": "You summon the fury of a mighty dragon and manifest incredible abilities. Perhaps your culture reveres draconic majesty, or you gained your connection by drinking or bathing in dragon's blood or after watching a marauding wyrm burn your village.\n<h6>Anathema</h6>\n\nLetting a personal insult against you slide is anathema to your instinct. Choose whether your character respects or abhors your dragon type. If you respect it, defying such a dragon is anathema, and if you abhor it, failing to defeat such a dragon you come across is anathema.\n\n<h6>Draconic Rage (Instinct Ability)</h6>\n\nWhile raging, you can increase the additional damage from Rage from 2 to 4 and change its damage type to acid instead of the damage type for your weapon or unarmed attack. If you do this, your Rage action gains the arcane and evocation traits, as well as the trait matching the damage type.\n\n<h6>Specialization Ability</h6>\n\nWhen you use draconic rage, you increase the additional damage from Rage from 4 to 8. If you have greater weapon specialization, instead increase the damage from Rage when using draconic rage from 8 to 16.\n\n<h6>Raging Resistance</h6>\n\nYou resist piercing damage and acid damage.",
+        "desc": "You summon the fury of a mighty dragon and manifest incredible abilities. Perhaps your culture reveres draconic majesty, or you gained your connection by drinking or bathing in dragon's blood or after watching a marauding wyrm burn your village.\n\n<h6>Anathema</h6>\n\nLetting a personal insult against you slide is anathema to your instinct. Choose whether your character respects or abhors your dragon type. If you respect it, defying such a dragon is anathema, and if you abhor it, failing to defeat such a dragon you come across is anathema.\n\n<h6>Draconic Rage (Instinct Ability)</h6>\n\nWhile raging, you can increase the additional damage from Rage from 2 to 4 and change its damage type to acid instead of the damage type for your weapon or unarmed attack. If you do this, your Rage action gains the arcane and evocation traits, as well as the trait matching the damage type.\n\n<h6>Specialization Ability</h6>\n\nWhen you use draconic rage, you increase the additional damage from Rage from 4 to 8. If you have greater weapon specialization, instead increase the damage from Rage when using draconic rage from 8 to 16.\n\n<h6>Raging Resistance</h6>\n\nYou resist piercing damage and acid damage.",
         "subType": "Copper",
         "superType": "Dragon Instinct",
         "anathema": [
@@ -9163,7 +9179,7 @@
     },
     {
         "name": "Dragon Instinct: Gold",
-        "desc": "You summon the fury of a mighty dragon and manifest incredible abilities. Perhaps your culture reveres draconic majesty, or you gained your connection by drinking or bathing in dragon's blood or after watching a marauding wyrm burn your village.\n<h6>Anathema</h6>\n\nLetting a personal insult against you slide is anathema to your instinct. Choose whether your character respects or abhors your dragon type. If you respect it, defying such a dragon is anathema, and if you abhor it, failing to defeat such a dragon you come across is anathema.\n\n<h6>Draconic Rage (Instinct Ability)</h6>\n\nWhile raging, you can increase the additional damage from Rage from 2 to 4 and change its damage type to fire instead of the damage type for your weapon or unarmed attack. If you do this, your Rage action gains the arcane and evocation traits, as well as the trait matching the damage type.\n\n<h6>Specialization Ability</h6>\n\nWhen you use draconic rage, you increase the additional damage from Rage from 4 to 8. If you have greater weapon specialization, instead increase the damage from Rage when using draconic rage from 8 to 16.\n\n<h6>Raging Resistance</h6>\n\nYou resist piercing damage and fire damage.",
+        "desc": "You summon the fury of a mighty dragon and manifest incredible abilities. Perhaps your culture reveres draconic majesty, or you gained your connection by drinking or bathing in dragon's blood or after watching a marauding wyrm burn your village.\n\n<h6>Anathema</h6>\n\nLetting a personal insult against you slide is anathema to your instinct. Choose whether your character respects or abhors your dragon type. If you respect it, defying such a dragon is anathema, and if you abhor it, failing to defeat such a dragon you come across is anathema.\n\n<h6>Draconic Rage (Instinct Ability)</h6>\n\nWhile raging, you can increase the additional damage from Rage from 2 to 4 and change its damage type to fire instead of the damage type for your weapon or unarmed attack. If you do this, your Rage action gains the arcane and evocation traits, as well as the trait matching the damage type.\n\n<h6>Specialization Ability</h6>\n\nWhen you use draconic rage, you increase the additional damage from Rage from 4 to 8. If you have greater weapon specialization, instead increase the damage from Rage when using draconic rage from 8 to 16.\n\n<h6>Raging Resistance</h6>\n\nYou resist piercing damage and fire damage.",
         "subType": "Gold",
         "superType": "Dragon Instinct",
         "anathema": [
@@ -9225,7 +9241,7 @@
     },
     {
         "name": "Dragon Instinct: Silver",
-        "desc": "You summon the fury of a mighty dragon and manifest incredible abilities. Perhaps your culture reveres draconic majesty, or you gained your connection by drinking or bathing in dragon's blood or after watching a marauding wyrm burn your village.\n<h6>Anathema</h6>\n\nLetting a personal insult against you slide is anathema to your instinct. Choose whether your character respects or abhors your dragon type. If you respect it, defying such a dragon is anathema, and if you abhor it, failing to defeat such a dragon you come across is anathema.\n\n<h6>Draconic Rage (Instinct Ability)</h6>\n\nWhile raging, you can increase the additional damage from Rage from 2 to 4 and change its damage type to cold instead of the damage type for your weapon or unarmed attack. If you do this, your Rage action gains the arcane and evocation traits, as well as the trait matching the damage type.\n\n<h6>Specialization Ability</h6>\n\nWhen you use draconic rage, you increase the additional damage from Rage from 4 to 8. If you have greater weapon specialization, instead increase the damage from Rage when using draconic rage from 8 to 16.\n\n<h6>Raging Resistance</h6>\n\nYou resist piercing damage and cold damage.",
+        "desc": "You summon the fury of a mighty dragon and manifest incredible abilities. Perhaps your culture reveres draconic majesty, or you gained your connection by drinking or bathing in dragon's blood or after watching a marauding wyrm burn your village.\n\n<h6>Anathema</h6>\n\nLetting a personal insult against you slide is anathema to your instinct. Choose whether your character respects or abhors your dragon type. If you respect it, defying such a dragon is anathema, and if you abhor it, failing to defeat such a dragon you come across is anathema.\n\n<h6>Draconic Rage (Instinct Ability)</h6>\n\nWhile raging, you can increase the additional damage from Rage from 2 to 4 and change its damage type to cold instead of the damage type for your weapon or unarmed attack. If you do this, your Rage action gains the arcane and evocation traits, as well as the trait matching the damage type.\n\n<h6>Specialization Ability</h6>\n\nWhen you use draconic rage, you increase the additional damage from Rage from 4 to 8. If you have greater weapon specialization, instead increase the damage from Rage when using draconic rage from 8 to 16.\n\n<h6>Raging Resistance</h6>\n\nYou resist piercing damage and cold damage.",
         "subType": "Silver",
         "superType": "Dragon Instinct",
         "anathema": [
@@ -20056,7 +20072,7 @@
             {
                 "_className": "FeatChoice",
                 "available": 1,
-                "dynamicLevel": "level.number / 2",
+                "dynamicLevel": "Character.level / 2",
                 "insertLevel": 4,
                 "showOnSheet": true,
                 "source": "Metamagical Experimentation",
@@ -24964,7 +24980,7 @@
     {
         "name": "Advanced Muse's Whispers",
         "desc": "You gain one bard feat. For the purpose of meeting its prerequisites, your bard level is equal to half your character level.",
-        "specialdesc": "Special You can select this feat more than once. Each time you select it, you gain another bard feat.",
+        "specialdesc": "You can select this feat more than once. Each time you select it, you gain another bard feat.",
         "shortdesc": "You gain one wizard feat.",
         "archetype": "Bard",
         "unlimited": true,
@@ -30832,11 +30848,12 @@
             {
                 "_className": "FeatChoice",
                 "available": 2,
-                "dynamicLevel": "this.get_Character().level",
+                "dynamicLevel": "Character.level",
                 "filter": [
                     "Intimidating Glare",
                     "Scare to Death"
                 ],
+                "showOnSheet": true,
                 "source": "Feat: Raging Intimidation",
                 "type": "Skill"
             }

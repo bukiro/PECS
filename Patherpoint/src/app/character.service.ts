@@ -522,6 +522,7 @@ export class CharacterService {
         character.class.ancestry = Object.assign(new Ancestry(), JSON.parse(JSON.stringify(ancestry)))
         character.class.ancestry = this.reassign(character.class.ancestry);
         character.class.on_NewAncestry(this, itemsService);
+        this.update_LanguageList();
     }
 
     change_Deity(deity: Deity) {

@@ -9,15 +9,15 @@
         </button>
         <h5 *ngIf="creature=='Character'">Currency</h5>
         <div class="list-item" *ngIf="creature=='Character'">
-            <strong>C</strong>
-            <input class="number6" type="number" value="{{this.characterService.get_Character().cash[3]}}" disabled>
-            <strong>S</strong>
-            <input class="number6" type="number" value="{{this.characterService.get_Character().cash[2]}}" disabled>
-            <strong>G</strong>
-            <input class="number6" type="number" value="{{this.characterService.get_Character().cash[1]}}" disabled>
-            <strong>P</strong>
+            <strong title="Platinum">P</strong>
             <input class="number6" type="number" value="{{this.characterService.get_Character().cash[0]}}" disabled>
-            <button title="Exchange coins for higher currency, with priority on gold coins."
+            <strong title="Gold">G</strong>
+            <input class="number6" type="number" value="{{this.characterService.get_Character().cash[1]}}" disabled>
+            <strong title="Silver">S</strong>
+            <input class="number6" type="number" value="{{this.characterService.get_Character().cash[2]}}" disabled>
+            <strong title="Copper">C</strong>
+            <input class="number6" type="number" value="{{this.characterService.get_Character().cash[3]}}" disabled>
+            <button title="Exchange coins for higher currency (no higher than Gold)."
                 (click)="sort_Cash();">Sort</button>
         </div>
         <h5>Bulk</h5>

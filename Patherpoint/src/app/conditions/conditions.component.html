@@ -1,20 +1,12 @@
 <div id="conditions" class="itemBox">
-    <button class="list-item" (click)="toggleConditionsMenu()">Close</button>
+    <button class="list-item center-aligned" (click)="toggleConditionsMenu()">
+        <h3>Close</h3>
+    </button>
     <div class="loading" *ngIf="still_loading()">Loading</div>
     <ng-container *ngIf="!still_loading() && get_ConditionsMenuState()=='in'">
-        <div class="list-item">
-            <button (click)="toggle_Purpose('conditions')"
-                [className]="{'fancy-button':get_ShowPurpose()=='conditions'}">Add Conditions</button>
-            <button (click)="toggle_Purpose('customeffects')"
-                [className]="{'fancy-button':get_ShowPurpose()=='customeffects'}">Custom Effects</button>
-        </div>
         <h3>Duration: {{get_Duration()}}</h3>
         <div class="itemBox-inner">
-            <button class="list-item" (click)="toggle_List('addCustomEffect')"
-                *ngIf="get_ShowPurpose()=='customeffects'">
-                <h3>Add Custom Effect</h3>
-            </button>
-            <div class="list-item" *ngIf="get_ShowPurpose()=='conditions' || get_ShowList()=='addCustomEffect'">
+            <div class="list-item">
                 <div class="row">
                     <button class="center-aligned" (click)="set_Permanent()">Permanent</button>
                 </div>
@@ -36,6 +28,12 @@
                     <input type="radio" [(ngModel)]="endOn" [value]="5">Turn End
                 </div>
             </div>
+            <div class="list-item">
+                <button (click)="toggle_Purpose('conditions')"
+                    [className]="{'fancy-button':get_ShowPurpose()=='conditions'}">Add Conditions</button>
+                <button (click)="toggle_Purpose('customeffects')"
+                    [className]="{'fancy-button':get_ShowPurpose()=='customeffects'}">Custom Effects</button>
+            </div>
             <ng-container *ngIf="get_ShowPurpose()=='conditions'">
                 <h3>Add Conditions</h3>
                 <div class="list-item">
@@ -53,7 +51,7 @@
                         <button class="list-item" (click)="toggle_List(set)" *ngIf="visibleConditions.length">
                             <h3>{{set}}</h3>
                         </button>
-                        <ng-container *ngIf="get_ShowList()==set||get_ShowList()=='All'">
+                        <div class="list-item" *ngIf="visibleConditions.length && (get_ShowList()==set||get_ShowList()=='All')">
                             <div class="list-item" *ngFor="let condition of visibleConditions; trackBy:trackByIndex;">
                                 <strong>{{condition.name}}</strong>&nbsp;
                                 <div class="row" *ngIf="condition.hasValue">
@@ -148,7 +146,8 @@
                                             </span>
                                         </div>
                                         <div class="row">
-                                            <button (click)="toggle_Item(set+condition.name)" [ngClass]="{'fancy-button':get_ShowItem()==set+condition.name}">
+                                            <button (click)="toggle_Item(set+condition.name)"
+                                                [ngClass]="{'fancy-button':get_ShowItem()==set+condition.name}">
                                                 {{get_ShowItem()==set+condition.name ? "Hide" : "Show"}} Description
                                             </button>
                                         </div>
@@ -166,11 +165,16 @@
                                     </ng-container>
                                 </ng-container>
                             </div>
-                        </ng-container>
+                        </div>
                     </ng-container>
                 </ng-container>
             </ng-container>
             <ng-container *ngIf="get_ShowPurpose()=='customeffects'">
+                <h3>Custom Effects</h3>
+                <button class="list-item" (click)="toggle_List('addCustomEffect')"
+                    *ngIf="get_ShowPurpose()=='customeffects'">
+                    <h3>Add Custom Effect</h3>
+                </button>
                 <div class="row list-item"
                     *ngIf="get_ShowPurpose()=='customeffects' && get_ShowList()=='addCustomEffect'">
                     <div class="row list-item"
@@ -219,7 +223,7 @@
                         <button class="list-item" (click)="toggle_List('customEffects'+creature.type)">
                             <h3>Custom effects on {{creature.type}}</h3>
                         </button>
-                        <ng-container *ngIf="get_ShowList()=='customEffects'+creature.type">
+                        <div class="list-item" *ngIf="get_ShowList()=='customEffects'+creature.type">
                             <ng-container
                                 *ngFor="let effectGain of creature.effects; let index = index; trackBy:trackByIndex;">
                                 <div class="list-item"
@@ -247,7 +251,7 @@
                                     </button>
                                 </div>
                             </ng-container>
-                        </ng-container>
+                        </div>
                     </ng-container>
                 </ng-container>
             </ng-container>

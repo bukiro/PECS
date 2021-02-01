@@ -685,7 +685,7 @@ export class SpellchoiceComponent implements OnInit {
 
     on_SpellTaken(spellName: string, taken: boolean, choice: SpellChoice, locked: boolean) {
         //Close the menu if all slots are filled, unless it's a spell combination choice.
-        if (taken && !choice.spellCombination && (choice.spells.length == this.get_Available(choice) - 1)) { this.toggle_Choice("") }
+        if (taken && this.get_Character().settings.autoCloseChoices && !choice.spellCombination && (choice.spells.length == this.get_Available(choice) - 1)) { this.toggle_Choice("") }
         let prepared: boolean = this.prepared;
         let character = this.get_Character();
         character.take_Spell(this.characterService, spellName, taken, choice, locked, prepared);
@@ -707,7 +707,7 @@ export class SpellchoiceComponent implements OnInit {
     }
 
     on_SpellCombinationTaken(spellName: string, taken: boolean, choice: SpellChoice) {
-        if (taken) {
+        if (taken && this.get_Character().settings.autoCloseChoices) {
             this.toggle_Choice("")
             choice.spells[0].combinationSpellName = spellName;
         } else {

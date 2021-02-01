@@ -184,7 +184,7 @@ export class SkillchoiceComponent implements OnInit {
     }
 
     on_SkillIncrease(skillName: string, boost: boolean, choice: SkillChoice, locked: boolean = false) {
-        if (boost && (choice.increases.length == choice.available + this.get_SkillINTBonus(choice) - 1)) { this.toggle_Choice(""); }
+        if (boost && this.get_Character().settings.autoCloseChoices && (choice.increases.length == choice.available + this.get_SkillINTBonus(choice) - 1)) { this.toggle_Choice(""); }
         this.get_Character().increase_Skill(this.characterService, skillName, boost, choice, locked);
         this.characterService.process_ToChange();
     }

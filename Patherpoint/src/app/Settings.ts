@@ -18,4 +18,8 @@ export class Settings {
     spellsMinimized: boolean = false;
     spelllibraryMinimized: boolean = false;
     timeMinimized: boolean = false;
+    autoCloseChoices: boolean = false;
+    showOtherOptions: boolean = true;
+    lowerLevelFeats: boolean = true;
+    archetypeFeats: boolean = true;
 }

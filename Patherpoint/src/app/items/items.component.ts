@@ -41,7 +41,7 @@ export class ItemsComponent implements OnInit {
     public cashG: number = 0;
     public cashS: number = 0;
     public cashC: number = 0;
-    public purpose: "items"|"formulas"|"scrollsavant" = "items";
+    public purpose: "items"|"formulas"|"scrollsavant"|"createcustomitem" = "items";
     
     constructor(
         private changeDetector: ChangeDetectorRef,
@@ -86,7 +86,7 @@ export class ItemsComponent implements OnInit {
         return this.showItem;
     }
 
-    toggle_Purpose(purpose: "items"|"formulas"|"scrollsavant") {
+    toggle_Purpose(purpose: "items"|"formulas"|"scrollsavant"|"createcustomitem") {
         this.purpose = purpose;
     }
 

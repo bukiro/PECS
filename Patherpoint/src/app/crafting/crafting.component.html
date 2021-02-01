@@ -1,5 +1,7 @@
 <div id="items" class="itemBox">
-    <button class="list-item" (click)="toggleCraftingMenu()">Close</button>
+    <button class="list-item center-aligned" (click)="toggleCraftingMenu()">
+        <h3>Close</h3>
+    </button>
     <div class="loading" *ngIf="still_loading()">Loading</div>
     <ng-container *ngIf="get_CraftingMenuState()=='in'">
         <div class="list-item">
@@ -22,14 +24,28 @@
             <h5>Currency</h5>
             <div class="list-item">
                 <div class="row">
-                    <strong>Copper</strong>
-                    <input class="number4" type="number" [(ngModel)]="cashC" (keypress)="numbersOnly($event)">
+                    <strong>Platinum</strong>
+                    <input class="number6" type="number" value="{{get_Character().cash[0]}}" disabled>
+                    <strong>Gold</strong>
+                    <input class="number6" type="number" value="{{get_Character().cash[1]}}" disabled>
                     <strong>Silver</strong>
-                    <input class="number4" type="number" [(ngModel)]="cashS" (keypress)="numbersOnly($event)">
+                    <input class="number6" type="number" value="{{get_Character().cash[2]}}" disabled>
+                    <strong>Copper</strong>
+                    <input class="number6" style="text-align: center;" type="number" value="{{get_Character().cash[3]}}"
+                        disabled>
+                </div>
+            </div>
+            <h5>Currency</h5>
+            <div class="list-item">
+                <div class="row">
+                    <strong>Platinum</strong>
+                    <input class="number4" type="number" [(ngModel)]="cashP" (keypress)="numbersOnly($event)">
                     <strong>Gold</strong>
                     <input class="number4" type="number" [(ngModel)]="cashG" (keypress)="numbersOnly($event)">
-                    <strong>Platinum</strong>
-                    <input class="number4" style="text-align: center;" type="number" [(ngModel)]="cashP"
+                    <strong>Silver</strong>
+                    <input class="number4" type="number" [(ngModel)]="cashS" (keypress)="numbersOnly($event)">
+                    <strong>Copper</strong>
+                    <input class="number4" style="text-align: center;" type="number" [(ngModel)]="cashC"
                         (keypress)="numbersOnly($event)">
                 </div>
                 <div class="row">
@@ -59,7 +75,9 @@
                                 (click)="toggle_List(listID)">
                                 <h3>Snares</h3>
                             </button>
-                            <ng-container *ngIf="get_ShowList()==listID||get_ShowList()=='All'">
+                            <div class="list-item"
+                                [ngStyle]="{'display':!get_VisibleItems(items.snares).length ? 'none' : 'flex' }"
+                                *ngIf="get_ShowList()==listID||get_ShowList()=='All'">
                                 <ng-container
                                     *ngFor="let item of get_VisibleItems(items.snares)|sortBy:'asc':sorting; trackBy:trackByIndex;">
                                     <ng-container *ngFor="let prepared of [get_PreparedForQuickCrafting(item)]">
@@ -92,7 +110,7 @@
                                         </div>
                                     </ng-container>
                                 </ng-container>
-                            </ng-container>
+                            </div>
                         </ng-container>
                     </ng-container>
                 </ng-container>
@@ -113,7 +131,9 @@
                             (click)="toggle_List(listID)">
                             <h3>{{itemSet.name}}</h3>
                         </button>
-                        <ng-container *ngIf="get_ShowList()==listID||get_ShowList()=='All'">
+                        <div class="list-item"
+                            [ngStyle]="{'display':!get_VisibleItems(items[itemSet.key]).length ? 'none' : 'flex' }"
+                            *ngIf="get_ShowList()==listID||get_ShowList()=='All'">
                             <ng-container
                                 *ngFor="let item of get_VisibleItems(items[itemSet.key])|sortBy:'asc':sorting; trackBy:trackByIndex;">
                                 <div class="list-item"
@@ -154,7 +174,7 @@
                                     </div>
                                 </div>
                             </ng-container>
-                        </ng-container>
+                        </div>
                     </ng-container>
                 </ng-container>
             </ng-container>

@@ -47,8 +47,6 @@ export class CharacterComponent implements OnInit {
     private showItem: string = "";
     private showList: string = "";
     public allowCharacterDelete: Boolean[] = [];
-    public lowerLevelFeats: Boolean = true;
-    public archetypeFeats: Boolean = true;
     public adventureBackgrounds: Boolean = true;
     public regionalBackgrounds: Boolean = true;
         
@@ -554,7 +552,7 @@ export class CharacterComponent implements OnInit {
 
     on_LoreChange(boost: boolean, choice: LoreChoice) {
         if (boost) {
-            if (choice.increases.length == choice.available - 1) { this.showList=""; }
+            if ((choice.increases.length == choice.available - 1) && this.get_Character().settings.autoCloseChoices) { this.toggle_List(""); }
             this.get_Character().add_Lore(this.characterService, choice);
         } else {
             this.get_Character().remove_Lore(this.characterService, choice);
@@ -612,7 +610,7 @@ export class CharacterComponent implements OnInit {
 
     on_AdditionalHeritageChange(heritage: Heritage, taken: boolean, index: number, source: string) {
         if (taken) {
-            this.showList="";
+            if (this.get_Character().settings.autoCloseChoices) { this.toggle_List(""); }
             this.characterService.change_Heritage(heritage, index, source);
         } else {
             this.characterService.change_Heritage(new Heritage(), index, source);
@@ -633,7 +631,7 @@ export class CharacterComponent implements OnInit {
             level.loreChoices = level.loreChoices.filter(choice => choice.source != "Different Worlds");
         }
         if (taken) {
-            this.showList="";
+            if (this.get_Character().settings.autoCloseChoices) { this.toggle_List(""); }
             feat.data["background"] = background.name;
             background.loreChoices.forEach(choice => {
                 let newChoice: LoreChoice = character.add_LoreChoice(level, choice);
@@ -687,7 +685,7 @@ export class CharacterComponent implements OnInit {
 
     on_FuseStanceStanceChange(feat:Feat, which:string, stance:string, taken:boolean) {
         if (taken) {
-            this.showList="";
+            if (this.get_Character().settings.autoCloseChoices) { this.toggle_List(""); }
             feat.data[which] = stance;
         } else {
             feat.data[which] = "";
@@ -710,7 +708,7 @@ export class CharacterComponent implements OnInit {
 
     onClassChange($class: Class, taken: boolean) {
         if (taken) {
-            this.showList="";
+            if (this.get_Character().settings.autoCloseChoices) { this.toggle_List(""); }
             this.characterService.change_Class($class);
         } else {
             this.characterService.change_Class(new Class());
@@ -727,7 +725,7 @@ export class CharacterComponent implements OnInit {
 
     onAncestryChange(ancestry: Ancestry, taken: boolean) {
         if (taken) {
-            this.showList="";
+            if (this.get_Character().settings.autoCloseChoices) { this.toggle_List(""); }
             this.characterService.change_Ancestry(ancestry, this.itemsService);
         } else {
             this.characterService.change_Ancestry(new Ancestry(), this.itemsService);
@@ -748,7 +746,7 @@ export class CharacterComponent implements OnInit {
 
     on_DeityChange(deity: Deity, taken: boolean) {
         if (taken) {
-            this.showList="";
+            if (this.get_Character().settings.autoCloseChoices) { this.toggle_List(""); }
             this.characterService.change_Deity(deity);
         } else {
             this.characterService.change_Deity(new Deity());
@@ -781,7 +779,7 @@ export class CharacterComponent implements OnInit {
 
     onHeritageChange(heritage: Heritage, taken: boolean) {
         if (taken) {
-            this.showList="";
+            if (this.get_Character().settings.autoCloseChoices) { this.toggle_List(""); }
             this.characterService.change_Heritage(heritage);
         } else {
             this.characterService.change_Heritage(new Heritage());
@@ -811,7 +809,7 @@ export class CharacterComponent implements OnInit {
 
     onBackgroundChange(background: Background, taken: boolean) {
         if (taken) {
-            this.showList="";
+            if (this.get_Character().settings.autoCloseChoices) { this.toggle_List(""); }
             this.characterService.change_Background(background);
         } else {
             this.characterService.change_Background(new Background());
@@ -846,7 +844,7 @@ export class CharacterComponent implements OnInit {
 
     on_CompanionTypeChange(type: AnimalCompanionAncestry, taken: boolean) {
         if (taken) {
-            this.showList="";
+            if (this.get_Character().settings.autoCloseChoices) { this.toggle_List(""); }
             this.get_Companion().class.on_ChangeAncestry(this.characterService);
             this.animalCompanionsService.change_Type(this.get_Companion(), type);
             this.get_Companion().class.on_NewAncestry(this.characterService, this.itemsService);
@@ -861,7 +859,7 @@ export class CharacterComponent implements OnInit {
     on_SpecializationChange(spec: AnimalCompanionSpecialization, taken: boolean, levelNumber: number) {
         if (taken) {
             if (this.get_Companion().class.specializations.filter(spec => spec.level == levelNumber).length == this.get_CompanionSpecializationsAvailable(levelNumber) - 1) {
-                this.showList="";
+                if (this.get_Character().settings.autoCloseChoices) { this.toggle_List(""); }
             }
             this.animalCompanionsService.add_Specialization(this.get_Companion(), spec, levelNumber);
         } else {

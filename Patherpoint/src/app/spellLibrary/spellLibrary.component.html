@@ -1,5 +1,7 @@
 <div id="spelllibrary" class="itemBox">
-    <button class="list-item" (click)="toggleSpellLibraryMenu()">Close</button>
+    <button class="list-item center-aligned" (click)="toggleSpellLibraryMenu()">
+        <h3>Close</h3>
+    </button>
     <div class="loading" *ngIf="still_loading()">Loading</div>
     <ng-container *ngIf="get_SpellLibraryMenuState()=='in'">
         <div class="list-item">
@@ -78,7 +80,9 @@
                                 <h3 *ngIf="level == 0">Cantrips</h3>
                                 <h3 *ngIf="level > 0">{{"Level "+level}}</h3>
                             </button>
-                            <ng-container *ngIf="get_ShowList()==level||get_ShowList()==-2">
+                            <div class="list-item"
+                                [ngStyle]="{'display':!visibleSpells.length ? 'none' : 'flex' }"
+                                *ngIf="get_ShowList()==level||get_ShowList()==-2">
                                 <div class="list-item"
                                     *ngFor="let spell of visibleSpells|sortBy:'asc':'name'; trackBy:trackByIndex;">
                                     <button class="row left-aligned sublist-toggle" (click)="toggle_Item(spell.id)"
@@ -118,8 +122,7 @@
                                             *ngIf="get_AvailableForLearning(wizardCasting, spell, true)">
                                             Learn via Adapted Cantrip
                                         </button>
-                                        <button class="row center-aligned"
-                                            (click)="learn_Spell(spell, 'adaptiveadept')"
+                                        <button class="row center-aligned" (click)="learn_Spell(spell, 'adaptiveadept')"
                                             [disabled]="!can_Learn(wizardCasting, level, spell, 'adaptiveadept')"
                                             *ngIf="get_AvailableForLearning(wizardCasting, spell, false, true)">
                                             Learn via Adaptive Adept
@@ -160,7 +163,7 @@
                                         </app-spell>
                                     </div>
                                 </div>
-                            </ng-container>
+                            </div>
                         </ng-container>
                     </ng-container>
                 </ng-container>

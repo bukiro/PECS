@@ -138,39 +138,37 @@ export class FeatchoiceComponent implements OnInit {
             if (choice.filter.length) {
                 feats = feats.filter(subFeat => choice.filter.includes(subFeat.name) || choice.filter.includes(subFeat.superType))
             }
+            let featSets: { available: boolean, subfeat: Feat, allow: boolean }[] = []
             if (choice.feats.length < available) {
-                return feats.map(feat => {
+                featSets = feats.map(feat => {
                     let available = (this.cannotTake(feat, choice).length == 0 || this.featTakenByThis(feat, choice));
-                    return { available: available, subfeat: feat }
-                }).sort(function (a, b) {
-                    if (a.subfeat.subType < b.subfeat.subType) {
-                        return -1;
-                    }
-                    if (a.subfeat.subType > b.subfeat.subType) {
-                        return 1;
-                    }
-                    return 0;
-                }).sort(function (a, b) {
-                    if (a.available && !b.available) {
-                        return -1;
-                    }
-                    if (!a.available && b.available) {
-                        return 1;
-                    }
-                    return 0;
-                });
+                    return { available: available, subfeat: feat, allow: true }
+                })
             } else {
-                return feats.filter(feat => this.featTakenByThis(feat, choice))
-                    .map(feat => { return { available: true, subfeat: feat } }).sort(function (a, b) {
-                        if (a.subfeat.subType < b.subfeat.subType) {
-                            return -1;
-                        }
-                        if (a.subfeat.subType > b.subfeat.subType) {
-                            return 1;
-                        }
-                        return 0;
-                    });
+                let showOtherOptions = this.get_Character().settings.showOtherOptions;
+                featSets = feats.map(feat => {
+                    let available = (this.cannotTake(feat, choice).length == 0 || this.featTakenByThis(feat, choice));
+                    let allow = (this.featTakenByThis(feat, choice));
+                    return { available: available, subfeat: feat, allow: allow }
+                }).filter(featSet => showOtherOptions || featSet.allow)
             }
+            return featSets.sort(function (a, b) {
+                if (a.subfeat.subType < b.subfeat.subType) {
+                    return -1;
+                }
+                if (a.subfeat.subType > b.subfeat.subType) {
+                    return 1;
+                }
+                return 0;
+            }).sort(function (a, b) {
+                if (a.available && !b.available) {
+                    return -1;
+                }
+                if (!a.available && b.available) {
+                    return 1;
+                }
+                return 0;
+            });
         } else {
             return [];
         }
@@ -188,6 +186,7 @@ export class FeatchoiceComponent implements OnInit {
                 try {
                     //Prepare level for the dynamicLevel evaluation.
                     let level = this.get_Character().class.levels[this.levelNumber];
+                    let Character = this.get_Character();
                     //Eval the dynamicLevel string to convert things like "level.number / 2". "1" is still "1".
                     featLevel = Math.floor(parseInt(eval(choice.dynamicLevel)));
                 } catch (e) {
@@ -263,20 +262,30 @@ export class FeatchoiceComponent implements OnInit {
                     )
                 );
             }
+            let featSets: { available: boolean, feat: Feat, allow: boolean }[] = [];
             if (choice.feats.length < available) {
-                return feats.map(feat => {
+                featSets = feats.map(feat => {
                     let featAvailable = (this.cannotTake(feat, choice).length == 0 || this.featTakenByThis(feat, choice) || this.subFeatTakenByThis(feat, choice));
-                    return { available: featAvailable, feat: feat };
-                    //Don't show unavailable feats if this choice is visible on the character sheet.
-                }).filter((featObj: { available: boolean, feat: Feat }) => choice.showOnSheet ? featObj.available : true).sort(function (a, b) {
+                    return { available: featAvailable, feat: feat, allow: true };
+                })
+            } else {
+                let showOtherOptions = this.get_Character().settings.showOtherOptions;
+                featSets = feats.map(feat => {
+                    let featAvailable = (this.cannotTake(feat, choice).length == 0 || this.featTakenByThis(feat, choice) || this.subFeatTakenByThis(feat, choice));
+                    let allow = (this.featTakenByThis(feat, choice) || this.subFeatTakenByThis(feat, choice))
+                    return { available: featAvailable, feat: feat, allow: allow };
+                }).filter(featSet => showOtherOptions || featSet.allow)
+            }
+            return featSets
+                .sort(function (a, b) {
                     //Sort by level, then name. Divide level by 100 to create leading zeroes (and not sort 10 before 2).
                     //For skill feat choices and general feat choices, sort by the associated skill (if exactly one), then level and name.
                     //Feats with less or more required skills are sorted first.
                     let sort_a = (a.feat.levelreq / 100) + a.feat.name;
                     let sort_b = (b.feat.levelreq / 100) + b.feat.name;
                     if (["General", "Skill"].includes(choice.type)) {
-                        sort_a = (a.feat.skillreq.length == 1 ? a.feat.skillreq[0]?.skill : "0") + sort_a;
-                        sort_b = (b.feat.skillreq.length == 1 ? b.feat.skillreq[0]?.skill : "0") + sort_b;
+                        sort_a = (a.feat.skillreq.length == 1 ? a.feat.skillreq[0]?.skill : "_") + sort_a;
+                        sort_b = (b.feat.skillreq.length == 1 ? b.feat.skillreq[0]?.skill : "_") + sort_b;
                     }
                     if (sort_a < sort_b) {
                         return -1;
@@ -295,31 +304,12 @@ export class FeatchoiceComponent implements OnInit {
                     }
                     return 0;
                 });
-            } else {
-                return feats.filter(feat =>
-                    this.featTakenByThis(feat, choice) || this.subFeatTakenByThis(feat, choice)
-                ).map(feat => { return { available: true, feat: feat } }).sort(function (a, b) {
-                    //Sort by level, then name. Divide level by 100 to create leading zeroes (and not sort 10 before 2).
-                    //For skill feat choices and general feat choices, sort by the associated skill (if exactly one), then level and name.
-                    //Feats with less or more required skills are sorted first.
-                    let sort_a = (a.feat.levelreq / 100) + a.feat.name;
-                    let sort_b = (b.feat.levelreq / 100) + b.feat.name;
-                    if (["General", "Skill"].includes(choice.type)) {
-                        sort_a = (a.feat.skillreq.length == 1 ? a.feat.skillreq[0]?.skill : "_") + sort_a;
-                        sort_b = (b.feat.skillreq.length == 1 ? b.feat.skillreq[0]?.skill : "_") + sort_b;
-                    }
-                    if (sort_a < sort_b) {
-                        return -1;
-                    }
-                    if (sort_a > sort_b) {
-                        return 1;
-                    }
-                    return 0;
-                });
-            }
         }
     }
 
+    get_AvailableFeatsCount(featSets: { available: boolean, feat: Feat, allow: boolean }[], available: boolean = true) {
+        return featSets.filter(featSet => featSet.available == available).length;
+    }
 
     cannotTakeSome(choice: FeatChoice) {
         let anytrue = 0;
@@ -360,7 +350,7 @@ export class FeatchoiceComponent implements OnInit {
         //Don't run the test on a blank feat - does not go well.
         if (feat?.name) {
             let character = this.get_Character();
-            let levelNumber = parseInt(choice.id.split("-")[0]);
+            let levelNumber = this.levelNumber;
             let ignoreRequirementsList: string[] = this.create_IgnoreRequirementList(feat, choice);
             let reasons: { reason: string, explain: string }[] = [];
             let traits: string[] = [];
@@ -572,7 +562,7 @@ export class FeatchoiceComponent implements OnInit {
     }
 
     on_FeatTaken(featName: string, taken: boolean, choice: FeatChoice, locked: boolean) {
-        if (taken && (choice.feats.length == this.get_Available(choice) - 1)) { this.toggle_List(""); }
+        if (taken && this.get_Character().settings.autoCloseChoices && (choice.feats.length == this.get_Available(choice) - 1)) { this.toggle_List(""); }
         this.get_Character().take_Feat(this.get_Creature(), this.characterService, featName, taken, choice, locked);
         this.characterService.set_ToChange("Character", "charactersheet");
         this.characterService.set_ToChange("Character", "featchoices");

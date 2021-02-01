@@ -1,7 +1,7 @@
 <button class="minimizebutton lower" (click)="minimize()">&#8691;</button>
 <div id="character-height" class="itemBox">
-    <button class="list-item" (click)="toggleCharacterMenu()">
-        Close
+    <button class="list-item center-aligned" (click)="toggleCharacterMenu()">
+        <h3>Close</h3>
     </button>
     <div class="itemBox-inner">
         <button class="list-item" (click)="on_NewCharacter()">
@@ -140,13 +140,29 @@
                 </div>
             </div>
             <div class="list-item">
-                <strong>Feat choices</strong>
+                <strong>Choices</strong>
+                <div class="list-item">
+                    <span>
+                        <label for="autoCloseChoices">Automatically close choices when they are finished</label>
+                    </span>
+                    <span>
+                        <input id="autoCloseChoices" type="checkbox" [(ngModel)]="get_Character().settings.autoCloseChoices">
+                    </span>
+                </div>
+                <div class="list-item">
+                    <span>
+                        <label for="showOtherOptions">Keep showing the other options in finished choices</label>
+                    </span>
+                    <span>
+                        <input id="showOtherOptions" type="checkbox" [(ngModel)]="get_Character().settings.showOtherOptions">
+                    </span>
+                </div>
                 <div class="list-item">
                     <span>
                         <label for="lowerLevelFeats">Show lower and higher level feats</label>
                     </span>
                     <span>
-                        <input id="lowerLevelFeats" type="checkbox" [(ngModel)]="lowerLevelFeats">
+                        <input id="lowerLevelFeats" type="checkbox" [(ngModel)]="get_Character().settings.lowerLevelFeats">
                     </span>
                 </div>
                 <div class="list-item">
@@ -154,7 +170,7 @@
                         <label for="archetypeFeats">Show archetype feats</label>
                     </span>
                     <span>
-                        <input id="archetypeFeats" type="checkbox" [(ngModel)]="archetypeFeats">
+                        <input id="archetypeFeats" type="checkbox" [(ngModel)]="get_Character().settings.archetypeFeats">
                     </span>
                 </div>
             </div>
@@ -682,7 +698,7 @@
                         <app-featchoice (showChoiceMessage)="receive_ChoiceMessage($event)"
                             (showFeatMessage)="receive_FeatMessage($event)" [choice]="choice" [levelNumber]=level.number
                             [showFeat]="get_ShowItem()" [showChoice]="get_ShowList()"
-                            [lowerLevelFeats]="lowerLevelFeats" [archetypeFeats]="archetypeFeats">
+                            [lowerLevelFeats]="get_Character().settings.lowerLevelFeats" [archetypeFeats]="get_Character().settings.archetypeFeats">
                         </app-featchoice>
                     </ng-container>
                     <!--Animal Companion-->
