@@ -167,6 +167,12 @@ app-character-sheet {
     width: 100%;
 }
 
+#levelBox {
+    display: grid;
+    justify-content: stretch;
+    grid-gap: 4px;
+    grid-template-columns: auto auto auto auto auto;
+}
 
 /* Text */
 
@@ -696,6 +702,11 @@ button app-actionicons span {
     margin-bottom: auto;
 }
 
+.list-item.selected, .lower .list-item.selected {
+    border: 3px solid rgb(var(--accent));
+    padding: 1px 5px;
+}
+
 button.list-item {
     background-color: #465A8C;
     background-color: rgb(var(--accent));
@@ -712,6 +723,14 @@ button.list-item {
     background-color: #CCC;
     color: #465A8C;
     color: rgb(var(--accent));
+}
+
+button.choicecleared::after, .button.choicecleared::after {
+    content: "\2714";
+    font-size: 1.2em;
+    bottom: 0;
+    right: 0.5em;
+    position: absolute;
 }
 
 .lower .list-item {

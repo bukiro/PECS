@@ -58,14 +58,14 @@ export class SkillchoiceComponent implements OnInit {
     get_Skills(name: string = "", type: string = "", locked: boolean = undefined) {
         return this.characterService.get_Skills(this.get_Character(), name, type, locked)
     }
-    
+
     get_INT(levelNumber: number) {
         if (!levelNumber) {
             return 0;
         }
         //We have to calculate the modifier instead of getting .mod() because we don't want any effects in the character building interface.
         let intelligence: number = this.get_Abilities("Intelligence")[0].baseValue(this.get_Character(), this.characterService, levelNumber).result;
-        let INT: number = Math.floor((intelligence-10)/2);
+        let INT: number = Math.floor((intelligence - 10) / 2);
         return INT;
     }
 
@@ -92,10 +92,14 @@ export class SkillchoiceComponent implements OnInit {
             skills = skills.filter(skill => skill.level(character, this.characterService, level.number) >= choice.minRank);
         }
         if (skills.length) {
+            let showOtherOptions = this.get_Character().settings.showOtherOptions;
             return skills.filter(skill => (
-                this.skillIncreasedByThis(skill, choice) || 
+                this.skillIncreasedByThis(skill, choice) ||
                 (
-                    choice.increases.length < choice.available + this.get_SkillINTBonus(choice) &&
+                    (
+                        showOtherOptions ||
+                        choice.increases.length < choice.available + this.get_SkillINTBonus(choice)
+                    ) &&
                     //Don't show unavailable skills if this choice is visible on the character sheet.
                     (choice.showOnSheet ? !this.cannotIncrease(skill, level, choice).length : true)
                 )
@@ -124,7 +128,7 @@ export class SkillchoiceComponent implements OnInit {
     }
 
     cannotIncrease(skill: Skill, level: Level, choice: SkillChoice) {
-    //Returns a string of reasons why the skill cannot be increased, or []. Test the length of the return if you need a boolean.
+        //Returns a string of reasons why the skill cannot be increased, or []. Test the length of the return if you need a boolean.
         let maxRank: number = choice.maxRank;
         let reasons: string[] = [];
         //The skill may have been increased by the same source, but as a fixed rule.
@@ -135,10 +139,10 @@ export class SkillchoiceComponent implements OnInit {
         //If this skill was trained by a feat on a higher level, it can't be raised on this level.
         //This prevents losing the feat bonus or raising the skill too high.
         //An exception is made for Additional Lore, which can be raised on Level 3, 7 and 15 no matter when you learned it
-        let allIncreases = this.get_SkillIncreases(level.number+1, 20, skill.name, "", "", undefined, true);
+        let allIncreases = this.get_SkillIncreases(level.number + 1, 20, skill.name, "", "", undefined, true);
         if (allIncreases.length > 0) {
             if (allIncreases[0].locked && allIncreases[0].source.includes("Feat: ") && allIncreases[0].source != "Feat: Additional Lore") {
-                let trainedOnHigherLevelByFeat = "Trained on a higher level by "+allIncreases[0].source+".";
+                let trainedOnHigherLevelByFeat = "Trained on a higher level by " + allIncreases[0].source + ".";
                 reasons.push(trainedOnHigherLevelByFeat);
             }
             //If this is a temporary choice, and the character has raised the skill higher than the temporary choice allows, the choice is illegal.

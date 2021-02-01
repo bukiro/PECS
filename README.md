@@ -122,7 +122,3 @@ Implement:
 
 Next steps:
 - Implement Conditions for Poisons
-
-Suggestions:
-- Have a button to show the other choices (done on feat choices, need to apply to others)
-- Add a checkmark to choices that are cleared

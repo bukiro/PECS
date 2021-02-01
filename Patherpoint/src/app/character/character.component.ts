@@ -15,7 +15,6 @@ import { Background } from '../Background';
 import { LoreChoice } from '../LoreChoice';
 import { Ability } from '../Ability';
 import { AbilityChoice } from '../AbilityChoice';
-import { SpellCasting } from '../SpellCasting';
 import { ActivitiesService } from '../activities.service';
 import { Deity } from '../Deity';
 import { DeitiesService } from '../deities.service';
@@ -45,14 +44,15 @@ import { FeatChoice } from '../FeatChoice';
 export class CharacterComponent implements OnInit {
 
     public newClass: Class = new Class();
+    private showLevel: number = 0;
     private showItem: string = "";
     private showList: string = "";
     public allowCharacterDelete: Boolean[] = [];
     public adventureBackgrounds: Boolean = true;
     public regionalBackgrounds: Boolean = true;
-        
+
     constructor(
-        private changeDetector:ChangeDetectorRef,
+        private changeDetector: ChangeDetectorRef,
         public characterService: CharacterService,
         public classesService: ClassesService,
         public abilitiesService: AbilitiesService,
@@ -82,6 +82,14 @@ export class CharacterComponent implements OnInit {
         return this.characterService.get_CharacterMenuState();
     }
 
+    toggle_Level(levelNumber: number) {
+        if (this.showLevel == levelNumber) {
+            this.showLevel = 0;
+        } else {
+            this.showLevel = levelNumber;
+        }
+    }
+
     toggle_Item(name: string) {
         if (this.showItem == name) {
             this.showItem = "";
@@ -106,6 +114,10 @@ export class CharacterComponent implements OnInit {
         this.toggle_Item(name);
     }
 
+    get_ShowLevel() {
+        return this.showLevel;
+    }
+
     get_ShowItem() {
         return this.showItem;
     }
@@ -128,7 +140,7 @@ export class CharacterComponent implements OnInit {
     }
 
     get_Savegames() {
-        return this.savegameService.get_Savegames().sort(function(a,b) {
+        return this.savegameService.get_Savegames().sort(function (a, b) {
             if (a.name > b.name) {
                 return 1;
             }
@@ -136,7 +148,7 @@ export class CharacterComponent implements OnInit {
                 return -1;
             }
             return 0;
-        }).sort(function(a,b) {
+        }).sort(function (a, b) {
             if (a.partyName > b.partyName) {
                 return 1;
             }
@@ -144,7 +156,7 @@ export class CharacterComponent implements OnInit {
                 return -1;
             }
             return 0;
-        }).sort(function(a,b) {
+        }).sort(function (a, b) {
             if (b.partyName == "No Party" && a.partyName != "No Party") {
                 return 1;
             }
@@ -189,7 +201,7 @@ export class CharacterComponent implements OnInit {
             "Chaotic Evil"
         ]
         if (deity && ["Champion", "Cleric"].includes(this.get_Character().class.name)) {
-            return alignments.filter(alignment => 
+            return alignments.filter(alignment =>
                 !deity.followerAlignments ||
                 deity.followerAlignments.includes(alignment) ||
                 alignment == ""
@@ -197,7 +209,7 @@ export class CharacterComponent implements OnInit {
         } else {
             return alignments;
         }
-        
+
     }
 
     get_Level(number: number) {
@@ -210,7 +222,7 @@ export class CharacterComponent implements OnInit {
             baseValues.length = 0;
         } else {
             this.get_Abilities().forEach(ability => {
-                baseValues.push({name:ability.name, baseValue:10})
+                baseValues.push({ name: ability.name, baseValue: 10 })
             });
             //Remove all Level 1 ability boosts that are now illegal
             if (this.get_Character().class.name) {
@@ -292,17 +304,17 @@ export class CharacterComponent implements OnInit {
         //If we went up levels, repeat any onceEffects of Feats that apply inbetween, such as recovering Focus Points for a larger Focus Pool
         if (newLevel > oldLevel) {
             this.get_Character().get_FeatsTaken(oldLevel, newLevel).map((gain: FeatTaken) => this.get_FeatsAndFeatures(gain.name)[0])
-            .filter((feat: Feat) => feat?.onceEffects.length).forEach(feat => {
-                feat.onceEffects.forEach(effect => {
-                    this.characterService.process_OnceEffect(this.get_Character(), effect);
+                .filter((feat: Feat) => feat?.onceEffects.length).forEach(feat => {
+                    feat.onceEffects.forEach(effect => {
+                        this.characterService.process_OnceEffect(this.get_Character(), effect);
+                    })
                 })
-            })
         }
 
         //Find all the differences between the levels and refresh components accordingly.
         let lowerLevel = Math.min(oldLevel, newLevel);
         let higherLevel = Math.max(oldLevel, newLevel);
-        
+
         this.get_Character().class.levels.filter(level => level.number >= lowerLevel && level.number <= higherLevel).forEach(level => {
             level.featChoices.forEach(choice => {
                 if (choice.showOnSheet) {
@@ -357,13 +369,13 @@ export class CharacterComponent implements OnInit {
         //Reload spellbook if spells were learned between the levels
         if (this.get_Character().get_SpellsLearned().some(learned => learned.level >= lowerLevel && learned.level <= higherLevel)) {
             this.characterService.set_ToChange("Character", "spellbook");
-        //if spells were taken between the levels
+            //if spells were taken between the levels
         } else if (this.get_Character().get_SpellsTaken(this.characterService, lowerLevel, higherLevel).length) {
             this.characterService.set_ToChange("Character", "spellbook");
-        //if any spells have a dynamic level dependent on the character level
+            //if any spells have a dynamic level dependent on the character level
         } else if (this.get_Character().get_SpellsTaken(this.characterService, 0, 20).some(taken => taken.choice.dynamicLevel.toLowerCase().includes("level"))) {
             this.characterService.set_ToChange("Character", "spellbook");
-        //or if you have the cantrip connection or spell battery familiar ability.
+            //or if you have the cantrip connection or spell battery familiar ability.
         } else if (this.characterService.get_FamiliarAvailable()) {
             this.characterService.set_ToChange("Familiar", "all");
             this.get_Familiar().abilities.feats.map(gain => this.familiarsService.get_FamiliarAbilities(gain.name)[0]).filter(feat => feat).forEach(feat => {
@@ -378,7 +390,7 @@ export class CharacterComponent implements OnInit {
         if (this.characterService.get_CompanionAvailable()) {
             this.get_Companion().set_Level(this.characterService);
         }
-        
+
         this.characterService.process_ToChange();
     }
 
@@ -434,13 +446,16 @@ export class CharacterComponent implements OnInit {
                 abilities = abilities.filter(ability => choice.filter.includes(ability.name) || this.abilityBoostedByThis(ability, choice))
             }
         }
+        let showOtherOptions = this.get_Character().settings.showOtherOptions;
         if (abilities.length) {
             return abilities.filter(ability => (
-                this.abilityBoostedByThis(ability, choice) || (choice.boosts.length < choice.available - ((this.get_Character().baseValues.length > 0) ? choice.baseValuesLost : 0))
+                showOtherOptions ||
+                this.abilityBoostedByThis(ability, choice) ||
+                (choice.boosts.length < choice.available - ((this.get_Character().baseValues.length > 0) ? choice.baseValuesLost : 0))
             ));
         }
     }
-    
+
     someAbilitiesIllegal(choice: AbilityChoice) {
         let anytrue = 0;
         choice.boosts.forEach(boost => {
@@ -465,7 +480,7 @@ export class CharacterComponent implements OnInit {
     }
 
     cannotBoost(ability: Ability, level: Level, choice: AbilityChoice) {
-    //Returns a string of reasons why the abiliyt cannot be boosted, or "". Test the length of the return if you need a boolean.
+        //Returns a string of reasons why the abiliyt cannot be boosted, or "". Test the length of the return if you need a boolean.
         //Info only choices that don't grant a boost (like for the key ability for archetypes) don't need to be checked.
         if (choice.infoOnly) { return [] };
         let reasons: string[] = [];
@@ -474,15 +489,15 @@ export class CharacterComponent implements OnInit {
             //The ability may have been boosted by the same source, but as a fixed rule (e.g. fixed ancestry boosts vs. free ancestry boosts).
             //This does not apply to flaws - you can boost a flawed ability.
             if (sameBoostsThisLevel[0].locked) {
-                let locked = "Fixed boost by "+sameBoostsThisLevel[0].source+".";
+                let locked = "Fixed boost by " + sameBoostsThisLevel[0].source + ".";
                 reasons.push(locked);
             } else
-            //If an ability has been raised by a source of the same name, but not the same id, it cannot be raised again.
-            //This is the case with backgrounds: You get a choice of two abilities, and then a free one.
+                //If an ability has been raised by a source of the same name, but not the same id, it cannot be raised again.
+                //This is the case with backgrounds: You get a choice of two abilities, and then a free one.
                 if (sameBoostsThisLevel[0].sourceId != choice.id) {
-                let exclusive = "Boosted by "+sameBoostsThisLevel[0].source+".";
-                reasons.push(exclusive);
-            }
+                    let exclusive = "Boosted by " + sameBoostsThisLevel[0].source + ".";
+                    reasons.push(exclusive);
+                }
         }
         //On level 1, boosts are not allowed to raise the ability above 18.
         //This is only relevant if you haven't boosted the ability on this level yet.
@@ -504,7 +519,7 @@ export class CharacterComponent implements OnInit {
     }
 
     on_AbilityBoost(abilityName: string, boost: boolean, choice: AbilityChoice, locked: boolean) {
-        if (boost && choice.boosts.length == choice.available - ((this.get_Character().baseValues.length > 0) ? choice.baseValuesLost : 0) - 1) { this.showList=""; }
+        if (boost && this.get_Character().settings.autoCloseChoices && choice.boosts.length == choice.available - ((this.get_Character().baseValues.length > 0) ? choice.baseValuesLost : 0) - 1) { this.toggle_List(""); }
         this.get_Character().boost_Ability(this.characterService, abilityName, boost, choice, locked);
         this.characterService.set_AbilityToChange("Character", abilityName);
         this.characterService.process_ToChange();
@@ -532,7 +547,7 @@ export class CharacterComponent implements OnInit {
     get_SkillChoices(level: Level) {
         return level.skillChoices.filter(choice => !choice.showOnSheet);
     }
-    
+
     get_FeatChoices(level: Level) {
         return level.featChoices.filter(choice => !choice.showOnSheet && !choice.showOnCurrentLevel).concat(this.get_FeatChoicesShownOnCurrentLevel(level));
     }
@@ -549,27 +564,9 @@ export class CharacterComponent implements OnInit {
         }
     }
 
-    get_TraditionChoices(level: Level) {
-        if (level.number > 0) {
-            return this.get_Character().class.spellCasting.filter(casting => casting.charLevelAvailable == level.number);
-        }
-    }
-
-    get_AvailableTraditions(choice: SpellCasting) {
-        let traditions = ["Arcane", "Divine", "Occult", "Primal"];
-        if (choice.traditionFilter.length) {
-            traditions = traditions.filter(tradition => choice.traditionFilter.includes(tradition))
-        }
-        if (traditions.length) {
-            return traditions.filter(tradition => (
-                choice.tradition == tradition || !choice.tradition
-                ));
-        }
-    }
-
     on_LoreChange(boost: boolean, choice: LoreChoice) {
         if (boost) {
-            if ((choice.increases.length == choice.available - 1) && this.get_Character().settings.autoCloseChoices) { this.toggle_List(""); }
+            if (this.get_Character().settings.autoCloseChoices && (choice.increases.length == choice.available - 1)) { this.toggle_List(""); }
             this.get_Character().add_Lore(this.characterService, choice);
         } else {
             this.get_Character().remove_Lore(this.characterService, choice);
@@ -612,7 +609,7 @@ export class CharacterComponent implements OnInit {
         return [].concat(...this.characterService.get_FeatsAndFeatures()
             .filter(
                 feat => feat.gainHeritage.length &&
-                this.get_Character().get_FeatsTaken(levelNumber, levelNumber, feat.name).length
+                    this.get_Character().get_FeatsTaken(levelNumber, levelNumber, feat.name).length
             ).map(feat => feat.gainHeritage))
     }
 
@@ -654,10 +651,10 @@ export class CharacterComponent implements OnInit {
                 let newChoice: LoreChoice = character.add_LoreChoice(level, choice);
                 newChoice.source = "Different Worlds";
                 if (newChoice.loreName) {
-                    if (this.characterService.get_Skills(this.get_Character(), 'Lore: '+newChoice.loreName).length) {
-                        let increases = character.get_SkillIncreases(this.characterService, 1, 20, 'Lore: '+newChoice.loreName).filter(increase => 
+                    if (this.characterService.get_Skills(this.get_Character(), 'Lore: ' + newChoice.loreName).length) {
+                        let increases = character.get_SkillIncreases(this.characterService, 1, 20, 'Lore: ' + newChoice.loreName).filter(increase =>
                             increase.sourceId.includes("-Lore-")
-                            );
+                        );
                         if (increases.length) {
                             let oldChoice = character.get_LoreChoice(increases[0].sourceId);
                             if (oldChoice.available == 1) {
@@ -676,19 +673,19 @@ export class CharacterComponent implements OnInit {
             return this.get_Character().customFeats.filter(feat => feat.name == "Fuse Stance");
         }
     }
-    
+
     get_StancesToFuse(levelNumber: number) {
         let unique: string[] = [];
-        let stances: {name:string, reason:string}[] = [];
+        let stances: { name: string, reason: string }[] = [];
         this.characterService.get_OwnedActivities(this.get_Character(), levelNumber).filter(activity => !unique.includes(activity.name)).forEach(activity => {
             this.activitiesService.get_Activities(activity.name).filter(example => example.traits.includes("Stance")).forEach(example => {
                 //Stances that only allow one type of strike cannot be used for Fuse Stance.
                 if (!example.desc.includes("only Strikes")) {
                     unique.push(activity.name);
-                    stances.push({name:activity.name, reason:""});
+                    stances.push({ name: activity.name, reason: "" });
                 } else {
                     unique.push(activity.name);
-                    stances.push({name:activity.name, reason:"This stance has incompatible restrictions."});
+                    stances.push({ name: activity.name, reason: "This stance has incompatible restrictions." });
                 }
             })
         })
@@ -700,7 +697,7 @@ export class CharacterComponent implements OnInit {
         this.characterService.process_ToChange();
     }
 
-    on_FuseStanceStanceChange(feat:Feat, which:string, stance:string, taken:boolean) {
+    on_FuseStanceStanceChange(feat: Feat, which: string, stance: string, taken: boolean) {
         if (taken) {
             if (this.get_Character().settings.autoCloseChoices) { this.toggle_List(""); }
             feat.data[which] = stance;
@@ -720,7 +717,18 @@ export class CharacterComponent implements OnInit {
     }
 
     get_AvailableClasses() {
-        return this.get_Classes().filter($class => !this.get_Character().class?.name || $class.name == this.get_Character().class.name);
+        let showOtherOptions = this.get_Character().settings.showOtherOptions;
+        return this.get_Classes()
+            .filter($class => showOtherOptions || !this.get_Character().class?.name || $class.name == this.get_Character().class.name)
+            .sort(function (a, b) {
+                if (a.name > b.name) {
+                    return 1;
+                }
+                if (a.name < b.name) {
+                    return -1;
+                }
+                return 0;
+            });
     }
 
     onClassChange($class: Class, taken: boolean) {
@@ -737,7 +745,8 @@ export class CharacterComponent implements OnInit {
     }
 
     get_AvailableAncestries() {
-        return this.get_Ancestries().filter(ancestry => !this.get_Character().class.ancestry?.name || ancestry.name == this.get_Character().class.ancestry.name);
+        let showOtherOptions = this.get_Character().settings.showOtherOptions;
+        return this.get_Ancestries().filter(ancestry => showOtherOptions || !this.get_Character().class.ancestry?.name || ancestry.name == this.get_Character().class.ancestry.name);
     }
 
     onAncestryChange(ancestry: Ancestry, taken: boolean) {
@@ -753,11 +762,12 @@ export class CharacterComponent implements OnInit {
 
     get_AvailableDeities(name: string = "") {
         let currentDeity = this.get_Character().class?.deity || "";
+        let showOtherOptions = this.get_Character().settings.showOtherOptions;
         //Champions and Clerics need to choose a deity matching their alignment.
         if (!["Champion", "Cleric"].includes(this.get_Character().class.name)) {
-            return this.deitiesService.get_Deities(name).filter(deity => !currentDeity || deity.name == currentDeity);
+            return this.deitiesService.get_Deities(name).filter(deity => showOtherOptions || !currentDeity || deity.name == currentDeity);
         } else {
-            return this.deitiesService.get_Deities(name).filter((deity: Deity) => (!currentDeity || deity.name == currentDeity) && (!this.get_Character().alignment || deity.followerAlignments.includes(this.get_Character().alignment)));
+            return this.deitiesService.get_Deities(name).filter((deity: Deity) => (showOtherOptions || !currentDeity || deity.name == currentDeity) && (!this.get_Character().alignment || deity.followerAlignments.includes(this.get_Character().alignment)));
         }
     }
 
@@ -779,18 +789,23 @@ export class CharacterComponent implements OnInit {
         return this.historyService.get_Heritages(name, ancestryName);
     }
 
+    get_SubHeritageNames(heritage: Heritage) {
+        return heritage.subTypes.map(subheritage => subheritage.name);
+    }
+
     get_AvailableHeritages(name: string = "", ancestryName: string = "", index: number = -1) {
         let heritage = this.get_Character().class.heritage;
         if (index != -1) {
             heritage = this.get_Character().class.additionalHeritages[index];
         }
+        let showOtherOptions = this.get_Character().settings.showOtherOptions;
         return this.get_Heritages(name, ancestryName)
             .filter(availableHeritage =>
-                (!heritage?.name || availableHeritage.name == heritage.name || availableHeritage.subTypes?.some(subType => subType.name == heritage.name)) &&
+                (showOtherOptions || !heritage?.name || availableHeritage.name == heritage.name || availableHeritage.subTypes?.some(subType => subType.name == heritage.name)) &&
                 (
                     index == -1
-                    ? true
-                    : availableHeritage.name != this.get_Character().class.heritage.name
+                        ? true
+                        : availableHeritage.name != this.get_Character().class.heritage.name
                 ));
     }
 
@@ -806,7 +821,7 @@ export class CharacterComponent implements OnInit {
     }
 
     get_Backgrounds(name: string = "") {
-        return this.historyService.get_Backgrounds(name).filter(background => 
+        return this.historyService.get_Backgrounds(name).filter(background =>
             !background.subType &&
             (!this.adventureBackgrounds ? !background.adventurePath : true) &&
             (!this.regionalBackgrounds ? !background.region : true)
@@ -814,14 +829,20 @@ export class CharacterComponent implements OnInit {
     }
 
     get_AvailableBackgrounds() {
+        let showOtherOptions = this.get_Character().settings.showOtherOptions;
         return this.get_Backgrounds().filter(background =>
+            showOtherOptions ||
             !this.get_Character().class.background?.name ||
             background.name == this.get_Character().class.background.name ||
             background.name == this.get_Character().class.background.superType);
     }
-    
+
     get_SubBackgrounds(superType: string = "") {
         return this.historyService.get_Backgrounds().filter(background => background.superType == superType);
+    }
+
+    get_SubBackgroundNames(superType: string) {
+        return this.get_SubBackgrounds(superType).map(subbackground => subbackground.name);
     }
 
     onBackgroundChange(background: Background, taken: boolean) {
@@ -856,7 +877,8 @@ export class CharacterComponent implements OnInit {
 
     get_AvailableCompanionTypes() {
         let existingCompanionName: string = this.get_Companion().class.ancestry.name;
-        return this.animalCompanionsService.get_CompanionTypes().filter(type => type.name == existingCompanionName || !existingCompanionName);
+        let showOtherOptions = this.get_Character().settings.showOtherOptions;
+        return this.animalCompanionsService.get_CompanionTypes().filter(type => showOtherOptions || !existingCompanionName || type.name == existingCompanionName);
     }
 
     on_CompanionTypeChange(type: AnimalCompanionAncestry, taken: boolean) {
@@ -875,8 +897,8 @@ export class CharacterComponent implements OnInit {
 
     on_SpecializationChange(spec: AnimalCompanionSpecialization, taken: boolean, levelNumber: number) {
         if (taken) {
-            if (this.get_Companion().class.specializations.filter(spec => spec.level == levelNumber).length == this.get_CompanionSpecializationsAvailable(levelNumber) - 1) {
-                if (this.get_Character().settings.autoCloseChoices) { this.toggle_List(""); }
+            if (this.get_Character().settings.autoCloseChoices && this.get_Companion().class.specializations.filter(spec => spec.level == levelNumber).length == this.get_CompanionSpecializationsAvailable(levelNumber) - 1) {
+                this.toggle_List("");
             }
             this.animalCompanionsService.add_Specialization(this.get_Companion(), spec, levelNumber);
         } else {
@@ -897,10 +919,12 @@ export class CharacterComponent implements OnInit {
     get_AvailableCompanionSpecializations(levelNumber: number) {
         let existingCompanionSpecs: AnimalCompanionSpecialization[] = this.get_Companion().class.specializations;
         let available = this.get_CompanionSpecializationsAvailable(levelNumber);
+        let showOtherOptions = this.get_Character().settings.showOtherOptions;
         //Get all specializations that were either taken on this level (so they can be deselected) or that were not yet taken if the choice is not exhausted.
-        return this.animalCompanionsService.get_CompanionSpecializations().filter(type => 
+        return this.animalCompanionsService.get_CompanionSpecializations().filter(type =>
+            showOtherOptions ||
             existingCompanionSpecs.find(spec => spec.name == type.name && spec.level == levelNumber) ||
-            (existingCompanionSpecs.filter(spec => spec.level == levelNumber).length < available) && 
+            (existingCompanionSpecs.filter(spec => spec.level == levelNumber).length < available) &&
             !existingCompanionSpecs.find(spec => spec.name == type.name));
     }
 
@@ -954,14 +978,14 @@ export class CharacterComponent implements OnInit {
     }
 
     get_AnimalCompanionAbilities(type: AnimalCompanionAncestry) {
-        let abilities: [{name:string, modifier:string}] = [{name:"", modifier:""}];
+        let abilities: [{ name: string, modifier: string }] = [{ name: "", modifier: "" }];
         this.characterService.get_Abilities().forEach(ability => {
-            let name = ability.name.substr(0,3);
+            let name = ability.name.substr(0, 3);
             let modifier = 0;
             let classboosts = this.get_Companion().class.levels[1].abilityChoices[0].boosts.filter(boost => boost.name == ability.name)
             let ancestryboosts = type.abilityChoices[0].boosts.filter(boost => boost.name == ability.name);
             modifier = ancestryboosts.concat(classboosts).filter(boost => boost.type == "Boost").length - ancestryboosts.concat(classboosts).filter(boost => boost.type == "Flaw").length;
-            abilities.push({name:name, modifier:(modifier > 0 ? "+" : "")+modifier.toString()})
+            abilities.push({ name: name, modifier: (modifier > 0 ? "+" : "") + modifier.toString() })
         })
         abilities.shift();
         return abilities;
@@ -976,17 +1000,17 @@ export class CharacterComponent implements OnInit {
             setTimeout(() => this.finish_Loading(), 500)
         } else {
             this.characterService.get_Changed()
-            .subscribe((target) => {
-                if (["Character", "all", "charactersheet"].includes(target)) {
-                    this.changeDetector.detectChanges();
-                }
-            });
+                .subscribe((target) => {
+                    if (["Character", "all", "charactersheet"].includes(target)) {
+                        this.changeDetector.detectChanges();
+                    }
+                });
             this.characterService.get_ViewChanged()
-            .subscribe((view) => {
-                if (view.creature == "Character" && ["charactersheet", "all"].includes(view.target)) {
-                    this.changeDetector.detectChanges();
-                }
-            });
+                .subscribe((view) => {
+                    if (view.creature == "Character" && ["charactersheet", "all"].includes(view.target)) {
+                        this.changeDetector.detectChanges();
+                    }
+                });
             return true;
         }
     }

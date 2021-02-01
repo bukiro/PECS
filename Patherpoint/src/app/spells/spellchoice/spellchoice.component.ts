@@ -619,8 +619,9 @@ export class SpellchoiceComponent implements OnInit {
                 )
                 return this.sortByPipe.transform(availableSpells, "asc", "name")
             } else {
+                let showOtherOptions = this.get_Character().settings.showOtherOptions;
                 let availableSpells: Spell[] = spells.filter(spell =>
-                    this.spellTakenByThis(spell.name, choice)
+                    this.spellTakenByThis(spell.name, choice) || showOtherOptions
                 )
                 return this.sortByPipe.transform(availableSpells, "asc", "name")
             }

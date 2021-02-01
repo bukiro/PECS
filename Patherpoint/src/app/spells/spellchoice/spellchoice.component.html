@@ -6,7 +6,7 @@
         <ng-container *ngFor="let signatureSpellsAllowed of [get_SignatureSpellsAllowed()]; trackBy:trackByIndex;">
             <ng-container *ngFor="let available of [get_Available(choice)]; trackBy:trackByIndex;">
                 <button class="row left-aligned sublist-toggle"
-                    [ngClass]="{'fancy-button':(available == choice.spells.length)}"
+                    [ngClass]="{'fancy-button choicecleared':(available == choice.spells.length)}"
                     (click)="toggle_Choice(choice.source+choice.id)">
                     <span title="Signature spell"
                         *ngIf="is_SignatureSpell(choice, signatureSpellsAllowed)">&#9733;&nbsp;</span>
@@ -242,13 +242,14 @@
                             available.</span>
                         <span *ngIf="!allowHeightened">More spells may be found if you allow heightened spells.</span>
                     </div>
-                    <div title="{{(get_ShowSpell()==choice.id+spell.name+'desc') ? '' : spell.shortDesc}}"
+                    <div [ngClass]="{'selected':spellTakenByThis(spell.name, choice)}"
+                        title="{{(get_ShowSpell()==choice.id+spell.name+'desc') ? '' : spell.shortDesc}}"
                         class="list-item" *ngFor="let spell of spells; trackBy:trackByIndex;">
                         <span>
                             <input id="{{choice.id+spell.name}}" type="checkbox"
                                 (change)="on_SpellTaken(spell.name, $event.target.checked, choice, false)"
                                 [checked]="spellTakenByThis(spell.name, choice)"
-                                [disabled]="cannotTake(spell, choice).length && !spellTakenByThis(spell.name, choice)"
+                                [disabled]="(cannotTake(spell, choice).length || choice.spells.length >= available) && !spellTakenByThis(spell.name, choice)"
                                 *ngIf="spellCasting?.castingType!='Prepared' && !lockedSpellTakenByThis(spell.name, choice)">
                             <ng-container
                                 *ngIf="!choice.spellCombination || (choice.spellCombination && (!choice.spells.length || choice.spells[0].name == spell.name))">
