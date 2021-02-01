@@ -35,6 +35,7 @@
                     <span>There are fewer feats available than you are allowed to take. This may be due to a feat
                         choice with limited options, and it might be intended at this time.</span>
                     <span *ngIf="choice.dynamicLevel">This feat choice has a dynamic level. This could change the number of available feats at a later time.</span>
+                    <span *ngIf="choice.showOnCurrentLevel">This feat choice is always available on your current character level. This could change the number of available feats at a later time.</span>
                 </div>
                 <div title="{{(get_ShowFeat()==choice.id+featSet.feat.name+'desc') ? '' : featSet.feat.shortdesc}}"
                     class="list-item" *ngFor="let featSet of featSets; trackBy:trackByIndex;"

@@ -14,8 +14,11 @@ export class FeatChoice {
     public insertClass: string = "";
     public level: number = 0;
     //If showOnSheet is set, this choice is intended to be made on the character sheet instead of while building the character.
-    //  This is relevant for features like Combat Flexibility.
+    // This is relevant for features like Combat Flexibility.
     public showOnSheet: boolean = false;
+    //If showOnCurrentLevel is set, this choice is always shown at the current character level. This allows it to use the current level for all its requirements.
+    // This is relevant for feats like Raging Intimidation.
+    public showOnCurrentLevel: boolean = false;
     public source: string = "";
     //For special choices, we don't really use true feats, but make choices that can best be represented by the extensive feat structure.
     //In this case, we don't go looking for feats with a certain trait, but rely completely on the filter.

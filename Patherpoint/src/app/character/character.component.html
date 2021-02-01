@@ -4,9 +4,11 @@
         <h3>Close</h3>
     </button>
     <div class="itemBox-inner">
-        <button class="list-item" (click)="on_NewCharacter()">
-            Create New Character
-        </button>
+        <div class="list-item">
+            <button class="row" (click)="on_NewCharacter()">
+                New Character
+            </button>
+        </div>
         <div class="list-item">
             <button class="row sublist-toggle" (click)="toggle_List('load')">
                 Load Character
@@ -39,6 +41,12 @@
                     </div>
                 </ng-container>
             </div>
+        </div>
+        <div class="list-item">
+            <button class="row" (click)="save_CharacterToDB()" *ngIf="!still_loading()"
+                title="{{!get_Savegames() ? 'Database connection failed.' : ''}}" [disabled]="!get_Savegames()">
+                Save Character
+            </button>
         </div>
         <div class="loading" *ngIf="still_loading()">Loading</div>
         <ng-container *ngIf="!still_loading() && get_CharacterMenuState() == 'in'">
@@ -146,7 +154,8 @@
                         <label for="autoCloseChoices">Automatically close choices when they are finished</label>
                     </span>
                     <span>
-                        <input id="autoCloseChoices" type="checkbox" [(ngModel)]="get_Character().settings.autoCloseChoices">
+                        <input id="autoCloseChoices" type="checkbox"
+                            [(ngModel)]="get_Character().settings.autoCloseChoices">
                     </span>
                 </div>
                 <div class="list-item">
@@ -154,7 +163,8 @@
                         <label for="showOtherOptions">Keep showing the other options in finished choices</label>
                     </span>
                     <span>
-                        <input id="showOtherOptions" type="checkbox" [(ngModel)]="get_Character().settings.showOtherOptions">
+                        <input id="showOtherOptions" type="checkbox"
+                            [(ngModel)]="get_Character().settings.showOtherOptions">
                     </span>
                 </div>
                 <div class="list-item">
@@ -162,7 +172,8 @@
                         <label for="lowerLevelFeats">Show lower and higher level feats</label>
                     </span>
                     <span>
-                        <input id="lowerLevelFeats" type="checkbox" [(ngModel)]="get_Character().settings.lowerLevelFeats">
+                        <input id="lowerLevelFeats" type="checkbox"
+                            [(ngModel)]="get_Character().settings.lowerLevelFeats">
                     </span>
                 </div>
                 <div class="list-item">
@@ -170,7 +181,8 @@
                         <label for="archetypeFeats">Show archetype feats</label>
                     </span>
                     <span>
-                        <input id="archetypeFeats" type="checkbox" [(ngModel)]="get_Character().settings.archetypeFeats">
+                        <input id="archetypeFeats" type="checkbox"
+                            [(ngModel)]="get_Character().settings.archetypeFeats">
                     </span>
                 </div>
             </div>
@@ -195,8 +207,7 @@
                                     <strong>{{class.name}}</strong>
                                 </label>
                             </span>
-                            <button (click)="toggle_Item(itemID)"
-                                [ngClass]="{'fancy-button':get_ShowItem()==itemID}">
+                            <button (click)="toggle_Item(itemID)" [ngClass]="{'fancy-button':get_ShowItem()==itemID}">
                                 {{get_ShowItem()==itemID ? "Hide" : "Show"}} Description
                             </button>
                             <div class="row lower" *ngIf="get_ShowItem()==itemID">
@@ -600,11 +611,10 @@
                                     </span>
                                     <ng-container *ngFor="let itemID of [level.number+feat.name+feat.source+'desc']">
                                         <button (click)="toggle_Item(itemID)"
-                                    [ngClass]="{'fancy-button':get_ShowItem()==itemID}">
-                                    {{get_ShowItem()==itemID ? "Hide" : "Show"}} Description
-                                </button>
-                                <div class="row left-aligned"
-                                            *ngIf="get_ShowItem()==itemID">
+                                            [ngClass]="{'fancy-button':get_ShowItem()==itemID}">
+                                            {{get_ShowItem()==itemID ? "Hide" : "Show"}} Description
+                                        </button>
+                                        <div class="row left-aligned" *ngIf="get_ShowItem()==itemID">
                                             <app-feat [feat]="get_FeatsAndFeatures(feat.name)[0]" [choice]="null"
                                                 [levelNumber]="level.number"></app-feat>
                                         </div>
@@ -698,7 +708,8 @@
                         <app-featchoice (showChoiceMessage)="receive_ChoiceMessage($event)"
                             (showFeatMessage)="receive_FeatMessage($event)" [choice]="choice" [levelNumber]=level.number
                             [showFeat]="get_ShowItem()" [showChoice]="get_ShowList()"
-                            [lowerLevelFeats]="get_Character().settings.lowerLevelFeats" [archetypeFeats]="get_Character().settings.archetypeFeats">
+                            [lowerLevelFeats]="get_Character().settings.lowerLevelFeats"
+                            [archetypeFeats]="get_Character().settings.archetypeFeats">
                         </app-featchoice>
                     </ng-container>
                     <!--Animal Companion-->
@@ -916,7 +927,8 @@
                                 <div class="list-item">
                                     <span>Familiar Name</span>
                                     <span>
-                                        <input type="text" name="familiarname" [(ngModel)]="get_Familiar().name" maxLength="30">
+                                        <input type="text" name="familiarname" [(ngModel)]="get_Familiar().name"
+                                            maxLength="30">
                                     </span>
                                 </div>
                                 <div class="list-item">

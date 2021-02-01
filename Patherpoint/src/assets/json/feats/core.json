@@ -30848,12 +30848,11 @@
             {
                 "_className": "FeatChoice",
                 "available": 2,
-                "dynamicLevel": "Character.level",
                 "filter": [
                     "Intimidating Glare",
                     "Scare to Death"
                 ],
-                "showOnSheet": true,
+                "showOnCurrentLevel": true,
                 "source": "Feat: Raging Intimidation",
                 "type": "Skill"
             }

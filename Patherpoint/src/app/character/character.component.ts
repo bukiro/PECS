@@ -34,6 +34,7 @@ import { Savegame } from '../Savegame';
 import { TraitsService } from '../traits.service';
 import { FamiliarsService } from '../familiars.service';
 import { Item } from '../Item';
+import { FeatChoice } from '../FeatChoice';
 
 @Component({
     selector: 'app-character',
@@ -166,6 +167,10 @@ export class CharacterComponent implements OnInit {
     delete_CharacterFromDB(savegame: Savegame, index: number) {
         this.characterService.delete_Character(savegame);
         this.allowCharacterDelete[index] = false;
+    }
+
+    save_CharacterToDB() {
+        this.characterService.save_Character();
     }
 
     get_Alignments() {
@@ -529,7 +534,19 @@ export class CharacterComponent implements OnInit {
     }
     
     get_FeatChoices(level: Level) {
-        return level.featChoices.filter(choice => !choice.showOnSheet);
+        return level.featChoices.filter(choice => !choice.showOnSheet && !choice.showOnCurrentLevel).concat(this.get_FeatChoicesShownOnCurrentLevel(level));
+    }
+
+    get_FeatChoicesShownOnCurrentLevel(level: Level) {
+        if (this.get_Character().level == level.number) {
+            let choices: FeatChoice[] = []
+            this.get_Character().class.levels.forEach(level => {
+                choices.push(...level.featChoices.filter(choice => !choice.showOnSheet && choice.showOnCurrentLevel));
+            })
+            return choices;
+        } else {
+            return [];
+        }
     }
 
     get_TraditionChoices(level: Level) {
