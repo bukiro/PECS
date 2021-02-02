@@ -9,7 +9,7 @@ import { Skill } from 'src/app/Skill';
 @Component({
     selector: 'app-skillchoice',
     templateUrl: './skillchoice.component.html',
-    styleUrls: ['./skillchoice.component.scss'],
+    styleUrls: ['./skillchoice.component.css'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SkillchoiceComponent implements OnInit {

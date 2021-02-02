@@ -64,7 +64,6 @@ import { SkillchoiceComponent } from './character/skillchoice/skillchoice.compon
 import { ItemBladeAllyComponent } from './item/itemBladeAlly/itemBladeAlly.component';
 import { HintComponent } from './tags/hint/hint.component';
 import { ConditionComponent } from './effects/condition/condition.component';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
    declarations: [
@@ -132,8 +131,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
       FormsModule,
       ReactiveFormsModule,
       AppRoutingModule,
-      HttpClientModule,
-      NgbModule
+      HttpClientModule
    ],
    providers: [
       SortByPipe
