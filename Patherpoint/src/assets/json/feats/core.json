@@ -33562,5 +33562,15 @@
                 "featuresOnly": true
             }
         ]
+    },
+    {
+        "name": "Animal Skin",
+        "traits": [
+            "Barbarian"
+        ],
+        "levelreq": 1,
+        "featreq": [
+            "Animal Instinct"
+        ]
     }
 ]

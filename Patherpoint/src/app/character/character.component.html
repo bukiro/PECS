@@ -23,12 +23,12 @@
                 <ng-container *ngFor="let savegame of get_Savegames(); let index = index; trackBy:trackByIndex;">
                     <h3 *ngIf="index == 0 || get_Savegames()[index].partyName != get_Savegames()[index-1].partyName">
                         {{savegame.partyName}}</h3>
-                    <div class="list-item">
-                        <span>
+                    <div class="list-item row">
+                        <span style="flex-grow:2;">
                             <strong>{{savegame.name}}</strong> Level {{savegame.level}}
-                            {{savegame.heritage ? savegame.heritage + (!savegame.heritage.includes(savegame.ancestry) ?
-                            " " + savegame.ancestry : "") : savegame.ancestry}}
-                            {{savegame.class}}
+                            <span>{{savegame.heritage ? " | " + savegame.heritage + (!savegame.heritage.includes(savegame.ancestry) ?
+                            " " + savegame.ancestry : "") : " | " + savegame.ancestry}}</span>
+                            {{(savegame.classChoice ? " | " + savegame.classChoice + " " : " | ") + savegame.class}}
                         </span>
                         <span>
                             <button (click)="load_CharacterFromDB(savegame)">Load</button>
@@ -112,32 +112,6 @@
                 </div>
             </div>
             <div class="list-item">
-                <strong>Name</strong>
-                <span>
-                    <input type="text" name="charactername" [(ngModel)]="get_Character().name" (blur)="on_NameChange()"
-                        maxLength="100">
-                </span>
-            </div>
-            <div class="list-item">
-                <div class="row">
-                    <strong>Party name</strong>
-                    <span>
-                        <input type="text" name="partyname" [(ngModel)]="get_Character().partyName" maxLength="100">
-                    </span>
-                </div>
-                <div class="row">
-                    <span></span>
-                    <span>
-                        <select [(ngModel)]="get_Character().partyName">
-                            <option *ngFor="let partyName of get_Parties(); trackBy:trackByIndex;"
-                                [ngValue]="partyName">
-                                {{partyName}}
-                            </option>
-                        </select>
-                    </span>
-                </div>
-            </div>
-            <div class="list-item">
                 <strong>Experience Points</strong>
                 <span>
                     <button (click)="on_LevelUp()"
@@ -146,18 +120,6 @@
                         [(ngModel)]="get_Character().experiencePoints" (keypress)="numbersOnly($event)" maxLength="4"
                         title="{{(get_Character().experiencePoints >= 1000 && get_Character().level < 20) ? 'You are ready to level up!' : ''}}"
                         [ngClass]="{'bonus':(get_Character().experiencePoints >= 1000 && get_Character().level < 20)}">
-                </span>
-            </div>
-            <div class="list-item">
-                <strong>
-                    Alignment
-                </strong>
-                <span>
-                    <select [(ngModel)]="get_Character().alignment" (ngModelChange)="on_AlignmentChange()">
-                        <option *ngFor="let alignment of get_Alignments(); trackBy:trackByIndex;" [ngValue]="alignment">
-                            {{alignment}}
-                        </option>
-                    </select>
                 </span>
             </div>
             <div class="list-item" *ngFor="let oldLevel of [get_Character().level]; trackBy:trackByIndex;">
@@ -174,14 +136,14 @@
                     </select>
                 </span>
             </div>
-            <h5>Levels</h5>
+            <h5>Show Level</h5>
             <!--Level selection-->
             <div class="list-item">
                 <div id="levelBox" class="row levelBoxTop">
                     <button class="center-aligned" (click)="toggle_Level(0)"
-                        [ngClass]="{'fancy-button':get_ShowLevel()==0}">Show everything</button>
+                        [ngClass]="{'fancy-button':get_ShowLevel()==0}">Everything</button>
                     <button class="center-aligned" (click)="toggle_Level(-1)"
-                        [ngClass]="{'fancy-button':get_ShowLevel()==-1}">Show history</button>
+                        [ngClass]="{'fancy-button':get_ShowLevel()==-1}">History</button>
                 </div>
                 <div id="levelBox" class="row">
                     <button class="center-aligned"
@@ -190,8 +152,49 @@
                         [ngClass]="{'fancy-button':get_ShowLevel()==levelNumber}">{{levelNumber}}</button>
                 </div>
             </div>
+            <app-tags [creature]="'Character'" [objectName]="'Character'" [showTraits]=true [showFeats]=true
+                [showItems]=true [showActivities]=true [showConditions]=true></app-tags>
             <ng-container *ngIf="get_ShowLevel() <= 0">
                 <h3>History</h3>
+                <div class="list-item">
+                    <strong>Name</strong>
+                    <span>
+                        <input type="text" name="charactername" [(ngModel)]="get_Character().name"
+                            (blur)="on_NameChange()" maxLength="100">
+                    </span>
+                </div>
+                <div class="list-item">
+                    <div class="row">
+                        <strong>Party name</strong>
+                        <span>
+                            <input type="text" name="partyname" [(ngModel)]="get_Character().partyName" maxLength="100">
+                        </span>
+                    </div>
+                    <div class="row">
+                        <span></span>
+                        <span>
+                            <select [(ngModel)]="get_Character().partyName">
+                                <option *ngFor="let partyName of get_Parties(); trackBy:trackByIndex;"
+                                    [ngValue]="partyName">
+                                    {{partyName}}
+                                </option>
+                            </select>
+                        </span>
+                    </div>
+                </div>
+                <div class="list-item">
+                    <strong>
+                        Alignment
+                    </strong>
+                    <span>
+                        <select [(ngModel)]="get_Character().alignment" (ngModelChange)="on_AlignmentChange()">
+                            <option *ngFor="let alignment of get_Alignments(); trackBy:trackByIndex;"
+                                [ngValue]="alignment">
+                                {{alignment}}
+                            </option>
+                        </select>
+                    </span>
+                </div>
                 <!--BaseValues-->
                 <div class="list-item">
                     <button class="row sublist-toggle fancy-button" (click)="toggle_List('alternateBaseValues')">
@@ -645,38 +648,68 @@
                             </button>
                             <div class="list-item sublist fancy-list" *ngIf="get_ShowList()==listID">
                                 <!--Fixed Ability boosts-->
-                                <div class="list-item"
-                                    *ngFor="let boost of get_AbilityBoosts(level.number, level.number, '', '', '', '', true); trackBy:trackByIndex;">
-                                    <span>
-                                        Ability {{(boost.type == 'Flaw') ? 'Flaw' : 'Boost'}} ({{boost.source}}):
-                                        {{boost.name}}
-                                    </span>
-                                </div>
+                                <ng-container
+                                    *ngFor="let boost of get_AbilityBoosts(level.number, level.number, '', '', '', '', true); let index = index;; trackBy:trackByIndex;">
+                                    <h6 *ngIf="index == 0">Ability Boosts</h6>
+                                    <div class="list-item">
+                                        <span>
+                                            {{(boost.type == 'Flaw') ? 'Flaw: ' : 'Boost: '}}{{boost.name}}
+                                            ({{boost.source}})
+                                        </span>
+                                    </div>
+                                </ng-container>
                                 <!--Fixed Skill Increases-->
-                                <div class="list-item"
-                                    *ngFor="let skillIncrease of get_SkillIncreases(level.number, level.number, '', '', '', true); trackBy:trackByIndex;">
-                                    <span>
-                                        {{(skillIncrease.name.includes("Lore:")) ? "Lore " : ""}} Proficiency Training
-                                        ({{skillIncrease.source}}): {{skillIncrease.name}}
-                                    </span>
-                                </div>
+                                <ng-container
+                                    *ngFor="let skillIncrease of get_SkillIncreases(level.number, level.number, '', '', '', true); let index = index;; trackBy:trackByIndex;">
+                                    <h6 *ngIf="index == 0">Skill Increases</h6>
+                                    <div class="list-item">
+                                        <span>
+                                            {{skillIncrease.name}} ({{skillIncrease.source}})
+                                        </span>
+                                    </div>
+                                </ng-container>
+                                <!--Fixed Features-->
+                                <ng-container
+                                    *ngFor="let feat of get_FeatsTaken(level.number, level.number, '', '', '', true, 'feature'); let index = index;; trackBy:trackByIndex;">
+                                    <h6 *ngIf="index == 0">Features</h6>
+                                    <div class="list-item">
+                                        <span>
+                                            {{feat.name}} ({{feat.source}})
+                                        </span>
+                                        <ng-container
+                                            *ngFor="let itemID of [level.number+feat.name+feat.source+'desc']">
+                                            <button (click)="toggle_Item(itemID)"
+                                                [ngClass]="{'fancy-button':get_ShowItem()==itemID}">
+                                                {{get_ShowItem()==itemID ? "Hide" : "Show"}} Description
+                                            </button>
+                                            <div class="row left-aligned" *ngIf="get_ShowItem()==itemID">
+                                                <app-feat [feat]="get_FeatsAndFeatures(feat.name)[0]" [choice]="null"
+                                                    [levelNumber]="level.number"></app-feat>
+                                            </div>
+                                        </ng-container>
+                                    </div>
+                                </ng-container>
                                 <!--Fixed Feats-->
-                                <div class="list-item"
-                                    *ngFor="let feat of get_FeatsTaken(level.number, level.number, '', '', '', true); trackBy:trackByIndex;">
-                                    <span>
-                                        Feat ({{feat.source}}): {{feat.name}}
-                                    </span>
-                                    <ng-container *ngFor="let itemID of [level.number+feat.name+feat.source+'desc']">
-                                        <button (click)="toggle_Item(itemID)"
-                                            [ngClass]="{'fancy-button':get_ShowItem()==itemID}">
-                                            {{get_ShowItem()==itemID ? "Hide" : "Show"}} Description
-                                        </button>
-                                        <div class="row left-aligned" *ngIf="get_ShowItem()==itemID">
-                                            <app-feat [feat]="get_FeatsAndFeatures(feat.name)[0]" [choice]="null"
-                                                [levelNumber]="level.number"></app-feat>
-                                        </div>
-                                    </ng-container>
-                                </div>
+                                <ng-container
+                                    *ngFor="let feat of get_FeatsTaken(level.number, level.number, '', '', '', true, 'feat'); let index = index;; trackBy:trackByIndex;">
+                                    <h6 *ngIf="index == 0">Feats</h6>
+                                    <div class="list-item">
+                                        <span>
+                                            {{feat.name}} ({{feat.source}})
+                                        </span>
+                                        <ng-container
+                                            *ngFor="let itemID of [level.number+feat.name+feat.source+'desc']">
+                                            <button (click)="toggle_Item(itemID)"
+                                                [ngClass]="{'fancy-button':get_ShowItem()==itemID}">
+                                                {{get_ShowItem()==itemID ? "Hide" : "Show"}} Description
+                                            </button>
+                                            <div class="row left-aligned" *ngIf="get_ShowItem()==itemID">
+                                                <app-feat [feat]="get_FeatsAndFeatures(feat.name)[0]" [choice]="null"
+                                                    [levelNumber]="level.number"></app-feat>
+                                            </div>
+                                        </ng-container>
+                                    </div>
+                                </ng-container>
                             </div>
                         </div>
                         <!--Languages - show if you have gained languages this level-->
@@ -758,7 +791,8 @@
                             </ng-container>
                         </ng-container>
                         <!--Skill Increases-->
-                        <ng-container *ngFor="let choice of get_SkillChoices(level); trackBy:trackByIndex;">
+                        <ng-container
+                            *ngFor="let choice of get_SkillChoices(level); let index = index; trackBy:trackByIndex;">
                             <app-skillchoice (showChoiceMessage)="receive_ChoiceMessage($event)" [choice]="choice"
                                 [showChoice]="get_ShowList()" [level]="level" [excludeTemporary]="true">
                             </app-skillchoice>

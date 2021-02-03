@@ -31,8 +31,4 @@ export class DefenseService {
         return shield.filter(shield => shield.equipped && !shield.broken);
     }
 
-    get_ArmorBonus(creature: Character|AnimalCompanion, characterService: CharacterService, armor: Armor) {
-        return armor.armorBonus(creature, characterService, this.effectsService);
-    }
-
 }

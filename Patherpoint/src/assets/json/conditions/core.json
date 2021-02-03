@@ -1252,12 +1252,25 @@
                 "value": "Has_Feat(Creature.type, 'Fury Instinct Specialization') ? (Has_Feat(Creature.type, 'Greater Weapon Specialization') ? 6 : 3) : 1"
             },
             {
+                "affected": "Non-Agile Thrown Weapon Damage",
+                "value": "Has_Feat(Creature.type, 'Raging Thrower') ? (Has_Feat(Creature.type, 'Fury Instinct Specialization') ? (Has_Feat(Creature.type, 'Greater Weapon Specialization') ? 12 : 6) : 2) : 0"
+            },
+            {
+                "affected": "Agile Thrown Weapon Damage",
+                "value": "Has_Feat(Creature.type, 'Raging Thrower') ? (Has_Feat(Creature.type, 'Fury Instinct Specialization') ? (Has_Feat(Creature.type, 'Greater Weapon Specialization') ? 6 : 3) : 1) : 0"
+            },
+            {
                 "affected": "AC",
                 "value": "-1"
             },
             {
                 "affected": "Physical Weapon Damage Resistance",
                 "value": "Has_Feat(Creature.type, 'Fury Instinct Resistance') ? 3 + Modifier('Constitution') : 0"
+            },
+            {
+                "affected": "Land Speed",
+                "value": "Has_Feat(Creature.type, 'Fast Movement') ? 10 : 0",
+                "type": "status"
             }
         ],
         "onceEffects": [
@@ -1394,6 +1407,18 @@
             {
                 "activationPrerequisite": "Has_Feat(Creature.type, 'Spirit Rage') ? 1 : 0",
                 "name": "Spirit Rage"
+            },
+            {
+                "activationPrerequisite": "Has_Feat(Creature.type, 'Acute Vision') ? 1 : 0",
+                "name": "Acute Vision"
+            },
+            {
+                "activationPrerequisite": "Has_Feat(Creature.type, 'Acute Scent') ? 1 : 0",
+                "name": "Acute Scent"
+            },
+            {
+                "activationPrerequisite": "Has_Feat(Creature.type, 'Raging Athlete') ? 1 : 0",
+                "name": "Raging Athlete"
             }
         ]
     },
@@ -1482,6 +1507,19 @@
             {
                 "affected": "Bestial Rage Wolf Jaws Damage",
                 "value": "Choice == 'Wolf' && Has_Feat(Creature.type, 'Animal Instinct Specialization') ? (Has_Feat(Creature.type, 'Greater Weapon Specialization') ? 10 : 3) : 0"
+            },
+            {
+                "affected": "AC",
+                "value": "(Has_Feat(Creature.type, 'Animal Skin') && Armor().get_Proficiency() == \"Unarmored Defense\") ? (Has_Feat(Creature.type, 'Greater Juggernaut') ? 3 : 2) : 0",
+                "type": "item",
+                "cumulative": [
+                    "Potency",
+                    "Bracers of Armor"
+                ]
+            },
+            {
+                "affected": "Dexterity Modifier Cap",
+                "setValue": "Has_Feat(Creature.type, 'Animal Skin')  ? 3 : null"
             }
         ],
         "gainItems": [
@@ -1631,6 +1669,14 @@
                 "value": "Has_Feat(Creature.type, 'Dragon Instinct Specialization') ? (Has_Feat(Creature.type, 'Greater Weapon Specialization') ? 7 : 3) : 1"
             },
             {
+                "affected": "Non-Agile Thrown Weapon Damage",
+                "value": "Has_Feat(Creature.type, 'Raging Thrower') ? (Has_Feat(Creature.type, 'Dragon Instinct Specialization') ? (Has_Feat(Creature.type, 'Greater Weapon Specialization') ? 14 : 6) : 2) : 0"
+            },
+            {
+                "affected": "Agile Thrown Weapon Damage",
+                "value": "Has_Feat(Creature.type, 'Raging Thrower') ? (Has_Feat(Creature.type, 'Dragon Instinct Specialization') ? (Has_Feat(Creature.type, 'Greater Weapon Specialization') ? 7 : 3) : 1) : 0"
+            },
+            {
                 "affected": "Piercing Resistance",
                 "value": "Has_Feat(Creature.type, 'Dragon Instinct Resistance') ? 3 + Modifier('Constitution') : 0"
             },
@@ -1669,6 +1715,14 @@
             {
                 "affected": "Agile Large Melee Weapon Damage",
                 "value": "Has_Feat(Creature.type, 'Giant Instinct Specialization') ? (Has_Feat(Creature.type, 'Greater Weapon Specialization') ? 8 : 4) : 2"
+            },
+            {
+                "affected": "Non-Agile Thrown Large Weapon Damage",
+                "value": "(Has_Feat(Creature.type, 'Raging Thrower') ? (Has_Feat(Creature.type, 'Giant Instinct Specialization')) ? (Has_Feat(Creature.type, 'Greater Weapon Specialization') ? 16 : 8) : 4) : 0"
+            },
+            {
+                "affected": "Agile Thrown Large Weapon Damage",
+                "value": "(Has_Feat(Creature.type, 'Raging Thrower') ? (Has_Feat(Creature.type, 'Giant Instinct Specialization')) ? (Has_Feat(Creature.type, 'Greater Weapon Specialization') ? 8 : 4) : 2) : 0"
             },
             {
                 "affected": "Bludgeoning Resistance",
@@ -1712,6 +1766,14 @@
             {
                 "affected": "Agile Melee Damage",
                 "value": "Has_Feat(Creature.type, 'Spirit Instinct Specialization') ? (Has_Feat(Creature.type, 'Greater Weapon Specialization') ? 5 : 2) : 0"
+            },
+            {
+                "affected": "Non-Agile Thrown Weapon Damage",
+                "value": "Has_Feat(Creature.type, 'Raging Thrower') ? (Has_Feat(Creature.type, 'Spirit Instinct Specialization') ? (Has_Feat(Creature.type, 'Greater Weapon Specialization') ? 11 : 5) : 1) : 0"
+            },
+            {
+                "affected": "Agile Thrown Weapon Damage",
+                "value": "Has_Feat(Creature.type, 'Raging Thrower') ? (Has_Feat(Creature.type, 'Spirit Instinct Specialization') ? (Has_Feat(Creature.type, 'Greater Weapon Specialization') ? 5 : 2) : 0) : 0"
             },
             {
                 "affected": "Negative Damage Resistance",
@@ -13183,6 +13245,46 @@
         ],
         "endConditions": [
             "Multiple Attack Penalty: Second Attack"
+        ]
+    },
+    {
+        "name": "Acute Vision",
+        "desc": "When you are raging, your visual senses improve, granting you darkvision.",
+        "hide": true,
+        "type": "feats",
+        "senses": [
+            "Darkvision"
+        ]
+    },
+    {
+        "name": "Acute Scent",
+        "desc": "When you Rage, your sense of smell improves. You gain imprecise scent with a range of 30 feet.",
+        "hide": true,
+        "type": "feats",
+        "senses": [
+            "Scent 30 feet (imprecise)"
+        ]
+    },
+    {
+        "name": "Raging Athlete",
+        "desc": "Physical obstacles can't hold back your fury. While you are raging, you gain a climb Speed and swim Speed equal to your land Speed and the DC of High Jumps and Long Jumps decreases by 10. Your distance for a vertical Leap increases to 5 feet vertically, and your distance for a horizontal Leap increases to 15 feet if your Speed is at least 15 feet and to 20 feet if your Speed is at least 30 feet.",
+        "hide": true,
+        "type": "feats",
+        "effects": [
+            {
+                "affected": "Climb Speed",
+                "setValue": "Speed('Land Speed')"
+            },
+            {
+                "affected": "Swim Speed",
+                "setValue": "Speed('Land Speed')"
+            }
+        ],
+        "hints": [
+            {
+                "desc": "The DC of High Jumps and Long Jumps decreases by 10. Your distance for a vertical Leap increases to 5 feet vertically, and your distance for a horizontal Leap increases to 15 feet if your Speed is at least 15 feet and to 20 feet if your Speed is at least 30 feet.",
+                "showon": "Athletics"
+            }
         ]
     }
 ]

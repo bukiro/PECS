@@ -15,9 +15,9 @@ export class Armor extends Equipment {
     readonly type = "armors";
     //For certain medium and light armors, set 1 if an "Armored Skirt" is equipped; For certain heavy armors, set -1 instead
     //This value influences acbonus, skillpenalty, dexcap and strength
-    public $affectedByArmoredSkirt: -1|0|1 = 0;
+    public $affectedByArmoredSkirt: -1 | 0 | 1 = 0;
     //Shoddy armors give a penalty of -2 unless you have the Junk Tinker feat.
-    public $shoddy: -2|0 = 0;
+    public $shoddy: -2 | 0 = 0;
     //The armor's inherent bonus to AC
     private acbonus: number = 0;
     //What kind of armor is this based on? Needed for armor proficiencies for specific magical items.
@@ -28,7 +28,7 @@ export class Armor extends Equipment {
     //The armor group, needed for critical specialization effects
     public group: string = "";
     //Armor are usually moddable like armor. Armor that cannot be modded should be set to "-"
-    moddable = "armor" as ""|"-"|"weapon"|"armor"|"shield";
+    moddable = "armor" as "" | "-" | "weapon" | "armor" | "shield";
     //What proficiency is used? "Light Armor", "Medium Armor"?
     private prof: string = "Light Armor";
     //The penalty to certain skills if your strength is lower than the armors requirement
@@ -56,10 +56,10 @@ export class Armor extends Equipment {
         } else {
             return oilBulk || fortification ? fortification.toString() : this.bulk;
         }
-        
+
     }
     get_ArmoredSkirt(creature: Creature, characterService: CharacterService) {
-        if (["Breastplate","Chain Shirt","Chain Mail","Scale Mail"].includes(this.name) ) {
+        if (["Breastplate", "Chain Shirt", "Chain Mail", "Scale Mail"].includes(this.name)) {
             let armoredSkirt = characterService.get_Inventories(creature).map(inventory => inventory.adventuringgear).find(gear => gear.find(item => item.isArmoredSkirt && item.equipped));
             if (armoredSkirt?.length) {
                 this.$affectedByArmoredSkirt = 1;
@@ -68,7 +68,7 @@ export class Armor extends Equipment {
                 this.$affectedByArmoredSkirt = 0;
                 return null;
             }
-        } else if (["Half Plate","Full Plate","Hellknight Plate"].includes(this.name) ) {
+        } else if (["Half Plate", "Full Plate", "Hellknight Plate"].includes(this.name)) {
             let armoredSkirt = characterService.get_Inventories(creature).map(inventory => inventory.adventuringgear).find(gear => gear.find(item => item.isArmoredSkirt && item.equipped));
             if (armoredSkirt?.length) {
                 this.$affectedByArmoredSkirt = -1;
@@ -104,7 +104,7 @@ export class Armor extends Equipment {
         } else {
             return this.dexcap;
         }
-        
+
     }
     get_Strength() {
         //Fortification Runes raise the required strength
@@ -136,7 +136,7 @@ export class Armor extends Equipment {
             return this.traits;
         }
     }
-    profLevel(creature: Character|AnimalCompanion, characterService: CharacterService, charLevel: number = characterService.get_Character().level) {
+    profLevel(creature: Character | AnimalCompanion, characterService: CharacterService, charLevel: number = characterService.get_Character().level) {
         if (characterService.still_loading()) { return 0; }
         this.get_ArmoredSkirt(creature, characterService);
         let skillLevel: number = 0;
@@ -145,62 +145,6 @@ export class Armor extends Equipment {
         //Add either the armor category proficiency or the armor proficiency, whichever is better
         skillLevel = Math.min(Math.max(armorIncreases.length * 2, profIncreases.length * 2), 8)
         return skillLevel;
-    }
-    armorBonus(creature: Character|AnimalCompanion, characterService: CharacterService, effectsService: EffectsService) {
-    //Calculates the full AC bonus when wearing this armor
-    //We assume that only one armor is worn at a time
-        let explain: string = "AC Basis: 10";
-        let charLevel = characterService.get_Character().level;
-        let dex = characterService.get_Abilities("Dexterity")[0].mod(creature, characterService, effectsService).result;
-        //Get the profiency with either this armor or its category
-        //Familiars have the same AC as the Character.
-        let skillLevel = this.profLevel(creature, characterService);
-        if (skillLevel) {
-            explain += "\nProficiency: "+skillLevel;
-        }
-        //Add character level if the character is trained or better with either the armor category or the armor itself
-        let charLevelBonus = ((skillLevel > 0) ? charLevel: 0);
-        if (charLevelBonus) {
-            explain += "\nCharacter Level: "+charLevelBonus;
-        }
-        //Add the dexterity modifier up to the armor's dex cap, unless there is no cap
-        let dexcap = this.get_DexCap();
-        effectsService.get_AbsolutesOnThis(creature, "Dexterity Modifier Cap").forEach(effect => {
-                dexcap = parseInt(effect.setValue);
-                explain += "\n" + effect.source + ": Dexterity modifier cap " + dexcap;
-            })
-        effectsService.get_RelativesOnThis(creature, "Dexterity Modifier Cap").forEach(effect => {
-                dexcap += parseInt(effect.value);
-                explain += "\n" + effect.source + ": Dexterity modifier cap " + parseInt(effect.value);
-            })
-        let dexBonus = (dexcap != -1) ? Math.max(Math.min(dex, dexcap), 0) : dex;
-        if (dexBonus) {
-            if (dexcap != -1 && this.get_DexCap() < dex) {
-                explain += "\nDexterity Modifier (capped): "+dexBonus;
-            } else {
-                explain += "\nDexterity Modifier: "+dexBonus;
-            }
-        }
-        let potency = this.get_PotencyRune();
-        if (potency) {
-            explain += "\nPotency: "+this.get_Potency(this.get_PotencyRune());
-        } else if (this.battleforged) {
-            potency = 1;
-            explain += "\nBattleforged: "+this.get_Potency(this.get_PotencyRune());
-        }
-        //Add up all modifiers and return the AC gained from this armor
-        //Also adding any inherent AC bonus
-        let defenseResult: number = 10 + charLevelBonus + skillLevel + this.get_ACBonus() + dexBonus + potency;
-        if (this.get_ACBonus() || this.$shoddy) {
-            if (this.$shoddy) {
-                explain += "\nArmor Bonus: "+(this.get_ACBonus() + 2);
-                explain += "\nShoddy: -2";
-            } else {
-                explain += "\nArmor Bonus: "+this.get_ACBonus();
-            }
-        }
-        let endresult: [number, string] = [defenseResult, explain]
-        return endresult;
     }
     get_ArmorSpecialization(creature: Creature, characterService: CharacterService) {
         let SpecializationGains: SpecializationGain[] = [];
@@ -220,7 +164,7 @@ export class Armor extends Equipment {
                         (spec.skillLevel ? skillLevel >= spec.skillLevel : true) &&
                         (spec.featreq ? characterService.get_FeatsAndFeatures(spec.featreq)[0]?.have(character, characterService) : true)
                     ))
-            });
+                });
             SpecializationGains.forEach(critSpec => {
                 let specs: Specialization[] = characterService.get_Specializations(this.group).map(spec => Object.assign(new Specialization(), spec));
                 specs.forEach(spec => {

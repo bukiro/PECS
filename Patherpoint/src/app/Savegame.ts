@@ -4,6 +4,7 @@ export class Savegame {
     id: string;
     dbId: string;
     class: string;
+    classChoice: string;
     heritage: string;
     ancestry: string;
     level: number;

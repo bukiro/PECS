@@ -708,8 +708,10 @@ export class CharacterComponent implements OnInit {
         this.characterService.process_ToChange();
     }
 
-    get_FeatsTaken(minLevelNumber: number, maxLevelNumber: number, featName: string = "", source: string = "", sourceId: string = "", locked: boolean = undefined) {
-        return this.get_Character().get_FeatsTaken(minLevelNumber, maxLevelNumber, featName, source, sourceId, locked);
+    get_FeatsTaken(minLevelNumber: number, maxLevelNumber: number, featName: string = "", source: string = "", sourceId: string = "", locked: boolean = undefined, filter: string = "") {
+        let character = this.get_Character();
+        return this.get_Character().get_FeatsTaken(minLevelNumber, maxLevelNumber, featName, source, sourceId, locked)
+            .filter(taken => filter == "feature" ? taken.source == character.class.name : (filter == "feat" ? taken.source != character.class.name : true));
     }
 
     get_Classes(name: string = "") {

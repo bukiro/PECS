@@ -10,6 +10,8 @@ export class Effect {
         public penalty: boolean = false,
         public apply: boolean = undefined,
         public hide: boolean = false,
-        public duration: number = 0
+        public duration: number = 0,
+        //If the effect is typed, cumulative lists all effect sources (of the same type) that it is cumulative with.
+        public cumulative: string[] = []
     ) {}
 }

@@ -36,31 +36,9 @@
                 {{get_Character().class.background.name}}
             </div>
             <div class="fullsize-only list-item" *ngIf="get_Character().class.name">
-                <strong>Class</strong>
-                {{get_Character().class.name}}
-                <div class="row" *ngFor="let archetype of get_Archetypes(); trackBy:trackByIndex;">
-                    <strong>Archetype</strong>
-                    {{archetype.archetype}}
-                </div>
-                <div class="row" *ngFor="let muse of get_Muse(); trackBy:trackByIndex;">
-                    <strong>Muse</strong>
-                    {{muse.name}}
-                </div>
-                <div class="row" *ngFor="let huntersEdge of get_HuntersEdge(); trackBy:trackByIndex;">
-                    <strong>Hunter's Edge</strong>
-                    {{huntersEdge.name}}
-                </div>
-                <div class="row" *ngFor="let bloodline of get_Bloodlines(); trackBy:trackByIndex;">
-                    <strong>Sorcerer Bloodline</strong>
-                    {{bloodline.name}}
-                </div>
-                <div class="row" *ngFor="let school of get_WizardSchool(); trackBy:trackByIndex;">
-                    <strong>Wizard School</strong>
-                    {{school.name}}
-                </div>
-                <div class="row" *ngFor="let thesis of get_ArcaneThesis(); trackBy:trackByIndex;">
-                    <strong>Arcane Thesis</strong>
-                    {{thesis.name}}
+                <div class="row" *ngFor="let specialization of get_ClassChoices(); trackBy:trackByIndex;">
+                    <strong>{{specialization.name}}</strong>
+                    {{specialization.choice}}
                 </div>
             </div>
             <div class="fullsize-only list-item" *ngIf="get_Character().class.ancestry.name">

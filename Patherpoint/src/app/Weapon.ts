@@ -129,7 +129,7 @@ export class Weapon extends Equipment {
             .forEach(effect => {
                 newReach = parseInt(effect.setValue);
             })
-            effectsService.get_RelativesOnThese(creature, ["Reach", this.name + " Reach", this.weaponBase + " Reach"])
+        effectsService.get_RelativesOnThese(creature, ["Reach", this.name + " Reach", this.weaponBase + " Reach"])
             .forEach(effect => {
                 newReach += parseInt(effect.value);
             })
@@ -373,7 +373,7 @@ export class Weapon extends Equipment {
         effectsService.get_TypeFilteredEffects(
             calculatedEffects
                 .concat(effectsService.get_RelativesOnThese(creature, namesList)
-            ), false)
+                ), false)
             .forEach(effect => {
                 if (parseInt(effect.value) < 0 && !effect.hide) {
                     penalties.push({ value: parseInt(effect.value), setValue: "", source: effect.source, penalty: true, type: effect.type });
@@ -472,13 +472,13 @@ export class Weapon extends Equipment {
             prof.split(" ")[0] + this.group + " Dice Number",
             //"Simple Longsword Dice Number", "Unarmed Fist Dice Number" etc.
             prof.split(" ")[0] + this.weaponBase + " Dice Number"
-            ]).forEach(effect => {
-                if (!effect.hide) {
-                    absolutes.push({ value: parseInt(effect.value), setValue: "", source: effect.source, penalty: false });
-                }
-                dicenum = parseInt(effect.setValue);
-                explain += "\n" + effect.source + ": Dice number " + dicenum;
-            })
+        ]).forEach(effect => {
+            if (!effect.hide) {
+                absolutes.push({ value: parseInt(effect.value), setValue: "", source: effect.source, penalty: false });
+            }
+            dicenum = parseInt(effect.setValue);
+            explain += "\n" + effect.source + ": Dice number " + dicenum;
+        })
         effectsService.get_RelativesOnThese(creature, [
             "Dice Number",
             this.name + " Dice Number",
@@ -496,15 +496,15 @@ export class Weapon extends Equipment {
             prof.split(" ")[0] + this.group + " Dice Number",
             //"Simple Longsword Dice Number", "Unarmed Fist Dice Number" etc.
             prof.split(" ")[0] + this.weaponBase + " Dice Number"
-            ]).forEach(effect => {
-                if (parseInt(effect.value) < 0 && !effect.hide) {
-                    penalties.push({ value: parseInt(effect.value), setValue: "", source: effect.source, penalty: true });
-                } else if (!effect.hide) {
-                    bonuses.push({ value: parseInt(effect.value), setValue: "", source: effect.source, penalty: false });
-                }
-                dicenum += parseInt(effect.value);
-                explain += "\n" + effect.source + ": Dice number +" + parseInt(effect.value);
-            })
+        ]).forEach(effect => {
+            if (parseInt(effect.value) < 0 && !effect.hide) {
+                penalties.push({ value: parseInt(effect.value), setValue: "", source: effect.source, penalty: true });
+            } else if (!effect.hide) {
+                bonuses.push({ value: parseInt(effect.value), setValue: "", source: effect.source, penalty: false });
+            }
+            dicenum += parseInt(effect.value);
+            explain += "\n" + effect.source + ": Dice number +" + parseInt(effect.value);
+        })
         //Determine the dice size.
         let dicesize = this.dicesize;
         //Champions get increased dice size via Deific Weapon for unarmed attacks with d4 damage or simple weapons as long as they are their deity's favored weapon.
@@ -549,13 +549,13 @@ export class Weapon extends Equipment {
             prof.split(" ")[0] + this.group + " Dice Size",
             //"Simple Longsword Dice Size", "Unarmed Fist Dice Size" etc.
             prof.split(" ")[0] + this.weaponBase + " Dice Size",
-            ]).forEach(effect => {
-                if (!effect.hide) {
-                    absolutes.push({ value: parseInt(effect.value), setValue: "", source: effect.source, penalty: false });
-                }
-                dicesize = parseInt(effect.setValue);
-                explain += "\n" + effect.source + ": Dice size d" + dicesize;
-            })
+        ]).forEach(effect => {
+            if (!effect.hide) {
+                absolutes.push({ value: parseInt(effect.value), setValue: "", source: effect.source, penalty: false });
+            }
+            dicesize = parseInt(effect.setValue);
+            explain += "\n" + effect.source + ": Dice size d" + dicesize;
+        })
         effectsService.get_RelativesOnThese(creature, [
             "Dice Size",
             this.name + " Dice Size",
@@ -573,17 +573,17 @@ export class Weapon extends Equipment {
             prof.split(" ")[0] + this.group + " Dice Size",
             //"Simple Longsword Dice Size", "Unarmed Fist Dice Size" etc.
             prof.split(" ")[0] + this.weaponBase + " Dice Size",
-            ]).forEach(effect => {
-                if (parseInt(effect.value) < 0 && !effect.hide) {
-                    penalties.push({ value: parseInt(effect.value), setValue: "", source: effect.source, penalty: true });
-                } else if (!effect.hide) {
-                    bonuses.push({ value: parseInt(effect.value), setValue: "", source: effect.source, penalty: false });
-                }
-                dicesize += parseInt(effect.value);
-                //Don't raise dice size over 12.
-                dicesize = Math.min(12,dicesize);
-                explain += "\n" + effect.source + ": Dice size d" + dicesize;
-            })
+        ]).forEach(effect => {
+            if (parseInt(effect.value) < 0 && !effect.hide) {
+                penalties.push({ value: parseInt(effect.value), setValue: "", source: effect.source, penalty: true });
+            } else if (!effect.hide) {
+                bonuses.push({ value: parseInt(effect.value), setValue: "", source: effect.source, penalty: false });
+            }
+            dicesize += parseInt(effect.value);
+            //Don't raise dice size over 12.
+            dicesize = Math.min(12, dicesize);
+            explain += "\n" + effect.source + ": Dice size d" + dicesize;
+        })
         //Get the basic "#d#" string from the weapon's dice values, unless dicenum is 0 or null (for instance some weapons deal exactly 1 base damage, which is represented by 0d1)
         var baseDice = (dicenum ? dicenum + "d" : "") + dicesize;
         //Calculate dexterity and strength penalties for the decision on which to use. They are not immediately applied.
@@ -701,6 +701,14 @@ export class Weapon extends Equipment {
             }
             //"Agile Melee Damage"
             list.push("Agile " + range + " Damage");
+            if ((range == "ranged") && this.traits.some(trait => trait.includes("Thrown"))) {
+                //"Agile Thrown Large Weapon Damage"
+                if (this.large) {
+                    "Agile Thrown Large Weapon Damage"
+                }
+                //"Agile Thrown Weapon Damage"
+                list.push("Agile Thrown Weapon Damage");
+            }
         } else {
             //"Non-Agile Large Melee Weapon Damage"
             if (this.large) {
@@ -708,6 +716,14 @@ export class Weapon extends Equipment {
             }
             //"Non-Agile Melee Damage"
             list.push("Non-Agile " + range + " Damage");
+            if ((range == "ranged") && this.traits.some(trait => trait.includes("Thrown"))) {
+                //"Non-Agile Thrown Large Weapon Damage"
+                if (this.large) {
+                    "Non-Agile Thrown Large Weapon Damage"
+                }
+                //"Non-Agile Thrown Weapon Damage"
+                list.push("Non-Agile Thrown Weapon Damage");
+            }
         }
         effectsService.get_AbsolutesOnThese(creature, list)
             .forEach(effect => {
@@ -769,7 +785,7 @@ export class Weapon extends Equipment {
                     effectBonus += parseInt(effect.value);
                     explain += "\n" + effect.source + ": " + parseInt(effect.value);
                 }
-        })
+            })
         dmgBonus += effectBonus;
         //Make a nice "+#" string from the Ability bonus if there is one, or else make it empty
         let dmgBonusTotal: string = (dmgBonus) ? ((dmgBonus >= 0) && "+") + dmgBonus : "";
@@ -781,11 +797,11 @@ export class Weapon extends Equipment {
     get_CritSpecialization(creature: Creature, characterService: CharacterService, range: string) {
         let SpecializationGains: SpecializationGain[] = [];
         let specializations: Specialization[] = [];
-        let prof = this.get_Proficiency((creature as AnimalCompanion|Character), characterService);
+        let prof = this.get_Proficiency((creature as AnimalCompanion | Character), characterService);
         if (creature.type == "Character" && this.group) {
             let character = creature as Character;
             let runeSource: (Weapon | WornItem)[] = this.get_RuneSource(creature, range);
-            let skillLevel = this.profLevel((creature as AnimalCompanion|Character), characterService, runeSource[1]);
+            let skillLevel = this.profLevel((creature as AnimalCompanion | Character), characterService, runeSource[1]);
             characterService.get_FeatsAndFeatures()
                 .filter(feat => feat.gainSpecialization.length && feat.have(character, characterService, character.level, false))
                 .forEach(feat => {

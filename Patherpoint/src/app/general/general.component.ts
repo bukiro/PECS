@@ -6,6 +6,7 @@ import { Speed } from '../Speed';
 import { Character } from '../Character';
 import { AnimalCompanion } from '../AnimalCompanion';
 import { FamiliarsService } from '../familiars.service';
+import { FeatChoice } from '../FeatChoice';
 
 @Component({
     selector: 'app-general',
@@ -19,7 +20,7 @@ export class GeneralComponent implements OnInit {
     creature: string = "Character";
 
     constructor(
-        private changeDetector:ChangeDetectorRef,
+        private changeDetector: ChangeDetectorRef,
         public characterService: CharacterService,
         public effectsService: EffectsService,
         public traitsService: TraitsService,
@@ -32,7 +33,7 @@ export class GeneralComponent implements OnInit {
 
     set_Span() {
         setTimeout(() => {
-            this.characterService.set_Span(this.creature+"-general");
+            this.characterService.set_Span(this.creature + "-general");
         })
     }
 
@@ -43,11 +44,11 @@ export class GeneralComponent implements OnInit {
     get_Accent() {
         return this.characterService.get_Accent();
     }
-    
+
     trackByIndex(index: number, obj: any): any {
         return index;
     }
-    
+
     get_Creature() {
         return this.characterService.get_Creature(this.creature);
     }
@@ -106,34 +107,8 @@ export class GeneralComponent implements OnInit {
     get_Anathema() {
         //Collect anathema from all feats and features you have that include them.
         return this.get_Character().class.anathema.concat(...this.characterService.get_FeatsAndFeatures()
-        .filter(feat => feat.anathema?.length && feat.have(this.get_Character(), this.characterService))
-        .map(feat => feat.anathema))
-    }
-
-    get_Archetypes() {
-        return this.characterService.get_FeatsAndFeatures().filter(feat => feat.traits.includes("Dedication") && feat.have(this.get_Character(), this.characterService));
-    }
-
-    get_Muse() {
-        return this.get_Character().get_FeatsTaken(1, this.get_Character().level).filter(gain => ["Enigma Muse", "Maestro Muse", "Polymath Muse", "Multifarious Muse: Enigma Muse", "Multifarious Muse: Maestro Muse", "Multifarious Muse: Polymath Muse"].includes(gain.name));
-    }
-
-    get_HuntersEdge() {
-        return this.get_Character().get_FeatsTaken(1, this.get_Character().level).filter(gain => ["Flurry", "Outwit", "Precision"].includes(gain.name));
-    }
-
-    get_Racket() {
-        return this.get_Character().get_FeatsTaken(1, this.get_Character().level).filter(gain => ["Ruffian Racket", "Scoundrel Racket", "Thief Racket", "Multifarious Muse: Enigma Muse", "Multifarious Muse: Maestro Muse", "Multifarious Muse: Polymath Muse"].includes(gain.name));
-    }
-
-    get_WizardSchool() {
-        return this.get_Character().get_FeatsTaken(1, this.get_Character().level)
-            .filter(gain => ["Abjuration School", "Conjuration School", "Divination School", "Enchantment School", "Evocation School", "Illusion School", "Necromancy School", "Transmutation School", "Universalist Wizard"].includes(gain.name));
-    }
-
-    get_ArcaneThesis() {
-        return this.get_Character().get_FeatsTaken(1, this.get_Character().level)
-            .filter(gain => ["Improved Familiar Attunement", "Metamagical Experimentation", "Spell Blending", "Spell Substitution"].includes(gain.name));
+            .filter(feat => feat.anathema?.length && feat.have(this.get_Character(), this.characterService))
+            .map(feat => feat.anathema))
     }
 
     get_Languages() {
@@ -146,19 +121,38 @@ export class GeneralComponent implements OnInit {
         }
     }
 
-    get_Bloodlines() {
-        return this.get_Character().get_FeatsTaken(1, this.get_Character().level)
-        .filter(gain => 
-            ["Aberrant Bloodline",
-            "Angelic Bloodline",
-            "Demonic Bloodline",
-            "Diabolic Bloodline",
-            "Draconic Bloodline",
-            "Elemental Bloodline",
-            "Fey Bloodline",
-            "Hag Bloodline",
-            "Imperial Bloodline",
-            "Undead Bloodline"].includes(gain.name))
+    get_ClassChoices() {
+        //Get the basic decisions for your class and all archetypes.
+        // These decisions are feat choices identified by being .specialChoice, having exactly one feat, and having the class name (or the dedication feat name) as its type.
+        let results: { name: string, choice: string }[] = [];
+        let character = this.get_Character();
+        let featChoices: FeatChoice[] = [];
+        let className = character.class?.name || "";
+        if (className) {
+            results.push({ name: "Class", choice: className });
+            character.class.levels.forEach(level => {
+                featChoices.push(...level.featChoices.filter(choice => choice.specialChoice && choice.feats.length == 1 && choice.available == 1));
+            })
+            featChoices.filter(choice => choice.source == className).forEach(choice => {
+                let choiceName = choice.feats[0].name.split(":")[0];
+                if (choiceName.includes(choice.type)) {
+                    choiceName = choiceName.substr(0, choiceName.length - choice.type.length - 1);
+                }
+                results.push({ name: className + " " + choice.type, choice: choiceName })
+            })
+            let archetypes = this.characterService.get_FeatsAndFeatures().filter(feat => feat.traits.includes("Dedication") && feat.have(this.get_Character(), this.characterService));
+            archetypes.forEach(archetype => {
+                results.push({ name: "Archetype", choice: archetype.archetype });
+                featChoices.filter(choice => choice.source == "Feat: " + archetype.name).forEach(choice => {
+                    let choiceName = choice.feats[0].name;
+                    if (choiceName.includes(choice.type)) {
+                        choiceName = choiceName.split(" " + choice.type).join("");
+                    }
+                    results.push({ name: archetype.archetype + " " + choice.type, choice: choiceName })
+                })
+            })
+        }
+        return results;
     }
 
     get_Traits(name: string = "") {
@@ -170,20 +164,20 @@ export class GeneralComponent implements OnInit {
             setTimeout(() => this.finish_Loading(), 500)
         } else {
             this.characterService.get_Changed()
-            .subscribe((target) => {
-                if (target == "general" || target == "all" || target == this.creature) {
-                    this.changeDetector.detectChanges();
-                }
-            });
+                .subscribe((target) => {
+                    if (target == "general" || target == "all" || target == this.creature) {
+                        this.changeDetector.detectChanges();
+                    }
+                });
             this.characterService.get_ViewChanged()
-            .subscribe((view) => {
-                if (view.creature == this.creature && ["general", "all"].includes(view.target)) {
-                    this.changeDetector.detectChanges();
-                }
-                if (view.creature == "Character" && view.target == "span") {
-                    this.set_Span();
-                }
-            });
+                .subscribe((view) => {
+                    if (view.creature == this.creature && ["general", "all"].includes(view.target)) {
+                        this.changeDetector.detectChanges();
+                    }
+                    if (view.creature == "Character" && view.target == "span") {
+                        this.set_Span();
+                    }
+                });
             return true;
         }
     }

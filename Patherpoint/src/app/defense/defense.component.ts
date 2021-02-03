@@ -178,10 +178,6 @@ export class DefenseComponent implements OnInit {
         return this.traitsService.get_Traits(traitName);
     }
 
-    get_ArmorBonus(armor: Armor) {
-        return this.defenseService.get_ArmorBonus(this.get_Creature() as Character|AnimalCompanion, this.characterService, armor);
-    }
-
     get_TalismanTitle(talisman: Talisman) {
         return (talisman.trigger ? "Trigger: " + talisman.trigger + "\n\n" : "") + talisman.desc;
     }

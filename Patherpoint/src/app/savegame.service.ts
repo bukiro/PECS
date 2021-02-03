@@ -417,6 +417,13 @@ export class SavegameService {
                 this.savegames[newLength - 1].partyName = savegame.partyName || "No Party";
                 if (savegame.class) {
                     this.savegames[newLength - 1].class = savegame.class.name || "";
+                    savegame.class.levels[1].featChoices.filter(choice => choice.specialChoice && choice.feats?.length == 1 && choice.available == 1 && choice.source == savegame.class.name).forEach(choice => {
+                        let choiceName = choice.feats[0].name.split(":")[0];
+                        if (!choiceName.includes("School") && choiceName.includes(choice.type)) {
+                            choiceName = choiceName.substr(0, choiceName.length - choice.type.length - 1);
+                        }
+                        this.savegames[newLength - 1].classChoice = choiceName;
+                    });
                     if (savegame.class.ancestry) {
                         this.savegames[newLength - 1].ancestry = savegame.class.ancestry.name || "";
                     }

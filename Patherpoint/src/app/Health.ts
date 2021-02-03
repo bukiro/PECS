@@ -81,7 +81,7 @@ export class Health {
         let woundeds = 0;
         let conditions = characterService.get_AppliedConditions(creature, "Wounded");
         if (conditions.length) {
-            woundeds = Math.max.apply(Math, conditions.map(function (gain) { return gain.value }));
+            woundeds = Math.max(...conditions.map(gain => gain.value ));
         }
         return Math.max(woundeds, 0)
     }
@@ -89,7 +89,7 @@ export class Health {
         let dying = 0;
         let conditions = characterService.get_AppliedConditions(creature, "Dying");
         if (conditions.length) {
-            dying = Math.max.apply(Math, conditions.map(function (gain) { return gain.value }));
+            dying = Math.max(...conditions.map(gain => gain.value));
         }
         return Math.max(dying, 0)
     }

@@ -3,8 +3,8 @@
         <strong [className]="condition.buff ? 'bonus' : 'penalty'"
             title="Source: {{conditionGain.source}}">{{conditionGain.name}}{{conditionGain.choice ? ": " : ""}}
             <input id="{{conditionGain.id+'choice'}}" class="invisible" type="checkbox"
-                [(ngModel)]="conditionGain.showChoices"*ngIf="condition.choices.length">
-            <label for="{{conditionGain.id+'choice'}}" title="Edit effect choice"*ngIf="condition.choices.length">&#8997;</label>
+                [(ngModel)]="conditionGain.showChoices" *ngIf="condition.choices.length && !conditionGain.choiceLocked">
+            <label for="{{conditionGain.id+'choice'}}" title="Edit effect choice" *ngIf="condition.choices.length && !conditionGain.choiceLocked">&#8997;</label>
             {{conditionGain.choice ? conditionGain.choice : ""}}
             {{(conditionGain.value) ? conditionGain.value : ""}}
         </strong>

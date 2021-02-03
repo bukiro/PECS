@@ -488,7 +488,7 @@ export class EffectsService {
         appliedConditions.forEach(gain => {
             let originalCondition = characterService.get_Conditions(gain.name)[0];
             if (originalCondition?.effects?.length) {
-                //Fit the condition effects into the box defined by feat effects
+                //Fit the condition effects into the box defined by get_SimpleEffects()
                 let effectsObject = { name: gain.name, value: gain.value, choice: gain.choice, effects: originalCondition.effects, heightened: gain.heightened }
                 simpleEffects = simpleEffects.concat(this.get_SimpleEffects(creature, characterService, effectsObject));
             }

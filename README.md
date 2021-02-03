@@ -37,16 +37,7 @@ The very latest in Assistive Technologies for Dungeon Master (ATDM)
 - [x] -- Implement all Alchemical Elixirs
 - [x] -- Implement all Alchemical Tools
 - [x] - Implement all Adventuring Gear
-- [ ] - Allow custom content
-- [ ] -- Custom classes
-- [x] -- Custom ancestries
-- [x] -- Custom heritages
-- [x] -- Custom backgrounds
-- [x] -- Custom feats
-- [x] -- Custom activities
-- [ ] -- Custom conditions
-- [x] -- Custom items
-- [ ] -- ???
+- [x] - Allow custom content
 - [x] - Implement one full Class with Feats and Features
 - [x] - Feat requirements
 - [x] - Equipment (weapons, armor, shields) -> Abilities, Armor, Attacks, Skills
@@ -100,6 +91,8 @@ The very latest in Assistive Technologies for Dungeon Master (ATDM)
 - [x] -- Monk
 - [x] -- Wizard
 - [x] -- Bard
+- [ ] -- Druid
+- [ ] -- Sorcerer
 - [x] - Cantrips
 - [x] - Level 1 Spells
 - [x] - Level 2 Spells
@@ -112,7 +105,7 @@ The very latest in Assistive Technologies for Dungeon Master (ATDM)
 - [ ] - Level 9 Spells
 - [ ] - Level 10 Spells
 - [x] Add custom conditions with effects
-- [ ] Stretch Goal: Item Icons
+- [ ] Stretch Goal: Icons
 - [ ] Stretch Goal: Initiative tracker, battles, being a battle member, GM-Player-Communication.......
 - [ ] Stretch Goal: Include optional systems like Stamina & Resolve
 
@@ -121,4 +114,12 @@ Active to-do:
 Implement:
 
 Next steps:
+- Barbarian
+- Druid
+- Sorcerer
+- 5th level spells
+- Gnome
+- Hobgoblin
+- Leshy
+- Shoony
 - Implement Conditions for Poisons

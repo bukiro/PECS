@@ -21,4 +21,6 @@ export class EffectGain {
     public sourceId: string = "";
     //spellSource is copied from conditions and used in value eval()s. Also only used to calculate temporary HP so far.
     public spellSource: string = "";
+    //If the effect is typed, cumulative lists all effect sources (of the same type) that it is cumulative with.
+    public cumulative: string[] = [];
 }
