@@ -134,7 +134,7 @@ export class GeneralComponent implements OnInit {
                 featChoices.push(...level.featChoices.filter(choice => choice.specialChoice && choice.feats.length == 1 && choice.available == 1));
             })
             featChoices.filter(choice => choice.source == className).forEach(choice => {
-                let choiceName = choice.feats[0].name.split(":")[0];
+                let choiceName = choice.feats[0].name;
                 if (choiceName.includes(choice.type)) {
                     choiceName = choiceName.split(" " + choice.type).join("");
                 }
