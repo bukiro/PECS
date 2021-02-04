@@ -13924,6 +13924,7 @@
                 "filter": [
                     "Elemental Type"
                 ],
+                "insertClass": "Sorcerer",
                 "source": "Elemental Bloodline",
                 "specialChoice": true,
                 "type": "Elemental Type"

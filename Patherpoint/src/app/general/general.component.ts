@@ -136,7 +136,7 @@ export class GeneralComponent implements OnInit {
             featChoices.filter(choice => choice.source == className).forEach(choice => {
                 let choiceName = choice.feats[0].name.split(":")[0];
                 if (choiceName.includes(choice.type)) {
-                    choiceName = choiceName.substr(0, choiceName.length - choice.type.length - 1);
+                    choiceName = choiceName.split(" " + choice.type).join("");
                 }
                 results.push({ name: className + " " + choice.type, choice: choiceName })
             })

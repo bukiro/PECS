@@ -1,4 +1,5 @@
 import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, HostBinding } from '@angular/core';
+import { trigger, state, style, transition, animate } from '@angular/animations';
 import { CharacterService } from '../character.service';
 import { DomSanitizer } from '@angular/platform-browser';
 
@@ -6,6 +7,38 @@ import { DomSanitizer } from '@angular/platform-browser';
     selector: 'app-character-sheet',
     templateUrl: './character-sheet.component.html',
     styleUrls: ['./character-sheet.component.css'],
+    animations: [
+        trigger('slideInOut', [
+            state('in', style({
+                transform: 'translate3d(0,0,0)'
+            })),
+            state('out', style({
+                transform: 'translate3d(-100%, 0, 0)'
+            })),
+            transition('in => out', animate('400ms ease-in-out')),
+            transition('out => in', animate('400ms ease-in-out'))
+        ]),
+        trigger('slideInOutRight', [
+            state('in', style({
+                transform: 'translate3d(0,0,0)'
+            })),
+            state('out', style({
+                transform: 'translate3d(+100%, 0, 0)'
+            })),
+            transition('in => out', animate('400ms ease-in-out')),
+            transition('out => in', animate('400ms ease-in-out'))
+        ]),
+        trigger('slideInOutVert', [
+            state('in', style({
+                transform: 'translate3d(0,0,0)'
+            })),
+            state('out', style({
+                transform: 'translate3d(0, -100%, 0)'
+            })),
+            transition('in => out', animate('400ms ease-in-out')),
+            transition('out => in', animate('400ms ease-in-out'))
+        ]),
+    ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CharacterSheetComponent implements OnInit {
@@ -20,7 +53,7 @@ export class CharacterSheetComponent implements OnInit {
         private sanitizer: DomSanitizer,
         private changeDetector: ChangeDetectorRef
     ) { }
-    
+
     still_loading() {
         return this.characterService.still_loading();
     }
@@ -28,7 +61,7 @@ export class CharacterSheetComponent implements OnInit {
     get_Accent() {
         return this.characterService.get_Accent();
     }
-    
+
     get_Darkmode() {
         return this.characterService.get_Darkmode();
     }
@@ -37,8 +70,72 @@ export class CharacterSheetComponent implements OnInit {
         return index;
     }
 
+    get_ItemsMenuState() {
+        return this.characterService.get_ItemsMenuState();
+    }
+
+    get_CraftingMenuState() {
+        return this.characterService.get_CraftingMenuState();
+    }
+
+    get_CharacterMenuState() {
+        return this.characterService.get_CharacterMenuState();
+    }
+
+    get_CompanionMenuState() {
+        return this.characterService.get_CompanionMenuState();
+    }
+
+    get_FamiliarMenuState() {
+        return this.characterService.get_FamiliarMenuState();
+    }
+
+    get_SpellsMenuState() {
+        return this.characterService.get_SpellsMenuState();
+    }
+
+    get_SpellLibraryMenuState() {
+        return this.characterService.get_SpellLibraryMenuState();
+    }
+
+    get_ConditionsMenuState() {
+        return this.characterService.get_ConditionsMenuState();
+    }
+
+    get_DiceMenuState() {
+        return this.characterService.get_DiceMenuState();
+    }
+
+    get_CompanionAvailable() {
+        return this.characterService.get_CompanionAvailable();
+    }
+
+    get_FamiliarAvailable() {
+        return this.characterService.get_FamiliarAvailable();
+    }
+
+    get_CharacterMinimized() {
+        return this.characterService.get_Character().settings.characterMinimized;
+    }
+
+    get_CompanionMinimized() {
+        return this.characterService.get_Character().settings.companionMinimized;
+    }
+
+    get_FamiliarMinimized() {
+        return this.characterService.get_Character().settings.familiarMinimized;
+    }
+
+    get_SpellsMinimized() {
+        return this.characterService.get_Character().settings.spellsMinimized;
+    }
+
+    get_SpellLibraryMinimized() {
+        return this.characterService.get_Character().settings.spelllibraryMinimized;
+    }
+    
     get_GeneralMinimized() {
-       return this.characterService.get_Character().settings.generalMinimized;
+        return this.characterService.get_Character().settings.generalMinimized;
     }
 
     get_EffectsMinimized() {
@@ -46,17 +143,17 @@ export class CharacterSheetComponent implements OnInit {
     }
 
     get_AbilitiesMinimized() {
-       return this.characterService.get_Character().settings.abilitiesMinimized;
+        return this.characterService.get_Character().settings.abilitiesMinimized;
     }
 
     get_HealthMinimized() {
-       return this.characterService.get_Character().settings.healthMinimized;
+        return this.characterService.get_Character().settings.healthMinimized;
     }
 
     get_DefenseMinimized() {
-       return this.characterService.get_Character().settings.defenseMinimized;
+        return this.characterService.get_Character().settings.defenseMinimized;
     }
-    
+
     get_AttacksMinimized() {
         return this.characterService.get_Character().settings.attacksMinimized;
     }
@@ -64,21 +161,21 @@ export class CharacterSheetComponent implements OnInit {
     get_SkillsMinimized() {
         return this.characterService.get_Character().settings.skillsMinimized;
     }
-    
+
     get_InventoryMinimized() {
-       return this.characterService.get_Character().settings.inventoryMinimized;
+        return this.characterService.get_Character().settings.inventoryMinimized;
     }
-    
+
     get_ActivitiesMinimized() {
-       return this.characterService.get_Character().settings.activitiesMinimized;
+        return this.characterService.get_Character().settings.activitiesMinimized;
     }
-    
+
     get_SpellbookMinimized() {
-       return this.characterService.get_Character().settings.spellbookMinimized;
+        return this.characterService.get_Character().settings.spellbookMinimized;
     }
 
     get_TimeMinimized() {
-       return this.characterService.get_Character().settings.timeMinimized;
+        return this.characterService.get_Character().settings.timeMinimized;
     }
 
     get_ClassOrder(fightingStyle: string) {
@@ -100,23 +197,23 @@ export class CharacterSheetComponent implements OnInit {
             }
         }
     }
-    
+
     finish_Loading() {
         if (this.characterService.still_loading()) {
             setTimeout(() => this.finish_Loading(), 500)
         } else {
             this.characterService.get_Changed()
-            .subscribe((target) => {
-                if (["character-sheet", "all", "Character"].includes(target)) {
-                    this.changeDetector.detectChanges();
-                }
-            });
+                .subscribe((target) => {
+                    if (["character-sheet", "all", "Character"].includes(target)) {
+                        this.changeDetector.detectChanges();
+                    }
+                });
             this.characterService.get_ViewChanged()
-            .subscribe((view) => {
-                if (view.creature == "Character" && ["character-sheet", "all"].includes(view.target)) {
-                    this.changeDetector.detectChanges();
-                }
-            });
+                .subscribe((view) => {
+                    if (view.creature == "Character" && ["character-sheet", "all"].includes(view.target)) {
+                        this.changeDetector.detectChanges();
+                    }
+                });
             return true;
         }
     }

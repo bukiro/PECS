@@ -67,32 +67,15 @@ export class TopBarComponent implements OnInit {
         this.characterService.set_Changed();
     }
 
-    get_CharacterMinimized() {
-        return this.characterService.get_Character().settings.characterMinimized;
-    }
-
-    get_CompanionMinimized() {
-        return this.characterService.get_Character().settings.companionMinimized;
-    }
-
-    get_FamiliarMinimized() {
-        return this.characterService.get_Character().settings.familiarMinimized;
-    }
-
-    get_SpellsMinimized() {
-        return this.characterService.get_Character().settings.spellsMinimized;
-    }
-
-    get_SpellLibraryMinimized() {
-        return this.characterService.get_Character().settings.spelllibraryMinimized;
-    }
-    
     get_Darkmode() {
         return this.characterService.get_Darkmode();
     }
    
     toggle_Menu(menu: string) {
         this.characterService.toggle_Menu(menu);
+        this.characterService.set_ToChange("Character", "items");
+        this.characterService.set_ToChange("Character", "character-sheet");
+        this.characterService.process_ToChange();
     }
 
     get_ItemsMenuState() {

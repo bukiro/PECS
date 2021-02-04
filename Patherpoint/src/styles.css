@@ -165,6 +165,7 @@ router-outlet+* {
 
 app-character-sheet {
     width: 100%;
+    position: relative;
 }
 
 #levelBox {
@@ -578,14 +579,36 @@ button:not([disabled]):active:before {
     padding: 4px 16px;
 }
 
-.itemBox {
-    width: 900px;
+app-animal-companion, app-character, app-conditions, app-crafting, app-familiar, app-items, app-spellLibrary, app-spells {
+    position:absolute;
+    left:0;
+    top:0;
+    right:auto;
+    bottom:0;
+    z-index:999;
     overflow-y: hidden;
+    width: 100%;
+    max-width: 900px;
+}
+
+app-dice {
+    position:absolute;
+    top:0;
+    left:30%;
+    right:30%;
+    bottom:auto;
+    z-index:999;
+    overflow-x: hidden;
+}
+
+.itemBox {
+    height:100%;
+    overflow-y: auto;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: flex-start;
     padding: 16px 32px;
-    margin: 8px;
+    margin: 0;
     border-radius: 2px;
     background-color: white;
 }
@@ -906,10 +929,10 @@ strong {
     padding: 0px;
     margin-top: -.1em;
     margin-bottom: -.1em;
+    -webkit-animation: turnaltrclr 2s infinite;
     animation: turnaltrclr 2s infinite;
     animation-name: turnaltrclr;
     animation-duration: 2s;
-    -webkit-animation: turnaltrclr 2s infinite;
 }
 
 .absolute,
@@ -1188,10 +1211,10 @@ select option {
     font-size: 1.5em;
     color: #616161;
     color: var(--textcolor);
+    -webkit-animation: altrclr 2s infinite;
     animation: altrclr 2s infinite;
     animation-name: altrclr;
     animation-duration: 2s;
-    -webkit-animation: altrclr 2s infinite;
 }
 
 .button.loading {

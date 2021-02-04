@@ -110,6 +110,7 @@ The very latest in Assistive Technologies for Dungeon Master (ATDM)
 - [ ] Stretch Goal: Include optional systems like Stamina & Resolve
 
 Active to-do:
+Bug: When dropping sorcerer bloodline gained through sorcerer dedication, you also lose the spell slots from the spellcasting feats, but not the feats. After adding the bloodline, the spells remain lost until you deselect and select the spellcasting feats.
 
 Implement:
 
