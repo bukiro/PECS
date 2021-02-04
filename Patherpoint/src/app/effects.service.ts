@@ -161,20 +161,49 @@ export class EffectsService {
                     //If we have any bonuses for this type, figure out which one is the largest and only get that one.
                     // Multiple effects might have the same value, but it doesn't matter so long as one of them applies.
                     //We have to make sure there are applicable effects, because reduce doesn't like empty arrays.
-                    if (absolutes && bonusEffects.find(effect => effect.setValue)) {
+                    if (absolutes && bonusEffects.some(effect => effect.setValue)) {
                         returnedEffects.push(bonusEffects.reduce((prev, current) => (parseInt(prev.setValue) > parseInt(current.setValue) ? prev : current)));
-                    } else if (bonusEffects.find(effect => effect.value)) {
-                        returnedEffects.push(bonusEffects.reduce((prev, current) => (parseInt(prev.value) > parseInt(current.value) ? prev : current)));
+                    } else if (bonusEffects.some(effect => effect.value)) {
+                        //If any effects are cumulative, and any effect exists whose source appears in the cumulative list, we build groups.
+                        // Every effect is grouped with all effects that includes its source in their cumulative list.
+                        // Then we add all those groups up and keep the effects from the one with the highest sum.
+                        if (bonusEffects.some(effect => effect.cumulative.length) && bonusEffects.some(effect => bonusEffects.some(otherEffect => otherEffect.cumulative.includes(effect.source)))) {
+                            let effectGroups: Effect[][] = [];
+                            bonusEffects.forEach(effect => {
+                                effectGroups.push([effect].concat(bonusEffects.filter(otherEffect => otherEffect !== effect && otherEffect.cumulative.includes(effect.source))))
+                            })
+                            function groupSum(effectGroup: Effect[]) {
+                                return effectGroup.reduce((prev, current) => prev + parseInt(current.value), 0)
+                            }
+                            if (effectGroups.length) {
+                                returnedEffects.push(...effectGroups.reduce((prev, current) => (groupSum(prev) > groupSum(current) ? prev : current)));
+                            }
+                        } else {
+                            returnedEffects.push(bonusEffects.reduce((prev, current) => (parseInt(prev.value) > parseInt(current.value) ? prev : current)));
+                        }
                     }
                 }
                 let penaltyEffects: Effect[] = filteredEffects.filter(effect => effect.type == type && effect.penalty == true);
                 if (penaltyEffects.length > 0) {
                     //If we have any PENALTIES for this type, we proceed as with bonuses,
                     // only we pick the lowest number (that is, the worst penalty).
-                    if (absolutes && penaltyEffects.find(effect => effect.setValue)) {
+                    if (absolutes && penaltyEffects.some(effect => effect.setValue)) {
                         returnedEffects.push(penaltyEffects.reduce((prev, current) => (parseInt(prev.setValue) < parseInt(current.setValue) ? prev : current)));
-                    } else if (penaltyEffects.find(effect => effect.value)) {
-                        returnedEffects.push(penaltyEffects.reduce((prev, current) => (parseInt(prev.value) < parseInt(current.value) ? prev : current)));
+                    } else if (penaltyEffects.some(effect => effect.value)) {
+                        if (penaltyEffects.some(effect => effect.cumulative.length) && penaltyEffects.some(effect => penaltyEffects.some(otherEffect => otherEffect.cumulative.includes(effect.source)))) {
+                            let effectGroups: Effect[][] = [];
+                            penaltyEffects.forEach(effect => {
+                                effectGroups.push([effect].concat(penaltyEffects.filter(otherEffect => otherEffect !== effect && otherEffect.cumulative.includes(effect.source))))
+                            })
+                            function groupSum(effectGroup: Effect[]) {
+                                return effectGroup.reduce((prev, current) => prev + parseInt(current.value), 0)
+                            }
+                            if (effectGroups.length) {
+                                returnedEffects.push(...effectGroups.reduce((prev, current) => (groupSum(prev) < groupSum(current) ? prev : current)));
+                            }
+                        } else {
+                            returnedEffects.push(penaltyEffects.reduce((prev, current) => (parseInt(prev.value) < parseInt(current.value) ? prev : current)));
+                        }
                     }
                 }
             }
@@ -399,7 +428,7 @@ export class EffectsService {
             }
             //Effects that have neither a value nor a toggle get ignored.
             if (toggle || setValue || parseInt(value) != 0) {
-                objectEffects.push(new Effect(target, type, affected, value, setValue, toggle, name, penalty, undefined, hide, effect.duration));
+                objectEffects.push(new Effect(target, type, affected, value, setValue, toggle, name, penalty, undefined, hide, effect.duration, effect.cumulative));
             }
         });
         return objectEffects;
