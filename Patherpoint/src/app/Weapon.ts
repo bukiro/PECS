@@ -121,31 +121,38 @@ export class Weapon extends Equipment {
                 }
             }
         }
-        //Find and apply effects that give this weapon reach.
-        let effectsService = characterService.effectsService;
-        let reach = parseInt(traits.find(trait => trait.includes("Reach"))?.split(" ")[1]) || 5;
-        let newReach = reach;
-        effectsService.get_AbsolutesOnThese(creature, ["Reach", this.name + " Reach", this.weaponBase + " Reach"])
-            .forEach(effect => {
-                newReach = parseInt(effect.setValue);
-            })
-        effectsService.get_RelativesOnThese(creature, ["Reach", this.name + " Reach", this.weaponBase + " Reach"])
-            .forEach(effect => {
-                newReach += parseInt(effect.value);
-            })
-        if (newReach != reach) {
-            if (newReach == 5 || newReach == 0) {
-                traits = traits.filter(trait => !trait.includes("Reach"));
-            } else {
-                let reachString: string = traits.find(trait => trait.includes("Reach"));
-                if (reachString) {
-                    traits[traits.indexOf(reachString)] = "Reach " + newReach + " feet";
+        if (this.melee) {
+            //Find and apply effects that give this weapon reach.
+            let effectsService = characterService.effectsService;
+            let reach = parseInt(traits.find(trait => trait.includes("Reach"))?.split(" ")[1]) || 5;
+            let newReach = reach;
+            let list = [
+                "Reach",
+                this.name + " Reach",
+                this.weaponBase + " Reach",
+            ]
+            effectsService.get_AbsolutesOnThese(creature, list)
+                .forEach(effect => {
+                    newReach = parseInt(effect.setValue);
+                })
+            effectsService.get_RelativesOnThese(creature, list)
+                .forEach(effect => {
+                    newReach += parseInt(effect.value);
+                })
+            if (newReach != reach) {
+                if (newReach == 5 || newReach == 0) {
+                    traits = traits.filter(trait => !trait.includes("Reach"));
                 } else {
-                    traits.push("Reach " + newReach + " feet");
+                    let reachString: string = traits.find(trait => trait.includes("Reach"));
+                    if (reachString) {
+                        traits[traits.indexOf(reachString)] = "Reach " + newReach + " feet";
+                    } else {
+                        traits.push("Reach " + newReach + " feet");
+                    }
                 }
             }
+            return traits;
         }
-        return traits;
     }
     get_Proficiency(creature: Character | AnimalCompanion, characterService: CharacterService, charLevel: number = characterService.get_Character().level) {
         let proficiency = this.prof;

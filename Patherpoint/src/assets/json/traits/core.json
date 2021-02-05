@@ -691,7 +691,8 @@
     "desc": "Abilities with this trait are from the monk class. A weapon with this trait is primarily used by monks."
   },
   {
-    "name": "Morph"
+    "name": "Morph",
+    "desc": "Effects that slightly alter a creature's form have the morph trait. Any Strikes specifically granted by a morph effect are magical. You can be affected by multiple morph spells at once, but if you morph the same body part more than once, the second morph effect attempts to counteract the first (in the same manner as two polymorph effects, described in that trait).\n\nYour morph effects might also end if you are polymorphed and the polymorph effect invalidates or overrides your morph effect. The GM determines which morph effects can be used together and which can't."
   },
   {
     "name": "Mount",

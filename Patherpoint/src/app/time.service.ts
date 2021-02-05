@@ -184,6 +184,8 @@ export class TimeService {
             return inASentence ? "until the next time you make your daily preparations" : "Until the next time you make your daily preparations";
         } else if (duration == -1) {
             return inASentence ? "permanently" : "Permanent";
+        } else if (duration == 1) {
+            return inASentence ? "instantly" : "Instant effect";
         } else {
             let returnString: string = ""
             if (duration == this.get_YourTurn()) {

@@ -167,6 +167,7 @@
             "Transmutation"
         ],
         "target": "self",
+        "sustained": 1,
         "desc": "You focus your ki into magical attacks. Make an unarmed Strike or Flurry of Blows (this doesn't change the limit on using only one flourish per turn). You gain a +1 status bonus to your attack rolls with the Strikes, and the Strikes deal <var>var1</var> extra damage. This damage can be any of the following types of your choice, chosen each time you Strike: force, lawful (only if you're lawful), negative, or positive.",
         "heightened": [
             {
@@ -176,7 +177,7 @@
         ],
         "gainConditions": [
             {
-                "duration": 5,
+                "duration": 1,
                 "name": "Ki Strike",
                 "source": "Ki Strike"
             }
@@ -416,6 +417,7 @@
         "targets": "1 living creature",
         "target": "ally",
         "singleTarget": true,
+        "sustained": 15,
         "duration": "until the end of the target's next turn",
         "desc": "You temporarily improve the target's physique. The target gains a +2 status bonus to the next Acrobatics check, Athletics check, Fortitude save, or Reflex save it attempts.",
         "gainConditions": [
@@ -4320,6 +4322,22 @@
             {
                 "desc": "The duration lasts until the next time you make your daily preparations, and you can target up to 10 creatures.",
                 "level": "(8th)"
+            }
+        ],
+        "gainConditions": [
+            {
+                "duration": 6000,
+                "heightenedFilter": 1,
+                "name": "Charm (Caster)",
+                "source": "Charm",
+                "targetFilter": "caster"
+            },
+            {
+                "duration": -2,
+                "heightenedFilter": 4,
+                "name": "Charm (Caster)",
+                "source": "Charm",
+                "targetFilter": "caster"
             }
         ],
         "desc1": [

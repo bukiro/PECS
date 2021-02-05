@@ -20,6 +20,8 @@ export class ConditionGain {
     public notes: string = "";
     public source: string = "";
     public value: number = 0;
+    //Remove this condition if any of the neededConditions are currently active.
+    public neededConditions: string[] = [];
     //Only activate this condition if this string evaluates to a numeral nonzero value. This is tested at the add_condition stage, so it can be combined with conditionChoiceFilter.
     public activationPrerequisite: string = "";
     //For conditions within conditions, activate this dependent on the original condition's choice.

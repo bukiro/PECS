@@ -11,7 +11,9 @@ export class Activity {
     public activationType: string = "";
     public castSpells: SpellCast[] = [];
     public cooldown: number = 0;
-    //If cooldownAfterEnd is set, the cooldown starts only after the active duration is finished.
+    //For Conditions that are toggled, if cooldownAfterEnd is set, the cooldown starts only after the active duration is finished.
+    // This is relevant for activities that cannot be used for X time after finishing.
+    // All others start ticking down their cooldown as soon as they start.
     public cooldownAfterEnd: boolean = false;
     public cost: string = "";
     public maxDuration: number = 0;

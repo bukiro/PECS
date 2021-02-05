@@ -3547,6 +3547,8 @@
         "name": "Saoc Astrology",
         "actions": "1A",
         "frequency": "3 times per day",
+        "toggle": true,
+        "maxDuration": 1,
         "cooldown": 144000,
         "charges": 3,
         "requirements": "You must spend 10 minutes just after your daily preparations examining the sky or consulting a star chart or you can't use this action that day.",
@@ -3555,7 +3557,7 @@
             {
                 "name": "Saoc Astrology",
                 "source": "Saoc Astrology",
-                "duration": 5
+                "duration": 1
             }
         ],
         "traits": [
@@ -3581,13 +3583,15 @@
         "actions": "Free",
         "frequency": "once per day",
         "cooldown": 144000,
+        "toggle": true,
+        "maxDuration": 1,
         "desc": "A stroke of brilliance gives you a major advantage with a skill despite your inexperience. Gain a +4 circumstance bonus to the triggering skill check.",
         "trigger": "You attempt a check using a skill you're untrained in.",
         "gainConditions": [
             {
                 "name": "Incredible Improvisation",
                 "source": "Incredible Improvisation",
-                "duration": 5
+                "duration": 1
             }
         ],
         "traits": [
@@ -3620,11 +3624,13 @@
         "actions": "Reaction",
         "trigger": "You attempt a saving throw against a spell or magical effect, before rolling.",
         "desc": "You defend yourself against magic by relying on techniques derived from orc cultural superstitions. You gain a +1 circumstance bonus to your saving throw against the triggering spell or magical effect.",
+        "toggle": true,
+        "maxDuration": 1,
         "gainConditions": [
             {
                 "name": "Orc Superstition",
                 "source": "Orc Superstition",
-                "duration": 5
+                "duration": 1
             }
         ],
         "traits": [
@@ -3695,11 +3701,13 @@
         "actions": "Reaction",
         "trigger": "You attempt an attack roll, skill check, or saving throw while performing the course of action from your augury, but you haven't rolled yet.",
         "desc": "You gain a +1 status bonus to the triggering check, or a +2 status bonus if the result of the augury was \"woe\" and you proceeded anyway.",
+        "toggle": true,
+        "maxDuration": 1,
         "gainConditions": [
             {
                 "name": "Call Upon the Brightness",
                 "source": "Call Upon the Brightness",
-                "duration": 5
+                "duration": 1
             }
         ],
         "traits": [

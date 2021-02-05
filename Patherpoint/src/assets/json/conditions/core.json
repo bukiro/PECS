@@ -1265,7 +1265,7 @@
             },
             {
                 "affected": "Physical Weapon Damage Resistance",
-                "value": "Has_Feat(Creature.type, 'Fury Instinct Resistance') ? 3 + Modifier('Constitution') : 0"
+                "value": "Has_Feat(Creature.type, 'Fury Instinct Resistance') ? (Has_Feat(Creature.type, 'Invulnerable Juggernaut') ? 8 : 3) + Modifier('Constitution') : 0"
             },
             {
                 "affected": "Land Speed",
@@ -1419,7 +1419,14 @@
             {
                 "activationPrerequisite": "Has_Feat(Creature.type, 'Raging Athlete') ? 1 : 0",
                 "name": "Raging Athlete"
+            },
+            {
+                "activationPrerequisite": "Has_Feat(Creature.type, 'Furious Bully') ? 1 : 0",
+                "name": "Furious Bully"
             }
+        ],
+        "overrideConditions": [
+            "Fatigued"
         ]
     },
     {
@@ -1442,11 +1449,11 @@
         "effects": [
             {
                 "affected": "Piercing Damage Resistance",
-                "value": "Has_Feat(Creature.type, 'Animal Instinct Resistance') ? 3 + Modifier('Constitution') : 0"
+                "value": "Has_Feat(Creature.type, 'Animal Instinct Resistance') ? (Has_Feat(Creature.type, 'Invulnerable Juggernaut') ? 8 : 3) + Modifier('Constitution') : 0"
             },
             {
                 "affected": "Slashing Damage Resistance",
-                "value": "Has_Feat(Creature.type, 'Animal Instinct Resistance') ? 3 + Modifier('Constitution') : 0"
+                "value": "Has_Feat(Creature.type, 'Animal Instinct Resistance') ? (Has_Feat(Creature.type, 'Invulnerable Juggernaut') ? 8 : 3) + Modifier('Constitution') : 0"
             },
             {
                 "affected": "Bestial Rage Attacks Dice Size",
@@ -1678,27 +1685,27 @@
             },
             {
                 "affected": "Piercing Resistance",
-                "value": "Has_Feat(Creature.type, 'Dragon Instinct Resistance') ? 3 + Modifier('Constitution') : 0"
+                "value": "Has_Feat(Creature.type, 'Dragon Instinct Resistance') ? (Has_Feat(Creature.type, 'Invulnerable Juggernaut') ? 8 : 3) + Modifier('Constitution') : 0"
             },
             {
                 "affected": "Acid Resistance",
-                "value": "['Black','Copper'].includes(Choice) && Has_Feat(Creature.type, 'Dragon Instinct Resistance') ? 3 + Modifier('Constitution') : 0"
+                "value": "['Black','Copper'].includes(Choice) && Has_Feat(Creature.type, 'Dragon Instinct Resistance') ? (Has_Feat(Creature.type, 'Invulnerable Juggernaut') ? 8 : 3) + Modifier('Constitution') : 0"
             },
             {
                 "affected": "Electricity Resistance",
-                "value": "['Blue','Bronze'].includes(Choice) && Has_Feat(Creature.type, 'Dragon Instinct Resistance') ? 3 + Modifier('Constitution') : 0"
+                "value": "['Blue','Bronze'].includes(Choice) && Has_Feat(Creature.type, 'Dragon Instinct Resistance') ? (Has_Feat(Creature.type, 'Invulnerable Juggernaut') ? 8 : 3) + Modifier('Constitution') : 0"
             },
             {
                 "affected": "Poison Resistance",
-                "value": "Choice == 'Green' && Has_Feat(Creature.type, 'Dragon Instinct Resistance') ? 3 + Modifier('Constitution') : 0"
+                "value": "Choice == 'Green' && Has_Feat(Creature.type, 'Dragon Instinct Resistance') ? (Has_Feat(Creature.type, 'Invulnerable Juggernaut') ? 8 : 3) + Modifier('Constitution') : 0"
             },
             {
                 "affected": "Fire Resistance",
-                "value": "['Red','Brass','Gold'].includes(Choice) && Has_Feat(Creature.type, 'Dragon Instinct Resistance') ? 3 + Modifier('Constitution') : 0"
+                "value": "['Red','Brass','Gold'].includes(Choice) && Has_Feat(Creature.type, 'Dragon Instinct Resistance') ? (Has_Feat(Creature.type, 'Invulnerable Juggernaut') ? 8 : 3) + Modifier('Constitution') : 0"
             },
             {
                 "affected": "Cold Resistance",
-                "value": "['White','Silver'].includes(Choice) && Has_Feat(Creature.type, 'Dragon Instinct Resistance') ? 3 + Modifier('Constitution') : 0"
+                "value": "['White','Silver'].includes(Choice) && Has_Feat(Creature.type, 'Dragon Instinct Resistance') ? (Has_Feat(Creature.type, 'Invulnerable Juggernaut') ? 8 : 3) + Modifier('Constitution') : 0"
             }
         ]
     },
@@ -1726,19 +1733,19 @@
             },
             {
                 "affected": "Bludgeoning Resistance",
-                "value": "((Has_Feat(Creature.type, 'Giant Instinct Resistance: Cold') || Has_Feat(Creature.type, 'Giant Instinct Resistance: Electricity') || Has_Feat(Creature.type, 'Giant Instinct Resistance: Fire')) ? 3 + Modifier('Constitution') : 0)"
+                "value": "((Has_Feat(Creature.type, 'Giant Instinct Resistance: Cold') || Has_Feat(Creature.type, 'Giant Instinct Resistance: Electricity') || Has_Feat(Creature.type, 'Giant Instinct Resistance: Fire')) ? (Has_Feat(Creature.type, 'Invulnerable Juggernaut') ? 8 : 3) + Modifier('Constitution') : 0)"
             },
             {
                 "affected": "Cold Resistance",
-                "value": "(Has_Feat(Creature.type, 'Giant Instinct Resistance: Cold') ? 3 + Modifier('Constitution') : 0)"
+                "value": "(Has_Feat(Creature.type, 'Giant Instinct Resistance: Cold') ? (Has_Feat(Creature.type, 'Invulnerable Juggernaut') ? 8 : 3) + Modifier('Constitution') : 0)"
             },
             {
                 "affected": "Electricity Resistance",
-                "value": "(Has_Feat(Creature.type, 'Giant Instinct Resistance: Electricity') ? 3 + Modifier('Constitution') : 0)"
+                "value": "(Has_Feat(Creature.type, 'Giant Instinct Resistance: Electricity') ? (Has_Feat(Creature.type, 'Invulnerable Juggernaut') ? 8 : 3) + Modifier('Constitution') : 0)"
             },
             {
                 "affected": "Fire Resistance",
-                "value": "(Has_Feat(Creature.type, 'Giant Instinct Resistance: Fire') ? 3 + Modifier('Constitution') : 0)"
+                "value": "(Has_Feat(Creature.type, 'Giant Instinct Resistance: Fire') ? (Has_Feat(Creature.type, 'Invulnerable Juggernaut') ? 8 : 3) + Modifier('Constitution') : 0)"
             }
         ]
     },
@@ -1777,11 +1784,11 @@
             },
             {
                 "affected": "Negative Damage Resistance",
-                "value": "Has_Feat(Creature.type, 'Spirit Instinct Resistance') ? 3 + Modifier('Constitution') : 0"
+                "value": "Has_Feat(Creature.type, 'Spirit Instinct Resistance') ? (Has_Feat(Creature.type, 'Invulnerable Juggernaut') ? 8 : 3) + Modifier('Constitution') : 0"
             },
             {
                 "affected": "Undead Creature Damage Resistance",
-                "value": "Has_Feat(Creature.type, 'Spirit Instinct Resistance') ? 3 + Modifier('Constitution') : 0"
+                "value": "Has_Feat(Creature.type, 'Spirit Instinct Resistance') ? (Has_Feat(Creature.type, 'Invulnerable Juggernaut') ? 8 : 3) + Modifier('Constitution') : 0"
             }
         ]
     },
@@ -1912,7 +1919,7 @@
         "name": "Guidance",
         "desc": "Divine guidance is granting you a +1 status bonus to one attack roll, Perception check, saving throw, or skill check you attempt before the duration ends. You choose which roll to use the bonus on before rolling. If you use the bonus, the spell ends.",
         "type": "spells",
-        "inputRequired": "After you use the bonus, remove the condition.",
+        "inputRequired": "Remove the condition after you use the bonus.",
         "buff": true,
         "hints": [
             {
@@ -3099,7 +3106,7 @@
         "name": "Physical Boost",
         "desc": "Your physique is temporarily improved. You gain a +2 status bonus to the next Acrobatics check, Athletics check, Fortitude save, or Reflex save you attempt.",
         "type": "spells",
-        "inputRequired": "After you apply the bonus to a check, remove the condition.",
+        "inputRequired": "Remove the condition after you apply the bonus to a check or save.",
         "buff": true,
         "choice": "Acrobatics",
         "choices": [
@@ -9282,7 +9289,6 @@
         "name": "Cup of Dust (Caster)",
         "desc": "You have cursed the target with a thirst no drink can quench, with effects based on its Fortitude save. You can Dismiss the spell.",
         "type": "spells",
-        "inputRequired": "This condition is only to remind you that you can dismiss the spell. You can remove the condition when this information is no longer needed.",
         "buff": true
     },
     {
@@ -12041,7 +12047,6 @@
         "name": "Divine Wrath (Critical Failure)",
         "desc": "You are suffering the fury of a deity opposed to your alignment. You are sickened 2, and while you are sickened, you are also slowed 1.",
         "type": "spells",
-        "inputRequired": "Remove this condition when you are no longer sickened.",
         "gainConditions": [
             {
                 "name": "Sickened",
@@ -12051,6 +12056,9 @@
                 "name": "Slowed",
                 "value": 1
             }
+        ],
+        "neededConditions": [
+            "Sickened"
         ]
     },
     {
@@ -12205,7 +12213,6 @@
         "name": "Nightmare (Critical Failure)",
         "desc": "You have experienced disturbing nightmares and awakened fatigued. You are drained 2 until you are no longer fatigued.",
         "type": "spells",
-        "inputRequired": "Remove the condition when you are no longer fatigued.",
         "gainConditions": [
             {
                 "name": "Fatigued"
@@ -12214,6 +12221,9 @@
                 "name": "Drained",
                 "value": 2
             }
+        ],
+        "neededConditions": [
+            "Fatigued"
         ]
     },
     {
@@ -12719,7 +12729,6 @@
         "name": "Saoc Astrology",
         "desc": "You recall the stars' predictions about your current situation. You gain a circumstance bonus or take a circumstance penalty to the first skill check of your next action based on a 1d8 roll. On a result of 6, 7, or 8, you gain a +2 circumstance bonus. On a 3, 4, or 5, you gain a +1 circumstance bonus. On a 2, you gain nothing. On a 1, you take a -1 circumstance penalty to the skill check.",
         "type": "activities",
-        "inputRequired": "After you apply the bonus to a skill check, remove the condition.",
         "buff": true,
         "choice": "no effect",
         "choices": [
@@ -12775,7 +12784,6 @@
         "name": "Incredible Improvisation",
         "desc": "A stroke of brilliance gives you a major advantage with a skill despite your inexperience. Gain a +4 circumstance bonus to the triggering skill check.",
         "type": "activities",
-        "inputRequired": "After you apply the bonus to a skill check, remove the condition.",
         "buff": true,
         "effects": [
             {
@@ -12788,7 +12796,7 @@
     {
         "name": "Athletic Rush",
         "desc": "Your body fills with physical power and skill. You gain a +10-foot status bonus to Speed and a +2 status bonus to Athletics checks. As a part of Casting this Spell, you can use a Stride, Leap, Climb, or Swim action. The spell's bonuses apply during that action.",
-        "type": "spell",
+        "type": "spells",
         "buff": true,
         "effects": [
             {
@@ -12825,7 +12833,6 @@
         "name": "Orc Superstition",
         "desc": "You defend yourself against magic by relying on techniques derived from orc cultural superstitions. You gain a +1 circumstance bonus to your saving throw against the triggering spell or magical effect.",
         "type": "activities",
-        "inputRequired": "After you apply the bonus to the triggering saving throw, remove the condition.",
         "buff": true,
         "effects": [
             {
@@ -12838,8 +12845,7 @@
     {
         "name": "Ki Strike",
         "desc": "You focus your ki into magical attacks. You make an unarmed Strike or Flurry of Blows and gain a +1 status bonus to your attack rolls with these Strikes, and the Strikes deal extra damage equal to 1d6 plus 1d6 for every fourth spell level after 1st. This damage can be any of the following types of your choice, chosen each time you Strike: force, lawful (only if you're lawful), negative, or positive.",
-        "type": "activities",
-        "inputRequired": "After you apply the bonus to the strikes, remove the condition.",
+        "type": "spells",
         "buff": true,
         "effects": [
             {
@@ -12885,7 +12891,7 @@
         "name": "Call Upon the Brightness",
         "desc": "You attempt an attack roll, skill check, or saving throw while performing the course of action from your augury. You gain a +1 status bonus to the triggering check, or a +2 status bonus if the result of the augury was \"woe\" and you proceeded anyway.",
         "type": "activities",
-        "inputRequired": "After you apply the bonus to the triggering attack roll, skill check, or saving throw, remove the condition.",
+        "inputRequired": "Remove the condition after you apply the bonus to the triggering attack roll, skill check, or saving throw.",
         "choice": "Other",
         "choices": [
             "Other",
@@ -13286,5 +13292,77 @@
                 "showon": "Athletics"
             }
         ]
+    },
+    {
+        "name": "Furious Bully",
+        "desc": "You bully foes across the battlefield. While raging, you gain a +2 circumstance bonus to Athletics checks for attack actions.",
+        "hide": true,
+        "type": "feats",
+        "hints": [
+            {
+                "desc": "While raging, you gain a +2 circumstance bonus to Athletics checks for attack actions.",
+                "showon": "Athletics",
+                "effects": [
+                    {
+                        "affected": "Athletics",
+                        "value": "2",
+                        "type": "circumstance"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name":"Charm (Caster)",
+        "desc": "To the target, your words are honey and your visage seems bathed in a dreamy haze. It must attempt a Will save, with a +4 circumstance bonus if you or your allies recently threatened it or used hostile actions against it.\n\n<strong>Critical success</strong> The target is unaffected and aware you tried to charm it.\n<strong>Success</strong> The target is unaffected but thinks your spell was something harmless instead of charm, unless it identifies the spell (see Identifying Magic).\n<strong>Failure</strong> The target's attitude becomes friendly toward you. If it was friendly, it becomes helpful. It can't use hostile actions against you.\n<strong>Critical failure</strong> The target's attitude becomes helpful toward you, and it can't use hostile actions against you.\n\nYou can Dismiss the spell. If you use hostile actions against the target, the spell ends. When the spell ends, the target doesn't necessarily realize it was charmed unless its friendship with you or the actions you convinced it to take clash with its expectations, meaning you could potentially convince the target to continue being your friend via mundane means.",
+        "type": "spells",
+        "buff": true,
+        "choice": "Failure",
+        "choices": [
+            "Success or critical success",
+            "Failure",
+            "Critical failure"
+        ]
+    },
+    {
+        "name":"Charm (Failure)",
+        "desc": "The caster's words are honey to you, and their visage seems bathed in a dreamy haze. Your attitude becomes friendly toward the caster. If you were friendly, you become helpful. You can't use hostile actions against the caster.",
+        "type": "spells"
+    },
+    {
+        "name":"Charm (Critical failure)",
+        "desc": "The caster's words are honey to you, and their visage seems bathed in a dreamy haze. Your attitude becomes helpful toward the caster, and you can't use hostile actions against them.",
+        "type": "spells"
+    },
+    {
+        "name":"Giant's Stature",
+        "desc": "You grow to incredible size. You become Large, increasing your reach by 5 feet and gaining the clumsy 1 condition until you stop raging. Your equipment grows with you.",
+        "type": "activities",
+        "buff": "true",
+        "effects": [
+            {
+                "affected": "Size",
+                "setValue": "1"
+            },
+            {
+                "affected": "Reach",
+                "value": "5"
+            }
+        ],
+        "gainConditions": [
+            {
+                "name": "Clumsy",
+                "value": 1
+            }
+        ],
+        "neededConditions": [
+            "Rage"
+        ]
+    },
+    {
+        "name":"Terrifying Howl Immunity",
+        "desc": "You cannot be demoralized by Terrifying Howl for the duration.",
+        "type": "activities",
+        "buff": true
     }
 ]

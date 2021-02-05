@@ -3,17 +3,14 @@ import { Condition } from './Condition';
 import { ConditionGain } from './ConditionGain';
 import { CharacterService } from './character.service';
 import { EffectsService } from './effects.service';
-import { SortByPipe } from './sortBy.pipe';
 import { Character } from './Character';
 import { AnimalCompanion } from './AnimalCompanion';
-import { Familiar } from './Familiar';
 import { ActivityGain } from './ActivityGain';
 import { ItemGain } from './ItemGain';
 import { Item } from './Item';
 import { ItemsService } from './items.service';
 import { Equipment } from './Equipment';
 import { EffectGain } from './EffectGain';
-import { Hint } from './Hint';
 import * as json_conditions from '../assets/json/conditions';
 import { Creature } from './Creature';
 
@@ -26,9 +23,7 @@ export class ConditionsService {
     private loading: boolean = false;
     private appliedConditions: ConditionGain[][] = [[], [], []];
 
-    constructor(
-        private sortByPipe: SortByPipe
-    ) { }
+    constructor() { }
 
     get_Conditions(name: string = "", type: string = "") {
         if (!this.still_loading()) {
@@ -56,7 +51,24 @@ export class ConditionsService {
         let creatureIndex: number = this.get_CalculatedIndex(creature.type);
         //Readonly skips any modifications and just returns the currently applied conditions. The same happens if the conditions haven't changed since the last run.
         if (readonly || JSON.stringify(activeConditions) == JSON.stringify(this.appliedConditions[creatureIndex])) {
-            return this.sortByPipe.transform(activeConditions, "asc", "duration") as ConditionGain[];
+            return activeConditions
+                .sort((a, b) => {
+                    if (a.name > b.name) {
+                        return 1;
+                    }
+                    if (a.name < b.name) {
+                        return -1;
+                    }
+                    return 0;
+                }).sort((a, b) => {
+                    if (a.duration > b.duration) {
+                        return 1;
+                    }
+                    if (a.duration < b.duration) {
+                        return -1;
+                    }
+                    return 0;
+                })
         } else {
             let overrides: string[] = [];
             activeConditions.forEach(gain => {
@@ -111,7 +123,25 @@ export class ConditionsService {
             }
             this.appliedConditions[creatureIndex] = [];
             this.appliedConditions[creatureIndex] = activeConditions.map(gain => Object.assign(new ConditionGain(), gain));
-            return this.sortByPipe.transform(this.sortByPipe.transform(activeConditions, "asc", "name"), "asc", "duration") as ConditionGain[];
+            return activeConditions
+                .sort((a, b) => {
+                    if (a.name > b.name) {
+                        return 1;
+                    }
+                    if (a.name < b.name) {
+                        return -1;
+                    }
+                    return 0;
+                }).sort((a, b) => {
+                    if (a.duration > b.duration) {
+                        return 1;
+                    }
+                    if (a.duration < b.duration) {
+                        return -1;
+                    }
+                    return 0;
+                })
+
         }
     }
 
@@ -129,6 +159,10 @@ export class ConditionsService {
         gain.gainActivities = condition.gainActivities.map(activityGain => Object.assign(new ActivityGain(), JSON.parse(JSON.stringify(activityGain))));
 
         gain.onset = condition.onset;
+
+        if (!gain.neededConditions.length) {
+            gain.neededConditions = condition.neededConditions;
+        }
 
         //One time effects
         if (condition.onceEffects.length) {
@@ -173,6 +207,16 @@ export class ConditionsService {
                 addCondition.source = gain.name;
                 addCondition.apply = true;
                 characterService.add_Condition(creature, addCondition, false)
+            })
+        }
+
+        //If this ends, remove conditions that have this listed as neededConditions
+        if (!taken) {
+            let conditionsToRemove: ConditionGain[] = characterService.get_AppliedConditions(creature, "", "", true)
+                .filter(gain => gain.neededConditions.includes(condition.name))
+                .map(gain => Object.assign(new ConditionGain, JSON.parse(JSON.stringify(gain))));
+            conditionsToRemove.forEach(gain => {
+                characterService.remove_Condition(creature, gain, false, true, true);
             })
         }
 
