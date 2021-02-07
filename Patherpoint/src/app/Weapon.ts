@@ -704,14 +704,14 @@ export class Weapon extends Equipment {
         if (this.traits.includes("Agile")) {
             //"Agile Large Melee Weapon Damage"
             if (this.large) {
-                "Agile Large " + range + " Weapon Damage"
+                list.push("Agile Large " + range + " Weapon Damage")
             }
             //"Agile Melee Damage"
             list.push("Agile " + range + " Damage");
             if ((range == "ranged") && this.traits.some(trait => trait.includes("Thrown"))) {
                 //"Agile Thrown Large Weapon Damage"
                 if (this.large) {
-                    "Agile Thrown Large Weapon Damage"
+                    list.push("Agile Thrown Large Weapon Damage")
                 }
                 //"Agile Thrown Weapon Damage"
                 list.push("Agile Thrown Weapon Damage");
@@ -719,14 +719,14 @@ export class Weapon extends Equipment {
         } else {
             //"Non-Agile Large Melee Weapon Damage"
             if (this.large) {
-                "Non-Agile Large " + range + " Weapon Damage"
+                list.push("Non-Agile Large " + range + " Weapon Damage")
             }
             //"Non-Agile Melee Damage"
             list.push("Non-Agile " + range + " Damage");
             if ((range == "ranged") && this.traits.some(trait => trait.includes("Thrown"))) {
                 //"Non-Agile Thrown Large Weapon Damage"
                 if (this.large) {
-                    "Non-Agile Thrown Large Weapon Damage"
+                    list.push("Non-Agile Thrown Large Weapon Damage")
                 }
                 //"Non-Agile Thrown Weapon Damage"
                 list.push("Non-Agile Thrown Weapon Damage");
@@ -761,14 +761,14 @@ export class Weapon extends Equipment {
         if (this.traits.includes("Agile")) {
             //"Agile Large Melee Weapon Damage"
             if (this.large) {
-                "Agile Large " + range + " Weapon Damage"
+                list.push("Agile Large " + range + " Weapon Damage");
             }
             //"Agile Melee Damage"
             list.push("Agile " + range + " Damage");
         } else {
             //"Non-Agile Large Melee Weapon Damage"
             if (this.large) {
-                "Non-Agile Large " + range + " Weapon Damage"
+                list.push("Non-Agile Large " + range + " Weapon Damage");
             }
             //"Non-Agile Melee Damage"
             list.push("Non-Agile " + range + " Damage");

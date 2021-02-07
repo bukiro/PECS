@@ -622,7 +622,7 @@ export class InventoryComponent implements OnInit {
     }
 
     get_LargeWeaponAllowed(item: Item) {
-        return (this.creature == "Character" && this.get_Character().get_FeatsTaken(1, this.get_Character().level, 'Titan Mauler').length && item.type == "weapons") || this.effectsService.get_EffectsOnThis(this.get_Creature(), "Use Large Weapons").length;
+        return this.creature == "Character" && (this.get_Character().get_FeatsTaken(1, this.get_Character().level, 'Titan Mauler').length || this.effectsService.get_EffectsOnThis(this.get_Creature(), "Use Large Weapons").length) && item.type == "weapons" && ((item as Weapon).prof != "Unarmed Attacks");
     }
 
     get_BladeAllyAllowed(item: Item) {

@@ -124,3 +124,4 @@ Next steps:
 - Leshy
 - Shoony
 - Implement Conditions for Poisons
+- Maybe turn Weapon Specialization into an effect (like "Master Weapon Damage +3")
