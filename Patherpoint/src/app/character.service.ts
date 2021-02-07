@@ -1230,8 +1230,8 @@ export class CharacterService {
                 conditionGain.decreasingValue = originalCondition.decreasingValue;
                 conditionGain.notes = originalCondition.notes;
                 conditionGain.showNotes = conditionGain.notes && true;
-                //The gain may be persistent by itself, so don't overwrite it with the condition's persistence, but definitely set it if the condition is.
-                if (originalCondition.persistent) {
+                //The gain may be persistent by itself, so don't overwrite it with the condition's persistence, but definitely set it if the condition is - unless ignorePersistent is set.
+                if (originalCondition.persistent && !conditionGain.ignorePersistent) {
                     conditionGain.persistent = true;
                 }
                 if (originalCondition.choices.length && !conditionGain.choice) {
@@ -1263,19 +1263,19 @@ export class CharacterService {
         }
     }
 
-    remove_Condition(creature: Creature, conditionGain: ConditionGain, reload: boolean = true, increaseWounded: boolean = true, keepPersistent: boolean = false) {
-        //Find the correct condition to remove. This can be the exact same as the conditionGain parameter, but if it isn't, find the most similar one:
-        //- Find all conditions with similar name, value and source, then if there are more than one of those:
+    remove_Condition(creature: Creature, conditionGain: ConditionGain, reload: boolean = true, increaseWounded: boolean = true, keepPersistent: boolean = true) {
+        //Find the correct condition gain to remove. This can be the exact same as the conditionGain parameter, but if it isn't, find the most similar one:
+        //- Find all condition gains with similar name, value and source, then if there are more than one of those:
         //-- Try finding one that has the exact same attributes.
         //-- If none is found, find one that has the same duration.
         //- If none is found or the list has only one, take the first.
-        let oldConditionGain: ConditionGain = creature.conditions.find($condition => $condition === conditionGain);
+        let oldConditionGain: ConditionGain = creature.conditions.find(gain => gain === conditionGain);
         if (!oldConditionGain) {
-            let oldConditionGains: ConditionGain[] = creature.conditions.filter($condition => $condition.name == conditionGain.name && $condition.value == conditionGain.value && $condition.source == conditionGain.source);
+            let oldConditionGains: ConditionGain[] = creature.conditions.filter(gain => gain.name == conditionGain.name && gain.value == conditionGain.value && gain.source == conditionGain.source);
             if (oldConditionGains.length > 1) {
-                oldConditionGain = oldConditionGains.find($condition => JSON.stringify($condition) == JSON.stringify(conditionGain))
+                oldConditionGain = oldConditionGains.find(gain => JSON.stringify(gain) == JSON.stringify(conditionGain))
                 if (!oldConditionGain) {
-                    oldConditionGain = oldConditionGains.find($condition => $condition.duration == conditionGain.duration)
+                    oldConditionGain = oldConditionGains.find(gain => gain.duration == conditionGain.duration)
                 }
             }
             if (!oldConditionGain) {
@@ -1283,7 +1283,7 @@ export class CharacterService {
             }
         }
         let originalCondition = this.get_Conditions(conditionGain.name)[0];
-        if (oldConditionGain && !(keepPersistent && oldConditionGain.persistent)) {
+        if (oldConditionGain) {
             if (oldConditionGain.nextStage) {
                 this.set_ToChange(creature.type, "time");
                 this.set_ToChange(creature.type, "health");
@@ -1291,7 +1291,11 @@ export class CharacterService {
             originalCondition.gainConditions.filter(extraCondition => !extraCondition.conditionChoiceFilter || extraCondition.conditionChoiceFilter == oldConditionGain.choice).forEach(extraCondition => {
                 let addCondition = Object.assign(new ConditionGain, JSON.parse(JSON.stringify(extraCondition)));
                 addCondition.source = oldConditionGain.name;
-                this.remove_Condition(creature, addCondition, false, increaseWounded, keepPersistent)
+                if (!(keepPersistent && addCondition.persistent)) {
+                    this.remove_Condition(creature, addCondition, false, increaseWounded, keepPersistent);
+                } else if (addCondition.persistent) {
+                    this.remove_Persistent(creature, addCondition);
+                }
             })
             creature.conditions.splice(creature.conditions.indexOf(oldConditionGain), 1)
             this.conditionsService.process_Condition(creature, this, this.effectsService, this.itemsService, oldConditionGain, originalCondition, false, increaseWounded);
@@ -1300,7 +1304,28 @@ export class CharacterService {
                 this.process_ToChange();
             }
         }
+    }
 
+    remove_Persistent(creature: Creature, conditionGain: ConditionGain) {
+        //Find the correct condition to remove the persistent attribute:
+        //- Find all persistent condition gains with similar name, value and source, then if there are more than one of those:
+        //-- Try finding one that has the exact same attributes.
+        //-- If none is found, find one that has the same duration.
+        //- If none is found or the list has only one, take the first.
+        let oldConditionGain: ConditionGain;
+        let oldConditionGains: ConditionGain[] = creature.conditions.filter(gain => gain.name == conditionGain.name && gain.source == conditionGain.source && gain.persistent);
+        if (oldConditionGains.length > 1) {
+            oldConditionGain = oldConditionGains.find(gain => JSON.stringify(gain) == JSON.stringify(conditionGain))
+            if (!oldConditionGain) {
+                oldConditionGain = oldConditionGains.find(gain => gain.duration == conditionGain.duration)
+            }
+        }
+        if (!oldConditionGain) {
+            oldConditionGain = oldConditionGains[0]
+        }
+        if (oldConditionGain) {
+            oldConditionGain.persistent = false;
+        }
     }
 
     change_ConditionStage(creature: Creature, gain: ConditionGain, condition: Condition, change: number) {

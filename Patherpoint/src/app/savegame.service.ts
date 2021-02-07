@@ -80,7 +80,7 @@ export class SavegameService {
     private loading: boolean = false;
     private loader;
     //private server: string = "http://arne:8080"
-    private server: string = "http://glswxiogstum9cgx.myfritz.net:23480"
+    private server: string = "http://qjhkot3fbwyyxcvn.myfritz.net:23480"
 
     //All these attributes may be needed by the reassign function, so they are explicitly defined here.
     private AbilityChoice = AbilityChoice;

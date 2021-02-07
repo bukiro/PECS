@@ -1,15 +1,11 @@
 import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy, Input } from '@angular/core';
 import { CharacterService } from '../character.service';
 import { ActivitiesService } from '../activities.service';
-import { Activity } from '../Activity';
 import { ActivityGain } from '../ActivityGain';
-import { ItemsService } from '../items.service';
-import { TimeService } from '../time.service';
 import { Character } from '../Character';
 import { AnimalCompanion } from '../AnimalCompanion';
-import { SpellsService } from '../spells.service';
 import { FeatChoice } from '../FeatChoice';
-import { Level } from '../Level';
+import { ItemActivity } from '../ItemActivity';
 
 @Component({
     selector: 'app-activities',
@@ -119,9 +115,14 @@ export class ActivitiesComponent implements OnInit {
 
     get_OwnedActivities() {
         this.id = 0;
-        let activities: ActivityGain[] = [];
+        let activities: (ActivityGain|ItemActivity)[] = [];
         let unique: string[] = [];
         this.characterService.get_OwnedActivities(this.get_Creature()).forEach(activity => {
+            if (activity.constructor == ItemActivity) {
+                activity.get_Cooldown(this.get_Creature(), this.characterService)
+            } else {
+                this.get_Activities(activity.name).forEach(actualActivity => {actualActivity.get_Cooldown(this.get_Creature(), this.characterService)})
+            }
             if (!unique.includes(activity.name)) {
                 unique.push(activity.name);
                 activities.push(activity);

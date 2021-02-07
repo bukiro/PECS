@@ -259,10 +259,13 @@ export class ActivitiesService {
 
     tick_Activities(creature: Creature, characterService: CharacterService, conditionsService: ConditionsService, itemsService: ItemsService, spellsService: SpellsService, turns: number = 10) {
         characterService.get_OwnedActivities(creature, undefined, true).filter(gain => gain.activeCooldown || gain.duration).forEach(gain => {
-            //Tick down the duration and the cooldown by the amount of turns.
+            //Tick down the duration and the cooldown by the amount of turns. Reduce the turns by the amount you took from the duration, then apply the rest to the cooldown.
+            let activityTurns = turns;
             characterService.set_ToChange(creature.type, "activities");
             if (gain.duration > 0) {
-                gain.duration = Math.max(gain.duration - turns, 0)
+                let difference = Math.min(gain.duration, activityTurns);
+                gain.duration -= difference;
+                activityTurns -= difference;
                 if (gain.duration == 0) {
                     let activity: Activity|ItemActivity
                     if (gain.constructor == ItemActivity) {
@@ -278,7 +281,7 @@ export class ActivitiesService {
             }
             //Only if the activity has a cooldown active, reduce the cooldown and restore charges. If the activity does not have a cooldown, the charges are permanently spent.
             if (gain.activeCooldown) {
-                gain.activeCooldown = Math.max(gain.activeCooldown - turns, 0)
+                gain.activeCooldown = Math.max(gain.activeCooldown - activityTurns, 0)
                 if (gain.chargesUsed && gain.activeCooldown == 0) {
                     gain.chargesUsed = 0;
                 }

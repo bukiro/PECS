@@ -69,12 +69,12 @@ export class EffectsService {
         return this.effects[index].relatives.filter(effect => effect.creature == creature.id && effect.target.toLowerCase() == ObjectName.toLowerCase() && effect.apply);
     }
 
-    get_RelativesOnThese(creature: Creature, ObjectNames: string[]) {
+    get_RelativesOnThese(creature: Creature, ObjectNames: string[], lowerIsBetter: boolean = false) {
         let index = this.get_CalculatedIndex(creature.type);
         //Since there can be an overlap between the different effects we're asking about, we need to break them down to one bonus and one penalty per effect type.
         return this.get_TypeFilteredEffects(
             this.effects[index].relatives.filter(effect => effect.creature == creature.id && ObjectNames.map(name => name.toLowerCase()).includes(effect.target.toLowerCase()) && effect.apply)
-            , false);
+            , false, lowerIsBetter);
     }
 
     get_AbsolutesOnThis(creature: Creature, ObjectName: string) {
@@ -82,12 +82,12 @@ export class EffectsService {
         return this.effects[index].absolutes.filter(effect => effect.creature == creature.id && effect.target.toLowerCase() == ObjectName.toLowerCase() && effect.apply);
     }
 
-    get_AbsolutesOnThese(creature: Creature, ObjectNames: string[]) {
+    get_AbsolutesOnThese(creature: Creature, ObjectNames: string[], lowerIsBetter: boolean = false) {
         let index = this.get_CalculatedIndex(creature.type);
         //Since there can be an overlap between the different effects we're asking about, we need to break them down to one bonus and one penalty per effect type.
         return this.get_TypeFilteredEffects(
             this.effects[index].absolutes.filter(effect => effect.creature == creature.id && ObjectNames.map(name => name.toLowerCase()).includes(effect.target.toLowerCase()) && effect.apply)
-            , true);
+            , true, lowerIsBetter);
     }
 
     get_BonusesOnThis(creature: Creature, ObjectName: string) {
@@ -95,12 +95,12 @@ export class EffectsService {
         return this.effects[index].bonuses.filter(effect => effect.creature == creature.id && effect.target.toLowerCase() == ObjectName.toLowerCase() && effect.apply);
     }
 
-    get_BonusesOnThese(creature: Creature, ObjectNames: string[]) {
+    get_BonusesOnThese(creature: Creature, ObjectNames: string[], lowerIsBetter: boolean = false) {
         let index = this.get_CalculatedIndex(creature.type);
         //Since there can be an overlap between the different effects we're asking about, we need to break them down to one bonus and one penalty per effect type.
         return this.get_TypeFilteredEffects(
             this.effects[index].bonuses.filter(effect => effect.creature == creature.id && ObjectNames.map(name => name.toLowerCase()).includes(effect.target.toLowerCase()) && effect.apply)
-            , false);
+            , false, lowerIsBetter);
     }
 
     get_PenaltiesOnThis(creature: Creature, ObjectName: string) {
@@ -108,12 +108,12 @@ export class EffectsService {
         return this.effects[index].penalties.filter(effect => effect.creature == creature.id && effect.target.toLowerCase() == ObjectName.toLowerCase() && effect.apply);
     }
 
-    get_PenaltiesOnThese(creature: Creature, ObjectNames: string[]) {
+    get_PenaltiesOnThese(creature: Creature, ObjectNames: string[], lowerIsBetter: boolean = false) {
         let index = this.get_CalculatedIndex(creature.type);
         //Since there can be an overlap between the different effects we're asking about, we need to break them down to one bonus and one penalty per effect type.
         return this.get_TypeFilteredEffects(
             this.effects[index].penalties.filter(effect => effect.creature == creature.id && ObjectNames.map(name => name.toLowerCase()).includes(effect.target.toLowerCase()) && effect.apply)
-            , false);
+            , false, lowerIsBetter);
     }
 
     show_BonusesOnThis(creature: Creature, ObjectName: string) {
@@ -140,8 +140,9 @@ export class EffectsService {
         return this.effects[index].penalties.filter(effect => effect.creature == creature.id && ObjectNames.map(name => name.toLowerCase()).includes(effect.target.toLowerCase()) && effect.apply && !effect.hide).length > 0;
     }
 
-    get_TypeFilteredEffects(effects: Effect[], absolutes: boolean = false) {
-        //This function takes a batch of effects and reduces them to one bonus and one penalty per bonus type, since only untyped bonuses stack.
+    get_TypeFilteredEffects(effects: Effect[], absolutes: boolean = false, lowerIsBetter: boolean = false) {
+        //This function takes a batch of effects and reduces them to the highest bonus and the lowest (i.e. worst) penalty per bonus type, since only untyped bonuses stack.
+        //Explicitly cumulative effects are added together before comparing.
         //It assumes that these effects come pre-filtered to apply to one specific calculation, i.e. passing this.effects[0] would not be beneficial.
         //It also disables certain relative effect if absolute effects are active.
         let returnedEffects: Effect[] = [];
@@ -162,7 +163,11 @@ export class EffectsService {
                     // Multiple effects might have the same value, but it doesn't matter so long as one of them applies.
                     //We have to make sure there are applicable effects, because reduce doesn't like empty arrays.
                     if (absolutes && bonusEffects.some(effect => effect.setValue)) {
-                        returnedEffects.push(bonusEffects.reduce((prev, current) => (parseInt(prev.setValue) > parseInt(current.setValue) ? prev : current)));
+                        if (lowerIsBetter) {
+                            returnedEffects.push(bonusEffects.reduce((prev, current) => (parseInt(prev.setValue) < parseInt(current.setValue) ? prev : current)));
+                        } else {
+                            returnedEffects.push(bonusEffects.reduce((prev, current) => (parseInt(prev.setValue) > parseInt(current.setValue) ? prev : current)));
+                        }
                     } else if (bonusEffects.some(effect => effect.value)) {
                         //If any effects are cumulative, and any effect exists whose source appears in the cumulative list, we build groups.
                         // Every effect is grouped with all effects that includes its source in their cumulative list.
@@ -176,10 +181,19 @@ export class EffectsService {
                                 return effectGroup.reduce((prev, current) => prev + parseInt(current.value), 0)
                             }
                             if (effectGroups.length) {
-                                returnedEffects.push(...effectGroups.reduce((prev, current) => (groupSum(prev) > groupSum(current) ? prev : current)));
+                                if (lowerIsBetter) {
+                                    returnedEffects.push(...effectGroups.reduce((prev, current) => (groupSum(prev) < groupSum(current) ? prev : current)));
+                                } else {
+                                    returnedEffects.push(...effectGroups.reduce((prev, current) => (groupSum(prev) > groupSum(current) ? prev : current)));
+                                }
+                                
                             }
                         } else {
-                            returnedEffects.push(bonusEffects.reduce((prev, current) => (parseInt(prev.value) > parseInt(current.value) ? prev : current)));
+                            if (lowerIsBetter) {
+                                returnedEffects.push(bonusEffects.reduce((prev, current) => (parseInt(prev.value) < parseInt(current.value) ? prev : current)));
+                            } else {
+                                returnedEffects.push(bonusEffects.reduce((prev, current) => (parseInt(prev.value) > parseInt(current.value) ? prev : current)));
+                            }
                         }
                     }
                 }
@@ -867,7 +881,6 @@ export class EffectsService {
             characterService.update_LanguageList();
             characterService.process_ToChange();
         }
-
     }
 
     set_ToChange(creature: Creature, newEffects: Effect[], oldEffects: Effect[], characterService: CharacterService) {

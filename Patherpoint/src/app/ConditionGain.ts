@@ -20,8 +20,8 @@ export class ConditionGain {
     public notes: string = "";
     public source: string = "";
     public value: number = 0;
-    //Remove this condition if any of the neededConditions are currently active.
-    public neededConditions: string[] = [];
+    //Remove this condition if any of the endsWithConditions is removed.
+    public endsWithConditions: string[] = [];
     //Only activate this condition if this string evaluates to a numeral nonzero value. This is tested at the add_condition stage, so it can be combined with conditionChoiceFilter.
     public activationPrerequisite: string = "";
     //For conditions within conditions, activate this dependent on the original condition's choice.
@@ -41,6 +41,8 @@ export class ConditionGain {
     public gainItems: ItemGain[] = [];
     //If the gain is persistent, it does not get removed when its source is deactivated.
     public persistent: boolean = false;
+    //If the gain is ignorePersistent, it gets removed when its source is deactivated, even when the condition is usually persistent.
+    public ignorePersistent: boolean = false;
     //For spells, designate if the condition is meant for the caster or "" for the normal target creature.
     public targetFilter: string = "";
     //Some conditions have a choice that you can make. That is stored in this value.

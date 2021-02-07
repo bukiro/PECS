@@ -1236,6 +1236,9 @@
         "desc": "You gain a number of temporary Hit Points equal to your level plus your Constitution modifier. This frenzy lasts for 1 minute, until there are no enemies you can perceive, or until you fall unconscious, whichever comes first. You can't voluntarily stop raging. While you are raging: \n\nYou deal 2 additional damage with melee weapons and unarmed attacks. This additional damage is halved if your weapon or unarmed attack is agile.\nYou take a -1 penalty to AC.\nYou can't use actions with the concentrate trait unless they also have the rage trait. You can Seek while raging.\n\nAfter you stop raging, you lose any remaining temporary Hit Points from Rage, and you can't Rage again for 1 minute.",
         "type": "activities",
         "buff": true,
+        "endsWithConditions": [
+            "Furious Finish"
+        ],
         "hints": [
             {
                 "desc": "You can't use actions with the concentrate trait unless they also have the rage trait. You can Seek while raging.",
@@ -1647,6 +1650,30 @@
         "desc": "While raging, you can increase the additional damage from Rage from 2 to 4 and change its damage type to match that of your dragon's breath weapon instead of the damage type for your weapon or unarmed attack. If you do this, your Rage action gains the arcane and evocation traits, as well as the trait matching the damage type.\n\n<strong>Black</strong>: <strong>Type</strong> Chromatic, <strong>Breath Weapon</strong> Line of acid.\n<strong>Blue</strong>: <strong>Type</strong> Chromatic, <strong>Breath Weapon</strong> Line of electricity.\n<strong>Green</strong>: <strong>Type</strong> Chromatic, <strong>Breath Weapon</strong> Cone of poison.\n<strong>Red</strong>: <strong>Type</strong> Chromatic, <strong>Breath Weapon</strong> Cone of fire.\n<strong>White</strong>: <strong>Type</strong> Chromatic, <strong>Breath Weapon</strong> Cone of cold.\n<strong>Brass</strong>: <strong>Type</strong> Metallic, <strong>Breath Weapon</strong> Line of fire.\n<strong>Bronze</strong>: <strong>Type</strong> Metallic, <strong>Breath Weapon</strong> Line of electricity.\n<strong>Copper</strong>: <strong>Type</strong> Metallic, <strong>Breath Weapon</strong> Line of acid.\n<strong>Gold</strong>: <strong>Type</strong> Metallic, <strong>Breath Weapon</strong> Cone of fire.\n<strong>Silver</strong>: <strong>Type</strong> Metallic, <strong>Breath Weapon</strong> Cold of cold.",
         "type": "activities",
         "buff": true,
+        "hints": [
+            {
+                "desc": "While raging, you can increase the additional damage from Rage from 2 to 4 and change the damage type of the additional damage from Rage to match that of your dragon's breath weapon instead of the damage type for your weapon or unarmed attack.",
+                "effects": [
+                    {
+                        "affected": "Non-Agile Melee Damage",
+                        "value": "Has_Feat(Creature.type, 'Dragon Instinct Specialization') ? (Has_Feat(Creature.type, 'Greater Weapon Specialization') ? 14 : 6) : 2"
+                    },
+                    {
+                        "affected": "Agile Melee Damage",
+                        "value": "Has_Feat(Creature.type, 'Dragon Instinct Specialization') ? (Has_Feat(Creature.type, 'Greater Weapon Specialization') ? 7 : 3) : 1"
+                    },
+                    {
+                        "affected": "Non-Agile Thrown Weapon Damage",
+                        "value": "Has_Feat(Creature.type, 'Raging Thrower') ? (Has_Feat(Creature.type, 'Dragon Instinct Specialization') ? (Has_Feat(Creature.type, 'Greater Weapon Specialization') ? 14 : 6) : 2) : 0"
+                    },
+                    {
+                        "affected": "Agile Thrown Weapon Damage",
+                        "value": "Has_Feat(Creature.type, 'Raging Thrower') ? (Has_Feat(Creature.type, 'Dragon Instinct Specialization') ? (Has_Feat(Creature.type, 'Greater Weapon Specialization') ? 7 : 3) : 1) : 0"
+                    }
+                ],
+                "showon": "Attacks"
+            }
+        ],
         "choice": "Black",
         "choices": [
             "Black",
@@ -1660,29 +1687,7 @@
             "Gold",
             "Silver"
         ],
-        "hints": [
-            {
-                "desc": "While raging, you can change the damage type of the additional damage from Rage to match that of your dragon's breath weapon instead of the damage type for your weapon or unarmed attack.",
-                "showon": "Attacks"
-            }
-        ],
         "effects": [
-            {
-                "affected": "Non-Agile Melee Damage",
-                "value": "Has_Feat(Creature.type, 'Dragon Instinct Specialization') ? (Has_Feat(Creature.type, 'Greater Weapon Specialization') ? 14 : 6) : 2"
-            },
-            {
-                "affected": "Agile Melee Damage",
-                "value": "Has_Feat(Creature.type, 'Dragon Instinct Specialization') ? (Has_Feat(Creature.type, 'Greater Weapon Specialization') ? 7 : 3) : 1"
-            },
-            {
-                "affected": "Non-Agile Thrown Weapon Damage",
-                "value": "Has_Feat(Creature.type, 'Raging Thrower') ? (Has_Feat(Creature.type, 'Dragon Instinct Specialization') ? (Has_Feat(Creature.type, 'Greater Weapon Specialization') ? 14 : 6) : 2) : 0"
-            },
-            {
-                "affected": "Agile Thrown Weapon Damage",
-                "value": "Has_Feat(Creature.type, 'Raging Thrower') ? (Has_Feat(Creature.type, 'Dragon Instinct Specialization') ? (Has_Feat(Creature.type, 'Greater Weapon Specialization') ? 7 : 3) : 1) : 0"
-            },
             {
                 "affected": "Piercing Resistance",
                 "value": "Has_Feat(Creature.type, 'Dragon Instinct Resistance') ? (Has_Feat(Creature.type, 'Invulnerable Juggernaut') ? 8 : 3) + Modifier('Constitution') : 0"
@@ -1754,34 +1759,36 @@
         "desc": "When you are raging, you can increase your damage from Rage from 2 to 3 and deal negative or positive damage, instead of the normal damage type for your weapon or unarmed attack (choose each time you Rage). If you choose to deal negative or positive damage, your weapon or unarmed attack gains the effects of the ghost touch property rune, which makes it more effective against incorporeal creatures, and your Rage action gains the divine and necromancy traits, plus negative or positive, as appropriate.",
         "type": "activities",
         "buff": true,
+        "hints": [
+            {
+                "desc": "While raging, you can increase the additional damage from Rage from 2 to 3 and change its damage type to negative or positive, instead of the normal damage type for your weapon or unarmed attack. If you choose to deal negative or positive damage, your weapon or unarmed attack gains the effects of the ghost touch property rune, which makes it more effective against incorporeal creatures.",
+                "effects": [
+                    {
+                        "affected": "Non-Agile Melee Damage",
+                        "value": "Has_Feat(Creature.type, 'Spirit Instinct Specialization') ? (Has_Feat(Creature.type, 'Greater Weapon Specialization') ? 11 : 5) : 1"
+                    },
+                    {
+                        "affected": "Agile Melee Damage",
+                        "value": "Has_Feat(Creature.type, 'Spirit Instinct Specialization') ? (Has_Feat(Creature.type, 'Greater Weapon Specialization') ? 5 : 2) : 0"
+                    },
+                    {
+                        "affected": "Non-Agile Thrown Weapon Damage",
+                        "value": "Has_Feat(Creature.type, 'Raging Thrower') ? (Has_Feat(Creature.type, 'Spirit Instinct Specialization') ? (Has_Feat(Creature.type, 'Greater Weapon Specialization') ? 11 : 5) : 1) : 0"
+                    },
+                    {
+                        "affected": "Agile Thrown Weapon Damage",
+                        "value": "Has_Feat(Creature.type, 'Raging Thrower') ? (Has_Feat(Creature.type, 'Spirit Instinct Specialization') ? (Has_Feat(Creature.type, 'Greater Weapon Specialization') ? 5 : 2) : 0) : 0"
+                    }
+                ],
+                "showon": "Attacks"
+            }
+        ],
         "choice": "Positive Damage",
         "choices": [
             "Positive Damage",
             "Negative Damage"
         ],
-        "hints": [
-            {
-                "desc": "When you are raging, you can deal negative or positive damage, instead of the normal damage type for your weapon or unarmed attack. If you choose to deal negative or positive damage, your weapon or unarmed attack gains the effects of the ghost touch property rune, which makes it more effective against incorporeal creatures.",
-                "showon": "Attacks"
-            }
-        ],
         "effects": [
-            {
-                "affected": "Non-Agile Melee Damage",
-                "value": "Has_Feat(Creature.type, 'Spirit Instinct Specialization') ? (Has_Feat(Creature.type, 'Greater Weapon Specialization') ? 11 : 5) : 1"
-            },
-            {
-                "affected": "Agile Melee Damage",
-                "value": "Has_Feat(Creature.type, 'Spirit Instinct Specialization') ? (Has_Feat(Creature.type, 'Greater Weapon Specialization') ? 5 : 2) : 0"
-            },
-            {
-                "affected": "Non-Agile Thrown Weapon Damage",
-                "value": "Has_Feat(Creature.type, 'Raging Thrower') ? (Has_Feat(Creature.type, 'Spirit Instinct Specialization') ? (Has_Feat(Creature.type, 'Greater Weapon Specialization') ? 11 : 5) : 1) : 0"
-            },
-            {
-                "affected": "Agile Thrown Weapon Damage",
-                "value": "Has_Feat(Creature.type, 'Raging Thrower') ? (Has_Feat(Creature.type, 'Spirit Instinct Specialization') ? (Has_Feat(Creature.type, 'Greater Weapon Specialization') ? 5 : 2) : 0) : 0"
-            },
             {
                 "affected": "Negative Damage Resistance",
                 "value": "Has_Feat(Creature.type, 'Spirit Instinct Resistance') ? (Has_Feat(Creature.type, 'Invulnerable Juggernaut') ? 8 : 3) + Modifier('Constitution') : 0"
@@ -8772,6 +8779,7 @@
     {
         "name": "See Invisibility",
         "desc": "You can see invisible creatures and objects. They appear to you as translucent shapes, and they are concealed to you.",
+        "type": "spells",
         "buff": true,
         "hints": [
             {
@@ -11486,7 +11494,7 @@
     },
     {
         "name": "Dinosaur Form (4th Level)",
-        "desc": "You have transformed into a Large animal battle form, specifically that of a powerful and terrifying dinosaur chosen from ankylosaurus, brontosaurus, deinonychus, stegosaurus, triceratops, or tyrannosaurus. You can decide the specific type of animal, but this has no effect on the form's Size or statistics. While in this form, you gain the animal and dinosaur traits. You can Dismiss the spell.\n\nYou gain the following statistics and abilities regardless of which battle form you choose:\n\nAC = 18 + your level. Ignore your armor's check penalty and Speed reduction.\n15 temporary Hit Points.\nLow-light vision and imprecise scent 30 feet.\nOne or more unarmed melee attacks specific to the battle form you choose, which are the only attacks you can use. You're trained with them. Your attack modifier is +16, and your damage bonus is +9. These attacks are Strength based (for the purpose of the enfeebled condition, for example). If your unarmed attack modifier is higher, you can use it instead.\nAthletics modifier of +19, unless your own modifier is higher.\n\nYou also gain specific abilities based on the type of animal you choose:\n\n<strong>Ankylosaurus</strong> Speed 25 feet; <strong>Melee</strong> tail (back swing, reach 10 feet), <strong>Damage</strong> 2d6 bludgeoning; <strong>Melee</strong> foot, <strong>Damage</strong> 2d6 bludgeoning.\n<strong>Brontosaurus</strong> Speed 25 feet; <strong>Melee</strong> tail (reach 15 feet), <strong>Damage</strong> 2d6 bludgeoning; <strong>Melee</strong> foot, <strong>Damage</strong> 2d8 bludgeoning.\n<strong>Deinonychus</strong> Speed 40 feet; <strong>Melee</strong> talon (agile), <strong>Damage</strong> 2d4 piercing plus 1 persistent bleed; <strong>Melee</strong> jaws, <strong>Damage</strong> 1d8 piercing.\n<strong>Stegosaurus</strong> Speed 30 feet; <strong>Melee</strong> tail (reach 10 feet), <strong>Damage</strong> 2d8 piercing.\n<strong>Triceratops</strong> Speed 30 feet; <strong>Melee</strong> horn, <strong>Damage</strong> 2d8 piercing, plus 1d6 persistent bleed on a critical hit; <strong>Melee</strong> foot, <strong>Damage</strong> 2d6 bludgeoning.\n<strong>Tyrannosaurus</strong> Speed 30 feet; <strong>Melee</strong> jaws (deadly, reach 10 feet), <strong>Damage</strong> 1d12 piercing; <strong>Melee</strong> tail (reach 10 feet), <strong>Damage</strong> 1d10 bludgeoning.",
+        "desc": "You have transformed into a Large animal battle form, specifically that of a powerful and terrifying dinosaur chosen from ankylosaurus, brontosaurus, deinonychus, stegosaurus, triceratops, or tyrannosaurus. You can decide the specific type of animal, but this has no effect on the form's Size or statistics. While in this form, you gain the animal and dinosaur traits. You can Dismiss the spell.\n\nYou gain the following statistics and abilities regardless of which battle form you choose:\n\nAC = 18 + your level. Ignore your armor's check penalty and Speed reduction.\n15 temporary Hit Points.\nLow-light vision and imprecise scent 30 feet.\nOne or more unarmed melee attacks specific to the battle form you choose, which are the only attacks you can use. You're trained with them. Your attack modifier is +16, and your damage bonus is +9. These attacks are Strength based (for the purpose of the enfeebled condition, for example). If your unarmed attack modifier is higher, you can use it instead.\nAthletics modifier of +19, unless your own modifier is higher.\n\nYou also gain specific abilities based on the form you choose:\n\n<strong>Ankylosaurus</strong> Speed 25 feet; <strong>Melee</strong> tail (back swing, reach 10 feet), <strong>Damage</strong> 2d6 bludgeoning; <strong>Melee</strong> foot, <strong>Damage</strong> 2d6 bludgeoning.\n<strong>Brontosaurus</strong> Speed 25 feet; <strong>Melee</strong> tail (reach 15 feet), <strong>Damage</strong> 2d6 bludgeoning; <strong>Melee</strong> foot, <strong>Damage</strong> 2d8 bludgeoning.\n<strong>Deinonychus</strong> Speed 40 feet; <strong>Melee</strong> talon (agile), <strong>Damage</strong> 2d4 piercing plus 1 persistent bleed; <strong>Melee</strong> jaws, <strong>Damage</strong> 1d8 piercing.\n<strong>Stegosaurus</strong> Speed 30 feet; <strong>Melee</strong> tail (reach 10 feet), <strong>Damage</strong> 2d8 piercing.\n<strong>Triceratops</strong> Speed 30 feet; <strong>Melee</strong> horn, <strong>Damage</strong> 2d8 piercing, plus 1d6 persistent bleed on a critical hit; <strong>Melee</strong> foot, <strong>Damage</strong> 2d6 bludgeoning.\n<strong>Tyrannosaurus</strong> Speed 30 feet; <strong>Melee</strong> jaws (deadly, reach 10 feet), <strong>Damage</strong> 1d12 piercing; <strong>Melee</strong> tail (reach 10 feet), <strong>Damage</strong> 1d10 bludgeoning.",
         "type": "spells",
         "buff": true,
         "choice": "Ankylosaurus",
@@ -11516,7 +11524,7 @@
                 "setValue": "9"
             },
             {
-                "affected": "Acrobatics",
+                "affected": "Athletics",
                 "setValue": "Skill('Athletics') > 18 ? null : 18"
             },
             {
@@ -11666,7 +11674,7 @@
     },
     {
         "name": "Dinosaur Form (5th Level)",
-        "desc": "You have transformed into a Huge animal battle form, specifically that of a powerful and terrifying dinosaur chosen from ankylosaurus, brontosaurus, deinonychus, stegosaurus, triceratops, or tyrannosaurus. You can decide the specific type of animal, but this has no effect on the form's Size or statistics. While in this form, you gain the animal and dinosaur traits. You can Dismiss the spell.\n\nYou gain the following statistics and abilities regardless of which battle form you choose:\n\nAC = 18 + your level. Ignore your armor's check penalty and Speed reduction.\n20 temporary Hit Points.\nLow-light vision and imprecise scent 30 feet.\nOne or more unarmed melee attacks specific to the battle form you choose, which are the only attacks you can use. You're trained with them. Your attack modifier is +18, and your damage bonus is +6 with double damage dice. Your attacks have 15-foot reach, or 20-foot reach if they started with 15-foot reach. These attacks are Strength based (for the purpose of the enfeebled condition, for example). If your unarmed attack modifier is higher, you can use it instead.\nAthletics modifier of +21, unless your own modifier is higher.\n\nYou also gain specific abilities based on the type of animal you choose:\n\n<strong>Ankylosaurus</strong> Speed 25 feet; <strong>Melee</strong> tail (back swing, reach 15 feet), <strong>Damage</strong> 4d6 bludgeoning; <strong>Melee</strong> foot (reach 15 feet), <strong>Damage</strong> 4d6 bludgeoning.\n<strong>Brontosaurus</strong> Speed 25 feet; <strong>Melee</strong> tail (reach 20 feet), <strong>Damage</strong> 4d6 bludgeoning; <strong>Melee</strong> foot (reach 15 feet), <strong>Damage</strong> 4d8 bludgeoning.\n<strong>Deinonychus</strong> Speed 40 feet; <strong>Melee</strong> talon (agile, reach 15 feet), <strong>Damage</strong> 4d4 piercing plus 1 persistent bleed; <strong>Melee</strong> jaws (reach 15 feet), <strong>Damage</strong> 2d8 piercing.\n<strong>Stegosaurus</strong> Speed 30 feet; <strong>Melee</strong> tail (reach 15 feet), <strong>Damage</strong> 4d8 piercing.\n<strong>Triceratops</strong> Speed 30 feet; <strong>Melee</strong> horn (reach 15 feet), <strong>Damage</strong> 4d8 piercing, plus 1d6 persistent bleed on a critical hit; <strong>Melee</strong> foot (reach 15 feet), <strong>Damage</strong> 4d6 bludgeoning.\n<strong>Tyrannosaurus</strong> Speed 30 feet; <strong>Melee</strong> jaws (deadly, reach 15 feet), <strong>Damage</strong> 2d12 piercing; <strong>Melee</strong> tail (reach 15 feet), <strong>Damage</strong> 2d10 bludgeoning.",
+        "desc": "You have transformed into a Huge animal battle form, specifically that of a powerful and terrifying dinosaur chosen from ankylosaurus, brontosaurus, deinonychus, stegosaurus, triceratops, or tyrannosaurus. You can decide the specific type of animal, but this has no effect on the form's Size or statistics. While in this form, you gain the animal and dinosaur traits. You can Dismiss the spell.\n\nYou gain the following statistics and abilities regardless of which battle form you choose:\n\nAC = 18 + your level. Ignore your armor's check penalty and Speed reduction.\n20 temporary Hit Points.\nLow-light vision and imprecise scent 30 feet.\nOne or more unarmed melee attacks specific to the battle form you choose, which are the only attacks you can use. You're trained with them. Your attack modifier is +18, and your damage bonus is +6 with double damage dice. Your attacks have 15-foot reach, or 20-foot reach if they started with 15-foot reach. These attacks are Strength based (for the purpose of the enfeebled condition, for example). If your unarmed attack modifier is higher, you can use it instead.\nAthletics modifier of +21, unless your own modifier is higher.\n\nYou also gain specific abilities based on the form you choose:\n\n<strong>Ankylosaurus</strong> Speed 25 feet; <strong>Melee</strong> tail (back swing, reach 15 feet), <strong>Damage</strong> 4d6 bludgeoning; <strong>Melee</strong> foot (reach 15 feet), <strong>Damage</strong> 4d6 bludgeoning.\n<strong>Brontosaurus</strong> Speed 25 feet; <strong>Melee</strong> tail (reach 20 feet), <strong>Damage</strong> 4d6 bludgeoning; <strong>Melee</strong> foot (reach 15 feet), <strong>Damage</strong> 4d8 bludgeoning.\n<strong>Deinonychus</strong> Speed 40 feet; <strong>Melee</strong> talon (agile, reach 15 feet), <strong>Damage</strong> 4d4 piercing plus 1 persistent bleed; <strong>Melee</strong> jaws (reach 15 feet), <strong>Damage</strong> 2d8 piercing.\n<strong>Stegosaurus</strong> Speed 30 feet; <strong>Melee</strong> tail (reach 15 feet), <strong>Damage</strong> 4d8 piercing.\n<strong>Triceratops</strong> Speed 30 feet; <strong>Melee</strong> horn (reach 15 feet), <strong>Damage</strong> 4d8 piercing, plus 1d6 persistent bleed on a critical hit; <strong>Melee</strong> foot (reach 15 feet), <strong>Damage</strong> 4d6 bludgeoning.\n<strong>Tyrannosaurus</strong> Speed 30 feet; <strong>Melee</strong> jaws (deadly, reach 15 feet), <strong>Damage</strong> 2d12 piercing; <strong>Melee</strong> tail (reach 15 feet), <strong>Damage</strong> 2d10 bludgeoning.",
         "type": "spells",
         "buff": true,
         "choice": "Ankylosaurus",
@@ -11696,7 +11704,7 @@
                 "setValue": "6"
             },
             {
-                "affected": "Acrobatics",
+                "affected": "Athletics",
                 "setValue": "Skill('Athletics') > 21 ? null : 21"
             },
             {
@@ -11846,7 +11854,7 @@
     },
     {
         "name": "Dinosaur Form (7th Level)",
-        "desc": "You have transformed into a Gargantuan animal battle form, specifically that of a powerful and terrifying dinosaur chosen from ankylosaurus, brontosaurus, deinonychus, stegosaurus, triceratops, or tyrannosaurus. You can decide the specific type of animal, but this has no effect on the form's Size or statistics. While in this form, you gain the animal and dinosaur traits. You can Dismiss the spell.\n\nYou gain the following statistics and abilities regardless of which battle form you choose:\n\nAC = 21 + your level. Ignore your armor's check penalty and Speed reduction.\n25 temporary Hit Points.\nLow-light vision and imprecise scent 30 feet.\nOne or more unarmed melee attacks specific to the battle form you choose, which are the only attacks you can use. You're trained with them. Your attack modifier is +25, and your damage bonus is +15 with double damage dice. Your attacks have 20-foot reach, or 25-foot reach if they started with 20-foot reach. These attacks are Strength based (for the purpose of the enfeebled condition, for example). If your unarmed attack modifier is higher, you can use it instead.\nAthletics modifier of +25, unless your own modifier is higher.\n\nYou also gain specific abilities based on the type of animal you choose:\n\n<strong>Ankylosaurus</strong> Speed 25 feet; <strong>Melee</strong> tail (back swing, reach 20 feet), <strong>Damage</strong> 4d6 bludgeoning; <strong>Melee</strong> foot (reach 20 feet), <strong>Damage</strong> 4d6 bludgeoning.\n<strong>Brontosaurus</strong> Speed 25 feet; <strong>Melee</strong> tail (reach 25 feet), <strong>Damage</strong> 4d6 bludgeoning; <strong>Melee</strong> foot (reach 20 feet), <strong>Damage</strong> 4d8 bludgeoning.\n<strong>Deinonychus</strong> Speed 40 feet; <strong>Melee</strong> talon (agile, reach 20 feet), <strong>Damage</strong> 4d4 piercing plus 1 persistent bleed; <strong>Melee</strong> jaws (reach 20 feet), <strong>Damage</strong> 2d8 piercing.\n<strong>Stegosaurus</strong> Speed 30 feet; <strong>Melee</strong> tail (reach 20 feet), <strong>Damage</strong> 4d8 piercing.\n<strong>Triceratops</strong> Speed 30 feet; <strong>Melee</strong> horn (reach 20 feet), <strong>Damage</strong> 4d8 piercing, plus 1d6 persistent bleed on a critical hit; <strong>Melee</strong> foot (reach 20 feet), <strong>Damage</strong> 4d6 bludgeoning.\n<strong>Tyrannosaurus</strong> Speed 30 feet; <strong>Melee</strong> jaws (deadly, reach 20 feet), <strong>Damage</strong> 2d12 piercing; <strong>Melee</strong> tail (reach 20 feet), <strong>Damage</strong> 2d10 bludgeoning.",
+        "desc": "You have transformed into a Gargantuan animal battle form, specifically that of a powerful and terrifying dinosaur chosen from ankylosaurus, brontosaurus, deinonychus, stegosaurus, triceratops, or tyrannosaurus. You can decide the specific type of animal, but this has no effect on the form's Size or statistics. While in this form, you gain the animal and dinosaur traits. You can Dismiss the spell.\n\nYou gain the following statistics and abilities regardless of which battle form you choose:\n\nAC = 21 + your level. Ignore your armor's check penalty and Speed reduction.\n25 temporary Hit Points.\nLow-light vision and imprecise scent 30 feet.\nOne or more unarmed melee attacks specific to the battle form you choose, which are the only attacks you can use. You're trained with them. Your attack modifier is +25, and your damage bonus is +15 with double damage dice. Your attacks have 20-foot reach, or 25-foot reach if they started with 20-foot reach. These attacks are Strength based (for the purpose of the enfeebled condition, for example). If your unarmed attack modifier is higher, you can use it instead.\nAthletics modifier of +25, unless your own modifier is higher.\n\nYou also gain specific abilities based on the form you choose:\n\n<strong>Ankylosaurus</strong> Speed 25 feet; <strong>Melee</strong> tail (back swing, reach 20 feet), <strong>Damage</strong> 4d6 bludgeoning; <strong>Melee</strong> foot (reach 20 feet), <strong>Damage</strong> 4d6 bludgeoning.\n<strong>Brontosaurus</strong> Speed 25 feet; <strong>Melee</strong> tail (reach 25 feet), <strong>Damage</strong> 4d6 bludgeoning; <strong>Melee</strong> foot (reach 20 feet), <strong>Damage</strong> 4d8 bludgeoning.\n<strong>Deinonychus</strong> Speed 40 feet; <strong>Melee</strong> talon (agile, reach 20 feet), <strong>Damage</strong> 4d4 piercing plus 1 persistent bleed; <strong>Melee</strong> jaws (reach 20 feet), <strong>Damage</strong> 2d8 piercing.\n<strong>Stegosaurus</strong> Speed 30 feet; <strong>Melee</strong> tail (reach 20 feet), <strong>Damage</strong> 4d8 piercing.\n<strong>Triceratops</strong> Speed 30 feet; <strong>Melee</strong> horn (reach 20 feet), <strong>Damage</strong> 4d8 piercing, plus 1d6 persistent bleed on a critical hit; <strong>Melee</strong> foot (reach 20 feet), <strong>Damage</strong> 4d6 bludgeoning.\n<strong>Tyrannosaurus</strong> Speed 30 feet; <strong>Melee</strong> jaws (deadly, reach 20 feet), <strong>Damage</strong> 2d12 piercing; <strong>Melee</strong> tail (reach 20 feet), <strong>Damage</strong> 2d10 bludgeoning.",
         "type": "spells",
         "buff": true,
         "choice": "Ankylosaurus",
@@ -11876,7 +11884,7 @@
                 "setValue": "15"
             },
             {
-                "affected": "Acrobatics",
+                "affected": "Athletics",
                 "setValue": "Skill('Athletics') > 25 ? null : 25"
             },
             {
@@ -12057,7 +12065,7 @@
                 "value": 1
             }
         ],
-        "neededConditions": [
+        "endsWithConditions": [
             "Sickened"
         ]
     },
@@ -12222,7 +12230,7 @@
                 "value": 2
             }
         ],
-        "neededConditions": [
+        "endsWithConditions": [
             "Fatigued"
         ]
     },
@@ -13049,7 +13057,7 @@
     },
     {
         "name": "Avenge in Glory",
-        "desc": "You honor your ally’s life, gaining temporary Hit Points equal to your level for the duration. As long as you have these temporary Hit Points, you gain a +1 circumstance bonus to attack and damage rolls.",
+        "desc": "You honor your ally's life, gaining temporary Hit Points equal to your level for the duration. As long as you have these temporary Hit Points, you gain a +1 circumstance bonus to attack and damage rolls.",
         "type": "activities",
         "buff": true,
         "effects": [
@@ -13152,7 +13160,7 @@
                 "type": "circumstance",
                 "value": "1"
             }
-        ] 
+        ]
     },
     {
         "name": "Battleforger",
@@ -13165,7 +13173,7 @@
                 "affected": "Allow Battleforger",
                 "toggle": true
             }
-        ] 
+        ]
     },
     {
         "name": "Multiple Attack Penalty: Second Attack",
@@ -13185,7 +13193,7 @@
                 "affected": "Spell Attack Rolls",
                 "value": "-5"
             }
-        ] 
+        ]
     },
     {
         "name": "Multiple Attack Penalty: Third Attack",
@@ -13228,7 +13236,7 @@
                 "affected": "Spell Attack Rolls",
                 "value": "-3"
             }
-        ] 
+        ]
     },
     {
         "name": "Multiple Attack Penalty: Third Attack (Flurry)",
@@ -13254,28 +13262,833 @@
         ]
     },
     {
+        "name": "Dragon Form (6th Level)",
+        "desc": "Calling upon powerful transformative magic, you gain a Large dragon battle form. You must have space to expand or the spell is lost. When you cast this spell, choose one type of chromatic or metallic dragon. While in this form, you gain the dragon trait. You have hands in this battle form and can take manipulate actions. You can Dismiss the spell.\n\nYou gain the following statistics and abilities regardless of which battle form you choose:\n\nAC = 18 + your level. Ignore your armor's check penalty and Speed reduction.\n10 temporary Hit Points.\nSpeed 40 feet, fly Speed 100 feet.\nResistance 10 against the damage type of your breath weapon (see below).\nDarkvision and imprecise scent 60 feet.\nOne or more unarmed melee attacks specific to the battle form you choose, which are the only attacks you can use. You're trained with them. Your attack modifier is +22, and your damage bonus is +6. These attacks are Strength based (for the purpose of the enfeebled condition, for example). If your unarmed attack modifier is higher, you can use it instead. See below for more on these attacks.\nAthletics modifier of +23, unless your own modifier is higher.\n<strong>Breath Weapon</strong> (Two Actions) (arcane, evocation) The shape, damage, and damage type of your breath weapon depend on your specific dragon form (see below). A creature in the area attempts a basic save against your spell DC. This is a Reflex save unless stated otherwise in the special ability description for your specific dragon form. Once activated, your breath weapon can't be used again for 1d4 rounds. Your breath weapon has the trait corresponding to the type of damage it deals.\n\nYou also gain specific abilities based on the type of dragon you choose:\n\n<strong>Black</strong> swim Speed 60 feet; <strong>Melee</strong> jaws, <strong>Damage</strong> 2d12 piercing plus 2d6 acid; <strong>Melee</strong> claw (agile), <strong>Damage</strong> 3d10 slashing; <strong>Melee</strong> tail (reach 10 feet), <strong>Damage</strong> 3d10 bludgeoning; <strong>Melee</strong> horns (reach 10 feet), <strong>Damage</strong> 3d8 piercing; breath weapon 60-foot line, 11d6 acid.\n<strong>Blue</strong> burrow Speed 20 feet; <strong>Melee</strong> jaws, <strong>Damage</strong> 2d10 piercing plus 1d12 electricity; <strong>Melee</strong> claw (agile), <strong>Damage</strong> 3d10 slashing; <strong>Melee</strong> tail (reach 10 feet), <strong>Damage</strong> 3d10 bludgeoning; <strong>Melee</strong> horns (reach 10 feet), <strong>Damage</strong> 3d8 piercing; breath weapon 80-foot line, 6d12 electricity.\n<strong>Brass</strong> burrow Speed 20 feet; <strong>Melee</strong> jaws, <strong>Damage</strong> 3d8 piercing plus 2d4 fire; <strong>Melee</strong> claw (agile), <strong>Damage</strong> 3d10 slashing; <strong>Melee</strong> tail (reach 10 feet), <strong>Damage</strong> 3d10 bludgeoning; <strong>Melee</strong> spikes (reach 10 feet), <strong>Damage</strong> 3d8 piercing; breath weapon 60-foot line, 15d4 fire.\n<strong>Bronze</strong> swim Speed 40 feet; <strong>Melee</strong> jaws, <strong>Damage</strong> 2d10 piercing plus 1d12 electricity; <strong>Melee</strong> claw (agile), <strong>Damage</strong> 3d10 slashing; <strong>Melee</strong> tail (reach 10 feet), <strong>Damage</strong> 3d10 bludgeoning; <strong>Melee</strong> wing (reach 10 feet), <strong>Damage</strong> 3d8 slashing; breath weapon 80-foot line, 6d12 electricity.\n<strong>Copper</strong> climb Speed 25 feet on stone only; <strong>Melee</strong> jaws, <strong>Damage</strong> 2d12 piercing plus 2d6 acid; <strong>Melee</strong> claw (agile), <strong>Damage</strong> 3d10 slashing; <strong>Melee</strong> tail (reach 10 feet), <strong>Damage</strong> 3d10 bludgeoning; <strong>Melee</strong> wing (reach 10 feet), <strong>Damage</strong> 3d8 bludgeoning; breath weapon 60-foot line, 10d6 acid.\n<strong>Gold</strong> swim Speed 40 feet; <strong>Melee</strong> jaws, <strong>Damage</strong> 2d12 piercing plus 2d6 fire; <strong>Melee</strong> claw (agile), <strong>Damage</strong> 4d6 slashing; <strong>Melee</strong> tail (reach 10 feet), <strong>Damage</strong> 3d10 bludgeoning; <strong>Melee</strong> horns (reach 10 feet), <strong>Damage</strong> 3d8 piercing; breath weapon 30-foot cone, 6d10 fire.\n<strong>Green</strong> swim Speed 40 feet, ignores difficult terrain from non-magical foliage; <strong>Melee</strong> jaws, <strong>Damage</strong> 2d12 piercing plus 2d6 poison; <strong>Melee</strong> claw (agile), <strong>Damage</strong> 3d10 slashing; <strong>Melee</strong> tail (reach 10 feet), <strong>Damage</strong> 3d10 bludgeoning; <strong>Melee</strong> horns (reach 10 feet), <strong>Damage</strong> 3d8 piercing; breath weapon 30-foot cone, 10d6 poison (Fortitude save instead of Reflex).\n<strong>Red</strong> ignore concealed from smoke; <strong>Melee</strong> jaws, <strong>Damage</strong> 2d12 piercing plus 2d6 fire; <strong>Melee</strong> claw (agile), <strong>Damage</strong> 4d6 slashing; <strong>Melee</strong> tail (reach 10 feet), <strong>Damage</strong> 3d10 bludgeoning; <strong>Melee</strong> wing (reach 10 feet), <strong>Damage</strong> 3d8 bludgeoning; breath weapon 30-foot cone, 10d6 fire.\n<strong>Silver</strong> cloud walk; <strong>Melee</strong> jaws, <strong>Damage</strong> 2d12 piercing plus 2d6 cold; <strong>Melee</strong> claw (agile), <strong>Damage</strong> 3d10 slashing; <strong>Melee</strong> tail (reach 10 feet), <strong>Damage</strong> 3d10 bludgeoning; breath weapon 30-foot cone, 8d8 cold.\n<strong>White</strong> climb Speed 25 feet on ice only; <strong>Melee</strong> jaws, <strong>Damage</strong> 3d6 piercing plus 2d6 cold; <strong>Melee</strong> claw (agile), <strong>Damage</strong> 3d10 slashing; <strong>Melee</strong> tail (reach 10 feet), <strong>Damage</strong> 3d10 bludgeoning; breath weapon 30-foot cone, 10d6 cold.",
+        "type": "spells",
+        "buff": true,
+        "hints": [
+            {
+                "desc": "The copper dragon's climb speed applies on stone only.\n\nThe green dragon ignores difficult terrain from non-magical foliage.\n\nThe silver dragon can cloud walk.\n\nThe white dragon's climb speed applies on ice only.",
+                "showon": "Movement"
+            },
+            {
+                "desc": "The red dragon ignores concealed from smoke.",
+                "showon": "Attacks"
+            }
+        ],
+        "choice": "Black",
+        "choices": [
+            "Blue",
+            "Brass",
+            "Bronze",
+            "Copper",
+            "Gold",
+            "Green",
+            "Red",
+            "Silver",
+            "White"
+        ],
+        "effects": [
+            {
+                "affected": "Size",
+                "setValue": "1"
+            },
+            {
+                "affected": "AC",
+                "setValue": "18 + Level"
+            },
+            {
+                "affected": "Melee Attack Rolls",
+                "setValue": "Skill('Unarmed Attacks') > 22 ? null : 22"
+            },
+            {
+                "affected": "Melee Damage",
+                "setValue": "6"
+            },
+            {
+                "affected": "Athletics",
+                "setValue": "Skill('Athletics') > 23 ? null : 23"
+            },
+            {
+                "affected": "Land Speed",
+                "setValue": "40"
+            },
+            {
+                "affected": "Fly Speed",
+                "setValue": "100"
+            },
+            {
+                "affected": "Unarmed Attacks Proficiency Level",
+                "setValue": "2"
+            },
+            {
+                "affected": "Ignore Armor Penalty",
+                "toggle": true
+            },
+            {
+                "affected": "Swim Speed",
+                "setValue": "Choice == 'Black' ? 60 : null"
+            },
+            {
+                "affected": "Swim Speed",
+                "setValue": "['Bronze','Gold','Green'].includes(Choice) ? 40 : null"
+            },
+            {
+                "affected": "Burrow Speed",
+                "setValue": "['Blue','Brass'].includes(Choice) ? 20 : null"
+            },
+            {
+                "affected": "Burrow Speed",
+                "setValue": "['Copper','White'].includes(Choice) ? 25 : null"
+            },
+            {
+                "affected": "Acid Resistance",
+                "value": "['Black','Copper'].includes(Choice) ? 10 : 0"
+            },
+            {
+                "affected": "Cold Resistance",
+                "value": "['Silver','White'].includes(Choice) ? 10 : 0"
+            },
+            {
+                "affected": "Electricity Resistance",
+                "value": "['Blue','Bronze'].includes(Choice) ? 10 : 0"
+            },
+            {
+                "affected": "Fire Resistance",
+                "value": "['Brass','Gold','Red'].includes(Choice) ? 10 : 0"
+            },
+            {
+                "affected": "Poison Resistance",
+                "value": "Choice == 'Poison' ? 10 : 0"
+            }
+        ],
+        "onceEffects": [
+            {
+                "affected": "Temporary HP",
+                "value": "10"
+            }
+        ],
+        "endEffects": [
+            {
+                "affected": "Temporary HP",
+                "value": "-Temporary_HP('',effect.sourceId)"
+            }
+        ],
+        "gainActivities": [
+            {
+                "_className": "ActivityGain",
+                "name": "Dragon Form Breath Weapon",
+                "source": "Dragon Form (6th Level)"
+            }
+        ],
+        "gainItems": [
+            {
+                "name": "Dragon Form Tail",
+                "type": "weapons"
+            },
+            {
+                "conditionChoiceFilter": "Black",
+                "name": "Dragon Form Black Dragon Jaws",
+                "type": "weapons"
+            },
+            {
+                "conditionChoiceFilter": "Black",
+                "name": "Dragon Form Claw",
+                "type": "weapons"
+            },
+            {
+                "conditionChoiceFilter": "Black",
+                "name": "Dragon Form Horns",
+                "type": "weapons"
+            },
+            {
+                "conditionChoiceFilter": "Blue",
+                "name": "Dragon Form Blue Dragon Jaws",
+                "type": "weapons"
+            },
+            {
+                "conditionChoiceFilter": "Blue",
+                "name": "Dragon Form Claw",
+                "type": "weapons"
+            },
+            {
+                "conditionChoiceFilter": "Blue",
+                "name": "Dragon Form Horns",
+                "type": "weapons"
+            },
+            {
+                "conditionChoiceFilter": "Brass",
+                "name": "Dragon Form Brass Dragon Jaws",
+                "type": "weapons"
+            },
+            {
+                "conditionChoiceFilter": "Brass",
+                "name": "Dragon Form Claw",
+                "type": "weapons"
+            },
+            {
+                "conditionChoiceFilter": "Brass",
+                "name": "Dragon Form Brass Dragon Spikes",
+                "type": "weapons"
+            },
+            {
+                "conditionChoiceFilter": "Bronze",
+                "name": "Dragon Form Bronze Dragon Jaws",
+                "type": "weapons"
+            },
+            {
+                "conditionChoiceFilter": "Bronze",
+                "name": "Dragon Form Claw",
+                "type": "weapons"
+            },
+            {
+                "conditionChoiceFilter": "Bronze",
+                "name": "Dragon Form Bronze Dragon Wing",
+                "type": "weapons"
+            },
+            {
+                "conditionChoiceFilter": "Copper",
+                "name": "Dragon Form Copper Dragon Jaws",
+                "type": "weapons"
+            },
+            {
+                "conditionChoiceFilter": "Copper",
+                "name": "Dragon Form Claw",
+                "type": "weapons"
+            },
+            {
+                "conditionChoiceFilter": "Copper",
+                "name": "Dragon Form Copper Dragon Wing",
+                "type": "weapons"
+            },
+            {
+                "conditionChoiceFilter": "Gold",
+                "name": "Dragon Form Gold Dragon Jaws",
+                "type": "weapons"
+            },
+            {
+                "conditionChoiceFilter": "Gold",
+                "name": "Dragon Form Gold Dragon Claw",
+                "type": "weapons"
+            },
+            {
+                "conditionChoiceFilter": "Gold",
+                "name": "Dragon Form Horns",
+                "type": "weapons"
+            },
+            {
+                "conditionChoiceFilter": "Green",
+                "name": "Dragon Form Green Dragon Jaws",
+                "type": "weapons"
+            },
+            {
+                "conditionChoiceFilter": "Green",
+                "name": "Dragon Form Claw",
+                "type": "weapons"
+            },
+            {
+                "conditionChoiceFilter": "Green",
+                "name": "Dragon Form Horns",
+                "type": "weapons"
+            },
+            {
+                "conditionChoiceFilter": "Red",
+                "name": "Dragon Form Red Dragon Jaws",
+                "type": "weapons"
+            },
+            {
+                "conditionChoiceFilter": "Red",
+                "name": "Dragon Form Red Dragon Claw",
+                "type": "weapons"
+            },
+            {
+                "conditionChoiceFilter": "Red",
+                "name": "Dragon Form Red Dragon Wing",
+                "type": "weapons"
+            },
+            {
+                "conditionChoiceFilter": "Silver",
+                "name": "Dragon Form Silver Dragon Jaws",
+                "type": "weapons"
+            },
+            {
+                "conditionChoiceFilter": "Silver",
+                "name": "Dragon Form Claw",
+                "type": "weapons"
+            },
+            {
+                "conditionChoiceFilter": "White",
+                "name": "Dragon Form White Dragon Jaws",
+                "type": "weapons"
+            },
+            {
+                "conditionChoiceFilter": "White",
+                "name": "Dragon Form Claw",
+                "type": "weapons"
+            }
+        ],
+        "senses": [
+            {
+                "name": "Low-Light Vision"
+            },
+            {
+                "name": "Scent 30 feet (imprecise)"
+            }
+        ],
+        "attackRestrictions": [
+            {
+                "name": "Dragon Form Tail"
+            },
+            {
+                "conditionChoiceFilter": "Black",
+                "name": "Dragon Form Black Dragon Jaws"
+            },
+            {
+                "conditionChoiceFilter": "Black",
+                "name": "Dragon Form Claw"
+            },
+            {
+                "conditionChoiceFilter": "Black",
+                "name": "Dragon Form Horns"
+            },
+            {
+                "conditionChoiceFilter": "Blue",
+                "name": "Dragon Form Blue Dragon Jaws"
+            },
+            {
+                "conditionChoiceFilter": "Blue",
+                "name": "Dragon Form Claw"
+            },
+            {
+                "conditionChoiceFilter": "Blue",
+                "name": "Dragon Form Horns"
+            },
+            {
+                "conditionChoiceFilter": "Brass",
+                "name": "Dragon Form Brass Dragon Jaws"
+            },
+            {
+                "conditionChoiceFilter": "Brass",
+                "name": "Dragon Form Brass Dragon Claw"
+            },
+            {
+                "conditionChoiceFilter": "Brass",
+                "name": "Dragon Form Brass Dragon Spikes"
+            },
+            {
+                "conditionChoiceFilter": "Bronze",
+                "name": "Dragon Form Bronze Dragon Jaws"
+            },
+            {
+                "conditionChoiceFilter": "Bronze",
+                "name": "Dragon Form Claw"
+            },
+            {
+                "conditionChoiceFilter": "Bronze",
+                "name": "Dragon Form Bronze Dragon Wing"
+            },
+            {
+                "conditionChoiceFilter": "Copper",
+                "name": "Dragon Form Copper Dragon Jaws"
+            },
+            {
+                "conditionChoiceFilter": "Copper",
+                "name": "Dragon Form Claw"
+            },
+            {
+                "conditionChoiceFilter": "Copper",
+                "name": "Dragon Form Copper Dragon Wing"
+            },
+            {
+                "conditionChoiceFilter": "Gold",
+                "name": "Dragon Form Gold Dragon Jaws"
+            },
+            {
+                "conditionChoiceFilter": "Gold",
+                "name": "Dragon Form Gold Dragon Claw"
+            },
+            {
+                "conditionChoiceFilter": "Gold",
+                "name": "Dragon Form Horns"
+            },
+            {
+                "conditionChoiceFilter": "Green",
+                "name": "Dragon Form Green Dragon Jaws"
+            },
+            {
+                "conditionChoiceFilter": "Green",
+                "name": "Dragon Form Claw"
+            },
+            {
+                "conditionChoiceFilter": "Green",
+                "name": "Dragon Form Horns"
+            },
+            {
+                "conditionChoiceFilter": "Red",
+                "name": "Dragon Form Red Dragon Jaws"
+            },
+            {
+                "conditionChoiceFilter": "Red",
+                "name": "Dragon Form Red Dragon Claw"
+            },
+            {
+                "conditionChoiceFilter": "Red",
+                "name": "Dragon Form Red Dragon Wing"
+            },
+            {
+                "conditionChoiceFilter": "Silver",
+                "name": "Dragon Form Silver Dragon Jaws"
+            },
+            {
+                "conditionChoiceFilter": "Silver",
+                "name": "Dragon Form Claw"
+            },
+            {
+                "conditionChoiceFilter": "White",
+                "name": "Dragon Form White Dragon Jaws"
+            },
+            {
+                "conditionChoiceFilter": "White",
+                "name": "Dragon Form Claw"
+            }
+        ]
+    },
+    {
+        "name": "Dragon Form (8th Level)",
+        "desc": "Calling upon powerful transformative magic, you gain a Huge dragon battle form. You must have space to expand or the spell is lost. When you cast this spell, choose one type of chromatic or metallic dragon. While in this form, you gain the dragon trait. You have hands in this battle form and can take manipulate actions. You can Dismiss the spell.\n\nYou gain the following statistics and abilities regardless of which battle form you choose:\n\nAC = 21 + your level. Ignore your armor's check penalty and Speed reduction.\n15 temporary Hit Points.\nSpeed 40 feet, fly Speed 100 feet with a +20-foot status bonus.\nResistance 10 against the damage type of your breath weapon (see below).\nDarkvision and imprecise scent 60 feet.\nOne or more unarmed melee attacks specific to the battle form you choose, which are the only attacks you can use. You're trained with them. Your attack modifier is +28, and your damage bonus is +12. These attacks are Strength based (for the purpose of the enfeebled condition, for example). If your unarmed attack modifier is higher, you can use it instead. See below for more on these attacks.\nAthletics modifier of +28, unless your own modifier is higher.\n<strong>Breath Weapon</strong> (Two Actions) (arcane, evocation) The shape, damage, and damage type of your breath weapon depend on your specific dragon form (see below). A creature in the area attempts a basic save against your spell DC. This is a Reflex save unless stated otherwise in the special ability description for your specific dragon form. Once activated, your breath weapon can't be used again for 1d4 rounds. Your breath weapon has the trait corresponding to the type of damage it deals. You gain a +14 status bonus to breath weapon damage.\n\nYou also gain specific abilities based on the type of dragon you choose:\n\n<strong>Black</strong> swim Speed 60 feet; <strong>Melee</strong> jaws (reach 10 feet), <strong>Damage</strong> 2d12 piercing plus 2d6 acid; <strong>Melee</strong> claw (agile, reach 10 feet), <strong>Damage</strong> 3d10 slashing; <strong>Melee</strong> tail (reach 15 feet), <strong>Damage</strong> 3d10 bludgeoning; <strong>Melee</strong> horns (reach 15 feet), <strong>Damage</strong> 3d8 piercing; breath weapon 60-foot line, 11d6 acid.\n<strong>Blue</strong> burrow Speed 20 feet; <strong>Melee</strong> jaws (reach 10 feet), <strong>Damage</strong> 2d10 piercing plus 1d12 electricity; <strong>Melee</strong> claw (agile, reach 10 feet), <strong>Damage</strong> 3d10 slashing; <strong>Melee</strong> tail (reach 15 feet), <strong>Damage</strong> 3d10 bludgeoning; <strong>Melee</strong> horns (reach 15 feet), <strong>Damage</strong> 3d8 piercing; breath weapon 80-foot line, 6d12 electricity.\n<strong>Brass</strong> burrow Speed 20 feet; <strong>Melee</strong> jaws (reach 10 feet), <strong>Damage</strong> 3d8 piercing plus 2d4 fire; <strong>Melee</strong> claw (agile, reach 10 feet), <strong>Damage</strong> 3d10 slashing; <strong>Melee</strong> tail (reach 15 feet), <strong>Damage</strong> 3d10 bludgeoning; <strong>Melee</strong> spikes (reach 15 feet), <strong>Damage</strong> 3d8 piercing; breath weapon 60-foot line, 15d4 fire.\n<strong>Bronze</strong> swim Speed 40 feet; <strong>Melee</strong> jaws (reach 10 feet), <strong>Damage</strong> 2d10 piercing plus 1d12 electricity; <strong>Melee</strong> claw (agile, reach 10 feet), <strong>Damage</strong> 3d10 slashing; <strong>Melee</strong> tail (reach 15 feet), <strong>Damage</strong> 3d10 bludgeoning; <strong>Melee</strong> wing (reach 15 feet), <strong>Damage</strong> 3d8 slashing; breath weapon 80-foot line, 6d12 electricity.\n<strong>Copper</strong> climb Speed 25 feet on stone only; <strong>Melee</strong> jaws (reach 10 feet), <strong>Damage</strong> 2d12 piercing plus 2d6 acid; <strong>Melee</strong> claw (agile, reach 10 feet), <strong>Damage</strong> 3d10 slashing; <strong>Melee</strong> tail (reach 15 feet), <strong>Damage</strong> 3d10 bludgeoning; <strong>Melee</strong> wing (reach 15 feet), <strong>Damage</strong> 3d8 bludgeoning; breath weapon 60-foot line, 10d6 acid.\n<strong>Gold</strong> swim Speed 40 feet; <strong>Melee</strong> jaws (reach 10 feet), <strong>Damage</strong> 2d12 piercing plus 2d6 fire; <strong>Melee</strong> claw (agile, reach 10 feet), <strong>Damage</strong> 4d6 slashing; <strong>Melee</strong> tail (reach 15 feet), <strong>Damage</strong> 3d10 bludgeoning; <strong>Melee</strong> horns (reach 15 feet), <strong>Damage</strong> 3d8 piercing; breath weapon 30-foot cone, 6d10 fire.\n<strong>Green</strong> swim Speed 40 feet, ignores difficult terrain from non-magical foliage; <strong>Melee</strong> jaws (reach 10 feet), <strong>Damage</strong> 2d12 piercing plus 2d6 poison; <strong>Melee</strong> claw (agile, reach 10 feet), <strong>Damage</strong> 3d10 slashing; <strong>Melee</strong> tail (reach 15 feet), <strong>Damage</strong> 3d10 bludgeoning; <strong>Melee</strong> horns (reach 15 feet), <strong>Damage</strong> 3d8 piercing; breath weapon 30-foot cone, 10d6 poison (Fortitude save instead of Reflex).\n<strong>Red</strong> ignore concealed from smoke; <strong>Melee</strong> jaws (reach 10 feet), <strong>Damage</strong> 2d12 piercing plus 2d6 fire; <strong>Melee</strong> claw (agile, reach 10 feet), <strong>Damage</strong> 4d6 slashing; <strong>Melee</strong> tail (reach 15 feet), <strong>Damage</strong> 3d10 bludgeoning; <strong>Melee</strong> wing (reach 15 feet), <strong>Damage</strong> 3d8 bludgeoning; breath weapon 30-foot cone, 10d6 fire.\n<strong>Silver</strong> cloud walk; <strong>Melee</strong> jaws (reach 10 feet), <strong>Damage</strong> 2d12 piercing plus 2d6 cold; <strong>Melee</strong> claw (agile, reach 10 feet), <strong>Damage</strong> 3d10 slashing; <strong>Melee</strong> tail (reach 15 feet), <strong>Damage</strong> 3d10 bludgeoning; breath weapon 30-foot cone, 8d8 cold.\n<strong>White</strong> climb Speed 25 feet on ice only; <strong>Melee</strong> jaws (reach 10 feet), <strong>Damage</strong> 3d6 piercing plus 2d6 cold; <strong>Melee</strong> claw (agile, reach 10 feet), <strong>Damage</strong> 3d10 slashing; <strong>Melee</strong> tail (reach 15 feet), <strong>Damage</strong> 3d10 bludgeoning; breath weapon 30-foot cone, 10d6 cold.",
+        "type": "spells",
+        "buff": true,
+        "hints": [
+            {
+                "desc": "The copper dragon's climb speed applies on stone only.\n\nThe green dragon ignores difficult terrain from non-magical foliage.\n\nThe silver dragon can cloud walk.\n\nThe white dragon's climb speed applies on ice only.",
+                "showon": "Movement"
+            },
+            {
+                "desc": "The red dragon ignores concealed from smoke.",
+                "showon": "Attacks"
+            }
+        ],
+        "choice": "Black",
+        "choices": [
+            "Blue",
+            "Brass",
+            "Bronze",
+            "Copper",
+            "Gold",
+            "Green",
+            "Red",
+            "Silver",
+            "White"
+        ],
+        "effects": [
+            {
+                "affected": "Size",
+                "setValue": "2"
+            },
+            {
+                "affected": "AC",
+                "setValue": "21 + Level"
+            },
+            {
+                "affected": "Melee Attack Rolls",
+                "setValue": "Skill('Unarmed Attacks') > 28 ? null : 28"
+            },
+            {
+                "affected": "Melee Damage",
+                "setValue": "12"
+            },
+            {
+                "affected": "Athletics",
+                "setValue": "Skill('Athletics') > 28 ? null : 28"
+            },
+            {
+                "affected": "Land Speed",
+                "setValue": "40"
+            },
+            {
+                "affected": "Fly Speed",
+                "setValue": "100"
+            },
+            {
+                "affected": "Unarmed Attacks Proficiency Level",
+                "setValue": "2"
+            },
+            {
+                "affected": "Ignore Armor Penalty",
+                "toggle": true
+            },
+            {
+                "affected": "Swim Speed",
+                "setValue": "Choice == 'Black' ? 60 : null"
+            },
+            {
+                "affected": "Swim Speed",
+                "setValue": "['Bronze','Gold','Green'].includes(Choice) ? 40 : null"
+            },
+            {
+                "affected": "Burrow Speed",
+                "setValue": "['Blue','Brass'].includes(Choice) ? 20 : null"
+            },
+            {
+                "affected": "Burrow Speed",
+                "setValue": "['Copper','White'].includes(Choice) ? 25 : null"
+            },
+            {
+                "affected": "Fly Speed",
+                "setValue": 20,
+                "type": "status"
+            },
+            {
+                "affected": "Acid Resistance",
+                "value": "['Black','Copper'].includes(Choice) ? 10 : 0"
+            },
+            {
+                "affected": "Cold Resistance",
+                "value": "['Silver','White'].includes(Choice) ? 10 : 0"
+            },
+            {
+                "affected": "Electricity Resistance",
+                "value": "['Blue','Bronze'].includes(Choice) ? 10 : 0"
+            },
+            {
+                "affected": "Fire Resistance",
+                "value": "['Brass','Gold','Red'].includes(Choice) ? 10 : 0"
+            },
+            {
+                "affected": "Poison Resistance",
+                "value": "Choice == 'Poison' ? 10 : 0"
+            }
+        ],
+        "onceEffects": [
+            {
+                "affected": "Temporary HP",
+                "value": "12"
+            }
+        ],
+        "endEffects": [
+            {
+                "affected": "Temporary HP",
+                "value": "-Temporary_HP('',effect.sourceId)"
+            }
+        ],
+        "gainActivities": [
+            {
+                "_className": "ActivityGain",
+                "name": "Dragon Form Breath Weapon",
+                "source": "Dragon Form (8th Level)"
+            }
+        ],
+        "gainItems": [
+            {
+                "name": "Dragon Form Tail (8th Level)",
+                "type": "weapons"
+            },
+            {
+                "conditionChoiceFilter": "Black",
+                "name": "Dragon Form Black Dragon Jaws (8th Level)",
+                "type": "weapons"
+            },
+            {
+                "conditionChoiceFilter": "Black",
+                "name": "Dragon Form Claw (8th Level)",
+                "type": "weapons"
+            },
+            {
+                "conditionChoiceFilter": "Black",
+                "name": "Dragon Form Horns (8th Level)",
+                "type": "weapons"
+            },
+            {
+                "conditionChoiceFilter": "Blue",
+                "name": "Dragon Form Blue Dragon Jaws (8th Level)",
+                "type": "weapons"
+            },
+            {
+                "conditionChoiceFilter": "Blue",
+                "name": "Dragon Form Claw (8th Level)",
+                "type": "weapons"
+            },
+            {
+                "conditionChoiceFilter": "Blue",
+                "name": "Dragon Form Horns (8th Level)",
+                "type": "weapons"
+            },
+            {
+                "conditionChoiceFilter": "Brass",
+                "name": "Dragon Form Brass Dragon Jaws (8th Level)",
+                "type": "weapons"
+            },
+            {
+                "conditionChoiceFilter": "Brass",
+                "name": "Dragon Form Claw (8th Level)",
+                "type": "weapons"
+            },
+            {
+                "conditionChoiceFilter": "Brass",
+                "name": "Dragon Form Brass Dragon Spikes (8th Level)",
+                "type": "weapons"
+            },
+            {
+                "conditionChoiceFilter": "Bronze",
+                "name": "Dragon Form Bronze Dragon Jaws (8th Level)",
+                "type": "weapons"
+            },
+            {
+                "conditionChoiceFilter": "Bronze",
+                "name": "Dragon Form Claw (8th Level)",
+                "type": "weapons"
+            },
+            {
+                "conditionChoiceFilter": "Bronze",
+                "name": "Dragon Form Bronze Dragon Wing (8th Level)",
+                "type": "weapons"
+            },
+            {
+                "conditionChoiceFilter": "Copper",
+                "name": "Dragon Form Copper Dragon Jaws (8th Level)",
+                "type": "weapons"
+            },
+            {
+                "conditionChoiceFilter": "Copper",
+                "name": "Dragon Form Claw (8th Level)",
+                "type": "weapons"
+            },
+            {
+                "conditionChoiceFilter": "Copper",
+                "name": "Dragon Form Copper Dragon Wing (8th Level)",
+                "type": "weapons"
+            },
+            {
+                "conditionChoiceFilter": "Gold",
+                "name": "Dragon Form Gold Dragon Jaws (8th Level)",
+                "type": "weapons"
+            },
+            {
+                "conditionChoiceFilter": "Gold",
+                "name": "Dragon Form Gold Dragon Claw (8th Level)",
+                "type": "weapons"
+            },
+            {
+                "conditionChoiceFilter": "Gold",
+                "name": "Dragon Form Horns (8th Level)",
+                "type": "weapons"
+            },
+            {
+                "conditionChoiceFilter": "Green",
+                "name": "Dragon Form Green Dragon Jaws (8th Level)",
+                "type": "weapons"
+            },
+            {
+                "conditionChoiceFilter": "Green",
+                "name": "Dragon Form Claw (8th Level)",
+                "type": "weapons"
+            },
+            {
+                "conditionChoiceFilter": "Green",
+                "name": "Dragon Form Horns (8th Level)",
+                "type": "weapons"
+            },
+            {
+                "conditionChoiceFilter": "Red",
+                "name": "Dragon Form Red Dragon Jaws (8th Level)",
+                "type": "weapons"
+            },
+            {
+                "conditionChoiceFilter": "Red",
+                "name": "Dragon Form Red Dragon Claw (8th Level)",
+                "type": "weapons"
+            },
+            {
+                "conditionChoiceFilter": "Red",
+                "name": "Dragon Form Red Dragon Wing (8th Level)",
+                "type": "weapons"
+            },
+            {
+                "conditionChoiceFilter": "Silver",
+                "name": "Dragon Form Silver Dragon Jaws (8th Level)",
+                "type": "weapons"
+            },
+            {
+                "conditionChoiceFilter": "Silver",
+                "name": "Dragon Form Claw (8th Level)",
+                "type": "weapons"
+            },
+            {
+                "conditionChoiceFilter": "White",
+                "name": "Dragon Form White Dragon Jaws",
+                "type": "weapons"
+            },
+            {
+                "conditionChoiceFilter": "White",
+                "name": "Dragon Form Claw (8th Level)",
+                "type": "weapons"
+            }
+        ],
+        "senses": [
+            {
+                "name": "Low-Light Vision"
+            },
+            {
+                "name": "Scent 30 feet (imprecise)"
+            }
+        ],
+        "attackRestrictions": [
+            {
+                "name": "Dragon Form Tail (8th Level)"
+            },
+            {
+                "conditionChoiceFilter": "Black",
+                "name": "Dragon Form Black Dragon Jaws (8th Level)"
+            },
+            {
+                "conditionChoiceFilter": "Black",
+                "name": "Dragon Form Claw (8th Level)"
+            },
+            {
+                "conditionChoiceFilter": "Black",
+                "name": "Dragon Form Horns (8th Level)"
+            },
+            {
+                "conditionChoiceFilter": "Blue",
+                "name": "Dragon Form Blue Dragon Jaws (8th Level)"
+            },
+            {
+                "conditionChoiceFilter": "Blue",
+                "name": "Dragon Form Claw (8th Level)"
+            },
+            {
+                "conditionChoiceFilter": "Blue",
+                "name": "Dragon Form Horns (8th Level)"
+            },
+            {
+                "conditionChoiceFilter": "Brass",
+                "name": "Dragon Form Brass Dragon Jaws (8th Level)"
+            },
+            {
+                "conditionChoiceFilter": "Brass",
+                "name": "Dragon Form Brass Dragon Claw (8th Level)"
+            },
+            {
+                "conditionChoiceFilter": "Brass",
+                "name": "Dragon Form Brass Dragon Spikes (8th Level)"
+            },
+            {
+                "conditionChoiceFilter": "Bronze",
+                "name": "Dragon Form Bronze Dragon Jaws (8th Level)"
+            },
+            {
+                "conditionChoiceFilter": "Bronze",
+                "name": "Dragon Form Claw (8th Level)"
+            },
+            {
+                "conditionChoiceFilter": "Bronze",
+                "name": "Dragon Form Bronze Dragon Wing (8th Level)"
+            },
+            {
+                "conditionChoiceFilter": "Copper",
+                "name": "Dragon Form Copper Dragon Jaws (8th Level)"
+            },
+            {
+                "conditionChoiceFilter": "Copper",
+                "name": "Dragon Form Claw (8th Level)"
+            },
+            {
+                "conditionChoiceFilter": "Copper",
+                "name": "Dragon Form Copper Dragon Wing (8th Level)"
+            },
+            {
+                "conditionChoiceFilter": "Gold",
+                "name": "Dragon Form Gold Dragon Jaws (8th Level)"
+            },
+            {
+                "conditionChoiceFilter": "Gold",
+                "name": "Dragon Form Gold Dragon Claw (8th Level)"
+            },
+            {
+                "conditionChoiceFilter": "Gold",
+                "name": "Dragon Form Horns (8th Level)"
+            },
+            {
+                "conditionChoiceFilter": "Green",
+                "name": "Dragon Form Green Dragon Jaws (8th Level)"
+            },
+            {
+                "conditionChoiceFilter": "Green",
+                "name": "Dragon Form Claw (8th Level)"
+            },
+            {
+                "conditionChoiceFilter": "Green",
+                "name": "Dragon Form Horns (8th Level)"
+            },
+            {
+                "conditionChoiceFilter": "Red",
+                "name": "Dragon Form Red Dragon Jaws (8th Level)"
+            },
+            {
+                "conditionChoiceFilter": "Red",
+                "name": "Dragon Form Red Dragon Claw (8th Level)"
+            },
+            {
+                "conditionChoiceFilter": "Red",
+                "name": "Dragon Form Red Dragon Wing (8th Level)"
+            },
+            {
+                "conditionChoiceFilter": "Silver",
+                "name": "Dragon Form Silver Dragon Jaws (8th Level)"
+            },
+            {
+                "conditionChoiceFilter": "Silver",
+                "name": "Dragon Form Claw (8th Level)"
+            },
+            {
+                "conditionChoiceFilter": "White",
+                "name": "Dragon Form White Dragon Jaws (8th Level)"
+            },
+            {
+                "conditionChoiceFilter": "White",
+                "name": "Dragon Form Claw (8th Level)"
+            }
+        ]
+    },
+    {
+        "name": "Dragon Form Breath Weapon Cooldown",
+        "desc": "Once activated, your breath weapon can't be used again for 1d4 rounds.",
+        "type": "spells",
+        "inputRequired": "Roll 1d4 and change the duration of the condition to the result."
+    },
+    {
         "name": "Acute Vision",
         "desc": "When you are raging, your visual senses improve, granting you darkvision.",
-        "hide": true,
         "type": "feats",
+        "hide": true,
         "senses": [
-            "Darkvision"
+            {
+                "name": "Darkvision"
+            }
         ]
     },
     {
         "name": "Acute Scent",
         "desc": "When you Rage, your sense of smell improves. You gain imprecise scent with a range of 30 feet.",
-        "hide": true,
         "type": "feats",
+        "hide": true,
         "senses": [
-            "Scent 30 feet (imprecise)"
+            {
+                "name": "Scent 30 feet (imprecise)"
+            }
         ]
     },
     {
         "name": "Raging Athlete",
         "desc": "Physical obstacles can't hold back your fury. While you are raging, you gain a climb Speed and swim Speed equal to your land Speed and the DC of High Jumps and Long Jumps decreases by 10. Your distance for a vertical Leap increases to 5 feet vertically, and your distance for a horizontal Leap increases to 15 feet if your Speed is at least 15 feet and to 20 feet if your Speed is at least 30 feet.",
-        "hide": true,
         "type": "feats",
+        "hide": true,
+        "hints": [
+            {
+                "desc": "The DC of High Jumps and Long Jumps decreases by 10. Your distance for a vertical Leap increases to 5 feet vertically, and your distance for a horizontal Leap increases to 15 feet if your Speed is at least 15 feet and to 20 feet if your Speed is at least 30 feet.",
+                "showon": "Athletics"
+            }
+        ],
         "effects": [
             {
                 "affected": "Climb Speed",
@@ -13285,35 +14098,29 @@
                 "affected": "Swim Speed",
                 "setValue": "Speed('Land Speed')"
             }
-        ],
-        "hints": [
-            {
-                "desc": "The DC of High Jumps and Long Jumps decreases by 10. Your distance for a vertical Leap increases to 5 feet vertically, and your distance for a horizontal Leap increases to 15 feet if your Speed is at least 15 feet and to 20 feet if your Speed is at least 30 feet.",
-                "showon": "Athletics"
-            }
         ]
     },
     {
         "name": "Furious Bully",
         "desc": "You bully foes across the battlefield. While raging, you gain a +2 circumstance bonus to Athletics checks for attack actions.",
-        "hide": true,
         "type": "feats",
+        "hide": true,
         "hints": [
             {
                 "desc": "While raging, you gain a +2 circumstance bonus to Athletics checks for attack actions.",
-                "showon": "Athletics",
                 "effects": [
                     {
                         "affected": "Athletics",
-                        "value": "2",
-                        "type": "circumstance"
+                        "type": "circumstance",
+                        "value": "2"
                     }
-                ]
+                ],
+                "showon": "Athletics"
             }
         ]
     },
     {
-        "name":"Charm (Caster)",
+        "name": "Charm (Caster)",
         "desc": "To the target, your words are honey and your visage seems bathed in a dreamy haze. It must attempt a Will save, with a +4 circumstance bonus if you or your allies recently threatened it or used hostile actions against it.\n\n<strong>Critical success</strong> The target is unaffected and aware you tried to charm it.\n<strong>Success</strong> The target is unaffected but thinks your spell was something harmless instead of charm, unless it identifies the spell (see Identifying Magic).\n<strong>Failure</strong> The target's attitude becomes friendly toward you. If it was friendly, it becomes helpful. It can't use hostile actions against you.\n<strong>Critical failure</strong> The target's attitude becomes helpful toward you, and it can't use hostile actions against you.\n\nYou can Dismiss the spell. If you use hostile actions against the target, the spell ends. When the spell ends, the target doesn't necessarily realize it was charmed unless its friendship with you or the actions you convinced it to take clash with its expectations, meaning you could potentially convince the target to continue being your friend via mundane means.",
         "type": "spells",
         "buff": true,
@@ -13325,20 +14132,23 @@
         ]
     },
     {
-        "name":"Charm (Failure)",
+        "name": "Charm (Failure)",
         "desc": "The caster's words are honey to you, and their visage seems bathed in a dreamy haze. Your attitude becomes friendly toward the caster. If you were friendly, you become helpful. You can't use hostile actions against the caster.",
         "type": "spells"
     },
     {
-        "name":"Charm (Critical failure)",
+        "name": "Charm (Critical failure)",
         "desc": "The caster's words are honey to you, and their visage seems bathed in a dreamy haze. Your attitude becomes helpful toward the caster, and you can't use hostile actions against them.",
         "type": "spells"
     },
     {
-        "name":"Giant's Stature",
+        "name": "Giant's Stature",
         "desc": "You grow to incredible size. You become Large, increasing your reach by 5 feet and gaining the clumsy 1 condition until you stop raging. Your equipment grows with you.",
         "type": "activities",
-        "buff": "true",
+        "buff": true,
+        "endsWithConditions": [
+            "Rage"
+        ],
         "effects": [
             {
                 "affected": "Size",
@@ -13354,15 +14164,1041 @@
                 "name": "Clumsy",
                 "value": 1
             }
-        ],
-        "neededConditions": [
-            "Rage"
         ]
     },
     {
-        "name":"Terrifying Howl Immunity",
+        "name": "Terrifying Howl Immunity",
         "desc": "You cannot be demoralized by Terrifying Howl for the duration.",
         "type": "activities",
         "buff": true
+    },
+    {
+        "name": "Earthquake (Caster)",
+        "desc": "You shake the ground, topple creatures into fissures, and collapse structures in a 60-foot burst (a quarter-mile burst on 10th level).\n\nThe GM might add additional effects in certain areas. Cliffs might collapse, causing creatures to fall, or a lake might drain as fissures open up below its surface, leaving a morass of quicksand.\n\n<strong>Shaking Ground</strong> The ground is difficult terrain, and creatures on it take a -2 circumstance penalty to attack rolls, AC, and skill checks.\n<strong>Fissures</strong> Each creature on the ground must attempt a Reflex save at the start of its turn to keep its footing and avoid falling into 40-foot-deep fissures that open beneath it. The fissures are permanent, and their sides require DC 15 Athletics to Climb.\n<strong>Collapse Structures</strong> and ceilings might collapse. The GM rolls a flat check for each (DC 16 for a sturdy structure, DC 14 for an average structure and most natural formations, DC 9 for a shoddy structure, all adjusted higher or lower as the GM sees fit). A collapse deals 11d6 bludgeoning damage; each creature caught in a collapse must attempt a Reflex save to avoid it.\n\n<strong>Critical Success</strong> The creature takes half the collapse damage.\n<strong>Success</strong> The creature takes half the collapse damage and falls prone.\n<strong>Failure</strong> The creature takes the full collapse damage and falls prone.\n<strong>Critical Failure</strong> The creature takes the full collapse damage and falls into a fissure.",
+        "type": "spells",
+        "buff": true,
+        "effects": [
+            {
+                "affected": "Fly Speed",
+                "setValue": "20",
+                "type": "status"
+            }
+        ]
+    },
+    {
+        "name": "Earthquake",
+        "desc": "The ground shakes, creatures are toppled into fissures, and structures collapse in a 60-foot burst (a quarter-mile burst on 10th level).\n\nThe GM might add additional effects in certain areas. Cliffs might collapse, causing creatures to fall, or a lake might drain as fissures open up below its surface, leaving a morass of quicksand.\n\n<strong>Shaking Ground</strong> The ground is difficult terrain, and creatures on it take a -2 circumstance penalty to attack rolls, AC, and skill checks.\n<strong>Fissures</strong> Each creature on the ground must attempt a Reflex save at the start of its turn to keep its footing and avoid falling into 40-foot-deep fissures that open beneath it. The fissures are permanent, and their sides require DC 15 Athletics to Climb.\n<strong>Collapse Structures</strong> and ceilings might collapse. The GM rolls a flat check for each (DC 16 for a sturdy structure, DC 14 for an average structure and most natural formations, DC 9 for a shoddy structure, all adjusted higher or lower as the GM sees fit). A collapse deals 11d6 bludgeoning damage; each creature caught in a collapse must attempt a Reflex save to avoid it.\n\n<strong>Critical Success</strong> The creature takes half the collapse damage.\n<strong>Success</strong> The creature takes half the collapse damage and falls prone.\n<strong>Failure</strong> The creature takes the full collapse damage and falls prone.\n<strong>Critical Failure</strong> The creature takes the full collapse damage and falls into a fissure.",
+        "type": "spells",
+        "hints": [
+            {
+                "desc": "You take a -2 circumstance penalty to attack rolls, AC and skill checks while on the shaking ground.",
+                "effects": [
+                    {
+                        "affected": "Attack Rolls",
+                        "type": "circumstance",
+                        "value": "-2"
+                    },
+                    {
+                        "affected": "AC",
+                        "type": "circumstance",
+                        "value": "-2"
+                    },
+                    {
+                        "affected": "Skill Checks",
+                        "type": "circumstance",
+                        "value": "-2"
+                    }
+                ],
+                "showon": "Attacks, AC, Skills"
+            },
+            {
+                "desc": "The shaking ground is difficult terrain.",
+                "showon": "Movement"
+            }
+        ]
+    },
+    {
+        "name": "Moment of Clarity",
+        "desc": "You push back your rage for a moment in order to think clearly. You can use actions with the concentrate trait even if those actions don't have the rage trait.",
+        "type": "activities",
+        "buff": true,
+        "hints": [
+            {
+                "desc": "You can use actions with the concentrate trait even if those actions don't have the rage trait.",
+                "effects": [
+                    {
+                        "affected": "Activities"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Furious Finish",
+        "desc": "Desperate to finish the fight, you pour all your rage into one final blow. You gain a circumstance bonus to damage equal to the number of rounds remaining in your Rage (maximum 10). After this Strike, your Rage immediately ends, and you are fatigued until you rest for at least 10 minutes.",
+        "type": "activities",
+        "buff": true,
+        "effects": [
+            {
+                "affected": "Damage Rolls",
+                "type": "circumstance",
+                "value": "Math.floor(creature.conditions.filter(gain => gain.name == 'Rage').map(gain => gain.duration)[0] / 10 || 0)"
+            }
+        ],
+        "gainConditions": [
+            {
+                "name": "Furious Finish Fatigue",
+                "persistent": true
+            }
+        ],
+        "overrideConditions": [
+            "Furious Finish Fatigue"
+        ]
+    },
+    {
+        "name": "Furious Finish Fatigue",
+        "desc": "Desperate to finish the fight, you have poured all your rage into one final blow. You are fatigued until you rest for at least 10 minutes.",
+        "type": "activities",
+        "inputRequired": "Remove the condition after you rest for 10 minutes.",
+        "gainConditions": [
+            {
+                "ignorePersistent": true,
+                "name": "Fatigued"
+            }
+        ]
+    },
+    {
+        "name": "Second Wind",
+        "desc": "You can enter a second rage, but afterward you need to catch your breath. You can Rage without waiting for 1 minute after the previous Rage (or 1 round, with quick rage), but when you end this second Rage, you're fatigued until you rest for 10 minutes.",
+        "type": "feats",
+        "buff": true,
+        "inputRequired": "While this is activated, you can enter Rage without waiting.",
+        "endsWithConditions": [
+            "Rage"
+        ],
+        "effects": [
+            {
+                "affected": "Rage Cooldown",
+                "setValue": "0"
+            }
+        ],
+        "gainConditions": [
+            {
+                "name": "Second Wind Fatigue",
+                "persistent": true
+            }
+        ],
+        "overrideConditions": [
+            "Second Wind Fatigue"
+        ]
+    },
+    {
+        "name": "Second Wind Fatigue",
+        "desc": "You need to catch your breath after entering a second rage. You are fatigued until you rest for 10 minutes.",
+        "type": "feats",
+        "inputRequired": "Remove the condition after you rest for 10 minutes.",
+        "gainConditions": [
+            {
+                "ignorePersistent": true,
+                "name": "Fatigued"
+            }
+        ]
+    },
+    {
+        "name": "Farabellus Flip",
+        "desc": "Flinging your body into a twisting somersault, you gain a +2 circumstance bonus to your AC against the triggering attack. If the attack still hits you, you can Step to an open space that's still within the triggering enemy's reach, turning the impact of the blow into momentum.",
+        "type": "activities",
+        "buff": true,
+        "effects": [
+            {
+                "affected": "AC",
+                "type": "circumstance",
+                "value": "2"
+            }
+        ]
+    },
+    {
+        "name": "Dragon's Rage Breath: Halved Damage",
+        "desc": "The area and the damage of your Dragon's Rage Breath are halved (15-foot cone or 30-foot line; 1d6 damage for every 2 levels)",
+        "type": "activities",
+        "buff": true,
+        "hints": [
+            {
+                "desc": "The area and the damage of your Dragon's Rage Breath are halved (15-foot cone or 30-foot line; 1d6 damage for every 2 levels)",
+                "showon": "Dragon's Rage Breath"
+            }
+        ]
+    },
+    {
+        "name": "Giant's Stature",
+        "desc": "You grow to incredible size. You become Large, increasing your reach by 5 feet and gaining the clumsy 1 condition until you stop raging. Your equipment grows with you.",
+        "type": "activities",
+        "buff": true,
+        "endsWithConditions": [
+            "Rage"
+        ],
+        "effects": [
+            {
+                "affected": "Size",
+                "setValue": "1"
+            },
+            {
+                "affected": "Reach",
+                "value": "5"
+            }
+        ],
+        "gainConditions": [
+            {
+                "name": "Clumsy",
+                "value": 1
+            }
+        ]
+    },
+    {
+        "name": "Spirits' Interference",
+        "desc": "You call forth protective spirits to ward off ranged attacks. Until your rage ends, anyone making a ranged attack against you must succeed at a DC 5 flat check or the attack misses with no effect.",
+        "type": "activities",
+        "endsWithConditions": [
+            "Rage"
+        ],
+        "hints": [
+            {
+                "desc": "Anyone making a ranged attack against you must succeed at a DC 5 flat check or the attack misses with no effect.",
+                "showon": "Defense"
+            }
+        ]
+    },
+    {
+        "name": "Animal Rage",
+        "desc": "You have transformed into your animal. You gain the effects of the 3rd-level animal form spell except you use your own statistics, temporary Hit Points, and unarmed attacks instead of those granted by animal form. You also retain the constant abilities of your gear. If your animal is a frog, your tongue's reach increases to 15 feet. While in this form, you gain the animal trait. You can Dismiss the spell. Dismissing the transformation gains the rage trait.\n\nYou gain the following abilities regardless of which battle form you choose:\n\nIgnore your armor's check penalty and Speed reduction.\nLow-light vision and imprecise scent 30 feet.\n\nYou also gain specific abilities based on the type of animal you choose:\n\n<strong>Ape</strong> Speed 25 feet, climb Speed 20 feet.\n<strong>Bear</strong> Speed 30 feet.\n<strong>Bull</strong> Speed 30 feet.\n<strong>Canine</strong> Speed 40 feet.\n<strong>Cat</strong> Speed 40 feet.\n<strong>Deer</strong> Speed 50 feet.\n<strong>Frog</strong> Speed 25 feet, swim Speed 25 feet.\n<strong>Shark</strong> swim Speed 35 feet.\n<strong>Snake</strong> Speed 20 feet, climb Speed 20 feet, swim Speed 20 feet.",
+        "type": "activities",
+        "buff": true,
+        "endsWithConditions": [
+            "Rage"
+        ],
+        "hints": [
+            {
+                "desc": "If your battle form is that of a shark type animal, you can breathe underwater but not in air.",
+                "showon": "Health"
+            }
+        ],
+        "choice": "Ape",
+        "choices": [
+            "Ape",
+            "Bear",
+            "Bull",
+            "Canine",
+            "Cat",
+            "Deer",
+            "Frog",
+            "Shark",
+            "Snake"
+        ],
+        "effects": [
+            {
+                "affected": "Land Speed",
+                "setValue": "Choice == 'Snake' ? 20 : null"
+            },
+            {
+                "affected": "Land Speed",
+                "setValue": "['Ape', 'Frog'].includes(Choice) ? 25 : null"
+            },
+            {
+                "affected": "Land Speed",
+                "setValue": "['Bear', 'Bull'].includes(Choice) ? 30 : null"
+            },
+            {
+                "affected": "Land Speed",
+                "setValue": "['Canine', 'Cat'].includes(Choice) ? 40 : null"
+            },
+            {
+                "affected": "Land Speed",
+                "setValue": "Choice == 'Deer' ? 50 : null"
+            },
+            {
+                "affected": "Climb Speed",
+                "setValue": "['Ape', 'Snake'].includes(Choice) ? 20 : null"
+            },
+            {
+                "affected": "Swim Speed",
+                "setValue": "Choice == 'Snake' ? 20 : null"
+            },
+            {
+                "affected": "Swim Speed",
+                "setValue": "Choice == 'Frog' ? 25 : null"
+            },
+            {
+                "affected": "Swim Speed",
+                "setValue": "Choice == 'Shark' ? 35 : null"
+            },
+            {
+                "affected": "Ignore Armor Penalty",
+                "toggle": true
+            },
+            {
+                "affected": "Bestial Rage Frog Tongue Reach",
+                "setValue": "Choice == 'Frog' ? 15 : null"
+            }
+        ],
+        "senses": [
+            {
+                "name": "Low-Light Vision"
+            },
+            {
+                "name": "Scent 30 feet (imprecise)"
+            }
+        ]
+    },
+    {
+        "name": "Share Rage",
+        "desc": "Your ally stokes your fury. While they are raging, you gain the effects of the Rage action, except you can still use concentrate actions.\n\nIf your ally has the Contagious Rage feat, you can accept their anathema for the duration of the Rage and gain their instinct ability and the specialization ability it gains from weapon specialization, but not greater weapon specialization.\n\n<strong>Rage</strong>\n\nYou gain a number of temporary Hit Points equal to your level plus your Constitution modifier. This frenzy lasts for 1 minute, until there are no enemies you can perceive, or until you fall unconscious, whichever comes first. You can't voluntarily stop raging. While you are raging: \n\nYou deal 2 additional damage with melee weapons and unarmed attacks. This additional damage is halved if your weapon or unarmed attack is agile.\nYou take a -1 penalty to AC.\nYou can't use actions with the concentrate trait unless they also have the rage trait. You can Seek while raging.\n\nAfter you stop raging, you lose any remaining temporary Hit Points from Rage, and you can't Rage again for 1 minute.\n\n<strong>Animal Instinct</strong>\n\nFlagrantly disrespecting an animal of your ally's chosen kind is anathema to your instinct, as is using weapons while raging.\nYou gain the chosen animal's unarmed attack (or attacks). Increase the damage die size for these unarmed attacks by one step, and increase the additional damage from Rage from 2 to 5 for them. The frog's tongue attack and deer's antler attack gain reach 10 feet.\n\n<strong>Dragon Instinct</strong>\n\nLetting a personal insult against you slide is anathema to your instinct. If your ally respects their dragon type, defying such a dragon is anathema, and if they abhor it, failing to defeat such a dragon you come across is anathema.\nWhile raging, you can increase the additional damage from Rage from 2 to 8 and change its damage type to match that of your dragon's breath weapon instead of the damage type for your weapon or unarmed attack. If you do this, your Rage action gains the arcane and evocation traits, as well as the trait matching the damage type.\n\n<strong>Fury Instinct</strong>\n\nYou don't have an anathema or an instinct ability.\nIncrease the additional damage from Rage from 2 to 6. \n\n<strong>Giant Instinct</strong>\n\nFailing to face a personal challenge of strength is anathema.\nYou can use a weapon built for a Large creature if you are Small or Medium (both normally and when raging). If you're not Small or Medium, you can use a weapon built for a creature one size larger than you. When wielding such a weapon in combat, increase your additional damage from Rage from 2 to 6, but you have the clumsy 1 condition because of the weapon's unwieldy size. You can't remove this clumsy condition or ignore its penalties by any means while wielding the weapon.\n\n<strong>Spirit Instinct</strong>\n\nDisrespecting corpses or spirits is anathema to your instinct; defending yourself against undead creatures is not.\nWhile raging, you can increase the additional damage from Rage from 2 to 7 and change its damage type to negative or positive, instead of the damage type for your weapon or unarmed attack (choose each time you Rage). If you choose to deal negative or positive damage, your weapon or unarmed attack gains the effects of the ghost touch property rune, which makes it more effective against incorporeal creatures, and your Rage action gains the divine and necromancy traits, plus negative or positive, as appropriate.",
+        "type": "activities",
+        "buff": true,
+        "inputRequired": "Remove the condition when your ally stops raging.",
+        "hints": [
+            {
+                "desc": "While raging with Draconic Rage, you can increase the additional damage from Rage from 2 to 4 and change the damage type of the additional damage from Rage to match that of your dragon's breath weapon instead of the damage type for your weapon or unarmed attack.\n\nWhile raging with Spirit Rage, you can increase the additional damage from Rage from 2 to 3 and change its damage type to negative or positive, instead of the normal damage type for your weapon or unarmed attack. If you choose to deal negative or positive damage, your weapon or unarmed attack gains the effects of the ghost touch property rune, which makes it more effective against incorporeal creatures.",
+                "effects": [
+                    {
+                        "affected": "Non-Agile Melee Damage",
+                        "value": "Choice == 'Draconic Rage' ? 6 : 0"
+                    },
+                    {
+                        "affected": "Agile Melee Damage",
+                        "value": "Choice == 'Draconic Rage' ? 3 : 0"
+                    },
+                    {
+                        "affected": "Non-Agile Melee Damage",
+                        "value": "Choice.includes('Spirit Instinct') ? 5 : 0"
+                    },
+                    {
+                        "affected": "Agile Melee Damage",
+                        "value": "Choice.includes('Spirit Instinct') ? 2 : 0"
+                    }
+                ],
+                "showon": "Attacks"
+            }
+        ],
+        "choice": "Without instinct ability",
+        "choices": [
+            "Without instinct ability",
+            "Animal Instinct: Ape",
+            "Animal Instinct: Bear",
+            "Animal Instinct: Bull",
+            "Animal Instinct: Cat",
+            "Animal Instinct: Deer",
+            "Animal Instinct: Frog",
+            "Animal Instinct: Shark",
+            "Animal Instinct: Snake",
+            "Animal Instinct: Wolf",
+            "Dragon Instinct",
+            "Fury Instinct",
+            "Giant Instinct",
+            "Spirit Instinct: Positive",
+            "Spirit Instinct: Negative"
+        ],
+        "effects": [
+            {
+                "affected": "Non-Agile Melee Damage",
+                "value": "Choice == 'Fury Instinct' ? 4 : 0"
+            },
+            {
+                "affected": "Agile Melee Damage",
+                "value": "Choice == 'Fury Instinct' ? 2 : 0"
+            },
+            {
+                "affected": "Use Large Weapons",
+                "toggle": true
+            },
+            {
+                "affected": "Non-Agile Large Melee Weapon Damage",
+                "value": "Choice == 'Giant Instinct' ? 8 : 0"
+            },
+            {
+                "affected": "Agile Large Melee Weapon Damage",
+                "value": "Choice == 'Giant Instinct' ? 4 : 0"
+            },
+            {
+                "affected": "Bestial Rage Attacks Dice Size",
+                "value": "Choice.includes('Animal Instinct') ? 2 : 0"
+            },
+            {
+                "affected": "Bestial Rage Frog Tongue Reach",
+                "value": "Choice == 'Animal Instinct: Frog' ? 10 : null"
+            },
+            {
+                "affected": "Bestial Rage Deer Antler Reach",
+                "setValue": "Choice == 'Animal Instinct: Deer' ? 10 : null"
+            },
+            {
+                "affected": "Bestial Rage Ape Fist Damage",
+                "value": "Choice == 'Animal Instinct: Ape' ? 3 : 0"
+            },
+            {
+                "affected": "Bestial Rage Bear Jaws Damage",
+                "value": "Choice == 'Animal Instinct: Bear' ? 3 : 0"
+            },
+            {
+                "affected": "Bestial Rage Bear Claw Damage",
+                "value": "Choice == 'Animal Instinct: Bear' ? 1 : 0"
+            },
+            {
+                "affected": "Bestial Rage Bull Horn Damage",
+                "value": "Choice == 'Animal Instinct: Bull' ? 1 : 0"
+            },
+            {
+                "affected": "Bestial Rage Cat Jaws Damage",
+                "value": "Choice == 'Animal Instinct: Cat' ? 1 : 0"
+            },
+            {
+                "affected": "Bestial Rage Bear Claw Damage",
+                "value": "Choice == 'Animal Instinct: Bear' ? 1 : 0"
+            },
+            {
+                "affected": "Bestial Rage Deer Antler Damage",
+                "value": "Choice == 'Animal Instinct: Deer' ? 3 : 0"
+            },
+            {
+                "affected": "Bestial Rage Frog Jaws Damage",
+                "value": "Choice == 'Animal Instinct: Frog' ? 3 : 0"
+            },
+            {
+                "affected": "Bestial Rage Frog Tongue Damage",
+                "value": "Choice == 'Animal Instinct: Frog' ? 1 : 0"
+            },
+            {
+                "affected": "Bestial Rage Shark Jaws Damage",
+                "value": "Choice == 'Animal Instinct: Shark' ? 3 : 0"
+            },
+            {
+                "affected": "Bestial Rage Snake Fangs Damage",
+                "value": "Choice == 'Animal Instinct: Snake' ? 3 : 0"
+            },
+            {
+                "affected": "Bestial Rage Wolf Jaws Damage",
+                "value": "Choice == 'Animal Instinct: Wolf' ? 3 : 0"
+            }
+        ],
+        "onceEffects": [
+            {
+                "affected": "Temporary HP",
+                "value": "Level + Modifier('Constitution')"
+            }
+        ],
+        "endEffects": [
+            {
+                "affected": "Temporary HP",
+                "value": "-Temporary_HP('',effect.sourceId)"
+            }
+        ],
+        "gainConditions": [
+            {
+                "name": "Rage"
+            }
+        ],
+        "gainItems": [
+            {
+                "conditionChoiceFilter": "Animal Instinct: Ape",
+                "name": "Bestial Rage Ape Fist",
+                "type": "weapons"
+            },
+            {
+                "conditionChoiceFilter": "Animal Instinct: Bear",
+                "name": "Bestial Rage Bear Jaws",
+                "type": "weapons"
+            },
+            {
+                "conditionChoiceFilter": "Animal Instinct: Bear",
+                "name": "Bestial Rage Bear Claw",
+                "type": "weapons"
+            },
+            {
+                "conditionChoiceFilter": "Animal Instinct: Bull",
+                "name": "Bestial Rage Bull Horn",
+                "type": "weapons"
+            },
+            {
+                "conditionChoiceFilter": "Animal Instinct: Cat",
+                "name": "Bestial Rage Cat Jaws",
+                "type": "weapons"
+            },
+            {
+                "conditionChoiceFilter": "Animal Instinct: Cat",
+                "name": "Bestial Rage Cat Claw",
+                "type": "weapons"
+            },
+            {
+                "conditionChoiceFilter": "Animal Instinct: Deer",
+                "name": "Bestial Rage Deer Antler",
+                "type": "weapons"
+            },
+            {
+                "conditionChoiceFilter": "Animal Instinct: Frog",
+                "name": "Bestial Rage Frog Jaws",
+                "type": "weapons"
+            },
+            {
+                "conditionChoiceFilter": "Animal Instinct: Frog",
+                "name": "Bestial Rage Frog Tongue",
+                "type": "weapons"
+            },
+            {
+                "conditionChoiceFilter": "Animal Instinct: Shark",
+                "name": "Bestial Rage Shark Jaws",
+                "type": "weapons"
+            },
+            {
+                "conditionChoiceFilter": "Animal Instinct: Snake",
+                "name": "Bestial Rage Snake Fangs",
+                "type": "weapons"
+            },
+            {
+                "conditionChoiceFilter": "Animal Instinct: Wolf",
+                "name": "Bestial Rage Wolf Jaws",
+                "type": "weapons"
+            }
+        ],
+        "attackRestrictions": [
+            {
+                "conditionChoiceFilter": "Animal Instinct: Ape",
+                "name": "Bestial Rage Ape Fist"
+            },
+            {
+                "conditionChoiceFilter": "Animal Instinct: Bear",
+                "name": "Bestial Rage Bear Jaws"
+            },
+            {
+                "conditionChoiceFilter": "Animal Instinct: Bear",
+                "name": "Bestial Rage Bear Claw"
+            },
+            {
+                "conditionChoiceFilter": "Animal Instinct: Bull",
+                "name": "Bestial Rage Bull Horn"
+            },
+            {
+                "conditionChoiceFilter": "Animal Instinct: Cat",
+                "name": "Bestial Rage Cat Jaws"
+            },
+            {
+                "conditionChoiceFilter": "Animal Instinct: Cat",
+                "name": "Bestial Rage Cat Claw"
+            },
+            {
+                "conditionChoiceFilter": "Animal Instinct: Deer",
+                "name": "Bestial Rage Deer Antler"
+            },
+            {
+                "conditionChoiceFilter": "Animal Instinct: Frog",
+                "name": "Bestial Rage Frog Jaws"
+            },
+            {
+                "conditionChoiceFilter": "Animal Instinct: Frog",
+                "name": "Bestial Rage Frog Tongue"
+            },
+            {
+                "conditionChoiceFilter": "Animal Instinct: Shark",
+                "name": "Bestial Rage Shark Jaws"
+            },
+            {
+                "conditionChoiceFilter": "Animal Instinct: Snake",
+                "name": "Bestial Rage Snake Fangs"
+            },
+            {
+                "conditionChoiceFilter": "Animal Instinct: Wolf",
+                "name": "Bestial Rage Wolf Jaws"
+            }
+        ]
+    },
+    {
+        "name": "Come and Get Me",
+        "desc": "You open yourself to attacks so you can respond in turn. Until your rage ends, you are flat-footed, and damage rolls against you gain a +2 circumstance bonus. If a creature hits you, that creature is flat-footed to you until the end of your next turn. If you hit it before the end of your next turn, you gain temporary Hit Points equal to your Constitution modifier, or double that on a critical hit. These temporary Hit Points last until the end of your rage.",
+        "type": "activities",
+        "buff": true,
+        "inputRequired": "If a creature hits you, that creature is flat-footed to you until the end of your next turn. If you hit it before the end of your next turn, grant yourself temporary Hit Points equal to your Constitution modifier, or double that on a critical hit. These temporary Hit Points last until the end of your rage.",
+        "endsWithConditions": [
+            "Rage"
+        ],
+        "hints": [
+            {
+                "desc": "Damage rolls against you gain a +2 circumstance bonus. If a creature hits you, that creature is flat-footed to you until the end of your next turn. If you hit it before the end of your next turn, you gain temporary Hit Points equal to your Constitution modifier, or double that on a critical hit. These temporary Hit Points last until the end of your rage.",
+                "showon": "Defense, Attacks"
+            }
+        ],
+        "endEffects": [
+            {
+                "affected": "Temporary HP",
+                "source": "Manual",
+                "value": "-Temporary_HP('Manual')"
+            }
+        ]
+    },
+    {
+        "name": "Dragon Rage's Wings",
+        "desc": "You sprout dragon wings from your back of the same color as your chosen dragon. While you are raging, you gain a fly Speed equal to your land Speed. If you are flying when your rage ends, you start to fall but the transformation only completes at the last moment, so you take no damage from the fall and land standing up.",
+        "type": "activities",
+        "buff": true,
+        "endsWithConditions": [
+            "Rage"
+        ],
+        "effects": [
+            {
+                "affected": "Fly Speed",
+                "setValue": "Speed('Land Speed')"
+            }
+        ]
+    },
+    {
+        "name": "Giant's Lunge",
+        "desc": "You extend your body and prepare to attack foes outside your normal reach. Until your rage ends, all your melee weapons and unarmed attacks gain reach 10. This doesn't increase the reach of any weapon or unarmed attack that already has the reach trait, but it does combine with abilities that increase your reach due to increased size, such as Giant's Stature.",
+        "type": "activities",
+        "buff": true,
+        "endsWithConditions": [
+            "Rage"
+        ],
+        "effects": [
+            {
+                "affected": "Reach",
+                "setValue": "10"
+            }
+        ]
+    },
+    {
+        "name": "Dragon Transformation",
+        "desc": "You transform into a ferocious Large dragon, gaining the effects of 6th-level dragon form except that you use your own AC and attack modifier, you apply your extra damage from Rage, and the Breath Weapon uses your class DC. The action to Dismiss the transformation gains the rage trait.\n\nAt 18th level, you gain a +20-foot status bonus to your fly Speed, your damage bonus with dragon Strikes increases to +12, and you gain a +14 status bonus to your breath weapon damage.\n\nCalling upon powerful transformative magic, you gain a Large dragon battle form. You must have space to expand or the spell is lost. When you cast this spell, choose one type of chromatic or metallic dragon. While in this form, you gain the dragon trait. You have hands in this battle form and can take manipulate actions. You can Dismiss the spell.\n\nYou gain the following statistics and abilities regardless of which battle form you choose:\n\n10 temporary Hit Points.\nSpeed 40 feet, fly Speed 100 feet.\nResistance 10 against the damage type of your breath weapon (see below).\nDarkvision and imprecise scent 60 feet.\nOne or more unarmed melee attacks specific to the battle form you choose, which are the only attacks you can use. You use your own attack modifier for these attacks, and your damage bonus is +6. These attacks are Strength based (for the purpose of the enfeebled condition, for example). See below for more on these attacks.\nAthletics modifier of +23, unless your own modifier is higher.\n<strong>Breath Weapon</strong> (Two Actions) (arcane, evocation) The shape, damage, and damage type of your breath weapon depend on your specific dragon form (see below). A creature in the area attempts a basic save against your class DC. This is a Reflex save unless stated otherwise in the special ability description for your specific dragon form. Once activated, your breath weapon can't be used again for 1d4 rounds. Your breath weapon has the trait corresponding to the type of damage it deals.\n\nYou also gain specific abilities based on the type of dragon you choose:\n\n<strong>Black</strong> swim Speed 60 feet; <strong>Melee</strong> jaws, <strong>Damage</strong> 2d12 piercing plus 2d6 acid; <strong>Melee</strong> claw (agile), <strong>Damage</strong> 3d10 slashing; <strong>Melee</strong> tail (reach 10 feet), <strong>Damage</strong> 3d10 bludgeoning; <strong>Melee</strong> horns (reach 10 feet), <strong>Damage</strong> 3d8 piercing; breath weapon 60-foot line, 11d6 acid.\n<strong>Blue</strong> burrow Speed 20 feet; <strong>Melee</strong> jaws, <strong>Damage</strong> 2d10 piercing plus 1d12 electricity; <strong>Melee</strong> claw (agile), <strong>Damage</strong> 3d10 slashing; <strong>Melee</strong> tail (reach 10 feet), <strong>Damage</strong> 3d10 bludgeoning; <strong>Melee</strong> horns (reach 10 feet), <strong>Damage</strong> 3d8 piercing; breath weapon 80-foot line, 6d12 electricity.\n<strong>Brass</strong> burrow Speed 20 feet; <strong>Melee</strong> jaws, <strong>Damage</strong> 3d8 piercing plus 2d4 fire; <strong>Melee</strong> claw (agile), <strong>Damage</strong> 3d10 slashing; <strong>Melee</strong> tail (reach 10 feet), <strong>Damage</strong> 3d10 bludgeoning; <strong>Melee</strong> spikes (reach 10 feet), <strong>Damage</strong> 3d8 piercing; breath weapon 60-foot line, 15d4 fire.\n<strong>Bronze</strong> swim Speed 40 feet; <strong>Melee</strong> jaws, <strong>Damage</strong> 2d10 piercing plus 1d12 electricity; <strong>Melee</strong> claw (agile), <strong>Damage</strong> 3d10 slashing; <strong>Melee</strong> tail (reach 10 feet), <strong>Damage</strong> 3d10 bludgeoning; <strong>Melee</strong> wing (reach 10 feet), <strong>Damage</strong> 3d8 slashing; breath weapon 80-foot line, 6d12 electricity.\n<strong>Copper</strong> climb Speed 25 feet on stone only; <strong>Melee</strong> jaws, <strong>Damage</strong> 2d12 piercing plus 2d6 acid; <strong>Melee</strong> claw (agile), <strong>Damage</strong> 3d10 slashing; <strong>Melee</strong> tail (reach 10 feet), <strong>Damage</strong> 3d10 bludgeoning; <strong>Melee</strong> wing (reach 10 feet), <strong>Damage</strong> 3d8 bludgeoning; breath weapon 60-foot line, 10d6 acid.\n<strong>Gold</strong> swim Speed 40 feet; <strong>Melee</strong> jaws, <strong>Damage</strong> 2d12 piercing plus 2d6 fire; <strong>Melee</strong> claw (agile), <strong>Damage</strong> 4d6 slashing; <strong>Melee</strong> tail (reach 10 feet), <strong>Damage</strong> 3d10 bludgeoning; <strong>Melee</strong> horns (reach 10 feet), <strong>Damage</strong> 3d8 piercing; breath weapon 30-foot cone, 6d10 fire.\n<strong>Green</strong> swim Speed 40 feet, ignores difficult terrain from non-magical foliage; <strong>Melee</strong> jaws, <strong>Damage</strong> 2d12 piercing plus 2d6 poison; <strong>Melee</strong> claw (agile), <strong>Damage</strong> 3d10 slashing; <strong>Melee</strong> tail (reach 10 feet), <strong>Damage</strong> 3d10 bludgeoning; <strong>Melee</strong> horns (reach 10 feet), <strong>Damage</strong> 3d8 piercing; breath weapon 30-foot cone, 10d6 poison (Fortitude save instead of Reflex).\n<strong>Red</strong> ignore concealed from smoke; <strong>Melee</strong> jaws, <strong>Damage</strong> 2d12 piercing plus 2d6 fire; <strong>Melee</strong> claw (agile), <strong>Damage</strong> 4d6 slashing; <strong>Melee</strong> tail (reach 10 feet), <strong>Damage</strong> 3d10 bludgeoning; <strong>Melee</strong> wing (reach 10 feet), <strong>Damage</strong> 3d8 bludgeoning; breath weapon 30-foot cone, 10d6 fire.\n<strong>Silver</strong> cloud walk; <strong>Melee</strong> jaws, <strong>Damage</strong> 2d12 piercing plus 2d6 cold; <strong>Melee</strong> claw (agile), <strong>Damage</strong> 3d10 slashing; <strong>Melee</strong> tail (reach 10 feet), <strong>Damage</strong> 3d10 bludgeoning; breath weapon 30-foot cone, 8d8 cold.\n<strong>White</strong> climb Speed 25 feet on ice only; <strong>Melee</strong> jaws, <strong>Damage</strong> 3d6 piercing plus 2d6 cold; <strong>Melee</strong> claw (agile), <strong>Damage</strong> 3d10 slashing; <strong>Melee</strong> tail (reach 10 feet), <strong>Damage</strong> 3d10 bludgeoning; breath weapon 30-foot cone, 10d6 cold.",
+        "type": "activities",
+        "buff": true,
+        "endsWithConditions": [
+            "Rage"
+        ],
+        "hints": [
+            {
+                "desc": "The copper dragon's climb speed applies on stone only.\n\nThe green dragon ignores difficult terrain from non-magical foliage.\n\nThe silver dragon can cloud walk.\n\nThe white dragon's climb speed applies on ice only.",
+                "showon": "Movement"
+            },
+            {
+                "desc": "The Dragon Breath Weapon uses your class DC. At 18th level, you gain a +14 status bonus to its damage.",
+                "showon": "Dragon Form Breath Weapon"
+            },
+            {
+                "desc": "The red dragon ignores concealed from smoke.",
+                "showon": "Attacks"
+            }
+        ],
+        "choice": "Black",
+        "choices": [
+            "Blue",
+            "Brass",
+            "Bronze",
+            "Copper",
+            "Gold",
+            "Green",
+            "Red",
+            "Silver",
+            "White"
+        ],
+        "effects": [
+            {
+                "affected": "Size",
+                "setValue": "1"
+            },
+            {
+                "affected": "Melee Damage",
+                "setValue": "Level >= 18 ? 12 : 6"
+            },
+            {
+                "affected": "Athletics",
+                "setValue": "Skill('Athletics') > 23 ? null : 23"
+            },
+            {
+                "affected": "Land Speed",
+                "setValue": "40"
+            },
+            {
+                "affected": "Fly Speed",
+                "setValue": "100"
+            },
+            {
+                "affected": "Fly Speed",
+                "type": "status",
+                "value": "Level >= 18 ? 20 : 0"
+            },
+            {
+                "affected": "Ignore Armor Penalty",
+                "toggle": true
+            },
+            {
+                "affected": "Swim Speed",
+                "setValue": "Choice == 'Black' ? 60 : null"
+            },
+            {
+                "affected": "Swim Speed",
+                "setValue": "['Bronze','Gold','Green'].includes(Choice) ? 40 : null"
+            },
+            {
+                "affected": "Burrow Speed",
+                "setValue": "['Blue','Brass'].includes(Choice) ? 20 : null"
+            },
+            {
+                "affected": "Burrow Speed",
+                "setValue": "['Copper','White'].includes(Choice) ? 25 : null"
+            },
+            {
+                "affected": "Acid Resistance",
+                "value": "['Black','Copper'].includes(Choice) ? 10 : 0"
+            },
+            {
+                "affected": "Cold Resistance",
+                "value": "['Silver','White'].includes(Choice) ? 10 : 0"
+            },
+            {
+                "affected": "Electricity Resistance",
+                "value": "['Blue','Bronze'].includes(Choice) ? 10 : 0"
+            },
+            {
+                "affected": "Fire Resistance",
+                "value": "['Brass','Gold','Red'].includes(Choice) ? 10 : 0"
+            },
+            {
+                "affected": "Poison Resistance",
+                "value": "Choice == 'Poison' ? 10 : 0"
+            }
+        ],
+        "onceEffects": [
+            {
+                "affected": "Temporary HP",
+                "value": "10"
+            }
+        ],
+        "endEffects": [
+            {
+                "affected": "Temporary HP",
+                "value": "-Temporary_HP('',effect.sourceId)"
+            }
+        ],
+        "gainActivities": [
+            {
+                "_className": "ActivityGain",
+                "name": "Dragon Form Breath Weapon",
+                "source": "Dragon Form (6th Level)"
+            }
+        ],
+        "gainItems": [
+            {
+                "name": "Dragon Form Tail",
+                "type": "weapons"
+            },
+            {
+                "conditionChoiceFilter": "Black",
+                "name": "Dragon Form Black Dragon Jaws",
+                "type": "weapons"
+            },
+            {
+                "conditionChoiceFilter": "Black",
+                "name": "Dragon Form Claw",
+                "type": "weapons"
+            },
+            {
+                "conditionChoiceFilter": "Black",
+                "name": "Dragon Form Horns",
+                "type": "weapons"
+            },
+            {
+                "conditionChoiceFilter": "Blue",
+                "name": "Dragon Form Blue Dragon Jaws",
+                "type": "weapons"
+            },
+            {
+                "conditionChoiceFilter": "Blue",
+                "name": "Dragon Form Claw",
+                "type": "weapons"
+            },
+            {
+                "conditionChoiceFilter": "Blue",
+                "name": "Dragon Form Horns",
+                "type": "weapons"
+            },
+            {
+                "conditionChoiceFilter": "Brass",
+                "name": "Dragon Form Brass Dragon Jaws",
+                "type": "weapons"
+            },
+            {
+                "conditionChoiceFilter": "Brass",
+                "name": "Dragon Form Claw",
+                "type": "weapons"
+            },
+            {
+                "conditionChoiceFilter": "Brass",
+                "name": "Dragon Form Brass Dragon Spikes",
+                "type": "weapons"
+            },
+            {
+                "conditionChoiceFilter": "Bronze",
+                "name": "Dragon Form Bronze Dragon Jaws",
+                "type": "weapons"
+            },
+            {
+                "conditionChoiceFilter": "Bronze",
+                "name": "Dragon Form Claw",
+                "type": "weapons"
+            },
+            {
+                "conditionChoiceFilter": "Bronze",
+                "name": "Dragon Form Bronze Dragon Wing",
+                "type": "weapons"
+            },
+            {
+                "conditionChoiceFilter": "Copper",
+                "name": "Dragon Form Copper Dragon Jaws",
+                "type": "weapons"
+            },
+            {
+                "conditionChoiceFilter": "Copper",
+                "name": "Dragon Form Claw",
+                "type": "weapons"
+            },
+            {
+                "conditionChoiceFilter": "Copper",
+                "name": "Dragon Form Copper Dragon Wing",
+                "type": "weapons"
+            },
+            {
+                "conditionChoiceFilter": "Gold",
+                "name": "Dragon Form Gold Dragon Jaws",
+                "type": "weapons"
+            },
+            {
+                "conditionChoiceFilter": "Gold",
+                "name": "Dragon Form Gold Dragon Claw",
+                "type": "weapons"
+            },
+            {
+                "conditionChoiceFilter": "Gold",
+                "name": "Dragon Form Horns",
+                "type": "weapons"
+            },
+            {
+                "conditionChoiceFilter": "Green",
+                "name": "Dragon Form Green Dragon Jaws",
+                "type": "weapons"
+            },
+            {
+                "conditionChoiceFilter": "Green",
+                "name": "Dragon Form Claw",
+                "type": "weapons"
+            },
+            {
+                "conditionChoiceFilter": "Green",
+                "name": "Dragon Form Horns",
+                "type": "weapons"
+            },
+            {
+                "conditionChoiceFilter": "Red",
+                "name": "Dragon Form Red Dragon Jaws",
+                "type": "weapons"
+            },
+            {
+                "conditionChoiceFilter": "Red",
+                "name": "Dragon Form Red Dragon Claw",
+                "type": "weapons"
+            },
+            {
+                "conditionChoiceFilter": "Red",
+                "name": "Dragon Form Red Dragon Wing",
+                "type": "weapons"
+            },
+            {
+                "conditionChoiceFilter": "Silver",
+                "name": "Dragon Form Silver Dragon Jaws",
+                "type": "weapons"
+            },
+            {
+                "conditionChoiceFilter": "Silver",
+                "name": "Dragon Form Claw",
+                "type": "weapons"
+            },
+            {
+                "conditionChoiceFilter": "White",
+                "name": "Dragon Form White Dragon Jaws",
+                "type": "weapons"
+            },
+            {
+                "conditionChoiceFilter": "White",
+                "name": "Dragon Form Claw",
+                "type": "weapons"
+            }
+        ],
+        "senses": [
+            {
+                "name": "Low-Light Vision"
+            },
+            {
+                "name": "Scent 30 feet (imprecise)"
+            }
+        ],
+        "attackRestrictions": [
+            {
+                "name": "Dragon Form Tail"
+            },
+            {
+                "conditionChoiceFilter": "Black",
+                "name": "Dragon Form Black Dragon Jaws"
+            },
+            {
+                "conditionChoiceFilter": "Black",
+                "name": "Dragon Form Claw"
+            },
+            {
+                "conditionChoiceFilter": "Black",
+                "name": "Dragon Form Horns"
+            },
+            {
+                "conditionChoiceFilter": "Blue",
+                "name": "Dragon Form Blue Dragon Jaws"
+            },
+            {
+                "conditionChoiceFilter": "Blue",
+                "name": "Dragon Form Claw"
+            },
+            {
+                "conditionChoiceFilter": "Blue",
+                "name": "Dragon Form Horns"
+            },
+            {
+                "conditionChoiceFilter": "Brass",
+                "name": "Dragon Form Brass Dragon Jaws"
+            },
+            {
+                "conditionChoiceFilter": "Brass",
+                "name": "Dragon Form Brass Dragon Claw"
+            },
+            {
+                "conditionChoiceFilter": "Brass",
+                "name": "Dragon Form Brass Dragon Spikes"
+            },
+            {
+                "conditionChoiceFilter": "Bronze",
+                "name": "Dragon Form Bronze Dragon Jaws"
+            },
+            {
+                "conditionChoiceFilter": "Bronze",
+                "name": "Dragon Form Claw"
+            },
+            {
+                "conditionChoiceFilter": "Bronze",
+                "name": "Dragon Form Bronze Dragon Wing"
+            },
+            {
+                "conditionChoiceFilter": "Copper",
+                "name": "Dragon Form Copper Dragon Jaws"
+            },
+            {
+                "conditionChoiceFilter": "Copper",
+                "name": "Dragon Form Claw"
+            },
+            {
+                "conditionChoiceFilter": "Copper",
+                "name": "Dragon Form Copper Dragon Wing"
+            },
+            {
+                "conditionChoiceFilter": "Gold",
+                "name": "Dragon Form Gold Dragon Jaws"
+            },
+            {
+                "conditionChoiceFilter": "Gold",
+                "name": "Dragon Form Gold Dragon Claw"
+            },
+            {
+                "conditionChoiceFilter": "Gold",
+                "name": "Dragon Form Horns"
+            },
+            {
+                "conditionChoiceFilter": "Green",
+                "name": "Dragon Form Green Dragon Jaws"
+            },
+            {
+                "conditionChoiceFilter": "Green",
+                "name": "Dragon Form Claw"
+            },
+            {
+                "conditionChoiceFilter": "Green",
+                "name": "Dragon Form Horns"
+            },
+            {
+                "conditionChoiceFilter": "Red",
+                "name": "Dragon Form Red Dragon Jaws"
+            },
+            {
+                "conditionChoiceFilter": "Red",
+                "name": "Dragon Form Red Dragon Claw"
+            },
+            {
+                "conditionChoiceFilter": "Red",
+                "name": "Dragon Form Red Dragon Wing"
+            },
+            {
+                "conditionChoiceFilter": "Silver",
+                "name": "Dragon Form Silver Dragon Jaws"
+            },
+            {
+                "conditionChoiceFilter": "Silver",
+                "name": "Dragon Form Claw"
+            },
+            {
+                "conditionChoiceFilter": "White",
+                "name": "Dragon Form White Dragon Jaws"
+            },
+            {
+                "conditionChoiceFilter": "White",
+                "name": "Dragon Form Claw"
+            }
+        ]
+    },
+    {
+        "name": "Reckless Abandon",
+        "desc": "You throw caution to the wind to finish the fight. You gain a +2 circumstance bonus to attack rolls, a -2 penalty to AC, and a -1 penalty to saves. These bonuses and penalties last until your Rage ends or until you are above half Hit Points, whichever comes first.",
+        "type": "activities",
+        "buff": true,
+        "endsWithConditions": [
+            "Rage"
+        ],
+        "effects": [
+            {
+                "affected": "Attack Rolls",
+                "type": "circumstance",
+                "value": "Current_HP() <= (Max_HP / 2) ? 2 : 0"
+            },
+            {
+                "affected": "AC",
+                "value": "Current_HP() <= (Max_HP / 2) ? -2 : 0"
+            },
+            {
+                "affected": "Saving Throws",
+                "value": "Current_HP() <= (Max_HP / 2) ? -1 : 0"
+            }
+        ]
+    },
+    {
+        "name": "Perfect Clarity",
+        "desc": "You burn out all of your rage to ensure that your attack lands and your mind remains free. Reroll the triggering attack roll or Will save with a +2 circumstance bonus, use the better result, and resolve the effect. You then immediately stop raging.",
+        "type": "activities",
+        "buff": true,
+        "hints": [
+            {
+                "desc": "Reroll the triggering attack roll or Will save with a +2 circumstance bonus, use the better result, and resolve the effect. You then immediately stop raging."
+            }
+        ],
+        "effects": [
+            {
+                "affected": "Attack Rolls",
+                "type": "circumstance",
+                "value": "2"
+            },
+            {
+                "affected": "Will",
+                "type": "circumstance",
+                "value": "2"
+            }
+        ]
     }
 ]

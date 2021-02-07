@@ -995,8 +995,26 @@
     },
     {
         "parent": "gainConditions",
-        "key": "source",
+        "key": "persistent",
         "priority": "04",
+        "group": "",
+        "name": "Persistent condition",
+        "desc": "If this is set, the condition will remain even after the activation has finished.",
+        "type": "checkbox"
+    },
+    {
+        "parent": "gainConditions",
+        "key": "ignorePersistent",
+        "priority": "05",
+        "group": "",
+        "name": "Ignore persistent condition",
+        "desc": "Some conditions are persistent by nature (for example, Doomed or Fatigued). Set this to treat them as if they were not.",
+        "type": "checkbox"
+    },
+    {
+        "parent": "gainConditions",
+        "key": "source",
+        "priority": "06",
         "group": "",
         "name": "Condition source",
         "desc": "The condition will show this as its source. Should usually be the item name."

@@ -223,7 +223,7 @@ export class ActivityComponent implements OnInit {
 
     get_ActivityConditions() {
         let conditions: Condition[] = [];
-        if (this.gain) {
+        if (this.gain && !this.activity.hideChoices) {
             this.activity.gainConditions
             .map(conditionGain => this.conditionsService.get_Conditions(conditionGain.name)[0])
             .forEach((condition, index) => {

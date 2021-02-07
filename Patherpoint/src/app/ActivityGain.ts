@@ -1,3 +1,5 @@
+import { CharacterService } from './character.service';
+import { Creature } from './Creature';
 import { ItemGain } from './ItemGain';
 import { SpellCast } from './SpellCast';
 
@@ -16,7 +18,7 @@ export class ActivityGain {
     public level: number = 0;
     public name: string = "";
     public source: string = "";
-    public data: {name:string, value:any}[] = [];
+    public data: { name: string, value: any }[] = [];
     //We copy the activities ItemGains here whenever we activate it, so we can store the item ID.
     public gainItems: ItemGain[] = [];
     //We copy the activities castSpells here whenever we activate it, so we can store its duration.

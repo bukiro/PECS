@@ -3746,7 +3746,6 @@
       "_className": "Weapon",
       "dicenum": 0,
       "dicesize": 0,
-      "dmgType": "",
       "extraDamage": "Entangle the target for 1 round",
       "group": "Brawling",
       "melee": 0,
@@ -4552,7 +4551,7 @@
       "_className": "Weapon",
       "dicenum": 2,
       "dicesize": 4,
-      "extraDamage":"+1 persistent Bleed",
+      "extraDamage": "+1 persistent Bleed",
       "dmgType": "P",
       "group": "Brawling",
       "melee": 5,
@@ -4752,7 +4751,7 @@
       "_className": "Weapon",
       "dicenum": 4,
       "dicesize": 4,
-      "extraDamage":"+1 persistent Bleed",
+      "extraDamage": "+1 persistent Bleed",
       "dmgType": "P",
       "group": "Brawling",
       "melee": 15,
@@ -4955,7 +4954,7 @@
       "_className": "Weapon",
       "dicenum": 4,
       "dicesize": 4,
-      "extraDamage":"+1 persistent Bleed",
+      "extraDamage": "+1 persistent Bleed",
       "dmgType": "P",
       "group": "Brawling",
       "melee": 20,
@@ -5088,5 +5087,702 @@
       "melee": 5,
       "prof": "Unarmed Attacks",
       "internalNote": "The brawling group is not specified, but we assume that every unarmed attack is like a fist unless otherwise specified."
+   },
+   {
+      "hide": true,
+      "id": "fce97252-6809-11eb-ae93-0242ac130002",
+      "name": "Dragon Form Tail",
+      "traits": [
+         "Reach 10 feet",
+         "Unarmed"
+      ],
+      "displayName": "Tail",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 3,
+      "dicesize": 10,
+      "dmgType": "B",
+      "group": "Brawling",
+      "melee": 10,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "fce97450-6809-11eb-ae93-0242ac130002",
+      "name": "Dragon Form Tail (8th Level)",
+      "traits": [
+         "Reach 15 feet",
+         "Unarmed"
+      ],
+      "displayName": "Tail",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 3,
+      "dicesize": 10,
+      "dmgType": "B",
+      "group": "Brawling",
+      "melee": 15,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "fce9754a-6809-11eb-ae93-0242ac130002",
+      "name": "Dragon Form Claw",
+      "traits": [
+         "Agile",
+         "Unarmed"
+      ],
+      "displayName": "Claw",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 3,
+      "dicesize": 10,
+      "dmgType": "S",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "fce97806-6809-11eb-ae93-0242ac130002",
+      "name": "Dragon Form Claw (8th Level)",
+      "traits": [
+         "Agile",
+         "Reach 10 feet",
+         "Unarmed"
+      ],
+      "displayName": "Claw",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 3,
+      "dicesize": 10,
+      "dmgType": "S",
+      "group": "Brawling",
+      "melee": 10,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "fce978c4-6809-11eb-ae93-0242ac130002",
+      "name": "Dragon Form Black Dragon Jaws",
+      "traits": [
+         "Unarmed"
+      ],
+      "displayName": "Jaws",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 2,
+      "dicesize": 12,
+      "dmgType": "P",
+      "extraDamage": "+2d6 Acid",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "fce97978-6809-11eb-ae93-0242ac130002",
+      "name": "Dragon Form Black Dragon Jaws (8th Level)",
+      "traits": [
+         "Reach 10 feet",
+         "Unarmed"
+      ],
+      "displayName": "Jaws",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 2,
+      "dicesize": 12,
+      "dmgType": "P",
+      "extraDamage": "+2d6 Acid",
+      "group": "Brawling",
+      "melee": 10,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "fce97a36-6809-11eb-ae93-0242ac130002",
+      "name": "Dragon Form Horns",
+      "traits": [
+         "Reach 10 feet",
+         "Unarmed"
+      ],
+      "displayName": "Horns",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 3,
+      "dicesize": 8,
+      "dmgType": "P",
+      "group": "Brawling",
+      "melee": 10,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "fce97aea-6809-11eb-ae93-0242ac130002",
+      "name": "Dragon Form Horns (8th Level)",
+      "traits": [
+         "Reach 15 feet",
+         "Unarmed"
+      ],
+      "displayName": "Horns",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 3,
+      "dicesize": 8,
+      "dmgType": "P",
+      "group": "Brawling",
+      "melee": 15,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "fce97b9e-6809-11eb-ae93-0242ac130002",
+      "name": "Dragon Form Blue Dragon Jaws",
+      "traits": [
+         "Unarmed"
+      ],
+      "displayName": "Jaws",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 2,
+      "dicesize": 10,
+      "dmgType": "P",
+      "extraDamage": "+1d12 Electricity",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "fce97d9c-6809-11eb-ae93-0242ac130002",
+      "name": "Dragon Form Blue Dragon Jaws (8th Level)",
+      "traits": [
+         "Reach 10 feet",
+         "Unarmed"
+      ],
+      "displayName": "Jaws",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 2,
+      "dicesize": 10,
+      "dmgType": "P",
+      "extraDamage": "+1d12 Electricity",
+      "group": "Brawling",
+      "melee": 10,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "fce97e64-6809-11eb-ae93-0242ac130002",
+      "name": "Dragon Form Brass Dragon Jaws",
+      "traits": [
+         "Unarmed"
+      ],
+      "displayName": "Jaws",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 3,
+      "dicesize": 8,
+      "dmgType": "P",
+      "extraDamage": "+2d4 Fire",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "fce97f22-6809-11eb-ae93-0242ac130002",
+      "name": "Dragon Form Brass Dragon Jaws (8th Level)",
+      "traits": [
+         "Reach 10 feet",
+         "Unarmed"
+      ],
+      "displayName": "Jaws",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 3,
+      "dicesize": 8,
+      "dmgType": "P",
+      "extraDamage": "+2d4 Fire",
+      "group": "Brawling",
+      "melee": 10,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "fce97fd6-6809-11eb-ae93-0242ac130002",
+      "name": "Dragon Form Brass Dragon Spikes",
+      "traits": [
+         "Reach 10 feet",
+         "Unarmed"
+      ],
+      "displayName": "Spikes",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 3,
+      "dicesize": 8,
+      "dmgType": "P",
+      "group": "Brawling",
+      "melee": 10,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "fce98094-6809-11eb-ae93-0242ac130002",
+      "name": "Dragon Form Brass Dragon Spikes (8th Level)",
+      "traits": [
+         "Reach 15 feet",
+         "Unarmed"
+      ],
+      "displayName": "Spikes",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 3,
+      "dicesize": 8,
+      "dmgType": "P",
+      "group": "Brawling",
+      "melee": 15,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "fce98148-6809-11eb-ae93-0242ac130002",
+      "name": "Dragon Form Bronze Dragon Jaws",
+      "traits": [
+         "Unarmed"
+      ],
+      "displayName": "Jaws",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 2,
+      "dicesize": 10,
+      "dmgType": "P",
+      "extraDamage": "+1d12 Electricity",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "fce981fc-6809-11eb-ae93-0242ac130002",
+      "name": "Dragon Form Bronze Dragon Jaws (8th Level)",
+      "traits": [
+         "Reach 10 feet",
+         "Unarmed"
+      ],
+      "displayName": "Jaws",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 2,
+      "dicesize": 10,
+      "dmgType": "P",
+      "extraDamage": "+1d12 Electricity",
+      "group": "Brawling",
+      "melee": 10,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "fce98468-6809-11eb-ae93-0242ac130002",
+      "name": "Dragon Form Bronze Dragon Wing",
+      "traits": [
+         "Reach 10 feet",
+         "Unarmed"
+      ],
+      "displayName": "Wing",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 3,
+      "dicesize": 8,
+      "dmgType": "S",
+      "group": "Brawling",
+      "melee": 10,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "fce98530-6809-11eb-ae93-0242ac130002",
+      "name": "Dragon Form Bronze Dragon Wing (8th Level)",
+      "traits": [
+         "Reach 15 feet",
+         "Unarmed"
+      ],
+      "displayName": "Wing",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 3,
+      "dicesize": 8,
+      "dmgType": "S",
+      "group": "Brawling",
+      "melee": 15,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "fce985ee-6809-11eb-ae93-0242ac130002",
+      "name": "Dragon Form Copper Dragon Jaws",
+      "traits": [
+         "Unarmed"
+      ],
+      "displayName": "Jaws",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 2,
+      "dicesize": 12,
+      "dmgType": "P",
+      "extraDamage": "+2d6 Acid",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "fce986a2-6809-11eb-ae93-0242ac130002",
+      "name": "Dragon Form Copper Dragon Jaws (8th Level)",
+      "traits": [
+         "Reach 10 feet",
+         "Unarmed"
+      ],
+      "displayName": "Jaws",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 2,
+      "dicesize": 12,
+      "dmgType": "P",
+      "extraDamage": "+2d6 Acid",
+      "group": "Brawling",
+      "melee": 10,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "fce98756-6809-11eb-ae93-0242ac130002",
+      "name": "Dragon Form Copper Dragon Wing",
+      "traits": [
+         "Reach 10 feet",
+         "Unarmed"
+      ],
+      "displayName": "Wing",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 3,
+      "dicesize": 8,
+      "dmgType": "B",
+      "group": "Brawling",
+      "melee": 10,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "fce98814-6809-11eb-ae93-0242ac130002",
+      "name": "Dragon Form Copper Dragon Wing (8th Level)",
+      "traits": [
+         "Reach 15 feet",
+         "Unarmed"
+      ],
+      "displayName": "Wing",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 3,
+      "dicesize": 8,
+      "dmgType": "B",
+      "group": "Brawling",
+      "melee": 15,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "fce988c8-6809-11eb-ae93-0242ac130002",
+      "name": "Dragon Form Gold Dragon Jaws",
+      "traits": [
+         "Unarmed"
+      ],
+      "displayName": "Jaws",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 2,
+      "dicesize": 12,
+      "dmgType": "P",
+      "extraDamage": "+2d6 Fire",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "fce98b7a-6809-11eb-ae93-0242ac130002",
+      "name": "Dragon Form Gold Dragon Jaws (8th Level)",
+      "traits": [
+         "Reach 10 feet",
+         "Unarmed"
+      ],
+      "displayName": "Jaws",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 2,
+      "dicesize": 12,
+      "dmgType": "P",
+      "extraDamage": "+2d6 Fire",
+      "group": "Brawling",
+      "melee": 10,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "fce98c56-6809-11eb-ae93-0242ac130002",
+      "name": "Dragon Form Gold Dragon Claw",
+      "traits": [
+         "Agile",
+         "Unarmed"
+      ],
+      "displayName": "Claw",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 4,
+      "dicesize": 6,
+      "dmgType": "S",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "fce98d0a-6809-11eb-ae93-0242ac130002",
+      "name": "Dragon Form Gold Dragon Claw (8th Level)",
+      "traits": [
+         "Agile",
+         "Reach 10 feet",
+         "Unarmed"
+      ],
+      "displayName": "Claw",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 4,
+      "dicesize": 6,
+      "dmgType": "S",
+      "group": "Brawling",
+      "melee": 10,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "fce98dc8-6809-11eb-ae93-0242ac130002",
+      "name": "Dragon Form Green Dragon Jaws",
+      "traits": [
+         "Unarmed"
+      ],
+      "displayName": "Jaws",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 2,
+      "dicesize": 12,
+      "dmgType": "P",
+      "extraDamage": "+2d6 Poison",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "fce98e7c-6809-11eb-ae93-0242ac130002",
+      "name": "Dragon Form Green Dragon Jaws (8th Level)",
+      "traits": [
+         "Reach 10 feet",
+         "Unarmed"
+      ],
+      "displayName": "Jaws",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 2,
+      "dicesize": 12,
+      "dmgType": "P",
+      "extraDamage": "+2d6 Poison",
+      "group": "Brawling",
+      "melee": 10,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "fce99138-6809-11eb-ae93-0242ac130002",
+      "name": "Dragon Form Red Dragon Jaws",
+      "traits": [
+         "Unarmed"
+      ],
+      "displayName": "Jaws",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 2,
+      "dicesize": 12,
+      "dmgType": "P",
+      "extraDamage": "+2d6 Fire",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "fce99246-6809-11eb-ae93-0242ac130002",
+      "name": "Dragon Form Red Dragon Jaws (8th Level)",
+      "traits": [
+         "Reach 10 feet",
+         "Unarmed"
+      ],
+      "displayName": "Jaws",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 2,
+      "dicesize": 12,
+      "dmgType": "P",
+      "extraDamage": "+2d6 Fire",
+      "group": "Brawling",
+      "melee": 10,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "fce9944e-6809-11eb-ae93-0242ac130002",
+      "name": "Dragon Form Red Dragon Claw",
+      "traits": [
+         "Agile",
+         "Unarmed"
+      ],
+      "displayName": "Claw",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 4,
+      "dicesize": 6,
+      "dmgType": "S",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "fce99520-6809-11eb-ae93-0242ac130002",
+      "name": "Dragon Form Red Dragon Claw (8th Level)",
+      "traits": [
+         "Agile",
+         "Reach 10 feet",
+         "Unarmed"
+      ],
+      "displayName": "Claw",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 4,
+      "dicesize": 6,
+      "dmgType": "S",
+      "group": "Brawling",
+      "melee": 10,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "fce995de-6809-11eb-ae93-0242ac130002",
+      "name": "Dragon Form Red Dragon Wing",
+      "traits": [
+         "Reach 10 feet",
+         "Unarmed"
+      ],
+      "displayName": "Wing",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 3,
+      "dicesize": 8,
+      "dmgType": "B",
+      "group": "Brawling",
+      "melee": 10,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "fce99692-6809-11eb-ae93-0242ac130002",
+      "name": "Dragon Form Red Dragon Wing (8th Level)",
+      "traits": [
+         "Reach 15 feet",
+         "Unarmed"
+      ],
+      "displayName": "Wing",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 3,
+      "dicesize": 8,
+      "dmgType": "B",
+      "group": "Brawling",
+      "melee": 15,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "fce99746-6809-11eb-ae93-0242ac130002",
+      "name": "Dragon Form Silver Dragon Jaws",
+      "traits": [
+         "Unarmed"
+      ],
+      "displayName": "Jaws",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 2,
+      "dicesize": 12,
+      "dmgType": "P",
+      "extraDamage": "+2d6 Cold",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "fce99804-6809-11eb-ae93-0242ac130002",
+      "name": "Dragon Form Silver Dragon Jaws (8th Level)",
+      "traits": [
+         "Reach 10 feet",
+         "Unarmed"
+      ],
+      "displayName": "Jaws",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 2,
+      "dicesize": 12,
+      "dmgType": "P",
+      "extraDamage": "+2d6 Cold",
+      "group": "Brawling",
+      "melee": 10,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "fce998b8-6809-11eb-ae93-0242ac130002",
+      "name": "Dragon Form White Dragon Jaws",
+      "traits": [
+         "Unarmed"
+      ],
+      "displayName": "Jaws",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 3,
+      "dicesize": 6,
+      "dmgType": "P",
+      "extraDamage": "+2d6 Cold",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "fce99a66-6809-11eb-ae93-0242ac130002",
+      "name": "Dragon Form White Dragon Jaws (8th Level)",
+      "traits": [
+         "Reach 10 feet",
+         "Unarmed"
+      ],
+      "displayName": "Jaws",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 3,
+      "dicesize": 6,
+      "dmgType": "P",
+      "extraDamage": "+2d6 Cold",
+      "group": "Brawling",
+      "melee": 10,
+      "prof": "Unarmed Attacks"
    }
 ]

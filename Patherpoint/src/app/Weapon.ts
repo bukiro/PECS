@@ -151,8 +151,8 @@ export class Weapon extends Equipment {
                     }
                 }
             }
-            return traits;
         }
+        return traits;
     }
     get_Proficiency(creature: Character | AnimalCompanion, characterService: CharacterService, charLevel: number = characterService.get_Character().level) {
         let proficiency = this.prof;

@@ -24,8 +24,8 @@ export class Condition {
     public gainItems: ItemGain[] = [];
     public overrideConditions: string[] = [];
     public endConditions: string[] = [];
-    //Remove this condition if not all of the neededConditions are currently active.
-    public neededConditions: string[] = [];
+    //Remove this condition if any of the endsWithConditions is removed.
+    public endsWithConditions: string[] = [];
     public attackRestrictions: AttackRestriction[] = [];
     public source: string = "";
     public senses: SenseGain[] = [];

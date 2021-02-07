@@ -150,6 +150,8 @@ export class TimeService {
 
     tick(characterService: CharacterService, conditionsService: ConditionsService, itemsService: ItemsService, spellsService: SpellsService, turns: number = 10, reload: boolean = true) {
         characterService.get_Creatures().forEach(creature => {
+            //Tick activities before conditions because activities can end conditions, which might go wrong if the condition has already ended (particularly where cooldowns are concerned).
+            this.activitiesService.tick_Activities(creature, characterService, conditionsService, itemsService, spellsService, turns)
             if (creature.conditions.length) {
                 if (creature.conditions.filter(gain => gain.nextStage > 0)) {
                     characterService.set_ToChange(creature.type, "time");
@@ -159,7 +161,6 @@ export class TimeService {
                 characterService.set_ToChange(creature.type, "effects")
             }
             this.effectsService.tick_CustomEffects(creature, characterService, turns);
-            this.activitiesService.tick_Activities(creature, characterService, conditionsService, itemsService, spellsService, turns)
             if (creature.type != "Familiar") {
                 itemsService.tick_Items((creature as AnimalCompanion | Character), characterService, turns);
             }

@@ -44,6 +44,8 @@ export class Activity {
     public $cooldown: number = 0;
     //Set displayOnly if the activity should not be used, but displayed for information, e.g. for ammunition
     public displayOnly: boolean = false;
+    //If a gained condition has choices, these are shown on the activity. You can hide them with hideChoice.
+    public hideChoices: boolean = false;
     can_Activate() {
         //Test any circumstance under which this can be activated
         let isStance: boolean = (this.traits.includes("Stance"))
@@ -74,15 +76,26 @@ export class Activity {
     get_Cooldown(creature: Creature, characterService: CharacterService) {
         //Add any effects to the activity's cooldown.
         let cooldown = this.cooldown;
-        characterService.effectsService.get_AbsolutesOnThis(creature, this.name+" Cooldown")
+        //Use get_AbsolutesOnThese() because it allows to prefer lower values.
+        characterService.effectsService.get_AbsolutesOnThese(creature, [this.name+" Cooldown"], true)
             .forEach(effect => {
-                cooldown = parseInt(effect.setValue);
+                //Lower values are better in this case, but the effects come in ascending value,
+                // so we only apply bonuses if they are lower than the current value, and penalties if they are higher.
+                if (effect.penalty ? parseInt(effect.setValue) > cooldown : parseInt(effect.setValue) < cooldown) {
+                    cooldown = parseInt(effect.setValue);
+                }
             })
-        characterService.effectsService.get_RelativesOnThis(creature, this.name+" Cooldown")
+        //Use get_RelativesOnThese() because it allows to prefer lower values.
+        characterService.effectsService.get_RelativesOnThese(creature, [this.name+" Cooldown"], true)
             .forEach(effect => {
                 cooldown += parseInt(effect.value);
             })
         this.$cooldown = cooldown;
+        if (this.cooldown != cooldown) {
+            characterService.get_OwnedActivities(creature, 20, true).filter(gain => gain.name == this.name).forEach(gain => {
+                gain.activeCooldown = Math.min(gain.activeCooldown, cooldown);
+            })
+        }
         return cooldown;
     }
 }

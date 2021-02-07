@@ -34,7 +34,6 @@
                 "source": "Feat: Abundant Step",
                 "spells": [
                     {
-                        "_className": "SpellGain",
                         "locked": true,
                         "name": "Abundant Step"
                     }
@@ -235,29 +234,6 @@
         ]
     },
     {
-        "name": "Advanced Blood Potency",
-        "desc": "You gain one sorcerer feat. For the purpose of prerequisites, your sorcerer level is half your character level.",
-        "shortdesc": "You gain one sorcerer feat. For the purpose of prerequisites, your sorcerer level is half your character level.",
-        "archetype": "Sorcerer",
-        "unlimited": true,
-        "traits": [
-            "Archetype"
-        ],
-        "levelreq": 4,
-        "featreq": [
-            "Basic Blood Potency"
-        ],
-        "gainFeatChoice": [
-            {
-                "_className": "FeatChoice",
-                "available": 1,
-                "dynamicLevel": "level.number / 2",
-                "source": "Feat: Advanced Blood Potency",
-                "type": "Sorcerer"
-            }
-        ]
-    },
-    {
         "name": "Alchemical Crafting",
         "desc": "You can use the Craft activity to create alchemical items. When you select this feat, you immediately add the formulas for four common 1st-level alchemical items to your formula book.",
         "hints": [
@@ -323,7 +299,6 @@
                 "source": "Feat: Arcane Sense",
                 "spells": [
                     {
-                        "_className": "SpellGain",
                         "locked": true,
                         "name": "Detect Magic"
                     }
@@ -1275,73 +1250,6 @@
         ]
     },
     {
-        "name": "Basic Blood Potency",
-        "desc": "You gain a 1st- or 2nd-level sorcerer feat.",
-        "shortdesc": "You gain a 1st- or 2nd-level sorcerer feat.",
-        "archetype": "Sorcerer",
-        "traits": [
-            "Archetype"
-        ],
-        "levelreq": 4,
-        "featreq": [
-            "Sorcerer Dedication"
-        ],
-        "gainFeatChoice": [
-            {
-                "_className": "FeatChoice",
-                "available": 1,
-                "level": 2,
-                "source": "Feat: Basic Blood Potency",
-                "type": "Sorcerer"
-            }
-        ]
-    },
-    {
-        "name": "Basic Sorcerer Spellcasting",
-        "desc": "You gain the basic spellcasting benefits. Each time you gain a spell slot of a new level from the sorcerer archetype, add a spell of the appropriate spell level to your repertoire: a common spell of your bloodline's tradition, one of your bloodline's granted spells, or another spell you have learned or discovered.",
-        "shortdesc": "You gain the basic spellcasting benefits.",
-        "archetype": "Sorcerer",
-        "traits": [
-            "Archetype"
-        ],
-        "levelreq": 4,
-        "featreq": [
-            "Sorcerer Dedication"
-        ],
-        "gainSpellChoice": [
-            {
-                "_className": "SpellChoice",
-                "available": 1,
-                "castingType": "Spontaneous",
-                "charLevelAvailable": 4,
-                "className": "Sorcerer",
-                "id": "3cbf6456-9068-11ea-bb37-0242ac130002",
-                "level": 1,
-                "source": "Feat: Basic Sorcerer Spellcasting"
-            },
-            {
-                "_className": "SpellChoice",
-                "available": 1,
-                "castingType": "Spontaneous",
-                "charLevelAvailable": 6,
-                "className": "Sorcerer",
-                "id": "3cbf6528-9068-11ea-bb37-0242ac130002",
-                "level": 2,
-                "source": "Feat: Basic Sorcerer Spellcasting"
-            },
-            {
-                "_className": "SpellChoice",
-                "available": 1,
-                "castingType": "Spontaneous",
-                "charLevelAvailable": 8,
-                "className": "Sorcerer",
-                "id": "3cbf65e6-9068-11ea-bb37-0242ac130002",
-                "level": 3,
-                "source": "Feat: Basic Sorcerer Spellcasting"
-            }
-        ]
-    },
-    {
         "name": "Battle Cry",
         "desc": "When you roll initiative, you can yell a mighty battle cry and Demoralize an observed foe as a free action. If you're legendary in Intimidation, you can use a reaction to Demoralize your foe when you critically succeed at an attack roll.",
         "hints": [
@@ -1654,8 +1562,8 @@
                 "featreq": [
                     "Monastic Weaponry"
                 ],
-                "trait": "Monk",
-                "skillLevel": 2
+                "skillLevel": 2,
+                "trait": "Monk"
             }
         ]
     },
@@ -2410,7 +2318,6 @@
                 "source": "Feat: Empty Body",
                 "spells": [
                     {
-                        "_className": "SpellGain",
                         "locked": true,
                         "name": "Empty Body"
                     }
@@ -3519,7 +3426,6 @@
                 "source": "Feat: Ki Blast",
                 "spells": [
                     {
-                        "_className": "SpellGain",
                         "locked": true,
                         "name": "Ki Blast"
                     }
@@ -3557,7 +3463,6 @@
                 "source": "Feat: Ki Rush",
                 "spells": [
                     {
-                        "_className": "SpellGain",
                         "locked": true,
                         "name": "Ki Rush"
                     }
@@ -3595,7 +3500,6 @@
                 "source": "Feat: Ki Strike",
                 "spells": [
                     {
-                        "_className": "SpellGain",
                         "locked": true,
                         "name": "Ki Strike"
                     }
@@ -4890,7 +4794,6 @@
                 "source": "Feat: Quivering Palm",
                 "spells": [
                     {
-                        "_className": "SpellGain",
                         "locked": true,
                         "name": "Quivering Palm"
                     }
@@ -5566,46 +5469,6 @@
             {
                 "affected": "Cold Resistance",
                 "value": "Math.max(Math.floor(Level / 2), 1)"
-            }
-        ]
-    },
-    {
-        "name": "Sorcerer Dedication",
-        "desc": "Choose a bloodline. You become trained in the bloodline's two skills; for each of these skills in which you were already trained, you become trained in a skill of your choice.\n\nYou cast spells like a sorcerer. You gain access to the Cast a Spell activity. You gain a spell repertoire with two common cantrips from the spell list associated with your bloodline, from the spells granted by your bloodline, or any other cantrips of that tradition you learn or discover. You can add to your repertoire common cantrips of your spellcasting tradition, whether from this book or other cantrips of that tradition you learn or discover. You're trained in spell attack rolls and spell DCs for your tradition's spells. Your key spellcasting ability for sorcerer archetype spells is Charisma, and they are sorcerer spells of your bloodline's tradition. You don't gain any other abilities from your choice of bloodline.",
-        "specialdesc": "You cannot select another dedication feat until you have gained two other feats from the sorcerer archetype.",
-        "shortdesc": "You coax the magic power in your blood to manifest, accessing magic others don't expect you to have.",
-        "archetype": "Sorcerer",
-        "traits": [
-            "Archetype",
-            "Dedication",
-            "Multiclass"
-        ],
-        "levelreq": 2,
-        "abilityreq": [
-            {
-                "ability": "Charisma",
-                "value": 14
-            }
-        ],
-        "gainFeatChoice": [
-            {
-                "_className": "FeatChoice",
-                "available": 1,
-                "filter": [
-                    "Aberrant Bloodline",
-                    "Angelic Bloodline",
-                    "Demonic Bloodline",
-                    "Diabolic Bloodline",
-                    "Draconic Bloodline",
-                    "Elemental Bloodline",
-                    "Fey Bloodline",
-                    "Hag Bloodline",
-                    "Imperial Bloodline",
-                    "Undead Bloodline"
-                ],
-                "source": "Feat: Sorcerer Dedication",
-                "specialChoice": true,
-                "type": "Bloodline"
             }
         ]
     },
@@ -7694,7 +7557,6 @@
                 "source": "Feat: Wholeness of Body",
                 "spells": [
                     {
-                        "_className": "SpellGain",
                         "locked": true,
                         "name": "Wholeness of Body"
                     }
@@ -7753,7 +7615,6 @@
                 "source": "Feat: Wild Winds Initiate",
                 "spells": [
                     {
-                        "_className": "SpellGain",
                         "locked": true,
                         "name": "Wild Winds Stance"
                     }
@@ -7994,7 +7855,6 @@
                 "source": "Feat: Wind Jump",
                 "spells": [
                     {
-                        "_className": "SpellGain",
                         "locked": true,
                         "name": "Wind Jump"
                     }
@@ -9704,7 +9564,6 @@
                 "source": "Paladin",
                 "spells": [
                     {
-                        "_className": "SpellGain",
                         "locked": true,
                         "name": "Lay On Hands"
                     }
@@ -9832,7 +9691,6 @@
                 "source": "Redeemer",
                 "spells": [
                     {
-                        "_className": "SpellGain",
                         "locked": true,
                         "name": "Lay On Hands"
                     }
@@ -9961,7 +9819,6 @@
                 "source": "Liberator",
                 "spells": [
                     {
-                        "_className": "SpellGain",
                         "locked": true,
                         "name": "Lay On Hands"
                     }
@@ -10510,30 +10367,11 @@
                 "source": "Storm Order",
                 "spells": [
                     {
-                        "_className": "SpellGain",
                         "locked": true,
                         "name": "Tempest Surge"
                     }
                 ]
             }
-        ]
-    },
-    {
-        "name": "Storm Born",
-        "desc": "You are at home out in the elements, reveling in the power of nature unleashed. You do not take circumstance penalties to ranged spell attacks or Perception checks caused by weather, and your targeted spells don't require a flat check to succeed against a target concealed by weather (such as fog).",
-        "hints": [
-            {
-                "desc": "You do not take circumstance penalties to ranged spell attacks or Perception checks caused by weather, and your targeted spells don't require a flat check to succeed against a target concealed by weather (such as fog).",
-                "showon": "Perception, Attacks, Spellbook"
-            }
-        ],
-        "shortdesc": "You are at home out in the elements, reveling in the power of nature unleashed.",
-        "traits": [
-            "Druid"
-        ],
-        "levelreq": 1,
-        "featreq": [
-            "Storm order"
         ]
     },
     {
@@ -13110,7 +12948,7 @@
                 "increases": [
                     {
                         "locked": true,
-                        "maxRank": 2,
+                        "maxRank": 4,
                         "name": "Monk Divine Spell DC",
                         "source": "Monk Expertise (Divine Ki Spells)"
                     }
@@ -13267,8 +13105,7 @@
                         "locked": true,
                         "maxRank": 4,
                         "name": "Sorcerer Divine Spell DC",
-                        "source": "Expert Spellcaster",
-                        "sourceId": "7-Spell DC-Expert Spellcaster-0"
+                        "source": "Expert Spellcaster"
                     }
                 ],
                 "insertClass": "Sorcerer",
@@ -13284,8 +13121,7 @@
                         "locked": true,
                         "maxRank": 6,
                         "name": "Sorcerer Divine Spell DC",
-                        "source": "Master Spellcaster",
-                        "sourceId": "15-Spell DC-Master Spellcaster-0"
+                        "source": "Master Spellcaster"
                     }
                 ],
                 "insertClass": "Sorcerer",
@@ -13301,8 +13137,7 @@
                         "locked": true,
                         "maxRank": 8,
                         "name": "Sorcerer Divine Spell DC",
-                        "source": "Legendary Spellcaster",
-                        "sourceId": "19-Spell DC-Legendary Spellcaster-0"
+                        "source": "Legendary Spellcaster"
                     }
                 ],
                 "insertClass": "Sorcerer",
@@ -13344,7 +13179,6 @@
                 "source": "Angelic Bloodline",
                 "spells": [
                     {
-                        "_className": "SpellGain",
                         "locked": true,
                         "name": "Angelic Halo"
                     }
@@ -13984,8 +13818,7 @@
                         "locked": true,
                         "maxRank": 4,
                         "name": "Sorcerer Primal Spell DC",
-                        "source": "Expert Spellcaster",
-                        "sourceId": "7-Spell DC-Expert Spellcaster-0"
+                        "source": "Expert Spellcaster"
                     }
                 ],
                 "insertClass": "Sorcerer",
@@ -14001,8 +13834,7 @@
                         "locked": true,
                         "maxRank": 6,
                         "name": "Sorcerer Primal Spell DC",
-                        "source": "Master Spellcaster",
-                        "sourceId": "15-Spell DC-Master Spellcaster-0"
+                        "source": "Master Spellcaster"
                     }
                 ],
                 "insertClass": "Sorcerer",
@@ -14018,8 +13850,7 @@
                         "locked": true,
                         "maxRank": 8,
                         "name": "Sorcerer Primal Spell DC",
-                        "source": "Legendary Spellcaster",
-                        "sourceId": "19-Spell DC-Legendary Spellcaster-0"
+                        "source": "Legendary Spellcaster"
                     }
                 ],
                 "insertClass": "Sorcerer",
@@ -14061,7 +13892,6 @@
                 "source": "Elemental Bloodline",
                 "spells": [
                     {
-                        "_className": "SpellGain",
                         "locked": true,
                         "name": "Elemental Toss"
                     }
@@ -18581,7 +18411,6 @@
                 "source": "School Spells",
                 "spells": [
                     {
-                        "_className": "SpellGain",
                         "locked": true,
                         "name": "Protective Ward"
                     }
@@ -18763,7 +18592,6 @@
                 "source": "School Spells",
                 "spells": [
                     {
-                        "_className": "SpellGain",
                         "locked": true,
                         "name": "Augment Summoning"
                     }
@@ -18945,7 +18773,6 @@
                 "source": "School Spells",
                 "spells": [
                     {
-                        "_className": "SpellGain",
                         "locked": true,
                         "name": "Diviner's Sight"
                     }
@@ -19127,7 +18954,6 @@
                 "source": "School Spells",
                 "spells": [
                     {
-                        "_className": "SpellGain",
                         "locked": true,
                         "name": "Charming Words"
                     }
@@ -19316,7 +19142,6 @@
                 "source": "School Spells",
                 "spells": [
                     {
-                        "_className": "SpellGain",
                         "locked": true,
                         "name": "Force Bolt"
                     }
@@ -19498,7 +19323,6 @@
                 "source": "School Spells",
                 "spells": [
                     {
-                        "_className": "SpellGain",
                         "locked": true,
                         "name": "Warped Terrain"
                     }
@@ -19680,7 +19504,6 @@
                 "source": "School Spells",
                 "spells": [
                     {
-                        "_className": "SpellGain",
                         "locked": true,
                         "name": "Call of the Grave"
                     }
@@ -19862,7 +19685,6 @@
                 "source": "School Spells",
                 "spells": [
                     {
-                        "_className": "SpellGain",
                         "locked": true,
                         "name": "Physical Boost"
                     }
@@ -20307,7 +20129,6 @@
                 "source": "Feat: Hand of the Apprentice",
                 "spells": [
                     {
-                        "_className": "SpellGain",
                         "locked": true,
                         "name": "Hand of the Apprentice"
                     }
@@ -20540,7 +20361,6 @@
                 "source": "Feat: Advanced School Spell: Abjuration",
                 "spells": [
                     {
-                        "_className": "SpellGain",
                         "locked": true,
                         "name": "Energy Absorption"
                     }
@@ -20583,7 +20403,6 @@
                 "source": "Feat: Advanced School Spell: Conjuration",
                 "spells": [
                     {
-                        "_className": "SpellGain",
                         "locked": true,
                         "name": "Dimensional Steps"
                     }
@@ -20626,7 +20445,6 @@
                 "source": "Feat: Advanced School Spell: Divination",
                 "spells": [
                     {
-                        "_className": "SpellGain",
                         "locked": true,
                         "name": "Vigilant Eye"
                     }
@@ -20669,7 +20487,6 @@
                 "source": "Feat: Advanced School Spell: Enchantment",
                 "spells": [
                     {
-                        "_className": "SpellGain",
                         "locked": true,
                         "name": "Dread Aura"
                     }
@@ -20712,7 +20529,6 @@
                 "source": "Feat: Advanced School Spell: Evocation",
                 "spells": [
                     {
-                        "_className": "SpellGain",
                         "locked": true,
                         "name": "Elemental Tempest"
                     }
@@ -20755,7 +20571,6 @@
                 "source": "Feat: Advanced School Spell: Illusion",
                 "spells": [
                     {
-                        "_className": "SpellGain",
                         "locked": true,
                         "name": "Invisibility Cloak"
                     }
@@ -20798,7 +20613,6 @@
                 "source": "Feat: Advanced School Spell: Necromancy",
                 "spells": [
                     {
-                        "_className": "SpellGain",
                         "locked": true,
                         "name": "Life Siphon"
                     }
@@ -20841,7 +20655,6 @@
                 "source": "Feat: Advanced School Spell: Transmutation",
                 "spells": [
                     {
-                        "_className": "SpellGain",
                         "locked": true,
                         "name": "Shifting Form"
                     }
@@ -21445,7 +21258,6 @@
                 "source": "Feat: Arcane School Spell: Abjuration",
                 "spells": [
                     {
-                        "_className": "SpellGain",
                         "locked": true,
                         "name": "Protective Ward"
                     }
@@ -21499,7 +21311,6 @@
                 "source": "Feat: Arcane School Spell: Conjuration",
                 "spells": [
                     {
-                        "_className": "SpellGain",
                         "locked": true,
                         "name": "Augment Summoning"
                     }
@@ -21553,7 +21364,6 @@
                 "source": "Feat: Arcane School Spell: Divination",
                 "spells": [
                     {
-                        "_className": "SpellGain",
                         "locked": true,
                         "name": "Diviner's Sight"
                     }
@@ -21607,7 +21417,6 @@
                 "source": "Feat: Arcane School Spell: Enchantment",
                 "spells": [
                     {
-                        "_className": "SpellGain",
                         "locked": true,
                         "name": "Charming Words"
                     }
@@ -21661,7 +21470,6 @@
                 "source": "Feat: Arcane School Spell: Evocation",
                 "spells": [
                     {
-                        "_className": "SpellGain",
                         "locked": true,
                         "name": "Force Bolt"
                     }
@@ -21715,7 +21523,6 @@
                 "source": "Feat: Arcane School Spell: Illusion",
                 "spells": [
                     {
-                        "_className": "SpellGain",
                         "locked": true,
                         "name": "Warped Terrain"
                     }
@@ -21769,7 +21576,6 @@
                 "source": "Feat: Arcane School Spell: Necromancy",
                 "spells": [
                     {
-                        "_className": "SpellGain",
                         "locked": true,
                         "name": "Call of the Grave"
                     }
@@ -21823,7 +21629,6 @@
                 "source": "Feat: Arcane School Spell: Transmutation",
                 "spells": [
                     {
-                        "_className": "SpellGain",
                         "locked": true,
                         "name": "Physical Boost"
                     }
@@ -23660,7 +23465,6 @@
                 "source": "Bard Spellcasting",
                 "spells": [
                     {
-                        "_className": "SpellGain",
                         "name": "True Strike"
                     }
                 ]
@@ -23698,7 +23502,6 @@
                 "source": "Bard Spellcasting",
                 "spells": [
                     {
-                        "_className": "SpellGain",
                         "name": "Soothe"
                     }
                 ]
@@ -23736,7 +23539,6 @@
                 "source": "Bard Spellcasting",
                 "spells": [
                     {
-                        "_className": "SpellGain",
                         "name": "Unseen Servant"
                     }
                 ]
@@ -23811,7 +23613,6 @@
                 "source": "Feat: Lingering Composition",
                 "spells": [
                     {
-                        "_className": "SpellGain",
                         "locked": true,
                         "name": "Lingering Composition"
                     }
@@ -23905,7 +23706,6 @@
                 "source": "Feat: Inspire Competence",
                 "spells": [
                     {
-                        "_className": "SpellGain",
                         "locked": true,
                         "name": "Inspire Competence"
                     }
@@ -23949,7 +23749,6 @@
                 "source": "Feat: Loremaster's Etude",
                 "spells": [
                     {
-                        "_className": "SpellGain",
                         "locked": true,
                         "name": "Loremaster's Etude"
                     }
@@ -24071,7 +23870,6 @@
                 "source": "Feat: Inspire Defense",
                 "spells": [
                     {
-                        "_className": "SpellGain",
                         "locked": true,
                         "name": "Inspire Defense"
                     }
@@ -24112,7 +23910,6 @@
                 "source": "Feat: Triple Time",
                 "spells": [
                     {
-                        "_className": "SpellGain",
                         "locked": true,
                         "name": "Triple Time"
                     }
@@ -24158,7 +23955,6 @@
                 "source": "Feat: Dirge of Doom",
                 "spells": [
                     {
-                        "_className": "SpellGain",
                         "locked": true,
                         "name": "Dirge of Doom"
                     }
@@ -24250,7 +24046,6 @@
                 "source": "Feat: Inspire Heroics",
                 "spells": [
                     {
-                        "_className": "SpellGain",
                         "locked": true,
                         "name": "Inspire Heroics"
                     }
@@ -24294,7 +24089,6 @@
                 "source": "Feat: House of Imaginary Walls",
                 "spells": [
                     {
-                        "_className": "SpellGain",
                         "locked": true,
                         "name": "House of Imaginary Walls"
                     }
@@ -24381,7 +24175,6 @@
                 "source": "Feat: Silver's Refrain",
                 "spells": [
                     {
-                        "_className": "SpellGain",
                         "locked": true,
                         "name": "Silver's Refrain"
                     }
@@ -24407,7 +24200,6 @@
                 "source": "Feat: Allegro",
                 "spells": [
                     {
-                        "_className": "SpellGain",
                         "locked": true,
                         "name": "Allegro"
                     }
@@ -24447,7 +24239,6 @@
                 "source": "Feat: Soothing Ballad",
                 "spells": [
                     {
-                        "_className": "SpellGain",
                         "locked": true,
                         "name": "Soothing Ballad"
                     }
@@ -24707,7 +24498,6 @@
                 "source": "Feat: Fatal Aria",
                 "spells": [
                     {
-                        "_className": "SpellGain",
                         "locked": true,
                         "name": "Fatal Aria"
                     }
@@ -24783,7 +24573,6 @@
                 "source": "Feat: Song of the Fallen",
                 "spells": [
                     {
-                        "_className": "SpellGain",
                         "locked": true,
                         "name": "Song of the Fallen"
                     }
@@ -25036,7 +24825,6 @@
                 "source": "Feat: Counter Perform",
                 "spells": [
                     {
-                        "_className": "SpellGain",
                         "locked": true,
                         "name": "Counter Performance"
                     }
@@ -25066,7 +24854,6 @@
                 "source": "Feat: Inspirational Performance",
                 "spells": [
                     {
-                        "_className": "SpellGain",
                         "locked": true,
                         "name": "Inspire Courage"
                     }
@@ -25658,7 +25445,6 @@
                 "source": "Feat: Fey Influence: Anteater",
                 "spells": [
                     {
-                        "_className": "SpellGain",
                         "locked": true,
                         "name": "Grim Tendrils"
                     }
@@ -25706,7 +25492,6 @@
                 "source": "Feat: Fey Influence: Dryad",
                 "spells": [
                     {
-                        "_className": "SpellGain",
                         "locked": true,
                         "name": "Summon Plant or Fungus"
                     }
@@ -25754,7 +25539,6 @@
                 "source": "Feat: Fey Influence: Gremlin",
                 "spells": [
                     {
-                        "_className": "SpellGain",
                         "locked": true,
                         "name": "Bane"
                     }
@@ -25802,7 +25586,6 @@
                 "source": "Feat: Fey Influence: Monarch",
                 "spells": [
                     {
-                        "_className": "SpellGain",
                         "locked": true,
                         "name": "Spider Sting"
                     }
@@ -26858,7 +26641,6 @@
                 "source": "Feat: Fade Away",
                 "spells": [
                     {
-                        "_className": "SpellGain",
                         "locked": true,
                         "name": "Invisibility"
                     }
@@ -27129,7 +26911,6 @@
                 "source": "Feat: Arcane Tattoos: Abjuration",
                 "spells": [
                     {
-                        "_className": "SpellGain",
                         "locked": true,
                         "name": "Shield"
                     }
@@ -27161,7 +26942,6 @@
                 "source": "Feat: Arcane Tattoos: Conjuration",
                 "spells": [
                     {
-                        "_className": "SpellGain",
                         "locked": true,
                         "name": "Tanglefoot"
                     }
@@ -27193,7 +26973,6 @@
                 "source": "Feat: Arcane Tattoos: Enchantment",
                 "spells": [
                     {
-                        "_className": "SpellGain",
                         "locked": true,
                         "name": "Daze"
                     }
@@ -27225,7 +27004,6 @@
                 "source": "Feat: Arcane Tattoos: Evocation",
                 "spells": [
                     {
-                        "_className": "SpellGain",
                         "locked": true,
                         "name": "Electric Arc"
                     }
@@ -27257,7 +27035,6 @@
                 "source": "Feat: Arcane Tattoos: Illusion",
                 "spells": [
                     {
-                        "_className": "SpellGain",
                         "locked": true,
                         "name": "Ghost Sound"
                     }
@@ -27289,7 +27066,6 @@
                 "source": "Feat: Arcane Tattoos: Necromancy",
                 "spells": [
                     {
-                        "_className": "SpellGain",
                         "locked": true,
                         "name": "Chill Touch"
                     }
@@ -27321,7 +27097,6 @@
                 "source": "Feat: Arcane Tattoos: Transmutation",
                 "spells": [
                     {
-                        "_className": "SpellGain",
                         "locked": true,
                         "name": "Sigil"
                     }
@@ -27475,7 +27250,6 @@
                 "source": "Feat: Dragon Spit: Acid Splash",
                 "spells": [
                     {
-                        "_className": "SpellGain",
                         "locked": true,
                         "name": "Acid Splash"
                     }
@@ -27512,7 +27286,6 @@
                 "source": "Feat: Dragon Spit: Electric Arc",
                 "spells": [
                     {
-                        "_className": "SpellGain",
                         "locked": true,
                         "name": "Electric Arc"
                     }
@@ -27549,7 +27322,6 @@
                 "source": "Feat: Dragon Spit: Produce Flame",
                 "spells": [
                     {
-                        "_className": "SpellGain",
                         "locked": true,
                         "name": "Produce Flame"
                     }
@@ -27586,7 +27358,6 @@
                 "source": "Feat: Dragon Spit: Ray of Frost",
                 "spells": [
                     {
-                        "_className": "SpellGain",
                         "locked": true,
                         "name": "Ray of Frost"
                     }
@@ -28708,7 +28479,6 @@
                 "source": "Feat: Dragon Prince",
                 "spells": [
                     {
-                        "_className": "SpellGain",
                         "locked": true,
                         "name": "Dragon Breath"
                     }
@@ -28802,7 +28572,6 @@
                 "source": "Feat: Shory Aeromancer",
                 "spells": [
                     {
-                        "_className": "SpellGain",
                         "locked": true,
                         "name": "Fly"
                     }
@@ -29079,7 +28848,6 @@
                 "source": "Feat: Irriseni Ice-Witch",
                 "spells": [
                     {
-                        "_className": "SpellGain",
                         "locked": true,
                         "name": "Wall of Ice"
                     }
@@ -29502,7 +29270,7 @@
                 "effects": [
                     {
                         "affected": "Saving Throws",
-                        "value": 1,
+                        "value": "1",
                         "type": "circumstance"
                     }
                 ]
@@ -29598,7 +29366,7 @@
                 "effects": [
                     {
                         "affected": "Saving Throws",
-                        "value": 1,
+                        "value": "1",
                         "type": "circumstance"
                     }
                 ]
@@ -29621,7 +29389,7 @@
         "effects": [
             {
                 "affected": "Land Speed",
-                "value": 5
+                "value": "5"
             }
         ]
     },
@@ -29749,12 +29517,12 @@
                 "effects": [
                     {
                         "affected": "Perception",
-                        "value": 2,
+                        "value": "2",
                         "type": "circumstance"
                     },
                     {
                         "affected": "Skill Checks",
-                        "value": 2,
+                        "value": "2",
                         "type": "circumstance"
                     }
                 ]
@@ -29793,7 +29561,7 @@
                 "effects": [
                     {
                         "affected": "Perception",
-                        "value": 2,
+                        "value": "2",
                         "type": "circumstance"
                     }
                 ]
@@ -30055,7 +29823,7 @@
         "desc": "While all elves adapt to their environments over time, you have traveled so widely and become attuned to so many environs that your body now changes more rapidly than other elves. After spending a week in an environment associated with an elf heritage (such as snow for arctic elf, or a forest or jungle for woodland elf) your heritage automatically changes to become that heritage. This never causes you to change to an elf heritage that isn't related to an environment, such as ancient elf, seer elf, or whisper elf.",
         "hints": [
             {
-                "desc": "After spending a week in an environment associated with an elf heritage (such as snow for arctic elf, or a forest or jungle for woodland elf) your heritage automatically changes to become that heritage. This never causes you to change to an elf heritage that isn't related to an environment, such as ancient elf, seer elf, or whisper elf.\n\n(Instead of the heritage automatically changing, you can change your heritage in the character management when the condition is met.)",
+                "desc": "After spending a week in an environment associated with an elf heritage (such as snow for arctic elf, or a forest or jungle for woodland elf) your heritage automatically changes to become that heritage. This never causes you to change to an elf heritage that isn't related to an environment, such as ancient elf, seer elf, or whisper elf.\n\nInstead of the heritage automatically changing, you can change your heritage in the character management when the condition is met.",
                 "showon": "Ancestry, Rest"
             }
         ],
@@ -30146,7 +29914,7 @@
                 "effects": [
                     {
                         "affected": "Saving Throws",
-                        "value": 1,
+                        "value": "1",
                         "type": "circumstance"
                     }
                 ]
@@ -30321,7 +30089,7 @@
         "effects": [
             {
                 "affected": "Swim Speed",
-                "setValue": 25
+                "setValue": "25"
             }
         ]
     },
@@ -30400,7 +30168,7 @@
                 "effects": [
                     {
                         "affected": "Deception",
-                        "value": 4,
+                        "value": "4",
                         "type": "circumstance"
                     }
                 ]
@@ -30832,34 +30600,6 @@
         "shortdesc": "You come from sun-scorched badlands, where long legs and an ability to withstand the elements helped you thrive."
     },
     {
-        "name": "Raging Intimidation",
-        "desc": "Your fury fills your foes with fear. While you are raging, your Demoralize and Scare to Death actions (from the Intimidation skill and an Intimidation skill feat, respectively) gain the rage trait, allowing you to use them while raging. As soon as you meet the prerequisites for the skill feats Intimidating Glare and Scare to Death, you gain these feats.",
-        "hints": [
-            {
-                "desc": "While you are raging, your Demoralize and Scare to Death actions (from the Intimidation skill and an Intimidation skill feat, respectively) gain the rage trait, You may use Demoralize allowing you to use them while raging.",
-                "showon": "Rage, Intimidation"
-            }
-        ],
-        "shortdesc": "Your fury fills your foes with fear.",
-        "traits": [
-            "Barbarian"
-        ],
-        "levelreq": 1,
-        "gainFeatChoice": [
-            {
-                "_className": "FeatChoice",
-                "available": 2,
-                "filter": [
-                    "Intimidating Glare",
-                    "Scare to Death"
-                ],
-                "showOnCurrentLevel": true,
-                "source": "Feat: Raging Intimidation",
-                "type": "Skill"
-            }
-        ]
-    },
-    {
         "name": "Ranged Reprisal",
         "desc": "You can use Retributive Strike with a ranged weapon. In addition, if the foe that triggered your reaction is within 5 feet of your reach but not in your reach, as part of your reaction you can Step to put the foe in your reach before making a melee Retributive Strike.",
         "hints": [
@@ -30890,11 +30630,6 @@
     {
         "name": "Deity's Domain: Air",
         "desc": "You embody an aspect of your deity. You gain the Air domain's Pushing Gust spell as a devotion spell.",
-        "hints": [
-            {
-                "desc": "Disperse into Air"
-            }
-        ],
         "subType": "Air",
         "superType": "Deity's Domain",
         "shortdesc": "You embody an aspect of your deity.",
@@ -30914,7 +30649,6 @@
                 "source": "Feat: Deity's Domain: Air",
                 "spells": [
                     {
-                        "_className": "SpellGain",
                         "locked": true,
                         "name": "Pushing Gust"
                     }
@@ -30925,11 +30659,6 @@
     {
         "name": "Deity's Domain: Ambition",
         "desc": "You embody an aspect of your deity. You gain the Ambition domain's Blind Ambition spell as a devotion spell.",
-        "hints": [
-            {
-                "desc": "Competitive Edge"
-            }
-        ],
         "subType": "Ambition",
         "superType": "Deity's Domain",
         "shortdesc": "You embody an aspect of your deity.",
@@ -30949,7 +30678,6 @@
                 "source": "Feat: Deity's Domain: Ambition",
                 "spells": [
                     {
-                        "_className": "SpellGain",
                         "locked": true,
                         "name": "Blind Ambition"
                     }
@@ -30960,11 +30688,6 @@
     {
         "name": "Deity's Domain: Change",
         "desc": "You embody an aspect of your deity. You gain the Change domain's Adapt Self spell as a devotion spell.",
-        "hints": [
-            {
-                "desc": "Adaptive Ablation"
-            }
-        ],
         "subType": "Change",
         "superType": "Deity's Domain",
         "shortdesc": "You embody an aspect of your deity.",
@@ -30984,7 +30707,6 @@
                 "source": "Feat: Deity's Domain: Change",
                 "spells": [
                     {
-                        "_className": "SpellGain",
                         "locked": true,
                         "name": "Adapt Self"
                     }
@@ -30995,11 +30717,6 @@
     {
         "name": "Deity's Domain: Cities",
         "desc": "You embody an aspect of your deity. You gain the Cities domain's Face in the Crowd spell as a devotion spell.",
-        "hints": [
-            {
-                "desc": "Pulse of the City"
-            }
-        ],
         "subType": "Cities",
         "superType": "Deity's Domain",
         "shortdesc": "You embody an aspect of your deity.",
@@ -31019,7 +30736,6 @@
                 "source": "Feat: Deity's Domain: Cities",
                 "spells": [
                     {
-                        "_className": "SpellGain",
                         "locked": true,
                         "name": "Face in the Crowd"
                     }
@@ -31030,11 +30746,6 @@
     {
         "name": "Deity's Domain: Cold",
         "desc": "You embody an aspect of your deity. You gain the Cold domain's Winter Bolt spell as a devotion spell.",
-        "hints": [
-            {
-                "desc": "Diamond Dust"
-            }
-        ],
         "subType": "Cold",
         "superType": "Deity's Domain",
         "shortdesc": "You embody an aspect of your deity.",
@@ -31054,7 +30765,6 @@
                 "source": "Feat: Deity's Domain: Cold",
                 "spells": [
                     {
-                        "_className": "SpellGain",
                         "locked": true,
                         "name": "Winter Bolt"
                     }
@@ -31065,11 +30775,6 @@
     {
         "name": "Deity's Domain: Confidence",
         "desc": "You embody an aspect of your deity. You gain the Confidence domain's Veil of Confidence spell as a devotion spell.",
-        "hints": [
-            {
-                "desc": "Delusional Pride"
-            }
-        ],
         "subType": "Confidence",
         "superType": "Deity's Domain",
         "shortdesc": "You embody an aspect of your deity.",
@@ -31089,7 +30794,6 @@
                 "source": "Feat: Deity's Domain: Confidence",
                 "spells": [
                     {
-                        "_className": "SpellGain",
                         "locked": true,
                         "name": "Veil of Confidence"
                     }
@@ -31100,11 +30804,6 @@
     {
         "name": "Deity's Domain: Creation",
         "desc": "You embody an aspect of your deity. You gain the Creation domain's Splash of Art spell as a devotion spell.",
-        "hints": [
-            {
-                "desc": "Artistic Flourish"
-            }
-        ],
         "subType": "Creation",
         "superType": "Deity's Domain",
         "shortdesc": "You embody an aspect of your deity.",
@@ -31124,7 +30823,6 @@
                 "source": "Feat: Deity's Domain: Creation",
                 "spells": [
                     {
-                        "_className": "SpellGain",
                         "locked": true,
                         "name": "Splash of Art"
                     }
@@ -31135,11 +30833,6 @@
     {
         "name": "Deity's Domain: Darkness",
         "desc": "You embody an aspect of your deity. You gain the Darkness domain's Cloak of Shadow spell as a devotion spell.",
-        "hints": [
-            {
-                "desc": "Darkened Eyes"
-            }
-        ],
         "subType": "Darkness",
         "superType": "Deity's Domain",
         "shortdesc": "You embody an aspect of your deity.",
@@ -31159,7 +30852,6 @@
                 "source": "Feat: Deity's Domain: Darkness",
                 "spells": [
                     {
-                        "_className": "SpellGain",
                         "locked": true,
                         "name": "Cloak of Shadow"
                     }
@@ -31170,11 +30862,6 @@
     {
         "name": "Deity's Domain: Death",
         "desc": "You embody an aspect of your deity. You gain the Death domain's Death's Call spell as a devotion spell.",
-        "hints": [
-            {
-                "desc": "Eradicate Undeath"
-            }
-        ],
         "subType": "Death",
         "superType": "Deity's Domain",
         "shortdesc": "You embody an aspect of your deity.",
@@ -31194,7 +30881,6 @@
                 "source": "Feat: Deity's Domain: Death",
                 "spells": [
                     {
-                        "_className": "SpellGain",
                         "locked": true,
                         "name": "Death's Call"
                     }
@@ -31205,11 +30891,6 @@
     {
         "name": "Deity's Domain: Decay",
         "desc": "You embody an aspect of your deity. You gain the Decay domain's Withering Grasp spell as a devotion spell.",
-        "hints": [
-            {
-                "desc": "Fallow Field"
-            }
-        ],
         "subType": "Decay",
         "superType": "Deity's Domain",
         "shortdesc": "You embody an aspect of your deity.",
@@ -31229,7 +30910,6 @@
                 "source": "Feat: Deity's Domain: Decay",
                 "spells": [
                     {
-                        "_className": "SpellGain",
                         "locked": true,
                         "name": "Withering Grasp"
                     }
@@ -31240,11 +30920,6 @@
     {
         "name": "Deity's Domain: Delirium",
         "desc": "You embody an aspect of your deity. You gain the Delirium domain's Hyperfocus spell as a devotion spell.",
-        "hints": [
-            {
-                "desc": "Ephemeral Hazards"
-            }
-        ],
         "subType": "Delirium",
         "superType": "Deity's Domain",
         "shortdesc": "You embody an aspect of your deity.",
@@ -31264,7 +30939,6 @@
                 "source": "Feat: Deity's Domain: Delirium",
                 "spells": [
                     {
-                        "_className": "SpellGain",
                         "locked": true,
                         "name": "Hyperfocus"
                     }
@@ -31275,11 +30949,6 @@
     {
         "name": "Deity's Domain: Destruction",
         "desc": "You embody an aspect of your deity. You gain the Destruction domain's Cry of Destruction spell as a devotion spell.",
-        "hints": [
-            {
-                "desc": "Destructive Aura"
-            }
-        ],
         "subType": "Destruction",
         "superType": "Deity's Domain",
         "shortdesc": "You embody an aspect of your deity.",
@@ -31299,7 +30968,6 @@
                 "source": "Feat: Deity's Domain: Destruction",
                 "spells": [
                     {
-                        "_className": "SpellGain",
                         "locked": true,
                         "name": "Cry of Destruction"
                     }
@@ -31310,11 +30978,6 @@
     {
         "name": "Deity's Domain: Dreams",
         "desc": "You embody an aspect of your deity. You gain the Dreams domain's Sweet Dream spell as a devotion spell.",
-        "hints": [
-            {
-                "desc": "Dreamer's Call"
-            }
-        ],
         "subType": "Dreams",
         "superType": "Deity's Domain",
         "shortdesc": "You embody an aspect of your deity.",
@@ -31334,7 +30997,6 @@
                 "source": "Feat: Deity's Domain: Dreams",
                 "spells": [
                     {
-                        "_className": "SpellGain",
                         "locked": true,
                         "name": "Sweet Dream"
                     }
@@ -31345,11 +31007,6 @@
     {
         "name": "Deity's Domain: Dust",
         "desc": "You embody an aspect of your deity. You gain the Dust domain's Parch spell as a devotion spell.",
-        "hints": [
-            {
-                "desc": "Dust Storm"
-            }
-        ],
         "subType": "Dust",
         "superType": "Deity's Domain",
         "shortdesc": "You embody an aspect of your deity.",
@@ -31369,7 +31026,6 @@
                 "source": "Feat: Deity's Domain: Dust",
                 "spells": [
                     {
-                        "_className": "SpellGain",
                         "locked": true,
                         "name": "Parch"
                     }
@@ -31380,11 +31036,6 @@
     {
         "name": "Deity's Domain: Duty",
         "desc": "You embody an aspect of your deity. You gain the Duty domain's Oathkeeper's Insignia spell as a devotion spell.",
-        "hints": [
-            {
-                "desc": "Dutiful Challenge"
-            }
-        ],
         "subType": "Duty",
         "superType": "Deity's Domain",
         "shortdesc": "You embody an aspect of your deity.",
@@ -31404,7 +31055,6 @@
                 "source": "Feat: Deity's Domain: Duty",
                 "spells": [
                     {
-                        "_className": "SpellGain",
                         "locked": true,
                         "name": "Oathkeeper's Insignia"
                     }
@@ -31415,11 +31065,6 @@
     {
         "name": "Deity's Domain: Earth",
         "desc": "You embody an aspect of your deity. You gain the Earth domain's Hurtling Stone spell as a devotion spell.",
-        "hints": [
-            {
-                "desc": "Localized Quake"
-            }
-        ],
         "subType": "Earth",
         "superType": "Deity's Domain",
         "shortdesc": "You embody an aspect of your deity.",
@@ -31439,7 +31084,6 @@
                 "source": "Feat: Deity's Domain: Earth",
                 "spells": [
                     {
-                        "_className": "SpellGain",
                         "locked": true,
                         "name": "Hurtling Stone"
                     }
@@ -31450,11 +31094,6 @@
     {
         "name": "Deity's Domain: Family",
         "desc": "You embody an aspect of your deity. You gain the Family domain's Soothing Words spell as a devotion spell.",
-        "hints": [
-            {
-                "desc": "Unity"
-            }
-        ],
         "subType": "Family",
         "superType": "Deity's Domain",
         "shortdesc": "You embody an aspect of your deity.",
@@ -31474,7 +31113,6 @@
                 "source": "Feat: Deity's Domain: Family",
                 "spells": [
                     {
-                        "_className": "SpellGain",
                         "locked": true,
                         "name": "Soothing Words"
                     }
@@ -31485,11 +31123,6 @@
     {
         "name": "Deity's Domain: Fate",
         "desc": "You embody an aspect of your deity. You gain the Fate domain's Read Fate spell as a devotion spell.",
-        "hints": [
-            {
-                "desc": "Tempt Fate"
-            }
-        ],
         "subType": "Fate",
         "superType": "Deity's Domain",
         "shortdesc": "You embody an aspect of your deity.",
@@ -31509,7 +31142,6 @@
                 "source": "Feat: Deity's Domain: Fate",
                 "spells": [
                     {
-                        "_className": "SpellGain",
                         "locked": true,
                         "name": "Read Fate"
                     }
@@ -31520,11 +31152,6 @@
     {
         "name": "Deity's Domain: Fire",
         "desc": "You embody an aspect of your deity. You gain the Fire domain's Fire Ray spell as a devotion spell.",
-        "hints": [
-            {
-                "desc": "Flame Barrier"
-            }
-        ],
         "subType": "Fire",
         "superType": "Deity's Domain",
         "shortdesc": "You embody an aspect of your deity.",
@@ -31544,7 +31171,6 @@
                 "source": "Feat: Deity's Domain: Fire",
                 "spells": [
                     {
-                        "_className": "SpellGain",
                         "locked": true,
                         "name": "Fire Ray"
                     }
@@ -31555,11 +31181,6 @@
     {
         "name": "Deity's Domain: Freedom",
         "desc": "You embody an aspect of your deity. You gain the Freedom domain's Unimpeded Stride spell as a devotion spell.",
-        "hints": [
-            {
-                "desc": "Word of Freedom"
-            }
-        ],
         "subType": "Freedom",
         "superType": "Deity's Domain",
         "shortdesc": "You embody an aspect of your deity.",
@@ -31579,7 +31200,6 @@
                 "source": "Feat: Deity's Domain: Freedom",
                 "spells": [
                     {
-                        "_className": "SpellGain",
                         "locked": true,
                         "name": "Unimpeded Stride"
                     }
@@ -31590,11 +31210,6 @@
     {
         "name": "Deity's Domain: Glyph",
         "desc": "You embody an aspect of your deity. You gain the Glyph domain's Redact spell as a devotion spell.",
-        "hints": [
-            {
-                "desc": "Ghostly Transcription"
-            }
-        ],
         "subType": "Glyph",
         "superType": "Deity's Domain",
         "shortdesc": "You embody an aspect of your deity.",
@@ -31614,7 +31229,6 @@
                 "source": "Feat: Deity's Domain: Glyph",
                 "spells": [
                     {
-                        "_className": "SpellGain",
                         "locked": true,
                         "name": "Redact"
                     }
@@ -31625,11 +31239,6 @@
     {
         "name": "Deity's Domain: Healing",
         "desc": "You embody an aspect of your deity. You gain the Healing domain's Healer's Blessing spell as a devotion spell.",
-        "hints": [
-            {
-                "desc": "Rebuke Death"
-            }
-        ],
         "subType": "Healing",
         "superType": "Deity's Domain",
         "shortdesc": "You embody an aspect of your deity.",
@@ -31649,7 +31258,6 @@
                 "source": "Feat: Deity's Domain: Healing",
                 "spells": [
                     {
-                        "_className": "SpellGain",
                         "locked": true,
                         "name": "Healer's Blessing"
                     }
@@ -31660,11 +31268,6 @@
     {
         "name": "Deity's Domain: Indulgence",
         "desc": "You embody an aspect of your deity. You gain the Indulgence domain's Overstuff spell as a devotion spell.",
-        "hints": [
-            {
-                "desc": "Take its Course"
-            }
-        ],
         "subType": "Indulgence",
         "superType": "Deity's Domain",
         "shortdesc": "You embody an aspect of your deity.",
@@ -31684,7 +31287,6 @@
                 "source": "Feat: Deity's Domain: Indulgence",
                 "spells": [
                     {
-                        "_className": "SpellGain",
                         "locked": true,
                         "name": "Overstuff"
                     }
@@ -31695,11 +31297,6 @@
     {
         "name": "Deity's Domain: Knowledge",
         "desc": "You embody an aspect of your deity. You gain the Knowledge domain's Scholarly Recollection spell as a devotion spell.",
-        "hints": [
-            {
-                "desc": "Know the Enemy"
-            }
-        ],
         "subType": "Knowledge",
         "superType": "Deity's Domain",
         "shortdesc": "You embody an aspect of your deity.",
@@ -31719,7 +31316,6 @@
                 "source": "Feat: Deity's Domain: Knowledge",
                 "spells": [
                     {
-                        "_className": "SpellGain",
                         "locked": true,
                         "name": "Scholarly Recollection"
                     }
@@ -31730,11 +31326,6 @@
     {
         "name": "Deity's Domain: Lightning",
         "desc": "You embody an aspect of your deity. You gain the Lightning domain's Charged Javelin spell as a devotion spell.",
-        "hints": [
-            {
-                "desc": "Bottle the Storm"
-            }
-        ],
         "subType": "Lightning",
         "superType": "Deity's Domain",
         "shortdesc": "You embody an aspect of your deity.",
@@ -31754,7 +31345,6 @@
                 "source": "Feat: Deity's Domain: Lightning",
                 "spells": [
                     {
-                        "_className": "SpellGain",
                         "locked": true,
                         "name": "Charged Javelin"
                     }
@@ -31765,11 +31355,6 @@
     {
         "name": "Deity's Domain: Luck",
         "desc": "You embody an aspect of your deity. You gain the Luck domain's Bit of Luck spell as a devotion spell.",
-        "hints": [
-            {
-                "desc": "Lucky Break"
-            }
-        ],
         "subType": "Luck",
         "superType": "Deity's Domain",
         "shortdesc": "You embody an aspect of your deity.",
@@ -31789,7 +31374,6 @@
                 "source": "Feat: Deity's Domain: Luck",
                 "spells": [
                     {
-                        "_className": "SpellGain",
                         "locked": true,
                         "name": "Bit of Luck"
                     }
@@ -31800,11 +31384,6 @@
     {
         "name": "Deity's Domain: Magic",
         "desc": "You embody an aspect of your deity. You gain the Magic domain's Magic's Vessel spell as a devotion spell.",
-        "hints": [
-            {
-                "desc": "Mystic Beacon"
-            }
-        ],
         "subType": "Magic",
         "superType": "Deity's Domain",
         "shortdesc": "You embody an aspect of your deity.",
@@ -31824,7 +31403,6 @@
                 "source": "Feat: Deity's Domain: Magic",
                 "spells": [
                     {
-                        "_className": "SpellGain",
                         "locked": true,
                         "name": "Magic's Vessel"
                     }
@@ -31835,11 +31413,6 @@
     {
         "name": "Deity's Domain: Might",
         "desc": "You embody an aspect of your deity. You gain the Might domain's Athletic Rush spell as a devotion spell.",
-        "hints": [
-            {
-                "desc": "Enduring Might"
-            }
-        ],
         "subType": "Might",
         "superType": "Deity's Domain",
         "shortdesc": "You embody an aspect of your deity.",
@@ -31859,7 +31432,6 @@
                 "source": "Feat: Deity's Domain: Might",
                 "spells": [
                     {
-                        "_className": "SpellGain",
                         "locked": true,
                         "name": "Athletic Rush"
                     }
@@ -31870,11 +31442,6 @@
     {
         "name": "Deity's Domain: Moon",
         "desc": "You embody an aspect of your deity. You gain the Moon domain's Moonbeam spell as a devotion spell.",
-        "hints": [
-            {
-                "desc": "Touch of the Moon"
-            }
-        ],
         "subType": "Moon",
         "superType": "Deity's Domain",
         "shortdesc": "You embody an aspect of your deity.",
@@ -31894,7 +31461,6 @@
                 "source": "Feat: Deity's Domain: Moon",
                 "spells": [
                     {
-                        "_className": "SpellGain",
                         "locked": true,
                         "name": "Moonbeam"
                     }
@@ -31905,11 +31471,6 @@
     {
         "name": "Deity's Domain: Naga",
         "desc": "You embody an aspect of your deity. You gain the Naga domain's Split the Tongue spell as a devotion spell.",
-        "hints": [
-            {
-                "desc": "Ordained Purpose"
-            }
-        ],
         "subType": "Naga",
         "superType": "Deity's Domain",
         "shortdesc": "You embody an aspect of your deity.",
@@ -31929,7 +31490,6 @@
                 "source": "Feat: Deity's Domain: Naga",
                 "spells": [
                     {
-                        "_className": "SpellGain",
                         "locked": true,
                         "name": "Split the Tongue"
                     }
@@ -31940,11 +31500,6 @@
     {
         "name": "Deity's Domain: Nature",
         "desc": "You embody an aspect of your deity. You gain the Nature domain's Vibrant Thorns spell as a devotion spell.",
-        "hints": [
-            {
-                "desc": "Nature's Bounty"
-            }
-        ],
         "subType": "Nature",
         "superType": "Deity's Domain",
         "shortdesc": "You embody an aspect of your deity.",
@@ -31964,7 +31519,6 @@
                 "source": "Feat: Deity's Domain: Nature",
                 "spells": [
                     {
-                        "_className": "SpellGain",
                         "locked": true,
                         "name": "Vibrant Thorns"
                     }
@@ -31975,11 +31529,6 @@
     {
         "name": "Deity's Domain: Nightmares",
         "desc": "You embody an aspect of your deity. You gain the Nightmares domain's Waking Nightmare spell as a devotion spell.",
-        "hints": [
-            {
-                "desc": "Shared Nightmare"
-            }
-        ],
         "subType": "Nightmares",
         "superType": "Deity's Domain",
         "shortdesc": "You embody an aspect of your deity.",
@@ -31999,7 +31548,6 @@
                 "source": "Feat: Deity's Domain: Nightmares",
                 "spells": [
                     {
-                        "_className": "SpellGain",
                         "locked": true,
                         "name": "Waking Nightmare"
                     }
@@ -32010,11 +31558,6 @@
     {
         "name": "Deity's Domain: Pain",
         "desc": "You embody an aspect of your deity. You gain the Pain domain's Savor the Sting spell as a devotion spell.",
-        "hints": [
-            {
-                "desc": "Retributive Pain"
-            }
-        ],
         "subType": "Pain",
         "superType": "Deity's Domain",
         "shortdesc": "You embody an aspect of your deity.",
@@ -32034,7 +31577,6 @@
                 "source": "Feat: Deity's Domain: Pain",
                 "spells": [
                     {
-                        "_className": "SpellGain",
                         "locked": true,
                         "name": "Savor the Sting"
                     }
@@ -32045,11 +31587,6 @@
     {
         "name": "Deity's Domain: Passion",
         "desc": "You embody an aspect of your deity. You gain the Passion domain's Charming Touch spell as a devotion spell.",
-        "hints": [
-            {
-                "desc": "Captivating Adoration"
-            }
-        ],
         "subType": "Passion",
         "superType": "Deity's Domain",
         "shortdesc": "You embody an aspect of your deity.",
@@ -32069,7 +31606,6 @@
                 "source": "Feat: Deity's Domain: Passion",
                 "spells": [
                     {
-                        "_className": "SpellGain",
                         "locked": true,
                         "name": "Charming Touch"
                     }
@@ -32080,11 +31616,6 @@
     {
         "name": "Deity's Domain: Perfection",
         "desc": "You embody an aspect of your deity. You gain the Perfection domain's Perfected Mind spell as a devotion spell.",
-        "hints": [
-            {
-                "desc": "Perfected Form"
-            }
-        ],
         "subType": "Perfection",
         "superType": "Deity's Domain",
         "shortdesc": "You embody an aspect of your deity.",
@@ -32104,7 +31635,6 @@
                 "source": "Feat: Deity's Domain: Perfection",
                 "spells": [
                     {
-                        "_className": "SpellGain",
                         "locked": true,
                         "name": "Perfected Mind"
                     }
@@ -32115,11 +31645,6 @@
     {
         "name": "Deity's Domain: Plague",
         "desc": "You embody an aspect of your deity. You gain the Plague domain's Divine Plagues spell as a devotion spell.",
-        "hints": [
-            {
-                "desc": "Foul Miasma"
-            }
-        ],
         "subType": "Plague",
         "superType": "Deity's Domain",
         "shortdesc": "You embody an aspect of your deity.",
@@ -32139,7 +31664,6 @@
                 "source": "Feat: Deity's Domain: Plague",
                 "spells": [
                     {
-                        "_className": "SpellGain",
                         "locked": true,
                         "name": "Divine Plagues"
                     }
@@ -32150,11 +31674,6 @@
     {
         "name": "Deity's Domain: Protection",
         "desc": "You embody an aspect of your deity. You gain the Protection domain's Protector's Sacrifice spell as a devotion spell.",
-        "hints": [
-            {
-                "desc": "Protector's Sphere"
-            }
-        ],
         "subType": "Protection",
         "superType": "Deity's Domain",
         "shortdesc": "You embody an aspect of your deity.",
@@ -32174,7 +31693,6 @@
                 "source": "Feat: Deity's Domain: Protection",
                 "spells": [
                     {
-                        "_className": "SpellGain",
                         "locked": true,
                         "name": "Protector's Sacrifice"
                     }
@@ -32185,11 +31703,6 @@
     {
         "name": "Deity's Domain: Repose",
         "desc": "You embody an aspect of your deity. You gain the Repose domain's Share Burden spell as a devotion spell.",
-        "hints": [
-            {
-                "desc": "Font of Serenity"
-            }
-        ],
         "subType": "Repose",
         "superType": "Deity's Domain",
         "shortdesc": "You embody an aspect of your deity.",
@@ -32209,7 +31722,6 @@
                 "source": "Feat: Deity's Domain: Repose",
                 "spells": [
                     {
-                        "_className": "SpellGain",
                         "locked": true,
                         "name": "Share Burden"
                     }
@@ -32220,11 +31732,6 @@
     {
         "name": "Deity's Domain: Secrecy",
         "desc": "You embody an aspect of your deity. You gain the Secrecy domain's Forced Quiet spell as a devotion spell.",
-        "hints": [
-            {
-                "desc": "Safeguard Secret"
-            }
-        ],
         "subType": "Secrecy",
         "superType": "Deity's Domain",
         "shortdesc": "You embody an aspect of your deity.",
@@ -32244,7 +31751,6 @@
                 "source": "Feat: Deity's Domain: Secrecy",
                 "spells": [
                     {
-                        "_className": "SpellGain",
                         "locked": true,
                         "name": "Forced Quiet"
                     }
@@ -32255,11 +31761,6 @@
     {
         "name": "Deity's Domain: Sorrow",
         "desc": "You embody an aspect of your deity. You gain the Sorrow domain's Lament spell as a devotion spell.",
-        "hints": [
-            {
-                "desc": "Overflowing Sorrow"
-            }
-        ],
         "subType": "Sorrow",
         "superType": "Deity's Domain",
         "shortdesc": "You embody an aspect of your deity.",
@@ -32279,7 +31780,6 @@
                 "source": "Feat: Deity's Domain: Sorrow",
                 "spells": [
                     {
-                        "_className": "SpellGain",
                         "locked": true,
                         "name": "Lament"
                     }
@@ -32290,11 +31790,6 @@
     {
         "name": "Deity's Domain: Soul",
         "desc": "You embody an aspect of your deity. You gain the Soul domain's Eject Soul spell as a devotion spell.",
-        "hints": [
-            {
-                "desc": "Ectoplasmic Interstice"
-            }
-        ],
         "subType": "Soul",
         "superType": "Deity's Domain",
         "shortdesc": "You embody an aspect of your deity.",
@@ -32314,7 +31809,6 @@
                 "source": "Feat: Deity's Domain: Soul",
                 "spells": [
                     {
-                        "_className": "SpellGain",
                         "locked": true,
                         "name": "Eject Soul"
                     }
@@ -32325,11 +31819,6 @@
     {
         "name": "Deity's Domain: Star",
         "desc": "You embody an aspect of your deity. You gain the Star domain's Zenith Star spell as a devotion spell.",
-        "hints": [
-            {
-                "desc": "Asterism"
-            }
-        ],
         "subType": "Star",
         "superType": "Deity's Domain",
         "shortdesc": "You embody an aspect of your deity.",
@@ -32349,7 +31838,6 @@
                 "source": "Feat: Deity's Domain: Star",
                 "spells": [
                     {
-                        "_className": "SpellGain",
                         "locked": true,
                         "name": "Zenith Star"
                     }
@@ -32360,11 +31848,6 @@
     {
         "name": "Deity's Domain: Sun",
         "desc": "You embody an aspect of your deity. You gain the Sun domain's Dazzling Flash spell as a devotion spell.",
-        "hints": [
-            {
-                "desc": "Positive Luminance"
-            }
-        ],
         "subType": "Sun",
         "superType": "Deity's Domain",
         "shortdesc": "You embody an aspect of your deity.",
@@ -32384,7 +31867,6 @@
                 "source": "Feat: Deity's Domain: Sun",
                 "spells": [
                     {
-                        "_className": "SpellGain",
                         "locked": true,
                         "name": "Dazzling Flash"
                     }
@@ -32395,11 +31877,6 @@
     {
         "name": "Deity's Domain: Swarm",
         "desc": "You embody an aspect of your deity. You gain the Swarm domain's Swarmsense spell as a devotion spell.",
-        "hints": [
-            {
-                "desc": "Swarm Form"
-            }
-        ],
         "subType": "Swarm",
         "superType": "Deity's Domain",
         "shortdesc": "You embody an aspect of your deity.",
@@ -32419,7 +31896,6 @@
                 "source": "Feat: Deity's Domain: Swarm",
                 "spells": [
                     {
-                        "_className": "SpellGain",
                         "locked": true,
                         "name": "Swarmsense"
                     }
@@ -32430,11 +31906,6 @@
     {
         "name": "Deity's Domain: Time",
         "desc": "You embody an aspect of your deity. You gain the Time domain's Delay Consequence spell as a devotion spell.",
-        "hints": [
-            {
-                "desc": "Stasis"
-            }
-        ],
         "subType": "Time",
         "superType": "Deity's Domain",
         "shortdesc": "You embody an aspect of your deity.",
@@ -32454,7 +31925,6 @@
                 "source": "Feat: Deity's Domain: Time",
                 "spells": [
                     {
-                        "_className": "SpellGain",
                         "locked": true,
                         "name": "Delay Consequence"
                     }
@@ -32465,11 +31935,6 @@
     {
         "name": "Deity's Domain: Toil",
         "desc": "You embody an aspect of your deity. You gain the Toil domain's Practice Makes Perfect spell as a devotion spell.",
-        "hints": [
-            {
-                "desc": "Tireless Worker"
-            }
-        ],
         "subType": "Toil",
         "superType": "Deity's Domain",
         "shortdesc": "You embody an aspect of your deity.",
@@ -32489,7 +31954,6 @@
                 "source": "Feat: Deity's Domain: Toil",
                 "spells": [
                     {
-                        "_className": "SpellGain",
                         "locked": true,
                         "name": "Practice Makes Perfect"
                     }
@@ -32500,11 +31964,6 @@
     {
         "name": "Deity's Domain: Travel",
         "desc": "You embody an aspect of your deity. You gain the Travel domain's Agile Feet spell as a devotion spell.",
-        "hints": [
-            {
-                "desc": "Traveler's Transit"
-            }
-        ],
         "subType": "Travel",
         "superType": "Deity's Domain",
         "shortdesc": "You embody an aspect of your deity.",
@@ -32524,7 +31983,6 @@
                 "source": "Feat: Deity's Domain: Travel",
                 "spells": [
                     {
-                        "_className": "SpellGain",
                         "locked": true,
                         "name": "Agile Feet"
                     }
@@ -32535,11 +31993,6 @@
     {
         "name": "Deity's Domain: Trickery",
         "desc": "You embody an aspect of your deity. You gain the Trickery domain's Sudden Shift spell as a devotion spell.",
-        "hints": [
-            {
-                "desc": "Trickster's Twin"
-            }
-        ],
         "subType": "Trickery",
         "superType": "Deity's Domain",
         "shortdesc": "You embody an aspect of your deity.",
@@ -32559,7 +32012,6 @@
                 "source": "Feat: Deity's Domain: Trickery",
                 "spells": [
                     {
-                        "_className": "SpellGain",
                         "locked": true,
                         "name": "Sudden Shift"
                     }
@@ -32570,11 +32022,6 @@
     {
         "name": "Deity's Domain: Truth",
         "desc": "You embody an aspect of your deity. You gain the Truth domain's Word of Truth spell as a devotion spell.",
-        "hints": [
-            {
-                "desc": "Glimpse the Truth"
-            }
-        ],
         "subType": "Truth",
         "superType": "Deity's Domain",
         "shortdesc": "You embody an aspect of your deity.",
@@ -32594,7 +32041,6 @@
                 "source": "Feat: Deity's Domain: Truth",
                 "spells": [
                     {
-                        "_className": "SpellGain",
                         "locked": true,
                         "name": "Word of Truth"
                     }
@@ -32605,11 +32051,6 @@
     {
         "name": "Deity's Domain: Tyranny",
         "desc": "You embody an aspect of your deity. You gain the Tyranny domain's Touch of Obedience spell as a devotion spell.",
-        "hints": [
-            {
-                "desc": "Commanding Lash"
-            }
-        ],
         "subType": "Tyranny",
         "superType": "Deity's Domain",
         "shortdesc": "You embody an aspect of your deity.",
@@ -32629,7 +32070,6 @@
                 "source": "Feat: Deity's Domain: Tyranny",
                 "spells": [
                     {
-                        "_className": "SpellGain",
                         "locked": true,
                         "name": "Touch of Obedience"
                     }
@@ -32640,11 +32080,6 @@
     {
         "name": "Deity's Domain: Undeath",
         "desc": "You embody an aspect of your deity. You gain the Undeath domain's Touch of Undeath spell as a devotion spell.",
-        "hints": [
-            {
-                "desc": "Malignant Sustenance"
-            }
-        ],
         "subType": "Undeath",
         "superType": "Deity's Domain",
         "shortdesc": "You embody an aspect of your deity.",
@@ -32664,7 +32099,6 @@
                 "source": "Feat: Deity's Domain: Undeath",
                 "spells": [
                     {
-                        "_className": "SpellGain",
                         "locked": true,
                         "name": "Touch of Undeath"
                     }
@@ -32675,11 +32109,6 @@
     {
         "name": "Deity's Domain: Vigil",
         "desc": "You embody an aspect of your deity. You gain the Vigil domain's Object Memory spell as a devotion spell.",
-        "hints": [
-            {
-                "desc": "Remember the Lost"
-            }
-        ],
         "subType": "Vigil",
         "superType": "Deity's Domain",
         "shortdesc": "You embody an aspect of your deity.",
@@ -32699,7 +32128,6 @@
                 "source": "Feat: Deity's Domain: Vigil",
                 "spells": [
                     {
-                        "_className": "SpellGain",
                         "locked": true,
                         "name": "Object Memory"
                     }
@@ -32710,11 +32138,6 @@
     {
         "name": "Deity's Domain: Void",
         "desc": "You embody an aspect of your deity. You gain the Void domain's Empty Inside spell as a devotion spell.",
-        "hints": [
-            {
-                "desc": "Door to Beyond"
-            }
-        ],
         "subType": "Void",
         "superType": "Deity's Domain",
         "shortdesc": "You embody an aspect of your deity.",
@@ -32734,7 +32157,6 @@
                 "source": "Feat: Deity's Domain: Void",
                 "spells": [
                     {
-                        "_className": "SpellGain",
                         "locked": true,
                         "name": "Empty Inside"
                     }
@@ -32745,11 +32167,6 @@
     {
         "name": "Deity's Domain: Water",
         "desc": "You embody an aspect of your deity. You gain the Water domain's Tidal Surge spell as a devotion spell.",
-        "hints": [
-            {
-                "desc": "Downpour"
-            }
-        ],
         "subType": "Water",
         "superType": "Deity's Domain",
         "shortdesc": "You embody an aspect of your deity.",
@@ -32769,7 +32186,6 @@
                 "source": "Feat: Deity's Domain: Water",
                 "spells": [
                     {
-                        "_className": "SpellGain",
                         "locked": true,
                         "name": "Tidal Surge"
                     }
@@ -32780,11 +32196,6 @@
     {
         "name": "Deity's Domain: Wealth",
         "desc": "You embody an aspect of your deity. You gain the Wealth domain's Appearance of Wealth spell as a devotion spell.",
-        "hints": [
-            {
-                "desc": "Precious Metals"
-            }
-        ],
         "subType": "Wealth",
         "superType": "Deity's Domain",
         "shortdesc": "You embody an aspect of your deity.",
@@ -32804,7 +32215,6 @@
                 "source": "Feat: Deity's Domain: Wealth",
                 "spells": [
                     {
-                        "_className": "SpellGain",
                         "locked": true,
                         "name": "Appearance of Wealth"
                     }
@@ -32815,11 +32225,6 @@
     {
         "name": "Deity's Domain: Wyrmkin",
         "desc": "You embody an aspect of your deity. You gain the Wyrmkin domain's Draconic Barrage spell as a devotion spell.",
-        "hints": [
-            {
-                "desc": "Roar of the Wyrm"
-            }
-        ],
         "subType": "Wyrmkin",
         "superType": "Deity's Domain",
         "shortdesc": "You embody an aspect of your deity.",
@@ -32839,7 +32244,6 @@
                 "source": "Feat: Deity's Domain: Wyrmkin",
                 "spells": [
                     {
-                        "_className": "SpellGain",
                         "locked": true,
                         "name": "Draconic Barrage"
                     }
@@ -32850,11 +32254,6 @@
     {
         "name": "Deity's Domain: Zeal",
         "desc": "You embody an aspect of your deity. You gain the Zeal domain's Weapon Surge spell as a devotion spell.",
-        "hints": [
-            {
-                "desc": "Zeal for Battle"
-            }
-        ],
         "subType": "Zeal",
         "superType": "Deity's Domain",
         "shortdesc": "You embody an aspect of your deity.",
@@ -32874,7 +32273,6 @@
                 "source": "Feat: Deity's Domain: Zeal",
                 "spells": [
                     {
-                        "_className": "SpellGain",
                         "locked": true,
                         "name": "Weapon Surge"
                     }
@@ -33168,7 +32566,7 @@
                     },
                     {
                         "affected": "Weapon Damage per Die",
-                        "value": 1,
+                        "value": "1",
                         "type": "circumstance"
                     }
                 ]
@@ -33200,7 +32598,7 @@
                     },
                     {
                         "affected": "Weapon Damage per Die",
-                        "value": 1,
+                        "value": "1",
                         "type": "circumstance"
                     }
                 ]
@@ -33232,7 +32630,7 @@
                     },
                     {
                         "affected": "Weapon Damage per Die",
-                        "value": 1,
+                        "value": "1",
                         "type": "circumstance"
                     }
                 ]
@@ -33264,7 +32662,7 @@
                     },
                     {
                         "affected": "Weapon Damage per Die",
-                        "value": 1,
+                        "value": "1",
                         "type": "circumstance"
                     }
                 ]
@@ -33565,13 +32963,2637 @@
         ]
     },
     {
-        "name": "Animal Skin",
+        "name": "Acute Vision",
+        "desc": "When you are raging, your visual senses improve, granting you darkvision.",
+        "hints": [
+            {
+                "desc": "When you are raging, you gain darkvision.",
+                "showon": "Rage"
+            }
+        ],
+        "internalNote": "Coded into the Rage condition",
+        "shortdesc": "Your sense improve when you are raging.",
+        "traits": [
+            "Barbarian"
+        ],
+        "levelreq": 1
+    },
+    {
+        "name": "Moment of Clarity",
+        "desc": "You push back your rage for a moment in order to think clearly.",
+        "shortdesc": "You push back your rage for a moment in order to think clearly.",
+        "traits": [
+            "Barbarian",
+            "Concentrate",
+            "Rage"
+        ],
+        "levelreq": 1,
+        "gainActivities": [
+            "Moment of Clarity"
+        ]
+    },
+    {
+        "name": "Raging Intimidation",
+        "desc": "Your fury fills your foes with fear. While you are raging, your Demoralize and Scare to Death actions (from the Intimidation skill and an Intimidation skill feat, respectively) gain the rage trait, allowing you to use them while raging. As soon as you meet the prerequisites for the skill feats Intimidating Glare and Scare to Death, you gain these feats.",
+        "hints": [
+            {
+                "desc": "While you are raging, your Demoralize and Scare to Death actions (from the Intimidation skill and an Intimidation skill feat, respectively) gain the rage trait, allowing you to use them while raging.",
+                "showon": "Rage, Intimidation"
+            },
+            {
+                "desc": "As soon as you meet the prerequisites for the skill feats Intimidating Glare and Scare to Death, you gain these feats.",
+                "showon": "Character"
+            }
+        ],
+        "shortdesc": "Your fury fills your foes with fear.",
         "traits": [
             "Barbarian"
         ],
         "levelreq": 1,
-        "featreq": [
-            "Animal Instinct"
+        "gainFeatChoice": [
+            {
+                "_className": "FeatChoice",
+                "available": 2,
+                "filter": [
+                    "Intimidating Glare",
+                    "Scare to Death"
+                ],
+                "showOnCurrentLevel": true,
+                "source": "Feat: Raging Intimidation",
+                "type": "Skill"
+            }
         ]
+    },
+    {
+        "name": "Raging Thrower",
+        "desc": "Thrown weapons become especially deadly in your fury. You apply the additional damage from Rage to your thrown weapon attacks. If you have the Brutal Critical feat or the devastator class feature, apply their benefits to thrown weapon attacks.",
+        "hints": [
+            {
+                "desc": "If you have the Brutal Critical feat or the devastator class feature, apply their benefits to thrown weapon attacks.",
+                "showon": "Attacks"
+            }
+        ],
+        "shortdesc": "Thrown weapons become especially deadly in your fury. You apply the additional damage from Rage to your�thrown�weapon attacks. If you have the�Brutal Critical�feat or the devastator class feature, apply their benefits to thrown weapon attacks.",
+        "traits": [
+            "Barbarian"
+        ],
+        "levelreq": 1
+    },
+    {
+        "name": "Acute Scent",
+        "desc": "When you Rage, your sense of smell improves. You gain imprecise scent with a range of 30 feet.",
+        "hints": [
+            {
+                "desc": "When you Rage, you gain imprecise scent with a range of 30 feet.",
+                "showon": "Rage"
+            }
+        ],
+        "internalNote": "Coded into the Rage condition",
+        "shortdesc": "When you Rage, your sense of smell improves.",
+        "traits": [
+            "Barbarian"
+        ],
+        "levelreq": 2,
+        "specialreq": "Has_Feat('Character', 'Acute Vision') || Has_Sense('Character', 'Darkvision')",
+        "specialreqdesc": "Acute Vision or darkvision"
+    },
+    {
+        "name": "Furious Finish",
+        "desc": "Desperate to finish the fight, you pour all your rage into one final blow.",
+        "shortdesc": "Desperate to finish the fight, you pour all your rage into one final blow.",
+        "traits": [
+            "Barbarian",
+            "Rage"
+        ],
+        "levelreq": 2,
+        "gainActivities": [
+            "Furious Finish"
+        ]
+    },
+    {
+        "name": "No Escape",
+        "desc": "You keep pace with a retreating foe.",
+        "shortdesc": "You keep pace with a retreating foe.",
+        "traits": [
+            "Barbarian",
+            "Rage"
+        ],
+        "levelreq": 2,
+        "gainActivities": [
+            "No Escape"
+        ]
+    },
+    {
+        "name": "Second Wind",
+        "desc": "You can enter a second rage, but afterward you need to catch your breath. You can Rage without waiting for 1 minute after the previous Rage (or 1 round, with quick rage), but when you end this second Rage, you're fatigued until you rest for 10 minutes.",
+        "shortdesc": "You can enter a second rage, but afterward you need to catch your breath.",
+        "traits": [
+            "Barbarian"
+        ],
+        "levelreq": 2,
+        "gainActivities": [
+            "Second Wind"
+        ]
+    },
+    {
+        "name": "Shake it Off",
+        "desc": "You concentrate on your rage, overcoming fear and fighting back sickness.",
+        "shortdesc": "You concentrate on your rage, overcoming fear and fighting back sickness.",
+        "traits": [
+            "Barbarian",
+            "Concentrate",
+            "Rage"
+        ],
+        "levelreq": 2,
+        "gainActivities": [
+            "Shake it Off"
+        ]
+    },
+    {
+        "name": "Farabellus Flip",
+        "desc": "Surprisingly agile even in a breastplate and carrying a full rucksack, Marcos Farabellus developed this evasive maneuver during one of his many adventures.",
+        "access": "Member of the Pathfinder Society.",
+        "shortdesc": "Surprisingly agile even in a breastplate and carrying a full rucksack, Marcos Farabellus developed this evasive maneuver during one of his many adventures.",
+        "sourceBook": "Pathfinder Society Guide",
+        "PFSnote": "All characters have access to this feat.",
+        "traits": [
+            "Barbarian",
+            "Fighter",
+            "Ranger",
+            "Uncommon"
+        ],
+        "levelreq": 4,
+        "skillreq": [
+            {
+                "skill": "Acrobatics",
+                "value": 2
+            },
+            {
+                "skill": "Medium Armor",
+                "value": 2
+            }
+        ],
+        "gainActivities": [
+            "Farabellus Flip"
+        ]
+    },
+    {
+        "name": "Fast Movement",
+        "desc": "Your rage is a frenzy of rapid movements. While you are raging, you gain a +10-foot status bonus to your Speed.",
+        "hints": [
+            {
+                "desc": "While you are raging, you gain a +10-foot status bonus to your Speed.",
+                "showon": "Rage"
+            }
+        ],
+        "internalNote": "Coded into the Rage condition",
+        "shortdesc": "Your rage is a frenzy of rapid movements.",
+        "traits": [
+            "Barbarian"
+        ],
+        "levelreq": 4
+    },
+    {
+        "name": "Raging Athlete",
+        "desc": "Physical obstacles can't hold back your fury. While you are raging, you gain a climb Speed and swim Speed equal to your land Speed and the DC of High Jumps and Long Jumps decreases by 10. Your distance for a vertical Leap increases to 5 feet vertically, and your distance for a horizontal Leap increases to 15 feet if your Speed is at least 15 feet and to 20 feet if your Speed is at least 30 feet.",
+        "hints": [
+            {
+                "desc": "While you are raging, you gain a climb Speed and swim Speed equal to your land Speed and the DC of High Jumps and Long Jumps decreases by 10. Your distance for a vertical Leap increases to 5 feet vertically, and your distance for a horizontal Leap increases to 15 feet if your Speed is at least 15 feet and to 20 feet if your Speed is at least 30 feet.",
+                "showon": "Rage"
+            }
+        ],
+        "internalNote": "Coded into the Rage condition",
+        "shortdesc": "Physical obstacles can't hold back your fury.",
+        "traits": [
+            "Barbarian"
+        ],
+        "levelreq": 4
+    },
+    {
+        "name": "Wounded Rage",
+        "desc": "You roar in pain, awakening the rage within you.",
+        "internalNote": "Coded into the Rage condition",
+        "shortdesc": "You roar in pain, awakening the rage within you.",
+        "traits": [
+            "Barbarian"
+        ],
+        "levelreq": 4,
+        "gainActivities": [
+            "Wounded Rage"
+        ]
+    },
+    {
+        "name": "Animal Skin",
+        "desc": "Your proficiency in unarmored defense increases to expert. When you are raging and unarmored, your skin transforms into a thick hide. You gain a +2 item bonus to AC (+3 if you have the greater juggernaut class feature). The thickness of your hide gives you a Dexterity modifier cap to your AC of +3. This item bonus to AC is cumulative with armor potency runes on your explorer's clothing, mage armor, and bracers of armor.",
+        "internalNote": "Coded into the Bestial Rage condition",
+        "shortdesc": "Your proficiency in unarmored defense increases to expert.",
+        "traits": [
+            "Barbarian",
+            "Instinct",
+            "Morph",
+            "Primal",
+            "Transmutation"
+        ],
+        "levelreq": 6,
+        "featreq": [
+            "animal instinct"
+        ],
+        "gainSkillChoice": [
+            {
+                "_className": "SkillChoice",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 4,
+                        "name": "Unarmored Defense",
+                        "source": "Feat: Animal Skin"
+                    }
+                ],
+                "maxRank": 4,
+                "source": "Feat: Animal Skin",
+                "type": "Armor Proficiency"
+            }
+        ]
+    },
+    {
+        "name": "Attack of Opportunity",
+        "desc": "You lash out at a foe that leaves an opening.",
+        "shortdesc": "You swat a foe that leaves an opening.",
+        "traits": [
+            "Barbarian",
+            "Champion"
+        ],
+        "levelreq": 6,
+        "gainActivities": [
+            "Attack of Opportunity"
+        ]
+    },
+    {
+        "name": "Brutal Bully",
+        "desc": "You push your foes around and leave bruises. While raging, when you successfully Disarm, Grapple, Shove, or Trip a foe, you deal that foe bludgeoning damage equal to your Strength modifier; add this to the damage from a critical success to Trip.",
+        "hints": [
+            {
+                "desc": "While raging, when you successfully Disarm, Grapple, Shove, or Trip a foe, you deal that foe bludgeoning damage equal to your Strength modifier; add this to the damage from a critical success to Trip.",
+                "showon": "Athletics, Rage"
+            }
+        ],
+        "shortdesc": "You push your foes around and leave bruises.",
+        "traits": [
+            "Barbarian"
+        ],
+        "levelreq": 6,
+        "skillreq": [
+            {
+                "skill": "Athletics",
+                "value": 4
+            }
+        ]
+    },
+    {
+        "name": "Cleave",
+        "desc": "You swing clear through one foe and into another.",
+        "shortdesc": "You swing clear through one foe and into another.",
+        "traits": [
+            "Barbarian",
+            "Rage"
+        ],
+        "levelreq": 6,
+        "gainActivities": [
+            "Cleave"
+        ]
+    },
+    {
+        "name": "Dragon's Rage Breath",
+        "desc": "You breathe deeply and exhale powerful energy in a 30-foot cone or 60-foot line, dealing 1d6 damage per level.",
+        "shortdesc": "You exhale powerful draconic energy.",
+        "traits": [
+            "Barbarian",
+            "Arcane",
+            "Concentrate",
+            "Evocation",
+            "Instinct",
+            "Rage"
+        ],
+        "levelreq": 6,
+        "featreq": [
+            "dragon instinct"
+        ],
+        "gainActivities": [
+            "Dragon's Rage Breath"
+        ]
+    },
+    {
+        "name": "Giant's Stature",
+        "desc": "You grow to incredible size.",
+        "shortdesc": "You grow to incredible size.",
+        "traits": [
+            "Barbarian",
+            "Instinct",
+            "Polymorph",
+            "Primal",
+            "Rage",
+            "Transmutation"
+        ],
+        "levelreq": 6,
+        "featreq": [
+            "giant instinct"
+        ],
+        "gainActivities": [
+            "Giant's Stature"
+        ]
+    },
+    {
+        "name": "Spirits' Interference",
+        "desc": "You call forth protective spirits to ward off ranged attacks.",
+        "shortdesc": "You call forth protective spirits to ward off ranged attacks.",
+        "traits": [
+            "Barbarian",
+            "Divine",
+            "Instinct",
+            "Necromancy",
+            "Rage"
+        ],
+        "levelreq": 6,
+        "featreq": [
+            "spirit instinct"
+        ],
+        "gainActivities": [
+            "Spirits' Interference"
+        ]
+    },
+    {
+        "name": "Animal Rage",
+        "desc": "You transform into your animal.",
+        "shortdesc": "You transform into your animal.",
+        "traits": [
+            "Barbarian",
+            "Concentrate",
+            "Instinct",
+            "Polymorph",
+            "Primal",
+            "Rage",
+            "Transmutation"
+        ],
+        "levelreq": 8,
+        "featreq": [
+            "animal instinct"
+        ],
+        "gainActivities": [
+            "Animal Rage"
+        ]
+    },
+    {
+        "name": "Furious Bully",
+        "desc": "You bully foes across the battlefield. While raging, you gain a +2 circumstance bonus to Athletics checks for attack actions.",
+        "hints": [
+            {
+                "desc": "While raging, you gain a +2 circumstance bonus to Athletics checks for attack actions.",
+                "showon": "Rage"
+            }
+        ],
+        "internalNote": "Coded into the Rage condition",
+        "shortdesc": "You bully foes across the battlefield.",
+        "traits": [
+            "Barbarian"
+        ],
+        "levelreq": 8,
+        "skillreq": [
+            {
+                "skill": "Athletics",
+                "value": 6
+            }
+        ]
+    },
+    {
+        "name": "Renewed Vigor",
+        "desc": "You pause to recover your raging vigor.",
+        "shortdesc": "You pause to recover your raging vigor.",
+        "traits": [
+            "Barbarian",
+            "Concentrate",
+            "Rage"
+        ],
+        "levelreq": 8,
+        "gainActivities": [
+            "Renewed Vigor"
+        ]
+    },
+    {
+        "name": "Share Rage",
+        "desc": "You stoke an ally's fury.",
+        "shortdesc": "You stoke an ally's fury.",
+        "traits": [
+            "Barbarian",
+            "Auditory",
+            "Rage",
+            "Visual"
+        ],
+        "levelreq": 8,
+        "gainActivities": [
+            "Share Rage"
+        ]
+    },
+    {
+        "name": "Thrash",
+        "desc": "You thrash the grabbed foe around.",
+        "shortdesc": "You thrash the grabbed foe around.",
+        "traits": [
+            "Barbarian",
+            "Rage"
+        ],
+        "levelreq": 8,
+        "gainActivities": [
+            "Thrash"
+        ]
+    },
+    {
+        "name": "Come and Get Me",
+        "desc": "You open yourself to attacks so you can respond in turn.",
+        "shortdesc": "You open yourself to attacks so you can respond in turn.",
+        "traits": [
+            "Barbarian",
+            "Concentrate",
+            "Rage"
+        ],
+        "levelreq": 10,
+        "gainActivities": [
+            "Come and Get Me"
+        ]
+    },
+    {
+        "name": "Furious Sprint",
+        "desc": "You rush forward.",
+        "shortdesc": "You rush forward.",
+        "traits": [
+            "Barbarian",
+            "Rage"
+        ],
+        "levelreq": 10,
+        "gainActivities": [
+            "Furious Sprint"
+        ]
+    },
+    {
+        "name": "Great Cleave",
+        "desc": "Your fury carries your weapon through multiple foes. When you Cleave, if your Strike also kills or knocks the target unconscious, you can continue to make melee Strikes until you make a Strike that doesn't kill or knock a creature unconscious, or until there are no creatures adjacent to the most recent creature you attacked while Cleaving, whichever comes first.",
+        "hints": [
+            {
+                "desc": "When you Cleave, if your Strike also kills or knocks the target unconscious, you can continue to make melee Strikes until you make a Strike that doesn't kill or knock a creature unconscious, or until there are no creatures adjacent to the most recent creature you attacked while Cleaving, whichever comes first.",
+                "showon": "Cleave"
+            }
+        ],
+        "shortdesc": "Your fury carries your weapon through multiple foes.",
+        "traits": [
+            "Barbarian",
+            "Rage"
+        ],
+        "levelreq": 10,
+        "featreq": [
+            "Cleave"
+        ]
+    },
+    {
+        "name": "Knockback",
+        "desc": "The weight of your swing drives your enemy back.",
+        "shortdesc": "The weight of your swing drives your enemy back.",
+        "traits": [
+            "Barbarian",
+            "Rage"
+        ],
+        "levelreq": 10,
+        "gainActivities": [
+            "Knockback"
+        ]
+    },
+    {
+        "name": "Terrifying Howl",
+        "desc": "You unleash a terrifying howl.",
+        "shortdesc": "You unleash a terrifying howl.",
+        "traits": [
+            "Barbarian",
+            "Auditory",
+            "Rage"
+        ],
+        "levelreq": 10,
+        "featreq": [
+            "Intimidating Glare"
+        ],
+        "gainActivities": [
+            "Terrifying Howl"
+        ]
+    },
+    {
+        "name": "Dragon's Rage Wings",
+        "desc": "You sprout dragon wings from your back of the same color as your chosen dragon.",
+        "shortdesc": "You sprout dragon wings from your back.",
+        "traits": [
+            "Barbarian",
+            "Instinct",
+            "Morph",
+            "Primal",
+            "Rage",
+            "Transmutation"
+        ],
+        "levelreq": 12,
+        "featreq": [
+            "dragon instinct"
+        ],
+        "gainActivities": [
+            "Dragon's Rage Wings"
+        ]
+    },
+    {
+        "name": "Furious Grab",
+        "desc": "You grab your foe while it's distracted by your attack.",
+        "shortdesc": "You grab your foe while it's distracted by your attack.",
+        "traits": [
+            "Barbarian",
+            "Rage"
+        ],
+        "levelreq": 12,
+        "gainActivities": [
+            "Furious Grab"
+        ]
+    },
+    {
+        "name": "Predator's Pounce",
+        "desc": "You close the distance to your prey in a blur, pouncing on the creature before it can react.",
+        "shortdesc": "You close the distance to your prey in a blur.",
+        "traits": [
+            "Barbarian",
+            "Flourish",
+            "Instinct",
+            "Open",
+            "Rage"
+        ],
+        "levelreq": 12,
+        "featreq": [
+            "animal instinct"
+        ],
+        "gainActivities": [
+            "Predator's Pounce"
+        ]
+    },
+    {
+        "name": "Spirit's Wrath",
+        "desc": "You call forth an ephemeral apparition.",
+        "shortdesc": "You call forth an ephemeral apparition.",
+        "traits": [
+            "Barbarian",
+            "Attack",
+            "Concentrate",
+            "Instinct",
+            "Rage"
+        ],
+        "levelreq": 12,
+        "featreq": [
+            "spirit instinct"
+        ],
+        "gainActivities": [
+            "Spirit's Wrath"
+        ]
+    },
+    {
+        "name": "Titan's Stature",
+        "desc": "You grow to even greater size. When using Giant's Stature, you can instead become Huge (increasing your reach by 10 feet if you were Medium or smaller) while you are raging. You have the clumsy 1 condition as long as you are Huge.",
+        "hints": [
+            {
+                "desc": "When using Giant's Stature, you can instead become Huge (increasing your reach by 10 feet if you were Medium or smaller) while you are raging. You have the clumsy 1 condition as long as you are Huge.",
+                "showon": "Giant's Stature"
+            }
+        ],
+        "shortdesc": "You grow to even greater size.",
+        "traits": [
+            "Barbarian",
+            "Instinct",
+            "Polymorph",
+            "Transmutation"
+        ],
+        "levelreq": 12,
+        "featreq": [
+            "giant instinct",
+            "Giant's Stature"
+        ]
+    },
+    {
+        "name": "Awesome Blow",
+        "desc": "Your attacks are so powerful, they can flatten your opponents. When you use Knockback, you can attempt an Athletics check against your target's Fortitude DC.\n\n<strong>Critical Success</strong> You gain the critical success effect of a Shove, then the critical success effect of a Trip against the target.\n<strong>Success</strong> You gain the success effect of a Shove, then the success effect of a Trip against the target.\n<strong>Failure</strong> You gain the normal effect of Knockback.",
+        "hints": [
+            {
+                "desc": "When you use Knockback, you can attempt an Athletics check against your target's Fortitude DC.\n\nCritical Success: You gain the critical success effect of a Shove, then the critical success effect of a Trip against the target.\nSuccess: You gain the success effect of a Shove, then the success effect of a Trip against the target.\nFailure: You gain the normal effect of Knockback."
+            }
+        ],
+        "shortdesc": "Your attacks are so powerful, they can flatten your opponents.",
+        "traits": [
+            "Barbarian",
+            "Concentrate",
+            "Rage"
+        ],
+        "levelreq": 14,
+        "featreq": [
+            "Knockback"
+        ]
+    },
+    {
+        "name": "Giant's Lunge",
+        "desc": "You extend your body and prepare to attack foes outside your normal reach.",
+        "shortdesc": "You extend your body and prepare to attack foes outside your normal reach.",
+        "traits": [
+            "Barbarian",
+            "Concentrate",
+            "Instinct",
+            "Rage"
+        ],
+        "levelreq": 14,
+        "featreq": [
+            "giant instinct"
+        ],
+        "gainActivities": [
+            "Giant's Lunge"
+        ]
+    },
+    {
+        "name": "Vengeful Strike",
+        "desc": "When struck by an enemy, you respond in turn.",
+        "shortdesc": "When struck by an enemy, you respond in turn.",
+        "traits": [
+            "Barbarian",
+            "Rage"
+        ],
+        "levelreq": 14,
+        "featreq": [
+            "Come and Get Me"
+        ],
+        "gainActivities": [
+            "Vengeful Strike"
+        ]
+    },
+    {
+        "name": "Collateral Thrash",
+        "desc": "When you Thrash a grabbed foe, you smack that foe into another nearby. Another foe adjacent to the grabbed foe also takes your Thrash damage, with a basic Reflex save against your class DC.",
+        "hints": [
+            {
+                "desc": "Another foe adjacent to the grabbed foe also takes your Thrash damage, with a basic Reflex save against your class DC.",
+                "showon": "Thrash"
+            }
+        ],
+        "shortdesc": "When you Thrash a grabbed foe, you smack that foe into another nearby.",
+        "traits": [
+            "Barbarian",
+            "Rage"
+        ],
+        "levelreq": 16,
+        "featreq": [
+            "Thrash"
+        ]
+    },
+    {
+        "name": "Dragon Transformation",
+        "desc": "You transform into a ferocious large dragon.",
+        "shortdesc": "You transform into a ferocious large dragon.",
+        "traits": [
+            "Barbarian",
+            "Concentrate",
+            "Instinct",
+            "Polymorph",
+            "Primal",
+            "Rage",
+            "Transmutation"
+        ],
+        "levelreq": 16,
+        "featreq": [
+            "dragon instinct",
+            "Dragon's Rage Wings"
+        ],
+        "gainActivities": [
+            "Dragon Transformation"
+        ]
+    },
+    {
+        "name": "Reckless Abandon",
+        "desc": "Your blood boils when you take a beating, and you throw caution to the wind to finish the fight.",
+        "shortdesc": "Your blood boils when you take a beating, and you throw caution to the wind to finish the fight.",
+        "traits": [
+            "Barbarian",
+            "Rage"
+        ],
+        "levelreq": 16,
+        "gainActivities": [
+            "Reckless Abandon"
+        ]
+    },
+    {
+        "name": "Brutal Critical",
+        "desc": "Your critical hits are particularly devastating. On a critical hit with a melee Strike, add one extra damage die. This is in addition to any extra dice you gain if the weapon is deadly or fatal. The target also takes persistent bleed damage equal to two damage dice.",
+        "hints": [
+            {
+                "desc": "On a critical hit with a melee Strike, add one extra damage die. This is in addition to any extra dice you gain if the weapon is deadly or fatal. The target also takes persistent bleed damage equal to two damage dice.",
+                "showon": "Attacks"
+            }
+        ],
+        "shortdesc": "Your critical hits are particularly devastating.",
+        "traits": [
+            "Barbarian"
+        ],
+        "levelreq": 18
+    },
+    {
+        "name": "Perfect Clarity",
+        "desc": "You burn out all of your rage to ensure that your attack lands and your mind remains free.",
+        "shortdesc": "You burn out all of your rage to ensure that your attack lands and your mind remains free.",
+        "traits": [
+            "Barbarian",
+            "Concentrate",
+            "Fortune",
+            "Rage"
+        ],
+        "levelreq": 18,
+        "gainActivities": [
+            "Perfect Clarity"
+        ]
+    },
+    {
+        "name": "Vicious Evisceration",
+        "desc": "You make a vicious attack that maims your enemy.",
+        "shortdesc": "You make a vicious attack that maims your enemy.",
+        "traits": [
+            "Barbarian",
+            "Rage"
+        ],
+        "levelreq": 18,
+        "gainActivities": [
+            "Vicious Evisceration"
+        ]
+    },
+    {
+        "name": "Annihilating Swing",
+        "desc": "You have learned from the brute destructive power of xulgaths and their kind.",
+        "shortdesc": "You have learned from the brute destructive power of�xulgaths�and their kind.",
+        "sourceBook": "Pathfinder #156: The Apocalypse Prophet",
+        "traits": [
+            "Barbarian",
+            "Uncommon"
+        ],
+        "levelreq": 20,
+        "gainActivities": [
+            "Annihilating Swing"
+        ]
+    },
+    {
+        "name": "Contagious Rage",
+        "desc": "You can drive your allies into a frenzy, granting them incredible benefits. You can ignore the requirements on Share Rage, using it multiple times in a Rage. Allies affected by Share Rage who accept your anathema for the duration of the Rage gain your instinct ability and the specialization ability it gains from weapon specialization, but not greater weapon specialization.",
+        "hints": [
+            {
+                "desc": "You can ignore the requirements on Share Rage, using it multiple times in a Rage. Allies affected by Share Rage who accept your anathema for the duration of the Rage gain your instinct ability and the specialization ability it gains from weapon specialization, but not greater weapon specialization.",
+                "showon": "Share Rage"
+            }
+        ],
+        "shortdesc": "You can drive your allies into a frenzy, granting them incredible benefits.",
+        "traits": [
+            "Barbarian",
+            "Auditory",
+            "Rage",
+            "Visual"
+        ],
+        "levelreq": 20,
+        "featreq": [
+            "Share Rage"
+        ]
+    },
+    {
+        "name": "Invulnerable Juggernaut",
+        "desc": "You are unstoppable, able to shrug off mortal wounds with ease. You gain resistance equal to 3 + your Constitution modifier to all damage, and your resistance from raging resistance increases to 8 + your Constitution modifier.\n\nIn addition, if you are reduced to 0 Hit Points, you can end your rage as a reaction to stay at 1 Hit Point. If you do, you become wounded 2 (or increase your wounded condition by 2 if you are already wounded).",
+        "specialdesc": "The citizens of Promise represent some of the most capable experts, greatest minds, and powerful warriors on Golarion - ideal teachers and trainers for PCs who want to maximize their own potential. If the PCs secure Visitor's Pins or an alliance with Mengkare, their access to Promise's trainers and records unlock this uncommon class feat.",
+        "internalNote": "Coded into the Rage condition",
+        "shortdesc": "Gain resistance to all damage.",
+        "sourceBook": "Pathfinder #150: Broken Promises",
+        "traits": [
+            "Barbarian",
+            "Uncommon"
+        ],
+        "levelreq": 20,
+        "effects": [
+            {
+                "affected": "All Damage Resistance",
+                "value": "3 + Modifier('Constitution')"
+            }
+        ],
+        "gainActivities": [
+            "Invulnerable Juggernaut"
+        ]
+    },
+    {
+        "name": "Quaking Stomp",
+        "desc": "You stomp the ground with such force that it creates a minor earthquake.",
+        "shortdesc": "You stomp the ground with such force that it creates a minor earthquake.",
+        "traits": [
+            "Barbarian",
+            "Manipulate",
+            "Rage"
+        ],
+        "levelreq": 20,
+        "gainActivities": [
+            "Quaking Stomp"
+        ]
+    },
+    {
+        "name": "Barbarian Dedication",
+        "desc": "You become trained in Athletics; if you were already trained in Athletics, you instead become trained in a skill of your choice. You become trained in barbarian class DC.\n\nYou can use the Rage action.\n\nChoose an instinct as you would if you were a barbarian. You have that instinct for all purposes and become bound by its anathema, but you don't gain any of the other abilities it grants.",
+        "specialdesc": "You cannot select another dedication feat until you have gained two other feats from the barbarian archetype.",
+        "shortdesc": "There's a rage deep inside you that sometimes breaks loose, granting you some of the might of a barbarian in addition to your other abilities.",
+        "archetype": "Barbarian",
+        "traits": [
+            "Archetype",
+            "Dedication",
+            "Multiclass"
+        ],
+        "levelreq": 2,
+        "abilityreq": [
+            {
+                "ability": "Strength",
+                "value": 14
+            },
+            {
+                "ability": "Constitution",
+                "value": 14
+            }
+        ],
+        "gainActivities": [
+            "Rage"
+        ],
+        "gainFeatChoice": [
+            {
+                "_className": "FeatChoice",
+                "available": 1,
+                "filter": [
+                    "Animal�Instinct",
+                    "Dragon�Instinct",
+                    "Fury�Instinct",
+                    "Giant�Instinct",
+                    "Spirit�Instinct"
+                ],
+                "source": "Feat: Barbarian Dedication",
+                "specialChoice": true,
+                "type": "Instinct"
+            }
+        ],
+        "gainSkillChoice": [
+            {
+                "_className": "SkillChoice",
+                "filter": [
+                    "Athletics"
+                ],
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Athletics",
+                        "source": "Feat: Barbarian Dedication"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Feat: Barbarian Dedication",
+                "type": "Skill"
+            },
+            {
+                "_className": "SkillChoice",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Barbarian Class DC",
+                        "source": "Feat: Barbarian Dedication"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Feat: Barbarian Dedication",
+                "type": "Class DC"
+            }
+        ]
+    },
+    {
+        "name": "Barbarian Resiliency",
+        "desc": "You gain 3 additional Hit Points for each barbarian archetype class feat you have. As you continue selecting barbarian archetype class feats, you continue to gain additional Hit Points in this way.",
+        "shortdesc": "You gain 3 additional Hit Points for each barbarian archetype class feat you have.",
+        "archetype": "Barbarian",
+        "traits": [
+            "Archetype"
+        ],
+        "levelreq": 4,
+        "featreq": [
+            "Barbarian Dedication"
+        ],
+        "specialreq": "character.class.hitPoints <= 10",
+        "specialreqdesc": "class granting no more Hit Points per level than 10 + your Constitution modifier",
+        "effects": [
+            {
+                "affected": "Max HP",
+                "value": "Character.get_FeatsTaken(1, Level).filter(gain => characterService.get_Feats(gain.name)[0]?.archetype == \"Barbarian\").length * 3"
+            }
+        ]
+    },
+    {
+        "name": "Basic Fury",
+        "desc": "You gain a 1st- or 2nd-level barbarian feat.",
+        "shortdesc": "You gain a 1st- or 2nd-level barbarian feat.",
+        "archetype": "Barbarian",
+        "traits": [
+            "Archetype"
+        ],
+        "levelreq": 4,
+        "featreq": [
+            "Barbarian Dedication"
+        ],
+        "gainFeatChoice": [
+            {
+                "_className": "FeatChoice",
+                "available": 1,
+                "level": 2,
+                "source": "Feat: Basic Fury",
+                "type": "Barbarian"
+            }
+        ]
+    },
+    {
+        "name": "Advanced Fury",
+        "desc": "You gain one barbarian feat. For the purpose of meeting its prerequisites, your barbarian level is equal to half your character level.",
+        "specialdesc": "You can select this feat more than once. Each time you select it, you gain another barbarian feat.",
+        "shortdesc": "You gain one barbarian feat. For the purpose of meeting its prerequisites, your barbarian level is equal to half your character level.",
+        "archetype": "Barbarian",
+        "unlimited": true,
+        "traits": [
+            "Archetype"
+        ],
+        "levelreq": 6,
+        "featreq": [
+            "Basic Fury"
+        ],
+        "gainFeatChoice": [
+            {
+                "_className": "FeatChoice",
+                "available": 1,
+                "dynamicLevel": "level.number / 2",
+                "source": "Feat: Advanced Fury",
+                "type": "Barbarian"
+            }
+        ]
+    },
+    {
+        "name": "Instinct Ability",
+        "desc": "You gain the instinct ability for the instinct you chose for Barbarian Dedication.",
+        "subTypes": true,
+        "shortdesc": "You gain the instinct ability for the instinct you chose for Barbarian Dedication.",
+        "archetype": "Barbarian",
+        "traits": [
+            "Archetype"
+        ],
+        "levelreq": 6,
+        "featreq": [
+            "Barbarian Dedication"
+        ]
+    },
+    {
+        "name": "Instinct Ability: Bestial Rage: Ape",
+        "desc": "You gain the Bestial Rage: Ape instinct ability.",
+        "subType": "Bestial Rage: Ape",
+        "superType": "Instinct Ability",
+        "shortdesc": "You gain the Bestial Rage: Ape instinct ability.",
+        "archetype": "Barbarian",
+        "traits": [
+            "Archetype"
+        ],
+        "levelreq": 6,
+        "featreq": [
+            "Barbarian Dedication",
+            "Animal Instinct: Ape"
+        ],
+        "gainFeatChoice": [
+            {
+                "_className": "FeatChoice",
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Bestial Rage: Ape"
+                    }
+                ],
+                "source": "Feat: Instinct Ability: Bestial Rage: Ape"
+            }
+        ]
+    },
+    {
+        "name": "Instinct Ability: Bestial Rage: Bear",
+        "desc": "You gain the Bestial Rage: Bear instinct ability.",
+        "subType": "Bestial Rage: Bear",
+        "superType": "Instinct Ability",
+        "shortdesc": "You gain the Bestial Rage: Bear instinct ability.",
+        "archetype": "Barbarian",
+        "traits": [
+            "Archetype"
+        ],
+        "levelreq": 6,
+        "featreq": [
+            "Barbarian Dedication",
+            "Animal Instinct: Bear"
+        ],
+        "gainFeatChoice": [
+            {
+                "_className": "FeatChoice",
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Bestial Rage: Bear"
+                    }
+                ],
+                "source": "Feat: Instinct Ability: Bestial Rage: Bear"
+            }
+        ]
+    },
+    {
+        "name": "Instinct Ability: Bestial Rage: Bull",
+        "desc": "You gain the Bestial Rage: Bull instinct ability.",
+        "subType": "Bestial Rage: Bull",
+        "superType": "Instinct Ability",
+        "shortdesc": "You gain the Bestial Rage: Bull instinct ability.",
+        "archetype": "Barbarian",
+        "traits": [
+            "Archetype"
+        ],
+        "levelreq": 6,
+        "featreq": [
+            "Barbarian Dedication",
+            "Animal Instinct: Bull"
+        ],
+        "gainFeatChoice": [
+            {
+                "_className": "FeatChoice",
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Bestial Rage: Bull"
+                    }
+                ],
+                "source": "Feat: Instinct Ability: Bestial Rage: Bull"
+            }
+        ]
+    },
+    {
+        "name": "Instinct Ability: Bestial Rage: Cat",
+        "desc": "You gain the Bestial Rage: Cat instinct ability.",
+        "subType": "Bestial Rage: Cat",
+        "superType": "Instinct Ability",
+        "shortdesc": "You gain the Bestial Rage: Cat instinct ability.",
+        "archetype": "Barbarian",
+        "traits": [
+            "Archetype"
+        ],
+        "levelreq": 6,
+        "featreq": [
+            "Barbarian Dedication",
+            "Animal Instinct: Cat"
+        ],
+        "gainFeatChoice": [
+            {
+                "_className": "FeatChoice",
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Bestial Rage: Cat"
+                    }
+                ],
+                "source": "Feat: Instinct Ability: Bestial Rage: Cat"
+            }
+        ]
+    },
+    {
+        "name": "Instinct Ability: Bestial Rage: Deer",
+        "desc": "You gain the Bestial Rage: Deer instinct ability.",
+        "subType": "Bestial Rage: Deer",
+        "superType": "Instinct Ability",
+        "shortdesc": "You gain the Bestial Rage: Deer instinct ability.",
+        "archetype": "Barbarian",
+        "traits": [
+            "Archetype"
+        ],
+        "levelreq": 6,
+        "featreq": [
+            "Barbarian Dedication",
+            "Animal Instinct: Deer"
+        ],
+        "gainFeatChoice": [
+            {
+                "_className": "FeatChoice",
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Bestial Rage: Deer"
+                    }
+                ],
+                "source": "Feat: Instinct Ability: Bestial Rage: Deer"
+            }
+        ]
+    },
+    {
+        "name": "Instinct Ability: Bestial Rage: Frog",
+        "desc": "You gain the Bestial Rage: Frog instinct ability.",
+        "subType": "Bestial Rage: Frog",
+        "superType": "Instinct Ability",
+        "shortdesc": "You gain the Bestial Rage: Frog instinct ability.",
+        "archetype": "Barbarian",
+        "traits": [
+            "Archetype"
+        ],
+        "levelreq": 6,
+        "featreq": [
+            "Barbarian Dedication",
+            "Animal Instinct: Frog"
+        ],
+        "gainFeatChoice": [
+            {
+                "_className": "FeatChoice",
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Bestial Rage: Frog"
+                    }
+                ],
+                "source": "Feat: Instinct Ability: Bestial Rage: Frog"
+            }
+        ]
+    },
+    {
+        "name": "Instinct Ability: Bestial Rage: Shark",
+        "desc": "You gain the Bestial Rage: Shark instinct ability.",
+        "subType": "Bestial Rage: Shark",
+        "superType": "Instinct Ability",
+        "shortdesc": "You gain the Bestial Rage: Shark instinct ability.",
+        "archetype": "Barbarian",
+        "traits": [
+            "Archetype"
+        ],
+        "levelreq": 6,
+        "featreq": [
+            "Barbarian Dedication",
+            "Animal Instinct: Shark"
+        ],
+        "gainFeatChoice": [
+            {
+                "_className": "FeatChoice",
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Bestial Rage: Shark"
+                    }
+                ],
+                "source": "Feat: Instinct Ability: Bestial Rage: Shark"
+            }
+        ]
+    },
+    {
+        "name": "Instinct Ability: Bestial Rage: Snake",
+        "desc": "You gain the Bestial Rage: Snake instinct ability.",
+        "subType": "Bestial Rage: Snake",
+        "superType": "Instinct Ability",
+        "shortdesc": "You gain the Bestial Rage: Snake instinct ability.",
+        "archetype": "Barbarian",
+        "traits": [
+            "Archetype"
+        ],
+        "levelreq": 6,
+        "featreq": [
+            "Barbarian Dedication",
+            "Animal Instinct: Snake"
+        ],
+        "gainFeatChoice": [
+            {
+                "_className": "FeatChoice",
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Bestial Rage: Snake"
+                    }
+                ],
+                "source": "Feat: Instinct Ability: Bestial Rage: Snake"
+            }
+        ]
+    },
+    {
+        "name": "Instinct Ability: Bestial Rage: Wolf",
+        "desc": "You gain the Bestial Rage: Wolf instinct ability.",
+        "subType": "Bestial Rage: Wolf",
+        "superType": "Instinct Ability",
+        "shortdesc": "You gain the Bestial Rage: Wolf instinct ability.",
+        "archetype": "Barbarian",
+        "traits": [
+            "Archetype"
+        ],
+        "levelreq": 6,
+        "featreq": [
+            "Barbarian Dedication",
+            "Animal Instinct: Wolf"
+        ],
+        "gainFeatChoice": [
+            {
+                "_className": "FeatChoice",
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Bestial Rage: Wolf"
+                    }
+                ],
+                "source": "Feat: Instinct Ability: Bestial Rage: Wolf"
+            }
+        ]
+    },
+    {
+        "name": "Instinct Ability: Draconic Rage: Black",
+        "desc": "You gain the Draconic Rage: Black instinct ability.",
+        "subType": "Draconic Rage: Black",
+        "superType": "Instinct Ability",
+        "shortdesc": "You gain the Draconic Rage: Black instinct ability.",
+        "archetype": "Barbarian",
+        "traits": [
+            "Archetype"
+        ],
+        "levelreq": 6,
+        "featreq": [
+            "Barbarian Dedication",
+            "Dragon Instinct: Black"
+        ],
+        "gainFeatChoice": [
+            {
+                "_className": "FeatChoice",
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Draconic Rage: Black"
+                    }
+                ],
+                "source": "Feat: Instinct Ability: Draconic Rage: Black"
+            }
+        ]
+    },
+    {
+        "name": "Instinct Ability: Draconic Rage: Blue",
+        "desc": "You gain the Draconic Rage: Blue instinct ability.",
+        "subType": "Draconic Rage: Blue",
+        "superType": "Instinct Ability",
+        "shortdesc": "You gain the Draconic Rage: Blue instinct ability.",
+        "archetype": "Barbarian",
+        "traits": [
+            "Archetype"
+        ],
+        "levelreq": 6,
+        "featreq": [
+            "Barbarian Dedication",
+            "Dragon Instinct: Blue"
+        ],
+        "gainFeatChoice": [
+            {
+                "_className": "FeatChoice",
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Draconic Rage: Blue"
+                    }
+                ],
+                "source": "Feat: Instinct Ability: Draconic Rage: Blue"
+            }
+        ]
+    },
+    {
+        "name": "Instinct Ability: Draconic Rage: Green",
+        "desc": "You gain the Draconic Rage: Green instinct ability.",
+        "subType": "Draconic Rage: Green",
+        "superType": "Instinct Ability",
+        "shortdesc": "You gain the Draconic Rage: Green instinct ability.",
+        "archetype": "Barbarian",
+        "traits": [
+            "Archetype"
+        ],
+        "levelreq": 6,
+        "featreq": [
+            "Barbarian Dedication",
+            "Dragon Instinct: Green"
+        ],
+        "gainFeatChoice": [
+            {
+                "_className": "FeatChoice",
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Draconic Rage: Green"
+                    }
+                ],
+                "source": "Feat: Instinct Ability: Draconic Rage: Green"
+            }
+        ]
+    },
+    {
+        "name": "Instinct Ability: Draconic Rage: Red",
+        "desc": "You gain the Draconic Rage: Red instinct ability.",
+        "subType": "Draconic Rage: Red",
+        "superType": "Instinct Ability",
+        "shortdesc": "You gain the Draconic Rage: Red instinct ability.",
+        "archetype": "Barbarian",
+        "traits": [
+            "Archetype"
+        ],
+        "levelreq": 6,
+        "featreq": [
+            "Barbarian Dedication",
+            "Dragon Instinct: Red"
+        ],
+        "gainFeatChoice": [
+            {
+                "_className": "FeatChoice",
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Draconic Rage: Red"
+                    }
+                ],
+                "source": "Feat: Instinct Ability: Draconic Rage: Red"
+            }
+        ]
+    },
+    {
+        "name": "Instinct Ability: Draconic Rage: White",
+        "desc": "You gain the Draconic Rage: White instinct ability.",
+        "subType": "Draconic Rage: White",
+        "superType": "Instinct Ability",
+        "shortdesc": "You gain the Draconic Rage: White instinct ability.",
+        "archetype": "Barbarian",
+        "traits": [
+            "Archetype"
+        ],
+        "levelreq": 6,
+        "featreq": [
+            "Barbarian Dedication",
+            "Dragon Instinct: White"
+        ],
+        "gainFeatChoice": [
+            {
+                "_className": "FeatChoice",
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Draconic Rage: White"
+                    }
+                ],
+                "source": "Feat: Instinct Ability: Draconic Rage: White"
+            }
+        ]
+    },
+    {
+        "name": "Instinct Ability: Draconic Rage: Brass",
+        "desc": "You gain the Draconic Rage: Brass instinct ability.",
+        "subType": "Draconic Rage: Brass",
+        "superType": "Instinct Ability",
+        "shortdesc": "You gain the Draconic Rage: Brass instinct ability.",
+        "archetype": "Barbarian",
+        "traits": [
+            "Archetype"
+        ],
+        "levelreq": 6,
+        "featreq": [
+            "Barbarian Dedication",
+            "Dragon Instinct: Brass"
+        ],
+        "gainFeatChoice": [
+            {
+                "_className": "FeatChoice",
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Draconic Rage: Brass"
+                    }
+                ],
+                "source": "Feat: Instinct Ability: Draconic Rage: Brass"
+            }
+        ]
+    },
+    {
+        "name": "Instinct Ability: Draconic Rage: Bronze",
+        "desc": "You gain the Draconic Rage: Bronze instinct ability.",
+        "subType": "Draconic Rage: Bronze",
+        "superType": "Instinct Ability",
+        "shortdesc": "You gain the Draconic Rage: Bronze instinct ability.",
+        "archetype": "Barbarian",
+        "traits": [
+            "Archetype"
+        ],
+        "levelreq": 6,
+        "featreq": [
+            "Barbarian Dedication",
+            "Dragon Instinct: Bronze"
+        ],
+        "gainFeatChoice": [
+            {
+                "_className": "FeatChoice",
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Draconic Rage: Bronze"
+                    }
+                ],
+                "source": "Feat: Instinct Ability: Draconic Rage: Bronze"
+            }
+        ]
+    },
+    {
+        "name": "Instinct Ability: Draconic Rage: Copper",
+        "desc": "You gain the Draconic Rage: Copper instinct ability.",
+        "subType": "Draconic Rage: Copper",
+        "superType": "Instinct Ability",
+        "shortdesc": "You gain the Draconic Rage: Copper instinct ability.",
+        "archetype": "Barbarian",
+        "traits": [
+            "Archetype"
+        ],
+        "levelreq": 6,
+        "featreq": [
+            "Barbarian Dedication",
+            "Dragon Instinct: Copper"
+        ],
+        "gainFeatChoice": [
+            {
+                "_className": "FeatChoice",
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Draconic Rage: Copper"
+                    }
+                ],
+                "source": "Feat: Instinct Ability: Draconic Rage: Copper"
+            }
+        ]
+    },
+    {
+        "name": "Instinct Ability: Draconic Rage: Gold",
+        "desc": "You gain the Draconic Rage: Gold instinct ability.",
+        "subType": "Draconic Rage: Gold",
+        "superType": "Instinct Ability",
+        "shortdesc": "You gain the Draconic Rage: Gold instinct ability.",
+        "archetype": "Barbarian",
+        "traits": [
+            "Archetype"
+        ],
+        "levelreq": 6,
+        "featreq": [
+            "Barbarian Dedication",
+            "Dragon Instinct: Gold"
+        ],
+        "gainFeatChoice": [
+            {
+                "_className": "FeatChoice",
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Draconic Rage: Gold"
+                    }
+                ],
+                "source": "Feat: Instinct Ability: Draconic Rage: Gold"
+            }
+        ]
+    },
+    {
+        "name": "Instinct Ability: Draconic Rage: Silver",
+        "desc": "You gain the Draconic Rage: Silver instinct ability.",
+        "subType": "Draconic Rage: Silver",
+        "superType": "Instinct Ability",
+        "shortdesc": "You gain the Draconic Rage: Silver instinct ability.",
+        "archetype": "Barbarian",
+        "traits": [
+            "Archetype"
+        ],
+        "levelreq": 6,
+        "featreq": [
+            "Barbarian Dedication",
+            "Dragon Instinct: Silver"
+        ],
+        "gainFeatChoice": [
+            {
+                "_className": "FeatChoice",
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Draconic Rage: Silver"
+                    }
+                ],
+                "source": "Feat: Instinct Ability: Draconic Rage: Silver"
+            }
+        ]
+    },
+    {
+        "name": "Instinct Ability: Fury Instinct: Extra 1st-level feat",
+        "desc": "You gain the Fury Instinct: Extra 1st-level feat instinct ability.",
+        "subType": "Fury Instinct: Extra 1st-level feat",
+        "superType": "Instinct Ability",
+        "shortdesc": "You gain the Fury Instinct: Extra 1st-level feat instinct ability.",
+        "archetype": "Barbarian",
+        "traits": [
+            "Archetype"
+        ],
+        "levelreq": 6,
+        "featreq": [
+            "Barbarian Dedication",
+            "Fury Instinct"
+        ],
+        "gainFeatChoice": [
+            {
+                "_className": "FeatChoice",
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Fury Instinct: Extra 1st-level feat"
+                    }
+                ],
+                "source": "Feat: Instinct Ability: Fury Instinct: Extra 1st-level feat"
+            }
+        ]
+    },
+    {
+        "name": "Instinct Ability: Titan Mauler",
+        "desc": "You gain the Titan Mauler instinct ability.",
+        "subType": "Titan Mauler",
+        "superType": "Instinct Ability",
+        "shortdesc": "You gain the Titan Mauler instinct ability.",
+        "archetype": "Barbarian",
+        "traits": [
+            "Archetype"
+        ],
+        "levelreq": 6,
+        "featreq": [
+            "Barbarian Dedication",
+            "Giant Instinct"
+        ],
+        "gainFeatChoice": [
+            {
+                "_className": "FeatChoice",
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Titan Mauler"
+                    }
+                ],
+                "source": "Feat: Instinct Ability: Titan Mauler"
+            }
+        ]
+    },
+    {
+        "name": "Instinct Ability: Spirit Rage",
+        "desc": "You gain the Spirit Rage instinct ability.",
+        "subType": "Spirit Rage",
+        "superType": "Instinct Ability",
+        "shortdesc": "You gain the Spirit Rage instinct ability.",
+        "archetype": "Barbarian",
+        "traits": [
+            "Archetype"
+        ],
+        "levelreq": 6,
+        "featreq": [
+            "Barbarian Dedication",
+            "Spirit Instinct"
+        ],
+        "gainFeatChoice": [
+            {
+                "_className": "FeatChoice",
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Spirit Rage"
+                    }
+                ],
+                "source": "Feat: Instinct Ability: Spirit Rage"
+            }
+        ]
+    },
+    {
+        "name": "Juggernaut's Fortitude",
+        "desc": "Your proficiency rank in Fortitude saves increases to master.",
+        "shortdesc": "Your proficiency rank in Fortitude saves increases to master.",
+        "archetype": "Barbarian",
+        "traits": [
+            "Archetype"
+        ],
+        "levelreq": 12,
+        "featreq": [
+            "Barbarian Dedication"
+        ],
+        "skillreq": [
+            {
+                "skill": "Fortitude",
+                "value": 4
+            }
+        ],
+        "gainSkillChoice": [
+            {
+                "_className": "SkillChoice",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 6,
+                        "name": "Fortitude",
+                        "source": "Feat: Juggernaut's Fortitude"
+                    }
+                ],
+                "maxRank": 6,
+                "source": "Feat: Juggernaut's Fortitude",
+                "type": "Skill"
+            }
+        ]
+    },
+    {
+        "name": "Animal Companion (Druid)",
+        "shortdesc": "You gain the service of a young animal companion that travels with you.",
+        "traits": [
+            "Druid",
+            "Ranger"
+        ],
+        "levelreq": 1,
+        "featreq": [
+            "animal order"
+        ]
+    },
+    {
+        "name": "Leshy Familiar",
+        "shortdesc": "You gain a leshy familiar, a tiny plant that embodies one of the many spirits of nature.",
+        "traits": [
+            "Druid"
+        ],
+        "levelreq": 1,
+        "featreq": [
+            "leaf order"
+        ]
+    },
+    {
+        "name": "Storm Born",
+        "desc": "You are at home out in the elements, reveling in the power of nature unleashed. You do not take circumstance penalties to ranged spell attacks or Perception checks caused by weather, and your targeted spells don't require a flat check to succeed against a target concealed by weather (such as fog).",
+        "hints": [
+            {
+                "desc": "You do not take circumstance penalties to ranged spell attacks or Perception checks caused by weather, and your targeted spells don't require a flat check to succeed against a target concealed by weather (such as fog).",
+                "showon": "Perception, Attacks, Spellbook"
+            }
+        ],
+        "shortdesc": "You are at home out in the elements, reveling in the power of nature unleashed.",
+        "traits": [
+            "Druid"
+        ],
+        "levelreq": 1,
+        "featreq": [
+            "Storm order"
+        ]
+    },
+    {
+        "name": "Wild Shape",
+        "shortdesc": "You are one with the wild, always changing and adapting to meet any challenge.",
+        "traits": [
+            "Druid"
+        ],
+        "levelreq": 1,
+        "featreq": [
+            "wild order"
+        ]
+    },
+    {
+        "name": "Call of the Wild",
+        "shortdesc": "You call upon the creatures of nature to come to your aid.",
+        "traits": [
+            "Druid"
+        ],
+        "levelreq": 2
+    },
+    {
+        "name": "Order Explorer",
+        "shortdesc": "You have learned the secrets of another druidic order.",
+        "traits": [
+            "Druid"
+        ],
+        "levelreq": 2
+    },
+    {
+        "name": "Poison Resistance",
+        "shortdesc": "Repeated exposure to toxic reagents has fortified your body against poisons of all kinds.",
+        "traits": [
+            "Druid",
+            "Alchemist"
+        ],
+        "levelreq": 2
+    },
+    {
+        "name": "Form Control",
+        "shortdesc": "With additional care and effort, you can take on an alternate form for a longer period of time.",
+        "traits": [
+            "Druid",
+            "Manipulate",
+            "Metamagic"
+        ],
+        "levelreq": 4,
+        "abilityreq": [
+            {
+                "ability": "Strength",
+                "value": 14
+            }
+        ],
+        "featreq": [
+            "Wild Shape"
+        ]
+    },
+    {
+        "name": "Mature Animal Companion (Druid)",
+        "shortdesc": "Your animal companion grows up, becoming a mature animal companion, which grants it additional capabilities.",
+        "traits": [
+            "Druid"
+        ],
+        "levelreq": 4,
+        "featreq": [
+            "Animal Companion (Ranger) or Animal Companion (Druid)"
+        ]
+    },
+    {
+        "name": "Order Magic",
+        "shortdesc": "You have delved deeper into the teaching of a new order, gaining access to a coveted order spell.",
+        "traits": [
+            "Druid"
+        ],
+        "levelreq": 4,
+        "featreq": [
+            "Order Explorer"
+        ]
+    },
+    {
+        "name": "Thousand Faces",
+        "shortdesc": "Your form is as mutable as the weather, changing to meet your whim.",
+        "traits": [
+            "Druid"
+        ],
+        "levelreq": 4,
+        "featreq": [
+            "Wild Shape"
+        ]
+    },
+    {
+        "name": "Woodland Stride",
+        "shortdesc": "You can always find a path, almost as if foliage parted before you.",
+        "traits": [
+            "Druid"
+        ],
+        "levelreq": 4,
+        "featreq": [
+            "leaf order"
+        ]
+    },
+    {
+        "name": "Green Empathy",
+        "shortdesc": "You can communicate with plants on a basic level and use Diplomacy to Make an Impression on them and to make very simple Requests of them.",
+        "traits": [
+            "Druid"
+        ],
+        "levelreq": 6,
+        "featreq": [
+            "leaf order"
+        ]
+    },
+    {
+        "name": "Insect Shape",
+        "shortdesc": "Your understanding of life expands, allowing you to mimic a wider range of creatures.",
+        "traits": [
+            "Druid"
+        ],
+        "levelreq": 6,
+        "featreq": [
+            "Wild Shape"
+        ]
+    },
+    {
+        "name": "Storm Retribution",
+        "shortdesc": "You lash out, directing a burst of storming fury toward a creature that has harmed you.",
+        "traits": [
+            "Druid"
+        ],
+        "levelreq": 6,
+        "featreq": [
+            "storm order"
+        ],
+        "specialreqdesc": "tempest surge order spell"
+    },
+    {
+        "name": "Ferocious Shape",
+        "shortdesc": "You have mastered the shape of ferocious dinosaurs.",
+        "traits": [
+            "Druid"
+        ],
+        "levelreq": 8,
+        "featreq": [
+            "Wild Shape"
+        ]
+    },
+    {
+        "name": "Fey Caller",
+        "shortdesc": "You have learned some of the tricks the fey use to bend primal magic toward illusions and trickery.",
+        "traits": [
+            "Druid"
+        ],
+        "levelreq": 8
+    },
+    {
+        "name": "Incredible Companion (Druid)",
+        "shortdesc": "Your animal companion continues to grow and develop.",
+        "traits": [
+            "Druid"
+        ],
+        "levelreq": 8,
+        "featreq": [
+            "Mature Animal Companion (Ranger) or Mature Animal Companion (Druid)"
+        ]
+    },
+    {
+        "name": "Soaring Shape",
+        "shortdesc": "Wings free you from the shackles of the ground below.",
+        "traits": [
+            "Druid"
+        ],
+        "levelreq": 8,
+        "featreq": [
+            "Wild Shape"
+        ]
+    },
+    {
+        "name": "Wind Caller",
+        "shortdesc": "You bid the winds to lift and carry you through the air.",
+        "traits": [
+            "Druid"
+        ],
+        "levelreq": 8,
+        "featreq": [
+            "storm order"
+        ]
+    },
+    {
+        "name": "Elemental Shape",
+        "shortdesc": "You understand the fundamental elements of nature such that you can imbue them into your body.",
+        "traits": [
+            "Druid"
+        ],
+        "levelreq": 10,
+        "featreq": [
+            "Wild Shape"
+        ]
+    },
+    {
+        "name": "Healing Transformation",
+        "shortdesc": "You can take advantage of shapechanging magic to close wounds and patch injuries.",
+        "traits": [
+            "Druid",
+            "Metamagic"
+        ],
+        "levelreq": 10
+    },
+    {
+        "name": "Plant Shape",
+        "shortdesc": "You can take the form of a plant creature.",
+        "traits": [
+            "Druid"
+        ],
+        "levelreq": 10,
+        "featreq": [
+            "leaf order or Wild Shape"
+        ]
+    },
+    {
+        "name": "Side by Side (Druid)",
+        "shortdesc": "You and your animal companion fight in tandem, distracting your foes and keeping them off balance.",
+        "traits": [
+            "Druid"
+        ],
+        "levelreq": 10,
+        "featreq": [
+            "Animal Companion"
+        ]
+    },
+    {
+        "name": "Dragon Shape",
+        "shortdesc": "You can take on the form of some of the world's most fearsome creatures.",
+        "traits": [
+            "Druid"
+        ],
+        "levelreq": 12,
+        "featreq": [
+            "Soaring Shape"
+        ]
+    },
+    {
+        "name": "Green Tongue",
+        "shortdesc": "You share a special kinship with all things green and living.",
+        "traits": [
+            "Druid"
+        ],
+        "levelreq": 12,
+        "featreq": [
+            "Green Empathy"
+        ]
+    },
+    {
+        "name": "Pesh Skin",
+        "shortdesc": "Your plant form sprouts hundreds of spines, and your blood causes mild hallucinations in creatures exposed to it.",
+        "sourceBook": "Pathfinder #149: Against the Scarlet Triad",
+        "traits": [
+            "Druid",
+            "Morph",
+            "Uncommon"
+        ],
+        "levelreq": 12
+    },
+    {
+        "name": "Primal Focus",
+        "shortdesc": "Your connection to nature is particularly strong, and the spirits of nature flock around you, helping you replenish your focus.",
+        "traits": [
+            "Druid"
+        ],
+        "levelreq": 12
+    },
+    {
+        "name": "Primal Summons",
+        "shortdesc": "Whenever you summon an ally, you can empower it with the elemental power of air, earth, fire, or water.",
+        "traits": [
+            "Druid"
+        ],
+        "levelreq": 12,
+        "featreq": [
+            "Call of the Wild"
+        ]
+    },
+    {
+        "name": "Specialized Companion (Druid)",
+        "shortdesc": "Your animal companion continues to grow in power and ability, and it is now cunning enough to become specialized.",
+        "traits": [
+            "Druid"
+        ],
+        "levelreq": 14,
+        "featreq": [
+            "Incredible Companion"
+        ]
+    },
+    {
+        "name": "Timeless Nature",
+        "shortdesc": "With primal magic sustaining you, you cease aging.",
+        "traits": [
+            "Druid"
+        ],
+        "levelreq": 14
+    },
+    {
+        "name": "Verdant Metamorphosis",
+        "shortdesc": "You transform into a plant version of yourself.",
+        "traits": [
+            "Druid"
+        ],
+        "levelreq": 14,
+        "featreq": [
+            "leaf order"
+        ]
+    },
+    {
+        "name": "Impaling Briars",
+        "shortdesc": "You can fill an area with devastating briars that impale and impede your foes.",
+        "traits": [
+            "Druid"
+        ],
+        "levelreq": 16,
+        "featreq": [
+            "leaf order"
+        ]
+    },
+    {
+        "name": "Monstrosity Shape",
+        "shortdesc": "You can transform into a powerful magical creature.",
+        "traits": [
+            "Druid"
+        ],
+        "levelreq": 16,
+        "featreq": [
+            "Wild Shape"
+        ]
+    },
+    {
+        "name": "Invoke Disaster",
+        "shortdesc": "You can invoke nature's fury upon your foes.",
+        "traits": [
+            "Druid"
+        ],
+        "levelreq": 18,
+        "featreq": [
+            "Wind Caller"
+        ]
+    },
+    {
+        "name": "Perfect Form Control",
+        "shortdesc": "Thanks to magic and muscle memory, you can stay in your alternate forms indefinitely.",
+        "traits": [
+            "Druid"
+        ],
+        "levelreq": 18,
+        "abilityreq": [
+            {
+                "ability": "Strength",
+                "value": 18
+            }
+        ],
+        "featreq": [
+            "Form Control"
+        ]
+    },
+    {
+        "name": "Primal Wellspring",
+        "shortdesc": "Your reservoir of Focus Points is a deep wellspring.",
+        "traits": [
+            "Druid"
+        ],
+        "levelreq": 18,
+        "featreq": [
+            "Primal Focus"
+        ]
+    },
+    {
+        "name": "Apex Companion",
+        "specialdesc": "The citizens of Promise represent some of the most capable experts, greatest minds, and powerful warriors on Golarion - ideal teachers and trainers for PCs who want to maximize their own potential. If the PCs secure Visitor's Pins or an alliance with Mengkare, their access to Promise's trainers and records unlock this uncommon class feat.",
+        "shortdesc": "Gain the�apex companion�focus spell.",
+        "sourceBook": "Pathfinder #150: Broken Promises",
+        "traits": [
+            "Druid",
+            "Uncommon"
+        ],
+        "levelreq": 20,
+        "featreq": [
+            "Animal Companion (Ranger) or Animal Companion (Druid)"
+        ]
+    },
+    {
+        "name": "Hierophant's Power",
+        "shortdesc": "You have entwined yourself with the natural world, and its full power flows through you.",
+        "traits": [
+            "Druid"
+        ],
+        "levelreq": 20
+    },
+    {
+        "name": "Leyline Conduit",
+        "shortdesc": "You can cast your spells effortlessly by tapping into the leylines of the world.",
+        "traits": [
+            "Druid",
+            "Concentrate",
+            "Manipulate",
+            "Metamagic"
+        ],
+        "levelreq": 20
+    },
+    {
+        "name": "True Shapeshifter",
+        "shortdesc": "You transcend the limitations of form.",
+        "traits": [
+            "Druid",
+            "Concentrate"
+        ],
+        "levelreq": 20,
+        "featreq": [
+            "Dragon Shape",
+            "Wild Shape"
+        ]
+    },
+    {
+        "name": "Verdant Presence",
+        "shortdesc": "The life-giving properties of the�aeon orbs�flourish within you.",
+        "sourceBook": "Pathfinder #156: The Apocalypse Prophet",
+        "traits": [
+            "Druid",
+            "Uncommon"
+        ],
+        "levelreq": 20
+    },
+    {
+        "name": "Druid Dedication",
+        "specialdesc": "You cannot select another dedication feat until you have gained two other feats from the druid archetype.",
+        "shortdesc": "You have entered a druidic circle and learned a few of the order's secrets, granting you primal power.",
+        "archetype": "Druid",
+        "traits": [
+            "Archetype",
+            "Dedication",
+            "Multiclass"
+        ],
+        "levelreq": 2,
+        "abilityreq": [
+            {
+                "ability": "Wisdom",
+                "value": 14
+            }
+        ]
+    },
+    {
+        "name": "Basic Druid Spellcasting",
+        "shortdesc": "You gain the basic spellcasting benefits.",
+        "archetype": "Druid",
+        "traits": [
+            "Archetype"
+        ],
+        "levelreq": 4,
+        "featreq": [
+            "Druid Dedication"
+        ]
+    },
+    {
+        "name": "Basic Wilding",
+        "shortdesc": "You gain a 1st- or 2nd-level druid feat.",
+        "archetype": "Druid",
+        "traits": [
+            "Archetype"
+        ],
+        "levelreq": 4,
+        "featreq": [
+            "Druid Dedication"
+        ]
+    },
+    {
+        "name": "Order Spell",
+        "shortdesc": "You gain the initial order spell from your order.",
+        "archetype": "Druid",
+        "traits": [
+            "Archetype"
+        ],
+        "levelreq": 4,
+        "featreq": [
+            "Druid Dedication"
+        ]
+    },
+    {
+        "name": "Advanced Wilding",
+        "specialdesc": "You can select this feat more than once. Each time you select it, you gain another druid feat.",
+        "shortdesc": "You gain one druid feat. For the purpose of meeting its prerequisites, your druid level is equal to half your character level.",
+        "archetype": "Druid",
+        "unlimited": true,
+        "traits": [
+            "Archetype"
+        ],
+        "levelreq": 6,
+        "featreq": [
+            "Basic Wilding"
+        ]
+    },
+    {
+        "name": "Primal Breadth",
+        "shortdesc": "Increase the spell slots you gain from druid archetype feats by 1 for each spell level other than your two highest druid spell slots.",
+        "archetype": "Druid",
+        "traits": [
+            "Archetype"
+        ],
+        "levelreq": 8,
+        "featreq": [
+            "Basic Druid Spellcasting"
+        ]
+    },
+    {
+        "name": "Expert Druid Spellcasting",
+        "shortdesc": "You gain the expert spellcasting benefits.",
+        "archetype": "Druid",
+        "traits": [
+            "Archetype"
+        ],
+        "levelreq": 12,
+        "featreq": [
+            "Basic Druid Spellcasting"
+        ],
+        "skillreq": [
+            {
+                "skill": "Nature",
+                "value": 6
+            }
+        ]
+    },
+    {
+        "name": "Master Druid Spellcasting",
+        "shortdesc": "You gain the master spellcasting benefits.",
+        "archetype": "Druid",
+        "traits": [
+            "Archetype"
+        ],
+        "levelreq": 18,
+        "featreq": [
+            "Expert Druid Spellcasting"
+        ],
+        "skillreq": [
+            {
+                "skill": "Nature",
+                "value": 8
+            }
+        ]
+    },
+    {
+        "name": "Blessed Blood",
+        "shortdesc": "Your deity's blessings manifest in your blood-borne power",
+        "sourceBook": "Gods & Magic",
+        "traits": [
+            "Sorcerer"
+        ],
+        "levelreq": 1,
+        "specialreqdesc": "bloodline that grants divine spells, you follow a deity"
+    },
+    {
+        "name": "Counterspell",
+        "shortdesc": "When a foe Casts a Spell and you can see its manifestations, you can use your own magic to disrupt it.",
+        "traits": [
+            "Sorcerer",
+            "Abjuration",
+            "Arcane",
+            "Wizard"
+        ],
+        "levelreq": 1
+    },
+    {
+        "name": "Dangerous Sorcery",
+        "shortdesc": "Your legacy grants you great destructive power.",
+        "traits": [
+            "Sorcerer"
+        ],
+        "levelreq": 1
+    },
+    {
+        "name": "Cantrip Expansion",
+        "shortdesc": "Study broadens your range of simple spells.",
+        "traits": [
+            "Sorcerer",
+            "Bard",
+            "Cleric",
+            "Wizard"
+        ],
+        "levelreq": 2
+    },
+    {
+        "name": "Arcane Evolution",
+        "shortdesc": "Your arcane legacy grants you an exceptional aptitude for intellectual and academic pursuits.",
+        "traits": [
+            "Sorcerer",
+            "Arcane"
+        ],
+        "levelreq": 4,
+        "specialreqdesc": "bloodline that grants arcane spells"
+    },
+    {
+        "name": "Divine Evolution",
+        "shortdesc": "The divine might provided by your bloodline flows through you.",
+        "traits": [
+            "Sorcerer",
+            "Divine"
+        ],
+        "levelreq": 4,
+        "specialreqdesc": "bloodline that grants divine spells"
+    },
+    {
+        "name": "Occult Evolution",
+        "shortdesc": "Glimpses of the obscure secrets of the universe loan you power.",
+        "traits": [
+            "Sorcerer",
+            "Occult"
+        ],
+        "levelreq": 4,
+        "specialreqdesc": "bloodline that grants occult spells"
+    },
+    {
+        "name": "Primal Evolution",
+        "shortdesc": "You can call upon the creatures of the wild for aid.",
+        "traits": [
+            "Sorcerer",
+            "Primal"
+        ],
+        "levelreq": 4,
+        "specialreqdesc": "bloodline that grants primal spells"
+    },
+    {
+        "name": "Advanced Bloodline",
+        "shortdesc": "You have studied your bloodline to learn the secrets of its magic.",
+        "traits": [
+            "Sorcerer"
+        ],
+        "levelreq": 6,
+        "specialreqdesc": "bloodline spell"
+    },
+    {
+        "name": "Bloodline Resistance",
+        "shortdesc": "Your magical blood makes you more resistant to magic.",
+        "traits": [
+            "Sorcerer"
+        ],
+        "levelreq": 8
+    },
+    {
+        "name": "Crossblooded Evolution",
+        "shortdesc": "Odd interactions in your bloodline provide you with unexpected spells.",
+        "traits": [
+            "Sorcerer"
+        ],
+        "levelreq": 8
+    },
+    {
+        "name": "Greater Bloodline",
+        "shortdesc": "Further communion with the legacy of your bloodline has uncovered greater secrets.",
+        "traits": [
+            "Sorcerer"
+        ],
+        "levelreq": 10,
+        "specialreqdesc": "bloodline spell"
+    },
+    {
+        "name": "Bloodline Focus",
+        "shortdesc": "Your bloodline cause you to recover focus faster.",
+        "traits": [
+            "Sorcerer"
+        ],
+        "levelreq": 12,
+        "specialreqdesc": "bloodline spell"
+    },
+    {
+        "name": "Magic Sense",
+        "shortdesc": "You have a literal sixth sense for magic.",
+        "traits": [
+            "Sorcerer",
+            "Detection",
+            "Divination",
+            "Wizard"
+        ],
+        "levelreq": 12
+    },
+    {
+        "name": "Interweave Dispel",
+        "shortdesc": "You weave dispelling energy into a spell, sending both effects at a foe.",
+        "traits": [
+            "Sorcerer",
+            "Metamagic"
+        ],
+        "levelreq": 14,
+        "specialreqdesc": "dispel magic�in your spell repertoire"
+    },
+    {
+        "name": "Greater Mental Evolution",
+        "shortdesc": "Your bloodline's deep connection to mental essence greatly enhances your spell repertoire.",
+        "traits": [
+            "Sorcerer"
+        ],
+        "levelreq": 16,
+        "featreq": [
+            "Arcane Evolution or Occult Evolution"
+        ]
+    },
+    {
+        "name": "Greater Vital Evolution",
+        "shortdesc": "Vital power surges through you like a font of energy.",
+        "traits": [
+            "Sorcerer"
+        ],
+        "levelreq": 16,
+        "featreq": [
+            "Divine Evolution or Primal Evolution"
+        ]
+    },
+    {
+        "name": "Bloodline Wellspring",
+        "shortdesc": "Your blood's power replenishes your focus.",
+        "traits": [
+            "Sorcerer"
+        ],
+        "levelreq": 18,
+        "featreq": [
+            "Bloodline Focus"
+        ]
+    },
+    {
+        "name": "Greater Crossblooded Evolution",
+        "shortdesc": "Your bloodline is extraordinarily complex.",
+        "traits": [
+            "Sorcerer"
+        ],
+        "levelreq": 18,
+        "featreq": [
+            "Crossblooded Evolution"
+        ]
+    },
+    {
+        "name": "Bloodline Conduit",
+        "shortdesc": "Your inborn magical nature lets you redirect ambient energies to fuel your spells.",
+        "traits": [
+            "Sorcerer",
+            "Metamagic"
+        ],
+        "levelreq": 20
+    },
+    {
+        "name": "Bloodline Metamorphosis",
+        "specialdesc": "The citizens of Promise represent some of the most capable experts, greatest minds, and powerful warriors on Golarion - ideal teachers and trainers for PCs who want to maximize their own potential. If the PCs secure Visitor's Pins or an alliance with Mengkare, their access to Promise's trainers and records unlock this uncommon class feat.",
+        "shortdesc": "Swap out spells from your repertoire more easily.",
+        "sourceBook": "Pathfinder #150: Broken Promises",
+        "traits": [
+            "Sorcerer",
+            "Uncommon"
+        ],
+        "levelreq": 20
+    },
+    {
+        "name": "Bloodline Perfection",
+        "shortdesc": "You command the ultimate powers of your bloodline and tradition.",
+        "traits": [
+            "Sorcerer"
+        ],
+        "levelreq": 20,
+        "featreq": [
+            "bloodline paragon"
+        ]
+    },
+    {
+        "name": "Tenacious Blood Magic",
+        "shortdesc": "You have learned how to invest magic more deeply by witnessing Aroden's works.",
+        "sourceBook": "Pathfinder #156: The Apocalypse Prophet",
+        "traits": [
+            "Sorcerer",
+            "Uncommon"
+        ],
+        "levelreq": 20
+    },
+    {
+        "name": "Sorcerer Dedication",
+        "desc": "Choose a bloodline. You become trained in the bloodline's two skills; for each of these skills in which you were already trained, you become trained in a skill of your choice.\n\nYou cast spells like a sorcerer. You gain access to the Cast a Spell activity. You gain a spell repertoire with two common cantrips from the spell list associated with your bloodline, from the spells granted by your bloodline, or any other cantrips of that tradition you learn or discover. You can add to your repertoire common cantrips of your spellcasting tradition, whether from this book or other cantrips of that tradition you learn or discover. You're trained in spell attack rolls and spell DCs for your tradition's spells. Your key spellcasting ability for sorcerer archetype spells is Charisma, and they are sorcerer spells of your bloodline's tradition. You don't gain any other abilities from your choice of bloodline.",
+        "specialdesc": "You cannot select another dedication feat until you have gained two other feats from the sorcerer archetype.",
+        "shortdesc": "You coax the magic power in your blood to manifest, accessing magic others don't expect you to have.",
+        "archetype": "Sorcerer",
+        "traits": [
+            "Archetype",
+            "Dedication",
+            "Multiclass"
+        ],
+        "levelreq": 2,
+        "abilityreq": [
+            {
+                "ability": "Charisma",
+                "value": 14
+            }
+        ],
+        "gainFeatChoice": [
+            {
+                "_className": "FeatChoice",
+                "available": 1,
+                "filter": [
+                    "Aberrant Bloodline",
+                    "Angelic Bloodline",
+                    "Demonic Bloodline",
+                    "Diabolic Bloodline",
+                    "Draconic Bloodline",
+                    "Elemental Bloodline",
+                    "Fey Bloodline",
+                    "Hag Bloodline",
+                    "Imperial Bloodline",
+                    "Undead Bloodline"
+                ],
+                "source": "Feat: Sorcerer Dedication",
+                "specialChoice": true,
+                "type": "Bloodline"
+            }
+        ]
+    },
+    {
+        "name": "Basic Blood Potency",
+        "desc": "You gain a 1st- or 2nd-level sorcerer feat.",
+        "shortdesc": "You gain a 1st- or 2nd-level sorcerer feat.",
+        "archetype": "Sorcerer",
+        "traits": [
+            "Archetype"
+        ],
+        "levelreq": 4,
+        "featreq": [
+            "Sorcerer Dedication"
+        ],
+        "gainFeatChoice": [
+            {
+                "_className": "FeatChoice",
+                "available": 1,
+                "level": 2,
+                "source": "Feat: Basic Blood Potency",
+                "type": "Sorcerer"
+            }
+        ]
+    },
+    {
+        "name": "Basic Bloodline Spell",
+        "shortdesc": "You gain your bloodline's initial bloodline spell.",
+        "archetype": "Sorcerer",
+        "traits": [
+            "Archetype"
+        ],
+        "levelreq": 4,
+        "featreq": [
+            "Sorcerer Dedication"
+        ]
+    },
+    {
+        "name": "Basic Sorcerer Spellcasting",
+        "desc": "You gain the basic spellcasting benefits. Each time you gain a spell slot of a new level from the sorcerer archetype, add a spell of the appropriate spell level to your repertoire: a common spell of your bloodline's tradition, one of your bloodline's granted spells, or another spell you have learned or discovered.",
+        "shortdesc": "You gain the basic spellcasting benefits.",
+        "archetype": "Sorcerer",
+        "traits": [
+            "Archetype"
+        ],
+        "levelreq": 4,
+        "featreq": [
+            "Sorcerer Dedication"
+        ],
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "available": 1,
+                "castingType": "Spontaneous",
+                "charLevelAvailable": 4,
+                "className": "Sorcerer",
+                "id": "3cbf6456-9068-11ea-bb37-0242ac130002",
+                "level": 1,
+                "source": "Feat: Basic Sorcerer Spellcasting"
+            },
+            {
+                "_className": "SpellChoice",
+                "available": 1,
+                "castingType": "Spontaneous",
+                "charLevelAvailable": 6,
+                "className": "Sorcerer",
+                "id": "3cbf6528-9068-11ea-bb37-0242ac130002",
+                "level": 2,
+                "source": "Feat: Basic Sorcerer Spellcasting"
+            },
+            {
+                "_className": "SpellChoice",
+                "available": 1,
+                "castingType": "Spontaneous",
+                "charLevelAvailable": 8,
+                "className": "Sorcerer",
+                "id": "3cbf65e6-9068-11ea-bb37-0242ac130002",
+                "level": 3,
+                "source": "Feat: Basic Sorcerer Spellcasting"
+            }
+        ]
+    },
+    {
+        "name": "Advanced Blood Potency",
+        "desc": "You gain one sorcerer feat. For the purpose of prerequisites, your sorcerer level is half your character level.",
+        "specialdesc": "You can select this feat more than once. Each time you do, you gain another sorcerer feat.",
+        "shortdesc": "You gain one sorcerer feat. For the purpose of prerequisites, your sorcerer level is half your character level.",
+        "archetype": "Sorcerer",
+        "unlimited": true,
+        "traits": [
+            "Archetype"
+        ],
+        "levelreq": 6,
+        "featreq": [
+            "Basic Blood Potency"
+        ],
+        "gainFeatChoice": [
+            {
+                "_className": "FeatChoice",
+                "available": 1,
+                "dynamicLevel": "level.number / 2",
+                "source": "Feat: Advanced Blood Potency",
+                "type": "Sorcerer"
+            }
+        ]
+    },
+    {
+        "name": "Bloodline Breadth",
+        "shortdesc": "Your repertoire expands, and you can cast more spells of your bloodline's tradition each day.",
+        "archetype": "Sorcerer",
+        "traits": [
+            "Archetype"
+        ],
+        "levelreq": 8,
+        "featreq": [
+            "Basic Sorcerer Spellcasting"
+        ]
+    },
+    {
+        "name": "Expert Sorcerer Spellcasting",
+        "shortdesc": "You gain the expert spellcasting benefits.",
+        "archetype": "Sorcerer",
+        "traits": [
+            "Archetype"
+        ],
+        "levelreq": 12,
+        "featreq": [
+            "Basic Sorcerer Spellcasting"
+        ],
+        "specialreqdesc": "master in Arcana, Nature, Occultism, or Religion, depending on bloodline"
+    },
+    {
+        "name": "Master Sorcerer Spellcasting",
+        "shortdesc": "You gain the master spellcasting benefits.",
+        "archetype": "Sorcerer",
+        "traits": [
+            "Archetype"
+        ],
+        "levelreq": 18,
+        "featreq": [
+            "Expert Sorcerer Spellcasting"
+        ],
+        "specialreqdesc": "legendary in Arcana, Nature, Occultism, or Religion, depending on bloodline"
     }
 ]
