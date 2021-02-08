@@ -20,7 +20,7 @@ export class TraitsService {
     get_Traits(traitName: string = "") {
         if (!this.still_loading()) {
             //Some trait instances have information after the trait name, so we allow traits that are included in the name as long as they have the dynamic attribute.
-            return this.traits
+            let traits = this.traits
                 .filter(trait =>
                     traitName == "" ||
                     trait.name == traitName ||
@@ -29,6 +29,12 @@ export class TraitsService {
                         trait.dynamic
                     )
                 )
+            if (traits.length) {
+                return traits;
+            } else {
+                console.error("Trait missing: " + traitName)
+                return [Object.assign(new Trait(), {name: ("Trait missing: " + traitName), desc: "This trait does not exist in the database."})]
+            }
         } else {
             return [new Trait()];
         }

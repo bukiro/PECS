@@ -211,7 +211,7 @@ export class ConditionsService {
                 let addCondition = Object.assign(new ConditionGain, JSON.parse(JSON.stringify(extraCondition)));
                 addCondition.source = gain.name;
                 addCondition.apply = true;
-                characterService.add_Condition(creature, addCondition, false)
+                characterService.add_Condition(creature, addCondition, false, gain);
             })
         }
 
@@ -311,13 +311,20 @@ export class ConditionsService {
 
         //End the duration's activity if there is one and it is active.
         if (!taken && gain.source) {
-            let activityGain = characterService.get_OwnedActivities(creature, creature.level, true).find(activityGain => activityGain.active && activityGain.name == gain.source && activityGain.duration == gain.duration);
-            if (activityGain) {
+            let activityGains = characterService.get_OwnedActivities(creature, creature.level, true).filter(activityGain => activityGain.active && activityGain.name == gain.source);
+            if (activityGains.length) {
+                let activityGain: ActivityGain;
+                //Try to find the activity with the same duration as the condition. If there isn't one, end the first one.
+                if (activityGains.length > 1) {
+                    activityGain = activityGains.find(activityGain => activityGain.duration == gain.duration)
+                }
+                if (!activityGain) {
+                    activityGain = activityGains[0];
+                }
                 let activity = characterService.activitiesService.get_Activities(activityGain.name)[0];
                 characterService.activitiesService.activate_Activity(creature, "", characterService, characterService.conditionsService, characterService.itemsService, characterService.spellsService, activityGain, activity, false, false);
             }
         }
-
 
         //Update Health when Wounded changes.
         if (condition.name == "Wounded") {
@@ -332,6 +339,12 @@ export class ConditionsService {
         //Update Defense if Defense conditions are changed.
         if (gain.source == "Defense") {
             characterService.set_ToChange(creature.type, "defense");
+        }
+
+        //Update Time and Health if the condition has an instant duration.
+        if (gain.duration == 1) {
+            characterService.set_ToChange(creature.type, "time");
+            characterService.set_ToChange(creature.type, "health");
         }
 
     }
@@ -383,6 +396,7 @@ export class ConditionsService {
         while (turns > 0) {
             let activeConditions = creature.conditions;
             activeConditions = activeConditions.sort(function (a, b) {
+                // Sort conditions by the length of either their nextstage or their duration, whichever is shorter.
                 let compareA: number[] = [];
                 if (a.nextStage > 0) { compareA.push(a.nextStage); }
                 if (a.duration > 0) { compareA.push(a.duration); }
@@ -391,7 +405,7 @@ export class ConditionsService {
                 if (b.duration > 0) { compareB.push(b.duration); }
                 if (!compareA.length) {
                     return 1
-                } else if (!compareA.length) {
+                } else if (!compareB.length) {
                     return -1
                 } else {
                     return Math.min(...compareA) - Math.min(...compareB)

@@ -259,13 +259,20 @@ export class EffectsService {
         let SpellCastingAbility: string = object.spellCastingAbility;
         let SpellSource: string = object.spellSource;
         //Hint effects of conditions pass their conditionGain for these values.
+        //Conditions that are caused by conditions also pass the original conditionGain, particularly for the evaluation of their activationPrerequisite.
         if (parentConditionGain) {
-            Value = parentConditionGain.value;
-            Heightened = parentConditionGain.heightened;
-            Choice = parentConditionGain.choice;
-            SpellCastingAbility = parentConditionGain.spellCastingAbility;
-        } else {
-
+            if (!Value) {
+                Value = parentConditionGain.value;
+            }
+            if (!Heightened) {
+                Heightened = parentConditionGain.heightened;
+            }
+            if (!Choice) {
+                Choice = parentConditionGain.choice;
+            }
+            if (!SpellCastingAbility) {
+                SpellCastingAbility = parentConditionGain.spellCastingAbility;
+            }
         }
         //Some Functions for effect values
         function Temporary_HP(source: string = "", sourceId: string = "") {

@@ -8,7 +8,7 @@ export class ConditionGain {
     public id = uuidv1();
     public apply: boolean = true;
     public decreasingValue: boolean = false;
-    //duration in turns * 10 or -1 for permanent
+    //duration in turns * 10, -1 for permanent or 1 for instant
     public duration: number = -1;
     //nextStage in turns * 10
     public nextStage: number = -1;

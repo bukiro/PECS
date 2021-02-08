@@ -72,10 +72,16 @@ export class HealthComponent implements OnInit {
         let result: string = "";
         this.characterService.get_Creatures().forEach(creature => {
             if (this.characterService.get_AppliedConditions(creature, "", "", true).some(gain => (gain.nextStage < duration && gain.nextStage > 0) || gain.nextStage == -1)) {
-                result = "One or more conditions need your attention before you can rest.";
+                result = "One or more conditions" + (creature.type != "Character" ? " on your " + creature.type : "") + " need your attention before you can rest.";
+            }
+            if (this.characterService.get_AppliedConditions(creature, "", "", true).some(gain => (gain.duration == 1))) {
+                result = "One or more instant effects" + (creature.type != "Character" ? " on your " + creature.type : "") + " need to be resolved before you can rest.";
+            }
+            if (this.characterService.get_Health(creature).temporaryHP.length > 1) {
+                result = "You need to select one set of temporary Hit Points" + (creature.type != "Character" ? " on your " + creature.type : "") + " before you can rest.";
             }
             if (this.effectsService.get_EffectsOnThis(creature, "Resting Blocked").length) {
-                result = "An effect is keeping you from resting."
+                result = "An effect" + (creature.type != "Character" ? " on your " + creature.type : "") + " is keeping you from resting."
             }
         })
         return result;
@@ -160,6 +166,7 @@ export class HealthComponent implements OnInit {
     on_Heal(health: Health) {
         health.heal(this.get_Creature(), this.characterService, this.effectsService, this.healing);
         this.characterService.set_ToChange(this.creature, "health");
+        this.characterService.set_ToChange(this.creature, "effects");
         this.characterService.process_ToChange();
     }
 
@@ -180,6 +187,7 @@ export class HealthComponent implements OnInit {
         this.get_Health().temporaryHP[0] = {amount: amount, source: "Manual", sourceId: ""};
         this.get_Health().temporaryHP.length = 1;
         this.characterService.set_ToChange(this.creature, "health");
+        this.characterService.set_ToChange(this.creature, "effects");
         this.characterService.process_ToChange();
     }
 
@@ -187,6 +195,10 @@ export class HealthComponent implements OnInit {
         this.get_Health().temporaryHP[0] = tempSet;
         this.get_Health().temporaryHP.length = 1;
         this.characterService.set_ToChange(this.creature, "health");
+        this.characterService.set_ToChange(this.creature, "effects");
+        //Update Health and Time because having multiple temporary HP keeps you from ticking time and resting.
+        this.characterService.set_ToChange("Character", "health");
+        this.characterService.set_ToChange("Character", "time");
         this.characterService.process_ToChange();
     }
 

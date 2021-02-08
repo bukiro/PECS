@@ -111,11 +111,11 @@ The very latest in Assistive Technologies for Dungeon Master (ATDM)
 
 Active to-do:
 Bug: When dropping sorcerer bloodline gained through sorcerer dedication, you also lose the spell slots from the spellcasting feats, but not the feats. After adding the bloodline, the spells remain lost until you deselect and select the spellcasting feats.
+Bug: Taking Simple Weapon Proficiency (General Feat) re-sorts the subfeats and shows Martial Weapon Proficiency as ticked. The checkbox of Simple WP can be unchecked twice, whereas the second time throws an error.
 
 Implement:
 
 Next steps:
-- Barbarian
 - Druid
 - Sorcerer
 - 5th level spells

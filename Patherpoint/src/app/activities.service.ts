@@ -119,6 +119,9 @@ export class ActivitiesService {
         //One time effects
         if (activity.onceEffects) {
             activity.onceEffects.forEach(effect => {
+                if (!effect.source) {
+                    effect.source = activity.name;
+                }
                 characterService.process_OnceEffect(creature, effect);
             })
         }
@@ -161,9 +164,11 @@ export class ActivitiesService {
                     if (!newConditionGain.source) {
                         newConditionGain.source = activity.name;
                     }
-                    //If this ActivityGain has effectChoices prepared, apply the choice to the conditionGain.
+                    //If this ActivityGain has effectChoices prepared, and the conditionGain does not include a choice, apply the choice to the conditionGain.
                     // The order of gain.effectChoices maps directly onto the order of the conditions, no matter if they have choices.
-                    newConditionGain.choice = gain.effectChoices?.[conditionIndex] || "";
+                    if (!newConditionGain.choice) {
+                        newConditionGain.choice = gain.effectChoices?.[conditionIndex] || "";
+                    }
                     characterService.add_Condition(creature, newConditionGain, false);
                 });
             } else {

@@ -1518,19 +1518,12 @@
          {
             "affected": "Bestial Rage Wolf Jaws Damage",
             "value": "Choice == 'Wolf' && Has_Feat(Creature.type, 'Animal Instinct Specialization') ? (Has_Feat(Creature.type, 'Greater Weapon Specialization') ? 10 : 3) : 0"
-         },
+         }
+      ],
+      "gainConditions": [
          {
-            "affected": "AC",
-            "cumulative": [
-               "Potency",
-               "Bracers of Armor"
-            ],
-            "type": "item",
-            "value": "(Has_Feat(Creature.type, 'Animal Skin') && Armor().get_Proficiency() == \"Unarmored Defense\") ? (Has_Feat(Creature.type, 'Greater Juggernaut') ? 3 : 2) : 0"
-         },
-         {
-            "affected": "Dexterity Modifier Cap",
-            "setValue": "Has_Feat(Creature.type, 'Animal Skin')  ? 3 : null"
+            "activationPrerequisite": "Has_Feat(Creature.type, 'Animal Skin') ? 1 : 0",
+            "name": "Animal Skin"
          }
       ],
       "gainItems": [
@@ -13382,7 +13375,7 @@
          },
          {
             "affected": "Poison Resistance",
-            "value": "Choice == 'Poison' ? 10 : 0"
+            "value": "Choice == 'Green' ? 10 : 0"
          }
       ],
       "onceEffects": [
@@ -13779,7 +13772,7 @@
          },
          {
             "affected": "Poison Resistance",
-            "value": "Choice == 'Poison' ? 10 : 0"
+            "value": "Choice == 'Green' ? 10 : 0"
          }
       ],
       "onceEffects": [
@@ -14127,6 +14120,28 @@
       ]
    },
    {
+      "name": "Animal Skin",
+      "desc": "Your proficiency in unarmored defense increases to expert. While you are raging and unarmored, your skin transforms into a thick hide. You gain a +2 item bonus to AC (+3 if you have the greater juggernaut class feature). The thickness of your hide gives you a Dexterity modifier cap to your AC of +3. This item bonus to AC is cumulative with armor potency runes on your explorer's clothing, mage armor, and bracers of armor.",
+      "type": "feats",
+      "buff": true,
+      "hide": true,
+      "effects": [
+         {
+            "affected": "AC",
+            "cumulative": [
+               "Potency",
+               "Bracers of Armor"
+            ],
+            "type": "item",
+            "value": "(Armor().get_Proficiency() == 'Unarmored Defense') ? (Has_Feat(Creature.type, 'Greater Juggernaut') ? 3 : 2) : 0"
+         },
+         {
+            "affected": "Dexterity Modifier Cap",
+            "setValue": "(Armor().get_Proficiency() == 'Unarmored Defense') ? 3 : null"
+         }
+      ]
+   },
+   {
       "name": "Furious Bully",
       "desc": "You bully foes across the battlefield. While raging, you gain a +2 circumstance bonus to Athletics checks for attack actions.",
       "type": "feats",
@@ -14157,11 +14172,11 @@
       "effects": [
          {
             "affected": "Size",
-            "setValue": "1"
+            "setValue": "Has_Feat(Creature.type, \"Titan's Stature\") ? 2 : 1"
          },
          {
             "affected": "Reach",
-            "value": "5"
+            "value": "Has_Feat(Creature.type, \"Titan's Stature\") ? 10 : 5"
          }
       ],
       "gainConditions": [
@@ -14179,7 +14194,7 @@
    },
    {
       "name": "Earthquake (Caster)",
-      "desc": "You shake the ground, topple creatures into fissures, and collapse structures in a 60-foot burst (a quarter-mile burst on 10th level).\n\nThe GM might add additional effects in certain areas. Cliffs might collapse, causing creatures to fall, or a lake might drain as fissures open up below its surface, leaving a morass of quicksand.\n\n<strong>Shaking Ground</strong> The ground is difficult terrain, and creatures on it take a -2 circumstance penalty to attack rolls, AC, and skill checks.\n<strong>Fissures</strong> Each creature on the ground must attempt a Reflex save at the start of its turn to keep its footing and avoid falling into 40-foot-deep fissures that open beneath it. The fissures are permanent, and their sides require DC 15 Athletics to Climb.\n<strong>Collapse Structures</strong> and ceilings might collapse. The GM rolls a flat check for each (DC 16 for a sturdy structure, DC 14 for an average structure and most natural formations, DC 9 for a shoddy structure, all adjusted higher or lower as the GM sees fit). A collapse deals 11d6 bludgeoning damage; each creature caught in a collapse must attempt a Reflex save to avoid it.\n\n<strong>Critical Success</strong> The creature takes half the collapse damage.\n<strong>Success</strong> The creature takes half the collapse damage and falls prone.\n<strong>Failure</strong> The creature takes the full collapse damage and falls prone.\n<strong>Critical Failure</strong> The creature takes the full collapse damage and falls into a fissure.",
+      "desc": "You shake the ground, topple creatures into fissures, and collapse structures in a 60-foot burst (a quarter-mile burst on 10th level).\n\nThe GM might add additional effects in certain areas. Cliffs might collapse, causing creatures to fall, or a lake might drain as fissures open up below its surface, leaving a morass of quicksand.\n\n<strong>Shaking Ground</strong> The ground is difficult terrain, and creatures on it take a -2 circumstance penalty to attack rolls, AC, and skill checks.\n<strong>Fissures</strong> Each creature on the ground must attempt a Reflex save at the start of its turn to keep its footing and avoid falling into 40-foot-deep fissures that open beneath it. The fissures are permanent, and their sides require DC 15 Athletics to Climb.\n<strong>Collapse Structures</strong> and ceilings might collapse. The GM rolls a flat check for each (DC 16 for a sturdy structure, DC 14 for an average structure and most natural formations, DC 9 for a shoddy structure, all adjusted higher or lower as the GM sees fit). A collapse deals 11d6 bludgeoning damage; each creature caught in a collapse must attempt a Reflex save to avoid it.\n\n \n\n<strong>Critical Success</strong> The creature takes half the collapse damage.\n<strong>Success</strong> The creature takes half the collapse damage and falls prone.\n<strong>Failure</strong> The creature takes the full collapse damage and falls prone.\n<strong>Critical Failure</strong> The creature takes the full collapse damage and falls into a fissure.",
       "type": "spells",
       "buff": true,
       "effects": [
@@ -14192,7 +14207,7 @@
    },
    {
       "name": "Earthquake",
-      "desc": "The ground shakes, creatures are toppled into fissures, and structures collapse in a 60-foot burst (a quarter-mile burst on 10th level).\n\nThe GM might add additional effects in certain areas. Cliffs might collapse, causing creatures to fall, or a lake might drain as fissures open up below its surface, leaving a morass of quicksand.\n\n<strong>Shaking Ground</strong> The ground is difficult terrain, and creatures on it take a -2 circumstance penalty to attack rolls, AC, and skill checks.\n<strong>Fissures</strong> Each creature on the ground must attempt a Reflex save at the start of its turn to keep its footing and avoid falling into 40-foot-deep fissures that open beneath it. The fissures are permanent, and their sides require DC 15 Athletics to Climb.\n<strong>Collapse Structures</strong> and ceilings might collapse. The GM rolls a flat check for each (DC 16 for a sturdy structure, DC 14 for an average structure and most natural formations, DC 9 for a shoddy structure, all adjusted higher or lower as the GM sees fit). A collapse deals 11d6 bludgeoning damage; each creature caught in a collapse must attempt a Reflex save to avoid it.\n\n<strong>Critical Success</strong> The creature takes half the collapse damage.\n<strong>Success</strong> The creature takes half the collapse damage and falls prone.\n<strong>Failure</strong> The creature takes the full collapse damage and falls prone.\n<strong>Critical Failure</strong> The creature takes the full collapse damage and falls into a fissure.",
+      "desc": "The ground shakes, creatures are toppled into fissures, and structures collapse in a 60-foot burst (a quarter-mile burst on 10th level).\n\nThe GM might add additional effects in certain areas. Cliffs might collapse, causing creatures to fall, or a lake might drain as fissures open up below its surface, leaving a morass of quicksand.\n\n<strong>Shaking Ground</strong> The ground is difficult terrain, and creatures on it take a -2 circumstance penalty to attack rolls, AC, and skill checks.\n<strong>Fissures</strong> Each creature on the ground must attempt a Reflex save at the start of its turn to keep its footing and avoid falling into 40-foot-deep fissures that open beneath it. The fissures are permanent, and their sides require DC 15 Athletics to Climb.\n<strong>Collapse Structures</strong> and ceilings might collapse. The GM rolls a flat check for each (DC 16 for a sturdy structure, DC 14 for an average structure and most natural formations, DC 9 for a shoddy structure, all adjusted higher or lower as the GM sees fit). A collapse deals 11d6 bludgeoning damage; each creature caught in a collapse must attempt a Reflex save to avoid it.\n\n \n\n<strong>Critical Success</strong> The creature takes half the collapse damage.\n<strong>Success</strong> The creature takes half the collapse damage and falls prone.\n<strong>Failure</strong> The creature takes the full collapse damage and falls prone.\n<strong>Critical Failure</strong> The creature takes the full collapse damage and falls into a fissure.",
       "type": "spells",
       "hints": [
          {
@@ -14230,11 +14245,7 @@
       "hints": [
          {
             "desc": "You can use actions with the concentrate trait even if those actions don't have the rage trait.",
-            "effects": [
-               {
-                  "affected": "Activities"
-               }
-            ]
+            "showon": "Activities"
          }
       ]
    },
@@ -14294,7 +14305,8 @@
          }
       ],
       "overrideConditions": [
-         "Second Wind Fatigue"
+         "Second Wind Fatigue",
+         "Fatigued"
       ]
    },
    {
@@ -14306,6 +14318,38 @@
          {
             "ignorePersistent": true,
             "name": "Fatigued"
+         }
+      ]
+   },
+   {
+      "name": "Shake it Off",
+      "desc": "(Shake it Off lowers the Frightened and Sickened conditions and then immediately ends. It can't be chosen manually.)",
+      "type": "hidden",
+      "choice": "Failure",
+      "choices": [
+         "Failure",
+         "Success",
+         "Critical Success"
+      ],
+      "gainConditions": [
+         {
+            "addValue": -1,
+            "name": "Frightened"
+         },
+         {
+            "activationPrerequisite": "Choice == 'Failure'? 1 : 0",
+            "addValue": -1,
+            "name": "Sickened"
+         },
+         {
+            "activationPrerequisite": "Choice == 'Success'? 1 : 0",
+            "addValue": -2,
+            "name": "Sickened"
+         },
+         {
+            "activationPrerequisite": "Choice == 'Critical Success'? 1 : 0",
+            "addValue": -3,
+            "name": "Sickened"
          }
       ]
    },
@@ -14326,10 +14370,23 @@
       "name": "Dragon's Rage Breath: Halved Damage",
       "desc": "The area and the damage of your Dragon's Rage Breath are halved (15-foot cone or 30-foot line; 1d6 damage for every 2 levels)",
       "type": "activities",
-      "buff": true,
       "hints": [
          {
             "desc": "The area and the damage of your Dragon's Rage Breath are halved (15-foot cone or 30-foot line; 1d6 damage for every 2 levels)",
+            "showon": "Dragon's Rage Breath"
+         }
+      ]
+   },
+   {
+      "name": "Dragon's Rage Breath Cooldown",
+      "desc": "You can't use Dragon's Rage Breath until the next time you rage.",
+      "type": "activities",
+      "endsWithConditions": [
+         "Rage"
+      ],
+      "hints": [
+         {
+            "desc": "You can't use Dragon's Rage Breath until the next time you rage.",
             "showon": "Dragon's Rage Breath"
          }
       ]
@@ -14363,6 +14420,7 @@
       "name": "Spirits' Interference",
       "desc": "You call forth protective spirits to ward off ranged attacks. Until your rage ends, anyone making a ranged attack against you must succeed at a DC 5 flat check or the attack misses with no effect.",
       "type": "activities",
+      "buff": true,
       "endsWithConditions": [
          "Rage"
       ],
@@ -14715,6 +14773,20 @@
       ]
    },
    {
+      "name": "Share Rage Cooldown",
+      "desc": "You can't use Share Rage until the next time you rage.",
+      "type": "activities",
+      "endsWithConditions": [
+         "Rage"
+      ],
+      "hints": [
+         {
+            "desc": "You can't use Share Rage until the next time you rage.",
+            "showon": "Share Rage"
+         }
+      ]
+   },
+   {
       "name": "Come and Get Me",
       "desc": "You open yourself to attacks so you can respond in turn. Until your rage ends, you are flat-footed, and damage rolls against you gain a +2 circumstance bonus. If a creature hits you, that creature is flat-footed to you until the end of your next turn. If you hit it before the end of your next turn, you gain temporary Hit Points equal to your Constitution modifier, or double that on a critical hit. These temporary Hit Points last until the end of your rage.",
       "type": "activities",
@@ -14734,6 +14806,11 @@
             "affected": "Temporary HP",
             "source": "Manual",
             "value": "-Temporary_HP('Manual')"
+         }
+      ],
+      "gainConditions": [
+         {
+            "name": "Flat-Footed"
          }
       ]
    },
@@ -14807,10 +14884,6 @@
             "setValue": "1"
          },
          {
-            "affected": "Melee Damage",
-            "setValue": "Level >= 18 ? 12 : 6"
-         },
-         {
             "affected": "Athletics",
             "setValue": "Skill('Athletics') > 23 ? null : 23"
          },
@@ -14865,7 +14938,7 @@
          },
          {
             "affected": "Poison Resistance",
-            "value": "Choice == 'Poison' ? 10 : 0"
+            "value": "Choice == 'Green' ? 10 : 0"
          }
       ],
       "onceEffects": [
@@ -15171,15 +15244,15 @@
          {
             "affected": "Attack Rolls",
             "type": "circumstance",
-            "value": "Current_HP() <= (Max_HP / 2) ? 2 : 0"
+            "value": "Current_HP() <= (Max_HP() / 2) ? 2 : 0"
          },
          {
             "affected": "AC",
-            "value": "Current_HP() <= (Max_HP / 2) ? -2 : 0"
+            "value": "Current_HP() <= (Max_HP() / 2) ? -2 : 0"
          },
          {
             "affected": "Saving Throws",
-            "value": "Current_HP() <= (Max_HP / 2) ? -1 : 0"
+            "value": "Current_HP() <= (Max_HP() / 2) ? -1 : 0"
          }
       ]
    },
@@ -15188,11 +15261,7 @@
       "desc": "You burn out all of your rage to ensure that your attack lands and your mind remains free. Reroll the triggering attack roll or Will save with a +2 circumstance bonus, use the better result, and resolve the effect. You then immediately stop raging.",
       "type": "activities",
       "buff": true,
-      "hints": [
-         {
-            "desc": "Reroll the triggering attack roll or Will save with a +2 circumstance bonus, use the better result, and resolve the effect. You then immediately stop raging."
-         }
-      ],
+      "inputRequired": "Reroll the triggering attack roll or Will save with a +2 circumstance bonus, use the better result, and resolve the effect. You then immediately stop raging.",
       "effects": [
          {
             "affected": "Attack Rolls",

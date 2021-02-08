@@ -1032,6 +1032,10 @@ var:not(:empty),
     color: var(--textcolor);
 }
 
+.attention {
+    border: 4px solid rgb(var(--accent));
+}
+
 .problem:not(.sublist),
 .lower.problem:not(.sublist) {
     color: red;

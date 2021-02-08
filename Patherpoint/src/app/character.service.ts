@@ -1208,13 +1208,13 @@ export class CharacterService {
         );
     }
 
-    add_Condition(creature: Creature, conditionGain: ConditionGain, reload: boolean = true) {
+    add_Condition(creature: Creature, conditionGain: ConditionGain, reload: boolean = true, parentConditionGain: ConditionGain = null) {
         let activate: boolean = true;
         //If the condition has an activationPrerequisite, test that first and only activate if it evaluates to a nonzero number.
         if (conditionGain.activationPrerequisite) {
             let testEffectGain: EffectGain = new EffectGain();
             testEffectGain.value = conditionGain.activationPrerequisite;
-            let effects = this.effectsService.get_SimpleEffects(this.get_Character(), this, { effects: [testEffectGain], value: conditionGain.value, heightened: conditionGain.heightened, choice: conditionGain.choice, spellCastingAbility: null });
+            let effects = this.effectsService.get_SimpleEffects(this.get_Character(), this, { effects: [testEffectGain], value: conditionGain.value, heightened: conditionGain.heightened, choice: conditionGain.choice, spellCastingAbility: null }, "", parentConditionGain);
             if (effects?.[0]?.value == "0" || !(parseInt(effects?.[0]?.value))) {
                 activate = false;
             }
@@ -1244,6 +1244,7 @@ export class CharacterService {
                         existingConditions.forEach(gain => {
                             gain.value += conditionGain.addValue;
                         })
+                        this.set_ToChange(creature.type, "effects");
                     } else {
                         conditionGain.value = conditionGain.addValue;
                         newLength = creature.conditions.push(conditionGain);
@@ -1284,7 +1285,7 @@ export class CharacterService {
         }
         let originalCondition = this.get_Conditions(conditionGain.name)[0];
         if (oldConditionGain) {
-            if (oldConditionGain.nextStage) {
+            if (oldConditionGain.nextStage || oldConditionGain.duration == 1) {
                 this.set_ToChange(creature.type, "time");
                 this.set_ToChange(creature.type, "health");
             }
@@ -1414,6 +1415,9 @@ export class CharacterService {
                     }
                 }
                 this.set_ToChange(creature.type, "health");
+                //Update Health and Time because having multiple temporary HP keeps you from ticking time and resting.
+                this.set_ToChange("Character", "health");
+                this.set_ToChange("Character", "time");
                 break;
             case "HP":
                 if (value > 0) {
@@ -1916,6 +1920,7 @@ export class CharacterService {
             this.characterChanged$ = this.changed.asObservable();
             this.viewChanged$ = this.viewChanged.asObservable();
             this.verify_Feats();
+            this.timeService.set_YourTurn(this.get_Character().yourTurn);
             this.trigger_FinalChange();
         }
     }
@@ -1942,6 +1947,7 @@ export class CharacterService {
     }
 
     save_Character() {
+        this.get_Character().yourTurn = this.timeService.get_YourTurn();
         this.savegameService.save_Character(this.get_Character(), this.itemsService, this.classesService, this.historyService, this.animalCompanionsService).subscribe((result) => {
             if (result["lastErrorObject"] && result["lastErrorObject"].updatedExisting) {
                 console.log("Saved " + (this.get_Character().name || "character") + " to database.");

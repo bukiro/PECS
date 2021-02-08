@@ -417,7 +417,7 @@ export class SavegameService {
                 this.savegames[newLength - 1].partyName = savegame.partyName || "No Party";
                 if (savegame.class) {
                     this.savegames[newLength - 1].class = savegame.class.name || "";
-                    if (savegame.class.levels?.length) {
+                    if (savegame.class.levels?.[1]?.featChoices?.length) {
                         savegame.class.levels[1].featChoices.filter(choice => choice.specialChoice && choice.feats?.length == 1 && choice.available == 1 && choice.source == savegame.class.name).forEach(choice => {
                             let choiceName = choice.feats[0].name.split(":")[0];
                             if (!choiceName.includes("School") && choiceName.includes(choice.type)) {

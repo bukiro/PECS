@@ -2,7 +2,7 @@
 <div id="{{creature}}-effects-height" class="attributeBox">
     <h3 class="box-header">Active Conditions</h3>
     <ng-container *ngFor="let conditionGain of get_AppliedConditions(true); trackBy:trackByIndex;">
-        <div class="list-item" *ngFor="let condition of [get_Conditions(conditionGain.name)[0]]; trackBy:trackByIndex;">
+        <div class="list-item" [ngClass]="{'attention':(conditionGain.duration == 1) || (conditionGain.nextStage == -1 && (condition.previousCondition || condition.nextCondition))}" *ngFor="let condition of [get_Conditions(conditionGain.name)[0]]; trackBy:trackByIndex;">
             <app-condition class="row" (showChoiceMessage)="receive_ItemMessage($event)" [creature]="creature"
                 [conditionGain]="conditionGain" [condition]="condition" [showItem]="get_ShowItem()"></app-condition>
         </div>

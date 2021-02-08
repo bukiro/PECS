@@ -115,7 +115,8 @@
     ]
   },
   {
-    "name": "Barbarian"
+    "name": "Barbarian",
+    "desc": "This indicates abilities from the barbarian class."
   },
   {
     "name": "Bard"
@@ -838,7 +839,8 @@
     "name": "Psychopomp"
   },
   {
-    "name": "Rage"
+    "name": "Rage",
+    "desc": "You must be raging to use abilities with the rage trait, and they end automatically when you stop raging."
   },
   {
     "name": "Rakshasa"

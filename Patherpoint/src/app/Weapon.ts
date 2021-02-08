@@ -765,6 +765,14 @@ export class Weapon extends Equipment {
             }
             //"Agile Melee Damage"
             list.push("Agile " + range + " Damage");
+            if ((range == "ranged") && this.traits.some(trait => trait.includes("Thrown"))) {
+                //"Agile Thrown Large Weapon Damage"
+                if (this.large) {
+                    list.push("Agile Thrown Large Weapon Damage")
+                }
+                //"Agile Thrown Weapon Damage"
+                list.push("Agile Thrown Weapon Damage");
+            }
         } else {
             //"Non-Agile Large Melee Weapon Damage"
             if (this.large) {
@@ -772,6 +780,14 @@ export class Weapon extends Equipment {
             }
             //"Non-Agile Melee Damage"
             list.push("Non-Agile " + range + " Damage");
+            if ((range == "ranged") && this.traits.some(trait => trait.includes("Thrown"))) {
+                //"Non-Agile Thrown Large Weapon Damage"
+                if (this.large) {
+                    list.push("Non-Agile Thrown Large Weapon Damage")
+                }
+                //"Non-Agile Thrown Weapon Damage"
+                list.push("Non-Agile Thrown Weapon Damage");
+            }
         }
         if (this.prof == "Unarmed Attacks") {
             list.push("Unarmed Damage per Die");

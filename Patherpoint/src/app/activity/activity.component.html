@@ -45,8 +45,9 @@
                 <button class="row center-aligned" (click)="on_Activate(gain, activity, false, creature)"
                     *ngIf="gain.name != 'Fused Stance' && activity.can_Activate() && gain.active"
                     title="{{gain.activeCooldown ? (maxCharges ? '(Recharged in: ' : '(Cooldown: ') + get_Duration(gain.activeCooldown, true, false) + ')' : ''}}">
-                    {{activity.sustained ? "Stop Sustaining" : "Deactivate"}}
-                    {{gain.duration ? "(" + get_Duration(gain.duration) + " remaining)" : ""}}
+                    {{gain.duration == 1 ? "Done (instant effect)" : ""}}
+                    {{gain.duration != 1 ? (activity.sustained ? "Stop Sustaining" : "Deactivate") : ""}}
+                    {{(gain.duration && gain.duration != 1) ? "(" + get_Duration(gain.duration) + " remaining)" : ""}}
                     {{maxCharges ? "(" + (maxCharges - gain.chargesUsed) + " of " + maxCharges + " charges)" : ""}}
                 </button>
                 <ng-container
@@ -87,6 +88,19 @@
                     title="{{get_Traits(trait)[0].desc}}">{{trait}}</cite>
                 <app-tags [creature]="creature" [objectName]="activity.name" [showTraits]=true [showFeats]=true
                     [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
+            </div>
+            <div class="row left-aligned"
+                *ngFor="let condition of get_ActivityConditions(); let conditionIndex = index; trackBy:trackByIndex">
+                <div class="row list-item" *ngIf="condition && condition.choices.length">
+                    <span>{{condition.name}} Effect selection:
+                        <select [(ngModel)]="gain.effectChoices[conditionIndex]"
+                            (ngModelChange)="on_EffectChoiceChange()">
+                            <option *ngFor="let choice of condition.choices; trackBy:trackByIndex;" [ngValue]="choice">
+                                {{choice}}
+                            </option>
+                        </select>
+                    </span>
+                </div>
             </div>
             <div class="list-item lower row problem" *ngIf="activity.inputRequired">
                 <strong>Player input required:</strong>
@@ -171,19 +185,6 @@
                     <strong>Special</strong>
                     {{activity.specialdesc}}
                 </span>
-            </div>
-            <div class="row left-aligned"
-                *ngFor="let condition of get_ActivityConditions(); let conditionIndex = index; trackBy:trackByIndex">
-                <div class="row list-item" *ngIf="condition && condition.choices.length">
-                    <span>{{condition.name}} Effect selection:
-                        <select [(ngModel)]="gain.effectChoices[conditionIndex]"
-                            (ngModelChange)="on_EffectChoiceChange()">
-                            <option *ngFor="let choice of condition.choices; trackBy:trackByIndex;" [ngValue]="choice">
-                                {{choice}}
-                            </option>
-                        </select>
-                    </span>
-                </div>
             </div>
             <div class="list-item left-aligned"
                 *ngFor="let shownActivityName of activity.showActivities; trackBy:trackByIndex;">

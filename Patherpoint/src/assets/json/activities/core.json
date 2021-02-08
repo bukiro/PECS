@@ -3884,6 +3884,7 @@
     },
     {
         "name": "Second Wind",
+        "inputRequired": "While this is activated, you can enter Rage without waiting.",
         "traits": [
             "Barbarian"
         ],
@@ -3899,7 +3900,6 @@
     {
         "name": "Shake it Off",
         "actions": "1A",
-        "inputRequired": "Attempt a Fortitude save to recover from the sickened condition as if you had spent an action retching; you reduce your sickened condition value by 1 on a failure (but not on a critical failure), by 2 on a success, or by 3 on a critical success.",
         "traits": [
             "Barbarian",
             "Concentrate",
@@ -3908,8 +3908,8 @@
         "desc": "You concentrate on your rage, overcoming fear and fighting back sickness. Reduce your frightened condition value by 1, and attempt a Fortitude save to recover from the sickened condition as if you had spent an action retching; you reduce your sickened condition value by 1 on a failure (but not on a critical failure), by 2 on a success, or by 3 on a critical success.",
         "gainConditions": [
             {
-                "addValue": -1,
-                "name": "Frightened",
+                "duration": 0,
+                "name": "Shake it Off",
                 "source": "Shake it Off"
             }
         ]
@@ -3972,6 +3972,10 @@
                 "duration": 6000,
                 "name": "Dragon's Rage Breath: Halved Damage",
                 "source": "Dragon's Rage Breath"
+            },
+            {
+                "name": "Dragon's Rage Breath Cooldown",
+                "source": "Dragon's Rage Breath"
             }
         ]
     },
@@ -4028,60 +4032,69 @@
             "Transmutation"
         ],
         "toggle": true,
-        "ignoreChoices": true,
+        "hideChoices": true,
         "desc": "You transform into your animal. You gain the effects of the 3rd-level animal form spell except you use your own statistics, temporary Hit Points, and unarmed attacks instead of those granted by animal form. You also retain the constant abilities of your gear. If your animal is a frog, your tongue's reach increases to 15 feet. Dismissing the transformation gains the rage trait.",
         "gainConditions": [
             {
                 "activationPrerequisite": "Has_Feat(Creature.type, 'Animal Instinct: Ape') ? 1 : 0",
                 "choice": "Ape",
+                "choiceLocked": true,
                 "name": "Animal Rage",
                 "source": "Animal Rage"
             },
             {
                 "activationPrerequisite": "Has_Feat(Creature.type, 'Animal Instinct: Bear') ? 1 : 0",
                 "choice": "Bear",
+                "choiceLocked": true,
                 "name": "Animal Rage",
                 "source": "Animal Rage"
             },
             {
                 "activationPrerequisite": "Has_Feat(Creature.type, 'Animal Instinct: Bull') ? 1 : 0",
                 "choice": "Bull",
+                "choiceLocked": true,
                 "name": "Animal Rage",
                 "source": "Animal Rage"
             },
             {
                 "activationPrerequisite": "Has_Feat(Creature.type, 'Animal Instinct: Cat') ? 1 : 0",
                 "choice": "Cat",
+                "choiceLocked": true,
                 "name": "Animal Rage",
                 "source": "Animal Rage"
             },
             {
                 "activationPrerequisite": "Has_Feat(Creature.type, 'Animal Instinct: Deer') ? 1 : 0",
                 "choice": "Deer",
+                "choiceLocked": true,
                 "name": "Animal Rage",
                 "source": "Animal Rage"
             },
             {
                 "activationPrerequisite": "Has_Feat(Creature.type, 'Animal Instinct: Frog') ? 1 : 0",
                 "choice": "Frog",
+                "choiceLocked": true,
                 "name": "Animal Rage",
                 "source": "Animal Rage"
             },
             {
                 "activationPrerequisite": "Has_Feat(Creature.type, 'Animal Instinct: Shark') ? 1 : 0",
                 "choice": "Shark",
+                "choiceLocked": true,
                 "name": "Animal Rage",
                 "source": "Animal Rage"
             },
             {
                 "activationPrerequisite": "Has_Feat(Creature.type, 'Animal Instinct: Snake') ? 1 : 0",
                 "choice": "Snake",
+                "choiceLocked": true,
                 "name": "Animal Rage",
                 "source": "Animal Rage"
             },
             {
                 "activationPrerequisite": "Has_Feat(Creature.type, 'Animal Instinct: Wolf') ? 1 : 0",
                 "choice": "Canine",
+                "choiceLocked": true,
                 "name": "Animal Rage",
                 "source": "Animal Rage"
             }
@@ -4112,7 +4125,7 @@
     {
         "name": "Share Rage",
         "actions": "1A",
-        "inputRequired": "Your ally can grant themselves the Share Rage condition for 1 minute.",
+        "inputRequired": "Your ally can grant themselves the Share Rage condition for the remainder of your Rage duration.",
         "traits": [
             "Auditory",
             "Barbarian",
@@ -4120,7 +4133,14 @@
             "Visual"
         ],
         "requirements": "You haven't used this ability since you last Raged.",
-        "desc": "You stoke an ally's fury. While you are raging, one willing creature within 30 feet gains the effects of the Rage action, except it can still use concentrate actions."
+        "desc": "You stoke an ally's fury. While you are raging, one willing creature within 30 feet gains the effects of the Rage action, except it can still use concentrate actions.",
+        "gainConditions": [
+            {
+                "activationPrerequisite": "!Has_Feat(Creature.type, 'Contagious Rage') ? 1 : 0",
+                "name": "Share Rage Cooldown",
+                "source": "Share Rage"
+            }
+        ]
     },
     {
         "name": "Thrash",
@@ -4283,6 +4303,12 @@
                 "name": "Dragon Transformation",
                 "source": "Dragon Transformation"
             }
+        ],
+        "showSpells": [
+            {
+                "level": 6,
+                "name": "Dragon Form"
+            }
         ]
     },
     {
@@ -4324,7 +4350,7 @@
         "traits": [
             "Barbarian",
             "Concentrate",
-            "Instant",
+            "Fortune",
             "Rage"
         ],
         "trigger": "You fail or critically fail an attack roll or Will save.",

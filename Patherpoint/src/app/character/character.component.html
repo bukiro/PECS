@@ -154,7 +154,7 @@
             </div>
             <app-tags [creature]="'Character'" [objectName]="'Character'" [showTraits]=true [showFeats]=true
                 [showItems]=true [showActivities]=true [showConditions]=true></app-tags>
-            <ng-container *ngIf="get_ShowLevel() <= 0">
+            <div [ngClass]="{'invisible':get_ShowLevel() > 0}">
                 <h3>History</h3>
                 <div class="list-item">
                     <strong>Name</strong>
@@ -634,11 +634,11 @@
                         </div>
                     </div>
                 </ng-container>
-            </ng-container>
+            </div>
             <!--Levels-->
             <ng-container *ngIf="get_Character().class">
                 <ng-container *ngFor="let level of get_Character().class.levels; trackBy:trackByIndex;">
-                    <ng-container *ngIf="level.number > 0 && [0,level.number].includes(get_ShowLevel())">
+                    <div [ngClass]="{'invisible':!(level.number > 0 && [0,level.number].includes(get_ShowLevel()))}">
                         <h3 *ngIf="level.number > 0">Level {{level.number}}</h3>
                         <!--Fixed information-->
                         <div class="fullsize-only list-item"
@@ -1388,7 +1388,7 @@
                                 </div>
                             </ng-container>
                         </ng-container>
-                    </ng-container>
+                    </div>
                 </ng-container>
             </ng-container>
         </ng-container>

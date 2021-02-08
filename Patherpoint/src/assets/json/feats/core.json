@@ -33033,7 +33033,7 @@
                 "showon": "Attacks"
             }
         ],
-        "shortdesc": "Thrown weapons become especially deadly in your fury. You apply the additional damage from Rage to your�thrown�weapon attacks. If you have the�Brutal Critical�feat or the devastator class feature, apply their benefits to thrown weapon attacks.",
+        "shortdesc": "Thrown weapons become especially deadly in your fury. You apply the additional damage from Rage to your thrown weapon attacks. If you have the Brutal Critical feat or the devastator class feature, apply their benefits to thrown weapon attacks.",
         "traits": [
             "Barbarian"
         ],
@@ -33167,7 +33167,13 @@
         "traits": [
             "Barbarian"
         ],
-        "levelreq": 4
+        "levelreq": 4,
+        "skillreq": [
+            {
+                "skill": "Athletics",
+                "value": 4
+            }
+        ]
     },
     {
         "name": "Wounded Rage",
@@ -33580,7 +33586,8 @@
         "desc": "Your attacks are so powerful, they can flatten your opponents. When you use Knockback, you can attempt an Athletics check against your target's Fortitude DC.\n\n<strong>Critical Success</strong> You gain the critical success effect of a Shove, then the critical success effect of a Trip against the target.\n<strong>Success</strong> You gain the success effect of a Shove, then the success effect of a Trip against the target.\n<strong>Failure</strong> You gain the normal effect of Knockback.",
         "hints": [
             {
-                "desc": "When you use Knockback, you can attempt an Athletics check against your target's Fortitude DC.\n\nCritical Success: You gain the critical success effect of a Shove, then the critical success effect of a Trip against the target.\nSuccess: You gain the success effect of a Shove, then the success effect of a Trip against the target.\nFailure: You gain the normal effect of Knockback."
+                "desc": "When you use Knockback, you can attempt an Athletics check against your target's Fortitude DC.\n\nCritical Success: You gain the critical success effect of a Shove, then the critical success effect of a Trip against the target.\nSuccess: You gain the success effect of a Shove, then the success effect of a Trip against the target.\nFailure: You gain the normal effect of Knockback.",
+                "showon": "Knockback"
             }
         ],
         "shortdesc": "Your attacks are so powerful, they can flatten your opponents.",
@@ -33728,7 +33735,7 @@
     {
         "name": "Annihilating Swing",
         "desc": "You have learned from the brute destructive power of xulgaths and their kind.",
-        "shortdesc": "You have learned from the brute destructive power of�xulgaths�and their kind.",
+        "shortdesc": "You have learned from the brute destructive power of xulgaths and their kind.",
         "sourceBook": "Pathfinder #156: The Apocalypse Prophet",
         "traits": [
             "Barbarian",
@@ -33764,6 +33771,12 @@
         "name": "Invulnerable Juggernaut",
         "desc": "You are unstoppable, able to shrug off mortal wounds with ease. You gain resistance equal to 3 + your Constitution modifier to all damage, and your resistance from raging resistance increases to 8 + your Constitution modifier.\n\nIn addition, if you are reduced to 0 Hit Points, you can end your rage as a reaction to stay at 1 Hit Point. If you do, you become wounded 2 (or increase your wounded condition by 2 if you are already wounded).",
         "specialdesc": "The citizens of Promise represent some of the most capable experts, greatest minds, and powerful warriors on Golarion - ideal teachers and trainers for PCs who want to maximize their own potential. If the PCs secure Visitor's Pins or an alliance with Mengkare, their access to Promise's trainers and records unlock this uncommon class feat.",
+        "hints": [
+            {
+                "desc": "Your resistance from raging resistance increases to 8 + your Constitution modifier.",
+                "showon": "Rage"
+            }
+        ],
         "internalNote": "Coded into the Rage condition",
         "shortdesc": "Gain resistance to all damage.",
         "sourceBook": "Pathfinder #150: Broken Promises",
@@ -33826,11 +33839,11 @@
                 "_className": "FeatChoice",
                 "available": 1,
                 "filter": [
-                    "Animal�Instinct",
-                    "Dragon�Instinct",
-                    "Fury�Instinct",
-                    "Giant�Instinct",
-                    "Spirit�Instinct"
+                    "Animal Instinct",
+                    "Dragon Instinct",
+                    "Fury Instinct",
+                    "Giant Instinct",
+                    "Spirit Instinct"
                 ],
                 "source": "Feat: Barbarian Dedication",
                 "specialChoice": true,
@@ -35017,7 +35030,7 @@
     {
         "name": "Apex Companion",
         "specialdesc": "The citizens of Promise represent some of the most capable experts, greatest minds, and powerful warriors on Golarion - ideal teachers and trainers for PCs who want to maximize their own potential. If the PCs secure Visitor's Pins or an alliance with Mengkare, their access to Promise's trainers and records unlock this uncommon class feat.",
-        "shortdesc": "Gain the�apex companion�focus spell.",
+        "shortdesc": "Gain the apex companion focus spell.",
         "sourceBook": "Pathfinder #150: Broken Promises",
         "traits": [
             "Druid",
@@ -35062,7 +35075,7 @@
     },
     {
         "name": "Verdant Presence",
-        "shortdesc": "The life-giving properties of the�aeon orbs�flourish within you.",
+        "shortdesc": "The life-giving properties of the aeon orbs flourish within you.",
         "sourceBook": "Pathfinder #156: The Apocalypse Prophet",
         "traits": [
             "Druid",
@@ -35328,7 +35341,7 @@
             "Metamagic"
         ],
         "levelreq": 14,
-        "specialreqdesc": "dispel magic�in your spell repertoire"
+        "specialreqdesc": "dispel magic in your spell repertoire"
     },
     {
         "name": "Greater Mental Evolution",

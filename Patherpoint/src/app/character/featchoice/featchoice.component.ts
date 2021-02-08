@@ -291,6 +291,8 @@ export class FeatchoiceComponent implements OnInit {
                     }
                     return 0;
                 });
+        } else {
+            return [];
         }
     }
 
@@ -412,11 +414,11 @@ export class FeatchoiceComponent implements OnInit {
                 }
 
             }
-            //If a subtype has been taken and the feat is not limited, no other subfeat can be taken.
-            if (feat.superType) {
+            //If a subtype has been taken and the feat is not limited, no other subfeat can be taken. Don't show if the feat doesn't have any more choices availablel.
+            if (feat.superType && (choice.available == choice.feats.length)) {
                 let superfeat: Feat = this.get_Feats().find(superfeat => superfeat.name == feat.superType && !superfeat.hide);
                 let takenSubfeats: Feat[] = this.get_Feats().filter(subfeat => subfeat.superType == feat.superType && subfeat.name != feat.name && !subfeat.hide && subfeat.have(character, this.characterService, levelNumber));
-                //If a subtype has been taken and the feat is not unlimited, no other subfeat can be taken.
+                //If a subtype has been taken, but not in this choice, and the feat is not unlimited, no other subfeat can be taken.
                 if (!superfeat.unlimited && !superfeat.limited && takenSubfeats.length) {
                     reasons.push({ reason: "Already taken", explain: "This feat cannot be taken more than once." });
                 }

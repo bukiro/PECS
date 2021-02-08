@@ -27,6 +27,11 @@ export class TimeService {
         return this.yourTurn;
     }
 
+    set_YourTurn(yourTurn: number) {
+        //Only used when loading a character
+        this.yourTurn = yourTurn;
+    }
+
     start_Turn(characterService: CharacterService, conditionsService: ConditionsService, itemsService: ItemsService, spellsService: SpellsService, effectsService: EffectsService) {
 
         //Fast Healing

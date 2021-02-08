@@ -4,7 +4,7 @@
             title="Source: {{conditionGain.source}}">{{conditionGain.name}}{{conditionGain.choice ? ": " : ""}}
             <input id="{{conditionGain.id+'choice'}}" class="invisible" type="checkbox"
                 [(ngModel)]="conditionGain.showChoices" *ngIf="condition.choices.length && !conditionGain.choiceLocked">
-            <label for="{{conditionGain.id+'choice'}}" title="Edit effect choice" *ngIf="condition.choices.length && !conditionGain.choiceLocked">&#8997;</label>
+            <label for="{{conditionGain.id+'choice'}}" class="fullsize-only" title="Edit effect choice" *ngIf="condition.choices.length && !conditionGain.choiceLocked">&#8997;</label>
             {{conditionGain.choice ? conditionGain.choice : ""}}
             {{(conditionGain.value) ? conditionGain.value : ""}}
         </strong>
@@ -13,10 +13,10 @@
     </span><span class="fullsize-only">
         <input id="{{conditionGain.id+'notes'}}" class="invisible" type="checkbox"
             [(ngModel)]="conditionGain.showNotes">
-        <label for="{{conditionGain.id+'notes'}}" title="Edit notes">&#9998;</label>
+        <label for="{{conditionGain.id+'notes'}}" class="fullsize-only" title="Edit notes">&#9998;</label>
         <input id="{{conditionGain.id+'duration'}}" class="invisible" type="checkbox"
             [(ngModel)]="conditionGain.showVariables">
-        <label for="{{conditionGain.id+'duration'}}" title="Change duration and value"
+        <label for="{{conditionGain.id+'duration'}}" class="fullsize-only" title="Change duration and value"
             *ngIf="conditionGain.duration > -1 || conditionGain.value">&#9881;</label>
     </span>
 </div>
@@ -118,8 +118,13 @@
         <span>
             <button (click)="remove_Condition(conditionGain)"
                 title="{{conditionGain.source.includes('Feat: ') ? 'Conditions gained from feats cannot be removed.' : ''}}"
-                [disabled]="conditionGain.source.includes('Feat: ')">
+                [disabled]="conditionGain.source.includes('Feat: ')" *ngIf="conditionGain.duration != 1">
                 Remove
+            </button>
+            <button (click)="remove_Condition(conditionGain)"
+                title="Instant effects should be resolved immediately and then ended."
+                *ngIf="conditionGain.duration == 1">
+                Done
             </button>
         </span>
         <span>
