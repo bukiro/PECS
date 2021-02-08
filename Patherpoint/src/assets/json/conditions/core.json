@@ -4536,6 +4536,36 @@
          {
             "affected": "Reflex",
             "value": "-2"
+         },
+         {
+            "affected": "Expert Bestial Mutagen Jaws (Major) Damage",
+            "hidden": true,
+            "value": "Value == 4 && !Has_Feat(Creature.type, 'Greater Weapon Specialization') ? 2 : 0"
+         },
+         {
+            "affected": "Master Bestial Mutagen Jaws (Major) Damage",
+            "hidden": true,
+            "value": "Value == 4 && !Has_Feat(Creature.type, 'Greater Weapon Specialization') ? 3 : 0"
+         },
+         {
+            "affected": "Legendary Bestial Mutagen Jaws (Major) Damage",
+            "hidden": true,
+            "value": "Value == 4 && !Has_Feat(Creature.type, 'Greater Weapon Specialization') ? 4 : 0"
+         },
+         {
+            "affected": "Expert Bestial Mutagen Claw (Major) Damage",
+            "hidden": true,
+            "value": "Value == 4 && !Has_Feat(Creature.type, 'Greater Weapon Specialization') ? 2 : 0"
+         },
+         {
+            "affected": "Master Bestial Mutagen Claw (Major) Damage",
+            "hidden": true,
+            "value": "Value == 4 && !Has_Feat(Creature.type, 'Greater Weapon Specialization') ? 3 : 0"
+         },
+         {
+            "affected": "Legendary Bestial Mutagen Claw (Major) Damage",
+            "hidden": true,
+            "value": "Value == 4 && !Has_Feat(Creature.type, 'Greater Weapon Specialization') ? 4 : 0"
          }
       ]
    },

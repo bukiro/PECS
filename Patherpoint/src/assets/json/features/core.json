@@ -50,7 +50,20 @@
     {
         "name": "Greater Weapon Specialization",
         "desc": "Your damage from weapon specialization increases to 4 with weapons and unarmed attacks in which you're an expert, 6 if you're a master, and 8 if you're legendary.",
-        "internalNote": "The effect is hardcoded."
+        "effects": [
+            {
+                "affected": "Expert Proficiency Attack Damage",
+                "value": "2"
+            },
+            {
+                "affected": "Master Proficiency Attack Damage",
+                "value": "3"
+            },
+            {
+                "affected": "Legendary Proficiency Attack Damage",
+                "value": "4"
+            }
+        ]
     },
     {
         "name": "Hunt Prey",
@@ -348,7 +361,20 @@
     {
         "name": "Weapon Specialization",
         "desc": "You've learned how to inflict greater injuries with the weapons you know best. You deal 2 additional damage with weapons and unarmed attacks in which you are an expert. This damage increases to 3 if you're a master, and 4 if you're legendary.",
-        "internalNote": "The effect is hardcoded."
+        "effects": [
+            {
+                "affected": "Expert Proficiency Attack Damage",
+                "value": "2"
+            },
+            {
+                "affected": "Master Proficiency Attack Damage",
+                "value": "3"
+            },
+            {
+                "affected": "Legendary Proficiency Attack Damage",
+                "value": "4"
+            }
+        ]
     },
     {
         "name": "Wild Stride",
@@ -558,7 +584,20 @@
         "name": "Greater Weapon Specialization (Barbarian)",
         "desc": "The weapons you've mastered become truly fearsome in your hands. Your damage from weapon specialization increases to 4 with weapons and unarmed attacks in which you're an expert, 6 if you're a master, and 8 if you're legendary. You gain a greater benefit from your instinct's specialization ability.",
         "superType": "Greater Weapon Specialization",
-        "internalNote": "The effect is hardcoded."
+        "effects": [
+            {
+                "affected": "Expert Proficiency Attack Damage",
+                "value": "2"
+            },
+            {
+                "affected": "Master Proficiency Attack Damage",
+                "value": "3"
+            },
+            {
+                "affected": "Legendary Proficiency Attack Damage",
+                "value": "4"
+            }
+        ]
     },
     {
         "name": "Heightened Senses",
@@ -626,8 +665,21 @@
     {
         "name": "Weapon Specialization (Barbarian)",
         "desc": "Your rage helps you hit harder. You deal an additional 2 damage with weapons and unarmed attacks in which you have expert proficiency. This damage increases to 3 if you're a master, and 4 if you're legendary. You gain your instinct's specialization ability.",
-        "internalNote": "The effect is hardcoded.",
-        "superType": "Weapon Specialization"
+        "superType": "Weapon Specialization",
+        "effects": [
+            {
+                "affected": "Expert Proficiency Attack Damage",
+                "value": "2"
+            },
+            {
+                "affected": "Master Proficiency Attack Damage",
+                "value": "3"
+            },
+            {
+                "affected": "Legendary Proficiency Attack Damage",
+                "value": "4"
+            }
+        ]
     },
     {
         "name": "Bard Weapon Expertise",
@@ -1065,8 +1117,21 @@
     {
         "name": "Weapon Specialization (Sorcerer)",
         "desc": "You've learned to inflict grave wounds with your practiced weapons. You deal 2 additional damage with weapons and unarmed attacks in which you are an expert. This damage increases to 3 if you're a master, and 4 if you're legendary.",
-        "internalNote": "The effect is hardcoded.",
-        "superType": "Weapon Specialization"
+        "superType": "Weapon Specialization",
+        "effects": [
+            {
+                "affected": "Expert Proficiency Attack Damage",
+                "value": "2"
+            },
+            {
+                "affected": "Master Proficiency Attack Damage",
+                "value": "3"
+            },
+            {
+                "affected": "Legendary Proficiency Attack Damage",
+                "value": "4"
+            }
+        ]
     },
     {
         "name": "Arcane Bond",

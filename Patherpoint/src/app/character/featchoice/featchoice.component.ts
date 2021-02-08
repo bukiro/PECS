@@ -89,6 +89,15 @@ export class FeatchoiceComponent implements OnInit {
         return index;
     }
 
+    trackBySubType(index: number, subfeatSet: { available: boolean, subfeat: Feat }) {
+        //Subfeat options are sorted by whether they are available or not. When you take one, you might now meet the prerequisites
+        // for another subfeat that gets pushed to the "available" section and may change the order of options.
+        // This can lead to another option now being checked in the position of the taken option.
+        // By tracking by subtype instead of index, we make sure the correct subfeats get redrawn.
+        return subfeatSet.subfeat.subType;
+        // This is not a problem for feats because the next stage of a feat chain is usually on a higher level, and they are also sorted by level.
+    }
+
     get_Character() {
         return this.characterService.get_Character();
     }

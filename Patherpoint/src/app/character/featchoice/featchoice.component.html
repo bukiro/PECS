@@ -33,11 +33,8 @@
                 <!-- End Filter -->
                 <ng-container *ngFor="let featSets of [get_AvailableFeats(choice)]; trackBy:trackByIndex;">
                     <div class="list-item" *ngIf="get_AvailableFeatsCount(featSets) < availableFeats">
-                        <span>There are fewer feats available than you are allowed to take. This may be due to a feat
-                            choice with limited options, and it might be intended at this time.</span>
-                        <span *ngIf="choice.dynamicLevel">This feat choice has a dynamic level. This could change the
-                            number
-                            of available feats at a later time.</span>
+                        <span>There are fewer results available than you are allowed to take. This may be due to a choice with limited options, and it might be intended at this time.</span>
+                        <span *ngIf="!lowerLevelFeats">More results may be found if you allow lower and higher level feats.</span>
                         <span *ngIf="choice.showOnCurrentLevel">This feat choice is always available on your current
                             character level. This could change the number of available feats at a later time.</span>
                     </div>
@@ -79,10 +76,9 @@
                             <div class="row lower" *ngIf="get_ShowFeat()==itemID">
                                 <!--Subfeats-->
                                 <div class="list-item"
-                                    [ngClass]="{'selected':featTakenByThis(subfeatSet.subfeat, choice)}"
+                                    [ngClass]="{'selected':featTakenByThis(subfeatSet.subfeat, choice), 'unavailable':(!subfeatSet.available)}"
                                     style="justify-content: flex-end;"
-                                    *ngFor="let subfeatSet of get_SubFeats(featSet.feat, choice); trackBy:trackByIndex;"
-                                    [ngClass]="{'unavailable':(!subfeatSet.available)}">
+                                    *ngFor="let subfeatSet of get_SubFeats(featSet.feat, choice); trackBy:trackBySubType;">
                                     <div class="row left-aligned"
                                         *ngFor="let subItemID of [choice.id+subfeatSet.subfeat.name+'desc']; trackBy:trackByIndex;">
                                         <span style="flex-grow:2">

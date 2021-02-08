@@ -75,7 +75,7 @@ The very latest in Assistive Technologies for Dungeon Master (ATDM)
 - [x] Implement all Backgrounds (excluding Advanced Character Guide)
 - [ ] Implement all Classes and Multiclass Archetypes (excluding Advanced Character Guide)
 - [ ] - Alchemist
-- [ ] - Barbarian
+- [x] - Barbarian
 - [x] - Bard
 - [ ] - Champion
 - [ ] - Cleric
@@ -110,8 +110,6 @@ The very latest in Assistive Technologies for Dungeon Master (ATDM)
 - [ ] Stretch Goal: Include optional systems like Stamina & Resolve
 
 Active to-do:
-Bug: When dropping sorcerer bloodline gained through sorcerer dedication, you also lose the spell slots from the spellcasting feats, but not the feats. After adding the bloodline, the spells remain lost until you deselect and select the spellcasting feats.
-Bug: Taking Simple Weapon Proficiency (General Feat) re-sorts the subfeats and shows Martial Weapon Proficiency as ticked. The checkbox of Simple WP can be unchecked twice, whereas the second time throws an error.
 
 Implement:
 
@@ -124,4 +122,3 @@ Next steps:
 - Leshy
 - Shoony
 - Implement Conditions for Poisons
-- Maybe turn Weapon Specialization into an effect (like "Master Weapon Damage +3")

@@ -424,6 +424,9 @@ export class Weapon extends Equipment {
     damage(creature: Character | AnimalCompanion, characterService: CharacterService, effectsService: EffectsService, range: string) {
         //Lists the damage dice and damage bonuses for a ranged or melee attack with this weapon.
         //Returns a string in the form of "1d6+5 B\n+1d6 Fire"
+        if (!this.dicenum && !this.dicesize && !this.extraDamage) {
+            return ["0", "", [], [], []];
+        }
         let explain: string = "";
         let str = characterService.get_Abilities("Strength")[0].mod(creature, characterService, effectsService).result;
         let dex = characterService.get_Abilities("Dexterity")[0].mod(creature, characterService, effectsService).result;
@@ -650,43 +653,6 @@ export class Weapon extends Equipment {
             }
         }
         let featBonus: number = 0;
-        //Weapon Specialization grants extra damage according to your proficiency.
-        //For the Major Bestial Mutagen attacks, you gain Weapon Specialization, or greater if it already applies.
-        if (characterService.get_Features().some(feature => feature.name.includes("Weapon Specialization") && feature.have(creature, characterService))) {
-            let greaterWeaponSpecialization = (characterService.get_Features().filter(feature => feature.name.includes("Greater Weapon Specialization") && feature.have(creature, characterService)).length > 0);
-            switch (this.profLevel(creature, characterService, runeSource[1])) {
-                case 4:
-                    if (greaterWeaponSpecialization || ["Bestial Mutagen Jaws (Major)", "Bestial Mutagen Claw (Major)"].includes(this.name)) {
-                        featBonus += 4;
-                        explain += "\nGreater Weapon Specialization: 4";
-                    } else {
-                        featBonus += 2;
-                        explain += "\nWeapon Specialization: 2";
-                    }
-                    break;
-                case 6:
-                    if (greaterWeaponSpecialization || ["Bestial Mutagen Jaws (Major)", "Bestial Mutagen Claw (Major)"].includes(this.name)) {
-                        featBonus += 6;
-                        explain += "\nGreater Weapon Specialization: 6";
-                    } else {
-                        featBonus += 3;
-                        explain += "\nWeapon Specialization: 3";
-                    }
-                    break;
-                case 8:
-                    if (greaterWeaponSpecialization || ["Bestial Mutagen Jaws (Major)", "Bestial Mutagen Claw (Major)"].includes(this.name)) {
-                        featBonus += 8;
-                        explain += "\nGreater Weapon Specialization: 8";
-                    } else {
-                        featBonus += 4;
-                        explain += "\nWeapon Specialization: 4";
-                    }
-                    break;
-            }
-        } else if (["Bestial Mutagen Jaws (Major)", "Bestial Mutagen Claw (Major)"].includes(this.name)) {
-            featBonus += 2;
-            explain += "\nWeapon Specialization: 2";
-        }
         if (creature.type == "Companion") {
             creature.class.levels.filter(level => level.number <= creature.level).forEach(level => {
                 if (level.extraDamage) {
@@ -700,63 +666,14 @@ export class Weapon extends Equipment {
             })
         }
         let dmgBonus: number = abilityMod + featBonus;
-        let list: string[] = [range + " Damage"];
-        if (this.traits.includes("Agile")) {
-            //"Agile Large Melee Weapon Damage"
-            if (this.large) {
-                list.push("Agile Large " + range + " Weapon Damage")
-            }
-            //"Agile Melee Damage"
-            list.push("Agile " + range + " Damage");
-            if ((range == "ranged") && this.traits.some(trait => trait.includes("Thrown"))) {
-                //"Agile Thrown Large Weapon Damage"
-                if (this.large) {
-                    list.push("Agile Thrown Large Weapon Damage")
-                }
-                //"Agile Thrown Weapon Damage"
-                list.push("Agile Thrown Weapon Damage");
-            }
-        } else {
-            //"Non-Agile Large Melee Weapon Damage"
-            if (this.large) {
-                list.push("Non-Agile Large " + range + " Weapon Damage")
-            }
-            //"Non-Agile Melee Damage"
-            list.push("Non-Agile " + range + " Damage");
-            if ((range == "ranged") && this.traits.some(trait => trait.includes("Thrown"))) {
-                //"Non-Agile Thrown Large Weapon Damage"
-                if (this.large) {
-                    list.push("Non-Agile Thrown Large Weapon Damage")
-                }
-                //"Non-Agile Thrown Weapon Damage"
-                list.push("Non-Agile Thrown Weapon Damage");
-            }
-        }
-        effectsService.get_AbsolutesOnThese(creature, list)
-            .forEach(effect => {
-                if (!effect.hide) {
-                    absolutes.push({ value: 0, setValue: effect.setValue, source: effect.source, penalty: false })
-                }
-                dmgBonus = parseInt(effect.setValue);
-                explain = effect.source + ": " + parseInt(effect.setValue);
-            })
-        let effectBonus = 0;
-        let abilityName: string = "";
-        if (strUsed) {
-            abilityName = "Strength";
-        }
-        if (dexUsed) {
-            abilityName = "Dexterity";
-        }
-        list = [
+        let profLevel = this.profLevel(creature, characterService, runeSource[1]);
+        let list = [
             "Damage Rolls",
             this.name + " Damage",
             //"Longsword Damage", "Fist Melee Damage"
             this.weaponBase + " Damage",
             //"Melee Damage", "Ranged Damage"
-            range + " Damage",
-            //"Strength-based Checks and DCs"
-            abilityName + "-based Checks and DCs"
+            range + " Damage"
         ];
         if (this.traits.includes("Agile")) {
             //"Agile Large Melee Weapon Damage"
@@ -789,10 +706,46 @@ export class Weapon extends Equipment {
                 list.push("Non-Agile Thrown Weapon Damage");
             }
         }
+        effectsService.get_AbsolutesOnThese(creature, list)
+            .forEach(effect => {
+                if (!effect.hide) {
+                    absolutes.push({ value: 0, setValue: effect.setValue, source: effect.source, penalty: false })
+                }
+                dmgBonus = parseInt(effect.setValue);
+                explain = effect.source + ": " + parseInt(effect.setValue);
+            })
+        let effectBonus = 0;
+        let abilityName: string = "";
+        if (strUsed) {
+            abilityName = "Strength";
+        }
+        if (dexUsed) {
+            abilityName = "Dexterity";
+        }
+        //"Strength-based Checks and DCs"
+        list.push(abilityName + "-based Checks and DCs");
         if (this.prof == "Unarmed Attacks") {
             list.push("Unarmed Damage per Die");
         } else {
             list.push("Weapon Damage per Die");
+        }
+        switch (profLevel) {
+            case 2:
+                list.push("Trained Proficiency Attack Damage")
+                list.push("Trained " + this.name + " Attack Damage")
+                break;
+            case 4:
+                list.push("Expert Proficiency Attack Damage")
+                list.push("Expert " + this.name + " Damage")
+                break;
+            case 6:
+                list.push("Master Proficiency Attack Damage")
+                list.push("Master " + this.name + " Damage")
+                break;
+            case 8:
+                list.push("Legendary Proficiency Attack Damage")
+                list.push("Legendary " + this.name + " Damage")
+                break;
         }
         effectsService.get_RelativesOnThese(creature, list)
             .forEach(effect => {
