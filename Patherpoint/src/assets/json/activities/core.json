@@ -124,7 +124,15 @@
         ],
         "requirements": "You're aware of the attack, are not flat-footed against it, and have a hand free.",
         "trigger": "You are the target of a physical ranged attack.",
-        "desc": "You gain a +4 circumstance bonus to AC against the triggering attack. If the attack misses, you have deflected it. You cannot use this feat to deflect unusually massive ranged projectiles (such as boulders or ballista bolts)."
+        "toggle": true,
+        "desc": "You gain a +4 circumstance bonus to AC against the triggering attack. If the attack misses, you have deflected it. You cannot use this feat to deflect unusually massive ranged projectiles (such as boulders or ballista bolts).",
+        "gainConditions": [
+            {
+                "duration": 1,
+                "name": "Deflect Arrows",
+                "source": "Deflect Arrows"
+            }
+        ]
     },
     {
         "name": "Flying Kick",
@@ -150,7 +158,15 @@
             "Monk"
         ],
         "trigger": "You are targeted with a melee attack by an attacker you can see.",
-        "desc": "You interpose your arm between yourself and your opponent. Your circumstance bonus to AC from Crane Stance increases to +3 against the triggering attack. If the attack misses you, you can immediately make a crane wing Strike against the attacker at a -2 penalty, even if the attacker isn't within your reach."
+        "toggle": true,
+        "desc": "You interpose your arm between yourself and your opponent. Your circumstance bonus to AC from Crane Stance increases to +3 against the triggering attack. If the attack misses you, you can immediately make a crane wing Strike against the attacker at a -2 penalty, even if the attacker isn't within your reach.",
+        "gainConditions": [
+            {
+                "duration": 1,
+                "name": "Crane Flutter",
+                "source": "Crane Flutter"
+            }
+        ]
     },
     {
         "name": "Dragon Roar",
@@ -463,41 +479,15 @@
         ]
     },
     {
-        "name": "Call on Ancient Blood: Fortitude",
+        "name": "Call on Ancient Blood",
         "actions": "Reaction",
         "trigger": "You attempt a saving throw against a magical effect, but you haven't rolled yet.",
         "desc": "Your ancestors' innate resistance to magic surges, before slowly ebbing down. You gain a +1 circumstance bonus to the triggering saving throw and until the end of this turn.",
         "gainConditions": [
             {
                 "duration": 10,
-                "name": "Call on Ancient Blood: Fortitude",
-                "source": "Call on Ancient Blood: Fortitude"
-            }
-        ]
-    },
-    {
-        "name": "Call on Ancient Blood: Reflex",
-        "actions": "Reaction",
-        "trigger": "You attempt a saving throw against a magical effect, but you haven't rolled yet.",
-        "desc": "Your ancestors' innate resistance to magic surges, before slowly ebbing down. You gain a +1 circumstance bonus to the triggering saving throw and until the end of this turn.",
-        "gainConditions": [
-            {
-                "duration": 10,
-                "name": "Call on Ancient Blood: Reflex",
-                "source": "Call on Ancient Blood: Reflex"
-            }
-        ]
-    },
-    {
-        "name": "Call on Ancient Blood: Will",
-        "actions": "Reaction",
-        "trigger": "You attempt a saving throw against a magical effect, but you haven't rolled yet.",
-        "desc": "Your ancestors' innate resistance to magic surges, before slowly ebbing down. You gain a +1 circumstance bonus to the triggering saving throw and until the end of this turn.",
-        "gainConditions": [
-            {
-                "duration": 10,
-                "name": "Call on Ancient Blood: Will",
-                "source": "Call on Ancient Blood: Will"
+                "name": "Call on Ancient Blood",
+                "source": "Call on Ancient Blood"
             }
         ]
     },
@@ -886,7 +876,15 @@
         "name": "Resist Elf Magic",
         "actions": "Reaction",
         "trigger": "You attempt a saving throw against a magical effect but haven't rolled yet.",
-        "desc": "Your ancestral resistance to magic protects you. You gain a +1 circumstance bonus to the triggering saving throw. If the triggering effect is arcane, you gain a +2 circumstance bonus instead."
+        "toggle": true,
+        "desc": "Your ancestral resistance to magic protects you. You gain a +1 circumstance bonus to the triggering saving throw. If the triggering effect is arcane, you gain a +2 circumstance bonus instead.",
+        "gainConditions": [
+            {
+                "duration": 1,
+                "name": "Resist Elf Magic",
+                "source": "Resist Elf Magic"
+            }
+        ]
     },
     {
         "name": "Threatening Approach",
@@ -1862,6 +1860,7 @@
     {
         "name": "Guardian's Deflection",
         "actions": "Reaction",
+        "inputRequired": "If needed, your ally can grant themselves the Guardian's Deflection condition to apply the bonus to AC.",
         "traits": [
             "Fighter"
         ],
@@ -3009,7 +3008,15 @@
         "actions": "Reaction",
         "requirements": "You are not encumbered.",
         "trigger": "A creature targets you with an attack and you can see the attacker.",
-        "desc": "You deftly dodge out of the way, gaining a +2 circumstance bonus to AC against the triggering attack."
+        "toggle": true,
+        "desc": "You deftly dodge out of the way, gaining a +2 circumstance bonus to AC against the triggering attack.",
+        "gainConditions": [
+            {
+                "duration": 1,
+                "name": "Nimble Dodge",
+                "source": "Nimble Dodge"
+            }
+        ]
     },
     {
         "name": "Twin Feint",

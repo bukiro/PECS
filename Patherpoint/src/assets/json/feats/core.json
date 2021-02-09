@@ -32861,7 +32861,7 @@
         "hints": [
             {
                 "desc": "When you use your Call on Ancient Blood reaction against a divine spell and roll a critical failure on the saving throw against that spell, you get a failure instead.",
-                "showon": "Call on Ancient Blood: Fortitude, Call on Ancient Blood: Reflex, Call on Ancient Blood: Will"
+                "showon": "Call on Ancient Blood"
             }
         ],
         "access": "Vahird ethnicity",

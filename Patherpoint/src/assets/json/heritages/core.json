@@ -4,9 +4,7 @@
         "name": "Ancient-Blooded Dwarf",
         "desc": "Dwarven heroes of old could shrug off their enemies' magic, and some of that resistance manifests in you. You gain the Call on Ancient Blood reaction.",
         "gainActivities": [
-            "Call on Ancient Blood: Fortitude",
-            "Call on Ancient Blood: Reflex",
-            "Call on Ancient Blood: Will"
+            "Call on Ancient Blood"
         ]
     },
     {

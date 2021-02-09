@@ -1091,41 +1091,31 @@
       ]
    },
    {
-      "name": "Call on Ancient Blood: Fortitude",
-      "desc": "You gain a +1 circumstance bonus to Fortitude.",
+      "name": "Call on Ancient Blood",
+      "desc": "Your ancestors' innate resistance to magic surges, before slowly ebbing down. You gain a +1 circumstance bonus to the triggering saving throw and until the end of this turn.",
       "type": "activities",
       "buff": true,
+      "choice": "Fortitude",
+      "choices": [
+         "Fortitude",
+         "Reflex",
+         "Will"
+      ],
       "effects": [
          {
             "affected": "Fortitude",
             "type": "circumstance",
-            "value": "1"
-         }
-      ]
-   },
-   {
-      "name": "Call on Ancient Blood: Reflex",
-      "desc": "You gain a +1 circumstance bonus to Reflex.",
-      "type": "activities",
-      "buff": true,
-      "effects": [
+            "value": "Choice == 'Fortitude' ? 1 : 0"
+         },
          {
             "affected": "Reflex",
             "type": "circumstance",
-            "value": "1"
-         }
-      ]
-   },
-   {
-      "name": "Call on Ancient Blood: Will",
-      "desc": "You gain a +1 circumstance bonus to Will.",
-      "type": "activities",
-      "buff": true,
-      "effects": [
+            "value": "Choice == 'Reflex' ? 1 : 0"
+         },
          {
             "affected": "Will",
             "type": "circumstance",
-            "value": "1"
+            "value": "Choice == 'Will' ? 1 : 0"
          }
       ]
    },
@@ -15300,6 +15290,95 @@
          },
          {
             "affected": "Will",
+            "type": "circumstance",
+            "value": "2"
+         }
+      ]
+   },
+   {
+      "name": "Deflect Arrows",
+      "desc": "You gain a +4 circumstance bonus to AC against the triggering ranged attack. If the attack misses, you have deflected it.",
+      "type": "activities",
+      "buff": true,
+      "hide": true,
+      "effects": [
+         {
+            "affected": "Attack Rolls",
+            "type": "circumstance",
+            "value": "4"
+         }
+      ]
+   },
+   {
+      "name": "Crane Flutter",
+      "desc": "You interpose your arm between yourself and your opponent. Your circumstance bonus to AC from Crane Stance increases to +3 against the triggering attack. If the attack misses you, you can immediately make a crane wing Strike against the attacker at a -2 penalty, even if the attacker isn't within your reach.",
+      "type": "activities",
+      "buff": true,
+      "hide": true,
+      "hints": [
+         {
+            "desc": "If the attack misses you, you can immediately make a crane wing Strike against the attacker at a -2 penalty, even if the attacker isn't within your reach.",
+            "showon": "Attacks",
+            "effects": [
+               {
+                  "affected": "Attack Rolls",
+                  "value": "-2"
+               }
+            ]
+         }
+      ],
+      "effects": [
+         {
+            "affected": "Attack Rolls",
+            "cumulative": [
+               "Crane Stance"
+            ],
+            "type": "circumstance",
+            "value": "2"
+         }
+      ]
+   },
+   {
+      "name": "Resist Elf Magic",
+      "desc": "Your ancestral resistance to magic protects you. You gain a +1 circumstance bonus to the triggering saving throw. If the triggering effect is arcane, you gain a +2 circumstance bonus instead.",
+      "type": "activities",
+      "buff": true,
+      "hide": true,
+      "choice": "",
+      "choices": [
+         "",
+         "Arcane effect"
+      ],
+      "effects": [
+         {
+            "affected": "Saving Throws",
+            "type": "circumstance",
+            "value": "Choice == 'Arcane effect' ? 2 : 1"
+         }
+      ]
+   },
+   {
+      "name": "Guardian's Deflection",
+      "desc": "Your ally is using their weapon to deflect an attack against you, granting a +2 circumstance bonus to your Armor Class against the triggering attack. This turns the triggering critical hit into a hit, or the triggering hit into a miss.",
+      "type": "activities",
+      "buff": true,
+      "effects": [
+         {
+            "affected": "AC",
+            "type": "circumstance",
+            "value": "2"
+         }
+      ]
+   },
+   {
+      "name": "Nimble Dodge",
+      "desc": "You deftly dodge out of the way, gaining a +2 circumstance bonus to AC against the triggering attack.",
+      "type": "activities",
+      "buff": true,
+      "hide": true,
+      "effects": [
+         {
+            "affected": "AC",
             "type": "circumstance",
             "value": "2"
          }
