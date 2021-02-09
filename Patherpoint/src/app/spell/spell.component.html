@@ -72,7 +72,7 @@
         </span>
     </div>
     <div class="row left-aligned" *ngFor="let desc of get_Heightened(spell.desc).split('\n\n'); trackBy:trackByIndex;">
-        <p *ngIf="desc.split('\n').length == 1" [innerHTML]="desc"></p>
+        <app-actionIcons><p *ngIf="desc.split('\n').length == 1" [innerHTML]="desc"></p></app-actionIcons>
         <ul *ngIf="desc.split('\n').length > 1">
             <li *ngFor="let line of desc.split('\n'); trackBy:trackByIndex;" [innerHTML]="line"></li>
         </ul>
