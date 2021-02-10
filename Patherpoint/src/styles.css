@@ -684,25 +684,50 @@ app-proficiency-form, .row app-proficiency-form {
     margin-right: 4px;
 }
 
-app-actionicons,
-app-actionicons svg {
+.actionIcon {
+    display: inline-block;
     height: 1em;
-    width: auto;
-    padding: 0 2px 0 2px;
+    margin: 0 2px;
+    background-color: currentColor;
+    -webkit-mask-size: contain;
+    mask-size: contain;
+    -webkit-mask-position: center;
+    mask-position: center;
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+}
+
+.action1A {
+    mask-image: url(/assets/img/1A.svg);
+    width: 1em;
+}
+
+.action2A {
+    mask-image: url(/assets/img/2A.svg);
+    width: 1.6em;
+}
+
+.action3A {
+    mask-image: url(/assets/img/3A.svg);
+    width: 2.1em;
+}
+
+.actionFree {
+    mask-image: url(/assets/img/Free.svg);
+    width: 1em;
+}
+
+.actionReaction {
+    mask-image: url(/assets/img/Reaction.svg);
+    width: 1em;
+}
+
+app-actionicons {
     display: inline-block;
 }
 
-h4 app-actionicons svg {
-    margin-bottom: -2px;
-}
-
-h4 app-actionicons span {
-    color: #cbc18f;
-}
-
-button app-actionicons span {
-    position: relative;
-    bottom: 1px;
+h4 app-actionicons .actionIcon {
+    background-color: #cbc18f;
 }
 
 .list-item {

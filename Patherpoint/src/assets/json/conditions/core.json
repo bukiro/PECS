@@ -15383,5 +15383,84 @@
             "value": "2"
          }
       ]
+   },
+   {
+      "name": "Goodberry",
+      "desc": "You have imbued the target berries with the bounty of nature, turning them into goodberries that can heal and sustain far beyond their normal capacity. A creature can eat a goodberry with an Interact action to regain 1d6+4 Hit Points. A berry not consumed during the duration withers away. Every six goodberries consumed gives as much nourishment as one square meal for a typical human.",
+      "type": "spells",
+      "buff": true,
+      "hasValue": true,
+      "inputRequired": "Reduce the value of the condition by 1 every time a goodberry is eaten."
+   },
+   {
+      "name": "Wild Morph",
+      "desc": "You morph your body based on your training, choosing one of the following effects based on your wild order feats.\n\nIf you have Wild Shape, you can morph your hands into wild claws. Your hands transform into incredibly sharp claws. These claws are an unarmed attack you're trained in and deal 1d6 slashing damage each (agile, finesse). Starting from 6th level, they leave terrible, ragged wounds that also deal 2d6 persistent bleed damage on a hit (4d6 on 10th level). You can still hold and use items with your hands while they're transformed by this spell, but you cannot hold an item while attacking. \nIf you have Insect Shape, you can instead transform your mouth into wild jaws, an unarmed attack you're trained in that deals 1d8 piercing damage. Starting from 6th level, wild jaws are envenomed, also dealing 2d6 persistent poison damage on a hit (4d6 on 10th level).\nIf you have Elemental Shape, you can morph your body to be partially composed of elemental matter, granting you resistance 5 to critical hits and precision damage.\nIf you have Plant Shape, you can morph your arms into long vines, increasing your reach to 10 feet (or 15 feet with a reach weapon).\nIf you have Soaring Shape, you can cast the spell as a two-action activity (Two Actions somatic, verbal) to grow wings from your back. These wings allow you to fly with a fly Speed of 30 feet.",
+      "type": "spells",
+      "buff": true,
+      "unlimited": true,
+      "choice": "Wild Shape: Wild Claws",
+      "choices": [
+         "Wild Shape: Wild Claws",
+         "Insect Shape: Wild Jaws",
+         "Elemental Shape: Resistance",
+         "Plant Shape: Reach",
+         "Soaring Shape: Fly Speed"
+      ],
+      "effects": [
+         {
+            "affected": "Critical Hit Resistance",
+            "value": "Has_Feat(Creature.type, 'Elemental Shape') && Choice == 'Elemental Shape: Resistance' ? 5 : 0"
+         },
+         {
+            "affected": "Precision Damage Resistance",
+            "value": "Has_Feat(Creature.type, 'Elemental Shape') && Choice == 'Elemental Shape: Resistance' ? 5 : 0"
+         },
+         {
+            "affected": "Reach",
+            "value": "Has_Feat(Creature.type, 'Plant Shape') && Choice == 'Plant Shape: Reach' ? 5 : 0"
+         },
+         {
+            "affected": "Fly Speed",
+            "setValue": "Has_Feat(Creature.type, 'Soaring Shape') && Choice == 'Soaring Shape: Fly Speed' ? 30 : 0"
+         }
+      ],
+      "gainItems": [
+         {
+            "conditionChoiceFilter": "Wild Shape: Wild Claws",
+            "heightenedFilter": 1,
+            "name": "Wild Morph Wild Claws",
+            "type": "weapons"
+         },
+         {
+            "conditionChoiceFilter": "Wild Shape: Wild Claws",
+            "heightenedFilter": 6,
+            "name": "Wild Morph Wild Claws (6th Level)",
+            "type": "weapons"
+         },
+         {
+            "conditionChoiceFilter": "Wild Shape: Wild Claws",
+            "heightenedFilter": 10,
+            "name": "Wild Morph Wild Claws (10th Level)",
+            "type": "weapons"
+         },
+         {
+            "conditionChoiceFilter": "Insect Shape: Wild Jaws",
+            "heightenedFilter": 1,
+            "name": "Wild Morph Wild Jaws",
+            "type": "weapons"
+         },
+         {
+            "conditionChoiceFilter": "Insect Shape: Wild Jaws",
+            "heightenedFilter": 6,
+            "name": "Wild Morph Wild Jaws (6th Level)",
+            "type": "weapons"
+         },
+         {
+            "conditionChoiceFilter": "Insect Shape: Wild Jaws",
+            "heightenedFilter": 10,
+            "name": "Wild Morph Wild Jaws (10th Level)",
+            "type": "weapons"
+         }
+      ]
    }
 ]

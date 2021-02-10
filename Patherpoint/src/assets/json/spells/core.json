@@ -1971,6 +1971,291 @@
         ]
     },
     {
+        "name": "Heal Animal",
+        "id": "2c86ce55-7cee-4253-83b0-2c05b4cca142",
+        "shortDesc": "You heal an animal's wounds.",
+        "actions": "1A to 2A",
+        "castType": "somatic",
+        "levelreq": 1,
+        "traditions": [
+            "Focus"
+        ],
+        "traits": [
+            "Uncommon",
+            "Druid",
+            "Healing",
+            "Necromancy",
+            "Positive"
+        ],
+        "range": "touch or 30 feet (see text)",
+        "targets": "1 willing living animal creature",
+        "singleTarget": true,
+        "desc": "You heal an animal's wounds, restoring <var>var1</var>d8 Hit Points to the target. The number of actions spent Casting this Spell determines its effect.\n\n<strong><span class='actionIcon action1A'></span> somatic</strong> The spell has a range of touch.\n<strong><span class='actionIcon action2A'></span> somatic, verbal</strong> The spell has a range of 30 feet and restores an additional <var>var2</var> Hit Points to the target.",
+        "heightened": [
+            {
+                "desc": "The amount of healing increases by 1d8, and the additional healing for the 2-action version increases by 8.",
+                "level": "(+1)"
+            }
+        ],
+        "desc1": [
+            {
+                "value": "1",
+                "variable": "var1"
+            },
+            {
+                "value": "8",
+                "variable": "var2"
+            }
+        ],
+        "desc2": [
+            {
+                "value": "2",
+                "variable": "var1"
+            },
+            {
+                "value": "16",
+                "variable": "var2"
+            }
+        ],
+        "desc3": [
+            {
+                "value": "3",
+                "variable": "var1"
+            },
+            {
+                "value": "24",
+                "variable": "var2"
+            }
+        ],
+        "desc4": [
+            {
+                "value": "4",
+                "variable": "var1"
+            },
+            {
+                "value": "32",
+                "variable": "var2"
+            }
+        ],
+        "desc5": [
+            {
+                "value": "5",
+                "variable": "var1"
+            },
+            {
+                "value": "40",
+                "variable": "var2"
+            }
+        ],
+        "desc6": [
+            {
+                "value": "6",
+                "variable": "var1"
+            },
+            {
+                "value": "48",
+                "variable": "var2"
+            }
+        ],
+        "desc7": [
+            {
+                "value": "7",
+                "variable": "var1"
+            },
+            {
+                "value": "56",
+                "variable": "var2"
+            }
+        ],
+        "desc8": [
+            {
+                "value": "8",
+                "variable": "var1"
+            },
+            {
+                "value": "64",
+                "variable": "var2"
+            }
+        ],
+        "desc9": [
+            {
+                "value": "9",
+                "variable": "var1"
+            },
+            {
+                "value": "72",
+                "variable": "var2"
+            }
+        ],
+        "desc10": [
+            {
+                "value": "10",
+                "variable": "var1"
+            },
+            {
+                "value": "80",
+                "variable": "var2"
+            }
+        ]
+    },
+    {
+        "name": "Goodberry",
+        "id": "b6dde087-d5a9-4ef6-a53a-54534bbf3941",
+        "shortDesc": "You imbue the target berry with the bounty of nature, allowing it to heal and sustain far beyond its normal capacity.",
+        "actions": "2A",
+        "castType": "somatic, verbal",
+        "levelreq": 1,
+        "traditions": [
+            "Focus"
+        ],
+        "traits": [
+            "Uncommon",
+            "Druid",
+            "Healing",
+            "Necromancy"
+        ],
+        "range": "touch",
+        "targets": "1 ripe berry",
+        "desc": "<var>var1</var>You imbue the target berry with the bounty of nature, turning it into a goodberry that can heal and sustain far beyond its normal capacity. A creature can eat the goodberry with an Interact action to regain 1d6+4 Hit Points. A berry not consumed during the duration withers away. Every six goodberries consumed gives as much nourishment as one square meal for a typical human.",
+        "heightened": [
+            {
+                "desc": "You can target an additional berry. A creature can consume any number of goodberries from the same casting with a single Interact action.",
+                "level": "(+1)"
+            }
+        ],
+        "gainConditions": [
+            {
+                "duration": 1000,
+                "heightenedFilter": 1,
+                "name": "Goodberry",
+                "source": "Goodberry",
+                "value": 1
+            },
+            {
+                "duration": 1000,
+                "heightenedFilter": 2,
+                "name": "Goodberry",
+                "source": "Goodberry",
+                "value": 2
+            },
+            {
+                "duration": 1000,
+                "heightenedFilter": 3,
+                "name": "Goodberry",
+                "source": "Goodberry",
+                "value": 3
+            },
+            {
+                "duration": 1000,
+                "heightenedFilter": 4,
+                "name": "Goodberry",
+                "source": "Goodberry",
+                "value": 4
+            },
+            {
+                "duration": 1000,
+                "heightenedFilter": 5,
+                "name": "Goodberry",
+                "source": "Goodberry",
+                "value": 5
+            },
+            {
+                "duration": 1000,
+                "heightenedFilter": 6,
+                "name": "Goodberry",
+                "source": "Goodberry",
+                "value": 6
+            },
+            {
+                "duration": 1000,
+                "heightenedFilter": 7,
+                "name": "Goodberry",
+                "source": "Goodberry",
+                "value": 7
+            },
+            {
+                "duration": 1000,
+                "heightenedFilter": 8,
+                "name": "Goodberry",
+                "source": "Goodberry",
+                "value": 8
+            },
+            {
+                "duration": 1000,
+                "heightenedFilter": 9,
+                "name": "Goodberry",
+                "source": "Goodberry",
+                "value": 9
+            },
+            {
+                "duration": 1000,
+                "heightenedFilter": 10,
+                "name": "Goodberry",
+                "source": "Goodberry",
+                "value": 10
+            }
+        ],
+        "desc1": [
+            {
+                "variable": "var1"
+            }
+        ],
+        "desc2": [
+            {
+                "value": "You can target two berries. A creature can consume any number of goodberries from the same casting with a single Interact action. ",
+                "variable": "var1"
+            }
+        ],
+        "desc3": [
+            {
+                "value": "You can target three berries. A creature can consume any number of goodberries from the same casting with a single Interact action. ",
+                "variable": "var1"
+            }
+        ],
+        "desc4": [
+            {
+                "value": "You can target four berries. A creature can consume any number of goodberries from the same casting with a single Interact action. ",
+                "variable": "var1"
+            }
+        ],
+        "desc5": [
+            {
+                "value": "You can target five berries. A creature can consume any number of goodberries from the same casting with a single Interact action. ",
+                "variable": "var1"
+            }
+        ],
+        "desc6": [
+            {
+                "value": "You can target six berries. A creature can consume any number of goodberries from the same casting with a single Interact action. ",
+                "variable": "var1"
+            }
+        ],
+        "desc7": [
+            {
+                "value": "You can target seven berries. A creature can consume any number of goodberries from the same casting with a single Interact action. ",
+                "variable": "var1"
+            }
+        ],
+        "desc8": [
+            {
+                "value": "You can target eight berries. A creature can consume any number of goodberries from the same casting with a single Interact action. ",
+                "variable": "var1"
+            }
+        ],
+        "desc9": [
+            {
+                "value": "You can target nine berries. A creature can consume any number of goodberries from the same casting with a single Interact action. ",
+                "variable": "var1"
+            }
+        ],
+        "desc10": [
+            {
+                "value": "You can target ten berries. A creature can consume any number of goodberries from the same casting with a single Interact action. ",
+                "variable": "var1"
+            }
+        ]
+    },
+    {
         "name": "Tempest Surge",
         "id": "e1f6c167-632c-41ab-a6f1-e079921fcbfb",
         "shortDesc": "You surround a foe in a swirling storm of violent winds, roiling clouds, and crackling lightning.",
@@ -2004,7 +2289,7 @@
                 "variable": "var1"
             },
             {
-                "value": "1",
+                "value": 1,
                 "variable": "var2"
             }
         ],
@@ -2014,7 +2299,7 @@
                 "variable": "var1"
             },
             {
-                "value": "2",
+                "value": 2,
                 "variable": "var2"
             }
         ],
@@ -2024,7 +2309,7 @@
                 "variable": "var1"
             },
             {
-                "value": "3",
+                "value": 3,
                 "variable": "var2"
             }
         ],
@@ -2034,7 +2319,7 @@
                 "variable": "var1"
             },
             {
-                "value": "4",
+                "value": 4,
                 "variable": "var2"
             }
         ],
@@ -2044,7 +2329,7 @@
                 "variable": "var1"
             },
             {
-                "value": "5",
+                "value": 5,
                 "variable": "var2"
             }
         ],
@@ -2064,7 +2349,7 @@
                 "variable": "var1"
             },
             {
-                "value": "7",
+                "value": 7,
                 "variable": "var2"
             }
         ],
@@ -2074,7 +2359,7 @@
                 "variable": "var1"
             },
             {
-                "value": "8",
+                "value": 8,
                 "variable": "var2"
             }
         ],
@@ -2084,7 +2369,7 @@
                 "variable": "var1"
             },
             {
-                "value": "9",
+                "value": 9,
                 "variable": "var2"
             }
         ],
@@ -2096,6 +2381,127 @@
             {
                 "value": "10",
                 "variable": "var2"
+            }
+        ]
+    },
+    {
+        "name": "Wild Morph",
+        "id": "4a301068-55c5-4293-8387-fa2b53b5d55d",
+        "shortDesc": "You morph your body based on your training, choosing one of the following effects based on your wild order feats.",
+        "actions": "1A to 2A",
+        "castType": "somatic, verbal",
+        "levelreq": 1,
+        "traditions": [
+            "Focus"
+        ],
+        "traits": [
+            "Uncommon",
+            "Druid",
+            "Morph",
+            "Transmutation"
+        ],
+        "internalNote": "If you choose multiple effects, cast the spell multiple times. The focus points will be automatically restored for each casting after the first.",
+        "target": "self",
+        "allowReturnFocusPoint": true,
+        "desc": "<var>var1</var>You morph your body based on your training, choosing one of the following effects based on your wild order feats.\n\nIf you have Wild Shape, you can morph your hands into wild claws. Your hands transform into incredibly sharp claws. These claws are an unarmed attack you're trained in and deal 1d6 slashing damage each (agile, finesse). <var>var2</var>You can still hold and use items with your hands while they're transformed by this spell, but you cannot hold an item while attacking.\nIf you have Insect Shape, you can instead transform your mouth into wild jaws, an unarmed attack you're trained in that deals 1d8 piercing damage<var>var3</var>.\nIf you have Elemental Shape, you can morph your body to be partially composed of elemental matter, granting you resistance 5 to critical hits and precision damage.\nIf you have Plant Shape, you can morph your arms into long vines, increasing your reach to 10 feet (or 15 feet with a reach weapon).\nIf you have Soaring Shape, you can cast the spell as a two-action activity (<span class='actionIcon action2A'></span> somatic, verbal) to grow wings from your back. These wings allow you to fly with a fly Speed of 30 feet.",
+        "heightened": [
+            {
+                "desc": "You can choose up to two of the effects from the list. Wild claws leave terrible, ragged wounds that also deal 2d6 persistent bleed damage on a hit, and wild jaws are envenomed, also dealing 2d6 persistent poison damage on a hit.",
+                "level": "(6th)"
+            },
+            {
+                "desc": "You can choose up to three of the effects from the list. Wild claws deal 4d6 persistent bleed damage on a hit, and wild jaws deal 4d6 persistent poison damage on a hit.",
+                "level": "(10th)"
+            }
+        ],
+        "gainConditions": [
+            {
+                "duration": 100,
+                "name": "Wild Morph",
+                "source": "Wild Morph"
+            }
+        ],
+        "desc1": [
+            {
+                "variable": "var1"
+            },
+            {
+                "variable": "var2"
+            },
+            {
+                "variable": "var3"
+            }
+        ],
+        "desc6": [
+            {
+                "value": "You can choose up to two of the effects from the list. ",
+                "variable": "var1"
+            },
+            {
+                "value": " They leave terrible, ragged wounds that also deal 2d6 persistent bleed damage on a hit.",
+                "variable": "var2"
+            },
+            {
+                "value": " and is envenomed, also dealing 2d6 persistent poison damage on a hit.",
+                "variable": "var3"
+            }
+        ],
+        "desc10": [
+            {
+                "value": "You can choose up to three of the effects from the list. ",
+                "variable": "var1"
+            },
+            {
+                "value": " They leave terrible, ragged wounds that also deal 4d6 persistent bleed damage on a hit.",
+                "variable": "var2"
+            },
+            {
+                "value": " and is envenomed, also dealing 4d6 persistent poison damage on a hit.",
+                "variable": "var3"
+            }
+        ]
+    },
+    {
+        "name": "Wild Shape",
+        "id": "0e6ef13d-7a12-4322-8356-8ff682b3f226",
+        "shortDesc": "You infuse yourself with primal essence and transform yourself into another form.",
+        "actions": "2A",
+        "castType": "somatic, verbal",
+        "levelreq": 1,
+        "traditions": [
+            "Focus"
+        ],
+        "traits": [
+            "Uncommon",
+            "Druid",
+            "Polymorph",
+            "Transmutation"
+        ],
+        "target": "self",
+        "sustained": -1,
+        "desc": "You infuse yourself with primal essence and transform yourself into another form. You can polymorph into any form listed in pest form, which lasts 10 minutes. <var>var1</var>All other wild shape forms last 1 minute. You can add more forms to your wild shape list with druid feats; your feat might grant you some or all of the forms from a given polymorph spell. When you transform into a form granted by a spell, you gain all the effects of the form you chose from a version of the spell heightened to wild shape's level. Wild shape allows you to use your own shapeshifting training more easily than most polymorph spells. When you choose to use your own attack modifier while polymorphed instead of the form's default attack modifier, you gain a +2 status bonus to your attack rolls.",
+        "heightened": [
+            {
+                "desc": "You can also wild shape into the forms listed in animal form.",
+                "level": "(2nd)"
+            }
+        ],
+        "gainConditions": [
+            {
+                "duration": -1,
+                "name": "Wild Shape",
+                "source": "Wild Shape"
+            }
+        ],
+        "desc1": [
+            {
+                "variable": "var1"
+            }
+        ],
+        "desc2": [
+            {
+                "value": "You can also wild shape into the forms listed in animal form, which lasts 1 minute. ",
+                "variable": "var1"
             }
         ]
     },
@@ -18932,7 +19338,7 @@
         ],
         "target": "self",
         "duration": "1 minute",
-        "desc": "Calling upon powerful transformative magic, you gain a <var>var_size</var> dragon battle form. You must have space to expand or the spell is lost. When you cast this spell, choose one type of chromatic or metallic dragon. While in this form, you gain the dragon trait. You have hands in this battle form and can take manipulate actions. You can Dismiss the spell.\n\nYou gain the following statistics and abilities regardless of which battle form you choose:\n\nAC = <var>var_ac</var> + your level. Ignore your armor's check penalty and Speed reduction.\n<var>var_temphp</var> temporary Hit Points.\nSpeed 40 feet, fly Speed 100 feet.\nResistance 10 against the damage type of your breath weapon (see below).\nDarkvision and imprecise scent 60 feet.\nOne or more unarmed melee attacks specific to the battle form you choose, which are the only attacks you can use. You're trained with them. Your attack modifier is <var>var_attack</var>, and your damage bonus is <var>var_dmgbonus</var>. These attacks are Strength based (for the purpose of the enfeebled condition, for example). If your unarmed attack modifier is higher, you can use it instead. See below for more on these attacks.\nAthletics modifier of <var>var_athletics</var>, unless your own modifier is higher.\n<strong>Breath Weapon</strong> (Two Actions) (arcane, evocation) The shape, damage, and damage type of your breath weapon depend on your specific dragon form (see below). A creature in the area attempts a basic save against your spell DC. This is a Reflex save unless stated otherwise in the special ability description for your specific dragon form. Once activated, your breath weapon can't be used again for 1d4 rounds. Your breath weapon has the trait corresponding to the type of damage it deals.<var>var_breathbonus</var>\n\nYou also gain specific abilities based on the type of dragon you choose:\n\n<strong>Black</strong> swim Speed 60 feet; <strong>Melee</strong> jaws<var>var_noreachnotraits</var>, <strong>Damage</strong> 2d12 piercing plus 2d6 acid; <strong>Melee</strong> claw (agile<var>var_noreachwithtraits</var>), <strong>Damage</strong> 3d10 slashing; <strong>Melee</strong> tail (reach <var>var_reach10</var> feet), <strong>Damage</strong> 3d10 bludgeoning; <strong>Melee</strong> horns (reach <var>var_reach10</var> feet), <strong>Damage</strong> 3d8 piercing; breath weapon 60-foot line, 11d6 acid.\n<strong>Blue</strong> burrow Speed 20 feet; <strong>Melee</strong> jaws<var>var_noreachnotraits</var>, <strong>Damage</strong> 2d10 piercing plus 1d12 electricity; <strong>Melee</strong> claw (agile<var>var_noreachwithtraits</var>), <strong>Damage</strong> 3d10 slashing; <strong>Melee</strong> tail (reach <var>var_reach10</var> feet), <strong>Damage</strong> 3d10 bludgeoning; <strong>Melee</strong> horns (reach <var>var_reach10</var> feet), <strong>Damage</strong> 3d8 piercing; breath weapon 80-foot line, 6d12 electricity.\n<strong>Brass</strong> burrow Speed 20 feet; <strong>Melee</strong> jaws<var>var_noreachnotraits</var>, <strong>Damage</strong> 3d8 piercing plus 2d4 fire; <strong>Melee</strong> claw (agile<var>var_noreachwithtraits</var>), <strong>Damage</strong> 3d10 slashing; <strong>Melee</strong> tail (reach <var>var_reach10</var> feet), <strong>Damage</strong> 3d10 bludgeoning; <strong>Melee</strong> spikes (reach <var>var_reach10</var> feet), <strong>Damage</strong> 3d8 piercing; breath weapon 60-foot line, 15d4 fire.\n<strong>Bronze</strong> swim Speed 40 feet; <strong>Melee</strong> jaws<var>var_noreachnotraits</var>, <strong>Damage</strong> 2d10 piercing plus 1d12 electricity; <strong>Melee</strong> claw (agile<var>var_noreachwithtraits</var>), <strong>Damage</strong> 3d10 slashing; <strong>Melee</strong> tail (reach <var>var_reach10</var> feet), <strong>Damage</strong> 3d10 bludgeoning; <strong>Melee</strong> wing (reach <var>var_reach10</var> feet), <strong>Damage</strong> 3d8 slashing; breath weapon 80-foot line, 6d12 electricity.\n<strong>Copper</strong> climb Speed 25 feet on stone only; <strong>Melee</strong> jaws<var>var_noreachnotraits</var>, <strong>Damage</strong> 2d12 piercing plus 2d6 acid; <strong>Melee</strong> claw (agile<var>var_noreachwithtraits</var>), <strong>Damage</strong> 3d10 slashing; <strong>Melee</strong> tail (reach <var>var_reach10</var> feet), <strong>Damage</strong> 3d10 bludgeoning; <strong>Melee</strong> wing (reach <var>var_reach10</var> feet), <strong>Damage</strong> 3d8 bludgeoning; breath weapon 60-foot line, 10d6 acid.\n<strong>Gold</strong> swim Speed 40 feet; <strong>Melee</strong> jaws<var>var_noreachnotraits</var>, <strong>Damage</strong> 2d12 piercing plus 2d6 fire; <strong>Melee</strong> claw (agile<var>var_noreachwithtraits</var>), <strong>Damage</strong> 4d6 slashing; <strong>Melee</strong> tail (reach <var>var_reach10</var> feet), <strong>Damage</strong> 3d10 bludgeoning; <strong>Melee</strong> horns (reach <var>var_reach10</var> feet), <strong>Damage</strong> 3d8 piercing; breath weapon 30-foot cone, 6d10 fire.\n<strong>Green</strong> swim Speed 40 feet, ignores difficult terrain from non-magical foliage; <strong>Melee</strong> jaws<var>var_noreachnotraits</var>, <strong>Damage</strong> 2d12 piercing plus 2d6 poison; <strong>Melee</strong> claw (agile<var>var_noreachwithtraits</var>), <strong>Damage</strong> 3d10 slashing; <strong>Melee</strong> tail (reach <var>var_reach10</var> feet), <strong>Damage</strong> 3d10 bludgeoning; <strong>Melee</strong> horns (reach <var>var_reach10</var> feet), <strong>Damage</strong> 3d8 piercing; breath weapon 30-foot cone, 10d6 poison (Fortitude save instead of Reflex).\n<strong>Red</strong> ignore concealed from smoke; <strong>Melee</strong> jaws<var>var_noreachnotraits</var>, <strong>Damage</strong> 2d12 piercing plus 2d6 fire; <strong>Melee</strong> claw (agile<var>var_noreachwithtraits</var>), <strong>Damage</strong> 4d6 slashing; <strong>Melee</strong> tail (reach <var>var_reach10</var> feet), <strong>Damage</strong> 3d10 bludgeoning; <strong>Melee</strong> wing (reach <var>var_reach10</var> feet), <strong>Damage</strong> 3d8 bludgeoning; breath weapon 30-foot cone, 10d6 fire.\n<strong>Silver</strong> cloud walk; <strong>Melee</strong> jaws<var>var_noreachnotraits</var>, <strong>Damage</strong> 2d12 piercing plus 2d6 cold; <strong>Melee</strong> claw (agile<var>var_noreachwithtraits</var>), <strong>Damage</strong> 3d10 slashing; <strong>Melee</strong> tail (reach <var>var_reach10</var> feet), <strong>Damage</strong> 3d10 bludgeoning; breath weapon 30-foot cone, 8d8 cold.\n<strong>White</strong> climb Speed 25 feet on ice only; <strong>Melee</strong> jaws<var>var_noreachnotraits</var>, <strong>Damage</strong> 3d6 piercing plus 2d6 cold; <strong>Melee</strong> claw (agile<var>var_noreachwithtraits</var>), <strong>Damag+NN5e</strong> 3d10 slashing; <strong>Melee</strong> tail (reach <var>var_reach10</var> feet), <strong>Damage</strong> 3d10 bludgeoning; breath weapon 30-foot cone, 10d6 cold.",
+        "desc": "Calling upon powerful transformative magic, you gain a <var>var_size</var> dragon battle form. You must have space to expand or the spell is lost. When you cast this spell, choose one type of chromatic or metallic dragon. While in this form, you gain the dragon trait. You have hands in this battle form and can take manipulate actions. You can Dismiss the spell.\n\nYou gain the following statistics and abilities regardless of which battle form you choose:\n\nAC = <var>var_ac</var> + your level. Ignore your armor's check penalty and Speed reduction.\n<var>var_temphp</var> temporary Hit Points.\nSpeed 40 feet, fly Speed 100 feet.\nResistance 10 against the damage type of your breath weapon (see below).\nDarkvision and imprecise scent 60 feet.\nOne or more unarmed melee attacks specific to the battle form you choose, which are the only attacks you can use. You're trained with them. Your attack modifier is <var>var_attack</var>, and your damage bonus is <var>var_dmgbonus</var>. These attacks are Strength based (for the purpose of the enfeebled condition, for example). If your unarmed attack modifier is higher, you can use it instead. See below for more on these attacks.\nAthletics modifier of <var>var_athletics</var>, unless your own modifier is higher.\n<strong>Breath Weapon</strong> <span class='actionIcon action1A'></span> (arcane, evocation) The shape, damage, and damage type of your breath weapon depend on your specific dragon form (see below). A creature in the area attempts a basic save against your spell DC. This is a Reflex save unless stated otherwise in the special ability description for your specific dragon form. Once activated, your breath weapon can't be used again for 1d4 rounds. Your breath weapon has the trait corresponding to the type of damage it deals.<var>var_breathbonus</var>\n\nYou also gain specific abilities based on the type of dragon you choose:\n\n<strong>Black</strong> swim Speed 60 feet; <strong>Melee</strong> jaws<var>var_noreachnotraits</var>, <strong>Damage</strong> 2d12 piercing plus 2d6 acid; <strong>Melee</strong> claw (agile<var>var_noreachwithtraits</var>), <strong>Damage</strong> 3d10 slashing; <strong>Melee</strong> tail (reach <var>var_reach10</var> feet), <strong>Damage</strong> 3d10 bludgeoning; <strong>Melee</strong> horns (reach <var>var_reach10</var> feet), <strong>Damage</strong> 3d8 piercing; breath weapon 60-foot line, 11d6 acid.\n<strong>Blue</strong> burrow Speed 20 feet; <strong>Melee</strong> jaws<var>var_noreachnotraits</var>, <strong>Damage</strong> 2d10 piercing plus 1d12 electricity; <strong>Melee</strong> claw (agile<var>var_noreachwithtraits</var>), <strong>Damage</strong> 3d10 slashing; <strong>Melee</strong> tail (reach <var>var_reach10</var> feet), <strong>Damage</strong> 3d10 bludgeoning; <strong>Melee</strong> horns (reach <var>var_reach10</var> feet), <strong>Damage</strong> 3d8 piercing; breath weapon 80-foot line, 6d12 electricity.\n<strong>Brass</strong> burrow Speed 20 feet; <strong>Melee</strong> jaws<var>var_noreachnotraits</var>, <strong>Damage</strong> 3d8 piercing plus 2d4 fire; <strong>Melee</strong> claw (agile<var>var_noreachwithtraits</var>), <strong>Damage</strong> 3d10 slashing; <strong>Melee</strong> tail (reach <var>var_reach10</var> feet), <strong>Damage</strong> 3d10 bludgeoning; <strong>Melee</strong> spikes (reach <var>var_reach10</var> feet), <strong>Damage</strong> 3d8 piercing; breath weapon 60-foot line, 15d4 fire.\n<strong>Bronze</strong> swim Speed 40 feet; <strong>Melee</strong> jaws<var>var_noreachnotraits</var>, <strong>Damage</strong> 2d10 piercing plus 1d12 electricity; <strong>Melee</strong> claw (agile<var>var_noreachwithtraits</var>), <strong>Damage</strong> 3d10 slashing; <strong>Melee</strong> tail (reach <var>var_reach10</var> feet), <strong>Damage</strong> 3d10 bludgeoning; <strong>Melee</strong> wing (reach <var>var_reach10</var> feet), <strong>Damage</strong> 3d8 slashing; breath weapon 80-foot line, 6d12 electricity.\n<strong>Copper</strong> climb Speed 25 feet on stone only; <strong>Melee</strong> jaws<var>var_noreachnotraits</var>, <strong>Damage</strong> 2d12 piercing plus 2d6 acid; <strong>Melee</strong> claw (agile<var>var_noreachwithtraits</var>), <strong>Damage</strong> 3d10 slashing; <strong>Melee</strong> tail (reach <var>var_reach10</var> feet), <strong>Damage</strong> 3d10 bludgeoning; <strong>Melee</strong> wing (reach <var>var_reach10</var> feet), <strong>Damage</strong> 3d8 bludgeoning; breath weapon 60-foot line, 10d6 acid.\n<strong>Gold</strong> swim Speed 40 feet; <strong>Melee</strong> jaws<var>var_noreachnotraits</var>, <strong>Damage</strong> 2d12 piercing plus 2d6 fire; <strong>Melee</strong> claw (agile<var>var_noreachwithtraits</var>), <strong>Damage</strong> 4d6 slashing; <strong>Melee</strong> tail (reach <var>var_reach10</var> feet), <strong>Damage</strong> 3d10 bludgeoning; <strong>Melee</strong> horns (reach <var>var_reach10</var> feet), <strong>Damage</strong> 3d8 piercing; breath weapon 30-foot cone, 6d10 fire.\n<strong>Green</strong> swim Speed 40 feet, ignores difficult terrain from non-magical foliage; <strong>Melee</strong> jaws<var>var_noreachnotraits</var>, <strong>Damage</strong> 2d12 piercing plus 2d6 poison; <strong>Melee</strong> claw (agile<var>var_noreachwithtraits</var>), <strong>Damage</strong> 3d10 slashing; <strong>Melee</strong> tail (reach <var>var_reach10</var> feet), <strong>Damage</strong> 3d10 bludgeoning; <strong>Melee</strong> horns (reach <var>var_reach10</var> feet), <strong>Damage</strong> 3d8 piercing; breath weapon 30-foot cone, 10d6 poison (Fortitude save instead of Reflex).\n<strong>Red</strong> ignore concealed from smoke; <strong>Melee</strong> jaws<var>var_noreachnotraits</var>, <strong>Damage</strong> 2d12 piercing plus 2d6 fire; <strong>Melee</strong> claw (agile<var>var_noreachwithtraits</var>), <strong>Damage</strong> 4d6 slashing; <strong>Melee</strong> tail (reach <var>var_reach10</var> feet), <strong>Damage</strong> 3d10 bludgeoning; <strong>Melee</strong> wing (reach <var>var_reach10</var> feet), <strong>Damage</strong> 3d8 bludgeoning; breath weapon 30-foot cone, 10d6 fire.\n<strong>Silver</strong> cloud walk; <strong>Melee</strong> jaws<var>var_noreachnotraits</var>, <strong>Damage</strong> 2d12 piercing plus 2d6 cold; <strong>Melee</strong> claw (agile<var>var_noreachwithtraits</var>), <strong>Damage</strong> 3d10 slashing; <strong>Melee</strong> tail (reach <var>var_reach10</var> feet), <strong>Damage</strong> 3d10 bludgeoning; breath weapon 30-foot cone, 8d8 cold.\n<strong>White</strong> climb Speed 25 feet on ice only; <strong>Melee</strong> jaws<var>var_noreachnotraits</var>, <strong>Damage</strong> 3d6 piercing plus 2d6 cold; <strong>Melee</strong> claw (agile<var>var_noreachwithtraits</var>), <strong>Damag+NN5e</strong> 3d10 slashing; <strong>Melee</strong> tail (reach <var>var_reach10</var> feet), <strong>Damage</strong> 3d10 bludgeoning; breath weapon 30-foot cone, 10d6 cold.",
         "heightened": [
             {
                 "desc": "Your battle form is Huge, you gain a +20-foot status bonus to your fly Speed, and your attacks have 10-foot reach (or 15-foot reach if they previously had 10-foot reach). You instead gain AC = 21 + your level, 15 temporary HP, an attack modifier of +28, a damage bonus of +12, Athletics +28, and a +14 status bonus to breath weapon damage.",

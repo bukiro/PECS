@@ -20082,7 +20082,7 @@
             "Wizard"
         ],
         "levelreq": 1,
-        "specialreq": "!character.get_FeatsTaken(1, 20).filter(feat => feat.name != this.name && characterService.get_FeatsAndFeatures(feat.name).length && characterService.get_FeatsAndFeatures(feat.name)[0]?.gainFamiliar == true).length",
+        "specialreq": "!characterService.get_FamiliarAvailable() || this.have(character, characterService, charLevel)",
         "specialreqdesc": "no familiar",
         "gainFamiliar": true
     },

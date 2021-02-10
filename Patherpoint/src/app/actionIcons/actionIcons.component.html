@@ -1,8 +1,8 @@
 <ng-container *ngFor="let phrase of get_Phrases(); trackBy:trackByIndex;">
-    <app-actionIcons_1A *ngIf="phrase=='1A'"></app-actionIcons_1A>
-    <app-actionIcons_2A *ngIf="phrase=='2A'"></app-actionIcons_2A>
-    <app-actionIcons_3A *ngIf="phrase=='3A'"></app-actionIcons_3A>
-    <app-actionIcons_Free *ngIf="phrase=='Free'"></app-actionIcons_Free>
-    <app-actionIcons_Reaction *ngIf="phrase=='Reaction'"></app-actionIcons_Reaction>
+    <span class="actionIcon action1A" *ngIf="phrase=='1A'"></span>
+    <span class="actionIcon action2A" *ngIf="phrase=='2A'"></span>
+    <span class="actionIcon action3A" *ngIf="phrase=='3A'"></span>
+    <span class="actionIcon actionFree" *ngIf="phrase=='Free'"></span>
+    <span class="actionIcon actionReaction" *ngIf="phrase=='Reaction'"></span>
     <span class="lower" *ngIf="!['Free','Reaction','1A','2A','3A'].includes(phrase)"> {{phrase}} </span>
 </ng-container>

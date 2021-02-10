@@ -5784,5 +5784,123 @@
       "group": "Brawling",
       "melee": 10,
       "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "ae4d0acf-2716-4107-b70f-3a860fe267a7",
+      "name": "Wild Morph Wild Claws",
+      "desc": "Your hands are transformed into incredibly sharp claws. These claws are an unarmed attack you're trained in and deal 1d6 slashing damage each (agile, finesse). You can still hold and use items with your hands while they're transformed by this spell, but you cannot hold an item while attacking.",
+      "traits": [
+         "Agile",
+         "Finesse",
+         "Unarmed"
+      ],
+      "displayName": "Wild Claws",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 1,
+      "dicesize": 6,
+      "dmgType": "S",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "b4347c92-e88e-4529-83e2-74ed365d08a1",
+      "name": "Wild Morph Wild Claws (6th Level)",
+      "desc": "Your hands are transformed into incredibly sharp claws. These claws are an unarmed attack you're trained in and deal 1d6 slashing damage each (agile, finesse). They leave terrible, ragged wounds that also deal 2d6 persistent bleed damage on a hit. You can still hold and use items with your hands while they're transformed by this spell, but you cannot hold an item while attacking.",
+      "traits": [
+         "Agile",
+         "Finesse",
+         "Unarmed"
+      ],
+      "displayName": "Wild Claws",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 1,
+      "dicesize": 6,
+      "dmgType": "S",
+      "extraDamage": "+2d6 Persistent Bleed",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "fbea7165-471e-41af-9123-3a9b85268734",
+      "name": "Wild Morph Wild Claws (10th Level)",
+      "desc": "Your hands are transformed into incredibly sharp claws. These claws are an unarmed attack you're trained in and deal 1d6 slashing damage each (agile, finesse). They leave terrible, ragged wounds that also deal 4d6 persistent bleed damage on a hit. You can still hold and use items with your hands while they're transformed by this spell, but you cannot hold an item while attacking.",
+      "traits": [
+         "Agile",
+         "Finesse",
+         "Unarmed"
+      ],
+      "displayName": "Wild Claws",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 1,
+      "dicesize": 6,
+      "dmgType": "S",
+      "extraDamage": "+4d6 Persistent Bleed",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "ae4d0acf-2716-4107-b70f-3a860fe267a7",
+      "name": "Wild Morph Wild Jaws",
+      "desc": "You have transformed your mouth into wild jaws, an unarmed attack you're trained in that deals 1d8 piercing damage.",
+      "traits": [
+         "Unarmed"
+      ],
+      "displayName": "Wild Jaws",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 1,
+      "dicesize": 8,
+      "dmgType": "P",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "ec5860f8-4451-4803-bdb7-53a48589a99a",
+      "name": "Wild Morph Wild Jaws (6th Level)",
+      "desc": "You have transformed your mouth into wild jaws, an unarmed attack you're trained in that deals 1d8 piercing damage and is envenomed, also dealing 2d6 persistent poison damage on a hit.",
+      "traits": [
+         "Unarmed"
+      ],
+      "displayName": "Wild Jaws",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 1,
+      "dicesize": 8,
+      "dmgType": "P",
+      "extraDamage": "+2d6 Persistent Poison",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "ce75b90d-d928-4a78-9007-b09b5b4d7708",
+      "name": "Wild Morph Wild Jaws (10th Level)",
+      "desc": "You have transformed your mouth into wild jaws, an unarmed attack you're trained in that deals 1d8 piercing damage and is envenomed, also dealing 4d6 persistent poison damage on a hit.",
+      "traits": [
+         "Unarmed"
+      ],
+      "displayName": "Wild Jaws",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 1,
+      "dicesize": 8,
+      "dmgType": "P",
+      "extraDamage": "+4d6 Persistent Poison",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
    }
 ]

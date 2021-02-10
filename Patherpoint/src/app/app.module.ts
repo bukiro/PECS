@@ -42,11 +42,6 @@ import { FamiliarabilitiesComponent } from './familiar/familiarabilities/familia
 import { ItemOilsComponent } from './item/itemOils/itemOils.component';
 import { ItemAeonStonesComponent } from './item/itemAeonStones/itemAeonStones.component';
 import { ActionIconsComponent } from './actionIcons/actionIcons.component';
-import { ActionIcons_1AComponent } from './actionIcons/actionIcons_1A/actionIcons_1A.component';
-import { ActionIcons_2AComponent } from './actionIcons/actionIcons_2A/actionIcons_2A.component';
-import { ActionIcons_3AComponent } from './actionIcons/actionIcons_3A/actionIcons_3A.component';
-import { ActionIcons_FreeComponent } from './actionIcons/actionIcons_Free/actionIcons_Free.component';
-import { ActionIcons_ReactionComponent } from './actionIcons/actionIcons_Reaction/actionIcons_Reaction.component';
 import { FeatComponent } from './character/feat/feat.component';
 import { SpellLibraryComponent } from './spellLibrary/spellLibrary.component';
 import { ItemTalismansComponent } from './item/itemTalismans/itemTalismans.component';
@@ -102,11 +97,6 @@ import { ConditionComponent } from './effects/condition/condition.component';
       ItemOilsComponent,
       ItemAeonStonesComponent,
       ActionIconsComponent,
-      ActionIcons_1AComponent,
-      ActionIcons_2AComponent,
-      ActionIcons_3AComponent,
-      ActionIcons_FreeComponent,
-      ActionIcons_ReactionComponent,
       FeatComponent,
       SpellLibraryComponent,
       ItemTalismansComponent,
