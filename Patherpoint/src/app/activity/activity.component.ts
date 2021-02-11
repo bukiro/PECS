@@ -222,10 +222,12 @@ export class ActivityComponent implements OnInit {
     }
 
     get_ActivityConditions() {
+        //For all conditions that are included with this activity and has choices unlocked, create an effectChoice on the gain and set it to the default choice.
         let conditions: Condition[] = [];
         if (this.gain && !this.activity.hideChoices) {
             this.activity.gainConditions
             .map(conditionGain => this.conditionsService.get_Conditions(conditionGain.name)[0])
+            .filter(condition => condition.get_Choices(this.characterService, true).length > 1)
             .forEach((condition, index) => {
                 //Add the condition to the list of conditions that need to display a choice,
                 // then if the gain doesn't have a choice at that index or the choice isn't among the condition's choices, insert or replace that choice on the gain.
@@ -233,7 +235,7 @@ export class ActivityComponent implements OnInit {
                 while (!this.gain.effectChoices.length || this.gain.effectChoices.length < index - 1) {
                     this.gain.effectChoices.push(condition.choice);
                 }
-                if (!condition?.choices?.includes(this.gain.effectChoices[index])) {
+                if (!condition?.$choices?.includes(this.gain.effectChoices[index])) {
                     this.gain.effectChoices[index] = condition.choice;
                 }
             })
@@ -242,13 +244,14 @@ export class ActivityComponent implements OnInit {
     }
 
     get_SpellConditions(spellCast: SpellCast, spellCastIndex: number) {
+        //For all conditions that are included with this spell on this level and has choices unlocked, create an effectChoice on the gain and set it to the default choice.
         let conditions: Condition[] = [];
         if (this.gain) {
             let spell = this.spellsService.get_Spells(spellCast.name)[0];
             if (spell?.gainConditions.length) {
                 spell.get_HeightenedConditions(spellCast.level)
                 .map(conditionGain => this.conditionsService.get_Conditions(conditionGain.name)[0])
-                .filter(condition => condition?.choices?.length)
+                .filter(condition => condition?.get_Choices(this.characterService, true)?.length > 1)
                 .forEach((condition, index) => {
                     //Add the condition to the list of conditions that need to display a choice,
                     // then if the gain doesn't have a choice at that index or the choice isn't among the condition's choices, insert or replace that choice on the gain.
@@ -256,7 +259,7 @@ export class ActivityComponent implements OnInit {
                     while (!this.gain.spellEffectChoices[spellCastIndex].length || this.gain.spellEffectChoices[spellCastIndex].length < index - 1) {
                         this.gain.spellEffectChoices[spellCastIndex].push(condition.choice);
                     }
-                    if (!condition.choices.includes(this.gain.spellEffectChoices[spellCastIndex][index])) {
+                    if (!condition.$choices.includes(this.gain.spellEffectChoices[spellCastIndex][index])) {
                         this.gain.spellEffectChoices[spellCastIndex][index] = condition.choice;
                     }
                 })

@@ -6,6 +6,8 @@ import { ItemGain } from './ItemGain';
 import { SpellCasting } from './SpellCasting';
 import { SpellChoice } from './SpellChoice';
 import { SpellCast } from './SpellCast';
+import { EffectsService } from './effects.service';
+import { Creature } from './Creature';
 
 export class Spell {
     public actions: string = "1A";
@@ -181,5 +183,36 @@ export class Spell {
         let character = characterService.get_Character();
         let spellsTaken = character.get_SpellsTaken(characterService, 1, 20, spellLevel, this.name, undefined, className)
         return spellsTaken.length;
+    }
+    get_EffectiveSpellLevel(creature: Creature, baseLevel: number, characterService: CharacterService, effectsService: EffectsService) {
+        //Cantrips and Focus spells are automatically heightened to your maximum available spell level.
+        if (!baseLevel || baseLevel == -1) {
+            baseLevel = characterService.get_Character().get_SpellLevel();
+        }
+
+        //Apply all effects that might change the effective spell level of this spell.
+        let list = [
+            "Spell Levels",
+            this.name + " Spell Level"
+        ]
+        if (this.traditions.includes("Focus")) {
+            list.push("Focus Spell Levels");
+        }
+        if (this.traits.includes("Cantrip")) {
+            list.push("Cantrip Spell Levels");
+        }
+        characterService.effectsService.get_AbsolutesOnThese(creature, list).forEach(effect => {
+            if (parseInt(effect.setValue)) {
+                baseLevel = parseInt(effect.setValue);
+            }
+        })
+        characterService.effectsService.get_RelativesOnThese(creature, list).forEach(effect => {
+            if (parseInt(effect.value)) {
+                baseLevel += parseInt(effect.value);
+            }
+        })
+        
+        //If a spell is cast with a lower level than its minimum, the level is raised to the minimum.
+        return Math.max(baseLevel, (this.levelreq || 0))
     }
 }

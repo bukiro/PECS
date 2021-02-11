@@ -10302,15 +10302,9 @@
         "name": "Warpriest"
     },
     {
-        "name": "Animal Order"
-    },
-    {
-        "name": "Leaf Order"
-    },
-    {
-        "name": "Storm Order",
-        "desc": "You carry the fury of the storm within you, channeling it to terrifying effect and riding the winds through the sky. You are trained in Acrobatics. You also gain the Storm Born druid feat. You gain the tempest surge order spell, and you increase the number of Focus Points in your focus pool by 1. Polluting the air or allowing those who cause major air pollution or climate shifts to go unpunished is anathema to your order. (This doesn't force you to take action against merely potential harm to the environment or to sacrifice yourself against an obviously superior foe.)",
-        "shortdesc": "You carry the fury of the storm within you, channeling it to terrifying effect and riding the winds through the sky.",
+        "name": "Animal Order",
+        "desc": "You have a strong connection to beasts, and you are allied with a beast companion. You are trained in Athletics. You also gain the Animal Companion druid feat. You gain the heal animal order spell. Committing wanton cruelty to animals or killing animals unnecessarily is anathema to your order. (This doesn't prevent you from defending yourself against animals or killing them cleanly for food.)",
+        "shortdesc": "You have a strong connection to beasts, and you are allied with a beast companion.",
         "effects": [
             {
                 "affected": "Focus Pool",
@@ -10321,6 +10315,140 @@
             {
                 "affected": "Focus Points",
                 "value": "Character.class.name == 'Druid' ? 1 : 0"
+            }
+        ],
+        "anathema": [
+            "Committing wanton cruelty to animals or killing animals unnecessarily is anathema to your order. (This doesn't prevent you from defending yourself against animals or killing them cleanly for food.)"
+        ],
+        "gainFeatChoice": [
+            {
+                "_className": "FeatChoice",
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Animal Companion (Druid)"
+                    }
+                ],
+                "insertClass": "Druid",
+                "level": 1,
+                "source": "Animal Order"
+            }
+        ],
+        "gainSkillChoice": [
+            {
+                "_className": "SkillChoice",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Athletics",
+                        "source": "Animal Order"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Animal Order",
+                "type": "Skill"
+            }
+        ],
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Focus",
+                "className": "Druid",
+                "id": "48bc06a2-27a2-443c-b4c1-203422384680",
+                "insertClass": "Druid",
+                "level": -1,
+                "source": "Animal Order",
+                "spells": [
+                    {
+                        "locked": true,
+                        "name": "Heal Animal"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Leaf Order",
+        "desc": "You revere plants and the bounty of nature, acting as both a gardener and warden for the wilderness, teaching sustainable techniques to communities, and helping areas regrow after disasters or negligent humanoid expansion. You are trained in Diplomacy. You also gain the Leshy Familiar druid feat. You gain the goodberry order spell, and you increase the number of Focus Points in your focus pool by 1. Committing wanton cruelty to plants or killing plants unnecessarily is anathema to your order. (This doesn't prevent you from defending yourself against plants or harvesting them when necessary for survival.)",
+        "shortdesc": "You revere plants and the bounty of nature, acting as both a gardener and warden for the wilderness, teaching sustainable techniques to communities, and helping areas regrow after disasters or negligent humanoid expansion.",
+        "effects": [
+            {
+                "affected": "Focus Pool",
+                "value": "Character.class.name == 'Druid' ? 2 : 0"
+            }
+        ],
+        "onceEffects": [
+            {
+                "affected": "Focus Points",
+                "value": "Character.class.name == 'Druid' ? 2 : 0"
+            }
+        ],
+        "anathema": [
+            "Committing wanton cruelty to plants or killing plants unnecessarily is anathema to your order. (This doesn't prevent you from defending yourself against plants or harvesting them when necessary for survival.)"
+        ],
+        "gainFeatChoice": [
+            {
+                "_className": "FeatChoice",
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Leshy Familiar"
+                    }
+                ],
+                "insertClass": "Druid",
+                "level": 1,
+                "source": "Leaf Order"
+            }
+        ],
+        "gainSkillChoice": [
+            {
+                "_className": "SkillChoice",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Diplomacy",
+                        "source": "Leaf Order"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Leaf Order",
+                "type": "Skill"
+            }
+        ],
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Focus",
+                "className": "Druid",
+                "id": "14dbaaaa-cf3a-4316-a928-3f6861a8a1dd",
+                "insertClass": "Druid",
+                "level": -1,
+                "source": "Leaf Order",
+                "spells": [
+                    {
+                        "locked": true,
+                        "name": "Goodberry"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Storm Order",
+        "desc": "You carry the fury of the storm within you, channeling it to terrifying effect and riding the winds through the sky. You are trained in Acrobatics. You also gain the Storm Born druid feat. You gain the tempest surge order spell, and you increase the number of Focus Points in your focus pool by 1. Polluting the air or allowing those who cause major air pollution or climate shifts to go unpunished is anathema to your order. (This doesn't force you to take action against merely potential harm to the environment or to sacrifice yourself against an obviously superior foe.)",
+        "shortdesc": "You carry the fury of the storm within you, channeling it to terrifying effect and riding the winds through the sky.",
+        "effects": [
+            {
+                "affected": "Focus Pool",
+                "value": "Character.class.name == 'Druid' ? 2 : 0"
+            }
+        ],
+        "onceEffects": [
+            {
+                "affected": "Focus Points",
+                "value": "Character.class.name == 'Druid' ? 2 : 0"
             }
         ],
         "anathema": [
@@ -10375,7 +10503,71 @@
         ]
     },
     {
-        "name": "Wild Order"
+        "name": "Wild Order",
+        "desc": "The savage, uncontrollable call of the natural world infuses you, granting you the ability to change your shape and take on the ferocious form of a wild creature. You are trained in Intimidation. You also gain the Wild Shape druid feat. You gain the wild morph order spell. Becoming fully domesticated by the temptations of civilization is anathema to your order. (This doesn't prevent you from buying and using processed goods or staying in a city for an adventure, but you can never come to rely on these conveniences or truly call such a place your permanent home.)",
+        "shortdesc": "The savage, uncontrollable call of the natural world infuses you, granting you the ability to change your shape and take on the ferocious form of a wild creature.",
+        "effects": [
+            {
+                "affected": "Focus Pool",
+                "value": "Character.class.name == 'Druid' ? 1 : 0"
+            }
+        ],
+        "onceEffects": [
+            {
+                "affected": "Focus Points",
+                "value": "Character.class.name == 'Druid' ? 1 : 0"
+            }
+        ],
+        "anathema": [
+            "Becoming fully domesticated by the temptations of civilization is anathema to your order. (This doesn't prevent you from buying and using processed goods or staying in a city for an adventure, but you can never come to rely on these conveniences or truly call such a place your permanent home.)"
+        ],
+        "gainFeatChoice": [
+            {
+                "_className": "FeatChoice",
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Wild Shape"
+                    }
+                ],
+                "insertClass": "Druid",
+                "level": 1,
+                "source": "Wild Order"
+            }
+        ],
+        "gainSkillChoice": [
+            {
+                "_className": "SkillChoice",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Intimidation",
+                        "source": "Wild Order"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Wild Order",
+                "type": "Skill"
+            }
+        ],
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Focus",
+                "className": "Druid",
+                "id": "77ac0aa6-ae9d-4c13-ae59-0603e7647155",
+                "insertClass": "Druid",
+                "level": -1,
+                "source": "Storm Order",
+                "spells": [
+                    {
+                        "locked": true,
+                        "name": "Wild Morph"
+                    }
+                ]
+            }
+        ]
     },
     {
         "name": "Fighter Weapon Mastery",
@@ -34017,18 +34209,22 @@
     },
     {
         "name": "Animal Companion (Druid)",
+        "desc": "You gain the service of a young animal companion that travels with you on your adventures and obeys any simple commands you give it to the best of its abilities. See Animal Companions on page 214 for more information.",
         "shortdesc": "You gain the service of a young animal companion that travels with you.",
         "traits": [
-            "Druid",
-            "Ranger"
+            "Druid"
         ],
         "levelreq": 1,
         "featreq": [
             "animal order"
-        ]
+        ],
+        "specialreq": "!characterService.get_CompanionAvailable() || this.have(character, characterService, charLevel)",
+        "specialreqdesc": "no animal companion",
+        "gainAnimalCompanion": 1
     },
     {
         "name": "Leshy Familiar",
+        "desc": "You gain a leshy familiar, a Tiny plant that embodies one of the many spirits of nature. Other than taking the form of a plant instead of an animal, this familiar uses all the same rules as other familiars, which are detailed here.",
         "shortdesc": "You gain a leshy familiar, a tiny plant that embodies one of the many spirits of nature.",
         "traits": [
             "Druid"
@@ -34036,7 +34232,10 @@
         "levelreq": 1,
         "featreq": [
             "leaf order"
-        ]
+        ],
+        "specialreq": "!characterService.get_FamiliarAvailable() || this.have(character, characterService, charLevel)",
+        "specialreqdesc": "no familiar",
+        "gainFamiliar": true
     },
     {
         "name": "Storm Born",
@@ -34053,11 +34252,12 @@
         ],
         "levelreq": 1,
         "featreq": [
-            "Storm order"
+            "storm order"
         ]
     },
     {
         "name": "Wild Shape",
+        "desc": "You are one with the wild, always changing and adapting to meet any challenge. You gain the wild shape order spell, which lets you transform into a variety of forms that you can expand with druid feats.",
         "shortdesc": "You are one with the wild, always changing and adapting to meet any challenge.",
         "traits": [
             "Druid"
@@ -34065,6 +34265,22 @@
         "levelreq": 1,
         "featreq": [
             "wild order"
+        ],
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Focus",
+                "className": "Druid",
+                "id": "3df4dbe1-5619-40fc-bfd0-6c70ba7eea07",
+                "level": -1,
+                "source": "Feat: Wild Shape",
+                "spells": [
+                    {
+                        "locked": true,
+                        "name": "Wild Shape"
+                    }
+                ]
+            }
         ]
     },
     {
@@ -34094,6 +34310,7 @@
     },
     {
         "name": "Form Control",
+        "desc": "With additional care and effort, you can take on an alternate form for a longer period of time.",
         "shortdesc": "With additional care and effort, you can take on an alternate form for a longer period of time.",
         "traits": [
             "Druid",
@@ -34109,6 +34326,9 @@
         ],
         "featreq": [
             "Wild Shape"
+        ],
+        "gainActivities": [
+            "Form Control"
         ]
     },
     {

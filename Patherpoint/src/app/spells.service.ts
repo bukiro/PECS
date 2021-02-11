@@ -7,7 +7,6 @@ import { ConditionGain } from './ConditionGain';
 import { Item } from './Item';
 import { ItemGain } from './ItemGain';
 import { AnimalCompanion } from './AnimalCompanion';
-import { Familiar } from './Familiar';
 import { Character } from './Character';
 import { SpellCasting } from './SpellCasting';
 import { ConditionsService } from './conditions.service';
@@ -58,13 +57,8 @@ export class SpellsService {
         
         //Cantrips and Focus spells are automatically heightened to your maximum available spell level.
         //If a spell is cast with a lower level than its minimum, the level is raised to the minimum.
-        let spellLevel: number = level;
-        if (!spellLevel || spellLevel == -1) {
-            spellLevel = characterService.get_Character().get_SpellLevel();
-        } else if (spell.levelreq && spellLevel < spell.levelreq) {
-            spellLevel = spell.levelreq;
-        }        
-
+        let spellLevel: number = spell.get_EffectiveSpellLevel(creature, level, characterService, characterService.effectsService);
+        
         //If this spell was cast by an activity, it may have a specified duration. Keep that here before the duration is changed to keep the spell active (or not).
         let customDuration: number = 0;
         if (activated && gain.duration) {
@@ -157,7 +151,7 @@ export class SpellsService {
                     // The order of gain.choices maps directly onto the order of the spell conditions that have choices.
                     if (gain.choices.length >= choicesIndex - 1) {
                         let condition = conditionsService.get_Conditions(conditionGain.name)[0]
-                        if (condition?.choices.length && condition.choices.includes(gain.choices[choicesIndex])) {
+                        if (condition?.get_Choices(characterService, true).length && condition.$choices.includes(gain.choices[choicesIndex])) {
                             newConditionGain.choice = gain.choices[choicesIndex];
                             choicesIndex++;
                         }
@@ -169,6 +163,7 @@ export class SpellsService {
                         newConditionGain.spellCastingAbility = casting.ability;
                     }
                     newConditionGain.spellSource = gain?.source || "";
+                    newConditionGain.spellGainID = gain?.id || "";
                     //If this spell was cast by an activity, it may have a specified duration. Apply that here.
                     if (customDuration) {
                         newConditionGain.duration = customDuration;

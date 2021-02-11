@@ -105,8 +105,9 @@ export class ConditionsService {
                                 gain.apply = true;
                             } else if (otherGain.value + otherGain.heightened > gain.value + gain.heightened) {
                                 gain.apply = false;
+                            } else if (otherGain.choice > gain.choice) {
+                                gain.apply = false;
                             } else if (
-                                otherGain.choice == gain.choice &&
                                 otherGain.value == gain.value &&
                                 otherGain.heightened == gain.heightened
                             ) {
@@ -309,7 +310,7 @@ export class ConditionsService {
             characterService.set_ToChange(creature.type, "health");
         }
 
-        //End the duration's activity if there is one and it is active.
+        //End the condition's activity if there is one and it is active.
         if (!taken && gain.source) {
             let activityGains = characterService.get_OwnedActivities(creature, creature.level, true).filter(activityGain => activityGain.active && activityGain.name == gain.source);
             if (activityGains.length) {
@@ -323,6 +324,22 @@ export class ConditionsService {
                 }
                 let activity = characterService.activitiesService.get_Activities(activityGain.name)[0];
                 characterService.activitiesService.activate_Activity(creature, "", characterService, characterService.conditionsService, characterService.itemsService, characterService.spellsService, activityGain, activity, false, false);
+            }
+        }
+
+        //End the condition's spell if there is one and it is active.
+        if (!taken && gain.spellGainID) {
+            let character = characterService.get_Character();
+            //If no other conditions have this spellgain's ID, find the spellgain and disable it.
+            if (!characterService.get_AppliedConditions(character).some(conditionGain => conditionGain !== gain && conditionGain.spellGainID == gain.spellGainID)) {
+                character.get_SpellsTaken(characterService, 0, 20).filter(taken => taken.gain.id == gain.spellGainID && taken.gain.active).forEach(taken => {
+                    //Tick down the duration and the cooldown.
+                    let spell = characterService.spellsService.get_Spells(taken.gain.name)[0];
+                    if (spell) {
+                        characterService.spellsService.process_Spell(character, taken.gain.target, characterService, itemsService, characterService.conditionsService, null, taken.gain, spell, 0, false, false)
+                    }
+                    characterService.set_ToChange("Character", "spellbook");
+                });
             }
         }
 

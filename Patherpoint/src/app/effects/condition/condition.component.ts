@@ -87,6 +87,10 @@ export class ConditionComponent implements OnInit {
         this.characterService.process_ToChange();
     }
 
+    get_ConditionChoices(condition: Condition) {
+        return condition.get_Choices(this.characterService, false);
+    }
+
     change_ConditionChoice(gain: ConditionGain, condition: Condition, oldChoice: string) {
         let creature = this.get_Creature();
         if (this.creature != "Familiar" && oldChoice != gain.choice) {

@@ -83,7 +83,7 @@
                                 <div class="row" *ngIf="condition.choices.length">
                                     <span>Effect selection:
                                         <select [(ngModel)]="condition.choice">
-                                            <option *ngFor="let choice of condition.choices; trackBy:trackByIndex;"
+                                            <option *ngFor="let choice of get_ConditionChoices(condition); trackBy:trackByIndex;"
                                                 [ngValue]="choice">
                                                 {{choice}}
                                             </option>

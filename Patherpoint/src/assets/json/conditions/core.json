@@ -1097,9 +1097,15 @@
       "buff": true,
       "choice": "Fortitude",
       "choices": [
-         "Fortitude",
-         "Reflex",
-         "Will"
+         {
+            "name": "Fortitude"
+         },
+         {
+            "name": "Reflex"
+         },
+         {
+            "name": "Will"
+         }
       ],
       "effects": [
          {
@@ -1148,6 +1154,7 @@
       "name": "Pest Form",
       "desc": "You have transformed into a the battle form of a Tiny animal, such as a cat, insect, lizard, or rat. On spell level 4, you can turn into a flying creature, such as a bird, which grants you a fly Speed of 20 feet. You can decide the specific type of animal (such as a rat or praying mantis), but this has no effect on the form's Size or statistics. While in this form, you gain the animal trait. You can Dismiss the spell.\n\nYou gain the following statistics and abilities:\n\nAC = 15 + your level. Ignore your armor's check penalty and Speed reduction.\nSpeed 10 feet.\nWeakness 5 to physical damage. (If you take physical damage in this form, you take 5 additional damage.)\nLow-Light Vision and imprecise scent 30 feet.\nAcrobatics and Stealth modifiers of +10, unless your own modifier is higher; Athletics modifier -4.",
       "type": "spells",
+      "buff": true,
       "effects": [
          {
             "affected": "Size",
@@ -1430,15 +1437,33 @@
       "buff": true,
       "choice": "Ape",
       "choices": [
-         "Ape",
-         "Bear",
-         "Bull",
-         "Cat",
-         "Deer",
-         "Frog",
-         "Shark",
-         "Snake",
-         "Wolf"
+         {
+            "name": "Ape"
+         },
+         {
+            "name": "Bear"
+         },
+         {
+            "name": "Bull"
+         },
+         {
+            "name": "Cat"
+         },
+         {
+            "name": "Deer"
+         },
+         {
+            "name": "Frog"
+         },
+         {
+            "name": "Shark"
+         },
+         {
+            "name": "Snake"
+         },
+         {
+            "name": "Wolf"
+         }
       ],
       "effects": [
          {
@@ -1660,16 +1685,36 @@
       ],
       "choice": "Black",
       "choices": [
-         "Black",
-         "Blue",
-         "Green",
-         "Red",
-         "White",
-         "Brass",
-         "Bronze",
-         "Copper",
-         "Gold",
-         "Silver"
+         {
+            "name": "Black"
+         },
+         {
+            "name": "Blue"
+         },
+         {
+            "name": "Green"
+         },
+         {
+            "name": "Red"
+         },
+         {
+            "name": "White"
+         },
+         {
+            "name": "Brass"
+         },
+         {
+            "name": "Bronze"
+         },
+         {
+            "name": "Copper"
+         },
+         {
+            "name": "Gold"
+         },
+         {
+            "name": "Silver"
+         }
       ],
       "effects": [
          {
@@ -1769,8 +1814,12 @@
       ],
       "choice": "Positive Damage",
       "choices": [
-         "Positive Damage",
-         "Negative Damage"
+         {
+            "name": "Positive Damage"
+         },
+         {
+            "name": "Negative Damage"
+         }
       ],
       "effects": [
          {
@@ -1803,8 +1852,13 @@
          }
       ],
       "choices": [
-         "",
-         "harmonized"
+         {
+            "name": ""
+         },
+         {
+            "name": "Harmonized",
+            "featreq": "Harmonize"
+         }
       ],
       "effects": [
          {
@@ -2875,12 +2929,24 @@
       "buff": true,
       "choice": "Speed Bonus",
       "choices": [
-         "Speed Bonus",
-         "Climb Speed",
-         "Swim Speed",
-         "Darkvision",
-         "Claws",
-         "Scent"
+         {
+            "name": "Speed Bonus"
+         },
+         {
+            "name": "Climb Speed"
+         },
+         {
+            "name": "Swim Speed"
+         },
+         {
+            "name": "Darkvision"
+         },
+         {
+            "name": "Claws"
+         },
+         {
+            "name": "Scent"
+         }
       ],
       "effects": [
          {
@@ -3101,10 +3167,18 @@
       "inputRequired": "Remove the condition after you apply the bonus to a check or save.",
       "choice": "Acrobatics",
       "choices": [
-         "Acrobatics",
-         "Athletics",
-         "Fortitude",
-         "Reflex"
+         {
+            "name": "Acrobatics"
+         },
+         {
+            "name": "Athletics"
+         },
+         {
+            "name": "Fortitude"
+         },
+         {
+            "name": "Reflex"
+         }
       ],
       "effects": [
          {
@@ -6549,15 +6623,33 @@
       ],
       "choice": "Aquatic",
       "choices": [
-         "Aquatic",
-         "Arctic",
-         "Desert",
-         "Forest",
-         "Mountain",
-         "Plains",
-         "Sky",
-         "Swamp",
-         "Underground"
+         {
+            "name": "Aquatic"
+         },
+         {
+            "name": "Arctic"
+         },
+         {
+            "name": "Desert"
+         },
+         {
+            "name": "Forest"
+         },
+         {
+            "name": "Mountain"
+         },
+         {
+            "name": "Plains"
+         },
+         {
+            "name": "Sky"
+         },
+         {
+            "name": "Swamp"
+         },
+         {
+            "name": "Underground"
+         }
       ]
    },
    {
@@ -7004,8 +7096,13 @@
          }
       ],
       "choices": [
-         "",
-         "harmonized"
+         {
+            "name": ""
+         },
+         {
+            "name": "Harmonized",
+            "featreq": "Harmonize"
+         }
       ]
    },
    {
@@ -7186,15 +7283,33 @@
       ],
       "choice": "Ape",
       "choices": [
-         "Ape",
-         "Bear",
-         "Bull",
-         "Canine",
-         "Cat",
-         "Deer",
-         "Frog",
-         "Shark",
-         "Snake"
+         {
+            "name": "Ape"
+         },
+         {
+            "name": "Bear"
+         },
+         {
+            "name": "Bull"
+         },
+         {
+            "name": "Canine"
+         },
+         {
+            "name": "Cat"
+         },
+         {
+            "name": "Deer"
+         },
+         {
+            "name": "Frog"
+         },
+         {
+            "name": "Shark"
+         },
+         {
+            "name": "Snake"
+         }
       ],
       "effects": [
          {
@@ -7207,7 +7322,7 @@
          },
          {
             "affected": "Melee Attack Rolls",
-            "setValue": "Skill('Unarmed Attacks') >= 9 ? null : 9"
+            "setValue": "Skill('Unarmed Attacks') > 9 ? null : 9"
          },
          {
             "affected": "Melee Damage",
@@ -7255,7 +7370,7 @@
          },
          {
             "affected": "Unarmed Attacks Proficiency Level",
-            "setValue": 2
+            "setValue": "Skill_Level('Unarmed Attacks') < 2 ? 2 : null"
          },
          {
             "affected": "Ignore Armor Penalty",
@@ -7408,15 +7523,33 @@
       ],
       "choice": "Ape",
       "choices": [
-         "Ape",
-         "Bear",
-         "Bull",
-         "Canine",
-         "Cat",
-         "Deer",
-         "Frog",
-         "Shark",
-         "Snake"
+         {
+            "name": "Ape"
+         },
+         {
+            "name": "Bear"
+         },
+         {
+            "name": "Bull"
+         },
+         {
+            "name": "Canine"
+         },
+         {
+            "name": "Cat"
+         },
+         {
+            "name": "Deer"
+         },
+         {
+            "name": "Frog"
+         },
+         {
+            "name": "Shark"
+         },
+         {
+            "name": "Snake"
+         }
       ],
       "effects": [
          {
@@ -7477,7 +7610,7 @@
          },
          {
             "affected": "Unarmed Attacks Proficiency Level",
-            "setValue": 2
+            "setValue": "Skill_Level('Unarmed Attacks') < 2 ? 2 : null"
          },
          {
             "affected": "Ignore Armor Penalty",
@@ -7630,15 +7763,33 @@
       ],
       "choice": "Ape",
       "choices": [
-         "Ape",
-         "Bear",
-         "Bull",
-         "Canine",
-         "Cat",
-         "Deer",
-         "Frog",
-         "Shark",
-         "Snake"
+         {
+            "name": "Ape"
+         },
+         {
+            "name": "Bear"
+         },
+         {
+            "name": "Bull"
+         },
+         {
+            "name": "Canine"
+         },
+         {
+            "name": "Cat"
+         },
+         {
+            "name": "Deer"
+         },
+         {
+            "name": "Frog"
+         },
+         {
+            "name": "Shark"
+         },
+         {
+            "name": "Snake"
+         }
       ],
       "effects": [
          {
@@ -7699,7 +7850,7 @@
          },
          {
             "affected": "Unarmed Attacks Proficiency Level",
-            "setValue": 2
+            "setValue": "Skill_Level('Unarmed Attacks') < 2 ? 2 : null"
          },
          {
             "affected": "Ignore Armor Penalty",
@@ -7852,15 +8003,33 @@
       ],
       "choice": "Ape",
       "choices": [
-         "Ape",
-         "Bear",
-         "Bull",
-         "Canine",
-         "Cat",
-         "Deer",
-         "Frog",
-         "Shark",
-         "Snake"
+         {
+            "name": "Ape"
+         },
+         {
+            "name": "Bear"
+         },
+         {
+            "name": "Bull"
+         },
+         {
+            "name": "Canine"
+         },
+         {
+            "name": "Cat"
+         },
+         {
+            "name": "Deer"
+         },
+         {
+            "name": "Frog"
+         },
+         {
+            "name": "Shark"
+         },
+         {
+            "name": "Snake"
+         }
       ],
       "effects": [
          {
@@ -7921,7 +8090,7 @@
          },
          {
             "affected": "Unarmed Attacks Proficiency Level",
-            "setValue": 2
+            "setValue": "Skill_Level('Unarmed Attacks') < 2 ? 2 : null"
          },
          {
             "affected": "Ignore Armor Penalty",
@@ -8171,8 +8340,12 @@
       ],
       "choice": "Severe cold",
       "choices": [
-         "Severe cold",
-         "Severe heat"
+         {
+            "name": "Severe cold"
+         },
+         {
+            "name": "Severe heat"
+         }
       ]
    },
    {
@@ -8498,8 +8671,12 @@
       ],
       "choice": "Medium",
       "choices": [
-         "Small",
-         "Medium"
+         {
+            "name": "Small"
+         },
+         {
+            "name": "Medium"
+         }
       ],
       "effects": [
          {
@@ -8537,8 +8714,12 @@
       ],
       "choice": "Medium",
       "choices": [
-         "Small",
-         "Medium"
+         {
+            "name": "Small"
+         },
+         {
+            "name": "Medium"
+         }
       ],
       "effects": [
          {
@@ -8581,9 +8762,15 @@
       ],
       "choice": "Medium",
       "choices": [
-         "Small",
-         "Medium",
-         "Large"
+         {
+            "name": "Small"
+         },
+         {
+            "name": "Medium"
+         },
+         {
+            "name": "Large"
+         }
       ],
       "effects": [
          {
@@ -8749,11 +8936,21 @@
       ],
       "choice": "Acid",
       "choices": [
-         "Acid",
-         "Cold",
-         "Electricity",
-         "Fire",
-         "Sonic"
+         {
+            "name": "Acid"
+         },
+         {
+            "name": "Cold"
+         },
+         {
+            "name": "Electricity"
+         },
+         {
+            "name": "Fire"
+         },
+         {
+            "name": "Sonic"
+         }
       ],
       "effects": [
          {
@@ -9014,8 +9211,13 @@
       "buff": true,
       "hasValue": true,
       "choices": [
-         "",
-         "harmonized"
+         {
+            "name": ""
+         },
+         {
+            "name": "Harmonized",
+            "featreq": "Harmonize"
+         }
       ],
       "effects": [
          {
@@ -9050,8 +9252,13 @@
       "type": "spells",
       "buff": true,
       "choices": [
-         "",
-         "harmonized"
+         {
+            "name": ""
+         },
+         {
+            "name": "Harmonized",
+            "featreq": "Harmonize"
+         }
       ],
       "effects": [
          {
@@ -9067,8 +9274,13 @@
       "type": "spells",
       "buff": true,
       "choices": [
-         "",
-         "harmonized"
+         {
+            "name": ""
+         },
+         {
+            "name": "Harmonized",
+            "featreq": "Harmonize"
+         }
       ]
    },
    {
@@ -9078,8 +9290,13 @@
       "buff": true,
       "hasValue": true,
       "choices": [
-         "",
-         "harmonized"
+         {
+            "name": ""
+         },
+         {
+            "name": "Harmonized",
+            "featreq": "Harmonize"
+         }
       ],
       "effects": [
          {
@@ -9108,8 +9325,13 @@
          }
       ],
       "choices": [
-         "",
-         "harmonized"
+         {
+            "name": ""
+         },
+         {
+            "name": "Harmonized",
+            "featreq": "Harmonize"
+         }
       ]
    },
    {
@@ -9136,8 +9358,13 @@
          }
       ],
       "choices": [
-         "",
-         "harmonized"
+         {
+            "name": ""
+         },
+         {
+            "name": "Harmonized",
+            "featreq": "Harmonize"
+         }
       ],
       "gainConditions": [
          {
@@ -9206,12 +9433,20 @@
       "desc": "You are warding the target and those nearby against a specified alignment, chosen from chaotic, evil, good, or lawful. Creatures in the area gain a +1 status bonus to AC against attacks by creatures of the chosen alignment and to saves against effects from such creatures. This bonus increases to +3 against effects from such creatures that directly control the target and attacks made by summoned creatures of the chosen alignment. Summoned creatures of the chosen alignment can't willingly enter the area without succeeding at a Will save; repeated attempts use the first save result.",
       "type": "spells",
       "buff": true,
-      "choice": "chaotic",
+      "choice": "Chaotic",
       "choices": [
-         "chaotic",
-         "evil",
-         "good",
-         "lawful"
+         {
+            "name": "Chaotic"
+         },
+         {
+            "name": "Evil"
+         },
+         {
+            "name": "Good"
+         },
+         {
+            "name": "Lawful"
+         }
       ]
    },
    {
@@ -9238,12 +9473,20 @@
             "showon": "AC, Saving Throws"
          }
       ],
-      "choice": "chaotic",
+      "choice": "Chaotic",
       "choices": [
-         "chaotic",
-         "evil",
-         "good",
-         "lawful"
+         {
+            "name": "Chaotic"
+         },
+         {
+            "name": "Evil"
+         },
+         {
+            "name": "Good"
+         },
+         {
+            "name": "Lawful"
+         }
       ]
    },
    {
@@ -9272,10 +9515,18 @@
       ],
       "choice": "chaotic",
       "choices": [
-         "chaotic",
-         "evil",
-         "good",
-         "lawful"
+         {
+            "name": "Chaotic"
+         },
+         {
+            "name": "Evil"
+         },
+         {
+            "name": "Good"
+         },
+         {
+            "name": "Lawful"
+         }
       ]
    },
    {
@@ -9516,12 +9767,24 @@
       "buff": true,
       "choice": "Ant",
       "choices": [
-         "Ant",
-         "Beetle",
-         "Centipede",
-         "Mantis",
-         "Scorpion",
-         "Spider"
+         {
+            "name": "Ant"
+         },
+         {
+            "name": "Beetle"
+         },
+         {
+            "name": "Centipede"
+         },
+         {
+            "name": "Mantis"
+         },
+         {
+            "name": "Scorpion"
+         },
+         {
+            "name": "Spider"
+         }
       ],
       "effects": [
          {
@@ -9570,7 +9833,7 @@
          },
          {
             "affected": "Unarmed Attacks Proficiency Level",
-            "setValue": "2"
+            "setValue": "Skill_Level('Unarmed Attacks') < 2 ? 2 : null"
          },
          {
             "affected": "Ignore Armor Penalty",
@@ -9698,12 +9961,24 @@
       "buff": true,
       "choice": "Ant",
       "choices": [
-         "Ant",
-         "Beetle",
-         "Centipede",
-         "Mantis",
-         "Scorpion",
-         "Spider"
+         {
+            "name": "Ant"
+         },
+         {
+            "name": "Beetle"
+         },
+         {
+            "name": "Centipede"
+         },
+         {
+            "name": "Mantis"
+         },
+         {
+            "name": "Scorpion"
+         },
+         {
+            "name": "Spider"
+         }
       ],
       "effects": [
          {
@@ -9752,7 +10027,7 @@
          },
          {
             "affected": "Unarmed Attacks Proficiency Level",
-            "setValue": "2"
+            "setValue": "Skill_Level('Unarmed Attacks') < 2 ? 2 : null"
          },
          {
             "affected": "Ignore Armor Penalty",
@@ -9880,12 +10155,24 @@
       "buff": true,
       "choice": "Ant",
       "choices": [
-         "Ant",
-         "Beetle",
-         "Centipede",
-         "Mantis",
-         "Scorpion",
-         "Spider"
+         {
+            "name": "Ant"
+         },
+         {
+            "name": "Beetle"
+         },
+         {
+            "name": "Centipede"
+         },
+         {
+            "name": "Mantis"
+         },
+         {
+            "name": "Scorpion"
+         },
+         {
+            "name": "Spider"
+         }
       ],
       "effects": [
          {
@@ -9934,7 +10221,7 @@
          },
          {
             "affected": "Unarmed Attacks Proficiency Level",
-            "setValue": "2"
+            "setValue": "Skill_Level('Unarmed Attacks') < 2 ? 2 : null"
          },
          {
             "affected": "Ignore Armor Penalty",
@@ -10226,12 +10513,24 @@
       "buff": true,
       "choice": "Aberrations",
       "choices": [
-         "Aberrations",
-         "Celestials",
-         "Dragons",
-         "Fiends",
-         "Monitors",
-         "Undead"
+         {
+            "name": "Aberrations"
+         },
+         {
+            "name": "Celestials"
+         },
+         {
+            "name": "Dragons"
+         },
+         {
+            "name": "Fiends"
+         },
+         {
+            "name": "Monitors"
+         },
+         {
+            "name": "Undead"
+         }
       ]
    },
    {
@@ -10269,12 +10568,24 @@
       ],
       "choice": "Aberrations",
       "choices": [
-         "Aberrations",
-         "Celestials",
-         "Dragons",
-         "Fiends",
-         "Monitors",
-         "Undead"
+         {
+            "name": "Aberrations"
+         },
+         {
+            "name": "Celestials"
+         },
+         {
+            "name": "Dragons"
+         },
+         {
+            "name": "Fiends"
+         },
+         {
+            "name": "Monitors"
+         },
+         {
+            "name": "Undead"
+         }
       ]
    },
    {
@@ -10938,10 +11249,18 @@
       "buff": true,
       "choice": "Bat",
       "choices": [
-         "Bat",
-         "Bird",
-         "Pterosaur",
-         "Wasp"
+         {
+            "name": "Bat"
+         },
+         {
+            "name": "Bird"
+         },
+         {
+            "name": "Pterosaur"
+         },
+         {
+            "name": "Wasp"
+         }
       ],
       "effects": [
          {
@@ -10986,7 +11305,7 @@
          },
          {
             "affected": "Unarmed Attacks Proficiency Level",
-            "setValue": "2"
+            "setValue": "Skill_Level('Unarmed Attacks') < 2 ? 2 : null"
          },
          {
             "affected": "Ignore Armor Penalty",
@@ -11084,10 +11403,18 @@
       "buff": true,
       "choice": "Bat",
       "choices": [
-         "Bat",
-         "Bird",
-         "Pterosaur",
-         "Wasp"
+         {
+            "name": "Bat"
+         },
+         {
+            "name": "Bird"
+         },
+         {
+            "name": "Pterosaur"
+         },
+         {
+            "name": "Wasp"
+         }
       ],
       "effects": [
          {
@@ -11132,7 +11459,7 @@
          },
          {
             "affected": "Unarmed Attacks Proficiency Level",
-            "setValue": "2"
+            "setValue": "Skill_Level('Unarmed Attacks') < 2 ? 2 : null"
          },
          {
             "affected": "Ignore Armor Penalty",
@@ -11235,10 +11562,18 @@
       "buff": true,
       "choice": "Bat",
       "choices": [
-         "Bat",
-         "Bird",
-         "Pterosaur",
-         "Wasp"
+         {
+            "name": "Bat"
+         },
+         {
+            "name": "Bird"
+         },
+         {
+            "name": "Pterosaur"
+         },
+         {
+            "name": "Wasp"
+         }
       ],
       "effects": [
          {
@@ -11283,7 +11618,7 @@
          },
          {
             "affected": "Unarmed Attacks Proficiency Level",
-            "setValue": "2"
+            "setValue": "Skill_Level('Unarmed Attacks') < 2 ? 2 : null"
          },
          {
             "affected": "Ignore Armor Penalty",
@@ -11513,12 +11848,24 @@
       "buff": true,
       "choice": "Ankylosaurus",
       "choices": [
-         "Ankylosaurus",
-         "Brontosaurus",
-         "Deinonychus",
-         "Stegosaurus",
-         "Triceratops",
-         "Tyrannosaurus"
+         {
+            "name": "Ankylosaurus"
+         },
+         {
+            "name": "Brontosaurus"
+         },
+         {
+            "name": "Deinonychus"
+         },
+         {
+            "name": "Stegosaurus"
+         },
+         {
+            "name": "Triceratops"
+         },
+         {
+            "name": "Tyrannosaurus"
+         }
       ],
       "effects": [
          {
@@ -11555,7 +11902,7 @@
          },
          {
             "affected": "Unarmed Attacks Proficiency Level",
-            "setValue": "2"
+            "setValue": "Skill_Level('Unarmed Attacks') < 2 ? 2 : null"
          },
          {
             "affected": "Ignore Armor Penalty",
@@ -11693,12 +12040,24 @@
       "buff": true,
       "choice": "Ankylosaurus",
       "choices": [
-         "Ankylosaurus",
-         "Brontosaurus",
-         "Deinonychus",
-         "Stegosaurus",
-         "Triceratops",
-         "Tyrannosaurus"
+         {
+            "name": "Ankylosaurus"
+         },
+         {
+            "name": "Brontosaurus"
+         },
+         {
+            "name": "Deinonychus"
+         },
+         {
+            "name": "Stegosaurus"
+         },
+         {
+            "name": "Triceratops"
+         },
+         {
+            "name": "Tyrannosaurus"
+         }
       ],
       "effects": [
          {
@@ -11735,7 +12094,7 @@
          },
          {
             "affected": "Unarmed Attacks Proficiency Level",
-            "setValue": "2"
+            "setValue": "Skill_Level('Unarmed Attacks') < 2 ? 2 : null"
          },
          {
             "affected": "Ignore Armor Penalty",
@@ -11873,12 +12232,24 @@
       "buff": true,
       "choice": "Ankylosaurus",
       "choices": [
-         "Ankylosaurus",
-         "Brontosaurus",
-         "Deinonychus",
-         "Stegosaurus",
-         "Triceratops",
-         "Tyrannosaurus"
+         {
+            "name": "Ankylosaurus"
+         },
+         {
+            "name": "Brontosaurus"
+         },
+         {
+            "name": "Deinonychus"
+         },
+         {
+            "name": "Stegosaurus"
+         },
+         {
+            "name": "Triceratops"
+         },
+         {
+            "name": "Tyrannosaurus"
+         }
       ],
       "effects": [
          {
@@ -11915,7 +12286,7 @@
          },
          {
             "affected": "Unarmed Attacks Proficiency Level",
-            "setValue": "2"
+            "setValue": "Skill_Level('Unarmed Attacks') < 2 ? 2 : null"
          },
          {
             "affected": "Ignore Armor Penalty",
@@ -12293,11 +12664,21 @@
       ],
       "choice": "Acid",
       "choices": [
-         "Acid",
-         "Cold",
-         "Fire",
-         "Electricity",
-         "Poison"
+         {
+            "name": "Acid"
+         },
+         {
+            "name": "Cold"
+         },
+         {
+            "name": "Fire"
+         },
+         {
+            "name": "Electricity"
+         },
+         {
+            "name": "Poison"
+         }
       ],
       "effects": [
          {
@@ -12752,14 +13133,26 @@
       "desc": "You recall the stars' predictions about your current situation. You gain a circumstance bonus or take a circumstance penalty to the first skill check of your next action based on a 1d8 roll. On a result of 6, 7, or 8, you gain a +2 circumstance bonus. On a 3, 4, or 5, you gain a +1 circumstance bonus. On a 2, you gain nothing. On a 1, you take a -1 circumstance penalty to the skill check.",
       "type": "activities",
       "buff": true,
-      "choice": "no effect",
+      "choice": "No effect",
       "choices": [
-         "-1 penalty",
-         "no effect",
-         "+1 bonus",
-         "+2 bonus",
-         "+3 bonus",
-         "+4 bonus"
+         {
+            "name": "-1 penalty"
+         },
+         {
+            "name": "No effect"
+         },
+         {
+            "name": "+1 bonus"
+         },
+         {
+            "name": "+2 bonus"
+         },
+         {
+            "name": "+3 bonus"
+         },
+         {
+            "name": "+4 bonus"
+         }
       ],
       "effects": [
          {
@@ -12917,8 +13310,12 @@
       "inputRequired": "Remove the condition after you apply the bonus to the triggering attack roll, skill check, or saving throw.",
       "choice": "Other",
       "choices": [
-         "Other",
-         "Woe"
+         {
+            "name": "Other"
+         },
+         {
+            "name": "Woe"
+         }
       ],
       "effects": [
          {
@@ -13282,9 +13679,15 @@
       "buff": true,
       "choice": "Failure",
       "choices": [
-         "Success or critical success",
-         "Failure",
-         "Critical failure"
+         {
+            "name": "Success or critical success"
+         },
+         {
+            "name": "Failure"
+         },
+         {
+            "name": "Critical failure"
+         }
       ]
    },
    {
@@ -13314,15 +13717,36 @@
       ],
       "choice": "Black",
       "choices": [
-         "Blue",
-         "Brass",
-         "Bronze",
-         "Copper",
-         "Gold",
-         "Green",
-         "Red",
-         "Silver",
-         "White"
+         {
+            "name": "Black"
+         },
+         {
+            "name": "Blue"
+         },
+         {
+            "name": "Brass"
+         },
+         {
+            "name": "Bronze"
+         },
+         {
+            "name": "Copper"
+         },
+         {
+            "name": "Gold"
+         },
+         {
+            "name": "Green"
+         },
+         {
+            "name": "Red"
+         },
+         {
+            "name": "Silver"
+         },
+         {
+            "name": "White"
+         }
       ],
       "effects": [
          {
@@ -13355,7 +13779,7 @@
          },
          {
             "affected": "Unarmed Attacks Proficiency Level",
-            "setValue": "2"
+            "setValue": "Skill_Level('Unarmed Attacks') < 2 ? 2 : null"
          },
          {
             "affected": "Ignore Armor Penalty",
@@ -13706,15 +14130,36 @@
       ],
       "choice": "Black",
       "choices": [
-         "Blue",
-         "Brass",
-         "Bronze",
-         "Copper",
-         "Gold",
-         "Green",
-         "Red",
-         "Silver",
-         "White"
+         {
+            "name": "Black"
+         },
+         {
+            "name": "Blue"
+         },
+         {
+            "name": "Brass"
+         },
+         {
+            "name": "Bronze"
+         },
+         {
+            "name": "Copper"
+         },
+         {
+            "name": "Gold"
+         },
+         {
+            "name": "Green"
+         },
+         {
+            "name": "Red"
+         },
+         {
+            "name": "Silver"
+         },
+         {
+            "name": "White"
+         }
       ],
       "effects": [
          {
@@ -13747,7 +14192,7 @@
          },
          {
             "affected": "Unarmed Attacks Proficiency Level",
-            "setValue": "2"
+            "setValue": "Skill_Level('Unarmed Attacks') < 2 ? 2 : null"
          },
          {
             "affected": "Ignore Armor Penalty",
@@ -14347,9 +14792,15 @@
       "type": "hidden",
       "choice": "Failure",
       "choices": [
-         "Failure",
-         "Success",
-         "Critical Success"
+         {
+            "name": "Failure"
+         },
+         {
+            "name": "Success"
+         },
+         {
+            "name": "Critical Success"
+         }
       ],
       "gainConditions": [
          {
@@ -14467,15 +14918,33 @@
       ],
       "choice": "Ape",
       "choices": [
-         "Ape",
-         "Bear",
-         "Bull",
-         "Canine",
-         "Cat",
-         "Deer",
-         "Frog",
-         "Shark",
-         "Snake"
+         {
+            "name": "Ape"
+         },
+         {
+            "name": "Bear"
+         },
+         {
+            "name": "Bull"
+         },
+         {
+            "name": "Canine"
+         },
+         {
+            "name": "Cat"
+         },
+         {
+            "name": "Deer"
+         },
+         {
+            "name": "Frog"
+         },
+         {
+            "name": "Shark"
+         },
+         {
+            "name": "Snake"
+         }
       ],
       "effects": [
          {
@@ -14564,21 +15033,51 @@
       ],
       "choice": "Without instinct ability",
       "choices": [
-         "Without instinct ability",
-         "Animal Instinct: Ape",
-         "Animal Instinct: Bear",
-         "Animal Instinct: Bull",
-         "Animal Instinct: Cat",
-         "Animal Instinct: Deer",
-         "Animal Instinct: Frog",
-         "Animal Instinct: Shark",
-         "Animal Instinct: Snake",
-         "Animal Instinct: Wolf",
-         "Dragon Instinct",
-         "Fury Instinct",
-         "Giant Instinct",
-         "Spirit Instinct: Positive",
-         "Spirit Instinct: Negative"
+         {
+            "name": "Without instinct ability"
+         },
+         {
+            "name": "Animal Instinct: Ape"
+         },
+         {
+            "name": "Animal Instinct: Bear"
+         },
+         {
+            "name": "Animal Instinct: Bull"
+         },
+         {
+            "name": "Animal Instinct: Cat"
+         },
+         {
+            "name": "Animal Instinct: Deer"
+         },
+         {
+            "name": "Animal Instinct: Frog"
+         },
+         {
+            "name": "Animal Instinct: Shark"
+         },
+         {
+            "name": "Animal Instinct: Snake"
+         },
+         {
+            "name": "Animal Instinct: Wolf"
+         },
+         {
+            "name": "Dragon Instinct"
+         },
+         {
+            "name": "Fury Instinct"
+         },
+         {
+            "name": "Giant Instinct"
+         },
+         {
+            "name": "Spirit Instinct: Positive"
+         },
+         {
+            "name": "Spirit Instinct: Negative"
+         }
       ],
       "effects": [
          {
@@ -14888,15 +15387,36 @@
       ],
       "choice": "Black",
       "choices": [
-         "Blue",
-         "Brass",
-         "Bronze",
-         "Copper",
-         "Gold",
-         "Green",
-         "Red",
-         "Silver",
-         "White"
+         {
+            "name": "Black"
+         },
+         {
+            "name": "Blue"
+         },
+         {
+            "name": "Brass"
+         },
+         {
+            "name": "Bronze"
+         },
+         {
+            "name": "Copper"
+         },
+         {
+            "name": "Gold"
+         },
+         {
+            "name": "Green"
+         },
+         {
+            "name": "Red"
+         },
+         {
+            "name": "Silver"
+         },
+         {
+            "name": "White"
+         }
       ],
       "effects": [
          {
@@ -15346,8 +15866,12 @@
       "hide": true,
       "choice": "",
       "choices": [
-         "",
-         "Arcane effect"
+         {
+            "name": ""
+         },
+         {
+            "name": "Arcane effect"
+         }
       ],
       "effects": [
          {
@@ -15398,68 +15922,166 @@
       "type": "spells",
       "buff": true,
       "unlimited": true,
-      "choice": "Wild Shape: Wild Claws",
+      "choice": "Wild Claws",
       "choices": [
-         "Wild Shape: Wild Claws",
-         "Insect Shape: Wild Jaws",
-         "Elemental Shape: Resistance",
-         "Plant Shape: Reach",
-         "Soaring Shape: Fly Speed"
+         {
+            "name": "Wild Claws",
+            "featreq": ["Wild Shape"]
+         },
+         {
+            "name": "Wild Jaws",
+            "featreq": ["Insect Shape"]
+         },
+         {
+            "name": "Resistance",
+            "featreq": ["Elemental Shape"]
+         },
+         {
+            "name": "Reach",
+            "featreq": ["Plant Shape"]
+         },
+         {
+            "name": "Fly Speed",
+            "featreq": ["Soaring Shape"]
+         }
       ],
       "effects": [
          {
             "affected": "Critical Hit Resistance",
-            "value": "Has_Feat(Creature.type, 'Elemental Shape') && Choice == 'Elemental Shape: Resistance' ? 5 : 0"
+            "value": "Has_Feat(Creature.type, 'Elemental Shape') && Choice == 'Resistance' ? 5 : 0"
          },
          {
             "affected": "Precision Damage Resistance",
-            "value": "Has_Feat(Creature.type, 'Elemental Shape') && Choice == 'Elemental Shape: Resistance' ? 5 : 0"
+            "value": "Has_Feat(Creature.type, 'Elemental Shape') && Choice == 'Resistance' ? 5 : 0"
          },
          {
             "affected": "Reach",
-            "value": "Has_Feat(Creature.type, 'Plant Shape') && Choice == 'Plant Shape: Reach' ? 5 : 0"
+            "value": "Has_Feat(Creature.type, 'Plant Shape') && Choice == 'Reach' ? 5 : 0"
          },
          {
             "affected": "Fly Speed",
-            "setValue": "Has_Feat(Creature.type, 'Soaring Shape') && Choice == 'Soaring Shape: Fly Speed' ? 30 : 0"
+            "setValue": "Has_Feat(Creature.type, 'Soaring Shape') && Choice == 'Fly Speed' ? 30 : null"
+         },
+         {
+            "affected": "Unarmed Attacks Proficiency Level",
+            "setValue": "Skill_Level('Unarmed Attacks') < 2 ? 2 : null"
          }
       ],
       "gainItems": [
          {
-            "conditionChoiceFilter": "Wild Shape: Wild Claws",
+            "conditionChoiceFilter": "Wild Claws",
             "heightenedFilter": 1,
             "name": "Wild Morph Wild Claws",
             "type": "weapons"
          },
          {
-            "conditionChoiceFilter": "Wild Shape: Wild Claws",
+            "conditionChoiceFilter": "Wild Claws",
             "heightenedFilter": 6,
             "name": "Wild Morph Wild Claws (6th Level)",
             "type": "weapons"
          },
          {
-            "conditionChoiceFilter": "Wild Shape: Wild Claws",
+            "conditionChoiceFilter": "Wild Claws",
             "heightenedFilter": 10,
             "name": "Wild Morph Wild Claws (10th Level)",
             "type": "weapons"
          },
          {
-            "conditionChoiceFilter": "Insect Shape: Wild Jaws",
+            "conditionChoiceFilter": "Wild Jaws",
             "heightenedFilter": 1,
             "name": "Wild Morph Wild Jaws",
             "type": "weapons"
          },
          {
-            "conditionChoiceFilter": "Insect Shape: Wild Jaws",
+            "conditionChoiceFilter": "Wild Jaws",
             "heightenedFilter": 6,
             "name": "Wild Morph Wild Jaws (6th Level)",
             "type": "weapons"
          },
          {
-            "conditionChoiceFilter": "Insect Shape: Wild Jaws",
+            "conditionChoiceFilter": "Wild Jaws",
             "heightenedFilter": 10,
             "name": "Wild Morph Wild Jaws (10th Level)",
             "type": "weapons"
+         }
+      ]
+   },
+   {
+      "name": "Wild Shape",
+      "desc": "You have transformed yourself into another form. You can polymorph into any form listed in pest form, which lasts 10 minutes. Starting from 2nd Level, you can also wild shape into the forms listed in animal form, which lasts 1 minute. All other wild shape forms last 1 minute. You can add more forms to your wild shape list with druid feats; your feat might grant you some or all of the forms from a given polymorph spell. When you transform into a form granted by a spell, you gain all the effects of the form you chose from a version of the spell heightened to wild shape's level. Wild shape allows you to use your own shapeshifting training more easily than most polymorph spells. When you choose to use your own attack modifier while polymorphed instead of the form's default attack modifier, you gain a +2 status bonus to your attack rolls.\n\n(The condition automatically chooses the highest attack modifier.)",
+      "type": "spells",
+      "buff": true,
+      "endsWithConditions": [
+         "Pest Form",
+         "Animal Form"
+      ],
+      "hints": [
+         {
+            "desc": "When you choose to use your own attack modifier while polymorphed instead of the form's default attack modifier, you gain a +2 status bonus to your attack rolls.",
+            "showon": "Attacks",
+            "effects": [
+               {
+                  "affected": "Attack Rolls",
+                  "type": "status",
+                  "value": 2
+               }
+            ]
+         }
+      ],
+      "choice": "Pest Form",
+      "choices": [
+         {
+            "name": "Pest Form"
+         },
+         {
+            "name": "Animal Form"
+         }
+      ],
+      "gainConditions": [
+         {
+            "activationPrerequisite": "!Has_Condition('Form Control') ? 1 : 0",
+            "conditionChoiceFilter": "Pest Form",
+            "duration": 1000,
+            "name": "Pest Form"
+         },
+         {
+            "activationPrerequisite": "Has_Condition('Form Control') ? 1 : 0",
+            "conditionChoiceFilter": "Pest Form",
+            "duration": 6000,
+            "name": "Pest Form"
+         },
+         {
+            "activationPrerequisite": "!Has_Condition('Form Control') ? 1 : 0",
+            "conditionChoiceFilter": "Animal Form",
+            "duration": 100,
+            "name": "Animal Form"
+         },
+         {
+            "activationPrerequisite": "Has_Condition('Form Control') ? 1 : 0",
+            "conditionChoiceFilter": "Animal Form",
+            "duration": 6000,
+            "name": "Animal Form"
+         }
+      ],
+      "endConditions": [
+         "Form Control"
+      ]
+   },
+   {
+      "name": "Form Control",
+      "desc": "With additional care and effort, you can take on an alternate form for a longer period of time. If your next action is to cast wild shape, wild shape's spell level is 2 lower than normal (minimum 1st level), but you can remain transformed for up to 1 hour or the listed duration (whichever is longer). You can still Dismiss the form at any time, as permitted by the spell.",
+      "type": "activities",
+      "buff": true,
+      "hints": [
+         {
+            "desc": "If your next action is to cast wild shape, wild shape's spell level is 2 lower than normal (minimum 1st level), but you can remain transformed for up to 1 hour or the listed duration (whichever is longer). You can still Dismiss the form at any time, as permitted by the spell.",
+            "showon": "Wild Shape"
+         }
+      ],
+      "effects": [
+         {
+            "affected": "Wild Shape Spell Level",
+            "value": -2
          }
       ]
    }

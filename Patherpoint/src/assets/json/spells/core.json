@@ -2400,7 +2400,7 @@
             "Morph",
             "Transmutation"
         ],
-        "internalNote": "If you choose multiple effects, cast the spell multiple times. The focus points will be automatically restored for each casting after the first.",
+        "inputRequired": "If you choose multiple effects, cast the spell multiple times and restore the necessary amount of focus points.",
         "target": "self",
         "allowReturnFocusPoint": true,
         "desc": "<var>var1</var>You morph your body based on your training, choosing one of the following effects based on your wild order feats.\n\nIf you have Wild Shape, you can morph your hands into wild claws. Your hands transform into incredibly sharp claws. These claws are an unarmed attack you're trained in and deal 1d6 slashing damage each (agile, finesse). <var>var2</var>You can still hold and use items with your hands while they're transformed by this spell, but you cannot hold an item while attacking.\nIf you have Insect Shape, you can instead transform your mouth into wild jaws, an unarmed attack you're trained in that deals 1d8 piercing damage<var>var3</var>.\nIf you have Elemental Shape, you can morph your body to be partially composed of elemental matter, granting you resistance 5 to critical hits and precision damage.\nIf you have Plant Shape, you can morph your arms into long vines, increasing your reach to 10 feet (or 15 feet with a reach weapon).\nIf you have Soaring Shape, you can cast the spell as a two-action activity (<span class='actionIcon action2A'></span> somatic, verbal) to grow wings from your back. These wings allow you to fly with a fly Speed of 30 feet.",

@@ -1235,7 +1235,7 @@ export class CharacterService {
                     conditionGain.persistent = true;
                 }
                 if (originalCondition.choices.length && !conditionGain.choice) {
-                    conditionGain.choice = originalCondition.choice ? originalCondition.choice : originalCondition.choices[0];
+                    conditionGain.choice = originalCondition.choice ? originalCondition.choice : originalCondition.choices[0].name;
                 }
                 let newLength: number = 0;
                 if (conditionGain.addValue) {
@@ -1378,7 +1378,10 @@ export class CharacterService {
         }
         switch (effectGain.affected) {
             case "Focus Points":
-                (creature as Character).class.focusPoints = Math.min((creature as Character).class.focusPoints + value, this.get_MaxFocusPoints());
+                (creature as Character).class.focusPoints = Math.min((creature as Character).class.focusPoints, this.get_MaxFocusPoints());
+                //We intentionally add the point after we set the limit. This allows us to gain focus points with feats and raise the current points
+                // before the limit is increased. The focus points are automatically limited in the spellbook component, where they are displayed, and when casting focus spells.
+                (creature as Character).class.focusPoints += value;
                 break;
             case "Temporary HP":
                 //When you get temporary HP, some things to process:

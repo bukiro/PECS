@@ -95,7 +95,7 @@
                     <span>{{condition.name}} Effect selection:
                         <select [(ngModel)]="gain.effectChoices[conditionIndex]"
                             (ngModelChange)="on_EffectChoiceChange()">
-                            <option *ngFor="let choice of condition.choices; trackBy:trackByIndex;" [ngValue]="choice">
+                            <option *ngFor="let choice of condition.$choices; trackBy:trackByIndex;" [ngValue]="choice">
                                 {{choice}}
                             </option>
                         </select>
@@ -206,7 +206,7 @@
                             <span>{{condition.name}} Effect selection:
                                 <select [(ngModel)]="gain.spellEffectChoices[spellCastIndex][conditionIndex]"
                                     (ngModelChange)="on_EffectChoiceChange()">
-                                    <option *ngFor="let choice of condition.choices; trackBy:trackByIndex;"
+                                    <option *ngFor="let choice of condition.$choices; trackBy:trackByIndex;"
                                         [ngValue]="choice">
                                         {{choice}}
                                     </option>

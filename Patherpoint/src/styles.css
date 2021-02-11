@@ -724,6 +724,11 @@ app-proficiency-form, .row app-proficiency-form {
 
 app-actionicons {
     display: inline-block;
+    padding: 0 2px;
+}
+
+app-actionicons .actionIcon {
+    margin: 0;
 }
 
 h4 app-actionicons .actionIcon {

@@ -309,6 +309,13 @@ export class ItemsService {
         }
         if (newId) {
             newItem.id = uuidv1();
+            newItem.activities?.forEach((activity: ItemActivity) => {
+                activity.castSpells?.forEach(cast => {
+                    if (cast.spellGain) {
+                        cast.spellGain.id = uuidv1();
+                    }
+                })
+            })
         }
         newItem = this.savegameService.reassign(newItem, "", this);
         if (newItem.gainActivities) {

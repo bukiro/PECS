@@ -180,7 +180,7 @@ export class Feat {
     meetsFeatReq(characterService: CharacterService, charLevel: number = characterService.get_Character().level) {
         //If the feat has a featreq, check if you meet that (or a feat that has this supertype).
         //Returns [requirement met, requirement description]
-        //Requirements like "Aggressive Block or Brutish Shove" are split when receiving the feats to compare.
+        //Requirements like "Aggressive Block or Brutish Shove" are split in get_FeatsAndFeatures().
         let result: Array<{ met?: boolean, desc?: string }> = [];
         if (this.featreq.length) {
             this.featreq.forEach(featreq => {
@@ -188,9 +188,10 @@ export class Feat {
                 let requiredFeat: Feat[]
                 let testcreature: Character | Familiar;
                 let testfeat = featreq;
+
                 if (featreq.includes("Familiar:")) {
                     testcreature = characterService.get_Familiar();
-                    testfeat = featreq.substr(9);
+                    testfeat = featreq.split("Familiar:")[1].trim();
                     requiredFeat = characterService.familiarsService.get_FamiliarAbilities(testfeat);
                 } else {
                     testcreature = characterService.get_Character();

@@ -249,6 +249,10 @@ export class ConditionsComponent implements OnInit {
             )
     }
 
+    get_ConditionChoices(condition: Condition) {
+        return condition.get_Choices(this.characterService, false);
+    }
+
     get_Duration(duration: number = this.get_ConditionDuration()) {
         return this.timeService.get_Duration(duration, true);
     }
