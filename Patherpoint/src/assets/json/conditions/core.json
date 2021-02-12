@@ -1857,7 +1857,9 @@
          },
          {
             "name": "Harmonized",
-            "featreq": "Harmonize"
+            "featreq": [
+               "Harmonize"
+            ]
          }
       ],
       "effects": [
@@ -7101,7 +7103,9 @@
          },
          {
             "name": "Harmonized",
-            "featreq": "Harmonize"
+            "featreq": [
+               "Harmonize"
+            ]
          }
       ]
    },
@@ -9216,7 +9220,9 @@
          },
          {
             "name": "Harmonized",
-            "featreq": "Harmonize"
+            "featreq": [
+               "Harmonize"
+            ]
          }
       ],
       "effects": [
@@ -9257,7 +9263,9 @@
          },
          {
             "name": "Harmonized",
-            "featreq": "Harmonize"
+            "featreq": [
+               "Harmonize"
+            ]
          }
       ],
       "effects": [
@@ -9279,7 +9287,9 @@
          },
          {
             "name": "Harmonized",
-            "featreq": "Harmonize"
+            "featreq": [
+               "Harmonize"
+            ]
          }
       ]
    },
@@ -9295,7 +9305,9 @@
          },
          {
             "name": "Harmonized",
-            "featreq": "Harmonize"
+            "featreq": [
+               "Harmonize"
+            ]
          }
       ],
       "effects": [
@@ -9330,7 +9342,9 @@
          },
          {
             "name": "Harmonized",
-            "featreq": "Harmonize"
+            "featreq": [
+               "Harmonize"
+            ]
          }
       ]
    },
@@ -9363,7 +9377,9 @@
          },
          {
             "name": "Harmonized",
-            "featreq": "Harmonize"
+            "featreq": [
+               "Harmonize"
+            ]
          }
       ],
       "gainConditions": [
@@ -14808,18 +14824,18 @@
             "name": "Frightened"
          },
          {
-            "activationPrerequisite": "Choice == 'Failure'? 1 : 0",
             "addValue": -1,
+            "conditionChoiceFilter": "Failure",
             "name": "Sickened"
          },
          {
-            "activationPrerequisite": "Choice == 'Success'? 1 : 0",
             "addValue": -2,
+            "conditionChoiceFilter": "Success",
             "name": "Sickened"
          },
          {
-            "activationPrerequisite": "Choice == 'Critical Success'? 1 : 0",
             "addValue": -3,
+            "conditionChoiceFilter": "Critical Success",
             "name": "Sickened"
          }
       ]
@@ -15926,23 +15942,33 @@
       "choices": [
          {
             "name": "Wild Claws",
-            "featreq": ["Wild Shape"]
+            "featreq": [
+               "Wild Shape"
+            ]
          },
          {
             "name": "Wild Jaws",
-            "featreq": ["Insect Shape"]
+            "featreq": [
+               "Insect Shape"
+            ]
          },
          {
             "name": "Resistance",
-            "featreq": ["Elemental Shape"]
+            "featreq": [
+               "Elemental Shape"
+            ]
          },
          {
             "name": "Reach",
-            "featreq": ["Plant Shape"]
+            "featreq": [
+               "Plant Shape"
+            ]
          },
          {
             "name": "Fly Speed",
-            "featreq": ["Soaring Shape"]
+            "featreq": [
+               "Soaring Shape"
+            ]
          }
       ],
       "effects": [
@@ -16013,7 +16039,10 @@
       "buff": true,
       "endsWithConditions": [
          "Pest Form",
-         "Animal Form"
+         "Animal Form (2nd Level)",
+         "Animal Form (3rd Level)",
+         "Animal Form (4th Level)",
+         "Animal Form (5th Level)"
       ],
       "hints": [
          {
@@ -16051,16 +16080,52 @@
             "name": "Pest Form"
          },
          {
-            "activationPrerequisite": "!Has_Condition('Form Control') ? 1 : 0",
+            "activationPrerequisite": "(Heightened <= 2 && !Has_Condition('Form Control')) ? 1 : 0",
             "conditionChoiceFilter": "Animal Form",
             "duration": 100,
-            "name": "Animal Form"
+            "name": "Animal Form (2nd Level)"
          },
          {
-            "activationPrerequisite": "Has_Condition('Form Control') ? 1 : 0",
+            "activationPrerequisite": "(Heightened <= 2 && Has_Condition('Form Control')) ? 1 : 0",
             "conditionChoiceFilter": "Animal Form",
             "duration": 6000,
-            "name": "Animal Form"
+            "name": "Animal Form (2nd Level)"
+         },
+         {
+            "activationPrerequisite": "(Heightened == 3 && !Has_Condition('Form Control')) ? 1 : 0",
+            "conditionChoiceFilter": "Animal Form",
+            "duration": 100,
+            "name": "Animal Form (3rd Level)"
+         },
+         {
+            "activationPrerequisite": "(Heightened == 3 && Has_Condition('Form Control')) ? 1 : 0",
+            "conditionChoiceFilter": "Animal Form",
+            "duration": 6000,
+            "name": "Animal Form (3rd Level)"
+         },
+         {
+            "activationPrerequisite": "(Heightened == 4 && !Has_Condition('Form Control')) ? 1 : 0",
+            "conditionChoiceFilter": "Animal Form",
+            "duration": 100,
+            "name": "Animal Form (4th Level)"
+         },
+         {
+            "activationPrerequisite": "(Heightened == 4 && Has_Condition('Form Control')) ? 1 : 0",
+            "conditionChoiceFilter": "Animal Form",
+            "duration": 6000,
+            "name": "Animal Form (4th Level)"
+         },
+         {
+            "activationPrerequisite": "(Heightened == 5 && !Has_Condition('Form Control')) ? 1 : 0",
+            "conditionChoiceFilter": "Animal Form",
+            "duration": 100,
+            "name": "Animal Form (5th Level)"
+         },
+         {
+            "activationPrerequisite": "(Heightened == 5 && Has_Condition('Form Control')) ? 1 : 0",
+            "conditionChoiceFilter": "Animal Form",
+            "duration": 6000,
+            "name": "Animal Form (5th Level)"
          }
       ],
       "endConditions": [

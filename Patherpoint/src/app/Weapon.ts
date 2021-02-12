@@ -438,13 +438,11 @@ export class Weapon extends Equipment {
         //We set runeSource to the respective item and use it whenever runes are concerned.
         let runeSource: (Weapon | WornItem)[] = this.get_RuneSource(creature, range);
         //Add the striking rune or oil of potency effect of the runeSource.
-        let dicenum = this.dicenum + runeSource[0].get_StrikingRune();
-        //Determine the dice number - Striking first and animal specialization first, then effects.
-        if (runeSource[0].get_StrikingRune() > 0) {
-            explain += "\n" + runeSource[0].get_Striking(runeSource[0].get_StrikingRune()) + ": Dice number +" + runeSource[0].get_StrikingRune();
-            if (runeSource[2]) {
-                explain += "\n(" + runeSource[2].get_Name() + ")";
-            }
+        let dicenum = Math.max(this.dicenum, 1 + runeSource[0].get_StrikingRune());
+        //Determine the dice number - Striking and animal specialization first, then effects.
+        //Only explain Striking if it's actually better than your base dice.
+        if (runeSource[0].get_StrikingRune() + 1 > this.dicenum) {
+            explain += "\n" + runeSource[0].get_Striking(runeSource[0].get_StrikingRune()) + (runeSource[2] ? "(" + runeSource[2].get_Name() + ")" : "") + ": Dice number " + (runeSource[0].get_StrikingRune() + 1);
         }
         if (this.prof == "Unarmed Attacks") {
             let character = characterService.get_Character();

@@ -110,7 +110,9 @@ The very latest in Assistive Technologies for Dungeon Master (ATDM)
 - [ ] Stretch Goal: Include optional systems like Stamina & Resolve
 
 Active to-do:
-Use conditionChoiceFilter in conditions
+After implementing druid feats, double-test all the spells that get more options with feats:
+- Wild Morph
+- Wild Shape
 
 Implement:
 

@@ -911,7 +911,7 @@ export class EffectsService {
         let skillsWildcard: string[] = ["All Checks and DCs", "Skill Checks", "Untrained Skills", "Proficiency Level", "Recall Knowledge Checks", "Master Recall Knowledge Checks", "Saving Throws", "Speed"];
         let inventory: string[] = ["Bulk", "Encumbered Limit", "Max Bulk", "Max Invested"];
         let spellbook: string[] = ["Refocus Bonus Points", "Focus Points", "Focus Pool", "All Checks and DCs", "Attack Rolls", "Spell Attack Rolls", "Spell DCs"];
-        let spellbookWildcard: string[] = ["Spell Slots", "Proficiency Level"];
+        let spellbookWildcard: string[] = ["Spell Slots", "Proficiency Level", "Spell Level"];
         let activities: string[] = ["Dexterity-based Checks and DCs", "Strength-based Checks and DCs", "All Checks and DCs"];
         let activitiesWildcard: string[] = ["Class DC", "Charges", "Cooldown"];
 

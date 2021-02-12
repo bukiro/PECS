@@ -341,6 +341,7 @@ export class CharacterComponent implements OnInit {
         this.characterService.set_ToChange("Character", "individualspells", "all");
         this.characterService.set_ToChange("Character", "activities");
         this.characterService.set_ToChange("Character", "spells");
+        this.characterService.set_ToChange("Character", "spellbook");
         if (this.get_Character().get_AbilityBoosts(lowerLevel, higherLevel).length) {
             this.characterService.set_ToChange("Character", "abilities");
         }
