@@ -4,12 +4,10 @@ import { SpellsService } from 'src/app/spells.service';
 import { CharacterService } from 'src/app/character.service';
 import { Spell } from 'src/app/Spell';
 import { TraitsService } from 'src/app/traits.service';
-import { SortByPipe } from 'src/app/sortBy.pipe';
 import { SpellCasting } from 'src/app/SpellCasting';
 import { EffectsService } from 'src/app/effects.service';
 import { SpellGain } from 'src/app/SpellGain';
 import { SpellLearned } from 'src/app/SpellLearned';
-import { VirtualTimeScheduler } from 'rxjs';
 
 @Component({
     selector: 'app-spellchoice',
@@ -50,8 +48,7 @@ export class SpellchoiceComponent implements OnInit {
         private characterService: CharacterService,
         private spellsService: SpellsService,
         private traitsService: TraitsService,
-        private effectsService: EffectsService,
-        private sortByPipe: SortByPipe
+        private effectsService: EffectsService
     ) { }
 
     toggle_Spell(name: string) {
@@ -605,25 +602,52 @@ export class SpellchoiceComponent implements OnInit {
                 let availableSpells: Spell[] = spells.filter(spell =>
                     this.cannotTake(spell, choice).length == 0 || this.spellTakenByThis(spell.name, choice)
                 )
-                return this.sortByPipe.transform(availableSpells, "asc", "name")
+                return availableSpells
+                    .sort(function (a, b) {
+                        if (a.name > b.name) {
+                            return 1;
+                        }
+                        if (a.name < b.name) {
+                            return -1;
+                        }
+                        return 0
+                    });
             }
             //Don't show spells of a different level unless heightened spells are allowed. Never show spells of a different level if this is a level 0 choice.
             if (!this.allowHeightened && (spellLevel > 0)) {
                 spells = spells.filter(spell => spell.levelreq == spellLevel || this.spellTakenByThis(spell.name, choice));
+            } else {
+                //Still don't show higher level spells even if heightened spells are allowed.
+                spells = spells.filter(spell => spell.levelreq <= spellLevel || this.spellTakenByThis(spell.name, choice));
             }
             //Finally, if there are fewer spells selected than available, show all spells that individually match the requirements or that are already selected.
             // If the available spells are exhausted, only show the selected ones.
             if (choice.spells.length < this.get_Available(choice)) {
-                let availableSpells: Spell[] = spells.filter(spell =>
-                    this.cannotTake(spell, choice).length == 0 || this.spellTakenByThis(spell.name, choice)
-                )
-                return this.sortByPipe.transform(availableSpells, "asc", "name")
+                return spells
+                    .sort(function (a, b) {
+                        if (a.name > b.name) {
+                            return 1;
+                        }
+                        if (a.name < b.name) {
+                            return -1;
+                        }
+                        return 0
+                    });
             } else {
                 let showOtherOptions = this.get_Character().settings.showOtherOptions;
                 let availableSpells: Spell[] = spells.filter(spell =>
                     this.spellTakenByThis(spell.name, choice) || showOtherOptions
                 )
-                return this.sortByPipe.transform(availableSpells, "asc", "name")
+                return availableSpells
+                    .sort(function (a, b) {
+                        if (a.name > b.name) {
+                            return 1;
+                        }
+                        if (a.name < b.name) {
+                            return -1;
+                        }
+                        return 0
+                    });
             }
         }
     }
