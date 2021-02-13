@@ -5959,20 +5959,7 @@
         "gainConditions": [
             {
                 "duration": 6000,
-                "heightenedFilter": 1,
-                "name": "Illusory Disguise (1st Level)",
-                "source": "Illusory Disguise"
-            },
-            {
-                "duration": 6000,
-                "heightenedFilter": 2,
-                "name": "Illusory Disguise (2nd Level)",
-                "source": "Illusory Disguise"
-            },
-            {
-                "duration": 6000,
-                "heightenedFilter": 3,
-                "name": "Illusory Disguise (3rd Level)",
+                "name": "Illusory Disguise",
                 "source": "Illusory Disguise"
             }
         ],
@@ -6028,20 +6015,7 @@
         "gainConditions": [
             {
                 "duration": 1000,
-                "heightenedFilter": 1,
-                "name": "Illusory Object (1st Level)",
-                "source": "Illusory Object"
-            },
-            {
-                "duration": 6000,
-                "heightenedFilter": 2,
-                "name": "Illusory Object (2nd Level)",
-                "source": "Illusory Object"
-            },
-            {
-                "duration": -1,
-                "heightenedFilter": 5,
-                "name": "Illusory Object (5th Level)",
+                "name": "Illusory Object",
                 "source": "Illusory Object"
             }
         ],
@@ -10317,12 +10291,16 @@
         "gainConditions": [
             {
                 "duration": 500,
+                "choice": "Large",
+                "choiceLocked": true,
                 "heightenedFilter": 2,
                 "name": "Enlarge",
                 "source": "Enlarge"
             },
             {
                 "duration": 500,
+                "choice": "Huge",
+                "choiceLocked": true,
                 "heightenedFilter": 4,
                 "name": "Enlarge",
                 "source": "Enlarge"
@@ -10330,7 +10308,7 @@
             {
                 "duration": 500,
                 "heightenedFilter": 6,
-                "name": "Enlarge (6th Level)",
+                "name": "Enlarge",
                 "source": "Enlarge"
             }
         ],
@@ -15447,20 +15425,7 @@
         "gainConditions": [
             {
                 "duration": 100,
-                "heightenedFilter": 4,
-                "name": "Aerial Form (4th Level)",
-                "source": "Aerial Form"
-            },
-            {
-                "duration": 100,
-                "heightenedFilter": 5,
-                "name": "Aerial Form (5th Level)",
-                "source": "Aerial Form"
-            },
-            {
-                "duration": 100,
-                "heightenedFilter": 6,
-                "name": "Aerial Form (6th Level)",
+                "name": "Aerial Form",
                 "source": "Aerial Form"
             }
         ],
@@ -15941,14 +15906,7 @@
         "gainConditions": [
             {
                 "duration": 6000,
-                "heightenedFilter": 4,
-                "name": "Creation (4th Level)",
-                "source": "Creation"
-            },
-            {
-                "duration": 6000,
-                "heightenedFilter": 5,
-                "name": "Creation (5th Level)",
+                "name": "Creation",
                 "source": "Creation"
             }
         ],
@@ -16139,20 +16097,7 @@
         "gainConditions": [
             {
                 "duration": 100,
-                "heightenedFilter": 4,
-                "name": "Dinosaur Form (4th Level)",
-                "source": "Dinosaur Form"
-            },
-            {
-                "duration": 100,
-                "heightenedFilter": 5,
-                "name": "Dinosaur Form (5th Level)",
-                "source": "Dinosaur Form"
-            },
-            {
-                "duration": 100,
-                "heightenedFilter": 7,
-                "name": "Dinosaur Form (7th Level)",
+                "name": "Dinosaur Form",
                 "source": "Dinosaur Form"
             }
         ],
@@ -16785,15 +16730,7 @@
         "gainConditions": [
             {
                 "duration": -2,
-                "heightenedFilter": 4,
-                "name": "Hallucinatory Terrain (4th Level)",
-                "source": "Hallucinatory Terrain",
-                "targetFilter": "caster"
-            },
-            {
-                "duration": -2,
-                "heightenedFilter": 5,
-                "name": "Hallucinatory Terrain (5th Level)",
+                "name": "Hallucinatory Terrain",
                 "source": "Hallucinatory Terrain",
                 "targetFilter": "caster"
             }
@@ -17967,20 +17904,7 @@
         "gainConditions": [
             {
                 "duration": 6000,
-                "heightenedFilter": 4,
-                "name": "Veil (4th Level)",
-                "source": "Veil"
-            },
-            {
-                "duration": 6000,
-                "heightenedFilter": 5,
-                "name": "Veil (5th Level)",
-                "source": "Veil"
-            },
-            {
-                "duration": 6000,
-                "heightenedFilter": 7,
-                "name": "Veil (7th Level)",
+                "name": "Veil",
                 "source": "Veil"
             }
         ],
@@ -19170,15 +19094,8 @@
         "gainConditions": [
             {
                 "duration": 100,
-                "heightenedFilter": 6,
-                "name": "Dinosaur Form (6th Level)",
-                "source": "Dinosaur Form"
-            },
-            {
-                "duration": 100,
-                "heightenedFilter": 8,
-                "name": "Dinosaur Form (8th Level)",
-                "source": "Dinosaur Form"
+                "name": "Dragon Form",
+                "source": "Dragon Form"
             }
         ],
         "desc6": [

@@ -3725,113 +3725,15 @@
    },
    {
       "hide": true,
-      "id": "fd37d73c-84c2-4e56-a896-a8c614e287ad",
-      "name": "Aerial Form Bat Fangs (6th Level)",
-      "traits": [
-         "Reach",
-         "Unarmed"
-      ],
-      "displayName": "Fangs",
-      "moddable": "-",
-      "_className": "Weapon",
-      "dicenum": 4,
-      "dicesize": 8,
-      "dmgType": "P",
-      "group": "Brawling",
-      "melee": 5,
-      "prof": "Unarmed Attacks",
-      "dexterityBased": true
-   },
-   {
-      "hide": true,
-      "id": "24fd9059-5764-422c-be8d-a6a587d5c171",
-      "name": "Aerial Form Bat Wing (6th Level)",
-      "traits": [
-         "Agile",
-         "Reach",
-         "Unarmed"
-      ],
-      "displayName": "Wing",
-      "moddable": "-",
-      "_className": "Weapon",
-      "dicenum": 4,
-      "dicesize": 6,
-      "dmgType": "B",
-      "group": "Brawling",
-      "melee": 5,
-      "prof": "Unarmed Attacks",
-      "dexterityBased": true
-   },
-   {
-      "hide": true,
-      "id": "fb32b16f-d43e-4ff8-b2a4-920a9de7db1b",
-      "name": "Aerial Form Bird Beak (6th Level)",
-      "traits": [
-         "Reach",
-         "Unarmed"
-      ],
-      "displayName": "Beak",
-      "moddable": "-",
-      "_className": "Weapon",
-      "dicenum": 4,
-      "dicesize": 8,
-      "dmgType": "P",
-      "group": "Brawling",
-      "melee": 5,
-      "prof": "Unarmed Attacks",
-      "dexterityBased": true
-   },
-   {
-      "hide": true,
-      "id": "7afb9275-0077-4aae-8dc9-ec9aecb1daef",
-      "name": "Aerial Form Bird Talon (6th Level)",
-      "traits": [
-         "Agile",
-         "Reach",
-         "Unarmed"
-      ],
-      "displayName": "Talon",
-      "moddable": "-",
-      "_className": "Weapon",
-      "dicenum": 2,
-      "dicesize": 10,
-      "dmgType": "S",
-      "group": "Brawling",
-      "melee": 5,
-      "prof": "Unarmed Attacks",
-      "dexterityBased": true
-   },
-   {
-      "hide": true,
-      "id": "7007640f-c3aa-4711-9132-5f4de20281c5",
-      "name": "Aerial Form Pterosaur Beak (6th Level)",
-      "traits": [
-         "Reach",
-         "Unarmed"
-      ],
-      "displayName": "Beak",
-      "moddable": "-",
-      "_className": "Weapon",
-      "dicenum": 6,
-      "dicesize": 6,
-      "dmgType": "P",
-      "group": "Brawling",
-      "melee": 5,
-      "prof": "Unarmed Attacks",
-      "dexterityBased": true
-   },
-   {
-      "hide": true,
       "id": "0aa50e7e-23dd-4120-8b7d-1a3973c5be5d",
       "name": "Aerial Form Wasp Stinger (6th Level)",
       "traits": [
-         "Reach",
          "Unarmed"
       ],
       "displayName": "Stinger",
       "moddable": "-",
       "_className": "Weapon",
-      "dicenum": 2,
+      "dicenum": 1,
       "dicesize": 8,
       "dmgType": "P",
       "extraDamage": "+2d6 persistent Poison",
@@ -4039,57 +3941,20 @@
    },
    {
       "hide": true,
-      "id": "cd9dfbeb-e7cc-4a27-b63d-214574f647cc",
-      "name": "Dinosaur Form Ankylosaurus Tail (5th Level)",
-      "traits": [
-         "Backswing",
-         "Reach 15 feet",
-         "Unarmed"
-      ],
-      "displayName": "Tail",
-      "moddable": "-",
-      "_className": "Weapon",
-      "dicenum": 4,
-      "dicesize": 6,
-      "dmgType": "B",
-      "group": "Brawling",
-      "melee": 15,
-      "prof": "Unarmed Attacks"
-   },
-   {
-      "hide": true,
       "id": "171055a6-606f-4a73-b4c4-69b9bc3d62f1",
       "name": "Dinosaur Form Ankylosaurus Foot (5th Level)",
       "traits": [
-         "Reach 15 feet",
+         "Reach 10 feet",
          "Unarmed"
       ],
       "displayName": "Foot",
       "moddable": "-",
       "_className": "Weapon",
-      "dicenum": 4,
+      "dicenum": 2,
       "dicesize": 6,
       "dmgType": "B",
       "group": "Brawling",
-      "melee": 15,
-      "prof": "Unarmed Attacks"
-   },
-   {
-      "hide": true,
-      "id": "a4dbe6fb-82cd-4d8a-9ea7-7dd8c04f5f27",
-      "name": "Dinosaur Form Brontosaurus Tail (5th Level)",
-      "traits": [
-         "Reach 20 feet",
-         "Unarmed"
-      ],
-      "displayName": "Tail",
-      "moddable": "-",
-      "_className": "Weapon",
-      "dicenum": 4,
-      "dicesize": 6,
-      "dmgType": "B",
-      "group": "Brawling",
-      "melee": 20,
+      "melee": 10,
       "prof": "Unarmed Attacks"
    },
    {
@@ -4097,17 +3962,17 @@
       "id": "fccd1def-0474-41ad-a3af-76a5937155e1",
       "name": "Dinosaur Form Brontosaurus Foot (5th Level)",
       "traits": [
-         "Reach 15 feet",
+         "Reach 10 feet",
          "Unarmed"
       ],
       "displayName": "Foot",
       "moddable": "-",
       "_className": "Weapon",
-      "dicenum": 4,
+      "dicenum": 2,
       "dicesize": 8,
       "dmgType": "B",
       "group": "Brawling",
-      "melee": 15,
+      "melee": 10,
       "prof": "Unarmed Attacks"
    },
    {
@@ -4116,18 +3981,18 @@
       "name": "Dinosaur Form Deinonychus Talon (5th Level)",
       "traits": [
          "Agile",
-         "Reach 15 feet",
+         "Reach 10 feet",
          "Unarmed"
       ],
       "displayName": "Talon",
       "moddable": "-",
       "_className": "Weapon",
-      "dicenum": 4,
+      "dicenum": 2,
       "dicesize": 4,
       "extraDamage": "+1 persistent Bleed",
       "dmgType": "P",
       "group": "Brawling",
-      "melee": 15,
+      "melee": 10,
       "prof": "Unarmed Attacks"
    },
    {
@@ -4135,35 +4000,17 @@
       "id": "bdd9f1a8-46d2-4b34-bec5-ead284de9031",
       "name": "Dinosaur Form Deinonychus Jaws (5th Level)",
       "traits": [
-         "Reach 15 feet",
+         "Reach 10 feet",
          "Unarmed"
       ],
       "displayName": "Jaws",
       "moddable": "-",
       "_className": "Weapon",
-      "dicenum": 2,
+      "dicenum": 1,
       "dicesize": 10,
       "dmgType": "P",
       "group": "Brawling",
-      "melee": 15,
-      "prof": "Unarmed Attacks"
-   },
-   {
-      "hide": true,
-      "id": "cd4afb9c-db81-45a7-9e5a-122d1beffa47",
-      "name": "Dinosaur Form Stegosaurus Tail (5th Level)",
-      "traits": [
-         "Reach 15 feet",
-         "Unarmed"
-      ],
-      "displayName": "Tail",
-      "moddable": "-",
-      "_className": "Weapon",
-      "dicenum": 4,
-      "dicesize": 8,
-      "dmgType": "P",
-      "group": "Brawling",
-      "melee": 15,
+      "melee": 10,
       "prof": "Unarmed Attacks"
    },
    {
@@ -4171,18 +4018,18 @@
       "id": "91ef8171-aa64-435a-9590-592d0d0225b8",
       "name": "Dinosaur Form Triceratops Horn (5th Level)",
       "traits": [
-         "Reach 15 feet",
+         "Reach 10 feet",
          "Unarmed"
       ],
       "displayName": "Horn",
       "moddable": "-",
       "_className": "Weapon",
-      "dicenum": 4,
+      "dicenum": 2,
       "dicesize": 8,
       "dmgType": "P",
       "criticalHint": "Whenever you score a critical hit with your Horn unarmed attack, your target takes 1d6 persistent bleed damage.",
       "group": "Brawling",
-      "melee": 15,
+      "melee": 10,
       "prof": "Unarmed Attacks"
    },
    {
@@ -4190,257 +4037,17 @@
       "id": "0faa3aaf-e8bd-4a65-a460-d379387ce6ab",
       "name": "Dinosaur Form Triceratops Foot (5th Level)",
       "traits": [
-         "Reach 15 feet",
+         "Reach 10 feet",
          "Unarmed"
       ],
       "displayName": "Foot",
       "moddable": "-",
       "_className": "Weapon",
-      "dicenum": 4,
+      "dicenum": 2,
       "dicesize": 6,
       "dmgType": "B",
       "group": "Brawling",
-      "melee": 15,
-      "prof": "Unarmed Attacks"
-   },
-   {
-      "hide": true,
-      "id": "3ef8ef0b-df98-4d43-a4e3-2afbf9281454",
-      "name": "Dinosaur Form Tyrannosaurus Jaws (5th Level)",
-      "traits": [
-         "Deadly",
-         "Reach 15 feet",
-         "Unarmed"
-      ],
-      "displayName": "Jaws",
-      "moddable": "-",
-      "_className": "Weapon",
-      "dicenum": 2,
-      "dicesize": 12,
-      "dmgType": "P",
-      "group": "Brawling",
-      "melee": 15,
-      "prof": "Unarmed Attacks"
-   },
-   {
-      "hide": true,
-      "id": "b7234efc-23f8-4cbb-aebd-dbc5abb07923",
-      "name": "Dinosaur Form Tyrannosaurus Tail (5th Level)",
-      "traits": [
-         "Reach 15 feet",
-         "Unarmed"
-      ],
-      "displayName": "Tail",
-      "moddable": "-",
-      "_className": "Weapon",
-      "dicenum": 2,
-      "dicesize": 10,
-      "dmgType": "B",
-      "group": "Brawling",
-      "melee": 15,
-      "prof": "Unarmed Attacks"
-   },
-   {
-      "hide": true,
-      "id": "623becd8-b1ce-4072-a00e-56c177e1df1c",
-      "name": "Dinosaur Form Ankylosaurus Tail (7th Level)",
-      "traits": [
-         "Backswing",
-         "Reach 20 feet",
-         "Unarmed"
-      ],
-      "displayName": "Tail",
-      "moddable": "-",
-      "_className": "Weapon",
-      "dicenum": 4,
-      "dicesize": 6,
-      "dmgType": "B",
-      "group": "Brawling",
-      "melee": 20,
-      "prof": "Unarmed Attacks"
-   },
-   {
-      "hide": true,
-      "id": "44f261a7-330b-4ce3-a347-d70fab8750c5",
-      "name": "Dinosaur Form Ankylosaurus Foot (7th Level)",
-      "traits": [
-         "Reach 20 feet",
-         "Unarmed"
-      ],
-      "displayName": "Foot",
-      "moddable": "-",
-      "_className": "Weapon",
-      "dicenum": 4,
-      "dicesize": 6,
-      "dmgType": "B",
-      "group": "Brawling",
-      "melee": 20,
-      "prof": "Unarmed Attacks"
-   },
-   {
-      "hide": true,
-      "id": "13244354-4456-4e51-b437-4836e9d4de9b",
-      "name": "Dinosaur Form Brontosaurus Tail (7th Level)",
-      "traits": [
-         "Reach 25 feet",
-         "Unarmed"
-      ],
-      "displayName": "Tail",
-      "moddable": "-",
-      "_className": "Weapon",
-      "dicenum": 4,
-      "dicesize": 6,
-      "dmgType": "B",
-      "group": "Brawling",
-      "melee": 25,
-      "prof": "Unarmed Attacks"
-   },
-   {
-      "hide": true,
-      "id": "4577b873-af14-4b10-9443-d3d4232fc83e",
-      "name": "Dinosaur Form Brontosaurus Foot (7th Level)",
-      "traits": [
-         "Reach 20 feet",
-         "Unarmed"
-      ],
-      "displayName": "Foot",
-      "moddable": "-",
-      "_className": "Weapon",
-      "dicenum": 4,
-      "dicesize": 8,
-      "dmgType": "B",
-      "group": "Brawling",
-      "melee": 20,
-      "prof": "Unarmed Attacks"
-   },
-   {
-      "hide": true,
-      "id": "a5f37cb7-4769-4809-bd6f-3e14d8402dd4",
-      "name": "Dinosaur Form Deinonychus Talon (7th Level)",
-      "traits": [
-         "Agile",
-         "Reach 20 feet",
-         "Unarmed"
-      ],
-      "displayName": "Talon",
-      "moddable": "-",
-      "_className": "Weapon",
-      "dicenum": 4,
-      "dicesize": 4,
-      "extraDamage": "+1 persistent Bleed",
-      "dmgType": "P",
-      "group": "Brawling",
-      "melee": 20,
-      "prof": "Unarmed Attacks"
-   },
-   {
-      "hide": true,
-      "id": "376f2b15-2fb0-4c5c-ba43-a38824a01209",
-      "name": "Dinosaur Form Deinonychus Jaws (7th Level)",
-      "traits": [
-         "Reach 20 feet",
-         "Unarmed"
-      ],
-      "displayName": "Jaws",
-      "moddable": "-",
-      "_className": "Weapon",
-      "dicenum": 2,
-      "dicesize": 10,
-      "dmgType": "P",
-      "group": "Brawling",
-      "melee": 20,
-      "prof": "Unarmed Attacks"
-   },
-   {
-      "hide": true,
-      "id": "16330cb3-1bc9-471f-b852-66659b2b93e4",
-      "name": "Dinosaur Form Stegosaurus Tail (7th Level)",
-      "traits": [
-         "Reach 20 feet",
-         "Unarmed"
-      ],
-      "displayName": "Tail",
-      "moddable": "-",
-      "_className": "Weapon",
-      "dicenum": 4,
-      "dicesize": 8,
-      "dmgType": "P",
-      "group": "Brawling",
-      "melee": 20,
-      "prof": "Unarmed Attacks"
-   },
-   {
-      "hide": true,
-      "id": "05e50bdd-8a9d-421a-8083-56d30a291e84",
-      "name": "Dinosaur Form Triceratops Horn (7th Level)",
-      "traits": [
-         "Reach 20 feet",
-         "Unarmed"
-      ],
-      "displayName": "Horn",
-      "moddable": "-",
-      "_className": "Weapon",
-      "dicenum": 4,
-      "dicesize": 8,
-      "dmgType": "P",
-      "criticalHint": "Whenever you score a critical hit with your Horn unarmed attack, your target takes 1d6 persistent bleed damage.",
-      "group": "Brawling",
-      "melee": 20,
-      "prof": "Unarmed Attacks"
-   },
-   {
-      "hide": true,
-      "id": "03d54479-9270-48d3-af54-04a30e03d5e2",
-      "name": "Dinosaur Form Triceratops Foot (7th Level)",
-      "traits": [
-         "Reach 20 feet",
-         "Unarmed"
-      ],
-      "displayName": "Foot",
-      "moddable": "-",
-      "_className": "Weapon",
-      "dicenum": 4,
-      "dicesize": 6,
-      "dmgType": "B",
-      "group": "Brawling",
-      "melee": 20,
-      "prof": "Unarmed Attacks"
-   },
-   {
-      "hide": true,
-      "id": "96ee6806-fb10-47c9-a39e-e994012afe3d",
-      "name": "Dinosaur Form Tyrannosaurus Jaws (7th Level)",
-      "traits": [
-         "Deadly",
-         "Reach 20 feet",
-         "Unarmed"
-      ],
-      "displayName": "Jaws",
-      "moddable": "-",
-      "_className": "Weapon",
-      "dicenum": 2,
-      "dicesize": 12,
-      "dmgType": "P",
-      "group": "Brawling",
-      "melee": 20,
-      "prof": "Unarmed Attacks"
-   },
-   {
-      "hide": true,
-      "id": "4f576af8-9edb-4f6b-9fd5-8af08a63e2b3",
-      "name": "Dinosaur Form Tyrannosaurus Tail (7th Level)",
-      "traits": [
-         "Reach 20 feet",
-         "Unarmed"
-      ],
-      "displayName": "Tail",
-      "moddable": "-",
-      "_className": "Weapon",
-      "dicenum": 2,
-      "dicesize": 10,
-      "dmgType": "B",
-      "group": "Brawling",
-      "melee": 20,
+      "melee": 10,
       "prof": "Unarmed Attacks"
    },
    {
@@ -4481,24 +4088,6 @@
    },
    {
       "hide": true,
-      "id": "fce97450-6809-11eb-ae93-0242ac130002",
-      "name": "Dragon Form Tail (8th Level)",
-      "traits": [
-         "Reach 15 feet",
-         "Unarmed"
-      ],
-      "displayName": "Tail",
-      "moddable": "-",
-      "_className": "Weapon",
-      "dicenum": 3,
-      "dicesize": 10,
-      "dmgType": "B",
-      "group": "Brawling",
-      "melee": 15,
-      "prof": "Unarmed Attacks"
-   },
-   {
-      "hide": true,
       "id": "fce9754a-6809-11eb-ae93-0242ac130002",
       "name": "Dragon Form Claw",
       "traits": [
@@ -4513,25 +4102,6 @@
       "dmgType": "S",
       "group": "Brawling",
       "melee": 5,
-      "prof": "Unarmed Attacks"
-   },
-   {
-      "hide": true,
-      "id": "fce97806-6809-11eb-ae93-0242ac130002",
-      "name": "Dragon Form Claw (8th Level)",
-      "traits": [
-         "Agile",
-         "Reach 10 feet",
-         "Unarmed"
-      ],
-      "displayName": "Claw",
-      "moddable": "-",
-      "_className": "Weapon",
-      "dicenum": 3,
-      "dicesize": 10,
-      "dmgType": "S",
-      "group": "Brawling",
-      "melee": 10,
       "prof": "Unarmed Attacks"
    },
    {
@@ -4554,25 +4124,6 @@
    },
    {
       "hide": true,
-      "id": "fce97978-6809-11eb-ae93-0242ac130002",
-      "name": "Dragon Form Black Dragon Jaws (8th Level)",
-      "traits": [
-         "Reach 10 feet",
-         "Unarmed"
-      ],
-      "displayName": "Jaws",
-      "moddable": "-",
-      "_className": "Weapon",
-      "dicenum": 2,
-      "dicesize": 12,
-      "dmgType": "P",
-      "extraDamage": "+2d6 Acid",
-      "group": "Brawling",
-      "melee": 10,
-      "prof": "Unarmed Attacks"
-   },
-   {
-      "hide": true,
       "id": "fce97a36-6809-11eb-ae93-0242ac130002",
       "name": "Dragon Form Horns",
       "traits": [
@@ -4587,24 +4138,6 @@
       "dmgType": "P",
       "group": "Brawling",
       "melee": 10,
-      "prof": "Unarmed Attacks"
-   },
-   {
-      "hide": true,
-      "id": "fce97aea-6809-11eb-ae93-0242ac130002",
-      "name": "Dragon Form Horns (8th Level)",
-      "traits": [
-         "Reach 15 feet",
-         "Unarmed"
-      ],
-      "displayName": "Horns",
-      "moddable": "-",
-      "_className": "Weapon",
-      "dicenum": 3,
-      "dicesize": 8,
-      "dmgType": "P",
-      "group": "Brawling",
-      "melee": 15,
       "prof": "Unarmed Attacks"
    },
    {
@@ -4627,25 +4160,6 @@
    },
    {
       "hide": true,
-      "id": "fce97d9c-6809-11eb-ae93-0242ac130002",
-      "name": "Dragon Form Blue Dragon Jaws (8th Level)",
-      "traits": [
-         "Reach 10 feet",
-         "Unarmed"
-      ],
-      "displayName": "Jaws",
-      "moddable": "-",
-      "_className": "Weapon",
-      "dicenum": 2,
-      "dicesize": 10,
-      "dmgType": "P",
-      "extraDamage": "+1d12 Electricity",
-      "group": "Brawling",
-      "melee": 10,
-      "prof": "Unarmed Attacks"
-   },
-   {
-      "hide": true,
       "id": "fce97e64-6809-11eb-ae93-0242ac130002",
       "name": "Dragon Form Brass Dragon Jaws",
       "traits": [
@@ -4660,25 +4174,6 @@
       "extraDamage": "+2d4 Fire",
       "group": "Brawling",
       "melee": 5,
-      "prof": "Unarmed Attacks"
-   },
-   {
-      "hide": true,
-      "id": "fce97f22-6809-11eb-ae93-0242ac130002",
-      "name": "Dragon Form Brass Dragon Jaws (8th Level)",
-      "traits": [
-         "Reach 10 feet",
-         "Unarmed"
-      ],
-      "displayName": "Jaws",
-      "moddable": "-",
-      "_className": "Weapon",
-      "dicenum": 3,
-      "dicesize": 8,
-      "dmgType": "P",
-      "extraDamage": "+2d4 Fire",
-      "group": "Brawling",
-      "melee": 10,
       "prof": "Unarmed Attacks"
    },
    {
@@ -4701,24 +4196,6 @@
    },
    {
       "hide": true,
-      "id": "fce98094-6809-11eb-ae93-0242ac130002",
-      "name": "Dragon Form Brass Dragon Spikes (8th Level)",
-      "traits": [
-         "Reach 15 feet",
-         "Unarmed"
-      ],
-      "displayName": "Spikes",
-      "moddable": "-",
-      "_className": "Weapon",
-      "dicenum": 3,
-      "dicesize": 8,
-      "dmgType": "P",
-      "group": "Brawling",
-      "melee": 15,
-      "prof": "Unarmed Attacks"
-   },
-   {
-      "hide": true,
       "id": "fce98148-6809-11eb-ae93-0242ac130002",
       "name": "Dragon Form Bronze Dragon Jaws",
       "traits": [
@@ -4733,25 +4210,6 @@
       "extraDamage": "+1d12 Electricity",
       "group": "Brawling",
       "melee": 5,
-      "prof": "Unarmed Attacks"
-   },
-   {
-      "hide": true,
-      "id": "fce981fc-6809-11eb-ae93-0242ac130002",
-      "name": "Dragon Form Bronze Dragon Jaws (8th Level)",
-      "traits": [
-         "Reach 10 feet",
-         "Unarmed"
-      ],
-      "displayName": "Jaws",
-      "moddable": "-",
-      "_className": "Weapon",
-      "dicenum": 2,
-      "dicesize": 10,
-      "dmgType": "P",
-      "extraDamage": "+1d12 Electricity",
-      "group": "Brawling",
-      "melee": 10,
       "prof": "Unarmed Attacks"
    },
    {
@@ -4774,24 +4232,6 @@
    },
    {
       "hide": true,
-      "id": "fce98530-6809-11eb-ae93-0242ac130002",
-      "name": "Dragon Form Bronze Dragon Wing (8th Level)",
-      "traits": [
-         "Reach 15 feet",
-         "Unarmed"
-      ],
-      "displayName": "Wing",
-      "moddable": "-",
-      "_className": "Weapon",
-      "dicenum": 3,
-      "dicesize": 8,
-      "dmgType": "S",
-      "group": "Brawling",
-      "melee": 15,
-      "prof": "Unarmed Attacks"
-   },
-   {
-      "hide": true,
       "id": "fce985ee-6809-11eb-ae93-0242ac130002",
       "name": "Dragon Form Copper Dragon Jaws",
       "traits": [
@@ -4806,25 +4246,6 @@
       "extraDamage": "+2d6 Acid",
       "group": "Brawling",
       "melee": 5,
-      "prof": "Unarmed Attacks"
-   },
-   {
-      "hide": true,
-      "id": "fce986a2-6809-11eb-ae93-0242ac130002",
-      "name": "Dragon Form Copper Dragon Jaws (8th Level)",
-      "traits": [
-         "Reach 10 feet",
-         "Unarmed"
-      ],
-      "displayName": "Jaws",
-      "moddable": "-",
-      "_className": "Weapon",
-      "dicenum": 2,
-      "dicesize": 12,
-      "dmgType": "P",
-      "extraDamage": "+2d6 Acid",
-      "group": "Brawling",
-      "melee": 10,
       "prof": "Unarmed Attacks"
    },
    {
@@ -4847,24 +4268,6 @@
    },
    {
       "hide": true,
-      "id": "fce98814-6809-11eb-ae93-0242ac130002",
-      "name": "Dragon Form Copper Dragon Wing (8th Level)",
-      "traits": [
-         "Reach 15 feet",
-         "Unarmed"
-      ],
-      "displayName": "Wing",
-      "moddable": "-",
-      "_className": "Weapon",
-      "dicenum": 3,
-      "dicesize": 8,
-      "dmgType": "B",
-      "group": "Brawling",
-      "melee": 15,
-      "prof": "Unarmed Attacks"
-   },
-   {
-      "hide": true,
       "id": "fce988c8-6809-11eb-ae93-0242ac130002",
       "name": "Dragon Form Gold Dragon Jaws",
       "traits": [
@@ -4879,25 +4282,6 @@
       "extraDamage": "+2d6 Fire",
       "group": "Brawling",
       "melee": 5,
-      "prof": "Unarmed Attacks"
-   },
-   {
-      "hide": true,
-      "id": "fce98b7a-6809-11eb-ae93-0242ac130002",
-      "name": "Dragon Form Gold Dragon Jaws (8th Level)",
-      "traits": [
-         "Reach 10 feet",
-         "Unarmed"
-      ],
-      "displayName": "Jaws",
-      "moddable": "-",
-      "_className": "Weapon",
-      "dicenum": 2,
-      "dicesize": 12,
-      "dmgType": "P",
-      "extraDamage": "+2d6 Fire",
-      "group": "Brawling",
-      "melee": 10,
       "prof": "Unarmed Attacks"
    },
    {
@@ -4920,25 +4304,6 @@
    },
    {
       "hide": true,
-      "id": "fce98d0a-6809-11eb-ae93-0242ac130002",
-      "name": "Dragon Form Gold Dragon Claw (8th Level)",
-      "traits": [
-         "Agile",
-         "Reach 10 feet",
-         "Unarmed"
-      ],
-      "displayName": "Claw",
-      "moddable": "-",
-      "_className": "Weapon",
-      "dicenum": 4,
-      "dicesize": 6,
-      "dmgType": "S",
-      "group": "Brawling",
-      "melee": 10,
-      "prof": "Unarmed Attacks"
-   },
-   {
-      "hide": true,
       "id": "fce98dc8-6809-11eb-ae93-0242ac130002",
       "name": "Dragon Form Green Dragon Jaws",
       "traits": [
@@ -4953,25 +4318,6 @@
       "extraDamage": "+2d6 Poison",
       "group": "Brawling",
       "melee": 5,
-      "prof": "Unarmed Attacks"
-   },
-   {
-      "hide": true,
-      "id": "fce98e7c-6809-11eb-ae93-0242ac130002",
-      "name": "Dragon Form Green Dragon Jaws (8th Level)",
-      "traits": [
-         "Reach 10 feet",
-         "Unarmed"
-      ],
-      "displayName": "Jaws",
-      "moddable": "-",
-      "_className": "Weapon",
-      "dicenum": 2,
-      "dicesize": 12,
-      "dmgType": "P",
-      "extraDamage": "+2d6 Poison",
-      "group": "Brawling",
-      "melee": 10,
       "prof": "Unarmed Attacks"
    },
    {
@@ -4994,25 +4340,6 @@
    },
    {
       "hide": true,
-      "id": "fce99246-6809-11eb-ae93-0242ac130002",
-      "name": "Dragon Form Red Dragon Jaws (8th Level)",
-      "traits": [
-         "Reach 10 feet",
-         "Unarmed"
-      ],
-      "displayName": "Jaws",
-      "moddable": "-",
-      "_className": "Weapon",
-      "dicenum": 2,
-      "dicesize": 12,
-      "dmgType": "P",
-      "extraDamage": "+2d6 Fire",
-      "group": "Brawling",
-      "melee": 10,
-      "prof": "Unarmed Attacks"
-   },
-   {
-      "hide": true,
       "id": "fce9944e-6809-11eb-ae93-0242ac130002",
       "name": "Dragon Form Red Dragon Claw",
       "traits": [
@@ -5027,25 +4354,6 @@
       "dmgType": "S",
       "group": "Brawling",
       "melee": 5,
-      "prof": "Unarmed Attacks"
-   },
-   {
-      "hide": true,
-      "id": "fce99520-6809-11eb-ae93-0242ac130002",
-      "name": "Dragon Form Red Dragon Claw (8th Level)",
-      "traits": [
-         "Agile",
-         "Reach 10 feet",
-         "Unarmed"
-      ],
-      "displayName": "Claw",
-      "moddable": "-",
-      "_className": "Weapon",
-      "dicenum": 4,
-      "dicesize": 6,
-      "dmgType": "S",
-      "group": "Brawling",
-      "melee": 10,
       "prof": "Unarmed Attacks"
    },
    {
@@ -5068,24 +4376,6 @@
    },
    {
       "hide": true,
-      "id": "fce99692-6809-11eb-ae93-0242ac130002",
-      "name": "Dragon Form Red Dragon Wing (8th Level)",
-      "traits": [
-         "Reach 15 feet",
-         "Unarmed"
-      ],
-      "displayName": "Wing",
-      "moddable": "-",
-      "_className": "Weapon",
-      "dicenum": 3,
-      "dicesize": 8,
-      "dmgType": "B",
-      "group": "Brawling",
-      "melee": 15,
-      "prof": "Unarmed Attacks"
-   },
-   {
-      "hide": true,
       "id": "fce99746-6809-11eb-ae93-0242ac130002",
       "name": "Dragon Form Silver Dragon Jaws",
       "traits": [
@@ -5104,25 +4394,6 @@
    },
    {
       "hide": true,
-      "id": "fce99804-6809-11eb-ae93-0242ac130002",
-      "name": "Dragon Form Silver Dragon Jaws (8th Level)",
-      "traits": [
-         "Reach 10 feet",
-         "Unarmed"
-      ],
-      "displayName": "Jaws",
-      "moddable": "-",
-      "_className": "Weapon",
-      "dicenum": 2,
-      "dicesize": 12,
-      "dmgType": "P",
-      "extraDamage": "+2d6 Cold",
-      "group": "Brawling",
-      "melee": 10,
-      "prof": "Unarmed Attacks"
-   },
-   {
-      "hide": true,
       "id": "fce998b8-6809-11eb-ae93-0242ac130002",
       "name": "Dragon Form White Dragon Jaws",
       "traits": [
@@ -5137,25 +4408,6 @@
       "extraDamage": "+2d6 Cold",
       "group": "Brawling",
       "melee": 5,
-      "prof": "Unarmed Attacks"
-   },
-   {
-      "hide": true,
-      "id": "fce99a66-6809-11eb-ae93-0242ac130002",
-      "name": "Dragon Form White Dragon Jaws (8th Level)",
-      "traits": [
-         "Reach 10 feet",
-         "Unarmed"
-      ],
-      "displayName": "Jaws",
-      "moddable": "-",
-      "_className": "Weapon",
-      "dicenum": 3,
-      "dicesize": 6,
-      "dmgType": "P",
-      "extraDamage": "+2d6 Cold",
-      "group": "Brawling",
-      "melee": 10,
       "prof": "Unarmed Attacks"
    },
    {

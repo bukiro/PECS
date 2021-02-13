@@ -17568,6 +17568,12 @@
         "featreq": [
             "Animal Companion"
         ],
+        "effects": [
+            {
+                "affected": "Companion:Unarmed Dice Number",
+                "setValue": "2"
+            }
+        ],
         "gainAnimalCompanion": 2
     },
     {
@@ -18107,6 +18113,12 @@
         "levelreq": 16,
         "featreq": [
             "Incredible Companion"
+        ],
+        "effects": [
+            {
+                "affected": "Companion:Unarmed Attack Dice Number",
+                "setValue": "3"
+            }
         ],
         "gainAnimalCompanion": 6
     },

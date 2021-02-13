@@ -2214,7 +2214,7 @@
       ]
    },
    {
-      "name": "Illusory Object (1st Level)",
+      "name": "Illusory Object",
       "desc": "You have created an illusory visual image of a stationary object.\n\n<strong>1st Level</strong> The object appears to animate naturally, but it doesn't make sounds or generate smells. For example, water would appear to pour down an illusory waterfall, but it would be silent.\n<strong>2nd Level</strong> Your image makes appropriate sounds, generates normal smells, and feels right to the touch. The spell gains the auditory trait.\n<strong>5th Level</strong> The duration is permanent;  remove the condition when you no longer need this information.\n\nAny creature that touches the image or uses the Seek action to examine it can attempt to disbelieve your illusion.",
       "type": "spells",
       "buff": true
@@ -2272,8 +2272,7 @@
                },
                {
                   "affected": "Weapons Dice Number",
-                  "setValue": 2,
-                  "type": "item"
+                  "setValue": 2
                }
             ],
             "showon": "Attacks"
@@ -2570,8 +2569,7 @@
                },
                {
                   "affected": "Unarmed Attacks Dice Number",
-                  "setValue": 2,
-                  "type": "item"
+                  "setValue": 2
                }
             ],
             "showon": "Attacks"
@@ -2613,8 +2611,7 @@
                },
                {
                   "affected": "Club Dice Number",
-                  "setValue": 2,
-                  "type": "item"
+                  "setValue": 2
                }
             ],
             "showon": "Attacks"
@@ -2692,43 +2689,19 @@
       ]
    },
    {
-      "name": "Enlarge (2nd Level)",
-      "desc": "Bolstered by magical power, you grow to size Large. Your equipment grows with you but returns to natural size if removed. You are clumsy 1. Your reach increases by 5 feet (or by 10 feet if you started out Tiny), and you gain a +2 status bonus to melee damage.\n\n<strong>4th Level</strong> You instead grow to size Huge. The status bonus to melee damage is +4 and your reach increases by 10 feet (or 15 feet if you started out Tiny).\n<strong>6th Level</strong> You can choose either the 2nd-level or 4th-level version of this spell (see the condition Enlarge (6th Level))",
-      "type": "spells",
-      "buff": true,
-      "effects": [
-         {
-            "affected": "Size",
-            "setValue": "Heightened >= 4 ? 2 : 1"
-         },
-         {
-            "affected": "Melee Damage",
-            "value": "Heightened >= 4 ? 4 : 2"
-         },
-         {
-            "affected": "Reach",
-            "value": "(Heightened >= 4 ? 10 : 5) + (BaseSize() == -2 ? 5 : 0)"
-         }
-      ],
-      "gainConditions": [
-         {
-            "name": "Clumsy",
-            "value": 1
-         }
-      ]
-   },
-   {
-      "name": "Enlarge (6th Level)",
-      "desc": "Bolstered by magical power, you can choose to grow to size Large or Huge. Your equipment grows with you but returns to natural size if removed. You are clumsy 1.\n\n<strong>Large</strong> Your reach increases by 5 feet (or by 10 feet if you started out Tiny), and you gain a +2 status bonus to melee damage.\n<strong>Huge</strong> Your reach increases by 10 feet (or by 15 feet if you started out Tiny), and you gain a +4 status bonus to melee damage.",
+      "name": "Enlarge",
+      "desc": "Bolstered by magical power, you grow to size Large. Your equipment grows with you but returns to natural size if removed. You are clumsy 1. Your reach increases by 5 feet (or by 10 feet if you started out Tiny), and you gain a +2 status bonus to melee damage.\n\n<strong>4th Level</strong> You instead grow to size Huge. The status bonus to melee damage is +4 and your reach increases by 10 feet (or 15 feet if you started out Tiny).\n<strong>6th Level</strong> You can choose either the 2nd-level or 4th-level version of this spell.",
       "type": "spells",
       "buff": true,
       "choice": "Large",
       "choices": [
          {
-            "name": "Large"
+            "name": "Large",
+            "levelreq": 6
          },
          {
-            "name": "Huge"
+            "name": "Huge",
+            "levelreq": 6
          }
       ],
       "effects": [
@@ -2750,9 +2723,6 @@
             "name": "Clumsy",
             "value": 1
          }
-      ],
-      "overrideConditions": [
-         "Enlarge (2nd Level)"
       ]
    },
    {
@@ -2760,7 +2730,7 @@
       "desc": "Cloaked in illusion, you become invisible.\n\n<strong>2nd Level</strong> If you use a hostile action, the spell ends after that hostile action is completed.\n<strong>4th Level</strong> Cloaked in illusion, you become invisible. The spell doesn't end if you use a hostile action.",
       "type": "spells",
       "buff": true,
-      "inputRequired": "Before 4th level, remove the conditoin after you use a hostile action.",
+      "inputRequired": "Before 4th level, remove the condition after you use a hostile action.",
       "gainConditions": [
          {
             "name": "Invisible"
@@ -2838,19 +2808,10 @@
       ]
    },
    {
-      "name": "Creation (4th Level)",
-      "desc": "You have conjured a temporary object from eldritch energy that is of vegetable matter (such as wood or paper) and 5 cubic feet or smaller. It can't rely on intricate artistry or complex moving parts, never fulfills a cost or the like, and can't be made of precious materials or materials with a rarity of uncommon or higher. It is obviously temporarily conjured, and thus can't be sold or passed off as a genuine item.",
+      "name": "Creation",
+      "desc": "You have conjured a temporary object from eldritch energy that is 5 cubic feet or smaller.\n\n<strong>4th Level</strong> The object is of vegetable matter (such as wood or paper).\n<strong>5th Level</strong> The item is metal and can include common minerals, like feldspar or quartz.\n\nIt can't rely on intricate artistry or complex moving parts, never fulfills a cost or the like, and can't be made of precious materials or materials with a rarity of uncommon or higher. It is obviously temporarily conjured, and thus can't be sold or passed off as a genuine item.",
       "type": "spells",
       "buff": true
-   },
-   {
-      "name": "Creation (5th Level)",
-      "desc": "You have conjured a temporary object from eldritch energy that is metal and 5 cubic feet or smaller, and can include common minerals, like feldspar or quartz. It can't rely on intricate artistry or complex moving parts, never fulfills a cost or the like, and can't be made of precious materials or materials with a rarity of uncommon or higher. It is obviously temporarily conjured, and thus can't be sold or passed off as a genuine item.",
-      "type": "spells",
-      "buff": true,
-      "overrideConditions": [
-         "Creation (4th Level)"
-      ]
    },
    {
       "name": "Physical Boost",
@@ -7336,30 +7297,6 @@
       ]
    },
    {
-      "name": "Endure Elements (3rd Level)",
-      "desc": "You are shielded against dangerous temperatures. You are protected from severe cold and heat, but not extreme cold or heat.",
-      "type": "spells",
-      "buff": true,
-      "hints": [
-         {
-            "desc": "You are protected from severe cold and heat, but not extreme cold or heat.",
-            "showon": "Resistances"
-         }
-      ]
-   },
-   {
-      "name": "Endure Elements (5th Level)",
-      "desc": "You are shielded against dangerous temperatures. You are protected from severe cold, severe heat, extreme cold, and extreme heat.",
-      "type": "spells",
-      "buff": true,
-      "hints": [
-         {
-            "desc": "You are protected from severe cold, severe heat, extreme cold, and extreme heat.",
-            "showon": "Resistances"
-         }
-      ]
-   },
-   {
       "name": "Enhance Victuals",
       "desc": "You have transformed the target into delicious fare, changing water into wine or another fine beverage or enhancing the food's taste and ingredients to make it a gourmet treat.\n\nThe food turns back to normal if not consumed before the duration expires, though any poisons that were counteracted are still gone.",
       "type": "spells",
@@ -7708,110 +7645,6 @@
          {
             "conditionChoiceFilter": "Large with darkvision",
             "name": "Darkvision"
-         }
-      ]
-   },
-   {
-      "name": "Humanoid Form (3rd Level)",
-      "desc": "You have transformed your appearance to that of a Small or Medium humanoid, such as a dwarf, elf, goblin, halfling, human, orc, or lizardfolk. You gain the humanoid trait in addition to your other traits while in this form, as well as any trait related to the creature's kind (such as goblin or human). If this transformation reduces your size, it reduces your reach accordingly (as the shrink spell). This transformation doesn't change your statistics in any way, and you don't gain any special abilities of the humanoid form you assume. You can still wear and use your gear, which changes size (if necessary) to match your new form. If items leave your person, they return to their usual size. You gain darkvision or low-light vision if the form you assume has that ability.\n\nHumanoid form grants you a +4 status bonus to Deception checks to pass as a generic member of the chosen ancestry, and you add your level even if you're untrained, but you can't make yourself look like a specific person. If you want to Impersonate an individual, you still need to create a disguise, though the GM won't factor in the difference in ancestry when determining the DC of your Deception check. You can Dismiss this spell.",
-      "type": "spells",
-      "buff": true,
-      "hints": [
-         {
-            "desc": "Humanoid form grants you a +4 status bonus to Deception checks to pass as a generic member of the chosen ancestry, and you add your level even if you're untrained, but you can't make yourself look like a specific person. If you want to Impersonate an individual, you still need to create a disguise, though the GM won't factor in the difference in ancestry when determining the DC of your Deception check.",
-            "effects": [
-               {
-                  "affected": "Deception",
-                  "type": "status",
-                  "value": "4"
-               },
-               {
-                  "affected": "Deception",
-                  "type": "proficiency",
-                  "value": "Skill_Level('Deception') == 0 ? Level : 0"
-               }
-            ],
-            "showon": "Deception"
-         }
-      ],
-      "choice": "Medium",
-      "choices": [
-         {
-            "name": "Small"
-         },
-         {
-            "name": "Medium"
-         }
-      ],
-      "effects": [
-         {
-            "affected": "Size",
-            "setValue": "Choice == 'Small' ? -1 : 0"
-         },
-         {
-            "affected": "Reach",
-            "setValue": "5"
-         }
-      ],
-      "senses": [
-         {
-            "name": "Darkvision"
-         }
-      ]
-   },
-   {
-      "name": "Humanoid Form (5th Level)",
-      "desc": "You have transformed your appearance to that of a Small, Medium or Large humanoid, such as a dwarf, elf, goblin, halfling, human, orc, or lizardfolk. You gain the humanoid trait in addition to your other traits while in this form, as well as any trait related to the creature's kind (such as goblin or human). If this transformation reduces your size, it reduces your reach accordingly (as the shrink spell). If it increases your size, you gain the effects of the enlarge spell (Clumsy 1 and +2 status bonus to melee damage). This transformation doesn't change your statistics in any way, and you don't gain any special abilities of the humanoid form you assume. You can still wear and use your gear, which changes size (if necessary) to match your new form. If items leave your person, they return to their usual size. You gain darkvision or low-light vision if the form you assume has that ability.\n\nHumanoid form grants you a +4 status bonus to Deception checks to pass as a generic member of the chosen ancestry, and you add your level even if you're untrained, but you can't make yourself look like a specific person. If you want to Impersonate an individual, you still need to create a disguise, though the GM won't factor in the difference in ancestry when determining the DC of your Deception check. You can Dismiss this spell.",
-      "type": "spells",
-      "buff": true,
-      "hints": [
-         {
-            "desc": "Humanoid form grants you a +4 status bonus to Deception checks to pass as a generic member of the chosen ancestry, and you add your level even if you're untrained, but you can't make yourself look like a specific person. If you want to Impersonate an individual, you still need to create a disguise, though the GM won't factor in the difference in ancestry when determining the DC of your Deception check.",
-            "effects": [
-               {
-                  "affected": "Deception",
-                  "type": "status",
-                  "value": "4"
-               },
-               {
-                  "affected": "Deception",
-                  "type": "proficiency",
-                  "value": "Skill_Level('Deception') == 0 ? Level : 0"
-               }
-            ],
-            "showon": "Deception"
-         }
-      ],
-      "choice": "Medium",
-      "choices": [
-         {
-            "name": "Small"
-         },
-         {
-            "name": "Medium"
-         },
-         {
-            "name": "Large"
-         }
-      ],
-      "effects": [
-         {
-            "affected": "Size",
-            "setValue": "Choice == 'Small' ? -1 : (Choice == 'Large' ? 1 : 0)"
-         },
-         {
-            "affected": "Melee Damage",
-            "type": "status",
-            "value": "(Choice == 'Medium' && BaseSize() < 0) || (Choice == 'Large' && BaseSize() < 1) ? 2 : 0"
-         },
-         {
-            "affected": "Dexterity-based Checks and DCs",
-            "type": "status",
-            "value": "(Choice == 'Medium' && BaseSize() < 0) || (Choice == 'Large' && BaseSize() < 1) ? -1 : 0"
-         },
-         {
-            "affected": "Reach",
-            "setValue": "Choice == 'Large' ? 10 : 5"
          }
       ]
    },
@@ -8988,394 +8821,6 @@
       ]
    },
    {
-      "name": "Insect Form (4th Level)",
-      "desc": "You have transformed into a Large animal battle form, chosen from ant, beetle, centipede, mantis, scorpion, or spider.  You can decide the specific type of animal (such as such as a ladybug or scarab for beetle), but this has no effect on the form's Size or statistics. While in this form, you gain the animal trait. You can Dismiss this spell.\n\nYou gain the following statistics and abilities regardless of which battle form you choose:\n\nAC = 18 + your level. Ignore your armor's check penalty and Speed reduction.\n15 temporary Hit Points.\nLow-light vision.\nOne or more attacks specific to the battle form you choose, which are the only attacks you can use. You're trained with them. Your attack modifier is +16. Your attacks have 10-foot reach, and your damage bonus is +6. These attacks are Strength based (for the purpose of the enfeebled condition). If your unarmed attack modifier is higher, you can use it instead.\nAthletics modifier of +16, unless your own is higher.\n\nYou also gain specific abilities based on the form you choose:\n\n<strong>Ant</strong> Speed 30 feet, climb Speed 30 feet; <strong>Melee</strong> mandibles, <strong>Damage</strong> 2d6 bludgeoning.\n<strong>Beetle</strong> Speed 25 feet; <strong>Melee</strong> mandibles, <strong>Damage</strong> 2d10 bludgeoning.\n<strong>Centipede</strong> Speed 25 feet, climb Speed 25 feet; darkvision; <strong>Melee</strong> mandibles, <strong>Damage</strong> 1d8 piercing plus 1d4 persistent poison.\n<strong>Mantis</strong> Speed 40 feet; imprecise scent 30 feet; <strong>Melee</strong> foreleg, <strong>Damage</strong> 2d8 bludgeoning.\n<strong>Scorpion</strong> Speed 40 feet; darkvision, imprecise tremorsense 60 feet; <strong>Melee</strong> stinger, <strong>Damage</strong> 1d8 piercing plus 1d4 persistent poison; <strong>Melee</strong> pincer (agile), <strong>Damage</strong> 1d6 bludgeoning.\n<strong>Spider</strong> Speed 25 feet, climb Speed 25 feet; darkvision; <strong>Melee</strong> fangs, <strong>Damage</strong> 1d6 piercing plus 1d4 persistent poison; <strong>Ranged</strong> web (range increment 20 feet), <strong>Damage</strong> entangles the target for 1 round.",
-      "type": "spells",
-      "buff": true,
-      "choice": "Ant",
-      "choices": [
-         {
-            "name": "Ant"
-         },
-         {
-            "name": "Beetle"
-         },
-         {
-            "name": "Centipede"
-         },
-         {
-            "name": "Mantis"
-         },
-         {
-            "name": "Scorpion"
-         },
-         {
-            "name": "Spider"
-         }
-      ],
-      "effects": [
-         {
-            "affected": "Size",
-            "setValue": "1"
-         },
-         {
-            "affected": "AC",
-            "setValue": "18 + Level"
-         },
-         {
-            "affected": "Melee Attack Rolls",
-            "setValue": "Skill('Unarmed Attacks') > 16 ? null : 16"
-         },
-         {
-            "affected": "Ranged Attack Rolls",
-            "setValue": "Skill('Unarmed Attacks') > 16 ? null : 16"
-         },
-         {
-            "affected": "Melee Damage",
-            "setValue": "6"
-         },
-         {
-            "affected": "Athletics",
-            "setValue": "Skill('Athletics') > 16 ? null : 16"
-         },
-         {
-            "affected": "Land Speed",
-            "setValue": "['Beetle','Centipede','Spider'].includes(Choice) ? 25 : null"
-         },
-         {
-            "affected": "Land Speed",
-            "setValue": "Choice == 'Ant' ? 30 : null"
-         },
-         {
-            "affected": "Land Speed",
-            "setValue": "['Mantis', 'Scorpion'].includes(Choice) ? 30 : null"
-         },
-         {
-            "affected": "Climb Speed",
-            "setValue": "['Centipede', 'Spider'].includes(Choice) ? 25 : null"
-         },
-         {
-            "affected": "Climb Speed",
-            "setValue": "Choice == 'Ant' ? 30 : null"
-         },
-         {
-            "affected": "Unarmed Attacks Proficiency Level",
-            "setValue": "Skill_Level('Unarmed Attacks') <= 2 ? 2 : null"
-         },
-         {
-            "affected": "Ignore Armor Penalty",
-            "toggle": true
-         }
-      ],
-      "onceEffects": [
-         {
-            "affected": "Temporary HP",
-            "value": "15"
-         }
-      ],
-      "endEffects": [
-         {
-            "affected": "Temporary HP",
-            "value": "-Temporary_HP('',effect.sourceId)"
-         }
-      ],
-      "gainItems": [
-         {
-            "conditionChoiceFilter": "Ant",
-            "name": "Insect Form Ant Mandibles (4th Level)",
-            "type": "weapons"
-         },
-         {
-            "conditionChoiceFilter": "Beetle",
-            "name": "Insect Form Beetle Mandibles (4th Level)",
-            "type": "weapons"
-         },
-         {
-            "conditionChoiceFilter": "Centipede",
-            "name": "Insect Form Centipede Mandibles (4th Level)",
-            "type": "weapons"
-         },
-         {
-            "conditionChoiceFilter": "Mantis",
-            "name": "Insect Form Mantis Foreleg (4th Level)",
-            "type": "weapons"
-         },
-         {
-            "conditionChoiceFilter": "Scorpion",
-            "name": "Insect Form Scorpion Stinger (4th Level)",
-            "type": "weapons"
-         },
-         {
-            "conditionChoiceFilter": "Scorpion",
-            "name": "Insect Form Scorpion Pincer (4th Level)",
-            "type": "weapons"
-         },
-         {
-            "conditionChoiceFilter": "Spider",
-            "name": "Insect Form Spider Fangs (4th Level)",
-            "type": "weapons"
-         },
-         {
-            "conditionChoiceFilter": "Spider",
-            "name": "Insect Form Spider Web",
-            "type": "weapons"
-         }
-      ],
-      "senses": [
-         {
-            "name": "Low-Light Vision"
-         },
-         {
-            "conditionChoiceFilter": "Centipede",
-            "name": "Darkvision"
-         },
-         {
-            "conditionChoiceFilter": "Mantis",
-            "name": "Scent 30 feet (imprecise)"
-         },
-         {
-            "conditionChoiceFilter": "Scorpion",
-            "name": "Darkvision"
-         },
-         {
-            "conditionChoiceFilter": "Scorpion",
-            "name": "Tremorsense 60 feet (imprecise)"
-         },
-         {
-            "conditionChoiceFilter": "Spider",
-            "name": "Darkvision"
-         }
-      ],
-      "attackRestrictions": [
-         {
-            "conditionChoiceFilter": "Ant",
-            "name": "Insect Form Ant Mandibles (4th Level)"
-         },
-         {
-            "conditionChoiceFilter": "Beetle",
-            "name": "Insect Form Beetle Mandibles (4th Level)"
-         },
-         {
-            "conditionChoiceFilter": "Centipede",
-            "name": "Insect Form Centipede Mandibles (4th Level)"
-         },
-         {
-            "conditionChoiceFilter": "Mantis",
-            "name": "Insect Form Mantis Foreleg (4th Level)"
-         },
-         {
-            "conditionChoiceFilter": "Scorpion",
-            "name": "Insect Form Scorpion Stinger (4th Level)"
-         },
-         {
-            "conditionChoiceFilter": "Scorpion",
-            "name": "Insect Form Scorpion Pincer (4th Level)"
-         },
-         {
-            "conditionChoiceFilter": "Spider",
-            "name": "Insect Form Spider Fangs (4th Level)"
-         },
-         {
-            "conditionChoiceFilter": "Spider",
-            "name": "Insect Form Spider Web"
-         }
-      ]
-   },
-   {
-      "name": "Insect Form (5th Level)",
-      "desc": "You have transformed into a Large animal battle form, chosen from ant, beetle, centipede, mantis, scorpion, or spider.  You can decide the specific type of animal (such as such as a ladybug or scarab for beetle), but this has no effect on the form's Size or statistics. While in this form, you gain the animal trait. You can Dismiss this spell.\n\nYou gain the following statistics and abilities regardless of which battle form you choose:\n\nAC = 18 + your level. Ignore your armor's check penalty and Speed reduction.\n20 temporary Hit Points.\nLow-light vision.\nOne or more attacks specific to the battle form you choose, which are the only attacks you can use. You're trained with them. Your attack modifier is +18. Your attacks have 15-foot reach, and your damage bonus is +2 with double damage dice (including persistent damage). These attacks are Strength based (for the purpose of the enfeebled condition). If your unarmed attack modifier is higher, you can use it instead.\nAthletics modifier of +20, unless your own is higher.\n\nYou also gain specific abilities based on the form you choose:\n\n<strong>Ant</strong> Speed 30 feet, climb Speed 30 feet; <strong>Melee</strong> mandibles, <strong>Damage</strong> 4d6 bludgeoning.\n<strong>Beetle</strong> Speed 25 feet; <strong>Melee</strong> mandibles, <strong>Damage</strong> 4d10 bludgeoning.\n<strong>Centipede</strong> Speed 25 feet, climb Speed 25 feet; darkvision; <strong>Melee</strong> mandibles, <strong>Damage</strong> 2d8 piercing plus 2d4 persistent poison.\n<strong>Mantis</strong> Speed 40 feet; imprecise scent 30 feet; <strong>Melee</strong> foreleg, <strong>Damage</strong> 4d8 bludgeoning.\n<strong>Scorpion</strong> Speed 40 feet; darkvision, imprecise tremorsense 60 feet; <strong>Melee</strong> stinger, <strong>Damage</strong> 2d8 piercing plus 2d4 persistent poison; <strong>Melee</strong> pincer (agile), <strong>Damage</strong> 2d6 bludgeoning.\n<strong>Spider</strong> Speed 25 feet, climb Speed 25 feet; darkvision; <strong>Melee</strong> fangs, <strong>Damage</strong> 2d6 piercing plus 2d4 persistent poison; <strong>Ranged</strong> web (range increment 20 feet), <strong>Damage</strong> entangles the target for 1 round.",
-      "type": "spells",
-      "buff": true,
-      "choice": "Ant",
-      "choices": [
-         {
-            "name": "Ant"
-         },
-         {
-            "name": "Beetle"
-         },
-         {
-            "name": "Centipede"
-         },
-         {
-            "name": "Mantis"
-         },
-         {
-            "name": "Scorpion"
-         },
-         {
-            "name": "Spider"
-         }
-      ],
-      "effects": [
-         {
-            "affected": "Size",
-            "setValue": "2"
-         },
-         {
-            "affected": "AC",
-            "setValue": "18 + Level"
-         },
-         {
-            "affected": "Melee Attack Rolls",
-            "setValue": "Skill('Unarmed Attacks') > 18 ? null : 18"
-         },
-         {
-            "affected": "Ranged Attack Rolls",
-            "setValue": "Skill('Unarmed Attacks') > 18 ? null : 18"
-         },
-         {
-            "affected": "Melee Damage",
-            "setValue": "2"
-         },
-         {
-            "affected": "Athletics",
-            "setValue": "Skill('Athletics') > 20 ? null : 20"
-         },
-         {
-            "affected": "Land Speed",
-            "setValue": "['Beetle','Centipede','Spider'].includes(Choice) ? 25 : null"
-         },
-         {
-            "affected": "Land Speed",
-            "setValue": "Choice == 'Ant' ? 30 : null"
-         },
-         {
-            "affected": "Land Speed",
-            "setValue": "['Mantis', 'Scorpion'].includes(Choice) ? 30 : null"
-         },
-         {
-            "affected": "Climb Speed",
-            "setValue": "['Centipede', 'Spider'].includes(Choice) ? 25 : null"
-         },
-         {
-            "affected": "Climb Speed",
-            "setValue": "Choice == 'Ant' ? 30 : null"
-         },
-         {
-            "affected": "Unarmed Attacks Proficiency Level",
-            "setValue": "Skill_Level('Unarmed Attacks') <= 2 ? 2 : null"
-         },
-         {
-            "affected": "Ignore Armor Penalty",
-            "toggle": true
-         }
-      ],
-      "onceEffects": [
-         {
-            "affected": "Temporary HP",
-            "value": "20"
-         }
-      ],
-      "endEffects": [
-         {
-            "affected": "Temporary HP",
-            "value": "-Temporary_HP('',effect.sourceId)"
-         }
-      ],
-      "gainItems": [
-         {
-            "conditionChoiceFilter": "Ant",
-            "name": "Insect Form Ant Mandibles (5th Level)",
-            "type": "weapons"
-         },
-         {
-            "conditionChoiceFilter": "Beetle",
-            "name": "Insect Form Beetle Mandibles (5th Level)",
-            "type": "weapons"
-         },
-         {
-            "conditionChoiceFilter": "Centipede",
-            "name": "Insect Form Centipede Mandibles (5th Level)",
-            "type": "weapons"
-         },
-         {
-            "conditionChoiceFilter": "Mantis",
-            "name": "Insect Form Mantis Foreleg (5th Level)",
-            "type": "weapons"
-         },
-         {
-            "conditionChoiceFilter": "Scorpion",
-            "name": "Insect Form Scorpion Stinger (5th Level)",
-            "type": "weapons"
-         },
-         {
-            "conditionChoiceFilter": "Scorpion",
-            "name": "Insect Form Scorpion Pincer (5th Level)",
-            "type": "weapons"
-         },
-         {
-            "conditionChoiceFilter": "Spider",
-            "name": "Insect Form Spider Fangs (5th Level)",
-            "type": "weapons"
-         },
-         {
-            "conditionChoiceFilter": "Spider",
-            "name": "Insect Form Spider Web",
-            "type": "weapons"
-         }
-      ],
-      "senses": [
-         {
-            "name": "Low-Light Vision"
-         },
-         {
-            "conditionChoiceFilter": "Centipede",
-            "name": "Darkvision"
-         },
-         {
-            "conditionChoiceFilter": "Mantis",
-            "name": "Scent 30 feet (imprecise)"
-         },
-         {
-            "conditionChoiceFilter": "Scorpion",
-            "name": "Darkvision"
-         },
-         {
-            "conditionChoiceFilter": "Scorpion",
-            "name": "Tremorsense 60 feet (imprecise)"
-         },
-         {
-            "conditionChoiceFilter": "Spider",
-            "name": "Darkvision"
-         }
-      ],
-      "attackRestrictions": [
-         {
-            "conditionChoiceFilter": "Ant",
-            "name": "Insect Form Ant Mandibles (5th Level)"
-         },
-         {
-            "conditionChoiceFilter": "Beetle",
-            "name": "Insect Form Beetle Mandibles (5th Level)"
-         },
-         {
-            "conditionChoiceFilter": "Centipede",
-            "name": "Insect Form Centipede Mandibles (5th Level)"
-         },
-         {
-            "conditionChoiceFilter": "Mantis",
-            "name": "Insect Form Mantis Foreleg (5th Level)"
-         },
-         {
-            "conditionChoiceFilter": "Scorpion",
-            "name": "Insect Form Scorpion Stinger (5th Level)"
-         },
-         {
-            "conditionChoiceFilter": "Scorpion",
-            "name": "Insect Form Scorpion Pincer (5th Level)"
-         },
-         {
-            "conditionChoiceFilter": "Spider",
-            "name": "Insect Form Spider Fangs (5th Level)"
-         },
-         {
-            "conditionChoiceFilter": "Spider",
-            "name": "Insect Form Spider Web"
-         }
-      ]
-   },
-   {
       "name": "Invisibility Sphere",
       "desc": "You and all targets are invisible except to each other as long as you remain within the spell's area. If a creature made invisible by this spell leaves the spell's area, it becomes visible and remains so even if it returns to the spell's area. If any creature made invisible by this spell uses a hostile action, the spell ends after the hostile action is completed.\n\nWhile exploring, it's easy to move together slowly and remain invisible. This is untenable in a battle, however. Once an encounter begins, creatures remain invisible until at most the end of the first round, at which point the spell ends.",
       "type": "spells",
@@ -10276,8 +9721,8 @@
       ]
    },
    {
-      "name": "Aerial Form (4th Level)",
-      "desc": "You have transformed into a Medium flying animal battle form, chosen from bat, bird, pterosaur, or wasp. You can decide the specific type of animal (such as an owl or eagle for bird), but this has no effect on the form's Size or statistics. While in this form, you gain the animal trait. You can Dismiss the spell.\n\nYou gain the following statistics and abilities regardless of which battle form you choose:\n\nAC = 18 + your level. Ignore your armor's check penalty and Speed reduction.\n5 temporary Hit Points.\nLow-light vision.\nOne or more unarmed melee attacks specific to the battle form you choose, which are the only attacks you can use. You're trained with them. Your attack modifier is +16, and your damage bonus is +5. These attacks are Dexterity based (for the purpose of the clumsy condition, for example). If your attack modifier for Dexterity-based unarmed attacks is higher, you can use it instead.\nAcrobatics modifier of +16, unless your own modifier is higher.\n\nYou also gain specific abilities based on the form you choose:\n\n<strong>Bat</strong> Speed 20 feet, fly Speed 30 feet; precise echolocation 40 feet; <strong>Melee</strong> fangs, <strong>Damage</strong> 2d8 piercing; <strong>Melee</strong> wing (agile), <strong>Damage</strong> 2d6 bludgeoning.\n<strong>Bird</strong> Speed 10 feet, fly Speed 50 feet; <strong>Melee</strong> beak, <strong>Damage</strong> 2d8 piercing; <strong>Melee</strong> talon (agile), <strong>Damage</strong> 1d10 slashing.\n<strong>Pterosaur</strong> Speed 10 feet, fly Speed 40 feet; imprecise scent 30 feet; <strong>Melee</strong> beak, <strong>Damage</strong> 3d6 piercing.\n<strong>Wasp</strong> Speed 20 feet, fly Speed 40 feet; <strong>Melee</strong> stinger, <strong>Damage</strong> 1d8 piercing plus 1d6 persistent poison.",
+      "name": "Aerial Form",
+      "desc": "You have transformed into a Medium flying animal battle form, chosen from bat, bird, pterosaur, or wasp. You can decide the specific type of animal (such as an owl or eagle for bird), but this has no effect on the form's Size or statistics. While in this form, you gain the animal trait. You can Dismiss the spell.\n\nYou gain the following statistics and abilities regardless of which battle form you choose:\n\n(Heightened statistics at the bottom)\nAC = 18 + your level. Ignore your armor's check penalty and Speed reduction.\n5 temporary Hit Points.\nLow-light vision.\nOne or more unarmed melee attacks specific to the battle form you choose, which are the only attacks you can use. You're trained with them. Your attack modifier is +16, and your damage bonus is +5. These attacks are Dexterity based (for the purpose of the clumsy condition, for example). If your attack modifier for Dexterity-based unarmed attacks is higher, you can use it instead.\nAcrobatics modifier of +16, unless your own modifier is higher.\n\nYou also gain specific abilities based on the form you choose:\n\n<strong>Bat</strong> Speed 20 feet, fly Speed 30 feet; precise echolocation 40 feet; <strong>Melee</strong> fangs, <strong>Damage</strong> 2d8 piercing; <strong>Melee</strong> wing (agile), <strong>Damage</strong> 2d6 bludgeoning.\n<strong>Bird</strong> Speed 10 feet, fly Speed 50 feet; <strong>Melee</strong> beak, <strong>Damage</strong> 2d8 piercing; <strong>Melee</strong> talon (agile), <strong>Damage</strong> 1d10 slashing.\n<strong>Pterosaur</strong> Speed 10 feet, fly Speed 40 feet; imprecise scent 30 feet; <strong>Melee</strong> beak, <strong>Damage</strong> 3d6 piercing.\n<strong>Wasp</strong> Speed 20 feet, fly Speed 40 feet; <strong>Melee</strong> stinger, <strong>Damage</strong> 1d8 piercing plus 1d6 persistent poison.\n\nHeightened statistics:\n\n<strong>5th Level</strong> Your battle form is Large and your fly Speed gains a +10-foot status bonus. You must have enough space to expand into or the spell is lost. You instead gain 10 temporary HP, attack modifier +18, damage bonus +8, and Acrobatics +20.\n<strong>6th Level</strong> Your battle form is Huge, your fly Speed gains a +15-foot status bonus, and your attacks have 10-foot reach. You must have enough space to expand into or the spell is lost. You instead gain AC = 21 + your level, 15 temporary HP, attack modifier +21, damage bonus +4 and double damage dice (including persistent damage), and Acrobatics +23.",
       "type": "spells",
       "buff": true,
       "choice": "Bat",
@@ -10298,23 +9743,23 @@
       "effects": [
          {
             "affected": "Size",
-            "setValue": "0"
+            "setValue": "Math.min(Math.max(0, Heightened - 4), 2)"
          },
          {
             "affected": "AC",
-            "setValue": "18 + Level"
+            "setValue": "(Heightened >= 6 ? 21 : 18) + Level"
          },
          {
             "affected": "Melee Attack Rolls",
-            "setValue": "(Skill('Unarmed Attacks') - Modifier('Strength') + Modifier('Dexterity')) > 16 ? null : 16"
+            "setValue": "Skill('Unarmed Attacks') >= [0,0,0,0,16,18,21,21,21,21,21][Heightened] ? null : [0,0,0,0,16,18,21,21,21,21,21][Heightened]"
          },
          {
             "affected": "Melee Damage",
-            "setValue": "5"
+            "setValue": "[0,0,0,0,5,8,4,4,4,4,4][Heightened]"
          },
          {
             "affected": "Acrobatics",
-            "setValue": "Skill('Acrobatics') > 16 ? null : 16"
+            "setValue": "Skill('Acrobatics') > [0,0,0,0,16,20,23,23,23,23,23][Heightened] ? null : [0,0,0,0,16,20,23,23,23,23,23][Heightened]"
          },
          {
             "affected": "Land Speed",
@@ -10343,12 +9788,25 @@
          {
             "affected": "Ignore Armor Penalty",
             "toggle": true
+         },
+         {
+            "affected": "Fly Speed",
+            "type": "status",
+            "value": "[0,0,0,0,0,10,15,15,15,15,15][Heightened]"
+         },
+         {
+            "affected": "Dice Number Multiplier",
+            "setValue": "Heightened >= 6 ? 2 : null"
+         },
+         {
+            "affected": "Reach",
+            "setValue": "Heightened >= 6 ? 10 : null"
          }
       ],
       "onceEffects": [
          {
             "affected": "Temporary HP",
-            "value": "5"
+            "value": "Math.min((Heightened - 3) * 5, 15)"
          }
       ],
       "endEffects": [
@@ -10385,324 +9843,13 @@
          },
          {
             "conditionChoiceFilter": "Wasp",
+            "heightenedFilter": 4,
             "name": "Aerial Form Wasp Stinger",
             "type": "weapons"
-         }
-      ],
-      "senses": [
-         {
-            "name": "Low-Light Vision"
-         },
-         {
-            "conditionChoiceFilter": "Bat",
-            "name": "Echolocation 40 feet (precise)"
-         },
-         {
-            "conditionChoiceFilter": "Pterosaur",
-            "name": "Scent 30 feet (imprecise)"
-         }
-      ],
-      "attackRestrictions": [
-         {
-            "conditionChoiceFilter": "Bat",
-            "name": "Aerial Form Bat Fangs"
-         },
-         {
-            "conditionChoiceFilter": "Bat",
-            "name": "Aerial Form Bat Wing"
-         },
-         {
-            "conditionChoiceFilter": "Bird",
-            "name": "Aerial Form Bird Beak"
-         },
-         {
-            "conditionChoiceFilter": "Bird",
-            "name": "Aerial Form Bird Talon"
-         },
-         {
-            "conditionChoiceFilter": "Pterosaur",
-            "name": "Aerial Form Pterosaur Beak"
          },
          {
             "conditionChoiceFilter": "Wasp",
-            "name": "Aerial Form Wasp Stinger"
-         }
-      ]
-   },
-   {
-      "name": "Aerial Form (5th Level)",
-      "desc": "You have transformed into a Large flying animal battle form, chosen from bat, bird, pterosaur, or wasp. You can decide the specific type of animal (such as an owl or eagle for bird), but this has no effect on the form's Size or statistics. While in this form, you gain the animal trait. You can Dismiss the spell.\n\nYou gain the following statistics and abilities regardless of which battle form you choose:\n\nAC = 18 + your level. Ignore your armor's check penalty and Speed reduction.\n10 temporary Hit Points.\nLow-light vision.\nOne or more unarmed melee attacks specific to the battle form you choose, which are the only attacks you can use. You're trained with them. Your attack modifier is +18, and your damage bonus is +8. These attacks are Dexterity based (for the purpose of the clumsy condition, for example). If your attack modifier for Dexterity-based unarmed attacks is higher, you can use it instead.\nAcrobatics modifier of +20, unless your own modifier is higher.\nYour fly Speed gains a +10-foot status bonus.\n\nYou also gain specific abilities based on the form you choose:\n\n<strong>Bat</strong> Speed 20 feet, fly Speed 30 feet; precise echolocation 40 feet; <strong>Melee</strong> fangs, <strong>Damage</strong> 2d8 piercing; <strong>Melee</strong> wing (agile), <strong>Damage</strong> 2d6 bludgeoning.\n<strong>Bird</strong> Speed 10 feet, fly Speed 50 feet; <strong>Melee</strong> beak, <strong>Damage</strong> 2d8 piercing; <strong>Melee</strong> talon (agile), <strong>Damage</strong> 1d10 slashing.\n<strong>Pterosaur</strong> Speed 10 feet, fly Speed 40 feet; imprecise scent 30 feet; <strong>Melee</strong> beak, <strong>Damage</strong> 3d6 piercing.\n<strong>Wasp</strong> Speed 20 feet, fly Speed 40 feet; <strong>Melee</strong> stinger, <strong>Damage</strong> 1d8 piercing plus 1d6 persistent poison.",
-      "type": "spells",
-      "buff": true,
-      "choice": "Bat",
-      "choices": [
-         {
-            "name": "Bat"
-         },
-         {
-            "name": "Bird"
-         },
-         {
-            "name": "Pterosaur"
-         },
-         {
-            "name": "Wasp"
-         }
-      ],
-      "effects": [
-         {
-            "affected": "Size",
-            "setValue": "1"
-         },
-         {
-            "affected": "AC",
-            "setValue": "18 + Level"
-         },
-         {
-            "affected": "Melee Attack Rolls",
-            "setValue": "(Skill('Unarmed Attacks') - Modifier('Strength') + Modifier('Dexterity')) > 18 ? null : 18"
-         },
-         {
-            "affected": "Melee Damage",
-            "setValue": "8"
-         },
-         {
-            "affected": "Acrobatics",
-            "setValue": "Skill('Acrobatics') > 20 ? null : 20"
-         },
-         {
-            "affected": "Land Speed",
-            "setValue": "['Bird', 'Pterosaur'].includes(Choice) ? 10 : null"
-         },
-         {
-            "affected": "Land Speed",
-            "setValue": "['Bat','Wasp'].includes(Choice) ? 20 : null"
-         },
-         {
-            "affected": "Fly Speed",
-            "setValue": "Choice == 'Bat' ? 30 : null"
-         },
-         {
-            "affected": "Fly Speed",
-            "setValue": "['Pterosaur','Wasp'].includes(Choice) ? 40 : null"
-         },
-         {
-            "affected": "Fly Speed",
-            "setValue": "Choice == 'Bird' ? 50 : null"
-         },
-         {
-            "affected": "Unarmed Attacks Proficiency Level",
-            "setValue": "Skill_Level('Unarmed Attacks') <= 2 ? 2 : null"
-         },
-         {
-            "affected": "Ignore Armor Penalty",
-            "toggle": true
-         },
-         {
-            "affected": "Fly Speed",
-            "type": "status",
-            "value": "10"
-         }
-      ],
-      "onceEffects": [
-         {
-            "affected": "Temporary HP",
-            "value": "10"
-         }
-      ],
-      "endEffects": [
-         {
-            "affected": "Temporary HP",
-            "value": "-Temporary_HP('',effect.sourceId)"
-         }
-      ],
-      "gainItems": [
-         {
-            "conditionChoiceFilter": "Bat",
-            "name": "Aerial Form Bat Fangs",
-            "type": "weapons"
-         },
-         {
-            "conditionChoiceFilter": "Bat",
-            "name": "Aerial Form Bat Wing",
-            "type": "weapons"
-         },
-         {
-            "conditionChoiceFilter": "Bird",
-            "name": "Aerial Form Bird Beak",
-            "type": "weapons"
-         },
-         {
-            "conditionChoiceFilter": "Bird",
-            "name": "Aerial Form Bird Talon",
-            "type": "weapons"
-         },
-         {
-            "conditionChoiceFilter": "Pterosaur",
-            "name": "Aerial Form Pterosaur Beak",
-            "type": "weapons"
-         },
-         {
-            "conditionChoiceFilter": "Wasp",
-            "name": "Aerial Form Wasp Stinger",
-            "type": "weapons"
-         }
-      ],
-      "senses": [
-         {
-            "name": "Low-Light Vision"
-         },
-         {
-            "conditionChoiceFilter": "Bat",
-            "name": "Echolocation 40 feet (precise)"
-         },
-         {
-            "conditionChoiceFilter": "Pterosaur",
-            "name": "Scent 30 feet (imprecise)"
-         }
-      ],
-      "attackRestrictions": [
-         {
-            "conditionChoiceFilter": "Bat",
-            "name": "Aerial Form Bat Fangs"
-         },
-         {
-            "conditionChoiceFilter": "Bat",
-            "name": "Aerial Form Bat Wing"
-         },
-         {
-            "conditionChoiceFilter": "Bird",
-            "name": "Aerial Form Bird Beak"
-         },
-         {
-            "conditionChoiceFilter": "Bird",
-            "name": "Aerial Form Bird Talon"
-         },
-         {
-            "conditionChoiceFilter": "Pterosaur",
-            "name": "Aerial Form Pterosaur Beak"
-         },
-         {
-            "conditionChoiceFilter": "Wasp",
-            "name": "Aerial Form Wasp Stinger"
-         }
-      ]
-   },
-   {
-      "name": "Aerial Form (6th Level)",
-      "desc": "You have transformed into a Huge flying animal battle form, chosen from bat, bird, pterosaur, or wasp. You can decide the specific type of animal (such as an owl or eagle for bird), but this has no effect on the form's Size or statistics. While in this form, you gain the animal trait. You can Dismiss the spell.\n\nYou gain the following statistics and abilities regardless of which battle form you choose:\n\nAC = 21 + your level. Ignore your armor's check penalty and Speed reduction.\n15 temporary Hit Points.\nLow-light vision.\nOne or more unarmed melee attacks specific to the battle form you choose, which are the only attacks you can use. You're trained with them. Your attack modifier is +21, and your damage bonus is +4 with double damage dice (including persistent damage). Your attacks have 10-foot reach. These attacks are Dexterity based (for the purpose of the clumsy condition, for example). If your attack modifier for Dexterity-based unarmed attacks is higher, you can use it instead.\nAcrobatics modifier of +23, unless your own modifier is higher.\nYour fly Speed gains a +15-foot status bonus.\n\nYou also gain specific abilities based on the form you choose:\n\n<strong>Bat</strong> Speed 20 feet, fly Speed 30 feet; precise echolocation 40 feet; <strong>Melee</strong> fangs, <strong>Damage</strong> 4d8 piercing; <strong>Melee</strong> wing (agile), <strong>Damage</strong> 4d6 bludgeoning.\n<strong>Bird</strong> Speed 10 feet, fly Speed 50 feet; <strong>Melee</strong> beak, <strong>Damage</strong> 4d8 piercing; <strong>Melee</strong> talon (agile), <strong>Damage</strong> 2d10 slashing.\n<strong>Pterosaur</strong> Speed 10 feet, fly Speed 40 feet; imprecise scent 30 feet; <strong>Melee</strong> beak, <strong>Damage</strong> 6d6 piercing.\n<strong>Wasp</strong> Speed 20 feet, fly Speed 40 feet; <strong>Melee</strong> stinger, <strong>Damage</strong> 2d8 piercing plus 2d6 persistent poison.",
-      "type": "spells",
-      "buff": true,
-      "choice": "Bat",
-      "choices": [
-         {
-            "name": "Bat"
-         },
-         {
-            "name": "Bird"
-         },
-         {
-            "name": "Pterosaur"
-         },
-         {
-            "name": "Wasp"
-         }
-      ],
-      "effects": [
-         {
-            "affected": "Size",
-            "setValue": "2"
-         },
-         {
-            "affected": "AC",
-            "setValue": "21 + Level"
-         },
-         {
-            "affected": "Melee Attack Rolls",
-            "setValue": "(Skill('Unarmed Attacks') - Modifier('Strength') + Modifier('Dexterity')) > 21 ? null : 21"
-         },
-         {
-            "affected": "Melee Damage",
-            "setValue": "4"
-         },
-         {
-            "affected": "Acrobatics",
-            "setValue": "Skill('Acrobatics') > 23 ? null : 23"
-         },
-         {
-            "affected": "Land Speed",
-            "setValue": "['Bird', 'Pterosaur'].includes(Choice) ? 10 : null"
-         },
-         {
-            "affected": "Land Speed",
-            "setValue": "['Bat','Wasp'].includes(Choice) ? 20 : null"
-         },
-         {
-            "affected": "Fly Speed",
-            "setValue": "Choice == 'Bat' ? 30 : null"
-         },
-         {
-            "affected": "Fly Speed",
-            "setValue": "['Pterosaur','Wasp'].includes(Choice) ? 40 : null"
-         },
-         {
-            "affected": "Fly Speed",
-            "setValue": "Choice == 'Bird' ? 50 : null"
-         },
-         {
-            "affected": "Unarmed Attacks Proficiency Level",
-            "setValue": "Skill_Level('Unarmed Attacks') <= 2 ? 2 : null"
-         },
-         {
-            "affected": "Ignore Armor Penalty",
-            "toggle": true
-         },
-         {
-            "affected": "Fly Speed",
-            "type": "status",
-            "value": "15"
-         }
-      ],
-      "onceEffects": [
-         {
-            "affected": "Temporary HP",
-            "value": "15"
-         }
-      ],
-      "endEffects": [
-         {
-            "affected": "Temporary HP",
-            "value": "-Temporary_HP('',effect.sourceId)"
-         }
-      ],
-      "gainItems": [
-         {
-            "conditionChoiceFilter": "Bat",
-            "name": "Aerial Form Bat Fangs (6th Level)",
-            "type": "weapons"
-         },
-         {
-            "conditionChoiceFilter": "Bat",
-            "name": "Aerial Form Bat Wing (6th Level)",
-            "type": "weapons"
-         },
-         {
-            "conditionChoiceFilter": "Bird",
-            "name": "Aerial Form Bird Beak (6th Level)",
-            "type": "weapons"
-         },
-         {
-            "conditionChoiceFilter": "Bird",
-            "name": "Aerial Form Bird Talon (6th Level)",
-            "type": "weapons"
-         },
-         {
-            "conditionChoiceFilter": "Pterosaur",
-            "name": "Aerial Form Pterosaur Beak (6th Level)",
-            "type": "weapons"
-         },
-         {
-            "conditionChoiceFilter": "Wasp",
+            "heightenedFilter": 6,
             "name": "Aerial Form Wasp Stinger (6th Level)",
             "type": "weapons"
          }
@@ -10723,23 +9870,27 @@
       "attackRestrictions": [
          {
             "conditionChoiceFilter": "Bat",
-            "name": "Aerial Form Bat Fangs (6th Level)"
+            "name": "Aerial Form Bat Fangs"
          },
          {
             "conditionChoiceFilter": "Bat",
-            "name": "Aerial Form Bat Wing (6th Level)"
+            "name": "Aerial Form Bat Wing"
          },
          {
             "conditionChoiceFilter": "Bird",
-            "name": "Aerial Form Bird Beak (6th Level)"
+            "name": "Aerial Form Bird Beak"
          },
          {
             "conditionChoiceFilter": "Bird",
-            "name": "Aerial Form Bird Talon (6th Level)"
+            "name": "Aerial Form Bird Talon"
          },
          {
             "conditionChoiceFilter": "Pterosaur",
-            "name": "Aerial Form Pterosaur Beak (6th Level)"
+            "name": "Aerial Form Pterosaur Beak"
+         },
+         {
+            "conditionChoiceFilter": "Wasp",
+            "name": "Aerial Form Wasp Stinger"
          },
          {
             "conditionChoiceFilter": "Wasp",
@@ -10875,8 +10026,8 @@
       "buff": true
    },
    {
-      "name": "Dinosaur Form (4th Level)",
-      "desc": "You have transformed into a Large animal battle form, specifically that of a powerful and terrifying dinosaur chosen from ankylosaurus, brontosaurus, deinonychus, stegosaurus, triceratops, or tyrannosaurus. You can decide the specific type of animal, but this has no effect on the form's Size or statistics. While in this form, you gain the animal and dinosaur traits. You can Dismiss the spell.\n\nYou gain the following statistics and abilities regardless of which battle form you choose:\n\nAC = 18 + your level. Ignore your armor's check penalty and Speed reduction.\n15 temporary Hit Points.\nLow-light vision and imprecise scent 30 feet.\nOne or more unarmed melee attacks specific to the battle form you choose, which are the only attacks you can use. You're trained with them. Your attack modifier is +16, and your damage bonus is +9. These attacks are Strength based (for the purpose of the enfeebled condition, for example). If your unarmed attack modifier is higher, you can use it instead.\nAthletics modifier of +19, unless your own modifier is higher.\n\nYou also gain specific abilities based on the form you choose:\n\n<strong>Ankylosaurus</strong> Speed 25 feet; <strong>Melee</strong> tail (back swing, reach 10 feet), <strong>Damage</strong> 2d6 bludgeoning; <strong>Melee</strong> foot, <strong>Damage</strong> 2d6 bludgeoning.\n<strong>Brontosaurus</strong> Speed 25 feet; <strong>Melee</strong> tail (reach 15 feet), <strong>Damage</strong> 2d6 bludgeoning; <strong>Melee</strong> foot, <strong>Damage</strong> 2d8 bludgeoning.\n<strong>Deinonychus</strong> Speed 40 feet; <strong>Melee</strong> talon (agile), <strong>Damage</strong> 2d4 piercing plus 1 persistent bleed; <strong>Melee</strong> jaws, <strong>Damage</strong> 1d8 piercing.\n<strong>Stegosaurus</strong> Speed 30 feet; <strong>Melee</strong> tail (reach 10 feet), <strong>Damage</strong> 2d8 piercing.\n<strong>Triceratops</strong> Speed 30 feet; <strong>Melee</strong> horn, <strong>Damage</strong> 2d8 piercing, plus 1d6 persistent bleed on a critical hit; <strong>Melee</strong> foot, <strong>Damage</strong> 2d6 bludgeoning.\n<strong>Tyrannosaurus</strong> Speed 30 feet; <strong>Melee</strong> jaws (deadly, reach 10 feet), <strong>Damage</strong> 1d12 piercing; <strong>Melee</strong> tail (reach 10 feet), <strong>Damage</strong> 1d10 bludgeoning.",
+      "name": "Dinosaur Form",
+      "desc": "You have transformed into a Large animal battle form, specifically that of a powerful and terrifying dinosaur chosen from ankylosaurus, brontosaurus, deinonychus, stegosaurus, triceratops, or tyrannosaurus. You can decide the specific type of animal, but this has no effect on the form's Size or statistics. While in this form, you gain the animal and dinosaur traits. You can Dismiss the spell.\n\nYou gain the following statistics and abilities regardless of which battle form you choose:\n\n(Heightened statistics at the bottom)\nAC = 18 + your level. Ignore your armor's check penalty and Speed reduction.\n15 temporary Hit Points.\nLow-light vision and imprecise scent 30 feet.\nOne or more unarmed melee attacks specific to the battle form you choose, which are the only attacks you can use. You're trained with them. Your attack modifier is +16, and your damage bonus is +9. These attacks are Strength based (for the purpose of the enfeebled condition, for example). If your unarmed attack modifier is higher, you can use it instead.\nAthletics modifier of +19, unless your own modifier is higher.\n\nYou also gain specific abilities based on the form you choose:\n\n<strong>Ankylosaurus</strong> Speed 25 feet; <strong>Melee</strong> tail (back swing, reach 10 feet), <strong>Damage</strong> 2d6 bludgeoning; <strong>Melee</strong> foot, <strong>Damage</strong> 2d6 bludgeoning.\n<strong>Brontosaurus</strong> Speed 25 feet; <strong>Melee</strong> tail (reach 15 feet), <strong>Damage</strong> 2d6 bludgeoning; <strong>Melee</strong> foot, <strong>Damage</strong> 2d8 bludgeoning.\n<strong>Deinonychus</strong> Speed 40 feet; <strong>Melee</strong> talon (agile), <strong>Damage</strong> 2d4 piercing plus 1 persistent bleed; <strong>Melee</strong> jaws, <strong>Damage</strong> 1d8 piercing.\n<strong>Stegosaurus</strong> Speed 30 feet; <strong>Melee</strong> tail (reach 10 feet), <strong>Damage</strong> 2d8 piercing.\n<strong>Triceratops</strong> Speed 30 feet; <strong>Melee</strong> horn, <strong>Damage</strong> 2d8 piercing, plus 1d6 persistent bleed on a critical hit; <strong>Melee</strong> foot, <strong>Damage</strong> 2d6 bludgeoning.\n<strong>Tyrannosaurus</strong> Speed 30 feet; <strong>Melee</strong> jaws (deadly, reach 10 feet), <strong>Damage</strong> 1d12 piercing; <strong>Melee</strong> tail (reach 10 feet), <strong>Damage</strong> 1d10 bludgeoning.\n\nHeightened statistics:\n\n<strong>5th Level</strong> Your battle form is Huge and your attacks have 15-foot reach, or 20-foot reach if they started with 15-foot reach. You instead gain 20 temporary HP, an attack modifier of +18, a damage bonus of +6, double the damage dice, and Athletics +21.\n<strong>6th Level</strong> Your battle form is Gargantuan and your attacks have 20-foot reach, or 25-foot reach if they started with 15-foot reach. You instead gain AC = 21 + your level, 25 temporary HP, an attack modifier of +25, a damage bonus of +15, double the damage dice, and Athletics +25.",
       "type": "spells",
       "buff": true,
       "choice": "Ankylosaurus",
@@ -10903,23 +10054,23 @@
       "effects": [
          {
             "affected": "Size",
-            "setValue": "1"
+            "setValue": "[0,0,0,0,1,2,2,3,3,3,3][Heightened]"
          },
          {
             "affected": "AC",
-            "setValue": "18 + Level"
+            "setValue": "(Heightened >= 7 ? 21 : 18) + Level"
          },
          {
             "affected": "Melee Attack Rolls",
-            "setValue": "Skill('Unarmed Attacks') > 16 ? null : 16"
+            "setValue": "Skill('Unarmed Attacks') >= [0,0,0,0,16,18,18,25,25,25,25][Heightened] ? null : [0,0,0,0,16,18,18,25,25,25,25][Heightened]"
          },
          {
             "affected": "Melee Damage",
-            "setValue": "9"
+            "setValue": "[0,0,0,0,9,6,6,15,15,15,15][Heightened]"
          },
          {
             "affected": "Athletics",
-            "setValue": "Skill('Athletics') > 18 ? null : 18"
+            "setValue": "Skill('Athletics') > [0,0,0,0,18,21,21,25,25,25,25][Heightened] ? null : [0,0,0,0,18,21,21,25,25,25,25][Heightened]"
          },
          {
             "affected": "Land Speed",
@@ -10940,12 +10091,20 @@
          {
             "affected": "Ignore Armor Penalty",
             "toggle": true
+         },
+         {
+            "affected": "Dice Number Multiplier",
+            "setValue": "Heightened >= 5 ? 2 : null"
+         },
+         {
+            "affected": "Dice Number Multiplier",
+            "value": "Heightened >= 7 ? 10 : (Heightened >= 5 ? 5 : null)"
          }
       ],
       "onceEffects": [
          {
             "affected": "Temporary HP",
-            "value": "15"
+            "value": "[0,0,0,0,15,20,20,25,25,25,25][Heightened]"
          }
       ],
       "endEffects": [
@@ -10962,6 +10121,7 @@
          },
          {
             "conditionChoiceFilter": "Ankylosaurus",
+            "heightenedFilter": 4,
             "name": "Dinosaur Form Ankylosaurus Foot",
             "type": "weapons"
          },
@@ -10972,16 +10132,19 @@
          },
          {
             "conditionChoiceFilter": "Brontosaurus",
+            "heightenedFilter": 4,
             "name": "Dinosaur Form Brontosaurus Foot",
             "type": "weapons"
          },
          {
             "conditionChoiceFilter": "Deinonychus",
+            "heightenedFilter": 4,
             "name": "Dinosaur Form Deinonychus Talon",
             "type": "weapons"
          },
          {
             "conditionChoiceFilter": "Deinonychus",
+            "heightenedFilter": 4,
             "name": "Dinosaur Form Deinonychus Jaws",
             "type": "weapons"
          },
@@ -10992,11 +10155,13 @@
          },
          {
             "conditionChoiceFilter": "Triceratops",
+            "heightenedFilter": 4,
             "name": "Dinosaur Form Triceratops Horn",
             "type": "weapons"
          },
          {
             "conditionChoiceFilter": "Triceratops",
+            "heightenedFilter": 4,
             "name": "Dinosaur Form Triceratops Foot",
             "type": "weapons"
          },
@@ -11008,6 +10173,42 @@
          {
             "conditionChoiceFilter": "Tyrannosaurus",
             "name": "Dinosaur Form Tyrannosaurus Tail",
+            "type": "weapons"
+         },
+         {
+            "conditionChoiceFilter": "Ankylosaurus",
+            "heightenedFilter": 5,
+            "name": "Dinosaur Form Ankylosaurus Foot (5th Level)",
+            "type": "weapons"
+         },
+         {
+            "conditionChoiceFilter": "Brontosaurus",
+            "heightenedFilter": 5,
+            "name": "Dinosaur Form Brontosaurus Foot (5th Level)",
+            "type": "weapons"
+         },
+         {
+            "conditionChoiceFilter": "Deinonychus",
+            "heightenedFilter": 5,
+            "name": "Dinosaur Form Deinonychus Talon (5th Level)",
+            "type": "weapons"
+         },
+         {
+            "conditionChoiceFilter": "Deinonychus",
+            "heightenedFilter": 5,
+            "name": "Dinosaur Form Deinonychus Jaws (5th Level)",
+            "type": "weapons"
+         },
+         {
+            "conditionChoiceFilter": "Triceratops",
+            "heightenedFilter": 5,
+            "name": "Dinosaur Form Triceratops Horn (5th Level)",
+            "type": "weapons"
+         },
+         {
+            "conditionChoiceFilter": "Triceratops",
+            "heightenedFilter": 5,
+            "name": "Dinosaur Form Triceratops Foot (5th Level)",
             "type": "weapons"
          }
       ],
@@ -11063,166 +10264,10 @@
          {
             "conditionChoiceFilter": "Tyrannosaurus",
             "name": "Dinosaur Form Tyrannosaurus Tail"
-         }
-      ]
-   },
-   {
-      "name": "Dinosaur Form (5th Level)",
-      "desc": "You have transformed into a Huge animal battle form, specifically that of a powerful and terrifying dinosaur chosen from ankylosaurus, brontosaurus, deinonychus, stegosaurus, triceratops, or tyrannosaurus. You can decide the specific type of animal, but this has no effect on the form's Size or statistics. While in this form, you gain the animal and dinosaur traits. You can Dismiss the spell.\n\nYou gain the following statistics and abilities regardless of which battle form you choose:\n\nAC = 18 + your level. Ignore your armor's check penalty and Speed reduction.\n20 temporary Hit Points.\nLow-light vision and imprecise scent 30 feet.\nOne or more unarmed melee attacks specific to the battle form you choose, which are the only attacks you can use. You're trained with them. Your attack modifier is +18, and your damage bonus is +6 with double damage dice. Your attacks have 15-foot reach, or 20-foot reach if they started with 15-foot reach. These attacks are Strength based (for the purpose of the enfeebled condition, for example). If your unarmed attack modifier is higher, you can use it instead.\nAthletics modifier of +21, unless your own modifier is higher.\n\nYou also gain specific abilities based on the form you choose:\n\n<strong>Ankylosaurus</strong> Speed 25 feet; <strong>Melee</strong> tail (back swing, reach 15 feet), <strong>Damage</strong> 4d6 bludgeoning; <strong>Melee</strong> foot (reach 15 feet), <strong>Damage</strong> 4d6 bludgeoning.\n<strong>Brontosaurus</strong> Speed 25 feet; <strong>Melee</strong> tail (reach 20 feet), <strong>Damage</strong> 4d6 bludgeoning; <strong>Melee</strong> foot (reach 15 feet), <strong>Damage</strong> 4d8 bludgeoning.\n<strong>Deinonychus</strong> Speed 40 feet; <strong>Melee</strong> talon (agile, reach 15 feet), <strong>Damage</strong> 4d4 piercing plus 1 persistent bleed; <strong>Melee</strong> jaws (reach 15 feet), <strong>Damage</strong> 2d8 piercing.\n<strong>Stegosaurus</strong> Speed 30 feet; <strong>Melee</strong> tail (reach 15 feet), <strong>Damage</strong> 4d8 piercing.\n<strong>Triceratops</strong> Speed 30 feet; <strong>Melee</strong> horn (reach 15 feet), <strong>Damage</strong> 4d8 piercing, plus 1d6 persistent bleed on a critical hit; <strong>Melee</strong> foot (reach 15 feet), <strong>Damage</strong> 4d6 bludgeoning.\n<strong>Tyrannosaurus</strong> Speed 30 feet; <strong>Melee</strong> jaws (deadly, reach 15 feet), <strong>Damage</strong> 2d12 piercing; <strong>Melee</strong> tail (reach 15 feet), <strong>Damage</strong> 2d10 bludgeoning.",
-      "type": "spells",
-      "buff": true,
-      "choice": "Ankylosaurus",
-      "choices": [
-         {
-            "name": "Ankylosaurus"
-         },
-         {
-            "name": "Brontosaurus"
-         },
-         {
-            "name": "Deinonychus"
-         },
-         {
-            "name": "Stegosaurus"
-         },
-         {
-            "name": "Triceratops"
-         },
-         {
-            "name": "Tyrannosaurus"
-         }
-      ],
-      "effects": [
-         {
-            "affected": "Size",
-            "setValue": "2"
-         },
-         {
-            "affected": "AC",
-            "setValue": "18 + Level"
-         },
-         {
-            "affected": "Melee Attack Rolls",
-            "setValue": "Skill('Unarmed Attacks') > 18 ? null : 18"
-         },
-         {
-            "affected": "Melee Damage",
-            "setValue": "6"
-         },
-         {
-            "affected": "Athletics",
-            "setValue": "Skill('Athletics') > 21 ? null : 21"
-         },
-         {
-            "affected": "Land Speed",
-            "setValue": "['Ankylosaurus', 'Brontosaurus'].includes(Choice) ? 25 : null"
-         },
-         {
-            "affected": "Land Speed",
-            "setValue": "['Stegosaurus','Triceratops','Tyrannosaurus'].includes(Choice) ? 30 : null"
-         },
-         {
-            "affected": "Land Speed",
-            "setValue": "Choice == 'Deinonychus' ? 40 : null"
-         },
-         {
-            "affected": "Unarmed Attacks Proficiency Level",
-            "setValue": "Skill_Level('Unarmed Attacks') <= 2 ? 2 : null"
-         },
-         {
-            "affected": "Ignore Armor Penalty",
-            "toggle": true
-         }
-      ],
-      "onceEffects": [
-         {
-            "affected": "Temporary HP",
-            "value": "20"
-         }
-      ],
-      "endEffects": [
-         {
-            "affected": "Temporary HP",
-            "value": "-Temporary_HP('',effect.sourceId)"
-         }
-      ],
-      "gainItems": [
-         {
-            "conditionChoiceFilter": "Ankylosaurus",
-            "name": "Dinosaur Form Ankylosaurus Tail (5th Level)",
-            "type": "weapons"
-         },
-         {
-            "conditionChoiceFilter": "Ankylosaurus",
-            "name": "Dinosaur Form Ankylosaurus Foot (5th Level)",
-            "type": "weapons"
-         },
-         {
-            "conditionChoiceFilter": "Brontosaurus",
-            "name": "Dinosaur Form Brontosaurus Tail (5th Level)",
-            "type": "weapons"
-         },
-         {
-            "conditionChoiceFilter": "Brontosaurus",
-            "name": "Dinosaur Form Brontosaurus Foot (5th Level)",
-            "type": "weapons"
-         },
-         {
-            "conditionChoiceFilter": "Deinonychus",
-            "name": "Dinosaur Form Deinonychus Talon (5th Level)",
-            "type": "weapons"
-         },
-         {
-            "conditionChoiceFilter": "Deinonychus",
-            "name": "Dinosaur Form Deinonychus Jaws (5th Level)",
-            "type": "weapons"
-         },
-         {
-            "conditionChoiceFilter": "Stegosaurus",
-            "name": "Dinosaur Form Stegosaurus Tail (5th Level)",
-            "type": "weapons"
-         },
-         {
-            "conditionChoiceFilter": "Triceratops",
-            "name": "Dinosaur Form Triceratops Horn (5th Level)",
-            "type": "weapons"
-         },
-         {
-            "conditionChoiceFilter": "Triceratops",
-            "name": "Dinosaur Form Triceratops Foot (5th Level)",
-            "type": "weapons"
-         },
-         {
-            "conditionChoiceFilter": "Tyrannosaurus",
-            "name": "Dinosaur Form Tyrannosaurus Jaws (5th Level)",
-            "type": "weapons"
-         },
-         {
-            "conditionChoiceFilter": "Tyrannosaurus",
-            "name": "Dinosaur Form Tyrannosaurus Tail (5th Level)",
-            "type": "weapons"
-         }
-      ],
-      "senses": [
-         {
-            "name": "Low-Light Vision"
-         },
-         {
-            "name": "Scent 30 feet (imprecise)"
-         }
-      ],
-      "attackRestrictions": [
-         {
-            "conditionChoiceFilter": "Ankylosaurus",
-            "name": "Dinosaur Form Ankylosaurus Tail (5th Level)"
          },
          {
             "conditionChoiceFilter": "Ankylosaurus",
             "name": "Dinosaur Form Ankylosaurus Foot (5th Level)"
-         },
-         {
-            "conditionChoiceFilter": "Brontosaurus",
-            "name": "Dinosaur Form Brontosaurus Tail (5th Level)"
          },
          {
             "conditionChoiceFilter": "Brontosaurus",
@@ -11237,216 +10282,12 @@
             "name": "Dinosaur Form Deinonychus Jaws (5th Level)"
          },
          {
-            "conditionChoiceFilter": "Stegosaurus",
-            "name": "Dinosaur Form Stegosaurus Tail (5th Level)"
-         },
-         {
             "conditionChoiceFilter": "Triceratops",
             "name": "Dinosaur Form Triceratops Horn (5th Level)"
          },
          {
             "conditionChoiceFilter": "Triceratops",
             "name": "Dinosaur Form Triceratops Foot (5th Level)"
-         },
-         {
-            "conditionChoiceFilter": "Tyrannosaurus",
-            "name": "Dinosaur Form Tyrannosaurus Jaws (5th Level)"
-         },
-         {
-            "conditionChoiceFilter": "Tyrannosaurus",
-            "name": "Dinosaur Form Tyrannosaurus Tail (5th Level)"
-         }
-      ]
-   },
-   {
-      "name": "Dinosaur Form (7th Level)",
-      "desc": "You have transformed into a Gargantuan animal battle form, specifically that of a powerful and terrifying dinosaur chosen from ankylosaurus, brontosaurus, deinonychus, stegosaurus, triceratops, or tyrannosaurus. You can decide the specific type of animal, but this has no effect on the form's Size or statistics. While in this form, you gain the animal and dinosaur traits. You can Dismiss the spell.\n\nYou gain the following statistics and abilities regardless of which battle form you choose:\n\nAC = 21 + your level. Ignore your armor's check penalty and Speed reduction.\n25 temporary Hit Points.\nLow-light vision and imprecise scent 30 feet.\nOne or more unarmed melee attacks specific to the battle form you choose, which are the only attacks you can use. You're trained with them. Your attack modifier is +25, and your damage bonus is +15 with double damage dice. Your attacks have 20-foot reach, or 25-foot reach if they started with 20-foot reach. These attacks are Strength based (for the purpose of the enfeebled condition, for example). If your unarmed attack modifier is higher, you can use it instead.\nAthletics modifier of +25, unless your own modifier is higher.\n\nYou also gain specific abilities based on the form you choose:\n\n<strong>Ankylosaurus</strong> Speed 25 feet; <strong>Melee</strong> tail (back swing, reach 20 feet), <strong>Damage</strong> 4d6 bludgeoning; <strong>Melee</strong> foot (reach 20 feet), <strong>Damage</strong> 4d6 bludgeoning.\n<strong>Brontosaurus</strong> Speed 25 feet; <strong>Melee</strong> tail (reach 25 feet), <strong>Damage</strong> 4d6 bludgeoning; <strong>Melee</strong> foot (reach 20 feet), <strong>Damage</strong> 4d8 bludgeoning.\n<strong>Deinonychus</strong> Speed 40 feet; <strong>Melee</strong> talon (agile, reach 20 feet), <strong>Damage</strong> 4d4 piercing plus 1 persistent bleed; <strong>Melee</strong> jaws (reach 20 feet), <strong>Damage</strong> 2d8 piercing.\n<strong>Stegosaurus</strong> Speed 30 feet; <strong>Melee</strong> tail (reach 20 feet), <strong>Damage</strong> 4d8 piercing.\n<strong>Triceratops</strong> Speed 30 feet; <strong>Melee</strong> horn (reach 20 feet), <strong>Damage</strong> 4d8 piercing, plus 1d6 persistent bleed on a critical hit; <strong>Melee</strong> foot (reach 20 feet), <strong>Damage</strong> 4d6 bludgeoning.\n<strong>Tyrannosaurus</strong> Speed 30 feet; <strong>Melee</strong> jaws (deadly, reach 20 feet), <strong>Damage</strong> 2d12 piercing; <strong>Melee</strong> tail (reach 20 feet), <strong>Damage</strong> 2d10 bludgeoning.",
-      "type": "spells",
-      "buff": true,
-      "choice": "Ankylosaurus",
-      "choices": [
-         {
-            "name": "Ankylosaurus"
-         },
-         {
-            "name": "Brontosaurus"
-         },
-         {
-            "name": "Deinonychus"
-         },
-         {
-            "name": "Stegosaurus"
-         },
-         {
-            "name": "Triceratops"
-         },
-         {
-            "name": "Tyrannosaurus"
-         }
-      ],
-      "effects": [
-         {
-            "affected": "Size",
-            "setValue": "3"
-         },
-         {
-            "affected": "AC",
-            "setValue": "21 + Level"
-         },
-         {
-            "affected": "Melee Attack Rolls",
-            "setValue": "Skill('Unarmed Attacks') > 25 ? null : 25"
-         },
-         {
-            "affected": "Melee Damage",
-            "setValue": "15"
-         },
-         {
-            "affected": "Athletics",
-            "setValue": "Skill('Athletics') > 25 ? null : 25"
-         },
-         {
-            "affected": "Land Speed",
-            "setValue": "['Ankylosaurus', 'Brontosaurus'].includes(Choice) ? 25 : null"
-         },
-         {
-            "affected": "Land Speed",
-            "setValue": "['Stegosaurus','Triceratops','Tyrannosaurus'].includes(Choice) ? 30 : null"
-         },
-         {
-            "affected": "Land Speed",
-            "setValue": "Choice == 'Deinonychus' ? 40 : null"
-         },
-         {
-            "affected": "Unarmed Attacks Proficiency Level",
-            "setValue": "Skill_Level('Unarmed Attacks') <= 2 ? 2 : null"
-         },
-         {
-            "affected": "Ignore Armor Penalty",
-            "toggle": true
-         }
-      ],
-      "onceEffects": [
-         {
-            "affected": "Temporary HP",
-            "value": "25"
-         }
-      ],
-      "endEffects": [
-         {
-            "affected": "Temporary HP",
-            "value": "-Temporary_HP('',effect.sourceId)"
-         }
-      ],
-      "gainItems": [
-         {
-            "conditionChoiceFilter": "Ankylosaurus",
-            "name": "Dinosaur Form Ankylosaurus Tail (7th Level)",
-            "type": "weapons"
-         },
-         {
-            "conditionChoiceFilter": "Ankylosaurus",
-            "name": "Dinosaur Form Ankylosaurus Foot (7th Level)",
-            "type": "weapons"
-         },
-         {
-            "conditionChoiceFilter": "Brontosaurus",
-            "name": "Dinosaur Form Brontosaurus Tail (7th Level)",
-            "type": "weapons"
-         },
-         {
-            "conditionChoiceFilter": "Brontosaurus",
-            "name": "Dinosaur Form Brontosaurus Foot (7th Level)",
-            "type": "weapons"
-         },
-         {
-            "conditionChoiceFilter": "Deinonychus",
-            "name": "Dinosaur Form Deinonychus Talon (7th Level)",
-            "type": "weapons"
-         },
-         {
-            "conditionChoiceFilter": "Deinonychus",
-            "name": "Dinosaur Form Deinonychus Jaws (7th Level)",
-            "type": "weapons"
-         },
-         {
-            "conditionChoiceFilter": "Stegosaurus",
-            "name": "Dinosaur Form Stegosaurus Tail (7th Level)",
-            "type": "weapons"
-         },
-         {
-            "conditionChoiceFilter": "Triceratops",
-            "name": "Dinosaur Form Triceratops Horn (7th Level)",
-            "type": "weapons"
-         },
-         {
-            "conditionChoiceFilter": "Triceratops",
-            "name": "Dinosaur Form Triceratops Foot (7th Level)",
-            "type": "weapons"
-         },
-         {
-            "conditionChoiceFilter": "Tyrannosaurus",
-            "name": "Dinosaur Form Tyrannosaurus Jaws (7th Level)",
-            "type": "weapons"
-         },
-         {
-            "conditionChoiceFilter": "Tyrannosaurus",
-            "name": "Dinosaur Form Tyrannosaurus Tail (7th Level)",
-            "type": "weapons"
-         }
-      ],
-      "senses": [
-         {
-            "name": "Low-Light Vision"
-         },
-         {
-            "name": "Scent 30 feet (imprecise)"
-         }
-      ],
-      "attackRestrictions": [
-         {
-            "conditionChoiceFilter": "Ankylosaurus",
-            "name": "Dinosaur Form Ankylosaurus Tail (7th Level)"
-         },
-         {
-            "conditionChoiceFilter": "Ankylosaurus",
-            "name": "Dinosaur Form Ankylosaurus Foot (7th Level)"
-         },
-         {
-            "conditionChoiceFilter": "Brontosaurus",
-            "name": "Dinosaur Form Brontosaurus Tail (7th Level)"
-         },
-         {
-            "conditionChoiceFilter": "Brontosaurus",
-            "name": "Dinosaur Form Brontosaurus Foot (7th Level)"
-         },
-         {
-            "conditionChoiceFilter": "Deinonychus",
-            "name": "Dinosaur Form Deinonychus Talon (7th Level)"
-         },
-         {
-            "conditionChoiceFilter": "Deinonychus",
-            "name": "Dinosaur Form Deinonychus Jaws (7th Level)"
-         },
-         {
-            "conditionChoiceFilter": "Stegosaurus",
-            "name": "Dinosaur Form Stegosaurus Tail (7th Level)"
-         },
-         {
-            "conditionChoiceFilter": "Triceratops",
-            "name": "Dinosaur Form Triceratops Horn (7th Level)"
-         },
-         {
-            "conditionChoiceFilter": "Triceratops",
-            "name": "Dinosaur Form Triceratops Foot (7th Level)"
-         },
-         {
-            "conditionChoiceFilter": "Tyrannosaurus",
-            "name": "Dinosaur Form Tyrannosaurus Jaws (7th Level)"
-         },
-         {
-            "conditionChoiceFilter": "Tyrannosaurus",
-            "name": "Dinosaur Form Tyrannosaurus Tail (7th Level)"
          }
       ]
    },
@@ -11606,14 +10447,8 @@
       ]
    },
    {
-      "name": "Hallucinatory Terrain (4th Level)",
-      "desc": "You have created an illusion that causes natural terrain to look, sound, feel, and smell like a different kind of terrain. This doesn't disguise any structures or creatures in the area.\n\nAny creature that touches the illusion or uses the Seek action to examine it can attempt to disbelieve your illusion.",
-      "type": "spells",
-      "buff": true
-   },
-   {
-      "name": "Hallucinatory Terrain (5th Level)",
-      "desc": "You have created an illusion that causes natural terrain to look, sound, feel, and smell like a different kind of terrain. This can also disguise structures or create illusory structures, but doesn't disguise creatures in the area.\n\nAny creature that touches the illusion or uses the Seek action to examine it can attempt to disbelieve your illusion.",
+      "name": "Hallucinatory Terrain",
+      "desc": "You have created an illusion that causes natural terrain to look, sound, feel, and smell like a different kind of terrain.\n\n<strong>4th Level</strong> This doesn't disguise any structures or creatures in the area.\n<strong>5th Level</strong> This can also disguise structures or create illusory structures, but doesn't disguise creatures in the area.\n\nAny creature that touches the illusion or uses the Seek action to examine it can attempt to disbelieve your illusion.",
       "type": "spells",
       "buff": true
    },
@@ -11946,56 +10781,8 @@
       ]
    },
    {
-      "name": "Veil (4th Level)",
-      "desc": "You are disguised as another creature of the same body shape and roughly similar height (within 6 inches) and weight (within 50 pounds). The disguise can hide your identity or let you appear to be of another ancestry, but it's not precise enough to impersonate specific individuals. The spell doesn't change voice, scent, or mannerisms.\n\nCasting veil counts as setting up a disguise for the purpose of the Impersonate action. It allows you to ignore any circumstance penalties you might take for being disguised as a dissimilar creature, and it gives you a +4 status bonus to Deception checks to prevent others from seeing through your disguise, and add your level even if untrained. The caster can dismiss your disguise.",
-      "type": "spells",
-      "buff": true,
-      "hints": [
-         {
-            "desc": "You ignore any circumstance penalties you might take for being disguised as a dissimilar creature. You gain a +4 status bonus to Deception checks to prevent others from seeing through your disguise, and add your level even if untrained.",
-            "effects": [
-               {
-                  "affected": "Deception",
-                  "type": "status",
-                  "value": "4"
-               },
-               {
-                  "affected": "Deception",
-                  "type": "proficiency",
-                  "value": "Skill_Level('Deception') == 0 ? Level : 0"
-               }
-            ],
-            "showon": "Deception"
-         }
-      ]
-   },
-   {
-      "name": "Veil (5th Level)",
-      "desc": "You are disguised as another creature of the same body shape and roughly similar height (within 6 inches) and weight (within 50 pounds). The disguise can hide your identity, voice and scent or let you appear to be of another ancestry, but it's not precise enough to impersonate specific individuals. The spell also disguises your voice and scent, but not mannerisms.\n\nCasting veil counts as setting up a disguise for the purpose of the Impersonate action. It allows you to ignore any circumstance penalties you might take for being disguised as a dissimilar creature, and it gives you a +4 status bonus to Deception checks to prevent others from seeing through your disguise, and add your level even if untrained. The caster can dismiss your disguise.",
-      "type": "spells",
-      "buff": true,
-      "hints": [
-         {
-            "desc": "You ignore any circumstance penalties you might take for being disguised as a dissimilar creature. You gain a +4 status bonus to Deception checks to prevent others from seeing through your disguise, and add your level even if untrained.",
-            "effects": [
-               {
-                  "affected": "Deception",
-                  "type": "status",
-                  "value": "4"
-               },
-               {
-                  "affected": "Deception",
-                  "type": "proficiency",
-                  "value": "Skill_Level('Deception') == 0 ? Level : 0"
-               }
-            ],
-            "showon": "Deception"
-         }
-      ]
-   },
-   {
-      "name": "Veil (7th Level)",
-      "desc": "You are disguised as another creature of the same size. The disguise can hide your identity or let you appear to be of another ancestry, or even a specific individual. The spell also disguises your voice and scent, but not mannerisms.\n\nCasting veil counts as setting up a disguise for the purpose of the Impersonate action. It allows you to ignore any circumstance penalties you might take for being disguised as a dissimilar creature, and it gives you a +4 status bonus to Deception checks to prevent others from seeing through your disguise, and add your level even if untrained. The caster can dismiss your disguise.",
+      "name": "Veil",
+      "desc": "You are disguised as another creature of the same body shape and roughly similar height (within 6 inches) and weight (within 50 pounds).\n\n<strong>4th Level</strong> The disguise can hide your identity or let you appear to be of another ancestry, but it's not precise enough to impersonate specific individuals. The spell doesn't change voice, scent, or mannerisms.\n<strong>5th Level</strong> The spell also disguises your voice and scent.\n<strong>7th Level</strong> You can appear as any creature of the same size, even specific individuals. The spell also disguises your voice and scent.\n\nCasting veil counts as setting up a disguise for the purpose of the Impersonate action. It allows you to ignore any circumstance penalties you might take for being disguised as a dissimilar creature, and it gives you a +4 status bonus to Deception checks to prevent others from seeing through your disguise, and add your level even if untrained. The caster can dismiss your disguise.",
       "type": "spells",
       "buff": true,
       "hints": [
@@ -12273,7 +11060,8 @@
       ],
       "gainConditions": [
          {
-            "name": "Creation (5th Level)"
+            "heightened": 5,
+            "name": "Creation"
          }
       ]
    },
@@ -12734,8 +11522,8 @@
       "type": "spells"
    },
    {
-      "name": "Dragon Form (6th Level)",
-      "desc": "Calling upon powerful transformative magic, you gain a Large dragon battle form. You must have space to expand or the spell is lost. When you cast this spell, choose one type of chromatic or metallic dragon. While in this form, you gain the dragon trait. You have hands in this battle form and can take manipulate actions. You can Dismiss the spell.\n\nYou gain the following statistics and abilities regardless of which battle form you choose:\n\nAC = 18 + your level. Ignore your armor's check penalty and Speed reduction.\n10 temporary Hit Points.\nSpeed 40 feet, fly Speed 100 feet.\nResistance 10 against the damage type of your breath weapon (see below).\nDarkvision and imprecise scent 60 feet.\nOne or more unarmed melee attacks specific to the battle form you choose, which are the only attacks you can use. You're trained with them. Your attack modifier is +22, and your damage bonus is +6. These attacks are Strength based (for the purpose of the enfeebled condition, for example). If your unarmed attack modifier is higher, you can use it instead. See below for more on these attacks.\nAthletics modifier of +23, unless your own modifier is higher.\n<strong>Breath Weapon</strong> (Two Actions) (arcane, evocation) The shape, damage, and damage type of your breath weapon depend on your specific dragon form (see below). A creature in the area attempts a basic save against your spell DC. This is a Reflex save unless stated otherwise in the special ability description for your specific dragon form. Once activated, your breath weapon can't be used again for 1d4 rounds. Your breath weapon has the trait corresponding to the type of damage it deals.\n\nYou also gain specific abilities based on the type of dragon you choose:\n\n<strong>Black</strong> swim Speed 60 feet; <strong>Melee</strong> jaws, <strong>Damage</strong> 2d12 piercing plus 2d6 acid; <strong>Melee</strong> claw (agile), <strong>Damage</strong> 3d10 slashing; <strong>Melee</strong> tail (reach 10 feet), <strong>Damage</strong> 3d10 bludgeoning; <strong>Melee</strong> horns (reach 10 feet), <strong>Damage</strong> 3d8 piercing; breath weapon 60-foot line, 11d6 acid.\n<strong>Blue</strong> burrow Speed 20 feet; <strong>Melee</strong> jaws, <strong>Damage</strong> 2d10 piercing plus 1d12 electricity; <strong>Melee</strong> claw (agile), <strong>Damage</strong> 3d10 slashing; <strong>Melee</strong> tail (reach 10 feet), <strong>Damage</strong> 3d10 bludgeoning; <strong>Melee</strong> horns (reach 10 feet), <strong>Damage</strong> 3d8 piercing; breath weapon 80-foot line, 6d12 electricity.\n<strong>Brass</strong> burrow Speed 20 feet; <strong>Melee</strong> jaws, <strong>Damage</strong> 3d8 piercing plus 2d4 fire; <strong>Melee</strong> claw (agile), <strong>Damage</strong> 3d10 slashing; <strong>Melee</strong> tail (reach 10 feet), <strong>Damage</strong> 3d10 bludgeoning; <strong>Melee</strong> spikes (reach 10 feet), <strong>Damage</strong> 3d8 piercing; breath weapon 60-foot line, 15d4 fire.\n<strong>Bronze</strong> swim Speed 40 feet; <strong>Melee</strong> jaws, <strong>Damage</strong> 2d10 piercing plus 1d12 electricity; <strong>Melee</strong> claw (agile), <strong>Damage</strong> 3d10 slashing; <strong>Melee</strong> tail (reach 10 feet), <strong>Damage</strong> 3d10 bludgeoning; <strong>Melee</strong> wing (reach 10 feet), <strong>Damage</strong> 3d8 slashing; breath weapon 80-foot line, 6d12 electricity.\n<strong>Copper</strong> climb Speed 25 feet on stone only; <strong>Melee</strong> jaws, <strong>Damage</strong> 2d12 piercing plus 2d6 acid; <strong>Melee</strong> claw (agile), <strong>Damage</strong> 3d10 slashing; <strong>Melee</strong> tail (reach 10 feet), <strong>Damage</strong> 3d10 bludgeoning; <strong>Melee</strong> wing (reach 10 feet), <strong>Damage</strong> 3d8 bludgeoning; breath weapon 60-foot line, 10d6 acid.\n<strong>Gold</strong> swim Speed 40 feet; <strong>Melee</strong> jaws, <strong>Damage</strong> 2d12 piercing plus 2d6 fire; <strong>Melee</strong> claw (agile), <strong>Damage</strong> 4d6 slashing; <strong>Melee</strong> tail (reach 10 feet), <strong>Damage</strong> 3d10 bludgeoning; <strong>Melee</strong> horns (reach 10 feet), <strong>Damage</strong> 3d8 piercing; breath weapon 30-foot cone, 6d10 fire.\n<strong>Green</strong> swim Speed 40 feet, ignores difficult terrain from non-magical foliage; <strong>Melee</strong> jaws, <strong>Damage</strong> 2d12 piercing plus 2d6 poison; <strong>Melee</strong> claw (agile), <strong>Damage</strong> 3d10 slashing; <strong>Melee</strong> tail (reach 10 feet), <strong>Damage</strong> 3d10 bludgeoning; <strong>Melee</strong> horns (reach 10 feet), <strong>Damage</strong> 3d8 piercing; breath weapon 30-foot cone, 10d6 poison (Fortitude save instead of Reflex).\n<strong>Red</strong> ignore concealed from smoke; <strong>Melee</strong> jaws, <strong>Damage</strong> 2d12 piercing plus 2d6 fire; <strong>Melee</strong> claw (agile), <strong>Damage</strong> 4d6 slashing; <strong>Melee</strong> tail (reach 10 feet), <strong>Damage</strong> 3d10 bludgeoning; <strong>Melee</strong> wing (reach 10 feet), <strong>Damage</strong> 3d8 bludgeoning; breath weapon 30-foot cone, 10d6 fire.\n<strong>Silver</strong> cloud walk; <strong>Melee</strong> jaws, <strong>Damage</strong> 2d12 piercing plus 2d6 cold; <strong>Melee</strong> claw (agile), <strong>Damage</strong> 3d10 slashing; <strong>Melee</strong> tail (reach 10 feet), <strong>Damage</strong> 3d10 bludgeoning; breath weapon 30-foot cone, 8d8 cold.\n<strong>White</strong> climb Speed 25 feet on ice only; <strong>Melee</strong> jaws, <strong>Damage</strong> 3d6 piercing plus 2d6 cold; <strong>Melee</strong> claw (agile), <strong>Damage</strong> 3d10 slashing; <strong>Melee</strong> tail (reach 10 feet), <strong>Damage</strong> 3d10 bludgeoning; breath weapon 30-foot cone, 10d6 cold.",
+      "name": "Dragon Form",
+      "desc": "Calling upon powerful transformative magic, you gain a Large dragon battle form. You must have space to expand or the spell is lost. When you cast this spell, choose one type of chromatic or metallic dragon. While in this form, you gain the dragon trait. You have hands in this battle form and can take manipulate actions. You can Dismiss the spell.\nYou gain the following statistics and abilities regardless of which battle form you choose:\n(Heightened statistics at the bottom)\nAC = 18 + your level. Ignore your armor's check penalty and Speed reduction.\n10 temporary Hit Points.\nSpeed 40 feet, fly Speed 100 feet.\nResistance 10 against the damage type of your breath weapon (see below).\nDarkvision and imprecise scent 60 feet.\nOne or more unarmed melee attacks specific to the battle form you choose, which are the only attacks you can use. You're trained with them. Your attack modifier is +22, and your damage bonus is +6. These attacks are Strength based (for the purpose of the enfeebled condition, for example). If your unarmed attack modifier is higher, you can use it instead. See below for more on these attacks.\nAthletics modifier of +23, unless your own modifier is higher.\n<strong>Breath Weapon</strong> (Two Actions) (arcane, evocation) The shape, damage, and damage type of your breath weapon depend on your specific dragon form (see below). A creature in the area attempts a basic save against your spell DC. This is a Reflex save unless stated otherwise in the special ability description for your specific dragon form. Once activated, your breath weapon can't be used again for 1d4 rounds. Your breath weapon has the trait corresponding to the type of damage it deals.\n\nYou also gain specific abilities based on the type of dragon you choose:\n\n<strong>Black</strong> swim Speed 60 feet; <strong>Melee</strong> jaws, <strong>Damage</strong> 2d12 piercing plus 2d6 acid; <strong>Melee</strong> claw (agile), <strong>Damage</strong> 3d10 slashing; <strong>Melee</strong> tail (reach 10 feet), <strong>Damage</strong> 3d10 bludgeoning; <strong>Melee</strong> horns (reach 10 feet), <strong>Damage</strong> 3d8 piercing; breath weapon 60-foot line, 11d6 acid.\n<strong>Blue</strong> burrow Speed 20 feet; <strong>Melee</strong> jaws, <strong>Damage</strong> 2d10 piercing plus 1d12 electricity; <strong>Melee</strong> claw (agile), <strong>Damage</strong> 3d10 slashing; <strong>Melee</strong> tail (reach 10 feet), <strong>Damage</strong> 3d10 bludgeoning; <strong>Melee</strong> horns (reach 10 feet), <strong>Damage</strong> 3d8 piercing; breath weapon 80-foot line, 6d12 electricity.\n<strong>Brass</strong> burrow Speed 20 feet; <strong>Melee</strong> jaws, <strong>Damage</strong> 3d8 piercing plus 2d4 fire; <strong>Melee</strong> claw (agile), <strong>Damage</strong> 3d10 slashing; <strong>Melee</strong> tail (reach 10 feet), <strong>Damage</strong> 3d10 bludgeoning; <strong>Melee</strong> spikes (reach 10 feet), <strong>Damage</strong> 3d8 piercing; breath weapon 60-foot line, 15d4 fire.\n<strong>Bronze</strong> swim Speed 40 feet; <strong>Melee</strong> jaws, <strong>Damage</strong> 2d10 piercing plus 1d12 electricity; <strong>Melee</strong> claw (agile), <strong>Damage</strong> 3d10 slashing; <strong>Melee</strong> tail (reach 10 feet), <strong>Damage</strong> 3d10 bludgeoning; <strong>Melee</strong> wing (reach 10 feet), <strong>Damage</strong> 3d8 slashing; breath weapon 80-foot line, 6d12 electricity.\n<strong>Copper</strong> climb Speed 25 feet on stone only; <strong>Melee</strong> jaws, <strong>Damage</strong> 2d12 piercing plus 2d6 acid; <strong>Melee</strong> claw (agile), <strong>Damage</strong> 3d10 slashing; <strong>Melee</strong> tail (reach 10 feet), <strong>Damage</strong> 3d10 bludgeoning; <strong>Melee</strong> wing (reach 10 feet), <strong>Damage</strong> 3d8 bludgeoning; breath weapon 60-foot line, 10d6 acid.\n<strong>Gold</strong> swim Speed 40 feet; <strong>Melee</strong> jaws, <strong>Damage</strong> 2d12 piercing plus 2d6 fire; <strong>Melee</strong> claw (agile), <strong>Damage</strong> 4d6 slashing; <strong>Melee</strong> tail (reach 10 feet), <strong>Damage</strong> 3d10 bludgeoning; <strong>Melee</strong> horns (reach 10 feet), <strong>Damage</strong> 3d8 piercing; breath weapon 30-foot cone, 6d10 fire.\n<strong>Green</strong> swim Speed 40 feet, ignores difficult terrain from non-magical foliage; <strong>Melee</strong> jaws, <strong>Damage</strong> 2d12 piercing plus 2d6 poison; <strong>Melee</strong> claw (agile), <strong>Damage</strong> 3d10 slashing; <strong>Melee</strong> tail (reach 10 feet), <strong>Damage</strong> 3d10 bludgeoning; <strong>Melee</strong> horns (reach 10 feet), <strong>Damage</strong> 3d8 piercing; breath weapon 30-foot cone, 10d6 poison (Fortitude save instead of Reflex).\n<strong>Red</strong> ignore concealed from smoke; <strong>Melee</strong> jaws, <strong>Damage</strong> 2d12 piercing plus 2d6 fire; <strong>Melee</strong> claw (agile), <strong>Damage</strong> 4d6 slashing; <strong>Melee</strong> tail (reach 10 feet), <strong>Damage</strong> 3d10 bludgeoning; <strong>Melee</strong> wing (reach 10 feet), <strong>Damage</strong> 3d8 bludgeoning; breath weapon 30-foot cone, 10d6 fire.\n<strong>Silver</strong> cloud walk; <strong>Melee</strong> jaws, <strong>Damage</strong> 2d12 piercing plus 2d6 cold; <strong>Melee</strong> claw (agile), <strong>Damage</strong> 3d10 slashing; <strong>Melee</strong> tail (reach 10 feet), <strong>Damage</strong> 3d10 bludgeoning; breath weapon 30-foot cone, 8d8 cold.\n<strong>White</strong> climb Speed 25 feet on ice only; <strong>Melee</strong> jaws, <strong>Damage</strong> 3d6 piercing plus 2d6 cold; <strong>Melee</strong> claw (agile), <strong>Damage</strong> 3d10 slashing; <strong>Melee</strong> tail (reach 10 feet), <strong>Damage</strong> 3d10 bludgeoning; breath weapon 30-foot cone, 10d6 cold.\n\nHeightened statistics:\n\n<strong>8th Level</strong> Your battle form is Huge, you gain a +20-foot status bonus to your fly Speed, and your attacks have 10-foot reach (or 15-foot reach if they previously had 10-foot reach). You instead gain AC = 21 + your level, 15 temporary HP, an attack modifier of +28, a damage bonus of +12, Athletics +28, and a +14 status bonus to breath weapon damage.",
       "type": "spells",
       "buff": true,
       "hints": [
@@ -12784,23 +11572,23 @@
       "effects": [
          {
             "affected": "Size",
-            "setValue": "1"
+            "setValue": "Heightened >= 8 ? 2 : 1"
          },
          {
             "affected": "AC",
-            "setValue": "18 + Level"
+            "setValue": "(Heightened >= 8 ? 21 : 18) + Level"
          },
          {
             "affected": "Melee Attack Rolls",
-            "setValue": "Skill('Unarmed Attacks') > 22 ? null : 22"
+            "setValue": "Skill('Unarmed Attacks') >= [0,0,0,0,0,0,22,22,28,28,28][Heightened] ? null : [0,0,0,0,0,0,22,22,28,28,28][Heightened]"
          },
          {
             "affected": "Melee Damage",
-            "setValue": "6"
+            "setValue": "Heightened >= 8 ? 12 : 6"
          },
          {
             "affected": "Athletics",
-            "setValue": "Skill('Athletics') > 23 ? null : 23"
+            "setValue": "Skill('Athletics') >= [0,0,0,0,0,0,23,23,28,28,28][Heightened] ? null : [0,0,0,0,0,0,23,23,28,28,28][Heightened]"
          },
          {
             "affected": "Land Speed",
@@ -12835,6 +11623,11 @@
             "setValue": "['Copper','White'].includes(Choice) ? 25 : null"
          },
          {
+            "affected": "Fly Speed",
+            "type": "status",
+            "value": "Heightened >= 8 ? 20 : 0"
+         },
+         {
             "affected": "Acid Resistance",
             "value": "['Black','Copper'].includes(Choice) ? 10 : 0"
          },
@@ -12853,12 +11646,16 @@
          {
             "affected": "Poison Resistance",
             "value": "Choice == 'Green' ? 10 : 0"
+         },
+         {
+            "affected": "Reach",
+            "value": "Heightened >= 8 ? 5 : 0"
          }
       ],
       "onceEffects": [
          {
             "affected": "Temporary HP",
-            "value": "10"
+            "value": "Heightened >= 8 ? 15 : 10"
          }
       ],
       "endEffects": [
@@ -12871,7 +11668,7 @@
          {
             "_className": "ActivityGain",
             "name": "Dragon Form Breath Weapon",
-            "source": "Dragon Form (6th Level)"
+            "source": "Dragon Form"
          }
       ],
       "gainItems": [
@@ -13143,424 +11940,6 @@
          {
             "conditionChoiceFilter": "White",
             "name": "Dragon Form Claw"
-         }
-      ]
-   },
-   {
-      "name": "Dragon Form (8th Level)",
-      "desc": "Calling upon powerful transformative magic, you gain a Huge dragon battle form. You must have space to expand or the spell is lost. When you cast this spell, choose one type of chromatic or metallic dragon. While in this form, you gain the dragon trait. You have hands in this battle form and can take manipulate actions. You can Dismiss the spell.\n\nYou gain the following statistics and abilities regardless of which battle form you choose:\n\nAC = 21 + your level. Ignore your armor's check penalty and Speed reduction.\n15 temporary Hit Points.\nSpeed 40 feet, fly Speed 100 feet with a +20-foot status bonus.\nResistance 10 against the damage type of your breath weapon (see below).\nDarkvision and imprecise scent 60 feet.\nOne or more unarmed melee attacks specific to the battle form you choose, which are the only attacks you can use. You're trained with them. Your attack modifier is +28, and your damage bonus is +12. These attacks are Strength based (for the purpose of the enfeebled condition, for example). If your unarmed attack modifier is higher, you can use it instead. See below for more on these attacks.\nAthletics modifier of +28, unless your own modifier is higher.\n<strong>Breath Weapon</strong> (Two Actions) (arcane, evocation) The shape, damage, and damage type of your breath weapon depend on your specific dragon form (see below). A creature in the area attempts a basic save against your spell DC. This is a Reflex save unless stated otherwise in the special ability description for your specific dragon form. Once activated, your breath weapon can't be used again for 1d4 rounds. Your breath weapon has the trait corresponding to the type of damage it deals. You gain a +14 status bonus to breath weapon damage.\n\nYou also gain specific abilities based on the type of dragon you choose:\n\n<strong>Black</strong> swim Speed 60 feet; <strong>Melee</strong> jaws (reach 10 feet), <strong>Damage</strong> 2d12 piercing plus 2d6 acid; <strong>Melee</strong> claw (agile, reach 10 feet), <strong>Damage</strong> 3d10 slashing; <strong>Melee</strong> tail (reach 15 feet), <strong>Damage</strong> 3d10 bludgeoning; <strong>Melee</strong> horns (reach 15 feet), <strong>Damage</strong> 3d8 piercing; breath weapon 60-foot line, 11d6 acid.\n<strong>Blue</strong> burrow Speed 20 feet; <strong>Melee</strong> jaws (reach 10 feet), <strong>Damage</strong> 2d10 piercing plus 1d12 electricity; <strong>Melee</strong> claw (agile, reach 10 feet), <strong>Damage</strong> 3d10 slashing; <strong>Melee</strong> tail (reach 15 feet), <strong>Damage</strong> 3d10 bludgeoning; <strong>Melee</strong> horns (reach 15 feet), <strong>Damage</strong> 3d8 piercing; breath weapon 80-foot line, 6d12 electricity.\n<strong>Brass</strong> burrow Speed 20 feet; <strong>Melee</strong> jaws (reach 10 feet), <strong>Damage</strong> 3d8 piercing plus 2d4 fire; <strong>Melee</strong> claw (agile, reach 10 feet), <strong>Damage</strong> 3d10 slashing; <strong>Melee</strong> tail (reach 15 feet), <strong>Damage</strong> 3d10 bludgeoning; <strong>Melee</strong> spikes (reach 15 feet), <strong>Damage</strong> 3d8 piercing; breath weapon 60-foot line, 15d4 fire.\n<strong>Bronze</strong> swim Speed 40 feet; <strong>Melee</strong> jaws (reach 10 feet), <strong>Damage</strong> 2d10 piercing plus 1d12 electricity; <strong>Melee</strong> claw (agile, reach 10 feet), <strong>Damage</strong> 3d10 slashing; <strong>Melee</strong> tail (reach 15 feet), <strong>Damage</strong> 3d10 bludgeoning; <strong>Melee</strong> wing (reach 15 feet), <strong>Damage</strong> 3d8 slashing; breath weapon 80-foot line, 6d12 electricity.\n<strong>Copper</strong> climb Speed 25 feet on stone only; <strong>Melee</strong> jaws (reach 10 feet), <strong>Damage</strong> 2d12 piercing plus 2d6 acid; <strong>Melee</strong> claw (agile, reach 10 feet), <strong>Damage</strong> 3d10 slashing; <strong>Melee</strong> tail (reach 15 feet), <strong>Damage</strong> 3d10 bludgeoning; <strong>Melee</strong> wing (reach 15 feet), <strong>Damage</strong> 3d8 bludgeoning; breath weapon 60-foot line, 10d6 acid.\n<strong>Gold</strong> swim Speed 40 feet; <strong>Melee</strong> jaws (reach 10 feet), <strong>Damage</strong> 2d12 piercing plus 2d6 fire; <strong>Melee</strong> claw (agile, reach 10 feet), <strong>Damage</strong> 4d6 slashing; <strong>Melee</strong> tail (reach 15 feet), <strong>Damage</strong> 3d10 bludgeoning; <strong>Melee</strong> horns (reach 15 feet), <strong>Damage</strong> 3d8 piercing; breath weapon 30-foot cone, 6d10 fire.\n<strong>Green</strong> swim Speed 40 feet, ignores difficult terrain from non-magical foliage; <strong>Melee</strong> jaws (reach 10 feet), <strong>Damage</strong> 2d12 piercing plus 2d6 poison; <strong>Melee</strong> claw (agile, reach 10 feet), <strong>Damage</strong> 3d10 slashing; <strong>Melee</strong> tail (reach 15 feet), <strong>Damage</strong> 3d10 bludgeoning; <strong>Melee</strong> horns (reach 15 feet), <strong>Damage</strong> 3d8 piercing; breath weapon 30-foot cone, 10d6 poison (Fortitude save instead of Reflex).\n<strong>Red</strong> ignore concealed from smoke; <strong>Melee</strong> jaws (reach 10 feet), <strong>Damage</strong> 2d12 piercing plus 2d6 fire; <strong>Melee</strong> claw (agile, reach 10 feet), <strong>Damage</strong> 4d6 slashing; <strong>Melee</strong> tail (reach 15 feet), <strong>Damage</strong> 3d10 bludgeoning; <strong>Melee</strong> wing (reach 15 feet), <strong>Damage</strong> 3d8 bludgeoning; breath weapon 30-foot cone, 10d6 fire.\n<strong>Silver</strong> cloud walk; <strong>Melee</strong> jaws (reach 10 feet), <strong>Damage</strong> 2d12 piercing plus 2d6 cold; <strong>Melee</strong> claw (agile, reach 10 feet), <strong>Damage</strong> 3d10 slashing; <strong>Melee</strong> tail (reach 15 feet), <strong>Damage</strong> 3d10 bludgeoning; breath weapon 30-foot cone, 8d8 cold.\n<strong>White</strong> climb Speed 25 feet on ice only; <strong>Melee</strong> jaws (reach 10 feet), <strong>Damage</strong> 3d6 piercing plus 2d6 cold; <strong>Melee</strong> claw (agile, reach 10 feet), <strong>Damage</strong> 3d10 slashing; <strong>Melee</strong> tail (reach 15 feet), <strong>Damage</strong> 3d10 bludgeoning; breath weapon 30-foot cone, 10d6 cold.",
-      "type": "spells",
-      "buff": true,
-      "hints": [
-         {
-            "desc": "The copper dragon's climb speed applies on stone only.\n\nThe green dragon ignores difficult terrain from non-magical foliage.\n\nThe silver dragon can cloud walk.\n\nThe white dragon's climb speed applies on ice only.",
-            "showon": "Movement"
-         },
-         {
-            "desc": "The red dragon ignores concealed from smoke.",
-            "showon": "Attacks"
-         }
-      ],
-      "choice": "Black",
-      "choices": [
-         {
-            "name": "Black"
-         },
-         {
-            "name": "Blue"
-         },
-         {
-            "name": "Brass"
-         },
-         {
-            "name": "Bronze"
-         },
-         {
-            "name": "Copper"
-         },
-         {
-            "name": "Gold"
-         },
-         {
-            "name": "Green"
-         },
-         {
-            "name": "Red"
-         },
-         {
-            "name": "Silver"
-         },
-         {
-            "name": "White"
-         }
-      ],
-      "effects": [
-         {
-            "affected": "Size",
-            "setValue": "2"
-         },
-         {
-            "affected": "AC",
-            "setValue": "21 + Level"
-         },
-         {
-            "affected": "Melee Attack Rolls",
-            "setValue": "Skill('Unarmed Attacks') > 28 ? null : 28"
-         },
-         {
-            "affected": "Melee Damage",
-            "setValue": "12"
-         },
-         {
-            "affected": "Athletics",
-            "setValue": "Skill('Athletics') > 28 ? null : 28"
-         },
-         {
-            "affected": "Land Speed",
-            "setValue": "40"
-         },
-         {
-            "affected": "Fly Speed",
-            "setValue": "100"
-         },
-         {
-            "affected": "Unarmed Attacks Proficiency Level",
-            "setValue": "Skill_Level('Unarmed Attacks') <= 2 ? 2 : null"
-         },
-         {
-            "affected": "Ignore Armor Penalty",
-            "toggle": true
-         },
-         {
-            "affected": "Swim Speed",
-            "setValue": "Choice == 'Black' ? 60 : null"
-         },
-         {
-            "affected": "Swim Speed",
-            "setValue": "['Bronze','Gold','Green'].includes(Choice) ? 40 : null"
-         },
-         {
-            "affected": "Burrow Speed",
-            "setValue": "['Blue','Brass'].includes(Choice) ? 20 : null"
-         },
-         {
-            "affected": "Burrow Speed",
-            "setValue": "['Copper','White'].includes(Choice) ? 25 : null"
-         },
-         {
-            "affected": "Fly Speed",
-            "setValue": "20",
-            "type": "status"
-         },
-         {
-            "affected": "Acid Resistance",
-            "value": "['Black','Copper'].includes(Choice) ? 10 : 0"
-         },
-         {
-            "affected": "Cold Resistance",
-            "value": "['Silver','White'].includes(Choice) ? 10 : 0"
-         },
-         {
-            "affected": "Electricity Resistance",
-            "value": "['Blue','Bronze'].includes(Choice) ? 10 : 0"
-         },
-         {
-            "affected": "Fire Resistance",
-            "value": "['Brass','Gold','Red'].includes(Choice) ? 10 : 0"
-         },
-         {
-            "affected": "Poison Resistance",
-            "value": "Choice == 'Green' ? 10 : 0"
-         }
-      ],
-      "onceEffects": [
-         {
-            "affected": "Temporary HP",
-            "value": "12"
-         }
-      ],
-      "endEffects": [
-         {
-            "affected": "Temporary HP",
-            "value": "-Temporary_HP('',effect.sourceId)"
-         }
-      ],
-      "gainActivities": [
-         {
-            "_className": "ActivityGain",
-            "name": "Dragon Form Breath Weapon",
-            "source": "Dragon Form (8th Level)"
-         }
-      ],
-      "gainItems": [
-         {
-            "name": "Dragon Form Tail (8th Level)",
-            "type": "weapons"
-         },
-         {
-            "conditionChoiceFilter": "Black",
-            "name": "Dragon Form Black Dragon Jaws (8th Level)",
-            "type": "weapons"
-         },
-         {
-            "conditionChoiceFilter": "Black",
-            "name": "Dragon Form Claw (8th Level)",
-            "type": "weapons"
-         },
-         {
-            "conditionChoiceFilter": "Black",
-            "name": "Dragon Form Horns (8th Level)",
-            "type": "weapons"
-         },
-         {
-            "conditionChoiceFilter": "Blue",
-            "name": "Dragon Form Blue Dragon Jaws (8th Level)",
-            "type": "weapons"
-         },
-         {
-            "conditionChoiceFilter": "Blue",
-            "name": "Dragon Form Claw (8th Level)",
-            "type": "weapons"
-         },
-         {
-            "conditionChoiceFilter": "Blue",
-            "name": "Dragon Form Horns (8th Level)",
-            "type": "weapons"
-         },
-         {
-            "conditionChoiceFilter": "Brass",
-            "name": "Dragon Form Brass Dragon Jaws (8th Level)",
-            "type": "weapons"
-         },
-         {
-            "conditionChoiceFilter": "Brass",
-            "name": "Dragon Form Claw (8th Level)",
-            "type": "weapons"
-         },
-         {
-            "conditionChoiceFilter": "Brass",
-            "name": "Dragon Form Brass Dragon Spikes (8th Level)",
-            "type": "weapons"
-         },
-         {
-            "conditionChoiceFilter": "Bronze",
-            "name": "Dragon Form Bronze Dragon Jaws (8th Level)",
-            "type": "weapons"
-         },
-         {
-            "conditionChoiceFilter": "Bronze",
-            "name": "Dragon Form Claw (8th Level)",
-            "type": "weapons"
-         },
-         {
-            "conditionChoiceFilter": "Bronze",
-            "name": "Dragon Form Bronze Dragon Wing (8th Level)",
-            "type": "weapons"
-         },
-         {
-            "conditionChoiceFilter": "Copper",
-            "name": "Dragon Form Copper Dragon Jaws (8th Level)",
-            "type": "weapons"
-         },
-         {
-            "conditionChoiceFilter": "Copper",
-            "name": "Dragon Form Claw (8th Level)",
-            "type": "weapons"
-         },
-         {
-            "conditionChoiceFilter": "Copper",
-            "name": "Dragon Form Copper Dragon Wing (8th Level)",
-            "type": "weapons"
-         },
-         {
-            "conditionChoiceFilter": "Gold",
-            "name": "Dragon Form Gold Dragon Jaws (8th Level)",
-            "type": "weapons"
-         },
-         {
-            "conditionChoiceFilter": "Gold",
-            "name": "Dragon Form Gold Dragon Claw (8th Level)",
-            "type": "weapons"
-         },
-         {
-            "conditionChoiceFilter": "Gold",
-            "name": "Dragon Form Horns (8th Level)",
-            "type": "weapons"
-         },
-         {
-            "conditionChoiceFilter": "Green",
-            "name": "Dragon Form Green Dragon Jaws (8th Level)",
-            "type": "weapons"
-         },
-         {
-            "conditionChoiceFilter": "Green",
-            "name": "Dragon Form Claw (8th Level)",
-            "type": "weapons"
-         },
-         {
-            "conditionChoiceFilter": "Green",
-            "name": "Dragon Form Horns (8th Level)",
-            "type": "weapons"
-         },
-         {
-            "conditionChoiceFilter": "Red",
-            "name": "Dragon Form Red Dragon Jaws (8th Level)",
-            "type": "weapons"
-         },
-         {
-            "conditionChoiceFilter": "Red",
-            "name": "Dragon Form Red Dragon Claw (8th Level)",
-            "type": "weapons"
-         },
-         {
-            "conditionChoiceFilter": "Red",
-            "name": "Dragon Form Red Dragon Wing (8th Level)",
-            "type": "weapons"
-         },
-         {
-            "conditionChoiceFilter": "Silver",
-            "name": "Dragon Form Silver Dragon Jaws (8th Level)",
-            "type": "weapons"
-         },
-         {
-            "conditionChoiceFilter": "Silver",
-            "name": "Dragon Form Claw (8th Level)",
-            "type": "weapons"
-         },
-         {
-            "conditionChoiceFilter": "White",
-            "name": "Dragon Form White Dragon Jaws",
-            "type": "weapons"
-         },
-         {
-            "conditionChoiceFilter": "White",
-            "name": "Dragon Form Claw (8th Level)",
-            "type": "weapons"
-         }
-      ],
-      "senses": [
-         {
-            "name": "Low-Light Vision"
-         },
-         {
-            "name": "Scent 30 feet (imprecise)"
-         }
-      ],
-      "attackRestrictions": [
-         {
-            "name": "Dragon Form Tail (8th Level)"
-         },
-         {
-            "conditionChoiceFilter": "Black",
-            "name": "Dragon Form Black Dragon Jaws (8th Level)"
-         },
-         {
-            "conditionChoiceFilter": "Black",
-            "name": "Dragon Form Claw (8th Level)"
-         },
-         {
-            "conditionChoiceFilter": "Black",
-            "name": "Dragon Form Horns (8th Level)"
-         },
-         {
-            "conditionChoiceFilter": "Blue",
-            "name": "Dragon Form Blue Dragon Jaws (8th Level)"
-         },
-         {
-            "conditionChoiceFilter": "Blue",
-            "name": "Dragon Form Claw (8th Level)"
-         },
-         {
-            "conditionChoiceFilter": "Blue",
-            "name": "Dragon Form Horns (8th Level)"
-         },
-         {
-            "conditionChoiceFilter": "Brass",
-            "name": "Dragon Form Brass Dragon Jaws (8th Level)"
-         },
-         {
-            "conditionChoiceFilter": "Brass",
-            "name": "Dragon Form Brass Dragon Claw (8th Level)"
-         },
-         {
-            "conditionChoiceFilter": "Brass",
-            "name": "Dragon Form Brass Dragon Spikes (8th Level)"
-         },
-         {
-            "conditionChoiceFilter": "Bronze",
-            "name": "Dragon Form Bronze Dragon Jaws (8th Level)"
-         },
-         {
-            "conditionChoiceFilter": "Bronze",
-            "name": "Dragon Form Claw (8th Level)"
-         },
-         {
-            "conditionChoiceFilter": "Bronze",
-            "name": "Dragon Form Bronze Dragon Wing (8th Level)"
-         },
-         {
-            "conditionChoiceFilter": "Copper",
-            "name": "Dragon Form Copper Dragon Jaws (8th Level)"
-         },
-         {
-            "conditionChoiceFilter": "Copper",
-            "name": "Dragon Form Claw (8th Level)"
-         },
-         {
-            "conditionChoiceFilter": "Copper",
-            "name": "Dragon Form Copper Dragon Wing (8th Level)"
-         },
-         {
-            "conditionChoiceFilter": "Gold",
-            "name": "Dragon Form Gold Dragon Jaws (8th Level)"
-         },
-         {
-            "conditionChoiceFilter": "Gold",
-            "name": "Dragon Form Gold Dragon Claw (8th Level)"
-         },
-         {
-            "conditionChoiceFilter": "Gold",
-            "name": "Dragon Form Horns (8th Level)"
-         },
-         {
-            "conditionChoiceFilter": "Green",
-            "name": "Dragon Form Green Dragon Jaws (8th Level)"
-         },
-         {
-            "conditionChoiceFilter": "Green",
-            "name": "Dragon Form Claw (8th Level)"
-         },
-         {
-            "conditionChoiceFilter": "Green",
-            "name": "Dragon Form Horns (8th Level)"
-         },
-         {
-            "conditionChoiceFilter": "Red",
-            "name": "Dragon Form Red Dragon Jaws (8th Level)"
-         },
-         {
-            "conditionChoiceFilter": "Red",
-            "name": "Dragon Form Red Dragon Claw (8th Level)"
-         },
-         {
-            "conditionChoiceFilter": "Red",
-            "name": "Dragon Form Red Dragon Wing (8th Level)"
-         },
-         {
-            "conditionChoiceFilter": "Silver",
-            "name": "Dragon Form Silver Dragon Jaws (8th Level)"
-         },
-         {
-            "conditionChoiceFilter": "Silver",
-            "name": "Dragon Form Claw (8th Level)"
-         },
-         {
-            "conditionChoiceFilter": "White",
-            "name": "Dragon Form White Dragon Jaws (8th Level)"
-         },
-         {
-            "conditionChoiceFilter": "White",
-            "name": "Dragon Form Claw (8th Level)"
          }
       ]
    },
@@ -14530,7 +12909,7 @@
          {
             "_className": "ActivityGain",
             "name": "Dragon Form Breath Weapon",
-            "source": "Dragon Form (6th Level)"
+            "source": "Dragon Transformation"
          }
       ],
       "gainItems": [

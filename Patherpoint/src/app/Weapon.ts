@@ -427,7 +427,7 @@ export class Weapon extends Equipment {
         if (!this.dicenum && !this.dicesize && !this.extraDamage) {
             return ["0", "", [], [], []];
         }
-        let diceExplain: string = "Base dice: " + this.dicenum + "d" +this.dicesize;
+        let diceExplain: string = "Base dice: " + this.dicenum + "d" + this.dicesize;
         let bonusExplain: string = "";
         let str = characterService.get_Abilities("Strength")[0].mod(creature, characterService, effectsService).result;
         let dex = characterService.get_Abilities("Dexterity")[0].mod(creature, characterService, effectsService).result;
@@ -435,283 +435,245 @@ export class Weapon extends Equipment {
         let bonuses: { value: number, setValue: string, source: string, penalty: boolean }[] = [];
         let absolutes: { value: number, setValue: string, source: string, penalty: boolean }[] = [];
         let prof = this.get_Proficiency(creature, characterService);
+        let namesList: string[] = [];
         //Apply any mechanism that copy runes from another item, like Handwraps of Mighty Blows or Doubling Rings.
         //We set runeSource to the respective item and use it whenever runes are concerned.
         let runeSource: (Weapon | WornItem)[] = this.get_RuneSource(creature, range);
-        //Add the striking rune or oil of potency effect of the runeSource.
+        //Determine the dice Number - Dice Number Multiplier first, then Dice Number (Striking included)
         let dicenum = this.dicenum;
         if (dicenum) {
-            dicenum = Math.max(dicenum, 1 + runeSource[0].get_StrikingRune());
-        }
-        //Determine the dice number - Striking and animal specialization first, then effects.
-        //Only explain Striking if it's actually better than your base dice.
-        if (runeSource[0].get_StrikingRune() + 1 > this.dicenum) {
-            diceExplain += "\n" + runeSource[0].get_Striking(runeSource[0].get_StrikingRune()) + (runeSource[2] ? "(" + runeSource[2].get_Name() + ")" : "") + ": Dice number " + (runeSource[0].get_StrikingRune() + 1);
-        }
-        if (this.prof == "Unarmed Attacks") {
-            let character = characterService.get_Character();
-            if (character.get_FeatsTaken(0, character.level, "Diamond Fists").length && this.traits.includes("Forceful")) {
-                dicenum += 1;
-                diceExplain += "\nDiamond Fists: Dice number +1";
-            }
-        }
-        if (creature.type == "Companion") {
-            creature.class.levels.filter(level => level.number <= creature.level).forEach(level => {
-                if (level.extraDice) {
-                    dicenum += level.extraDice;
-                    diceExplain += "\n" + level.name + ": Dice number +" + level.extraDice;
-                }
+            let dicenumMultiplier = 1;
+            namesList = [
+                "Dice Number Multiplier",
+                this.name + " Dice Number Multiplier",
+                //"Longsword Dice Number Multiplier", "Fist Dice Number Multiplier" etc.
+                this.weaponBase + " Dice Number Multiplier",
+                //"Sword Dice Number Multiplier", "Club Dice Number Multiplier"
+                this.group + " Dice Number Multiplier",
+                //"Unarmed Attacks Dice Number Multiplier", "Simple Weapons Dice Number Multiplier" etc.
+                prof + " Dice Number Multiplier",
+                //"Unarmed Dice Number Multiplier", "Simple Dice Number Multiplier" etc.
+                prof.split(" ")[0] + " Dice Number Multiplier",
+                //"Weapons Dice Number Multiplier", also "Attacks Dice Number Multiplier", but that's unlikely to be needed
+                prof.split(" ")[1] + " Dice Number Multiplier",
+                //"Simple Sword Dice Number Multiplier", "Martial Club Dice Number Multiplier" etc.
+                prof.split(" ")[0] + this.group + " Dice Number Multiplier",
+                //"Simple Longsword Dice Number Multiplier", "Unarmed Fist Dice Number Multiplier" etc.
+                prof.split(" ")[0] + this.weaponBase + " Dice Number Multiplier"
+            ]
+            effectsService.get_AbsolutesOnThese(creature, namesList).forEach(effect => {
+                dicenumMultiplier = parseInt(effect.setValue);
+                diceExplain += "\n" + effect.source + ": Dice number multiplier " + dicenumMultiplier;
             })
-            if (creature.class.specializations.length) {
-                dicenum += 1;
-                diceExplain += "\nSpecialized: Dice number +1";
+            effectsService.get_RelativesOnThese(creature, namesList).forEach(effect => {
+                dicenumMultiplier += parseInt(effect.value);
+                diceExplain += "\n" + effect.source + ": Dice number multiplier " + (parseInt(effect.value) >= 0 ? "+" : "") + parseInt(effect.value);
+            })
+            dicenum *= dicenumMultiplier;
+            let calculatedEffects: Effect[] = [];
+            namesList = [
+                "Dice Number",
+                this.name + " Dice Number",
+                //"Longsword Dice Number", "Fist Dice Number" etc.
+                this.weaponBase + " Dice Number",
+                //"Sword Dice Number", "Club Dice Number"
+                this.group + " Dice Number",
+                //"Unarmed Attacks Dice Number", "Simple Weapons Dice Number" etc.
+                prof + " Dice Number",
+                //"Unarmed Dice Number", "Simple Dice Number" etc.
+                prof.split(" ")[0] + " Dice Number",
+                //"Weapons Dice Number", also "Attacks Dice Number", but that's unlikely to be needed
+                prof.split(" ")[1] + " Dice Number",
+                //"Simple Sword Dice Number", "Martial Club Dice Number" etc.
+                prof.split(" ")[0] + this.group + " Dice Number",
+                //"Simple Longsword Dice Number", "Unarmed Fist Dice Number" etc.
+                prof.split(" ")[0] + this.weaponBase + " Dice Number"
+            ]
+            //Add the striking rune or oil of potency effect of the runeSource.
+            //Only apply and explain Striking if it's actually better than your multiplied dice size.
+            if (runeSource[0].get_StrikingRune() + 1 > dicenum) {
+                let source = runeSource[0].get_Striking(runeSource[0].get_StrikingRune());
+                //If you're getting the striking effect because of another item (like Doubling Rings), name it here
+                if (runeSource[2]) {
+                    source += " (" + runeSource[2].get_Name() + ")";
+                }
+                calculatedEffects.push(new Effect(creature.type, "untyped", this.name + " Dice Number", "", (1 + runeSource[0].get_StrikingRune()).toString(), false, source, false, true, true, 0))
             }
+            effectsService.get_TypeFilteredEffects(
+                calculatedEffects
+                    .concat(effectsService.get_AbsolutesOnThese(creature, namesList)
+                    ), true)
+                .forEach(effect => {
+                    dicenum = parseInt(effect.setValue);
+                    diceExplain += "\n" + effect.source + ": Dice number " + dicenum;
+                })
+            calculatedEffects = [];
+            //Diamond Fists adds the forceful trait to your unarmed attacks, but if one already has the trait, it gains one damage die.
+            if (this.prof == "Unarmed Attacks") {
+                let character = characterService.get_Character();
+                if (character.get_FeatsTaken(0, character.level, "Diamond Fists").length && this.traits.includes("Forceful")) {
+                    calculatedEffects.push(new Effect(creature.type, "untyped", this.name + " Dice Number", "+1", "", false, "Diamond Fists", false, true, true, 0))
+                }
+            }
+            effectsService.get_TypeFilteredEffects(
+                calculatedEffects
+                    .concat(effectsService.get_RelativesOnThese(creature, namesList)
+                    ), false)
+                .forEach(effect => {
+                    dicenum += parseInt(effect.value);
+                    diceExplain += "\n" + effect.source + ": Dice number " + (parseInt(effect.value) >= 0 ? "+" : "") + parseInt(effect.value);
+                })
         }
-        effectsService.get_AbsolutesOnThese(creature, [
-            "Dice Number",
-            this.name + " Dice Number",
-            //"Longsword Dice Number", "Fist Dice Number" etc.
-            this.weaponBase + " Dice Number",
-            //"Sword Dice Number", "Club Dice Number"
-            this.group + " Dice Number",
-            //"Unarmed Attacks Dice Number", "Simple Weapons Dice Number" etc.
-            prof + " Dice Number",
-            //"Unarmed Dice Number", "Simple Dice Number" etc.
-            prof.split(" ")[0] + " Dice Number",
-            //"Weapons Dice Number", also "Attacks Dice Number", but that's unlikely to be needed
-            prof.split(" ")[1] + " Dice Number",
-            //"Simple Sword Dice Number", "Martial Club Dice Number" etc.
-            prof.split(" ")[0] + this.group + " Dice Number",
-            //"Simple Longsword Dice Number", "Unarmed Fist Dice Number" etc.
-            prof.split(" ")[0] + this.weaponBase + " Dice Number"
-        ]).forEach(effect => {
-            if (!effect.hide) {
-                absolutes.push({ value: parseInt(effect.value), setValue: "", source: effect.source, penalty: false });
-            }
-            dicenum = parseInt(effect.setValue);
-            diceExplain += "\n" + effect.source + ": Dice number " + dicenum;
-        })
-        let dicenumMultiplier = 1;
-        effectsService.get_AbsolutesOnThese(creature, [
-            "Dice Number Multiplier",
-            this.name + " Dice Number Multiplier",
-            //"Longsword Dice Number Multiplier", "Fist Dice Number Multiplier" etc.
-            this.weaponBase + " Dice Number Multiplier",
-            //"Sword Dice Number Multiplier", "Club Dice Number Multiplier"
-            this.group + " Dice Number Multiplier",
-            //"Unarmed Attacks Dice Number Multiplier", "Simple Weapons Dice Number Multiplier" etc.
-            prof + " Dice Number Multiplier",
-            //"Unarmed Dice Number Multiplier", "Simple Dice Number Multiplier" etc.
-            prof.split(" ")[0] + " Dice Number Multiplier",
-            //"Weapons Dice Number Multiplier", also "Attacks Dice Number Multiplier", but that's unlikely to be needed
-            prof.split(" ")[1] + " Dice Number Multiplier",
-            //"Simple Sword Dice Number Multiplier", "Martial Club Dice Number Multiplier" etc.
-            prof.split(" ")[0] + this.group + " Dice Number Multiplier",
-            //"Simple Longsword Dice Number Multiplier", "Unarmed Fist Dice Number Multiplier" etc.
-            prof.split(" ")[0] + this.weaponBase + " Dice Number Multiplier"
-        ]).forEach(effect => {
-            dicenumMultiplier = parseInt(effect.setValue);
-            diceExplain += "\n" + effect.source + ": Dice number multiplier " + dicenumMultiplier;
-        })
-        effectsService.get_RelativesOnThese(creature, [
-            "Dice Number Multiplier",
-            this.name + " Dice Number Multiplier",
-            //"Longsword Dice Number Multiplier", "Fist Dice Number Multiplier" etc.
-            this.weaponBase + " Dice Number Multiplier",
-            //"Sword Dice Number Multiplier", "Club Dice Number Multiplier"
-            this.group + " Dice Number Multiplier",
-            //"Unarmed Attacks Dice Number Multiplier", "Simple Weapons Dice Number Multiplier" etc.
-            prof + " Dice Number Multiplier",
-            //"Unarmed Dice Number Multiplier", "Simple Dice Number Multiplier" etc.
-            prof.split(" ")[0] + " Dice Number Multiplier",
-            //"Weapons Dice Number Multiplier", also "Attacks Dice Number Multiplier", but that's unlikely to be needed
-            prof.split(" ")[1] + " Dice Number Multiplier",
-            //"Simple Sword Dice Number Multiplier", "Martial Club Dice Number Multiplier" etc.
-            prof.split(" ")[0] + this.group + " Dice Number Multiplier",
-            //"Simple Longsword Dice Number Multiplier", "Unarmed Fist Dice Number Multiplier" etc.
-            prof.split(" ")[0] + this.weaponBase + " Dice Number Multiplier"
-        ]).forEach(effect => {
-            dicenumMultiplier += parseInt(effect.value);
-            diceExplain += "\n" + effect.source + ": Dice number multiplier " + (parseInt(effect.value) >= 0 ? "+" : "") + parseInt(effect.value);
-        })
-        dicenum *= dicenumMultiplier;
-        effectsService.get_RelativesOnThese(creature, [
-            "Dice Number",
-            this.name + " Dice Number",
-            //"Longsword Dice Number", "Fist Dice Number" etc.
-            this.weaponBase + " Dice Number",
-            //"Sword Dice Number", "Club Dice Number"
-            this.group + " Dice Number",
-            //"Unarmed Attacks Dice Number", "Simple Weapons Dice Number" etc.
-            prof + " Dice Number",
-            //"Unarmed Dice Number", "Simple Dice Number" etc.
-            prof.split(" ")[0] + " Dice Number",
-            //"Weapons Dice Number", also "Attacks Dice Number", but that's unlikely to be needed
-            prof.split(" ")[1] + " Dice Number",
-            //"Simple Sword Dice Number", "Martial Club Dice Number" etc.
-            prof.split(" ")[0] + this.group + " Dice Number",
-            //"Simple Longsword Dice Number", "Unarmed Fist Dice Number" etc.
-            prof.split(" ")[0] + this.weaponBase + " Dice Number"
-        ]).forEach(effect => {
-            if (parseInt(effect.value) < 0 && !effect.hide) {
-                penalties.push({ value: parseInt(effect.value), setValue: "", source: effect.source, penalty: true });
-            } else if (!effect.hide) {
-                bonuses.push({ value: parseInt(effect.value), setValue: "", source: effect.source, penalty: false });
-            }
-            dicenum += parseInt(effect.value);
-            diceExplain += "\n" + effect.source + ": Dice number " + (parseInt(effect.value) >= 0 ? "+" : "") + parseInt(effect.value);
-        })
         //Determine the dice size.
         let dicesize = this.dicesize;
-        //Champions get increased dice size via Deific Weapon for unarmed attacks with d4 damage or simple weapons as long as they are their deity's favored weapon.
-        if (((dicesize == 4 && this.prof == "Unarmed Attacks") || this.prof == "Simple Weapons") &&
-            characterService.get_Features("Deific Weapon")[0]?.have(creature, characterService)) {
-            let favoredWeapons: string[] = [];
-            if (creature.type == "Character" && (creature as Character).class.deity) {
-                favoredWeapons = characterService.get_Deities((creature as Character).class.deity)[0]?.favoredWeapon || [];
-            }
-            if (favoredWeapons.includes(this.name) || favoredWeapons.includes(this.weaponBase)) {
-                dicesize = Math.max(Math.min(dicesize + 2, 12), 6);
-                diceExplain += "\nDeific Weapon: Dice size d" + dicesize;
-            }
-        }
-        //Weapons with the Two-Hand trait get to change their dice size if they are wielded with two hands.
-        if (this.twohanded) {
-            this.get_Traits(characterService, creature).filter(trait => trait.includes("Two-Hand")).forEach(trait => {
-                let twoHandedDiceSize = parseInt(trait.substr(10))
-                if (twoHandedDiceSize) {
-                    if (twoHandedDiceSize > dicesize) {
-                        dicesize = twoHandedDiceSize;
-                        diceExplain += "\nTwo-Hand: Dice size d" + dicesize;
+        if (dicesize) {
+            let calculatedEffects: Effect[] = [];
+            //Champions get increased dice size via Deific Weapon for unarmed attacks with d4 damage or simple weapons as long as they are their deity's favored weapon.
+            if (((dicesize == 4 && this.prof == "Unarmed Attacks") || this.prof == "Simple Weapons") &&
+                characterService.get_Features("Deific Weapon")[0]?.have(creature, characterService)) {
+                let favoredWeapons: string[] = [];
+                if (creature.type == "Character" && (creature as Character).class.deity) {
+                    favoredWeapons = characterService.get_Deities((creature as Character).class.deity)[0]?.favoredWeapon || [];
+                }
+                if (favoredWeapons.includes(this.name) || favoredWeapons.includes(this.weaponBase)) {
+                    let newDicesize = Math.max(Math.min(dicesize + 2, 12), 6);
+                    if (newDicesize > dicesize) {
+                        calculatedEffects.push(new Effect(creature.type, "untyped", this.name + " Dice Size", "", newDicesize.toString(), false, "Deific Weapon", false, true, true, 0))
                     }
                 }
+            }
+            //Weapons with the Two-Hand trait get to change their dice size if they are wielded with two hands.
+            if (this.twohanded) {
+                this.get_Traits(characterService, creature).filter(trait => trait.includes("Two-Hand")).forEach(trait => {
+                    let twoHandedDiceSize = parseInt(trait.substr(10))
+                    if (twoHandedDiceSize) {
+                        if (twoHandedDiceSize > dicesize) {
+                            calculatedEffects.push(new Effect(creature.type, "untyped", this.name + " Dice Size", "", twoHandedDiceSize.toString(), false, "Two-Hand", false, true, true, 0))
+                        }
+                    }
+                })
+            }
+            //Apply dice size effects.
+            namesList = [
+                "Dice Size",
+                this.name + " Dice Size",
+                //"Longsword Dice Size", "Fist Dice Size" etc.
+                this.weaponBase + " Dice Size",
+                //"Sword Dice Size", "Club Dice Size"
+                this.group + " Dice Size",
+                //"Unarmed Attacks Dice Size", "Simple Weapons Dice Size" etc.
+                prof + " Dice Size",
+                //"Unarmed Dice Size", "Simple Dice Size" etc.
+                prof.split(" ")[0] + " Dice Size",
+                //"Weapons Dice Size", also "Attacks Dice Size", but that's unlikely to be needed
+                prof.split(" ")[1] + " Dice Size",
+                //"Simple Sword Dice Size", "Martial Club Dice Size" etc.
+                prof.split(" ")[0] + this.group + " Dice Size",
+                //"Simple Longsword Dice Size", "Unarmed Fist Dice Size" etc.
+                prof.split(" ")[0] + this.weaponBase + " Dice Size",
+            ]
+            effectsService.get_TypeFilteredEffects(
+                calculatedEffects
+                    .concat(effectsService.get_AbsolutesOnThese(creature, namesList)
+                    ), true)
+                .forEach(effect => {
+                    dicesize = parseInt(effect.setValue);
+                    diceExplain += "\n" + effect.source + ": Dice size d" + dicesize;
+                })
+            effectsService.get_RelativesOnThese(creature, namesList).forEach(effect => {
+                dicesize += parseInt(effect.value);
+                //Don't raise dice size over 12.
+                dicesize = Math.min(12, dicesize);
+                diceExplain += "\n" + effect.source + ": Dice size d" + dicesize;
             })
         }
-        //Apply dice size effects.
-        effectsService.get_AbsolutesOnThese(creature, [
-            "Dice Size",
-            this.name + " Dice Size",
-            //"Longsword Dice Size", "Fist Dice Size" etc.
-            this.weaponBase + " Dice Size",
-            //"Sword Dice Size", "Club Dice Size"
-            this.group + " Dice Size",
-            //"Unarmed Attacks Dice Size", "Simple Weapons Dice Size" etc.
-            prof + " Dice Size",
-            //"Unarmed Dice Size", "Simple Dice Size" etc.
-            prof.split(" ")[0] + " Dice Size",
-            //"Weapons Dice Size", also "Attacks Dice Size", but that's unlikely to be needed
-            prof.split(" ")[1] + " Dice Size",
-            //"Simple Sword Dice Size", "Martial Club Dice Size" etc.
-            prof.split(" ")[0] + this.group + " Dice Size",
-            //"Simple Longsword Dice Size", "Unarmed Fist Dice Size" etc.
-            prof.split(" ")[0] + this.weaponBase + " Dice Size",
-        ]).forEach(effect => {
-            if (!effect.hide) {
-                absolutes.push({ value: parseInt(effect.value), setValue: "", source: effect.source, penalty: false });
-            }
-            dicesize = parseInt(effect.setValue);
-            diceExplain += "\n" + effect.source + ": Dice size d" + dicesize;
-        })
-        effectsService.get_RelativesOnThese(creature, [
-            "Dice Size",
-            this.name + " Dice Size",
-            //"Longsword Dice Size", "Fist Dice Size" etc.
-            this.weaponBase + " Dice Size",
-            //"Sword Dice Size", "Club Dice Size"
-            this.group + " Dice Size",
-            //"Unarmed Attacks Dice Size", "Simple Weapons Dice Size" etc.
-            prof + " Dice Size",
-            //"Unarmed Dice Size", "Simple Dice Size" etc.
-            prof.split(" ")[0] + " Dice Size",
-            //"Weapons Dice Size", also "Attacks Dice Size", but that's unlikely to be needed
-            prof.split(" ")[1] + " Dice Size",
-            //"Simple Sword Dice Size", "Martial Club Dice Size" etc.
-            prof.split(" ")[0] + this.group + " Dice Size",
-            //"Simple Longsword Dice Size", "Unarmed Fist Dice Size" etc.
-            prof.split(" ")[0] + this.weaponBase + " Dice Size",
-        ]).forEach(effect => {
-            if (parseInt(effect.value) < 0 && !effect.hide) {
-                penalties.push({ value: parseInt(effect.value), setValue: "", source: effect.source, penalty: true });
-            } else if (!effect.hide) {
-                bonuses.push({ value: parseInt(effect.value), setValue: "", source: effect.source, penalty: false });
-            }
-            dicesize += parseInt(effect.value);
-            //Don't raise dice size over 12.
-            dicesize = Math.min(12, dicesize);
-            diceExplain += "\n" + effect.source + ": Dice size d" + dicesize;
-        })
         //Get the basic "#d#" string from the weapon's dice values, unless dicenum is 0 or null (for instance some weapons deal exactly 1 base damage, which is represented by 0d1)
         var baseDice = (dicenum ? dicenum + "d" : "") + dicesize;
-        //Calculate dexterity and strength penalties for the decision on which to use. They are not immediately applied.
-        //The Enfeebled condition affects all Strength damage
-        let strEffects = effectsService.get_RelativesOnThis(creature, "Strength-based Checks and DCs");
-        let strPenalty: { value: number, setValue: string, source: string, penalty: boolean }[] = [];
-        let strPenaltySum: number = 0;
-        strEffects.forEach(effect => {
-            strPenalty.push({ value: parseInt(effect.value), setValue: "", source: effect.source, penalty: true });
-            strPenaltySum += parseInt(effect.value);
-        });
-        //The Clumsy condition affects all Dexterity damage
-        let dexEffects = effectsService.get_RelativesOnThis(creature, "Dexterity-based Checks and DCs");
-        let dexPenalty: { value: number, setValue: string, source: string, penalty: boolean }[] = [];
-        let dexPenaltySum: number = 0;
-        dexEffects.forEach(effect => {
-            dexPenalty.push({ value: parseInt(effect.value), setValue: "", source: effect.source, penalty: true });
-            dexPenaltySum += parseInt(effect.value);
-        });
+        //Get the +X value
+        let dmgBonus: number = 0;
+        //Decide whether this weapon uses strength or dexterity (modifier, bonuses and penalties).
+        //First, calculate dexterity and strength penalties to see which would be more beneficial. They are not immediately applied.
+        let calculatedEffects: Effect[] = [];
         let strUsed: boolean = false;
         let dexUsed: boolean = false;
+        let abilityReason: string = "";
         //Check if the Weapon has any traits that affect its damage Bonus, such as Thrown or Propulsive, and run those calculations.
         let abilityMod: number = 0;
         if (range == "ranged") {
             if (characterService.have_Trait(this, "Propulsive")) {
                 if (str > 0) {
                     abilityMod = Math.floor(str / 2);
-                    bonusExplain += "\nStrength Modifier (Propulsive): Bonus damage " + (abilityMod >= 0 ? "+" : "") + abilityMod;
+                    abilityReason = "Propulsive";
                     strUsed = true;
                 } else if (str < 0) {
                     abilityMod = str;
-                    bonusExplain += "\nStrength Modifier (Propulsive): Bonus damage " + (abilityMod >= 0 ? "+" : "") + abilityMod;
+                    abilityReason = "Propulsive";
                     strUsed = true;
                 }
             } else if (characterService.have_Trait(this, "Thrown")) {
                 abilityMod = str;
-                bonusExplain += "\nStrength Modifier (Thrown): Bonus damage " + (abilityMod >= 0 ? "+" : "") + abilityMod;
+                abilityReason += "Thrown";
                 strUsed = true;
             }
         } else {
             //If the weapon is Finesse and you have the Thief Racket, you apply your Dexterity modifier to damage if it is higher.
             if (characterService.have_Trait(this, "Finesse") &&
-                dex + dexPenaltySum > str + strPenaltySum &&
                 creature.type == "Character" &&
                 (creature as Character).get_FeatsTaken(1, creature.level, "Thief Racket").length) {
-                abilityMod = dex;
-                bonusExplain += "\nDexterity Modifier (Thief): Bonus damage " + (abilityMod >= 0 ? "+" : "") + abilityMod;
-                dexUsed = true;
-            } else if (this.dexterityBased) {
-                abilityMod = dex;
-                bonusExplain += "\nDexterity Modifier (Dexterity-based): Bonus damage " + (abilityMod >= 0 ? "+" : "") + abilityMod;
-                dexUsed = true;
+                //Check if dex or str would give you more damage by comparing your modifiers and any penalties and bonuses.
+                //The Enfeebled condition affects all Strength damage
+                let strEffects = effectsService.get_RelativesOnThis(creature, "Strength-based Checks and DCs");
+                let strPenaltySum: number = 0;
+                strEffects.forEach(effect => {
+                    strPenaltySum += parseInt(effect.value);
+                });
+                //The Clumsy condition affects all Dexterity damage
+                let dexEffects = effectsService.get_RelativesOnThis(creature, "Dexterity-based Checks and DCs");
+                let dexPenaltySum: number = 0;
+                dexEffects.forEach(effect => {
+                    dexPenaltySum += parseInt(effect.value);
+                });
+                if ((dex + dexPenaltySum) > (str + strPenaltySum)) {
+                    abilityMod = dex;
+                    abilityReason += "Thief";
+                    dexUsed = true;
+                } else {
+                    abilityMod = str;
+                    strUsed = true;
+                }
             } else {
                 abilityMod = str;
-                bonusExplain += "\nStrength Modifier: Bonus damage " + (abilityMod >= 0 ? "+" : "") + abilityMod;
                 strUsed = true;
             }
         }
-        let featBonus: number = 0;
+        if (abilityMod) {
+            let abilitySource: string = ""
+            if (strUsed) {
+                abilitySource = "Strength Modifier";
+            }
+            if (dexUsed) {
+                abilitySource = "Dexterity Modifier";
+            }
+            if (abilityReason) {
+                abilitySource += "(" + abilityReason + ")"
+            }
+            calculatedEffects.push(new Effect(creature.type, "untyped", this.name + " Damage", abilityMod.toString(), "", false, abilitySource, false, true, true, 0))
+        }
+        //Mature and Specialized Companions add extra Damage to their attacks.
         if (creature.type == "Companion") {
             creature.class.levels.filter(level => level.number <= creature.level).forEach(level => {
                 if (level.extraDamage) {
-                    featBonus += level.extraDamage;
-                    bonusExplain += "\n" + level.name + ": Bonus Damage +" + level.extraDamage;
+                    let companionSource: string = "";
+                    let companionMod: number = level.extraDamage;
+                    companionSource == level.name + " Animal Companion";
                     if (creature.class.specializations.length) {
-                        featBonus += level.extraDamage;
-                        bonusExplain += "\nSpecialized: Bonus Damage +" + level.extraDamage;
+                        companionMod *= 2;
+                        companionSource = "Specialized Animal Companion";
                     }
+                    calculatedEffects.push(new Effect(creature.type, "untyped", this.name + " Damage", companionMod.toString(), "", false, companionSource, false, true, true, 0))
                 }
             })
         }
-        let dmgBonus: number = abilityMod + featBonus;
         let profLevel = this.profLevel(creature, characterService, runeSource[1]);
         let list = [
             "Damage Rolls",
@@ -793,7 +755,10 @@ export class Weapon extends Equipment {
                 list.push("Legendary " + this.name + " Damage")
                 break;
         }
-        effectsService.get_RelativesOnThese(creature, list)
+        effectsService.get_TypeFilteredEffects(
+            calculatedEffects
+                .concat(effectsService.get_RelativesOnThese(creature, list)
+                ), false)
             .forEach(effect => {
                 if (parseInt(effect.value) < 0 && !effect.hide) {
                     penalties.push({ value: parseInt(effect.value), setValue: "", source: effect.source, penalty: true });
@@ -802,10 +767,10 @@ export class Weapon extends Equipment {
                 }
                 if (effect.target.includes("Damage per Die")) {
                     effectBonus += parseInt(effect.value) * dicenum;
-                    bonusExplain += "\n" + effect.source + ": Bonus damage " + ((parseInt(effect.value) * dicenum) >= 0 ? "+" : "") + (parseInt(effect.value) * dicenum);
+                    bonusExplain += "\n" + effect.source + ": Damage " + ((parseInt(effect.value) * dicenum) >= 0 ? "+" : "") + (parseInt(effect.value) * dicenum);
                 } else {
                     effectBonus += parseInt(effect.value);
-                    bonusExplain += "\n" + effect.source + ": Bonus damage " + (parseInt(effect.value) >= 0 ? "+" : "") + parseInt(effect.value);
+                    bonusExplain += "\n" + effect.source + ": Damage " + (parseInt(effect.value) >= 0 ? "+" : "") + parseInt(effect.value);
                 }
             })
         dmgBonus += effectBonus;
