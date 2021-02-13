@@ -1477,8 +1477,8 @@ export class CharacterService {
         return this.featsService.get_Features(name);
     }
 
-    get_FeatsAndFeatures(name: string = "", type: string = "", includeSubTypes: boolean = false) {
-        return this.featsService.get_All(this.get_Character().customFeats, name, type, includeSubTypes);
+    get_FeatsAndFeatures(name: string = "", type: string = "", includeSubTypes: boolean = false, includeCountAs: boolean = false) {
+        return this.featsService.get_All(this.get_Character().customFeats, name, type, includeSubTypes, includeCountAs);
     }
 
     get_Health(creature: Creature) {

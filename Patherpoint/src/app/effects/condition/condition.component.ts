@@ -5,8 +5,6 @@ import { CharacterService } from 'src/app/character.service';
 import { Condition } from 'src/app/Condition';
 import { ConditionGain } from 'src/app/ConditionGain';
 import { ConditionsService } from 'src/app/conditions.service';
-import { v1 as uuidv1 } from 'uuid';
-import { Familiar } from 'src/app/Familiar';
 import { ItemsService } from 'src/app/items.service';
 import { TimeService } from 'src/app/time.service';
 import { TraitsService } from 'src/app/traits.service';

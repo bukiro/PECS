@@ -1437,20 +1437,23 @@
         "gainConditions": [
             {
                 "duration": 100,
+                "heightened": 2,
                 "heightenedFilter": 4,
-                "name": "Invisibility (2nd Level)",
+                "name": "Invisibility",
                 "source": "Invisibility Cloak"
             },
             {
                 "duration": 1000,
+                "heightened": 2,
                 "heightenedFilter": 6,
-                "name": "Invisibility (2nd Level)",
+                "name": "Invisibility",
                 "source": "Invisibility Cloak"
             },
             {
                 "duration": 6000,
+                "heightened": 2,
                 "heightenedFilter": 8,
-                "name": "Invisibility (2nd Level)",
+                "name": "Invisibility",
                 "source": "Invisibility Cloak"
             }
         ],
@@ -1621,14 +1624,7 @@
         "gainConditions": [
             {
                 "duration": 100,
-                "heightenedFilter": 5,
-                "name": "Wind Jump (5th Level)",
-                "source": "Wind Jump"
-            },
-            {
-                "duration": 100,
-                "heightenedFilter": 6,
-                "name": "Wind Jump (6th Level)",
+                "name": "Wind Jump",
                 "source": "Wind Jump"
             }
         ],
@@ -2478,7 +2474,6 @@
             "Transmutation"
         ],
         "target": "self",
-        "sustained": -1,
         "desc": "You infuse yourself with primal essence and transform yourself into another form. You can polymorph into any form listed in pest form, which lasts 10 minutes. <var>var1</var>All other wild shape forms last 1 minute. You can add more forms to your wild shape list with druid feats; your feat might grant you some or all of the forms from a given polymorph spell. When you transform into a form granted by a spell, you gain all the effects of the form you chose from a version of the spell heightened to wild shape's level. Wild shape allows you to use your own shapeshifting training more easily than most polymorph spells. When you choose to use your own attack modifier while polymorphed instead of the form's default attack modifier, you gain a +2 status bonus to your attack rolls.",
         "heightened": [
             {
@@ -3134,14 +3129,7 @@
         "gainConditions": [
             {
                 "duration": 100,
-                "heightenedFilter": 1,
-                "name": "Forbidding Ward (1st Level)",
-                "source": "Forbidding Ward"
-            },
-            {
-                "duration": 100,
-                "heightenedFilter": 6,
-                "name": "Forbidding Ward (6th Level)",
+                "name": "Forbidding Ward",
                 "source": "Forbidding Ward"
             }
         ],
@@ -4391,14 +4379,7 @@
         "gainConditions": [
             {
                 "duration": 48000,
-                "heightenedFilter": 1,
-                "name": "Alarm (1st Level)",
-                "source": "Alarm"
-            },
-            {
-                "duration": 48000,
-                "heightenedFilter": 3,
-                "name": "Alarm (3rd Level)",
+                "name": "Alarm",
                 "source": "Alarm"
             }
         ],
@@ -4472,26 +4453,7 @@
         "gainConditions": [
             {
                 "duration": 1000,
-                "heightenedFilter": 1,
-                "name": "Anticipate Peril (1st Level)",
-                "source": "Anticipate Peril"
-            },
-            {
-                "duration": 1000,
-                "heightenedFilter": 3,
-                "name": "Anticipate Peril (3rd Level)",
-                "source": "Anticipate Peril"
-            },
-            {
-                "duration": 1000,
-                "heightenedFilter": 5,
-                "name": "Anticipate Peril (5th Level)",
-                "source": "Anticipate Peril"
-            },
-            {
-                "duration": 1000,
-                "heightenedFilter": 7,
-                "name": "Anticipate Peril (7th Level)",
+                "name": "Anticipate Peril",
                 "source": "Anticipate Peril"
             }
         ],
@@ -5052,20 +5014,7 @@
         "gainConditions": [
             {
                 "duration": 100,
-                "heightenedFilter": 1,
-                "name": "Disrupting Weapons (1st Level)",
-                "source": "Disrupting Weapons"
-            },
-            {
-                "duration": 100,
-                "heightenedFilter": 3,
-                "name": "Disrupting Weapons (3rd Level)",
-                "source": "Disrupting Weapons"
-            },
-            {
-                "duration": 100,
-                "heightenedFilter": 3,
-                "name": "Disrupting Weapons (5th Level)",
+                "name": "Disrupting Weapons",
                 "source": "Disrupting Weapons"
             }
         ],
@@ -5227,22 +5176,7 @@
         "gainConditions": [
             {
                 "duration": 6000,
-                "heightenedFilter": 1,
-                "name": "Illusory Disguise (1st Level)",
-                "source": "Illusory Disguise",
-                "targetFilter": "caster"
-            },
-            {
-                "duration": 6000,
-                "heightenedFilter": 2,
-                "name": "Illusory Disguise (2nd Level)",
-                "source": "Illusory Disguise",
-                "targetFilter": "caster"
-            },
-            {
-                "duration": 6000,
-                "heightenedFilter": 3,
-                "name": "Illusory Disguise (3rd Level)",
+                "name": "Illusory Disguise",
                 "source": "Illusory Disguise",
                 "targetFilter": "caster"
             }
@@ -6522,15 +6456,7 @@
         "gainConditions": [
             {
                 "duration": -2,
-                "heightenedFilter": 1,
-                "name": "Magic Aura (1st Level)",
-                "source": "Magic Aura",
-                "targetFilter": "caster"
-            },
-            {
-                "duration": -2,
-                "heightenedFilter": 3,
-                "name": "Magic Aura (3rd Level)",
+                "name": "Magic Aura",
                 "source": "Magic Aura",
                 "targetFilter": "caster"
             }
@@ -7431,15 +7357,7 @@
         "gainConditions": [
             {
                 "duration": 100,
-                "heightenedFilter": 1,
-                "name": "Scouring Sand (1st Level)",
-                "source": "Scouring Sand",
-                "targetFilter": "caster"
-            },
-            {
-                "duration": 100,
-                "heightenedFilter": 3,
-                "name": "Scouring Sand (3rd Level)",
+                "name": "Scouring Sand",
                 "source": "Scouring Sand",
                 "targetFilter": "caster"
             }
@@ -7505,21 +7423,21 @@
             {
                 "duration": 1000,
                 "heightenedFilter": 1,
-                "name": "Share Lore (1st Level)",
+                "name": "Share Lore",
                 "source": "Share Lore",
                 "targetFilter": "caster"
             },
             {
                 "duration": 6000,
                 "heightenedFilter": 3,
-                "name": "Share Lore (1st Level)",
+                "name": "Share Lore",
                 "source": "Share Lore",
                 "targetFilter": "caster"
             },
             {
                 "duration": 48000,
                 "heightenedFilter": 5,
-                "name": "Share Lore (5th Level)",
+                "name": "Share Lore",
                 "source": "Share Lore",
                 "targetFilter": "caster"
             }
@@ -9055,13 +8973,13 @@
             {
                 "duration": 1000,
                 "heightenedFilter": 1,
-                "name": "Ventriloquism (1st Level)",
+                "name": "Ventriloquism",
                 "source": "Ventriloquism"
             },
             {
                 "duration": 6000,
                 "heightenedFilter": 2,
-                "name": "Ventriloquism (2nd Level)",
+                "name": "Ventriloquism",
                 "source": "Ventriloquism"
             }
         ],
@@ -9281,26 +9199,7 @@
         "gainConditions": [
             {
                 "duration": 100,
-                "heightenedFilter": 2,
-                "name": "Animal Form (2nd Level)",
-                "source": "Animal Form"
-            },
-            {
-                "duration": 100,
-                "heightenedFilter": 3,
-                "name": "Animal Form (3rd Level)",
-                "source": "Animal Form"
-            },
-            {
-                "duration": 100,
-                "heightenedFilter": 4,
-                "name": "Animal Form (4th Level)",
-                "source": "Animal Form"
-            },
-            {
-                "duration": 100,
-                "heightenedFilter": 5,
-                "name": "Animal Form (5th Level)",
+                "name": "Animal Form",
                 "source": "Animal Form"
             }
         ],
@@ -10274,20 +10173,7 @@
         "gainConditions": [
             {
                 "duration": -2,
-                "heightenedFilter": 2,
-                "name": "Endure Elements (2nd Level)",
-                "source": "Endure Elements"
-            },
-            {
-                "duration": -2,
-                "heightenedFilter": 3,
-                "name": "Endure Elements (3rd Level)",
-                "source": "Endure Elements"
-            },
-            {
-                "duration": -2,
-                "heightenedFilter": 5,
-                "name": "Endure Elements (5th Level)",
+                "name": "Endure Elements",
                 "source": "Endure Elements"
             }
         ],
@@ -10432,25 +10318,19 @@
             {
                 "duration": 500,
                 "heightenedFilter": 2,
-                "name": "Enlarge (2nd Level)",
+                "name": "Enlarge",
                 "source": "Enlarge"
             },
             {
                 "duration": 500,
                 "heightenedFilter": 4,
-                "name": "Enlarge (4th Level)",
+                "name": "Enlarge",
                 "source": "Enlarge"
             },
             {
                 "duration": 500,
                 "heightenedFilter": 6,
-                "name": "Enlarge (2nd Level)",
-                "source": "Enlarge"
-            },
-            {
-                "duration": 500,
-                "heightenedFilter": 6,
-                "name": "Enlarge (4th Level)",
+                "name": "Enlarge (6th Level)",
                 "source": "Enlarge"
             }
         ],
@@ -10981,20 +10861,7 @@
         "gainConditions": [
             {
                 "duration": 100,
-                "heightenedFilter": 2,
-                "name": "Fungal Hyphae (2nd Level)",
-                "source": "Fungal Hyphae"
-            },
-            {
-                "duration": 100,
-                "heightenedFilter": 4,
-                "name": "Fungal Hyphae (4th Level)",
-                "source": "Fungal Hyphae"
-            },
-            {
-                "duration": 100,
-                "heightenedFilter": 6,
-                "name": "Fungal Hyphae (6th Level)",
+                "name": "Fungal Hyphae",
                 "source": "Fungal Hyphae"
             }
         ],
@@ -11177,20 +11044,7 @@
         "gainConditions": [
             {
                 "duration": 1000,
-                "heightenedFilter": 2,
-                "name": "Humanoid Form (2nd Level)",
-                "source": "Humanoid Form"
-            },
-            {
-                "duration": 1000,
-                "heightenedFilter": 3,
-                "name": "Humanoid Form (3rd Level)",
-                "source": "Humanoid Form"
-            },
-            {
-                "duration": 1000,
-                "heightenedFilter": 5,
-                "name": "Humanoid Form (5th Level)",
+                "name": "Humanoid Form",
                 "source": "Humanoid Form"
             }
         ],
@@ -11379,13 +11233,13 @@
             {
                 "duration": 1000,
                 "heightenedFilter": 2,
-                "name": "Invisibility (2nd Level)",
+                "name": "Invisibility",
                 "source": "Invisibility"
             },
             {
-                "duration": 1000,
+                "duration": 100,
                 "heightenedFilter": 4,
-                "name": "Invisibility (4th Level)",
+                "name": "Invisibility",
                 "source": "Invisibility"
             }
         ],
@@ -11662,26 +11516,7 @@
         "gainConditions": [
             {
                 "duration": 48000,
-                "heightenedFilter": 2,
-                "name": "Phantom Steed (2nd Level)",
-                "source": "Phantom Steed"
-            },
-            {
-                "duration": 48000,
-                "heightenedFilter": 4,
-                "name": "Phantom Steed (4th Level)",
-                "source": "Phantom Steed"
-            },
-            {
-                "duration": 48000,
-                "heightenedFilter": 5,
-                "name": "Phantom Steed (5th Level)",
-                "source": "Phantom Steed"
-            },
-            {
-                "duration": 48000,
-                "heightenedFilter": 6,
-                "name": "Phantom Steed (6th Level)",
+                "name": "Phantom Steed",
                 "source": "Phantom Steed"
             }
         ],
@@ -14190,20 +14025,7 @@
         "gainConditions": [
             {
                 "duration": 100,
-                "heightenedFilter": 3,
-                "name": "Insect Form (3rd Level)",
-                "source": "Insect Form"
-            },
-            {
-                "duration": 100,
-                "heightenedFilter": 4,
-                "name": "Insect Form (4th Level)",
-                "source": "Insect Form"
-            },
-            {
-                "duration": 100,
-                "heightenedFilter": 5,
-                "name": "Insect Form (5th Level)",
+                "name": "Insect Form",
                 "source": "Insect Form"
             }
         ],

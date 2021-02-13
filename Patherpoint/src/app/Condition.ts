@@ -52,7 +52,7 @@ export class Condition {
     //This property is only used to select a default choice before adding the condition. It is not read when evaluating the condition.
     public choice: string = "";
     public unlimited: boolean = false;
-    get_Choices(characterService: CharacterService, filtered: boolean = false) {
+    get_Choices(characterService: CharacterService, filtered: boolean = false, level: number = 0) {
         //If this.choice is not one of the available choices, set it to the first.
         if (this.choices.length && !this.choices.map(choice => choice.name).includes(this.choice)) {
             this.choice == this.choices[0].name;
@@ -70,38 +70,105 @@ export class Condition {
                 //If the choice has a featreq, check if you meet that (or a feat that has this supertype).
                 //Requirements like "Aggressive Block or Brutish Shove" are split in get_FeatsAndFeatures().
                 let result: Array<{ met?: boolean, desc?: string }> = [];
-                if (choice.featreq?.length) {
-                    let featNotFound: boolean = false;
-                    choice.featreq.forEach(featreq => {
-                        //Allow to check for the Familiar's feats
-                        let requiredFeat: Feat[]
-                        let testcreature: Character | Familiar;
-                        let testfeat = featreq;
-                        if (featreq.includes("Familiar:")) {
-                            testcreature = characterService.get_Familiar();
-                            testfeat = featreq.split("Familiar:")[1].trim();
-                            requiredFeat = characterService.familiarsService.get_FamiliarAbilities(testfeat);
-                        } else {
-                            testcreature = character;
-                            requiredFeat = characterService.get_FeatsAndFeatures(testfeat, "", true);
-                        }
-                        if (requiredFeat.length) {
-                            if (!requiredFeat.find(feat => feat.have(testcreature, characterService, character.level))) {
+                if (!choice.levelreq || level >= choice.levelreq) {
+                    if (choice.featreq?.length) {
+                        let featNotFound: boolean = false;
+                        choice.featreq.forEach(featreq => {
+                            //Allow to check for the Familiar's feats
+                            let requiredFeat: Feat[]
+                            let testcreature: Character | Familiar;
+                            let testfeat = featreq;
+                            if (featreq.includes("Familiar:")) {
+                                testcreature = characterService.get_Familiar();
+                                testfeat = featreq.split("Familiar:")[1].trim();
+                                requiredFeat = characterService.familiarsService.get_FamiliarAbilities(testfeat);
+                            } else {
+                                testcreature = character;
+                                requiredFeat = characterService.get_FeatsAndFeatures(testfeat, "", true);
+                            }
+                            if (requiredFeat.length) {
+                                if (!requiredFeat.find(feat => feat.have(testcreature, characterService, character.level))) {
+                                    featNotFound = true;
+                                }
+                            } else {
                                 featNotFound = true;
                             }
-                        } else {
-                            featNotFound = true;
+                        })
+                        if (!featNotFound) {
+                            choices.push(choice.name);
                         }
-                    })
-                    if (!featNotFound) {
+                    } else {
                         choices.push(choice.name);
                     }
-                } else {
-                    choices.push(choice.name);
                 }
             };
         })
         this.$choices = choices;
         return this.$choices;
+    }
+    get_HeightenedItems(levelNumber: number) {
+        //This descends through the level numbers, starting with levelNumber and returning the first set of ItemGains found with a matching heightenedfilter.
+        //It also returns all items that have no heightenedFilter.
+        //If there are no ItemGains with a heightenedFilter, return all.
+        let items: ItemGain[] = [];
+        if (!this.gainItems.length) {
+            return this.gainItems;
+        }
+        items.push(...this.gainItems.filter(gain => !gain.heightenedFilter))
+        if (this.gainItems.some(gain => gain.heightenedFilter)) {
+            switch (levelNumber) {
+                case 10:
+                    if (this.gainItems.some(gain => gain.heightenedFilter == 10)) {
+                        items.push(...this.gainItems.filter(gain => gain.heightenedFilter == 10));
+                        break;
+                    }
+                case 9:
+                    if (this.gainItems.some(gain => gain.heightenedFilter == 9)) {
+                        items.push(...this.gainItems.filter(gain => gain.heightenedFilter == 9));
+                        break;
+                    }
+                case 8:
+                    if (this.gainItems.some(gain => gain.heightenedFilter == 8)) {
+                        items.push(...this.gainItems.filter(gain => gain.heightenedFilter == 8));
+                        break;
+                    }
+                case 7:
+                    if (this.gainItems.some(gain => gain.heightenedFilter == 7)) {
+                        items.push(...this.gainItems.filter(gain => gain.heightenedFilter == 7));
+                        break;
+                    }
+                case 6:
+                    if (this.gainItems.some(gain => gain.heightenedFilter == 6)) {
+                        items.push(...this.gainItems.filter(gain => gain.heightenedFilter == 6));
+                        break;
+                    }
+                case 5:
+                    if (this.gainItems.some(gain => gain.heightenedFilter == 5)) {
+                        items.push(...this.gainItems.filter(gain => gain.heightenedFilter == 5));
+                        break;
+                    }
+                case 4:
+                    if (this.gainItems.some(gain => gain.heightenedFilter == 4)) {
+                        items.push(...this.gainItems.filter(gain => gain.heightenedFilter == 4));
+                        break;
+                    }
+                case 3:
+                    if (this.gainItems.some(gain => gain.heightenedFilter == 3)) {
+                        items.push(...this.gainItems.filter(gain => gain.heightenedFilter == 3));
+                        break;
+                    }
+                case 2:
+                    if (this.gainItems.some(gain => gain.heightenedFilter == 2)) {
+                        items.push(...this.gainItems.filter(gain => gain.heightenedFilter == 2));
+                        break;
+                    }
+                case 1:
+                    if (this.gainItems.some(gain => gain.heightenedFilter == 1)) {
+                        items.push(...this.gainItems.filter(gain => gain.heightenedFilter == 1));
+                        break;
+                    }
+            }
+        }
+        return items;
     }
 }

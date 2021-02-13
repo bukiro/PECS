@@ -1,15 +1,8 @@
 import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy, Input } from '@angular/core';
 import { EffectsService } from '../effects.service';
 import { CharacterService } from '../character.service';
-import { ConditionGain } from '../ConditionGain';
 import { TimeService } from '../time.service';
-import { Condition } from '../Condition';
 import { TraitsService } from '../traits.service';
-import { v1 as uuidv1 } from 'uuid';
-import { ItemsService } from '../items.service';
-import { Character } from '../Character';
-import { AnimalCompanion } from '../AnimalCompanion';
-import { ConditionsService } from '../conditions.service';
 
 @Component({
     selector: 'app-effects',

@@ -123,38 +123,6 @@ export class Spell {
                 }
         }
     }
-    get_HeightenedItems(levelNumber: number) {
-        //This descends through the level numbers, starting with levelNumber and returning the first set of ItemGains found with a matching heightenedfilter.
-        //If there are no ItemGains with a heightenedFilter, return all.
-        if (!this.gainItems.length || this.gainItems.some(gain => !gain.heightenedFilter)) {
-            return this.gainItems;
-        } else if (this.gainItems.length) {
-            switch (levelNumber) {
-                case 10: 
-                    if (this.gainItems.some(gain => gain.heightenedFilter == 10)) { return this.gainItems.filter(gain => gain.heightenedFilter == 10); }
-                case 9: 
-                    if (this.gainItems.some(gain => gain.heightenedFilter == 9)) { return this.gainItems.filter(gain => gain.heightenedFilter == 9); }
-                case 8: 
-                    if (this.gainItems.some(gain => gain.heightenedFilter == 8)) { return this.gainItems.filter(gain => gain.heightenedFilter == 8); }
-                case 7: 
-                    if (this.gainItems.some(gain => gain.heightenedFilter == 7)) { return this.gainItems.filter(gain => gain.heightenedFilter == 7); }
-                case 6: 
-                    if (this.gainItems.some(gain => gain.heightenedFilter == 6)) { return this.gainItems.filter(gain => gain.heightenedFilter == 6); }
-                case 5: 
-                    if (this.gainItems.some(gain => gain.heightenedFilter == 5)) { return this.gainItems.filter(gain => gain.heightenedFilter == 5); }
-                case 4: 
-                    if (this.gainItems.some(gain => gain.heightenedFilter == 4)) { return this.gainItems.filter(gain => gain.heightenedFilter == 4); }
-                case 3: 
-                    if (this.gainItems.some(gain => gain.heightenedFilter == 3)) { return this.gainItems.filter(gain => gain.heightenedFilter == 3); }
-                case 2: 
-                    if (this.gainItems.some(gain => gain.heightenedFilter == 2)) { return this.gainItems.filter(gain => gain.heightenedFilter == 2); }
-                case 1:
-                    if (this.gainItems.some(gain => gain.heightenedFilter == 1)) { return this.gainItems.filter(gain => gain.heightenedFilter == 1); }
-                default:
-                    return [];
-                }
-        }
-    }
     meetsLevelReq(characterService: CharacterService, spellLevel: number = Math.ceil(characterService.get_Character().level / 2)) {
         //If the spell has a levelreq, check if the level beats that.
         //Returns [requirement met, requirement description]

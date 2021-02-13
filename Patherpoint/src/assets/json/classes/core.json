@@ -7490,6 +7490,13 @@
                                 "name": "Simple Weapons",
                                 "source": "Druid Weapon Expertise",
                                 "sourceId": "11-Weapon Proficiency-Druid Weapon Expertise-1"
+                            },
+                            {
+                                "locked": true,
+                                "maxRank": 4,
+                                "name": "Unarmed Attacks",
+                                "source": "Druid Weapon Expertise",
+                                "sourceId": "11-Weapon Proficiency-Druid Weapon Expertise-1"
                             }
                         ],
                         "maxRank": 4,

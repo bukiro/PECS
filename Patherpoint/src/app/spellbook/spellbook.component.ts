@@ -226,9 +226,11 @@ export class SpellbookComponent implements OnInit {
     get_SpellConditions(spell: Spell, levelNumber: number, gain: SpellGain) {
         //For all conditions that are included with this spell on this level and has choices unlocked, create an effectChoice on the gain and set it to the default choice.
         let conditions: Condition[] = [];
-        spell.get_HeightenedConditions(levelNumber)
-            .map(conditionGain => this.conditionsService.get_Conditions(conditionGain.name)[0])
-            .filter(condition => condition?.get_Choices(this.characterService, true)?.length > 1)
+        let spellLevel: number = this.get_EffectiveSpellLevel(spell, levelNumber);
+        spell.get_HeightenedConditions(spellLevel)
+            .map(conditionGain => { return { gain: conditionGain, condition: this.conditionsService.get_Conditions(conditionGain.name)[0] } })
+            .filter(conditionSet => conditionSet.condition?.get_Choices(this.characterService, true, (conditionSet.gain.heightened ? conditionSet.gain.heightened : spellLevel))?.length > 1)
+            .map(conditionSet => conditionSet.condition)
             .forEach((condition, index) => {
                 //Add the condition to the list of conditions that need to display a choice,
                 // then if the gain doesn't have a choice at that index or the choice isn't among the condition's choices, insert or replace that choice on the gain.

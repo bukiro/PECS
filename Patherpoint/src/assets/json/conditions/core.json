@@ -919,20 +919,8 @@
       ]
    },
    {
-      "name": "Wind Jump (5th Level)",
-      "desc": "You gain a fly Speed equal to your Speed. You must end your turn on solid ground, or you fall.",
-      "type": "spells",
-      "buff": true,
-      "effects": [
-         {
-            "affected": "Fly Speed",
-            "setValue": "Speed('Land Speed')"
-         }
-      ]
-   },
-   {
-      "name": "Wind Jump (6th Level)",
-      "desc": "You gain a fly Speed equal to your Speed. You must end your turn on solid ground, or you fall. At the end of your turn, you can attempt a DC 30 Acrobatics check to find purchase in midair. If you succeed, you don't fall.",
+      "name": "Wind Jump",
+      "desc": "You gain a fly Speed equal to your Speed. You must end your turn on solid ground, or you fall.\n\n<strong>5th Level</strong> At the end of your turn, you can attempt a DC 30 Acrobatics check to find purchase in midair. If you succeed, you don't fall.",
       "type": "spells",
       "buff": true,
       "effects": [
@@ -1912,54 +1900,27 @@
       "buff": true
    },
    {
-      "name": "Forbidding Ward (1st Level)",
-      "desc": "You gain a +1 status bonus to Armor Class and saving throws against the target enemy's attacks, spells, and other effects.",
+      "name": "Forbidding Ward",
+      "desc": "You gain a +1 status bonus (+2 on 6th level) to Armor Class and saving throws against the target enemy's attacks, spells, and other effects.",
       "type": "spells",
       "buff": true,
       "hints": [
          {
-            "desc": "You gain a +1 status bonus to Armor Class and saving throws against the target enemy's attacks, spells, and other effects.",
+            "desc": "You gain a +1 status bonus (+2 on 6th level) to Armor Class and saving throws against the target enemy's attacks, spells, and other effects.",
             "effects": [
                {
                   "affected": "AC",
                   "type": "status",
-                  "value": "1"
+                  "value": "Heightened >= 6 ? 2 : 1"
                },
                {
                   "affected": "Saving Throws",
                   "type": "status",
-                  "value": "1"
+                  "value": "Heightened >= 6 ? 2 : 1"
                }
             ],
             "showon": "AC, Saving Throws"
          }
-      ]
-   },
-   {
-      "name": "Forbidding Ward (6th Level)",
-      "desc": "You gain a +2 status bonus to Armor Class and saving throws against the target enemy's attacks, spells, and other effects.",
-      "type": "spells",
-      "buff": true,
-      "hints": [
-         {
-            "desc": "You gain a +2 status bonus to Armor Class and saving throws against the target enemy's attacks, spells, and other effects.",
-            "effects": [
-               {
-                  "affected": "AC",
-                  "type": "status",
-                  "value": "2"
-               },
-               {
-                  "affected": "Saving Throws",
-                  "type": "status",
-                  "value": "2"
-               }
-            ],
-            "showon": "AC, Saving Throws"
-         }
-      ],
-      "overrideConditions": [
-         "Forbidding Ward (1st Level)"
       ]
    },
    {
@@ -2018,19 +1979,10 @@
       ]
    },
    {
-      "name": "Alarm (1st Level)",
-      "desc": "You have warded an area to alert you when creatures enter without your permission. Whenever a Small or larger corporeal creature enters the spell's area without speaking the password, alarm sends your choice of a mental alert (in which case the spell gains the mental trait) or an audible alarm with the sound and volume of a hand bell (in which case the spell gains the auditory trait). Either option automatically awakens you, and the bell allows each creature in the area to attempt a DC 15 Perception check to wake up. A creature aware of the alarm must succeed at a Stealth check against the spell's DC or trigger the spell when moving into the area.",
+      "name": "Alarm",
+      "desc": "You have warded an area to alert you when creatures enter without your permission. Whenever a Small or larger corporeal creature enters the spell's area without speaking the password, alarm sends your choice of a mental alert (in which case the spell gains the mental trait) or an audible alarm with the sound and volume of a hand bell (in which case the spell gains the auditory trait). Starting from 3rd level, you can specify criteria for which creatures sound the alarm spell - for instance, orcs or masked people. Either option automatically awakens you, and the bell allows each creature in the area to attempt a DC 15 Perception check to wake up. A creature aware of the alarm must succeed at a Stealth check against the spell's DC or trigger the spell when moving into the area.",
       "type": "spells",
       "buff": true
-   },
-   {
-      "name": "Alarm (3rd Level)",
-      "desc": "You have warded an area to alert you when creatures enter without your permission. Whenever a Small or larger corporeal creature enters the spell's area without speaking the password, alarm sends your choice of a mental alert (in which case the spell gains the mental trait) or an audible alarm with the sound and volume of a hand bell (in which case the spell gains the auditory trait). You can specify criteria for which creatures sound the alarm spell - for instance, orcs or masked people. Either option automatically awakens you, and the bell allows each creature in the area to attempt a DC 15 Perception check to wake up. A creature aware of the alarm must succeed at a Stealth check against the spell's DC or trigger the spell when moving into the area.",
-      "type": "spells",
-      "buff": true,
-      "overrideConditions": [
-         "Alarm (1st Level)"
-      ]
    },
    {
       "name": "Ant Haul",
@@ -2049,111 +2001,28 @@
       ]
    },
    {
-      "name": "Anticipate Peril (1st Level)",
-      "desc": "You gain a +1 status bonus to your next initiative roll, after which the spell ends.",
+      "name": "Anticipate Peril",
+      "desc": "You gain a +1 status bonus to your next initiative roll, after which the spell ends. The status bonus increases by 1 every two levels after 1st, to a maximum of +4 at 7th level.",
       "type": "spells",
       "buff": true,
+      "inputRequired": "Remove the condition after your next initiative roll.",
       "hints": [
          {
-            "desc": "You gain a +1 status bonus to your next initiative roll, after which the spell ends.",
+            "desc": "You gain a +1 status bonus to your next initiative roll, after which the spell ends. The status bonus increases by 1 every two levels after 1st, to a maximum of +4 at 7th level.",
             "effects": [
                {
                   "affected": "Perception",
                   "type": "status",
-                  "value": "1"
+                  "value": "Math.min(Math.floor((Heightened + 1) / 2), 4)"
                },
                {
                   "affected": "Skill Checks",
                   "type": "status",
-                  "value": "1"
+                  "value": "Math.min(Math.floor((Heightened + 1) / 2), 4)"
                }
             ],
             "showon": "Perception, Skills"
          }
-      ]
-   },
-   {
-      "name": "Anticipate Peril (3rd Level)",
-      "desc": "You gain a +2 status bonus to your next initiative roll, after which the spell ends.",
-      "type": "spells",
-      "buff": true,
-      "hints": [
-         {
-            "desc": "You gain a +2 status bonus to your next initiative roll, after which the spell ends.",
-            "effects": [
-               {
-                  "affected": "Perception",
-                  "type": "status",
-                  "value": "2"
-               },
-               {
-                  "affected": "Skill Checks",
-                  "type": "status",
-                  "value": "2"
-               }
-            ],
-            "showon": "Perception"
-         }
-      ],
-      "overrideConditions": [
-         "Anticipate Peril (1st Level)"
-      ]
-   },
-   {
-      "name": "Anticipate Peril (5th Level)",
-      "desc": "You gain a +3 status bonus to your next initiative roll, after which the spell ends.",
-      "type": "spells",
-      "buff": true,
-      "hints": [
-         {
-            "desc": "You gain a +3 status bonus to your next initiative roll, after which the spell ends.",
-            "effects": [
-               {
-                  "affected": "Perception",
-                  "type": "status",
-                  "value": "3"
-               },
-               {
-                  "affected": "Skill Checks",
-                  "type": "status",
-                  "value": "3"
-               }
-            ],
-            "showon": "Perception"
-         }
-      ],
-      "overrideConditions": [
-         "Anticipate Peril (3rd Level)",
-         "Anticipate Peril (1st Level)"
-      ]
-   },
-   {
-      "name": "Anticipate Peril (7th Level)",
-      "desc": "You gain a +4 status bonus to your next initiative roll, after which the spell ends.",
-      "type": "spells",
-      "buff": true,
-      "hints": [
-         {
-            "desc": "You gain a +4 status bonus to your next initiative roll, after which the spell ends.",
-            "effects": [
-               {
-                  "affected": "Perception",
-                  "type": "status",
-                  "value": "4"
-               },
-               {
-                  "affected": "Skill Checks",
-                  "type": "status",
-                  "value": "4"
-               }
-            ],
-            "showon": "Perception"
-         }
-      ],
-      "overrideConditions": [
-         "Anticipate Peril (5th Level)",
-         "Anticipate Peril (3rd Level)",
-         "Anticipate Peril (1st Level)"
       ]
    },
    {
@@ -2321,8 +2190,8 @@
       ]
    },
    {
-      "name": "Illusory Disguise (1st Level)",
-      "desc": "You appear as another creature of your body shape, and with roughly similar height (within 6 inches) and weight (within 50 pounds), as yourself. The disguise is typically good enough to hide your identity, but not to impersonate a specific individual. The spell doesn't change your voice, scent, or mannerisms. You can change the appearance of your clothing and worn items, such as making your armor look like a dress. Held items are unaffected, and any worn item you remove returns to its true appearance.\n\nCasting illusory disguise counts as setting up a disguise for the Impersonate use of Deception; it ignores any circumstance penalties you might take for disguising yourself as a dissimilar creature, it gives you a +4 status bonus to Deception checks to prevent others from seeing through your disguise, and you add your level even if you're untrained. You can Dismiss this spell.",
+      "name": "Illusory Disguise",
+      "desc": "You appear as another creature of your body shape, and with roughly similar height (within 6 inches) and weight (within 50 pounds), as yourself.\n\n<strong>1st Level</strong> The disguise is typically good enough to hide your identity, but not to impersonate a specific individual. The spell doesn't change your voice, scent, or mannerisms.\n<strong>2nd Level</strong> The spell also disguises your voice and scent, and it gains the auditory trait.\n<strong>3rd Level</strong> You can appear as any creature of the same size, even a specific individual. You must have seen an individual to take on their appearance. The spell also disguises your voice and scent, and it gains the auditory trait.\n\nYou can change the appearance of your clothing and worn items, such as making your armor look like a dress. Held items are unaffected, and any worn item you remove returns to its true appearance.\n\nCasting illusory disguise counts as setting up a disguise for the Impersonate use of Deception; it ignores any circumstance penalties you might take for disguising yourself as a dissimilar creature, it gives you a +4 status bonus to Deception checks to prevent others from seeing through your disguise, and you add your level even if you're untrained. You can Dismiss this spell.",
       "type": "spells",
       "buff": true,
       "hints": [
@@ -2342,87 +2211,13 @@
             ],
             "showon": "Deception"
          }
-      ]
-   },
-   {
-      "name": "Illusory Disguise (2nd Level)",
-      "desc": "You appear as another creature of your body shape, and with roughly similar height (within 6 inches) and weight (within 50 pounds), as yourself. The disguise is typically good enough to hide your identity, but not to impersonate a specific individual. The spell also disguises your voice and scent, and it gains the auditory trait. It doesn't disguise your mannerisms. You can change the appearance of your clothing and worn items, such as making your armor look like a dress. Held items are unaffected, and any worn item you remove returns to its true appearance.\n\nCasting illusory disguise counts as setting up a disguise for the Impersonate use of Deception; it ignores any circumstance penalties you might take for disguising yourself as a dissimilar creature, it gives you a +4 status bonus to Deception checks to prevent others from seeing through your disguise, and you add your level even if you're untrained. You can Dismiss this spell.",
-      "type": "spells",
-      "buff": true,
-      "hints": [
-         {
-            "desc": "Casting illusory disguise counts as setting up a disguise for the Impersonate use of Deception; it ignores any circumstance penalties you might take for disguising yourself as a dissimilar creature, it gives you a +4 status bonus to Deception checks to prevent others from seeing through your disguise, and you add your level even if you're untrained.",
-            "effects": [
-               {
-                  "affected": "Deception",
-                  "type": "status",
-                  "value": "4"
-               },
-               {
-                  "affected": "Deception",
-                  "type": "proficiency",
-                  "value": "Skill_Level('Deception') == 0 ? Level : 0"
-               }
-            ],
-            "showon": "Deception"
-         }
-      ],
-      "overrideConditions": [
-         "Illusory Disguise (1st Level)"
-      ]
-   },
-   {
-      "name": "Illusory Disguise (3rd Level)",
-      "desc": "You appear as another creature of your body shape, and with roughly similar height (within 6 inches) and weight (within 50 pounds), as yourself. The disguise is typically good enough to hide your identity, but not to impersonate a specific individual. The spell also disguises your voice and scent, and it gains the auditory trait. It doesn't disguise your mannerisms. You can change the appearance of your clothing and worn items, such as making your armor look like a dress. Held items are unaffected, and any worn item you remove returns to its true appearance.\n\nCasting illusory disguise counts as setting up a disguise for the Impersonate use of Deception; it ignores any circumstance penalties you might take for disguising yourself as a dissimilar creature, it gives you a +4 status bonus to Deception checks to prevent others from seeing through your disguise, and you add your level even if you're untrained. You can Dismiss this spell.",
-      "type": "spells",
-      "buff": true,
-      "hints": [
-         {
-            "desc": "Casting illusory disguise counts as setting up a disguise for the Impersonate use of Deception; it ignores any circumstance penalties you might take for disguising yourself as a dissimilar creature, it gives you a +4 status bonus to Deception checks to prevent others from seeing through your disguise, and you add your level even if you're untrained.",
-            "effects": [
-               {
-                  "affected": "Deception",
-                  "type": "status",
-                  "value": "4"
-               },
-               {
-                  "affected": "Deception",
-                  "type": "proficiency",
-                  "value": "Skill_Level('Deception') == 0 ? Level : 0"
-               }
-            ],
-            "showon": "Deception"
-         }
-      ],
-      "overrideConditions": [
-         "Illusory Disguise (2nd Level)",
-         "Illusory Disguise (1st Level)"
       ]
    },
    {
       "name": "Illusory Object (1st Level)",
-      "desc": "You have created an illusory visual image of a stationary object. The object appears to animate naturally, but it doesn't make sounds or generate smells. For example, water would appear to pour down an illusory waterfall, but it would be silent.\n\nAny creature that touches the image or uses the Seek action to examine it can attempt to disbelieve your illusion.",
+      "desc": "You have created an illusory visual image of a stationary object.\n\n<strong>1st Level</strong> The object appears to animate naturally, but it doesn't make sounds or generate smells. For example, water would appear to pour down an illusory waterfall, but it would be silent.\n<strong>2nd Level</strong> Your image makes appropriate sounds, generates normal smells, and feels right to the touch. The spell gains the auditory trait.\n<strong>5th Level</strong> The duration is permanent;  remove the condition when you no longer need this information.\n\nAny creature that touches the image or uses the Seek action to examine it can attempt to disbelieve your illusion.",
       "type": "spells",
       "buff": true
-   },
-   {
-      "name": "Illusory Object (2nd Level)",
-      "desc": "You have created an illusory visual image of a stationary object. Your image makes appropriate sounds, generates normal smells, and feels right to the touch. The spell gains the auditory trait.\n\nAny creature that touches the image or uses the Seek action to examine it can attempt to disbelieve your illusion.",
-      "type": "spells",
-      "buff": true,
-      "overrideConditions": [
-         "Illusory Object (1st Level)"
-      ]
-   },
-   {
-      "name": "Illusory Object (5th Level)",
-      "desc": "You have created an illusory visual image of a stationary object. Your image makes appropriate sounds, generates normal smells, and feels right to the touch. The spell gains the auditory trait.\n\nAny creature that touches the image or uses the Seek action to examine it can attempt to disbelieve your illusion.\n\n<strong>Since the duration is permanent, remove the condition when you no longer need this information.</strong>",
-      "type": "spells",
-      "buff": true,
-      "overrideConditions": [
-         "Illusory Object (2nd Level)",
-         "Illusory Object (1st Level)"
-      ]
    },
    {
       "name": "Item Facade",
@@ -2456,19 +2251,10 @@
       ]
    },
    {
-      "name": "Magic Aura (1st Level)",
-      "desc": "You have altered the appearance of an item's magic aura, choosing to have the target's aura appear as that of common magic item of twice magic aura's level or lower, or to have it register as being under the effects of a spell of your choice of magic aura's level or lower.\n\nA caster using detect magic or read aura of an equal or higher spell level can attempt to disbelieve the illusion from magic aura. Magic aura doesn't mask the aura of spells that are 9th level or higher or of items that are 19th level or higher.",
+      "name": "Magic Aura",
+      "desc": "You have altered the appearance of an item's magic aura, choosing to have the target's aura appear as that of common magic item of twice magic aura's level or lower, or to have it register as being under the effects of a spell of your choice of magic aura's level or lower.\n\n<strong>3rd Level</strong> Alternatively, you have targeted a creature instead of an object, choosing to either conceal the auras of all magic items it has or have that creature's aura appear as if it were under the effect of a spell you know.\n\nA caster using detect magic or read aura of an equal or higher spell level can attempt to disbelieve the illusion from magic aura. Magic aura doesn't mask the aura of spells that are 9th level or higher or of items that are 19th level or higher.",
       "type": "spells",
       "buff": true
-   },
-   {
-      "name": "Magic Aura (3rd Level)",
-      "desc": "You have altered the appearance of an item's magic aura, choosing to have the target's aura appear as that of common magic item of twice magic aura's level or lower, or to have it register as being under the effects of a spell of your choice of magic aura's level or lower. Alternatively, you have targeted a creature instead of an object, choosing to either conceal the auras of all magic items it has or have that creature's aura appear as if it were under the effect of a spell you know.\n\nA caster using detect magic or read aura of an equal or higher spell level can attempt to disbelieve the illusion from magic aura. Magic aura doesn't mask the aura of spells that are 9th level or higher or of items that are 19th level or higher.",
-      "type": "spells",
-      "buff": true,
-      "overrideConditions": [
-         "Magic Aura (1st Level)"
-      ]
    },
    {
       "name": "Magic Weapon",
@@ -2612,59 +2398,21 @@
       "buff": true
    },
    {
-      "name": "Scouring Sand (1st Level)",
-      "desc": "You are blasting the area with grit that scours away soil and gets into creatures' eyes. For the duration of the spell, any plant-based difficult terrain smaller than a tree becomes loose, allowing each 5-foot square of it to be cleared with a single Interact action. In addition, scouring sand attempts to counteract entangle and other effects that create or manipulate plant-based terrain in its area. Successfully counteracting an effect removes only the portion of its area that overlaps with scouring sand's area. After one such attempt, the effect is temporarily immune to scouring sand's counteract for 24 hours. Each creature in the area when you Cast this Spell or that ends its turn in the area must attempt a Reflex save.\n\n<strong>Success</strong> The creature is unaffected.\n<strong>Failure</strong> The creature is dazzled for 1 minute or until it uses an Interact action to get the sand out of its eyes.\n<strong>Critical Failure</strong> As failure, but the creature is also blinded for its next action.",
+      "name": "Scouring Sand",
+      "desc": "You are blasting the area with grit that scours away soil and gets into creatures' eyes. For the duration of the spell, any plant-based difficult terrain smaller than a tree becomes loose, allowing each 5-foot square of it to be cleared with a single Interact action. In addition, scouring sand attempts to counteract entangle and other effects that create or manipulate plant-based terrain in its area. Successfully counteracting an effect removes only the portion of its area that overlaps with scouring sand's area. After one such attempt, the effect is temporarily immune to scouring sand's counteract for 24 hours. Each creature in the area when you Cast this Spell or that ends its turn in the area must attempt a Reflex save.\n\n<strong>Success</strong> The creature is unaffected.\n<strong>Failure</strong> The creature is dazzled for 1 minute or until it uses an Interact action to get the sand out of its eyes.\n<strong>Critical Failure</strong> As failure, but the creature is also blinded for its next action.\n\n<strong>3rd Level</strong> Once per round when you Sustain the Spell, you can move the center of the burst to a spot within range.",
       "type": "spells",
       "buff": true
    },
    {
-      "name": "Scouring Sand (3rd Level)",
-      "desc": "You are blasting the area with grit that scours away soil and gets into creatures' eyes. For the duration of the spell, any plant-based difficult terrain smaller than a tree becomes loose, allowing each 5-foot square of it to be cleared with a single Interact action. In addition, scouring sand attempts to counteract entangle and other effects that create or manipulate plant-based terrain in its area. Successfully counteracting an effect removes only the portion of its area that overlaps with scouring sand's area. After one such attempt, the effect is temporarily immune to scouring sand's counteract for 24 hours. Each creature in the area when you Cast this Spell or that ends its turn in the area must attempt a Reflex save.\n\n<strong>Success</strong> The creature is unaffected.\n<strong>Failure</strong> The creature is dazzled for 1 minute or until it uses an Interact action to get the sand out of its eyes.\n<strong>Critical Failure</strong> As failure, but the creature is also blinded for its next action. Once per round when you Sustain the Spell, you can move the center of the burst to a spot within range.",
-      "type": "spells",
-      "buff": true,
-      "overrideConditions": [
-         "Scouring Sand (1st Level)"
-      ]
-   },
-   {
-      "name": "Share Lore (1st Level)",
-      "desc": "You are sharing your knowledge with the touched creatures. All targets become trained in one chosen Lore skill in which the caster is trained for the duration of the spell.",
+      "name": "Share Lore",
+      "desc": "You are sharing your knowledge with the touched creatures. All targets become trained in one chosen Lore skill in which the caster is trained for the duration of the spell (up to two on 5th Level).",
       "type": "spells",
       "buff": true,
       "hints": [
          {
-            "desc": "All targets become trained in one chosen Lore skill in which the caster is trained for the duration of the spell.",
-            "effects": [
-               {
-                  "affected": "Untrained Skills",
-                  "type": "proficiency",
-                  "value": "2 + Level"
-               }
-            ],
+            "desc": "All targets become trained in one chosen Lore skill in which the caster is trained for the duration of the spell (up to two on 5th Level).",
             "showon": "Skills"
          }
-      ]
-   },
-   {
-      "name": "Share Lore (5th Level)",
-      "desc": "You are sharing your knowledge with the touched creatures. All targets become trained in up to two chosen Lore skills in which the caster is trained for the duration of the spell.",
-      "type": "spells",
-      "buff": true,
-      "hints": [
-         {
-            "desc": "All targets become trained in two chosen Lore skills in which the caster is trained for the duration of the spell.",
-            "effects": [
-               {
-                  "affected": "Untrained Skills",
-                  "type": "proficiency",
-                  "value": "2 + Level"
-               }
-            ],
-            "showon": "Skills"
-         }
-      ],
-      "overrideConditions": [
-         "Share Lore (1st Level)"
       ]
    },
    {
@@ -2780,19 +2528,10 @@
       "buff": true
    },
    {
-      "name": "Ventriloquism (1st Level)",
-      "desc": "Whenever you speak or make any other sound vocally, you can make your vocalization seem to originate from somewhere else within 60 feet, and you can change that apparent location freely as you vocalize. Any creature that hears the sound can attempt to disbelieve your illusion.",
+      "name": "Ventriloquism",
+      "desc": "Whenever you speak or make any other sound vocally, you can make your vocalization seem to originate from somewhere else within 60 feet, and you can change that apparent location freely as you vocalize.\n\n<strong>1st Level</strong> Any creature that hears the sound can attempt to disbelieve your illusion.\n<strong>2nd Level</strong> You can also change the tone, quality, and other aspects of your voice. Before a creature can attempt to disbelieve your illusion, it must actively attempt a Perception check or otherwise use actions to interact with the sound.",
       "type": "spells",
       "buff": true
-   },
-   {
-      "name": "Ventriloquism (2nd Level)",
-      "desc": "Whenever you speak or make any other sound vocally, you can make your vocalization seem to originate from somewhere else within 60 feet, and you can change that apparent location freely as you vocalize. You can also change the tone, quality, and other aspects of your voice. Before a creature can attempt to disbelieve your illusion, it must actively attempt a Perception check or otherwise use actions to interact with the sound.",
-      "type": "spells",
-      "buff": true,
-      "overrideConditions": [
-         "Ventriloquism (1st Level)"
-      ]
    },
    {
       "name": "Stabilize",
@@ -2804,46 +2543,15 @@
       ]
    },
    {
-      "name": "Disrupting Weapons (1st Level)",
-      "desc": "Two of your weapons are infused with positive energy. Attacks with these weapons deal an extra 1d4 positive damage to undead.",
+      "name": "Disrupting Weapons",
+      "desc": "Up to two of your weapons are infused with positive energy. Attacks with these weapons deal an extra 1d4 positive damage to undead.\n\n<strong>3rd Level</strong> The damage increases to 2d4 damage.\n<strong>5th Level</strong> Target up to three weapons, and the damage increases to 3d4 damage.",
       "type": "spells",
       "buff": true,
       "hints": [
          {
-            "desc": "Two of your weapons are infused with positive energy. Attacks with these weapons deal an extra 1d4 positive damage to undead.",
+            "desc": "Up to two of your weapons (up to three on 5th level) are infused with positive energy. Attacks with these weapons deal an extra 1d4 positive damage to undead (2d4 on 3rd level and 3d4 on 5th).",
             "showon": "Attacks"
          }
-      ]
-   },
-   {
-      "name": "Disrupting Weapons (3rd Level)",
-      "desc": "Two of your weapons are infused with positive energy. Attacks with these weapons deal an extra 2d4 positive damage to undead.",
-      "type": "spells",
-      "buff": true,
-      "hints": [
-         {
-            "desc": "Two of your weapons are infused with positive energy. Attacks with these weapons deal an extra 2d4 positive damage to undead.",
-            "showon": "Attacks"
-         }
-      ],
-      "overrideConditions": [
-         "Disrupting Weapons (1st Level)"
-      ]
-   },
-   {
-      "name": "Disrupting Weapons (5th Level)",
-      "desc": "Three of your weapons are infused with positive energy. Attacks with these weapons deal an extra 3d4 positive damage to undead.",
-      "type": "spells",
-      "buff": true,
-      "hints": [
-         {
-            "desc": "Three of your weapons are infused with positive energy. Attacks with these weapons deal an extra 3d4 positive damage to undead.",
-            "showon": "Attacks"
-         }
-      ],
-      "overrideConditions": [
-         "Disrupting Weapons (3rd Level)",
-         "Disrupting Weapons (1st Level)"
       ]
    },
    {
@@ -2985,27 +2693,21 @@
    },
    {
       "name": "Enlarge (2nd Level)",
-      "desc": "Bolstered by magical power, you grow to size Large. Your equipment grows with you but returns to natural size if removed. You are clumsy 1. Your reach increases by 5 feet (or by 10 feet if you started out Tiny), and you gain a +2 status bonus to melee damage.",
+      "desc": "Bolstered by magical power, you grow to size Large. Your equipment grows with you but returns to natural size if removed. You are clumsy 1. Your reach increases by 5 feet (or by 10 feet if you started out Tiny), and you gain a +2 status bonus to melee damage.\n\n<strong>4th Level</strong> You instead grow to size Huge. The status bonus to melee damage is +4 and your reach increases by 10 feet (or 15 feet if you started out Tiny).\n<strong>6th Level</strong> You can choose either the 2nd-level or 4th-level version of this spell (see the condition Enlarge (6th Level))",
       "type": "spells",
       "buff": true,
-      "hints": [
-         {
-            "desc": "Your reach increases by 5 feet (or by 10 feet if you started out Tiny).",
-            "showon": "Attacks"
-         }
-      ],
       "effects": [
          {
             "affected": "Size",
-            "setValue": "1"
+            "setValue": "Heightened >= 4 ? 2 : 1"
          },
          {
             "affected": "Melee Damage",
-            "value": "2"
+            "value": "Heightened >= 4 ? 4 : 2"
          },
          {
             "affected": "Reach",
-            "value": "5"
+            "value": "(Heightened >= 4 ? 10 : 5) + (BaseSize() == -2 ? 5 : 0)"
          }
       ],
       "gainConditions": [
@@ -3016,28 +2718,31 @@
       ]
    },
    {
-      "name": "Enlarge (4th Level)",
-      "desc": "Bolstered by magical power, you grow to size Huge. Your equipment grows with you but returns to natural size if removed. You are clumsy 1. Your reach increases by 10 feet (or by 15 feet if you started out Tiny), and you gain a +4 status bonus to melee damage.",
+      "name": "Enlarge (6th Level)",
+      "desc": "Bolstered by magical power, you can choose to grow to size Large or Huge. Your equipment grows with you but returns to natural size if removed. You are clumsy 1.\n\n<strong>Large</strong> Your reach increases by 5 feet (or by 10 feet if you started out Tiny), and you gain a +2 status bonus to melee damage.\n<strong>Huge</strong> Your reach increases by 10 feet (or by 15 feet if you started out Tiny), and you gain a +4 status bonus to melee damage.",
       "type": "spells",
       "buff": true,
-      "hints": [
+      "choice": "Large",
+      "choices": [
          {
-            "desc": "Your reach increases by 10 feet (or by 15 feet if you started out Tiny).",
-            "showon": "Attacks"
+            "name": "Large"
+         },
+         {
+            "name": "Huge"
          }
       ],
       "effects": [
          {
             "affected": "Size",
-            "setValue": "2"
+            "setValue": "Choice == 'Huge' ? 2 : 1"
          },
          {
             "affected": "Melee Damage",
-            "value": "4"
+            "value": "Choice == 'Huge' ? 4 : 2"
          },
          {
             "affected": "Reach",
-            "value": "10"
+            "value": "(Choice == 'Huge' ? 10 : 5) + (BaseSize() == -2 ? 5 : 0)"
          }
       ],
       "gainConditions": [
@@ -3051,29 +2756,15 @@
       ]
    },
    {
-      "name": "Invisibility (2nd Level)",
-      "desc": "Cloaked in illusion, you become invisible. If you use a hostile action, the spell ends after that hostile action is completed.",
+      "name": "Invisibility",
+      "desc": "Cloaked in illusion, you become invisible.\n\n<strong>2nd Level</strong> If you use a hostile action, the spell ends after that hostile action is completed.\n<strong>4th Level</strong> Cloaked in illusion, you become invisible. The spell doesn't end if you use a hostile action.",
       "type": "spells",
       "buff": true,
-      "inputRequired": "If you use a hostile action, the spell ends after that hostile action is completed.",
+      "inputRequired": "Before 4th level, remove the conditoin after you use a hostile action.",
       "gainConditions": [
          {
             "name": "Invisible"
          }
-      ]
-   },
-   {
-      "name": "Invisibility (4th Level)",
-      "desc": "Cloaked in illusion, you become invisible. The spell doesn't end if you use a hostile action.",
-      "type": "spells",
-      "buff": true,
-      "gainConditions": [
-         {
-            "name": "Invisible"
-         }
-      ],
-      "overrideConditions": [
-         "Invisibility (2nd Level)"
       ]
    },
    {
@@ -7188,7 +6879,8 @@
       "inputRequired": "Remove this condition when you stop falling.",
       "gainConditions": [
          {
-            "name": "Invisibility (2nd Level)"
+            "heightened": 2,
+            "name": "Invisibility"
          },
          {
             "name": "Feather Fall"
@@ -7275,8 +6967,8 @@
       ]
    },
    {
-      "name": "Animal Form (2nd Level)",
-      "desc": "You have transformed into a Medium animal battle form, chosen from ape, bear, bull, canine, cat, deer, frog, shark, or snake. While in this form, you gain the animal trait. You can Dismiss the spell.\n\nYou gain the following statistics and abilities regardless of which battle form you choose:\n\nAC = 16 + your level. Ignore your armor's check penalty and Speed reduction.\n5 temporary Hit Points.\nLow-light vision and imprecise scent 30 feet.\nOne or more unarmed melee attacks specific to the battle form you choose, which are the only attacks you can use. You're trained with them. Your attack modifier is +9, and your damage bonus is +1. These attacks are Strength based (for the purpose of the enfeebled condition, for example). If your unarmed attack bonus is higher, you can use it instead.\nAthletics modifier of +9, unless your own modifier is higher.\n\nYou also gain specific abilities based on the type of animal you choose:\n\n<strong>Ape</strong> Speed 25 feet, climb Speed 20 feet; <strong>Melee</strong> fist, <strong>Damage</strong> 2d6 bludgeoning.\n<strong>Bear</strong> Speed 30 feet; <strong>Melee</strong> jaws, <strong>Damage</strong> 2d8 piercing; <strong>Melee</strong> claw (agile), <strong>Damage</strong> 1d8 slashing.\n<strong>Bull</strong> Speed 30 feet; <strong>Melee</strong> horn, <strong>Damage</strong> 2d8 piercing.\n<strong>Canine</strong> Speed 40 feet; <strong>Melee</strong> jaws, <strong>Damage</strong> 2d8 piercing.\n<strong>Cat</strong> Speed 40 feet; <strong>Melee</strong> jaws, <strong>Damage</strong> 2d6 piercing; <strong>Melee</strong> claw (agile), <strong>Damage</strong> 1d10 slashing.\n<strong>Deer</strong> Speed 50 feet; <strong>Melee</strong> antler, <strong>Damage</strong> 2d6 piercing.\n<strong>Frog</strong> Speed 25 feet, swim Speed 25 feet; <strong>Melee</strong> jaws, <strong>Damage</strong> 2d6 bludgeoning; <strong>Melee</strong> tongue (reach 15 feet), <strong>Damage</strong> 2d4 bludgeoning.\n<strong>Shark</strong> swim Speed 35 feet; <strong>Melee</strong> jaws, <strong>Damage</strong> 2d8 piercing; breathe underwater but not in air.\n<strong>Snake</strong> Speed 20 feet, climb Speed 20 feet, swim Speed 20 feet; <strong>Melee</strong> fangs, <strong>Damage</strong> 2d4 piercing plus 1d6 poison.",
+      "name": "Animal Form",
+      "desc": "You have transformed into a Medium animal battle form, chosen from ape, bear, bull, canine, cat, deer, frog, shark, or snake. While in this form, you gain the animal trait. You can Dismiss the spell.\n\nYou gain the following statistics and abilities regardless of which battle form you choose:\n\n(Heightened statistics at the bottom)\nAC = 16 + your level. Ignore your armor's check penalty and Speed reduction.\n5 temporary Hit Points.\nLow-light vision and imprecise scent 30 feet.\nOne or more unarmed melee attacks specific to the battle form you choose, which are the only attacks you can use. You're trained with them. Your attack modifier is +9, and your damage bonus is +1. These attacks are Strength based (for the purpose of the enfeebled condition, for example). If your unarmed attack bonus is higher, you can use it instead.\nAthletics modifier of +9, unless your own modifier is higher.\n\nYou also gain specific abilities based on the type of animal you choose:\n\n<strong>Ape</strong> Speed 25 feet, climb Speed 20 feet; <strong>Melee</strong> fist, <strong>Damage</strong> 2d6 bludgeoning.\n<strong>Bear</strong> Speed 30 feet; <strong>Melee</strong> jaws, <strong>Damage</strong> 2d8 piercing; <strong>Melee</strong> claw (agile), <strong>Damage</strong> 1d8 slashing.\n<strong>Bull</strong> Speed 30 feet; <strong>Melee</strong> horn, <strong>Damage</strong> 2d8 piercing.\n<strong>Canine</strong> Speed 40 feet; <strong>Melee</strong> jaws, <strong>Damage</strong> 2d8 piercing.\n<strong>Cat</strong> Speed 40 feet; <strong>Melee</strong> jaws, <strong>Damage</strong> 2d6 piercing; <strong>Melee</strong> claw (agile), <strong>Damage</strong> 1d10 slashing.\n<strong>Deer</strong> Speed 50 feet; <strong>Melee</strong> antler, <strong>Damage</strong> 2d6 piercing.\n<strong>Frog</strong> Speed 25 feet, swim Speed 25 feet; <strong>Melee</strong> jaws, <strong>Damage</strong> 2d6 bludgeoning; <strong>Melee</strong> tongue (reach 15 feet), <strong>Damage</strong> 2d4 bludgeoning.\n<strong>Shark</strong> swim Speed 35 feet; <strong>Melee</strong> jaws, <strong>Damage</strong> 2d8 piercing; breathe underwater but not in air.\n<strong>Snake</strong> Speed 20 feet, climb Speed 20 feet, swim Speed 20 feet; <strong>Melee</strong> fangs, <strong>Damage</strong> 2d4 piercing plus 1d6 poison.\n\nHeightened statistics:\n\n<strong>3rd Level</strong> You instead gain 10 temporary HP, AC = 17 + your level, attack modifier +14, damage bonus +5, and Athletics +14.\n<strong>4th Level</strong> Your battle form is Large and your attacks have 10-foot reach. You must have enough space to expand into or the spell is lost. You instead gain 15 temporary HP, AC = 18 + your level, attack modifier +16, damage bonus +9, and Athletics +16.\n<strong>5th Level</strong> Your battle form is Huge and your attacks have 15-foot reach. You must have enough space to expand into or the spell is lost. You instead gain 20 temporary HP, AC = 18 + your level, attack modifier +18, damage bonus +7 and double the number of damage dice, and Athletics +20.",
       "type": "spells",
       "buff": true,
       "hints": [
@@ -7318,23 +7010,23 @@
       "effects": [
          {
             "affected": "Size",
-            "setValue": "0"
+            "setValue": "Math.min(Math.max(0, Heightened - 3), 2)"
          },
          {
             "affected": "AC",
-            "setValue": "16 + Level"
+            "setValue": "Math.min(Heightened + 14, 18) + Level"
          },
          {
             "affected": "Melee Attack Rolls",
-            "setValue": "Skill('Unarmed Attacks') > 9 ? null : 9"
+            "setValue": "Skill('Unarmed Attacks') >= [0,0,9,14,16,18,18,18,18,18,18][Heightened] ? null : [0,1,9,14,16,18,18,18,18,18,18][Heightened]"
          },
          {
             "affected": "Melee Damage",
-            "setValue": "1"
+            "setValue": "[0,0,1,5,9,7,7,7,7,7,7][Heightened]"
          },
          {
             "affected": "Athletics",
-            "setValue": "Skill('Athletics') >= 9 ? null : 9"
+            "setValue": "Skill('Athletics') >= [0,0,9,14,16,20,20,20,20,20,20][Heightened] ? null : [0,0,9,14,16,20,20,20,20,20,20][Heightened]"
          },
          {
             "affected": "Land Speed",
@@ -7374,17 +7066,25 @@
          },
          {
             "affected": "Unarmed Attacks Proficiency Level",
-            "setValue": "Skill_Level('Unarmed Attacks') < 2 ? 2 : null"
+            "setValue": "Skill_Level('Unarmed Attacks') <= 2 ? 2 : null"
          },
          {
             "affected": "Ignore Armor Penalty",
             "toggle": true
+         },
+         {
+            "affected": "Reach",
+            "setValue": "[null,null,null,null,10,15,15,15,15,15,15][Heightened]"
+         },
+         {
+            "affected": "Dice Number Multiplier",
+            "setValue": "Heightened >= 5 ? 2 : null"
          }
       ],
       "onceEffects": [
          {
             "affected": "Temporary HP",
-            "value": "5"
+            "value": "Math.min((Heightened - 1) * 5, 20)"
          }
       ],
       "endEffects": [
@@ -7511,726 +7211,6 @@
          {
             "conditionChoiceFilter": "Snake",
             "name": "Animal Form Snake Fangs"
-         }
-      ]
-   },
-   {
-      "name": "Animal Form (3rd Level)",
-      "desc": "You have transformed into a Medium animal battle form, chosen from ape, bear, bull, canine, cat, deer, frog, shark, or snake. While in this form, you gain the animal trait. You can Dismiss the spell.\n\nYou gain the following statistics and abilities regardless of which battle form you choose:\n\nAC = 17 + your level. Ignore your armor's check penalty and Speed reduction.\n10 temporary Hit Points.\nLow-light vision and imprecise scent 30 feet.\nOne or more unarmed melee attacks specific to the battle form you choose, which are the only attacks you can use. You're trained with them. Your attack modifier is +14, and your damage bonus is +5. These attacks are Strength based (for the purpose of the enfeebled condition, for example). If your unarmed attack bonus is higher, you can use it instead.\nAthletics modifier of +14, unless your own modifier is higher.\n\nYou also gain specific abilities based on the type of animal you choose:\n\n<strong>Ape</strong> Speed 25 feet, climb Speed 20 feet; <strong>Melee</strong> fist, <strong>Damage</strong> 2d6 bludgeoning.\n<strong>Bear</strong> Speed 30 feet; <strong>Melee</strong> jaws, <strong>Damage</strong> 2d8 piercing; <strong>Melee</strong> claw (agile), <strong>Damage</strong> 1d8 slashing.\n<strong>Bull</strong> Speed 30 feet; <strong>Melee</strong> horn, <strong>Damage</strong> 2d8 piercing.\n<strong>Canine</strong> Speed 40 feet; <strong>Melee</strong> jaws, <strong>Damage</strong> 2d8 piercing.\n<strong>Cat</strong> Speed 40 feet; <strong>Melee</strong> jaws, <strong>Damage</strong> 2d6 piercing; <strong>Melee</strong> claw (agile), <strong>Damage</strong> 1d10 slashing.\n<strong>Deer</strong> Speed 50 feet; <strong>Melee</strong> antler, <strong>Damage</strong> 2d6 piercing.\n<strong>Frog</strong> Speed 25 feet, swim Speed 25 feet; <strong>Melee</strong> jaws, <strong>Damage</strong> 2d6 bludgeoning; <strong>Melee</strong> tongue (reach 15 feet), <strong>Damage</strong> 2d4 bludgeoning.\n<strong>Shark</strong> swim Speed 35 feet; <strong>Melee</strong> jaws, <strong>Damage</strong> 2d8 piercing; breathe underwater but not in air.\n<strong>Snake</strong> Speed 20 feet, climb Speed 20 feet, swim Speed 20 feet; <strong>Melee</strong> fangs, <strong>Damage</strong> 2d4 piercing plus 1d6 poison.",
-      "type": "spells",
-      "buff": true,
-      "hints": [
-         {
-            "desc": "If your battle form is that of a shark type animal, you can breathe underwater but not in air.",
-            "showon": "Health"
-         }
-      ],
-      "choice": "Ape",
-      "choices": [
-         {
-            "name": "Ape"
-         },
-         {
-            "name": "Bear"
-         },
-         {
-            "name": "Bull"
-         },
-         {
-            "name": "Canine"
-         },
-         {
-            "name": "Cat"
-         },
-         {
-            "name": "Deer"
-         },
-         {
-            "name": "Frog"
-         },
-         {
-            "name": "Shark"
-         },
-         {
-            "name": "Snake"
-         }
-      ],
-      "effects": [
-         {
-            "affected": "Size",
-            "setValue": "0"
-         },
-         {
-            "affected": "AC",
-            "setValue": "17 + Level"
-         },
-         {
-            "affected": "Melee Attack Rolls",
-            "setValue": "Skill('Unarmed Attacks') > 14 ? null : 14"
-         },
-         {
-            "affected": "Melee Damage",
-            "setValue": "5"
-         },
-         {
-            "affected": "Athletics",
-            "setValue": "Skill('Athletics') > 14 ? null : 14"
-         },
-         {
-            "affected": "Land Speed",
-            "setValue": "Choice == 'Snake' ? 20 : null"
-         },
-         {
-            "affected": "Land Speed",
-            "setValue": "['Ape', 'Frog'].includes(Choice) ? 25 : null"
-         },
-         {
-            "affected": "Land Speed",
-            "setValue": "['Bear', 'Bull'].includes(Choice) ? 30 : null"
-         },
-         {
-            "affected": "Land Speed",
-            "setValue": "['Canine', 'Cat'].includes(Choice) ? 40 : null"
-         },
-         {
-            "affected": "Land Speed",
-            "setValue": "Choice == 'Deer' ? 50 : null"
-         },
-         {
-            "affected": "Climb Speed",
-            "setValue": "['Ape', 'Snake'].includes(Choice) ? 20 : null"
-         },
-         {
-            "affected": "Swim Speed",
-            "setValue": "Choice == 'Snake' ? 20 : null"
-         },
-         {
-            "affected": "Swim Speed",
-            "setValue": "Choice == 'Frog' ? 25 : null"
-         },
-         {
-            "affected": "Swim Speed",
-            "setValue": "Choice == 'Shark' ? 35 : null"
-         },
-         {
-            "affected": "Unarmed Attacks Proficiency Level",
-            "setValue": "Skill_Level('Unarmed Attacks') < 2 ? 2 : null"
-         },
-         {
-            "affected": "Ignore Armor Penalty",
-            "toggle": true
-         }
-      ],
-      "onceEffects": [
-         {
-            "affected": "Temporary HP",
-            "value": "10"
-         }
-      ],
-      "endEffects": [
-         {
-            "affected": "Temporary HP",
-            "value": "-Temporary_HP('',effect.sourceId)"
-         }
-      ],
-      "gainItems": [
-         {
-            "conditionChoiceFilter": "Ape",
-            "name": "Animal Form Ape Fist",
-            "type": "weapons"
-         },
-         {
-            "conditionChoiceFilter": "Bear",
-            "name": "Animal Form Bear Jaws",
-            "type": "weapons"
-         },
-         {
-            "conditionChoiceFilter": "Bear",
-            "name": "Animal Form Bear Claw",
-            "type": "weapons"
-         },
-         {
-            "conditionChoiceFilter": "Bull",
-            "name": "Animal Form Bull Horn",
-            "type": "weapons"
-         },
-         {
-            "conditionChoiceFilter": "Canine",
-            "name": "Animal Form Canine Jaws",
-            "type": "weapons"
-         },
-         {
-            "conditionChoiceFilter": "Cat",
-            "name": "Animal Form Cat Jaws",
-            "type": "weapons"
-         },
-         {
-            "conditionChoiceFilter": "Cat",
-            "name": "Animal Form Cat Claw",
-            "type": "weapons"
-         },
-         {
-            "conditionChoiceFilter": "Deer",
-            "name": "Animal Form Deer Antler",
-            "type": "weapons"
-         },
-         {
-            "conditionChoiceFilter": "Frog",
-            "name": "Animal Form Frog Jaws",
-            "type": "weapons"
-         },
-         {
-            "conditionChoiceFilter": "Frog",
-            "name": "Animal Form Frog Tongue",
-            "type": "weapons"
-         },
-         {
-            "conditionChoiceFilter": "Shark",
-            "name": "Animal Form Shark Jaws",
-            "type": "weapons"
-         },
-         {
-            "conditionChoiceFilter": "Snake",
-            "name": "Animal Form Snake Fangs",
-            "type": "weapons"
-         }
-      ],
-      "senses": [
-         {
-            "name": "Low-Light Vision"
-         },
-         {
-            "name": "Scent 30 feet (imprecise)"
-         }
-      ],
-      "attackRestrictions": [
-         {
-            "conditionChoiceFilter": "Ape",
-            "name": "Animal Form Ape Fist"
-         },
-         {
-            "conditionChoiceFilter": "Bear",
-            "name": "Animal Form Bear Jaws"
-         },
-         {
-            "conditionChoiceFilter": "Bear",
-            "name": "Animal Form Bear Claw"
-         },
-         {
-            "conditionChoiceFilter": "Bull",
-            "name": "Animal Form Bull Horn"
-         },
-         {
-            "conditionChoiceFilter": "Canine",
-            "name": "Animal Form Canine Jaws"
-         },
-         {
-            "conditionChoiceFilter": "Cat",
-            "name": "Animal Form Cat Jaws"
-         },
-         {
-            "conditionChoiceFilter": "Cat",
-            "name": "Animal Form Cat Claw"
-         },
-         {
-            "conditionChoiceFilter": "Deer",
-            "name": "Animal Form Deer Antler"
-         },
-         {
-            "conditionChoiceFilter": "Frog",
-            "name": "Animal Form Frog Jaws"
-         },
-         {
-            "conditionChoiceFilter": "Frog",
-            "name": "Animal Form Frog Tongue"
-         },
-         {
-            "conditionChoiceFilter": "Shark",
-            "name": "Animal Form Shark Jaws"
-         },
-         {
-            "conditionChoiceFilter": "Snake",
-            "name": "Animal Form Snake Fangs"
-         }
-      ]
-   },
-   {
-      "name": "Animal Form (4th Level)",
-      "desc": "You have transformed into a Large animal battle form, chosen from ape, bear, bull, canine, cat, deer, frog, shark, or snake. While in this form, you gain the animal trait. You can Dismiss the spell.\n\nYou gain the following statistics and abilities regardless of which battle form you choose:\n\nAC = 18 + your level. Ignore your armor's check penalty and Speed reduction.\n15 temporary Hit Points.\nLow-light vision and imprecise scent 30 feet.\nOne or more unarmed melee attacks specific to the battle form you choose, which are the only attacks you can use. You're trained with them. Your attack modifier is +16, and your damage bonus is +9. These attacks are Strength based (for the purpose of the enfeebled condition, for example) and have 10-feet reach. If your unarmed attack bonus is higher, you can use it instead.\nAthletics modifier of +16, unless your own modifier is higher.\n\nYou also gain specific abilities based on the type of animal you choose:\n\n<strong>Ape</strong> Speed 25 feet, climb Speed 20 feet; <strong>Melee</strong> fist, <strong>Damage</strong> 2d6 bludgeoning.\n<strong>Bear</strong> Speed 30 feet; <strong>Melee</strong> jaws, <strong>Damage</strong> 2d8 piercing; <strong>Melee</strong> claw (agile), <strong>Damage</strong> 1d8 slashing.\n<strong>Bull</strong> Speed 30 feet; <strong>Melee</strong> horn, <strong>Damage</strong> 2d8 piercing.\n<strong>Canine</strong> Speed 40 feet; <strong>Melee</strong> jaws, <strong>Damage</strong> 2d8 piercing.\n<strong>Cat</strong> Speed 40 feet; <strong>Melee</strong> jaws, <strong>Damage</strong> 2d6 piercing; <strong>Melee</strong> claw (agile), <strong>Damage</strong> 1d10 slashing.\n<strong>Deer</strong> Speed 50 feet; <strong>Melee</strong> antler, <strong>Damage</strong> 2d6 piercing.\n<strong>Frog</strong> Speed 25 feet, swim Speed 25 feet; <strong>Melee</strong> jaws, <strong>Damage</strong> 2d6 bludgeoning; <strong>Melee</strong> tongue (reach 15 feet), <strong>Damage</strong> 2d4 bludgeoning.\n<strong>Shark</strong> swim Speed 35 feet; <strong>Melee</strong> jaws, <strong>Damage</strong> 2d8 piercing; breathe underwater but not in air.\n<strong>Snake</strong> Speed 20 feet, climb Speed 20 feet, swim Speed 20 feet; <strong>Melee</strong> fangs, <strong>Damage</strong> 2d4 piercing plus 1d6 poison.",
-      "type": "spells",
-      "buff": true,
-      "hints": [
-         {
-            "desc": "If your battle form is that of a shark type animal, you can breathe underwater but not in air.",
-            "showon": "Health"
-         }
-      ],
-      "choice": "Ape",
-      "choices": [
-         {
-            "name": "Ape"
-         },
-         {
-            "name": "Bear"
-         },
-         {
-            "name": "Bull"
-         },
-         {
-            "name": "Canine"
-         },
-         {
-            "name": "Cat"
-         },
-         {
-            "name": "Deer"
-         },
-         {
-            "name": "Frog"
-         },
-         {
-            "name": "Shark"
-         },
-         {
-            "name": "Snake"
-         }
-      ],
-      "effects": [
-         {
-            "affected": "Size",
-            "setValue": "1"
-         },
-         {
-            "affected": "AC",
-            "setValue": "18 + Level"
-         },
-         {
-            "affected": "Melee Attack Rolls",
-            "setValue": "Skill('Unarmed Attacks') > 16 ? null : 16"
-         },
-         {
-            "affected": "Melee Damage",
-            "setValue": "9"
-         },
-         {
-            "affected": "Athletics",
-            "setValue": "Skill('Athletics') > 16 ? null : 16"
-         },
-         {
-            "affected": "Land Speed",
-            "setValue": "Choice == 'Snake' ? 20 : null"
-         },
-         {
-            "affected": "Land Speed",
-            "setValue": "['Ape', 'Frog'].includes(Choice) ? 25 : null"
-         },
-         {
-            "affected": "Land Speed",
-            "setValue": "['Bear', 'Bull'].includes(Choice) ? 30 : null"
-         },
-         {
-            "affected": "Land Speed",
-            "setValue": "['Canine', 'Cat'].includes(Choice) ? 40 : null"
-         },
-         {
-            "affected": "Land Speed",
-            "setValue": "Choice == 'Deer' ? 50 : null"
-         },
-         {
-            "affected": "Climb Speed",
-            "setValue": "['Ape', 'Snake'].includes(Choice) ? 20 : null"
-         },
-         {
-            "affected": "Swim Speed",
-            "setValue": "Choice == 'Snake' ? 20 : null"
-         },
-         {
-            "affected": "Swim Speed",
-            "setValue": "Choice == 'Frog' ? 25 : null"
-         },
-         {
-            "affected": "Swim Speed",
-            "setValue": "Choice == 'Shark' ? 35 : null"
-         },
-         {
-            "affected": "Unarmed Attacks Proficiency Level",
-            "setValue": "Skill_Level('Unarmed Attacks') < 2 ? 2 : null"
-         },
-         {
-            "affected": "Ignore Armor Penalty",
-            "toggle": true
-         }
-      ],
-      "onceEffects": [
-         {
-            "affected": "Temporary HP",
-            "value": "15"
-         }
-      ],
-      "endEffects": [
-         {
-            "affected": "Temporary HP",
-            "value": "-Temporary_HP('',effect.sourceId)"
-         }
-      ],
-      "gainItems": [
-         {
-            "conditionChoiceFilter": "Ape",
-            "name": "Animal Form Ape Fist (4th Level)",
-            "type": "weapons"
-         },
-         {
-            "conditionChoiceFilter": "Bear",
-            "name": "Animal Form Bear Jaws (4th Level)",
-            "type": "weapons"
-         },
-         {
-            "conditionChoiceFilter": "Bear",
-            "name": "Animal Form Bear Claw (4th Level)",
-            "type": "weapons"
-         },
-         {
-            "conditionChoiceFilter": "Bull",
-            "name": "Animal Form Bull Horn (4th Level)",
-            "type": "weapons"
-         },
-         {
-            "conditionChoiceFilter": "Canine",
-            "name": "Animal Form Canine Jaws (4th Level)",
-            "type": "weapons"
-         },
-         {
-            "conditionChoiceFilter": "Cat",
-            "name": "Animal Form Cat Jaws (4th Level)",
-            "type": "weapons"
-         },
-         {
-            "conditionChoiceFilter": "Cat",
-            "name": "Animal Form Cat Claw (4th Level)",
-            "type": "weapons"
-         },
-         {
-            "conditionChoiceFilter": "Deer",
-            "name": "Animal Form Deer Antler (4th Level)",
-            "type": "weapons"
-         },
-         {
-            "conditionChoiceFilter": "Frog",
-            "name": "Animal Form Frog Jaws (4th Level)",
-            "type": "weapons"
-         },
-         {
-            "conditionChoiceFilter": "Frog",
-            "name": "Animal Form Frog Tongue",
-            "type": "weapons"
-         },
-         {
-            "conditionChoiceFilter": "Shark",
-            "name": "Animal Form Shark Jaws (4th Level)",
-            "type": "weapons"
-         },
-         {
-            "conditionChoiceFilter": "Snake",
-            "name": "Animal Form Snake Fangs (4th Level)",
-            "type": "weapons"
-         }
-      ],
-      "senses": [
-         {
-            "name": "Low-Light Vision"
-         },
-         {
-            "name": "Scent 30 feet (imprecise)"
-         }
-      ],
-      "attackRestrictions": [
-         {
-            "conditionChoiceFilter": "Ape",
-            "name": "Animal Form Ape Fist (4th Level)"
-         },
-         {
-            "conditionChoiceFilter": "Bear",
-            "name": "Animal Form Bear Jaws (4th Level)"
-         },
-         {
-            "conditionChoiceFilter": "Bear",
-            "name": "Animal Form Bear Claw (4th Level)"
-         },
-         {
-            "conditionChoiceFilter": "Bull",
-            "name": "Animal Form Bull Horn (4th Level)"
-         },
-         {
-            "conditionChoiceFilter": "Canine",
-            "name": "Animal Form Canine Jaws (4th Level)"
-         },
-         {
-            "conditionChoiceFilter": "Cat",
-            "name": "Animal Form Cat Jaws (4th Level)"
-         },
-         {
-            "conditionChoiceFilter": "Cat",
-            "name": "Animal Form Cat Claw (4th Level)"
-         },
-         {
-            "conditionChoiceFilter": "Deer",
-            "name": "Animal Form Deer Antler (4th Level)"
-         },
-         {
-            "conditionChoiceFilter": "Frog",
-            "name": "Animal Form Frog Jaws (4th Level)"
-         },
-         {
-            "conditionChoiceFilter": "Frog",
-            "name": "Animal Form Frog Tongue"
-         },
-         {
-            "conditionChoiceFilter": "Shark",
-            "name": "Animal Form Shark Jaws (4th Level)"
-         },
-         {
-            "conditionChoiceFilter": "Snake",
-            "name": "Animal Form Snake Fangs (4th Level)"
-         }
-      ]
-   },
-   {
-      "name": "Animal Form (5th Level)",
-      "desc": "You have transformed into a Huge animal battle form, chosen from ape, bear, bull, canine, cat, deer, frog, shark, or snake. While in this form, you gain the animal trait. You can Dismiss the spell.\n\nYou gain the following statistics and abilities regardless of which battle form you choose:\n\nAC = 18 + your level. Ignore your armor's check penalty and Speed reduction.\n20 temporary Hit Points.\nLow-light vision and imprecise scent 30 feet.\nOne or more unarmed melee attacks specific to the battle form you choose, which are the only attacks you can use. You're trained with them. Your attack modifier is +18, and your damage bonus is +7 with double the usual number of damage dice. These attacks are Strength based (for the purpose of the enfeebled condition, for example) and have 15-feet reach. If your unarmed attack bonus is higher, you can use it instead.\nAthletics modifier of +20, unless your own modifier is higher.\n\nYou also gain specific abilities based on the type of animal you choose:\n\n<strong>Ape</strong> Speed 25 feet, climb Speed 20 feet; <strong>Melee</strong> fist, <strong>Damage</strong> 4d6 bludgeoning.\n<strong>Bear</strong> Speed 30 feet; <strong>Melee</strong> jaws, <strong>Damage</strong> 4d8 piercing; <strong>Melee</strong> claw (agile), <strong>Damage</strong> 2d8 slashing.\n<strong>Bull</strong> Speed 30 feet; <strong>Melee</strong> horn, <strong>Damage</strong> 4d8 piercing.\n<strong>Canine</strong> Speed 40 feet; <strong>Melee</strong> jaws, <strong>Damage</strong> 4d8 piercing.\n<strong>Cat</strong> Speed 40 feet; <strong>Melee</strong> jaws, <strong>Damage</strong> 4d6 piercing; <strong>Melee</strong> claw (agile), <strong>Damage</strong> 2d10 slashing.\n<strong>Deer</strong> Speed 50 feet; <strong>Melee</strong> antler, <strong>Damage</strong> 4d6 piercing.\n<strong>Frog</strong> Speed 25 feet, swim Speed 25 feet; <strong>Melee</strong> jaws, <strong>Damage</strong> 4d6 bludgeoning; <strong>Melee</strong> tongue (reach 15 feet), <strong>Damage</strong> 4d4 bludgeoning.\n<strong>Shark</strong> swim Speed 35 feet; <strong>Melee</strong> jaws, <strong>Damage</strong> 4d8 piercing; breathe underwater but not in air.\n<strong>Snake</strong> Speed 20 feet, climb Speed 20 feet, swim Speed 20 feet; <strong>Melee</strong> fangs, <strong>Damage</strong> 4d4 piercing plus 2d6 poison.",
-      "type": "spells",
-      "buff": true,
-      "hints": [
-         {
-            "desc": "If your battle form is that of a shark type animal, you can breathe underwater but not in air.",
-            "showon": "Health"
-         }
-      ],
-      "choice": "Ape",
-      "choices": [
-         {
-            "name": "Ape"
-         },
-         {
-            "name": "Bear"
-         },
-         {
-            "name": "Bull"
-         },
-         {
-            "name": "Canine"
-         },
-         {
-            "name": "Cat"
-         },
-         {
-            "name": "Deer"
-         },
-         {
-            "name": "Frog"
-         },
-         {
-            "name": "Shark"
-         },
-         {
-            "name": "Snake"
-         }
-      ],
-      "effects": [
-         {
-            "affected": "Size",
-            "setValue": "2"
-         },
-         {
-            "affected": "AC",
-            "setValue": "18 + Level"
-         },
-         {
-            "affected": "Melee Attack Rolls",
-            "setValue": "Skill('Unarmed Attacks') > 18 ? null : 18"
-         },
-         {
-            "affected": "Melee Damage",
-            "setValue": "7"
-         },
-         {
-            "affected": "Athletics",
-            "setValue": "Skill('Athletics') > 20 ? null : 20"
-         },
-         {
-            "affected": "Land Speed",
-            "setValue": "Choice == 'Snake' ? 20 : null"
-         },
-         {
-            "affected": "Land Speed",
-            "setValue": "['Ape', 'Frog'].includes(Choice) ? 25 : null"
-         },
-         {
-            "affected": "Land Speed",
-            "setValue": "['Bear', 'Bull'].includes(Choice) ? 30 : null"
-         },
-         {
-            "affected": "Land Speed",
-            "setValue": "['Canine', 'Cat'].includes(Choice) ? 40 : null"
-         },
-         {
-            "affected": "Land Speed",
-            "setValue": "Choice == 'Deer' ? 50 : null"
-         },
-         {
-            "affected": "Climb Speed",
-            "setValue": "['Ape', 'Snake'].includes(Choice) ? 20 : null"
-         },
-         {
-            "affected": "Swim Speed",
-            "setValue": "Choice == 'Snake' ? 20 : null"
-         },
-         {
-            "affected": "Swim Speed",
-            "setValue": "Choice == 'Frog' ? 25 : null"
-         },
-         {
-            "affected": "Swim Speed",
-            "setValue": "Choice == 'Shark' ? 35 : null"
-         },
-         {
-            "affected": "Unarmed Attacks Proficiency Level",
-            "setValue": "Skill_Level('Unarmed Attacks') < 2 ? 2 : null"
-         },
-         {
-            "affected": "Ignore Armor Penalty",
-            "toggle": true
-         }
-      ],
-      "onceEffects": [
-         {
-            "affected": "Temporary HP",
-            "value": "20"
-         }
-      ],
-      "endEffects": [
-         {
-            "affected": "Temporary HP",
-            "value": "-Temporary_HP('',effect.sourceId)"
-         }
-      ],
-      "gainItems": [
-         {
-            "conditionChoiceFilter": "Ape",
-            "name": "Animal Form Ape Fist (5th Level)",
-            "type": "weapons"
-         },
-         {
-            "conditionChoiceFilter": "Bear",
-            "name": "Animal Form Bear Jaws (5th Level)",
-            "type": "weapons"
-         },
-         {
-            "conditionChoiceFilter": "Bear",
-            "name": "Animal Form Bear Claw (5th Level)",
-            "type": "weapons"
-         },
-         {
-            "conditionChoiceFilter": "Bull",
-            "name": "Animal Form Bull Horn (5th Level)",
-            "type": "weapons"
-         },
-         {
-            "conditionChoiceFilter": "Canine",
-            "name": "Animal Form Canine Jaws (5th Level)",
-            "type": "weapons"
-         },
-         {
-            "conditionChoiceFilter": "Cat",
-            "name": "Animal Form Cat Jaws (5th Level)",
-            "type": "weapons"
-         },
-         {
-            "conditionChoiceFilter": "Cat",
-            "name": "Animal Form Cat Claw (5th Level)",
-            "type": "weapons"
-         },
-         {
-            "conditionChoiceFilter": "Deer",
-            "name": "Animal Form Deer Antler (5th Level)",
-            "type": "weapons"
-         },
-         {
-            "conditionChoiceFilter": "Frog",
-            "name": "Animal Form Frog Jaws (5th Level)",
-            "type": "weapons"
-         },
-         {
-            "conditionChoiceFilter": "Frog",
-            "name": "Animal Form Frog Tongue (5th Level)",
-            "type": "weapons"
-         },
-         {
-            "conditionChoiceFilter": "Shark",
-            "name": "Animal Form Shark Jaws (5th Level)",
-            "type": "weapons"
-         },
-         {
-            "conditionChoiceFilter": "Snake",
-            "name": "Animal Form Snake Fangs (5th Level)",
-            "type": "weapons"
-         }
-      ],
-      "senses": [
-         {
-            "name": "Low-Light Vision"
-         },
-         {
-            "name": "Scent 30 feet (imprecise)"
-         }
-      ],
-      "attackRestrictions": [
-         {
-            "conditionChoiceFilter": "Ape",
-            "name": "Animal Form Ape Fist (5th Level)"
-         },
-         {
-            "conditionChoiceFilter": "Bear",
-            "name": "Animal Form Bear Jaws (5th Level)"
-         },
-         {
-            "conditionChoiceFilter": "Bear",
-            "name": "Animal Form Bear Claw (5th Level)"
-         },
-         {
-            "conditionChoiceFilter": "Bull",
-            "name": "Animal Form Bull Horn (5th Level)"
-         },
-         {
-            "conditionChoiceFilter": "Canine",
-            "name": "Animal Form Canine Jaws (5th Level)"
-         },
-         {
-            "conditionChoiceFilter": "Cat",
-            "name": "Animal Form Cat Jaws (5th Level)"
-         },
-         {
-            "conditionChoiceFilter": "Cat",
-            "name": "Animal Form Cat Claw (5th Level)"
-         },
-         {
-            "conditionChoiceFilter": "Deer",
-            "name": "Animal Form Deer Antler (5th Level)"
-         },
-         {
-            "conditionChoiceFilter": "Frog",
-            "name": "Animal Form Frog Jaws (5th Level)"
-         },
-         {
-            "conditionChoiceFilter": "Frog",
-            "name": "Animal Form Frog Tongue (5th Level)"
-         },
-         {
-            "conditionChoiceFilter": "Shark",
-            "name": "Animal Form Shark Jaws (5th Level)"
-         },
-         {
-            "conditionChoiceFilter": "Snake",
-            "name": "Animal Form Snake Fangs (5th Level)"
          }
       ]
    },
@@ -8332,18 +7312,21 @@
       ]
    },
    {
-      "name": "Endure Elements (2nd Level)",
-      "desc": "You are shielded against dangerous temperatures. Choose severe cold or heat. You are protected from the temperature you chose (but not extreme cold or heat).",
+      "name": "Endure Elements",
+      "desc": "You are shielded against dangerous temperatures.\n\n<strong>2nd Level</strong> Choose severe cold or heat. You are protected from the temperature you chose (but not extreme cold or heat).\n<strong>3rd Level</strong> You are protected from severe cold and heat, but not extreme cold or heat.\n<strong>5th Level</strong> You are protected from severe cold, severe heat, extreme cold, and extreme heat.",
       "type": "spells",
       "buff": true,
       "hints": [
          {
-            "desc": "You are protected from severe cold or severe heat, but not extreme cold or heat.",
+            "desc": "On 2nd level, you are protected from the chosen temperature (but not extreme cold or heat).\nOn 3rd level, you are protected from severe cold and heat, but not extreme cold or heat.\nOn 5th level, you are protected from severe cold, severe heat, extreme cold, and extreme heat.",
             "showon": "Resistances"
          }
       ],
       "choice": "Severe cold",
       "choices": [
+         {
+            "name": ""
+         },
          {
             "name": "Severe cold"
          },
@@ -8466,44 +7449,10 @@
       "buff": true
    },
    {
-      "name": "Fungal Hyphae (2nd Level)",
-      "desc": "Thin hyphae have grown from your feet and plunged into the earth, creating a symbiotic fungal network that attaches to plants within 30 feet and connects you to their root systems. You gain an imprecise tremorsense allowing you to sense anything directly touching plants within that distance. If you move, the hyphae snap and the spell ends.",
+      "name": "Fungal Hyphae",
+      "desc": "Thin hyphae have grown from your feet and plunged into the earth, creating a symbiotic fungal network that attaches to plants within 30 feet and connects you to their root systems. You gain an imprecise tremorsense allowing you to sense anything directly touching plants within that distance. If you move, the hyphae snap and the spell ends.\n\n<strong>4th Level</strong> You can control plants in the area to a small degree, allowing you to make Strikes with tree branches, exposed roots, or similarly solid plants. To do so, you use a Strike action, but you can Strike any creature you can detect with your tremorsense. These are melee spell attacks that deal 2d8 bludgeoning damage plus your spellcasting ability modifier. Unusual plants, such as thorny vines, might deal a different type of damage at the GM's discretion. You can't make any other attacks through these plants, other than these Strikes.\n<strong>6th Level</strong> You can also use other simple manipulate actions through the plants, including having a branch pick an object up or open a door, though more complex actions, such as picking a lock or disabling a trap, remain impossible.",
       "type": "spells",
       "buff": true,
-      "senses": [
-         {
-            "name": "Tremorsense 30 feet (imprecise)"
-         }
-      ]
-   },
-   {
-      "name": "Fungal Hyphae (4th Level)",
-      "desc": "Thin hyphae have grown from your feet and plunged into the earth, creating a symbiotic fungal network that attaches to plants within 30 feet and connects you to their root systems. You gain an imprecise tremorsense allowing you to sense anything directly touching plants within that distance. If you move, the hyphae snap and the spell ends.\n\nYou can control plants in the area to a small degree, allowing you to make Strikes with tree branches, exposed roots, or similarly solid plants. To do so, you use a Strike action, but you can Strike any creature you can detect with your tremorsense. These are melee spell attacks that deal 2d8 bludgeoning damage plus your spellcasting ability modifier. Unusual plants, such as thorny vines, might deal a different type of damage at the GM's discretion. You can't make any other attacks through these plants, or take any other actions through them, other than these Strikes.",
-      "type": "spells",
-      "buff": true,
-      "hints": [
-         {
-            "desc": "You can make Strikes with tree branches, exposed roots, or similarly solid plants. To do so, you use a Strike action, but you can Strike any creature you can detect with your tremorsense. These are melee spell attacks that deal 2d8 bludgeoning damage plus your spellcasting ability modifier. Unusual plants, such as thorny vines, might deal a different type of damage at the GM's discretion. You can't make any other attacks through these plants, or take any other actions through them, other than these Strikes.",
-            "showon": "Attacks"
-         }
-      ],
-      "senses": [
-         {
-            "name": "Tremorsense 30 feet (imprecise)"
-         }
-      ]
-   },
-   {
-      "name": "Fungal Hyphae (6th Level)",
-      "desc": "Thin hyphae have grown from your feet and plunged into the earth, creating a symbiotic fungal network that attaches to plants within 30 feet and connects you to their root systems. You gain an imprecise tremorsense allowing you to sense anything directly touching plants within that distance. If you move, the hyphae snap and the spell ends.\n\nYou can control plants in the area to a small degree, allowing you to make Strikes with tree branches, exposed roots, or similarly solid plants. To do so, you use a Strike action, but you can Strike any creature you can detect with your tremorsense. These are melee spell attacks that deal 2d8 bludgeoning damage plus your spellcasting ability modifier. Unusual plants, such as thorny vines, might deal a different type of damage at the GM's discretion. You can't make any other attacks through these plants, other than these Strikes. You can use other simple manipulate actions through the plants, including having a branch pick an object up or open a door, though more complex actions, such as picking a lock or disabling a trap, remain impossible.",
-      "type": "spells",
-      "buff": true,
-      "hints": [
-         {
-            "desc": "You can Strikes with tree branches, exposed roots, or similarly solid plants. To do so, you use a Strike action, but you can Strike any creature you can detect with your tremorsense. These are melee spell attacks that deal 2d8 bludgeoning damage plus your spellcasting ability modifier. Unusual plants, such as thorny vines, might deal a different type of damage at the GM's discretion. You can't make any other attacks through these plants than these Strikes. You can use other simple manipulate actions through the plants, including having a branch pick an object up or open a door, though more complex actions, such as picking a lock or disabling a trap, remain impossible.",
-            "showon": "Attacks"
-         }
-      ],
       "senses": [
          {
             "name": "Tremorsense 30 feet (imprecise)"
@@ -8651,8 +7600,8 @@
       ]
    },
    {
-      "name": "Humanoid Form (2nd Level)",
-      "desc": "You have transformed your appearance to that of a Small or Medium humanoid, such as a dwarf, elf, goblin, halfling, human, orc, or lizardfolk. You gain the humanoid trait in addition to your other traits while in this form, as well as any trait related to the creature's kind (such as goblin or human). If this transformation reduces your size, it reduces your reach accordingly (as the shrink spell). This transformation doesn't change your statistics in any way, and you don't gain any special abilities of the humanoid form you assume. You can still wear and use your gear, which changes size (if necessary) to match your new form. If items leave your person, they return to their usual size.\n\nHumanoid form grants you a +4 status bonus to Deception checks to pass as a generic member of the chosen ancestry, and you add your level even if you're untrained, but you can't make yourself look like a specific person. If you want to Impersonate an individual, you still need to create a disguise, though the GM won't factor in the difference in ancestry when determining the DC of your Deception check. You can Dismiss this spell.",
+      "name": "Humanoid Form",
+      "desc": "You have transformed your appearance to that of a Small or Medium humanoid, such as a dwarf, elf, goblin, halfling, human, orc, or lizardfolk. You gain the humanoid trait in addition to your other traits while in this form, as well as any trait related to the creature's kind (such as goblin or human). If this transformation reduces your size, it reduces your reach accordingly (as the shrink spell). This transformation doesn't change your statistics in any way, and you don't gain any special abilities of the humanoid form you assume. You can still wear and use your gear, which changes size (if necessary) to match your new form. If items leave your person, they return to their usual size.\n\n<strong>3rd Level</strong> You gain darkvision or low-light vision if the form you assume has that ability.\n<strong>5th Level</strong> You can take on the appearance of a Large humanoid. If this increases your size, you gain the effects of the enlarge spell.\n\nHumanoid form grants you a +4 status bonus to Deception checks to pass as a generic member of the chosen ancestry, and you add your level even if you're untrained, but you can't make yourself look like a specific person. If you want to Impersonate an individual, you still need to create a disguise, though the GM won't factor in the difference in ancestry when determining the DC of your Deception check. You can Dismiss this spell.",
       "type": "spells",
       "buff": true,
       "hints": [
@@ -8680,16 +7629,85 @@
          },
          {
             "name": "Medium"
+         },
+         {
+            "name": "Large",
+            "levelreq": 5
+         },
+         {
+            "name": "Small with low-light vision",
+            "levelreq": 3
+         },
+         {
+            "name": "Medium with low-light vision",
+            "levelreq": 3
+         },
+         {
+            "name": "Large with low-light vision",
+            "levelreq": 5
+         },
+         {
+            "name": "Small with darkvision",
+            "levelreq": 3
+         },
+         {
+            "name": "Medium with darkvision",
+            "levelreq": 3
+         },
+         {
+            "name": "Large with darkvision",
+            "levelreq": 5
          }
       ],
       "effects": [
          {
             "affected": "Size",
-            "setValue": "Choice == 'Small' ? -1 : 0"
+            "setValue": "Choice.includes('Small') ? -1 : (Choice.includes('Large') ? 1 : 0)"
          },
          {
             "affected": "Reach",
-            "setValue": "5"
+            "value": "((Choice.includes('Small') || Choice.includes('Medium')) && BaseSize() > 0) ? -5 : 0"
+         },
+         {
+            "affected": "Reach",
+            "setValue": "((Choice.includes('Medium') && BaseSize() < -1) || (Choice.includes('Large') && BaseSize() < 1)) ? 5 : 0"
+         },
+         {
+            "affected": "Melee Damage",
+            "setValue": "((Choice.includes('Medium') && BaseSize() < -1) || (Choice.includes('Large') && BaseSize() < 1)) ? 2 : 0"
+         }
+      ],
+      "gainConditions": [
+         {
+            "activationPrerequisite": "((Choice.includes('Medium') && BaseSize() < -1) || (Choice.includes('Large') && BaseSize() < 1)) ? 1 : 0",
+            "name": "Clumsy",
+            "value": 1
+         }
+      ],
+      "senses": [
+         {
+            "conditionChoiceFilter": "Small with low-light vision",
+            "name": "Low-Light Vision"
+         },
+         {
+            "conditionChoiceFilter": "Medium with low-light vision",
+            "name": "Low-Light Vision"
+         },
+         {
+            "conditionChoiceFilter": "Large with low-light vision",
+            "name": "Low-Light Vision"
+         },
+         {
+            "conditionChoiceFilter": "Small with darkvision",
+            "name": "Darkvision"
+         },
+         {
+            "conditionChoiceFilter": "Medium with darkvision",
+            "name": "Darkvision"
+         },
+         {
+            "conditionChoiceFilter": "Large with darkvision",
+            "name": "Darkvision"
          }
       ]
    },
@@ -8872,57 +7890,15 @@
       ]
    },
    {
-      "name": "Phantom Steed (2nd Level)",
-      "desc": "You have conjured a Large, magical, equine creature that only you (or another Medium or Small creature you choose) can ride. The horse is clearly phantasmal in nature, has 20 AC and 10 Hit Points, and automatically fails all saves. If it's reduced to 0 Hit Points, it disappears and the spell ends. The steed has a Speed of 40 feet and can hold its rider's body weight, plus 20 Bulk.",
+      "name": "Phantom Steed",
+      "desc": "You have conjured a Large, magical, equine creature that only you (or another Medium or Small creature you choose) can ride. The horse is clearly phantasmal in nature, has 20 AC and 10 Hit Points, and automatically fails all saves. If it's reduced to 0 Hit Points, it disappears and the spell ends.\n\n<strong>2nd Level</strong> The steed has a Speed of 40 feet and can hold its rider's body weight, plus 20 Bulk.\n<strong>4th Level</strong> The steed has a Speed of 60 feet, can walk on water, and ignores areas of natural difficult terrain. It can hold its rider's body weight, plus 20 Bulk.\n<strong>5th Level</strong> The steed has a Speed of 60 feet, can walk on water, and ignores areas of natural difficult terrain. It can also air walk but must end its turn on solid ground or fall. It can hold its rider's body weight, plus 20 Bulk.\n<strong>6th Level</strong> The steed can walk or fly at a Speed of 80 feet, can walk on water, and ignores natural difficult terrain. It can hold its rider's body weight, plus 20 Bulk.",
       "type": "spells",
       "buff": true,
       "notes": "HP: 10",
       "inputRequired": "Remove the condition if the phantom steed is reduced to 0 Hit Points.",
       "hints": [
          {
-            "desc": "You or another Medium or Small creature you choose can ride the Phantom Steed. It can hold its rider's body weight plus 20 bulk.",
-            "showon": "Movement"
-         }
-      ]
-   },
-   {
-      "name": "Phantom Steed (4th Level)",
-      "desc": "You have conjured a Large, magical, equine creature that only you (or another Medium or Small creature you choose) can ride. The horse is clearly phantasmal in nature, has 20 AC and 10 Hit Points, and automatically fails all saves. If it's reduced to 0 Hit Points, it disappears and the spell ends. The steed has a Speed of 60 feet, can walk on water, and ignores areas of natural difficult terrain. It can hold its rider's body weight, plus 20 Bulk.",
-      "type": "spells",
-      "buff": true,
-      "notes": "HP: 10",
-      "inputRequired": "Remove the condition if the phantom steed is reduced to 0 Hit Points.",
-      "hints": [
-         {
-            "desc": "You or another Medium or Small creature you choose can ride the Phantom Steed. It has a Speed of 60 feet, can walk on water, and ignores areas of natural difficult terrain. It can hold its rider's body weight plus 20 bulk.",
-            "showon": "Movement"
-         }
-      ]
-   },
-   {
-      "name": "Phantom Steed (5th Level)",
-      "desc": "You have conjured a Large, magical, equine creature that only you (or another Medium or Small creature you choose) can ride. The horse is clearly phantasmal in nature, has 20 AC and 10 Hit Points, and automatically fails all saves. If it's reduced to 0 Hit Points, it disappears and the spell ends. The steed has a Speed of 60 feet, can walk on water, and ignores areas of natural difficult terrain. It can also air walk but must end its turn on solid ground or fall. It can hold its rider's body weight, plus 20 Bulk.",
-      "type": "spells",
-      "buff": true,
-      "notes": "HP: 10",
-      "inputRequired": "Remove the condition if the phantom steed is reduced to 0 Hit Points.",
-      "hints": [
-         {
-            "desc": "You or another Medium or Small creature you choose can ride the Phantom Steed. It has a Speed of 60 feet, can walk on water, and ignores areas of natural difficult terrain. It can also air walk but must end its turn on solid ground or fall. It can hold its rider's body weight plus 20 bulk.",
-            "showon": "Movement"
-         }
-      ]
-   },
-   {
-      "name": "Phantom Steed (6th Level)",
-      "desc": "You have conjured a Large, magical, equine creature that only you (or another Medium or Small creature you choose) can ride. The horse is clearly phantasmal in nature, has 20 AC and 10 Hit Points, and automatically fails all saves. If it's reduced to 0 Hit Points, it disappears and the spell ends. The steed can walk or fly at a Speed of 80 feet, can walk on water, and ignores natural difficult terrain. It can hold its rider's body weight, plus 20 Bulk.",
-      "type": "spells",
-      "buff": true,
-      "notes": "HP: 10",
-      "inputRequired": "Remove the condition if the phantom steed is reduced to 0 Hit Points.",
-      "hints": [
-         {
-            "desc": "You or another Medium or Small creature you choose can ride the Phantom Steed. It can walk or fly at a Speed of 80 feet, can walk on water, and ignores natural difficult terrain. It can hold its rider's body weight plus 20 bulk.",
+            "desc": "You or another Medium or Small creature you choose can ride the Phantom Steed.\n\n2nd Level: The steed has a Speed of 40 feet and can hold its rider's body weight, plus 20 Bulk.\n4th Level: The steed has a Speed of 60 feet, can walk on water, and ignores areas of natural difficult terrain. It can hold its rider's body weight, plus 20 Bulk.\n5th Level: The steed has a Speed of 60 feet, can walk on water, and ignores areas of natural difficult terrain. It can also air walk but must end its turn on solid ground or fall. It can hold its rider's body weight, plus 20 Bulk.\n6th Level: The steed can walk or fly at a Speed of 80 feet, can walk on water, and ignores natural difficult terrain. It can hold its rider's body weight, plus 20 Bulk.",
             "showon": "Movement"
          }
       ]
@@ -9777,8 +8753,8 @@
       "buff": true
    },
    {
-      "name": "Insect Form (3rd Level)",
-      "desc": "You have transformed into a Medium animal battle form, chosen from ant, beetle, centipede, mantis, scorpion, or spider. You can decide the specific type of animal (such as such as a ladybug or scarab for beetle), but this has no effect on the form's Size or statistics. While in this form, you gain the animal trait. You can Dismiss this spell.\n\nYou gain the following statistics and abilities regardless of which battle form you choose:\n\nAC = 18 + your level. Ignore your armor's check penalty and Speed reduction.\n10 temporary Hit Points.\nLow-light vision.\nOne or more attacks specific to the battle form you choose, which are the only attacks you can use. You're trained with them. Your attack modifier is +13, and your damage bonus is +2. These attacks are Strength based (for the purpose of the enfeebled condition). If your unarmed attack modifier is higher, you can use it instead.\nAthletics modifier of +13, unless your own is higher.\n\nYou also gain specific abilities based on the form you choose:\n\n<strong>Ant</strong> Speed 30 feet, climb Speed 30 feet; <strong>Melee</strong> mandibles, <strong>Damage</strong> 2d6 bludgeoning.\n<strong>Beetle</strong> Speed 25 feet; <strong>Melee</strong> mandibles, <strong>Damage</strong> 2d10 bludgeoning.\n<strong>Centipede</strong> Speed 25 feet, climb Speed 25 feet; darkvision; <strong>Melee</strong> mandibles, <strong>Damage</strong> 1d8 piercing plus 1d4 persistent poison.\n<strong>Mantis</strong> Speed 40 feet; imprecise scent 30 feet; <strong>Melee</strong> foreleg, <strong>Damage</strong> 2d8 bludgeoning.\n<strong>Scorpion</strong> Speed 40 feet; darkvision, imprecise tremorsense 60 feet; <strong>Melee</strong> stinger, <strong>Damage</strong> 1d8 piercing plus 1d4 persistent poison; <strong>Melee</strong> pincer (agile), <strong>Damage</strong> 1d6 bludgeoning.\n<strong>Spider</strong> Speed 25 feet, climb Speed 25 feet; darkvision; <strong>Melee</strong> fangs, <strong>Damage</strong> 1d6 piercing plus 1d4 persistent poison; <strong>Ranged</strong> web (range increment 20 feet), <strong>Damage</strong> entangles the target for 1 round.",
+      "name": "Insect Form",
+      "desc": "You have transformed into a Medium animal battle form, chosen from ant, beetle, centipede, mantis, scorpion, or spider. You can decide the specific type of animal (such as such as a ladybug or scarab for beetle), but this has no effect on the form's Size or statistics. While in this form, you gain the animal trait. You can Dismiss this spell.\n\nYou gain the following statistics and abilities regardless of which battle form you choose:\n\n(Heightened statistics at the bottom)\nAC = 18 + your level. Ignore your armor's check penalty and Speed reduction.\n10 temporary Hit Points.\nLow-light vision.\nOne or more attacks specific to the battle form you choose, which are the only attacks you can use. You're trained with them. Your attack modifier is +13, and your damage bonus is +2. These attacks are Strength based (for the purpose of the enfeebled condition). If your unarmed attack modifier is higher, you can use it instead.\nAthletics modifier of +13, unless your own is higher.\n\nYou also gain specific abilities based on the form you choose:\n\n<strong>Ant</strong> Speed 30 feet, climb Speed 30 feet; <strong>Melee</strong> mandibles, <strong>Damage</strong> 2d6 bludgeoning.\n<strong>Beetle</strong> Speed 25 feet; <strong>Melee</strong> mandibles, <strong>Damage</strong> 2d10 bludgeoning.\n<strong>Centipede</strong> Speed 25 feet, climb Speed 25 feet; darkvision; <strong>Melee</strong> mandibles, <strong>Damage</strong> 1d8 piercing plus 1d4 persistent poison.\n<strong>Mantis</strong> Speed 40 feet; imprecise scent 30 feet; <strong>Melee</strong> foreleg, <strong>Damage</strong> 2d8 bludgeoning.\n<strong>Scorpion</strong> Speed 40 feet; darkvision, imprecise tremorsense 60 feet; <strong>Melee</strong> stinger, <strong>Damage</strong> 1d8 piercing plus 1d4 persistent poison; <strong>Melee</strong> pincer (agile), <strong>Damage</strong> 1d6 bludgeoning.\n<strong>Spider</strong> Speed 25 feet, climb Speed 25 feet; darkvision; <strong>Melee</strong> fangs, <strong>Damage</strong> 1d6 piercing plus 1d4 persistent poison; <strong>Ranged</strong> web (range increment 20 feet), <strong>Damage</strong> entangles the target for 1 round.\n\n<strong>4th Level</strong> Your battle form is Large, and your attacks have 10-foot reach. You must have enough space to expand into or the spell is lost. You instead gain 15 temporary HP, attack modifier +16, damage bonus +6, and Athletics +16.\n<strong>5th Level</strong> Your battle form is Huge, and your attacks have 15-foot reach. You must have enough space to expand into or the spell is lost. You instead gain 20 temporary HP, attack modifier +18, damage bonus +2 and double damage dice (including persistent damage), and Athletics +20.",
       "type": "spells",
       "buff": true,
       "choice": "Ant",
@@ -9813,19 +8789,19 @@
          },
          {
             "affected": "Melee Attack Rolls",
-            "setValue": "Skill('Unarmed Attacks') > 13 ? null : 13"
+            "setValue": "Skill('Unarmed Attacks') > [0,0,0,13,16,18,18,18,18,18,18][Heightened] ? null : [0,0,0,13,16,18,18,18,18,18,18][Heightened]"
          },
          {
             "affected": "Ranged Attack Rolls",
-            "setValue": "Skill('Unarmed Attacks') > 13 ? null : 13"
+            "setValue": "Skill('Unarmed Attacks') > [0,0,0,13,16,18,18,18,18,18,18][Heightened] ? null : [0,0,0,13,16,18,18,18,18,18,18][Heightened]"
          },
          {
             "affected": "Melee Damage",
-            "setValue": "2"
+            "setValue": "[0,0,0,2,6,2,2,2,2,2,2][Heightened]"
          },
          {
             "affected": "Athletics",
-            "setValue": "Skill('Athletics') > 13 ? null : 13"
+            "setValue": "Skill('Athletics') > [0,0,0,13,16,20,20,20,20,20,20][Heightened] ? null : [0,0,0,13,16,20,20,20,20,20,20][Heightened]"
          },
          {
             "affected": "Land Speed",
@@ -9849,17 +8825,25 @@
          },
          {
             "affected": "Unarmed Attacks Proficiency Level",
-            "setValue": "Skill_Level('Unarmed Attacks') < 2 ? 2 : null"
+            "setValue": "Skill_Level('Unarmed Attacks') <= 2 ? 2 : null"
          },
          {
             "affected": "Ignore Armor Penalty",
             "toggle": true
+         },
+         {
+            "affected": "Reach",
+            "setValue": "[null,null,null,null,10,15,15,15,15,15,15][Heightened]"
+         },
+         {
+            "affected": "Dice Number Multiplier",
+            "setValue": "Heightened >= 5 ? 2 : null"
          }
       ],
       "onceEffects": [
          {
             "affected": "Temporary HP",
-            "value": "10"
+            "value": "Math.min((Heightened - 1) * 5, 20)"
          }
       ],
       "endEffects": [
@@ -9881,6 +8865,7 @@
          },
          {
             "conditionChoiceFilter": "Centipede",
+            "heightenedFilter": 3,
             "name": "Insect Form Centipede Mandibles",
             "type": "weapons"
          },
@@ -9891,6 +8876,7 @@
          },
          {
             "conditionChoiceFilter": "Scorpion",
+            "heightenedFilter": 3,
             "name": "Insect Form Scorpion Stinger",
             "type": "weapons"
          },
@@ -9901,12 +8887,31 @@
          },
          {
             "conditionChoiceFilter": "Spider",
+            "heightenedFilter": 3,
             "name": "Insect Form Spider Fangs",
             "type": "weapons"
          },
          {
             "conditionChoiceFilter": "Spider",
             "name": "Insect Form Spider Web",
+            "type": "weapons"
+         },
+         {
+            "conditionChoiceFilter": "Centipede",
+            "heightenedFilter": 5,
+            "name": "Insect Form Centipede Mandibles (5th Level)",
+            "type": "weapons"
+         },
+         {
+            "conditionChoiceFilter": "Scorpion",
+            "heightenedFilter": 5,
+            "name": "Insect Form Scorpion Stinger (5th Level)",
+            "type": "weapons"
+         },
+         {
+            "conditionChoiceFilter": "Spider",
+            "heightenedFilter": 5,
+            "name": "Insect Form Spider Fangs (5th Level)",
             "type": "weapons"
          }
       ],
@@ -9967,6 +8972,18 @@
          {
             "conditionChoiceFilter": "Spider",
             "name": "Insect Form Spider Web"
+         },
+         {
+            "conditionChoiceFilter": "Centipede",
+            "name": "Insect Form Centipede Mandibles (5th Level)"
+         },
+         {
+            "conditionChoiceFilter": "Scorpion",
+            "name": "Insect Form Scorpion Stinger (5th Level)"
+         },
+         {
+            "conditionChoiceFilter": "Spider",
+            "name": "Insect Form Spider Fangs (5th Level)"
          }
       ]
    },
@@ -10043,7 +9060,7 @@
          },
          {
             "affected": "Unarmed Attacks Proficiency Level",
-            "setValue": "Skill_Level('Unarmed Attacks') < 2 ? 2 : null"
+            "setValue": "Skill_Level('Unarmed Attacks') <= 2 ? 2 : null"
          },
          {
             "affected": "Ignore Armor Penalty",
@@ -10237,7 +9254,7 @@
          },
          {
             "affected": "Unarmed Attacks Proficiency Level",
-            "setValue": "Skill_Level('Unarmed Attacks') < 2 ? 2 : null"
+            "setValue": "Skill_Level('Unarmed Attacks') <= 2 ? 2 : null"
          },
          {
             "affected": "Ignore Armor Penalty",
@@ -11321,7 +10338,7 @@
          },
          {
             "affected": "Unarmed Attacks Proficiency Level",
-            "setValue": "Skill_Level('Unarmed Attacks') < 2 ? 2 : null"
+            "setValue": "Skill_Level('Unarmed Attacks') <= 2 ? 2 : null"
          },
          {
             "affected": "Ignore Armor Penalty",
@@ -11475,7 +10492,7 @@
          },
          {
             "affected": "Unarmed Attacks Proficiency Level",
-            "setValue": "Skill_Level('Unarmed Attacks') < 2 ? 2 : null"
+            "setValue": "Skill_Level('Unarmed Attacks') <= 2 ? 2 : null"
          },
          {
             "affected": "Ignore Armor Penalty",
@@ -11634,7 +10651,7 @@
          },
          {
             "affected": "Unarmed Attacks Proficiency Level",
-            "setValue": "Skill_Level('Unarmed Attacks') < 2 ? 2 : null"
+            "setValue": "Skill_Level('Unarmed Attacks') <= 2 ? 2 : null"
          },
          {
             "affected": "Ignore Armor Penalty",
@@ -11918,7 +10935,7 @@
          },
          {
             "affected": "Unarmed Attacks Proficiency Level",
-            "setValue": "Skill_Level('Unarmed Attacks') < 2 ? 2 : null"
+            "setValue": "Skill_Level('Unarmed Attacks') <= 2 ? 2 : null"
          },
          {
             "affected": "Ignore Armor Penalty",
@@ -12110,7 +11127,7 @@
          },
          {
             "affected": "Unarmed Attacks Proficiency Level",
-            "setValue": "Skill_Level('Unarmed Attacks') < 2 ? 2 : null"
+            "setValue": "Skill_Level('Unarmed Attacks') <= 2 ? 2 : null"
          },
          {
             "affected": "Ignore Armor Penalty",
@@ -12302,7 +11319,7 @@
          },
          {
             "affected": "Unarmed Attacks Proficiency Level",
-            "setValue": "Skill_Level('Unarmed Attacks') < 2 ? 2 : null"
+            "setValue": "Skill_Level('Unarmed Attacks') <= 2 ? 2 : null"
          },
          {
             "affected": "Ignore Armor Penalty",
@@ -13795,7 +12812,7 @@
          },
          {
             "affected": "Unarmed Attacks Proficiency Level",
-            "setValue": "Skill_Level('Unarmed Attacks') < 2 ? 2 : null"
+            "setValue": "Skill_Level('Unarmed Attacks') <= 2 ? 2 : null"
          },
          {
             "affected": "Ignore Armor Penalty",
@@ -14208,7 +13225,7 @@
          },
          {
             "affected": "Unarmed Attacks Proficiency Level",
-            "setValue": "Skill_Level('Unarmed Attacks') < 2 ? 2 : null"
+            "setValue": "Skill_Level('Unarmed Attacks') <= 2 ? 2 : null"
          },
          {
             "affected": "Ignore Armor Penalty",
@@ -15990,7 +15007,7 @@
          },
          {
             "affected": "Unarmed Attacks Proficiency Level",
-            "setValue": "Skill_Level('Unarmed Attacks') < 2 ? 2 : null"
+            "setValue": "Skill_Level('Unarmed Attacks') <= 2 ? 2 : null"
          }
       ],
       "gainItems": [
@@ -16039,10 +15056,9 @@
       "buff": true,
       "endsWithConditions": [
          "Pest Form",
-         "Animal Form (2nd Level)",
-         "Animal Form (3rd Level)",
-         "Animal Form (4th Level)",
-         "Animal Form (5th Level)"
+         "Animal Form",
+         "Humanoid Form",
+         "Insect Form"
       ],
       "hints": [
          {
@@ -16063,7 +15079,25 @@
             "name": "Pest Form"
          },
          {
+            "name": "Pest Form (non-flying)",
+            "featreq": [
+               "Insect Shape"
+            ]
+         },
+         {
             "name": "Animal Form"
+         },
+         {
+            "name": "Humanoid Form",
+            "featreq": [
+               "Thousand Faces"
+            ]
+         },
+         {
+            "name": "Insect Form",
+            "featreq": [
+               "Insect Shape"
+            ]
          }
       ],
       "gainConditions": [
@@ -16080,52 +15114,46 @@
             "name": "Pest Form"
          },
          {
-            "activationPrerequisite": "(Heightened <= 2 && !Has_Condition('Form Control')) ? 1 : 0",
+            "activationPrerequisite": "!Has_Condition('Form Control') ? 1 : 0",
             "conditionChoiceFilter": "Animal Form",
             "duration": 100,
-            "name": "Animal Form (2nd Level)"
+            "name": "Animal Form"
          },
          {
-            "activationPrerequisite": "(Heightened <= 2 && Has_Condition('Form Control')) ? 1 : 0",
+            "activationPrerequisite": "Has_Condition('Form Control') ? 1 : 0",
             "conditionChoiceFilter": "Animal Form",
             "duration": 6000,
-            "name": "Animal Form (2nd Level)"
+            "name": "Animal Form"
          },
          {
-            "activationPrerequisite": "(Heightened == 3 && !Has_Condition('Form Control')) ? 1 : 0",
-            "conditionChoiceFilter": "Animal Form",
+            "activationPrerequisite": "!Has_Condition('Form Control') ? 1 : 0",
+            "conditionChoiceFilter": "Humanoid Form",
             "duration": 100,
-            "name": "Animal Form (3rd Level)"
+            "name": "Humanoid Form"
          },
          {
-            "activationPrerequisite": "(Heightened == 3 && Has_Condition('Form Control')) ? 1 : 0",
-            "conditionChoiceFilter": "Animal Form",
+            "activationPrerequisite": "Has_Condition('Form Control') ? 1 : 0",
+            "conditionChoiceFilter": "Humanoid Form",
             "duration": 6000,
-            "name": "Animal Form (3rd Level)"
+            "name": "Humanoid Form"
          },
          {
-            "activationPrerequisite": "(Heightened == 4 && !Has_Condition('Form Control')) ? 1 : 0",
-            "conditionChoiceFilter": "Animal Form",
+            "activationPrerequisite": "!Has_Condition('Form Control') ? 1 : 0",
+            "conditionChoiceFilter": "Insect Form",
             "duration": 100,
-            "name": "Animal Form (4th Level)"
+            "name": "Insect Form"
          },
          {
-            "activationPrerequisite": "(Heightened == 4 && Has_Condition('Form Control')) ? 1 : 0",
-            "conditionChoiceFilter": "Animal Form",
+            "activationPrerequisite": "Has_Condition('Form Control') ? 1 : 0",
+            "conditionChoiceFilter": "Insect Form",
             "duration": 6000,
-            "name": "Animal Form (4th Level)"
+            "name": "Insect Form"
          },
          {
-            "activationPrerequisite": "(Heightened == 5 && !Has_Condition('Form Control')) ? 1 : 0",
-            "conditionChoiceFilter": "Animal Form",
-            "duration": 100,
-            "name": "Animal Form (5th Level)"
-         },
-         {
-            "activationPrerequisite": "(Heightened == 5 && Has_Condition('Form Control')) ? 1 : 0",
-            "conditionChoiceFilter": "Animal Form",
-            "duration": 6000,
-            "name": "Animal Form (5th Level)"
+            "conditionChoiceFilter": "Pest-Form (non-flying)",
+            "duration": 144000,
+            "heightened": 1,
+            "name": "Pest Form"
          }
       ],
       "endConditions": [

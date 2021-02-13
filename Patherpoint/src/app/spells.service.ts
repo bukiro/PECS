@@ -100,43 +100,6 @@ export class SpellsService {
                 break;
         }
 
-        //Gain Items on Activation
-        if (targetCreature && targetCreature.type != "Familiar")
-        if (spell.get_HeightenedItems(spellLevel).length) {
-            if (activated) {
-                gain.gainItems = spell.get_HeightenedItems(spellLevel).map(itemGain => Object.assign(new ItemGain(), itemGain));
-                gain.gainItems.forEach(gainItem => {
-                    let newItem: Item = itemsService.get_CleanItems()[gainItem.type].filter((item: Item) => item.name.toLowerCase() == gainItem.name.toLowerCase())[0];
-                    if (newItem.can_Stack()) {
-                        characterService.grant_InventoryItem(targetCreature as Character|AnimalCompanion, targetCreature.inventories[0], newItem, false, false, false, gainItem.amount);
-                    } else {
-                        let grantedItem = characterService.grant_InventoryItem(targetCreature as Character|AnimalCompanion, targetCreature.inventories[0], newItem, false, false, true);
-                        gainItem.id = grantedItem.id;
-                        grantedItem.expiration = customDuration || gainItem.expiration;
-                        if (grantedItem.get_Name) {
-                            grantedItem.grantedBy = "(Granted by " + spell.name + ")";
-                        };
-                    }
-                });
-            } else {
-                gain.gainItems.forEach(gainItem => {
-                    if (itemsService.get_Items()[gainItem.type].filter((item: Item) => item.name == gainItem.name)[0].can_Stack()) {
-                        let items: Item[] = targetCreature.inventories[0][gainItem.type].filter((item: Item) => item.name.toLowerCase() == gainItem.name.toLowerCase());
-                        if (items.length) {
-                            characterService.drop_InventoryItem(targetCreature as Character|AnimalCompanion, targetCreature.inventories[0], items[0], false, false, true, gainItem.amount);
-                        }
-                    } else {
-                        let items: Item[] = targetCreature.inventories[0][gainItem.type].filter((item: Item) => item.id == gainItem.id);
-                        if (items.length) {
-                            characterService.drop_InventoryItem(targetCreature as Character|AnimalCompanion, targetCreature.inventories[0], items[0], false, false, true);
-                        }
-                        gainItem.id = "";
-                    }
-                });
-                gain.gainItems = [];
-            }
-        }
-
         //Apply conditions.
         //Remove conditions only if the spell was deactivated manually, i.e. if you want the condition to end.
         //If the spell ends by the time running out, the condition will also have a timer and run out by itself.
@@ -151,7 +114,7 @@ export class SpellsService {
                     // The order of gain.choices maps directly onto the order of the spell conditions that have choices.
                     if (gain.choices.length >= choicesIndex - 1) {
                         let condition = conditionsService.get_Conditions(conditionGain.name)[0]
-                        if (condition?.get_Choices(characterService, true).length && condition.$choices.includes(gain.choices[choicesIndex])) {
+                        if (condition?.get_Choices(characterService, true, spellLevel).length && condition.$choices.includes(gain.choices[choicesIndex])) {
                             newConditionGain.choice = gain.choices[choicesIndex];
                             choicesIndex++;
                         }

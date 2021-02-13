@@ -15870,7 +15870,7 @@
         ],
         "levelreq": 8,
         "featreq": [
-            "Attack of Opportunity or Attack of Opportunity (Fighter)"
+            "Attack of Opportunity"
         ],
         "gainActivities": [
             "Impassable Wall Stance"
@@ -16189,7 +16189,7 @@
         ],
         "levelreq": 12,
         "featreq": [
-            "Attack of Opportunity (Fighter)",
+            "Attack of Opportunity",
             "Lunge"
         ],
         "gainActivities": [
@@ -17044,6 +17044,7 @@
             }
         ],
         "shortdesc": "You gain the service of a young animal companion that travels with you.",
+        "countAsFeat": "Animal Companion",
         "traits": [
             "Ranger"
         ],
@@ -17559,12 +17560,13 @@
             }
         ],
         "shortdesc": "Your animal companion grows up, gaining additional capabilities.",
+        "countAsFeat": "Mature Animal Companion",
         "traits": [
             "Ranger"
         ],
         "levelreq": 6,
         "featreq": [
-            "Animal Companion (Ranger) or Animal Companion (Druid)"
+            "Animal Companion"
         ],
         "gainAnimalCompanion": 2
     },
@@ -17768,12 +17770,13 @@
         "desc": "Your animal companion continues to grow and develop. It becomes a nimble or savage animal companion (your choice), gaining additional capabilities determined by the type of companion (page 214).\n\nTo advance a mature animal companion to a nimble animal companion, increase its Dexterity modifier by 2 and its Strength, Constitution, and Wisdom modifiers by 1. It deals 2 additional damage with its unarmed attacks. Increase its proficiency ranks in Acrobatics and unarmored defense to expert. It also learns the advanced maneuver for its type. Its attacks become magical for the purpose of ignoring resistances.\n\nTo advance a mature animal companion to a savage animal companion, increase its Strength modifier by 2 and its Dexterity, Constitution, and Wisdom modifiers by 1. It deals 3 additional damage with its unarmed attacks. Increase its proficiency rank in Athletics to expert. It also learns the advanced maneuver for its type. If your companion is Medium or smaller, it grows by one size. Its attacks become magical for the purpose of ignoring resistances.",
         "subTypes": true,
         "shortdesc": "Your animal companion continues to grow and develop.",
+        "countAsFeat": "Incredible Companion",
         "traits": [
             "Ranger"
         ],
         "levelreq": 10,
         "featreq": [
-            "Mature Animal Companion (Ranger) or Mature Animal Companion (Druid)"
+            "Mature Animal Companion"
         ]
     },
     {
@@ -17782,12 +17785,13 @@
         "subType": "Nimble",
         "superType": "Incredible Companion (Ranger)",
         "shortdesc": "Your animal companion continues to grow and develop.",
+        "countAsFeat": "Incredible Companion",
         "traits": [
             "Ranger"
         ],
         "levelreq": 10,
         "featreq": [
-            "Mature Animal Companion (Ranger) or Mature Animal Companion (Druid)"
+            "Mature Animal Companion"
         ],
         "specialreq": "!character.get_FeatsTaken(1, 20).filter(feat => feat.name != this.name && characterService.get_FeatsAndFeatures(feat.name).length && characterService.get_FeatsAndFeatures(feat.name)[0]?.gainAnimalCompanion == 5).length",
         "specialreqdesc": "no savage animal companion",
@@ -17799,12 +17803,13 @@
         "subType": "Savage",
         "superType": "Incredible Companion (Ranger)",
         "shortdesc": "Your animal companion continues to grow and develop.",
+        "countAsFeat": "Incredible Companion",
         "traits": [
             "Ranger"
         ],
         "levelreq": 10,
         "featreq": [
-            "Mature Animal Companion (Ranger) or Mature Animal Companion (Druid)"
+            "Mature Animal Companion"
         ],
         "specialreq": "!character.get_FeatsTaken(1, 20).filter(feat => feat.name != this.name && characterService.get_FeatsAndFeatures(feat.name).length && characterService.get_FeatsAndFeatures(feat.name)[0]?.gainAnimalCompanion == 4).length",
         "specialreqdesc": "no nimble animal companion",
@@ -18095,12 +18100,13 @@
         "name": "Specialized Companion (Ranger)",
         "desc": "Your animal companion has become cunning enough to become specialized. Your animal companion gains one specialization of your choice. (See the Animal Companion section on page 214.)\n\nSpecialized animal companions are more intelligent and engage in more complex behaviors. The first time an animal gains a specialization, it gains the following: Its proficiency rank for unarmed attacks increases to expert. Its proficiency ranks for saving throws and Perception increase to master. Increase its Dexterity modifier by 1 and its Intelligence modifier by 2. Its unarmed attack damage increases from two dice to three dice, and it increases its additional damage with unarmed attacks from 2 to 4 or from 3 to 6.",
         "shortdesc": "Your animal companion has become cunning enough to become specialized.",
+        "countAsFeat": "Specialized Companion",
         "traits": [
             "Ranger"
         ],
         "levelreq": 16,
         "featreq": [
-            "Incredible Companion (Ranger) or Incredible Companion (Druid)"
+            "Incredible Companion"
         ],
         "gainAnimalCompanion": 6
     },
@@ -18183,7 +18189,7 @@
         "levelreq": 18,
         "featreq": [
             "Masterful Hunter",
-            "Animal Companion (Ranger) or Animal Companion (Druid)"
+            "Animal Companion"
         ]
     },
     {
@@ -20240,6 +20246,7 @@
         "desc": "When a foe Casts a Spell and you can see its manifestations, you can use your own magic to disrupt it.",
         "internalNote": "Using a spell to counterspell is hardcoded.",
         "shortdesc": "When a foe Casts a Spell and you can see its manifestations, you can use your own magic to disrupt it.",
+        "countAsFeat": "Counterspell",
         "traits": [
             "Abjuration",
             "Arcane",
@@ -20992,7 +20999,7 @@
         ],
         "levelreq": 12,
         "featreq": [
-            "Counterspell (Prepared) or Counterspell (Spontaneous)",
+            "Counterspell",
             "Quick Recognition"
         ]
     },
@@ -21078,7 +21085,7 @@
         ],
         "levelreq": 14,
         "featreq": [
-            "Counterspell (Prepared) or Counterspell (Spontaneous)"
+            "Counterspell"
         ]
     },
     {
@@ -23753,7 +23760,7 @@
         ],
         "levelreq": 1,
         "featreq": [
-            "Enigma Muse or Multifarious Muse: Enigma Muse"
+            "Enigma Muse"
         ],
         "effects": [
             {
@@ -23779,7 +23786,7 @@
         ],
         "levelreq": 1,
         "featreq": [
-            "Maestro Muse or Multifarious Muse: Maestro Muse"
+            "Maestro Muse"
         ],
         "specialreq": "character.class.spellCasting.filter(casting => casting.castingType == 'Focus' && casting.spellChoices.length).length",
         "specialreqdesc": "focus pool",
@@ -23828,7 +23835,7 @@
         ],
         "levelreq": 1,
         "featreq": [
-            "Polymath Muse or Multifarious Muse: Polymath Muse"
+            "Polymath Muse"
         ]
     },
     {
@@ -23861,7 +23868,7 @@
         ],
         "levelreq": 2,
         "featreq": [
-            "Polymath Muse or Multifarious Muse: Polymath Muse"
+            "Polymath Muse"
         ],
         "gainSpellChoice": [
             {
@@ -23886,7 +23893,7 @@
         ],
         "levelreq": 2,
         "featreq": [
-            "Maestro Muse or Multifarious Muse: Maestro Muse"
+            "Maestro Muse"
         ],
         "gainSpellChoice": [
             {
@@ -23915,7 +23922,7 @@
         ],
         "levelreq": 2,
         "featreq": [
-            "Enigma Muse or Multifarious Muse: Enigma Muse"
+            "Enigma Muse"
         ],
         "specialreq": "character.class.spellCasting.filter(casting => casting.castingType == 'Focus' && casting.spellChoices.length).length",
         "specialreqdesc": "focus pool",
@@ -23966,6 +23973,7 @@
         "subType": "Enigma Muse",
         "superType": "Multifarious Muse",
         "shortdesc": "Your muse doesn't fall into a single label.",
+        "countAsFeat": "Enigma Muse",
         "traits": [
             "Bard"
         ],
@@ -23977,13 +23985,11 @@
                 "_className": "FeatChoice",
                 "available": 1,
                 "filter": [
-                    "Bardic Lore",
-                    "Lingering Composition",
-                    "Versatile Performance"
+                    "Bardic Lore"
                 ],
                 "source": "Feat: Multifarious Muse: Enigma Muse",
                 "specialChoice": true,
-                "type": "Class"
+                "type": "Bard"
             }
         ]
     },
@@ -23993,6 +23999,7 @@
         "subType": "Maestro Muse",
         "superType": "Multifarious Muse",
         "shortdesc": "Your muse doesn't fall into a single label.",
+        "countAsFeat": "Maestro Muse",
         "traits": [
             "Bard"
         ],
@@ -24004,13 +24011,11 @@
                 "_className": "FeatChoice",
                 "available": 1,
                 "filter": [
-                    "Bardic Lore",
-                    "Lingering Composition",
-                    "Versatile Performance"
+                    "Lingering Composition"
                 ],
                 "source": "Feat: Multifarious Muse: Maestro Muse",
                 "specialChoice": true,
-                "type": "Class"
+                "type": "Bard"
             }
         ]
     },
@@ -24020,6 +24025,7 @@
         "subType": "Polymath Muse",
         "superType": "Multifarious Muse",
         "shortdesc": "Your muse doesn't fall into a single label.",
+        "countAsFeat": "Polymath Muse",
         "traits": [
             "Bard"
         ],
@@ -24031,13 +24037,11 @@
                 "_className": "FeatChoice",
                 "available": 1,
                 "filter": [
-                    "Bardic Lore",
-                    "Lingering Composition",
                     "Versatile Performance"
                 ],
                 "source": "Feat: Multifarious Muse: Polymath Muse",
                 "specialChoice": true,
-                "type": "Class"
+                "type": "Bard"
             }
         ]
     },
@@ -24050,7 +24054,7 @@
         ],
         "levelreq": 4,
         "featreq": [
-            "Maestro Muse or Multifarious Muse: Maestro Muse"
+            "Maestro Muse"
         ],
         "gainSpellChoice": [
             {
@@ -24126,7 +24130,7 @@
         ],
         "levelreq": 4,
         "featreq": [
-            "Polymath Muse or Multifarious Muse: Polymath Muse"
+            "Polymath Muse"
         ]
     },
     {
@@ -24166,7 +24170,7 @@
         ],
         "levelreq": 6,
         "featreq": [
-            "Maestro Muse or Multifarious Muse: Maestro Muse"
+            "Maestro Muse"
         ],
         "gainActivities": [
             "Harmonize"
@@ -24187,7 +24191,7 @@
         ],
         "levelreq": 8,
         "featreq": [
-            "Polymath Muse or Multifarious Muse: Polymath Muse"
+            "Polymath Muse"
         ],
         "skillreq": [
             {
@@ -24212,7 +24216,7 @@
         ],
         "levelreq": 8,
         "featreq": [
-            "Maestro Muse or Multifarious Muse: Maestro Muse"
+            "Maestro Muse"
         ],
         "specialreq": "character.class.spellCasting.filter(casting => casting.castingType == 'Focus' && casting.spellChoices.length).length",
         "specialreqdesc": "focus pool",
@@ -24260,7 +24264,7 @@
         ],
         "levelreq": 8,
         "featreq": [
-            "Enigma Muse or Multifarious Muse: Enigma Muse"
+            "Enigma Muse"
         ]
     },
     {
@@ -24300,7 +24304,7 @@
         ],
         "levelreq": 10,
         "featreq": [
-            "Polymath Muse or Multifarious Muse: Polymath Muse"
+            "Polymath Muse"
         ],
         "gainActivities": [
             "Unusual Composition"
@@ -24447,7 +24451,7 @@
         ],
         "levelreq": 14,
         "featreq": [
-            "Enigma Muse or Multifarious Muse: Enigma Muse"
+            "Enigma Muse"
         ],
         "gainActivities": [
             "True Hypercognition"
@@ -24463,7 +24467,7 @@
         ],
         "levelreq": 16,
         "featreq": [
-            "Enigma Muse or Multifarious Muse: Enigma Muse"
+            "Enigma Muse"
         ],
         "skillreq": [
             {
@@ -24481,7 +24485,7 @@
         ],
         "levelreq": 18,
         "featreq": [
-            "Enigma Muse or Multifarious Muse: Enigma Muse"
+            "Enigma Muse"
         ],
         "skillreq": [
             {
@@ -24616,7 +24620,7 @@
         ],
         "levelreq": 18,
         "featreq": [
-            "Maestro Muse or Multifarious Muse: Maestro Muse"
+            "Maestro Muse"
         ],
         "gainConditions": [
             {
@@ -34211,6 +34215,7 @@
         "name": "Animal Companion (Druid)",
         "desc": "You gain the service of a young animal companion that travels with you on your adventures and obeys any simple commands you give it to the best of its abilities. See Animal Companions on page 214 for more information.",
         "shortdesc": "You gain the service of a young animal companion that travels with you.",
+        "countAsFeat": "Animal Companion",
         "traits": [
             "Druid"
         ],
@@ -34334,12 +34339,13 @@
     {
         "name": "Mature Animal Companion (Druid)",
         "shortdesc": "Your animal companion grows up, becoming a mature animal companion, which grants it additional capabilities.",
+        "countAsFeat": "Mature Animal Companion",
         "traits": [
             "Druid"
         ],
         "levelreq": 4,
         "featreq": [
-            "Animal Companion (Ranger) or Animal Companion (Druid)"
+            "Animal Companion"
         ]
     },
     {
@@ -34431,12 +34437,13 @@
     {
         "name": "Incredible Companion (Druid)",
         "shortdesc": "Your animal companion continues to grow and develop.",
+        "countAsFeat": "Incredible Animal Companion",
         "traits": [
             "Druid"
         ],
         "levelreq": 8,
         "featreq": [
-            "Mature Animal Companion (Ranger) or Mature Animal Companion (Druid)"
+            "Mature Animal Companion"
         ]
     },
     {
@@ -34558,6 +34565,7 @@
     {
         "name": "Specialized Companion (Druid)",
         "shortdesc": "Your animal companion continues to grow in power and ability, and it is now cunning enough to become specialized.",
+        "countAsFeat": "Specialized Companion",
         "traits": [
             "Druid"
         ],
@@ -34657,7 +34665,7 @@
         ],
         "levelreq": 20,
         "featreq": [
-            "Animal Companion (Ranger) or Animal Companion (Druid)"
+            "Animal Companion"
         ]
     },
     {
@@ -34829,13 +34837,13 @@
         "specialreqdesc": "bloodline that grants divine spells, you follow a deity"
     },
     {
-        "name": "Counterspell",
+        "name": "Counterspell (Spontaneous)",
         "shortdesc": "When a foe Casts a Spell and you can see its manifestations, you can use your own magic to disrupt it.",
+        "countAsFeat": "Counterspell",
         "traits": [
             "Sorcerer",
             "Abjuration",
-            "Arcane",
-            "Wizard"
+            "Arcane"
         ],
         "levelreq": 1
     },

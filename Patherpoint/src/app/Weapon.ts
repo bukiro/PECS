@@ -427,7 +427,8 @@ export class Weapon extends Equipment {
         if (!this.dicenum && !this.dicesize && !this.extraDamage) {
             return ["0", "", [], [], []];
         }
-        let explain: string = "";
+        let diceExplain: string = "Base dice: " + this.dicenum + "d" +this.dicesize;
+        let bonusExplain: string = "";
         let str = characterService.get_Abilities("Strength")[0].mod(creature, characterService, effectsService).result;
         let dex = characterService.get_Abilities("Dexterity")[0].mod(creature, characterService, effectsService).result;
         let penalties: { value: number, setValue: string, source: string, penalty: boolean }[] = [];
@@ -438,29 +439,32 @@ export class Weapon extends Equipment {
         //We set runeSource to the respective item and use it whenever runes are concerned.
         let runeSource: (Weapon | WornItem)[] = this.get_RuneSource(creature, range);
         //Add the striking rune or oil of potency effect of the runeSource.
-        let dicenum = Math.max(this.dicenum, 1 + runeSource[0].get_StrikingRune());
+        let dicenum = this.dicenum;
+        if (dicenum) {
+            dicenum = Math.max(dicenum, 1 + runeSource[0].get_StrikingRune());
+        }
         //Determine the dice number - Striking and animal specialization first, then effects.
         //Only explain Striking if it's actually better than your base dice.
         if (runeSource[0].get_StrikingRune() + 1 > this.dicenum) {
-            explain += "\n" + runeSource[0].get_Striking(runeSource[0].get_StrikingRune()) + (runeSource[2] ? "(" + runeSource[2].get_Name() + ")" : "") + ": Dice number " + (runeSource[0].get_StrikingRune() + 1);
+            diceExplain += "\n" + runeSource[0].get_Striking(runeSource[0].get_StrikingRune()) + (runeSource[2] ? "(" + runeSource[2].get_Name() + ")" : "") + ": Dice number " + (runeSource[0].get_StrikingRune() + 1);
         }
         if (this.prof == "Unarmed Attacks") {
             let character = characterService.get_Character();
             if (character.get_FeatsTaken(0, character.level, "Diamond Fists").length && this.traits.includes("Forceful")) {
                 dicenum += 1;
-                explain += "\nDiamond Fists: Dice number +1";
+                diceExplain += "\nDiamond Fists: Dice number +1";
             }
         }
         if (creature.type == "Companion") {
             creature.class.levels.filter(level => level.number <= creature.level).forEach(level => {
                 if (level.extraDice) {
                     dicenum += level.extraDice;
-                    explain += "\n" + level.name + ": Dice number +" + level.extraDice;
+                    diceExplain += "\n" + level.name + ": Dice number +" + level.extraDice;
                 }
             })
             if (creature.class.specializations.length) {
                 dicenum += 1;
-                explain += "\nSpecialized: Dice number +1";
+                diceExplain += "\nSpecialized: Dice number +1";
             }
         }
         effectsService.get_AbsolutesOnThese(creature, [
@@ -485,8 +489,52 @@ export class Weapon extends Equipment {
                 absolutes.push({ value: parseInt(effect.value), setValue: "", source: effect.source, penalty: false });
             }
             dicenum = parseInt(effect.setValue);
-            explain += "\n" + effect.source + ": Dice number " + dicenum;
+            diceExplain += "\n" + effect.source + ": Dice number " + dicenum;
         })
+        let dicenumMultiplier = 1;
+        effectsService.get_AbsolutesOnThese(creature, [
+            "Dice Number Multiplier",
+            this.name + " Dice Number Multiplier",
+            //"Longsword Dice Number Multiplier", "Fist Dice Number Multiplier" etc.
+            this.weaponBase + " Dice Number Multiplier",
+            //"Sword Dice Number Multiplier", "Club Dice Number Multiplier"
+            this.group + " Dice Number Multiplier",
+            //"Unarmed Attacks Dice Number Multiplier", "Simple Weapons Dice Number Multiplier" etc.
+            prof + " Dice Number Multiplier",
+            //"Unarmed Dice Number Multiplier", "Simple Dice Number Multiplier" etc.
+            prof.split(" ")[0] + " Dice Number Multiplier",
+            //"Weapons Dice Number Multiplier", also "Attacks Dice Number Multiplier", but that's unlikely to be needed
+            prof.split(" ")[1] + " Dice Number Multiplier",
+            //"Simple Sword Dice Number Multiplier", "Martial Club Dice Number Multiplier" etc.
+            prof.split(" ")[0] + this.group + " Dice Number Multiplier",
+            //"Simple Longsword Dice Number Multiplier", "Unarmed Fist Dice Number Multiplier" etc.
+            prof.split(" ")[0] + this.weaponBase + " Dice Number Multiplier"
+        ]).forEach(effect => {
+            dicenumMultiplier = parseInt(effect.setValue);
+            diceExplain += "\n" + effect.source + ": Dice number multiplier " + dicenumMultiplier;
+        })
+        effectsService.get_RelativesOnThese(creature, [
+            "Dice Number Multiplier",
+            this.name + " Dice Number Multiplier",
+            //"Longsword Dice Number Multiplier", "Fist Dice Number Multiplier" etc.
+            this.weaponBase + " Dice Number Multiplier",
+            //"Sword Dice Number Multiplier", "Club Dice Number Multiplier"
+            this.group + " Dice Number Multiplier",
+            //"Unarmed Attacks Dice Number Multiplier", "Simple Weapons Dice Number Multiplier" etc.
+            prof + " Dice Number Multiplier",
+            //"Unarmed Dice Number Multiplier", "Simple Dice Number Multiplier" etc.
+            prof.split(" ")[0] + " Dice Number Multiplier",
+            //"Weapons Dice Number Multiplier", also "Attacks Dice Number Multiplier", but that's unlikely to be needed
+            prof.split(" ")[1] + " Dice Number Multiplier",
+            //"Simple Sword Dice Number Multiplier", "Martial Club Dice Number Multiplier" etc.
+            prof.split(" ")[0] + this.group + " Dice Number Multiplier",
+            //"Simple Longsword Dice Number Multiplier", "Unarmed Fist Dice Number Multiplier" etc.
+            prof.split(" ")[0] + this.weaponBase + " Dice Number Multiplier"
+        ]).forEach(effect => {
+            dicenumMultiplier += parseInt(effect.value);
+            diceExplain += "\n" + effect.source + ": Dice number multiplier " + (parseInt(effect.value) >= 0 ? "+" : "") + parseInt(effect.value);
+        })
+        dicenum *= dicenumMultiplier;
         effectsService.get_RelativesOnThese(creature, [
             "Dice Number",
             this.name + " Dice Number",
@@ -511,7 +559,7 @@ export class Weapon extends Equipment {
                 bonuses.push({ value: parseInt(effect.value), setValue: "", source: effect.source, penalty: false });
             }
             dicenum += parseInt(effect.value);
-            explain += "\n" + effect.source + ": Dice number +" + parseInt(effect.value);
+            diceExplain += "\n" + effect.source + ": Dice number " + (parseInt(effect.value) >= 0 ? "+" : "") + parseInt(effect.value);
         })
         //Determine the dice size.
         let dicesize = this.dicesize;
@@ -524,7 +572,7 @@ export class Weapon extends Equipment {
             }
             if (favoredWeapons.includes(this.name) || favoredWeapons.includes(this.weaponBase)) {
                 dicesize = Math.max(Math.min(dicesize + 2, 12), 6);
-                explain += "\nDeific Weapon: Dice size d" + dicesize;
+                diceExplain += "\nDeific Weapon: Dice size d" + dicesize;
             }
         }
         //Weapons with the Two-Hand trait get to change their dice size if they are wielded with two hands.
@@ -534,7 +582,7 @@ export class Weapon extends Equipment {
                 if (twoHandedDiceSize) {
                     if (twoHandedDiceSize > dicesize) {
                         dicesize = twoHandedDiceSize;
-                        explain += "\nTwo-Hand: Dice size d" + dicesize;
+                        diceExplain += "\nTwo-Hand: Dice size d" + dicesize;
                     }
                 }
             })
@@ -562,7 +610,7 @@ export class Weapon extends Equipment {
                 absolutes.push({ value: parseInt(effect.value), setValue: "", source: effect.source, penalty: false });
             }
             dicesize = parseInt(effect.setValue);
-            explain += "\n" + effect.source + ": Dice size d" + dicesize;
+            diceExplain += "\n" + effect.source + ": Dice size d" + dicesize;
         })
         effectsService.get_RelativesOnThese(creature, [
             "Dice Size",
@@ -590,7 +638,7 @@ export class Weapon extends Equipment {
             dicesize += parseInt(effect.value);
             //Don't raise dice size over 12.
             dicesize = Math.min(12, dicesize);
-            explain += "\n" + effect.source + ": Dice size d" + dicesize;
+            diceExplain += "\n" + effect.source + ": Dice size d" + dicesize;
         })
         //Get the basic "#d#" string from the weapon's dice values, unless dicenum is 0 or null (for instance some weapons deal exactly 1 base damage, which is represented by 0d1)
         var baseDice = (dicenum ? dicenum + "d" : "") + dicesize;
@@ -619,16 +667,16 @@ export class Weapon extends Equipment {
             if (characterService.have_Trait(this, "Propulsive")) {
                 if (str > 0) {
                     abilityMod = Math.floor(str / 2);
-                    explain += "\nStrength Modifier (Propulsive): " + abilityMod;
+                    bonusExplain += "\nStrength Modifier (Propulsive): Bonus damage " + (abilityMod >= 0 ? "+" : "") + abilityMod;
                     strUsed = true;
                 } else if (str < 0) {
                     abilityMod = str;
-                    explain += "\nStrength Modifier (Propulsive): " + abilityMod;
+                    bonusExplain += "\nStrength Modifier (Propulsive): Bonus damage " + (abilityMod >= 0 ? "+" : "") + abilityMod;
                     strUsed = true;
                 }
             } else if (characterService.have_Trait(this, "Thrown")) {
                 abilityMod = str;
-                explain += "\nStrength Modifier (Thrown): " + abilityMod;
+                bonusExplain += "\nStrength Modifier (Thrown): Bonus damage " + (abilityMod >= 0 ? "+" : "") + abilityMod;
                 strUsed = true;
             }
         } else {
@@ -638,15 +686,15 @@ export class Weapon extends Equipment {
                 creature.type == "Character" &&
                 (creature as Character).get_FeatsTaken(1, creature.level, "Thief Racket").length) {
                 abilityMod = dex;
-                explain += "\nDexterity Modifier (Thief): " + abilityMod;
+                bonusExplain += "\nDexterity Modifier (Thief): Bonus damage " + (abilityMod >= 0 ? "+" : "") + abilityMod;
                 dexUsed = true;
             } else if (this.dexterityBased) {
                 abilityMod = dex;
-                explain += "\nDexterity Modifier (Dexterity-based): " + abilityMod;
+                bonusExplain += "\nDexterity Modifier (Dexterity-based): Bonus damage " + (abilityMod >= 0 ? "+" : "") + abilityMod;
                 dexUsed = true;
             } else {
                 abilityMod = str;
-                explain += "\nStrength Modifier: " + abilityMod;
+                bonusExplain += "\nStrength Modifier: Bonus damage " + (abilityMod >= 0 ? "+" : "") + abilityMod;
                 strUsed = true;
             }
         }
@@ -655,10 +703,10 @@ export class Weapon extends Equipment {
             creature.class.levels.filter(level => level.number <= creature.level).forEach(level => {
                 if (level.extraDamage) {
                     featBonus += level.extraDamage;
-                    explain += "\n" + level.name + ": " + level.extraDamage;
+                    bonusExplain += "\n" + level.name + ": Bonus Damage +" + level.extraDamage;
                     if (creature.class.specializations.length) {
                         featBonus += level.extraDamage;
-                        explain += "\nSpecialized: " + level.extraDamage;
+                        bonusExplain += "\nSpecialized: Bonus Damage +" + level.extraDamage;
                     }
                 }
             })
@@ -710,7 +758,7 @@ export class Weapon extends Equipment {
                     absolutes.push({ value: 0, setValue: effect.setValue, source: effect.source, penalty: false })
                 }
                 dmgBonus = parseInt(effect.setValue);
-                explain = effect.source + ": " + parseInt(effect.setValue);
+                bonusExplain = "\n" + effect.source + ": Bonus damage " + parseInt(effect.setValue);
             })
         let effectBonus = 0;
         let abilityName: string = "";
@@ -754,10 +802,10 @@ export class Weapon extends Equipment {
                 }
                 if (effect.target.includes("Damage per Die")) {
                     effectBonus += parseInt(effect.value) * dicenum;
-                    explain += "\n" + effect.source + ": " + (parseInt(effect.value) * dicenum);
+                    bonusExplain += "\n" + effect.source + ": Bonus damage " + ((parseInt(effect.value) * dicenum) >= 0 ? "+" : "") + (parseInt(effect.value) * dicenum);
                 } else {
                     effectBonus += parseInt(effect.value);
-                    explain += "\n" + effect.source + ": " + parseInt(effect.value);
+                    bonusExplain += "\n" + effect.source + ": Bonus damage " + (parseInt(effect.value) >= 0 ? "+" : "") + parseInt(effect.value);
                 }
             })
         dmgBonus += effectBonus;
@@ -765,7 +813,7 @@ export class Weapon extends Equipment {
         let dmgBonusTotal: string = (dmgBonus) ? ((dmgBonus >= 0) && "+") + dmgBonus : "";
         //Concatenate the strings for a readable damage output
         var dmgResult = baseDice + dmgBonusTotal + " " + this.dmgType + this.get_ExtraDamage(creature, characterService, range);
-        explain = explain.trim();
+        let explain = (diceExplain.trim() + "\n" + bonusExplain.trim()).trim();
         return [dmgResult, explain, bonuses, penalties, absolutes];
     }
     get_CritSpecialization(creature: Creature, characterService: CharacterService, range: string) {

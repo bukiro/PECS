@@ -44,7 +44,7 @@ export class Health {
                 let constitution = characterService.get_Abilities("Constitution")[0].baseValue(classCreature, characterService, charLevel).result;
                 let CON: number = Math.floor((constitution - 10) / 2);
                 classHP = (classCreature.class.hitPoints + CON) * charLevel;
-                explain += "\n(Class base HP (" + classCreature.class.hitPoints + ") + CON (" + CON + ")) * Level (" + charLevel + "): " + classHP;
+                explain += "\nClass: " + classCreature.class.hitPoints + " + CON: " + (classCreature.class.hitPoints + CON) + " per Level: " + classHP; 
             }
         }
         let effectsSum = 0

@@ -357,9 +357,9 @@ export class EffectsService {
         }
         function Has_Feat(creature: string, name: string) {
             if (creature == "Familiar") {
-                return characterService.familiarsService.get_FamiliarAbilities(name).find(feat => feat.have(Familiar, characterService, Level, false));
+                return characterService.familiarsService.get_FamiliarAbilities(name).some(feat => feat.have(Familiar, characterService, Level, false));
             } else if (creature == "Character") {
-                return characterService.featsService.get_All(Character.customFeats, name, "", true).find(feat => feat.have(Character, characterService, Level, false));
+                return characterService.featsService.get_All(Character.customFeats, name, "", true, true).some(feat => feat.have(Character, characterService, Level, false));
             } else {
                 return 0;
             }

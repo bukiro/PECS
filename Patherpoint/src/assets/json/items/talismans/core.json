@@ -733,7 +733,8 @@
         "gainConditions": [
             {
                 "duration": 15,
-                "name": "Invisibility (2nd Level)",
+                "heightened": 2,
+                "name": "Invisibility",
                 "source": "Vanishing Coin"
             }
         ]
@@ -843,7 +844,8 @@
         "gainConditions": [
             {
                 "duration": 1000,
-                "name": "Invisibility (2nd Level)",
+                "heightened": 2,
+                "name": "Invisibility",
                 "source": "Fade Band"
             }
         ]
@@ -1063,7 +1065,8 @@
         "gainConditions": [
             {
                 "duration": 100,
-                "name": "Invisibility (4th Level)",
+                "heightened": 4,
+                "name": "Invisibility",
                 "source": "Ghost Dust"
             }
         ]

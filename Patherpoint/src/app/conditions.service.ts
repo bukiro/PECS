@@ -210,6 +210,9 @@ export class ConditionsService {
         if (taken) {
             condition.gainConditions.filter(extraCondition => !extraCondition.conditionChoiceFilter || extraCondition.conditionChoiceFilter == gain.choice).forEach(extraCondition => {
                 let addCondition = Object.assign(new ConditionGain, JSON.parse(JSON.stringify(extraCondition)));
+                if (!addCondition.heightened) {
+                    addCondition.heightened = gain.heightened;
+                }
                 addCondition.source = gain.name;
                 addCondition.apply = true;
                 characterService.add_Condition(creature, addCondition, false, gain);
@@ -245,15 +248,12 @@ export class ConditionsService {
             if (condition.gainItems.length) {
                 characterService.set_ToChange(creature.type, "attacks");
                 if (taken) {
-                    gain.gainItems = condition.gainItems.map(itemGain => Object.assign(new ItemGain(), itemGain));
+                    gain.gainItems = condition.get_HeightenedItems(gain.heightened).map(itemGain => Object.assign(new ItemGain(), itemGain));
                     gain.gainItems
                         .filter(gainItem =>
                             (
                                 !gainItem.conditionChoiceFilter ||
                                 gainItem.conditionChoiceFilter == gain.choice
-                            ) && (
-                                !gainItem.heightenedFilter ||
-                                gainItem.heightenedFilter == gain.heightened
                             )
                         ).forEach(gainItem => {
                             this.add_ConditionItem((creature as AnimalCompanion | Character), characterService, itemsService, gainItem, condition);
@@ -264,9 +264,6 @@ export class ConditionsService {
                             (
                                 !gainItem.conditionChoiceFilter ||
                                 gainItem.conditionChoiceFilter == gain.choice
-                            ) && (
-                                !gainItem.heightenedFilter ||
-                                gainItem.heightenedFilter == gain.heightened
                             )
                         ).forEach(gainItem => {
                             this.remove_ConditionItem((creature as AnimalCompanion | Character), characterService, itemsService, gainItem);

@@ -53,7 +53,7 @@ export class FeatsService {
         } else { return [new Feat()]; }
     }
 
-    get_All(loreFeats: Feat[], name: string = "", type: string = "", includeSubTypes: boolean = false) {
+    get_All(loreFeats: Feat[], name: string = "", type: string = "", includeSubTypes: boolean = false, includeCountAs: boolean = false) {
         if (!this.still_loading()) {
             let feats: Feat[] = this.feats.concat(loreFeats).concat(this.features);
             return feats.filter(feat =>
@@ -65,6 +65,10 @@ export class FeatsService {
                     (
                         includeSubTypes &&
                         feat.superType.toLowerCase() == alternative.toLowerCase()
+                    ) ||
+                    (
+                        includeCountAs &&
+                        feat.countAsFeat.toLowerCase() == alternative.toLowerCase()
                     ) ||
                     alternative == ""
                 )
@@ -800,12 +804,12 @@ export class FeatsService {
                 characterService.set_ToChange(creature.type, "defense");
                 characterService.set_ToChange(creature.type, "attacks");
                 feat.changeProficiency.forEach(change => {
-                    if (change.name) {characterService.set_ToChange(creature.type, "individualskills", change.name);}
-                    if (change.group) {characterService.set_ToChange(creature.type, "individualskills", change.group);}
-                    if (change.trait) {characterService.set_ToChange(creature.type, "individualskills", change.name);}
+                    if (change.name) { characterService.set_ToChange(creature.type, "individualskills", change.name); }
+                    if (change.group) { characterService.set_ToChange(creature.type, "individualskills", change.group); }
+                    if (change.trait) { characterService.set_ToChange(creature.type, "individualskills", change.name); }
                 })
                 feat.copyProficiency.forEach(change => {
-                    if (change.name) {characterService.set_ToChange(creature.type, "individualskills", change.name);}
+                    if (change.name) { characterService.set_ToChange(creature.type, "individualskills", change.name); }
                 })
             }
 
@@ -875,21 +879,21 @@ export class FeatsService {
             feat.gainSpellChoice = feat.gainSpellChoice.map(choice => Object.assign(new SpellChoice, choice));
             feat.gainSpellCasting = feat.gainSpellCasting.map(choice => Object.assign(new SpellCasting(choice.castingType), choice));
         })
-        
+
         let duplicates: string[] = Array.from(new Set(
             this[target]
-                .filter((feat: Feat) => 
+                .filter((feat: Feat) =>
                     this[target].filter((otherFeat: Feat) =>
                         otherFeat.name == feat.name
                     ).length > 1
                 ).map((feat: Feat) => feat.name)
-            ));
+        ));
         duplicates.forEach((featName) => {
             let highestPriority = Math.max(
                 ...this[target]
                     .filter((feat: Feat) => feat.name == featName)
                     .map((feat: Feat) => feat.overridePriority)
-                );
+            );
             let highestFeat = this[target].find((feat: Feat) => feat.name == featName && feat.overridePriority == highestPriority);
             this[target] = this[target].filter((feat: Feat) => !(feat.name == featName && feat !== highestFeat));
         })

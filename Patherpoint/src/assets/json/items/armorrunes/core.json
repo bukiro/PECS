@@ -373,49 +373,10 @@
                     }
                 ],
                 "cooldown": 144000,
+                "charges": 3,
                 "desc": "Whispering the command word, you become invisible for 1 minute, gaining the effects of a 2nd-level invisibility spell.",
                 "frequency": "once per day",
                 "name": "Greater Invisibility Rune: 1st activation",
-                "source": "db43c69d-8c8e-4ca9-80b5-3112f7182751",
-                "traits": [
-                    "Illusion",
-                    "Magical"
-                ]
-            },
-            {
-                "_className": "ItemActivity",
-                "activationType": "Command",
-                "castSpells": [
-                    {
-                        "_className": "SpellCast",
-                        "level": 2,
-                        "name": "Invisibility"
-                    }
-                ],
-                "cooldown": 144000,
-                "desc": "Whispering the command word, you become invisible for 1 minute, gaining the effects of a 2nd-level invisibility spell.",
-                "frequency": "once per day",
-                "name": "Greater Invisibility Rune: 2nd activation",
-                "source": "db43c69d-8c8e-4ca9-80b5-3112f7182751",
-                "traits": [
-                    "Illusion",
-                    "Magical"
-                ]
-            },
-            {
-                "_className": "ItemActivity",
-                "activationType": "Command",
-                "castSpells": [
-                    {
-                        "_className": "SpellCast",
-                        "level": 2,
-                        "name": "Invisibility"
-                    }
-                ],
-                "cooldown": 144000,
-                "desc": "Whispering the command word, you become invisible for 1 minute, gaining the effects of a 2nd-level invisibility spell.",
-                "frequency": "once per day",
-                "name": "Greater Invisibility Rune: 3rd activation",
                 "source": "db43c69d-8c8e-4ca9-80b5-3112f7182751",
                 "traits": [
                     "Illusion",

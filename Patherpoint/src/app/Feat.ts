@@ -38,6 +38,8 @@ export class Feat {
     public changeProficiency: ProficiencyChange[] = [];
     public copyProficiency: ProficiencyCopy[] = [];
     public bloodMagic: BloodMagic[] = [];
+    //Having this feat counts as fulfilling the prerequisite of having the feat named in countAsFeat. This is useful for class feats that allow you to take another of the class type choices.
+    public countAsFeat: string = "";
     public data: {} = {};
     public desc: string = "";
     public effects: any[] = [];
@@ -195,7 +197,7 @@ export class Feat {
                     requiredFeat = characterService.familiarsService.get_FamiliarAbilities(testfeat);
                 } else {
                     testcreature = characterService.get_Character();
-                    requiredFeat = characterService.get_FeatsAndFeatures(testfeat, "", true);
+                    requiredFeat = characterService.get_FeatsAndFeatures(testfeat, "", true, true);
                 }
                 if (requiredFeat.length) {
                     if (requiredFeat.find(feat => feat.have(testcreature, characterService, charLevel))) {

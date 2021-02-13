@@ -48,11 +48,11 @@ export class ActivityComponent implements OnInit {
     get_Accent() {
         return this.characterService.get_Accent();
     }
-    
+
     trackByIndex(index: number, obj: any): any {
         return index;
     }
-    
+
     get_Creature(creature: string = this.creature) {
         return this.characterService.get_Creature(creature) as Creature;
     }
@@ -60,7 +60,7 @@ export class ActivityComponent implements OnInit {
     get_CompanionAvailable() {
         return this.characterService.get_CompanionAvailable();
     }
-    
+
     get_FamiliarAvailable() {
         return this.characterService.get_FamiliarAvailable();
     }
@@ -109,15 +109,15 @@ export class ActivityComponent implements OnInit {
     get_FeatsShowingOn(activityName: string) {
         if (activityName) {
             return this.characterService.get_FeatsShowingOn(activityName)
-            .sort((a,b) => {
-                if (a.name > b.name) {
-                    return 1;
-                }
-                if (a.name < b.name) {
-                    return -1;
-                }
-                return 0;
-            });;
+                .sort((a, b) => {
+                    if (a.name > b.name) {
+                        return 1;
+                    }
+                    if (a.name < b.name) {
+                        return -1;
+                    }
+                    return 0;
+                });;
         } else {
             return []
         }
@@ -127,15 +127,15 @@ export class ActivityComponent implements OnInit {
     get_ConditionsShowingOn(activityName: string) {
         if (activityName) {
             return this.characterService.get_ConditionsShowingOn(this.get_Creature(), activityName)
-            .sort((a,b) => {
-                if (a.name > b.name) {
-                    return 1;
-                }
-                if (a.name < b.name) {
-                    return -1;
-                }
-                return 0;
-            });;
+                .sort((a, b) => {
+                    if (a.name > b.name) {
+                        return 1;
+                    }
+                    if (a.name < b.name) {
+                        return -1;
+                    }
+                    return 0;
+                });;
         } else {
             return []
         }
@@ -144,33 +144,33 @@ export class ActivityComponent implements OnInit {
     get_ActivityGainsShowingOn(objectName: string) {
         if (objectName) {
             return this.characterService.get_OwnedActivities(this.get_Creature())
-                .filter((gain: ItemActivity|ActivityGain) =>
+                .filter((gain: ItemActivity | ActivityGain) =>
                     (gain._className == "ItemActivity" ? [gain as ItemActivity] : this.get_Activities(gain.name))
-                    .find((activity: ItemActivity|Activity) =>
-                        activity.hints
-                        .find(hint =>
-                            hint.showon.split(",")
-                            .find(showon => 
-                                showon.trim().toLowerCase() == objectName.toLowerCase()
-                            )
+                        .find((activity: ItemActivity | Activity) =>
+                            activity.hints
+                                .find(hint =>
+                                    hint.showon.split(",")
+                                        .find(showon =>
+                                            showon.trim().toLowerCase() == objectName.toLowerCase()
+                                        )
+                                )
                         )
-                    )
                 )
-            .sort((a,b) => {
-                if (a.name > b.name) {
-                    return 1;
-                }
-                if (a.name < b.name) {
-                    return -1;
-                }
-                return 0;
-            });
+                .sort((a, b) => {
+                    if (a.name > b.name) {
+                        return 1;
+                    }
+                    if (a.name < b.name) {
+                        return -1;
+                    }
+                    return 0;
+                });
         } else {
             return []
         }
     }
 
-    get_ActivitiesFromGain(gain: ActivityGain|ItemActivity) {
+    get_ActivitiesFromGain(gain: ActivityGain | ItemActivity) {
         return gain.constructor == ItemActivity ? [gain] : this.get_Activities(gain.name)
     }
 
@@ -191,7 +191,7 @@ export class ActivityComponent implements OnInit {
         let feat: Feat = this.get_FuseStanceFeat();
         if (feat) {
             return this.characterService.get_OwnedActivities(this.get_Creature())
-                .filter((gain: ItemActivity|ActivityGain) => gain.name == feat.data["stance1"] || gain.name == feat.data["stance2"])
+                .filter((gain: ItemActivity | ActivityGain) => gain.name == feat.data["stance1"] || gain.name == feat.data["stance2"])
         }
     }
 
@@ -211,7 +211,7 @@ export class ActivityComponent implements OnInit {
             return "no spell";
         }
     }
-    
+
     get_SpellCasts() {
         if (this.gain) {
             while (this.gain.spellEffectChoices.length < this.activity.castSpells.length) {
@@ -226,19 +226,20 @@ export class ActivityComponent implements OnInit {
         let conditions: Condition[] = [];
         if (this.gain && !this.activity.hideChoices) {
             this.activity.gainConditions
-            .map(conditionGain => this.conditionsService.get_Conditions(conditionGain.name)[0])
-            .filter(condition => condition.get_Choices(this.characterService, true).length > 1)
-            .forEach((condition, index) => {
-                //Add the condition to the list of conditions that need to display a choice,
-                // then if the gain doesn't have a choice at that index or the choice isn't among the condition's choices, insert or replace that choice on the gain.
-                conditions.push(condition);
-                while (!this.gain.effectChoices.length || this.gain.effectChoices.length < index - 1) {
-                    this.gain.effectChoices.push(condition.choice);
-                }
-                if (!condition?.$choices?.includes(this.gain.effectChoices[index])) {
-                    this.gain.effectChoices[index] = condition.choice;
-                }
-            })
+                .map(conditionGain => { return { gain: conditionGain, condition: this.conditionsService.get_Conditions(conditionGain.name)[0] } })
+                .filter(conditionSet => conditionSet.condition.get_Choices(this.characterService, true, conditionSet.gain.heightened).length > 1)
+                .map(conditionSet => conditionSet.condition)
+                .forEach((condition, index) => {
+                    //Add the condition to the list of conditions that need to display a choice,
+                    // then if the gain doesn't have a choice at that index or the choice isn't among the condition's choices, insert or replace that choice on the gain.
+                    conditions.push(condition);
+                    while (!this.gain.effectChoices.length || this.gain.effectChoices.length < index - 1) {
+                        this.gain.effectChoices.push(condition.choice);
+                    }
+                    if (!condition?.$choices?.includes(this.gain.effectChoices[index])) {
+                        this.gain.effectChoices[index] = condition.choice;
+                    }
+                })
         }
         return conditions;
     }
@@ -250,19 +251,19 @@ export class ActivityComponent implements OnInit {
             let spell = this.spellsService.get_Spells(spellCast.name)[0];
             if (spell?.gainConditions.length) {
                 spell.get_HeightenedConditions(spellCast.level)
-                .map(conditionGain => this.conditionsService.get_Conditions(conditionGain.name)[0])
-                .filter(condition => condition?.get_Choices(this.characterService, true)?.length > 1)
-                .forEach((condition, index) => {
-                    //Add the condition to the list of conditions that need to display a choice,
-                    // then if the gain doesn't have a choice at that index or the choice isn't among the condition's choices, insert or replace that choice on the gain.
-                    conditions.push(condition);
-                    while (!this.gain.spellEffectChoices[spellCastIndex].length || this.gain.spellEffectChoices[spellCastIndex].length < index - 1) {
-                        this.gain.spellEffectChoices[spellCastIndex].push(condition.choice);
-                    }
-                    if (!condition.$choices.includes(this.gain.spellEffectChoices[spellCastIndex][index])) {
-                        this.gain.spellEffectChoices[spellCastIndex][index] = condition.choice;
-                    }
-                })
+                    .map(conditionGain => this.conditionsService.get_Conditions(conditionGain.name)[0])
+                    .filter(condition => condition?.get_Choices(this.characterService, true)?.length > 1)
+                    .forEach((condition, index) => {
+                        //Add the condition to the list of conditions that need to display a choice,
+                        // then if the gain doesn't have a choice at that index or the choice isn't among the condition's choices, insert or replace that choice on the gain.
+                        conditions.push(condition);
+                        while (!this.gain.spellEffectChoices[spellCastIndex].length || this.gain.spellEffectChoices[spellCastIndex].length < index - 1) {
+                            this.gain.spellEffectChoices[spellCastIndex].push(condition.choice);
+                        }
+                        if (!condition.$choices.includes(this.gain.spellEffectChoices[spellCastIndex][index])) {
+                            this.gain.spellEffectChoices[spellCastIndex][index] = condition.choice;
+                        }
+                    })
             }
         }
         return conditions;
