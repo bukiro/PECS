@@ -55,16 +55,16 @@
 <div class="row list-item fullsize-only" *ngIf="conditionGain.showVariables && conditionGain.duration > -1">
     <div class="row fullsize-only"><strong>Change Duration</strong></div>
     <div class="row fullsize-only">
-        <span><button (click)="change_ConditionDuration(conditionGain, 10)">+ 1 turn</button></span>
-        <span><button (click)="change_ConditionDuration(conditionGain, 100)">+ 1 min.</button></span>
-        <span><button (click)="change_ConditionDuration(conditionGain, 1000)">+ 10 min.</button></span>
-        <span><button (click)="change_ConditionDuration(conditionGain, 6000)">+ 1 hour</button></span>
+        <span><button (click)="change_ConditionDuration(conditionGain, condition, 10)">+ 1 turn</button></span>
+        <span><button (click)="change_ConditionDuration(conditionGain, condition, 100)">+ 1 min.</button></span>
+        <span><button (click)="change_ConditionDuration(conditionGain, condition, 1000)">+ 10 min.</button></span>
+        <span><button (click)="change_ConditionDuration(conditionGain, condition, 6000)">+ 1 hour</button></span>
     </div>
     <div class="row fullsize-only">
-        <span><button (click)="change_ConditionDuration(conditionGain, -10)">- 1 turn</button></span>
-        <span><button (click)="change_ConditionDuration(conditionGain, -100)">- 1 min.</button></span>
-        <span><button (click)="change_ConditionDuration(conditionGain, -1000)">- 10 min.</button></span>
-        <span><button (click)="change_ConditionDuration(conditionGain, -6000)">- 1 hour</button></span>
+        <span><button (click)="change_ConditionDuration(conditionGain, condition, -10)">- 1 turn</button></span>
+        <span><button (click)="change_ConditionDuration(conditionGain, condition, -100)">- 1 min.</button></span>
+        <span><button (click)="change_ConditionDuration(conditionGain, condition, -1000)">- 10 min.</button></span>
+        <span><button (click)="change_ConditionDuration(conditionGain, condition, -6000)">- 1 hour</button></span>
     </div>
 </div>
 <div class="row list-item fullsize-only" *ngIf="conditionGain.showVariables && conditionGain.value">

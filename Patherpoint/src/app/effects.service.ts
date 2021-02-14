@@ -259,7 +259,8 @@ export class EffectsService {
         let SpellCastingAbility: string = object.spellCastingAbility;
         let SpellSource: string = object.spellSource;
         //Hint effects of conditions pass their conditionGain for these values.
-        //Conditions that are caused by conditions also pass the original conditionGain, particularly for the evaluation of their activationPrerequisite.
+        //Conditions pass their own gain as parentConditionGain for effects.
+        //Conditions that are caused by conditions also pass the original conditionGain for the evaluation of their activationPrerequisite.
         if (parentConditionGain) {
             if (!Value) {
                 Value = parentConditionGain.value;
@@ -540,7 +541,7 @@ export class EffectsService {
             if (originalCondition?.effects?.length) {
                 //Fit the condition effects into the box defined by get_SimpleEffects()
                 let effectsObject = { name: gain.name, value: gain.value, choice: gain.choice, effects: originalCondition.effects, heightened: gain.heightened }
-                simpleEffects = simpleEffects.concat(this.get_SimpleEffects(creature, characterService, effectsObject));
+                simpleEffects = simpleEffects.concat(this.get_SimpleEffects(creature, characterService, effectsObject, "", gain));
             }
             originalCondition?.hints?.filter(hint => (hint.active || hint.active2 || hint.active3) && hint.effects?.length).forEach(hint => {
                 simpleEffects = simpleEffects.concat(this.get_SimpleEffects(creature, characterService, hint, "conditional, " + originalCondition.name, gain));
@@ -911,9 +912,9 @@ export class EffectsService {
         let skillsWildcard: string[] = ["All Checks and DCs", "Skill Checks", "Untrained Skills", "Proficiency Level", "Recall Knowledge Checks", "Master Recall Knowledge Checks", "Saving Throws", "Speed"];
         let inventory: string[] = ["Bulk", "Encumbered Limit", "Max Bulk", "Max Invested"];
         let spellbook: string[] = ["Refocus Bonus Points", "Focus Points", "Focus Pool", "All Checks and DCs", "Attack Rolls", "Spell Attack Rolls", "Spell DCs"];
-        let spellbookWildcard: string[] = ["Spell Slots", "Proficiency Level", "Spell Level"];
+        let spellbookWildcard: string[] = ["Spell Slots", "Proficiency Level", "Spell Level", "Disabled"];
         let activities: string[] = ["Dexterity-based Checks and DCs", "Strength-based Checks and DCs", "All Checks and DCs"];
-        let activitiesWildcard: string[] = ["Class DC", "Charges", "Cooldown"];
+        let activitiesWildcard: string[] = ["Class DC", "Charges", "Cooldown", "Disabled"];
 
         let changedEffects: Effect[] = [];
         //Collect all new feats that don't exist in the old list or old feats that don't exist in the new list - that is, everything that has changed.

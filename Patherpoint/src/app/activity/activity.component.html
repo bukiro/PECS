@@ -1,7 +1,7 @@
 <ng-container>
     <ng-container *ngFor="let maxCharges of [activity.maxCharges(get_Creature(), characterService)]">
         <ng-container *ngFor="let cooldown of [activity.get_Cooldown(get_Creature(), characterService)]">
-            <div class="row" *ngIf="allowActivate">
+            <div class="row" *ngIf="allowActivate && !get_ExternallyDisabled(activity)">
                 <ng-container
                     *ngIf="gain.name != 'Fused Stance' && activity.can_Activate() && (gain.activeCooldown ? (maxCharges > gain.chargesUsed) : true)">
                     <button class="row center-aligned" (click)="on_Activate(gain, activity, true, creature)"
@@ -79,6 +79,12 @@
                 *ngIf="gain && (gain.activeCooldown ? (maxCharges == gain.chargesUsed) : false) && !gain.active">
                 <button class="row center-aligned" disabled>
                     Cannot activate {{get_Duration(gain.activeCooldown, true, true)}}
+                </button>
+            </div>
+            <div class="row"
+                *ngIf="get_ExternallyDisabled(activity)">
+                <button class="row center-aligned" disabled>
+                    Cannot activate (disabled by effect)
                 </button>
             </div>
             <div class="row left-aligned">

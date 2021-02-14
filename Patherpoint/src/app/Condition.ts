@@ -16,6 +16,7 @@ export class Condition {
     public name: string = "";
     public type: string = "";
     public buff: boolean = false;
+    public minLevel: number = 0;
     public hasValue: boolean = false;
     public decreasingValue: boolean = false;
     public value: number = 0;

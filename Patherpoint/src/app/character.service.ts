@@ -1210,21 +1210,27 @@ export class CharacterService {
 
     add_Condition(creature: Creature, conditionGain: ConditionGain, reload: boolean = true, parentConditionGain: ConditionGain = null) {
         let activate: boolean = true;
-        //If the condition has an activationPrerequisite, test that first and only activate if it evaluates to a nonzero number.
-        if (conditionGain.activationPrerequisite) {
-            let testEffectGain: EffectGain = new EffectGain();
-            testEffectGain.value = conditionGain.activationPrerequisite;
-            let effects = this.effectsService.get_SimpleEffects(this.get_Character(), this, { effects: [testEffectGain], value: conditionGain.value, heightened: conditionGain.heightened, choice: conditionGain.choice, spellCastingAbility: null }, "", parentConditionGain);
-            if (effects?.[0]?.value == "0" || !(parseInt(effects?.[0]?.value))) {
-                activate = false;
+        let originalCondition = this.get_Conditions(conditionGain.name)[0];
+        if (originalCondition) {
+            if (conditionGain.heightened < originalCondition.minLevel) {
+                conditionGain.heightened = originalCondition.minLevel;
             }
-        }
-        if (activate) {
-            let originalCondition = this.get_Conditions(conditionGain.name)[0];
-            if (originalCondition) {
+            //If the condition has an activationPrerequisite, test that first and only activate if it evaluates to a nonzero number.
+            if (conditionGain.activationPrerequisite) {
+                let testEffectGain: EffectGain = new EffectGain();
+                testEffectGain.value = conditionGain.activationPrerequisite;
+                let effects = this.effectsService.get_SimpleEffects(this.get_Character(), this, { effects: [testEffectGain], value: conditionGain.value, heightened: conditionGain.heightened, choice: conditionGain.choice, spellCastingAbility: null }, "", parentConditionGain);
+                if (effects?.[0]?.value == "0" || !(parseInt(effects?.[0]?.value))) {
+                    activate = false;
+                }
+            }
+            if (activate) {
                 if (originalCondition.nextStage) {
                     this.set_ToChange(creature.type, "time");
                     this.set_ToChange(creature.type, "health");
+                }
+                if (conditionGain.heightened < originalCondition.minLevel) {
+                    conditionGain.heightened = originalCondition.minLevel
                 }
                 conditionGain.nextStage = originalCondition.nextStage;
                 conditionGain.decreasingValue = originalCondition.decreasingValue;

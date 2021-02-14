@@ -9,13 +9,12 @@ import { ItemsService } from '../items.service';
 import { ActivityGain } from '../ActivityGain';
 import { ItemActivity } from '../ItemActivity';
 import { Feat } from '../Feat';
-import { AnimalCompanion } from '../AnimalCompanion';
 import { Character } from '../Character';
-import { Familiar } from '../Familiar';
 import { ConditionsService } from '../conditions.service';
 import { Condition } from '../Condition';
 import { SpellCast } from '../SpellCast';
 import { Creature } from '../Creature';
+import { EffectsService } from '../effects.service';
 
 @Component({
     selector: 'app-activity',
@@ -42,7 +41,8 @@ export class ActivityComponent implements OnInit {
         private activitiesService: ActivitiesService,
         private timeService: TimeService,
         private itemsService: ItemsService,
-        private conditionsService: ConditionsService
+        private conditionsService: ConditionsService,
+        private effectsService: EffectsService
     ) { }
 
     get_Accent() {
@@ -197,6 +197,10 @@ export class ActivityComponent implements OnInit {
 
     get_Activities(name: string) {
         return this.activitiesService.get_Activities(name);
+    }
+
+    get_ExternallyDisabled(activity: Activity) {
+        return this.effectsService.get_EffectsOnThis(this.get_Creature(), activity.name + " Disabled").length;
     }
 
     get_Spells(name: string = "", type: string = "", tradition: string = "") {

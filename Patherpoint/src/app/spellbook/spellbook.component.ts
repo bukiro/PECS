@@ -207,7 +207,7 @@ export class SpellbookComponent implements OnInit {
             });
         }
         this.id = levelNumber * 1000;
-        let character = this.characterService.get_Character();
+        let character = this.get_Character();
         if (levelNumber == -1) {
             if (casting.castingType == "Focus") {
                 return spellSort(character.get_SpellsTaken(this.characterService, 1, character.level, levelNumber, "", casting, "", "", "", "", "", undefined, this.get_SignatureSpellsAllowed(), false));
@@ -250,7 +250,7 @@ export class SpellbookComponent implements OnInit {
     }
 
     get_FocusPoints() {
-        return Math.min(this.characterService.get_Character().class.focusPoints, this.get_MaxFocusPoints());
+        return Math.min(this.get_Character().class.focusPoints, this.get_MaxFocusPoints());
     }
 
     get_MaxFocusPoints() {
@@ -297,7 +297,7 @@ export class SpellbookComponent implements OnInit {
     }
 
     have_Feat(name: string) {
-        let character = this.characterService.get_Character();
+        let character = this.get_Character();
         return character.get_FeatsTaken(0, character.level, name).length
     }
 
@@ -306,21 +306,28 @@ export class SpellbookComponent implements OnInit {
     }
 
     on_RestoreFocusPoint() {
-        this.characterService.process_OnceEffect(this.characterService.get_Character(), Object.assign(new EffectGain(), { affected: "Focus Points", value: "+1" }));
+        this.characterService.process_OnceEffect(this.get_Character(), Object.assign(new EffectGain(), { affected: "Focus Points", value: "+1" }));
     }
 
     get_Duration(turns: number, includeTurnState: boolean = true, inASentence: boolean = false) {
         return this.timeService.get_Duration(turns, includeTurnState, inASentence);
     }
 
-    cannot_Cast(spell: Spell, levelNumber: number, casting: SpellCasting, choice: SpellChoice, gain: SpellGain, maxSpellSlots: number) {
+    get_ExternallyDisabled(spell: Spell) {
+        return this.effectsService.get_EffectsOnThis(this.get_Character(), spell.name + " Disabled").length;
+    }
+
+    cannot_Cast(spell: Spell, levelNumber: number, casting: SpellCasting, choice: SpellChoice, gain: SpellGain, maxSpellSlots: number, externallyDisabled: number) {
         if (gain.activeCooldown && !gain.active) {
             return "Cannot cast " + this.get_Duration(gain.activeCooldown, true, true);
+        }
+        if (externallyDisabled) {
+            return "Disabled by effect."
         }
         switch (casting.castingType) {
             case "Focus":
                 if (choice.level == -1) {
-                    if (this.characterService.get_Character().class.focusPoints <= 0) {
+                    if (this.get_Character().class.focusPoints <= 0) {
                         return "No focus points left to cast."
                     }
                 } else {
@@ -359,8 +366,8 @@ export class SpellbookComponent implements OnInit {
         }
         //Focus spells cost Focus points.
         if (casting.castingType == "Focus" && activated && choice.level == -1) {
-            this.characterService.get_Character().class.focusPoints = Math.min(this.get_Character().class.focusPoints, this.get_MaxFocusPoints());
-            this.characterService.get_Character().class.focusPoints -= 1;
+            this.get_Character().class.focusPoints = Math.min(this.get_Character().class.focusPoints, this.get_MaxFocusPoints());
+            this.get_Character().class.focusPoints -= 1;
         };
         //Spontaneous spells use up spell slots. If you don't have spell slots of this level left, use a global one (0th level).
         if (casting.castingType == "Spontaneous" && !spell.traits.includes("Cantrip") && activated) {
@@ -409,8 +416,8 @@ export class SpellbookComponent implements OnInit {
     on_Counterspell(gain: SpellGain, casting: SpellCasting, choice: SpellChoice, spell: Spell) {
         //Focus spells cost Focus points.
         if (casting.castingType == "Focus" && choice.level == -1) {
-            this.characterService.get_Character().class.focusPoints = Math.min(this.get_Character().class.focusPoints, this.get_MaxFocusPoints());
-            this.characterService.get_Character().class.focusPoints -= 1;
+            this.get_Character().class.focusPoints = Math.min(this.get_Character().class.focusPoints, this.get_MaxFocusPoints());
+            this.get_Character().class.focusPoints -= 1;
         };
         //Spontaneous spells use up spell slots.
         if (casting.castingType == "Spontaneous" && !spell.traits.includes("Cantrip")) {

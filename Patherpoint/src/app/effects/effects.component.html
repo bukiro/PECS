@@ -52,7 +52,7 @@
         <div class="list-item row lower" *ngFor="let effect of get_HiddenEffects(); trackBy:trackByIndex;">
             <span>
                 <strong
-                    [ngClass]="{'penalty':effect.penalty, 'bonus':!effect.penalty && !effect.setValue, 'absolute':effect.setValue}"
+                    [ngClass]="{'penalty':effect.penalty, 'bonus':!effect.penalty && !effect.setValue && !effect.toggle, 'absolute':effect.setValue || effect.toggle}"
                     title="Source: {{effect.source}}">{{effect.target}}
                     {{parseInt(effect.value) ? effect.value : ''}}{{effect.setValue ? "= "+effect.setValue : ''}}
                 </strong>
