@@ -7067,7 +7067,7 @@
          },
          {
             "affected": "Melee Damage",
-            "setValue": "[0,0,1,5,9,7,7,7,7,7,7][Heightened]"
+            "setValue": "[null,null,1,5,9,7,7,7,7,7,7][Heightened]"
          },
          {
             "affected": "Athletics",
@@ -8757,7 +8757,7 @@
          },
          {
             "affected": "Melee Damage",
-            "setValue": "[0,0,0,2,6,2,2,2,2,2,2][Heightened]"
+            "setValue": "[null,null,null,2,6,2,2,2,2,2,2][Heightened]"
          },
          {
             "affected": "Athletics",
@@ -9918,7 +9918,7 @@
          },
          {
             "affected": "Melee Damage",
-            "setValue": "[0,0,0,0,5,8,4,4,4,4,4][Heightened]"
+            "setValue": "[null,null,null,null,5,8,4,4,4,4,4][Heightened]"
          },
          {
             "affected": "Acrobatics",
@@ -10226,7 +10226,7 @@
       "effects": [
          {
             "affected": "Size",
-            "setValue": "[0,0,0,0,1,2,2,3,3,3,3][Heightened]"
+            "setValue": "[null,null,null,null,1,2,2,3,3,3,3][Heightened]"
          },
          {
             "affected": "AC",
@@ -10238,7 +10238,7 @@
          },
          {
             "affected": "Melee Damage",
-            "setValue": "[0,0,0,0,9,6,6,15,15,15,15][Heightened]"
+            "setValue": "[null,null,null,null,9,6,6,15,15,15,15][Heightened]"
          },
          {
             "affected": "Athletics",
@@ -13672,7 +13672,10 @@
          "Pest Form",
          "Animal Form",
          "Humanoid Form",
-         "Insect Form"
+         "Insect Form",
+         "Dinosaur Form",
+         "Aerial Form",
+         "Elemental Form"
       ],
       "hints": [
          {
@@ -13682,7 +13685,7 @@
                {
                   "affected": "Attack Rolls",
                   "type": "status",
-                  "value": "2"
+                  "value": 2
                }
             ]
          }
@@ -13711,6 +13714,44 @@
             "name": "Insect Form",
             "featreq": [
                "Insect Shape"
+            ]
+         },
+         {
+            "name": "Dinosaur Form",
+            "featreq": [
+               "Ferocious Shape"
+            ]
+         },
+         {
+            "name": "Aerial Form (Bat)",
+            "featreq": [
+               "Soaring Shape"
+            ]
+         },
+         {
+            "name": "Aerial Form (Bird)",
+            "featreq": [
+               "Soaring Shape"
+            ]
+         },
+         {
+            "name": "Aerial Form (Wasp)",
+            "featreq": [
+               "Soaring Shape",
+               "Insect Shape"
+            ]
+         },
+         {
+            "name": "Aerial Form (Pterosaur)",
+            "featreq": [
+               "Soaring Shape",
+               "Insect Shape"
+            ]
+         },
+         {
+            "name": "Elemental Form",
+            "featreq": [
+               "Elemental Shape"
             ]
          }
       ],
@@ -13768,6 +13809,94 @@
             "duration": 144000,
             "heightened": 1,
             "name": "Pest-Form"
+         },
+         {
+            "activationPrerequisite": "!Has_Condition('Form Control') ? 1 : 0",
+            "conditionChoiceFilter": "Dinosaur Form",
+            "duration": 100,
+            "name": "Dinosaur Form"
+         },
+         {
+            "activationPrerequisite": "Has_Condition('Form Control') ? 1 : 0",
+            "conditionChoiceFilter": "Dinosaur Form",
+            "duration": 6000,
+            "name": "Dinosaur Form"
+         },
+         {
+            "activationPrerequisite": "!Has_Condition('Form Control') ? 1 : 0",
+            "choice": "Bat",
+            "choiceLocked": true,
+            "conditionChoiceFilter": "Aerial Form (Bat)",
+            "duration": 100,
+            "name": "Aerial Form"
+         },
+         {
+            "activationPrerequisite": "Has_Condition('Form Control') ? 1 : 0",
+            "choice": "Bat",
+            "choiceLocked": true,
+            "conditionChoiceFilter": "Aerial Form (Bat)",
+            "duration": 6000,
+            "name": "Aerial Form"
+         },
+         {
+            "activationPrerequisite": "!Has_Condition('Form Control') ? 1 : 0",
+            "choice": "Bird",
+            "choiceLocked": true,
+            "conditionChoiceFilter": "Aerial Form (Bird)",
+            "duration": 100,
+            "name": "Aerial Form"
+         },
+         {
+            "activationPrerequisite": "Has_Condition('Form Control') ? 1 : 0",
+            "choice": "Bird",
+            "choiceLocked": true,
+            "conditionChoiceFilter": "Aerial Form (Bird)",
+            "duration": 6000,
+            "name": "Aerial Form"
+         },
+         {
+            "activationPrerequisite": "!Has_Condition('Form Control') ? 1 : 0",
+            "choice": "Wasp",
+            "choiceLocked": true,
+            "conditionChoiceFilter": "Aerial Form (Wasp)",
+            "duration": 100,
+            "name": "Aerial Form"
+         },
+         {
+            "activationPrerequisite": "Has_Condition('Form Control') ? 1 : 0",
+            "choice": "Wasp",
+            "choiceLocked": true,
+            "conditionChoiceFilter": "Aerial Form (Wasp)",
+            "duration": 6000,
+            "name": "Aerial Form"
+         },
+         {
+            "activationPrerequisite": "!Has_Condition('Form Control') ? 1 : 0",
+            "choice": "Pterosaur",
+            "choiceLocked": true,
+            "conditionChoiceFilter": "Aerial Form (Pterosaur)",
+            "duration": 100,
+            "name": "Aerial Form"
+         },
+         {
+            "activationPrerequisite": "Has_Condition('Form Control') ? 1 : 0",
+            "choice": "Pterosaur",
+            "choiceLocked": true,
+            "conditionChoiceFilter": "Aerial Form (Pterosaur)",
+            "duration": 6000,
+            "name": "Aerial Form"
+         },
+         {
+            "activationPrerequisite": "!Has_Condition('Form Control') ? 1 : 0",
+            "conditionChoiceFilter": "Elemental Form",
+            "duration": 100,
+            "name": "Elemental Form"
+         },
+         {
+            "activationPrerequisite": "Has_Condition('Form Control') ? 1 : 0",
+            "conditionChoiceFilter": "Elemental Form",
+            "duration": 6000,
+            "name": "Elemental Form"
          }
       ],
       "endConditions": [
@@ -13789,6 +13918,206 @@
          {
             "affected": "Wild Shape Spell Level",
             "value": "-2"
+         }
+      ]
+   },
+   {
+      "name": "Stormwind Flight",
+      "desc": "Powerful winds carry you smoothly through the air, giving you a fly Speed equal to your Speed. When this spell's duration would end, if you're still flying, you float to the ground, as feather fall.\n\n<strong>6th Level</strong> When you fly using stormwind flight, you don't count flying against the wind as difficult terrain.",
+      "type": "spells",
+      "minLevel": 4,
+      "buff": true,
+      "hints": [
+         {
+            "desc": "When this spell's duration would end, if you're still flying, you float to the ground, as feather fall.\n\nStarting from 6th Level, when you fly using stormwind flight, you don't count flying against the wind as difficult terrain.",
+            "showon": "Acrobatics, Movement"
+         }
+      ],
+      "effects": [
+         {
+            "affected": "Fly Speed",
+            "setValue": "Speed('Land Speed')"
+         }
+      ]
+   },
+   {
+      "name": "Elemental Form",
+      "desc": "You have transformed into a Medium elemental battle form. When you cast this spell, choose air, earth, fire, or water. While in this form, you gain the corresponding trait and the elemental trait. You have hands in this battle form and can take manipulate actions. You can Dismiss the spell.\n\nYou gain the following statistics and abilities regardless of which battle form you choose:\n\n(Heightened statistics at the bottom)\nAC = 19 + your level. Ignore your armor's check penalty and Speed reduction.\n10 temporary Hit Points.\nDarkvision.\nOne or more unarmed melee attacks specific to the battle form you choose, which are the only attacks you can use. You're trained with them. Your attack modifier is +18, and your damage bonus is +9. These are Dexterity based (air or fire) or Strength based (earth or water). If your corresponding unarmed attack modifier is higher, you can use it instead.\nAcrobatics (air or fire) or Athletics (earth or water) modifier of +20; ignore this change if your own modifier is higher.\n\nYou also gain specific abilities based on the type of elemental you choose:\n\n<strong>Air</strong> fly Speed 80 feet, movement doesn't trigger reactions; <strong>Melee</strong> gust, <strong>Damage</strong> 1d4 bludgeoning.\n<strong>Earth</strong> Speed 20 feet, burrow Speed 20 feet; <strong>Melee</strong> fist, <strong>Damage</strong> 2d10 bludgeoning.\n<strong>Fire</strong> Speed 50 feet; fire resistance 10, weakness 5 to cold and 5 to water; <strong>Melee</strong> tendril , <strong>Damage</strong> 1d8 fire plus 1d4 persistent fire.\n<strong>Water</strong> Speed 20 feet, swim Speed 60 feet; fire resistance 5; <strong>Melee</strong> Single Action wave, <strong>Damage</strong> 1d12 bludgeoning, and you can spend an action immediately after a hit to push the target 5 feet with the effects of a successful Shove.\n\nHeightened statistics:\n\n<strong>6th Level</strong> Your battle form is Large and your attacks have 10-foot reach. You must have space to expand or the spell is lost. You instead gain AC = 22 + your level, 15 temporary HP, an attack modifier of +23, a damage bonus of +13, and Acrobatics or Athletics +23.\n<strong>7th Level</strong> Your battle form is Huge and your attacks have 15-foot reach. You must have space to expand or the spell is lost. You instead gain AC = 22 + your level, 20 temporary HP, an attack modifier of +25, a damage bonus of +11, double the number of damage dice (including persistent damage), and Acrobatics or Athletics +25.",
+      "type": "spells",
+      "minLevel": 5,
+      "buff": true,
+      "hints": [
+         {
+            "desc": "The Air elemental's movement doesn't trigger reactions.",
+            "showon": "Movement"
+         },
+         {
+            "desc": "In Water elemental form, you can spend an action immediately after a hit to push the target 5 feet with the effects of a successful Shove.",
+            "showon": "Attacks"
+         },
+         {
+            "desc": "You have hands in this battle form and can take manipulate actions.",
+            "showon": "Activities"
+         }
+      ],
+      "choice": "Air",
+      "choices": [
+         {
+            "name": "Air"
+         },
+         {
+            "name": "Earth"
+         },
+         {
+            "name": "Fire"
+         },
+         {
+            "name": "Water"
+         }
+      ],
+      "effects": [
+         {
+            "affected": "Size",
+            "setValue": "Math.min(Math.max(0, Heightened - 5), 2)"
+         },
+         {
+            "setValue": "(Heightened >= 6 ? 22 : 19) + Level"
+         },
+         {
+            "affected": "Melee Attack Rolls",
+            "setValue": "Skill('Unarmed Attacks') >= [0,0,0,0,0,18,23,25,25,25,25][Heightened] ? null : [0,0,0,0,0,18,23,25,25,25,25][Heightened]"
+         },
+         {
+            "affected": "Melee Damage",
+            "setValue": "[null,null,null,null,null,9,13,11,11,11,11][Heightened]"
+         },
+         {
+            "affected": "Acrobatics",
+            "setValue": "(!['Air', 'Fire'].includes(Choice) || Skill('Acrobatics') > [0,0,0,0,0,20,23,25,25,25,25][Heightened]) ? null : [0,0,0,0,0,20,23,25,25,25,25][Heightened]"
+         },
+         {
+            "affected": "Athletics",
+            "setValue": "(!['Earth', 'Water'].includes(Choice) || Skill('Athletics') > [0,0,0,0,0,20,23,25,25,25,25][Heightened]) ? null : [0,0,0,0,0,20,23,25,25,25,25][Heightened]"
+         },
+         {
+            "affected": "Land Speed",
+            "setValue": "['Earth', 'Water'].includes(Choice) ? 20 : null"
+         },
+         {
+            "affected": "Land Speed",
+            "setValue": "Choice == 'Fire' ? 50 : null"
+         },
+         {
+            "affected": "Fly Speed",
+            "setValue": "Choice == 'Air' ? 80 : null"
+         },
+         {
+            "affected": "Burrow Speed",
+            "setValue": "Choice == 'Earth' ? 20 : null"
+         },
+         {
+            "affected": "Swim Speed",
+            "setValue": "Choice == 'Water' ? 60 : null"
+         },
+         {
+            "affected": "Unarmed Attacks Proficiency Level",
+            "setValue": "Skill_Level('Unarmed Attacks') <= 2 ? 2 : null"
+         },
+         {
+            "affected": "Ignore Armor Penalty",
+            "toggle": true
+         },
+         {
+            "affected": "Dice Number Multiplier",
+            "setValue": "Heightened >= 7 ? 2 : null"
+         },
+         {
+            "affected": "Reach",
+            "setValue": "Heightened >= 7 ? 15 : (Heightened >= 6 ? 10 : null)"
+         },
+         {
+            "affected": "Fire Resistance",
+            "value": "Choice == 'Fire' ? 10 : 0"
+         },
+         {
+            "affected": "Fire Resistance",
+            "value": "Choice == 'Water' ? 5 : 0"
+         },
+         {
+            "affected": "Cold Resistance",
+            "value": "Choice == 'Fire' ? -5 : 0"
+         },
+         {
+            "affected": "Water Resistance",
+            "value": "Choice == 'Fire' ? -5 : 0"
+         }
+      ],
+      "onceEffects": [
+         {
+            "affected": "Temporary HP",
+            "value": "Math.min((Heightened - 3) * 5, 20)"
+         }
+      ],
+      "endEffects": [
+         {
+            "affected": "Temporary HP",
+            "value": "-Temporary_HP('',effect.sourceId)"
+         }
+      ],
+      "gainItems": [
+         {
+            "conditionChoiceFilter": "Air",
+            "name": "Elemental Form Air Gust",
+            "type": "weapons"
+         },
+         {
+            "conditionChoiceFilter": "Warth",
+            "name": "Elemental Form Earth Fist",
+            "type": "weapons"
+         },
+         {
+            "conditionChoiceFilter": "Fire",
+            "heightenedFilter": 5,
+            "name": "Elemental Form Fire Tendril",
+            "type": "weapons"
+         },
+         {
+            "conditionChoiceFilter": "Water",
+            "name": "Elemental Form Water Wave",
+            "type": "weapons"
+         },
+         {
+            "conditionChoiceFilter": "Fire",
+            "heightenedFilter": 7,
+            "name": "Elemental Form Fire Tendril (7th Level)",
+            "type": "weapons"
+         }
+      ],
+      "senses": [
+         {
+            "name": "Darkvision"
+         }
+      ],
+      "attackRestrictions": [
+         {
+            "conditionChoiceFilter": "Air",
+            "name": "Elemental Form Air Gust"
+         },
+         {
+            "conditionChoiceFilter": "Earth",
+            "name": "Elemental Form Earth Fist"
+         },
+         {
+            "conditionChoiceFilter": "Fire",
+            "name": "Elemental Form Fire Tendril"
+         },
+         {
+            "conditionChoiceFilter": "Water",
+            "name": "Elemental Form Water Wave"
+         },
+         {
+            "conditionChoiceFilter": "Fire",
+            "name": "Elemental Form Fire Tendril (7th Level)"
          }
       ]
    }

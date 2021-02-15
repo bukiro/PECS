@@ -4527,5 +4527,92 @@
       "group": "Brawling",
       "melee": 5,
       "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "c15179c2-5388-457c-8f35-40fb371bf455",
+      "name": "Elemental Form Air Gust",
+      "traits": [
+         "Unarmed"
+      ],
+      "displayName": "Gust",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 1,
+      "dicesize": 4,
+      "dmgType": "B",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "221cd07a-8303-4ec0-be0f-1f11cfd9d7b7",
+      "name": "Elemental Form Earth Fist",
+      "traits": [
+         "Unarmed"
+      ],
+      "displayName": "Fist",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 2,
+      "dicesize": 10,
+      "dmgType": "B",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "10945ae3-8204-4163-a6a5-0240f8b169e1",
+      "name": "Elemental Form Fire Tendril",
+      "traits": [
+         "Unarmed"
+      ],
+      "displayName": "Gust",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 1,
+      "dicesize": 8,
+      "dmgType": "Fire",
+      "extraDamage": "+1d4 Persistent Fire",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "c1f6de90-55f3-4c2a-a0fd-8807032463e7",
+      "name": "Elemental Form Water Wave",
+      "traits": [
+         "Unarmed"
+      ],
+      "displayName": "Wave",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 1,
+      "dicesize": 12,
+      "dmgType": "B",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "a0608cdb-9afa-4c87-bc80-558d60ff6920",
+      "name": "Elemental Form Fire Tendril (7th Level)",
+      "traits": [
+         "Unarmed"
+      ],
+      "displayName": "Gust",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 1,
+      "dicesize": 8,
+      "dmgType": "Fire",
+      "extraDamage": "+2d4 Persistent Fire",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
    }
 ]

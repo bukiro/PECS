@@ -2501,6 +2501,49 @@
         ]
     },
     {
+        "name": "Stormwind Flight",
+        "id": "57012559-6982-4675-8525-1a3d748dbad0",
+        "shortDesc": "Powerful winds carry you smoothly through the air, giving you a fly Speed equal to your Speed.",
+        "actions": "2A",
+        "castType": "somatic, verbal",
+        "levelreq": 1,
+        "traditions": [
+            "Focus"
+        ],
+        "traits": [
+            "Uncommon",
+            "Air",
+            "Druid",
+            "Transmutation"
+        ],
+        "target": "self",
+        "desc": "Powerful winds carry you smoothly through the air, giving you a fly Speed equal to your Speed. <var>var1</var>When this spell's duration would end, if you're still flying, you float to the ground, as feather fall.",
+        "heightened": [
+            {
+                "desc": "When you fly using stormwind flight, you don't count flying against the wind as difficult terrain.",
+                "level": "(6th)"
+            }
+        ],
+        "gainConditions": [
+            {
+                "duration": 100,
+                "name": "Stormwind Flight",
+                "source": "Stormwind Flight"
+            }
+        ],
+        "desc4": [
+            {
+                "variable": "var1"
+            }
+        ],
+        "desc6": [
+            {
+                "value": "When you fly using stormwind flight, you don't count flying against the wind as difficult terrain. ",
+                "variable": "var1"
+            }
+        ]
+    },
+    {
         "name": "Acid Splash",
         "id": "29ed3e06-9122-11ea-bb37-0242ac130002",
         "shortDesc": "Damage creatures with acid.",
@@ -9155,7 +9198,7 @@
         ],
         "target": "self",
         "duration": "1 minute",
-        "desc": "You transform into a <var>var1</var> animal battle form.<var>var9</var> You can choose ape, bear, bull, canine, cat, deer, frog, shark, or snake. While in this form, you gain the animal trait. You can Dismiss the spell.\n\nYou gain the following statistics and abilities regardless of which battle form you choose:\n\nAC = <var>var2</var> + your level. Ignore your armor's check penalty and Speed reduction.\n<var>var3</var> temporary Hit Points.\nLow-light vision and imprecise scent 30 feet.\nOne or more unarmed melee attacks specific to the battle form you choose, which are the only attacks you can use. You're trained with them. Your attack modifier is <var>var4</var>, and your damage bonus is <var>var5</var>. These attacks are Strength based (for the purpose of the enfeebled condition, for example). If your unarmed attack bonus is higher, you can use it instead.\nAthletics modifier of <var>var6</var>, unless your own modifier is higher.\n\nYou also gain specific abilities based on the type of animal you choose:\n\n<strong>Ape</strong> Speed 25 feet, climb Speed 20 feet; <strong>Melee</strong> fist, <strong>Damage</strong> <var>var7</var>d6 bludgeoning.\n<strong>Bear</strong> Speed 30 feet; <strong>Melee</strong> jaws, <strong>Damage</strong> <var>var7</var>d8 piercing; <strong>Melee</strong> claw (agile), <strong>Damage</strong> <var>var8</var>d8 slashing.\n<strong>Bull</strong> Speed 30 feet; <strong>Melee</strong> horn, <strong>Damage</strong> <var>var7</var>d8 piercing.\n<strong>Canine</strong> Speed 40 feet; <strong>Melee</strong> jaws, <strong>Damage</strong> <var>var7</var>d8 piercing.\n<strong>Cat</strong> Speed 40 feet; <strong>Melee</strong> jaws, <strong>Damage</strong> <var>var7</var>d6 piercing; <strong>Melee</strong> claw (agile), <strong>Damage</strong> <var>var8</var>d10 slashing.\n<strong>Deer</strong> Speed 50 feet; <strong>Melee</strong> antler, <strong>Damage</strong> <var>var7</var>d6 piercing.\n<strong>Frog</strong> Speed 25 feet, swim Speed 25 feet; <strong>Melee</strong> jaws, <strong>Damage</strong> <var>var7</var>d6 bludgeoning; <strong>Melee</strong> EN15tongue (reach 15 feet), <strong>Damage</strong> <var>var7</var>d4 bludgeoning.\n<strong>Shark</strong> swim Speed 35 feet; <strong>Melee</strong> jaws, <strong>Damage</strong> <var>var7</var>d8 piercing; breathe underwater but not in air.\n<strong>Snake</strong> Speed 20 feet, climb Speed 20 feet, swim Speed 20 feet; <strong>Melee</strong> fangs , <strong>Damage</strong> <var>var7</var>d4 piercing plus 1d6 poison.",
+        "desc": "You transform into a <var>var1</var> animal battle form.<var>var9</var> You can choose ape, bear, bull, canine, cat, deer, frog, shark, or snake. While in this form, you gain the animal trait. You can Dismiss the spell.\n\nYou gain the following statistics and abilities regardless of which battle form you choose:\n\nAC = <var>var2</var> + your level. Ignore your armor's check penalty and Speed reduction.\n<var>var3</var> temporary Hit Points.\nLow-light vision and imprecise scent 30 feet.\nOne or more unarmed melee attacks specific to the battle form you choose, which are the only attacks you can use. You're trained with them. Your attack modifier is <var>var4</var>, and your damage bonus is <var>var5</var>. These attacks are Strength based (for the purpose of the enfeebled condition, for example). If your unarmed attack bonus is higher, you can use it instead.\nAthletics modifier of <var>var6</var>, unless your own modifier is higher.\n\nYou also gain specific abilities based on the type of animal you choose:\n\n<strong>Ape</strong> Speed 25 feet, climb Speed 20 feet; <strong>Melee</strong> fist, <strong>Damage</strong> <var>var7</var>d6 bludgeoning.\n<strong>Bear</strong> Speed 30 feet; <strong>Melee</strong> jaws, <strong>Damage</strong> <var>var7</var>d8 piercing; <strong>Melee</strong> claw (agile), <strong>Damage</strong> <var>var8</var>d8 slashing.\n<strong>Bull</strong> Speed 30 feet; <strong>Melee</strong> horn, <strong>Damage</strong> <var>var7</var>d8 piercing.\n<strong>Canine</strong> Speed 40 feet; <strong>Melee</strong> jaws, <strong>Damage</strong> <var>var7</var>d8 piercing.\n<strong>Cat</strong> Speed 40 feet; <strong>Melee</strong> jaws, <strong>Damage</strong> <var>var7</var>d6 piercing; <strong>Melee</strong> claw (agile), <strong>Damage</strong> <var>var8</var>d10 slashing.\n<strong>Deer</strong> Speed 50 feet; <strong>Melee</strong> antler, <strong>Damage</strong> <var>var7</var>d6 piercing.\n<strong>Frog</strong> Speed 25 feet, swim Speed 25 feet; <strong>Melee</strong> jaws, <strong>Damage</strong> <var>var7</var>d6 bludgeoning; <strong>Melee</strong> tongue (reach 15 feet), <strong>Damage</strong> <var>var7</var>d4 bludgeoning.\n<strong>Shark</strong> swim Speed 35 feet; <strong>Melee</strong> jaws, <strong>Damage</strong> <var>var7</var>d8 piercing; breathe underwater but not in air.\n<strong>Snake</strong> Speed 20 feet, climb Speed 20 feet, swim Speed 20 feet; <strong>Melee</strong> fangs , <strong>Damage</strong> <var>var7</var>d4 piercing plus 1d6 poison.",
         "heightened": [
             {
                 "desc": "You instead gain 10 temporary HP, AC = 17 + your level, attack modifier +14, damage bonus +5, and Athletics +14.",
@@ -18491,6 +18534,139 @@
         "traits": [
             "Polymorph",
             "Transmutation"
+        ],
+        "target": "self",
+        "duration": "1 minute",
+        "desc": "You call upon the power of the planes to transform into a <var>var_size</var> elemental battle form. When you cast this spell, choose air, earth, fire, or water. While in this form, you gain the corresponding trait and the elemental trait. You have hands in this battle form and can take manipulate actions. You can Dismiss the spell.\n\nYou gain the following statistics and abilities regardless of which battle form you choose:\n\nAC = <var>var_ac</var> + your level. Ignore your armor's check penalty and Speed reduction.\n<var>var_temphp</var> temporary Hit Points.\nDarkvision.\nOne or more unarmed melee attacks specific to the battle form you choose, which are the only attacks you can use. You're trained with them. Your attack modifier is <var>var_attack</var>, and your damage bonus is <var>var_dmgbonus</var>. These are Dexterity based (air or fire) or Strength based (earth or water). If your corresponding unarmed attack modifier is higher, you can use it instead.\nAcrobatics (air or fire) or Athletics (earth or water) modifier of <var>var_athletics</var>; ignore this change if your own modifier is higher.\n\nYou also gain specific abilities based on the form you choose:\n\n<strong>Air</strong> fly Speed 80 feet, movement doesn't trigger reactions; <strong>Melee</strong> gust<var>var_noreachnotraits</var>, <strong>Damage</strong> <var>var_dice1</var>d4 bludgeoning.\n<strong>Earth</strong> Speed 20 feet, burrow Speed 20 feet; <strong>Melee</strong> fist<var>var_noreachnotraits</var>, <strong>Damage</strong> <var>var_dice2</var>d10 bludgeoning.\n<strong>Fire</strong> Speed 50 feet; fire resistance 10, weakness 5 to cold and 5 to water; <strong>Melee</strong> tendril<var>var_noreachnotraits</var>, <strong>Damage</strong> <var>var_dice1</var>d8 fire plus <var>var_dice1</var>d4 persistent fire.\n<strong>Water</strong> Speed 20 feet, swim Speed 60 feet; fire resistance 5; <strong>Melee</strong> wave<var>var_noreachnotraits</var>, <strong>Damage</strong> <var>var_dice1</var>d12 bludgeoning, and you can spend an action immediately after a hit to push the target 5 feet with the effects of a successful Shove.",
+        "heightened": [
+            {
+                "desc": "Your battle form is Large and your attacks have 10-foot reach. You must have space to expand or the spell is lost. You instead gain AC = 22 + your level, 15 temporary HP, an attack modifier of +23, a damage bonus of +13, and Acrobatics or Athletics +23.",
+                "level": "(6th)"
+            },
+            {
+                "desc": "Your battle form is Huge and your attacks have 15-foot reach. You must have space to expand or the spell is lost. You instead gain AC = 22 + your level, 20 temporary HP, an attack modifier of +25, a damage bonus of +11, double the number of damage dice (including persistent damage), and Acrobatics or Athletics +25.",
+                "level": "(7th)"
+            }
+        ],
+        "gainConditions": [
+            {
+                "duration": 100,
+                "name": "Elemental Form",
+                "source": "Elemental Form"
+            }
+        ],
+        "desc5": [
+            {
+                "value": "Medium",
+                "variable": "var_size"
+            },
+            {
+                "value": 19,
+                "variable": "var_ac"
+            },
+            {
+                "value": 10,
+                "variable": "var_temphp"
+            },
+            {
+                "value": 18,
+                "variable": "var_attack"
+            },
+            {
+                "value": 9,
+                "variable": "var_dmgbonus"
+            },
+            {
+                "value": 20,
+                "variable": "var_athletics"
+            },
+            {
+                "value": 1,
+                "variable": "var_dice1"
+            },
+            {
+                "value": 2,
+                "variable": "var_dice2"
+            },
+            {
+                "variable": "var_noreachnotraits"
+            }
+        ],
+        "desc6": [
+            {
+                "value": "Large",
+                "variable": "var_size"
+            },
+            {
+                "value": 22,
+                "variable": "var_ac"
+            },
+            {
+                "value": 15,
+                "variable": "var_temphp"
+            },
+            {
+                "value": 23,
+                "variable": "var_attack"
+            },
+            {
+                "value": "+13. Your attacks have 15-foot reach",
+                "variable": "var_dmgbonus"
+            },
+            {
+                "value": 23,
+                "variable": "var_athletics"
+            },
+            {
+                "value": 1,
+                "variable": "var_dice1"
+            },
+            {
+                "value": 2,
+                "variable": "var_dice2"
+            },
+            {
+                "value": " (reach 10 feet)",
+                "variable": "var_noreachnotraits"
+            }
+        ],
+        "desc7": [
+            {
+                "value": "Huge",
+                "variable": "var_size"
+            },
+            {
+                "value": 22,
+                "variable": "var_ac"
+            },
+            {
+                "value": 20,
+                "variable": "var_temphp"
+            },
+            {
+                "value": 25,
+                "variable": "var_attack"
+            },
+            {
+                "value": "+11 with double damage dice (including persistent damage). Your attacks have 15-foot reach",
+                "variable": "var_dmgbonus"
+            },
+            {
+                "value": 25,
+                "variable": "var_athletics"
+            },
+            {
+                "value": 2,
+                "variable": "var_dice1"
+            },
+            {
+                "value": 4,
+                "variable": "var_dice2"
+            },
+            {
+                "value": " (reach 15 feet)",
+                "variable": "var_noreachnotraits"
+            }
         ]
     },
     {

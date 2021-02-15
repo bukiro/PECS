@@ -326,7 +326,7 @@ export class EffectsService {
             return (get_TestSpeed(name))?.value((creature as AnimalCompanion|Character), characterService, effectsService)[0] || 0;
         }
         function Has_Condition(name: string) {
-            return characterService.get_AppliedConditions(creature, name).length
+            return characterService.get_AppliedConditions(creature, name, "", true).length
         }
         function Armor() {
             if (creature.type == "Familiar") {
