@@ -155,6 +155,25 @@ export class GeneralComponent implements OnInit {
         return results;
     }
 
+    get_CharacterTraits() {
+        let character = this.get_Character();
+        //Verdant Metamorphosis adds the Plant trait and removes the Humanoid, Animal or Fungus trait.
+        if (character.get_FeatsTaken(1, character.level, "Verdant Metamorphosis").length) {
+            return ["Plant"].concat(this.get_Character().class.ancestry.traits.filter(trait => !["Humanoid", "Animal", "Fungus"].includes(trait)))
+            .sort(function(a,b) {
+                if (a > b) {
+                    return 1;
+                }
+                if (a < b) {
+                    return -1;
+                }
+                return 0;
+            })
+        } else {
+            return this.get_Character().class.ancestry.traits
+        }
+    }
+
     get_Traits(name: string = "") {
         return this.traitsService.get_Traits(name);
     }

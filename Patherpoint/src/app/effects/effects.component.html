@@ -1,6 +1,8 @@
 <button class="minimizebutton lower" (click)="minimize()" *ngIf="creature=='Character'">&#8691;</button>
 <div id="{{creature}}-effects-height" class="attributeBox">
     <h3 class="box-header">Active Conditions</h3>
+    <app-tags [creature]="creature" [objectName]="'Effects'" [showTraits]=true [showFeats]=true [showItems]=true
+        [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
     <ng-container *ngFor="let conditionGain of get_AppliedConditions(true); trackBy:trackByIndex;">
         <div class="list-item" [ngClass]="{'attention':(conditionGain.duration == 1) || (conditionGain.nextStage == -1 && (condition.previousCondition || condition.nextCondition))}" *ngFor="let condition of [get_Conditions(conditionGain.name)[0]]; trackBy:trackByIndex;">
             <app-condition class="row" (showChoiceMessage)="receive_ItemMessage($event)" [creature]="creature"

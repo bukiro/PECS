@@ -124,7 +124,7 @@ export class ConditionsService {
             })
             //Remove all conditions that were marked for deletion by setting its value to -1. We use while so we don't mess up the index and skip some.
             while (activeConditions.some(gain => gain.value == -1)) {
-                characterService.remove_Condition(creature, activeConditions.filter(gain => gain.value == -1)[0], false);
+                characterService.remove_Condition(creature, activeConditions.find(gain => gain.value == -1), false);
             }
             this.appliedConditions[creatureIndex] = [];
             this.appliedConditions[creatureIndex] = activeConditions.map(gain => Object.assign(new ConditionGain(), gain));
@@ -482,6 +482,15 @@ export class ConditionsService {
         //After resting, the Fatigued condition is removed (unless another condition is making you fatigued), and the value of Doomed and Drained is reduced.
         if (!creature.conditions.find(gain => this.get_Conditions(gain.name)?.[0]?.gainConditions.find(subgain => subgain.name == "Fatigued"))) {
             creature.conditions.filter(gain => gain.name == "Fatigued").forEach(gain => characterService.remove_Condition(creature, gain), false);
+        }
+        //If Verdant Metamorphosis is active, remove the following non-permanent conditions after resting: Drained, Enfeebled, Clumsy, Stupefied and all poisons and diseases of 19th level or lower. 
+        if (characterService.effectsService.get_EffectsOnThis(creature, "Verdant Metamorphosis").length) {
+            creature.conditions.filter(gain => ["Drained", "Enfeebled", "Clumsy", "Stupefied"].includes(gain.name)).forEach(gain => { gain.value = -1 })
+            creature.conditions.filter(gain => gain.duration != -1 && gain.value != -1 && this.get_Conditions(gain.name)?.[0]?.type == "afflictions").forEach(gain => {
+                if (!characterService.itemsService.get_CleanItems().alchemicalpoisons.some(poison => gain.name.includes(poison.name) && poison.level <= 19)) {
+                    gain.value == -1;
+                }
+            })
         }
         creature.conditions.filter(gain => gain.name == "Doomed").forEach(gain => { gain.value -= 1 });
         creature.conditions.filter(gain => gain.name == "Drained").forEach(gain => {

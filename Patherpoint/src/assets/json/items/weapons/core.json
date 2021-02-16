@@ -4569,7 +4569,7 @@
       "traits": [
          "Unarmed"
       ],
-      "displayName": "Gust",
+      "displayName": "Tendril",
       "moddable": "-",
       "_className": "Weapon",
       "dicenum": 1,
@@ -4593,6 +4593,7 @@
       "dicenum": 1,
       "dicesize": 12,
       "dmgType": "B",
+      "hitEffect": "You can spend an action immediately after a hit to push the target 5 feet with the effects of a successful Shove.",
       "group": "Brawling",
       "melee": 5,
       "prof": "Unarmed Attacks"
@@ -4604,7 +4605,7 @@
       "traits": [
          "Unarmed"
       ],
-      "displayName": "Gust",
+      "displayName": "Tendril",
       "moddable": "-",
       "_className": "Weapon",
       "dicenum": 1,
@@ -4613,6 +4614,228 @@
       "extraDamage": "+2d4 Persistent Fire",
       "group": "Brawling",
       "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "14811c8b-d0fc-42d4-bd3c-abdac7053bdd",
+      "name": "Monstrosity Form Phoenix Beak",
+      "traits": [
+         "Reach 15 feet",
+         "Unarmed"
+      ],
+      "displayName": "Beak",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 2,
+      "dicesize": 6,
+      "dmgType": "+12 P",
+      "extraDamage": "+2d4 Persistent Fire\n+2d4 Persistent Fire",
+      "group": "Brawling",
+      "melee": 15,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "af9e4d5f-c0df-43d5-8ab6-ce305d83cf44",
+      "name": "Monstrosity Form Phoenix Talon",
+      "traits": [
+         "Agile",
+         "Reach 15 feet",
+         "Unarmed"
+      ],
+      "displayName": "Talon",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 2,
+      "dicesize": 8,
+      "dmgType": "+12 S",
+      "group": "Brawling",
+      "melee": 15,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "bcc8b67e-0bf6-4b8c-a146-21cd1c4a3cdf",
+      "name": "Monstrosity Form Purple Worm Jaws",
+      "traits": [
+         "Reach 10 feet",
+         "Unarmed"
+      ],
+      "displayName": "Jaws",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 2,
+      "dicesize": 12,
+      "dmgType": "+20 P",
+      "group": "Brawling",
+      "melee": 10,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "53ca4512-e6af-4b11-b136-08a95e689df5",
+      "name": "Monstrosity Form Purple Worm Stinger",
+      "traits": [
+         "Agile",
+         "Reach 10 feet",
+         "Unarmed"
+      ],
+      "displayName": "Stinger",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 2,
+      "dicesize": 8,
+      "dmgType": "+15 P",
+      "extraDamage": "+2d6 Persistent Poison",
+      "group": "Brawling",
+      "melee": 10,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "6dc3c4e9-2780-48a0-8467-22bfa7fa7075",
+      "name": "Monstrosity Form Purple Worm Body",
+      "traits": [
+         "Reach 10 feet",
+         "Unarmed"
+      ],
+      "displayName": "Body",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 2,
+      "dicesize": 8,
+      "dmgType": "+20 B",
+      "group": "Brawling",
+      "melee": 10,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "7f877519-f799-4c9c-82f6-04c0780c2e84",
+      "name": "Monstrosity Form Sea Serpent Jaws",
+      "traits": [
+         "Reach 15 feet",
+         "Unarmed"
+      ],
+      "displayName": "Jaws",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 2,
+      "dicesize": 12,
+      "dmgType": "+20 P",
+      "group": "Brawling",
+      "melee": 15,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "58bb5a01-b8c4-44de-86ad-e908597201a7",
+      "name": "Monstrosity Form Sea Serpent Tail",
+      "traits": [
+         "Reach 25 feet",
+         "Unarmed"
+      ],
+      "displayName": "Tail",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 2,
+      "dicesize": 8,
+      "dmgType": "+20 B",
+      "group": "Brawling",
+      "melee": 25,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "4d8f794b-514e-4889-8864-95bde384827a",
+      "name": "Nature Incarnate Green Man Vines",
+      "traits": [
+         "Reach 30 feet",
+         "Unarmed",
+         "Versatile P"
+      ],
+      "displayName": "Vines",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 6,
+      "dicesize": 8,
+      "dmgType": "+12 B/P",
+      "group": "Brawling",
+      "melee": 30,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "d844c283-d02c-45d0-a42a-54c8da7c6543",
+      "name": "Nature Incarnate Green Man Thorns",
+      "traits": [
+         "Unarmed"
+      ],
+      "displayName": "Thorns",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 6,
+      "dicesize": 6,
+      "dmgType": "+6 P",
+      "group": "Brawling",
+      "ranged": 100,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "41c79e5f-2211-4ea7-b45e-a1e5d1978ff4",
+      "name": "Nature Incarnate Kaiju Jaws",
+      "traits": [
+         "Reach 30 feet",
+         "Unarmed"
+      ],
+      "displayName": "Jaws",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 6,
+      "dicesize": 10,
+      "dmgType": "+10 P",
+      "group": "Brawling",
+      "melee": 30,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "422ffa1f-8c8e-4aa5-803e-1f98dcaa8119",
+      "name": "Nature Incarnate Kaiju Claws",
+      "traits": [
+         "Agile",
+         "Reach 30 feet",
+         "Unarmed"
+      ],
+      "displayName": "Claws",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 6,
+      "dicesize": 8,
+      "dmgType": "+8 S",
+      "group": "Brawling",
+      "melee": 30,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "abef91fe-43cc-414d-80a2-14ce8e139e51",
+      "name": "Nature Incarnate Kaiju Foot",
+      "traits": [
+         "Agile",
+         "Reach 15 feet",
+         "Unarmed"
+      ],
+      "displayName": "Claws",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 6,
+      "dicesize": 6,
+      "dmgType": "+10 B",
+      "group": "Brawling",
+      "melee": 15,
       "prof": "Unarmed Attacks"
    }
 ]

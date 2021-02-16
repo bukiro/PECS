@@ -110,6 +110,8 @@ The very latest in Assistive Technologies for Dungeon Master (ATDM)
 - [ ] Stretch Goal: Include optional systems like Stamina & Resolve
 
 Active to-do:
+Hide effects that don't need to be considered (like Weapon Dice Multiplier for Polymorph spells)
+- Maybe define a clear rule for when an effect should be hidden
 After implementing druid feats, double-test all the spells that get more options with feats:
 - Wild Morph
 - Wild Shape

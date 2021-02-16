@@ -82,7 +82,7 @@ export class TraitsService {
         } else {
             this.traits.forEach(trait => {
                 trait.hints?.forEach(hint => {
-                    hint.active = hint.active2 = hint.active3 = false;
+                    hint.active = hint.active2 = hint.active3 = hint.active4 = hint.active5 = false;
                 })
             })
         }

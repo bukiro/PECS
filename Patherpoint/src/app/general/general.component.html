@@ -25,7 +25,7 @@
                 {{get_Character().class.ancestry.name}}{{(get_Character().class.heritage.name) ? " - " + get_Character().class.heritage.name : ""}}
                 <div class="row left-aligned" *ngIf="get_Character().class.ancestry.traits.length">
                     <cite class="trait"
-                        *ngFor="let trait of get_Character().class.ancestry.traits; trackBy:trackByIndex;">{{trait}}&nbsp;</cite>
+                        *ngFor="let trait of get_CharacterTraits(); trackBy:trackByIndex;">{{trait}}&nbsp;</cite>
                 </div>
                 <app-tags [creature]="creature" [objectName]="'Ancestry'" [showTraits]=true [showFeats]=true
                     [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>

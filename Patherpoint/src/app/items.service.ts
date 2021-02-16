@@ -366,7 +366,7 @@ export class ItemsService {
         }
         //Disable any active hint effects when loading an item.
         (item as Equipment).hints?.forEach(hint => {
-            hint.active = hint.active2 = hint.active3 = false;
+            hint.active = hint.active2 = hint.active3 = hint.active4 = hint.active5 = false;
         })
 
         return newItem;
@@ -759,7 +759,7 @@ export class ItemsService {
             //Disable any active hint effects when loading a character.
             this.specializations.forEach(spec => {
                 spec.hints?.forEach(hint => {
-                    hint.active = hint.active2 = hint.active3 = false;
+                    hint.active = hint.active2 = hint.active3 = hint.active4 = hint.active5 = false;
                 })
             })
         }

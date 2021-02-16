@@ -306,7 +306,7 @@ export class SavegameService {
                             //Disable any active hint effects when loading an item.
                             if (object.hints?.length) {
                                 (object as Equipment).hints?.forEach(hint => {
-                                    hint.active = hint.active2 = hint.active3 = false;
+                                    hint.active = hint.active2 = hint.active3 = hint.active4 = hint.active5 = false;
                                 })
                             }
                         } catch (e) {
