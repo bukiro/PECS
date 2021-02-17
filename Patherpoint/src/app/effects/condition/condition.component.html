@@ -34,7 +34,7 @@
     <span *ngFor="let oldChoice of [conditionGain.choice]">Effect selection:
         <select [(ngModel)]="conditionGain.choice"
             (ngModelChange)="change_ConditionChoice(conditionGain, condition, oldChoice)">
-            <option *ngFor="let choice of get_ConditionChoices(condition); trackBy:trackByIndex;" [ngValue]="choice">
+            <option *ngFor="let choice of get_ConditionChoices(conditionGain, condition); trackBy:trackByIndex;" [ngValue]="choice">
                 {{choice}}
             </option>
         </select>

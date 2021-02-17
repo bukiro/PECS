@@ -853,14 +853,14 @@
                                 <div class="list-item sublist"
                                     [ngClass]="{'fancy-list':(get_Companion().class.ancestry.name)}"
                                     *ngIf="get_ShowList()==listID">
-                                    <div class="list-item" [ngClass]="{'selected':get_Companion().class.ancestry.name}"
+                                    <div class="list-item" [ngClass]="{'selected':type.name == get_Companion().class.ancestry.name}"
                                         *ngFor="let type of get_AvailableCompanionTypes()|sortBy:'asc':'name'; trackBy:trackByIndex;">
                                         <div class="row"
                                             *ngFor="let itemID of ['animaltype'+type.name+'desc']; trackBy:trackByIndex;">
                                             <span>
                                                 <input id="{{type.name}}" type="checkbox"
                                                     (change)="on_CompanionTypeChange(type, $event.target.checked)"
-                                                    [checked]="type.name === get_Companion().class.ancestry.name"
+                                                    [checked]="type.name == get_Companion().class.ancestry.name"
                                                     [disabled]="get_Companion().class.ancestry.name && (type.name != get_Companion().class.ancestry.name)">
                                                 <label for="{{type.name}}">
                                                     <strong>{{type.name}}</strong>

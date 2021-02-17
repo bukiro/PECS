@@ -417,7 +417,6 @@
         "targets": "1 living creature",
         "target": "ally",
         "singleTarget": true,
-        "sustained": 15,
         "duration": "until the end of the target's next turn",
         "desc": "You temporarily improve the target's physique. The target gains a +2 status bonus to the next Acrobatics check, Athletics check, Fortitude save, or Reflex save it attempts.",
         "gainConditions": [
@@ -1824,6 +1823,7 @@
             "Sorcerer"
         ],
         "range": "30 feet",
+        "targets": "1 creature",
         "singleTarget": true,
         "desc": "With a flick of your wrist, you fling a chunk of your elemental matter at your foe. Make a spell attack roll, dealing <var>var1</var> bludgeoning damage (or fire damage if your element is fire) on a success, and double damage on a critical success. This spell has your element's trait.",
         "heightened": [
@@ -2125,6 +2125,7 @@
                 "heightenedFilter": 1,
                 "name": "Goodberry",
                 "source": "Goodberry",
+                "targetFilter": "caster",
                 "value": 1
             },
             {
@@ -2132,6 +2133,7 @@
                 "heightenedFilter": 2,
                 "name": "Goodberry",
                 "source": "Goodberry",
+                "targetFilter": "caster",
                 "value": 2
             },
             {
@@ -2139,6 +2141,7 @@
                 "heightenedFilter": 3,
                 "name": "Goodberry",
                 "source": "Goodberry",
+                "targetFilter": "caster",
                 "value": 3
             },
             {
@@ -2146,6 +2149,7 @@
                 "heightenedFilter": 4,
                 "name": "Goodberry",
                 "source": "Goodberry",
+                "targetFilter": "caster",
                 "value": 4
             },
             {
@@ -2153,6 +2157,7 @@
                 "heightenedFilter": 5,
                 "name": "Goodberry",
                 "source": "Goodberry",
+                "targetFilter": "caster",
                 "value": 5
             },
             {
@@ -2160,6 +2165,7 @@
                 "heightenedFilter": 6,
                 "name": "Goodberry",
                 "source": "Goodberry",
+                "targetFilter": "caster",
                 "value": 6
             },
             {
@@ -2167,6 +2173,7 @@
                 "heightenedFilter": 7,
                 "name": "Goodberry",
                 "source": "Goodberry",
+                "targetFilter": "caster",
                 "value": 7
             },
             {
@@ -2174,6 +2181,7 @@
                 "heightenedFilter": 8,
                 "name": "Goodberry",
                 "source": "Goodberry",
+                "targetFilter": "caster",
                 "value": 8
             },
             {
@@ -2181,6 +2189,7 @@
                 "heightenedFilter": 9,
                 "name": "Goodberry",
                 "source": "Goodberry",
+                "targetFilter": "caster",
                 "value": 9
             },
             {
@@ -2188,6 +2197,7 @@
                 "heightenedFilter": 10,
                 "name": "Goodberry",
                 "source": "Goodberry",
+                "targetFilter": "caster",
                 "value": 10
             }
         ],
@@ -2285,7 +2295,7 @@
                 "variable": "var1"
             },
             {
-                "value": 1,
+                "value": "1",
                 "variable": "var2"
             }
         ],
@@ -2295,7 +2305,7 @@
                 "variable": "var1"
             },
             {
-                "value": 2,
+                "value": "2",
                 "variable": "var2"
             }
         ],
@@ -2305,7 +2315,7 @@
                 "variable": "var1"
             },
             {
-                "value": 3,
+                "value": "3",
                 "variable": "var2"
             }
         ],
@@ -2315,7 +2325,7 @@
                 "variable": "var1"
             },
             {
-                "value": 4,
+                "value": "4",
                 "variable": "var2"
             }
         ],
@@ -2325,7 +2335,7 @@
                 "variable": "var1"
             },
             {
-                "value": 5,
+                "value": "5",
                 "variable": "var2"
             }
         ],
@@ -2345,7 +2355,7 @@
                 "variable": "var1"
             },
             {
-                "value": 7,
+                "value": "7",
                 "variable": "var2"
             }
         ],
@@ -2355,7 +2365,7 @@
                 "variable": "var1"
             },
             {
-                "value": 8,
+                "value": "8",
                 "variable": "var2"
             }
         ],
@@ -2365,7 +2375,7 @@
                 "variable": "var1"
             },
             {
-                "value": 9,
+                "value": "9",
                 "variable": "var2"
             }
         ],
@@ -2474,6 +2484,9 @@
             "Transmutation"
         ],
         "target": "self",
+        "allowReturnFocusPoint": true,
+        "sustained": 100,
+        "duration": "1 minute (or longer)",
         "desc": "You infuse yourself with primal essence and transform yourself into another form. You can polymorph into any form listed in pest form, which lasts 10 minutes. <var>var1</var>All other wild shape forms last 1 minute. You can add more forms to your wild shape list with druid feats; your feat might grant you some or all of the forms from a given polymorph spell. When you transform into a form granted by a spell, you gain all the effects of the form you chose from a version of the spell heightened to wild shape's level. Wild shape allows you to use your own shapeshifting training more easily than most polymorph spells. When you choose to use your own attack modifier while polymorphed instead of the form's default attack modifier, you gain a +2 status bonus to your attack rolls.",
         "heightened": [
             {
@@ -2483,7 +2496,7 @@
         ],
         "gainConditions": [
             {
-                "duration": -1,
+                "duration": 100,
                 "name": "Wild Shape",
                 "source": "Wild Shape"
             }
@@ -2506,7 +2519,7 @@
         "shortDesc": "Powerful winds carry you smoothly through the air, giving you a fly Speed equal to your Speed.",
         "actions": "2A",
         "castType": "somatic, verbal",
-        "levelreq": 1,
+        "levelreq": 4,
         "traditions": [
             "Focus"
         ],
@@ -2540,6 +2553,132 @@
             {
                 "value": "When you fly using stormwind flight, you don't count flying against the wind as difficult terrain. ",
                 "variable": "var1"
+            }
+        ]
+    },
+    {
+        "name": "Primal Summons",
+        "id": "641ab93c-327d-4127-be1d-82e989ef17d8",
+        "shortDesc": "You enhance a summoned creature with the power of the elements.",
+        "actions": "Free",
+        "castType": "verbal",
+        "levelreq": 6,
+        "traditions": [
+            "Focus"
+        ],
+        "traits": [
+            "Uncommon",
+            "Conjuration",
+            "Druid"
+        ],
+        "target": "self",
+        "desc": "You enhance a summoned creature with the power of the elements. If your next action is to cast either summon animal or summon plant or fungus, choose air, earth, fire, or water, and the creature you summon gains the corresponding abilities.\n\n<strong>Air</strong> The creature gains a fly Speed of 60 feet.\n<strong>Earth</strong> The creature gains a burrow Speed of 20 feet, reduces its land Speed by 10 feet (minimum 5 feet), and gains resistance 5 to physical damage.\n<strong>Fire</strong> The creature's attacks deal 1d6 extra fire damage, and it gains resistance 10 to fire and weakness 5 to cold and water.\n<strong>Water</strong> The creature gains a swim Speed of 60 feet, can spend 1 action after a melee attack to attempt a Shove (ignoring multiple attack penalty), and gains resistance 5 to fire.",
+        "gainConditions": [
+            {
+                "duration": -1,
+                "name": "Primal Summons",
+                "source": "Primal Summons"
+            }
+        ],
+        "desc4": [
+            {
+                "variable": "var1"
+            }
+        ]
+    },
+    {
+        "name": "Impaling Briars",
+        "id": "d8b8201a-6986-4482-9f3b-dcde0fe43d86",
+        "shortDesc": "The ground within the area transforms into a mass of dangerous briars that assault and impede your foes.",
+        "actions": "2A",
+        "castType": "somatic, verbal",
+        "levelreq": 6,
+        "traditions": [
+            "Focus"
+        ],
+        "traits": [
+            "Uncommon",
+            "Conjuration",
+            "Druid",
+            "Plant"
+        ],
+        "area": "ground within a 100-foot emanation",
+        "sustained": 100,
+        "duration": "sustained up to 1 minute",
+        "desc": "The ground within the area transforms into a mass of dangerous briars that assault and impede your foes. The first time each round you Sustain the Spell, you can select one of the following effects to occur in the area.\n\n<strong>Ensnare</strong> The briars clump around your foes, attempting to hold them in place. A foe within the area (or flying at most 20 feet above the area) must attempt a Reflex save. On a failure, it takes a �10-foot circumstance penalty to all Speeds for 1 round, and on a critical failure, it is immobilized for 1 round unless it Escapes.\n<strong>Impede</strong> The briars twist and writhe, making the entire area difficult terrain.\n<strong>Wall</strong> A wall of thorns appears in the area, lasting for 1 round. The wall is greater difficult terrain instead of difficult terrain.\n\nIn addition, once per round you can direct the briars to impale any target in the area (or flying up to 20 feet above the area) that you can see by using a single action, which has the concentrate and manipulate traits. Make a spell attack roll. On a success, the target takes 10d6 piercing damage and takes a �10-foot circumstance penalty to all Speeds for 1 round; on a critical success, the target is immobilized for 1 round unless it Escapes.",
+        "gainConditions": [
+            {
+                "duration": 100,
+                "name": "Impaling Briars",
+                "source": "Impaling Briars",
+                "targetFilter": "caster"
+            }
+        ],
+        "desc4": [
+            {
+                "variable": "var1"
+            }
+        ]
+    },
+    {
+        "name": "Storm Lord",
+        "id": "f06f0ebf-e3ee-416c-af28-8bdf1c8fcc63",
+        "shortDesc": "The sky above you darkens in a matter of moments, swirling with ominous clouds punctuated by flashes of lighting.",
+        "actions": "2A",
+        "castType": "somatic, verbal",
+        "levelreq": 9,
+        "traditions": [
+            "Focus"
+        ],
+        "traits": [
+            "Uncommon",
+            "Air",
+            "Druid",
+            "Electricity",
+            "Evocation"
+        ],
+        "area": "100-foot emanation, which affects you",
+        "requirements": "You are outdoors and aboveground.",
+        "sustained": 100,
+        "duration": "sustained up to 1 minute",
+        "desc": "The sky above you darkens in a matter of moments, swirling with ominous clouds punctuated by flashes of lighting. The first time each round you Sustain the Spell, you can select one of the following effects to occur in the area.\n\n<strong>Calm</strong> No additional effect.\n<strong>Fog</strong> Heavy fog rolls in, concealing the area with the effects of obscuring mist.\n<strong>Rain</strong> Torrential rain falls from the sky, dousing ordinary flames. Creatures in the area take a -2 circumstance penalty to Acrobatics and Perception checks.\n<strong>Wind</strong> Powerful winds buffet the area in all directions. Ranged attacks take a -4 circumstance penalty, and all flying is against the wind and counts as moving through difficult terrain.\n\nIn addition, once per round you can use a single action, which has the concentrate and manipulate traits, to call down a bolt of lightning, striking any target in range that you can see. You deal 10d6 electricity damage to the target; it must attempt a basic Reflex save. On a failure, it is also deafened for 1 round.",
+        "gainConditions": [
+            {
+                "duration": 100,
+                "name": "Storm Lord",
+                "source": "Storm Lord",
+                "targetFilter": "caster"
+            }
+        ]
+    },
+    {
+        "name": "Apex Companion",
+        "id": "2e83c460-23c2-4016-8cd1-7cc250a92dff",
+        "shortDesc": "Transform your animal companion into an apex form.",
+        "actions": "2A",
+        "castType": "somatic, verbal",
+        "sourceBook": "Pathfinder #150: Broken Promises",
+        "levelreq": 10,
+        "traditions": [
+            "Focus"
+        ],
+        "traits": [
+            "Uncommon",
+            "Druid",
+            "Polymorph",
+            "Transmutation"
+        ],
+        "range": "30 feet",
+        "targets": "1 animal companion in your service",
+        "target": "companion",
+        "singleTarget": true,
+        "duration": "1 minute",
+        "desc": "You focus on the energies of all members of your animal companion's species, transforming your animal companion into its apex battle form. Your animal companion gains the following statistics and abilities while in its apex form.\n\nYour animal companion becomes Huge and its attacks have 15-foot reach. It must have enough space to expand into or the spell is lost.\n30 temporary Hit Points.\nDarkvision.\nYour animal companion's attack's damage dice increase by one step, and its attack gains the deadly d12 trait.\n+10-foot status bonus to its Speeds.\nIgnores difficult terrain and greater difficult terrain.",
+        "gainConditions": [
+            {
+                "duration": 100,
+                "name": "Apex Companion",
+                "source": "Apex Companion"
             }
         ]
     },
@@ -4740,14 +4879,14 @@
                 "duration": 6000,
                 "heightenedFilter": 1,
                 "name": "Charm (Caster)",
-                "source": "Charm",
+                "source": "Charm (Caster)",
                 "targetFilter": "caster"
             },
             {
                 "duration": -2,
                 "heightenedFilter": 4,
                 "name": "Charm (Caster)",
-                "source": "Charm",
+                "source": "Charm (Caster)",
                 "targetFilter": "caster"
             }
         ],
@@ -9242,7 +9381,7 @@
                 "variable": "var5"
             },
             {
-                "value": "+9",
+                "value": 9,
                 "variable": "var6"
             },
             {
@@ -9271,15 +9410,15 @@
                 "variable": "var3"
             },
             {
-                "value": "+14",
+                "value": 14,
                 "variable": "var4"
             },
             {
-                "value": "+5",
+                "value": 5,
                 "variable": "var5"
             },
             {
-                "value": "+14",
+                "value": 14,
                 "variable": "var6"
             },
             {
@@ -9316,7 +9455,7 @@
                 "variable": "var5"
             },
             {
-                "value": "+16",
+                "value": 16,
                 "variable": "var6"
             },
             {
@@ -9354,7 +9493,7 @@
                 "variable": "var5"
             },
             {
-                "value": "+20",
+                "value": 20,
                 "variable": "var6"
             },
             {
@@ -14064,11 +14203,11 @@
                 "variable": "var3"
             },
             {
-                "value": "+2",
+                "value": 2,
                 "variable": "var4"
             },
             {
-                "value": "+13",
+                "value": 13,
                 "variable": "var5"
             },
             {
@@ -15494,7 +15633,7 @@
                 "variable": "var5"
             },
             {
-                "value": "+16",
+                "value": 16,
                 "variable": "var6"
             },
             {
@@ -15538,7 +15677,7 @@
                 "variable": "var5"
             },
             {
-                "value": "+20",
+                "value": 20,
                 "variable": "var6"
             },
             {
@@ -15584,7 +15723,7 @@
                 "variable": "var5"
             },
             {
-                "value": "+23",
+                "value": 23,
                 "variable": "var6"
             },
             {
@@ -15596,7 +15735,7 @@
                 "variable": "var8"
             },
             {
-                "value": 6,
+                "value": "6",
                 "variable": "var9"
             },
             {
@@ -16260,7 +16399,7 @@
                 "variable": "var_attack"
             },
             {
-                "value": "+15 with double damage dice. Your attacks have 20-foot reach, or 25-foot reach if they started with 20-foot reach.",
+                "value": "+15 with double damage dice. Your attacks have 20-foot reach, or 25-foot reach if they started with 20-foot reach",
                 "variable": "var_dmgbonus"
             },
             {
@@ -16276,7 +16415,7 @@
                 "variable": "var_reach15"
             },
             {
-                "value": 2,
+                "value": "2",
                 "variable": "var_dice1"
             },
             {
@@ -17042,7 +17181,8 @@
             {
                 "duration": 144000,
                 "name": "Necrotic Radiation",
-                "source": "Necrotic Radiation"
+                "source": "Necrotic Radiation",
+                "targetFilter": "caster"
             }
         ],
         "desc4": [
@@ -18561,23 +18701,23 @@
                 "variable": "var_size"
             },
             {
-                "value": 19,
+                "value": "19",
                 "variable": "var_ac"
             },
             {
-                "value": 10,
+                "value": "10",
                 "variable": "var_temphp"
             },
             {
-                "value": 18,
+                "value": "+18",
                 "variable": "var_attack"
             },
             {
-                "value": 9,
+                "value": "+9",
                 "variable": "var_dmgbonus"
             },
             {
-                "value": 20,
+                "value": "+20",
                 "variable": "var_athletics"
             },
             {
@@ -18585,7 +18725,7 @@
                 "variable": "var_dice1"
             },
             {
-                "value": 2,
+                "value": "2",
                 "variable": "var_dice2"
             },
             {
@@ -18598,15 +18738,15 @@
                 "variable": "var_size"
             },
             {
-                "value": 22,
+                "value": "22",
                 "variable": "var_ac"
             },
             {
-                "value": 15,
+                "value": "15",
                 "variable": "var_temphp"
             },
             {
-                "value": 23,
+                "value": "+23",
                 "variable": "var_attack"
             },
             {
@@ -18614,7 +18754,7 @@
                 "variable": "var_dmgbonus"
             },
             {
-                "value": 23,
+                "value": "+23",
                 "variable": "var_athletics"
             },
             {
@@ -18636,15 +18776,15 @@
                 "variable": "var_size"
             },
             {
-                "value": 22,
+                "value": "22",
                 "variable": "var_ac"
             },
             {
-                "value": 20,
+                "value": "20",
                 "variable": "var_temphp"
             },
             {
-                "value": 25,
+                "value": "+25",
                 "variable": "var_attack"
             },
             {
@@ -18652,7 +18792,7 @@
                 "variable": "var_dmgbonus"
             },
             {
-                "value": 25,
+                "value": "+25",
                 "variable": "var_athletics"
             },
             {
@@ -18818,6 +18958,97 @@
             "Plant",
             "Polymorph",
             "Transmutation"
+        ],
+        "target": "self",
+        "duration": "1 minute",
+        "desc": "Taking inspiration from verdant creatures, you transform into a <var>var_size</var> plant battle form. You must have space to expand into or the spell is lost. When you cast this spell, choose arboreal, flytrap, or shambler. You can substitute a similar specific plant to turn into (such as a pitcher plant instead of a flytrap), but this has no effect on the form's Size or statistics. While in this form, you gain the plant trait. You can Dismiss the spell.\n\nYou gain the following statistics and abilities regardless of which battle form you choose:\n\nAC = <var>var_ac</var> + your level. Ignore your armor's check penalty and Speed reduction.\n<var>var_temphp</var> temporary Hit Points.\nResistance 10 to poison.\nLow-light vision.\nOne or more unarmed melee attacks specific to the battle form you choose, which are the only attacks you can use. You're trained with them. Your attack modifier is <var>var_attack</var>, and your damage bonus is <var>var_dmgbonus</var>. These attacks are Strength based (for the purpose of the enfeebled condition, for example). If your unarmed attack modifier is higher, you can use it instead.\nAthletics modifier of <var>var_athletics</var>, unless your own modifier is higher.\n\nYou also gain specific abilities based on the form you choose:\n\n<strong>Arboreal</strong> Speed 30 feet; <strong>Melee</strong> branch (reach <var>var_reach15</var> feet), <strong>Damage</strong> 2d10 bludgeoning; <strong>Melee</strong> foot<var>var_noreachnotraits</var>, <strong>Damage</strong> 2d8 bludgeoning; you can speak in this form, but you still can't Cast a Spell or supply verbal components.\n<strong>Flytrap</strong> Speed 15 feet; resistance 10 to acid;<strong>Melee</strong> leaf (reach <var>var_reach10</var> feet), <strong>Damage</strong> 2d8 piercing, and you can spend an action after a hit to Grab the target.\n<strong>Shambler</strong> Speed 20 feet, swim Speed 20 feet; <strong>Melee</strong> vine (reach <var>var_reach15</var> feet), <strong>Damage</strong> 2d8 slashing.",
+        "heightened": [
+            {
+                "desc": "Your battle form is Huge, and the reach of your attacks increases by 5 feet. You instead gain AC = 22 + your level, 24 temporary HP, attack modifier +21, damage bonus +16, and Athletics +22.",
+                "level": "(6th)"
+            }
+        ],
+        "gainConditions": [
+            {
+                "duration": 100,
+                "name": "Plant Form",
+                "source": "Plant Form"
+            }
+        ],
+        "desc5": [
+            {
+                "value": "Large",
+                "variable": "var_size"
+            },
+            {
+                "value": "19",
+                "variable": "var_ac"
+            },
+            {
+                "value": "12",
+                "variable": "var_temphp"
+            },
+            {
+                "value": "+17",
+                "variable": "var_attack"
+            },
+            {
+                "value": "+11",
+                "variable": "var_dmgbonus"
+            },
+            {
+                "value": "+19",
+                "variable": "var_athletics"
+            },
+            {
+                "value": 10,
+                "variable": "var_reach10"
+            },
+            {
+                "value": "15",
+                "variable": "var_reach15"
+            },
+            {
+                "variable": "var_noreachwithtraits"
+            }
+        ],
+        "desc6": [
+            {
+                "value": "Huge",
+                "variable": "var_size"
+            },
+            {
+                "value": "22",
+                "variable": "var_ac"
+            },
+            {
+                "value": "24",
+                "variable": "var_temphp"
+            },
+            {
+                "value": "+21",
+                "variable": "var_attack"
+            },
+            {
+                "value": "+16. The reach of your attacks increases by 5 feet",
+                "variable": "var_dmgbonus"
+            },
+            {
+                "value": "+22",
+                "variable": "var_athletics"
+            },
+            {
+                "value": 15,
+                "variable": "var_reach10"
+            },
+            {
+                "value": 20,
+                "variable": "var_reach15"
+            },
+            {
+                "value": " (reach 10 feet)",
+                "variable": "var_noreachwithtraits"
+            }
         ]
     },
     {
@@ -19260,7 +19491,7 @@
         ],
         "target": "self",
         "duration": "1 minute",
-        "desc": "Calling upon powerful transformative magic, you gain a <var>var_size</var> dragon battle form. You must have space to expand or the spell is lost. When you cast this spell, choose one type of chromatic or metallic dragon. While in this form, you gain the dragon trait. You have hands in this battle form and can take manipulate actions. You can Dismiss the spell.\n\nYou gain the following statistics and abilities regardless of which battle form you choose:\n\nAC = <var>var_ac</var> + your level. Ignore your armor's check penalty and Speed reduction.\n<var>var_temphp</var> temporary Hit Points.\nSpeed 40 feet, fly Speed 100 feet.\nResistance 10 against the damage type of your breath weapon (see below).\nDarkvision and imprecise scent 60 feet.\nOne or more unarmed melee attacks specific to the battle form you choose, which are the only attacks you can use. You're trained with them. Your attack modifier is <var>var_attack</var>, and your damage bonus is <var>var_dmgbonus</var>. These attacks are Strength based (for the purpose of the enfeebled condition, for example). If your unarmed attack modifier is higher, you can use it instead. See below for more on these attacks.\nAthletics modifier of <var>var_athletics</var>, unless your own modifier is higher.\n<strong>Breath Weapon</strong> <span class='actionIcon action1A'></span> (arcane, evocation) The shape, damage, and damage type of your breath weapon depend on your specific dragon form (see below). A creature in the area attempts a basic save against your spell DC. This is a Reflex save unless stated otherwise in the special ability description for your specific dragon form. Once activated, your breath weapon can't be used again for 1d4 rounds. Your breath weapon has the trait corresponding to the type of damage it deals.<var>var_breathbonus</var>\n\nYou also gain specific abilities based on the type of dragon you choose:\n\n<strong>Black</strong> swim Speed 60 feet; <strong>Melee</strong> jaws<var>var_noreachnotraits</var>, <strong>Damage</strong> 2d12 piercing plus 2d6 acid; <strong>Melee</strong> claw (agile<var>var_noreachwithtraits</var>), <strong>Damage</strong> 3d10 slashing; <strong>Melee</strong> tail (reach <var>var_reach10</var> feet), <strong>Damage</strong> 3d10 bludgeoning; <strong>Melee</strong> horns (reach <var>var_reach10</var> feet), <strong>Damage</strong> 3d8 piercing; breath weapon 60-foot line, 11d6 acid.\n<strong>Blue</strong> burrow Speed 20 feet; <strong>Melee</strong> jaws<var>var_noreachnotraits</var>, <strong>Damage</strong> 2d10 piercing plus 1d12 electricity; <strong>Melee</strong> claw (agile<var>var_noreachwithtraits</var>), <strong>Damage</strong> 3d10 slashing; <strong>Melee</strong> tail (reach <var>var_reach10</var> feet), <strong>Damage</strong> 3d10 bludgeoning; <strong>Melee</strong> horns (reach <var>var_reach10</var> feet), <strong>Damage</strong> 3d8 piercing; breath weapon 80-foot line, 6d12 electricity.\n<strong>Brass</strong> burrow Speed 20 feet; <strong>Melee</strong> jaws<var>var_noreachnotraits</var>, <strong>Damage</strong> 3d8 piercing plus 2d4 fire; <strong>Melee</strong> claw (agile<var>var_noreachwithtraits</var>), <strong>Damage</strong> 3d10 slashing; <strong>Melee</strong> tail (reach <var>var_reach10</var> feet), <strong>Damage</strong> 3d10 bludgeoning; <strong>Melee</strong> spikes (reach <var>var_reach10</var> feet), <strong>Damage</strong> 3d8 piercing; breath weapon 60-foot line, 15d4 fire.\n<strong>Bronze</strong> swim Speed 40 feet; <strong>Melee</strong> jaws<var>var_noreachnotraits</var>, <strong>Damage</strong> 2d10 piercing plus 1d12 electricity; <strong>Melee</strong> claw (agile<var>var_noreachwithtraits</var>), <strong>Damage</strong> 3d10 slashing; <strong>Melee</strong> tail (reach <var>var_reach10</var> feet), <strong>Damage</strong> 3d10 bludgeoning; <strong>Melee</strong> wing (reach <var>var_reach10</var> feet), <strong>Damage</strong> 3d8 slashing; breath weapon 80-foot line, 6d12 electricity.\n<strong>Copper</strong> climb Speed 25 feet on stone only; <strong>Melee</strong> jaws<var>var_noreachnotraits</var>, <strong>Damage</strong> 2d12 piercing plus 2d6 acid; <strong>Melee</strong> claw (agile<var>var_noreachwithtraits</var>), <strong>Damage</strong> 3d10 slashing; <strong>Melee</strong> tail (reach <var>var_reach10</var> feet), <strong>Damage</strong> 3d10 bludgeoning; <strong>Melee</strong> wing (reach <var>var_reach10</var> feet), <strong>Damage</strong> 3d8 bludgeoning; breath weapon 60-foot line, 10d6 acid.\n<strong>Gold</strong> swim Speed 40 feet; <strong>Melee</strong> jaws<var>var_noreachnotraits</var>, <strong>Damage</strong> 2d12 piercing plus 2d6 fire; <strong>Melee</strong> claw (agile<var>var_noreachwithtraits</var>), <strong>Damage</strong> 4d6 slashing; <strong>Melee</strong> tail (reach <var>var_reach10</var> feet), <strong>Damage</strong> 3d10 bludgeoning; <strong>Melee</strong> horns (reach <var>var_reach10</var> feet), <strong>Damage</strong> 3d8 piercing; breath weapon 30-foot cone, 6d10 fire.\n<strong>Green</strong> swim Speed 40 feet, ignores difficult terrain from non-magical foliage; <strong>Melee</strong> jaws<var>var_noreachnotraits</var>, <strong>Damage</strong> 2d12 piercing plus 2d6 poison; <strong>Melee</strong> claw (agile<var>var_noreachwithtraits</var>), <strong>Damage</strong> 3d10 slashing; <strong>Melee</strong> tail (reach <var>var_reach10</var> feet), <strong>Damage</strong> 3d10 bludgeoning; <strong>Melee</strong> horns (reach <var>var_reach10</var> feet), <strong>Damage</strong> 3d8 piercing; breath weapon 30-foot cone, 10d6 poison (Fortitude save instead of Reflex).\n<strong>Red</strong> ignore concealed from smoke; <strong>Melee</strong> jaws<var>var_noreachnotraits</var>, <strong>Damage</strong> 2d12 piercing plus 2d6 fire; <strong>Melee</strong> claw (agile<var>var_noreachwithtraits</var>), <strong>Damage</strong> 4d6 slashing; <strong>Melee</strong> tail (reach <var>var_reach10</var> feet), <strong>Damage</strong> 3d10 bludgeoning; <strong>Melee</strong> wing (reach <var>var_reach10</var> feet), <strong>Damage</strong> 3d8 bludgeoning; breath weapon 30-foot cone, 10d6 fire.\n<strong>Silver</strong> cloud walk; <strong>Melee</strong> jaws<var>var_noreachnotraits</var>, <strong>Damage</strong> 2d12 piercing plus 2d6 cold; <strong>Melee</strong> claw (agile<var>var_noreachwithtraits</var>), <strong>Damage</strong> 3d10 slashing; <strong>Melee</strong> tail (reach <var>var_reach10</var> feet), <strong>Damage</strong> 3d10 bludgeoning; breath weapon 30-foot cone, 8d8 cold.\n<strong>White</strong> climb Speed 25 feet on ice only; <strong>Melee</strong> jaws<var>var_noreachnotraits</var>, <strong>Damage</strong> 3d6 piercing plus 2d6 cold; <strong>Melee</strong> claw (agile<var>var_noreachwithtraits</var>), <strong>Damag+NN5e</strong> 3d10 slashing; <strong>Melee</strong> tail (reach <var>var_reach10</var> feet), <strong>Damage</strong> 3d10 bludgeoning; breath weapon 30-foot cone, 10d6 cold.",
+        "desc": "Calling upon powerful transformative magic, you gain a <var>var_size</var> dragon battle form. You must have space to expand or the spell is lost. When you cast this spell, choose one type of chromatic or metallic dragon. While in this form, you gain the dragon trait. You have hands in this battle form and can take manipulate actions. You can Dismiss the spell.\n\nYou gain the following statistics and abilities regardless of which battle form you choose:\n\nAC = <var>var_ac</var> + your level. Ignore your armor's check penalty and Speed reduction.\n<var>var_temphp</var> temporary Hit Points.\nSpeed 40 feet, fly Speed 100 feet.\nResistance 10 against the damage type of your breath weapon (see below).\nDarkvision and imprecise scent 60 feet.\nOne or more unarmed melee attacks specific to the battle form you choose, which are the only attacks you can use. You're trained with them. Your attack modifier is <var>var_attack</var>, and your damage bonus is <var>var_dmgbonus</var>. These attacks are Strength based (for the purpose of the enfeebled condition, for example). If your unarmed attack modifier is higher, you can use it instead. See below for more on these attacks.\nAthletics modifier of <var>var_athletics</var>, unless your own modifier is higher.\n<strong>Breath Weapon</strong> <span class='actionIcon action2A'></span> (arcane, evocation) The shape, damage, and damage type of your breath weapon depend on your specific dragon form (see below). A creature in the area attempts a basic save against your spell DC. This is a Reflex save unless stated otherwise in the special ability description for your specific dragon form. Once activated, your breath weapon can't be used again for 1d4 rounds. Your breath weapon has the trait corresponding to the type of damage it deals.<var>var_breathbonus</var>\n\nYou also gain specific abilities based on the type of dragon you choose:\n\n<strong>Black</strong> swim Speed 60 feet; <strong>Melee</strong> jaws<var>var_noreachnotraits</var>, <strong>Damage</strong> 2d12 piercing plus 2d6 acid; <strong>Melee</strong> claw (agile<var>var_noreachwithtraits</var>), <strong>Damage</strong> 3d10 slashing; <strong>Melee</strong> tail (reach <var>var_reach10</var> feet), <strong>Damage</strong> 3d10 bludgeoning; <strong>Melee</strong> horns (reach <var>var_reach10</var> feet), <strong>Damage</strong> 3d8 piercing; breath weapon 60-foot line, 11d6 acid.\n<strong>Blue</strong> burrow Speed 20 feet; <strong>Melee</strong> jaws<var>var_noreachnotraits</var>, <strong>Damage</strong> 2d10 piercing plus 1d12 electricity; <strong>Melee</strong> claw (agile<var>var_noreachwithtraits</var>), <strong>Damage</strong> 3d10 slashing; <strong>Melee</strong> tail (reach <var>var_reach10</var> feet), <strong>Damage</strong> 3d10 bludgeoning; <strong>Melee</strong> horns (reach <var>var_reach10</var> feet), <strong>Damage</strong> 3d8 piercing; breath weapon 80-foot line, 6d12 electricity.\n<strong>Brass</strong> burrow Speed 20 feet; <strong>Melee</strong> jaws<var>var_noreachnotraits</var>, <strong>Damage</strong> 3d8 piercing plus 2d4 fire; <strong>Melee</strong> claw (agile<var>var_noreachwithtraits</var>), <strong>Damage</strong> 3d10 slashing; <strong>Melee</strong> tail (reach <var>var_reach10</var> feet), <strong>Damage</strong> 3d10 bludgeoning; <strong>Melee</strong> spikes (reach <var>var_reach10</var> feet), <strong>Damage</strong> 3d8 piercing; breath weapon 60-foot line, 15d4 fire.\n<strong>Bronze</strong> swim Speed 40 feet; <strong>Melee</strong> jaws<var>var_noreachnotraits</var>, <strong>Damage</strong> 2d10 piercing plus 1d12 electricity; <strong>Melee</strong> claw (agile<var>var_noreachwithtraits</var>), <strong>Damage</strong> 3d10 slashing; <strong>Melee</strong> tail (reach <var>var_reach10</var> feet), <strong>Damage</strong> 3d10 bludgeoning; <strong>Melee</strong> wing (reach <var>var_reach10</var> feet), <strong>Damage</strong> 3d8 slashing; breath weapon 80-foot line, 6d12 electricity.\n<strong>Copper</strong> climb Speed 25 feet on stone only; <strong>Melee</strong> jaws<var>var_noreachnotraits</var>, <strong>Damage</strong> 2d12 piercing plus 2d6 acid; <strong>Melee</strong> claw (agile<var>var_noreachwithtraits</var>), <strong>Damage</strong> 3d10 slashing; <strong>Melee</strong> tail (reach <var>var_reach10</var> feet), <strong>Damage</strong> 3d10 bludgeoning; <strong>Melee</strong> wing (reach <var>var_reach10</var> feet), <strong>Damage</strong> 3d8 bludgeoning; breath weapon 60-foot line, 10d6 acid.\n<strong>Gold</strong> swim Speed 40 feet; <strong>Melee</strong> jaws<var>var_noreachnotraits</var>, <strong>Damage</strong> 2d12 piercing plus 2d6 fire; <strong>Melee</strong> claw (agile<var>var_noreachwithtraits</var>), <strong>Damage</strong> 4d6 slashing; <strong>Melee</strong> tail (reach <var>var_reach10</var> feet), <strong>Damage</strong> 3d10 bludgeoning; <strong>Melee</strong> horns (reach <var>var_reach10</var> feet), <strong>Damage</strong> 3d8 piercing; breath weapon 30-foot cone, 6d10 fire.\n<strong>Green</strong> swim Speed 40 feet, ignores difficult terrain from non-magical foliage; <strong>Melee</strong> jaws<var>var_noreachnotraits</var>, <strong>Damage</strong> 2d12 piercing plus 2d6 poison; <strong>Melee</strong> claw (agile<var>var_noreachwithtraits</var>), <strong>Damage</strong> 3d10 slashing; <strong>Melee</strong> tail (reach <var>var_reach10</var> feet), <strong>Damage</strong> 3d10 bludgeoning; <strong>Melee</strong> horns (reach <var>var_reach10</var> feet), <strong>Damage</strong> 3d8 piercing; breath weapon 30-foot cone, 10d6 poison (Fortitude save instead of Reflex).\n<strong>Red</strong> ignore concealed from smoke; <strong>Melee</strong> jaws<var>var_noreachnotraits</var>, <strong>Damage</strong> 2d12 piercing plus 2d6 fire; <strong>Melee</strong> claw (agile<var>var_noreachwithtraits</var>), <strong>Damage</strong> 4d6 slashing; <strong>Melee</strong> tail (reach <var>var_reach10</var> feet), <strong>Damage</strong> 3d10 bludgeoning; <strong>Melee</strong> wing (reach <var>var_reach10</var> feet), <strong>Damage</strong> 3d8 bludgeoning; breath weapon 30-foot cone, 10d6 fire.\n<strong>Silver</strong> cloud walk; <strong>Melee</strong> jaws<var>var_noreachnotraits</var>, <strong>Damage</strong> 2d12 piercing plus 2d6 cold; <strong>Melee</strong> claw (agile<var>var_noreachwithtraits</var>), <strong>Damage</strong> 3d10 slashing; <strong>Melee</strong> tail (reach <var>var_reach10</var> feet), <strong>Damage</strong> 3d10 bludgeoning; breath weapon 30-foot cone, 8d8 cold.\n<strong>White</strong> climb Speed 25 feet on ice only; <strong>Melee</strong> jaws<var>var_noreachnotraits</var>, <strong>Damage</strong> 3d6 piercing plus 2d6 cold; <strong>Melee</strong> claw (agile<var>var_noreachwithtraits</var>), <strong>Damag+NN5e</strong> 3d10 slashing; <strong>Melee</strong> tail (reach <var>var_reach10</var> feet), <strong>Damage</strong> 3d10 bludgeoning; breath weapon 30-foot cone, 10d6 cold.",
         "heightened": [
             {
                 "desc": "Your battle form is Huge, you gain a +20-foot status bonus to your fly Speed, and your attacks have 10-foot reach (or 15-foot reach if they previously had 10-foot reach). You instead gain AC = 21 + your level, 15 temporary HP, an attack modifier of +28, a damage bonus of +12, Athletics +28, and a +14 status bonus to breath weapon damage.",
@@ -19280,23 +19511,23 @@
                 "variable": "var_size"
             },
             {
-                "value": 18,
+                "value": "18",
                 "variable": "var_ac"
             },
             {
-                "value": 10,
+                "value": "10",
                 "variable": "var_temphp"
             },
             {
-                "value": 22,
+                "value": "+22",
                 "variable": "var_attack"
             },
             {
-                "value": 6,
+                "value": "+6",
                 "variable": "var_dmgbonus"
             },
             {
-                "value": 23,
+                "value": "+23",
                 "variable": "var_athletics"
             },
             {
@@ -19322,23 +19553,23 @@
                 "variable": "var_size"
             },
             {
-                "value": 21,
+                "value": "21",
                 "variable": "var_ac"
             },
             {
-                "value": 15,
+                "value": "15",
                 "variable": "var_temphp"
             },
             {
-                "value": 28,
+                "value": "+28",
                 "variable": "var_attack"
             },
             {
-                "value": 12,
+                "value": "+12",
                 "variable": "var_dmgbonus"
             },
             {
-                "value": 28,
+                "value": "+28",
                 "variable": "var_athletics"
             },
             {
@@ -20490,6 +20721,74 @@
         "traits": [
             "Polymorph",
             "Transmutation"
+        ],
+        "target": "self",
+        "duration": "1 minute",
+        "desc": "You have transformed into the shape of a legendary monster, assuming a Huge battle form chosen from phoenix, purple worm, or sea serpent. While in this form, you gain the beast trait (for phoenix) or the animal trait (for purple worm or sea serpent). You can Dismiss the spell.\n\nYou gain the following statistics and abilities regardless of which battle form you choose:\n\nAC = <var>var_ac</var> + your level. Ignore your armor's check penalty and Speed reduction.\n<var>var_temphp</var> temporary Hit Points.\nDarkvision.\nOne or more unarmed melee attacks specific to the battle form you choose, which are the only attacks you can use. You're trained with them. Your attack modifier is <var>var_attack</var>, and you use the listed damage. These attacks are Strength based (for the purpose of the enfeebled condition, for example). If your unarmed attack modifier is higher, you can use it instead.\nAthletics modifier of <var>var_athletics</var>, unless your own modifier is higher.\n\nYou also gain specific abilities based on the form you choose:\n\n<strong>Phoenix</strong> Speed 30 feet, fly Speed 90 feet; <strong>Melee</strong> beak (reach 15 feet), <strong>Damage</strong> <var>var_dice2</var>d6+12 piercing plus 2d4 fire and 2d4 persistent fire; <strong>Melee</strong> talon (agile, reach 15 feet), <strong>Damage</strong> <var>var_dice2</var>d8+12 slashing; <strong>Shroud of Flame</strong> (aura, evocation, fire, primal) 20 feet. You gain an aura of fire that extends out from you. A creature that enters or ends its turn within the aura takes 2d6 fire damage. A creature can take this damage only once per turn. You can use a single action, which has the concentrate trait, to activate or deactivate this aura.\n<strong>Purple Worm</strong> Speed 40 feet, burrow 30 feet, swim Speed 20 feet; <strong>Melee</strong> jaws (reach 10 feet), <strong>Damage</strong> <var>var_dice2</var>d12+20 piercing; <strong>Melee</strong> stinger (agile, reach 10 feet), <strong>Damage</strong> <var>var_dice2</var>d8+15 piercing plus 2d6 persistent poison; <strong>Melee</strong> body (reach 10 feet), <strong>Damage</strong> <var>var_dice2</var>d8+20 bludgeoning; <strong>Inexorable</strong> You automatically recover from the paralyzed, slowed, and stunned conditions at the end of each of your turns. You're also immune to being immobilized and ignore difficult terrain and greater difficult terrain.\n<strong>Sea Serpent</strong> Speed 20 feet, swim Speed 90 feet; <strong>Melee</strong> jaws (reach 15 feet), <strong>Damage</strong> <var>var_dice2</var>d12+20 piercing; <strong>Melee</strong> tail (reach 25 feet), <strong>Damage</strong> <var>var_dice2</var>d8+20 bludgeoning; <strong>Spine Rake</strong> <span class='actionIcon action2A'> (move), You extend your spines and Swim or Stride. Each creature you're adjacent to at any point during your movement takes <var>var_dice4</var>d8+10 slashing damage (basic Reflex against your spell DC).",
+        "heightened": [
+            {
+                "desc": "You instead gain AC = 22 + your level, 25 temporary HP, attack modifier +31, increase damage by one damage die, and Athletics +33.",
+                "level": "(9th)"
+            }
+        ],
+        "gainConditions": [
+            {
+                "duration": 100,
+                "name": "Monstrosity Form",
+                "source": "Monstrosity Form"
+            }
+        ],
+        "desc8": [
+            {
+                "value": "20",
+                "variable": "var_ac"
+            },
+            {
+                "value": "20",
+                "variable": "var_temphp"
+            },
+            {
+                "value": "+28",
+                "variable": "var_attack"
+            },
+            {
+                "value": "+30",
+                "variable": "var_athletics"
+            },
+            {
+                "value": 2,
+                "variable": "var_dice2"
+            },
+            {
+                "value": 4,
+                "variable": "var_dice3"
+            }
+        ],
+        "desc9": [
+            {
+                "value": "22",
+                "variable": "var_ac"
+            },
+            {
+                "value": "25",
+                "variable": "var_temphp"
+            },
+            {
+                "value": "+31",
+                "variable": "var_attack"
+            },
+            {
+                "value": "+33",
+                "variable": "var_athletics"
+            },
+            {
+                "value": 3,
+                "variable": "var_dice2"
+            },
+            {
+                "value": 5,
+                "variable": "var_dice3"
+            }
         ]
     },
     {
@@ -21099,6 +21398,16 @@
         "traits": [
             "Polymorph",
             "Transmutation"
+        ],
+        "target": "self",
+        "duration": "1 minute",
+        "desc": "The primal power of the world flows through you. You transform into an incarnation of nature, either a green man or a kaiju. Your battle form is Medium for a green man or Gargantuan (30-foot-by-30-foot space) for a kaiju. You must have enough space to expand into or the spell is lost. While in this form, you gain the plant trait (for a green man) or the beast trait (for a kaiju). You can Dismiss the spell.\n\nYou gain the following statistics and abilities regardless of which battle form you choose:\n\nAC = 25 + your level. Ignore your armor's check penalty and Speed reduction.\n30 temporary Hit Points.\nDarkvision.\nOne or more attacks specific to the battle form you choose, which are the only attacks you can use. You're trained with them. Your attack modifier is +34, and you use the listed damage. These attacks are Strength based (for the purpose of the enfeebled condition, for example). If your unarmed attack modifier is higher, you can use it instead.\nAthletics modifier of +36, unless your own modifier is higher.\n\nYou also gain specific abilities based on the type of incarnation you choose:\n\n<strong>Green Man</strong> Speed 40 feet, climb Speed 40 feet; <strong>Melee</strong> vines (reach 30 feet, versatile P), <strong>Damage</strong> 6d8+12 bludgeoning; <strong>Ranged</strong> thorns (range 100 feet), <strong>Damage</strong> 6d6+6 piercing; <strong>Green Caress</strong> (aura, primal, transmutation) 60 feet. Enemies other than plants must succeed at a Fortitude save against your spell DC or become clumsy 1 for 1 round (clumsy 2 on a critical failure).\n<strong>Kaiju</strong> Speed 50 feet; resistance 5 to physical damage; <strong>Melee</strong> jaws (reach 30 feet), <strong>Damage</strong> 6d10+10 piercing; <strong>Melee</strong> claws (agile, reach 30 feet), <strong>Damage</strong> 6d8+8 slashing; <strong>Melee</strong> foot (agile, reach 15 feet), <strong>Damage</strong> 6d6+10 bludgeoning; <strong>Unstoppable</strong> You are immune to being immobilized and ignore difficult terrain and greater difficult terrain; <strong>Trample</strong> <span class='actionIcon action3A'> You move up to double your Speed and move through the spaces of Huge or smaller creatures, trampling each creature whose space you enter. A trampled creature takes foot damage with a basic Reflex save against your spell DC.",
+        "gainConditions": [
+            {
+                "duration": 100,
+                "name": "Nature Incarnate",
+                "source": "Nature Incarnate"
+            }
         ]
     },
     {

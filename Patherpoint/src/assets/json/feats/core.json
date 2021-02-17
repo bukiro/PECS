@@ -21444,7 +21444,7 @@
         "effects": [
             {
                 "affected": "Focus Pool",
-                "value": "1"
+                "value": "Character.class.spellCasting.filter(casting => casting.castingType == 'Focus' && casting.className != 'Wizard' && casting.spellChoices.length).length ? 0 : 1"
             }
         ],
         "onceEffects": [
@@ -21497,7 +21497,7 @@
         "effects": [
             {
                 "affected": "Focus Pool",
-                "value": "1"
+                "value": "Character.class.spellCasting.filter(casting => casting.castingType == 'Focus' && casting.className != 'Wizard' && casting.spellChoices.length).length ? 0 : 1"
             }
         ],
         "onceEffects": [
@@ -21550,7 +21550,7 @@
         "effects": [
             {
                 "affected": "Focus Pool",
-                "value": "1"
+                "value": "Character.class.spellCasting.filter(casting => casting.castingType == 'Focus' && casting.className != 'Wizard' && casting.spellChoices.length).length ? 0 : 1"
             }
         ],
         "onceEffects": [
@@ -21603,7 +21603,7 @@
         "effects": [
             {
                 "affected": "Focus Pool",
-                "value": "1"
+                "value": "Character.class.spellCasting.filter(casting => casting.castingType == 'Focus' && casting.className != 'Wizard' && casting.spellChoices.length).length ? 0 : 1"
             }
         ],
         "onceEffects": [
@@ -21656,7 +21656,7 @@
         "effects": [
             {
                 "affected": "Focus Pool",
-                "value": "1"
+                "value": "Character.class.spellCasting.filter(casting => casting.castingType == 'Focus' && casting.className != 'Wizard' && casting.spellChoices.length).length ? 0 : 1"
             }
         ],
         "onceEffects": [
@@ -21709,7 +21709,7 @@
         "effects": [
             {
                 "affected": "Focus Pool",
-                "value": "1"
+                "value": "Character.class.spellCasting.filter(casting => casting.castingType == 'Focus' && casting.className != 'Wizard' && casting.spellChoices.length).length ? 0 : 1"
             }
         ],
         "onceEffects": [
@@ -21762,7 +21762,7 @@
         "effects": [
             {
                 "affected": "Focus Pool",
-                "value": "1"
+                "value": "Character.class.spellCasting.filter(casting => casting.castingType == 'Focus' && casting.className != 'Wizard' && casting.spellChoices.length).length ? 0 : 1"
             }
         ],
         "onceEffects": [
@@ -21815,7 +21815,7 @@
         "effects": [
             {
                 "affected": "Focus Pool",
-                "value": "1"
+                "value": "Character.class.spellCasting.filter(casting => casting.castingType == 'Focus' && casting.className != 'Wizard' && casting.spellChoices.length).length ? 0 : 1"
             }
         ],
         "onceEffects": [
@@ -25018,7 +25018,7 @@
         "effects": [
             {
                 "affected": "Focus Pool",
-                "value": "Character.class.spellCasting.filter(casting => casting.castingType == 'Focus' && casting.spellChoices.length).length ? 0 : 1"
+                "value": "Character.class.spellCasting.filter(casting => casting.castingType == 'Focus' && casting.className != 'Bard' && casting.spellChoices.length).length ? 0 : 1"
             }
         ],
         "onceEffects": [
@@ -34306,6 +34306,13 @@
     },
     {
         "name": "Call of the Wild",
+        "desc": "You call upon the creatures of nature to come to your aid. You can spend 10 minutes in concert with nature to replace one of the spells you've prepared in one of your druid spell slots with a summon animal or summon plants and fungus spell of the same level.",
+        "hints": [
+            {
+                "desc": "You can spend 10 minutes in concert with nature to replace one of the spells you've prepared in one of your druid spell slots with a summon animal or summon plants and fungus spell of the same level.",
+                "showon": "Spellbook, Druid Prepared Spells"
+            }
+        ],
         "shortdesc": "You call upon the creatures of nature to come to your aid.",
         "traits": [
             "Druid"
@@ -34314,24 +34321,157 @@
     },
     {
         "name": "Order Explorer",
+        "desc": "You have learned the secrets of another druidic order, passing whatever rites of initiation that order requires and gaining access to its secrets. Choose an order other than your own. You gain a 1st-level feat that lists that order as a prerequisite, and you are now a member of that order for the purpose of meeting feat prerequisites. If you commit acts anathema to your new order, you lose all feats and abilities requiring that order but retain your other druid feats and abilities. You don't gain any of the other benefits of the order you chose.",
+        "specialdesc": "You can take this feat multiple times. Each time you do, you must choose a different order other than your own.",
+        "subTypes": true,
         "shortdesc": "You have learned the secrets of another druidic order.",
+        "unlimited": true,
         "traits": [
             "Druid"
         ],
         "levelreq": 2
     },
     {
+        "name": "Order Explorer: Animal Order",
+        "desc": "You have learned the secrets of the animal order, passing whatever rites of initiation that order requires and gaining access to its secrets. You gain a 1st-level feat that lists that order as a prerequisite, and you are now a member of that order for the purpose of meeting feat prerequisites. If you commit acts anathema to your new order, you lose all feats and abilities requiring that order but retain your other druid feats and abilities. You don't gain any of the other benefits of the order you chose.",
+        "subType": "Animal Order",
+        "superType": "Order Explorer",
+        "shortdesc": "You have learned the secrets of another druidic order.",
+        "countAsFeat": "Animal Order",
+        "traits": [
+            "Druid"
+        ],
+        "levelreq": 2,
+        "specialreq": "!character.get_FeatsTaken(1, charLevel, 'Animal Order').length",
+        "specialreqdesc": "no animal order",
+        "anathema": [
+            "Committing wanton cruelty to animals or killing animals unnecessarily is anathema to your order. (This doesn't prevent you from defending yourself against animals or killing them cleanly for food.)"
+        ],
+        "gainFeatChoice": [
+            {
+                "_className": "FeatChoice",
+                "available": 1,
+                "filter": [
+                    "Animal Companion (Druid)"
+                ],
+                "source": "Feat: Order Explorer: Animal Order",
+                "specialChoice": true,
+                "type": "Druid"
+            }
+        ]
+    },
+    {
+        "name": "Order Explorer: Leaf Order",
+        "desc": "You have learned the secrets of the leaf order, passing whatever rites of initiation that order requires and gaining access to its secrets. You gain a 1st-level feat that lists that order as a prerequisite, and you are now a member of that order for the purpose of meeting feat prerequisites. If you commit acts anathema to your new order, you lose all feats and abilities requiring that order but retain your other druid feats and abilities. You don't gain any of the other benefits of the order you chose.",
+        "subType": "Leaf Order",
+        "superType": "Order Explorer",
+        "shortdesc": "You have learned the secrets of another druidic order.",
+        "countAsFeat": "Leaf Order",
+        "traits": [
+            "Druid"
+        ],
+        "levelreq": 2,
+        "specialreq": "!character.get_FeatsTaken(1, charLevel, 'Leaf Order').length",
+        "specialreqdesc": "no leaf order",
+        "anathema": [
+            "Committing wanton cruelty to plants or killing plants unnecessarily is anathema to your order. (This doesn't prevent you from defending yourself against plants or harvesting them when necessary for survival.)"
+        ],
+        "gainFeatChoice": [
+            {
+                "_className": "FeatChoice",
+                "available": 1,
+                "filter": [
+                    "Leshy Familiar"
+                ],
+                "source": "Feat: Order Explorer: Leaf Order",
+                "specialChoice": true,
+                "type": "Druid"
+            }
+        ]
+    },
+    {
+        "name": "Order Explorer: Storm Order",
+        "desc": "You have learned the secrets of the storm order, passing whatever rites of initiation that order requires and gaining access to its secrets. You gain a 1st-level feat that lists that order as a prerequisite, and you are now a member of that order for the purpose of meeting feat prerequisites. If you commit acts anathema to your new order, you lose all feats and abilities requiring that order but retain your other druid feats and abilities. You don't gain any of the other benefits of the order you chose.",
+        "subType": "Storm Order",
+        "superType": "Order Explorer",
+        "shortdesc": "You have learned the secrets of another druidic order.",
+        "countAsFeat": "Storm Order",
+        "traits": [
+            "Druid"
+        ],
+        "levelreq": 2,
+        "specialreq": "!character.get_FeatsTaken(1, charLevel, 'Storm Order').length",
+        "specialreqdesc": "no storm order",
+        "anathema": [
+            "Polluting the air or allowing those who cause major air pollution or climate shifts to go unpunished is anathema to your order. (This doesn't force you to take action against merely potential harm to the environment or to sacrifice yourself against an obviously superior foe.)"
+        ],
+        "gainFeatChoice": [
+            {
+                "_className": "FeatChoice",
+                "available": 1,
+                "filter": [
+                    "Storm Born"
+                ],
+                "source": "Feat: Order Explorer: Storm Order",
+                "specialChoice": true,
+                "type": "Druid"
+            }
+        ]
+    },
+    {
+        "name": "Order Explorer: Wild Order",
+        "desc": "You have learned the secrets of the wild order, passing whatever rites of initiation that order requires and gaining access to its secrets. You gain a 1st-level feat that lists that order as a prerequisite, and you are now a member of that order for the purpose of meeting feat prerequisites. If you commit acts anathema to your new order, you lose all feats and abilities requiring that order but retain your other druid feats and abilities. You don't gain any of the other benefits of the order you chose.",
+        "subType": "Wild Order",
+        "superType": "Order Explorer",
+        "shortdesc": "You have learned the secrets of another druidic order.",
+        "countAsFeat": "Wild Order",
+        "traits": [
+            "Druid"
+        ],
+        "levelreq": 2,
+        "specialreq": "!character.get_FeatsTaken(1, charLevel, 'Wild Order').length",
+        "specialreqdesc": "no wild order",
+        "anathema": [
+            "Becoming fully domesticated by the temptations of civilization is anathema to your order. (This doesn't prevent you from buying and using processed goods or staying in a city for an adventure, but you can never come to rely on these conveniences or truly call such a place your permanent home.)"
+        ],
+        "gainFeatChoice": [
+            {
+                "_className": "FeatChoice",
+                "available": 1,
+                "filter": [
+                    "Wild Shape"
+                ],
+                "source": "Feat: Order Explorer: Wild Order",
+                "specialChoice": true,
+                "type": "Druid"
+            }
+        ]
+    },
+    {
         "name": "Poison Resistance",
+        "desc": "Your body has become fortified against toxins. You gain poison resistance equal to half your level, and you gain a +1 status bonus to saving throws against poisons.",
+        "hints": [
+            {
+                "desc": "You gain a +1 status bonus to saving throws against poisons."
+            }
+        ],
         "shortdesc": "Repeated exposure to toxic reagents has fortified your body against poisons of all kinds.",
         "traits": [
             "Druid",
             "Alchemist"
         ],
-        "levelreq": 2
+        "levelreq": 2,
+        "effects": [
+            {
+                "affected": "Poison Resistance",
+                "value": "Math.floor(Level / 2)"
+            }
+        ]
     },
     {
         "name": "Form Control",
         "desc": "With additional care and effort, you can take on an alternate form for a longer period of time.",
+        "internalNote": "The effect on the duration of wild shape is hardcoded into spell processing.",
         "shortdesc": "With additional care and effort, you can take on an alternate form for a longer period of time.",
         "traits": [
             "Druid",
@@ -34354,6 +34494,13 @@
     },
     {
         "name": "Mature Animal Companion (Druid)",
+        "desc": "Your animal companion grows up, becoming a mature animal companion, which grants it additional capabilities. See the animal companion rules for more information. Your animal companion is better trained than most. During an encounter, even if you don't use the Command an Animal action, your animal companion can still use 1 action on your turn that round to Stride or Strike.",
+        "hints": [
+            {
+                "desc": "During an encounter, even if you don't use the Command an Animal action, your animal companion can still use 1 action on your turn that round to Stride or Strike.",
+                "showon": "Animal Companion"
+            }
+        ],
         "shortdesc": "Your animal companion grows up, becoming a mature animal companion, which grants it additional capabilities.",
         "countAsFeat": "Mature Animal Companion",
         "traits": [
@@ -34362,10 +34509,20 @@
         "levelreq": 4,
         "featreq": [
             "Animal Companion"
-        ]
+        ],
+        "effects": [
+            {
+                "affected": "Companion:Unarmed�Attack�Dice�Number",
+                "setValue": 2
+            }
+        ],
+        "gainAnimalCompanion": 2
     },
     {
         "name": "Order Magic",
+        "desc": "You have delved deeper into the teaching of a new order, gaining access to a coveted order spell. Choose an order you have selected with Order Explorer. You gain the initial order spell from that order.",
+        "specialdesc": "You can take this feat multiple times. Each time you do, you must choose a different order you have selected with Order Explorer.",
+        "subTypes": true,
         "shortdesc": "You have delved deeper into the teaching of a new order, gaining access to a coveted order spell.",
         "traits": [
             "Druid"
@@ -34376,7 +34533,135 @@
         ]
     },
     {
+        "name": "Order Magic: Animal Order",
+        "desc": "You have delved deeper into the teaching of the animal order. You gain the heal animal order spell.",
+        "subType": "Animal Order",
+        "superType": "Order Magic",
+        "shortdesc": "You have delved deeper into the teaching of a new order, gaining access to a coveted order spell.",
+        "traits": [
+            "Druid"
+        ],
+        "levelreq": 4,
+        "featreq": [
+            "Order Explorer: Animal Order"
+        ],
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Focus",
+                "className": "Druid",
+                "id": "ca7c081d-ca30-4dd5-b113-6115fa8212c0",
+                "level": -1,
+                "source": "Order Magic: Animal Order",
+                "spells": [
+                    {
+                        "locked": true,
+                        "name": "Heal Animal"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Order Magic: Leaf Order",
+        "desc": "You have delved deeper into the teaching of the leaf order. You gain the goodberry order spell.",
+        "subType": "Leaf Order",
+        "superType": "Order Magic",
+        "shortdesc": "You have delved deeper into the teaching of a new order, gaining access to a coveted order spell.",
+        "traits": [
+            "Druid"
+        ],
+        "levelreq": 4,
+        "featreq": [
+            "Order Explorer: Leaf Order"
+        ],
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Focus",
+                "className": "Druid",
+                "id": "dc0dd57b-2a07-45fb-9417-e0a1b6d02bc5",
+                "level": -1,
+                "source": "Order Magic: Leaf Order",
+                "spells": [
+                    {
+                        "locked": true,
+                        "name": "Goodberry"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Order Magic: Storm Order",
+        "desc": "You have delved deeper into the teaching of the storm order. You gain the tempest surge order spell.",
+        "subType": "Storm Order",
+        "superType": "Order Magic",
+        "shortdesc": "You have delved deeper into the teaching of a new order, gaining access to a coveted order spell.",
+        "traits": [
+            "Druid"
+        ],
+        "levelreq": 4,
+        "featreq": [
+            "Order Explorer: Storm Order"
+        ],
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Focus",
+                "className": "Druid",
+                "id": "ddad3a2c-edc2-4d4f-aa0f-1ffaf8c83ed9",
+                "level": -1,
+                "source": "Order Magic: Storm Order",
+                "spells": [
+                    {
+                        "locked": true,
+                        "name": "Tempest Surge"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Order Magic: Wild Order",
+        "desc": "You have delved deeper into the teaching of the wild order. You gain the wild morph order spell.",
+        "subType": "Wild Order",
+        "superType": "Order Magic",
+        "shortdesc": "You have delved deeper into the teaching of a new order, gaining access to a coveted order spell.",
+        "traits": [
+            "Druid"
+        ],
+        "levelreq": 4,
+        "featreq": [
+            "Order Explorer: Wild Order"
+        ],
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Focus",
+                "className": "Druid",
+                "id": "6759f62d-97f8-403d-b8d8-687622e36d44",
+                "level": -1,
+                "source": "Order Magic: Storm Order",
+                "spells": [
+                    {
+                        "locked": true,
+                        "name": "Wild Morph"
+                    }
+                ]
+            }
+        ]
+    },
+    {
         "name": "Thousand Faces",
+        "desc": "Your form is as mutable as the weather, changing to meet your whim. You add the forms listed in humanoid form to your wild shape list.",
+        "hints": [
+            {
+                "desc": "You add the forms listed in humanoid form to your wild shape list.",
+                "showon": "Wild Shape"
+            }
+        ],
+        "internalNote": "Coded into the Wild Shape condition",
         "shortdesc": "Your form is as mutable as the weather, changing to meet your whim.",
         "traits": [
             "Druid"
@@ -34388,6 +34673,13 @@
     },
     {
         "name": "Woodland Stride",
+        "desc": "You can always find a path, almost as if foliage parted before you. You ignore any difficult terrain caused by plants, such as bushes, vines, and undergrowth. Even plants manipulated by magic don't impede your progress.",
+        "hints": [
+            {
+                "desc": "You ignore any difficult terrain caused by plants, such as bushes, vines, and undergrowth. Even plants manipulated by magic don't impede your progress.",
+                "showon": "Movement"
+            }
+        ],
         "shortdesc": "You can always find a path, almost as if foliage parted before you.",
         "traits": [
             "Druid"
@@ -34399,6 +34691,20 @@
     },
     {
         "name": "Green Empathy",
+        "desc": "You can communicate with plants on a basic level and use Diplomacy to Make an Impression on them and to make very simple Requests of them. Non-creature plants typically can't fulfill most requests you might ask of them unless you have access to other magic such as speak with plants. Because of your affiliation with the leaf order, plants have a sense that you support them, so you gain a +2 circumstance bonus on your check to Make a Request of a plant using Green Empathy.",
+        "hints": [
+            {
+                "desc": "You can communicate with plants on a basic level and use Diplomacy to Make an Impression on them and to make very simple Requests of them. Non-creature plants typically can't fulfill most requests you might ask of them unless you have access to other magic such as speak with plants. Because of your affiliation with the leaf order, plants have a sense that you support them, so you gain a +2 circumstance bonus on your check to Make a Request of a plant using Green Empathy.",
+                "showon": "Diplomacy",
+                "effects": [
+                    {
+                        "affected": "Diplomacy",
+                        "value": "2",
+                        "type": "circumstance"
+                    }
+                ]
+            }
+        ],
         "shortdesc": "You can communicate with plants on a basic level and use Diplomacy to Make an Impression on them and to make very simple Requests of them.",
         "traits": [
             "Druid"
@@ -34410,6 +34716,14 @@
     },
     {
         "name": "Insect Shape",
+        "desc": "Your understanding of life expands, allowing you to mimic a wider range of creatures. Add the forms in insect form to your wild shape list. Whenever you use wild shape to polymorph into the non-flying insect form listed in pest form, the duration is 24 hours instead of 10 minutes.",
+        "hints": [
+            {
+                "desc": "Add the forms in insect form to your wild shape list. Whenever you use wild shape to polymorph into the non-flying insect form listed in pest form, the duration is 24 hours instead of 10 minutes.",
+                "showon": "Wild Shape"
+            }
+        ],
+        "internalNote": "Coded into the Wild Shape condition",
         "shortdesc": "Your understanding of life expands, allowing you to mimic a wider range of creatures.",
         "traits": [
             "Druid"
@@ -34421,6 +34735,7 @@
     },
     {
         "name": "Storm Retribution",
+        "desc": "You lash out, directing a burst of storming fury toward a creature that has harmed you.",
         "shortdesc": "You lash out, directing a burst of storming fury toward a creature that has harmed you.",
         "traits": [
             "Druid"
@@ -34429,10 +34744,21 @@
         "featreq": [
             "storm order"
         ],
-        "specialreqdesc": "tempest surge order spell"
+        "specialreqdesc": "tempest surge order spell",
+        "gainActivities": [
+            "Storm Retribution"
+        ]
     },
     {
         "name": "Ferocious Shape",
+        "desc": "You have mastered the shape of ferocious dinosaurs. Add the forms listed in dinosaur form to your wild shape list. Whenever you use wild shape to take a form that grants you a specific Athletics modifier, you gain a +1 status bonus to your Athletics checks.",
+        "hints": [
+            {
+                "desc": "Add the forms listed in dinosaur form to your wild shape list. Whenever you use wild shape to take a form that grants you a specific Athletics modifier, you gain a +1 status bonus to your Athletics checks.",
+                "showon": "Wild Shape"
+            }
+        ],
+        "internalNote": "Coded into the Wild Shape condition",
         "shortdesc": "You have mastered the shape of ferocious dinosaurs.",
         "traits": [
             "Druid"
@@ -34440,20 +34766,37 @@
         "levelreq": 8,
         "featreq": [
             "Wild Shape"
+        ],
+        "effects": [
+            {
+                "affected": "Athletics",
+                "type": "status",
+                "value": "(Has_Condition('Wild Shape') && (characterService.get_AppliedConditions(creature, name, \"\", true).some(conditionGain => ['Animal Form','Insect Form','Dinosaur Form','Elemental Form','Plant Form','Dragon Form','Monstrosity Form'].includes(conditionGain.name) && !['Air','Fire'].includes(conditionGain.choice)))) ? 1 : 0"
+            }
         ]
     },
     {
         "name": "Fey Caller",
+        "desc": "You have learned some of the tricks the fey use to bend primal magic toward illusions and trickery. Add illusory disguise, illusory object, illusory scene, and veil to your spell list as primal spells.",
+        "internalNote": "Hardcoded in the spellchoice component.",
         "shortdesc": "You have learned some of the tricks the fey use to bend primal magic toward illusions and trickery.",
         "traits": [
             "Druid"
         ],
-        "levelreq": 8
+        "levelreq": 8,
+        "gainSpellListSpells": [
+            "Illusory Disguise",
+            "Illusory Object",
+            "Illusory Scene",
+            "Veil"
+        ]
     },
     {
         "name": "Incredible Companion (Druid)",
+        "desc": "Your animal companion continues to grow and develop. It becomes a nimble or savage animal companion (your choice), gaining additional capabilities determined by the type of companion (page 214).\n\nTo advance a mature animal companion to a nimble animal companion, increase its Dexterity modifier by 2 and its Strength, Constitution, and Wisdom modifiers by 1. It deals 2 additional damage with its unarmed attacks. Increase its proficiency ranks in Acrobatics and unarmored defense to expert. It also learns the advanced maneuver for its type. Its attacks become magical for the purpose of ignoring resistances.\n\nTo advance a mature animal companion to a savage animal companion, increase its Strength modifier by 2 and its Dexterity, Constitution, and Wisdom modifiers by 1. It deals 3 additional damage with its unarmed attacks. Increase its proficiency rank in Athletics to expert. It also learns the advanced maneuver for its type. If your companion is Medium or smaller, it grows by one size. Its attacks become magical for the purpose of ignoring resistances.",
+        "subTypes": true,
         "shortdesc": "Your animal companion continues to grow and develop.",
-        "countAsFeat": "Incredible Animal Companion",
+        "countAsFeat": "Incredible Companion",
         "traits": [
             "Druid"
         ],
@@ -34463,7 +34806,51 @@
         ]
     },
     {
+        "name": "Incredible Companion (Druid): Nimble",
+        "desc": "Your animal companion continues to grow and develop. It becomes a nimble animal companion (your choice), gaining additional capabilities determined by the type of companion (page 214).\n\nTo advance a mature animal companion to a nimble animal companion, increase its Dexterity modifier by 2 and its Strength, Constitution, and Wisdom modifiers by 1. It deals 2 additional damage with its unarmed attacks. Increase its proficiency ranks in Acrobatics and unarmored defense to expert. It also learns the advanced maneuver for its type. Its attacks become magical for the purpose of ignoring resistances.",
+        "subType": "Nimble",
+        "superType": "Incredible Companion (Ranger)",
+        "shortdesc": "Your animal companion continues to grow and develop.",
+        "countAsFeat": "Incredible Companion",
+        "traits": [
+            "Druid"
+        ],
+        "levelreq": 8,
+        "featreq": [
+            "Mature Animal Companion"
+        ],
+        "specialreq": "!character.get_FeatsTaken(1, 20).filter(feat => feat.name != this.name && characterService.get_FeatsAndFeatures(feat.name).length && characterService.get_FeatsAndFeatures(feat.name)[0]?.gainAnimalCompanion == 5).length",
+        "specialreqdesc": "no savage animal companion",
+        "gainAnimalCompanion": 4
+    },
+    {
+        "name": "Incredible Companion (Druid): Savage",
+        "desc": "Your animal companion continues to grow and develop. It becomes a savage animal companion (your choice), gaining additional capabilities determined by the type of companion (page 214).\n\nTo advance a mature animal companion to a savage animal companion, increase its Strength modifier by 2 and its Dexterity, Constitution, and Wisdom modifiers by 1. It deals 3 additional damage with its unarmed attacks. Increase its proficiency rank in Athletics to expert. It also learns the advanced maneuver for its type. If your companion is Medium or smaller, it grows by one size. Its attacks become magical for the purpose of ignoring resistances.",
+        "subType": "Savage",
+        "superType": "Incredible Companion (Ranger)",
+        "shortdesc": "Your animal companion continues to grow and develop.",
+        "countAsFeat": "Incredible Companion",
+        "traits": [
+            "Druid"
+        ],
+        "levelreq": 8,
+        "featreq": [
+            "Mature Animal Companion"
+        ],
+        "specialreq": "!character.get_FeatsTaken(1, 20).filter(feat => feat.name != this.name && characterService.get_FeatsAndFeatures(feat.name).length && characterService.get_FeatsAndFeatures(feat.name)[0]?.gainAnimalCompanion == 4).length",
+        "specialreqdesc": "no nimble animal companion",
+        "gainAnimalCompanion": 5
+    },
+    {
         "name": "Soaring Shape",
+        "desc": "Wings free you from the shackles of the ground below. Add the bat and bird forms in aerial form to your wild shape list. If you have Insect Shape, you also add the wasp form to your wild shape list. If you have Ferocious Shape, you also add the pterosaur form to your wild shape list. Whenever you use wild shape to gain a form that grants you a specific Acrobatics modifier, you gain a +1 status bonus to Acrobatics checks.",
+        "hints": [
+            {
+                "desc": "Add the bat and bird forms in aerial form to your wild shape list. If you have Insect Shape, you also add the wasp form to your wild shape list. If you have Ferocious Shape, you also add the pterosaur form to your wild shape list. Whenever you use wild shape to gain a form that grants you a specific Acrobatics modifier, you gain a +1 status bonus to Acrobatics checks.",
+                "showon": "Wild Shape"
+            }
+        ],
+        "internalNote": "Coded into the Wild Shape condition",
         "shortdesc": "Wings free you from the shackles of the ground below.",
         "traits": [
             "Druid"
@@ -34471,10 +34858,18 @@
         "levelreq": 8,
         "featreq": [
             "Wild Shape"
+        ],
+        "effects": [
+            {
+                "affected": "Athletics",
+                "type": "status",
+                "value": "(Has_Condition('Wild Shape') && (characterService.get_AppliedConditions(creature, name, \"\", true).some(conditionGain => ['Pest Form', 'Aerial Form','Elemental Form'].includes(conditionGain.name) && !['Earth','Water'].includes(conditionGain.choice)))) ? 1 : 0"
+            }
         ]
     },
     {
         "name": "Wind Caller",
+        "desc": "You bid the winds to lift and carry you through the air. You gain the stormwind flight order spell. Increase the number of Focus Points in your focus pool by 1.",
         "shortdesc": "You bid the winds to lift and carry you through the air.",
         "traits": [
             "Druid"
@@ -34482,10 +34877,46 @@
         "levelreq": 8,
         "featreq": [
             "storm order"
+        ],
+        "effects": [
+            {
+                "affected": "Focus Pool",
+                "value": "1"
+            }
+        ],
+        "onceEffects": [
+            {
+                "affected": "Focus Points",
+                "value": 1
+            }
+        ],
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Focus",
+                "className": "Druid",
+                "id": "9d27b14b-425a-4981-a38b-3d0bcd8d8e66",
+                "level": -1,
+                "source": "Feat: Wind Caller",
+                "spells": [
+                    {
+                        "locked": true,
+                        "name": "Stormwind Flight"
+                    }
+                ]
+            }
         ]
     },
     {
         "name": "Elemental Shape",
+        "desc": "You understand the fundamental elements of nature such that you can imbue them into your body and manifest as a living embodiment of those elements. Add the forms in elemental form to your wild shape list. Whenever you're polymorphed into another form using wild shape, you gain resistance 5 to fire.",
+        "hints": [
+            {
+                "desc": "Whenever you're polymorphed into another form using wild shape, you gain resistance 5 to fire.",
+                "showon": "Wild Shape"
+            }
+        ],
+        "internalNote": "Coded into the Wild Shape condition",
         "shortdesc": "You understand the fundamental elements of nature such that you can imbue them into your body.",
         "traits": [
             "Druid"
@@ -34493,19 +34924,31 @@
         "levelreq": 10,
         "featreq": [
             "Wild Shape"
+        ],
+        "effects": [
+            {
+                "affected": "Fire Resistance",
+                "value": "(Has_Condition('Wild Shape') && (!Has_Condition('Elemental Form'))) ? 5 : 0"
+            }
         ]
     },
     {
         "name": "Healing Transformation",
+        "desc": "You can take advantage of shapechanging magic to close wounds and patch injuries.",
         "shortdesc": "You can take advantage of shapechanging magic to close wounds and patch injuries.",
         "traits": [
             "Druid",
             "Metamagic"
         ],
-        "levelreq": 10
+        "levelreq": 10,
+        "gainActivities": [
+            "Healing Transformation"
+        ]
     },
     {
         "name": "Plant Shape",
+        "desc": "You can take the form of a plant creature. Add the forms listed in plant form to your wild shape list; if you don't have wild shape, you can instead cast plant form once per day, heightened to the same level as your highest-level druid spell slot. Whenever you're polymorphed into another form using wild shape, you gain resistance 5 to poison.",
+        "subTypes": true,
         "shortdesc": "You can take the form of a plant creature.",
         "traits": [
             "Druid"
@@ -34516,7 +34959,76 @@
         ]
     },
     {
+        "name": "Plant Shape: Wild Shape",
+        "desc": "You can take the form of a plant creature. Add the forms listed in plant form to your wild shape list. Whenever you're polymorphed into another form using wild shape, you gain resistance 5 to poison.",
+        "hints": [
+            {
+                "desc": "Add the forms listed in plant form to your wild shape list. Whenever you're polymorphed into another form using wild shape, you gain resistance 5 to poison.",
+                "showon": "Wild Shape"
+            }
+        ],
+        "subType": "Wild Shape",
+        "superType": "Plant Shape",
+        "internalNote": "Coded into the Wild Shape condition",
+        "shortdesc": "You can take the form of a plant creature.",
+        "countAsFeat": "Plant Shape",
+        "traits": [
+            "Druid"
+        ],
+        "levelreq": 10,
+        "specialreq": "character.get_FeatsTaken(1, 20, 'Wild Shape').length",
+        "specialreqdesc": "Wild Shape",
+        "effects": [
+            {
+                "affected": "Poison Resistance",
+                "value": "(Has_Condition('Wild Shape') && (!Has_Condition('Plant Form'))) ? 5 : 0"
+            }
+        ]
+    },
+    {
+        "name": "Plant Shape: Leaf Order",
+        "desc": "You can take the form of a plant creature. You can cast plant form once per day, heightened to the same level as your highest-level druid spell slot.",
+        "subType": "Leaf Order",
+        "superType": "Plant Shape",
+        "shortdesc": "You can take the form of a plant creature.",
+        "countAsFeat": "Plant Shape",
+        "traits": [
+            "Druid"
+        ],
+        "levelreq": 10,
+        "featreq": [
+            "leaf order"
+        ],
+        "specialreq": "!character.get_FeatsTaken(1, 20, 'Wild Shape').length",
+        "specialreqdesc": "no Wild Shape",
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Prepared",
+                "className": "Druid",
+                "cooldown": 144000,
+                "dynamicLevel": "highestSpellLevel",
+                "frequency": "once per day",
+                "id": "96be77f5-b619-4b5d-a6f0-142188d4574c",
+                "source": "Feat: Plant Shape: Leaf Order",
+                "spells": [
+                    {
+                        "locked": true,
+                        "name": "Plant Form"
+                    }
+                ]
+            }
+        ]
+    },
+    {
         "name": "Side by Side (Druid)",
+        "desc": "You and your animal companion fight in tandem, distracting your foes and keeping them off balance. Whenever you and your animal companion are adjacent to the same foe, you are both flanking that foe with each other, regardless of your actual positions.",
+        "hints": [
+            {
+                "desc": "Whenever you and your animal companion are adjacent to the same foe, you are both flanking that foe with each other, regardless of your actual positions.",
+                "showon": "Attacks, Animal Companion"
+            }
+        ],
         "shortdesc": "You and your animal companion fight in tandem, distracting your foes and keeping them off balance.",
         "traits": [
             "Druid"
@@ -34528,6 +35040,36 @@
     },
     {
         "name": "Dragon Shape",
+        "desc": "You can take on the form of some of the world's most fearsome creatures. Add the forms listed in dragon form to your wild shape list. Whenever you're polymorphed into another form using wild shape, you gain resistance 5 to your choice of acid, cold, electricity, fire, or poison.",
+        "hints": [
+            {
+                "desc": "Add the forms listed in dragon form to your wild shape list. Whenever you're polymorphed into another form using wild shape, you gain resistance 5 to your choice of acid, cold, electricity, fire, or poison (activations 1 through 5).",
+                "showon": "Wild Shape",
+                "effects": [
+                    {
+                        "affected": "Acid Resistance",
+                        "value": "(object.active && Has_Condition('Wild Shape') && (!Has_Condition('Dragon Form'))) ? 5 : 0"
+                    },
+                    {
+                        "affected": "Cold Resistance",
+                        "value": "(object.active2 && Has_Condition('Wild Shape') && (!Has_Condition('Dragon Form'))) ? 5 : 0"
+                    },
+                    {
+                        "affected": "Electricity Resistance",
+                        "value": "(object.active3 && Has_Condition('Wild Shape') && (!Has_Condition('Dragon Form'))) ? 5 : 0"
+                    },
+                    {
+                        "affected": "Fire Resistance",
+                        "value": "(object.active4 && Has_Condition('Wild Shape') && (!Has_Condition('Dragon Form'))) ? 5 : 0"
+                    },
+                    {
+                        "affected": "Poison Resistance",
+                        "value": "(object.active5 && Has_Condition('Wild Shape') && (!Has_Condition('Dragon Form'))) ? 5 : 0"
+                    }
+                ],
+                "extraActivations": 4
+            }
+        ],
         "shortdesc": "You can take on the form of some of the world's most fearsome creatures.",
         "traits": [
             "Druid"
@@ -34539,6 +35081,7 @@
     },
     {
         "name": "Green Tongue",
+        "desc": "You share a special kinship with all things green and living. You (and your leshy familiar, if you have one) are constantly under the effects of speak with plants. Most non-creature plants recognize you as a druid of the leaf order and are friendly to you.",
         "shortdesc": "You share a special kinship with all things green and living.",
         "traits": [
             "Druid"
@@ -34546,10 +35089,17 @@
         "levelreq": 12,
         "featreq": [
             "Green Empathy"
+        ],
+        "gainConditions": [
+            {
+                "name": "Green Tongue",
+                "source": "Feat: Green Tongue"
+            }
         ]
     },
     {
         "name": "Pesh Skin",
+        "desc": "Your plant form sprouts hundreds of spines, and your blood causes mild hallucinations in creatures exposed to it.",
         "shortdesc": "Your plant form sprouts hundreds of spines, and your blood causes mild hallucinations in creatures exposed to it.",
         "sourceBook": "Pathfinder #149: Against the Scarlet Triad",
         "traits": [
@@ -34557,18 +35107,35 @@
             "Morph",
             "Uncommon"
         ],
-        "levelreq": 12
+        "levelreq": 12,
+        "gainActivities": [
+            "Pesh Skin"
+        ]
     },
     {
         "name": "Primal Focus",
+        "desc": "Your connection to nature is particularly strong, and the spirits of nature flock around you, helping you replenish your focus. If you have spent at least 2 Focus Points since the last time you Refocused, you recover 2 Focus Points when you Refocus instead of 1.",
+        "hints": [
+            {
+                "desc": "If you have spent at least 2 Focus Points since the last time you Refocused, you recover 2 Focus Points when you Refocus instead of 1.",
+                "showon": "Focus"
+            }
+        ],
         "shortdesc": "Your connection to nature is particularly strong, and the spirits of nature flock around you, helping you replenish your focus.",
         "traits": [
             "Druid"
         ],
-        "levelreq": 12
+        "levelreq": 12,
+        "effects": [
+            {
+                "affected": "Refocus Bonus Points",
+                "setValue": 2
+            }
+        ]
     },
     {
         "name": "Primal Summons",
+        "desc": "Whenever you summon an ally, you can empower it with the elemental power of air, earth, fire, or water. You gain the primal summons order spell.",
         "shortdesc": "Whenever you summon an ally, you can empower it with the elemental power of air, earth, fire, or water.",
         "traits": [
             "Druid"
@@ -34576,22 +35143,65 @@
         "levelreq": 12,
         "featreq": [
             "Call of the Wild"
+        ],
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Focus",
+                "className": "Druid",
+                "id": "1f16219d-1529-44be-8f52-ba0a5e4bd76a",
+                "level": -1,
+                "source": "Feat: Primal Summons",
+                "spells": [
+                    {
+                        "locked": true,
+                        "name": "Primal Summons"
+                    }
+                ]
+            }
         ]
     },
     {
         "name": "Specialized Companion (Druid)",
+        "desc": "Your animal companion continues to grow in power and ability, and it is now cunning enough to become specialized. Your animal companion gains one specialization of your choice.",
+        "specialdesc": "You can select this feat up to three times. Each time, add a different specialization to your companion.",
         "shortdesc": "Your animal companion continues to grow in power and ability, and it is now cunning enough to become specialized.",
-        "countAsFeat": "Specialized Companion",
+        "limited": 3,
         "traits": [
             "Druid"
         ],
         "levelreq": 14,
         "featreq": [
             "Incredible Companion"
-        ]
+        ],
+        "effects": [
+            {
+                "affected": "Companion:Unarmed Attack Dice Number",
+                "setValue": 3
+            }
+        ],
+        "gainAnimalCompanion": 6
     },
     {
         "name": "Timeless Nature",
+        "desc": "With primal magic sustaining you, you cease aging. The overflowing primal energy gives you a +2 status bonus to saves against diseases and primal magic.",
+        "hints": [
+            {
+                "desc": "You gain a +2 status bonus to saving throws against diseases and primal magic.",
+                "showon": "Saving Throws",
+                "effects": [
+                    {
+                        "affected": "Saving Throws",
+                        "value": "2",
+                        "type": "status"
+                    }
+                ]
+            },
+            {
+                "desc": "You cease aging.",
+                "showon": "Health"
+            }
+        ],
         "shortdesc": "With primal magic sustaining you, you cease aging.",
         "traits": [
             "Druid"
@@ -34600,6 +35210,24 @@
     },
     {
         "name": "Verdant Metamorphosis",
+        "desc": "You transform into a plant version of yourself. You gain the plant trait and lose any trait that's inappropriate for your new form (typically humanoid for a PC, but also possibly animal or fungus). You can change from a form that looks mostly like your old self into a tree or any other non-creature plant as a single action, which has the concentrate trait. This has the same effect as tree shape, except you can turn into any kind of non-creature plant and your AC is 30.\n\nIf you rest for 10 minutes while transformed into a non-creature plant during daylight hours under direct sunlight, you recover half your maximum Hit Points. If you take your daily rest in this way, the rest restores you to maximum Hit Points and removes all non-permanent drained, enfeebled, clumsy, and stupefied conditions, as well as all poisons and diseases of 19th level or lower.",
+        "hints": [
+            {
+                "desc": "If you rest for 10 minutes while transformed into a non-creature plant during daylight hours under direct sunlight, you recover half your maximum Hit Points. If you take your daily rest in this way, the rest restores you to maximum Hit Points and removes all non-permanent drained, enfeebled, clumsy, and stupefied conditions, as well as all poisons and diseases of 19th level or lower.\n\n(Activate this hint to gain the effects during your daily rest. Manually restore half your maximum Hit Points when appropriate.)",
+                "showon": "Health",
+                "effects": [
+                    {
+                        "affected": "Resting HP Gain",
+                        "value": "Max_HP()"
+                    },
+                    {
+                        "affected": "Verdant Metamorphosis",
+                        "toggle": true
+                    }
+                ]
+            }
+        ],
+        "internalNote": "Losing humanoid and other traits is hardcoded in general, as is losing conditions in ConditionsService.rest(). The 10-minute rest effect needs to be applied manually.",
         "shortdesc": "You transform into a plant version of yourself.",
         "traits": [
             "Druid"
@@ -34607,10 +35235,14 @@
         "levelreq": 14,
         "featreq": [
             "leaf order"
+        ],
+        "gainActivities": [
+            "Verdant Metamorphosis"
         ]
     },
     {
         "name": "Impaling Briars",
+        "desc": "You can fill an area with devastating briars that impale and impede your foes. You gain the impaling briars order spell. Increase the number of Focus Points in your focus pool by 1.",
         "shortdesc": "You can fill an area with devastating briars that impale and impede your foes.",
         "traits": [
             "Druid"
@@ -34618,10 +35250,45 @@
         "levelreq": 16,
         "featreq": [
             "leaf order"
+        ],
+        "effects": [
+            {
+                "affected": "Focus Pool",
+                "value": "1"
+            }
+        ],
+        "onceEffects": [
+            {
+                "affected": "Focus Points",
+                "value": 1
+            }
+        ],
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Focus",
+                "className": "Druid",
+                "id": "cf79a2ce-fd4e-4bbb-ae54-555e726433fb",
+                "level": -1,
+                "source": "Feat: Impaling Briars",
+                "spells": [
+                    {
+                        "locked": true,
+                        "name": "Impaling Briars"
+                    }
+                ]
+            }
         ]
     },
     {
         "name": "Monstrosity Shape",
+        "desc": "You can transform into a powerful magical creature. Add the purple worm and sea serpent forms listed in monstrosity form to your wild shape list. If you have Soaring Shape, also add the phoenix form to your wild shape list.",
+        "hints": [
+            {
+                "desc": "Add the purple worm and sea serpent forms listed in monstrosity form to your wild shape list. If you have Soaring Shape, also add the phoenix form to your wild shape list.",
+                "showon": "Wild Shape"
+            }
+        ],
         "shortdesc": "You can transform into a powerful magical creature.",
         "traits": [
             "Druid"
@@ -34633,6 +35300,7 @@
     },
     {
         "name": "Invoke Disaster",
+        "desc": "You can invoke nature's fury upon your foes. You gain the storm lord order spell. Increase the number of Focus Points in your focus pool by 1.",
         "shortdesc": "You can invoke nature's fury upon your foes.",
         "traits": [
             "Druid"
@@ -34640,10 +35308,45 @@
         "levelreq": 18,
         "featreq": [
             "Wind Caller"
+        ],
+        "effects": [
+            {
+                "affected": "Focus Pool",
+                "value": "1"
+            }
+        ],
+        "onceEffects": [
+            {
+                "affected": "Focus Points",
+                "value": 1
+            }
+        ],
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Focus",
+                "className": "Druid",
+                "id": "4af762dd-2e50-490b-b02d-74a17ba0d335",
+                "level": -1,
+                "source": "Feat: Invoke Disaster",
+                "spells": [
+                    {
+                        "locked": true,
+                        "name": "Storm Lord"
+                    }
+                ]
+            }
         ]
     },
     {
         "name": "Perfect Form Control",
+        "desc": "Thanks to magic and muscle memory, you can stay in your alternate forms indefinitely; you may have even forgotten your original form. When you use Form Control, instead of lasting 1 hour, wild shape is permanent until you Dismiss it.",
+        "hints": [
+            {
+                "desc": "When you use Form Control, instead of lasting 1 hour, wild shape is permanent until you Dismiss it.",
+                "showon": "Form Control, Wild Shape"
+            }
+        ],
         "shortdesc": "Thanks to magic and muscle memory, you can stay in your alternate forms indefinitely.",
         "traits": [
             "Druid"
@@ -34661,6 +35364,7 @@
     },
     {
         "name": "Primal Wellspring",
+        "desc": "Your reservoir of Focus Points is a deep wellspring. If you have spent at least 3 Focus Points since the last time you Refocused, you recover 3 Focus Points when you Refocus instead of 1.",
         "shortdesc": "Your reservoir of Focus Points is a deep wellspring.",
         "traits": [
             "Druid"
@@ -34668,10 +35372,17 @@
         "levelreq": 18,
         "featreq": [
             "Primal Focus"
+        ],
+        "effects": [
+            {
+                "affected": "Refocus Bonus Points",
+                "setValue": 3
+            }
         ]
     },
     {
         "name": "Apex Companion",
+        "desc": "You can call upon the essence of every individual animal of a particular species to temporarily transform your animal into an exemplar of its kind. You learn the apex companion order spell. Increase the number of Focus Points in your focus pool by 1.",
         "specialdesc": "The citizens of Promise represent some of the most capable experts, greatest minds, and powerful warriors on Golarion - ideal teachers and trainers for PCs who want to maximize their own potential. If the PCs secure Visitor's Pins or an alliance with Mengkare, their access to Promise's trainers and records unlock this uncommon class feat.",
         "shortdesc": "Gain the apex companion focus spell.",
         "sourceBook": "Pathfinder #150: Broken Promises",
@@ -34682,6 +35393,34 @@
         "levelreq": 20,
         "featreq": [
             "Animal Companion"
+        ],
+        "effects": [
+            {
+                "affected": "Focus Pool",
+                "value": "1"
+            }
+        ],
+        "onceEffects": [
+            {
+                "affected": "Focus Points",
+                "value": 1
+            }
+        ],
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Focus",
+                "className": "Druid",
+                "id": "a0c3f100-6630-4381-a1a9-ea278a8acab3",
+                "level": -1,
+                "source": "Feat: Apex Companion",
+                "spells": [
+                    {
+                        "locked": true,
+                        "name": "Apex Companion"
+                    }
+                ]
+            }
         ]
     },
     {
@@ -34690,10 +35429,23 @@
         "traits": [
             "Druid"
         ],
-        "levelreq": 20
+        "levelreq": 20,
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "available": 1,
+                "castingType": "Prepared",
+                "className": "Druid",
+                "id": "2081d221-8487-4377-a627-8e95ea3d08b8",
+                "level": 10,
+                "source": "Feat: Hierophant's Power"
+            }
+        ]
     },
     {
         "name": "Leyline Conduit",
+        "desc": "You can cast your spells effortlessly by tapping into the leylines of the world.",
+        "internalNote": "Hardcoded into spellbook component.",
         "shortdesc": "You can cast your spells effortlessly by tapping into the leylines of the world.",
         "traits": [
             "Druid",
@@ -34701,10 +35453,14 @@
             "Manipulate",
             "Metamagic"
         ],
-        "levelreq": 20
+        "levelreq": 20,
+        "gainActivities": [
+            "Leyline Conduit"
+        ]
     },
     {
         "name": "True Shapeshifter",
+        "desc": "You transcend the limitations of form.",
         "shortdesc": "You transcend the limitations of form.",
         "traits": [
             "Druid",
@@ -34714,20 +35470,29 @@
         "featreq": [
             "Dragon Shape",
             "Wild Shape"
+        ],
+        "gainActivities": [
+            "True Shapeshifter",
+            "True Shapeshifter: Nature Incarnate"
         ]
     },
     {
         "name": "Verdant Presence",
+        "desc": "The life-giving properties of the aeon orbs flourish within you.",
         "shortdesc": "The life-giving properties of the aeon orbs flourish within you.",
         "sourceBook": "Pathfinder #156: The Apocalypse Prophet",
         "traits": [
             "Druid",
             "Uncommon"
         ],
-        "levelreq": 20
+        "levelreq": 20,
+        "gainActivities": [
+            "Verdant Presence"
+        ]
     },
     {
         "name": "Druid Dedication",
+        "desc": "You cast spells like a druid. You gain access to the Cast a Spell activity. You can prepare two common cantrips each day from the primal spell list in this book or any other primal cantrips you learn or discover. You're trained in spell attack rolls and spell DCs for primal spells. Your key spellcasting ability for druid archetype spells is Wisdom, and they are primal druid spells.\n\nYou learn the Druidic language, and you are bound by the druid's anathema.\n\nChoose a druidic order. You become a member of that order and are also bound by its specific anathema, allowing you to take the order's feats. You become trained in Nature and your order's associated skill; for each of these skills in which you were already trained, you become trained in a skill of your choice. You don't gain any other abilities from your choice of order.",
         "specialdesc": "You cannot select another dedication feat until you have gained two other feats from the druid archetype.",
         "shortdesc": "You have entered a druidic circle and learned a few of the order's secrets, granting you primal power.",
         "archetype": "Druid",
@@ -34742,10 +35507,85 @@
                 "ability": "Wisdom",
                 "value": 14
             }
+        ],
+        "anathema": [
+            "Using metal armor or shields.",
+            "Despoiling natural places.",
+            "Teaching the Druidic language to non-druids."
+        ],
+        "gainFeatChoice": [
+            {
+                "_className": "FeatChoice",
+                "available": 1,
+                "filter": [
+                    "Animal Order",
+                    "Leaf Order",
+                    "Storm Order",
+                    "Wild Order"
+                ],
+                "source": "Feat: Druid Dedication",
+                "specialChoice": true,
+                "type": "Order"
+            }
+        ],
+        "gainSkillChoice": [
+            {
+                "_className": "SkillChoice",
+                "filter": [
+                    "Nature"
+                ],
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Nature",
+                        "source": "Feat: Druid Dedication"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Feat: Druid Dedication",
+                "type": "Skill"
+            },
+            {
+                "_className": "SkillChoice",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Druid Primal Spell DC",
+                        "source": "Feat: Druid Dedication"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Feat: Druid Dedication",
+                "type": "Spell DC"
+            }
+        ],
+        "gainSpellCasting": [
+            {
+                "_className": "SpellCasting",
+                "ability": "Wisdom",
+                "castingType": "Prepared",
+                "className": "Druid",
+                "source": "Druid Dedication",
+                "tradition": "Primal"
+            }
+        ],
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "available": 2,
+                "castingType": "Prepared",
+                "className": "Druid",
+                "id": "b8731cf0-715e-11eb-9439-0242ac130002",
+                "level": 0,
+                "source": "Feat: Druid Dedication"
+            }
         ]
     },
     {
         "name": "Basic Druid Spellcasting",
+        "desc": "You gain the basic spellcasting benefits.",
         "shortdesc": "You gain the basic spellcasting benefits.",
         "archetype": "Druid",
         "traits": [
@@ -34754,10 +35594,43 @@
         "levelreq": 4,
         "featreq": [
             "Druid Dedication"
+        ],
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "available": 1,
+                "castingType": "Prepared",
+                "charLevelAvailable": 4,
+                "className": "Druid",
+                "id": "b8731f52-715e-11eb-9439-0242ac130002",
+                "level": 1,
+                "source": "Feat: Basic Druid Spellcasting"
+            },
+            {
+                "_className": "SpellChoice",
+                "available": 1,
+                "castingType": "Prepared",
+                "charLevelAvailable": 6,
+                "className": "Druid",
+                "id": "b87321d2-715e-11eb-9439-0242ac130002",
+                "level": 2,
+                "source": "Feat: Basic Druid Spellcasting"
+            },
+            {
+                "_className": "SpellChoice",
+                "available": 1,
+                "castingType": "Prepared",
+                "charLevelAvailable": 8,
+                "className": "Druid",
+                "id": "b87325b0-715e-11eb-9439-0242ac130002",
+                "level": 3,
+                "source": "Feat: Basic Druid Spellcasting"
+            }
         ]
     },
     {
         "name": "Basic Wilding",
+        "desc": "You gain a 1st- or 2nd-level druid feat.",
         "shortdesc": "You gain a 1st- or 2nd-level druid feat.",
         "archetype": "Druid",
         "traits": [
@@ -34766,10 +35639,21 @@
         "levelreq": 4,
         "featreq": [
             "Druid Dedication"
+        ],
+        "gainFeatChoice": [
+            {
+                "_className": "FeatChoice",
+                "available": 1,
+                "level": 2,
+                "source": "Feat: Basic Wilding",
+                "type": "Druid"
+            }
         ]
     },
     {
         "name": "Order Spell",
+        "desc": "You gain the initial order spell from your order. If you don't already have one, you gain a focus pool of 1 Focus Point, which you can Refocus by being one with nature.",
+        "subTypes": true,
         "shortdesc": "You gain the initial order spell from your order.",
         "archetype": "Druid",
         "traits": [
@@ -34781,7 +35665,180 @@
         ]
     },
     {
+        "name": "Order Spell: Animal Order",
+        "desc": "You gain the heal animal order spell from the animal order. If you don't already have one, you gain a focus pool of 1 Focus Point, which you can Refocus by being one with nature.",
+        "subType": "Animal Order",
+        "superType": "Order Spell",
+        "shortdesc": "You gain the initial order spell from your order.",
+        "archetype": "Druid",
+        "traits": [
+            "Archetype"
+        ],
+        "levelreq": 4,
+        "featreq": [
+            "Druid Dedication"
+        ],
+        "effects": [
+            {
+                "affected": "Focus Pool",
+                "value": "Character.class.spellCasting.filter(casting => casting.castingType == 'Focus' && casting.className != 'Druid' && casting.spellChoices.length).length ? 0 : 1"
+            }
+        ],
+        "onceEffects": [
+            {
+                "affected": "Focus Points",
+                "value": 1
+            }
+        ],
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Focus",
+                "className": "Druid",
+                "id": "bceab86c-7161-11eb-9439-0242ac130002",
+                "level": -1,
+                "source": "Order Spell: Animal Order",
+                "spells": [
+                    {
+                        "locked": true,
+                        "name": "Heal Animal"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Order Spell: Leaf Order",
+        "desc": "You gain the goodberry order spell from the leaf order. If you don't already have one, you gain a focus pool of 1 Focus Point, which you can Refocus by being one with nature.",
+        "subType": "Leaf Order",
+        "superType": "Order Spell",
+        "shortdesc": "You gain the initial order spell from your order.",
+        "archetype": "Druid",
+        "traits": [
+            "Archetype"
+        ],
+        "levelreq": 4,
+        "featreq": [
+            "Druid Dedication"
+        ],
+        "effects": [
+            {
+                "affected": "Focus Pool",
+                "value": "Character.class.spellCasting.filter(casting => casting.castingType == 'Focus' && casting.className != 'Druid' && casting.spellChoices.length).length ? 0 : 1"
+            }
+        ],
+        "onceEffects": [
+            {
+                "affected": "Focus Points",
+                "value": 1
+            }
+        ],
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Focus",
+                "className": "Druid",
+                "id": "bceb4854-7161-11eb-9439-0242ac130002",
+                "level": -1,
+                "source": "Order Spell: Leaf Order",
+                "spells": [
+                    {
+                        "locked": true,
+                        "name": "Goodberry"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Order Spell: Storm Order",
+        "desc": "You gain the tempest surge order spell from the storm order. If you don't already have one, you gain a focus pool of 1 Focus Point, which you can Refocus by being one with nature.",
+        "subType": "Storm Order",
+        "superType": "Order Spell",
+        "shortdesc": "You gain the initial order spell from your order.",
+        "archetype": "Druid",
+        "traits": [
+            "Archetype"
+        ],
+        "levelreq": 4,
+        "featreq": [
+            "Druid Dedication"
+        ],
+        "effects": [
+            {
+                "affected": "Focus Pool",
+                "value": "Character.class.spellCasting.filter(casting => casting.castingType == 'Focus' && casting.className != 'Druid' && casting.spellChoices.length).length ? 0 : 1"
+            }
+        ],
+        "onceEffects": [
+            {
+                "affected": "Focus Points",
+                "value": 1
+            }
+        ],
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Focus",
+                "className": "Druid",
+                "id": "bceb4a66-7161-11eb-9439-0242ac130002",
+                "level": -1,
+                "source": "Order Spell: Storm Order",
+                "spells": [
+                    {
+                        "locked": true,
+                        "name": "Tempest Surge"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Order Spell: Wild Order",
+        "desc": "You gain the wild morph order spell from the wild order. If you don't already have one, you gain a focus pool of 1 Focus Point, which you can Refocus by being one with nature.",
+        "subType": "Wild Order",
+        "superType": "Order Spell",
+        "shortdesc": "You gain the initial order spell from your order.",
+        "archetype": "Druid",
+        "traits": [
+            "Archetype"
+        ],
+        "levelreq": 4,
+        "featreq": [
+            "Druid Dedication"
+        ],
+        "effects": [
+            {
+                "affected": "Focus Pool",
+                "value": "Character.class.spellCasting.filter(casting => casting.castingType == 'Focus' && casting.className != 'Druid' && casting.spellChoices.length).length ? 0 : 1"
+            }
+        ],
+        "onceEffects": [
+            {
+                "affected": "Focus Points",
+                "value": 1
+            }
+        ],
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Focus",
+                "className": "Druid",
+                "id": "bceb4b56-7161-11eb-9439-0242ac130002",
+                "level": -1,
+                "source": "Order Spell: Wild Order",
+                "spells": [
+                    {
+                        "locked": true,
+                        "name": "Wild Morph"
+                    }
+                ]
+            }
+        ]
+    },
+    {
         "name": "Advanced Wilding",
+        "desc": "You gain one druid feat. For the purpose of meeting its prerequisites, your druid level is equal to half your character level.",
         "specialdesc": "You can select this feat more than once. Each time you select it, you gain another druid feat.",
         "shortdesc": "You gain one druid feat. For the purpose of meeting its prerequisites, your druid level is equal to half your character level.",
         "archetype": "Druid",
@@ -34792,10 +35849,21 @@
         "levelreq": 6,
         "featreq": [
             "Basic Wilding"
+        ],
+        "gainFeatChoice": [
+            {
+                "_className": "FeatChoice",
+                "available": 1,
+                "dynamicLevel": "level.number / 2",
+                "source": "Feat: Advanced Wilding",
+                "type": "Druid"
+            }
         ]
     },
     {
         "name": "Primal Breadth",
+        "desc": "Increase the spell slots you gain from druid archetype feats by 1 for each spell level other than your two highest druid spell slots.",
+        "internalNote": "The effect is hardcoded in the spellchoice component.",
         "shortdesc": "Increase the spell slots you gain from druid archetype feats by 1 for each spell level other than your two highest druid spell slots.",
         "archetype": "Druid",
         "traits": [
@@ -34808,6 +35876,7 @@
     },
     {
         "name": "Expert Druid Spellcasting",
+        "desc": "You gain the expert spellcasting benefits.",
         "shortdesc": "You gain the expert spellcasting benefits.",
         "archetype": "Druid",
         "traits": [
@@ -34822,10 +35891,59 @@
                 "skill": "Nature",
                 "value": 6
             }
+        ],
+        "gainSkillChoice": [
+            {
+                "_className": "SkillChoice",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 4,
+                        "name": "Druid Primal Spell DC",
+                        "source": "Feat: Expert Druid Spellcasting"
+                    }
+                ],
+                "maxRank": 4,
+                "source": "Feat: Expert Druid Spellcasting",
+                "type": "Spell DC"
+            }
+        ],
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "available": 1,
+                "castingType": "Prepared",
+                "charLevelAvailable": 12,
+                "className": "Druid",
+                "id": "b8732042-715e-11eb-9439-0242ac130002",
+                "level": 4,
+                "source": "Feat: Expert Druid Spellcasting"
+            },
+            {
+                "_className": "SpellChoice",
+                "available": 1,
+                "castingType": "Prepared",
+                "charLevelAvailable": 14,
+                "className": "Druid",
+                "id": "b873242a-715e-11eb-9439-0242ac130002",
+                "level": 5,
+                "source": "Feat: Expert Druid Spellcasting"
+            },
+            {
+                "_className": "SpellChoice",
+                "available": 1,
+                "castingType": "Prepared",
+                "charLevelAvailable": 16,
+                "className": "Druid",
+                "id": "b8732664-715e-11eb-9439-0242ac130002",
+                "level": 6,
+                "source": "Feat: Expert Druid Spellcasting"
+            }
         ]
     },
     {
         "name": "Master Druid Spellcasting",
+        "desc": "You gain the master spellcasting benefits.",
         "shortdesc": "You gain the master spellcasting benefits.",
         "archetype": "Druid",
         "traits": [
@@ -34839,6 +35957,44 @@
             {
                 "skill": "Nature",
                 "value": 8
+            }
+        ],
+        "gainSkillChoice": [
+            {
+                "_className": "SkillChoice",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 6,
+                        "name": "Druid Primal Spell DC",
+                        "source": "Feat: Master Druid Spellcasting"
+                    }
+                ],
+                "maxRank": 6,
+                "source": "Feat: Master Druid Spellcasting",
+                "type": "Spell DC"
+            }
+        ],
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "available": 1,
+                "castingType": "Prepared",
+                "charLevelAvailable": 18,
+                "className": "Druid",
+                "id": "b8732114-715e-11eb-9439-0242ac130002",
+                "level": 7,
+                "source": "Feat: Master Druid Spellcasting"
+            },
+            {
+                "_className": "SpellChoice",
+                "available": 1,
+                "castingType": "Prepared",
+                "charLevelAvailable": 20,
+                "className": "Druid",
+                "id": "b87324f2-715e-11eb-9439-0242ac130002",
+                "level": 8,
+                "source": "Feat: Master Druid Spellcasting"
             }
         ]
     },

@@ -1151,6 +1151,17 @@
       "type": "spells",
       "minLevel": 1,
       "buff": true,
+      "choice": "Non-Flying",
+      "choices": [
+         {
+            "name": "Non-Flying",
+            "spelllevelreq": 4
+         },
+         {
+            "name": "Flying",
+            "spelllevelreq": 4
+         }
+      ],
       "effects": [
          {
             "affected": "Size",
@@ -1182,7 +1193,7 @@
          },
          {
             "affected": "Fly Speed",
-            "setValue": "Heightened >= 4 ? 20 : null"
+            "setValue": "Choice == 'Flying' ? 20 : null"
          },
          {
             "affected": "Ignore Armor Penalty",
@@ -2764,11 +2775,11 @@
       "choices": [
          {
             "name": "Large",
-            "levelreq": 6
+            "spelllevelreq": 6
          },
          {
             "name": "Huge",
-            "levelreq": 6
+            "spelllevelreq": 6
          }
       ],
       "effects": [
@@ -7122,7 +7133,7 @@
             "setValue": "[null,null,null,null,10,15,15,15,15,15,15][Heightened]"
          },
          {
-            "affected": "Dice Number Multiplier",
+            "affected": "Damage Dice Number Multiplier",
             "setValue": "Heightened >= 5 ? 2 : null"
          }
       ],
@@ -7671,35 +7682,31 @@
          },
          {
             "name": "Large",
-            "levelreq": 5
+            "spelllevelreq": 5
          },
          {
             "name": "Small with low-light vision",
-            "featreq": [
-               "3"
-            ]
+            "spelllevelreq": 3
          },
          {
             "name": "Medium with low-light vision",
-            "featreq": [
-               "3"
-            ]
+            "spelllevelreq": 3
          },
          {
             "name": "Large with low-light vision",
-            "levelreq": 5
+            "spelllevelreq": 5
          },
          {
             "name": "Small with Darkvision",
-            "levelreq": 3
+            "spelllevelreq": 3
          },
          {
             "name": "Medium with Darkvision",
-            "levelreq": 3
+            "spelllevelreq": 3
          },
          {
             "name": "Large with Darkvision",
-            "levelreq": 5
+            "spelllevelreq": 5
          }
       ],
       "effects": [
@@ -8796,7 +8803,7 @@
             "setValue": "[null,null,null,null,10,15,15,15,15,15,15][Heightened]"
          },
          {
-            "affected": "Dice Number Multiplier",
+            "affected": "Damage Dice Number Multiplier",
             "setValue": "Heightened >= 5 ? 2 : null"
          }
       ],
@@ -9964,7 +9971,7 @@
             "value": "[0,0,0,0,0,10,15,15,15,15,15][Heightened]"
          },
          {
-            "affected": "Dice Number Multiplier",
+            "affected": "Damage Dice Number Multiplier",
             "setValue": "Heightened >= 6 ? 2 : null"
          },
          {
@@ -10271,7 +10278,7 @@
             "toggle": true
          },
          {
-            "affected": "Dice Number Multiplier",
+            "affected": "Damage Dice Number Multiplier",
             "setValue": "Heightened >= 5 ? 2 : null"
          },
          {
@@ -13678,15 +13685,6 @@
       "type": "spells",
       "minLevel": 1,
       "buff": true,
-      "endsWithConditions": [
-         "Pest Form",
-         "Animal Form",
-         "Humanoid Form",
-         "Insect Form",
-         "Dinosaur Form",
-         "Aerial Form",
-         "Elemental Form"
-      ],
       "hints": [
          {
             "desc": "When you choose to use your own attack modifier while polymorphed instead of the form's default attack modifier, you gain a +2 status bonus to your attack rolls.",
@@ -13703,210 +13701,211 @@
       "choice": "Pest Form",
       "choices": [
          {
-            "name": "Pest Form"
+            "name": "Pest Form",
+            "spelllevelreq": 1
          },
          {
-            "name": "Pest Form (non-flying)",
+            "name": "Pest Form (non-flying insect)",
             "featreq": [
                "Insect Shape"
-            ]
+            ],
+            "spelllevelreq": 3
          },
          {
-            "name": "Animal Form"
+            "name": "Animal Form",
+            "spelllevelreq": 2
          },
          {
             "name": "Humanoid Form",
             "featreq": [
                "Thousand Faces"
-            ]
+            ],
+            "spelllevelreq": 2
          },
          {
             "name": "Insect Form",
             "featreq": [
                "Insect Shape"
-            ]
+            ],
+            "spelllevelreq": 3
          },
          {
             "name": "Dinosaur Form",
             "featreq": [
                "Ferocious Shape"
-            ]
+            ],
+            "spelllevelreq": 4
          },
          {
             "name": "Aerial Form (Bat)",
             "featreq": [
                "Soaring Shape"
-            ]
+            ],
+            "spelllevelreq": 4
          },
          {
             "name": "Aerial Form (Bird)",
             "featreq": [
                "Soaring Shape"
-            ]
+            ],
+            "spelllevelreq": 4
          },
          {
             "name": "Aerial Form (Wasp)",
             "featreq": [
                "Soaring Shape",
                "Insect Shape"
-            ]
+            ],
+            "spelllevelreq": 4
          },
          {
             "name": "Aerial Form (Pterosaur)",
             "featreq": [
                "Soaring Shape",
                "Insect Shape"
-            ]
+            ],
+            "spelllevelreq": 4
          },
          {
             "name": "Elemental Form",
             "featreq": [
                "Elemental Shape"
-            ]
+            ],
+            "spelllevelreq": 5
+         },
+         {
+            "name": "Plant Form",
+            "featreq": [
+               "Plant Shape"
+            ],
+            "spelllevelreq": 5
+         },
+         {
+            "name": "Dragon Form",
+            "featreq": [
+               "Dragon Shape"
+            ],
+            "spelllevelreq": 6
+         },
+         {
+            "name": "Monstrosity Form (Purple Worm)",
+            "featreq": [
+               "Monstrosity Shape"
+            ],
+            "spelllevelreq": 8
+         },
+         {
+            "name": "Monstrosity Form (Sea Serpent)",
+            "featreq": [
+               "Monstrosity Shape"
+            ],
+            "spelllevelreq": 8
+         },
+         {
+            "name": "Monstrosity Form (Phoenix)",
+            "featreq": [
+               "Monstrosity Shape",
+               "Soaring Shape"
+            ],
+            "spelllevelreq": 8
          }
       ],
       "gainConditions": [
          {
-            "activationPrerequisite": "!Has_Condition('Form Control') ? 1 : 0",
+            "activationPrerequisite": "(Character.level >= 5 || !Has_Condition('Form Control')) ? 1 : 0",
             "conditionChoiceFilter": "Pest Form",
-            "duration": 1000,
             "name": "Pest Form"
          },
          {
-            "activationPrerequisite": "Has_Condition('Form Control') ? 1 : 0",
-            "conditionChoiceFilter": "Pest Form",
-            "duration": 6000,
-            "name": "Pest Form"
-         },
-         {
-            "activationPrerequisite": "!Has_Condition('Form Control') ? 1 : 0",
+            "activationPrerequisite": "(Character.level >= 7 || !Has_Condition('Form Control')) ? 1 : 0",
             "conditionChoiceFilter": "Animal Form",
-            "duration": 100,
             "name": "Animal Form"
          },
          {
-            "activationPrerequisite": "Has_Condition('Form Control') ? 1 : 0",
-            "conditionChoiceFilter": "Animal Form",
-            "duration": 6000,
-            "name": "Animal Form"
-         },
-         {
-            "activationPrerequisite": "!Has_Condition('Form Control') ? 1 : 0",
+            "activationPrerequisite": "(Character.level >= 7 || !Has_Condition('Form Control')) ? 1 : 0",
             "conditionChoiceFilter": "Humanoid Form",
-            "duration": 100,
             "name": "Humanoid Form"
          },
          {
-            "activationPrerequisite": "Has_Condition('Form Control') ? 1 : 0",
-            "conditionChoiceFilter": "Humanoid Form",
-            "duration": 6000,
-            "name": "Humanoid Form"
-         },
-         {
-            "activationPrerequisite": "!Has_Condition('Form Control') ? 1 : 0",
+            "activationPrerequisite": "(Character.level >= 9 || !Has_Condition('Form Control')) ? 1 : 0",
             "conditionChoiceFilter": "Insect Form",
-            "duration": 100,
             "name": "Insect Form"
          },
          {
-            "activationPrerequisite": "Has_Condition('Form Control') ? 1 : 0",
-            "conditionChoiceFilter": "Insect Form",
-            "duration": 6000,
-            "name": "Insect Form"
-         },
-         {
-            "conditionChoiceFilter": "Pest-Form (non-flying)",
-            "duration": 144000,
-            "heightened": 1,
+            "choice": "Non-Flying",
+            "choiceLocked": true,
+            "conditionChoiceFilter": "Pest Form (non-flying insect)",
+            "heightened": 3,
             "name": "Pest-Form"
          },
          {
-            "activationPrerequisite": "!Has_Condition('Form Control') ? 1 : 0",
+            "activationPrerequisite": "(Character.level >= 11 || !Has_Condition('Form Control')) ? 1 : 0",
             "conditionChoiceFilter": "Dinosaur Form",
-            "duration": 100,
             "name": "Dinosaur Form"
          },
          {
-            "activationPrerequisite": "Has_Condition('Form Control') ? 1 : 0",
-            "conditionChoiceFilter": "Dinosaur Form",
-            "duration": 6000,
-            "name": "Dinosaur Form"
-         },
-         {
-            "activationPrerequisite": "!Has_Condition('Form Control') ? 1 : 0",
+            "activationPrerequisite": "(Character.level >= 11 || !Has_Condition('Form Control')) ? 1 : 0",
             "choice": "Bat",
             "choiceLocked": true,
             "conditionChoiceFilter": "Aerial Form (Bat)",
-            "duration": 100,
             "name": "Aerial Form"
          },
          {
-            "activationPrerequisite": "Has_Condition('Form Control') ? 1 : 0",
-            "choice": "Bat",
-            "choiceLocked": true,
-            "conditionChoiceFilter": "Aerial Form (Bat)",
-            "duration": 6000,
-            "name": "Aerial Form"
-         },
-         {
-            "activationPrerequisite": "!Has_Condition('Form Control') ? 1 : 0",
+            "activationPrerequisite": "(Character.level >= 11 || !Has_Condition('Form Control')) ? 1 : 0",
             "choice": "Bird",
             "choiceLocked": true,
             "conditionChoiceFilter": "Aerial Form (Bird)",
-            "duration": 100,
             "name": "Aerial Form"
          },
          {
-            "activationPrerequisite": "Has_Condition('Form Control') ? 1 : 0",
-            "choice": "Bird",
-            "choiceLocked": true,
-            "conditionChoiceFilter": "Aerial Form (Bird)",
-            "duration": 6000,
-            "name": "Aerial Form"
-         },
-         {
-            "activationPrerequisite": "!Has_Condition('Form Control') ? 1 : 0",
+            "activationPrerequisite": "(Character.level >= 11 || !Has_Condition('Form Control')) ? 1 : 0",
             "choice": "Wasp",
             "choiceLocked": true,
             "conditionChoiceFilter": "Aerial Form (Wasp)",
-            "duration": 100,
             "name": "Aerial Form"
          },
          {
-            "activationPrerequisite": "Has_Condition('Form Control') ? 1 : 0",
-            "choice": "Wasp",
-            "choiceLocked": true,
-            "conditionChoiceFilter": "Aerial Form (Wasp)",
-            "duration": 6000,
-            "name": "Aerial Form"
-         },
-         {
-            "activationPrerequisite": "!Has_Condition('Form Control') ? 1 : 0",
+            "activationPrerequisite": "(Character.level >= 11 || !Has_Condition('Form Control')) ? 1 : 0",
             "choice": "Pterosaur",
             "choiceLocked": true,
             "conditionChoiceFilter": "Aerial Form (Pterosaur)",
-            "duration": 100,
             "name": "Aerial Form"
          },
          {
-            "activationPrerequisite": "Has_Condition('Form Control') ? 1 : 0",
-            "choice": "Pterosaur",
+            "activationPrerequisite": "(Character.level >= 13 || !Has_Condition('Form Control')) ? 1 : 0",
+            "conditionChoiceFilter": "Elemental Form",
+            "name": "Elemental Form"
+         },
+         {
+            "activationPrerequisite": "(Character.level >= 13 || !Has_Condition('Form Control')) ? 1 : 0",
+            "conditionChoiceFilter": "Plant Form",
+            "name": "Plant Form"
+         },
+         {
+            "activationPrerequisite": "(Character.level >= 15 || !Has_Condition('Form Control')) ? 1 : 0",
+            "conditionChoiceFilter": "Dragon Form",
+            "name": "Dragon Form"
+         },
+         {
+            "activationPrerequisite": "(Character.level >= 19 || !Has_Condition('Form Control')) ? 1 : 0",
+            "choice": "Purple Worm",
             "choiceLocked": true,
-            "conditionChoiceFilter": "Aerial Form (Pterosaur)",
-            "duration": 6000,
-            "name": "Aerial Form"
+            "conditionChoiceFilter": "Monstrosity Form (Purple Worm)",
+            "name": "Monstrosity Form"
          },
          {
-            "activationPrerequisite": "!Has_Condition('Form Control') ? 1 : 0",
-            "conditionChoiceFilter": "Elemental Form",
-            "duration": 100,
-            "name": "Elemental Form"
+            "activationPrerequisite": "(Character.level >= 19 || !Has_Condition('Form Control')) ? 1 : 0",
+            "choice": "Sea Serpent",
+            "choiceLocked": true,
+            "conditionChoiceFilter": "Monstrosity Form (Sea Serpent)",
+            "name": "Monstrosity Form"
          },
          {
-            "activationPrerequisite": "Has_Condition('Form Control') ? 1 : 0",
-            "conditionChoiceFilter": "Elemental Form",
-            "duration": 6000,
-            "name": "Elemental Form"
+            "activationPrerequisite": "(Character.level >= 19 || !Has_Condition('Form Control')) ? 1 : 0",
+            "choice": "Phoenix",
+            "choiceLocked": true,
+            "conditionChoiceFilter": "Monstrosity Form (Phoenix)",
+            "name": "Monstrosity Form"
          }
       ],
       "endConditions": [
@@ -14035,7 +14034,7 @@
             "toggle": true
          },
          {
-            "affected": "Dice Number Multiplier",
+            "affected": "Damage Dice Number Multiplier",
             "setValue": "Heightened >= 7 ? 2 : null"
          },
          {
@@ -14125,6 +14124,901 @@
          {
             "conditionChoiceFilter": "Fire",
             "name": "Elemental Form Fire Tendril (7th Level)"
+         }
+      ]
+   },
+   {
+      "name": "Plant Form",
+      "desc": "You have transformed into a Large plant battle form, chosen from arboreal, flytrap, or shambler. While in this form, you gain the plant trait. You can Dismiss the spell.\n\nYou gain the following statistics and abilities regardless of which battle form you choose:\n\n(Heightened statistics at the bottom)\nAC = 19 + your level. Ignore your armor's check penalty and Speed reduction.\n12 temporary Hit Points.\nResistance 10 to poison.\nLow-light vision.\nOne or more unarmed melee attacks specific to the battle form you choose, which are the only attacks you can use. You're trained with them. Your attack modifier is +17, and your damage bonus is +11. These attacks are Strength based (for the purpose of the enfeebled condition, for example). If your unarmed attack modifier is higher, you can use it instead.\nAthletics modifier of +19, unless your own modifier is higher.\n\nYou also gain specific abilities based on the form you choose:\n\n<strong>Arboreal</strong> Speed 30 feet; <strong>Melee</strong> branch (reach 15 feet), <strong>Damage</strong> 2d10 bludgeoning; <strong>Melee</strong> foot, <strong>Damage</strong> 2d8 bludgeoning; you can speak in this form, but you still can't Cast a Spell or supply verbal components.\n<strong>Flytrap</strong> Speed 15 feet; resistance 10 to acid;<strong>Melee</strong> leaf (reach 10 feet), <strong>Damage</strong> 2d8 piercing, and you can spend an action after a hit to Grab the target.\n<strong>Shambler</strong> Speed 20 feet, swim Speed 20 feet; <strong>Melee</strong> vine (reach 15 feet), <strong>Damage</strong> 2d8 slashing.\n\nHeightened statistics:\n\n<strong>6th Level</strong> Your battle form is Huge, and the reach of your attacks increases by 5 feet. You instead gain AC = 22 + your level, 24 temporary HP, attack modifier +21, damage bonus +16, and Athletics +22.",
+      "type": "spells",
+      "minLevel": 5,
+      "buff": true,
+      "hints": [
+         {
+            "desc": "You can speak in arboreal form, but you still can't Cast a Spell or supply verbal components.",
+            "showon": "Actions, Languages"
+         }
+      ],
+      "choice": "Arboreal",
+      "choices": [
+         {
+            "name": "Arboreal"
+         },
+         {
+            "name": "Flytrap"
+         },
+         {
+            "name": "Shambler"
+         }
+      ],
+      "effects": [
+         {
+            "affected": "Size",
+            "setValue": "Math.min(Math.max(0, Heightened - 4), 2)"
+         },
+         {
+            "affected": "AC",
+            "setValue": "(Heightened >= 6 ? 22 : 19) + Level"
+         },
+         {
+            "affected": "Melee Attack Rolls",
+            "setValue": "Skill('Unarmed Attacks') >= [0,0,0,0,0,17,21,21,21,21,21][Heightened] ? null : [0,0,0,0,0,17,21,21,21,21,21][Heightened]"
+         },
+         {
+            "affected": "Melee Damage",
+            "setValue": "[null,null,null,null,null,11,16,16,16,16,16][Heightened]"
+         },
+         {
+            "affected": "Athletics",
+            "setValue": "Skill('Athletics') >= [0,0,0,0,0,19,22,22,22,22,22][Heightened] ? null : [0,0,0,0,0,19,22,22,22,22,22]Heightened]"
+         },
+         {
+            "affected": "Land Speed",
+            "setValue": "Choice == 'Arboreal' ? 50 : (Choice == 'Shambler' ? 20 : 15)"
+         },
+         {
+            "affected": "Swim Speed",
+            "setValue": "Choice == 'Shambler' ? 20 : null"
+         },
+         {
+            "affected": "Unarmed Attacks Proficiency Level",
+            "setValue": "Skill_Level('Unarmed Attacks') <= 2 ? 2 : null"
+         },
+         {
+            "affected": "Ignore Armor Penalty",
+            "setValue": "TRUE"
+         },
+         {
+            "affected": "Poison Resistance",
+            "value": 10
+         },
+         {
+            "affected": "Acid Resistance",
+            "value": "Choice == 'Flytrap' ? 10 : 0"
+         },
+         {
+            "affected": "Reach",
+            "value": "Heightened >= 6 ? 5 : 0"
+         }
+      ],
+      "onceEffects": [
+         {
+            "affected": "Temporary HP",
+            "value": "(Heightened >= 6) ? 24 : 12"
+         }
+      ],
+      "endEffects": [
+         {
+            "affected": "Temporary HP",
+            "value": "-Temporary_HP('',effect.sourceId)"
+         }
+      ],
+      "gainItems": [
+         {
+            "conditionChoiceFilter": "Arboreal",
+            "name": "Plant Form Arboreal Branch",
+            "type": "weapons"
+         },
+         {
+            "conditionChoiceFilter": "Arboreal",
+            "name": "Plant Form Arboreal Foot",
+            "type": "weapons"
+         },
+         {
+            "conditionChoiceFilter": "Flytrap",
+            "name": "Plant Form Flytrap Leaf",
+            "type": "weapons"
+         },
+         {
+            "conditionChoiceFilter": "Shambler",
+            "name": "Plant Form Shambler Vine",
+            "type": "weapons"
+         }
+      ],
+      "senses": [
+         {
+            "name": "Low-Light Vision"
+         }
+      ],
+      "attackRestrictions": [
+         {
+            "conditionChoiceFilter": "Arboreal",
+            "name": "Plant Form Arboreal Branch"
+         },
+         {
+            "conditionChoiceFilter": "Arboreal",
+            "name": "Plant Form Arboreal Foot"
+         },
+         {
+            "conditionChoiceFilter": "Flytrap",
+            "name": "Plant Form Flytrap Leaf"
+         },
+         {
+            "conditionChoiceFilter": "Shambler",
+            "name": "Plant Form Shambler Vine"
+         }
+      ]
+   },
+   {
+      "name": "Monstrosity Form",
+      "desc": "You have transformed into the shape of a legendary monster, assuming a Huge battle form chosen from phoenix, purple worm, or sea serpent. While in this form, you gain the beast trait (for phoenix) or the animal trait (for purple worm or sea serpent). You can Dismiss the spell.\n\nYou gain the following statistics and abilities regardless of which battle form you choose:\n\n(Heightened statistics at the bottom)\nAC = 20 + your level. Ignore your armor's check penalty and Speed reduction.\n20 temporary Hit Points.\nDarkvision.\nOne or more unarmed melee attacks specific to the battle form you choose, which are the only attacks you can use. You're trained with them. Your attack modifier is +28, and you use the listed damage. These attacks are Strength based (for the purpose of the enfeebled condition, for example). If your unarmed attack modifier is higher, you can use it instead.\nAthletics modifier of +30, unless your own modifier is higher.\n\nYou also gain specific abilities based on the form you choose:\n\n<strong>Phoenix</strong> Speed 30 feet, fly Speed 90 feet; <strong>Melee</strong> beak (reach 15 feet), <strong>Damage</strong> 2d6+12 piercing plus 2d4 fire and 2d4 persistent fire; <strong>Melee</strong> talon (agile, reach 15 feet), <strong>Damage</strong> 2d8+12 slashing; <strong>Shroud of Flame</strong> (aura, evocation, fire, primal) 20 feet. You gain an aura of fire that extends out from you. A creature that enters or ends its turn within the aura takes 2d6 fire damage. A creature can take this damage only once per turn. You can use a single action, which has the concentrate trait, to activate or deactivate this aura.\n<strong>Purple Worm</strong> Speed 40 feet, burrow 30 feet, swim Speed 20 feet; <strong>Melee</strong> jaws (reach 10 feet), <strong>Damage</strong> 2d12+20 piercing; <strong>Melee</strong> stinger (agile, reach 10 feet), <strong>Damage</strong> 2d8+15 piercing plus 2d6 persistent poison; <strong>Melee</strong> body (reach 10 feet), <strong>Damage</strong> 2d8+20 bludgeoning; <strong>Inexorable</strong> You automatically recover from the paralyzed, slowed, and stunned conditions at the end of each of your turns. You're also immune to being immobilized and ignore difficult terrain and greater difficult terrain.\n<strong>Sea Serpent</strong> Speed 20 feet, swim Speed 90 feet; <strong>Melee</strong> jaws (reach 15 feet), <strong>Damage</strong> 2d12+20 piercing; <strong>Melee</strong> tail (reach 25 feet), <strong>Damage</strong> 2d8+20 bludgeoning; <strong>Spine Rake</strong> <span class='actionIcon action2A'> (move), You extend your spines and Swim or Stride. Each creature you're adjacent to at any point during your movement takes 4d8+10 slashing damage (basic Reflex against your spell DC).\n\n<strong>9th Level</strong> You instead gain AC = 22 + your level, 25 temporary HP, attack modifier +31, increase damage by one damage die, and Athletics +33.",
+      "type": "spells",
+      "minLevel": 8,
+      "buff": true,
+      "hints": [
+         {
+            "desc": "In purple worm form, you automatically recover from the paralyzed, slowed, and stunned conditions at the end of each of your turns, and you are immune to being immobilized. (Remove these conditions manually.)",
+            "showon": "Health, Effects"
+         },
+         {
+            "desc": "In purple worm form, you are immune to being immobilized and ignore difficult terrain and greater difficult terrain.",
+            "showon": "Movement"
+         }
+      ],
+      "choice": "Phoenix",
+      "choices": [
+         {
+            "name": "Phoenix"
+         },
+         {
+            "name": "Purple Worm"
+         },
+         {
+            "name": "Sea Serpent"
+         }
+      ],
+      "effects": [
+         {
+            "affected": "Size",
+            "setValue": "2"
+         },
+         {
+            "affected": "AC",
+            "setValue": "(Heightened >= 9 ? 22 : 20) + Level"
+         },
+         {
+            "affected": "Melee Attack Rolls",
+            "setValue": "Skill('Unarmed Attacks') >= [0,0,0,0,0,0,0,0,28,31,31][Heightened] ? null : [0,0,0,0,0,0,0,0,28,31,31][Heightened]"
+         },
+         {
+            "affected": "Athletics",
+            "toggle": "Skill('Athletics') >= [0,0,0,0,0,0,0,0,30,33,33][Heightened] ? null : [0,0,0,0,0,0,0,0,30,33,33][Heightened]"
+         },
+         {
+            "affected": "Land Speed",
+            "setValue": "Choice == 'Purple Worm' ? 40 : (Choice == 'Phoenix' ? 30 : 20)"
+         },
+         {
+            "affected": "Fly Speed",
+            "setValue": "Choice == 'Phoenix' ? 90 : null"
+         },
+         {
+            "affected": "Swim Speed",
+            "setValue": "Choice == 'Sea Serpent' ? 90 : (Choice == 'Purple Worm' ? 20 : null)"
+         },
+         {
+            "affected": "Swim Speed",
+            "setValue": "Choice == 'Purple Worm' ? 30 : null"
+         },
+         {
+            "affected": "Unarmed Attacks Proficiency Level",
+            "setValue": "Skill_Level('Unarmed Attacks') <= 2 ? 2 : null"
+         },
+         {
+            "affected": "Ignore Armor Penalty",
+            "setValue": "TRUE"
+         },
+         {
+            "affected": "Melee Damage Dice Number",
+            "value": "Heightened >= 9 ? 1 : 0"
+         }
+      ],
+      "onceEffects": [
+         {
+            "affected": "Temporary HP",
+            "value": "(Heightened >= 9) ? 25 : 20"
+         }
+      ],
+      "endEffects": [
+         {
+            "affected": "Temporary HP",
+            "value": "-Temporary_HP('',effect.sourceId)"
+         }
+      ],
+      "gainActivities": [
+         {
+            "_className": "ActivityGain",
+            "name": "Shroud of Flame",
+            "source": "Monstrosity Form"
+         },
+         {
+            "_className": "ActivityGain",
+            "name": "Spine Rake",
+            "source": "Monstrosity Form"
+         }
+      ],
+      "gainItems": [
+         {
+            "conditionChoiceFilter": "Phoenix",
+            "name": "Monstrosity Form Phoenix Beak",
+            "type": "weapons"
+         },
+         {
+            "conditionChoiceFilter": "Phoenix",
+            "name": "Monstrosity Form Phoenix Talon",
+            "type": "weapons"
+         },
+         {
+            "conditionChoiceFilter": "Purple Worm",
+            "name": "Monstrosity Form Purple Worm Jaws",
+            "type": "weapons"
+         },
+         {
+            "conditionChoiceFilter": "Purple Worm",
+            "name": "Monstrosity Form Purple Worm Stinger",
+            "type": "weapons"
+         },
+         {
+            "conditionChoiceFilter": "Purple Worm",
+            "name": "Monstrosity Form Purple Worm Body",
+            "type": "weapons"
+         },
+         {
+            "conditionChoiceFilter": "Sea Serpent",
+            "name": "Monstrosity Form Sea Serpent Jaws",
+            "type": "weapons"
+         },
+         {
+            "conditionChoiceFilter": "Sea Serpent",
+            "name": "Monstrosity Form Sea Serpent Tail",
+            "type": "weapons"
+         }
+      ],
+      "senses": [
+         {
+            "name": "Darkvision"
+         }
+      ],
+      "attackRestrictions": [
+         {
+            "conditionChoiceFilter": "Phoenix",
+            "name": "Monstrosity Form Phoenix Beak"
+         },
+         {
+            "conditionChoiceFilter": "Phoenix",
+            "name": "Monstrosity Form Phoenix Talon"
+         },
+         {
+            "conditionChoiceFilter": "Purple Worm",
+            "name": "Monstrosity Form Purple Worm Jaws"
+         },
+         {
+            "conditionChoiceFilter": "Purple Worm",
+            "name": "Monstrosity Form Purple Worm Stinger"
+         },
+         {
+            "conditionChoiceFilter": "Purple Worm",
+            "name": "Monstrosity Form Purple Worm Body"
+         },
+         {
+            "conditionChoiceFilter": "Sea Serpent",
+            "name": "Monstrosity Form Sea Serpent Jaws"
+         },
+         {
+            "conditionChoiceFilter": "Sea Serpent",
+            "name": "Monstrosity Form Sea Serpent Tail"
+         }
+      ]
+   },
+   {
+      "name": "Shroud of Flame",
+      "desc": "You gain a 20 feet aura of fire that extends out from you. A creature that enters or ends its turn within the aura takes 2d6 fire damage (3d6 on 9th level monstrosity form). A creature can take this damage only once per turn. You can use a single action, which has the concentrate trait, to activate or deactivate this aura.",
+      "type": "activities",
+      "buff": true,
+      "endsWithConditions": [
+         "Monstrosity Form"
+      ]
+   },
+   {
+      "name": "Nature Incarnate",
+      "desc": "You have transformed into an incarnation of nature, either a green man or a kaiju. Your battle form is Medium for a green man or Gargantuan (30-foot-by-30-foot space) for a kaiju. While in this form, you gain the plant trait (for a green man) or the beast trait (for a kaiju). You can Dismiss the spell.\n\nYou gain the following statistics and abilities regardless of which battle form you choose:\n\nAC = 25 + your level. Ignore your armor's check penalty and Speed reduction.\n30 temporary Hit Points.\nDarkvision.\nOne or more attacks specific to the battle form you choose, which are the only attacks you can use. You're trained with them. Your attack modifier is +34, and you use the listed damage. These attacks are Strength based (for the purpose of the enfeebled condition, for example). If your unarmed attack modifier is higher, you can use it instead.\nAthletics modifier of +36, unless your own modifier is higher.\n\nYou also gain specific abilities based on the type of incarnation you choose:\n\n<strong>Green Man</strong> Speed 40 feet, climb Speed 40 feet; <strong>Melee</strong> vines (reach 30 feet, versatile P), <strong>Damage</strong> 6d8+12 bludgeoning; <strong>Ranged</strong> thorns (range 100 feet), <strong>Damage</strong> 6d6+6 piercing; <strong>Green Caress</strong> (aura, primal, transmutation) 60 feet. Enemies other than plants must succeed at a Fortitude save against your spell DC or become clumsy 1 for 1 round (clumsy 2 on a critical failure).\n<strong>Kaiju</strong> Speed 50 feet; resistance 5 to physical damage; <strong>Melee</strong> jaws (reach 30 feet), <strong>Damage</strong> 6d10+10 piercing; <strong>Melee</strong> claws (agile, reach 30 feet), <strong>Damage</strong> 6d8+8 slashing; <strong>Melee</strong> foot (agile, reach 15 feet), <strong>Damage</strong> 6d6+10 bludgeoning; <strong>Unstoppable</strong> You are immune to being immobilized and ignore difficult terrain and greater difficult terrain; <strong>Trample</strong> <span class='actionIcon action3A'> You move up to double your Speed and move through the spaces of Huge or smaller creatures, trampling each creature whose space you enter. A trampled creature takes foot damage with a basic Reflex save against your spell DC.",
+      "type": "spells",
+      "minLevel": 10,
+      "buff": true,
+      "hints": [
+         {
+            "desc": "In Kaiju form, you are immune to being immobilized and ignore difficult terrain and greater difficult terrain",
+            "showon": "Effects, Movement"
+         }
+      ],
+      "choice": "Green Man",
+      "choices": [
+         {
+            "name": "Green Man"
+         },
+         {
+            "name": "Kaiju"
+         }
+      ],
+      "effects": [
+         {
+            "affected": "Size",
+            "setValue": "Choice == 'Kaiju' ? 2 : 0"
+         },
+         {
+            "affected": "AC",
+            "setValue": "25 + Level"
+         },
+         {
+            "affected": "Melee Attack Rolls",
+            "setValue": "Skill('Unarmed Attacks') >= 34 ? null : 34"
+         },
+         {
+            "affected": "Athletics",
+            "toggle": "Skill('Athletics') >= 36 ? null : 36"
+         },
+         {
+            "affected": "Land Speed",
+            "setValue": "Choice == 'Kaiju' ? 50 : 40"
+         },
+         {
+            "affected": "Climb Speed",
+            "setValue": "Choice == 'Green Man' ? 40 : null"
+         },
+         {
+            "affected": "Unarmed Attacks Proficiency Level",
+            "setValue": "Skill_Level('Unarmed Attacks') <= 2 ? 2 : null"
+         },
+         {
+            "affected": "Ignore Armor Penalty",
+            "setValue": "TRUE"
+         }
+      ],
+      "onceEffects": [
+         {
+            "affected": "Temporary HP",
+            "value": "30"
+         }
+      ],
+      "endEffects": [
+         {
+            "affected": "Temporary HP",
+            "value": "-Temporary_HP('',effect.sourceId)"
+         }
+      ],
+      "gainActivities": [
+         {
+            "_className": "ActivityGain",
+            "name": "Trample",
+            "source": "Nature Incarnate"
+         }
+      ],
+      "gainConditions": [
+         {
+            "conditionChoiceFilter": "Green Man",
+            "name": "Green Caress"
+         }
+      ],
+      "gainItems": [
+         {
+            "conditionChoiceFilter": "Green Man",
+            "name": "Nature Incarnate Green Man Vines",
+            "type": "weapons"
+         },
+         {
+            "conditionChoiceFilter": "Green Man",
+            "name": "Nature Incarnate Green Man Thorns",
+            "type": "weapons"
+         },
+         {
+            "conditionChoiceFilter": "Kaiju",
+            "name": "Nature Incarnate Kaiju Jaws",
+            "type": "weapons"
+         },
+         {
+            "conditionChoiceFilter": "Kaiju",
+            "name": "Nature Incarnate Kaiju Claws",
+            "type": "weapons"
+         },
+         {
+            "conditionChoiceFilter": "Kaiju",
+            "name": "Nature Incarnate Kaiju Foot",
+            "type": "weapons"
+         }
+      ],
+      "senses": [
+         {
+            "name": "Darkvision"
+         }
+      ],
+      "attackRestrictions": [
+         {
+            "conditionChoiceFilter": "Green Man",
+            "name": "Nature Incarnate Green Man Vines"
+         },
+         {
+            "conditionChoiceFilter": "Green Man",
+            "name": "Nature Incarnate Green Man Thorns"
+         },
+         {
+            "conditionChoiceFilter": "Kaiju",
+            "name": "Nature Incarnate Kaiju Jaws"
+         },
+         {
+            "conditionChoiceFilter": "Kaiju",
+            "name": "Nature Incarnate Kaiju Claws"
+         },
+         {
+            "conditionChoiceFilter": "Kaiju",
+            "name": "Nature Incarnate Kaiju Foot"
+         }
+      ]
+   },
+   {
+      "name": "Green Caress",
+      "desc": "You gain a 60 foot aura. Enemies other than plants in the aura must succeed at a Fortitude save against your spell DC or become clumsy 1 for 1 round (clumsy 2 on a critical failure).",
+      "type": "hidden",
+      "buff": true
+   },
+   {
+      "name": "Green Tongue",
+      "desc": "You share a special kinship with all things green and living. You (and your leshy familiar, if you have one) are constantly under the effects of speak with plants. Most non-creature plants recognize you as a druid of the leaf order and are friendly to you.\n\nYou can ask questions of and receive answers from plants, but the spell doesn't make them more friendly or intelligent than normal. Most normal plants have a distinctive view of the world around them, so they don't recognize details about creatures or know anything about the world beyond their immediate vicinity. Cunning plant monsters are likely to be terse and evasive, while less intelligent ones often make inane comments.",
+      "type": "feats",
+      "buff": true,
+      "hints": [
+         {
+            "desc": "You can ask questions of and receive answers from plants. Most non-creature plants recognize you as a druid of the leaf order and are friendly to you. The spell doesn't make other plants more friendly or intelligent than normal. Most normal plants have a distinctive view of the world around them, so they don't recognize details about creatures or know anything about the world beyond their immediate vicinity. Cunning plant monsters are likely to be terse and evasive, while less intelligent ones often make inane comments.",
+            "showon": "Languages, Diplomacy"
+         }
+      ]
+   },
+   {
+      "name": "Pesh Skin",
+      "desc": "Your plant form sprouts hundreds of spines, and your blood causes mild hallucinations in creatures exposed to it. Each time a creature touches you, hits you with an unarmed attack, or hits you with a melee weapon attack while adjacent to you, that creature takes 1d6 piercing damage. Increase the damage to 2d6 if the polymorph spell is 8th level or higher, or to 3d6 if it's 10th level.\n\nWhen an adjacent creature damages you with piercing or slashing damage, it must succeed at a Fortitude save against your class DC or become stupefied 1 (or stupefied 2 on a critical failure) until the end of its next turn.\n\nThese benefits last until you're no longer polymorphed into a plant.",
+      "type": "activities",
+      "buff": true,
+      "endsWithConditions": [
+         "Plant Form",
+         "Nature Incarnate",
+         "Tree Shape"
+      ],
+      "hints": [
+         {
+            "desc": "Each time a creature touches you, hits you with an unarmed attack, or hits you with a melee weapon attack while adjacent to you, that creature takes 1d6 piercing damage. Increase the damage to 2d6 if the polymorph spell is 8th level or higher, or to 3d6 if it's 10th level.\n\nWhen an adjacent creature damages you with piercing or slashing damage, it must succeed at a Fortitude save against your class DC or become stupefied 1 (or stupefied 2 on a critical failure) until the end of its next turn.",
+            "showon": "Defense"
+         }
+      ]
+   },
+   {
+      "name": "Primal Summons",
+      "desc": "You enhance a summoned creature with the power of the elements. If your next action is to cast either summon animal or summon plant or fungus, choose air, earth, fire, or water, and the creature you summon gains the corresponding abilities.\n\n<strong>Air</strong> The creature gains a fly Speed of 60 feet.\n<strong>Earth</strong> The creature gains a burrow Speed of 20 feet, reduces its land Speed by 10 feet (minimum 5 feet), and gains resistance 5 to physical damage.\n<strong>Fire</strong> The creature's attacks deal 1d6 extra fire damage, and it gains resistance 10 to fire and weakness 5 to cold and water.\n<strong>Water</strong> The creature gains a swim Speed of 60 feet, can spend 1 action after a melee attack to attempt a Shove (ignoring multiple attack penalty), and gains resistance 5 to fire.",
+      "type": "spells",
+      "minLevel": 6,
+      "buff": true,
+      "endsWithConditions": [
+         "Summon Animal",
+         "Summon Plant or Fungus"
+      ],
+      "hints": [
+         {
+            "desc": "The summoned creature gains the abilities corresponding to the chosen element.\n\nAir: The creature gains a fly Speed of 60 feet.\nEarth: The creature gains a burrow Speed of 20 feet, reduces its land Speed by 10 feet (minimum 5 feet), and gains resistance 5 to physical damage.\nFire: The creature's attacks deal 1d6 extra fire damage, and it gains resistance 10 to fire and weakness 5 to cold and water.\nWater: The creature gains a swim Speed of 60 feet, can spend 1 action after a melee attack to attempt a Shove (ignoring multiple attack penalty), and gains resistance 5 to fire.",
+            "showon": "Spellbook"
+         }
+      ]
+   },
+   {
+      "name": "Tree Shape (Verdant Metamorphosis)",
+      "desc": "You have transformed into a Large tree or any other kind of non-creature plant. Perception checks don't reveal your true nature, but a successful Nature or Survival check against your spell DC reveals that you appear to be a tree that is strangely new to the area. While in tree form, you can observe everything around you, but you can't act other than to end the spell, and your turn, by using a single action, which has the concentrate trait. As a tree, your AC is 30, and only status bonuses, status penalties, circumstance bonuses, and circumstance penalties affect you. Any successes and critical successes you roll on Reflex saves are failures.",
+      "type": "spells",
+      "minLevel": 2,
+      "buff": true,
+      "hints": [
+         {
+            "desc": "Any successes and critical successes you roll on Reflex saves are failures.",
+            "showon": "Reflex"
+         },
+         {
+            "desc": "While in tree form, you can observe everything around you, but you can't act other than to end the spell, and your turn, by using a single action, which has the concentrate trait. Only status bonuses, status penalties, circumstance bonuses, and circumstance penalties affect you.",
+            "showon": "Defense, Attacks, Skills, Activities"
+         }
+      ],
+      "effects": [
+         {
+            "affected": "Size",
+            "setValue": "1"
+         },
+         {
+            "affected": "AC",
+            "setValue": "30"
+         },
+         {
+            "affected": "Ignore item bonuses and penalties",
+            "toggle": true
+         },
+         {
+            "affected": "Ignore proficiency bonuses and penalties",
+            "toggle": "TRUE"
+         }
+      ]
+   },
+   {
+      "name": "Impaling Briars",
+      "desc": "The ground within the area transforms into a mass of dangerous briars that assault and impede your foes. The first time each round you Sustain the Spell, you can select one of the following effects to occur in the area.\n<strong>Ensnare</strong> The briars clump around your foes, attempting to hold them in place. A foe within the area (or flying at most 20 feet above the area) must attempt a Reflex save. On a failure, it takes a -10-foot circumstance penalty to all Speeds for 1 round, and on a critical failure, it is immobilized for 1 round unless it Escapes.\n<strong>Impede</strong> The briars twist and writhe, making the entire area difficult terrain.\n<strong>Wall</strong> A wall of thorns appears in the area, lasting for 1 round. The wall is greater difficult terrain instead of difficult terrain.\n\nIn addition, once per round you can direct the briars to impale any target in the area (or flying up to 20 feet above the area) that you can see by using a single action, which has the concentrate and manipulate traits. Make a spell attack roll. On a success, the target takes 10d6 piercing damage and takes a -10-foot circumstance penalty to all Speeds for 1 round; on a critical success, the target is immobilized for 1 round unless it Escapes.",
+      "type": "spells",
+      "minLevel": 8,
+      "buff": true,
+      "hints": [
+         {
+            "desc": "(Impede only) The entire 100-foot emanation of impaling briars is difficult terrain.\n\n(Wall only) The wall of thorns created by the impaling briars is greater difficult terrain instead of difficult terrain.",
+            "showon": "Movement"
+         }
+      ],
+      "choice": "No effect",
+      "choices": [
+         {
+            "name": "No effect"
+         },
+         {
+            "name": "Ensnare"
+         },
+         {
+            "name": "Impede"
+         },
+         {
+            "name": "Wall"
+         }
+      ],
+      "gainActivities": [
+         {
+            "_className": "ActivityGain",
+            "name": "Impaling Briars: Impale",
+            "source": "Impaling Briars"
+         }
+      ],
+      "gainConditions": [
+         {
+            "conditionChoiceFilter": "Wall",
+            "name": "Wall of Thorns"
+         }
+      ]
+   },
+   {
+      "name": "Impaling Briars (Impale or ensnare failure)",
+      "desc": "You are impaled or ensnared by a mass of dangerous briars. You take a -10-foot circumstance penalty to all Speeds for the duration.",
+      "type": "spells",
+      "minLevel": 8,
+      "effects": [
+         {
+            "affected": "Speed",
+            "type": "circumstance",
+            "value": "-10"
+         }
+      ]
+   },
+   {
+      "name": "Leyline Conduit",
+      "desc": "You can cast your spells effortlessly by tapping into the leylines of the world. If your next action is to Cast a Spell of 5th level or lower that has no duration, you don't expend the prepared spell as you cast it.",
+      "type": "activities",
+      "buff": true
+   },
+   {
+      "name": "Nature Incarnate (True Shapeshifter)",
+      "desc": "You have transformed into an incarnation of nature, either a green man or a kaiju. Your battle form is Medium for a green man or Gargantuan (30-foot-by-30-foot space) for a kaiju. While in this form, you gain the plant trait (for a green man) or the beast trait (for a kaiju). You can Dismiss the spell.\n\nYou gain the following statistics and abilities regardless of which battle form you choose:\n\nAC = 25 + your level. Ignore your armor's check penalty and Speed reduction.\n30 temporary Hit Points.\nDarkvision.\nOne or more attacks specific to the battle form you choose, which are the only attacks you can use. You're trained with them. Your attack modifier is +34, and you use the listed damage. These attacks are Strength based (for the purpose of the enfeebled condition, for example). If your unarmed attack modifier is higher, you can use it instead.\nAthletics modifier of +36, unless your own modifier is higher.\n\nYou also gain specific abilities based on the type of incarnation you choose:\n\n<strong>Green Man</strong> Speed 40 feet, climb Speed 40 feet; <strong>Melee</strong> vines (reach 30 feet, versatile P), <strong>Damage</strong> 6d8+12 bludgeoning; <strong>Ranged</strong> thorns (range 100 feet), <strong>Damage</strong> 6d6+6 piercing; <strong>Green Caress</strong> (aura, primal, transmutation) 60 feet. Enemies other than plants must succeed at a Fortitude save against your spell DC or become clumsy 1 for 1 round (clumsy 2 on a critical failure).\n<strong>Kaiju</strong> Speed 50 feet; resistance 5 to physical damage; <strong>Melee</strong> jaws (reach 30 feet), <strong>Damage</strong> 6d10+10 piercing; <strong>Melee</strong> claws (agile, reach 30 feet), <strong>Damage</strong> 6d8+8 slashing; <strong>Melee</strong> foot (agile, reach 15 feet), <strong>Damage</strong> 6d6+10 bludgeoning; <strong>Unstoppable</strong> You are immune to being immobilized and ignore difficult terrain and greater difficult terrain; <strong>Trample</strong> <span class='actionIcon action3A'> You move up to double your Speed and move through the spaces of Huge or smaller creatures, trampling each creature whose space you enter. A trampled creature takes foot damage with a basic Reflex save against your spell DC.",
+      "type": "spells",
+      "minLevel": 10,
+      "buff": true,
+      "hints": [
+         {
+            "desc": "In Kaiju form, you are immune to being immobilized and ignore difficult terrain and greater difficult terrain",
+            "showon": "Effects, Movement"
+         }
+      ],
+      "choice": "Kaiju",
+      "choices": [
+         {
+            "name": "Kaiju"
+         },
+         {
+            "name": "Green Man",
+            "featreq": [
+               "Plant Shape"
+            ]
+         }
+      ],
+      "effects": [
+         {
+            "affected": "Size",
+            "setValue": "Choice == 'Kaiju' ? 2 : 0"
+         },
+         {
+            "affected": "AC",
+            "setValue": "25 + Level"
+         },
+         {
+            "affected": "Melee Attack Rolls",
+            "setValue": "Skill('Unarmed Attacks') >= 34 ? null : 34"
+         },
+         {
+            "affected": "Athletics",
+            "toggle": "Skill('Athletics') >= 36 ? null : 36"
+         },
+         {
+            "affected": "Land Speed",
+            "setValue": "Choice == 'Kaiju' ? 50 : 40"
+         },
+         {
+            "affected": "Climb Speed",
+            "setValue": "Choice == 'Green Man' ? 40 : null"
+         },
+         {
+            "affected": "Unarmed Attacks Proficiency Level",
+            "setValue": "Skill_Level('Unarmed Attacks') <= 2 ? 2 : null"
+         },
+         {
+            "affected": "Ignore Armor Penalty",
+            "setValue": "TRUE"
+         }
+      ],
+      "onceEffects": [
+         {
+            "affected": "Temporary HP",
+            "value": "30"
+         }
+      ],
+      "endEffects": [
+         {
+            "affected": "Temporary HP",
+            "value": "-Temporary_HP('',effect.sourceId)"
+         }
+      ],
+      "gainActivities": [
+         {
+            "_className": "ActivityGain",
+            "name": "Trample",
+            "source": "Nature Incarnate"
+         }
+      ],
+      "gainConditions": [
+         {
+            "conditionChoiceFilter": "Green Man",
+            "name": "Green Caress"
+         }
+      ],
+      "overrideConditions": [
+         "Nature Incarnate"
+      ],
+      "gainItems": [
+         {
+            "conditionChoiceFilter": "Green Man",
+            "name": "Nature Incarnate Green Man Vines",
+            "type": "weapons"
+         },
+         {
+            "conditionChoiceFilter": "Green Man",
+            "name": "Nature Incarnate Green Man Thorns",
+            "type": "weapons"
+         },
+         {
+            "conditionChoiceFilter": "Kaiju",
+            "name": "Nature Incarnate Kaiju Jaws",
+            "type": "weapons"
+         },
+         {
+            "conditionChoiceFilter": "Kaiju",
+            "name": "Nature Incarnate Kaiju Claws",
+            "type": "weapons"
+         },
+         {
+            "conditionChoiceFilter": "Kaiju",
+            "name": "Nature Incarnate Kaiju Foot",
+            "type": "weapons"
+         }
+      ],
+      "senses": [
+         {
+            "name": "Darkvision"
+         }
+      ],
+      "attackRestrictions": [
+         {
+            "conditionChoiceFilter": "Green Man",
+            "name": "Nature Incarnate Green Man Vines"
+         },
+         {
+            "conditionChoiceFilter": "Green Man",
+            "name": "Nature Incarnate Green Man Thorns"
+         },
+         {
+            "conditionChoiceFilter": "Kaiju",
+            "name": "Nature Incarnate Kaiju Jaws"
+         },
+         {
+            "conditionChoiceFilter": "Kaiju",
+            "name": "Nature Incarnate Kaiju Claws"
+         },
+         {
+            "conditionChoiceFilter": "Kaiju",
+            "name": "Nature Incarnate Kaiju Foot"
+         }
+      ]
+   },
+   {
+      "name": "Verdant Presence",
+      "desc": "Small plants or fungi magically appear on all surfaces in a 60-foot emanation around you. This life withers after 1 day unless the environment can support it. You can choose one of the following options each time you use this feat.\n\nYou can cause any number of 5-foot squares in the area to be light undergrowth, which is difficult terrain and provides lesser cover.\nYou can cause a tree or giant mushroom to appear in any unoccupied location in the area; it occupies an entire 5-foot square and provides standard cover. The tree or mushroom has 5 Hardness and 50 Hit Points.",
+      "type": "activities",
+      "buff": true,
+      "unlimited": true,
+      "hints": [
+         {
+            "desc": "(Light Undergrowth) Any number of 5-foot squares in the area are light undergrowth, which is difficult terrain and provides lesser cover.\n\n(Tree or Giant Mushroom) The tree or mushroom occupies an entire 5-foot square and provides standard cover. It has 5 Hardness and 50 Hit Points."
+         }
+      ],
+      "choice": "Light undergrowth",
+      "choices": [
+         {
+            "name": "Light undergrowth"
+         },
+         {
+            "name": "Tree or Giant Mushroom"
+         }
+      ]
+   },
+   {
+      "name": "Storm Lord",
+      "desc": "The sky above you darkens in a matter of moments, swirling with ominous clouds punctuated by flashes of lighting. The first time each round you Sustain the Spell, you can select one of the following effects to occur in the area.\n\n<strong>Calm</strong> No additional effect.\n<strong>Fog</strong> Heavy fog rolls in, concealing the area with the effects of obscuring mist.\n<strong>Rain</strong> Torrential rain falls from the sky, dousing ordinary flames. Creatures in the area take a -2 circumstance penalty to Acrobatics and Perception checks.\n<strong>Wind</strong> Powerful winds buffet the area in all directions. Ranged attacks take a -4 circumstance penalty, and all flying is against the wind and counts as moving through difficult terrain.\n\nIn addition, once per round you can use a single action, which has the concentrate and manipulate traits, to call down a bolt of lightning, striking any target in range that you can see. You deal 10d6 electricity damage to the target; it must attempt a basic Reflex save. On a failure, it is also deafened for 1 round.",
+      "type": "spells",
+      "minLevel": 9,
+      "buff": true,
+      "hints": [
+         {
+            "desc": "(Rain only) Torrential rain falls from the sky, dousing ordinary flames. Creatures in the area take a -2 circumstance penalty to Acrobatics and Perception checks.\n\n(Wind only) Powerful winds buffet the area in all directions. Ranged attacks take a -4 circumstance penalty, and all flying is against the wind and counts as moving through difficult terrain.",
+            "showon": "Movement"
+         }
+      ],
+      "choice": "Calm",
+      "choices": [
+         {
+            "name": "Calm"
+         },
+         {
+            "name": "Fog"
+         },
+         {
+            "name": "Rain"
+         },
+         {
+            "name": "Wind"
+         }
+      ],
+      "gainActivities": [
+         {
+            "_className": "ActivityGain",
+            "name": "Storm Lord: Call Lightning Bolt",
+            "source": "Storm Lord"
+         }
+      ],
+      "gainConditions": [
+         {
+            "conditionChoiceFilter": "Fog",
+            "name": "Obscuring Mist"
+         },
+         {
+            "conditionChoiceFilter": "Rain",
+            "name": "Storm Lord: Rain"
+         },
+         {
+            "conditionChoiceFilter": "Wind",
+            "name": "Storm Lord: Wind"
+         }
+      ]
+   },
+   {
+      "name": "Storm Lord: Rain",
+      "desc": "Torrential rain falls from the sky. You take a -2 circumstance penalty to Acrobatics and Perception checks.",
+      "type": "spells",
+      "minLevel": 9,
+      "effects": [
+         {
+            "affected": "Perception",
+            "type": "circumstance",
+            "value": "-2"
+         },
+         {
+            "affected": "Acrobatics",
+            "type": "circumstance",
+            "value": "-2"
+         }
+      ]
+   },
+   {
+      "name": "Storm Lord: Wind",
+      "desc": "Powerful winds buffet the area in all directions. Ranged attacks take a -4 circumstance penalty, and all flying is against the wind and counts as moving through difficult terrain.",
+      "type": "spells",
+      "minLevel": 9,
+      "hints": [
+         {
+            "desc": "All flying is against the wind and counts as moving through difficult terrain.",
+            "showon": "Movement"
+         }
+      ],
+      "effects": [
+         {
+            "affected": "Ranged Attack Rolls",
+            "type": "circumstance",
+            "value": "-4"
+         }
+      ]
+   },
+   {
+      "name": "Apex Companion",
+      "desc": "You have been transformed into your apex battle form. You gain the following statistics and abilities while in your apex form.\n\nYou become Huge and your attacks have 15-foot reach.\n30 temporary Hit Points.\nDarkvision.\nYour attack's damage dice increase by one step, and your attack gains the deadly d12 trait.\n+10-foot status bonus to its Speeds.\nYou ignore difficult terrain and greater difficult terrain.",
+      "type": "spells",
+      "minLevel": 10,
+      "buff": true,
+      "hints": [
+         {
+            "desc": "Your attack gains the deadly d12 trait.",
+            "showon": "Attacks"
+         },
+         {
+            "desc": "You ignore difficult terrain and greater difficult terrain.",
+            "showon": "Movement"
+         }
+      ],
+      "effects": [
+         {
+            "affected": "Size",
+            "setValue": "2"
+         },
+         {
+            "affected": "Reach",
+            "setValue": "15"
+         },
+         {
+            "affected": "Damage Dice Number",
+            "value": "1"
+         },
+         {
+            "affected": "Speed",
+            "type": "status",
+            "value": 10
+         }
+      ],
+      "onceEffects": [
+         {
+            "affected": "Temporary HP",
+            "value": "30"
+         }
+      ],
+      "endEffects": [
+         {
+            "affected": "Temporary HP",
+            "value": "-Temporary_HP('',effect.sourceId)"
+         }
+      ],
+      "senses": [
+         {
+            "name": "Darkvision"
          }
       ]
    }

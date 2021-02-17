@@ -53,7 +53,7 @@ export class Condition {
     //This property is only used to select a default choice before adding the condition. It is not read when evaluating the condition.
     public choice: string = "";
     public unlimited: boolean = false;
-    get_Choices(characterService: CharacterService, filtered: boolean = false, level: number = 0) {
+    get_Choices(characterService: CharacterService, filtered: boolean = false, spellLevel: number = 0) {
         //If this.choice is not one of the available choices, set it to the first.
         if (this.choices.length && !this.choices.map(choice => choice.name).includes(this.choice)) {
             this.choice == this.choices[0].name;
@@ -71,7 +71,7 @@ export class Condition {
                 //If the choice has a featreq, check if you meet that (or a feat that has this supertype).
                 //Requirements like "Aggressive Block or Brutish Shove" are split in get_FeatsAndFeatures().
                 let result: Array<{ met?: boolean, desc?: string }> = [];
-                if (!choice.levelreq || level >= choice.levelreq) {
+                if (!choice.spelllevelreq || spellLevel >= choice.spelllevelreq) {
                     if (choice.featreq?.length) {
                         let featNotFound: boolean = false;
                         choice.featreq.forEach(featreq => {

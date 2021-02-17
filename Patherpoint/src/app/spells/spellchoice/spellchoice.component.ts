@@ -419,6 +419,11 @@ export class SpellchoiceComponent implements OnInit {
             choice.level <= this.get_HighestSpellLevel() - 2
         ) {
             available = Math.max(choice.available + this.have_Feat("Occult Breadth"), 0);
+        } else if (
+            ["Feat: Basic Druid Spellcasting", "Feat: Expert Druid Spellcasting", "Feat: Master Druid Spellcasting"].includes(choice.source) &&
+            choice.level <= this.get_HighestSpellLevel() - 2
+        ) {
+            available = Math.max(choice.available + this.have_Feat("Primal Breadth"), 0);
         } else {
             available = Math.max(this.choice.available - this.get_SpellBlendingUsed() - this.get_InfinitePossibilitiesUsed() - this.get_AdaptedCantripUsed() - this.get_AdaptiveAdeptUsed(), 0);
         }

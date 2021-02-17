@@ -361,12 +361,13 @@ export class SpellbookComponent implements OnInit {
     }
 
     on_Cast(levelNumber: number, gain: SpellGain, casting: SpellCasting, choice: SpellChoice, creature: string = "", spell: Spell, activated: boolean) {
+        let character = this.get_Character();
         if (gain.cooldown) {
             gain.activeCooldown = gain.cooldown;
         }
         //Focus spells cost Focus points.
         if (casting.castingType == "Focus" && activated && choice.level == -1) {
-            this.get_Character().class.focusPoints = Math.min(this.get_Character().class.focusPoints, this.get_MaxFocusPoints());
+            this.get_Character().class.focusPoints = Math.min(character.class.focusPoints, this.get_MaxFocusPoints());
             this.get_Character().class.focusPoints -= 1;
         };
         //Spontaneous spells use up spell slots. If you don't have spell slots of this level left, use a global one (0th level).
@@ -380,9 +381,14 @@ export class SpellbookComponent implements OnInit {
         //Prepared spells get locked until the next preparation.
         if (casting.castingType == "Prepared" && !spell.traits.includes("Cantrip") && activated) {
             gain.prepared = false;
+            //With Leyline Conduit active, prepared spells without a duration up to 5th level do not get expended.
+            if (this.conditionsService.get_AppliedConditions(character, this.characterService, character.conditions, true).some(gain => gain.name == "Leyline Conduit")) {
+                if (levelNumber <= 5 && !spell.duration) {
+                    gain.prepared = true;
+                }
+            }
         }
         //Trigger bloodline powers for sorcerers if your main class is Sorcerer.
-        let character = this.get_Character()
         let bloodMagicFeats = this.characterService.get_Feats().filter(feat => feat.bloodMagic.length && feat.have(character, this.characterService, character.level));
         bloodMagicFeats.forEach(feat => {
             feat.bloodMagic.forEach(bloodMagic => {

@@ -90,8 +90,12 @@ export class ConditionComponent implements OnInit {
         this.characterService.process_ToChange();
     }
 
-    get_ConditionChoices(condition: Condition) {
-        return condition.get_Choices(this.characterService, false);
+    get_ConditionChoices(conditionGain: ConditionGain, condition: Condition) {
+        if (conditionGain.source == "Manual") {
+            return condition.get_Choices(this.characterService, false);
+        } else {
+            return condition.get_Choices(this.characterService, true);
+        }
     }
 
     change_ConditionChoice(gain: ConditionGain, condition: Condition, oldChoice: string) {

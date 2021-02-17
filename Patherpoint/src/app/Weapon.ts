@@ -444,7 +444,7 @@ export class Weapon extends Equipment {
         if (dicenum) {
             let dicenumMultiplier = 1;
             namesList = [
-                "Dice Number Multiplier",
+                "Damage Dice Number Multiplier",
                 this.name + " Dice Number Multiplier",
                 //"Longsword Dice Number Multiplier", "Fist Dice Number Multiplier" etc.
                 this.weaponBase + " Dice Number Multiplier",
@@ -472,7 +472,7 @@ export class Weapon extends Equipment {
             dicenum *= dicenumMultiplier;
             let calculatedEffects: Effect[] = [];
             namesList = [
-                "Dice Number",
+                "Damage Dice Number",
                 this.name + " Dice Number",
                 //"Longsword Dice Number", "Fist Dice Number" etc.
                 this.weaponBase + " Dice Number",

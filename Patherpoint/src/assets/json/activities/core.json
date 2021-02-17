@@ -4448,5 +4448,195 @@
                 "source": "Form Control"
             }
         ]
+    },
+    {
+        "name": "Storm Retribution",
+        "actions": "Reaction",
+        "traits": [
+            "Druid"
+        ],
+        "requirements": "You have at least 1 available Focus Point.",
+        "trigger": "An opponent adjacent to you critically hits you with a melee weapon or melee unarmed attack.",
+        "desc": "You lash out, directing a burst of storming fury toward a creature that has harmed you. You cast tempest surge on the triggering opponent and push that creature, moving it 5 feet away from you if it fails its Reflex save, or 10 feet if it critically fails. This movement is forced movement.",
+        "onceEffects": [
+            {
+                "affected": "Focus Points",
+                "value": -1
+            }
+        ],
+        "castSpells": [
+            {
+                "_className": "SpellCast",
+                "level": 0,
+                "name": "Tempest Surge"
+            }
+        ]
+    },
+    {
+        "name": "Shroud of Flame",
+        "actions": "1A",
+        "traits": [
+            "Aura",
+            "Evocation",
+            "Fire",
+            "Primal"
+        ],
+        "toggle": true,
+        "desc": "(Phoenix form only) You gain a 20 feet aura of fire that extends out from you. A creature that enters or ends its turn within the aura takes 2d6 fire damage (3d6 on 9th level monstrosity form). A creature can take this damage only once per turn. You can use a single action, which has the concentrate trait, to activate or deactivate this aura.",
+        "gainConditions": [
+            {
+                "name": "Shroud of Flame",
+                "source": "Shroud of Flame"
+            }
+        ]
+    },
+    {
+        "name": "Spine Rake",
+        "actions": "2A",
+        "traits": [
+            "Move"
+        ],
+        "desc": "(Sea serpent form only) You extend your spines and Swim or Stride. Each creature you're adjacent to at any point during your movement takes 4d8+10 slashing damage (5d8+10 on 9th level monstrosity form) (basic Reflex against your spell DC)."
+    },
+    {
+        "name": "Trample",
+        "actions": "3A",
+        "desc": "(Kaiju form only) You move up to double your Speed and move through the spaces of Huge or smaller creatures, trampling each creature whose space you enter. A trampled creature takes foot damage with a basic Reflex save against your spell DC."
+    },
+    {
+        "name": "Healing Transformation",
+        "actions": "1A",
+        "traits": [
+            "Druid",
+            "Metamagic"
+        ],
+        "desc": "You can take advantage of shapechanging magic to close wounds and patch injuries. If your next action is to cast a non-cantrip polymorph spell that targets only one creature, your polymorph spell also restores 1d6 Hit Points per spell level to that creature. This is a healing effect."
+    },
+    {
+        "name": "Pesh Skin",
+        "actions": "1A",
+        "traits": [
+            "Uncommon",
+            "Druid",
+            "Morph"
+        ],
+        "requirements": "You are transformed into a plant by a polymorph spell.",
+        "desc": "Your plant form sprouts hundreds of spines, and your blood causes mild hallucinations in creatures exposed to it. Each time a creature touches you, hits you with an unarmed attack, or hits you with a melee weapon attack while adjacent to you, that creature takes 1d6 piercing damage. Increase the damage to 2d6 if the polymorph spell is 8th level or higher, or to 3d6 if it�s 10th level.\n\nWhen an adjacent creature damages you with piercing or slashing damage, it must succeed at a Fortitude save against your class DC or become stupefied 1 (or stupefied 2 on a critical failure) until the end of its next turn.\n\nThese benefits last until you�re no longer polymorphed into a plant.",
+        "gainConditions": [
+            {
+                "duration": -1,
+                "name": "Pesh Skin",
+                "source": "Pesh Skin"
+            }
+        ]
+    },
+    {
+        "name": "Verdant Metamorphosis: Tree Shape",
+        "actions": "1A",
+        "traits": [
+            "Concentrate"
+        ],
+        "desc": "You can change from a form that looks mostly like your old self into a tree or any other non-creature plant as a single action, which has the concentrate trait. This has the same effect as tree shape, except you can turn into any kind of non-creature plant and your AC is 30.",
+        "gainConditions": [
+            {
+                "duration": 48000,
+                "name": "Tree Shape (Verdant Metamorphosis)",
+                "source": "Verdant Metamorphosis: Tree Shape"
+            }
+        ]
+    },
+    {
+        "name": "Impaling Briars: Impale",
+        "actions": "1A",
+        "traits": [
+            "Concentrate",
+            "Manipulate"
+        ],
+        "frequency": "once per round",
+        "cooldown": 10,
+        "desc": "Once per round, you can direct the briars to impale any target in the area (or flying up to 20 feet above the area) that you can see by using a single action, which has the concentrate and manipulate traits. Make a spell attack roll. On a success, the target takes 10d6 piercing damage and takes a -10-foot circumstance penalty to all Speeds for 1 round; on a critical success, the target is immobilized for 1 round unless it Escapes."
+    },
+    {
+        "name": "Leyline Conduit",
+        "actions": "1A",
+        "traits": [
+            "Concentrate",
+            "Druid",
+            "Manipulate",
+            "Metamagic"
+        ],
+        "frequency": "once per minute",
+        "cooldown": 100,
+        "desc": "You can cast your spells effortlessly by tapping into the leylines of the world. If your next action is to Cast a Spell of 5th level or lower that has no duration, you don't expend the prepared spell as you cast it.",
+        "gainConditions": [
+            {
+                "duration": 1,
+                "name": "Leyline Conduit",
+                "source": "Leyline Conduit"
+            }
+        ]
+    },
+    {
+        "name": "True Shapeshifter",
+        "actions": "2A",
+        "inputRequired": "You can always freely change the form you chose with wild shape, but you may need to change its duration manually. It can be quicker to dismiss the spell, cast it again and return the focus point.",
+        "traits": [
+            "Concentrate",
+            "Druid"
+        ],
+        "desc": "You transcend the limitations of form. While under the effects of wild shape, you can change into any other form on your wild shape list; if the durations of the forms would vary, use the shorter of the two durations."
+    },
+    {
+        "name": "True Shapeshifter: Nature Incarnate",
+        "actions": "2A",
+        "traits": [
+            "Concentrate",
+            "Druid"
+        ],
+        "frequency": "once per day",
+        "cooldown": 144000,
+        "desc": "Once per day, you can transform into a kaiju, with the effects of nature incarnate; if you have Plant Shape, you can instead transform into a green man.",
+        "gainConditions": [
+            {
+                "duration": 100,
+                "name": "Nature Incarnate (True Shapeshifter)",
+                "source": "True Shapeshifter"
+            }
+        ],
+        "showSpells": [
+            {
+                "level": 10,
+                "name": "Nature Incarnate"
+            }
+        ]
+    },
+    {
+        "name": "Verdant Presence",
+        "actions": "Reaction",
+        "traits": [
+            "Uncommon",
+            "Druid"
+        ],
+        "frequency": "once per hour",
+        "cooldown": 6000,
+        "desc": "The life-giving properties of the aeon orbs flourish within you. Small plants or fungi magically appear on all surfaces in a 60-foot emanation around you. This life withers after 1 day unless the environment can support it. You can choose one of the following options each time you use this feat.\n\nYou can cause any number of 5-foot squares in the area to be light undergrowth, which is difficult terrain and provides lesser cover.\nYou can cause a tree or giant mushroom to appear in any unoccupied location in the area; it occupies an entire 5-foot square and provides standard cover. The tree or mushroom has 5 Hardness and 50 Hit Points.",
+        "gainConditions": [
+            {
+                "duration": 144000,
+                "name": "Verdant Presence",
+                "source": "Verdant Presence"
+            }
+        ]
+    },
+    {
+        "name": "Storm Lord: Call Lightning Bolt",
+        "actions": "1A",
+        "traits": [
+            "Concentrate",
+            "Manipulate"
+        ],
+        "frequency": "once per round",
+        "cooldown": 10,
+        "desc": "Once per round you can use a single action, which has the concentrate and manipulate traits, to call down a bolt of lightning, striking any target in range that you can see. You deal 10d6 electricity damage to the target; it must attempt a basic Reflex save. On a failure, it is also deafened for 1 round."
     }
 ]

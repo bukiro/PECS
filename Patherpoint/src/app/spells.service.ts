@@ -15,7 +15,7 @@ import { Creature } from './Creature';
 import { SpellChoice } from './SpellChoice';
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root'
 })
 export class SpellsService {
 
@@ -26,11 +26,11 @@ export class SpellsService {
 
     get_Spells(name: string = "", type: string = "", tradition: string = "") {
         if (!this.still_loading()) {
-        return this.spells.filter(spell => 
-            (spell.name.toLowerCase() == (name.toLowerCase()) || name == "") &&
-            (spell.traits.includes(type) || type == "") &&
-            (spell.traditions.includes(tradition) || tradition == "")
-        );
+            return this.spells.filter(spell =>
+                (spell.name.toLowerCase() == (name.toLowerCase()) || name == "") &&
+                (spell.traits.includes(type) || type == "") &&
+                (spell.traditions.includes(tradition) || tradition == "")
+            );
         } else {
             return [new Spell()];
         }
@@ -48,17 +48,17 @@ export class SpellsService {
         try {
             return parseInt(eval(choice.dynamicLevel));
         } catch (e) {
-            console.log("Error parsing spell level requirement ("+choice.dynamicLevel+"): "+e)
+            console.log("Error parsing spell level requirement (" + choice.dynamicLevel + "): " + e)
             return 1;
         }
     }
 
     process_Spell(creature: Creature, target: string = "", characterService: CharacterService, itemsService: ItemsService, conditionsService: ConditionsService, casting: SpellCasting, gain: SpellGain, spell: Spell, level: number, activated: boolean, manual: boolean = false, changeAfter: boolean = true) {
-        
+
         //Cantrips and Focus spells are automatically heightened to your maximum available spell level.
         //If a spell is cast with a lower level than its minimum, the level is raised to the minimum.
         let spellLevel: number = spell.get_EffectiveSpellLevel(creature, level, characterService, characterService.effectsService);
-        
+
         //If this spell was cast by an activity, it may have a specified duration. Keep that here before the duration is changed to keep the spell active (or not).
         let customDuration: number = 0;
         if (activated && gain.duration) {
@@ -87,7 +87,7 @@ export class SpellsService {
         }
 
         //Find out if target was given. If no target is set, most effects will not be applied.
-        let targetCreature: Creature|null = null;
+        let targetCreature: Creature | null = null;
         switch (target) {
             case "Character":
                 targetCreature = characterService.get_Character();
@@ -135,6 +135,34 @@ export class SpellsService {
                     if (conditionGain.targetFilter == "caster") {
                         conditionTarget = creature;
                     }
+                    //Form Control changes the duration of the Wild Shape spell and the condition in various ways.
+                    if (spell.name == "Wild Shape") {
+                        //If Form Control is activated,
+                        // 1. The duration is permanent if you have Perfect Form Control
+                        // 2. Otherwise, the duration is 1 hour
+                        if (conditionsService.get_AppliedConditions(creature, characterService, creature.conditions, true).some(gain => gain.name == "Form Control")) {
+                            if (creature.type == "Character" && (creature as Character).get_FeatsTaken(1, creature.level, "Perfect Form Control").length) {
+                                gain.duration = -1;
+                                newConditionGain.duration = gain.duration;
+                            } else {
+                                gain.duration = 6000;
+                                newConditionGain.duration = gain.duration;
+                            }
+                        //Without Form Control, Pest Form is 10 minutes, and every other form remains at 1 minute.
+                        } else {
+                            if (newConditionGain.choice == "Pest Form") {
+                                gain.duration = 1000;
+                                newConditionGain.duration = gain.duration;
+                            }
+                        }
+                        //If you have Insect Shape and use wild shape to polymorph into the non-flying insect form listed in pest form, the duration is 24 hours instead of 10 minutes.
+                        if (gain.duration != -1 && creature.type == "Character" && (creature as Character).get_FeatsTaken(1, creature.level, "Insect Shape").length) {
+                            if (newConditionGain.choice == "Pest Form (non-flying insect)") {
+                                gain.duration = 144000;
+                                newConditionGain.duration = gain.duration;
+                            }
+                        }
+                    }
                     if (conditionTarget) {
                         characterService.add_Condition(conditionTarget, newConditionGain, false);
                     }
@@ -147,10 +175,10 @@ export class SpellsService {
                     }
                     if (conditionTarget) {
                         characterService.get_AppliedConditions(conditionTarget, conditionGain.name)
-                        .filter(existingConditionGain => existingConditionGain.source == conditionGain.source)
-                        .forEach(existingConditionGain => {
-                        characterService.remove_Condition(conditionTarget, existingConditionGain, false);
-                    });
+                            .filter(existingConditionGain => existingConditionGain.source == conditionGain.source)
+                            .forEach(existingConditionGain => {
+                                characterService.remove_Condition(conditionTarget, existingConditionGain, false);
+                            });
                     }
                 })
             }
