@@ -20,9 +20,9 @@ import { AnimalCompanionClass } from './AnimalCompanionClass';
 import { Heritage } from './Heritage';
 import { ItemGain } from './ItemGain';
 import { Item } from './Item';
-import { SpellLearned } from './SpellLearned';
 import * as json_feats from '../assets/json/feats';
 import * as json_features from '../assets/json/features';
+import { LanguageGain } from './LanguageGain';
 
 @Injectable({
     providedIn: 'root'
@@ -508,7 +508,7 @@ export class FeatsService {
                 }
             }
 
-            //Feats that grant an animal companion
+            //Feats that grant a familiar
             if (feat.gainFamiliar) {
                 if (taken) {
                     //Set the originClass to be the same as the feat choice type.
@@ -519,7 +519,7 @@ export class FeatsService {
                         character.class.familiar.originClass = choice.type;
                     }
                 } else {
-                    //Reset the animal companion
+                    //Reset the familiar
                     characterService.cleanup_Familiar();
                     character.class.familiar = new Familiar();
                 }
@@ -664,6 +664,23 @@ export class FeatsService {
                 }
             }
 
+            //Feats that add languages.
+            if (feat.gainLanguages.length) {
+                if (taken) {
+                    feat.gainLanguages.forEach(languageGain => {
+                        character.class.languages.push(Object.assign(new LanguageGain(), JSON.parse(JSON.stringify(languageGain))));
+                    })
+                } else {
+                    feat.gainLanguages.forEach(languageGain => {
+                        let langIndex = character.class.languages.indexOf(character.class.languages.find(lang => lang.name == languageGain.name && lang.source == languageGain.source))
+                        if (langIndex != -1) {
+                            character.class.languages = character.class.languages.splice(langIndex, 1);
+                        }
+                    })
+                }
+                characterService.set_ToChange("Character", "general");
+            }
+
             //Reset bonded item charges when selecting or deselecting Wizard schools.
             if (["Abjuration School", "Conjuration School", "Divination School", "Enchantment School", "Evocation School",
                 "Illusion School", "Necromancy School", "Transmutation School", "Universalist Wizard"].includes(feat.name)) {
@@ -789,6 +806,11 @@ export class FeatsService {
                 characterService.set_ToChange(creature.type, "spellbook");
             }
 
+            //Familiar abilities should update the familiar's general information.
+            if (creature.type == "Familiar") {
+                characterService.set_ToChange(creature.type, "general");
+            }
+
             //Snare Specialists and following feats change inventory aspects.
             if (feat.name == "Snare Specialist" || feat.featreq.includes("Snare Specialist")) {
                 characterService.set_ToChange(creature.type, "inventory");
@@ -797,6 +819,11 @@ export class FeatsService {
             //Arcane Breadth gives hardcoded spell slots and needs to update the spellbook menu.
             if (feat.name == "Arcane Breadth") {
                 characterService.set_ToChange(creature.type, "spells");
+            }
+
+            //Verdant Metamorphosis changes your traits and needs to update general.
+            if (feat.name == "Verdant Metamorphosis") {
+                characterService.set_ToChange(creature.type, "general");
             }
 
             //Feats that grant specializations or change proficiencies need to update defense and attacks.
@@ -821,6 +848,11 @@ export class FeatsService {
             //Feats that grant senses need to update skills.
             if (feat.senses.length) {
                 characterService.set_ToChange(creature.type, "skills");
+            }
+
+            //Archetype " Breadth" spells need to update spells.
+            if (feat.name.includes(" Breadth")) {
+                characterService.set_ToChange(creature.type, "spells");
             }
 
             //Some hardcoded effects change depending on feats. There is no good way to resolve this, so we calculate the effects whenever we take a feat.

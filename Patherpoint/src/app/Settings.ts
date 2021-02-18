@@ -21,5 +21,7 @@ export class Settings {
     autoCloseChoices: boolean = false;
     showOtherOptions: boolean = true;
     lowerLevelFeats: boolean = true;
+    higherLevelFeats: boolean = true;
+    unavailableFeats: boolean = true;
     archetypeFeats: boolean = true;
 }

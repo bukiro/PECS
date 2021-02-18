@@ -51,6 +51,8 @@ export class ConditionGain {
     public choice: string = "";
     //If choiceLocked is true, the choice can't be changed manually.
     public choiceLocked: boolean = false;
+    //If hideChoices is true, the choice isn't visible on activities or spells.
+    public hideChoices: boolean = false;
     //If acknowledgedInputRequired is true, the inputRequired message is not shown.
     public acknowledgedInputRequired: boolean = false;
 }

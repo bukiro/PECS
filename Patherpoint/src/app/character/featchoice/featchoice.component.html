@@ -19,8 +19,20 @@
                     <strong>Filter</strong>
                     <div class="row">
                         <span>
+                            <input id="unavailableFilter" type="checkbox" [(ngModel)]="unavailableFeats">
+                            <label for="unavailableFilter">Show unavailable feats</label>
+                        </span>
+                    </div>
+                    <div class="row">
+                        <span>
                             <input id="lowerLevelFilter" type="checkbox" [(ngModel)]="lowerLevelFeats">
-                            <label for="lowerLevelFilter">Show lower and higher level feats</label>
+                            <label for="lowerLevelFilter">Show lower level feats</label>
+                        </span>
+                    </div>
+                    <div class="row" *ngIf="unavailableFeats">
+                        <span>
+                            <input id="higherLevelFilter" type="checkbox" [(ngModel)]="higherLevelFeats">
+                            <label for="higherLevelFilter">Show higher level feats</label>
                         </span>
                     </div>
                     <div class="row" *ngIf="choice.type=='Class'">
@@ -34,7 +46,7 @@
                 <ng-container *ngFor="let featSets of [get_AvailableFeats(choice)]; trackBy:trackByIndex;">
                     <div class="list-item" *ngIf="get_AvailableFeatsCount(featSets) < availableFeats">
                         <span>There are fewer results available than you are allowed to take. This may be due to a choice with limited options, and it might be intended at this time.</span>
-                        <span *ngIf="!lowerLevelFeats">More results may be found if you allow lower and higher level feats.</span>
+                        <span *ngIf="!higherLevelFeats || !lowerLevelFeats">More results may be found if you allow lower and higher level feats.</span>
                         <span *ngIf="choice.showOnCurrentLevel">This feat choice is always available on your current
                             character level. This could change the number of available feats at a later time.</span>
                     </div>

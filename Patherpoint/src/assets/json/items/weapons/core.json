@@ -4618,6 +4618,78 @@
    },
    {
       "hide": true,
+      "id": "846fbda5-dec2-4adc-8365-5a88c5aa93c7",
+      "name": "Plant Form Arboreal Branch",
+      "traits": [
+         "Reach 15 feet",
+         "Unarmed"
+      ],
+      "displayName": "Branch",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 2,
+      "dicesize": 10,
+      "dmgType": "B",
+      "group": "Brawling",
+      "melee": 15,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "2996a1e6-a6f4-4ac5-a9c3-7a7ce1f75e1f",
+      "name": "Plant Form Arboreal Foot",
+      "traits": [
+         "Unarmed"
+      ],
+      "displayName": "Foot",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 2,
+      "dicesize": 8,
+      "dmgType": "B",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "bcc4ce5d-0fd6-40ae-bb91-3243f7095d69",
+      "name": "Plant Form Flytrap Leaf",
+      "traits": [
+         "Reach 10 feet",
+         "Unarmed"
+      ],
+      "displayName": "Leaf",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 2,
+      "dicesize": 8,
+      "dmgType": "P",
+      "hitEffect": "You can spend an action after a hit to Grab the target.",
+      "group": "Brawling",
+      "melee": 10,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "8aebc516-c420-4fbf-b864-6f244916d209",
+      "name": "Plant Form Shambler Vine",
+      "traits": [
+         "Reach 15 feet",
+         "Unarmed"
+      ],
+      "displayName": "Vine",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 2,
+      "dicesize": 8,
+      "dmgType": "S",
+      "group": "Brawling",
+      "melee": 15,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
       "id": "14811c8b-d0fc-42d4-bd3c-abdac7053bdd",
       "name": "Monstrosity Form Phoenix Beak",
       "traits": [

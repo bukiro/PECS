@@ -382,6 +382,10 @@
     "name": "Extradimensional"
   },
   {
+    "name": "Familiar Ability",
+    "desc": ""
+  },
+  {
     "name": "Fatal",
     "desc": "The fatal trait includes a die size. On a critical hit, the weapon's damage die increases to that die size instead of the normal die size, and the weapon adds one additional damage die of the listed size.",
     "dynamic": true
@@ -640,6 +644,10 @@
   {
     "name": "Manipulate",
     "desc": "You must physically manipulate an item or make gestures to use an action with this trait. Creatures without a suitable appendage can't perform actions with this trait. Manipulate actions often trigger reactions."
+  },
+  {
+    "name": "Master Ability",
+    "desc": ""
   },
   {
     "name": "Mechanical"

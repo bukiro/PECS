@@ -17,6 +17,7 @@ import { SpellGain } from './SpellGain';
 import { ItemGain } from './ItemGain';
 import { SpellLearned } from './SpellLearned';
 import { FormulaLearned } from './FormulaLearned';
+import { LanguageGain } from './LanguageGain';
 
 export class Class {
     public readonly _className: string = this.constructor.name;
@@ -35,7 +36,7 @@ export class Class {
     public heritage: Heritage = new Heritage();
     public additionalHeritages: Heritage[] = [];
     public hitPoints: number = 0;
-    public languages: string[] = [];
+    public languages: LanguageGain[] = [];
     public levels: Level[] = [];
     public name: string = "";
     public sourceBook: string = "";
@@ -102,10 +103,8 @@ export class Class {
         if (this.ancestry.name) {
             let character = characterService.get_Character();
             let level = this.levels[1];
-            this.ancestry.languages.forEach(ancestryLanguage => {
-                this.languages = this.languages.filter(language => language != ancestryLanguage);
-                characterService.set_ToChange("Character", "general");
-            });
+            this.languages = this.languages.filter(language => language.source != this.ancestry.name);
+            characterService.set_ToChange("Character", "general");
             level.abilityChoices = level.abilityChoices.filter(availableBoost => availableBoost.source != "Ancestry")
             //Of each granted Item, find the item with the stored id and drop it.
             this.ancestry.gainItems.forEach((freeItem: ItemGain) => {
@@ -137,7 +136,7 @@ export class Class {
         if (this.ancestry.name) {
             let character = characterService.get_Character();
             let level = this.levels[1];
-            this.languages.push(...this.ancestry.languages);
+            this.languages.push(...this.ancestry.languages.map(language => Object.assign(new LanguageGain(), {name:language, locked:true, source:this.ancestry.name})));
             characterService.set_ToChange("Character", "general");
             level.abilityChoices.push(...this.ancestry.abilityChoices);
             level.featChoices.push(...this.ancestry.featChoices);

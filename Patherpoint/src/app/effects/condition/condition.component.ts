@@ -94,7 +94,7 @@ export class ConditionComponent implements OnInit {
         if (conditionGain.source == "Manual") {
             return condition.get_Choices(this.characterService, false);
         } else {
-            return condition.get_Choices(this.characterService, true);
+            return condition.get_Choices(this.characterService, true, conditionGain.heightened);
         }
     }
 
@@ -128,6 +128,9 @@ export class ConditionComponent implements OnInit {
             if (gain.choice) {
                 condition.gainConditions.filter(extraCondition => extraCondition.conditionChoiceFilter == gain.choice).forEach(extraCondition => {
                     let addCondition = Object.assign(new ConditionGain, JSON.parse(JSON.stringify(extraCondition)));
+                    if (!addCondition.heightened) {
+                        addCondition.heightened = gain.heightened;
+                    }
                     addCondition.source = gain.name;
                     addCondition.apply = true;
                     this.characterService.add_Condition(creature, addCondition, false)

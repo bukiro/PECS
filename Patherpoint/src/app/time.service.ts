@@ -98,7 +98,7 @@ export class TimeService {
                     casting.spellSlotsUsed = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
                 });
                 //Refocus and reset all "until you refocus" spell cooldowns.
-                this.refocus(characterService, conditionsService, itemsService, spellsService, 3, false);
+                this.refocus(characterService, conditionsService, itemsService, spellsService, 3, false, false);
                 //Regenerate Snare Specialist formulas.
                 character.class.formulaBook.filter(learned => learned.snareSpecialistPrepared).forEach(learned => {
                     learned.snareSpecialistAvailable = learned.snareSpecialistPrepared;
@@ -119,8 +119,10 @@ export class TimeService {
         characterService.process_ToChange();
     }
 
-    refocus(characterService: CharacterService, conditionsService: ConditionsService, itemsService: ItemsService, spellsService: SpellsService, recoverPoints: number = 1, reload: boolean = true) {
-        this.tick(characterService, conditionsService, itemsService, spellsService, 1000, false);
+    refocus(characterService: CharacterService, conditionsService: ConditionsService, itemsService: ItemsService, spellsService: SpellsService, recoverPoints: number = 1, reload: boolean = true, tick: boolean = true) {
+        if (tick) {
+            this.tick(characterService, conditionsService, itemsService, spellsService, 1000, false);
+        }
         let character = characterService.get_Character();
 
         //Reset all "until you refocus" activity cooldowns.

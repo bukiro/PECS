@@ -137,7 +137,7 @@ export class AC {
             let dex = characterService.get_Abilities("Dexterity")[0].mod(armorCreature, characterService, effectsService).result;
             //Get the profiency with either this armor or its category
             //Familiars have the same AC as the Character before circumstance or status effects.
-            let skillLevel = armor.profLevel(creature as AnimalCompanion | Character, characterService);
+            let skillLevel = armor.profLevel(armorCreature, characterService);
             let charLevelBonus = 0;
             if (skillLevel) {
                 explain += "\nProficiency: " + skillLevel;

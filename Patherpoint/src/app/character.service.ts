@@ -57,6 +57,7 @@ import { OtherConsumableBomb } from './OtherConsumableBomb';
 import { AdventuringGear } from './AdventuringGear';
 import { Hint } from './Hint';
 import { Creature } from './Creature';
+import { LanguageGain } from './LanguageGain';
 
 @Injectable({
     providedIn: 'root'
@@ -466,7 +467,7 @@ export class CharacterService {
         //Ensure that the language list is always as long as ancestry languages + INT + any relevant feats.
         if (character.class.name) {
             let ancestry: Ancestry = character.class.ancestry;
-            let languages: number = character.class.languages.length || 0;
+            let languages: number = character.class.languages.filter(language => !language.locked || language.source == ancestry.name).length || 0;
             let maxLanguages: number = ancestry?.baseLanguages || 0;
             let int = this.get_Abilities("Intelligence")[0]?.mod(character, this, this.effectsService)?.result;
             if (int > 0) {
@@ -478,14 +479,34 @@ export class CharacterService {
             this.effectsService.get_RelativesOnThis(this.get_Character(), "Max Languages").forEach(effect => {
                 maxLanguages += parseInt(effect.value);
             })
-            let oldLanguages = JSON.stringify(character.class.languages);
-            character.class.languages = character.class.languages.sort().filter(language => language != "");
-            languages = character.class.languages.length;
+            character.class.languages = character.class.languages.sort().filter(language => !(language.name == "" && language.source == "" && !language.locked));
+            character.class.languages = character.class.languages
+                .sort(function (a, b) {
+                    if (a.name > b.name) {
+                        return 1;
+                    }
+                    if (a.name < b.name) {
+                        return -1;
+                    }
+                    return 0;
+                })
+                .sort(function (a, b) {
+                    if (!a.locked && b.locked) {
+                        return 1;
+                    }
+                    if (a.locked && !b.locked) {
+                        return -1;
+                    }
+                    return 0;
+                })
+            languages = character.class.languages.filter(language => !language.locked || language.source == ancestry.name).length;
             if (languages > maxLanguages) {
-                character.class.languages.splice(maxLanguages);
+                if (!character.class.languages.slice(maxLanguages).some(language => language.locked)) {
+                    character.class.languages.splice(maxLanguages);
+                }
             } else {
                 while (languages < maxLanguages) {
-                    languages = character.class.languages.push("");
+                    languages = character.class.languages.push(new LanguageGain());
                 }
             }
         }
@@ -1388,6 +1409,7 @@ export class CharacterService {
                 //We intentionally add the point after we set the limit. This allows us to gain focus points with feats and raise the current points
                 // before the limit is increased. The focus points are automatically limited in the spellbook component, where they are displayed, and when casting focus spells.
                 (creature as Character).class.focusPoints += value;
+                this.set_ToChange("Character", "spellbook");
                 break;
             case "Temporary HP":
                 //When you get temporary HP, some things to process:
@@ -1436,14 +1458,6 @@ export class CharacterService {
                 }
                 this.set_ToChange(creature.type, "health");
                 this.set_ToChange(creature.type, "effects");
-                break;
-            case "Languages":
-                let languages = (creature as Character).class.languages;
-                if (languages.filter(language => language == effectGain.value).length == 0) {
-                    languages.push(effectGain.value);
-                }
-                this.set_ToChange(creature.type, "general");
-                this.set_ToChange(creature.type, "charactersheet");
                 break;
             case "Raise Shield":
                 let shield = this.get_Character().inventories[0].shields.find(shield => shield.equipped);

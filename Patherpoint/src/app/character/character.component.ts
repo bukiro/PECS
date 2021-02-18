@@ -413,8 +413,8 @@ export class CharacterComponent implements OnInit {
         }
     }
 
-    get_AvailableLanguages() {
-        return this.get_Character().class.ancestry.languages.filter(language => language == "").length
+    get_BlankLanguages() {
+        return this.get_Character().class.languages.some(language => !language.name);
     }
 
     get_Character() {
@@ -932,11 +932,11 @@ export class CharacterComponent implements OnInit {
     }
 
     get_TakenCompanionSpecializations(levelNumber: number) {
-        return this.get_Companion().class.specializations.filter(spec => spec.level == levelNumber);
+        return this.get_Companion().class.specializations.filter(spec => spec.level == levelNumber).map(spec => spec.name);
     }
 
     have_CompanionSpecialization(name: string) {
-        return this.get_Companion().class.specializations.filter(spec => spec.name == name).length;
+        return this.get_Companion().class.specializations.some(spec => spec.name == name);
     }
 
     get_FamiliarAvailable(levelNumber: number) {

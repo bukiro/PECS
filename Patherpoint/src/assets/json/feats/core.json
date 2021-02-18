@@ -2837,7 +2837,7 @@
             "Monk"
         ],
         "levelreq": 20,
-        "specialreq": "character.get_FeatsTaken(0,charLevel).filter(gain => characterService.get_FeatsAndFeatures(gain.name).some(feat => feat.traits.includes(\"Stance\"))).length >= 2",
+        "specialreq": "character.get_FeatsTaken(0,charLevel).filter(gain => characterService.get_FeatsAndFeatures(gain.name).some(feat => feat.traits.includes('Stance'))).length >= 2",
         "specialreqdesc": "at least two stances",
         "gainActivities": [
             "Fused Stance"
@@ -5227,16 +5227,11 @@
                 "value": 2
             }
         ],
-        "effects": [
+        "gainLanguages": [
             {
-                "affected": "Max Languages",
-                "value": "1"
-            }
-        ],
-        "onceEffects": [
-            {
-                "affected": "Languages",
-                "value": "Secret society speech (Secret Speech)"
+                "name": "Secret society speech",
+                "locked": true,
+                "source": "Secret Speech"
             }
         ]
     },
@@ -6675,16 +6670,11 @@
             "Monk"
         ],
         "levelreq": 14,
-        "effects": [
+        "gainLanguages": [
             {
-                "affected": "Max Languages",
-                "value": "1"
-            }
-        ],
-        "onceEffects": [
-            {
-                "affected": "Languages",
-                "value": "All spoken languages (Tongue of the Sun and Moon)"
+                "name": "All spoken languages",
+                "locked": true,
+                "source": "Tongue of the Sun and Moon"
             }
         ]
     },
@@ -9490,7 +9480,7 @@
         "name": "Paladin",
         "desc": "<h6>Paladin (Lawful Good)</h6>\n\nYou're honorable, forthright, and committed to pushing back the forces of cruelty. You gain the Retributive Strike champion's reaction and the lay on hands devotion spell. After the tenets of good, add these tenets:\n\nYou must act with honor, never taking advantage of others, lying, or cheating.\nYou must respect the lawful authority of legitimate leadership wherever you go, and follow its laws.\n\n<h6>Champion's Reaction</h6>\n\n<h4>Retributive Strike</h4>\n\n<strong>Trigger</strong> An enemy damages your ally, and both are within 15 feet of you.\n\nYou protect your ally and strike your foe. The ally gains resistance to all damage against the triggering damage equal to 2 + your level. If the foe is within reach, make a melee Strike against it.\n\n<h6>Divine Smite</h6>\n\nYou surround evil targets in a punishing halo. If you hit with your Retributive Strike, the target takes persistent good damage equal to your Charisma modifier.\n\n<h6>Exalt</h6>\n\nWhen you use Retributive Strike, each ally within 15 feet of you with the target in their melee reach can spend a reaction to Strike the target with a -5 penalty.",
         "shortdesc": "(Lawful Good) You're honorable, forthright, and committed to pushing back the forces of cruelty.",
-        "specialreq": "character.alignment == \"Lawful Good\"",
+        "specialreq": "character.alignment == 'Lawful Good'",
         "specialreqdesc": "Lawful Good",
         "effects": [
             {
@@ -9617,7 +9607,7 @@
         "name": "Redeemer",
         "desc": "<h6>Redeemer (Neutral Good)</h6>\n\nYou're full of kindness and forgiveness. You gain the Glimpse of Redemption champion's reaction and the lay on hands devotion spell. After the tenets of good, add these:\n\nYou must first try to redeem those who commit evil acts, rather than killing them or meting out punishment. If they then continue on a wicked path, you might need to take more extreme measures.\nYou must show compassion for others, regardless of their authority or station.\n\n<h6>Champion's Reaction</h6>\n\n<h4>Glimpse of Redemption</h4>\n\n<strong>Trigger</strong> An enemy damages your ally, and both are within 15 feet of you.\n\nYour foe hesitates under the weight of sin as visions of redemption play in their mind's eye. The foe must choose one of the following options:\n\nThe ally is unharmed by the triggering damage.\nThe ally gains resistance to all damage against the triggering damage equal to 2 + your level. After the damaging effect is applied, the enemy becomes enfeebled 2 until the end of its next turn.\n\n<h6>Divine Smite</h6>\n\nA guilty conscience assails foes who spurn your Glimpse of Redemption. A foe that responds to your Glimpse of Redemption by dealing damage takes persistent good damage equal to your Charisma modifier.\n\n<h6>Exalt</h6>\n\nYou protect multiple allies. You can apply the resistance granted by Glimpse of Redemption to yourself and all allies within 15 feet of you, including the triggering ally, except the resistance is reduced by 2 for all.",
         "shortdesc": "(Neutral Good) You're full of kindness and forgiveness.",
-        "specialreq": "character.alignment == \"Neutral Good\"",
+        "specialreq": "character.alignment == 'Neutral Good'",
         "specialreqdesc": "Neutral Good",
         "effects": [
             {
@@ -9745,7 +9735,7 @@
         "name": "Liberator",
         "desc": "<h6>Liberator (Chaotic Good)</h6>\n\nYou're committed to defending the freedom of others. You gain the Liberating Step champion's reaction and the lay on hands devotion spell. After the tenets of good, add these tenets:\n\nYou must respect the choices others make over their own lives, and you can't force someone to act in a particular way or threaten them if they don't.\nYou must demand and fight for others' freedom to make their own decisions. You may never engage in or countenance slavery or tyranny.\n\n<h6>Champion's Reaction</h6>\n\n<h4>Liberating Step</h4>\n\n<strong>Trigger</strong> An enemy damages, Grabs, or Grapples your ally, and both are within 15 feet of you.\n\nYou free an ally from restraint. If the trigger was an ally taking damage, the ally gains resistance to all damage against the triggering damage equal to 2 + your level. The ally can attempt to break free of effects grabbing, restraining, immobilizing, or paralyzing them. They either attempt a new save against one such effect that allows a save, or attempt to Escape from one effect as a free action. If they can move, the ally can Step as a free action, even if they didn't need to escape.\n\n<h6>Divine Smite</h6>\n\nYou punish those who ensnare your allies in bondage. If the triggering enemy was using any effects to make your ally grabbed, restrained, immobilized, or paralyzed when you used Liberating Step, that enemy takes persistent good damage equal to your Charisma modifier.\n\n<h6>Exalt</h6>\n\nYou can help your whole group get into position. When you use Liberating Step, if your ally doesn't attempt to break free of an effect, you and all allies within 15 feet can Step, in addition to the triggering ally.",
         "shortdesc": "(Chaotic Good) You're committed to defending the freedom of others.",
-        "specialreq": "character.alignment == \"Chaotic Good\"",
+        "specialreq": "character.alignment == 'Chaotic Good'",
         "specialreqdesc": "Chaotic Good",
         "effects": [
             {
@@ -16622,7 +16612,7 @@
         "effects": [
             {
                 "affected": "Max HP",
-                "value": "Character.get_FeatsTaken(1, Level).filter(gain => characterService.get_Feats(gain.name)[0]?.archetype == \"Fighter\").length * 3"
+                "value": "Character.get_FeatsTaken(1, Level).filter(gain => characterService.get_Feats(gain.name)[0]?.archetype == 'Fighter').length * 3"
             }
         ]
     },
@@ -16848,7 +16838,7 @@
         "effects": [
             {
                 "affected": "Max HP",
-                "value": "Character.get_FeatsTaken(1, Level).filter(gain => characterService.get_Feats(gain.name)[0]?.archetype == \"Monk\").length * 3"
+                "value": "Character.get_FeatsTaken(1, Level).filter(gain => characterService.get_Feats(gain.name)[0]?.archetype == 'Monk').length * 3"
             }
         ]
     },
@@ -16891,7 +16881,7 @@
         "effects": [
             {
                 "affected": "Land Speed",
-                "value": "Armor().get_Proficiency() == \"Unarmored Defense\" ? 10 : 0"
+                "value": "Armor().get_Proficiency() == 'Unarmored Defense' ? 10 : 0"
             }
         ]
     },
@@ -18120,7 +18110,7 @@
         ],
         "effects": [
             {
-                "affected": "Companion:Unarmed Attack Dice Number",
+                "affected": "Companion:Unarmed Dice Number",
                 "setValue": "3"
             }
         ],
@@ -18526,7 +18516,7 @@
         "effects": [
             {
                 "affected": "Max HP",
-                "value": "Character.get_FeatsTaken(1, Level).filter(gain => characterService.get_Feats(gain.name)[0]?.archetype == \"Ranger\").length * 3"
+                "value": "Character.get_FeatsTaken(1, Level).filter(gain => characterService.get_Feats(gain.name)[0]?.archetype == 'Ranger').length * 3"
             }
         ]
     },
@@ -32627,8 +32617,14 @@
         "desc": "Your unusual rest cycle allows you to recover faster. As long as you rest for 12 hours, you gain the effects of the Fast Recovery general feat and you can go 20 hours without resting before becoming fatigued.",
         "hints": [
             {
-                "desc": "As long as you rest for 12 hours, you gain the effects of the Fast Recovery general feat and you can go 20 hours without resting before becoming fatigued. (Activate this under Actions and Activities before resting.)",
-                "showon": "Health"
+                "desc": "As long as you rest for 12 hours, you gain the effects of the Fast Recovery general feat and you can go 20 hours without resting before becoming fatigued. (Activate this before resting to gain the effect.)\n\nFast Recovery: You regain twice as many Hit Points from resting. Each time you succeed at a Fortitude save against an ongoing disease or poison, you reduce its stage by 2, or by 1 against a virulent disease or poison. Each critical success you achieve against an ongoing disease or poison reduces its stage by 3, or by 2 against a virulent disease or poison. In addition, you reduce the severity of your drained condition by 2 when you rest for a night instead of by 1.",
+                "showon": "Health, Fortitude",
+                "effects": [
+                    {
+                        "affected": "Resting HP Multiplier",
+                        "setValue": 2
+                    }
+                ]
             }
         ],
         "access": "underground dwarf ethnicity",
@@ -32639,10 +32635,7 @@
             "Dwarf",
             "Uncommon"
         ],
-        "levelreq": 1,
-        "gainActivities": [
-            "Forge-Day's Rest"
-        ]
+        "levelreq": 1
     },
     {
         "name": "Rock Runner",
@@ -34113,7 +34106,7 @@
         "effects": [
             {
                 "affected": "Max HP",
-                "value": "Character.get_FeatsTaken(1, Level).filter(gain => characterService.get_Feats(gain.name)[0]?.archetype == \"Barbarian\").length * 3"
+                "value": "Character.get_FeatsTaken(1, Level).filter(gain => characterService.get_Feats(gain.name)[0]?.archetype == 'Barbarian').length * 3"
             }
         ]
     },
@@ -34309,7 +34302,7 @@
         "desc": "You call upon the creatures of nature to come to your aid. You can spend 10 minutes in concert with nature to replace one of the spells you've prepared in one of your druid spell slots with a summon animal or summon plants and fungus spell of the same level.",
         "hints": [
             {
-                "desc": "You can spend 10 minutes in concert with nature to replace one of the spells you've prepared in one of your druid spell slots with a summon animal or summon plants and fungus spell of the same level.",
+                "desc": "You can spend 10 minutes in concert with nature to replace one of the spells you've prepared in one of your druid spell slots with a summon animal or summon plants and fungus spell of the same level. You can make this change in the spellbook menu.",
                 "showon": "Spellbook, Druid Prepared Spells"
             }
         ],
@@ -34354,6 +34347,7 @@
                 "filter": [
                     "Animal Companion (Druid)"
                 ],
+                "level": 1,
                 "source": "Feat: Order Explorer: Animal Order",
                 "specialChoice": true,
                 "type": "Druid"
@@ -34383,6 +34377,7 @@
                 "filter": [
                     "Leshy Familiar"
                 ],
+                "level": 1,
                 "source": "Feat: Order Explorer: Leaf Order",
                 "specialChoice": true,
                 "type": "Druid"
@@ -34412,6 +34407,7 @@
                 "filter": [
                     "Storm Born"
                 ],
+                "level": 1,
                 "source": "Feat: Order Explorer: Storm Order",
                 "specialChoice": true,
                 "type": "Druid"
@@ -34441,6 +34437,7 @@
                 "filter": [
                     "Wild Shape"
                 ],
+                "level": 1,
                 "source": "Feat: Order Explorer: Wild Order",
                 "specialChoice": true,
                 "type": "Druid"
@@ -34452,7 +34449,15 @@
         "desc": "Your body has become fortified against toxins. You gain poison resistance equal to half your level, and you gain a +1 status bonus to saving throws against poisons.",
         "hints": [
             {
-                "desc": "You gain a +1 status bonus to saving throws against poisons."
+                "desc": "You gain a +1 status bonus to saving throws against poisons.",
+                "showon": "Saving Throws",
+                "effects": [
+                    {
+                        "affected": "Saving Throws",
+                        "value": "1",
+                        "type": "status"
+                    }
+                ]
             }
         ],
         "shortdesc": "Repeated exposure to toxic reagents has fortified your body against poisons of all kinds.",
@@ -34512,7 +34517,7 @@
         ],
         "effects": [
             {
-                "affected": "Companion:Unarmed�Attack�Dice�Number",
+                "affected": "Companion:Unarmed Dice Number",
                 "setValue": 2
             }
         ],
@@ -34744,6 +34749,7 @@
         "featreq": [
             "storm order"
         ],
+        "specialreq": "character.class.spellCasting.some(casting => casting.castingType == 'Focus' && casting.className == 'Druid' && casting.spellChoices.some(spellChoice => spellChoice.spells.some(spell => spell.name == 'Tempest Surge')))",
         "specialreqdesc": "tempest surge order spell",
         "gainActivities": [
             "Storm Retribution"
@@ -34771,7 +34777,7 @@
             {
                 "affected": "Athletics",
                 "type": "status",
-                "value": "(Has_Condition('Wild Shape') && (characterService.get_AppliedConditions(creature, name, \"\", true).some(conditionGain => ['Animal Form','Insect Form','Dinosaur Form','Elemental Form','Plant Form','Dragon Form','Monstrosity Form'].includes(conditionGain.name) && !['Air','Fire'].includes(conditionGain.choice)))) ? 1 : 0"
+                "value": "(Has_Condition('Wild Shape') && characterService.get_AppliedConditions(creature, '', '', true).some(conditionGain => ['Pest Form','Animal Form','Insect Form','Elemental Form','Plant Form','Dragon Form','Monstrosity Form'].includes(conditionGain.name) && !['Air','Fire'].includes(conditionGain.choice))) ? 1 : 0"
             }
         ]
     },
@@ -34809,7 +34815,7 @@
         "name": "Incredible Companion (Druid): Nimble",
         "desc": "Your animal companion continues to grow and develop. It becomes a nimble animal companion (your choice), gaining additional capabilities determined by the type of companion (page 214).\n\nTo advance a mature animal companion to a nimble animal companion, increase its Dexterity modifier by 2 and its Strength, Constitution, and Wisdom modifiers by 1. It deals 2 additional damage with its unarmed attacks. Increase its proficiency ranks in Acrobatics and unarmored defense to expert. It also learns the advanced maneuver for its type. Its attacks become magical for the purpose of ignoring resistances.",
         "subType": "Nimble",
-        "superType": "Incredible Companion (Ranger)",
+        "superType": "Incredible Companion (Druid)",
         "shortdesc": "Your animal companion continues to grow and develop.",
         "countAsFeat": "Incredible Companion",
         "traits": [
@@ -34827,7 +34833,7 @@
         "name": "Incredible Companion (Druid): Savage",
         "desc": "Your animal companion continues to grow and develop. It becomes a savage animal companion (your choice), gaining additional capabilities determined by the type of companion (page 214).\n\nTo advance a mature animal companion to a savage animal companion, increase its Strength modifier by 2 and its Dexterity, Constitution, and Wisdom modifiers by 1. It deals 3 additional damage with its unarmed attacks. Increase its proficiency rank in Athletics to expert. It also learns the advanced maneuver for its type. If your companion is Medium or smaller, it grows by one size. Its attacks become magical for the purpose of ignoring resistances.",
         "subType": "Savage",
-        "superType": "Incredible Companion (Ranger)",
+        "superType": "Incredible Companion (Druid)",
         "shortdesc": "Your animal companion continues to grow and develop.",
         "countAsFeat": "Incredible Companion",
         "traits": [
@@ -34861,9 +34867,9 @@
         ],
         "effects": [
             {
-                "affected": "Athletics",
+                "affected": "Acrobatics",
                 "type": "status",
-                "value": "(Has_Condition('Wild Shape') && (characterService.get_AppliedConditions(creature, name, \"\", true).some(conditionGain => ['Pest Form', 'Aerial Form','Elemental Form'].includes(conditionGain.name) && !['Earth','Water'].includes(conditionGain.choice)))) ? 1 : 0"
+                "value": "(Has_Condition('Wild Shape') && (characterService.get_AppliedConditions(creature, '', '', true).some(conditionGain => ['Pest Form', 'Aerial Form','Elemental Form'].includes(conditionGain.name) && !['Earth','Water'].includes(conditionGain.choice)))) ? 1 : 0"
             }
         ]
     },
@@ -34912,7 +34918,7 @@
         "desc": "You understand the fundamental elements of nature such that you can imbue them into your body and manifest as a living embodiment of those elements. Add the forms in elemental form to your wild shape list. Whenever you're polymorphed into another form using wild shape, you gain resistance 5 to fire.",
         "hints": [
             {
-                "desc": "Whenever you're polymorphed into another form using wild shape, you gain resistance 5 to fire.",
+                "desc": "Add the forms in elemental form to your wild shape list. Whenever you're polymorphed into another form using wild shape, you gain resistance 5 to fire.",
                 "showon": "Wild Shape"
             }
         ],
@@ -35176,7 +35182,7 @@
         ],
         "effects": [
             {
-                "affected": "Companion:Unarmed Attack Dice Number",
+                "affected": "Companion:Unarmed Dice Number",
                 "setValue": 3
             }
         ],
@@ -35365,6 +35371,12 @@
     {
         "name": "Primal Wellspring",
         "desc": "Your reservoir of Focus Points is a deep wellspring. If you have spent at least 3 Focus Points since the last time you Refocused, you recover 3 Focus Points when you Refocus instead of 1.",
+        "hints": [
+            {
+                "desc": "If you have spent at least 3 Focus Points since the last time you Refocused, you recover 3 Focus Points when you Refocus instead of 1.",
+                "showon": "Focus"
+            }
+        ],
         "shortdesc": "Your reservoir of Focus Points is a deep wellspring.",
         "traits": [
             "Druid"
@@ -35508,6 +35520,13 @@
                 "value": 14
             }
         ],
+        "gainLanguages": [
+            {
+                "name": "Druidic language",
+                "locked": true,
+                "source": "Druid Dedication"
+            }
+        ],
         "anathema": [
             "Using metal armor or shields.",
             "Despoiling natural places.",
@@ -35568,6 +35587,14 @@
                 "castingType": "Prepared",
                 "className": "Druid",
                 "source": "Druid Dedication",
+                "tradition": "Primal"
+            },
+            {
+                "_className": "SpellCasting",
+                "ability": "Wisdom",
+                "castingType": "Focus",
+                "className": "Druid",
+                "source": "Order Spells",
                 "tradition": "Primal"
             }
         ],
@@ -35676,7 +35703,8 @@
         ],
         "levelreq": 4,
         "featreq": [
-            "Druid Dedication"
+            "Druid Dedication",
+            "animal order"
         ],
         "effects": [
             {
@@ -35719,7 +35747,8 @@
         ],
         "levelreq": 4,
         "featreq": [
-            "Druid Dedication"
+            "Druid Dedication",
+            "leaf order"
         ],
         "effects": [
             {
@@ -35762,7 +35791,8 @@
         ],
         "levelreq": 4,
         "featreq": [
-            "Druid Dedication"
+            "Druid Dedication",
+            "storm order"
         ],
         "effects": [
             {
@@ -35805,7 +35835,8 @@
         ],
         "levelreq": 4,
         "featreq": [
-            "Druid Dedication"
+            "Druid Dedication",
+            "wild order"
         ],
         "effects": [
             {

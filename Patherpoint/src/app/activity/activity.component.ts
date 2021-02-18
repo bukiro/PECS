@@ -255,6 +255,7 @@ export class ActivityComponent implements OnInit {
             let spell = this.spellsService.get_Spells(spellCast.name)[0];
             if (spell?.gainConditions.length) {
                 spell.get_HeightenedConditions(spellCast.level)
+                    .filter(conditionGain => !conditionGain.hideChoices)
                     .map(conditionGain => this.conditionsService.get_Conditions(conditionGain.name)[0])
                     .filter(condition => condition?.get_Choices(this.characterService, true)?.length > 1)
                     .forEach((condition, index) => {

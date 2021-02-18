@@ -18,11 +18,11 @@
             </div>
             <div class="fullsize-only list-item">
                 <strong>Character Name</strong>
-                {{get_Character().name}}
+                <span>{{get_Character().name}}</span>
             </div>
             <div class="list-item" *ngIf="get_Character().class.ancestry.name">
                 <strong>Ancestry</strong>
-                {{get_Character().class.ancestry.name}}{{(get_Character().class.heritage.name) ? " - " + get_Character().class.heritage.name : ""}}
+                <span>{{get_Character().class.ancestry.name}}{{(get_Character().class.heritage.name) ? " - " + get_Character().class.heritage.name : ""}}</span>
                 <div class="row left-aligned" *ngIf="get_Character().class.ancestry.traits.length">
                     <cite class="trait"
                         *ngFor="let trait of get_CharacterTraits(); trackBy:trackByIndex;">{{trait}}&nbsp;</cite>
@@ -33,34 +33,34 @@
             <div class="fullsize-only list-item"
                 *ngIf="get_Character().class.background && get_Character().class.background.name">
                 <strong>Background</strong>
-                {{get_Character().class.background.name}}
+                <span>{{get_Character().class.background.name}}</span>
             </div>
             <div class="fullsize-only list-item" *ngIf="get_Character().class.name">
                 <div class="row" *ngFor="let specialization of get_ClassChoices(); trackBy:trackByIndex;">
                     <strong>{{specialization.name}}</strong>
-                    {{specialization.choice}}
+                    <span>{{specialization.choice}}</span>
                 </div>
             </div>
             <div class="fullsize-only list-item" *ngIf="get_Character().class.ancestry.name">
                 <strong>Size</strong>
-                {{get_Size()}}
+                <span>{{get_Size()}}</span>
                 <app-tags [creature]="creature" [objectName]="'Size'" [showTraits]=true [showFeats]=true
                     [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
             </div>
             <div class="fullsize-only list-item" *ngIf="get_Character().alignment && get_Character().alignment.length">
                 <strong>Alignment</strong>
-                {{get_Character().alignment}}
+                <span>{{get_Character().alignment}}</span>
                 <app-tags [creature]="creature" [objectName]="'Alignment'" [showTraits]=true [showFeats]=true
                     [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
             </div>
             <div class="fullsize-only list-item" *ngIf="get_Character().class.deity">
                 <strong>Deity</strong>
-                {{get_Character().class.deity}}
+                <span>{{get_Character().class.deity}}</span>
             </div>
             <div class="fullsize-only list-item"
                 *ngIf="get_Character().class.ancestry.languages && get_Character().class.ancestry.languages.length">
                 <strong>Languages</strong>
-                {{get_Languages()}}
+                <span>{{get_Languages()}}</span>
                 <app-tags [creature]="creature" [objectName]="'Languages'" [showTraits]=true [showFeats]=true
                     [showItems]=true [showActivities]=true [showConditions]=true></app-tags>
             </div>
@@ -84,7 +84,7 @@
             </div>
             <div class="fullsize-only list-item" *ngFor="let feat of get_DifferentWorldsFeat(); trackBy:trackByIndex;">
                 <strong>Alternative Identity (Different Worlds)</strong>
-                {{feat.data.name}} {{(feat.data.background) ? "("+feat.data.background+")" : ""}}
+                <span>{{feat.data.name}} {{(feat.data.background) ? "("+feat.data.background+")" : ""}}</span>
             </div>
         </ng-container>
         <ng-container *ngIf="creature=='Companion'">
@@ -96,19 +96,19 @@
                 [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
             <div class="fullsize-only list-item">
                 <strong>Companion Name</strong>
-                {{get_Companion().name}}
+                <span>{{get_Companion().name}}</span>
             </div>
             <div class="fullsize-only list-item">
                 <strong>Species</strong>
-                {{get_CompanionSpecies()}}
+                <span>{{get_CompanionSpecies()}}</span>
             </div>
             <div class="fullsize-only list-item" *ngIf="get_Companion().class.specializations.length">
                 <strong>Specializations</strong>
-                {{get_CompanionSpecializations()}}
+                <span>{{get_CompanionSpecializations()}}</span>
             </div>
             <div class="fullsize-only list-item" *ngIf="get_Companion().class.ancestry.name">
                 <strong>Size</strong>
-                {{get_Size()}}
+                <span>{{get_Size()}}</span>
                 <app-tags [creature]="creature" [objectName]="'Size'" [showTraits]=true [showFeats]=true
                     [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
             </div>
@@ -126,15 +126,15 @@
                 [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
             <div class="fullsize-only list-item">
                 <strong>Familiar Name</strong>
-                {{get_Familiar().name}}
+                <span>{{get_Familiar().name}}</span>
             </div>
             <div class="fullsize-only list-item">
                 <strong>Species</strong>
-                {{get_Familiar().species}}
+                <span>{{get_Familiar().species}}</span>
             </div>
             <div class="fullsize-only list-item">
                 <strong>Size</strong>
-                {{get_Size()}}
+                <span>{{get_Size()}}</span>
                 <app-tags [creature]="creature" [objectName]="'Size'" [showTraits]=true [showFeats]=true
                     [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
             </div>

@@ -33,7 +33,11 @@ export class FeatchoiceComponent implements OnInit {
     @Input()
     creature: string = "Character"
     @Input()
+    unavailableFeats: boolean = true;
+    @Input()
     lowerLevelFeats: boolean = true;
+    @Input()
+    higherLevelFeats: boolean = true;
     @Input()
     archetypeFeats: boolean = true;
     public featLevel: number = 0;
@@ -242,7 +246,10 @@ export class FeatchoiceComponent implements OnInit {
         }
         if (feats.length) {
             if (!this.lowerLevelFeats && !choice.showOnSheet) {
-                feats = feats.filter(feat => feat.levelreq == this.featLevel || !feat.levelreq || this.featTakenByThis(feat, choice));
+                feats = feats.filter(feat => feat.levelreq >= this.featLevel || !feat.levelreq || this.featTakenByThis(feat, choice));
+            }
+            if (!this.higherLevelFeats && !choice.showOnSheet) {
+                feats = feats.filter(feat => feat.levelreq <= this.featLevel || !feat.levelreq || this.featTakenByThis(feat, choice));
             }
             if (!this.archetypeFeats) {
                 feats = feats.filter(feat => !feat.traits.includes("Archetype") || this.featTakenByThis(feat, choice));
@@ -272,7 +279,7 @@ export class FeatchoiceComponent implements OnInit {
             return feats.map(feat => {
                 let featAvailable = (this.cannotTake(feat, choice).length == 0 || this.featTakenByThis(feat, choice) || this.subFeatTakenByThis(feat, choice));
                 return { available: featAvailable, feat: feat };
-            }).filter(featSet => showOtherOptions || this.featTakenByThis(featSet.feat, choice) || this.subFeatTakenByThis(featSet.feat, choice))
+            }).filter(featSet => ((this.unavailableFeats || featSet.available) && showOtherOptions) || this.featTakenByThis(featSet.feat, choice) || this.subFeatTakenByThis(featSet.feat, choice))
                 .sort(function (a, b) {
                     //Sort by level, then name. Divide level by 100 to create leading zeroes (and not sort 10 before 2).
                     //For skill feat choices and general feat choices, sort by the associated skill (if exactly one), then level and name.
@@ -467,14 +474,14 @@ export class FeatchoiceComponent implements OnInit {
                     result.push(feat.meetsLevelReq(this.characterService, this.levelNumber));
                     result[result.length - 1].ignored = ignoreRequirementsList.includes('levelreq');
                 }
-                if (JSON.stringify(feat.abilityreq) != JSON.stringify(compare.abilityreq)) {
+                if (feat.abilityreq.length && JSON.stringify(feat.abilityreq) != JSON.stringify(compare.abilityreq)) {
                     feat.meetsAbilityReq(this.characterService, this.levelNumber).forEach(req => {
                         result.push({ met: true, desc: ", " });
                         result.push(req);
                         result[result.length - 1].ignored = ignoreRequirementsList.includes('abilityreq');
                     });
                 }
-                if (JSON.stringify(feat.skillreq) != JSON.stringify(compare.skillreq)) {
+                if (feat.skillreq.length && JSON.stringify(feat.skillreq) != JSON.stringify(compare.skillreq)) {
                     feat.meetsSkillReq(this.characterService, this.levelNumber).forEach((req, index) => {
                         if (index == 0) {
                             result.push({ met: true, desc: ", " });
@@ -485,14 +492,14 @@ export class FeatchoiceComponent implements OnInit {
                         result[result.length - 1].ignored = ignoreRequirementsList.includes('skillreq');
                     });
                 }
-                if (JSON.stringify(feat.featreq) != JSON.stringify(compare.featreq)) {
+                if (feat.featreq.length && JSON.stringify(feat.featreq) != JSON.stringify(compare.featreq)) {
                     feat.meetsFeatReq(this.characterService, this.levelNumber).forEach(req => {
                         result.push({ met: true, desc: ", " });
                         result.push(req);
                         result[result.length - 1].ignored = ignoreRequirementsList.includes('featreq');
                     });
                 }
-                if (JSON.stringify(feat.heritagereq) != JSON.stringify(compare.heritagereq)) {
+                if (feat.heritagereq.length && JSON.stringify(feat.heritagereq) != JSON.stringify(compare.heritagereq)) {
                     feat.meetsHeritageReq(this.characterService, this.levelNumber).forEach(req => {
                         result.push({ met: true, desc: ", " });
                         result.push(req);

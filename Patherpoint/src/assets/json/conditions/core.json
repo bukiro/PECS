@@ -1189,7 +1189,7 @@
          },
          {
             "affected": "Athletics",
-            "value": "-4"
+            "setValue": "-4"
          },
          {
             "affected": "Fly Speed",
@@ -7508,7 +7508,7 @@
    },
    {
       "name": "Ghoul Fever (Stage 1)",
-      "desc": "<strong>Ghoul Fever</strong> (disease)\n<strong>Saving Throw</strong> Fortitude\n<var><strong>Stage 1</strong>carrier with no ill effects (1 day)</var>\n<strong>Stage 2</strong> 3d8 negative damage and the creature regains half as many Hit Points from all healing (1 day)\n<strong>Stage 3</strong> as stage 2 (1 day)\n<strong>Stage 4</strong> 3d8 negative damage and the creature gains no benefit from healing (1 day)\n<strong>Stage 5</strong> as stage 4 (1 day)\n<strong>Stage 6</strong> the creature dies and rises as a ghoul at the next midnight",
+      "desc": "<strong>Ghoul Fever</strong> (disease)\n<strong>Saving Throw</strong> Fortitude\n<var><strong>Stage 1</strong> carrier with no ill effects (1 day)</var>\n<strong>Stage 2</strong> 3d8 negative damage and the creature regains half as many Hit Points from all healing (1 day)\n<strong>Stage 3</strong> as stage 2 (1 day)\n<strong>Stage 4</strong> 3d8 negative damage and the creature gains no benefit from healing (1 day)\n<strong>Stage 5</strong> as stage 4 (1 day)\n<strong>Stage 6</strong> the creature dies and rises as a ghoul at the next midnight",
       "type": "afflictions",
       "fixedDuration": -1,
       "nextCondition": {
@@ -7518,7 +7518,7 @@
    },
    {
       "name": "Ghoul Fever (Stage 2)",
-      "desc": "<strong>Ghoul Fever</strong> (disease)\n<strong>Saving Throw</strong> Fortitude\n<strong>Stage 1</strong>carrier with no ill effects (1 day)\n<var><strong>Stage 2</strong> 3d8 negative damage and the creature regains half as many Hit Points from all healing (1 day)</var>\n<strong>Stage 3</strong> as stage 2 (1 day)\n<strong>Stage 4</strong> 3d8 negative damage and the creature gains no benefit from healing (1 day)\n<strong>Stage 5</strong> as stage 4 (1 day)\n<strong>Stage 6</strong> the creature dies and rises as a ghoul at the next midnight",
+      "desc": "<strong>Ghoul Fever</strong> (disease)\n<strong>Saving Throw</strong> Fortitude\n<strong>Stage 1</strong> carrier with no ill effects (1 day)\n<var><strong>Stage 2</strong> 3d8 negative damage and the creature regains half as many Hit Points from all healing (1 day)</var>\n<strong>Stage 3</strong> as stage 2 (1 day)\n<strong>Stage 4</strong> 3d8 negative damage and the creature gains no benefit from healing (1 day)\n<strong>Stage 5</strong> as stage 4 (1 day)\n<strong>Stage 6</strong> the creature dies and rises as a ghoul at the next midnight",
       "type": "afflictions",
       "fixedDuration": -1,
       "inputRequired": "Every time you reach this stage, take 3d8 negative damage.",
@@ -7538,7 +7538,7 @@
    },
    {
       "name": "Ghoul Fever (Stage 3)",
-      "desc": "<strong>Ghoul Fever</strong> (disease)\n<strong>Saving Throw</strong> Fortitude\n<strong>Stage 1</strong>carrier with no ill effects (1 day)\n<strong>Stage 2</strong> 3d8 negative damage and the creature regains half as many Hit Points from all healing (1 day)\n<var><strong>Stage 3</strong> as stage 2 (1 day)</var>\n<strong>Stage 4</strong> 3d8 negative damage and the creature gains no benefit from healing (1 day)\n<strong>Stage 5</strong> as stage 4 (1 day)\n<strong>Stage 6</strong> the creature dies and rises as a ghoul at the next midnight",
+      "desc": "<strong>Ghoul Fever</strong> (disease)\n<strong>Saving Throw</strong> Fortitude\n<strong>Stage 1</strong> carrier with no ill effects (1 day)\n<strong>Stage 2</strong> 3d8 negative damage and the creature regains half as many Hit Points from all healing (1 day)\n<var><strong>Stage 3</strong> as stage 2 (1 day)</var>\n<strong>Stage 4</strong> 3d8 negative damage and the creature gains no benefit from healing (1 day)\n<strong>Stage 5</strong> as stage 4 (1 day)\n<strong>Stage 6</strong> the creature dies and rises as a ghoul at the next midnight",
       "type": "afflictions",
       "fixedDuration": -1,
       "inputRequired": "Every time you reach this stage, take 3d8 negative damage.",
@@ -7558,7 +7558,7 @@
    },
    {
       "name": "Ghoul Fever (Stage 4)",
-      "desc": "<strong>Ghoul Fever</strong> (disease)\n<strong>Saving Throw</strong> Fortitude\n<strong>Stage 1</strong>carrier with no ill effects (1 day)\n<strong>Stage 2</strong> 3d8 negative damage and the creature regains half as many Hit Points from all healing (1 day)\n<strong>Stage 3</strong> as stage 2 (1 day)\n<var><strong>Stage 4</strong> 3d8 negative damage and the creature gains no benefit from healing (1 day)</var>\n<strong>Stage 5</strong> as stage 4 (1 day)\n<strong>Stage 6</strong> the creature dies and rises as a ghoul at the next midnight",
+      "desc": "<strong>Ghoul Fever</strong> (disease)\n<strong>Saving Throw</strong> Fortitude\n<strong>Stage 1</strong> carrier with no ill effects (1 day)\n<strong>Stage 2</strong> 3d8 negative damage and the creature regains half as many Hit Points from all healing (1 day)\n<strong>Stage 3</strong> as stage 2 (1 day)\n<var><strong>Stage 4</strong> 3d8 negative damage and the creature gains no benefit from healing (1 day)</var>\n<strong>Stage 5</strong> as stage 4 (1 day)\n<strong>Stage 6</strong> the creature dies and rises as a ghoul at the next midnight",
       "type": "afflictions",
       "fixedDuration": -1,
       "inputRequired": "Every time you reach this stage, take 3d8 negative damage.",
@@ -7578,7 +7578,7 @@
    },
    {
       "name": "Ghoul Fever (Stage 5)",
-      "desc": "<strong>Ghoul Fever</strong> (disease)\n<strong>Saving Throw</strong> Fortitude\n<strong>Stage 1</strong>carrier with no ill effects (1 day)\n<strong>Stage 2</strong> 3d8 negative damage and the creature regains half as many Hit Points from all healing (1 day)\n<strong>Stage 3</strong> as stage 2 (1 day)\n<strong>Stage 4</strong> 3d8 negative damage and the creature gains no benefit from healing (1 day)\n<var><strong>Stage 5</strong> as stage 4 (1 day)</var>\n<strong>Stage 6</strong> the creature dies and rises as a ghoul at the next midnight",
+      "desc": "<strong>Ghoul Fever</strong> (disease)\n<strong>Saving Throw</strong> Fortitude\n<strong>Stage 1</strong> carrier with no ill effects (1 day)\n<strong>Stage 2</strong> 3d8 negative damage and the creature regains half as many Hit Points from all healing (1 day)\n<strong>Stage 3</strong> as stage 2 (1 day)\n<strong>Stage 4</strong> 3d8 negative damage and the creature gains no benefit from healing (1 day)\n<var><strong>Stage 5</strong> as stage 4 (1 day)</var>\n<strong>Stage 6</strong> the creature dies and rises as a ghoul at the next midnight",
       "type": "afflictions",
       "fixedDuration": -1,
       "inputRequired": "Every time you reach this stage, take 3d8 negative damage.",
@@ -11559,32 +11559,6 @@
       ]
    },
    {
-      "name": "Forge-Day's Rest",
-      "desc": "Your unusual rest cycle allows you to recover faster. As long as you rest for 12 hours, you gain the effects of the Fast Recovery general feat and you can go 20 hours without resting before becoming fatigued.\n\nYour body quickly bounces back from afflictions. You regain twice as many Hit Points from resting. Each time you succeed at a Fortitude save against an ongoing disease or poison, you reduce its stage by 2, or by 1 against a virulent disease or poison. Each critical success you achieve against an ongoing disease or poison reduces its stage by 3, or by 2 against a virulent disease or poison. In addition, you reduce the severity of your drained condition by 2 when you rest for a night instead of by 1.",
-      "type": "activities",
-      "buff": true,
-      "hints": [
-         {
-            "desc": "You can go 20 hours without resting before becoming fatigued.",
-            "showon": "Health"
-         },
-         {
-            "desc": "You regain twice as many Hit Points from resting. In addition, you reduce the severity of your drained condition by 2 when you rest for a night instead of by 1.",
-            "showon": "Rest"
-         },
-         {
-            "desc": "Each time you succeed at a Fortitude save against an ongoing disease or poison, you reduce its stage by 2, or by 1 against a virulent disease or poison. Each critical success you achieve against an ongoing disease or poison reduces its stage by 3, or by 2 against a virulent disease or poison.",
-            "showon": "Fortitude"
-         }
-      ],
-      "effects": [
-         {
-            "affected": "Resting HP Multiplier",
-            "setValue": "2"
-         }
-      ]
-   },
-   {
       "name": "Vengeful Hatred",
       "desc": "You heart aches for vengeance against those who have wronged your people. You gain a +1 circumstance bonus to damage with weapons and unarmed attacks against the triggering creature. If your attack would deal more than one weapon die of damage (as is common at higher levels than 1st), the bonus is equal to the number of weapon dice or unarmed attack dice.",
       "type": "activities",
@@ -13575,6 +13549,7 @@
       "type": "spells",
       "minLevel": 1,
       "buff": true,
+      "unlimited": true,
       "hasValue": true,
       "inputRequired": "Reduce the value of the condition by 1 every time a goodberry is eaten."
    },
@@ -13762,7 +13737,7 @@
             "name": "Aerial Form (Pterosaur)",
             "featreq": [
                "Soaring Shape",
-               "Insect Shape"
+               "Ferocious Shape"
             ],
             "spelllevelreq": 4
          },
@@ -14261,7 +14236,7 @@
    },
    {
       "name": "Monstrosity Form",
-      "desc": "You have transformed into the shape of a legendary monster, assuming a Huge battle form chosen from phoenix, purple worm, or sea serpent. While in this form, you gain the beast trait (for phoenix) or the animal trait (for purple worm or sea serpent). You can Dismiss the spell.\n\nYou gain the following statistics and abilities regardless of which battle form you choose:\n\n(Heightened statistics at the bottom)\nAC = 20 + your level. Ignore your armor's check penalty and Speed reduction.\n20 temporary Hit Points.\nDarkvision.\nOne or more unarmed melee attacks specific to the battle form you choose, which are the only attacks you can use. You're trained with them. Your attack modifier is +28, and you use the listed damage. These attacks are Strength based (for the purpose of the enfeebled condition, for example). If your unarmed attack modifier is higher, you can use it instead.\nAthletics modifier of +30, unless your own modifier is higher.\n\nYou also gain specific abilities based on the form you choose:\n\n<strong>Phoenix</strong> Speed 30 feet, fly Speed 90 feet; <strong>Melee</strong> beak (reach 15 feet), <strong>Damage</strong> 2d6+12 piercing plus 2d4 fire and 2d4 persistent fire; <strong>Melee</strong> talon (agile, reach 15 feet), <strong>Damage</strong> 2d8+12 slashing; <strong>Shroud of Flame</strong> (aura, evocation, fire, primal) 20 feet. You gain an aura of fire that extends out from you. A creature that enters or ends its turn within the aura takes 2d6 fire damage. A creature can take this damage only once per turn. You can use a single action, which has the concentrate trait, to activate or deactivate this aura.\n<strong>Purple Worm</strong> Speed 40 feet, burrow 30 feet, swim Speed 20 feet; <strong>Melee</strong> jaws (reach 10 feet), <strong>Damage</strong> 2d12+20 piercing; <strong>Melee</strong> stinger (agile, reach 10 feet), <strong>Damage</strong> 2d8+15 piercing plus 2d6 persistent poison; <strong>Melee</strong> body (reach 10 feet), <strong>Damage</strong> 2d8+20 bludgeoning; <strong>Inexorable</strong> You automatically recover from the paralyzed, slowed, and stunned conditions at the end of each of your turns. You're also immune to being immobilized and ignore difficult terrain and greater difficult terrain.\n<strong>Sea Serpent</strong> Speed 20 feet, swim Speed 90 feet; <strong>Melee</strong> jaws (reach 15 feet), <strong>Damage</strong> 2d12+20 piercing; <strong>Melee</strong> tail (reach 25 feet), <strong>Damage</strong> 2d8+20 bludgeoning; <strong>Spine Rake</strong> <span class='actionIcon action2A'> (move), You extend your spines and Swim or Stride. Each creature you're adjacent to at any point during your movement takes 4d8+10 slashing damage (basic Reflex against your spell DC).\n\n<strong>9th Level</strong> You instead gain AC = 22 + your level, 25 temporary HP, attack modifier +31, increase damage by one damage die, and Athletics +33.",
+      "desc": "You have transformed into the shape of a legendary monster, assuming a Huge battle form chosen from phoenix, purple worm, or sea serpent. While in this form, you gain the beast trait (for phoenix) or the animal trait (for purple worm or sea serpent). You can Dismiss the spell.\n\nYou gain the following statistics and abilities regardless of which battle form you choose:\n\n(Heightened statistics at the bottom)\nAC = 20 + your level. Ignore your armor's check penalty and Speed reduction.\n20 temporary Hit Points.\nDarkvision.\nOne or more unarmed melee attacks specific to the battle form you choose, which are the only attacks you can use. You're trained with them. Your attack modifier is +28, and you use the listed damage. These attacks are Strength based (for the purpose of the enfeebled condition, for example). If your unarmed attack modifier is higher, you can use it instead.\nAthletics modifier of +30, unless your own modifier is higher.\n\nYou also gain specific abilities based on the form you choose:\n\n<strong>Phoenix</strong> Speed 30 feet, fly Speed 90 feet; <strong>Melee</strong> beak (reach 15 feet), <strong>Damage</strong> 2d6+12 piercing plus 2d4 fire and 2d4 persistent fire; <strong>Melee</strong> talon (agile, reach 15 feet), <strong>Damage</strong> 2d8+12 slashing; <strong>Shroud of Flame</strong> (aura, evocation, fire, primal) 20 feet. You gain an aura of fire that extends out from you. A creature that enters or ends its turn within the aura takes 2d6 fire damage. A creature can take this damage only once per turn. You can use a single action, which has the concentrate trait, to activate or deactivate this aura.\n<strong>Purple Worm</strong> Speed 40 feet, burrow 30 feet, swim Speed 20 feet; <strong>Melee</strong> jaws (reach 10 feet), <strong>Damage</strong> 2d12+20 piercing; <strong>Melee</strong> stinger (agile, reach 10 feet), <strong>Damage</strong> 2d8+15 piercing plus 2d6 persistent poison; <strong>Melee</strong> body (reach 10 feet), <strong>Damage</strong> 2d8+20 bludgeoning; <strong>Inexorable</strong> You automatically recover from the paralyzed, slowed, and stunned conditions at the end of each of your turns. You're also immune to being immobilized and ignore difficult terrain and greater difficult terrain.\n<strong>Sea Serpent</strong> Speed 20 feet, swim Speed 90 feet; <strong>Melee</strong> jaws (reach 15 feet), <strong>Damage</strong> 2d12+20 piercing; <strong>Melee</strong> tail (reach 25 feet), <strong>Damage</strong> 2d8+20 bludgeoning; <strong>Spine Rake</strong> <span class='actionIcon action2A'></span> (move), You extend your spines and Swim or Stride. Each creature you're adjacent to at any point during your movement takes 4d8+10 slashing damage (basic Reflex against your spell DC).\n\n<strong>9th Level</strong> You instead gain AC = 22 + your level, 25 temporary HP, attack modifier +31, increase damage by one damage die, and Athletics +33.",
       "type": "spells",
       "minLevel": 8,
       "buff": true,
@@ -14441,7 +14416,7 @@
    },
    {
       "name": "Nature Incarnate",
-      "desc": "You have transformed into an incarnation of nature, either a green man or a kaiju. Your battle form is Medium for a green man or Gargantuan (30-foot-by-30-foot space) for a kaiju. While in this form, you gain the plant trait (for a green man) or the beast trait (for a kaiju). You can Dismiss the spell.\n\nYou gain the following statistics and abilities regardless of which battle form you choose:\n\nAC = 25 + your level. Ignore your armor's check penalty and Speed reduction.\n30 temporary Hit Points.\nDarkvision.\nOne or more attacks specific to the battle form you choose, which are the only attacks you can use. You're trained with them. Your attack modifier is +34, and you use the listed damage. These attacks are Strength based (for the purpose of the enfeebled condition, for example). If your unarmed attack modifier is higher, you can use it instead.\nAthletics modifier of +36, unless your own modifier is higher.\n\nYou also gain specific abilities based on the type of incarnation you choose:\n\n<strong>Green Man</strong> Speed 40 feet, climb Speed 40 feet; <strong>Melee</strong> vines (reach 30 feet, versatile P), <strong>Damage</strong> 6d8+12 bludgeoning; <strong>Ranged</strong> thorns (range 100 feet), <strong>Damage</strong> 6d6+6 piercing; <strong>Green Caress</strong> (aura, primal, transmutation) 60 feet. Enemies other than plants must succeed at a Fortitude save against your spell DC or become clumsy 1 for 1 round (clumsy 2 on a critical failure).\n<strong>Kaiju</strong> Speed 50 feet; resistance 5 to physical damage; <strong>Melee</strong> jaws (reach 30 feet), <strong>Damage</strong> 6d10+10 piercing; <strong>Melee</strong> claws (agile, reach 30 feet), <strong>Damage</strong> 6d8+8 slashing; <strong>Melee</strong> foot (agile, reach 15 feet), <strong>Damage</strong> 6d6+10 bludgeoning; <strong>Unstoppable</strong> You are immune to being immobilized and ignore difficult terrain and greater difficult terrain; <strong>Trample</strong> <span class='actionIcon action3A'> You move up to double your Speed and move through the spaces of Huge or smaller creatures, trampling each creature whose space you enter. A trampled creature takes foot damage with a basic Reflex save against your spell DC.",
+      "desc": "You have transformed into an incarnation of nature, either a green man or a kaiju. Your battle form is Medium for a green man or Gargantuan (30-foot-by-30-foot space) for a kaiju. While in this form, you gain the plant trait (for a green man) or the beast trait (for a kaiju). You can Dismiss the spell.\n\nYou gain the following statistics and abilities regardless of which battle form you choose:\n\nAC = 25 + your level. Ignore your armor's check penalty and Speed reduction.\n30 temporary Hit Points.\nDarkvision.\nOne or more attacks specific to the battle form you choose, which are the only attacks you can use. You're trained with them. Your attack modifier is +34, and you use the listed damage. These attacks are Strength based (for the purpose of the enfeebled condition, for example). If your unarmed attack modifier is higher, you can use it instead.\nAthletics modifier of +36, unless your own modifier is higher.\n\nYou also gain specific abilities based on the type of incarnation you choose:\n\n<strong>Green Man</strong> Speed 40 feet, climb Speed 40 feet; <strong>Melee</strong> vines (reach 30 feet, versatile P), <strong>Damage</strong> 6d8+12 bludgeoning; <strong>Ranged</strong> thorns (range 100 feet), <strong>Damage</strong> 6d6+6 piercing; <strong>Green Caress</strong> (aura, primal, transmutation) 60 feet. Enemies other than plants must succeed at a Fortitude save against your spell DC or become clumsy 1 for 1 round (clumsy 2 on a critical failure).\n<strong>Kaiju</strong> Speed 50 feet; resistance 5 to physical damage; <strong>Melee</strong> jaws (reach 30 feet), <strong>Damage</strong> 6d10+10 piercing; <strong>Melee</strong> claws (agile, reach 30 feet), <strong>Damage</strong> 6d8+8 slashing; <strong>Melee</strong> foot (agile, reach 15 feet), <strong>Damage</strong> 6d6+10 bludgeoning; <strong>Unstoppable</strong> You are immune to being immobilized and ignore difficult terrain and greater difficult terrain; <strong>Trample</strong> <span class='actionIcon action3A'></span> You move up to double your Speed and move through the spaces of Huge or smaller creatures, trampling each creature whose space you enter. A trampled creature takes foot damage with a basic Reflex save against your spell DC.",
       "type": "spells",
       "minLevel": 10,
       "buff": true,
@@ -14624,6 +14599,21 @@
             "desc": "The summoned creature gains the abilities corresponding to the chosen element.\n\nAir: The creature gains a fly Speed of 60 feet.\nEarth: The creature gains a burrow Speed of 20 feet, reduces its land Speed by 10 feet (minimum 5 feet), and gains resistance 5 to physical damage.\nFire: The creature's attacks deal 1d6 extra fire damage, and it gains resistance 10 to fire and weakness 5 to cold and water.\nWater: The creature gains a swim Speed of 60 feet, can spend 1 action after a melee attack to attempt a Shove (ignoring multiple attack penalty), and gains resistance 5 to fire.",
             "showon": "Spellbook"
          }
+      ],
+      "choice": "Air",
+      "choices": [
+         {
+            "name": "Air"
+         },
+         {
+            "name": "Earth"
+         },
+         {
+            "name": "Fire"
+         },
+         {
+            "name": "Water"
+         }
       ]
    },
    {
@@ -14723,7 +14713,7 @@
    },
    {
       "name": "Nature Incarnate (True Shapeshifter)",
-      "desc": "You have transformed into an incarnation of nature, either a green man or a kaiju. Your battle form is Medium for a green man or Gargantuan (30-foot-by-30-foot space) for a kaiju. While in this form, you gain the plant trait (for a green man) or the beast trait (for a kaiju). You can Dismiss the spell.\n\nYou gain the following statistics and abilities regardless of which battle form you choose:\n\nAC = 25 + your level. Ignore your armor's check penalty and Speed reduction.\n30 temporary Hit Points.\nDarkvision.\nOne or more attacks specific to the battle form you choose, which are the only attacks you can use. You're trained with them. Your attack modifier is +34, and you use the listed damage. These attacks are Strength based (for the purpose of the enfeebled condition, for example). If your unarmed attack modifier is higher, you can use it instead.\nAthletics modifier of +36, unless your own modifier is higher.\n\nYou also gain specific abilities based on the type of incarnation you choose:\n\n<strong>Green Man</strong> Speed 40 feet, climb Speed 40 feet; <strong>Melee</strong> vines (reach 30 feet, versatile P), <strong>Damage</strong> 6d8+12 bludgeoning; <strong>Ranged</strong> thorns (range 100 feet), <strong>Damage</strong> 6d6+6 piercing; <strong>Green Caress</strong> (aura, primal, transmutation) 60 feet. Enemies other than plants must succeed at a Fortitude save against your spell DC or become clumsy 1 for 1 round (clumsy 2 on a critical failure).\n<strong>Kaiju</strong> Speed 50 feet; resistance 5 to physical damage; <strong>Melee</strong> jaws (reach 30 feet), <strong>Damage</strong> 6d10+10 piercing; <strong>Melee</strong> claws (agile, reach 30 feet), <strong>Damage</strong> 6d8+8 slashing; <strong>Melee</strong> foot (agile, reach 15 feet), <strong>Damage</strong> 6d6+10 bludgeoning; <strong>Unstoppable</strong> You are immune to being immobilized and ignore difficult terrain and greater difficult terrain; <strong>Trample</strong> <span class='actionIcon action3A'> You move up to double your Speed and move through the spaces of Huge or smaller creatures, trampling each creature whose space you enter. A trampled creature takes foot damage with a basic Reflex save against your spell DC.",
+      "desc": "You have transformed into an incarnation of nature, either a green man or a kaiju. Your battle form is Medium for a green man or Gargantuan (30-foot-by-30-foot space) for a kaiju. While in this form, you gain the plant trait (for a green man) or the beast trait (for a kaiju). You can Dismiss the spell.\n\nYou gain the following statistics and abilities regardless of which battle form you choose:\n\nAC = 25 + your level. Ignore your armor's check penalty and Speed reduction.\n30 temporary Hit Points.\nDarkvision.\nOne or more attacks specific to the battle form you choose, which are the only attacks you can use. You're trained with them. Your attack modifier is +34, and you use the listed damage. These attacks are Strength based (for the purpose of the enfeebled condition, for example). If your unarmed attack modifier is higher, you can use it instead.\nAthletics modifier of +36, unless your own modifier is higher.\n\nYou also gain specific abilities based on the type of incarnation you choose:\n\n<strong>Green Man</strong> Speed 40 feet, climb Speed 40 feet; <strong>Melee</strong> vines (reach 30 feet, versatile P), <strong>Damage</strong> 6d8+12 bludgeoning; <strong>Ranged</strong> thorns (range 100 feet), <strong>Damage</strong> 6d6+6 piercing; <strong>Green Caress</strong> (aura, primal, transmutation) 60 feet. Enemies other than plants must succeed at a Fortitude save against your spell DC or become clumsy 1 for 1 round (clumsy 2 on a critical failure).\n<strong>Kaiju</strong> Speed 50 feet; resistance 5 to physical damage; <strong>Melee</strong> jaws (reach 30 feet), <strong>Damage</strong> 6d10+10 piercing; <strong>Melee</strong> claws (agile, reach 30 feet), <strong>Damage</strong> 6d8+8 slashing; <strong>Melee</strong> foot (agile, reach 15 feet), <strong>Damage</strong> 6d6+10 bludgeoning; <strong>Unstoppable</strong> You are immune to being immobilized and ignore difficult terrain and greater difficult terrain; <strong>Trample</strong> <span class='actionIcon action3A'></span> You move up to double your Speed and move through the spaces of Huge or smaller creatures, trampling each creature whose space you enter. A trampled creature takes foot damage with a basic Reflex save against your spell DC.",
       "type": "spells",
       "minLevel": 10,
       "buff": true,
@@ -14870,7 +14860,8 @@
       "unlimited": true,
       "hints": [
          {
-            "desc": "(Light Undergrowth) Any number of 5-foot squares in the area are light undergrowth, which is difficult terrain and provides lesser cover.\n\n(Tree or Giant Mushroom) The tree or mushroom occupies an entire 5-foot square and provides standard cover. It has 5 Hardness and 50 Hit Points."
+            "desc": "(Light Undergrowth) Any number of 5-foot squares in the area are light undergrowth, which is difficult terrain and provides lesser cover.\n\n(Tree or Giant Mushroom) The tree or mushroom occupies an entire 5-foot square and provides standard cover. It has 5 Hardness and 50 Hit Points.",
+            "showon": "Defense, Movement"
          }
       ],
       "choice": "Light undergrowth",
@@ -14889,12 +14880,6 @@
       "type": "spells",
       "minLevel": 9,
       "buff": true,
-      "hints": [
-         {
-            "desc": "(Rain only) Torrential rain falls from the sky, dousing ordinary flames. Creatures in the area take a -2 circumstance penalty to Acrobatics and Perception checks.\n\n(Wind only) Powerful winds buffet the area in all directions. Ranged attacks take a -4 circumstance penalty, and all flying is against the wind and counts as moving through difficult terrain.",
-            "showon": "Movement"
-         }
-      ],
       "choice": "Calm",
       "choices": [
          {
@@ -14959,6 +14944,17 @@
          {
             "desc": "All flying is against the wind and counts as moving through difficult terrain.",
             "showon": "Movement"
+         },
+         {
+            "desc": "Ranged attacks take a -4 circumstance penalty.",
+            "showon": "Spellbook",
+            "effects": [
+               {
+                  "affected": "Spell Attack Rolls",
+                  "type": "circumstance",
+                  "value": "-4"
+               }
+            ]
          }
       ],
       "effects": [
@@ -14977,7 +14973,7 @@
       "buff": true,
       "hints": [
          {
-            "desc": "Your attack gains the deadly d12 trait.",
+            "desc": "Your attack gains the deadly d12 trait:\n\nOn a critical hit, the attack adds a d12 damage. Roll this after doubling the attack's damage. An ability that changes the size of the attack's normal damage dice doesn't change the size of its deadly die.",
             "showon": "Attacks"
          },
          {

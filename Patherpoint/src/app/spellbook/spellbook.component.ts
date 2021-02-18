@@ -228,6 +228,7 @@ export class SpellbookComponent implements OnInit {
         let conditions: Condition[] = [];
         let spellLevel: number = this.get_EffectiveSpellLevel(spell, levelNumber);
         spell.get_HeightenedConditions(spellLevel)
+            .filter(conditionGain => !conditionGain.hideChoices)
             .map(conditionGain => { return { gain: conditionGain, condition: this.conditionsService.get_Conditions(conditionGain.name)[0] } })
             .filter(conditionSet => conditionSet.condition?.get_Choices(this.characterService, true, (conditionSet.gain.heightened ? conditionSet.gain.heightened : spellLevel))?.length > 1)
             .map(conditionSet => conditionSet.condition)

@@ -3805,23 +3805,6 @@
         ]
     },
     {
-        "name": "Forge-Day's Rest",
-        "inputRequired": "As long as this activity is activated, the effects apply. Activate this activity before you rest in order to gain the bonus to hit points recovered. Tick 4 hours after resting to fill up the 12 hours if needed.",
-        "traits": [
-            "Uncommon",
-            "Dwarf"
-        ],
-        "toggle": true,
-        "desc": "Your unusual rest cycle allows you to recover faster. As long as you rest for 12 hours, you gain the effects of the Fast Recovery general feat and you can go 20 hours without resting before becoming fatigued.\n\nYour body quickly bounces back from afflictions. You regain twice as many Hit Points from resting. Each time you succeed at a Fortitude save against an ongoing disease or poison, you reduce its stage by 2, or by 1 against a virulent disease or poison. Each critical success you achieve against an ongoing disease or poison reduces its stage by 3, or by 2 against a virulent disease or poison. In addition, you reduce the severity of your drained condition by 2 when you rest for a night instead of by 1.",
-        "gainConditions": [
-            {
-                "duration": -1,
-                "name": "Forge-Day's Rest",
-                "source": "Forge-Day's Rest"
-            }
-        ]
-    },
-    {
         "name": "Vengeful Hatred",
         "inputRequired": "Activate this activity whenever a creature critically succeeds at an attack against you and deals damage to you.",
         "traits": [
@@ -4506,6 +4489,7 @@
     {
         "name": "Healing Transformation",
         "actions": "1A",
+        "inputRequired": "Restore 1d6 Hit Points per spell level to the target creature when you cast the polymorph spell.",
         "traits": [
             "Druid",
             "Metamagic"
@@ -4521,7 +4505,7 @@
             "Morph"
         ],
         "requirements": "You are transformed into a plant by a polymorph spell.",
-        "desc": "Your plant form sprouts hundreds of spines, and your blood causes mild hallucinations in creatures exposed to it. Each time a creature touches you, hits you with an unarmed attack, or hits you with a melee weapon attack while adjacent to you, that creature takes 1d6 piercing damage. Increase the damage to 2d6 if the polymorph spell is 8th level or higher, or to 3d6 if it�s 10th level.\n\nWhen an adjacent creature damages you with piercing or slashing damage, it must succeed at a Fortitude save against your class DC or become stupefied 1 (or stupefied 2 on a critical failure) until the end of its next turn.\n\nThese benefits last until you�re no longer polymorphed into a plant.",
+        "desc": "Your plant form sprouts hundreds of spines, and your blood causes mild hallucinations in creatures exposed to it. Each time a creature touches you, hits you with an unarmed attack, or hits you with a melee weapon attack while adjacent to you, that creature takes 1d6 piercing damage. Increase the damage to 2d6 if the polymorph spell is 8th level or higher, or to 3d6 if it's 10th level.\n\nWhen an adjacent creature damages you with piercing or slashing damage, it must succeed at a Fortitude save against your class DC or become stupefied 1 (or stupefied 2 on a critical failure) until the end of its next turn.\n\nThese benefits last until you're no longer polymorphed into a plant.",
         "gainConditions": [
             {
                 "duration": -1,

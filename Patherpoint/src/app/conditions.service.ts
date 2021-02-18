@@ -13,6 +13,7 @@ import { Equipment } from './Equipment';
 import { EffectGain } from './EffectGain';
 import * as json_conditions from '../assets/json/conditions';
 import { Creature } from './Creature';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
 
 @Injectable({
     providedIn: 'root'
@@ -485,10 +486,10 @@ export class ConditionsService {
         }
         //If Verdant Metamorphosis is active, remove the following non-permanent conditions after resting: Drained, Enfeebled, Clumsy, Stupefied and all poisons and diseases of 19th level or lower. 
         if (characterService.effectsService.get_EffectsOnThis(creature, "Verdant Metamorphosis").length) {
-            creature.conditions.filter(gain => ["Drained", "Enfeebled", "Clumsy", "Stupefied"].includes(gain.name)).forEach(gain => { gain.value = -1 })
+            creature.conditions.filter(gain => gain.duration != -1 && ["Drained", "Enfeebled", "Clumsy", "Stupefied"].includes(gain.name)).forEach(gain => { gain.value = -1 })
             creature.conditions.filter(gain => gain.duration != -1 && gain.value != -1 && this.get_Conditions(gain.name)?.[0]?.type == "afflictions").forEach(gain => {
-                if (!characterService.itemsService.get_CleanItems().alchemicalpoisons.some(poison => gain.name.includes(poison.name) && poison.level <= 19)) {
-                    gain.value == -1;
+                if (!characterService.itemsService.get_CleanItems().alchemicalpoisons.some(poison => gain.name.includes(poison.name) && poison.level > 19)) {
+                    gain.value = -1;
                 }
             })
         }
@@ -500,7 +501,7 @@ export class ConditionsService {
                     creature.type == "Character" &&
                     (creature as Character).get_FeatsTaken(1, creature.level, "Fast Recovery").length
                 ) ||
-                characterService.get_AppliedConditions(creature, "Forge-Day's Rest", "", true).length
+                characterService.featsService.get_Feats([], "Forge-Day's Rest")?.[0]?.hints.some(hint => hint.active)
             ) {
                 gain.value -= 1;
             }

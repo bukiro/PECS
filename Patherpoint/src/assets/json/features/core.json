@@ -868,16 +868,11 @@
     {
         "name": "Druidic Language",
         "desc": "You know Druidic, a secret language known to only druids, in addition to any languages you know through your ancestry. Druidic has its own alphabet. Teaching the Druidic language to non-druids is anathema.",
-        "effects": [
+        "gainLanguages": [
             {
-                "affected": "Max Languages",
-                "value": "+1"
-            }
-        ],
-        "onceEffects": [
-            {
-                "affected": "Languages",
-                "value": "Druidic Language"
+                "name": "Druidic language",
+                "locked": true,
+                "source": "Druid"
             }
         ]
     },

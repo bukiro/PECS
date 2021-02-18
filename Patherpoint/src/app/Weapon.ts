@@ -665,7 +665,7 @@ export class Weapon extends Equipment {
                 if (level.extraDamage) {
                     let companionSource: string = "";
                     let companionMod: number = level.extraDamage;
-                    companionSource == level.name + " Animal Companion";
+                    companionSource = level.name + " Animal Companion";
                     if (creature.class.specializations.length) {
                         companionMod *= 2;
                         companionSource = "Specialized Animal Companion";

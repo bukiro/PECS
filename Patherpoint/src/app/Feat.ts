@@ -22,6 +22,7 @@ import { Hint } from './Hint';
 import { BloodMagic } from './BloodMagic';
 import { Creature } from './Creature';
 import { ProficiencyCopy } from './ProficiencyCopy';
+import { LanguageGain } from './LanguageGain';
 
 export class Feat {
     public readonly _className: string = this.constructor.name;
@@ -58,6 +59,7 @@ export class Feat {
     public gainAncestry: string[] = [];
     public gainHeritage: HeritageGain[] = [];
     public gainItems: ItemGain[] = [];
+    public gainLanguages: LanguageGain[] = [];
     public gainLoreChoice: LoreChoice[] = [];
     public gainSkillChoice: SkillChoice[] = [];
     public gainSpellBookSlots: { spellBookSlots: number[], className: string }[] = [];

@@ -26,8 +26,9 @@
                     <div class="list-item row">
                         <span style="flex-grow:2;">
                             <strong>{{savegame.name}}</strong> Level {{savegame.level}}
-                            <span>{{savegame.heritage ? " | " + savegame.heritage + (!savegame.heritage.includes(savegame.ancestry) ?
-                            " " + savegame.ancestry : "") : " | " + savegame.ancestry}}</span>
+                            <span>{{savegame.heritage ? " | " + savegame.heritage +
+                                (!savegame.heritage.includes(savegame.ancestry) ?
+                                " " + savegame.ancestry : "") : " | " + savegame.ancestry}}</span>
                             {{(savegame.classChoice ? " | " + savegame.classChoice + " " : " | ") + savegame.class}}
                         </span>
                         <span>
@@ -92,11 +93,29 @@
                         <strong>Feats</strong>
                         <div class="list-item">
                             <span>
-                                <label for="lowerLevelFeats">Show lower and higher level feats</label>
+                                <label for="unavailableFeats">Show unavailable feats</label>
+                            </span>
+                            <span>
+                                <input id="unavailableFeats" type="checkbox"
+                                    [(ngModel)]="get_Character().settings.unavailableFeats">
+                            </span>
+                        </div>
+                        <div class="list-item">
+                            <span>
+                                <label for="lowerLevelFeats">Show lower level feats</label>
                             </span>
                             <span>
                                 <input id="lowerLevelFeats" type="checkbox"
                                     [(ngModel)]="get_Character().settings.lowerLevelFeats">
+                            </span>
+                        </div>
+                        <div class="list-item" *ngIf="get_Character().settings.unavailableFeats">
+                            <span>
+                                <label for="higherLevelFeats">Show higher level feats</label>
+                            </span>
+                            <span>
+                                <input id="higherLevelFeats" type="checkbox"
+                                    [(ngModel)]="get_Character().settings.higherLevelFeats">
                             </span>
                         </div>
                         <div class="list-item">
@@ -432,15 +451,14 @@
                     </div>
                 </div>
                 <!--Languages-->
-                <div class="list-item" [ngClass]="{'fullsize-only':(!get_Character().class.languages.includes(''))}"
+                <div class="list-item" [ngClass]="{'fullsize-only':!get_BlankLanguages()}"
                     *ngIf="get_LanguagesAvailable()">
                     <button class="row sublist-toggle"
-                        [ngClass]="{'fancy-button choicecleared':(!get_Character().class.languages.includes(''))}"
+                        [ngClass]="{'fancy-button choicecleared':!get_BlankLanguages()}"
                         (click)="toggle_List('languages')">
                         Languages
                     </button>
-                    <div class="list-item sublist"
-                        [ngClass]="{'fancy-list':(!get_Character().class.languages.includes(''))}"
+                    <div class="list-item sublist" [ngClass]="{'fancy-list':!get_BlankLanguages()}"
                         *ngIf="get_ShowList()=='languages'">
                         <div class="row left-aligned">
                             <strong *ngIf="get_Character().class.ancestry.recommendedLanguages.length">Recommended
@@ -448,9 +466,10 @@
                             ')}}
                         </div>
                         <div class="list-item"
-                            *ngFor="let language of get_Character().class.languages; let index = index; trackBy:trackByIndex;">
-                            <input class="row" type="text" [(ngModel)]="get_Character().class.languages[index]"
-                                (blur)="on_LanguageChange()">
+                            *ngFor="let language of get_Character().class.languages; trackBy:trackByIndex;">
+                            <input class="row" type="text" [(ngModel)]="language.name"
+                                title="{{language.source ? 'Source: ' + language.source : ''}}"
+                                (blur)="on_LanguageChange()" [disabled]="language.locked">
                         </div>
                     </div>
                 </div>
@@ -713,16 +732,14 @@
                             </div>
                         </div>
                         <!--Languages - show if you have gained languages this level-->
-                        <div class="list-item"
-                            [ngClass]="{'fullsize-only':!get_Character().class.languages.includes('')}"
+                        <div class="list-item" [ngClass]="{'fullsize-only':!get_BlankLanguages()}"
                             *ngIf="level.number > 0 && get_LanguagesAvailable(level.number)">
                             <button class="row sublist-toggle"
-                                [ngClass]="{'fancy-button choicecleared':!get_Character().class.languages.includes('')}"
+                                [ngClass]="{'fancy-button choicecleared':!get_BlankLanguages()}"
                                 (click)="toggle_List('languages'+level.number)">
                                 Languages
                             </button>
-                            <div class="list-item sublist"
-                                [ngClass]="{'fancy-list':!get_Character().class.languages.includes('')}"
+                            <div class="list-item sublist" [ngClass]="{'fancy-list':!get_BlankLanguages()}"
                                 *ngIf="get_ShowList()=='languages'+level.number">
                                 <div class="row left-aligned">
                                     <strong
@@ -731,9 +748,10 @@
                                     ')}}
                                 </div>
                                 <div class="list-item"
-                                    *ngFor="let language of get_Character().class.languages; let index = index; trackBy:trackByIndex;">
-                                    <input class="row" type="text" [(ngModel)]="get_Character().class.languages[index]"
-                                        (blur)="on_LanguageChange()">
+                                    *ngFor="let language of get_Character().class.languages; trackBy:trackByIndex;">
+                                    <input class="row" type="text" [(ngModel)]="language.name"
+                                        title="{{language.source ? 'Source: ' + language.source : ''}}"
+                                        (blur)="on_LanguageChange()" [disabled]="language.locked">
                                 </div>
                             </div>
                         </div>
@@ -803,7 +821,9 @@
                             <app-featchoice (showChoiceMessage)="receive_ChoiceMessage($event)"
                                 (showFeatMessage)="receive_FeatMessage($event)" [choice]="choice"
                                 [levelNumber]=level.number [showFeat]="get_ShowItem()" [showChoice]="get_ShowList()"
+                                [unavailableFeats]="get_Character().settings.unavailableFeats"
                                 [lowerLevelFeats]="get_Character().settings.lowerLevelFeats"
+                                [higherLevelFeats]="get_Character().settings.higherLevelFeats"
                                 [archetypeFeats]="get_Character().settings.archetypeFeats">
                             </app-featchoice>
                         </ng-container>
@@ -853,7 +873,8 @@
                                 <div class="list-item sublist"
                                     [ngClass]="{'fancy-list':(get_Companion().class.ancestry.name)}"
                                     *ngIf="get_ShowList()==listID">
-                                    <div class="list-item" [ngClass]="{'selected':type.name == get_Companion().class.ancestry.name}"
+                                    <div class="list-item"
+                                        [ngClass]="{'selected':type.name == get_Companion().class.ancestry.name}"
                                         *ngFor="let type of get_AvailableCompanionTypes()|sortBy:'asc':'name'; trackBy:trackByIndex;">
                                         <div class="row"
                                             *ngFor="let itemID of ['animaltype'+type.name+'desc']; trackBy:trackByIndex;">
@@ -977,7 +998,7 @@
                                         [ngClass]="{'fancy-list':get_TakenCompanionSpecializations(level.number).length == available}"
                                         *ngIf="get_ShowList()==listID">
                                         <div class="list-item"
-                                            [ngClass]="{'selected':get_TakenCompanionSpecializations(level.number).length == available}"
+                                            [ngClass]="{'selected':get_TakenCompanionSpecializations(level.number).includes(spec.name)}"
                                             *ngFor="let spec of get_AvailableCompanionSpecializations(level.number)|sortBy:'asc':'name'; trackBy:trackByIndex;">
                                             <div class="row"
                                                 *ngFor="let itemID of ['animalspecialization'+spec.name+'desc'+level.number]; trackBy:trackByIndex;">
@@ -985,7 +1006,7 @@
                                                     <input id="{{spec.name}}" type="checkbox"
                                                         (change)="on_SpecializationChange(spec, $event.target.checked, level.number)"
                                                         [checked]="have_CompanionSpecialization(spec.name)"
-                                                        [disabled]="(get_TakenCompanionSpecializations(level.number).length == available) && !have_CompanionSpecialization(spec.name)">
+                                                        [disabled]="(get_TakenCompanionSpecializations(level.number).length == available) && !get_TakenCompanionSpecializations(level.number).includes(spec.name)">
                                                     <label for="{{spec.name}}">
                                                         <strong>{{spec.name}}</strong>
                                                     </label>

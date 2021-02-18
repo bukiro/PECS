@@ -2,8 +2,6 @@ import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy, Input } 
 import { CharacterService } from '../character.service';
 import { EffectsService } from '../effects.service';
 import { TraitsService } from '../traits.service';
-import { Speed } from '../Speed';
-import { Character } from '../Character';
 import { AnimalCompanion } from '../AnimalCompanion';
 import { FamiliarsService } from '../familiars.service';
 import { FeatChoice } from '../FeatChoice';
@@ -112,7 +110,7 @@ export class GeneralComponent implements OnInit {
     }
 
     get_Languages() {
-        return this.get_Character().class.languages.filter(language => language != "").join(', ')
+        return this.get_Character().class.languages.filter(language => language.name != "").map(language => language.name).join(', ')
     }
 
     get_DifferentWorldsFeat() {
