@@ -420,7 +420,7 @@ export class SpellbookComponent implements OnInit {
         }
     }
 
-    on_Counterspell(gain: SpellGain, casting: SpellCasting, choice: SpellChoice, spell: Spell) {
+    on_Counterspell(gain: SpellGain, casting: SpellCasting, choice: SpellChoice, spell: Spell, levelNumber: number = 0) {
         //Focus spells cost Focus points.
         if (casting.castingType == "Focus" && choice.level == -1) {
             this.get_Character().class.focusPoints = Math.min(this.get_Character().class.focusPoints, this.get_MaxFocusPoints());
@@ -428,7 +428,7 @@ export class SpellbookComponent implements OnInit {
         };
         //Spontaneous spells use up spell slots.
         if (casting.castingType == "Spontaneous" && !spell.traits.includes("Cantrip")) {
-            casting.spellSlotsUsed[choice.level] += 1;
+            casting.spellSlotsUsed[levelNumber] += 1;
         }
         //Prepared spells get locked until the next preparation.
         if (casting.castingType == "Prepared" && !spell.traits.includes("Cantrip")) {

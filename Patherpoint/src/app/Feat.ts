@@ -144,7 +144,7 @@ export class Feat {
     }
     meetsSkillReq(characterService: CharacterService, charLevel: number = characterService.get_Character().level) {
         //If the feat has a skillreq, first split it into all different requirements,
-        //Then check if every one of these requirements {skill, value} are met by the skill's level
+        //Then check if each one of these requirements {skill, value} are met by the skill's level
         //When evaluating the result, these should be treated as OR requirements - you never need two skillreqs for a feat.
         //Returns an array of [requirement met, requirement description]
         let character = characterService.get_Character();

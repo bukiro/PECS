@@ -207,7 +207,7 @@
                                                                             ""}}</span>
                                                                     </button>
                                                                     <button class="row center-aligned"
-                                                                        (click)="on_Counterspell(spellTaken.gain, casting, spellTaken.choice, spell)"
+                                                                        (click)="on_Counterspell(spellTaken.gain, casting, spellTaken.choice, spell, level)"
                                                                         *ngIf="can_Counterspell(casting) && !spellTaken.gain.active && level > 0"
                                                                         title="{{cannot_Cast(spell, level, casting, spellTaken.choice, spellTaken.gain, maxspellslots, 0)}}"
                                                                         [disabled]="cannot_Cast(spell, level, casting, spellTaken.choice, spellTaken.gain, maxspellslots, 0)">

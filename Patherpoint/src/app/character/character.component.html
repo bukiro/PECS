@@ -453,8 +453,7 @@
                 <!--Languages-->
                 <div class="list-item" [ngClass]="{'fullsize-only':!get_BlankLanguages()}"
                     *ngIf="get_LanguagesAvailable()">
-                    <button class="row sublist-toggle"
-                        [ngClass]="{'fancy-button choicecleared':!get_BlankLanguages()}"
+                    <button class="row sublist-toggle" [ngClass]="{'fancy-button choicecleared':!get_BlankLanguages()}"
                         (click)="toggle_List('languages')">
                         Languages
                     </button>
@@ -1185,6 +1184,53 @@
                                     </div>
                                 </div>
                             </div>
+                        </ng-container>
+                        <!--Blessed Blood-->
+                        <ng-container *ngIf="get_BlessedBloodFeat(level.number)">
+                            <!--Blessed Blood spells-->
+                            <ng-container
+                                *ngFor="let blessedBloodSpells of [get_BlessedBloodSpells()]; trackBy:trackByIndex;">
+                                <div class="list-item" [ngClass]="{'fullsize-only':blessedBloodSpells >= 3}"
+                                    *ngFor="let listID of ['differentWorlds_Name']; trackBy:trackByIndex;">
+                                    <button class="row sublist-toggle"
+                                        [ngClass]="{'fancy-button choicecleared':blessedBloodSpells >= 3}"
+                                        (click)="toggle_List(listID)">
+                                        Deity Spells (Blessed Blood): {{blessedBloodSpells}}/3
+                                    </button>
+                                    <div class="list-item sublist" [ngClass]="{'fancy-list':blessedBloodSpells >= 3}"
+                                        *ngIf="get_ShowList()==listID">
+                                        <div class="list-item" [ngClass]="{'selected':get_BlessedBloodHaveSpell(spell)}"
+                                            *ngFor="let spell of get_BlessedBloodDeitySpells(); trackBy:trackByIndex;">
+                                            <ng-container
+                                                *ngFor="let itemID of ['blessedBlood'+spell.name]; trackBy:trackByIndex;">
+                                                <span>
+                                                    <input id="blessedBlood{{spell.name}}" type="checkbox"
+                                                        (change)="on_BlessedBloodSpellTaken(spell, level, $event.target.checked)"
+                                                        [checked]="get_BlessedBloodHaveSpell(spell)"
+                                                        [disabled]="blessedBloodSpells >= 3 && !get_BlessedBloodHaveSpell(spell)">
+                                                    <label for="blessedBlood{{spell.name}}">
+                                                        <strong>{{spell.name}}</strong>
+                                                    </label>
+                                                </span>
+                                                <button (click)="toggle_Item(itemID)"
+                                                    [ngClass]="{'fancy-button':get_ShowItem()=='blessedBlood'+spell.name}">
+                                                    {{get_ShowItem()=='blessedBlood'+spell.name ? "Hide" : "Show"}}
+                                                    Description
+                                                </button>
+                                                <div class="row lower" *ngIf="get_ShowItem()==itemID">
+                                                    <h4 class="row"><span>{{spell.name}}<app-actionIcons
+                                                                [actionString]="spell.actions"></app-actionIcons>
+                                                            {{(spell.castType) ? spell.castType : ""}}</span>
+                                                        <span>Spell {{spell.levelreq}}</span>
+                                                    </h4>
+                                                    <app-spell class="row" [spell]=spell [spellLevel]="spell.levelreq">
+                                                    </app-spell>
+                                                </div>
+                                            </ng-container>
+                                        </div>
+                                    </div>
+                                </div>
+                            </ng-container>
                         </ng-container>
                         <!--Additional Heritages-->
                         <ng-container *ngFor="let heritageGain of get_AdditionalHeritagesAvailable(level.number)">

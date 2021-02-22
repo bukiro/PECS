@@ -34,6 +34,7 @@ import { TraitsService } from '../traits.service';
 import { FamiliarsService } from '../familiars.service';
 import { Item } from '../Item';
 import { FeatChoice } from '../FeatChoice';
+import { Spell } from '../Spell';
 
 @Component({
     selector: 'app-character',
@@ -604,6 +605,36 @@ export class CharacterComponent implements OnInit {
         if (this.get_Character().get_FeatsTaken(levelNumber, levelNumber, "Different Worlds").length) {
             return this.get_Character().customFeats.filter(feat => feat.name == "Different Worlds");
         }
+    }
+
+    get_BlessedBloodFeat(levelNumber: number) {
+        return this.get_Character().get_FeatsTaken(levelNumber, levelNumber, "Blessed Blood").length
+    }
+
+    get_BlessedBloodDeitySpells() {
+        let deity = this.characterService.get_Deities(this.get_Character().class.deity)[0];
+        if (deity) {
+            return deity.clericSpells.map(spell => this.get_Spells(spell.name)[0]).filter(spell => spell && (this.get_Character().settings.showOtherOptions ? true : this.get_BlessedBloodHaveSpell(spell)));
+        }
+    }
+
+    get_BlessedBloodSpells() {
+        return this.get_Character().get_SpellListSpell("", "Feat: Blessed Blood").length
+    }
+
+    get_BlessedBloodHaveSpell(spell: Spell) {
+        return this.get_Character().get_SpellListSpell(spell.name, "Feat: Blessed Blood").length
+    }
+
+    on_BlessedBloodSpellTaken(spell: Spell, levelNumber: number, taken: boolean) {
+        if (taken) {
+            if (this.get_Character().settings.autoCloseChoices) { this.toggle_List(""); }
+            this.get_Character().add_SpellListSpell(spell.name, "Feat: Blessed Blood", levelNumber);
+        } else {
+            this.get_Character().remove_SpellListSpell(spell.name, "Feat: Blessed Blood", levelNumber);
+        }
+        this.characterService.set_ToChange("Character", "spells");
+        this.characterService.process_ToChange();
     }
 
     get_AdditionalHeritagesAvailable(levelNumber: number) {

@@ -508,6 +508,16 @@ export class FeatsService {
                 }
             }
 
+            //Remove spells that were granted by Blessed Blood.
+            if (feat.name == "Blessed Blood") {
+                if (!taken) {
+                    let removeList: { name: string, levelNumber: number }[] = character.class.spellList.filter(listSpell => listSpell.source == "Feat: Blessed Blood").map(listSpell => { return { name: listSpell.name, levelNumber: listSpell.level } });
+                    removeList.forEach(spell => {
+                        character.remove_SpellListSpell(spell.name, "Feat: " + feat.name, spell.levelNumber)
+                    })
+                }
+            }
+
             //Feats that grant a familiar
             if (feat.gainFamiliar) {
                 if (taken) {
@@ -524,6 +534,7 @@ export class FeatsService {
                     character.class.familiar = new Familiar();
                 }
                 characterService.set_ToChange("Familiar", "all");
+                characterService.set_ToChange("Character", "top-bar");
             }
 
             //Feats that grant an animal companion

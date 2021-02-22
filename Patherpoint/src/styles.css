@@ -204,7 +204,6 @@ h4 {
     background-color: #522e2c;
     padding: 2px;
     margin: 8px 0px;
-    text-align: left;
 }
 
 h4 svg,
@@ -456,7 +455,7 @@ button:not([disabled]):active:before {
 }
 
 .darkmode .fancy-button,
-.darkmode .fancy-button span,
+.darkmode .fancy-button,
 .fancy-button i.material-icons,
 .darkmode .fancy-button * {
     color: #465A8C;
@@ -733,6 +732,10 @@ app-actionicons .actionIcon {
 
 h4 app-actionicons .actionIcon {
     background-color: #cbc18f;
+}
+
+span {
+    color: inherit;
 }
 
 .list-item {

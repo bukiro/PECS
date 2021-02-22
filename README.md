@@ -79,7 +79,7 @@ The very latest in Assistive Technologies for Dungeon Master (ATDM)
 - [x] - Bard
 - [ ] - Champion
 - [ ] - Cleric
-- [ ] - Druid
+- [x] - Druid
 - [x] - Fighter
 - [x] - Monk
 - [x] - Ranger
@@ -91,7 +91,7 @@ The very latest in Assistive Technologies for Dungeon Master (ATDM)
 - [x] -- Monk
 - [x] -- Wizard
 - [x] -- Bard
-- [ ] -- Druid
+- [x] -- Druid
 - [ ] -- Sorcerer
 - [x] - Cantrips
 - [x] - Level 1 Spells
@@ -110,14 +110,12 @@ The very latest in Assistive Technologies for Dungeon Master (ATDM)
 - [ ] Stretch Goal: Include optional systems like Stamina & Resolve
 
 Active to-do:
-Hide effects that don't need to be considered (like Weapon Dice Multiplier for Polymorph spells)
-- Maybe define a clear rule for when an effect should be hidden
 After implementing druid feats, double-test all the spells that get more options with feats:
 - Wild Morph
 - Wild Shape
+- Ghost Sound needs to be sustained (toggle with duration -1, and with a condition)
 
 Implement:
-- Druid Feats
 
 Next steps:
 - Sorcerer
@@ -127,3 +125,5 @@ Next steps:
 - Leshy
 - Shoony
 - Implement Conditions for Poisons
+- Hide effects that don't need to be considered (like Weapon Dice Multiplier for Polymorph spells)
+- - Maybe define a clear rule for when an effect should be hidden

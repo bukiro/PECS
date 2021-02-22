@@ -2780,6 +2780,7 @@
     {
         "name": "Counterspell (Prepared)",
         "actions": "Reaction",
+        "inputRequired": "Use the triggering spell as a counterspell in your spell list.",
         "traits": [
             "Abjuration",
             "Arcane",
@@ -4622,5 +4623,17 @@
         "frequency": "once per round",
         "cooldown": 10,
         "desc": "Once per round you can use a single action, which has the concentrate and manipulate traits, to call down a bolt of lightning, striking any target in range that you can see. You deal 10d6 electricity damage to the target; it must attempt a basic Reflex save. On a failure, it is also deafened for 1 round."
+    },
+    {
+        "name": "Counterspell (Spontaneous)",
+        "actions": "Reaction",
+        "inputRequired": "Use the triggering spell as a counterspell in your spell list.",
+        "traits": [
+            "Abjuration",
+            "Sorcerer"
+        ],
+        "requirements": "You have an unexpended spell slot you could use to cast the triggering spell.",
+        "trigger": "A creature Casts a Spell that you have prepared.",
+        "desc": "When a foe Casts a Spell and you can see its manifestations, you can use your own magic to disrupt it. You expend one of your spell slots to counter the triggering creature's casting of a spell that you have in your repertoire. You lose your spell slot as if you had cast the triggering spell. You then attempt to counteract the triggering spell.\n\nThis feat has the trait corresponding to the tradition of spells you cast (arcane, divine, occult, or primal)."
     }
 ]
