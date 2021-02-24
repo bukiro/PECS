@@ -112,10 +112,9 @@ The very latest in Assistive Technologies for Dungeon Master (ATDM)
 Active to-do:
 After implementing druid feats, double-test all the spells that get more options with feats:
 - Wild Morph
-- Wild Shape
-- Ghost Sound needs to be sustained (toggle with duration -1, and with a condition)
 
 Implement:
+Illusory Scene (needed by Fey Glamour)
 
 Next steps:
 - Sorcerer

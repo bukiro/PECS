@@ -5,7 +5,6 @@ import { Effect } from './Effect';
 import { AnimalCompanion } from './AnimalCompanion';
 import { Familiar } from './Familiar';
 import { Character } from './Character';
-import { ThrowStmt } from '@angular/compiler';
 import { Creature } from './Creature';
 import { ProficiencyCopy } from './ProficiencyCopy';
 
@@ -63,7 +62,26 @@ export class Skill {
         let effectsService = characterService.effectsService;
         let skillLevel: number = 0;
         //If the skill is set by an effect, we can skip every other calculation.
-        let skillLevelEffects = effectsService.get_AbsolutesOnThis(creature, this.name + " Proficiency Level");
+        let list: string[] = [];
+        list.push(this.name + " Proficiency Level");
+        switch (this.type) {
+            case "Skill":
+                list.push("All Skill Proficiency Levels")
+                break;
+            case "Save":
+                list.push("All Saving Throw Proficiency Levels")
+                break;
+            case "Weapon Proficiency":
+                list.push("All Weapon Proficiency Levels")
+                break;
+            case "Specific Weapon Proficiency":
+                list.push("All Weapon Proficiency Levels")
+                break;
+            case "Armor Proficiency":
+                list.push("All Armor Proficiency Levels")
+                break;
+        }
+        let skillLevelEffects = effectsService.get_AbsolutesOnThese(creature, list);
         if (skillLevelEffects.length) {
             skillLevelEffects.forEach(effect => {
                 skillLevel = parseInt(effect.setValue);
@@ -107,13 +125,13 @@ export class Skill {
             skillLevel = Math.max(...copyLevels, skillLevel);
         }
         //Add any relative proficiency level bonuses.
-        skillLevelEffects = effectsService.get_RelativesOnThis(creature, this.name + " Proficiency Level");
+        skillLevelEffects = effectsService.get_RelativesOnThese(creature, list);
         skillLevelEffects.forEach(effect => {
-            if ([-6,-4,-2,2,4,6].includes(parseInt(effect.value))) {
+            if ([-8,-6,-4,-2,2,4,6].includes(parseInt(effect.value))) {
                 skillLevel += parseInt(effect.value);
             }
         })
-        skillLevel = Math.min(skillLevel, 8);
+        skillLevel = Math.max(Math.min(skillLevel, 8), 0);
         return skillLevel;
     }
     canIncrease(creature: Character, characterService: CharacterService, levelNumber: number, maxRank: number = 8) {

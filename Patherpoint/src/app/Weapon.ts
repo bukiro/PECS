@@ -130,6 +130,8 @@ export class Weapon extends Equipment {
                 "Reach",
                 this.name + " Reach",
                 this.weaponBase + " Reach",
+                //"Unarmed Attacks Reach", "Simple Weapon Reach"
+                this.prof+ " Reach"
             ]
             effectsService.get_AbsolutesOnThese(creature, list)
                 .forEach(effect => {

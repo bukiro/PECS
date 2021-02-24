@@ -1009,70 +1009,6 @@
       ]
    },
    {
-      "name": "Angelic Blood Magic",
-      "desc": "An angelic aura protects you or one target, granting a +1 status bonus to saving throws for 1 round.",
-      "type": "bloodmagic",
-      "buff": true,
-      "inputRequired": "If you choose to target another creature, remove this condition.",
-      "effects": [
-         {
-            "affected": "Saving Throws",
-            "type": "status",
-            "value": "1"
-         }
-      ]
-   },
-   {
-      "name": "Angelic Halo",
-      "desc": "You gain an angelic halo with an aura that increases allies' healing from the heal spell. Allies in your halo's emanation who are healed by a heal spell gain a status bonus to Hit Points regained equal to double the heal spell's level.",
-      "type": "spells",
-      "minLevel": 1,
-      "buff": true,
-      "hints": [
-         {
-            "desc": "Allies in your halo's emanation who are healed by a heal spell gain a status bonus to Hit Points regained equal to double the heal spell's level.",
-            "showon": "Heal"
-         },
-         {
-            "desc": "Whenever you are healed by a heal spell, you gain a status bonus to Hit Points regained equal to double the heal spell's level.",
-            "showon": "Health"
-         }
-      ],
-      "effects": [
-         {
-            "affected": "Hit Points regained by Heal",
-            "type": "status",
-            "value": "Heightened * 2"
-         }
-      ]
-   },
-   {
-      "name": "Angelic Halo (Area)",
-      "desc": "You are in the emanation of an angelic halo, and your healing from the heal spell is increased. Whenever you are healed by a heal spell, you gain a status bonus to Hit Points regained equal to double the heal spell's level.",
-      "type": "spells",
-      "buff": true,
-      "hints": [
-         {
-            "desc": "Whenever you are healed by a heal spell, you gain a status bonus to Hit Points regained equal to double the heal spell's level.",
-            "showon": "Health"
-         }
-      ]
-   },
-   {
-      "name": "Elemental Blood Magic",
-      "desc": "Elemental energy surrounds you or a target. Either you gain a +1 status bonus to Intimidation checks for 1 round, or a target takes 1 damage per spell level. The damage is bludgeoning or fire, according to your elemental type (fire for fire, or else bludgeoning). If the spell already deals that kind of damage, combine it with the spell's initial damage before determining weaknesses and resistances.",
-      "type": "bloodmagic",
-      "buff": true,
-      "inputRequired": "If you choose to deal damage instead of gaining the Intimidation bonus, remove this condition.",
-      "effects": [
-         {
-            "affected": "Intimidation",
-            "type": "status",
-            "value": "1"
-         }
-      ]
-   },
-   {
       "name": "Speak with Animals",
       "desc": "You can ask questions of, receive answers from, and use the Diplomacy skill with animals. The spell doesn't make them more friendly than normal. Cunning animals are likely to be terse and evasive, while less intelligent ones often make inane comments.",
       "type": "spells",
@@ -4265,7 +4201,13 @@
          },
          {
             "desc": "You are untrained in one chosen skill that you are usually trained with.",
-            "showon": "Skills"
+            "showon": "Skills",
+            "effects": [
+               {
+                  "affected": "All Skill Proficiency Levels",
+                  "setValue": "0"
+               }
+            ]
          },
          {
             "desc": "All your failures on checks to Recall Knowledge become critical failures.",
@@ -10517,14 +10459,14 @@
    },
    {
       "name": "Favorable Review (Failures)",
-      "desc": "You have enchanted a creature to ensure they have only good things to say about your show, specifically about a single creature, location, or performance, such as \"Dame Ellendia,\" \"Savories Meats,\" or \"the Theater of the Mind's latest magic show.\n\nEvery target that has failed its will save cannot speak unfavorably about the subject for the duration. This doesn't change the target's opinion about the subject, but the target's attempts to speak ill of the subject - whether in speech, writing, or other communication - always twist into compliments and praise instead. The target likely becomes aware of this effect quickly and can avoid speaking about the subject entirely if they choose.",
+      "desc": "You have enchanted a creature to ensure they have only good things to say about your show, specifically about a single creature, location, or performance, such as \"Dame Ellendia,\" \"Savories Meats,\" or \"the Theater of the Mind's latest magic show.\"\n\nEvery target that has failed its will save cannot speak unfavorably about the subject for the duration. This doesn't change the target's opinion about the subject, but the target's attempts to speak ill of the subject - whether in speech, writing, or other communication - always twist into compliments and praise instead. The target likely becomes aware of this effect quickly and can avoid speaking about the subject entirely if they choose.",
       "type": "spells",
       "minLevel": 4,
       "buff": true
    },
    {
       "name": "Favorable Review (Critical Failures)",
-      "desc": "You have enchanted a creature to ensure they have only good things to say about your show, specifically about a single creature, location, or performance, such as \"Dame Ellendia,\" \"Savories Meats,\" or \"the Theater of the Mind's latest magic show.\n\nEvery target that has critically failed its will save cannot speak unfavorably about the subject, and genuinely holds a favorable opinion about the subject, with their attitude toward the creature (or creatures associated with the subject, such as the owner of a location or artists in a performance) becoming two degrees better (for example, helpful instead of indifferent)",
+      "desc": "You have enchanted a creature to ensure they have only good things to say about your show, specifically about a single creature, location, or performance, such as \"Dame Ellendia,\" \"Savories Meats,\" or \"the Theater of the Mind's latest magic show.\"\n\nEvery target that has critically failed its will save cannot speak unfavorably about the subject, and genuinely holds a favorable opinion about the subject, with their attitude toward the creature (or creatures associated with the subject, such as the owner of a location or artists in a performance) becoming two degrees better (for example, helpful instead of indifferent)",
       "type": "spells",
       "minLevel": 4,
       "buff": true
@@ -12255,31 +12197,6 @@
       ]
    },
    {
-      "name": "Giant's Stature",
-      "desc": "You grow to incredible size. You become Large, increasing your reach by 5 feet and gaining the clumsy 1 condition until you stop raging. Your equipment grows with you.",
-      "type": "activities",
-      "buff": true,
-      "endsWithConditions": [
-         "Rage"
-      ],
-      "effects": [
-         {
-            "affected": "Size",
-            "setValue": "1"
-         },
-         {
-            "affected": "Reach",
-            "value": "5"
-         }
-      ],
-      "gainConditions": [
-         {
-            "name": "Clumsy",
-            "value": 1
-         }
-      ]
-   },
-   {
       "name": "Terrifying Howl Immunity",
       "desc": "You cannot be demoralized by Terrifying Howl for the duration.",
       "type": "activities",
@@ -12506,11 +12423,11 @@
       "effects": [
          {
             "affected": "Size",
-            "setValue": "Has_Feat(Creature.type, \\\"Titan's Stature\\\") ? 2 : 1"
+            "setValue": "Has_Feat(Creature.type, \"Titan's Stature\") ? 2 : 1"
          },
          {
             "affected": "Reach",
-            "value": "Has_Feat(Creature.type, \\\"Titan's Stature\\\") ? 10 : 5"
+            "value": "Has_Feat(Creature.type, \"Titan's Stature\") ? 10 : 5"
          }
       ],
       "gainConditions": [
@@ -15015,6 +14932,1131 @@
       "senses": [
          {
             "name": "Darkvision"
+         }
+      ]
+   },
+   {
+      "name": "Ancestral Memories",
+      "desc": "The memories of long-dead spellcasters grant you knowledge in a specific skill. Choose any non-Lore skill, or a Lore skill related to the ancient empire from which your bloodline sprang. You temporarily become trained in that skill (expert from 6th level on) and might gain other memories associated with an ancestor who was trained in that skill. If you attempt a task or activity that lasts beyond this spell's duration, use the lower proficiency modifier.",
+      "type": "spells",
+      "minLevel": 1,
+      "buff": true,
+      "hints": [
+         {
+            "desc": "You temporarily become trained (expert from 6th level on) in one non-lore skill, or a Lore skill related to the ancient empire from which your bloodline sprang. If you attempt a task or activity that lasts beyond this spell's duration, use the lower proficiency modifier.",
+            "showon": "Skills",
+            "effects": [
+               {
+                  "affected": "All Skill Proficiency Levels",
+                  "setValue": "Heightened >= 6 ? 4 : 2"
+               }
+            ]
+         }
+      ]
+   },
+   {
+      "name": "Angelic Halo",
+      "desc": "You gain an angelic halo with an aura that increases allies' healing from the heal spell. Allies in your halo's emanation who are healed by a heal spell gain a status bonus to Hit Points regained equal to double the heal spell's level.",
+      "type": "spells",
+      "minLevel": 1,
+      "buff": true,
+      "hints": [
+         {
+            "desc": "Allies in your halo's emanation who are healed by a heal spell gain a status bonus to Hit Points regained equal to double the heal spell's level.",
+            "showon": "Heal"
+         },
+         {
+            "desc": "Whenever you are healed by a heal spell, you gain a status bonus to Hit Points regained equal to double the heal spell's level.",
+            "showon": "Health"
+         }
+      ],
+      "effects": [
+         {
+            "affected": "Hit Points regained by Heal",
+            "type": "status",
+            "value": "Heightened * 2"
+         }
+      ]
+   },
+   {
+      "name": "Angelic Halo (Area)",
+      "desc": "You are in the emanation of an angelic halo, and your healing from the heal spell is increased. Whenever you are healed by a heal spell, you gain a status bonus to Hit Points regained equal to double the heal spell's level.",
+      "type": "spells",
+      "buff": true,
+      "hints": [
+         {
+            "desc": "Whenever you are healed by a heal spell, you gain a status bonus to Hit Points regained equal to double the heal spell's level.",
+            "showon": "Health"
+         }
+      ]
+   },
+   {
+      "name": "Diabolic Edict (Caster)",
+      "desc": "You have issued a diabolic edict, demanding the target perform a particular task and offering rewards for its fulfillment. It gains a +1 status bonus to attack rolls and skill checks related to performing the task. If it refuses to perform the task you proclaimed, it instead takes a +1 status penalty to all its attack rolls and skill checks.",
+      "type": "spells",
+      "minLevel": 1,
+      "buff": true
+   },
+   {
+      "name": "Diabolic Edict (Caster)",
+      "desc": "A diabolic edict demands that you perform a particular task and offers rewards for its fulfillment. You gain a +1 status bonus to attack rolls and skill checks related to performing the task. If you refuse to perform the task, you instead take a -1 status penalty to all your attack rolls and skill checks.",
+      "type": "spells",
+      "minLevel": 1,
+      "hints": [
+         {
+            "desc": "You gain a +1 status bonus to attack rolls and skill checks related to performing your task. If you refuse to perform the task, you instead take a -1 status penalty to all your attack rolls and skill checks (second activation).",
+            "showon": "Skills, Attacks",
+            "effects": [
+               {
+                  "affected": "Attack Rolls",
+                  "type": "status",
+                  "value": "object.active2 ? -1 : (object.active ? +1 : 0)"
+               },
+               {
+                  "affected": "Skill Checks",
+                  "type": "status",
+                  "value": "object.active2 ? -1 : (object.active ? +1 : 0)"
+               }
+            ]
+         }
+      ]
+   },
+   {
+      "name": "Dragon Claws",
+      "desc": "Vicious claws have grown from your fingers. They are finesse unarmed attacks that deal 1d4 slashing damage and 1d6 extra damage of a type determined by the dragon in your bloodline (2d6 on 5th level, 3d6 on 9th level).\n\n<strong>Black and copper</strong> Acid\n<strong>Blue and bronze</strong> Electricity\n<strong>Brass, gold, or red</strong> Fire\n<strong>Green</strong> Poison\n<strong>Silver or white</strong> Cold\n\nYour scales from blood magic glow with faint energy, giving you resistance 5 to the same damage type (resistance 10 on 5th level and 15 on 9th level).",
+      "type": "spells",
+      "minLevel": 1,
+      "buff": true,
+      "choice": "Black",
+      "choices": [
+         {
+            "name": "Black"
+         },
+         {
+            "name": "Blue"
+         },
+         {
+            "name": "Brass"
+         },
+         {
+            "name": "Bronze"
+         },
+         {
+            "name": "Copper"
+         },
+         {
+            "name": "Gold"
+         },
+         {
+            "name": "Green"
+         },
+         {
+            "name": "Red"
+         },
+         {
+            "name": "Silver"
+         },
+         {
+            "name": "White"
+         }
+      ],
+      "effects": [
+         {
+            "affected": "Acid Resistance",
+            "value": "['Black','Copper'].includes(Choice) ? [0,5,5,5,5,10,10,10,10,15,15][Heightened] : 0"
+         },
+         {
+            "affected": "Electricity Resistance",
+            "value": "['Blue','Bronze'].includes(Choice) ? [0,5,5,5,5,10,10,10,10,15,15][Heightened] : 0"
+         },
+         {
+            "affected": "Fire Resistance",
+            "value": "['Brass','Gold','Red'].includes(Choice) ? [0,5,5,5,5,10,10,10,10,15,15][Heightened] : 0"
+         },
+         {
+            "affected": "Poison Resistance",
+            "value": "Choice == 'Green' ? [0,5,5,5,5,10,10,10,10,15,15][Heightened] : 0"
+         },
+         {
+            "affected": "Cold Resistance",
+            "value": "['Silver','White'].includes(Choice) ? [0,5,5,5,5,10,10,10,10,15,15][Heightened] : 0"
+         }
+      ],
+      "gainItems": [
+         {
+            "conditionChoiceFilter": "Black",
+            "heightenedFilter": 1,
+            "name": "Acid Dragon Claws",
+            "type": "weapons"
+         },
+         {
+            "conditionChoiceFilter": "Copper",
+            "heightenedFilter": 1,
+            "name": "Acid Dragon Claws",
+            "type": "weapons"
+         },
+         {
+            "conditionChoiceFilter": "Black",
+            "heightenedFilter": 5,
+            "name": "Acid Dragon Claws (5th Level)",
+            "type": "weapons"
+         },
+         {
+            "conditionChoiceFilter": "Copper",
+            "heightenedFilter": 5,
+            "name": "Acid Dragon Claws (5th Level)",
+            "type": "weapons"
+         },
+         {
+            "conditionChoiceFilter": "Black",
+            "heightenedFilter": 9,
+            "name": "Acid Dragon Claws (9th Level)",
+            "type": "weapons"
+         },
+         {
+            "conditionChoiceFilter": "Copper",
+            "heightenedFilter": 9,
+            "name": "Acid Dragon Claws (9th Level)",
+            "type": "weapons"
+         },
+         {
+            "conditionChoiceFilter": "Blue",
+            "heightenedFilter": 1,
+            "name": "Electricity Dragon Claws",
+            "type": "weapons"
+         },
+         {
+            "conditionChoiceFilter": "Bronze",
+            "heightenedFilter": 1,
+            "name": "Electricity Dragon Claws",
+            "type": "weapons"
+         },
+         {
+            "conditionChoiceFilter": "Blue",
+            "heightenedFilter": 5,
+            "name": "Electricity Dragon Claws (5th Level)",
+            "type": "weapons"
+         },
+         {
+            "conditionChoiceFilter": "Bronze",
+            "heightenedFilter": 5,
+            "name": "Electricity Dragon Claws (5th Level)",
+            "type": "weapons"
+         },
+         {
+            "conditionChoiceFilter": "Blue",
+            "heightenedFilter": 9,
+            "name": "Electricity Dragon Claws (9th Level)",
+            "type": "weapons"
+         },
+         {
+            "conditionChoiceFilter": "Bronze",
+            "heightenedFilter": 9,
+            "name": "Electricity Dragon Claws (9th Level)",
+            "type": "weapons"
+         },
+         {
+            "conditionChoiceFilter": "Brass",
+            "heightenedFilter": 1,
+            "name": "Fire Dragon Claws",
+            "type": "weapons"
+         },
+         {
+            "conditionChoiceFilter": "Gold",
+            "heightenedFilter": 1,
+            "name": "Fire Dragon Claws",
+            "type": "weapons"
+         },
+         {
+            "conditionChoiceFilter": "Red",
+            "heightenedFilter": 1,
+            "name": "Fire Dragon Claws",
+            "type": "weapons"
+         },
+         {
+            "conditionChoiceFilter": "Brass",
+            "heightenedFilter": 5,
+            "name": "Fire Dragon Claws (5th Level)",
+            "type": "weapons"
+         },
+         {
+            "conditionChoiceFilter": "Gold",
+            "heightenedFilter": 5,
+            "name": "Fire Dragon Claws (5th Level)",
+            "type": "weapons"
+         },
+         {
+            "conditionChoiceFilter": "Red",
+            "heightenedFilter": 5,
+            "name": "Fire Dragon Claws (5th Level)",
+            "type": "weapons"
+         },
+         {
+            "conditionChoiceFilter": "Brass",
+            "heightenedFilter": 9,
+            "name": "Fire Dragon Claws (9th Level)",
+            "type": "weapons"
+         },
+         {
+            "conditionChoiceFilter": "Gold",
+            "heightenedFilter": 9,
+            "name": "Fire Dragon Claws (9th Level)",
+            "type": "weapons"
+         },
+         {
+            "conditionChoiceFilter": "Red",
+            "heightenedFilter": 9,
+            "name": "Fire Dragon Claws (9th Level)",
+            "type": "weapons"
+         },
+         {
+            "conditionChoiceFilter": "Green",
+            "heightenedFilter": 1,
+            "name": "Poison Dragon Claws",
+            "type": "weapons"
+         },
+         {
+            "conditionChoiceFilter": "Green",
+            "heightenedFilter": 5,
+            "name": "Poison Dragon Claws (5th Level)",
+            "type": "weapons"
+         },
+         {
+            "conditionChoiceFilter": "Green",
+            "heightenedFilter": 9,
+            "name": "Poison Dragon Claws (9th Level)",
+            "type": "weapons"
+         },
+         {
+            "conditionChoiceFilter": "Silver",
+            "heightenedFilter": 1,
+            "name": "Cold Dragon Claws",
+            "type": "weapons"
+         },
+         {
+            "conditionChoiceFilter": "White",
+            "heightenedFilter": 1,
+            "name": "Cold Dragon Claws",
+            "type": "weapons"
+         },
+         {
+            "conditionChoiceFilter": "Silver",
+            "heightenedFilter": 5,
+            "name": "Cold Dragon Claws (5th Level)",
+            "type": "weapons"
+         },
+         {
+            "conditionChoiceFilter": "White",
+            "heightenedFilter": 5,
+            "name": "Cold Dragon Claws (5th Level)",
+            "type": "weapons"
+         },
+         {
+            "conditionChoiceFilter": "Silver",
+            "heightenedFilter": 9,
+            "name": "Cold Dragon Claws (9th Level)",
+            "type": "weapons"
+         },
+         {
+            "conditionChoiceFilter": "White",
+            "heightenedFilter": 9,
+            "name": "Cold Dragon Claws (9th Level)",
+            "type": "weapons"
+         }
+      ]
+   },
+   {
+      "name": "Faerie Dust",
+      "desc": "You have sprinkled magical dust in the spell's area, making those within easier to trick. Each creature in the area must attempt a Will save. For each additional action you use Casting the Spell, the burst's radius increases by 5 feet.\n\n<strong>Success</strong> The creature is unaffected.\n<strong>Failure</strong> The creature can't use reactions and takes a -2 status penalty to Perception checks and Will saves.\n<strong>Critical Failure</strong> As failure, and the creature also takes a -1 status penalty to Perception checks and Will saves for 1 minute.",
+      "type": "spells",
+      "minLevel": 1,
+      "buff": true
+   },
+   {
+      "name": "Faerie Dust (Failure)",
+      "desc": "Magical dust is making you easier to trick. You can't use reactions and take a -2 status penalty to Perception checks and Will saves.",
+      "type": "spells",
+      "minLevel": 1,
+      "hints": [
+         {
+            "desc": "You can's use reactions.",
+            "showon": "Activities"
+         }
+      ],
+      "effects": [
+         {
+            "affected": "Perception",
+            "type": "status",
+            "value": "-2"
+         },
+         {
+            "affected": "Will",
+            "type": "status",
+            "value": "-2"
+         }
+      ]
+   },
+   {
+      "name": "Faerie Dust (Critical Failure)",
+      "desc": "Magical dust is making you easier to trick. You can't use reactions and take a -2 status penalty to Perception checks and Will saves for the first round, then take a -1 status penalty for the rest of the duration.",
+      "type": "spells",
+      "minLevel": 1,
+      "effects": [
+         {
+            "affected": "Perception",
+            "type": "status",
+            "value": "-1"
+         },
+         {
+            "affected": "Will",
+            "type": "status",
+            "value": "-1"
+         }
+      ],
+      "gainConditions": [
+         {
+            "duration": 10,
+            "name": "Faerie Dust (Failure)"
+         }
+      ]
+   },
+   {
+      "name": "Glutton's Jaw",
+      "desc": "Your mouth transforms into a shadowy maw bristling with pointed teeth. These jaws are an unarmed attack with the forceful trait dealing 1d8 piercing damage. If you hit with your jaws and deal damage, you gain 1d6 temporary Hit Points plus 1d6 for every 2 spell levels after 1st.",
+      "type": "spells",
+      "minLevel": 1,
+      "buff": true,
+      "inputRequired": "Manually add the appropriate amount of temporary Hit Points whenever you hit with your jaws and deal damage.",
+      "hints": [
+         {
+            "desc": "If you hit with your jaws and deal damage, you gain 1d6 temporary Hit Points plus 1d6 for every 2 spell levels after 1st.",
+            "showon": "Attacks, Glutton's Jaw"
+         }
+      ],
+      "gainItems": [
+         {
+            "name": "Glutton's Jaw",
+            "type": "weapons"
+         }
+      ]
+   },
+   {
+      "name": "Jealous Hex (caster)",
+      "desc": "You have drawn forth a hag's innate jealousy to deny a target its greatest attribute. The target is cursed with an adverse condition depending on its highest ability modifier: Strength (enfeebled); Dexterity (clumsy); Constitution (drained); or Intelligence, Wisdom, or Charisma (stupefied). On a tie, the creature decides which of the conditions associated with the tied ability modifiers to take, depending on its Will save:\n\n<strong>Success</strong> The target is unaffected.\n<strong>Failure</strong> The condition's value is 1.\n<strong>Critical Failure</strong> The condition's value is 2.\n\nAt the start of each of your turns, the target can attempt another Will save, ending the effect on a success.",
+      "type": "spells",
+      "minLevel": 1,
+      "buff": true,
+      "inputRequired": "Remove the condition when the target succeeds on its Will save."
+   },
+   {
+      "name": "Jealous Hex",
+      "desc": "A hag's innate jealousy denies you your greatest attribute. You are cursed with an adverse condition depending on your highest ability modifier: Strength (enfeebled); Dexterity (clumsy); Constitution (drained); or Intelligence, Wisdom, or Charisma (stupefied). On a tie, you decide which of the conditions associated with the tied ability modifiers to take.\n\nYou can attempt another Will save at the start of each of the caster's turns, ending the effect on a success.",
+      "type": "spells",
+      "minLevel": 1,
+      "choice": "Strength",
+      "choices": [
+         {
+            "name": "Strength"
+         },
+         {
+            "name": "Dexterity"
+         },
+         {
+            "name": "Constitution"
+         },
+         {
+            "name": "Intelligence, Wisdom or Charisma"
+         }
+      ],
+      "gainConditions": [
+         {
+            "activationPrerequisite": "Value == 1",
+            "conditionChoiceFilter": "Strength",
+            "name": "Enfeebled",
+            "value": 1
+         },
+         {
+            "activationPrerequisite": "Value >= 2",
+            "conditionChoiceFilter": "Strength",
+            "name": "Enfeebled",
+            "value": 2
+         },
+         {
+            "activationPrerequisite": "Value == 1",
+            "conditionChoiceFilter": "Dexterity",
+            "name": "Clumsy",
+            "value": 1
+         },
+         {
+            "activationPrerequisite": "Value >= 2",
+            "conditionChoiceFilter": "Dexterity",
+            "name": "Clumsy",
+            "value": 2
+         },
+         {
+            "activationPrerequisite": "Value == 1",
+            "conditionChoiceFilter": "Constitution",
+            "name": "Drained",
+            "value": 1
+         },
+         {
+            "activationPrerequisite": "Value >= 2",
+            "conditionChoiceFilter": "Constitution",
+            "name": "Drained",
+            "value": 1
+         },
+         {
+            "activationPrerequisite": "Value == 1",
+            "conditionChoiceFilter": "Intelligence, Wisdom or Charisma",
+            "name": "Stupefied",
+            "value": 1
+         },
+         {
+            "activationPrerequisite": "Value >= 2",
+            "conditionChoiceFilter": "Intelligence, Wisdom or Charisma",
+            "name": "Stupefied",
+            "value": 1
+         }
+      ]
+   },
+   {
+      "name": "Tentacular Limbs",
+      "desc": "Your arms have turned into long, pliable tentacles, increasing your reach when you're delivering touch range spells and making unarmed Strikes with your arms (such as fist and claw Strikes) to 10 feet. This doesn't change the reach of your melee weapon attacks. During the duration, whenever you Cast a Spell, you can add an additional action to that spell's casting to temporarily extend your reach to 20 feet (plus 10 feet for every two spell levels after 1st) to deliver that spell.",
+      "type": "spells",
+      "minLevel": 1,
+      "buff": true,
+      "hints": [
+         {
+            "desc": "Your reach when making unarmed Strikes with your arms (such as fist and claw Strikes) increases to 10 feet. This doesn't change the reach of your melee weapon attacks.",
+            "showon": "Attacks, Unarmed",
+            "effects": [
+               {
+                  "affected": "Unarmed Attacks Reach",
+                  "setValue": "10"
+               }
+            ]
+         },
+         {
+            "desc": "Whenever you Cast a Spell, you can add an additional action to that spell's casting to temporarily extend your reach to 20 feet (plus 10 feet for every two spell levels after 1st) to deliver that spell.",
+            "showon": "Spellbook"
+         }
+      ]
+   },
+   {
+      "name": "Undeath's Blessing (Willing or Failure)",
+      "desc": "The touch of the grave is instilled within you. For the duration, harm spells treat you as undead and heal spells treat you as living. In addition, harm spells gain a +2 status bonus per spell level to the Hit Points restored to you.",
+      "type": "spells",
+      "minLevel": 1,
+      "buff": true,
+      "hints": [
+         {
+            "desc": "Harm spells treat you as undead and heal spells treat you as living. In addition, harm spells gain a +2 status bonus per spell level to the Hit Points restored to you.",
+            "showon": "Health"
+         }
+      ]
+   },
+   {
+      "name": "Undeath's Blessing (Success)",
+      "desc": "The touch of the grave is instilled within you. For the duration, you heal half as much from heal spells and take half as much damage from harm spells.",
+      "type": "spells",
+      "minLevel": 1,
+      "buff": true,
+      "hints": [
+         {
+            "desc": "You heal half as much from heal spells and take half as much damage from harm spells.",
+            "showon": "Health"
+         }
+      ]
+   },
+   {
+      "name": "Aberrant Whispers",
+      "desc": "Uttering phrases in an unknown tongue, you have assaulted the minds of those nearby, according to their Will save:\n\n<strong>Success</strong> The target is unaffected.\n<strong>Failure</strong> The target is stupefied 2.\n<strong>Critical Failure</strong> The target is confused.\n\nEach target is then temporarily immune for 1 minute.",
+      "type": "spells",
+      "minLevel": 3,
+      "buff": true
+   },
+   {
+      "name": "Aberrant Whispers Immunity",
+      "desc": "You cannot be stupefied or confused by aberrant whispers for the duration.",
+      "type": "spells",
+      "minLevel": 3,
+      "buff": true
+   },
+   {
+      "name": "Angelic Wings",
+      "desc": "Wings of pure light spread out from your back, granting you a fly Speed equal to your Speed. Your wings cast bright light in a 30-foot radius. When this spell's duration would end, if you're still flying, you float to the ground, as feather fall.",
+      "type": "spells",
+      "minLevel": 3,
+      "buff": true,
+      "hints": [
+         {
+            "desc": "When this spell's duration would end, if you're still flying, you float to the ground, as feather fall.",
+            "showon": "Acrobatics, Movement"
+         },
+         {
+            "desc": "Your wings cast bright light in a 30-foot radius.",
+            "showon": "Perception, Senses"
+         }
+      ],
+      "effects": [
+         {
+            "affected": "Fly Speed",
+            "setValue": "Speed('Land Speed')"
+         }
+      ]
+   },
+   {
+      "name": "Drain Life (Caster)",
+      "desc": "You have pulled life energy from another creature into yourself. You gain temporary Hit Points equal to the damage you dealt, after resolving its save and applying your blood magic if applicable. If the target's Hit Points were lower than the damage you dealt, you gain temporary Hit Points equal to their remaining Hit Points instead. The temporary Hit Points last for the duration of the condition.",
+      "type": "spells",
+      "minLevel": 3,
+      "buff": true,
+      "inputRequired": "Manually set the appropriate amount of temporary Hit Points. When the condition ends, all manually added Hit Points will be lost.",
+      "endEffects": [
+         {
+            "affected": "Temporary HP",
+            "source": "Manual",
+            "value": "-Temporary_HP('Manual')"
+         }
+      ]
+   },
+   {
+      "name": "Elemental Motion",
+      "desc": "Your element propels you, improving your Speed depending on your element. This spell has your element's trait.\n\n<strong>Air</strong> You gain a fly Speed equal to your Speed.\n<strong>Earth</strong> You gain a burrow Speed of 10 feet.\n<strong>Fire</strong> You gain a fly Speed equal to your Speed.\n<strong>Water</strong> You gain a swim Speed equal to your Speed and can breathe underwater.\n\nFrom 6th level on, you also gain a +10-foot status bonus to your Speeds (+20 on 9th level).",
+      "type": "spells",
+      "minLevel": 3,
+      "buff": true,
+      "hints": [
+         {
+            "desc": "If your element is water, you can breathe underwater.",
+            "showon": "Health"
+         }
+      ],
+      "choice": "Air",
+      "choices": [
+         {
+            "name": "Air"
+         },
+         {
+            "name": "Earth"
+         },
+         {
+            "name": "Fire"
+         },
+         {
+            "name": "Water"
+         }
+      ],
+      "effects": [
+         {
+            "affected": "Speed",
+            "type": "status",
+            "value": "Heightened >= 9 ? 20 : (Heightened >= 6 ? 10 : 0)"
+         },
+         {
+            "affected": "Fly Speed",
+            "setValue": "['Air','Fire'].includes(Choice) ? Speed('Land Speed') : null"
+         },
+         {
+            "affected": "Burrow Speed",
+            "setValue": "Choice == 'Earth' ? 10 : null"
+         },
+         {
+            "affected": "Water Speed",
+            "setValue": "Choice == 'Water' ? Speed('Land Speed') : null"
+         }
+      ]
+   },
+   {
+      "name": "Embrace the Pit",
+      "desc": "Devil horns grow from your skull, and your skin takes on features of the devil responsible for your diabolic bloodline. You gain resistance 5 to evil, fire, and poison plus 5 for every two spell levels after 3rd, and resistance 1 to physical damage (except silver) plus 2 for every two spell levels after 3rd. You can take good damage, even if you aren't evil, and you gain weakness 5 to good damage plus 5 for every two spell levels after 3rd.",
+      "type": "spells",
+      "minLevel": 3,
+      "buff": true,
+      "hints": [
+         {
+            "desc": "You can take good damage, even if you aren't evil.",
+            "showon": "Resistances"
+         }
+      ],
+      "effects": [
+         {
+            "affected": "Evil Resistance",
+            "value": "[0,0,0,5,5,10,10,15,15,20,20][Heightened]"
+         },
+         {
+            "affected": "Fire Resistance",
+            "value": "[0,0,0,5,5,10,10,15,15,20,20][Heightened]"
+         },
+         {
+            "affected": "Poison Resistance",
+            "value": "[0,0,0,5,5,10,10,15,15,20,20][Heightened]"
+         },
+         {
+            "affected": "Physical Damage Except Silver Resistance",
+            "value": "[0,0,0,1,1,3,3,5,5,7,7][Heightened]"
+         },
+         {
+            "affected": "Good Resistance",
+            "value": "[0,0,0,-5,-5,-10,-10,-15,-15,-20,-20][Heightened]"
+         }
+      ]
+   },
+   {
+      "name": "Fey Disappearance",
+      "desc": "You become invisible and ignore natural difficult terrain (such as underbrush). Any hostile action you use ends this invisibility, but you still ignore natural difficult terrain. From 5th level on, if you use a hostile action, the invisibility doesn't end.",
+      "type": "spells",
+      "minLevel": 3,
+      "buff": true,
+      "hints": [
+         {
+            "desc": "You ignore natural difficult terrain (such as underbrush).",
+            "showon": "Movement"
+         }
+      ],
+      "gainConditions": [
+         {
+            "name": "Invisible"
+         }
+      ]
+   },
+   {
+      "name": "Swamp of Sloth",
+      "desc": "Ground in the area has turned swampy and fetid. The area is difficult terrain. The sludge at the bottom of the morass animates into diminutive sludge beasts that have a demonic appearance. These don't function as normal creatures, but they swarm over creatures in the swamp and exude a noxious stench. The swamp deals 1d6 poison damage plus 1d6 for every two spell levels after 3rd; creatures that end their turn in the area must attempt a basic Fortitude save.",
+      "type": "spells",
+      "minLevel": 3,
+      "buff": true,
+      "hints": [
+         {
+            "desc": "The swamp of sloth area is difficult terrain and deals 1d6 poison damage plus 1d6 for every two spell levels after 3rd; creatures that end their turn in the area must attempt a basic Fortitude save.",
+            "showon": "Movement"
+         }
+      ]
+   },
+   {
+      "name": "Arcane Countermeasure (Spell targets)",
+      "desc": "The target spell is undermined, making it easier to defend against. The spell's level is reduced by 1, and you gain a +2 status bonus to any saving throws, skill checks, AC, or DC against it.\n\nThe spell's level can't be reduced below its minimum. For example, a 5th-level cone of cold would remain 5th-level, but a 5th-level fireball would become 4th-level.",
+      "type": "spells",
+      "minLevel": 5,
+      "buff": true,
+      "hints": [
+         {
+            "desc": "You gain a +2 status bonus to any saving throws, skill checks, AC, or DC against the target spell.",
+            "showon": "Saving Throws, Skills, AC, Activities, Spellbook",
+            "effects": [
+               {
+                  "affected": "Saving Throws",
+                  "type": "status",
+                  "value": "2"
+               },
+               {
+                  "affected": "Skill Checks",
+                  "type": "status",
+                  "value": "2"
+               },
+               {
+                  "affected": "AC",
+                  "type": "status",
+                  "value": 2
+               },
+               {
+                  "affected": "Spell DCs",
+                  "type": "status",
+                  "value": 2
+               },
+               {
+                  "affected": "Class DC",
+                  "type": "status",
+                  "value": 2
+               }
+            ]
+         }
+      ]
+   },
+   {
+      "name": "Celestial Brand (Caster and allies)",
+      "desc": "A blazing symbol has appeared on the target, cursing it to face divine justice. You and your allies receive a +1 status bonus to your attack rolls and skill checks against it. Anytime a good creature damages it, the good creature deals an additional 1d4 good damage plus 1 for every two spell levels after 5th.",
+      "type": "spells",
+      "minLevel": 5,
+      "buff": true,
+      "hints": [
+         {
+            "desc": "Anytime a good creature damages the branded creature, the good creature deals an additional 1d4 good damage plus 1 for every two spell levels after 5th."
+         }
+      ]
+   },
+   {
+      "name": "Celestial Brand (Target)",
+      "desc": "A blazing symbol has appeared on you, cursing you to face divine justice. Your foes receive a +1 status bonus to their attack rolls and skill checks against you. Anytime a good creature damages you, it deals an additional 1d4 good damage plus 1 for every two spell levels after 5th. After the duration, you are temporarily immune for 1 minute.",
+      "type": "spells",
+      "minLevel": 5
+   },
+   {
+      "name": "Celestial Brand Immunity",
+      "desc": "You can't be cursed with the celestial brand for the duration.",
+      "type": "spells",
+      "buff": true,
+      "overrideConditions": [
+         "Celestial Brand (Target)"
+      ]
+   },
+   {
+      "name": "Dragon Wings",
+      "desc": "Leathery wings have sprouted from your back, giving you a fly Speed of 60 feet or your Speed, whichever is faster. When this spell's duration would end, if you're still flying, you float to the ground, as feather fall.",
+      "type": "spells",
+      "minLevel": 5,
+      "buff": true,
+      "hints": [
+         {
+            "desc": "When this spell's duration would end, if you're still flying, you float to the ground, as feather fall.",
+            "showon": "Movement"
+         }
+      ],
+      "effects": [
+         {
+            "affected": "Fly Speed",
+            "value": "Math.max(Speed('Land Speed'), 60)"
+         }
+      ]
+   },
+   {
+      "name": "Fey Glamour",
+      "desc": "Calling upon fey glamours, you have cloaked an area or the targets in illusion. This has the effect of either illusory scene on the area or veil on the creatures, as if heightened to a level 1 level lower than fey glamour, using fey glamour's range and duration.",
+      "type": "spells",
+      "minLevel": 5,
+      "buff": true,
+      "inputRequired": "If you choose veil, the affected creatures can grant themselves the Veil condition at on level lower than fey glamour.",
+      "choice": "Illusory Scene",
+      "choices": [
+         {
+            "name": "Illusory Scene"
+         },
+         {
+            "name": "Veil"
+         }
+      ],
+      "gainConditions": [
+         {
+            "activationPrerequisite": "Heightened == 5 ? 1 : 0",
+            "conditionChoiceFilter": "Illusory Scene",
+            "heightened": 5,
+            "name": "Illusory Scene"
+         },
+         {
+            "activationPrerequisite": "Heightened == 6 ? 1 : 0",
+            "conditionChoiceFilter": "Illusory Scene",
+            "heightened": 5,
+            "name": "Illusory Scene"
+         },
+         {
+            "activationPrerequisite": "Heightened == 7 ? 1 : 0",
+            "conditionChoiceFilter": "Illusory Scene",
+            "heightened": 6,
+            "name": "Illusory Scene"
+         },
+         {
+            "activationPrerequisite": "Heightened == 8 ? 1 : 0",
+            "conditionChoiceFilter": "Illusory Scene",
+            "heightened": 7,
+            "name": "Illusory Scene"
+         },
+         {
+            "activationPrerequisite": "Heightened == 9 ? 1 : 0",
+            "conditionChoiceFilter": "Illusory Scene",
+            "heightened": 8,
+            "name": "Illusory Scene"
+         },
+         {
+            "activationPrerequisite": "Heightened == 10 ? 1 : 0",
+            "conditionChoiceFilter": "Illusory Scene",
+            "heightened": 9,
+            "name": "Illusory Scene"
+         }
+      ]
+   },
+   {
+      "name": "Unusual Anatomy",
+      "desc": "You have transformed your flesh and organs into a bizarre amalgam of glistening skin, rough scales, tufts of hair, and tumorous protuberances. This has three effects:\n\nYou gain resistance 10 to precision damage and resistance 10 to extra damage from critical hits, plus 5 for every two spell levels after 5th. If the resistance is greater than the extra damage, it reduces the extra damage to 0 but doesn't reduce the attack's normal damage.\nYou gain darkvision.\nAcid oozes from your skin. Any creature that hits you with an unarmed attack or with a non-reach melee weapon takes 2d6 acid damage plus 1d6 for every two spell levels after 5th.",
+      "type": "spells",
+      "minLevel": 5,
+      "buff": true,
+      "hints": [
+         {
+            "desc": "Any creature that hits you with an unarmed attack or with a non-reach melee weapon takes 2d6 acid damage plus 1d6 for every two spell levels after 5th.",
+            "showon": "Defense"
+         }
+      ],
+      "effects": [
+         {
+            "affected": "Precision Damage Resistance",
+            "value": "[0,0,0,0,0,10,10,15,15,20,20][Heightened]"
+         },
+         {
+            "affected": "Critical Extra Damage Resistance",
+            "value": "[0,0,0,0,0,10,10,15,15,20,20][Heightened]"
+         }
+      ],
+      "senses": [
+         {
+            "name": "Darkvision"
+         }
+      ]
+   },
+   {
+      "name": "You're Mine (Caster)",
+      "desc": "You manipulate the target's emotions, potentially allowing you to control it for a brief instant according to the its Will save:\n\n<strong>Critical Success</strong> The target is unaffected.\n<strong>Success</strong> The target is stunned 1.\n<strong>Failure (5th level)</strong> On the target's next turn, it's stunned 1 and you partially control it, causing it to take a single action of your choice. If it has actions left, it can act normally.\n<strong>Failure (7th level)</strong> The target is controlled for 1 round.\n<strong>Critical Failure (5th level)</strong> The target is controlled for 1 round.\n<strong>Critical Failure (7th level)</strong> The target is controlled for up to 1 minute; it receives a new Will save at the end of each of its turns, and on a success, the spell ends.",
+      "type": "spells",
+      "minLevel": 5,
+      "buff": true
+   },
+   {
+      "name": "Angelic Blood Magic",
+      "desc": "An angelic aura protects you or one target, granting a +1 status bonus to saving throws for 1 round.",
+      "type": "bloodmagic",
+      "buff": true,
+      "inputRequired": "If you choose to target another creature, they can take the appropriate condition for the duration.",
+      "choice": "Target yourself",
+      "choices": [
+         {
+            "name": "Target yourself"
+         },
+         {
+            "name": "Target others"
+         }
+      ],
+      "effects": [
+         {
+            "affected": "Saving Throws",
+            "type": "status",
+            "value": "Choice == 'Target yourself' ? 1 : 0"
+         }
+      ]
+   },
+   {
+      "name": "Angelic Blood Magic (Target)",
+      "desc": "An angelic aura protects you, granting a +1 status bonus to saving throws for 1 round.",
+      "type": "bloodmagic",
+      "buff": true,
+      "effects": [
+         {
+            "affected": "Saving Throws",
+            "type": "status",
+            "value": "1"
+         }
+      ]
+   },
+   {
+      "name": "Demonic Blood Magic",
+      "desc": "The corruption of sin weakens a target's defenses or makes you more imposing. Either a target takes a -1 status penalty to AC for 1 round, or you gain a +1 status bonus to Intimidation checks for 1 round.",
+      "type": "bloodmagic",
+      "buff": true,
+      "inputRequired": "If you choose to target another creature, they can take the appropriate condition for the duration.",
+      "choice": "Target yourself",
+      "choices": [
+         {
+            "name": "Target yourself"
+         },
+         {
+            "name": "Target others"
+         }
+      ],
+      "effects": [
+         {
+            "affected": "Intimidation",
+            "type": "status",
+            "value": "Choice == 'Target yourself' ? 1 : 0"
+         }
+      ]
+   },
+   {
+      "name": "Demonic Blood Magic (Target)",
+      "desc": "The corruption of sin weakens your defenses. You take a -1 status penalty to AC for the duration.",
+      "type": "bloodmagic",
+      "effects": [
+         {
+            "affected": "AC",
+            "type": "status",
+            "value": "-1"
+         }
+      ]
+   },
+   {
+      "name": "Diabolic Blood Magic",
+      "desc": "Hellfire scorches a target or fills your tongue with lies. Either a target takes 1 fire damage per spell level (if the spell already deals initial fire damage, combine this with the spell's initial damage before determining weaknesses and resistances), or you gain a +1 status bonus to Deception checks for 1 round.",
+      "type": "bloodmagic",
+      "buff": true,
+      "inputRequired": "If you choose to deal damage instead of gaining the Deception bonus, remove this condition.",
+      "effects": [
+         {
+            "affected": "Deception",
+            "type": "status",
+            "value": "1"
+         }
+      ]
+   },
+   {
+      "name": "Draconic Blood Magic",
+      "desc": "Draconic scales grow briefly on you or one target, granting a +1 status bonus to AC for 1 round.",
+      "type": "bloodmagic",
+      "buff": true,
+      "inputRequired": "If you choose to target another creature, they can take the appropriate condition for the duration.",
+      "choice": "Target yourself",
+      "choices": [
+         {
+            "name": "Target yourself"
+         },
+         {
+            "name": "Target others"
+         }
+      ],
+      "effects": [
+         {
+            "affected": "AC",
+            "type": "status",
+            "value": "Choice == 'Target yourself' ? 1 : 0"
+         }
+      ]
+   },
+   {
+      "name": "Draconic Blood Magic (Target)",
+      "desc": "Draconic scales grow briefly on you, granting a +1 status bonus to AC for 1 round.",
+      "type": "bloodmagic",
+      "buff": true,
+      "effects": [
+         {
+            "affected": "AC",
+            "type": "status",
+            "value": "1"
+         }
+      ]
+   },
+   {
+      "name": "Elemental Blood Magic",
+      "desc": "Elemental energy surrounds you or a target. Either you gain a +1 status bonus to Intimidation checks for 1 round, or a target takes 1 damage per spell level. The damage is bludgeoning or fire, according to your elemental type (fire for fire, or else bludgeoning). If the spell already deals that kind of damage, combine it with the spell's initial damage before determining weaknesses and resistances.",
+      "type": "bloodmagic",
+      "buff": true,
+      "inputRequired": "If you choose to deal damage instead of gaining the Intimidation bonus, remove this condition.",
+      "effects": [
+         {
+            "affected": "Intimidation",
+            "type": "status",
+            "value": "1"
+         }
+      ]
+   },
+   {
+      "name": "Fey Blood Magic",
+      "desc": "Colorful fey glamours dance around you or one target, causing them to be concealed for 1 round. Such obvious concealment can't be used to Hide.",
+      "type": "bloodmagic",
+      "buff": true,
+      "inputRequired": "If you choose to target another creature, they can take the appropriate condition for the duration.",
+      "choice": "Target yourself",
+      "choices": [
+         {
+            "name": "Target yourself"
+         },
+         {
+            "name": "Target others"
+         }
+      ],
+      "gainConditions": [
+         {
+            "conditionChoiceFilter": "Target yourself",
+            "name": "Concealed"
+         }
+      ]
+   },
+   {
+      "name": "Fey Blood Magic (Target)",
+      "desc": "Colorful fey glamours dance around you, causing you to be concealed for 1 round. Such obvious concealment can't be used to Hide.",
+      "type": "bloodmagic",
+      "buff": true,
+      "gainConditions": [
+         {
+            "name": "Concealed"
+         }
+      ]
+   },
+   {
+      "name": "Hag Blood Magic",
+      "desc": "Spiteful curses punish your foes. The first creature that deals damage to you before the end of your next turn takes 2 mental damage per spell level and must attempt a basic Will save.",
+      "type": "bloodmagic",
+      "buff": true,
+      "inputRequired": "Remove the condition after a creature deals damage to you.",
+      "hints": [
+         {
+            "desc": "The first creature that deals damage to you before the end of your next turn takes 2 mental damage per spell level and must attempt a basic Will save.",
+            "showon": "Defense"
+         }
+      ],
+      "choice": "Target yourself",
+      "choices": [
+         {
+            "name": "Target yourself"
+         },
+         {
+            "name": "Target others"
+         }
+      ],
+      "gainConditions": [
+         {
+            "conditionChoiceFilter": "Target yourself",
+            "name": "Concealed"
+         }
+      ]
+   },
+   {
+      "name": "Imperial Blood Magic",
+      "desc": "A surge of ancestral memories grants you or one target a +1 status bonus to skill checks for 1 round.",
+      "type": "bloodmagic",
+      "buff": true,
+      "inputRequired": "If you choose to target another creature, they can take the appropriate condition for the duration.",
+      "choice": "Target yourself",
+      "choices": [
+         {
+            "name": "Target yourself"
+         },
+         {
+            "name": "Target others"
+         }
+      ],
+      "effects": [
+         {
+            "affected": "Skill Checks",
+            "type": "status",
+            "value": "Choice == 'Target yourself' ? 1 : 0"
+         }
+      ]
+   },
+   {
+      "name": "Imperial Blood Magic (Target)",
+      "desc": "A surge of ancestral memories grants you a +1 status bonus to skill checks for 1 round.",
+      "type": "bloodmagic",
+      "buff": true,
+      "effects": [
+         {
+            "affected": "Skill Checks",
+            "type": "status",
+            "value": "1"
+         }
+      ]
+   },
+   {
+      "name": "Undead Blood Magic",
+      "desc": "Necromantic energy flows through you or one target. Either you gain temporary Hit Points equal to the spell's level for 1 round, or a target takes 1 negative damage per spell level (if the spell already deals initial negative damage, combine this with the spell's initial damage before determining weaknesses and resistances).",
+      "type": "bloodmagic",
+      "buff": true,
+      "inputRequired": "If you choose to deal damage instead of gaining the temporary Hit Points, remove this condition.",
+      "onceEffects": [
+         {
+            "affected": "Temporary HP",
+            "value": "Heightened"
+         }
+      ],
+      "endEffects": [
+         {
+            "affected": "Temporary HP",
+            "value": "-Temporary_HP('',effect.sourceId)"
          }
       ]
    }
