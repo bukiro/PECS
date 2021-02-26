@@ -110,13 +110,20 @@ export class SpellsService {
                 let choicesIndex = 0;
                 spell.get_HeightenedConditions(spellLevel).forEach(conditionGain => {
                     let newConditionGain = Object.assign(new ConditionGain(), conditionGain);
+                    let condition = conditionsService.get_Conditions(conditionGain.name)[0]
                     //If this condition has choices, and the gain has choices prepared, apply the choice from the gain.
                     // The order of gain.choices maps directly onto the order of the spell conditions that have choices.
                     if (gain.choices.length >= choicesIndex - 1) {
-                        let condition = conditionsService.get_Conditions(conditionGain.name)[0]
                         if (condition?.get_Choices(characterService, true, spellLevel).length && condition.$choices.includes(gain.choices[choicesIndex])) {
                             newConditionGain.choice = gain.choices[choicesIndex];
                             choicesIndex++;
+                        }
+                    }
+                    //If there is a choiceBySubType value, and you have a feat with superType == choiceBySubType, set the choice to that feat's subType as long as it's a valid choice for the condition. This overrides any manual choice.
+                    if (newConditionGain.choiceBySubType) {
+                        let subType = (characterService.get_FeatsAndFeatures(newConditionGain.choiceBySubType, "", true, true).find(feat => feat.superType == newConditionGain.choiceBySubType && feat.have(creature, characterService, creature.level, false)));
+                        if (subType && condition.choices.map(choice => choice.name).includes(subType.subType)) {
+                            newConditionGain.choice = subType.subType;
                         }
                     }
                     //Pass the spell level in case that condition effects change with level
@@ -204,6 +211,12 @@ export class SpellsService {
                 });
             });
         });
+        character.class.spellCasting.filter(casting => casting.className == "Sorcerer" && casting.castingType == "Spontaneous").forEach(casting => {
+            casting.spellChoices.filter(choice => choice.source == "Feat: Occult Evolution").forEach(choice => {
+                choice.spells.length = 0;
+                characterService.set_ToChange("Character", "spellchoices");
+            })
+        })
         characterService.set_ToChange("Character", "spellbook");
     }
 

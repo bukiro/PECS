@@ -114,9 +114,9 @@
                 title="{{get_Traits(trait)[0].desc}}">{{trait}}</cite>
         </div>
         <div class="row left-aligned" *ngFor="let desc of feat.desc.split('\n\n'); trackBy:trackByIndex;">
-            <p *ngIf="desc.split('\n').length == 1">{{desc}}</p>
+            <p *ngIf="desc.split('\n').length == 1" [innerHTML]="desc"></p>
             <ul *ngIf="desc.split('\n').length > 1">
-                <li *ngFor="let line of desc.split('\n'); trackBy:trackByIndex;">{{line}}</li>
+                <li *ngFor="let line of desc.split('\n'); trackBy:trackByIndex;" [innerHTML]="line"></li>
             </ul>
         </div>
     </div>

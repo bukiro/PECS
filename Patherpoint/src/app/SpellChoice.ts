@@ -27,7 +27,7 @@ export class SpellChoice {
     //For spell choices that are "three levels below your highest spell level"
     //Example: "character.get_SpellLevel() - 3"
     public dynamicLevel: string = "";
-    //Don't display this choice or its spells if the character level is lower than this.
+    //Don't display this choice or its spells if the character level is lower than charLevelAvailable.
     //If a feat adds a spellChoice with charLevelAvailable = 0, it gets set to the level the feat was taken
     //If a feat adds a spellChoice with a lower charLevelAvailable as the level the feat was taken, it get set to the feat level instead
     public charLevelAvailable: number = 0;
@@ -37,6 +37,7 @@ export class SpellChoice {
     public spellCombinationAllowed: boolean = false;
     //You can choose to use a combination slot for a spell combination, which changes the available spells.
     public spellCombination: boolean = false;
+    //Signature Spells are automatically available as heightened spells on every lower and higher level (down to its minimum)
     public signatureSpell: boolean = false;
     //The spells chosen must match the tradition of the spell choice, if one is given, or otherwise the tradition of the spellcasting or nothing.
     public tradition: string = "";
@@ -60,6 +61,8 @@ export class SpellChoice {
     public adaptedCantrip: boolean = false;
     //Adaptive Adept tracks whether one of the spell slots of this choice has been traded away for an Adaptive Adept slot.
     public adaptiveAdept: boolean = false;
+    //Crossblooded Evolution tracks whether one of the spell slots of this choice can be filled with a spell from another tradition.
+    public crossbloodedEvolution: boolean = false;
     //If target is set to "Others", you can only choose spells with target != "self".
     //If target is set to "Caster", you can only choose spells with target "self".
     //If target is set to "Allies", you can only choose spells with target "ally".

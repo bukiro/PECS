@@ -1,6 +1,6 @@
 <div class="row left-aligned">
     <span>
-        <strong [className]="condition.buff ? 'bonus' : 'penalty'"
+        <strong [ngClass]="condition.buff ? 'bonus' : 'penalty'"
             title="Source: {{conditionGain.source}}">{{conditionGain.name}}{{conditionGain.choice ? ": " : ""}}
             <input id="{{conditionGain.id+'choice'}}" class="invisible" type="checkbox"
                 [(ngModel)]="conditionGain.showChoices" *ngIf="condition.choices.length && !conditionGain.choiceLocked">

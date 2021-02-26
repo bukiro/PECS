@@ -134,7 +134,7 @@
                 <div class="list-item" *ngIf="resistances.length">
                     <div class="row" *ngFor="let resistance of resistances; trackBy:trackByIndex;">
                         <span title="{{resistance.source}}"
-                            [className]="(resistance.value < 0) ? 'penalty' : 'bonus'">{{resistance.target}}:
+                            [ngClass]="(resistance.value < 0) ? 'penalty' : 'bonus'">{{resistance.target}}:
                             {{Math.abs(resistance.value)}}</span>
                     </div>
                 </div>

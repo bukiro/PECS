@@ -95,7 +95,7 @@ export class TimeService {
                 spellsService.rest(character, characterService);
                 //Regenerate spell slots.
                 character.class.spellCasting.forEach(casting => {
-                    casting.spellSlotsUsed = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+                    casting.spellSlotsUsed = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
                 });
                 //Refocus and reset all "until you refocus" spell cooldowns.
                 this.refocus(characterService, conditionsService, itemsService, spellsService, 3, false, false);

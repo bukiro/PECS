@@ -278,17 +278,33 @@ export class Character extends Creature {
                         })
                     });
             })
-            //Get all matching skill increases from the choices
-            choices.forEach(choice => {
-                choice.increases.filter(increase =>
-                    (increase.name == skillName || skillName == "") &&
-                    (increase.source == source || source == "") &&
-                    (increase.sourceId == sourceId || sourceId == "") &&
-                    (increase.locked == locked || locked == undefined)
-                ).forEach(increase => {
-                    increases.push(increase);
-                })
-            });
+            //Only return skill increases for a specific skill if at least one increase has a minRank of 0 (an initial training) - if not, we don't consider this skill increased at all. 
+            if (skillName) {
+                if (choices.some(choice => choice.minRank == 0 && choice.increases.some(increase => increase.name == skillName))) {
+                    //Get all matching skill increases from the choices
+                    choices.forEach(choice => {
+                        choice.increases.filter(increase =>
+                            (increase.name == skillName) &&
+                            (increase.source == source || source == "") &&
+                            (increase.sourceId == sourceId || sourceId == "") &&
+                            (increase.locked == locked || locked == undefined)
+                        ).forEach(increase => {
+                            increases.push(increase);
+                        })
+                    });
+                }
+            } else {
+                //Get all matching skill increases from the choices
+                choices.forEach(choice => {
+                    choice.increases.filter(increase =>
+                        (increase.source == source || source == "") &&
+                        (increase.sourceId == sourceId || sourceId == "") &&
+                        (increase.locked == locked || locked == undefined)
+                    ).forEach(increase => {
+                        increases.push(increase);
+                    })
+                });
+            }
             return increases;
         } else {
             return [] as SkillIncrease[];

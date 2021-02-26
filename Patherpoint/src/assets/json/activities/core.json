@@ -4635,5 +4635,65 @@
         "requirements": "You have an unexpended spell slot you could use to cast the triggering spell.",
         "trigger": "A creature Casts a Spell that you have prepared.",
         "desc": "When a foe Casts a Spell and you can see its manifestations, you can use your own magic to disrupt it. You expend one of your spell slots to counter the triggering creature's casting of a spell that you have in your repertoire. You lose your spell slot as if you had cast the triggering spell. You then attempt to counteract the triggering spell.\n\nThis feat has the trait corresponding to the tradition of spells you cast (arcane, divine, occult, or primal)."
+    },
+    {
+        "name": "Counterspell (Spontaneous)",
+        "actions": "Reaction",
+        "inputRequired": "You can use the triggering spell as a counterspell in your spell list.",
+        "traits": [
+            "Abjuration",
+            "Sorcerer"
+        ],
+        "requirements": "You have an unexpended spell slot you could use to cast the triggering spell.",
+        "trigger": "A creature Casts a Spell that you have prepared.",
+        "desc": "When a foe Casts a Spell and you can see its manifestations, you can use your own magic to disrupt it. You expend one of your spell slots to counter the triggering creature's casting of a spell that you have in your repertoire. You lose your spell slot as if you had cast the triggering spell. You then attempt to counteract the triggering spell.\n\nThis feat has the trait corresponding to the tradition of spells you cast (arcane, divine, occult, or primal)."
+    },
+    {
+        "name": "Interweave Dispel",
+        "actions": "1A",
+        "inputRequired": "Cast dispel magic from your spell repertoire as a free action.",
+        "traits": [
+            "Metamagic",
+            "Sorcerer"
+        ],
+        "desc": "You weave dispelling energy into a spell, sending both effects at a foe. If your next action is to cast a single-target spell against a creature, and you either hit the foe with the spell attack roll or the foe fails its saving throw, you can cast dispel magic on the foe as a free action, expending a spell slot as normal and targeting one spell effect affecting the foe."
+    },
+    {
+        "name": "Bloodline Conduit",
+        "actions": "1A",
+        "traits": [
+            "Metamagic",
+            "Sorcerer"
+        ],
+        "frequency": "once per minute",
+        "cooldown": 100,
+        "desc": "Your inborn magical nature lets you redirect ambient energies to fuel your spells. If your next action is to Cast a Spell of 5th level or lower that has no duration, you don't expend the spell's slot when you cast it.",
+        "gainConditions": [
+            {
+                "duration": 1,
+                "name": "Bloodline Conduit",
+                "source": "Bloodline Conduit"
+            }
+        ]
+    },
+    {
+        "name": "Tenacious Blood Magic",
+        "actions": "Free",
+        "inputRequired": "Manually change the duration of the blood magic effect.",
+        "traits": [
+            "Uncommon",
+            "Sorcerer"
+        ],
+        "trigger": "You apply an effect from your blood magic that lasts for 1 round.",
+        "frequency": "once per minute",
+        "cooldown": 100,
+        "desc": "You have learned how to invest magic more deeply by witnessing Aroden's works. The triggering blood magic effect lasts for 1 minute instead of 1 round.",
+        "gainConditions": [
+            {
+                "duration": 1,
+                "name": "Bloodline Conduit",
+                "source": "Bloodline Conduit"
+            }
+        ]
     }
 ]

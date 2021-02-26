@@ -13,6 +13,8 @@
                     <span title="Combination spell" *ngIf="choice.spellCombinationAllowed">&#8853;&nbsp;</span>
                     <span title="Infinite Possibilities spell"
                         *ngIf="is_InfinitePossibilitiesSpell(choice)">&#9883;&nbsp;</span>
+                    <span title="Crossblooded Evolution spell"
+                        *ngIf="choice.crossbloodedEvolution">&#10086;&nbsp;</span>
                     {{itemSpell || choice.showOnSheet ? "Level "+choice.level : ""}}
                     {{choice.frequency ? capitalize(choice.frequency) : ""}}
                     {{choice.tradition ? choice.tradition : ""}}
@@ -45,10 +47,14 @@
                             <strong>Signature Spell</strong>
                             <div class="row"
                                 *ngIf="get_SignatureSpellsUnlocked(choice.level) && !choice.signatureSpell">
-                                There is already a signature spell chosen for this level.
+                                A signature spell has already been assigned for this level.
                             </div>
                             <div class="row"
-                                *ngIf="choice.signatureSpell || !get_SignatureSpellsUnlocked(choice.level)">
+                                *ngIf="!choice.signatureSpell && !get_SignatureSpellsUnlocked(choice.level) && (signatureSpellsAllowed > -1 && get_SignatureSpellsUnlocked(0) >= signatureSpellsAllowed)">
+                                The maximum amount of signature spells ({{signatureSpellsAllowed}}) has been assigned.
+                            </div>
+                            <div class="row"
+                                *ngIf="choice.signatureSpell || (!get_SignatureSpellsUnlocked(choice.level) && (signatureSpellsAllowed == -1 || get_SignatureSpellsUnlocked(0) < signatureSpellsAllowed))">
                                 <span>
                                     <input id="{{choice.id}}signaturespell" type="checkbox"
                                         [(ngModel)]="choice.signatureSpell" (ngModelChange)="on_SignatureSpell()">
@@ -64,7 +70,7 @@
                         <div class="list-item">
                             <strong>Adapted Cantrip</strong>
                             <div class="row" *ngIf="get_AdaptedCantripUnlocked() && !choice.adaptedCantrip">
-                                There is already an Adapted Cantrip spell slot unlocked.
+                                An Adapted Cantrip spell slot has already been unlocked.
                             </div>
                             <div class="row" *ngIf="!get_AdaptedCantripUnlocked() || choice.adaptedCantrip">
                                 <span>
@@ -84,7 +90,7 @@
                         <div class="list-item">
                             <strong>Adaptive Adept</strong>
                             <div class="row" *ngIf="get_AdaptiveAdeptUnlocked() && !choice.adaptiveAdept">
-                                There is already an Adaptive Adept spell slot unlocked.
+                                An Adaptive Adept spell slot has already been unlocked.
                             </div>
                             <div class="row" *ngIf="!get_AdaptiveAdeptUnlocked() || choice.adaptiveAdept">
                                 <span>
@@ -157,7 +163,7 @@
                             <strong>Infinite Possibilities</strong>
                             <div class="row"
                                 *ngIf="get_InfinitePossibilitiesUnlocked() && !choice.infinitePossibilities">
-                                There is already an Infinite Possibilities spell slot unlocked.
+                                An Infinite Possibilities spell slot has already been unlocked.
                             </div>
                             <div class="row"
                                 *ngIf="!get_InfinitePossibilitiesUnlocked() || choice.infinitePossibilities">
@@ -228,23 +234,104 @@
                             <p>
                                 You may add all spells from your repertoire to this book for free,
                                 and you can use the Occultism skill to Learn Spells (page 238) and add them to your
-                                spellbook by paying the approptiate cost,
+                                spellbook by paying the appropriate cost,
                                 similar to a wizard.
                             </p>
                         </div>
                     </ng-container>
                     <!-- End Esoteric Polymath -->
+                    <!-- Arcane Evolution -->
+                    <ng-container *ngIf="is_ArcaneEvolutionSpell(choice)">
+                        <div class="list-item">
+                            <strong>Arcane Evolution</strong>
+                            <span class="row left-aligned">
+                                <strong>Spell Level&nbsp;</strong>
+                                <button (click)="on_ChangeSpellLevel(choice, -1)"
+                                    [disabled]="choice.level <= 1">-</button>
+                                <button (click)="on_ChangeSpellLevel(choice, 1)"
+                                    [disabled]="choice.level >= get_HighestSpellLevel()">+</button>
+                            </span>
+                            <p>
+                                During your daily preparations, choose any one spell from your book of arcane spells.
+                                If that spell is already in your spell repertoire, you can treat it as an additional
+                                signature spell that day.
+                                If it isn't in your repertoire, add it to your spell repertoire until the next time you
+                                prepare.
+                            </p>
+                            <p>
+                                You may add all spells from your repertoire to this book for free,
+                                and you can use the Arcana skill to Learn Spells (page 238) and add them to your
+                                spellbook by paying the appropriate cost,
+                                similar to a wizard.
+                            </p>
+                        </div>
+                    </ng-container>
+                    <!-- End Arcane Evolution -->
+                    <!-- Occult Evolution -->
+                    <ng-container *ngIf="is_OccultEvolutionSpell(choice)">
+                        <div class="list-item">
+                            <strong>Occult Evolution</strong>
+                            <span class="row left-aligned">
+                                <strong>Spell Level&nbsp;</strong>
+                                <button (click)="on_ChangeSpellLevel(choice, -1)"
+                                    [disabled]="choice.level <= 1">-</button>
+                                <button (click)="on_ChangeSpellLevel(choice, 1)"
+                                    [disabled]="choice.level >= get_HighestSpellLevel()">+</button>
+                            </span>
+                            <p>
+                                Once per day, you can spend 1 minute to choose one mental occult spell you don’t know
+                                and add it to your spell repertoire. You lose this temporary spell the next time you
+                                make your daily preparations (though you can use this ability to add it again later).
+                            </p>
+                        </div>
+                    </ng-container>
+                    <!-- End Occult Evolution -->
+                    <!-- Crossblooded Evolution -->
+                    <ng-container
+                        *ngFor="let crossbloodedEvolutionAllowed of [get_CrossbloodedEvolutionAllowed()]; trackBy: trackByIndex">
+                        <ng-container *ngIf="crossbloodedEvolutionAllowed">
+                            <div class="list-item">
+                                <strong>Crossblooded Evolution</strong>
+                                <div class="row"
+                                    *ngIf="get_CrossbloodedEvolutionUnlocked(choice.level) && !choice.crossbloodedEvolution">
+                                    A Crossblooded Evolution spell has already been assigned for this level.
+                                </div>
+                                <div class="row"
+                                    *ngIf="crossbloodedEvolutionAllowed > 1 && get_CrossbloodedEvolutionUnlocked() >= crossbloodedEvolutionAllowed && !choice.crossbloodedEvolution">
+                                    The total maximum of {{crossbloodedEvolutionAllowed}} Crossblooded Evolution spells
+                                    has already been assigned.
+                                </div>
+                                <div class="row"
+                                    *ngIf="crossbloodedEvolutionAllowed == 1 && get_CrossbloodedEvolutionUnlocked() >= crossbloodedEvolutionAllowed && !choice.crossbloodedEvolution">
+                                    The Crossblooded Evolution spell has already been assigned.
+                                </div>
+                                <div class="row"
+                                    *ngIf="choice.crossbloodedEvolution || (!get_CrossbloodedEvolutionUnlocked(choice.level) && get_CrossbloodedEvolutionUnlocked() < crossbloodedEvolutionAllowed)">
+                                    <span>
+                                        <input id="{{choice.id}}crossbloodedEvolution" type="checkbox"
+                                            [(ngModel)]="choice.crossbloodedEvolution"
+                                            (ngModelChange)="on_CrossbloodedEvolution()">
+                                        <label for="{{choice.id}}crossbloodedEvolution">Choose this spell as a
+                                            Crossblooded
+                                            Evolution spell.</label>
+                                    </span>
+                                </div>
+                            </div>
+                        </ng-container>
+                    </ng-container>
+                    <!-- End Crossblooded Evolution -->
                     <div class="list-item" *ngIf="!available && !choice.spells.length">
                         <span>There are no spell slots available in this choice.</span>
                     </div>
                     <div class="list-item" *ngIf="available && !spells?.length">
                         <span>No available spell matches the requirements of this spell choice, or no spells are
                             available.</span>
-                        <span *ngIf="!allowHeightened">More spells may be found if you allow heightened spells.</span>
+                        <span *ngIf="!allowHeightened">More spells may be found if you allow heightened
+                            spells.</span>
                     </div>
                     <div [ngClass]="{'selected':spellTakenByThis(spell.name, choice)}"
                         title="{{(get_ShowSpell()==choice.id+spell.name+'desc') ? '' : spell.shortDesc}}"
-                        class="list-item" *ngFor="let spell of spells; trackBy:trackByIndex;">
+                        class="list-item" *ngFor="let spell of spells; trackBy:trackBySpellID;">
                         <span>
                             <input id="{{choice.id+spell.name}}" type="checkbox"
                                 (change)="on_SpellTaken(spell.name, $event.target.checked, choice, false)"

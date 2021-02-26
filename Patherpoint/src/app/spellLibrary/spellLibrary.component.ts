@@ -162,6 +162,16 @@ export class SpellLibraryComponent implements OnInit {
         }
     }
 
+    get_SorcererSpellCasting() {
+        let character = this.get_Character();
+        let casting: SpellCasting = character.class?.spellCasting.find(casting => casting.className == "Sorcerer" && casting.castingType == "Spontaneous" && casting.charLevelAvailable <= character.level);
+        if (this.have_Feat("Arcane Evolution")) {
+            return casting || new SpellCasting("Innate");
+        } else {
+            return new SpellCasting("Innate");
+        }
+    }
+
     get_School() {
         return this.get_Character().get_FeatsTaken(1, this.get_Character().level).find(taken =>
             ["Abjuration School", "Conjuration School", "Divination School", "Enchantment School", "Evocation School",
@@ -169,7 +179,7 @@ export class SpellLibraryComponent implements OnInit {
         )?.name || "";
     }
 
-    get_LearningAvailable(wizardCasting: SpellCasting, bardCasting: SpellCasting) {
+    get_LearningAvailable(wizardCasting: SpellCasting, bardCasting: SpellCasting, sorcererCasting: SpellCasting) {
         if (wizardCasting.className == "Wizard" && wizardCasting.castingType == "Prepared" && (this.traditionFilter == "" || this.traditionFilter == "Arcane")) {
             let result: string = "You can currently learn the following number of spells as a wizard:\n";
             let school = this.get_School();
@@ -248,6 +258,9 @@ export class SpellLibraryComponent implements OnInit {
                 }
             });
             return result || "";
+        } else if (sorcererCasting.className == "Sorcerer" && sorcererCasting.castingType == "Spontaneous" && (this.get_ArcaneEvolutionAllowed(sorcererCasting, this.traditionFilter))) {
+            let result = "You can add any spell in your repertoire to your spellbook for free via arcane evolution.";
+            return result || "";
         } else {
             return ""
         }
@@ -265,6 +278,9 @@ export class SpellLibraryComponent implements OnInit {
                 (this.have_Feat("Adaptive Adept: 1st-Level Spell") && spell.levelreq == 1 && !this.get_SpellsLearned(spell.name).length);
         }
         if (casting.className == "Bard" && casting.castingType == "Spontaneous" && (this.traditionFilter == "" || this.traditionFilter == "Occult" || this.get_Character().get_SpellListSpell(spell.name).length)) {
+            return !this.get_SpellsLearned(spell.name).length;
+        }
+        if (casting.className == "Sorcerer" && casting.castingType == "Spontaneous" && (this.traditionFilter == "" || this.traditionFilter == "Arcane" || this.get_Character().get_SpellListSpell(spell.name).length)) {
             return !this.get_SpellsLearned(spell.name).length;
         }
     }
@@ -324,6 +340,14 @@ export class SpellLibraryComponent implements OnInit {
                 }
             }
         }
+        if (source == "arcaneevolution" && casting.className == "Sorcerer") {
+            if (spell.traditions.find(tradition => this.get_ArcaneEvolutionAllowed(casting, tradition))) {
+                //You can learn a spell via arcane evolution if it is in your spell repertoire, i.e. if you have chosen it for any spell slot.
+                if (casting.spellChoices.find(choice => choice.spells.find(taken => taken.name == spell.name))) {
+                    return true;
+                }
+            }
+        }
         if (source == "adaptedcantrip" && casting.className == "Wizard") {
             //You can learn a spell via adapted cantrip if none of its traditions is your own.
             if (!spell.traditions.includes("Arcane")) {
@@ -348,7 +372,7 @@ export class SpellLibraryComponent implements OnInit {
     learn_Spell(spell: Spell, source: string) {
         this.get_Character().learn_Spell(spell, source);
         if (this.get_Character().settings.autoCloseChoices) { this.toggle_Item(""); }
-        this.characterService.set_Changed("spellchoices");
+        this.characterService.set_ToChange("Character", "spellchoices");
         this.characterService.process_ToChange();
     }
 
@@ -362,6 +386,8 @@ export class SpellLibraryComponent implements OnInit {
                 return "(learned as Wizard)";
             case "esotericpolymath":
                 return "(learned via Esoteric Polymath)";
+            case "arcaneevolution":
+                return "(learned via Arcane Evolution)";
             case "adaptedcantrip":
                 return "(learned via Adapted Cantrip)";
             case "adaptiveadept":
@@ -479,6 +505,18 @@ export class SpellLibraryComponent implements OnInit {
                         break;
                 }
                 return this.characterService.get_Skills(character, skill)[0].level(character, this.characterService, character.level) >= 2
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
+
+    get_ArcaneEvolutionAllowed(casting: SpellCasting, tradition: string) {
+        if (casting.className == "Sorcerer" && casting.castingType == "Spontaneous" && this.have_Feat("Arcane Evolution")) {
+            if (tradition == "Arcane") {
+                return true;
             } else {
                 return false;
             }

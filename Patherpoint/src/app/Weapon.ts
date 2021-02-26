@@ -124,7 +124,11 @@ export class Weapon extends Equipment {
         if (this.melee) {
             //Find and apply effects that give this weapon reach.
             let effectsService = characterService.effectsService;
-            let reach = parseInt(traits.find(trait => trait.includes("Reach"))?.split(" ")[1]) || 5;
+            let reach = 5;
+            let reachTrait = traits.find(trait => trait.includes("Reach"));
+            if (reachTrait) {
+                reach = reachTrait.includes(" ") ? parseInt(reachTrait.split(" ")[1]) : 10;
+            }
             let newReach = reach;
             let list = [
                 "Reach",

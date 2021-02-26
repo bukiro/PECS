@@ -733,7 +733,12 @@
     {
         "name": "Signature Spells (Bard)",
         "desc": "Experience allows you to cast some spells more flexibly. For each spell level you have access to, choose one spell of that level to be a signature spell. You don't need to learn heightened versions of signature spells separately; instead, you can heighten these spells freely. If you've learned a signature spell at a higher level than its minimum, you can also cast all its lower-level versions without learning those separately. If you swap out a signature spell, you can choose a replacement signature spell of the same spell level at which you learned the previous spell. You can also retrain specifically to change a signature spell to a different spell of that level without swapping any spells; this takes as much time as retraining a spell normally does.",
-        "allowSignatureSpells": true,
+        "allowSignatureSpells": [
+            {
+                "className": "Bard",
+                "available": -1
+            }
+        ],
         "countAsFeat": "Signature Spells"
     },
     {
@@ -760,6 +765,24 @@
     {
         "name": "Champion's Code",
         "desc": "You follow a code of conduct, beginning with tenets shared by all champions of an alignment (such as good), and continuing with tenets of your cause. Deities often add additional strictures (for instance, Torag's champions can't show mercy to enemies of their people, making it almost impossible for them to follow the redeemer cause). Only rules for good champions appear in this book. Tenets are listed in order of importance, starting with the most important. If a situation places two tenets in conflict, you aren't in a no-win situation; instead, follow the more important tenet. For instance, as a paladin, if an evil king asked you if you're hiding refugees so he could execute them, you could lie to him, since the tenet against lying is less important than preventing harm to innocents. Trying to subvert your code by creating a situation that forces a higher tenet to override a lower tenet (for example, promising not to respect authorities and then, to keep your word, disrespecting authorities) is a violation of the champion code.\n\nIf you stray from your alignment or violate your code of conduct, you lose your focus pool and divine ally until you demonstrate your repentance by conducting an atone ritual, but you keep any other champion abilities that don't require those class features. If your alignment shifts but is still one allowed by your deity, your GM might let you retrain your cause while still following the same deity.\n\nAll champions of good alignment follow these tenets. \n\nYou must never perform acts anathema to your deity or willingly commit an evil act, such as murder, torture, or the casting of an evil spell. \nYou must never knowingly harm an innocent, or allow immediate harm to one through inaction when you know you could reasonably prevent it. This tenet doesn't force you to take action against possible harm to innocents at an indefinite time in the future, or to sacrifice your life to protect them."
+    },
+    {
+        "name": "Composition Spells",
+        "desc": "You can infuse your performances with magic to create unique effects called compositions. Compositions are a special type of spell that often require you to use the Performance skill when casting them. Composition spells are a type of focus spell. It costs 1 Focus Point to cast a focus spell, and you start with a focus pool of 1 Focus Point. You refill your focus pool during your daily preparations, and you can regain 1 Focus Point by spending 10 minutes using the Refocus activity to perform, write a new composition, or otherwise engage your muse.\n\nFocus spells are automatically heightened to half your level rounded up, much like cantrips. Focus spells don't require spell slots, and you can't cast them using spell slots. Taking feats can give you more focus spells and increase the size of your focus pool, though your focus pool can never hold more than 3 Focus Points. The full rules for focus spells appear on page 300.\n\nYou learn the counter performance composition spell (page 386), protecting against auditory and visual effects.",
+        "internalNote": "Spell slots gained through class features are handled in the class object.",
+        "shortdesc": "You can infuse your performances with magic to create unique effects called compositions.",
+        "effects": [
+            {
+                "affected": "Focus Pool",
+                "value": "1"
+            }
+        ],
+        "onceEffects": [
+            {
+                "affected": "Focus Points",
+                "value": "1"
+            }
+        ]
     },
     {
         "name": "Deific Weapon",
@@ -897,6 +920,11 @@
         "desc": "Primal magic answers your command. Your proficiency ranks for primal spell attack rolls and spell DCs increase to master.",
         "internalNote": "Skill increases through class features are handled in the class object.",
         "countAsFeat": "Master Spellcaster"
+    },
+    {
+        "name": "Muse",
+        "desc": "As a bard, you select one muse at 1st level. This muse leads you to great things, and might be a physical creature, a deity, a philosophy, or a captivating mystery.",
+        "shortdesc": "As a bard, you select one muse at 1st level."
     },
     {
         "name": "Primal Hierophant",
@@ -1092,7 +1120,12 @@
     {
         "name": "Signature Spells (Sorcerer)",
         "desc": "You've learned to cast some of your spells more flexibly. For each spell level you have access to, choose one spell of that level to be a signature spell. You don't need to learn heightened versions of signature spells separately; instead, you can heighten these spells freely. If you've learned a signature spell at a higher level than its minimum, you can also cast all its lower-level versions without learning those separately. If you swap out a signature spell, you can choose a replacement signature spell of the same spell level at which you learned the previous spell. You can also retrain specifically to change a signature spell to a different spell of that level without swapping any spells; this takes as much time as retraining a spell normally does.",
-        "allowSignatureSpells": true,
+        "allowSignatureSpells": [
+            {
+                "className": "Sorcerer",
+                "available": -1
+            }
+        ],
         "countAsFeat": "Signature Spells"
     },
     {

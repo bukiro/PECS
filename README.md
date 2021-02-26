@@ -110,14 +110,15 @@ The very latest in Assistive Technologies for Dungeon Master (ATDM)
 - [ ] Stretch Goal: Include optional systems like Stamina & Resolve
 
 Active to-do:
-After implementing druid feats, double-test all the spells that get more options with feats:
-- Wild Morph
+- Bloodline Breadth (and Occult Breadth) double the "available" value of spell choices, which makes them ineligible for Signature spells.
+    Signature spells need to be applied to SpellGains (preferable), or the Breadth feats need to work differently.
+- Make minimize buttons fancy-buttons when minimized
+- Test Sorcerer feats and archetype
+
 
 Implement:
-Illusory Scene (needed by Fey Glamour)
 
 Next steps:
-- Sorcerer
 - 5th level spells
 - Gnome
 - Hobgoblin

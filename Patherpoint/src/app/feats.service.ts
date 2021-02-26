@@ -794,7 +794,8 @@ export class FeatsService {
                         });
                     });
                     characterService.set_ToChange(creature.type, "spells");
-                    characterService.set_ToChange(creature.type, "spellbook");
+                    characterService.set_ToChange(creature.type, "spellchoices");
+                characterService.set_ToChange(creature.type, "spellbook");
                 } else {
                     character.class.spellCasting.filter(casting => casting.className == "Wizard" && casting.castingType == "Prepared").forEach(casting => {
                         casting.spellChoices.filter(choice => choice.spellCombinationAllowed).forEach(choice => {
@@ -804,8 +805,29 @@ export class FeatsService {
                         });
                     });
                     characterService.set_ToChange(creature.type, "spells");
-                    characterService.set_ToChange(creature.type, "spellbook");
+                    characterService.set_ToChange(creature.type, "spellchoices");
+                characterService.set_ToChange(creature.type, "spellbook");
                 }
+            }
+
+            //Reset changes made with Crossblooded Evolution.
+            if (feat.name.includes("Crossblooded Evolution")) {
+                character.class.spellCasting.forEach(casting => {
+                    casting.spellChoices.forEach(choice => {
+                        choice.crossbloodedEvolution = false;
+                    })
+                })
+                characterService.set_ToChange(creature.type, "spells");
+                characterService.set_ToChange(creature.type, "spellchoices");
+                characterService.set_ToChange(creature.type, "spellbook");
+            }
+
+            //Reset changes made with Arcane Evolution.
+            if (feat.name.includes("Arcane Evolution")) {
+                character.class.spellBook = character.class.spellBook.filter(learned => learned.source != "arcaneevolution")
+                characterService.set_ToChange(creature.type, "spells");
+                characterService.set_ToChange(creature.type, "spellchoices");
+                characterService.set_ToChange(creature.type, "spellbook");
             }
 
             //Reset changes made with Spell Mastery

@@ -1,61 +1,61 @@
 <div class="fullsize-only row left-aligned">
     <ng-container *ngFor="let trait of get_TraitsForThis(objectName); trackBy:trackByIndex;">
-        <app-hint [creature]="creature" [className]="'trait'" [object]="trait" [objectName]="objectName"
+        <app-hint [creature]="creature" [ngClass]="'trait'" [object]="trait" [objectName]="objectName"
             [description]="trait.name +' ('+ trait.haveOn(get_Creature(), this.characterService, true) + ')'"></app-hint>
     </ng-container>
     <ng-container *ngFor="let specialName of specialNames; trackBy:trackByIndex;">
         <ng-container *ngFor="let trait of get_TraitsForThis(specialName); trackBy:trackByIndex;">
-            <app-hint [creature]="creature" [className]="'trait'" [object]="trait" [objectName]="specialName"
+            <app-hint [creature]="creature" [ngClass]="'trait'" [object]="trait" [objectName]="specialName"
             [description]="trait.name +' ('+ trait.haveOn(get_Creature(), this.characterService, true) + ')'"></app-hint>
         </ng-container>
     </ng-container>
     <ng-container *ngFor="let feat of get_FeatsShowingOn(objectName, showFeats); trackBy:trackByIndex;">
-        <app-hint [creature]="creature" [className]="'feat'" [object]="feat" [objectName]="objectName"
+        <app-hint [creature]="creature" [ngClass]="'feat'" [object]="feat" [objectName]="objectName"
             [description]="feat.name"></app-hint>
     </ng-container>
     <ng-container *ngFor="let specialName of specialNames; trackBy:trackByIndex;">
         <ng-container *ngFor="let feat of get_FeatsShowingOn(specialName, true); trackBy:trackByIndex;">
-            <app-hint [creature]="creature" [className]="'feat'" [object]="feat" [objectName]="specialName"
+            <app-hint [creature]="creature" [ngClass]="'feat'" [object]="feat" [objectName]="specialName"
             [description]="feat.name"></app-hint>
         </ng-container>
     </ng-container>
     <ng-container *ngFor="let item of get_ItemsShowingOn(objectName); trackBy:trackByIndex;">
-        <app-hint [creature]="creature" [className]="'item'" [object]="item" [objectName]="objectName"
+        <app-hint [creature]="creature" [ngClass]="'item'" [object]="item" [objectName]="objectName"
             [description]="item.name"></app-hint>
     </ng-container>
     <ng-container *ngFor="let specialName of specialNames; trackBy:trackByIndex;">
         <ng-container *ngFor="let item of get_ItemsShowingOn(specialName); trackBy:trackByIndex;">
-            <app-hint [creature]="creature" [className]="'item'" [object]="item" [objectName]="specialName"
+            <app-hint [creature]="creature" [ngClass]="'item'" [object]="item" [objectName]="specialName"
             [description]="item.name"></app-hint>
         </ng-container>
     </ng-container>
     <ng-container *ngFor="let spec of get_SpecializationsShowingOn(objectName); trackBy:trackByIndex;">
-        <app-hint [creature]="creature" [className]="'item'" [object]="spec" [objectName]="objectName"
+        <app-hint [creature]="creature" [ngClass]="'item'" [object]="spec" [objectName]="objectName"
             [description]="spec.name"></app-hint>
     </ng-container>
     <ng-container *ngFor="let specialName of specialNames; trackBy:trackByIndex;">
         <ng-container *ngFor="let spec of get_SpecializationsShowingOn(specialName); trackBy:trackByIndex;">
-            <app-hint [creature]="creature" [className]="'item'" [object]="spec" [objectName]="specialName"
+            <app-hint [creature]="creature" [ngClass]="'item'" [object]="spec" [objectName]="specialName"
             [description]="spec.name"></app-hint>
         </ng-container>
     </ng-container>
     <ng-container *ngFor="let activity of get_ActivitiesShowingOn(objectName); trackBy:trackByIndex;">
-        <app-hint [creature]="creature" [className]="'activity'" [object]="activity" [objectName]="objectName"
+        <app-hint [creature]="creature" [ngClass]="'activity'" [object]="activity" [objectName]="objectName"
             [description]="activity.name"></app-hint>
     </ng-container>
     <ng-container *ngFor="let specialName of specialNames; trackBy:trackByIndex;">
         <ng-container *ngFor="let activity of get_ActivitiesShowingOn(specialName); trackBy:trackByIndex;">
-            <app-hint [creature]="creature" [className]="'activity'" [object]="activity" [objectName]="specialName"
+            <app-hint [creature]="creature" [ngClass]="'activity'" [object]="activity" [objectName]="specialName"
             [description]="activity.name"></app-hint>
         </ng-container>
     </ng-container>
     <ng-container *ngFor="let condition of get_ConditionsShowingOn(objectName); trackBy:trackByIndex;">
-        <app-hint [creature]="creature" [className]="'condition'" [object]="condition" [objectName]="objectName"
+        <app-hint [creature]="creature" [ngClass]="'condition'" [object]="condition" [objectName]="objectName"
             [description]="condition.name"></app-hint>
     </ng-container>
     <ng-container *ngFor="let specialName of specialNames; trackBy:trackByIndex;">
         <ng-container *ngFor="let condition of get_ConditionsShowingOn(specialName); trackBy:trackByIndex;">
-            <app-hint [creature]="creature" [className]="'condition'" [object]="condition" [objectName]="specialName"
+            <app-hint [creature]="creature" [ngClass]="'condition'" [object]="condition" [objectName]="specialName"
             [description]="condition.name"></app-hint>
         </ng-container>
     </ng-container>

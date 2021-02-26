@@ -128,11 +128,11 @@
                                 *ngIf="get_ShowItem()==inventoryID">
                                 <div class="row"
                                     *ngFor="let prof of [(item.get_Proficiency ? item.get_Proficiency(get_Creature(), characterService) : item.prof)]; trackBy:trackByIndex;">
-                                    <span [className]="item.prof != prof ? 'absolute' : ''"
+                                    <span [ngClass]="item.prof != prof ? 'absolute' : ''"
                                         *ngIf="item.type == 'armors'">{{(["Light Barding","Heavy Barding"].includes(prof)) ? prof : prof.split(" ")[0]}}
                                         {{item.group}}
                                         {{(item.type=="armors" && (!["Unarmored Defense","Light Barding","Heavy Barding"].includes(prof))) ? "Armor" : ""}}</span>
-                                    <span [className]="item.prof != prof ? 'absolute' : ''"
+                                    <span [ngClass]="item.prof != prof ? 'absolute' : ''"
                                         *ngIf="item.type == 'weapons'">{{(prof == 'Unarmed') ? prof : prof.substr(0, prof.length - 8)}}
                                         {{item.group}}</span>
                                 </div>

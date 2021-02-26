@@ -182,14 +182,9 @@ export class SpellbookComponent implements OnInit {
         return this.spellsService.get_DynamicSpellLevel(casting, choice, this.characterService);
     }
 
-    get_SignatureSpellsAllowed() {
-        if (this.characterService.get_FeatsAndFeatures()
-            .find(feature => feature.name.includes("Signature Spells") && feature.have(this.get_Character(), this.characterService))
-        ) {
-            return true;
-        } else {
-            return false;
-        }
+    get_SignatureSpellsAllowed(casting: SpellCasting) {
+        return this.characterService.get_FeatsAndFeatures()
+            .some(feat => feat.allowSignatureSpells.some(gain => gain.className == casting.className) && feat.have(this.get_Character(), this.characterService))
     }
 
     get_SpellsByLevel(levelNumber: number, casting: SpellCasting) {
@@ -210,12 +205,12 @@ export class SpellbookComponent implements OnInit {
         let character = this.get_Character();
         if (levelNumber == -1) {
             if (casting.castingType == "Focus") {
-                return spellSort(character.get_SpellsTaken(this.characterService, 1, character.level, levelNumber, "", casting, "", "", "", "", "", undefined, this.get_SignatureSpellsAllowed(), false));
+                return spellSort(character.get_SpellsTaken(this.characterService, 1, character.level, levelNumber, "", casting, "", "", "", "", "", undefined, this.get_SignatureSpellsAllowed(casting), false));
             } else {
                 return [];
             }
         } else {
-            return spellSort(character.get_SpellsTaken(this.characterService, 1, character.level, levelNumber, "", casting, "", "", "", "", "", undefined, this.get_SignatureSpellsAllowed()));
+            return spellSort(character.get_SpellsTaken(this.characterService, 1, character.level, levelNumber, "", casting, "", "", "", "", "", undefined, this.get_SignatureSpellsAllowed(casting)));
         }
     }
 
@@ -273,9 +268,11 @@ export class SpellbookComponent implements OnInit {
             //  except for Level 10, where you have 1 (before effects).
             if (spellLevel == 10) {
                 spellslots = 1;
+            } else if ([11,12].includes(spellLevel) && casting.className == "Sorcerer" && this.have_Feat("Greater Vital Evolution")) {
+                spellslots = 1;
             } else if (spellLevel == 0 && casting.className == "Bard" && this.have_Feat("Studious Capacity")) {
                 spellslots = 1;
-            } else if (spellLevel > 0) {
+            } else if (spellLevel > 0 && spellLevel < 11) {
                 casting.spellChoices.filter(choice =>
                     choice.level == spellLevel &&
                     choice.charLevelAvailable <= this.get_Character().level &&
@@ -286,7 +283,10 @@ export class SpellbookComponent implements OnInit {
                 if (spellLevel <= this.get_MaxSpellLevel(casting) - 2 && (casting.className == "Bard" && this.have_Feat("Occult Breadth"))) {
                     spellslots += 1;
                 }
-            }
+                if (spellLevel <= this.get_MaxSpellLevel(casting) - 2 && (casting.className == "Sorcerer" && this.have_Feat("Bloodline Breadth"))) {
+                    spellslots += 1;
+                }
+            } 
             if (casting.className)
                 this.effectsService.get_RelativesOnThis(this.get_Character(), casting.className + " " + casting.castingType + " Level " + spellLevel + " Spell Slots").forEach(effect => {
                     spellslots += parseInt(effect.value);
@@ -319,7 +319,7 @@ export class SpellbookComponent implements OnInit {
     }
 
     cannot_Cast(spell: Spell, levelNumber: number, casting: SpellCasting, choice: SpellChoice, gain: SpellGain, maxSpellSlots: number, externallyDisabled: number) {
-        if (gain.activeCooldown && !gain.active) {
+        if ((gain.activeCooldown || choice.spells.find(spellGain => spellGain.activeCooldown)) && !gain.active) {
             return "Cannot cast " + this.get_Duration(gain.activeCooldown, true, true);
         }
         if (externallyDisabled) {
@@ -339,11 +339,23 @@ export class SpellbookComponent implements OnInit {
                     levelNumber > 0 &&
                     maxSpellSlots &&
                     this.get_UsedSpellSlots(levelNumber, casting) >= maxSpellSlots &&
-                    (
+                    !(
                         //For spontanous spells, allow casting a spell if you don't have spell slots of that level left,
-                        //  but you have a extra global spell slots. You can't use the global spell slots for your highest spell level.
-                        this.get_UsedSpellSlots(0, casting) >= this.get_MaxSpellSlots(0, casting) ||
-                        levelNumber == this.get_MaxSpellLevel(casting)
+                        //  but you have an extra studious capacity spell slot left. You can't use the studious capacity spell slot for your highest spell level.
+                        casting.className == "Bard" &&
+                        this.get_UsedSpellSlots(0, casting) < this.get_MaxSpellSlots(0, casting) &&
+                        levelNumber != this.get_MaxSpellLevel(casting)
+                    ) &&
+                    !(
+                        //For spontanous spells, allow casting a spell if you don't have spell slots of that level left,
+                        //  but you have an extra greater vital evolution spell slot left and haven't used one for this level yet.
+                        casting.className == "Sorcerer" &&
+                        this.get_UsedSpellSlots(11, casting) != levelNumber &&
+                        this.get_UsedSpellSlots(12, casting) != levelNumber &&
+                        (
+                            this.get_UsedSpellSlots(11, casting) == 0 ||
+                            this.get_UsedSpellSlots(12, casting) == 0
+                        )
                     )
                 ) {
                     return "No spell slots left to cast."
@@ -363,29 +375,38 @@ export class SpellbookComponent implements OnInit {
 
     on_Cast(levelNumber: number, gain: SpellGain, casting: SpellCasting, choice: SpellChoice, creature: string = "", spell: Spell, activated: boolean) {
         let character = this.get_Character();
+        //Spells with a cooldown can start their cooldown, but not use any resources.
         if (gain.cooldown) {
             gain.activeCooldown = gain.cooldown;
-        }
-        //Focus spells cost Focus points.
-        if (casting.castingType == "Focus" && activated && choice.level == -1) {
-            this.get_Character().class.focusPoints = Math.min(character.class.focusPoints, this.get_MaxFocusPoints());
-            this.get_Character().class.focusPoints -= 1;
-        };
-        //Spontaneous spells use up spell slots. If you don't have spell slots of this level left, use a global one (0th level).
-        if (casting.castingType == "Spontaneous" && !spell.traits.includes("Cantrip") && activated) {
-            if (this.get_UsedSpellSlots(levelNumber, casting) < this.get_MaxSpellSlots(levelNumber, casting)) {
-                casting.spellSlotsUsed[levelNumber] += 1;
-            } else {
-                casting.spellSlotsUsed[0] += 1;
+        } else {
+            //Focus spells cost Focus points.
+            if (casting.castingType == "Focus" && activated && choice.level == -1) {
+                this.get_Character().class.focusPoints = Math.min(character.class.focusPoints, this.get_MaxFocusPoints());
+                this.get_Character().class.focusPoints -= 1;
+            };
+            //Spontaneous spells use up spell slots. If you don't have spell slots of this level left, use a Studious Capacity one as a bard (0th level) or a Greater Vital Evolution one as a Sorcerer (11th and 12th level).
+            if (casting.castingType == "Spontaneous" && !spell.traits.includes("Cantrip") && activated) {
+
+                //With Bloodline Conduit active, prepared spells without a duration up to 5th level do not get expended.
+                if (!(levelNumber <= 5 && !spell.duration && this.conditionsService.get_AppliedConditions(character, this.characterService, character.conditions, true).some(gain => gain.name == "Bloodline Conduit"))) {
+                    if (this.get_UsedSpellSlots(levelNumber, casting) < this.get_MaxSpellSlots(levelNumber, casting)) {
+                        casting.spellSlotsUsed[levelNumber] += 1;
+                    } else if (casting.className == "Bard") {
+                        casting.spellSlotsUsed[0] += 1;
+                    } else if (casting.className == "Sorcerer") {
+                        if (casting.spellSlotsUsed[11] == 0) {
+                            casting.spellSlotsUsed[11] = levelNumber;
+                        } else if (casting.spellSlotsUsed[12] == 0) {
+                            casting.spellSlotsUsed[12] = levelNumber;
+                        }
+                    }
+                }
             }
-        }
-        //Prepared spells get locked until the next preparation.
-        if (casting.castingType == "Prepared" && !spell.traits.includes("Cantrip") && activated) {
-            gain.prepared = false;
-            //With Leyline Conduit active, prepared spells without a duration up to 5th level do not get expended.
-            if (this.conditionsService.get_AppliedConditions(character, this.characterService, character.conditions, true).some(gain => gain.name == "Leyline Conduit")) {
-                if (levelNumber <= 5 && !spell.duration) {
-                    gain.prepared = true;
+            //Prepared spells get locked until the next preparation.
+            if (casting.castingType == "Prepared" && !spell.traits.includes("Cantrip") && activated) {
+                //With Leyline Conduit active, prepared spells without a duration up to 5th level do not get expended.
+                if (!(levelNumber <= 5 && !spell.duration && this.conditionsService.get_AppliedConditions(character, this.characterService, character.conditions, true).some(gain => gain.name == "Leyline Conduit"))) {
+                    gain.prepared = false;
                 }
             }
         }
@@ -396,8 +417,9 @@ export class SpellbookComponent implements OnInit {
                 if (bloodMagic.trigger.includes(spell.name)) {
                     let conditionGain = new ConditionGain();
                     conditionGain.name = bloodMagic.condition;
-                    conditionGain.duration = 10;
+                    conditionGain.duration = bloodMagic.duration;
                     conditionGain.source = feat.name;
+                    conditionGain.heightened = spell.get_EffectiveSpellLevel(this.get_Character(), choice.level, this.characterService, this.effectsService);
                     if (conditionGain.name) {
                         this.characterService.add_Condition(this.get_Character(), conditionGain, false);
                     }
@@ -502,8 +524,8 @@ export class SpellbookComponent implements OnInit {
         gain.prepared = true;
     }
 
-    is_SignatureSpell(choice: SpellChoice) {
-        return this.get_SignatureSpellsAllowed() && choice.signatureSpell;
+    is_SignatureSpell(casting: SpellCasting, choice: SpellChoice) {
+        return this.get_SignatureSpellsAllowed(casting) && choice.signatureSpell;
     }
 
     is_InfinitePossibilitiesSpell(choice: SpellChoice) {
@@ -515,7 +537,13 @@ export class SpellbookComponent implements OnInit {
     }
 
     get_TemporarySpellChoices(casting: SpellCasting, level: number) {
-        return casting.spellChoices.filter(choice => choice.showOnSheet && choice.level == level && this.get_TemporarySpellChoiceUnlocked(casting, choice, level));
+        return casting.spellChoices.filter(choice =>
+            choice.showOnSheet &&
+            (
+                (!choice.dynamicLevel && choice.level == level) ||
+                (choice.dynamicLevel && this.get_DynamicLevel(casting, choice) == level)
+            ) &&
+            this.get_TemporarySpellChoiceUnlocked(casting, choice, level));
     }
 
     get_TemporarySpellChoiceUnlocked(casting: SpellCasting, choice: SpellChoice, level: number = 0) {

@@ -69,15 +69,15 @@
                 </div>
             </div>
             <div class="list-item">
-                <button (click)="toggle_Purpose('items')" [className]="{'fancy-button':get_ShowPurpose()=='items'}">Get
+                <button (click)="toggle_Purpose('items')" [ngClass]="{'fancy-button':get_ShowPurpose()=='items'}">Get
                     Items</button>
                 <button (click)="toggle_Purpose('scrollsavant')"
-                    [className]="{'fancy-button':get_ShowPurpose()=='scrollsavant'}"
+                    [ngClass]="{'fancy-button':get_ShowPurpose()=='scrollsavant'}"
                     *ngIf="have_Feat('Scroll Savant')">Scroll Savant</button>
                 <button (click)="toggle_Purpose('createcustomitem')"
-                    [className]="{'fancy-button':get_ShowPurpose()=='createcustomitem'}">Create Custom Item</button>
+                    [ngClass]="{'fancy-button':get_ShowPurpose()=='createcustomitem'}">Create Custom Item</button>
                 <button (click)="toggle_Purpose('formulas')"
-                    [className]="{'fancy-button':get_ShowPurpose()=='formulas'}">Learn Formulas</button>
+                    [ngClass]="{'fancy-button':get_ShowPurpose()=='formulas'}">Learn Formulas</button>
             </div>
             <app-tags [creature]="creature" [objectName]="'ItemStore'" [showTraits]=true [showFeats]=true
                 [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true>

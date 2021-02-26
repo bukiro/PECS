@@ -14998,10 +14998,11 @@
       "buff": true
    },
    {
-      "name": "Diabolic Edict (Caster)",
+      "name": "Diabolic Edict",
       "desc": "A diabolic edict demands that you perform a particular task and offers rewards for its fulfillment. You gain a +1 status bonus to attack rolls and skill checks related to performing the task. If you refuse to perform the task, you instead take a -1 status penalty to all your attack rolls and skill checks.",
       "type": "spells",
       "minLevel": 1,
+      "buff": true,
       "hints": [
          {
             "desc": "You gain a +1 status bonus to attack rolls and skill checks related to performing your task. If you refuse to perform the task, you instead take a -1 status penalty to all your attack rolls and skill checks (second activation).",
@@ -15017,7 +15018,8 @@
                   "type": "status",
                   "value": "object.active2 ? -1 : (object.active ? +1 : 0)"
                }
-            ]
+            ],
+            "extraActivations": 1
          }
       ]
    },
@@ -15267,7 +15269,7 @@
    },
    {
       "name": "Faerie Dust",
-      "desc": "You have sprinkled magical dust in the spell's area, making those within easier to trick. Each creature in the area must attempt a Will save. For each additional action you use Casting the Spell, the burst's radius increases by 5 feet.\n\n<strong>Success</strong> The creature is unaffected.\n<strong>Failure</strong> The creature can't use reactions and takes a -2 status penalty to Perception checks and Will saves.\n<strong>Critical Failure</strong> As failure, and the creature also takes a -1 status penalty to Perception checks and Will saves for 1 minute.",
+      "desc": "You have sprinkled magical dust in the spell's area, making those within easier to trick, according to their Will save:\n\n<strong>Success</strong> The creature is unaffected.\n<strong>Failure</strong> The creature can't use reactions and takes a -2 status penalty to Perception checks and Will saves.\n<strong>Critical Failure</strong> As failure, and the creature also takes a -1 status penalty to Perception checks and Will saves for 1 minute.",
       "type": "spells",
       "minLevel": 1,
       "buff": true
@@ -15810,6 +15812,42 @@
       "buff": true
    },
    {
+      "name": "Aberrant Blood Magic",
+      "desc": "Aberrant whispers shield one target's mind or your own, granting a +2 status bonus to Will saving throws for 1 round.",
+      "type": "bloodmagic",
+      "buff": true,
+      "inputRequired": "If you choose to target another creature, they can take the appropriate condition for the duration.",
+      "choice": "Target yourself",
+      "choices": [
+         {
+            "name": "Target yourself"
+         },
+         {
+            "name": "Target others"
+         }
+      ],
+      "effects": [
+         {
+            "affected": "Will",
+            "type": "status",
+            "value": "Choice == 'Target yourself' ? 2 : 0"
+         }
+      ]
+   },
+   {
+      "name": "Aberrant Blood Magic (Target)",
+      "desc": "Aberrant whispers shield your mind, granting a +2 status bonus to Will saving throws for 1 round.",
+      "type": "bloodmagic",
+      "buff": true,
+      "effects": [
+         {
+            "affected": "Will",
+            "type": "status",
+            "value": "2"
+         }
+      ]
+   },
+   {
       "name": "Angelic Blood Magic",
       "desc": "An angelic aura protects you or one target, granting a +1 status bonus to saving throws for 1 round.",
       "type": "bloodmagic",
@@ -15988,21 +16026,6 @@
             "desc": "The first creature that deals damage to you before the end of your next turn takes 2 mental damage per spell level and must attempt a basic Will save.",
             "showon": "Defense"
          }
-      ],
-      "choice": "Target yourself",
-      "choices": [
-         {
-            "name": "Target yourself"
-         },
-         {
-            "name": "Target others"
-         }
-      ],
-      "gainConditions": [
-         {
-            "conditionChoiceFilter": "Target yourself",
-            "name": "Concealed"
-         }
       ]
    },
    {
@@ -16059,5 +16082,18 @@
             "value": "-Temporary_HP('',effect.sourceId)"
          }
       ]
+   },
+   {
+      "name": "Leyline Conduit",
+      "desc": "Your inborn magical nature lets you redirect ambient energies to fuel your spells. If your next action is to Cast a Spell of 5th level or lower that has no duration, you don't expend the spell's slot when you cast it.",
+      "type": "activities",
+      "buff": true
+   },
+   {
+      "name": "Illusory Scene",
+      "desc": "You have formed an imaginary scene that includes up to 10 discrete creatures or objects of various sizes. These elements generate appropriate sounds and smells, and they feel right to the touch.\n\n<strong>5th Level</strong> Elements of an illusory scene are incapable of speech.\n<strong>6th Level</strong> Creatures or objects in your scene can speak, with specific lines you have spoken for each actor when creating your program. The spell disguises your voice for each actor.\n\nUnlike with the illusory creature spell, creatures in your scene lack combat abilities and statistics. Your scene doesn't include changes to the environment around it, though you can place your scene within the illusory environment of a hallucinatory terrain spell.\n\nWhen you create the scene, you can choose to have it be static or follow a program. Though a static scene is stationary, it includes basic natural movement. For example, wind blowing on an illusory piece of paper would rustle it. A program can be up to 1 minute long and repeats when finished. For instance, you could create a scene of two orcs fighting each other, and the fight would go the same way for each repetition. If you create a loop, the two fighters end up in the same place at the start of the scene and at the end of it, but you can smooth the program so it's hard to tell when the loop ends and begins. Anyone observing the scene for more than a few minutes almost always notices it looping. You're unable to alter the program after you create the illusion.\n\nAny creature that touches any part of the image or uses the Seek action to examine it can attempt to disbelieve your illusion. If they interact with a portion of the illusion, they disbelieve only that portion. They disbelieve the entire scene only on a critical success.",
+      "type": "spells",
+      "minLevel": 5,
+      "buff": true
    }
 ]

@@ -424,7 +424,7 @@
     {
         "name": "Diabolic Edict",
         "id": "983c240e-7483-11eb-9439-0242ac130002",
-        "shortDesc": "You issue a�diabolic edict, demanding the target perform a particular task and offering rewards for its fulfillment.",
+        "shortDesc": "You issue a diabolic edict, demanding the target perform a particular task and offering rewards for its fulfillment.",
         "actions": "1A",
         "castType": "verbal",
         "levelreq": 1,
@@ -438,14 +438,22 @@
         ],
         "range": "30 feet",
         "targets": "1 willing living creature",
+        "target": "ally",
         "singleTarget": true,
         "duration": "1 round",
         "desc": "You issue a diabolic edict, demanding the target perform a particular task and offering rewards for its fulfillment. It gains a +1 status bonus to attack rolls and skill checks related to performing the task. If it refuses to perform the task you proclaimed, it instead takes a -1 status penalty to all its attack rolls and skill checks.",
         "gainConditions": [
             {
+                "duration": 10,
                 "name": "Diabolic Edict (Caster)",
                 "source": "Diabolic Edict",
                 "targetFilter": "caster"
+            },
+            {
+                "duration": 10,
+                "name": "Diabolic Edict",
+                "source": "Diabolic Edict",
+                "targetFilter": "target"
             }
         ]
     },
@@ -544,6 +552,8 @@
         "gainConditions": [
             {
                 "duration": 100,
+                "choiceBySubType": "Dragon Type",
+                "hideChoices": true,
                 "name": "Dragon Claws",
                 "source": "Dragon Claws"
             }
@@ -1997,7 +2007,7 @@
     {
         "name": "Soothing Words",
         "id": "983d613e-7483-11eb-9439-0242ac130002",
-        "shortDesc": "You attempt to calm the target by uttering�soothing words�in a calm and even tone.",
+        "shortDesc": "You attempt to calm the target by uttering soothing words in a calm and even tone.",
         "actions": "1A",
         "castType": "verbal",
         "levelreq": 1,
@@ -2378,7 +2388,7 @@
         "gainConditions": [
             {
                 "duration": 100,
-                "name": "Undeath's Blessing",
+                "name": "Undeath's Blessing (Willing or Failure)",
                 "source": "Undeath's Blessing"
             }
         ],
@@ -2462,7 +2472,7 @@
     {
         "name": "Veil of Confidence",
         "id": "983d79bc-7483-11eb-9439-0242ac130002",
-        "shortDesc": "You surround yourself in a�veil of confidence.",
+        "shortDesc": "You surround yourself in a veil of confidence.",
         "actions": "1A",
         "castType": "verbal",
         "levelreq": 1,
@@ -2913,7 +2923,7 @@
         "name": "Aberrant Whispers",
         "id": "983bdc24-7483-11eb-9439-0242ac130002",
         "shortDesc": "You utter phrases in an unknown tongue, assaulting the minds of those nearby.",
-        "actions": "1A�to�3A",
+        "actions": "1A to 3A",
         "castType": "verbal",
         "levelreq": 3,
         "traditions": [
@@ -3227,6 +3237,8 @@
         "gainConditions": [
             {
                 "duration": 100,
+                "choiceBySubType": "Elemental Type",
+                "hideChoices": true,
                 "name": "Elemental Motion",
                 "source": "Elemental Motion"
             }
@@ -3342,7 +3354,7 @@
     {
         "name": "Extend Spell",
         "id": "983c456a-7483-11eb-9439-0242ac130002",
-        "shortDesc": "You call upon your blood's knowledge of the ancients to�extend�your magic.",
+        "shortDesc": "You call upon your blood's knowledge of the ancients to extend your magic.",
         "actions": "1A",
         "castType": "verbal",
         "levelreq": 3,
@@ -3405,7 +3417,7 @@
     {
         "name": "Horrific Visage",
         "id": "983d10e4-7483-11eb-9439-0242ac130002",
-        "shortDesc": "You briefly transform your features into the�horrific visage�of a hag, striking fear into your enemies.",
+        "shortDesc": "You briefly transform your features into the horrific visage of a hag, striking fear into your enemies.",
         "actions": "2A",
         "castType": "somatic, verbal",
         "levelreq": 3,
@@ -3624,7 +3636,7 @@
         "name": "Swamp of Sloth",
         "id": "983d6828-7483-11eb-9439-0242ac130002",
         "shortDesc": "Ground in the area turns swampy and fetid.",
-        "actions": "1A�to�3A",
+        "actions": "1A to 3A",
         "castType": "somatic, verbal",
         "levelreq": 3,
         "traditions": [
@@ -4011,7 +4023,7 @@
     {
         "name": "Downpour",
         "id": "983c2df0-7483-11eb-9439-0242ac130002",
-        "shortDesc": "You call forth a torrential�downpour, which extinguishes nonmagical flames.",
+        "shortDesc": "You call forth a torrential downpour, which extinguishes nonmagical flames.",
         "actions": "2A",
         "castType": "somatic, verbal",
         "levelreq": 4,
@@ -4713,7 +4725,7 @@
         "name": "Rebuke Death",
         "id": "983d5374-7483-11eb-9439-0242ac130002",
         "shortDesc": "You snatch creatures from the jaws of death.",
-        "actions": "1A�to�3A",
+        "actions": "1A to 3A",
         "castType": "somatic",
         "levelreq": 4,
         "traditions": [
@@ -22432,6 +22444,64 @@
             "Auditory",
             "Illusion",
             "Visual"
+        ],
+        "range": "500 feet",
+        "area": "30-foot burst",
+        "duration":"1 hour",
+        "desc": "<var>var1</var>You form an imaginary scene that includes up to 10 discrete creatures or objects of various sizes, all of which must be within the spell's area. These elements generate appropriate sounds and smells, and they feel right to the touch. <var>var2</var> Unlike with the illusory creature spell, creatures in your scene lack combat abilities and statistics. Your scene doesn't include changes to the environment around it, though you can place your scene within the illusory environment of a hallucinatory terrain spell.\n\nWhen you create the scene, you can choose to have it be static or follow a program. Though a static scene is stationary, it includes basic natural movement. For example, wind blowing on an illusory piece of paper would rustle it. A program can be up to 1 minute long and repeats when finished. For instance, you could create a scene of two orcs fighting each other, and the fight would go the same way for each repetition. If you create a loop, the two fighters end up in the same place at the start of the scene and at the end of it, but you can smooth the program so it's hard to tell when the loop ends and begins. Anyone observing the scene for more than a few minutes almost always notices it looping. You're unable to alter the program after you create the illusion.\n\nAny creature that touches any part of the image or uses the Seek action to examine it can attempt to disbelieve your illusion. If they interact with a portion of the illusion, they disbelieve only that portion. They disbelieve the entire scene only on a critical success.",
+        "heightened": [
+            {
+                "desc": "Creatures or objects in your scene can speak. You must speak the specific lines for each actor when creating your program. The spell disguises your voice for each actor.",
+                "level": "(6th)"
+            },
+            {
+                "desc": "As the 6th-level version, and the duration is unlimited.",
+                "level": "(8th)"
+            }
+        ],
+        "gainConditions": [
+            {
+                "duration": 6000,
+                "heightenedFilter": 5,
+                "name": "Illusory Scene",
+                "source": "Illusory Scene",
+                "targetFilter": "caster"
+            },
+            {
+                "duration": -1,
+                "heightenedFilter": 8,
+                "name": "Illusory Scene",
+                "source": "Illusory Scene",
+                "targetFilter": "caster"
+            }
+        ],
+        "desc5": [
+            {
+                "variable": "var1"
+            },
+            {
+                "value": "Elements of an illusory scene are incapable of speech.",
+                "variable": "var2"
+            }
+        ],
+        "desc6": [
+            {
+                "variable": "var1"
+            },
+            {
+                "value": "Creatures or objects in your scene can speak. You must speak the specific lines for each actor when creating your program. The spell disguises your voice for each actor.",
+                "variable": "var2"
+            }
+        ],
+        "desc8": [
+            {
+                "value": "The duration is unlimited. ",
+                "variable": "var1"
+            },
+            {
+                "value": "Creatures or objects in your scene can speak. You must speak the specific lines for each actor when creating your program. The spell disguises your voice for each actor.",
+                "variable": "var2"
+            }
         ]
     },
     {

@@ -49,6 +49,8 @@ export class ConditionGain {
     public targetFilter: string = "";
     //Some conditions have a choice that you can make. That is stored in this value.
     public choice: string = "";
+    //If there is a choiceBySubType value, and you have a feat with superType == choiceBySubType, the choice will be set to the subtype of that feat. This overrides any manual choice.
+    public choiceBySubType: string = "";
     //If choiceLocked is true, the choice can't be changed manually.
     public choiceLocked: boolean = false;
     //If hideChoices is true, the choice isn't visible on activities or spells.

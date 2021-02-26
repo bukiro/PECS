@@ -14,8 +14,9 @@ export class SpellCasting {
     public traditionFilter: string[] = [];
     public spellChoices: SpellChoice[] = [];
     //SpellSlotsUsed is for spontaneous casters and counts the spells cast on each spell level, where the index is the spell level.
-    //Index 0 is for Studious Capacity, which allows a single more casting each day.
-    public spellSlotsUsed: number[] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+    //Index 0 is for Studious Capacity, which allows a single more casting each day,
+    // and index 11 and 12 are for Greater Vital Evolution, which allows two more.
+    public spellSlotsUsed: number[] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
     //SpellBookSlots is for Wizards and describes how many spells you can learn per level, where the index is the level.
     //Index 0 is for cantrips. Regular wizards get 2 new spells per level and 5 on the first, and the spell level can be up to index/2 (rounded up).
     public spellBookSlots: number[] = [10, 5, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2];

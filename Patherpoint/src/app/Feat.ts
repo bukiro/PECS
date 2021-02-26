@@ -23,6 +23,7 @@ import { BloodMagic } from './BloodMagic';
 import { Creature } from './Creature';
 import { ProficiencyCopy } from './ProficiencyCopy';
 import { LanguageGain } from './LanguageGain';
+import { SignatureSpellGain } from './SignatureSpellGain';
 
 export class Feat {
     public readonly _className: string = this.constructor.name;
@@ -86,7 +87,7 @@ export class Feat {
     public traits: string[] = [];
     public unlimited: boolean = false;
     public sourceBook: string = "";
-    public allowSignatureSpells: boolean = false;
+    public allowSignatureSpells: SignatureSpellGain[] = [];
     public PFSnote: string = "";
     //For feats with the same name (from different source files for example), higher overridePriority wins. If two have the same priority, the first in the list wins.
     public overridePriority: number = 0;

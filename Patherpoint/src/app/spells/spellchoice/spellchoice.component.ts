@@ -8,6 +8,7 @@ import { SpellCasting } from 'src/app/SpellCasting';
 import { EffectsService } from 'src/app/effects.service';
 import { SpellGain } from 'src/app/SpellGain';
 import { SpellLearned } from 'src/app/SpellLearned';
+import { SignatureSpellGain } from 'src/app/SignatureSpellGain';
 
 @Component({
     selector: 'app-spellchoice',
@@ -85,6 +86,10 @@ export class SpellchoiceComponent implements OnInit {
         return index;
     }
 
+    trackBySpellID(index: number, obj: any): any {
+        return obj.id;
+    }
+
     get_Character() {
         return this.characterService.get_Character();
     }
@@ -109,25 +114,34 @@ export class SpellchoiceComponent implements OnInit {
         if (
             this.get_Available(this.choice) == 1 &&
             this.choice.level > 0 &&
-            this.spellCasting?.className == this.get_Character().class.name &&
-            this.characterService.get_FeatsAndFeatures()
-                .find(feature => feature.allowSignatureSpells && feature.have(this.get_Character(), this.characterService)) &&
-            this.choice.source != "Feat: Esoteric Polymath"
+            this.spellCasting?.castingType == "Spontaneous" &&
+            this.choice.source != "Feat: Esoteric Polymath" &&
+            this.choice.source != "Feat: Arcane Evolution" &&
+            !this.choice.showOnSheet
         ) {
-            return true;
+            let signatureSpellGains: SignatureSpellGain[] = [];
+            this.characterService.get_FeatsAndFeatures()
+                .filter(feat => feat.allowSignatureSpells.length && feat.have(this.get_Character(), this.characterService)).forEach(feat => {
+                    signatureSpellGains.push(...feat.allowSignatureSpells.filter(gain => gain.className == this.spellCasting.className))
+                })
+            if (signatureSpellGains.some(gain => gain.available == -1)) {
+                return -1;
+            } else {
+                return signatureSpellGains.map(gain => gain.available).reduce((a, b) => a + b, 0);
+            }
         } else {
-            return false;
+            return 0;
         }
     }
 
     is_SignatureSpell(choice: SpellChoice, signatureSpellsAllowed: boolean) {
-        return (signatureSpellsAllowed || choice.source == "Feat: Esoteric Polymath") && choice.signatureSpell;
+        return (signatureSpellsAllowed || choice.source == "Feat: Esoteric Polymath" || choice.source == "Feat: Arcane Evolution") && choice.signatureSpell;
     }
 
-    get_SignatureSpellsUnlocked(level: number) {
+    get_SignatureSpellsUnlocked(level: number = 0) {
         //This function is used to check if a signature spell has been assigned for this spell level.
         if (level == 0) {
-            return 0;
+            return this.spellCasting.spellChoices.filter(choice => choice.signatureSpell).length;;
         } else {
             return this.spellCasting.spellChoices.filter(choice => choice.level == level && choice.signatureSpell).length;
         }
@@ -369,6 +383,50 @@ export class SpellchoiceComponent implements OnInit {
         }
     }
 
+    is_ArcaneEvolutionSpell(choice: SpellChoice) {
+        return choice.source == "Feat: Arcane Evolution";
+    }
+
+    is_OccultEvolutionSpell(choice: SpellChoice) {
+        return choice.source == "Feat: Occult Evolution";
+    }
+
+    get_CrossbloodedEvolutionAllowed() {
+        if (
+            this.get_Available(this.choice) == 1 &&
+            this.choice.level > 0 &&
+            this.spellCasting?.className == "Sorcerer" &&
+            this.spellCasting.castingType == "Spontaneous" &&
+            this.have_Feat("Crossblooded Evolution") &&
+            this.choice.source != "Feat: Esoteric Polymath" &&
+            this.choice.source != "Feat: Arcane Evolution" &&
+            !this.choice.showOnSheet
+        ) {
+            if (this.have_Feat("Greater Crossblooded Evolution")) {
+                return 3;
+            } else {
+                return 1;
+            }
+        } else {
+            return 0;
+        }
+    }
+
+    get_CrossbloodedEvolutionUnlocked(level: number = 0) {
+        //This function is used to check how many crossblooded evolution spells have been assigned for this spell level or all levels.
+        if (level == 0) {
+            return this.spellCasting.spellChoices.filter(choice => choice.crossbloodedEvolution).length;
+        } else {
+            return this.spellCasting.spellChoices.filter(choice => choice.level == level && choice.crossbloodedEvolution).length;
+        }
+    }
+
+    on_CrossbloodedEvolution() {
+        this.characterService.set_Changed("spellchoices");
+        this.characterService.set_ToChange("Character", "spellbook");
+        this.characterService.process_ToChange();
+    }
+
     on_ChangeSpellLevel(choice: SpellChoice, amount: number) {
         choice.level += amount;
     }
@@ -424,6 +482,11 @@ export class SpellchoiceComponent implements OnInit {
             choice.level <= this.get_HighestSpellLevel() - 2
         ) {
             available = Math.max(choice.available + this.have_Feat("Primal Breadth"), 0);
+        } else if (
+            ["Feat: Basic Sorcerer Spellcasting", "Feat: Expert Sorcerer Spellcasting", "Feat: Master Sorcerer Spellcasting"].includes(choice.source) &&
+            choice.level <= this.get_HighestSpellLevel() - 2
+        ) {
+            available = Math.max(choice.available + this.have_Feat("Bloodline Breadth"), 0);
         } else {
             available = Math.max(this.choice.available - this.get_SpellBlendingUsed() - this.get_InfinitePossibilitiesUsed() - this.get_AdaptedCantripUsed() - this.get_AdaptiveAdeptUsed(), 0);
         }
@@ -494,6 +557,9 @@ export class SpellchoiceComponent implements OnInit {
                             spells.push(...allSpells.filter(spell => !spell.traditions.includes(this.spellCasting.tradition) && spell.traditions.some(tradition => originalSpell.traditions.includes(tradition)) && !spell.traditions.includes("Focus")));
                         }
                     }
+                } else if (choice.crossbloodedEvolution) {
+                    //With Crossblooded Evolution, you can choose spells of any tradition.
+                    spells.push(...allSpells.filter(spell => !spell.traditions.includes("Focus")));
                 } else if (traditionFilter) {
                     //If the tradition filter comes from the spellcasting, also include all spells that are on the spell list regardless of their tradition.
                     if (!choice.tradition && this.spellCasting.tradition) {
@@ -621,12 +687,12 @@ export class SpellchoiceComponent implements OnInit {
             //Don't show spells of a different level unless heightened spells are allowed. Never show spells of a different level if this is a level 0 choice.
             if (!this.allowHeightened && (spellLevel > 0)) {
                 spells = spells.filter(spell => spell.levelreq == spellLevel || this.spellTakenByThis(spell.name, choice));
-            } else {
-                //Still don't show higher level spells even if heightened spells are allowed.
+            } else if (spellLevel > 0) {
+                //Still don't show higher level non-cantrip spells even if heightened spells are allowed.
                 spells = spells.filter(spell => spell.levelreq <= spellLevel || this.spellTakenByThis(spell.name, choice));
             }
             //Finally, if there are fewer spells selected than available, show all spells that individually match the requirements or that are already selected.
-            // If the available spells are exhausted, only show the selected ones.
+            // If the available spells are exhausted, only show the selected ones unless showOtherOptions is true.
             if (choice.spells.length < this.get_Available(choice)) {
                 return spells
                     .sort(function (a, b) {
@@ -696,7 +762,7 @@ export class SpellchoiceComponent implements OnInit {
             reasons.push("The requirements are not met.")
         }
         //Has it already been taken at this level by this class, and was that not by this SpellChoice? (Only for spontaneous spellcasters.)
-        //Skip this check for spontaneous spell choices that draw from your spellbook (i.e. Esoteric Polymath)
+        //Skip this check for spontaneous spell choices that draw from your spellbook (i.e. Esoteric Polymath and Arcane Evolution)
         if (!choice.spellBookOnly && this.spellCasting?.castingType == "Spontaneous" && !this.itemSpell && spell.have(this.characterService, this.spellCasting, spellLevel, choice.className) && !this.spellTakenByThis(spell.name, choice)) {
             reasons.push("You already have this spell with this class.");
         }
@@ -719,9 +785,9 @@ export class SpellchoiceComponent implements OnInit {
         let prepared: boolean = this.prepared;
         let character = this.get_Character();
         character.take_Spell(this.characterService, spellName, taken, choice, locked, prepared);
-        //For the Esoteric Polymath feat, if you choose a spell that is in your repertoire (i.e. if other spell choices have this spell in it),
-        //The choice is turned into a signature spell choice. If you drop the spell, turn signature spell off.
-        if (choice.source == "Feat: Esoteric Polymath") {
+        //For the Esoteric Polymath feat and the Arcane Evolution feat, if you choose a spell that is in your repertoire (i.e. if other spell choices have this spell in it),
+        // the choice is turned into a signature spell choice. If you drop the spell, turn signature spell off.
+        if (["Feat: Esoteric Polymath", "Feat: Arcane Evolution"].includes(choice.source)) {
             if (taken) {
                 if (this.spellCasting.spellChoices.find(otherChoice => otherChoice !== choice && this.spellTakenByThis(spellName, otherChoice))) {
                     choice.signatureSpell = true;

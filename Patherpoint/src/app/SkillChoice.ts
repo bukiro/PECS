@@ -13,6 +13,8 @@ export class SkillChoice {
     // This is especially useful for class choices (hunter's edge, rogue racket, bloodline etc.) that don't give certain benefits when multiclassing.
     public insertClass: string = "";
     //minRank: you may only increase skills that already have at least this level.
+    // If a skill increase doesn't come from at least one choice with minRank == 0, it isn't counted at all.
+    // This allows to upgrade, but not learn skills (like spell DCs for traditions you haven't chosen).
     public minRank: number = 0;
     //maxRank: the highest rank you are allowed to achieve with this choice.
     //This means that only skills are allowed which currently have maxRank-2 !

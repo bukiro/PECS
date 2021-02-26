@@ -28,7 +28,7 @@
                             <strong>{{savegame.name}}</strong> Level {{savegame.level}}
                             <span>{{savegame.heritage ? " | " + savegame.heritage +
                                 (!savegame.heritage.includes(savegame.ancestry) ?
-                                " " + savegame.ancestry : "") : " | " + savegame.ancestry}}</span>
+                                " " + savegame.ancestry : "") : (savegame.ancestry ? " | " + savegame.ancestry : "")}}</span>
                             {{(savegame.classChoice ? " | " + savegame.classChoice + " " : " | ") + savegame.class}}
                         </span>
                         <span>

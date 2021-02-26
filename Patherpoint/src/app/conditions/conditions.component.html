@@ -30,9 +30,9 @@
             </div>
             <div class="list-item">
                 <button (click)="toggle_Purpose('conditions')"
-                    [className]="{'fancy-button':get_ShowPurpose()=='conditions'}">Add Conditions</button>
+                    [ngClass]="{'fancy-button':get_ShowPurpose()=='conditions'}">Add Conditions</button>
                 <button (click)="toggle_Purpose('customeffects')"
-                    [className]="{'fancy-button':get_ShowPurpose()=='customeffects'}">Custom Effects</button>
+                    [ngClass]="{'fancy-button':get_ShowPurpose()=='customeffects'}">Custom Effects</button>
             </div>
             <ng-container *ngIf="get_ShowPurpose()=='conditions'">
                 <h3>Add Conditions</h3>
