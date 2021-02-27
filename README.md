@@ -112,9 +112,7 @@ The very latest in Assistive Technologies for Dungeon Master (ATDM)
 Active to-do:
 - Bloodline Breadth (and Occult Breadth) double the "available" value of spell choices, which makes them ineligible for Signature spells.
     Signature spells need to be applied to SpellGains (preferable), or the Breadth feats need to work differently.
-- Make minimize buttons fancy-buttons when minimized
 - Test Sorcerer feats and archetype
-
 
 Implement:
 

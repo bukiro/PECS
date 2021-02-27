@@ -39,9 +39,20 @@ export class DefenseComponent implements OnInit {
         this.characterService.get_Character().settings.defenseMinimized = !this.characterService.get_Character().settings.defenseMinimized;
     }
 
+    get_Minimized() {
+        switch (this.creature) {
+            case "Character":
+                return this.characterService.get_Character().settings.defenseMinimized;
+            case "Companion":
+                return this.characterService.get_Character().settings.companionMinimized;
+            case "Familiar":
+                return this.characterService.get_Character().settings.familiarMinimized;
+        }
+    }
+
     set_Span() {
         setTimeout(() => {
-            this.characterService.set_Span(this.creature+"-defense");
+            this.characterService.set_Span(this.creature + "-defense");
         })
     }
 
@@ -52,7 +63,7 @@ export class DefenseComponent implements OnInit {
     get_Accent() {
         return this.characterService.get_Accent();
     }
-    
+
     trackByIndex(index: number, obj: any): any {
         return index;
     }
@@ -68,7 +79,7 @@ export class DefenseComponent implements OnInit {
     get_ShowList() {
         return this.showList;
     }
-    
+
     get_ArmorSpecialization(armor: Armor) {
         return armor.get_ArmorSpecialization(this.get_Creature(), this.characterService);
     }
@@ -139,7 +150,7 @@ export class DefenseComponent implements OnInit {
         let flatFooted = this.get_FlatFooted();
         if (active) {
             if (!flatFooted) {
-                let newCondition: ConditionGain = Object.assign(new ConditionGain(), {name: "Flat-Footed", source: "Defense", duration: -1, locked: true})
+                let newCondition: ConditionGain = Object.assign(new ConditionGain(), { name: "Flat-Footed", source: "Defense", duration: -1, locked: true })
                 this.characterService.add_Condition(creature, newCondition, false);
             }
         } else {
@@ -151,11 +162,11 @@ export class DefenseComponent implements OnInit {
     }
 
     get_EquippedArmor() {
-        return this.defenseService.get_EquippedArmor(this.get_Creature() as Character|AnimalCompanion);
+        return this.defenseService.get_EquippedArmor(this.get_Creature() as Character | AnimalCompanion);
     }
 
     get_EquippedShield() {
-        return this.defenseService.get_EquippedShield(this.get_Creature() as Character|AnimalCompanion);
+        return this.defenseService.get_EquippedShield(this.get_Creature() as Character | AnimalCompanion);
     }
 
     on_ShieldHPChange(shield: Shield, amount: number) {
@@ -182,9 +193,9 @@ export class DefenseComponent implements OnInit {
         return (talisman.trigger ? "Trigger: " + talisman.trigger + "\n\n" : "") + talisman.desc;
     }
 
-    on_TalismanUse(item: Armor|Shield, talisman: Talisman, index: number) {
+    on_TalismanUse(item: Armor | Shield, talisman: Talisman, index: number) {
         this.characterService.set_ToChange(this.creature, "defense");
-        this.characterService.on_ConsumableUse(this.get_Creature() as Character|AnimalCompanion, talisman);
+        this.characterService.on_ConsumableUse(this.get_Creature() as Character | AnimalCompanion, talisman);
         item.talismans.splice(index, 1)
         this.characterService.process_ToChange();
     }
@@ -199,20 +210,20 @@ export class DefenseComponent implements OnInit {
             setTimeout(() => this.finish_Loading(), 500)
         } else {
             this.characterService.get_Changed()
-            .subscribe((target) => {
-                if (["defense", "all", this.creature].includes(target)) {
-                    this.changeDetector.detectChanges();
-                }
-            });
+                .subscribe((target) => {
+                    if (["defense", "all", this.creature].includes(target)) {
+                        this.changeDetector.detectChanges();
+                    }
+                });
             this.characterService.get_ViewChanged()
-            .subscribe((view) => {
-                if (view.creature == this.creature && ["defense", "all"].includes(view.target)) {
-                    this.changeDetector.detectChanges();
-                }
-                if (view.creature == "Character" && view.target == "span") {
-                    this.set_Span();
-                }
-            });
+                .subscribe((view) => {
+                    if (view.creature == this.creature && ["defense", "all"].includes(view.target)) {
+                        this.changeDetector.detectChanges();
+                    }
+                    if (view.creature == "Character" && view.target == "span") {
+                        this.set_Span();
+                    }
+                });
             return true;
         }
     }

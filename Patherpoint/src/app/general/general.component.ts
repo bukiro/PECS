@@ -29,6 +29,17 @@ export class GeneralComponent implements OnInit {
         this.characterService.get_Character().settings.generalMinimized = !this.characterService.get_Character().settings.generalMinimized;
     }
 
+    get_Minimized() {
+        switch (this.creature) {
+            case "Character":
+                return this.characterService.get_Character().settings.generalMinimized;
+            case "Companion":
+                return this.characterService.get_Character().settings.companionMinimized;
+            case "Familiar":
+                return this.characterService.get_Character().settings.familiarMinimized;
+        }
+    }
+
     set_Span() {
         setTimeout(() => {
             this.characterService.set_Span(this.creature + "-general");

@@ -28,6 +28,10 @@ export class AnimalCompanionComponent implements OnInit {
         this.characterService.process_ToChange();
     }
 
+    get_Minimized() {
+        return this.characterService.get_Character().settings.companionMinimized;
+    }
+
     still_loading() {
         return (this.characterService.still_loading() || this.animalCompanionsService.still_loading());
     }

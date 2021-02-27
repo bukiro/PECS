@@ -27,14 +27,25 @@ export class EffectsComponent implements OnInit {
         private characterService: CharacterService,
         private timeService: TimeService
     ) { }
-    
+
     minimize() {
         this.characterService.get_Character().settings.effectsMinimized = !this.characterService.get_Character().settings.effectsMinimized;
     }
 
+    get_Minimized() {
+        switch (this.creature) {
+            case "Character":
+                return this.characterService.get_Character().settings.effectsMinimized;
+            case "Companion":
+                return this.characterService.get_Character().settings.companionMinimized;
+            case "Familiar":
+                return this.characterService.get_Character().settings.familiarMinimized;
+        }
+    }
+
     set_Span() {
         setTimeout(() => {
-            this.characterService.set_Span(this.creature+"-effects");
+            this.characterService.set_Span(this.creature + "-effects");
         })
     }
 
@@ -57,11 +68,11 @@ export class EffectsComponent implements OnInit {
     get_Accent() {
         return this.characterService.get_Accent();
     }
-    
+
     trackByIndex(index: number, obj: any): any {
         return index;
     }
-    
+
     get_Creature() {
         return this.characterService.get_Creature(this.creature);
     }
@@ -87,7 +98,7 @@ export class EffectsComponent implements OnInit {
     }
 
     get_AppliedEffects() {
-        return this.get_Effects().all.filter(effect => effect.creature == this.get_Creature().id && effect.apply && !effect.hide).sort(function(a,b) {
+        return this.get_Effects().all.filter(effect => effect.creature == this.get_Creature().id && effect.apply && !effect.hide).sort(function (a, b) {
             if (a.value > b.value) {
                 return 1;
             }
@@ -95,7 +106,7 @@ export class EffectsComponent implements OnInit {
                 return -1;
             }
             return 0;
-        }).sort(function(a,b) {
+        }).sort(function (a, b) {
             if (a.setValue > b.setValue) {
                 return 1;
             }
@@ -103,7 +114,7 @@ export class EffectsComponent implements OnInit {
                 return -1;
             }
             return 0;
-        }).sort(function(a,b) {
+        }).sort(function (a, b) {
             if (a.target > b.target) {
                 return 1;
             }
@@ -123,7 +134,7 @@ export class EffectsComponent implements OnInit {
     }
 
     get_AppliedConditions(apply: boolean) {
-        return this.characterService.get_AppliedConditions(this.get_Creature()).filter(condition => condition.apply == apply).sort(function(a,b) {
+        return this.characterService.get_AppliedConditions(this.get_Creature()).filter(condition => condition.apply == apply).sort(function (a, b) {
             if (a.name + a.value + a.choice > b.name + b.value + b.choice) {
                 return 1;
             }
@@ -143,20 +154,20 @@ export class EffectsComponent implements OnInit {
             setTimeout(() => this.finish_Loading(), 500)
         } else {
             this.characterService.get_Changed()
-            .subscribe((target) => {
-                if (target == "effects" || target == "all" || target == this.creature) {
-                    this.changeDetector.detectChanges();
-                }
-            });
+                .subscribe((target) => {
+                    if (target == "effects" || target == "all" || target == this.creature) {
+                        this.changeDetector.detectChanges();
+                    }
+                });
             this.characterService.get_ViewChanged()
-            .subscribe((view) => {
-                if (view.creature == this.creature && ["effects", "all"].includes(view.target)) {
-                    this.changeDetector.detectChanges();
-                }
-                if (view.creature == "Character" && view.target == "span") {
-                    this.set_Span();
-                }
-            });
+                .subscribe((view) => {
+                    if (view.creature == this.creature && ["effects", "all"].includes(view.target)) {
+                        this.changeDetector.detectChanges();
+                    }
+                    if (view.creature == "Character" && view.target == "span") {
+                        this.set_Span();
+                    }
+                });
             return true;
         }
     }

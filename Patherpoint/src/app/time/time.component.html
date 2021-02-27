@@ -1,4 +1,4 @@
-<button class="minimizebutton lower" (click)="minimize()">&#8691;</button>
+<button class="minimizebutton lower" title="{{get_Minimized() ? 'Click to show all buttons.' : 'Click to hide time buttons.'}}" [ngClass]="{'fancy-button':get_Minimized()}" (click)="minimize()">&#8691;</button>
 <div id="time-height" class="topBox">
     <div class="loading" *ngIf="still_loading()">Loading</div>
     <ng-container *ngIf="!still_loading()">
@@ -14,7 +14,7 @@
             <button class="fancybutton" (click)="tick(duration)"
                 *ngFor="let duration of [10, 50, 100, 500, 1000, 6000, 48000, 144000]; trackBy:trackByIndex;"
                 title="{{get_Waiting(duration)}}" [disabled]="get_Waiting(duration).length">
-                Tick {{get_Duration(duration, false)}}
+                Pass {{get_Duration(duration, false)}}
             </button>
         </div>
     </ng-container>

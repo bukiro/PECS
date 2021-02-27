@@ -36,6 +36,17 @@ export class SkillsComponent implements OnInit {
         this.characterService.get_Character().settings.skillsMinimized = !this.characterService.get_Character().settings.skillsMinimized;
     }
 
+    get_Minimized() {
+        switch (this.creature) {
+            case "Character":
+                return this.characterService.get_Character().settings.skillsMinimized;
+            case "Companion":
+                return this.characterService.get_Character().settings.companionMinimized;
+            case "Familiar":
+                return this.characterService.get_Character().settings.familiarMinimized;
+        }
+    }
+
     set_Span() {
         setTimeout(() => {
             this.characterService.set_Span(this.creature+"-skills");

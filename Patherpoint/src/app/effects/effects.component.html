@@ -1,4 +1,4 @@
-<button class="minimizebutton lower" (click)="minimize()" *ngIf="creature=='Character'">&#8691;</button>
+<button class="minimizebutton lower" title="{{get_Minimized() ? 'Click to show all information.' : 'Click to show compact information.'}}" [ngClass]="{'fancy-button':get_Minimized()}" (click)="minimize()" *ngIf="creature=='Character'">&#8691;</button>
 <div id="{{creature}}-effects-height" class="attributeBox">
     <h3 class="box-header">Active Conditions</h3>
     <app-tags [creature]="creature" [objectName]="'Effects'" [showTraits]=true [showFeats]=true [showItems]=true

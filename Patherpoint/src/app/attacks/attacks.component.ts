@@ -47,6 +47,15 @@ export class AttacksComponent implements OnInit {
         this.characterService.get_Character().settings.attacksMinimized = !this.characterService.get_Character().settings.attacksMinimized;
     }
 
+    get_Minimized() {
+        switch (this.creature) {
+            case "Character":
+                return this.characterService.get_Character().settings.attacksMinimized;
+            case "Companion":
+                return this.characterService.get_Character().settings.companionMinimized;
+        }
+    }
+
     set_Span() {
         setTimeout(() => {
             this.characterService.set_Span(this.creature + "-attacks");

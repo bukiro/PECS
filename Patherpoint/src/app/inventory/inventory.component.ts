@@ -56,6 +56,15 @@ export class InventoryComponent implements OnInit {
         this.characterService.get_Character().settings.inventoryMinimized = !this.characterService.get_Character().settings.inventoryMinimized;
     }
 
+    get_Minimized() {
+        switch (this.creature) {
+            case "Character":
+                return this.characterService.get_Character().settings.inventoryMinimized;
+            case "Companion":
+                return this.characterService.get_Character().settings.companionMinimized;
+        }
+    }
+
     set_Span() {
         setTimeout(() => {
             this.characterService.set_Span(this.creature + "-inventory");

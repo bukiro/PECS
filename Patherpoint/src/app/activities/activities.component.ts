@@ -31,6 +31,15 @@ export class ActivitiesComponent implements OnInit {
     minimize() {
         this.characterService.get_Character().settings.activitiesMinimized = !this.characterService.get_Character().settings.activitiesMinimized;
     }
+
+    get_Minimized() {
+        switch (this.creature) {
+            case "Character":
+                return this.characterService.get_Character().settings.activitiesMinimized;
+            case "Companion":
+                return this.characterService.get_Character().settings.companionMinimized;
+        }
+    }
     
     trackByIndex(index: number, obj: any): any {
         return index;

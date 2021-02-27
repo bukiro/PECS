@@ -19,13 +19,17 @@ export class SpellsComponent implements OnInit {
     public prepared: boolean = false;
 
     constructor(
-        private changeDetector:ChangeDetectorRef,
+        private changeDetector: ChangeDetectorRef,
         private characterService: CharacterService,
         private spellsService: SpellsService
     ) { }
 
     minimize() {
         this.characterService.get_Character().settings.spellsMinimized = !this.characterService.get_Character().settings.spellsMinimized;
+    }
+
+    get_Minimized() {
+        return this.characterService.get_Character().settings.spellsMinimized;
     }
 
     toggleSpellMenu() {
@@ -75,7 +79,7 @@ export class SpellsComponent implements OnInit {
     trackByIndex(index: number, obj: any): any {
         return index;
     }
-    
+
     get_Character() {
         return this.characterService.get_Character();
     }
@@ -107,7 +111,7 @@ export class SpellsComponent implements OnInit {
     get_SpellCastings() {
         let character = this.get_Character();
         return character.class.spellCasting.filter(casting => casting.charLevelAvailable && casting.charLevelAvailable <= character.level)
-            .sort(function(a,b) {
+            .sort(function (a, b) {
                 if (a.tradition > b.tradition) {
                     return 1;
                 }
@@ -115,7 +119,7 @@ export class SpellsComponent implements OnInit {
                     return -1;
                 }
                 return 0;
-            }).sort(function(a,b) {
+            }).sort(function (a, b) {
                 if (a.className > b.className) {
                     return 1;
                 }
@@ -123,7 +127,7 @@ export class SpellsComponent implements OnInit {
                     return -1;
                 }
                 return 0;
-            }).sort(function(a,b) {
+            }).sort(function (a, b) {
                 if (a.castingType > b.castingType || (b.castingType == "Innate" ? a.castingType != "Innate" : false)) {
                     return 1;
                 }
@@ -140,7 +144,7 @@ export class SpellsComponent implements OnInit {
 
     get_SpellChoices(casting: SpellCasting, levelNumber: number) {
         //Get all spellchoices that have this spell level and are available at this character level.
-        return casting.spellChoices.filter(choice => choice.charLevelAvailable <= this.get_Character().level && !choice.showOnSheet && 
+        return casting.spellChoices.filter(choice => choice.charLevelAvailable <= this.get_Character().level && !choice.showOnSheet &&
             ((choice.level == levelNumber && !choice.dynamicLevel) || (choice.dynamicLevel && this.get_DynamicLevel(casting, choice) == levelNumber))
         )
     }
@@ -159,17 +163,17 @@ export class SpellsComponent implements OnInit {
             setTimeout(() => this.finish_Loading(), 500)
         } else {
             this.characterService.get_Changed()
-            .subscribe((target) => {
-                if (["spells", "all", "Character"].includes(target)) {
-                    this.changeDetector.detectChanges();
-                }
-            });
+                .subscribe((target) => {
+                    if (["spells", "all", "Character"].includes(target)) {
+                        this.changeDetector.detectChanges();
+                    }
+                });
             this.characterService.get_ViewChanged()
-            .subscribe((view) => {
-                if (view.creature == "Character" && ["spells", "all"].includes(view.target)) {
-                    this.changeDetector.detectChanges();
-                }
-            });
+                .subscribe((view) => {
+                    if (view.creature == "Character" && ["spells", "all"].includes(view.target)) {
+                        this.changeDetector.detectChanges();
+                    }
+                });
             return true;
         }
     }

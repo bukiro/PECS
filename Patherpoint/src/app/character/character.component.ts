@@ -75,6 +75,10 @@ export class CharacterComponent implements OnInit {
         this.characterService.get_Character().settings.characterMinimized = !this.characterService.get_Character().settings.characterMinimized;
     }
 
+    get_Minimized() {
+        return this.characterService.get_Character().settings.characterMinimized;
+    }
+
     toggleCharacterMenu() {
         this.characterService.toggle_Menu("character");
     }

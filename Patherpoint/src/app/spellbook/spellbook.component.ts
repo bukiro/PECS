@@ -45,6 +45,10 @@ export class SpellbookComponent implements OnInit {
         this.characterService.get_Character().settings.spellbookMinimized = !this.characterService.get_Character().settings.spellbookMinimized;
     }
 
+    get_Minimized() {
+        return this.characterService.get_Character().settings.spellbookMinimized;
+    }
+
     set_Span() {
         setTimeout(() => {
             this.characterService.set_Span("spellbook");
@@ -268,7 +272,7 @@ export class SpellbookComponent implements OnInit {
             //  except for Level 10, where you have 1 (before effects).
             if (spellLevel == 10) {
                 spellslots = 1;
-            } else if ([11,12].includes(spellLevel) && casting.className == "Sorcerer" && this.have_Feat("Greater Vital Evolution")) {
+            } else if ([11, 12].includes(spellLevel) && casting.className == "Sorcerer" && this.have_Feat("Greater Vital Evolution")) {
                 spellslots = 1;
             } else if (spellLevel == 0 && casting.className == "Bard" && this.have_Feat("Studious Capacity")) {
                 spellslots = 1;
@@ -286,7 +290,7 @@ export class SpellbookComponent implements OnInit {
                 if (spellLevel <= this.get_MaxSpellLevel(casting) - 2 && (casting.className == "Sorcerer" && this.have_Feat("Bloodline Breadth"))) {
                     spellslots += 1;
                 }
-            } 
+            }
             if (casting.className)
                 this.effectsService.get_RelativesOnThis(this.get_Character(), casting.className + " " + casting.castingType + " Level " + spellLevel + " Spell Slots").forEach(effect => {
                     spellslots += parseInt(effect.value);

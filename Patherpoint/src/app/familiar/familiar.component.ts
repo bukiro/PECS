@@ -21,6 +21,10 @@ export class FamiliarComponent implements OnInit {
         this.set_Changed("Familiar");
     }
 
+    get_Minimized() {
+        return this.characterService.get_Character().settings.familiarMinimized;
+    }
+
     still_loading() {
         return (this.characterService.still_loading() || this.familiarsService.still_loading());
     }

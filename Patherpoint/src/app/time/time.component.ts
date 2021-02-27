@@ -27,7 +27,11 @@ export class TimeComponent implements OnInit {
     minimize() {
         this.characterService.get_Character().settings.timeMinimized = !this.characterService.get_Character().settings.timeMinimized;
     }
-    
+
+    get_Minimized() {
+        return this.characterService.get_Character().settings.timeMinimized;
+    }
+
     set_Span() {
         setTimeout(() => {
             this.characterService.set_Span("time", 1);
@@ -37,11 +41,11 @@ export class TimeComponent implements OnInit {
     get_Accent() {
         return this.characterService.get_Accent();
     }
-    
+
     trackByIndex(index: number, obj: any): any {
         return index;
     }
-    
+
     get_Duration(duration: number, includeTurnState: boolean = true) {
         return this.timeService.get_Duration(duration, includeTurnState);
     }
@@ -87,17 +91,17 @@ export class TimeComponent implements OnInit {
             setTimeout(() => this.finish_Loading(), 500)
         } else {
             this.characterService.get_Changed()
-            .subscribe((target) => {
-                if (["time", "all", "Character"].includes(target)) {
-                    this.changeDetector.detectChanges();
-                }
-            });
+                .subscribe((target) => {
+                    if (["time", "all", "Character"].includes(target)) {
+                        this.changeDetector.detectChanges();
+                    }
+                });
             this.characterService.get_ViewChanged()
-            .subscribe((view) => {
-                if (view.creature == "Character" && ["time", "all"].includes(view.target)) {
-                    this.changeDetector.detectChanges();
-                }
-            });
+                .subscribe((view) => {
+                    if (view.creature == "Character" && ["time", "all"].includes(view.target)) {
+                        this.changeDetector.detectChanges();
+                    }
+                });
             return true;
         }
     }
