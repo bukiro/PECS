@@ -20,6 +20,8 @@ export class SpellGain {
     public locked: boolean = false;
     public name: string = "";
     public combinationSpellName: string = "";
+    //Signature Spells are automatically available as heightened spells on every lower and higher level (down to its minimum)
+    public signatureSpell: boolean = false;
     public source: string = "";
     //Copied from SpellChoice. For looking up details in the Choice - ideally always include the choice in the function so we don't have to look it up.
     public sourceId: string = "";

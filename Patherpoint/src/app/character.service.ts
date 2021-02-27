@@ -1498,6 +1498,7 @@ export class CharacterService {
     }
 
     get_FeatsAndFeatures(name: string = "", type: string = "", includeSubTypes: boolean = false, includeCountAs: boolean = false) {
+        //Use this function very sparingly! See get_All() for details.
         return this.featsService.get_All(this.get_Character().customFeats, name, type, includeSubTypes, includeCountAs);
     }
 

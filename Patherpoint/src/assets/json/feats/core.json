@@ -2837,7 +2837,7 @@
             "Monk"
         ],
         "levelreq": 20,
-        "specialreq": "character.get_FeatsTaken(0,charLevel).filter(gain => characterService.get_FeatsAndFeatures(gain.name).some(feat => feat.traits.includes('Stance'))).length >= 2",
+        "specialreq": "characterService.get_FeatsAndFeatures().filter(feat => feat.traits.includes('Stance') && feat.have(character, characterService, 20, true)).length >= 2",
         "specialreqdesc": "at least two stances",
         "gainActivities": [
             "Fused Stance"
@@ -13406,7 +13406,6 @@
                 "id": "f1fe98ae-774f-11eb-9439-0242ac130002",
                 "insertClass": "Sorcerer",
                 "level": 1,
-                "signatureSpell": true,
                 "source": "Sorcerer Spellcasting",
                 "spells": [
                     {
@@ -13457,7 +13456,6 @@
                 "id": "f1fe9cf0-774f-11eb-9439-0242ac130002",
                 "insertClass": "Sorcerer",
                 "level": 2,
-                "signatureSpell": true,
                 "source": "Sorcerer Spellcasting",
                 "spells": [
                     {
@@ -13508,7 +13506,6 @@
                 "id": "f1fea16e-774f-11eb-9439-0242ac130002",
                 "insertClass": "Sorcerer",
                 "level": 3,
-                "signatureSpell": true,
                 "source": "Sorcerer Spellcasting",
                 "spells": [
                     {
@@ -13559,7 +13556,6 @@
                 "id": "f1fea538-774f-11eb-9439-0242ac130002",
                 "insertClass": "Sorcerer",
                 "level": 4,
-                "signatureSpell": true,
                 "source": "Sorcerer Spellcasting",
                 "spells": [
                     {
@@ -13610,7 +13606,6 @@
                 "id": "f1fea998-774f-11eb-9439-0242ac130002",
                 "insertClass": "Sorcerer",
                 "level": 5,
-                "signatureSpell": true,
                 "source": "Sorcerer Spellcasting",
                 "spells": [
                     {
@@ -13661,7 +13656,6 @@
                 "id": "f1feadc6-774f-11eb-9439-0242ac130002",
                 "insertClass": "Sorcerer",
                 "level": 6,
-                "signatureSpell": true,
                 "source": "Sorcerer Spellcasting",
                 "spells": [
                     {
@@ -13712,7 +13706,6 @@
                 "id": "f1feb42e-774f-11eb-9439-0242ac130002",
                 "insertClass": "Sorcerer",
                 "level": 7,
-                "signatureSpell": true,
                 "source": "Sorcerer Spellcasting",
                 "spells": [
                     {
@@ -13763,7 +13756,6 @@
                 "id": "f1feb8a2-774f-11eb-9439-0242ac130002",
                 "insertClass": "Sorcerer",
                 "level": 8,
-                "signatureSpell": true,
                 "source": "Sorcerer Spellcasting",
                 "spells": [
                     {
@@ -13814,7 +13806,6 @@
                 "id": "f1febcda-774f-11eb-9439-0242ac130002",
                 "insertClass": "Sorcerer",
                 "level": 9,
-                "signatureSpell": true,
                 "source": "Sorcerer Spellcasting",
                 "spells": [
                     {
@@ -13865,7 +13856,6 @@
                 "id": "f1fec09a-774f-11eb-9439-0242ac130002",
                 "insertClass": "Sorcerer",
                 "level": 10,
-                "signatureSpell": true,
                 "source": "Sorcerer Spellcasting"
             },
             {
@@ -14099,7 +14089,6 @@
                 "id": "59039c22-a58a-11ea-bb37-0242ac130002",
                 "insertClass": "Sorcerer",
                 "level": 1,
-                "signatureSpell": true,
                 "source": "Sorcerer Spellcasting",
                 "spells": [
                     {
@@ -14150,7 +14139,6 @@
                 "id": "59039b64-a58a-11ea-bb37-0242ac130002",
                 "insertClass": "Sorcerer",
                 "level": 2,
-                "signatureSpell": true,
                 "source": "Sorcerer Spellcasting",
                 "spells": [
                     {
@@ -14201,7 +14189,6 @@
                 "id": "c75791c4-62f1-44f2-8b02-4305b0089cd4",
                 "insertClass": "Sorcerer",
                 "level": 3,
-                "signatureSpell": true,
                 "source": "Sorcerer Spellcasting",
                 "spells": [
                     {
@@ -14252,7 +14239,6 @@
                 "id": "59039aa6-a58a-11ea-bb37-0242ac130002",
                 "insertClass": "Sorcerer",
                 "level": 4,
-                "signatureSpell": true,
                 "source": "Sorcerer Spellcasting",
                 "spells": [
                     {
@@ -14303,7 +14289,6 @@
                 "id": "590399f2-a58a-11ea-bb37-0242ac130002",
                 "insertClass": "Sorcerer",
                 "level": 5,
-                "signatureSpell": true,
                 "source": "Sorcerer Spellcasting",
                 "spells": [
                     {
@@ -14354,7 +14339,6 @@
                 "id": "c391b12f-3e0e-44a0-94dd-4568c9e7df83",
                 "insertClass": "Sorcerer",
                 "level": 6,
-                "signatureSpell": true,
                 "source": "Sorcerer Spellcasting",
                 "spells": [
                     {
@@ -14405,7 +14389,6 @@
                 "id": "78965232-2066-4dd6-930b-717546ea092c",
                 "insertClass": "Sorcerer",
                 "level": 7,
-                "signatureSpell": true,
                 "source": "Sorcerer Spellcasting",
                 "spells": [
                     {
@@ -14456,7 +14439,6 @@
                 "id": "1b847c5b-7a3d-4657-8987-77506e6870ce",
                 "insertClass": "Sorcerer",
                 "level": 8,
-                "signatureSpell": true,
                 "source": "Sorcerer Spellcasting",
                 "spells": [
                     {
@@ -14507,7 +14489,6 @@
                 "id": "95e53c4f-dc12-4cf7-8305-7747a14a4f27",
                 "insertClass": "Sorcerer",
                 "level": 9,
-                "signatureSpell": true,
                 "source": "Sorcerer Spellcasting",
                 "spells": [
                     {
@@ -14558,7 +14539,6 @@
                 "id": "59039466-a58a-11ea-bb37-0242ac130002",
                 "insertClass": "Sorcerer",
                 "level": 10,
-                "signatureSpell": true,
                 "source": "Sorcerer Spellcasting"
             },
             {
@@ -14799,7 +14779,6 @@
                 "id": "f9fddd4e-774f-11eb-9439-0242ac130002",
                 "insertClass": "Sorcerer",
                 "level": 1,
-                "signatureSpell": true,
                 "source": "Sorcerer Spellcasting",
                 "spells": [
                     {
@@ -14850,7 +14829,6 @@
                 "id": "f9fde21c-774f-11eb-9439-0242ac130002",
                 "insertClass": "Sorcerer",
                 "level": 2,
-                "signatureSpell": true,
                 "source": "Sorcerer Spellcasting",
                 "spells": [
                     {
@@ -14901,7 +14879,6 @@
                 "id": "f9fde6a4-774f-11eb-9439-0242ac130002",
                 "insertClass": "Sorcerer",
                 "level": 3,
-                "signatureSpell": true,
                 "source": "Sorcerer Spellcasting",
                 "spells": [
                     {
@@ -14952,7 +14929,6 @@
                 "id": "f9fdeb4a-774f-11eb-9439-0242ac130002",
                 "insertClass": "Sorcerer",
                 "level": 4,
-                "signatureSpell": true,
                 "source": "Sorcerer Spellcasting",
                 "spells": [
                     {
@@ -15003,7 +14979,6 @@
                 "id": "f9fdf068-774f-11eb-9439-0242ac130002",
                 "insertClass": "Sorcerer",
                 "level": 5,
-                "signatureSpell": true,
                 "source": "Sorcerer Spellcasting",
                 "spells": [
                     {
@@ -15054,7 +15029,6 @@
                 "id": "f9fdf5ae-774f-11eb-9439-0242ac130002",
                 "insertClass": "Sorcerer",
                 "level": 6,
-                "signatureSpell": true,
                 "source": "Sorcerer Spellcasting",
                 "spells": [
                     {
@@ -15105,7 +15079,6 @@
                 "id": "f9fe5c24-774f-11eb-9439-0242ac130002",
                 "insertClass": "Sorcerer",
                 "level": 7,
-                "signatureSpell": true,
                 "source": "Sorcerer Spellcasting",
                 "spells": [
                     {
@@ -15156,7 +15129,6 @@
                 "id": "f9fe6156-774f-11eb-9439-0242ac130002",
                 "insertClass": "Sorcerer",
                 "level": 8,
-                "signatureSpell": true,
                 "source": "Sorcerer Spellcasting",
                 "spells": [
                     {
@@ -15207,7 +15179,6 @@
                 "id": "f9fe65c0-774f-11eb-9439-0242ac130002",
                 "insertClass": "Sorcerer",
                 "level": 9,
-                "signatureSpell": true,
                 "source": "Sorcerer Spellcasting",
                 "spells": [
                     {
@@ -15258,7 +15229,6 @@
                 "id": "f9fe71fa-774f-11eb-9439-0242ac130002",
                 "insertClass": "Sorcerer",
                 "level": 10,
-                "signatureSpell": true,
                 "source": "Sorcerer Spellcasting"
             },
             {
@@ -15501,7 +15471,6 @@
                 "id": "ff9724c2-774f-11eb-9439-0242ac130002",
                 "insertClass": "Sorcerer",
                 "level": 1,
-                "signatureSpell": true,
                 "source": "Sorcerer Spellcasting",
                 "spells": [
                     {
@@ -15552,7 +15521,6 @@
                 "id": "ff972792-774f-11eb-9439-0242ac130002",
                 "insertClass": "Sorcerer",
                 "level": 2,
-                "signatureSpell": true,
                 "source": "Sorcerer Spellcasting",
                 "spells": [
                     {
@@ -15603,7 +15571,6 @@
                 "id": "ff972c42-774f-11eb-9439-0242ac130002",
                 "insertClass": "Sorcerer",
                 "level": 3,
-                "signatureSpell": true,
                 "source": "Sorcerer Spellcasting",
                 "spells": [
                     {
@@ -15654,7 +15621,6 @@
                 "id": "ff972f26-774f-11eb-9439-0242ac130002",
                 "insertClass": "Sorcerer",
                 "level": 4,
-                "signatureSpell": true,
                 "source": "Sorcerer Spellcasting",
                 "spells": [
                     {
@@ -15705,7 +15671,6 @@
                 "id": "ff97335e-774f-11eb-9439-0242ac130002",
                 "insertClass": "Sorcerer",
                 "level": 5,
-                "signatureSpell": true,
                 "source": "Sorcerer Spellcasting",
                 "spells": [
                     {
@@ -15756,7 +15721,6 @@
                 "id": "ff97364c-774f-11eb-9439-0242ac130002",
                 "insertClass": "Sorcerer",
                 "level": 6,
-                "signatureSpell": true,
                 "source": "Sorcerer Spellcasting",
                 "spells": [
                     {
@@ -15807,7 +15771,6 @@
                 "id": "ff973ac0-774f-11eb-9439-0242ac130002",
                 "insertClass": "Sorcerer",
                 "level": 7,
-                "signatureSpell": true,
                 "source": "Sorcerer Spellcasting",
                 "spells": [
                     {
@@ -15858,7 +15821,6 @@
                 "id": "ff973e3a-774f-11eb-9439-0242ac130002",
                 "insertClass": "Sorcerer",
                 "level": 8,
-                "signatureSpell": true,
                 "source": "Sorcerer Spellcasting",
                 "spells": [
                     {
@@ -15909,7 +15871,6 @@
                 "id": "ff9742d6-774f-11eb-9439-0242ac130002",
                 "insertClass": "Sorcerer",
                 "level": 9,
-                "signatureSpell": true,
                 "source": "Sorcerer Spellcasting",
                 "spells": [
                     {
@@ -15960,7 +15921,6 @@
                 "id": "ff97459c-774f-11eb-9439-0242ac130002",
                 "insertClass": "Sorcerer",
                 "level": 10,
-                "signatureSpell": true,
                 "source": "Sorcerer Spellcasting"
             },
             {
@@ -16208,7 +16168,6 @@
                 "id": "061ca1aa-7750-11eb-9439-0242ac130002",
                 "insertClass": "Sorcerer",
                 "level": 1,
-                "signatureSpell": true,
                 "source": "Sorcerer Spellcasting",
                 "spells": [
                     {
@@ -16259,7 +16218,6 @@
                 "id": "061ca5a6-7750-11eb-9439-0242ac130002",
                 "insertClass": "Sorcerer",
                 "level": 2,
-                "signatureSpell": true,
                 "source": "Sorcerer Spellcasting",
                 "spells": [
                     {
@@ -16310,7 +16268,6 @@
                 "id": "061ca9de-7750-11eb-9439-0242ac130002",
                 "insertClass": "Sorcerer",
                 "level": 3,
-                "signatureSpell": true,
                 "source": "Sorcerer Spellcasting",
                 "spells": [
                     {
@@ -16361,7 +16318,6 @@
                 "id": "061cae8e-7750-11eb-9439-0242ac130002",
                 "insertClass": "Sorcerer",
                 "level": 4,
-                "signatureSpell": true,
                 "source": "Sorcerer Spellcasting",
                 "spells": [
                     {
@@ -16412,7 +16368,6 @@
                 "id": "061cb186-7750-11eb-9439-0242ac130002",
                 "insertClass": "Sorcerer",
                 "level": 5,
-                "signatureSpell": true,
                 "source": "Sorcerer Spellcasting",
                 "spells": [
                     {
@@ -16463,7 +16418,6 @@
                 "id": "061cb5e6-7750-11eb-9439-0242ac130002",
                 "insertClass": "Sorcerer",
                 "level": 6,
-                "signatureSpell": true,
                 "source": "Sorcerer Spellcasting",
                 "spells": [
                     {
@@ -16514,7 +16468,6 @@
                 "id": "061cb8e8-7750-11eb-9439-0242ac130002",
                 "insertClass": "Sorcerer",
                 "level": 7,
-                "signatureSpell": true,
                 "source": "Sorcerer Spellcasting",
                 "spells": [
                     {
@@ -16565,7 +16518,6 @@
                 "id": "061cbd7a-7750-11eb-9439-0242ac130002",
                 "insertClass": "Sorcerer",
                 "level": 8,
-                "signatureSpell": true,
                 "source": "Sorcerer Spellcasting",
                 "spells": [
                     {
@@ -16616,7 +16568,6 @@
                 "id": "061cc180-7750-11eb-9439-0242ac130002",
                 "insertClass": "Sorcerer",
                 "level": 9,
-                "signatureSpell": true,
                 "source": "Sorcerer Spellcasting",
                 "spells": [
                     {
@@ -16667,7 +16618,6 @@
                 "id": "061cc482-7750-11eb-9439-0242ac130002",
                 "insertClass": "Sorcerer",
                 "level": 10,
-                "signatureSpell": true,
                 "source": "Sorcerer Spellcasting"
             },
             {
@@ -16993,7 +16943,6 @@
                 "id": "59039c22-a58a-11ea-bb37-0242ac130002",
                 "insertClass": "Sorcerer",
                 "level": 1,
-                "signatureSpell": true,
                 "source": "Sorcerer Spellcasting",
                 "spells": [
                     {
@@ -17044,7 +16993,6 @@
                 "id": "59039b64-a58a-11ea-bb37-0242ac130002",
                 "insertClass": "Sorcerer",
                 "level": 2,
-                "signatureSpell": true,
                 "source": "Sorcerer Spellcasting",
                 "spells": [
                     {
@@ -17095,7 +17043,6 @@
                 "id": "c75791c4-62f1-44f2-8b02-4305b0089cd4",
                 "insertClass": "Sorcerer",
                 "level": 3,
-                "signatureSpell": true,
                 "source": "Sorcerer Spellcasting",
                 "spells": [
                     {
@@ -17146,7 +17093,6 @@
                 "id": "59039aa6-a58a-11ea-bb37-0242ac130002",
                 "insertClass": "Sorcerer",
                 "level": 4,
-                "signatureSpell": true,
                 "source": "Sorcerer Spellcasting",
                 "spells": [
                     {
@@ -17197,7 +17143,6 @@
                 "id": "590399f2-a58a-11ea-bb37-0242ac130002",
                 "insertClass": "Sorcerer",
                 "level": 5,
-                "signatureSpell": true,
                 "source": "Sorcerer Spellcasting",
                 "spells": [
                     {
@@ -17248,7 +17193,6 @@
                 "id": "c391b12f-3e0e-44a0-94dd-4568c9e7df83",
                 "insertClass": "Sorcerer",
                 "level": 6,
-                "signatureSpell": true,
                 "source": "Sorcerer Spellcasting",
                 "spells": [
                     {
@@ -17299,7 +17243,6 @@
                 "id": "78965232-2066-4dd6-930b-717546ea092c",
                 "insertClass": "Sorcerer",
                 "level": 7,
-                "signatureSpell": true,
                 "source": "Sorcerer Spellcasting",
                 "spells": [
                     {
@@ -17350,7 +17293,6 @@
                 "id": "1b847c5b-7a3d-4657-8987-77506e6870ce",
                 "insertClass": "Sorcerer",
                 "level": 8,
-                "signatureSpell": true,
                 "source": "Sorcerer Spellcasting",
                 "spells": [
                     {
@@ -17401,7 +17343,6 @@
                 "id": "95e53c4f-dc12-4cf7-8305-7747a14a4f27",
                 "insertClass": "Sorcerer",
                 "level": 9,
-                "signatureSpell": true,
                 "source": "Sorcerer Spellcasting",
                 "spells": [
                     {
@@ -17452,7 +17393,6 @@
                 "id": "59039466-a58a-11ea-bb37-0242ac130002",
                 "insertClass": "Sorcerer",
                 "level": 10,
-                "signatureSpell": true,
                 "source": "Sorcerer Spellcasting"
             },
             {
@@ -17755,7 +17695,6 @@
                 "id": "10032de2-7750-11eb-9439-0242ac130002",
                 "insertClass": "Sorcerer",
                 "level": 1,
-                "signatureSpell": true,
                 "source": "Sorcerer Spellcasting",
                 "spells": [
                     {
@@ -17806,7 +17745,6 @@
                 "id": "100330b2-7750-11eb-9439-0242ac130002",
                 "insertClass": "Sorcerer",
                 "level": 2,
-                "signatureSpell": true,
                 "source": "Sorcerer Spellcasting",
                 "spells": [
                     {
@@ -17857,7 +17795,6 @@
                 "id": "10033526-7750-11eb-9439-0242ac130002",
                 "insertClass": "Sorcerer",
                 "level": 3,
-                "signatureSpell": true,
                 "source": "Sorcerer Spellcasting",
                 "spells": [
                     {
@@ -17908,7 +17845,6 @@
                 "id": "10033ada-7750-11eb-9439-0242ac130002",
                 "insertClass": "Sorcerer",
                 "level": 4,
-                "signatureSpell": true,
                 "source": "Sorcerer Spellcasting",
                 "spells": [
                     {
@@ -17959,7 +17895,6 @@
                 "id": "10033db4-7750-11eb-9439-0242ac130002",
                 "insertClass": "Sorcerer",
                 "level": 5,
-                "signatureSpell": true,
                 "source": "Sorcerer Spellcasting",
                 "spells": [
                     {
@@ -18010,7 +17945,6 @@
                 "id": "10034200-7750-11eb-9439-0242ac130002",
                 "insertClass": "Sorcerer",
                 "level": 6,
-                "signatureSpell": true,
                 "source": "Sorcerer Spellcasting",
                 "spells": [
                     {
@@ -18061,7 +17995,6 @@
                 "id": "100344c6-7750-11eb-9439-0242ac130002",
                 "insertClass": "Sorcerer",
                 "level": 7,
-                "signatureSpell": true,
                 "source": "Sorcerer Spellcasting",
                 "spells": [
                     {
@@ -18112,7 +18045,6 @@
                 "id": "1003491c-7750-11eb-9439-0242ac130002",
                 "insertClass": "Sorcerer",
                 "level": 8,
-                "signatureSpell": true,
                 "source": "Sorcerer Spellcasting",
                 "spells": [
                     {
@@ -18163,7 +18095,6 @@
                 "id": "10034be2-7750-11eb-9439-0242ac130002",
                 "insertClass": "Sorcerer",
                 "level": 9,
-                "signatureSpell": true,
                 "source": "Sorcerer Spellcasting",
                 "spells": [
                     {
@@ -18214,7 +18145,6 @@
                 "id": "10035056-7750-11eb-9439-0242ac130002",
                 "insertClass": "Sorcerer",
                 "level": 10,
-                "signatureSpell": true,
                 "source": "Sorcerer Spellcasting"
             },
             {
@@ -18452,7 +18382,6 @@
                 "id": "172779d4-7750-11eb-9439-0242ac130002",
                 "insertClass": "Sorcerer",
                 "level": 1,
-                "signatureSpell": true,
                 "source": "Sorcerer Spellcasting",
                 "spells": [
                     {
@@ -18503,7 +18432,6 @@
                 "id": "17277ccc-7750-11eb-9439-0242ac130002",
                 "insertClass": "Sorcerer",
                 "level": 2,
-                "signatureSpell": true,
                 "source": "Sorcerer Spellcasting",
                 "spells": [
                     {
@@ -18554,7 +18482,6 @@
                 "id": "17278190-7750-11eb-9439-0242ac130002",
                 "insertClass": "Sorcerer",
                 "level": 3,
-                "signatureSpell": true,
                 "source": "Sorcerer Spellcasting",
                 "spells": [
                     {
@@ -18605,7 +18532,6 @@
                 "id": "17278ad2-7750-11eb-9439-0242ac130002",
                 "insertClass": "Sorcerer",
                 "level": 4,
-                "signatureSpell": true,
                 "source": "Sorcerer Spellcasting",
                 "spells": [
                     {
@@ -18656,7 +18582,6 @@
                 "id": "17279374-7750-11eb-9439-0242ac130002",
                 "insertClass": "Sorcerer",
                 "level": 5,
-                "signatureSpell": true,
                 "source": "Sorcerer Spellcasting",
                 "spells": [
                     {
@@ -18707,7 +18632,6 @@
                 "id": "1727989c-7750-11eb-9439-0242ac130002",
                 "insertClass": "Sorcerer",
                 "level": 6,
-                "signatureSpell": true,
                 "source": "Sorcerer Spellcasting",
                 "spells": [
                     {
@@ -18758,7 +18682,6 @@
                 "id": "17279b6c-7750-11eb-9439-0242ac130002",
                 "insertClass": "Sorcerer",
                 "level": 7,
-                "signatureSpell": true,
                 "source": "Sorcerer Spellcasting",
                 "spells": [
                     {
@@ -18809,7 +18732,6 @@
                 "id": "1727a68e-7750-11eb-9439-0242ac130002",
                 "insertClass": "Sorcerer",
                 "level": 8,
-                "signatureSpell": true,
                 "source": "Sorcerer Spellcasting",
                 "spells": [
                     {
@@ -18860,7 +18782,6 @@
                 "id": "1727abe8-7750-11eb-9439-0242ac130002",
                 "insertClass": "Sorcerer",
                 "level": 9,
-                "signatureSpell": true,
                 "source": "Sorcerer Spellcasting",
                 "spells": [
                     {
@@ -18911,7 +18832,6 @@
                 "id": "1727aecc-7750-11eb-9439-0242ac130002",
                 "insertClass": "Sorcerer",
                 "level": 10,
-                "signatureSpell": true,
                 "source": "Sorcerer Spellcasting"
             },
             {
@@ -19145,7 +19065,6 @@
                 "id": "1e3b5088-7750-11eb-9439-0242ac130002",
                 "insertClass": "Sorcerer",
                 "level": 1,
-                "signatureSpell": true,
                 "source": "Sorcerer Spellcasting",
                 "spells": [
                     {
@@ -19196,7 +19115,6 @@
                 "id": "1e3b5556-7750-11eb-9439-0242ac130002",
                 "insertClass": "Sorcerer",
                 "level": 2,
-                "signatureSpell": true,
                 "source": "Sorcerer Spellcasting",
                 "spells": [
                     {
@@ -19247,7 +19165,6 @@
                 "id": "1e3b5826-7750-11eb-9439-0242ac130002",
                 "insertClass": "Sorcerer",
                 "level": 3,
-                "signatureSpell": true,
                 "source": "Sorcerer Spellcasting",
                 "spells": [
                     {
@@ -19298,7 +19215,6 @@
                 "id": "1e3b5c9a-7750-11eb-9439-0242ac130002",
                 "insertClass": "Sorcerer",
                 "level": 4,
-                "signatureSpell": true,
                 "source": "Sorcerer Spellcasting",
                 "spells": [
                     {
@@ -19349,7 +19265,6 @@
                 "id": "1e3b6082-7750-11eb-9439-0242ac130002",
                 "insertClass": "Sorcerer",
                 "level": 5,
-                "signatureSpell": true,
                 "source": "Sorcerer Spellcasting",
                 "spells": [
                     {
@@ -19400,7 +19315,6 @@
                 "id": "1e3b6564-7750-11eb-9439-0242ac130002",
                 "insertClass": "Sorcerer",
                 "level": 6,
-                "signatureSpell": true,
                 "source": "Sorcerer Spellcasting",
                 "spells": [
                     {
@@ -19451,7 +19365,6 @@
                 "id": "1e3b68fc-7750-11eb-9439-0242ac130002",
                 "insertClass": "Sorcerer",
                 "level": 7,
-                "signatureSpell": true,
                 "source": "Sorcerer Spellcasting",
                 "spells": [
                     {
@@ -19502,7 +19415,6 @@
                 "id": "1e3b6ce4-7750-11eb-9439-0242ac130002",
                 "insertClass": "Sorcerer",
                 "level": 8,
-                "signatureSpell": true,
                 "source": "Sorcerer Spellcasting",
                 "spells": [
                     {
@@ -19553,7 +19465,6 @@
                 "id": "1e3b7090-7750-11eb-9439-0242ac130002",
                 "insertClass": "Sorcerer",
                 "level": 9,
-                "signatureSpell": true,
                 "source": "Sorcerer Spellcasting",
                 "spells": [
                     {
@@ -19604,7 +19515,6 @@
                 "id": "1e3b7432-7750-11eb-9439-0242ac130002",
                 "insertClass": "Sorcerer",
                 "level": 10,
-                "signatureSpell": true,
                 "source": "Sorcerer Spellcasting"
             },
             {
@@ -19843,7 +19753,6 @@
                 "id": "23ef5b00-7750-11eb-9439-0242ac130002",
                 "insertClass": "Sorcerer",
                 "level": 1,
-                "signatureSpell": true,
                 "source": "Sorcerer Spellcasting",
                 "spells": [
                     {
@@ -19894,7 +19803,6 @@
                 "id": "23ef5f24-7750-11eb-9439-0242ac130002",
                 "insertClass": "Sorcerer",
                 "level": 2,
-                "signatureSpell": true,
                 "source": "Sorcerer Spellcasting",
                 "spells": [
                     {
@@ -19945,7 +19853,6 @@
                 "id": "23ef6370-7750-11eb-9439-0242ac130002",
                 "insertClass": "Sorcerer",
                 "level": 3,
-                "signatureSpell": true,
                 "source": "Sorcerer Spellcasting",
                 "spells": [
                     {
@@ -19996,7 +19903,6 @@
                 "id": "23ef6c12-7750-11eb-9439-0242ac130002",
                 "insertClass": "Sorcerer",
                 "level": 4,
-                "signatureSpell": true,
                 "source": "Sorcerer Spellcasting",
                 "spells": [
                     {
@@ -20047,7 +19953,6 @@
                 "id": "23ef6fdc-7750-11eb-9439-0242ac130002",
                 "insertClass": "Sorcerer",
                 "level": 5,
-                "signatureSpell": true,
                 "source": "Sorcerer Spellcasting",
                 "spells": [
                     {
@@ -20098,7 +20003,6 @@
                 "id": "23ef736a-7750-11eb-9439-0242ac130002",
                 "insertClass": "Sorcerer",
                 "level": 6,
-                "signatureSpell": true,
                 "source": "Sorcerer Spellcasting",
                 "spells": [
                     {
@@ -20149,7 +20053,6 @@
                 "id": "23ef7824-7750-11eb-9439-0242ac130002",
                 "insertClass": "Sorcerer",
                 "level": 7,
-                "signatureSpell": true,
                 "source": "Sorcerer Spellcasting",
                 "spells": [
                     {
@@ -20200,7 +20103,6 @@
                 "id": "23ef7c70-7750-11eb-9439-0242ac130002",
                 "insertClass": "Sorcerer",
                 "level": 8,
-                "signatureSpell": true,
                 "source": "Sorcerer Spellcasting",
                 "spells": [
                     {
@@ -20251,7 +20153,6 @@
                 "id": "23ef80a8-7750-11eb-9439-0242ac130002",
                 "insertClass": "Sorcerer",
                 "level": 9,
-                "signatureSpell": true,
                 "source": "Sorcerer Spellcasting",
                 "spells": [
                     {
@@ -20302,7 +20203,6 @@
                 "id": "23ef8436-7750-11eb-9439-0242ac130002",
                 "insertClass": "Sorcerer",
                 "level": 10,
-                "signatureSpell": true,
                 "source": "Sorcerer Spellcasting"
             },
             {
@@ -23425,7 +23325,7 @@
         "featreq": [
             "Mature Animal Companion"
         ],
-        "specialreq": "!character.get_FeatsTaken(1, 20).filter(feat => feat.name != this.name && characterService.get_FeatsAndFeatures(feat.name).length && characterService.get_FeatsAndFeatures(feat.name)[0]?.gainAnimalCompanion == 5).length",
+        "specialreq": "!characterService.get_FeatsAndFeatures().some(feat => feat.gainAnimalCompanion == 5 && feat.have(character, characterService, 20, false))",
         "specialreqdesc": "no savage animal companion",
         "gainAnimalCompanion": 4
     },
@@ -23443,7 +23343,7 @@
         "featreq": [
             "Mature Animal Companion"
         ],
-        "specialreq": "!character.get_FeatsTaken(1, 20).filter(feat => feat.name != this.name && characterService.get_FeatsAndFeatures(feat.name).length && characterService.get_FeatsAndFeatures(feat.name)[0]?.gainAnimalCompanion == 4).length",
+        "specialreq": "!characterService.get_FeatsAndFeatures().some(feat => feat.gainAnimalCompanion == 4 && feat.have(character, characterService, 20, false))",
         "specialreqdesc": "no nimble animal companion",
         "gainAnimalCompanion": 5
     },
@@ -27478,7 +27378,7 @@
     },
     {
         "name": "Basic Wizard Spellcasting",
-        "desc": "You gain the basic spellcasting benefits. Each time you gain a spell slot of a new level from the wizard archetype, add two common spells of that level to your spellbook.",
+        "desc": "You gain the basic spellcasting benefits:\n\nAt 4th level, you gain a 1st-level spell slot. At 6th level, you gain a 2nd-level spell slot. At 8th level, you gain a 3rd-level spell slot.\n\nEach time you gain a spell slot of a new level from the wizard archetype, add two common spells of that level to your spellbook.",
         "shortdesc": "You gain the basic spellcasting benefits.",
         "archetype": "Wizard",
         "traits": [
@@ -27567,7 +27467,7 @@
     },
     {
         "name": "Expert Wizard Spellcasting",
-        "desc": "You gain the expert spellcasting benefits.",
+        "desc": "You gain the expert spellcasting benefits:\n\nYou become an expert in spell attack rolls and spell DCs for arcane spells. At 12th level, you gain a 4th-level spell slot. At 14th level, you gain a 5th-level spell slot. At 16th level, you gain a 6th-level spell slot.",
         "shortdesc": "You gain the expert spellcasting benefits.",
         "archetype": "Wizard",
         "traits": [
@@ -27640,7 +27540,7 @@
     },
     {
         "name": "Master Wizard Spellcasting",
-        "desc": "You gain the master spellcasting benefits.",
+        "desc": "You gain the master spellcasting benefits:\n\nYou become a master in spell attack rolls and spell DCs for arcane spells. At 18th level, you gain a 7th-level spell slot. At 20th level, you gain a 8th-level spell slot.",
         "shortdesc": "You gain the master spellcasting benefits.",
         "archetype": "Wizard",
         "traits": [
@@ -30523,7 +30423,13 @@
     },
     {
         "name": "Basic Bard Spellcasting",
-        "desc": "You gain the basic spellcasting benefits. Each time you gain a spell slot of a new level from the bard archetype, add a common occult spell or another spell you learned or discovered to your repertoire, of the appropriate spell level.",
+        "desc": "You gain the basic spellcasting benefits:\n\nAt 4th level, you gain a 1st-level spell slot. At 6th level, you gain a 2nd-level spell slot and can select one spell from your repertoire as a signature spell. At 8th level, you gain a 3rd-level spell slot.\n\nEach time you gain a spell slot of a new level from the bard archetype, add a common occult spell or another spell you learned or discovered to your repertoire, of the appropriate spell level.",
+        "hints": [
+            {
+                "desc": "You can select one spell from your repertoire as a signature spell. You don't need to learn heightened versions of signature spells separately; instead, you can heighten these spells freely. If you've learned a signature spell at a higher level than its minimum, you can also cast all its lower-level versions without learning those separately. If you swap out a signature spell, you can choose a replacement signature spell of the same spell level at which you learned the previous spell. You can also retrain specifically to change a signature spell to a different spell of that level without swapping any spells; this takes as much time as retraining a spell normally does.",
+                "showon": "Bard Spontaneous Spells"
+            }
+        ],
         "shortdesc": "You gain the basic spellcasting benefits.",
         "archetype": "Bard",
         "traits": [
@@ -30704,7 +30610,13 @@
     },
     {
         "name": "Expert Bard Spellcasting",
-        "desc": "You gain the expert spellcasting benefits.",
+        "desc": "You gain the expert spellcasting benefits:\n\nYou become an expert in spell attack rolls and spell DCs for occult spells, and you can select a second spell from your repertoire as a signature spell. At 12th level, you gain a 4th-level spell slot. At 14th level, you gain a 5th-level spell slot. At 16th level, you gain a 6th-level spell slot.",
+        "hints": [
+            {
+                "desc": "You can select a second spell from your repertoire as a signature spell.",
+                "showon": "Bard Spontaneous Spells"
+            }
+        ],
         "shortdesc": "You gain the expert spellcasting benefits.",
         "archetype": "Bard",
         "traits": [
@@ -30777,7 +30689,13 @@
     },
     {
         "name": "Master Bard Spellcasting",
-        "desc": "You gain the master spellcasting benefits.",
+        "desc": "You gain the master spellcasting benefits:\n\nYou become a master in spell attack rolls and spell DCs for occult spells, and you can select a third spell from your repertoire as a signature spell. At 18th level, you gain a 7th-level spell slot. At 20th level, you gain a 8th-level spell slot.",
+        "hints": [
+            {
+                "desc": "You can select a third spell from your repertoire as a signature spell.",
+                "showon": "Bard Spontaneous Spells"
+            }
+        ],
         "shortdesc": "You gain the master spellcasting benefits.",
         "archetype": "Bard",
         "traits": [
@@ -40462,7 +40380,7 @@
         "featreq": [
             "Mature Animal Companion"
         ],
-        "specialreq": "!character.get_FeatsTaken(1, 20).filter(feat => feat.name != this.name && characterService.get_FeatsAndFeatures(feat.name).length && characterService.get_FeatsAndFeatures(feat.name)[0]?.gainAnimalCompanion == 5).length",
+        "specialreq": "!characterService.get_FeatsAndFeatures().some(feat => feat.gainAnimalCompanion == 5 && feat.have(character, characterService, 20, false))",
         "specialreqdesc": "no savage animal companion",
         "gainAnimalCompanion": 4
     },
@@ -40480,7 +40398,7 @@
         "featreq": [
             "Mature Animal Companion"
         ],
-        "specialreq": "!character.get_FeatsTaken(1, 20).filter(feat => feat.name != this.name && characterService.get_FeatsAndFeatures(feat.name).length && characterService.get_FeatsAndFeatures(feat.name)[0]?.gainAnimalCompanion == 4).length",
+        "specialreq": "!characterService.get_FeatsAndFeatures().some(feat => feat.gainAnimalCompanion == 4 && feat.have(character, characterService, 20, false))",
         "specialreqdesc": "no nimble animal companion",
         "gainAnimalCompanion": 5
     },
@@ -41250,7 +41168,7 @@
     },
     {
         "name": "Basic Druid Spellcasting",
-        "desc": "You gain the basic spellcasting benefits.",
+        "desc": "You gain the basic spellcasting benefits:\n\nAt 4th level, you gain a 1st-level spell slot. At 6th level, you gain a 2nd-level spell slot. At 8th level, you gain a 3rd-level spell slot.",
         "shortdesc": "You gain the basic spellcasting benefits.",
         "archetype": "Druid",
         "traits": [
@@ -41545,7 +41463,7 @@
     },
     {
         "name": "Expert Druid Spellcasting",
-        "desc": "You gain the expert spellcasting benefits.",
+        "desc": "You gain the expert spellcasting benefits:\n\nYou become an expert in spell attack rolls and spell DCs for primal spells. At 12th level, you gain a 4th-level spell slot. At 14th level, you gain a 5th-level spell slot. At 16th level, you gain a 6th-level spell slot.",
         "shortdesc": "You gain the expert spellcasting benefits.",
         "archetype": "Druid",
         "traits": [
@@ -41612,7 +41530,7 @@
     },
     {
         "name": "Master Druid Spellcasting",
-        "desc": "You gain the master spellcasting benefits.",
+        "desc": "You gain the master spellcasting benefits:\n\nYou become a master in spell attack rolls and spell DCs for primal spells. At 18th level, you gain a 7th-level spell slot. At 20th level, you gain a 8th-level spell slot.",
         "shortdesc": "You gain the master spellcasting benefits.",
         "archetype": "Druid",
         "traits": [
@@ -43577,7 +43495,13 @@
     },
     {
         "name": "Basic Sorcerer Spellcasting",
-        "desc": "You gain the basic spellcasting benefits. Each time you gain a spell slot of a new level from the sorcerer archetype, add a spell of the appropriate spell level to your repertoire: a common spell of your bloodline's tradition, one of your bloodline's granted spells, or another spell you have learned or discovered.",
+        "desc": "You gain the basic spellcasting benefits:\n\nAt 4th level, you gain a 1st-level spell slot. At 6th level, you gain a 2nd-level spell slot and can select one spell from your repertoire as a signature spell. At 8th level, you gain a 3rd-level spell slot.\n\nEach time you gain a spell slot of a new level from the sorcerer archetype, add a spell of the appropriate spell level to your repertoire: a common spell of your bloodline's tradition, one of your bloodline's granted spells, or another spell you have learned or discovered.",
+        "hints": [
+            {
+                "desc": "You can select one spell from your repertoire as a signature spell. You don't need to learn heightened versions of signature spells separately; instead, you can heighten these spells freely. If you've learned a signature spell at a higher level than its minimum, you can also cast all its lower-level versions without learning those separately. If you swap out a signature spell, you can choose a replacement signature spell of the same spell level at which you learned the previous spell. You can also retrain specifically to change a signature spell to a different spell of that level without swapping any spells; this takes as much time as retraining a spell normally does.",
+                "showon": "Sorcerer Spontaneous Spells"
+            }
+        ],
         "internalNote": "The added specialreq ensures that the feat is unselected when you lose your spellcasting",
         "shortdesc": "You gain the basic spellcasting benefits.",
         "archetype": "Sorcerer",
@@ -43667,7 +43591,13 @@
     },
     {
         "name": "Expert Sorcerer Spellcasting",
-        "desc": "You gain the expert spellcasting benefits.",
+        "desc": "You gain the expert spellcasting benefits:\n\nYou become an expert in spell attack rolls and spell DCs for spells of your bloodline's tradition, and you can select a second spell from your repertoire as a signature spell. At 12th level, you gain a 4th-level spell slot. At 14th level, you gain a 5th-level spell slot. At 16th level, you gain a 6th-level spell slot.",
+        "hints": [
+            {
+                "desc": "You can select a second spell from your repertoire as a signature spell.",
+                "showon": "Sorcerer Spontaneous Spells"
+            }
+        ],
         "shortdesc": "You gain the expert spellcasting benefits.",
         "archetype": "Sorcerer",
         "traits": [
@@ -43782,7 +43712,13 @@
     },
     {
         "name": "Master Sorcerer Spellcasting",
-        "desc": "You gain the master spellcasting benefits.",
+        "desc": "You gain the master spellcasting benefits:\n\nYou become a master in spell attack rolls and spell DCs for spells of your bloodline's tradition, and you can select a third spell from your repertoire as a signature spell. At 18th level, you gain a 7th-level spell slot. At 20th level, you gain a 8th-level spell slot.",
+        "hints": [
+            {
+                "desc": "You can select a third spell from your repertoire as a signature spell.",
+                "showon": "Sorcerer Spontaneous Spells"
+            }
+        ],
         "shortdesc": "You gain the master spellcasting benefits.",
         "archetype": "Sorcerer",
         "traits": [

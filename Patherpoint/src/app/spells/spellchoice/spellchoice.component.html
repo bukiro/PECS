@@ -8,8 +8,6 @@
                 <button class="row left-aligned sublist-toggle"
                     [ngClass]="{'fancy-button choicecleared':(available == choice.spells.length)}"
                     (click)="toggle_Choice(choice.source+choice.id)">
-                    <span title="Signature spell"
-                        *ngIf="is_SignatureSpell(choice, signatureSpellsAllowed)">&#9733;&nbsp;</span>
                     <span title="Combination spell" *ngIf="choice.spellCombinationAllowed">&#8853;&nbsp;</span>
                     <span title="Infinite Possibilities spell"
                         *ngIf="is_InfinitePossibilitiesSpell(choice)">&#9883;&nbsp;</span>
@@ -21,7 +19,6 @@
                     {{is_AdaptedCantripSpell(choice) ? "non-"+spellCasting.tradition : ""}}
                     {{is_AdaptiveAdeptSpell(choice) ? "non-"+spellCasting.tradition : ""}}
                     {{choice.traitFilter.length ? choice.traitFilter.join(" ") : ""}}
-                    {{is_SignatureSpell(choice, signatureSpellsAllowed) ? "Signature" : ""}}
                     {{choice.spellCombinationAllowed ? "Combination" : ""}}
                     {{choice.className}}
                     {{choice.spellBookOnly ? "Spellbook" : ""}}
@@ -41,30 +38,6 @@
                         </span>
                     </div>
                     <!-- End Heightened -->
-                    <!-- Signature Spells -->
-                    <ng-container *ngIf="signatureSpellsAllowed">
-                        <div class="list-item">
-                            <strong>Signature Spell</strong>
-                            <div class="row"
-                                *ngIf="get_SignatureSpellsUnlocked(choice.level) && !choice.signatureSpell">
-                                A signature spell has already been assigned for this level.
-                            </div>
-                            <div class="row"
-                                *ngIf="!choice.signatureSpell && !get_SignatureSpellsUnlocked(choice.level) && (signatureSpellsAllowed > -1 && get_SignatureSpellsUnlocked(0) >= signatureSpellsAllowed)">
-                                The maximum amount of signature spells ({{signatureSpellsAllowed}}) has been assigned.
-                            </div>
-                            <div class="row"
-                                *ngIf="choice.signatureSpell || (!get_SignatureSpellsUnlocked(choice.level) && (signatureSpellsAllowed == -1 || get_SignatureSpellsUnlocked(0) < signatureSpellsAllowed))">
-                                <span>
-                                    <input id="{{choice.id}}signaturespell" type="checkbox"
-                                        [(ngModel)]="choice.signatureSpell" (ngModelChange)="on_SignatureSpell()">
-                                    <label for="{{choice.id}}signaturespell">Choose this spell as a signature
-                                        spell.</label>
-                                </span>
-                            </div>
-                        </div>
-                    </ng-container>
-                    <!-- End Signature Spells -->
                     <!-- Adapted Cantrip -->
                     <ng-container *ngIf="get_AdaptedCantripAllowed()">
                         <div class="list-item">
@@ -332,6 +305,21 @@
                     <div [ngClass]="{'selected':spellTakenByThis(spell.name, choice)}"
                         title="{{(get_ShowSpell()==choice.id+spell.name+'desc') ? '' : spell.shortDesc}}"
                         class="list-item" *ngFor="let spell of spells; trackBy:trackBySpellID;">
+                        <!-- Signature Spells -->
+                        <ng-container *ngIf="spellTakenByThis(spell.name, choice) && signatureSpellsAllowed">
+                            <div class="list-item row lower"
+                                *ngFor="let takenSpell of [get_TakenSpell(spell.name, choice)]">
+                                <span
+                                    *ngFor="let reason of [get_CannotChooseSignatureSpell(signatureSpellsAllowed, takenSpell)]; trackBy:trackByIndex;">
+                                    <input id="{{choice.id+spell.name}}signaturespell" type="checkbox"
+                                        title="{{reason}}" [(ngModel)]="takenSpell.signatureSpell"
+                                        (ngModelChange)="on_SignatureSpell()" (disabled)="reason">
+                                    <label for="{{choice.id+spell.name}}signaturespell" title="{{reason}}">Choose this
+                                        spell as a Signature Spell that can be freely heightened</label>
+                                </span>
+                            </div>
+                        </ng-container>
+                        <!-- End Signature Spells -->
                         <span>
                             <input id="{{choice.id+spell.name}}" type="checkbox"
                                 (change)="on_SpellTaken(spell.name, $event.target.checked, choice, false)"

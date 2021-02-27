@@ -612,7 +612,7 @@ export class Character extends Creature {
                             ) ||
                             (
                                 signatureAllowed &&
-                                choice.signatureSpell &&
+                                choice.spells.some(spell => spell.signatureSpell) &&
                                 spellLevel != 0 &&
                                 spellLevel != -1
                             )
@@ -624,7 +624,7 @@ export class Character extends Creature {
                                 (choice.source == source || source == "") &&
                                 (gain.sourceId == sourceId || sourceId == "") &&
                                 (gain.locked == locked || locked == undefined) &&
-                                ((signatureAllowed && choice.signatureSpell) ? (spellLevel >= characterService.spellsService.get_Spells(gain.name)[0]?.levelreq) : true) &&
+                                ((signatureAllowed && gain.signatureSpell) ? (spellLevel >= characterService.spellsService.get_Spells(gain.name)[0]?.levelreq) : true) &&
                                 (cantripAllowed || (!characterService.spellsService.get_Spells(gain.name)[0]?.traits.includes("Cantrip")))
                             ).forEach(gain => {
                                 spellsTaken.push({ choice: choice, gain: gain });

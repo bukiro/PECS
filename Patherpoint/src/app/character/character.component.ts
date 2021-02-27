@@ -305,13 +305,14 @@ export class CharacterComponent implements OnInit {
     }
 
     on_LevelChange(oldLevel: number) {
-        let newLevel = this.get_Character().level;
+        let character = this.get_Character();
+        let newLevel = character.level;
         //If we went up levels, repeat any onceEffects of Feats that apply inbetween, such as recovering Focus Points for a larger Focus Pool
         if (newLevel > oldLevel) {
-            this.get_Character().get_FeatsTaken(oldLevel, newLevel).map((gain: FeatTaken) => this.get_FeatsAndFeatures(gain.name)[0])
-                .filter((feat: Feat) => feat?.onceEffects.length).forEach(feat => {
+            this.get_FeatsAndFeatures().filter(feat => feat.onceEffects.length && feat.have(character, this.characterService, newLevel, true, oldLevel))
+                .forEach(feat => {
                     feat.onceEffects.forEach(effect => {
-                        this.characterService.process_OnceEffect(this.get_Character(), effect);
+                        this.characterService.process_OnceEffect(character, effect);
                     })
                 })
         }
@@ -320,14 +321,14 @@ export class CharacterComponent implements OnInit {
         let lowerLevel = Math.min(oldLevel, newLevel);
         let higherLevel = Math.max(oldLevel, newLevel);
 
-        this.get_Character().class.levels.filter(level => level.number >= lowerLevel && level.number <= higherLevel).forEach(level => {
+        character.class.levels.filter(level => level.number >= lowerLevel && level.number <= higherLevel).forEach(level => {
             level.featChoices.forEach(choice => {
                 if (choice.showOnSheet) {
                     this.characterService.set_ToChange("Character", "activities");
                 }
             })
         })
-        this.get_Character().class.levels.forEach(level => {
+        character.class.levels.forEach(level => {
             level.featChoices.forEach(choice => {
                 if (choice.dynamicLevel) {
                     this.characterService.set_ToChange("Character", "featchoices");
@@ -347,39 +348,40 @@ export class CharacterComponent implements OnInit {
         this.characterService.set_ToChange("Character", "activities");
         this.characterService.set_ToChange("Character", "spells");
         this.characterService.set_ToChange("Character", "spellbook");
-        if (this.get_Character().get_AbilityBoosts(lowerLevel, higherLevel).length) {
+        if (character.get_AbilityBoosts(lowerLevel, higherLevel).length) {
             this.characterService.set_ToChange("Character", "abilities");
         }
-        if (this.get_Character().get_SkillIncreases(this.characterService, lowerLevel, higherLevel)) {
+        if (character.get_SkillIncreases(this.characterService, lowerLevel, higherLevel)) {
             this.characterService.set_ToChange("Character", "skillchoices");
             this.characterService.set_ToChange("Character", "skills");
         }
-        this.get_Character().get_FeatsTaken(lowerLevel, higherLevel).map(gain => this.get_FeatsAndFeatures(gain.name)[0]).filter(feat => feat).forEach(feat => {
-            feat.hints.forEach(hint => {
-                this.characterService.set_TagsToChange("Character", hint.showon);
-            })
-            if (feat.gainAbilityChoice.length) {
-                this.characterService.set_ToChange("Character", "abilities");
-            }
-            if (feat.gainSpellCasting.length || feat.gainSpellChoice.length) {
-                this.characterService.set_ToChange("Character", "spellbook");
-            } else if (feat.gainSpellChoice.length) {
-                this.characterService.set_ToChange("Character", "spellbook");
-            }
-            if (feat.superType == "Adopted Ancestry") {
-                this.characterService.set_ToChange("Character", "general");
-            } else if (feat.name == "Different Worlds") {
-                this.characterService.set_ToChange("Character", "general");
-            }
-        });
+        this.get_FeatsAndFeatures().filter(feat => feat.hints.length && feat.have(character, this.characterService, higherLevel, true, lowerLevel))
+            .forEach(feat => {
+                feat.hints.forEach(hint => {
+                    this.characterService.set_TagsToChange("Character", hint.showon);
+                })
+                if (feat.gainAbilityChoice.length) {
+                    this.characterService.set_ToChange("Character", "abilities");
+                }
+                if (feat.gainSpellCasting.length || feat.gainSpellChoice.length) {
+                    this.characterService.set_ToChange("Character", "spellbook");
+                } else if (feat.gainSpellChoice.length) {
+                    this.characterService.set_ToChange("Character", "spellbook");
+                }
+                if (feat.superType == "Adopted Ancestry") {
+                    this.characterService.set_ToChange("Character", "general");
+                } else if (feat.name == "Different Worlds") {
+                    this.characterService.set_ToChange("Character", "general");
+                }
+            });
         //Reload spellbook if spells were learned between the levels
-        if (this.get_Character().get_SpellsLearned().some(learned => learned.level >= lowerLevel && learned.level <= higherLevel)) {
+        if (character.get_SpellsLearned().some(learned => learned.level >= lowerLevel && learned.level <= higherLevel)) {
             this.characterService.set_ToChange("Character", "spellbook");
             //if spells were taken between the levels
-        } else if (this.get_Character().get_SpellsTaken(this.characterService, lowerLevel, higherLevel).length) {
+        } else if (character.get_SpellsTaken(this.characterService, lowerLevel, higherLevel).length) {
             this.characterService.set_ToChange("Character", "spellbook");
             //if any spells have a dynamic level dependent on the character level
-        } else if (this.get_Character().get_SpellsTaken(this.characterService, 0, 20).some(taken => taken.choice.dynamicLevel.toLowerCase().includes("level"))) {
+        } else if (character.get_SpellsTaken(this.characterService, 0, 20).some(taken => taken.choice.dynamicLevel.toLowerCase().includes("level"))) {
             this.characterService.set_ToChange("Character", "spellbook");
             //or if you have the cantrip connection or spell battery familiar ability.
         } else if (this.characterService.get_FamiliarAvailable()) {
@@ -406,7 +408,7 @@ export class CharacterComponent implements OnInit {
             if (levelNumber) {
                 //If level is given, check if any new languages have been added on this level. If not, don't get any languages at this point.
                 let newLanguages: number = 0;
-                newLanguages += this.get_FeatsTaken(levelNumber, levelNumber).filter(gain => this.get_FeatsAndFeatures(gain.name)[0]?.effects.some(effect => effect.affected == "Max Languages")).length;
+                newLanguages += this.get_FeatsAndFeatures().filter(feat => feat.effects.some(effect => effect.affected == "Max Languages") && feat.have(character, this.characterService, levelNumber, false, levelNumber)).length
                 newLanguages += character.get_AbilityBoosts(levelNumber, levelNumber, "Intelligence").length;
                 if (!newLanguages) {
                     return false;

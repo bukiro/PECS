@@ -37,8 +37,6 @@ export class SpellChoice {
     public spellCombinationAllowed: boolean = false;
     //You can choose to use a combination slot for a spell combination, which changes the available spells.
     public spellCombination: boolean = false;
-    //Signature Spells are automatically available as heightened spells on every lower and higher level (down to its minimum)
-    public signatureSpell: boolean = false;
     //The spells chosen must match the tradition of the spell choice, if one is given, or otherwise the tradition of the spellcasting or nothing.
     public tradition: string = "";
     public source: string = "";

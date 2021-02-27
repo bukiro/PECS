@@ -3864,7 +3864,6 @@
                         "id": "c17f99eb-733c-42b0-8752-3bd11511057b",
                         "level": 1,
                         "charLevelAvailable": 1,
-                        "signatureSpell": true,
                         "source": "Bard Spellcasting",
                         "castingType": "Spontaneous"
                     },
@@ -3885,7 +3884,6 @@
                         "id": "590385c0-a58a-11ea-bb37-0242ac130002",
                         "level": 2,
                         "charLevelAvailable": 3,
-                        "signatureSpell": true,
                         "source": "Bard Spellcasting",
                         "castingType": "Spontaneous"
                     },
@@ -3916,7 +3914,6 @@
                         "id": "590386d8-a58a-11ea-bb37-0242ac130002",
                         "level": 3,
                         "charLevelAvailable": 5,
-                        "signatureSpell": true,
                         "source": "Bard Spellcasting",
                         "castingType": "Spontaneous"
                     },
@@ -3947,7 +3944,6 @@
                         "id": "590387be-a58a-11ea-bb37-0242ac130002",
                         "level": 4,
                         "charLevelAvailable": 7,
-                        "signatureSpell": true,
                         "source": "Bard Spellcasting",
                         "castingType": "Spontaneous"
                     },
@@ -3978,7 +3974,6 @@
                         "id": "59038dfe-a58a-11ea-bb37-0242ac130002",
                         "level": 5,
                         "charLevelAvailable": 9,
-                        "signatureSpell": true,
                         "source": "Bard Spellcasting",
                         "castingType": "Spontaneous"
                     },
@@ -4009,7 +4004,6 @@
                         "id": "59038f48-a58a-11ea-bb37-0242ac130002",
                         "level": 6,
                         "charLevelAvailable": 11,
-                        "signatureSpell": true,
                         "source": "Bard Spellcasting",
                         "castingType": "Spontaneous"
                     },
@@ -4040,7 +4034,6 @@
                         "id": "59039024-a58a-11ea-bb37-0242ac130002",
                         "level": 7,
                         "charLevelAvailable": 13,
-                        "signatureSpell": true,
                         "source": "Bard Spellcasting",
                         "castingType": "Spontaneous"
                     },
@@ -4071,7 +4064,6 @@
                         "id": "590390ec-a58a-11ea-bb37-0242ac130002",
                         "level": 8,
                         "charLevelAvailable": 15,
-                        "signatureSpell": true,
                         "source": "Bard Spellcasting",
                         "castingType": "Spontaneous"
                     },
@@ -4102,7 +4094,6 @@
                         "id": "590392e0-a58a-11ea-bb37-0242ac130002",
                         "level": 9,
                         "charLevelAvailable": 17,
-                        "signatureSpell": true,
                         "source": "Bard Spellcasting",
                         "castingType": "Spontaneous"
                     },
@@ -4133,7 +4124,6 @@
                         "id": "590393a8-a58a-11ea-bb37-0242ac130002",
                         "level": 10,
                         "charLevelAvailable": 19,
-                        "signatureSpell": true,
                         "source": "Bard Spellcasting",
                         "castingType": "Spontaneous"
                     },

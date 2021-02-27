@@ -528,8 +528,8 @@ export class SpellbookComponent implements OnInit {
         gain.prepared = true;
     }
 
-    is_SignatureSpell(casting: SpellCasting, choice: SpellChoice) {
-        return this.get_SignatureSpellsAllowed(casting) && choice.signatureSpell;
+    is_SignatureSpell(casting: SpellCasting, taken: SpellGain) {
+        return this.get_SignatureSpellsAllowed(casting) && taken.signatureSpell;
     }
 
     is_InfinitePossibilitiesSpell(choice: SpellChoice) {

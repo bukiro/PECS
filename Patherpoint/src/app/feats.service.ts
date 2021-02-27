@@ -54,12 +54,17 @@ export class FeatsService {
     }
 
     get_All(loreFeats: Feat[], name: string = "", type: string = "", includeSubTypes: boolean = false, includeCountAs: boolean = false) {
+        //ATTENTION: Use this function sparingly!
+        //There are thousands of feats. Particularly if you need to find out if you have a feat with an attribute:
+        // DON'T take all your feats, do get_All([], name)[0] and check the attribute
+        // DO get_All(), check the attribute and THEN check if you have the feat.
+        // That way, if you have 20 feats, and there are 4 feats with that attribute, you only do 4 * 20 comparisons instead of 20 * 1000
         if (!this.still_loading()) {
             let feats: Feat[] = this.feats.concat(loreFeats).concat(this.features);
             return feats.filter(feat =>
                 name == "" ||
                 //For names like "Aggressive Block or Brutish Shove", split the string into the two feat names and return both.
-                name.split(" or ").find(alternative =>
+                name.split(" or ").some(alternative =>
                 (
                     feat.name.toLowerCase() == alternative.toLowerCase() ||
                     (

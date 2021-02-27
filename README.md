@@ -89,6 +89,8 @@ The very latest in Assistive Technologies for Dungeon Master (ATDM)
 - [ ] Implement all Spells
 - [ ] - Focus Spells
 - [x] -- Monk
+- [ ] - Champion
+- [ ] - Cleric
 - [x] -- Wizard
 - [x] -- Bard
 - [x] -- Druid
@@ -108,6 +110,7 @@ The very latest in Assistive Technologies for Dungeon Master (ATDM)
 - [ ] Stretch Goal: Icons
 - [ ] Stretch Goal: Initiative tracker, battles, being a battle member, GM-Player-Communication.......
 - [ ] Stretch Goal: Include optional systems like Stamina & Resolve
+- [ ] Stretch Goal: Icon-Driven UI with dynamic tooltips (e.g. with bootstrap or material)
 
 Active to-do:
 - Bloodline Breadth (and Occult Breadth) double the "available" value of spell choices, which makes them ineligible for Signature spells.

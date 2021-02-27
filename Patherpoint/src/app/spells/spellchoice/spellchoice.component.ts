@@ -112,11 +112,10 @@ export class SpellchoiceComponent implements OnInit {
 
     get_SignatureSpellsAllowed() {
         if (
-            this.get_Available(this.choice) == 1 &&
+            this.spellCasting &&
             this.choice.level > 0 &&
             this.spellCasting?.castingType == "Spontaneous" &&
-            this.choice.source != "Feat: Esoteric Polymath" &&
-            this.choice.source != "Feat: Arcane Evolution" &&
+            this.choice.source.includes(this.spellCasting.className + " Spellcasting") &&
             !this.choice.showOnSheet
         ) {
             let signatureSpellGains: SignatureSpellGain[] = [];
@@ -134,21 +133,31 @@ export class SpellchoiceComponent implements OnInit {
         }
     }
 
-    is_SignatureSpell(choice: SpellChoice, signatureSpellsAllowed: boolean) {
-        return (signatureSpellsAllowed || choice.source == "Feat: Esoteric Polymath" || choice.source == "Feat: Arcane Evolution") && choice.signatureSpell;
-    }
-
-    get_SignatureSpellsUnlocked(level: number = 0) {
+    get_SignatureSpellsChosen(level: number = 0) {
         //This function is used to check if a signature spell has been assigned for this spell level.
         if (level == 0) {
-            return this.spellCasting.spellChoices.filter(choice => choice.signatureSpell).length;;
+            return this.spellCasting.spellChoices.filter(choice => choice.spells.some(gain => gain.signatureSpell)).length;
         } else {
-            return this.spellCasting.spellChoices.filter(choice => choice.level == level && choice.signatureSpell).length;
+            return this.spellCasting.spellChoices.filter(choice => choice.level == level && choice.spells.some(gain => gain.signatureSpell)).length;
+        }
+    }
+
+    get_CannotChooseSignatureSpell(signatureSpellsAllowed: number, taken: SpellGain) {
+        if (taken?.signatureSpell) {
+            return "";
+        } else {
+            if (this.get_SignatureSpellsChosen(this.choice.level)) {
+                return "A signature spell has already been chosen for this level.";
+            }
+            if ((signatureSpellsAllowed > -1 && this.get_SignatureSpellsChosen(0) >= signatureSpellsAllowed)) {
+                return "The maximum amount of signature spells (" + signatureSpellsAllowed + ") has already been chosen.";
+            }
+            return "";
         }
     }
 
     on_SignatureSpell() {
-        this.characterService.set_Changed("spellchoices");
+        this.characterService.set_ToChange("Character", "spellchoices");
         this.characterService.set_ToChange("Character", "spellbook");
         this.characterService.process_ToChange();
     }
@@ -774,6 +783,11 @@ export class SpellchoiceComponent implements OnInit {
         return choice.spells.filter(takenSpell => !takenSpell.locked && takenSpell.name == spellName || takenSpell.combinationSpellName == spellName).length;
     }
 
+    get_TakenSpell(spellName: string, choice: SpellChoice) {
+        //Returns the first SpellGain of this spell in this choice.
+        return choice.spells.find(takenSpell => takenSpell.name == spellName || takenSpell.combinationSpellName == spellName);
+    }
+
     lockedSpellTakenByThis(spellName: string, choice: SpellChoice) {
         //Returns the amount of times that this spell is included in this choice as a locked spell. Needs to be a number for prepared spells.
         return choice.spells.filter(takenSpell => takenSpell.locked && takenSpell.name == spellName).length;
@@ -790,10 +804,10 @@ export class SpellchoiceComponent implements OnInit {
         if (["Feat: Esoteric Polymath", "Feat: Arcane Evolution"].includes(choice.source)) {
             if (taken) {
                 if (this.spellCasting.spellChoices.find(otherChoice => otherChoice !== choice && this.spellTakenByThis(spellName, otherChoice))) {
-                    choice.signatureSpell = true;
+                    choice.spells.forEach(gain => gain.signatureSpell = true);
                 }
             } else {
-                choice.signatureSpell = false;
+                choice.spells.forEach(gain => gain.signatureSpell = false);
             }
         }
         this.characterService.set_ToChange("Character", "spells");

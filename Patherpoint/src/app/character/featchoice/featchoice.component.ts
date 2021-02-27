@@ -159,23 +159,23 @@ export class FeatchoiceComponent implements OnInit {
                 let available = (this.cannotTake(feat, choice).length == 0 || this.featTakenByThis(feat, choice));
                 return { available: available, subfeat: feat }
             }).filter(featSet => showOtherOptions || this.featTakenByThis(featSet.subfeat, choice))
-            .sort(function (a, b) {
-                if (a.subfeat.subType < b.subfeat.subType) {
-                    return -1;
-                }
-                if (a.subfeat.subType > b.subfeat.subType) {
-                    return 1;
-                }
-                return 0;
-            }).sort(function (a, b) {
-                if (a.available && !b.available) {
-                    return -1;
-                }
-                if (!a.available && b.available) {
-                    return 1;
-                }
-                return 0;
-            });
+                .sort(function (a, b) {
+                    if (a.subfeat.subType < b.subfeat.subType) {
+                        return -1;
+                    }
+                    if (a.subfeat.subType > b.subfeat.subType) {
+                        return 1;
+                    }
+                    return 0;
+                }).sort(function (a, b) {
+                    if (a.available && !b.available) {
+                        return -1;
+                    }
+                    if (!a.available && b.available) {
+                        return 1;
+                    }
+                    return 0;
+                });
         } else {
             return [];
         }
@@ -410,9 +410,10 @@ export class FeatchoiceComponent implements OnInit {
             //Dedication feats (unless the dedication limit is ignored)
             if (feat.traits.includes("Dedication") && !ignoreRequirementsList.includes("dedicationlimit")) {
                 //Get all taken dedication feats that aren't this, then check if you have taken enough to allow a new archetype.
-                character.get_FeatsTaken(1, levelNumber).map(gain => this.get_FeatsAndFeatures(gain.name)[0])
+                let takenFeats = this.get_FeatsAndFeatures().filter(feat => feat.have(character, this.characterService, levelNumber, true));
+                takenFeats
                     .filter(libraryfeat => libraryfeat?.name != feat.name && libraryfeat?.traits.includes("Dedication")).forEach(takenfeat => {
-                        let archetypeFeats = character.get_FeatsTaken(1, levelNumber).map(gain => this.get_FeatsAndFeatures(gain.name)[0])
+                        let archetypeFeats = takenFeats
                             .filter(libraryfeat => libraryfeat?.name != takenfeat.name && libraryfeat?.traits.includes("Archetype") && libraryfeat.archetype == takenfeat.archetype)
                         if (archetypeFeats.length < 2) {
                             reasons.push({ reason: "Dedications blocked", explain: "You cannot select another dedication feat until you have gained two other feats from the " + takenfeat.archetype + " archetype." });
@@ -451,7 +452,7 @@ export class FeatchoiceComponent implements OnInit {
     }
 
     subFeatTakenByThis(feat: Feat, choice: FeatChoice) {
-        return choice.feats.some(gain => this.get_Feats(gain.name)[0]?.superType == feat.name);
+        return this.get_Feats().some(subFeat => subFeat.superType == feat.name && choice.feats.some(gain => gain.name == subFeat.name))
     }
 
     get_FeatsTaken(minLevelNumber: number, maxLevelNumber: number, featName: string = "", source: string = "", sourceId: string = "", locked: boolean = undefined) {

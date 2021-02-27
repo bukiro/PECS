@@ -137,7 +137,7 @@
                                                                             (click)="toggle_Spell(casting.castingType+casting.class+spellTaken.gain.name+spellID)"
                                                                             [ngClass]="{'inactive-button': cannotCast}">
                                                                             <span title="Signature spell"
-                                                                                *ngIf="is_SignatureSpell(casting, spellTaken.choice)">&#9733;&nbsp;</span>
+                                                                                *ngIf="is_SignatureSpell(casting, spellTaken.gain)">&#9733;&nbsp;</span>
                                                                             <span title="Combination spell"
                                                                                 *ngIf="spellTaken.choice.spellCombination">&#8853;&nbsp;</span>
                                                                             <span title="Infinite Possibilities spell"
