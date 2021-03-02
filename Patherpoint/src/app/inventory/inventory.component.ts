@@ -3,16 +3,13 @@ import { CharacterService } from '../character.service';
 import { ItemsService } from '../items.service';
 import { TraitsService } from '../traits.service';
 import { EffectsService } from '../effects.service';
-import { ConditionGain } from '../ConditionGain';
 import { Effect } from '../Effect';
 import { Consumable } from '../Consumable';
 import { Equipment } from '../Equipment';
-import { SortByPipe } from '../sortBy.pipe';
 import { OtherItem } from '../OtherItem';
 import { Item } from '../Item';
 import { Character } from '../Character';
 import { AnimalCompanion } from '../AnimalCompanion';
-import { Bulk } from '../Bulk';
 import { ItemCollection } from '../ItemCollection';
 import { WornItem } from '../WornItem';
 import { TimeService } from '../time.service';
@@ -134,49 +131,6 @@ export class InventoryComponent implements OnInit {
     get_Inventories(creature: string = this.creature, newID: boolean = false, calculate: boolean = false) {
         if (newID) {
             this.id = 0;
-        }
-        if (calculate) {
-            let speedRune: boolean = false;
-            let enfeebledRune: boolean = false;
-            this.get_Creature().inventories.forEach(inventory => {
-                inventory.allEquipment().forEach(item => {
-                    item.propertyRunes.forEach(rune => {
-                        if (rune.name == "Speed" && (item.equipped || (item.can_Invest() && item.invested))) {
-                            speedRune = true;
-                        }
-                        if (rune["alignmentPenalty"]) {
-                            if (this.characterService.get_Character().alignment.includes(rune["alignmentPenalty"])) {
-                                enfeebledRune = true;
-                            }
-                        }
-                    });
-                    item.oilsApplied.forEach(oil => {
-                        if (oil.runeEffect && oil.runeEffect.name == "Speed" && (item.equipped || (item.can_Invest() && item.invested))) {
-                            speedRune = true;
-                        }
-                        if (oil.runeEffect && oil.runeEffect.alignmentPenalty) {
-                            if (this.characterService.get_Character().alignment.includes(oil.runeEffect.alignmentPenalty)) {
-                                enfeebledRune = true;
-                            }
-                        }
-                    });
-                });
-            })
-            if (this.get_Creature().inventories[0].weapons.find(weapon => weapon.large && weapon.equipped) && (this.characterService.get_AppliedConditions(this.get_Creature(), "Clumsy", "Large Weapon").length == 0)) {
-                this.characterService.add_Condition(this.get_Creature(), Object.assign(new ConditionGain, { name: "Clumsy", value: 1, source: "Large Weapon", apply: true }), true)
-            } else if (!this.get_Creature().inventories[0].weapons.find(weapon => weapon.large && weapon.equipped) && (this.characterService.get_AppliedConditions(this.get_Creature(), "Clumsy", "Large Weapon").length > 0)) {
-                this.characterService.remove_Condition(this.get_Creature(), Object.assign(new ConditionGain, { name: "Clumsy", value: 1, source: "Large Weapon", apply: true }), true)
-            }
-            if (speedRune && this.characterService.get_AppliedConditions(this.get_Creature(), "Quickened", "Speed Rune").length == 0) {
-                this.characterService.add_Condition(this.get_Creature(), Object.assign(new ConditionGain, { name: "Quickened", value: 0, source: "Speed Rune", apply: true }), true)
-            } else if (!speedRune && this.characterService.get_AppliedConditions(this.get_Creature(), "Quickened", "Speed Rune").length > 0) {
-                this.characterService.remove_Condition(this.get_Creature(), Object.assign(new ConditionGain, { name: "Quickened", value: 0, source: "Speed Rune", apply: true }), true)
-            }
-            if (enfeebledRune && this.characterService.get_AppliedConditions(this.get_Creature(), "Enfeebled", "Alignment Rune").length == 0) {
-                this.characterService.add_Condition(this.get_Creature(), Object.assign(new ConditionGain, { name: "Enfeebled", value: 2, source: "Alignment Rune", apply: true }), true)
-            } else if (!enfeebledRune && this.characterService.get_AppliedConditions(this.get_Creature(), "Enfeebled", "Alignment Rune").length > 0) {
-                this.characterService.remove_Condition(this.get_Creature(), Object.assign(new ConditionGain, { name: "Enfeebled", value: 2, source: "Alignment Rune", apply: true }), true)
-            }
         }
         return this.get_Creature(creature).inventories;
     }
@@ -358,15 +312,7 @@ export class InventoryComponent implements OnInit {
     }
 
     get_Bulk() {
-        let bulk: Bulk = new Bulk();
-        bulk.calculate(this.get_Creature(), this.characterService, this.effectsService);
-        if (bulk.$current.value > bulk.$encumbered.value && this.characterService.get_AppliedConditions(this.get_Creature(), "Encumbered", "Bulk").length == 0) {
-            this.characterService.add_Condition(this.get_Creature(), Object.assign(new ConditionGain, { name: "Encumbered", value: 0, source: "Bulk", apply: true }), true)
-        }
-        if (bulk.$current.value <= bulk.$encumbered.value && this.characterService.get_AppliedConditions(this.get_Creature(), "Encumbered", "Bulk").length > 0) {
-            this.characterService.remove_Condition(this.get_Creature(), Object.assign(new ConditionGain, { name: "Encumbered", value: 0, source: "Bulk", apply: true }), true)
-        }
-        return [bulk];
+        return [this.get_Creature().bulk];
     }
 
     get_MaxInvested() {

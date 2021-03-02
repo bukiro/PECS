@@ -90,7 +90,7 @@ export class Ability {
             explain = effect.source + ": " + effect.setValue;
         });
         this.relatives(creature, effectsService, this.name).forEach(effect => {
-            if (parseInt(effect.value) >= 0) {
+            if (parseInt(effect.value) != 0) {
                 result += parseInt(effect.value);
                 explain += "\n" + effect.source + ": " + effect.value;
             }

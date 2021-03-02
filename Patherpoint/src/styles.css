@@ -809,12 +809,14 @@ app-gridicon {
 
 app-gridicon .iconValue {
     position: absolute;
+    color: var(--textcolor);
     top: 0;
     left: 0;
 }
 
 app-gridicon .iconSubTitle {
     position: absolute;
+    color: var(--textcolor);
     top: 0;
     right: 0;
 }
@@ -826,6 +828,16 @@ app-gridicon .iconTitle {
     word-break: break-all;
     vertical-align: middle;
     color: var(--textcolor);
+    z-index: 10;
+}
+
+app-gridicon .iconSuperTitle {
+    position: absolute;
+    opacity: 50%;
+    font-size: 3em;
+    line-height: 1.2em;
+    width: 100%;
+    z-index: 5;
 }
 
 app-gridicon .iconTime {

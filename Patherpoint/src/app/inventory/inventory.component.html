@@ -22,17 +22,17 @@
         <ng-container *ngFor="let bulk of get_Bulk(); trackBy:trackByIndex;">
             <div class="list-item">
                 <strong>Bulk</strong>
-                <input class="number2" [ngClass]="{'penalty':bulk.$currentpenalties, 'bonus':bulk.$currentbonuses, 'absolute':bulk.$currentabsolutes.length}" type="number" title="{{bulk.$current.explain}}" value="{{bulk.$current.value}}" disabled>
+                <input class="number2" [ngClass]="{'penalty':bulk.$currentpenalties, 'bonus':bulk.$currentbonuses, 'absolute':bulk.$currentabsolutes?.length}" type="number" title="{{bulk.$current?.explain}}" value="{{bulk.$current?.value}}" disabled>
                 <app-tags [creature]="creature" [objectName]="'Bulk'" [showTraits]=true [showFeats]=true [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
             </div>
             <div class="fullsize-only list-item">
                 <strong>Encumbrance Limit</strong>
-                <input class="number2" type="number" [ngClass]="{'penalty':bulk.$penalties, 'bonus':bulk.$bonuses, 'absolute':bulk.$absolutes.length}" value="{{bulk.$encumbered.value}}" title="{{bulk.$encumbered.explain}}" disabled>
+                <input class="number2" type="number" [ngClass]="{'penalty':bulk.$penalties, 'bonus':bulk.$bonuses, 'absolute':bulk.$absolutes?.length}" value="{{bulk.$encumbered?.value}}" title="{{bulk.$encumbered?.explain}}" disabled>
                 <app-tags [creature]="creature" [objectName]="'Encumbered Limit'" [showTraits]=true [showFeats]=true [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
             </div>
             <div class="fullsize-only list-item">
                 <strong>Maximum Bulk</strong>
-                <input class="number2" type="number" [ngClass]="{'penalty':bulk.$penalties, 'bonus':bulk.$bonuses, 'absolute':bulk.$absolutes.length}" value="{{bulk.$max.value}}" title="{{bulk.$max.explain}}" disabled>
+                <input class="number2" type="number" [ngClass]="{'penalty':bulk.$penalties, 'bonus':bulk.$bonuses, 'absolute':bulk.$absolutes?.length}" value="{{bulk.$max.value}}" title="{{bulk.$max?.explain}}" disabled>
                 <app-tags [creature]="creature" [objectName]="'Max Bulk'" [showTraits]=true [showFeats]=true [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
             </div>
         </ng-container>

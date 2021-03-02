@@ -99,6 +99,20 @@ export class TopBarComponent implements OnInit {
       return this.characterService.still_loading();
     }
 
+    get_IsBlankCharacter() {
+        let character = this.get_Character();
+        return (
+            !character.class?.name &&
+            !character.name &&
+            !character.partyName &&
+            !character.experiencePoints &&
+            !character.alignment &&
+            !character.baseValues.length &&
+            character.inventories.length == 1 &&
+            character.inventories[0].allItems().length <= 2
+        )
+    }
+
     save() {
         this.characterService.save_Character();
     }

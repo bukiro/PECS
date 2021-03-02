@@ -720,7 +720,7 @@ export class EffectsService {
                                 itemEffects.push(new Effect(creature.id, 'untyped', "Speed", item.speedpenalty.toString(), "", false, name + " (cancelled by Strength)", true, false));
                             } else {
                                 //If you are strong enough and the armor only gave -5ft penalty, you get a fully avoided effect to gaze at.
-                                itemEffects.push(new Effect(creature.id, 'untyped', "Speed", item.speedpenalty.toString(), "", false, name + " (lessened by Strength)", true, false));
+                                itemEffects.push(new Effect(creature.id, 'untyped', "Speed", item.speedpenalty.toString(), "", false, name + " (cancelled by Strength)", true, false));
                             }
                         }
                     });

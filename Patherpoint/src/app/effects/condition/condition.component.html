@@ -20,13 +20,17 @@
             *ngIf="conditionGain.duration > -1 || conditionGain.value">&#9881;</label>
     </span>
 </div>
+<div class="newrow left-aligned lower fullsize-only" *ngIf="conditionGain.heightened">
+    <strong>Spell level&nbsp;</strong>{{conditionGain.heightened}}
+</div>
 <div class="newrow left-aligned lower fullsize-only">
-    <span>{{(conditionGain.heightened) ? "Spell level " + conditionGain.heightened + "; " :
-        ""}}{{get_Duration(conditionGain.duration)}}</span><span *ngIf="conditionGain.persistent" title="This condition will remain if its source is removed.">,
-        persistent</span>
+    <strong>Duration&nbsp;</strong>{{get_Duration(conditionGain.duration)}}
+</div>
+<div class="newrow left-aligned lower fullsize-only" *ngIf="conditionGain.persistent" title="This condition will remain if its source is removed.">
+    Persistent
 </div>
 <div class="newrow fullsize-only" *ngIf="conditionGain.nextStage && conditionGain.nextStage != -1">
-    <span>Affliction onset: {{get_Duration(conditionGain.nextStage)}}</span>
+    <strong>Affliction onset&nbsp;</strong>{{get_Duration(conditionGain.nextStage)}}
 </div>
 <div class="newrow list-item fullsize-only" *ngIf="conditionGain.showChoices && condition.choices.length && !conditionGain.choiceLocked">
     <span *ngFor="let oldChoice of [conditionGain.choice]">Effect selection:

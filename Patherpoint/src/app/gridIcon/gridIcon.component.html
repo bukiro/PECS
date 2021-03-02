@@ -1,5 +1,6 @@
 <span class="iconValue">{{get_IconValue()}}</span>
 <span class="iconSubTitle">{{get_IconSubTitle()}}</span>
+<span class="iconSuperTitle" [innerHtml]="get_IconSuperTitle()"></span>
 <span class="iconTitle">{{get_IconTitle()}}</span>
 <div class="iconTime" *ngIf="condition">
     <span *ngFor="let timePart of get_IconTime()" [innerHtml]="timePart"></span>
