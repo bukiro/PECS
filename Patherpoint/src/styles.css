@@ -1,13 +1,13 @@
-/* Global Styles */
-
-
 /* Original Angular color: #1976d2 */
+/* Global Styles */
+html {
+    --accent: 70, 90, 140;
+}
 
 body {
     margin: 0;
-    --accent: 70, 90, 140;
-    --textcolor: #616161;
     overflow-y: hidden;
+    --textcolor: #616161;
     background-color: #333333;
     font-size: 14px;
 }
@@ -63,6 +63,13 @@ body {
     height: 100vh;
     height: calc(100vh - 2em - 16px - 4px);
     overflow-y: hidden;
+}
+
+
+/* The main app container below the top bar */
+
+app-top-bar~.container {
+    padding: 0;
 }
 
 svg,
@@ -205,7 +212,7 @@ app-character-sheet {
 
 /* Text */
 
-h1 {
+header.mainHeader {
     font-size: 2em;
 }
 
@@ -558,17 +565,16 @@ button:not([disabled]):active:before {
     padding: 8px;
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
 }
 
-#top-bar h1 {
+#top-bar header.mainHeader {
     color: white;
     margin: 0;
-}
-
-#top-bar .filler {
-    flex-grow: 1;
+    flex-grow: initial;
+    position: absolute;
+    left: 1em;
 }
 
 #top-bar button,
@@ -616,14 +622,12 @@ app-items,
 app-spellLibrary,
 app-spells {
     position: absolute;
-    left: -15px;
     top: 0;
     right: auto;
     bottom: 0;
     z-index: 999;
     overflow-y: hidden;
     width: 100%;
-    max-width: 900px;
 }
 
 app-dice {
@@ -770,6 +774,67 @@ app-actionicons .actionIcon {
 
 header.spellHeader app-actionicons .actionIcon {
     background-color: #cbc18f;
+}
+
+ngb-popover-window {
+    max-height:100%;
+    overflow-y: auto;
+}
+
+.popover {
+    max-width: 400px;
+}
+
+.icon-list {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+app-gridicon {
+    height: 4em;
+    width: 4em;
+    font-weight: bold;
+    border: 4px solid rgb(var(--accent));
+    position: relative;
+    line-height: 1em;
+    text-align: center;
+    box-shadow: 0px 0px 12px inset;
+    display: inline-table;
+    overflow: hidden;
+}
+
+app-gridicon .iconValue {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+app-gridicon .iconSubTitle {
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+app-gridicon .iconTitle {
+    font-size: 2em;
+    line-height: .75em;
+    display: table-cell;
+    word-break: break-all;
+    vertical-align: middle;
+    color: var(--textcolor);
+}
+
+app-gridicon .iconTime {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
 }
 
 span {

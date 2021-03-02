@@ -41,10 +41,6 @@ export class ItemComponent implements OnInit {
         private spellsService: SpellsService
     ) { }
 
-    get_Accent() {
-        return this.characterService.get_Accent();
-    }
-
     trackByIndex(index: number, obj: any): any {
         return index;
     }

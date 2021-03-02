@@ -87,10 +87,6 @@ export class InventoryComponent implements OnInit {
         return index;
     }
 
-    get_Accent() {
-        return this.characterService.get_Accent();
-    }
-
     toggle_List(type: string) {
         if (this.showList == type) {
             this.showList = "";

@@ -1,7 +1,6 @@
-import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, HostBinding } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { trigger, state, style, transition, animate } from '@angular/animations';
 import { CharacterService } from '../character.service';
-import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
     selector: 'app-character-sheet',
@@ -43,16 +42,10 @@ import { DomSanitizer } from '@angular/platform-browser';
 })
 export class CharacterSheetComponent implements OnInit {
 
-    @HostBinding("attr.style")
-    public get valueAsStyle(): any {
-        return this.sanitizer.bypassSecurityTrustStyle(`--accent: ${this.get_Accent()}`);
-    }
-
     public showMode: string = "";
 
     constructor(
         private characterService: CharacterService,
-        private sanitizer: DomSanitizer,
         private changeDetector: ChangeDetectorRef
     ) { }
 
@@ -70,10 +63,6 @@ export class CharacterSheetComponent implements OnInit {
 
     still_loading() {
         return this.characterService.still_loading();
-    }
-
-    get_Accent() {
-        return this.characterService.get_Accent();
     }
 
     get_Darkmode() {

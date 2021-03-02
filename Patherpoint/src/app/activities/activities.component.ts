@@ -102,10 +102,6 @@ export class ActivitiesComponent implements OnInit {
         return this.id;
     }
 
-    get_Accent() {
-        return this.characterService.get_Accent();
-    }
-
     still_loading() {
         return this.activitiesService.still_loading() || this.characterService.still_loading();
     }

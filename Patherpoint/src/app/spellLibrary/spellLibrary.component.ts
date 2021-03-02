@@ -53,10 +53,6 @@ export class SpellLibraryComponent implements OnInit {
         return this.traditionFilter;
     }
 
-    get_Accent() {
-        return this.characterService.get_Accent();
-    }
-
     get_Traits(name: string = "") {
         return this.traitsService.get_Traits(name);
     }

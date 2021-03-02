@@ -19,7 +19,6 @@ import { ActivitiesService } from '../activities.service';
 import { Deity } from '../Deity';
 import { DeitiesService } from '../deities.service';
 import { SpellsService } from '../spells.service';
-import { FeatTaken } from '../FeatTaken';
 import { AnimalCompanionAncestry } from '../AnimalCompanionAncestry';
 import { ItemGain } from '../ItemGain';
 import { AnimalCompanion } from '../AnimalCompanion';
@@ -133,8 +132,8 @@ export class CharacterComponent implements OnInit {
         return this.showList;
     }
 
-    get_Accent() {
-        return this.characterService.get_Accent();
+    set_Accent() {
+        this.characterService.set_Accent();
     }
 
     //If you don't use trackByIndex on certain inputs, you lose focus everytime the value changes. I don't get that, but I'm using it now.

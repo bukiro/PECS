@@ -90,10 +90,6 @@ export class ConditionsComponent implements OnInit {
     get_ShowPurpose() {
         return this.purpose;
     }
-
-    get_Accent() {
-        return this.characterService.get_Accent();
-    }
     
     //If you don't use trackByIndex on certain inputs, you lose focus everytime the value changes. I don't get that, but I'm using it now.
     trackByIndex(index: number, obj: any): any {

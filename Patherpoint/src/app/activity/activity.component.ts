@@ -45,10 +45,6 @@ export class ActivityComponent implements OnInit {
         private effectsService: EffectsService
     ) { }
 
-    get_Accent() {
-        return this.characterService.get_Accent();
-    }
-
     trackByIndex(index: number, obj: any): any {
         return index;
     }

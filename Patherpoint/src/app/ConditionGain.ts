@@ -10,6 +10,7 @@ export class ConditionGain {
     public decreasingValue: boolean = false;
     //duration in turns * 10, -1 for permanent or 1 for instant
     public duration: number = -1;
+    public maxDuration: number = -1;
     //nextStage in turns * 10
     public nextStage: number = -1;
     public onset: boolean = false;

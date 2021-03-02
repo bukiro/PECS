@@ -161,6 +161,10 @@ export class ConditionsService {
             characterService.set_TagsToChange(creature.type, hint.showon);
         });
 
+        if (taken) {
+            gain.maxDuration = gain.duration;
+        }
+
         //Copy the condition's ActivityGains to the ConditionGain so we can track its duration, cooldown etc.
         gain.gainActivities = condition.gainActivities.map(activityGain => Object.assign(new ActivityGain(), JSON.parse(JSON.stringify(activityGain))));
 

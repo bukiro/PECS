@@ -445,6 +445,10 @@ export class CharacterService {
         }
     }
 
+    set_Accent() {
+        document.documentElement.style.setProperty('--accent', this.get_Accent());
+    }
+
     get_Classes(name: string) {
         return this.classesService.get_Classes(name);
     }
@@ -1945,6 +1949,7 @@ export class CharacterService {
             this.viewChanged$ = this.viewChanged.asObservable();
             this.verify_Feats();
             this.timeService.set_YourTurn(this.get_Character().yourTurn);
+            this.set_Accent();
             this.trigger_FinalChange();
         }
     }

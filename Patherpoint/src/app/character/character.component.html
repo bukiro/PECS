@@ -58,7 +58,7 @@
                         <strong>Color Accent</strong>
                         <span>
                             <input type="color" name="coloraccent" style="padding:0 2px"
-                                [(ngModel)]="get_Character().settings.accent" maxLength="7">
+                                [(ngModel)]="get_Character().settings.accent" (ngModelChange)="set_Accent()" maxLength="7">
                         </span>
                     </div>
                     <div class="list-item">

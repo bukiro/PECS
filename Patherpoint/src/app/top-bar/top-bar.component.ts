@@ -1,5 +1,4 @@
 import { Component, OnInit, HostBinding, ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
-import { trigger, state, style, transition, animate } from '@angular/animations';
 import { CharacterService } from '../character.service';
 import { Subscription } from 'rxjs';
 import { DomSanitizer } from '@angular/platform-browser';
@@ -9,54 +8,16 @@ import { SavegameService } from '../savegame.service';
     selector: 'app-top-bar',
     templateUrl: './top-bar.component.html',
     styleUrls: ['./top-bar.component.css'],
-    animations: [
-        trigger('slideInOut', [
-            state('in', style({
-                transform: 'translate3d(0,0,0)'
-            })),
-            state('out', style({
-                transform: 'translate3d(-100%, 0, 0)'
-            })),
-            transition('in => out', animate('400ms ease-in-out')),
-            transition('out => in', animate('400ms ease-in-out'))
-        ]),
-        trigger('slideInOutRight', [
-            state('in', style({
-                transform: 'translate3d(0,0,0)'
-            })),
-            state('out', style({
-                transform: 'translate3d(+100%, 0, 0)'
-            })),
-            transition('in => out', animate('400ms ease-in-out')),
-            transition('out => in', animate('400ms ease-in-out'))
-        ]),
-        trigger('slideInOutVert', [
-            state('in', style({
-                transform: 'translate3d(0,0,0)'
-            })),
-            state('out', style({
-                transform: 'translate3d(0, -100%, 0)'
-            })),
-            transition('in => out', animate('400ms ease-in-out')),
-            transition('out => in', animate('400ms ease-in-out'))
-        ]),
-    ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TopBarComponent implements OnInit {
-
-    @HostBinding("attr.style")
-    public get valueAsStyle(): any {
-        return this.sanitizer.bypassSecurityTrustStyle(`--accent: ${this.get_Accent()}`);
-    }
 
     subscription: Subscription;
 
     constructor(
         private changeDetector: ChangeDetectorRef,
         private characterService: CharacterService,
-        private savegameService: SavegameService,
-        private sanitizer: DomSanitizer
+        private savegameService: SavegameService
     ) { }
 
     get_Savegames() {
@@ -132,10 +93,6 @@ export class TopBarComponent implements OnInit {
 
     get_Familiar() {
         return this.characterService.get_Familiar();
-    }
-
-    get_Accent() {
-        return this.characterService.get_Accent();
     }
 
     still_loading() {

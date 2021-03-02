@@ -60,10 +60,6 @@ export class DefenseComponent implements OnInit {
         return this.characterService.still_loading()
     }
 
-    get_Accent() {
-        return this.characterService.get_Accent();
-    }
-
     trackByIndex(index: number, obj: any): any {
         return index;
     }

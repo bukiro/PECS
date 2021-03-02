@@ -48,10 +48,6 @@ export class AnimalCompanionComponent implements OnInit {
         return this.characterService.get_CompanionMenuState();
     }
 
-    get_Accent() {
-        return this.characterService.get_Accent();
-    }
-
     set_Changed(target: string) {
         this.characterService.set_Changed(target);
     }

@@ -60,9 +60,10 @@ import { ItemBladeAllyComponent } from './item/itemBladeAlly/itemBladeAlly.compo
 import { HintComponent } from './tags/hint/hint.component';
 import { ConditionComponent } from './effects/condition/condition.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { GridIconComponent } from './gridIcon/gridIcon.component';
 
 @NgModule({
-   declarations: [
+   declarations: [	
       AppComponent,
       AbilitiesComponent,
       TopBarComponent,
@@ -114,7 +115,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
       SkillchoiceComponent,
       ItemBladeAllyComponent,
       HintComponent,
-      ConditionComponent
+      ConditionComponent,
+      GridIconComponent
    ],
    imports: [
       BrowserModule,

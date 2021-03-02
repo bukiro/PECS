@@ -3,6 +3,7 @@ import { EffectsService } from '../effects.service';
 import { CharacterService } from '../character.service';
 import { TimeService } from '../time.service';
 import { TraitsService } from '../traits.service';
+import { ConditionGain } from '../ConditionGain';
 
 @Component({
     selector: 'app-effects',
@@ -65,12 +66,12 @@ export class EffectsComponent implements OnInit {
         this.toggle_Item(name);
     }
 
-    get_Accent() {
-        return this.characterService.get_Accent();
-    }
-
     trackByIndex(index: number, obj: any): any {
         return index;
+    }
+
+    trackByConditionGainID(index: number, obj: ConditionGain): string {
+        return obj.id;
     }
 
     get_Creature() {

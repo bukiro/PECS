@@ -1,8 +1,5 @@
-<div id="top-bar" class="newrow" [ngClass]="{'darkmode':get_Darkmode()}" [ngStyle]="{'--accent':get_Accent()}">
-    <a [routerLink]="['/']">
-        <h1 title="Pathfinder Excessive Character Sheet">P.E.C.S.</h1>
-    </a>
-    <div class="filler"></div>
+<div id="top-bar" class="newrow" [ngClass]="{'darkmode':get_Darkmode()}">
+    <header class="mainHeader" title="Pathfinder Excessive Character Sheet">P.E.C.S.</header>
     <button class="fancy-button loading" *ngIf="still_loading()">Loading</button>
     <button [ngClass]="{'fancy-button':get_CharacterMenuState()=='out'}" (click)="toggle_Menu('character')" *ngIf="!still_loading()">{{get_Character().name ? get_Character().name : "Character"}}</button>
     <button [ngClass]="{'fancy-button':get_CompanionMenuState()=='out'}" (click)="toggle_Menu('companion')" *ngIf="!still_loading() && get_CompanionAvailable()">{{get_Companion().name ? get_Companion().name : "Animal Companion"}}</button>

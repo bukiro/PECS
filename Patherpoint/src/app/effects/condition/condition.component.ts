@@ -71,7 +71,7 @@ export class ConditionComponent implements OnInit {
         gain.duration += turns;
         this.toggle_Item("");
         //Conditions who use their own duration in their effects need to update effects after changing duration.
-        if (condition?.effects.some(effect => effect.setValue.includes("parentcondition.duration") || effect.value.includes("parentcondition.duration"))) {
+        if (condition?.effects.some(effect => effect.setValue?.includes("parentcondition.duration") || effect.value?.includes("parentcondition.duration"))) {
             this.characterService.set_ToChange(this.creature, "effects");
             this.characterService.process_ToChange();
         }

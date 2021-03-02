@@ -73,10 +73,6 @@ export class HealthComponent implements OnInit {
         return this.characterService.get_Character();
     }
 
-    get_Accent() {
-        return this.characterService.get_Accent();
-    }
-
     trackByIndex(index: number, obj: any): any {
         return index;
     }
