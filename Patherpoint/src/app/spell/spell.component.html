@@ -1,37 +1,35 @@
-<div class="row lower" *ngIf="spell">
-    <div class="row left-aligned">
-        <cite class="trait" *ngFor="let trait of spell.traits; trackBy:trackByIndex;"
-            title="{{get_Traits(trait)[0].desc}}">{{trait}}</cite>
-        <app-tags [creature]="'Character'" [objectName]="spell.name" [showTraits]=true [showFeats]=true
-            [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
+<div class="newrow lower" *ngIf="spell">
+    <div class="newrow left-aligned">
+        <cite class="trait" *ngFor="let trait of spell.traits; trackBy:trackByIndex;" title="{{get_Traits(trait)[0].desc}}">{{trait}}</cite>
+        <app-tags [creature]="'Character'" [objectName]="spell.name" [showTraits]=true [showFeats]=true [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
     </div>
-    <div class="list-item lower row problem" *ngIf="spell.inputRequired">
+    <div class="list-item lower newrow problem" *ngIf="spell.inputRequired">
         <strong>Player input required:</strong>
-        <div class="row left-aligned">
+        <div class="newrow left-aligned">
             <p *ngFor="let inputRequired of spell.inputRequired.split('\n'); trackBy:trackByIndex;">
                 {{inputRequired}}
             </p>
         </div>
     </div>
-    <div class="row left-aligned" *ngIf="spell.sourceBook">
+    <div class="newrow left-aligned" *ngIf="spell.sourceBook">
         <span>
             <strong>Source</strong>
             <i>&nbsp;{{spell.sourceBook}}</i>
         </span>
     </div>
-    <div class="row left-aligned" *ngIf="spell.PFSnote">
+    <div class="newrow left-aligned" *ngIf="spell.PFSnote">
         <span>
             <strong>PFS Note</strong>
             <i>&nbsp;{{spell.PFSnote}}</i>
         </span>
     </div>
-    <div class="row left-aligned" *ngIf="spell.traditions && !spell.traditions.includes('Focus')">
+    <div class="newrow left-aligned" *ngIf="spell.traditions && !spell.traditions.includes('Focus')">
         <span>
             <strong>Traditions</strong>
             {{spell.traditions.join(', ')}}
         </span>
     </div>
-    <div class="row left-aligned" *ngIf="spell.castType || spell.cost">
+    <div class="newrow left-aligned" *ngIf="spell.castType || spell.cost">
         <span *ngIf="spell.castType">
             <strong>Cast</strong>
             <app-actionIcons [actionString]="spell.actions"></app-actionIcons><span>{{spell.castType}}&nbsp;</span>
@@ -41,13 +39,13 @@
             {{spell.cost}}
         </span>
     </div>
-    <div class="row left-aligned" *ngIf="spell.trigger">
+    <div class="newrow left-aligned" *ngIf="spell.trigger">
         <span>
             <strong>Trigger</strong>
             {{spell.trigger}}
         </span>
     </div>
-    <div class="row left-aligned" *ngIf="spell.range || spell.area || spell.targets">
+    <div class="newrow left-aligned" *ngIf="spell.range || spell.area || spell.targets">
         <span *ngIf="spell.range">
             <strong>Range</strong>
             {{spell.range}}&nbsp;
@@ -61,7 +59,7 @@
             {{spell.targets}}
         </span>
     </div>
-    <div class="row left-aligned" *ngIf="spell.savingThrow || spell.duration">
+    <div class="newrow left-aligned" *ngIf="spell.savingThrow || spell.duration">
         <span *ngIf="spell.savingThrow">
             <strong>Saving Throw</strong>
             {{spell.savingThrow}}&nbsp;
@@ -71,49 +69,48 @@
             {{spell.duration}}
         </span>
     </div>
-    <div class="row left-aligned" *ngFor="let desc of get_Heightened(spell.desc).split('\n\n'); trackBy:trackByIndex;">
+    <div class="newrow left-aligned" *ngFor="let desc of get_Heightened(spell.desc).split('\n\n'); trackBy:trackByIndex;">
         <p *ngIf="desc.split('\n').length == 1" [innerHTML]="desc"></p>
         <ul *ngIf="desc.split('\n').length > 1">
             <li *ngFor="let line of desc.split('\n'); trackBy:trackByIndex;" [innerHTML]="line"></li>
         </ul>
     </div>
-    <div class="row lower left-aligned" *ngIf="spell.critsuccess">
+    <div class="newrow lower left-aligned" *ngIf="spell.critsuccess">
         <span>
             <strong>Critical Success&nbsp;</strong>
             <span [innerHTML]="get_Heightened(spell.critsuccess)"></span>
         </span>
     </div>
-    <div class="row lower left-aligned" *ngIf="spell.success">
+    <div class="newrow lower left-aligned" *ngIf="spell.success">
         <span>
             <strong>Success&nbsp;</strong>
             <span [innerHTML]="get_Heightened(spell.success)"></span>
         </span>
     </div>
-    <div class="row lower left-aligned" *ngIf="spell.failure">
+    <div class="newrow lower left-aligned" *ngIf="spell.failure">
         <span>
             <strong>Failure&nbsp;</strong>
             <span [innerHTML]="get_Heightened(spell.failure)"></span>
         </span>
     </div>
-    <div class="row lower left-aligned" *ngIf="spell.critfailure">
+    <div class="newrow lower left-aligned" *ngIf="spell.critfailure">
         <span>
             <strong>Critical Failure&nbsp;</strong>
             <span [innerHTML]="get_Heightened(spell.critfailure)"></span>
         </span>
     </div>
-    <div class="row left-aligned" *ngFor="let heightened of spell.heightened; trackBy:trackByIndex;">
+    <div class="newrow left-aligned" *ngFor="let heightened of spell.heightened; trackBy:trackByIndex;">
         <span>
             <strong>Heightened {{heightened.level}}</strong>
             {{heightened.desc}}
         </span>
     </div>
-    <div class="row left-aligned" *ngFor="let feat of get_FeatsShowingOn(spell.name); trackBy:trackByIndex;">
+    <div class="newrow left-aligned" *ngFor="let feat of get_FeatsShowingOn(spell.name); trackBy:trackByIndex;">
         <h4>{{feat.name}}</h4>
-        <div class="row left-aligned">
-            <cite class="trait" *ngFor="let trait of feat.traits; trackBy:trackByIndex;"
-                title="{{get_Traits(trait)[0].desc}}">{{trait}}</cite>
+        <div class="newrow left-aligned">
+            <cite class="trait" *ngFor="let trait of feat.traits; trackBy:trackByIndex;" title="{{get_Traits(trait)[0].desc}}">{{trait}}</cite>
         </div>
-        <div class="row left-aligned" *ngFor="let desc of feat.desc.split('\n\n'); trackBy:trackByIndex;">
+        <div class="newrow left-aligned" *ngFor="let desc of feat.desc.split('\n\n'); trackBy:trackByIndex;">
             <p *ngIf="desc.split('\n').length == 1" [innerHTML]="desc"></p>
             <ul *ngIf="desc.split('\n').length > 1">
                 <li *ngFor="let line of desc.split('\n'); trackBy:trackByIndex;" [innerHTML]="line"></li>
@@ -122,7 +119,8 @@
     </div>
     <div class="list-item left-aligned" *ngFor="let shownSpellSet of spell.showSpells; trackBy:trackByIndex;">
         <div *ngFor="let shownSpell of get_Spells(shownSpellSet.name); trackBy:trackByIndex;">
-            <h4>{{shownSpell.name}}<app-actionIcons [actionString]="shownSpell.actions">
+            <h4>{{shownSpell.name}}
+                <app-actionIcons [actionString]="shownSpell.actions">
                 </app-actionIcons> {{shownSpell.castType.toString()}}</h4>
             <app-spell [spell]=shownSpell [spellLevel]="shownSpellSet.level || spellLevel || 0"></app-spell>
         </div>

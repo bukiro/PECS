@@ -1,8 +1,8 @@
-<button class="minimizebutton lower" title="{{get_Minimized() ? 'Click to show all buttons.' : 'Click to hide time buttons.'}}" [ngClass]="{'fancy-button':get_Minimized()}" (click)="minimize()">&#8691;</button>
+<button class="minimizebutton lower" *ngIf="showTime && showTurn" title="{{get_Minimized() ? 'Click to show all buttons.' : 'Click to hide time buttons.'}}" [ngClass]="{'fancy-button':get_Minimized()}" (click)="minimize()">&#8691;</button>
 <div id="time-height" class="topBox">
     <div class="loading" *ngIf="still_loading()">Loading</div>
     <ng-container *ngIf="!still_loading()">
-        <div class="list-item center-aligned">
+        <div *ngIf="showTurn" class="list-item center-aligned">
             <button (click)="start_Turn()" [disabled]="get_YourTurn()==5 || get_Waiting(5).length" title="{{get_Waiting(5)}}">Start Turn</button>
             <div class="turn-indicator">
                 <strong *ngIf="get_YourTurn() == 0">Not your Turn</strong>
@@ -10,7 +10,7 @@
             </div>
             <button (click)="end_Turn()" [disabled]="get_YourTurn()==0 || get_Waiting(5).length" title="{{get_Waiting(5)}}">End Turn</button>
         </div>
-        <div class="fullsize-only list-item">
+        <div *ngIf="showTime" class="list-item" [ngClass]="{'fullsize-only':showTime && showTurn}">
             <button class="fancybutton" (click)="tick(duration)"
                 *ngFor="let duration of [10, 50, 100, 500, 1000, 6000, 48000, 144000]; trackBy:trackByIndex;"
                 title="{{get_Waiting(duration)}}" [disabled]="get_Waiting(duration).length">

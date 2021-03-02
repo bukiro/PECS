@@ -48,11 +48,25 @@ export class CharacterSheetComponent implements OnInit {
         return this.sanitizer.bypassSecurityTrustStyle(`--accent: ${this.get_Accent()}`);
     }
 
+    public showMode: string = "";
+
     constructor(
         private characterService: CharacterService,
         private sanitizer: DomSanitizer,
         private changeDetector: ChangeDetectorRef
     ) { }
+
+    toggle_Mode(type: string) {
+        if (this.showMode == type) {
+            this.showMode = "";
+        } else {
+            this.showMode = type;
+        }
+    }
+
+    get_ShowMode() {
+        return this.showMode;
+    }
 
     still_loading() {
         return this.characterService.still_loading();

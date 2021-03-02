@@ -1,6 +1,6 @@
 <!--Adding Oils-->
 <div class="list-item" *ngIf="get_Oils().length > 1 || item.oilsApplied.length">
-    <div class="row">
+    <div class="newrow">
         <strong>Apply oil</strong>
         <select [(ngModel)]="newOil" (ngModelChange)="add_Oil()">
             <option *ngFor="let oil of get_Oils(); trackBy:trackByIndex;" [ngValue]="oil">
@@ -8,9 +8,9 @@
             </option>
         </select>
     </div>
-    <div class="row" *ngIf="item.oilsApplied.length">
+    <div class="newrow" *ngIf="item.oilsApplied.length">
         <strong>Applied oils</strong>
-        <div class="row" *ngFor="let oil of item.oilsApplied; let index = index; trackBy:trackByIndex;">
+        <div class="newrow" *ngFor="let oil of item.oilsApplied; let index = index; trackBy:trackByIndex;">
             <span>
                 {{oil.get_Name()}} ({{get_Duration(oil.duration)}})
             </span>

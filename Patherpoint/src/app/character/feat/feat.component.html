@@ -1,21 +1,20 @@
 <ng-container *ngIf="feat">
-    <div class="row left-aligned">
+    <div class="newrow left-aligned">
         <cite class="trait" *ngFor="let trait of feat.traits; trackBy:trackByIndex;">
             {{trait}}
         </cite>
     </div>
-    <div class="row left-aligned">
-        <div class="row left-aligned" *ngIf="feat.sourceBook">
+    <div class="newrow left-aligned">
+        <div class="newrow left-aligned" *ngIf="feat.sourceBook">
             <strong>Source</strong><i>&nbsp;{{feat.sourceBook}}</i>
         </div>
-        <div class="row left-aligned" *ngIf="feat.access">
+        <div class="newrow left-aligned" *ngIf="feat.access">
             <strong>Access</strong>&nbsp;{{feat.access}}
         </div>
         <ng-container *ngFor="let reqs of [get_FeatRequirements(choice, feat)]; trackBy:trackByIndex;">
             <p *ngIf="reqs.length">
                 <strong>Requirements&nbsp;</strong>
-                <span [ngClass]="{'problem':(!req.met), 'disabled':(req.ignored)}" title="{{req.ignored ? 'This requirement is ignored.' : ''}}"
-                    *ngFor="let req of reqs; trackBy:trackByIndex;">{{req.ignored ? "(" : ''}}{{req.desc}}{{req.ignored ? ")" : ''}}</span>
+                <span [ngClass]="{'problem':(!req.met), 'disabled':(req.ignored)}" title="{{req.ignored ? 'This requirement is ignored.' : ''}}" *ngFor="let req of reqs; trackBy:trackByIndex;">{{req.ignored ? "(" : ''}}{{req.desc}}{{req.ignored ? ")" : ''}}</span>
             </p>
         </ng-container>
         <ng-container *ngFor="let desc of feat.desc.split('\n\n'); trackBy:trackByIndex;">
@@ -25,8 +24,7 @@
             </ul>
         </ng-container>
         <p *ngIf="feat.specialdesc.length">
-            <strong>Special</strong>
-            {{feat.specialdesc}}
+            <strong>Special</strong> {{feat.specialdesc}}
         </p>
         <p *ngIf="feat.usageNote.length">
             <strong>Usage note</strong>&nbsp;
@@ -34,34 +32,34 @@
         </p>
     </div>
     <ng-container *ngFor="let name of feat.gainActivities; trackBy:trackByIndex;">
-        <div class="row left-aligned" *ngFor="let activity of get_Activities(name); trackBy:trackByIndex;">
-            <h4 class="left-aligned">{{activity.name}}<app-actionIcons
-                    [actionString]="activity.actions"></app-actionIcons>
+        <div class="newrow left-aligned" *ngFor="let activity of get_Activities(name); trackBy:trackByIndex;">
+            <h4 class="left-aligned">{{activity.name}}
+                <app-actionIcons [actionString]="activity.actions"></app-actionIcons>
                 {{(activity.activationType) ? activity.activationType : ""}}
             </h4>
-            <app-activity class="row" [activity]=activity [allowActivate]=false>
+            <app-activity class="newrow" [activity]=activity [allowActivate]=false>
             </app-activity>
         </div>
     </ng-container>
     <ng-container *ngFor="let spellChoice of feat.gainSpellChoice; trackBy:trackByIndex;">
         <ng-container *ngFor="let spellGain of spellChoice.spells; trackBy:trackByIndex;">
             <ng-container *ngFor="let spell of get_Spells(spellGain.name); trackBy:trackByIndex;">
-                <h4 class="left-aligned">{{spell.name}}<app-actionIcons
-                        [actionString]="spell.actions"></app-actionIcons>
+                <h4 class="left-aligned">{{spell.name}}
+                    <app-actionIcons [actionString]="spell.actions"></app-actionIcons>
                     {{(spell.castType) ? spell.castType : ""}}
                 </h4>
-                <app-spell class="row" [spell]=spell [spellLevel]="get_SpellLevel(levelNumber)">
+                <app-spell class="newrow" [spell]=spell [spellLevel]="get_SpellLevel(levelNumber)">
                 </app-spell>
             </ng-container>
         </ng-container>
     </ng-container>
     <ng-container *ngFor="let spellName of feat.gainSpellListSpells; trackBy:trackByIndex;">
         <ng-container *ngFor="let spell of get_Spells(spellName); trackBy:trackByIndex;">
-            <h4 class="left-aligned">{{spell.name}}<app-actionIcons
-                    [actionString]="spell.actions"></app-actionIcons>
+            <h4 class="left-aligned">{{spell.name}}
+                <app-actionIcons [actionString]="spell.actions"></app-actionIcons>
                 {{(spell.castType) ? spell.castType : ""}}
             </h4>
-            <app-spell class="row" [spell]=spell [spellLevel]="get_SpellLevel(levelNumber)">
+            <app-spell class="newrow" [spell]=spell [spellLevel]="get_SpellLevel(levelNumber)">
             </app-spell>
         </ng-container>
     </ng-container>

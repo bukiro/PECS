@@ -3,8 +3,7 @@
     <h3 class="box-header">Inventory</h3>
     <div class="loading" *ngIf="still_loading()">Loading</div>
     <ng-container *ngIf="!still_loading()">
-        <button class="fullsize-only list-item center-aligned"
-            (click)="set_ItemsMenuTarget(creature); toggle_Menu('items')">
+        <button class="fullsize-only list-item center-aligned" (click)="set_ItemsMenuTarget(creature); toggle_Menu('items')">
             Get Items
         </button>
         <h5 *ngIf="creature=='Character'">Currency</h5>
@@ -17,62 +16,44 @@
             <input class="number6" type="number" value="{{this.characterService.get_Character().cash[2]}}" disabled>
             <strong title="Copper">C</strong>
             <input class="number6" type="number" value="{{this.characterService.get_Character().cash[3]}}" disabled>
-            <button title="Exchange coins for higher currency (no higher than Gold)."
-                (click)="sort_Cash();">Sort</button>
+            <button title="Exchange coins for higher currency (no higher than Gold)." (click)="sort_Cash();">Sort</button>
         </div>
         <h5>Bulk</h5>
         <ng-container *ngFor="let bulk of get_Bulk(); trackBy:trackByIndex;">
             <div class="list-item">
                 <strong>Bulk</strong>
-                <input class="number2"
-                    [ngClass]="{'penalty':bulk.$currentpenalties, 'bonus':bulk.$currentbonuses, 'absolute':bulk.$currentabsolutes.length}"
-                    type="number" title="{{bulk.$current.explain}}" value="{{bulk.$current.value}}" disabled>
-                <app-tags [creature]="creature" [objectName]="'Bulk'" [showTraits]=true [showFeats]=true
-                    [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
+                <input class="number2" [ngClass]="{'penalty':bulk.$currentpenalties, 'bonus':bulk.$currentbonuses, 'absolute':bulk.$currentabsolutes.length}" type="number" title="{{bulk.$current.explain}}" value="{{bulk.$current.value}}" disabled>
+                <app-tags [creature]="creature" [objectName]="'Bulk'" [showTraits]=true [showFeats]=true [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
             </div>
             <div class="fullsize-only list-item">
                 <strong>Encumbrance Limit</strong>
-                <input class="number2" type="number"
-                    [ngClass]="{'penalty':bulk.$penalties, 'bonus':bulk.$bonuses, 'absolute':bulk.$absolutes.length}"
-                    value="{{bulk.$encumbered.value}}" title="{{bulk.$encumbered.explain}}" disabled>
-                <app-tags [creature]="creature" [objectName]="'Encumbered Limit'" [showTraits]=true [showFeats]=true
-                    [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
+                <input class="number2" type="number" [ngClass]="{'penalty':bulk.$penalties, 'bonus':bulk.$bonuses, 'absolute':bulk.$absolutes.length}" value="{{bulk.$encumbered.value}}" title="{{bulk.$encumbered.explain}}" disabled>
+                <app-tags [creature]="creature" [objectName]="'Encumbered Limit'" [showTraits]=true [showFeats]=true [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
             </div>
             <div class="fullsize-only list-item">
                 <strong>Maximum Bulk</strong>
-                <input class="number2" type="number"
-                    [ngClass]="{'penalty':bulk.$penalties, 'bonus':bulk.$bonuses, 'absolute':bulk.$absolutes.length}"
-                    value="{{bulk.$max.value}}" title="{{bulk.$max.explain}}" disabled>
-                <app-tags [creature]="creature" [objectName]="'Max Bulk'" [showTraits]=true [showFeats]=true
-                    [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
+                <input class="number2" type="number" [ngClass]="{'penalty':bulk.$penalties, 'bonus':bulk.$bonuses, 'absolute':bulk.$absolutes.length}" value="{{bulk.$max.value}}" title="{{bulk.$max.explain}}" disabled>
+                <app-tags [creature]="creature" [objectName]="'Max Bulk'" [showTraits]=true [showFeats]=true [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
             </div>
         </ng-container>
         <ng-container *ngIf="have_QuickCrafting()">
             <h3 class="fullsize-only box-header">Quick Crafting</h3>
-            <app-tags [creature]="creature" [objectName]="'Quick Crafting'" [showTraits]=true [showFeats]=true
-                [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
+            <app-tags [creature]="creature" [objectName]="'Quick Crafting'" [showTraits]=true [showFeats]=true [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
             <button class="list-item" *ngIf="have_Feat('Snare Specialist')" (click)="toggle_List('snarespecialist')">
                 <h3>Snare Specialist</h3>
             </button>
             <ng-container *ngIf="get_ShowList()=='snarespecialist'">
-                <div class="row" *ngIf="!get_PreparedItems('snarespecialist').length">You don't have any snares prepared
-                    for quick deployment.</div>
+                <div class="newrow" *ngIf="!get_PreparedItems('snarespecialist').length">You don't have any snares prepared for quick deployment.</div>
                 <ng-container *ngFor="let preparedItem of get_PreparedItems('snarespecialist'); trackBy:trackByIndex;">
-                    <div class="list-item"
-                        *ngFor="let inventoryID of ['snarespecialist'+preparedItem.item.id]; trackBy:trackByIndex;">
-                        <button class="row sublist-toggle" (click)="toggle_Item(inventoryID)"
-                            [ngClass]="{'inactive-button':!preparedItem.learned.snareSpecialistAvailable}">
+                    <div class="list-item" *ngFor="let inventoryID of ['snarespecialist'+preparedItem.item.id]; trackBy:trackByIndex;">
+                        <button class="newrow sublist-toggle" (click)="toggle_Item(inventoryID)" [ngClass]="{'inactive-button':!preparedItem.learned.snareSpecialistAvailable}">
                             <span>{{preparedItem.learned.snareSpecialistAvailable}}
                                 {{(preparedItem.item.get_Name) ? preparedItem.item.get_Name() : preparedItem.item.name}}</span>
                             <span>{{(preparedItem.item.level) ? "Level "+preparedItem.item.level : "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"}}</span>
                         </button>
-                        <div class="list-item sublist lower" *ngIf="get_ShowItem()==inventoryID"
-                            [ngClass]="{'inactive-list':!preparedItem.learned.snareSpecialistAvailable}">
+                        <div class="list-item sublist lower" *ngIf="get_ShowItem()==inventoryID" [ngClass]="{'inactive-list':!preparedItem.learned.snareSpecialistAvailable}">
                             <ng-container>
-                                <button class="row center-aligned"
-                                    (click)="craft_Item(preparedItem.item, preparedItem.learned, 'snarespecialist')"
-                                    title="{{cannot_Craft(preparedItem.item, preparedItem.learned, 'snarespecialist').join('\n')}}"
-                                    [disabled]="cannot_Craft(preparedItem.item, preparedItem.learned, 'snarespecialist').length">
+                                <button class="newrow center-aligned" (click)="craft_Item(preparedItem.item, preparedItem.learned, 'snarespecialist')" title="{{cannot_Craft(preparedItem.item, preparedItem.learned, 'snarespecialist').join('\n')}}" [disabled]="cannot_Craft(preparedItem.item, preparedItem.learned, 'snarespecialist').length">
                                     <span>Deploy Snare <app-actionIcons
                                             [actionString]="get_SnareSpecialistActions(preparedItem.item)">
                                         </app-actionIcons>
@@ -86,33 +67,24 @@
             </ng-container>
         </ng-container>
         <h3 class="fullsize-only box-header">Items</h3>
-        <app-tags [creature]="creature" [objectName]="'Inventory'" [showTraits]=true [showFeats]=true [showItems]=true
-            [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
+        <app-tags [creature]="creature" [objectName]="'Inventory'" [showTraits]=true [showFeats]=true [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
         <div class="fullsize-only list-item" *ngFor="let maxInvested of [get_MaxInvested()]; trackBy:trackByIndex;">
-            <strong>Invested</strong><input type="number" class="number2"
-                [ngClass]="{'problem':(get_Invested() > maxInvested.value)}" [ngModel]="get_Invested()" disabled>
-            <strong>Max Invested</strong><input type="number" class="number2" title="{{maxInvested.explain}}"
-                [ngClass]="{'penalty':maxInvested.penalties, 'bonus':maxInvested.bonuses, 'absolute':maxInvested.absolutes}"
-                [ngModel]="get_MaxInvested().value" disabled>
-            <app-tags [creature]="creature" [objectName]="'Max Invested'" [showTraits]=true [showFeats]=true
-                [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
+            <strong>Invested</strong><input type="number" class="number2" [ngClass]="{'problem':(get_Invested() > maxInvested.value)}" [ngModel]="get_Invested()" disabled>
+            <strong>Max Invested</strong><input type="number" class="number2" title="{{maxInvested.explain}}" [ngClass]="{'penalty':maxInvested.penalties, 'bonus':maxInvested.bonuses, 'absolute':maxInvested.absolutes}" [ngModel]="get_MaxInvested().value"
+                disabled>
+            <app-tags [creature]="creature" [objectName]="'Max Invested'" [showTraits]=true [showFeats]=true [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
         </div>
-        <div class="list-item" [ngClass]="{'fullsize-only':inventoryIndex != 0}"
-            *ngFor="let inventory of get_Inventories(creature, true, true); let inventoryIndex = index; trackBy:trackByIndex;">
-            <h3 class="fullsize-only row">{{get_InventoryName(inventory)}}
-                <span
-                    *ngIf="inventory.bulkLimit && inventory.bulkLimit % 1 == 0">&nbsp;{{"("+inventory.get_Bulk()+" / "+inventory.bulkLimit+" Bulk)"}}</span>
-                <span
-                    *ngIf="inventory.bulkLimit && inventory.bulkLimit % 1 != 0">&nbsp;{{"("+(inventory.get_Bulk(false)*10)+"L / "+(inventory.bulkLimit*10)+"L Bulk)"}}</span>
+        <div class="list-item" [ngClass]="{'fullsize-only':inventoryIndex != 0}" *ngFor="let inventory of get_Inventories(creature, true, true); let inventoryIndex = index; trackBy:trackByIndex;">
+            <h3 class="fullsize-only newrow">{{get_InventoryName(inventory)}}
+                <span *ngIf="inventory.bulkLimit && inventory.bulkLimit % 1 == 0">&nbsp;{{"("+inventory.get_Bulk()+" / "+inventory.bulkLimit+" Bulk)"}}</span>
+                <span *ngIf="inventory.bulkLimit && inventory.bulkLimit % 1 != 0">&nbsp;{{"("+(inventory.get_Bulk(false)*10)+"L / "+(inventory.bulkLimit*10)+"L Bulk)"}}</span>
             </h3>
             <ng-container *ngFor="let itemSet of inventory.names; trackBy:trackByIndex;">
                 <ng-container *ngFor="let listID of [get_ID()*1000]">
-                    <h5 class="row" *ngIf="inventory[itemSet.key].length">{{itemSet.name}}</h5>
+                    <h5 class="newrow" *ngIf="inventory[itemSet.key].length">{{itemSet.name}}</h5>
                     <ng-container *ngFor="let item of sort_ItemSet(inventory[itemSet.key]); trackBy:trackByIndex;">
                         <div class="list-item" *ngFor="let inventoryID of [item.id]; trackBy:trackByIndex;">
-                            <button class="row left-aligned sublist-toggle"
-                                [ngClass]="{'fancy-button':((item.equippable && item.equipped) || (item.can_Invest() && item.invested)), 'problem':item.broken}"
-                                (click)="toggle_Item(inventoryID)">
+                            <button class="newrow left-aligned sublist-toggle" [ngClass]="{'fancy-button':((item.equippable && item.equipped) || (item.can_Invest() && item.invested)), 'problem':item.broken}" (click)="toggle_Item(inventoryID)">
                                 <span title="Broken" *ngIf="item.broken">&#9985;&nbsp;</span>
                                 <span title="Temporary Item" *ngIf="item.expiration">&#9851;&nbsp;</span>
                                 <span title="Large Weapon" *ngIf="item.large">&#10034;&nbsp;</span>
@@ -123,47 +95,32 @@
                                 <span class="lower"
                                     *ngFor="let containedItems of [get_ContainedItems(item)]">{{containedItems ? "contains "+containedItems+" items" : ""}}</span>
                             </button>
-                            <div class="list-item sublist lower"
-                                [ngClass]="{'fancy-list':((item.equippable && item.equipped) || (item.can_Invest() && item.invested)), 'problem':item.broken}"
-                                *ngIf="get_ShowItem()==inventoryID">
-                                <div class="row"
-                                    *ngFor="let prof of [(item.get_Proficiency ? item.get_Proficiency(get_Creature(), characterService) : item.prof)]; trackBy:trackByIndex;">
-                                    <span [ngClass]="item.prof != prof ? 'absolute' : ''"
-                                        *ngIf="item.type == 'armors'">{{(["Light Barding","Heavy Barding"].includes(prof)) ? prof : prof.split(" ")[0]}}
+                            <div class="list-item sublist lower" [ngClass]="{'fancy-list':((item.equippable && item.equipped) || (item.can_Invest() && item.invested)), 'problem':item.broken}" *ngIf="get_ShowItem()==inventoryID">
+                                <div class="newrow" *ngFor="let prof of [(item.get_Proficiency ? item.get_Proficiency(get_Creature(), characterService) : item.prof)]; trackBy:trackByIndex;">
+                                    <span [ngClass]="item.prof != prof ? 'absolute' : ''" *ngIf="item.type == 'armors'">{{(["Light Barding","Heavy Barding"].includes(prof)) ? prof : prof.split(" ")[0]}}
                                         {{item.group}}
                                         {{(item.type=="armors" && (!["Unarmored Defense","Light Barding","Heavy Barding"].includes(prof))) ? "Armor" : ""}}</span>
-                                    <span [ngClass]="item.prof != prof ? 'absolute' : ''"
-                                        *ngIf="item.type == 'weapons'">{{(prof == 'Unarmed') ? prof : prof.substr(0, prof.length - 8)}}
+                                    <span [ngClass]="item.prof != prof ? 'absolute' : ''" *ngIf="item.type == 'weapons'">{{(prof == 'Unarmed') ? prof : prof.substr(0, prof.length - 8)}}
                                         {{item.group}}</span>
                                 </div>
-                                <div class="row" *ngIf="item.expiration">
+                                <div class="newrow" *ngIf="item.expiration">
                                     <span><strong>Duration</strong> {{get_Duration(item.expiration)}}</span>
                                 </div>
-                                <button class="row center-aligned" [disabled]="!item.amount"
-                                    (click)="on_ConsumableUse(item, creature, inventory)"
-                                    *ngIf="item.amount != undefined && !['alchemicalelixirs','potions','scrolls'].includes(item.type) && item.actions && (!item.targets || item.targets.length == 0)">
+                                <button class="newrow center-aligned" [disabled]="!item.amount" (click)="on_ConsumableUse(item, creature, inventory)" *ngIf="item.amount != undefined && !['alchemicalelixirs','potions','scrolls'].includes(item.type) && item.actions && (!item.targets || item.targets.length == 0)">
                                     <span>Use<app-actionIcons [actionString]="item.actions">
                                         </app-actionIcons>{{(item.activationType) ? item.activationType : ""}}
                                     </span>
                                 </button>
-                                <ng-container
-                                    *ngIf="item.amount != undefined && item.storedSpells.length && !['weaponrunes', 'armorrunes', 'oils'].includes(this.item.type)">
+                                <ng-container *ngIf="item.amount != undefined && item.storedSpells.length && !['weaponrunes', 'armorrunes', 'oils'].includes(this.item.type)">
                                     <ng-container *ngFor="let spell of get_ItemSpell(item); trackBy:trackByIndex;">
-                                        <button class="row center-aligned"
-                                            (click)="on_SpellItemUse(item, creature, inventory)"
-                                            *ngIf="['self', 'ally'].includes(spell.target)"
-                                            title="{{item.broken ? 'The item is broken and cannot be used.' : ''}}"
-                                            [disabled]="item.broken">
+                                        <button class="newrow center-aligned" (click)="on_SpellItemUse(item, creature, inventory)" *ngIf="['self', 'ally'].includes(spell.target)" title="{{item.broken ? 'The item is broken and cannot be used.' : ''}}" [disabled]="item.broken">
                                             <span>{{item.type == "wands" && item.cooldown ? "Overcharge (Cooldown " + get_Duration(item.cooldown) + ")" : "Use"}}
                                                 <app-actionIcons [actionString]="spell.actions">
                                                 </app-actionIcons>{{(spell.activationType) ? spell.activationType : ""}}
                                                 {{spell.target == 'ally' ? "(Cast spell on yourself)" : "(Cast spell)"}}
                                             </span>
                                         </button>
-                                        <button class="row center-aligned"
-                                            (click)="on_SpellItemUse(item, (creature=='Character' ? 'Companion' : 'Character'), inventory)"
-                                            *ngIf="['companion', 'ally'].includes(spell.target) && get_CompanionAvailable()"
-                                            title="{{item.broken ? 'The item is broken and cannot be used.' : ''}}"
+                                        <button class="newrow center-aligned" (click)="on_SpellItemUse(item, (creature=='Character' ? 'Companion' : 'Character'), inventory)" *ngIf="['companion', 'ally'].includes(spell.target) && get_CompanionAvailable()" title="{{item.broken ? 'The item is broken and cannot be used.' : ''}}"
                                             [disabled]="item.broken">
                                             <span>{{item.type == "wands" && item.cooldown ? "Overcharge (Cooldown " + get_Duration(item.cooldown) + ")" : "Use"}}
                                                 <app-actionIcons [actionString]="spell.actions">
@@ -172,32 +129,21 @@
                                                 {{creature == "Character" ? "your animal companion" : "your master"}})
                                             </span>
                                         </button>
-                                        <button class="row center-aligned"
-                                            (click)="on_SpellItemUse(item, 'Familiar', inventory)"
-                                            *ngIf="['companion', 'ally'].includes(spell.target) && get_FamiliarAvailable()"
-                                            title="{{item.broken ? 'The item is broken and cannot be used.' : ''}}"
-                                            [disabled]="item.broken">
+                                        <button class="newrow center-aligned" (click)="on_SpellItemUse(item, 'Familiar', inventory)" *ngIf="['companion', 'ally'].includes(spell.target) && get_FamiliarAvailable()" title="{{item.broken ? 'The item is broken and cannot be used.' : ''}}" [disabled]="item.broken">
                                             <span>{{item.type == "wands" && item.cooldown ? "Overcharge (Cooldown " + get_Duration(item.cooldown) + ")" : "Use"}}
                                                 <app-actionIcons [actionString]="spell.actions">
                                                 </app-actionIcons>{{(spell.activationType) ? spell.activationType : ""}}
                                                 (Cast spell on your familiar)
                                             </span>
                                         </button>
-                                        <button class="row center-aligned"
-                                            (click)="on_SpellItemUse(item, '', inventory)"
-                                            *ngIf="spell.target == 'ally'"
-                                            title="{{item.broken ? 'The item is broken and cannot be used.' : ''}}"
-                                            [disabled]="item.broken">
+                                        <button class="newrow center-aligned" (click)="on_SpellItemUse(item, '', inventory)" *ngIf="spell.target == 'ally'" title="{{item.broken ? 'The item is broken and cannot be used.' : ''}}" [disabled]="item.broken">
                                             <span>{{item.type == "wands" && item.cooldown ? "Overcharge (Cooldown " + get_Duration(item.cooldown) + ")" : "Use"}}
                                                 <app-actionIcons [actionString]="spell.actions">
                                                 </app-actionIcons>{{(spell.activationType) ? spell.activationType : ""}}
                                                 (Cast spell on ally)
                                             </span>
                                         </button>
-                                        <button class="row center-aligned"
-                                            (click)="on_SpellItemUse(item, '', inventory)" *ngIf="spell.target == ''"
-                                            title="{{item.broken ? 'The item is broken and cannot be used.' : ''}}"
-                                            [disabled]="item.broken">
+                                        <button class="newrow center-aligned" (click)="on_SpellItemUse(item, '', inventory)" *ngIf="spell.target == ''" title="{{item.broken ? 'The item is broken and cannot be used.' : ''}}" [disabled]="item.broken">
                                             <span>{{item.type == "wands" && item.cooldown ? "Overcharge (Cooldown " + get_Duration(item.cooldown) + ")" : "Use"}}
                                                 <app-actionIcons [actionString]="spell.actions">
                                                 </app-actionIcons>{{(spell.activationType) ? spell.activationType : ""}}
@@ -206,31 +152,25 @@
                                         </button>
                                     </ng-container>
                                 </ng-container>
-                                <ng-container
-                                    *ngIf="item.amount != undefined && ['alchemicalelixirs','potions'].includes(item.type) && item.actions && (!item.targets || item.targets.length == 0)">
-                                    <button class="row center-aligned" [disabled]="!item.amount"
-                                        (click)="on_ConsumableUse(item, creature, inventory)">
+                                <ng-container *ngIf="item.amount != undefined && ['alchemicalelixirs','potions'].includes(item.type) && item.actions && (!item.targets || item.targets.length == 0)">
+                                    <button class="newrow center-aligned" [disabled]="!item.amount" (click)="on_ConsumableUse(item, creature, inventory)">
                                         <span>Use<app-actionIcons [actionString]="item.actions">
                                             </app-actionIcons>{{(item.activationType) ? item.activationType : ""}}
                                         </span>
                                     </button>
-                                    <button class="row center-aligned" [disabled]="!item.amount"
-                                        (click)="on_ConsumableUse(item, 'Companion', inventory)"
-                                        *ngIf="get_CompanionAvailable()">
+                                    <button class="newrow center-aligned" [disabled]="!item.amount" (click)="on_ConsumableUse(item, 'Companion', inventory)" *ngIf="get_CompanionAvailable()">
                                         <span>Use (Give to your animal companion)<app-actionIcons
                                                 [actionString]="item.actions">
                                             </app-actionIcons>{{(item.activationType) ? item.activationType : ""}}
                                         </span>
                                     </button>
-                                    <button class="row center-aligned" [disabled]="!item.amount"
-                                        (click)="on_ConsumableUse(item, 'Familiar', inventory)"
-                                        *ngIf="get_FamiliarAvailable()">
+                                    <button class="newrow center-aligned" [disabled]="!item.amount" (click)="on_ConsumableUse(item, 'Familiar', inventory)" *ngIf="get_FamiliarAvailable()">
                                         <span>Use (Give to your familiar)<app-actionIcons [actionString]="item.actions">
                                             </app-actionIcons>{{(item.activationType) ? item.activationType : ""}}
                                         </span>
                                     </button>
                                 </ng-container>
-                                <div class="row">
+                                <div class="newrow">
                                     <span *ngIf="can_Equip(item, inventoryIndex)">
                                         <button *ngIf="!item.equipped"
                                             (click)="on_Equip(item, inventory, true)">Equip</button>
@@ -248,8 +188,7 @@
                                             [disabled]="item.amount <= 0">-1</button>
                                         <button (click)="onAmountChange(item, 1)">+1</button>
                                     </span>
-                                    <span
-                                        *ngIf="!can_Equip(item, inventoryIndex) && !can_Invest(item, inventoryIndex) && !item.can_Stack()">
+                                    <span *ngIf="!can_Equip(item, inventoryIndex) && !can_Invest(item, inventoryIndex) && !item.can_Stack()">
                                         &nbsp;
                                         <!-- This span is a placeholder that appears if no other button is valid on the left side of the Drop button -->
                                     </span>
@@ -271,7 +210,7 @@
                                         </button>
                                     </span>
                                 </div>
-                                <div class="row" *ngIf="get_Price(item) && item.tradeable">
+                                <div class="newrow" *ngIf="get_Price(item) && item.tradeable">
                                     <span *ngIf="item.can_Stack()">
                                         <button (click)="onAmountChange(item, -1, true)" title="Sell at half price"
                                             [disabled]="item.amount <= 0 || item.broken || item.shoddy">Sell 1</button>
@@ -305,12 +244,11 @@
                                         </select>
                                     </span>
                                 </div>
-                                <div class="list-item row left-aligned">
+                                <div class="list-item newrow left-aligned">
                                     <span><input id="{{item.id}}shownotes" type="checkbox"
                                             [(ngModel)]="item.showNotes"><label
                                             for="{{item.id}}shownotes">Notes</label></span>
-                                    <span
-                                        *ngIf="!['Fist','Unarmored'].includes(item.name) && item.baseType == 'Equipment'"><input
+                                    <span *ngIf="!['Fist','Unarmored'].includes(item.name) && item.baseType == 'Equipment'"><input
                                             id="{{item.id}}showstatus" type="checkbox"
                                             [(ngModel)]="item.showStatus"><label
                                             for="{{item.id}}showstatus">Status</label></span>
@@ -323,45 +261,38 @@
                                             for="{{item.id}}showrunes">Runes</label></span>
                                 </div>
                                 <!--Changing Notes-->
-                                <div class="list-item row left-aligned" *ngIf="item.showNotes">
-                                    <span>Notes</span> <input type="textarea" class="fullwidth"
-                                        [(ngModel)]="item.notes">
+                                <div class="list-item newrow left-aligned" *ngIf="item.showNotes">
+                                    <span>Notes</span> <input type="textarea" class="fullwidth" [(ngModel)]="item.notes">
                                 </div>
                                 <!--Changing Status-->
-                                <div class="list-item row left-aligned"
-                                    *ngIf="!['Fist','Unarmored'].includes(item.name) && item.baseType == 'Equipment' && (item.showStatus || item.broken || item.shoddy)">
+                                <div class="list-item newrow left-aligned" *ngIf="!['Fist','Unarmored'].includes(item.name) && item.baseType == 'Equipment' && (item.showStatus || item.broken || item.shoddy)">
                                     <span>Status</span>
-                                    <span
-                                        title="A broken object can't be used for its normal function, nor does it grant bonuses - with the exception of armor. Broken armor still grants its item bonus to AC, but it also imparts a status penalty to AC depending on its category: -1 for broken light armor, -2 for broken medium armor, or -3 for broken heavy armor. A broken item still imposes penalties and limitations normally incurred by carrying, holding, or wearing it. For example, broken armor would still impose its Dexterity modifier cap, check penalty, and so forth.">
+                                    <span title="A broken object can't be used for its normal function, nor does it grant bonuses - with the exception of armor. Broken armor still grants its item bonus to AC, but it also imparts a status penalty to AC depending on its category: -1 for broken light armor, -2 for broken medium armor, or -3 for broken heavy armor. A broken item still imposes penalties and limitations normally incurred by carrying, holding, or wearing it. For example, broken armor would still impose its Dexterity modifier cap, check penalty, and so forth.">
                                         <input id="{{item.id}}broken" type="checkbox" [(ngModel)]="item.broken"
                                             (ngModelChange)=onItemChange(item)
                                             title="{{!get_RepairAllowed(item) ? 'You cannot repair a broken shield unless you restore its hit points above the Broken Threshold.' : ''}}"
                                             [disabled]="!get_RepairAllowed(item)">
                                         <label for="{{item.id}}broken">Broken</label>
                                     </span>
-                                    <span
-                                        title="When available, a shoddy item usually costs half the Price of a standard item, though you can never sell one in any case. Attacks and checks involving a shoddy item take a –2 item penalty. This penalty also applies to any DCs that a shoddy item applies to (such as AC, for shoddy armor). A shoddy suit of armor also worsens the armor's check penalty by 2. A shoddy item's Hit Points and Broken Threshold are each half that of a normal item of its type.">
+                                    <span title="When available, a shoddy item usually costs half the Price of a standard item, though you can never sell one in any case. Attacks and checks involving a shoddy item take a –2 item penalty. This penalty also applies to any DCs that a shoddy item applies to (such as AC, for shoddy armor). A shoddy suit of armor also worsens the armor's check penalty by 2. A shoddy item's Hit Points and Broken Threshold are each half that of a normal item of its type.">
                                         <input id="{{item.id}}shoddy" type="checkbox" [(ngModel)]="item.shoddy"
                                             (ngModelChange)=onItemChange(item)>
                                         <label for="{{item.id}}shoddy">Shoddy</label>
                                     </span>
                                 </div>
                                 <!--Changing Name-->
-                                <div class="list-item row left-aligned" *ngIf="item.showName">
-                                    <span>Name</span> <input type="textarea" class="fullwidth"
-                                        [(ngModel)]="item.displayName" (blur)="onItemChange(item)">
+                                <div class="list-item newrow left-aligned" *ngIf="item.showName">
+                                    <span>Name</span> <input type="textarea" class="fullwidth" [(ngModel)]="item.displayName" (blur)="onItemChange(item)">
                                 </div>
-                                <div class="list-item row" *ngIf="get_LargeWeaponAllowed(item) || item.large">
-                                    <span
-                                        title="You can use a weapon built for a Large creature if you are Small or Medium (both normally and when raging). If you're not Small or Medium, you can use a weapon built for a creature one size larger than you. While wielding the weapon, you have the clumsy 1 condition because of its unwieldy size.">
+                                <div class="list-item newrow" *ngIf="get_LargeWeaponAllowed(item) || item.large">
+                                    <span title="You can use a weapon built for a Large creature if you are Small or Medium (both normally and when raging). If you're not Small or Medium, you can use a weapon built for a creature one size larger than you. While wielding the weapon, you have the clumsy 1 condition because of its unwieldy size.">
                                         <input id="{{item.id}}large" type="checkbox" [(ngModel)]="item.large"
                                             (ngModelChange)=onItemChange(item)>
                                         <label for="{{item.id}}large">Large</label>
                                     </span>
                                 </div>
-                                <div class="list-item row" *ngIf="get_BladeAllyAllowed(item) || item.bladeAlly">
-                                    <span
-                                        title="You can select one weapon or handwraps of mighty blows when you make your daily preparations. In your hands, the item gains the effect of a property rune and you also gain the weapon's critical specialization effect. For a champion following the tenets of good, choose disrupting, ghost touch, returning, or shifting. For a champion following the tenets of evil, choose fearsome, returning, or shifting.">
+                                <div class="list-item newrow" *ngIf="get_BladeAllyAllowed(item) || item.bladeAlly">
+                                    <span title="You can select one weapon or handwraps of mighty blows when you make your daily preparations. In your hands, the item gains the effect of a property rune and you also gain the weapon's critical specialization effect. For a champion following the tenets of good, choose disrupting, ghost touch, returning, or shifting. For a champion following the tenets of evil, choose fearsome, returning, or shifting.">
                                         <input id="{{item.id}}bladeally" type="checkbox" [(ngModel)]="item.bladeAlly"
                                             (ngModelChange)=onItemChange(item)
                                             title="{{(get_BladeAllyUsed() && !item.bladeAlly) ? 'Another item is already designated as your blade ally.' : ''}}"
@@ -371,9 +302,8 @@
                                     <app-itemBladeAlly class="list-item" [item]=item *ngIf="item.bladeAlly">
                                     </app-itemBladeAlly>
                                 </div>
-                                <div class="list-item row" *ngIf="get_BattleforgedAllowed(item) || item.battleforged">
-                                    <span
-                                        title="You can sharpen weapons, polish armor, and apply special techniques to temporarily gain better effects from your armaments. By spending 1 hour working on a weapon or armor, you can grant it the effects of a +1 potency rune until your next daily preparations, gaining a +1 item bonus to attack rolls for a weapon or increasing armor’s item bonus to AC by 1. This has no effect if the weapon or armor already had a potency rune.">
+                                <div class="list-item newrow" *ngIf="get_BattleforgedAllowed(item) || item.battleforged">
+                                    <span title="You can sharpen weapons, polish armor, and apply special techniques to temporarily gain better effects from your armaments. By spending 1 hour working on a weapon or armor, you can grant it the effects of a +1 potency rune until your next daily preparations, gaining a +1 item bonus to attack rolls for a weapon or increasing armor’s item bonus to AC by 1. This has no effect if the weapon or armor already had a potency rune.">
                                         <input id="{{item.id}}battleforged" type="checkbox" [(ngModel)]="item.battleforged"
                                             (ngModelChange)=onItemChange(item)>
                                         <label for="{{item.id}}battleforged">Battleforged</label>
@@ -388,7 +318,7 @@
                                 <app-itemTalismans [item]=item [itemStore]=false *ngIf="can_ApplyTalismans(item)">
                                 </app-itemTalismans>
                                 <ng-container *ngIf="item.type =='shields'">
-                                    <div class="list-item row">
+                                    <div class="list-item newrow">
                                         <strong>HP</strong> <span><input type="number" class="number2"
                                                 [ngModel]="item.get_HitPoints()" disabled></span>
                                         <strong>Max HP</strong> <span><input type="number" class="number2"
@@ -396,7 +326,7 @@
                                         <strong>BT</strong> <span><input type="number" class="number2"
                                                 [ngModel]="item.get_BrokenThreshold()" disabled></span>
                                     </div>
-                                    <div class="list-item row">
+                                    <div class="list-item newrow">
                                         <span>
                                             <button [disabled]="shieldDamage == 0"
                                                 (click)="on_ShieldHPChange(item, shieldDamage)">Damage</button>
@@ -411,9 +341,7 @@
                                         </span>
                                     </div>
                                 </ng-container>
-                                <app-item class="lower" [creature]="creature" [item]=item
-                                    [allowActivate]="(item.equippable ? item.equipped : true) && (item.can_Invest() ? item.invested : true)"
-                                    [armoredSkirt]="item.get_ArmoredSkirt ? item.get_ArmoredSkirt(get_Creature(), characterService) : null">
+                                <app-item class="lower" [creature]="creature" [item]=item [allowActivate]="(item.equippable ? item.equipped : true) && (item.can_Invest() ? item.invested : true)" [armoredSkirt]="item.get_ArmoredSkirt ? item.get_ArmoredSkirt(get_Creature(), characterService) : null">
                                 </app-item>
                             </div>
                         </div>
@@ -422,13 +350,12 @@
             </ng-container>
             <!--Other Items-->
             <h5 class="fullsize-only">Miscellaneous Items</h5>
-            <button class="fullsize-only row center-aligned" (click)="add_NewOtherItem(inventory)">Add</button>
+            <button class="fullsize-only newrow center-aligned" (click)="add_NewOtherItem(inventory)">Add</button>
             <div class="fullsize-only list-item" *ngFor="let item of inventory.otheritems; trackBy:trackByIndex;">
                 <strong>Name</strong>
                 <input type="text" [(ngModel)]="item.name">
                 <strong>Bulk</strong>
-                <input class="number2" [(ngModel)]="item.bulk" (blur)="validate_Bulk(item)"
-                    (keypress)="bulkOnly($event)">
+                <input class="number2" [(ngModel)]="item.bulk" (blur)="validate_Bulk(item)" (keypress)="bulkOnly($event)">
                 <button (click)="remove_OtherItem(item, inventory)">Drop</button>
             </div>
         </div>

@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy, Input } from '@angular/core';
 import { CharacterService } from '../character.service';
 import { TimeService } from '../time.service';
 import { EffectsService } from '../effects.service';
@@ -13,6 +13,12 @@ import { ConditionsService } from '../conditions.service';
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TimeComponent implements OnInit {
+
+    @Input()
+    public showTurn: boolean = true;
+    @Input()
+    public showTime: boolean = true;
+
 
     constructor(
         private changeDetector: ChangeDetectorRef,

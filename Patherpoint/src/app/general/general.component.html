@@ -23,20 +23,17 @@
             <div class="list-item" *ngIf="get_Character().class.ancestry.name">
                 <strong>Ancestry</strong>
                 <span>{{get_Character().class.ancestry.name}}{{(get_Character().class.heritage.name) ? " - " + get_Character().class.heritage.name : ""}}</span>
-                <div class="row left-aligned" *ngIf="get_Character().class.ancestry.traits.length">
-                    <cite class="trait"
-                        *ngFor="let trait of get_CharacterTraits(); trackBy:trackByIndex;">{{trait}}&nbsp;</cite>
+                <div class="newrow left-aligned" *ngIf="get_Character().class.ancestry.traits.length">
+                    <cite class="trait" *ngFor="let trait of get_CharacterTraits(); trackBy:trackByIndex;">{{trait}}&nbsp;</cite>
                 </div>
-                <app-tags [creature]="creature" [objectName]="'Ancestry'" [showTraits]=true [showFeats]=true
-                    [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
+                <app-tags [creature]="creature" [objectName]="'Ancestry'" [showTraits]=true [showFeats]=true [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
             </div>
-            <div class="fullsize-only list-item"
-                *ngIf="get_Character().class.background && get_Character().class.background.name">
+            <div class="fullsize-only list-item" *ngIf="get_Character().class.background && get_Character().class.background.name">
                 <strong>Background</strong>
                 <span>{{get_Character().class.background.name}}</span>
             </div>
             <div class="fullsize-only list-item" *ngIf="get_Character().class.name">
-                <div class="row" *ngFor="let specialization of get_ClassChoices(); trackBy:trackByIndex;">
+                <div class="newrow" *ngFor="let specialization of get_ClassChoices(); trackBy:trackByIndex;">
                     <strong>{{specialization.name}}</strong>
                     <span>{{specialization.choice}}</span>
                 </div>
@@ -44,40 +41,34 @@
             <div class="fullsize-only list-item" *ngIf="get_Character().class.ancestry.name">
                 <strong>Size</strong>
                 <span>{{get_Size()}}</span>
-                <app-tags [creature]="creature" [objectName]="'Size'" [showTraits]=true [showFeats]=true
-                    [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
+                <app-tags [creature]="creature" [objectName]="'Size'" [showTraits]=true [showFeats]=true [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
             </div>
             <div class="fullsize-only list-item" *ngIf="get_Character().alignment && get_Character().alignment.length">
                 <strong>Alignment</strong>
                 <span>{{get_Character().alignment}}</span>
-                <app-tags [creature]="creature" [objectName]="'Alignment'" [showTraits]=true [showFeats]=true
-                    [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
+                <app-tags [creature]="creature" [objectName]="'Alignment'" [showTraits]=true [showFeats]=true [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
             </div>
             <div class="fullsize-only list-item" *ngIf="get_Character().class.deity">
                 <strong>Deity</strong>
                 <span>{{get_Character().class.deity}}</span>
             </div>
-            <div class="fullsize-only list-item"
-                *ngIf="get_Character().class.ancestry.languages && get_Character().class.ancestry.languages.length">
+            <div class="fullsize-only list-item" *ngIf="get_Character().class.ancestry.languages && get_Character().class.ancestry.languages.length">
                 <strong>Languages</strong>
                 <span>{{get_Languages()}}</span>
-                <app-tags [creature]="creature" [objectName]="'Languages'" [showTraits]=true [showFeats]=true
-                    [showItems]=true [showActivities]=true [showConditions]=true></app-tags>
+                <app-tags [creature]="creature" [objectName]="'Languages'" [showTraits]=true [showFeats]=true [showItems]=true [showActivities]=true [showConditions]=true></app-tags>
             </div>
-            <div class="fullsize-only list-item"
-                *ngIf="get_Tenets().length">
+            <div class="fullsize-only list-item" *ngIf="get_Tenets().length">
                 <strong>Tenets</strong>
-                <div class="row">
-                    <ul >
+                <div class="newrow">
+                    <ul>
                         <li *ngFor="let tenet of get_Tenets(); trackBy:trackByIndex;">{{tenet}}</li>
                     </ul>
                 </div>
             </div>
-            <div class="fullsize-only list-item"
-                *ngIf="get_Anathema().length">
+            <div class="fullsize-only list-item" *ngIf="get_Anathema().length">
                 <strong>Anathema</strong>
-                <div class="row">
-                    <ul >
+                <div class="newrow">
+                    <ul>
                         <li *ngFor="let anathema of get_Anathema(); trackBy:trackByIndex;">{{anathema}}</li>
                     </ul>
                 </div>
@@ -88,12 +79,10 @@
             </div>
         </ng-container>
         <ng-container *ngIf="creature=='Companion'">
-            <div class="row left-aligned tags" *ngIf="get_Companion().class.ancestry.name">
-                <cite class="trait" *ngFor="let trait of get_Companion().class.ancestry.traits; trackBy:trackByIndex;"
-                    title="{{get_Traits(trait)[0].desc}}">{{trait}}</cite>
+            <div class="newrow left-aligned tags" *ngIf="get_Companion().class.ancestry.name">
+                <cite class="trait" *ngFor="let trait of get_Companion().class.ancestry.traits; trackBy:trackByIndex;" title="{{get_Traits(trait)[0].desc}}">{{trait}}</cite>
             </div>
-            <app-tags [creature]="'Character'" [objectName]="'Animal Companion'" [showTraits]=true [showFeats]=true
-                [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
+            <app-tags [creature]="'Character'" [objectName]="'Animal Companion'" [showTraits]=true [showFeats]=true [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
             <div class="fullsize-only list-item">
                 <strong>Companion Name</strong>
                 <span>{{get_Companion().name}}</span>
@@ -109,8 +98,7 @@
             <div class="fullsize-only list-item" *ngIf="get_Companion().class.ancestry.name">
                 <strong>Size</strong>
                 <span>{{get_Size()}}</span>
-                <app-tags [creature]="creature" [objectName]="'Size'" [showTraits]=true [showFeats]=true
-                    [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
+                <app-tags [creature]="creature" [objectName]="'Size'" [showTraits]=true [showFeats]=true [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
             </div>
             <div class="list-item" *ngIf="get_Companion().class.ancestry.name">
                 <strong>Support Benefit</strong>
@@ -118,12 +106,10 @@
             </div>
         </ng-container>
         <ng-container *ngIf="creature=='Familiar'">
-            <div class="row left-aligned tags">
-                <cite class="trait" *ngFor="let trait of get_Familiar().traits; trackBy:trackByIndex;"
-                    title="{{get_Traits(trait)[0].desc}}">{{trait}}</cite>
+            <div class="newrow left-aligned tags">
+                <cite class="trait" *ngFor="let trait of get_Familiar().traits; trackBy:trackByIndex;" title="{{get_Traits(trait)[0].desc}}">{{trait}}</cite>
             </div>
-            <app-tags [creature]="'Character'" [objectName]="'Familiar'" [showTraits]=true [showFeats]=true
-                [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
+            <app-tags [creature]="'Character'" [objectName]="'Familiar'" [showTraits]=true [showFeats]=true [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
             <div class="fullsize-only list-item">
                 <strong>Familiar Name</strong>
                 <span>{{get_Familiar().name}}</span>
@@ -135,17 +121,15 @@
             <div class="fullsize-only list-item">
                 <strong>Size</strong>
                 <span>{{get_Size()}}</span>
-                <app-tags [creature]="creature" [objectName]="'Size'" [showTraits]=true [showFeats]=true
-                    [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
+                <app-tags [creature]="creature" [objectName]="'Size'" [showTraits]=true [showFeats]=true [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
             </div>
             <h5>Familiar Abilities</h5>
             <div class="list-item" *ngFor="let ability of get_Familiar().abilities.feats; trackBy:trackByIndex;">
                 <strong>{{ability.name}}</strong>
-                <div class="row left-aligned tags">
-                    <cite class="trait" *ngFor="let trait of get_FamiliarAbilities(ability.name)[0].traits; trackBy:trackByIndex;"
-                        title="{{get_Traits(trait).length ? get_Traits(trait)[0].desc : ''}}">{{trait}}</cite>
+                <div class="newrow left-aligned tags">
+                    <cite class="trait" *ngFor="let trait of get_FamiliarAbilities(ability.name)[0].traits; trackBy:trackByIndex;" title="{{get_Traits(trait).length ? get_Traits(trait)[0].desc : ''}}">{{trait}}</cite>
                 </div>
-                <div class="row left-aligned">
+                <div class="newrow left-aligned">
                     {{get_FamiliarAbilities(ability.name)[0].desc}}
                 </div>
             </div>

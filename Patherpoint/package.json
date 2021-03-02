@@ -20,6 +20,8 @@
     "@angular/platform-browser": "~11.1.2",
     "@angular/platform-browser-dynamic": "~11.1.2",
     "@angular/router": "~11.1.2",
+    "@ng-bootstrap/ng-bootstrap": "^9.0.2",
+    "bootstrap": "^4.5.0",
     "concurrently": "^5.3.0",
     "gzip-js": "^0.3.2",
     "lodash": "^4.17.20",

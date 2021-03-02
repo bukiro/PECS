@@ -1,10 +1,8 @@
 <!--Changing Aeon Stones-->
-<div class="row" *ngFor="let index of get_Slots(); trackBy:trackByIndex;">
+<div class="newrow" *ngFor="let index of get_Slots(); trackBy:trackByIndex;">
     <strong *ngIf="index == 0">Aeon Stones</strong>
     <span *ngIf="index != 0">&nbsp;</span>
-    <select [(ngModel)]="newAeonStone[index]"
-        (change)="add_AeonStone(index)"
-        [disabled]="!item.aeonStones[index-1] && index > 0">
+    <select [(ngModel)]="newAeonStone[index]" (change)="add_AeonStone(index)" [disabled]="!item.aeonStones[index-1] && index > 0">
         <ng-container *ngFor="let stone of get_InitialAeonStones(index); let initialStoneIndex = index; trackBy:trackByIndex;">
             <option [ngValue]="stone" *ngIf="initialStoneIndex == 0">
                 

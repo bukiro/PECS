@@ -6,7 +6,7 @@
         <ng-container *ngIf="!get_Minimized()">
             <div class="list-item" *ngFor="let $ability of get_Abilities(); trackBy:trackByIndex;">
                 <ng-container *ngFor="let ability of [$ability.calculate(get_Creature(), characterService, effectsService)]; trackBy:trackByIndex;">
-                    <div class="row">
+                    <div class="newrow">
                         <strong>{{ability.name}}</strong>
                         <span>
                             <input class="number2" type="number"
@@ -20,15 +20,14 @@
                                 title="{{ability.$mod[get_CalculatedIndex()].explain}}" value="{{ability.$mod[get_CalculatedIndex()].result}}" disabled>
                         </span>
                     </div>
-                    <app-tags class="row tags" [creature]="creature" [objectName]=ability.name [showTraits]=true
-                        [showFeats]=true [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true>
+                    <app-tags class="newrow tags" [creature]="creature" [objectName]=ability.name [showTraits]=true [showFeats]=true [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true>
                     </app-tags>
-                </ng-container> 
+                </ng-container>
             </div>
         </ng-container>
         <ng-container *ngIf="get_Minimized()">
             <div class="list-item" *ngFor="let subset of [1,2]; trackBy:trackByIndex;">
-            <span *ngFor="let $ability of get_Abilities(subset); let index = index; trackBy:trackByIndex;">
+                <span *ngFor="let $ability of get_Abilities(subset); let index = index; trackBy:trackByIndex;">
                 <ng-container *ngFor="let ability of [$ability.calculate(get_Creature(), characterService, effectsService)]; trackBy:trackByIndex;">
                     <strong>{{ability.name.substring(0, 3).toUpperCase()}}</strong>&nbsp;
                     <span>
@@ -36,10 +35,10 @@
                             [ngClass]="{'penalty':ability.$modpenalties[get_CalculatedIndex()], 'bonus':ability.$modbonuses[get_CalculatedIndex()], 'absolute':ability.$modabsolutes[get_CalculatedIndex()].length}"    
                             title="{{ability.$mod[get_CalculatedIndex()].explain}}" value="{{ability.$mod[get_CalculatedIndex()].result}}" disabled>
                     </span>
-                </ng-container>
-            </span>
-            </div>
         </ng-container>
+        </span>
+        </div>
+    </ng-container>
     </ng-container>
 </div>
 <div *ngIf="set_Span()"></div>

@@ -113,6 +113,13 @@ The very latest in Assistive Technologies for Dungeon Master (ATDM)
 - [ ] Stretch Goal: Icon-Driven UI with dynamic tooltips (e.g. with bootstrap or material)
 
 Active to-do:
+After installing bootstrap:
+- Find a solution for now-bad-looking headers
+- Separate Conditions and Effects
+- Add Icons for both
+- Minimized version with icons only, maximized with text
+- Implement bootstrap tooltips instead of titles
+- Implement full information in tooltips after time
 
 Implement:
 

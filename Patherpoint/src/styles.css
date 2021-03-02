@@ -1,4 +1,6 @@
 /* Global Styles */
+
+
 /* Original Angular color: #1976d2 */
 
 body {
@@ -7,6 +9,7 @@ body {
     --textcolor: #616161;
     overflow-y: hidden;
     background-color: #333333;
+    font-size: 14px;
 }
 
 .darkmode {
@@ -22,12 +25,16 @@ body {
     -moz-osx-font-smoothing: grayscale;
 }
 
+
 /* Scrollbar width */
+
 ::-webkit-scrollbar {
     width: 12px;
 }
-  
+
+
 /* Scrollbar Track */
+
 ::-webkit-scrollbar-thumb {
     background: #EFEFEF;
     box-shadow: inset 0 0 5px #A0A0A0;
@@ -37,8 +44,10 @@ body {
 .darkmode ::-webkit-scrollbar-thumb {
     background: #303030;
 }
-  
+
+
 /* Scrollbar Handle */
+
 ::-webkit-scrollbar-track {
     background: #EFEFEF;
     border-radius: 1px;
@@ -76,7 +85,7 @@ svg g {
     height: 100%;
     display: grid;
     grid-gap: 0;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr;
     overflow-y: auto;
     padding-bottom: 8px;
     background-color: white;
@@ -87,6 +96,11 @@ svg g {
     border-radius: 2px;
     margin: 8px;
     position: relative;
+}
+
+.charactersheet-row {
+    grid-column: 1 / span 2;
+    max-height: fit-content;
 }
 
 .charactersheet-column {
@@ -116,9 +130,18 @@ app-familiarabilities.charactersheet-app {
     overflow: visible;
 }
 
-app-time {
-    grid-column: 1 / span 4;
-    position: relative;
+#tabs {
+    grid-row: 1 / 1;
+    width: auto;
+    overflow-y: auto;
+    background-color: #465A8C;
+    background-color: rgb(var(--accent));
+    padding: 8px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    height: fit-content;
 }
 
 app-newItemProperty {
@@ -179,6 +202,7 @@ app-character-sheet {
     grid-template-columns: auto auto;
 }
 
+
 /* Text */
 
 h1 {
@@ -236,7 +260,7 @@ p {
     margin: 8px 0px;
 }
 
-.row>* {
+.newrow>* {
     flex-basis: 0;
     flex-grow: 1;
     text-align: center;
@@ -244,26 +268,26 @@ p {
     margin-bottom: auto;
 }
 
-.row>p {
+.newrow>p {
     margin: 8px 0px;
 }
 
-.row.left-aligned>* {
+.newrow.left-aligned>* {
     flex-basis: initial;
     flex-grow: 0;
     text-align: left;
 }
 
-.row:not(.left-aligned):not(.center-aligned)>*:first-child {
+.newrow:not(.left-aligned):not(.center-aligned)>*:first-child {
     text-align: left;
 }
 
-.row:not(.left-aligned):not(.center-aligned)>*:last-child:not(:first-child) {
+.newrow:not(.left-aligned):not(.center-aligned)>*:last-child:not(:first-child) {
     text-align: right;
     flex-grow: 1;
 }
 
-.row>p:last-child {
+.newrow>p:last-child {
     margin-bottom: 0px;
 }
 
@@ -296,7 +320,8 @@ input[disabled]:not(.bonus):not(.penalty):not(.absolute) {
     background-color: transparent;
 }
 
-.darkmode input:not([disabled]), .darkmode textarea {
+.darkmode input:not([disabled]),
+.darkmode textarea {
     background-color: #202020;
 }
 
@@ -358,7 +383,8 @@ button {
     position: relative;
 }
 
-.darkmode .button, .darkmode button {
+.darkmode .button,
+.darkmode button {
     background-color: #465A8C;
     background-color: rgb(var(--accent));
     color: #CCC;
@@ -386,13 +412,13 @@ button.minimizebutton {
     border-radius: 0;
 }
 
-.button.row:not(:last-child),
-button.row:not(:last-child) {
+.button.newrow:not(:last-child),
+button.newrow:not(:last-child) {
     margin-bottom: 4px;
 }
 
-.button.sublist-toggle.row:not(:last-child),
-button.sublist-toggle.row:not(:last-child) {
+.button.sublist-toggle.newrow:not(:last-child),
+button.sublist-toggle.newrow:not(:last-child) {
     margin-bottom: 0;
 }
 
@@ -417,8 +443,8 @@ button:disabled {
 /* Button Flash */
 
 button:before,
-button ~ .list-item.sublist:before {
-    content:'';
+button~.list-item.sublist:before {
+    content: '';
     position: absolute;
     width: 100%;
     height: 100%;
@@ -433,14 +459,15 @@ button ~ .list-item.sublist:before {
 
 button:not([disabled]):not(:active):before {
     -webkit-animation: flash 0.4s cubic-bezier(0, 0, 0.2, 1);
-            animation: flash 0.4s cubic-bezier(0, 0, 0.2, 1);
+    animation: flash 0.4s cubic-bezier(0, 0, 0.2, 1);
     -webkit-transition: visibility .4s step-end;
-            transition: visibility .4s step-end;
+    transition: visibility .4s step-end;
 }
 
 button:not([disabled]):active:before {
     visibility: visible;
 }
+
 
 /* Fancy Button */
 
@@ -476,7 +503,8 @@ button:not([disabled]):active:before {
     stroke: rgb(var(--accent));
 }
 
-.inactive-button, .darkmode .inactive-button {
+.inactive-button,
+.darkmode .inactive-button {
     background-color: grey;
 }
 
@@ -497,11 +525,11 @@ button:not([disabled]):active:before {
     -webkit-transition: .2s;
     transition: opacity .2s;
 }
-  
+
 .slider:hover {
     opacity: .8;
 }
-  
+
 .slider::-webkit-slider-thumb {
     -webkit-appearance: none;
     appearance: none;
@@ -512,7 +540,7 @@ button:not([disabled]):active:before {
     cursor: pointer;
     content: var(--thumbNumber);
 }
-  
+
 .slider::-moz-range-thumb {
     width: 20px;
     height: 20px;
@@ -520,6 +548,7 @@ button:not([disabled]):active:before {
     background: rgb(var(--accent));
     cursor: pointer;
 }
+
 
 /* Top Bar */
 
@@ -544,7 +573,8 @@ button:not([disabled]):active:before {
     flex-grow: 1;
 }
 
-#top-bar button {
+#top-bar button,
+#tabs button {
     margin-left: 5px;
     margin-right: 5px;
     padding: 8px 16px;
@@ -558,7 +588,8 @@ button:not([disabled]):active:before {
     box-sizing: border-box;
 }
 
-#top-bar.darkmode button {
+#top-bar.darkmode button,
+.darkmode #tabs button {
     border-color: #CCC;
 }
 
@@ -578,30 +609,37 @@ button:not([disabled]):active:before {
     padding: 4px 16px;
 }
 
-app-animal-companion, app-character, app-conditions, app-crafting, app-familiar, app-items, app-spellLibrary, app-spells {
-    position:absolute;
-    left:0;
-    top:0;
-    right:auto;
-    bottom:0;
-    z-index:999;
+app-animal-companion,
+app-character,
+app-conditions,
+app-crafting,
+app-familiar,
+app-items,
+app-spellLibrary,
+app-spells {
+    position: absolute;
+    left: -15px;
+    top: 0;
+    right: auto;
+    bottom: 0;
+    z-index: 999;
     overflow-y: hidden;
     width: 100%;
     max-width: 900px;
 }
 
 app-dice {
-    position:absolute;
-    top:0;
-    left:30%;
-    right:30%;
-    bottom:auto;
-    z-index:999;
+    position: absolute;
+    top: 0;
+    left: 15%;
+    right: 15%;
+    bottom: auto;
+    z-index: 999;
     overflow-x: hidden;
 }
 
 .itemBox {
-    height:100%;
+    height: 100%;
     overflow-y: auto;
     display: flex;
     flex-direction: column;
@@ -629,7 +667,8 @@ app-dice {
     font-size: 200%;
 }
 
-.darkmode .itemBox, .darkmode .diceBox {
+.darkmode .itemBox,
+.darkmode .diceBox {
     background-color: #202020;
 }
 
@@ -677,7 +716,8 @@ app-spellchoice {
     width: 100%;
 }
 
-app-proficiency-form, .row app-proficiency-form {
+app-proficiency-form,
+.newrow app-proficiency-form {
     flex-grow: 0;
     margin-left: 4px;
     margin-right: 4px;
@@ -757,12 +797,13 @@ span {
     background-color: rgba(200, 200, 200, 0.1)
 }
 
-.list-item > *:not(.list-item):not(h3):not(p) {
+.list-item>*:not(.list-item):not(h3):not(p) {
     margin-top: auto;
     margin-bottom: auto;
 }
 
-.list-item.selected, .lower .list-item.selected {
+.list-item.selected,
+.lower .list-item.selected {
     border: 3px solid rgb(var(--accent));
     padding: 1px 5px;
 }
@@ -785,7 +826,8 @@ button.list-item {
     color: rgb(var(--accent));
 }
 
-button.choicecleared::after, .button.choicecleared::after {
+button.choicecleared::after,
+.button.choicecleared::after {
     content: "\2714";
     font-size: 1.2em;
     bottom: 0;
@@ -799,6 +841,7 @@ button.choicecleared::after, .button.choicecleared::after {
     margin-bottom: 2px;
     border-radius: 2px;
 }
+
 
 /*.lower .list-item input {
     margin-bottom: 4px;
@@ -828,15 +871,15 @@ button.choicecleared::after, .button.choicecleared::after {
     background-color: #303030;
 }
 
-.list-item.sublist :not(.list-item) > strong,
-.list-item.sublist :not(.list-item) > span > strong {
+.list-item.sublist :not(.list-item)>strong,
+.list-item.sublist :not(.list-item)>span>strong {
     color: rgb(var(--accent));
     text-shadow: 0 0 2px white, 0 0 2px white, 0 0 2px white, 0 0 2px white, 0 0 2px white;
     text-shadow: 0.05em 0 2px white, 0 0.05em 2px white, -0.05em 0 2px white, 0 -0.05em 2px white, -0.05em -0.05em 2px white, -0.05em 0.05em 2px white, 0.05em -0.05em 2px white, 0.05em 0.05em 2px white;
 }
 
-.darkmode .list-item.sublist :not(.list-item) > strong,
-.darkmode .list-item.sublist :not(.list-item) > span > strong {
+.darkmode .list-item.sublist :not(.list-item)>strong,
+.darkmode .list-item.sublist :not(.list-item)>span>strong {
     text-shadow: 0 0 2px var(--textcolor), 0 0 2px var(--textcolor), 0 0 2px var(--textcolor), 0 0 2px var(--textcolor), 0 0 2px var(--textcolor);
     text-shadow: 0.05em 0 2px var(--textcolor), 0 0.05em 2px var(--textcolor), -0.05em 0 2px var(--textcolor), 0 -0.05em 2px var(--textcolor), -0.05em -0.05em 2px var(--textcolor), -0.05em 0.05em 2px var(--textcolor), 0.05em -0.05em 2px var(--textcolor), 0.05em 0.05em 2px var(--textcolor);
 }
@@ -905,7 +948,7 @@ button:hover~.list-item.sublist.problem {
     margin-bottom: 0;
 }
 
-.row {
+.newrow {
     flex-basis: 100%;
     clear: both;
     display: flex;
@@ -915,11 +958,11 @@ button:hover~.list-item.sublist.problem {
     width: 100%;
 }
 
-.row:not(:first-child):not(:empty):not(.list-item) {
+.newrow:not(:first-child):not(:empty):not(.list-item) {
     margin-top: 4px;
 }
 
-.row.tags:not(:first-child):not(:empty) {
+.newrow.tags:not(:first-child):not(:empty) {
     margin-top: initial;
 }
 
@@ -1014,8 +1057,11 @@ cite.effect.penalty {
     color: #500000;
 }
 
+
 /* add '.darkmode .penalty:not(cite)' only to override the equivalent .bonus and .absolute rules. */
-.darkmode .penalty, .darkmode .penalty:not(cite) {
+
+.darkmode .penalty,
+.darkmode .penalty:not(cite) {
     color: red
 }
 
@@ -1227,21 +1273,21 @@ select option {
 
 @-webkit-keyframes flash {
     0% {
-      opacity: 1;
+        opacity: 1;
     }
     100% {
-      opacity: 0;
+        opacity: 0;
     }
-  }
-   
-  @keyframes flash {
+}
+
+@keyframes flash {
     0% {
-      opacity: 1;
-  }
-    100% {
-      opacity: 0;
+        opacity: 1;
     }
-  }
+    100% {
+        opacity: 0;
+    }
+}
 
 .loading {
     margin: auto;

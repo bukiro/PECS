@@ -1,6 +1,6 @@
 <!--Changing Weapon Runes-->
 <div class="list-item" *ngIf="['weapon', 'armor'].includes(item.moddable) || customItemStore">
-    <div class="row" *ngIf="item.moddable=='weapon' || (customItemStore && item.moddable=='-' && item.constructor.name == 'Weapon')">
+    <div class="newrow" *ngIf="item.moddable=='weapon' || (customItemStore && item.moddable=='-' && item.constructor.name == 'Weapon')">
         <strong>Potency rune</strong>
         <ng-container *ngFor="let previousRune of [item.potencyRune]; trackBy:trackByIndex;">
             <select [(ngModel)]="item.potencyRune" (ngModelChange)="on_WeaponRuneChange('potency', previousRune)">
@@ -10,7 +10,7 @@
             </select>
         </ng-container>
     </div>
-    <div class="row" *ngIf="item.moddable=='armor' || (customItemStore && item.moddable=='-' && item.constructor.name == 'Armor')">
+    <div class="newrow" *ngIf="item.moddable=='armor' || (customItemStore && item.moddable=='-' && item.constructor.name == 'Armor')">
         <strong>Potency rune</strong>
         <ng-container *ngFor="let previousRune of [item.potencyRune]; trackBy:trackByIndex;">
             <select [(ngModel)]="item.potencyRune" (ngModelChange)="on_ArmorRuneChange('potency', previousRune)">
@@ -20,7 +20,7 @@
             </select>
         </ng-container>
     </div>
-    <div class="row" *ngIf="item.potencyRune > 0 && (item.moddable=='weapon' || (customItemStore && item.moddable=='-' && item.constructor.name == 'Weapon'))">
+    <div class="newrow" *ngIf="item.potencyRune > 0 && (item.moddable=='weapon' || (customItemStore && item.moddable=='-' && item.constructor.name == 'Weapon'))">
         <strong>Striking rune</strong>
         <ng-container *ngFor="let previousRune of [item.strikingRune]; trackBy:trackByIndex;">
             <select [(ngModel)]="item.strikingRune" (ngModelChange)="on_WeaponRuneChange('striking', previousRune)">
@@ -30,7 +30,7 @@
             </select>
         </ng-container>
     </div>
-    <div class="row" *ngIf="item.potencyRune > 0 && (item.moddable=='armor' || (customItemStore && item.moddable=='-' && item.constructor.name == 'Armor'))">
+    <div class="newrow" *ngIf="item.potencyRune > 0 && (item.moddable=='armor' || (customItemStore && item.moddable=='-' && item.constructor.name == 'Armor'))">
         <strong>Resilient rune</strong>
         <ng-container *ngFor="let previousRune of [item.resilientRune]; trackBy:trackByIndex;">
             <select [(ngModel)]="item.resilientRune" (ngModelChange)="on_ArmorRuneChange('resilient', previousRune)">
@@ -41,12 +41,10 @@
         </ng-container>
     </div>
     <ng-container *ngIf="item.potencyRune > 0 && (item.moddable=='weapon' || (customItemStore && item.moddable=='-' && item.constructor.name == 'Weapon'))">
-        <div class="row" *ngFor="let index of get_PropertyRunes(); trackBy:trackByIndex;">
+        <div class="newrow" *ngFor="let index of get_PropertyRunes(); trackBy:trackByIndex;">
             <strong *ngIf="index == 0">Property runes</strong>
             <span *ngIf="index != 0">&nbsp;</span>
-            <select [(ngModel)]="newPropertyRune[index]"
-                (ngModelChange)="add_WeaponPropertyRune(index)"
-                [disabled]="!item.propertyRunes[index-1] && index > 0">
+            <select [(ngModel)]="newPropertyRune[index]" (ngModelChange)="add_WeaponPropertyRune(index)" [disabled]="!item.propertyRunes[index-1] && index > 0">
                 <ng-container *ngFor="let rune of get_InitialPropertyRunes(index); let initialRuneIndex = index; trackBy:trackByIndex;">
                     <option [ngValue]="rune" *ngIf="initialRuneIndex == 0" [selected]=!item.propertyRunes[index]>
                         <!--Blank option to deselect-->
@@ -69,12 +67,10 @@
         </div>
     </ng-container>
     <ng-container *ngIf="item.potencyRune > 0 && (item.moddable=='armor' || (customItemStore && item.moddable=='-' && item.constructor.name == 'Armor'))">
-        <div class="row" *ngFor="let index of get_PropertyRunes(); trackBy:trackByIndex;">
+        <div class="newrow" *ngFor="let index of get_PropertyRunes(); trackBy:trackByIndex;">
             <strong *ngIf="index == 0">Property runes</strong>
             <span *ngIf="index != 0">&nbsp;</span>
-            <select [(ngModel)]="newPropertyRune[index]"
-                (ngModelChange)="add_ArmorPropertyRune(index)"
-                [disabled]="!item.propertyRunes[index-1] && index > 0">
+            <select [(ngModel)]="newPropertyRune[index]" (ngModelChange)="add_ArmorPropertyRune(index)" [disabled]="!item.propertyRunes[index-1] && index > 0">
                 <ng-container *ngFor="let rune of get_InitialPropertyRunes(index); let initialRuneIndex = index; trackBy:trackByIndex;">
                     <option [ngValue]="rune" *ngIf="initialRuneIndex == 0" [selected]=!item.propertyRunes[index]>
                         <!--Blank option to deselect-->

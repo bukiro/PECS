@@ -1,4 +1,4 @@
-<div class="row left-aligned">
+<div class="newrow left-aligned">
     <span>
         <strong [ngClass]="condition.buff ? 'bonus' : 'penalty'"
             title="Source: {{conditionGain.source}}">{{conditionGain.name}}{{conditionGain.choice ? ": " : ""}}
@@ -20,17 +20,15 @@
             *ngIf="conditionGain.duration > -1 || conditionGain.value">&#9881;</label>
     </span>
 </div>
-<div class="row left-aligned lower fullsize-only">
+<div class="newrow left-aligned lower fullsize-only">
     <span>{{(conditionGain.heightened) ? "Spell level " + conditionGain.heightened + "; " :
-        ""}}{{get_Duration(conditionGain.duration)}}</span><span *ngIf="conditionGain.persistent"
-        title="This condition will remain if its source is removed.">,
+        ""}}{{get_Duration(conditionGain.duration)}}</span><span *ngIf="conditionGain.persistent" title="This condition will remain if its source is removed.">,
         persistent</span>
 </div>
-<div class="row fullsize-only" *ngIf="conditionGain.nextStage && conditionGain.nextStage != -1">
+<div class="newrow fullsize-only" *ngIf="conditionGain.nextStage && conditionGain.nextStage != -1">
     <span>Affliction onset: {{get_Duration(conditionGain.nextStage)}}</span>
 </div>
-<div class="row list-item fullsize-only"
-    *ngIf="conditionGain.showChoices && condition.choices.length && !conditionGain.choiceLocked">
+<div class="newrow list-item fullsize-only" *ngIf="conditionGain.showChoices && condition.choices.length && !conditionGain.choiceLocked">
     <span *ngFor="let oldChoice of [conditionGain.choice]">Effect selection:
         <select [(ngModel)]="conditionGain.choice"
             (ngModelChange)="change_ConditionChoice(conditionGain, condition, oldChoice)">
@@ -40,51 +38,49 @@
         </select>
     </span>
 </div>
-<div class="row list-item fullsize-only" *ngIf="conditionGain.showChoices && condition.name == 'Persistent Damage'">
+<div class="newrow list-item fullsize-only" *ngIf="conditionGain.showChoices && condition.name == 'Persistent Damage'">
     <span>
         Damage type and amount: <input type="text" name="persistentDamage" [(ngModel)]="conditionGain.choice"
             maxLength="30">
     </span>
 </div>
-<div class="fullsize-only list-item row" *ngIf="conditionGain.showNotes">
+<div class="fullsize-only list-item newrow" *ngIf="conditionGain.showNotes">
     <span>
         <strong>Notes</strong>
         <input type="textarea" class="fullwidth" [(ngModel)]="conditionGain.notes">
     </span>
 </div>
-<div class="row list-item fullsize-only" *ngIf="conditionGain.showVariables && conditionGain.duration > -1">
-    <div class="row fullsize-only"><strong>Change Duration</strong></div>
-    <div class="row fullsize-only">
+<div class="newrow list-item fullsize-only" *ngIf="conditionGain.showVariables && conditionGain.duration > -1">
+    <div class="newrow fullsize-only"><strong>Change Duration</strong></div>
+    <div class="newrow fullsize-only">
         <span><button (click)="change_ConditionDuration(conditionGain, condition, 10)">+ 1 turn</button></span>
         <span><button (click)="change_ConditionDuration(conditionGain, condition, 100)">+ 1 min.</button></span>
         <span><button (click)="change_ConditionDuration(conditionGain, condition, 1000)">+ 10 min.</button></span>
         <span><button (click)="change_ConditionDuration(conditionGain, condition, 6000)">+ 1 hour</button></span>
     </div>
-    <div class="row fullsize-only">
+    <div class="newrow fullsize-only">
         <span><button (click)="change_ConditionDuration(conditionGain, condition, -10)">- 1 turn</button></span>
         <span><button (click)="change_ConditionDuration(conditionGain, condition, -100)">- 1 min.</button></span>
         <span><button (click)="change_ConditionDuration(conditionGain, condition, -1000)">- 10 min.</button></span>
         <span><button (click)="change_ConditionDuration(conditionGain, condition, -6000)">- 1 hour</button></span>
     </div>
 </div>
-<div class="row list-item fullsize-only" *ngIf="conditionGain.showVariables && conditionGain.value">
-    <div class="row fullsize-only"><strong>Change Value</strong></div>
-    <div class="row fullsize-only">
+<div class="newrow list-item fullsize-only" *ngIf="conditionGain.showVariables && conditionGain.value">
+    <div class="newrow fullsize-only"><strong>Change Value</strong></div>
+    <div class="newrow fullsize-only">
         <span><button (click)="change_ConditionValue(conditionGain, -1)">Value - 1</button></span>
         <span><button (click)="change_ConditionValue(conditionGain, 1)">Value + 1</button></span>
     </div>
 </div>
-<div class="row">
-    <div class="list-item lower row problem"
-        *ngIf="conditionGain.nextStage == -1 && (condition.previousCondition || condition.nextCondition)">
+<div class="newrow">
+    <div class="list-item lower newrow problem" *ngIf="conditionGain.nextStage == -1 && (condition.previousCondition || condition.nextCondition)">
         <strong>Affliction onset reached</strong>
-        <div class="row left-aligned">
-            <p>Make {{condition.traits.includes("Virulent") ? "two saving throws" : "a saving throw"}} to
-                determine the next stage of the affliction.</p>
+        <div class="newrow left-aligned">
+            <p>Make {{condition.traits.includes("Virulent") ? "two saving throws" : "a saving throw"}} to determine the next stage of the affliction.</p>
         </div>
     </div>
 </div>
-<div class="row fullsize-only" *ngIf="condition.previousCondition || condition.nextCondition">
+<div class="newrow fullsize-only" *ngIf="condition.previousCondition || condition.nextCondition">
     <span *ngIf="!condition.previousCondition"><button
             (click)="remove_Condition(conditionGain)">{{conditionGain.nextStage == -1 ? "Success: " :
             ""}}Recover</button></span>
@@ -101,11 +97,10 @@
             ""}}Remain
             at this stage</button></span>
 </div>
-<div class="row fullsize-only">
-    <div class="list-item lower row problem"
-        *ngIf="condition.inputRequired && !conditionGain.acknowledgedInputRequired">
+<div class="newrow fullsize-only">
+    <div class="list-item lower newrow problem" *ngIf="condition.inputRequired && !conditionGain.acknowledgedInputRequired">
         <strong>Player input required:</strong>
-        <div class="row left-aligned">
+        <div class="newrow left-aligned">
             <p *ngFor="let inputRequired of condition.inputRequired.split('\n'); trackBy:trackByIndex;">
                 {{inputRequired}}
             </p>
@@ -114,7 +109,7 @@
             OK
         </button>
     </div>
-    <div class="row">
+    <div class="newrow">
         <span>
             <button (click)="remove_Condition(conditionGain)"
                 title="{{conditionGain.source.includes('Feat: ') ? 'Conditions gained from feats cannot be removed.' : ''}}"
@@ -135,7 +130,7 @@
         </span>
     </div>
     <ng-container *ngIf="get_ShowItem()==conditionGain.id+'description'">
-        <div class="row  lower left-aligned" *ngFor="let desc of condition.desc.split('\n\n'); trackBy:trackByIndex;">
+        <div class="newrow  lower left-aligned" *ngFor="let desc of condition.desc.split('\n\n'); trackBy:trackByIndex;">
             <p *ngIf="desc.split('\n').length == 1" [innerHTML]="desc"></p>
             <ul *ngIf="desc.split('\n').length > 1">
                 <li *ngFor="let line of desc.split('\n'); trackBy:trackByIndex;" [innerHTML]="line"></li>

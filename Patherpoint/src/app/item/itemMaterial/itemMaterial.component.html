@@ -1,10 +1,9 @@
 <!--Changing Weapon Material-->
 <div class="list-item" *ngIf="['weapon', 'armor'].includes(item.moddable) || customItemStore">
     <ng-container *ngIf="item.material && ((item.moddable=='weapon' && item.constructor.name == 'Weapon') || (customItemStore && item.moddable=='-' && item.constructor.name == 'Weapon'))">
-        <div class="row">
+        <div class="newrow">
             <strong>Material</strong>
-            <select [(ngModel)]="newWeaponMaterial[0]"
-                (ngModelChange)="add_WeaponMaterial()">
+            <select [(ngModel)]="newWeaponMaterial[0]" (ngModelChange)="add_WeaponMaterial()">
                 <ng-container *ngFor="let material of get_InitialWeaponMaterials(); let initialRuneIndex = index; trackBy:trackByIndex;">
                     <option [ngValue]="material" *ngIf="initialRuneIndex == 0" [selected]=!item.material[0]>
                         
@@ -25,7 +24,7 @@
         </div>
         <ng-container *ngIf="craftingStation">
             <ng-container *ngFor="let material of item.material">
-                <div class="row" *ngIf="material.craftRequirement">
+                <div class="newrow" *ngIf="material.craftRequirement">
                     <span>
                         <strong>Craft Requirement&nbsp;</strong>
                         <span>{{material.craftRequirement}}</span>

@@ -1,20 +1,16 @@
-<div class="row left-aligned tags"
-    *ngIf="(item.get_Traits ? item.get_Traits(characterService, get_Creature()) : item.traits).length">
-    <cite class="trait"
-        *ngFor="let trait of (item.get_Traits ? item.get_Traits(characterService, get_Creature()) : item.traits); trackBy:trackByIndex;"
-        title="{{get_Traits(trait)[0].desc}}">{{trait}}</cite>
+<div class="newrow left-aligned tags" *ngIf="(item.get_Traits ? item.get_Traits(characterService, get_Creature()) : item.traits).length">
+    <cite class="trait" *ngFor="let trait of (item.get_Traits ? item.get_Traits(characterService, get_Creature()) : item.traits); trackBy:trackByIndex;" title="{{get_Traits(trait)[0].desc}}">{{trait}}</cite>
 </div>
-<div class="row left-aligned tags">
-    <app-tags [creature]="creature" [objectName]="item.name" [showTraits]=true [showFeats]=true [showItems]=true
-        [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
+<div class="newrow left-aligned tags">
+    <app-tags [creature]="creature" [objectName]="item.name" [showTraits]=true [showFeats]=true [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
 </div>
-<div class="row left-aligned" *ngIf="item.sourceBook">
+<div class="newrow left-aligned" *ngIf="item.sourceBook">
     <span>
         <strong>Source</strong>
         <i>&nbsp;{{item.sourceBook}}</i>
     </span>
 </div>
-<div class="row left-aligned">
+<div class="newrow left-aligned">
     <span *ngIf="item.price">
         <strong>Price</strong>
         {{get_Price(item)}}{{item.stack && item.stack > 1 ? " per "+item.stack : ""}}&nbsp;
@@ -86,14 +82,12 @@
             [ngClass]="{'penalty':(item.get_MaxHP() < item.hitpoints), 'bonus':(item.get_MaxHP() > item.hitpoints)}">&nbsp;{{item.get_MaxHP
             ? item.get_MaxHP() : item.hitpoints}}
         </span>
-        <span *ngIf="item.brokenThreshold"
-            [ngClass]="{'penalty':(item.get_BrokenThreshold() < item.brokenThreshold), 'bonus':(item.get_BrokenThreshold() > item.brokenThreshold)}">({{item.get_BrokenThreshold
+    <span *ngIf="item.brokenThreshold" [ngClass]="{'penalty':(item.get_BrokenThreshold() < item.brokenThreshold), 'bonus':(item.get_BrokenThreshold() > item.brokenThreshold)}">({{item.get_BrokenThreshold
             ? item.get_BrokenThreshold() : item.brokenThreshold}})
-        </span>
-        &nbsp;
+        </span> &nbsp;
     </span>
 </div>
-<div class="row left-aligned">
+<div class="newrow left-aligned">
     <span *ngIf="item.hands">
         <strong>Hands</strong>
         {{item.hands}}&nbsp;
@@ -107,7 +101,7 @@
         {{item.reload}}&nbsp;
     </span>
 </div>
-<div class="row left-aligned">
+<div class="newrow left-aligned">
     <p *ngIf="(item.activationType || (item.actions && item.actions != ' ')) && (!item.trigger && !item.requirements)">
         <strong>Activate</strong>
         <app-actionIcons [actionString]="item.actions">
@@ -130,14 +124,14 @@
         </span>
     </p>
 </div>
-<div class="row left-aligned">
+<div class="newrow left-aligned">
     <span *ngIf="item.ammunition">
         <strong>Ammunition</strong>
         {{item.ammunition}}&nbsp;
     </span>
 </div>
-<div class="row left-aligned">
-    <hr class="row">
+<div class="newrow left-aligned">
+    <hr class="newrow">
     <ng-container *ngFor="let desc of item.desc.split('\n\n'); trackBy:trackByIndex;">
         <p *ngIf="desc.split('\n').length == 1">{{desc}}</p>
         <ul *ngIf="desc.split('\n').length > 1">
@@ -150,12 +144,10 @@
         </p>
     </ng-container>
     <p *ngIf="item.benefit">
-        <strong>Benefit</strong>
-        {{item.benefit}}
+        <strong>Benefit</strong> {{item.benefit}}
     </p>
     <p *ngIf="item.drawback">
-        <strong>Drawback</strong>
-        {{item.drawback}}
+        <strong>Drawback</strong> {{item.drawback}}
     </p>
     <p *ngIf="item.savingThrow || item.maxDuration || item.stages?.length">
         <span *ngIf="item.savingThrow"><strong>Saving Throw&nbsp;</strong>{{item.savingThrow}}&nbsp;</span>
@@ -181,41 +173,35 @@
         </span>
     </p>
     <p *ngIf="item.subType">
-        <strong>{{item.subType}}</strong>
-        {{item.subTypeDesc}}
+        <strong>{{item.subType}}</strong> {{item.subTypeDesc}}
     </p>
     <p *ngIf="item.craftRequirement">
-        <strong>Craft Requirement</strong>
-        {{item.craftRequirement}}
+        <strong>Craft Requirement</strong> {{item.craftRequirement}}
     </p>
     <p *ngIf="item.critsuccess">
-        <strong>Critical Success</strong>
-        {{item.critsuccess}}
+        <strong>Critical Success</strong> {{item.critsuccess}}
     </p>
     <p *ngIf="item.success">
-        <strong>Success</strong>
-        {{item.success}}
+        <strong>Success</strong> {{item.success}}
     </p>
     <p *ngIf="item.failure">
-        <strong>Failure</strong>
-        {{item.failure}}
+        <strong>Failure</strong> {{item.failure}}
     </p>
     <p *ngIf="item.critfailure">
-        <strong>Critical Failure</strong>
-        {{item.critfailure}}
+        <strong>Critical Failure</strong> {{item.critfailure}}
     </p>
-    <div class="list-item row problem" *ngIf="item.inputRequired">
+    <div class="list-item newrow problem" *ngIf="item.inputRequired">
         <strong>Player input required:</strong>
-        <div class="row left-aligned">
+        <div class="newrow left-aligned">
             <p *ngFor="let inputRequired of item.inputRequired.split('\n'); trackBy:trackByIndex;">
                 {{inputRequired}}
             </p>
         </div>
     </div>
 </div>
-<div class="row" *ngIf="item.isDoublingRings && !itemStore">
+<div class="newrow" *ngIf="item.isDoublingRings && !itemStore">
     <h4>Doubling Rings</h4>
-    <div class="row">
+    <div class="newrow">
         <strong>Weapon wielded in the gold ring hand</strong>
         <select [(ngModel)]="item.data[0].value" (ngModelChange)="on_DoublingRingsChange()">
             <option *ngFor="let weapon of get_DoublingRingsOptions('gold'); trackBy:trackByIndex;"
@@ -223,7 +209,7 @@
                 {{weapon.get_Name()}}</option>
         </select>
     </div>
-    <div class="row">
+    <div class="newrow">
         <strong>Weapon wielded in the iron ring hand</strong>
         <select [(ngModel)]="item.data[1].value" (ngModelChange)="on_DoublingRingsChange()">
             <option *ngFor="let weapon of get_DoublingRingsOptions('iron'); trackBy:trackByIndex;"
@@ -231,7 +217,7 @@
                 {{weapon.get_Name()}}</option>
         </select>
     </div>
-    <div class="row" *ngIf="item.isDoublingRings == 'Doubling Rings (Greater)'">
+    <div class="newrow" *ngIf="item.isDoublingRings == 'Doubling Rings (Greater)'">
         <strong>Apply property runes</strong>
         <input type="checkbox" [(ngModel)]="item.data[2]" (ngModelChange)="on_DoublingRingsChange()">
     </div>
@@ -239,7 +225,8 @@
 <app-itemAeonStones class="list-item" [item]=item [itemStore]=itemStore *ngIf="item.isWayfinder"></app-itemAeonStones>
 <div class="list-item left-aligned" *ngFor="let cast of item.castSpells; trackBy:trackByIndex;">
     <div *ngFor="let spell of get_Spells(cast.name); trackBy:trackByIndex;">
-        <h4>{{spell.name}}<app-actionIcons [actionString]="spell.actions">
+        <h4>{{spell.name}}
+            <app-actionIcons [actionString]="spell.actions">
             </app-actionIcons> {{spell.castType.toString()}}</h4>
         <app-spell [spell]=spell [spellLevel]="(cast.level) ? cast.level : 0"></app-spell>
     </div>
@@ -264,7 +251,8 @@
 <div class="list-item left-aligned" *ngFor="let choice of get_StoredSpellsTaken(item); trackBy:trackByIndex;">
     <ng-container *ngFor="let taken of choice.spells; trackBy:trackByIndex;">
         <div *ngFor="let spell of get_Spells(taken.name); trackBy:trackByIndex;">
-            <h4>{{spell.name}}<app-actionIcons [actionString]="spell.actions">
+            <h4>{{spell.name}}
+                <app-actionIcons [actionString]="spell.actions">
                 </app-actionIcons> {{spell.castType.toString()}}</h4>
             <app-spell [spell]=spell [spellLevel]="(taken.level) ? taken.level : (choice.level ? choice.level : 0)"></app-spell>
         </div>
@@ -273,27 +261,28 @@
 
 <div class="list-item left-aligned" *ngFor="let activity of item.activities; trackBy:trackByIndex;">
     <h4 *ngIf="activity.name">
-        {{activity.name}}<app-actionIcons [actionString]="activity.actions">
+        {{activity.name}}
+        <app-actionIcons [actionString]="activity.actions">
         </app-actionIcons>{{(activity.activationType) ? activity.activationType : ""}}
     </h4>
-    <app-activity [creature]="creature" [activity]=activity [gain]=activity
-        [allowActivate]="allowActivate && !item.broken && (activity.resonant ? isSubItem : true)" [isSubItem]=isSubItem>
+    <app-activity [creature]="creature" [activity]=activity [gain]=activity [allowActivate]="allowActivate && !item.broken && (activity.resonant ? isSubItem : true)" [isSubItem]=isSubItem>
     </app-activity>
 </div>
 <ng-container *ngFor="let gain of item.gainActivities; trackBy:trackByIndex;">
     <div class="list-item left-aligned" *ngFor="let activity of get_Activities(gain.name); trackBy:trackByIndex;">
         <h4>
-            {{activity.name}}<app-actionIcons [actionString]="activity.actions">
+            {{activity.name}}
+            <app-actionIcons [actionString]="activity.actions">
             </app-actionIcons>{{(activity.activationType) ? activity.activationType : ""}}
         </h4>
-        <app-activity [creature]="creature" [activity]=activity [gain]=gain [allowActivate]=allowActivate
-            [isSubItem]=isSubItem></app-activity>
+        <app-activity [creature]="creature" [activity]=activity [gain]=gain [allowActivate]=allowActivate [isSubItem]=isSubItem></app-activity>
     </div>
 </ng-container>
 <ng-container *ngFor="let activityName of item.showActivities; trackBy:trackByIndex;">
     <div class="list-item left-aligned" *ngFor="let activity of get_Activities(activityName); trackBy:trackByIndex;">
         <h4>
-            {{activity.name}}<app-actionIcons [actionString]="activity.actions">
+            {{activity.name}}
+            <app-actionIcons [actionString]="activity.actions">
             </app-actionIcons>{{(activity.activationType) ? activity.activationType : ""}}
         </h4>
         <app-activity [creature]="creature" [activity]=activity [gain]=null [allowActivate]=false [isSubItem]=isSubItem>
@@ -306,7 +295,7 @@
 </div>
 <div class="list-item left-aligned" *ngFor="let poison of item.poisonsApplied; trackBy:trackByIndex;">
     <h4>{{poison.name}}</h4>
-    <button class="row left-aligned" (click)="on_PoisonUse(poison)" *ngIf="allowActivate">
+    <button class="newrow left-aligned" (click)="on_PoisonUse(poison)" *ngIf="allowActivate">
         <span>Spend/Remove</span>
     </button>
     <app-item [creature]="creature" [item]=poison [allowActivate]=allowActivate [isSubItem]=true></app-item>
@@ -319,7 +308,7 @@
 <div class="list-item left-aligned" *ngFor="let rune of item.propertyRunes; trackBy:trackByIndex;">
     <h4>{{rune.name}} Rune</h4>
     <ng-container *ngFor="let spell of get_ItemSpell(rune)">
-        <button class="row center-aligned" (click)="on_SpellItemUse(rune)">
+        <button class="newrow center-aligned" (click)="on_SpellItemUse(rune)">
             <span>Use<app-actionIcons [actionString]="spell.actions">
                 </app-actionIcons> (Cast spell)
             </span>
@@ -339,7 +328,7 @@
 </div>
 <div class="list-item left-aligned" *ngFor="let talisman of item.talismans; let index = index; trackBy:trackByIndex;">
     <h4>{{talisman.name}}</h4>
-    <button class="row left-aligned" (click)="on_TalismanUse(talisman, index)" *ngIf="allowActivate">
+    <button class="newrow left-aligned" (click)="on_TalismanUse(talisman, index)" *ngIf="allowActivate">
         <span>Activate<app-actionIcons [actionString]="talisman.actions">
             </app-actionIcons>{{(talisman.activationType) ? talisman.activationType : ""}}
         </span>

@@ -1,11 +1,9 @@
 <!--Changing Talismans-->
 <div class="list-item">
-    <div class="row" *ngFor="let index of get_Slots(); trackBy:trackByIndex;">
+    <div class="newrow" *ngFor="let index of get_Slots(); trackBy:trackByIndex;">
         <strong *ngIf="index == 0">Affix Talisman</strong>
         <span *ngIf="index != 0">&nbsp;</span>
-        <select [(ngModel)]="newTalisman[index]"
-            (change)="add_Talisman(index)"
-            [disabled]="!item.talismans[index-1] && index > 0">
+        <select [(ngModel)]="newTalisman[index]" (change)="add_Talisman(index)" [disabled]="!item.talismans[index-1] && index > 0">
             <ng-container *ngFor="let talisman of get_InitialTalismans(index); let initialTalismanIndex = index; trackBy:trackByIndex;">
                 <option [ngValue]="talisman" *ngIf="initialTalismanIndex == 0">
                     
