@@ -69,6 +69,7 @@ export class Feat {
     public gainSpellChoice: SpellChoice[] = [];
     public hide: boolean = false;
     public hints: Hint[] = [];
+    public readonly internalNote: string = ""
     public levelreq: number = 0;
     public limited: number = 0;
     public lorebase: string = "";
@@ -86,6 +87,7 @@ export class Feat {
     public tenets: string[] = [];
     public traits: string[] = [];
     public unlimited: boolean = false;
+    public usageNote: string = "";
     public sourceBook: string = "";
     public allowSignatureSpells: SignatureSpellGain[] = [];
     public PFSnote: string = "";

@@ -2388,8 +2388,15 @@
         "gainConditions": [
             {
                 "duration": 100,
+                "name": "Undeath's Blessing (Caster)",
+                "source": "Undeath's Blessing",
+                "targetFilter": "caster"
+            },
+            {
+                "duration": 100,
                 "name": "Undeath's Blessing (Willing or Failure)",
-                "source": "Undeath's Blessing"
+                "source": "Undeath's Blessing",
+                "targetFilter": "target"
             }
         ],
         "desc1": [
@@ -3223,7 +3230,7 @@
         ],
         "target": "self",
         "duration": "1 minute",
-        "desc": "You call upon your element to propel you, improving your Speed depending on your element. <var>var1</var>This spell has your element's trait.\n\n<strong>Air</strong> You gain a fly Speed equal to your Speed.\n<strong>Earth</strong> You gain a burrow Speed of 10 feet.\n<strong>Fire</strong> You gain a fly Speed equal to your Speed.\nWater You gain a swim Speed equal to your Speed and can breathe underwater.",
+        "desc": "You call upon your element to propel you, improving your Speed depending on your element. <var>var1</var>This spell has your element's trait.\n\n<strong>Air</strong> You gain a fly Speed equal to your Speed.\n<strong>Earth</strong> You gain a burrow Speed of 10 feet.\n<strong>Fire</strong> You gain a fly Speed equal to your Speed.\n<strong>Water</strong> You gain a swim Speed equal to your Speed and can breathe underwater.",
         "heightened": [
             {
                 "desc": "You also gain a +10-foot status bonus to your Speeds.",
@@ -3662,7 +3669,8 @@
             {
                 "duration": 100,
                 "name": "Swamp of Sloth",
-                "source": "Swamp of Sloth"
+                "source": "Swamp of Sloth",
+                "targetFilter": "caster"
             }
         ],
         "desc3": [
@@ -5343,8 +5351,8 @@
             {
                 "duration": 1000,
                 "heightenedFilter": 8,
-                "source": "Dragon Wings",
-                "targetFilter": "Dragon Wings"
+                "name": "Dragon Wings",
+                "source": "Dragon Wings"
             }
         ],
         "desc5": [
@@ -7993,6 +8001,7 @@
             "Mental",
             "Nonlethal"
         ],
+        "inputRequired": "Change the duration of the Agitate condition according to the target's Will save.",
         "range": "30 feet",
         "targets": "1 creature",
         "singleTarget": true,
@@ -8007,6 +8016,14 @@
             {
                 "desc": "The damage increases by 2d8.",
                 "level": "(+1)"
+            }
+        ],
+        "gainConditions": [
+            {
+                "duration": 10,
+                "name": "Agitate (Caster)",
+                "source": "Agitate",
+                "targetFilter": "caster"
             }
         ],
         "desc1": [
@@ -16744,12 +16761,6 @@
                 "name": "Web (Caster)",
                 "source": "Web",
                 "targetFilter": "caster"
-            },
-            {
-                "duration": 100,
-                "name": "Web",
-                "source": "Web",
-                "targetFilter": "target"
             }
         ],
         "desc2": [

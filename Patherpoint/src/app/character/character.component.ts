@@ -35,6 +35,7 @@ import { FamiliarsService } from '../familiars.service';
 import { Item } from '../Item';
 import { FeatChoice } from '../FeatChoice';
 import { Spell } from '../Spell';
+import { Character } from '../Character';
 
 @Component({
     selector: 'app-character',
@@ -51,6 +52,7 @@ export class CharacterComponent implements OnInit {
     public allowCharacterDelete: Boolean[] = [];
     public adventureBackgrounds: Boolean = true;
     public regionalBackgrounds: Boolean = true;
+    public blankCharacter: Character = new Character();
 
     constructor(
         private changeDetector: ChangeDetectorRef,
@@ -188,6 +190,20 @@ export class CharacterComponent implements OnInit {
 
     save_CharacterToDB() {
         this.characterService.save_Character();
+    }
+
+    get_IsBlankCharacter() {
+        let character = this.get_Character();
+        return (
+            !character.class?.name &&
+            !character.name &&
+            !character.partyName &&
+            !character.experiencePoints &&
+            !character.alignment &&
+            !character.baseValues.length &&
+            character.inventories.length == 1 &&
+            character.inventories[0].allItems().length <= 2
+        )
     }
 
     get_Alignments() {

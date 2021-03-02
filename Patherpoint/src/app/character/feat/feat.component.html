@@ -28,6 +28,10 @@
             <strong>Special</strong>
             {{feat.specialdesc}}
         </p>
+        <p *ngIf="feat.usageNote.length">
+            <strong>Usage note</strong>&nbsp;
+            <span class="problem">{{feat.usageNote}}</span>
+        </p>
     </div>
     <ng-container *ngFor="let name of feat.gainActivities; trackBy:trackByIndex;">
         <div class="row left-aligned" *ngFor="let activity of get_Activities(name); trackBy:trackByIndex;">

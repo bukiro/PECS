@@ -231,7 +231,7 @@ export class ActivityComponent implements OnInit {
         if (this.gain && !this.activity.hideChoices) {
             this.activity.gainConditions
                 .map(conditionGain => { return { gain: conditionGain, condition: this.conditionsService.get_Conditions(conditionGain.name)[0] } })
-                .filter(conditionSet => conditionSet.condition.get_Choices(this.characterService, true, conditionSet.gain.heightened).length > 1)
+                .filter(conditionSet => conditionSet.condition?.get_Choices(this.characterService, true, conditionSet.gain.heightened).length > 1)
                 .map(conditionSet => conditionSet.condition)
                 .forEach((condition, index) => {
                     //Add the condition to the list of conditions that need to display a choice,

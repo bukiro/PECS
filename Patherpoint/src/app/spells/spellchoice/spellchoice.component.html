@@ -11,6 +11,8 @@
                     <span title="Combination spell" *ngIf="choice.spellCombinationAllowed">&#8853;&nbsp;</span>
                     <span title="Infinite Possibilities spell"
                         *ngIf="is_InfinitePossibilitiesSpell(choice)">&#9883;&nbsp;</span>
+                    <span title="Signature spell"
+                        *ngIf="has_SignatureSpell(signatureSpellsAllowed)">&#9733;&nbsp;</span>
                     <span title="Crossblooded Evolution spell"
                         *ngIf="choice.crossbloodedEvolution">&#10086;&nbsp;</span>
                     {{itemSpell || choice.showOnSheet ? "Level "+choice.level : ""}}
@@ -284,9 +286,8 @@
                                         <input id="{{choice.id}}crossbloodedEvolution" type="checkbox"
                                             [(ngModel)]="choice.crossbloodedEvolution"
                                             (ngModelChange)="on_CrossbloodedEvolution()">
-                                        <label for="{{choice.id}}crossbloodedEvolution">Choose this spell as a
-                                            Crossblooded
-                                            Evolution spell.</label>
+                                        <label for="{{choice.id}}crossbloodedEvolution">Allow a spell from another
+                                            tradition in this choice.</label>
                                     </span>
                                 </div>
                             </div>
@@ -313,7 +314,7 @@
                                     *ngFor="let reason of [get_CannotChooseSignatureSpell(signatureSpellsAllowed, takenSpell)]; trackBy:trackByIndex;">
                                     <input id="{{choice.id+spell.name}}signaturespell" type="checkbox"
                                         title="{{reason}}" [(ngModel)]="takenSpell.signatureSpell"
-                                        (ngModelChange)="on_SignatureSpell()" (disabled)="reason">
+                                        (ngModelChange)="on_SignatureSpell()" [disabled]="reason != ''">
                                     <label for="{{choice.id+spell.name}}signaturespell" title="{{reason}}">Choose this
                                         spell as a Signature Spell that can be freely heightened</label>
                                 </span>

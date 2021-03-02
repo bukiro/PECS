@@ -347,6 +347,7 @@ export class SpellbookComponent implements OnInit {
                         //For spontanous spells, allow casting a spell if you don't have spell slots of that level left,
                         //  but you have an extra studious capacity spell slot left. You can't use the studious capacity spell slot for your highest spell level.
                         casting.className == "Bard" &&
+                        this.have_Feat("Studious Capacity") &&
                         this.get_UsedSpellSlots(0, casting) < this.get_MaxSpellSlots(0, casting) &&
                         levelNumber != this.get_MaxSpellLevel(casting)
                     ) &&
@@ -354,6 +355,7 @@ export class SpellbookComponent implements OnInit {
                         //For spontanous spells, allow casting a spell if you don't have spell slots of that level left,
                         //  but you have an extra greater vital evolution spell slot left and haven't used one for this level yet.
                         casting.className == "Sorcerer" &&
+                        this.have_Feat("Greater Vital Evolution") &&
                         this.get_UsedSpellSlots(11, casting) != levelNumber &&
                         this.get_UsedSpellSlots(12, casting) != levelNumber &&
                         (

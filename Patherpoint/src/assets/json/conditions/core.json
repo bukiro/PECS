@@ -2117,8 +2117,14 @@
       "buff": true
    },
    {
+      "name": "Agitate (Caster)",
+      "desc": "You have sent the target's mind and body into overdrive, forcing it to become restless and hyperactive. During the duration, the target must Stride at least once each turn or take 2d8 mental damage per spell level that turn.",
+      "type": "spells",
+      "minLevel": 1
+   },
+   {
       "name": "Agitate",
-      "desc": "Your mind and body are sent into overdrive, forcing you to become restless and hyperactive. During the duration, you must Stride at least once each turn or take mental damage according to the spell level that turn.",
+      "desc": "Your mind and body are sent into overdrive, forcing you to become restless and hyperactive. During the duration, you must Stride at least once each turn or take 2d8 mental damage per spell level that turn.",
       "type": "spells",
       "minLevel": 1
    },
@@ -6595,62 +6601,41 @@
       "buff": true
    },
    {
-      "name": "Bespell Weapon (Abjuration)",
-      "desc": "You have siphoned the residual energy from the last spell you cast into one weapon you're wielding. Until the end of your turn, the weapon deals an extra 1d6 force damage.",
+      "name": "Bespell Weapon",
+      "desc": "You siphon the residual energy from the last spell you cast into one weapon you're wielding. Until the end of your turn, the weapon deals an extra 1d6 damage of a type depending on the school of the spell you just cast.\n\n<strong>Abjuration</strong> force damage\n<strong>Conjuration or Transmutation</strong> the same type as the weapon\n<strong>Divination, Enchantment, or Illusion</strong> mental damage\n<strong>Evocation</strong> a type the spell dealt, or force damage if the spell didn't deal damage\n<strong>Necromancy</strong> negative damage",
       "type": "activities",
       "buff": true,
       "hints": [
          {
-            "desc": "One chosen weapon deals an extra 1d6 force damage.",
+            "desc": "One weapon you're wielding deals an extra 1d6 damage of a type depending on the school of the spell you just cast.\n\nAbjuration: force damage\nConjuration or Transmutation: the same type as the weapon\nDivination, Enchantment, or Illusion: mental damage\nEvocation: a type the spell dealt, or force damage if the spell didn't deal damage\nNecromancy: negative damage",
             "showon": "Attacks"
          }
-      ]
-   },
-   {
-      "name": "Bespell Weapon (Conjuration or Transmutation)",
-      "desc": "You have siphoned the residual energy from the last spell you cast into one weapon you're wielding. Until the end of your turn, the weapon deals an extra 1d6 damage.",
-      "type": "activities",
-      "buff": true,
-      "hints": [
+      ],
+      "choice": "Abjuration",
+      "choices": [
          {
-            "desc": "One chosen weapon deals an extra 1d6 damage.",
-            "showon": "Attacks"
-         }
-      ]
-   },
-   {
-      "name": "Bespell Weapon (Divination, Enchantment or Illusion)",
-      "desc": "You have siphoned the residual energy from the last spell you cast into one weapon you're wielding. Until the end of your turn, the weapon deals an extra 1d6 mental damage.",
-      "type": "activities",
-      "buff": true,
-      "hints": [
+            "name": "Abjuration"
+         },
          {
-            "desc": "One chosen weapon deals an extra 1d6 mental damage.",
-            "showon": "Attacks"
-         }
-      ]
-   },
-   {
-      "name": "Bespell Weapon (Evocation)",
-      "desc": "You have siphoned the residual energy from the last spell you cast into one weapon you're wielding. Until the end of your turn, the weapon deals an extra 1d6 damage of a type the spell dealt, or 1d6 force damage if the spell didn't deal damage.",
-      "type": "activities",
-      "buff": true,
-      "hints": [
+            "name": "Conjuration"
+         },
          {
-            "desc": "One chosen weapon deals an extra 1d6 damage of a type the last spell dealt, or 1d6 force damage if the spell didn't deal damage.",
-            "showon": "Attacks"
-         }
-      ]
-   },
-   {
-      "name": "Bespell Weapon (Necromancy)",
-      "desc": "You have siphoned the residual energy from the last spell you cast into one weapon you're wielding. Until the end of your turn, the weapon deals an extra 1d6 negative damage.",
-      "type": "activities",
-      "buff": true,
-      "hints": [
+            "name": "Divination"
+         },
          {
-            "desc": "One chosen weapon deals an extra 1d6 negative damage.",
-            "showon": "Attacks"
+            "name": "Enchantment"
+         },
+         {
+            "name": "Evocation"
+         },
+         {
+            "name": "Illusion"
+         },
+         {
+            "name": "Necromancy"
+         },
+         {
+            "name": "Transmutation"
          }
       ]
    },
@@ -6673,7 +6658,7 @@
       "buff": true,
       "hints": [
          {
-            "desc": "When you Seek, you gain the benefits of a 3rd-level detect magic spell on things you see (in addition to the normal benefits of Seeking).",
+            "desc": "You can sense the presence of magic auras as though you were always using a 1st-level detect magic spell. This detects magic in your field of vision only. When you Seek, you gain the benefits of a 3rd-level detect magic spell on things you see (in addition to the normal benefits of Seeking).",
             "showon": "Perception"
          }
       ]
@@ -15328,7 +15313,7 @@
       "type": "spells",
       "minLevel": 1,
       "buff": true,
-      "inputRequired": "Manually add the appropriate amount of temporary Hit Points whenever you hit with your jaws and deal damage.",
+      "inputRequired": "Manually set the appropriate amount of temporary Hit Points whenever you hit with your jaws and deal damage. Temporary Hit Points are never cumulative.",
       "hints": [
          {
             "desc": "If you hit with your jaws and deal damage, you gain 1d6 temporary Hit Points plus 1d6 for every 2 spell levels after 1st.",
@@ -15343,7 +15328,7 @@
       ]
    },
    {
-      "name": "Jealous Hex (caster)",
+      "name": "Jealous Hex (Caster)",
       "desc": "You have drawn forth a hag's innate jealousy to deny a target its greatest attribute. The target is cursed with an adverse condition depending on its highest ability modifier: Strength (enfeebled); Dexterity (clumsy); Constitution (drained); or Intelligence, Wisdom, or Charisma (stupefied). On a tie, the creature decides which of the conditions associated with the tied ability modifiers to take, depending on its Will save:\n\n<strong>Success</strong> The target is unaffected.\n<strong>Failure</strong> The condition's value is 1.\n<strong>Critical Failure</strong> The condition's value is 2.\n\nAt the start of each of your turns, the target can attempt another Will save, ending the effect on a success.",
       "type": "spells",
       "minLevel": 1,
@@ -15443,6 +15428,13 @@
             "showon": "Spellbook"
          }
       ]
+   },
+   {
+      "name": "Undeath's Blessing (Caster)",
+      "desc": "You have instilled the touch of the grave within a creature. For the duration, harm spells treat the creature as undead and heal spells treat the creature as living. In addition, harm spells gain a +2 status bonus per spell level to the Hit Points restored to the target.\n\nThe target may have avoided the spell, according to its Will save:\n\n<strong>Critical Success</strong> The target is unaffected.\n<strong>Success</strong> The target heals half as much from heal and takes half as much damage from harm for 1 round.\n<strong>Failure</strong> Effects as described in the text.",
+      "type": "spells",
+      "minLevel": 1,
+      "buff": true
    },
    {
       "name": "Undeath's Blessing (Willing or Failure)",
@@ -15683,7 +15675,20 @@
       "buff": true,
       "hints": [
          {
-            "desc": "Anytime a good creature damages the branded creature, the good creature deals an additional 1d4 good damage plus 1 for every two spell levels after 5th."
+            "desc": "You and your allies receive a +1 status bonus to your attack rolls and skill checks against the target. Anytime a good creature damages the branded creature, the good creature deals an additional 1d4 good damage plus 1 for every two spell levels after 5th.",
+            "showon": "Attacks, Skills",
+            "effects": [
+               {
+                  "affected": "Attack Rolls",
+                  "type": "status",
+                  "value": 1
+               },
+               {
+                  "affected": "Skill Checks",
+                  "type": "status",
+                  "value": 1
+               }
+            ]
          }
       ]
    },
@@ -15739,37 +15744,37 @@
       ],
       "gainConditions": [
          {
-            "activationPrerequisite": "Heightened == 5 ? 1 : 0",
+            "activationPrerequisite": "parentConditionGain.heightened == 5 ? 1 : 0",
             "conditionChoiceFilter": "Illusory Scene",
             "heightened": 5,
             "name": "Illusory Scene"
          },
          {
-            "activationPrerequisite": "Heightened == 6 ? 1 : 0",
+            "activationPrerequisite": "parentConditionGain.heightened == 6 ? 1 : 0",
             "conditionChoiceFilter": "Illusory Scene",
             "heightened": 5,
             "name": "Illusory Scene"
          },
          {
-            "activationPrerequisite": "Heightened == 7 ? 1 : 0",
+            "activationPrerequisite": "parentConditionGain.heightened == 7 ? 1 : 0",
             "conditionChoiceFilter": "Illusory Scene",
             "heightened": 6,
             "name": "Illusory Scene"
          },
          {
-            "activationPrerequisite": "Heightened == 8 ? 1 : 0",
+            "activationPrerequisite": "parentConditionGain.heightened == 8 ? 1 : 0",
             "conditionChoiceFilter": "Illusory Scene",
             "heightened": 7,
             "name": "Illusory Scene"
          },
          {
-            "activationPrerequisite": "Heightened == 9 ? 1 : 0",
+            "activationPrerequisite": "parentConditionGain.heightened == 9 ? 1 : 0",
             "conditionChoiceFilter": "Illusory Scene",
             "heightened": 8,
             "name": "Illusory Scene"
          },
          {
-            "activationPrerequisite": "Heightened == 10 ? 1 : 0",
+            "activationPrerequisite": "parentConditionGain.heightened == 10 ? 1 : 0",
             "conditionChoiceFilter": "Illusory Scene",
             "heightened": 9,
             "name": "Illusory Scene"
@@ -16084,7 +16089,7 @@
       ]
    },
    {
-      "name": "Leyline Conduit",
+      "name": "Bloodline Conduit",
       "desc": "Your inborn magical nature lets you redirect ambient energies to fuel your spells. If your next action is to Cast a Spell of 5th level or lower that has no duration, you don't expend the spell's slot when you cast it.",
       "type": "activities",
       "buff": true

@@ -23,6 +23,7 @@ import { Item } from './Item';
 import * as json_feats from '../assets/json/feats';
 import * as json_features from '../assets/json/features';
 import { LanguageGain } from './LanguageGain';
+import { SpellCast } from './SpellCast';
 
 @Injectable({
     providedIn: 'root'
@@ -168,7 +169,9 @@ export class FeatsService {
                     let a = level.abilityChoices;
                     feat.gainAbilityChoice.forEach(oldAbilityChoice => {
                         let oldChoice = a.filter(choice => choice.source == oldAbilityChoice.source)[0];
-                        character.remove_AbilityChoice(oldChoice);
+                        if (oldChoice) {
+                            character.remove_AbilityChoice(oldChoice);
+                        }
                     })
                 }
                 characterService.set_ToChange(creature.type, "abilities");
@@ -244,9 +247,11 @@ export class FeatsService {
                             oldChoice?.increases.forEach(increase => {
                                 character.increase_Skill(characterService, increase.name, false, oldChoice, increase.locked);
                             })
-                            character.remove_SkillChoice(oldChoice);
-                            if (oldChoice.showOnSheet) {
-                                characterService.set_ToChange(creature.type, "skills");
+                            if (oldChoice) {
+                                character.remove_SkillChoice(oldChoice);
+                                if (oldChoice.showOnSheet) {
+                                    characterService.set_ToChange(creature.type, "skills");
+                                }
                             }
                         }
                     });
@@ -336,10 +341,12 @@ export class FeatsService {
                 } else {
                     let a = level.loreChoices;
                     let oldChoice = a.filter(choice => choice.source == 'Feat: ' + featName)[0];
-                    if (oldChoice.loreName) {
-                        character.remove_Lore(characterService, oldChoice);
+                    if (oldChoice) {
+                        if (oldChoice.loreName) {
+                            character.remove_Lore(characterService, oldChoice);
+                        }
+                        a.splice(a.indexOf(oldChoice), 1);
                     }
-                    a.splice(a.indexOf(oldChoice), 1);
                 }
             }
 
@@ -466,7 +473,7 @@ export class FeatsService {
                 } else {
                     let oldChoices: LoreChoice[] = level.loreChoices.filter(choice => choice.source == "Different Worlds");
                     let oldChoice = oldChoices[oldChoices.length - 1];
-                    if (oldChoice && oldChoice.increases.length) {
+                    if (oldChoice?.increases.length) {
                         character.remove_Lore(characterService, oldChoice);
                     }
                     level.loreChoices = level.loreChoices.filter(choice => choice.source != "Different Worlds");
@@ -800,7 +807,7 @@ export class FeatsService {
                     });
                     characterService.set_ToChange(creature.type, "spells");
                     characterService.set_ToChange(creature.type, "spellchoices");
-                characterService.set_ToChange(creature.type, "spellbook");
+                    characterService.set_ToChange(creature.type, "spellbook");
                 } else {
                     character.class.spellCasting.filter(casting => casting.className == "Wizard" && casting.castingType == "Prepared").forEach(casting => {
                         casting.spellChoices.filter(choice => choice.spellCombinationAllowed).forEach(choice => {
@@ -811,20 +818,8 @@ export class FeatsService {
                     });
                     characterService.set_ToChange(creature.type, "spells");
                     characterService.set_ToChange(creature.type, "spellchoices");
-                characterService.set_ToChange(creature.type, "spellbook");
+                    characterService.set_ToChange(creature.type, "spellbook");
                 }
-            }
-
-            //Reset changes made with Crossblooded Evolution.
-            if (feat.name.includes("Crossblooded Evolution")) {
-                character.class.spellCasting.forEach(casting => {
-                    casting.spellChoices.forEach(choice => {
-                        choice.crossbloodedEvolution = false;
-                    })
-                })
-                characterService.set_ToChange(creature.type, "spells");
-                characterService.set_ToChange(creature.type, "spellchoices");
-                characterService.set_ToChange(creature.type, "spellbook");
             }
 
             //Reset changes made with Arcane Evolution.
@@ -896,7 +891,7 @@ export class FeatsService {
             //Some hardcoded effects change depending on feats. There is no good way to resolve this, so we calculate the effects whenever we take a feat.
             characterService.set_ToChange(creature.type, "effects");
 
-            //Condition choices can now be dependent on feats, so we need to update spellbook and activities;
+            //Condition choices can be dependent on feats, so we need to update spellbook and activities;
             characterService.set_ToChange(creature.type, "spellbook");
             characterService.set_ToChange(creature.type, "activities");
 

@@ -2800,97 +2800,21 @@
         "desc": "Hiding your gestures and incantations within other speech and movement, you attempt to conceal the fact that you are Casting a Spell. If the next action you use is to Cast a Spell, attempt a Stealth check against one or more observers' Perception DCs; if the spell has verbal components, you must also attempt a Deception check against the observers' Perception DC. If you succeed at your check (or checks) against an observer's DC, that observer doesn't notice you're casting a spell, even though material, somatic, and verbal components are usually noticeable and spells normally have sensory manifestations that would make spellcasting obvious to those nearby.\n\nThis ability hides only the spell's spellcasting actions and manifestations, not its effects, so an observer might still see a ray streak out from you or see you vanish into thin air."
     },
     {
-        "name": "Bespell Weapon (Abjuration)",
+        "name": "Bespell Weapon",
         "actions": "Free",
         "traits": [
             "Sorcerer",
             "Wizard"
         ],
-        "requirements": "Your most recent action was to cast a non-cantrip abjuration spell.",
+        "requirements": "Your most recent action was to cast a non-cantrip spell.",
         "frequency": "once per turn",
         "cooldown": 10,
-        "desc": "You siphon the residual energy from the last spell you cast into one weapon you're wielding. Until the end of your turn, the weapon deals an extra 1d6 force damage.",
+        "desc": "You siphon the residual energy from the last spell you cast into one weapon you're wielding. Until the end of your turn, the weapon deals an extra 1d6 damage of a type depending on the school of the spell you just cast.\n\n<strong>Abjuration</strong> force damage\n<strong>Conjuration or Transmutation</strong> the same type as the weapon\n<strong>Divination, Enchantment, or Illusion</strong> mental damage\n<strong>Evocation</strong> a type the spell dealt, or force damage if the spell didn't deal damage\n<strong>Necromancy</strong> negative damage",
         "gainConditions": [
             {
                 "duration": 5,
-                "name": "Bespell Weapon (Abjuration)",
-                "source": "Bespell Weapon (Abjuration)"
-            }
-        ]
-    },
-    {
-        "name": "Bespell Weapon (Conjuration or Transmutation)",
-        "actions": "Free",
-        "traits": [
-            "Sorcerer",
-            "Wizard"
-        ],
-        "requirements": "Your most recent action was to cast a non-cantrip conjuration or transmutation spell.",
-        "frequency": "once per turn",
-        "cooldown": 10,
-        "desc": "You siphon the residual energy from the last spell you cast into one weapon you're wielding. Until the end of your turn, the weapon deals an extra 1d6 damage.",
-        "gainConditions": [
-            {
-                "duration": 5,
-                "name": "Bespell Weapon (Conjuration or Transmutation)",
-                "source": "Bespell Weapon (Conjuration or Transmutation)"
-            }
-        ]
-    },
-    {
-        "name": "Bespell Weapon (Divination, Enchantment or Illusion)",
-        "actions": "Free",
-        "traits": [
-            "Sorcerer",
-            "Wizard"
-        ],
-        "requirements": "Your most recent action was to cast a non-cantrip divination, enchantment or illusion spell.",
-        "frequency": "once per turn",
-        "cooldown": 10,
-        "desc": "You siphon the residual energy from the last spell you cast into one weapon you're wielding. Until the end of your turn, the weapon deals an extra 1d6 mental damage.",
-        "gainConditions": [
-            {
-                "duration": 5,
-                "name": "Bespell Weapon (Divination, Enchantment or Illusion)",
-                "source": "Bespell Weapon (Divination, Enchantment or Illusion)"
-            }
-        ]
-    },
-    {
-        "name": "Bespell Weapon (Evocation)",
-        "actions": "Free",
-        "traits": [
-            "Sorcerer",
-            "Wizard"
-        ],
-        "requirements": "Your most recent action was to cast a non-cantrip evocation spell.",
-        "frequency": "once per turn",
-        "cooldown": 10,
-        "desc": "You siphon the residual energy from the last spell you cast into one weapon you're wielding. Until the end of your turn, the weapon deals an extra 1d6 damage of a type the spell dealt, or 1d6 force damage if the spell didn't deal damage.",
-        "gainConditions": [
-            {
-                "duration": 5,
-                "name": "Bespell Weapon (Evocation)",
-                "source": "Bespell Weapon (Evocation)"
-            }
-        ]
-    },
-    {
-        "name": "Bespell Weapon (Necromancy)",
-        "actions": "Free",
-        "traits": [
-            "Sorcerer",
-            "Wizard"
-        ],
-        "requirements": "Your most recent action was to cast a non-cantrip necromancy spell.",
-        "frequency": "once per turn",
-        "cooldown": 10,
-        "desc": "You siphon the residual energy from the last spell you cast into one weapon you're wielding. Until the end of your turn, the weapon deals an extra 1d6 negative damage.",
-        "gainConditions": [
-            {
-                "duration": 5,
-                "name": "Bespell Weapon (Necromancy)",
-                "source": "Bespell Weapon (Necromancy)"
+                "name": "Bespell Weapon",
+                "source": "Bespell Weapon"
             }
         ]
     },
@@ -4550,8 +4474,10 @@
             "Manipulate",
             "Metamagic"
         ],
+        "toggle": true,
         "frequency": "once per minute",
         "cooldown": 100,
+        "maxDuration": 1,
         "desc": "You can cast your spells effortlessly by tapping into the leylines of the world. If your next action is to Cast a Spell of 5th level or lower that has no duration, you don't expend the prepared spell as you cast it.",
         "gainConditions": [
             {
@@ -4627,18 +4553,6 @@
     {
         "name": "Counterspell (Spontaneous)",
         "actions": "Reaction",
-        "inputRequired": "Use the triggering spell as a counterspell in your spell list.",
-        "traits": [
-            "Abjuration",
-            "Sorcerer"
-        ],
-        "requirements": "You have an unexpended spell slot you could use to cast the triggering spell.",
-        "trigger": "A creature Casts a Spell that you have prepared.",
-        "desc": "When a foe Casts a Spell and you can see its manifestations, you can use your own magic to disrupt it. You expend one of your spell slots to counter the triggering creature's casting of a spell that you have in your repertoire. You lose your spell slot as if you had cast the triggering spell. You then attempt to counteract the triggering spell.\n\nThis feat has the trait corresponding to the tradition of spells you cast (arcane, divine, occult, or primal)."
-    },
-    {
-        "name": "Counterspell (Spontaneous)",
-        "actions": "Reaction",
         "inputRequired": "You can use the triggering spell as a counterspell in your spell list.",
         "traits": [
             "Abjuration",
@@ -4665,8 +4579,10 @@
             "Metamagic",
             "Sorcerer"
         ],
+        "toggle": true,
         "frequency": "once per minute",
         "cooldown": 100,
+        "maxDuration": 1,
         "desc": "Your inborn magical nature lets you redirect ambient energies to fuel your spells. If your next action is to Cast a Spell of 5th level or lower that has no duration, you don't expend the spell's slot when you cast it.",
         "gainConditions": [
             {
@@ -4687,13 +4603,6 @@
         "trigger": "You apply an effect from your blood magic that lasts for 1 round.",
         "frequency": "once per minute",
         "cooldown": 100,
-        "desc": "You have learned how to invest magic more deeply by witnessing Aroden's works. The triggering blood magic effect lasts for 1 minute instead of 1 round.",
-        "gainConditions": [
-            {
-                "duration": 1,
-                "name": "Bloodline Conduit",
-                "source": "Bloodline Conduit"
-            }
-        ]
+        "desc": "You have learned how to invest magic more deeply by witnessing Aroden's works. The triggering blood magic effect lasts for 1 minute instead of 1 round."
     }
 ]

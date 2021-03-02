@@ -45,7 +45,7 @@
         </div>
         <div class="list-item">
             <button class="row" (click)="save_CharacterToDB()" *ngIf="!still_loading()"
-                title="{{!get_Savegames() ? 'Database connection failed.' : ''}}" [disabled]="!get_Savegames()">
+                title="{{!get_Savegames() ? 'Database connection failed.' : ''}}" [disabled]="!get_Savegames() || get_IsBlankCharacter()">
                 Save Character
             </button>
         </div>

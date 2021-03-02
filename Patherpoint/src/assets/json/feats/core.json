@@ -13276,7 +13276,6 @@
                         "source": "Aberrant Bloodline"
                     }
                 ],
-                "insertClass": "Sorcerer",
                 "maxRank": 4,
                 "source": "Aberrant Bloodline",
                 "type": "Skill"
@@ -13962,7 +13961,6 @@
                         "source": "Angelic Bloodline"
                     }
                 ],
-                "insertClass": "Sorcerer",
                 "maxRank": 4,
                 "source": "Angelic Bloodline",
                 "type": "Skill"
@@ -14645,7 +14643,6 @@
                         "source": "Demonic Bloodline"
                     }
                 ],
-                "insertClass": "Sorcerer",
                 "maxRank": 4,
                 "source": "Demonic Bloodline",
                 "type": "Skill"
@@ -15335,7 +15332,6 @@
                         "source": "Diabolic Bloodline"
                     }
                 ],
-                "insertClass": "Sorcerer",
                 "maxRank": 4,
                 "source": "Diabolic Bloodline",
                 "type": "Skill"
@@ -15990,7 +15986,6 @@
                 "filter": [
                     "Dragon Type"
                 ],
-                "insertClass": "Sorcerer",
                 "source": "Draconic Bloodline",
                 "specialChoice": true,
                 "type": "Dragon Type"
@@ -16038,7 +16033,6 @@
                         "source": "Draconic Bloodline"
                     }
                 ],
-                "insertClass": "Sorcerer",
                 "maxRank": 4,
                 "source": "Draconic Bloodline",
                 "type": "Skill"
@@ -16764,7 +16758,6 @@
                 "filter": [
                     "Elemental Type"
                 ],
-                "insertClass": "Sorcerer",
                 "source": "Elemental Bloodline",
                 "specialChoice": true,
                 "type": "Elemental Type"
@@ -16812,7 +16805,6 @@
                         "source": "Elemental Bloodline"
                     }
                 ],
-                "insertClass": "Sorcerer",
                 "maxRank": 4,
                 "source": "Elemental Bloodline",
                 "type": "Skill"
@@ -17557,7 +17549,6 @@
                         "source": "Fey Bloodline"
                     }
                 ],
-                "insertClass": "Sorcerer",
                 "maxRank": 4,
                 "source": "Fey Bloodline",
                 "type": "Skill"
@@ -18251,7 +18242,6 @@
                         "source": "Hag Bloodline"
                     }
                 ],
-                "insertClass": "Sorcerer",
                 "maxRank": 4,
                 "source": "Hag Bloodline",
                 "type": "Skill"
@@ -18938,7 +18928,6 @@
                         "source": "Imperial Bloodline"
                     }
                 ],
-                "insertClass": "Sorcerer",
                 "maxRank": 4,
                 "source": "Imperial Bloodline",
                 "type": "Skill"
@@ -19621,7 +19610,6 @@
                         "source": "Undead Bloodline"
                     }
                 ],
-                "insertClass": "Sorcerer",
                 "maxRank": 4,
                 "source": "Undead Bloodline",
                 "type": "Skill"
@@ -25972,11 +25960,7 @@
         ],
         "levelreq": 4,
         "gainActivities": [
-            "Bespell Weapon (Abjuration)",
-            "Bespell Weapon (Conjuration or Transmutation)",
-            "Bespell Weapon (Divination, Enchantment or Illusion)",
-            "Bespell Weapon (Evocation)",
-            "Bespell Weapon (Necromancy)"
+            "Bespell Weapon"
         ]
     },
     {
@@ -26509,7 +26493,7 @@
                 "showon": "Rest"
             }
         ],
-        "inputRequired": "Scroll Savant is hardcoded.",
+        "internalNote": "Scroll Savant is hardcoded.",
         "shortdesc": "During your daily preparations, you can create two temporary scrolls containing arcane spells from your spellbook.",
         "traits": [
             "Wizard"
@@ -26545,12 +26529,6 @@
         "name": "Magic Sense",
         "desc": "You have a literal sixth sense for ambient magic in your vicinity. You can sense the presence of magic auras as though you were always using a 1st-level detect magic spell. This detects magic in your field of vision only. When you Seek, you gain the benefits of a 3rd-level detect magic spell on things you see (in addition to the normal benefits of Seeking). You can turn this sense off and on with a free action at the start or the end of your turn.",
         "specialdesc": "This feat has the trait corresponding to the tradition of spells you cast (arcane, divine, natural, or occult).",
-        "hints": [
-            {
-                "desc": "You can sense the presence of magic auras as though you were always using a 1st-level detect magic spell. This detects magic in your field of vision only. When you Seek, you gain the benefits of a 3rd-level detect magic spell on things you see (in addition to the normal benefits of Seeking). You can turn this sense off and on with a free action at the start or the end of your turn.",
-                "showon": "Perception"
-            }
-        ],
         "shortdesc": "You have a literal sixth sense for magic.",
         "traits": [
             "Arcane",
@@ -26797,7 +26775,7 @@
         "hints": [
             {
                 "desc": "You can use metamagic single actions as free actions.",
-                "showon": "Bloodline Conduit, Bond Conservation, Cast Down, Command Undead, Conceal Spell, Defensive Recovery, Dualistic Synergy, Echoing Channel, Form Control, Harmonize, Healing Transformation, Heroic Recovery, Interweave Dispel, Leyline Conduit, Melodious Spell, Mercy, Necrotic Infusion, Overwhelming Energy, Reach Spell, Silent Spell, Synergistic Spell, Tempest-Sun Redirection, Unusual Composition, Widen Spell"
+                "showon": "Activities, Bloodline Conduit, Bond Conservation, Cast Down, Command Undead, Conceal Spell, Defensive Recovery, Dualistic Synergy, Echoing Channel, Form Control, Harmonize, Healing Transformation, Heroic Recovery, Interweave Dispel, Leyline Conduit, Melodious Spell, Mercy, Necrotic Infusion, Overwhelming Energy, Reach Spell, Silent Spell, Synergistic Spell, Tempest-Sun Redirection, Unusual Composition, Widen Spell"
             }
         ],
         "shortdesc": "Altering your spells doesn't take any longer than casting them normally.",
@@ -29155,7 +29133,6 @@
     {
         "name": "Enigma Muse",
         "desc": "Your muse is a mystery, driving you to uncover the hidden secrets of the multiverse. If your muse is a creature, it might be a dragon or otherworldly being; if a deity, it might be Irori or Nethys. You gain the Bardic Lore feat and add true strike to your spell repertoire.",
-        "inputRequired": "Add True Strike to your repertoire.",
         "shortdesc": "Your muse is a mystery, driving you to uncover the hidden secrets of the multiverse.",
         "gainFeatChoice": [
             {
@@ -29192,7 +29169,6 @@
     {
         "name": "Maestro Muse",
         "desc": "Your muse is a virtuoso, inspiring you to greater heights. If it's a creature, it might be a performance-loving creature such as a choral angel or lillend azata; if a deity, it might be Shelyn. As a bard with a Maestro Muse, you are an inspiration to your allies and confident of your musical and oratorical abilities. You gain the Lingering Composition feat and add soothe to your spell repertoire.",
-        "inputRequired": "Add Soothe to your repertoire.",
         "shortdesc": "Your muse is a virtuoso, inspiring you to greater heights.",
         "gainFeatChoice": [
             {
@@ -29229,7 +29205,6 @@
     {
         "name": "Polymath Muse",
         "desc": "Your muse is a jack of all trades, flitting between skills and pursuits. If it's is a creature, it might be an eclectic creature like a fey; if a deity, it might be Desna or Calistria. As a bard with a polymath muse, you are interested in a wide array of topics but rarely dedicated to any one, and you rarely make up your mind - you want to try everything. You gain the Versatile Performance feat and add unseen servant to your spell repertoire.",
-        "inputRequired": "Add Unseen Servant to your repertoire.",
         "shortdesc": "Your muse is a jack of all trades, flitting between skills and pursuits.",
         "gainFeatChoice": [
             {
@@ -29647,7 +29622,7 @@
                 "showon": "Rest, Bard Spontaneous Spells"
             }
         ],
-        "inputRequired": "To perform this change, you can exchange spells between your signature spell slot and another spell slot of the same level.",
+        "usageNote": "To perform this change, you can exchange spells between your signature spell slot and another spell slot of the same level.",
         "internalNote": "There is no mechanical difference. This feat gives you official permission to change your spells every day.",
         "shortdesc": "You're always tweaking your available repertoire.",
         "traits": [
@@ -29844,7 +29819,7 @@
                 "showon": "Rest, Bard Spontaneous Spells"
             }
         ],
-        "inputRequired": "To perform this change, you can change a spell slot in your repertoire to the spell you chose with Esoteric Polymath.",
+        "usageNote": "To perform this change, you can change a spell slot in your repertoire to the spell you chose with Esoteric Polymath.",
         "internalNote": "There is no mechanical difference. This feat gives you official permission to change your spells every day.",
         "shortdesc": "Your flexible mind can quickly shift spells.",
         "traits": [
@@ -31042,7 +31017,7 @@
                 "showon": "Crafting"
             }
         ],
-        "inputRequired": "Ignoring the shoddy status is hardcoded in the Weapon, Armor and Shield classes.",
+        "internalNote": "Ignoring the shoddy status is hardcoded in the Weapon, Armor and Shield classes.",
         "shortdesc": "You can make useful tools out of even twisted or rusted scraps.",
         "traits": [
             "Goblin"
@@ -33833,7 +33808,7 @@
         "desc": "You've continued adapting your magic to blend your class's tradition with your adapted tradition. Choose a cantrip from the same magical tradition as your cantrip from Adapted Cantrip. You gain that spell, adding it to your spell repertoire, spellbook, or prepared spells just like the cantrip from Adapted Cantrip. You can cast this spell as a spell of your class's magical tradition.",
         "subType": "Cantrip",
         "superType": "Adaptive Adept",
-        "inputRequired": "Choosing from the same tradition as well as losing another spell is hardcoded.",
+        "internalNote": "Choosing from the same tradition as well as losing another spell is hardcoded.",
         "shortdesc": "You've continued adapting your magic to blend your class's tradition with your adapted tradition.",
         "traits": [
             "Human"
@@ -33861,7 +33836,7 @@
         "desc": "You've continued adapting your magic to blend your class's tradition with your adapted tradition. Choose a 1st-level spell from the same magical tradition as your cantrip from Adapted Cantrip. You gain that spell, adding it to your spell repertoire, spellbook, or prepared spells just like the cantrip from Adapted Cantrip. You can cast this spell as a spell of your class's magical tradition. You don't gain access to the heightened versions of that spell, meaning you can't prepare them if you prepare spells and you can't learn them or select the spell as a signature spell if you have a spell repertoire.",
         "subType": "1st-Level Spell",
         "superType": "Adaptive Adept",
-        "inputRequired": "Choosing from the same tradition as well as losing another spell is hardcoded.",
+        "internalNote": "Choosing from the same tradition as well as losing another spell is hardcoded.",
         "shortdesc": "You've continued adapting your magic to blend your class's tradition with your adapted tradition.",
         "traits": [
             "Human"
@@ -41673,6 +41648,7 @@
     {
         "name": "Divine Evolution",
         "desc": "The divine might provided by your bloodline flows through you. You gain an additional spell slot of your highest level, which you can use only to cast your choice of heal or harm. You can cast either of these spells using that spell slot, even if they aren't in your spell repertoire.",
+        "usageNote": "Instead of gaining an extra spell slot, you gain harm and heal as spells of your highest spell level and can use one of them once per day without using a spell slot.",
         "internalNote": "You gain a once-per-day spellChoice with these two spells.",
         "shortdesc": "The divine might provided by your bloodline flows through you.",
         "traits": [
@@ -41753,6 +41729,7 @@
     {
         "name": "Primal Evolution",
         "desc": "You can call upon the creatures of the wild for aid. You gain an additional spell slot of your highest level, which you can use only to cast summon animal or summon plants or fungus. You can cast either of these spells using that spell slot, even if it they aren't in your spell repertoire.",
+        "usageNote": "Instead of gaining an extra spell slot, you gain summon animal and summon plant or fungus as spells of your highest spell level and can use one of them once per day without using a spell slot.",
         "internalNote": "You gain a once-per-day spellChoice with these two spells.",
         "shortdesc": "You can call upon the creatures of the wild for aid.",
         "traits": [
@@ -41779,7 +41756,7 @@
                     },
                     {
                         "locked": true,
-                        "name": "Summon Plants or Fungus"
+                        "name": "Summon Plant or Fungus"
                     }
                 ],
                 "tradition": "Primal"
@@ -42590,7 +42567,7 @@
                 "spells": [
                     {
                         "locked": true,
-                        "name": "Resplendent Mansion"
+                        "name": "Fey Glamour"
                     }
                 ]
             }
@@ -42759,8 +42736,9 @@
             "Sorcerer",
             "Metamagic"
         ],
+        "internalNote": "Losing the feat when you remove Dispel Magic is hardcoded in the spellchoice component.",
         "levelreq": 14,
-        "specialreq": "character.get_SpellsTaken(characterService, 1, charLevel, -1, 'Dispel Magic', undefined, 'Sorcerer', '', 'Spontaneous')",
+        "specialreq": "character.get_SpellsTaken(characterService, 1, charLevel, -1, 'Dispel Magic', undefined, 'Sorcerer', '', 'Spontaneous').length",
         "specialreqdesc": "dispel magic in your spell repertoire",
         "gainActivities": [
             "Interweave Dispel"
@@ -42886,6 +42864,12 @@
     {
         "name": "Bloodline Wellspring",
         "desc": "Your blood's power replenishes your focus. If you have spent at least 3 Focus Points since the last time you Refocused, you recover 3 Focus Points when you Refocus instead of 1.",
+        "hints": [
+            {
+                "desc": "If you have spent at least 3 Focus Points since the last time you Refocused, you recover 3 Focus Points when you Refocus instead of 1.",
+                "showon": "Focus"
+            }
+        ],
         "shortdesc": "Your blood's power replenishes your focus.",
         "traits": [
             "Sorcerer"
@@ -42937,6 +42921,8 @@
                 "showon": "Rest, Sorcerer Spontaneous Spells"
             }
         ],
+        "usageNote": "To perform this change, you can always swap out a spell slot in your repertoire as needed.",
+        "internalNote": "There is no mechanical difference. This feat gives you official permission to change your spells every day.",
         "shortdesc": "Swap out spells from your repertoire more easily.",
         "sourceBook": "Pathfinder #150: Broken Promises",
         "traits": [

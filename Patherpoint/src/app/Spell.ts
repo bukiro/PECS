@@ -146,10 +146,10 @@ export class Spell {
         let levelreq: boolean = this.meetsLevelReq(characterService, spellLevel).met;
         return levelreq;
     }
-    have(characterService: CharacterService, casting: SpellCasting = undefined, spellLevel = this.levelreq, className: string = "") {
+    have(characterService: CharacterService, casting: SpellCasting = undefined, spellLevel = this.levelreq, className: string = "", locked: boolean = undefined) {
         if (characterService.still_loading()) { return false }
         let character = characterService.get_Character();
-        let spellsTaken = character.get_SpellsTaken(characterService, 1, 20, spellLevel, this.name, undefined, className)
+        let spellsTaken = character.get_SpellsTaken(characterService, 1, 20, spellLevel, this.name, undefined, className, "", "", "", "", locked);
         return spellsTaken.length;
     }
     get_EffectiveSpellLevel(creature: Creature, baseLevel: number, characterService: CharacterService, effectsService: EffectsService) {

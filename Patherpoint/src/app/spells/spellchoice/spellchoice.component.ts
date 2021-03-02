@@ -134,12 +134,16 @@ export class SpellchoiceComponent implements OnInit {
     }
 
     get_SignatureSpellsChosen(level: number = 0) {
-        //This function is used to check if a signature spell has been assigned for this spell level.
+        //This function is used to check if a signature spell has been assigned for this spell level and returns the allowed amount (-1 for unlimited).
         if (level == 0) {
             return this.spellCasting.spellChoices.filter(choice => choice.spells.some(gain => gain.signatureSpell)).length;
         } else {
             return this.spellCasting.spellChoices.filter(choice => choice.level == level && choice.spells.some(gain => gain.signatureSpell)).length;
         }
+    }
+
+    has_SignatureSpell(signatureSpellsAllowed: number) {
+        return signatureSpellsAllowed && this.choice.spells.some(gain => gain.signatureSpell);
     }
 
     get_CannotChooseSignatureSpell(signatureSpellsAllowed: number, taken: SpellGain) {
@@ -402,13 +406,11 @@ export class SpellchoiceComponent implements OnInit {
 
     get_CrossbloodedEvolutionAllowed() {
         if (
-            this.get_Available(this.choice) == 1 &&
             this.choice.level > 0 &&
             this.spellCasting?.className == "Sorcerer" &&
             this.spellCasting.castingType == "Spontaneous" &&
             this.have_Feat("Crossblooded Evolution") &&
-            this.choice.source != "Feat: Esoteric Polymath" &&
-            this.choice.source != "Feat: Arcane Evolution" &&
+            this.choice.source.includes("Sorcerer Spellcasting") &&
             !this.choice.showOnSheet
         ) {
             if (this.have_Feat("Greater Crossblooded Evolution")) {
@@ -522,7 +524,6 @@ export class SpellchoiceComponent implements OnInit {
         //Get spells from your spellbook for prepared wizard spells or if the choice requires it, otherwise get all spells.
         if ((this.spellCasting?.castingType == "Prepared" && this.spellCasting?.className == "Wizard" && !this.allowBorrow) || this.choice.spellBookOnly) {
             allSpells = this.spellsService.get_Spells().filter(spell =>
-                this.spellTakenByThis(spell.name, choice) ||
                 character.class.spellBook.find((learned: SpellLearned) => learned.name == spell.name)
             );
         } else {
@@ -546,10 +547,7 @@ export class SpellchoiceComponent implements OnInit {
                     //Divine Font only allows spells listed in your deity's divine font attribute.
                     let deity = character.class.deity ? this.characterService.get_Deities(character.class.deity)[0] : null;
                     spells.push(...allSpells.filter(spell =>
-                        deity?.divineFont.includes(spell.name) &&
-                        (
-                            choice.spells.length ? this.spellTakenByThis(spell.name, choice) : true
-                        )
+                        deity?.divineFont.includes(spell.name)
                     ));
                 } else if (choice.source == "Feat: Esoteric Polymath") {
                     //With Impossible Polymath, you can choose spells of any tradition in the Esoteric Polymath choice so long as you are trained in the associated skill.
@@ -566,8 +564,8 @@ export class SpellchoiceComponent implements OnInit {
                             spells.push(...allSpells.filter(spell => !spell.traditions.includes(this.spellCasting.tradition) && spell.traditions.some(tradition => originalSpell.traditions.includes(tradition)) && !spell.traditions.includes("Focus")));
                         }
                     }
-                } else if (choice.crossbloodedEvolution) {
-                    //With Crossblooded Evolution, you can choose spells of any tradition.
+                } else if (choice.crossbloodedEvolution && !(traditionFilter && choice.spells.some(takenSpell => !this.spellsService.get_Spells(takenSpell.name)[0]?.traditions.includes(traditionFilter)))) {
+                    //With Crossblooded Evolution, you can choose spells of any tradition, unless you already have one of a different tradition than your own.
                     spells.push(...allSpells.filter(spell => !spell.traditions.includes("Focus")));
                 } else if (traditionFilter) {
                     //If the tradition filter comes from the spellcasting, also include all spells that are on the spell list regardless of their tradition.
@@ -635,8 +633,16 @@ export class SpellchoiceComponent implements OnInit {
         if (choice.singleTarget) {
             spells = spells.filter(spell => spell.singleTarget);
         }
+        //If any spells in the choice have become invalid (i.e. they aren't on the list), remove them, unless they are locked. You need to reload the spells area if this happens.
+        let spellNumber = choice.spells.length;
+        choice.spells = this.choice.spells.filter(spell => spell.locked || spells.some(availableSpell => availableSpell.name == spell.name))
+        if (choice.spells.length < spellNumber) {
+            this.characterService.set_ToChange("Character", "spellbook");
+            this.characterService.process_ToChange();
+        }
+        //If any locked spells remain that aren't in the list, add them to the list.
+        spells.push(...allSpells.filter(spell => choice.spells.some(existingSpell => existingSpell.locked && existingSpell.name == spell.name) && !spells.some(addedSpell => addedSpell.name == spell.name)));
         //If any spells are left after this, we apply secondary, mechanical filters.
-        //We usually keep spells that are already in the choice, even if they don't match the requirements. This allows to deselect them in the UI.
         if (spells.length) {
             //Get only Cantrips if the spell level is 0, but keep those already taken.
             if (spellLevel == 0) {
@@ -771,8 +777,8 @@ export class SpellchoiceComponent implements OnInit {
             reasons.push("The requirements are not met.")
         }
         //Has it already been taken at this level by this class, and was that not by this SpellChoice? (Only for spontaneous spellcasters.)
-        //Skip this check for spontaneous spell choices that draw from your spellbook (i.e. Esoteric Polymath and Arcane Evolution)
-        if (!choice.spellBookOnly && this.spellCasting?.castingType == "Spontaneous" && !this.itemSpell && spell.have(this.characterService, this.spellCasting, spellLevel, choice.className) && !this.spellTakenByThis(spell.name, choice)) {
+        //Skip this check for spontaneous spell choices that draw from your spellbook (i.e. Esoteric Polymath and Arcane Evolution) and for spell choices with a cooldown.
+        if (!choice.spellBookOnly && this.spellCasting?.castingType == "Spontaneous" && !this.itemSpell && spell.have(this.characterService, this.spellCasting, spellLevel, choice.className, false) && !this.spellTakenByThis(spell.name, choice)) {
             reasons.push("You already have this spell with this class.");
         }
         return reasons;
@@ -793,7 +799,7 @@ export class SpellchoiceComponent implements OnInit {
         return choice.spells.filter(takenSpell => takenSpell.locked && takenSpell.name == spellName).length;
     }
 
-    on_SpellTaken(spellName: string, taken: boolean, choice: SpellChoice, locked: boolean) {
+    on_SpellTaken(spellName: string, taken: boolean, choice: SpellChoice, locked: boolean, update: boolean = true) {
         //Close the menu if all slots are filled, unless it's a spell combination choice.
         if (taken && this.get_Character().settings.autoCloseChoices && !choice.spellCombination && (choice.spells.length == this.get_Available(choice) - 1)) { this.toggle_Choice("") }
         let prepared: boolean = this.prepared;
@@ -808,6 +814,12 @@ export class SpellchoiceComponent implements OnInit {
                 }
             } else {
                 choice.spells.forEach(gain => gain.signatureSpell = false);
+            }
+        }
+        //The Interweave Dispel feat is dependent on having Dispel in your repertoire, so we update that here.
+        if (spellName == "Dispel Magic" && !taken) {
+            if (this.have_Feat("Interweave Dispel")) {
+                this.characterService.set_ToChange("Character", "featchoices");
             }
         }
         this.characterService.set_ToChange("Character", "spells");

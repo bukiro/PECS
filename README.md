@@ -84,7 +84,7 @@ The very latest in Assistive Technologies for Dungeon Master (ATDM)
 - [x] - Monk
 - [x] - Ranger
 - [x] - Rogue
-- [ ] - Sorcerer
+- [x] - Sorcerer
 - [x] - Wizard
 - [ ] Implement all Spells
 - [ ] - Focus Spells
@@ -94,7 +94,7 @@ The very latest in Assistive Technologies for Dungeon Master (ATDM)
 - [x] -- Wizard
 - [x] -- Bard
 - [x] -- Druid
-- [ ] -- Sorcerer
+- [x] -- Sorcerer
 - [x] - Cantrips
 - [x] - Level 1 Spells
 - [x] - Level 2 Spells
@@ -113,9 +113,6 @@ The very latest in Assistive Technologies for Dungeon Master (ATDM)
 - [ ] Stretch Goal: Icon-Driven UI with dynamic tooltips (e.g. with bootstrap or material)
 
 Active to-do:
-- Bloodline Breadth (and Occult Breadth) double the "available" value of spell choices, which makes them ineligible for Signature spells.
-    Signature spells need to be applied to SpellGains (preferable), or the Breadth feats need to work differently.
-- Test Sorcerer feats and archetype
 
 Implement:
 
