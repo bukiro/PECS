@@ -1,12 +1,12 @@
 <button class="minimizebutton lower" title="{{get_Minimized() ? 'Click to show all information.' : 'Click to show compact information.'}}" [ngClass]="{'fancy-button':get_Minimized()}" (click)="minimize()" *ngIf="creature=='Character'">&#8691;</button>
 <div id="{{creature}}-inventory-height" class="attributeBox">
-    <h3 class="box-header">Inventory</h3>
+    <header class="sectionHeader box-header">Inventory</header>
     <div class="loading" *ngIf="still_loading()">Loading</div>
     <ng-container *ngIf="!still_loading()">
         <button class="fullsize-only list-item center-aligned" (click)="set_ItemsMenuTarget(creature); toggle_Menu('items')">
             Get Items
         </button>
-        <h5 *ngIf="creature=='Character'">Currency</h5>
+        <header class="subsectionHeader" *ngIf="creature=='Character'">Currency</header>
         <div class="list-item" *ngIf="creature=='Character'">
             <strong title="Platinum">P</strong>
             <input class="number6" type="number" value="{{this.characterService.get_Character().cash[0]}}" disabled>
@@ -18,7 +18,7 @@
             <input class="number6" type="number" value="{{this.characterService.get_Character().cash[3]}}" disabled>
             <button title="Exchange coins for higher currency (no higher than Gold)." (click)="sort_Cash();">Sort</button>
         </div>
-        <h5>Bulk</h5>
+        <header class="subsectionHeader">Bulk</header>
         <ng-container *ngFor="let bulk of get_Bulk(); trackBy:trackByIndex;">
             <div class="list-item">
                 <strong>Bulk</strong>
@@ -37,10 +37,10 @@
             </div>
         </ng-container>
         <ng-container *ngIf="have_QuickCrafting()">
-            <h3 class="fullsize-only box-header">Quick Crafting</h3>
+            <header class="sectionHeader fullsize-only box-header">Quick Crafting</header>
             <app-tags [creature]="creature" [objectName]="'Quick Crafting'" [showTraits]=true [showFeats]=true [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
             <button class="list-item" *ngIf="have_Feat('Snare Specialist')" (click)="toggle_List('snarespecialist')">
-                <h3>Snare Specialist</h3>
+                <header class="sectionHeader">Snare Specialist</header>
             </button>
             <ng-container *ngIf="get_ShowList()=='snarespecialist'">
                 <div class="newrow" *ngIf="!get_PreparedItems('snarespecialist').length">You don't have any snares prepared for quick deployment.</div>
@@ -66,7 +66,7 @@
                 </ng-container>
             </ng-container>
         </ng-container>
-        <h3 class="fullsize-only box-header">Items</h3>
+        <header class="sectionHeader fullsize-only box-header">Items</header>
         <app-tags [creature]="creature" [objectName]="'Inventory'" [showTraits]=true [showFeats]=true [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
         <div class="fullsize-only list-item" *ngFor="let maxInvested of [get_MaxInvested()]; trackBy:trackByIndex;">
             <strong>Invested</strong><input type="number" class="number2" [ngClass]="{'problem':(get_Invested() > maxInvested.value)}" [ngModel]="get_Invested()" disabled>
@@ -75,13 +75,13 @@
             <app-tags [creature]="creature" [objectName]="'Max Invested'" [showTraits]=true [showFeats]=true [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
         </div>
         <div class="list-item" [ngClass]="{'fullsize-only':inventoryIndex != 0}" *ngFor="let inventory of get_Inventories(creature, true, true); let inventoryIndex = index; trackBy:trackByIndex;">
-            <h3 class="fullsize-only newrow">{{get_InventoryName(inventory)}}
+            <header class="sectionHeader fullsize-only newrow">{{get_InventoryName(inventory)}}
                 <span *ngIf="inventory.bulkLimit && inventory.bulkLimit % 1 == 0">&nbsp;{{"("+inventory.get_Bulk()+" / "+inventory.bulkLimit+" Bulk)"}}</span>
                 <span *ngIf="inventory.bulkLimit && inventory.bulkLimit % 1 != 0">&nbsp;{{"("+(inventory.get_Bulk(false)*10)+"L / "+(inventory.bulkLimit*10)+"L Bulk)"}}</span>
-            </h3>
+            </header>
             <ng-container *ngFor="let itemSet of inventory.names; trackBy:trackByIndex;">
                 <ng-container *ngFor="let listID of [get_ID()*1000]">
-                    <h5 class="newrow" *ngIf="inventory[itemSet.key].length">{{itemSet.name}}</h5>
+                    <header class="subsectionHeader newrow" *ngIf="inventory[itemSet.key].length">{{itemSet.name}}</header>
                     <ng-container *ngFor="let item of sort_ItemSet(inventory[itemSet.key]); trackBy:trackByIndex;">
                         <div class="list-item" *ngFor="let inventoryID of [item.id]; trackBy:trackByIndex;">
                             <button class="newrow left-aligned sublist-toggle" [ngClass]="{'fancy-button':((item.equippable && item.equipped) || (item.can_Invest() && item.invested)), 'problem':item.broken}" (click)="toggle_Item(inventoryID)">
@@ -349,7 +349,7 @@
                 </ng-container>
             </ng-container>
             <!--Other Items-->
-            <h5 class="fullsize-only">Miscellaneous Items</h5>
+            <header class="subsectionHeader fullsize-only">Miscellaneous Items</header>
             <button class="fullsize-only newrow center-aligned" (click)="add_NewOtherItem(inventory)">Add</button>
             <div class="fullsize-only list-item" *ngFor="let item of inventory.otheritems; trackBy:trackByIndex;">
                 <strong>Name</strong>

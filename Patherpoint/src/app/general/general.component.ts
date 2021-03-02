@@ -16,6 +16,8 @@ export class GeneralComponent implements OnInit {
 
     @Input()
     creature: string = "Character";
+    @Input()
+    public showMinimizeButton: boolean = true;
 
     constructor(
         private changeDetector: ChangeDetectorRef,

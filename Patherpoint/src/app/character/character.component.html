@@ -1,7 +1,7 @@
 <button class="minimizebutton lower" title="{{get_Minimized() ? 'Click to show all choices and information.' : 'Click to hide finished choices and show compact information.'}}" [ngClass]="{'fancy-button':get_Minimized()}" (click)="minimize()">&#8691;</button>
 <div id="character-height" class="itemBox">
     <button class="list-item center-aligned" (click)="toggleCharacterMenu()">
-        <h3>Close</h3>
+        <header class="sectionHeader">Close</header>
     </button>
     <div class="itemBox-inner">
         <div class="list-item">
@@ -21,8 +21,8 @@
                     Database connection failed.
                 </div>
                 <ng-container *ngFor="let savegame of get_Savegames(); let index = index; trackBy:trackByIndex;">
-                    <h3 *ngIf="index == 0 || get_Savegames()[index].partyName != get_Savegames()[index-1].partyName">
-                        {{savegame.partyName}}</h3>
+                    <header class="sectionHeader" *ngIf="index == 0 || get_Savegames()[index].partyName != get_Savegames()[index-1].partyName">
+                        {{savegame.partyName}}</header>
                     <div class="list-item newrow">
                         <span style="flex-grow:2;">
                             <strong>{{savegame.name}}</strong> Level {{savegame.level}}
@@ -152,7 +152,7 @@
                     </select>
                 </span>
             </div>
-            <h5>Show Level</h5>
+            <header class="subsectionHeader">Show Level</header>
             <!--Level selection-->
             <div class="list-item">
                 <div id="levelBox" class="newrow levelBoxTop">
@@ -165,7 +165,7 @@
             </div>
             <app-tags [creature]="'Character'" [objectName]="'Character'" [showTraits]=true [showFeats]=true [showItems]=true [showActivities]=true [showConditions]=true></app-tags>
             <div [ngClass]="{'invisible':get_ShowLevel() > 0}">
-                <h3>History</h3>
+                <header class="sectionHeader">History</header>
                 <div class="list-item">
                     <strong>Name</strong>
                     <span>
@@ -255,7 +255,7 @@
                                     </div>
                                     <div class="newrow left-aligned" *ngFor="let desc of class.desc; trackBy:trackByIndex;">
                                         <ng-container *ngFor="let text of desc.value.split('\n\n'); let textIndex = index; trackBy:trackByIndex;">
-                                            <h6 *ngIf="textIndex == 0">{{desc.name}}</h6>
+                                            <header class="featureHeader" *ngIf="textIndex == 0">{{desc.name}}</header>
                                             <p *ngIf="text.split('\n').length == 1">
                                                 {{text}}
                                             </p>
@@ -307,7 +307,7 @@
                                         </div>
                                         <div class="newrow left-aligned" *ngFor="let desc of ancestry.desc; trackBy:trackByIndex;">
                                             <ng-container *ngFor="let text of desc.value.split('\n\n'); let textIndex = index; trackBy:trackByIndex;">
-                                                <h6 *ngIf="textIndex == 0">{{desc.name}}</h6>
+                                                <header class="featureHeader" *ngIf="textIndex == 0">{{desc.name}}</header>
                                                 <p *ngIf="text.split('\n').length == 1">
                                                     {{text}}
                                                 </p>
@@ -383,11 +383,11 @@
                                     </div>
                                     <ng-container *ngFor="let activityName of heritage.gainActivities; trackBy:trackByIndex;">
                                         <div class="newrow left-aligned" *ngFor="let activity of get_Activities(activityName); trackBy:trackByIndex;">
-                                            <h4 class="left-aligned">{{activity.name}}
+                                            <header class="spellHeader left-aligned">{{activity.name}}
                                                 <app-actionIcons [actionString]="activity.actions">
                                                 </app-actionIcons>
                                                 {{(activity.activationType) ? activity.activationType : ""}}
-                                            </h4>
+                                            </header>
                                             <app-activity class="newrow" [activity]=activity [allowActivate]=false>
                                             </app-activity>
                                         </div>
@@ -580,7 +580,7 @@
             <ng-container *ngIf="get_Character().class">
                 <ng-container *ngFor="let level of get_Character().class.levels; trackBy:trackByIndex;">
                     <div [ngClass]="{'invisible':!(level.number > 0 && [0,level.number].includes(get_ShowLevel()))}">
-                        <h3 *ngIf="level.number > 0">Level {{level.number}}</h3>
+                        <header class="sectionHeader" *ngIf="level.number > 0">Level {{level.number}}</header>
                         <!--Fixed information-->
                         <div class="fullsize-only list-item" *ngFor="let listID of ['showFixedChanges'+level.number]; trackBy:trackByIndex;">
                             <button class="newrow sublist-toggle fancy-button" (click)="toggle_List(listID)">
@@ -589,7 +589,7 @@
                             <div class="list-item sublist fancy-list" *ngIf="get_ShowList()==listID">
                                 <!--Fixed Ability boosts-->
                                 <ng-container *ngFor="let boost of get_AbilityBoosts(level.number, level.number, '', '', '', '', true); let index = index;; trackBy:trackByIndex;">
-                                    <h6 *ngIf="index == 0">Ability Boosts</h6>
+                                    <header class="featureHeader" *ngIf="index == 0">Ability Boosts</header>
                                     <div class="list-item">
                                         <span>
                                             {{(boost.type == 'Flaw') ? 'Flaw: ' : 'Boost: '}}{{boost.name}}
@@ -599,7 +599,7 @@
                                 </ng-container>
                                 <!--Fixed Skill Increases-->
                                 <ng-container *ngFor="let skillIncrease of get_SkillIncreases(level.number, level.number, '', '', '', true); let index = index;; trackBy:trackByIndex;">
-                                    <h6 *ngIf="index == 0">Skill Increases</h6>
+                                    <header class="featureHeader" *ngIf="index == 0">Skill Increases</header>
                                     <div class="list-item">
                                         <span>
                                             {{skillIncrease.name}} ({{skillIncrease.source}})
@@ -608,7 +608,7 @@
                                 </ng-container>
                                 <!--Fixed Features-->
                                 <ng-container *ngFor="let feat of get_FeatsTaken(level.number, level.number, '', '', '', true, 'feature'); let index = index;; trackBy:trackByIndex;">
-                                    <h6 *ngIf="index == 0">Features</h6>
+                                    <header class="featureHeader" *ngIf="index == 0">Features</header>
                                     <div class="list-item">
                                         <span>
                                             {{feat.name}} ({{feat.source}})
@@ -625,7 +625,7 @@
                                 </ng-container>
                                 <!--Fixed Feats-->
                                 <ng-container *ngFor="let feat of get_FeatsTaken(level.number, level.number, '', '', '', true, 'feat'); let index = index;; trackBy:trackByIndex;">
-                                    <h6 *ngIf="index == 0">Feats</h6>
+                                    <header class="featureHeader" *ngIf="index == 0">Feats</header>
                                     <div class="list-item">
                                         <span>
                                             {{feat.name}} ({{feat.source}})
@@ -816,11 +816,11 @@
                                                 </div>
                                                 <ng-container *ngFor="let gain of [type.activities[1]]; trackBy:trackByIndex;">
                                                     <div class="newrow left-aligned" *ngFor="let activity of get_Activities(gain.name); trackBy:trackByIndex;">
-                                                        <h4 class="left-aligned">Advanced Maneuver: {{activity.name}}
+                                                        <header class="spellHeader left-aligned">Advanced Maneuver: {{activity.name}}
                                                             <app-actionIcons [actionString]="activity.actions">
                                                             </app-actionIcons>
                                                             {{(activity.activationType) ? activity.activationType : ""}}
-                                                        </h4>
+                                                        </header>
                                                         <app-activity class="newrow" [activity]=activity [allowActivate]=false>
                                                         </app-activity>
                                                     </div>
@@ -1031,11 +1031,11 @@
                                                     Description
                                                 </button>
                                                 <div class="newrow lower" *ngIf="get_ShowItem()==itemID">
-                                                    <h4 class="newrow"><span>{{spell.name}}<app-actionIcons
+                                                    <header class="spellHeader newrow"><span>{{spell.name}}<app-actionIcons
                                                                 [actionString]="spell.actions"></app-actionIcons>
                                                             {{(spell.castType) ? spell.castType : ""}}</span>
                                                         <span>Spell {{spell.levelreq}}</span>
-                                                    </h4>
+                                                    </header>
                                                     <app-spell class="newrow" [spell]=spell [spellLevel]="spell.levelreq">
                                                     </app-spell>
                                                 </div>
@@ -1104,11 +1104,11 @@
                                                 </div>
                                                 <ng-container *ngFor="let activityName of heritage.gainActivities; trackBy:trackByIndex;">
                                                     <div class="newrow left-aligned" *ngFor="let activity of get_Activities(activityName); trackBy:trackByIndex;">
-                                                        <h4 class="left-aligned">{{activity.name}}
+                                                        <header class="spellHeader left-aligned">{{activity.name}}
                                                             <app-actionIcons [actionString]="activity.actions">
                                                             </app-actionIcons>
                                                             {{(activity.activationType) ? activity.activationType : ""}}
-                                                        </h4>
+                                                        </header>
                                                         <app-activity class="newrow" [activity]=activity [allowActivate]=false>
                                                         </app-activity>
                                                     </div>

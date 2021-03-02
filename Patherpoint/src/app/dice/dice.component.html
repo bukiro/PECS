@@ -1,6 +1,6 @@
 <div id="dice" class="diceBox">
     <button class="list-item center-aligned" (click)="toggleDiceMenu()">
-        <h3>Close</h3>
+        <header class="sectionHeader">Close</header>
     </button>
     <div class="list-item" style="gap:8px;">
         <div>
@@ -62,7 +62,7 @@
         </div>
     </div>
     <div class="list-item center-aligned" *ngIf="diceResult.length">
-        <h3 class="box-header dice-result">{{get_DiceSum()}}</h3>
+        <header class="sectionHeader box-header dice-result">{{get_DiceSum()}}</header>
         <div class="newrow center-aligned" *ngIf="diceResult.length > 1">
             <span>
                 <span *ngFor="let result of diceResult; let index = index;" title="{{result.roll}}">

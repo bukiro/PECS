@@ -1,6 +1,6 @@
 <button class="minimizebutton lower" title="{{get_Minimized() ? 'Click to show all information.' : 'Click to show compact information.'}}" [ngClass]="{'fancy-button':get_Minimized()}" (click)="minimize()" *ngIf="creature=='Character'">&#8691;</button>
 <div id="{{creature}}-abilities-height" class="attributeBox">
-    <h3 class="box-header">Abilities</h3>
+    <header class="sectionHeader box-header">Abilities</header>
     <div class="loading" *ngIf="still_loading()">Loading</div>
     <ng-container *ngIf="!still_loading()">
         <ng-container *ngIf="!get_Minimized()">

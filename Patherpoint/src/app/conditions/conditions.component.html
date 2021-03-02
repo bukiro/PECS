@@ -1,10 +1,10 @@
 <div id="conditions" class="itemBox">
     <button class="list-item center-aligned" (click)="toggleConditionsMenu()">
-        <h3>Close</h3>
+        <header class="sectionHeader">Close</header>
     </button>
     <div class="loading" *ngIf="still_loading()">Loading</div>
     <ng-container *ngIf="!still_loading() && get_ConditionsMenuState()=='in'">
-        <h3>Duration: {{get_Duration()}}</h3>
+        <header class="sectionHeader">Duration: {{get_Duration()}}</header>
         <div class="itemBox-inner">
             <div class="list-item">
                 <div class="newrow">
@@ -28,7 +28,7 @@
                 <button (click)="toggle_Purpose('customeffects')" [ngClass]="{'fancy-button':get_ShowPurpose()=='customeffects'}">Custom Effects</button>
             </div>
             <ng-container *ngIf="get_ShowPurpose()=='conditions'">
-                <h3>Add Conditions</h3>
+                <header class="sectionHeader">Add Conditions</header>
                 <div class="list-item">
                     <strong>Find (in Name or Description)</strong>
                     <span>
@@ -40,7 +40,7 @@
                 <ng-container *ngFor="let set of ['Generic','Activities','Afflictions','Alchemical Elixirs','Alchemical Tools','Ammunition','Blood Magic','Feats','Held Items','Other Consumables','Potions','Spells','Talismans','Worn Items']; trackBy:trackByIndex;">
                     <ng-container *ngFor="let visibleConditions of [get_VisibleConditionsSet(set)]; trackBy:trackByIndex;">
                         <button class="list-item" (click)="toggle_List(set)" *ngIf="visibleConditions.length">
-                            <h3>{{set}}</h3>
+                            <header class="sectionHeader">{{set}}</header>
                         </button>
                         <div class="list-item" *ngIf="visibleConditions.length && (get_ShowList()==set||get_ShowList()=='All')">
                             <div class="list-item" *ngFor="let condition of visibleConditions; trackBy:trackByIndex;">
@@ -158,9 +158,9 @@
                 </ng-container>
             </ng-container>
             <ng-container *ngIf="get_ShowPurpose()=='customeffects'">
-                <h3>Custom Effects</h3>
+                <header class="sectionHeader">Custom Effects</header>
                 <button class="list-item" (click)="toggle_List('addCustomEffect')" *ngIf="get_ShowPurpose()=='customeffects'">
-                    <h3>Add Custom Effect</h3>
+                    <header class="sectionHeader">Add Custom Effect</header>
                 </button>
                 <div class="newrow list-item" *ngIf="get_ShowPurpose()=='customeffects' && get_ShowList()=='addCustomEffect'">
                     <div class="newrow list-item" *ngFor="let property of get_CustomEffectProperties(); let index = index; trackBy:trackByIndex;">
@@ -191,14 +191,14 @@
                     </div>
                     <ng-container *ngFor="let creature of get_Creatures()">
                         <button class="list-item newrow" (click)="add_Effect(creature)" title="{{get_EffectInvalid()}}" [disabled]="get_EffectInvalid()">
-                            <h3>Add to {{creature.type}}</h3>
+                            <header class="sectionHeader">Add to {{creature.type}}</header>
                         </button>
                     </ng-container>
                 </div>
                 <ng-container *ngFor="let creature of get_Creatures()">
                     <ng-container *ngIf="creature.effects.length">
                         <button class="list-item" (click)="toggle_List('customEffects'+creature.type)">
-                            <h3>Custom effects on {{creature.type}}</h3>
+                            <header class="sectionHeader">Custom effects on {{creature.type}}</header>
                         </button>
                         <div class="list-item" *ngIf="get_ShowList()=='customEffects'+creature.type">
                             <ng-container *ngFor="let effectGain of creature.effects; let index = index; trackBy:trackByIndex;">

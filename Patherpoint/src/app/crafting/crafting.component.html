@@ -1,6 +1,6 @@
 <div id="items" class="itemBox">
     <button class="list-item center-aligned" (click)="toggleCraftingMenu()">
-        <h3>Close</h3>
+        <header class="sectionHeader">Close</header>
     </button>
     <div class="loading" *ngIf="still_loading()">Loading</div>
     <ng-container *ngIf="get_CraftingMenuState()=='in'">
@@ -21,7 +21,7 @@
             </select>
         </div>
         <div class="itemBox-inner">
-            <h5>Currency</h5>
+            <header class="subsectionHeader">Currency</header>
             <div class="list-item">
                 <div class="newrow">
                     <strong>Platinum</strong>
@@ -34,7 +34,7 @@
                     <input class="number6" style="text-align: center;" type="number" value="{{get_Character().cash[3]}}" disabled>
                 </div>
             </div>
-            <h5>Currency</h5>
+            <header class="subsectionHeader">Currency</header>
             <div class="list-item">
                 <div class="newrow">
                     <strong>Platinum</strong>
@@ -61,13 +61,13 @@
             <ng-container *ngFor="let items of [get_Items()]; trackBy:trackByIndex;">
                 <ng-container *ngIf="have_Feat('Snare Specialist')">
                     <ng-container *ngFor="let preparations of [get_SnareSpecialistPreparations()]">
-                        <h3>Snare Specialist</h3>
+                        <header class="sectionHeader">Snare Specialist</header>
                         <div class="list-item">
                             You can prepare {{preparations.available - preparations.prepared}} of {{preparations.available}} snares for quick deployment.
                         </div>
                         <ng-container *ngFor="let listID of ['snarespecialist']; trackBy:trackByIndex;">
                             <button class="list-item" [ngStyle]="{'display':!get_VisibleItems(items.snares).length ? 'none' : 'flex' }" (click)="toggle_List(listID)">
-                                <h3>Snares</h3>
+                                <header class="sectionHeader">Snares</header>
                             </button>
                             <div class="list-item" [ngStyle]="{'display':!get_VisibleItems(items.snares).length ? 'none' : 'flex' }" *ngIf="get_ShowList()==listID||get_ShowList()=='All'">
                                 <ng-container *ngFor="let item of get_VisibleItems(items.snares)|sortBy:'asc':sorting; trackBy:trackByIndex;">
@@ -102,7 +102,7 @@
                         </ng-container>
                     </ng-container>
                 </ng-container>
-                <h3>Craft Items</h3>
+                <header class="sectionHeader">Craft Items</header>
                 <app-tags [creature]="creature" [objectName]="'Crafting'" [showTraits]=true [showFeats]=true [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
                 <div class="list-item">
                     The material cost of Crafting an item can vary depending on your success using the Craft activity. If you Craft an item in any way that requires you to spend materials, manually spend the appropriate amount of currency and any required items.
@@ -110,7 +110,7 @@
                 <ng-container *ngFor="let itemSet of items.names; let index = index; trackBy:trackByIndex;">
                     <ng-container *ngFor="let listID of [(index*1000+1000)]; trackBy:trackByIndex;">
                         <button class="list-item" [ngStyle]="{'display':!get_VisibleItems(items[itemSet.key]).length ? 'none' : 'flex' }" (click)="toggle_List(listID)">
-                            <h3>{{itemSet.name}}</h3>
+                            <header class="sectionHeader">{{itemSet.name}}</header>
                         </button>
                         <div class="list-item" [ngStyle]="{'display':!get_VisibleItems(items[itemSet.key]).length ? 'none' : 'flex' }" *ngIf="get_ShowList()==listID||get_ShowList()=='All'">
                             <ng-container *ngFor="let item of get_VisibleItems(items[itemSet.key])|sortBy:'asc':sorting; trackBy:trackByIndex;">

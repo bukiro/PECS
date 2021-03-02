@@ -164,18 +164,18 @@
             </div>
             <div class="list-item left-aligned" *ngFor="let shownActivityName of activity.showActivities; trackBy:trackByIndex;">
                 <div *ngFor="let shownActivity of get_Activities(shownActivityName); trackBy:trackByIndex;">
-                    <h4>{{shownActivity.name}}
+                    <header class="spellHeader">{{shownActivity.name}}
                         <app-actionIcons [actionString]="shownActivity.actions">
-                        </app-actionIcons> {{shownActivity.activationType.toString()}}</h4>
+                        </app-actionIcons> {{shownActivity.activationType.toString()}}</header>
                     <app-activity [activity]=shownActivity [allowActivate]="false"></app-activity>
                 </div>
             </div>
             <div class="newrow left-aligned" *ngFor="let cast of get_SpellCasts(); let spellCastIndex = index; trackBy:trackByIndex;">
                 <div *ngFor="let spell of get_Spells(cast.name); trackBy:trackByIndex;">
-                    <h4>{{spell.name}}
+                    <header class="spellHeader">{{spell.name}}
                         <app-actionIcons [actionString]="spell.actions">
                         </app-actionIcons>{{spell.castType.toString()}}
-                    </h4>
+                    </header>
                     <ng-container *ngFor="let condition of get_SpellConditions(cast, spellCastIndex); let conditionIndex = index; trackBy:trackByIndex">
                         <div class="newrow list-item" *ngIf="condition && condition.choices.length">
                             <span>{{condition.name}} Effect selection:
@@ -194,14 +194,14 @@
             </div>
             <div class="list-item left-aligned" *ngFor="let shownSpellSet of activity.showSpells; trackBy:trackByIndex;">
                 <div *ngFor="let shownSpell of get_Spells(shownSpellSet.name); trackBy:trackByIndex;">
-                    <h4>{{shownSpell.name}}
+                    <header class="spellHeader">{{shownSpell.name}}
                         <app-actionIcons [actionString]="shownSpell.actions">
-                        </app-actionIcons> {{shownSpell.castType.toString()}}</h4>
+                        </app-actionIcons> {{shownSpell.castType.toString()}}</header>
                     <app-spell [spell]=shownSpell [spellLevel]="shownSpellSet.level || 0"></app-spell>
                 </div>
             </div>
             <div class="newrow left-aligned" *ngFor="let feat of get_FeatsShowingOn(activity.name); trackBy:trackByIndex;">
-                <h4>{{feat.name}}</h4>
+                <header class="spellHeader">{{feat.name}}</header>
                 <div class="newrow left-aligned">
                     <cite class="trait" *ngFor="let trait of feat.traits; trackBy:trackByIndex;" title="{{get_Traits(trait)[0].desc}}">{{trait}}</cite>
                 </div>
@@ -213,7 +213,7 @@
                 </div>
             </div>
             <div class="newrow left-aligned" *ngFor="let condition of get_ConditionsShowingOn(activity.name); trackBy:trackByIndex;">
-                <h4>{{condition.name}}</h4>
+                <header class="spellHeader">{{condition.name}}</header>
                 <div class="newrow left-aligned" *ngFor="let desc of condition.desc.split('\n\n'); trackBy:trackByIndex;">
                     <p *ngIf="desc.split('\n').length == 1" [innerHTML]="desc"></p>
                     <ul *ngIf="desc.split('\n').length > 1">
@@ -224,20 +224,20 @@
             <ng-container *ngIf="allowActivate">
                 <ng-container *ngFor="let related_gain of get_ActivityGainsShowingOn(activity.name); trackBy:trackByIndex;">
                     <div class="newrow left-aligned" *ngFor="let related_activity of get_ActivitiesFromGain(related_gain); trackBy:trackByIndex;">
-                        <h4>{{related_activity.name}}
+                        <header class="spellHeader">{{related_activity.name}}
                             <app-actionIcons [actionString]="related_activity.actions">
                             </app-actionIcons>{{(related_activity.activationType) ? related_activity.activationType : ""}}
-                        </h4>
+                        </header>
                         <app-activity [creature]="creature" [activity]=related_activity [gain]=related_gain [allowActivate]=true></app-activity>
                     </div>
                 </ng-container>
                 <ng-container *ngIf="gain.name == 'Fused Stance'">
                     <ng-container *ngFor="let gain of get_FusedStances(); trackBy:trackByIndex;">
                         <div class="newrow left-aligned" *ngFor="let related_activity of get_ActivitiesFromGain(gain); trackBy:trackByIndex;">
-                            <h4>{{related_activity.name}}
+                            <header class="spellHeader">{{related_activity.name}}
                                 <app-actionIcons [actionString]="related_activity.actions">
                                 </app-actionIcons>{{(related_activity.activationType) ? related_activity.activationType : ""}}
-                            </h4>
+                            </header>
                             <app-activity [creature]="creature" [activity]=related_activity [gain]=gain [allowActivate]=true>
                             </app-activity>
                         </div>

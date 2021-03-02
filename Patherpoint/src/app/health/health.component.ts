@@ -20,6 +20,8 @@ export class HealthComponent implements OnInit {
 
     @Input()
     creature: string = "Character";
+    @Input()
+    public showMinimizeButton: boolean = true;
 
     public damage: number = 0;
     public nonlethal: boolean = false;

@@ -106,7 +106,7 @@
         </span>
     </div>
     <div class="newrow left-aligned" *ngFor="let feat of get_FeatsShowingOn(spell.name); trackBy:trackByIndex;">
-        <h4>{{feat.name}}</h4>
+        <header class="spellHeader">{{feat.name}}</header>
         <div class="newrow left-aligned">
             <cite class="trait" *ngFor="let trait of feat.traits; trackBy:trackByIndex;" title="{{get_Traits(trait)[0].desc}}">{{trait}}</cite>
         </div>
@@ -119,9 +119,9 @@
     </div>
     <div class="list-item left-aligned" *ngFor="let shownSpellSet of spell.showSpells; trackBy:trackByIndex;">
         <div *ngFor="let shownSpell of get_Spells(shownSpellSet.name); trackBy:trackByIndex;">
-            <h4>{{shownSpell.name}}
+            <header class="spellHeader">{{shownSpell.name}}
                 <app-actionIcons [actionString]="shownSpell.actions">
-                </app-actionIcons> {{shownSpell.castType.toString()}}</h4>
+                </app-actionIcons> {{shownSpell.castType.toString()}}</header>
             <app-spell [spell]=shownSpell [spellLevel]="shownSpellSet.level || spellLevel || 0"></app-spell>
         </div>
     </div>

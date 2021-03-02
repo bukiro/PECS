@@ -1,7 +1,7 @@
 <button class="minimizebutton lower" title="{{get_Minimized() ? 'Click to show all information.' : 'Click to show compact information.'}}" [ngClass]="{'fancy-button':get_Minimized()}" (click)="minimize()">&#8691;</button>
 <div id="spells-height" class="itemBox">
     <button class="list-item center-aligned" (click)="toggleSpellMenu()">
-        <h3>Close</h3>
+        <header class="sectionHeader">Close</header>
     </button>
     <div class="loading" *ngIf="still_loading()">Loading</div>
     <ng-container *ngIf="!still_loading() && get_Character().class && get_SpellsMenuState()=='in'">
@@ -13,13 +13,13 @@
         </div>
         <div class="itemBox-inner">
             <ng-container *ngFor="let casting of get_SpellCastings(); let index = index; trackBy:trackByIndex;">
-                <h3>{{(casting.className + " " + casting.tradition + ((casting.castingType == "Focus") ? (" " + casting.source) : " Spells")).trim()}}
+                <header class="sectionHeader">{{(casting.className + " " + casting.tradition + ((casting.castingType == "Focus") ? (" " + casting.source) : " Spells")).trim()}}
                     <span class="lower" *ngIf="['Prepared', 'Spontaneous'].includes(casting.castingType)">
                         <span class="lower">
                             {{casting.castingType}}
                         </span>
                     </span>
-                </h3>
+                </header>
                 <app-tags [creature]="'Character'" [objectName]="casting.className + ' ' + casting.castingType + ' Spells'" [showTraits]=true [showFeats]=true [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true>
                 </app-tags>
                 <div class="list-item" *ngIf="need_Spellbook(casting)">
@@ -39,14 +39,14 @@
                 </div>
                 <ng-container *ngFor="let level of [-1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]; trackBy:trackByIndex;">
                     <ng-container *ngIf="level <= get_MaxSpellLevel()">
-                        <h5 *ngIf="level == -1 && casting.castingType == 'Focus' && get_SpellChoices(casting, level).length">
-                            Focus Spells</h5>
-                        <h5 *ngIf="level == 0 && casting.castingType == 'Focus' && get_SpellChoices(casting, level).length">
-                            Focus Cantrips</h5>
-                        <h5 *ngIf="level == 0 && casting.castingType != 'Focus' && get_SpellChoices(casting, level).length">
-                            Cantrips</h5>
-                        <h5 *ngIf="level > 0 && casting.castingType != 'Focus' && get_SpellChoices(casting, level).length">
-                            {{"Level "+level}}</h5>
+                        <header class="subsectionHeader" *ngIf="level == -1 && casting.castingType == 'Focus' && get_SpellChoices(casting, level).length">
+                            Focus Spells</header>
+                        <header class="subsectionHeader" *ngIf="level == 0 && casting.castingType == 'Focus' && get_SpellChoices(casting, level).length">
+                            Focus Cantrips</header>
+                        <header class="subsectionHeader" *ngIf="level == 0 && casting.castingType != 'Focus' && get_SpellChoices(casting, level).length">
+                            Cantrips</header>
+                        <header class="subsectionHeader" *ngIf="level > 0 && casting.castingType != 'Focus' && get_SpellChoices(casting, level).length">
+                            {{"Level "+level}}</header>
                         <!--Fixed information-->
                         <div class="fullsize-only list-item" *ngIf="get_SpellsTaken(1, get_Character().level, level, '', casting, '', '', true).length">
                             <button class="newrow sublist-toggle fancy-button" (click)="toggle_Choice(index+'showFixedChanges'+level)">

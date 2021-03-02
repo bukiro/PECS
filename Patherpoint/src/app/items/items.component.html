@@ -1,6 +1,6 @@
 <div id="items" class="itemBox">
     <button class="list-item center-aligned" (click)="toggleItemsMenu()">
-        <h3>Close</h3>
+        <header class="sectionHeader">Close</header>
     </button>
     <div class="loading" *ngIf="still_loading()">Loading</div>
     <ng-container *ngIf="get_ItemsMenuState()=='in'">
@@ -29,7 +29,7 @@
             </select>
         </div>
         <div class="itemBox-inner">
-            <h5>Currency</h5>
+            <header class="subsectionHeader">Currency</header>
             <div class="list-item">
                 <div class="newrow">
                     <strong>Platinum</strong>
@@ -42,7 +42,7 @@
                     <input class="number6" style="text-align: center;" type="number" value="{{get_Character().cash[3]}}" disabled>
                 </div>
             </div>
-            <h5>Change Currency</h5>
+            <header class="subsectionHeader">Change Currency</header>
             <div class="list-item">
                 <div class="newrow">
                     <strong>Platinum</strong>
@@ -77,11 +77,11 @@
             </app-tags>
             <ng-container *ngFor="let items of [get_Items(true)]; trackBy:trackByIndex;">
                 <ng-container *ngFor="let creatureType of ['Character','Companion']">
-                    <h3 *ngIf="get_ShowPurpose()=='items'">Get {{creatureType == "Companion" ? "Animal Companion " : ""}}Items
-                    </h3>
-                    <h3 *ngIf="get_ShowPurpose()=='scrollsavant' && creatureType == 'Character'">Prepare Scrolls</h3>
-                    <h3 *ngIf="get_ShowPurpose()=='formulas'">Learn {{creatureType == "Companion" ? "Animal Companion " : ""}}Formulas
-                    </h3>
+                    <header class="sectionHeader" *ngIf="get_ShowPurpose()=='items'">Get {{creatureType == "Companion" ? "Animal Companion " : ""}}Items
+                    </header>
+                    <header class="sectionHeader" *ngIf="get_ShowPurpose()=='scrollsavant' && creatureType == 'Character'">Prepare Scrolls</header>
+                    <header class="sectionHeader" *ngIf="get_ShowPurpose()=='formulas'">Learn {{creatureType == "Companion" ? "Animal Companion " : ""}}Formulas
+                    </header>
                     <!--Formulas available through feats-->
                     <ng-container *ngIf="get_ShowPurpose()=='formulas' && creatureType == 'Character'">
                         <ng-container *ngFor="let descblock of [get_LearningAvailable()]; trackBy:trackByIndex;">
@@ -111,7 +111,7 @@
                                 </div>
                             </ng-container>
                             <button class="list-item fancy-button">
-                                <h3>Prepared Scrolls</h3>
+                                <header class="sectionHeader">Prepared Scrolls</header>
                             </button>
                             <div class="list-item" *ngIf="!casting.scrollSavant.length">
                                 No scrolls prepared.
@@ -140,7 +140,7 @@
                         <ng-container *ngFor="let itemSet of items.names; let index = index; trackBy:trackByIndex;">
                             <ng-container *ngFor="let listID of [creatureType+(index*1000+1000)]; trackBy:trackByIndex;">
                                 <button class="list-item" [ngStyle]="{'display':!get_VisibleItems(items[itemSet.key], creatureType).length ? 'none' : 'flex' }" (click)="toggle_List(listID)">
-                                    <h3>{{get_ShowPurpose()=='scrollsavant' ? "Available " : ""}}{{itemSet.name}}</h3>
+                                    <header class="sectionHeader">{{get_ShowPurpose()=='scrollsavant' ? "Available " : ""}}{{itemSet.name}}</header>
                                 </button>
                                 <div class="list-item" [ngStyle]="{'display':!get_VisibleItems(items[itemSet.key], creatureType).length ? 'none' : 'flex' }" *ngIf="get_ShowList()==listID||get_ShowList()=='All'||get_ShowPurpose()=='scrollsavant'">
                                     <ng-container *ngFor="let item of get_VisibleItems(items[itemSet.key], creatureType)|sortBy:'asc':sorting; trackBy:trackByIndex;">
@@ -216,7 +216,7 @@
                     </ng-container>
                 </ng-container>
                 <ng-container *ngIf="get_ShowPurpose()=='createcustomitem'">
-                    <h3>Create custom item</h3>
+                    <header class="sectionHeader">Create custom item</header>
                     <ng-container *ngFor="let listID of [get_ID()*1000]; trackBy:trackByIndex;">
                         <div class="list-item">
                             <span><strong>Type</strong></span>
@@ -233,14 +233,14 @@
                                     Copy existing item
                                 </button>
                                 <div class="list-item sublist lower" *ngIf="get_ShowItem()==inventoryID">
-                                    <h5>New Items</h5>
+                                    <header class="subsectionHeader">New Items</header>
                                     <div class="list-item" *ngFor="let item of get_CopyItems(newItemType); trackBy:trackByIndex;">
                                         {{(item.get_Name) ? item.get_Name() : item.name}}
                                         <button class="newrow center-aligned" (click)="copy_Item(item);toggle_Item(0)">
                                             Copy
                                         </button>
                                     </div>
-                                    <h5>Inventory Items</h5>
+                                    <header class="subsectionHeader">Inventory Items</header>
                                     <div class="list-item" *ngFor="let item of get_InventoryItems(newItemType); trackBy:trackByIndex;">
                                         {{(item.get_Name) ? item.get_Name() : item.name}}
                                         <button class="newrow center-aligned" (click)="copy_Item(item);toggle_Item(0)">

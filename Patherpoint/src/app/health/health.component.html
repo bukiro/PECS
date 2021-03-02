@@ -1,9 +1,9 @@
-<button class="minimizebutton lower" title="{{get_Minimized() ? 'Click to show all information.' : 'Click to show compact information.'}}" [ngClass]="{'fancy-button':get_Minimized()}" (click)="minimize()" *ngIf="creature=='Character'">&#8691;</button>
+<button class="minimizebutton lower" title="{{get_Minimized() ? 'Click to show all information.' : 'Click to show compact information.'}}" [ngClass]="{'fancy-button':get_Minimized()}" (click)="minimize()" *ngIf="creature=='Character' && showMinimizeButton">&#8691;</button>
 <div id="{{creature}}-health-height" class="attributeBox">
     <ng-container *ngFor="let health of [calculate_Health()]; trackBy:trackByIndex;">
-        <h3 class="box-header">Health:
+        <header class="sectionHeader box-header">Health:
             <span [ngClass]="{'penalty':(health.$currentHP.result <= 0), 'bonus':(health.$currentHP.result > health.$maxHP.result)}" title="{{health.$currentHP.explain}}">{{health.$currentHP.result}}</span> Hit Points
-        </h3>
+        </header>
         <app-tags [creature]="creature" [objectName]="'Health'" [showTraits]=true [showFeats]=true [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
         <div class="loading" *ngIf="still_loading()">Loading</div>
         <ng-container *ngIf="!still_loading()">
@@ -120,7 +120,7 @@
                     <button [disabled]="setTempHP < 0" (click)="set_TempHP(setTempHP)">Set</button>
                 </span>
             </div>
-            <h5>Resistances</h5>
+            <header class="subsectionHeader">Resistances</header>
             <ng-container *ngFor="let resistances of [get_Resistances()]; let index = index; trackBy:trackByIndex;">
                 <div class="list-item" *ngIf="resistances.length">
                     <div class="newrow" *ngFor="let resistance of resistances; trackBy:trackByIndex;">
@@ -131,7 +131,7 @@
                 <app-tags [creature]="creature" [objectName]="'Resistances'" [showTraits]=true [showFeats]=true [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
             </ng-container>
             <ng-container *ngFor="let immunities of [get_Immunities()]; trackBy:trackByIndex;">
-                <h5 *ngIf="immunities.length">Immunities</h5>
+                <header class="subsectionHeader" *ngIf="immunities.length">Immunities</header>
                 <div class="list-item" *ngIf="immunities.length">
                     <div class="newrow" *ngFor="let immunity of immunities; trackBy:trackByIndex;">
                         <span title="{{immunity.source}}" class="bonus">{{immunity.target}}</span>

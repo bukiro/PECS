@@ -158,21 +158,21 @@ app-familiar .character-only {
     display: none;
 }
 
-.minimized h3,
-.minimized h5 {
-    margin: 0.8em 0px 0px 0px;
+.minimized header.sectionHeader,
+.minimized header.subsectionHeader {
+    margin: 4px 0px 0px 0px;
 }
 
-h3.box-header {
+header.sectionHeader.box-header {
     color: #465A8C;
     color: rgb(var(--accent));
 }
 
-.darkmode h3.box-header {
+.darkmode header.sectionHeader.box-header {
     text-shadow: 0 0 5px var(--textcolor), 0 0 5px var(--textcolor), 0 0 5px var(--textcolor), 0 0 5px var(--textcolor), 0 0 5px var(--textcolor);
 }
 
-.darkmode h3.box-header span {
+.darkmode header.sectionHeader.box-header span {
     text-shadow: none;
 }
 
@@ -209,38 +209,40 @@ h1 {
     font-size: 2em;
 }
 
-h2 {
-    font-size: 1.5em;
-}
-
-h3 {
+header.sectionHeader {
     clear: both;
+    font-weight: bold;
+    font-size: 1.5em;
+    margin-top: 8px;
+    margin-bottom: 8px;
 }
 
-button h3 {
+button header.sectionHeader {
     margin-top: 4px;
     margin-bottom: 4px;
 }
 
-h4 {
+header.spellHeader {
     width: 100%;
     color: #cbc18f;
     background-color: #522e2c;
     padding: 2px;
     margin: 8px 0px;
+    font-weight: bold;
+    font-size: 1.2em;
 }
 
-h4 svg,
-h4 svg g {
+header.spellHeader svg,
+header.spellHeader svg g {
     fill: #cbc18f;
 }
 
-h5 {
-    font-size: 90%;
+header.subsectionHeader {
+    font-weight: bold;
     margin: 8px 0px;
 }
 
-h6 {
+header.featureHeader {
     width: 100%;
     background-color: #cbc18f;
     color: #616161;
@@ -248,11 +250,7 @@ h6 {
     margin: 8px 0px;
     text-align: left;
     font-size: 1em;
-}
-
-h1,
-h2 {
-    font-weight: lighter;
+    font-weight: bold;
 }
 
 p {
@@ -770,7 +768,7 @@ app-actionicons .actionIcon {
     margin: 0;
 }
 
-h4 app-actionicons .actionIcon {
+header.spellHeader app-actionicons .actionIcon {
     background-color: #cbc18f;
 }
 
@@ -797,7 +795,7 @@ span {
     background-color: rgba(200, 200, 200, 0.1)
 }
 
-.list-item>*:not(.list-item):not(h3):not(p) {
+.list-item>*:not(.list-item):not(header.sectionHeader):not(p) {
     margin-top: auto;
     margin-bottom: auto;
 }

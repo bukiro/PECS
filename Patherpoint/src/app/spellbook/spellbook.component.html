@@ -1,13 +1,13 @@
 <button class="minimizebutton lower" title="{{get_Minimized() ? 'Click to show all information.' : 'Click to show compact information.'}}" [ngClass]="{'fancy-button':get_Minimized()}" (click)="minimize()">&#8691;</button>
 <div id="spellbook-height" class="attributeBox">
-    <h3 class="box-header">Spells</h3>
+    <header class="sectionHeader box-header">Spells</header>
     <div class="loading" *ngIf="still_loading()">Loading</div>
     <ng-container *ngIf="!still_loading()">
         <app-tags [creature]="'Character'" [objectName]="'Spellbook'" [showTraits]=true [showFeats]=true [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
         <button class="fullsize-only center-aligned list-item" (click)="toggleSpellsMenu()">Get
             Spells</button>
         <ng-container *ngFor="let skill of get_SpellDCs(); let index = index; trackBy:trackByIndex;">
-            <h3 class="fullsize-only" *ngIf="index == 0">Spell Attacks & DCs</h3>
+            <header class="sectionHeader fullsize-only" *ngIf="index == 0">Spell Attacks & DCs</header>
             <app-skill [skill]=skill [isDC]=false></app-skill>
             <app-skill [skill]=skill [isDC]=true></app-skill>
         </ng-container>
@@ -16,7 +16,7 @@
             <ng-container *ngFor="let studiouscapacityslots of [get_MaxSpellSlots(0, casting)]">
                 <ng-container *ngFor="let firstgreatervitalevolutionslot of [get_MaxSpellSlots(11, casting)]">
                     <ng-container *ngFor="let secondgreatervitalevolutionslot of [get_MaxSpellSlots(12, casting)]">
-                        <h3>
+                        <header class="sectionHeader">
                             {{(casting.className + (casting.tradition != "Innate" ? " " + casting.tradition : "") + ((casting.castingType == "Focus") ? (" " + casting.source) : " Spells")).trim()}}
                             <span class="lower" *ngIf="['Prepared', 'Spontaneous'].includes(casting.castingType)">
                                 <span class="lower">
@@ -34,7 +34,7 @@
                             <div class="newrow lower" *ngIf="firstgreatervitalevolutionslot || secondgreatervitalevolutionslot" title="Twice per day, you can cast a spell after you've run out of spell slots of the appropriate spell level; the two spells you cast with this feat must be of different spell levels.">
                                 {{(get_UsedSpellSlots(11, casting) == 0 ? 1 : 0) + (get_UsedSpellSlots(12, casting) == 0 ? 1 : 0)}} extra spell casting{{(get_UsedSpellSlots(11, casting) == 0 ? 1 : 0) + (get_UsedSpellSlots(12, casting) == 0 ? 1 : 0) != 1 ? "s" : ""}} available
                             </div>
-                        </h3>
+                        </header>
                         <ng-container *ngFor="let maxFocusPoints of [get_MaxFocusPoints()]; trackBy:trackByIndex;">
                             <ng-container *ngFor="let level of [-1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]; trackBy:trackByIndex;">
                                 <ng-container *ngIf="level <= get_MaxSpellLevel(casting)">
@@ -78,8 +78,8 @@
                                                     </app-tags>
                                                 </div>
                                                 <div class="list-item" *ngFor="let choice of choiceList; let choicesIndex = index; trackBy:trackByIndex;">
-                                                    <h5 class="box-header" *ngIf="choicesIndex == 0">Level {{level}} Temporary Spell Selections
-                                                    </h5>
+                                                    <header class="subsectionHeader box-header" *ngIf="choicesIndex == 0">Level {{level}} Temporary Spell Selections
+                                                    </header>
                                                     <app-spellchoice (showChoiceMessage)="receive_ChoiceMessage($event)" (showSpellMessage)="receive_SpellMessage($event)" [spellCasting]="casting" [choice]="choice" [allowHeightened]="true" [allowBorrow]="false" [showChoice]="get_ShowList()" [showSpell]="get_ShowItem()"
                                                         [level]="choice.level" [prepared]="choice.source == 'Infinite Possibilities'" [spellbook]="true">
                                                     </app-spellchoice>
@@ -194,20 +194,20 @@
                                                                                 </app-spell>
                                                                             </ng-container>
                                                                             <ng-container *ngIf="spellTaken.gain.combinationSpellName">
-                                                                                <h4 class="left-aligned">{{spell.name}}
+                                                                                <header class="spellHeader left-aligned">{{spell.name}}
                                                                                     <app-actionIcons [actionString]="spell.actions">
                                                                                     </app-actionIcons>
                                                                                     {{(spell.castType) ? spell.castType : ""}}
-                                                                                </h4>
+                                                                                </header>
                                                                                 <app-spell class="list-item" [spell]="spell" [spellLevel]="effectiveSpellLevel">
                                                                                 </app-spell>
                                                                                 <ng-container *ngFor="let secondSpell of get_Spells(spellTaken.gain.combinationSpellName)">
-                                                                                    <h4 class="left-aligned">
+                                                                                    <header class="spellHeader left-aligned">
                                                                                         {{secondSpell.name}}
                                                                                         <app-actionIcons [actionString]="secondSpell.actions">
                                                                                         </app-actionIcons>
                                                                                         {{(secondSpell.castType) ? secondSpell.castType : ""}}
-                                                                                    </h4>
+                                                                                    </header>
                                                                                     <app-spell class="list-item" [spell]="secondSpell" [spellLevel]="effectiveSpellLevel">
                                                                                     </app-spell>
                                                                                 </ng-container>

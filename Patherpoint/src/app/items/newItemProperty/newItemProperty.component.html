@@ -1,4 +1,4 @@
-<h3 *ngIf="propertyData.priority == 0 && propertyData.group">{{propertyData.group.split("-")[1]}}</h3>
+<header class="sectionHeader" *ngIf="propertyData.priority == 0 && propertyData.group">{{propertyData.group.split("-")[1]}}</header>
 <div class="list-item">
     <ng-container *ngIf="!noTitle">
         <div class="newrow left-aligned">

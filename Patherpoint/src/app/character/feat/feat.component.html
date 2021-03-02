@@ -33,10 +33,10 @@
     </div>
     <ng-container *ngFor="let name of feat.gainActivities; trackBy:trackByIndex;">
         <div class="newrow left-aligned" *ngFor="let activity of get_Activities(name); trackBy:trackByIndex;">
-            <h4 class="left-aligned">{{activity.name}}
+            <header class="spellHeader left-aligned">{{activity.name}}
                 <app-actionIcons [actionString]="activity.actions"></app-actionIcons>
                 {{(activity.activationType) ? activity.activationType : ""}}
-            </h4>
+            </header>
             <app-activity class="newrow" [activity]=activity [allowActivate]=false>
             </app-activity>
         </div>
@@ -44,10 +44,10 @@
     <ng-container *ngFor="let spellChoice of feat.gainSpellChoice; trackBy:trackByIndex;">
         <ng-container *ngFor="let spellGain of spellChoice.spells; trackBy:trackByIndex;">
             <ng-container *ngFor="let spell of get_Spells(spellGain.name); trackBy:trackByIndex;">
-                <h4 class="left-aligned">{{spell.name}}
+                <header class="spellHeader left-aligned">{{spell.name}}
                     <app-actionIcons [actionString]="spell.actions"></app-actionIcons>
                     {{(spell.castType) ? spell.castType : ""}}
-                </h4>
+                </header>
                 <app-spell class="newrow" [spell]=spell [spellLevel]="get_SpellLevel(levelNumber)">
                 </app-spell>
             </ng-container>
@@ -55,10 +55,10 @@
     </ng-container>
     <ng-container *ngFor="let spellName of feat.gainSpellListSpells; trackBy:trackByIndex;">
         <ng-container *ngFor="let spell of get_Spells(spellName); trackBy:trackByIndex;">
-            <h4 class="left-aligned">{{spell.name}}
+            <header class="spellHeader left-aligned">{{spell.name}}
                 <app-actionIcons [actionString]="spell.actions"></app-actionIcons>
                 {{(spell.castType) ? spell.castType : ""}}
-            </h4>
+            </header>
             <app-spell class="newrow" [spell]=spell [spellLevel]="get_SpellLevel(levelNumber)">
             </app-spell>
         </ng-container>

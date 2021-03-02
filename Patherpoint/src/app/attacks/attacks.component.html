@@ -1,6 +1,6 @@
 <button class="minimizebutton lower" title="{{get_Minimized() ? 'Click to show all information.' : 'Click to show compact information.'}}" [ngClass]="{'fancy-button':get_Minimized()}" (click)="minimize()" *ngIf="creature=='Character'">&#8691;</button>
 <div id="{{creature}}-attacks-height" class="attributeBox">
-    <h3 class="box-header">Attacks</h3>
+    <header class="sectionHeader box-header">Attacks</header>
     <div class="loading" *ngIf="still_loading()">Loading</div>
     <ng-container *ngIf="!still_loading()">
         <app-tags [creature]="creature" [objectName]="'Attacks'" [showTraits]=true [showFeats]=true [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
@@ -167,10 +167,10 @@
         </div>
     </ng-container>
     <ng-container *ngFor="let ammoType of get_AmmoTypes(); let index = index; trackBy:trackByIndex;">
-        <h3 class="box-header" *ngIf="index == 0">Ammunition</h3>
+        <header class="sectionHeader box-header" *ngIf="index == 0">Ammunition</header>
         <app-tags [creature]="creature" [objectName]="'Ammunition'" [showTraits]=true [showFeats]=true [showItems]=true [showActivities]=true [showConditions]=true></app-tags>
         <ng-container *ngFor="let ammo of get_Ammo(ammoType); let ammoIndex = index; trackBy:trackByIndex;">
-            <h5 class="fullsize-only" *ngIf="ammoIndex == 0">{{ammoType}}</h5>
+            <header class="subsectionHeader fullsize-only" *ngIf="ammoIndex == 0">{{ammoType}}</header>
             <div class="list-item">
                 <strong>{{(ammo.item.amount != undefined && ammo.item.amount != 1) ? ammo.item.amount+" " : ""}}
                         {{ammo.item.get_Name()}}</strong>
@@ -182,7 +182,7 @@
         </ng-container>
     </ng-container>
     <ng-container *ngIf="get_Snares().length">
-        <h3 class="box-header">Deployed Snares</h3>
+        <header class="sectionHeader box-header">Deployed Snares</header>
         <app-tags [creature]="creature" [objectName]="'Snares'" [showTraits]=true [showFeats]=true [showItems]=true [showActivities]=true [showConditions]=true></app-tags>
         <div class="list-item" *ngFor="let snare of get_Snares(); let snareIndex = index; trackBy:trackByIndex;">
             <button class="newrow sublist-toggle" (click)="toggle_Item(snare.item.id+snareIndex)">
@@ -196,7 +196,7 @@
             </div>
         </div>
     </ng-container>
-    <h3 class="fullsize-only box-header" *ngIf="!still_loading()">Weapon Proficiencies</h3>
+    <header class="sectionHeader fullsize-only box-header" *ngIf="!still_loading()">Weapon Proficiencies</header>
     <app-tags [creature]="creature" [objectName]="'Weapon Proficiencies'" [showTraits]=true [showFeats]=true [showItems]=true [showActivities]=true [showConditions]=true></app-tags>
     <ng-container *ngFor="let skill of get_Skills('', 'Weapon Proficiency'); trackBy:trackByIndex;">
         <app-skill class="fullsize-only" [creature]="creature" [skill]=skill [showValue]=false></app-skill>

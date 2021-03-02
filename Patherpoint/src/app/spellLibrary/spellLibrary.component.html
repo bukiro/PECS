@@ -1,6 +1,6 @@
 <div id="spelllibrary" class="itemBox">
     <button class="list-item center-aligned" (click)="toggleSpellLibraryMenu()">
-        <h3>Close</h3>
+        <header class="sectionHeader">Close</header>
     </button>
     <div class="loading" *ngIf="still_loading()">Loading</div>
     <ng-container *ngIf="get_SpellLibraryMenuState()=='in'">
@@ -70,8 +70,8 @@
                         <ng-container *ngFor="let level of [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]; trackBy:trackByIndex;">
                             <ng-container *ngFor="let visibleSpells of [get_VisibleSpells(level)]; trackBy:trackByIndex;">
                                 <button class="list-item" [ngStyle]="{'display':!visibleSpells.length ? 'none' : 'flex' }" (click)="toggle_List(level)">
-                                    <h3 *ngIf="level == 0">Cantrips</h3>
-                                    <h3 *ngIf="level > 0">{{"Level "+level}}</h3>
+                                    <header class="sectionHeader" *ngIf="level == 0">Cantrips</header>
+                                    <header class="sectionHeader" *ngIf="level > 0">{{"Level "+level}}</header>
                                 </button>
                                 <div class="list-item" [ngStyle]="{'display':!visibleSpells.length ? 'none' : 'flex' }" *ngIf="get_ShowList()==level||get_ShowList()==-2">
                                     <div class="list-item" *ngFor="let spell of visibleSpells|sortBy:'asc':'name'; trackBy:trackByIndex;">

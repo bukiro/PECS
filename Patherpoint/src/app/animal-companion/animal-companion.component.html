@@ -1,31 +1,22 @@
 <button class="minimizebutton lower" title="{{get_Minimized() ? 'Click to show all information.' : 'Click to show compact information.'}}" [ngClass]="{'fancy-button':get_Minimized()}" (click)="minimize()">&#8691;</button>
 <div id="animal-companion-height" class="itemBox" [ngStyle]="{'--accent':get_Accent()}">
     <button class="list-item center-aligned" (click)="toggleCompanionMenu()">
-        <h3>Close</h3>
+        <header class="sectionHeader">Close</header>
     </button>
     <div class="loading" *ngIf="still_loading()">Loading</div>
-    <div class="animalcompanion-box"
-        *ngIf="!still_loading() && get_Character().class && get_CompanionAvailable() && get_CompanionMenuState() == 'in'">
+    <div class="animalcompanion-box" *ngIf="!still_loading() && get_Character().class && get_CompanionAvailable() && get_CompanionMenuState() == 'in'">
         <div class="charactersheet-column">
             <app-general [creature]="'Companion'" id="Companion-general" class="charactersheet-app"></app-general>
-            <app-health [creature]="'Companion'" id="Companion-health" class="charactersheet-app"
-                [ngStyle]="{'--accent':get_Accent()}"></app-health>
-            <app-effects [creature]="'Companion'" id="Companion-effects" class="charactersheet-app"
-                [ngStyle]="{'--accent':get_Accent()}"></app-effects>
-            <app-skills [creature]="'Companion'" id="Companion-skills" class="charactersheet-app"
-                [ngStyle]="{'--accent':get_Accent()}"></app-skills>
-            <app-activities [creature]="'Companion'" id="Companion-activities" class="charactersheet-app"
-                [ngStyle]="{'--accent':get_Accent()}"></app-activities>
+            <app-health [creature]="'Companion'" id="Companion-health" class="charactersheet-app" [ngStyle]="{'--accent':get_Accent()}"></app-health>
+            <app-effects [creature]="'Companion'" id="Companion-effects" class="charactersheet-app" [ngStyle]="{'--accent':get_Accent()}"></app-effects>
+            <app-skills [creature]="'Companion'" id="Companion-skills" class="charactersheet-app" [ngStyle]="{'--accent':get_Accent()}"></app-skills>
+            <app-activities [creature]="'Companion'" id="Companion-activities" class="charactersheet-app" [ngStyle]="{'--accent':get_Accent()}"></app-activities>
         </div>
         <div class="charactersheet-column">
-            <app-abilities [creature]="'Companion'" id="Companion-abilities" class="charactersheet-app"
-                [ngStyle]="{'--accent':get_Accent()}"></app-abilities>
-            <app-defense [creature]="'Companion'" id="Companion-defense" class="charactersheet-app"
-                [ngStyle]="{'--accent':get_Accent()}"></app-defense>
-            <app-attacks [creature]="'Companion'" id="Companion-attacks" class="charactersheet-app"
-                [ngStyle]="{'--accent':get_Accent()}"></app-attacks>
-            <app-inventory [creature]="'Companion'" id="Companion-inventory" class="charactersheet-app"
-                [ngStyle]="{'--accent':get_Accent()}"></app-inventory>
+            <app-abilities [creature]="'Companion'" id="Companion-abilities" class="charactersheet-app" [ngStyle]="{'--accent':get_Accent()}"></app-abilities>
+            <app-defense [creature]="'Companion'" id="Companion-defense" class="charactersheet-app" [ngStyle]="{'--accent':get_Accent()}"></app-defense>
+            <app-attacks [creature]="'Companion'" id="Companion-attacks" class="charactersheet-app" [ngStyle]="{'--accent':get_Accent()}"></app-attacks>
+            <app-inventory [creature]="'Companion'" id="Companion-inventory" class="charactersheet-app" [ngStyle]="{'--accent':get_Accent()}"></app-inventory>
         </div>
     </div>
 </div>

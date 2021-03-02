@@ -1,6 +1,6 @@
-<button class="minimizebutton lower" title="{{get_Minimized() ? 'Click to show all information.' : 'Click to show compact information.'}}" [ngClass]="{'fancy-button':get_Minimized()}" (click)="minimize()" *ngIf="creature=='Character'">&#8691;</button>
+<button class="minimizebutton lower" title="{{get_Minimized() ? 'Click to show all information.' : 'Click to show compact information.'}}" [ngClass]="{'fancy-button':get_Minimized()}" (click)="minimize()" *ngIf="creature=='Character' && showMinimizeButton">&#8691;</button>
 <div id="{{creature}}-general-height" class="attributeBox">
-    <h3 class="box-header">General information</h3>
+    <header class="sectionHeader box-header">General information</header>
     <div class="loading" *ngIf="still_loading()">Loading</div>
     <ng-container *ngIf="!still_loading()">
         <ng-container *ngIf="creature=='Character'">
@@ -123,7 +123,7 @@
                 <span>{{get_Size()}}</span>
                 <app-tags [creature]="creature" [objectName]="'Size'" [showTraits]=true [showFeats]=true [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
             </div>
-            <h5>Familiar Abilities</h5>
+            <header class="subsectionHeader">Familiar Abilities</header>
             <div class="list-item" *ngFor="let ability of get_Familiar().abilities.feats; trackBy:trackByIndex;">
                 <strong>{{ability.name}}</strong>
                 <div class="newrow left-aligned tags">

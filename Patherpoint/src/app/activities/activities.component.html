@@ -1,14 +1,14 @@
 <button class="minimizebutton lower" title="{{get_Minimized() ? 'Click to show all information.' : 'Click to show compact information.'}}" [ngClass]="{'fancy-button':get_Minimized()}" (click)="minimize()" *ngIf="creature=='Character'">&#8691;</button>
 <div id="{{creature}}-activities-height" class="attributeBox">
-    <h3 class="box-header">Actions and Activities</h3>
+    <header class="sectionHeader box-header">Actions and Activities</header>
     <div class="loading" *ngIf="still_loading()">Loading</div>
     <ng-container *ngIf="!still_loading()">
         <app-tags [creature]="creature" [objectName]="'Activities'" [showTraits]=true [showFeats]=true [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
         <ng-container *ngFor="let skill of get_ClassDCs(); let index = index; trackBy:trackByIndex;">
-            <h5 class="fullsize-only" *ngIf="index == 0">Class DCs</h5>
+            <header class="subsectionHeader fullsize-only" *ngIf="index == 0">Class DCs</header>
             <app-skill [skill]=skill [isDC]=true></app-skill>
         </ng-container>
-        <h5>Actions and Activities</h5>
+        <header class="subsectionHeader">Actions and Activities</header>
         <ng-container *ngFor="let gain of get_OwnedActivities(); trackBy:trackByIndex;">
             <ng-container *ngFor="let activity of (gain.can_Activate ? [gain] : get_Activities(gain.name)); trackBy:trackByIndex;">
                 <ng-container *ngFor="let maxCharges of [activity.maxCharges(get_Creature(), characterService)]">
@@ -28,7 +28,7 @@
             </ng-container>
         </ng-container>
         <ng-container *ngFor="let choice of get_TemporaryFeatChoices(); let index = index; trackBy:trackByIndex;">
-            <h3 class="box-header" *ngIf="index == 0">Temporary Feats</h3>
+            <header class="sectionHeader box-header" *ngIf="index == 0">Temporary Feats</header>
             <app-featchoice (showChoiceMessage)="receive_ChoiceMessage($event)" (showFeatMessage)="receive_FeatMessage($event)" [choice]="choice" [levelNumber]="get_Creature().level" [showFeat]="get_ShowItem()" [showChoice]="get_ShowList()">
             </app-featchoice>
         </ng-container>
