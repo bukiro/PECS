@@ -1257,6 +1257,9 @@ export class CharacterService {
                 if (conditionGain.heightened < originalCondition.minLevel) {
                     conditionGain.heightened = originalCondition.minLevel
                 }
+                if (!conditionGain.radius) {
+                    conditionGain.radius = originalCondition.radius;
+                }
                 conditionGain.nextStage = originalCondition.nextStage;
                 conditionGain.decreasingValue = originalCondition.decreasingValue;
                 conditionGain.notes = originalCondition.notes;

@@ -106,7 +106,7 @@ export class EffectsComponent implements OnInit {
     }
 
     get_AppliedEffects() {
-        return this.get_Effects().all.filter(effect => effect.creature == this.get_Creature().id && effect.apply && !effect.hide).sort(function (a, b) {
+        return this.get_Effects().all.filter(effect => effect.creature == this.get_Creature().id && effect.apply && effect.show).sort(function (a, b) {
             if (a.value > b.value) {
                 return 1;
             }
@@ -134,11 +134,11 @@ export class EffectsComponent implements OnInit {
     }
 
     get_NotAppliedEffects() {
-        return this.get_Effects().all.filter(effect => effect.creature == this.get_Creature().id && !effect.apply && !effect.hide);
+        return this.get_Effects().all.filter(effect => effect.creature == this.get_Creature().id && !effect.apply);
     }
 
     get_HiddenEffects() {
-        return this.get_Effects().all.filter(effect => effect.creature == this.get_Creature().id && effect.hide);
+        return this.get_Effects().all.filter(effect => effect.creature == this.get_Creature().id && effect.apply && !effect.show);
     }
 
     get_AppliedConditions(apply: boolean) {

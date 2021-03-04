@@ -349,7 +349,7 @@ export class Weapon extends Equipment {
         //Add absolute effects
         effectsService.get_AbsolutesOnThese(creature, namesList)
             .forEach(effect => {
-                if (!effect.hide) {
+                if (effect.show) {
                     absolutes.push({ value: 0, setValue: effect.setValue, source: effect.source, penalty: false, type: effect.type });
                 }
                 attackResult = parseInt(effect.setValue)
@@ -388,9 +388,9 @@ export class Weapon extends Equipment {
                 .concat(effectsService.get_RelativesOnThese(creature, namesList)
                 ), false)
             .forEach(effect => {
-                if (parseInt(effect.value) < 0 && !effect.hide) {
+                if (parseInt(effect.value) < 0 && effect.show) {
                     penalties.push({ value: parseInt(effect.value), setValue: "", source: effect.source, penalty: true, type: effect.type });
-                } else if (!effect.source.includes("Potency") && !effect.hide) {
+                } else if (!effect.source.includes("Potency") && effect.show) {
                     //Don't turn the number green just from Potency.
                     bonuses.push({ value: parseInt(effect.value), setValue: "", source: effect.source, penalty: false, type: effect.type });
                 }
@@ -722,7 +722,7 @@ export class Weapon extends Equipment {
         }
         effectsService.get_AbsolutesOnThese(creature, list)
             .forEach(effect => {
-                if (!effect.hide) {
+                if (effect.show) {
                     absolutes.push({ value: 0, setValue: effect.setValue, source: effect.source, penalty: false })
                 }
                 dmgBonus = parseInt(effect.setValue);
@@ -766,9 +766,9 @@ export class Weapon extends Equipment {
                 .concat(effectsService.get_RelativesOnThese(creature, list)
                 ), false)
             .forEach(effect => {
-                if (parseInt(effect.value) < 0 && !effect.hide) {
+                if (parseInt(effect.value) < 0 && effect.show) {
                     penalties.push({ value: parseInt(effect.value), setValue: "", source: effect.source, penalty: true });
-                } else if (!effect.hide) {
+                } else if (effect.show) {
                     bonuses.push({ value: parseInt(effect.value), setValue: "", source: effect.source, penalty: false });
                 }
                 if (effect.target.includes("Damage per Die")) {

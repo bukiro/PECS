@@ -339,11 +339,11 @@ export class InventoryComponent implements OnInit {
             maxInvest += parseInt(effect.value);
             explain += "\n" + effect.source + ": " + effect.value;
             if (parseInt(effect.value) < 0) {
-                if (!effect.hide) {
+                if (effect.show) {
                     penalties = true;
                 }
             } else {
-                if (!effect.hide) {
+                if (effect.show) {
                     bonuses = true;
                 }
             }

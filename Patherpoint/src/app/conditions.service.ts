@@ -543,6 +543,14 @@ export class ConditionsService {
         Object.keys(json_conditions).forEach(key => {
             this.conditions.push(...json_conditions[key].map(obj => Object.assign(new Condition(), obj)));
         });
+        //Blank choices are saved with "name":"-" for easier managing; These need to be blanked here.
+        this.conditions.forEach(condition => {
+            condition.choices.forEach(choice => {
+                if (choice.name == "-") {
+                    choice.name = "";
+                }
+            })
+        });
     }
 
 }

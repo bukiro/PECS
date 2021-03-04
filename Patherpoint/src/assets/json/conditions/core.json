@@ -1766,7 +1766,7 @@
         ],
         "effects": [
             {
-                "affected": "Negative Damage Resistance",
+                "affected": "Negative Resistance",
                 "value": "Has_Feat(Creature.type, 'Spirit Instinct Resistance') ? (Has_Feat(Creature.type, 'Invulnerable Juggernaut') ? 8 : 3) + Modifier('Constitution') : 0"
             },
             {
@@ -1780,6 +1780,7 @@
         "desc": "You and all allies in the area gain a status bonus to attack rolls, damage rolls, and saves against fear effects equal to the value.",
         "type": "spells",
         "minLevel": 1,
+        "radius": 60,
         "buff": true,
         "hasValue": true,
         "hints": [
@@ -1797,7 +1798,7 @@
         ],
         "choices": [
             {
-                "name": ""
+                "name": "-"
             },
             {
                 "name": "harmonized"
@@ -1944,6 +1945,7 @@
         "desc": "You have warded an area to alert you when creatures enter without your permission. Whenever a Small or larger corporeal creature enters the spell's area without speaking the password, alarm sends your choice of a mental alert (in which case the spell gains the mental trait) or an audible alarm with the sound and volume of a hand bell (in which case the spell gains the auditory trait). Starting from 3rd level, you can specify criteria for which creatures sound the alarm spell - for instance, orcs or masked people. Either option automatically awakens you, and the bell allows each creature in the area to attempt a DC 15 Perception check to wake up. A creature aware of the alarm must succeed at a Stealth check against the spell's DC or trigger the spell when moving into the area.",
         "type": "spells",
         "minLevel": 1,
+        "radius": 20,
         "buff": true
     },
     {
@@ -1994,11 +1996,14 @@
         "desc": "You fill the minds of your enemies with doubt. Targets that fail their Will saves take a -1 status penalty to attack rolls as long as they are in the area. Once per turn, starting the turn after you cast bane, you can use a single action, which has the concentrate trait, to increase the emanation's radius by 5 feet and force enemies in the area that weren't yet affected to attempt another saving throw. Bane can counteract bless.",
         "type": "spells",
         "minLevel": 1,
+        "radius": 5,
+        "allowRadiusChange": true,
         "buff": true,
         "hasValue": true,
         "effects": [
             {
                 "affected": "Bane Radius",
+                "show": true,
                 "setValue": "Value * 5"
             }
         ]
@@ -2021,6 +2026,8 @@
         "desc": "Blessings from beyond help your companions strike true. You and your allies in the area gain a +1 status bonus to attack rolls. Once per turn, starting the turn after you cast bless, you can use a single action, which has the concentrate trait, to increase the emanation's radius by 5 feet. Bless can counteract bane.",
         "type": "spells",
         "minLevel": 1,
+        "radius": 5,
+        "allowRadiusChange": true,
         "buff": true,
         "hasValue": true,
         "effects": [
@@ -2031,6 +2038,7 @@
             },
             {
                 "affected": "Bless Radius",
+                "show": true,
                 "setValue": "Value * 5"
             }
         ]
@@ -2203,6 +2211,7 @@
         "desc": "You have created an illusory visual image of a stationary object.\n\n<strong>1st Level</strong> The object appears to animate naturally, but it doesn't make sounds or generate smells. For example, water would appear to pour down an illusory waterfall, but it would be silent.\n<strong>2nd Level</strong> Your image makes appropriate sounds, generates normal smells, and feels right to the touch. The spell gains the auditory trait.\n<strong>5th Level</strong> The duration is permanent;  remove the condition when you no longer need this information.\n\nAny creature that touches the image or uses the Seek action to examine it can attempt to disbelieve your illusion.",
         "type": "spells",
         "minLevel": 1,
+        "radius": 20,
         "buff": true
     },
     {
@@ -2402,6 +2411,7 @@
         "desc": "You are blasting the area with grit that scours away soil and gets into creatures' eyes. For the duration of the spell, any plant-based difficult terrain smaller than a tree becomes loose, allowing each 5-foot square of it to be cleared with a single Interact action. In addition, scouring sand attempts to counteract entangle and other effects that create or manipulate plant-based terrain in its area. Successfully counteracting an effect removes only the portion of its area that overlaps with scouring sand's area. After one such attempt, the effect is temporarily immune to scouring sand's counteract for 24 hours. Each creature in the area when you Cast this Spell or that ends its turn in the area must attempt a Reflex save.\n\n<strong>Success</strong> The creature is unaffected.\n<strong>Failure</strong> The creature is dazzled for 1 minute or until it uses an Interact action to get the sand out of its eyes.\n<strong>Critical Failure</strong> As failure, but the creature is also blinded for its next action.\n\n<strong>3rd Level</strong> Once per round when you Sustain the Spell, you can move the center of the burst to a spot within range.",
         "type": "spells",
         "minLevel": 1,
+        "radius": 10,
         "buff": true
     },
     {
@@ -2819,6 +2829,7 @@
         "effects": [
             {
                 "affected": "Mirror Images",
+                "show": true,
                 "setValue": "Value"
             }
         ]
@@ -3905,7 +3916,7 @@
                 "showon": "Spellbook",
                 "effects": [
                     {
-                        "affected": "Spell Attacks",
+                        "affected": "Spell Attack Rolls",
                         "value": "-1"
                     },
                     {
@@ -3978,7 +3989,7 @@
                 "showon": "Will, Perception, Medicine, Nature, Religion, Survival, Spellbook, Attacks",
                 "effects": [
                     {
-                        "affected": "Spell Attacks",
+                        "affected": "Spell Attack Rolls",
                         "value": "-1"
                     },
                     {
@@ -4054,7 +4065,7 @@
                 "showon": "Will, Perception, Medicine, Nature, Religion, Survival, Spellbook, Attacks",
                 "effects": [
                     {
-                        "affected": "Spell Attacks",
+                        "affected": "Spell Attack Rolls",
                         "value": "-1"
                     },
                     {
@@ -4130,7 +4141,7 @@
                 "desc": "You take a -1 penalty to attack rolls and save DCs of offensive spells, and a -1 penalty per damage die to all weapon, unarmed attack, and spell damage.",
                 "effects": [
                     {
-                        "affected": "Spell Attacks",
+                        "affected": "Spell Attack Rolls",
                         "value": "-1"
                     },
                     {
@@ -4206,17 +4217,17 @@
         "hints": [
             {
                 "desc": "Your critical failures with Deception, Diplomacy, Intimidation and Performance checks become failures instead.",
-                "showon": "Deception, Diplomacy, Intimidation, Performance"
-            },
-            {
-                "desc": "You are untrained in one chosen skill that you are usually trained with.",
-                "showon": "Skills",
+                "showon": "Deception, Diplomacy, Intimidation, Performance",
                 "effects": [
                     {
                         "affected": "All Skill Proficiency Levels",
                         "setValue": "0"
                     }
                 ]
+            },
+            {
+                "desc": "You are untrained in one chosen skill that you are usually trained with.",
+                "showon": "Skills"
             },
             {
                 "desc": "All your failures on checks to Recall Knowledge become critical failures.",
@@ -4298,32 +4309,26 @@
             },
             {
                 "affected": "Expert Bestial Mutagen Jaws (Major) Damage",
-                "hidden": true,
                 "value": "Value == 4 && !Has_Feat(Creature.type, 'Greater Weapon Specialization') ? 2 : 0"
             },
             {
                 "affected": "Expert Bestial Mutagen Claw (Major) Damage",
-                "hidden": true,
                 "value": "Value == 4 && !Has_Feat(Creature.type, 'Greater Weapon Specialization') ? 2 : 0"
             },
             {
                 "affected": "Master Bestial Mutagen Jaws (Major) Damage",
-                "hidden": true,
                 "value": "Value == 4 && !Has_Feat(Creature.type, 'Greater Weapon Specialization') ? 3 : 0"
             },
             {
                 "affected": "Master Bestial Mutagen Claw (Major) Damage",
-                "hidden": true,
                 "value": "Value == 4 && !Has_Feat(Creature.type, 'Greater Weapon Specialization') ? 3 : 0"
             },
             {
                 "affected": "Legendary Bestial Mutagen Jaws (Major) Damage",
-                "hidden": true,
                 "value": "Value == 4 && !Has_Feat(Creature.type, 'Greater Weapon Specialization') ? 4 : 0"
             },
             {
                 "affected": "Legendary Bestial Mutagen Claw (Major) Damage",
-                "hidden": true,
                 "value": "Value == 4 && !Has_Feat(Creature.type, 'Greater Weapon Specialization') ? 4 : 0"
             }
         ]
@@ -4340,6 +4345,7 @@
                 "effects": [
                     {
                         "affected": "Recall Knowledge Checks",
+                        "show": true,
                         "type": "item",
                         "value": "1"
                     }
@@ -4406,6 +4412,7 @@
                 "effects": [
                     {
                         "affected": "Recall Knowledge Checks",
+                        "show": true,
                         "type": "item",
                         "value": "2"
                     }
@@ -4475,6 +4482,7 @@
                 "effects": [
                     {
                         "affected": "Recall Knowledge Checks",
+                        "show": true,
                         "type": "item",
                         "value": "3"
                     }
@@ -4545,6 +4553,7 @@
                 "effects": [
                     {
                         "affected": "Recall Knowledge Checks",
+                        "show": true,
                         "type": "item",
                         "value": "4"
                     }
@@ -6411,6 +6420,7 @@
                         "value": "2"
                     },
                     {
+                        "show": true,
                         "affected": "Recall Knowledge Checks",
                         "type": "circumstance",
                         "value": "2"
@@ -6548,11 +6558,16 @@
         "desc": "You emanate a shimmering aura of protective magic. You and any allies in the area gain a +1 status bonus to AC. Each time you Sustain the Spell, the emanation's radius increases by 5 feet, to a maximum of 30 feet.",
         "type": "spells",
         "minLevel": 1,
+        "radius": 5,
+        "allowRadiusChange": true,
         "buff": true,
         "hasValue": true,
         "effects": [
             {
                 "affected": "Protective Ward Radius",
+                "cumulative": [
+                    "TRUE"
+                ],
                 "setValue": "Value * 5"
             },
             {
@@ -6567,11 +6582,15 @@
         "desc": "You have created illusory hazards that cover all surfaces in the area (typically the ground). On 4th level, you can make the illusion appear in the air rather than on a surface. Any creature moving through the illusion treats the squares as difficult terrain. A creature can attempt to disbelieve the effect as normal after using a Seek action or otherwise spending actions interacting with the illusion. If it successfully disbelieves, it ignores the effect for the remaining duration. For each additional action you use casting the spell, the burst's radius increases by 5 feet, to a maximum of 10 extra feet for 3 actions.",
         "type": "spells",
         "minLevel": 1,
+        "allowRadiusChange": true,
         "buff": true,
         "hasValue": true,
         "effects": [
             {
                 "affected": "Warped Terrain Radius",
+                "cumulative": [
+                    "TRUE"
+                ],
                 "setValue": "Value * 5"
             }
         ]
@@ -6594,6 +6613,7 @@
         "desc": "You emit an aura of terror with a 30-foot radius. Foes in the area are frightened 1 and unable to reduce the condition.",
         "type": "spells",
         "minLevel": 4,
+        "radius": 30,
         "buff": true
     },
     {
@@ -6781,7 +6801,7 @@
         ],
         "choices": [
             {
-                "name": ""
+                "name": "-"
             },
             {
                 "name": "harmonized"
@@ -7230,6 +7250,7 @@
         "desc": "You have filled the target area with an oppressive, arid swelter that overwhelms creatures with heat exhaustion. Objects are unaffected. Each creature in the area when the spell is cast or that ends its turn in the area afterward must attempt a Fortitude save. Water creatures and plant creatures use the outcome one degree of success worse than the result of their saving throw. Creatures whose bodies contain no significant moisture (such as fire elementals) are immune to breath of drought. Starting from 4th level, once per round when you Sustain the Spell, you can move the center of the burst to a new location within range.\n\n<strong>Success</strong> The creature is unaffected.\n<strong>Failure</strong> The creature is sickened 1.\n<strong>Critical Failure</strong> The creature is sickened 2.",
         "type": "spells",
         "minLevel": 2,
+        "radius": 10,
         "buff": true
     },
     {
@@ -7237,6 +7258,7 @@
         "desc": "You forcibly calm creatures in the area, soothing them into a nonviolent state; each creature must attempt a Will save.\n\n<strong>Critical Success</strong> The creature is unaffected.\n<strong>Success</strong> Calming urges impose a -1 status penalty to the creature's attack rolls.\n<strong>Failure</strong> Any emotion effects that would affect the creature are suppressed and the creature can't use hostile actions. If the target is subject to hostility from any other creature, it ceases to be affected by calm emotions.\n<strong>Critical Failure</strong> As failure, but hostility doesn't end the effect.",
         "type": "spells",
         "minLevel": 2,
+        "radius": 10,
         "buff": true
     },
     {
@@ -7264,6 +7286,7 @@
         "desc": "You have created a shroud of darkness that prevents light from penetrating or emanating within the area. Light does not enter the area and any non-magical light sources, such as a torch or lantern, do not emanate any light while inside the area, even if their light radius would extend beyond the darkness. This also suppresses magical light of your darkness spell's level or lower. Light can't pass through, so creatures in the area can't see outside. From outside, it appears as a globe of pure darkness. From spell level 4 on, even creatures with darkvision (but not greater darkvision) can barely see through the darkness. They treat targets seen through the darkness as concealed.",
         "type": "spells",
         "minLevel": 2,
+        "radius": 20,
         "buff": true
     },
     {
@@ -7323,9 +7346,6 @@
         ],
         "choices": [
             {
-                "name": ""
-            },
-            {
                 "name": "Severe cold"
             },
             {
@@ -7345,6 +7365,7 @@
         "desc": "Plants in the target area entangle creatures. The area counts as difficult terrain. Each round that a creature starts its turn in the area, it must attempt a Reflex save. On a failure, it takes a -10-foot circumstance penalty to its Speeds until it leaves the area, and on a critical failure, it is also immobilized for 1 round. Creatures can attempt to Escape at entangle's DC to remove these effects.",
         "type": "spells",
         "minLevel": 2,
+        "radius": 20,
         "buff": true
     },
     {
@@ -7366,6 +7387,7 @@
         "desc": "All creatures in the area when you cast the spell are limned in colorful, heatless fire of a color of your choice for the duration. Visible creatures can't be concealed while affected by faerie fire. If the creatures are invisible, they are concealed while affected by faerie fire, rather than being undetected.",
         "type": "spells",
         "minLevel": 2,
+        "radius": 10,
         "buff": true
     },
     {
@@ -7752,6 +7774,7 @@
         "desc": "You have called forth a cloud of mist. All creatures within the mist become concealed, and all creatures outside the mist become concealed to creatures within it. You can Dismiss the cloud.",
         "type": "spells",
         "minLevel": 2,
+        "radius": 20,
         "buff": true,
         "hints": [
             {
@@ -7851,6 +7874,7 @@
         "desc": "You have created a layer of ice on all surfaces in the target area, which become difficult terrain. Unattended objects in the area become slick with ice, and picking them up requires a successful Reflex save or Acrobatics check against your spell DC. The ice melts on any object that takes fire damage as well as in any square included in the area of a higher-level spell or effect with the fire trait.",
         "type": "spells",
         "minLevel": 2,
+        "radius": 15,
         "buff": true
     },
     {
@@ -7894,6 +7918,7 @@
         "desc": "You make no sound, preventing creatures from noticing you using hearing or other senses alone. You can't use sonic attacks, nor can you use actions with the auditory trait. This prevents you from casting spells that include verbal components.\n\nFrom spell level 4 on, the spell effect also emanates from you, silencing all sound in or passing through a 10- foot radius and preventing any auditory and sonic effects in the affected area. While within the radius, creatures are subject to the same effects as you. Depending upon the position of the effect, a creature might notice the lack of sound reaching it (blocking off the noise coming from a party, for example).",
         "type": "spells",
         "minLevel": 2,
+        "radius": 0,
         "buff": true,
         "hints": [
             {
@@ -8011,7 +8036,7 @@
             },
             {
                 "affected": "Ignore proficiency bonuses and penalties",
-                "toggle": true
+                "toggle": "TRUE"
             }
         ]
     },
@@ -8098,11 +8123,12 @@
         "desc": "You and all allies in the area gain a status bonus to AC and saving throws equal to the value, as well as resistance equal to half the spell's level to physical damage.",
         "type": "spells",
         "minLevel": 2,
+        "radius": 60,
         "buff": true,
         "hasValue": true,
         "choices": [
             {
-                "name": ""
+                "name": "-"
             },
             {
                 "name": "harmonized"
@@ -8115,17 +8141,7 @@
                 "value": "Value"
             },
             {
-                "affected": "Fortitude",
-                "type": "status",
-                "value": "Value"
-            },
-            {
-                "affected": "Reflex",
-                "type": "status",
-                "value": "Value"
-            },
-            {
-                "affected": "Will",
+                "affected": "Saving Throws",
                 "type": "status",
                 "value": "Value"
             },
@@ -8140,10 +8156,11 @@
         "desc": "You dance at a lively tempo, speeding your allies' movement. You and all allies in the area gain a +10-foot status bonus to all Speeds for 1 round.",
         "type": "spells",
         "minLevel": 2,
+        "radius": 60,
         "buff": true,
         "choices": [
             {
-                "name": ""
+                "name": "-"
             },
             {
                 "name": "harmonized"
@@ -8162,10 +8179,11 @@
         "desc": "Foes within the target area are frightened 1. They can't reduce their frightened value below 1 while they remain in the area.",
         "type": "spells",
         "minLevel": 3,
+        "radius": 30,
         "buff": true,
         "choices": [
             {
-                "name": ""
+                "name": "-"
             },
             {
                 "name": "harmonized"
@@ -8181,20 +8199,10 @@
         "hasValue": true,
         "choices": [
             {
-                "name": ""
+                "name": "-"
             },
             {
                 "name": "harmonized"
-            }
-        ],
-        "effects": [
-            {
-                "affected": "Imaginary Wall HP",
-                "setValue": "Value"
-            },
-            {
-                "affected": "Imaginary Wall Hardness",
-                "setValue": "Heightened * 2"
             }
         ]
     },
@@ -8203,6 +8211,7 @@
         "desc": "Weapon and unarmed attacks by allies in the area are treated as silver. In addition, this spell automatically attempts to counteract any dimension door cast by a devil within the area or cast by a devil attempting to enter the area using dimension door. If a devil attempts to enter the area using dimension door and the spell is counteracted, the devil remains where it started.",
         "type": "spells",
         "minLevel": 1,
+        "radius": 30,
         "buff": true,
         "hints": [
             {
@@ -8216,7 +8225,7 @@
         ],
         "choices": [
             {
-                "name": ""
+                "name": "-"
             },
             {
                 "name": "harmonized"
@@ -8250,7 +8259,7 @@
         ],
         "choices": [
             {
-                "name": ""
+                "name": "-"
             },
             {
                 "name": "harmonized"
@@ -8326,6 +8335,7 @@
         "desc": "You are warding the target and those nearby against a specified alignment, chosen from chaotic, evil, good, or lawful. Creatures in the area gain a +1 status bonus to AC against attacks by creatures of the chosen alignment and to saves against effects from such creatures. This bonus increases to +3 against effects from such creatures that directly control the target and attacks made by summoned creatures of the chosen alignment. Summoned creatures of the chosen alignment can't willingly enter the area without succeeding at a Will save; repeated attempts use the first save result.",
         "type": "spells",
         "minLevel": 3,
+        "radius": 10,
         "buff": true,
         "choice": "chaotic",
         "choices": [
@@ -8670,6 +8680,7 @@
         "desc": "You have created a pattern of shifting colors that hovers in the air in a geometric cloud. Creatures are dazzled while inside the pattern. In addition, a creature must attempt a Will saving throw if it is inside the pattern when you cast it, when it enters the pattern, when it ends its turn within the pattern, or if it uses a Seek or Interact action on the pattern. A creature currently fascinated by the pattern doesn't attempt new saves.\n\n<strong>Success</strong> The target is unaffected.\n<strong>Failure</strong> The target is fascinated by the pattern.\n<strong>Critical Failure</strong> The target is fascinated by the pattern. While it remains fascinated, it can't use reactions.",
         "type": "spells",
         "minLevel": 3,
+        "radius": 10,
         "buff": true
     },
     {
@@ -8913,6 +8924,7 @@
         "desc": "You and all targets are invisible except to each other as long as you remain within the spell's area. If a creature made invisible by this spell leaves the spell's area, it becomes visible and remains so even if it returns to the spell's area. If any creature made invisible by this spell uses a hostile action, the spell ends after the hostile action is completed.\n\nWhile exploring, it's easy to move together slowly and remain invisible. This is untenable in a battle, however. Once an encounter begins, creatures remain invisible until at most the end of the first round, at which point the spell ends.",
         "type": "spells",
         "minLevel": 3,
+        "radius": 10,
         "buff": true,
         "gainConditions": [
             {
@@ -9091,6 +9103,7 @@
         "desc": "You have sanctified the target area, sprinkling it with holy water and warding it against your foes. Choose aberrations, celestials, dragons, fiends, monitors, or undead. All creatures in the area gain a +1 status bonus to AC, attack rolls, damage rolls, and saving throws against the chosen creatures.",
         "type": "spells",
         "minLevel": 3,
+        "radius": 30,
         "buff": true,
         "choice": "Aberrations",
         "choices": [
@@ -9214,6 +9227,7 @@
         "desc": "You and affected allies gain preternatural knowledge of the path ahead, allowing you to intuit the best way forward and avoid potential obstacles such as difficult or confusing terrain. For the purpose of long-distance overland travel during exploration mode, traveling through difficult terrain reduces you to only three-quarters your travel Speed instead of half (or not at all on spell level 6), and traveling through greater difficult terrain reduces your travel Speed to only half your travel Speed (three-quarters on spell level 6) instead of one-third. Show the way does not prevent you from falling into traps or encountering other artificial obstacles and hazards.",
         "type": "spells",
         "minLevel": 3,
+        "radius": 5,
         "buff": true,
         "hints": [
             {
@@ -9280,6 +9294,7 @@
         "desc": "You have issued a blast of sudden wind that ripples outward from the center of the burst. The wind extinguishes small non-magical fires, disperses fog and mist, scatters objects of light Bulk or less, and pushes unsecured objects of 1 Bulk or less 5 feet away from the spell's origin point. Each Medium or smaller creature in the area that moves into spell's area must attempt a Fortitude saving throw.\n\n<strong>Success</strong> The creature is unaffected.\n<strong>Failure</strong> The creature is knocked prone. If the creature was Flying, it gets a critical failure instead.\n<strong>Critical Failure</strong> The creature is pushed 30 feet away from the center of the burst, is knocked prone, and takes 2d6 bludgeoning damage.",
         "type": "spells",
         "minLevel": 3,
+        "radius": 20,
         "buff": true
     },
     {
@@ -10154,6 +10169,7 @@
         "desc": "By tapping into trace divinatory auras, you detect the presence of scrying effects in the area. If detect scrying is higher level than a scrying effect, you gain a glimpse of the scrying creature and learn its approximate distance and direction.",
         "type": "spells",
         "minLevel": 4,
+        "radius": 30,
         "buff": true
     },
     {
@@ -10586,6 +10602,7 @@
         "desc": "You have created an immobile globe in a 10-foot burst that attempts to counteract any spell from outside the globe whose area or targets enter into the globe, as if the globe were a dispel magic spell 1 level lower than its actual spell level. If the counteract attempt succeeds, it prevents only the portion of the spell that would have entered the globe (so if the spell also has targets outside the globe, or part of its area is beyond the globe, those targets or that area is affected normally).",
         "type": "spells",
         "minLevel": 4,
+        "radius": 10,
         "buff": true,
         "hints": [
             {
@@ -10599,6 +10616,7 @@
         "desc": "You have created an illusion that causes natural terrain to look, sound, feel, and smell like a different kind of terrain.\n\n<strong>4th Level</strong> This doesn't disguise any structures or creatures in the area.\n<strong>5th Level</strong> This can also disguise structures or create illusory structures, but doesn't disguise creatures in the area.\n\nAny creature that touches the illusion or uses the Seek action to examine it can attempt to disbelieve your illusion.",
         "type": "spells",
         "minLevel": 4,
+        "radius": 50,
         "buff": true
     },
     {
@@ -10672,6 +10690,7 @@
         "desc": "From outside, the target area looks like a bank of impenetrable black fog. Sensory stimuli (such as sounds, smells, and light) don't pass from inside the area to outside the area. Scrying spells can't perceive any stimuli from the area, and mind-reading effects don't work in the area.",
         "type": "spells",
         "minLevel": 4,
+        "radius": 100,
         "buff": true
     },
     {
@@ -10728,10 +10747,12 @@
             },
             {
                 "affected": "Reflective Scales Maximum Damage Prevented",
+                "show": true,
                 "setValue": "Math.max(10, Math.floor((Heightened * 2.5)/5)*5) * 10"
             },
             {
                 "affected": "Reflective Scales Maximum Damage Dice",
+                "show": true,
                 "setValue": "Math.max(10, Math.floor((Heightened * 2.5)/5)*5)"
             }
         ],
@@ -10791,6 +10812,7 @@
         "desc": "You have conjured a bank of fog so thick it impedes movement as well as sight. All creatures within the mist become concealed, and all creatures outside the mist become concealed to creatures within it. Furthermore, the area is also difficult terrain. You can Dismiss the spell.",
         "type": "spells",
         "minLevel": 4,
+        "radius": 20,
         "buff": true,
         "hints": [
             {
@@ -11059,14 +11081,14 @@
                 "showon": "Shield"
             }
         ],
-        "endConditions": [
-            "Shield"
-        ],
         "effects": [
             {
                 "affected": "Shield Disabled",
                 "toggle": true
             }
+        ],
+        "endConditions": [
+            "Shield"
         ]
     },
     {
@@ -12219,6 +12241,7 @@
         "desc": "You shake the ground, topple creatures into fissures, and collapse structures in a 60-foot burst (a quarter-mile burst on 10th level).\n\nThe GM might add additional effects in certain areas. Cliffs might collapse, causing creatures to fall, or a lake might drain as fissures open up below its surface, leaving a morass of quicksand.\n\n<strong>Shaking Ground</strong> The ground is difficult terrain, and creatures on it take a -2 circumstance penalty to attack rolls, AC, and skill checks.\n<strong>Fissures</strong> Each creature on the ground must attempt a Reflex save at the start of its turn to keep its footing and avoid falling into 40-foot-deep fissures that open beneath it. The fissures are permanent, and their sides require DC 15 Athletics to Climb.\n<strong>Collapse Structures</strong> and ceilings might collapse. The GM rolls a flat check for each (DC 16 for a sturdy structure, DC 14 for an average structure and most natural formations, DC 9 for a shoddy structure, all adjusted higher or lower as the GM sees fit). A collapse deals 11d6 bludgeoning damage; each creature caught in a collapse must attempt a Reflex save to avoid it.\n\n \n\n<strong>Critical Success</strong> The creature takes half the collapse damage.\n<strong>Success</strong> The creature takes half the collapse damage and falls prone.\n<strong>Failure</strong> The creature takes the full collapse damage and falls prone.\n<strong>Critical Failure</strong> The creature takes the full collapse damage and falls into a fissure.",
         "type": "spells",
         "minLevel": 8,
+        "radius": 60,
         "buff": true,
         "effects": [
             {
@@ -12415,12 +12438,6 @@
             {
                 "desc": "You can't use Dragon's Rage Breath until the next time you rage.",
                 "showon": "Dragon's Rage Breath"
-            }
-        ],
-        "effects": [
-            {
-                "affected": "Dragon's Rage Breath Disabled",
-                "toggle": true
             }
         ]
     },
@@ -12864,12 +12881,6 @@
             {
                 "desc": "You can't use Share Rage until the next time you rage.",
                 "showon": "Share Rage"
-            }
-        ],
-        "effects": [
-            {
-                "affected": "Share Rage Disabled",
-                "toggle": true
             }
         ]
     },
@@ -13434,7 +13445,7 @@
         "hide": true,
         "choices": [
             {
-                "name": ""
+                "name": "-"
             },
             {
                 "name": "Arcane effect"
@@ -13600,7 +13611,7 @@
                     {
                         "affected": "Attack Rolls",
                         "type": "status",
-                        "value": 2
+                        "value": "2"
                     }
                 ]
             }
@@ -14097,7 +14108,7 @@
             },
             {
                 "affected": "Poison Resistance",
-                "value": 10
+                "value": "10"
             },
             {
                 "affected": "Acid Resistance",
@@ -14588,6 +14599,7 @@
         "desc": "The ground within the area transforms into a mass of dangerous briars that assault and impede your foes. The first time each round you Sustain the Spell, you can select one of the following effects to occur in the area.\n<strong>Ensnare</strong> The briars clump around your foes, attempting to hold them in place. A foe within the area (or flying at most 20 feet above the area) must attempt a Reflex save. On a failure, it takes a -10-foot circumstance penalty to all Speeds for 1 round, and on a critical failure, it is immobilized for 1 round unless it Escapes.\n<strong>Impede</strong> The briars twist and writhe, making the entire area difficult terrain.\n<strong>Wall</strong> A wall of thorns appears in the area, lasting for 1 round. The wall is greater difficult terrain instead of difficult terrain.\n\nIn addition, once per round you can direct the briars to impale any target in the area (or flying up to 20 feet above the area) that you can see by using a single action, which has the concentrate and manipulate traits. Make a spell attack roll. On a success, the target takes 10d6 piercing damage and takes a -10-foot circumstance penalty to all Speeds for 1 round; on a critical success, the target is immobilized for 1 round unless it Escapes.",
         "type": "spells",
         "minLevel": 8,
+        "radius": 100,
         "buff": true,
         "hints": [
             {
@@ -14796,7 +14808,7 @@
                 "showon": "Defense, Movement"
             }
         ],
-        "choice": "Light undergrowth",
+        "choice": "Undergrowth",
         "choices": [
             {
                 "name": "Light undergrowth"
@@ -14811,6 +14823,7 @@
         "desc": "The sky above you darkens in a matter of moments, swirling with ominous clouds punctuated by flashes of lighting. The first time each round you Sustain the Spell, you can select one of the following effects to occur in the area.\n\n<strong>Calm</strong> No additional effect.\n<strong>Fog</strong> Heavy fog rolls in, concealing the area with the effects of obscuring mist.\n<strong>Rain</strong> Torrential rain falls from the sky, dousing ordinary flames. Creatures in the area take a -2 circumstance penalty to Acrobatics and Perception checks.\n<strong>Wind</strong> Powerful winds buffet the area in all directions. Ranged attacks take a -4 circumstance penalty, and all flying is against the wind and counts as moving through difficult terrain.\n\nIn addition, once per round you can use a single action, which has the concentrate and manipulate traits, to call down a bolt of lightning, striking any target in range that you can see. You deal 10d6 electricity damage to the target; it must attempt a basic Reflex save. On a failure, it is also deafened for 1 round.",
         "type": "spells",
         "minLevel": 9,
+        "radius": 100,
         "buff": true,
         "choice": "Calm",
         "choices": [
@@ -14884,7 +14897,7 @@
                     {
                         "affected": "Spell Attack Rolls",
                         "type": "circumstance",
-                        "value": "-4"
+                        "value": -4
                     }
                 ]
             }
@@ -14929,7 +14942,7 @@
             {
                 "affected": "Speed",
                 "type": "status",
-                "value": 10
+                "value": "10"
             }
         ],
         "onceEffects": [
@@ -14974,6 +14987,7 @@
         "desc": "You gain an angelic halo with an aura that increases allies' healing from the heal spell. Allies in your halo's emanation who are healed by a heal spell gain a status bonus to Hit Points regained equal to double the heal spell's level.",
         "type": "spells",
         "minLevel": 1,
+        "radius": 15,
         "buff": true,
         "hints": [
             {
@@ -14983,13 +14997,6 @@
             {
                 "desc": "Whenever you are healed by a heal spell, you gain a status bonus to Hit Points regained equal to double the heal spell's level.",
                 "showon": "Health"
-            }
-        ],
-        "effects": [
-            {
-                "affected": "Hit Points regained by Heal",
-                "type": "status",
-                "value": "Heightened * 2"
             }
         ]
     },
@@ -15284,7 +15291,7 @@
     },
     {
         "name": "Faerie Dust",
-        "desc": "You have sprinkled magical dust in the spell's area, making those within easier to trick, according to their Will save:\n\n<strong>Success</strong> The creature is unaffected.\n<strong>Failure</strong> The creature can't use reactions and takes a -2 status penalty to Perception checks and Will saves.\n<strong>Critical Failure</strong> As failure, and the creature also takes a -1 status penalty to Perception checks and Will saves for 1 minute.",
+        "desc": "You have sprinkled magical dust in the spell's area, making those within easier to trick, according to their will save:\n\n<strong>Success</strong> The creature is unaffected.\n<strong>Failure</strong> The creature can't use reactions and takes a -2 status penalty to Perception checks and Will saves.\n<strong>Critical Failure</strong> As failure, and the creature also takes a -1 status penalty to Perception checks and Will saves for 1 minute.",
         "type": "spells",
         "minLevel": 1,
         "buff": true
@@ -15497,6 +15504,8 @@
         "desc": "Uttering phrases in an unknown tongue, you have assaulted the minds of those nearby, according to their Will save:\n\n<strong>Success</strong> The target is unaffected.\n<strong>Failure</strong> The target is stupefied 2.\n<strong>Critical Failure</strong> The target is confused.\n\nEach target is then temporarily immune for 1 minute.",
         "type": "spells",
         "minLevel": 3,
+        "radius": 5,
+        "allowRadiusChange": true,
         "buff": true
     },
     {
@@ -15586,7 +15595,7 @@
                 "setValue": "Choice == 'Earth' ? 10 : null"
             },
             {
-                "affected": "Water Speed",
+                "affected": "Swim Speed",
                 "setValue": "Choice == 'Water' ? Speed('Land Speed') : null"
             }
         ]
@@ -15649,6 +15658,8 @@
         "desc": "Ground in the area has turned swampy and fetid. The area is difficult terrain. The sludge at the bottom of the morass animates into diminutive sludge beasts that have a demonic appearance. These don't function as normal creatures, but they swarm over creatures in the swamp and exude a noxious stench. The swamp deals 1d6 poison damage plus 1d6 for every two spell levels after 3rd; creatures that end their turn in the area must attempt a basic Fortitude save.",
         "type": "spells",
         "minLevel": 3,
+        "radius": 5,
+        "allowRadiusChange": true,
         "buff": true,
         "hints": [
             {
@@ -15681,17 +15692,17 @@
                     {
                         "affected": "AC",
                         "type": "status",
-                        "value": 2
+                        "value": "2"
                     },
                     {
                         "affected": "Spell DCs",
                         "type": "status",
-                        "value": 2
+                        "value": "2"
                     },
                     {
                         "affected": "Class DC",
                         "type": "status",
-                        "value": 2
+                        "value": "2"
                     }
                 ]
             }
@@ -15711,12 +15722,12 @@
                     {
                         "affected": "Attack Rolls",
                         "type": "status",
-                        "value": 1
+                        "value": "1"
                     },
                     {
                         "affected": "Skill Checks",
                         "type": "status",
-                        "value": 1
+                        "value": "1"
                     }
                 ]
             }
@@ -15761,6 +15772,7 @@
         "desc": "Calling upon fey glamours, you have cloaked an area or the targets in illusion. This has the effect of either illusory scene on the area or veil on the creatures, as if heightened to a level 1 level lower than fey glamour, using fey glamour's range and duration.",
         "type": "spells",
         "minLevel": 5,
+        "radius": 30,
         "buff": true,
         "inputRequired": "If you choose veil, the affected creatures can grant themselves the Veil condition at on level lower than fey glamour.",
         "choice": "Illusory Scene",
@@ -16129,6 +16141,7 @@
         "desc": "You have formed an imaginary scene that includes up to 10 discrete creatures or objects of various sizes. These elements generate appropriate sounds and smells, and they feel right to the touch.\n\n<strong>5th Level</strong> Elements of an illusory scene are incapable of speech.\n<strong>6th Level</strong> Creatures or objects in your scene can speak, with specific lines you have spoken for each actor when creating your program. The spell disguises your voice for each actor.\n\nUnlike with the illusory creature spell, creatures in your scene lack combat abilities and statistics. Your scene doesn't include changes to the environment around it, though you can place your scene within the illusory environment of a hallucinatory terrain spell.\n\nWhen you create the scene, you can choose to have it be static or follow a program. Though a static scene is stationary, it includes basic natural movement. For example, wind blowing on an illusory piece of paper would rustle it. A program can be up to 1 minute long and repeats when finished. For instance, you could create a scene of two orcs fighting each other, and the fight would go the same way for each repetition. If you create a loop, the two fighters end up in the same place at the start of the scene and at the end of it, but you can smooth the program so it's hard to tell when the loop ends and begins. Anyone observing the scene for more than a few minutes almost always notices it looping. You're unable to alter the program after you create the illusion.\n\nAny creature that touches any part of the image or uses the Seek action to examine it can attempt to disbelieve your illusion. If they interact with a portion of the illusion, they disbelieve only that portion. They disbelieve the entire scene only on a critical success.",
         "type": "spells",
         "minLevel": 5,
+        "radius": 30,
         "buff": true
     }
 ]

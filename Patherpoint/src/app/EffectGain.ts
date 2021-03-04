@@ -13,7 +13,8 @@ export class EffectGain {
     public setValue: string = "";
     //Set if the effect does not need a value, but still needs to be applied.
     public toggle: boolean = false;
-    public hidden: boolean = false;
+    //Effects will be shown if show = true, not shown if show = false, or otherwise shown if they match a certain list of effects that should always show.
+    public show: boolean = undefined;
     public type: string = "";
     public duration: number = 0;
     //source and sourceId are copied from conditions and currently only used to track temporary HP.

@@ -5,13 +5,7 @@ regex replace with nothing:
 \n[ ]*(""|null)
 ,\n[ ]*"[_,A-Z,a-z,0-9]*": (""|null|\{\})
 \n[ ]*"[_,A-Z,a-z,0-9]*": (""|null|\{\}),
-
-Only for Conditions:
-\n[ ]*"(?!name)[_A-Za-z0-9]*": (""|null|\{\})(?!,)
-
-Not for Conditions:
 \n[ ]*"[_,A-Z,a-z,0-9]*": (""|null|\{\})
-
 ,\n[ ]*\{\n[ ]*\}
 \n[ ]*\{\n[ ]*\},
 \n[ ]*\{\n[ ]*\}

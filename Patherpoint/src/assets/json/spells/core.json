@@ -755,7 +755,33 @@
         "gainConditions": [
             {
                 "duration": 10,
+                "heightenedFilter": 1,
                 "name": "Faerie Dust",
+                "radius": 5,
+                "source": "Faerie Dust",
+                "targetFilter": "caster"
+            },
+            {
+                "duration": 10,
+                "heightenedFilter": 4,
+                "name": "Faerie Dust",
+                "radius": 10,
+                "source": "Faerie Dust",
+                "targetFilter": "caster"
+            },
+            {
+                "duration": 10,
+                "heightenedFilter": 7,
+                "name": "Faerie Dust",
+                "radius": 15,
+                "source": "Faerie Dust",
+                "targetFilter": "caster"
+            },
+            {
+                "duration": 10,
+                "heightenedFilter": 10,
+                "name": "Faerie Dust",
+                "radius": 20,
                 "source": "Faerie Dust",
                 "targetFilter": "caster"
             }
@@ -2957,7 +2983,25 @@
         "gainConditions": [
             {
                 "duration": 10,
+                "heightenedFilter": 3,
                 "name": "Aberrant Whispers",
+                "radius": 5,
+                "source": "Aberrant Whispers",
+                "targetFilter": "caster"
+            },
+            {
+                "duration": 10,
+                "heightenedFilter": 6,
+                "name": "Aberrant Whispers",
+                "radius": 10,
+                "source": "Aberrant Whispers",
+                "targetFilter": "caster"
+            },
+            {
+                "duration": 10,
+                "heightenedFilter": 9,
+                "name": "Aberrant Whispers",
+                "radius": 15,
                 "source": "Aberrant Whispers",
                 "targetFilter": "caster"
             }
@@ -3668,7 +3712,33 @@
         "gainConditions": [
             {
                 "duration": 100,
+                "heightenedFilter": 3,
                 "name": "Swamp of Sloth",
+                "radius": 5,
+                "source": "Swamp of Sloth",
+                "targetFilter": "caster"
+            },
+            {
+                "duration": 100,
+                "heightenedFilter": 5,
+                "name": "Swamp of Sloth",
+                "radius": 10,
+                "source": "Swamp of Sloth",
+                "targetFilter": "caster"
+            },
+            {
+                "duration": 100,
+                "heightenedFilter": 7,
+                "name": "Swamp of Sloth",
+                "radius": 15,
+                "source": "Swamp of Sloth",
+                "targetFilter": "caster"
+            },
+            {
+                "duration": 100,
+                "heightenedFilter": 9,
+                "name": "Swamp of Sloth",
+                "radius": 20,
                 "source": "Swamp of Sloth",
                 "targetFilter": "caster"
             }
@@ -7449,10 +7519,6 @@
             {
                 "value": "10d4",
                 "variable": "var1"
-            },
-            {
-                "value": "10d4",
-                "variable": "var2"
             }
         ]
     },
@@ -8001,7 +8067,7 @@
             "Mental",
             "Nonlethal"
         ],
-        "inputRequired": "Change the duration of the Agitate condition according to the target's Will save.",
+        "inputRequired": "Change the duration of the Agitate condition according to the target's will save.",
         "range": "30 feet",
         "targets": "1 creature",
         "singleTarget": true,
@@ -8629,7 +8695,7 @@
             "Linguistic",
             "Mental"
         ],
-        "area": "30 feet",
+        "range": "30 feet",
         "targets": "1 creature",
         "singleTarget": true,
         "duration": "until the end of the target's next turn",
@@ -8672,7 +8738,7 @@
             "Conjuration",
             "Water"
         ],
-        "area": "0 feet",
+        "range": "0 feet",
         "desc": "As you cup your hands, water begins to flow forth from them. You create 2 gallons of water. If no one drinks it, it evaporates after 1 day."
     },
     {
@@ -8728,7 +8794,7 @@
             "Detection",
             "Divination"
         ],
-        "area": "30 feet",
+        "range": "30 feet",
         "targets": "1 object or creature",
         "singleTarget": true,
         "desc": "You detect whether a creature is venomous or poisonous, or if an object is poison or has been poisoned. <var>var1</var> Certain substances, like lead and alcohol, are poisons and so mask other poisons.",
@@ -8765,7 +8831,7 @@
             "Necromancy",
             "Positive"
         ],
-        "area": "touch",
+        "range": "touch",
         "targets": "up to two weapons, each of which must be wielded by you or a willing ally, or else unattended",
         "target": "ally",
         "singleTarget": true,
@@ -9252,10 +9318,6 @@
             {
                 "value": "20d4",
                 "variable": "var1"
-            },
-            {
-                "value": "10",
-                "variable": "var2"
             }
         ]
     },
@@ -9409,10 +9471,6 @@
             {
                 "value": "10d8",
                 "variable": "var1"
-            },
-            {
-                "value": "80",
-                "variable": "var2"
             }
         ]
     },
@@ -9537,10 +9595,6 @@
             {
                 "value": "10d8",
                 "variable": "var1"
-            },
-            {
-                "value": "80",
-                "variable": "var2"
             }
         ]
     },
@@ -9666,10 +9720,6 @@
             {
                 "value": "21d6",
                 "variable": "var1"
-            },
-            {
-                "value": "24d6",
-                "variable": "var2"
             }
         ]
     },
@@ -10164,10 +10214,6 @@
             {
                 "value": "3",
                 "variable": "var1"
-            },
-            {
-                "value": "You gain a +3 item bonus to saving throws. ",
-                "variable": "var2"
             }
         ]
     },
@@ -10950,10 +10996,6 @@
             {
                 "value": "2d4",
                 "variable": "var1"
-            },
-            {
-                "value": "1d4",
-                "variable": "var2"
             }
         ]
     },
@@ -11333,10 +11375,6 @@
             {
                 "value": "50",
                 "variable": "var1"
-            },
-            {
-                "value": "10d8",
-                "variable": "var2"
             }
         ]
     },
@@ -11488,10 +11526,6 @@
             {
                 "value": "10d12",
                 "variable": "var1"
-            },
-            {
-                "value": "1d4+9",
-                "variable": "var2"
             }
         ]
     },
@@ -12627,10 +12661,6 @@
             {
                 "value": "42",
                 "variable": "var1"
-            },
-            {
-                "value": "100",
-                "variable": "var2"
             }
         ]
     },
@@ -12902,10 +12932,6 @@
             {
                 "value": "11d8",
                 "variable": "var1"
-            },
-            {
-                "value": "5d6",
-                "variable": "var2"
             }
         ]
     },
@@ -13310,10 +13336,6 @@
             {
                 "value": "10",
                 "variable": "var1"
-            },
-            {
-                "value": "15",
-                "variable": "var2"
             }
         ]
     },
@@ -14245,10 +14267,6 @@
             {
                 "value": "five 5-foot cubes",
                 "variable": "var1"
-            },
-            {
-                "value": " If you excavate all four 5-foot cubes beneath a Large creature, it must attempt a Reflex save or Acrobatics check, as above.",
-                "variable": "var2"
             }
         ]
     },
@@ -14482,10 +14500,6 @@
             {
                 "value": "9d4",
                 "variable": "var1"
-            },
-            {
-                "value": "18d4",
-                "variable": "var2"
             }
         ]
     },
@@ -14944,10 +14958,6 @@
             {
                 "value": "Gargantuan",
                 "variable": "var1"
-            },
-            {
-                "value": "9d4",
-                "variable": "var2"
             }
         ]
     },
@@ -15862,10 +15872,6 @@
             {
                 "value": "10d10",
                 "variable": "var1"
-            },
-            {
-                "value": "20",
-                "variable": "var2"
             }
         ]
     },
@@ -15971,14 +15977,22 @@
         "desc": "The target makes no sound, preventing creatures from noticing it using hearing or other senses alone. <var>var1</var>The target can't use sonic attacks, nor can it use actions with the auditory trait. This prevents it from casting spells that include verbal components.",
         "heightened": [
             {
-                "desc": "The spell effect emanates from the touched creature, silencing all sound in or passing through a 10- foot radius and preventing any auditory and sonic effects in the affected area. While within the radius, creatures are subject to the same effects as the target. Depending upon the position of the effect, a creature might notice the lack of sound reaching it (blocking off the noise coming from a party, for example).",
+                "desc": "The spell effect emanates from the touched creature, silencing all sound in or passing through a 10-foot radius and preventing any auditory and sonic effects in the affected area. While within the radius, creatures are subject to the same effects as the target. Depending upon the position of the effect, a creature might notice the lack of sound reaching it (blocking off the noise coming from a party, for example).",
                 "level": "(4th)"
             }
         ],
         "gainConditions": [
             {
                 "duration": 100,
+                "heightenedFilter": 2,
                 "name": "Silence",
+                "source": "Silence"
+            },
+            {
+                "duration": 100,
+                "heightenedFilter": 4,
+                "name": "Silence",
+                "radius": 10,
                 "source": "Silence"
             }
         ],
@@ -16962,10 +16976,6 @@
             {
                 "value": "19d6",
                 "variable": "var1"
-            },
-            {
-                "value": "19d6",
-                "variable": "var2"
             }
         ]
     },
@@ -17168,10 +17178,6 @@
             {
                 "value": "20d6",
                 "variable": "var1"
-            },
-            {
-                "value": "20d8",
-                "variable": "var2"
             }
         ]
     },
@@ -18488,10 +18494,6 @@
             {
                 "value": "19d6",
                 "variable": "var1"
-            },
-            {
-                "value": "19d6",
-                "variable": "var2"
             }
         ]
     },
@@ -18989,10 +18991,6 @@
             {
                 "value": "10d4",
                 "variable": "var1"
-            },
-            {
-                "value": "55",
-                "variable": "var2"
             }
         ]
     },
@@ -19887,7 +19885,7 @@
                 "variable": "var_dmgbonus"
             },
             {
-                "value": "+18",
+                "value": 18,
                 "variable": "var_athletics"
             },
             {
@@ -19935,7 +19933,7 @@
                 "variable": "var_dmgbonus"
             },
             {
-                "value": "+21",
+                "value": 21,
                 "variable": "var_athletics"
             },
             {
@@ -19985,7 +19983,7 @@
                 "variable": "var_dmgbonus"
             },
             {
-                "value": "+25",
+                "value": 25,
                 "variable": "var_athletics"
             },
             {
@@ -20237,10 +20235,6 @@
             {
                 "value": "20",
                 "variable": "var1"
-            },
-            {
-                "value": "5d6",
-                "variable": "var2"
             }
         ]
     },
@@ -20602,10 +20596,6 @@
             {
                 "value": "9d6",
                 "variable": "var1"
-            },
-            {
-                "value": "18d6",
-                "variable": "var2"
             }
         ]
     },
@@ -20951,10 +20941,6 @@
             {
                 "value": "20d6",
                 "variable": "var1"
-            },
-            {
-                "value": "30d6",
-                "variable": "var2"
             }
         ]
     },
@@ -21093,10 +21079,6 @@
             {
                 "value": "22",
                 "variable": "var1"
-            },
-            {
-                "value": "11",
-                "variable": "var2"
             }
         ]
     },
@@ -21177,14 +21159,6 @@
             {
                 "value": "20",
                 "variable": "var1"
-            },
-            {
-                "value": "25d6",
-                "variable": "var2"
-            },
-            {
-                "value": "250",
-                "variable": "var3"
             }
         ]
     },
@@ -21849,18 +21823,6 @@
             {
                 "value": "10d10",
                 "variable": "var1"
-            },
-            {
-                "value": "10d8",
-                "variable": "var2"
-            },
-            {
-                "value": "10d6",
-                "variable": "var3"
-            },
-            {
-                "value": "10d4",
-                "variable": "var4"
             }
         ]
     },
@@ -22299,7 +22261,7 @@
                 "variable": "var_dmgbonus"
             },
             {
-                "value": "+20",
+                "value": 20,
                 "variable": "var_athletics"
             },
             {
@@ -22336,7 +22298,7 @@
                 "variable": "var_dmgbonus"
             },
             {
-                "value": "+23",
+                "value": 23,
                 "variable": "var_athletics"
             },
             {
@@ -22374,7 +22336,7 @@
                 "variable": "var_dmgbonus"
             },
             {
-                "value": "+25",
+                "value": 25,
                 "variable": "var_athletics"
             },
             {
@@ -22458,7 +22420,7 @@
         ],
         "range": "500 feet",
         "area": "30-foot burst",
-        "duration":"1 hour",
+        "duration": "1 hour",
         "desc": "<var>var1</var>You form an imaginary scene that includes up to 10 discrete creatures or objects of various sizes, all of which must be within the spell's area. These elements generate appropriate sounds and smells, and they feel right to the touch. <var>var2</var> Unlike with the illusory creature spell, creatures in your scene lack combat abilities and statistics. Your scene doesn't include changes to the environment around it, though you can place your scene within the illusory environment of a hallucinatory terrain spell.\n\nWhen you create the scene, you can choose to have it be static or follow a program. Though a static scene is stationary, it includes basic natural movement. For example, wind blowing on an illusory piece of paper would rustle it. A program can be up to 1 minute long and repeats when finished. For instance, you could create a scene of two orcs fighting each other, and the fight would go the same way for each repetition. If you create a loop, the two fighters end up in the same place at the start of the scene and at the end of it, but you can smooth the program so it's hard to tell when the loop ends and begins. Anyone observing the scene for more than a few minutes almost always notices it looping. You're unable to alter the program after you create the illusion.\n\nAny creature that touches any part of the image or uses the Seek action to examine it can attempt to disbelieve your illusion. If they interact with a portion of the illusion, they disbelieve only that portion. They disbelieve the entire scene only on a critical success.",
         "heightened": [
             {
@@ -22637,7 +22599,7 @@
                 "variable": "var_dmgbonus"
             },
             {
-                "value": "+19",
+                "value": 19,
                 "variable": "var_athletics"
             },
             {
@@ -22674,7 +22636,7 @@
                 "variable": "var_dmgbonus"
             },
             {
-                "value": "+22",
+                "value": 22,
                 "variable": "var_athletics"
             },
             {
@@ -23167,7 +23129,7 @@
                 "variable": "var_dmgbonus"
             },
             {
-                "value": "+23",
+                "value": 23,
                 "variable": "var_athletics"
             },
             {
@@ -23205,11 +23167,11 @@
                 "variable": "var_attack"
             },
             {
-                "value": "+12",
+                "value": 12,
                 "variable": "var_dmgbonus"
             },
             {
-                "value": "+28",
+                "value": 28,
                 "variable": "var_athletics"
             },
             {

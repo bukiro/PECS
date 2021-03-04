@@ -1,90 +1,129 @@
-<div class="newrow left-aligned">
+<div class="newrow">
+    <div style="flex-grow:10"><span>
+            <input id="{{conditionGain.id+'notes'}}" class="invisible" type="checkbox"
+                [(ngModel)]="conditionGain.showNotes">
+            <label for="{{conditionGain.id+'notes'}}" title="Edit notes">&#9998;&nbsp;</label><strong
+                [ngClass]="condition.buff ? 'bonus' : 'penalty'"
+                title="Source: {{conditionGain.source}}">{{conditionGain.name}}{{conditionGain.choice ? ": " : ""}}
+                <input id="{{conditionGain.id+'choice'}}" class="invisible" type="checkbox"
+                    [(ngModel)]="conditionGain.showChoices"
+                    *ngIf="condition.choices.length && !conditionGain.choiceLocked">
+                <label for="{{conditionGain.id+'choice'}}" title="Change effect choice"
+                    *ngIf="condition.choices.length && !conditionGain.choiceLocked">&#8997;</label>
+                {{(conditionGain.choice && !conditionGain.showChoices) ? conditionGain.choice : ""}}
+                <ng-container
+                    *ngIf="conditionGain.showChoices && condition.choices.length && !conditionGain.choiceLocked">
+                    <span *ngFor="let oldChoice of [conditionGain.choice]; trackBy:trackByIndex;">
+                        <select [(ngModel)]="conditionGain.choice"
+                            (ngModelChange)="change_ConditionChoice(conditionGain, condition, oldChoice)">
+                            <option
+                                *ngFor="let choice of get_ConditionChoices(conditionGain, condition); trackBy:trackByIndex;"
+                                [ngValue]="choice">
+                                {{choice}}
+                            </option>
+                        </select>
+                    </span>
+                </ng-container>
+                <input id="{{conditionGain.id+'value'}}" class="invisible" type="checkbox"
+                    [(ngModel)]="conditionGain.showValue">
+                <label for="{{conditionGain.id+'value'}}" title="Change value"
+                    *ngIf="conditionGain.value">&#9881;&nbsp;</label>
+                {{(conditionGain.value && !conditionGain.showValue) ? conditionGain.value : ""}}
+                <ng-container *ngIf="conditionGain.showValue">
+                    <span *ngFor="let oldValue of [conditionGain.value]; trackBy:trackByIndex;">
+                        <span><button (click)="change_ConditionValue(conditionGain, oldValue, -1)">-1</button></span>
+                        <select [(ngModel)]="conditionGain.value"
+                            (ngModelChange)="change_ConditionValue(conditionGain, oldValue)">
+                            <option *ngFor="let valueOption of [0,1,2,3,4,5,6,7,8,9,10]; trackBy:trackByIndex;"
+                                [ngValue]="valueOption">
+                                {{valueOption}}
+                            </option>
+                        </select>
+                        <span><button (click)="change_ConditionValue(conditionGain, oldValue, 1)">+1</button></span>
+                    </span>
+                </ng-container>
+            </strong>
+        </span>
+    </div>
     <span>
-        <strong [ngClass]="condition.buff ? 'bonus' : 'penalty'"
-            title="Source: {{conditionGain.source}}">{{conditionGain.name}}{{conditionGain.choice ? ": " : ""}}
-            <input id="{{conditionGain.id+'choice'}}" class="invisible" type="checkbox"
-                [(ngModel)]="conditionGain.showChoices" *ngIf="condition.choices.length && !conditionGain.choiceLocked">
-            <label for="{{conditionGain.id+'choice'}}" class="fullsize-only" title="Edit effect choice" *ngIf="condition.choices.length && !conditionGain.choiceLocked">&#8997;</label>
-            {{conditionGain.choice ? conditionGain.choice : ""}}
-            {{(conditionGain.value) ? conditionGain.value : ""}}
-        </strong>
-        <cite class="trait" *ngFor="let trait of condition.traits; trackBy:trackByIndex;"
-            title="{{get_Traits(trait)[0].desc}}">{{trait}}</cite>
-    </span><span class="fullsize-only">
-        <input id="{{conditionGain.id+'notes'}}" class="invisible" type="checkbox"
-            [(ngModel)]="conditionGain.showNotes">
-        <label for="{{conditionGain.id+'notes'}}" class="fullsize-only" title="Edit notes">&#9998;</label>
-        <input id="{{conditionGain.id+'duration'}}" class="invisible" type="checkbox"
-            [(ngModel)]="conditionGain.showVariables">
-        <label for="{{conditionGain.id+'duration'}}" class="fullsize-only" title="Change duration and value"
-            *ngIf="conditionGain.duration > -1 || conditionGain.value">&#9881;</label>
+        <button (click)="remove_Condition(conditionGain)"
+            title="{{conditionGain.source.includes('Feat: ') ? 'Conditions gained from feats cannot be removed.' : ''}}"
+            [disabled]="conditionGain.source.includes('Feat: ')" *ngIf="conditionGain.duration != 1">
+            Remove
+        </button>
+        <button (click)="remove_Condition(conditionGain)"
+            title="Instant effects should be resolved immediately and then ended." *ngIf="conditionGain.duration == 1">
+            Done
+        </button>
     </span>
 </div>
-<div class="newrow left-aligned lower fullsize-only" *ngIf="conditionGain.heightened">
-    <strong>Spell level&nbsp;</strong>{{conditionGain.heightened}}
-</div>
-<div class="newrow left-aligned lower fullsize-only">
-    <strong>Duration&nbsp;</strong>{{get_Duration(conditionGain.duration)}}
-</div>
-<div class="newrow left-aligned lower fullsize-only" *ngIf="conditionGain.persistent" title="This condition will remain if its source is removed.">
-    Persistent
-</div>
-<div class="newrow fullsize-only" *ngIf="conditionGain.nextStage && conditionGain.nextStage != -1">
-    <strong>Affliction onset&nbsp;</strong>{{get_Duration(conditionGain.nextStage)}}
-</div>
-<div class="newrow list-item fullsize-only" *ngIf="conditionGain.showChoices && condition.choices.length && !conditionGain.choiceLocked">
-    <span *ngFor="let oldChoice of [conditionGain.choice]">Effect selection:
-        <select [(ngModel)]="conditionGain.choice"
-            (ngModelChange)="change_ConditionChoice(conditionGain, condition, oldChoice)">
-            <option *ngFor="let choice of get_ConditionChoices(conditionGain, condition); trackBy:trackByIndex;" [ngValue]="choice">
-                {{choice}}
-            </option>
-        </select>
-    </span>
-</div>
-<div class="newrow list-item fullsize-only" *ngIf="conditionGain.showChoices && condition.name == 'Persistent Damage'">
-    <span>
-        Damage type and amount: <input type="text" name="persistentDamage" [(ngModel)]="conditionGain.choice"
-            maxLength="30">
-    </span>
-</div>
-<div class="fullsize-only list-item newrow" *ngIf="conditionGain.showNotes">
+<div class="list-item newrow" [ngbCollapse]="!conditionGain.showNotes">
     <span>
         <strong>Notes</strong>
         <input type="textarea" class="fullwidth" [(ngModel)]="conditionGain.notes">
     </span>
 </div>
-<div class="newrow list-item fullsize-only" *ngIf="conditionGain.showVariables && conditionGain.duration > -1">
-    <div class="newrow fullsize-only"><strong>Change Duration</strong></div>
-    <div class="newrow fullsize-only">
+<div class="newrow left-aligned lower" *ngIf="conditionGain.heightened">
+    <strong>Spell level&nbsp;</strong>{{conditionGain.heightened}}
+</div>
+<div class="newrow left-aligned lower">
+    <input id="{{conditionGain.id+'duration'}}" class="invisible" type="checkbox"
+        [(ngModel)]="conditionGain.showDuration">
+    <label for="{{conditionGain.id+'duration'}}" title="Change duration"
+        *ngIf="conditionGain.duration > -1">&#9881;&nbsp;</label>
+    <strong>Duration&nbsp;</strong>{{get_Duration(conditionGain.duration)}}
+</div>
+<div class="newrow list-item" [ngbCollapse]="(!conditionGain.showDuration || conditionGain.duration <= -1)">
+    <div class="newrow"><strong>Change Duration</strong></div>
+    <div class="newrow">
         <span><button (click)="change_ConditionDuration(conditionGain, condition, 10)">+ 1 turn</button></span>
         <span><button (click)="change_ConditionDuration(conditionGain, condition, 100)">+ 1 min.</button></span>
         <span><button (click)="change_ConditionDuration(conditionGain, condition, 1000)">+ 10 min.</button></span>
         <span><button (click)="change_ConditionDuration(conditionGain, condition, 6000)">+ 1 hour</button></span>
     </div>
-    <div class="newrow fullsize-only">
+    <div class="newrow">
         <span><button (click)="change_ConditionDuration(conditionGain, condition, -10)">- 1 turn</button></span>
         <span><button (click)="change_ConditionDuration(conditionGain, condition, -100)">- 1 min.</button></span>
         <span><button (click)="change_ConditionDuration(conditionGain, condition, -1000)">- 10 min.</button></span>
         <span><button (click)="change_ConditionDuration(conditionGain, condition, -6000)">- 1 hour</button></span>
     </div>
 </div>
-<div class="newrow list-item fullsize-only" *ngIf="conditionGain.showVariables && conditionGain.value">
-    <div class="newrow fullsize-only"><strong>Change Value</strong></div>
-    <div class="newrow fullsize-only">
-        <span><button (click)="change_ConditionValue(conditionGain, -1)">Value - 1</button></span>
-        <span><button (click)="change_ConditionValue(conditionGain, 1)">Value + 1</button></span>
-    </div>
+<div class="newrow left-aligned lower" *ngIf="conditionGain.persistent"
+    title="This condition will remain if its source is removed.">
+    Persistent
+</div>
+<div class="newrow left-aligned lower" *ngIf="conditionGain.radius">
+    <input id="{{conditionGain.id+'radius'}}" class="invisible" type="checkbox" [(ngModel)]="conditionGain.showRadius">
+    <label for="{{conditionGain.id+'radius'}}" title="Change radius"
+        *ngIf="conditionGain.radius && !condition.allowRadiusChange">&#9881;&nbsp;</label>
+    <strong>Radius&nbsp;</strong><span>
+        <button (click)="change_ConditionRadius(conditionGain, -5)"
+            *ngIf="(condition.allowRadiusChange || conditionGain.showRadius) && conditionGain.radius"
+            (disabled)="conditionGain.radius <= 5">-5</button> {{conditionGain.radius}} feet
+        <button (click)="change_ConditionRadius(conditionGain, +5)"
+            *ngIf="(condition.allowRadiusChange || conditionGain.showRadius) && conditionGain.radius">+5</button>
+    </span>
+</div>
+<div class="newrow" *ngIf="conditionGain.nextStage && conditionGain.nextStage != -1">
+    <strong>Affliction onset&nbsp;</strong>{{get_Duration(conditionGain.nextStage)}}
+</div>
+<div class="newrow list-item" *ngIf="conditionGain.showChoices && condition.name == 'Persistent Damage'">
+    <span>
+        Damage type and amount: <input type="text" name="persistentDamage" [(ngModel)]="conditionGain.choice"
+            maxLength="30">
+    </span>
 </div>
 <div class="newrow">
-    <div class="list-item lower newrow problem" *ngIf="conditionGain.nextStage == -1 && (condition.previousCondition || condition.nextCondition)">
+    <div class="list-item lower newrow problem"
+        *ngIf="conditionGain.nextStage == -1 && (condition.previousCondition || condition.nextCondition)">
         <strong>Affliction onset reached</strong>
         <div class="newrow left-aligned">
-            <p>Make {{condition.traits.includes("Virulent") ? "two saving throws" : "a saving throw"}} to determine the next stage of the affliction.</p>
+            <p>Make {{condition.traits.includes("Virulent") ? "two saving throws" : "a saving throw"}} to determine the
+                next stage of the affliction.</p>
         </div>
     </div>
 </div>
-<div class="newrow fullsize-only" *ngIf="condition.previousCondition || condition.nextCondition">
+<div class="newrow" *ngIf="condition.previousCondition || condition.nextCondition">
     <span *ngIf="!condition.previousCondition"><button
             (click)="remove_Condition(conditionGain)">{{conditionGain.nextStage == -1 ? "Success: " :
             ""}}Recover</button></span>
@@ -101,8 +140,9 @@
             ""}}Remain
             at this stage</button></span>
 </div>
-<div class="newrow fullsize-only">
-    <div class="list-item lower newrow problem" *ngIf="condition.inputRequired && !conditionGain.acknowledgedInputRequired">
+<div class="newrow">
+    <div class="list-item lower newrow problem"
+        *ngIf="condition.inputRequired && !conditionGain.acknowledgedInputRequired">
         <strong>Player input required:</strong>
         <div class="newrow left-aligned">
             <p *ngFor="let inputRequired of condition.inputRequired.split('\n'); trackBy:trackByIndex;">
@@ -115,30 +155,17 @@
     </div>
     <div class="newrow">
         <span>
-            <button (click)="remove_Condition(conditionGain)"
-                title="{{conditionGain.source.includes('Feat: ') ? 'Conditions gained from feats cannot be removed.' : ''}}"
-                [disabled]="conditionGain.source.includes('Feat: ')" *ngIf="conditionGain.duration != 1">
-                Remove
-            </button>
-            <button (click)="remove_Condition(conditionGain)"
-                title="Instant effects should be resolved immediately and then ended."
-                *ngIf="conditionGain.duration == 1">
-                Done
-            </button>
-        </span>
-        <span>
             <button (click)="toggle_Item(conditionGain.id+'description')"
                 [ngClass]="{'fancy-button':get_ShowItem()==conditionGain.id+'description'}">
                 {{get_ShowItem()==conditionGain.id+'description' ? "Hide" : "Show"}} Description
             </button>
         </span>
     </div>
-    <ng-container *ngIf="get_ShowItem()==conditionGain.id+'description'">
-        <div class="newrow  lower left-aligned" *ngFor="let desc of condition.desc.split('\n\n'); trackBy:trackByIndex;">
-            <p *ngIf="desc.split('\n').length == 1" [innerHTML]="desc"></p>
-            <ul *ngIf="desc.split('\n').length > 1">
-                <li *ngFor="let line of desc.split('\n'); trackBy:trackByIndex;" [innerHTML]="line"></li>
-            </ul>
-        </div>
-    </ng-container>
+    <div class="newrow lower left-aligned " [ngbCollapse]="get_ShowItem()!=conditionGain.id+'description'"
+        *ngFor="let desc of condition.desc.split('\n\n'); trackBy:trackByIndex;">
+        <p *ngIf="desc.split('\n').length == 1" [innerHTML]="desc"></p>
+        <ul *ngIf="desc.split('\n').length > 1">
+            <li *ngFor="let line of desc.split('\n'); trackBy:trackByIndex;" [innerHTML]="line"></li>
+        </ul>
+    </div>
 </div>

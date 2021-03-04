@@ -3668,6 +3668,7 @@
                 "showon": "Arcana, Crafting, Lore, Medicine, Nature, Occultism, Religion, Society, Deception, Intimidation, Stealth",
                 "effects": [{
                         "affected": "Recall Knowledge Checks",
+                        "show": true,
                         "value": "2",
                         "type": "circumstance"
                     },

@@ -113,10 +113,11 @@ The very latest in Assistive Technologies for Dungeon Master (ATDM)
 - [ ] Stretch Goal: Icon-Driven UI with dynamic tooltips (e.g. with bootstrap or material)
 
 Active to-do:
-- Separate Conditions and Effects
-- Minimized version with icons only, maximized with text
-- Implement bootstrap tooltips instead of titles
-- Implement full information in tooltips after time
+- Conditions & Effect: Minimized version with icons only, maximized with text, no minimize-button (only dependent on tab)
+- Add pie shadow to conditions for remaining durations
+- Implement bootstrap tooltips instead of titles everywhere
+- Implement full information in tooltips after time, if possible (apparently not)
+- Move automatic conditions (from bulk etc.) from effects component to conditionsService
 
 Implement:
 

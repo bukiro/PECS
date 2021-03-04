@@ -43,6 +43,8 @@ export class Condition {
     public fixedDuration: number = 0;
     public persistent: boolean = false;
     public restricted: boolean = false;
+    public radius: number = 0;
+    public allowRadiusChange: boolean = false;
     public traits: string[] = [];
     //If a condition has notes (like the HP of a summoned object), they get copied on the conditionGain.
     public notes: string = "";

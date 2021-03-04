@@ -46,7 +46,7 @@ export class ConditionComponent implements OnInit {
         }
         this.showItemMessage.emit(this.showItem);
     }
-    
+
     get_ShowItem() {
         return this.showItem;
     }
@@ -77,8 +77,12 @@ export class ConditionComponent implements OnInit {
         }
     }
 
-    change_ConditionValue(gain: ConditionGain, change: number) {
-        gain.value += change;
+    change_ConditionValue(gain: ConditionGain, oldValue: number, change: number = 0) {
+        if (change) {
+            gain.value += change;
+        } else {
+            change = gain.value - oldValue;
+        }
         if (gain.name == "Drained" && change < 0) {
             //When you lower your drained value, you regain Max HP, but not the lost HP.
             //Because HP is Max HP - Damage, we increase damage to represent not regaining the HP.
@@ -86,8 +90,13 @@ export class ConditionComponent implements OnInit {
             this.get_Creature().health.damage -= this.get_Creature().level * change;
         }
         this.toggle_Item("");
+        gain.showValue = false;
         this.characterService.set_ToChange(this.creature, "effects");
         this.characterService.process_ToChange();
+    }
+
+    change_ConditionRadius(gain: ConditionGain, change: number) {
+        gain.radius += change;
     }
 
     get_ConditionChoices(conditionGain: ConditionGain, condition: Condition) {
@@ -104,13 +113,13 @@ export class ConditionComponent implements OnInit {
             //Remove any items that were granted by the previous choice.
             if (oldChoice) {
                 gain.gainItems.filter(gainItem => gainItem.conditionChoiceFilter == oldChoice).forEach(gainItem => {
-                    this.conditionsService.remove_ConditionItem(creature as Character|AnimalCompanion, this.characterService, this.itemsService, gainItem);
+                    this.conditionsService.remove_ConditionItem(creature as Character | AnimalCompanion, this.characterService, this.itemsService, gainItem);
                 });
             }
             //Add any items that are granted by the new choice.
             if (gain.choice) {
                 gain.gainItems.filter(gainItem => gainItem.conditionChoiceFilter == gain.choice).forEach(gainItem => {
-                    this.conditionsService.add_ConditionItem(creature as Character|AnimalCompanion, this.characterService, this.itemsService, gainItem, condition);
+                    this.conditionsService.add_ConditionItem(creature as Character | AnimalCompanion, this.characterService, this.itemsService, gainItem, condition);
                 });
             }
         }
@@ -144,6 +153,7 @@ export class ConditionComponent implements OnInit {
         if (condition.senses.length) {
             this.characterService.set_ToChange(this.creature, "skills");
         }
+        gain.showChoices = false;
         this.characterService.process_ToChange();
     }
 

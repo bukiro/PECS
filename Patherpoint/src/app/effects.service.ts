@@ -32,7 +32,7 @@ export class EffectsService {
     //The bonus types are hardcoded. If Paizo ever adds a new bonus type, this is where we need to change them.
     private bonusTypes: string[] = ["item", "circumstance", "status", "proficiency", "untyped"];
     private effectProperties: ItemProperty[] = [];
-    
+
     constructor(
         private traitsService: TraitsService,
         private abilitiesService: AbilitiesService,
@@ -119,25 +119,25 @@ export class EffectsService {
     show_BonusesOnThis(creature: Creature, ObjectName: string) {
         //This function is usually only used to determine if a value should be highlighted as a bonus. Because we don't want to highlight values if their bonus comes from a feat, we exclude hidden effects here.
         let index = this.get_CalculatedIndex(creature.type);
-        return this.effects[index].bonuses.filter(effect => effect.creature == creature.id && effect.target.toLowerCase() == ObjectName.toLowerCase() && effect.apply && !effect.hide).length > 0;
+        return this.effects[index].bonuses.some(effect => effect.creature == creature.id && effect.target.toLowerCase() == ObjectName.toLowerCase() && effect.apply && effect.show);
     }
 
     show_BonusesOnThese(creature: Creature, ObjectNames: string[]) {
         //This function is usually only used to determine if a value should be highlighted as a bonus. Because we don't want to highlight values if their bonus comes from a feat, we exclude hidden effects here.
         let index = this.get_CalculatedIndex(creature.type);
-        return this.effects[index].bonuses.filter(effect => effect.creature == creature.id && ObjectNames.map(name => name.toLowerCase()).includes(effect.target.toLowerCase()) && effect.apply && !effect.hide).length > 0;
+        return this.effects[index].bonuses.some(effect => effect.creature == creature.id && ObjectNames.map(name => name.toLowerCase()).includes(effect.target.toLowerCase()) && effect.apply && effect.show);
     }
 
     show_PenaltiesOnThis(creature: Creature, ObjectName: string) {
         //This function is usually only used to determine if a value should be highlighted as a penalty. Because we don't want to highlight values if their penalty comes from a feat, we exclude hidden effects here.
         let index = this.get_CalculatedIndex(creature.type);
-        return this.effects[index].penalties.filter(effect => effect.creature == creature.id && effect.target.toLowerCase() == ObjectName.toLowerCase() && effect.apply && !effect.hide).length > 0;
+        return this.effects[index].penalties.some(effect => effect.creature == creature.id && effect.target.toLowerCase() == ObjectName.toLowerCase() && effect.apply && effect.show);
     }
 
     show_PenaltiesOnThese(creature: Creature, ObjectNames: string[]) {
         //This function is usually only used to determine if a value should be highlighted as a penalty. Because we don't want to highlight values if their penalty comes from a feat, we exclude hidden effects here.
         let index = this.get_CalculatedIndex(creature.type);
-        return this.effects[index].penalties.filter(effect => effect.creature == creature.id && ObjectNames.map(name => name.toLowerCase()).includes(effect.target.toLowerCase()) && effect.apply && !effect.hide).length > 0;
+        return this.effects[index].penalties.some(effect => effect.creature == creature.id && ObjectNames.map(name => name.toLowerCase()).includes(effect.target.toLowerCase()) && effect.apply && effect.show);
     }
 
     get_TypeFilteredEffects(effects: Effect[], absolutes: boolean = false, lowerIsBetter: boolean = false) {
@@ -186,7 +186,7 @@ export class EffectsService {
                                 } else {
                                     returnedEffects.push(...effectGroups.reduce((prev, current) => (groupSum(prev) > groupSum(current) ? prev : current)));
                                 }
-                                
+
                             }
                         } else {
                             if (lowerIsBetter) {
@@ -295,35 +295,35 @@ export class EffectsService {
             if (creature.type == "Familiar") {
                 return 0;
             } else {
-                return characterService.get_Abilities(name)[0]?.value((creature as AnimalCompanion|Character), characterService, effectsService).result;
+                return characterService.get_Abilities(name)[0]?.value((creature as AnimalCompanion | Character), characterService, effectsService).result;
             }
         }
         function Modifier(name: string) {
             if (creature.type == "Familiar") {
                 return 0;
             } else {
-                return characterService.get_Abilities(name)[0]?.mod((creature as AnimalCompanion|Character), characterService, effectsService).result;
+                return characterService.get_Abilities(name)[0]?.mod((creature as AnimalCompanion | Character), characterService, effectsService).result;
             }
         }
         function BaseSize() {
-            return (creature as AnimalCompanion|Character|Familiar).get_BaseSize();
+            return (creature as AnimalCompanion | Character | Familiar).get_BaseSize();
         }
         function Size() {
-            return (creature as AnimalCompanion|Character|Familiar).get_Size(this);
+            return (creature as AnimalCompanion | Character | Familiar).get_Size(this);
         }
         function Skill(name: string) {
-            return characterService.get_Skills(creature, name)[0]?.baseValue((creature as AnimalCompanion|Character), characterService, abilitiesService, effectsService, Level).result;
+            return characterService.get_Skills(creature, name)[0]?.baseValue((creature as AnimalCompanion | Character), characterService, abilitiesService, effectsService, Level).result;
         }
         function Skill_Level(name: string) {
             if (creature.type == "Familiar") {
                 return 0;
             } else {
-                return characterService.get_Skills(creature, name)[0]?.level((creature as AnimalCompanion|Character), characterService, Level);
+                return characterService.get_Skills(creature, name)[0]?.level((creature as AnimalCompanion | Character), characterService, Level);
             }
         }
         let get_TestSpeed = this.get_TestSpeed;
         function Speed(name: string) {
-            return (get_TestSpeed(name))?.value((creature as AnimalCompanion|Character), characterService, effectsService)[0] || 0;
+            return (get_TestSpeed(name))?.value((creature as AnimalCompanion | Character), characterService, effectsService)[0] || 0;
         }
         function Has_Condition(name: string) {
             return characterService.get_AppliedConditions(creature, name, "", true).length
@@ -379,7 +379,7 @@ export class EffectsService {
         //effects come as {affected, value} where value is a string that contains a statement.
         //This statement is eval'd here. The statement can use characterService to check level, skills, abilities etc.
         object.effects.forEach((effect: EffectGain) => {
-            let hide: boolean = false;
+            let show: boolean = false;
             let type: string = "untyped";
             let penalty: boolean = false;
             let value: string = "0";
@@ -430,8 +430,9 @@ export class EffectsService {
                 value = "0";
             }
             //Hide all relative effects that come from feats, so we don't see green effects permanently after taking a feat.
-            if (object.constructor == Feat || effect.hidden) {
-                hide = true;
+            show = effect.show;
+            if (effect.show == undefined && object.constructor == Feat) {
+                show = false;
             }
             //Effects can affect another creature. In that case, remove the notation and change the target.
             let target: string = creature.id;
@@ -450,7 +451,7 @@ export class EffectsService {
             }
             //Effects that have neither a value nor a toggle get ignored.
             if (toggle || setValue || parseInt(value) != 0) {
-                objectEffects.push(new Effect(target, type, affected, value, setValue, toggle, name, penalty, undefined, hide, effect.duration, effect.cumulative));
+                objectEffects.push(new Effect(target, type, affected, value, setValue, toggle, name, penalty, undefined, show, effect.duration, effect.cumulative));
             }
         });
         return objectEffects;
@@ -460,7 +461,7 @@ export class EffectsService {
         //Never call this function.
         //It gets called by this.initialize whenever the character has changed.
         //Every other function can skip the whole process and just do get_Effects().
-        
+
         let creature: Creature = this.get_Creature(creatureType, characterService);
         let character: Character = (creature.type == "Character") ? creature as Character : null;
         let companion: AnimalCompanion = (creature.type == "Companion") ? creature as AnimalCompanion : null;
@@ -604,12 +605,12 @@ export class EffectsService {
             creature.inventories.forEach(inv => {
                 inv.shields.forEach(shield => {
                     let oldShoddy = shield.$shoddy;
-                    shield.get_Shoddy((creature as AnimalCompanion|Character), characterService);
+                    shield.get_Shoddy((creature as AnimalCompanion | Character), characterService);
                     if (oldShoddy != shield.$shoddy) {
                         characterService.set_ToChange(creature.type, "inventory");
                     }
                     let oldShieldAlly = shield.$shieldAlly;
-                    shield.get_ShieldAlly((creature as AnimalCompanion|Character), characterService);
+                    shield.get_ShieldAlly((creature as AnimalCompanion | Character), characterService);
                     if (oldShieldAlly != shield.$shieldAlly) {
                         characterService.set_ToChange(creature.type, "inventory");
                     }
@@ -632,8 +633,8 @@ export class EffectsService {
                 inv.armors.forEach(armor => {
                     let oldArmoredSkirt = armor.$affectedByArmoredSkirt;
                     let oldShoddy = armor.$shoddy;
-                    armor.get_ArmoredSkirt((creature as AnimalCompanion|Character), characterService);
-                    armor.get_Shoddy((creature as AnimalCompanion|Character), characterService);
+                    armor.get_ArmoredSkirt((creature as AnimalCompanion | Character), characterService);
+                    armor.get_Shoddy((creature as AnimalCompanion | Character), characterService);
                     if (oldArmoredSkirt != armor.$affectedByArmoredSkirt || oldShoddy != armor.$shoddy) {
                         characterService.set_ToChange(creature.type, "inventory");
                     }
@@ -674,8 +675,8 @@ export class EffectsService {
                 let Strength = characterService.get_Abilities("Strength")[0].value(creature as Character | AnimalCompanion, characterService, this).result;
                 items.armors.filter(item => item.equipped && item.get_SkillPenalty()).forEach(item => {
                     //These methods the AC and skill penalty of the armor.
-                    item.get_ArmoredSkirt((creature as AnimalCompanion|Character), characterService);
-                    item.get_Shoddy((creature as AnimalCompanion|Character), characterService);
+                    item.get_ArmoredSkirt((creature as AnimalCompanion | Character), characterService);
+                    item.get_Shoddy((creature as AnimalCompanion | Character), characterService);
                     let name = item.get_Name();
                     if (Strength < item.get_Strength()) {
                         //You are not strong enough to act freely in this armor.
@@ -763,7 +764,7 @@ export class EffectsService {
 
         //Push featEffects into allEffects.
         allEffects.push(...featEffects);
-    
+
         //Split off effects that affect another creature for later. We don't want these to influence or be influenced by the next steps.
         let effectsForOthers = allEffects.filter(effect => effect.creature != creature.id);
         allEffects = allEffects.filter(effect => effect.creature == creature.id);
@@ -776,7 +777,7 @@ export class EffectsService {
         //Now we need to go over all the effects.
         // If one target is affected by two bonuses of the same type, only the bigger one is applied.
         // The same goes for penalties, unless they are untyped.
-        
+
         //If an effect with the target "Ignore <type> bonuses and penalties" exists, all effects of that type are disabled.
         this.bonusTypes.forEach(type => {
             if (allEffects.find(effect => effect.target.toLowerCase() == "ignore " + type + " bonuses and penalties")) {
@@ -802,31 +803,31 @@ export class EffectsService {
                         })
                 })
             allEffects
-            .filter(effect => effect.target.includes("Ignore " + type[0].toUpperCase() + type.substring(1) + " Bonuses"))
-            .forEach(ignoreeffect => {
-                let target = "all";
+                .filter(effect => effect.target.includes("Ignore " + type[0].toUpperCase() + type.substring(1) + " Bonuses"))
+                .forEach(ignoreeffect => {
+                    let target = "all";
                     if (ignoreeffect.target.includes(" To ")) {
                         target = ignoreeffect.target.split(" To ")[1];
                     }
-                allEffects
-                    .filter(effect => (target == "all" || effect.target == target) && effect.type == type && !effect.penalty)
-                    .forEach(effect => {
-                        effect.apply = false;
-                    })
-            })
+                    allEffects
+                        .filter(effect => (target == "all" || effect.target == target) && effect.type == type && !effect.penalty)
+                        .forEach(effect => {
+                            effect.apply = false;
+                        })
+                })
             allEffects
-            .filter(effect => effect.target.includes("Ignore " + type[0].toUpperCase() + type.substring(1) + " Penalties"))
-            .forEach(ignoreeffect => {
-                let target = "all";
+                .filter(effect => effect.target.includes("Ignore " + type[0].toUpperCase() + type.substring(1) + " Penalties"))
+                .forEach(ignoreeffect => {
+                    let target = "all";
                     if (ignoreeffect.target.includes(" To ")) {
                         target = ignoreeffect.target.split(" To ")[1];
                     }
-                allEffects
-                    .filter(effect => (target == "all" || effect.target == target) && effect.type == type && effect.penalty)
-                    .forEach(effect => {
-                        effect.apply = false;
-                    })
-            })
+                    allEffects
+                        .filter(effect => (target == "all" || effect.target == target) && effect.type == type && effect.penalty)
+                        .forEach(effect => {
+                            effect.apply = false;
+                        })
+                })
         })
 
         let targets: string[] = [];
@@ -842,7 +843,7 @@ export class EffectsService {
             this.get_TypeFilteredEffects(allEffects
                 .filter(effect =>
                     effect.target == target && effect.apply == undefined && effect.value
-                    ), false)
+                ), false)
                 .forEach(effect => {
                     effect.apply = true;
                 })
@@ -851,7 +852,7 @@ export class EffectsService {
             this.get_TypeFilteredEffects(allEffects
                 .filter(effect =>
                     effect.target == target && effect.apply == undefined && effect.setValue
-                    ), true)
+                ), true)
                 .forEach(effect => {
                     effect.apply = true;
                 })
@@ -864,6 +865,71 @@ export class EffectsService {
 
         //Add back the effects that affect another creature.
         allEffects = allEffects.concat(effectsForOthers);
+
+        //Figure out whether to show or hide an effect if it isn't set already.
+        let alwaysShow: string[] = [
+            "AC",
+            "Acrobatics",
+            "Actions per Turn",
+            "All Checks and DCs",
+            "Arcana",
+            "Athletics",
+            "Attack Rolls",
+            "Bulk",
+            "Class DC",
+            "Crafting",
+            "Damage",
+            "Damage Rolls",
+            "Deception",
+            "Diplomacy",
+            "Fortitude",
+            "Hardness",
+            "Intimidation",
+            "Lore",
+            "Max HP",
+            "Medicine",
+            "Melee Attack Rolls",
+            "Melee Damage",
+            "Nature",
+            "Occultism",
+            "Perception",
+            "Performance",
+            "Ranged Attack Rolls",
+            "Ranged Damage",
+            "Reach",
+            "Reflex",
+            "Religion",
+            "Saving Throws",
+            "Size",
+            "Skill Checks",
+            "Society",
+            "Spell Attack Rolls",
+            "Spell DCs",
+            "Stealth",
+            "Survival",
+            "Thievery",
+            "Unarmed Attack Rolls",
+            "Unarmed Damage",
+            "Untrained Skills",
+            "Will"
+        ].map(name => name.toLowerCase())
+        let alwaysShowWildcard: string[] = [
+            "Resistance",
+            "Immunity",
+            "Ignore",
+            "Speed",
+            "-based Checks and DCs",
+            "Lore: "
+        ].map(name => name.toLowerCase())
+        allEffects.filter(effect => effect.show == undefined).forEach(effect => {
+            if (alwaysShow.includes(effect.target.toLowerCase())) {
+                effect.show = true;
+            } else if (alwaysShowWildcard.some(wildcard => effect.target.toLowerCase().includes(wildcard))) {
+                effect.show = true;
+            } else {
+                effect.show = false;
+            }
+        })
 
         //Lastly, overwrite this.effects ONLY if the effects have changed, and if so,
         //set the character changed, so this function is called again straight away.
@@ -894,27 +960,27 @@ export class EffectsService {
     set_ToChange(creature: Creature, newEffects: Effect[], oldEffects: Effect[], characterService: CharacterService) {
         //Set refresh commands for all components of the application depending on whether there are new effects affecting their data,
         // or old effects have been removed.
-        let general: string[] = ["Max Languages", "Size"];
-        let generalWildcard: string[] = [];
-        let abilities: string[] = ["Strength", "Dexterity", "Constitution", "Intelligence", "Wisdom", "Charisma"];
-        let abilitiesWildcard: string[] = ["Strength", "Dexterity", "Constitution", "Intelligence", "Wisdom", "Charisma"];
-        let health: string[] = ["HP", "Fast Healing", "Hardness", "Max Dying", "Max HP", "Resting HP Gain", "Temporary HP", "Resting Blocked"];
-        let healthWildcard: string[] = ["Resistance", "Immunity"];
+        let general: string[] = ["Max Languages", "Size"].map(name => name.toLowerCase());
+        let generalWildcard: string[] = [].map(name => name.toLowerCase());
+        let abilities: string[] = ["Strength", "Dexterity", "Constitution", "Intelligence", "Wisdom", "Charisma"].map(name => name.toLowerCase());
+        let abilitiesWildcard: string[] = ["Strength", "Dexterity", "Constitution", "Intelligence", "Wisdom", "Charisma"].map(name => name.toLowerCase());
+        let health: string[] = ["HP", "Fast Healing", "Hardness", "Max Dying", "Max HP", "Resting HP Gain", "Temporary HP", "Resting Blocked"].map(name => name.toLowerCase());
+        let healthWildcard: string[] = ["Resistance", "Immunity"].map(name => name.toLowerCase());
         let defense: string[] = ["AC", "Saving Throws", "Fortitude", "Reflex", "Will", "Dexterity-based Checks and DCs", "Constitution-based Checks and DCs",
-            "Wisdom-based Checks and DCs", "All Checks and DCs", "Ignore Armor Penalty", "Ignore Armor Speed Penalty", "Proficiency Level", "Dexterity Modifier Cap"];
-        let defenseWildcard: string[] = ["Proficiency Level"];
+            "Wisdom-based Checks and DCs", "All Checks and DCs", "Ignore Armor Penalty", "Ignore Armor Speed Penalty", "Proficiency Level", "Dexterity Modifier Cap"].map(name => name.toLowerCase());
+        let defenseWildcard: string[] = ["Proficiency Level"].map(name => name.toLowerCase());
         let attacks: string[] = ["Damage Rolls", "Dexterity-based Checks and DCs", "Strength-based Checks and DCs", "All Checks and DCs",
-            "Unarmed Damage per Die", "Weapon Damage per Die"];
-        let attacksWildcard: string[] = ["Attack Rolls", "Damage", "Dice Size", "Dice Number", "Proficiency Level", "Reach"];
+            "Unarmed Damage per Die", "Weapon Damage per Die"].map(name => name.toLowerCase());
+        let attacksWildcard: string[] = ["Attack Rolls", "Damage", "Dice Size", "Dice Number", "Proficiency Level", "Reach"].map(name => name.toLowerCase());
         let individualskills: string[] = ["Perception", "Fortitude", "Reflex", "Will", "Acrobatics", "Arcana", "Athletics", "Crafting", "Deception", "Diplomacy", "Intimidation", "Medicine",
-            "Nature", "Occultism", "Performance", "Religion", "Society", "Stealth", "Survival", "Thievery", "Fortitude", "Reflex", "Will"];
-        let individualSkillsWildcard: string[] = ["Lore", "Class DC", "Spell DC"];
-        let skillsWildcard: string[] = ["All Checks and DCs", "Skill Checks", "Untrained Skills", "Proficiency Level", "Recall Knowledge Checks", "Master Recall Knowledge Checks", "Saving Throws", "Speed"];
-        let inventory: string[] = ["Bulk", "Encumbered Limit", "Max Bulk", "Max Invested"];
-        let spellbook: string[] = ["Refocus Bonus Points", "Focus Points", "Focus Pool", "All Checks and DCs", "Attack Rolls", "Spell Attack Rolls", "Spell DCs"];
-        let spellbookWildcard: string[] = ["Spell Slots", "Proficiency Level", "Spell Level", "Disabled"];
-        let activities: string[] = ["Dexterity-based Checks and DCs", "Strength-based Checks and DCs", "All Checks and DCs"];
-        let activitiesWildcard: string[] = ["Class DC", "Charges", "Cooldown", "Disabled"];
+            "Nature", "Occultism", "Performance", "Religion", "Society", "Stealth", "Survival", "Thievery", "Fortitude", "Reflex", "Will"].map(name => name.toLowerCase());
+        let individualSkillsWildcard: string[] = ["Lore", "Class DC", "Spell DC"].map(name => name.toLowerCase());
+        let skillsWildcard: string[] = ["All Checks and DCs", "Skill Checks", "Untrained Skills", "Proficiency Level", "Recall Knowledge Checks", "Master Recall Knowledge Checks", "Saving Throws", "Speed"].map(name => name.toLowerCase());
+        let inventory: string[] = ["Bulk", "Encumbered Limit", "Max Bulk", "Max Invested"].map(name => name.toLowerCase());
+        let spellbook: string[] = ["Refocus Bonus Points", "Focus Points", "Focus Pool", "All Checks and DCs", "Attack Rolls", "Spell Attack Rolls", "Spell DCs"].map(name => name.toLowerCase());
+        let spellbookWildcard: string[] = ["Spell Slots", "Proficiency Level", "Spell Level", "Disabled"].map(name => name.toLowerCase());
+        let activities: string[] = ["Dexterity-based Checks and DCs", "Strength-based Checks and DCs", "All Checks and DCs"].map(name => name.toLowerCase());
+        let activitiesWildcard: string[] = ["Class DC", "Charges", "Cooldown", "Disabled"].map(name => name.toLowerCase());
 
         let changedEffects: Effect[] = [];
         //Collect all new feats that don't exist in the old list or old feats that don't exist in the new list - that is, everything that has changed.
@@ -930,68 +996,68 @@ export class EffectsService {
         })
 
         //Then prepare changes for everything that should be updated according to the effect.
-        changedEffects.forEach(effect => {
-            if (general.includes(effect.target) || generalWildcard.some(name => effect.target.includes(name))) {
+        changedEffects.map(effect => effect.target.toLowerCase()).forEach(target => {
+            if (general.includes(target) || generalWildcard.some(name => target.includes(name))) {
                 characterService.set_ToChange(creature.type, "general");
             }
-            if (abilities.includes(effect.target)) {
+            if (abilities.includes(target)) {
                 characterService.set_ToChange(creature.type, "abilities");
             }
-            abilitiesWildcard.filter(name => effect.target.includes(name)).forEach(name => {
+            abilitiesWildcard.filter(name => target.includes(name)).forEach(name => {
                 characterService.set_ToChange(creature.type, "individualskills", name);
             });
-            if (health.includes(effect.target) || healthWildcard.some(name => effect.target.includes(name))) {
+            if (health.includes(target) || healthWildcard.some(name => target.includes(name))) {
                 characterService.set_ToChange(creature.type, "health");
             }
-            if (defense.includes(effect.target)) {
+            if (defense.includes(target)) {
                 characterService.set_ToChange(creature.type, "defense");
             }
-            if (defenseWildcard.some(name => effect.target.includes(name))) {
+            if (defenseWildcard.some(name => target.includes(name))) {
                 characterService.set_ToChange(creature.type, "defense");
             }
-            if (attacks.includes(effect.target) || attacksWildcard.some(name => effect.target.includes(name))) {
+            if (attacks.includes(target) || attacksWildcard.some(name => target.includes(name))) {
                 characterService.set_ToChange(creature.type, "attacks");
                 characterService.set_ToChange(creature.type, "individualskills", "attacks");
             }
-            if (individualskills.includes(effect.target)) {
-                characterService.set_ToChange(creature.type, "individualskills", effect.target);
+            if (individualskills.includes(target)) {
+                characterService.set_ToChange(creature.type, "individualskills", target);
             }
-            if (individualSkillsWildcard.some(name => effect.target.includes(name))) {
-                characterService.set_ToChange(creature.type, "individualskills", effect.target);
+            if (individualSkillsWildcard.some(name => target.includes(name))) {
+                characterService.set_ToChange(creature.type, "individualskills", target);
             }
-            if (skillsWildcard.some(name => effect.target.includes(name))) {
+            if (skillsWildcard.some(name => target.includes(name))) {
                 characterService.set_ToChange(creature.type, "skills");
                 characterService.set_ToChange(creature.type, "individualskills", "all");
             }
-            if (inventory.includes(effect.target)) {
+            if (inventory.includes(target)) {
                 characterService.set_ToChange(creature.type, "inventory");
             }
-            if (spellbook.includes(effect.target)) {
+            if (spellbook.includes(target)) {
                 characterService.set_ToChange(creature.type, "spellbook");
             }
-            if (spellbookWildcard.some(name => effect.target.includes(name))) {
+            if (spellbookWildcard.some(name => target.includes(name))) {
                 characterService.set_ToChange(creature.type, "spellbook");
             }
-            if (activities.includes(effect.target)) {
+            if (activities.includes(target)) {
                 characterService.set_ToChange(creature.type, "activities");
             }
-            if (activitiesWildcard.some(name => effect.target.includes(name))) {
+            if (activitiesWildcard.some(name => target.includes(name))) {
                 characterService.set_ToChange(creature.type, "activities");
             }
             //Specific triggers
-            if (effect.target == "Familiar Abilities") {
+            if (target == "familiar abilities") {
                 characterService.set_ToChange("Familiar", "featchoices");
             }
         })
 
         //If any equipped weapon is affected, update attacks, and if any equipped armor or shield is affected, update defense.
-        if (creature.inventories[0].weapons.some(weapon => weapon.equipped && changedEffects.some(effect => effect.target == weapon.name))) {
+        if (creature.inventories[0].weapons.some(weapon => weapon.equipped && changedEffects.some(effect => effect.target.toLowerCase() == weapon.name.toLowerCase()))) {
             characterService.set_ToChange(creature.type, "attacks");
         }
-        if (creature.inventories[0].armors.some(armor => armor.equipped && changedEffects.some(effect => effect.target == armor.name))) {
+        if (creature.inventories[0].armors.some(armor => armor.equipped && changedEffects.some(effect => effect.target.toLowerCase() == armor.name.toLowerCase()))) {
             characterService.set_ToChange(creature.type, "defense");
         }
-        if (creature.inventories[0].shields.some(shield => shield.equipped && changedEffects.some(effect => effect.target == shield.name))) {
+        if (creature.inventories[0].shields.some(shield => shield.equipped && changedEffects.some(effect => effect.target.toLowerCase() == shield.name.toLowerCase()))) {
             characterService.set_ToChange(creature.type, "defense");
         }
     }

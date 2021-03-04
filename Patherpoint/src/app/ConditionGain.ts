@@ -17,7 +17,9 @@ export class ConditionGain {
     public name: string = "";
     public showChoices: boolean = false;
     public showNotes: boolean = false;
-    public showVariables: boolean = false;
+    public showDuration: boolean = false;
+    public showValue: boolean = false;
+    public showRadius: boolean = false;
     public notes: string = "";
     public source: string = "";
     public value: number = 0;
@@ -32,6 +34,8 @@ export class ConditionGain {
     public heightenedFilter: number = 0;
     //When casting a spell, the spell level is inserted here so it can be used for calculations.
     public heightened: number = 0;
+    //When casting a spell, a different radius for a condition may be wanted.
+    public radius: number = 0;
     //When casting a spell, some conditions want to calculate the spellcasting modifier, so we copy the spellcasting ability.
     public spellCastingAbility: string = "";
     //Some conditions change depending on how the spell was cast (particularly if they were cast as an Innate spell), so we copy the spell's source.

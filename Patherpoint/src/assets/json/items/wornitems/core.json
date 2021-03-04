@@ -1514,13 +1514,11 @@
             },
             {
                 "affected": "Cloak of Elvenkind Charges",
-                "setValue": "2",
-                "hidden": true
+                "setValue": "2"
             },
             {
                 "affected": "Cloak of Elvenkind (Greater) Charges",
-                "setValue": "2",
-                "hidden": true
+                "setValue": "2"
             }
         ],
         "_className": "WornItem",
@@ -1588,13 +1586,11 @@
             },
             {
                 "affected": "Cloak of Elvenkind Charges",
-                "setValue": "2",
-                "hidden": true
+                "setValue": "2"
             },
             {
                 "affected": "Cloak of Elvenkind (Greater) Charges",
-                "setValue": "2",
-                "hidden": true
+                "setValue": "2"
             }
         ],
         "_className": "WornItem",

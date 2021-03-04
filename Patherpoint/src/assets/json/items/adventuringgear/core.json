@@ -918,7 +918,7 @@
     },
     {
         "bulk": "L",
-        "desc": "Scholarly journals are uncommon. Each scholarly journal is a folio on a very specific topic, such as vampires or the history of a single town or neighborhood of a city. If you spend 1 minute referencing an academic journal before attempting a skill check to Recall Knowledge about the subject, you gain a +1 item bonus to the check. The GM determines what scholarly journals are available in any location.\n\nNumerous volumes and editions of the Pathfinder Chronicles exist, each cataloging different adventures. Pathfinder Chronicles are a type of scholarly journal that specifically devotes topics to Pathfinder discoveries, rather than more theoretical academic topics. Because Pathfinders have better access to these chronicles than other scholarly journals, they are particularly common among Pathfinder agents building a library of reference texts. ",
+        "desc": "Scholarly journals are uncommon. Each scholarly journal is a folio on a very specific topic, such as vampires or the history of a single town or neighborhood of a city. If you spend 1 minute referencing an academic journal before attempting a skill check to Recall Knowledge about the subject, you gain a +1 item bonus to the check. The GM determines what scholarly journals are available in any location.\n\nNumerous volumes and editions of the Pathfinder Chronicles exist, each cataloging different adventures. Pathfinder Chronicles are a type of scholarly journal that specifically devotes topics to Pathfinder discoveries, rather than more theoretical academic topics. Because Pathfinders have better access to these chronicles than other scholarly journals, they are particularly common among Pathfinder agents building a library of reference texts.",
         "id": "89c7963e-8e09-11ea-9fab-e92c63c14723",
         "level": 3,
         "name": "Pathfinder Chronicle",
@@ -928,10 +928,12 @@
         ],
         "hints": [
             {
+                "desc": "If you spend 1 minute referencing an academic journal before attempting a skill check to Recall Knowledge about the subject, you gain a +1 item bonus to the check.",
                 "showon": "Arcana, Crafting, Lore, Medicine, Nature, Occultism, Religion, Society",
                 "effects": [
                     {
                         "affected": "Recall Knowledge Checks",
+                        "show": true,
                         "value": "1",
                         "type": "item"
                     }
@@ -953,10 +955,12 @@
         ],
         "hints": [
             {
+                "desc": "If you spend 1 minute referencing an academic journal before attempting a skill check to Recall Knowledge about the subject, you gain a +1 item bonus to the check.",
                 "showon": "Arcana, Crafting, Lore, Medicine, Nature, Occultism, Religion, Society",
                 "effects": [
                     {
                         "affected": "Recall Knowledge Checks",
+                        "show": true,
                         "value": "1",
                         "type": "item"
                     }
@@ -978,6 +982,7 @@
         ],
         "hints": [
             {
+                "desc": "One of these maps gives you a +1 item bonus to Survival checks and any skill checks to Recall Knowledge, provided the checks are related to the location detailed on the map.",
                 "showon": "Survival, Arcana, Crafting, Lore, Medicine, Nature, Occultism, Religion, Society",
                 "effects": [
                     {
@@ -987,6 +992,7 @@
                     },
                     {
                         "affected": "Recall Knowledge Checks",
+                        "show": true,
                         "value": "1",
                         "type": "item"
                     }
@@ -1410,10 +1416,11 @@
         ],
         "hints": [
             {
+                "desc": "When used to Craft alchemical items, potions, or oils, a bountiful cauldron grants a +2 item bonus to the Crafting check.",
                 "showon": "Crafting",
                 "effects": [
                     {
-                        "affected": "",
+                        "affected": "Crafting",
                         "value": "2",
                         "type": "item"
                     }
