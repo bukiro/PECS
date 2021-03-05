@@ -30,11 +30,12 @@ export class GridIconComponent implements OnInit {
     feat: Feat = null;
     @Input()
     effect: Effect = null;
+    @Input()
+    sheetSide: string = "left";
 
     constructor(config: NgbPopoverConfig) {
         // customize default values of popovers used by this component tree
-        config.placement = "right";
-        config.placement = "right";
+        config.placement = (this.sheetSide == "center" ? "auto" : (this.sheetSide == "left" ? "right" : "left"));
         config.autoClose = "outside";
         config.container = "body";
         config.popoverClass = "list-item sublist";

@@ -17,6 +17,8 @@ export class ActivitiesComponent implements OnInit {
 
     @Input()
     creature: string = "Character";
+    @Input()
+    public sheetSide: string = "left";
     private id: number = 0;
     private showAction: number = 0;
     private showItem: string = "";
@@ -43,12 +45,6 @@ export class ActivitiesComponent implements OnInit {
     
     trackByIndex(index: number, obj: any): any {
         return index;
-    }
-
-    set_Span() {
-        setTimeout(() => {
-            this.characterService.set_Span(this.creature+"-activities");
-        })
     }
 
     toggle_Action(id: number) {
@@ -169,9 +165,6 @@ export class ActivitiesComponent implements OnInit {
             .subscribe((view) => {
                 if (view.creature == this.creature && ["activities", "all"].includes(view.target)) {
                     this.changeDetector.detectChanges();
-                }
-                if (view.creature == "Character" && view.target == "span") {
-                    this.set_Span();
                 }
             });
             return true;

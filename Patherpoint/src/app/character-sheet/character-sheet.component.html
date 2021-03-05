@@ -1,99 +1,103 @@
 <div class="charactersheet" [ngClass]="{'darkmode':get_Darkmode()}">
     <div class="charactersheet-app charactersheet-row" id="tabs">
         <button [ngClass]="{'fancy-button':get_ShowMode()==''}" (click)="toggle_Mode('')">Show All</button>
-        <button [ngClass]="{'fancy-button':get_ShowMode()=='Encounter'}" (click)="toggle_Mode('Encounter')">Encounter</button>
-        <button [ngClass]="{'fancy-button':get_ShowMode()=='Exploration'}" (click)="toggle_Mode('Exploration')">Exploration</button>
-        <button [ngClass]="{'fancy-button':get_ShowMode()=='Downtime'}" (click)="toggle_Mode('Downtime')">Downtime</button>
-        <button [ngClass]="{'fancy-button':get_ShowMode()=='Inventory'}" (click)="toggle_Mode('Inventory')">Inventory</button>
-        <button [ngClass]="{'fancy-button':get_ShowMode()=='ConditionsEffects'}" (click)="toggle_Mode('ConditionsEffects')">Conditions & Effects</button>
+        <button [ngClass]="{'fancy-button':get_ShowMode()=='Encounter'}"
+            (click)="toggle_Mode('Encounter')">Encounter</button>
+        <button [ngClass]="{'fancy-button':get_ShowMode()=='Exploration'}"
+            (click)="toggle_Mode('Exploration')">Exploration</button>
+        <button [ngClass]="{'fancy-button':get_ShowMode()=='Downtime'}"
+            (click)="toggle_Mode('Downtime')">Downtime</button>
+        <button [ngClass]="{'fancy-button':get_ShowMode()=='Inventory'}"
+            (click)="toggle_Mode('Inventory')">Inventory</button>
+        <button [ngClass]="{'fancy-button':get_ShowMode()=='ConditionsEffects'}"
+            (click)="toggle_Mode('ConditionsEffects')">Conditions & Effects</button>
     </div>
-    <ng-container [ngSwitch]="get_ShowMode()">
-        <ng-container *ngSwitchCase="''">
-            <app-time id="time" class="charactersheet-app charactersheet-row" [ngClass]="{'minimized':(get_TimeMinimized())}" *ngIf="!still_loading()"></app-time>
-            <div class="charactersheet-column">
-                <app-effects id="Character-effects" class="charactersheet-app" [ngClass]="{'minimized':(get_EffectsMinimized())}" *ngIf="!still_loading()"></app-effects>
-                <app-general id="Character-general" class="charactersheet-app" [ngClass]="{'minimized':(get_GeneralMinimized())}" *ngIf="!still_loading()"></app-general>
-                <app-health id="Character-health" class="charactersheet-app" [ngClass]="{'minimized':(get_HealthMinimized())}" *ngIf="!still_loading()"></app-health>
-                <app-inventory id="Character-inventory" class="charactersheet-app" [ngClass]="{'minimized':(get_InventoryMinimized())}" *ngIf="!still_loading()"></app-inventory>
-            </div>
-            <div class="charactersheet-column">
-                <app-defense id="Character-defense" class="charactersheet-app" [ngClass]="{'minimized':(get_DefenseMinimized())}" *ngIf="!still_loading()"></app-defense>
-                <ng-container *ngFor="let index of [0,1]; trackBy:trackByIndex;">
-                    <app-attacks id="Character-attacks" class="charactersheet-app" [ngClass]="{'minimized':(get_AttacksMinimized())}" *ngIf="!still_loading() && get_ClassOrder('attacks') == index"></app-attacks>
-                    <app-spellbook id="spellbook" class="charactersheet-app" [ngClass]="{'minimized':(get_SpellbookMinimized())}" *ngIf="!still_loading() && get_ClassOrder('spells') == index"></app-spellbook>
-                </ng-container>
-                <app-abilities id="Character-abilities" class="charactersheet-app" [ngClass]="{'minimized':(get_AbilitiesMinimized())}" *ngIf="!still_loading()"></app-abilities>
-                <app-skills id="Character-skills" class="charactersheet-app" [ngClass]="{'minimized':(get_SkillsMinimized())}" *ngIf="!still_loading()"></app-skills>
-                <app-activities id="Character-activities" class="charactersheet-app" [ngClass]="{'minimized':(get_ActivitiesMinimized())}" *ngIf="!still_loading()"></app-activities>
-            </div>
-        </ng-container>
-        <ng-container *ngSwitchCase="'Encounter'">
-            <app-time id="time" [showTime]="false" class="charactersheet-app charactersheet-row" [ngClass]="{'minimized':(get_TimeMinimized())}" *ngIf="!still_loading()"></app-time>
-            <div class="charactersheet-column">
-                <app-effects id="Character-effects" class="charactersheet-app" [ngClass]="{'minimized':(get_EffectsMinimized())}" *ngIf="!still_loading()"></app-effects>
-                <app-general id="Character-general" [showMinimizeButton]="false" class="charactersheet-app minimized"></app-general>
-                <app-health id="Character-health" class="charactersheet-app" [ngClass]="{'minimized':(get_HealthMinimized())}" *ngIf="!still_loading()"></app-health>
-                <app-defense id="Character-defense" class="charactersheet-app" [ngClass]="{'minimized':(get_DefenseMinimized())}" *ngIf="!still_loading()"></app-defense>
-            </div>
-            <div class="charactersheet-column">
-                <ng-container *ngFor="let index of [0,1]; trackBy:trackByIndex;">
-                    <app-attacks id="Character-attacks" class="charactersheet-app" [ngClass]="{'minimized':(get_AttacksMinimized())}" *ngIf="!still_loading() && get_ClassOrder('attacks') == index"></app-attacks>
-                    <app-spellbook id="spellbook" class="charactersheet-app" [ngClass]="{'minimized':(get_SpellbookMinimized())}" *ngIf="!still_loading() && get_ClassOrder('spells') == index"></app-spellbook>
-                </ng-container>
-                <app-skills id="Character-skills" class="charactersheet-app" [ngClass]="{'minimized':(get_SkillsMinimized())}" *ngIf="!still_loading()"></app-skills>
-                <app-activities id="Character-activities" class="charactersheet-app" [ngClass]="{'minimized':(get_ActivitiesMinimized())}" *ngIf="!still_loading()"></app-activities>
-            </div>
-        </ng-container>
-        <ng-container *ngSwitchCase="'Exploration'">
-            <app-time [showTurn]="false" id="time" class="charactersheet-app charactersheet-row" [ngClass]="{'minimized':(get_TimeMinimized())}" *ngIf="!still_loading()"></app-time>
-            <div class="charactersheet-column">
-                <app-effects id="Character-effects" class="charactersheet-app" [ngClass]="{'minimized':(get_EffectsMinimized())}" *ngIf="!still_loading()"></app-effects>
-                <app-general id="Character-general" class="charactersheet-app" [ngClass]="{'minimized':(get_GeneralMinimized())}" *ngIf="!still_loading()"></app-general>
-                <app-health id="Character-health" class="charactersheet-app" [ngClass]="{'minimized':(get_HealthMinimized())}" *ngIf="!still_loading()"></app-health>
-                <app-abilities id="Character-abilities" class="charactersheet-app" [ngClass]="{'minimized':(get_AbilitiesMinimized())}" *ngIf="!still_loading()"></app-abilities>
-            </div>
-            <div class="charactersheet-column">
-                <app-spellbook id="spellbook" class="charactersheet-app" [ngClass]="{'minimized':(get_SpellbookMinimized())}" *ngIf="!still_loading()"></app-spellbook>
-                <app-skills id="Character-skills" class="charactersheet-app" [ngClass]="{'minimized':(get_SkillsMinimized())}" *ngIf="!still_loading()"></app-skills>
-                <app-activities id="Character-activities" class="charactersheet-app" [ngClass]="{'minimized':(get_ActivitiesMinimized())}" *ngIf="!still_loading()"></app-activities>
-            </div>
-        </ng-container>
-        <ng-container *ngSwitchCase="'Downtime'">
-            <app-time [showTurn]="false" id="time" class="charactersheet-app charactersheet-row" [ngClass]="{'minimized':(get_TimeMinimized())}" *ngIf="!still_loading()"></app-time>
-            <div class="charactersheet-column">
-                <app-effects id="Character-effects" class="charactersheet-app" [ngClass]="{'minimized':(get_EffectsMinimized())}" *ngIf="!still_loading()"></app-effects>
-                <app-skills id="Character-skills" class="charactersheet-app" [ngClass]="{'minimized':(get_SkillsMinimized())}" *ngIf="!still_loading()"></app-skills>
-                <app-activities id="Character-activities" class="charactersheet-app" [ngClass]="{'minimized':(get_ActivitiesMinimized())}" *ngIf="!still_loading()"></app-activities>
-                <app-abilities id="Character-abilities" class="charactersheet-app" [ngClass]="{'minimized':(get_AbilitiesMinimized())}" *ngIf="!still_loading()"></app-abilities>
-            </div>
-            <div class="charactersheet-column">
-                <app-general id="Character-general" class="charactersheet-app" [ngClass]="{'minimized':(get_GeneralMinimized())}" *ngIf="!still_loading()"></app-general>
-                <app-health id="Character-health" [showMinimizeButton]="false" class="charactersheet-app minimized" *ngIf="!still_loading()">
-                </app-health>
-                <app-inventory id="Character-inventory" class="charactersheet-app" [ngClass]="{'minimized':(get_InventoryMinimized())}" *ngIf="!still_loading()"></app-inventory>
-            </div>
-        </ng-container>
-        <ng-container *ngSwitchCase="'Inventory'">
-            <div class="charactersheet-column charactersheet-row">
-                <app-effects id="Character-effects" class="charactersheet-app" [ngClass]="{'minimized':(get_EffectsMinimized())}" *ngIf="!still_loading()"></app-effects>
-                <app-inventory id="Character-inventory" class="charactersheet-app" [ngClass]="{'minimized':(get_InventoryMinimized())}" *ngIf="!still_loading()"></app-inventory>
-            </div>
-        </ng-container>
-        <ng-container *ngSwitchCase="'ConditionsEffects'">
-            <app-time id="time" class="charactersheet-app charactersheet-row" [ngClass]="{'minimized':(get_TimeMinimized())}" *ngIf="!still_loading()"></app-time>
-            <div class="charactersheet-column charactersheet-row">
-                <app-effects id="Character-effects" class="charactersheet-app" [ngClass]="{'minimized':(get_EffectsMinimized())}" *ngIf="!still_loading()"></app-effects>
-            </div>
-        </ng-container>
+    <ng-container *ngIf="!still_loading() && !['Inventory','ConditionsEffects'].includes(get_ShowMode())">
+        <app-time id="time" class="charactersheet-app charactersheet-row" [sheetSide]="'center'"
+            [ngClass]="{'minimized':(get_TimeMinimized())}"></app-time>
+        <div class="charactersheet-column">
+            <app-effects id="Character-effects" class="charactersheet-app" [sheetSide]="'left'"
+                [ngClass]="{'minimized':(get_EffectsMinimized())}"></app-effects>
+            <app-general id="Character-general" class="charactersheet-app" [sheetSide]="'left'"
+                [ngClass]="{'minimized':(get_GeneralMinimized())}" *ngIf="(get_ShowMode() != 'Encounter')">
+            </app-general>
+            <app-defense id="Character-defense" class="charactersheet-app" [sheetSide]="'left'"
+                [ngClass]="{'minimized':(get_DefenseMinimized())}" *ngIf="(get_ShowMode() == 'Encounter')">
+            </app-defense>
+            <app-health id="Character-health" class="charactersheet-app" [sheetSide]="'left'"
+                [showMinimizeButton]="(get_ShowMode() == 'Downtime')"
+                [ngClass]="{'minimized':(get_HealthMinimized() || (get_ShowMode() == 'Downtime'))}"></app-health>
+            <app-general id="Character-general" [showMinimizeButton]="false" [sheetSide]="'left'"
+                class="charactersheet-app minimized" *ngIf="(get_ShowMode() == 'Encounter')"></app-general>
+            <app-abilities id="Character-abilities" class="charactersheet-app" [sheetSide]="'left'"
+                [ngClass]="{'minimized':(get_AbilitiesMinimized())}"></app-abilities>
+            <app-skills id="Character-skills" class="charactersheet-app" [sheetSide]="'left'"
+                [ngClass]="{'minimized':(get_SkillsMinimized())}" *ngIf="(get_ShowMode() == '')"></app-skills>
+            <app-activities id="Character-activities" class="charactersheet-app" [sheetSide]="'left'"
+                [ngClass]="{'minimized':(get_ActivitiesMinimized())}" *ngIf="(get_ShowMode() == '')"></app-activities>
+            <app-spellbook id="spellbook" class="charactersheet-app" [sheetSide]="'left'"
+                [ngClass]="{'minimized':(get_SpellbookMinimized())}" *ngIf="(get_ShowMode() == 'Downtime')">
+            </app-spellbook>
+        </div>
+        <div class="charactersheet-column">
+            <app-defense id="Character-defense" class="charactersheet-app" [sheetSide]="'right'"
+                [ngClass]="{'minimized':(get_DefenseMinimized())}" *ngIf="(get_ShowMode() == '')"></app-defense>
+            <app-skills id="Character-skills" class="charactersheet-app" [sheetSide]="'right'"
+                [ngClass]="{'minimized':(get_SkillsMinimized())}"
+                *ngIf="['Exploration','Downtime'].includes(get_ShowMode())"></app-skills>
+            <ng-container *ngFor="let index of [0,1]; trackBy:trackByIndex;">
+                <app-attacks id="Character-attacks" class="charactersheet-app" [sheetSide]="'right'"
+                    [ngClass]="{'minimized':(get_AttacksMinimized())}"
+                    *ngIf="['','Encounter'].includes(get_ShowMode()) && get_ClassOrder('attacks') == index">
+                </app-attacks>
+                <app-spellbook id="spellbook" class="charactersheet-app" [sheetSide]="'right'"
+                    [ngClass]="{'minimized':(get_SpellbookMinimized())}"
+                    *ngIf="['','Encounter'].includes(get_ShowMode()) && get_ClassOrder('spells') == index">
+                </app-spellbook>
+            </ng-container>
+            <app-skills id="Character-skills" class="charactersheet-app" [sheetSide]="'right'"
+                [ngClass]="{'minimized':(get_SkillsMinimized())}" *ngIf="(get_ShowMode() == 'Encounter')"></app-skills>
+            <app-activities id="Character-activities" class="charactersheet-app" [sheetSide]="'right'"
+                [ngClass]="{'minimized':(get_ActivitiesMinimized())}" *ngIf="(get_ShowMode() != '')"></app-activities>
+            <app-spellbook id="spellbook" class="charactersheet-app" [sheetSide]="'right'"
+                [ngClass]="{'minimized':(get_SpellbookMinimized())}" *ngIf="(get_ShowMode() == 'Exploration')">
+            </app-spellbook>
+            <app-inventory id="Character-inventory" class="charactersheet-app" [sheetSide]="'right'"
+                [ngClass]="{'minimized':(get_InventoryMinimized())}"></app-inventory>
+        </div>
+    </ng-container>
+    <ng-container *ngIf="(get_ShowMode() != 'Inventory')">
+        <div class="charactersheet-column charactersheet-row">
+            <app-effects id="Character-effects" class="charactersheet-app" [sheetSide]="'center'"
+                [ngClass]="{'minimized':(get_EffectsMinimized())}" *ngIf="!still_loading()"></app-effects>
+            <app-inventory id="Character-inventory" class="charactersheet-app" [sheetSide]="'center'"
+                [ngClass]="{'minimized':(get_InventoryMinimized())}" *ngIf="!still_loading()"></app-inventory>
+        </div>
+    </ng-container>
+    <ng-container *ngIf="(get_ShowMode() != 'ConditionsEffects')">
+        <app-time id="time" class="charactersheet-app charactersheet-row" [sheetSide]="'center'"
+            [ngClass]="{'minimized':(get_TimeMinimized())}" *ngIf="!still_loading()"></app-time>
+        <div class="charactersheet-column charactersheet-row">
+            <app-effects id="Character-effects" class="charactersheet-app" [fullDisplay]="true" [sheetSide]="'center'"
+                *ngIf="!still_loading()"></app-effects>
+        </div>
     </ng-container>
 </div>
-<app-items [ngClass]="{'darkmode':get_Darkmode()}" [@slideInOut]="get_ItemsMenuState()" *ngIf="!still_loading()"></app-items>
-<app-crafting [ngClass]="{'darkmode':get_Darkmode()}" [@slideInOut]="get_CraftingMenuState()" *ngIf="!still_loading()"></app-crafting>
-<app-spells [ngClass]="{'darkmode':get_Darkmode(), 'minimized':(get_SpellsMinimized())}" [@slideInOut]="get_SpellsMenuState()" *ngIf="!still_loading()"></app-spells>
-<app-spellLibrary [ngClass]="{'darkmode':get_Darkmode()}" [@slideInOut]="get_SpellLibraryMenuState()" *ngIf="!still_loading()"></app-spellLibrary>
-<app-conditions [ngClass]="{'darkmode':get_Darkmode()}" [@slideInOut]="get_ConditionsMenuState()" *ngIf="!still_loading()"></app-conditions>
-<app-character [ngClass]="{'darkmode':get_Darkmode(), 'minimized':(get_CharacterMinimized())}" [@slideInOut]="get_CharacterMenuState()" *ngIf="!still_loading()"></app-character>
-<app-animal-companion [ngClass]="{'darkmode':get_Darkmode(), 'minimized':(get_CompanionMinimized())}" [@slideInOut]="get_CompanionMenuState()" *ngIf="!still_loading() && get_CompanionAvailable()">
+<app-items [ngClass]="{'darkmode':get_Darkmode()}" [@slideInOut]="get_ItemsMenuState()" *ngIf="!still_loading()">
+</app-items>
+<app-crafting [ngClass]="{'darkmode':get_Darkmode()}" [@slideInOut]="get_CraftingMenuState()" *ngIf="!still_loading()">
+</app-crafting>
+<app-spells [ngClass]="{'darkmode':get_Darkmode(), 'minimized':(get_SpellsMinimized())}"
+    [@slideInOut]="get_SpellsMenuState()" *ngIf="!still_loading()"></app-spells>
+<app-spellLibrary [ngClass]="{'darkmode':get_Darkmode()}" [@slideInOut]="get_SpellLibraryMenuState()"
+    *ngIf="!still_loading()"></app-spellLibrary>
+<app-conditions [ngClass]="{'darkmode':get_Darkmode()}" [@slideInOut]="get_ConditionsMenuState()"
+    *ngIf="!still_loading()"></app-conditions>
+<app-character [ngClass]="{'darkmode':get_Darkmode(), 'minimized':(get_CharacterMinimized())}"
+    [@slideInOut]="get_CharacterMenuState()" *ngIf="!still_loading()"></app-character>
+<app-animal-companion [ngClass]="{'darkmode':get_Darkmode(), 'minimized':(get_CompanionMinimized())}"
+    [@slideInOut]="get_CompanionMenuState()" *ngIf="!still_loading() && get_CompanionAvailable()">
 </app-animal-companion>
-<app-familiar [ngClass]="{'darkmode':get_Darkmode(), 'minimized':(get_FamiliarMinimized())}" [@slideInOut]="get_FamiliarMenuState()" *ngIf="!still_loading() && get_FamiliarAvailable()"></app-familiar>
+<app-familiar [ngClass]="{'darkmode':get_Darkmode(), 'minimized':(get_FamiliarMinimized())}"
+    [@slideInOut]="get_FamiliarMenuState()" *ngIf="!still_loading() && get_FamiliarAvailable()"></app-familiar>
 <app-dice [ngClass]="{'darkmode':get_Darkmode()}" [@slideInOutVert]="get_DiceMenuState()"></app-dice>

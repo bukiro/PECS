@@ -22,6 +22,8 @@ export class HealthComponent implements OnInit {
     creature: string = "Character";
     @Input()
     public showMinimizeButton: boolean = true;
+    @Input()
+    public sheetSide: string = "left";
 
     public damage: number = 0;
     public nonlethal: boolean = false;
@@ -53,12 +55,6 @@ export class HealthComponent implements OnInit {
             case "Familiar":
                 return this.characterService.get_Character().settings.familiarMinimized;
         }
-    }
-
-    set_Span() {
-        setTimeout(() => {
-            this.characterService.set_Span(this.creature+"-health");
-        })
     }
 
     still_loading() {
@@ -277,9 +273,6 @@ export class HealthComponent implements OnInit {
             .subscribe((view) => {
                 if (view.creature == this.creature && ["health", "all"].includes(view.target)) {
                     this.changeDetector.detectChanges();
-                }
-                if (view.creature == "Character" && view.target == "span") {
-                    this.set_Span();
                 }
             });
             return true;

@@ -6,14 +6,14 @@
     <div class="loading" *ngIf="still_loading()">Loading</div>
     <div class="familiar-box" *ngIf="!still_loading() && get_Character().class && get_FamiliarAvailable() && get_FamiliarMenuState()=='in'">
         <div class="charactersheet-column">
-            <app-general [creature]="'Familiar'" id="Familiar-general" class="charactersheet-app"></app-general>
-            <app-familiarabilities id="familiarabilities" class="charactersheet-app"></app-familiarabilities>
-            <app-health [creature]="'Familiar'" id="Familiar-health" class="charactersheet-app"></app-health>
-            <app-effects [creature]="'Familiar'" id="Familiar-effects" class="charactersheet-app"></app-effects>
+            <app-general [creature]="'Familiar'" [sheetSide]="'left'" id="Familiar-general" class="charactersheet-app"></app-general>
+            <app-familiarabilities id="familiarabilities" [sheetSide]="'left'" class="charactersheet-app"></app-familiarabilities>
+            <app-health [creature]="'Familiar'" [sheetSide]="'left'" id="Familiar-health" class="charactersheet-app"></app-health>
+            <app-effects [creature]="'Familiar'" [sheetSide]="'left'" id="Familiar-effects" class="charactersheet-app"></app-effects>
         </div>
         <div class="charactersheet-column">
-            <app-defense [creature]="'Familiar'" id="Familiar-defense" class="charactersheet-app"></app-defense>
-            <app-skills [creature]="'Familiar'" id="Familiar-skills" class="charactersheet-app"></app-skills>
+            <app-defense [creature]="'Familiar'" [sheetSide]="'right'" id="Familiar-defense" class="charactersheet-app"></app-defense>
+            <app-skills [creature]="'Familiar'" [sheetSide]="'right'" id="Familiar-skills" class="charactersheet-app"></app-skills>
         </div>
     </div>
 </div>

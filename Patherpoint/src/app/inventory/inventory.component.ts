@@ -32,6 +32,8 @@ export class InventoryComponent implements OnInit {
 
     @Input()
     creature: string = "Character";
+    @Input()
+    public sheetSide: string = "left";
     private id: number = 0;
     private showItem: number = 0;
     private showList: string = "";
@@ -60,12 +62,6 @@ export class InventoryComponent implements OnInit {
             case "Companion":
                 return this.characterService.get_Character().settings.companionMinimized;
         }
-    }
-
-    set_Span() {
-        setTimeout(() => {
-            this.characterService.set_Span(this.creature + "-inventory");
-        })
     }
 
     still_loading() {
@@ -339,13 +335,9 @@ export class InventoryComponent implements OnInit {
             maxInvest += parseInt(effect.value);
             explain += "\n" + effect.source + ": " + effect.value;
             if (parseInt(effect.value) < 0) {
-                if (effect.show) {
-                    penalties = true;
-                }
+                penalties = true;
             } else {
-                if (effect.show) {
-                    bonuses = true;
-                }
+                bonuses = true;
             }
             effects.push(effect);
         });
@@ -639,9 +631,6 @@ export class InventoryComponent implements OnInit {
                 .subscribe((view) => {
                     if (view.creature == this.creature && ["inventory", "all"].includes(view.target)) {
                         this.changeDetector.detectChanges();
-                    }
-                    if (view.creature == "Character" && view.target == "span") {
-                        this.set_Span();
                     }
                 });
             return true;

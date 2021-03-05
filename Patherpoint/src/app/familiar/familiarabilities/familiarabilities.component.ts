@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy, Input } from '@angular/core';
 import { CharacterService } from 'src/app/character.service';
 
 @Component({
@@ -9,7 +9,9 @@ import { CharacterService } from 'src/app/character.service';
 })
 export class FamiliarabilitiesComponent implements OnInit {
 
-    
+    @Input()
+    public sheetSide: string = "left";
+
     constructor(
         private changeDetector: ChangeDetectorRef,
         private characterService: CharacterService
@@ -17,12 +19,6 @@ export class FamiliarabilitiesComponent implements OnInit {
 
     still_loading() {
         return (this.characterService.still_loading());
-    }
-
-    set_Span() {
-        setTimeout(() => {
-            this.characterService.set_Span("familiarabilities");
-        })
     }
 
     trackByIndex(index: number, obj: any): any {

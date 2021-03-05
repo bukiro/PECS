@@ -20,6 +20,8 @@ export class SkillsComponent implements OnInit {
 
     @Input()
     creature: string = "Character";
+    @Input()
+    public sheetSide: string = "left";
     private showList: string = "";
 
     constructor(
@@ -45,12 +47,6 @@ export class SkillsComponent implements OnInit {
             case "Familiar":
                 return this.characterService.get_Character().settings.familiarMinimized;
         }
-    }
-
-    set_Span() {
-        setTimeout(() => {
-            this.characterService.set_Span(this.creature+"-skills");
-        })
     }
 
     toggle_List(name: string) {
@@ -166,9 +162,6 @@ export class SkillsComponent implements OnInit {
             .subscribe((view) => {
                 if (view.creature == this.creature && ["skills", "all"].includes(view.target)) {
                     this.changeDetector.detectChanges();
-                }
-                if (view.creature == "Character" && view.target == "span") {
-                    this.set_Span();
                 }
             });
             return true;

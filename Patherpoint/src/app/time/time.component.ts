@@ -18,6 +18,8 @@ export class TimeComponent implements OnInit {
     public showTurn: boolean = true;
     @Input()
     public showTime: boolean = true;
+    @Input()
+    public sheetSide: string = "center";
 
 
     constructor(
@@ -36,12 +38,6 @@ export class TimeComponent implements OnInit {
 
     get_Minimized() {
         return this.characterService.get_Character().settings.timeMinimized;
-    }
-
-    set_Span() {
-        setTimeout(() => {
-            this.characterService.set_Span("time", 1);
-        })
     }
 
     trackByIndex(index: number, obj: any): any {

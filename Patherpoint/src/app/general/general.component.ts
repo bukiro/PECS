@@ -18,7 +18,9 @@ export class GeneralComponent implements OnInit {
     creature: string = "Character";
     @Input()
     public showMinimizeButton: boolean = true;
-
+    @Input()
+    public sheetSide: string = "left";
+    
     constructor(
         private changeDetector: ChangeDetectorRef,
         public characterService: CharacterService,
@@ -40,12 +42,6 @@ export class GeneralComponent implements OnInit {
             case "Familiar":
                 return this.characterService.get_Character().settings.familiarMinimized;
         }
-    }
-
-    set_Span() {
-        setTimeout(() => {
-            this.characterService.set_Span(this.creature + "-general");
-        })
     }
 
     still_loading() {
@@ -199,9 +195,6 @@ export class GeneralComponent implements OnInit {
                 .subscribe((view) => {
                     if (view.creature == this.creature && ["general", "all"].includes(view.target)) {
                         this.changeDetector.detectChanges();
-                    }
-                    if (view.creature == "Character" && view.target == "span") {
-                        this.set_Span();
                     }
                 });
             return true;

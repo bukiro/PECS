@@ -113,9 +113,8 @@ svg g {
 .charactersheet-column {
     overflow-y: auto;
     position: relative;
-    display: grid;
-    grid-auto-rows: 50px;
-    grid-auto-flow: dense;
+    display: flex;
+    flex-direction: column;
 }
 
 .darkmode .charactersheet-app {
@@ -610,7 +609,7 @@ button:not([disabled]):active:before {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    padding: 4px 16px;
+    padding: 8px 16px 16px 16px;
 }
 
 app-animal-companion,
@@ -847,6 +846,16 @@ app-gridicon .iconTime {
     display: flex;
     flex-direction: row;
     justify-content: flex-end;
+}
+
+.gridicon-sidebar, .newrow.left-aligned>.gridicon-sidebar {
+    flex-grow: 1;
+    padding: 4px;
+}
+
+.gridicon-fullsizebox, .list-item.gridicon-fullsizebox {
+    flex-wrap: nowrap;
+    text-align: left;
 }
 
 span {

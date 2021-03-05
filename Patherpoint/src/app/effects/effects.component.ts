@@ -18,6 +18,10 @@ export class EffectsComponent implements OnInit {
 
     @Input()
     creature: string = "Character";
+    @Input()
+    public fullDisplay: boolean = false;
+    @Input()
+    public sheetSide: string = "left";
     public showNotApplied: boolean = false;
     public showHidden: boolean = false;
     public showItem: string = "";
@@ -45,12 +49,6 @@ export class EffectsComponent implements OnInit {
             case "Familiar":
                 return this.characterService.get_Character().settings.familiarMinimized;
         }
-    }
-
-    set_Span() {
-        setTimeout(() => {
-            this.characterService.set_Span(this.creature + "-effects");
-        })
     }
 
     toggle_Item(name: string) {
@@ -234,9 +232,6 @@ export class EffectsComponent implements OnInit {
                         this.changeDetector.detectChanges();
                         this.calculate_InventoryEffects();
                         this.calculate_Bulk();
-                    }
-                    if (view.creature == "Character" && view.target == "span") {
-                        this.set_Span();
                     }
                 });
             return true;

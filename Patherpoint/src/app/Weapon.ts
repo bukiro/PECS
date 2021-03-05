@@ -135,7 +135,7 @@ export class Weapon extends Equipment {
                 this.name + " Reach",
                 this.weaponBase + " Reach",
                 //"Unarmed Attacks Reach", "Simple Weapon Reach"
-                this.prof+ " Reach"
+                this.prof + " Reach"
             ]
             effectsService.get_AbsolutesOnThese(creature, list)
                 .forEach(effect => {
@@ -349,9 +349,7 @@ export class Weapon extends Equipment {
         //Add absolute effects
         effectsService.get_AbsolutesOnThese(creature, namesList)
             .forEach(effect => {
-                if (effect.show) {
-                    absolutes.push({ value: 0, setValue: effect.setValue, source: effect.source, penalty: false, type: effect.type });
-                }
+                absolutes.push({ value: 0, setValue: effect.setValue, source: effect.source, penalty: false, type: effect.type });
                 attackResult = parseInt(effect.setValue)
                 explain = effect.source + ": " + effect.setValue;
             });
@@ -388,9 +386,9 @@ export class Weapon extends Equipment {
                 .concat(effectsService.get_RelativesOnThese(creature, namesList)
                 ), false)
             .forEach(effect => {
-                if (parseInt(effect.value) < 0 && effect.show) {
+                if (parseInt(effect.value) < 0) {
                     penalties.push({ value: parseInt(effect.value), setValue: "", source: effect.source, penalty: true, type: effect.type });
-                } else if (!effect.source.includes("Potency") && effect.show) {
+                } else if (!effect.source.includes("Potency")) {
                     //Don't turn the number green just from Potency.
                     bonuses.push({ value: parseInt(effect.value), setValue: "", source: effect.source, penalty: false, type: effect.type });
                 }
@@ -722,9 +720,7 @@ export class Weapon extends Equipment {
         }
         effectsService.get_AbsolutesOnThese(creature, list)
             .forEach(effect => {
-                if (effect.show) {
-                    absolutes.push({ value: 0, setValue: effect.setValue, source: effect.source, penalty: false })
-                }
+                absolutes.push({ value: 0, setValue: effect.setValue, source: effect.source, penalty: false })
                 dmgBonus = parseInt(effect.setValue);
                 bonusExplain = "\n" + effect.source + ": Bonus damage " + parseInt(effect.setValue);
             })
@@ -766,9 +762,9 @@ export class Weapon extends Equipment {
                 .concat(effectsService.get_RelativesOnThese(creature, list)
                 ), false)
             .forEach(effect => {
-                if (parseInt(effect.value) < 0 && effect.show) {
+                if (parseInt(effect.value) < 0) {
                     penalties.push({ value: parseInt(effect.value), setValue: "", source: effect.source, penalty: true });
-                } else if (effect.show) {
+                } else {
                     bonuses.push({ value: parseInt(effect.value), setValue: "", source: effect.source, penalty: false });
                 }
                 if (effect.target.includes("Damage per Die")) {

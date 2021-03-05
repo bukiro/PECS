@@ -6,17 +6,17 @@
     <div class="loading" *ngIf="still_loading()">Loading</div>
     <div class="animalcompanion-box" *ngIf="!still_loading() && get_Character().class && get_CompanionAvailable() && get_CompanionMenuState() == 'in'">
         <div class="charactersheet-column">
-            <app-general [creature]="'Companion'" id="Companion-general" class="charactersheet-app"></app-general>
-            <app-health [creature]="'Companion'" id="Companion-health" class="charactersheet-app"></app-health>
-            <app-effects [creature]="'Companion'" id="Companion-effects" class="charactersheet-app"></app-effects>
-            <app-skills [creature]="'Companion'" id="Companion-skills" class="charactersheet-app"></app-skills>
-            <app-activities [creature]="'Companion'" id="Companion-activities" class="charactersheet-app"></app-activities>
+            <app-general [creature]="'Companion'" [sheetSide]="'left'" id="Companion-general" class="charactersheet-app"></app-general>
+            <app-health [creature]="'Companion'" [sheetSide]="'left'" id="Companion-health" class="charactersheet-app"></app-health>
+            <app-effects [creature]="'Companion'" [sheetSide]="'left'" id="Companion-effects" class="charactersheet-app"></app-effects>
+            <app-skills [creature]="'Companion'" [sheetSide]="'left'" id="Companion-skills" class="charactersheet-app"></app-skills>
+            <app-activities [creature]="'Companion'" [sheetSide]="'left'" id="Companion-activities" class="charactersheet-app"></app-activities>
         </div>
         <div class="charactersheet-column">
-            <app-abilities [creature]="'Companion'" id="Companion-abilities" class="charactersheet-app"></app-abilities>
-            <app-defense [creature]="'Companion'" id="Companion-defense" class="charactersheet-app"></app-defense>
-            <app-attacks [creature]="'Companion'" id="Companion-attacks" class="charactersheet-app"></app-attacks>
-            <app-inventory [creature]="'Companion'" id="Companion-inventory" class="charactersheet-app"></app-inventory>
+            <app-abilities [creature]="'Companion'" [sheetSide]="'right'" id="Companion-abilities" class="charactersheet-app"></app-abilities>
+            <app-defense [creature]="'Companion'" [sheetSide]="'right'" id="Companion-defense" class="charactersheet-app"></app-defense>
+            <app-attacks [creature]="'Companion'" [sheetSide]="'right'" id="Companion-attacks" class="charactersheet-app"></app-attacks>
+            <app-inventory [creature]="'Companion'" [sheetSide]="'right'" id="Companion-inventory" class="charactersheet-app"></app-inventory>
         </div>
     </div>
 </div>

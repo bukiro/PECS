@@ -215,7 +215,6 @@ export class CharacterService {
                     this.set_ViewChanged(view);
                 });
             }
-            this.set_ViewChanged({ creature: creature, target: "span", subtarget: "" });
         })
     }
 
@@ -233,22 +232,6 @@ export class CharacterService {
             this.clear_ToChange(target);
         }
         this.changed.next(target);
-    }
-
-    set_Span(name: string, steps: number = 2) {
-        if (document.getElementById(name)) {
-            document.getElementById(name).style.gridRow = "span " + this.get_Span(name + "-height", steps);
-        }
-    }
-
-    get_Span(name: string, steps: number = 2) {
-        //Calculates the grid-row span according to the height of the element with id=name
-        //Returns a number, so don't forget to use "span "+get_Span(...)
-        //Steps is how many 50px-rows the element should grow by at once - I prefer 2 steps (100px) for most
-        let height = document.getElementById(name).offsetHeight;
-        let margin: number = 16;
-        let span = Math.ceil((height + margin) / 50 / steps) * steps;
-        return span;
     }
 
     get_Darkmode() {

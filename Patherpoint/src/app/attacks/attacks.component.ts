@@ -29,6 +29,8 @@ export class AttacksComponent implements OnInit {
 
     @Input()
     public creature: string = "Character";
+    @Input()
+    public sheetSide: string = "left";
     public onlyAttacks: string[] = [];
     public forbiddenAttacks: string[] = [];
     public showRestricted: boolean = false;
@@ -54,12 +56,6 @@ export class AttacksComponent implements OnInit {
             case "Companion":
                 return this.characterService.get_Character().settings.companionMinimized;
         }
-    }
-
-    set_Span() {
-        setTimeout(() => {
-            this.characterService.set_Span(this.creature + "-attacks");
-        })
     }
 
     still_loading() {
@@ -430,9 +426,6 @@ export class AttacksComponent implements OnInit {
                 .subscribe((view) => {
                     if (view.creature == this.creature && ["attacks", "all"].includes(view.target)) {
                         this.changeDetector.detectChanges();
-                    }
-                    if (view.creature == "Character" && view.target == "span") {
-                        this.set_Span();
                     }
                 });
             return true;

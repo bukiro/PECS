@@ -22,6 +22,8 @@ export class DefenseComponent implements OnInit {
 
     @Input()
     creature: string = "Character";
+    @Input()
+    public sheetSide: string = "left";
     public shieldDamage: number = 0;
     private showList: string = "";
 
@@ -48,12 +50,6 @@ export class DefenseComponent implements OnInit {
             case "Familiar":
                 return this.characterService.get_Character().settings.familiarMinimized;
         }
-    }
-
-    set_Span() {
-        setTimeout(() => {
-            this.characterService.set_Span(this.creature + "-defense");
-        })
     }
 
     still_loading() {
@@ -215,9 +211,6 @@ export class DefenseComponent implements OnInit {
                 .subscribe((view) => {
                     if (view.creature == this.creature && ["defense", "all"].includes(view.target)) {
                         this.changeDetector.detectChanges();
-                    }
-                    if (view.creature == "Character" && view.target == "span") {
-                        this.set_Span();
                     }
                 });
             return true;

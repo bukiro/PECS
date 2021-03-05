@@ -2,91 +2,90 @@
     title="{{get_Minimized() ? 'Click to show all information.' : 'Click to show compact information.'}}"
     [ngClass]="{'fancy-button':get_Minimized()}" (click)="minimize()" *ngIf="creature=='Character'">&#8691;</button>
 <div id="{{creature}}-effects-height" class="attributeBox">
+    <ng-template #conditionTemplate let-conditionGain="conditionGain">
+        <div [ngClass]="{'attention':(conditionGain.duration == 1) || (conditionGain.nextStage == -1 && (condition.previousCondition || condition.nextCondition))}"
+            *ngFor="let condition of [get_Conditions(conditionGain.name)[0]]; trackBy:trackByIndex;">
+            <ng-template #conditionContent>
+                <app-condition class="newrow" (showChoiceMessage)="receive_ItemMessage($event)" [creature]="creature"
+                    [conditionGain]="conditionGain" [condition]="condition" [showItem]="get_ShowItem()"></app-condition>
+            </ng-template>
+            <app-gridIcon class="condition" [ngClass]="{'penalty':!condition.buff, 'bonus':condition.buff}"
+                [condition]="conditionGain" [sheetSide]="sheetSide" [ngbPopover]="conditionContent" ngbTooltip="{{conditionGain.name}}"
+                container="body" *ngIf="!fullDisplay">
+            </app-gridIcon>
+            <div class="list-item gridicon-fullsizebox" *ngIf="fullDisplay">
+                <app-gridIcon class="condition" [condition]="conditionGain"
+                    [ngClass]="{'penalty':!condition.buff, 'bonus':condition.buff}">
+                </app-gridIcon>
+                <div class="gridicon-sidebar">
+                    <ng-container *ngTemplateOutlet="conditionContent"></ng-container>
+                </div>
+            </div>
+        </div>
+    </ng-template>
+    <ng-template #effectTemplate let-effect="effect">
+        <ng-template #effectContent>
+            <div class="newrow">
+                <span>
+                    <strong
+                        [ngClass]="{'penalty':effect.penalty, 'bonus':!effect.penalty && !effect.setValue, 'absolute':effect.setValue}">{{effect.target}}
+                        {{parseInt(effect.value) ? effect.value : ''}}{{effect.setValue ? "= "+effect.setValue :
+                        ''}}
+                    </strong>
+                    <span *ngIf="effect.type != 'untyped' && !effect.toggle && !effect.setValue">{{effect.type +
+                        " "
+                        +
+                        (effect.penalty ? 'penalty' : 'bonus')}}</span> {{effect.duration ? "(" +
+                    get_Duration(effect.duration)
+                    + ")" : ''}}
+                </span>
+            </div>
+            <div class="newrow">
+                <span><strong>Source:&nbsp;</strong>{{effect.source}}</span>
+            </div>
+        </ng-template>
+        <app-gridIcon class="effect" [effect]="effect" [sheetSide]="sheetSide"
+            [ngClass]="{'penalty':effect.penalty, 'bonus':!effect.penalty && !effect.setValue, 'absolute':effect.setValue}"
+            [ngbPopover]="effectContent" ngbTooltip="{{effect.target}}
+        {{parseInt(effect.value) ? effect.value : ''}}{{effect.setValue ? '= '+effect.setValue :
+        ''}}" container="body" *ngIf="!fullDisplay"></app-gridIcon>
+        <div class="list-item newrow left-aligned" *ngIf="fullDisplay">
+            <app-gridIcon class="effect" [effect]="effect"
+                [ngClass]="{'penalty':effect.penalty, 'bonus':!effect.penalty && !effect.setValue, 'absolute':effect.setValue}">
+            </app-gridIcon>
+            <div class="gridicon-sidebar">
+                <ng-container *ngTemplateOutlet="effectContent"></ng-container>
+            </div>
+        </div>
+    </ng-template>
     <header class="sectionHeader box-header">Active Conditions</header>
     <app-tags [creature]="creature" [objectName]="'Effects'" [showTraits]=true [showFeats]=true [showItems]=true
         [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
-    <div class="icon-list">
+    <div [ngClass]="{'icon-list':!fullDisplay}">
         <ng-container *ngFor="let conditionGain of get_AppliedConditions(true); trackBy:trackByConditionGainID;">
-            <div [ngClass]="{'attention':(conditionGain.duration == 1) || (conditionGain.nextStage == -1 && (condition.previousCondition || condition.nextCondition))}"
-                *ngFor="let condition of [get_Conditions(conditionGain.name)[0]]; trackBy:trackByIndex;">
-                <ng-template #conditionContent>
-                    <app-condition class="newrow" (showChoiceMessage)="receive_ItemMessage($event)"
-                        [creature]="creature" [conditionGain]="conditionGain" [condition]="condition"
-                        [showItem]="get_ShowItem()"></app-condition>
-                </ng-template>
-                <app-gridIcon class="condition" [ngClass]="{'penalty':!condition.buff, 'bonus':condition.buff}"
-                    [condition]="conditionGain" [ngbPopover]="conditionContent"></app-gridIcon>
-            </div>
+            <ng-container *ngTemplateOutlet="conditionTemplate;context:{conditionGain:conditionGain}"></ng-container>
         </ng-container>
     </div>
     <header class="sectionHeader box-header">Active Effects</header>
-    <div class="icon-list">
+    <div [ngClass]="{'icon-list':!fullDisplay}">
         <ng-container *ngFor="let effect of get_AppliedEffects(); trackBy:trackByUniqueEffect;">
-            <ng-template #effectContent>
-                <div class="newrow">
-                    <span>
-                        <strong
-                            [ngClass]="{'penalty':effect.penalty, 'bonus':!effect.penalty && !effect.setValue, 'absolute':effect.setValue}">{{effect.target}}
-                            {{parseInt(effect.value) ? effect.value : ''}}{{effect.setValue ? "= "+effect.setValue :
-                            ''}}
-                        </strong>
-                        <span *ngIf="effect.type != 'untyped' && !effect.toggle && !effect.setValue">{{effect.type + " "
-                            +
-                            (effect.penalty ? 'penalty' : 'bonus')}}</span> {{effect.duration ? "(" +
-                        get_Duration(effect.duration)
-                        + ")" : ''}}
-                    </span>
-                </div>
-                <div class="newrow">
-                    <span><strong>Source:&nbsp;</strong>{{effect.source}}</span>
-                </div>
-            </ng-template>
-            <app-gridIcon class="effect" [effect]="effect"
-                [ngClass]="{'penalty':effect.penalty, 'bonus':!effect.penalty && !effect.setValue, 'absolute':effect.setValue}"
-                [ngbPopover]="effectContent"></app-gridIcon>
+            <ng-container *ngTemplateOutlet="effectTemplate;context:{effect:effect}"></ng-container>
         </ng-container>
     </div>
     <button class="list-item fullsize-only center-aligned" (click)="toggle_NotApplied()">{{(showNotApplied) ? "Hide not
         applied" : "Show not applied"}}</button>
     <div class="fullsize-only" *ngIf="showNotApplied">
         <header class="sectionHeader box-header">Not Applied Conditions</header>
-        <div class="icon-list notapplied">
+        <div class="notapplied" [ngClass]="{'icon-list':!fullDisplay}">
             <ng-container *ngFor="let conditionGain of get_AppliedConditions(false); trackBy:trackByConditionGainID;">
-                <div [ngClass]="{'attention':(conditionGain.duration == 1) || (conditionGain.nextStage == -1 && (condition.previousCondition || condition.nextCondition))}"
-                    *ngFor="let condition of [get_Conditions(conditionGain.name)[0]]; trackBy:trackByIndex;">
-                    <ng-template #conditionContent>
-                        <app-condition class="newrow" (showChoiceMessage)="receive_ItemMessage($event)"
-                            [creature]="creature" [conditionGain]="conditionGain" [condition]="condition"
-                            [showItem]="get_ShowItem()"></app-condition>
-                    </ng-template>
-                    <app-gridIcon class="condition" [ngClass]="{'penalty':!condition.buff, 'bonus':condition.buff}"
-                        [condition]="conditionGain" [ngbPopover]="conditionContent"></app-gridIcon>
-                </div>
+                <ng-container *ngTemplateOutlet="conditionTemplate;context:{conditionGain:conditionGain}">
+                </ng-container>
             </ng-container>
         </div>
         <header class="sectionHeader box-header">Not Applied Effects</header>
-        <div class="icon-list notapplied">
+        <div class="notapplied" [ngClass]="{'icon-list':!fullDisplay}">
             <ng-container *ngFor="let effect of get_NotAppliedEffects(); trackBy:trackByUniqueEffect;">
-                <ng-template #effectContent>
-                    <div class="newrow">
-                        <span>
-                            <strong
-                                [ngClass]="{'penalty':effect.penalty, 'bonus':!effect.penalty && !effect.setValue, 'absolute':effect.setValue}">{{effect.target}}
-                                {{parseInt(effect.value) ? effect.value : ''}}{{effect.setValue ? "= "+effect.setValue :
-                                ''}}
-                            </strong>
-                            <span *ngIf="effect.type != 'untyped' && !effect.toggle && !effect.setValue">{{effect.type +
-                                " " + (effect.penalty ? 'penalty' : 'bonus')}}</span> {{effect.duration ? "(" +
-                            get_Duration(effect.duration) + ")" : ''}}
-                        </span>
-                    </div>
-                    <div class="newrow">
-                        <span><strong>Source:&nbsp;</strong>{{effect.source}}</span>
-                    </div>
-                </ng-template>
-                <app-gridIcon class="effect" [effect]="effect"
-                    [ngClass]="{'penalty':effect.penalty, 'bonus':!effect.penalty && !effect.setValue, 'absolute':effect.setValue}"
-                    [ngbPopover]="effectContent"></app-gridIcon>
+                <ng-container *ngTemplateOutlet="effectTemplate;context:{effect:effect}"></ng-container>
             </ng-container>
         </div>
     </div>
@@ -94,30 +93,10 @@
         effects" : "Show hidden effects"}}</button>
     <div class="fullsize-only" *ngIf="showHidden">
         <header class="sectionHeader box-header">Hidden Effects</header>
-        <div class="icon-list">
+        <div [ngClass]="{'icon-list':!fullDisplay}">
             <ng-container *ngFor="let effect of get_HiddenEffects(); trackBy:trackByUniqueEffect;">
-                <ng-template #effectContent>
-                    <div class="newrow">
-                        <span>
-                            <strong
-                                [ngClass]="{'penalty':effect.penalty, 'bonus':!effect.penalty && !effect.setValue, 'absolute':effect.setValue}">{{effect.target}}
-                                {{parseInt(effect.value) ? effect.value : ''}}{{effect.setValue ? "= "+effect.setValue :
-                                ''}}
-                            </strong>
-                            <span *ngIf="effect.type != 'untyped' && !effect.toggle && !effect.setValue">{{effect.type +
-                                " " + (effect.penalty ? 'penalty' : 'bonus')}}</span> {{effect.duration ? "(" +
-                            get_Duration(effect.duration) + ")" : ''}}
-                        </span>
-                    </div>
-                    <div class="newrow">
-                        <span><strong>Source:&nbsp;</strong>{{effect.source}}</span>
-                    </div>
-                </ng-template>
-                <app-gridIcon class="effect" [effect]="effect"
-                    [ngClass]="{'penalty':effect.penalty, 'bonus':!effect.penalty && !effect.setValue, 'absolute':effect.setValue}"
-                    [ngbPopover]="effectContent"></app-gridIcon>
+                <ng-container *ngTemplateOutlet="effectTemplate;context:{effect:effect}"></ng-container>
             </ng-container>
         </div>
     </div>
 </div>
-<div *ngIf="set_Span()"></div>

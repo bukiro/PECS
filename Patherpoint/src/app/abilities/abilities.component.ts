@@ -16,6 +16,8 @@ export class AbilitiesComponent implements OnInit {
     
     @Input()
     public creature: string = "Character";
+    @Input()
+    public sheetSide: string = "left";
 
     constructor(
         private changeDetector: ChangeDetectorRef,
@@ -39,12 +41,6 @@ export class AbilitiesComponent implements OnInit {
 
     trackByIndex(index: number, obj: any): any {
         return index;
-    }
-
-    set_Span() {
-        setTimeout(() => {
-            this.characterService.set_Span(this.creature+"-abilities");
-        })
     }
 
     get_Character() {
@@ -94,9 +90,6 @@ export class AbilitiesComponent implements OnInit {
             .subscribe((view) => {
                 if (view.creature == this.creature && ["abilities", "all"].includes(view.target)) {
                     this.changeDetector.detectChanges();
-                }
-                if (view.creature == "Character" && view.target == "span") {
-                    this.set_Span();
                 }
             });
             return true;

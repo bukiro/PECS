@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, Input } from '@angular/core';
 import { CharacterService } from '../character.service';
 import { Spell } from '../Spell';
 import { TraitsService } from '../traits.service';
@@ -11,7 +11,6 @@ import { EffectsService } from '../effects.service';
 import { SpellChoice } from '../SpellChoice';
 import { ConditionGain } from '../ConditionGain';
 import { EffectGain } from '../EffectGain';
-import { Level } from '../Level';
 import { Condition } from '../Condition';
 import { ConditionsService } from '../conditions.service';
 
@@ -23,6 +22,8 @@ import { ConditionsService } from '../conditions.service';
 })
 export class SpellbookComponent implements OnInit {
 
+    @Input()
+    public sheetSide: string = "left";
     private showSpell: number = 0;
     private id: number = 0;
     public hover: number = 0;
@@ -47,12 +48,6 @@ export class SpellbookComponent implements OnInit {
 
     get_Minimized() {
         return this.characterService.get_Character().settings.spellbookMinimized;
-    }
-
-    set_Span() {
-        setTimeout(() => {
-            this.characterService.set_Span("spellbook");
-        })
     }
 
     toggle_Spell(id: number) {
@@ -573,9 +568,6 @@ export class SpellbookComponent implements OnInit {
                 .subscribe((view) => {
                     if (view.creature == "Character" && ["spellbook", "all"].includes(view.target)) {
                         this.changeDetector.detectChanges();
-                    }
-                    if (view.creature == "Character" && view.target == "span") {
-                        this.set_Span();
                     }
                 });
             return true;
