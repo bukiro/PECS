@@ -22,6 +22,7 @@ export class EffectsComponent implements OnInit {
     public fullDisplay: boolean = false;
     @Input()
     public sheetSide: string = "left";
+    public showApplied: boolean = true;
     public showNotApplied: boolean = false;
     public showHidden: boolean = false;
     public showItem: string = "";
@@ -63,6 +64,10 @@ export class EffectsComponent implements OnInit {
         return this.showItem;
     }
 
+    get_Darkmode() {
+        return this.characterService.get_Darkmode();
+    }
+
     receive_ItemMessage(name: string) {
         this.toggle_Item(name);
     }
@@ -83,12 +88,20 @@ export class EffectsComponent implements OnInit {
         return this.characterService.get_Creature(this.creature);
     }
 
+    toggle_Applied() {
+        this.showApplied = !this.showApplied;
+    }
+
     toggle_NotApplied() {
         this.showNotApplied = !this.showNotApplied;
     }
 
     toggle_Hidden() {
         this.showHidden = !this.showHidden;
+    }
+
+    get_ToggledCount() {
+        return ((this.showApplied && 1) + (this.showNotApplied && 1) + (this.showHidden && 1));
     }
 
     get_Traits(traitName: string = "") {

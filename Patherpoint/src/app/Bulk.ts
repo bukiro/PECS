@@ -5,6 +5,7 @@ import { Character } from './Character';
 import { AnimalCompanion } from './AnimalCompanion';
 
 export class Bulk {
+    public readonly _className: string = this.constructor.name;
     public $absolutes: Effect[];
     public $currentabsolutes: Effect[];
     public $bonuses: boolean = false;

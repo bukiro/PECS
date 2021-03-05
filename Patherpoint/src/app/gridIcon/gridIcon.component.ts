@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ConditionGain } from '../ConditionGain';
 import { Feat } from '../Feat';
-import { NgbPopoverConfig } from '@ng-bootstrap/ng-bootstrap';
+import { NgbPopoverConfig, NgbTooltipConfig } from '@ng-bootstrap/ng-bootstrap';
 import { Effect } from '../Effect';
 
 @Component({
@@ -30,15 +30,16 @@ export class GridIconComponent implements OnInit {
     feat: Feat = null;
     @Input()
     effect: Effect = null;
-    @Input()
-    sheetSide: string = "left";
 
-    constructor(config: NgbPopoverConfig) {
+    constructor(popoverConfig: NgbPopoverConfig, tooltipConfig: NgbTooltipConfig) {
         // customize default values of popovers used by this component tree
-        config.placement = (this.sheetSide == "center" ? "auto" : (this.sheetSide == "left" ? "right" : "left"));
-        config.autoClose = "outside";
-        config.container = "body";
-        config.popoverClass = "list-item sublist";
+        popoverConfig.placement = "auto";
+        popoverConfig.autoClose = "outside";
+        popoverConfig.container = "body";
+        popoverConfig.popoverClass = "list-item sublist";
+        tooltipConfig.placement = "auto";
+        tooltipConfig.openDelay = 250;
+        tooltipConfig.triggers = "hover:click";
     }
 
     get_IconTime() {
@@ -163,8 +164,7 @@ export class GridIconComponent implements OnInit {
         return "";
     }
 
-    ngOnInit() { }
-
-
+    ngOnInit() {
+    }
 
 }

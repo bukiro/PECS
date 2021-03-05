@@ -113,11 +113,9 @@ The very latest in Assistive Technologies for Dungeon Master (ATDM)
 - [ ] Stretch Goal: Icon-Driven UI with dynamic tooltips (e.g. with bootstrap or material)
 
 Active to-do:
-- Conditions & Effect: Minimized version with icons only, maximized with text, no minimize-button (only dependent on tab)
 - Add pie shadow to conditions for remaining durations
 - Implement bootstrap tooltips instead of titles everywhere
 - Implement full information in tooltips after time, if possible (apparently not)
-- Move automatic conditions (from bulk etc.) from effects component to conditionsService
 
 Implement:
 
@@ -128,5 +126,3 @@ Next steps:
 - Leshy
 - Shoony
 - Implement Conditions for Poisons
-- Hide effects that don't need to be considered (like Weapon Dice Multiplier for Polymorph spells)
-- - Maybe define a clear rule for when an effect should be hidden

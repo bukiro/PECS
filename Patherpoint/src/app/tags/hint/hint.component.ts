@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { NgbPopoverConfig } from '@ng-bootstrap/ng-bootstrap';
 import { CharacterService } from 'src/app/character.service';
 import { Hint } from 'src/app/Hint';
 
@@ -20,7 +21,13 @@ export class HintComponent implements OnInit {
     @Input()
     description: string = "";
 
-    constructor(private characterService: CharacterService) { }
+    constructor(private characterService: CharacterService, popoverConfig: NgbPopoverConfig)  {
+        popoverConfig.placement = "auto";
+        popoverConfig.autoClose = "outside";
+        popoverConfig.triggers = "hover:click";
+        popoverConfig.container = "body";
+        popoverConfig.popoverClass = "list-item sublist"
+    }
 
     trackByIndex(index: number, obj: any): any {
         return index;

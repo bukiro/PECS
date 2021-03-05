@@ -52,7 +52,7 @@
                 <strong>Deity</strong>
                 <span>{{get_Character().class.deity}}</span>
             </div>
-            <div class="fullsize-only list-item" *ngIf="get_Character().class.ancestry.languages && get_Character().class.ancestry.languages.length">
+            <div class="list-item" *ngIf="get_Character().class.ancestry.languages && get_Character().class.ancestry.languages.length">
                 <strong>Languages</strong>
                 <span>{{get_Languages()}}</span>
                 <app-tags [creature]="creature" [objectName]="'Languages'" [showTraits]=true [showFeats]=true [showItems]=true [showActivities]=true [showConditions]=true></app-tags>

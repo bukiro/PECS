@@ -90,9 +90,8 @@ svg g {
 .familiar-box {
     width: 100%;
     height: 100%;
-    display: grid;
-    grid-gap: 0;
-    grid-template-columns: 1fr 1fr;
+    display: flex;
+    flex-direction: column;
     overflow-y: auto;
     padding-bottom: 8px;
     background-color: white;
@@ -105,12 +104,15 @@ svg g {
     position: relative;
 }
 
-.charactersheet-row {
-    grid-column: 1 / span 2;
-    max-height: fit-content;
+.charactersheet-column-container {
+    display: flex;
+    flex-direction: row;
+    overflow-y: hidden;
 }
 
 .charactersheet-column {
+    flex-basis: 0;
+    flex-grow: 1;
     overflow-y: auto;
     position: relative;
     display: flex;
@@ -119,11 +121,6 @@ svg g {
 
 .darkmode .charactersheet-app {
     background-color: #303030;
-}
-
-.animalcompanion-box,
-.familiar-box {
-    grid-template-columns: 1fr 1fr;
 }
 
 .darkmode.charactersheet,
@@ -137,14 +134,10 @@ app-familiarabilities.charactersheet-app {
 }
 
 #tabs {
-    grid-row: 1 / 1;
-    width: auto;
-    overflow-y: auto;
     background-color: #465A8C;
     background-color: rgb(var(--accent));
     padding: 8px;
     display: flex;
-    flex-direction: row;
     justify-content: center;
     align-items: center;
     height: fit-content;
@@ -411,7 +404,7 @@ button.minimizebutton {
     padding: 0px 2px;
     top: 0;
     right: 0;
-    z-index: 50;
+    z-index: 5;
     padding: 0 5px 0 4px;
     border-radius: 0;
 }
@@ -624,7 +617,7 @@ app-spells {
     top: 0;
     right: auto;
     bottom: 0;
-    z-index: 999;
+    z-index: 10;
     overflow-y: hidden;
     width: 100%;
 }
@@ -635,7 +628,7 @@ app-dice {
     left: 15%;
     right: 15%;
     bottom: auto;
-    z-index: 999;
+    z-index: 10;
     overflow-x: hidden;
 }
 
@@ -673,29 +666,21 @@ app-dice {
     background-color: #202020;
 }
 
-.topBox {
-    width: 100%;
-    max-height: 100px;
-    overflow-y: auto;
+#time {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    padding: 4px 16px;
 }
 
-.minimized .topBox {
-    padding: 0 16px;
+#time .list-item:first-child {
+    margin-top: 0;
 }
 
-.topBox .list-item {
-    margin: 4px 0;
+.snug {
+    padding: 0;
 }
 
-.minimized .topBox .list-item {
-    margin: 0;
-}
-
-.topBox .list-item:first-child {
+.snug .list-item:first-child {
     margin-top: 0;
 }
 
@@ -782,6 +767,15 @@ ngb-popover-window {
 
 .popover {
     max-width: 400px;
+    background-color: #E0E0E0;
+}
+
+.popover.darkmode {
+    background-color: #303030;
+}
+
+.popover .arrow {
+    display: none;
 }
 
 .icon-list {
@@ -827,7 +821,7 @@ app-gridicon .iconTitle {
     word-break: break-all;
     vertical-align: middle;
     color: var(--textcolor);
-    z-index: 10;
+    z-index: 5;
 }
 
 app-gridicon .iconSuperTitle {
@@ -836,7 +830,7 @@ app-gridicon .iconSuperTitle {
     font-size: 3em;
     line-height: 1.2em;
     width: 100%;
-    z-index: 5;
+    z-index: 2;
 }
 
 app-gridicon .iconTime {
@@ -926,11 +920,6 @@ button.choicecleared::after,
     border-radius: 2px;
 }
 
-
-/*.lower .list-item input {
-    margin-bottom: 4px;
-}*/
-
 .list-item.sublist {
     border-width: 4px;
     border-style: solid;
@@ -951,7 +940,7 @@ button.choicecleared::after,
     margin-top: 8px;
 }
 
-.darkmode .list-item.sublist {
+.darkmode .list-item.sublist, .darkmode.list-item.sublist {
     background-color: #303030;
 }
 
@@ -1055,12 +1044,33 @@ button:hover~.list-item.sublist.problem {
     text-align: left;
 }
 
+.right-aligned {
+    justify-content: flex-end;
+    text-align: right;
+}
+
 .center-aligned {
     justify-content: center;
 }
 
 .center-aligned span.center-aligned {
     text-align: center;
+}
+
+.padding-2 {
+    padding: 2px;
+}
+
+.padding-4 {
+    padding: 4px;
+}
+
+.padding-8 {
+    padding: 8px;
+}
+
+.padding-16 {
+    padding: 16px;
 }
 
 .fullwidth {
@@ -1196,7 +1206,8 @@ var:not(:empty),
 }
 
 .attention {
-    border: 4px solid rgb(var(--accent));
+    box-shadow: 0 0 5px rgb(var(--accent)), 0 0 5px rgb(var(--accent)), 0 0 5px rgb(var(--accent)), 0 0 5px rgb(var(--accent)), 0 0 5px rgb(var(--accent));
+    box-shadow: 0.1em 0 5px rgb(var(--accent)), 0 0.1em 5px rgb(var(--accent)), -0.1em 0 5px rgb(var(--accent)), 0 -0.1em 5px rgb(var(--accent)), -0.1em -0.1em 5px rgb(var(--accent)), -0.1em 0.1em 5px rgb(var(--accent)), 0.1em -0.1em 5px rgb(var(--accent)), 0.1em 0.1em 5px rgb(var(--accent));
 }
 
 .problem:not(.sublist),
