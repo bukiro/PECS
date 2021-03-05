@@ -69,6 +69,7 @@ export class ConditionComponent implements OnInit {
 
     change_ConditionDuration(gain: ConditionGain, condition: Condition, turns: number) {
         gain.duration += turns;
+        gain.maxDuration = gain.duration;
         this.toggle_Item("");
         //Conditions who use their own duration in their effects need to update effects after changing duration.
         if (condition?.effects.some(effect => effect.setValue?.includes("parentcondition.duration") || effect.value?.includes("parentcondition.duration"))) {

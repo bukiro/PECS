@@ -15,7 +15,12 @@
                     <button class="center-aligned" (click)="add_Day(1)">+1 Day</button>
                 </div>
                 <div class="newrow">
-                    Hours <input class="newrow slider" type="range" min="0" max="23" [(ngModel)]="hours" (ngModelChange)="set_Duration()"> Minutes <input class="newrow slider" type="range" min="0" max="59" [(ngModel)]="minutes" (ngModelChange)="set_Duration()">                    Turns <input class="newrow slider" type="range" min="0" max="9" [(ngModel)]="turns" (ngModelChange)="set_Duration()">
+                    Hours <input class="newrow slider" type="range" min="0" max="23" [(ngModel)]="hours"
+                        (ngModelChange)="set_Duration()">
+                    Minutes <input class="newrow slider" type="range" min="0" max="59" [(ngModel)]="minutes"
+                        (ngModelChange)="set_Duration()">
+                    Turns <input class="newrow slider" type="range" min="0" max="9" [(ngModel)]="turns"
+                        (ngModelChange)="set_Duration()">
                 </div>
                 <div class="newrow left-aligned">
                     End on:<br>
@@ -24,8 +29,10 @@
                 </div>
             </div>
             <div class="list-item">
-                <button (click)="toggle_Purpose('conditions')" [ngClass]="{'fancy-button':get_ShowPurpose()=='conditions'}">Add Conditions</button>
-                <button (click)="toggle_Purpose('customeffects')" [ngClass]="{'fancy-button':get_ShowPurpose()=='customeffects'}">Custom Effects</button>
+                <button (click)="toggle_Purpose('conditions')"
+                    [ngClass]="{'fancy-button':get_ShowPurpose()=='conditions'}">Add Conditions</button>
+                <button (click)="toggle_Purpose('customeffects')"
+                    [ngClass]="{'fancy-button':get_ShowPurpose()=='customeffects'}">Custom Effects</button>
             </div>
             <ng-container *ngIf="get_ShowPurpose()=='conditions'">
                 <header class="sectionHeader">Add Conditions</header>
@@ -37,12 +44,15 @@
                         <button (click)="wordFilter='';check_Filter()">Clear</button>
                     </span>
                 </div>
-                <ng-container *ngFor="let set of ['Generic','Activities','Afflictions','Alchemical Elixirs','Alchemical Tools','Ammunition','Blood Magic','Feats','Held Items','Other Consumables','Potions','Spells','Talismans','Worn Items']; trackBy:trackByIndex;">
-                    <ng-container *ngFor="let visibleConditions of [get_VisibleConditionsSet(set)]; trackBy:trackByIndex;">
+                <ng-container
+                    *ngFor="let set of ['Generic','Activities','Afflictions','Alchemical Elixirs','Alchemical Tools','Ammunition','Blood Magic','Feats','Held Items','Other Consumables','Potions','Spells','Talismans','Worn Items']; trackBy:trackByIndex;">
+                    <ng-container
+                        *ngFor="let visibleConditions of [get_VisibleConditionsSet(set)]; trackBy:trackByIndex;">
                         <button class="list-item" (click)="toggle_List(set)" *ngIf="visibleConditions.length">
                             <header class="sectionHeader">{{set}}</header>
                         </button>
-                        <div class="list-item" *ngIf="visibleConditions.length && (get_ShowList()==set||get_ShowList()=='All')">
+                        <div class="list-item"
+                            *ngIf="visibleConditions.length && (get_ShowList()==set||get_ShowList()=='All')">
                             <div class="list-item" *ngFor="let condition of visibleConditions; trackBy:trackByIndex;">
                                 <strong>{{condition.name}}</strong>&nbsp;
                                 <div class="newrow" *ngIf="condition.hasValue">
@@ -60,7 +70,8 @@
                                         Spell level (for effect values): <select [(ngModel)]="heightened">
                                             <option
                                                 *ngFor="let valueNumber of [1,2,3,4,5,6,7,8,9,10]; trackBy:trackByIndex;"
-                                                [ngValue]="valueNumber" [disabled]="valueNumber < condition.minLevel">{{valueNumber}}
+                                                [ngValue]="valueNumber" [disabled]="valueNumber < condition.minLevel">
+                                                {{valueNumber}}
                                             </option>
                                         </select><br>
                                     </span>
@@ -74,7 +85,8 @@
                                 <div class="newrow" *ngIf="condition.choices.length">
                                     <span>Effect selection:
                                         <select [(ngModel)]="condition.choice">
-                                            <option *ngFor="let choice of get_ConditionChoices(condition); trackBy:trackByIndex;"
+                                            <option
+                                                *ngFor="let choice of get_ConditionChoices(condition); trackBy:trackByIndex;"
                                                 [ngValue]="choice">
                                                 {{choice}}
                                             </option>
@@ -137,15 +149,18 @@
                                             </span>
                                         </div>
                                         <div class="newrow">
-                                            <button (click)="toggle_Item(set+condition.name)" [ngClass]="{'fancy-button':get_ShowItem()==set+condition.name}">
+                                            <button (click)="toggle_Item(set+condition.name)"
+                                                [ngClass]="{'fancy-button':get_ShowItem()==set+condition.name}">
                                                 {{get_ShowItem()==set+condition.name ? "Hide" : "Show"}} Description
                                             </button>
                                         </div>
                                         <div class="newrow left-aligned" *ngIf="get_ShowItem()==set+condition.name">
-                                            <ng-container *ngFor="let desc of condition.desc.split('\n\n'); trackBy:trackByIndex;">
+                                            <ng-container
+                                                *ngFor="let desc of condition.desc.split('\n\n'); trackBy:trackByIndex;">
                                                 <p *ngIf="desc.split('\n').length == 1" [innerHTML]="desc"></p>
                                                 <ul *ngIf="desc.split('\n').length > 1">
-                                                    <li *ngFor="let line of desc.split('\n'); trackBy:trackByIndex;" [innerHTML]="line">
+                                                    <li *ngFor="let line of desc.split('\n'); trackBy:trackByIndex;"
+                                                        [innerHTML]="line">
                                                     </li>
                                                 </ul>
                                             </ng-container>
@@ -159,19 +174,27 @@
             </ng-container>
             <ng-container *ngIf="get_ShowPurpose()=='customeffects'">
                 <header class="sectionHeader">Custom Effects</header>
-                <button class="list-item" (click)="toggle_List('addCustomEffect')" *ngIf="get_ShowPurpose()=='customeffects'">
+                <button class="list-item" (click)="toggle_List('addCustomEffect')"
+                    *ngIf="get_ShowPurpose()=='customeffects'">
                     <header class="sectionHeader">Add Custom Effect</header>
                 </button>
-                <div class="newrow list-item" *ngIf="get_ShowPurpose()=='customeffects' && get_ShowList()=='addCustomEffect'">
-                    <div class="newrow list-item" *ngFor="let property of get_CustomEffectProperties(); let index = index; trackBy:trackByIndex;">
+                <div class="newrow list-item"
+                    *ngIf="get_ShowPurpose()=='customeffects' && get_ShowList()=='addCustomEffect'">
+                    <div class="newrow list-item"
+                        *ngFor="let property of get_CustomEffectProperties(); let index = index; trackBy:trackByIndex;">
                         <div class="newrow left-aligned">
                             <strong title="{{property.desc}}">{{property.name}}</strong>
                         </div>
                         <div class="newrow">
-                            <input class="newrow" type="text" [(ngModel)]="newEffect[property.key]" (blur)="validate(property.key, index)" *ngIf="!property.type && !property.locked">
-                            <textarea class="newrow" rows=3 [(ngModel)]="newEffect[property.key]" *ngIf="property.type=='textarea'"></textarea>
-                            <input type="checkbox" [(ngModel)]="newEffect[property.key]" *ngIf="property.type=='checkbox'">
-                            <input type="number" [(ngModel)]="newEffect[property.key]" (blur)="validate(property, index)" (keypress)="numbersOnly($event)" *ngIf="property.type=='number'">
+                            <input class="newrow" type="text" [(ngModel)]="newEffect[property.key]"
+                                (blur)="validate(property.key, index)" *ngIf="!property.type && !property.locked">
+                            <textarea class="newrow" rows=3 [(ngModel)]="newEffect[property.key]"
+                                *ngIf="property.type=='textarea'"></textarea>
+                            <input type="checkbox" [(ngModel)]="newEffect[property.key]"
+                                *ngIf="property.type=='checkbox'">
+                            <input type="number" [(ngModel)]="newEffect[property.key]"
+                                (blur)="validate(property, index)" (keypress)="numbersOnly($event)"
+                                *ngIf="property.type=='number'">
                         </div>
                         <div class="newrow" *ngIf="validationError[index]">
                             <span class="problem">{{validationError[index]}}</span>
@@ -179,8 +202,10 @@
                         <div class="newrow" *ngIf="validationResult[index]">
                             <span>Current result: {{validationResult[index]}}</span>
                         </div>
-                        <div class="list-item" style="margin: initial 0" *ngIf="property.type!='textarea' && property.type!='checkbox'">
-                            <select class="newrow" [(ngModel)]="newEffect[property.key]" [disabled]="!get_Examples(property).length" (ngModelChange)="validate(property, index)">
+                        <div class="list-item" style="margin: initial 0"
+                            *ngIf="property.type!='textarea' && property.type!='checkbox'">
+                            <select class="newrow" [(ngModel)]="newEffect[property.key]"
+                                [disabled]="!get_Examples(property).length" (ngModelChange)="validate(property, index)">
                                 <option
                                     *ngFor="let example of get_Examples(property)|sortBy:'asc'; trackBy:trackByIndex;"
                                     [ngValue]="example">
@@ -190,7 +215,8 @@
                         </div>
                     </div>
                     <ng-container *ngFor="let creature of get_Creatures()">
-                        <button class="list-item newrow" (click)="add_Effect(creature)" title="{{get_EffectInvalid()}}" [disabled]="get_EffectInvalid()">
+                        <button class="list-item newrow" (click)="add_Effect(creature)" title="{{get_EffectInvalid()}}"
+                            [disabled]="get_EffectInvalid()">
                             <header class="sectionHeader">Add to {{creature.type}}</header>
                         </button>
                     </ng-container>
@@ -201,20 +227,27 @@
                             <header class="sectionHeader">Custom effects on {{creature.type}}</header>
                         </button>
                         <div class="list-item" *ngIf="get_ShowList()=='customEffects'+creature.type">
-                            <ng-container *ngFor="let effectGain of creature.effects; let index = index; trackBy:trackByIndex;">
-                                <div class="list-item" *ngFor="let effectResult of get_EffectValue(creature, effectGain)">
+                            <ng-container
+                                *ngFor="let effectGain of creature.effects; let index = index; trackBy:trackByIndex;">
+                                <div class="list-item"
+                                    *ngFor="let effectResult of get_EffectValue(creature, effectGain)">
                                     <span>
                                         <span>{{effectGain.source || "Custom effect"}}: </span>
-                                    <strong [ngClass]="{'penalty':effectResult.penalty, 'bonus':!effectResult.penalty && !effectResult.setValue, 'absolute':effectResult.setValue}" title="{{effectGain.setValue ? effectGain.setValue : (effectGain.value ? effectGain.value : '')}}">{{effectGain.affected}}
+                                        <strong
+                                            [ngClass]="{'penalty':effectResult.penalty, 'bonus':!effectResult.penalty && !effectResult.setValue, 'absolute':effectResult.setValue}"
+                                            title="{{effectGain.setValue ? effectGain.setValue : (effectGain.value ? effectGain.value : '')}}">{{effectGain.affected}}
                                             {{parseInt(effectResult.value) ? effectResult.value :
                                             ''}}{{effectResult.setValue ? "= "+effectResult.setValue : ''}}
                                         </strong>
-                                    <span *ngIf="effectResult.value || effectResult.setValue || effectResult.toggle">{{(effectResult.type
+                                        <span
+                                            *ngIf="effectResult.value || effectResult.setValue || effectResult.toggle">{{(effectResult.type
                                             != "untyped") ? effectResult.type+' ' : ''}}{{(effectResult.toggle ||
                                             effectResult.setValue) ? '' : (effectResult.penalty ? 'penalty' :
                                             'bonus')}}</span>
-                                    <span *ngIf="!effectResult.value && !effectResult.setValue && !effectResult.toggle">no
-                                            effect</span> {{effectGain.duration ? "(" + get_Duration(effectGain.duration) + ")" : ''}}
+                                        <span
+                                            *ngIf="!effectResult.value && !effectResult.setValue && !effectResult.toggle">no
+                                            effect</span> {{effectGain.duration ? "(" +
+                                        get_Duration(effectGain.duration) + ")" : ''}}
                                     </span>
                                     <button class="list-item newrow" (click)="remove_Effect(creature, index)">
                                         Remove

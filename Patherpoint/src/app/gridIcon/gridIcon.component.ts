@@ -42,10 +42,13 @@ export class GridIconComponent implements OnInit {
         tooltipConfig.triggers = "hover:click";
     }
 
+    trackByIndex(index: number, obj: any): any {
+        return index;
+    }
+
     get_IconTime() {
-        if (this.condition || this.effect.duration) {
+        if (this.condition?.duration || this.effect?.duration) {
             let duration = this.condition?.duration || this.effect?.duration || 0;
-            let result: string[] = ["", "", "", "", ""];
             if (duration < 10) {
                 switch (duration) {
                     case -3:
@@ -66,25 +69,6 @@ export class GridIconComponent implements OnInit {
                         //Return ⏎ for rest of turn / until start of turn
                         return ["&#9166;"]
                 }
-
-            } else {
-                if (duration >= 144000) {
-                    result[1] = Math.floor(duration / 144000).toString();
-                    duration %= 144000;
-                }
-                if (duration >= 6000) {
-                    result[2] = Math.floor(duration / 6000).toString();
-                    duration %= 6000;
-                }
-                if (duration >= 100) {
-                    result[3] = Math.floor(duration / 100).toString();
-                    duration %= 100;
-                }
-                if (duration >= 10) {
-                    result[4] = Math.floor(duration / 10).toString();
-                    duration %= 10;
-                }
-                return result;
             }
         }
         return [];
@@ -162,6 +146,27 @@ export class GridIconComponent implements OnInit {
             return this.effect.value;
         }
         return "";
+    }
+
+    get_DurationOverlays() {
+        if (this.condition?.duration || this.effect?.duration) {
+            let duration = this.condition?.duration || this.effect?.duration || 0;
+            let maxDuration = this.condition?.maxDuration || this.effect?.maxDuration || 0;
+            let percentage = 100 - Math.floor((duration / maxDuration) * 100);
+            if (percentage > 50) {
+                return [
+                    { offset: 0, percentage: 50, over50: 1 },
+                    { offset: 50, percentage: percentage - 50, over50: 0 }
+                ]
+            } else {
+                return [
+                    { offset: 0, percentage: percentage, over50: 0 },
+                    { offset: 50, percentage: 0, over50: 0 }
+                ]
+            }
+        } else {
+            return [];
+        }
     }
 
     ngOnInit() {

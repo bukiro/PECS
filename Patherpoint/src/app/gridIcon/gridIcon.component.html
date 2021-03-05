@@ -2,6 +2,12 @@
 <span class="iconSubTitle">{{get_IconSubTitle()}}</span>
 <span class="iconSuperTitle" style="text-align: center;" [innerHtml]="get_IconSuperTitle()"></span>
 <span class="iconTitle newrow" style="text-align: center;">{{get_IconTitle()}}</span>
-<div class="iconTime" *ngIf="condition">
+<div class="iconTime" *ngIf="condition?.duration || effect?.duration">
     <span *ngFor="let timePart of get_IconTime()" [innerHtml]="timePart"></span>
 </div>
+<ng-container *ngIf="(condition?.duration < condition?.maxDuration) || (effect?.duration < effect?.maxDuration)">
+    <ng-container *ngFor="let overlay of get_DurationOverlays(); trackBy:trackByIndex;">
+        <div class="gridicon-overlay" [style.--offset]="overlay.offset" [style.--percentage]="overlay.percentage"
+            [style.--over50]="overlay.over50" [ngClass]="{'transition5':!overlay.over50}"></div>
+    </ng-container>
+</ng-container>

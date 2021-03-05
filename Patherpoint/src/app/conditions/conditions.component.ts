@@ -313,12 +313,12 @@ export class ConditionsComponent implements OnInit {
     add_Effect(creature: Creature) {
         let duration: number = this.get_ConditionDuration(false);
         let newLength = creature.effects.push(Object.assign(new EffectGain(), JSON.parse(JSON.stringify(this.newEffect))));
-        
         if (duration == -1) {
             creature.effects[newLength - 1].duration = duration;
         } else {
             creature.effects[newLength - 1].duration = duration + ((5 + this.endOn + this.timeService.get_YourTurn()) % 10);
         }
+        creature.effects[newLength - 1].maxDuration = creature.effects[newLength - 1].duration;
         this.characterService.set_ToChange(creature.type, "effects");
         this.characterService.set_ToChange(creature.type, "conditions");
         this.characterService.process_ToChange();

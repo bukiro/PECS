@@ -17,6 +17,7 @@ export class EffectGain {
     public show: boolean = undefined;
     public type: string = "";
     public duration: number = 0;
+    public maxDuration: number = 0;
     //source and sourceId are copied from conditions and currently only used to track temporary HP.
     public source: string = "";
     public sourceId: string = "";

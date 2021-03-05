@@ -113,11 +113,11 @@ The very latest in Assistive Technologies for Dungeon Master (ATDM)
 - [ ] Stretch Goal: Icon-Driven UI with dynamic tooltips (e.g. with bootstrap or material)
 
 Active to-do:
-- Add pie shadow to conditions for remaining durations
 - Implement bootstrap tooltips instead of titles everywhere
 - Implement full information in tooltips after time, if possible (apparently not)
 
 Implement:
+- Condition for Knock
 
 Next steps:
 - 5th level spells

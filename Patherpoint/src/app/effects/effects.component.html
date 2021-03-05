@@ -55,21 +55,17 @@
             </div>
         </div>
     </ng-template>
-    <div class="list-item" *ngIf="!fullDisplay">
-        <button (click)="toggle_Applied()" [ngClass]="{'fancy-button':showApplied}">Active
-            Conditions & Effects</button>
-        <button (click)="toggle_NotApplied()" [ngClass]="{'fancy-button':showNotApplied}">Inactive Conditions &
-            Effects</button>
-        <button (click)="toggle_Hidden()" [ngClass]="{'fancy-button':showHidden}">Hidden Effects</button>
-    </div>
     <app-tags [creature]="creature" [objectName]="'Effects'" [showTraits]=true [showFeats]=true [showItems]=true
         [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
-    <div [ngClass]="{'charactersheet-column-container padding-8':!fullDisplay}" *ngIf="fullDisplay || showApplied">
+    <div [ngClass]="{'charactersheet-column-container padding-8':!fullDisplay}">
         <div [ngClass]="{'charactersheet-column':!fullDisplay}">
-            <header class="subsectionHeader" *ngIf="get_ToggledCount() > 1 || fullDisplay">
+            <header class="subsectionHeader" *ngIf="fullDisplay">
                 Active Conditions
             </header>
-            <div [ngClass]="{'icon-list left-aligned':!fullDisplay}">
+            <div [ngClass]="{'icon-list left-aligned dashed-border':!fullDisplay}">
+                <div class="icon-list-title" style="right: 0" *ngIf="!fullDisplay">
+                    <header class="sectionHeader box-header">Conditions</header>
+                </div>
                 <ng-container
                     *ngFor="let conditionGain of get_AppliedConditions(true); trackBy:trackByConditionGainID;">
                     <ng-container *ngTemplateOutlet="conditionTemplate;context:{conditionGain:conditionGain}">
@@ -78,22 +74,25 @@
             </div>
         </div>
         <div [ngClass]="{'charactersheet-column right-aligned':!fullDisplay}">
-            <header class="subsectionHeader" *ngIf="get_ToggledCount() > 1 || fullDisplay">
+            <header class="subsectionHeader" *ngIf="fullDisplay">
                 Active Effects
             </header>
-            <div [ngClass]="{'icon-list right-aligned':!fullDisplay}">
+            <div [ngClass]="{'icon-list right-aligned dashed-border':!fullDisplay}">
+                <div class="icon-list-title" style="left: 0" *ngIf="!fullDisplay">
+                    <header class="sectionHeader box-header">Effects</header>
+                </div>
                 <ng-container *ngFor="let effect of get_AppliedEffects(); trackBy:trackByUniqueEffect;">
                     <ng-container *ngTemplateOutlet="effectTemplate;context:{effect:effect}"></ng-container>
                 </ng-container>
             </div>
         </div>
     </div>
-    <div *ngIf="fullDisplay || showNotApplied" [ngClass]="{'charactersheet-column-container padding-8':!fullDisplay}">
-        <div [ngClass]="{'charactersheet-column':!fullDisplay}">
-            <header class="subsectionHeader" *ngIf="get_ToggledCount() > 1 || fullDisplay">
+    <ng-container *ngIf="fullDisplay">
+        <div>
+            <header class="subsectionHeader">
                 Inactive Conditions
             </header>
-            <div class="notapplied" [ngClass]="{'icon-list':!fullDisplay}">
+            <div class="notapplied">
                 <ng-container
                     *ngFor="let conditionGain of get_AppliedConditions(false); trackBy:trackByConditionGainID;">
                     <ng-container *ngTemplateOutlet="conditionTemplate;context:{conditionGain:conditionGain}">
@@ -101,25 +100,23 @@
                 </ng-container>
             </div>
         </div>
-        <div [ngClass]="{'charactersheet-column right-aligned':!fullDisplay}">
-            <header class="subsectionHeader" *ngIf="get_ToggledCount() > 1 || fullDisplay">
+        <div>
+            <header class="subsectionHeader">
                 Inactive Effects
             </header>
-            <div class="notapplied" [ngClass]="{'icon-list right-aligned':!fullDisplay}">
+            <div class="notapplied">
                 <ng-container *ngFor="let effect of get_NotAppliedEffects(); trackBy:trackByUniqueEffect;">
                     <ng-container *ngTemplateOutlet="effectTemplate;context:{effect:effect}"></ng-container>
                 </ng-container>
             </div>
         </div>
-    </div>
-    <div [ngClass]="{'right-aligned padding-8':!fullDisplay}" *ngIf="fullDisplay || showHidden">
-        <header class="subsectionHeader" *ngIf="get_ToggledCount() > 1 || fullDisplay">
+        <header class="subsectionHeader">
             Hidden Effects
         </header>
-        <div [ngClass]="{'icon-list right-aligned':!fullDisplay}">
+        <div>
             <ng-container *ngFor="let effect of get_HiddenEffects(); trackBy:trackByUniqueEffect;">
                 <ng-container *ngTemplateOutlet="effectTemplate;context:{effect:effect}"></ng-container>
             </ng-container>
         </div>
-    </div>
+    </ng-container>
 </div>

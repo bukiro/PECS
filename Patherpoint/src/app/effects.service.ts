@@ -241,7 +241,7 @@ export class EffectsService {
         //Return an array of Effect objects
         let objectEffects: Effect[] = [];
         //Get the object name unless a name is enforced.
-        name = name ? name : ((object.get_Name) ? object.get_Name() : object.name);
+        let source = name ? name : ((object.get_Name) ? object.get_Name() : object.name);
         //Define some values that may be relevant for effect values
         let effectsService = this;
         effectsService = effectsService;
@@ -386,7 +386,7 @@ export class EffectsService {
             let setValue: string = "";
             let toggle: boolean = effect.toggle;
             if (object === creature) {
-                name = effect.source || "Custom Effect"
+                source = effect.source || "Custom Effect"
             }
             try {
                 value = eval(effect.value).toString();
@@ -434,6 +434,9 @@ export class EffectsService {
             if (effect.show == undefined && object.constructor == Feat) {
                 show = false;
             }
+            if (source == "Custom Effect") {
+                show = true;
+            }
             //Effects can affect another creature. In that case, remove the notation and change the target.
             let target: string = creature.id;
             let affected: string = effect.affected;
@@ -451,7 +454,7 @@ export class EffectsService {
             }
             //Effects that have neither a value nor a toggle get ignored.
             if (toggle || setValue || parseInt(value) != 0) {
-                objectEffects.push(new Effect(target, type, affected, value, setValue, toggle, name, penalty, undefined, show, effect.duration, effect.cumulative));
+                objectEffects.push(new Effect(target, type, affected, value, setValue, toggle, source, penalty, undefined, show, effect.duration, effect.maxDuration, effect.cumulative));
             }
         });
         return objectEffects;

@@ -617,7 +617,7 @@ app-spells {
     top: 0;
     right: auto;
     bottom: 0;
-    z-index: 10;
+    z-index: 20;
     overflow-y: hidden;
     width: 100%;
 }
@@ -628,7 +628,7 @@ app-dice {
     left: 15%;
     right: 15%;
     bottom: auto;
-    z-index: 10;
+    z-index: 20;
     overflow-x: hidden;
 }
 
@@ -779,12 +779,18 @@ ngb-popover-window {
 }
 
 .icon-list {
+    min-height: calc(4em + 4px);
     width: 100%;
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
     flex-wrap: wrap;
     gap: 8px;
+    position: relative;
+}
+
+.dashed-border {
+    border: 2px var(--textcolor) dashed;
 }
 
 app-gridicon {
@@ -798,20 +804,25 @@ app-gridicon {
     box-shadow: 0px 0px 12px inset;
     display: inline-table;
     overflow: hidden;
+    background-color: white;
+}
+
+.darkmode app-gridicon {
+    background-color: #202020;
 }
 
 app-gridicon .iconValue {
     position: absolute;
     color: var(--textcolor);
     top: 0;
-    left: 0;
+    left: 2px;
 }
 
 app-gridicon .iconSubTitle {
     position: absolute;
     color: var(--textcolor);
     top: 0;
-    right: 0;
+    right: 2px;
 }
 
 app-gridicon .iconTitle {
@@ -824,22 +835,62 @@ app-gridicon .iconTitle {
     z-index: 5;
 }
 
+.icon-list .icon-list-title {
+    text-align: center;
+    margin-right: 16px;
+    margin-left: 16px;
+    bottom: 0;
+    position: absolute;
+}
+
 app-gridicon .iconSuperTitle {
     position: absolute;
     opacity: 50%;
     font-size: 3em;
     line-height: 1.2em;
     width: 100%;
-    z-index: 2;
 }
 
 app-gridicon .iconTime {
     position: absolute;
     bottom: 0;
-    right: 0;
+    right: 2px;
     display: flex;
     flex-direction: row;
     justify-content: flex-end;
+}
+
+app-gridicon .gridicon-overlay {
+    --degrees: calc((var(--offset, 0) / 100) * 360);
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    transform: translate(0, -50%) rotate(90deg) rotate(calc(var(--degrees) * 1deg));
+    transform-origin: 50% 100%;
+    overflow: hidden;
+}
+
+app-gridicon .gridicon-overlay:before {
+    background: grey;
+    opacity: 40%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    content: '';
+    height: 200%;
+    width: 200%;
+}
+
+app-gridicon .gridicon-overlay:before {
+    --degrees: calc((var(--percentage, 0) / 100) * 360);
+    transform: translate(-25%, 50%) rotate(calc(var(--degrees) * 1deg));;
+    transform-origin: 50% 0;
+}
+
+.transition5, app-gridicon .gridicon-overlay.transition5:before {
+    transition: all .5s ease-out;
 }
 
 .gridicon-sidebar, .newrow.left-aligned>.gridicon-sidebar {
@@ -934,7 +985,7 @@ button.choicecleared::after,
     width: calc(100% - 16px);
     overflow-y: auto;
     padding: 4px;
-    z-index: 100;
+    z-index: 10;
     background-color: #E0E0E0;
     box-shadow: 0 6px 5px;
     margin-top: 8px;

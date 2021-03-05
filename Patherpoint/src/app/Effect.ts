@@ -11,6 +11,7 @@ export class Effect {
         public apply: boolean = undefined,
         public show: boolean = undefined,
         public duration: number = 0,
+        public maxDuration: number = 0,
         //If the effect is typed, cumulative lists all effect sources (of the same type) that it is cumulative with.
         public cumulative: string[] = []
     ) {}
