@@ -1,6 +1,6 @@
 <button class="minimizebutton lower"
     title="{{get_Minimized() ? 'Click to show all information.' : 'Click to show compact information.'}}"
-    [ngClass]="{'fancy-button':get_Minimized()}" (click)="minimize()" *ngIf="creature=='Character'">&#8691;</button>
+    [ngClass]="{'fancy-button':get_Minimized()}" (click)="minimize()" *ngIf="creature=='Character' && !fullDisplay">&#8691;</button>
 <div id="{{creature}}-effects-height" class="attributeBox">
     <ng-template #conditionTemplate let-conditionGain="conditionGain">
         <div [ngClass]="{'attention':(conditionGain.duration == 1) || (conditionGain.nextStage == -1 && (condition.previousCondition || condition.nextCondition))}"
@@ -72,9 +72,9 @@
             <ng-container *ngTemplateOutlet="effectTemplate;context:{effect:effect}"></ng-container>
         </ng-container>
     </div>
-    <button class="list-item fullsize-only center-aligned" (click)="toggle_NotApplied()">{{(showNotApplied) ? "Hide not
+    <button class="list-item fullsize-only center-aligned" (click)="toggle_NotApplied()" *ngIf="!fullDisplay">{{(showNotApplied) ? "Hide not
         applied" : "Show not applied"}}</button>
-    <div class="fullsize-only" *ngIf="showNotApplied">
+    <div class="fullsize-only" *ngIf="fullDisplay || showNotApplied">
         <header class="sectionHeader box-header">Not Applied Conditions</header>
         <div class="notapplied" [ngClass]="{'icon-list':!fullDisplay}">
             <ng-container *ngFor="let conditionGain of get_AppliedConditions(false); trackBy:trackByConditionGainID;">
@@ -89,9 +89,9 @@
             </ng-container>
         </div>
     </div>
-    <button class="list-item fullsize-only center-aligned" (click)="toggle_Hidden()">{{(showHidden) ? "Hide hidden
+    <button class="list-item fullsize-only center-aligned" (click)="toggle_Hidden()" *ngIf="!fullDisplay">{{(showHidden) ? "Hide hidden
         effects" : "Show hidden effects"}}</button>
-    <div class="fullsize-only" *ngIf="showHidden">
+    <div class="fullsize-only" *ngIf="fullDisplay || showHidden">
         <header class="sectionHeader box-header">Hidden Effects</header>
         <div [ngClass]="{'icon-list':!fullDisplay}">
             <ng-container *ngFor="let effect of get_HiddenEffects(); trackBy:trackByUniqueEffect;">

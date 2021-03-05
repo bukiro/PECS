@@ -66,7 +66,7 @@
                 [ngClass]="{'minimized':(get_InventoryMinimized())}"></app-inventory>
         </div>
     </ng-container>
-    <ng-container *ngIf="(get_ShowMode() != 'Inventory')">
+    <ng-container *ngIf="(get_ShowMode() == 'Inventory')">
         <div class="charactersheet-column charactersheet-row">
             <app-effects id="Character-effects" class="charactersheet-app" [sheetSide]="'center'"
                 [ngClass]="{'minimized':(get_EffectsMinimized())}" *ngIf="!still_loading()"></app-effects>
@@ -74,7 +74,7 @@
                 [ngClass]="{'minimized':(get_InventoryMinimized())}" *ngIf="!still_loading()"></app-inventory>
         </div>
     </ng-container>
-    <ng-container *ngIf="(get_ShowMode() != 'ConditionsEffects')">
+    <ng-container *ngIf="(get_ShowMode() == 'ConditionsEffects')">
         <app-time id="time" class="charactersheet-app charactersheet-row" [sheetSide]="'center'"
             [ngClass]="{'minimized':(get_TimeMinimized())}" *ngIf="!still_loading()"></app-time>
         <div class="charactersheet-column charactersheet-row">
