@@ -16,7 +16,8 @@
         <app-time id="time" class="charactersheet-app charactersheet-row" [sheetSide]="'center'"
             [showTurn]="(['','Encounter'].includes(get_ShowMode()))" [showTime]="(get_ShowMode() != 'Encounter')"
             [ngClass]="{'minimized':(get_TimeMinimized())}"></app-time>
-        <app-effects id="Character-effects" class="charactersheet-app charactersheet-row" [sheetSide]="'center'"></app-effects>
+        <app-effects id="Character-effects" class="charactersheet-app charactersheet-row" [sheetSide]="'center'">
+        </app-effects>
         <div class="charactersheet-column-container">
             <div class="charactersheet-column">
                 <app-general id="Character-general" class="charactersheet-app" [sheetSide]="'left'"
@@ -67,24 +68,24 @@
                     [ngClass]="{'minimized':(get_SpellbookMinimized())}" *ngIf="(get_ShowMode() == 'Exploration')">
                 </app-spellbook>
                 <app-inventory id="Character-inventory" class="charactersheet-app" [sheetSide]="'right'"
-                    [ngClass]="{'minimized':(get_InventoryMinimized())}"></app-inventory>
+                    [ngClass]="{'minimized':(get_InventoryMinimized())}" *ngIf="(get_ShowMode() == '')"></app-inventory>
             </div>
         </div>
     </ng-container>
     <ng-container *ngIf="(get_ShowMode() == 'Inventory')">
+        <app-effects id="Character-effects" class="charactersheet-app" [sheetSide]="'center'">
+        </app-effects>
         <div class="charactersheet-column charactersheet-row">
-            <app-effects id="Character-effects" class="charactersheet-app" [sheetSide]="'center'"
-                [ngClass]="{'minimized':(get_EffectsMinimized())}" *ngIf="!still_loading()"></app-effects>
             <app-inventory id="Character-inventory" class="charactersheet-app" [sheetSide]="'center'"
-                [ngClass]="{'minimized':(get_InventoryMinimized())}" *ngIf="!still_loading()"></app-inventory>
+                [ngClass]="{'minimized':(get_InventoryMinimized())}"></app-inventory>
         </div>
     </ng-container>
     <ng-container *ngIf="(get_ShowMode() == 'ConditionsEffects')">
         <app-time id="time" class="charactersheet-app charactersheet-row" [sheetSide]="'center'"
-            [ngClass]="{'minimized':(get_TimeMinimized())}" *ngIf="!still_loading()"></app-time>
+            [ngClass]="{'minimized':(get_TimeMinimized())}"></app-time>
         <div class="charactersheet-column charactersheet-row">
-            <app-effects id="Character-effects" class="charactersheet-app" [fullDisplay]="true" [sheetSide]="'center'"
-                *ngIf="!still_loading()"></app-effects>
+            <app-effects id="Character-effects" class="charactersheet-app" [fullDisplay]="true" [sheetSide]="'center'">
+            </app-effects>
         </div>
     </ng-container>
 </div>

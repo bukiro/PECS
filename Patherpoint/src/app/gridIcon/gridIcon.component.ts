@@ -38,7 +38,6 @@ export class GridIconComponent implements OnInit {
         popoverConfig.container = "body";
         popoverConfig.popoverClass = "list-item sublist";
         tooltipConfig.placement = "auto";
-        tooltipConfig.openDelay = 250;
         tooltipConfig.triggers = "hover:click";
     }
 
@@ -74,6 +73,21 @@ export class GridIconComponent implements OnInit {
         return [];
     }
 
+    get_IsOneWordTitle() {
+        if (this.feat) {
+            if (this.feat.subType) {
+                this.title = this.title || this.feat.superType;
+            } else {
+                this.title = this.title || this.feat.name;
+            }
+        } else if (this.condition) {
+            this.title = this.title || this.condition.name;
+        } else if (this.effect) {
+            this.title = this.title || this.effect.target;
+        }
+        return !this.title.includes(" ");
+    }
+
     get_IconTitle() {
         if (this.feat) {
             if (this.feat.subType) {
@@ -81,7 +95,6 @@ export class GridIconComponent implements OnInit {
             } else {
                 this.title = this.title || this.feat.name;
             }
-
         } else if (this.condition) {
             this.title = this.title || this.condition.name;
         } else if (this.effect) {

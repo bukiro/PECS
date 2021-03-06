@@ -64,6 +64,8 @@
                 "source": "Background",
                 "type": "Skill"
             }
-        ]
+        ],
+        "sourceBook": "Caverns and Covens Player's Guide",
+        "adventurePath": "Caverns and Covens"
     }
 ]
