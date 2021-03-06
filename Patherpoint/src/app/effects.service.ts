@@ -999,56 +999,58 @@ export class EffectsService {
         })
 
         //Then prepare changes for everything that should be updated according to the effect.
-        changedEffects.map(effect => effect.target.toLowerCase()).forEach(target => {
-            if (general.includes(target) || generalWildcard.some(name => target.includes(name))) {
+        changedEffects.forEach(effect => {
+            let lowerCaseTarget = effect.target.toLowerCase();
+            let target = effect.target;
+            if (general.includes(lowerCaseTarget) || generalWildcard.some(name => lowerCaseTarget.includes(name))) {
                 characterService.set_ToChange(creature.type, "general");
             }
-            if (abilities.includes(target)) {
+            if (abilities.includes(lowerCaseTarget)) {
                 characterService.set_ToChange(creature.type, "abilities");
             }
-            abilitiesWildcard.filter(name => target.includes(name)).forEach(name => {
+            abilitiesWildcard.filter(name => lowerCaseTarget.includes(name)).forEach(name => {
                 characterService.set_ToChange(creature.type, "individualskills", name);
             });
-            if (health.includes(target) || healthWildcard.some(name => target.includes(name))) {
+            if (health.includes(lowerCaseTarget) || healthWildcard.some(name => lowerCaseTarget.includes(name))) {
                 characterService.set_ToChange(creature.type, "health");
             }
-            if (defense.includes(target)) {
+            if (defense.includes(lowerCaseTarget)) {
                 characterService.set_ToChange(creature.type, "defense");
             }
-            if (defenseWildcard.some(name => target.includes(name))) {
+            if (defenseWildcard.some(name => lowerCaseTarget.includes(name))) {
                 characterService.set_ToChange(creature.type, "defense");
             }
-            if (attacks.includes(target) || attacksWildcard.some(name => target.includes(name))) {
+            if (attacks.includes(lowerCaseTarget) || attacksWildcard.some(name => lowerCaseTarget.includes(name))) {
                 characterService.set_ToChange(creature.type, "attacks");
                 characterService.set_ToChange(creature.type, "individualskills", "attacks");
             }
-            if (individualskills.includes(target)) {
+            if (individualskills.includes(lowerCaseTarget)) {
                 characterService.set_ToChange(creature.type, "individualskills", target);
             }
-            if (individualSkillsWildcard.some(name => target.includes(name))) {
+            if (individualSkillsWildcard.some(name => lowerCaseTarget.includes(name))) {
                 characterService.set_ToChange(creature.type, "individualskills", target);
             }
-            if (skillsWildcard.some(name => target.includes(name))) {
+            if (skillsWildcard.some(name => lowerCaseTarget.includes(name))) {
                 characterService.set_ToChange(creature.type, "skills");
                 characterService.set_ToChange(creature.type, "individualskills", "all");
             }
-            if (inventory.includes(target)) {
+            if (inventory.includes(lowerCaseTarget)) {
                 characterService.set_ToChange(creature.type, "inventory");
             }
-            if (spellbook.includes(target)) {
+            if (spellbook.includes(lowerCaseTarget)) {
                 characterService.set_ToChange(creature.type, "spellbook");
             }
-            if (spellbookWildcard.some(name => target.includes(name))) {
+            if (spellbookWildcard.some(name => lowerCaseTarget.includes(name))) {
                 characterService.set_ToChange(creature.type, "spellbook");
             }
-            if (activities.includes(target)) {
+            if (activities.includes(lowerCaseTarget)) {
                 characterService.set_ToChange(creature.type, "activities");
             }
-            if (activitiesWildcard.some(name => target.includes(name))) {
+            if (activitiesWildcard.some(name => lowerCaseTarget.includes(name))) {
                 characterService.set_ToChange(creature.type, "activities");
             }
             //Specific triggers
-            if (target == "familiar abilities") {
+            if (lowerCaseTarget == "familiar abilities") {
                 characterService.set_ToChange("Familiar", "featchoices");
             }
         })

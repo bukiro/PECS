@@ -106,7 +106,7 @@ export class SkillComponent implements OnInit {
         } else {
             this.characterService.get_Changed()
             .subscribe((target) => {
-                if (["individualskills", "all", this.creature, this.skill.name].includes(target)) {
+                if (["individualskills", "all", this.creature.toLowerCase(), this.skill.name.toLowerCase()].includes(target.toLowerCase())) {
                     this.changeDetector.detectChanges();
                 }
             });
@@ -117,9 +117,9 @@ export class SkillComponent implements OnInit {
                         view.target == "all" ||
                         (view.target == "individualskills" &&
                             (
-                                [this.skill.name, this.skill.ability, "all"].includes(view.subtarget) ||
+                                [this.skill.name.toLowerCase(), this.skill.ability.toLowerCase(), "all"].includes(view.subtarget.toLowerCase()) ||
                                 (
-                                    this.get_Name(this.skill).includes("Attacks") &&
+                                    this.get_Name(this.skill).toLowerCase().includes("attacks") &&
                                     view.subtarget == "attacks"
                                 )
                             )
