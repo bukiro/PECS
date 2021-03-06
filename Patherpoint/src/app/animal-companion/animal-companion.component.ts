@@ -67,13 +67,13 @@ export class AnimalCompanionComponent implements OnInit {
         } else {
             this.characterService.get_Changed()
             .subscribe((target) => {
-                if (["Companion", "companion", "all"].includes(target)) {
+                if (["companion", "all"].includes(target.toLowerCase())) {
                     this.changeDetector.detectChanges();
                 }
             });
             this.characterService.get_ViewChanged()
             .subscribe((view) => {
-                if (view.creature == "Companion" && ["companion", "all"].includes(view.target)) {
+                if (view.creature.toLowerCase() == "companion" && ["companion", "all"].includes(view.target.toLowerCase())) {
                     this.changeDetector.detectChanges();
                 }
             });

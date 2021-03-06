@@ -233,7 +233,7 @@ export class EffectsComponent implements OnInit {
         } else {
             this.characterService.get_Changed()
                 .subscribe((target) => {
-                    if (target == "effects" || target == "all" || target == this.creature) {
+                    if (["effects", "all", this.creature.toLowerCase()].includes(target.toLowerCase())) {
                         this.changeDetector.detectChanges();
                         this.calculate_InventoryEffects();
                         this.calculate_Bulk();
@@ -241,7 +241,7 @@ export class EffectsComponent implements OnInit {
                 });
             this.characterService.get_ViewChanged()
                 .subscribe((view) => {
-                    if (view.creature == this.creature && ["effects", "all"].includes(view.target)) {
+                    if (view.creature.toLowerCase() == this.creature.toLowerCase() && ["effects", "all"].includes(view.target.toLowerCase())) {
                         this.changeDetector.detectChanges();
                         this.calculate_InventoryEffects();
                         this.calculate_Bulk();

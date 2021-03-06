@@ -160,13 +160,13 @@ export class SpellsComponent implements OnInit {
         } else {
             this.characterService.get_Changed()
                 .subscribe((target) => {
-                    if (["spells", "all", "Character"].includes(target)) {
+                    if (["spells", "all", "character"].includes(target.toLowerCase())) {
                         this.changeDetector.detectChanges();
                     }
                 });
             this.characterService.get_ViewChanged()
                 .subscribe((view) => {
-                    if (view.creature == "Character" && ["spells", "all"].includes(view.target)) {
+                    if (view.creature.toLowerCase() == "character" && ["spells", "all"].includes(view.target.toLowerCase())) {
                         this.changeDetector.detectChanges();
                     }
                 });

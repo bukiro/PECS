@@ -203,13 +203,13 @@ export class SkillchoiceComponent implements OnInit {
         } else {
             this.characterService.get_Changed()
                 .subscribe((target) => {
-                    if (target == "skillchoices" || target == "all" || target == "Character") {
+                    if (["skillchoices", "all", "character"].includes(target.toLowerCase())) {
                         this.changeDetector.detectChanges();
                     }
                 });
             this.characterService.get_ViewChanged()
                 .subscribe((view) => {
-                    if (view.creature == "Character" && ["skillchoices", "all"].includes(view.target)) {
+                    if (view.creature.toLowerCase() == "character" && ["skillchoices", "all"].includes(view.target.toLowerCase())) {
                         this.changeDetector.detectChanges();
                     }
                 });

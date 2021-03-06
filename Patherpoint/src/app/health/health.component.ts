@@ -265,13 +265,13 @@ export class HealthComponent implements OnInit {
         } else {
             this.characterService.get_Changed()
             .subscribe((target) => {
-                if (target == "health" || target == "all" || target == this.creature) {
+                if (["health", "all", this.creature.toLowerCase()].includes(target.toLowerCase())) {
                     this.changeDetector.detectChanges();
                 }
             });
             this.characterService.get_ViewChanged()
             .subscribe((view) => {
-                if (view.creature == this.creature && ["health", "all"].includes(view.target)) {
+                if (view.creature.toLowerCase() == this.creature.toLowerCase() && ["health", "all"].includes(view.target.toLowerCase())) {
                     this.changeDetector.detectChanges();
                 }
             });

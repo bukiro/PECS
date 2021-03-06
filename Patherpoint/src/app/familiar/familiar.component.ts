@@ -63,13 +63,13 @@ export class FamiliarComponent implements OnInit {
         } else {
             this.characterService.get_Changed()
             .subscribe((target) => {
-                if (target == "familiar" || target == "all" || target == "Familiar") {
+                if (["familiar", "all"].includes(target.toLowerCase())) {
                     this.changeDetector.detectChanges();
                 }
             });
             this.characterService.get_ViewChanged()
             .subscribe((view) => {
-                if (view.creature == "Familiar" && ["familiar", "all"].includes(view.target)) {
+                if (view.creature.toLowerCase() == "familiar" && ["familiar", "all"].includes(view.target.toLowerCase())) {
                     this.changeDetector.detectChanges();
                 }
             });

@@ -90,13 +90,13 @@ export class TimeComponent implements OnInit {
         } else {
             this.characterService.get_Changed()
                 .subscribe((target) => {
-                    if (["time", "all", "Character"].includes(target)) {
+                    if (["time", "all", "character"].includes(target.toLowerCase())) {
                         this.changeDetector.detectChanges();
                     }
                 });
             this.characterService.get_ViewChanged()
                 .subscribe((view) => {
-                    if (view.creature == "Character" && ["time", "all"].includes(view.target)) {
+                    if (view.creature.toLowerCase() == "character" && ["time", "all"].includes(view.target.toLowerCase())) {
                         this.changeDetector.detectChanges();
                     }
                 });

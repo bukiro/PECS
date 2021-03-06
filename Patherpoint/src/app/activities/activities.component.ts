@@ -157,13 +157,13 @@ export class ActivitiesComponent implements OnInit {
         } else {
             this.characterService.get_Changed()
                 .subscribe((target) => {
-                    if (target == "activities" || target == "all" || target == this.creature) {
+                    if (target == "activities" || target == "all" || target.toLowerCase() == this.creature.toLowerCase()) {
                         this.changeDetector.detectChanges();
                     }
                 });
             this.characterService.get_ViewChanged()
             .subscribe((view) => {
-                if (view.creature == this.creature && ["activities", "all"].includes(view.target)) {
+                if (view.creature.toLowerCase() == this.creature.toLowerCase() && ["activities", "all"].includes(view.target.toLowerCase())) {
                     this.changeDetector.detectChanges();
                 }
             });

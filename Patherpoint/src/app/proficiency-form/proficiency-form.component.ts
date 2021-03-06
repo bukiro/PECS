@@ -51,7 +51,7 @@ export class ProficiencyFormComponent implements OnInit {
     ngOnInit() {
         this.characterService.get_Changed()
             .subscribe((target) => {
-                if (["individualskills", "all", this.creature, this.skill.name].includes(target)) {
+                if (["individualskills", "all", this.creature.toLowerCase(), this.skill.name.toLowerCase()].includes(target.toLowerCase())) {
                     this.changeDetector.detectChanges()
                 }
             });
@@ -60,7 +60,7 @@ export class ProficiencyFormComponent implements OnInit {
                 if (view.creature == this.creature &&
                     (
                         view.target == "all" ||
-                        (view.target == "individualskills" && [this.skill.name, this.skill.ability, "all"].includes(view.subtarget))
+                        (view.target.toLowerCase() == "individualskills" && [this.skill.name.toLowerCase(), this.skill.ability.toLowerCase(), "all"].includes(view.subtarget.toLowerCase()))
                     )) {
                     this.changeDetector.detectChanges()
                 }

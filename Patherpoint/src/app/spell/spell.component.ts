@@ -56,16 +56,16 @@ export class SpellComponent implements OnInit {
         } else {
             this.characterService.get_Changed()
             .subscribe((target) => {
-                if (target == "individualspells" || target == "all" || target == "Character") {
+                if (["individualspells", "all", "character"].includes(target.toLowerCase())) {
                     this.changeDetector.detectChanges();
                 }
             });
             this.characterService.get_ViewChanged()
             .subscribe((view) => {
-                if (view.creature == "Character" && 
+                if (view.creature.toLowerCase() == "character" && 
                     (
-                        view.target == "all" ||
-                        (view.target == "individualspells" && [this.spell.name, "all"].includes(view.subtarget))
+                        view.target.toLowerCase() == "all" ||
+                        (view.target.toLowerCase() == "individualspells" && [this.spell.name.toLowerCase(), "all"].includes(view.subtarget.toLowerCase()))
                     )) {
                     this.changeDetector.detectChanges();
                 }

@@ -12,8 +12,7 @@ export class DiceComponent implements OnInit {
     public diceNum: number = 5;
 
     constructor(
-        private characterService: CharacterService,
-        private changeDetector: ChangeDetectorRef
+        private characterService: CharacterService
     ) { }
 
     toggleDiceMenu() {

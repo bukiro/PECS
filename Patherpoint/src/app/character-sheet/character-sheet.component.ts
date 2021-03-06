@@ -207,13 +207,13 @@ export class CharacterSheetComponent implements OnInit {
         } else {
             this.characterService.get_Changed()
                 .subscribe((target) => {
-                    if (["character-sheet", "all", "Character"].includes(target)) {
+                    if (["character-sheet", "all", "character"].includes(target.toLowerCase())) {
                         this.changeDetector.detectChanges();
                     }
                 });
             this.characterService.get_ViewChanged()
                 .subscribe((view) => {
-                    if (view.creature == "Character" && ["character-sheet", "all"].includes(view.target)) {
+                    if (view.creature.toLowerCase() == "character" && ["character-sheet", "all"].includes(view.target.toLowerCase())) {
                         this.changeDetector.detectChanges();
                     }
                 });

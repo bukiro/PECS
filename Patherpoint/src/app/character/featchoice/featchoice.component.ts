@@ -586,7 +586,7 @@ export class FeatchoiceComponent implements OnInit {
         } else {
             this.characterService.get_Changed()
                 .subscribe((target) => {
-                    if (target == "featchoices" || target == "all" || target == this.creature) {
+                    if (["featchoices", "all", this.creature.toLowerCase()].includes(target.toLowerCase())) {
                         if (this.choice.dynamicLevel) {
                             this.featLevel = this.get_ChoiceLevel(this.choice);
                         }
@@ -595,7 +595,7 @@ export class FeatchoiceComponent implements OnInit {
                 });
             this.characterService.get_ViewChanged()
                 .subscribe((view) => {
-                    if (view.creature == this.creature && ["featchoices", "all"].includes(view.target)) {
+                    if (view.creature.toLowerCase() == this.creature.toLowerCase() && ["featchoices", "all"].includes(view.target.toLowerCase())) {
                         if (this.choice.dynamicLevel) {
                             this.featLevel = this.get_ChoiceLevel(this.choice);
                         }
