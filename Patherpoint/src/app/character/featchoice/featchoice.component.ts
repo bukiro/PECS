@@ -209,9 +209,10 @@ export class FeatchoiceComponent implements OnInit {
     get_AvailableFeats(choice: FeatChoice) {
         let character = this.get_Character()
         let available = this.get_Available(choice);
-        //Get all Feats, but no subtype Feats (those that have the supertype attribute set) - those get built within their supertype
-        // If a subtype is in the filter
+        //Get all feats, but no subtype Feats (those that have the supertype attribute set) - those get built within their supertype
         let allFeats: Feat[] = this.get_Feats().filter(feat => !feat.superType && !feat.hide);
+        //Get subfeats for later use
+        let allSubFeats: Feat[] = this.get_Feats().filter(feat => feat.superType && !feat.hide);
         if (choice.filter.length) {
             allFeats = allFeats.filter(feat =>
                 choice.filter.includes(feat.name) ||
@@ -246,13 +247,13 @@ export class FeatchoiceComponent implements OnInit {
         }
         if (feats.length) {
             if (!this.lowerLevelFeats && !choice.showOnSheet) {
-                feats = feats.filter(feat => feat.levelreq >= this.featLevel || !feat.levelreq || this.featTakenByThis(feat, choice));
+                feats = feats.filter(feat => feat.levelreq >= this.featLevel || !feat.levelreq || this.featTakenByThis(feat, choice) || this.subFeatTakenByThis(allSubFeats, feat, choice));
             }
             if (!this.higherLevelFeats && !choice.showOnSheet) {
-                feats = feats.filter(feat => feat.levelreq <= this.featLevel || !feat.levelreq || this.featTakenByThis(feat, choice));
+                feats = feats.filter(feat => feat.levelreq <= this.featLevel || !feat.levelreq || this.featTakenByThis(feat, choice) || this.subFeatTakenByThis(allSubFeats, feat, choice))
             }
             if (!this.archetypeFeats) {
-                feats = feats.filter(feat => !feat.traits.includes("Archetype") || this.featTakenByThis(feat, choice));
+                feats = feats.filter(feat => !feat.traits.includes("Archetype") || this.featTakenByThis(feat, choice) || this.subFeatTakenByThis(allSubFeats, feat, choice))
             }
             if (this.archetypeFeats) {
                 //Show archetype feats only if their dedication feat has been taken.
@@ -277,9 +278,9 @@ export class FeatchoiceComponent implements OnInit {
                 showOtherOptions = this.get_Character().settings.showOtherOptions;
             }
             return feats.map(feat => {
-                let featAvailable = (this.cannotTake(feat, choice).length == 0 || this.featTakenByThis(feat, choice) || this.subFeatTakenByThis(feat, choice));
+                let featAvailable = (this.cannotTake(feat, choice).length == 0 || this.featTakenByThis(feat, choice) || this.subFeatTakenByThis(allSubFeats, feat, choice));
                 return { available: featAvailable, feat: feat };
-            }).filter(featSet => ((this.unavailableFeats || featSet.available) && showOtherOptions) || this.featTakenByThis(featSet.feat, choice) || this.subFeatTakenByThis(featSet.feat, choice))
+            }).filter(featSet => ((this.unavailableFeats || featSet.available) && showOtherOptions) || this.featTakenByThis(featSet.feat, choice) || this.subFeatTakenByThis(allSubFeats, featSet.feat, choice))
                 .sort(function (a, b) {
                     //Sort by level, then name. Divide level by 100 to create leading zeroes (and not sort 10 before 2).
                     //For skill feat choices and general feat choices, sort by the associated skill (if exactly one), then level and name.
@@ -451,8 +452,8 @@ export class FeatchoiceComponent implements OnInit {
         return choice.feats.some(gain => gain.name == feat.name);
     }
 
-    subFeatTakenByThis(feat: Feat, choice: FeatChoice) {
-        return this.get_Feats().some(subFeat => subFeat.superType == feat.name && choice.feats.some(gain => gain.name == subFeat.name))
+    subFeatTakenByThis(subfeats: Feat[] = this.get_Feats(), feat: Feat, choice: FeatChoice) {
+        return subfeats.some(subFeat => subFeat.superType == feat.name && choice.feats.some(gain => gain.name == subFeat.name));
     }
 
     get_FeatsTaken(minLevelNumber: number, maxLevelNumber: number, featName: string = "", source: string = "", sourceId: string = "", locked: boolean = undefined) {

@@ -11523,7 +11523,7 @@
                         "source": "Aberrant Bloodline"
                     }
                 ],
-                "maxRank": 4,
+                "maxRank": 2,
                 "source": "Aberrant Bloodline",
                 "type": "Skill"
             },
@@ -12162,7 +12162,7 @@
                         "source": "Angelic Bloodline"
                     }
                 ],
-                "maxRank": 4,
+                "maxRank": 2,
                 "source": "Angelic Bloodline",
                 "type": "Skill"
             },
@@ -12798,7 +12798,7 @@
                         "source": "Demonic Bloodline"
                     }
                 ],
-                "maxRank": 4,
+                "maxRank": 2,
                 "source": "Demonic Bloodline",
                 "type": "Skill"
             },
@@ -13441,7 +13441,7 @@
                         "source": "Diabolic Bloodline"
                     }
                 ],
-                "maxRank": 4,
+                "maxRank": 2,
                 "source": "Diabolic Bloodline",
                 "type": "Skill"
             },
@@ -14097,7 +14097,7 @@
                         "source": "Draconic Bloodline"
                     }
                 ],
-                "maxRank": 4,
+                "maxRank": 2,
                 "source": "Draconic Bloodline",
                 "type": "Skill"
             },
@@ -14824,7 +14824,7 @@
                         "source": "Elemental Bloodline"
                     }
                 ],
-                "maxRank": 4,
+                "maxRank": 2,
                 "source": "Elemental Bloodline",
                 "type": "Skill"
             },
@@ -15514,7 +15514,7 @@
                         "source": "Fey Bloodline"
                     }
                 ],
-                "maxRank": 4,
+                "maxRank": 2,
                 "source": "Fey Bloodline",
                 "type": "Skill"
             },
@@ -16161,7 +16161,7 @@
                         "source": "Hag Bloodline"
                     }
                 ],
-                "maxRank": 4,
+                "maxRank": 2,
                 "source": "Hag Bloodline",
                 "type": "Skill"
             },
@@ -16801,7 +16801,7 @@
                         "source": "Imperial Bloodline"
                     }
                 ],
-                "maxRank": 4,
+                "maxRank": 2,
                 "source": "Imperial Bloodline",
                 "type": "Skill"
             },
@@ -17437,7 +17437,7 @@
                         "source": "Undead Bloodline"
                     }
                 ],
-                "maxRank": 4,
+                "maxRank": 2,
                 "source": "Undead Bloodline",
                 "type": "Skill"
             },

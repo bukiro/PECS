@@ -47,7 +47,7 @@
                         <span *ngIf="choice.showOnCurrentLevel">This feat choice is always available on your current
                             character level. This could change the number of available feats at a later time.</span>
                     </div>
-                    <div title="{{(get_ShowFeat()==choice.id+featSet.feat.name+'desc') ? '' : featSet.feat.shortdesc}}" class="list-item" *ngFor="let featSet of featSets; trackBy:trackByIndex;" [ngClass]="{'unavailable':(!featSet.available), 'selected':(featTakenByThis(featSet.feat, choice) || subFeatTakenByThis(featSet.feat, choice))}">
+                    <div title="{{(get_ShowFeat()==choice.id+featSet.feat.name+'desc') ? '' : featSet.feat.shortdesc}}" class="list-item" *ngFor="let featSet of featSets; trackBy:trackByIndex;" [ngClass]="{'unavailable':(!featSet.available), 'selected':(featTakenByThis(featSet.feat, choice) || subFeatTakenByThis(undefined, featSet.feat, choice))}">
                         <div class="newrow left-aligned" style="justify-content: flex-end;" *ngFor="let itemID of [choice.id+featSet.feat.name+'desc']; trackBy:trackByIndex;">
                             <span style="flex-grow:2">
                                 <input *ngIf="!featSet.feat.subTypes && featSet.available"
@@ -56,7 +56,7 @@
                                     [checked]="featTakenByThis(featSet.feat, choice)"
                                     [disabled]="((get_Available(choice) <= choice.feats.length) && !featTakenByThis(featSet.feat, choice))">
                                 <button class="lower left" *ngIf="featSet.feat.subTypes"
-                                    [ngClass]="{'fancy-button':(subFeatTakenByThis(featSet.feat, choice))}"
+                                    [ngClass]="{'fancy-button':(subFeatTakenByThis(undefined, featSet.feat, choice))}"
                                     id="{{choice.id+featSet.feat.name}}" (click)="toggle_Feat(itemID)">v</button>
                                 <label for="{{choice.id+featSet.feat.name}}">
                                     <strong>{{["General", "Skill"].includes(choice.type) && featSet.feat.skillreq.length
