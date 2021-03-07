@@ -15082,7 +15082,21 @@
         "targets": "1 door, lock or container",
         "singleTarget": true,
         "duration": "1 minute",
-        "desc": "You make the target easier to open. Knock grants a +4 status bonus to any creature that tries to open the target door, lock, or container with an Athletics or a Thievery check. You can attempt a Thievery check to open the target as part of casting knock, and you add your level even if you're untrained.\n\nKnock counteracts lock."
+        "desc": "You make the target easier to open. Knock grants a +4 status bonus to any creature that tries to open the target door, lock, or container with an Athletics or a Thievery check. You can attempt a Thievery check to open the target as part of casting knock, and you add your level even if you're untrained.\n\nKnock counteracts lock.",
+        "gainConditions": [
+            {
+                "duration": 100,
+                "name": "Knock",
+                "source": "Knock",
+                "targetFilter": "caster"
+            },
+            {
+                "duration": 1,
+                "name": "Knock (Caster)",
+                "source": "Knock",
+                "targetFilter": "caster"
+            }
+        ]
     },
     {
         "name": "Magic Mouth",

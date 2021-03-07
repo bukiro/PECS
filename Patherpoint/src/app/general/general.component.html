@@ -20,7 +20,7 @@
                 <strong>Character Name</strong>
                 <span>{{get_Character().name}}</span>
             </div>
-            <div class="list-item" *ngIf="get_Character().class.ancestry.name">
+            <div class="fullsize-only list-item" *ngIf="get_Character().class.ancestry.name">
                 <strong>Ancestry</strong>
                 <span>{{get_Character().class.ancestry.name}}{{(get_Character().class.heritage.name) ? " - " + get_Character().class.heritage.name : ""}}</span>
                 <div class="newrow left-aligned" *ngIf="get_Character().class.ancestry.traits.length">

@@ -25,6 +25,8 @@ export class HintComponent implements OnInit {
         popoverConfig.placement = "auto";
         popoverConfig.autoClose = "outside";
         popoverConfig.triggers = "hover:click";
+        //For touch compatibility, this opendelay prevents the popover from closing immediately because a tap equals to hover and then click;
+        popoverConfig.openDelay = 100;
         popoverConfig.container = "body";
         popoverConfig.popoverClass = "list-item sublist"
     }

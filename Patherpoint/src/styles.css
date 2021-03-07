@@ -141,6 +141,7 @@ app-familiarabilities.charactersheet-app {
     justify-content: center;
     align-items: center;
     height: fit-content;
+    flex-wrap: wrap;
 }
 
 app-newItemProperty {
@@ -890,7 +891,7 @@ app-gridicon .gridicon-time-overlay:before {
     transform-origin: 50% 0;
 }
 
-.transition5, app-gridicon .gridicon-overlay.transition5:before {
+.transition5, app-gridicon .gridicon-time-overlay.transition5:before {
     transition: all .5s ease-out;
 }
 

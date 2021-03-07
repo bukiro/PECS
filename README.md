@@ -115,10 +115,8 @@ The very latest in Assistive Technologies for Dungeon Master (ATDM)
 Active to-do:
 - Implement bootstrap tooltips instead of titles everywhere
 - Implement full information in tooltips after time, if possible (apparently not)
-- Make all component refresh checks case-insensitive (i.e. turn everything into lowercase)
 
 Implement:
-- Condition for Knock
 
 Next steps:
 - 5th level spells

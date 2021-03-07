@@ -16143,5 +16143,51 @@
         "minLevel": 5,
         "radius": 30,
         "buff": true
+    },
+    {
+        "name": "Knock",
+        "desc": "Knock has made the target door, lock or container easier to open. Knock grants a +4 status bonus to any creature that tries to open the target door, lock, or container with an Athletics or a Thievery check.",
+        "type": "spells",
+        "minLevel": 2,
+        "buff": true,
+        "hints": [
+            {
+                "desc": "Knock grants a +4 status bonus to any creature that tries to open the target door, lock, or container with an Athletics or a Thievery check.",
+                "showon": "Athletics, Thievery",
+                "effects": [
+                    {
+                        "affected": "Athletics",
+                        "type": "status",
+                        "value": "4"
+                    },
+                    {
+                        "affected": "Thievery",
+                        "type": "status",
+                        "value": "4"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Knock (Caster)",
+        "desc": "You can attempt a Thievery check to open the target as part of casting knock, and you add your level even if you're untrained.",
+        "type": "spells",
+        "minLevel": 2,
+        "buff": true,
+        "hide": true,
+        "hints": [
+            {
+                "desc": "If you attempt a Thievery check to open the target door, lock or container as part of casting knock, you add your level even if you're untrained.",
+                "showon": "Thievery",
+                "effects": [
+                    {
+                        "affected": "Thievery",
+                        "type": "proficiency",
+                        "value": "Skill_Level('Thievery') == 0 ? Level : 0"
+                    }
+                ]
+            }
+        ]
     }
 ]

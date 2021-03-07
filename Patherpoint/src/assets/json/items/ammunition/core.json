@@ -122,6 +122,7 @@
     },
     {
         "desc": "Leafy stalks protrude from the shaft of this rustic arrow. When an activated vine arrow hits a target, the arrow's shaft splits and grows, wrapping the target in vines. The target takes a –10-foot circumstance penalty to its Speeds for 2d4 rounds, or until it Escapes against a DC of 19. On a critical hit, the target is also immobilized until it Escapes.",
+        "actions": "1A",
         "activationType": "Command",
         "id": "c6e4d7b3-9dee-43ef-b3a1-ba371cfc13c6",
         "levelreq": 3,
@@ -137,6 +138,7 @@
     },
     {
         "desc": "The shaft of this arrow is covered in fine green scales, and its iron head comes to a pair of points almost like fangs. After an activated viper arrow hits a target, the arrow transforms into a viper (Pathfinder Bestiary 302). The target is affected by the viper's poison, as if it had been bitten. The viper then lands in an open space adjacent to the target.\n\nThe viper has the summoned trait and acts at the end of your turn, even though you didn't use the Sustain a Spell action. It is under the GM's control, but it generally attacks the creature the arrow struck. The viper vanishes after 1 minute or when slain.",
+        "actions": "1A",
         "activationType": "Command",
         "craftRequirement": "Supply one casting of summon animal.",
         "id": "bafaccca-4d31-46f8-89cc-e39216392792",

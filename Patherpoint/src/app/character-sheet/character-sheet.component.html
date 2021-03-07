@@ -27,16 +27,19 @@
                     [ngClass]="{'minimized':(get_DefenseMinimized())}" *ngIf="(get_ShowMode() == 'Encounter')">
                 </app-defense>
                 <app-health id="Character-health" class="charactersheet-app" [sheetSide]="'left'"
-                    [showMinimizeButton]="(get_ShowMode() == 'Downtime')"
+                    [showMinimizeButton]="(get_ShowMode() != 'Downtime')"
                     [ngClass]="{'minimized':(get_HealthMinimized() || (get_ShowMode() == 'Downtime'))}"></app-health>
-                <app-general id="Character-general" [showMinimizeButton]="false" [sheetSide]="'left'"
-                    class="charactersheet-app minimized" *ngIf="(get_ShowMode() == 'Encounter')"></app-general>
+                <app-general id="Character-general" class="charactersheet-app" [sheetSide]="'left'"
+                    [ngClass]="{'minimized':(get_GeneralMinimized())}" *ngIf="(get_ShowMode() == 'Encounter')">
+                </app-general>
                 <app-abilities id="Character-abilities" class="charactersheet-app" [sheetSide]="'left'"
                     [ngClass]="{'minimized':(get_AbilitiesMinimized())}"></app-abilities>
                 <app-skills id="Character-skills" class="charactersheet-app" [sheetSide]="'left'"
-                    [ngClass]="{'minimized':(get_SkillsMinimized())}" *ngIf="(get_ShowMode() == '')"></app-skills>
+                    [ngClass]="{'minimized':(get_SkillsMinimized())}"
+                    *ngIf="['', 'Encounter'].includes(get_ShowMode())"></app-skills>
                 <app-activities id="Character-activities" class="charactersheet-app" [sheetSide]="'left'"
-                    [ngClass]="{'minimized':(get_ActivitiesMinimized())}" *ngIf="(get_ShowMode() == '')">
+                    [ngClass]="{'minimized':(get_ActivitiesMinimized())}"
+                    *ngIf="['', 'Encounter'].includes(get_ShowMode())">
                 </app-activities>
                 <app-spellbook id="spellbook" class="charactersheet-app" [sheetSide]="'left'"
                     [ngClass]="{'minimized':(get_SpellbookMinimized())}" *ngIf="(get_ShowMode() == 'Downtime')">
@@ -58,11 +61,9 @@
                         *ngIf="['','Encounter'].includes(get_ShowMode()) && get_ClassOrder('spells') == index">
                     </app-spellbook>
                 </ng-container>
-                <app-skills id="Character-skills" class="charactersheet-app" [sheetSide]="'right'"
-                    [ngClass]="{'minimized':(get_SkillsMinimized())}" *ngIf="(get_ShowMode() == 'Encounter')">
-                </app-skills>
                 <app-activities id="Character-activities" class="charactersheet-app" [sheetSide]="'right'"
-                    [ngClass]="{'minimized':(get_ActivitiesMinimized())}" *ngIf="(get_ShowMode() != '')">
+                    [ngClass]="{'minimized':(get_ActivitiesMinimized())}"
+                    *ngIf="!['', 'Encounter'].includes(get_ShowMode())">
                 </app-activities>
                 <app-spellbook id="spellbook" class="charactersheet-app" [sheetSide]="'right'"
                     [ngClass]="{'minimized':(get_SpellbookMinimized())}" *ngIf="(get_ShowMode() == 'Exploration')">

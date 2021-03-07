@@ -58,7 +58,7 @@
     <app-tags [creature]="creature" [objectName]="'Effects'" [showTraits]=true [showFeats]=true [showItems]=true
         [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
     <div [ngClass]="{'charactersheet-column-container padding-8':!fullDisplay}">
-        <div [ngClass]="{'charactersheet-column':!fullDisplay}">
+        <div>
             <header class="subsectionHeader" *ngIf="fullDisplay">
                 Active Conditions
             </header>
@@ -73,7 +73,7 @@
                 </ng-container>
             </div>
         </div>
-        <div [ngClass]="{'charactersheet-column':!fullDisplay}">
+        <div>
             <header class="subsectionHeader" *ngIf="fullDisplay">
                 Active Effects
             </header>
