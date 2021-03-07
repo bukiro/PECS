@@ -4,6 +4,8 @@ import { TraitsService } from '../traits.service';
 import { EffectsService } from '../effects.service';
 import { Effect } from '../Effect';
 import { Hint } from '../Hint';
+import { NgbPopoverConfig } from '@ng-bootstrap/ng-bootstrap';
+import { TimeService } from '../time.service';
 
 @Component({
     selector: 'app-tags',
@@ -39,8 +41,18 @@ export class TagsComponent implements OnInit {
         private changeDetector: ChangeDetectorRef,
         public characterService: CharacterService,
         private traitsService: TraitsService,
-        private effectsService: EffectsService
-    ) { }
+        private effectsService: EffectsService,
+        private timeService: TimeService,
+        popoverConfig: NgbPopoverConfig
+    ) {
+        popoverConfig.placement = "auto";
+        popoverConfig.autoClose = "outside";
+        popoverConfig.triggers = "hover:click";
+        //For touch compatibility, this openDelay prevents the popover from closing immediately on tap because a tap amounts to hover and then click;
+        popoverConfig.openDelay = 100;
+        popoverConfig.container = "body";
+        popoverConfig.popoverClass = "list-item sublist";
+    }
     
     still_loading() {
         return this.characterService.still_loading();
@@ -52,6 +64,10 @@ export class TagsComponent implements OnInit {
     
     get_Creature() {
         return this.characterService.get_Creature(this.creature);
+    }
+
+    get_Duration(duration: number) {
+        return this.timeService.get_Duration(duration);
     }
 
     get_TraitsForThis(name: string) {

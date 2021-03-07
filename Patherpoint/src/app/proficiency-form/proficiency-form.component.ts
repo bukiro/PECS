@@ -3,6 +3,7 @@ import { Skill } from '../Skill';
 import { CharacterService } from '../character.service';
 import { AnimalCompanion } from '../AnimalCompanion';
 import { Character } from '../Character';
+import { NgbTooltipConfig } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
     selector: 'app-proficiency-form',
@@ -24,8 +25,14 @@ export class ProficiencyFormComponent implements OnInit {
     excludeTemporary: boolean = false;
 
     constructor(
-        private changeDetector: ChangeDetectorRef
-    ) { }
+        private changeDetector: ChangeDetectorRef,
+        tooltipConfig: NgbTooltipConfig
+    ) {
+        tooltipConfig.triggers = "hover:click";
+        //For touch compatibility, this openDelay prevents the tooltip from closing immediately on tap because a tap amounts to hover and then click;
+        tooltipConfig.openDelay = 100;
+        tooltipConfig.container = "body";
+    }
 
     trackByIndex(index: number, obj: any): any {
         return index;
@@ -37,10 +44,10 @@ export class ProficiencyFormComponent implements OnInit {
 
     get_Levels() {
         return [
-            {value:2, key:"T", title:"Trained"},
-            {value:4, key:"E", title:"Expert"},
-            {value:6, key:"M", title:"Master"},
-            {value:8, key:"L", title:"Legendary"}
+            { value: 2, key: "T", title: "Trained" },
+            { value: 4, key: "E", title: "Expert" },
+            { value: 6, key: "M", title: "Master" },
+            { value: 8, key: "L", title: "Legendary" }
         ]
     }
 

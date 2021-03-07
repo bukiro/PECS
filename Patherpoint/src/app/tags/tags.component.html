@@ -1,54 +1,109 @@
 <div class="fullsize-only newrow left-aligned">
     <ng-container *ngFor="let trait of get_TraitsForThis(objectName); trackBy:trackByIndex;">
-        <app-hint [creature]="creature" [ngClass]="'trait'" [object]="trait" [objectName]="objectName" [description]="trait.name +' ('+ trait.haveOn(get_Creature(), this.characterService, true) + ')'"></app-hint>
+        <app-hint [creature]="creature" [ngClass]="'trait'" [object]="trait" [objectName]="objectName"
+            [description]="trait.name +' ('+ trait.haveOn(get_Creature(), this.characterService, true) + ')'">
+        </app-hint>
     </ng-container>
     <ng-container *ngFor="let specialName of specialNames; trackBy:trackByIndex;">
         <ng-container *ngFor="let trait of get_TraitsForThis(specialName); trackBy:trackByIndex;">
-            <app-hint [creature]="creature" [ngClass]="'trait'" [object]="trait" [objectName]="specialName" [description]="trait.name +' ('+ trait.haveOn(get_Creature(), this.characterService, true) + ')'"></app-hint>
+            <app-hint [creature]="creature" [ngClass]="'trait'" [object]="trait" [objectName]="specialName"
+                [description]="trait.name +' ('+ trait.haveOn(get_Creature(), this.characterService, true) + ')'">
+            </app-hint>
         </ng-container>
     </ng-container>
     <ng-container *ngFor="let feat of get_FeatsShowingOn(objectName, showFeats); trackBy:trackByIndex;">
-        <app-hint [creature]="creature" [ngClass]="'feat'" [object]="feat" [objectName]="objectName" [description]="feat.name"></app-hint>
+        <app-hint [creature]="creature" [ngClass]="'feat'" [object]="feat" [objectName]="objectName"
+            [description]="feat.name"></app-hint>
     </ng-container>
     <ng-container *ngFor="let specialName of specialNames; trackBy:trackByIndex;">
         <ng-container *ngFor="let feat of get_FeatsShowingOn(specialName, true); trackBy:trackByIndex;">
-            <app-hint [creature]="creature" [ngClass]="'feat'" [object]="feat" [objectName]="specialName" [description]="feat.name"></app-hint>
+            <app-hint [creature]="creature" [ngClass]="'feat'" [object]="feat" [objectName]="specialName"
+                [description]="feat.name"></app-hint>
         </ng-container>
     </ng-container>
     <ng-container *ngFor="let item of get_ItemsShowingOn(objectName); trackBy:trackByIndex;">
-        <app-hint [creature]="creature" [ngClass]="'item'" [object]="item" [objectName]="objectName" [description]="item.name"></app-hint>
+        <app-hint [creature]="creature" [ngClass]="'item'" [object]="item" [objectName]="objectName"
+            [description]="item.name"></app-hint>
     </ng-container>
     <ng-container *ngFor="let specialName of specialNames; trackBy:trackByIndex;">
         <ng-container *ngFor="let item of get_ItemsShowingOn(specialName); trackBy:trackByIndex;">
-            <app-hint [creature]="creature" [ngClass]="'item'" [object]="item" [objectName]="specialName" [description]="item.name"></app-hint>
+            <app-hint [creature]="creature" [ngClass]="'item'" [object]="item" [objectName]="specialName"
+                [description]="item.name"></app-hint>
         </ng-container>
     </ng-container>
     <ng-container *ngFor="let spec of get_SpecializationsShowingOn(objectName); trackBy:trackByIndex;">
-        <app-hint [creature]="creature" [ngClass]="'item'" [object]="spec" [objectName]="objectName" [description]="spec.name"></app-hint>
+        <app-hint [creature]="creature" [ngClass]="'item'" [object]="spec" [objectName]="objectName"
+            [description]="spec.name"></app-hint>
     </ng-container>
     <ng-container *ngFor="let specialName of specialNames; trackBy:trackByIndex;">
         <ng-container *ngFor="let spec of get_SpecializationsShowingOn(specialName); trackBy:trackByIndex;">
-            <app-hint [creature]="creature" [ngClass]="'item'" [object]="spec" [objectName]="specialName" [description]="spec.name"></app-hint>
+            <app-hint [creature]="creature" [ngClass]="'item'" [object]="spec" [objectName]="specialName"
+                [description]="spec.name"></app-hint>
         </ng-container>
     </ng-container>
     <ng-container *ngFor="let activity of get_ActivitiesShowingOn(objectName); trackBy:trackByIndex;">
-        <app-hint [creature]="creature" [ngClass]="'activity'" [object]="activity" [objectName]="objectName" [description]="activity.name"></app-hint>
+        <app-hint [creature]="creature" [ngClass]="'activity'" [object]="activity" [objectName]="objectName"
+            [description]="activity.name"></app-hint>
     </ng-container>
     <ng-container *ngFor="let specialName of specialNames; trackBy:trackByIndex;">
         <ng-container *ngFor="let activity of get_ActivitiesShowingOn(specialName); trackBy:trackByIndex;">
-            <app-hint [creature]="creature" [ngClass]="'activity'" [object]="activity" [objectName]="specialName" [description]="activity.name"></app-hint>
+            <app-hint [creature]="creature" [ngClass]="'activity'" [object]="activity" [objectName]="specialName"
+                [description]="activity.name"></app-hint>
         </ng-container>
     </ng-container>
     <ng-container *ngFor="let condition of get_ConditionsShowingOn(objectName); trackBy:trackByIndex;">
-        <app-hint [creature]="creature" [ngClass]="'condition'" [object]="condition" [objectName]="objectName" [description]="condition.name"></app-hint>
+        <app-hint [creature]="creature" [ngClass]="'condition'" [object]="condition" [objectName]="objectName"
+            [description]="condition.name"></app-hint>
     </ng-container>
     <ng-container *ngFor="let specialName of specialNames; trackBy:trackByIndex;">
         <ng-container *ngFor="let condition of get_ConditionsShowingOn(specialName); trackBy:trackByIndex;">
-            <app-hint [creature]="creature" [ngClass]="'condition'" [object]="condition" [objectName]="specialName" [description]="condition.name"></app-hint>
+            <app-hint [creature]="creature" [ngClass]="'condition'" [object]="condition" [objectName]="specialName"
+                [description]="condition.name"></app-hint>
         </ng-container>
     </ng-container>
-    <cite class="effect" *ngFor="let effect of get_EffectsOnThis(objectName); trackBy:trackByIndex;" [ngClass]="{'penalty':effect.penalty, 'bonus':!effect.penalty && !effect.setValue, 'absolute':effect.setValue}" title="{{effect.type != 'untyped' ? effect.type + (effect.penalty ? ' penalty' : ' bonus') : ''}}">{{parseInt(effect.value) ? effect.value : ''}}{{effect.setValue ? effect.setValue : ''}}
-        ({{effect.source}})&nbsp;</cite>
-    <cite class="effect" *ngFor="let effect of specialEffects; trackBy:trackByIndex;" [ngClass]="{'penalty':effect.penalty, 'bonus':!effect.penalty && !effect.setValue, 'absolute':effect.setValue}" title="{{effect.type != 'untyped' ? effect.type + (effect.penalty ? ' penalty' : ' bonus') : ''}}">{{parseInt(effect.value) ? effect.value : ''}}{{effect.setValue ? effect.setValue : ''}}
-        ({{effect.source}})&nbsp;</cite>
+    <ng-template #effectTemplate let-effect="effect">
+        <div class="newrow">
+            <span>
+                <strong
+                    [ngClass]="{'penalty':effect.penalty, 'bonus':!effect.penalty && !effect.setValue, 'absolute':effect.setValue}">{{effect.target}}
+                    {{parseInt(effect.value) ? effect.value : ''}}{{effect.setValue ? "= "+effect.setValue : ''}}
+                </strong>
+            </span>
+        </div>
+        <div class="newrow" *ngIf="effect.type != 'untyped' && !effect.toggle && !effect.setValue">
+            <span>
+                <strong>Type</strong> {{effect.type + " " + (effect.penalty ? 'penalty' : 'bonus')}}</span>
+        </div>
+        <div class="newrow" *ngIf="effect.duration">
+            <span>
+                <strong>Duration</strong> {{effect.duration ? get_Duration(effect.duration) : ''}}
+            </span>
+        </div>
+        <div class="newrow">
+            <span><strong>Source&nbsp;</strong>{{effect.source.includes('conditional, ') ? effect.source.substr(13) : effect.source}}</span>
+        </div>
+        <div class="newrow" *ngIf="effect.source.includes('conditional, ')">
+            <span><strong>Conditional&nbsp;</strong>This effect only applies for certain actions or under specific circumstances.</span>
+        </div>
+    </ng-template>
+    <ng-container *ngFor="let effect of get_EffectsOnThis(objectName); trackBy:trackByIndex;">
+        <ng-template #effectPopover>
+            <ng-container *ngTemplateOutlet="effectTemplate;context:{effect:effect}"></ng-container>
+        </ng-template>
+        <cite class="effect"
+            [ngClass]="{'penalty':effect.penalty, 'bonus':!effect.penalty && !effect.setValue, 'absolute':effect.setValue}"
+            [ngbPopover]="effectPopover">{{parseInt(effect.value)
+            ? effect.value : ''}}{{effect.setValue ? effect.setValue : ''}}
+            ({{effect.source}})&nbsp;</cite>
+    </ng-container>
+    <ng-container *ngFor="let effect of specialEffects; trackBy:trackByIndex;">
+        <ng-template #effectPopover>
+            <ng-container *ngTemplateOutlet="effectTemplate;context:{effect:effect}"></ng-container>
+        </ng-template>
+        <cite class="effect"
+            [ngClass]="{'penalty':effect.penalty, 'bonus':!effect.penalty && !effect.setValue, 'absolute':effect.setValue}"
+            [ngbPopover]="effectPopover">{{parseInt(effect.value)
+            ? effect.value : ''}}{{effect.setValue ? effect.setValue : ''}}
+            ({{effect.source}})&nbsp;</cite>
+    </ng-container>
 </div>

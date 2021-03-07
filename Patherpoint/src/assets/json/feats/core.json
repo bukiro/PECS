@@ -5907,7 +5907,7 @@
             "showon": "Performance",
             "effects": [{
                 "affected": "Performance",
-                "value": "1",
+                "value": "Skill_Level('Performance') >= 6 ? 2: 1",
                 "type": "circumstance"
             }]
         }],
@@ -5932,7 +5932,7 @@
             "showon": "Performance",
             "effects": [{
                 "affected": "Performance",
-                "value": "1",
+                "value": "Skill_Level('Performance') >= 6 ? 2: 1",
                 "type": "circumstance"
             }]
         }],
@@ -5957,7 +5957,7 @@
             "showon": "Performance",
             "effects": [{
                 "affected": "Performance",
-                "value": "1",
+                "value": "Skill_Level('Performance') >= 6 ? 2: 1",
                 "type": "circumstance"
             }]
         }],
@@ -5982,7 +5982,7 @@
             "showon": "Performance",
             "effects": [{
                 "affected": "Performance",
-                "value": "1",
+                "value": "Skill_Level('Performance') >= 6 ? 2: 1",
                 "type": "circumstance"
             }]
         }],
@@ -6007,7 +6007,7 @@
             "showon": "Performance",
             "effects": [{
                 "affected": "Performance",
-                "value": "1",
+                "value": "Skill_Level('Performance') >= 6 ? 2: 1",
                 "type": "circumstance"
             }]
         }],
@@ -6032,7 +6032,7 @@
             "showon": "Performance",
             "effects": [{
                 "affected": "Performance",
-                "value": "1",
+                "value": "Skill_Level('Performance') >= 6 ? 2: 1",
                 "type": "circumstance"
             }]
         }],
@@ -6057,7 +6057,7 @@
             "showon": "Performance",
             "effects": [{
                 "affected": "Performance",
-                "value": "1",
+                "value": "Skill_Level('Performance') >= 6 ? 2: 1",
                 "type": "circumstance"
             }]
         }],
@@ -6082,7 +6082,7 @@
             "showon": "Performance",
             "effects": [{
                 "affected": "Performance",
-                "value": "1",
+                "value": "Skill_Level('Performance') >= 6 ? 2: 1",
                 "type": "circumstance"
             }]
         }],
@@ -6107,7 +6107,7 @@
             "showon": "Performance",
             "effects": [{
                 "affected": "Performance",
-                "value": "1",
+                "value": "Skill_Level('Performance') >= 6 ? 2: 1",
                 "type": "circumstance"
             }]
         }],

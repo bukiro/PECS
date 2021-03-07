@@ -6,6 +6,7 @@ import { AbilitiesService } from '../abilities.service';
 import { EffectsService } from '../effects.service';
 import { Skill } from '../Skill';
 import { v1 as uuidv1 } from 'uuid';
+import { NgbPopoverConfig, NgbTooltipConfig } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
     selector: 'app-skill',
@@ -31,16 +32,30 @@ export class SkillComponent implements OnInit {
         public skillsService: SkillsService,
         public traitsService: TraitsService,
         public effectsService: EffectsService,
-    ) { }
+        popoverConfig: NgbPopoverConfig,
+        tooltipConfig: NgbTooltipConfig
+    ) {
+        popoverConfig.placement = "auto";
+        popoverConfig.autoClose = "outside";
+        popoverConfig.triggers = "hover:click";
+        //For touch compatibility, this openDelay prevents the popover from closing immediately on tap because a tap amounts to hover and then click;
+        popoverConfig.openDelay = 100;
+        popoverConfig.container = "body";
+        popoverConfig.popoverClass = "list-item sublist";
+        tooltipConfig.triggers = "hover:click";
+        //For touch compatibility, this openDelay prevents the tooltip from closing immediately on tap because a tap amounts to hover and then click;
+        tooltipConfig.openDelay = 100;
+        tooltipConfig.container = "body";
+    }
 
     get_Skills(name: string = "", type: string = "") {
         return this.characterService.get_Skills(this.get_Creature(), name, type);
     }
-    
+
     trackByIndex(index: number, obj: any): any {
         return index;
     }
-    
+
     get_CalculatedIndex() {
         switch (this.creature) {
             case "Character":
@@ -102,32 +117,32 @@ export class SkillComponent implements OnInit {
 
     finish_Loading() {
         if (this.still_loading()) {
-           setTimeout(() => this.finish_Loading(), 500)
+            setTimeout(() => this.finish_Loading(), 500)
         } else {
             this.characterService.get_Changed()
-            .subscribe((target) => {
-                if (["individualskills", "all", this.creature.toLowerCase(), this.skill.name.toLowerCase()].includes(target.toLowerCase())) {
-                    this.changeDetector.detectChanges();
-                }
-            });
+                .subscribe((target) => {
+                    if (["individualskills", "all", this.creature.toLowerCase(), this.skill.name.toLowerCase()].includes(target.toLowerCase())) {
+                        this.changeDetector.detectChanges();
+                    }
+                });
             this.characterService.get_ViewChanged()
-            .subscribe((view) => {
-                if (view.creature == this.creature &&
-                    (
-                        view.target == "all" ||
-                        (view.target == "individualskills" &&
-                            (
-                                [this.skill.name.toLowerCase(), this.skill.ability.toLowerCase(), "all"].includes(view.subtarget.toLowerCase()) ||
+                .subscribe((view) => {
+                    if (view.creature == this.creature &&
+                        (
+                            view.target == "all" ||
+                            (view.target == "individualskills" &&
                                 (
-                                    this.get_Name(this.skill).toLowerCase().includes("attacks") &&
-                                    view.subtarget == "attacks"
+                                    [this.skill.name.toLowerCase(), this.skill.ability.toLowerCase(), "all"].includes(view.subtarget.toLowerCase()) ||
+                                    (
+                                        this.get_Name(this.skill).toLowerCase().includes("attacks") &&
+                                        view.subtarget == "attacks"
+                                    )
                                 )
                             )
-                        )
-                    )) {
-                    this.changeDetector.detectChanges();
-                }
-            });
+                        )) {
+                        this.changeDetector.detectChanges();
+                    }
+                });
             return true;
         }
     }

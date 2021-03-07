@@ -762,11 +762,17 @@ header.spellHeader app-actionicons .actionIcon {
 }
 
 ngb-popover-window {
-    max-height:100%;
+    max-height: 90vh;
     overflow-y: auto;
 }
 
+ngb-popover-window.list-item.sublist {
+    max-height: 90vh;
+    width: auto;
+}
+
 .popover {
+    white-space: pre-line;
     max-width: 400px;
     background-color: #E0E0E0;
 }

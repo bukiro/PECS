@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { NgbPopoverConfig } from '@ng-bootstrap/ng-bootstrap';
+import { NgbPopoverConfig, NgbTooltipConfig } from '@ng-bootstrap/ng-bootstrap';
 import { CharacterService } from 'src/app/character.service';
 import { Hint } from 'src/app/Hint';
 
@@ -17,18 +17,22 @@ export class HintComponent implements OnInit {
     @Input()
     objectName: string = "";
     @Input()
-    className: string = "";
-    @Input()
     description: string = "";
 
-    constructor(private characterService: CharacterService, popoverConfig: NgbPopoverConfig)  {
+    constructor(
+        private characterService: CharacterService,
+        popoverConfig: NgbPopoverConfig,
+        tooltipConfig: NgbTooltipConfig
+    ) {
         popoverConfig.placement = "auto";
         popoverConfig.autoClose = "outside";
         popoverConfig.triggers = "hover:click";
-        //For touch compatibility, this opendelay prevents the popover from closing immediately because a tap equals to hover and then click;
+        //For touch compatibility, this openDelay prevents the popover from closing immediately on tap because a tap amounts to hover and then click;
         popoverConfig.openDelay = 100;
         popoverConfig.container = "body";
-        popoverConfig.popoverClass = "list-item sublist"
+        popoverConfig.popoverClass = "list-item sublist";
+        tooltipConfig.container = "body";
+        tooltipConfig.triggers = "hover";
     }
 
     trackByIndex(index: number, obj: any): any {

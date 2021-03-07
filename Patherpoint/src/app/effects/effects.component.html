@@ -26,19 +26,26 @@
                 <span>
                     <strong
                         [ngClass]="{'penalty':effect.penalty, 'bonus':!effect.penalty && !effect.setValue, 'absolute':effect.setValue}">{{effect.target}}
-                        {{parseInt(effect.value) ? effect.value : ''}}{{effect.setValue ? "= "+effect.setValue :
-                        ''}}
+                        {{parseInt(effect.value) ? effect.value : ''}}{{effect.setValue ? "= "+effect.setValue : ''}}
                     </strong>
-                    <span *ngIf="effect.type != 'untyped' && !effect.toggle && !effect.setValue">{{effect.type +
-                        " "
-                        +
-                        (effect.penalty ? 'penalty' : 'bonus')}}</span> {{effect.duration ? "(" +
-                    get_Duration(effect.duration)
-                    + ")" : ''}}
+                </span>
+            </div>
+            <div class="newrow" *ngIf="effect.type != 'untyped' && !effect.toggle && !effect.setValue">
+                <span>
+                    <strong>Type</strong> {{effect.type + " " + (effect.penalty ? 'penalty' : 'bonus')}}</span>
+            </div>
+            <div class="newrow" *ngIf="effect.duration">
+                <span>
+                    <strong>Duration</strong> {{effect.duration ? get_Duration(effect.duration) : ''}}
                 </span>
             </div>
             <div class="newrow">
-                <span><strong>Source:&nbsp;</strong>{{effect.source}}</span>
+                <span><strong>Source&nbsp;</strong>{{effect.source.includes('conditional, ') ? effect.source.substr(13)
+                    : effect.source}}</span>
+            </div>
+            <div class="newrow" *ngIf="effect.source.includes('conditional, ')">
+                <span><strong>Conditional&nbsp;</strong>This effect only applies for certain actions or under specific
+                    circumstances.</span>
             </div>
         </ng-template>
         <app-gridIcon class="effect" [effect]="effect" placement="left bottom top"
