@@ -1,4 +1,5 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { NgbTooltipConfig } from '@ng-bootstrap/ng-bootstrap';
 import { CharacterService } from '../character.service';
 
 @Component({
@@ -12,8 +13,14 @@ export class DiceComponent implements OnInit {
     public diceNum: number = 5;
 
     constructor(
-        private characterService: CharacterService
-    ) { }
+        private characterService: CharacterService,
+        tooltipConfig: NgbTooltipConfig
+    ) {
+        tooltipConfig.container = "body";
+        //For touch compatibility, this openDelay prevents the tooltip from closing immediately on tap because a tap counts as hover and then click;
+        tooltipConfig.openDelay = 1;
+        tooltipConfig.triggers = "hover:click";
+    }
 
     toggleDiceMenu() {
         this.characterService.toggle_Menu("dice");

@@ -10,7 +10,6 @@ import { ConditionGain } from './ConditionGain';
 import { ItemGain } from './ItemGain';
 import { Character } from './Character';
 import { AnimalCompanion } from './AnimalCompanion';
-import { Familiar } from './Familiar';
 import { SpellsService } from './spells.service';
 import { SpellCast } from './SpellCast';
 import { ConditionsService } from './conditions.service';
@@ -264,29 +263,32 @@ export class ActivitiesService {
 
     tick_Activities(creature: Creature, characterService: CharacterService, conditionsService: ConditionsService, itemsService: ItemsService, spellsService: SpellsService, turns: number = 10) {
         characterService.get_OwnedActivities(creature, undefined, true).filter(gain => gain.activeCooldown || gain.duration).forEach(gain => {
-            //Tick down the duration and the cooldown by the amount of turns. Reduce the turns by the amount you took from the duration, then apply the rest to the cooldown.
-            let activityTurns = turns;
+            //Tick down the duration and the cooldown by the amount of turns.
+            let activity: Activity|ItemActivity;
+            if (gain.constructor == ItemActivity) {
+                activity = gain as ItemActivity;
+                characterService.set_ToChange(creature.type, "inventory");
+            } else {
+                activity = this.get_Activities(gain.name)[0];
+            }
+            // Reduce the turns by the amount you took from the duration, then apply the rest to the cooldown.
+            let remainingTurns = turns;
             characterService.set_ToChange(creature.type, "activities");
             if (gain.duration > 0) {
-                let difference = Math.min(gain.duration, activityTurns);
+                let difference = Math.min(gain.duration, remainingTurns);
                 gain.duration -= difference;
-                activityTurns -= difference;
+                remainingTurns -= difference;
                 if (gain.duration == 0) {
-                    let activity: Activity|ItemActivity
-                    if (gain.constructor == ItemActivity) {
-                        activity = gain as ItemActivity;
-                        characterService.set_ToChange(creature.type, "inventory");
-                    } else {
-                        activity = this.get_Activities(gain.name)[0];
-                    }
                     if (activity) {
                         this.activate_Activity(creature, creature.type, characterService, conditionsService, itemsService, spellsService, gain, activity, false, false);
                     }
                 }
             }
             //Only if the activity has a cooldown active, reduce the cooldown and restore charges. If the activity does not have a cooldown, the charges are permanently spent.
+            //If the activity has cooldownAfterEnd, only the remaining turns are applied.
+            let cooldownTurns = activity.cooldownAfterEnd ? remainingTurns : turns;
             if (gain.activeCooldown) {
-                gain.activeCooldown = Math.max(gain.activeCooldown - activityTurns, 0)
+                gain.activeCooldown = Math.max(gain.activeCooldown - cooldownTurns, 0)
                 if (gain.chargesUsed && gain.activeCooldown == 0) {
                     gain.chargesUsed = 0;
                 }

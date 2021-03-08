@@ -183,7 +183,7 @@
                     <div class="newrow list-item"
                         *ngFor="let property of get_CustomEffectProperties(); let index = index; trackBy:trackByIndex;">
                         <div class="newrow left-aligned">
-                            <strong title="{{property.desc}}">{{property.name}}</strong>
+                            <strong [ngbPopover]="property.desc">{{property.name}}</strong>
                         </div>
                         <div class="newrow">
                             <input class="newrow" type="text" [(ngModel)]="newEffect[property.key]"
@@ -214,11 +214,14 @@
                             </select>
                         </div>
                     </div>
-                    <ng-container *ngFor="let creature of get_Creatures()">
-                        <button class="list-item newrow" (click)="add_Effect(creature)" title="{{get_EffectInvalid()}}"
-                            [disabled]="get_EffectInvalid()">
-                            <header class="sectionHeader">Add to {{creature.type}}</header>
-                        </button>
+                    <ng-container *ngFor="let creature of get_Creatures(); trackBy:trackByIndex"
+                        [ngbPopover]="get_EffectInvalid()">
+                        <div>
+                            <button class="list-item newrow" (click)="add_Effect(creature)"
+                                [disabled]="get_EffectInvalid()">
+                                <header class="sectionHeader">Add to {{creature.type}}</header>
+                            </button>
+                        </div>
                     </ng-container>
                 </div>
                 <ng-container *ngFor="let creature of get_Creatures()">
@@ -235,7 +238,7 @@
                                         <span>{{effectGain.source || "Custom effect"}}: </span>
                                         <strong
                                             [ngClass]="{'penalty':effectResult.penalty, 'bonus':!effectResult.penalty && !effectResult.setValue, 'absolute':effectResult.setValue}"
-                                            title="{{effectGain.setValue ? effectGain.setValue : (effectGain.value ? effectGain.value : '')}}">{{effectGain.affected}}
+                                            [ngbPopover]="effectGain.setValue ? effectGain.setValue : (effectGain.value ? effectGain.value : '')">{{effectGain.affected}}
                                             {{parseInt(effectResult.value) ? effectResult.value :
                                             ''}}{{effectResult.setValue ? "= "+effectResult.setValue : ''}}
                                         </strong>

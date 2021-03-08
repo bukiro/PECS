@@ -9,6 +9,7 @@ import { ItemsService } from 'src/app/items.service';
 import { TimeService } from 'src/app/time.service';
 import { TraitsService } from 'src/app/traits.service';
 import { Creature } from 'src/app/Creature';
+import { NgbTooltipConfig } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
     selector: 'app-condition',
@@ -35,8 +36,14 @@ export class ConditionComponent implements OnInit {
         private timeService: TimeService,
         private itemsService: ItemsService,
         private conditionsService: ConditionsService,
-        private traitsService: TraitsService
-    ) { }
+        private traitsService: TraitsService,
+        tooltipConfig: NgbTooltipConfig
+    ) {
+        tooltipConfig.container = "body";
+        //For touch compatibility, this openDelay prevents the tooltip from closing immediately on tap because a tap counts as hover and then click;
+        tooltipConfig.openDelay = 1;
+        tooltipConfig.triggers = "hover:click";
+    }
 
     toggle_Item(name: string) {
         if (this.showItem == name) {

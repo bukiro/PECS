@@ -432,6 +432,14 @@ export class CharacterService {
         document.documentElement.style.setProperty('--accent', this.get_Accent());
     }
 
+    set_Darkmode() {
+        if (this.get_Darkmode()) {
+            document.body.classList.add('darkmode');
+        } else {
+            document.body.classList.remove('darkmode');
+        }
+    }
+
     get_Classes(name: string) {
         return this.classesService.get_Classes(name);
     }
@@ -1936,6 +1944,7 @@ export class CharacterService {
             this.verify_Feats();
             this.timeService.set_YourTurn(this.get_Character().yourTurn);
             this.set_Accent();
+            this.set_Darkmode();
             this.trigger_FinalChange();
         }
     }

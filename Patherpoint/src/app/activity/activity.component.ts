@@ -15,6 +15,7 @@ import { Condition } from '../Condition';
 import { SpellCast } from '../SpellCast';
 import { Creature } from '../Creature';
 import { EffectsService } from '../effects.service';
+import { NgbPopoverConfig, NgbTooltipConfig } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
     selector: 'app-activity',
@@ -42,8 +43,22 @@ export class ActivityComponent implements OnInit {
         private timeService: TimeService,
         private itemsService: ItemsService,
         private conditionsService: ConditionsService,
-        private effectsService: EffectsService
-    ) { }
+        private effectsService: EffectsService,
+        popoverConfig: NgbPopoverConfig,
+        tooltipConfig: NgbTooltipConfig
+    ) {
+        popoverConfig.autoClose = "outside";
+        popoverConfig.container = "body";
+        //For touch compatibility, this openDelay prevents the popover from closing immediately on tap because a tap counts as hover and then click;
+        popoverConfig.openDelay = 1;
+        popoverConfig.placement = "auto";
+        popoverConfig.popoverClass = "list-item sublist";
+        popoverConfig.triggers = "hover:click";
+        tooltipConfig.container = "body";
+        //For touch compatibility, this openDelay prevents the tooltip from closing immediately on tap because a tap counts as hover and then click;
+        tooltipConfig.openDelay = 1;
+        tooltipConfig.triggers = "hover:click";
+    }
 
     trackByIndex(index: number, obj: any): any {
         return index;
@@ -195,8 +210,8 @@ export class ActivityComponent implements OnInit {
         return this.activitiesService.get_Activities(name);
     }
 
-    get_ExternallyDisabled(activity: Activity) {
-        return this.effectsService.get_EffectsOnThis(this.get_Creature(), activity.name + " Disabled").length;
+    get_ExternallyDisabled() {
+        return this.effectsService.get_EffectsOnThis(this.get_Creature(), this.activity.name + " Disabled").length;
     }
 
     get_Spells(name: string = "", type: string = "", tradition: string = "") {

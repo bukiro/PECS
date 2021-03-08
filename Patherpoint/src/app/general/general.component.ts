@@ -5,6 +5,7 @@ import { TraitsService } from '../traits.service';
 import { AnimalCompanion } from '../AnimalCompanion';
 import { FamiliarsService } from '../familiars.service';
 import { FeatChoice } from '../FeatChoice';
+import { NgbPopoverConfig, NgbTooltipConfig } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
     selector: 'app-general',
@@ -26,8 +27,22 @@ export class GeneralComponent implements OnInit {
         public characterService: CharacterService,
         public effectsService: EffectsService,
         public traitsService: TraitsService,
-        private familiarsService: FamiliarsService
-    ) { }
+        private familiarsService: FamiliarsService,
+        popoverConfig: NgbPopoverConfig,
+        tooltipConfig: NgbTooltipConfig
+    ) {
+        popoverConfig.autoClose = "outside";
+        popoverConfig.container = "body";
+        //For touch compatibility, this openDelay prevents the popover from closing immediately on tap because a tap counts as hover and then click;
+        popoverConfig.openDelay = 1;
+        popoverConfig.placement = "auto";
+        popoverConfig.popoverClass = "list-item sublist";
+        popoverConfig.triggers = "hover:click";
+        tooltipConfig.container = "body";
+        //For touch compatibility, this openDelay prevents the tooltip from closing immediately on tap because a tap counts as hover and then click;
+        tooltipConfig.openDelay = 1;
+        tooltipConfig.triggers = "hover:click";
+    }
 
     minimize() {
         this.characterService.get_Character().settings.generalMinimized = !this.characterService.get_Character().settings.generalMinimized;

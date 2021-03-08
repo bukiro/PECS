@@ -1,7 +1,7 @@
 import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { CharacterService } from '../character.service';
 import { AnimalCompanionsService } from '../animalcompanions.service';
-import { ItemGain } from '../ItemGain';
+import { NgbTooltipConfig } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
     selector: 'app-animal-companion',
@@ -11,15 +11,19 @@ import { ItemGain } from '../ItemGain';
 })
 export class AnimalCompanionComponent implements OnInit {
 
-    private showItem: string = "";
-    private showList: string = "";
     public hover: string = '';
 
     constructor(
         private changeDetector:ChangeDetectorRef,
         private characterService: CharacterService,
-        private animalCompanionsService: AnimalCompanionsService
-    ) { }
+        private animalCompanionsService: AnimalCompanionsService,
+        tooltipConfig: NgbTooltipConfig
+    ) {
+        tooltipConfig.container = "body";
+        //For touch compatibility, this openDelay prevents the tooltip from closing immediately on tap because a tap counts as hover and then click;
+        tooltipConfig.openDelay = 1;
+        tooltipConfig.triggers = "hover:click";
+    }
 
     minimize() {
         this.characterService.get_Character().settings.companionMinimized = !this.characterService.get_Character().settings.companionMinimized;

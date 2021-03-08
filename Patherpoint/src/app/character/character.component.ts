@@ -35,6 +35,7 @@ import { Item } from '../Item';
 import { FeatChoice } from '../FeatChoice';
 import { Spell } from '../Spell';
 import { Character } from '../Character';
+import { NgbPopoverConfig, NgbTooltipConfig } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
     selector: 'app-character',
@@ -69,8 +70,22 @@ export class CharacterComponent implements OnInit {
         private conditionsService: ConditionsService,
         private savegameService: SavegameService,
         private traitsService: TraitsService,
-        private familiarsService: FamiliarsService
-    ) { }
+        private familiarsService: FamiliarsService,
+        popoverConfig: NgbPopoverConfig,
+        tooltipConfig: NgbTooltipConfig
+    ) {
+        popoverConfig.autoClose = "outside";
+        popoverConfig.container = "body";
+        //For touch compatibility, this openDelay prevents the popover from closing immediately on tap because a tap counts as hover and then click;
+        popoverConfig.openDelay = 1;
+        popoverConfig.placement = "auto";
+        popoverConfig.popoverClass = "list-item sublist";
+        popoverConfig.triggers = "hover:click";
+        tooltipConfig.container = "body";
+        //For touch compatibility, this openDelay prevents the tooltip from closing immediately on tap because a tap counts as hover and then click;
+        tooltipConfig.openDelay = 1;
+        tooltipConfig.triggers = "hover:click";
+    }
 
     minimize() {
         this.characterService.get_Character().settings.characterMinimized = !this.characterService.get_Character().settings.characterMinimized;
@@ -134,6 +149,10 @@ export class CharacterComponent implements OnInit {
 
     set_Accent() {
         this.characterService.set_Accent();
+    }
+
+    set_Darkmode() {
+        this.characterService.set_Darkmode();
     }
 
     //If you don't use trackByIndex on certain inputs, you lose focus everytime the value changes. I don't get that, but I'm using it now.

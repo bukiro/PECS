@@ -208,6 +208,10 @@ export class Skill {
                 return this.ability;
             } else {
                 //Get the correct ability by finding the first key ability boost for the main class or the archetype class.
+                // Some effects ask for your Unarmed Attacks modifier without any weapon, so we need to apply your strength modifier. But Unarmed Attacks is not a real skill and does not have an ability.
+                if (this.name == "Unarmed Attacks") {
+                    return "Strength"
+                }
                 if (this.name == characterService.get_Character().class.name + " Class DC") {
                     return characterService.get_Character().get_AbilityBoosts(1, 1, "", "", "Class Key Ability")[0]?.name;
                 } else if (this.name.includes(" Class DC") && !this.name.includes(characterService.get_Character().class.name)) {
@@ -215,6 +219,7 @@ export class Skill {
                 }
             }
         }
+        return "";
     }
     baseValue(creature: Creature, characterService: CharacterService, abilitiesService: AbilitiesService, effectsService: EffectsService, charLevel: number = characterService.get_Character().level) {
         let result: number = 0;

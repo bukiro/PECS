@@ -358,8 +358,9 @@ input.number7 {
     margin-bottom: 0px;
 }
 
-label {
+label, app-character-sheet label {
     display: inline-flex;
+    margin-bottom: initial;
 }
 
 
@@ -769,6 +770,7 @@ ngb-popover-window {
 ngb-popover-window.list-item.sublist {
     max-height: 90vh;
     width: auto;
+    z-index: 1060;
 }
 
 .popover {
@@ -783,6 +785,14 @@ ngb-popover-window.list-item.sublist {
 
 .popover .arrow {
     display: none;
+}
+
+.popover-body {
+    color: inherit;
+}
+
+.tooltip-inner {
+    max-width: 400px;
 }
 
 .icon-list {

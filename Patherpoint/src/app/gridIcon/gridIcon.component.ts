@@ -31,13 +31,19 @@ export class GridIconComponent implements OnInit {
     @Input()
     effect: Effect = null;
 
-    constructor(popoverConfig: NgbPopoverConfig, tooltipConfig: NgbTooltipConfig) {
-        // customize default values of popovers used by this component tree
-        popoverConfig.placement = "auto";
+    constructor(
+        popoverConfig: NgbPopoverConfig,
+        tooltipConfig: NgbTooltipConfig
+    ) {
         popoverConfig.autoClose = "outside";
         popoverConfig.container = "body";
+        popoverConfig.placement = "auto";
         popoverConfig.popoverClass = "list-item sublist";
+        popoverConfig.triggers = "click";
         tooltipConfig.placement = "auto";
+        //For touch compatibility, the tooltip should open on hover, but not on tap. Because a tap counts as both hover and click,
+        // we allow both and have a delay of 0 so that the tooltip opens on hover and immediately closes again on click.
+        tooltipConfig.openDelay = 0;
         tooltipConfig.triggers = "hover:click";
     }
 
@@ -109,6 +115,9 @@ export class GridIconComponent implements OnInit {
             } else {
                 iconTitle = this.title.replace(/[^a-z ]/gi, '').split(" ").map(part => part.substr(0, 1)).join("").toUpperCase().substr(0, 4);
             }
+        }
+        if (iconTitle.length == 4) {
+            iconTitle = iconTitle.substr(0, 2) + "<br />" + iconTitle.substr(2, 2);
         }
         return iconTitle;
     }

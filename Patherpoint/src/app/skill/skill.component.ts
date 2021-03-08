@@ -35,17 +35,17 @@ export class SkillComponent implements OnInit {
         popoverConfig: NgbPopoverConfig,
         tooltipConfig: NgbTooltipConfig
     ) {
-        popoverConfig.placement = "auto";
         popoverConfig.autoClose = "outside";
-        popoverConfig.triggers = "hover:click";
-        //For touch compatibility, this openDelay prevents the popover from closing immediately on tap because a tap amounts to hover and then click;
-        popoverConfig.openDelay = 100;
         popoverConfig.container = "body";
+        //For touch compatibility, this openDelay prevents the popover from closing immediately on tap because a tap counts as hover and then click;
+        popoverConfig.openDelay = 1;
+        popoverConfig.placement = "auto";
         popoverConfig.popoverClass = "list-item sublist";
-        tooltipConfig.triggers = "hover:click";
-        //For touch compatibility, this openDelay prevents the tooltip from closing immediately on tap because a tap amounts to hover and then click;
-        tooltipConfig.openDelay = 100;
+        popoverConfig.triggers = "hover:click";
         tooltipConfig.container = "body";
+        //For touch compatibility, this openDelay prevents the tooltip from closing immediately on tap because a tap counts as hover and then click;
+        tooltipConfig.openDelay = 1;
+        tooltipConfig.triggers = "hover:click";
     }
 
     get_Skills(name: string = "", type: string = "") {

@@ -4,6 +4,7 @@ import { CharacterService } from '../character.service';
 import { SortByPipe } from '../sortBy.pipe';
 import { Item } from '../Item';
 import { Character } from '../Character';
+import { NgbTooltipConfig } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
     selector: 'app-crafting',
@@ -28,8 +29,14 @@ export class CraftingComponent implements OnInit {
         private changeDetector: ChangeDetectorRef,
         private itemsService: ItemsService,
         private characterService: CharacterService,
-        public sortByPipe: SortByPipe
-    ) { }
+        public sortByPipe: SortByPipe,
+        tooltipConfig: NgbTooltipConfig
+    ) {
+        tooltipConfig.container = "body";
+        //For touch compatibility, this openDelay prevents the tooltip from closing immediately on tap because a tap counts as hover and then click;
+        tooltipConfig.openDelay = 1;
+        tooltipConfig.triggers = "hover:click";
+    }
 
     toggle_List(type: string) {
         if (this.showList == type) {

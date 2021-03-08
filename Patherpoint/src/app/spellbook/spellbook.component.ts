@@ -13,6 +13,7 @@ import { ConditionGain } from '../ConditionGain';
 import { EffectGain } from '../EffectGain';
 import { Condition } from '../Condition';
 import { ConditionsService } from '../conditions.service';
+import { NgbPopoverConfig, NgbTooltipConfig } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
     selector: 'app-spellbook',
@@ -39,8 +40,22 @@ export class SpellbookComponent implements OnInit {
         private itemsService: ItemsService,
         private timeService: TimeService,
         private effectsService: EffectsService,
-        private conditionsService: ConditionsService
-    ) { }
+        private conditionsService: ConditionsService,
+        popoverConfig: NgbPopoverConfig,
+        tooltipConfig: NgbTooltipConfig
+    ) {
+        popoverConfig.autoClose = "outside";
+        popoverConfig.container = "body";
+        //For touch compatibility, this openDelay prevents the popover from closing immediately on tap because a tap counts as hover and then click;
+        popoverConfig.openDelay = 1;
+        popoverConfig.placement = "auto";
+        popoverConfig.popoverClass = "list-item sublist";
+        popoverConfig.triggers = "hover:click";
+        tooltipConfig.container = "body";
+        //For touch compatibility, this openDelay prevents the tooltip from closing immediately on tap because a tap counts as hover and then click;
+        tooltipConfig.openDelay = 1;
+        tooltipConfig.triggers = "hover:click";
+    }
 
     minimize() {
         this.characterService.get_Character().settings.spellbookMinimized = !this.characterService.get_Character().settings.spellbookMinimized;

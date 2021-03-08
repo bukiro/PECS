@@ -3,6 +3,7 @@ import { CharacterService } from '../character.service';
 import { Subscription } from 'rxjs';
 import { DomSanitizer } from '@angular/platform-browser';
 import { SavegameService } from '../savegame.service';
+import { NgbTooltipConfig } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
     selector: 'app-top-bar',
@@ -17,8 +18,14 @@ export class TopBarComponent implements OnInit {
     constructor(
         private changeDetector: ChangeDetectorRef,
         private characterService: CharacterService,
-        private savegameService: SavegameService
-    ) { }
+        private savegameService: SavegameService,
+        tooltipConfig: NgbTooltipConfig
+    ) {
+        tooltipConfig.container = "body";
+        //For touch compatibility, this openDelay prevents the tooltip from closing immediately on tap because a tap counts as hover and then click;
+        tooltipConfig.openDelay = 1;
+        tooltipConfig.triggers = "hover:click";
+    }
 
     get_Savegames() {
         return this.savegameService.get_Savegames();
@@ -31,7 +38,7 @@ export class TopBarComponent implements OnInit {
     get_Darkmode() {
         return this.characterService.get_Darkmode();
     }
-   
+
     toggle_Menu(menu: string) {
         this.characterService.toggle_Menu(menu);
         this.characterService.set_ToChange("Character", "items");
@@ -40,7 +47,7 @@ export class TopBarComponent implements OnInit {
     }
 
     get_ItemsMenuState() {
-      return this.characterService.get_ItemsMenuState();
+        return this.characterService.get_ItemsMenuState();
     }
 
     get_CraftingMenuState() {
@@ -48,7 +55,7 @@ export class TopBarComponent implements OnInit {
     }
 
     get_CharacterMenuState() {
-      return this.characterService.get_CharacterMenuState();
+        return this.characterService.get_CharacterMenuState();
     }
 
     get_CompanionMenuState() {
@@ -60,13 +67,13 @@ export class TopBarComponent implements OnInit {
     }
 
     get_SpellsMenuState() {
-    return this.characterService.get_SpellsMenuState();
+        return this.characterService.get_SpellsMenuState();
     }
 
     get_SpellLibraryMenuState() {
         return this.characterService.get_SpellLibraryMenuState();
     }
-    
+
     get_ConditionsMenuState() {
         return this.characterService.get_ConditionsMenuState();
     }
@@ -96,7 +103,7 @@ export class TopBarComponent implements OnInit {
     }
 
     still_loading() {
-      return this.characterService.still_loading();
+        return this.characterService.still_loading();
     }
 
     get_IsBlankCharacter() {
@@ -122,17 +129,17 @@ export class TopBarComponent implements OnInit {
             setTimeout(() => this.finish_Loading(), 500)
         } else {
             this.characterService.get_Changed()
-            .subscribe((target) => {
-                if (["top-bar", "all", "character"].includes(target.toLowerCase())) {
-                    this.changeDetector.detectChanges();
-                }
-            });
+                .subscribe((target) => {
+                    if (["top-bar", "all", "character"].includes(target.toLowerCase())) {
+                        this.changeDetector.detectChanges();
+                    }
+                });
             this.characterService.get_ViewChanged()
-            .subscribe((view) => {
-                if (view.creature.toLowerCase() == "character" && ["top-bar", "all"].includes(view.target.toLowerCase())) {
-                    this.changeDetector.detectChanges();
-                }
-            });
+                .subscribe((view) => {
+                    if (view.creature.toLowerCase() == "character" && ["top-bar", "all"].includes(view.target.toLowerCase())) {
+                        this.changeDetector.detectChanges();
+                    }
+                });
             return true;
         }
     }

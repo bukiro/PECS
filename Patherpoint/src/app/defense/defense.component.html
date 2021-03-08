@@ -1,7 +1,7 @@
-<button class="minimizebutton lower" title="{{get_Minimized() ? 'Click to show all information.' : 'Click to show compact information.'}}" [ngClass]="{'fancy-button':get_Minimized()}" (click)="minimize()" *ngIf="creature=='Character'">&#8691;</button>
+<button class="minimizebutton lower" [ngbTooltip]="get_Minimized() ? 'Click to show all information.' : 'Click to show compact information.'" [ngClass]="{'fancy-button':get_Minimized()}" (click)="minimize()" *ngIf="creature=='Character'">&#8691;</button>
 <div id="{{creature}}-defense-height" class="attributeBox">
     <ng-container *ngFor="let AC of [get_CalculatedAC()]; trackBy:trackByIndex;">
-        <header class="sectionHeader box-header" title="{{AC.$value[get_CalculatedIndex()].explain}}">Defense: Armor Class <span [ngClass]="{'penalty':AC.$penalties[get_CalculatedIndex()], 'bonus':AC.$bonuses[get_CalculatedIndex()], 'absolute':AC.$absolutes[get_CalculatedIndex()].length}">
+        <header class="sectionHeader box-header" [ngbPopover]="AC.$value[get_CalculatedIndex()].explain">Defense: Armor Class <span [ngClass]="{'penalty':AC.$penalties[get_CalculatedIndex()], 'bonus':AC.$bonuses[get_CalculatedIndex()], 'absolute':AC.$absolutes[get_CalculatedIndex()].length}">
                 {{AC.$value[get_CalculatedIndex()].result}}</span>
         </header>
         <div class="loading" *ngIf="still_loading()">Loading</div>
@@ -47,12 +47,12 @@
                         {{armor.get_Name()}}
                     </div>
                     <div class="fullsize-only newrow left-aligned" *ngIf="armor.traits.length">
-                        <cite class="trait" *ngFor="let trait of armor.traits; trackBy:trackByIndex;" title="{{get_Traits(trait)[0].desc}}">{{trait}}</cite>
+                        <cite class="trait" *ngFor="let trait of armor.traits; trackBy:trackByIndex;" [ngbPopover]="get_Traits(trait)[0].desc">{{trait}}</cite>
                     </div>
                     <app-tags [creature]="creature" [objectName]="'Armor'" [showTraits]=true [showFeats]=true [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
                     <app-tags [creature]="creature" [objectName]="armor.name" [showItems]=true></app-tags>
                     <div class="fullsize-only lower newrow left-aligned" *ngFor="let talisman of armor.talismans; let index = index; trackBy:trackByIndex;">
-                        <button title="{{get_TalismanTitle(talisman)}}" (click)="on_TalismanUse(armor, talisman, index)">
+                        <button [ngbTooltip]="get_TalismanTitle(talisman)" (click)="on_TalismanUse(armor, talisman, index)">
                             <span>Activate {{talisman.name}}<app-actionIcons [actionString]="talisman.actions">
                                 </app-actionIcons>{{(talisman.activationType) ? talisman.activationType : ""}}
                             </span>
@@ -67,7 +67,7 @@
                     <div class="newrow list-item">
                         <div>{{shield.get_Name()}} AC: <input type="number" class="number1" [ngModel]="shield.get_ACBonus()" disabled> Hardness: <input type="number" class="number2" [ngModel]="shield.get_Hardness()" disabled>
                             <div class="fullsize-only newrow left-aligned" *ngIf="shield.traits.length">
-                                <cite class="trait" *ngFor="let trait of shield.traits; trackBy:trackByIndex;" title="{{get_Traits(trait)[0].desc}}">{{trait}}</cite>
+                                <cite class="trait" *ngFor="let trait of shield.traits; trackBy:trackByIndex;" [ngbPopover]="get_Traits(trait)[0].desc">{{trait}}</cite>
                             </div>
                             <app-tags [creature]="creature" [objectName]="'Shield'" [showTraits]=true [showFeats]=true [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true>
                             </app-tags>
@@ -100,7 +100,7 @@
                                 </span>
                             </div>
                             <div class="fullsize-only lower newrow left-aligned" *ngFor="let talisman of shield.talismans; let index = index; trackBy:trackByIndex;">
-                                <button title="{{get_TalismanTitle(talisman)}}" (click)="on_TalismanUse(shield, talisman, index)">
+                                <button [ngbTooltip]="get_TalismanTitle(talisman)" (click)="on_TalismanUse(shield, talisman, index)">
                                     <span>Activate {{talisman.name}}<app-actionIcons [actionString]="talisman.actions">
                                         </app-actionIcons>{{(talisman.activationType) ? talisman.activationType : ""}}
                                     </span>

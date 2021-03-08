@@ -5,40 +5,27 @@ import { AnimalCompanion } from './AnimalCompanion';
 import { Effect } from './Effect';
 
 export class Ability {
-    public $absolutes: (Effect[])[] = [[], []];
-    public $baseValue: { result: number, explain: string }[] = [{ result: 0, explain: "" }, { result: 0, explain: "" }];
-    public $bonuses: (boolean)[] = [false, false, false];
-    public $mod: { result: number, explain: string }[] = [{ result: 0, explain: "" }, { result: 0, explain: "" }];
-    public $modabsolutes: (Effect[])[] = [[], []];
-    public $modbonuses: (boolean)[] = [false, false, false];
-    public $modpenalties: (boolean)[] = [false, false, false];
-    public $penalties: (boolean)[] = [false, false, false];
-    public $value: { result: number, explain: string }[] = [{ result: 0, explain: "" }, { result: 0, explain: "" }];
     constructor(
         public name: string = "",
     ) { }
-    calculate(creature: Character|AnimalCompanion, characterService: CharacterService, effectsService: EffectsService, charLevel: number = characterService.get_Character().level) {
-        let index = 0;
-        switch (creature.type) {
-            case "Companion":
-                index = 1;
-                break;
+    calculate(creature: Character | AnimalCompanion, characterService: CharacterService, effectsService: EffectsService, charLevel: number = characterService.get_Character().level) {
+        let result = {
+            absolutes: (this.absolutes(creature, effectsService, this.name).length != 0) as boolean,
+            baseValue: this.baseValue(creature, characterService, charLevel) as { result: number, explain: string },
+            bonuses: this.bonuses(creature, effectsService, this.name) as boolean,
+            penalties: this.penalties(creature, effectsService, this.name) as boolean,
+            value: this.value(creature, characterService, effectsService, charLevel) as { result: number, explain: string },
+            mod: this.mod(creature, characterService, effectsService, charLevel) as { result: number, explain: string },
+            modabsolutes: (this.absolutes(creature, effectsService, this.name + " Modifier").length != 0) as boolean,
+            modbonuses: this.bonuses(creature, effectsService, this.name + " Modifier") as boolean,
+            modpenalties: this.penalties(creature, effectsService, this.name + " Modifier") as boolean
         }
-        this.$absolutes[index] = this.absolutes(creature, effectsService, this.name);
-        this.$baseValue[index] = this.baseValue(creature, characterService, charLevel);
-        this.$bonuses[index] = this.bonuses(creature, effectsService, this.name);
-        this.$mod[index] = this.mod(creature, characterService, effectsService, charLevel);
-        this.$modabsolutes[index] = this.absolutes(creature, effectsService, this.name + " Modifier");
-        this.$modbonuses[index] = this.bonuses(creature, effectsService, this.name + " Modifier");
-        this.$modpenalties[index] = this.penalties(creature, effectsService, this.name + " Modifier");
-        this.$penalties[index] = this.penalties(creature, effectsService, this.name);
-        this.$value[index] = this.value(creature, characterService, effectsService, charLevel);
-        return this;
+        return result;
     }
     absolutes(creature: Character | AnimalCompanion, effectsService: EffectsService, name: string) {
         return effectsService.get_AbsolutesOnThis(creature, name);
     }
-    relatives(creature: Character|AnimalCompanion, effectsService: EffectsService, name: string) {
+    relatives(creature: Character | AnimalCompanion, effectsService: EffectsService, name: string) {
         return effectsService.get_RelativesOnThis(creature, name);
     }
     bonuses(creature: Character | AnimalCompanion, effectsService: EffectsService, name: string) {
@@ -70,10 +57,10 @@ export class Ability {
                 if (boost.type == "Boost") {
                     let weight = (baseValue < 18 || creature.type == "Companion") ? 2 : 1;
                     baseValue += weight;
-                    explain += "\n"+boost.source+": +"+weight;
+                    explain += "\n" + boost.source + ": +" + weight;
                 } else if (boost.type == "Flaw") {
                     baseValue -= 2;
-                    explain += "\n"+boost.source+": -2";
+                    explain += "\n" + boost.source + ": -2";
                 }
             })
         }
@@ -95,14 +82,14 @@ export class Ability {
                 explain += "\n" + effect.source + ": " + effect.value;
             }
         });
-        return { result:result, explain:explain };
+        return { result: result, explain: explain };
     }
     mod(creature: Character | AnimalCompanion, characterService: CharacterService, effectsService: EffectsService, charLevel: number = characterService.get_Character().level) {
         let value = this.value(creature, characterService, effectsService, charLevel);
         let result: number = value.result;
         //Calculates the ability modifier from the effective ability in the usual d20 fashion - 0-1 => -5; 2-3 => -4; ... 10-11 => 0; 12-13 => 1 etc.
         let modifier = Math.floor((result - 10) / 2);
-        let explain = this.name + " Modifier: "+modifier;
+        let explain = this.name + " Modifier: " + modifier;
         //Add active bonuses and penalties to the ability modifier
         this.absolutes(creature, effectsService, this.name + " Modifier").forEach(effect => {
             modifier = parseInt(effect.setValue);
@@ -114,6 +101,6 @@ export class Ability {
                 explain += "\n" + effect.source + ": " + effect.value;
             }
         });
-        return { result:modifier, explain:explain };
+        return { result: modifier, explain: explain };
     }
 }

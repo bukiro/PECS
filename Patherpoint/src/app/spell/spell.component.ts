@@ -3,6 +3,7 @@ import { Spell } from '../Spell';
 import { TraitsService } from '../traits.service';
 import { CharacterService } from '../character.service';
 import { SpellsService } from '../spells.service';
+import { NgbPopoverConfig } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
     selector: 'app-spell',
@@ -21,8 +22,17 @@ export class SpellComponent implements OnInit {
         private changeDetector: ChangeDetectorRef,
         public characterService: CharacterService,
         private traitsService: TraitsService,
-        private spellsService: SpellsService
-    ) { }
+        private spellsService: SpellsService,
+        popoverConfig: NgbPopoverConfig
+    ) {
+        popoverConfig.autoClose = "outside";
+        popoverConfig.container = "body";
+        //For touch compatibility, this openDelay prevents the popover from closing immediately on tap because a tap counts as hover and then click;
+        popoverConfig.openDelay = 1;
+        popoverConfig.placement = "auto";
+        popoverConfig.popoverClass = "list-item sublist";
+        popoverConfig.triggers = "hover:click";
+    }
 
     trackByIndex(index: number, obj: any): any {
         return index;

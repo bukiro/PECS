@@ -199,10 +199,10 @@
                                                     <button class="newrow center-aligned" (click)="learn_Formula(item, 'snarespecialist')" [disabled]="!can_Learn(item, 'snarespecialist')" *ngIf="!get_FormulasLearned(item.id).length && have_Feat('Snare Specialist') && item.traits.includes('Snare')">
                                                         Learn formula via Snare Specialist
                                                     </button>
-                                                    <button class="newrow center-aligned" (click)="learn_Formula(item, 'other')" *ngIf="!get_FormulasLearned(item.id).length">
+                                                    <button class="newrow center-aligned" (click)="learn_Formula(item, 'other')" *ngIf="!get_FormulasLearned(item.id).length" [ngbTooltip]="'You must manually expend the necessary cost to learn the formula this way.'">
                                                         Learn formula (buy, copy, invent or reverse engineer)
                                                     </button>
-                                                    <button class="newrow center-aligned" (click)="unlearn_Formula(item)" *ngFor="let learned of get_FormulasLearned(item.id); trackBy:trackByIndex;" title="You must manually expend the necessary cost to learn the formula this way.">
+                                                    <button class="newrow center-aligned" (click)="unlearn_Formula(item)" *ngFor="let learned of get_FormulasLearned(item.id); trackBy:trackByIndex;">
                                                         Unlearn formula {{get_LearnedFormulaSource(learned.source)}}
                                                     </button>
                                                 </ng-container>

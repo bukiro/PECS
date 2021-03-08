@@ -1,7 +1,10 @@
 <ng-container *ngFor="let listID of [choice.source+choice.id]; trackBy:trackByIndex;">
     <ng-container *ngFor="let availableFeats of [get_Available(choice)]; trackBy:trackByIndex;">
-        <div class="list-item" *ngIf="availableFeats > 0" [ngClass]="{'problem':(cannotTakeSome(choice) || choice.feats.length > availableFeats), 'fullsize-only':(availableFeats == choice.feats.length)}">
-            <button class="newrow left-aligned sublist-toggle" [ngClass]="{'fancy-button choicecleared':(availableFeats == choice.feats.length)}" (click)="toggle_List(listID)">
+        <div class="list-item" *ngIf="availableFeats > 0"
+            [ngClass]="{'problem':(cannotTakeSome(choice) || choice.feats.length > availableFeats), 'fullsize-only':(availableFeats == choice.feats.length)}">
+            <button class="newrow left-aligned sublist-toggle"
+                [ngClass]="{'fancy-button choicecleared':(availableFeats == choice.feats.length)}"
+                (click)="toggle_List(listID)">
                 {{(featLevel != levelNumber) ? "Level "+featLevel+" " : ""}}{{choice.type.split(",").join(",
                 ")}}{{choice.specialChoice ?
                 '' : (creature == 'Familiar' ? (availableFeats > 1 ? ' Abilities' : ' Ability') :
@@ -10,7 +13,8 @@
                 ": "+ choice.feats.length +"/"+ availableFeats :
                 (choice.feats.length) ? ": "+ choice.feats[0].name : ""}}
             </button>
-            <div class="list-item sublist" [ngClass]="{'fancy-list':(availableFeats == choice.feats.length )}" *ngIf="get_ShowChoice()==listID">
+            <div class="list-item sublist" [ngClass]="{'fancy-list':(availableFeats == choice.feats.length )}"
+                *ngIf="get_ShowChoice()==listID">
                 <!-- Filter -->
                 <div class="list-item">
                     <strong>Filter</strong>
@@ -42,13 +46,18 @@
                 <!-- End Filter -->
                 <ng-container *ngFor="let featSets of [get_AvailableFeats(choice)]; trackBy:trackByIndex;">
                     <div class="list-item" *ngIf="get_AvailableFeatsCount(featSets) < availableFeats">
-                        <span>There are fewer results available than you are allowed to take. This may be due to a choice with limited options, and it might be intended at this time.</span>
-                        <span *ngIf="!higherLevelFeats || !lowerLevelFeats">More results may be found if you allow lower and higher level feats.</span>
+                        <span>There are fewer results available than you are allowed to take. This may be due to a
+                            choice with limited options, and it might be intended at this time.</span>
+                        <span *ngIf="!higherLevelFeats || !lowerLevelFeats">More results may be found if you allow lower
+                            and higher level feats.</span>
                         <span *ngIf="choice.showOnCurrentLevel">This feat choice is always available on your current
                             character level. This could change the number of available feats at a later time.</span>
                     </div>
-                    <div title="{{(get_ShowFeat()==choice.id+featSet.feat.name+'desc') ? '' : featSet.feat.shortdesc}}" class="list-item" *ngFor="let featSet of featSets; trackBy:trackByIndex;" [ngClass]="{'unavailable':(!featSet.available), 'selected':(featTakenByThis(featSet.feat, choice) || subFeatTakenByThis(undefined, featSet.feat, choice))}">
-                        <div class="newrow left-aligned" style="justify-content: flex-end;" *ngFor="let itemID of [choice.id+featSet.feat.name+'desc']; trackBy:trackByIndex;">
+                    <div [ngbPopover]="(get_ShowFeat()==choice.id+featSet.feat.name+'desc') ? '' : featSet.feat.shortdesc"
+                        class="list-item" *ngFor="let featSet of featSets; trackBy:trackByIndex;"
+                        [ngClass]="{'unavailable':(!featSet.available), 'selected':(featTakenByThis(featSet.feat, choice) || subFeatTakenByThis(undefined, featSet.feat, choice))}">
+                        <div class="newrow left-aligned" style="justify-content: flex-end;"
+                            *ngFor="let itemID of [choice.id+featSet.feat.name+'desc']; trackBy:trackByIndex;">
                             <span style="flex-grow:2">
                                 <input *ngIf="!featSet.feat.subTypes && featSet.available"
                                     id="{{choice.id+featSet.feat.name}}" type="checkbox"
@@ -68,10 +77,10 @@
                                 <cite *ngIf="featSet.feat.levelreq">Level
                                     {{featSet.feat.levelreq}}</cite>
                                 <cite class="trait" *ngIf="featSet.feat.traits.includes('Uncommon')"
-                                    title="{{get_Traits('Uncommon')[0]?.desc}}">Uncommon</cite>
+                                    [ngbPopover]="get_Traits('Uncommon')[0]?.desc">Uncommon</cite>
                                 <cite class="trait" *ngIf="featSet.feat.traits.includes('Dedication')"
-                                    title="{{get_Traits('Dedication')[0]?.desc}}">Dedication</cite>
-                                <cite title="{{reason.explain}}" class="problem"
+                                    [ngbPopover]="get_Traits('Dedication')[0]?.desc">Dedication</cite>
+                                <cite [ngbPopover]="reason.explain" class="problem"
                                     *ngFor="let reason of cannotTake(featSet.feat, choice, true); trackBy:trackByIndex;">
                                     {{reason.reason}}
                                 </cite>
@@ -81,8 +90,12 @@
                             </button>
                             <div class="newrow lower" *ngIf="get_ShowFeat()==itemID">
                                 <!--Subfeats-->
-                                <div class="list-item" [ngClass]="{'selected':featTakenByThis(subfeatSet.subfeat, choice), 'unavailable':(!subfeatSet.available)}" style="justify-content: flex-end;" *ngFor="let subfeatSet of get_SubFeats(featSet.feat, choice); trackBy:trackBySubType;">
-                                    <div class="newrow left-aligned" *ngFor="let subItemID of [choice.id+subfeatSet.subfeat.name+'desc']; trackBy:trackByIndex;">
+                                <div class="list-item"
+                                    [ngClass]="{'selected':featTakenByThis(subfeatSet.subfeat, choice), 'unavailable':(!subfeatSet.available)}"
+                                    style="justify-content: flex-end;"
+                                    *ngFor="let subfeatSet of get_SubFeats(featSet.feat, choice); trackBy:trackBySubType;">
+                                    <div class="newrow left-aligned"
+                                        *ngFor="let subItemID of [choice.id+subfeatSet.subfeat.name+'desc']; trackBy:trackByIndex;">
                                         <span style="flex-grow:2">
                                             <input id="{{choice.id+subfeatSet.subfeat.name}}" type="checkbox"
                                                 (change)="on_FeatTaken(subfeatSet.subfeat.name, $event.target.checked, choice, false)"
@@ -93,27 +106,30 @@
                                                 <span>
                                                     <strong>{{subfeatSet.subfeat.subType}}&nbsp;</strong>
                                                     <span [ngClass]="{'problem':(!req.met), 'disabled':(req.ignored)}"
-                                                        title="{{req.ignored ? 'This requirement is ignored.' : ''}}"
+                                                        [ngbPopover]="req.ignored ? 'This requirement is ignored.' : ''"
                                                         *ngFor="let req of get_FeatRequirements(choice, subfeatSet.subfeat, featSet.feat); trackBy:trackByIndex;">{{req.ignored
                                                         ? "(" : ''}}{{req.desc}}{{req.ignored ? ")" : ''}}</span>
-                                        </span>
-                                        <span>
-                                                    <cite class="problem" title="{{reason.explain}}"
+                                                </span>
+                                                <span>
+                                                    <cite class="problem" [ngbPopover]="reason.explain"
                                                         *ngFor="let reason of cannotTake(subfeatSet.subfeat, choice, true); trackBy:trackByIndex;">
                                                         {{reason.reason}}
                                                     </cite>
                                                 </span>
-                                        </label>
+                                            </label>
                                         </span>
-                                        <button (click)="toggle_SubFeat(subItemID)" [ngClass]="{'fancy-button':get_ShowSubFeat()==subItemID}">
+                                        <button (click)="toggle_SubFeat(subItemID)"
+                                            [ngClass]="{'fancy-button':get_ShowSubFeat()==subItemID}">
                                             {{get_ShowSubFeat()==subItemID ? "Hide" : "Show"}} Description
                                         </button>
                                         <div class="newrow lower" *ngIf="get_ShowSubFeat()==subItemID">
-                                            <app-feat [feat]="subfeatSet.subfeat" [choice]="choice" [levelNumber]="levelNumber" [featLevel]="featLevel"></app-feat>
+                                            <app-feat [feat]="subfeatSet.subfeat" [choice]="choice"
+                                                [levelNumber]="levelNumber" [featLevel]="featLevel"></app-feat>
                                         </div>
                                     </div>
                                 </div>
-                                <app-feat [feat]="featSet.feat" [choice]="choice" [levelNumber]="levelNumber" [featLevel]="featLevel"></app-feat>
+                                <app-feat [feat]="featSet.feat" [choice]="choice" [levelNumber]="levelNumber"
+                                    [featLevel]="featLevel"></app-feat>
                             </div>
                         </div>
                     </div>

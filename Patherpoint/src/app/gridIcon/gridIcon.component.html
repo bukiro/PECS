@@ -1,7 +1,7 @@
 <span class="iconValue disable-text-selection" [ngStyle]="{'color': effect ? 'inherit' : 'var(--textcolor)'}">{{get_IconValue()}}</span>
 <span class="iconSubTitle disable-text-selection">{{get_IconSubTitle()}}</span>
 <span class="iconSuperTitle disable-text-selection" style="text-align: center;" [innerHtml]="get_IconSuperTitle()"></span>
-<span class="iconTitle newrow disable-text-selection" style="text-align: center;">{{get_IconTitle()}}</span>
+<span class="iconTitle newrow disable-text-selection" style="text-align: center;" [innerHtml]="get_IconTitle()"></span>
 <div class="iconTime disable-text-selection" *ngIf="condition?.duration || effect?.duration">
     <span *ngFor="let timePart of get_IconTime()" [innerHtml]="timePart"></span>
 </div>

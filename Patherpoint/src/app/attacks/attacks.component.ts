@@ -18,6 +18,7 @@ import { OtherConsumableBomb } from '../OtherConsumableBomb';
 import { Equipment } from '../Equipment';
 import { ConditionsService } from '../conditions.service';
 import { ConditionGain } from '../ConditionGain';
+import { NgbPopoverConfig, NgbTooltipConfig } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
     selector: 'app-attacks',
@@ -42,8 +43,22 @@ export class AttacksComponent implements OnInit {
         private traitsService: TraitsService,
         public characterService: CharacterService,
         public effectsService: EffectsService,
-        public conditionsService: ConditionsService
-    ) { }
+        public conditionsService: ConditionsService,
+        popoverConfig: NgbPopoverConfig,
+        tooltipConfig: NgbTooltipConfig
+    ) {
+        popoverConfig.autoClose = "outside";
+        popoverConfig.container = "body";
+        //For touch compatibility, this openDelay prevents the popover from closing immediately on tap because a tap counts as hover and then click;
+        popoverConfig.openDelay = 100;
+        popoverConfig.placement = "auto";
+        popoverConfig.popoverClass = "list-item sublist";
+        popoverConfig.triggers = "click";
+        tooltipConfig.container = "body";
+        //For touch compatibility, this openDelay prevents the tooltip from closing immediately on tap because a tap counts as hover and then click;
+        tooltipConfig.openDelay = 100;
+        tooltipConfig.triggers = "hover:click";
+    }
 
     minimize() {
         this.characterService.get_Character().settings.attacksMinimized = !this.characterService.get_Character().settings.attacksMinimized;

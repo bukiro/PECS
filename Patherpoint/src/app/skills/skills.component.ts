@@ -9,6 +9,7 @@ import { FamiliarsService } from '../familiars.service';
 import { SkillChoice } from '../SkillChoice';
 import { EffectsService } from '../effects.service';
 import { Speed } from '../Speed';
+import { NgbPopoverConfig, NgbTooltipConfig } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
     selector: 'app-skills',
@@ -28,11 +29,23 @@ export class SkillsComponent implements OnInit {
         private changeDetector: ChangeDetectorRef,
         public characterService: CharacterService,
         public skillsService: SkillsService,
-        private conditionsService: ConditionsService,
-        private familiarsService: FamiliarsService,
         public featsService: FeatsService,
-        public effectsService: EffectsService
-    ) { }
+        public effectsService: EffectsService,
+        popoverConfig: NgbPopoverConfig,
+        tooltipConfig: NgbTooltipConfig
+    ) {
+        popoverConfig.autoClose = "outside";
+        popoverConfig.container = "body";
+        //For touch compatibility, this openDelay prevents the popover from closing immediately on tap because a tap counts as hover and then click;
+        popoverConfig.openDelay = 1;
+        popoverConfig.placement = "auto";
+        popoverConfig.popoverClass = "list-item sublist";
+        popoverConfig.triggers = "hover:click";
+        tooltipConfig.container = "body";
+        //For touch compatibility, this openDelay prevents the tooltip from closing immediately on tap because a tap counts as hover and then click;
+        tooltipConfig.openDelay = 1;
+        tooltipConfig.triggers = "hover:click";
+    }
 
     minimize() {
         this.characterService.get_Character().settings.skillsMinimized = !this.characterService.get_Character().settings.skillsMinimized;

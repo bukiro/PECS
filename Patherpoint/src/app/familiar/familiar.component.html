@@ -1,5 +1,5 @@
 <button class="minimizebutton lower"
-    title="{{get_Minimized() ? 'Click to show all information.' : 'Click to show compact information.'}}"
+    [ngbTooltip]="get_Minimized() ? 'Click to show all information.' : 'Click to show compact information.'"
     [ngClass]="{'fancy-button':get_Minimized()}" (click)="minimize()">&#8691;</button>
 <div id="familiar-height" class="itemBox">
     <button class="list-item center-aligned" (click)="toggleFamiliarMenu()">

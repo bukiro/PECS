@@ -29,8 +29,8 @@ export class ProficiencyFormComponent implements OnInit {
         tooltipConfig: NgbTooltipConfig
     ) {
         tooltipConfig.triggers = "hover:click";
-        //For touch compatibility, this openDelay prevents the tooltip from closing immediately on tap because a tap amounts to hover and then click;
-        tooltipConfig.openDelay = 100;
+        //For touch compatibility, this openDelay prevents the tooltip from closing immediately on tap because a tap counts as hover and then click;
+        tooltipConfig.openDelay = 1;
         tooltipConfig.container = "body";
     }
 

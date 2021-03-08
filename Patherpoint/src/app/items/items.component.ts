@@ -19,6 +19,7 @@ import { Scroll } from '../Scroll';
 import { SpellCasting } from '../SpellCasting';
 import { ItemCollection } from '../ItemCollection';
 import { OtherConsumableBomb } from '../OtherConsumableBomb';
+import { NgbTooltipConfig } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
     selector: 'app-items',
@@ -47,8 +48,14 @@ export class ItemsComponent implements OnInit {
         private changeDetector: ChangeDetectorRef,
         private itemsService: ItemsService,
         private characterService: CharacterService,
-        public sortByPipe: SortByPipe
-    ) { }
+        public sortByPipe: SortByPipe,
+        tooltipConfig: NgbTooltipConfig
+    ) {
+        tooltipConfig.container = "body";
+        //For touch compatibility, this openDelay prevents the tooltip from closing immediately on tap because a tap counts as hover and then click;
+        tooltipConfig.openDelay = 1;
+        tooltipConfig.triggers = "hover:click";
+    }
 
     toggle_List(type: string) {
         if (this.showList == type) {

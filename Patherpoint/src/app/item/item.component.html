@@ -1,6 +1,9 @@
-<div class="newrow left-aligned tags" *ngIf="(item.get_Traits ? item.get_Traits(characterService, get_Creature()) : item.traits).length">
-    <cite class="trait" *ngFor="let trait of (item.get_Traits ? item.get_Traits(characterService, get_Creature()) : item.traits); trackBy:trackByIndex;" title="{{get_Traits(trait)[0].desc}}">{{trait}}</cite>
-</div>
+<ng-container *ngFor="let traits of [(item.get_Traits ? item.get_Traits(characterService, get_Creature()) : item.traits)]; trackBy:trackByIndex">
+    <div class="newrow left-aligned tags" *ngIf="traits.length">
+        <cite class="trait" *ngFor="let trait of traits; trackBy:trackByIndex;" [ngbPopover]="get_Traits(trait)[0].desc">{{trait}}</cite>
+    </div>
+</ng-container>
+
 <div class="newrow left-aligned tags">
     <app-tags [creature]="creature" [objectName]="item.name" [showTraits]=true [showFeats]=true [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
 </div>

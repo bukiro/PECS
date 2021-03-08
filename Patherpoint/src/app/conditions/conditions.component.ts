@@ -5,9 +5,6 @@ import { ConditionGain } from '../ConditionGain';
 import { ConditionsService } from '../conditions.service';
 import { Condition } from '../Condition';
 import { TimeService } from '../time.service';
-import { Character } from '../Character';
-import { AnimalCompanion } from '../AnimalCompanion';
-import { Familiar } from '../Familiar';
 import { SortByPipe } from '../sortBy.pipe';
 import { EffectsService } from '../effects.service';
 import { ItemProperty } from '../ItemProperty';
@@ -21,6 +18,7 @@ import { ActivitiesService } from '../activities.service';
 import { Equipment } from '../Equipment';
 import { Consumable } from '../Consumable';
 import { Effect } from '../Effect';
+import { NgbPopoverConfig } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
     selector: 'app-conditions',
@@ -56,8 +54,17 @@ export class ConditionsComponent implements OnInit {
         private itemsService: ItemsService,
         private timeService: TimeService,
         private traitsService: TraitsService,
-        private sortByPipe: SortByPipe
-    ) { }
+        private sortByPipe: SortByPipe,
+        popoverConfig: NgbPopoverConfig
+    ) {
+        popoverConfig.autoClose = "outside";
+        popoverConfig.container = "body";
+        //For touch compatibility, this openDelay prevents the popover from closing immediately on tap because a tap counts as hover and then click;
+        popoverConfig.openDelay = 1;
+        popoverConfig.placement = "auto";
+        popoverConfig.popoverClass = "list-item sublist";
+        popoverConfig.triggers = "hover:click";
+    }
 
     toggle_List(type) {
         if (this.showList == type) {

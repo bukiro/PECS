@@ -21,6 +21,7 @@ import { Wand } from '../Wand';
 import { Shield } from '../Shield';
 import { ConditionsService } from '../conditions.service';
 import { Weapon } from '../Weapon';
+import { NgbPopoverConfig, NgbTooltipConfig } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
     selector: 'app-inventory',
@@ -48,8 +49,22 @@ export class InventoryComponent implements OnInit {
         public effectsService: EffectsService,
         private timeService: TimeService,
         private spellsService: SpellsService,
-        private conditionsService: ConditionsService
-    ) { }
+        private conditionsService: ConditionsService,
+        popoverConfig: NgbPopoverConfig,
+        tooltipConfig: NgbTooltipConfig
+    ) {
+        popoverConfig.autoClose = "outside";
+        popoverConfig.container = "body";
+        //For touch compatibility, this openDelay prevents the popover from closing immediately on tap because a tap counts as hover and then click;
+        popoverConfig.openDelay = 1;
+        popoverConfig.placement = "auto";
+        popoverConfig.popoverClass = "list-item sublist";
+        popoverConfig.triggers = "hover:click";
+        tooltipConfig.container = "body";
+        //For touch compatibility, this openDelay prevents the tooltip from closing immediately on tap because a tap counts as hover and then click;
+        tooltipConfig.openDelay = 1;
+        tooltipConfig.triggers = "hover:click";
+    }
 
     minimize() {
         this.characterService.get_Character().settings.inventoryMinimized = !this.characterService.get_Character().settings.inventoryMinimized;

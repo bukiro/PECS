@@ -4,6 +4,7 @@ import { CharacterService } from 'src/app/character.service';
 import { FeatChoice } from 'src/app/FeatChoice';
 import { SpellsService } from 'src/app/spells.service';
 import { ActivitiesService } from 'src/app/activities.service';
+import { NgbPopoverConfig } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
     selector: 'app-feat',
@@ -24,8 +25,17 @@ export class FeatComponent implements OnInit {
     constructor(
         public characterService: CharacterService,
         private spellsService: SpellsService,
-        private activitiesService: ActivitiesService
-    ) { }
+        private activitiesService: ActivitiesService,
+        popoverConfig: NgbPopoverConfig
+    ) {
+        popoverConfig.autoClose = "outside";
+        popoverConfig.container = "body";
+        //For touch compatibility, this openDelay prevents the popover from closing immediately on tap because a tap counts as hover and then click;
+        popoverConfig.openDelay = 1;
+        popoverConfig.placement = "auto";
+        popoverConfig.popoverClass = "list-item sublist";
+        popoverConfig.triggers = "hover:click";
+    }
 
     trackByIndex(index: number, obj: any): any {
         return index;

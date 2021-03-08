@@ -1,4 +1,6 @@
-<button class="minimizebutton lower" title="{{get_Minimized() ? 'Click to show all information.' : 'Click to show compact information.'}}" (click)="minimize()" *ngIf="creature=='Character'">&#8691;</button>
+<button class="minimizebutton lower"
+    [ngbTooltip]="get_Minimized() ? 'Click to show all information.' : 'Click to show compact information.'"
+    (click)="minimize()" *ngIf="creature=='Character'">&#8691;</button>
 <div id="{{creature}}-skills-height" class="attributeBox">
     <div class="loading" *ngIf="still_loading()">Loading</div>
     <ng-container *ngIf="!still_loading()">
@@ -7,13 +9,16 @@
             <app-skill [creature]="creature" [skill]=skill></app-skill>
         </ng-container>
         <header class="subsectionHeader">Senses</header>
-        <div class="list-item lower" title="{{get_SenseDesc(sense)}}" *ngFor="let sense of get_Senses(); trackBy:trackByIndex;">
+        <div class="list-item lower" [ngbPopover]="get_SenseDesc(sense)"
+            *ngFor="let sense of get_Senses(); trackBy:trackByIndex;">
             {{sense}}
         </div>
-        <app-tags [creature]="creature" [objectName]="'Senses'" [showTraits]=true [showFeats]=true [showItems]=true [showActivities]=true [showConditions]=true></app-tags>
+        <app-tags [creature]="creature" [objectName]="'Senses'" [showTraits]=true [showFeats]=true [showItems]=true
+            [showActivities]=true [showConditions]=true></app-tags>
         <ng-container *ngIf="creature=='Familiar'">
             <header class="sectionHeader box-header">Attack Rolls</header>
-            <ng-container *ngFor="let skill of get_Skills('', 'Familiar Proficiency')|sortBy:'asc':'name'; trackBy:trackByIndex;">
+            <ng-container
+                *ngFor="let skill of get_Skills('', 'Familiar Proficiency')|sortBy:'asc':'name'; trackBy:trackByIndex;">
                 <app-skill [creature]="creature" [skill]=skill></app-skill>
             </ng-container>
         </ng-container>
@@ -23,27 +28,32 @@
                 <span>
                     <strong>{{(speed.name=="Speed") ? "All Speeds" : speed.name}}</strong>
                 </span>
-                <span>
-                    Value: <input class="number3"
-                        title="{{speed.value(get_Creature(), characterService, effectsService)[1]}}"
-                        [ngClass]="{'penalty':speed.penalties(get_Creature(), effectsService, speed.name, true),
+                <span [ngbPopover]="speed.value(get_Creature(), characterService, effectsService)[1]">
+                    Value: <input class="number3" [ngClass]="{'penalty':speed.penalties(get_Creature(), effectsService, speed.name, true),
                             'bonus':speed.bonuses(get_Creature(), effectsService, speed.name, true),
                             'absolute':speed.absolutes(get_Creature(), effectsService, speed.name, true).length}"
                         type="number" value="{{speed.value(get_Creature(), characterService, effectsService)[0]}}"
                         disabled>
                 </span>
-                <app-tags [creature]="creature" [objectName]=speed.name [showTraits]=true [showFeats]=true [showItems]=true [showActivities]=true [showConditions]=true [specialEffects]="speed.absolutes(get_Creature(), effectsService, speed.name, true).concat(speed.relatives(get_Creature(), effectsService, speed.name, true))"></app-tags>
+                <app-tags [creature]="creature" [objectName]=speed.name [showTraits]=true [showFeats]=true
+                    [showItems]=true [showActivities]=true [showConditions]=true
+                    [specialEffects]="speed.absolutes(get_Creature(), effectsService, speed.name, true).concat(speed.relatives(get_Creature(), effectsService, speed.name, true))">
+                </app-tags>
             </div>
         </ng-container>
-        <app-tags [creature]="creature" [objectName]="'Movement'" [showTraits]=true [showFeats]=true [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
+        <app-tags [creature]="creature" [objectName]="'Movement'" [showTraits]=true [showFeats]=true [showItems]=true
+            [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
         <header class="sectionHeader box-header">Skills</header>
         <!--Skill Increases-->
         <ng-container *ngFor="let choice of get_SkillChoices(); trackBy:trackByIndex;">
-            <app-skillchoice (showChoiceMessage)="receive_ChoiceMessage($event)" [choice]="choice" [showChoice]="get_ShowList()">
+            <app-skillchoice (showChoiceMessage)="receive_ChoiceMessage($event)" [choice]="choice"
+                [showChoice]="get_ShowList()">
             </app-skillchoice>
         </ng-container>
-        <app-tags [creature]="creature" [objectName]="'Skills'" [showTraits]=true [showFeats]=true [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
-        <app-tags [creature]="creature" [objectName]="'Skill Checks'" [showTraits]=true [showFeats]=true [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
+        <app-tags [creature]="creature" [objectName]="'Skills'" [showTraits]=true [showFeats]=true [showItems]=true
+            [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
+        <app-tags [creature]="creature" [objectName]="'Skill Checks'" [showTraits]=true [showFeats]=true
+            [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
         <ng-container *ngFor="let skill of get_Skills('', 'Skill')|sortBy:'asc':'name'; trackBy:trackByIndex;">
             <app-skill [creature]="creature" [skill]=skill></app-skill>
         </ng-container>

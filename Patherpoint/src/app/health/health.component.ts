@@ -9,6 +9,7 @@ import { TimeService } from '../time.service';
 import { ItemsService } from '../items.service';
 import { SpellsService } from '../spells.service';
 import { ConditionsService } from '../conditions.service';
+import { NgbPopoverConfig, NgbTooltipConfig } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
     selector: 'app-health',
@@ -29,18 +30,32 @@ export class HealthComponent implements OnInit {
     public nonlethal: boolean = false;
     public healing: number = 0;
     public setTempHP: number = 0;
-    public selectedTempHP: {amount: number, source: string, sourceId: string};
+    public selectedTempHP: { amount: number, source: string, sourceId: string };
     public Math = Math;
 
     constructor(
-        private changeDetector:ChangeDetectorRef,
+        private changeDetector: ChangeDetectorRef,
         private timeService: TimeService,
         private itemsService: ItemsService,
         private spellsService: SpellsService,
         public characterService: CharacterService,
         public effectsService: EffectsService,
-        private conditionsService: ConditionsService
-    ) { }
+        private conditionsService: ConditionsService,
+        popoverConfig: NgbPopoverConfig,
+        tooltipConfig: NgbTooltipConfig
+    ) {
+        popoverConfig.autoClose = "outside";
+        popoverConfig.container = "body";
+        //For touch compatibility, this openDelay prevents the popover from closing immediately on tap because a tap counts as hover and then click;
+        popoverConfig.openDelay = 1;
+        popoverConfig.placement = "auto";
+        popoverConfig.popoverClass = "list-item sublist";
+        popoverConfig.triggers = "hover:click";
+        tooltipConfig.container = "body";
+        //For touch compatibility, this openDelay prevents the tooltip from closing immediately on tap because a tap counts as hover and then click;
+        tooltipConfig.openDelay = 1;
+        tooltipConfig.triggers = "hover:click";
+    }
 
     minimize() {
         this.characterService.get_Character().settings.healthMinimized = !this.characterService.get_Character().settings.healthMinimized;
@@ -60,7 +75,7 @@ export class HealthComponent implements OnInit {
     still_loading() {
         return this.characterService.still_loading()
     }
-    
+
     get_Creature() {
         return this.characterService.get_Creature(this.creature);
     }
@@ -72,7 +87,7 @@ export class HealthComponent implements OnInit {
     trackByIndex(index: number, obj: any): any {
         return index;
     }
-    
+
     get_Waiting(duration: number) {
         let result: string = "";
         this.characterService.get_Creatures().forEach(creature => {
@@ -98,7 +113,7 @@ export class HealthComponent implements OnInit {
 
     die(reason: string) {
         if (this.characterService.get_AppliedConditions(this.get_Creature(), "Dead").length == 0) {
-            this.characterService.add_Condition(this.get_Creature(), Object.assign(new ConditionGain, {name:"Dead", source:reason}), false)
+            this.characterService.add_Condition(this.get_Creature(), Object.assign(new ConditionGain, { name: "Dead", source: reason }), false)
             this.characterService.get_AppliedConditions(this.get_Creature(), "Doomed").forEach(gain => {
                 this.characterService.remove_Condition(this.get_Creature(), gain, false);
             })
@@ -117,7 +132,7 @@ export class HealthComponent implements OnInit {
         }
         return this.get_Health()
     }
-    
+
     get_Health() {
         return this.characterService.get_Health(this.get_Creature())
     }
@@ -189,7 +204,7 @@ export class HealthComponent implements OnInit {
     }
 
     set_TempHP(amount: number) {
-        this.get_Health().temporaryHP[0] = {amount: amount, source: "Manual", sourceId: ""};
+        this.get_Health().temporaryHP[0] = { amount: amount, source: "Manual", sourceId: "" };
         this.get_Health().temporaryHP.length = 1;
         this.characterService.set_ToChange(this.creature, "health");
         this.characterService.set_ToChange(this.creature, "effects");
@@ -211,22 +226,25 @@ export class HealthComponent implements OnInit {
         //There should be no absolutes in resistances. If there are, they will be treated as relatives here.
         let effects = this.effectsService.get_Effects(this.creature).all.filter(effect =>
             effect.creature == this.get_Creature().id && (effect.target.toLowerCase().includes("resistance") ||
-            effect.target.toLowerCase().includes("hardness")) && effect.apply);
-        let resistances: any[] = [];
+                effect.target.toLowerCase().includes("hardness")) && effect.apply);
+        let resistances: { target: string, value: number, source: string }[] = [];
         effects.forEach(effect => {
-            let value = effect.setValue || effect.value;
+            let value = effect.value || effect.setValue;
             let resistance = resistances.find(res => res.target == effect.target);
             if (resistance) {
                 resistance.value += parseInt(value);
-                resistance.source += ", "+effect.source;
+                resistance.source += "\n" + effect.source;
             } else {
-                resistances.push({target:effect.target, value:parseInt(value), source:effect.source});
+                resistances.push({ target: effect.target, value: parseInt(value), source: effect.source });
             }
         });
-        resistances.forEach((res: {value:number, target:string}) => {
+        resistances.forEach((res: { target: string, value: number, source: string }) => {
             if (res.value < 0) {
                 res.target = res.target.toLowerCase().replace("resistance", "weakness");
-                res.target = res.target.split(" ").map(word => word[0].toUpperCase() + word.substr(1).toLowerCase()).join(" ");
+            }
+            res.target = res.target.split(" ").map(word => word[0].toUpperCase() + word.substr(1).toLowerCase()).join(" ");
+            if (res.source.includes("\n")) {
+                res.source = "\n" + res.source;
             }
         });
         return resistances;
@@ -238,10 +256,10 @@ export class HealthComponent implements OnInit {
         let immunities: any[] = [];
         effects.forEach(effect => {
             if (!immunities.some(res => res.target == effect.target)) {
-                immunities.push({target:effect.target, source:effect.source});
+                immunities.push({ target: effect.target, source: effect.source });
             }
         });
-        immunities.forEach((res: {value:number, target:string}) => {
+        immunities.forEach((res: { value: number, target: string }) => {
             res.target = res.target.split(" ").map(word => word[0].toUpperCase() + word.substr(1).toLowerCase()).join(" ");
         });
         return immunities;
@@ -264,17 +282,17 @@ export class HealthComponent implements OnInit {
             setTimeout(() => this.finish_Loading(), 500)
         } else {
             this.characterService.get_Changed()
-            .subscribe((target) => {
-                if (["health", "all", this.creature.toLowerCase()].includes(target.toLowerCase())) {
-                    this.changeDetector.detectChanges();
-                }
-            });
+                .subscribe((target) => {
+                    if (["health", "all", this.creature.toLowerCase()].includes(target.toLowerCase())) {
+                        this.changeDetector.detectChanges();
+                    }
+                });
             this.characterService.get_ViewChanged()
-            .subscribe((view) => {
-                if (view.creature.toLowerCase() == this.creature.toLowerCase() && ["health", "all"].includes(view.target.toLowerCase())) {
-                    this.changeDetector.detectChanges();
-                }
-            });
+                .subscribe((view) => {
+                    if (view.creature.toLowerCase() == this.creature.toLowerCase() && ["health", "all"].includes(view.target.toLowerCase())) {
+                        this.changeDetector.detectChanges();
+                    }
+                });
             return true;
         }
     }

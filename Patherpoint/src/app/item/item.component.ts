@@ -12,6 +12,7 @@ import { Talisman } from '../Talisman';
 import { SpellGain } from '../SpellGain';
 import { AlchemicalPoison } from '../AlchemicalPoison';
 import { Weapon } from '../Weapon';
+import { NgbPopoverConfig } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
     selector: 'app-item',
@@ -38,8 +39,17 @@ export class ItemComponent implements OnInit {
         private activitiesService: ActivitiesService,
         public characterService: CharacterService,
         private itemsService: ItemsService,
-        private spellsService: SpellsService
-    ) { }
+        private spellsService: SpellsService,
+        popoverConfig: NgbPopoverConfig
+    ) {
+        popoverConfig.autoClose = "outside";
+        popoverConfig.container = "body";
+        //For touch compatibility, this openDelay prevents the popover from closing immediately on tap because a tap counts as hover and then click;
+        popoverConfig.openDelay = 1;
+        popoverConfig.placement = "auto";
+        popoverConfig.popoverClass = "list-item sublist";
+        popoverConfig.triggers = "hover:click";
+    }
 
     trackByIndex(index: number, obj: any): any {
         return index;

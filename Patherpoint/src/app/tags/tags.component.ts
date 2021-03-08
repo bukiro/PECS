@@ -48,8 +48,8 @@ export class TagsComponent implements OnInit {
         popoverConfig.placement = "auto";
         popoverConfig.autoClose = "outside";
         popoverConfig.triggers = "hover:click";
-        //For touch compatibility, this openDelay prevents the popover from closing immediately on tap because a tap amounts to hover and then click;
-        popoverConfig.openDelay = 100;
+        //For touch compatibility, this openDelay prevents the popover from closing immediately on tap because a tap counts as hover and then click;
+        popoverConfig.openDelay = 1;
         popoverConfig.container = "body";
         popoverConfig.popoverClass = "list-item sublist";
     }

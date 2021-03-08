@@ -1,21 +1,31 @@
-<button class="minimizebutton lower" title="{{get_Minimized() ? 'Click to show all information.' : 'Click to show compact information.'}}" [ngClass]="{'fancy-button':get_Minimized()}" (click)="minimize()" *ngIf="creature=='Character' && showMinimizeButton">&#8691;</button>
+<button class="minimizebutton lower"
+    [ngbTooltip]="get_Minimized() ? 'Click to show all information.' : 'Click to show compact information.'"
+    [ngClass]="{'fancy-button':get_Minimized()}" (click)="minimize()"
+    *ngIf="creature=='Character' && showMinimizeButton">&#8691;</button>
 <div id="{{creature}}-health-height" class="attributeBox">
     <ng-container *ngFor="let health of [calculate_Health()]; trackBy:trackByIndex;">
         <header class="sectionHeader box-header">Health:
-            <span [ngClass]="{'penalty':(health.$currentHP.result <= 0), 'bonus':(health.$currentHP.result > health.$maxHP.result)}" title="{{health.$currentHP.explain}}">{{health.$currentHP.result}}</span> Hit Points
+            <span
+                [ngClass]="{'penalty':(health.$currentHP.result <= 0), 'bonus':(health.$currentHP.result > health.$maxHP.result)}"
+                [ngbPopover]="health.$currentHP.explain">{{health.$currentHP.result}}</span> Hit Points
         </header>
-        <app-tags [creature]="creature" [objectName]="'Health'" [showTraits]=true [showFeats]=true [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
+        <app-tags [creature]="creature" [objectName]="'Health'" [showTraits]=true [showFeats]=true [showItems]=true
+            [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
         <div class="loading" *ngIf="still_loading()">Loading</div>
         <ng-container *ngIf="!still_loading()">
-            <button class="list-item center-aligned" (click)="rest()" title="{{get_Waiting(48000)}}" [disabled]="get_Waiting(48000).length" title="Rest for 8 hours and make your daily preparations." *ngIf="creature=='Character'">Rest</button>
-            <app-tags [creature]="creature" [objectName]="'Rest'" [showTraits]=true [showFeats]=true [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
+            <div [ngbTooltip]="get_Waiting(48000) || 'Rest for 8 hours and make your daily preparations.'">
+                <button class="list-item center-aligned" (click)="rest()" [disabled]="get_Waiting(48000).length"
+                    *ngIf="creature=='Character'">Rest</button>
+            </div>
+            <app-tags [creature]="creature" [objectName]="'Rest'" [showTraits]=true [showFeats]=true [showItems]=true
+                [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
             <div class="fullsize-only list-item">
                 <div class="newrow">
                     <strong>Max HP</strong>
-                    <span>
+                    <span [ngbPopover]="health.$maxHP.explain">
                         <input class="number3" type="number"
                             [ngClass]="{'penalty':show_PenaltiesOnThis('Max HP'), 'bonus':show_BonusesOnThis('Max HP'), 'absolute':get_AbsolutesOnThis('Max HP').length}"
-                            title="{{health.$maxHP.explain}}" value="{{health.$maxHP.result}}" disabled>
+                            value="{{health.$maxHP.result}}" disabled>
                     </span>
                     <strong>Temp HP</strong>
                     <span>
@@ -26,13 +36,18 @@
                                 {{tempHPSet.amount + (tempHPSet.source ? " (" + tempHPSet.source + ")" : "")}}
                             </option>
                         </select>
-                        <input class="number3" type="number" [ngClass]="{'bonus':(health.temporaryHP[0].amount > 0)}"
-                            title="{{health.temporaryHP[0].source ? 'Source: ' + health.temporaryHP[0].source : ''}}"
-                            value="{{health.temporaryHP[0].amount}}" disabled *ngIf="health.temporaryHP.length == 1">
+                        <span
+                            [ngbPopover]="health.temporaryHP[0].source ? 'Source: ' + health.temporaryHP[0].source : ''">
+                            <input class="number3" type="number"
+                                [ngClass]="{'bonus':(health.temporaryHP[0].amount > 0)}"
+                                value="{{health.temporaryHP[0].amount}}" disabled
+                                *ngIf="health.temporaryHP.length == 1">
+                        </span>
                     </span>
                 </div>
                 <div class="newrow">
-                    <app-tags [creature]="creature" [objectName]="'Max HP'" [showTraits]=true [showFeats]=true [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
+                    <app-tags [creature]="creature" [objectName]="'Max HP'" [showTraits]=true [showFeats]=true
+                        [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
                 </div>
             </div>
             <div class="list-item" [ngClass]="{'fullsize-only':(health.$dying <= 0)}">
@@ -65,11 +80,13 @@
                     </button>
                 </div>
                 <div class="newrow">
-                    <app-tags [creature]="creature" [objectName]="'Max Dying'" [showTraits]=true [showFeats]=true [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
+                    <app-tags [creature]="creature" [objectName]="'Max Dying'" [showTraits]=true [showFeats]=true
+                        [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
                 </div>
             </div>
             <div class="list-item" [ngClass]="{'fullsize-only':(health.$wounded <= 0)}">
-                <strong>Wounded</strong><input class="number2" type="number" [ngClass]="{'penalty':(health.$wounded > 0)}" value="{{health.$wounded}}" disabled>
+                <strong>Wounded</strong><input class="number2" type="number"
+                    [ngClass]="{'penalty':(health.$wounded > 0)}" value="{{health.$wounded}}" disabled>
                 <button *ngIf="health.$wounded > 0" (click)="on_HealWounded()">Heal</button>
             </div>
             <div class="list-item newrow">
@@ -124,17 +141,25 @@
             <ng-container *ngFor="let resistances of [get_Resistances()]; let index = index; trackBy:trackByIndex;">
                 <div class="list-item" *ngIf="resistances.length">
                     <div class="newrow" *ngFor="let resistance of resistances; trackBy:trackByIndex;">
-                        <span title="{{resistance.source}}" [ngClass]="(resistance.value < 0) ? 'penalty' : 'bonus'">{{resistance.target}}:
-                            {{Math.abs(resistance.value)}}</span>
+                        <span>
+                            <ng-template #ResistanceSourceTemplate>
+                                <strong>Source{{resistance.source.includes('\n') ? 's' : ''}}</strong>
+                                {{resistance.source}}
+                            </ng-template>
+                            <span [ngbPopover]="ResistanceSourceTemplate"
+                                [ngClass]="(resistance.value < 0) ? 'penalty' : 'bonus'">{{resistance.target}}:
+                                {{Math.abs(resistance.value)}}</span>
+                        </span>
                     </div>
                 </div>
-                <app-tags [creature]="creature" [objectName]="'Resistances'" [showTraits]=true [showFeats]=true [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
+                <app-tags [creature]="creature" [objectName]="'Resistances'" [showTraits]=true [showFeats]=true
+                    [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
             </ng-container>
             <ng-container *ngFor="let immunities of [get_Immunities()]; trackBy:trackByIndex;">
                 <header class="subsectionHeader" *ngIf="immunities.length">Immunities</header>
                 <div class="list-item" *ngIf="immunities.length">
                     <div class="newrow" *ngFor="let immunity of immunities; trackBy:trackByIndex;">
-                        <span title="{{immunity.source}}" class="bonus">{{immunity.target}}</span>
+                        <span [ngbPopover]="'Source: ' + immunity.source" class="bonus">{{immunity.target}}</span>
                     </div>
                 </div>
             </ng-container>

@@ -1,4 +1,5 @@
 import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { NgbTooltipConfig } from '@ng-bootstrap/ng-bootstrap';
 import { CharacterService } from '../character.service';
 import { FamiliarsService } from '../familiars.service';
 
@@ -14,7 +15,13 @@ export class FamiliarComponent implements OnInit {
         private changeDetector: ChangeDetectorRef,
         private characterService: CharacterService,
         private familiarsService: FamiliarsService,
-    ) { }
+        tooltipConfig: NgbTooltipConfig
+    ) {
+        tooltipConfig.container = "body";
+        //For touch compatibility, this openDelay prevents the tooltip from closing immediately on tap because a tap counts as hover and then click;
+        tooltipConfig.openDelay = 1;
+        tooltipConfig.triggers = "hover:click";
+    }
 
     minimize() {
         this.characterService.get_Character().settings.familiarMinimized = !this.characterService.get_Character().settings.familiarMinimized;

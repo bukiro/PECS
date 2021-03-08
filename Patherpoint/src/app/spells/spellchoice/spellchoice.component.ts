@@ -9,6 +9,7 @@ import { EffectsService } from 'src/app/effects.service';
 import { SpellGain } from 'src/app/SpellGain';
 import { SpellLearned } from 'src/app/SpellLearned';
 import { SignatureSpellGain } from 'src/app/SignatureSpellGain';
+import { NgbPopoverConfig, NgbTooltipConfig } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
     selector: 'app-spellchoice',
@@ -49,8 +50,22 @@ export class SpellchoiceComponent implements OnInit {
         private characterService: CharacterService,
         private spellsService: SpellsService,
         private traitsService: TraitsService,
-        private effectsService: EffectsService
-    ) { }
+        private effectsService: EffectsService,
+        popoverConfig: NgbPopoverConfig,
+        tooltipConfig: NgbTooltipConfig
+    ) {
+        popoverConfig.autoClose = "outside";
+        popoverConfig.container = "body";
+        //For touch compatibility, this openDelay prevents the popover from closing immediately on tap because a tap counts as hover and then click;
+        popoverConfig.openDelay = 1;
+        popoverConfig.placement = "auto";
+        popoverConfig.popoverClass = "list-item sublist";
+        popoverConfig.triggers = "hover:click";
+        tooltipConfig.container = "body";
+        //For touch compatibility, this openDelay prevents the tooltip from closing immediately on tap because a tap counts as hover and then click;
+        tooltipConfig.openDelay = 1;
+        tooltipConfig.triggers = "hover:click";
+    }
 
     toggle_Spell(name: string) {
         if (this.showSpell == name) {
