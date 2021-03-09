@@ -7,6 +7,7 @@ import { EffectsService } from '../effects.service';
 import { Skill } from '../Skill';
 import { v1 as uuidv1 } from 'uuid';
 import { NgbPopoverConfig, NgbTooltipConfig } from '@ng-bootstrap/ng-bootstrap';
+import { Effect } from '../Effect';
 
 @Component({
     selector: 'app-skill',
@@ -105,10 +106,6 @@ export class SkillComponent implements OnInit {
             }
         }
         return specialNames;
-    }
-
-    get_SpecialEffects(skill: Skill) {
-        return skill.$absolutes[this.get_CalculatedIndex()].concat(skill.$relatives[this.get_CalculatedIndex()])
     }
 
     still_loading() {

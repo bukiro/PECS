@@ -1,22 +1,22 @@
 <div class="list-item"
-    [ngClass]="{'fullsize-only':(skill.$value[get_CalculatedIndex()].result == 0), 'character-only':(skill.$level[get_CalculatedIndex()] == 0 && creature == 'Companion')}"
-    *ngFor="let skill of [skill.calculate(get_Creature(), this.characterService,this.abilitiesService,this.effectsService, get_Character().level, isDC)]; trackBy:trackByIndex;">
+    [ngClass]="{'fullsize-only':(calculatedSkill.value.result == 0), 'character-only':(calculatedSkill.level == 0 && creature == 'Companion')}"
+    *ngFor="let calculatedSkill of [skill.calculate(get_Creature(), this.characterService,this.abilitiesService,this.effectsService, get_Character().level, isDC)]; trackBy:trackByIndex;">
     <div class="newrow">
         <ng-template #AbilityPopover>
             <strong>Ability</strong>
-            {{skill.$ability[get_CalculatedIndex()]}}
+            {{calculatedSkill.ability}}
         </ng-template>
         <span><strong
-                [ngbPopover]="skill.$ability[get_CalculatedIndex()] ? AbilityPopover : null">{{get_Name(skill)}}</strong></span>
+                [ngbPopover]="calculatedSkill.ability ? AbilityPopover : null">{{get_Name(skill)}}</strong></span>
         <app-proficiency-form style="flex-grow:0" [creature]="creature" [skill]="skill"
             [characterService]="this.characterService" [level]="this.characterService.get_Character().level"
             *ngIf="creature != 'Familiar'">
         </app-proficiency-form>
         <span *ngIf="showValue">
-            <span [ngbPopover]="((isDC) ? 'DC basis: 10\n' : '')+skill.$value[get_CalculatedIndex()].explain">
+            <span [ngbPopover]="((isDC) ? 'DC basis: 10\n' : '')+calculatedSkill.value.explain">
             Value: <input class="number2"
-                [ngClass]="{'penalty':skill.$penalties[get_CalculatedIndex()], 'bonus':skill.$bonuses[get_CalculatedIndex()], 'absolute':skill.$absolutes[get_CalculatedIndex()].length}"
-                type="number" value="{{skill.$value[get_CalculatedIndex()].result + ((isDC) ? 10 : 0)}}" disabled>
+                [ngClass]="{'penalty':calculatedSkill.penalties, 'bonus':calculatedSkill.bonuses, 'absolute':calculatedSkill.absolutes.length}"
+                type="number" value="{{calculatedSkill.value.result + ((isDC) ? 10 : 0)}}" disabled>
             <span class="fullsize-only" *ngFor="let id of [get_LabelID()]; trackBy:trackByIndex;">
                 <input id="{{id+'notes'}}" class="invisible" type="checkbox" [(ngModel)]="skill.showNotes">
                 <label for="{{id+'notes'}}" [ngbTooltip]="'Edit notes'">&#9998;</label>
@@ -26,7 +26,7 @@
     </div>
     <app-tags [creature]="creature" [objectName]=skill.name [showTraits]=true [showFeats]=true [showItems]=true
         [showActivities]=true [showConditions]=true [specialNames]=get_SpecialShowon(skill)
-        [specialEffects]="get_SpecialEffects(skill)">
+        [specialEffects]="calculatedSkill.absolutes.concat(calculatedSkill.relatives)">
     </app-tags>
     <div class="fullsize-only newrow" *ngIf="skill.showNotes">
         <span>
