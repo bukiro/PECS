@@ -59,7 +59,7 @@ import { SkillchoiceComponent } from './character/skillchoice/skillchoice.compon
 import { ItemBladeAllyComponent } from './item/itemBladeAlly/itemBladeAlly.component';
 import { HintComponent } from './tags/hint/hint.component';
 import { ConditionComponent } from './effects/condition/condition.component';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { GridIconComponent } from './gridIcon/gridIcon.component';
 
 @NgModule({
@@ -128,7 +128,8 @@ import { GridIconComponent } from './gridIcon/gridIcon.component';
       NgbModule
    ],
    providers: [
-      SortByPipe
+      SortByPipe,
+      NgbActiveModal
    ],
    bootstrap: [
       AppComponent

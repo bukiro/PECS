@@ -23,6 +23,23 @@
                     Database connection failed.
                 </div>
                 <ng-container *ngFor="let savegame of get_Savegames(); let index = index; trackBy:trackByIndex;">
+                    <ng-template #SavegameDeleteModal let-modal>
+                        <div class="modal-header">
+                            <header class="sectionHeader modal-title" id="modal-title">Delete Character</header>
+                            <button type="button" class="close" aria-label="close"
+                                (click)="modal.dismiss('Cross click')" ngbAutofocus>
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <p>Are you sure you want to delete <strong>{{savegame.name}}</strong>?</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-outline-secondary"
+                                (click)="modal.dismiss('Cancel click')">Cancel</button>
+                            <button type="button" class="btn btn-danger" (click)="modal.close('Ok click')">Ok</button>
+                        </div>
+                    </ng-template>
                     <header class="sectionHeader"
                         *ngIf="index == 0 || get_Savegames()[index].partyName != get_Savegames()[index-1].partyName">
                         {{savegame.partyName}}</header>
@@ -32,16 +49,12 @@
                             <span>{{savegame.heritage ? " | " + savegame.heritage +
                                 (!savegame.heritage.includes(savegame.ancestry) ?
                                 " " + savegame.ancestry : "") : (savegame.ancestry ? " | " + savegame.ancestry :
-                                "")}}</span> {{(savegame.classChoice ? " | " + savegame.classChoice + " " : " | ") +
-                            savegame.class}}
+                                "")}}</span> {{(savegame.classChoice ? " | " + savegame.classChoice : "") +
+                            (savegame.class ? " | " + savegame.class : "") }}
                         </span>
                         <span>
                             <button (click)="load_CharacterFromDB(savegame)">Load</button>
-                            <button (click)="delete_CharacterFromDB(savegame, index)"
-                                [disabled]="!allowCharacterDelete[index]">Delete</button>
-                            <input id="allowCharacterDelete{{index}}" type="checkbox"
-                                [(ngModel)]="allowCharacterDelete[index]">
-                            <label for="allowCharacterDelete{{index}}">Allow deletion</label>
+                            <button (click)="open_DeleteModal(SavegameDeleteModal, savegame)">Delete</button>
                         </span>
                     </div>
                 </ng-container>

@@ -123,7 +123,7 @@ svg g {
     background-color: #303030;
 }
 
-.darkmode.charactersheet,
+.darkmode .charactersheet,
 .darkmode .animalcompanion-box,
 .darkmode .familiar-box {
     background-color: #202020;
@@ -586,7 +586,7 @@ button:not([disabled]):active:before {
     box-sizing: border-box;
 }
 
-#top-bar.darkmode button,
+.darkmode #top-bar button,
 .darkmode #tabs button {
     border-color: #CCC;
 }
@@ -779,7 +779,7 @@ ngb-popover-window.list-item.sublist {
     background-color: #E0E0E0;
 }
 
-.popover.darkmode {
+.darkmode .popover {
     background-color: #303030;
 }
 
@@ -789,6 +789,33 @@ ngb-popover-window.list-item.sublist {
 
 .popover-body {
     color: inherit;
+}
+
+.modal-content {
+    background-color: #E0E0E0;
+    border-width: 4px;
+    border-style: solid;
+    border-color: #465A8C;
+    border-color: rgb(var(--accent));
+    border-radius: 2px;
+}
+
+.darkmode .modal-content {
+    background-color: #303030;
+}
+
+.modal-content button {
+    font-weight: bold;
+}
+
+.modal-header, .modal-body, .modal-footer {
+    padding: .5rem;
+    border-color: rgb(var(--accent));
+}
+
+.modal-header .close {
+    padding: .5rem .5rem;
+    margin: -.5rem -.5rem -.5rem auto;
 }
 
 .tooltip-inner {
@@ -1014,14 +1041,16 @@ button.choicecleared::after,
 }
 
 .list-item.sublist :not(.list-item)>strong,
-.list-item.sublist :not(.list-item)>span>strong {
+.list-item.sublist :not(.list-item)>span>strong,
+.modal-content strong {
     color: rgb(var(--accent));
     text-shadow: 0 0 2px white, 0 0 2px white, 0 0 2px white, 0 0 2px white, 0 0 2px white;
     text-shadow: 0.05em 0 2px white, 0 0.05em 2px white, -0.05em 0 2px white, 0 -0.05em 2px white, -0.05em -0.05em 2px white, -0.05em 0.05em 2px white, 0.05em -0.05em 2px white, 0.05em 0.05em 2px white;
 }
 
 .darkmode .list-item.sublist :not(.list-item)>strong,
-.darkmode .list-item.sublist :not(.list-item)>span>strong {
+.darkmode .list-item.sublist :not(.list-item)>span>strong,
+.darkmode .modal-content strong {
     text-shadow: 0 0 2px var(--textcolor), 0 0 2px var(--textcolor), 0 0 2px var(--textcolor), 0 0 2px var(--textcolor), 0 0 2px var(--textcolor);
     text-shadow: 0.05em 0 2px var(--textcolor), 0 0.05em 2px var(--textcolor), -0.05em 0 2px var(--textcolor), 0 -0.05em 2px var(--textcolor), -0.05em -0.05em 2px var(--textcolor), -0.05em 0.05em 2px var(--textcolor), 0.05em -0.05em 2px var(--textcolor), 0.05em 0.05em 2px var(--textcolor);
 }

@@ -17,13 +17,13 @@
                 <button (click)="end_Turn()" [disabled]="get_YourTurn()==0 || get_Waiting(5).length">End Turn</button>
             </div>
         </div>
-        <div *ngIf="showTime" class="list-item" [ngClass]="{'fullsize-only':showTime && showTurn}"
-            [ngbTooltip]="get_Waiting(duration)">
-            <button class="fancybutton" (click)="tick(duration)"
-                *ngFor="let duration of [10, 50, 100, 500, 1000, 6000, 48000, 144000]; trackBy:trackByIndex;"
-                [disabled]="get_Waiting(duration).length">
-                Pass {{get_Duration(duration, false)}}
-            </button>
+        <div *ngIf="showTime" class="list-item" [ngClass]="{'fullsize-only':showTime && showTurn}">
+            <div *ngFor="let duration of [10, 50, 100, 500, 1000, 6000, 48000, 144000]; trackBy:trackByIndex;"
+                [ngbTooltip]="get_Waiting(duration)">
+                <button class="fancybutton" (click)="tick(duration)" [disabled]="get_Waiting(duration).length">
+                    Pass {{get_Duration(duration, false)}}
+                </button>
+            </div>
         </div>
     </ng-container>
 </div>

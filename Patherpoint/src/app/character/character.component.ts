@@ -35,7 +35,7 @@ import { Item } from '../Item';
 import { FeatChoice } from '../FeatChoice';
 import { Spell } from '../Spell';
 import { Character } from '../Character';
-import { NgbPopoverConfig, NgbTooltipConfig } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal, NgbModal, NgbPopoverConfig, NgbTooltipConfig } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
     selector: 'app-character',
@@ -49,7 +49,6 @@ export class CharacterComponent implements OnInit {
     private showLevel: number = 0;
     private showItem: string = "";
     private showList: string = "";
-    public allowCharacterDelete: Boolean[] = [];
     public adventureBackgrounds: Boolean = true;
     public regionalBackgrounds: Boolean = true;
     public blankCharacter: Character = new Character();
@@ -71,6 +70,8 @@ export class CharacterComponent implements OnInit {
         private savegameService: SavegameService,
         private traitsService: TraitsService,
         private familiarsService: FamiliarsService,
+        private modalService: NgbModal,
+        public modal: NgbActiveModal,
         popoverConfig: NgbPopoverConfig,
         tooltipConfig: NgbTooltipConfig
     ) {
@@ -201,13 +202,22 @@ export class CharacterComponent implements OnInit {
         this.characterService.reset_Character(savegame.id);
     }
 
-    delete_CharacterFromDB(savegame: Savegame, index: number) {
+    delete_CharacterFromDB(savegame: Savegame) {
         this.characterService.delete_Character(savegame);
-        this.allowCharacterDelete[index] = false;
     }
 
     save_CharacterToDB() {
         this.characterService.save_Character();
+    }
+
+    open_DeleteModal(content, savegame: Savegame) {
+        this.modalService.open(content, { centered: true, ariaLabelledBy: 'modal-title'}).result.then((result) => {
+            if (result == "Ok click") {
+                this.delete_CharacterFromDB(savegame);
+            }
+        }, (reason) => {
+            //Do nothing if cancelled.
+        });
     }
 
     get_IsBlankCharacter() {
