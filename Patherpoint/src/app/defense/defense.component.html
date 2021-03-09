@@ -1,12 +1,12 @@
 <button class="minimizebutton lower" [ngbTooltip]="get_Minimized() ? 'Click to show all information.' : 'Click to show compact information.'" [ngClass]="{'fancy-button':get_Minimized()}" (click)="minimize()" *ngIf="creature=='Character'">&#8691;</button>
 <div id="{{creature}}-defense-height" class="attributeBox">
-    <ng-container *ngFor="let AC of [get_CalculatedAC()]; trackBy:trackByIndex;">
-        <header class="sectionHeader box-header" [ngbPopover]="AC.$value[get_CalculatedIndex()].explain">Defense: Armor Class <span [ngClass]="{'penalty':AC.$penalties[get_CalculatedIndex()], 'bonus':AC.$bonuses[get_CalculatedIndex()], 'absolute':AC.$absolutes[get_CalculatedIndex()].length}">
-                {{AC.$value[get_CalculatedIndex()].result}}</span>
+    <ng-container *ngFor="let calculatedAC of [get_CalculatedAC()]; trackBy:trackByIndex;">
+        <header class="sectionHeader box-header" [ngbPopover]="calculatedAC.value.explain">Defense: Armor Class <span [ngClass]="{'penalty':calculatedAC.penalties, 'bonus':calculatedAC.bonuses, 'absolute':calculatedAC.absolutes.length}">
+                {{calculatedAC.value.result}}</span>
         </header>
         <div class="loading" *ngIf="still_loading()">Loading</div>
         <ng-container *ngIf="!still_loading()">
-            <app-tags [creature]="creature" [objectName]="'AC'" [showTraits]=true [showFeats]=true [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=false [specialEffects]="AC.$relatives[get_CalculatedIndex()].concat(AC.$absolutes[get_CalculatedIndex()])">
+            <app-tags [creature]="creature" [objectName]="'AC'" [showTraits]=true [showFeats]=true [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=false [specialEffects]="calculatedAC.relatives.concat(calculatedAC.absolutes)">
             </app-tags>
             <app-tags [creature]="creature" [objectName]="'Defense'" [showTraits]=true [showFeats]=true [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
             <div class="list-item">

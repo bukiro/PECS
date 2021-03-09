@@ -8,15 +8,9 @@ import { Creature } from './Creature';
 import { Shield } from './Shield';
 import { ConditionsService } from './conditions.service';
 import { ConditionGain } from './ConditionGain';
-import { Armor } from './Armor';
 
 export class AC {
     public name: string = "AC"
-    public $absolutes: (Effect[])[] = [[], [], []];
-    public $relatives: (Effect[])[] = [[], [], []];
-    public $bonuses: (boolean)[] = [false, false, false];
-    public $penalties: (boolean)[] = [false, false, false];
-    public $value: { result: number, explain: string }[] = [{ result: 0, explain: "" }, { result: 0, explain: "" }, { result: 0, explain: "" }];
     set_Cover(creature: Creature, cover: number, shield: Shield = null, characterService: CharacterService, conditionsService: ConditionsService) {
         let conditions: ConditionGain[] = conditionsService.get_AppliedConditions(creature, characterService, creature.conditions, true)
             .filter(gain => ["Lesser Cover", "Standard Cover", "Greater Cover"].includes(gain.name) && gain.source == "Defense");
@@ -27,7 +21,7 @@ export class AC {
         switch (cover) {
             case 0:
                 if (shield) {
-                    shield.takingCover == false;
+                    shield.takingCover = false;
                 }
                 break;
             case 1:
@@ -42,7 +36,7 @@ export class AC {
                 break;
             case 4:
                 if (shield) {
-                    shield.takingCover == true;
+                    shield.takingCover = true;
                 }
                 if (!greaterCover) {
                     coverName = "Greater Cover";
@@ -65,71 +59,116 @@ export class AC {
         characterService.process_ToChange();
     }
     calculate(creature: Creature, characterService: CharacterService, defenseService: DefenseService, effectsService: EffectsService) {
-        let index = 0;
-        switch (creature.type) {
-            case "Companion":
-                index = 1;
-                break;
-            case "Familiar":
-                index = 2;
-                break;
+        let character = characterService.get_Character();
+        let absolutes: Effect[] = this.absolutes(creature, effectsService);
+        let relatives: Effect[] = this.relatives(creature, character, effectsService);
+
+        let result = {
+            absolutes: absolutes,
+            relatives: relatives,
+            bonuses: this.bonuses(creature, character, effectsService),
+            penalties: this.penalties(creature, character, effectsService),
+            value: this.value(creature, characterService, defenseService, effectsService, absolutes, relatives)
         }
-        this.$absolutes[index] = this.absolutes(creature, effectsService);
-        this.$relatives[index] = this.relatives(creature, effectsService);
-        this.$bonuses[index] = this.bonus(creature, effectsService);
-        this.$penalties[index] = this.penalty(creature, effectsService);
-        this.$value[index] = this.value(creature, characterService, defenseService, effectsService);
+        return result;
+    }
+    get_NamesList() {
+        return [
+            "AC",
+            "All Checks and DCs",
+            "Dexterity-based Checks and DCs"
+        ]
     }
     absolutes(creature: Creature, effectsService: EffectsService) {
-        return effectsService.get_AbsolutesOnThese(creature, [
-            this.name,
-            "All Checks and DCs",
-            "Dexterity-based Checks and DCs"
-        ]);
+        return effectsService.get_AbsolutesOnThese(creature, this.get_NamesList());
     }
-    relatives(creature: Creature, effectsService: EffectsService) {
-        return effectsService.get_RelativesOnThese(creature, [
-            this.name,
-            "All Checks and DCs",
-            "Dexterity-based Checks and DCs"
-        ]);
+    relatives(creature: Creature, character: Character, effectsService: EffectsService) {
+        //Familiars get the Character's AC without status and circumstance effects, and add their own of those.
+        if (creature.type == "Familiar") {
+            let effects = effectsService.get_RelativesOnThese(character, this.get_NamesList()).filter(effect => effect.type != "circumstance" && effect.type != "status")
+            effects.push(...effectsService.get_RelativesOnThese(creature, this.get_NamesList()).filter(effect => effect.type == "circumstance" || effect.type == "status"))
+        }
+        return effectsService.get_RelativesOnThese(creature, this.get_NamesList());
     }
-    bonus(creature: Creature, effectsService: EffectsService) {
-        return effectsService.show_BonusesOnThese(creature, [
-            this.name,
-            "All Checks and DCs",
-            "Dexterity-based Checks and DCs"
-        ]);
+    bonuses(creature: Creature, character: Character, effectsService: EffectsService) {
+        //We need to copy show_BonusesOnThese and adapt it because Familiars get the Character's AC without status and circumstance effects, and add their own of those.
+        if (creature.type == "Familiar") {
+            let characterBonuses = effectsService.get_Effects(character.type).bonuses.some(effect =>
+                effect.creature == character.id &&
+                effect.apply &&
+                effect.show &&
+                effect.type != "circumstance" &&
+                effect.type != "status" &&
+                this.get_NamesList().map(name => name.toLowerCase()).includes(effect.target.toLowerCase())
+            );
+            let familiarBonuses = effectsService.get_Effects(creature.type).bonuses.some(effect =>
+                effect.creature == creature.id &&
+                effect.apply &&
+                effect.show &&
+                (effect.type == "circumstance" || effect.type == "status") &&
+                this.get_NamesList().map(name => name.toLowerCase()).includes(effect.target.toLowerCase())
+            );
+            return characterBonuses || familiarBonuses;
+        } else {
+            return effectsService.show_BonusesOnThese(creature, this.get_NamesList());
+        }
     }
-    penalty(creature: Creature, effectsService: EffectsService) {
-        return effectsService.show_PenaltiesOnThese(creature, [
-            this.name,
-            "All Checks and DCs",
-            "Dexterity-based Checks and DCs"
-        ]);
+    penalties(creature: Creature, character: Character, effectsService: EffectsService) {
+        //We need to copy show_PenaltiesOnThese and adapt it because Familiars get the Character's AC without status and circumstance effects, and add their own of those.
+        if (creature.type == "Familiar") {
+            let characterPenalties = effectsService.get_Effects(character.type).penalties.some(effect =>
+                effect.creature == character.id &&
+                effect.apply &&
+                effect.show &&
+                effect.type != "circumstance" &&
+                effect.type != "status" &&
+                this.get_NamesList().map(name => name.toLowerCase()).includes(effect.target.toLowerCase())
+            );
+            let familiarPenalties = effectsService.get_Effects(creature.type).penalties.some(effect =>
+                effect.creature == creature.id &&
+                effect.apply &&
+                effect.show &&
+                (effect.type == "circumstance" || effect.type == "status") &&
+                this.get_NamesList().map(name => name.toLowerCase()).includes(effect.target.toLowerCase())
+            );
+            return characterPenalties || familiarPenalties;
+        } else {
+            return effectsService.show_PenaltiesOnThese(creature, this.get_NamesList());
+        }
     }
-    value(creature: Creature, characterService: CharacterService, defenseService: DefenseService, effectsService: EffectsService) {
+    value(creature: Creature, characterService: CharacterService, defenseService: DefenseService, effectsService: EffectsService, absolutes: Effect[] = undefined, relatives: Effect[] = undefined) {
         if (characterService.still_loading()) { return { result: 0, explain: "" }; }
         //Get the bonus from the worn armor. This includes the basic 10
         let armorBonus: number = 10;
         let explain: string = "DC Basis: 10";
         let armorCreature: AnimalCompanion | Character;
+        let character: Character = characterService.get_Character();
         //Familiars get the Character's AC
         if (creature.type == "Familiar") {
-            armorCreature = characterService.get_Character();
+            armorCreature = character;
         } else {
             armorCreature = creature as AnimalCompanion | Character;
         }
-
+        //Familiars get the Character's AC without status and circumstance effects, and add their own of those.
+        if (relatives == undefined) {
+            relatives = this.relatives(creature, character, effectsService);
+        } else {
+            //Reassign the effects to unchain them from the calling function.
+            relatives = relatives.map(relative => Object.assign(new Effect(), JSON.parse(JSON.stringify(relative))));
+        }
         let armorSet = false;
         //Absolutes completely replace the baseValue. They are sorted so that the highest value counts last.
-        this.absolutes(armorCreature, effectsService).forEach(effect => {
+        if (absolutes == undefined) {
+            absolutes = this.absolutes(armorCreature, effectsService)
+        } else {
+            //Reassign the effects to unchain them from the calling function.
+            absolutes = absolutes.map(absolute => Object.assign(new Effect(), JSON.parse(JSON.stringify(absolute))));
+        }
+        absolutes.forEach(effect => {
             armorSet = true;
             armorBonus = parseInt(effect.setValue)
             explain = effect.source + ": " + effect.setValue;
         });
-        let relatives: Effect[] = [];
-
         let armors = defenseService.get_EquippedArmor(armorCreature);
         if (!armorSet && armors.length > 0) {
             let armor = armors[0];
@@ -184,27 +223,18 @@ export class AC {
             } else if (shoddy) {
                 relatives.push(new Effect(creature.type, "item", this.name, "-2", "", false, "Shoddy", true, true, true, 0))
             }
-
             //Add up all modifiers and return the AC gained from this armor
             armorBonus += skillLevel + charLevelBonus + armorItemBonus + dexBonus;
         }
-
-        //Get all active effects on this and sum them up
-        //Familiars get the Character's AC without status and circumstance effects, and add their own of those.
-        if (creature.type == "Familiar") {
-            relatives.push(...this.relatives(armorCreature, effectsService).filter(effect => effect.type != "circumstance" && effect.type != "status"))
-            relatives.push(...this.relatives(creature, effectsService).filter(effect => effect.type == "circumstance" || effect.type == "status"))
-        } else {
-            relatives.push(...this.relatives(creature, effectsService))
-        }
+        //Sum up the effects
         let effectsSum = 0;
         characterService.effectsService.get_TypeFilteredEffects(relatives, false)
-        .forEach(effect => {
-            effectsSum += parseInt(effect.value);
-            explain += "\n" + effect.source + ": " + effect.value;
-        });
-        let result: number = armorBonus + effectsSum;
+            .forEach(effect => {
+                effectsSum += parseInt(effect.value);
+                explain += "\n" + effect.source + ": " + effect.value;
+            });
         //Add up the armor bonus and all active effects and return the sum
+        let result: number = armorBonus + effectsSum;
         return { result: result, explain: explain };
     }
 }

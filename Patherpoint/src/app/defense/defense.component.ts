@@ -99,20 +99,8 @@ export class DefenseComponent implements OnInit {
         return this.defenseService.get_AC();
     }
 
-    get_CalculatedIndex() {
-        switch (this.creature) {
-            case "Character":
-                return 0;
-            case "Companion":
-                return 1;
-            case "Familiar":
-                return 2;
-        }
-    }
-
     get_CalculatedAC() {
-        this.get_AC().calculate(this.get_Creature(), this.characterService, this.defenseService, this.effectsService);;
-        return this.get_AC();
+        return this.get_AC().calculate(this.get_Creature(), this.characterService, this.defenseService, this.effectsService);
     }
 
     get_Cover() {

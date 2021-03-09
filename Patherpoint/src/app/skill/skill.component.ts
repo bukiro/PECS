@@ -57,17 +57,6 @@ export class SkillComponent implements OnInit {
         return index;
     }
 
-    get_CalculatedIndex() {
-        switch (this.creature) {
-            case "Character":
-                return 0;
-            case "Companion":
-                return 1;
-            case "Familiar":
-                return 2;
-        }
-    }
-
     get_Character() {
         return this.characterService.get_Character();
     }

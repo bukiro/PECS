@@ -115,7 +115,7 @@ The very latest in Assistive Technologies for Dungeon Master (ATDM)
 Active to-do:
 - Implement full information in tooltips after time, if possible (apparently not)
 - For icons representing certain items or spells, use the same icon next to the relevant checkbox to make it recognizable
-- Replace $-variables for skills, abilities, health and bulk with *ngFor
+- Replace $-variables for abilities, health and bulk with *ngFor
 
 Implement:
 
