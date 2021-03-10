@@ -13,7 +13,7 @@
             (click)="toggle_Mode('ConditionsEffects')">Conditions & Effects</button>
     </div>
     <ng-container *ngIf="!still_loading() && !['Inventory','ConditionsEffects'].includes(get_ShowMode())">
-        <app-time id="time" class="charactersheet-app charactersheet-row" [sheetSide]="'center'"
+        <app-time class="charactersheet-app charactersheet-row" [sheetSide]="'center'"
             [showTurn]="(['','Encounter'].includes(get_ShowMode()))" [showTime]="(get_ShowMode() != 'Encounter')"
             [ngClass]="{'minimized':(get_TimeMinimized())}"></app-time>
         <app-effects id="Character-effects" class="charactersheet-app charactersheet-row" [sheetSide]="'center'">
@@ -82,7 +82,7 @@
         </div>
     </ng-container>
     <ng-container *ngIf="(get_ShowMode() == 'ConditionsEffects')">
-        <app-time id="time" class="charactersheet-app charactersheet-row" [sheetSide]="'center'"
+        <app-time class="charactersheet-app charactersheet-row" [sheetSide]="'center'"
             [ngClass]="{'minimized':(get_TimeMinimized())}"></app-time>
         <div class="charactersheet-column charactersheet-row">
             <app-effects id="Character-effects" class="charactersheet-app" [fullDisplay]="true" [sheetSide]="'center'">

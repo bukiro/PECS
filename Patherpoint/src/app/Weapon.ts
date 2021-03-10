@@ -679,6 +679,7 @@ export class Weapon extends Equipment {
             })
         }
         let profLevel = this.profLevel(creature, characterService, runeSource[1]);
+        let traits = this.get_Traits(characterService, creature);
         let list = [
             "Damage Rolls",
             this.name + " Damage",
@@ -687,7 +688,14 @@ export class Weapon extends Equipment {
             //"Melee Damage", "Ranged Damage"
             range + " Damage"
         ];
-        if (this.traits.includes("Agile")) {
+        traits.forEach(trait => {
+            if (trait.includes(" ft")) {
+                list.push(trait.split(" ")[0] + " Damage");
+            } else {
+                list.push(trait + " Damage");
+            }
+        })
+        if (traits.includes("Agile")) {
             //"Agile Large Melee Weapon Damage"
             if (this.large) {
                 list.push("Agile Large " + range + " Weapon Damage");
@@ -734,11 +742,6 @@ export class Weapon extends Equipment {
         }
         //"Strength-based Checks and DCs"
         list.push(abilityName + "-based Checks and DCs");
-        if (this.prof == "Unarmed Attacks") {
-            list.push("Unarmed Damage per Die");
-        } else {
-            list.push("Weapon Damage per Die");
-        }
         switch (profLevel) {
             case 2:
                 list.push("Trained Proficiency Attack Damage")
@@ -757,6 +760,28 @@ export class Weapon extends Equipment {
                 list.push("Legendary " + this.name + " Damage")
                 break;
         }
+        //Pre-create Effects based on "Damage per Die" effects.
+        let perDieList: string[] = [];
+        if (this.prof == "Unarmed Attacks") {
+            perDieList.push("Unarmed Damage per Die");
+        } else {
+            perDieList.push("Weapon Damage per Die");
+        }
+        traits.forEach(trait => {
+            if (trait.includes(" ft")) {
+                perDieList.push(trait.split(" ")[0] + " Damage per Die");
+            } else {
+                perDieList.push(trait + " Damage per Die");
+            }
+        })
+        effectsService.get_RelativesOnThese(creature, perDieList).forEach(effect => {
+            let effectBonus = parseInt(effect.value) * dicenum;
+            let newEffect = Object.assign(new Effect(), JSON.parse(JSON.stringify(effect)));
+            newEffect.target = newEffect.target.replace(" per Die", "");
+            newEffect.value = effectBonus.toString();
+            calculatedEffects.push(newEffect);
+        })
+        //Now collect and apply the type-filtered effects on this weapon's damage, including the pregenerated ones.
         effectsService.get_TypeFilteredEffects(
             calculatedEffects
                 .concat(effectsService.get_RelativesOnThese(creature, list)
@@ -767,7 +792,7 @@ export class Weapon extends Equipment {
                 } else {
                     bonuses.push({ value: parseInt(effect.value), setValue: "", source: effect.source, penalty: false });
                 }
-                if (effect.target.includes("Damage per Die")) {
+                if (effect.target.toLowerCase().includes("damage per die")) {
                     effectBonus += parseInt(effect.value) * dicenum;
                     bonusExplain += "\n" + effect.source + ": Damage " + ((parseInt(effect.value) * dicenum) >= 0 ? "+" : "") + (parseInt(effect.value) * dicenum);
                 } else {

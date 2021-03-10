@@ -113,6 +113,7 @@ The very latest in Assistive Technologies for Dungeon Master (ATDM)
 - [ ] Stretch Goal: Icon-Driven UI with dynamic tooltips (e.g. with bootstrap or material)
 
 Active to-do:
+- Implement Icons for Character building, Inventory and Spells
 - For icons representing certain items or spells, use the same icon next to the relevant checkbox to make it recognizable
 
 Implement:

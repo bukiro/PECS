@@ -974,7 +974,7 @@ export class EffectsService {
         let defenseWildcard: string[] = ["Proficiency Level"].map(name => name.toLowerCase());
         let attacks: string[] = ["Damage Rolls", "Dexterity-based Checks and DCs", "Strength-based Checks and DCs", "All Checks and DCs",
             "Unarmed Damage per Die", "Weapon Damage per Die"].map(name => name.toLowerCase());
-        let attacksWildcard: string[] = ["Attack Rolls", "Damage", "Dice Size", "Dice Number", "Proficiency Level", "Reach"].map(name => name.toLowerCase());
+        let attacksWildcard: string[] = ["Attack Rolls", "Damage", "Dice Size", "Dice Number", "Proficiency Level", "Reach", "Damage Per Die"].map(name => name.toLowerCase());
         let individualskills: string[] = ["Perception", "Fortitude", "Reflex", "Will", "Acrobatics", "Arcana", "Athletics", "Crafting", "Deception", "Diplomacy", "Intimidation", "Medicine",
             "Nature", "Occultism", "Performance", "Religion", "Society", "Stealth", "Survival", "Thievery", "Fortitude", "Reflex", "Will"].map(name => name.toLowerCase());
         let individualSkillsWildcard: string[] = ["Lore", "Class DC", "Spell DC"].map(name => name.toLowerCase());
