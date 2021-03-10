@@ -322,8 +322,8 @@ export class InventoryComponent implements OnInit {
         return this.timeService.get_Duration(turns);
     }
 
-    get_Bulk() {
-        return [this.get_Creature().bulk];
+    get_CalculatedBulk() {
+        return this.get_Creature().bulk.calculate(this.get_Creature(), this.characterService, this.effectsService);
     }
 
     get_MaxInvested() {

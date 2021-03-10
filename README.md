@@ -115,15 +115,19 @@ The very latest in Assistive Technologies for Dungeon Master (ATDM)
 Active to-do:
 - Implement full information in tooltips after time, if possible (apparently not)
 - For icons representing certain items or spells, use the same icon next to the relevant checkbox to make it recognizable
-- Replace $-variables for abilities, health and bulk with *ngFor
+- Replace $-variables for abilitiesa and health with *ngFor
 
 Implement:
 
 Next steps:
 - 5th level spells
-- Gnome
-- Hobgoblin
-- Leshy
-- Shoony
+- Gnome feats
+- Hobgoblin feats
+- Leshy feats
+- Shoony feats
 - Implement Conditions for Poisons
 - Implement Armor materials
+- Group and sort styles
+- Champion
+- Cleric
+- Alchemist

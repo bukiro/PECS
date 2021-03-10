@@ -217,11 +217,11 @@ export class EffectsComponent implements OnInit {
     calculate_Bulk() {
         if (this.creature != "Familiar") {
             let bulk = this.get_Creature().bulk;
-            bulk.calculate((this.get_Creature() as Character|AnimalCompanion), this.characterService, this.effectsService);
-            if (bulk.$current.value > bulk.$encumbered.value && this.characterService.get_AppliedConditions(this.get_Creature(), "Encumbered", "Bulk").length == 0) {
+            let calculatedBulk = bulk.calculate((this.get_Creature() as Character|AnimalCompanion), this.characterService, this.effectsService);
+            if (calculatedBulk.current.value > calculatedBulk.encumbered.value && this.characterService.get_AppliedConditions(this.get_Creature(), "Encumbered", "Bulk").length == 0) {
                 this.characterService.add_Condition(this.get_Creature(), Object.assign(new ConditionGain, { name: "Encumbered", value: 0, source: "Bulk", apply: true }), true)
             }
-            if (bulk.$current.value <= bulk.$encumbered.value && this.characterService.get_AppliedConditions(this.get_Creature(), "Encumbered", "Bulk").length > 0) {
+            if (calculatedBulk.current.value <= calculatedBulk.encumbered.value && this.characterService.get_AppliedConditions(this.get_Creature(), "Encumbered", "Bulk").length > 0) {
                 this.characterService.remove_Condition(this.get_Creature(), Object.assign(new ConditionGain, { name: "Encumbered", value: 0, source: "Bulk", apply: true }), true)
             }
         }

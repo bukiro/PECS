@@ -23,33 +23,33 @@
                 (click)="sort_Cash();">Sort</button>
         </div>
         <header class="subsectionHeader">Bulk</header>
-        <ng-container *ngFor="let bulk of get_Bulk(); trackBy:trackByIndex;">
+        <ng-container *ngFor="let calculatedBulk of [get_CalculatedBulk()]; trackBy:trackByIndex;">
             <div class="list-item">
                 <strong>Bulk</strong>
-                <span [ngbPopover]="bulk.$current?.explain">
+                <span [ngbPopover]="calculatedBulk.current?.explain">
                     <input class="number2" type="number"
-                        [ngClass]="{'penalty':bulk.$currentpenalties, 'bonus':bulk.$currentbonuses, 'absolute':bulk.$currentabsolutes?.length}"
-                        value="{{bulk.$current?.value}}" disabled>
+                        [ngClass]="{'penalty':calculatedBulk.currentpenalties, 'bonus':calculatedBulk.currentbonuses, 'absolute':calculatedBulk.currentabsolutes?.length}"
+                        value="{{calculatedBulk.current?.value}}" disabled>
                 </span>
                 <app-tags [creature]="creature" [objectName]="'Bulk'" [showTraits]=true [showFeats]=true
                     [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
             </div>
             <div class="fullsize-only list-item">
                 <strong>Encumbrance Limit</strong>
-                <span [ngbPopover]="bulk.$encumbered?.explain">
+                <span [ngbPopover]="calculatedBulk.encumbered?.explain">
                     <input class="number2" type="number"
-                        [ngClass]="{'penalty':bulk.$penalties, 'bonus':bulk.$bonuses, 'absolute':bulk.$absolutes?.length}"
-                        value="{{bulk.$encumbered?.value}}" disabled>
+                        [ngClass]="{'penalty':calculatedBulk.penalties, 'bonus':calculatedBulk.bonuses, 'absolute':calculatedBulk.absolutes?.length}"
+                        value="{{calculatedBulk.encumbered?.value}}" disabled>
                 </span>
                 <app-tags [creature]="creature" [objectName]="'Encumbered Limit'" [showTraits]=true [showFeats]=true
                     [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
             </div>
             <div class="fullsize-only list-item">
                 <strong>Maximum Bulk</strong>
-                <span [ngbPopover]="bulk.$max?.explain">
+                <span [ngbPopover]="calculatedBulk.max?.explain">
                     <input class="number2" type="number"
-                        [ngClass]="{'penalty':bulk.$penalties, 'bonus':bulk.$bonuses, 'absolute':bulk.$absolutes?.length}"
-                        value="{{bulk.$max.value}}" disabled>
+                        [ngClass]="{'penalty':calculatedBulk.maxpenalties, 'bonus':calculatedBulk.maxbonuses, 'absolute':calculatedBulk.maxabsolutes?.length}"
+                        value="{{calculatedBulk.max.value}}" disabled>
                 </span>
                 <app-tags [creature]="creature" [objectName]="'Max Bulk'" [showTraits]=true [showFeats]=true
                     [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
