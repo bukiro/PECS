@@ -1,7 +1,6 @@
 import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
 import { ItemsService } from '../items.service';
 import { CharacterService } from '../character.service';
-import { SortByPipe } from '../sortBy.pipe';
 import { Item } from '../Item';
 import { Character } from '../Character';
 import { NgbTooltipConfig } from '@ng-bootstrap/ng-bootstrap';
@@ -18,18 +17,17 @@ export class CraftingComponent implements OnInit {
     private showItem: number = 0;
     public id: number = 0;
     public wordFilter: string = "";
-    public sorting: string = "level";
+    public sorting: "level"|"name" = "level";
     public creature: string = "Character";
     public cashP: number = 0;
     public cashG: number = 0;
     public cashS: number = 0;
     public cashC: number = 0;
-    
+
     constructor(
         private changeDetector: ChangeDetectorRef,
         private itemsService: ItemsService,
         private characterService: CharacterService,
-        public sortByPipe: SortByPipe,
         tooltipConfig: NgbTooltipConfig
     ) {
         tooltipConfig.container = "body";
@@ -153,7 +151,15 @@ export class CraftingComponent implements OnInit {
                     )
                 )
             )
-            );
+        ).sort((a, b) => {
+            if (a[this.sorting] > b[this.sorting]) {
+                return 1;
+            }
+            if (a[this.sorting] < b[this.sorting]) {
+                return -1;
+            }
+            return 0;
+        });
     }
 
     cannot_Craft(item: Item) {
@@ -215,7 +221,7 @@ export class CraftingComponent implements OnInit {
             if (this.have_Feat("Ubiquitous Snares")) {
                 available *= 2;
             }
-            return {available:available, prepared:prepared};
+            return { available: available, prepared: prepared };
         }
     }
 
@@ -245,17 +251,17 @@ export class CraftingComponent implements OnInit {
             setTimeout(() => this.finish_Loading(), 500)
         } else {
             this.characterService.get_Changed()
-            .subscribe((target) => {
-                if (["crafting", "all"].includes(target.toLowerCase())) {
-                    this.changeDetector.detectChanges();
-                }
-            });
+                .subscribe((target) => {
+                    if (["crafting", "all"].includes(target.toLowerCase())) {
+                        this.changeDetector.detectChanges();
+                    }
+                });
             this.characterService.get_ViewChanged()
-            .subscribe((view) => {
-                if (view.creature.toLowerCase() == this.creature.toLowerCase() && ["crafting", "all"].includes(view.target.toLowerCase())) {
-                    this.changeDetector.detectChanges();
-                }
-            });
+                .subscribe((view) => {
+                    if (view.creature.toLowerCase() == this.creature.toLowerCase() && ["crafting", "all"].includes(view.target.toLowerCase())) {
+                        this.changeDetector.detectChanges();
+                    }
+                });
             return true;
         }
     }

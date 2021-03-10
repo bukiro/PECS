@@ -4,14 +4,14 @@
         "priority": "00",
         "group": "1-Name",
         "name": "Name",
-        "desc": "The base name of equipment may be expanded by runes and will be shown on the item if no display name is set. The name of Consumables does not change. Take care when you reuse item names: If the new item has the same name as one in your inventory, and that item is stackable (not equippable, not investable, no activities), the new item will be added to the stack and not gain any new properties."
+        "desc": "The base name of equipment may be expanded by runes and other effects and will be shown on the item if no display name is set. The name of consumables does not change."
     },
     {
         "key": "displayName",
         "priority": "01",
         "group": "1-Name",
         "name": "Display name",
-        "desc": "The display name will be shown instead of the name if set. The display name can be changed later."
+        "desc": "The display name will be shown instead of the name if set and doesn't change with runes. The display name can be changed later in the inventory."
     },
     {
         "key": "bulk",

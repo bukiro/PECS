@@ -111,7 +111,7 @@
                 </ng-container>
                 <header class="sectionHeader fullsize-only box-header" *ngIf="!still_loading()">Saving Throws</header>
                 <app-tags [creature]="creature" [objectName]="'Saving Throws'" [showTraits]=true [showFeats]=true [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
-                <ng-container *ngFor="let skill of get_Skills('', 'Save')|sortBy:'asc':'name'; trackBy:trackByIndex;">
+                <ng-container *ngFor="let skill of get_Skills('', 'Save'); trackBy:trackByIndex;">
                     <app-skill [creature]="creature" [skill]=skill></app-skill>
                 </ng-container>
                 <ng-container *ngIf="!still_loading()">
@@ -124,7 +124,7 @@
             </ng-container>
             <ng-container *ngIf="creature == 'Familiar'">
                 <header class="sectionHeader fullsize-only box-header" *ngIf="!still_loading()">Saving Throws</header>
-                <ng-container *ngFor="let skill of get_Skills('', 'Save')|sortBy:'asc':'name'; trackBy:trackByIndex;">
+                <ng-container *ngFor="let skill of get_Skills('', 'Save'); trackBy:trackByIndex;">
                     <app-skill [creature]="creature" [skill]=skill></app-skill>
                 </ng-container>
                 <app-tags [creature]="creature" [objectName]="'Saving Throws'" [showTraits]=true [showFeats]=true [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>

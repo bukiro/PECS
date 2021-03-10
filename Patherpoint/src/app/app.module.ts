@@ -18,7 +18,6 @@ import { CharacterComponent } from './character/character.component';
 import { AttacksComponent } from './attacks/attacks.component';
 import { EffectsComponent } from './effects/effects.component';
 import { DefenseComponent } from './defense/defense.component';
-import { SortByPipe } from './sortBy.pipe';
 import { ProficiencyFormComponent } from './proficiency-form/proficiency-form.component';
 import { SkillComponent } from './skill/skill.component';
 import { HealthComponent } from './health/health.component';
@@ -68,7 +67,6 @@ import { GridIconComponent } from './gridIcon/gridIcon.component';
       AbilitiesComponent,
       TopBarComponent,
       SkillsComponent,
-      SortByPipe,
       ItemsComponent,
       CharacterSheetComponent,
       InventoryComponent,
@@ -128,7 +126,6 @@ import { GridIconComponent } from './gridIcon/gridIcon.component';
       NgbModule
    ],
    providers: [
-      SortByPipe,
       NgbActiveModal
    ],
    bootstrap: [

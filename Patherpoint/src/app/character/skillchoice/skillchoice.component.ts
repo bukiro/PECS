@@ -93,17 +93,27 @@ export class SkillchoiceComponent implements OnInit {
         }
         if (skills.length) {
             let showOtherOptions = this.get_Character().settings.showOtherOptions;
-            return skills.filter(skill => (
-                this.skillIncreasedByThis(skill, choice) ||
-                (
+            return skills
+                .filter(skill => (
+                    this.skillIncreasedByThis(skill, choice) ||
                     (
-                        showOtherOptions ||
-                        choice.increases.length < choice.available + this.get_SkillINTBonus(choice)
-                    ) &&
-                    //Don't show unavailable skills if this choice is visible on the character sheet.
-                    (choice.showOnSheet ? !this.cannotIncrease(skill, level, choice).length : true)
-                )
-            ));
+                        (
+                            showOtherOptions ||
+                            choice.increases.length < choice.available + this.get_SkillINTBonus(choice)
+                        ) &&
+                        //Don't show unavailable skills if this choice is visible on the character sheet.
+                        (choice.showOnSheet ? !this.cannotIncrease(skill, level, choice).length : true)
+                    )
+                ))
+                .sort(function (a, b) {
+                    if (a.name > b.name) {
+                        return 1;
+                    }
+                    if (a.name < b.name) {
+                        return -1;
+                    }
+                    return 0;
+                });
         }
     }
 

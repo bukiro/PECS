@@ -324,7 +324,7 @@
                         <div class="list-item sublist" [ngClass]="{'fancy-list':get_Character().class.ancestry.name}"
                             *ngIf="get_ShowList()==listID">
                             <ng-container
-                                *ngFor="let ancestry of get_AvailableAncestries()|sortBy:'asc':'name'; trackBy:trackByIndex;">
+                                *ngFor="let ancestry of get_AvailableAncestries(); trackBy:trackByIndex;">
                                 <div class="newrow list-item"
                                     [ngClass]="{'selected':ancestry.name === get_Character().class.ancestry.name}"
                                     *ngFor="let itemID of ['ancestry'+ancestry.name]; trackBy:trackByIndex;">
@@ -391,7 +391,7 @@
                             *ngIf="get_ShowList()==listID">
                             <div class="list-item"
                                 [ngClass]="{'selected':heritage.name === get_Character().class.heritage.name || get_SubHeritageNames(heritage).includes(get_Character().class.heritage.name)}"
-                                *ngFor="let heritage of get_AvailableHeritages('', get_Character().class.ancestry.name)|sortBy:'asc':'name'; trackBy:trackByIndex;">
+                                *ngFor="let heritage of get_AvailableHeritages('', get_Character().class.ancestry.name); trackBy:trackByIndex;">
                                 <span>
                                     <input *ngIf="!heritage.subTypes.length" id="{{heritage.name}}" type="checkbox"
                                         (change)="onHeritageChange(heritage, $event.target.checked)"
@@ -532,7 +532,7 @@
                             </div>
                             <!-- End Filter -->
                             <ng-container
-                                *ngFor="let background of get_AvailableBackgrounds()|sortBy:'asc':'name'; trackBy:trackByIndex;">
+                                *ngFor="let background of get_AvailableBackgrounds(); trackBy:trackByIndex;">
                                 <div class="newrow list-item"
                                     [ngClass]="{'selected':background.name === get_Character().class.background.name || get_SubBackgroundNames(background.name).includes(get_Character().class.background.name)}"
                                     *ngFor="let itemID of ['background'+background.name]; trackBy:trackByIndex;">
@@ -893,7 +893,7 @@
                                     *ngIf="get_ShowList()==listID">
                                     <div class="list-item"
                                         [ngClass]="{'selected':type.name == get_Companion().class.ancestry.name}"
-                                        *ngFor="let type of get_AvailableCompanionTypes()|sortBy:'asc':'name'; trackBy:trackByIndex;">
+                                        *ngFor="let type of get_AvailableCompanionTypes(); trackBy:trackByIndex;">
                                         <div class="newrow"
                                             *ngFor="let itemID of ['animaltype'+type.name+'desc']; trackBy:trackByIndex;">
                                             <span>
@@ -1012,7 +1012,7 @@
                                         *ngIf="get_ShowList()==listID">
                                         <div class="list-item"
                                             [ngClass]="{'selected':get_TakenCompanionSpecializations(level.number).includes(spec.name)}"
-                                            *ngFor="let spec of get_AvailableCompanionSpecializations(level.number)|sortBy:'asc':'name'; trackBy:trackByIndex;">
+                                            *ngFor="let spec of get_AvailableCompanionSpecializations(level.number); trackBy:trackByIndex;">
                                             <div class="newrow"
                                                 *ngFor="let itemID of ['animalspecialization'+spec.name+'desc'+level.number]; trackBy:trackByIndex;">
                                                 <span>
@@ -1268,7 +1268,7 @@
                                         *ngIf="get_ShowList()==listID">
                                         <div class="list-item"
                                             [ngClass]="{'selected':heritage.name === get_Character().class.additionalHeritages[heritageIndex].name}"
-                                            *ngFor="let heritage of get_AvailableHeritages('', heritageGain.ancestry, heritageIndex)|sortBy:'asc':'name'; trackBy:trackByIndex;">
+                                            *ngFor="let heritage of get_AvailableHeritages('', heritageGain.ancestry, heritageIndex); trackBy:trackByIndex;">
                                             <span>
                                                 <input *ngIf="!heritage.subTypes.length" id="{{heritage.name}}"
                                                     type="checkbox"

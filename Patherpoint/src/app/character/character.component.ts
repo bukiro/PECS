@@ -211,7 +211,7 @@ export class CharacterComponent implements OnInit {
     }
 
     open_DeleteModal(content, savegame: Savegame) {
-        this.modalService.open(content, { centered: true, ariaLabelledBy: 'modal-title'}).result.then((result) => {
+        this.modalService.open(content, { centered: true, ariaLabelledBy: 'modal-title' }).result.then((result) => {
             if (result == "Ok click") {
                 this.delete_CharacterFromDB(savegame);
             }
@@ -830,7 +830,17 @@ export class CharacterComponent implements OnInit {
 
     get_AvailableAncestries() {
         let showOtherOptions = this.get_Character().settings.showOtherOptions;
-        return this.get_Ancestries().filter(ancestry => showOtherOptions || !this.get_Character().class.ancestry?.name || ancestry.name == this.get_Character().class.ancestry.name);
+        return this.get_Ancestries()
+            .filter(ancestry => showOtherOptions || !this.get_Character().class.ancestry?.name || ancestry.name == this.get_Character().class.ancestry.name)
+            .sort(function (a, b) {
+                if (a.name > b.name) {
+                    return 1;
+                }
+                if (a.name < b.name) {
+                    return -1;
+                }
+                return 0;
+            });
     }
 
     onAncestryChange(ancestry: Ancestry, taken: boolean) {
@@ -890,7 +900,16 @@ export class CharacterComponent implements OnInit {
                     index == -1
                         ? true
                         : availableHeritage.name != this.get_Character().class.heritage.name
-                ));
+                ))
+            .sort(function (a, b) {
+                if (a.name > b.name) {
+                    return 1;
+                }
+                if (a.name < b.name) {
+                    return -1;
+                }
+                return 0;
+            });
     }
 
     onHeritageChange(heritage: Heritage, taken: boolean) {
@@ -918,7 +937,17 @@ export class CharacterComponent implements OnInit {
             showOtherOptions ||
             !this.get_Character().class.background?.name ||
             background.name == this.get_Character().class.background.name ||
-            background.name == this.get_Character().class.background.superType);
+            background.name == this.get_Character().class.background.superType
+        )
+            .sort(function (a, b) {
+                if (a.name > b.name) {
+                    return 1;
+                }
+                if (a.name < b.name) {
+                    return -1;
+                }
+                return 0;
+            });
     }
 
     get_SubBackgrounds(superType: string = "") {
@@ -962,7 +991,17 @@ export class CharacterComponent implements OnInit {
     get_AvailableCompanionTypes() {
         let existingCompanionName: string = this.get_Companion().class.ancestry.name;
         let showOtherOptions = this.get_Character().settings.showOtherOptions;
-        return this.animalCompanionsService.get_CompanionTypes().filter(type => showOtherOptions || !existingCompanionName || type.name == existingCompanionName);
+        return this.animalCompanionsService.get_CompanionTypes()
+            .filter(type => showOtherOptions || !existingCompanionName || type.name == existingCompanionName)
+            .sort(function (a, b) {
+                if (a.name > b.name) {
+                    return 1;
+                }
+                if (a.name < b.name) {
+                    return -1;
+                }
+                return 0;
+            });
     }
 
     on_CompanionTypeChange(type: AnimalCompanionAncestry, taken: boolean) {
@@ -1009,7 +1048,17 @@ export class CharacterComponent implements OnInit {
             showOtherOptions ||
             existingCompanionSpecs.find(spec => spec.name == type.name && spec.level == levelNumber) ||
             (existingCompanionSpecs.filter(spec => spec.level == levelNumber).length < available) &&
-            !existingCompanionSpecs.find(spec => spec.name == type.name));
+            !existingCompanionSpecs.find(spec => spec.name == type.name)
+        )
+            .sort(function (a, b) {
+                if (a.name > b.name) {
+                    return 1;
+                }
+                if (a.name < b.name) {
+                    return -1;
+                }
+                return 0;
+            });
     }
 
     get_TakenCompanionSpecializations(levelNumber: number) {

@@ -4,7 +4,7 @@
         <strong>Potency rune</strong>
         <ng-container *ngFor="let previousRune of [item.potencyRune]; trackBy:trackByIndex;">
             <select [(ngModel)]="item.potencyRune" (ngModelChange)="on_WeaponRuneChange('potency', previousRune)">
-                <option *ngFor="let potency of get_WeaponPotencyRunes()|sortBy:'asc'; trackBy:trackByIndex;" [ngValue]="potency.potency"
+                <option *ngFor="let potency of get_WeaponPotencyRunes(); trackBy:trackByIndex;" [ngValue]="potency.potency"
                 [disabled]="potency.disabled" title="{{get_Title(potency.rune)}}">
                     {{item.get_Potency(potency.potency)}}</option>
             </select>
@@ -14,7 +14,7 @@
         <strong>Potency rune</strong>
         <ng-container *ngFor="let previousRune of [item.potencyRune]; trackBy:trackByIndex;">
             <select [(ngModel)]="item.potencyRune" (ngModelChange)="on_ArmorRuneChange('potency', previousRune)">
-                <option *ngFor="let potency of get_ArmorPotencyRunes()|sortBy:'asc'; trackBy:trackByIndex;" [ngValue]="potency.potency"
+                <option *ngFor="let potency of get_ArmorPotencyRunes(); trackBy:trackByIndex;" [ngValue]="potency.potency"
                 [disabled]="potency.disabled" title="{{get_Title(potency.rune)}}">
                     {{item.get_Potency(potency.potency)}}</option>
             </select>
@@ -24,7 +24,7 @@
         <strong>Striking rune</strong>
         <ng-container *ngFor="let previousRune of [item.strikingRune]; trackBy:trackByIndex;">
             <select [(ngModel)]="item.strikingRune" (ngModelChange)="on_WeaponRuneChange('striking', previousRune)">
-                <option *ngFor="let striking of get_StrikingRunes()|sortBy:'asc'; trackBy:trackByIndex;" [ngValue]="striking.striking"
+                <option *ngFor="let striking of get_StrikingRunes(); trackBy:trackByIndex;" [ngValue]="striking.striking"
                 [disabled]="striking.disabled" title="{{get_Title(striking.rune)}}">
                     {{item.get_Striking(striking.striking)}}</option>
             </select>
@@ -34,7 +34,7 @@
         <strong>Resilient rune</strong>
         <ng-container *ngFor="let previousRune of [item.resilientRune]; trackBy:trackByIndex;">
             <select [(ngModel)]="item.resilientRune" (ngModelChange)="on_ArmorRuneChange('resilient', previousRune)">
-                <option *ngFor="let resilient of get_ResilientRunes()|sortBy:'asc'; trackBy:trackByIndex;" [ngValue]="resilient.resilient"
+                <option *ngFor="let resilient of get_ResilientRunes(); trackBy:trackByIndex;" [ngValue]="resilient.resilient"
                 [disabled]="resilient.disabled" title="{{get_Title(resilient.rune)}}">
                     {{item.get_Resilient(resilient.resilient)}}</option>
             </select>

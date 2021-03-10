@@ -86,7 +86,7 @@
                                 <div class="list-item" [ngStyle]="{'display':!visibleSpells.length ? 'none' : 'flex' }"
                                     *ngIf="get_ShowList()==level||get_ShowList()==-2">
                                     <div class="list-item"
-                                        *ngFor="let spell of visibleSpells|sortBy:'asc':'name'; trackBy:trackByIndex;">
+                                        *ngFor="let spell of visibleSpells; trackBy:trackByIndex;">
                                         <button class="newrow left-aligned sublist-toggle"
                                             (click)="toggle_Item(spell.id)"
                                             [ngClass]="{'fancy-button':get_SpellsLearned(spell.name).length}">

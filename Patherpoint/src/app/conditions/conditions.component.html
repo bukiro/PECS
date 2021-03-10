@@ -207,7 +207,7 @@
                             <select class="newrow" [(ngModel)]="newEffect[property.key]"
                                 [disabled]="!get_Examples(property).length" (ngModelChange)="validate(property, index)">
                                 <option
-                                    *ngFor="let example of get_Examples(property)|sortBy:'asc'; trackBy:trackByIndex;"
+                                    *ngFor="let example of get_Examples(property); trackBy:trackByIndex;"
                                     [ngValue]="example">
                                     {{example}}
                                 </option>

@@ -1277,7 +1277,7 @@ input.penalty {
 }
 
 .invisible {
-    display: none;
+    display: none !important;
 }
 
 .proficiency {

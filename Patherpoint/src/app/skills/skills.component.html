@@ -5,7 +5,7 @@
     <div class="loading" *ngIf="still_loading()">Loading</div>
     <ng-container *ngIf="!still_loading()">
         <header class="sectionHeader box-header">Perception</header>
-        <ng-container *ngFor="let skill of get_Skills('', 'Perception')|sortBy:'asc':'name'; trackBy:trackByIndex;">
+        <ng-container *ngFor="let skill of get_Skills('', 'Perception'); trackBy:trackByIndex;">
             <app-skill [creature]="creature" [skill]=skill></app-skill>
         </ng-container>
         <header class="subsectionHeader">Senses</header>
@@ -18,7 +18,7 @@
         <ng-container *ngIf="creature=='Familiar'">
             <header class="sectionHeader box-header">Attack Rolls</header>
             <ng-container
-                *ngFor="let skill of get_Skills('', 'Familiar Proficiency')|sortBy:'asc':'name'; trackBy:trackByIndex;">
+                *ngFor="let skill of get_Skills('', 'Familiar Proficiency'); trackBy:trackByIndex;">
                 <app-skill [creature]="creature" [skill]=skill></app-skill>
             </ng-container>
         </ng-container>
@@ -54,7 +54,7 @@
             [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
         <app-tags [creature]="creature" [objectName]="'Skill Checks'" [showTraits]=true [showFeats]=true
             [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
-        <ng-container *ngFor="let skill of get_Skills('', 'Skill')|sortBy:'asc':'name'; trackBy:trackByIndex;">
+        <ng-container *ngFor="let skill of get_Skills('', 'Skill'); trackBy:trackByIndex;">
             <app-skill [creature]="creature" [skill]=skill></app-skill>
         </ng-container>
     </ng-container>

@@ -22,6 +22,7 @@ import { Ability } from 'src/app/Ability';
 import { SpellChoice } from 'src/app/SpellChoice';
 import { InventoryGain } from 'src/app/InventoryGain';
 import { Hint } from 'src/app/Hint';
+import { NgbPopoverConfig } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
     selector: 'app-newItemProperty',
@@ -50,8 +51,17 @@ export class NewItemPropertyComponent implements OnInit {
         private effectsService: EffectsService,
         private traitsService: TraitsService,
         private activitiesService: ActivitiesService,
-        private spellsService: SpellsService
-    ) { }
+        private spellsService: SpellsService,
+        popoverConfig: NgbPopoverConfig
+    ) {
+        popoverConfig.autoClose = "outside";
+        popoverConfig.container = "body";
+        //For touch compatibility, this openDelay prevents the popover from closing immediately on tap because a tap counts as hover and then click;
+        popoverConfig.openDelay = 1;
+        popoverConfig.placement = "auto";
+        popoverConfig.popoverClass = "list-item sublist";
+        popoverConfig.triggers = "hover:click";
+    }
 
     get_Parent() {
         let item = this.newItem;
@@ -72,7 +82,7 @@ export class NewItemPropertyComponent implements OnInit {
     trackByIndex(index: number, obj: any): any {
         return index;
     }
-    
+
     get_Items() {
         return this.itemsService.get_Items();
     }
@@ -91,11 +101,14 @@ export class NewItemPropertyComponent implements OnInit {
             if (!value) {
                 this.get_Parent()[this.propertyKey] = "New Item"
             }
-            let existingItems = this.get_Inventories()[0][this.newItem.type].filter((existing: Item) => existing.name == value && existing.can_Stack());
-            if (existingItems.length) {
-                this.validationError = "If you use this name, this item will be added to the "+existingItems[0].name+" stack in your inventory. All changes you make here will be lost.";
-            } else {
-                this.validationError = "";
+            let existingItems = this.get_Inventories()[0][this.newItem.type].filter((existing: Item) => existing.name == value);
+            let existingCleanItems = this.itemsService.get_CleanItems()[this.newItem.type].filter((existing: Item) => existing.name == value);
+            if (existingItems.length && existingItems.some((existing: Item) => existing.can_Stack())) {
+                this.validationError = "If you use this name, this item will be added to the " + existingItems[0].name + " stack in your inventory. All changes you make here will be lost.";
+            } else if (existingItems.length) {
+                this.validationError = "You already own an item with this name and type.";
+            } else if (existingCleanItems.length) {
+                this.validationError = "An item with this name and type already exists.";
             }
         }
         if (this.propertyKey == "value" && this.propertyData.parent == "effects") {
@@ -110,7 +123,7 @@ export class NewItemPropertyComponent implements OnInit {
                             this.validationError = "";
                             this.validationResult = parseInt(effect.value).toString();
                         } else {
-                            this.validationError = "This may result in a decimal value and be turned into a whole number."
+                            this.validationError = "This may result in a decimal value, which will be turned into a whole number."
                             this.validationResult = parseInt(effect.value).toString();
                         }
                     } else {
@@ -222,11 +235,11 @@ export class NewItemPropertyComponent implements OnInit {
         switch (this.propertyKey) {
             case "activities":
                 index = this.get_Parent()[this.propertyKey].push(new ItemActivity())
-                this.get_Parent()[this.propertyKey][index-1].source = this.get_Parent()["id"];
+                this.get_Parent()[this.propertyKey][index - 1].source = this.get_Parent()["id"];
                 break;
             case "gainActivities":
                 index = this.get_Parent()[this.propertyKey].push(new ActivityGain())
-                this.get_Parent()[this.propertyKey][index-1].source = this.get_Parent()["id"];
+                this.get_Parent()[this.propertyKey][index - 1].source = this.get_Parent()["id"];
                 break;
             case "gainItems":
                 this.get_Parent()[this.propertyKey].push(new ItemGain())
@@ -248,7 +261,7 @@ export class NewItemPropertyComponent implements OnInit {
                 break;
             case "storedSpells":
                 this.get_Parent()[this.propertyKey].push(new SpellChoice())
-                this.get_Parent()[this.propertyKey][index-1].source = this.get_Parent()["id"];
+                this.get_Parent()[this.propertyKey][index - 1].source = this.get_Parent()["id"];
                 break;
             case "traits":
                 this.get_Parent()[this.propertyKey].push("" as string)
@@ -270,26 +283,26 @@ export class NewItemPropertyComponent implements OnInit {
     }
 
     get_NewItemSubProperties(object: object) {
-        return Object.keys(object).map((key) => 
+        return Object.keys(object).map((key) =>
             this.itemsService.get_ItemProperties().filter(property => property.parent == this.propertyData.key && property.key == key)[0])
-                .filter(property => property != undefined)
-                .sort((a,b) => {
-                        if (a.priority > b.priority) {
-                            return 1;
-                        }
-                        if (a.priority < b.priority) {
-                            return -1;
-                        }
-                        return 0;
-                    }).sort((a,b) => {
-                        if (a.group > b.group) {
-                            return 1;
-                        }
-                        if (a.group < b.group) {
-                            return -1;
-                        }
-                        return 0;
-                    });
+            .filter(property => property != undefined)
+            .sort((a, b) => {
+                if (a.priority > b.priority) {
+                    return 1;
+                }
+                if (a.priority < b.priority) {
+                    return -1;
+                }
+                return 0;
+            }).sort((a, b) => {
+                if (a.group > b.group) {
+                    return 1;
+                }
+                if (a.group < b.group) {
+                    return -1;
+                }
+                return 0;
+            });
     }
 
     get_Examples() {
@@ -358,18 +371,18 @@ export class NewItemPropertyComponent implements OnInit {
                     .filter(item => item[this.propertyData.key] && item[this.propertyData.key].length).map((item: Consumable) => {
                         return item[this.propertyData.key];
                     }));
-                    this.get_Items().allEquipment().concat(...this.get_Inventories().map(inventory => inventory.allEquipment())).filter(item => item.activities.length).forEach((item: Equipment) => {
+                this.get_Items().allEquipment().concat(...this.get_Inventories().map(inventory => inventory.allEquipment())).filter(item => item.activities.length).forEach((item: Equipment) => {
                     examples.push(...item.activities.filter(activity => activity[this.propertyData.key].length)
                         .map((activity: Activity) => activity[this.propertyData.key]
                         ))
                 });
                 examples.push(...this.activitiesService.get_Activities()
-                    .filter(activity => activity[this.propertyData.key].length).map((activity: Activity) => 
+                    .filter(activity => activity[this.propertyData.key].length).map((activity: Activity) =>
                         activity[this.propertyData.key]
                     ));
                 break;
             case "spellname":
-                examples.push(...this.spellsService.get_Spells().map(spell => spell.name ));
+                examples.push(...this.spellsService.get_Spells().map(spell => spell.name));
                 break;
             case "spelllevel":
                 examples = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
@@ -386,128 +399,128 @@ export class NewItemPropertyComponent implements OnInit {
             case "onceEffects affected":
                 examples.push(...["Focus", "HP", "Temporary HP"])
                 this.characterService.get_FeatsAndFeatures().filter(feat => feat.onceEffects.length).forEach(feat => {
-                    examples.push(...feat.onceEffects.map(effect => effect.affected ))
+                    examples.push(...feat.onceEffects.map(effect => effect.affected))
                 });
                 this.characterService.get_Conditions().filter(condition => condition.onceEffects.length).forEach((condition: Condition) => {
-                    examples.push(...condition.onceEffects.map(effect => effect.affected ))
+                    examples.push(...condition.onceEffects.map(effect => effect.affected))
                 });
                 this.activitiesService.get_Activities().filter(activity => activity.onceEffects.length).forEach((activity: Activity) => {
-                    examples.push(...activity.onceEffects.map(effect => effect.affected ))
+                    examples.push(...activity.onceEffects.map(effect => effect.affected))
                 });
                 this.get_Items().allEquipment().concat(...this.get_Inventories().map(inventory => inventory.allEquipment())).filter(item => item.activities.length).forEach((item: Equipment) => {
                     item.activities.filter(activity => activity.onceEffects.length).forEach((activity: Activity) => {
-                        examples.push(...activity.onceEffects.map(effect => effect.affected ))
+                        examples.push(...activity.onceEffects.map(effect => effect.affected))
                     });
                 });
                 this.get_Items().allConsumables().concat(...this.get_Inventories().map(inventory => inventory.allConsumables())).filter(item => item.onceEffects.length).forEach((item: Consumable) => {
-                    examples.push(...item.onceEffects.map(effect => effect.affected ))
+                    examples.push(...item.onceEffects.map(effect => effect.affected))
                 });
                 break;
             case "onceEffects value":
-                    this.characterService.get_FeatsAndFeatures().filter(feat => feat.onceEffects.length).forEach(feat => {
-                        examples.push(...feat.onceEffects.map(effect => effect.value ))
+                this.characterService.get_FeatsAndFeatures().filter(feat => feat.onceEffects.length).forEach(feat => {
+                    examples.push(...feat.onceEffects.map(effect => effect.value))
+                });
+                this.characterService.get_Conditions().filter(condition => condition.onceEffects.length).forEach((condition: Condition) => {
+                    examples.push(...condition.onceEffects.map(effect => effect.value))
+                });
+                this.activitiesService.get_Activities().filter(activity => activity.onceEffects.length).forEach((activity: Activity) => {
+                    examples.push(...activity.onceEffects.map(effect => effect.value))
+                });
+                this.get_Items().allEquipment().concat(...this.get_Inventories().map(inventory => inventory.allEquipment())).filter(item => item.activities.length).forEach((item: Equipment) => {
+                    item.activities.filter(activity => activity.onceEffects.length).forEach((activity: Activity) => {
+                        examples.push(...activity.onceEffects.map(effect => effect.value))
                     });
-                    this.characterService.get_Conditions().filter(condition => condition.onceEffects.length).forEach((condition: Condition) => {
-                        examples.push(...condition.onceEffects.map(effect => effect.value ))
-                    });
-                    this.activitiesService.get_Activities().filter(activity => activity.onceEffects.length).forEach((activity: Activity) => {
-                        examples.push(...activity.onceEffects.map(effect => effect.value ))
-                    });
-                    this.get_Items().allEquipment().concat(...this.get_Inventories().map(inventory => inventory.allEquipment())).filter(item => item.activities.length).forEach((item: Equipment) => {
-                        item.activities.filter(activity => activity.onceEffects.length).forEach((activity: Activity) => {
-                            examples.push(...activity.onceEffects.map(effect => effect.value ))
-                        });
-                    });
-                    this.get_Items().allConsumables().concat(...this.get_Inventories().map(inventory => inventory.allConsumables())).filter(item => item.onceEffects.length).forEach((item: Consumable) => {
-                        examples.push(...item.onceEffects.map(effect => effect.value ))
-                    });
-                    break;
+                });
+                this.get_Items().allConsumables().concat(...this.get_Inventories().map(inventory => inventory.allConsumables())).filter(item => item.onceEffects.length).forEach((item: Consumable) => {
+                    examples.push(...item.onceEffects.map(effect => effect.value))
+                });
+                break;
             case "effects affected":
-                examples.push(...this.characterService.get_Skills(this.get_Character()).map((skill: Skill) =>  skill.name ));
-                examples.push(...this.characterService.get_Abilities().map((ability: Ability) => {return ability.name}));
+                examples.push(...this.characterService.get_Skills(this.get_Character()).map((skill: Skill) => skill.name));
+                examples.push(...this.characterService.get_Abilities().map((ability: Ability) => { return ability.name }));
                 this.characterService.get_FeatsAndFeatures().filter(feat => feat.effects.length).forEach(feat => {
-                    examples.push(...feat.effects.map(effect => effect.affected ))
+                    examples.push(...feat.effects.map(effect => effect.affected))
                 });
                 this.characterService.get_Conditions().filter(condition => condition.effects.length).forEach((condition: Condition) => {
-                    examples.push(...condition.effects.map(effect => effect.affected ))
+                    examples.push(...condition.effects.map(effect => effect.affected))
                 });
                 this.activitiesService.get_Activities().filter(activity => activity.effects.length).forEach((activity: Activity) => {
-                    examples.push(...activity.effects.map(effect => effect.affected ))
+                    examples.push(...activity.effects.map(effect => effect.affected))
                 });
                 this.get_Items().allEquipment().concat(...this.get_Inventories().map(inventory => inventory.allEquipment())).filter(item => item.activities.length).forEach((item: Equipment) => {
                     item.activities.filter(activity => activity.effects.length).forEach((activity: Activity) => {
-                        examples.push(...activity.effects.map(effect => effect.affected ))
+                        examples.push(...activity.effects.map(effect => effect.affected))
                     });
                 });
                 break;
             case "effects value":
                 this.characterService.get_FeatsAndFeatures().filter(feat => feat.onceEffects.length).forEach(feat => {
-                    examples.push(...feat.onceEffects.map(effect => effect.value ))
+                    examples.push(...feat.onceEffects.map(effect => effect.value))
                 });
                 this.characterService.get_FeatsAndFeatures().filter(feat => feat.effects.length).forEach(feat => {
-                    examples.push(...feat.effects.map(effect => effect.value ))
+                    examples.push(...feat.effects.map(effect => effect.value))
                 });
                 this.characterService.get_Conditions().filter(condition => condition.onceEffects.length).forEach((condition: Condition) => {
-                    examples.push(...condition.onceEffects.map(effect => effect.value ))
+                    examples.push(...condition.onceEffects.map(effect => effect.value))
                 });
                 this.characterService.get_Conditions().filter(condition => condition.effects.length).forEach((condition: Condition) => {
-                    examples.push(...condition.effects.map(effect => effect.value ))
+                    examples.push(...condition.effects.map(effect => effect.value))
                 });
                 this.activitiesService.get_Activities().filter(activity => activity.onceEffects.length).forEach((activity: Activity) => {
-                    examples.push(...activity.onceEffects.map(effect => effect.value ))
+                    examples.push(...activity.onceEffects.map(effect => effect.value))
                 });
                 this.activitiesService.get_Activities().filter(activity => activity.effects.length).forEach((activity: Activity) => {
-                    examples.push(...activity.effects.map(effect => effect.value ))
+                    examples.push(...activity.effects.map(effect => effect.value))
                 });
                 this.get_Items().allEquipment().concat(...this.get_Inventories().map(inventory => inventory.allEquipment())).filter(item => item.activities.length).forEach((item: Equipment) => {
                     item.activities.filter(activity => activity.onceEffects.length).forEach((activity: Activity) => {
-                        examples.push(...activity.onceEffects.map(effect => effect.value ))
+                        examples.push(...activity.onceEffects.map(effect => effect.value))
                     });
                     item.activities.filter(activity => activity.effects.length).forEach((activity: Activity) => {
-                        examples.push(...activity.effects.map(effect => effect.value ))
+                        examples.push(...activity.effects.map(effect => effect.value))
                     });
                 });
                 this.get_Items().allConsumables().concat(...this.get_Inventories().map(inventory => inventory.allConsumables())).filter(item => item.onceEffects.length).forEach((item: Consumable) => {
-                    examples.push(...item.onceEffects.map(effect => effect.value ))
+                    examples.push(...item.onceEffects.map(effect => effect.value))
                 });
                 examples = examples.filter(example => typeof example == "string" && !example.toLowerCase().includes("object") && !example.toLowerCase().includes("heightened") && !example.toLowerCase().includes("value"));
                 break;
-                case "effects setvalue":
-                    this.characterService.get_FeatsAndFeatures().filter(feat => feat.onceEffects.length).forEach(feat => {
-                        examples.push(...feat.onceEffects.map(effect => effect.setValue ))
+            case "effects setvalue":
+                this.characterService.get_FeatsAndFeatures().filter(feat => feat.onceEffects.length).forEach(feat => {
+                    examples.push(...feat.onceEffects.map(effect => effect.setValue))
+                });
+                this.characterService.get_FeatsAndFeatures().filter(feat => feat.effects.length).forEach(feat => {
+                    examples.push(...feat.effects.map(effect => effect.setValue))
+                });
+                this.characterService.get_Conditions().filter(condition => condition.onceEffects.length).forEach((condition: Condition) => {
+                    examples.push(...condition.onceEffects.map(effect => effect.setValue))
+                });
+                this.characterService.get_Conditions().filter(condition => condition.effects.length).forEach((condition: Condition) => {
+                    examples.push(...condition.effects.map(effect => effect.setValue))
+                });
+                this.activitiesService.get_Activities().filter(activity => activity.onceEffects.length).forEach((activity: Activity) => {
+                    examples.push(...activity.onceEffects.map(effect => effect.setValue))
+                });
+                this.activitiesService.get_Activities().filter(activity => activity.effects.length).forEach((activity: Activity) => {
+                    examples.push(...activity.effects.map(effect => effect.setValue))
+                });
+                this.get_Items().allEquipment().concat(...this.get_Inventories().map(inventory => inventory.allEquipment())).filter(item => item.activities.length).forEach((item: Equipment) => {
+                    item.activities.filter(activity => activity.onceEffects.length).forEach((activity: Activity) => {
+                        examples.push(...activity.onceEffects.map(effect => effect.setValue))
                     });
-                    this.characterService.get_FeatsAndFeatures().filter(feat => feat.effects.length).forEach(feat => {
-                        examples.push(...feat.effects.map(effect => effect.setValue ))
+                    item.activities.filter(activity => activity.effects.length).forEach((activity: Activity) => {
+                        examples.push(...activity.effects.map(effect => effect.setValue))
                     });
-                    this.characterService.get_Conditions().filter(condition => condition.onceEffects.length).forEach((condition: Condition) => {
-                        examples.push(...condition.onceEffects.map(effect => effect.setValue ))
-                    });
-                    this.characterService.get_Conditions().filter(condition => condition.effects.length).forEach((condition: Condition) => {
-                        examples.push(...condition.effects.map(effect => effect.setValue ))
-                    });
-                    this.activitiesService.get_Activities().filter(activity => activity.onceEffects.length).forEach((activity: Activity) => {
-                        examples.push(...activity.onceEffects.map(effect => effect.setValue ))
-                    });
-                    this.activitiesService.get_Activities().filter(activity => activity.effects.length).forEach((activity: Activity) => {
-                        examples.push(...activity.effects.map(effect => effect.setValue ))
-                    });
-                    this.get_Items().allEquipment().concat(...this.get_Inventories().map(inventory => inventory.allEquipment())).filter(item => item.activities.length).forEach((item: Equipment) => {
-                        item.activities.filter(activity => activity.onceEffects.length).forEach((activity: Activity) => {
-                            examples.push(...activity.onceEffects.map(effect => effect.setValue ))
-                        });
-                        item.activities.filter(activity => activity.effects.length).forEach((activity: Activity) => {
-                            examples.push(...activity.effects.map(effect => effect.setValue ))
-                        });
-                    });
-                    this.get_Items().allConsumables().concat(...this.get_Inventories().map(inventory => inventory.allConsumables())).filter(item => item.onceEffects.length).forEach((item: Consumable) => {
-                        examples.push(...item.onceEffects.map(effect => effect.setValue ))
-                    });
-                    examples = examples.filter(example => typeof example == "string" && !example.toLowerCase().includes("object") && !example.toLowerCase().includes("heightened") && !example.toLowerCase().includes("value"));
-                    break;
+                });
+                this.get_Items().allConsumables().concat(...this.get_Inventories().map(inventory => inventory.allConsumables())).filter(item => item.onceEffects.length).forEach((item: Consumable) => {
+                    examples.push(...item.onceEffects.map(effect => effect.setValue))
+                });
+                examples = examples.filter(example => typeof example == "string" && !example.toLowerCase().includes("object") && !example.toLowerCase().includes("heightened") && !example.toLowerCase().includes("value"));
+                break;
             case "inputRequired":
                 this.get_Items().allEquipment().concat(...this.get_Inventories().map(inventory => inventory.allEquipment())).filter(item => item.activities.length).forEach((item: Equipment) => {
                     examples.push(...item.activities.filter(activity => activity.inputRequired.length)
-                        .map((activity: Activity) => activity.inputRequired 
+                        .map((activity: Activity) => activity.inputRequired
                         ))
                 });
                 examples.push(...this.activitiesService.get_Activities()
@@ -562,10 +575,10 @@ export class NewItemPropertyComponent implements OnInit {
                 examples = ["", "item", "circumstance", "status", "proficiency"];
                 break;
             case "gaincondition name":
-                examples.push(...this.characterService.get_Conditions().map((condition: Condition) => condition.name ));
+                examples.push(...this.characterService.get_Conditions().map((condition: Condition) => condition.name));
                 break;
             case "gainitems name":
-                examples = this.itemsService.get_Items()[this.get_Parent()["type"]].map((item: Item) => item.name );    
+                examples = this.itemsService.get_Items()[this.get_Parent()["type"]].map((item: Item) => item.name);
                 break;
             case "gainitems on":
                 examples = ["", "equip", "grant", "use"];
@@ -581,11 +594,11 @@ export class NewItemPropertyComponent implements OnInit {
                     extract_Example(item, this.propertyData.key, this.get_IsObject, this.propertyData.parent);
                 });
                 break;
-            
+
         }
 
         let uniqueExamples = Array.from(new Set(examples))
-        return uniqueExamples.sort((a,b) => {
+        return uniqueExamples.sort((a, b) => {
             if (a > b) {
                 return 1;
             }

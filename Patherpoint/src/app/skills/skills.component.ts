@@ -3,9 +3,6 @@ import { CharacterService } from '../character.service';
 import { SkillsService } from '../skills.service';
 import { FeatsService } from '../feats.service';
 import { Character } from '../Character';
-import { ConditionsService } from '../conditions.service';
-import { Familiar } from '../Familiar';
-import { FamiliarsService } from '../familiars.service';
 import { SkillChoice } from '../SkillChoice';
 import { EffectsService } from '../effects.service';
 import { Speed } from '../Speed';
@@ -84,13 +81,22 @@ export class SkillsComponent implements OnInit {
             .filter(skill =>
                 !skill.name.includes("Lore") ||
                 skill.level(creature as Character, this.characterService, creature.level)
-            );
+            ).sort((a, b) => {
+                if (a.name > b.name) {
+                    return 1;
+                }
+
+                if (a.name < b.name) {
+                    return -1;
+                }
+                return 0;
+            });
     }
-    
+
     trackByIndex(index: number, obj: any): any {
         return index;
     }
-    
+
     get_Creature() {
         return this.characterService.get_Creature(this.creature);
     }
@@ -166,17 +172,17 @@ export class SkillsComponent implements OnInit {
             setTimeout(() => this.finish_Loading(), 500)
         } else {
             this.characterService.get_Changed()
-            .subscribe((target) => {
-                if (["skills", "alls", this.creature.toLowerCase()].includes(target.toLowerCase())) {
-                    this.changeDetector.detectChanges();
-                }
-            });
+                .subscribe((target) => {
+                    if (["skills", "alls", this.creature.toLowerCase()].includes(target.toLowerCase())) {
+                        this.changeDetector.detectChanges();
+                    }
+                });
             this.characterService.get_ViewChanged()
-            .subscribe((view) => {
-                if (view.creature.toLowerCase() == this.creature.toLowerCase() && ["skills", "all"].includes(view.target.toLowerCase())) {
-                    this.changeDetector.detectChanges();
-                }
-            });
+                .subscribe((view) => {
+                    if (view.creature.toLowerCase() == this.creature.toLowerCase() && ["skills", "all"].includes(view.target.toLowerCase())) {
+                        this.changeDetector.detectChanges();
+                    }
+                });
             return true;
         }
     }

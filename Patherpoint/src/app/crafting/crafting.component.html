@@ -68,48 +68,48 @@
                             You can prepare {{preparations.available - preparations.prepared}} of
                             {{preparations.available}} snares for quick deployment.
                         </div>
-                        <ng-container *ngFor="let listID of ['snarespecialist']; trackBy:trackByIndex;">
-                            <button class="list-item"
-                                [ngStyle]="{'display':!get_VisibleItems(items.snares).length ? 'none' : 'flex' }"
-                                (click)="toggle_List(listID)">
-                                <header class="sectionHeader">Snares</header>
-                            </button>
-                            <div class="list-item"
-                                [ngStyle]="{'display':!get_VisibleItems(items.snares).length ? 'none' : 'flex' }"
-                                *ngIf="get_ShowList()==listID||get_ShowList()=='All'">
-                                <ng-container
-                                    *ngFor="let item of get_VisibleItems(items.snares)|sortBy:'asc':sorting; trackBy:trackByIndex;">
-                                    <ng-container *ngFor="let prepared of [get_PreparedForQuickCrafting(item)]">
-                                        <div class="list-item"
-                                            *ngFor="let inventoryID of [listID+item.id]; trackBy:trackByIndex;">
-                                            <button class="newrow sublist-toggle" [ngClass]="{'fancy-button':prepared}"
-                                                (click)="toggle_Item(inventoryID)">
-                                                <span>{{get_PreparedForQuickCrafting(item)}}
-                                                    {{(item.get_Name) ? item.get_Name() : item.name}}</span>
-                                                <span>{{(item.level) ? "Level "+item.level :
-                                                    "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"}}</span>
-                                            </button>
-                                            <div class="list-item sublist lower" [ngClass]="{'fancy-list':prepared}"
-                                                *ngIf=" get_ShowItem()==inventoryID">
-                                                <span>
-                                                    <button class="center-aligned"
-                                                        (click)="on_PrepareForQuickCrafting(item, -1)"
-                                                        [disabled]="!prepared">
-                                                        -
-                                                    </button>
-                                                    <button class="center-aligned"
-                                                        (click)="on_PrepareForQuickCrafting(item, 1)"
-                                                        [disabled]="preparations.available <= preparations.prepared">
-                                                        +
-                                                    </button>
-                                                    Prepare for quick deployment
-                                                </span>
-                                                <app-item [item]=item [itemStore]=true></app-item>
+                        <ng-container *ngFor="let snares of [get_VisibleItems(items.snares)]; trackBy:trackByIndex;">
+                            <ng-container *ngFor="let listID of ['snarespecialist']; trackBy:trackByIndex;">
+                                <button class="list-item" [ngClass]="{'invisible':!snares.length}"
+                                    (click)="toggle_List(listID)">
+                                    <header class="sectionHeader">Snares</header>
+                                </button>
+                                <div class="list-item" [ngClass]="{'invisible':!snares.length}"
+                                    *ngIf="get_ShowList()==listID||get_ShowList()=='All'">
+                                    <ng-container *ngFor="let item of snares; trackBy:trackByIndex;">
+                                        <ng-container *ngFor="let prepared of [get_PreparedForQuickCrafting(item)]">
+                                            <div class="list-item"
+                                                *ngFor="let inventoryID of [listID+item.id]; trackBy:trackByIndex;">
+                                                <button class="newrow sublist-toggle"
+                                                    [ngClass]="{'fancy-button':prepared}"
+                                                    (click)="toggle_Item(inventoryID)">
+                                                    <span>{{prepared}}
+                                                        {{(item.get_Name) ? item.get_Name() : item.name}}</span>
+                                                    <span>{{(item.level) ? "Level "+item.level :
+                                                        "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"}}</span>
+                                                </button>
+                                                <div class="list-item sublist lower" [ngClass]="{'fancy-list':prepared}"
+                                                    *ngIf=" get_ShowItem()==inventoryID">
+                                                    <span>
+                                                        <button class="center-aligned"
+                                                            (click)="on_PrepareForQuickCrafting(item, -1)"
+                                                            [disabled]="!prepared">
+                                                            -
+                                                        </button>
+                                                        <button class="center-aligned"
+                                                            (click)="on_PrepareForQuickCrafting(item, 1)"
+                                                            [disabled]="preparations.available <= preparations.prepared">
+                                                            +
+                                                        </button>
+                                                        Prepare for quick deployment
+                                                    </span>
+                                                    <app-item [item]=item [itemStore]=true></app-item>
+                                                </div>
                                             </div>
-                                        </div>
+                                        </ng-container>
                                     </ng-container>
-                                </ng-container>
-                            </div>
+                                </div>
+                            </ng-container>
                         </ng-container>
                     </ng-container>
                 </ng-container>
@@ -141,7 +141,7 @@
                             [ngStyle]="{'display':!get_VisibleItems(items[itemSet.key]).length ? 'none' : 'flex' }"
                             *ngIf="get_ShowList()==listID||get_ShowList()=='All'">
                             <ng-container
-                                *ngFor="let item of get_VisibleItems(items[itemSet.key])|sortBy:'asc':sorting; trackBy:trackByIndex;">
+                                *ngFor="let item of get_VisibleItems(items[itemSet.key]); trackBy:trackByIndex;">
                                 <div class="list-item"
                                     *ngFor="let inventoryID of [listID+item.id]; trackBy:trackByIndex;">
                                     <button class="newrow sublist-toggle" (click)="toggle_Item(inventoryID)">

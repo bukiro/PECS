@@ -1,7 +1,6 @@
-import { Component,  OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { ItemsService } from '../items.service';
 import { CharacterService } from '../character.service';
-import { SortByPipe } from '../sortBy.pipe';
 import { Weapon } from '../Weapon';
 import { Armor } from '../Armor';
 import { Shield } from '../Shield';
@@ -34,21 +33,20 @@ export class ItemsComponent implements OnInit {
     public id: number = 0;
     public hover: number = 0;
     public wordFilter: string = "";
-    public sorting: string = "level";
+    public sorting: "level" | "name" = "level";
     public creature: string = "Character";
     public newItemType: string = "";
-    public newItem: Equipment|Consumable = null;
+    public newItem: Equipment | Consumable = null;
     public cashP: number = 0;
     public cashG: number = 0;
     public cashS: number = 0;
     public cashC: number = 0;
-    public purpose: "items"|"formulas"|"scrollsavant"|"createcustomitem" = "items";
-    
+    public purpose: "items" | "formulas" | "scrollsavant" | "createcustomitem" = "items";
+
     constructor(
         private changeDetector: ChangeDetectorRef,
         private itemsService: ItemsService,
         private characterService: CharacterService,
-        public sortByPipe: SortByPipe,
         tooltipConfig: NgbTooltipConfig
     ) {
         tooltipConfig.container = "body";
@@ -89,7 +87,7 @@ export class ItemsComponent implements OnInit {
         return this.showItem;
     }
 
-    toggle_Purpose(purpose: "items"|"formulas"|"scrollsavant"|"createcustomitem") {
+    toggle_Purpose(purpose: "items" | "formulas" | "scrollsavant" | "createcustomitem") {
         this.purpose = purpose;
     }
 
@@ -139,6 +137,19 @@ export class ItemsComponent implements OnInit {
         return true;
     }
 
+    get_SortByName(obj: Item[]) {
+        return obj.sort((a, b) => {
+            if (a.name > b.name) {
+                return 1;
+            }
+
+            if (a.name < b.name) {
+                return -1;
+            }
+            return 0;
+        });
+    }
+
     get_Price(item: Item) {
         if (item["get_Price"]) {
             return item["get_Price"](this.itemsService);
@@ -176,19 +187,19 @@ export class ItemsComponent implements OnInit {
         } else {
             return this.itemsService.get_Items();
         }
-        
+
     }
 
     get_CopyItems(type: string) {
-        return this.itemsService.get_CleanItems()[type].filter((item: Item) => !item.hide).sort((a,b) => {
+        return this.itemsService.get_CleanItems()[type].filter((item: Item) => !item.hide).sort((a, b) => {
             if (a.name > b.name) {
                 return 1;
             }
-            
+
             if (a.name < b.name) {
                 return -1;
             }
-            
+
             return 0;
         });
     }
@@ -198,15 +209,15 @@ export class ItemsComponent implements OnInit {
         this.characterService.get_Character().inventories.map(inventory => inventory[type]).forEach(itemSet => {
             items.push(...itemSet);
         })
-        return items.filter(item => !item.hide).sort((a,b) => {
+        return items.filter(item => !item.hide).sort((a, b) => {
             if (a.name > b.name) {
                 return 1;
             }
-            
+
             if (a.name < b.name) {
                 return -1;
             }
-            
+
             return 0;
         });
     }
@@ -235,26 +246,34 @@ export class ItemsComponent implements OnInit {
             ) &&
             (this.purpose == "formulas" ? item.craftable : true) &&
             (
-                this.purpose == "scrollsavant" ? 
+                this.purpose == "scrollsavant" ?
                     (
                         creatureType == "Character" &&
                         item.type == "scrolls" &&
                         (item as Scroll).storedSpells[0]?.level <= character.get_SpellLevel(character.level) - 2 &&
                         casting && !casting.scrollSavant.find(scroll => scroll.refId == item.id)
                     )
-                : true
-                )
-            ).sort((a,b) => {
-                if ((a.level / 100) + a.name > (b.level / 100) + b.name) {
-                    return 1;
-                }
-                
-                if ((a.level / 100) + a.name < (b.level / 100) + b.name) {
-                    return -1;
-                }
-                
-                return 0;
-            });
+                    : true
+            )
+        ).sort((a, b) => {
+            if ((a.level / 100) + a.name > (b.level / 100) + b.name) {
+                return 1;
+            }
+
+            if ((a.level / 100) + a.name < (b.level / 100) + b.name) {
+                return -1;
+            }
+
+            return 0;
+        }).sort((a, b) => {
+            if (a[this.sorting] > b[this.sorting]) {
+                return 1;
+            }
+            if (a[this.sorting] < b[this.sorting]) {
+                return -1;
+            }
+            return 0;
+        });
     }
 
     can_ApplyTalismans(item: Item) {
@@ -278,11 +297,11 @@ export class ItemsComponent implements OnInit {
         } else if (creature == "Companion") {
             this.characterService.grant_InventoryItem(this.characterService.get_Companion(), this.characterService.get_Companion().inventories[0], item, false, true, true, amount);
         }
-        
+
     }
 
     get_NewItemFilter() {
-        return [{name:'', key:''}].concat(this.get_Items().names.filter(name => 
+        return [{ name: '', key: '' }].concat(this.get_Items().names.filter(name =>
             ![
                 "weaponrunes",
                 "alchemicalbombs",
@@ -296,7 +315,7 @@ export class ItemsComponent implements OnInit {
                 "wands"
             ].includes(name.key)));
     }
-    
+
     initialize_NewItem() {
         switch (this.newItemType) {
             case "weapons":
@@ -344,7 +363,7 @@ export class ItemsComponent implements OnInit {
         function get_PropertyData(key: string, itemsService: ItemsService) {
             return itemsService.get_ItemProperties().filter(property => !property.parent && property.key == key)[0];
         }
-        return Object.keys(this.newItem).map((key) => get_PropertyData(key, this.itemsService)).filter(property => property != undefined).sort((a,b) => {
+        return Object.keys(this.newItem).map((key) => get_PropertyData(key, this.itemsService)).filter(property => property != undefined).sort((a, b) => {
             if (a.priority > b.priority) {
                 return 1;
             }
@@ -352,7 +371,7 @@ export class ItemsComponent implements OnInit {
                 return -1;
             }
             return 0;
-        }).sort((a,b) => {
+        }).sort((a, b) => {
             if (a.group > b.group) {
                 return 1;
             }
@@ -363,7 +382,7 @@ export class ItemsComponent implements OnInit {
         });
     }
 
-    copy_Item(item: Equipment|Consumable) {
+    copy_Item(item: Equipment | Consumable) {
         this.newItem = this.itemsService.initialize_Item(JSON.parse(JSON.stringify(item)))
     }
 
@@ -381,7 +400,7 @@ export class ItemsComponent implements OnInit {
     learn_Formula(item: Item, source: string) {
         this.get_Character().learn_Formula(item, source);
     }
-    
+
     unlearn_Formula(item: Item) {
         this.get_Character().unlearn_Formula(item);
     }
@@ -491,13 +510,13 @@ export class ItemsComponent implements OnInit {
 
     get_ScrollSavantCasting() {
         return this.get_Character().class.spellCasting
-        .find(casting => casting.castingType == "Prepared" && casting.className == "Wizard" && casting.tradition == "Arcane");
+            .find(casting => casting.castingType == "Prepared" && casting.className == "Wizard" && casting.tradition == "Arcane");
     }
 
     get_ScrollSavantDCLevel() {
         let character = this.get_Character();
         return Math.max(...this.characterService.get_Skills(character)
-            .filter(skill => skill.name.includes ("Arcane Spell DC"))
+            .filter(skill => skill.name.includes("Arcane Spell DC"))
             .map(skill => skill.level(character, this.characterService, character.level)), 0)
     }
 
@@ -512,7 +531,7 @@ export class ItemsComponent implements OnInit {
                     .filter(scroll => scroll.storedSpells[0].level > this.get_Character().get_SpellLevel(this.get_Character().level))
                     .forEach(scroll => {
                         scroll.amount = 0;
-                });
+                    });
                 casting.scrollSavant = casting.scrollSavant.filter(scroll => scroll.amount);
                 while (casting.scrollSavant.length > available) {
                     casting.scrollSavant.pop();
@@ -552,17 +571,17 @@ export class ItemsComponent implements OnInit {
             setTimeout(() => this.finish_Loading(), 500)
         } else {
             this.characterService.get_Changed()
-            .subscribe((target) => {
-                if (["items", "all"].includes(target.toLowerCase())) {
-                    this.changeDetector.detectChanges();
-                }
-            });
+                .subscribe((target) => {
+                    if (["items", "all"].includes(target.toLowerCase())) {
+                        this.changeDetector.detectChanges();
+                    }
+                });
             this.characterService.get_ViewChanged()
-            .subscribe((view) => {
-                if (view.creature.toLowerCase() == this.creature.toLowerCase() && ["items", "all"].includes(view.target.toLowerCase())) {
-                    this.changeDetector.detectChanges();
-                }
-            });
+                .subscribe((view) => {
+                    if (view.creature.toLowerCase() == this.creature.toLowerCase() && ["items", "all"].includes(view.target.toLowerCase())) {
+                        this.changeDetector.detectChanges();
+                    }
+                });
             return true;
         }
     }

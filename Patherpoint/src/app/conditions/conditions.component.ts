@@ -5,7 +5,6 @@ import { ConditionGain } from '../ConditionGain';
 import { ConditionsService } from '../conditions.service';
 import { Condition } from '../Condition';
 import { TimeService } from '../time.service';
-import { SortByPipe } from '../sortBy.pipe';
 import { EffectsService } from '../effects.service';
 import { ItemProperty } from '../ItemProperty';
 import { EffectGain } from '../EffectGain';
@@ -39,12 +38,12 @@ export class ConditionsComponent implements OnInit {
     public hours: number = 0;
     public minutes: number = 0;
     public turns: number = 0;
-    private purpose: "conditions"|"customeffects" = "conditions";
+    private purpose: "conditions" | "customeffects" = "conditions";
     public newEffect: EffectGain = new EffectGain();
     public validationError: string[] = [];
     public validationResult: string[] = [];
     public parseInt = parseInt;
-        
+
     constructor(
         private changeDetector: ChangeDetectorRef,
         private characterService: CharacterService,
@@ -54,7 +53,6 @@ export class ConditionsComponent implements OnInit {
         private itemsService: ItemsService,
         private timeService: TimeService,
         private traitsService: TraitsService,
-        private sortByPipe: SortByPipe,
         popoverConfig: NgbPopoverConfig
     ) {
         popoverConfig.autoClose = "outside";
@@ -81,7 +79,7 @@ export class ConditionsComponent implements OnInit {
             this.showItem = type;
         }
     }
-    
+
     get_ShowItem() {
         return this.showItem;
     }
@@ -90,19 +88,19 @@ export class ConditionsComponent implements OnInit {
         return this.showList;
     }
 
-    toggle_Purpose(purpose: "conditions"|"customeffects") {
+    toggle_Purpose(purpose: "conditions" | "customeffects") {
         this.purpose = purpose;
     }
 
     get_ShowPurpose() {
         return this.purpose;
     }
-    
+
     //If you don't use trackByIndex on certain inputs, you lose focus everytime the value changes. I don't get that, but I'm using it now.
     trackByIndex(index: number, obj: any): any {
         return index;
     }
-    
+
     check_Filter() {
         if (this.wordFilter.length < 5 && this.showList) {
             this.showList = "";
@@ -138,7 +136,7 @@ export class ConditionsComponent implements OnInit {
     get_CompanionAvailable() {
         return this.characterService.get_CompanionAvailable();
     }
-    
+
     get_FamiliarAvailable() {
         return this.characterService.get_FamiliarAvailable();
     }
@@ -181,7 +179,7 @@ export class ConditionsComponent implements OnInit {
                 break;
             case "Feats":
                 typeKey = "feats";
-                break;  
+                break;
             case "Other Consumables":
                 typeKey = "otherconsumables";
                 break;
@@ -196,24 +194,32 @@ export class ConditionsComponent implements OnInit {
                 break;
             case "Worn Items":
                 typeKey = "wornitems";
-                break;         
+                break;
             case "Held Items":
                 typeKey = "helditems";
                 break;
         }
 
         if (typeKey) {
-            return this.sortByPipe.transform(this.get_Conditions("", typeKey).filter(condition => 
+            return this.get_Conditions("", typeKey).filter(condition =>
                 !this.wordFilter || (
                     this.wordFilter && (
                         condition.name.toLowerCase().includes(this.wordFilter.toLowerCase()) ||
                         condition.desc.toLowerCase().includes(this.wordFilter.toLowerCase())
                     )
                 )
-            ), "asc", "name") as Condition[];
+            ).sort((a, b) => {
+                if (a.name > b.name) {
+                    return 1;
+                }
+                if (a.name < b.name) {
+                    return -1;
+                }
+                return 0;
+            })
         }
     }
-    
+
     get_Traits(traitName: string = "") {
         return this.traitsService.get_Traits(traitName);
     }
@@ -242,11 +248,11 @@ export class ConditionsComponent implements OnInit {
     }
 
     get_ConditionDuration(includeTurn: boolean = true) {
-        return this.permanent ? -1 : 
+        return this.permanent ? -1 :
             (
-                this.days * 144000 + 
-                this.hours * 6000 + 
-                this.minutes * 100 + 
+                this.days * 144000 +
+                this.hours * 6000 +
+                this.minutes * 100 +
                 this.turns * 10 +
                 (includeTurn ? ((5 + this.endOn + this.timeService.get_YourTurn())) % 10 : 0)
             )
@@ -425,7 +431,7 @@ export class ConditionsComponent implements OnInit {
         function get_PropertyData(key: string, effectsService: EffectsService) {
             return effectsService.get_EffectProperties().filter(property => property.key == key)[0];
         }
-        return Object.keys(this.newEffect).map((key) => get_PropertyData(key, this.effectsService)).filter(property => property != undefined).sort((a,b) => {
+        return Object.keys(this.newEffect).map((key) => get_PropertyData(key, this.effectsService)).filter(property => property != undefined).sort((a, b) => {
             if (a.priority > b.priority) {
                 return 1;
             }
@@ -433,7 +439,7 @@ export class ConditionsComponent implements OnInit {
                 return -1;
             }
             return 0;
-        }).sort((a,b) => {
+        }).sort((a, b) => {
             if (a.group > b.group) {
                 return 1;
             }
@@ -449,84 +455,84 @@ export class ConditionsComponent implements OnInit {
 
         switch (propertyData.examples) {
             case "effects affected":
-                examples.push(...this.characterService.get_Skills(this.get_Character()).map((skill: Skill) =>  skill.name ));
-                examples.push(...this.characterService.get_Abilities().map((ability: Ability) => {return ability.name}));
+                examples.push(...this.characterService.get_Skills(this.get_Character()).map((skill: Skill) => skill.name));
+                examples.push(...this.characterService.get_Abilities().map((ability: Ability) => { return ability.name }));
                 this.characterService.get_FeatsAndFeatures().filter(feat => feat.effects.length).forEach(feat => {
-                    examples.push(...feat.effects.map(effect => effect.affected ))
+                    examples.push(...feat.effects.map(effect => effect.affected))
                 });
                 this.characterService.get_Conditions().filter(condition => condition.effects.length).forEach((condition: Condition) => {
-                    examples.push(...condition.effects.map(effect => effect.affected ))
+                    examples.push(...condition.effects.map(effect => effect.affected))
                 });
                 this.activitiesService.get_Activities().filter(activity => activity.effects.length).forEach((activity: Activity) => {
-                    examples.push(...activity.effects.map(effect => effect.affected ))
+                    examples.push(...activity.effects.map(effect => effect.affected))
                 });
                 this.get_Items().allEquipment().concat(...this.get_Inventories().map(inventory => inventory.allEquipment())).filter(item => item.activities.length).forEach((item: Equipment) => {
                     item.activities.filter(activity => activity.effects.length).forEach((activity: Activity) => {
-                        examples.push(...activity.effects.map(effect => effect.affected ))
+                        examples.push(...activity.effects.map(effect => effect.affected))
                     });
                 });
                 break;
             case "effects value":
                 this.characterService.get_FeatsAndFeatures().filter(feat => feat.onceEffects.length).forEach(feat => {
-                    examples.push(...feat.onceEffects.map(effect => effect.value ))
+                    examples.push(...feat.onceEffects.map(effect => effect.value))
                 });
                 this.characterService.get_FeatsAndFeatures().filter(feat => feat.effects.length).forEach(feat => {
-                    examples.push(...feat.effects.map(effect => effect.value ))
+                    examples.push(...feat.effects.map(effect => effect.value))
                 });
                 this.characterService.get_Conditions().filter(condition => condition.onceEffects.length).forEach((condition: Condition) => {
-                    examples.push(...condition.onceEffects.map(effect => effect.value ))
+                    examples.push(...condition.onceEffects.map(effect => effect.value))
                 });
                 this.characterService.get_Conditions().filter(condition => condition.effects.length).forEach((condition: Condition) => {
-                    examples.push(...condition.effects.map(effect => effect.value ))
+                    examples.push(...condition.effects.map(effect => effect.value))
                 });
                 this.activitiesService.get_Activities().filter(activity => activity.onceEffects.length).forEach((activity: Activity) => {
-                    examples.push(...activity.onceEffects.map(effect => effect.value ))
+                    examples.push(...activity.onceEffects.map(effect => effect.value))
                 });
                 this.activitiesService.get_Activities().filter(activity => activity.effects.length).forEach((activity: Activity) => {
-                    examples.push(...activity.effects.map(effect => effect.value ))
+                    examples.push(...activity.effects.map(effect => effect.value))
                 });
                 this.get_Items().allEquipment().concat(...this.get_Inventories().map(inventory => inventory.allEquipment())).filter(item => item.activities.length).forEach((item: Equipment) => {
                     item.activities.filter(activity => activity.onceEffects.length).forEach((activity: Activity) => {
-                        examples.push(...activity.onceEffects.map(effect => effect.value ))
+                        examples.push(...activity.onceEffects.map(effect => effect.value))
                     });
                     item.activities.filter(activity => activity.effects.length).forEach((activity: Activity) => {
-                        examples.push(...activity.effects.map(effect => effect.value ))
+                        examples.push(...activity.effects.map(effect => effect.value))
                     });
                 });
                 this.get_Items().allConsumables().concat(...this.get_Inventories().map(inventory => inventory.allConsumables())).filter(item => item.onceEffects.length).forEach((item: Consumable) => {
-                    examples.push(...item.onceEffects.map(effect => effect.value ))
+                    examples.push(...item.onceEffects.map(effect => effect.value))
                 });
                 examples = examples.filter(example => typeof example == "string" && !example.toLowerCase().includes("object") && !example.toLowerCase().includes("heightened") && !example.toLowerCase().includes("value"));
                 break;
             case "effects setvalue":
                 this.characterService.get_FeatsAndFeatures().filter(feat => feat.onceEffects.length).forEach(feat => {
-                    examples.push(...feat.onceEffects.map(effect => effect.setValue ))
+                    examples.push(...feat.onceEffects.map(effect => effect.setValue))
                 });
                 this.characterService.get_FeatsAndFeatures().filter(feat => feat.effects.length).forEach(feat => {
-                    examples.push(...feat.effects.map(effect => effect.setValue ))
+                    examples.push(...feat.effects.map(effect => effect.setValue))
                 });
                 this.characterService.get_Conditions().filter(condition => condition.onceEffects.length).forEach((condition: Condition) => {
-                    examples.push(...condition.onceEffects.map(effect => effect.setValue ))
+                    examples.push(...condition.onceEffects.map(effect => effect.setValue))
                 });
                 this.characterService.get_Conditions().filter(condition => condition.effects.length).forEach((condition: Condition) => {
-                    examples.push(...condition.effects.map(effect => effect.setValue ))
+                    examples.push(...condition.effects.map(effect => effect.setValue))
                 });
                 this.activitiesService.get_Activities().filter(activity => activity.onceEffects.length).forEach((activity: Activity) => {
-                    examples.push(...activity.onceEffects.map(effect => effect.setValue ))
+                    examples.push(...activity.onceEffects.map(effect => effect.setValue))
                 });
                 this.activitiesService.get_Activities().filter(activity => activity.effects.length).forEach((activity: Activity) => {
-                    examples.push(...activity.effects.map(effect => effect.setValue ))
+                    examples.push(...activity.effects.map(effect => effect.setValue))
                 });
                 this.get_Items().allEquipment().concat(...this.get_Inventories().map(inventory => inventory.allEquipment())).filter(item => item.activities.length).forEach((item: Equipment) => {
                     item.activities.filter(activity => activity.onceEffects.length).forEach((activity: Activity) => {
-                        examples.push(...activity.onceEffects.map(effect => effect.setValue ))
+                        examples.push(...activity.onceEffects.map(effect => effect.setValue))
                     });
                     item.activities.filter(activity => activity.effects.length).forEach((activity: Activity) => {
-                        examples.push(...activity.effects.map(effect => effect.setValue ))
+                        examples.push(...activity.effects.map(effect => effect.setValue))
                     });
                 });
                 this.get_Items().allConsumables().concat(...this.get_Inventories().map(inventory => inventory.allConsumables())).filter(item => item.onceEffects.length).forEach((item: Consumable) => {
-                    examples.push(...item.onceEffects.map(effect => effect.setValue ))
+                    examples.push(...item.onceEffects.map(effect => effect.setValue))
                 });
                 examples = examples.filter(example => typeof example == "string" && !example.toLowerCase().includes("object") && !example.toLowerCase().includes("heightened") && !example.toLowerCase().includes("value"));
                 break;
@@ -536,25 +542,34 @@ export class ConditionsComponent implements OnInit {
         }
 
         let uniqueExamples = Array.from(new Set(examples))
-        return uniqueExamples;
+        return uniqueExamples
+            .sort(function (a, b) {
+                if (a > b) {
+                    return 1;
+                }
+                if (a < b) {
+                    return -1;
+                }
+                return 0;
+            });;
     }
-    
+
     finish_Loading() {
         if (this.still_loading()) {
             setTimeout(() => this.finish_Loading(), 500)
         } else {
             this.characterService.get_Changed()
-            .subscribe((target) => {
-                if (["conditions", "all"].includes(target.toLowerCase())) {
-                    this.changeDetector.detectChanges();
-                }
-            });
+                .subscribe((target) => {
+                    if (["conditions", "all"].includes(target.toLowerCase())) {
+                        this.changeDetector.detectChanges();
+                    }
+                });
             this.characterService.get_ViewChanged()
-            .subscribe((view) => {
-                if (view.creature.toLowerCase() == "character" && ["conditions", "all"].includes(view.target.toLowerCase())) {
-                    this.changeDetector.detectChanges();
-                }
-            });
+                .subscribe((view) => {
+                    if (view.creature.toLowerCase() == "character" && ["conditions", "all"].includes(view.target.toLowerCase())) {
+                        this.changeDetector.detectChanges();
+                    }
+                });
             return true;
         }
     }

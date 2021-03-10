@@ -8,7 +8,7 @@
                 (choice.increases.length) ? ": "+ choice.increases[0].name : ""}}
             </button>
             <div class="list-item sublist" [ngClass]="{'fancy-list':(choice.available + INTBonus == choice.increases.length)}" *ngIf="get_ShowChoice()==listID">
-                <div class="list-item" [ngClass]="{'selected':skillIncreasedByThis(skill, choice)}" *ngFor="let skill of get_AvailableSkills(choice, level)|sortBy:'asc':'name'; trackBy:trackByIndex;" [ngClass]="{'problem':(!skill.isLegal(get_Character(), this.characterService, level.number) ||
+                <div class="list-item" [ngClass]="{'selected':skillIncreasedByThis(skill, choice)}" *ngFor="let skill of get_AvailableSkills(choice, level); trackBy:trackByIndex;" [ngClass]="{'problem':(!skill.isLegal(get_Character(), this.characterService, level.number) ||
                 (!skill.isLegal(get_Character(), this.characterService, level.number, choice.maxRank) && skillIncreasedByThis(skill, choice)))}">
                     <div class="newrow" *ngFor="let itemID of [choice.id+skill.name]; trackBy:trackByIndex;">
                         <span>

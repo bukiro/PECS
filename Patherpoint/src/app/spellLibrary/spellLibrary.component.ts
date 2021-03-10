@@ -1,7 +1,6 @@
 import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
 import { SpellsService } from '../spells.service';
 import { CharacterService } from '../character.service';
-import { SortByPipe } from '../sortBy.pipe';
 import { Spell } from '../Spell';
 import { SpellCasting } from '../SpellCasting';
 import { SpellChoice } from '../SpellChoice';
@@ -31,7 +30,6 @@ export class SpellLibraryComponent implements OnInit {
         private spellsService: SpellsService,
         private characterService: CharacterService,
         private traitsService: TraitsService,
-        public sortByPipe: SortByPipe,
         popoverConfig: NgbPopoverConfig,
         tooltipConfig: NgbTooltipConfig
     ) {
@@ -155,7 +153,17 @@ export class SpellLibraryComponent implements OnInit {
                     this.traditionFilter && spell.traditions.includes(this.traditionFilter)
                 )
             )
-        );
+        ).sort((a,b) => {
+            if (a.name > b.name) {
+                return 1;
+            }
+            
+            if (a.name < b.name) {
+                return -1;
+            }
+            
+            return 0;
+        });
     }
 
     get_WizardSpellCasting() {
