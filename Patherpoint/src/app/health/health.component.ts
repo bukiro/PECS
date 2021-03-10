@@ -120,25 +120,23 @@ export class HealthComponent implements OnInit {
         }
     }
 
-    calculate_Health() {
-        let health: Health = this.get_Health();
-        health.calculate(this.get_Creature(), this.characterService, this.effectsService);
-        if (health.$dying >= health.$maxDying) {
+    get_Health() {
+        return this.characterService.get_Health(this.get_Creature());
+    }
+
+    calculate_Health(health: Health) {
+        let calculatedHealth = health.calculate(this.get_Creature(), this.characterService, this.effectsService);
+        if (calculatedHealth.dying >= calculatedHealth.maxDying) {
             if (this.characterService.get_AppliedConditions(this.get_Creature(), "Doomed").length) {
                 this.die("Doomed");
             } else {
-                this.die("Dying value too high")
+                this.die("Dying value too high");
             }
         }
-        return this.get_Health()
+        return calculatedHealth;
     }
 
-    get_Health() {
-        return this.characterService.get_Health(this.get_Creature())
-    }
-
-    on_DyingSave(success) {
-        let maxDying = this.get_Health().$maxDying;
+    on_DyingSave(success, maxDying: number) {
         if (success) {
             //Reduce all dying conditions by 1
             //Conditions with Value 0 get cleaned up in the conditions Service
@@ -164,6 +162,7 @@ export class HealthComponent implements OnInit {
         });
         this.get_Character().heroPoints = 0;
         this.characterService.set_ToChange(this.creature, "effects");
+        this.characterService.set_ToChange(this.creature, "general");
         this.characterService.process_ToChange();
     }
 
@@ -183,21 +182,21 @@ export class HealthComponent implements OnInit {
         }
     }
 
-    on_Heal(health: Health) {
-        health.heal(this.get_Creature(), this.characterService, this.effectsService, this.healing);
+    on_Heal(health: Health, dying: number) {
+        health.heal(this.get_Creature(), this.characterService, this.effectsService, this.healing, true, true, dying);
         this.characterService.set_ToChange(this.creature, "health");
         this.characterService.set_ToChange(this.creature, "effects");
         this.characterService.process_ToChange();
     }
 
-    on_NumbToDeath(health: Health) {
-        health.heal(this.get_Creature(), this.characterService, this.effectsService, this.get_Character().level, true, false);
+    on_NumbToDeath(health: Health, dying: number) {
+        health.heal(this.get_Creature(), this.characterService, this.effectsService, this.get_Character().level, true, false, dying);
         this.characterService.set_ToChange(this.creature, "health");
         this.characterService.process_ToChange();
     }
 
-    on_TakeDamage(health: Health) {
-        health.takeDamage(this.get_Creature(), this.characterService, this.effectsService, this.damage, this.nonlethal);
+    on_TakeDamage(health: Health, wounded: number, dying: number) {
+        health.takeDamage(this.get_Creature(), this.characterService, this.effectsService, this.damage, this.nonlethal, wounded, dying);
         this.characterService.set_ToChange(this.creature, "health");
         this.characterService.set_ToChange(this.creature, "effects");
         this.characterService.process_ToChange();
