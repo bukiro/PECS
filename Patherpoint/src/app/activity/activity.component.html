@@ -48,53 +48,55 @@
                 </div>
             </ng-container>
         </div>
-        <div [ngbTooltip]="gain.activeCooldown ? (maxCharges ? 'Recharged in: ' : 'Cooldown: ') + get_Duration(gain.activeCooldown, true, false) : ''"
-            *ngIf="gain.name != 'Fused Stance' && activity.can_Activate() && gain.active">
-            <button class="newrow center-aligned" (click)="on_Activate(gain, activity, false, creature)">
-                {{gain.duration==1 ? "Done (instant effect)" : "" }} {{gain.duration !=1 ? (activity.sustained
-                ? "Stop Sustaining" : "Deactivate" ) : "" }} {{(gain.duration && gain.duration !=1) ? "(" +
-                get_Duration(gain.duration) + " remaining)" : "" }} {{maxCharges ? "(" + (maxCharges -
-                gain.chargesUsed) + " of " + maxCharges + " charges)" : "" }} </button>
-        </div>
-        <ng-container
-            *ngIf="gain.name == 'Fused Stance' && (gain.activeCooldown ? (maxCharges > gain.chargesUsed) : true)">
+        <ng-container *ngIf="allowActivate">
             <div [ngbTooltip]="gain.activeCooldown ? (maxCharges ? 'Recharged in: ' : 'Cooldown: ') + get_Duration(gain.activeCooldown, true, false) : ''"
-                *ngIf="!gain.active">
-                <button class="newrow center-aligned" (click)="on_ActivateFuseStance(true)"
-                    [disabled]="!get_FuseStanceFeat() || !get_FuseStanceFeat().data">
-                    Activate {{maxCharges ? "(" + (maxCharges - gain.chargesUsed) + " of " + maxCharges + "
-                    charges)" : ""}}
+                *ngIf="gain.name != 'Fused Stance' && activity.can_Activate() && gain.active">
+                <button class="newrow center-aligned" (click)="on_Activate(gain, activity, false, creature)">
+                    {{gain.duration==1 ? "Done (instant effect)" : "" }} {{gain.duration !=1 ? (activity.sustained
+                    ? "Stop Sustaining" : "Deactivate" ) : "" }} {{(gain.duration && gain.duration !=1) ? "(" +
+                    get_Duration(gain.duration) + " remaining)" : "" }} {{maxCharges ? "(" + (maxCharges -
+                    gain.chargesUsed) + " of " + maxCharges + " charges)" : "" }} </button>
+            </div>
+            <ng-container
+                *ngIf="gain.name == 'Fused Stance' && (gain.activeCooldown ? (maxCharges > gain.chargesUsed) : true)">
+                <div [ngbTooltip]="gain.activeCooldown ? (maxCharges ? 'Recharged in: ' : 'Cooldown: ') + get_Duration(gain.activeCooldown, true, false) : ''"
+                    *ngIf="!gain.active">
+                    <button class="newrow center-aligned" (click)="on_ActivateFuseStance(true)"
+                        [disabled]="!get_FuseStanceFeat() || !get_FuseStanceFeat().data">
+                        Activate {{maxCharges ? "(" + (maxCharges - gain.chargesUsed) + " of " + maxCharges + "
+                        charges)" : ""}}
+                    </button>
+                </div>
+                <div [ngbTooltip]="gain.activeCooldown ? (maxCharges ? 'Recharged in: ' : 'Cooldown: ') + get_Duration(gain.activeCooldown, true, false) : ''"
+                    *ngIf="gain.active">
+                    <button class="newrow center-aligned" (click)="on_ActivateFuseStance(false)"
+                        [disabled]="!get_FuseStanceFeat() || !get_FuseStanceFeat().data">
+                        Deactivate {{maxCharges ? "(" + (maxCharges - gain.chargesUsed) + " of " + maxCharges + "
+                        charges)" : ""}}
+                    </button>
+                </div>
+            </ng-container>
+            <ng-container *ngIf="!activity.can_Activate()">
+                <button class="newrow center-aligned"
+                    [ngbTooltip]="'The results of this activation cannot be applied automatically. Pressing this button has no effect.'">
+                    Activate &#9774;
+                </button>
+            </ng-container>
+            <div class="newrow" *ngIf="get_Resonant() && !isSubItem">
+                <strong>Slot this item into a Wayfinder to unlock its resonant power.</strong>
+            </div>
+            <div class="newrow"
+                *ngIf="gain && (gain.activeCooldown ? (maxCharges == gain.chargesUsed) : false) && !gain.active">
+                <button class="newrow center-aligned" disabled>
+                    Cannot activate {{get_Duration(gain.activeCooldown, true, true)}}
                 </button>
             </div>
-            <div [ngbTooltip]="gain.activeCooldown ? (maxCharges ? 'Recharged in: ' : 'Cooldown: ') + get_Duration(gain.activeCooldown, true, false) : ''"
-                *ngIf="gain.active">
-                <button class="newrow center-aligned" (click)="on_ActivateFuseStance(false)"
-                    [disabled]="!get_FuseStanceFeat() || !get_FuseStanceFeat().data">
-                    Deactivate {{maxCharges ? "(" + (maxCharges - gain.chargesUsed) + " of " + maxCharges + "
-                    charges)" : ""}}
+            <div class="newrow" *ngIf="get_ExternallyDisabled()">
+                <button class="newrow center-aligned" disabled>
+                    Cannot activate (disabled by effect)
                 </button>
             </div>
         </ng-container>
-        <ng-container *ngIf="!activity.can_Activate()">
-            <button class="newrow center-aligned"
-                [ngbTooltip]="'The results of this activation cannot be applied automatically. Pressing this button has no effect.'">
-                Activate &#9774;
-            </button>
-        </ng-container>
-        <div class="newrow" *ngIf="get_Resonant() && !isSubItem">
-            <strong>Slot this item into a Wayfinder to unlock its resonant power.</strong>
-        </div>
-        <div class="newrow"
-            *ngIf="gain && (gain.activeCooldown ? (maxCharges == gain.chargesUsed) : false) && !gain.active">
-            <button class="newrow center-aligned" disabled>
-                Cannot activate {{get_Duration(gain.activeCooldown, true, true)}}
-            </button>
-        </div>
-        <div class="newrow" *ngIf="get_ExternallyDisabled()">
-            <button class="newrow center-aligned" disabled>
-                Cannot activate (disabled by effect)
-            </button>
-        </div>
         <div class="newrow left-aligned">
             <cite class="trait" *ngFor="let trait of activity.traits; trackBy:trackByIndex;"
                 [ngbPopover]="get_Traits(trait)[0].desc">{{trait}}</cite>

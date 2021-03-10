@@ -24,4 +24,5 @@ export class Settings {
     higherLevelFeats: boolean = true;
     unavailableFeats: boolean = true;
     archetypeFeats: boolean = true;
+    hintsShowMoreInformation: boolean = true;
 }

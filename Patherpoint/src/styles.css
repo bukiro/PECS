@@ -763,12 +763,12 @@ header.spellHeader app-actionicons .actionIcon {
 }
 
 ngb-popover-window {
-    max-height: 90vh;
+    max-height: 50vh;
     overflow-y: auto;
 }
 
 ngb-popover-window.list-item.sublist {
-    max-height: 90vh;
+    max-height: 50vh;
     width: auto;
     z-index: 1060;
 }

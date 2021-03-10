@@ -27,6 +27,8 @@ export class ConditionComponent implements OnInit {
     showItem: string = "";
     @Input()
     creature: string = "Character"
+    @Input()
+    fullDisplay: boolean = false;
     @Output()
     showItemMessage = new EventEmitter<string>();
 

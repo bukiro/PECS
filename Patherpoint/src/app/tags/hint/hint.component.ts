@@ -39,6 +39,10 @@ export class HintComponent implements OnInit {
         return index;
     }
 
+    get_HintsShowMore() {
+        return this.characterService.get_Character().settings.hintsShowMoreInformation;
+    }
+
     get_Hints(hints: Hint[], name: string) {
         return hints
             .filter(hint =>
@@ -57,6 +61,27 @@ export class HintComponent implements OnInit {
     on_ActivateEffect() {
         this.characterService.set_ToChange(this.creature, "effects");
         this.characterService.process_ToChange();
+    }
+
+    get_ObjectType() {
+        switch (this.object?.constructor.name) {
+            case "Feat":
+                return "Feat";
+            case "Activity":
+                return "Activity";
+            case "ItemActivity":
+                return "Activity";
+            case "Condition":
+                return "Condition";
+            case "AnimalCompanionSpecialization":
+                return "DescOnly";
+            case "Specialization":
+                return "DescOnly";
+        }
+        if (this.object.constructor.__proto__.__proto__.name == "Item" || this.object.constructor.__proto__.name == "Item") {
+            return "Item";
+        }
+        return "";
     }
 
     ngOnInit() {

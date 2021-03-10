@@ -74,17 +74,32 @@
                 </button>
                 <div class="list-item sublist" *ngIf="get_ShowList() == 'settings'">
                     <div class="list-item">
-                        <strong>Color Accent</strong>
-                        <span>
-                            <input type="color" name="coloraccent" style="padding:0 2px"
-                                [(ngModel)]="get_Character().settings.accent" (ngModelChange)="set_Accent()"
-                                maxLength="7">
-                        </span>
+                        <strong>Look</strong>
+                        <div class="list-item">
+                            <strong>Color Accent</strong>
+                            <span>
+                                <input type="color" name="coloraccent" style="padding:0 2px"
+                                    [(ngModel)]="get_Character().settings.accent" (ngModelChange)="set_Accent()"
+                                    maxLength="7">
+                            </span>
+                        </div>
+                        <div class="list-item">
+                            <strong><label for="darkmode">Dark mode</label></strong>
+                            <input id="darkmode" type="checkbox" [(ngModel)]="get_Character().settings.darkmode"
+                                (ngModelChange)="set_Darkmode()">
+                        </div>
                     </div>
                     <div class="list-item">
-                        <strong><label for="darkmode">Dark mode</label></strong>
-                        <input id="darkmode" type="checkbox" [(ngModel)]="get_Character().settings.darkmode"
-                            (ngModelChange)="set_Darkmode()">
+                        <strong>Tags</strong>
+                        <div class="list-item">
+                            <span>
+                                <label for="hintsShowMoreInformation">Clicking a tag shows additional information, if available</label>
+                            </span>
+                            <span>
+                                <input id="hintsShowMoreInformation" type="checkbox"
+                                    [(ngModel)]="get_Character().settings.hintsShowMoreInformation">
+                            </span>
+                        </div>
                     </div>
                     <div class="list-item">
                         <strong>Choices</strong>
@@ -127,14 +142,16 @@
                                     [(ngModel)]="get_Character().settings.lowerLevelFeats">
                             </span>
                         </div>
-                        <div class="list-item" *ngIf="get_Character().settings.unavailableFeats">
-                            <span>
-                                <label for="higherLevelFeats">Show higher level feats</label>
-                            </span>
-                            <span>
-                                <input id="higherLevelFeats" type="checkbox"
-                                    [(ngModel)]="get_Character().settings.higherLevelFeats">
-                            </span>
+                        <div class="fullwidth" [ngbCollapse]="!get_Character().settings.unavailableFeats">
+                            <div class="list-item">
+                                <span>
+                                    <label for="higherLevelFeats">Show higher level feats</label>
+                                </span>
+                                <span>
+                                    <input id="higherLevelFeats" type="checkbox"
+                                        [(ngModel)]="get_Character().settings.higherLevelFeats">
+                                </span>
+                            </div>
                         </div>
                         <div class="list-item">
                             <span>
@@ -323,8 +340,7 @@
                         </button>
                         <div class="list-item sublist" [ngClass]="{'fancy-list':get_Character().class.ancestry.name}"
                             *ngIf="get_ShowList()==listID">
-                            <ng-container
-                                *ngFor="let ancestry of get_AvailableAncestries(); trackBy:trackByIndex;">
+                            <ng-container *ngFor="let ancestry of get_AvailableAncestries(); trackBy:trackByIndex;">
                                 <div class="newrow list-item"
                                     [ngClass]="{'selected':ancestry.name === get_Character().class.ancestry.name}"
                                     *ngFor="let itemID of ['ancestry'+ancestry.name]; trackBy:trackByIndex;">
@@ -531,8 +547,7 @@
                                 </div>
                             </div>
                             <!-- End Filter -->
-                            <ng-container
-                                *ngFor="let background of get_AvailableBackgrounds(); trackBy:trackByIndex;">
+                            <ng-container *ngFor="let background of get_AvailableBackgrounds(); trackBy:trackByIndex;">
                                 <div class="newrow list-item"
                                     [ngClass]="{'selected':background.name === get_Character().class.background.name || get_SubBackgroundNames(background.name).includes(get_Character().class.background.name)}"
                                     *ngFor="let itemID of ['background'+background.name]; trackBy:trackByIndex;">

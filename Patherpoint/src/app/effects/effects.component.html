@@ -4,7 +4,7 @@
             *ngFor="let condition of [get_Conditions(conditionGain.name)[0]]; trackBy:trackByIndex;">
             <ng-template #conditionContent>
                 <app-condition class="newrow" (showChoiceMessage)="receive_ItemMessage($event)" [creature]="creature"
-                    [conditionGain]="conditionGain" [condition]="condition" [showItem]="get_ShowItem()"></app-condition>
+                    [conditionGain]="conditionGain" [condition]="condition" [showItem]="get_ShowItem()" [fullDisplay]="fullDisplay"></app-condition>
             </ng-template>
             <app-gridIcon class="condition" [ngClass]="{'penalty':!condition.buff, 'bonus':condition.buff}"
                 placement="right bottom top" [condition]="conditionGain" [ngbPopover]="conditionContent"
