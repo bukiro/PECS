@@ -1,9 +1,6 @@
-import { AnimalCompanion } from './AnimalCompanion';
-import { Character } from './Character';
 import { CharacterService } from './character.service';
 import { Creature } from './Creature';
 import { Equipment } from './Equipment';
-import { Familiar } from './Familiar';
 
 export class Shield extends Equipment {
     public readonly _className: string = this.constructor.name;
@@ -38,6 +35,9 @@ export class Shield extends Equipment {
         } else if (this.shoddy) {
             this.$shoddy = -2;
             return -2;
+        } else {
+            this.$shoddy = 0;
+            return 0;
         }
     }
     get_ShieldAlly(creature: Creature, characterService: CharacterService) {

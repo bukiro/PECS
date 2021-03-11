@@ -289,7 +289,7 @@
                                     <span *ngIf="can_Drop(item) && can_DropAll(item)">
                                         <button (click)="drop_ContainerOnly(item, inventory)"
                                             [ngbTooltip]="'Drop this item, but keep all items granted by it'">
-                                            Drop
+                                            Drop this item only
                                         </button>
                                     </span>
                                     <span *ngIf="can_Drop(item) && !can_DropAll(item)">
@@ -300,7 +300,7 @@
                                     <span *ngIf="can_Drop(item) && can_DropAll(item)">
                                         <button (click)="drop_InventoryItem(item, inventory)"
                                             [ngbTooltip]="'Drop this item and all items granted by it'">
-                                            Drop All
+                                            Drop with all parts
                                         </button>
                                     </span>
                                 </div>
@@ -318,11 +318,13 @@
                                         &nbsp;
                                         <!-- This span is a placeholder that appears if no other button is valid on the left side of the Sell button -->
                                     </span>
-                                    <span [ngbTooltip]="'Sell at half price'">
-                                        <button (click)="drop_InventoryItem(item, inventory, true)"
-                                            [disabled]="item.amount <= 0 || item.broken || item.shoddy">
-                                            Sell
-                                        </button>
+                                    <span>
+                                        <span [ngbTooltip]="'Sell at half price'">
+                                            <button (click)="drop_InventoryItem(item, inventory, true)"
+                                                [disabled]="item.amount <= 0 || item.broken || item.shoddy">
+                                                Sell {{can_DropAll(item) ? " with all parts" : ""}}
+                                            </button>
+                                        </span>
                                     </span>
                                 </div>
                                 <div class="list-item" *ngIf=can_Drop(item)>
@@ -341,6 +343,10 @@
                                     </span>
                                 </div>
                                 <div class="list-item newrow left-aligned">
+                                    <span *ngIf="item['get_Name']">
+                                        <input id="{{item.id}}showname" type="checkbox" [(ngModel)]="item.showName">
+                                        <label for="{{item.id}}showname">&nbsp;Name&nbsp;</label>
+                                    </span>
                                     <span>
                                         <input id="{{item.id}}shownotes" type="checkbox" [(ngModel)]="item.showNotes">
                                         <label for="{{item.id}}shownotes">&nbsp;Notes&nbsp;</label>
@@ -350,57 +356,59 @@
                                         <input id="{{item.id}}showstatus" type="checkbox" [(ngModel)]="item.showStatus">
                                         <label for="{{item.id}}showstatus">&nbsp;Status&nbsp;</label>
                                     </span>
-                                    <span *ngIf="item['get_Name']">
-                                        <input id="{{item.id}}showname" type="checkbox" [(ngModel)]="item.showName">
-                                        <label for="{{item.id}}showname">&nbsp;Name&nbsp;</label>
-                                    </span>
                                     <span *ngIf="item.moddable && item.moddable != '-' && item.type != 'shield'">
                                         <input id="{{item.id}}showrunes" type="checkbox" [(ngModel)]="item.showRunes">
                                         <label for="{{item.id}}showrunes">&nbsp;Runes&nbsp;</label>
                                     </span>
                                 </div>
+                                <!--Changing Name-->
+                                <div class="fullwidth" [ngbCollapse]="!item.showName">
+                                    <div class="list-item newrow left-aligned">
+                                        <span>Name</span> <input type="textarea" class="fullwidth"
+                                            [(ngModel)]="item.displayName" (blur)="onItemChange(item)">
+                                    </div>
+                                </div>
                                 <!--Changing Notes-->
-                                <div class="list-item newrow left-aligned" *ngIf="item.showNotes">
-                                    <span>Notes</span> <input type="textarea" class="fullwidth"
-                                        [(ngModel)]="item.notes">
+                                <div class="fullwidth" [ngbCollapse]="!item.showNotes">
+                                    <div class="list-item newrow left-aligned">
+                                        <span>Notes</span> <input type="textarea" class="fullwidth"
+                                            [(ngModel)]="item.notes">
+                                    </div>
                                 </div>
                                 <!--Changing Status-->
-                                <div class="list-item newrow left-aligned"
-                                    *ngIf="!['Fist','Unarmored'].includes(item.name) && item.baseType == 'Equipment' && (item.showStatus || item.broken || item.shoddy)">
-                                    <span>Status</span>
-                                    <div class="newrow">
-                                        <span
-                                            [ngbPopover]="!get_RepairAllowed(item) ? 'You cannot repair a broken shield unless you restore its hit points above the Broken Threshold.' : ''">
-                                            <input id="{{item.id}}broken" type="checkbox" [(ngModel)]="item.broken"
-                                                (ngModelChange)=onItemChange(item)
-                                                [disabled]="!get_RepairAllowed(item)">
-                                            <label for="{{item.id}}broken">&nbsp;&#9985;&nbsp;Broken</label>
-                                        </span>
-                                        <span>
+                                <div class="fullwidth" [ngbCollapse]="!(item.showStatus || item.broken || item.shoddy)"
+                                    *ngIf="!['Fist','Unarmored'].includes(item.name) && item.baseType == 'Equipment'">
+                                    <div class="list-item newrow left-aligned">
+                                        <span>Status</span>
+                                        <div class="newrow">
                                             <span
-                                                [ngbPopover]="'A broken object can\'t be used for its normal function, nor does it grant bonuses - with the exception of armor. Broken armor still grants its item bonus to AC, but it also imparts a status penalty to AC depending on its category: -1 for broken light armor, -2 for broken medium armor, or -3 for broken heavy armor. A broken item still imposes penalties and limitations normally incurred by carrying, holding, or wearing it. For example, broken armor would still impose its Dexterity modifier cap, check penalty, and so forth.'">
-                                                <button class="lower inactive-button">Details</button>
+                                                [ngbPopover]="!get_RepairAllowed(item) ? 'You cannot repair a broken shield unless you restore its hit points above the Broken Threshold.' : ''">
+                                                <input id="{{item.id}}broken" type="checkbox" [(ngModel)]="item.broken"
+                                                    (ngModelChange)=onItemChange(item)
+                                                    [disabled]="!get_RepairAllowed(item)">
+                                                <label for="{{item.id}}broken">&nbsp;&#9985;&nbsp;Broken</label>
                                             </span>
-                                        </span>
-                                    </div>
-                                    <div class="newrow">
-                                        <span>
-                                            <input id="{{item.id}}shoddy" type="checkbox" [(ngModel)]="item.shoddy"
-                                                (ngModelChange)=onItemChange(item)>
-                                            <label for="{{item.id}}shoddy">&nbsp;Shoddy</label>
-                                        </span>
-                                        <span>
-                                            <span
-                                                [ngbPopover]="'When available, a shoddy item usually costs half the Price of a standard item, though you can never sell one in any case. Attacks and checks involving a shoddy item take a –2 item penalty. This penalty also applies to any DCs that a shoddy item applies to (such as AC, for shoddy armor). A shoddy suit of armor also worsens the armor\'s check penalty by 2. A shoddy item\'s Hit Points and Broken Threshold are each half that of a normal item of its type.'">
-                                                <button class="lower inactive-button">Details</button>
+                                            <span>
+                                                <span
+                                                    [ngbPopover]="'A broken object can\'t be used for its normal function, nor does it grant bonuses - with the exception of armor. Broken armor still grants its item bonus to AC, but it also imparts a status penalty to AC depending on its category: -1 for broken light armor, -2 for broken medium armor, or -3 for broken heavy armor. A broken item still imposes penalties and limitations normally incurred by carrying, holding, or wearing it. For example, broken armor would still impose its Dexterity modifier cap, check penalty, and so forth.'">
+                                                    <button class="lower inactive-button">Details</button>
+                                                </span>
                                             </span>
-                                        </span>
+                                        </div>
+                                        <div class="newrow">
+                                            <span>
+                                                <input id="{{item.id}}shoddy" type="checkbox" [(ngModel)]="item.shoddy"
+                                                    (ngModelChange)=onItemChange(item)>
+                                                <label for="{{item.id}}shoddy">&nbsp;Shoddy</label>
+                                            </span>
+                                            <span>
+                                                <span
+                                                    [ngbPopover]="'When available, a shoddy item usually costs half the Price of a standard item, though you can never sell one in any case. Attacks and checks involving a shoddy item take a –2 item penalty. This penalty also applies to any DCs that a shoddy item applies to (such as AC, for shoddy armor). A shoddy suit of armor also worsens the armor\'s check penalty by 2. A shoddy item\'s Hit Points and Broken Threshold are each half that of a normal item of its type.'">
+                                                    <button class="lower inactive-button">Details</button>
+                                                </span>
+                                            </span>
+                                        </div>
                                     </div>
-                                </div>
-                                <!--Changing Name-->
-                                <div class="list-item newrow left-aligned" *ngIf="item.showName">
-                                    <span>Name</span> <input type="textarea" class="fullwidth"
-                                        [(ngModel)]="item.displayName" (blur)="onItemChange(item)">
                                 </div>
                                 <div class="list-item newrow" *ngIf="get_LargeWeaponAllowed(item) || item.large">
                                     <span>
@@ -448,8 +456,11 @@
                                         </span>
                                     </span>
                                 </div>
-                                <app-itemRunes class="list-item" [item]=item [itemStore]=false *ngIf="item.showRunes">
-                                </app-itemRunes>
+                                <div class="fullwidth" [ngbCollapse]="!item.showRunes"
+                                    *ngIf="item.moddable && item.moddable != '-' && item.type != 'shield'">
+                                    <app-itemRunes class="list-item" [item]=item [itemStore]=false>
+                                    </app-itemRunes>
+                                </div>
                                 <app-itemOils [item]=item [itemStore]=false *ngIf="item.type != 'oils'">
                                 </app-itemOils>
                                 <app-itemPoisons [item]=item [itemStore]=false *ngIf="item.type == 'weapons'">

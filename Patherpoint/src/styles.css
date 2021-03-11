@@ -4,14 +4,6 @@ html {
     --accent: 70, 90, 140;
 }
 
-body {
-    margin: 0;
-    overflow-y: hidden;
-    --textcolor: #616161;
-    background-color: #333333;
-    font-size: 14px;
-}
-
 .darkmode {
     --textcolor: #CCC;
 }
@@ -25,15 +17,25 @@ body {
     -moz-osx-font-smoothing: grayscale;
 }
 
+/* Body */
 
-/* Scrollbar width */
+body {
+    margin: 0;
+    overflow-y: hidden;
+    --textcolor: #616161;
+    background-color: #333333;
+    font-size: 14px;
+}
+
+/*
+CLASSIC ELEMENTS
+*/
+
+/* Scrollbars */
 
 ::-webkit-scrollbar {
     width: 12px;
 }
-
-
-/* Scrollbar Track */
 
 ::-webkit-scrollbar-thumb {
     background: #EFEFEF;
@@ -45,9 +47,6 @@ body {
     background: #303030;
 }
 
-
-/* Scrollbar Handle */
-
 ::-webkit-scrollbar-track {
     background: #EFEFEF;
     border-radius: 1px;
@@ -56,239 +55,6 @@ body {
 .darkmode ::-webkit-scrollbar-track {
     background: #303030;
 }
-
-.container {
-    display: flex;
-    flex-direction: row;
-    height: 100vh;
-    height: calc(100vh - 2em - 16px - 4px);
-    overflow-y: hidden;
-}
-
-
-/* The main app container below the top bar */
-
-app-top-bar~.container {
-    padding: 0;
-}
-
-svg,
-svg g {
-    fill: #616161;
-    fill: var(--textcolor);
-    stroke: #616161;
-    stroke: var(--textcolor);
-}
-
-.darkmode .diceBox button svg g {
-    stroke: #616161;
-    stroke: var(--textcolor);
-}
-
-.charactersheet,
-.animalcompanion-box,
-.familiar-box {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    overflow-y: auto;
-    padding-bottom: 8px;
-    background-color: white;
-}
-
-.charactersheet-app {
-    background-color: #EFEFEF;
-    border-radius: 2px;
-    margin: 8px;
-    position: relative;
-}
-
-.charactersheet-column-container {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    overflow-y: hidden;
-}
-
-.charactersheet-column {
-    flex-basis: 0;
-    flex-grow: 1;
-    overflow-y: auto;
-    position: relative;
-    display: flex;
-    flex-direction: column;
-}
-
-.darkmode .charactersheet-app {
-    background-color: #303030;
-}
-
-.darkmode .charactersheet,
-.darkmode .animalcompanion-box,
-.darkmode .familiar-box {
-    background-color: #202020;
-}
-
-app-familiarabilities.charactersheet-app {
-    overflow: visible;
-}
-
-#tabs {
-    background-color: #465A8C;
-    background-color: rgb(var(--accent));
-    padding: 8px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: fit-content;
-    flex-wrap: wrap;
-}
-
-app-newItemProperty {
-    flex-basis: 100%;
-    margin-bottom: 8px;
-}
-
-.minimized .fullsize-only {
-    display: none;
-}
-
-app-animal-companion .character-only,
-app-familiar .character-only {
-    display: none;
-}
-
-.minimized header.sectionHeader,
-.minimized header.subsectionHeader {
-    margin: 4px 0px 0px 0px;
-}
-
-header.sectionHeader.box-header {
-    color: #465A8C;
-    color: rgb(var(--accent));
-}
-
-.darkmode header.sectionHeader.box-header {
-    text-shadow: 0 0 5px var(--textcolor), 0 0 5px var(--textcolor), 0 0 5px var(--textcolor), 0 0 5px var(--textcolor), 0 0 5px var(--textcolor);
-}
-
-.darkmode header.sectionHeader.box-header span {
-    text-shadow: none;
-}
-
-.minimized input {
-    font-size: 90%;
-    border: none;
-    padding: 0px 2px;
-}
-
-router-outlet+* {
-    padding: 0;
-}
-
-app-character-sheet {
-    width: 100%;
-    position: relative;
-}
-
-#levelBox {
-    display: grid;
-    justify-content: stretch;
-    grid-gap: 4px;
-    grid-template-columns: auto auto auto auto auto;
-}
-
-#levelBox.levelBoxTop {
-    grid-template-columns: auto auto;
-}
-
-
-/* Text */
-
-header.mainHeader {
-    font-size: 2em;
-}
-
-header.sectionHeader {
-    clear: both;
-    font-weight: bold;
-    font-size: 1.5em;
-    margin-top: 8px;
-    margin-bottom: 8px;
-}
-
-button header.sectionHeader {
-    margin-top: 4px;
-    margin-bottom: 4px;
-}
-
-header.spellHeader {
-    width: 100%;
-    color: #cbc18f;
-    background-color: #522e2c;
-    padding: 2px;
-    margin: 8px 0px;
-    font-weight: bold;
-    font-size: 1.2em;
-}
-
-header.spellHeader svg,
-header.spellHeader svg g {
-    fill: #cbc18f;
-}
-
-header.subsectionHeader {
-    font-weight: bold;
-    margin: 8px 0px;
-}
-
-header.featureHeader {
-    width: 100%;
-    background-color: #cbc18f;
-    color: #616161;
-    padding: 2px;
-    margin: 8px 0px;
-    text-align: left;
-    font-size: 1em;
-    font-weight: bold;
-}
-
-p {
-    width: 100%;
-    margin: 8px 0px;
-}
-
-.newrow>* {
-    flex-basis: 0;
-    flex-grow: 1;
-    text-align: center;
-    margin-top: auto;
-    margin-bottom: auto;
-}
-
-.newrow>p {
-    margin: 8px 0px;
-}
-
-.newrow.left-aligned>* {
-    flex-basis: initial;
-    flex-grow: 0;
-    text-align: left;
-}
-
-.newrow:not(.left-aligned):not(.center-aligned)>*:first-child {
-    text-align: left;
-}
-
-.newrow:not(.left-aligned):not(.center-aligned)>*:last-child:not(:first-child) {
-    text-align: right;
-    flex-grow: 1;
-}
-
-.newrow>p:last-child {
-    margin-bottom: 0px;
-}
-
 
 /* Hyperlink */
 
@@ -303,8 +69,22 @@ a:hover {
     opacity: 0.8;
 }
 
+/* Text */
 
-/* Input */
+p {
+    width: 100%;
+    margin: 8px 0px;
+}
+
+span {
+    color: inherit;
+}
+
+strong {
+    line-height: 1.5em;
+}
+
+/* Inputs */
 
 input {
     font-size: 90%;
@@ -322,6 +102,28 @@ input[disabled]:not(.bonus):not(.penalty):not(.absolute) {
 .darkmode textarea {
     background-color: #202020;
 }
+
+input.bonus {
+    background-color: lightgreen;
+    color: #616161;
+    color: var(--textcolor);
+}
+
+.darkmode input.bonus {
+    background-color: darkgreen;
+}
+
+input.penalty {
+    background-color: lightpink;
+    color: #616161;
+    color: var(--textcolor);
+}
+
+.darkmode input.penalty {
+    background-color: #500000;
+}
+
+    /* Inputs with extra space for Firefox number arrows */
 
 input.number1 {
     width: 36px;
@@ -358,13 +160,14 @@ input.number7 {
     margin-bottom: 0px;
 }
 
+    /* Input labels */
+
 label, app-character-sheet label {
     display: inline-flex;
     margin-bottom: initial;
 }
 
-
-/* Button */
+/* Buttons */
 
 .button,
 button {
@@ -389,26 +192,15 @@ button {
     color: #CCC;
 }
 
-.button svg,
-.button svg g,
-button svg,
-button svg g {
-    fill: white;
-    stroke: white;
-}
-
-.diceBox button svg g {
-    fill: none;
-}
-
 button.minimizebutton {
     position: absolute;
-    padding: 0px 2px;
+    padding: 0;
     top: 0;
     right: 0;
+    width: 2rem;
+    height: 2rem;
     z-index: 5;
-    padding: 0 5px 0 4px;
-    border-radius: 0;
+    justify-content: center;
 }
 
 .button.newrow:not(:last-child),
@@ -438,37 +230,25 @@ button:disabled {
     cursor: auto;
 }
 
-
-/* Button Flash */
-
-button:before,
-button~.list-item.sublist:before {
-    content: '';
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    left: 0;
-    right: 0;
+button.choicecleared::after,
+.button.choicecleared::after {
+    content: "\2714";
+    font-size: 1.2em;
     bottom: 0;
-    background-color: currentColor;
-    visibility: hidden;
-    z-index: 2;
+    right: 0.5em;
+    position: absolute;
 }
 
-button:not([disabled]):not(:active):before {
-    -webkit-animation: flash 0.4s cubic-bezier(0, 0, 0.2, 1);
-    animation: flash 0.4s cubic-bezier(0, 0, 0.2, 1);
-    -webkit-transition: visibility .4s step-end;
-    transition: visibility .4s step-end;
+.button.lower {
+    padding: 1px 6px;
 }
 
-button:not([disabled]):active:before {
-    visibility: visible;
+.button.left {
+    margin-left: 0px;
+    margin-bottom: auto;
 }
 
-
-/* Fancy Button */
+    /* Fancy Button for special menus or active toggled buttons */
 
 .fancy-button {
     background-color: white;
@@ -492,224 +272,170 @@ button:not([disabled]):active:before {
     padding-right: 4px;
 }
 
-.fancy-button svg,
-.fancy-button svg g,
-.darkmode .fancy-button svg,
-.darkmode .fancy-button svg g {
-    fill: #465A8C;
-    fill: rgb(var(--accent));
-    stroke: #465A8C;
-    stroke: rgb(var(--accent));
-}
+    /* Inactive Button (for used spells etc) */
 
 .inactive-button,
 .darkmode .inactive-button {
     background-color: grey;
 }
 
-.button.lower {
-    padding: 1px 6px;
-}
-
-.button.left {
-    margin-left: 0px;
-    margin-bottom: auto;
-}
+    /* Slider button */
 
 .slider {
-    -webkit-appearance: none;
-    width: 100%;
-    outline: none;
-    opacity: 1;
-    -webkit-transition: .2s;
-    transition: opacity .2s;
+-webkit-appearance: none;
+width: 100%;
+outline: none;
+opacity: 1;
+-webkit-transition: .2s;
+transition: opacity .2s;
 }
 
 .slider:hover {
-    opacity: .8;
+opacity: .8;
 }
 
 .slider::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    appearance: none;
-    width: 20px;
-    height: 20px;
-    border-radius: 2px;
-    background: rgb(var(--accent));
-    cursor: pointer;
-    content: var(--thumbNumber);
+-webkit-appearance: none;
+appearance: none;
+width: 20px;
+height: 20px;
+border-radius: 2px;
+background: rgb(var(--accent));
+cursor: pointer;
+content: var(--thumbNumber);
 }
 
 .slider::-moz-range-thumb {
-    width: 20px;
-    height: 20px;
-    border-radius: 2px;
-    background: rgb(var(--accent));
-    cursor: pointer;
+width: 20px;
+height: 20px;
+border-radius: 2px;
+background: rgb(var(--accent));
+cursor: pointer;
 }
 
+    /* Button Flash */
 
-/* Top Bar */
-
-#top-bar {
+button:before,
+button~.list-item.sublist:before {
+    content: '';
+    position: absolute;
     width: 100%;
-    overflow-y: auto;
-    background-color: #465A8C;
-    background-color: rgb(var(--accent));
-    padding: 8px;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-}
-
-#top-bar header.mainHeader {
-    color: white;
-    margin: 0;
-    flex-grow: initial;
-    position: absolute;
-    left: 1em;
-}
-
-#top-bar button,
-#tabs button {
-    margin-left: 5px;
-    margin-right: 5px;
-    padding: 8px 16px;
-    flex-grow: initial;
-    flex-basis: 0;
-    white-space: nowrap;
-    border-style: solid;
-    border-color: white;
-    border-radius: 2px;
-    border-width: 2px;
-    box-sizing: border-box;
-}
-
-.darkmode #top-bar button,
-.darkmode #tabs button {
-    border-color: #CCC;
-}
-
-#top-bar>button:last-child {
-    margin-right: 0px;
-}
-
-.right-bound {
-    margin-left: auto;
-}
-
-.attributeBox {
-    overflow-y: visible;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    padding: 8px 16px 16px 16px;
-}
-
-app-animal-companion,
-app-character,
-app-conditions,
-app-crafting,
-app-familiar,
-app-items,
-app-spellLibrary,
-app-spells {
-    position: absolute;
+    height: 100%;
     top: 0;
-    right: auto;
+    left: 0;
+    right: 0;
     bottom: 0;
-    z-index: 20;
-    overflow-y: hidden;
-    width: 100%;
+    background-color: currentColor;
+    visibility: hidden;
+    z-index: 2;
 }
 
-app-dice {
-    position: absolute;
-    top: 0;
-    left: 15%;
-    right: 15%;
-    bottom: auto;
-    z-index: 20;
-    overflow-x: hidden;
+button:not([disabled]):not(:active):before {
+    -webkit-animation: flash 0.4s cubic-bezier(0, 0, 0.2, 1);
+    animation: flash 0.4s cubic-bezier(0, 0, 0.2, 1);
+    -webkit-transition: visibility .4s step-end;
+    transition: visibility .4s step-end;
 }
 
-.itemBox {
-    height: 100%;
-    overflow-y: auto;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    padding: 16px 32px;
+@-webkit-keyframes flash {
+    0% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
+}
+
+@keyframes flash {
+    0% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
+}
+
+button:not([disabled]):active:before {
+    visibility: visible;
+}
+
+/* cite - used for traits and tags */
+
+cite {
+    background-color: #666;
+    padding: 1px 2px;
+    font-size: 90%;
+    font-style: normal;
+    border-color: #d8c483;
+    border-style: double;
+    border-width: 2px;
+    color: white;
+}
+
+cite.trait {
+    background-color: #522e2c;
+}
+
+cite.rune {
+    background-color: #c45500;
+}
+
+cite.feat {
+    background-color: #444;
+}
+
+cite.item {
+    background-color: #888;
+}
+
+cite.activity {
+    background-color: #ccc;
+    color: #616161
+}
+
+cite.condition {
+    background-color: #eee;
+    color: #616161
+}
+
+cite.effect {
+    background-color: #fff;
+    color: #616161
+}
+
+cite.trait {
+    background-color: #522e2c;
+}
+
+cite.problem {
+    background-color: #eee;
+}
+
+cite input {
     margin: 0;
-    border-radius: 2px;
-    background-color: white;
 }
 
-.itemBox-inner {
-    overflow-y: auto;
-    height: 100%;
+/* select */
+
+select {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
 }
 
-.diceBox {
-    padding: 16px 32px;
-    border-radius: 2px;
-    background-color: white;
-}
-
-.dice-result {
-    margin-block-start: .5em;
-    margin-block-end: .5em;
-    font-size: 200%;
-}
-
-.darkmode .itemBox,
-.darkmode .diceBox {
+.darkmode select {
     background-color: #202020;
 }
 
-#time {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+select option {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
 }
 
-#time .list-item:first-child {
-    margin-top: 0;
-}
-
-.snug {
-    padding: 0;
-}
-
-.snug .list-item:first-child {
-    margin-top: 0;
-}
-
-.list-item:last-child {
-    margin-bottom: 0;
-}
-
-app-tags,
-app-skill,
-app-item,
-app-activity,
-app-itemMaterial,
-app-itemOils,
-app-itemPoisons,
-app-itemRunes,
-app-itemTalismans,
-app-itemAeonStones,
-app-spellchoice {
-    width: 100%;
-}
-
-app-proficiency-form,
-.newrow app-proficiency-form {
-    flex-grow: 0;
-    margin-left: 4px;
-    margin-right: 4px;
-}
+/* SVG icons - action icons and dice symbols */
 
 .actionIcon {
     display: inline-block;
@@ -762,195 +488,398 @@ header.spellHeader app-actionicons .actionIcon {
     background-color: #cbc18f;
 }
 
-ngb-popover-window {
-    max-height: 50vh;
+svg,
+svg g {
+    fill: #616161;
+    fill: var(--textcolor);
+    stroke: #616161;
+    stroke: var(--textcolor);
+}
+
+.button svg,
+.button svg g,
+button svg,
+button svg g {
+    fill: white;
+    stroke: white;
+}
+
+header.spellHeader svg,
+header.spellHeader svg g {
+    fill: #cbc18f;
+}
+
+.diceBox button svg g {
+    fill: none;
+}
+
+.darkmode .diceBox button svg g {
+    stroke: #616161;
+    stroke: var(--textcolor);
+}
+
+.fancy-button svg,
+.fancy-button svg g,
+.darkmode .fancy-button svg,
+.darkmode .fancy-button svg g {
+    fill: #465A8C;
+    fill: rgb(var(--accent));
+    stroke: #465A8C;
+    stroke: rgb(var(--accent));
+}
+
+/*
+LAYOUT
+*/
+
+/* Router outlet */
+
+router-outlet+* {
+    padding: 0;
+}
+
+.container {
+    display: flex;
+    flex-direction: row;
+    height: 100vh;
+    height: calc(100vh - 2em - 16px - 4px);
+    overflow-y: hidden;
+    padding: 0;
+}
+
+/* Top Bar */
+
+#top-bar {
+    width: 100%;
     overflow-y: auto;
+    background-color: #465A8C;
+    background-color: rgb(var(--accent));
+    padding: 8px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
 }
 
-ngb-popover-window.list-item.sublist {
-    max-height: 50vh;
-    width: auto;
-    z-index: 1060;
+#top-bar header.mainHeader {
+    color: white;
+    margin: 0;
+    flex-grow: initial;
+    position: absolute;
+    left: 1em;
 }
 
-.popover {
-    white-space: pre-line;
-    max-width: 400px;
-    background-color: #E0E0E0;
-}
-
-.darkmode .popover {
-    background-color: #303030;
-}
-
-.popover .arrow {
-    display: none;
-}
-
-.popover-body {
-    color: inherit;
-}
-
-.modal-content {
-    background-color: #E0E0E0;
-    border-width: 4px;
+#top-bar button,
+#tabs button {
+    margin-left: 5px;
+    margin-right: 5px;
+    padding: 8px 16px;
+    flex-grow: initial;
+    flex-basis: 0;
+    white-space: nowrap;
     border-style: solid;
-    border-color: #465A8C;
-    border-color: rgb(var(--accent));
+    border-color: white;
     border-radius: 2px;
+    border-width: 2px;
+    box-sizing: border-box;
 }
 
-.darkmode .modal-content {
-    background-color: #303030;
+.darkmode #top-bar button,
+.darkmode #tabs button {
+    border-color: #CCC;
 }
 
-.modal-content button {
-    font-weight: bold;
+#top-bar>button:last-child {
+    margin-right: 0px;
 }
 
-.modal-header, .modal-body, .modal-footer {
-    padding: .5rem;
-    border-color: rgb(var(--accent));
+/*
+CHARACTER SHEET
+*/
+
+/* Character sheet */
+
+app-character-sheet {
+    width: 100%;
+    position: relative;
 }
 
-.modal-header .close {
-    padding: .5rem .5rem;
-    margin: -.5rem -.5rem -.5rem auto;
-}
-
-.tooltip-inner {
-    max-width: 400px;
-}
-
-.icon-list {
-    min-height: calc(4em + 4px);
+.charactersheet,
+.animalcompanion-box,
+.familiar-box {
     width: 100%;
     height: 100%;
     display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-    flex-wrap: wrap;
-    gap: 8px;
-    position: relative;
-}
-
-.dashed-border {
-    border: 2px var(--textcolor) dashed;
-}
-
-app-gridicon {
-    height: 4em;
-    width: 4em;
-    font-weight: bold;
-    border: 4px solid rgb(var(--accent));
-    position: relative;
-    line-height: 1em;
-    text-align: center;
-    box-shadow: 0px 0px 12px inset;
-    display: inline-table;
-    overflow: hidden;
+    flex-direction: column;
+    overflow-y: auto;
+    padding-bottom: 8px;
     background-color: white;
 }
 
-.darkmode app-gridicon {
+.darkmode .charactersheet,
+.darkmode .animalcompanion-box,
+.darkmode .familiar-box {
     background-color: #202020;
 }
 
-app-gridicon .iconValue {
+.charactersheet-column-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    overflow-y: hidden;
+}
+
+.charactersheet-column {
+    flex-basis: 0;
+    flex-grow: 1;
+    overflow-y: auto;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Character sheet apps */
+
+.charactersheet-app {
+    background-color: #EFEFEF;
+    border-radius: 2px;
+    margin: 8px;
+    position: relative;
+}
+
+.darkmode .charactersheet-app {
+    background-color: #303030;
+}
+
+    /* Specific character sheet apps */
+
+app-animal-companion,
+app-character,
+app-conditions,
+app-crafting,
+app-familiar,
+app-items,
+app-spellLibrary,
+app-spells {
     position: absolute;
-    color: var(--textcolor);
     top: 0;
-    left: 2px;
-}
-
-app-gridicon .iconSubTitle {
-    position: absolute;
-    color: var(--textcolor);
-    top: 0;
-    right: 2px;
-}
-
-app-gridicon .iconTitle {
-    font-size: 1.5em;
-    line-height: .75em;
-    display: table-cell;
-    word-break: break-all;
-    vertical-align: middle;
-    color: var(--textcolor);
-    z-index: 5;
-}
-
-.icon-list .icon-list-title {
-    text-align: center;
-    margin-right: 16px;
-    margin-left: 16px;
+    right: auto;
     bottom: 0;
-    position: absolute;
-}
-
-app-gridicon .iconSuperTitle {
-    position: absolute;
-    opacity: 50%;
-    font-size: 3em;
-    line-height: 1.2em;
+    z-index: 20;
+    overflow-y: hidden;
     width: 100%;
 }
 
-app-gridicon .iconTime {
+app-dice {
     position: absolute;
-    bottom: 0;
-    right: 2px;
+    top: 0;
+    left: 15%;
+    right: 15%;
+    bottom: auto;
+    z-index: 20;
+    overflow-x: hidden;
+}
+
+app-familiarabilities.charactersheet-app {
+    overflow: visible;
+}
+
+#tabs {
+    background-color: #465A8C;
+    background-color: rgb(var(--accent));
+    padding: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: fit-content;
+    flex-wrap: wrap;
+}
+
+#time {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+#time .list-item:first-child {
+    margin-top: 0;
+}
+
+app-animal-companion .character-only,
+app-familiar .character-only {
+    display: none;
+}
+
+/*
+CHARACTERSHEET APP INNER STYLES
+*/
+
+/* Main sheet apps content box */
+
+.attributeBox {
+    overflow-y: visible;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    padding: 8px 16px 16px 16px;
+}
+
+/* Left-bound slide-in windows with full size */
+
+.itemBox {
+    height: 100%;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    padding: 16px 32px;
+    margin: 0;
+    border-radius: 2px;
+    background-color: white;
+}
+
+.itemBox-inner {
+    overflow-y: auto;
+    height: 100%;
+}
+
+.darkmode .itemBox,
+.darkmode .diceBox {
+    background-color: #202020;
+}
+
+.itemBox .fancybutton.list-item {
+    background-color: #465A8C;
+    background-color: rgb(var(--accent));
+}
+
+/* Top-bound slide-in windows */
+
+.diceBox {
+    padding: 16px 32px;
+    border-radius: 2px;
+    background-color: white;
+}
+
+.dice-result {
+    margin-block-start: .5em;
+    margin-block-end: .5em;
+    font-size: 200%;
+}
+
+/*
+NEW ELEMENTS
+*/
+
+/* Headers */
+
+header.sectionHeader.box-header {
+    color: #465A8C;
+    color: rgb(var(--accent));
+}
+
+.darkmode header.sectionHeader.box-header {
+    text-shadow: 0 0 5px var(--textcolor), 0 0 5px var(--textcolor), 0 0 5px var(--textcolor), 0 0 5px var(--textcolor), 0 0 5px var(--textcolor);
+}
+
+.darkmode header.sectionHeader.box-header span {
+    text-shadow: none;
+}
+
+header.mainHeader {
+    font-size: 2em;
+}
+
+header.sectionHeader {
+    clear: both;
+    font-weight: bold;
+    font-size: 1.5em;
+    margin-top: 8px;
+    margin-bottom: 8px;
+}
+
+button header.sectionHeader {
+    margin-top: 4px;
+    margin-bottom: 4px;
+}
+
+header.spellHeader {
+    width: 100%;
+    color: #cbc18f;
+    background-color: #522e2c;
+    padding: 2px;
+    margin: 8px 0px;
+    font-weight: bold;
+    font-size: 1.2em;
+}
+
+header.subsectionHeader {
+    font-weight: bold;
+    margin: 8px 0px;
+}
+
+header.featureHeader {
+    width: 100%;
+    background-color: #cbc18f;
+    color: #616161;
+    padding: 2px;
+    margin: 8px 0px;
+    text-align: left;
+    font-size: 1em;
+    font-weight: bold;
+}
+
+/* .newrow: line-breaking full-width element for content, default with same-width elements */
+
+.newrow {
+    flex-basis: 100%;
+    clear: both;
     display: flex;
     flex-direction: row;
-    justify-content: flex-end;
-}
-
-app-gridicon .gridicon-time-overlay {
-    --degrees: calc((var(--offset, 0) / 100) * 360);
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 100%;
+    flex-wrap: wrap;
+    justify-content: space-between;
     width: 100%;
-    transform: translate(0, -50%) rotate(90deg) rotate(calc(var(--degrees) * 1deg));
-    transform-origin: 50% 100%;
-    overflow: hidden;
 }
 
-app-gridicon .gridicon-time-overlay:before {
-    background: grey;
-    opacity: 40%;
-    position: absolute;
-    top: 0;
-    left: 0;
-    content: '';
-    height: 200%;
-    width: 200%;
+.newrow:not(:first-child):not(:empty):not(.list-item) {
+    margin-top: 4px;
 }
 
-app-gridicon .gridicon-time-overlay:before {
-    --degrees: calc((var(--percentage, 0) / 100) * 360);
-    transform: translate(-25%, 50%) rotate(calc(var(--degrees) * 1deg));;
-    transform-origin: 50% 0;
+.newrow.tags:not(:first-child):not(:empty) {
+    margin-top: initial;
 }
 
-.transition5, app-gridicon .gridicon-time-overlay.transition5:before {
-    transition: all .5s ease-out;
-}
-
-.gridicon-sidebar, .newrow.left-aligned>.gridicon-sidebar {
+.newrow>* {
+    flex-basis: 0;
     flex-grow: 1;
-    padding: 4px;
+    text-align: center;
+    margin-top: auto;
+    margin-bottom: auto;
 }
 
-.gridicon-fullsizebox, .list-item.gridicon-fullsizebox {
-    flex-wrap: nowrap;
+.newrow>p {
+    margin: 8px 0px;
+}
+
+.newrow.left-aligned>* {
+    flex-basis: initial;
+    flex-grow: 0;
     text-align: left;
 }
 
-span {
-    color: inherit;
+.newrow:not(.left-aligned):not(.center-aligned)>*:first-child {
+    text-align: left;
 }
+
+.newrow:not(.left-aligned):not(.center-aligned)>*:last-child:not(:first-child) {
+    text-align: right;
+    flex-grow: 1;
+}
+
+.newrow>p:last-child {
+    margin-bottom: 0px;
+}
+
+/* .list-item: */
 
 .list-item {
     width: 100%;
@@ -988,25 +917,20 @@ button.list-item {
     color: white;
 }
 
+.list-item:last-child {
+    margin-bottom: 0;
+}
+
 .darkmode button.list-item {
     background-color: #465A8C;
     background-color: rgb(var(--accent));
     color: #CCC;
 }
 
-.darkmode button.list-item.fancy-button {
+.darkmode button.fancy-button.list-item {
     background-color: #CCC;
     color: #465A8C;
     color: rgb(var(--accent));
-}
-
-button.choicecleared::after,
-.button.choicecleared::after {
-    content: "\2714";
-    font-size: 1.2em;
-    bottom: 0;
-    right: 0.5em;
-    position: absolute;
 }
 
 .lower .list-item {
@@ -1015,6 +939,12 @@ button.choicecleared::after,
     margin-bottom: 2px;
     border-radius: 2px;
 }
+
+.list-item>div:last-child {
+    margin-bottom: 0;
+}
+
+/* .sublist: popup menu */
 
 .list-item.sublist {
     border-width: 4px;
@@ -1110,31 +1040,364 @@ button:hover~.list-item.sublist.problem {
     border-color: rgba(80, 0, 0, 0.8);
 }
 
-.itemBox .fancybutton.list-item {
-    background-color: #465A8C;
-    background-color: rgb(var(--accent));
-}
+/* The text on the top that says whether it's your turn */
 
-.list-item>div:last-child {
-    margin-bottom: 0;
-}
-
-.newrow {
-    flex-basis: 100%;
-    clear: both;
+.turn-indicator {
     display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: space-between;
+    justify-content: center;
+    width: 12em;
+}
+
+.turn-indicator strong {
+    align-items: center;
+    text-align: center;
+    padding: 0px 16px;
+}
+
+.turn-indicator strong.yourTurn {
+    font-size: 1.25em;
+    color: green;
+    padding: 0px;
+    margin-top: -.1em;
+    margin-bottom: -.1em;
+    -webkit-animation: turnaltrclr 2s infinite;
+    animation: turnaltrclr 2s infinite;
+    animation-name: turnaltrclr;
+    animation-duration: 2s;
+}
+
+@-webkit-keyframes turnaltrclr {
+    0% {
+        color: green;
+    }
+    25% {
+        color: transparent;
+    }
+}
+
+@keyframes turnaltrclr {
+    0% {
+        color: green;
+    }
+    25% {
+        color: transparent;
+    }
+}
+
+/*
+INNER APPS
+*/
+
+app-newItemProperty {
+    flex-basis: 100%;
+    margin-bottom: 8px;
+}
+
+app-tags,
+app-skill,
+app-item,
+app-activity,
+app-itemMaterial,
+app-itemOils,
+app-itemPoisons,
+app-itemRunes,
+app-itemTalismans,
+app-itemAeonStones,
+app-spellchoice {
     width: 100%;
 }
 
-.newrow:not(:first-child):not(:empty):not(.list-item) {
-    margin-top: 4px;
+    /* app-proficiency-form: the T E M L box for skills */
+
+app-proficiency-form,
+.newrow app-proficiency-form {
+    flex-grow: 0;
+    margin-left: 4px;
+    margin-right: 4px;
 }
 
-.newrow.tags:not(:first-child):not(:empty) {
-    margin-top: initial;
+.proficiency {
+    font-weight: bold;
+    font-style: normal;
+    margin-left: 4px;
+    margin-right: 4px;
+}
+
+.proficiency.checked {
+    font-weight: bolder;
+    color: #465A8C;
+    color: rgb(var(--accent));
+    text-shadow: 0 0 5px #616161, 0 0 5px #616161;
+}
+
+.darkmode .proficiency.checked {
+    text-shadow: 0 0 5px #CCC, 0 0 5px #CCC;
+}
+
+/*
+BOOTSTRAP OVERRIDES
+*/
+
+/* Bootstrap popover overrides */
+
+ngb-popover-window {
+    max-height: 50vh;
+    overflow-y: auto;
+}
+
+ngb-popover-window.list-item.sublist {
+    max-height: 50vh;
+    width: auto;
+    z-index: 1060;
+}
+
+.popover {
+    white-space: pre-line;
+    max-width: 400px;
+    background-color: #E0E0E0;
+}
+
+.darkmode .popover {
+    background-color: #303030;
+}
+
+.popover .arrow {
+    display: none;
+}
+
+.popover-body {
+    color: inherit;
+}
+
+/* Bootstrap modal overrides */
+
+.modal-content {
+    background-color: #E0E0E0;
+    border-width: 4px;
+    border-style: solid;
+    border-color: #465A8C;
+    border-color: rgb(var(--accent));
+    border-radius: 2px;
+}
+
+.darkmode .modal-content {
+    background-color: #303030;
+}
+
+.modal-content button {
+    font-weight: bold;
+}
+
+.modal-header, .modal-body, .modal-footer {
+    padding: .5rem;
+    border-color: rgb(var(--accent));
+}
+
+.modal-header .close {
+    padding: .5rem .5rem;
+    margin: -.5rem -.5rem -.5rem auto;
+}
+
+/* Bootstrap toolip overrides */
+
+.tooltip-inner {
+    max-width: 400px;
+}
+
+/*
+GRIDICONS
+*/
+
+/* Container for listing many icons */
+
+.icon-list {
+    min-height: calc(4em + 4px);
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    gap: 8px;
+    position: relative;
+}
+
+.icon-list .icon-list-title {
+    text-align: center;
+    margin-right: 16px;
+    margin-left: 16px;
+    bottom: 0;
+    position: absolute;
+}
+
+/* Container for a gridicon on the left and max-width content on the right */
+
+.gridicon-fullsizebox, .list-item.gridicon-fullsizebox {
+    flex-wrap: nowrap;
+    text-align: left;
+}
+
+.gridicon-fullsizebox>*:not(:first-child) {
+    flex-grow: 1;
+    padding: 4px;
+}
+
+/* Grid Icons: quadratic icons with text generated from assigned content */
+
+app-gridicon {
+    height: 4em;
+    width: 4em;
+    font-weight: bold;
+    border: 4px solid rgb(var(--accent));
+    position: relative;
+    line-height: 1em;
+    text-align: center;
+    box-shadow: 0px 0px 12px inset;
+    display: inline-table;
+    overflow: hidden;
+    background-color: white;
+}
+
+.darkmode app-gridicon {
+    background-color: #202020;
+}
+
+    /* top-left small number*/
+app-gridicon .iconValue {
+    position: absolute;
+    color: var(--textcolor);
+    top: 0;
+    left: 2px;
+}
+    /* top-right specification*/
+app-gridicon .iconDetail {
+    position: absolute;
+    color: var(--textcolor);
+    top: 0;
+    right: 2px;
+}
+
+    /* large centered title, max 4 characters*/
+app-gridicon .iconTitle {
+    font-size: 1.5em;
+    line-height: .75em;
+    display: table-cell;
+    word-break: break-all;
+    vertical-align: middle;
+    color: var(--textcolor);
+    z-index: 5;
+}
+
+    /* larger centered overshadowing title, max 2 characters*/
+app-gridicon .iconSuperTitle {
+    position: absolute;
+    opacity: 50%;
+    font-size: 3em;
+    line-height: 1.2em;
+    width: 100%;
+}
+
+    /* bottom-right subtitle with a little more room (5-8 characters) */
+app-gridicon .iconSubtitle {
+    position: absolute;
+    bottom: 0;
+    right: 2px;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+}
+
+    /* Growing conic overlay to represent passing time on conditions and effects with durations */
+
+app-gridicon .gridicon-time-overlay {
+    --degrees: calc((var(--offset, 0) / 100) * 360);
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    transform: translate(0, -50%) rotate(90deg) rotate(calc(var(--degrees) * 1deg));
+    transform-origin: 50% 100%;
+    overflow: hidden;
+}
+
+app-gridicon .gridicon-time-overlay:before {
+    background: grey;
+    opacity: 40%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    content: '';
+    height: 200%;
+    width: 200%;
+}
+
+app-gridicon .gridicon-time-overlay:before {
+    --degrees: calc((var(--percentage, 0) / 100) * 360);
+    transform: translate(-25%, 50%) rotate(calc(var(--degrees) * 1deg));;
+    transform-origin: 50% 0;
+}
+
+.transition5, app-gridicon .gridicon-time-overlay.transition5:before {
+    transition: all .5s ease-out;
+}
+
+/* Animated loading signifier */
+
+.loading {
+    margin: auto;
+    font-size: 1.5em;
+    color: #616161;
+    color: var(--textcolor);
+    -webkit-animation: altrclr 2s infinite;
+    animation: altrclr 2s infinite;
+    animation-name: altrclr;
+    animation-duration: 2s;
+}
+
+.button.loading {
+    margin: 0px;
+}
+
+@-webkit-keyframes altrclr {
+    0% {
+        color: #616161;
+        color: var(--textcolor);
+    }
+    25% {
+        color: #EFEFEF;
+    }
+}
+
+@keyframes altrclr {
+    0% {
+        color: #616161;
+        color: var(--textcolor);
+    }
+    25% {
+        color: #EFEFEF;
+    }
+}
+
+/* Character app level selection box: just a 5-column grid with a 2-column first row */
+
+#levelBox {
+    display: grid;
+    justify-content: stretch;
+    grid-gap: 4px;
+    grid-template-columns: auto auto auto auto auto;
+}
+
+#levelBox.levelBoxTop {
+    grid-template-columns: auto auto;
+}
+
+/*
+SPECIFIC STYLE MODIFIERS
+*/
+
+.invisible {
+    display: none !important;
 }
 
 .left-aligned {
@@ -1155,6 +1418,37 @@ button:hover~.list-item.sublist.problem {
     text-align: center;
 }
 
+.right-bound {
+    margin-left: auto;
+}
+
+.dashed-border {
+    border: 2px var(--textcolor) dashed;
+}
+
+.fullwidth {
+    width: 100%;
+}
+
+.disable-text-selection {
+    -ms-user-select:none;
+    -moz-user-select:none;
+    -webkit-user-select:none;
+    -webkit-touch-callout: none;
+    -khtml-user-select: none;
+     user-select:none;
+}
+
+    /* explicit padding classes */
+
+.snug {
+    padding: 0;
+}
+
+.snug .list-item:first-child {
+    margin-top: 0;
+}
+
 .padding-2 {
     padding: 2px;
 }
@@ -1171,45 +1465,41 @@ button:hover~.list-item.sublist.problem {
     padding: 16px;
 }
 
-.fullwidth {
-    width: 100%;
+.lower {
+    font-size: 90%;
+    margin-top: auto;
+    margin-bottom: auto;
 }
 
-.disable-text-selection {
-    -ms-user-select:none;
-    -moz-user-select:none;
-    -webkit-user-select:none;
-    -webkit-touch-callout: none;
-    -khtml-user-select: none;
-     user-select:none;
+.notapplied {
+    opacity: 0.5;
 }
 
-.turn-indicator {
-    display: flex;
-    justify-content: center;
-    width: 12em;
+.minimized .fullsize-only {
+    display: none;
 }
 
-strong {
-    line-height: 1.5em;
+.minimized header.sectionHeader,
+.minimized header.subsectionHeader {
+    margin: 4px 0px 0px 0px;
 }
 
-.turn-indicator strong {
-    align-items: center;
-    text-align: center;
-    padding: 0px 16px;
+.minimized input {
+    font-size: 90%;
+    border: none;
+    padding: 0px 2px;
 }
 
-.turn-indicator strong.yourTurn {
-    font-size: 1.25em;
-    color: green;
-    padding: 0px;
-    margin-top: -.1em;
-    margin-bottom: -.1em;
-    -webkit-animation: turnaltrclr 2s infinite;
-    animation: turnaltrclr 2s infinite;
-    animation-name: turnaltrclr;
-    animation-duration: 2s;
+    /* Colorization */
+
+.unavailable,
+.lower.unavailable {
+    background-color: rgba(50, 50, 50, 0.2)
+}
+
+.darkmode .unavailable,
+.darkmode .lower.unavailable {
+    background-color: rgba(200, 200, 200, 0.2)
 }
 
 .absolute,
@@ -1242,60 +1532,17 @@ cite.effect.bonus {
     color: lightgreen;
 }
 
-input.bonus {
-    background-color: lightgreen;
-    color: #616161;
-    color: var(--textcolor);
-}
-
-.darkmode input.bonus {
-    background-color: darkgreen;
-}
-
 .penalty,
 cite.condition.penalty,
 cite.effect.penalty {
     color: #500000;
 }
 
-
-/* add '.darkmode .penalty:not(cite)' only to override the equivalent .bonus and .absolute rules. */
+        /* add '.darkmode .penalty:not(cite)' only to override the equivalent .bonus and .absolute rules. */
 
 .darkmode .penalty,
 .darkmode .penalty:not(cite) {
     color: red
-}
-
-input.penalty {
-    background-color: lightpink;
-    color: #616161;
-    color: var(--textcolor);
-}
-
-.darkmode input.penalty {
-    background-color: #500000;
-}
-
-.invisible {
-    display: none !important;
-}
-
-.proficiency {
-    font-weight: bold;
-    font-style: normal;
-    margin-left: 4px;
-    margin-right: 4px;
-}
-
-.proficiency.checked {
-    font-weight: bolder;
-    color: #465A8C;
-    color: rgb(var(--accent));
-    text-shadow: 0 0 5px #616161, 0 0 5px #616161;
-}
-
-.darkmode .proficiency.checked {
-    text-shadow: 0 0 5px #CCC, 0 0 5px #CCC;
 }
 
 var:not(:empty),
@@ -1343,168 +1590,9 @@ span.problem {
     background-color: inherit;
 }
 
-.unavailable,
-.lower.unavailable {
-    background-color: rgba(50, 50, 50, 0.2)
-}
-
-.darkmode .unavailable,
-.darkmode .lower.unavailable {
-    background-color: rgba(200, 200, 200, 0.2)
-}
-
-.lower {
-    font-size: 90%;
-    margin-top: auto;
-    margin-bottom: auto;
-}
-
-.notapplied {
-    opacity: 0.5;
-}
-
-cite {
-    background-color: #666;
-    padding: 1px 2px;
-    font-size: 90%;
-    font-style: normal;
-    border-color: #d8c483;
-    border-style: double;
-    border-width: 2px;
-    color: white;
-}
-
-cite.trait {
-    background-color: #522e2c;
-}
-
-cite.rune {
-    background-color: #c45500;
-}
-
-cite.feat {
-    background-color: #444;
-}
-
-cite.item {
-    background-color: #888;
-}
-
-cite.activity {
-    background-color: #ccc;
-    color: #616161
-}
-
-cite.condition {
-    background-color: #eee;
-    color: #616161
-}
-
-cite.effect {
-    background-color: #fff;
-    color: #616161
-}
-
-cite.trait {
-    background-color: #522e2c;
-}
-
-cite.problem {
-    background-color: #eee;
-}
-
-cite input {
-    margin: 0;
-}
-
-select {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    max-width: 100%;
-}
-
-.darkmode select {
-    background-color: #202020;
-}
-
-select option {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    max-width: 100%;
-}
-
-@-webkit-keyframes altrclr {
-    0% {
-        color: #616161;
-        color: var(--textcolor);
-    }
-    25% {
-        color: #EFEFEF;
-    }
-}
-
-@keyframes altrclr {
-    0% {
-        color: #616161;
-        color: var(--textcolor);
-    }
-    25% {
-        color: #EFEFEF;
-    }
-}
-
-@-webkit-keyframes turnaltrclr {
-    0% {
-        color: green;
-    }
-    25% {
-        color: transparent;
-    }
-}
-
-@keyframes turnaltrclr {
-    0% {
-        color: green;
-    }
-    25% {
-        color: transparent;
-    }
-}
-
-@-webkit-keyframes flash {
-    0% {
-        opacity: 1;
-    }
-    100% {
-        opacity: 0;
-    }
-}
-
-@keyframes flash {
-    0% {
-        opacity: 1;
-    }
-    100% {
-        opacity: 0;
-    }
-}
-
-.loading {
-    margin: auto;
-    font-size: 1.5em;
-    color: #616161;
-    color: var(--textcolor);
-    -webkit-animation: altrclr 2s infinite;
-    animation: altrclr 2s infinite;
-    animation-name: altrclr;
-    animation-duration: 2s;
-}
-
-.button.loading {
-    margin: 0px;
-}
+/*
+MEDIA QUERIES
+*/
 
 /* Screen width */
 

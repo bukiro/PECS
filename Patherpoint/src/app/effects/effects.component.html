@@ -4,7 +4,8 @@
             *ngFor="let condition of [get_Conditions(conditionGain.name)[0]]; trackBy:trackByIndex;">
             <ng-template #conditionContent>
                 <app-condition class="newrow" (showChoiceMessage)="receive_ItemMessage($event)" [creature]="creature"
-                    [conditionGain]="conditionGain" [condition]="condition" [showItem]="get_ShowItem()" [fullDisplay]="fullDisplay"></app-condition>
+                    [conditionGain]="conditionGain" [condition]="condition" [showItem]="get_ShowItem()"
+                    [fullDisplay]="fullDisplay"></app-condition>
             </ng-template>
             <app-gridIcon class="condition" [ngClass]="{'penalty':!condition.buff, 'bonus':condition.buff}"
                 placement="right bottom top" [condition]="conditionGain" [ngbPopover]="conditionContent"
@@ -14,9 +15,7 @@
                 <app-gridIcon class="condition" [condition]="conditionGain"
                     [ngClass]="{'penalty':!condition.buff, 'bonus':condition.buff}">
                 </app-gridIcon>
-                <div class="gridicon-sidebar">
-                    <ng-container *ngTemplateOutlet="conditionContent"></ng-container>
-                </div>
+                <ng-container *ngTemplateOutlet="conditionContent"></ng-container>
             </div>
         </div>
     </ng-template>
@@ -53,7 +52,7 @@
             [ngbPopover]="effectContent" ngbTooltip="{{effect.target}}
         {{parseInt(effect.value) ? effect.value : ''}}{{effect.setValue ? '= '+effect.setValue :
         ''}}" container="body" *ngIf="!fullDisplay"></app-gridIcon>
-        <div class="list-item newrow left-aligned" *ngIf="fullDisplay">
+        <div class="list-item gridicon-fullsizebox" *ngIf="fullDisplay">
             <app-gridIcon class="effect" [effect]="effect"
                 [ngClass]="{'penalty':effect.penalty, 'bonus':!effect.penalty && !effect.setValue, 'absolute':effect.setValue}">
             </app-gridIcon>

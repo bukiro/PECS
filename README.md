@@ -126,7 +126,6 @@ Next steps:
 - Shoony feats
 - Implement Conditions for Poisons
 - Implement Armor materials
-- Group and sort styles
 - Champion
 - Cleric
 - Alchemist

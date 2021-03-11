@@ -15,6 +15,8 @@ export class GridIconComponent implements OnInit {
     @Input()
     title: string = "";
     @Input()
+    detail: string = "";
+    @Input()
     subTitle: string = "";
     @Input()
     superTitle: string = "";
@@ -51,32 +53,32 @@ export class GridIconComponent implements OnInit {
         return index;
     }
 
-    get_IconTime() {
+    get_IconSubTitle() {
         if (this.condition?.duration || this.effect?.duration) {
             let duration = this.condition?.duration || this.effect?.duration || 0;
             if (duration < 10) {
                 switch (duration) {
                     case -3:
                         //Return ☯ for refocusing
-                        return ["&#9775;"]
+                        return "&#9775;"
                     case -2:
                         //Return ☮ for resting
-                        return ["&#9774;"]
+                        return "&#9774;"
                     case -1:
                         //Return ⚛ for permanent
-                        return ["&#9883;"]
+                        return "&#9883;"
                     case 0:
-                        return [];
+                        return "";
                     case 1:
                         //Return ⚠ for instant effect
-                        return ["&#9888;"]
+                        return "&#9888;"
                     case 5:
                         //Return ⏎ for rest of turn / until start of turn
-                        return ["&#9166;"]
+                        return "&#9166;"
                 }
             }
         }
-        return [];
+        return this.subTitle;
     }
 
     get_IsOneWordTitle() {
@@ -122,7 +124,7 @@ export class GridIconComponent implements OnInit {
         return iconTitle;
     }
 
-    get_IconSubTitle() {
+    get_IconDetail() {
         if (this.feat) {
             if (this.feat.subType) {
                 this.subTitle = this.subTitle || this.feat.subType;
@@ -142,6 +144,7 @@ export class GridIconComponent implements OnInit {
     }
 
     get_IconSuperTitle() {
+        //For effect values, show the value as SuperTitle if up to 2 characters long. Longer values will be shown as Value instead.
         let superTitle: string = "";
         if (this.effect) {
             if (this.effect.setValue) {
@@ -160,6 +163,7 @@ export class GridIconComponent implements OnInit {
     }
 
     get_IconValue() {
+        //Show condition value, and show effect values over 2 characters. Shorter effect values will be shown as SuperTitle instead.
         if (this.condition?.value) {
             return this.condition.value.toString();
         } else if (this.effect?.setValue?.length > 2) {

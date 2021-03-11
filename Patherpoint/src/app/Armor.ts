@@ -90,6 +90,9 @@ export class Armor extends Equipment {
         } else if (this.shoddy) {
             this.$shoddy = -2;
             return -2;
+        } else {
+            this.$shoddy = 0;
+            return 0;
         }
     }
     get_ACBonus() {
