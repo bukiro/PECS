@@ -58,7 +58,7 @@
             </button>
         </div>
         <div class="newrow">
-            Dice number <input class="newrow slider" type="range" min="1" max="20" [(ngModel)]="diceNum">
+            <strong style="flex-basis: 7.5em; flex-grow:0;">Dice number</strong> <input class="slider" type="range" min="1" max="20" [(ngModel)]="diceNum">
         </div>
     </div>
     <div class="list-item center-aligned" *ngIf="diceResult.length">

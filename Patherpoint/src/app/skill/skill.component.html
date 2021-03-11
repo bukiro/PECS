@@ -6,33 +6,34 @@
             <strong>Ability</strong>
             {{calculatedSkill.ability}}
         </ng-template>
-        <span><strong
-                [ngbPopover]="calculatedSkill.ability ? AbilityPopover : null">{{get_Name(skill)}}</strong></span>
+        <span>
+            <span class="fullsize-only">
+                <input id="{{skill.name}}ShowNotes" class="invisible" type="checkbox" [(ngModel)]="skill.showNotes">
+                <label for="{{skill.name}}ShowNotes" [ngbTooltip]="'Edit notes'">&#9998;</label>
+            </span>
+            <strong [ngbPopover]="calculatedSkill.ability ? AbilityPopover : null">{{get_Name(skill)}}</strong>
+        </span>
         <app-proficiency-form style="flex-grow:0" [creature]="creature" [skill]="skill"
             [characterService]="this.characterService" [level]="this.characterService.get_Character().level"
             *ngIf="creature != 'Familiar'">
         </app-proficiency-form>
         <span *ngIf="showValue">
-            Value: 
-            <span [ngbPopover]="((isDC) ? 'DC basis: 10\n' : '')+calculatedSkill.value.explain">
-            <input class="number2"
-                [ngClass]="{'penalty':calculatedSkill.penalties, 'bonus':calculatedSkill.bonuses, 'absolute':calculatedSkill.absolutes.length}"
-                type="number" value="{{calculatedSkill.value.result + ((isDC) ? 10 : 0)}}" disabled>
-            <span class="fullsize-only" *ngFor="let id of [get_LabelID()]; trackBy:trackByIndex;">
-                <input id="{{id+'notes'}}" class="invisible" type="checkbox" [(ngModel)]="skill.showNotes">
-                <label for="{{id+'notes'}}" [ngbTooltip]="'Edit notes'">&#9998;</label>
-            </span>
-        </span>
+            <div class="value" [ngbPopover]="((isDC) ? 'DC basis: 10\n' : '')+calculatedSkill.value.explain"
+                [ngClass]="{'penalty':calculatedSkill.penalties, 'bonus':calculatedSkill.bonuses, 'absolute':calculatedSkill.absolutes.length}">
+                {{calculatedSkill.value.result + ((isDC) ? 10 : 0)}}
+            </div>
         </span>
     </div>
     <app-tags [creature]="creature" [objectName]=skill.name [showTraits]=true [showFeats]=true [showItems]=true
         [showActivities]=true [showConditions]=true [specialNames]=get_SpecialShowon(skill)
         [specialEffects]="calculatedSkill.absolutes.concat(calculatedSkill.relatives)">
     </app-tags>
-    <div class="fullsize-only newrow" [ngbCollapse]="!skill.showNotes">
-        <span>
-            <strong>Notes</strong>
-            <input type="textarea" class="fullwidth" [(ngModel)]="skill.notes">
-        </span>
+    <div class="fullwidth" [ngbCollapse]="!skill.showNotes">
+        <div class="fullsize-only newrow">
+            <span>
+                <strong>Notes</strong>
+                <input id="{{skill.name}}Notes" type="textarea" class="fullwidth" [(ngModel)]="skill.notes">
+            </span>
+        </div>
     </div>
 </div>

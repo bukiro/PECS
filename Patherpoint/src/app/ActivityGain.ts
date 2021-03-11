@@ -1,5 +1,3 @@
-import { CharacterService } from './character.service';
-import { Creature } from './Creature';
 import { ItemGain } from './ItemGain';
 import { SpellCast } from './SpellCast';
 
@@ -18,7 +16,8 @@ export class ActivityGain {
     public level: number = 0;
     public name: string = "";
     public source: string = "";
-    public data: { name: string, value: any }[] = [];
+    //Some activities come with notes to make, like a custom trigger for Trickster's Ace. These can be filled out on the activities app, with name as the title and value as the note.
+    public data: { name: string, value: string }[] = [];
     //We copy the activities ItemGains here whenever we activate it, so we can store the item ID.
     public gainItems: ItemGain[] = [];
     //We copy the activities castSpells here whenever we activate it, so we can store its duration.

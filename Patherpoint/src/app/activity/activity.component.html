@@ -155,8 +155,8 @@
             </span>
         </div>
         <div class="newrow left-aligned"
-            *ngIf="gain && gain.data && gain.data.length && gain.data[0].name == 'Trigger'">
-            <strong>Trigger</strong>
+            *ngFor="let data of gain.data; trackBy:trackByIndex">
+            <strong>{{data.name}}</strong>
             <input class="newrow" type="text" [(ngModel)]="gain.data[0].value">
         </div>
         <div class="newrow left-aligned" *ngIf="activity.requirements">

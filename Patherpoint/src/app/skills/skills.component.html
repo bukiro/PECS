@@ -1,6 +1,6 @@
 <button class="minimizebutton lower"
     [ngbTooltip]="get_Minimized() ? 'Click to show all information.' : 'Click to show compact information.'"
-    (click)="minimize()" *ngIf="creature=='Character'">&#8691;</button>
+    [ngClass]="{'fancy-button':get_Minimized()}" (click)="minimize()" *ngIf="creature=='Character'">&#8691;</button>
 <div id="{{creature}}-skills-height" class="attributeBox">
     <div class="loading" *ngIf="still_loading()">Loading</div>
     <ng-container *ngIf="!still_loading()">
@@ -17,24 +17,26 @@
             [showActivities]=true [showConditions]=true></app-tags>
         <ng-container *ngIf="creature=='Familiar'">
             <header class="sectionHeader box-header">Attack Rolls</header>
-            <ng-container
-                *ngFor="let skill of get_Skills('', 'Familiar Proficiency'); trackBy:trackByIndex;">
+            <ng-container *ngFor="let skill of get_Skills('', 'Familiar Proficiency'); trackBy:trackByIndex;">
                 <app-skill [creature]="creature" [skill]=skill></app-skill>
             </ng-container>
         </ng-container>
         <header class="sectionHeader box-header">Movement</header>
         <ng-container *ngFor="let speed of get_Speeds(); trackBy:trackByIndex;">
             <div class="list-item">
-                <span>
-                    <strong>{{(speed.name=="Speed") ? "All Speeds" : speed.name}}</strong>
-                </span>
-                <span [ngbPopover]="speed.value(get_Creature(), characterService, effectsService)[1]">
-                    Value: <input class="number3" [ngClass]="{'penalty':speed.penalties(get_Creature(), effectsService, speed.name, true),
-                            'bonus':speed.bonuses(get_Creature(), effectsService, speed.name, true),
-                            'absolute':speed.absolutes(get_Creature(), effectsService, speed.name, true).length}"
-                        type="number" value="{{speed.value(get_Creature(), characterService, effectsService)[0]}}"
-                        disabled>
-                </span>
+                <div class="newrow">
+                    <span>
+                        <strong>{{(speed.name=="Speed") ? "All Speeds" : speed.name}}</strong>
+                    </span>
+                    <span>
+                        <div class="value"
+                            [ngbPopover]="speed.value(get_Creature(), characterService, effectsService)[1]" [ngClass]="{'penalty':speed.penalties(get_Creature(), effectsService, speed.name, true),
+                        'bonus':speed.bonuses(get_Creature(), effectsService, speed.name, true),
+                        'absolute':speed.absolutes(get_Creature(), effectsService, speed.name, true).length}">
+                            {{speed.value(get_Creature(), characterService, effectsService)[0]}}
+                        </div>
+                    </span>
+                </div>
                 <app-tags [creature]="creature" [objectName]=speed.name [showTraits]=true [showFeats]=true
                     [showItems]=true [showActivities]=true [showConditions]=true
                     [specialEffects]="speed.absolutes(get_Creature(), effectsService, speed.name, true).concat(speed.relatives(get_Creature(), effectsService, speed.name, true))">

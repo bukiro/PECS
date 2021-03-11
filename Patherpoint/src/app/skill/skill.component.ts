@@ -65,10 +65,6 @@ export class SkillComponent implements OnInit {
         return this.characterService.get_Creature(this.creature);
     }
 
-    get_LabelID() {
-        return uuidv1();
-    }
-
     get_Name(skill: Skill) {
         if (!this.isDC && skill.name.includes("Spell DC")) {
             return skill.name.replace("Spell DC", "Spell Attacks");

@@ -62,11 +62,13 @@
             </button>
         </span>
     </div>
-    <div class="list-item newrow" [ngbCollapse]="!conditionGain.showNotes">
-        <span>
-            <strong>Notes</strong>
-            <input type="textarea" class="fullwidth" [(ngModel)]="conditionGain.notes">
-        </span>
+    <div [ngbCollapse]="!conditionGain.showNotes">
+        <div class="list-item newrow">
+            <span>
+                <strong>Notes</strong>
+                <input type="textarea" class="fullwidth" [(ngModel)]="conditionGain.notes">
+            </span>
+        </div>
     </div>
     <div class="newrow left-aligned lower" *ngIf="conditionGain.heightened">
         <strong>Source&nbsp;</strong>{{conditionGain.source}}
@@ -81,19 +83,26 @@
             *ngIf="conditionGain.duration > -1">&#9881;&nbsp;</label>
         <strong>Duration&nbsp;</strong>{{get_Duration(conditionGain.duration)}}
     </div>
-    <div class="newrow list-item" [ngbCollapse]="(!conditionGain.showDuration || conditionGain.duration <= -1)">
-        <div class="newrow"><strong>Change Duration</strong></div>
-        <div class="newrow">
-            <span><button (click)="change_ConditionDuration(conditionGain, condition, 10)">+ 1 turn</button></span>
-            <span><button (click)="change_ConditionDuration(conditionGain, condition, 100)">+ 1 min.</button></span>
-            <span><button (click)="change_ConditionDuration(conditionGain, condition, 1000)">+ 10 min.</button></span>
-            <span><button (click)="change_ConditionDuration(conditionGain, condition, 6000)">+ 1 hour</button></span>
-        </div>
-        <div class="newrow">
-            <span><button (click)="change_ConditionDuration(conditionGain, condition, -10)">- 1 turn</button></span>
-            <span><button (click)="change_ConditionDuration(conditionGain, condition, -100)">- 1 min.</button></span>
-            <span><button (click)="change_ConditionDuration(conditionGain, condition, -1000)">- 10 min.</button></span>
-            <span><button (click)="change_ConditionDuration(conditionGain, condition, -6000)">- 1 hour</button></span>
+    <div [ngbCollapse]="(!conditionGain.showDuration || conditionGain.duration <= -1)">
+        <div class="newrow list-item">
+            <strong>Change Duration</strong>
+            <div class="newrow">
+                <span><button (click)="change_ConditionDuration(conditionGain, condition, 10)">+ 1 turn</button></span>
+                <span><button (click)="change_ConditionDuration(conditionGain, condition, 100)">+ 1 min.</button></span>
+                <span><button (click)="change_ConditionDuration(conditionGain, condition, 1000)">+ 10
+                        min.</button></span>
+                <span><button (click)="change_ConditionDuration(conditionGain, condition, 6000)">+ 1
+                        hour</button></span>
+            </div>
+            <div class="newrow">
+                <span><button (click)="change_ConditionDuration(conditionGain, condition, -10)">- 1 turn</button></span>
+                <span><button (click)="change_ConditionDuration(conditionGain, condition, -100)">- 1
+                        min.</button></span>
+                <span><button (click)="change_ConditionDuration(conditionGain, condition, -1000)">- 10
+                        min.</button></span>
+                <span><button (click)="change_ConditionDuration(conditionGain, condition, -6000)">- 1
+                        hour</button></span>
+            </div>
         </div>
     </div>
     <div class="newrow left-aligned lower" *ngIf="conditionGain.persistent"
@@ -118,7 +127,7 @@
     </div>
     <div class="newrow list-item" *ngIf="conditionGain.showChoices && condition.name == 'Persistent Damage'">
         <span>
-            Damage type and amount: <input type="text" name="persistentDamage" [(ngModel)]="conditionGain.choice"
+            Damage type and amount: <input type="text" id="persistentDamage" [(ngModel)]="conditionGain.choice"
                 maxLength="30">
         </span>
     </div>
@@ -128,30 +137,29 @@
             <strong>Affliction onset reached</strong>
             <div class="newrow left-aligned">
                 <p>Make {{condition.traits.includes("Virulent") ? "two saving throws" : "a saving throw"}} to determine
-                    the
-                    next stage of the affliction.</p>
+                    the next stage of the affliction.</p>
             </div>
         </div>
     </div>
     <div class="newrow" *ngIf="condition.previousCondition || condition.nextCondition">
-        <span *ngIf="!condition.previousCondition"><button
-                (click)="remove_Condition(conditionGain)">{{conditionGain.nextStage == -1 ? "Success: " :
-                ""}}Recover</button></span>
-        <span *ngIf="condition.previousCondition"><button
-                (click)="change_ConditionStage(conditionGain, condition, -1)">{{conditionGain.nextStage == -1 ?
-                "Success: "
-                : ""}}Previous
-                stage</button></span>
-        <span *ngIf="condition.nextCondition"><button
-                (click)="change_ConditionStage(conditionGain, condition, 1)">{{conditionGain.nextStage == -1 ? "Failure:
-                " :
-                ""}}Next
-                stage</button></span>
-        <span *ngIf="!condition.nextCondition"><button
-                (click)="change_ConditionStage(conditionGain, condition, 0)">{{conditionGain.nextStage == -1 ? "Failure:
-                " :
-                ""}}Remain
-                at this stage</button></span>
+        <span *ngIf="!condition.previousCondition">
+            <button (click)="remove_Condition(conditionGain)">{{conditionGain.nextStage == -1 ? "Success: " :
+                ""}}Recover
+            </button>
+        </span>
+        <span *ngIf="condition.previousCondition">
+            <button (click)="change_ConditionStage(conditionGain, condition, -1)">{{conditionGain.nextStage == -1 ?
+                "Success: " : ""}}Previous stage</button>
+        </span>
+        <span *ngIf="condition.nextCondition">
+            <button (click)="change_ConditionStage(conditionGain, condition, 1)">{{conditionGain.nextStage == -1 ?
+                "Failure: " : ""}}Next stage</button>
+        </span>
+        <span *ngIf="!condition.nextCondition">
+            <button (click)="change_ConditionStage(conditionGain, condition, 0)">{{conditionGain.nextStage == -1 ?
+                "Failure: " : ""}}Remain at this stage
+            </button>
+        </span>
     </div>
     <div class="newrow">
         <div class="list-item lower newrow problem"
@@ -177,10 +185,11 @@
         </button>
     </span>
 </div>
-<div class="newrow lower left-aligned " [ngbCollapse]="fullDisplay && get_ShowItem()!=conditionGain.id+'description'"
-    *ngFor="let desc of condition.desc.split('\n\n'); trackBy:trackByIndex;">
-    <p *ngIf="desc.split('\n').length == 1" [innerHTML]="desc"></p>
-    <ul *ngIf="desc.split('\n').length > 1">
-        <li *ngFor="let line of desc.split('\n'); trackBy:trackByIndex;" [innerHTML]="line"></li>
-    </ul>
+<div [ngbCollapse]="fullDisplay && get_ShowItem()!=conditionGain.id+'description'">
+    <div class="newrow lower left-aligned" *ngFor="let desc of condition.desc.split('\n\n'); trackBy:trackByIndex;">
+        <p *ngIf="desc.split('\n').length == 1" [innerHTML]="desc"></p>
+        <ul *ngIf="desc.split('\n').length > 1">
+            <li *ngFor="let line of desc.split('\n'); trackBy:trackByIndex;" [innerHTML]="line"></li>
+        </ul>
+    </div>
 </div>

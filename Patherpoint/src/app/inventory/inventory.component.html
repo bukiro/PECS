@@ -12,13 +12,13 @@
         <header class="subsectionHeader" *ngIf="creature=='Character'">Currency</header>
         <div class="list-item" *ngIf="creature=='Character'">
             <strong [ngbTooltip]="'Platinum'">P</strong>
-            <input class="number6" type="number" value="{{this.characterService.get_Character().cash[0]}}" disabled>
+            <div class="value">{{this.characterService.get_Character().cash[0]}}</div>
             <strong [ngbTooltip]="'Gold'">G</strong>
-            <input class="number6" type="number" value="{{this.characterService.get_Character().cash[1]}}" disabled>
+            <div class="value">{{this.characterService.get_Character().cash[1]}}</div>
             <strong [ngbTooltip]="'Silver'">S</strong>
-            <input class="number6" type="number" value="{{this.characterService.get_Character().cash[2]}}" disabled>
+            <div class="value">{{this.characterService.get_Character().cash[2]}}</div>
             <strong [ngbTooltip]="'Copper'">C</strong>
-            <input class="number6" type="number" value="{{this.characterService.get_Character().cash[3]}}" disabled>
+            <div class="value">{{this.characterService.get_Character().cash[3]}}</div>
             <button [ngbTooltip]="'Exchange coins for higher currency (no higher than Gold).'"
                 (click)="sort_Cash();">Sort</button>
         </div>
@@ -26,31 +26,28 @@
         <ng-container *ngFor="let calculatedBulk of [get_CalculatedBulk()]; trackBy:trackByIndex;">
             <div class="list-item">
                 <strong>Bulk</strong>
-                <span [ngbPopover]="calculatedBulk.current?.explain">
-                    <input class="number2" type="number"
-                        [ngClass]="{'penalty':calculatedBulk.currentpenalties, 'bonus':calculatedBulk.currentbonuses, 'absolute':calculatedBulk.currentabsolutes?.length}"
-                        value="{{calculatedBulk.current?.value}}" disabled>
-                </span>
+                <div class="value" [ngbPopover]="calculatedBulk.current?.explain"
+                    [ngClass]="{'penalty':calculatedBulk.currentpenalties, 'bonus':calculatedBulk.currentbonuses, 'absolute':calculatedBulk.currentabsolutes?.length}">
+                    {{calculatedBulk.current?.value}}
+                </div>
                 <app-tags [creature]="creature" [objectName]="'Bulk'" [showTraits]=true [showFeats]=true
                     [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
             </div>
             <div class="fullsize-only list-item">
                 <strong>Encumbrance Limit</strong>
-                <span [ngbPopover]="calculatedBulk.encumbered?.explain">
-                    <input class="number2" type="number"
-                        [ngClass]="{'penalty':calculatedBulk.penalties, 'bonus':calculatedBulk.bonuses, 'absolute':calculatedBulk.absolutes?.length}"
-                        value="{{calculatedBulk.encumbered?.value}}" disabled>
-                </span>
+                <div class="value" [ngbPopover]="calculatedBulk.encumbered?.explain"
+                    [ngClass]="{'penalty':calculatedBulk.penalties, 'bonus':calculatedBulk.bonuses, 'absolute':calculatedBulk.absolutes?.length}">
+                    {{calculatedBulk.encumbered?.value}}
+                </div>
                 <app-tags [creature]="creature" [objectName]="'Encumbered Limit'" [showTraits]=true [showFeats]=true
                     [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
             </div>
             <div class="fullsize-only list-item">
                 <strong>Maximum Bulk</strong>
-                <span [ngbPopover]="calculatedBulk.max?.explain">
-                    <input class="number2" type="number"
-                        [ngClass]="{'penalty':calculatedBulk.maxpenalties, 'bonus':calculatedBulk.maxbonuses, 'absolute':calculatedBulk.maxabsolutes?.length}"
-                        value="{{calculatedBulk.max.value}}" disabled>
-                </span>
+                <div class="value" [ngbPopover]="calculatedBulk.max?.explain"
+                    [ngClass]="{'penalty':calculatedBulk.maxpenalties, 'bonus':calculatedBulk.maxbonuses, 'absolute':calculatedBulk.maxabsolutes?.length}">
+                    {{calculatedBulk.max?.value}}
+                </div>
                 <app-tags [creature]="creature" [objectName]="'Max Bulk'" [showTraits]=true [showFeats]=true
                     [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
             </div>
@@ -99,14 +96,15 @@
         <app-tags [creature]="creature" [objectName]="'Inventory'" [showTraits]=true [showFeats]=true [showItems]=true
             [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
         <div class="fullsize-only list-item" *ngFor="let maxInvested of [get_MaxInvested()]; trackBy:trackByIndex;">
-            <strong>Invested</strong><input type="number" class="number2"
-                [ngClass]="{'problem':(get_Invested() > maxInvested.value)}" [ngModel]="get_Invested()" disabled>
+            <strong>Invested</strong>
+            <div class="value" [ngClass]="{'problem':(get_Invested() > maxInvested.value)}">
+                {{get_Invested()}}
+            </div>
             <strong>Max Invested</strong>
-            <span [ngbPopover]="maxInvested.explain">
-                <input type="number" class="number2"
-                    [ngClass]="{'penalty':maxInvested.penalties, 'bonus':maxInvested.bonuses, 'absolute':maxInvested.absolutes}"
-                    [ngModel]="get_MaxInvested().value" disabled>
-            </span>
+            <div class="value" [ngbPopover]="maxInvested.explain"
+                [ngClass]="{'penalty':maxInvested.penalties, 'bonus':maxInvested.bonuses, 'absolute':maxInvested.absolutes}">
+                {{get_MaxInvested().value}}
+            </div>
             <app-tags [creature]="creature" [objectName]="'Max Invested'" [showTraits]=true [showFeats]=true
                 [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
         </div>
@@ -469,12 +467,12 @@
                                 </app-itemTalismans>
                                 <ng-container *ngIf="item.type =='shields'">
                                     <div class="list-item newrow">
-                                        <strong>HP</strong> <span><input type="number" class="number2"
-                                                [ngModel]="item.get_HitPoints()" disabled></span>
-                                        <strong>Max HP</strong> <span><input type="number" class="number2"
-                                                [ngModel]="item.get_MaxHP()" disabled></span>
-                                        <strong>BT</strong> <span><input type="number" class="number2"
-                                                [ngModel]="item.get_BrokenThreshold()" disabled></span>
+                                        <strong>HP</strong>
+                                        <div class="value"> {{item.get_HitPoints()}}</div>
+                                        <strong>Max HP</strong>
+                                        <div class="value"> {{item.get_MaxHP()}}</div>
+                                        <strong>BT</strong>
+                                        <div class="value"> {{item.get_BrokenThreshold()}}</div>
                                     </div>
                                     <div class="list-item newrow">
                                         <span>
@@ -505,9 +503,9 @@
             <button class="fullsize-only newrow center-aligned" (click)="add_NewOtherItem(inventory)">Add</button>
             <div class="fullsize-only list-item" *ngFor="let item of inventory.otheritems; trackBy:trackByIndex;">
                 <strong>Name</strong>
-                <input type="text" [(ngModel)]="item.name">
+                <input id="miscellaneousItemName" type="text" [(ngModel)]="item.name">
                 <strong>Bulk</strong>
-                <input class="number2" [(ngModel)]="item.bulk" (blur)="validate_Bulk(item)"
+                <input id="miscellaneousItemBulk" class="number2" [(ngModel)]="item.bulk" (blur)="validate_Bulk(item)"
                     (keypress)="bulkOnly($event)">
                 <button (click)="remove_OtherItem(item, inventory)">Drop</button>
             </div>

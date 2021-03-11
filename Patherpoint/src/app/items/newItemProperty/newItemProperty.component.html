@@ -27,7 +27,7 @@
     </ng-container>
     <ng-container *ngIf="!get_IsObject(get_Parent()[propertyKey]) || get_Parent()[propertyKey]==null">
         <div class="newrow">
-            <input class="newrow" type="text" [(ngModel)]="get_Parent()[propertyKey]" (blur)="validate()"
+            <input id="{{propertyKey}}" class="newrow" type="text" [(ngModel)]="get_Parent()[propertyKey]" (blur)="validate()"
                 *ngIf="!propertyData.type && !propertyData.locked">
             <textarea class="newrow" rows=3 [(ngModel)]="get_Parent()[propertyKey]"
                 *ngIf="propertyData.type=='textarea'"></textarea>

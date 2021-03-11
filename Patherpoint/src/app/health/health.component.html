@@ -24,27 +24,27 @@
                 <div class="fullsize-only list-item">
                     <div class="newrow">
                         <strong>Max HP</strong>
-                        <span [ngbPopover]="calculatedHealth.maxHP.explain">
-                            <input class="number3" type="number"
-                                [ngClass]="{'penalty':show_PenaltiesOnThis('Max HP'), 'bonus':show_BonusesOnThis('Max HP'), 'absolute':get_AbsolutesOnThis('Max HP').length}"
-                                value="{{calculatedHealth.maxHP.result}}" disabled>
+                        <span>
+                            <div class="value" [ngbPopover]="calculatedHealth.maxHP.explain"
+                                [ngClass]="{'penalty':show_PenaltiesOnThis('Max HP'), 'bonus':show_BonusesOnThis('Max HP'), 'absolute':get_AbsolutesOnThis('Max HP').length}">
+                                {{calculatedHealth.maxHP.result}}
+                            </div>
                         </span>
                         <strong>Temp HP</strong>
-                        <span>
-                            <select [(ngModel)]="selectedTempHP" (change)="on_TempHPSelected(selectedTempHP)"
-                                *ngIf="health.temporaryHP.length > 1">
+                        <span *ngIf="health.temporaryHP.length > 1">
+                            <select [(ngModel)]="selectedTempHP" (change)="on_TempHPSelected(selectedTempHP)">
                                 <option *ngFor="let tempHPSet of health.temporaryHP; trackBy:trackByIndex;"
                                     [ngValue]="tempHPSet">
                                     {{tempHPSet.amount + (tempHPSet.source ? " (" + tempHPSet.source + ")" : "")}}
                                 </option>
                             </select>
-                            <span
-                                [ngbPopover]="health.temporaryHP[0].source ? 'Source: ' + health.temporaryHP[0].source : ''">
-                                <input class="number3" type="number"
-                                    [ngClass]="{'bonus':(health.temporaryHP[0].amount > 0)}"
-                                    value="{{health.temporaryHP[0].amount}}" disabled
-                                    *ngIf="health.temporaryHP.length == 1">
-                            </span>
+                        </span>
+                        <span *ngIf="health.temporaryHP.length == 1">
+                            <div class="value"
+                                [ngbPopover]="health.temporaryHP[0].source ? 'Source: ' + health.temporaryHP[0].source : ''"
+                                [ngClass]="{'bonus':(health.temporaryHP[0].amount > 0)}">
+                                {{health.temporaryHP[0].amount}}
+                            </div>
                         </span>
                     </div>
                     <div class="newrow">
@@ -56,14 +56,16 @@
                     <div class="newrow">
                         <strong>Dying</strong>
                         <span>
-                            <input class="number1" type="number" [ngClass]="{'penalty':(calculatedHealth.dying > 0)}"
-                                value="{{calculatedHealth.dying}}" disabled>
+                            <div class="value" [ngClass]="{'penalty':(calculatedHealth.dying > 0)}">
+                                {{calculatedHealth.dying}}
+                            </div>
                         </span>
                         <strong>Max Dying</strong>
                         <span>
-                            <input class="number1" type="number"
-                                [ngClass]="{'penalty':show_PenaltiesOnThis('Max Dying'), 'bonus':show_BonusesOnThis('Max Dying'), 'absolute':get_AbsolutesOnThis('Max Dying').length}"
-                                value="{{calculatedHealth.maxDying}}" disabled>
+                            <div class="value"
+                                [ngClass]="{'penalty':show_PenaltiesOnThis('Max Dying'), 'bonus':show_BonusesOnThis('Max Dying'), 'absolute':get_AbsolutesOnThis('Max Dying').length}">
+                                {{calculatedHealth.maxDying}}
+                            </div>
                         </span>
                     </div>
                     <div class="newrow" *ngIf="calculatedHealth.dying > 0">
@@ -87,11 +89,16 @@
                             [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
                     </div>
                 </div>
-                <div class="list-item" [ngClass]="{'fullsize-only':(calculatedHealth.wounded <= 0)}">
-                    <strong>Wounded</strong><input class="number2" type="number"
-                        [ngClass]="{'penalty':(calculatedHealth.wounded > 0)}" value="{{calculatedHealth.wounded}}"
-                        disabled>
-                    <button *ngIf="calculatedHealth.wounded > 0" (click)="on_HealWounded()">Heal</button>
+                <div class="newrow list-item" [ngClass]="{'fullsize-only':(calculatedHealth.wounded <= 0)}">
+                    <strong>Wounded</strong>
+                    <span>
+                        <div class="value" [ngClass]="{'penalty':(calculatedHealth.wounded > 0)}">
+                            {{calculatedHealth.wounded}}
+                        </div>
+                    </span>
+                    <span *ngIf="calculatedHealth.wounded > 0">
+                        <button (click)="on_HealWounded()">Heal</button>
+                    </span>
                 </div>
                 <div class="list-item newrow">
                     <span>
@@ -99,13 +106,14 @@
                     </span>
                     <span>
                         <input id="nonlethal" type="checkbox" [(ngModel)]="nonlethal"><label
-                            for="nonlethal">nonlethal</label>
+                            for="nonlethal">&nbsp;nonlethal</label>
                     </span>
                     <span>
                         <input class="number4" type="number" [(ngModel)]="damage" maxLength="3">
                     </span>
                     <span>
-                        <button [disabled]="damage <= 0" (click)="on_TakeDamage(health, calculatedHealth.wounded, calculatedHealth.dying)">Ouch!</button>
+                        <button [disabled]="damage <= 0"
+                            (click)="on_TakeDamage(health, calculatedHealth.wounded, calculatedHealth.dying)">Ouch!</button>
                     </span>
                 </div>
                 <div class="list-item newrow">
@@ -117,7 +125,8 @@
                         <input class="number4" type="number" [(ngModel)]="healing" maxLength="3">
                     </span>
                     <span>
-                        <button [disabled]="healing <= 0" (click)="on_Heal(health, calculatedHealth.dying)">Heal</button>
+                        <button [disabled]="healing <= 0"
+                            (click)="on_Heal(health, calculatedHealth.dying)">Heal</button>
                     </span>
                 </div>
                 <div class="list-item newrow" *ngIf="get_NumbToDeath()"
@@ -126,7 +135,8 @@
                         <strong>Numb to Death</strong>
                     </span>
                     <span>
-                        <button [disabled]="calculatedHealth.dying <= 0" (click)="on_NumbToDeath(health, calculatedHealth.dying)">Heal
+                        <button [disabled]="calculatedHealth.dying <= 0"
+                            (click)="on_NumbToDeath(health, calculatedHealth.dying)">Heal
                             and recover</button>
                     </span>
                 </div>

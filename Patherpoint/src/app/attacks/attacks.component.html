@@ -15,14 +15,14 @@
                 <div class="list-item newrow">
                     <button class="center-aligned" *ngIf="get_MultipleAttackPenalty() != '2'"
                         (click)="set_MultipleAttackPenalty('2')">Multiple Attack Penalty: Second Attack</button>
-                    <button class="center-aligned" *ngIf="get_MultipleAttackPenalty() == '2'"
+                    <button class="center-aligned fancy-button" *ngIf="get_MultipleAttackPenalty() == '2'"
                         (click)="set_MultipleAttackPenalty('1')">End
                         Multiple Attack Penalty</button>
                 </div>
                 <div class="list-item newrow">
                     <button class="center-aligned" *ngIf="get_MultipleAttackPenalty() != '3'"
                         (click)="set_MultipleAttackPenalty('3')">Multiple Attack Penalty: Third Attack</button>
-                    <button class="center-aligned" *ngIf="get_MultipleAttackPenalty() == '3'"
+                    <button class="center-aligned fancy-button" *ngIf="get_MultipleAttackPenalty() == '3'"
                         (click)="set_MultipleAttackPenalty('1')">End
                         Multiple Attack Penalty</button>
                 </div>
@@ -31,7 +31,7 @@
                         <button class="center-aligned" *ngIf="get_MultipleAttackPenalty() != '2f'"
                             (click)="set_MultipleAttackPenalty('2f')">Multiple Attack Penalty: Second Attack
                             (Flurry)</button>
-                        <button class="center-aligned" *ngIf="get_MultipleAttackPenalty() == '2f'"
+                        <button class="center-aligned fancy-button" *ngIf="get_MultipleAttackPenalty() == '2f'"
                             (click)="set_MultipleAttackPenalty('1')">End
                             Multiple Attack Penalty</button>
                     </div>
@@ -39,7 +39,7 @@
                         <button class="center-aligned" *ngIf="get_MultipleAttackPenalty() != '3f'"
                             (click)="set_MultipleAttackPenalty('3f')">Multiple Attack Penalty: Third Attack
                             (Flurry)</button>
-                        <button class="center-aligned" *ngIf="get_MultipleAttackPenalty() == '3f'"
+                        <button class="center-aligned fancy-button" *ngIf="get_MultipleAttackPenalty() == '3f'"
                             (click)="set_MultipleAttackPenalty('1')">End
                             Multiple Attack Penalty</button>
                     </div>
@@ -80,19 +80,21 @@
                     </span>
                     <span style="flex-basis:auto">
                         Attack
-                        <span [ngbPopover]="attack[2]">
-                            <input
-                                [ngClass]="{'penalty':attack[4].length, 'bonus':attack[5].length, 'absolute':attack[6].length}"
-                                type="number" class="number2" [ngModel]="attack[1]" disabled>
+                        <span>
+                            <div class="value" [ngbPopover]="attack[2]"
+                                [ngClass]="{'penalty':attack[4].length, 'bonus':attack[5].length, 'absolute':attack[6].length}">
+                                {{attack[1]}}
+                            </div>
                         </span>
                         <ng-container *ngFor="let damage of [get_Damage(weapon, attack[0])]; trackBy:trackByIndex;">
                             <span *ngIf="!damage[0].includes('0d0')">&nbsp;Damage&nbsp;</span>
-                            <strong *ngFor="let line of damage[0].split('\n'); trackBy:trackByIndex;"
-                                [ngbPopover]="damage[1]">
-                                <span
-                                    [ngClass]="{'penalty':damage[3].length, 'bonus':damage[2].length, 'absolute':damage[4].length}"
-                                    *ngIf="!line.includes('0d0')">{{line}}</span><br>
-                            </strong>
+                            <ng-container *ngFor="let line of damage[0].split('\n'); let index = index; trackBy:trackByIndex;">
+                                <div class="value" [ngbPopover]="damage[1]"
+                                    [ngClass]="{'penalty':!index && damage[3].length, 'bonus':!index && damage[2].length, 'absolute':!index && damage[4].length}"
+                                    *ngIf="!line.includes('0d0')">{{line}}
+                                </div>
+                                <br>
+                            </ng-container>
                         </ng-container>
                     </span>
                 </div>

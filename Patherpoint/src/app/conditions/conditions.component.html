@@ -15,17 +15,28 @@
                     <button class="center-aligned" (click)="add_Day(1)">+1 Day</button>
                 </div>
                 <div class="newrow">
-                    Hours <input class="newrow slider" type="range" min="0" max="23" [(ngModel)]="hours"
+                    <strong style="flex-basis: 10%; flex-grow: 0;">Hours</strong>
+                    <input class="slider" type="range" min="0" max="23" [(ngModel)]="hours"
                         (ngModelChange)="set_Duration()">
-                    Minutes <input class="newrow slider" type="range" min="0" max="59" [(ngModel)]="minutes"
+                </div>
+                <div class="newrow">
+                    <strong style="flex-basis: 10%; flex-grow: 0;">Minutes</strong>
+                    <input class="slider" type="range" min="0" max="59" [(ngModel)]="minutes"
                         (ngModelChange)="set_Duration()">
-                    Turns <input class="newrow slider" type="range" min="0" max="9" [(ngModel)]="turns"
+                </div>
+                <div class="newrow">
+                    <strong style="flex-basis: 10%; flex-grow: 0;">Turns</strong>
+                    <input class="slider" type="range" min="0" max="9" [(ngModel)]="turns"
                         (ngModelChange)="set_Duration()">
                 </div>
                 <div class="newrow left-aligned">
-                    End on:<br>
-                    <input type="radio" [(ngModel)]="endOn" [value]="0">Turn Start<br>
-                    <input type="radio" [(ngModel)]="endOn" [value]="5">Turn End
+                    End on:
+                </div>
+                <div class="newrow">
+                    <span><input type="radio" [(ngModel)]="endOn" [value]="5">&nbsp;Turn Start</span>
+                </div>
+                <div class="newrow">
+                    <span><input type="radio" [(ngModel)]="endOn" [value]="0">&nbsp;Turn End</span>
                 </div>
             </div>
             <div class="list-item">
@@ -78,7 +89,7 @@
                                 </div>
                                 <div class="newrow" *ngIf="condition.name == 'Persistent Damage'">
                                     <span>
-                                        Damage type and amount: <input type="text" name="persistentDamage"
+                                        Damage type and amount: <input type="text" id="persistentDamage"
                                             [(ngModel)]="condition.choice" maxLength="30">
                                     </span>
                                 </div>
@@ -206,8 +217,7 @@
                             *ngIf="property.type!='textarea' && property.type!='checkbox'">
                             <select class="newrow" [(ngModel)]="newEffect[property.key]"
                                 [disabled]="!get_Examples(property).length" (ngModelChange)="validate(property, index)">
-                                <option
-                                    *ngFor="let example of get_Examples(property); trackBy:trackByIndex;"
+                                <option *ngFor="let example of get_Examples(property); trackBy:trackByIndex;"
                                     [ngValue]="example">
                                     {{example}}
                                 </option>

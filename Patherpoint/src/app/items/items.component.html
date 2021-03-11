@@ -7,7 +7,7 @@
         <div class="list-item">
             <strong>Find (in Name, Description or Traits)</strong>
             <span>
-                <input type=text [(ngModel)]="wordFilter" (ngModelChange)=check_Filter() />
+                <input id="itemsWordFilter" type=text [(ngModel)]="wordFilter" (ngModelChange)=check_Filter() />
                 <button (click)="set_Filter()" [disabled]="wordFilter.length < 5">Show All</button>
                 <button (click)="wordFilter='';check_Filter()">Clear</button>
             </span>
@@ -33,17 +33,16 @@
             <div class="list-item">
                 <div class="newrow">
                     <strong>Platinum</strong>
-                    <input class="number6" type="number" value="{{get_Character().cash[0]}}" disabled>
+                    <div class="value">{{get_Character().cash[0]}}</div>
                     <strong>Gold</strong>
-                    <input class="number6" type="number" value="{{get_Character().cash[1]}}" disabled>
+                    <div class="value">{{get_Character().cash[1]}}</div>
                     <strong>Silver</strong>
-                    <input class="number6" type="number" value="{{get_Character().cash[2]}}" disabled>
+                    <div class="value">{{get_Character().cash[2]}}</div>
                     <strong>Copper</strong>
-                    <input class="number6" style="text-align: center;" type="number" value="{{get_Character().cash[3]}}"
-                        disabled>
+                    <div class="value">{{get_Character().cash[3]}}</div>
                 </div>
             </div>
-            <header class="subsectionHeader">Change Currency</header>
+            <header class="subsectionHeader">Currency</header>
             <div class="list-item">
                 <div class="newrow">
                     <strong>Platinum</strong>
@@ -131,7 +130,7 @@
                             <div class="list-item" *ngIf="casting.scrollSavant.length">
                                 <ng-container
                                     *ngFor="let scroll of get_SortByName(casting.scrollSavant); trackBy:trackByIndex;">
-0.3=...........                                    <div class="list-item"
+                                    0.3=........... <div class="list-item"
                                         *ngFor="let inventoryID of ['scrollsavant'+scroll.id]; trackBy:trackByIndex;">
                                         <button class="newrow sublist-toggle fancy-button"
                                             (click)="toggle_Item(inventoryID)">

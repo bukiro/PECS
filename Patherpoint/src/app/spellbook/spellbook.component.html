@@ -84,11 +84,13 @@
                                                     [ngClass]="{'problem':(get_FocusPoints() > maxFocusPoints)}"
                                                     *ngIf="casting.castingType == 'Focus' && level == -1 && (spellTakenList.length || maxFocusPoints)">
                                                     <strong>Focus Points</strong>
-                                                    <input type="number" class="number2" [ngModel]="get_FocusPoints()"
-                                                        disabled>
+                                                    <div class="value">
+                                                        {{get_FocusPoints()}}
+                                                    </div>
                                                     <strong>Focus Pool</strong>
-                                                    <input type="number" class="number2" [ngModel]="maxFocusPoints"
-                                                        disabled>
+                                                    <div class="value">
+                                                        {{maxFocusPoints}}
+                                                    </div>
                                                     <button class="newrow center-aligned" (click)="refocus()"
                                                         [disabled]="get_FocusPoints() >= maxFocusPoints">
                                                         Refocus
@@ -134,11 +136,13 @@
                                                                                 *ngIf="is_SignatureSpell(casting, spellTaken.gain)">&#9733;&nbsp;</span>
                                                                             <span [ngbTooltip]="'Combination spell'"
                                                                                 *ngIf="spellTaken.choice.spellCombination">&#8853;&nbsp;</span>
-                                                                            <span [ngbTooltip]="'Infinite Possibilities spell'"
+                                                                            <span
+                                                                                [ngbTooltip]="'Infinite Possibilities spell'"
                                                                                 *ngIf="is_InfinitePossibilitiesSpell(spellTaken.choice)">&#9883;&nbsp;</span>
                                                                             <span [ngbTooltip]="'Spell Mastery spell'"
                                                                                 *ngIf="is_SpellMasterySpell(spellTaken.choice)">&#9884;&nbsp;</span>
-                                                                            <span [ngbTooltip]="'Crossblooded Evolution spell'"
+                                                                            <span
+                                                                                [ngbTooltip]="'Crossblooded Evolution spell'"
                                                                                 *ngIf="spellTaken.choice.crossbloodedEvolution">&#10086;&nbsp;</span>
                                                                             {{spell.name}}
                                                                             {{spellTaken.gain.combinationSpellName ? " &

@@ -94,33 +94,13 @@ input {
     border: 1px solid #BDBDBD;
 }
 
-input[disabled]:not(.bonus):not(.penalty):not(.absolute) {
+input[disabled] {
     background-color: transparent;
 }
 
 .darkmode input:not([disabled]),
 .darkmode textarea {
     background-color: #202020;
-}
-
-input.bonus {
-    background-color: lightgreen;
-    color: #616161;
-    color: var(--textcolor);
-}
-
-.darkmode input.bonus {
-    background-color: darkgreen;
-}
-
-input.penalty {
-    background-color: lightpink;
-    color: #616161;
-    color: var(--textcolor);
-}
-
-.darkmode input.penalty {
-    background-color: #500000;
 }
 
     /* Inputs with extra space for Firefox number arrows */
@@ -370,6 +350,7 @@ cite {
     border-style: double;
     border-width: 2px;
     color: white;
+    line-height: 1.5em;
 }
 
 cite.trait {
@@ -626,6 +607,7 @@ app-character-sheet {
     display: grid;
     grid-template-columns: 1fr 1fr;
     overflow-y: hidden;
+    height: 100%;
 }
 
 .charactersheet-column {
@@ -677,6 +659,9 @@ app-dice {
     bottom: auto;
     z-index: 20;
     overflow-x: hidden;
+    border: 4px solid rgb(var(--accent));
+    border-top: none;
+    border-radius: 2px;
 }
 
 app-familiarabilities.charactersheet-app {
@@ -838,6 +823,10 @@ header.featureHeader {
     flex-wrap: wrap;
     justify-content: space-between;
     width: 100%;
+}
+
+.newrow > .newrow {
+    flex-basis: 100%;
 }
 
 .newrow:not(:first-child):not(:empty):not(.list-item) {
@@ -1204,6 +1193,12 @@ ngb-popover-window.list-item.sublist {
     max-width: 400px;
 }
 
+/* Bootstrap collapse overrides */
+
+.collapse, .collapsing {
+    flex-basis: auto;
+}
+
 /*
 GRIDICONS
 */
@@ -1298,7 +1293,7 @@ app-gridicon .iconSuperTitle {
 }
 
     /* bottom-right subtitle with a little more room (5-8 characters) */
-app-gridicon .iconSubtitle {
+app-gridicon .iconSubTitle {
     position: absolute;
     bottom: 0;
     right: 2px;
@@ -1390,6 +1385,13 @@ app-gridicon .gridicon-time-overlay:before {
 
 #levelBox.levelBoxTop {
     grid-template-columns: auto auto;
+}
+
+/* Character app choice area */
+
+#choiceArea {
+    height: 100%;
+    margin-bottom: 0;
 }
 
 /*
@@ -1512,16 +1514,6 @@ cite.effect.absolute {
     color: aqua;
 }
 
-input.absolute {
-    background-color: lightblue;
-    color: #616161;
-    color: var(--textcolor);
-}
-
-.darkmode input.absolute {
-    background-color: blue;
-}
-
 .bonus,
 cite.condition.bonus,
 cite.effect.bonus {
@@ -1543,20 +1535,6 @@ cite.effect.penalty {
 .darkmode .penalty,
 .darkmode .penalty:not(cite) {
     color: red
-}
-
-var:not(:empty),
-.variable {
-    font-weight: bold;
-    font-style: normal;
-    color: white;
-    text-shadow: 0 0 2px rgb(var(--accent)), 0 0 2px rgb(var(--accent)), 0 0 2px rgb(var(--accent)), 0 0 2px rgb(var(--accent)), 0 0 2px rgb(var(--accent));
-    text-shadow: 0.05em 0 2px rgb(var(--accent)), 0 0.05em 2px rgb(var(--accent)), -0.05em 0 2px rgb(var(--accent)), 0 -0.05em 2px rgb(var(--accent)), -0.05em -0.05em 2px rgb(var(--accent)), -0.05em 0.05em 2px rgb(var(--accent)), 0.05em -0.05em 2px rgb(var(--accent)), 0.05em 0.05em 2px rgb(var(--accent));
-}
-
-.darkmode var:not(:empty),
-.darkmode .variable {
-    color: var(--textcolor);
 }
 
 .attention {
@@ -1588,6 +1566,67 @@ span.problem {
 
 .darkmode span.problem {
     background-color: inherit;
+}
+
+    /* Calculated values */
+
+.value {
+    display: inline-block;
+    font-weight: bold;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 4px;
+    padding: 0 1rem;
+}
+
+.newrow:not(.left-aligned):not(.center-aligned)>*:last-child:not(:first-child)>.value {
+    margin-right: 0;
+}
+
+.value.bonus {
+    background-color: lightgreen;
+    color: #616161;
+    color: var(--textcolor);
+}
+
+.darkmode .value.bonus {
+    background-color: darkgreen;
+}
+
+.value.penalty {
+    background-color: lightpink;
+    color: #616161;
+    color: var(--textcolor);
+}
+
+.darkmode .value.penalty {
+    background-color: #500000;
+}
+
+.value.absolute {
+    background-color: lightblue;
+    color: #616161;
+    color: var(--textcolor);
+}
+
+.darkmode .value.absolute {
+    background-color: blue;
+}
+
+/* Variable values in descriptions */
+
+var:not(:empty),
+.variable {
+    font-weight: bold;
+    font-style: normal;
+    color: white;
+    text-shadow: 0 0 2px rgb(var(--accent)), 0 0 2px rgb(var(--accent)), 0 0 2px rgb(var(--accent)), 0 0 2px rgb(var(--accent)), 0 0 2px rgb(var(--accent));
+    text-shadow: 0.05em 0 2px rgb(var(--accent)), 0 0.05em 2px rgb(var(--accent)), -0.05em 0 2px rgb(var(--accent)), 0 -0.05em 2px rgb(var(--accent)), -0.05em -0.05em 2px rgb(var(--accent)), -0.05em 0.05em 2px rgb(var(--accent)), 0.05em -0.05em 2px rgb(var(--accent)), 0.05em 0.05em 2px rgb(var(--accent));
+}
+
+.darkmode var:not(:empty),
+.darkmode .variable {
+    color: var(--textcolor);
 }
 
 /*

@@ -196,10 +196,13 @@ export class TimeService {
             return inASentence ? "instantly" : "Instant effect";
         } else {
             let returnString: string = ""
-            if (duration == this.get_YourTurn()) {
-                return inASentence ? "for rest of turn" : "Rest of turn";
-            } else if (duration == 5) {
-                return inASentence ? "until start of next turn" : "To start of next turn";
+            if (duration == 5) {
+                if (this.get_YourTurn() == 5) {
+                    return inASentence ? "for rest of turn" : "Rest of turn";
+                }
+                if (this.get_YourTurn() == 0) {
+                    return inASentence ? "until start of next turn" : "To start of next turn";
+                }
             }
             returnString += inASentence ? "for " : "";
             if (duration >= 144000) {
@@ -222,7 +225,7 @@ export class TimeService {
                 if (duration / 10 >= 2) { returnString += "s"; }
                 duration %= 10;
             }
-            if (includeTurnState && duration == this.get_YourTurn()) {
+            if (includeTurnState && duration == 5 && this.get_YourTurn() == 5) {
                 returnString += " to end of turn";
             }
             if (!returnString) {

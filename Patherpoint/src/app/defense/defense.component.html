@@ -22,28 +22,28 @@
                 </button>
                 <div class="list-item sublist" *ngIf="get_ShowList()=='QuickStatus'">
                     <div class="list-item newrow">
+                        <button class="center-aligned" *ngIf="!get_FlatFooted()" (click)="set_FlatFooted(true)">Enable
+                            Flat-Footed</button>
+                        <button class="center-aligned fancy-button" *ngIf="get_FlatFooted()" (click)="set_FlatFooted(false)">Disable
+                            Flat-Footed</button>
+                    </div>
+                    <div class="list-item newrow">
                         <button class="center-aligned" *ngIf="get_Cover() != 1" (click)="set_Cover(1)">Lesser
                             Cover</button>
-                        <button class="center-aligned" *ngIf="get_Cover() == 1" (click)="set_Cover(0)">End
+                        <button class="center-aligned fancy-button" *ngIf="get_Cover() == 1" (click)="set_Cover(0)">End
                             Cover</button>
                     </div>
                     <div class="list-item newrow">
                         <button class="center-aligned" *ngIf="get_Cover() != 2" (click)="set_Cover(2)">Standard
                             Cover</button>
-                        <button class="center-aligned" *ngIf="get_Cover() == 2" (click)="set_Cover(0)">End
+                        <button class="center-aligned fancy-button" *ngIf="get_Cover() == 2" (click)="set_Cover(0)">End
                             Cover</button>
                     </div>
                     <div class="list-item newrow">
                         <button class="center-aligned" *ngIf="get_Cover() != 4" (click)="set_Cover(4)">Greater
                             Cover</button>
-                        <button class="center-aligned" *ngIf="get_Cover() == 4" (click)="set_Cover(0)">End
+                        <button class="center-aligned fancy-button" *ngIf="get_Cover() == 4" (click)="set_Cover(0)">End
                             Cover</button>
-                    </div>
-                    <div class="list-item newrow">
-                        <button class="center-aligned" *ngIf="!get_FlatFooted()" (click)="set_FlatFooted(true)">Enable
-                            Flat-Footed</button>
-                        <button class="center-aligned" *ngIf="get_FlatFooted()" (click)="set_FlatFooted(false)">Disable
-                            Flat-Footed</button>
                     </div>
                 </div>
             </div>
@@ -77,9 +77,8 @@
                 <ng-container *ngFor="let shield of get_EquippedShield(); trackBy:trackByIndex;">
                     <header class="subsectionHeader fullsize-only">Shield</header>
                     <div class="newrow list-item">
-                        <div>{{shield.get_Name()}} AC: <input type="number" class="number1"
-                                [ngModel]="shield.get_ACBonus()" disabled> Hardness: <input type="number"
-                                class="number2" [ngModel]="shield.get_Hardness()" disabled>
+                        <div>{{shield.get_Name()}} AC <div class="value">{{shield.get_ACBonus()}}</div>
+                                Hardness: <div class="value">{{shield.get_Hardness()}}</div>
                             <div class="fullsize-only newrow left-aligned" *ngIf="shield.traits.length">
                                 <cite class="trait" *ngFor="let trait of shield.traits; trackBy:trackByIndex;"
                                     [ngbPopover]="get_Traits(trait)[0].desc">{{trait}}</cite>
@@ -90,23 +89,20 @@
                             <div class="newrow">
                                 <button class="center-aligned" *ngIf="!shield.raised"
                                     (click)="raise_Shield(true, shield)">Raise shield</button>
-                                <button class="center-aligned" *ngIf="shield.raised"
+                                <button class="center-aligned fancy-button" *ngIf="shield.raised"
                                     (click)="raise_Shield(false, shield)">Lower
                                     shield</button>
                                 <button class="center-aligned"
                                     *ngIf="shield.raised && shield.coverbonus && !shield.takingCover"
                                     (click)="set_Cover(4, shield)">Take cover</button>
-                                <button class="center-aligned"
+                                <button class="center-aligned fancy-button"
                                     *ngIf="shield.raised && shield.coverbonus && shield.takingCover"
                                     (click)="set_Cover(0, shield)">End cover</button>
                             </div>
                             <div class="list-item newrow">
-                                <strong>HP</strong> <span><input type="number" class="number2"
-                                        [ngModel]="shield.get_HitPoints()" disabled></span>
-                                <strong>Max HP</strong> <span><input type="number" class="number2"
-                                        [ngModel]="shield.get_MaxHP()" disabled></span>
-                                <strong>BT</strong> <span><input type="number" class="number2"
-                                        [ngModel]="shield.get_BrokenThreshold()" disabled></span>
+                                <strong>HP</strong> <div class="value">{{shield.get_HitPoints()}}</div>
+                                <strong>Max HP</strong> <div class="value">{{shield.get_MaxHP()}}</div>
+                                <strong>BT</strong> <div class="value">{{shield.get_BrokenThreshold()}}</div>
                             </div>
                             <div class="list-item newrow">
                                 <span>

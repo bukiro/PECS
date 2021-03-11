@@ -12,19 +12,17 @@
                     <div class="newrow">
                         <strong>{{ability.name}}</strong>
                         <span>
-                            <span [ngbPopover]="calculatedAbility.value.explain">
-                                <input class="number2" type="number"
-                                    [ngClass]="{'penalty':calculatedAbility.penalties, 'bonus':calculatedAbility.bonuses, 'absolute':calculatedAbility.absolutes}"
-                                    value="{{calculatedAbility.value.result}}" disabled>
-                            </span>
+                            <div class="value" [ngbPopover]="calculatedAbility.value.explain"
+                                [ngClass]="{'penalty':calculatedAbility.penalties, 'bonus':calculatedAbility.bonuses, 'absolute':calculatedAbility.absolutes}">
+                                {{calculatedAbility.value.result}}
+                            </div>
                         </span>
                         <strong>Modifier</strong>
                         <span>
-                            <span [ngbPopover]="calculatedAbility.mod.explain">
-                                <input class="number2" type="number"
-                                    [ngClass]="{'penalty':calculatedAbility.modpenalties, 'bonus':calculatedAbility.modbonuses, 'absolute':calculatedAbility.modabsolutes}"
-                                    value="{{calculatedAbility.mod.result}}" disabled>
-                            </span>
+                            <div class="value" [ngbPopover]="calculatedAbility.mod.explain"
+                                [ngClass]="{'penalty':calculatedAbility.modpenalties, 'bonus':calculatedAbility.modbonuses, 'absolute':calculatedAbility.modabsolutes}">
+                                {{calculatedAbility.mod.result}}
+                            </div>
                         </span>
                     </div>
                     <app-tags class="newrow tags" [creature]="creature" [objectName]=ability.name [showTraits]=true
@@ -41,11 +39,10 @@
                         *ngFor="let calculatedAbility of [ability.calculate(get_Creature(), characterService, effectsService)]; trackBy:trackByIndex;">
                         <strong>{{ability.name.substring(0, 3).toUpperCase()}}</strong>&nbsp;
                         <span>
-                            <span [ngbPopover]="calculatedAbility.mod.explain">
-                                <input class="number2" type="number"
-                                    [ngClass]="{'penalty':calculatedAbility.modpenalties, 'bonus':calculatedAbility.modbonuses, 'absolute':calculatedAbility.modabsolutes}"
-                                    value="{{calculatedAbility.mod.result}}" disabled>
-                            </span>
+                            <div class="value" [ngbPopover]="calculatedAbility.mod.explain"
+                                [ngClass]="{'penalty':calculatedAbility.modpenalties, 'bonus':calculatedAbility.modbonuses, 'absolute':calculatedAbility.modabsolutes}">
+                                {{calculatedAbility.mod.result}}
+                            </div>
                         </span>
                     </ng-container>
                 </span>

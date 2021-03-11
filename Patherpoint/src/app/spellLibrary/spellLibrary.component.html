@@ -7,7 +7,7 @@
         <div class="list-item">
             <strong>Find (in Name, Description or Traits)</strong>
             <span>
-                <input type=text [(ngModel)]="wordFilter" (keypress)=check_Filter() />
+                <input id="SpellsWordFilter" type=text [(ngModel)]="wordFilter" (keypress)=check_Filter() />
                 <button (click)="set_Filter()" [disabled]="wordFilter.length < 5">Show All</button>
                 <button (click)="wordFilter='';check_Filter()">Clear</button>
             </span>
