@@ -31,7 +31,7 @@
                     <strong>Silver</strong>
                     <div class="value">{{get_Character().cash[2]}}</div>
                     <strong>Copper</strong>
-                    <div class="value">{{get_Character().cash[3]}}</div>
+                    <div class="value center-aligned">{{get_Character().cash[3]}}</div>
                 </div>
             </div>
             <header class="subsectionHeader">Currency</header>
@@ -44,7 +44,7 @@
                     <strong>Silver</strong>
                     <input class="number4" type="number" [(ngModel)]="cashS" (keypress)="numbersOnly($event)">
                     <strong>Copper</strong>
-                    <input class="number4" style="text-align: center;" type="number" [(ngModel)]="cashC"
+                    <input class="number4 center-aligned" type="number" [(ngModel)]="cashC"
                         (keypress)="numbersOnly($event)">
                 </div>
                 <div class="newrow">

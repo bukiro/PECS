@@ -127,20 +127,20 @@ export class GridIconComponent implements OnInit {
     get_IconDetail() {
         if (this.feat) {
             if (this.feat.subType) {
-                this.subTitle = this.subTitle || this.feat.subType;
+                this.detail = this.detail || this.feat.subType;
             }
         } else if (this.condition) {
-            this.subTitle = this.subTitle || this.condition.choice;
+            this.detail = this.detail || this.condition.choice;
         }
-        let iconSubTitle: string = "";
-        if (this.subTitle) {
-            if (this.subTitle.match(".*[A-Z].*")) {
-                iconSubTitle = this.subTitle.replace(/[^A-Z ]/g, '').split(" ").map(part => part.substr(0, 1)).join("").substr(0, 2);
+        let iconDetail: string = "";
+        if (this.detail) {
+            if (this.detail.match(".*[A-Z].*")) {
+                iconDetail = this.detail.replace(/[^A-Z ]/g, '').split(" ").map(part => part.substr(0, 1)).join("").substr(0, 2);
             } else {
-                iconSubTitle = this.subTitle.replace(/[^a-z ]/gi, '').split(" ").map(part => part.substr(0, 1)).join("").toUpperCase().substr(0, 2);
+                iconDetail = this.detail.replace(/[^a-z ]/gi, '').split(" ").map(part => part.substr(0, 1)).join("").toUpperCase().substr(0, 2);
             }
         }
-        return iconSubTitle;
+        return iconDetail;
     }
 
     get_IconSuperTitle() {

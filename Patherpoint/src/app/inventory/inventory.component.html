@@ -11,42 +11,54 @@
         </button>
         <header class="subsectionHeader" *ngIf="creature=='Character'">Currency</header>
         <div class="list-item" *ngIf="creature=='Character'">
-            <strong [ngbTooltip]="'Platinum'">P</strong>
+            <span [ngbTooltip]="'Platinum'">P</span>
             <div class="value">{{this.characterService.get_Character().cash[0]}}</div>
-            <strong [ngbTooltip]="'Gold'">G</strong>
+            <span [ngbTooltip]="'Gold'">G</span>
             <div class="value">{{this.characterService.get_Character().cash[1]}}</div>
-            <strong [ngbTooltip]="'Silver'">S</strong>
+            <span [ngbTooltip]="'Silver'">S</span>
             <div class="value">{{this.characterService.get_Character().cash[2]}}</div>
-            <strong [ngbTooltip]="'Copper'">C</strong>
+            <span [ngbTooltip]="'Copper'">C</span>
             <div class="value">{{this.characterService.get_Character().cash[3]}}</div>
-            <button [ngbTooltip]="'Exchange coins for higher currency (no higher than Gold).'"
+            <button class="center-aligned" [ngbTooltip]="'Exchange coins for higher currency (no higher than Gold).'"
                 (click)="sort_Cash();">Sort</button>
         </div>
         <header class="subsectionHeader">Bulk</header>
         <ng-container *ngFor="let calculatedBulk of [get_CalculatedBulk()]; trackBy:trackByIndex;">
             <div class="list-item">
-                <strong>Bulk</strong>
-                <div class="value" [ngbPopover]="calculatedBulk.current?.explain"
-                    [ngClass]="{'penalty':calculatedBulk.currentpenalties, 'bonus':calculatedBulk.currentbonuses, 'absolute':calculatedBulk.currentabsolutes?.length}">
-                    {{calculatedBulk.current?.value}}
+                <div class="newrow">
+                    <strong>Bulk</strong>
+                    <span>
+                        <div class="value" [ngbPopover]="calculatedBulk.current?.explain"
+                            [ngClass]="{'penalty':calculatedBulk.currentpenalties, 'bonus':calculatedBulk.currentbonuses, 'absolute':calculatedBulk.currentabsolutes?.length}">
+                            {{calculatedBulk.current?.value}}
+                        </div>
+                    </span>
                 </div>
                 <app-tags [creature]="creature" [objectName]="'Bulk'" [showTraits]=true [showFeats]=true
                     [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
             </div>
             <div class="fullsize-only list-item">
-                <strong>Encumbrance Limit</strong>
-                <div class="value" [ngbPopover]="calculatedBulk.encumbered?.explain"
-                    [ngClass]="{'penalty':calculatedBulk.penalties, 'bonus':calculatedBulk.bonuses, 'absolute':calculatedBulk.absolutes?.length}">
-                    {{calculatedBulk.encumbered?.value}}
+                <div class="newrow">
+                    <strong>Encumbrance Limit</strong>
+                    <span>
+                        <div class="value" [ngbPopover]="calculatedBulk.encumbered?.explain"
+                            [ngClass]="{'penalty':calculatedBulk.penalties, 'bonus':calculatedBulk.bonuses, 'absolute':calculatedBulk.absolutes?.length}">
+                            {{calculatedBulk.encumbered?.value}}
+                        </div>
+                    </span>
                 </div>
                 <app-tags [creature]="creature" [objectName]="'Encumbered Limit'" [showTraits]=true [showFeats]=true
                     [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
             </div>
             <div class="fullsize-only list-item">
-                <strong>Maximum Bulk</strong>
-                <div class="value" [ngbPopover]="calculatedBulk.max?.explain"
-                    [ngClass]="{'penalty':calculatedBulk.maxpenalties, 'bonus':calculatedBulk.maxbonuses, 'absolute':calculatedBulk.maxabsolutes?.length}">
-                    {{calculatedBulk.max?.value}}
+                <div class="newrow">
+                    <strong>Maximum Bulk</strong>
+                    <span>
+                        <div class="value" [ngbPopover]="calculatedBulk.max?.explain"
+                            [ngClass]="{'penalty':calculatedBulk.maxpenalties, 'bonus':calculatedBulk.maxbonuses, 'absolute':calculatedBulk.maxabsolutes?.length}">
+                            {{calculatedBulk.max?.value}}
+                        </div>
+                    </span>
                 </div>
                 <app-tags [creature]="creature" [objectName]="'Max Bulk'" [showTraits]=true [showFeats]=true
                     [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>

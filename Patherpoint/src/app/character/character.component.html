@@ -286,132 +286,23 @@
                             </div>
                         </div>
                         <!--Class-->
-                        <div class="list-item" [ngClass]="{'fullsize-only':get_Character().class.name}"
-                            *ngFor="let listID of ['class']; trackBy:trackByIndex;">
+                        <div class="list-item" [ngClass]="{'fullsize-only':get_Character().class.name}">
                             <button class="newrow sublist-toggle"
                                 [ngClass]="{'fancy-button choicecleared':get_Character().class.name}"
-                                (click)="toggle_List(listID)">
+                                (click)="toggle_List('class')">
                                 Class{{(get_Character().class.name) ? ": "+ get_Character().class.name : ""}}
                             </button>
-                            <div class="list-item sublist" [ngClass]="{'fancy-list':get_Character().class.name}"
-                                *ngIf="get_ShowList()==listID">
-                                <ng-container *ngFor="let class of get_AvailableClasses(); trackBy:trackByIndex;">
-                                    <div class="newrow list-item"
-                                        [ngClass]="{'selected':class.name === get_Character().class.name}"
-                                        *ngFor="let itemID of ['class'+class.name]; trackBy:trackByIndex;">
-                                        <span>
-                                            <input id="{{class.name}}" type="checkbox"
-                                                (change)="onClassChange(class, $event.target.checked)"
-                                                [checked]="class.name === get_Character().class.name"
-                                                [disabled]="get_Character().class.name && (class.name != get_Character().class.name)">
-                                            <label for="{{class.name}}">
-                                                <strong>{{class.name}}</strong>
-                                            </label>
-                                        </span>
-                                        <button (click)="toggle_Item(itemID)"
-                                            [ngClass]="{'fancy-button':get_ShowItem()==itemID}">
-                                            {{get_ShowItem()==itemID ? "Hide" : "Show"}} Description
-                                        </button>
-                                        <div class="newrow lower" *ngIf="get_ShowItem()==itemID">
-                                            <div class="newrow left-aligned tags">
-                                                <cite class="trait"
-                                                    *ngFor="let trait of class.traits; trackBy:trackByIndex;"
-                                                    [ngbPopover]="get_Traits(trait)[0]?.desc">{{trait}}</cite>
-                                            </div>
-                                            <div class="newrow left-aligned" *ngIf="class.sourceBook">
-                                                <strong>Source</strong><i>&nbsp;{{class.sourceBook}}</i>
-                                            </div>
-                                            <div class="newrow left-aligned"
-                                                *ngFor="let desc of class.desc; trackBy:trackByIndex;">
-                                                <ng-container
-                                                    *ngFor="let text of desc.value.split('\n\n'); let textIndex = index; trackBy:trackByIndex;">
-                                                    <header class="featureHeader" *ngIf="textIndex == 0">{{desc.name}}
-                                                    </header>
-                                                    <p *ngIf="text.split('\n').length == 1">
-                                                        {{text}}
-                                                    </p>
-                                                    <ul *ngIf="text.split('\n').length > 1">
-                                                        <li
-                                                            *ngFor="let line of text.split('\n'); trackBy:trackByIndex;">
-                                                            {{line}}
-                                                        </li>
-                                                    </ul>
-                                                </ng-container>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </ng-container>
-                            </div>
                         </div>
                         <!--Ancestry-->
                         <ng-container *ngIf="get_Character().class.name">
                             <div class="list-item list-header"
-                                [ngClass]="{'fullsize-only':get_Character().class.ancestry.name}"
-                                *ngFor="let listID of ['ancestry']; trackBy:trackByIndex;">
+                                [ngClass]="{'fullsize-only':get_Character().class.ancestry.name}">
                                 <button class="newrow sublist-toggle"
                                     [ngClass]="{'fancy-button choicecleared':get_Character().class.ancestry.name}"
-                                    (click)="toggle_List(listID)">
+                                    (click)="toggle_List('ancestry')">
                                     Ancestry{{(get_Character().class.ancestry.name) ? ": "+
-                                    get_Character().class.ancestry.name
-                                    :
-                                    ""}}
+                                    get_Character().class.ancestry.name : ""}}
                                 </button>
-                                <div class="list-item sublist"
-                                    [ngClass]="{'fancy-list':get_Character().class.ancestry.name}"
-                                    *ngIf="get_ShowList()==listID">
-                                    <ng-container
-                                        *ngFor="let ancestry of get_AvailableAncestries(); trackBy:trackByIndex;">
-                                        <div class="newrow list-item"
-                                            [ngClass]="{'selected':ancestry.name === get_Character().class.ancestry.name}"
-                                            *ngFor="let itemID of ['ancestry'+ancestry.name]; trackBy:trackByIndex;">
-                                            <span>
-                                                <input id="{{ancestry.name}}" type="checkbox"
-                                                    (change)="onAncestryChange(ancestry, $event.target.checked)"
-                                                    [checked]="ancestry.name === get_Character().class.ancestry.name"
-                                                    [disabled]="get_Character().class.ancestry.name && (ancestry.name != get_Character().class.ancestry.name)">
-                                                <label for="{{ancestry.name}}">
-                                                    <strong>{{ancestry.name}}&nbsp;</strong>
-                                                    <cite class="trait" *ngIf="ancestry.traits.includes('Rare')"
-                                                        [ngbPopover]="get_Traits('Rare')[0]?.desc">Rare</cite>
-                                                    <cite class="trait" *ngIf="ancestry.traits.includes('Uncommon')"
-                                                        [ngbPopover]="get_Traits('Uncommon')[0]?.desc">Uncommon</cite>
-                                                </label>
-                                            </span>
-                                            <button (click)="toggle_Item(itemID)"
-                                                [ngClass]="{'fancy-button':get_ShowItem()==itemID}">
-                                                {{get_ShowItem()==itemID ? "Hide" : "Show"}} Description
-                                            </button>
-                                            <div class="newrow lower" *ngIf="get_ShowItem()==itemID">
-                                                <div class="newrow left-aligned tags">
-                                                    <cite class="trait"
-                                                        *ngFor="let trait of ancestry.traits; trackBy:trackByIndex;"
-                                                        [ngbPopover]="get_Traits(trait)[0]?.desc">{{trait}}</cite>
-                                                </div>
-                                                <div class="newrow left-aligned" *ngIf="ancestry.sourceBook">
-                                                    <strong>Source</strong><i>&nbsp;{{ancestry.sourceBook}}</i>
-                                                </div>
-                                                <div class="newrow left-aligned"
-                                                    *ngFor="let desc of ancestry.desc; trackBy:trackByIndex;">
-                                                    <ng-container
-                                                        *ngFor="let text of desc.value.split('\n\n'); let textIndex = index; trackBy:trackByIndex;">
-                                                        <header class="featureHeader" *ngIf="textIndex == 0">
-                                                            {{desc.name}}
-                                                        </header>
-                                                        <p *ngIf="text.split('\n').length == 1">
-                                                            {{text}}
-                                                        </p>
-                                                        <ul *ngIf="text.split('\n').length > 1">
-                                                            <li
-                                                                *ngFor="let line of text.split('\n'); trackBy:trackByIndex;">
-                                                                {{line}}
-                                                            </li>
-                                                        </ul>
-                                                    </ng-container>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </ng-container>
-                                </div>
                             </div>
                         </ng-container>
                         <!--Heritage-->
@@ -1562,10 +1453,142 @@
             </div>
         </div>
         <div class="charactersheet-column">
-            <div id="choiceArea" class="charactersheet-app">
-
-            </div>
+            <!--Templates-->
+            <!--Class choice template-->
+            <ng-template #ClassChoiceTemplate>
+                <div class="newRow padding-8">
+                    <header class="box-header sectionHeader">Class</header>
+                </div>
+                <div id="choiceArea" class="charactersheet-app">
+                    <ng-container *ngFor="let class of get_AvailableClasses(); trackBy:trackByIndex;">
+                        <ng-container
+                            *ngFor="let checked of [class.name === get_Character().class.name]; trackBy:trackByIndex">
+                            <ng-container
+                                *ngFor="let disabled of [get_Character().class.name && (class.name != get_Character().class.name)]; trackBy:trackByIndex">
+                                <ng-template #ClassChoiceDetailsTemplate>
+                                    <div class="button newrow no-animation"
+                                        [ngClass]="{'fancy-button':checked, 'disabled':disabled}">
+                                        <label>
+                                            <input type="checkbox"
+                                                (change)="onClassChange(class, $event.target.checked)"
+                                                [checked]="checked" [disabled]="disabled" hidden>{{checked ? "Remove" :
+                                            "Choose"}}
+                                        </label>
+                                    </div>
+                                    <div class="newrow left-aligned tags">
+                                        <cite class="trait" *ngFor="let trait of class.traits; trackBy:trackByIndex;"
+                                            [ngbPopover]="get_Traits(trait)[0]?.desc">{{trait}}</cite>
+                                    </div>
+                                    <div class="newrow left-aligned" *ngIf="class.sourceBook">
+                                        <strong>Source</strong><i>&nbsp;{{class.sourceBook}}</i>
+                                    </div>
+                                    <div class="newrow left-aligned"
+                                        *ngFor="let desc of class.desc; trackBy:trackByIndex;">
+                                        <ng-container
+                                            *ngFor="let text of desc.value.split('\n\n'); let textIndex = index; trackBy:trackByIndex;">
+                                            <header class="featureHeader" *ngIf="textIndex == 0">{{desc.name}}
+                                            </header>
+                                            <p *ngIf="text.split('\n').length == 1">
+                                                {{text}}
+                                            </p>
+                                            <ul *ngIf="text.split('\n').length > 1">
+                                                <li *ngFor="let line of text.split('\n'); trackBy:trackByIndex;">
+                                                    {{line}}
+                                                </li>
+                                            </ul>
+                                        </ng-container>
+                                    </div>
+                                </ng-template>
+                                <div class="newrow list-item" [ngClass]="{'selected':checked}">
+                                    <div class="gridicon-fullsizebox">
+                                        <input id="{{class.name}}" type="checkbox" class="character-choice"
+                                            (change)="onClassChange(class, $event.target.checked)" [checked]="checked"
+                                            [disabled]="disabled">
+                                        <div class="gridicon-fullsizebox" [ngbPopover]="ClassChoiceDetailsTemplate"
+                                            triggers="click">
+                                            <app-gridIcon class="" [title]="class.name"></app-gridIcon>
+                                            <header class="sectionHeader">{{class.name}}</header>
+                                        </div>
+                                    </div>
+                                </div>
+                            </ng-container>
+                        </ng-container>
+                    </ng-container>
+                </div>
+            </ng-template>
+            <ng-template #AncestryChoiceTemplate>
+                <div class="newRow padding-8">
+                    <header class="box-header sectionHeader">Ancestry</header>
+                </div>
+                <div id="choiceArea" class="charactersheet-app">
+                    <ng-container *ngFor="let ancestry of get_AvailableAncestries(); trackBy:trackByIndex;">
+                        <ng-container
+                            *ngFor="let checked of [ancestry.name === get_Character().class.ancestry.name]; trackBy:trackByIndex">
+                            <ng-container
+                                *ngFor="let disabled of [get_Character().class.ancestry.name && (ancestry.name != get_Character().class.ancestry.name)]; trackBy:trackByIndex">
+                                <ng-template #AncestryChoiceDetailsTemplate>
+                                    <div class="button newrow no-animation"
+                                        [ngClass]="{'fancy-button':checked, 'disabled':disabled}">
+                                        <label>
+                                            <input type="checkbox"
+                                                (change)="onAncestryChange(ancestry, $event.target.checked)"
+                                                [checked]="checked" [disabled]="disabled" hidden>{{checked ?
+                                            "Remove" : "Choose"}}
+                                        </label>
+                                    </div>
+                                    <div class="newrow left-aligned tags">
+                                        <cite class="trait" *ngFor="let trait of ancestry.traits; trackBy:trackByIndex;"
+                                            [ngbPopover]="get_Traits(trait)[0]?.desc">{{trait}}</cite>
+                                    </div>
+                                    <div class="newrow left-aligned" *ngIf="ancestry.sourceBook">
+                                        <strong>Source</strong><i>&nbsp;{{ancestry.sourceBook}}</i>
+                                    </div>
+                                    <div class="newrow left-aligned"
+                                        *ngFor="let desc of ancestry.desc; trackBy:trackByIndex;">
+                                        <ng-container
+                                            *ngFor="let text of desc.value.split('\n\n'); let textIndex = index; trackBy:trackByIndex;">
+                                            <header class="featureHeader" *ngIf="textIndex == 0">
+                                                {{desc.name}}
+                                            </header>
+                                            <p *ngIf="text.split('\n').length == 1">
+                                                {{text}}
+                                            </p>
+                                            <ul *ngIf="text.split('\n').length > 1">
+                                                <li *ngFor="let line of text.split('\n'); trackBy:trackByIndex;">
+                                                    {{line}}
+                                                </li>
+                                            </ul>
+                                        </ng-container>
+                                    </div>
+                                </ng-template>
+                                <div class="newrow list-item" [ngClass]="{'selected':checked}">
+                                    <div class="gridicon-fullsizebox">
+                                        <input id="{{ancestry.name}}" type="checkbox" class="character-choice"
+                                            (change)="onAncestryChange(ancestry, $event.target.checked)"
+                                            [checked]="checked" [disabled]="disabled">
+                                        <div class="gridicon-fullsizebox" [ngbPopover]="AncestryChoiceDetailsTemplate" triggers="click">
+                                            <app-gridIcon class="" [title]="ancestry.name"
+                                                [detail]="ancestry.traits.includes('Rare') ? 'Rare' : (ancestry.traits.includes('Uncommon') ? 'Uncommon' : '')">
+                                            </app-gridIcon>
+                                            <header class="sectionHeader">{{ancestry.name}}</header>
+                                            <cite class="trait" *ngIf="ancestry.traits.includes('Rare')"
+                                                [ngbPopover]="get_Traits('Rare')[0]?.desc">Rare</cite>
+                                            <cite class="trait" *ngIf="ancestry.traits.includes('Uncommon')"
+                                                [ngbPopover]="get_Traits('Uncommon')[0]?.desc">Uncommon</cite>
+                                        </div>
+                                    </div>
+                                </div>
+                            </ng-container>
+                        </ng-container>
+                    </ng-container>
+                </div>
+            </ng-template>
+            <ng-container *ngIf="get_ShowList()=='class'">
+                <ng-container *ngTemplateOutlet="ClassChoiceTemplate"></ng-container>
+            </ng-container>
+            <ng-container *ngIf="get_ShowList()=='ancestry'">
+                <ng-container *ngTemplateOutlet="AncestryChoiceTemplate"></ng-container>
+            </ng-container>
         </div>
     </div>
-
 </div>
