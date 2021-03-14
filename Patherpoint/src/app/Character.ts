@@ -579,13 +579,13 @@ export class Character extends Creature {
                 featName = feat.name;
             }
             choice.feats.push({ name: (feat?.name || featName), source: choice.source, locked: locked, sourceId: choice.id, countAsFeat: (feat?.countAsFeat || feat?.superType || "") });
-            characterService.process_Feat(creature, feat, feat.name, choice, level, taken);
+            characterService.process_Feat(creature, feat, featName, choice, level, taken);
         } else {
-            characterService.process_Feat(creature, feat, feat.name, choice, level, taken);
+            characterService.process_Feat(creature, feat, featName, choice, level, taken);
             let a = choice.feats;
-            a.splice(a.indexOf(a.filter(feat =>
-                feat.name == featName &&
-                feat.locked == locked
+            a.splice(a.indexOf(a.filter(existingFeat =>
+                existingFeat.name == featName &&
+                existingFeat.locked == locked
             )[0]), 1)
         }
     }

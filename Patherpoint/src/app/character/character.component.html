@@ -199,7 +199,19 @@
                             </select>
                         </span>
                     </div>
-                    <header class="subsectionHeader">Show Level</header>
+                    <div style="position:relative">
+                        <header class="subsectionHeader">Show Level</header>
+                        <button class="tilemodebutton" [ngClass]="{'fancy-button':get_TileMode()}"
+                            (click)="toggle_TileMode()" [ngbTooltip]="get_TileMode() ? 'Switch to list layout' : 'Switch to tile layout'">
+                            <!--Content is css only-->
+                            <div>
+                                <div> </div>
+                                <div> </div>
+                                <div> </div>
+                                <div> </div>
+                            </div>
+                        </button>
+                    </div>
                     <!--Level selection-->
                     <div class="list-item">
                         <div id="levelBox" class="newrow levelBoxTop">
@@ -631,823 +643,914 @@
                                 [ngClass]="{'invisible':!(level.number > 0 && [0,level.number].includes(get_ShowLevel()))}">
                                 <header class="sectionHeader" *ngIf="level.number > 0">Level {{level.number}}</header>
                                 <!--Fixed information-->
-                                <div class="fullsize-only list-item"
-                                    *ngFor="let listID of ['showFixedChanges'+level.number]; trackBy:trackByIndex;">
-                                    <button class="newrow sublist-toggle fancy-button" (click)="toggle_List(listID)">
-                                        Show fixed changes
-                                    </button>
-                                    <div class="list-item sublist fancy-list" *ngIf="get_ShowList()==listID">
-                                        <!--Fixed Ability boosts-->
+                                <ng-container
+                                    *ngFor="let fixedAbilityBoosts of [get_AbilityBoosts(level.number, level.number, '', '', '', '', true)]; trackBy:trackByIndex;">
+                                    <ng-container
+                                        *ngFor="let fixedSkillIncreases of [get_SkillIncreases(level.number, level.number, '', '', '', true)]; trackBy:trackByIndex;">
                                         <ng-container
-                                            *ngFor="let boost of get_AbilityBoosts(level.number, level.number, '', '', '', '', true); let index = index;; trackBy:trackByIndex;">
-                                            <header class="featureHeader" *ngIf="index == 0">Ability Boosts</header>
-                                            <div class="list-item">
-                                                <span>
-                                                    {{(boost.type == 'Flaw') ? 'Flaw: ' : 'Boost: '}}{{boost.name}}
-                                                    ({{boost.source}})
-                                                </span>
-                                            </div>
-                                        </ng-container>
-                                        <!--Fixed Skill Increases-->
-                                        <ng-container
-                                            *ngFor="let skillIncrease of get_SkillIncreases(level.number, level.number, '', '', '', true); let index = index;; trackBy:trackByIndex;">
-                                            <header class="featureHeader" *ngIf="index == 0">Skill Increases</header>
-                                            <div class="list-item">
-                                                <span>
-                                                    {{skillIncrease.name}} ({{skillIncrease.source}})
-                                                </span>
-                                            </div>
-                                        </ng-container>
-                                        <!--Fixed Features-->
-                                        <ng-container
-                                            *ngFor="let feat of get_FeatsTaken(level.number, level.number, '', '', '', true, 'feature'); let index = index;; trackBy:trackByIndex;">
-                                            <header class="featureHeader" *ngIf="index == 0">Features</header>
-                                            <div class="list-item">
-                                                <span>
-                                                    {{feat.name}} ({{feat.source}})
-                                                </span>
+                                            *ngFor="let fixedFeatures of [get_FeatsTaken(level.number, level.number, '', '', '', true, 'feature')]; trackBy:trackByIndex;">
+                                            <ng-container
+                                                *ngFor="let fixedFeats of [get_FeatsTaken(level.number, level.number, '', '', '', true, 'feat')]; trackBy:trackByIndex;">
                                                 <ng-container
-                                                    *ngFor="let itemID of [level.number+feat.name+feat.source+'desc']">
-                                                    <button (click)="toggle_Item(itemID)"
-                                                        [ngClass]="{'fancy-button':get_ShowItem()==itemID}">
-                                                        {{get_ShowItem()==itemID ? "Hide" : "Show"}} Description
-                                                    </button>
-                                                    <div class="newrow left-aligned" *ngIf="get_ShowItem()==itemID">
-                                                        <app-feat [feat]="get_FeatsAndFeatures(feat.name)[0]"
-                                                            [choice]="null" [levelNumber]="level.number"></app-feat>
-                                                    </div>
-                                                </ng-container>
-                                            </div>
-                                        </ng-container>
-                                        <!--Fixed Feats-->
-                                        <ng-container
-                                            *ngFor="let feat of get_FeatsTaken(level.number, level.number, '', '', '', true, 'feat'); let index = index;; trackBy:trackByIndex;">
-                                            <header class="featureHeader" *ngIf="index == 0">Feats</header>
-                                            <div class="list-item">
-                                                <span>
-                                                    {{feat.name}} ({{feat.source}})
-                                                </span>
-                                                <ng-container
-                                                    *ngFor="let itemID of [level.number+feat.name+feat.source+'desc']">
-                                                    <button (click)="toggle_Item(itemID)"
-                                                        [ngClass]="{'fancy-button':get_ShowItem()==itemID}">
-                                                        {{get_ShowItem()==itemID ? "Hide" : "Show"}} Description
-                                                    </button>
-                                                    <div class="newrow left-aligned" *ngIf="get_ShowItem()==itemID">
-                                                        <app-feat [feat]="get_FeatsAndFeatures(feat.name)[0]"
-                                                            [choice]="null" [levelNumber]="level.number"></app-feat>
-                                                    </div>
-                                                </ng-container>
-                                            </div>
-                                        </ng-container>
-                                    </div>
-                                </div>
-                                <!--Languages - show if you have gained languages this level-->
-                                <div class="list-item" [ngClass]="{'fullsize-only':!get_BlankLanguages()}"
-                                    *ngIf="level.number > 0 && get_LanguagesAvailable(level.number)">
-                                    <button class="newrow sublist-toggle"
-                                        [ngClass]="{'fancy-button choicecleared':!get_BlankLanguages()}"
-                                        (click)="toggle_List('languages'+level.number)">
-                                        Languages
-                                    </button>
-                                    <div class="list-item sublist" [ngClass]="{'fancy-list':!get_BlankLanguages()}"
-                                        *ngIf="get_ShowList()=='languages'+level.number">
-                                        <ng-container *ngTemplateOutlet="LanguageTemplate"></ng-container>
-                                    </div>
-                                </div>
-                                <!--Ability boosts-->
-                                <ng-container *ngFor="let choice of level.abilityChoices; trackBy:trackByIndex;">
-                                    <ng-container *ngFor="let listID of [choice.id]; trackBy:trackByIndex;">
-                                        <div class="list-item" *ngIf="get_MaxAvailable(choice)"
-                                            [ngClass]="{'problem':(choice.boosts.length > get_MaxAvailable(choice) || someAbilitiesIllegal(choice)), 'fullsize-only':(choice.boosts.length == get_MaxAvailable(choice))}">
-                                            <button class="newrow sublist-toggle"
-                                                [ngClass]="{'fancy-button choicecleared':choice.boosts.length == get_MaxAvailable(choice)}"
-                                                (click)="toggle_List(listID)">
-                                                Ability
-                                                {{choice.infoOnly ? "Choice (no Boost)" :
-                                                "Boost"}}{{(get_MaxAvailable(choice) >
-                                                1)
-                                                ? "s" : ""}}
-                                                ({{choice.source}}){{(get_MaxAvailable(choice) > 1) ?
-                                                ": "+ choice.boosts.length + "/" + (get_MaxAvailable(choice)) :
-                                                (choice.boosts.length) ? ": "+ choice.boosts[0].name : ""}}
-                                            </button>
-                                            <div class="list-item sublist"
-                                                [ngClass]="{'fancy-list':(choice.boosts.length == get_MaxAvailable(choice))}"
-                                                *ngIf="get_ShowList()==listID">
-                                                <div class="list-item"
-                                                    [ngClass]="{'selected':get_AbilityBoosts(level.number, level.number, ability.name, 'Boost', choice.source).length || get_AbilityBoosts(level.number, level.number, ability.name, 'Info', choice.source).length}"
-                                                    *ngFor="let ability of get_AvailableAbilities(choice); trackBy:trackByIndex;"
-                                                    [ngClass]="{'problem':abilityIllegal(level.number, ability)}">
-                                                    <div class="newrow"
-                                                        *ngFor="let itemID of [choice.id+ability.name]; trackBy:trackByIndex;">
-                                                        <span>
-                                                            <input id="{{itemID}}" type="checkbox"
-                                                                (change)="on_AbilityBoost(ability.name, $event.target.checked, choice, false)"
-                                                                [checked]="get_AbilityBoosts(level.number, level.number, ability.name, 'Boost', choice.source).length || get_AbilityBoosts(level.number, level.number, ability.name, 'Info', choice.source).length"
-                                                                [disabled]="cannotBoost(ability, level, choice).length || (choice.boosts.length == get_MaxAvailable(choice) && !(get_AbilityBoosts(level.number, level.number, ability.name, 'Boost', choice.source).length || get_AbilityBoosts(level.number, level.number, ability.name, 'Info', choice.source).length))">
-                                                            <label for="{{itemID}}">
-                                                                &nbsp;<strong>{{ability.name}}</strong>
-                                                                <div class="value" style="padding:0px 2px; border:none;"
-                                                                    [ngbPopover]="baseValue.explain" maxlength="2"
-                                                                    *ngFor="let baseValue of [ability.baseValue(get_Character(), characterService, level.number)]; trackBy:trackByIndex;">
-                                                                    {{baseValue.result}}
+                                                    *ngIf="fixedAbilityBoosts.length + fixedSkillIncreases.length + fixedFeatures.length + fixedFeats.length > 0">
+                                                    <div class="fullsize-only list-item"
+                                                        *ngFor="let listID of ['showFixedChanges'+level.number]; trackBy:trackByIndex;">
+                                                        <button class="newrow sublist-toggle fancy-button"
+                                                            (click)="toggle_List(listID)">
+                                                            Show fixed changes
+                                                        </button>
+                                                        <div class="list-item sublist fancy-list"
+                                                            *ngIf="get_ShowList()==listID">
+                                                            <!--Fixed Ability boosts-->
+                                                            <header class="sectionHeader"
+                                                                *ngIf="fixedAbilityBoosts.length">Ability
+                                                                Boosts</header>
+                                                            <ng-container
+                                                                *ngFor="let boost of fixedAbilityBoosts; trackBy:trackByIndex;">
+                                                                <div class="list-item abilityboost">
+                                                                    <span>
+                                                                        {{(boost.type == 'Flaw') ? 'Flaw: ' : 'Boost:
+                                                                        '}}{{boost.name}} ({{boost.source}})
+                                                                    </span>
                                                                 </div>
-                                                                <cite class="problem"
-                                                                    *ngFor="let reason of cannotBoost(ability, level, choice); trackBy:trackByIndex;">
-                                                                    {{reason}}
-                                                                </cite>
-                                                                <cite class="problem"
-                                                                    *ngIf="abilityIllegal(level.number, ability)">
-                                                                    Abilities cannot be raised above 18 on level
-                                                                    1!&nbsp;
-                                                                </cite>
-                                                            </label>
-                                                        </span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </ng-container>
-                                </ng-container>
-                                <!--Skill Increases-->
-                                <ng-container
-                                    *ngFor="let choice of get_SkillChoices(level); let index = index; trackBy:trackByIndex;">
-                                    <app-skillchoice (showChoiceMessage)="receive_ChoiceNameMessage($event)"
-                                        [choice]="choice" [showChoice]="get_ShowList()" [level]="level"
-                                        [excludeTemporary]="true">
-                                    </app-skillchoice>
-                                </ng-container>
-                                <!--Feat choices-->
-                                <ng-container
-                                    *ngFor="let choice of get_FeatChoices(level); let index = index; trackBy:trackByIndex;">
-                                    <app-featchoice (showChoiceNameMessage)="receive_ChoiceNameMessage($event)"
-                                        (showChoiceMessage)="receive_FeatChoiceMessage($event)"
-                                        (showFeatMessage)="receive_FeatMessage($event)"
-                                        (showLevelMessage)="receive_ChoiceLevelMessage($event)" [choice]="choice"
-                                        [levelNumber]="level.number" [showContent]="false" [showFeat]="get_ShowItem()"
-                                        [showChoice]="get_ShowList()"
-                                        [unavailableFeats]="get_Character().settings.unavailableFeats"
-                                        [lowerLevelFeats]="get_Character().settings.lowerLevelFeats"
-                                        [higherLevelFeats]="get_Character().settings.higherLevelFeats"
-                                        [archetypeFeats]="get_Character().settings.archetypeFeats">
-                                    </app-featchoice>
-                                </ng-container>
-                                <!--Animal Companion-->
-                                <ng-container *ngIf="get_CompanionAvailable(level.number)">
-                                    <div class="list-item"
-                                        [ngClass]="{'fullsize-only':(get_Companion().name && get_Companion().species)}"
-                                        *ngFor="let listID of ['animalCompanion']; trackBy:trackByIndex;">
-                                        <button class="newrow sublist-toggle"
-                                            [ngClass]="{'fancy-button choicecleared':(get_Companion().name && get_Companion().species)}"
-                                            (click)="toggle_List(listID)">
-                                            Animal Companion Basics
-                                        </button>
-                                        <div class="list-item sublist"
-                                            [ngClass]="{'fancy-list choicecleared':(get_Companion().name && get_Companion().species)}"
-                                            *ngIf="get_ShowList()==listID">
-                                            <button class="list-item" (click)="on_NewCompanion(level)">
-                                                Create New Animal Companion
-                                            </button>
-                                            <div class="list-item">
-                                                <span>Animal Companion Name</span>
-                                                <span>
-                                                    <input type="text" id="companionname"
-                                                        [(ngModel)]="get_Companion().name" maxLength="30">
-                                                </span>
-                                            </div>
-                                            <div class="list-item">
-                                                <span>Animal Companion Species</span>
-                                                <span>
-                                                    <input type="text" id="companionspecies"
-                                                        [(ngModel)]="get_Companion().species" maxLength="30">
-                                                </span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!--Animal Type-->
-                                    <div class="list-item"
-                                        [ngClass]="{'fullsize-only':get_Companion().class.ancestry.name}"
-                                        *ngFor="let listID of ['animaltype']; trackBy:trackByIndex;">
-                                        <button class="newrow sublist-toggle"
-                                            [ngClass]="{'fancy-button choicecleared':get_Companion().class.ancestry.name}"
-                                            (click)="toggle_List(listID)">
-                                            Animal Companion
-                                            Type{{(get_Companion().class.ancestry.name) ? ": "+
-                                            get_Companion().class.ancestry.name
-                                            : ""}}
-                                        </button>
-                                        <div class="list-item sublist"
-                                            [ngClass]="{'fancy-list':(get_Companion().class.ancestry.name)}"
-                                            *ngIf="get_ShowList()==listID">
-                                            <div class="list-item"
-                                                [ngClass]="{'selected':type.name == get_Companion().class.ancestry.name}"
-                                                *ngFor="let type of get_AvailableCompanionTypes(); trackBy:trackByIndex;">
-                                                <div class="newrow"
-                                                    *ngFor="let itemID of ['animaltype'+type.name+'desc']; trackBy:trackByIndex;">
-                                                    <span>
-                                                        <input id="{{type.name}}" type="checkbox"
-                                                            (change)="on_CompanionTypeChange(type, $event.target.checked)"
-                                                            [checked]="type.name == get_Companion().class.ancestry.name"
-                                                            [disabled]="get_Companion().class.ancestry.name && (type.name != get_Companion().class.ancestry.name)">
-                                                        <label for="{{type.name}}">
-                                                            <strong>{{type.name}}</strong>
-                                                        </label>
-                                                    </span>
-                                                    <button (click)="toggle_Item(itemID)"
-                                                        [ngClass]="{'fancy-button':get_ShowItem()==itemID}">
-                                                        {{get_ShowItem()==itemID ? "Hide" : "Show"}} Description
-                                                    </button>
-                                                    <div class="newrow lower" *ngIf="get_ShowItem()==itemID">
-                                                        <div class="newrow left-aligned">
-                                                            <div class="newrow left-aligned tags">
-                                                                <cite class="trait"
-                                                                    *ngFor="let trait of type.traits; trackBy:trackByIndex;"
-                                                                    [ngbPopover]="get_Traits(trait)[0]?.desc">{{trait}}</cite>
-                                                            </div>
-                                                            <div class="newrow left-aligned" *ngIf="type.sourceBook">
-                                                                <strong>Source</strong><i>&nbsp;{{type.sourceBook}}</i>
-                                                            </div>
-                                                            <ng-container
-                                                                *ngFor="let desc of type.desc.split('\n\n'); trackBy:trackByIndex;">
-                                                                <p *ngIf="desc.split('\n').length == 1">{{desc}}</p>
-                                                                <ul *ngIf="desc.split('\n').length > 1">
-                                                                    <li
-                                                                        *ngFor="let line of desc.split('\n'); trackBy:trackByIndex;">
-                                                                        {{line}}</li>
-                                                                </ul>
                                                             </ng-container>
-                                                            <p>
-                                                                <strong>Size</strong> {{size(type.size)}}
-                                                            </p>
+                                                            <!--Fixed Skill Increases-->
+                                                            <header class="sectionHeader"
+                                                                *ngIf="fixedSkillIncreases.length">Skill
+                                                                Increases</header>
                                                             <ng-container
-                                                                *ngFor="let gain of type.gainItems; trackBy:trackByIndex;">
-                                                                <p
-                                                                    *ngFor="let item of get_ItemFromGain(gain); trackBy:trackByIndex;">
-                                                                    <strong>Melee</strong> {{item.displayName}},
-                                                                    <strong>Damage</strong>
-                                                                    {{item.dicenum+"d"+item.dicesize}}
-                                                                </p>
+                                                                *ngFor="let skillIncrease of fixedSkillIncreases; trackBy:trackByIndex;">
+                                                                <div class="list-item skillincrease">
+                                                                    <span>
+                                                                        {{skillIncrease.name}}
+                                                                        ({{skillIncrease.source}})
+                                                                    </span>
+                                                                </div>
                                                             </ng-container>
-                                                            <p>
-                                                                <span
-                                                                    *ngFor="let ability of get_AnimalCompanionAbilities(type); let index = index; trackBy:trackByIndex;">{{index
-                                                                    ? ", " : ""}}<strong>{{ability.name}}</strong>
-                                                                    {{ability.modifier}}</span>
-                                                            </p>
-                                                            <p>
-                                                                <strong>Hit Points</strong> {{type.hitpoints}}
-                                                            </p>
-                                                            <p>
-                                                                <strong>Skill</strong>
-                                                                {{type.skillChoices[0].increases[0].name}}
-                                                            </p>
-                                                            <p>
-                                                                <strong>Senses</strong> {{type.senses.join(", ")}}
-                                                            </p>
-                                                            <p>
-                                                                <strong>Speed</strong>
-                                                                <span
-                                                                    *ngFor="let speed of type.speeds; let index = index; trackBy:trackByIndex;">
-                                                                    {{index > 0 ? ", " : ""}}{{speed.name.split(' ')[0]
-                                                                    + " " +
-                                                                    speed.value + " feet"}}
-                                                                </span>
-                                                            </p>
-                                                            <p>
-                                                                <strong>Support Benefit</strong> {{type.supportBenefit}}
-                                                            </p>
-                                                            <p *ngIf="type.specialdesc.length">
-                                                                <strong>Special</strong> {{type.specialdesc}}
-                                                            </p>
-                                                        </div>
-                                                        <ng-container
-                                                            *ngFor="let gain of [type.activities[1]]; trackBy:trackByIndex;">
-                                                            <div class="newrow left-aligned"
-                                                                *ngFor="let activity of get_Activities(gain.name); trackBy:trackByIndex;">
-                                                                <header class="spellHeader left-aligned">Advanced
-                                                                    Maneuver:
-                                                                    {{activity.name}}
-                                                                    <app-actionIcons [actionString]="activity.actions">
-                                                                    </app-actionIcons>
-                                                                    {{(activity.activationType) ?
-                                                                    activity.activationType : ""}}
-                                                                </header>
-                                                                <app-activity class="newrow" [activity]=activity
-                                                                    [allowActivate]=false>
-                                                                </app-activity>
-                                                            </div>
-                                                        </ng-container>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </ng-container>
-                                <!--Animal Specializations-->
-                                <ng-container *ngIf="get_CompanionSpecializationsAvailable(level.number)">
-                                    <ng-container
-                                        *ngFor="let available of [get_CompanionSpecializationsAvailable(level.number)]; trackBy:trackByIndex;">
-                                        <div class="list-item"
-                                            [ngClass]="{'fullsize-only':get_TakenCompanionSpecializations(level.number).length == available}"
-                                            *ngFor="let listID of ['animalspecialization'+level.number]; trackBy:trackByIndex;">
-                                            <button class="newrow sublist-toggle"
-                                                [ngClass]="{'fancy-button choicecleared':(get_TakenCompanionSpecializations(level.number).length == available)}"
-                                                (click)="toggle_List(listID)">
-                                                Animal Companion
-                                                Specialization{{available > 1 ?
-                                                ": "+ get_TakenCompanionSpecializations(level.number).length +"/"+
-                                                available :
-                                                (get_TakenCompanionSpecializations(level.number).length == 1) ? ": "+
-                                                get_Companion().class.specializations[0].name : ""}}
-                                            </button>
-                                            <div class="list-item sublist"
-                                                [ngClass]="{'fancy-list':get_TakenCompanionSpecializations(level.number).length == available}"
-                                                *ngIf="get_ShowList()==listID">
-                                                <div class="list-item"
-                                                    [ngClass]="{'selected':get_TakenCompanionSpecializations(level.number).includes(spec.name)}"
-                                                    *ngFor="let spec of get_AvailableCompanionSpecializations(level.number); trackBy:trackByIndex;">
-                                                    <div class="newrow"
-                                                        *ngFor="let itemID of ['animalspecialization'+spec.name+'desc'+level.number]; trackBy:trackByIndex;">
-                                                        <span>
-                                                            <input id="{{spec.name}}" type="checkbox"
-                                                                (change)="on_SpecializationChange(spec, $event.target.checked, level.number)"
-                                                                [checked]="have_CompanionSpecialization(spec.name)"
-                                                                [disabled]="(get_TakenCompanionSpecializations(level.number).length == available) && !get_TakenCompanionSpecializations(level.number).includes(spec.name)">
-                                                            <label for="{{spec.name}}">
-                                                                <strong>{{spec.name}}</strong>
-                                                            </label>
-                                                        </span>
-                                                        <button (click)="toggle_Item(itemID)"
-                                                            [ngClass]="{'fancy-button':get_ShowItem()==itemID}">
-                                                            {{get_ShowItem()==itemID ? "Hide" : "Show"}} Description
-                                                        </button>
-                                                        <div class="newrow lower" *ngIf="get_ShowItem()==itemID">
-                                                            <div class="newrow left-aligned">
-                                                                <p>
-                                                                    {{spec.desc}}
-                                                                </p>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </ng-container>
-                                </ng-container>
-                                <!--Familiar-->
-                                <ng-container *ngIf="get_FamiliarAvailable(level.number)">
-                                    <div class="list-item"
-                                        [ngClass]="{'fullsize-only':(get_Familiar().name && get_Familiar().species)}"
-                                        *ngFor="let listID of ['familiar']; trackBy:trackByIndex;">
-                                        <button class="newrow sublist-toggle"
-                                            [ngClass]="{'fancy-button choicecleared':(get_Familiar().name && get_Familiar().species)}"
-                                            (click)="toggle_List(listID)">
-                                            Familiar Basics
-                                        </button>
-                                        <div class="list-item sublist"
-                                            [ngClass]="{'fancy-list':(get_Familiar().name && get_Familiar().species)}"
-                                            *ngIf="get_ShowList()==listID">
-
-                                            <button class="list-item" (click)="on_NewFamiliar()">
-                                                Create New Familiar
-                                            </button>
-                                            <div class="list-item">
-                                                <span>Familiar Name</span>
-                                                <span>
-                                                    <input type="text" id="familiarname"
-                                                        [(ngModel)]="get_Familiar().name" maxLength="30">
-                                                </span>
-                                            </div>
-                                            <div class="list-item">
-                                                <span>Familiar Species</span>
-                                                <span>
-                                                    <input type="text" id="familiarspecies"
-                                                        [(ngModel)]="get_Familiar().species" maxLength="30">
-                                                </span>
-                                            </div>
-                                            <div class="list-item">
-                                                <span>Swimmer</span>
-                                                <span>
-                                                    <input type="checkbox" id="familiar-swimmer{{level.number}}"
-                                                        (click)="on_FamiliarSpeedChange($event.target.checked)"
-                                                        [checked]="is_FamiliarSwimmer()"><label
-                                                        for="familiar-swimmer{{level.number}}">Gain Swim Speed
-                                                        instead of Land Speed</label>
-                                                </span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </ng-container>
-                                <!--Different Worlds-->
-                                <ng-container
-                                    *ngFor="let feat of get_DifferentWorldsFeat(level.number); trackBy:trackByIndex;">
-                                    <!--Different Worlds Name-->
-                                    <div class="list-item" [ngClass]="{'fullsize-only':feat.data.name}"
-                                        *ngFor="let listID of ['differentWorlds_Name']; trackBy:trackByIndex;">
-                                        <button class="newrow sublist-toggle"
-                                            [ngClass]="{'fancy-button choicecleared':feat.data.name}"
-                                            (click)="toggle_List(listID)">
-                                            Alternative Name (Different Worlds){{(feat.data.name) ? ": "+ feat.data.name
-                                            : ""}}
-                                        </button>
-                                        <div class="list-item sublist" [ngClass]="{'fancy-list':feat.data.name}"
-                                            *ngIf="get_ShowList()==listID">
-                                            <div class="list-item">
-                                                <strong>Name:
-                                                    <input type="text" [(ngModel)]="feat.data.name"
-                                                        (blur)=on_NameChange() maxLength="30">
-                                                </strong>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!--Different Worlds Background-->
-                                    <div class="list-item" [ngClass]="{'fullsize-only':feat.data.background}"
-                                        *ngFor="let listID of ['differentWorlds_Background']; trackBy:trackByIndex;">
-                                        <button class="newrow sublist-toggle"
-                                            [ngClass]="{'fancy-button choicecleared':feat.data.background}"
-                                            (click)="toggle_List(listID)">
-                                            Alternative Background (Different
-                                            Worlds){{(feat.data.background) ? ": "+ feat.data.background : ""}}
-                                        </button>
-                                        <div class="list-item sublist" [ngClass]="{'fancy-list':feat.data.background}"
-                                            *ngIf="get_ShowList()==listID">
-                                            <!-- Filter -->
-                                            <div class="list-item">
-                                                <strong>Filter</strong>
-                                                <div class="newrow">
-                                                    <span>
-                                                        <input id="differentWorldsBackgroundfilterAdventure"
-                                                            type="checkbox" [(ngModel)]="adventureBackgrounds">
-                                                        <label for="differentWorldsBackgroundfilterAdventure">Show
-                                                            adventure
-                                                            backgrounds</label>
-                                                    </span>
-                                                </div>
-                                                <div class="newrow">
-                                                    <span>
-                                                        <input id="differentWorldsBackgroundfilterRegional"
-                                                            type="checkbox" [(ngModel)]="regionalBackgrounds">
-                                                        <label for="differentWorldsBackgroundfilterRegional">Show
-                                                            regional
-                                                            backgrounds</label>
-                                                    </span>
-                                                </div>
-                                            </div>
-                                            <!-- End Filter -->
-                                            <div class="list-item"
-                                                [ngClass]="{'selected':background.name === feat.data.background}"
-                                                *ngFor="let background of get_Backgrounds(); trackBy:trackByIndex;">
-                                                <div class="newrow"
-                                                    *ngFor="let itemID of ['differentWorlds_Background'+background.name]; trackBy:trackByIndex;">
-                                                    <span>
-                                                        <input *ngIf="!background.subTypes" id="{{background.name}}"
-                                                            type="checkbox"
-                                                            (change)="onDifferentWorldsBackgroundChange(level, feat, background, $event.target.checked)"
-                                                            [checked]="background.name === feat.data.background || background.name === get_Character().class.background.name"
-                                                            [disabled]="background.name === get_Character().class.background.name || (feat.data.background && (background.name != feat.data.background))">
-                                                        <button class="lower left" *ngIf="background.subTypes"
-                                                            id="{{background.name}}"
-                                                            (click)="toggle_Item(itemID)">v</button>
-                                                        <label for="{{background.name}}">
-                                                            <strong>{{background.name}}</strong>
-                                                            <cite class="trait"
-                                                                *ngIf="background.traits.includes('Rare')"
-                                                                [ngbPopover]="get_Traits('Rare')[0]?.desc">Rare</cite>
-                                                            <cite class="trait"
-                                                                *ngIf="background.traits.includes('Uncommon')"
-                                                                [ngbPopover]="get_Traits('Uncommon')[0]?.desc">Uncommon</cite>
-                                                            <cite class="trait" *ngIf="background.adventurePath"
-                                                                [ngbPopover]="get_Traits('Adventure')[0]?.desc">Adventure</cite>
-                                                            <cite class="trait" *ngIf="background.region"
-                                                                [ngbPopover]="get_Traits('Regional')[0]?.desc">Regional</cite>
-                                                        </label>
-                                                    </span>
-                                                    <button (click)="toggle_Item(itemID)"
-                                                        [ngClass]="{'fancy-button':get_ShowItem()==itemID}">
-                                                        {{get_ShowItem()==itemID ? "Hide" : "Show"}} Description
-                                                    </button>
-                                                    <div class="newrow lower" *ngIf="get_ShowItem()==itemID">
-                                                        <!--Subbackgrounds-->
-                                                        <div class="list-item"
-                                                            [ngClass]="{'selected':subbackground.name === feat.data.background}"
-                                                            *ngFor="let subbackground of get_SubBackgrounds(background.name); trackBy:trackByIndex;">
-                                                            <span>
-                                                                <input id="{{subbackground.name}}" type="checkbox"
-                                                                    (change)="onDifferentWorldsBackgroundChange(level, feat, subbackground, $event.target.checked)"
-                                                                    [checked]="subbackground.name === feat.data.background || subbackground.name === get_Character().class.background.name"
-                                                                    [disabled]="(subbackground.name === get_Character().class.background.name || subbackground.superType == get_Character().class.background.superType) || (feat.data.background && (subbackground.name != feat.data.background))">
-                                                                <label for="{{subbackground.name}}">
-                                                                    <strong>{{subbackground.subType}}</strong>
-                                                                </label>
-                                                            </span>
-                                                        </div>
-                                                        <!--End Subbackgrounds-->
-                                                        <div class="newrow left-aligned">
-                                                            <ng-container
-                                                                *ngFor="let desc of background.desc.split('\n\n'); trackBy:trackByIndex;">
-                                                                <p *ngIf="desc.split('\n').length == 1">{{desc}}</p>
-                                                                <ul *ngIf="desc.split('\n').length > 1">
-                                                                    <li
-                                                                        *ngFor="let line of desc.split('\n'); trackBy:trackByIndex;">
-                                                                        {{line}}</li>
-                                                                </ul>
-                                                            </ng-container>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </ng-container>
-                                <!--Blessed Blood-->
-                                <ng-container *ngIf="get_BlessedBloodFeat(level.number)">
-                                    <!--Blessed Blood spells-->
-                                    <ng-container
-                                        *ngFor="let blessedBloodSpells of [get_BlessedBloodSpells()]; trackBy:trackByIndex;">
-                                        <div class="list-item" [ngClass]="{'fullsize-only':blessedBloodSpells >= 3}"
-                                            *ngFor="let listID of ['differentWorlds_Name']; trackBy:trackByIndex;">
-                                            <button class="newrow sublist-toggle"
-                                                [ngClass]="{'fancy-button choicecleared':blessedBloodSpells >= 3}"
-                                                (click)="toggle_List(listID)">
-                                                Deity Spells (Blessed Blood): {{blessedBloodSpells}}/3
-                                            </button>
-                                            <div class="list-item sublist"
-                                                [ngClass]="{'fancy-list':blessedBloodSpells >= 3}"
-                                                *ngIf="get_ShowList()==listID">
-                                                <div class="list-item"
-                                                    [ngClass]="{'selected':get_BlessedBloodHaveSpell(spell)}"
-                                                    *ngFor="let spell of get_BlessedBloodDeitySpells(); trackBy:trackByIndex;">
-                                                    <ng-container
-                                                        *ngFor="let itemID of ['blessedBlood'+spell.name]; trackBy:trackByIndex;">
-                                                        <span>
-                                                            <input id="blessedBlood{{spell.name}}" type="checkbox"
-                                                                (change)="on_BlessedBloodSpellTaken(spell, level, $event.target.checked)"
-                                                                [checked]="get_BlessedBloodHaveSpell(spell)"
-                                                                [disabled]="blessedBloodSpells >= 3 && !get_BlessedBloodHaveSpell(spell)">
-                                                            <label for="blessedBlood{{spell.name}}">
-                                                                <strong>{{spell.name}}</strong>
-                                                            </label>
-                                                        </span>
-                                                        <button (click)="toggle_Item(itemID)"
-                                                            [ngClass]="{'fancy-button':get_ShowItem()=='blessedBlood'+spell.name}">
-                                                            {{get_ShowItem()=='blessedBlood'+spell.name ? "Hide" :
-                                                            "Show"}}
-                                                            Description
-                                                        </button>
-                                                        <div class="newrow lower" *ngIf="get_ShowItem()==itemID">
-                                                            <header class="spellHeader newrow"><span>{{spell.name}}
-                                                                    <app-actionIcons [actionString]="spell.actions">
-                                                                    </app-actionIcons>
-                                                                    {{(spell.castType) ? spell.castType : ""}}
-                                                                </span>
-                                                                <span>Spell {{spell.levelreq}}</span>
+                                                            <!--Fixed Feats-->
+                                                            <header class="sectionHeader" *ngIf="fixedFeats.length">
+                                                                Feats
                                                             </header>
-                                                            <app-spell class="newrow" [spell]=spell
-                                                                [spellLevel]="spell.levelreq">
-                                                            </app-spell>
+                                                            <ng-container
+                                                                *ngFor="let feat of fixedFeats; trackBy:trackByIndex;">
+                                                                <ng-template #FixedFeatDetail>
+                                                                    <app-feat
+                                                                        [feat]="get_FeatsAndFeatures(feat.name)[0]"
+                                                                        [choice]="null" [levelNumber]="level.number">
+                                                                    </app-feat>
+                                                                </ng-template>
+                                                                <div class="list-item featchoice">
+                                                                    <span>
+                                                                        {{feat.name}} ({{feat.source}})
+                                                                    </span>
+                                                                    <button class="lower inactive-button"
+                                                                        [ngbPopover]="FixedFeatDetail" triggers="click">Details</button>
+                                                                </div>
+                                                            </ng-container>
+                                                            <!--Fixed Features-->
+                                                            <header class="sectionHeader" *ngIf="fixedFeatures.length">
+                                                                Features</header>
+                                                            <ng-container
+                                                                *ngFor="let feature of fixedFeatures; trackBy:trackByIndex;">
+                                                                <ng-template #FixedFeatureDetail>
+                                                                    <app-feat
+                                                                        [feat]="get_FeatsAndFeatures(feature.name)[0]"
+                                                                        [choice]="null" [levelNumber]="level.number">
+                                                                    </app-feat>
+                                                                </ng-template>
+                                                                <div class="list-item specialchoice">
+                                                                    <span>
+                                                                        {{feature.name}} ({{feature.source}})
+                                                                    </span>
+                                                                    <button class="lower inactive-button"
+                                                                        [ngbPopover]="FixedFeatureDetail" triggers="click">Details</button>
+                                                                </div>
+                                                            </ng-container>
                                                         </div>
-                                                    </ng-container>
-                                                </div>
-                                            </div>
-                                        </div>
+                                                    </div>
+                                                </ng-container>
+                                            </ng-container>
+                                        </ng-container>
                                     </ng-container>
                                 </ng-container>
-                                <!--Additional Heritages-->
-                                <ng-container
-                                    *ngFor="let heritageGain of get_AdditionalHeritagesAvailable(level.number)">
-                                    <ng-container
-                                        *ngFor="let heritageIndex of get_AdditionalHeritageIndex(heritageGain.source)">
-                                        <div class="list-item"
-                                            [ngClass]="{'fullsize-only':get_Character().class.additionalHeritages[heritageIndex].name}"
-                                            *ngFor="let listID of [level.number+'AdditionalHeritage'+heritageGain.source]; trackBy:trackByIndex;">
-                                            <button class="newrow sublist-toggle"
-                                                [ngClass]="{'fancy-button choicecleared':get_Character().class.additionalHeritages[heritageIndex].name}"
-                                                (click)="toggle_List(listID)">
-                                                Heritage
-                                                ({{heritageGain.source}}){{(get_Character().class.additionalHeritages[heritageIndex].name)
-                                                ? ": "+ get_Character().class.additionalHeritages[heritageIndex].name :
-                                                ""}}
-                                            </button>
-                                            <div class="list-item sublist"
-                                                [ngClass]="{'fancy-list':((get_Character().class.additionalHeritages[heritageIndex].name))}"
-                                                *ngIf="get_ShowList()==listID">
-                                                <div class="list-item"
-                                                    [ngClass]="{'selected':heritage.name === get_Character().class.additionalHeritages[heritageIndex].name}"
-                                                    *ngFor="let heritage of get_AvailableHeritages('', heritageGain.ancestry, heritageIndex); trackBy:trackByIndex;">
-                                                    <span>
-                                                        <input *ngIf="!heritage.subTypes.length" id="{{heritage.name}}"
-                                                            type="checkbox"
-                                                            (change)="on_AdditionalHeritageChange(heritage, $event.target.checked, heritageIndex, heritageGain.source)"
-                                                            [checked]="heritage.name === get_Character().class.additionalHeritages[heritageIndex].name"
-                                                            [disabled]="get_Character().class.additionalHeritages[heritageIndex].name && (heritage.name != get_Character().class.additionalHeritages[heritageIndex].name)">
-                                                        <button class="lower left" *ngIf="heritage.subTypes.length"
-                                                            id="{{heritage.name}}"
-                                                            (click)="toggle_Item(heritage.name+'desc')">v</button>
-                                                        <label for="{{heritage.name}}">
-                                                            <strong>{{heritage.name}}&nbsp;</strong>
-                                                            <cite class="trait" *ngIf="heritage.traits.includes('Rare')"
-                                                                [ngbPopover]="get_Traits('Rare')[0]?.desc">Rare</cite>
-                                                            <cite class="trait"
-                                                                *ngIf="heritage.traits.includes('Uncommon')"
-                                                                [ngbPopover]="get_Traits('Uncommon')[0]?.desc">Uncommon</cite>
-                                                        </label>
-                                                    </span>
-                                                    <button (click)="toggle_Item(heritage.name+'desc')"
-                                                        [ngClass]="{'fancy-button':get_ShowItem()==heritage.name+'desc'}">
-                                                        {{get_ShowItem()==heritage.name+'desc' ? "Hide" : "Show"}}
-                                                        Description
+                                <div [ngClass]="{'character-choice-grid':get_TileMode()}">
+                                    <div *ngIf="get_TileMode()">
+                                        <!--Placeholder-->
+                                    </div>
+                                    <!--Ability boosts-->
+                                    <div>
+                                        <ng-container
+                                            *ngFor="let choice of level.abilityChoices; trackBy:trackByIndex;">
+                                            <ng-container *ngFor="let listID of [choice.id]; trackBy:trackByIndex;">
+                                                <div class="list-item" *ngIf="get_MaxAvailable(choice)"
+                                                    [ngClass]="{'problem':(choice.boosts.length > get_MaxAvailable(choice) || someAbilitiesIllegal(choice)), 'fullsize-only':(choice.boosts.length == get_MaxAvailable(choice))}">
+                                                    <button class="newrow sublist-toggle abilityboost"
+                                                        [ngClass]="{'fancy-button choicecleared':choice.boosts.length == get_MaxAvailable(choice)}"
+                                                        (click)="toggle_List(listID)">
+                                                        Ability
+                                                        {{choice.infoOnly ? "Choice (no Boost)" :
+                                                        "Boost"}}{{(get_MaxAvailable(choice) >
+                                                        1)
+                                                        ? "s" : ""}}
+                                                        ({{choice.source}}){{(get_MaxAvailable(choice) > 1) ?
+                                                        ": "+ choice.boosts.length + "/" + (get_MaxAvailable(choice)) :
+                                                        (choice.boosts.length) ? ": "+ choice.boosts[0].name : ""}}
                                                     </button>
-                                                    <div class="newrow lower"
-                                                        *ngIf="get_ShowItem()==heritage.name+'desc'">
-                                                        <!--Subheritages-->
+                                                    <div class="list-item sublist specialchoice"
+                                                        [ngClass]="{'fancy-list':(choice.boosts.length == get_MaxAvailable(choice))}"
+                                                        *ngIf="get_ShowList()==listID">
                                                         <div class="list-item"
-                                                            [ngClass]="{'selected':subheritage.name === get_Character().class.additionalHeritages[heritageIndex].name}"
-                                                            *ngFor="let subheritage of heritage.subTypes; trackBy:trackByIndex;">
+                                                            [ngClass]="{'selected':get_AbilityBoosts(level.number, level.number, ability.name, 'Boost', choice.source).length || get_AbilityBoosts(level.number, level.number, ability.name, 'Info', choice.source).length}"
+                                                            *ngFor="let ability of get_AvailableAbilities(choice); trackBy:trackByIndex;"
+                                                            [ngClass]="{'problem':abilityIllegal(level.number, ability)}">
+                                                            <div class="newrow"
+                                                                *ngFor="let itemID of [choice.id+ability.name]; trackBy:trackByIndex;">
+                                                                <span>
+                                                                    <input id="{{itemID}}" type="checkbox"
+                                                                        (change)="on_AbilityBoost(ability.name, $event.target.checked, choice, false)"
+                                                                        [checked]="get_AbilityBoosts(level.number, level.number, ability.name, 'Boost', choice.source).length || get_AbilityBoosts(level.number, level.number, ability.name, 'Info', choice.source).length"
+                                                                        [disabled]="cannotBoost(ability, level, choice).length || (choice.boosts.length == get_MaxAvailable(choice) && !(get_AbilityBoosts(level.number, level.number, ability.name, 'Boost', choice.source).length || get_AbilityBoosts(level.number, level.number, ability.name, 'Info', choice.source).length))">
+                                                                    <label for="{{itemID}}">
+                                                                        &nbsp;<strong>{{ability.name}}</strong>
+                                                                        <div class="value"
+                                                                            style="padding:0px 2px; border:none;"
+                                                                            [ngbPopover]="baseValue.explain"
+                                                                            maxlength="2"
+                                                                            *ngFor="let baseValue of [ability.baseValue(get_Character(), characterService, level.number)]; trackBy:trackByIndex;">
+                                                                            {{baseValue.result}}
+                                                                        </div>
+                                                                        <cite class="problem"
+                                                                            *ngFor="let reason of cannotBoost(ability, level, choice); trackBy:trackByIndex;">
+                                                                            {{reason}}
+                                                                        </cite>
+                                                                        <cite class="problem"
+                                                                            *ngIf="abilityIllegal(level.number, ability)">
+                                                                            Abilities cannot be raised above 18 on level
+                                                                            1!&nbsp;
+                                                                        </cite>
+                                                                    </label>
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </ng-container>
+                                        </ng-container>
+                                    </div>
+                                    <!--Skill Increases-->
+                                    <div>
+                                        <ng-container
+                                            *ngFor="let choice of get_SkillChoices(level); let index = index; trackBy:trackByIndex;">
+                                            <app-skillchoice (showChoiceMessage)="receive_ChoiceNameMessage($event)"
+                                                [choice]="choice" [showChoice]="get_ShowList()" [level]="level"
+                                                [excludeTemporary]="true">
+                                            </app-skillchoice>
+                                        </ng-container>
+                                    </div>
+                                    <!--Feat choices-->
+                                    <div [ngClass]="{'icon-list vertical':get_TileMode()}">
+                                        <ng-container
+                                            *ngFor="let choice of get_FeatChoices(level, false); let index = index; trackBy:trackByIndex;">
+                                            <app-featchoice (showChoiceNameMessage)="receive_ChoiceNameMessage($event)"
+                                                (showChoiceMessage)="receive_FeatChoiceMessage($event)"
+                                                (showFeatMessage)="receive_FeatMessage($event)"
+                                                (showLevelMessage)="receive_ChoiceLevelMessage($event)"
+                                                [choice]="choice" [levelNumber]="level.number" [showContent]="false"
+                                                [showFeat]="get_ShowItem()" [showChoice]="get_ShowList()"
+                                                [unavailableFeats]="get_Character().settings.unavailableFeats"
+                                                [lowerLevelFeats]="get_Character().settings.lowerLevelFeats"
+                                                [higherLevelFeats]="get_Character().settings.higherLevelFeats"
+                                                [archetypeFeats]="get_Character().settings.archetypeFeats">
+                                            </app-featchoice>
+                                        </ng-container>
+                                    </div>
+                                    <!--Special choices-->
+                                    <div [ngClass]="{'icon-list vertical':get_TileMode()}">
+                                        <!--Languages - show if you have gained languages this level-->
+                                        <div class="list-item" [ngClass]="{'fullsize-only':!get_BlankLanguages()}"
+                                            *ngIf="level.number > 0 && get_LanguagesAvailable(level.number)">
+                                            <button class="newrow sublist-toggle specialchoice"
+                                                [ngClass]="{'fancy-button choicecleared':!get_BlankLanguages()}"
+                                                (click)="toggle_List('languages'+level.number)">
+                                                Languages
+                                            </button>
+                                            <div class="list-item sublist specialchoice"
+                                                [ngClass]="{'fancy-list':!get_BlankLanguages()}"
+                                                *ngIf="get_ShowList()=='languages'+level.number">
+                                                <ng-container *ngTemplateOutlet="LanguageTemplate"></ng-container>
+                                            </div>
+                                        </div>
+                                        <ng-container
+                                            *ngFor="let choice of get_FeatChoices(level, true); let index = index; trackBy:trackByIndex;">
+                                            <app-featchoice (showChoiceNameMessage)="receive_ChoiceNameMessage($event)"
+                                                (showChoiceMessage)="receive_FeatChoiceMessage($event)"
+                                                (showFeatMessage)="receive_FeatMessage($event)"
+                                                (showLevelMessage)="receive_ChoiceLevelMessage($event)"
+                                                [choice]="choice" [levelNumber]="level.number" [showContent]="false"
+                                                [showFeat]="get_ShowItem()" [showChoice]="get_ShowList()"
+                                                [unavailableFeats]="get_Character().settings.unavailableFeats"
+                                                [lowerLevelFeats]="get_Character().settings.lowerLevelFeats"
+                                                [higherLevelFeats]="get_Character().settings.higherLevelFeats"
+                                                [archetypeFeats]="get_Character().settings.archetypeFeats">
+                                            </app-featchoice>
+                                        </ng-container>
+                                        <!--Animal Companion-->
+                                        <ng-container *ngIf="get_CompanionAvailable(level.number)">
+                                            <div class="list-item"
+                                                [ngClass]="{'fullsize-only':(get_Companion().name && get_Companion().species)}"
+                                                *ngFor="let listID of ['animalCompanion']; trackBy:trackByIndex;">
+                                                <button class="newrow sublist-toggle specialchoice"
+                                                    [ngClass]="{'fancy-button choicecleared':(get_Companion().name && get_Companion().species)}"
+                                                    (click)="toggle_List(listID)">
+                                                    Animal Companion Basics
+                                                </button>
+                                                <div class="list-item sublist specialchoice"
+                                                    [ngClass]="{'fancy-list choicecleared':(get_Companion().name && get_Companion().species)}"
+                                                    *ngIf="get_ShowList()==listID">
+                                                    <button class="list-item" (click)="on_NewCompanion(level)">
+                                                        Create New Animal Companion
+                                                    </button>
+                                                    <div class="list-item">
+                                                        <span>Animal Companion Name</span>
+                                                        <span>
+                                                            <input type="text" id="companionname"
+                                                                [(ngModel)]="get_Companion().name" maxLength="30">
+                                                        </span>
+                                                    </div>
+                                                    <div class="list-item">
+                                                        <span>Animal Companion Species</span>
+                                                        <span>
+                                                            <input type="text" id="companionspecies"
+                                                                [(ngModel)]="get_Companion().species" maxLength="30">
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!--Animal Type-->
+                                            <div class="list-item"
+                                                [ngClass]="{'fullsize-only':get_Companion().class.ancestry.name}"
+                                                *ngFor="let listID of ['animaltype']; trackBy:trackByIndex;">
+                                                <button class="newrow sublist-toggle specialchoice"
+                                                    [ngClass]="{'fancy-button choicecleared':get_Companion().class.ancestry.name}"
+                                                    (click)="toggle_List(listID)">
+                                                    Animal Companion
+                                                    Type{{(get_Companion().class.ancestry.name) ? ": "+
+                                                    get_Companion().class.ancestry.name
+                                                    : ""}}
+                                                </button>
+                                                <div class="list-item sublist specialchoice"
+                                                    [ngClass]="{'fancy-list':(get_Companion().class.ancestry.name)}"
+                                                    *ngIf="get_ShowList()==listID">
+                                                    <div class="list-item"
+                                                        [ngClass]="{'selected':type.name == get_Companion().class.ancestry.name}"
+                                                        *ngFor="let type of get_AvailableCompanionTypes(); trackBy:trackByIndex;">
+                                                        <div class="newrow"
+                                                            *ngFor="let itemID of ['animaltype'+type.name+'desc']; trackBy:trackByIndex;">
                                                             <span>
-                                                                <input id="{{subheritage.name}}" type="checkbox"
-                                                                    (change)="on_AdditionalHeritageChange(subheritage, $event.target.checked, heritageIndex, heritageGain.source)"
-                                                                    [checked]="subheritage.name === get_Character().class.heritage.name"
-                                                                    [disabled]="get_Character().class.additionalHeritages[heritageIndex].name && (subheritage.name != get_Character().class.additionalHeritages[heritageIndex].name)">
-                                                                <label for="{{subheritage.name}}">
-                                                                    <strong>{{subheritage.subType}}</strong>
+                                                                <input id="{{type.name}}" type="checkbox"
+                                                                    (change)="on_CompanionTypeChange(type, $event.target.checked)"
+                                                                    [checked]="type.name == get_Companion().class.ancestry.name"
+                                                                    [disabled]="get_Companion().class.ancestry.name && (type.name != get_Companion().class.ancestry.name)">
+                                                                <label for="{{type.name}}">
+                                                                    <strong>{{type.name}}</strong>
+                                                                </label>
+                                                            </span>
+                                                            <button (click)="toggle_Item(itemID)"
+                                                                [ngClass]="{'fancy-button':get_ShowItem()==itemID}">
+                                                                {{get_ShowItem()==itemID ? "Hide" : "Show"}} Description
+                                                            </button>
+                                                            <div class="newrow lower" *ngIf="get_ShowItem()==itemID">
+                                                                <div class="newrow left-aligned">
+                                                                    <div class="newrow left-aligned tags">
+                                                                        <cite class="trait"
+                                                                            *ngFor="let trait of type.traits; trackBy:trackByIndex;"
+                                                                            [ngbPopover]="get_Traits(trait)[0]?.desc">{{trait}}</cite>
+                                                                    </div>
+                                                                    <div class="newrow left-aligned"
+                                                                        *ngIf="type.sourceBook">
+                                                                        <strong>Source</strong><i>&nbsp;{{type.sourceBook}}</i>
+                                                                    </div>
+                                                                    <ng-container
+                                                                        *ngFor="let desc of type.desc.split('\n\n'); trackBy:trackByIndex;">
+                                                                        <p *ngIf="desc.split('\n').length == 1">{{desc}}
+                                                                        </p>
+                                                                        <ul *ngIf="desc.split('\n').length > 1">
+                                                                            <li
+                                                                                *ngFor="let line of desc.split('\n'); trackBy:trackByIndex;">
+                                                                                {{line}}</li>
+                                                                        </ul>
+                                                                    </ng-container>
+                                                                    <p>
+                                                                        <strong>Size</strong> {{size(type.size)}}
+                                                                    </p>
+                                                                    <ng-container
+                                                                        *ngFor="let gain of type.gainItems; trackBy:trackByIndex;">
+                                                                        <p
+                                                                            *ngFor="let item of get_ItemFromGain(gain); trackBy:trackByIndex;">
+                                                                            <strong>Melee</strong> {{item.displayName}},
+                                                                            <strong>Damage</strong>
+                                                                            {{item.dicenum+"d"+item.dicesize}}
+                                                                        </p>
+                                                                    </ng-container>
+                                                                    <p>
+                                                                        <span
+                                                                            *ngFor="let ability of get_AnimalCompanionAbilities(type); let index = index; trackBy:trackByIndex;">{{index
+                                                                            ? ", " :
+                                                                            ""}}<strong>{{ability.name}}</strong>
+                                                                            {{ability.modifier}}</span>
+                                                                    </p>
+                                                                    <p>
+                                                                        <strong>Hit Points</strong> {{type.hitpoints}}
+                                                                    </p>
+                                                                    <p>
+                                                                        <strong>Skill</strong>
+                                                                        {{type.skillChoices[0].increases[0].name}}
+                                                                    </p>
+                                                                    <p>
+                                                                        <strong>Senses</strong> {{type.senses.join(",
+                                                                        ")}}
+                                                                    </p>
+                                                                    <p>
+                                                                        <strong>Speed</strong>
+                                                                        <span
+                                                                            *ngFor="let speed of type.speeds; let index = index; trackBy:trackByIndex;">
+                                                                            {{index > 0 ? ", " :
+                                                                            ""}}{{speed.name.split('
+                                                                            ')[0]
+                                                                            + " " +
+                                                                            speed.value + " feet"}}
+                                                                        </span>
+                                                                    </p>
+                                                                    <p>
+                                                                        <strong>Support Benefit</strong>
+                                                                        {{type.supportBenefit}}
+                                                                    </p>
+                                                                    <p *ngIf="type.specialdesc.length">
+                                                                        <strong>Special</strong> {{type.specialdesc}}
+                                                                    </p>
+                                                                </div>
+                                                                <ng-container
+                                                                    *ngFor="let gain of [type.activities[1]]; trackBy:trackByIndex;">
+                                                                    <div class="newrow left-aligned"
+                                                                        *ngFor="let activity of get_Activities(gain.name); trackBy:trackByIndex;">
+                                                                        <header class="spellHeader left-aligned">
+                                                                            Advanced
+                                                                            Maneuver:
+                                                                            {{activity.name}}
+                                                                            <app-actionIcons
+                                                                                [actionString]="activity.actions">
+                                                                            </app-actionIcons>
+                                                                            {{(activity.activationType) ?
+                                                                            activity.activationType : ""}}
+                                                                        </header>
+                                                                        <app-activity class="newrow" [activity]=activity
+                                                                            [allowActivate]=false>
+                                                                        </app-activity>
+                                                                    </div>
+                                                                </ng-container>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </ng-container>
+                                        <!--Animal Specializations-->
+                                        <ng-container *ngIf="get_CompanionSpecializationsAvailable(level.number)">
+                                            <ng-container
+                                                *ngFor="let available of [get_CompanionSpecializationsAvailable(level.number)]; trackBy:trackByIndex;">
+                                                <div class="list-item"
+                                                    [ngClass]="{'fullsize-only':get_TakenCompanionSpecializations(level.number).length == available}"
+                                                    *ngFor="let listID of ['animalspecialization'+level.number]; trackBy:trackByIndex;">
+                                                    <button class="newrow sublist-toggle specialchoice"
+                                                        [ngClass]="{'fancy-button choicecleared':(get_TakenCompanionSpecializations(level.number).length == available)}"
+                                                        (click)="toggle_List(listID)">
+                                                        Animal Companion
+                                                        Specialization{{available > 1 ?
+                                                        ": "+ get_TakenCompanionSpecializations(level.number).length
+                                                        +"/"+
+                                                        available :
+                                                        (get_TakenCompanionSpecializations(level.number).length == 1) ?
+                                                        ":
+                                                        "+
+                                                        get_Companion().class.specializations[0].name : ""}}
+                                                    </button>
+                                                    <div class="list-item sublist specialchoice"
+                                                        [ngClass]="{'fancy-list':get_TakenCompanionSpecializations(level.number).length == available}"
+                                                        *ngIf="get_ShowList()==listID">
+                                                        <div class="list-item"
+                                                            [ngClass]="{'selected':get_TakenCompanionSpecializations(level.number).includes(spec.name)}"
+                                                            *ngFor="let spec of get_AvailableCompanionSpecializations(level.number); trackBy:trackByIndex;">
+                                                            <div class="newrow"
+                                                                *ngFor="let itemID of ['animalspecialization'+spec.name+'desc'+level.number]; trackBy:trackByIndex;">
+                                                                <span>
+                                                                    <input id="{{spec.name}}" type="checkbox"
+                                                                        (change)="on_SpecializationChange(spec, $event.target.checked, level.number)"
+                                                                        [checked]="have_CompanionSpecialization(spec.name)"
+                                                                        [disabled]="(get_TakenCompanionSpecializations(level.number).length == available) && !get_TakenCompanionSpecializations(level.number).includes(spec.name)">
+                                                                    <label for="{{spec.name}}">
+                                                                        <strong>{{spec.name}}</strong>
+                                                                    </label>
+                                                                </span>
+                                                                <button (click)="toggle_Item(itemID)"
+                                                                    [ngClass]="{'fancy-button':get_ShowItem()==itemID}">
+                                                                    {{get_ShowItem()==itemID ? "Hide" : "Show"}}
+                                                                    Description
+                                                                </button>
+                                                                <div class="newrow lower"
+                                                                    *ngIf="get_ShowItem()==itemID">
+                                                                    <div class="newrow left-aligned">
+                                                                        <p>
+                                                                            {{spec.desc}}
+                                                                        </p>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </ng-container>
+                                        </ng-container>
+                                        <!--Familiar-->
+                                        <ng-container *ngIf="get_FamiliarAvailable(level.number)">
+                                            <div class="list-item"
+                                                [ngClass]="{'fullsize-only':(get_Familiar().name && get_Familiar().species)}"
+                                                *ngFor="let listID of ['familiar']; trackBy:trackByIndex;">
+                                                <button class="newrow sublist-toggle specialchoice"
+                                                    [ngClass]="{'fancy-button choicecleared':(get_Familiar().name && get_Familiar().species)}"
+                                                    (click)="toggle_List(listID)">
+                                                    Familiar Basics
+                                                </button>
+                                                <div class="list-item sublist specialchoice"
+                                                    [ngClass]="{'fancy-list':(get_Familiar().name && get_Familiar().species)}"
+                                                    *ngIf="get_ShowList()==listID">
+
+                                                    <button class="list-item" (click)="on_NewFamiliar()">
+                                                        Create New Familiar
+                                                    </button>
+                                                    <div class="list-item">
+                                                        <span>Familiar Name</span>
+                                                        <span>
+                                                            <input type="text" id="familiarname"
+                                                                [(ngModel)]="get_Familiar().name" maxLength="30">
+                                                        </span>
+                                                    </div>
+                                                    <div class="list-item">
+                                                        <span>Familiar Species</span>
+                                                        <span>
+                                                            <input type="text" id="familiarspecies"
+                                                                [(ngModel)]="get_Familiar().species" maxLength="30">
+                                                        </span>
+                                                    </div>
+                                                    <div class="list-item">
+                                                        <span>Swimmer</span>
+                                                        <span>
+                                                            <input type="checkbox" id="familiar-swimmer{{level.number}}"
+                                                                (click)="on_FamiliarSpeedChange($event.target.checked)"
+                                                                [checked]="is_FamiliarSwimmer()"><label
+                                                                for="familiar-swimmer{{level.number}}">Gain Swim Speed
+                                                                instead of Land Speed</label>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </ng-container>
+                                        <!--Different Worlds-->
+                                        <ng-container
+                                            *ngFor="let feat of get_DifferentWorldsFeat(level.number); trackBy:trackByIndex;">
+                                            <!--Different Worlds Name-->
+                                            <div class="list-item" [ngClass]="{'fullsize-only':feat.data.name}"
+                                                *ngFor="let listID of ['differentWorlds_Name']; trackBy:trackByIndex;">
+                                                <button class="newrow sublist-toggle specialchoice"
+                                                    [ngClass]="{'fancy-button choicecleared':feat.data.name}"
+                                                    (click)="toggle_List(listID)">
+                                                    Alternative Name (Different Worlds){{(feat.data.name) ? ": "+
+                                                    feat.data.name
+                                                    : ""}}
+                                                </button>
+                                                <div class="list-item sublist" [ngClass]="{'fancy-list':feat.data.name}"
+                                                    *ngIf="get_ShowList()==listID">
+                                                    <div class="list-item">
+                                                        <strong>Name:
+                                                            <input type="text" [(ngModel)]="feat.data.name"
+                                                                (blur)=on_NameChange() maxLength="30">
+                                                        </strong>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!--Different Worlds Background-->
+                                            <div class="list-item" [ngClass]="{'fullsize-only':feat.data.background}"
+                                                *ngFor="let listID of ['differentWorlds_Background']; trackBy:trackByIndex;">
+                                                <button class="newrow sublist-toggle specialchoice"
+                                                    [ngClass]="{'fancy-button choicecleared':feat.data.background}"
+                                                    (click)="toggle_List(listID)">
+                                                    Alternative Background (Different
+                                                    Worlds){{(feat.data.background) ? ": "+ feat.data.background : ""}}
+                                                </button>
+                                                <div class="list-item sublist specialchoice"
+                                                    [ngClass]="{'fancy-list':feat.data.background}"
+                                                    *ngIf="get_ShowList()==listID">
+                                                    <!-- Filter -->
+                                                    <div class="list-item">
+                                                        <strong>Filter</strong>
+                                                        <div class="newrow">
+                                                            <span>
+                                                                <input id="differentWorldsBackgroundfilterAdventure"
+                                                                    type="checkbox" [(ngModel)]="adventureBackgrounds">
+                                                                <label
+                                                                    for="differentWorldsBackgroundfilterAdventure">Show
+                                                                    adventure
+                                                                    backgrounds</label>
+                                                            </span>
+                                                        </div>
+                                                        <div class="newrow">
+                                                            <span>
+                                                                <input id="differentWorldsBackgroundfilterRegional"
+                                                                    type="checkbox" [(ngModel)]="regionalBackgrounds">
+                                                                <label
+                                                                    for="differentWorldsBackgroundfilterRegional">Show
+                                                                    regional
+                                                                    backgrounds</label>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                    <!-- End Filter -->
+                                                    <div class="list-item"
+                                                        [ngClass]="{'selected':background.name === feat.data.background}"
+                                                        *ngFor="let background of get_Backgrounds(); trackBy:trackByIndex;">
+                                                        <div class="newrow"
+                                                            *ngFor="let itemID of ['differentWorlds_Background'+background.name]; trackBy:trackByIndex;">
+                                                            <span>
+                                                                <input *ngIf="!background.subTypes"
+                                                                    id="{{background.name}}" type="checkbox"
+                                                                    (change)="onDifferentWorldsBackgroundChange(level, feat, background, $event.target.checked)"
+                                                                    [checked]="background.name === feat.data.background || background.name === get_Character().class.background.name"
+                                                                    [disabled]="background.name === get_Character().class.background.name || (feat.data.background && (background.name != feat.data.background))">
+                                                                <button class="lower left" *ngIf="background.subTypes"
+                                                                    id="{{background.name}}"
+                                                                    (click)="toggle_Item(itemID)">v</button>
+                                                                <label for="{{background.name}}">
+                                                                    <strong>{{background.name}}</strong>
+                                                                    <cite class="trait"
+                                                                        *ngIf="background.traits.includes('Rare')"
+                                                                        [ngbPopover]="get_Traits('Rare')[0]?.desc">Rare</cite>
+                                                                    <cite class="trait"
+                                                                        *ngIf="background.traits.includes('Uncommon')"
+                                                                        [ngbPopover]="get_Traits('Uncommon')[0]?.desc">Uncommon</cite>
+                                                                    <cite class="trait" *ngIf="background.adventurePath"
+                                                                        [ngbPopover]="get_Traits('Adventure')[0]?.desc">Adventure</cite>
+                                                                    <cite class="trait" *ngIf="background.region"
+                                                                        [ngbPopover]="get_Traits('Regional')[0]?.desc">Regional</cite>
+                                                                </label>
+                                                            </span>
+                                                            <button (click)="toggle_Item(itemID)"
+                                                                [ngClass]="{'fancy-button':get_ShowItem()==itemID}">
+                                                                {{get_ShowItem()==itemID ? "Hide" : "Show"}} Description
+                                                            </button>
+                                                            <div class="newrow lower" *ngIf="get_ShowItem()==itemID">
+                                                                <!--Subbackgrounds-->
+                                                                <div class="list-item"
+                                                                    [ngClass]="{'selected':subbackground.name === feat.data.background}"
+                                                                    *ngFor="let subbackground of get_SubBackgrounds(background.name); trackBy:trackByIndex;">
+                                                                    <span>
+                                                                        <input id="{{subbackground.name}}"
+                                                                            type="checkbox"
+                                                                            (change)="onDifferentWorldsBackgroundChange(level, feat, subbackground, $event.target.checked)"
+                                                                            [checked]="subbackground.name === feat.data.background || subbackground.name === get_Character().class.background.name"
+                                                                            [disabled]="(subbackground.name === get_Character().class.background.name || subbackground.superType == get_Character().class.background.superType) || (feat.data.background && (subbackground.name != feat.data.background))">
+                                                                        <label for="{{subbackground.name}}">
+                                                                            <strong>{{subbackground.subType}}</strong>
+                                                                        </label>
+                                                                    </span>
+                                                                </div>
+                                                                <!--End Subbackgrounds-->
+                                                                <div class="newrow left-aligned">
+                                                                    <ng-container
+                                                                        *ngFor="let desc of background.desc.split('\n\n'); trackBy:trackByIndex;">
+                                                                        <p *ngIf="desc.split('\n').length == 1">{{desc}}
+                                                                        </p>
+                                                                        <ul *ngIf="desc.split('\n').length > 1">
+                                                                            <li
+                                                                                *ngFor="let line of desc.split('\n'); trackBy:trackByIndex;">
+                                                                                {{line}}</li>
+                                                                        </ul>
+                                                                    </ng-container>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </ng-container>
+                                        <!--Blessed Blood-->
+                                        <ng-container *ngIf="get_BlessedBloodFeat(level.number)">
+                                            <!--Blessed Blood spells-->
+                                            <ng-container
+                                                *ngFor="let blessedBloodSpells of [get_BlessedBloodSpells()]; trackBy:trackByIndex;">
+                                                <div class="list-item"
+                                                    [ngClass]="{'fullsize-only':blessedBloodSpells >= 3}"
+                                                    *ngFor="let listID of ['differentWorlds_Name']; trackBy:trackByIndex;">
+                                                    <button class="newrow sublist-toggle specialchoice"
+                                                        [ngClass]="{'fancy-button choicecleared':blessedBloodSpells >= 3}"
+                                                        (click)="toggle_List(listID)">
+                                                        Deity Spells (Blessed Blood): {{blessedBloodSpells}}/3
+                                                    </button>
+                                                    <div class="list-item sublist specialchoice"
+                                                        [ngClass]="{'fancy-list':blessedBloodSpells >= 3}"
+                                                        *ngIf="get_ShowList()==listID">
+                                                        <div class="list-item"
+                                                            [ngClass]="{'selected':get_BlessedBloodHaveSpell(spell)}"
+                                                            *ngFor="let spell of get_BlessedBloodDeitySpells(); trackBy:trackByIndex;">
+                                                            <ng-container
+                                                                *ngFor="let itemID of ['blessedBlood'+spell.name]; trackBy:trackByIndex;">
+                                                                <span>
+                                                                    <input id="blessedBlood{{spell.name}}"
+                                                                        type="checkbox"
+                                                                        (change)="on_BlessedBloodSpellTaken(spell, level, $event.target.checked)"
+                                                                        [checked]="get_BlessedBloodHaveSpell(spell)"
+                                                                        [disabled]="blessedBloodSpells >= 3 && !get_BlessedBloodHaveSpell(spell)">
+                                                                    <label for="blessedBlood{{spell.name}}">
+                                                                        <strong>{{spell.name}}</strong>
+                                                                    </label>
+                                                                </span>
+                                                                <button (click)="toggle_Item(itemID)"
+                                                                    [ngClass]="{'fancy-button':get_ShowItem()=='blessedBlood'+spell.name}">
+                                                                    {{get_ShowItem()=='blessedBlood'+spell.name ? "Hide"
+                                                                    :
+                                                                    "Show"}}
+                                                                    Description
+                                                                </button>
+                                                                <div class="newrow lower"
+                                                                    *ngIf="get_ShowItem()==itemID">
+                                                                    <header class="spellHeader newrow">
+                                                                        <span>{{spell.name}}
+                                                                            <app-actionIcons
+                                                                                [actionString]="spell.actions">
+                                                                            </app-actionIcons>
+                                                                            {{(spell.castType) ? spell.castType : ""}}
+                                                                        </span>
+                                                                        <span>Spell {{spell.levelreq}}</span>
+                                                                    </header>
+                                                                    <app-spell class="newrow" [spell]=spell
+                                                                        [spellLevel]="spell.levelreq">
+                                                                    </app-spell>
+                                                                </div>
+                                                            </ng-container>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </ng-container>
+                                        </ng-container>
+                                        <!--Additional Heritages-->
+                                        <ng-container
+                                            *ngFor="let heritageGain of get_AdditionalHeritagesAvailable(level.number)">
+                                            <ng-container
+                                                *ngFor="let heritageIndex of get_AdditionalHeritageIndex(heritageGain.source)">
+                                                <div class="list-item"
+                                                    [ngClass]="{'fullsize-only':get_Character().class.additionalHeritages[heritageIndex].name}"
+                                                    *ngFor="let listID of [level.number+'AdditionalHeritage'+heritageGain.source]; trackBy:trackByIndex;">
+                                                    <button class="newrow sublist-toggle specialchoice"
+                                                        [ngClass]="{'fancy-button choicecleared':get_Character().class.additionalHeritages[heritageIndex].name}"
+                                                        (click)="toggle_List(listID)">
+                                                        Heritage
+                                                        ({{heritageGain.source}}){{(get_Character().class.additionalHeritages[heritageIndex].name)
+                                                        ? ": "+
+                                                        get_Character().class.additionalHeritages[heritageIndex].name :
+                                                        ""}}
+                                                    </button>
+                                                    <div class="list-item sublist specialchoice"
+                                                        [ngClass]="{'fancy-list':((get_Character().class.additionalHeritages[heritageIndex].name))}"
+                                                        *ngIf="get_ShowList()==listID">
+                                                        <div class="list-item"
+                                                            [ngClass]="{'selected':heritage.name === get_Character().class.additionalHeritages[heritageIndex].name}"
+                                                            *ngFor="let heritage of get_AvailableHeritages('', heritageGain.ancestry, heritageIndex); trackBy:trackByIndex;">
+                                                            <span>
+                                                                <input *ngIf="!heritage.subTypes.length"
+                                                                    id="{{heritage.name}}" type="checkbox"
+                                                                    (change)="on_AdditionalHeritageChange(heritage, $event.target.checked, heritageIndex, heritageGain.source)"
+                                                                    [checked]="heritage.name === get_Character().class.additionalHeritages[heritageIndex].name"
+                                                                    [disabled]="get_Character().class.additionalHeritages[heritageIndex].name && (heritage.name != get_Character().class.additionalHeritages[heritageIndex].name)">
+                                                                <button class="lower left"
+                                                                    *ngIf="heritage.subTypes.length"
+                                                                    id="{{heritage.name}}"
+                                                                    (click)="toggle_Item(heritage.name+'desc')">v</button>
+                                                                <label for="{{heritage.name}}">
+                                                                    <strong>{{heritage.name}}&nbsp;</strong>
+                                                                    <cite class="trait"
+                                                                        *ngIf="heritage.traits.includes('Rare')"
+                                                                        [ngbPopover]="get_Traits('Rare')[0]?.desc">Rare</cite>
+                                                                    <cite class="trait"
+                                                                        *ngIf="heritage.traits.includes('Uncommon')"
+                                                                        [ngbPopover]="get_Traits('Uncommon')[0]?.desc">Uncommon</cite>
+                                                                </label>
+                                                            </span>
+                                                            <button (click)="toggle_Item(heritage.name+'desc')"
+                                                                [ngClass]="{'fancy-button':get_ShowItem()==heritage.name+'desc'}">
+                                                                {{get_ShowItem()==heritage.name+'desc' ? "Hide" :
+                                                                "Show"}}
+                                                                Description
+                                                            </button>
+                                                            <div class="newrow lower"
+                                                                *ngIf="get_ShowItem()==heritage.name+'desc'">
+                                                                <!--Subheritages-->
+                                                                <div class="list-item"
+                                                                    [ngClass]="{'selected':subheritage.name === get_Character().class.additionalHeritages[heritageIndex].name}"
+                                                                    *ngFor="let subheritage of heritage.subTypes; trackBy:trackByIndex;">
+                                                                    <span>
+                                                                        <input id="{{subheritage.name}}" type="checkbox"
+                                                                            (change)="on_AdditionalHeritageChange(subheritage, $event.target.checked, heritageIndex, heritageGain.source)"
+                                                                            [checked]="subheritage.name === get_Character().class.heritage.name"
+                                                                            [disabled]="get_Character().class.additionalHeritages[heritageIndex].name && (subheritage.name != get_Character().class.additionalHeritages[heritageIndex].name)">
+                                                                        <label for="{{subheritage.name}}">
+                                                                            <strong>{{subheritage.subType}}</strong>
+                                                                        </label>
+                                                                    </span>
+                                                                </div>
+                                                                <!--End Subheritages-->
+                                                                <div class="newrow left-aligned"
+                                                                    *ngIf="heritage.sourceBook">
+                                                                    <strong>Source</strong><i>&nbsp;{{heritage.sourceBook}}</i>
+                                                                </div>
+                                                                <div class="newrow left-aligned">
+                                                                    <ng-container
+                                                                        *ngFor="let desc of heritage.desc.split('\n\n'); trackBy:trackByIndex;">
+                                                                        <p *ngIf="desc.split('\n').length == 1">{{desc}}
+                                                                        </p>
+                                                                        <ul *ngIf="desc.split('\n').length > 1">
+                                                                            <li
+                                                                                *ngFor="let line of desc.split('\n'); trackBy:trackByIndex;">
+                                                                                {{line}}</li>
+                                                                        </ul>
+                                                                    </ng-container>
+                                                                </div>
+                                                                <ng-container
+                                                                    *ngFor="let activityName of heritage.gainActivities; trackBy:trackByIndex;">
+                                                                    <div class="newrow left-aligned"
+                                                                        *ngFor="let activity of get_Activities(activityName); trackBy:trackByIndex;">
+                                                                        <header class="spellHeader left-aligned">
+                                                                            {{activity.name}}
+                                                                            <app-actionIcons
+                                                                                [actionString]="activity.actions">
+                                                                            </app-actionIcons>
+                                                                            {{(activity.activationType) ?
+                                                                            activity.activationType : ""}}
+                                                                        </header>
+                                                                        <app-activity class="newrow" [activity]=activity
+                                                                            [allowActivate]=false>
+                                                                        </app-activity>
+                                                                    </div>
+                                                                </ng-container>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </ng-container>
+                                        </ng-container>
+                                        <!--Fuse Stance-->
+                                        <ng-container
+                                            *ngFor="let feat of get_FuseStanceFeat(level.number); trackBy:trackByIndex;">
+                                            <!--Fuse Stance Name-->
+                                            <div class="list-item" [ngClass]="{'fullsize-only':(feat.data.name != '')}"
+                                                *ngFor="let listID of ['fuseStance_Name']; trackBy:trackByIndex;">
+                                                <button class="newrow sublist-toggle specialchoice"
+                                                    [ngClass]="{'fancy-button choicecleared':(feat.data.name != '')}"
+                                                    (click)="toggle_List(listID)">
+                                                    Fused Stance Name (Fuse Stance){{(feat.data.name) ? ": "+
+                                                    feat.data.name
+                                                    :
+                                                    ""}}
+                                                </button>
+                                                <div class="list-item sublist specialchoice"
+                                                    [ngClass]="{'fancy-list':(feat.data.name != '')}"
+                                                    *ngIf="get_ShowList()==listID">
+                                                    <div class="list-item">
+                                                        <strong>Name:
+                                                            <input type="text" [(ngModel)]="feat.data.name"
+                                                                (blur)="on_FuseStanceNameChange()" maxLength="30">
+                                                        </strong>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!--Fuse Stance Stance 1-->
+                                            <div class="list-item" [ngClass]="{'fullsize-only':feat.data.stance1}"
+                                                *ngFor="let listID of ['fuseStance_Stance1']; trackBy:trackByIndex;">
+                                                <button class="newrow sublist-toggle specialchoice"
+                                                    [ngClass]="{'fancy-button choicecleared':feat.data.stance1}"
+                                                    (click)="toggle_List(listID)">
+                                                    Fused Stance 1 (Fuse Stance){{(feat.data.stance1) ? ": "+
+                                                    feat.data.stance1
+                                                    : ""}}
+                                                </button>
+                                                <div class="list-item sublist specialchoice"
+                                                    [ngClass]="{'fancy-list':feat.data.stance1}"
+                                                    *ngIf="get_ShowList()==listID">
+                                                    <div class="list-item"
+                                                        [ngClass]="{'unavailable':stance.reason, 'selected':stance.name == feat.data.stance1}"
+                                                        *ngFor="let stance of get_StancesToFuse(level.number); trackBy:trackByIndex;">
+                                                        <div class="newrow"
+                                                            *ngFor="let itemID of ['fuseStance_stance1'+stance.name]; trackBy:trackByIndex;">
+                                                            <span>
+                                                                <input id="{{stance.name}}" type="checkbox"
+                                                                    (change)="on_FuseStanceStanceChange(feat, 'stance1', stance.name, $event.target.checked)"
+                                                                    [checked]="stance.name == feat.data.stance1 || stance.name == feat.data.stance2"
+                                                                    [disabled]="stance.name == feat.data.stance2 || (feat.data.stance1 && (stance.name != feat.data.stance1))"
+                                                                    *ngIf="!stance.reason">
+                                                                <label for="{{stance.name}}">
+                                                                    <strong>{{stance.name}}&nbsp;</strong>
+                                                                    <span>
+                                                                        <cite class="problem" *ngIf="stance.reason">
+                                                                            {{stance.reason}}
+                                                                        </cite>
+                                                                    </span>
                                                                 </label>
                                                             </span>
                                                         </div>
-                                                        <!--End Subheritages-->
-                                                        <div class="newrow left-aligned" *ngIf="heritage.sourceBook">
-                                                            <strong>Source</strong><i>&nbsp;{{heritage.sourceBook}}</i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!--Fuse Stance Stance 2-->
+                                            <div class="list-item" [ngClass]="{'fullsize-only':feat.data.stance2}"
+                                                *ngFor="let listID of ['fuseStance_Stance2']; trackBy:trackByIndex;">
+                                                <button class="newrow sublist-toggle"
+                                                    [ngClass]="{'fancy-button choicecleared':feat.data.stance2}"
+                                                    (click)="toggle_List(listID)">
+                                                    Fused Stance 2 (Fuse Stance){{(feat.data.stance2) ? ": "+
+                                                    feat.data.stance2
+                                                    : ""}}
+                                                </button>
+                                                <div class="list-item sublist specialchoice"
+                                                    [ngClass]="{'fancy-list':feat.data.stance2}"
+                                                    *ngIf="get_ShowList()==listID">
+                                                    <div class="list-item"
+                                                        [ngClass]="{'unavailable':stance.reason, 'selected':stance.name == feat.data.stance2}"
+                                                        *ngFor="let stance of get_StancesToFuse(level.number); trackBy:trackByIndex;">
+                                                        <div class="newrow"
+                                                            *ngFor="let itemID of ['fuseStance_stance2'+stance.name]; trackBy:trackByIndex;">
+                                                            <span>
+                                                                <input id="{{stance.name}}" type="checkbox"
+                                                                    (change)="on_FuseStanceStanceChange(feat, 'stance2', stance.name, $event.target.checked)"
+                                                                    [checked]="stance.name == feat.data.stance1 || stance.name == feat.data.stance2"
+                                                                    [disabled]="stance.name == feat.data.stance1 || (feat.data.stance2 && (stance.name != feat.data.stance2))"
+                                                                    *ngIf="!stance.reason">
+                                                                <label for="{{stance.name}}">
+                                                                    <strong>{{stance.name}}&nbsp;</strong>
+                                                                    <span>
+                                                                        <cite class="problem" *ngIf="stance.reason">
+                                                                            {{stance.reason}}
+                                                                        </cite>
+                                                                    </span>
+                                                                </label>
+                                                            </span>
                                                         </div>
-                                                        <div class="newrow left-aligned">
-                                                            <ng-container
-                                                                *ngFor="let desc of heritage.desc.split('\n\n'); trackBy:trackByIndex;">
-                                                                <p *ngIf="desc.split('\n').length == 1">{{desc}}</p>
-                                                                <ul *ngIf="desc.split('\n').length > 1">
-                                                                    <li
-                                                                        *ngFor="let line of desc.split('\n'); trackBy:trackByIndex;">
-                                                                        {{line}}</li>
-                                                                </ul>
-                                                            </ng-container>
-                                                        </div>
-                                                        <ng-container
-                                                            *ngFor="let activityName of heritage.gainActivities; trackBy:trackByIndex;">
-                                                            <div class="newrow left-aligned"
-                                                                *ngFor="let activity of get_Activities(activityName); trackBy:trackByIndex;">
-                                                                <header class="spellHeader left-aligned">
-                                                                    {{activity.name}}
-                                                                    <app-actionIcons [actionString]="activity.actions">
-                                                                    </app-actionIcons>
-                                                                    {{(activity.activationType) ?
-                                                                    activity.activationType : ""}}
-                                                                </header>
-                                                                <app-activity class="newrow" [activity]=activity
-                                                                    [allowActivate]=false>
-                                                                </app-activity>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </ng-container>
+                                        <!--Lore Training-->
+                                        <ng-container *ngFor="let choice of level.loreChoices; trackBy:trackByIndex;">
+                                            <ng-container *ngFor="let listID of [choice.id]; trackBy:trackByIndex;">
+                                                <div class="list-item" *ngIf="choice.available"
+                                                    [ngClass]="{'problem':(choice.increases.length > choice.available), 'fullsize-only':(choice.available == choice.increases.length)}">
+                                                    <button class="newrow sublist-toggle specialchoice"
+                                                        [ngClass]="{'fancy-button choicecleared':(choice.available == choice.increases.length)}"
+                                                        (click)="toggle_List(listID)">
+                                                        Lore Training
+                                                        ({{choice.source}}){{(choice.increases.length) ? ": "+
+                                                        choice.increases[0].name
+                                                        :
+                                                        ""}}
+                                                    </button>
+                                                    <div class="list-item sublist specialchoice"
+                                                        [ngClass]="{'fancy-list':(choice.available == choice.increases.length)}"
+                                                        *ngIf="get_ShowList()==listID">
+                                                        <div class="list-item"
+                                                            *ngFor="let itemID of [choice.id+'LoreIncreaseBox']; trackBy:trackByIndex;">
+                                                            <span>
+                                                                <input id="{{itemID}}" type="checkbox"
+                                                                    (change)="on_LoreChange($event.target.checked, choice)"
+                                                                    [checked]="get_SkillIncreases(level.number, level.number, 'Lore: '+choice.loreName, choice.source, choice.id).length"
+                                                                    [disabled]="choice.loreName == '' || get_Skills('Lore: '+choice.loreName).length && !get_SkillIncreases(level.number, level.number, 'Lore: '+choice.loreName, choice.source, choice.id).length">
+                                                                <label style="display:initial" for="{{itemID}}">
+                                                                    <strong>Lore:
+                                                                        <input type="text" [(ngModel)]="choice.loreName"
+                                                                            [disabled]="get_SkillIncreases(level.number, level.number, 'Lore: '+choice.loreName, choice.source, choice.id).length"
+                                                                            (blur)="on_LoreNameChange" maxLength="20">
+                                                                    </strong>
+                                                                </label>
+                                                                <cite class="problem"
+                                                                    *ngIf="get_Skills('Lore: '+choice.loreName).length && !get_SkillIncreases(level.number, level.number, 'Lore: '+choice.loreName, choice.source, choice.id).length">
+                                                                    You are already trained in this Lore!
+                                                                </cite>
+                                                            </span>
+                                                            <div class="newrow">
+                                                                {{choice.loreDesc}}
                                                             </div>
-                                                        </ng-container>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                        </div>
-                                    </ng-container>
-                                </ng-container>
-                                <!--Fuse Stance-->
-                                <ng-container
-                                    *ngFor="let feat of get_FuseStanceFeat(level.number); trackBy:trackByIndex;">
-                                    <!--Fuse Stance Name-->
-                                    <div class="list-item" [ngClass]="{'fullsize-only':(feat.data.name != '')}"
-                                        *ngFor="let listID of ['fuseStance_Name']; trackBy:trackByIndex;">
-                                        <button class="newrow sublist-toggle"
-                                            [ngClass]="{'fancy-button choicecleared':(feat.data.name != '')}"
-                                            (click)="toggle_List(listID)">
-                                            Fused Stance Name (Fuse Stance){{(feat.data.name) ? ": "+ feat.data.name :
-                                            ""}}
-                                        </button>
-                                        <div class="list-item sublist" [ngClass]="{'fancy-list':(feat.data.name != '')}"
-                                            *ngIf="get_ShowList()==listID">
-                                            <div class="list-item">
-                                                <strong>Name:
-                                                    <input type="text" [(ngModel)]="feat.data.name"
-                                                        (blur)="on_FuseStanceNameChange()" maxLength="30">
-                                                </strong>
-                                            </div>
-                                        </div>
+                                            </ng-container>
+                                        </ng-container>
                                     </div>
-                                    <!--Fuse Stance Stance 1-->
-                                    <div class="list-item" [ngClass]="{'fullsize-only':feat.data.stance1}"
-                                        *ngFor="let listID of ['fuseStance_Stance1']; trackBy:trackByIndex;">
-                                        <button class="newrow sublist-toggle"
-                                            [ngClass]="{'fancy-button choicecleared':feat.data.stance1}"
-                                            (click)="toggle_List(listID)">
-                                            Fused Stance 1 (Fuse Stance){{(feat.data.stance1) ? ": "+ feat.data.stance1
-                                            : ""}}
-                                        </button>
-                                        <div class="list-item sublist" [ngClass]="{'fancy-list':feat.data.stance1}"
-                                            *ngIf="get_ShowList()==listID">
-                                            <div class="list-item"
-                                                [ngClass]="{'unavailable':stance.reason, 'selected':stance.name == feat.data.stance1}"
-                                                *ngFor="let stance of get_StancesToFuse(level.number); trackBy:trackByIndex;">
-                                                <div class="newrow"
-                                                    *ngFor="let itemID of ['fuseStance_stance1'+stance.name]; trackBy:trackByIndex;">
-                                                    <span>
-                                                        <input id="{{stance.name}}" type="checkbox"
-                                                            (change)="on_FuseStanceStanceChange(feat, 'stance1', stance.name, $event.target.checked)"
-                                                            [checked]="stance.name == feat.data.stance1 || stance.name == feat.data.stance2"
-                                                            [disabled]="stance.name == feat.data.stance2 || (feat.data.stance1 && (stance.name != feat.data.stance1))"
-                                                            *ngIf="!stance.reason">
-                                                        <label for="{{stance.name}}">
-                                                            <strong>{{stance.name}}&nbsp;</strong>
-                                                            <span>
-                                                                <cite class="problem" *ngIf="stance.reason">
-                                                                    {{stance.reason}}
-                                                                </cite>
-                                                            </span>
-                                                        </label>
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!--Fuse Stance Stance 2-->
-                                    <div class="list-item" [ngClass]="{'fullsize-only':feat.data.stance2}"
-                                        *ngFor="let listID of ['fuseStance_Stance2']; trackBy:trackByIndex;">
-                                        <button class="newrow sublist-toggle"
-                                            [ngClass]="{'fancy-button choicecleared':feat.data.stance2}"
-                                            (click)="toggle_List(listID)">
-                                            Fused Stance 2 (Fuse Stance){{(feat.data.stance2) ? ": "+ feat.data.stance2
-                                            : ""}}
-                                        </button>
-                                        <div class="list-item sublist" [ngClass]="{'fancy-list':feat.data.stance2}"
-                                            *ngIf="get_ShowList()==listID">
-                                            <div class="list-item"
-                                                [ngClass]="{'unavailable':stance.reason, 'selected':stance.name == feat.data.stance2}"
-                                                *ngFor="let stance of get_StancesToFuse(level.number); trackBy:trackByIndex;">
-                                                <div class="newrow"
-                                                    *ngFor="let itemID of ['fuseStance_stance2'+stance.name]; trackBy:trackByIndex;">
-                                                    <span>
-                                                        <input id="{{stance.name}}" type="checkbox"
-                                                            (change)="on_FuseStanceStanceChange(feat, 'stance2', stance.name, $event.target.checked)"
-                                                            [checked]="stance.name == feat.data.stance1 || stance.name == feat.data.stance2"
-                                                            [disabled]="stance.name == feat.data.stance1 || (feat.data.stance2 && (stance.name != feat.data.stance2))"
-                                                            *ngIf="!stance.reason">
-                                                        <label for="{{stance.name}}">
-                                                            <strong>{{stance.name}}&nbsp;</strong>
-                                                            <span>
-                                                                <cite class="problem" *ngIf="stance.reason">
-                                                                    {{stance.reason}}
-                                                                </cite>
-                                                            </span>
-                                                        </label>
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </ng-container>
-                                <!--Lore Training-->
-                                <ng-container *ngFor="let choice of level.loreChoices; trackBy:trackByIndex;">
-                                    <ng-container *ngFor="let listID of [choice.id]; trackBy:trackByIndex;">
-                                        <div class="list-item" *ngIf="choice.available"
-                                            [ngClass]="{'problem':(choice.increases.length > choice.available), 'fullsize-only':(choice.available == choice.increases.length)}">
-                                            <button class="newrow sublist-toggle"
-                                                [ngClass]="{'fancy-button choicecleared':(choice.available == choice.increases.length)}"
-                                                (click)="toggle_List(listID)">
-                                                Lore Training
-                                                ({{choice.source}}){{(choice.increases.length) ? ": "+
-                                                choice.increases[0].name
-                                                :
-                                                ""}}
-                                            </button>
-                                            <div class="list-item sublist"
-                                                [ngClass]="{'fancy-list':(choice.available == choice.increases.length)}"
-                                                *ngIf="get_ShowList()==listID">
-                                                <div class="list-item"
-                                                    *ngFor="let itemID of [choice.id+'LoreIncreaseBox']; trackBy:trackByIndex;">
-                                                    <span>
-                                                        <input id="{{itemID}}" type="checkbox"
-                                                            (change)="on_LoreChange($event.target.checked, choice)"
-                                                            [checked]="get_SkillIncreases(level.number, level.number, 'Lore: '+choice.loreName, choice.source, choice.id).length"
-                                                            [disabled]="choice.loreName == '' || get_Skills('Lore: '+choice.loreName).length && !get_SkillIncreases(level.number, level.number, 'Lore: '+choice.loreName, choice.source, choice.id).length">
-                                                        <label style="display:initial" for="{{itemID}}">
-                                                            <strong>Lore:
-                                                                <input type="text" [(ngModel)]="choice.loreName"
-                                                                    [disabled]="get_SkillIncreases(level.number, level.number, 'Lore: '+choice.loreName, choice.source, choice.id).length"
-                                                                    (blur)="on_LoreNameChange" maxLength="20">
-                                                            </strong>
-                                                        </label>
-                                                        <cite class="problem"
-                                                            *ngIf="get_Skills('Lore: '+choice.loreName).length && !get_SkillIncreases(level.number, level.number, 'Lore: '+choice.loreName, choice.source, choice.id).length">
-                                                            You are already trained in this Lore!
-                                                        </cite>
-                                                    </span>
-                                                    <div class="newrow">
-                                                        {{choice.loreDesc}}
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </ng-container>
-                                </ng-container>
+                                </div>
                             </div>
                         </ng-container>
                     </ng-container>

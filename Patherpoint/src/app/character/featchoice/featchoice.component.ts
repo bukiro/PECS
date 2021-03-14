@@ -147,6 +147,10 @@ export class FeatchoiceComponent implements OnInit {
         return subfeatSet.subfeat.subType;
     }
 
+    get_TileMode() {
+        return this.get_Character().settings.characterTileMode;
+    }
+
     get_Character() {
         return this.characterService.get_Character();
     }
@@ -157,6 +161,27 @@ export class FeatchoiceComponent implements OnInit {
 
     get_Traits(traitName: string = "") {
         return this.traitsService.get_Traits(traitName);
+    }
+
+    get_ButtonTitle(availableFeats: number) {
+        let title: string = (this.featLevel != this.levelNumber) ? "Level "+this.featLevel+" " : "";
+        title += this.choice.type.split(",").join(", ");
+        if (!this.choice.specialChoice) {
+            if (this.creature == "Familiar") {
+                title += availableFeats > 1 ? ' Abilities' : ' Ability';
+            } else {
+                title += availableFeats > 1 ? ' Feats' : ' Feat';
+            }
+        }
+        if (this.creature != "Familiar") {
+            title += ' ('+this.choice.source+')';
+        }
+        if (availableFeats > 1) {
+            title += ": "+ this.choice.feats.length +"/"+ availableFeats;
+        } else if (this.choice.feats.length) {
+            title += ": "+ this.choice.feats[0].name;
+        }
+        return title;
     }
 
     get_Available(choice: FeatChoice) {
@@ -496,7 +521,7 @@ export class FeatchoiceComponent implements OnInit {
     }
 
     featTakenByThis(feat: Feat, choice: FeatChoice) {
-        return choice.feats.some(gain => gain.name == feat.name);
+        return choice.feats.some(gain => gain.name == feat.name || gain.countAsFeat == feat.name);
     }
 
     subFeatTakenByThis(subfeats: Feat[] = this.get_Feats(), feat: Feat, choice: FeatChoice) {

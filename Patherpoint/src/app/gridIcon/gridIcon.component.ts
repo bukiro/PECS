@@ -114,8 +114,10 @@ export class GridIconComponent implements OnInit {
                 iconTitle = this.title.replace(/[^A-Z]/gi, '').substr(0, 3);
             } else if (this.title.match(".*[A-Z].*")) {
                 iconTitle = this.title.replace(/[^A-Z ]/g, '').split(" ").map(part => part.substr(0, 1)).join("").substr(0, 4);
-            } else {
+            } else if (this.title.match(".*[A-Za-z].*")) {
                 iconTitle = this.title.replace(/[^a-z ]/gi, '').split(" ").map(part => part.substr(0, 1)).join("").toUpperCase().substr(0, 4);
+            } else {
+                iconTitle = this.title;
             }
         }
         if (iconTitle.length == 4) {
@@ -144,8 +146,8 @@ export class GridIconComponent implements OnInit {
     }
 
     get_IconSuperTitle() {
+        let superTitle: string = this.superTitle;
         //For effect values, show the value as SuperTitle if up to 2 characters long. Longer values will be shown as Value instead.
-        let superTitle: string = "";
         if (this.effect) {
             if (this.effect.setValue) {
                 superTitle = this.effect.setValue;

@@ -54,7 +54,7 @@ export class CharacterComponent implements OnInit {
     public adventureBackgrounds: Boolean = true;
     public regionalBackgrounds: Boolean = true;
     public blankCharacter: Character = new Character();
-
+    
     constructor(
         private changeDetector: ChangeDetectorRef,
         public characterService: CharacterService,
@@ -171,6 +171,17 @@ export class CharacterComponent implements OnInit {
 
     set_Darkmode() {
         this.characterService.set_Darkmode();
+    }
+
+    toggle_TileMode() {
+        this.get_Character().settings.characterTileMode = !this.get_Character().settings.characterTileMode;
+        this.characterService.set_ToChange("Character", "featchoices");
+        this.characterService.set_ToChange("Character", "skillchoices");
+        this.characterService.process_ToChange();
+    }
+
+    get_TileMode() {
+        return this.get_Character().settings.characterTileMode;
     }
 
     //If you don't use trackByIndex on certain inputs, you lose focus everytime the value changes. I don't get that, but I'm using it now.
@@ -617,15 +628,30 @@ export class CharacterComponent implements OnInit {
         return level.skillChoices.filter(choice => !choice.showOnSheet);
     }
 
-    get_FeatChoices(level: Level) {
-        return level.featChoices.filter(choice => !choice.showOnSheet && !choice.showOnCurrentLevel).concat(this.get_FeatChoicesShownOnCurrentLevel(level));
+    get_FeatChoices(level: Level, specialChoices: boolean = undefined) {
+        let ancestry = this.get_Character().class.ancestry?.name || "";
+        return level.featChoices.filter(choice =>
+            choice.available &&
+            (ancestry || choice.type != "Ancestry") &&
+            !choice.showOnSheet &&
+            !choice.showOnCurrentLevel &&
+            (specialChoices == undefined || choice.specialChoice == specialChoices)
+        ).concat(this.get_FeatChoicesShownOnCurrentLevel(level, specialChoices));
     }
 
-    get_FeatChoicesShownOnCurrentLevel(level: Level) {
+    get_FeatChoicesShownOnCurrentLevel(level: Level, specialChoices: boolean = undefined) {
+        let ancestry = this.get_Character().class.ancestry?.name || "";
         if (this.get_Character().level == level.number) {
             let choices: FeatChoice[] = []
             this.get_Character().class.levels.forEach(level => {
-                choices.push(...level.featChoices.filter(choice => !choice.showOnSheet && choice.showOnCurrentLevel));
+                choices.push(...level.featChoices
+                    .filter(choice =>
+                        (ancestry || choice.type != "Ancestry") &&
+                        !choice.showOnSheet &&
+                        choice.showOnCurrentLevel &&
+                        (specialChoices == undefined || choice.specialChoice == specialChoices)
+                    )
+                );
             })
             return choices;
         } else {
@@ -705,7 +731,7 @@ export class CharacterComponent implements OnInit {
     }
 
     get_AdditionalHeritagesAvailable(levelNumber: number) {
-        return [].concat(...this.characterService.get_FeatsAndFeatures()
+        return [].concat(...this.get_FeatsAndFeatures()
             .filter(
                 feat => feat.gainHeritage.length &&
                     this.get_Character().get_FeatsTaken(levelNumber, levelNumber, feat.name).length
@@ -988,7 +1014,7 @@ export class CharacterComponent implements OnInit {
 
     get_CompanionAvailable(levelNumber: number) {
         //Return the number of feats taken this level that granted you an animal companion
-        return this.characterService.get_FeatsAndFeatures().filter(feat => (feat.gainAnimalCompanion == 1) && this.get_Character().get_FeatsTaken(levelNumber, levelNumber, feat.name).length).length;
+        return this.get_FeatsAndFeatures().filter(feat => (feat.gainAnimalCompanion == 1) && this.get_Character().get_FeatsTaken(levelNumber, levelNumber, feat.name).length).length;
     }
 
     get_Companion() {

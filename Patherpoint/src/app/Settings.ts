@@ -25,4 +25,5 @@ export class Settings {
     unavailableFeats: boolean = true;
     archetypeFeats: boolean = true;
     hintsShowMoreInformation: boolean = true;
+    characterTileMode: boolean = true;
 }

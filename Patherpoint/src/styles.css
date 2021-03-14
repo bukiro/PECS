@@ -99,6 +99,11 @@ input[disabled] {
     background-color: transparent;
 }
 
+input[type="checkbox"] {
+    width: 1.2em;
+    height: 1.2em;
+}
+
 .darkmode input:not([disabled]),
 .darkmode textarea {
     background-color: #202020;
@@ -176,15 +181,37 @@ button {
     color: #CCC;
 }
 
-button.minimizebutton {
+button.minimizebutton,
+button.tilemodebutton {
     position: absolute;
     padding: 0;
     top: 0;
     right: 0;
-    width: 2rem;
-    height: 2rem;
+    width: 2em;
+    height: 2em;
     z-index: 5;
     justify-content: center;
+}
+
+button.tilemodebutton>div {
+    width: 100%;
+    height: 100%;
+    padding: .3em;
+    display: grid;
+    grid-template-columns: 100%;
+    grid-template-rows: 1fr 1fr 1fr 1fr;
+    gap: 2px
+}
+
+button.tilemodebutton.fancy-button>div {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+}
+
+button.tilemodebutton>div>div {
+    display: block;
+    background-color: currentColor;
+    border-radius: 2px;
 }
 
 .button.newrow:not(:last-child),
@@ -261,6 +288,36 @@ button.choicecleared::after,
 .inactive-button,
 .darkmode .inactive-button {
     background-color: grey;
+}
+
+    /* Colorful buttons for character development choices */
+
+button.abilityboost:not(.fancy-button),
+.darkmode button.abilityboost:not(.fancy-button),
+.button.abilityboost:not(.fancy-button),
+.darkmode .button.abilityboost:not(.fancy-button) {
+    background-color: rgb(150, 0, 200);
+}
+
+button.skillincrease:not(.fancy-button),
+.darkmode button.skillincrease:not(.fancy-button),
+.button.skillincrease:not(.fancy-button),
+.darkmode .button.skillincrease:not(.fancy-button) {
+    background-color: rgb(0, 100, 100);
+}
+
+button.featchoice:not(.fancy-button),
+.darkmode button.featchoice:not(.fancy-button),
+.button.featchoice:not(.fancy-button),
+.darkmode .button.featchoice:not(.fancy-button) {
+    background-color: rgb(200, 100, 0);
+}
+
+button.specialchoice:not(.fancy-button),
+.darkmode button.specialchoice:not(.fancy-button),
+.button.specialchoice:not(.fancy-button),
+.darkmode .button.specialchoice:not(.fancy-button) {
+    background-color: rgb(125, 100, 50);
 }
 
     /* Slider button */
@@ -756,7 +813,7 @@ CHARACTERSHEET APP INNER STYLES
     background-color: #202020;
 }
 
-.itemBox .fancybutton.list-item {
+.itemBox .fancy-button.list-item {
     background-color: #465A8C;
     background-color: rgb(var(--accent));
 }
@@ -1058,6 +1115,66 @@ button:hover~.list-item.sublist.problem {
     border-color: rgba(80, 0, 0, 0.8);
 }
 
+.list-item.abilityboost:not(.fancy-button),
+.darkmode .list-item.abilityboost:not(.fancy-button) {
+    border-color: rgb(150, 0, 200);
+    border-width: 4px;
+    border-style: solid;
+    border-radius: 2px;
+}
+
+button:hover~.list-item.sublist.abilityboost:not(.fancy-button),
+.darkmode button:hover~.list-item.sublist.abilityboost:not(.fancy-button) {
+    border-color: #9600C8;
+    border-color: #9600C850;
+    border-color: rgba(150, 0, 200, .8);
+}
+
+.list-item.skillincrease:not(.fancy-button),
+.darkmode .list-item.skillincrease:not(.fancy-button) {
+    border-color: rgb(0, 100, 100);
+    border-width: 4px;
+    border-style: solid;
+    border-radius: 2px;
+}
+
+button:hover~.list-item.sublist.skillincrease:not(.fancy-button),
+.darkmode button:hover~.list-item.sublist.skillincrease:not(.fancy-button) {
+    border-color: #006363;
+    border-color: #00636350;
+    border-color: rgba(0, 100, 100, .8);
+}
+
+.list-item.featchoice:not(.fancy-button),
+.darkmode .list-item.featchoice:not(.fancy-button) {
+    border-color: rgb(200, 100, 0);
+    border-width: 4px;
+    border-style: solid;
+    border-radius: 2px;
+}
+
+button:hover~.list-item.sublist.featchoice:not(.fancy-button),
+.darkmode button:hover~.list-item.sublist.featchoice:not(.fancy-button) {
+    border-color: #C86300;
+    border-color: #C8630050;
+    border-color: rgba(200, 100, 0, .8);
+}
+
+.list-item.specialchoice:not(.fancy-button),
+.darkmode .list-item.specialchoice:not(.fancy-button) {
+    border-color: rgb(125, 100, 50);
+    border-width: 4px;
+    border-style: solid;
+    border-radius: 2px;
+}
+
+button:hover~.list-item.sublist.specialchoice:not(.fancy-button),
+.darkmode button:hover~.list-item.sublist.specialchoice:not(.fancy-button) {
+    border-color: #7D6332;
+    border-color: #7D633250;
+    border-color: rgba(125, 100, 50, .8);
+}
+
 /* The text on the top that says whether it's your turn */
 
 .turn-indicator {
@@ -1246,12 +1363,20 @@ GRIDICONS
     position: relative;
 }
 
+.icon-list.vertical {
+    flex-direction: column;
+}
+
 .icon-list .icon-list-title {
     text-align: center;
     margin-right: 1rem;
     margin-left: 1rem;
     bottom: 0;
     position: absolute;
+}
+
+.icon-list button {
+    padding: 2px;
 }
 
 /* Container for a gridicon on the left and max-width content on the right */
@@ -1305,6 +1430,7 @@ app-gridicon .iconDetail {
     /* large centered title, max 4 characters*/
 app-gridicon .iconTitle {
     font-size: 1.5rem;
+    line-height: .8em;
     display: table-cell;
     word-break: break-all;
     vertical-align: middle;
@@ -1365,6 +1491,26 @@ app-gridicon .gridicon-time-overlay:before {
 .transition5, app-gridicon .gridicon-time-overlay.transition5:before {
     transition: all .5s ease-out;
 }
+
+    /* Colorful gridicons for character development choices */
+
+app-gridicon.abilityboost, .darkmode app-gridicon.abilityboost {
+    color: rgb(150, 0, 200);
+}
+
+app-gridicon.skillincrease, .darkmode app-gridicon.skillincrease {
+    color: rgb(0, 100, 100);
+}
+
+app-gridicon.featchoice, .darkmode app-gridicon.featchoice {
+    color: rgb(200, 100, 0);
+}
+
+app-gridicon.specialchoice, .darkmode app-gridicon.specialchoice {
+    color: rgb(125, 100, 50);
+}
+    
+    
 
 /* Animated loading signifier */
 
@@ -1435,6 +1581,13 @@ input.character-choice, button.character-choice {
     vertical-align: sub;
     padding: 0;
     justify-content: center;
+}
+
+/* Character app choice columns for tile mode */
+
+.character-choice-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
 }
 
 /*
