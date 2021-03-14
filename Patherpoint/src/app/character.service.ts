@@ -1547,8 +1547,8 @@ export class CharacterService {
         return Array.from(new Set(senses));
     }
 
-    process_Feat(creature: Character | Familiar, featName: string, choice: FeatChoice, level: Level, taken: boolean) {
-        this.featsService.process_Feat(creature, this, featName, choice, level, taken);
+    process_Feat(creature: Character | Familiar, feat: Feat, featName: string, choice: FeatChoice, level: Level, taken: boolean) {
+        this.featsService.process_Feat(creature, this, feat, featName, choice, level, taken);
     }
 
     get_FeatsShowingOn(objectName: string = "all") {
@@ -1857,7 +1857,7 @@ export class CharacterService {
 
     cleanup_Familiar() {
         this.get_Familiar().abilities.feats.forEach(gain => {
-            this.get_Character().take_Feat(this.get_Familiar(), this, gain.name, false, this.get_Familiar().abilities, undefined);
+            this.get_Character().take_Feat(this.get_Familiar(), this, undefined, gain.name, false, this.get_Familiar().abilities, undefined);
         })
     }
 

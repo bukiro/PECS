@@ -87,17 +87,20 @@ export class FeatsService {
         } else { return [new Feat()]; }
     }
 
-    process_Feat(creature: Character | Familiar, characterService: CharacterService, featName: string, choice: FeatChoice, level: Level, taken: boolean) {
+    process_Feat(creature: Character | Familiar, characterService: CharacterService, feat: Feat, featName: string, choice: FeatChoice, level: Level, taken: boolean) {
         let character = characterService.get_Character();
         //Get feats and features via the characterService in order to include custom feats
-        let feats = characterService.get_FeatsAndFeatures(featName);
-        if (creature.type == "Familiar") {
-            feats = characterService.familiarsService.get_FamiliarAbilities(featName);
-            characterService.set_ToChange("Familiar", "familiarabilities");
+        let feats: Feat[] = [];
+        if (feat) {
+            feats = [feat];
         } else {
-            characterService.set_ToChange("Character", "charactersheet");
+            if (creature.type == "Familiar") {
+                feats = characterService.familiarsService.get_FamiliarAbilities(featName);
+            } else {
+                feats = characterService.get_FeatsAndFeatures(featName);
+            }
         }
-
+        
         if (feats.length) {
             let feat = feats[0];
 
@@ -122,7 +125,7 @@ export class FeatsService {
                                 insertedFeatChoice = character.add_FeatChoice(level, newFeatChoice);
                             }
                             insertedFeatChoice.feats.forEach(gain => {
-                                this.process_Feat(creature, characterService, gain.name, insertedFeatChoice, level, true);
+                                this.process_Feat(creature, characterService, undefined, gain.name, insertedFeatChoice, level, true);
                             })
                             if (insertedFeatChoice.showOnSheet) {
                                 characterService.set_ToChange(creature.type, "activities");
@@ -149,7 +152,7 @@ export class FeatsService {
                                 //Feats must explicitly be un-taken instead of just removed from the array, in case they made fixed changes
                                 if (b) {
                                     b?.feats.forEach(feat => {
-                                        character.take_Feat(character, characterService, feat.name, false, b, false);
+                                        character.take_Feat(character, characterService, undefined, feat.name, false, b, false);
                                     });
                                     a.splice(a.indexOf(b), 1)
                                 }
@@ -894,6 +897,12 @@ export class FeatsService {
             //Condition choices can be dependent on feats, so we need to update spellbook and activities;
             characterService.set_ToChange(creature.type, "spellbook");
             characterService.set_ToChange(creature.type, "activities");
+
+            if (creature.type == "Familiar") {
+                characterService.set_ToChange("Familiar", "familiarabilities");
+            } else {
+                characterService.set_ToChange("Character", "charactersheet");
+            }
 
         }
     }

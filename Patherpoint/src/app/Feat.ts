@@ -328,10 +328,10 @@ export class Feat {
         //Return true if all are true
         return levelreq && abilityreq && skillreq && featreq && specialreq && heritagereq;
     }
-    have(creature: Creature, characterService: CharacterService, charLevel: number = characterService.get_Character().level, excludeTemporary: boolean = false, minLevel: number = 1) {
+    have(creature: Creature, characterService: CharacterService, charLevel: number = characterService.get_Character().level, excludeTemporary: boolean = false, includeCountAs: boolean = false, minLevel: number = 1) {
         if (characterService.still_loading()) { return 0 }
         if (creature.type == "Character") {
-            return (creature as Character).get_FeatsTaken(minLevel, charLevel, this.name, "", "", undefined, excludeTemporary)?.length || 0;
+            return (creature as Character).get_FeatsTaken(minLevel, charLevel, this.name, "", "", undefined, excludeTemporary, includeCountAs)?.length || 0;
         } else if (creature.type == "Familiar") {
             return (creature as Familiar).abilities.feats.filter(gain => gain.name.toLowerCase() == this.name.toLowerCase())?.length || 0;
         } else {

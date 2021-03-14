@@ -647,9 +647,7 @@ export class EffectsService {
                 //For Saving Throws, add any resilient runes on the equipped armor
                 if (armor.get_ResilientRune() > 0 && !armor.broken) {
                     let resilient = armor.get_ResilientRune();
-                    itemEffects.push(new Effect(creature.id, 'item', "Fortitude", "+" + resilient, "", false, armor.get_Resilient(resilient), false))
-                    itemEffects.push(new Effect(creature.id, 'item', "Reflex", "+" + resilient, "", false, armor.get_Resilient(resilient), false))
-                    itemEffects.push(new Effect(creature.id, 'item', "Will", "+" + resilient, "", false, armor.get_Resilient(resilient), false))
+                    itemEffects.push(new Effect(creature.id, 'item', "Saving Throws", "+" + resilient, "", false, armor.get_Resilient(resilient), false))                    
                 }
                 //Add Armor specialization effects if they apply
                 armor.get_ArmorSpecialization(creature, characterService).forEach(spec => {

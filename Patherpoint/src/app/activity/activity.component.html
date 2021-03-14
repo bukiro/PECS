@@ -3,14 +3,14 @@
         <div class="newrow" *ngIf="allowActivate && !get_ExternallyDisabled()">
             <ng-container
                 *ngIf="gain.name != 'Fused Stance' && activity.can_Activate() && (gain.activeCooldown ? (maxCharges > gain.chargesUsed) : true)">
-                <div [ngbTooltip]="gain.activeCooldown ? (maxCharges ? 'Recharged in: ' : 'Cooldown: ') + get_Duration(gain.activeCooldown, true, false) : ''"
+                <div class="newrow" [ngbTooltip]="gain.activeCooldown ? (maxCharges ? 'Recharged in: ' : 'Cooldown: ') + get_Duration(gain.activeCooldown, true, false) : ''"
                     *ngIf="!gain.active && ['self', 'ally'].includes(get_SpellTarget())">
                     <button class="newrow center-aligned" (click)="on_Activate(gain, activity, true, creature)">
                         Activate {{get_SpellTarget() == 'ally' ? "(Cast spell on yourself)" : ""}} {{maxCharges ? "(" +
                         (maxCharges - gain.chargesUsed) + " of " + maxCharges + " charges)" : ""}}
                     </button>
                 </div>
-                <div [ngbTooltip]="gain.activeCooldown ? (maxCharges ? 'Recharged in: ' : 'Cooldown: ') + get_Duration(gain.activeCooldown, true, false) : ''"
+                <div class="newrow" [ngbTooltip]="gain.activeCooldown ? (maxCharges ? 'Recharged in: ' : 'Cooldown: ') + get_Duration(gain.activeCooldown, true, false) : ''"
                     *ngIf="!gain.active && ['companion', 'ally'].includes(get_SpellTarget()) && get_CompanionAvailable()">
                     <button class="newrow center-aligned"
                         (click)="on_Activate(gain, activity, true, (creature=='Character' ? 'Companion' : 'Character'))">
@@ -18,28 +18,28 @@
                         {{maxCharges ? "(" + (maxCharges - gain.chargesUsed) + " of " + maxCharges + " charges)" : ""}}
                     </button>
                 </div>
-                <div [ngbTooltip]="gain.activeCooldown ? (maxCharges ? 'Recharged in: ' : 'Cooldown: ') + get_Duration(gain.activeCooldown, true, false) : ''"
+                <div class="newrow" [ngbTooltip]="gain.activeCooldown ? (maxCharges ? 'Recharged in: ' : 'Cooldown: ') + get_Duration(gain.activeCooldown, true, false) : ''"
                     *ngIf="!gain.active && ['companion', 'ally'].includes(get_SpellTarget()) && get_FamiliarAvailable()">
                     <button class="newrow center-aligned" (click)="on_Activate(gain, activity, true, 'Familiar')">
                         Activate (Cast spell on your familiar) {{maxCharges ? "(" + (maxCharges - gain.chargesUsed) + "
                         of " + maxCharges + " charges)" : ""}}
                     </button>
                 </div>
-                <div [ngbTooltip]="gain.activeCooldown ? (maxCharges ? 'Recharged in: ' : 'Cooldown: ') + get_Duration(gain.activeCooldown, true, false) : ''"
+                <div class="newrow" [ngbTooltip]="gain.activeCooldown ? (maxCharges ? 'Recharged in: ' : 'Cooldown: ') + get_Duration(gain.activeCooldown, true, false) : ''"
                     *ngIf="!gain.active && get_SpellTarget() == 'ally'">
                     <button class="newrow center-aligned" (click)="on_Activate(gain, activity, true, '')">
                         Activate (Cast spell on other targets) {{maxCharges ? "(" + (maxCharges - gain.chargesUsed) + "
                         of " + maxCharges + " charges)" : ""}}
                     </button>
                 </div>
-                <div [ngbTooltip]="gain.activeCooldown ? (maxCharges ? 'Recharged in: ' : 'Cooldown: ') + get_Duration(gain.activeCooldown, true, false) : ''"
+                <div class="newrow" [ngbTooltip]="gain.activeCooldown ? (maxCharges ? 'Recharged in: ' : 'Cooldown: ') + get_Duration(gain.activeCooldown, true, false) : ''"
                     *ngIf="!gain.active && get_SpellTarget() == ''">
                     <button class="newrow center-aligned" (click)="on_Activate(gain, activity, true, '')">
                         Activate {{maxCharges ? "(" + (maxCharges - gain.chargesUsed) + " of " + maxCharges + "
                         charges)" : ""}}
                     </button>
                 </div>
-                <div [ngbTooltip]="gain.activeCooldown ? (maxCharges ? 'Recharged in: ' : 'Cooldown: ') + get_Duration(gain.activeCooldown, true, false) : ''"
+                <div class="newrow" [ngbTooltip]="gain.activeCooldown ? (maxCharges ? 'Recharged in: ' : 'Cooldown: ') + get_Duration(gain.activeCooldown, true, false) : ''"
                     *ngIf="!gain.active && get_SpellTarget() == 'no spell'">
                     <button class="newrow center-aligned" (click)="on_Activate(gain, activity, true, creature)">
                         Activate {{maxCharges ? "(" + (maxCharges - gain.chargesUsed) + " of " + maxCharges + "
@@ -49,7 +49,7 @@
             </ng-container>
         </div>
         <ng-container *ngIf="allowActivate">
-            <div [ngbTooltip]="gain.activeCooldown ? (maxCharges ? 'Recharged in: ' : 'Cooldown: ') + get_Duration(gain.activeCooldown, true, false) : ''"
+            <div class="newrow" [ngbTooltip]="gain.activeCooldown ? (maxCharges ? 'Recharged in: ' : 'Cooldown: ') + get_Duration(gain.activeCooldown, true, false) : ''"
                 *ngIf="gain.name != 'Fused Stance' && activity.can_Activate() && gain.active">
                 <button class="newrow center-aligned" (click)="on_Activate(gain, activity, false, creature)">
                     {{gain.duration==1 ? "Done (instant effect)" : "" }} {{gain.duration !=1 ? (activity.sustained
@@ -59,7 +59,7 @@
             </div>
             <ng-container
                 *ngIf="gain.name == 'Fused Stance' && (gain.activeCooldown ? (maxCharges > gain.chargesUsed) : true)">
-                <div [ngbTooltip]="gain.activeCooldown ? (maxCharges ? 'Recharged in: ' : 'Cooldown: ') + get_Duration(gain.activeCooldown, true, false) : ''"
+                <div class="newrow" [ngbTooltip]="gain.activeCooldown ? (maxCharges ? 'Recharged in: ' : 'Cooldown: ') + get_Duration(gain.activeCooldown, true, false) : ''"
                     *ngIf="!gain.active">
                     <button class="newrow center-aligned" (click)="on_ActivateFuseStance(true)"
                         [disabled]="!get_FuseStanceFeat() || !get_FuseStanceFeat().data">
@@ -67,7 +67,7 @@
                         charges)" : ""}}
                     </button>
                 </div>
-                <div [ngbTooltip]="gain.activeCooldown ? (maxCharges ? 'Recharged in: ' : 'Cooldown: ') + get_Duration(gain.activeCooldown, true, false) : ''"
+                <div class="newrow" [ngbTooltip]="gain.activeCooldown ? (maxCharges ? 'Recharged in: ' : 'Cooldown: ') + get_Duration(gain.activeCooldown, true, false) : ''"
                     *ngIf="gain.active">
                     <button class="newrow center-aligned" (click)="on_ActivateFuseStance(false)"
                         [disabled]="!get_FuseStanceFeat() || !get_FuseStanceFeat().data">
@@ -154,11 +154,13 @@
                 {{activity.trigger}}
             </span>
         </div>
-        <div class="newrow left-aligned"
+        <ng-container *ngIf="allowActivate && gain?.data">
+            <div class="newrow left-aligned"
             *ngFor="let data of gain.data; trackBy:trackByIndex">
             <strong>{{data.name}}</strong>
-            <input class="newrow" type="text" [(ngModel)]="gain.data[0].value">
+            <input class="newrow" type="text" [(ngModel)]="data.value">
         </div>
+        </ng-container>
         <div class="newrow left-aligned" *ngIf="activity.requirements">
             <span>
                 <strong>Requirements</strong>
@@ -211,7 +213,7 @@
                 <app-activity [activity]=shownActivity [allowActivate]="false"></app-activity>
             </div>
         </div>
-        <div class="newrow left-aligned"
+        <div class="list-item newrow left-aligned"
             *ngFor="let cast of get_SpellCasts(); let spellCastIndex = index; trackBy:trackByIndex;">
             <div *ngFor="let spell of get_Spells(cast.name); trackBy:trackByIndex;">
                 <header class="spellHeader">{{spell.name}}
@@ -244,7 +246,7 @@
                 <app-spell [spell]=shownSpell [spellLevel]="shownSpellSet.level || 0"></app-spell>
             </div>
         </div>
-        <div class="newrow left-aligned" *ngFor="let feat of get_FeatsShowingOn(activity.name); trackBy:trackByIndex;">
+        <div class="list-item newrow left-aligned" *ngFor="let feat of get_FeatsShowingOn(activity.name); trackBy:trackByIndex;">
             <header class="spellHeader">{{feat.name}}</header>
             <div class="newrow left-aligned">
                 <cite class="trait" *ngFor="let trait of feat.traits; trackBy:trackByIndex;"
@@ -269,7 +271,7 @@
         </div>
         <ng-container *ngIf="allowActivate">
             <ng-container *ngFor="let related_gain of get_ActivityGainsShowingOn(activity.name); trackBy:trackByIndex;">
-                <div class="newrow left-aligned"
+                <div class="list-item newrow left-aligned"
                     *ngFor="let related_activity of get_ActivitiesFromGain(related_gain); trackBy:trackByIndex;">
                     <header class="spellHeader">{{related_activity.name}}
                         <app-actionIcons [actionString]="related_activity.actions">
@@ -282,7 +284,7 @@
             </ng-container>
             <ng-container *ngIf="gain.name == 'Fused Stance'">
                 <ng-container *ngFor="let gain of get_FusedStances(); trackBy:trackByIndex;">
-                    <div class="newrow left-aligned"
+                    <div class="list-item newrow left-aligned"
                         *ngFor="let related_activity of get_ActivitiesFromGain(gain); trackBy:trackByIndex;">
                         <header class="spellHeader">{{related_activity.name}}
                             <app-actionIcons [actionString]="related_activity.actions">

@@ -119,7 +119,7 @@
     </div>
     <div class="list-item left-aligned" *ngFor="let shownSpellSet of spell.showSpells; trackBy:trackByIndex;">
         <div *ngFor="let shownSpell of get_Spells(shownSpellSet.name); trackBy:trackByIndex;">
-            <header class="spellHeader">{{shownSpell.name}}
+            <header class="spellHeader left-aligned">{{shownSpell.name}}
                 <app-actionIcons [actionString]="shownSpell.actions">
                 </app-actionIcons> {{shownSpell.castType.toString()}}</header>
             <app-spell [spell]=shownSpell [spellLevel]="shownSpellSet.level || spellLevel || 0"></app-spell>

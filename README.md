@@ -111,10 +111,10 @@ The very latest in Assistive Technologies for Dungeon Master (ATDM)
 - [ ] Stretch Goal: Initiative tracker, battles, being a battle member, GM-Player-Communication.......
 - [ ] Stretch Goal: Include optional systems like Stamina & Resolve
 - [ ] Stretch Goal: Icon-Driven UI with dynamic tooltips (e.g. with bootstrap or material)
+- [ ] Stretch Goal: Exporting statblock and files for other tools (e.g. Foundry VTT)
 
 Active to-do:
 - Implement Icons for Character building, Inventory and Spells
-- For icons representing certain items or spells, use the same icon next to the relevant checkbox to make it recognizable
 
 Implement:
 

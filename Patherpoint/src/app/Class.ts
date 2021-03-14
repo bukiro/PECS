@@ -62,7 +62,7 @@ export class Class {
         this.levels.forEach(level => {
             level.featChoices.filter(choice => choice.available).forEach(choice => {
                 choice.feats.forEach(feat => {
-                    character.take_Feat(character, characterService, feat.name, false, choice, false);
+                    character.take_Feat(character, characterService, undefined, feat.name, false, choice, false);
                 });
             });
         });
@@ -89,7 +89,7 @@ export class Class {
                     let count: number = 0;
                     choice.feats.forEach(feat => {
                         count++;
-                        character.take_Feat(character, characterService, feat.name, true, choice, feat.locked);
+                        character.take_Feat(character, characterService, undefined, feat.name, true, choice, feat.locked);
                     });
                     choice.feats.splice(0, count);
                 });
@@ -121,13 +121,13 @@ export class Class {
             //We can't just delete these feats, but must specifically un-take them to undo their effects.
             this.ancestry.featChoices.filter(choice => choice.available).forEach(choice => {
                 choice.feats.forEach(feat => {
-                    character.take_Feat(character, characterService, feat.name, false, choice, false);
+                    character.take_Feat(character, characterService, undefined, feat.name, false, choice, false);
                 });
             });
             this.levels.forEach(level => {
                 //Remove all Adopted Ancestry feats
                 level.featChoices.filter(choice => choice.feats.filter(feat => feat.name.includes("Adopted Ancestry")).forEach(feat => {
-                    character.take_Feat(character, characterService, feat.name, false, choice, feat.locked)
+                    character.take_Feat(character, characterService, undefined, feat.name, false, choice, feat.locked)
                 }));
             });
         }
@@ -156,7 +156,7 @@ export class Class {
                 let count: number = 0;
                 choice.feats.forEach(feat => {
                     count++;
-                    character.take_Feat(character, characterService, feat.name, true, choice, feat.locked);
+                    character.take_Feat(character, characterService, undefined, feat.name, true, choice, feat.locked);
                 });
                 choice.feats.splice(0, count);
             });
@@ -194,7 +194,7 @@ export class Class {
             //We can't just delete these feats, but must specifically un-take them to undo their effects.
             heritage.featChoices.filter(choice => choice.available).forEach(choice => {
                 choice.feats.forEach(feat => {
-                    character.take_Feat(character, characterService, feat.name, false, choice, false);
+                    character.take_Feat(character, characterService, undefined, feat.name, false, choice, false);
                 });
             });
             level.featChoices = level.featChoices.filter(choice => choice.source != heritage.name);
@@ -260,7 +260,7 @@ export class Class {
                 let count: number = 0;
                 choice.feats.forEach(feat => {
                     count++;
-                    character.take_Feat(character, characterService, feat.name, true, choice, feat.locked);
+                    character.take_Feat(character, characterService, undefined, feat.name, true, choice, feat.locked);
                 });
                 choice.feats.splice(0, count);
             });
@@ -322,7 +322,7 @@ export class Class {
             //We can't just delete these feats, but must specifically un-take them to undo their effects.
             level.featChoices.filter(choice => choice.source == "Background").forEach(choice => {
                 choice.feats.forEach(feat => {
-                character.take_Feat(character, characterService, feat.name, false, choice, feat.locked);
+                character.take_Feat(character, characterService, undefined, feat.name, false, choice, feat.locked);
                 });
             });
             level.featChoices = level.featChoices.filter(availableBoost => availableBoost.source != "Background");
@@ -357,7 +357,7 @@ export class Class {
                 let count: number = 0;
                 choice.feats.forEach(feat => {
                     count++;
-                    character.take_Feat(character, characterService, feat.name, true, choice, feat.locked);
+                    character.take_Feat(character, characterService, undefined, feat.name, true, choice, feat.locked);
                 });
                 choice.feats.splice(0, count);
             });

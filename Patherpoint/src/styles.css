@@ -41,7 +41,7 @@ CLASSIC ELEMENTS
 ::-webkit-scrollbar-thumb {
     background: #EFEFEF;
     box-shadow: inset 0 0 .35rem #A0A0A0;
-    border-radius: .1rem;
+    border-radius: 1px;
 }
 
 .darkmode ::-webkit-scrollbar-thumb {
@@ -50,7 +50,7 @@ CLASSIC ELEMENTS
 
 ::-webkit-scrollbar-track {
     background: #EFEFEF;
-    border-radius: .1rem;
+    border-radius: 1px;
 }
 
 .darkmode ::-webkit-scrollbar-track {
@@ -89,10 +89,10 @@ strong {
 
 input {
     font-size: 90%;
-    border-radius: .15rem;
+    border-radius: 2px;
     padding: .3em;
     margin-bottom: 0;
-    border: .1rem solid #BDBDBD;
+    border: 1px solid #BDBDBD;
 }
 
 input[disabled] {
@@ -155,7 +155,7 @@ button {
     display: inline-flex;
     align-items: center;
     padding: .3em .6em;
-    border-radius: .15rem;
+    border-radius: 2px;
     font-size: 90%;
     cursor: pointer;
     background-color: #465A8C;
@@ -283,7 +283,7 @@ opacity: .8;
 appearance: none;
 width: 1.4rem;
 height: 1.4rem;
-border-radius: .15rem;
+border-radius: 2px;
 background: rgb(var(--accent));
 cursor: pointer;
 content: var(--thumbNumber);
@@ -292,7 +292,7 @@ content: var(--thumbNumber);
 .slider::-moz-range-thumb {
 width: 1.4rem;
 height: 1.4rem;
-border-radius: .15rem;
+border-radius: 2px;
 background: rgb(var(--accent));
 cursor: pointer;
 }
@@ -362,7 +362,7 @@ cite {
     font-style: normal;
     border-color: #d8c483;
     border-style: double;
-    border-width: .15rem;
+    border-width: 2px;
     color: white;
     line-height: 1.5em;
 }
@@ -585,8 +585,8 @@ app-top-bar {
     white-space: nowrap;
     border-style: solid;
     border-color: white;
-    border-radius: .15rem;
-    border-width: .15rem;
+    border-radius: 2px;
+    border-width: 2px;
     box-sizing: border-box;
 }
 
@@ -647,7 +647,7 @@ app-character-sheet {
 
 .charactersheet-app {
     background-color: #EFEFEF;
-    border-radius: .15rem;
+    border-radius: 2px;
     margin: .6rem;
     position: relative;
 }
@@ -683,9 +683,9 @@ app-dice {
     bottom: auto;
     z-index: 20;
     overflow-x: hidden;
-    border: .3rem solid rgb(var(--accent));
+    border: 4px solid rgb(var(--accent));
     border-top: none;
-    border-radius: .15rem;
+    border-radius: 2px;
 }
 
 app-familiarabilities.charactersheet-app {
@@ -742,7 +742,7 @@ CHARACTERSHEET APP INNER STYLES
     justify-content: flex-start;
     padding: 1em 2em;
     margin: 0;
-    border-radius: .15rem;
+    border-radius: 2px;
     background-color: white;
 }
 
@@ -765,7 +765,7 @@ CHARACTERSHEET APP INNER STYLES
 
 .diceBox {
     padding: 1em 2.3em;
-    border-radius: .15rem;
+    border-radius: 2px;
     background-color: white;
 }
 
@@ -819,6 +819,10 @@ header.spellHeader {
     margin: .6rem 0;
     font-weight: bold;
     font-size: 1.2em;
+}
+
+header.spellHeader * {
+    color: #cbc18f;
 }
 
 header.subsectionHeader {
@@ -903,7 +907,7 @@ header.featureHeader {
     justify-content: space-between;
     padding: .3em .6em;
     margin-top: .6rem;
-    border-radius: .15rem;
+    border-radius: 2px;
     background-color: #E0E0E0;
     background-color: rgba(50, 50, 50, 0.1)
 }
@@ -920,7 +924,7 @@ header.featureHeader {
 
 .list-item.selected,
 .lower .list-item.selected {
-    border: .2rem solid rgb(var(--accent));
+    border: 3px solid rgb(var(--accent));
     padding: .1em .35em;
 }
 
@@ -950,7 +954,7 @@ button.list-item {
     flex-basis: 100%;
     padding: .3em .6em;
     margin-bottom: .15rem;
-    border-radius: .15rem;
+    border-radius: 2px;
 }
 
 .list-item>div:last-child {
@@ -960,11 +964,11 @@ button.list-item {
 /* .sublist: popup menu */
 
 .list-item.sublist {
-    border-width: .3rem;
+    border-width: 4px;
     border-style: solid;
     border-color: #465A8C;
     border-color: rgb(var(--accent));
-    border-radius: .15rem;
+    border-radius: 2px;
     background-clip: border-box;
     position: absolute;
     top: 1rem;
@@ -1187,11 +1191,11 @@ ngb-popover-window.list-item.sublist {
 
 .modal-content {
     background-color: #E0E0E0;
-    border-width: .3rem;
+    border-width: 4px;
     border-style: solid;
     border-color: #465A8C;
     border-color: rgb(var(--accent));
-    border-radius: .15rem;
+    border-radius: 2px;
 }
 
 .darkmode .modal-content {
@@ -1269,7 +1273,7 @@ app-gridicon {
     height: 4rem;
     width: 4rem;
     font-weight: bold;
-    border: .3rem solid rgb(var(--accent));
+    border: 4px solid rgb(var(--accent));
     position: relative;
     line-height: 1em;
     text-align: center;
@@ -1424,10 +1428,13 @@ app-gridicon .gridicon-time-overlay:before {
     margin-top: 0;
 }
 
-#choiceArea input.character-choice {
-    height: 2em;
-    width: 2em;
+input.character-choice, button.character-choice {
+    font-size: 2em;
+    height: 1em;
+    width: 1em;
     vertical-align: sub;
+    padding: 0;
+    justify-content: center;
 }
 
 /*
@@ -1461,7 +1468,7 @@ SPECIFIC STYLE MODIFIERS
 }
 
 .dashed-border {
-    border: .15rem var(--textcolor) dashed;
+    border: 2px var(--textcolor) dashed;
 }
 
 .fullwidth {
@@ -1531,13 +1538,10 @@ SPECIFIC STYLE MODIFIERS
     /* Colorization */
 
 .unavailable,
-.lower.unavailable {
-    background-color: rgba(50, 50, 50, 0.2)
-}
-
+.lower.unavailable,
 .darkmode .unavailable,
 .darkmode .lower.unavailable {
-    background-color: rgba(200, 200, 200, 0.2)
+    background-color: rgb(100, 50, 50)
 }
 
 .absolute,
@@ -1611,7 +1615,7 @@ span.problem {
     font-weight: bold;
     margin-left: auto;
     margin-right: auto;
-    border-radius: .3rem;
+    border-radius: 4px;
     padding: 0 1em;
 }
 

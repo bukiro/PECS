@@ -77,7 +77,7 @@ export class ActivitiesComponent implements OnInit {
         }
     }
 
-    receive_ChoiceMessage(name: string) {
+    receive_ChoiceNameMessage(name: string) {
         this.toggle_List(name);
     }
 

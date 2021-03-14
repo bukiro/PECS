@@ -37,7 +37,7 @@
         </ng-container>
         <ng-container *ngFor="let choice of get_TemporaryFeatChoices(); let index = index; trackBy:trackByIndex;">
             <header class="sectionHeader box-header" *ngIf="index == 0">Temporary Feats</header>
-            <app-featchoice (showChoiceMessage)="receive_ChoiceMessage($event)"
+            <app-featchoice (showChoiceNameMessage)="receive_ChoiceNameMessage($event)"
                 (showFeatMessage)="receive_FeatMessage($event)" [choice]="choice" [levelNumber]="get_Creature().level"
                 [showFeat]="get_ShowItem()" [showChoice]="get_ShowList()">
             </app-featchoice>

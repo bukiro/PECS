@@ -49,6 +49,8 @@ export class CharacterComponent implements OnInit {
     private showLevel: number = 0;
     private showItem: string = "";
     private showList: string = "";
+    private showFeatChoice: FeatChoice = null;
+    private showChoiceLevelNumber: number = 0;
     public adventureBackgrounds: Boolean = true;
     public regionalBackgrounds: Boolean = true;
     public blankCharacter: Character = new Character();
@@ -124,14 +126,23 @@ export class CharacterComponent implements OnInit {
         } else {
             this.showList = name;
         }
+        this.showFeatChoice = null;
     }
 
-    receive_ChoiceMessage(name: string) {
+    receive_ChoiceNameMessage(name: string) {
         this.toggle_List(name);
     }
 
     receive_FeatMessage(name: string) {
         this.toggle_Item(name);
+    }
+
+    receive_FeatChoiceMessage(choice: FeatChoice) {
+        this.showFeatChoice = choice;
+    }
+
+    receive_ChoiceLevelMessage(levelNumber: number) {
+        this.showChoiceLevelNumber = levelNumber;
     }
 
     get_ShowLevel() {
@@ -144,6 +155,14 @@ export class CharacterComponent implements OnInit {
 
     get_ShowList() {
         return this.showList;
+    }
+
+    get_ShowFeatChoice() {
+        return this.showFeatChoice;
+    }
+
+    get_ShowChoiceLevelNumber() {
+        return this.showChoiceLevelNumber;
     }
 
     set_Accent() {
@@ -351,7 +370,7 @@ export class CharacterComponent implements OnInit {
         let newLevel = character.level;
         //If we went up levels, repeat any onceEffects of Feats that apply inbetween, such as recovering Focus Points for a larger Focus Pool
         if (newLevel > oldLevel) {
-            this.get_FeatsAndFeatures().filter(feat => feat.onceEffects.length && feat.have(character, this.characterService, newLevel, true, oldLevel))
+            this.get_FeatsAndFeatures().filter(feat => feat.onceEffects.length && feat.have(character, this.characterService, newLevel, true, false, oldLevel))
                 .forEach(feat => {
                     feat.onceEffects.forEach(effect => {
                         this.characterService.process_OnceEffect(character, effect);
@@ -397,7 +416,7 @@ export class CharacterComponent implements OnInit {
             this.characterService.set_ToChange("Character", "skillchoices");
             this.characterService.set_ToChange("Character", "skills");
         }
-        this.get_FeatsAndFeatures().filter(feat => feat.hints.length && feat.have(character, this.characterService, higherLevel, true, lowerLevel))
+        this.get_FeatsAndFeatures().filter(feat => feat.hints.length && feat.have(character, this.characterService, higherLevel, true, false, lowerLevel))
             .forEach(feat => {
                 feat.hints.forEach(hint => {
                     this.characterService.set_TagsToChange("Character", hint.showon);
@@ -450,7 +469,7 @@ export class CharacterComponent implements OnInit {
             if (levelNumber) {
                 //If level is given, check if any new languages have been added on this level. If not, don't get any languages at this point.
                 let newLanguages: number = 0;
-                newLanguages += this.get_FeatsAndFeatures().filter(feat => feat.effects.some(effect => effect.affected == "Max Languages") && feat.have(character, this.characterService, levelNumber, false, levelNumber)).length
+                newLanguages += this.get_FeatsAndFeatures().filter(feat => feat.effects.some(effect => effect.affected == "Max Languages") && feat.have(character, this.characterService, levelNumber, false, false, levelNumber)).length
                 newLanguages += character.get_AbilityBoosts(levelNumber, levelNumber, "Intelligence").length;
                 if (!newLanguages) {
                     return false;

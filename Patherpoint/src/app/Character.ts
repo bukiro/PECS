@@ -546,11 +546,9 @@ export class Character extends Creature {
                     })
                 }
             }
-
-
         }
     }
-    get_FeatsTaken(minLevelNumber: number, maxLevelNumber: number, featName: string = "", source: string = "", sourceId: string = "", locked: boolean = undefined, excludeTemporary: boolean = false) {
+    get_FeatsTaken(minLevelNumber: number, maxLevelNumber: number, featName: string = "", source: string = "", sourceId: string = "", locked: boolean = undefined, excludeTemporary: boolean = false, includeCountAs: boolean = false) {
         if (this.class) {
             let featsTaken: FeatTaken[] = [];
             let levels = this.class.levels.filter(level => level.number >= minLevelNumber && level.number <= maxLevelNumber);
@@ -558,7 +556,11 @@ export class Character extends Creature {
                 level.featChoices.forEach(choice => {
                     choice.feats.filter((feat: FeatTaken) =>
                         (excludeTemporary ? !choice.showOnSheet : true) &&
-                        (feat.name.toLowerCase() == featName.toLowerCase() || featName == "") &&
+                        (
+                            (featName == "") || 
+                            (feat.name.toLowerCase() == featName.toLowerCase()) ||
+                            (includeCountAs && (feat.countAsFeat?.toLowerCase() == featName.toLowerCase() || false))
+                        ) &&
                         (feat.source.toLowerCase() == source.toLowerCase() || source == "") &&
                         (feat.sourceId == sourceId || sourceId == "") &&
                         (feat.locked == locked || locked == undefined)
@@ -570,13 +572,16 @@ export class Character extends Creature {
             return featsTaken;
         }
     }
-    take_Feat(creature: Character | Familiar, characterService: CharacterService, featName: string, taken: boolean, choice: FeatChoice, locked: boolean) {
+    take_Feat(creature: Character | Familiar, characterService: CharacterService, feat: Feat, featName: string, taken: boolean, choice: FeatChoice, locked: boolean) {
         let level: Level = characterService.get_Level(parseInt(choice.id.split("-")[0]));
         if (taken) {
-            choice.feats.push({ "name": featName, "source": choice.source, "locked": locked, "sourceId": choice.id });
-            characterService.process_Feat(creature, featName, choice, level, taken);
+            if (feat) {
+                featName = feat.name;
+            }
+            choice.feats.push({ name: (feat?.name || featName), source: choice.source, locked: locked, sourceId: choice.id, countAsFeat: (feat?.countAsFeat || feat?.superType || "") });
+            characterService.process_Feat(creature, feat, feat.name, choice, level, taken);
         } else {
-            characterService.process_Feat(creature, featName, choice, level, taken);
+            characterService.process_Feat(creature, feat, feat.name, choice, level, taken);
             let a = choice.feats;
             a.splice(a.indexOf(a.filter(feat =>
                 feat.name == featName &&

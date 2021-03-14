@@ -303,7 +303,7 @@
                         <ng-container *ngIf="spellTakenByThis(spell.name, choice) && signatureSpellsAllowed">
                             <div class="list-item newrow lower"
                                 *ngFor="let takenSpell of [get_TakenSpell(spell.name, choice)]">
-                                <span [ngbTooltip]="'{{reason}}'"
+                                <span [ngbTooltip]="reason"
                                     *ngFor="let reason of [get_CannotChooseSignatureSpell(signatureSpellsAllowed, takenSpell)]; trackBy:trackByIndex;">
                                     <input id="{{choice.id+spell.name}}signaturespell" type="checkbox"
                                         [(ngModel)]="takenSpell.signatureSpell" (ngModelChange)="on_SignatureSpell()"

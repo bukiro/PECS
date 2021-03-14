@@ -31118,26 +31118,7 @@
             "Rare",
             "Ancestry"
         ],
-        "levelreq": 5,
-        "gainSpellChoice": [
-            {
-                "_className": "SpellChoice",
-                "spells": [
-                    {
-                        "name": "Grim Tendrils"
-                    },
-                    {
-                        "name": "Summon Plant or Fungus"
-                    },
-                    {
-                        "name": "Bane"
-                    },
-                    {
-                        "name": "Spider Sting"
-                    }
-                ]
-            }
-        ]
+        "levelreq": 5
     },
     {
         "name": "Fey Influence: Anteater",
@@ -32591,35 +32572,7 @@
             "Uncommon",
             "Human"
         ],
-        "levelreq": 1,
-        "gainSpellChoice": [
-            {
-                "_className": "SpellChoice",
-                "spells": [
-                    {
-                        "name": "Shield"
-                    },
-                    {
-                        "name": "Tanglefoot"
-                    },
-                    {
-                        "name": "Daze"
-                    },
-                    {
-                        "name": "Electric Arc"
-                    },
-                    {
-                        "name": "Ghost Sound"
-                    },
-                    {
-                        "name": "Chill Touch"
-                    },
-                    {
-                        "name": "Sigil"
-                    }
-                ]
-            }
-        ]
+        "levelreq": 1
     },
     {
         "name": "Arcane Tattoos: Abjuration",
@@ -32934,26 +32887,7 @@
         ],
         "levelreq": 1,
         "specialreq": "true",
-        "specialreqdesc": "Tian-Dan ethnicity",
-        "gainSpellChoice": [
-            {
-                "_className": "SpellChoice",
-                "spells": [
-                    {
-                        "name": "Acid Splash"
-                    },
-                    {
-                        "name": "Electric Arc"
-                    },
-                    {
-                        "name": "Produce Flame"
-                    },
-                    {
-                        "name": "Ray of Frost"
-                    }
-                ]
-            }
-        ]
+        "specialreqdesc": "Tian-Dan ethnicity"
     },
     {
         "name": "Dragon Spit: Acid Splash",
@@ -34806,17 +34740,7 @@
         "traits": [
             "Elf"
         ],
-        "levelreq": 1,
-        "gainSpellChoice": [
-            {
-                "_className": "SpellChoice",
-                "spells": [
-                    {
-                        "name": "Acid Splash"
-                    }
-                ]
-            }
-        ]
+        "levelreq": 1
     },
     {
         "name": "Elemental Wrath: Acid",

@@ -773,7 +773,7 @@
                                 <!--Skill Increases-->
                                 <ng-container
                                     *ngFor="let choice of get_SkillChoices(level); let index = index; trackBy:trackByIndex;">
-                                    <app-skillchoice (showChoiceMessage)="receive_ChoiceMessage($event)"
+                                    <app-skillchoice (showChoiceMessage)="receive_ChoiceNameMessage($event)"
                                         [choice]="choice" [showChoice]="get_ShowList()" [level]="level"
                                         [excludeTemporary]="true">
                                     </app-skillchoice>
@@ -781,9 +781,11 @@
                                 <!--Feat choices-->
                                 <ng-container
                                     *ngFor="let choice of get_FeatChoices(level); let index = index; trackBy:trackByIndex;">
-                                    <app-featchoice (showChoiceMessage)="receive_ChoiceMessage($event)"
-                                        (showFeatMessage)="receive_FeatMessage($event)" [choice]="choice"
-                                        [levelNumber]=level.number [showFeat]="get_ShowItem()"
+                                    <app-featchoice (showChoiceNameMessage)="receive_ChoiceNameMessage($event)"
+                                        (showChoiceMessage)="receive_FeatChoiceMessage($event)"
+                                        (showFeatMessage)="receive_FeatMessage($event)"
+                                        (showLevelMessage)="receive_ChoiceLevelMessage($event)" [choice]="choice"
+                                        [levelNumber]="level.number" [showContent]="false" [showFeat]="get_ShowItem()"
                                         [showChoice]="get_ShowList()"
                                         [unavailableFeats]="get_Character().settings.unavailableFeats"
                                         [lowerLevelFeats]="get_Character().settings.lowerLevelFeats"
@@ -1456,8 +1458,9 @@
             <!--Templates-->
             <!--Class choice template-->
             <ng-template #ClassChoiceTemplate>
-                <div class="newRow padding-8">
-                    <header class="box-header sectionHeader">Class</header>
+                <div class="newRow list-item padding-8 center-aligned">
+                    <header class="box-header sectionHeader">Class{{(get_Character().class.name) ? ": "+
+                        get_Character().class.name : ""}}</header>
                 </div>
                 <div id="choiceArea" class="charactersheet-app">
                     <ng-container *ngFor="let class of get_AvailableClasses(); trackBy:trackByIndex;">
@@ -1517,8 +1520,9 @@
                 </div>
             </ng-template>
             <ng-template #AncestryChoiceTemplate>
-                <div class="newRow padding-8">
-                    <header class="box-header sectionHeader">Ancestry</header>
+                <div class="newRow list-item padding-8 center-aligned">
+                    <header class="box-header sectionHeader">Ancestry{{(get_Character().class.ancestry.name) ? ": "+
+                        get_Character().class.ancestry.name : ""}}</header>
                 </div>
                 <div id="choiceArea" class="charactersheet-app">
                     <ng-container *ngFor="let ancestry of get_AvailableAncestries(); trackBy:trackByIndex;">
@@ -1566,7 +1570,8 @@
                                         <input id="{{ancestry.name}}" type="checkbox" class="character-choice"
                                             (change)="onAncestryChange(ancestry, $event.target.checked)"
                                             [checked]="checked" [disabled]="disabled">
-                                        <div class="gridicon-fullsizebox" [ngbPopover]="AncestryChoiceDetailsTemplate" triggers="click">
+                                        <div class="gridicon-fullsizebox" [ngbPopover]="AncestryChoiceDetailsTemplate"
+                                            triggers="click">
                                             <app-gridIcon class="" [title]="ancestry.name"
                                                 [detail]="ancestry.traits.includes('Rare') ? 'Rare' : (ancestry.traits.includes('Uncommon') ? 'Uncommon' : '')">
                                             </app-gridIcon>
@@ -1588,6 +1593,18 @@
             </ng-container>
             <ng-container *ngIf="get_ShowList()=='ancestry'">
                 <ng-container *ngTemplateOutlet="AncestryChoiceTemplate"></ng-container>
+            </ng-container>
+            <ng-container *ngIf="get_ShowFeatChoice()">
+                <app-featchoice (showChoiceNameMessage)="receive_ChoiceNameMessage($event)"
+                    (showChoiceMessage)="receive_FeatChoiceMessage($event)"
+                    (showFeatMessage)="receive_FeatMessage($event)"
+                    (showLevelMessage)="receive_ChoiceLevelMessage($event)" [choice]="get_ShowFeatChoice()"
+                    [levelNumber]="get_ShowChoiceLevelNumber()" [showTitle]="false" [showFeat]="get_ShowItem()"
+                    [showChoice]="get_ShowList()" [unavailableFeats]="get_Character().settings.unavailableFeats"
+                    [lowerLevelFeats]="get_Character().settings.lowerLevelFeats"
+                    [higherLevelFeats]="get_Character().settings.higherLevelFeats"
+                    [archetypeFeats]="get_Character().settings.archetypeFeats">
+                </app-featchoice>
             </ng-container>
         </div>
     </div>
