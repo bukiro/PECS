@@ -1,6 +1,9 @@
 <button class="minimizebutton lower"
     [ngbTooltip]="get_Minimized() ? 'Click to show all information.' : 'Click to show compact information.'"
-    [ngClass]="{'fancy-button':get_Minimized()}" (click)="minimize()">&#8691;</button>
+    [ngClass]="{'fancy-button':get_Minimized()}" (click)="minimize()">
+    <i class='bi-arrows-collapse' *ngIf="get_Minimized()"></i>
+    <i class='bi-arrows-expand' *ngIf="!get_Minimized()"></i>
+</button>
 <div id="animal-companion-height" class="itembox">
     <button class="list-item center-aligned" (click)="toggleCompanionMenu()">
         <header class="sectionHeader">Close</header>

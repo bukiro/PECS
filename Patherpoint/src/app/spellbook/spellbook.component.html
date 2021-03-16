@@ -1,6 +1,9 @@
 <button class="minimizebutton lower"
     [ngbTooltip]="get_Minimized() ? 'Click to show all information.' : 'Click to show compact information.'"
-    [ngClass]="{'fancy-button':get_Minimized()}" (click)="minimize()">&#8691;</button>
+    [ngClass]="{'fancy-button':get_Minimized()}" (click)="minimize()">
+    <i class='bi-arrows-collapse' *ngIf="get_Minimized()"></i>
+    <i class='bi-arrows-expand' *ngIf="!get_Minimized()"></i>
+</button>
 <div id="spellbook-height" class="attributeBox">
     <header class="sectionHeader box-header">Spells</header>
     <div class="loading" *ngIf="still_loading()">Loading</div>
@@ -133,17 +136,17 @@
                                                                             (click)="toggle_Spell(casting.castingType+casting.class+spellTaken.gain.name+spellID)"
                                                                             [ngClass]="{'inactive-button': cannotCast}">
                                                                             <span [ngbTooltip]="'Signature spell'"
-                                                                                *ngIf="is_SignatureSpell(casting, spellTaken.gain)">&#9733;&nbsp;</span>
+                                                                                *ngIf="is_SignatureSpell(casting, spellTaken.gain)"><i class='bi-stars'></i>&nbsp;</span>
                                                                             <span [ngbTooltip]="'Combination spell'"
-                                                                                *ngIf="spellTaken.choice.spellCombination">&#8853;&nbsp;</span>
+                                                                                *ngIf="spellTaken.choice.spellCombination"><i class='bi-symmetry-horizontal'></i>&nbsp;</span>
                                                                             <span
                                                                                 [ngbTooltip]="'Infinite Possibilities spell'"
-                                                                                *ngIf="is_InfinitePossibilitiesSpell(spellTaken.choice)">&#9883;&nbsp;</span>
+                                                                                *ngIf="is_InfinitePossibilitiesSpell(spellTaken.choice)"><i class='bi-globe2'></i>&nbsp;</span>
                                                                             <span [ngbTooltip]="'Spell Mastery spell'"
-                                                                                *ngIf="is_SpellMasterySpell(spellTaken.choice)">&#9884;&nbsp;</span>
+                                                                                *ngIf="is_SpellMasterySpell(spellTaken.choice)"><i class='bi-gem'></i>&nbsp;</span>
                                                                             <span
                                                                                 [ngbTooltip]="'Crossblooded Evolution spell'"
-                                                                                *ngIf="spellTaken.choice.crossbloodedEvolution">&#10086;&nbsp;</span>
+                                                                                *ngIf="spellTaken.choice.crossbloodedEvolution"><i class='bi-shuffle'></i>&nbsp;</span>
                                                                             {{spell.name}}
                                                                             {{spellTaken.gain.combinationSpellName ? " &
                                                                             " + spellTaken.gain.combinationSpellName :

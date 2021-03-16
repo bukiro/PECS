@@ -956,6 +956,10 @@
             {
                 "desc": "When you roll a success at a Will save against a fear effect, you get a critical success instead. In addition, anytime you gain the frightened condition, reduce its value by 1.",
                 "showon": "Will"
+            },
+            {
+                "desc": "Anytime you gain the frightened condition, reduce its value by 1.",
+                "showon": "Effects"
             }
         ],
         "internalNote": "Skill increases through class features are handled in the class object."

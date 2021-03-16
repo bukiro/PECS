@@ -9,7 +9,7 @@
         <span>
             <span class="fullsize-only">
                 <input id="{{skill.name}}ShowNotes" class="invisible" type="checkbox" [(ngModel)]="skill.showNotes">
-                <label for="{{skill.name}}ShowNotes" [ngbTooltip]="'Edit notes'">&#9998;</label>
+                <label for="{{skill.name}}ShowNotes" [ngbTooltip]="'Edit notes'"><i class='bi-pencil-square'></i>&nbsp;</label>
             </span>
             <strong [ngbPopover]="calculatedSkill.ability ? AbilityPopover : null">{{get_Name(skill)}}</strong>
         </span>

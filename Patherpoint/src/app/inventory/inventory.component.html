@@ -1,6 +1,9 @@
 <button class="minimizebutton lower"
     [ngbTooltip]="get_Minimized() ? 'Click to show all information.' : 'Click to show compact information.'"
-    [ngClass]="{'fancy-button':get_Minimized()}" (click)="minimize()" *ngIf="creature=='Character'">&#8691;</button>
+    [ngClass]="{'fancy-button':get_Minimized()}" (click)="minimize()" *ngIf="creature=='Character'">
+    <i class='bi-arrows-collapse' *ngIf="get_Minimized()"></i>
+    <i class='bi-arrows-expand' *ngIf="!get_Minimized()"></i>
+</button>
 <div id="{{creature}}-inventory-height" class="attributeBox">
     <header class="sectionHeader box-header">Inventory</header>
     <div class="loading" *ngIf="still_loading()">Loading</div>
@@ -138,11 +141,11 @@
                             <button class="newrow left-aligned sublist-toggle"
                                 [ngClass]="{'fancy-button':((item.equippable && item.equipped) || (item.can_Invest() && item.invested)), 'problem':item.broken}"
                                 (click)="toggle_Item(inventoryID)">
-                                <span [ngbTooltip]="'Broken'" *ngIf="item.broken">&#9985;&nbsp;</span>
-                                <span [ngbTooltip]="'Temporary Item'" *ngIf="item.expiration">&#9851;&nbsp;</span>
-                                <span [ngbTooltip]="'Large Weapon'" *ngIf="item.large">&#10034;&nbsp;</span>
-                                <span [ngbTooltip]="'Blade Ally'" *ngIf="item.bladeAlly">&#10037;&nbsp;</span>
-                                <span [ngbTooltip]="'Battleforged'" *ngIf="item.battleforged">&#9826;&nbsp;</span>
+                                <span [ngbTooltip]="'Broken'" *ngIf="item.broken"><i class='bi-wrench'></i>&nbsp;</span>
+                                <span [ngbTooltip]="'Temporary Item'" *ngIf="item.expiration"><i class='bi-hourglass-split'></i>&nbsp;</span>
+                                <span [ngbTooltip]="'Large Weapon'" *ngIf="item.large"><i class='bi-arrow-up-square-fill'></i>&nbsp;</span>
+                                <span [ngbTooltip]="'Blade Ally'" *ngIf="item.bladeAlly"><i class='bi-heart-fill'></i>&nbsp;</span>
+                                <span [ngbTooltip]="'Battleforged'" *ngIf="item.battleforged"><i class='bi-hammer'></i>&nbsp;</span>
                                 {{(item.amount != undefined && item.amount != 1) ? item.amount+" " : ""}}
                                 {{(item['get_Name']) ? item.get_Name() : item.name}}&nbsp;
                                 <span class="lower"
@@ -396,7 +399,7 @@
                                                 <input id="{{item.id}}broken" type="checkbox" [(ngModel)]="item.broken"
                                                     (ngModelChange)=onItemChange(item)
                                                     [disabled]="!get_RepairAllowed(item)">
-                                                <label for="{{item.id}}broken">&nbsp;&#9985;&nbsp;Broken</label>
+                                                <label for="{{item.id}}broken">&nbsp;<i class='bi-wrench'></i>&nbsp;Broken</label>
                                             </span>
                                             <span>
                                                 <span
@@ -424,7 +427,7 @@
                                     <span>
                                         <input id="{{item.id}}large" type="checkbox" [(ngModel)]="item.large"
                                             (ngModelChange)=onItemChange(item)>
-                                        <label for="{{item.id}}large">&nbsp;&#10034;&nbsp;Large</label>
+                                        <label for="{{item.id}}large">&nbsp;<i class='bi-arrow-up-square-fill'></i>&nbsp;Large</label>
                                     </span>
                                     <span>
                                         <span
@@ -440,7 +443,7 @@
                                             <input id="{{item.id}}bladeally" type="checkbox"
                                                 [(ngModel)]="item.bladeAlly" (ngModelChange)=onItemChange(item)
                                                 [disabled]="get_BladeAllyUsed() && !item.bladeAlly">
-                                            <label for="{{item.id}}bladeally">&nbsp;&#10037;&nbsp;Blade Ally</label>
+                                            <label for="{{item.id}}bladeally">&nbsp;<i class='bi-heart-fill'></i>&nbsp;Blade Ally</label>
                                         </span>
                                         <span>
                                             <span
@@ -457,7 +460,7 @@
                                     <span>
                                         <input id="{{item.id}}battleforged" type="checkbox"
                                             [(ngModel)]="item.battleforged" (ngModelChange)=onItemChange(item)>
-                                        <label for="{{item.id}}battleforged">&nbsp;&#9826;&nbsp;Battleforged</label>
+                                        <label for="{{item.id}}battleforged">&nbsp;<i class='bi-hammer'></i>&nbsp;Battleforged</label>
                                     </span>
                                     <span>
                                         <span

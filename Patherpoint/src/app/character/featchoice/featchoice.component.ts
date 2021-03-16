@@ -8,7 +8,7 @@ import { Familiar } from 'src/app/Familiar';
 import { Character } from 'src/app/Character';
 import { TraitsService } from 'src/app/traits.service';
 import { EffectsService } from 'src/app/effects.service';
-import { NgbPopoverConfig } from '@ng-bootstrap/ng-bootstrap';
+import { NgbPopoverConfig, NgbTooltipConfig } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
     selector: 'app-featchoice',
@@ -27,13 +27,9 @@ export class FeatchoiceComponent implements OnInit {
     showSubFeat: string = "";
     uncollapseSubFeat: string = "";
     @Output()
-    showChoiceNameMessage = new EventEmitter<string>();
-    @Output()
-    showChoiceMessage = new EventEmitter<FeatChoice>();
+    showFeatChoiceMessage = new EventEmitter<{ name: string, levelNumber: number, choice: FeatChoice }>();
     @Output()
     showFeatMessage = new EventEmitter<string>();
-    @Output()
-    showLevelMessage = new EventEmitter<number>();
     @Input()
     levelNumber: number;
     @Input()
@@ -82,16 +78,11 @@ export class FeatchoiceComponent implements OnInit {
     toggle_List(name: string) {
         if (this.showChoice == name) {
             this.showChoice = "";
+            this.showFeatChoiceMessage.emit({ name: this.showChoice, levelNumber: 0, choice: null });
         } else {
             this.showChoice = name;
+            this.showFeatChoiceMessage.emit({ name: this.showChoice, levelNumber: this.levelNumber, choice: this.choice });
         }
-        this.showChoiceNameMessage.emit(this.showChoice);
-        if (this.showChoice) {
-            this.showChoiceMessage.emit(this.choice);
-        } else {
-            this.showChoiceMessage.emit(null);
-        }
-        this.showLevelMessage.emit(this.levelNumber);
     }
 
     toggle_SubFeat(name: string) {
@@ -164,7 +155,7 @@ export class FeatchoiceComponent implements OnInit {
     }
 
     get_ButtonTitle(availableFeats: number) {
-        let title: string = (this.featLevel != this.levelNumber) ? "Level "+this.featLevel+" " : "";
+        let title: string = (this.featLevel != this.levelNumber) ? "Level " + this.featLevel + " " : "";
         title += this.choice.type.split(",").join(", ");
         if (!this.choice.specialChoice) {
             if (this.creature == "Familiar") {
@@ -174,12 +165,12 @@ export class FeatchoiceComponent implements OnInit {
             }
         }
         if (this.creature != "Familiar") {
-            title += ' ('+this.choice.source+')';
+            title += ' (' + this.choice.source + ')';
         }
         if (availableFeats > 1) {
-            title += ": "+ this.choice.feats.length +"/"+ availableFeats;
+            title += ": " + this.choice.feats.length + "/" + availableFeats;
         } else if (this.choice.feats.length) {
-            title += ": "+ this.choice.feats[0].name;
+            title += ": " + this.choice.feats[0].name;
         }
         return title;
     }

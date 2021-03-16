@@ -79,7 +79,7 @@
             <ng-container *ngIf="!activity.can_Activate()">
                 <button class="newrow center-aligned"
                     [ngbTooltip]="'The results of this activation cannot be applied automatically. Pressing this button has no effect.'">
-                    Activate &#9774;
+                    Activate <i class='bi-peace-fill'></i>
                 </button>
             </ng-container>
             <div class="newrow" *ngIf="get_Resonant() && !isSubItem">

@@ -1,6 +1,9 @@
 <button class="minimizebutton lower"
     [ngbTooltip]="get_Minimized() ? 'Click to show all information.' : 'Click to show compact information.'"
-    [ngClass]="{'fancy-button':get_Minimized()}" (click)="minimize()" *ngIf="creature=='Character'">&#8691;</button>
+    [ngClass]="{'fancy-button':get_Minimized()}" (click)="minimize()" *ngIf="creature=='Character'">
+    <i class='bi-arrows-collapse' *ngIf="get_Minimized()"></i>
+    <i class='bi-arrows-expand' *ngIf="!get_Minimized()"></i>
+</button>
 <div id="{{creature}}-attacks-height" class="attributeBox">
     <header class="sectionHeader box-header">Attacks</header>
     <div class="loading" *ngIf="still_loading()">Loading</div>
@@ -58,9 +61,9 @@
                 <div class="newrow">
                     <span style="flex-basis:auto">
                         <strong *ngIf="!['alchemicalbombs', 'otherconsumablesbombs'].includes(weapon.type)">
-                            <span [ngbTooltip]="'Melee'" *ngIf="attack[0] == 'melee'">&#10027;</span>
+                            <span [ngbTooltip]="'Melee'" *ngIf="attack[0] == 'melee'"><i class='bi-lightning'></i></span>
                             <span [ngbTooltip]="'Ranged ' + weapon.ranged + ' feet'"
-                                *ngIf="attack[0] == 'ranged'">&#10168;</span> {{weapon.get_Name()}}
+                                *ngIf="attack[0] == 'ranged'"><i class='bi-bullseye'></i></span> {{weapon.get_Name()}}
                         </strong>
                         <strong *ngFor="let handwraps of get_HandwrapsOfMightyBlows(weapon); trackBy:trackByIndex;">
                             ({{handwraps.get_Name()}})
@@ -68,9 +71,9 @@
                         <button style="flex-basis:auto" [disabled]="!weapon.amount"
                             (click)="on_ConsumableUse(weapon, null)"
                             *ngIf="['alchemicalbombs', 'otherconsumablesbombs'].includes(weapon.type)">
-                            <span [ngbTooltip]="'Melee'" *ngIf="attack[0] == 'melee'">&#10027;</span>
+                            <span [ngbTooltip]="'Melee'" *ngIf="attack[0] == 'melee'"><i class='bi-lightning'></i></span>
                             <span [ngbTooltip]="'Ranged ' + weapon.ranged + ' feet'"
-                                *ngIf="attack[0] == 'ranged'">&#10168;</span>
+                                *ngIf="attack[0] == 'ranged'"><i class='bi-bullseye'></i></span>
                             <span>{{(weapon.amount != undefined && weapon.amount != 1) ?
                                 weapon.amount+" " : ""}}{{weapon.get_Name()}}<app-actionIcons
                                     [actionString]="weapon.actions">

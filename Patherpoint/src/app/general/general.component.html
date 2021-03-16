@@ -1,4 +1,10 @@
-<button class="minimizebutton lower" [ngbTooltip]="get_Minimized() ? 'Click to show all information.' : 'Click to show compact information.'" [ngClass]="{'fancy-button':get_Minimized()}" (click)="minimize()" *ngIf="creature=='Character' && showMinimizeButton">&#8691;</button>
+<button class="minimizebutton lower"
+    [ngbTooltip]="get_Minimized() ? 'Click to show all information.' : 'Click to show compact information.'"
+    [ngClass]="{'fancy-button':get_Minimized()}" (click)="minimize()"
+    *ngIf="creature=='Character' && showMinimizeButton">
+    <i class='bi-arrows-collapse' *ngIf="get_Minimized()"></i>
+    <i class='bi-arrows-expand' *ngIf="!get_Minimized()"></i>
+</button>
 <div id="{{creature}}-general-height" class="attributeBox">
     <header class="sectionHeader box-header">General information</header>
     <div class="loading" *ngIf="still_loading()">Loading</div>
@@ -22,13 +28,17 @@
             </div>
             <div class="fullsize-only list-item" *ngIf="get_Character().class.ancestry.name">
                 <strong>Ancestry</strong>
-                <span>{{get_Character().class.ancestry.name}}{{(get_Character().class.heritage.name) ? " - " + get_Character().class.heritage.name : ""}}</span>
+                <span>{{get_Character().class.ancestry.name}}{{(get_Character().class.heritage.name) ? " - " +
+                    get_Character().class.heritage.name : ""}}</span>
                 <div class="newrow left-aligned" *ngIf="get_Character().class.ancestry.traits.length">
-                    <cite class="trait" *ngFor="let trait of get_CharacterTraits(); trackBy:trackByIndex;">{{trait}}&nbsp;</cite>
+                    <cite class="trait"
+                        *ngFor="let trait of get_CharacterTraits(); trackBy:trackByIndex;">{{trait}}&nbsp;</cite>
                 </div>
-                <app-tags [creature]="creature" [objectName]="'Ancestry'" [showTraits]=true [showFeats]=true [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
+                <app-tags [creature]="creature" [objectName]="'Ancestry'" [showTraits]=true [showFeats]=true
+                    [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
             </div>
-            <div class="fullsize-only list-item" *ngIf="get_Character().class.background && get_Character().class.background.name">
+            <div class="fullsize-only list-item"
+                *ngIf="get_Character().class.background && get_Character().class.background.name">
                 <strong>Background</strong>
                 <span>{{get_Character().class.background.name}}</span>
             </div>
@@ -41,21 +51,25 @@
             <div class="fullsize-only list-item" *ngIf="get_Character().class.ancestry.name">
                 <strong>Size</strong>
                 <span>{{get_Size()}}</span>
-                <app-tags [creature]="creature" [objectName]="'Size'" [showTraits]=true [showFeats]=true [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
+                <app-tags [creature]="creature" [objectName]="'Size'" [showTraits]=true [showFeats]=true
+                    [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
             </div>
             <div class="fullsize-only list-item" *ngIf="get_Character().alignment && get_Character().alignment.length">
                 <strong>Alignment</strong>
                 <span>{{get_Character().alignment}}</span>
-                <app-tags [creature]="creature" [objectName]="'Alignment'" [showTraits]=true [showFeats]=true [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
+                <app-tags [creature]="creature" [objectName]="'Alignment'" [showTraits]=true [showFeats]=true
+                    [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
             </div>
             <div class="fullsize-only list-item" *ngIf="get_Character().class.deity">
                 <strong>Deity</strong>
                 <span>{{get_Character().class.deity}}</span>
             </div>
-            <div class="list-item" *ngIf="get_Character().class.ancestry.languages && get_Character().class.ancestry.languages.length">
+            <div class="list-item"
+                *ngIf="get_Character().class.ancestry.languages && get_Character().class.ancestry.languages.length">
                 <strong>Languages</strong>
                 <span>{{get_Languages()}}</span>
-                <app-tags [creature]="creature" [objectName]="'Languages'" [showTraits]=true [showFeats]=true [showItems]=true [showActivities]=true [showConditions]=true></app-tags>
+                <app-tags [creature]="creature" [objectName]="'Languages'" [showTraits]=true [showFeats]=true
+                    [showItems]=true [showActivities]=true [showConditions]=true></app-tags>
             </div>
             <div class="fullsize-only list-item" *ngIf="get_Tenets().length">
                 <strong>Tenets</strong>
@@ -80,9 +94,11 @@
         </ng-container>
         <ng-container *ngIf="creature=='Companion'">
             <div class="newrow left-aligned tags" *ngIf="get_Companion().class.ancestry.name">
-                <cite class="trait" *ngFor="let trait of get_Companion().class.ancestry.traits; trackBy:trackByIndex;" [ngbPopover]="get_Traits(trait)[0].desc">{{trait}}</cite>
+                <cite class="trait" *ngFor="let trait of get_Companion().class.ancestry.traits; trackBy:trackByIndex;"
+                    [ngbPopover]="get_Traits(trait)[0].desc">{{trait}}</cite>
             </div>
-            <app-tags [creature]="'Character'" [objectName]="'Animal Companion'" [showTraits]=true [showFeats]=true [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
+            <app-tags [creature]="'Character'" [objectName]="'Animal Companion'" [showTraits]=true [showFeats]=true
+                [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
             <div class="fullsize-only list-item">
                 <strong>Companion Name</strong>
                 <span>{{get_Companion().name}}</span>
@@ -98,7 +114,8 @@
             <div class="fullsize-only list-item" *ngIf="get_Companion().class.ancestry.name">
                 <strong>Size</strong>
                 <span>{{get_Size()}}</span>
-                <app-tags [creature]="creature" [objectName]="'Size'" [showTraits]=true [showFeats]=true [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
+                <app-tags [creature]="creature" [objectName]="'Size'" [showTraits]=true [showFeats]=true
+                    [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
             </div>
             <div class="list-item" *ngIf="get_Companion().class.ancestry.name">
                 <strong>Support Benefit</strong>
@@ -107,9 +124,11 @@
         </ng-container>
         <ng-container *ngIf="creature=='Familiar'">
             <div class="newrow left-aligned tags">
-                <cite class="trait" *ngFor="let trait of get_Familiar().traits; trackBy:trackByIndex;" [ngbPopover]="get_Traits(trait)[0].desc">{{trait}}</cite>
+                <cite class="trait" *ngFor="let trait of get_Familiar().traits; trackBy:trackByIndex;"
+                    [ngbPopover]="get_Traits(trait)[0].desc">{{trait}}</cite>
             </div>
-            <app-tags [creature]="'Character'" [objectName]="'Familiar'" [showTraits]=true [showFeats]=true [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
+            <app-tags [creature]="'Character'" [objectName]="'Familiar'" [showTraits]=true [showFeats]=true
+                [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
             <div class="fullsize-only list-item">
                 <strong>Familiar Name</strong>
                 <span>{{get_Familiar().name}}</span>
@@ -121,13 +140,16 @@
             <div class="fullsize-only list-item">
                 <strong>Size</strong>
                 <span>{{get_Size()}}</span>
-                <app-tags [creature]="creature" [objectName]="'Size'" [showTraits]=true [showFeats]=true [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
+                <app-tags [creature]="creature" [objectName]="'Size'" [showTraits]=true [showFeats]=true
+                    [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
             </div>
             <header class="subsectionHeader">Familiar Abilities</header>
             <div class="list-item" *ngFor="let ability of get_Familiar().abilities.feats; trackBy:trackByIndex;">
                 <strong>{{ability.name}}</strong>
                 <div class="newrow left-aligned tags">
-                    <cite class="trait" *ngFor="let trait of get_FamiliarAbilities(ability.name)[0].traits; trackBy:trackByIndex;" [ngbPopover]="get_Traits(trait).length ? get_Traits(trait)[0].desc : ''">{{trait}}</cite>
+                    <cite class="trait"
+                        *ngFor="let trait of get_FamiliarAbilities(ability.name)[0].traits; trackBy:trackByIndex;"
+                        [ngbPopover]="get_Traits(trait).length ? get_Traits(trait)[0].desc : ''">{{trait}}</cite>
                 </div>
                 <div class="newrow left-aligned">
                     {{get_FamiliarAbilities(ability.name)[0].desc}}

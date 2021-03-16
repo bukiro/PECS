@@ -4,15 +4,16 @@
             <span>
                 <input id="{{conditionGain.id+'notes'}}" class="invisible" type="checkbox"
                     [(ngModel)]="conditionGain.showNotes">
-                <label for="{{conditionGain.id+'notes'}}" [ngbTooltip]="'Edit notes'">&#9998;&nbsp;</label><strong
+                <label for="{{conditionGain.id+'notes'}}" [ngbTooltip]="'Edit notes'"><i
+                        class='bi-pencil-square'></i>&nbsp;</label><strong
                     [ngClass]="condition.buff ? 'bonus' : 'penalty'">{{conditionGain.name}}{{conditionGain.choice ? ": "
-                    :
-                    ""}}
+                    : ""}}
                     <input id="{{conditionGain.id+'choice'}}" class="invisible" type="checkbox"
                         [(ngModel)]="conditionGain.showChoices"
                         *ngIf="condition.choices.length && !conditionGain.choiceLocked">
                     <label for="{{conditionGain.id+'choice'}}" [ngbTooltip]="'Change effect choice'"
-                        *ngIf="condition.choices.length && !conditionGain.choiceLocked">&#8997;</label>
+                        *ngIf="condition.choices.length && !conditionGain.choiceLocked"><i
+                            class='bi-list-stars'></i></label>
                     {{(conditionGain.choice && !conditionGain.showChoices) ? conditionGain.choice : ""}}
                     <ng-container
                         *ngIf="conditionGain.showChoices && condition.choices.length && !conditionGain.choiceLocked">
@@ -30,7 +31,7 @@
                     <input id="{{conditionGain.id+'value'}}" class="invisible" type="checkbox"
                         [(ngModel)]="conditionGain.showValue">
                     <label for="{{conditionGain.id+'value'}}" [ngbTooltip]="'Change value'"
-                        *ngIf="conditionGain.value">&#9881;&nbsp;</label>
+                        *ngIf="conditionGain.value"><i class='bi-gear-fill'></i>&nbsp;</label>
                     {{(conditionGain.value && !conditionGain.showValue) ? conditionGain.value : ""}}
                     <ng-container *ngIf="conditionGain.showValue">
                         <span *ngFor="let oldValue of [conditionGain.value]; trackBy:trackByIndex;">
@@ -80,7 +81,7 @@
         <input id="{{conditionGain.id+'duration'}}" class="invisible" type="checkbox"
             [(ngModel)]="conditionGain.showDuration">
         <label for="{{conditionGain.id+'duration'}}" [ngbTooltip]="'Change duration'"
-            *ngIf="conditionGain.duration > -1">&#9881;&nbsp;</label>
+            *ngIf="conditionGain.duration > -1"><i class='bi-gear-fill'></i>&nbsp;</label>
         <strong>Duration&nbsp;</strong>{{get_Duration(conditionGain.duration)}}
     </div>
     <div [ngbCollapse]="(!conditionGain.showDuration || conditionGain.duration <= -1)">
@@ -113,7 +114,7 @@
         <input id="{{conditionGain.id+'radius'}}" class="invisible" type="checkbox"
             [(ngModel)]="conditionGain.showRadius">
         <label for="{{conditionGain.id+'radius'}}" [ngbTooltip]="'Change radius'"
-            *ngIf="conditionGain.radius && !condition.allowRadiusChange">&#9881;&nbsp;</label>
+            *ngIf="conditionGain.radius && !condition.allowRadiusChange"><i class='bi-gear-fill'></i>&nbsp;</label>
         <strong>Radius&nbsp;</strong><span>
             <button (click)="change_ConditionRadius(conditionGain, -5)"
                 *ngIf="(condition.allowRadiusChange || conditionGain.showRadius) && conditionGain.radius"

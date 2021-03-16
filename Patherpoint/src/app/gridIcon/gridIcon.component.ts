@@ -32,7 +32,7 @@ export class GridIconComponent implements OnInit {
     feat: Feat = null;
     @Input()
     effect: Effect = null;
-
+    
     constructor(
         popoverConfig: NgbPopoverConfig,
         tooltipConfig: NgbTooltipConfig
@@ -59,22 +59,17 @@ export class GridIconComponent implements OnInit {
             if (duration < 10) {
                 switch (duration) {
                     case -3:
-                        //Return ☯ for refocusing
-                        return "&#9775;"
+                        return "<i class='bi-eye-fill'></i>"
                     case -2:
-                        //Return ☮ for resting
-                        return "&#9774;"
+                        return "<i class='bi-sunrise-fill'></i>"
                     case -1:
-                        //Return ⚛ for permanent
-                        return "&#9883;"
+                        return "<i class='bi-arrow-repeat'></i>"
                     case 0:
                         return "";
                     case 1:
-                        //Return ⚠ for instant effect
-                        return "&#9888;"
+                        return "<i class='bi-exclamation-diamond-fill'></i>"
                     case 5:
-                        //Return ⏎ for rest of turn / until start of turn
-                        return "&#9166;"
+                        return "<i class='bi-play-fill'></i>"
                 }
             }
         }
@@ -155,7 +150,11 @@ export class GridIconComponent implements OnInit {
                 superTitle = this.effect.value;
             }
         } else if (this.condition?.duration == 1) {
-            return "&#9888;";
+            //return "&#9888;";
+            return "<i class='bi-exclamation-diamond-fill'></i>"
+        }
+        if (this.superTitle == "(locked)") {
+            return "<i class='bi-lock-fill'></i>"
         }
         if (superTitle.length <= 2) {
             return superTitle;

@@ -1,3 +1,5 @@
+@import "~bootstrap-icons/font/bootstrap-icons.css";
+
 /* Original Angular color: #1976d2 */
 /* Global Styles */
 html {
@@ -208,6 +210,13 @@ button:hover {
 button:disabled {
     opacity: 0.5;
     cursor: auto;
+}
+
+button.activechoice,
+.button.activechoice,
+button.activechoice:focus:not(:focus-visible),
+.button.activechoice:focus:not(:focus-visible) {
+    outline: auto;
 }
 
 button.choicecleared::after,
@@ -929,6 +938,12 @@ header.sectionHeader.box-header {
     text-shadow: none;
 }
 
+header.sectionHeader.center-aligned {
+    text-align: center;
+    padding-left: 1em;
+    padding-right: 1em;
+}
+
 header.mainHeader {
     font-size: 2em;
 }
@@ -1477,6 +1492,9 @@ GRIDICONS
 .gridicon-fullsizebox>header.sectionHeader {
     margin-top: auto;
     margin-bottom: auto;
+}
+
+.gridicon-fullsizebox>:first-child {
     flex-shrink: 0;
 }
 
@@ -1486,7 +1504,8 @@ GRIDICONS
 }
 
 .gridicon-fullsizebox>*:not(:first-child):not(.gridicon-fullsizebox) {
-    display: inline-block;
+    display: flex;
+    flex-wrap: wrap;
 }
 
 /* Grid Icons: quadratic icons with text generated from assigned content */
@@ -1515,14 +1534,14 @@ app-gridicon {
 app-gridicon .iconValue {
     position: absolute;
     color: var(--textcolor);
-    top: 0;
+    top: .15rem;
     left: .15rem;
 }
     /* top-right specification*/
 app-gridicon .iconDetail {
     position: absolute;
     color: var(--textcolor);
-    top: 0;
+    top: .15rem;
     right: .15rem;
 }
 
@@ -1549,7 +1568,7 @@ app-gridicon .iconSuperTitle {
     /* bottom-right subtitle with a little more room (5-8 characters) */
 app-gridicon .iconSubTitle {
     position: absolute;
-    bottom: 0;
+    bottom: .15rem;
     right: .15rem;
     display: flex;
     flex-direction: row;

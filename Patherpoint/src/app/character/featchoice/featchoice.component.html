@@ -5,19 +5,19 @@
                 [ngClass]="{'list-item': showTitle && !get_TileMode(), 'problem':(cannotTakeSome(choice) || choice.feats.length > availableFeats), 'fullsize-only':(availableFeats == choice.feats.length)}">
                 <!--Choice button shows in title mode-->
                 <button class="newrow left-aligned sublist-toggle"
-                    [ngClass]="{'fancy-button choicecleared':(availableFeats == choice.feats.length), 'featchoice':!choice.specialChoice, 'specialchoice':choice.specialChoice}"
+                    [ngClass]="{'fancy-button choicecleared':(availableFeats == choice.feats.length), 'featchoice':!choice.specialChoice, 'specialchoice':choice.specialChoice, 'activechoice':get_ShowChoice()==listID && !choice.showOnSheet}"
                     (click)="toggle_List(listID)" *ngIf="showTitle && !get_TileMode()">
                     {{buttonTitle}}
                 </button>
                 <button (click)="toggle_List(listID)" *ngIf="showTitle && get_TileMode()"
-                    [ngClass]="{'fancy-button choicecleared':(availableFeats == choice.feats.length), 'featchoice':!choice.specialChoice, 'specialchoice':choice.specialChoice}">
+                    [ngClass]="{'fancy-button choicecleared':(availableFeats == choice.feats.length), 'featchoice':!choice.specialChoice, 'specialchoice':choice.specialChoice, 'activechoice':get_ShowChoice()==listID}">
                     <app-gridIcon class="featchoice" [ngbTooltip]="buttonTitle" [superTitle]="availableFeats.toString()"
                         [title]="availableFeats == 1 && choice.feats.length ? choice.feats[0].name : choice.feats.length.toString()"
                         [ngClass]="{'fancy-button':(availableFeats == choice.feats.length), 'featchoice':!choice.specialChoice, 'specialchoice':choice.specialChoice}">
                     </app-gridIcon>
                 </button>
                 <!--Choice title shows above content in content only mode-->
-                <div class="newrow list-item padding-8 center-aligned" *ngIf="!showTitle">
+                <div id="choiceArea-title" class="newrow list-item padding-8 center-aligned" *ngIf="!showTitle">
                     <header class="box-header sectionHeader">
                         {{buttonTitle}}
                     </header>
@@ -28,11 +28,12 @@
                     *ngIf="showContent && get_ShowChoice()==listID">
                     <!-- Filter -->
                     <div class="list-item lower">
-                        <header class="subsectionHeader">Filter</header>
+                        <strong>Filter</strong>
                         <div class="list-item gridicon-fullsizebox">
                             <input class="character-choice" id="unavailableFeats" type="checkbox"
                                 [(ngModel)]="unavailableFeats">
-                            <label for="unavailableFeats"><strong>Show unavailable {{choice.specialChoice ? 'options' : 'feats'}}</strong></label>
+                            <label for="unavailableFeats"><strong>Show unavailable {{choice.specialChoice ? 'options' :
+                                    'feats'}}</strong></label>
                         </div>
                         <div class="list-item gridicon-fullsizebox" *ngIf="!choice.specialChoice">
                             <input class="character-choice" id="lowerLevelFeats" type="checkbox"
@@ -69,6 +70,7 @@
                                     *ngFor="let disabled of [(get_Available(choice) <= choice.feats.length) && !checked]; trackBy:trackByIndex">
                                     <ng-template #FeatChoiceDetailTemplate>
                                         <div class="newrow">
+                                            <header class="spellHeader">{{featSet.feat.name}}</header>
                                             <div class="button newrow no-animation"
                                                 *ngIf="!featSet.feat.subTypes && featSet.available"
                                                 [ngClass]="{'fancy-button':checked, 'disabled':disabled}">
@@ -100,7 +102,8 @@
                                                             style="justify-content: flex-end;">
                                                             <div class="newrow left-aligned"
                                                                 *ngFor="let subItemID of [choice.id+subfeatSet.subfeat.name+'desc']; trackBy:trackByIndex;">
-                                                                <span class="gridicon-fullsizebox" style="flex-grow: 1;">
+                                                                <span class="gridicon-fullsizebox"
+                                                                    style="flex-grow: 1;">
                                                                     <input id="{{choice.id+subfeatSet.subfeat.name}}"
                                                                         type="checkbox" class="character-choice"
                                                                         (change)="on_FeatTaken(subfeatSet.subfeat, $event.target.checked, choice, false)"
@@ -170,7 +173,7 @@
                                             <header class="sectionHeader">
                                                 <span
                                                     [ngbTooltip]="(!FeatChoiceDetailPopover.isOpen()) ? featSet.feat.shortdesc : ''"
-                                                    triggers="hover">
+                                                    triggers="hover" openDelay=100>
                                                     {{["General", "Skill"].includes(choice.type) &&
                                                     featSet.feat.skillreq.length == 1 ? "(" +
                                                     featSet.feat.skillreq[0].skill + ") " :
@@ -179,11 +182,13 @@
                                                 <cite *ngIf="featSet.feat.levelreq">Level
                                                     {{featSet.feat.levelreq}}</cite>
                                                 <cite class="trait" *ngIf="featSet.feat.traits.includes('Rare')"
-                                                    [ngbPopover]="get_Traits('Rare')[0]?.desc">Rare</cite>
+                                                    [ngbPopover]="get_Traits('Rare')[0]?.desc" openDelay=100>Rare</cite>
                                                 <cite class="trait" *ngIf="featSet.feat.traits.includes('Uncommon')"
-                                                    [ngbPopover]="get_Traits('Uncommon')[0]?.desc">Uncommon</cite>
+                                                    [ngbPopover]="get_Traits('Uncommon')[0]?.desc"
+                                                    openDelay=100>Uncommon</cite>
                                                 <cite class="trait" *ngIf="featSet.feat.traits.includes('Dedication')"
-                                                    [ngbPopover]="get_Traits('Dedication')[0]?.desc">Dedication</cite>
+                                                    [ngbPopover]="get_Traits('Dedication')[0]?.desc"
+                                                    openDelay=100>Dedication</cite>
                                             </header>
                                         </div>
                                     </div>

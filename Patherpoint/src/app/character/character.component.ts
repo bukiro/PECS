@@ -36,6 +36,7 @@ import { FeatChoice } from '../FeatChoice';
 import { Spell } from '../Spell';
 import { Character } from '../Character';
 import { NgbActiveModal, NgbModal, NgbPopoverConfig, NgbTooltipConfig } from '@ng-bootstrap/ng-bootstrap';
+import { SkillChoice } from '../SkillChoice';
 
 @Component({
     selector: 'app-character',
@@ -49,12 +50,13 @@ export class CharacterComponent implements OnInit {
     private showLevel: number = 0;
     private showItem: string = "";
     private showList: string = "";
-    private showFeatChoice: FeatChoice = null;
-    private showChoiceLevelNumber: number = 0;
+    private showContent: any | FeatChoice = null;
+    private showContentLevelNumber: number = 0;
+    private showFixedChangesLevelNumber: number = 0;
     public adventureBackgrounds: Boolean = true;
     public regionalBackgrounds: Boolean = true;
     public blankCharacter: Character = new Character();
-    
+
     constructor(
         private changeDetector: ChangeDetectorRef,
         public characterService: CharacterService,
@@ -120,29 +122,40 @@ export class CharacterComponent implements OnInit {
         }
     }
 
-    toggle_List(name: string) {
+    toggle_List(name: string, levelNumber: number = 0, content: any = null) {
         if (this.showList == name) {
             this.showList = "";
+            this.showContentLevelNumber = 0;
+            this.showContent = null;
         } else {
             this.showList = name;
+            this.showContentLevelNumber = levelNumber;
+            this.showContent = content;
+            this.reset_ChoiceArea();
         }
-        this.showFeatChoice = null;
     }
 
-    receive_ChoiceNameMessage(name: string) {
+    reset_ChoiceArea() {
+        document.getElementById("choiceArea-top").scrollIntoView({behavior: 'smooth'});
+    }
+
+    receive_SkillChoiceMessage(name: string/*, message: {name: string, levelNumber: number, choice: SkillChoice}*/) {
         this.toggle_List(name);
+        //this.toggle_List(message.name, message.levelNumber, message.choice);
+    }
+
+    receive_FeatChoiceMessage(message: { name: string, levelNumber: number, choice: FeatChoice }) {
+        this.toggle_List(message.name, message.levelNumber, message.choice);
     }
 
     receive_FeatMessage(name: string) {
         this.toggle_Item(name);
     }
 
-    receive_FeatChoiceMessage(choice: FeatChoice) {
-        this.showFeatChoice = choice;
-    }
-
-    receive_ChoiceLevelMessage(levelNumber: number) {
-        this.showChoiceLevelNumber = levelNumber;
+    get_ActiveFeatChoice() {
+        if (this.showContent?.constructor == FeatChoice) {
+            return [{name:this.get_ShowList(), levelNumber:this.get_ShowContentLevelNumber(), choice:this.get_ShowContent()}];
+        } return [];
     }
 
     get_ShowLevel() {
@@ -157,13 +170,27 @@ export class CharacterComponent implements OnInit {
         return this.showList;
     }
 
-    get_ShowFeatChoice() {
-        return this.showFeatChoice;
+    get_ShowContent() {
+        return this.showContent;
     }
 
-    get_ShowChoiceLevelNumber() {
-        return this.showChoiceLevelNumber;
+    get_ShowContentLevelNumber() {
+        return this.showContentLevelNumber;
     }
+
+    toggle_FixedChangesLevelNumber(levelNumber: number) {
+        if (this.showFixedChangesLevelNumber == levelNumber) {
+            this.showFixedChangesLevelNumber = 0;
+        } else {
+            this.showFixedChangesLevelNumber = levelNumber;
+        }
+    }
+
+    get_ShowFixedChangesLevelNumber() {
+        return this.showFixedChangesLevelNumber;
+    }
+
+    get_Show
 
     set_Accent() {
         this.characterService.set_Accent();
@@ -184,9 +211,14 @@ export class CharacterComponent implements OnInit {
         return this.get_Character().settings.characterTileMode;
     }
 
-    //If you don't use trackByIndex on certain inputs, you lose focus everytime the value changes. I don't get that, but I'm using it now.
     trackByIndex(index: number, obj: any): any {
         return index;
+    }
+
+    trackByID(index: number, obj: any): any {
+        //Track feat choices or skill choices by id, so that when the selected choice changes, the choice area content is updated.
+        // The choice area content is only ever one choice, so the index would always be 0.
+        return obj.choice.id;
     }
 
     on_NewCharacter() {

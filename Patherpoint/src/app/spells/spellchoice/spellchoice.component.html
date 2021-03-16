@@ -8,13 +8,13 @@
                 <button class="newrow left-aligned sublist-toggle"
                     [ngClass]="{'fancy-button choicecleared':(available == choice.spells.length)}"
                     (click)="toggle_Choice(choice.source+choice.id)">
-                    <span [ngbTooltip]="'Combination spell'" *ngIf="choice.spellCombinationAllowed">&#8853;&nbsp;</span>
+                    <span [ngbTooltip]="'Combination spell'" *ngIf="choice.spellCombinationAllowed"><i class='bi-symmetry-horizontal'></i>&nbsp;</span>
                     <span [ngbTooltip]="'Infinite Possibilities spell'"
-                        *ngIf="is_InfinitePossibilitiesSpell(choice)">&#9883;&nbsp;</span>
+                        *ngIf="is_InfinitePossibilitiesSpell(choice)"><i class='bi-globe2'></i>&nbsp;</span>
                     <span [ngbTooltip]="'Signature spell'"
-                        *ngIf="has_SignatureSpell(signatureSpellsAllowed)">&#9733;&nbsp;</span>
+                        *ngIf="has_SignatureSpell(signatureSpellsAllowed)"><i class='bi-stars'></i>&nbsp;</span>
                     <span [ngbTooltip]="'Crossblooded Evolution spell'"
-                        *ngIf="choice.crossbloodedEvolution">&#10086;&nbsp;</span>
+                        *ngIf="choice.crossbloodedEvolution"><i class='bi-shuffle'></i>&nbsp;</span>
                     {{itemSpell || choice.showOnSheet ? "Level "+choice.level : ""}}
                     {{choice.frequency ? capitalize(choice.frequency) : ""}}
                     {{choice.tradition ? choice.tradition : ""}}
@@ -135,7 +135,7 @@
                     <!-- Infinite Possibilities -->
                     <ng-container *ngIf="spellbook && get_InfinitePossibilitiesAllowed()">
                         <div class="list-item">
-                            <strong>&#9883;&nbsp;Infinite Possibilities</strong>
+                            <strong><i class='bi-globe2'></i>&nbsp;Infinite Possibilities</strong>
                             <div class="newrow"
                                 *ngIf="get_InfinitePossibilitiesUnlocked() && !choice.infinitePossibilities">
                                 An Infinite Possibilities spell slot has already been unlocked.
@@ -157,7 +157,7 @@
                     <!-- Spell Combination -->
                     <ng-container *ngIf="choice.spellCombinationAllowed">
                         <div class="list-item">
-                            <strong>&#8853;&nbsp;Spell Combination</strong>
+                            <strong><i class='bi-symmetry-horizontal'></i>&nbsp;Spell Combination</strong>
                             <div class="newrow">
                                 <span>
                                     <input id="{{choice.id}}spellCombination" type="checkbox"
@@ -259,7 +259,7 @@
                         *ngFor="let crossbloodedEvolutionAllowed of [get_CrossbloodedEvolutionAllowed()]; trackBy: trackByIndex">
                         <ng-container *ngIf="crossbloodedEvolutionAllowed">
                             <div class="list-item">
-                                <strong>&#10086;&nbsp;Crossblooded Evolution</strong>
+                                <strong><i class='bi-shuffle'></i>&nbsp;Crossblooded Evolution</strong>
                                 <div class="newrow"
                                     *ngIf="get_CrossbloodedEvolutionUnlocked(choice.level) && !choice.crossbloodedEvolution">
                                     A Crossblooded Evolution spell has already been assigned for this level.
@@ -308,7 +308,7 @@
                                     <input id="{{choice.id+spell.name}}signaturespell" type="checkbox"
                                         [(ngModel)]="takenSpell.signatureSpell" (ngModelChange)="on_SignatureSpell()"
                                         [disabled]="reason != ''">
-                                    <label for="{{choice.id+spell.name}}signaturespell">&#9733;&nbsp;Choose this spell as a Signature
+                                    <label for="{{choice.id+spell.name}}signaturespell"><i class='bi-stars'></i>&nbsp;Choose this spell as a Signature
                                         Spell that can be freely heightened</label>
                                 </span>
                             </div>

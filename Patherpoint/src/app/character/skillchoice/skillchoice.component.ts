@@ -1,7 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter, ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
 import { CharacterService } from 'src/app/character.service';
-import { Familiar } from 'src/app/Familiar';
-import { Character } from 'src/app/Character';
 import { SkillChoice } from 'src/app/SkillChoice';
 import { Level } from 'src/app/Level';
 import { Skill } from 'src/app/Skill';

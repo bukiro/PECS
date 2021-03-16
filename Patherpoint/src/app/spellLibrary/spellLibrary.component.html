@@ -91,7 +91,7 @@
                                             (click)="toggle_Item(spell.id)"
                                             [ngClass]="{'fancy-button':get_SpellsLearned(spell.name).length}">
                                             <span [ngbTooltip]="'Spell Mastery spell'"
-                                                *ngIf="get_SpellMasterySelected(wizardCasting, spell)">&#9884;&nbsp;</span>
+                                                *ngIf="get_SpellMasterySelected(wizardCasting, spell)"><i class='bi-gem'></i>&nbsp;</span>
                                             <span>
                                                 {{spell.name}}<app-actionIcons [actionString]="spell.actions">
                                                 </app-actionIcons>{{spell.castType}}
@@ -149,12 +149,12 @@
                                             <button class="newrow center-aligned" (click)="add_SpellMasterySpell(spell)"
                                                 [disabled]="!get_SpellMasteryAllowed(wizardCasting, level, spell)"
                                                 *ngIf="get_AvailableForSpellMastery(wizardCasting, spell)">
-                                                &#9884;&nbsp;Add to Spell Mastery selection
+                                                <i class='bi-gem'></i>&nbsp;Add to Spell Mastery selection
                                             </button>
                                             <button class="newrow center-aligned"
                                                 (click)="remove_SpellMasterySpell(wizardCasting, spell)"
                                                 *ngIf="get_SpellMasterySelected(wizardCasting, spell)">
-                                                &#9884;&nbsp;Remove from Spell Mastery selection
+                                                <i class='bi-gem'></i>&nbsp;Remove from Spell Mastery selection
                                             </button>
                                             <div class="list-item">
                                                 <strong>
