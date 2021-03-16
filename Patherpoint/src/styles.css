@@ -40,8 +40,10 @@ CLASSIC ELEMENTS
 
 ::-webkit-scrollbar-thumb {
     background: #EFEFEF;
+    -webkit-box-shadow: inset 0 0 .35rem #A0A0A0;
+    -moz-box-shadow: inset 0 0 .35rem #A0A0A0;
     box-shadow: inset 0 0 .35rem #A0A0A0;
-    border-radius: 1px;
+    border-radius: .1rem;
 }
 
 .darkmode ::-webkit-scrollbar-thumb {
@@ -50,7 +52,7 @@ CLASSIC ELEMENTS
 
 ::-webkit-scrollbar-track {
     background: #EFEFEF;
-    border-radius: 1px;
+    border-radius: .1rem;
 }
 
 .darkmode ::-webkit-scrollbar-track {
@@ -89,7 +91,7 @@ strong {
 
 input {
     font-size: 90%;
-    border-radius: 2px;
+    border-radius: .15rem;
     padding: .3em;
     margin-bottom: 0;
     border: 1px solid #BDBDBD;
@@ -160,7 +162,7 @@ button {
     display: inline-flex;
     align-items: center;
     padding: .3em .6em;
-    border-radius: 2px;
+    border-radius: .15rem;
     font-size: 90%;
     cursor: pointer;
     background-color: #465A8C;
@@ -179,39 +181,6 @@ button {
     background-color: #465A8C;
     background-color: rgb(var(--accent));
     color: #CCC;
-}
-
-button.minimizebutton,
-button.tilemodebutton {
-    position: absolute;
-    padding: 0;
-    top: 0;
-    right: 0;
-    width: 2em;
-    height: 2em;
-    z-index: 5;
-    justify-content: center;
-}
-
-button.tilemodebutton>div {
-    width: 100%;
-    height: 100%;
-    padding: .3em;
-    display: grid;
-    grid-template-columns: 100%;
-    grid-template-rows: 1fr 1fr 1fr 1fr;
-    gap: 2px
-}
-
-button.tilemodebutton.fancy-button>div {
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: 1fr 1fr;
-}
-
-button.tilemodebutton>div>div {
-    display: block;
-    background-color: currentColor;
-    border-radius: 2px;
 }
 
 .button.newrow:not(:last-child),
@@ -246,8 +215,13 @@ button.choicecleared::after,
     content: "\2714";
     font-size: 1.2em;
     bottom: 0;
-    right: 0.5em;
+    right: .5em;
     position: absolute;
+}
+
+.icon-list button.choicecleared::after,
+.icon-list .button.choicecleared::after {
+    bottom: .2em;
 }
 
 .button.lower {
@@ -257,6 +231,64 @@ button.choicecleared::after,
 .button.left {
     margin-left: 0;
     margin-bottom: auto;
+}
+
+    /* top right corner "window" buttons */
+
+.window-button-container {
+    position: absolute;
+    top: 0;
+    right: 0;
+    display: flex;
+    flex-direction: row-reverse;
+    gap: .3rem;
+}
+
+button.minimizebutton,
+button.tilemodebutton {
+    position: absolute;
+    padding: 0;
+    top: 0;
+    right: 0;
+    width: 2em;
+    height: 2em;
+    z-index: 5;
+    justify-content: center;
+}
+
+.window-button-container button.minimizebutton,
+.window-button-container button.tilemodebutton {
+    position: relative;
+    top: revert;
+    right: revert;
+}
+
+button.minimizebutton.fancy-button,
+button.tilemodebutton.fancy-button {
+    -webkit-box-shadow: inset 0 0 0 .15rem currentColor;
+    -moz-box-shadow: inset 0 0 0 .15rem currentColor;
+    box-shadow: inset 0 0 0 .15rem currentColor;
+}
+
+button.tilemodebutton>div {
+    width: 100%;
+    height: 100%;
+    padding: .3em;
+    display: grid;
+    grid-template-columns: 100%;
+    grid-template-rows: 1fr 1fr 1fr 1fr;
+    gap: .15rem
+}
+
+button.tilemodebutton.fancy-button>div {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+}
+
+button.tilemodebutton>div>div {
+    display: block;
+    background-color: currentColor;
+    border-radius: .15rem;
 }
 
     /* Fancy Button for special menus or active toggled buttons */
@@ -299,11 +331,29 @@ button.abilityboost:not(.fancy-button),
     background-color: rgb(150, 0, 200);
 }
 
+:not(.icon-list) > div > button.abilityboost.fancy-button,
+:not(.icon-list) > div > .button.abilityboost.fancy-button,
+.darkmode :not(.icon-list) > button.abilityboost.fancy-button,
+.darkmode :not(.icon-list) > .button.abilityboost.fancy-button {
+    -webkit-box-shadow: inset 0 0 0 .15rem rgb(150, 0, 200);
+    -moz-box-shadow: inset 0 0 0 .15rem rgb(150, 0, 200);
+    box-shadow: inset 0 0 0 .15rem rgb(150, 0, 200);
+}
+
 button.skillincrease:not(.fancy-button),
 .darkmode button.skillincrease:not(.fancy-button),
 .button.skillincrease:not(.fancy-button),
 .darkmode .button.skillincrease:not(.fancy-button) {
     background-color: rgb(0, 100, 100);
+}
+
+:not(.icon-list) > app-skillchoice > div > button.skillincrease.fancy-button,
+:not(.icon-list) > app-skillchoice > div > .button.skillincrease.fancy-button,
+.darkmode :not(.icon-list) > app-skillchoice > div > button.skillincrease.fancy-button,
+.darkmode :not(.icon-list) > app-skillchoice > div > .button.skillincrease.fancy-button {
+    -webkit-box-shadow: inset 0 0 0 .15rem rgb(0, 100, 100);
+    -moz-box-shadow: inset 0 0 0 .15rem rgb(0, 100, 100);
+    box-shadow: inset 0 0 0 .15rem rgb(0, 100, 100);
 }
 
 button.featchoice:not(.fancy-button),
@@ -313,11 +363,29 @@ button.featchoice:not(.fancy-button),
     background-color: rgb(200, 100, 0);
 }
 
+:not(.icon-list) > app-featchoice > div > button.featchoice.fancy-button,
+:not(.icon-list) > app-featchoice > div > .button.featchoice.fancy-button,
+.darkmode :not(.icon-list) > app-featchoice > div > button.featchoice.fancy-button,
+.darkmode :not(.icon-list) > app-featchoice > div > .button.featchoice.fancy-button {
+    -webkit-box-shadow: inset 0 0 0 .15rem rgb(200, 100, 0);
+    -moz-box-shadow: inset 0 0 0 .15rem rgb(200, 100, 0);
+    box-shadow: inset 0 0 0 .15rem rgb(200, 100, 0);
+}
+
 button.specialchoice:not(.fancy-button),
 .darkmode button.specialchoice:not(.fancy-button),
 .button.specialchoice:not(.fancy-button),
 .darkmode .button.specialchoice:not(.fancy-button) {
     background-color: rgb(125, 100, 50);
+}
+
+:not(.icon-list) > app-featchoice > div > button.specialchoice.fancy-button,
+:not(.icon-list) > app-featchoice > div > .button.specialchoice.fancy-button,
+.darkmode :not(.icon-list) > app-featchoice > div > button.specialchoice.fancy-button,
+.darkmode :not(.icon-list) > app-featchoice > div > .button.specialchoice.fancy-button {
+    -webkit-box-shadow: inset 0 0 0 .15rem rgb(125, 100, 50);
+    -moz-box-shadow: inset 0 0 0 .15rem rgb(125, 100, 50);
+    box-shadow: inset 0 0 0 .15rem rgb(125, 100, 50);
 }
 
     /* Slider button */
@@ -340,7 +408,7 @@ opacity: .8;
 appearance: none;
 width: 1.4rem;
 height: 1.4rem;
-border-radius: 2px;
+border-radius: .15rem;
 background: rgb(var(--accent));
 cursor: pointer;
 content: var(--thumbNumber);
@@ -349,7 +417,7 @@ content: var(--thumbNumber);
 .slider::-moz-range-thumb {
 width: 1.4rem;
 height: 1.4rem;
-border-radius: 2px;
+border-radius: .15rem;
 background: rgb(var(--accent));
 cursor: pointer;
 }
@@ -422,6 +490,7 @@ cite {
     border-width: 2px;
     color: white;
     line-height: 1.5em;
+    white-space: pre;
 }
 
 cite.trait {
@@ -642,9 +711,12 @@ app-top-bar {
     white-space: nowrap;
     border-style: solid;
     border-color: white;
-    border-radius: 2px;
+    border-radius: .15rem;
     border-width: 2px;
     box-sizing: border-box;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
 }
 
 .darkmode #top-bar button,
@@ -704,7 +776,7 @@ app-character-sheet {
 
 .charactersheet-app {
     background-color: #EFEFEF;
-    border-radius: 2px;
+    border-radius: .15rem;
     margin: .6rem;
     position: relative;
 }
@@ -742,7 +814,7 @@ app-dice {
     overflow-x: hidden;
     border: 4px solid rgb(var(--accent));
     border-top: none;
-    border-radius: 2px;
+    border-radius: .15rem;
 }
 
 app-familiarabilities.charactersheet-app {
@@ -791,7 +863,7 @@ CHARACTERSHEET APP INNER STYLES
 
 /* Left-bound slide-in windows with full size */
 
-.itemBox {
+.itembox {
     height: 100%;
     overflow-y: auto;
     display: flex;
@@ -799,21 +871,27 @@ CHARACTERSHEET APP INNER STYLES
     justify-content: flex-start;
     padding: 1em 2em;
     margin: 0;
-    border-radius: 2px;
+    border-radius: .15rem;
     background-color: white;
 }
 
-.itemBox-inner {
+.itembox-inner {
     overflow-y: auto;
     height: 100%;
 }
 
-.darkmode .itemBox,
+.darkmode .itembox,
 .darkmode .diceBox {
     background-color: #202020;
 }
 
-.itemBox .fancy-button.list-item {
+.itembox > button:first-child {
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.itembox .fancy-button.list-item {
     background-color: #465A8C;
     background-color: rgb(var(--accent));
 }
@@ -822,7 +900,7 @@ CHARACTERSHEET APP INNER STYLES
 
 .diceBox {
     padding: 1em 2.3em;
-    border-radius: 2px;
+    border-radius: .15rem;
     background-color: white;
 }
 
@@ -962,9 +1040,10 @@ header.featureHeader {
     flex-wrap: wrap;
     flex-direction: row;
     justify-content: space-between;
+    gap: .3em;
     padding: .3em .6em;
     margin-top: .6rem;
-    border-radius: 2px;
+    border-radius: .15rem;
     background-color: #E0E0E0;
     background-color: rgba(50, 50, 50, 0.1)
 }
@@ -981,8 +1060,9 @@ header.featureHeader {
 
 .list-item.selected,
 .lower .list-item.selected {
-    border: 3px solid rgb(var(--accent));
-    padding: .1em .35em;
+    -webkit-box-shadow: inset 0 0 .5em .5em rgb(var(--accent));
+    -moz-box-shadow: inset 0 0 .5em .5em rgb(var(--accent));
+    box-shadow: inset 0 0 .5em .5em rgb(var(--accent));
 }
 
 button.list-item {
@@ -1011,7 +1091,7 @@ button.list-item {
     flex-basis: 100%;
     padding: .3em .6em;
     margin-bottom: .15rem;
-    border-radius: 2px;
+    border-radius: .15rem;
 }
 
 .list-item>div:last-child {
@@ -1025,7 +1105,7 @@ button.list-item {
     border-style: solid;
     border-color: #465A8C;
     border-color: rgb(var(--accent));
-    border-radius: 2px;
+    border-radius: .15rem;
     background-clip: border-box;
     position: absolute;
     top: 1rem;
@@ -1120,7 +1200,7 @@ button:hover~.list-item.sublist.problem {
     border-color: rgb(150, 0, 200);
     border-width: 4px;
     border-style: solid;
-    border-radius: 2px;
+    border-radius: .15rem;
 }
 
 button:hover~.list-item.sublist.abilityboost:not(.fancy-button),
@@ -1135,7 +1215,7 @@ button:hover~.list-item.sublist.abilityboost:not(.fancy-button),
     border-color: rgb(0, 100, 100);
     border-width: 4px;
     border-style: solid;
-    border-radius: 2px;
+    border-radius: .15rem;
 }
 
 button:hover~.list-item.sublist.skillincrease:not(.fancy-button),
@@ -1150,7 +1230,7 @@ button:hover~.list-item.sublist.skillincrease:not(.fancy-button),
     border-color: rgb(200, 100, 0);
     border-width: 4px;
     border-style: solid;
-    border-radius: 2px;
+    border-radius: .15rem;
 }
 
 button:hover~.list-item.sublist.featchoice:not(.fancy-button),
@@ -1165,7 +1245,7 @@ button:hover~.list-item.sublist.featchoice:not(.fancy-button),
     border-color: rgb(125, 100, 50);
     border-width: 4px;
     border-style: solid;
-    border-radius: 2px;
+    border-radius: .15rem;
 }
 
 button:hover~.list-item.sublist.specialchoice:not(.fancy-button),
@@ -1288,7 +1368,7 @@ ngb-popover-window.list-item.sublist {
 
 .popover {
     white-space: pre-line;
-    max-width: 30rem;
+    max-width: 40rem;
     background-color: #E0E0E0;
 }
 
@@ -1312,7 +1392,7 @@ ngb-popover-window.list-item.sublist {
     border-style: solid;
     border-color: #465A8C;
     border-color: rgb(var(--accent));
-    border-radius: 2px;
+    border-radius: .15rem;
 }
 
 .darkmode .modal-content {
@@ -1352,7 +1432,7 @@ GRIDICONS
 /* Container for listing many icons */
 
 .icon-list {
-    min-height: calc(4em + .3rem);
+    min-height: calc(4rem + 4px);
     width: 100%;
     height: 100%;
     display: flex;
@@ -1367,6 +1447,12 @@ GRIDICONS
     flex-direction: column;
 }
 
+.icon-list.vertical > * {
+    flex-direction: column;
+    margin-left: auto;
+    margin-right: auto;
+}
+
 .icon-list .icon-list-title {
     text-align: center;
     margin-right: 1rem;
@@ -1376,19 +1462,30 @@ GRIDICONS
 }
 
 .icon-list button {
-    padding: 2px;
+    padding: .15rem;
 }
 
 /* Container for a gridicon on the left and max-width content on the right */
 
 .gridicon-fullsizebox, .list-item.gridicon-fullsizebox {
+    display: flex;
     flex-wrap: nowrap;
     text-align: left;
 }
 
+.gridicon-fullsizebox>*,
+.gridicon-fullsizebox>header.sectionHeader {
+    margin-top: auto;
+    margin-bottom: auto;
+    flex-shrink: 0;
+}
+
 .gridicon-fullsizebox>*:not(:first-child) {
     flex-grow: 1;
-    padding: .3em;
+    padding-left: .3em;
+}
+
+.gridicon-fullsizebox>*:not(:first-child):not(.gridicon-fullsizebox) {
     display: inline-block;
 }
 
@@ -1402,7 +1499,9 @@ app-gridicon {
     position: relative;
     line-height: 1em;
     text-align: center;
-    box-shadow: 0 0 1rem inset;
+    -webkit-box-shadow: inset 0 0 1rem currentColor;
+    -moz-box-shadow: inset 0 0 1rem currentColor;
+    box-shadow: inset 0 0 1rem currentColor;
     display: inline-table;
     overflow: hidden;
     background-color: white;
@@ -1484,7 +1583,7 @@ app-gridicon .gridicon-time-overlay:before {
 
 app-gridicon .gridicon-time-overlay:before {
     --degrees: calc((var(--percentage, 0) / 100) * 360);
-    transform: translate(-25%, 50%) rotate(calc(var(--degrees) * 1deg));;
+    transform: translate(-25%, 50%) rotate(calc(var(--degrees) * 1deg));
     transform-origin: 50% 0;
 }
 
@@ -1574,11 +1673,13 @@ app-gridicon.specialchoice, .darkmode app-gridicon.specialchoice {
     margin-top: 0;
 }
 
-input.character-choice, button.character-choice {
+input.character-choice,
+button.character-choice,
+.minimized input.character-choice,
+.minimized button.character-choice {
     font-size: 2em;
     height: 1em;
     width: 1em;
-    vertical-align: sub;
     padding: 0;
     justify-content: center;
 }
@@ -1768,7 +1869,7 @@ span.problem {
     font-weight: bold;
     margin-left: auto;
     margin-right: auto;
-    border-radius: 4px;
+    border-radius: .3rem;
     padding: 0 1em;
 }
 

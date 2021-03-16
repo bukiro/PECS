@@ -1,4 +1,4 @@
-<div id="spelllibrary" class="itemBox">
+<div id="spelllibrary" class="itembox">
     <button class="list-item center-aligned" (click)="toggleSpellLibraryMenu()">
         <header class="sectionHeader">Close</header>
     </button>
@@ -48,7 +48,7 @@
             <button (click)="toggle_Tradition('Focus')"
                 [ngClass]="{'fancy-button':(get_ShowTradition()=='Focus')}">Focus</button>
         </div>
-        <div class="itemBox-inner">
+        <div class="itembox-inner">
             <ng-container *ngFor="let wizardCasting of [get_WizardSpellCasting()]; trackBy:trackByIndex;">
                 <ng-container *ngFor="let bardCasting of [get_BardSpellCasting()]; trackBy:trackByIndex;">
                     <ng-container *ngFor="let sorcererCasting of [get_SorcererSpellCasting()]; trackBy:trackByIndex;">

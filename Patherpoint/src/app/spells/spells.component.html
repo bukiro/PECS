@@ -1,7 +1,7 @@
 <button class="minimizebutton lower"
     [ngbTooltip]="get_Minimized() ? 'Click to show all information.' : 'Click to show compact information.'"
     [ngClass]="{'fancy-button':get_Minimized()}" (click)="minimize()">&#8691;</button>
-<div id="spells-height" class="itemBox">
+<div id="spells-height" class="itembox">
     <button class="list-item center-aligned" (click)="toggleSpellMenu()">
         <header class="sectionHeader">Close</header>
     </button>
@@ -13,7 +13,7 @@
                 <label for="allowHeightened">Allow heightened spells</label>
             </span>
         </div>
-        <div class="itemBox-inner">
+        <div class="itembox-inner">
             <ng-container *ngFor="let casting of get_SpellCastings(); let index = index; trackBy:trackByIndex;">
                 <header class="sectionHeader">{{(casting.className + " " + casting.tradition + ((casting.castingType ==
                     "Focus") ? (" " + casting.source) : " Spells")).trim()}}

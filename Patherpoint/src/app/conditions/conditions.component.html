@@ -1,11 +1,11 @@
-<div id="conditions" class="itemBox">
+<div id="conditions" class="itembox">
     <button class="list-item center-aligned" (click)="toggleConditionsMenu()">
         <header class="sectionHeader">Close</header>
     </button>
     <div class="loading" *ngIf="still_loading()">Loading</div>
     <ng-container *ngIf="!still_loading() && get_ConditionsMenuState()=='in'">
         <header class="sectionHeader">Duration: {{get_Duration()}}</header>
-        <div class="itemBox-inner">
+        <div class="itembox-inner">
             <div class="list-item">
                 <div class="newrow">
                     <button class="center-aligned" (click)="set_Permanent()">Permanent</button>

@@ -221,6 +221,30 @@ export class CharacterComponent implements OnInit {
         });
     }
 
+    get_SavegameTitle(savegame: Savegame) {
+        let title = "";
+        if (savegame.heritage) {
+            title += " | " + savegame.heritage;
+            if (savegame.ancestry) {
+                if (!savegame.heritage.includes(savegame.ancestry)) {
+                    title += " " + savegame.ancestry;
+                }
+            }
+        } else {
+            if (savegame.ancestry) {
+                title += " | " + savegame.ancestry;
+            }
+        }
+        if (savegame.class) {
+            title += " | ";
+            if (savegame.classChoice) {
+                title += savegame.classChoice + " ";
+            }
+            title += savegame.class;
+        }
+        return title;
+    }
+
     get_Parties() {
         return Array.from(new Set(this.get_Savegames().map(savegame => savegame.partyName)));
     }

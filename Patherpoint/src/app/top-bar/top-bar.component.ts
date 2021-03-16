@@ -1,7 +1,6 @@
 import { Component, OnInit, HostBinding, ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
 import { CharacterService } from '../character.service';
 import { Subscription } from 'rxjs';
-import { DomSanitizer } from '@angular/platform-browser';
 import { SavegameService } from '../savegame.service';
 import { NgbTooltipConfig } from '@ng-bootstrap/ng-bootstrap';
 
