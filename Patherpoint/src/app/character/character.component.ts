@@ -123,7 +123,9 @@ export class CharacterComponent implements OnInit {
     }
 
     toggle_List(name: string, levelNumber: number = 0, content: any = null) {
-        if (this.showList == name) {
+        if (this.showList == name &&
+            (!levelNumber || this.showContentLevelNumber == levelNumber) &&
+            (!content || this.showContent == content)) {
             this.showList = "";
             this.showContentLevelNumber = 0;
             this.showContent = null;
@@ -136,7 +138,7 @@ export class CharacterComponent implements OnInit {
     }
 
     reset_ChoiceArea() {
-        document.getElementById("choiceArea-top").scrollIntoView({behavior: 'smooth'});
+        document.getElementById("choiceArea-top").scrollIntoView({ behavior: 'smooth' });
     }
 
     receive_SkillChoiceMessage(name: string/*, message: {name: string, levelNumber: number, choice: SkillChoice}*/) {
@@ -152,12 +154,6 @@ export class CharacterComponent implements OnInit {
         this.toggle_Item(name);
     }
 
-    get_ActiveFeatChoice() {
-        if (this.showContent?.constructor == FeatChoice) {
-            return [{name:this.get_ShowList(), levelNumber:this.get_ShowContentLevelNumber(), choice:this.get_ShowContent()}];
-        } return [];
-    }
-
     get_ShowLevel() {
         return this.showLevel;
     }
@@ -168,6 +164,24 @@ export class CharacterComponent implements OnInit {
 
     get_ShowList() {
         return this.showList;
+    }
+
+    get_ActiveAbilityChoice() {
+        if (this.showContent?.constructor == AbilityChoice) {
+            return [{ name: this.get_ShowList(), levelNumber: this.get_ShowContentLevelNumber(), choice: this.get_ShowContent() }];
+        } return [];
+    }
+
+    get_ActiveSkillChoice() {
+        if (this.showContent?.constructor == SkillChoice) {
+            return [{ name: this.get_ShowList(), levelNumber: this.get_ShowContentLevelNumber(), choice: this.get_ShowContent() }];
+        } return [];
+    }
+
+    get_ActiveFeatChoice() {
+        if (this.showContent?.constructor == FeatChoice) {
+            return [{ name: this.get_ShowList(), levelNumber: this.get_ShowContentLevelNumber(), choice: this.get_ShowContent() }];
+        } return [];
     }
 
     get_ShowContent() {
@@ -189,8 +203,6 @@ export class CharacterComponent implements OnInit {
     get_ShowFixedChangesLevelNumber() {
         return this.showFixedChangesLevelNumber;
     }
-
-    get_Show
 
     set_Accent() {
         this.characterService.set_Accent();
@@ -216,7 +228,7 @@ export class CharacterComponent implements OnInit {
     }
 
     trackByID(index: number, obj: any): any {
-        //Track feat choices or skill choices by id, so that when the selected choice changes, the choice area content is updated.
+        //Track ability, skiil or feat choices choices by id, so that when the selected choice changes, the choice area content is updated.
         // The choice area content is only ever one choice, so the index would always be 0.
         return obj.choice.id;
     }
@@ -560,22 +572,41 @@ export class CharacterComponent implements OnInit {
         return choice.maxAvailable(this.get_Character());
     }
 
+    get_AbilityChoiceTitle(choice: AbilityChoice) {
+        let maxAvailable = this.get_MaxAvailable(choice);
+        let title = "Ability " + (choice.infoOnly ? "Choice (no Boost)" : "Boost");
+        if (maxAvailable > 1) {
+            title += "s";
+        }
+        title += " (" + choice.source + ")";
+        if (maxAvailable > 1) {
+            title += ": " + choice.boosts.length + "/" + maxAvailable;
+        } else {
+            if (choice.boosts.length) {
+                title += ": " + choice.boosts[0].name;
+            }
+        }
+        return title;
+    }
+
+    get_AbilityTakenByThis(ability: Ability, choice: AbilityChoice, levelNumber: number) {
+        return this.get_AbilityBoosts(levelNumber, levelNumber, ability.name, (choice.infoOnly ? 'Info' : 'Boost'), choice.source).length
+    }
+
     get_Abilities(name: string = "") {
         return this.characterService.get_Abilities(name)
     }
 
-    get_AvailableAbilities(choice: AbilityChoice) {
+    get_AvailableAbilities(choice: AbilityChoice, levelNumber: number) {
         let abilities = this.get_Abilities('');
         if (choice.filter.length) {
             //If there is a filter, we need to find out if any of the filtered Abilities can actually be boosted.
             let cannotBoost = 0;
-            if (choice.id.split("-")[0] == "1") {
-                choice.filter.forEach(filter => {
-                    if (this.cannotBoost(this.get_Abilities(filter)[0], this.get_Level(1), choice).length) {
-                        cannotBoost += 1;
-                    }
-                });
-            }
+            choice.filter.forEach(filter => {
+                if (this.cannotBoost(this.get_Abilities(filter)[0], levelNumber, choice).length) {
+                    cannotBoost += 1;
+                }
+            });
             //If any can be boosted, filter the list by the filter (and show the already selected abilities so you can unselect them if you like).
             //If none can be boosted, the list just does not get filtered.
             if (cannotBoost < choice.filter.length) {
@@ -592,10 +623,10 @@ export class CharacterComponent implements OnInit {
         }
     }
 
-    someAbilitiesIllegal(choice: AbilityChoice) {
+    someAbilitiesIllegal(choice: AbilityChoice, levelNumber: number) {
         let anytrue = 0;
         choice.boosts.forEach(boost => {
-            if (this.abilityIllegal(parseInt(choice.id.split("-")[0]), this.get_Abilities(boost.name)[0])) {
+            if (this.abilityIllegal(levelNumber, this.get_Abilities(boost.name)[0])) {
                 if (!boost.locked) {
                     this.get_Character().boost_Ability(this.characterService, boost.name, false, choice, boost.locked);
                     this.characterService.process_ToChange();
@@ -615,12 +646,12 @@ export class CharacterComponent implements OnInit {
         return illegal;
     }
 
-    cannotBoost(ability: Ability, level: Level, choice: AbilityChoice) {
-        //Returns a string of reasons why the abiliyt cannot be boosted, or "". Test the length of the return if you need a boolean.
+    cannotBoost(ability: Ability, levelNumber: number, choice: AbilityChoice) {
+        //Returns a string of reasons why the ability cannot be boosted, or "". Test the length of the return if you need a boolean.
         //Info only choices that don't grant a boost (like for the key ability for archetypes) don't need to be checked.
         if (choice.infoOnly) { return [] };
         let reasons: string[] = [];
-        let sameBoostsThisLevel = this.get_AbilityBoosts(level.number, level.number, ability.name, "Boost", choice.source);
+        let sameBoostsThisLevel = this.get_AbilityBoosts(levelNumber, levelNumber, ability.name, "Boost", choice.source);
         if (sameBoostsThisLevel.length > 0 && sameBoostsThisLevel[0].source == choice.source) {
             //The ability may have been boosted by the same source, but as a fixed rule (e.g. fixed ancestry boosts vs. free ancestry boosts).
             //This does not apply to flaws - you can boost a flawed ability.
@@ -639,7 +670,7 @@ export class CharacterComponent implements OnInit {
         //This is only relevant if you haven't boosted the ability on this level yet.
         //If you have, we don't want to hear that it couldn't be boosted again right away.
         let cannotBoostHigher = "";
-        if (level.number == 1 && ability.baseValue(this.get_Character(), this.characterService, level.number).result > 16 && sameBoostsThisLevel.length == 0) {
+        if (levelNumber == 1 && ability.baseValue(this.get_Character(), this.characterService, levelNumber).result > 16 && sameBoostsThisLevel.length == 0) {
             cannotBoostHigher = "Cannot boost above 18 on level 1.";
             reasons.push(cannotBoostHigher);
         }

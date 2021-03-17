@@ -38,14 +38,13 @@ export class Ability {
         if (characterService.still_loading()) { return { result: 10, explain: "Base value: 10" }; }
         //Get baseValues from the character if they exist, otherwise 10
         let baseValue = 10;
-        let explain = "Base value: 10"
-        if (creature.type == "Character" && (creature as Character).baseValues) {
-            let baseValues = (creature as Character).baseValues.filter(baseValue => baseValue.name == this.name)
-            if (baseValues.length > 0) {
-                baseValue = baseValues[0].baseValue
-            }
+        if (creature.type == "Character" && (creature as Character).baseValues.length) {
+            (creature as Character).baseValues.filter(ownValue => ownValue.name == this.name).forEach(ownValue => {
+                baseValue = ownValue.baseValue;
+            })
         }
         baseValue = (baseValue) ? baseValue : 10;
+        let explain = "Base value: " + baseValue;
         //Get any boosts from the character and sum them up
         //Boosts are +2 until 18, then +1 for Character
         //Boosts are always +2 for Companion

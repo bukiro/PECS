@@ -340,8 +340,8 @@ button.abilityboost:not(.fancy-button),
     background-color: rgb(150, 0, 200);
 }
 
-:not(.icon-list) > div > button.abilityboost.fancy-button,
-:not(.icon-list) > div > .button.abilityboost.fancy-button,
+:not(.icon-list) > button.abilityboost.fancy-button,
+:not(.icon-list) > .button.abilityboost.fancy-button,
 .darkmode :not(.icon-list) > button.abilityboost.fancy-button,
 .darkmode :not(.icon-list) > .button.abilityboost.fancy-button {
     -webkit-box-shadow: inset 0 0 0 .15rem rgb(150, 0, 200);
@@ -1477,7 +1477,8 @@ GRIDICONS
 }
 
 .icon-list button {
-    padding: .15rem;
+    /* We use pixel-precise padding here because the button is fit around a gridIcon, and rem-padding looks wonky */
+    padding: 3px;
 }
 
 /* Container for a gridicon on the left and max-width content on the right */

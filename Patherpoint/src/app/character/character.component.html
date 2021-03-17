@@ -350,7 +350,7 @@
                                                                 </button>
                                                             </div>
                                                             <!--Fixed information tile mode-->
-                                                            <div class="fullsize-only">
+                                                            <div class="fullsize-only" *ngIf="get_TileMode()">
                                                                 <button
                                                                     [ngClass]="{'fancy-button activechoice':get_ShowFixedChangesLevelNumber()==level.number}"
                                                                     (click)="toggle_FixedChangesLevelNumber(level.number)">
@@ -367,8 +367,25 @@
                                             </ng-container>
                                         </ng-container>
                                     </div>
-                                    <!--Ability boosts-->
-                                    <div [ngClass]="{'icon-list vertical':get_TileMode()}">
+                                    <!--Ability boosts list mode-->
+                                    <ng-container *ngIf="!get_TileMode()">
+                                        <ng-container
+                                            *ngFor="let choice of level.abilityChoices; trackBy:trackByIndex;">
+                                            <ng-container
+                                                *ngFor="let maxAvailable of [get_MaxAvailable(choice)]; trackBy:trackByIndex;">
+                                                <div class="list-item" *ngIf="maxAvailable"
+                                                    [ngClass]="{'problem':(choice.boosts.length > maxAvailable || someAbilitiesIllegal(choice, level.number)), 'fullsize-only':choice.boosts.length == maxAvailable}">
+                                                    <button class="newrow sublist-toggle abilityboost"
+                                                        [ngClass]="{'fancy-button choicecleared':choice.boosts.length == maxAvailable, 'activechoice':get_ShowList()==choice.id}"
+                                                        (click)="toggle_List(choice.id, level.number, choice)">
+                                                        {{get_AbilityChoiceTitle(choice)}}
+                                                    </button>
+                                                </div>
+                                            </ng-container>
+                                        </ng-container>
+                                    </ng-container>
+                                    <!--Ability boosts tile mode-->
+                                    <div class="icon-list vertical" *ngIf="get_TileMode()">
                                         <!--Fixed ability boosts tile mode-->
                                         <ng-container
                                             *ngIf="get_TileMode() && get_ShowFixedChangesLevelNumber()==level.number">
@@ -397,60 +414,19 @@
                                         </ng-container>
                                         <ng-container
                                             *ngFor="let choice of level.abilityChoices; trackBy:trackByIndex;">
-                                            <ng-container *ngFor="let listID of [choice.id]; trackBy:trackByIndex;">
-                                                <div class="list-item" *ngIf="get_MaxAvailable(choice)"
-                                                    [ngClass]="{'problem':(choice.boosts.length > get_MaxAvailable(choice) || someAbilitiesIllegal(choice)), 'fullsize-only':(choice.boosts.length == get_MaxAvailable(choice))}">
-                                                    <button class="newrow sublist-toggle abilityboost"
-                                                        [ngClass]="{'fancy-button choicecleared':choice.boosts.length == get_MaxAvailable(choice), 'activechoice':get_ShowList()==listID}"
-                                                        (click)="toggle_List(listID)">
-                                                        Ability {{choice.infoOnly ? "Choice (no Boost)" :
-                                                        "Boost"}}{{(get_MaxAvailable(choice) > 1) ? "s" : ""}}
-                                                        ({{choice.source}}){{(get_MaxAvailable(choice) > 1) ?
-                                                        ": "+ choice.boosts.length + "/" +
-                                                        (get_MaxAvailable(choice)) :
-                                                        (choice.boosts.length) ? ": "+ choice.boosts[0].name :
-                                                        ""}}
-                                                    </button>
-                                                    <div class="list-item sublist abilityboost"
-                                                        [ngClass]="{'fancy-list':(choice.boosts.length == get_MaxAvailable(choice))}"
-                                                        *ngIf="get_ShowList()==listID">
-                                                        <div class="list-item"
-                                                            [ngClass]="{'selected':get_AbilityBoosts(level.number, level.number, ability.name, 'Boost', choice.source).length || get_AbilityBoosts(level.number, level.number, ability.name, 'Info', choice.source).length}"
-                                                            *ngFor="let ability of get_AvailableAbilities(choice); trackBy:trackByIndex;"
-                                                            [ngClass]="{'problem':abilityIllegal(level.number, ability)}">
-                                                            <div class="newrow"
-                                                                *ngFor="let itemID of [choice.id+ability.name]; trackBy:trackByIndex;">
-                                                                <span>
-                                                                    <input id="{{itemID}}" type="checkbox"
-                                                                        (change)="on_AbilityBoost(ability.name, $event.target.checked, choice, false)"
-                                                                        [checked]="get_AbilityBoosts(level.number, level.number, ability.name, 'Boost', choice.source).length || get_AbilityBoosts(level.number, level.number, ability.name, 'Info', choice.source).length"
-                                                                        [disabled]="cannotBoost(ability, level, choice).length || (choice.boosts.length == get_MaxAvailable(choice) && !(get_AbilityBoosts(level.number, level.number, ability.name, 'Boost', choice.source).length || get_AbilityBoosts(level.number, level.number, ability.name, 'Info', choice.source).length))">
-                                                                    <label for="{{itemID}}">
-                                                                        &nbsp;<strong>{{ability.name}}</strong>
-                                                                        <div class="value"
-                                                                            style="padding:0px 2px; border:none;"
-                                                                            [ngbPopover]="baseValue.explain"
-                                                                            maxlength="2"
-                                                                            *ngFor="let baseValue of [ability.baseValue(get_Character(), characterService, level.number)]; trackBy:trackByIndex;">
-                                                                            {{baseValue.result}}
-                                                                        </div>
-                                                                        <cite class="problem"
-                                                                            *ngFor="let reason of cannotBoost(ability, level, choice); trackBy:trackByIndex;">
-                                                                            {{reason}}
-                                                                        </cite>
-                                                                        <cite class="problem"
-                                                                            *ngIf="abilityIllegal(level.number, ability)">
-                                                                            Abilities cannot be raised above 18
-                                                                            on
-                                                                            level
-                                                                            1!&nbsp;
-                                                                        </cite>
-                                                                    </label>
-                                                                </span>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
+                                            <ng-container
+                                                *ngFor="let maxAvailable of [get_MaxAvailable(choice)]; trackBy:trackByIndex;">
+                                                <button class="abilityboost"
+                                                    (click)="toggle_List(choice.id, level.number, choice)"
+                                                    [ngClass]="{'problem':(choice.boosts.length > maxAvailable || someAbilitiesIllegal(choice, level.number)), 'fancy-button fullsize-only choicecleared':choice.boosts.length == maxAvailable, 'activechoice':get_ShowList()==choice.id}"
+                                                    *ngIf="maxAvailable">
+                                                    <app-gridIcon class="abilityboost"
+                                                        [ngbTooltip]="get_AbilityChoiceTitle(choice)"
+                                                        [superTitle]="maxAvailable.toString()"
+                                                        [title]="(maxAvailable == 1 && choice.boosts.length) ? choice.boosts[0].name : choice.boosts.length.toString()"
+                                                        [ngClass]="{'fancy-button':choice.boosts.length == maxAvailable}">
+                                                    </app-gridIcon>
+                                                </button>
                                             </ng-container>
                                         </ng-container>
                                     </div>
@@ -488,27 +464,28 @@
                                         </ng-container>
                                     </div>
                                     <!--Feat choices-->
-                                    <!--Fixed feats tile mode-->
-                                    <ng-container
-                                        *ngIf="get_TileMode() && get_ShowFixedChangesLevelNumber()==level.number">
-                                        <ng-container
-                                            *ngFor="let feat of get_FeatsTaken(level.number, level.number, '', '', '', true, 'feat'); trackBy:trackByIndex;">
-                                            <ng-template #FixedFeatContent>
-                                                <header class="spellHeader">{{feat.name}}</header>
-                                                <app-feat [feat]="get_FeatsAndFeatures(feat.name)[0]" [choice]="null"
-                                                    [levelNumber]="level.number">
-                                                </app-feat>
-                                            </ng-template>
-                                            <button class="fullsize-only inactive-button" #FixedFeatPopover="ngbPopover"
-                                                [ngbPopover]="FixedFeatContent" triggers="click">
-                                                <app-gridIcon class="featchoice"
-                                                    [ngbTooltip]="!FixedFeatPopover.isOpen() && feat.name"
-                                                    [title]="feat.name" [superTitle]="'(locked)'">
-                                                </app-gridIcon>
-                                            </button>
-                                        </ng-container>
-                                    </ng-container>
                                     <div [ngClass]="{'icon-list vertical':get_TileMode()}">
+                                        <!--Fixed feats tile mode-->
+                                        <ng-container
+                                            *ngIf="get_TileMode() && get_ShowFixedChangesLevelNumber()==level.number">
+                                            <ng-container
+                                                *ngFor="let feat of get_FeatsTaken(level.number, level.number, '', '', '', true, 'feat'); trackBy:trackByIndex;">
+                                                <ng-template #FixedFeatContent>
+                                                    <header class="spellHeader">{{feat.name}}</header>
+                                                    <app-feat [feat]="get_FeatsAndFeatures(feat.name)[0]"
+                                                        [choice]="null" [levelNumber]="level.number">
+                                                    </app-feat>
+                                                </ng-template>
+                                                <button class="fullsize-only inactive-button"
+                                                    #FixedFeatPopover="ngbPopover" [ngbPopover]="FixedFeatContent"
+                                                    triggers="click">
+                                                    <app-gridIcon class="featchoice"
+                                                        [ngbTooltip]="!FixedFeatPopover.isOpen() && feat.name"
+                                                        [title]="feat.name" [superTitle]="'(locked)'">
+                                                    </app-gridIcon>
+                                                </button>
+                                            </ng-container>
+                                        </ng-container>
                                         <ng-container
                                             *ngFor="let choice of get_FeatChoices(level, false); let index = index; trackBy:trackByIndex;">
                                             <app-featchoice (showFeatChoiceMessage)="receive_FeatChoiceMessage($event)"
@@ -524,7 +501,7 @@
                                     </div>
                                     <!--Special choices-->
                                     <div [ngClass]="{'icon-list vertical':get_TileMode()}">
-                                        <!--Fixed feats tile mode-->
+                                        <!--Fixed features tile mode-->
                                         <ng-container
                                             *ngIf="get_TileMode() && get_ShowFixedChangesLevelNumber()==level.number">
                                             <ng-container
@@ -1292,7 +1269,7 @@
                 <!--Choice content and templates-->
                 <!--Load character content-->
                 <ng-container *ngIf="get_ShowList()=='load'">
-                    <div id="choiceArea-title" class="newrow list-item padding-8 center-aligned">
+                    <div class="newrow list-item padding-8 center-aligned">
                         <header class="box-header sectionHeader">Load Character</header>
                     </div>
                     <div id="choiceArea" class="charactersheet-app">
@@ -1342,7 +1319,7 @@
                 </ng-container>
                 <!--Settings-->
                 <ng-container *ngIf="get_ShowList()=='settings'">
-                    <div id="choiceArea-title" class="newrow list-item padding-8 center-aligned">
+                    <div class="newrow list-item padding-8 center-aligned">
                         <header class="box-header sectionHeader">Settings</header>
                     </div>
                     <div id="choiceArea" class="charactersheet-app">
@@ -1413,16 +1390,25 @@
                 </ng-container>
                 <!--Alternative Ability Values content-->
                 <ng-container *ngIf="get_ShowList()=='alternativeBaseValues'">
-                    <div id="choiceArea-title" class="newrow list-item padding-8 center-aligned">
+                    <div class="newrow list-item padding-8 center-aligned">
                         <header class="box-header sectionHeader">Alternative Ability Values:
                             {{get_Character().baseValues.length ? 'Used' : 'Not used'}}</header>
                     </div>
                     <div id="choiceArea" class="charactersheet-app">
+                        <div class="list-item">
+                            <p>
+                                You can roll your own ability scores and enter them here. If you use these values, your
+                                character gets one fewer free ability boosts than normal from their ancestry and from their
+                                background. These ability boosts cannot raise a score above 18. If this would happen,
+                                you can put the ability boost into another ability score instead, as if it were a free
+                                ability boost. The character does not get any more free ability boosts on level 1.
+                            </p>
+                        </div>
                         <div class="list-item gridicon-fullsizebox">
                             <input id="useAlternativeBaseValues" class="character-choice" type="checkbox"
                                 (change)="on_BaseValueChange()" [checked]="get_Character().baseValues.length">
                             <label for="useAlternativeBaseValues">
-                                <strong>Enter your own Ability values</strong>
+                                <strong>Enter your own Ability scores</strong>
                             </label>
                         </div>
                         <div class="list-item gridicon-fullsizebox"
@@ -1435,7 +1421,7 @@
                 </ng-container>
                 <!--Class choice content-->
                 <ng-container *ngIf="get_ShowList()=='class'">
-                    <div id="choiceArea-title" class="newrow list-item padding-8 center-aligned">
+                    <div class="newrow list-item padding-8 center-aligned">
                         <header class="box-header sectionHeader">
                             Class{{(get_Character().class.name) ? ": "+ get_Character().class.name : ""}}
                         </header>
@@ -1505,7 +1491,7 @@
                 </ng-container>
                 <!--Ancestry choice content-->
                 <ng-container *ngIf="get_ShowList()=='ancestry'">
-                    <div id="choiceArea-title" class="newrow list-item padding-8 center-aligned">
+                    <div class="newrow list-item padding-8 center-aligned">
                         <header class="box-header sectionHeader">
                             Ancestry{{(get_Character().class.ancestry.name) ? ": "+ get_Character().class.ancestry.name
                             : ""}}
@@ -1565,7 +1551,7 @@
                                                 </app-gridIcon>
                                                 <header class="sectionHeader">
                                                     <span [ngbPopover]="AncestryChoiceDetailsTemplate"
-                                                        triggers="click">{{ancestry.name}} </span>
+                                                        triggers="click">{{ancestry.name}}&nbsp;</span>
                                                     <cite class="trait" *ngIf="ancestry.traits.includes('Rare')"
                                                         [ngbPopover]="get_Traits('Rare')[0]?.desc"
                                                         openDelay=100>Rare</cite>
@@ -1583,7 +1569,7 @@
                 </ng-container>
                 <!--Heritage choice content-->
                 <ng-container *ngIf="get_ShowList()=='heritage'">
-                    <div id="choiceArea-title" class="newrow list-item padding-8 center-aligned">
+                    <div class="newrow list-item padding-8 center-aligned">
                         <header class="box-header sectionHeader">
                             Heritage{{(get_Character().class.heritage.name) ? ": "+ get_Character().class.heritage.name
                             : ""}}
@@ -1671,7 +1657,7 @@
                                                 <header class="sectionHeader">
                                                     <span #HeritageChoiceDetailsPopover="ngbPopover"
                                                         [ngbPopover]="HeritageChoiceDetailsTemplate"
-                                                        triggers="click">{{heritage.name}} </span>
+                                                        triggers="click">{{heritage.name}}&nbsp;</span>
                                                     <cite class="trait" *ngIf="heritage.traits.includes('Rare')"
                                                         [ngbPopover]="get_Traits('Rare')[0]?.desc"
                                                         openDelay=100>Rare</cite>
@@ -1689,7 +1675,7 @@
                 </ng-container>
                 <!--Languages content-->
                 <ng-container *ngIf="get_ShowList()=='languages'">
-                    <div id="choiceArea-title" class="newrow list-item padding-8 center-aligned">
+                    <div class="newrow list-item padding-8 center-aligned">
                         <header class="box-header sectionHeader">Languages</header>
                     </div>
                     <div id="choiceArea" class="charactersheet-app">
@@ -1720,7 +1706,7 @@
                             get_Character().class.background.name : ""}}
                         </header>
                     </div>
-                    <div id="choiceArea-title" id="choiceArea" class="charactersheet-app">
+                    <div id="choiceArea" class="charactersheet-app">
                         <!-- Filter -->
                         <div class="list-item lower">
                             <strong>Filter</strong>
@@ -1821,7 +1807,7 @@
                                                 <header class="sectionHeader">
                                                     <span #BackgroundChoiceDetailsPopover="ngbPopover"
                                                         [ngbPopover]="BackgroundChoiceDetailsTemplate"
-                                                        triggers="click">{{background.name}} </span>
+                                                        triggers="click">{{background.name}}&nbsp;</span>
                                                     <cite class="trait" *ngIf="background.traits.includes('Rare')"
                                                         [ngbPopover]="get_Traits('Rare')[0]?.desc"
                                                         openDelay=100>Rare</cite>
@@ -1838,7 +1824,7 @@
                     </div>
                 </ng-container>
                 <ng-container *ngIf="get_ShowList()=='deity'">
-                    <div id="choiceArea-title" class="newrow list-item padding-8 center-aligned">
+                    <div class="newrow list-item padding-8 center-aligned">
                         <header class="box-header sectionHeader">
                             Deity{{get_Character().class.deity ? ": "+get_Character().class.deity : ""}}
                         </header>
@@ -1911,7 +1897,7 @@
                 </ng-container>
                 <!--Fixed content template (list mode only)-->
                 <ng-container *ngIf="get_ShowList()=='fixedchanges'">
-                    <div id="choiceArea-title" class="newrow list-item padding-8 center-aligned">
+                    <div class="newrow list-item padding-8 center-aligned">
                         <header class="box-header sectionHeader">
                             Level {{this.get_ShowContentLevelNumber()}} fixed changes
                         </header>
@@ -1981,6 +1967,51 @@
                                 <button class="lower inactive-button" [ngbPopover]="FixedFeatureDetail"
                                     triggers="click">Details</button>
                             </div>
+                        </ng-container>
+                    </div>
+                </ng-container>
+                <ng-container *ngFor="let abilityContent of get_ActiveAbilityChoice(); trackBy:trackByID">
+                    <div class="newrow list-item padding-8 center-aligned">
+                        <header class="box-header sectionHeader">
+                            {{get_AbilityChoiceTitle(abilityContent.choice)}}
+                        </header>
+                    </div>
+                    <div id="choiceArea" class="charactersheet-app">
+                        <ng-container
+                            *ngFor="let ability of get_AvailableAbilities(abilityContent.choice, abilityContent.levelNumber); trackBy:trackByIndex;">
+                            <ng-container
+                                *ngFor="let checked of [get_AbilityTakenByThis(ability, abilityContent.choice, abilityContent.levelNumber)]; trackBy:trackByIndex">
+                                <ng-container
+                                    *ngFor="let disabled of [this.cannotBoost(ability, abilityContent.levelNumber, abilityContent.choice).length || (abilityContent.choice.boosts.length == get_MaxAvailable(abilityContent.choice) && !checked)]; trackBy:trackByIndex">
+                                    <div class="newrow list-item"
+                                        [ngClass]="{'selected':checked, 'problem':abilityIllegal(abilityContent.levelNumber, ability)}">
+                                        <div class="gridicon-fullsizebox">
+                                            <input id="{{ability.name}}" type="checkbox" class="character-choice"
+                                                (change)="on_AbilityBoost(ability.name, $event.target.checked, abilityContent.choice, false)"
+                                                [checked]="checked" [disabled]="disabled">
+                                            <div class="gridicon-fullsizebox"
+                                                *ngFor="let baseValue of [ability.baseValue(get_Character(), characterService, abilityContent.levelNumber)]; trackBy:trackByIndex;">
+                                                <app-gridIcon [title]="ability.name" [ngbPopover]="baseValue.explain"
+                                                    triggers="hover:click" openDelay=1
+                                                    [superTitle]="baseValue.result.toString()">
+                                                </app-gridIcon>
+                                                <header class="sectionHeader">
+                                                    <span>{{ability.name}}&nbsp;</span>
+                                                    <cite class="problem"
+                                                        *ngFor="let reason of cannotBoost(ability, abilityContent.levelNumber, abilityContent.choice); trackBy:trackByIndex;">
+                                                        {{reason}}
+                                                    </cite>
+                                                    <cite class="problem"
+                                                        *ngIf="abilityIllegal(abilityContent.levelNumber, ability)"
+                                                        [ngbPopover]="'Abilities cannot be raised above 18 on level 1.'">
+                                                        Limit reached&nbsp;
+                                                    </cite>
+                                                </header>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </ng-container>
+                            </ng-container>
                         </ng-container>
                     </div>
                 </ng-container>

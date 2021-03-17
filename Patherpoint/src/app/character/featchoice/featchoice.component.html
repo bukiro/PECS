@@ -17,7 +17,7 @@
                     </app-gridIcon>
                 </button>
                 <!--Choice title shows above content in content only mode-->
-                <div id="choiceArea-title" class="newrow list-item padding-8 center-aligned" *ngIf="!showTitle">
+                <div class="newrow list-item padding-8 center-aligned" *ngIf="!showTitle">
                     <header class="box-header sectionHeader">
                         {{buttonTitle}}
                     </header>
@@ -156,13 +156,13 @@
                                     <div class="list-item gridicon-fullsizebox" triggers="click"
                                         [ngClass]="{'unavailable':(!featSet.available), 'selected':(featTakenByThis(featSet.feat, choice) || subFeatTakenByThis(undefined, featSet.feat, choice))}">
                                         <input *ngIf="!featSet.feat.subTypes && featSet.available"
-                                            class="character-choice" id="{{choice.id+featSet.feat.name}}"
+                                            class="character-choice" id="{{featSet.feat.name}}"
                                             type="checkbox"
                                             (change)="on_FeatTaken(featSet.feat, $event.target.checked, choice, false)"
                                             [checked]="checked" [disabled]="disabled">
                                         <button class="character-choice" (click)="FeatChoiceDetailPopover.toggle()"
                                             *ngIf="featSet.feat.subTypes">+</button>
-                                        <input type="checkbox" id="{{choice.id+featSet.feat.name}}"
+                                        <input type="checkbox" id="{{featSet.feat.name}}"
                                             class="character-choice"
                                             *ngIf="!featSet.feat.subTypes && !featSet.available" disabled>
                                         <div class="gridicon-fullsizebox" #FeatChoiceDetailPopover="ngbPopover"
