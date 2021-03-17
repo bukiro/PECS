@@ -51,8 +51,8 @@
         <header class="sectionHeader box-header">Skills</header>
         <!--Skill Increases-->
         <ng-container *ngFor="let choice of get_SkillChoices(); trackBy:trackByIndex;">
-            <app-skillchoice (showChoiceMessage)="receive_ChoiceMessage($event)" [choice]="choice"
-                [showChoice]="get_ShowList()">
+            <app-skillchoice (showSkillChoiceMessage)="receive_ChoiceMessage($event)" [showTitle]="true"
+                [showContent]="true" [choice]="choice" [showChoice]="get_ShowList()">
             </app-skillchoice>
         </ng-container>
         <app-tags [creature]="creature" [objectName]="'Skills'" [showTraits]=true [showFeats]=true [showItems]=true

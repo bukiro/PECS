@@ -71,8 +71,8 @@ export class SkillsComponent implements OnInit {
         return this.showList;
     }
 
-    receive_ChoiceMessage(name: string) {
-        this.toggle_List(name);
+    receive_ChoiceMessage(message: { name: string, levelNumber: number, choice: SkillChoice }) {
+        this.toggle_List(message.name);
     }
 
     get_Skills(name: string = "", type: string = "") {

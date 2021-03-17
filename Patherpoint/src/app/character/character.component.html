@@ -455,10 +455,12 @@
                                                 </button>
                                             </ng-container>
                                         </ng-container>
+                                        <!--Skill Choices handle tile mode internally-->
                                         <ng-container
                                             *ngFor="let choice of get_SkillChoices(level); let index = index; trackBy:trackByIndex;">
-                                            <app-skillchoice (showChoiceMessage)="receive_SkillChoiceMessage($event)"
-                                                [choice]="choice" [showChoice]="get_ShowList()" [level]="level"
+                                            <app-skillchoice (showSkillChoiceMessage)="receive_ChoiceMessage($event)"
+                                                [choice]="choice" [showChoice]="get_ShowList()"
+                                                [levelNumber]="level.number" [showContent]="false"
                                                 [excludeTemporary]="true">
                                             </app-skillchoice>
                                         </ng-container>
@@ -486,9 +488,10 @@
                                                 </button>
                                             </ng-container>
                                         </ng-container>
+                                        <!--Feat Choices handle tile mode internally-->
                                         <ng-container
                                             *ngFor="let choice of get_FeatChoices(level, false); let index = index; trackBy:trackByIndex;">
-                                            <app-featchoice (showFeatChoiceMessage)="receive_FeatChoiceMessage($event)"
+                                            <app-featchoice (showFeatChoiceMessage)="receive_ChoiceMessage($event)"
                                                 (showFeatMessage)="receive_FeatMessage($event)" [choice]="choice"
                                                 [levelNumber]="level.number" [showContent]="false"
                                                 [showFeat]="get_ShowItem()" [showChoice]="get_ShowList()"
@@ -533,7 +536,7 @@
                                         </div>
                                         <ng-container
                                             *ngFor="let choice of get_FeatChoices(level, true); let index = index; trackBy:trackByIndex;">
-                                            <app-featchoice (showFeatChoiceMessage)="receive_FeatChoiceMessage($event)"
+                                            <app-featchoice (showFeatChoiceMessage)="receive_ChoiceMessage($event)"
                                                 (showFeatMessage)="receive_FeatMessage($event)" [choice]="choice"
                                                 [levelNumber]="level.number" [showContent]="false"
                                                 [showFeat]="get_ShowItem()" [showChoice]="get_ShowList()"
@@ -1398,7 +1401,8 @@
                         <div class="list-item">
                             <p>
                                 You can roll your own ability scores and enter them here. If you use these values, your
-                                character gets one fewer free ability boosts than normal from their ancestry and from their
+                                character gets one fewer free ability boosts than normal from their ancestry and from
+                                their
                                 background. These ability boosts cannot raise a score above 18. If this would happen,
                                 you can put the ability boost into another ability score instead, as if it were a free
                                 ability boost. The character does not get any more free ability boosts on level 1.
@@ -2015,8 +2019,14 @@
                         </ng-container>
                     </div>
                 </ng-container>
+                <ng-container *ngFor="let skillContent of get_ActiveSkillChoice(); trackBy:trackByID;">
+                    <app-skillchoice (showSkillChoiceMessage)="receive_ChoiceMessage($event)"
+                        [choice]="skillContent.choice" [levelNumber]="skillContent.levelNumber" [showTitle]="false"
+                        [showChoice]="skillContent.name" [excludeTemporary]="true">
+                    </app-skillchoice>
+                </ng-container>
                 <ng-container *ngFor="let featContent of get_ActiveFeatChoice(); trackBy:trackByID;">
-                    <app-featchoice (showFeatChoiceMessage)="receive_FeatChoiceMessage($event)"
+                    <app-featchoice (showFeatChoiceMessage)="receive_ChoiceMessage($event)"
                         (showFeatMessage)="receive_FeatMessage($event)" [choice]="featContent.choice"
                         [levelNumber]="featContent.levelNumber" [showTitle]="false" [showFeat]="get_ShowItem()"
                         [showChoice]="featContent.name" [unavailableFeats]="get_Character().settings.unavailableFeats"

@@ -141,12 +141,7 @@ export class CharacterComponent implements OnInit {
         document.getElementById("choiceArea-top").scrollIntoView({ behavior: 'smooth' });
     }
 
-    receive_SkillChoiceMessage(name: string/*, message: {name: string, levelNumber: number, choice: SkillChoice}*/) {
-        this.toggle_List(name);
-        //this.toggle_List(message.name, message.levelNumber, message.choice);
-    }
-
-    receive_FeatChoiceMessage(message: { name: string, levelNumber: number, choice: FeatChoice }) {
+    receive_ChoiceMessage(message: {name: string, levelNumber: number, choice: SkillChoice}) {
         this.toggle_List(message.name, message.levelNumber, message.choice);
     }
 
@@ -544,7 +539,7 @@ export class CharacterComponent implements OnInit {
 
     get_LanguagesAvailable(levelNumber: number = 0) {
         let character = this.get_Character()
-        if (character.class.name) {
+        if (character.class.ancestry.name) {
             if (levelNumber) {
                 //If level is given, check if any new languages have been added on this level. If not, don't get any languages at this point.
                 let newLanguages: number = 0;
@@ -711,8 +706,27 @@ export class CharacterComponent implements OnInit {
         }
     }
 
+    get_INT(levelNumber: number) {
+        if (!levelNumber) {
+            return 0;
+        }
+        //We have to calculate the modifier instead of getting .mod() because we don't want any effects in the character building interface.
+        let intelligence: number = this.get_Abilities("Intelligence")[0].baseValue(this.get_Character(), this.characterService, levelNumber).result;
+        let INT: number = Math.floor((intelligence - 10) / 2);
+        return INT;
+    }
+
+    get_SkillINTBonus(choice: SkillChoice, levelNumber: number) {
+        //Allow INT more skills if INT has been raised since the last level.
+        if (choice.source == "Intelligence") {
+            return this.get_INT(levelNumber) - this.get_INT(levelNumber - 1);
+        } else {
+            return 0;
+        }
+    }
+
     get_SkillChoices(level: Level) {
-        return level.skillChoices.filter(choice => !choice.showOnSheet);
+        return level.skillChoices.filter(choice => !choice.showOnSheet && (choice.available + this.get_SkillINTBonus(choice, level.number) > 0))
     }
 
     get_FeatChoices(level: Level, specialChoices: boolean = undefined) {

@@ -106,16 +106,25 @@ export class GridIconComponent implements OnInit {
         let iconTitle: string = "";
         if (this.title) {
             if (!this.title.includes(" ")) {
-                iconTitle = this.title.replace(/[^A-Z]/gi, '').substr(0, 3);
+                //If the title does not contain spaces, and is not just a number, keep only letters and return the first 3 letters.
+                //Return numbers unchanged
+                if (isNaN(parseInt(this.title))) {
+                    iconTitle = this.title.replace(/[^A-Z]/gi, '').substr(0, 3);
+                } else {
+                    iconTitle = this.title;
+                }
             } else if (this.title.match(".*[A-Z].*")) {
+                //If the title has spaces and contains capital letters, keep only capital letters and return the first 4.
                 iconTitle = this.title.replace(/[^A-Z ]/g, '').split(" ").map(part => part.substr(0, 1)).join("").substr(0, 4);
             } else if (this.title.match(".*[A-Za-z].*")) {
-                iconTitle = this.title.replace(/[^a-z ]/gi, '').split(" ").map(part => part.substr(0, 1)).join("").toUpperCase().substr(0, 4);
+                //If the title has spaces and contains no capital letters, keep only the first letters of every word and return the first 4.
+                iconTitle = this.title.replace(/[^A-Z ]/gi, '').split(" ").map(part => part.substr(0, 1)).join("").toUpperCase().substr(0, 4);
             } else {
                 iconTitle = this.title;
             }
         }
-        if (iconTitle.length == 4) {
+        if (iconTitle.length >= 4) {
+            //If the title is 4 letters or more, break them into 2*2 to display them as a square.
             iconTitle = iconTitle.substr(0, 2) + "<br />" + iconTitle.substr(2, 2);
         }
         return iconTitle;

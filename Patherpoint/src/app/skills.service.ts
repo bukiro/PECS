@@ -33,7 +33,15 @@ export class SkillsService {
                     locked != undefined ? skill.locked == locked : true
                 ));
         } else { return [new Skill()] }
-    }    
+    }
+
+    get_SkillLevelName(level: number, short: boolean = false) {
+        if (short) {
+            return ["U", "U", "T", "T", "E", "E", "M", "M", "L"][level]
+        } else {
+            return ["Untrained", "Untrained", "Trained", "Trained", "Expert", "Expert", "Master", "Master", "Legendary"][level]
+        }
+    }
 
     still_loading() {
         return (this.loading);

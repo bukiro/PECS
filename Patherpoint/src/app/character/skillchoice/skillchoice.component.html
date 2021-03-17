@@ -1,41 +1,70 @@
 <ng-container *ngFor="let listID of [choice.id]; trackBy:trackByIndex;">
-    <ng-container *ngFor="let INTBonus of [get_SkillINTBonus(choice)]; trackBy:trackByIndex;">
-        <div class="list-item" *ngIf="(choice.available + INTBonus) > 0" [ngClass]="{'problem':(choice.increases.length > choice.available + INTBonus || someIllegal(choice)), 'fullsize-only':(choice.increases.length == choice.available + INTBonus)}">
-            <button class="newrow sublist-toggle skillincrease" [ngClass]="{'fancy-button choicecleared':(choice.increases.length == choice.available + INTBonus)}" (click)="toggle_Choice(listID)">
-                Skill {{choice.maxRank == 2 ? 'Training' : 'Increase'}}
-                ({{choice.source}}){{(choice.available + INTBonus > 1) ?
-                (": "+ choice.increases.length +"/"+ (choice.available + INTBonus) ) :
-                (choice.increases.length) ? ": "+ choice.increases[0].name : ""}}
-            </button>
-            <div class="list-item sublist skillincrease" [ngClass]="{'fancy-list':(choice.available + INTBonus == choice.increases.length)}" *ngIf="get_ShowChoice()==listID">
-                <div class="list-item" [ngClass]="{'selected':skillIncreasedByThis(skill, choice)}" *ngFor="let skill of get_AvailableSkills(choice, level); trackBy:trackByIndex;" [ngClass]="{'problem':(!skill.isLegal(get_Character(), this.characterService, level.number) ||
-                (!skill.isLegal(get_Character(), this.characterService, level.number, choice.maxRank) && skillIncreasedByThis(skill, choice)))}">
-                    <div class="newrow" *ngFor="let itemID of [choice.id+skill.name]; trackBy:trackByIndex;">
-                        <span>
-                            <input id="{{itemID}}" type="checkbox"
-                                (change)="on_SkillIncrease(skill.name, $event.target.checked, choice, false)"
-                                [checked]="skillIncreasedByThis(skill, choice)"
-                                [disabled]="skillLockedByThis(skill, choice) || (((choice.available + INTBonus <= choice.increases.length) || cannotIncrease(skill, level, choice).length) && !skillIncreasedByThis(skill, choice))">
-                            <label for="{{itemID}}">
-                                <strong>{{skill.name}}{{skill.ability ? " (" + skill.ability.substr(0,3) + ")" :
-                                    ""}}:</strong>
-                                <app-proficiency-form [creature]="'Character'" [skill]="skill"
-                                    [characterService]="this.characterService" [level]="level.number"
-                                    [excludeTemporary]="excludeTemporary">
-                                </app-proficiency-form>
-                                <cite class="problem"
-                                    *ngFor="let reason of cannotIncrease(skill, level, choice); trackBy:trackByIndex;">
-                                    {{reason}}
-                                </cite>
-                                <cite class="problem"
-                                    *ngIf="!skill.isLegal(get_Character(), this.characterService, level.number) || (!skill.isLegal(get_Character(), this.characterService, level.number, choice.maxRank) && skillIncreasedByThis(skill, choice))">
-                                    This skill was raised higher than allowed!
-                                </cite>
-                            </label>
-                        </span>
-                    </div>
+    <ng-container *ngFor="let maxAvailable of [get_Available()]; trackBy:trackByIndex;">
+        <ng-container *ngFor="let buttonTitle of [get_ButtonTitle(maxAvailable)]; trackBy:trackByIndex;">
+            <div *ngIf="maxAvailable"
+                [ngClass]="{'list-item': showTitle && !get_TileMode(), 'problem':(choice.increases.length > maxAvailable || someIllegal(choice)), 'fullsize-only':(choice.increases.length == maxAvailable)}">
+                <!--Choice button shows in title mode-->
+                <!--List mode button-->
+                <button class="newrow left-aligned sublist-toggle skillincrease"
+                    [ngClass]="{'fancy-button choicecleared':(choice.increases.length == maxAvailable), 'activechoice':get_ShowChoice()==listID && !choice.showOnSheet}"
+                    (click)="toggle_List(listID)" *ngIf="showTitle && (!get_TileMode() || choice.showOnSheet)">
+                    {{buttonTitle}}
+                </button>
+                <!--Tile mode button-->
+                <button class="skillincrease" (click)="toggle_List(listID)" *ngIf="showTitle && get_TileMode() && !choice.showOnSheet"
+                    [ngClass]="{'fancy-button choicecleared':(choice.increases.length == maxAvailable), 'activechoice':get_ShowChoice()==listID && !choice.showOnSheet}">
+                    <app-gridIcon class="skillincrease" [ngbTooltip]="buttonTitle" [superTitle]="maxAvailable.toString()"
+                        [title]="(maxAvailable == 1 && choice.increases.length) ? choice.increases[0].name : choice.increases.length.toString()"
+                        [ngClass]="{'fancy-button':(choice.increases.length == maxAvailable)}">
+                    </app-gridIcon>
+                </button>
+                <!--Choice title shows above content in content only mode-->
+                <div class="newrow list-item padding-8 center-aligned" *ngIf="!showTitle">
+                    <header class="box-header sectionHeader">
+                        {{buttonTitle}}
+                    </header>
+                </div>
+                <!--Choice content shows in content mode-->
+                <div id="{{!showTitle ? 'choiceArea' : ''}}" class="list-item sublist skillincrease"
+                    [ngClass]="{'list-item sublist':showTitle, 'fancy-list':showTitle && (choice.increases.length == maxAvailable), 'charactersheet-app':!showTitle}"
+                    *ngIf="showContent && get_ShowChoice()==listID">
+                    <ng-container
+                        *ngFor="let skill of get_AvailableSkills(choice, levelNumber, maxAvailable); trackBy:trackByIndex;">
+                        <ng-container
+                            *ngFor="let checked of [skillIncreasedByThis(skill, choice)]; trackBy:trackByIndex;">
+                            <ng-container
+                                *ngFor="let disabled of [skillLockedByThis(skill, choice) || (((choice.increases.length >= maxAvailable) || cannotIncrease(skill, levelNumber, choice).length) && !skillIncreasedByThis(skill, choice))]">
+                                <div class="list-item gridicon-fullsizebox" triggers="click"
+                                    [ngClass]="{'selected':checked}">
+                                    <input class="character-choice" id="{{skill.name}}" type="checkbox"
+                                        (change)="on_SkillIncrease(skill.name, $event.target.checked, choice, false, maxAvailable)"
+                                        [checked]="checked" [disabled]="disabled">
+                                    <div class="gridicon-fullsizebox">
+                                        <app-gridIcon [title]="skill.name" [superTitle]="get_SkillLevelName(skill, true)">
+                                        </app-gridIcon>
+                                        <header class="sectionHeader">
+                                            <span>
+                                                {{skill.name}}{{skill.ability ? " (" + skill.ability.substr(0,3)
+                                                + ")" : ""}}&nbsp;
+                                            </span>
+                                            <cite class="problem"
+                                                *ngFor="let reason of cannotIncrease(skill, levelNumber, choice); trackBy:trackByIndex;">
+                                                {{reason}}
+                                            </cite>
+                                            <cite class="problem"
+                                                [ngbPopover]="'This skill was raised higher than allowed.'"
+                                                openDelay=100
+                                                *ngIf="!skill.isLegal(get_Character(), this.characterService, levelNumber) || (!skill.isLegal(get_Character(), this.characterService, levelNumber, choice.maxRank) && skillIncreasedByThis(skill, choice))">
+                                                Too High
+                                            </cite>
+                                        </header>
+                                    </div>
+                                </div>
+                            </ng-container>
+                        </ng-container>
+                    </ng-container>
                 </div>
             </div>
-        </div>
+        </ng-container>
     </ng-container>
 </ng-container>

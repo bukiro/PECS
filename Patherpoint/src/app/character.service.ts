@@ -1487,6 +1487,10 @@ export class CharacterService {
         return this.skillsService.get_Skills(creature.customSkills, name, type, locked)
     }
 
+    get_SkillLevelName(level: number, short: boolean = false) {
+        return this.skillsService.get_SkillLevelName(level, short);
+    }
+
     get_Feats(name: string = "", type: string = "") {
         return this.featsService.get_Feats(this.get_Character().customFeats, name, type);
     }
