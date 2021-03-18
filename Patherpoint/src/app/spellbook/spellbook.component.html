@@ -136,17 +136,22 @@
                                                                             (click)="toggle_Spell(casting.castingType+casting.class+spellTaken.gain.name+spellID)"
                                                                             [ngClass]="{'inactive-button': cannotCast}">
                                                                             <span [ngbTooltip]="'Signature spell'"
-                                                                                *ngIf="is_SignatureSpell(casting, spellTaken.gain)"><i class='bi-stars'></i>&nbsp;</span>
+                                                                                *ngIf="is_SignatureSpell(casting, spellTaken.gain)"><i
+                                                                                    class='bi-stars'></i>&nbsp;</span>
                                                                             <span [ngbTooltip]="'Combination spell'"
-                                                                                *ngIf="spellTaken.choice.spellCombination"><i class='bi-symmetry-horizontal'></i>&nbsp;</span>
+                                                                                *ngIf="spellTaken.choice.spellCombination"><i
+                                                                                    class='bi-symmetry-horizontal'></i>&nbsp;</span>
                                                                             <span
                                                                                 [ngbTooltip]="'Infinite Possibilities spell'"
-                                                                                *ngIf="is_InfinitePossibilitiesSpell(spellTaken.choice)"><i class='bi-globe2'></i>&nbsp;</span>
+                                                                                *ngIf="is_InfinitePossibilitiesSpell(spellTaken.choice)"><i
+                                                                                    class='bi-globe2'></i>&nbsp;</span>
                                                                             <span [ngbTooltip]="'Spell Mastery spell'"
-                                                                                *ngIf="is_SpellMasterySpell(spellTaken.choice)"><i class='bi-gem'></i>&nbsp;</span>
+                                                                                *ngIf="is_SpellMasterySpell(spellTaken.choice)"><i
+                                                                                    class='bi-gem'></i>&nbsp;</span>
                                                                             <span
                                                                                 [ngbTooltip]="'Crossblooded Evolution spell'"
-                                                                                *ngIf="spellTaken.choice.crossbloodedEvolution"><i class='bi-shuffle'></i>&nbsp;</span>
+                                                                                *ngIf="spellTaken.choice.crossbloodedEvolution"><i
+                                                                                    class='bi-shuffle'></i>&nbsp;</span>
                                                                             {{spell.name}}
                                                                             {{spellTaken.gain.combinationSpellName ? " &
                                                                             " + spellTaken.gain.combinationSpellName :
@@ -168,20 +173,20 @@
                                                                                 Effective spell level:
                                                                                 {{effectiveSpellLevel}}</div>
                                                                             <div class="newrow"
+                                                                                *ngIf="casting.castingType == 'Focus' && spell.allowReturnFocusPoint"
                                                                                 [ngbTooltip]="get_FocusPoints() >= get_MaxFocusPoints() ? 'Focus points are full.' : ''">
                                                                                 <button class="newrow center-aligned"
                                                                                     (click)="on_RestoreFocusPoint()"
-                                                                                    *ngIf="casting.castingType == 'Focus' && spell.allowReturnFocusPoint"
                                                                                     [disabled]="get_FocusPoints() >= get_MaxFocusPoints()">
                                                                                     <span class="center-aligned">Return
                                                                                         Focus Point</span>
                                                                                 </button>
                                                                             </div>
                                                                             <div class="newrow"
+                                                                                *ngIf="casting.castingType == 'Prepared' && casting.className == 'Wizard' && !spellTaken.gain.prepared && level > 0 && !spellTaken.gain.duration"
                                                                                 [ngbTooltip]="!can_Restore(casting, level) ? 'No bonded item charges remaining.' : ''">
                                                                                 <button class="newrow center-aligned"
                                                                                     (click)="on_Restore(spellTaken.gain, casting, level)"
-                                                                                    *ngIf="casting.castingType == 'Prepared' && casting.className == 'Wizard' && !spellTaken.gain.prepared && level > 0 && !spellTaken.gain.duration"
                                                                                     [disabled]="!can_Restore(casting, level)">
                                                                                     <span class="center-aligned">Restore
                                                                                         with bonded item
@@ -191,10 +196,10 @@
                                                                                     </span>
                                                                                 </button>
                                                                             </div>
-                                                                            <div class="newrow">
+                                                                            <div class="newrow"
+                                                                                *ngIf="casting.castingType == 'Prepared' && casting.className == 'Wizard' && !spellTaken.gain.prepared && level > 0 && can_Reprepare(level, spell)">
                                                                                 <button class="newrow center-aligned"
-                                                                                    (click)="on_Reprepare(spellTaken.gain)"
-                                                                                    *ngIf="casting.castingType == 'Prepared' && casting.className == 'Wizard' && !spellTaken.gain.prepared && level > 0 && can_Reprepare(level, spell)">
+                                                                                    (click)="on_Reprepare(spellTaken.gain)">
                                                                                     <span
                                                                                         class="center-aligned">Rerepare
                                                                                         <app-actionIcons
@@ -204,10 +209,10 @@
                                                                                 </button>
                                                                             </div>
                                                                             <div class="newrow"
+                                                                                *ngIf="['self', 'ally'].includes(spell.target) && !spellTaken.gain.active"
                                                                                 [ngbTooltip]="cannotCast">
                                                                                 <button class="newrow center-aligned"
                                                                                     (click)="on_Cast(level, spellTaken.gain, casting, spellTaken.choice, 'Character', spell, true)"
-                                                                                    *ngIf="['self', 'ally'].includes(spell.target) && !spellTaken.gain.active"
                                                                                     [disabled]="cannotCast">
                                                                                     {{spell.target == 'ally' ? "Cast on
                                                                                     yourself" :
@@ -215,59 +220,59 @@
                                                                                 </button>
                                                                             </div>
                                                                             <div class="newrow"
+                                                                                *ngIf="['companion', 'ally'].includes(spell.target) && !spellTaken.gain.active && get_CompanionAvailable()"
                                                                                 [ngbTooltip]="cannotCast">
                                                                                 <button class="newrow center-aligned"
                                                                                     (click)="on_Cast(level, spellTaken.gain, casting, spellTaken.choice, 'Companion', spell, true)"
-                                                                                    *ngIf="['companion', 'ally'].includes(spell.target) && !spellTaken.gain.active && get_CompanionAvailable()"
                                                                                     [disabled]="cannotCast">
                                                                                     Cast on your animal companion
                                                                                 </button>
                                                                             </div>
                                                                             <div class="newrow"
+                                                                                *ngIf="['companion', 'ally'].includes(spell.target) && !spellTaken.gain.active && get_FamiliarAvailable()"
                                                                                 [ngbTooltip]="cannotCast">
                                                                                 <button class="newrow center-aligned"
                                                                                     (click)="on_Cast(level, spellTaken.gain, casting, spellTaken.choice, 'Familiar', spell, true)"
-                                                                                    *ngIf="['companion', 'ally'].includes(spell.target) && !spellTaken.gain.active && get_FamiliarAvailable()"
                                                                                     [disabled]="cannotCast">
                                                                                     Cast on your Familiar
                                                                                 </button>
                                                                             </div>
                                                                             <div class="newrow"
+                                                                                *ngIf="spell.target == 'ally' && !spellTaken.gain.active"
                                                                                 [ngbTooltip]="cannotCast">
                                                                                 <button class="newrow center-aligned"
                                                                                     (click)="on_Cast(level, spellTaken.gain, casting, spellTaken.choice, '', spell, true)"
-                                                                                    *ngIf="spell.target == 'ally' && !spellTaken.gain.active"
                                                                                     [disabled]="cannotCast">
                                                                                     Cast on other targets
                                                                                 </button>
                                                                             </div>
                                                                             <div class="newrow"
+                                                                                *ngIf="!spell.target && !spellTaken.gain.active"
                                                                                 [ngbTooltip]="cannotCast">
                                                                                 <button class="newrow center-aligned"
                                                                                     (click)="on_Cast(level, spellTaken.gain, casting, spellTaken.choice, '', spell, true)"
-                                                                                    *ngIf="!spell.target && !spellTaken.gain.active"
                                                                                     [disabled]="cannotCast">
                                                                                     Cast
                                                                                 </button>
                                                                             </div>
-                                                                            <div class="newrow">
+                                                                            <div class="newrow"
+                                                                                *ngIf="spellTaken.gain.active">
                                                                                 <button class="newrow center-aligned"
-                                                                                    (click)="on_Cast(level, spellTaken.gain, casting, spellTaken.choice, spellTaken.gain.target, spell, false)"
-                                                                                    *ngIf="spellTaken.gain.active">
+                                                                                    (click)="on_Cast(level, spellTaken.gain, casting, spellTaken.choice, spellTaken.gain.target, spell, false)">
                                                                                     <span>Dismiss <span
                                                                                             class="actionIcon action1A"></span>
                                                                                         or Stop Sustaining
                                                                                         {{spellTaken.gain.duration ?
                                                                                         "(Duration: " +
                                                                                         get_Duration(spellTaken.gain.duration)
-                                                                                        + ")" : ""}}</span>
+                                                                                        + ")" : ""}}
+                                                                                    </span>
                                                                                 </button>
                                                                             </div>
-                                                                            <div class="newrow"
+                                                                            <div class="newrow" *ngIf="can_Counterspell(casting) && !spellTaken.gain.active && level > 0"
                                                                                 [ngbTooltip]="cannot_Cast(spell, level, casting, spellTaken.choice, spellTaken.gain, maxspellslots, 0)">
                                                                                 <button class="newrow center-aligned"
                                                                                     (click)="on_Counterspell(spellTaken.gain, casting, spellTaken.choice, spell, level)"
-                                                                                    *ngIf="can_Counterspell(casting) && !spellTaken.gain.active && level > 0"
                                                                                     [disabled]="cannot_Cast(spell, level, casting, spellTaken.choice, spellTaken.gain, maxspellslots, 0)">
                                                                                     Expend to counter spell
                                                                                 </button>

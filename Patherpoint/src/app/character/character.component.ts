@@ -161,22 +161,11 @@ export class CharacterComponent implements OnInit {
         return this.showList;
     }
 
-    get_ActiveAbilityChoice() {
-        if (this.showContent?.constructor == AbilityChoice) {
+    get_ActiveChoiceContent(choiceType: string = "") {
+        if (this.showContent?.constructor.name == choiceType) {
             return [{ name: this.get_ShowList(), levelNumber: this.get_ShowContentLevelNumber(), choice: this.get_ShowContent() }];
-        } return [];
-    }
-
-    get_ActiveSkillChoice() {
-        if (this.showContent?.constructor == SkillChoice) {
-            return [{ name: this.get_ShowList(), levelNumber: this.get_ShowContentLevelNumber(), choice: this.get_ShowContent() }];
-        } return [];
-    }
-
-    get_ActiveFeatChoice() {
-        if (this.showContent?.constructor == FeatChoice) {
-            return [{ name: this.get_ShowList(), levelNumber: this.get_ShowContentLevelNumber(), choice: this.get_ShowContent() }];
-        } return [];
+        }
+        return [];
     }
 
     get_ShowContent() {

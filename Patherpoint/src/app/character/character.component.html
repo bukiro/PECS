@@ -367,26 +367,9 @@
                                             </ng-container>
                                         </ng-container>
                                     </div>
-                                    <!--Ability boosts list mode-->
-                                    <ng-container *ngIf="!get_TileMode()">
-                                        <ng-container
-                                            *ngFor="let choice of level.abilityChoices; trackBy:trackByIndex;">
-                                            <ng-container
-                                                *ngFor="let maxAvailable of [get_MaxAvailable(choice)]; trackBy:trackByIndex;">
-                                                <div class="list-item" *ngIf="maxAvailable"
-                                                    [ngClass]="{'problem':(choice.boosts.length > maxAvailable || someAbilitiesIllegal(choice, level.number)), 'fullsize-only':choice.boosts.length == maxAvailable}">
-                                                    <button class="newrow sublist-toggle abilityboost"
-                                                        [ngClass]="{'fancy-button choicecleared':choice.boosts.length == maxAvailable, 'activechoice':get_ShowList()==choice.id}"
-                                                        (click)="toggle_List(choice.id, level.number, choice)">
-                                                        {{get_AbilityChoiceTitle(choice)}}
-                                                    </button>
-                                                </div>
-                                            </ng-container>
-                                        </ng-container>
-                                    </ng-container>
-                                    <!--Ability boosts tile mode-->
-                                    <div class="icon-list vertical" *ngIf="get_TileMode()">
-                                        <!--Fixed ability boosts tile mode-->
+                                    <!--Ability boosts-->
+                                    <div id="abilityboosts" [ngClass]="{'icon-list vertical':get_TileMode()}">
+                                        <!--Tile mode fixed ability boosts-->
                                         <ng-container
                                             *ngIf="get_TileMode() && get_ShowFixedChangesLevelNumber()==level.number">
                                             <ng-container
@@ -406,7 +389,7 @@
                                                     [ngbPopover]="FixedAbilityBoostContent" triggers="click">
                                                     <app-gridIcon class="abilityboost"
                                                         [ngbTooltip]="!FixedAbilityPopover.isOpen() && ((boost.type == 'Flaw' ? 'Flaw: ' : 'Boost: ') + boost.name)"
-                                                        [title]="boost.name" [superTitle]="'(locked)'"
+                                                        [title]="boost.name" [superTitle]="'icon-bi-lock-fill'"
                                                         [detail]="(boost.type == 'Flaw' ? 'Flaw' : 'Boost')">
                                                     </app-gridIcon>
                                                 </button>
@@ -416,14 +399,23 @@
                                             *ngFor="let choice of level.abilityChoices; trackBy:trackByIndex;">
                                             <ng-container
                                                 *ngFor="let maxAvailable of [get_MaxAvailable(choice)]; trackBy:trackByIndex;">
-                                                <button class="abilityboost"
+                                                <!--List mode ability boost buttons-->
+                                                <div class="list-item" *ngIf="maxAvailable && !get_TileMode()"
+                                                    [ngClass]="{'problem':(choice.boosts.length > maxAvailable || someAbilitiesIllegal(choice, level.number)), 'fullsize-only':choice.boosts.length == maxAvailable}">
+                                                    <button class="newrow sublist-toggle abilityboost"
+                                                        [ngClass]="{'fancy-button choicecleared':choice.boosts.length == maxAvailable, 'activechoice':get_ShowList()==choice.id}"
+                                                        (click)="toggle_List(choice.id, level.number, choice)">
+                                                        {{get_AbilityChoiceTitle(choice)}}
+                                                    </button>
+                                                </div>
+                                                <!--Tile mode ability boost buttons-->
+                                                <button class="abilityboost" *ngIf="maxAvailable && get_TileMode()"
                                                     (click)="toggle_List(choice.id, level.number, choice)"
-                                                    [ngClass]="{'problem':(choice.boosts.length > maxAvailable || someAbilitiesIllegal(choice, level.number)), 'fancy-button fullsize-only choicecleared':choice.boosts.length == maxAvailable, 'activechoice':get_ShowList()==choice.id}"
-                                                    *ngIf="maxAvailable">
+                                                    [ngClass]="{'problem':(choice.boosts.length > maxAvailable || someAbilitiesIllegal(choice, level.number)), 'fancy-button fullsize-only choicecleared':choice.boosts.length == maxAvailable, 'activechoice':get_ShowList()==choice.id}">
                                                     <app-gridIcon class="abilityboost"
                                                         [ngbTooltip]="get_AbilityChoiceTitle(choice)"
                                                         [superTitle]="maxAvailable.toString()"
-                                                        [title]="(maxAvailable == 1 && choice.boosts.length) ? choice.boosts[0].name : choice.boosts.length.toString()"
+                                                        [title]="(maxAvailable == 1 && choice.boosts.length) ? choice.boosts[0].name : ((maxAvailable > 1 && choice.boosts.length > 0) ? choice.boosts.length.toString() : '')"
                                                         [ngClass]="{'fancy-button':choice.boosts.length == maxAvailable}">
                                                     </app-gridIcon>
                                                 </button>
@@ -431,8 +423,8 @@
                                         </ng-container>
                                     </div>
                                     <!--Skill Increases-->
-                                    <div [ngClass]="{'icon-list vertical':get_TileMode()}">
-                                        <!--Fixed skill increases tile mode-->
+                                    <div id="skillincreases" [ngClass]="{'icon-list vertical':get_TileMode()}">
+                                        <!--Tile mode fixed skill increases -->
                                         <ng-container
                                             *ngIf="get_TileMode() && get_ShowFixedChangesLevelNumber()==level.number">
                                             <ng-container
@@ -450,7 +442,7 @@
                                                     [ngbPopover]="FixedSkillIncreaseContent" triggers="click">
                                                     <app-gridIcon class="skillincrease"
                                                         [ngbTooltip]="!FixedSkillPopover.isOpen() && skillIncrease.name"
-                                                        [title]="skillIncrease.name" [superTitle]="'(locked)'">
+                                                        [title]="skillIncrease.name" [superTitle]="'icon-bi-lock-fill'">
                                                     </app-gridIcon>
                                                 </button>
                                             </ng-container>
@@ -466,8 +458,8 @@
                                         </ng-container>
                                     </div>
                                     <!--Feat choices-->
-                                    <div [ngClass]="{'icon-list vertical':get_TileMode()}">
-                                        <!--Fixed feats tile mode-->
+                                    <div id="featchoices" [ngClass]="{'icon-list vertical':get_TileMode()}">
+                                        <!--Tile mode fixed feats-->
                                         <ng-container
                                             *ngIf="get_TileMode() && get_ShowFixedChangesLevelNumber()==level.number">
                                             <ng-container
@@ -483,7 +475,7 @@
                                                     triggers="click">
                                                     <app-gridIcon class="featchoice"
                                                         [ngbTooltip]="!FixedFeatPopover.isOpen() && feat.name"
-                                                        [title]="feat.name" [superTitle]="'(locked)'">
+                                                        [title]="feat.name" [superTitle]="'icon-bi-lock-fill'">
                                                     </app-gridIcon>
                                                 </button>
                                             </ng-container>
@@ -503,8 +495,8 @@
                                         </ng-container>
                                     </div>
                                     <!--Special choices-->
-                                    <div [ngClass]="{'icon-list vertical':get_TileMode()}">
-                                        <!--Fixed features tile mode-->
+                                    <div id="specialchoices" [ngClass]="{'icon-list vertical':get_TileMode()}">
+                                        <!--Tile mode fixed features-->
                                         <ng-container
                                             *ngIf="get_TileMode() && get_ShowFixedChangesLevelNumber()==level.number">
                                             <ng-container
@@ -520,20 +512,32 @@
                                                     triggers="click">
                                                     <app-gridIcon class="featchoice"
                                                         [ngbTooltip]="!FixedFeaturePopover.isOpen() && feature.name"
-                                                        [title]="feature.name" [superTitle]="'(locked)'">
+                                                        [title]="feature.name" [superTitle]="'icon-bi-lock-fill'">
                                                     </app-gridIcon>
                                                 </button>
                                             </ng-container>
                                         </ng-container>
                                         <!--Languages - show if you have gained languages this level-->
-                                        <div class="list-item" [ngClass]="{'fullsize-only':!get_BlankLanguages()}"
-                                            *ngIf="level.number > 0 && get_LanguagesAvailable(level.number)">
-                                            <button class="newrow specialchoice"
-                                                [ngClass]="{'fancy-button choicecleared':!get_BlankLanguages(), 'activechoice':get_ShowList()=='languages'}"
+                                        <ng-container *ngIf="level.number > 0 && get_LanguagesAvailable(level.number)">
+                                            <div class="list-item" *ngIf="!get_TileMode()"
+                                                [ngClass]="{'fullsize-only':!get_BlankLanguages()}">
+                                                <button class="newrow specialchoice"
+                                                    [ngClass]="{'fancy-button choicecleared':!get_BlankLanguages(), 'activechoice':get_ShowList()=='languages'}"
+                                                    (click)="toggle_List('languages')">
+                                                    Languages
+                                                </button>
+                                            </div>
+                                            <button class="specialchoice" *ngIf="get_TileMode()"
+                                                [ngClass]="{'fancy-button choicecleared fullsize-only':!get_BlankLanguages(), 'activechoice':get_ShowList()=='languages'}"
                                                 (click)="toggle_List('languages')">
-                                                Languages
+                                                <app-gridIcon class="specialchoice"
+                                                    [ngClass]="{'fancy-button':!get_BlankLanguages()}"
+                                                    [ngbTooltip]="'Languages'" [title]="'L A N G'"
+                                                    [superTitle]="get_Character().class.languages.length.toString()">
+                                                </app-gridIcon>
                                             </button>
-                                        </div>
+                                        </ng-container>
+                                        <!--"Specialchoice" feat choices (feats handle tile mode internally)-->
                                         <ng-container
                                             *ngFor="let choice of get_FeatChoices(level, true); let index = index; trackBy:trackByIndex;">
                                             <app-featchoice (showFeatChoiceMessage)="receive_ChoiceMessage($event)"
@@ -1124,9 +1128,7 @@
                                                     [ngClass]="{'fancy-button choicecleared':(feat.data.name != ''), 'activechoice':get_ShowList()==listID}"
                                                     (click)="toggle_List(listID)">
                                                     Fused Stance Name (Fuse Stance){{(feat.data.name) ? ": "+
-                                                    feat.data.name
-                                                    :
-                                                    ""}}
+                                                    feat.data.name : ""}}
                                                 </button>
                                                 <div class="list-item sublist specialchoice"
                                                     [ngClass]="{'fancy-list':(feat.data.name != '')}"
@@ -1216,47 +1218,26 @@
                                         </ng-container>
                                         <!--Lore Training-->
                                         <ng-container *ngFor="let choice of level.loreChoices; trackBy:trackByIndex;">
-                                            <ng-container *ngFor="let listID of [choice.id]; trackBy:trackByIndex;">
-                                                <div class="list-item" *ngIf="choice.available"
-                                                    [ngClass]="{'problem':(choice.increases.length > choice.available), 'fullsize-only':(choice.available == choice.increases.length)}">
-                                                    <button class="newrow sublist-toggle specialchoice"
-                                                        [ngClass]="{'fancy-button choicecleared':(choice.available == choice.increases.length), 'activechoice':get_ShowList()==listID}"
-                                                        (click)="toggle_List(listID)">
-                                                        Lore Training
-                                                        ({{choice.source}}){{(choice.increases.length) ? ": "+
-                                                        choice.increases[0].name
-                                                        :
-                                                        ""}}
-                                                    </button>
-                                                    <div class="list-item sublist specialchoice"
-                                                        [ngClass]="{'fancy-list':(choice.available == choice.increases.length)}"
-                                                        *ngIf="get_ShowList()==listID">
-                                                        <div class="list-item"
-                                                            *ngFor="let itemID of [choice.id+'LoreIncreaseBox']; trackBy:trackByIndex;">
-                                                            <span>
-                                                                <input id="{{itemID}}" type="checkbox"
-                                                                    (change)="on_LoreChange($event.target.checked, choice)"
-                                                                    [checked]="get_SkillIncreases(level.number, level.number, 'Lore: '+choice.loreName, choice.source, choice.id).length"
-                                                                    [disabled]="choice.loreName == '' || get_Skills('Lore: '+choice.loreName).length && !get_SkillIncreases(level.number, level.number, 'Lore: '+choice.loreName, choice.source, choice.id).length">
-                                                                <label style="display:initial" for="{{itemID}}">
-                                                                    <strong>Lore:
-                                                                        <input type="text" [(ngModel)]="choice.loreName"
-                                                                            [disabled]="get_SkillIncreases(level.number, level.number, 'Lore: '+choice.loreName, choice.source, choice.id).length"
-                                                                            (blur)="on_LoreNameChange" maxLength="20">
-                                                                    </strong>
-                                                                </label>
-                                                                <cite class="problem"
-                                                                    *ngIf="get_Skills('Lore: '+choice.loreName).length && !get_SkillIncreases(level.number, level.number, 'Lore: '+choice.loreName, choice.source, choice.id).length">
-                                                                    You are already trained in this Lore!
-                                                                </cite>
-                                                            </span>
-                                                            <div class="newrow">
-                                                                {{choice.loreDesc}}
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </ng-container>
+                                            <div class="list-item" *ngIf="choice.available && !get_TileMode()"
+                                                [ngClass]="{'problem':(choice.increases.length > choice.available), 'fullsize-only':choice.increases.length == choice.available}">
+                                                <button class="newrow sublist-toggle specialchoice"
+                                                    [ngClass]="{'fancy-button choicecleared':choice.increases.length == choice.available, 'activechoice':get_ShowList()==choice.id}"
+                                                    (click)="toggle_List(choice.id, level.number, choice)">
+                                                    Lore Training
+                                                    ({{choice.source}}){{(choice.increases.length) ? ": "+
+                                                    choice.increases[0].name : ""}}
+                                                </button>
+                                            </div>
+                                            <button class="specialchoice" *ngIf="choice.available && get_TileMode()"
+                                                [ngClass]="{'fancy-button choicecleared fullsize-only':choice.increases.length == choice.available, 'activechoice':get_ShowList()=='choice.id'}"
+                                                (click)="toggle_List(choice.id, level.number, choice)">
+                                                <app-gridIcon class="specialchoice"
+                                                    [ngClass]="{'fancy-button':choice.increases.length == choice.available}"
+                                                    [ngbTooltip]="'Lore Training (' + choice.source + ')' + ((choice.increases.length) ? ': ' + choice.loreName : '')"
+                                                    [title]="choice.increases.length == choice.available ? choice.loreName : 'L O R E'"
+                                                    [superTitle]="'icon-bi-info-circle-fill'">
+                                                </app-gridIcon>
+                                            </button>
                                         </ng-container>
                                     </div>
                                 </div>
@@ -1391,6 +1372,7 @@
                         </div>
                     </div>
                 </ng-container>
+                <!--History content-->
                 <!--Alternative Ability Values content-->
                 <ng-container *ngIf="get_ShowList()=='alternativeBaseValues'">
                     <div class="newrow list-item padding-8 center-aligned">
@@ -1473,19 +1455,17 @@
                                             </ng-container>
                                         </div>
                                     </ng-template>
-                                    <div class="newrow list-item" [ngClass]="{'selected':checked}">
+                                    <div class="list-item gridicon-fullsizebox" [ngClass]="{'selected':checked}">
+                                        <input id="{{class.name}}" type="checkbox" class="character-choice"
+                                            (change)="onClassChange(class, $event.target.checked)" [checked]="checked"
+                                            [disabled]="disabled">
                                         <div class="gridicon-fullsizebox">
-                                            <input id="{{class.name}}" type="checkbox" class="character-choice"
-                                                (change)="onClassChange(class, $event.target.checked)"
-                                                [checked]="checked" [disabled]="disabled">
-                                            <div class="gridicon-fullsizebox">
-                                                <app-gridIcon class="" [title]="class.name"></app-gridIcon>
-                                                <header class="sectionHeader">
-                                                    <span [ngbPopover]="ClassChoiceDetailsTemplate" triggers="click">
-                                                        {{class.name}}
-                                                    </span>
-                                                </header>
-                                            </div>
+                                            <app-gridIcon class="" [title]="class.name"></app-gridIcon>
+                                            <header class="sectionHeader">
+                                                <span [ngbPopover]="ClassChoiceDetailsTemplate" triggers="click">
+                                                    {{class.name}}
+                                                </span>
+                                            </header>
                                         </div>
                                     </div>
                                 </ng-container>
@@ -1544,26 +1524,23 @@
                                             </ng-container>
                                         </div>
                                     </ng-template>
-                                    <div class="newrow list-item" [ngClass]="{'selected':checked}">
+                                    <div class="list-item gridicon-fullsizebox" [ngClass]="{'selected':checked}">
+                                        <input id="{{ancestry.name}}" type="checkbox" class="character-choice"
+                                            (change)="onAncestryChange(ancestry, $event.target.checked)"
+                                            [checked]="checked" [disabled]="disabled">
                                         <div class="gridicon-fullsizebox">
-                                            <input id="{{ancestry.name}}" type="checkbox" class="character-choice"
-                                                (change)="onAncestryChange(ancestry, $event.target.checked)"
-                                                [checked]="checked" [disabled]="disabled">
-                                            <div class="gridicon-fullsizebox">
-                                                <app-gridIcon class="" [title]="ancestry.name"
-                                                    [detail]="ancestry.traits.includes('Rare') ? 'Rare' : (ancestry.traits.includes('Uncommon') ? 'Uncommon' : '')">
-                                                </app-gridIcon>
-                                                <header class="sectionHeader">
-                                                    <span [ngbPopover]="AncestryChoiceDetailsTemplate"
-                                                        triggers="click">{{ancestry.name}}&nbsp;</span>
-                                                    <cite class="trait" *ngIf="ancestry.traits.includes('Rare')"
-                                                        [ngbPopover]="get_Traits('Rare')[0]?.desc"
-                                                        openDelay=100>Rare</cite>
-                                                    <cite class="trait" *ngIf="ancestry.traits.includes('Uncommon')"
-                                                        [ngbPopover]="get_Traits('Uncommon')[0]?.desc"
-                                                        openDelay=100>Uncommon</cite>
-                                                </header>
-                                            </div>
+                                            <app-gridIcon class="" [title]="ancestry.name"
+                                                [detail]="ancestry.traits.includes('Rare') ? 'Rare' : (ancestry.traits.includes('Uncommon') ? 'Uncommon' : '')">
+                                            </app-gridIcon>
+                                            <header class="sectionHeader">
+                                                <span [ngbPopover]="AncestryChoiceDetailsTemplate"
+                                                    triggers="click">{{ancestry.name}}&nbsp;</span>
+                                                <cite class="trait" *ngIf="ancestry.traits.includes('Rare')"
+                                                    [ngbPopover]="get_Traits('Rare')[0]?.desc" openDelay=100>Rare</cite>
+                                                <cite class="trait" *ngIf="ancestry.traits.includes('Uncommon')"
+                                                    [ngbPopover]="get_Traits('Uncommon')[0]?.desc"
+                                                    openDelay=100>Uncommon</cite>
+                                            </header>
                                         </div>
                                     </div>
                                 </ng-container>
@@ -1646,30 +1623,27 @@
                                         </div>
                                         <!--End Subheritages-->
                                     </ng-template>
-                                    <div class="newrow list-item" [ngClass]="{'selected':checked}">
+                                    <div class="list-item gridicon-fullsizebox" [ngClass]="{'selected':checked}">
+                                        <input *ngIf="!heritage.subTypes.length" id="{{heritage.name}}" type="checkbox"
+                                            class="character-choice"
+                                            (change)="onHeritageChange(heritage, $event.target.checked)"
+                                            [checked]="checked" [disabled]="disabled">
+                                        <button class="character-choice" *ngIf="heritage.subTypes.length"
+                                            (click)="HeritageChoiceDetailsPopover.toggle()">+</button>
                                         <div class="gridicon-fullsizebox">
-                                            <input *ngIf="!heritage.subTypes.length" id="{{heritage.name}}"
-                                                type="checkbox" class="character-choice"
-                                                (change)="onHeritageChange(heritage, $event.target.checked)"
-                                                [checked]="checked" [disabled]="disabled">
-                                            <button class="character-choice" *ngIf="heritage.subTypes.length"
-                                                (click)="HeritageChoiceDetailsPopover.toggle()">+</button>
-                                            <div class="gridicon-fullsizebox">
-                                                <app-gridIcon class="" [title]="heritage.name"
-                                                    [detail]="heritage.traits.includes('Rare') ? 'Rare' : (heritage.traits.includes('Uncommon') ? 'Uncommon' : '')">
-                                                </app-gridIcon>
-                                                <header class="sectionHeader">
-                                                    <span #HeritageChoiceDetailsPopover="ngbPopover"
-                                                        [ngbPopover]="HeritageChoiceDetailsTemplate"
-                                                        triggers="click">{{heritage.name}}&nbsp;</span>
-                                                    <cite class="trait" *ngIf="heritage.traits.includes('Rare')"
-                                                        [ngbPopover]="get_Traits('Rare')[0]?.desc"
-                                                        openDelay=100>Rare</cite>
-                                                    <cite class="trait" *ngIf="heritage.traits.includes('Uncommon')"
-                                                        [ngbPopover]="get_Traits('Uncommon')[0]?.desc"
-                                                        openDelay=100>Uncommon</cite>
-                                                </header>
-                                            </div>
+                                            <app-gridIcon class="" [title]="heritage.name"
+                                                [detail]="heritage.traits.includes('Rare') ? 'Rare' : (heritage.traits.includes('Uncommon') ? 'Uncommon' : '')">
+                                            </app-gridIcon>
+                                            <header class="sectionHeader">
+                                                <span #HeritageChoiceDetailsPopover="ngbPopover"
+                                                    [ngbPopover]="HeritageChoiceDetailsTemplate"
+                                                    triggers="click">{{heritage.name}}&nbsp;</span>
+                                                <cite class="trait" *ngIf="heritage.traits.includes('Rare')"
+                                                    [ngbPopover]="get_Traits('Rare')[0]?.desc" openDelay=100>Rare</cite>
+                                                <cite class="trait" *ngIf="heritage.traits.includes('Uncommon')"
+                                                    [ngbPopover]="get_Traits('Uncommon')[0]?.desc"
+                                                    openDelay=100>Uncommon</cite>
+                                            </header>
                                         </div>
                                     </div>
                                 </ng-container>
@@ -1796,30 +1770,27 @@
                                         </div>
                                         <!--End Subbackgrounds-->
                                     </ng-template>
-                                    <div class="newrow list-item" [ngClass]="{'selected':checked}">
+                                    <div class="list-item gridicon-fullsizebox" [ngClass]="{'selected':checked}">
+                                        <input *ngIf="!background.subTypes" id="{{background.name}}" type="checkbox"
+                                            class="character-choice"
+                                            (change)="onBackgroundChange(background, $event.target.checked)"
+                                            [checked]="checked" [disabled]="disabled">
+                                        <button class="character-choice" *ngIf="background.subTypes"
+                                            (click)="BackgroundChoiceDetailsPopover.toggle()">+</button>
                                         <div class="gridicon-fullsizebox">
-                                            <input *ngIf="!background.subTypes" id="{{background.name}}" type="checkbox"
-                                                class="character-choice"
-                                                (change)="onBackgroundChange(background, $event.target.checked)"
-                                                [checked]="checked" [disabled]="disabled">
-                                            <button class="character-choice" *ngIf="background.subTypes"
-                                                (click)="BackgroundChoiceDetailsPopover.toggle()">+</button>
-                                            <div class="gridicon-fullsizebox">
-                                                <app-gridIcon class="" [title]="background.name"
-                                                    [detail]="background.traits.includes('Rare') ? 'Rare' : (background.traits.includes('Uncommon') ? 'Uncommon' : '')">
-                                                </app-gridIcon>
-                                                <header class="sectionHeader">
-                                                    <span #BackgroundChoiceDetailsPopover="ngbPopover"
-                                                        [ngbPopover]="BackgroundChoiceDetailsTemplate"
-                                                        triggers="click">{{background.name}}&nbsp;</span>
-                                                    <cite class="trait" *ngIf="background.traits.includes('Rare')"
-                                                        [ngbPopover]="get_Traits('Rare')[0]?.desc"
-                                                        openDelay=100>Rare</cite>
-                                                    <cite class="trait" *ngIf="background.traits.includes('Uncommon')"
-                                                        [ngbPopover]="get_Traits('Uncommon')[0]?.desc"
-                                                        openDelay=100>Uncommon</cite>
-                                                </header>
-                                            </div>
+                                            <app-gridIcon class="" [title]="background.name"
+                                                [detail]="background.traits.includes('Rare') ? 'Rare' : (background.traits.includes('Uncommon') ? 'Uncommon' : '')">
+                                            </app-gridIcon>
+                                            <header class="sectionHeader">
+                                                <span #BackgroundChoiceDetailsPopover="ngbPopover"
+                                                    [ngbPopover]="BackgroundChoiceDetailsTemplate"
+                                                    triggers="click">{{background.name}}&nbsp;</span>
+                                                <cite class="trait" *ngIf="background.traits.includes('Rare')"
+                                                    [ngbPopover]="get_Traits('Rare')[0]?.desc" openDelay=100>Rare</cite>
+                                                <cite class="trait" *ngIf="background.traits.includes('Uncommon')"
+                                                    [ngbPopover]="get_Traits('Uncommon')[0]?.desc"
+                                                    openDelay=100>Uncommon</cite>
+                                            </header>
                                         </div>
                                     </div>
                                 </ng-container>
@@ -1878,20 +1849,18 @@
                                             {{spell.name}}{{(spell.note ? "("+spell.note+")" : "")}}
                                         </div>
                                     </ng-template>
-                                    <div class="newrow list-item" [ngClass]="{'selected':checked}">
+                                    <div class="list-item gridicon-fullsizebox" [ngClass]="{'selected':checked}">
+                                        <input id="{{deity.name}}" type="checkbox" class="character-choice"
+                                            (change)="on_DeityChange(deity, $event.target.checked)" [checked]="checked"
+                                            [disabled]="disabled">
                                         <div class="gridicon-fullsizebox">
-                                            <input id="{{deity.name}}" type="checkbox" class="character-choice"
-                                                (change)="on_DeityChange(deity, $event.target.checked)"
-                                                [checked]="checked" [disabled]="disabled">
-                                            <div class="gridicon-fullsizebox">
-                                                <app-gridIcon class="" [title]="deity.name" [detail]="deity.alignment">
-                                                </app-gridIcon>
-                                                <header class="sectionHeader">
-                                                    <span #BackgroundChoiceDetailsPopover="ngbPopover"
-                                                        [ngbPopover]="DeityChoiceDetailsTemplate"
-                                                        triggers="click">{{deity.name}}</span>
-                                                </header>
-                                            </div>
+                                            <app-gridIcon class="" [title]="deity.name" [detail]="deity.alignment">
+                                            </app-gridIcon>
+                                            <header class="sectionHeader">
+                                                <span #BackgroundChoiceDetailsPopover="ngbPopover"
+                                                    [ngbPopover]="DeityChoiceDetailsTemplate"
+                                                    triggers="click">{{deity.name}}</span>
+                                            </header>
                                         </div>
                                     </div>
                                 </ng-container>
@@ -1899,6 +1868,7 @@
                         </ng-container>
                     </div>
                 </ng-container>
+                <!--Level content-->
                 <!--Fixed content template (list mode only)-->
                 <ng-container *ngIf="get_ShowList()=='fixedchanges'">
                     <div class="newrow list-item padding-8 center-aligned">
@@ -1974,7 +1944,8 @@
                         </ng-container>
                     </div>
                 </ng-container>
-                <ng-container *ngFor="let abilityContent of get_ActiveAbilityChoice(); trackBy:trackByID">
+                <ng-container
+                    *ngFor="let abilityContent of get_ActiveChoiceContent('AbilityChoice'); trackBy:trackByID">
                     <div class="newrow list-item padding-8 center-aligned">
                         <header class="box-header sectionHeader">
                             {{get_AbilityChoiceTitle(abilityContent.choice)}}
@@ -2019,13 +1990,13 @@
                         </ng-container>
                     </div>
                 </ng-container>
-                <ng-container *ngFor="let skillContent of get_ActiveSkillChoice(); trackBy:trackByID;">
+                <ng-container *ngFor="let skillContent of get_ActiveChoiceContent('SkillChoice'); trackBy:trackByID;">
                     <app-skillchoice (showSkillChoiceMessage)="receive_ChoiceMessage($event)"
                         [choice]="skillContent.choice" [levelNumber]="skillContent.levelNumber" [showTitle]="false"
                         [showChoice]="skillContent.name" [excludeTemporary]="true">
                     </app-skillchoice>
                 </ng-container>
-                <ng-container *ngFor="let featContent of get_ActiveFeatChoice(); trackBy:trackByID;">
+                <ng-container *ngFor="let featContent of get_ActiveChoiceContent('FeatChoice'); trackBy:trackByID;">
                     <app-featchoice (showFeatChoiceMessage)="receive_ChoiceMessage($event)"
                         (showFeatMessage)="receive_FeatMessage($event)" [choice]="featContent.choice"
                         [levelNumber]="featContent.levelNumber" [showTitle]="false" [showFeat]="get_ShowItem()"
@@ -2034,6 +2005,47 @@
                         [higherLevelFeats]="get_Character().settings.higherLevelFeats"
                         [archetypeFeats]="get_Character().settings.archetypeFeats">
                     </app-featchoice>
+                </ng-container>
+                <!--Lore Training content-->
+                <ng-container *ngFor="let loreContent of get_ActiveChoiceContent('LoreChoice'); trackBy:trackByID">
+                    <div class="newrow list-item padding-8 center-aligned">
+                        <header class="box-header sectionHeader">
+                            Lore Training ({{loreContent.choice.source}}){{(loreContent.choice.increases.length) ? ": "+
+                            loreContent.choice.loreName : ""}}
+                        </header>
+                    </div>
+                    <div id="choiceArea" class="charactersheet-app">
+                        <ng-container
+                            *ngFor="let checked of [get_SkillIncreases(loreContent.levelNumber, loreContent.levelNumber, 'Lore: '+loreContent.choice.loreName, loreContent.choice.source, loreContent.choice.id).length]; trackBy:trackByIndex">
+                            <ng-container
+                                *ngFor="let illegal of [get_Skills('Lore: '+loreContent.choice.loreName).length && !checked]; trackBy:trackByIndex">
+                                <ng-container
+                                    *ngFor="let disabled of [!loreContent.choice.loreName || illegal]; trackBy:trackByIndex">
+                                    <div class="newrow left-aligned list-item">
+                                        <strong>Lore Type&nbsp;</strong>{{loreContent.choice.loreDesc}}
+                                    </div>
+                                    <div class="newrow list-item gridicon-fullsizebox">
+                                        <div class="button no-animation" style="max-width: fit-content;"
+                                            [ngClass]="{'fancy-button':checked, 'disabled':disabled}">
+                                            <label>
+                                                <input id="{{loreContent.choice.id}}" type="checkbox"
+                                                    (change)="on_LoreChange($event.target.checked, loreContent.choice)"
+                                                    [checked]="checked" [disabled]="disabled" hidden>
+                                                {{checked ? "Change" : "Save"}}
+                                            </label>
+                                        </div>
+                                        <header class="sectionHeader">
+                                            <input id="LoreName" type="text" [(ngModel)]="loreContent.choice.loreName"
+                                                [disabled]="checked" (blur)="on_LoreNameChange" maxLength="20">
+                                            <cite class="problem" *ngIf="illegal">
+                                                Lore already trained
+                                            </cite>
+                                        </header>
+                                    </div>
+                                </ng-container>
+                            </ng-container>
+                        </ng-container>
+                    </div>
                 </ng-container>
             </div>
         </div>

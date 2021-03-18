@@ -151,6 +151,10 @@ export class GridIconComponent implements OnInit {
 
     get_IconSuperTitle() {
         let superTitle: string = this.superTitle;
+        //For icon- names, return a <i> with that icon.
+        if (this.superTitle.substr(0,5) == "icon-") {
+            return "<i class='" + superTitle.substr(5) + "'></i>"
+        }
         //For effect values, show the value as SuperTitle if up to 2 characters long. Longer values will be shown as Value instead.
         if (this.effect) {
             if (this.effect.setValue) {
@@ -161,9 +165,6 @@ export class GridIconComponent implements OnInit {
         } else if (this.condition?.duration == 1) {
             //return "&#9888;";
             return "<i class='bi-exclamation-diamond-fill'></i>"
-        }
-        if (this.superTitle == "(locked)") {
-            return "<i class='bi-lock-fill'></i>"
         }
         if (superTitle.length <= 2) {
             return superTitle;
