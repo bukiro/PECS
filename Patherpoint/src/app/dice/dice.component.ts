@@ -11,6 +11,7 @@ export class DiceComponent implements OnInit {
 
     public diceResult: {roll:string, result:number}[] = [];
     public diceNum: number = 5;
+    public cleared: boolean = true;
 
     constructor(
         private characterService: CharacterService,
@@ -26,10 +27,15 @@ export class DiceComponent implements OnInit {
         this.characterService.toggle_Menu("dice");
     }
 
+    trackByIndex(index: number, obj: any): any {
+        return index;
+    }
+
     roll(amount: number, size: number) {
         for (let index = 0; index < amount; index++) {
             this.diceResult.push({roll:"d"+size, result:Math.ceil(Math.random() * size)});
         }
+        if (this.cleared) {this.cleared = false;}
     }
 
     get_DiceSummary() {
@@ -48,7 +54,10 @@ export class DiceComponent implements OnInit {
     }
 
     clear() {
-        this.diceResult.length = 0;
+        this.cleared = true;
+        setTimeout(() => {
+            this.diceResult.length = 0;
+        });
     }
 
     ngOnInit() {

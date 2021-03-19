@@ -68,24 +68,28 @@
                 min="1" max="20" [(ngModel)]="diceNum">
         </div>
     </div>
-    <div class="list-item center-aligned" *ngIf="diceResult.length">
-        <header class="sectionHeader box-header dice-result">{{get_DiceSum()}}</header>
-        <div class="newrow center-aligned" *ngIf="diceResult.length > 1">
-            <span>
-                <span *ngFor="let result of diceResult; let index = index;" [ngbPopover]="result.roll">
-                    {{index != 0 ? "+ " : ""}}{{result.result}}
+    <div [ngbCollapse]="cleared">
+        <div class="list-item center-aligned">
+            <header class="sectionHeader box-header dice-result">{{get_DiceSum()}}</header>
+            <div class="newrow center-aligned" *ngIf="diceResult.length > 1">
+                <span>
+                    <span *ngFor="let result of diceResult; let index = index; trackBy:trackByIndex">
+                        {{index != 0 ? "+ " : ""}}
+                        <span [ngbTooltip]="result.roll">{{result.result}}</span>
+                    </span>
                 </span>
-            </span>
-        </div>
-        <div class="newrow center-aligned">
-            <span>
-                ({{get_DiceSummary()}})
-            </span>
-        </div>
-        <div class="newrow center-aligned">
-            <button class="center-aligned" (click)="clear()">
-                <header class="sectionHeader">Clear</header>
-            </button>
+            </div>
+            <div class="newrow center-aligned" *ngIf="diceResult.length <= 1">&nbsp;</div>
+            <div class="newrow center-aligned">
+                <span>
+                    ({{get_DiceSummary()}})
+                </span>
+            </div>
+            <div class="newrow center-aligned">
+                <button class="center-aligned" (click)="clear()">
+                    <header class="sectionHeader">Clear</header>
+                </button>
+            </div>
         </div>
     </div>
 </div>

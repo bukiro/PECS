@@ -105,8 +105,9 @@ input[disabled] {
 }
 
 input[type="checkbox"] {
-    width: 1.2em;
-    height: 1.2em;
+    width: 1.5em;
+    height: 1.5em;
+    vertical-align: text-bottom;
 }
 
 .darkmode input:not([disabled]),
@@ -1877,14 +1878,14 @@ cite.effect.penalty {
     box-shadow: 0.1em 0 .35rem rgb(var(--accent)), 0 0.1em .35rem rgb(var(--accent)), -0.1em 0 .35rem rgb(var(--accent)), 0 -0.1em .35rem rgb(var(--accent)), -0.1em -0.1em .35rem rgb(var(--accent)), -0.1em 0.1em .35rem rgb(var(--accent)), 0.1em -0.1em .35rem rgb(var(--accent)), 0.1em 0.1em .35rem rgb(var(--accent));
 }
 
-.problem:not(.sublist),
-.lower.problem:not(.sublist) {
+.problem:not(.sublist):not(button),
+.lower.problem:not(.sublist):not(button) {
     color: red;
     background-color: #DAAAA0;
 }
 
-.darkmode .problem:not(.sublist),
-.darkmode .lower.problem:not(.sublist) {
+.darkmode .problem:not(.sublist):not(button),
+.darkmode .lower.problem:not(.sublist):not(button) {
     color: red;
     background-color: #500000;
 }
