@@ -9,7 +9,7 @@
     <button [ngClass]="{'fancy-button':get_SpellsMenuState()=='out'}" (click)="toggle_Menu('spells')" *ngIf="!still_loading()">Spellbook</button>
     <button [ngClass]="{'fancy-button':get_SpellLibraryMenuState()=='out'}" (click)="toggle_Menu('spelllibrary')" *ngIf="!still_loading()">Spell Library</button>
     <button [ngClass]="{'fancy-button':get_ConditionsMenuState()=='out'}" (click)="toggle_Menu('conditions')" *ngIf="!still_loading()">Conditions</button>
-    <button [ngClass]="{'fancy-button':get_DiceMenuState()=='out'}" (click)="toggle_Menu('dice')" *ngIf="!still_loading()">Dice</button>
-    <span style="flex-grow: initial" [ngbTooltip]="!get_Savegames() ? 'Database connection failed.' : (get_IsBlankCharacter() ? 'No changes to character yet.' : 'Save Character')"><button class="fancy-button" (click)="save()" *ngIf="!still_loading()" [disabled]="!get_Savegames() || get_IsBlankCharacter()">Save</button></span>
-    <span style="flex-grow: initial" [ngbTooltip]="'Refresh all'"><button class="fancy-button" (click)="set_Changed()" *ngIf="!still_loading()">⟳</button></span>
+    <button [ngClass]="{'fancy-button':get_DiceMenuState()=='out'}" [ngbTooltip]="'Dice'" (click)="toggle_Menu('dice')" *ngIf="!still_loading()"><i class="ra ra-perspective-dice-six"></i></button>
+    <span style="flex-grow: initial" [ngbTooltip]="!get_Savegames() ? 'Database connection failed.' : (get_IsBlankCharacter() ? 'No changes to character yet.' : 'Save Character')"><button class="fancy-button" (click)="save()" *ngIf="!still_loading()" [disabled]="!get_Savegames() || get_IsBlankCharacter()"><i class="bi-file-earmark-arrow-up"></i></button></span>
+    <span style="flex-grow: initial" [ngbTooltip]="'Refresh all'"><button class="fancy-button" (click)="set_Changed()" *ngIf="!still_loading()"><i class="ra ra-cycle"></i></button></span>
 </div>

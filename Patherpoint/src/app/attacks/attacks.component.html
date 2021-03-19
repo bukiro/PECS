@@ -61,9 +61,9 @@
                 <div class="newrow">
                     <span style="flex-basis:auto">
                         <strong *ngIf="!['alchemicalbombs', 'otherconsumablesbombs'].includes(weapon.type)">
-                            <span [ngbTooltip]="'Melee'" *ngIf="attack[0] == 'melee'"><i class='bi-lightning'></i></span>
+                            <span [ngbTooltip]="'Melee'" *ngIf="attack[0] == 'melee'"><i class='ra ra-sword'></i></span>
                             <span [ngbTooltip]="'Ranged ' + weapon.ranged + ' feet'"
-                                *ngIf="attack[0] == 'ranged'"><i class='bi-bullseye'></i></span> {{weapon.get_Name()}}
+                                *ngIf="attack[0] == 'ranged'"><i class='ra ra-target-arrows'></i></span> {{weapon.get_Name()}}
                         </strong>
                         <strong *ngFor="let handwraps of get_HandwrapsOfMightyBlows(weapon); trackBy:trackByIndex;">
                             ({{handwraps.get_Name()}})
@@ -71,9 +71,9 @@
                         <button style="flex-basis:auto" [disabled]="!weapon.amount"
                             (click)="on_ConsumableUse(weapon, null)"
                             *ngIf="['alchemicalbombs', 'otherconsumablesbombs'].includes(weapon.type)">
-                            <span [ngbTooltip]="'Melee'" *ngIf="attack[0] == 'melee'"><i class='bi-lightning'></i></span>
+                            <span [ngbTooltip]="'Melee'" *ngIf="attack[0] == 'melee'"><i class='ra ra-sword'></i></span>
                             <span [ngbTooltip]="'Ranged ' + weapon.ranged + ' feet'"
-                                *ngIf="attack[0] == 'ranged'"><i class='bi-bullseye'></i></span>
+                                *ngIf="attack[0] == 'ranged'"><i class='ra ra-target-arrows'></i></span>
                             <span>{{(weapon.amount != undefined && weapon.amount != 1) ?
                                 weapon.amount+" " : ""}}{{weapon.get_Name()}}<app-actionIcons
                                     [actionString]="weapon.actions">

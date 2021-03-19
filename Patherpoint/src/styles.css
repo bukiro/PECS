@@ -1,4 +1,5 @@
 @import "~bootstrap-icons/font/bootstrap-icons.css";
+@import "~rpg-awesome/css/rpg-awesome.min.css";
 
 /* Original Angular color: #1976d2 */
 /* Global Styles */
@@ -712,9 +713,10 @@ app-top-bar {
 
 #top-bar button,
 #tabs button {
+    height: 3em;
     margin-left: .35rem;
     margin-right: .35rem;
-    padding: .6em 1em;
+    padding: .5em .5em;
     flex-grow: initial;
     flex-basis: 0;
     white-space: nowrap;
@@ -733,8 +735,12 @@ app-top-bar {
     border-color: #CCC;
 }
 
-#top-bar>button:last-child {
+#top-bar > button:last-child {
     margin-right: 0;
+}
+
+#top-bar button > i {
+    font-size: 2em;
 }
 
 /*
@@ -1476,6 +1482,12 @@ GRIDICONS
     position: absolute;
 }
 
+.icon-list.vertical > app-featchoice > div,
+.icon-list.vertical > app-skillchoice > div,
+.icon-list.vertical > div {
+    display: flex;
+}
+
 .icon-list button {
     /* We use pixel-precise padding here because the button is fit around a gridIcon, and rem-padding looks wonky */
     padding: 3px;
@@ -1546,24 +1558,33 @@ app-gridicon .iconDetail {
     right: .15rem;
 }
 
+app-gridicon .iconTitle,
+app-gridicon .iconSuperTitle {
+    margin-top: 0 !important;
+    display: flex;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
     /* large centered title, max 4 characters*/
 app-gridicon .iconTitle {
     font-size: 1.5rem;
     line-height: .8em;
-    display: table-cell;
-    word-break: break-all;
-    vertical-align: middle;
     color: var(--textcolor);
-    z-index: 5;
 }
 
     /* larger centered overshadowing title, max 2 characters*/
 app-gridicon .iconSuperTitle {
-    position: absolute;
-    opacity: 50%;
     font-size: 3rem;
-    line-height: 115%;
-    width: 100%;
+    opacity: 50%;
+}
+
+app-gridicon .iconTitle div,
+app-gridicon .iconSuperTitle div {
+    margin-top: auto;
+    margin-bottom: auto;
+    text-align: center !important;
 }
 
     /* bottom-right subtitle with a little more room (5-8 characters) */

@@ -8,7 +8,8 @@
                 <app-diceIcons_D4></app-diceIcons_D4>
             </button>
             <br>
-            <button class="center-aligned newrow" style="margin-top:8px;" (click)="roll(diceNum, 4)" [ngbTooltip]="'Roll ' + diceNum + 'd4'">
+            <button class="center-aligned newrow" style="margin-top:8px;" (click)="roll(diceNum, 4)"
+                [ngbTooltip]="'Roll ' + diceNum + 'd4'">
                 {{diceNum}}d4
             </button>
         </div>
@@ -17,7 +18,8 @@
                 <app-diceIcons_D6></app-diceIcons_D6>
             </button>
             <br>
-            <button class="center-aligned newrow" style="margin-top:8px;" (click)="roll(diceNum, 6)" [ngbTooltip]="'Roll ' + diceNum + 'd6'">
+            <button class="center-aligned newrow" style="margin-top:8px;" (click)="roll(diceNum, 6)"
+                [ngbTooltip]="'Roll ' + diceNum + 'd6'">
                 {{diceNum}}d6
             </button>
         </div>
@@ -26,7 +28,8 @@
                 <app-diceIcons_D8></app-diceIcons_D8>
             </button>
             <br>
-            <button class="center-aligned newrow" style="margin-top:8px;" (click)="roll(diceNum, 8)" [ngbTooltip]="'Roll ' + diceNum + 'd8'">
+            <button class="center-aligned newrow" style="margin-top:8px;" (click)="roll(diceNum, 8)"
+                [ngbTooltip]="'Roll ' + diceNum + 'd8'">
                 {{diceNum}}d8
             </button>
         </div>
@@ -35,7 +38,8 @@
                 <app-diceIcons_D10></app-diceIcons_D10>
             </button>
             <br>
-            <button class="center-aligned newrow" style="margin-top:8px;" (click)="roll(diceNum, 10)" [ngbTooltip]="'Roll ' + diceNum + 'd10'">
+            <button class="center-aligned newrow" style="margin-top:8px;" (click)="roll(diceNum, 10)"
+                [ngbTooltip]="'Roll ' + diceNum + 'd10'">
                 {{diceNum}}d10
             </button>
         </div>
@@ -44,7 +48,8 @@
                 <app-diceIcons_D12></app-diceIcons_D12>
             </button>
             <br>
-            <button class="center-aligned newrow" style="margin-top:8px;" (click)="roll(diceNum, 12)" [ngbTooltip]="'Roll ' + diceNum + 'd12'">
+            <button class="center-aligned newrow" style="margin-top:8px;" (click)="roll(diceNum, 12)"
+                [ngbTooltip]="'Roll ' + diceNum + 'd12'">
                 {{diceNum}}d12
             </button>
         </div>
@@ -53,12 +58,14 @@
                 <app-diceIcons_D20></app-diceIcons_D20>
             </button>
             <br>
-            <button class="center-aligned newrow" style="margin-top:8px;" (click)="roll(diceNum, 20)" [ngbTooltip]="'Roll ' + diceNum + 'd20'">
+            <button class="center-aligned newrow" style="margin-top:8px;" (click)="roll(diceNum, 20)"
+                [ngbTooltip]="'Roll ' + diceNum + 'd20'">
                 {{diceNum}}d20
             </button>
         </div>
         <div class="newrow">
-            <strong style="flex-basis: 7.5em; flex-grow:0;">Dice number</strong> <input class="slider" type="range" min="1" max="20" [(ngModel)]="diceNum">
+            <strong style="flex-basis: 7.5em; flex-grow:0;">Dice number</strong> <input class="slider" type="range"
+                min="1" max="20" [(ngModel)]="diceNum">
         </div>
     </div>
     <div class="list-item center-aligned" *ngIf="diceResult.length">
@@ -76,11 +83,9 @@
             </span>
         </div>
         <div class="newrow center-aligned">
-            <span>
-                <button (click)="clear()">
-                    Clear
-                </button>
-            </span>
+            <button class="center-aligned" (click)="clear()">
+                <header class="sectionHeader">Clear</header>
+            </button>
         </div>
     </div>
 </div>

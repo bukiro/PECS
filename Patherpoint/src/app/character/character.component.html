@@ -510,7 +510,7 @@
                                                 <button class="fullsize-only inactive-button"
                                                     #FixedFeaturePopover="ngbPopover" [ngbPopover]="FixedFeatureContent"
                                                     triggers="click">
-                                                    <app-gridIcon class="featchoice"
+                                                    <app-gridIcon class="specialchoice"
                                                         [ngbTooltip]="!FixedFeaturePopover.isOpen() && feature.name"
                                                         [title]="feature.name" [superTitle]="'icon-bi-lock-fill'">
                                                     </app-gridIcon>
@@ -1234,8 +1234,8 @@
                                                 <app-gridIcon class="specialchoice"
                                                     [ngClass]="{'fancy-button':choice.increases.length == choice.available}"
                                                     [ngbTooltip]="'Lore Training (' + choice.source + ')' + ((choice.increases.length) ? ': ' + choice.loreName : '')"
-                                                    [title]="choice.increases.length == choice.available ? choice.loreName : 'L O R E'"
-                                                    [superTitle]="'icon-bi-info-circle-fill'">
+                                                    [title]="choice.increases.length == choice.available ? choice.loreName : ''"
+                                                    [superTitle]="'icon-ra ra-book'">
                                                 </app-gridIcon>
                                             </button>
                                         </ng-container>
