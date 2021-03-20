@@ -1,6 +1,7 @@
 import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { NgbTooltipConfig } from '@ng-bootstrap/ng-bootstrap';
 import { CharacterService } from '../character.service';
+import { EffectsService } from '../effects.service';
 import { FamiliarsService } from '../familiars.service';
 
 @Component({
@@ -15,6 +16,7 @@ export class FamiliarComponent implements OnInit {
         private changeDetector: ChangeDetectorRef,
         private characterService: CharacterService,
         private familiarsService: FamiliarsService,
+        private effectsService: EffectsService,
         tooltipConfig: NgbTooltipConfig
     ) {
         tooltipConfig.container = "body";
@@ -62,6 +64,18 @@ export class FamiliarComponent implements OnInit {
 
     get_Familiar() {
         return this.characterService.get_Familiar();
+    }
+
+    get_FamiliarAbilitiesFinished() {
+        let choice = this.get_Familiar().abilities;
+        let available = choice.available;
+        this.effectsService.get_AbsolutesOnThis(this.get_Character(), "Familiar Abilities").forEach(effect => {
+            available = parseInt(effect.setValue);
+        });
+        this.effectsService.get_RelativesOnThis(this.get_Character(), "Familiar Abilities").forEach(effect => {
+            available += parseInt(effect.value);
+        });
+        return choice.feats.length >= available;
     }
 
     finish_Loading() {

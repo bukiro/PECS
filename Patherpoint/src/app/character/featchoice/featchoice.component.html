@@ -5,13 +5,13 @@
                 [ngClass]="{'list-item': showTitle && !get_TileMode(), 'problem':(cannotTakeSome(choice) || choice.feats.length > availableFeats), 'fullsize-only':(availableFeats == choice.feats.length)}">
                 <!--Choice button shows in title mode-->
                 <!--List mode button-->
-                <button class="newrow left-aligned sublist-toggle"
-                    [ngClass]="{'fancy-button choicecleared':(availableFeats == choice.feats.length), 'featchoice':!choice.specialChoice, 'specialchoice':choice.specialChoice, 'activechoice':get_ShowChoice()==listID && !choice.showOnSheet}"
-                    (click)="toggle_List(listID)" *ngIf="showTitle && (!get_TileMode() || choice.showOnSheet)">
+                <button class="newrow left-aligned sublist-toggle" *ngIf="showTitle && (!get_TileMode() || showContent)"
+                    [ngClass]="{'fancy-button choicecleared':(availableFeats == choice.feats.length), 'featchoice':!choice.specialChoice && (choice.type != 'Familiar'), 'specialchoice':choice.specialChoice, 'activechoice':get_ShowChoice()==listID && (!choice.showOnSheet && (choice.type != 'Familiar'))}"
+                    (click)="toggle_List(listID)">
                     {{buttonTitle}}
                 </button>
                 <!--Tile mode button-->
-                <button (click)="toggle_List(listID)" *ngIf="showTitle && get_TileMode()"
+                <button (click)="toggle_List(listID)" *ngIf="showTitle && !showContent && get_TileMode()"
                     [ngClass]="{'fancy-button choicecleared':(availableFeats == choice.feats.length), 'featchoice':!choice.specialChoice, 'specialchoice':choice.specialChoice, 'activechoice':get_ShowChoice()==listID}">
                     <app-gridIcon [ngbTooltip]="buttonTitle" [superTitle]="availableFeats.toString()"
                         [title]="(availableFeats == 1 && choice.feats.length) ? choice.feats[0].name : ((availableFeats > 1 && choice.feats.length > 0) ? choice.feats.length.toString() : '')"
@@ -27,7 +27,7 @@
                 </div>
                 <!--Choice content shows in content mode-->
                 <div id="{{!showTitle ? 'choiceArea' : ''}}"
-                    [ngClass]="{'list-item sublist':showTitle, 'fancy-list':showTitle && (availableFeats == choice.feats.length), 'charactersheet-app':!showTitle, 'featchoice':!choice.specialChoice, 'specialchoice':choice.specialChoice}"
+                    [ngClass]="{'list-item sublist':showTitle, 'fancy-list':showTitle && (availableFeats == choice.feats.length), 'charactersheet-app':!showTitle, 'featchoice':!choice.specialChoice && (choice.type != 'Familiar'), 'specialchoice':choice.specialChoice}"
                     *ngIf="showContent && get_ShowChoice()==listID">
                     <!-- Filter -->
                     <div class="list-item lower">
@@ -38,19 +38,19 @@
                             <label for="unavailableFeats"><strong>Show unavailable {{choice.specialChoice ? 'options' :
                                     'feats'}}</strong></label>
                         </div>
-                        <div class="list-item gridicon-fullsizebox" *ngIf="!choice.specialChoice">
+                        <div class="list-item gridicon-fullsizebox" *ngIf="!choice.specialChoice && choice.type != 'Familiar'">
                             <input class="character-choice" id="lowerLevelFeats" type="checkbox"
                                 [(ngModel)]="lowerLevelFeats">
                             <label for="lowerLevelFeats"><strong>Show lower level feats</strong></label>
                         </div>
-                        <div class="fullwidth" [ngbCollapse]="!unavailableFeats" *ngIf="!choice.specialChoice">
+                        <div class="fullwidth" [ngbCollapse]="!unavailableFeats" *ngIf="!choice.specialChoice && choice.type != 'Familiar'">
                             <div class="list-item gridicon-fullsizebox">
                                 <input class="character-choice" id="higherLevelFeats" type="checkbox"
                                     [(ngModel)]="higherLevelFeats">
                                 <label for="higherLevelFeats"><strong>Show higher level feats</strong></label>
                             </div>
                         </div>
-                        <div class="list-item gridicon-fullsizebox" *ngIf="!choice.specialChoice">
+                        <div class="list-item gridicon-fullsizebox" *ngIf="!choice.specialChoice && choice.type != 'Familiar'">
                             <input class="character-choice" id="archetypeFeats" type="checkbox"
                                 [(ngModel)]="archetypeFeats">
                             <label for="archetypeFeats"><strong>Show archetype feats</strong></label>

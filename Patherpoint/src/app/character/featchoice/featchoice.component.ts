@@ -46,6 +46,8 @@ export class FeatchoiceComponent implements OnInit {
     showTitle: boolean = true;
     @Input()
     showContent: boolean = true;
+    @Input()
+    tileMode: boolean = false;
     public featLevel: number = 0;
 
     constructor(
@@ -139,7 +141,7 @@ export class FeatchoiceComponent implements OnInit {
     }
 
     get_TileMode() {
-        return this.get_Character().settings.characterTileMode;
+        return this.tileMode;
     }
 
     get_Character() {

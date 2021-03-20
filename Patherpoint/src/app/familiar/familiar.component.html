@@ -17,7 +17,7 @@
             <div class="charactersheet-column">
                 <app-general [creature]="'Familiar'" [sheetSide]="'left'" id="Familiar-general"
                     class="charactersheet-app"></app-general>
-                <app-familiarabilities id="familiarabilities" [sheetSide]="'left'" class="charactersheet-app">
+                <app-familiarabilities id="familiarabilities" [sheetSide]="'left'" class="charactersheet-app" [ngClass]="{'fullsize-only':get_FamiliarAbilitiesFinished()}">
                 </app-familiarabilities>
                 <app-health [creature]="'Familiar'" [sheetSide]="'left'" id="Familiar-health"
                     class="charactersheet-app"></app-health>

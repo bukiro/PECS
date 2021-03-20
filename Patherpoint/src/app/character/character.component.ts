@@ -533,6 +533,9 @@ export class CharacterComponent implements OnInit {
         if (this.characterService.get_CompanionAvailable()) {
             this.get_Companion().set_Level(this.characterService);
         }
+        if (this.characterService.get_FamiliarAvailable()) {
+            this.characterService.set_ToChange("Familiar", "featchoices");
+        }
 
         this.characterService.process_ToChange();
     }

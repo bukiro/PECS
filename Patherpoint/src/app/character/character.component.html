@@ -453,7 +453,8 @@
                                             <app-skillchoice (showSkillChoiceMessage)="receive_ChoiceMessage($event)"
                                                 [choice]="choice" [showChoice]="get_ShowList()"
                                                 [levelNumber]="level.number" [showContent]="false"
-                                                [excludeTemporary]="true">
+                                                [excludeTemporary]="true"
+                                                [tileMode]="get_TileMode()">
                                             </app-skillchoice>
                                         </ng-container>
                                     </div>
@@ -490,7 +491,8 @@
                                                 [unavailableFeats]="get_Character().settings.unavailableFeats"
                                                 [lowerLevelFeats]="get_Character().settings.lowerLevelFeats"
                                                 [higherLevelFeats]="get_Character().settings.higherLevelFeats"
-                                                [archetypeFeats]="get_Character().settings.archetypeFeats">
+                                                [archetypeFeats]="get_Character().settings.archetypeFeats"
+                                                [tileMode]="get_TileMode()">
                                             </app-featchoice>
                                         </ng-container>
                                     </div>
@@ -548,7 +550,8 @@
                                                 [unavailableFeats]="get_Character().settings.unavailableFeats"
                                                 [lowerLevelFeats]="get_Character().settings.lowerLevelFeats"
                                                 [higherLevelFeats]="get_Character().settings.higherLevelFeats"
-                                                [archetypeFeats]="get_Character().settings.archetypeFeats">
+                                                [archetypeFeats]="get_Character().settings.archetypeFeats"
+                                                [tileMode]="get_TileMode()">
                                             </app-featchoice>
                                         </ng-container>
                                         <!--Animal Companion-->
@@ -608,48 +611,24 @@
                                         </ng-container>
                                         <!--Familiar-->
                                         <ng-container *ngIf="get_FamiliarAvailable(level.number)">
-                                            <div class="list-item"
-                                                [ngClass]="{'fullsize-only':(get_Familiar().name && get_Familiar().species)}"
-                                                *ngFor="let listID of ['familiar']; trackBy:trackByIndex;">
-                                                <button class="newrow sublist-toggle specialchoice"
-                                                    [ngClass]="{'fancy-button choicecleared':(get_Familiar().name && get_Familiar().species), 'activechoice':get_ShowList()==listID}"
-                                                    (click)="toggle_List(listID)">
-                                                    Familiar Basics
-                                                </button>
-                                                <div class="list-item sublist specialchoice"
-                                                    [ngClass]="{'fancy-list':(get_Familiar().name && get_Familiar().species)}"
-                                                    *ngIf="get_ShowList()==listID">
-
-                                                    <button class="list-item" (click)="on_NewFamiliar()">
-                                                        Create New Familiar
+                                            <ng-container
+                                                *ngFor="let finished of [get_Familiar().name && get_Familiar().species]; trackBy:trackByIndex;">
+                                                <div class="list-item" *ngIf="!get_TileMode()" [ngClass]="{'fullsize-only':finished}">
+                                                    <button class="newrow sublist-toggle specialchoice"
+                                                        [ngClass]="{'fancy-button choicecleared':finished, 'activechoice':get_ShowList()=='familiar' && get_ShowContentLevelNumber()==level.number}"
+                                                        (click)="toggle_List('familiar', level.number)">
+                                                        Familiar
                                                     </button>
-                                                    <div class="list-item">
-                                                        <span>Familiar Name</span>
-                                                        <span>
-                                                            <input type="text" id="familiarname"
-                                                                [(ngModel)]="get_Familiar().name" maxLength="30">
-                                                        </span>
-                                                    </div>
-                                                    <div class="list-item">
-                                                        <span>Familiar Species</span>
-                                                        <span>
-                                                            <input type="text" id="familiarspecies"
-                                                                [(ngModel)]="get_Familiar().species" maxLength="30">
-                                                        </span>
-                                                    </div>
-                                                    <div class="list-item">
-                                                        <span>Swimmer</span>
-                                                        <span>
-                                                            <input type="checkbox" id="familiar-swimmer{{level.number}}"
-                                                                (click)="on_FamiliarSpeedChange($event.target.checked)"
-                                                                [checked]="is_FamiliarSwimmer()"><label
-                                                                for="familiar-swimmer{{level.number}}">Gain Swim
-                                                                Speed
-                                                                instead of Land Speed</label>
-                                                        </span>
-                                                    </div>
                                                 </div>
-                                            </div>
+                                                <button class="specialchoice" *ngIf="get_TileMode()"
+                                                    [ngClass]="{'fancy-button choicecleared fullsize-only':finished, 'activechoice':get_ShowList()=='familiar' && get_ShowContentLevelNumber()==level.number}"
+                                                    (click)="toggle_List('familiar', level.number)">
+                                                    <app-gridIcon class="specialchoice"
+                                                        [ngClass]="{'fancy-button':finished}" [ngbTooltip]="'Familiar'"
+                                                        [superTitle]="'icon-ra ra-raven'">
+                                                    </app-gridIcon>
+                                                </button>
+                                            </ng-container>
                                         </ng-container>
                                         <!--Different Worlds-->
                                         <ng-container
@@ -2068,9 +2047,9 @@
                                     <ng-container
                                         *ngFor="let spec of get_AvailableCompanionSpecializations(companionSpecializationContent.levelNumber); trackBy:trackByIndex;">
                                         <ng-container
-                                            *ngFor="let checked of [have_CompanionSpecialization(spec.name)]; trackBy:trackByIndex">
+                                            *ngFor="let checked of [takenSpecializations.includes(spec.name)]; trackBy:trackByIndex">
                                             <ng-container
-                                                *ngFor="let disabled of [(takenSpecializations.length == available) && !takenSpecializations.includes(spec.name)]; trackBy:trackByIndex">
+                                                *ngFor="let disabled of [(have_CompanionSpecialization(spec.name) || (takenSpecializations.length == available)) && !checked]; trackBy:trackByIndex">
                                                 <ng-template #CompanionSpecializationDetailsTemplate>
                                                     <header class="spellHeader">{{spec.name}}</header>
                                                     <div class="button newrow no-animation"
@@ -2108,6 +2087,47 @@
                                 </div>
                             </ng-container>
                         </ng-container>
+                    </ng-container>
+                </ng-container>
+                <!--Familiar Content-->
+                <ng-container
+                    *ngFor="let familiarContent of get_ActiveSpecialChoiceShown('familiar'); trackBy:trackByID">
+                    <ng-container *ngFor="let familiar of [get_Familiar()]; trackBy:trackByIndex">
+                        <div class="newrow list-item padding-8 center-aligned">
+                            <header class="box-header sectionHeader">
+                                Familiar
+                            </header>
+                        </div>
+                        <div id="choiceArea" class="charactersheet-app">
+                            <div class="newrow list-item">
+                                <button class="newrow list-item" (click)="on_NewFamiliar()">
+                                    <header class="sectionHeader">Reset Familiar</header>
+                                </button>
+                                <div class="newrow list-item">
+                                    <strong>
+                                        Name&nbsp;
+                                        <input id="FamiliarName" type="text" [(ngModel)]="familiar.name" maxLength="30">
+                                    </strong>
+                                </div>
+                                <div class="newrow list-item">
+                                    <strong>
+                                        Creature&nbsp;
+                                        <input id="FamiliarCreature" type="text" [(ngModel)]="familiar.species"
+                                            maxLength="30">
+                                    </strong>
+                                </div>
+                                <div class="list-item gridicon-fullsizebox">
+                                    <input class="character-choice" id="FamiliarSwimmer" type="checkbox"
+                                        (click)="on_FamiliarSpeedChange($event.target.checked)"
+                                        [checked]="is_FamiliarSwimmer()">
+                                    <label for="FamiliarSwimmer">
+                                        <strong>
+                                            Gain Swim Speed instead of Land Speed
+                                        </strong>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
                     </ng-container>
                 </ng-container>
             </div>

@@ -26,6 +26,8 @@ export class SkillchoiceComponent implements OnInit {
     showTitle: boolean = true;
     @Input()
     showContent: boolean = true;
+    @Input()
+    tileMode: boolean = false;
 
     constructor(
         private changeDetector: ChangeDetectorRef,
@@ -51,7 +53,7 @@ export class SkillchoiceComponent implements OnInit {
     }
 
     get_TileMode() {
-        return this.get_Character().settings.characterTileMode;
+        return this.tileMode;
     }
 
     get_Character() {
