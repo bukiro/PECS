@@ -11773,12 +11773,6 @@
                     },
                     {
                         "_className": "FeatChoice",
-                        "id": "17-Hunter's Edge-Ranger-1",
-                        "source": "Ranger",
-                        "type": "Hunter's Edge"
-                    },
-                    {
-                        "_className": "FeatChoice",
                         "available": 1,
                         "id": "17-Ancestry-Class-2",
                         "source": "Class",

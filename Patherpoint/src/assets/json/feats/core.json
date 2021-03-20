@@ -2719,7 +2719,7 @@
                     }
                 ],
                 "insertLevel": 17,
-                "source": "Feat: Flurry",
+                "source": "Ranger",
                 "type": "Hunter's Edge"
             }
         ]
@@ -4354,7 +4354,7 @@
                     }
                 ],
                 "insertLevel": 17,
-                "source": "Feat: Outwit",
+                "source": "Ranger",
                 "type": "Hunter's Edge"
             }
         ]
@@ -4477,7 +4477,7 @@
                     }
                 ],
                 "insertLevel": 17,
-                "source": "Feat: Precision",
+                "source": "Ranger",
                 "type": "Hunter's Edge"
             }
         ]

@@ -532,8 +532,9 @@
                                                 (click)="toggle_List('languages')">
                                                 <app-gridIcon class="specialchoice"
                                                     [ngClass]="{'fancy-button':!get_BlankLanguages()}"
-                                                    [ngbTooltip]="'Languages'" [title]="'L A N G'"
-                                                    [superTitle]="get_Character().class.languages.length.toString()">
+                                                    [ngbTooltip]="'Languages'"
+                                                    [title]="get_BlankLanguages() ? ((get_Character().class.languages.length - get_BlankLanguages()).toString() + '/' + get_Character().class.languages.length.toString()) : get_Character().class.languages.length.toString()"
+                                                    [superTitle]="'icon-ra ra-speech-bubbles'">
                                                 </app-gridIcon>
                                             </button>
                                         </ng-container>
@@ -552,221 +553,57 @@
                                         </ng-container>
                                         <!--Animal Companion-->
                                         <ng-container *ngIf="get_CompanionAvailable(level.number)">
-                                            <div class="list-item"
-                                                [ngClass]="{'fullsize-only':(get_Companion().name && get_Companion().species)}"
-                                                *ngFor="let listID of ['animalCompanion']; trackBy:trackByIndex;">
-                                                <button class="newrow sublist-toggle specialchoice"
-                                                    [ngClass]="{'fancy-button choicecleared':(get_Companion().name && get_Companion().species), 'activechoice':get_ShowList()==listID}"
-                                                    (click)="toggle_List(listID)">
-                                                    Animal Companion Basics
-                                                </button>
-                                                <div class="list-item sublist specialchoice"
-                                                    [ngClass]="{'fancy-list choicecleared':(get_Companion().name && get_Companion().species)}"
-                                                    *ngIf="get_ShowList()==listID">
-                                                    <button class="list-item" (click)="on_NewCompanion(level)">
-                                                        Create New Animal Companion
+                                            <ng-container
+                                                *ngFor="let companion of [get_Companion()]; trackBy:trackByIndex">
+                                                <div class="list-item" *ngIf="!get_TileMode()"
+                                                    [ngClass]="{'fullsize-only':(companion.name && companion.species && companion.class.ancestry.name)}">
+                                                    <button class="newrow sublist-toggle specialchoice"
+                                                        [ngClass]="{'fancy-button choicecleared':(companion.name && companion.species && companion.class.ancestry.name), 'activechoice':get_ShowList()=='animalcompanion' && get_ShowContentLevelNumber()==level.number}"
+                                                        (click)="toggle_List('animalcompanion', level.number)">
+                                                        Animal Companion{{(companion.class.ancestry.name) ? ": "+
+                                                        companion.class.ancestry.name : ""}}
                                                     </button>
-                                                    <div class="list-item">
-                                                        <span>Animal Companion Name</span>
-                                                        <span>
-                                                            <input type="text" id="companionname"
-                                                                [(ngModel)]="get_Companion().name" maxLength="30">
-                                                        </span>
-                                                    </div>
-                                                    <div class="list-item">
-                                                        <span>Animal Companion Species</span>
-                                                        <span>
-                                                            <input type="text" id="companionspecies"
-                                                                [(ngModel)]="get_Companion().species" maxLength="30">
-                                                        </span>
-                                                    </div>
                                                 </div>
-                                            </div>
-                                            <!--Animal Type-->
-                                            <div class="list-item"
-                                                [ngClass]="{'fullsize-only':get_Companion().class.ancestry.name}"
-                                                *ngFor="let listID of ['animaltype']; trackBy:trackByIndex;">
-                                                <button class="newrow sublist-toggle specialchoice"
-                                                    [ngClass]="{'fancy-button choicecleared':get_Companion().class.ancestry.name, 'activechoice':get_ShowList()==listID}"
-                                                    (click)="toggle_List(listID)">
-                                                    Animal Companion
-                                                    Type{{(get_Companion().class.ancestry.name) ? ": "+
-                                                    get_Companion().class.ancestry.name
-                                                    : ""}}
+                                                <button class="specialchoice" *ngIf="get_TileMode()"
+                                                    [ngClass]="{'fancy-button choicecleared fullsize-only':(companion.name && companion.species && companion.class.ancestry.name), 'activechoice':get_ShowList()=='animalcompanion' && get_ShowContentLevelNumber()==level.number}"
+                                                    (click)="toggle_List('animalcompanion', level.number)">
+                                                    <app-gridIcon class="specialchoice"
+                                                        [ngClass]="{'fancy-button':(companion.name && companion.species && companion.class.ancestry.name)}"
+                                                        [ngbTooltip]="'Animal Companion' + ((companion.class.ancestry.name) ? ': ' + companion.class.ancestry.name : '')"
+                                                        [title]="companion.class.ancestry.name || ''"
+                                                        [superTitle]="'icon-ra ra-wolf-howl'">
+                                                    </app-gridIcon>
                                                 </button>
-                                                <div class="list-item sublist specialchoice"
-                                                    [ngClass]="{'fancy-list':(get_Companion().class.ancestry.name)}"
-                                                    *ngIf="get_ShowList()==listID">
-                                                    <div class="list-item"
-                                                        [ngClass]="{'selected':type.name == get_Companion().class.ancestry.name}"
-                                                        *ngFor="let type of get_AvailableCompanionTypes(); trackBy:trackByIndex;">
-                                                        <div class="newrow"
-                                                            *ngFor="let itemID of ['animaltype'+type.name+'desc']; trackBy:trackByIndex;">
-                                                            <span>
-                                                                <input id="{{type.name}}" type="checkbox"
-                                                                    (change)="on_CompanionTypeChange(type, $event.target.checked)"
-                                                                    [checked]="type.name == get_Companion().class.ancestry.name"
-                                                                    [disabled]="get_Companion().class.ancestry.name && (type.name != get_Companion().class.ancestry.name)">
-                                                                <label for="{{type.name}}">
-                                                                    <strong>{{type.name}}</strong>
-                                                                </label>
-                                                            </span>
-                                                            <button (click)="toggle_Item(itemID)"
-                                                                [ngClass]="{'fancy-button':get_ShowItem()==itemID}">
-                                                                {{get_ShowItem()==itemID ? "Hide" : "Show"}}
-                                                                Description
-                                                            </button>
-                                                            <div class="newrow lower" *ngIf="get_ShowItem()==itemID">
-                                                                <div class="newrow left-aligned">
-                                                                    <div class="newrow left-aligned tags">
-                                                                        <cite class="trait"
-                                                                            *ngFor="let trait of type.traits; trackBy:trackByIndex;"
-                                                                            [ngbPopover]="get_Traits(trait)[0]?.desc"
-                                                                            openDelay=100>{{trait}}</cite>
-                                                                    </div>
-                                                                    <div class="newrow left-aligned"
-                                                                        *ngIf="type.sourceBook">
-                                                                        <strong>Source</strong><i>&nbsp;{{type.sourceBook}}</i>
-                                                                    </div>
-                                                                    <ng-container
-                                                                        *ngFor="let desc of type.desc.split('\n\n'); trackBy:trackByIndex;">
-                                                                        <p *ngIf="desc.split('\n').length == 1">
-                                                                            {{desc}}
-                                                                        </p>
-                                                                        <ul *ngIf="desc.split('\n').length > 1">
-                                                                            <li
-                                                                                *ngFor="let line of desc.split('\n'); trackBy:trackByIndex;">
-                                                                                {{line}}</li>
-                                                                        </ul>
-                                                                    </ng-container>
-                                                                    <p>
-                                                                        <strong>Size</strong> {{size(type.size)}}
-                                                                    </p>
-                                                                    <ng-container
-                                                                        *ngFor="let gain of type.gainItems; trackBy:trackByIndex;">
-                                                                        <p
-                                                                            *ngFor="let item of get_ItemFromGain(gain); trackBy:trackByIndex;">
-                                                                            <strong>Melee</strong>
-                                                                            {{item.displayName}},
-                                                                            <strong>Damage</strong>
-                                                                            {{item.dicenum+"d"+item.dicesize}}
-                                                                        </p>
-                                                                    </ng-container>
-                                                                    <p>
-                                                                        <span
-                                                                            *ngFor="let ability of get_AnimalCompanionAbilities(type); let index = index; trackBy:trackByIndex;">{{index
-                                                                            ? ", " :
-                                                                            ""}}<strong>{{ability.name}}</strong>
-                                                                            {{ability.modifier}}</span>
-                                                                    </p>
-                                                                    <p>
-                                                                        <strong>Hit Points</strong>
-                                                                        {{type.hitpoints}}
-                                                                    </p>
-                                                                    <p>
-                                                                        <strong>Skill</strong>
-                                                                        {{type.skillChoices[0].increases[0].name}}
-                                                                    </p>
-                                                                    <p>
-                                                                        <strong>Senses</strong>
-                                                                        {{type.senses.join(",
-                                                                        ")}}
-                                                                    </p>
-                                                                    <p>
-                                                                        <strong>Speed</strong>
-                                                                        <span
-                                                                            *ngFor="let speed of type.speeds; let index = index; trackBy:trackByIndex;">
-                                                                            {{index > 0 ? ", " :
-                                                                            ""}}{{speed.name.split('
-                                                                            ')[0]
-                                                                            + " " +
-                                                                            speed.value + " feet"}}
-                                                                        </span>
-                                                                    </p>
-                                                                    <p>
-                                                                        <strong>Support Benefit</strong>
-                                                                        {{type.supportBenefit}}
-                                                                    </p>
-                                                                    <p *ngIf="type.specialdesc.length">
-                                                                        <strong>Special</strong>
-                                                                        {{type.specialdesc}}
-                                                                    </p>
-                                                                </div>
-                                                                <ng-container
-                                                                    *ngFor="let gain of [type.activities[1]]; trackBy:trackByIndex;">
-                                                                    <div class="newrow left-aligned"
-                                                                        *ngFor="let activity of get_Activities(gain.name); trackBy:trackByIndex;">
-                                                                        <header class="spellHeader left-aligned">
-                                                                            Advanced
-                                                                            Maneuver:
-                                                                            {{activity.name}}
-                                                                            <app-actionIcons
-                                                                                [actionString]="activity.actions">
-                                                                            </app-actionIcons>
-                                                                            {{(activity.activationType) ?
-                                                                            activity.activationType : ""}}
-                                                                        </header>
-                                                                        <app-activity class="newrow" [activity]=activity
-                                                                            [allowActivate]=false>
-                                                                        </app-activity>
-                                                                    </div>
-                                                                </ng-container>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                            </ng-container>
                                         </ng-container>
                                         <!--Animal Specializations-->
                                         <ng-container *ngIf="get_CompanionSpecializationsAvailable(level.number)">
                                             <ng-container
                                                 *ngFor="let available of [get_CompanionSpecializationsAvailable(level.number)]; trackBy:trackByIndex;">
-                                                <div class="list-item"
-                                                    [ngClass]="{'fullsize-only':get_TakenCompanionSpecializations(level.number).length == available}"
-                                                    *ngFor="let listID of ['animalspecialization'+level.number]; trackBy:trackByIndex;">
-                                                    <button class="newrow sublist-toggle specialchoice"
-                                                        [ngClass]="{'fancy-button choicecleared':(get_TakenCompanionSpecializations(level.number).length == available), 'activechoice':get_ShowList()==listID}"
-                                                        (click)="toggle_List(listID)">
-                                                        Animal Companion Specialization{{available > 1 ? ": "+
-                                                        get_TakenCompanionSpecializations(level.number).length +"/"+
-                                                        available :
-                                                        (get_TakenCompanionSpecializations(level.number).length == 1) ?
-                                                        ": "+ get_Companion().class.specializations[0].name : ""}}
-                                                    </button>
-                                                    <div class="list-item sublist specialchoice"
-                                                        [ngClass]="{'fancy-list':get_TakenCompanionSpecializations(level.number).length == available}"
-                                                        *ngIf="get_ShowList()==listID">
-                                                        <div class="list-item"
-                                                            [ngClass]="{'selected':get_TakenCompanionSpecializations(level.number).includes(spec.name)}"
-                                                            *ngFor="let spec of get_AvailableCompanionSpecializations(level.number); trackBy:trackByIndex;">
-                                                            <div class="newrow"
-                                                                *ngFor="let itemID of ['animalspecialization'+spec.name+'desc'+level.number]; trackBy:trackByIndex;">
-                                                                <span>
-                                                                    <input id="{{spec.name}}" type="checkbox"
-                                                                        (change)="on_SpecializationChange(spec, $event.target.checked, level.number)"
-                                                                        [checked]="have_CompanionSpecialization(spec.name)"
-                                                                        [disabled]="(get_TakenCompanionSpecializations(level.number).length == available) && !get_TakenCompanionSpecializations(level.number).includes(spec.name)">
-                                                                    <label for="{{spec.name}}">
-                                                                        <strong>{{spec.name}}</strong>
-                                                                    </label>
-                                                                </span>
-                                                                <button (click)="toggle_Item(itemID)"
-                                                                    [ngClass]="{'fancy-button':get_ShowItem()==itemID}">
-                                                                    {{get_ShowItem()==itemID ? "Hide" : "Show"}}
-                                                                    Description
-                                                                </button>
-                                                                <div class="newrow lower"
-                                                                    *ngIf="get_ShowItem()==itemID">
-                                                                    <div class="newrow left-aligned">
-                                                                        <p>
-                                                                            {{spec.desc}}
-                                                                        </p>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
+                                                <ng-container
+                                                    *ngFor="let takenSpecializations of [get_TakenCompanionSpecializations(level.number)]; trackBy:trackByIndex">
+                                                    <div class="list-item" *ngIf="!get_TileMode()"
+                                                        [ngClass]="{'fullsize-only':takenSpecializations.length == available}">
+                                                        <button class="newrow sublist-toggle specialchoice"
+                                                            [ngClass]="{'fancy-button choicecleared':(takenSpecializations.length == available), 'activechoice':get_ShowList()=='companionspecialization' && get_ShowContentLevelNumber()==level.number}"
+                                                            (click)="toggle_List('companionspecialization', level.number)">
+                                                            Animal Companion Specialization{{available > 1 ? ": "+
+                                                            takenSpecializations.length +"/"+ available :
+                                                            (takenSpecializations.length == 1) ? ": "+
+                                                            takenSpecializations[0] : ""}}
+                                                        </button>
                                                     </div>
-                                                </div>
+                                                    <button class="specialchoice" *ngIf="get_TileMode()"
+                                                        [ngClass]="{'fancy-button choicecleared fullsize-only':(takenSpecializations.length == available), 'activechoice':get_ShowList()=='companionspecialization' && get_ShowContentLevelNumber()==level.number}"
+                                                        (click)="toggle_List('companionspecialization', level.number)">
+                                                        <app-gridIcon class="specialchoice"
+                                                            [ngClass]="{'fancy-button':(takenSpecializations.length == available)}"
+                                                            [ngbTooltip]="'Animal Companion Specialization' + (available > 1 ? ': ' + takenSpecializations.length + '/' + available : (takenSpecializations.length == 1 ? ': ' + takenSpecializations[0] : ''))"
+                                                            [title]="(available > 1) ? takenSpecializations.length.toString() + '/' + available.toString() : (takenSpecializations.length ? takenSpecializations[0] : '')"
+                                                            [superTitle]="'icon-ra ra-love-howl'">
+                                                        </app-gridIcon>
+                                                    </button>
+                                                </ng-container>
                                             </ng-container>
                                         </ng-container>
                                         <!--Familiar-->
@@ -1460,7 +1297,7 @@
                                             (change)="onClassChange(class, $event.target.checked)" [checked]="checked"
                                             [disabled]="disabled">
                                         <div class="gridicon-fullsizebox">
-                                            <app-gridIcon class="" [title]="class.name"></app-gridIcon>
+                                            <app-gridIcon [title]="class.name"></app-gridIcon>
                                             <header class="sectionHeader">
                                                 <span [ngbPopover]="ClassChoiceDetailsTemplate" triggers="click">
                                                     {{class.name}}
@@ -1529,7 +1366,7 @@
                                             (change)="onAncestryChange(ancestry, $event.target.checked)"
                                             [checked]="checked" [disabled]="disabled">
                                         <div class="gridicon-fullsizebox">
-                                            <app-gridIcon class="" [title]="ancestry.name"
+                                            <app-gridIcon [title]="ancestry.name"
                                                 [detail]="ancestry.traits.includes('Rare') ? 'Rare' : (ancestry.traits.includes('Uncommon') ? 'Uncommon' : '')">
                                             </app-gridIcon>
                                             <header class="sectionHeader">
@@ -1631,7 +1468,7 @@
                                         <button class="character-choice" *ngIf="heritage.subTypes.length"
                                             (click)="HeritageChoiceDetailsPopover.toggle()">+</button>
                                         <div class="gridicon-fullsizebox">
-                                            <app-gridIcon class="" [title]="heritage.name"
+                                            <app-gridIcon [title]="heritage.name"
                                                 [detail]="heritage.traits.includes('Rare') ? 'Rare' : (heritage.traits.includes('Uncommon') ? 'Uncommon' : '')">
                                             </app-gridIcon>
                                             <header class="sectionHeader">
@@ -1778,7 +1615,7 @@
                                         <button class="character-choice" *ngIf="background.subTypes"
                                             (click)="BackgroundChoiceDetailsPopover.toggle()">+</button>
                                         <div class="gridicon-fullsizebox">
-                                            <app-gridIcon class="" [title]="background.name"
+                                            <app-gridIcon [title]="background.name"
                                                 [detail]="background.traits.includes('Rare') ? 'Rare' : (background.traits.includes('Uncommon') ? 'Uncommon' : '')">
                                             </app-gridIcon>
                                             <header class="sectionHeader">
@@ -1854,11 +1691,10 @@
                                             (change)="on_DeityChange(deity, $event.target.checked)" [checked]="checked"
                                             [disabled]="disabled">
                                         <div class="gridicon-fullsizebox">
-                                            <app-gridIcon class="" [title]="deity.name" [detail]="deity.alignment">
+                                            <app-gridIcon [title]="deity.name" [detail]="deity.alignment">
                                             </app-gridIcon>
                                             <header class="sectionHeader">
-                                                <span #BackgroundChoiceDetailsPopover="ngbPopover"
-                                                    [ngbPopover]="DeityChoiceDetailsTemplate"
+                                                <span [ngbPopover]="DeityChoiceDetailsTemplate"
                                                     triggers="click">{{deity.name}}</span>
                                             </header>
                                         </div>
@@ -2046,6 +1882,233 @@
                             </ng-container>
                         </ng-container>
                     </div>
+                </ng-container>
+                <!--Animal Companion Content-->
+                <ng-container
+                    *ngFor="let companionContent of get_ActiveSpecialChoiceShown('animalcompanion'); trackBy:trackByID">
+                    <ng-container *ngFor="let companion of [get_Companion()]; trackBy: trackByIndex">
+                        <div class="newrow list-item padding-8 center-aligned">
+                            <header class="box-header sectionHeader">
+                                Animal Companion{{(companion.class.ancestry.name) ? ": "+ companion.class.ancestry.name
+                                : ""}}
+                            </header>
+                        </div>
+                        <div id="choiceArea" class="charactersheet-app">
+                            <div class="newrow list-item">
+                                <button class="newrow list-item" (click)="on_NewCompanion()">
+                                    <header class="sectionHeader">Reset Animal Companion</header>
+                                </button>
+                                <div class="newrow list-item">
+                                    <strong>
+                                        Name&nbsp;
+                                        <input id="CompanionName" type="text" [(ngModel)]="companion.name"
+                                            maxLength="30">
+                                    </strong>
+                                </div>
+                                <div class="newrow list-item">
+                                    <strong>
+                                        Animal&nbsp;
+                                        <input id="CompanionSpecies" type="text" [(ngModel)]="companion.species"
+                                            maxLength="30">
+                                    </strong>
+                                </div>
+                            </div>
+                            <div class="list-item transparent">
+                                <header class="sectionHeader">Type</header>
+                            </div>
+                            <ng-container *ngFor="let type of get_AvailableCompanionTypes(); trackBy:trackByIndex;">
+                                <ng-container
+                                    *ngFor="let checked of [type.name == companion.class.ancestry.name]; trackBy:trackByIndex">
+                                    <ng-container
+                                        *ngFor="let disabled of [companion.class.ancestry.name && (type.name != companion.class.ancestry.name)]; trackBy:trackByIndex">
+                                        <ng-template #AnimalCompanionDetailsTemplate>
+                                            <header class="spellHeader">{{type.name}}</header>
+                                            <div class="button newrow no-animation"
+                                                [ngClass]="{'fancy-button':checked, 'disabled':disabled}">
+                                                <label>
+                                                    <input type="checkbox"
+                                                        (change)="on_CompanionTypeChange(type, $event.target.checked)"
+                                                        [checked]="checked" [disabled]="disabled" hidden>
+                                                    {{checked ? "Remove" : "Choose"}}
+                                                </label>
+                                            </div>
+                                            <div class="newrow left-aligned">
+                                                <div class="newrow left-aligned tags">
+                                                    <cite class="trait"
+                                                        *ngFor="let trait of type.traits; trackBy:trackByIndex;"
+                                                        [ngbPopover]="get_Traits(trait)[0]?.desc"
+                                                        openDelay=100>{{trait}}</cite>
+                                                </div>
+                                                <div class="newrow left-aligned" *ngIf="type.sourceBook">
+                                                    <strong>Source</strong><i>&nbsp;{{type.sourceBook}}</i>
+                                                </div>
+                                                <ng-container
+                                                    *ngFor="let desc of type.desc.split('\n\n'); trackBy:trackByIndex;">
+                                                    <p *ngIf="desc.split('\n').length == 1">
+                                                        {{desc}}
+                                                    </p>
+                                                    <ul *ngIf="desc.split('\n').length > 1">
+                                                        <li
+                                                            *ngFor="let line of desc.split('\n'); trackBy:trackByIndex;">
+                                                            {{line}}
+                                                        </li>
+                                                    </ul>
+                                                </ng-container>
+                                                <p>
+                                                    <strong>Size</strong> {{size(type.size)}}
+                                                </p>
+                                                <ng-container
+                                                    *ngFor="let gain of type.gainItems; trackBy:trackByIndex;">
+                                                    <p
+                                                        *ngFor="let item of get_ItemFromGain(gain); trackBy:trackByIndex;">
+                                                        <strong>Melee</strong>
+                                                        {{item.displayName}},
+                                                        <strong>Damage</strong>
+                                                        {{item.dicenum+"d"+item.dicesize}}
+                                                    </p>
+                                                </ng-container>
+                                                <p>
+                                                    <span
+                                                        *ngFor="let ability of get_AnimalCompanionAbilities(type); let index = index; trackBy:trackByIndex;">
+                                                        {{index ? ", " : ""}}<strong>{{ability.name}}</strong>
+                                                        {{ability.modifier}}
+                                                    </span>
+                                                </p>
+                                                <p>
+                                                    <strong>Hit Points</strong>
+                                                    {{type.hitpoints}}
+                                                </p>
+                                                <p>
+                                                    <strong>Skill</strong>
+                                                    {{type.skillChoices[0].increases[0].name}}
+                                                </p>
+                                                <p>
+                                                    <strong>Senses</strong>
+                                                    {{type.senses.join(",
+                                                    ")}}
+                                                </p>
+                                                <p>
+                                                    <strong>Speed</strong>
+                                                    <span
+                                                        *ngFor="let speed of type.speeds; let index = index; trackBy:trackByIndex;">
+                                                        {{index > 0 ? ", " : ""}}{{speed.name.split(' ')[0] + " " +
+                                                        speed.value + " feet"}}
+                                                    </span>
+                                                </p>
+                                                <p>
+                                                    <strong>Support Benefit</strong>
+                                                    {{type.supportBenefit}}
+                                                </p>
+                                                <p *ngIf="type.specialdesc.length">
+                                                    <strong>Special</strong>
+                                                    {{type.specialdesc}}
+                                                </p>
+                                            </div>
+                                            <ng-container
+                                                *ngFor="let gain of [type.activities[1]]; trackBy:trackByIndex;">
+                                                <div class="newrow left-aligned"
+                                                    *ngFor="let activity of get_Activities(gain.name); trackBy:trackByIndex;">
+                                                    <header class="spellHeader left-aligned">
+                                                        Advanced Maneuver: {{activity.name}}
+                                                        <app-actionIcons [actionString]="activity.actions">
+                                                        </app-actionIcons>
+                                                        {{(activity.activationType) ? activity.activationType : ""}}
+                                                    </header>
+                                                    <app-activity class="newrow" [activity]=activity
+                                                        [allowActivate]=false>
+                                                    </app-activity>
+                                                </div>
+                                            </ng-container>
+                                        </ng-template>
+                                        <div class="list-item gridicon-fullsizebox" [ngClass]="{'selected':checked}">
+                                            <input id="{{type.name}}" type="checkbox" class="character-choice"
+                                                (change)="on_CompanionTypeChange(type, $event.target.checked)"
+                                                [checked]="checked" [disabled]="disabled">
+                                            <div class="gridicon-fullsizebox">
+                                                <app-gridIcon [title]="type.name">
+                                                </app-gridIcon>
+                                                <header class="sectionHeader">
+                                                    <span [ngbPopover]="AnimalCompanionDetailsTemplate"
+                                                        triggers="click">{{type.name}}</span>
+                                                </header>
+                                            </div>
+                                        </div>
+                                    </ng-container>
+                                </ng-container>
+                            </ng-container>
+                        </div>
+                    </ng-container>
+                </ng-container>
+                <!--Companion Specialization Content-->
+                <ng-container
+                    *ngFor="let companionSpecializationContent of get_ActiveSpecialChoiceShown('companionspecialization'); trackBy:trackByID">
+                    <ng-container *ngFor="let companion of [get_Companion()]; trackBy:trackByIndex">
+                        <ng-container
+                            *ngFor="let available of [get_CompanionSpecializationsAvailable(companionSpecializationContent.levelNumber)]; trackBy:trackByIndex;">
+                            <ng-container
+                                *ngFor="let takenSpecializations of [get_TakenCompanionSpecializations(companionSpecializationContent.levelNumber)]; trackBy:trackByIndex">
+                                <div class="newrow list-item padding-8 center-aligned">
+                                    <header class="box-header sectionHeader">
+                                        Animal Companion Specialization{{available > 1 ? ": "+
+                                        takenSpecializations.length +"/"+ available : (takenSpecializations.length == 1)
+                                        ? ": "+ takenSpecializations[0] : ""}}
+                                    </header>
+                                </div>
+                                <div class="list-item">
+                                    <p>
+                                        The first time an animal gains a specialization, it gains the following: Its
+                                        proficiency rank for unarmed attacks increases to expert. Its proficiency ranks
+                                        for saving throws and Perception increase to master. Increase its Dexterity
+                                        modifier by 1 and its Intelligence modifier by 2. Its unarmed attack damage
+                                        increases from two dice to three dice, and it increases its additional damage
+                                        with unarmed attacks from 2 to 4 or from 3 to 6.
+                                    </p>
+                                </div>
+                                <div id="choiceArea" class="charactersheet-app">
+                                    <ng-container
+                                        *ngFor="let spec of get_AvailableCompanionSpecializations(companionSpecializationContent.levelNumber); trackBy:trackByIndex;">
+                                        <ng-container
+                                            *ngFor="let checked of [have_CompanionSpecialization(spec.name)]; trackBy:trackByIndex">
+                                            <ng-container
+                                                *ngFor="let disabled of [(takenSpecializations.length == available) && !takenSpecializations.includes(spec.name)]; trackBy:trackByIndex">
+                                                <ng-template #CompanionSpecializationDetailsTemplate>
+                                                    <header class="spellHeader">{{spec.name}}</header>
+                                                    <div class="button newrow no-animation"
+                                                        [ngClass]="{'fancy-button':checked, 'disabled':disabled}">
+                                                        <label>
+                                                            <input type="checkbox"
+                                                                (change)="on_SpecializationChange(spec, $event.target.checked, companionSpecializationContent.levelNumber)"
+                                                                [checked]="checked" [disabled]="disabled" hidden>
+                                                            {{checked ? "Remove" : "Choose"}}
+                                                        </label>
+                                                    </div>
+                                                    <div class="newrow left-aligned">
+                                                        <p>
+                                                            {{spec.desc}}
+                                                        </p>
+                                                    </div>
+                                                </ng-template>
+                                                <div class="list-item gridicon-fullsizebox"
+                                                    [ngClass]="{'selected':checked}">
+                                                    <input id="{{spec.name}}" type="checkbox" class="character-choice"
+                                                        (change)="on_SpecializationChange(spec, $event.target.checked, companionSpecializationContent.levelNumber)"
+                                                        [checked]="checked" [disabled]="disabled">
+                                                    <div class="gridicon-fullsizebox">
+                                                        <app-gridIcon [title]="spec.name">
+                                                        </app-gridIcon>
+                                                        <header class="sectionHeader">
+                                                            <span [ngbPopover]="CompanionSpecializationDetailsTemplate"
+                                                                triggers="click">{{spec.name}}</span>
+                                                        </header>
+                                                    </div>
+                                                </div>
+                                            </ng-container>
+                                        </ng-container>
+                                    </ng-container>
+                                </div>
+                            </ng-container>
+                        </ng-container>
+                    </ng-container>
                 </ng-container>
             </div>
         </div>

@@ -123,9 +123,10 @@ export class CharacterComponent implements OnInit {
     }
 
     toggle_List(name: string, levelNumber: number = 0, content: any = null) {
+        //Set the currently shown list name, level number and content so that the correct choice with the correct data can be shown in the choice area.
         if (this.showList == name &&
             (!levelNumber || this.showContentLevelNumber == levelNumber) &&
-            (!content || this.showContent == content)) {
+            (!content || JSON.stringify(this.showContent) == JSON.stringify(content))) {
             this.showList = "";
             this.showContentLevelNumber = 0;
             this.showContent = null;
@@ -162,10 +163,20 @@ export class CharacterComponent implements OnInit {
     }
 
     get_ActiveChoiceContent(choiceType: string = "") {
+        //For choices that have a class of their own (AbilityChoice, SkillChoice, FeatChoice), get the currently shown content with levelNumber if it is of that same class.
+        //Also get the currently shown list name for compatibility.
         if (this.showContent?.constructor.name == choiceType) {
             return [{ name: this.get_ShowList(), levelNumber: this.get_ShowContentLevelNumber(), choice: this.get_ShowContent() }];
         }
         return [];
+    }
+
+    get_ActiveSpecialChoiceShown(choiceType: string = "") {
+        if (this.get_ShowList() == choiceType) {
+            //For choices that don't have a class and can only show up once per level, get the currently shown list name with levelNumber if the list name matches the choice type.
+            //Also get a "choice" object with a unique ID (the list name and the level number) for compatibility with TrackByID().
+            return [{ name: choiceType, levelNumber: this.get_ShowContentLevelNumber(), choice: { id: choiceType+this.get_ShowContentLevelNumber().toString() }}]
+        }
     }
 
     get_ShowContent() {
@@ -545,7 +556,8 @@ export class CharacterComponent implements OnInit {
     }
 
     get_BlankLanguages() {
-        return this.get_Character().class.languages.some(language => !language.name);
+        //Return the amount of languages that haven't been filled out
+        return this.get_Character().class.languages.filter(language => !language.name).length;
     }
 
     get_Character() {
@@ -1111,7 +1123,7 @@ export class CharacterComponent implements OnInit {
         return this.characterService.get_Character().class.animalCompanion;
     }
 
-    on_NewCompanion(level: Level) {
+    on_NewCompanion() {
         if (this.characterService.get_Character().class.animalCompanion) {
             let character = this.characterService.get_Character();
             character.class.animalCompanion = new AnimalCompanion();

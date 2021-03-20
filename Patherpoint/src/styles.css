@@ -374,10 +374,10 @@ button.featchoice:not(.fancy-button),
     background-color: rgb(200, 100, 0);
 }
 
-#featChoices:not(.icon-list) button.featchoice.fancy-button,
-#featChoices:not(.icon-list) .button.featchoice.fancy-button,
-.darkmode #featChoices:not(.icon-list) button.featchoice.fancy-button,
-.darkmode #featChoices:not(.icon-list) .button.featchoice.fancy-button {
+#featchoices:not(.icon-list) button.featchoice.fancy-button,
+#featchoices:not(.icon-list) .button.featchoice.fancy-button,
+.darkmode #featchoices:not(.icon-list) button.featchoice.fancy-button,
+.darkmode #featchoices:not(.icon-list) .button.featchoice.fancy-button {
     -webkit-box-shadow: inset 0 0 0 .15rem rgb(200, 100, 0);
     -moz-box-shadow: inset 0 0 0 .15rem rgb(200, 100, 0);
     box-shadow: inset 0 0 0 .15rem rgb(200, 100, 0);
@@ -1817,7 +1817,7 @@ SPECIFIC STYLE MODIFIERS
 }
 
 .minimized .fullsize-only {
-    display: none;
+    display: none !important;
 }
 
 .minimized header.sectionHeader,
@@ -1832,6 +1832,10 @@ SPECIFIC STYLE MODIFIERS
 }
 
     /* Colorization */
+
+.transparent, .darkmode .transparent {
+    background-color: transparent !important;
+}
 
 .unavailable,
 .lower.unavailable,
