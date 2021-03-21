@@ -71,9 +71,9 @@
                         <button style="flex-basis:auto" [disabled]="!weapon.amount"
                             (click)="on_ConsumableUse(weapon, null)"
                             *ngIf="['alchemicalbombs', 'otherconsumablesbombs'].includes(weapon.type)">
-                            <span [ngbTooltip]="'Melee'" *ngIf="attack[0] == 'melee'"><i class='ra ra-sword'></i></span>
+                            <span [ngbTooltip]="'Melee'" *ngIf="attack[0] == 'melee'"><i class='ra ra-sword'></i>&nbsp;</span>
                             <span [ngbTooltip]="'Ranged ' + weapon.ranged + ' feet'"
-                                *ngIf="attack[0] == 'ranged'"><i class='ra ra-target-arrows'></i></span>
+                                *ngIf="attack[0] == 'ranged'"><i class='ra ra-target-arrows'></i>&nbsp;</span>
                             <span>{{(weapon.amount != undefined && weapon.amount != 1) ?
                                 weapon.amount+" " : ""}}{{weapon.get_Name()}}<app-actionIcons
                                     [actionString]="weapon.actions">

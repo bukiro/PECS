@@ -1,6 +1,6 @@
 <div id="{{creature}}-effects-height" class="attributeBox" [ngClass]="{'snug':!fullDisplay}">
     <ng-template #conditionTemplate let-conditionGain="conditionGain">
-        <div [ngClass]="{'attention':(conditionGain.duration == 1) || (conditionGain.nextStage == -1 && (condition.previousCondition || condition.nextCondition))}"
+        <div style="display:flex" [ngClass]="{'attention':(conditionGain.duration == 1) || (conditionGain.nextStage == -1 && (condition.previousCondition || condition.nextCondition))}"
             *ngFor="let condition of [get_Conditions(conditionGain.name)[0]]; trackBy:trackByIndex;">
             <ng-template #conditionContent>
                 <app-condition class="newrow" (showChoiceMessage)="receive_ItemMessage($event)" [creature]="creature"

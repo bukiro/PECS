@@ -4254,7 +4254,7 @@
                             },
                             {
                                 "locked": true,
-                                "name": "Shield Block",
+                                "name": "Shield Block (Champion)",
                                 "source": "Champion",
                                 "sourceId": "1-Feature-Champion-0"
                             }
@@ -4262,6 +4262,20 @@
                         "id": "1-Feature-Champion-0",
                         "source": "Champion",
                         "type": "Feature"
+                    },
+                    {
+                        "_className": "FeatChoice",
+                        "feats": [
+                            {
+                                "locked": true,
+                                "name": "Shield Block",
+                                "source": "Shield Block (Champion)",
+                                "sourceId": "1-General-Shield Block (Champion)-0"
+                            }
+                        ],
+                        "id": "1-General-Shield Block (Champion)-0",
+                        "source": "Shield Block (Champion)",
+                        "type": "General"
                     },
                     {
                         "_className": "FeatChoice",
@@ -5624,7 +5638,7 @@
                             },
                             {
                                 "locked": true,
-                                "name": "Anathema",
+                                "name": "Anathema (Cleric)",
                                 "source": "Cleric",
                                 "sourceId": "1-Feature-Cleric-0"
                             }
@@ -6847,7 +6861,7 @@
                         "feats": [
                             {
                                 "locked": true,
-                                "name": "Anathema",
+                                "name": "Anathema (Druid)",
                                 "source": "Druid",
                                 "sourceId": "1-Feature-Druid-0"
                             },
@@ -6865,7 +6879,7 @@
                             },
                             {
                                 "locked": true,
-                                "name": "Shield Block",
+                                "name": "Shield Block (Druid)",
                                 "source": "Druid",
                                 "sourceId": "1-Feature-Druid-0"
                             },
@@ -6879,6 +6893,20 @@
                         "id": "1-Feature-Druid-0",
                         "source": "Druid",
                         "type": "Feature"
+                    },
+                    {
+                        "_className": "FeatChoice",
+                        "feats": [
+                            {
+                                "locked": true,
+                                "name": "Shield Block",
+                                "source": "Shield Block (Druid)",
+                                "sourceId": "1-General-Shield Block (Druid)-0"
+                            }
+                        ],
+                        "id": "1-General-Shield Block (Druid)-0",
+                        "source": "Shield Block (Druid)",
+                        "type": "General"
                     },
                     {
                         "_className": "FeatChoice",
@@ -8237,7 +8265,7 @@
                             },
                             {
                                 "locked": true,
-                                "name": "Shield Block",
+                                "name": "Shield Block (Fighter)",
                                 "source": "Fighter",
                                 "sourceId": "1-Feature-Fighter-0"
                             }
@@ -8245,6 +8273,20 @@
                         "id": "1-Feature-Fighter-0",
                         "source": "Fighter",
                         "type": "Feature"
+                    },
+                    {
+                        "_className": "FeatChoice",
+                        "feats": [
+                            {
+                                "locked": true,
+                                "name": "Shield Block",
+                                "source": "Shield Block (Fighter)",
+                                "sourceId": "1-General-Shield Block (Fighter)-0"
+                            }
+                        ],
+                        "id": "1-General-Shield Block (Fighter)-0",
+                        "source": "Shield Block (Fighter)",
+                        "type": "General"
                     },
                     {
                         "_className": "FeatChoice",

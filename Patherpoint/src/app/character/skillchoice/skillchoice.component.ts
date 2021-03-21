@@ -3,6 +3,7 @@ import { CharacterService } from 'src/app/character.service';
 import { SkillChoice } from 'src/app/SkillChoice';
 import { Level } from 'src/app/Level';
 import { Skill } from 'src/app/Skill';
+import { NgbPopoverConfig } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
     selector: 'app-skillchoice',
@@ -31,8 +32,17 @@ export class SkillchoiceComponent implements OnInit {
 
     constructor(
         private changeDetector: ChangeDetectorRef,
-        public characterService: CharacterService
-    ) { }
+        public characterService: CharacterService,
+        popoverConfig: NgbPopoverConfig
+    ) {
+        popoverConfig.autoClose = "outside";
+        popoverConfig.container = "body";
+        //For touch compatibility, this openDelay prevents the popover from closing immediately on tap because a tap counts as hover and then click;
+        popoverConfig.openDelay = 1;
+        popoverConfig.placement = "auto";
+        popoverConfig.popoverClass = "list-item sublist";
+        popoverConfig.triggers = "hover:click";
+    }
 
     toggle_List(name: string) {
         if (this.showChoice == name) {
@@ -86,8 +96,12 @@ export class SkillchoiceComponent implements OnInit {
         return this.characterService.get_Skills(this.get_Character(), name, type, locked)
     }
 
-    get_SkillLevelName(skill: Skill, short: boolean = false) {
-        return this.characterService.get_SkillLevelName(skill.level(this.get_Character(), this.characterService, this.levelNumber, true), short);
+    get_SkillLevel(skill: Skill) {
+        return skill.level(this.get_Character(), this.characterService, this.levelNumber, true);
+    }
+
+    get_SkillLevelName(skillLevel: number, short: boolean = false) {
+        return this.characterService.get_SkillLevelName(skillLevel, short);
     }
 
     get_INT(levelNumber: number) {
@@ -207,9 +221,13 @@ export class SkillchoiceComponent implements OnInit {
             reasons.push(cannotIncreaseHigher);
         } else if (!skill.canIncrease(this.get_Character(), this.characterService, levelNumber, maxRank) && !this.skillIncreasedByThis(skill, choice)) {
             if (!skill.canIncrease(this.get_Character(), this.characterService, levelNumber)) {
-                cannotIncreaseHigher = "Cannot increase any higher on this level.";
+                cannotIncreaseHigher = "Highest rank at this level.";
             } else {
-                cannotIncreaseHigher = "Cannot increase any higher with this method.";
+                if (choice.maxRank == 2) {
+                    cannotIncreaseHigher = "Already trained.";
+                } else {
+                    cannotIncreaseHigher = "Highest rank for this increase.";
+                }
             }
             reasons.push(cannotIncreaseHigher);
         }

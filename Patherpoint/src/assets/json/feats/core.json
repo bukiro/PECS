@@ -6897,7 +6897,7 @@
         "levelreq": 3,
         "effects": [
             {
-                "affected": "Untrained Skills",
+                "affected": "Untrained Skill Checks",
                 "type": "proficiency",
                 "value": "(Level >= 7) ? Level : Math.max(Math.floor(Level / 2), 0)"
             }
@@ -29702,7 +29702,7 @@
         ],
         "effects": [
             {
-                "affected": "Untrained Skills",
+                "affected": "Untrained Skill Checks",
                 "type": "proficiency",
                 "value": "Level"
             }
@@ -32239,12 +32239,12 @@
                 "showon": "Skills, Halfling Luck",
                 "effects": [
                     {
-                        "affected": "Untrained Skills",
+                        "affected": "Untrained Skill Checks",
                         "value": "Level",
                         "type": "proficiency"
                     },
                     {
-                        "affected": "Untrained Skills",
+                        "affected": "Untrained Skill Checks",
                         "value": "4",
                         "type": "circumstance"
                     }

@@ -9,6 +9,7 @@ import { Character } from 'src/app/Character';
 import { TraitsService } from 'src/app/traits.service';
 import { EffectsService } from 'src/app/effects.service';
 import { NgbPopoverConfig, NgbTooltipConfig } from '@ng-bootstrap/ng-bootstrap';
+import { TextAttribute } from '@angular/compiler/src/render3/r3_ast';
 
 @Component({
     selector: 'app-featchoice',
@@ -219,9 +220,9 @@ export class FeatchoiceComponent implements OnInit {
                 showOtherOptions = this.get_Character().settings.showOtherOptions;
             }
             return feats.map(feat => {
-                let available = (this.cannotTake(feat, choice).length == 0 || this.featTakenByThis(feat, choice));
+                let available = (this.cannotTake(feat, choice).length == 0 || this.get_FeatTakenByChoice(feat, choice));
                 return { available: available, subfeat: feat }
-            }).filter(featSet => showOtherOptions || this.featTakenByThis(featSet.subfeat, choice))
+            }).filter(featSet => showOtherOptions || this.get_FeatTakenByChoice(featSet.subfeat, choice))
                 .sort(function (a, b) {
                     if (a.subfeat.subType < b.subfeat.subType) {
                         return -1;
@@ -310,13 +311,13 @@ export class FeatchoiceComponent implements OnInit {
         }
         if (feats.length) {
             if (!this.lowerLevelFeats && !choice.showOnSheet) {
-                feats = feats.filter(feat => feat.levelreq >= this.featLevel || !feat.levelreq || this.featTakenByThis(feat, choice) || this.subFeatTakenByThis(allSubFeats, feat, choice));
+                feats = feats.filter(feat => feat.levelreq >= this.featLevel || !feat.levelreq || this.get_FeatTakenByChoice(feat, choice) || this.subFeatTakenByThis(allSubFeats, feat, choice));
             }
             if (!this.higherLevelFeats && !choice.showOnSheet) {
-                feats = feats.filter(feat => feat.levelreq <= this.featLevel || !feat.levelreq || this.featTakenByThis(feat, choice) || this.subFeatTakenByThis(allSubFeats, feat, choice))
+                feats = feats.filter(feat => feat.levelreq <= this.featLevel || !feat.levelreq || this.get_FeatTakenByChoice(feat, choice) || this.subFeatTakenByThis(allSubFeats, feat, choice))
             }
             if (!this.archetypeFeats) {
-                feats = feats.filter(feat => !feat.traits.includes("Archetype") || this.featTakenByThis(feat, choice) || this.subFeatTakenByThis(allSubFeats, feat, choice))
+                feats = feats.filter(feat => !feat.traits.includes("Archetype") || this.get_FeatTakenByChoice(feat, choice) || this.subFeatTakenByThis(allSubFeats, feat, choice))
             }
             if (this.archetypeFeats) {
                 //Show archetype feats only if their dedication feat has been taken.
@@ -341,9 +342,9 @@ export class FeatchoiceComponent implements OnInit {
                 showOtherOptions = this.get_Character().settings.showOtherOptions;
             }
             return feats.map(feat => {
-                let featAvailable = (this.featTakenByThis(feat, choice) || this.subFeatTakenByThis(allSubFeats, feat, choice) || this.cannotTake(feat, choice).length == 0);
+                let featAvailable = (this.get_FeatTakenByChoice(feat, choice) || this.subFeatTakenByThis(allSubFeats, feat, choice) || this.cannotTake(feat, choice).length == 0);
                 return { available: featAvailable, feat: feat };
-            }).filter(featSet => ((this.unavailableFeats || featSet.available) && showOtherOptions) || this.featTakenByThis(featSet.feat, choice) || this.subFeatTakenByThis(allSubFeats, featSet.feat, choice))
+            }).filter(featSet => ((this.unavailableFeats || featSet.available) && showOtherOptions) || this.get_FeatTakenByChoice(featSet.feat, choice) || this.subFeatTakenByThis(allSubFeats, featSet.feat, choice))
                 .sort(function (a, b) {
                     //Sort by level, then name. Divide level by 100 to create leading zeroes (and not sort 10 before 2).
                     //For skill feat choices and general feat choices, sort by the associated skill (if exactly one), then level and name.
@@ -420,7 +421,7 @@ export class FeatchoiceComponent implements OnInit {
         if (feat?.name) {
             let character = this.get_Character();
             let levelNumber = this.levelNumber;
-            let takenByThis: number = this.featTakenByThis(feat, choice) ? 1 : 0;
+            let takenByThis: number = this.get_FeatTakenByChoice(feat, choice) ? 1 : 0;
             let ignoreRequirementsList: string[] = this.create_IgnoreRequirementList(feat, choice);
             let reasons: { reason: string, explain: string }[] = [];
             let traits: string[] = [];
@@ -490,7 +491,7 @@ export class FeatchoiceComponent implements OnInit {
             if (feat.subTypes) {
                 let subfeats: Feat[] = this.get_Feats().filter(subfeat => subfeat.superType == feat.name && !subfeat.hide);
                 let availableSubfeats = subfeats.filter(subfeat =>
-                    this.featTakenByThis(subfeat, choice) || this.cannotTake(subfeat, choice, skipLevel).length == 0
+                    this.get_FeatTakenByChoice(subfeat, choice) || this.cannotTake(subfeat, choice, skipLevel).length == 0
                 );
                 if (availableSubfeats.length == 0) {
                     reasons.push({ reason: "No option available", explain: "None of the options for this feat has its requirements met." });
@@ -513,7 +514,13 @@ export class FeatchoiceComponent implements OnInit {
         }
     }
 
-    featTakenByThis(feat: Feat, choice: FeatChoice) {
+    get_FeatTakenEver(feat: Feat) {
+        //Return whether this feat or a feat that counts as this feat has been taken at all up to this level - unless it's unlimited or its limit is not reached yet.
+        let taken = this.get_Character().get_FeatsTaken(1, this.levelNumber, feat.name, '', '', undefined, true, true);
+        return !feat.unlimited && taken.length && taken.length >= feat.limited;
+    }
+
+    get_FeatTakenByChoice(feat: Feat, choice: FeatChoice) {
         return choice.feats.some(gain => gain.name == feat.name || gain.countAsFeat == feat.name);
     }
 

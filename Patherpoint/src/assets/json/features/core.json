@@ -777,6 +777,10 @@
         "desc": "Your cause gives you a special reaction: Retributive Strike for paladin, Glimpse of Redemption for redeemer, or Liberating Step for liberator."
     },
     {
+        "name": "Shield Block (Champion)",
+        "desc": "You gain the Shield Block general feat, a reaction that lets you reduce damage with your shield."
+    },
+    {
         "name": "Composition Spells",
         "desc": "You can infuse your performances with magic to create unique effects called compositions. Compositions are a special type of spell that often require you to use the Performance skill when casting them. Composition spells are a type of focus spell. It costs 1 Focus Point to cast a focus spell, and you start with a focus pool of 1 Focus Point. You refill your focus pool during your daily preparations, and you can regain 1 Focus Point by spending 10 minutes using the Refocus activity to perform, write a new composition, or otherwise engage your muse.\n\nFocus spells are automatically heightened to half your level rounded up, much like cantrips. Focus spells don't require spell slots, and you can't cast them using spell slots. Taking feats can give you more focus spells and increase the size of your focus pool, though your focus pool can never hold more than 3 Focus Points. The full rules for focus spells appear on page 300.\n\nYou learn the counter performance composition spell (page 386), protecting against auditory and visual effects.",
         "internalNote": "Spell slots gained through class features are handled in the class object.",
@@ -886,11 +890,7 @@
     {
         "name": "Anathema (Druid)",
         "desc": "As stewards of the natural order, druids find affronts to nature anathema. If you perform enough acts that are anathema to nature, you lose your magical abilities that come from the druid class, including your primal spellcasting and the benefits of your order. These abilities can be regained only if you demonstrate your repentance by conducting an atone ritual.\n\nThe following acts are anathema to all druids:\n\nUsing metal armor or shields.\nDespoiling natural places.\nTeaching the Druidic language to non-druids.\n\nEach druidic order also has additional anathema acts, detailed in the order's entry.",
-        "anathema": [
-            "Using metal armor or shields.",
-            "Despoiling natural places.",
-            "Teaching the Druidic language to non-druids."
-        ],
+        "internalNote": "Druid anathema are implemented via the class and the order.",
         "countAsFeat": "Anathema"
     },
     {
@@ -912,6 +912,10 @@
     {
         "name": "Druidic Order",
         "desc": "Upon becoming a druid, you align yourself with a druidic order, which grants you a class feat, an order spell (see below), and an additional trained skill tied to your order. While you'll always be a member of your initial order, it's not unheard of for a druid to request to study with other orders in search of greater understanding of the natural world, and PC druids are among the most likely to blend the powers of different orders.\n\nOrder spells are a type of focus spell. It costs 1 Focus Point to cast a focus spell, and you start with a focus pool of 1 Focus Point. You refill your focus pool during your daily preparations, and you can regain 1 Focus Point by spending 10 minutes using the Refocus activity to commune with local nature spirits or otherwise tend to the wilderness in a way befitting your order.\n\nFocus spells are automatically heightened to half your level rounded up, much like cantrips. Focus spells don't require spell slots to cast, and you can't cast them using spell slots. Selecting druid feats can give you more focus spells and increase the size of your focus pool, though your focus pool can never hold more than 3 points. The full rules for focus spells appear in Chapter 7 on page 300."
+    },
+    {
+        "name": "Shield Block (Druid)",
+        "desc": "You gain the Shield Block general feat, a reaction that lets you reduce damage with your shield."
     },
     {
         "name": "Expert Spellcaster (Druid)",
@@ -948,6 +952,10 @@
             "Attack of Opportunity"
         ],
         "countAsFeat": "Attack of Opportunity"
+    },
+    {
+        "name": "Shield Block (Fighter)",
+        "desc": "You gain the Shield Block general feat, a reaction that lets you reduce damage with your shield."
     },
     {
         "name": "Bravery",
