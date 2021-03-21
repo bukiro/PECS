@@ -640,137 +640,31 @@
                                         </ng-container>
                                         <!--Different Worlds-->
                                         <ng-container
-                                            *ngFor="let feat of get_DifferentWorldsFeat(level.number); trackBy:trackByIndex;">
-                                            <!--Different Worlds Name-->
-                                            <div class="list-item" [ngClass]="{'fullsize-only':feat.data.name}"
-                                                *ngFor="let listID of ['differentWorlds_Name']; trackBy:trackByIndex;">
-                                                <button class="newrow sublist-toggle specialchoice"
-                                                    [ngClass]="{'fancy-button choicecleared':feat.data.name, 'activechoice':get_ShowList()==listID}"
-                                                    (click)="toggle_List(listID)">
-                                                    Alternative Name (Different Worlds){{(feat.data.name) ? ": "+
-                                                    feat.data.name
-                                                    : ""}}
-                                                </button>
-                                                <div class="list-item sublist" [ngClass]="{'fancy-list':feat.data.name}"
-                                                    *ngIf="get_ShowList()==listID">
-                                                    <div class="list-item">
-                                                        <strong>Name:
-                                                            <input type="text" [(ngModel)]="feat.data.name"
-                                                                (blur)=on_NameChange() maxLength="30">
-                                                        </strong>
-                                                    </div>
+                                            *ngFor="let differentWorldsFeat of get_DifferentWorldsFeat(level.number); trackBy:trackByIndex;">
+                                            <ng-container
+                                                *ngFor="let finished of [differentWorldsFeat.data.name && differentWorldsFeat.data.background]; trackBy:trackByIndex;">
+                                                <!--Different Worlds-->
+                                                <div class="list-item" *ngIf="!get_TileMode()"
+                                                    [ngClass]="{'fullsize-only':finished}">
+                                                    <button class="newrow sublist-toggle specialchoice"
+                                                        [ngClass]="{'fancy-button choicecleared':finished, 'activechoice':get_ShowList()=='differentworlds' && get_ShowContentLevelNumber()==level.number}"
+                                                        (click)="toggle_List('differentworlds', level.number)">
+                                                        Different Worlds{{(differentWorldsFeat.data.background) ? ": " +
+                                                        differentWorldsFeat.data.background :
+                                                        ""}}
+                                                    </button>
                                                 </div>
-                                            </div>
-                                            <!--Different Worlds Background-->
-                                            <div class="list-item" [ngClass]="{'fullsize-only':feat.data.background}"
-                                                *ngFor="let listID of ['differentWorlds_Background']; trackBy:trackByIndex;">
-                                                <button class="newrow sublist-toggle specialchoice"
-                                                    [ngClass]="{'fancy-button choicecleared':feat.data.background, 'activechoice':get_ShowList()==listID}"
-                                                    (click)="toggle_List(listID)">
-                                                    Alternative Background (Different
-                                                    Worlds){{(feat.data.background) ? ": "+ feat.data.background :
-                                                    ""}}
+                                                <button class="specialchoice" *ngIf="get_TileMode()"
+                                                    [ngClass]="{'fancy-button choicecleared fullsize-only':finished, 'activechoice':get_ShowList()=='differentworlds' && get_ShowContentLevelNumber()==level.number}"
+                                                    (click)="toggle_List('differentworlds', level.number)">
+                                                    <app-gridIcon class="specialchoice"
+                                                        [ngClass]="{'fancy-button':finished}"
+                                                        [ngbTooltip]="'Different Worlds' + (differentWorldsFeat.data.background ? ': ' + differentWorldsFeat.data.background : '')"
+                                                        [title]="differentWorldsFeat.data.background"
+                                                        [superTitle]="'icon-ra ra-arcane-mask'">
+                                                    </app-gridIcon>
                                                 </button>
-                                                <div class="list-item sublist specialchoice"
-                                                    [ngClass]="{'fancy-list':feat.data.background}"
-                                                    *ngIf="get_ShowList()==listID">
-                                                    <!-- Filter -->
-                                                    <div class="list-item">
-                                                        <strong>Filter</strong>
-                                                        <div class="newrow">
-                                                            <span>
-                                                                <input id="differentWorldsBackgroundfilterAdventure"
-                                                                    type="checkbox" [(ngModel)]="adventureBackgrounds">
-                                                                <label
-                                                                    for="differentWorldsBackgroundfilterAdventure">Show
-                                                                    adventure
-                                                                    backgrounds</label>
-                                                            </span>
-                                                        </div>
-                                                        <div class="newrow">
-                                                            <span>
-                                                                <input id="differentWorldsBackgroundfilterRegional"
-                                                                    type="checkbox" [(ngModel)]="regionalBackgrounds">
-                                                                <label
-                                                                    for="differentWorldsBackgroundfilterRegional">Show
-                                                                    regional
-                                                                    backgrounds</label>
-                                                            </span>
-                                                        </div>
-                                                    </div>
-                                                    <!-- End Filter -->
-                                                    <div class="list-item"
-                                                        [ngClass]="{'selected':background.name === feat.data.background}"
-                                                        *ngFor="let background of get_Backgrounds(); trackBy:trackByIndex;">
-                                                        <div class="newrow"
-                                                            *ngFor="let itemID of ['differentWorlds_Background'+background.name]; trackBy:trackByIndex;">
-                                                            <span>
-                                                                <input *ngIf="!background.subTypes"
-                                                                    id="{{background.name}}" type="checkbox"
-                                                                    (change)="onDifferentWorldsBackgroundChange(level, feat, background, $event.target.checked)"
-                                                                    [checked]="background.name === feat.data.background || background.name === get_Character().class.background.name"
-                                                                    [disabled]="background.name === get_Character().class.background.name || (feat.data.background && (background.name != feat.data.background))">
-                                                                <button class="lower left" *ngIf="background.subTypes"
-                                                                    id="{{background.name}}"
-                                                                    (click)="toggle_Item(itemID)">v</button>
-                                                                <label for="{{background.name}}">
-                                                                    <strong>{{background.name}}</strong>
-                                                                    <cite class="trait"
-                                                                        *ngIf="background.traits.includes('Rare')"
-                                                                        [ngbPopover]="get_Traits('Rare')[0]?.desc"
-                                                                        openDelay=100>Rare</cite>
-                                                                    <cite class="trait"
-                                                                        *ngIf="background.traits.includes('Uncommon')"
-                                                                        [ngbPopover]="get_Traits('Uncommon')[0]?.desc"
-                                                                        openDelay=100>Uncommon</cite>
-                                                                    <cite class="trait" *ngIf="background.adventurePath"
-                                                                        [ngbPopover]="get_Traits('Adventure')[0]?.desc"
-                                                                        openDelay=100>Adventure</cite>
-                                                                    <cite class="trait" *ngIf="background.region"
-                                                                        [ngbPopover]="get_Traits('Regional')[0]?.desc"
-                                                                        openDelay=100>Regional</cite>
-                                                                </label>
-                                                            </span>
-                                                            <button (click)="toggle_Item(itemID)"
-                                                                [ngClass]="{'fancy-button':get_ShowItem()==itemID}">
-                                                                {{get_ShowItem()==itemID ? "Hide" : "Show"}}
-                                                                Description
-                                                            </button>
-                                                            <div class="newrow lower" *ngIf="get_ShowItem()==itemID">
-                                                                <!--Subbackgrounds-->
-                                                                <div class="list-item"
-                                                                    [ngClass]="{'selected':subbackground.name === feat.data.background}"
-                                                                    *ngFor="let subbackground of get_SubBackgrounds(background.name); trackBy:trackByIndex;">
-                                                                    <span>
-                                                                        <input id="{{subbackground.name}}"
-                                                                            type="checkbox"
-                                                                            (change)="onDifferentWorldsBackgroundChange(level, feat, subbackground, $event.target.checked)"
-                                                                            [checked]="subbackground.name === feat.data.background || subbackground.name === get_Character().class.background.name"
-                                                                            [disabled]="(subbackground.name === get_Character().class.background.name || subbackground.superType == get_Character().class.background.superType) || (feat.data.background && (subbackground.name != feat.data.background))">
-                                                                        <label for="{{subbackground.name}}">
-                                                                            <strong>{{subbackground.subType}}</strong>
-                                                                        </label>
-                                                                    </span>
-                                                                </div>
-                                                                <!--End Subbackgrounds-->
-                                                                <div class="newrow left-aligned">
-                                                                    <ng-container
-                                                                        *ngFor="let desc of background.desc.split('\n\n'); trackBy:trackByIndex;">
-                                                                        <p *ngIf="desc.split('\n').length == 1">
-                                                                            {{desc}}
-                                                                        </p>
-                                                                        <ul *ngIf="desc.split('\n').length > 1">
-                                                                            <li
-                                                                                *ngFor="let line of desc.split('\n'); trackBy:trackByIndex;">
-                                                                                {{line}}</li>
-                                                                        </ul>
-                                                                    </ng-container>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                            </ng-container>
                                         </ng-container>
                                         <!--Blessed Blood-->
                                         <ng-container *ngIf="get_BlessedBloodFeat(level.number)">
@@ -1535,7 +1429,8 @@
                                     *ngFor="let disabled of [get_Character().class.background.name && (background.name != get_Character().class.background.name)]; trackBy:trackByIndex">
                                     <ng-template #BackgroundChoiceDetailsTemplate>
                                         <header class="spellHeader">{{background.name}}</header>
-                                        <div class="button newrow no-animation" *ngIf="!disabled && !background.subTypes"
+                                        <div class="button newrow no-animation"
+                                            *ngIf="!disabled && !background.subTypes"
                                             [ngClass]="{'fancy-button':checked, 'disabled':disabled}">
                                             <label>
                                                 <input type="checkbox"
@@ -1614,6 +1509,12 @@
                                                 <cite class="trait" *ngIf="background.traits.includes('Uncommon')"
                                                     [ngbPopover]="get_Traits('Uncommon')[0]?.desc"
                                                     openDelay=100>Uncommon</cite>
+                                                <cite class="trait" *ngIf="background.adventurePath"
+                                                    [ngbPopover]="get_Traits('Adventure')[0]?.desc"
+                                                    openDelay=100>Adventure</cite>
+                                                <cite class="trait" *ngIf="background.region"
+                                                    [ngbPopover]="get_Traits('Regional')[0]?.desc"
+                                                    openDelay=100>Regional</cite>
                                             </header>
                                         </div>
                                     </div>
@@ -2182,6 +2083,139 @@
                                     </label>
                                 </div>
                             </div>
+                        </div>
+                    </ng-container>
+                </ng-container>
+                <!--Different Worlds content-->
+                <ng-container
+                    *ngFor="let differentWorldsContent of get_ActiveSpecialChoiceShown('differentworlds'); trackBy:trackByID">
+                    <ng-container
+                        *ngFor="let differentWorldsFeat of get_DifferentWorldsFeat(differentWorldsContent.levelNumber); trackBy:trackByIndex;">
+                        <div class="newrow list-item padding-8 center-aligned">
+                            <header class="box-header sectionHeader">
+                                Different Worlds{{(differentWorldsFeat.data.background) ? ": "+
+                                differentWorldsFeat.data.background : ""}}
+                            </header>
+                        </div>
+                        <div id="choiceArea" class="charactersheet-app">
+                            <div class="newrow list-item">
+                                <div class="newrow list-item">
+                                    <strong>Alternative name&nbsp;
+                                        <input type="text" [(ngModel)]="differentWorldsFeat.data.name"
+                                            (blur)=on_NameChange() maxLength="30">
+                                    </strong>
+                                </div>
+                            </div>
+                            <div class="list-item transparent">
+                                <header class="sectionHeader">Alternative background</header>
+                            </div>
+                            <!-- Filter -->
+                            <div class="list-item lower">
+                                <strong>Filter</strong>
+                                <div class="list-item gridicon-fullsizebox">
+                                    <input class="character-choice" id="adventureBackgroundsFilter" type="checkbox"
+                                        [(ngModel)]="adventureBackgrounds">
+                                    <label for="adventureBackgroundsFilter"><strong>Show adventure
+                                            backgrounds</strong></label>
+                                </div>
+                                <div class="list-item gridicon-fullsizebox">
+                                    <input class="character-choice" id="regionalBackgroundsFilter" type="checkbox"
+                                        [(ngModel)]="regionalBackgrounds">
+                                    <label for="regionalBackgroundsFilter"><strong>Show regional
+                                            backgrounds</strong></label>
+                                </div>
+                            </div>
+                            <!-- End Filter -->
+                            <ng-container *ngFor="let background of get_Backgrounds(); trackBy:trackByIndex;">
+                                <ng-container
+                                    *ngFor="let selected of [background.name === differentWorldsFeat.data.background]; trackBy:trackByIndex">
+                                    <ng-container
+                                        *ngFor="let checked of [selected || background.name === get_Character().class.background.name || background.name === get_Character().class.background.superType]; trackBy:trackByIndex">
+                                        <ng-container
+                                            *ngFor="let disabled of [!selected && (checked || differentWorldsFeat.data.background)]; trackBy:trackByIndex">
+                                            <ng-template #DifferentWorldsBackgroundChoiceDetailsTemplate>
+                                                <header class="spellHeader">{{background.name}}</header>
+                                                <div class="button newrow no-animation" *ngIf="!disabled"
+                                                    [ngClass]="{'fancy-button':selected, 'disabled':disabled}">
+                                                    <label>
+                                                        <input type="checkbox"
+                                                            (change)="on_DifferentWorldsBackgroundChange(differentWorldsContent.levelNumber, differentWorldsFeat, background, $event.target.checked)"
+                                                            [checked]="checked" [disabled]="disabled" hidden>{{selected
+                                                        ? "Remove" : "Choose"}}
+                                                    </label>
+                                                </div>
+                                                <div class="newrow left-aligned tags">
+                                                    <cite class="trait"
+                                                        *ngFor="let trait of background.traits; trackBy:trackByIndex;"
+                                                        [ngbPopover]="get_Traits(trait)[0]?.desc"
+                                                        openDelay=100>{{trait}}</cite>
+                                                </div>
+                                                <div class="newrow left-aligned" *ngIf="background.sourceBook">
+                                                    <strong>Source</strong><i>&nbsp;{{background.sourceBook}}</i>
+                                                </div>
+                                                <div class="newrow left-aligned" *ngIf="background.prerequisites">
+                                                    <strong>Prerequisites</strong>&nbsp;{{background.prerequisites}}
+                                                </div>
+                                                <div class="newrow left-aligned" *ngIf="background.region">
+                                                    <strong>Region</strong>&nbsp;{{background.region}}
+                                                </div>
+                                                <div class="newrow left-aligned">
+                                                    <ng-container
+                                                        *ngFor="let desc of background.desc.split('\n\n'); let index = index; trackBy:trackByIndex;">
+                                                        <ng-container *ngIf="index == 0">
+                                                            <p *ngIf="desc.split('\n').length == 1">{{desc}}</p>
+                                                            <ul *ngIf="desc.split('\n').length > 1">
+                                                                <li
+                                                                    *ngFor="let line of desc.split('\n'); trackBy:trackByIndex;">
+                                                                    {{line}}
+                                                                </li>
+                                                            </ul>
+                                                        </ng-container>
+                                                    </ng-container>
+                                                    <ng-container *ngIf="background.loreChoices[0]?.loreName != ''">
+                                                        <p>
+                                                            You're trained in {{background.loreChoices[0].loreName}}
+                                                            Lore.
+                                                        </p>
+                                                    </ng-container>
+                                                    <ng-container *ngIf="background.loreChoices[0]?.loreDesc != ''">
+                                                        <p>
+                                                            You're trained in
+                                                            {{background.loreChoices[0].loreDesc.substr(0,1).toLowerCase()}}{{background.loreChoices[0].loreDesc.substr(1)}}.
+                                                        </p>
+                                                    </ng-container>
+                                                </div>
+                                            </ng-template>
+                                            <div class="list-item gridicon-fullsizebox"
+                                                [ngClass]="{'selected':selected}">
+                                                <input id="{{background.name}}" type="checkbox" class="character-choice"
+                                                    (change)="on_DifferentWorldsBackgroundChange(differentWorldsContent.levelNumber, differentWorldsFeat, background, $event.target.checked)"
+                                                    [checked]="checked" [disabled]="disabled">
+                                                <div class="gridicon-fullsizebox"
+                                                    [ngbPopover]="DifferentWorldsBackgroundChoiceDetailsTemplate"
+                                                    triggers="click">
+                                                    <app-gridIcon [title]="background.name"
+                                                        [detail]="background.traits.includes('Rare') ? 'Rare' : (background.traits.includes('Uncommon') ? 'Uncommon' : '')">
+                                                    </app-gridIcon>
+                                                    <header class="sectionHeader">
+                                                        <span>{{background.name}}&nbsp;</span>
+                                                        <cite class="trait" *ngIf="background.traits.includes('Rare')"
+                                                            [ngbPopover]="get_Traits('Rare')[0]?.desc"
+                                                            openDelay=100>Rare</cite>
+                                                        <cite class="trait"
+                                                            *ngIf="background.traits.includes('Uncommon')"
+                                                            [ngbPopover]="get_Traits('Uncommon')[0]?.desc"
+                                                            openDelay=100>Uncommon</cite>
+                                                    </header>
+                                                </div>
+                                            </div>
+                                        </ng-container>
+                                    </ng-container>
+                                </ng-container>
+                            </ng-container>
+
+
+
                         </div>
                     </ng-container>
                 </ng-container>

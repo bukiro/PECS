@@ -49,6 +49,8 @@ export class FeatchoiceComponent implements OnInit {
     showContent: boolean = true;
     @Input()
     tileMode: boolean = false;
+    //Separate from the character level that you on when you are making this choice, this is the level that feats can have in this choice.
+    // It can change with the character level or other factors and will be re-calculated when the component refreshes.
     public featLevel: number = 0;
 
     constructor(
@@ -346,11 +348,13 @@ export class FeatchoiceComponent implements OnInit {
                 return { available: featAvailable, feat: feat };
             }).filter(featSet => ((this.unavailableFeats || featSet.available) && showOtherOptions) || this.get_FeatTakenByChoice(featSet.feat, choice) || this.subFeatTakenByThis(allSubFeats, featSet.feat, choice))
                 .sort(function (a, b) {
-                    //Sort by level, then name. Divide level by 100 to create leading zeroes (and not sort 10 before 2).
+                    //Sort by level, then name. Divide level by 100 to create leading zeroes (and not sort 10 before 2), then cut it down to 3 digits. 0 will be 0.00.
                     //For skill feat choices and general feat choices, sort by the associated skill (if exactly one), then level and name.
                     //Feats with less or more required skills are sorted first.
-                    let sort_a = (a.feat.levelreq / 100) + a.feat.name;
-                    let sort_b = (b.feat.levelreq / 100) + b.feat.name;
+                    let sortLevel_a = ((a.feat.levelreq || 0.1) / 100).toString().substr(0,4);
+                    let sortLevel_b = ((b.feat.levelreq || 0.1) / 100).toString().substr(0,4);
+                    let sort_a = sortLevel_a + a.feat.name;
+                    let sort_b = sortLevel_b + b.feat.name;
                     if (["General", "Skill"].includes(choice.type)) {
                         sort_a = (a.feat.skillreq.length == 1 ? a.feat.skillreq[0]?.skill : "_") + sort_a;
                         sort_b = (b.feat.skillreq.length == 1 ? b.feat.skillreq[0]?.skill : "_") + sort_b;
@@ -448,6 +452,7 @@ export class FeatchoiceComponent implements OnInit {
                 reasons.push({ reason: "Requirements unmet", explain: "Not all requirements are met." });
             }
             //If the feat can be taken a limited number of times:
+            //  (Don't count temporary choices (showOnSheet == true) unless this is also temporary.)
             let excludeTemporary = !choice.showOnSheet;
             let haveUpToNow: number = feat.have(character, this.characterService, levelNumber, excludeTemporary, true) - takenByThis;
             let haveLater: number = feat.have(character, this.characterService, 20, excludeTemporary, true, levelNumber + 1);
@@ -464,7 +469,6 @@ export class FeatchoiceComponent implements OnInit {
                 } else {
                     //Has it already been taken up to this level, more often than it was taken by this FeatChoice?
                     //  Don't count temporary choices (showOnSheet == true) unless this is also temporary.
-                    let excludeTemporary = !choice.showOnSheet;
                     if (haveUpToNow > takenByThis) {
                         reasons.push({ reason: "Already taken", explain: "This feat cannot be taken more than once." });
                     }
@@ -659,18 +663,14 @@ export class FeatchoiceComponent implements OnInit {
             this.characterService.get_Changed()
                 .subscribe((target) => {
                     if (["featchoices", "all", this.creature.toLowerCase()].includes(target.toLowerCase())) {
-                        if (this.choice.dynamicLevel) {
-                            this.featLevel = this.get_ChoiceLevel(this.choice);
-                        }
+                        this.featLevel = this.get_ChoiceLevel(this.choice);
                         this.changeDetector.detectChanges();
                     }
                 });
             this.characterService.get_ViewChanged()
                 .subscribe((view) => {
                     if (view.creature.toLowerCase() == this.creature.toLowerCase() && ["featchoices", "all"].includes(view.target.toLowerCase())) {
-                        if (this.choice.dynamicLevel) {
-                            this.featLevel = this.get_ChoiceLevel(this.choice);
-                        }
+                        this.featLevel = this.get_ChoiceLevel(this.choice);
                         this.changeDetector.detectChanges();
                     }
                 });

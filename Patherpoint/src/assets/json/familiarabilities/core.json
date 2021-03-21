@@ -232,7 +232,9 @@
       ],
       "featreq": [
          "Familiar:Speech"
-      ]
+      ],
+      "specialreq": "!Has_Feat('Character', 'Leshy Familiar')",
+      "specialreqdesc": "animal familiar"
    },
    {
       "name": "Lab Assistant",

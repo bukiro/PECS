@@ -417,7 +417,17 @@
         "desc": "You have a long history of working with large circus animals for the Celestial Menagerie, such as performing in an animal act, jostling animals back into their cages, or even sweeping dung out of squalid pens. Mistress Dusklight's ongoing mistreatment of her animals compelled you to quit, and you now strive to ensure animals aren't abused.\n\nChoose two ability boosts. One must be to Strength or Wisdom, and one is a free ability boost.\n\nYou're trained in your choice of either the Athletics or Nature skill, as well as a Lore skill related to a particular kind of common animal (such as Equine Lore, Feline Lore, or Pachyderm Lore) You gain a skill feat: Titan Wrestler if you chose Athletics, or Train Animal if you chose Nature.",
         "subTypes": true,
         "sourceBook": "Extinction Curse Player's Guide",
-        "adventurePath": "Extinction Curse"
+        "adventurePath": "Extinction Curse",
+        "loreChoices": [
+            {
+                "_className": "LoreChoice",
+                "available": 1,
+                "id": "1-Lore-Background-0",
+                "loreDesc": "A Lore skill related to a particular kind of common animal (such as Equine Lore, Feline Lore, or Pachyderm Lore)",
+                "maxRank": 2,
+                "source": "Background"
+            }
+        ]
     },
     {
         "_className": "Background",
@@ -1374,7 +1384,16 @@
         "desc": "You never expected to join a circus, but you were looking for a good place to lie low for reasons of your own. The Circus of Wayward Wonders came together with several different workers and performers a few months ago. Many came from a circus in Escadar called the Celestial Menagerie, but not all of them. It was easy to slip in among the roustabouts. Although you'd planned to move on quickly, the circus folk have adopted you as one of their own, and they don't ask questions about your past.\n\nChoose two ability boosts. One must be to Dexterity or Charisma, and one is a free ability boost.\n\nYou're trained in your choice of either the Deception or Thievery skill, as well as the Underworld Lore skill. You gain a skill feat: Lengthy Diversion if you chose Deception, or Subtle Theft if you chose Thievery.",
         "subTypes": true,
         "sourceBook": "Extinction Curse Player's Guide",
-        "adventurePath": "Extinction Curse"
+        "adventurePath": "Extinction Curse",
+        "loreChoices": [
+            {
+                "_className": "LoreChoice",
+                "id": "1-Lore-Background-0",
+                "loreName": "Underworld",
+                "maxRank": 2,
+                "source": "Background"
+            }
+        ]
     },
     {
         "_className": "Background",
@@ -4103,7 +4122,17 @@
         "_className": "Background",
         "name": "Hermit",
         "desc": "In an isolated place - like a cave, remote oasis, or secluded mansion - you lived a life of solitude. Adventuring might represent your first foray out among other people in some time. This might be a welcome reprieve from solitude or an unwanted change, but in either case, you're likely still rough around the edges.\n\nChoose two ability boosts. One must be to Constitution or Intelligence, and one is a free ability boost.\n\nYou're trained in your choice of either the Nature or Occultism skill, as well as a Lore skill related to the terrain you lived in as a hermit (such as Cave Lore or Desert Lore). You gain the Dubious Knowledge skill feat.",
-        "subTypes": true
+        "subTypes": true,
+        "loreChoices": [
+            {
+                "_className": "LoreChoice",
+                "available": 1,
+                "id": "1-Lore-Background-0",
+                "loreDesc": "A Lore skill related to the terrain you lived in as a hermit (such as Cave Lore or Desert Lore).",
+                "maxRank": 2,
+                "source": "Background"
+            }
+        ]
     },
     {
         "_className": "Background",
@@ -5068,7 +5097,16 @@
         "name": "Magaambya Academic",
         "desc": "You studied magic at the prestigious Magaambya academy in Nantambu, learning magical traditions dating back to Old-Mage Jatembe and earning a pedigree respected by magical scholars almost everywhere.\n\nChoose two ability boosts. One must be to Intelligence or Charisma, and one is a free ability boost.\n\nYou're trained in your choice of either the Arcana or Nature skill, as well as the Academia Lore skill. You gain the Recognize Spell skill feat.",
         "region": "Mwangi Expanse",
-        "subTypes": true
+        "subTypes": true,
+        "loreChoices": [
+            {
+                "_className": "LoreChoice",
+                "id": "1-Lore-Background-0",
+                "loreName": "Academia",
+                "maxRank": 2,
+                "source": "Background"
+            }
+        ]
     },
     {
         "_className": "Background",
@@ -5418,7 +5456,16 @@
         "_className": "Background",
         "name": "Martial Disciple",
         "desc": "You dedicated yourself to intense training and rigorous study to become a great warrior. The school you attended might have been a traditionalist monastery, an elite military academy, or the local branch of a prestigious mercenary organization.\n\nChoose two ability boosts. One must be to Strength or Dexterity, and one is a free ability boost.\n\nYou're trained in your choice of either the Acrobatics or Athletics skill, as well as the Warfare Lore skill. You gain a skill feat: Cat Fall if you chose Acrobatics or Quick Jump if you chose Athletics.",
-        "subTypes": true
+        "subTypes": true,
+        "loreChoices": [
+            {
+                "_className": "LoreChoice",
+                "id": "1-Lore-Background-0",
+                "loreName": "Warfare",
+                "maxRank": 2,
+                "source": "Background"
+            }
+        ]
     },
     {
         "_className": "Background",
@@ -7186,7 +7233,16 @@
         "desc": "You're likely from Breachill, but unlike the Local Scion, your family has no notable legacy in the area. You might not even have much of a family at all to call your own, and could be an orphan. You've seen so many people make names for themselves that you set out on your own and spent some time abroad in the jungles or deserts of Garund or in the upper reaches of the Darklands - regions that proved too dangerous to remain in for long on your own. You returned home with more caution and knowledge of the world beyond Breachill's borders, but still determined to win fame.\n\nYou've decided that joining an adventuring group would be the best way to secure aid in your quest to build your own reputation, and are attending the Call for Heroes to find such allies.\n\nChoose two ability boosts. One must be to Dexterity or Intelligence, and one is a free ability boost.\n\nYou're trained in the Survival skill and the Darklands, Desert, or Jungle Lore skill. You gain the Terrain Expertise skill feat (underground if you have Darklands Lore, desert if you have Desert Lore, or forest if you have Jungle Lore).",
         "subTypes": true,
         "sourceBook": "Age of Ashes Player's Guide",
-        "adventurePath": "Age of Ashes"
+        "adventurePath": "Age of Ashes",
+        "loreChoices": [
+            {
+                "_className": "LoreChoice",
+                "id": "1-Lore-Background-0",
+                "loreName": "Darklands",
+                "maxRank": 2,
+                "source": "Background"
+            }
+        ]
     },
     {
         "_className": "Background",
@@ -7882,7 +7938,16 @@
         "_className": "Background",
         "name": "Scholar",
         "desc": "You have a knack for learning, and sequestered yourself from the outside world to learn all you could. You read about so many wondrous places and things in your books, and always dreamed about one day seeing the real things. Eventually, that curiosity led you to leave your studies and become an adventurer.\n\nChoose two ability boosts. One must be to Intelligence or Wisdom, and one is a free ability boost.\n\nYou're trained in your choice of the Arcana, Nature, Occultism, or Religion skill, and the Academia Lore skill. You gain the Assurance skill feat in your chosen skill.",
-        "subTypes": true
+        "subTypes": true,
+        "loreChoices": [
+            {
+                "_className": "LoreChoice",
+                "id": "1-Lore-Background-0",
+                "loreName": "Academia",
+                "maxRank": 2,
+                "source": "Background"
+            }
+        ]
     },
     {
         "_className": "Background",

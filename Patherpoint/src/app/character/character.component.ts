@@ -142,7 +142,7 @@ export class CharacterComponent implements OnInit {
         document.getElementById("choiceArea-top").scrollIntoView({ behavior: 'smooth' });
     }
 
-    receive_ChoiceMessage(message: {name: string, levelNumber: number, choice: SkillChoice}) {
+    receive_ChoiceMessage(message: { name: string, levelNumber: number, choice: SkillChoice }) {
         this.toggle_List(message.name, message.levelNumber, message.choice);
     }
 
@@ -175,7 +175,7 @@ export class CharacterComponent implements OnInit {
         if (this.get_ShowList() == choiceType) {
             //For choices that don't have a class and can only show up once per level, get the currently shown list name with levelNumber if the list name matches the choice type.
             //Also get a "choice" object with a unique ID (the list name and the level number) for compatibility with TrackByID().
-            return [{ name: choiceType, levelNumber: this.get_ShowContentLevelNumber(), choice: { id: choiceType+this.get_ShowContentLevelNumber().toString() }}]
+            return [{ name: choiceType, levelNumber: this.get_ShowContentLevelNumber(), choice: { id: choiceType + this.get_ShowContentLevelNumber().toString() } }]
         }
     }
 
@@ -533,7 +533,7 @@ export class CharacterComponent implements OnInit {
         if (this.characterService.get_CompanionAvailable()) {
             this.get_Companion().set_Level(this.characterService);
         }
-        if (this.characterService.get_FamiliarAvailable()) {
+        if (this.characterService.get_FamiliarAvailable(newLevel)) {
             this.characterService.set_ToChange("Familiar", "featchoices");
         }
 
@@ -863,17 +863,9 @@ export class CharacterComponent implements OnInit {
         this.characterService.process_ToChange();
     }
 
-    onDifferentWorldsBackgroundChange(level: Level, feat: Feat, background: Background, taken: boolean) {
+    on_DifferentWorldsBackgroundChange(levelNumber: number, feat: Feat, background: Background, taken: boolean) {
         let character = this.get_Character();
-        feat.data["background"] = "";
-        let oldChoices: LoreChoice[] = level.loreChoices.filter(choice => choice.source == "Different Worlds");
-        if (oldChoices.length) {
-            let oldChoice = oldChoices[oldChoices.length - 1];
-            if (oldChoice.increases.length) {
-                character.remove_Lore(this.characterService, oldChoice);
-            }
-            level.loreChoices = level.loreChoices.filter(choice => choice.source != "Different Worlds");
-        }
+        let level = character.class.levels[levelNumber];
         if (taken) {
             if (this.get_Character().settings.autoCloseChoices) { this.toggle_List(""); }
             feat.data["background"] = background.name;
@@ -895,6 +887,17 @@ export class CharacterComponent implements OnInit {
                     character.add_Lore(this.characterService, newChoice);
                 }
             })
+        } else {
+            feat.data["background"] = "";
+            let oldChoices: LoreChoice[] = level.loreChoices.filter(choice => choice.source == "Different Worlds");
+            //Remove the lore granted by Different Worlds.
+            if (oldChoices.length) {
+                let oldChoice = oldChoices[0];
+                if (oldChoice.increases.length) {
+                    character.remove_Lore(this.characterService, oldChoice);
+                }
+                level.loreChoices = level.loreChoices.filter(choice => choice.source != "Different Worlds");
+            }
         }
     }
 

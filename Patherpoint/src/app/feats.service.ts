@@ -100,7 +100,7 @@ export class FeatsService {
                 feats = characterService.get_FeatsAndFeatures(featName);
             }
         }
-        
+
         if (feats.length) {
             let feat = feats[0];
 
@@ -464,7 +464,7 @@ export class FeatsService {
             }
 
             //Different Worlds
-            //Here we copy the original feat so that we can change the included data property persistently
+            //Here we copy the original feat so that we can change the included data property persistently, but we remove the copy's hints so they don't show twice.
             if (feat.name == "Different Worlds") {
                 if (taken) {
                     if (character.customFeats.filter(customFeat => customFeat.name == "Different Worlds").length == 0) {
@@ -472,6 +472,7 @@ export class FeatsService {
                         let newFeat = character.customFeats[newLength - 1];
                         newFeat.hide = true;
                         newFeat.data = { background: "", name: "" }
+                        newFeat.hints.length = 0;
                     }
                 } else {
                     let oldChoices: LoreChoice[] = level.loreChoices.filter(choice => choice.source == "Different Worlds");
@@ -481,9 +482,9 @@ export class FeatsService {
                     }
                     level.loreChoices = level.loreChoices.filter(choice => choice.source != "Different Worlds");
                     let oldFeats = character.customFeats.filter(customFeat => customFeat.name == "Different Worlds")
-                    if (oldFeats.length) {
-                        character.customFeats.splice(character.customFeats.indexOf(oldFeats[0], 1));
-                    }
+                    character.customFeats.filter(customFeat => customFeat.name == "Different Worlds").forEach(oldFeat => {
+                        characterService.remove_CustomFeat(oldFeat);
+                    })
                 }
             }
 
@@ -506,7 +507,7 @@ export class FeatsService {
             }
 
             //Fuse Stance
-            //We copy the original feat so that we can change the included data property persistently
+            //We copy the original feat so that we can change the included data property persistently, but we remove the copy's hints so they don't show twice.
             if (feat.name == "Fuse Stance") {
                 if (taken) {
                     if (character.customFeats.filter(customFeat => customFeat.name == "Fuse Stance").length == 0) {
@@ -514,12 +515,12 @@ export class FeatsService {
                         let newFeat = character.customFeats[newLength - 1];
                         newFeat.hide = true;
                         newFeat.data = { name: "", stance1: "", stance2: "" }
+                        newFeat.hints.length = 0;
                     }
                 } else {
-                    let oldFeats = character.customFeats.filter(customFeat => customFeat.name == "Fuse Stance")
-                    if (oldFeats.length) {
-                        character.customFeats.splice(character.customFeats.indexOf(oldFeats[0], 1));
-                    }
+                    character.customFeats.filter(customFeat => customFeat.name == "Fuse Stance").forEach(oldFeat => {
+                        characterService.remove_CustomFeat(oldFeat);
+                    })
                 }
             }
 
