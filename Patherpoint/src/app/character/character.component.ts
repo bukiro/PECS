@@ -50,7 +50,7 @@ export class CharacterComponent implements OnInit {
     private showLevel: number = 0;
     private showItem: string = "";
     private showList: string = "";
-    private showContent: any | FeatChoice = null;
+    private showContent: any | FeatChoice | SkillChoice | AbilityChoice = null;
     private showContentLevelNumber: number = 0;
     private showFixedChangesLevelNumber: number = 0;
     public adventureBackgrounds: Boolean = true;
@@ -174,8 +174,8 @@ export class CharacterComponent implements OnInit {
     get_ActiveSpecialChoiceShown(choiceType: string = "") {
         if (this.get_ShowList() == choiceType) {
             //For choices that don't have a class and can only show up once per level, get the currently shown list name with levelNumber if the list name matches the choice type.
-            //Also get a "choice" object with a unique ID (the list name and the level number) for compatibility with TrackByID().
-            return [{ name: choiceType, levelNumber: this.get_ShowContentLevelNumber(), choice: { id: choiceType + this.get_ShowContentLevelNumber().toString() } }]
+            //Also get a "choice" object with a unique ID (the list name and the level number) for compatibility with TrackByID(), unless there is a current content with an id property.
+            return [{ name: choiceType, levelNumber: this.get_ShowContentLevelNumber(), choice: this.get_ShowContent()?.id ? this.get_ShowContent() : { id: choiceType + this.get_ShowContentLevelNumber().toString() } }]
         }
     }
 
@@ -1010,9 +1010,27 @@ export class CharacterComponent implements OnInit {
         let showOtherOptions = this.get_Character().settings.showOtherOptions;
         //Champions and Clerics need to choose a deity matching their alignment.
         if (!["Champion", "Cleric"].includes(this.get_Character().class.name)) {
-            return this.deitiesService.get_Deities(name).filter(deity => showOtherOptions || !currentDeity || deity.name == currentDeity);
+            return this.deitiesService.get_Deities(name).filter(deity => showOtherOptions || !currentDeity || deity.name == currentDeity)
+                .sort(function (a, b) {
+                    if (a.name > b.name) {
+                        return 1
+                    }
+                    if (a.name < b.name) {
+                        return -1
+                    }
+                    return 0
+                });
         } else {
-            return this.deitiesService.get_Deities(name).filter((deity: Deity) => (showOtherOptions || !currentDeity || deity.name == currentDeity) && (!this.get_Character().alignment || deity.followerAlignments.includes(this.get_Character().alignment)));
+            return this.deitiesService.get_Deities(name).filter((deity: Deity) => (showOtherOptions || !currentDeity || deity.name == currentDeity) && (!this.get_Character().alignment || deity.followerAlignments.includes(this.get_Character().alignment)))
+                .sort(function (a, b) {
+                    if (a.name > b.name) {
+                        return 1
+                    }
+                    if (a.name < b.name) {
+                        return -1
+                    }
+                    return 0
+                });
         }
     }
 
@@ -1046,12 +1064,12 @@ export class CharacterComponent implements OnInit {
         let showOtherOptions = this.get_Character().settings.showOtherOptions;
         return this.get_Heritages(name, ancestryName)
             .filter(availableHeritage =>
-                (showOtherOptions || !heritage?.name || availableHeritage.name == heritage.name || availableHeritage.subTypes?.some(subType => subType.name == heritage.name)) &&
                 (
-                    index == -1
-                        ? true
-                        : availableHeritage.name != this.get_Character().class.heritage.name
-                ))
+                    showOtherOptions ||
+                    !heritage?.name ||
+                    availableHeritage.name == heritage.name ||
+                    availableHeritage.subTypes?.some(subType => subType.name == heritage.name))
+                )
             .sort(function (a, b) {
                 if (a.name > b.name) {
                     return 1;
@@ -1061,6 +1079,10 @@ export class CharacterComponent implements OnInit {
                 }
                 return 0;
             });
+    }
+
+    get_HaveHeritage(name: string = "") {
+        return this.get_Character().class.heritage.name == name || this.get_Character().class.additionalHeritages.some(heritage => heritage.name == name);
     }
 
     onHeritageChange(heritage: Heritage, taken: boolean) {

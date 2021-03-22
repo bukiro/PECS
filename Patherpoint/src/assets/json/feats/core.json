@@ -3313,7 +3313,7 @@
     },
     {
         "name": "Irongut Goblin",
-        "desc": "You can subsist on food that most folks would consider spoiled. You can keep yourself fed with poor meals in a settlement as long as garbage is readily available, without using the Subsist downtime activity. You can eat and drink things when you are sickened.",
+        "desc": "You can subsist on food that most folks would consider spoiled. You can keep yourself fed with poor meals in a settlement as long as garbage is readily available, without using the Subsist downtime activity. You can eat and drink things when you are sickened.\n\nYou gain a +2 circumstance bonus to saving throws against afflictions, against gaining the sickened condition, and to remove the sickened condition. When you roll a success on a Fortitude save affected by this bonus, you get a critical success instead. All these benefits apply only when the affliction or condition resulted from something you ingested.",
         "hints": [
             {
                 "desc": "You can keep yourself fed with poor meals in a settlement as long as garbage is readily available, without using the Subsist downtime activity.",
@@ -3322,20 +3322,15 @@
             {
                 "desc": "You can eat and drink things when you are sickened.",
                 "showon": "Health"
-            }
-        ],
-        "shortdesc": "You can subsist on food that most folks would consider spoiled."
-    },
-    {
-        "name": "Irongut Goblin Fortitude",
-        "desc": "You can subsist on food that most folks would consider spoiled. You gain a +2 circumstance bonus to saving throws against afflictions, against gaining the sickened condition, and to remove the sickened condition. When you roll a success on a Fortitude save affected by this bonus, you get a critical success instead. All these benefits apply only when the affliction or condition resulted from something you ingested.",
-        "hints": [
+            },
             {
                 "desc": "You gain a +2 circumstance bonus to saving throws against afflictions, against gaining the sickened condition, and to remove the sickened condition. This benefit applies only when the affliction or condition resulted from something you ingested.",
                 "showon": "Saving Throws",
                 "effects": [
                     {
-                        "type": "circumstance"
+                        "affected": "Saving Throws",
+                        "type": "circumstance",
+                        "value": "2"
                     }
                 ]
             },
@@ -31102,8 +31097,8 @@
             "Goblin"
         ],
         "levelreq": 5,
-        "specialreq": "deity && deity.name == 'Lamashtu'",
-        "specialreqdesc": "worshipper of Lamashtu",
+        "specialreq": "deity?.name == 'Lamashtu' && character.class.heritage.name",
+        "specialreqdesc": "worshipper of Lamashtu, a heritage",
         "gainHeritage": [
             {
                 "ancestry": "Goblin",

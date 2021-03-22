@@ -697,108 +697,30 @@
                                             *ngFor="let heritageGain of get_AdditionalHeritagesAvailable(level.number); trackBy:trackByIndex">
                                             <ng-container
                                                 *ngFor="let heritageIndex of get_AdditionalHeritageIndex(heritageGain.source); trackBy:trackByIndex">
-                                                <div class="list-item"
-                                                    [ngClass]="{'fullsize-only':get_Character().class.additionalHeritages[heritageIndex].name}"
-                                                    *ngFor="let listID of [level.number+'AdditionalHeritage'+heritageGain.source]; trackBy:trackByIndex;">
-                                                    <button class="newrow sublist-toggle specialchoice"
-                                                        [ngClass]="{'fancy-button choicecleared':get_Character().class.additionalHeritages[heritageIndex].name, 'activechoice':get_ShowList()==listID}"
-                                                        (click)="toggle_List(listID)">
-                                                        Heritage
-                                                        ({{heritageGain.source}}){{(get_Character().class.additionalHeritages[heritageIndex].name)
-                                                        ? ": "+
-                                                        get_Character().class.additionalHeritages[heritageIndex].name
-                                                        :
-                                                        ""}}
-                                                    </button>
-                                                    <div class="list-item sublist specialchoice"
-                                                        [ngClass]="{'fancy-list':((get_Character().class.additionalHeritages[heritageIndex].name))}"
-                                                        *ngIf="get_ShowList()==listID">
-                                                        <div class="list-item"
-                                                            [ngClass]="{'selected':heritage.name === get_Character().class.additionalHeritages[heritageIndex].name}"
-                                                            *ngFor="let heritage of get_AvailableHeritages('', heritageGain.ancestry, heritageIndex); trackBy:trackByIndex;">
-                                                            <span>
-                                                                <input *ngIf="!heritage.subTypes.length"
-                                                                    id="{{heritage.name}}" type="checkbox"
-                                                                    (change)="on_AdditionalHeritageChange(heritage, $event.target.checked, heritageIndex, heritageGain.source)"
-                                                                    [checked]="heritage.name === get_Character().class.additionalHeritages[heritageIndex].name"
-                                                                    [disabled]="get_Character().class.additionalHeritages[heritageIndex].name && (heritage.name != get_Character().class.additionalHeritages[heritageIndex].name)">
-                                                                <button class="lower left"
-                                                                    *ngIf="heritage.subTypes.length"
-                                                                    id="{{heritage.name}}"
-                                                                    (click)="toggle_Item(heritage.name+'desc')">v</button>
-                                                                <label for="{{heritage.name}}">
-                                                                    <strong>{{heritage.name}}&nbsp;</strong>
-                                                                    <cite class="trait"
-                                                                        *ngIf="heritage.traits.includes('Rare')"
-                                                                        [ngbPopover]="get_Traits('Rare')[0]?.desc"
-                                                                        openDelay=100>Rare</cite>
-                                                                    <cite class="trait"
-                                                                        *ngIf="heritage.traits.includes('Uncommon')"
-                                                                        [ngbPopover]="get_Traits('Uncommon')[0]?.desc"
-                                                                        openDelay=100>Uncommon</cite>
-                                                                </label>
-                                                            </span>
-                                                            <button (click)="toggle_Item(heritage.name+'desc')"
-                                                                [ngClass]="{'fancy-button':get_ShowItem()==heritage.name+'desc'}">
-                                                                {{get_ShowItem()==heritage.name+'desc' ? "Hide" :
-                                                                "Show"}}
-                                                                Description
-                                                            </button>
-                                                            <div class="newrow lower"
-                                                                *ngIf="get_ShowItem()==heritage.name+'desc'">
-                                                                <!--Subheritages-->
-                                                                <div class="list-item"
-                                                                    [ngClass]="{'selected':subheritage.name === get_Character().class.additionalHeritages[heritageIndex].name}"
-                                                                    *ngFor="let subheritage of heritage.subTypes; trackBy:trackByIndex;">
-                                                                    <span>
-                                                                        <input id="{{subheritage.name}}" type="checkbox"
-                                                                            (change)="on_AdditionalHeritageChange(subheritage, $event.target.checked, heritageIndex, heritageGain.source)"
-                                                                            [checked]="subheritage.name === get_Character().class.heritage.name"
-                                                                            [disabled]="get_Character().class.additionalHeritages[heritageIndex].name && (subheritage.name != get_Character().class.additionalHeritages[heritageIndex].name)">
-                                                                        <label for="{{subheritage.name}}">
-                                                                            <strong>{{subheritage.subType}}</strong>
-                                                                        </label>
-                                                                    </span>
-                                                                </div>
-                                                                <!--End Subheritages-->
-                                                                <div class="newrow left-aligned"
-                                                                    *ngIf="heritage.sourceBook">
-                                                                    <strong>Source</strong><i>&nbsp;{{heritage.sourceBook}}</i>
-                                                                </div>
-                                                                <div class="newrow left-aligned">
-                                                                    <ng-container
-                                                                        *ngFor="let desc of heritage.desc.split('\n\n'); trackBy:trackByIndex;">
-                                                                        <p *ngIf="desc.split('\n').length == 1">
-                                                                            {{desc}}
-                                                                        </p>
-                                                                        <ul *ngIf="desc.split('\n').length > 1">
-                                                                            <li
-                                                                                *ngFor="let line of desc.split('\n'); trackBy:trackByIndex;">
-                                                                                {{line}}</li>
-                                                                        </ul>
-                                                                    </ng-container>
-                                                                </div>
-                                                                <ng-container
-                                                                    *ngFor="let activityName of heritage.gainActivities; trackBy:trackByIndex;">
-                                                                    <div class="newrow left-aligned"
-                                                                        *ngFor="let activity of get_Activities(activityName); trackBy:trackByIndex;">
-                                                                        <header class="spellHeader left-aligned">
-                                                                            {{activity.name}}
-                                                                            <app-actionIcons
-                                                                                [actionString]="activity.actions">
-                                                                            </app-actionIcons>
-                                                                            {{(activity.activationType) ?
-                                                                            activity.activationType : ""}}
-                                                                        </header>
-                                                                        <app-activity class="newrow" [activity]=activity
-                                                                            [allowActivate]=false>
-                                                                        </app-activity>
-                                                                    </div>
-                                                                </ng-container>
-                                                            </div>
-                                                        </div>
+                                                <ng-container
+                                                    *ngFor="let finished of [get_Character().class.additionalHeritages[heritageIndex].name]; trackBy:trackByIndex">
+                                                    <div class="list-item" *ngIf="!get_TileMode()"
+                                                        [ngClass]="{'fullsize-only':finished}">
+                                                        <button class="newrow sublist-toggle specialchoice"
+                                                            [ngClass]="{'fancy-button choicecleared':get_Character().class.additionalHeritages[heritageIndex].name, 'activechoice':get_ShowList()=='additionalheritage' && get_ShowContentLevelNumber()==level.number && this.get_ShowContent()?.id==heritageGain.source}"
+                                                            (click)="toggle_List('additionalheritages', level.number, {id: 'additionalheritage'+level.number+heritageGain.source, source: heritageGain.source})">
+                                                            Heritage
+                                                            ({{heritageGain.source}}){{finished ? ": "+
+                                                            get_Character().class.additionalHeritages[heritageIndex].name
+                                                            : ""}}
+                                                        </button>
                                                     </div>
-                                                </div>
+                                                    <button class="specialchoice" *ngIf="get_TileMode()"
+                                                        [ngClass]="{'fancy-button choicecleared fullsize-only':finished, 'activechoice':get_ShowList()=='additionalheritage' && get_ShowContentLevelNumber()==level.number && this.get_ShowContent()?.id==heritageGain.source}"
+                                                        (click)="toggle_List('additionalheritages', level.number, {id: 'additionalheritage'+level.number+heritageGain.source, source: heritageGain.source})">
+                                                        <app-gridIcon class="specialchoice"
+                                                            [ngClass]="{'fancy-button':finished}"
+                                                            [ngbTooltip]="'Heritage (' + heritageGain.source + ')' + (finished ? ': ' + get_Character().class.additionalHeritages[heritageIndex].name : '')"
+                                                            [title]="finished ? get_Character().class.additionalHeritages[heritageIndex].name : ''"
+                                                            [superTitle]="'icon-ra ra-sprout-emblem'">
+                                                        </app-gridIcon>
+                                                    </button>
+                                                </ng-container>
                                             </ng-container>
                                         </ng-container>
                                         <!--Fuse Stance-->
@@ -1244,91 +1166,110 @@
                         <ng-container
                             *ngFor="let heritage of get_AvailableHeritages('', get_Character().class.ancestry.name); trackBy:trackByIndex;">
                             <ng-container
-                                *ngFor="let checked of [heritage.name === get_Character().class.heritage.name]; trackBy:trackByIndex">
+                                *ngFor="let selected of [heritage.name == get_Character().class.heritage.name]; trackBy:trackByIndex">
                                 <ng-container
-                                    *ngFor="let disabled of [get_Character().class.heritage.name && (heritage.name != get_Character().class.heritage.name)]; trackBy:trackByIndex">
-                                    <ng-template #HeritageChoiceDetailsTemplate>
-                                        <header class="spellHeader">{{heritage.name}}</header>
-                                        <div class="button newrow no-animation" *ngIf="!disabled"
-                                            [ngClass]="{'fancy-button':checked, 'disabled':disabled}">
-                                            <label>
-                                                <input type="checkbox"
-                                                    (change)="onHeritageChange(heritage, $event.target.checked)"
-                                                    [checked]="checked" [disabled]="disabled" hidden>{{checked ?
-                                                "Remove" : "Choose"}}
-                                            </label>
-                                        </div>
-                                        <div class="newrow left-aligned tags">
-                                            <cite class="trait"
-                                                *ngFor="let trait of heritage.traits; trackBy:trackByIndex;"
-                                                [ngbPopover]="get_Traits(trait)[0]?.desc" openDelay=100>{{trait}}</cite>
-                                        </div>
-                                        <div class="newrow left-aligned" *ngIf="heritage.sourceBook">
-                                            <strong>Source</strong><i>&nbsp;{{heritage.sourceBook}}</i>
-                                        </div>
-                                        <div class="newrow left-aligned">
-                                            <ng-container
-                                                *ngFor="let desc of heritage.desc.split('\n\n'); trackBy:trackByIndex;">
-                                                <p *ngIf="desc.split('\n').length == 1">{{desc}}</p>
-                                                <ul *ngIf="desc.split('\n').length > 1">
-                                                    <li *ngFor="let line of desc.split('\n'); trackBy:trackByIndex;">
-                                                        {{line}}
-                                                    </li>
-                                                </ul>
-                                            </ng-container>
-                                        </div>
-                                        <ng-container
-                                            *ngFor="let activityName of heritage.gainActivities; trackBy:trackByIndex;">
-                                            <div class="newrow left-aligned"
-                                                *ngFor="let activity of get_Activities(activityName); trackBy:trackByIndex;">
-                                                <header class="spellHeader left-aligned">{{activity.name}}
-                                                    <app-actionIcons [actionString]="activity.actions">
-                                                    </app-actionIcons>
-                                                    {{(activity.activationType) ? activity.activationType : ""}}
-                                                </header>
-                                                <app-activity class="newrow" [activity]=activity [allowActivate]=false>
-                                                </app-activity>
-                                            </div>
-                                        </ng-container>
-                                        <!--Subheritages-->
-                                        <div class="list-item"
-                                            [ngClass]="{'selected':subheritage.name === get_Character().class.heritage.name}"
-                                            *ngFor="let subheritage of heritage.subTypes; trackBy:trackByIndex;">
-                                            <div class="gridicon-fullsizebox lower">
-                                                <input id="{{subheritage.name}}" type="checkbox"
-                                                    class="character-choice"
-                                                    (change)="onHeritageChange(subheritage, $event.target.checked)"
-                                                    [checked]="subheritage.name === get_Character().class.heritage.name"
-                                                    [disabled]="get_Character().class.heritage.name && (subheritage.name != get_Character().class.heritage.name)">
-                                                <label for="{{subheritage.name}}">
-                                                    <strong>{{subheritage.subType}}</strong>
+                                    *ngFor="let checked of [selected || get_HaveHeritage(heritage.name)]; trackBy:trackByIndex">
+                                    <ng-container
+                                        *ngFor="let disabled of [!selected && (checked || get_Character().class.heritage.name)]; trackBy:trackByIndex">
+                                        <ng-template #HeritageChoiceDetailsTemplate>
+                                            <header class="spellHeader">{{heritage.name}}</header>
+                                            <div class="button newrow no-animation"
+                                                *ngIf="!disabled && !heritage.subTypes.length"
+                                                [ngClass]="{'fancy-button':selected, 'disabled':disabled}">
+                                                <label>
+                                                    <input type="checkbox"
+                                                        (change)="onHeritageChange(heritage, $event.target.checked)"
+                                                        [checked]="selected" [disabled]="disabled" hidden>{{selected ?
+                                                    "Remove" : "Choose"}}
                                                 </label>
                                             </div>
+                                            <div class="newrow left-aligned tags">
+                                                <cite class="trait"
+                                                    *ngFor="let trait of heritage.traits; trackBy:trackByIndex;"
+                                                    [ngbPopover]="get_Traits(trait)[0]?.desc"
+                                                    openDelay=100>{{trait}}</cite>
+                                            </div>
+                                            <div class="newrow left-aligned" *ngIf="heritage.sourceBook">
+                                                <strong>Source</strong><i>&nbsp;{{heritage.sourceBook}}</i>
+                                            </div>
+                                            <div class="newrow left-aligned">
+                                                <ng-container
+                                                    *ngFor="let desc of heritage.desc.split('\n\n'); trackBy:trackByIndex;">
+                                                    <p *ngIf="desc.split('\n').length == 1">{{desc}}</p>
+                                                    <ul *ngIf="desc.split('\n').length > 1">
+                                                        <li
+                                                            *ngFor="let line of desc.split('\n'); trackBy:trackByIndex;">
+                                                            {{line}}
+                                                        </li>
+                                                    </ul>
+                                                </ng-container>
+                                            </div>
+                                            <ng-container
+                                                *ngFor="let activityName of heritage.gainActivities; trackBy:trackByIndex;">
+                                                <div class="newrow left-aligned"
+                                                    *ngFor="let activity of get_Activities(activityName); trackBy:trackByIndex;">
+                                                    <header class="spellHeader left-aligned">{{activity.name}}
+                                                        <app-actionIcons [actionString]="activity.actions">
+                                                        </app-actionIcons>
+                                                        {{(activity.activationType) ? activity.activationType : ""}}
+                                                    </header>
+                                                    <app-activity class="newrow" [activity]=activity
+                                                        [allowActivate]=false>
+                                                    </app-activity>
+                                                </div>
+                                            </ng-container>
+                                            <!--Subheritages-->
+                                            <ng-container
+                                                *ngFor="let subheritage of heritage.subTypes; trackBy:trackByIndex;">
+                                                <ng-container
+                                                    *ngFor="let subheritageSelected of [subheritage.name === get_Character().class.heritage.name]; trackBy:trackByIndex;">
+                                                    <ng-container
+                                                        *ngFor="let subheritageChecked of [subheritageSelected || get_HaveHeritage(heritage.name)]; trackBy:trackByIndex;">
+                                                        <ng-container
+                                                            *ngFor="let subheritageDisabled of [!subheritageSelected && (subheritageChecked || get_Character().class.heritage.name)]; trackBy:trackByIndex;">
+                                                            <div class="list-item"
+                                                                [ngClass]="{'selected':subheritageSelected}">
+                                                                <div class="gridicon-fullsizebox lower">
+                                                                    <input id="{{subheritage.name}}" type="checkbox"
+                                                                        class="character-choice"
+                                                                        (change)="onHeritageChange(subheritage, $event.target.checked)"
+                                                                        [checked]="subheritageChecked"
+                                                                        [disabled]="subheritageDisabled">
+                                                                    <label for="{{subheritage.name}}">
+                                                                        <strong>{{subheritage.subType}}</strong>
+                                                                    </label>
+                                                                </div>
+                                                            </div>
+                                                        </ng-container>
+                                                    </ng-container>
+                                                </ng-container>
+                                            </ng-container>
+                                            <!--End Subheritages-->
+                                        </ng-template>
+                                        <div class="list-item gridicon-fullsizebox" [ngClass]="{'selected':selected}">
+                                            <input *ngIf="!heritage.subTypes.length" id="{{heritage.name}}"
+                                                type="checkbox" class="character-choice"
+                                                (change)="onHeritageChange(heritage, $event.target.checked)"
+                                                [checked]="checked" [disabled]="disabled">
+                                            <button class="character-choice" *ngIf="heritage.subTypes.length"
+                                                (click)="HeritageChoiceDetailsPopover.toggle()">+</button>
+                                            <div class="gridicon-fullsizebox" #HeritageChoiceDetailsPopover="ngbPopover"
+                                                [ngbPopover]="HeritageChoiceDetailsTemplate" triggers="click">
+                                                <app-gridIcon [title]="heritage.name"
+                                                    [detail]="heritage.traits.includes('Rare') ? 'Rare' : (heritage.traits.includes('Uncommon') ? 'Uncommon' : '')">
+                                                </app-gridIcon>
+                                                <header class="sectionHeader">
+                                                    <span>{{heritage.name}}&nbsp;</span>
+                                                    <cite class="trait" *ngIf="heritage.traits.includes('Rare')"
+                                                        [ngbPopover]="get_Traits('Rare')[0]?.desc"
+                                                        openDelay=100>Rare</cite>
+                                                    <cite class="trait" *ngIf="heritage.traits.includes('Uncommon')"
+                                                        [ngbPopover]="get_Traits('Uncommon')[0]?.desc"
+                                                        openDelay=100>Uncommon</cite>
+                                                </header>
+                                            </div>
                                         </div>
-                                        <!--End Subheritages-->
-                                    </ng-template>
-                                    <div class="list-item gridicon-fullsizebox" [ngClass]="{'selected':checked}">
-                                        <input *ngIf="!heritage.subTypes.length" id="{{heritage.name}}" type="checkbox"
-                                            class="character-choice"
-                                            (change)="onHeritageChange(heritage, $event.target.checked)"
-                                            [checked]="checked" [disabled]="disabled">
-                                        <button class="character-choice" *ngIf="heritage.subTypes.length"
-                                            (click)="HeritageChoiceDetailsPopover.toggle()">+</button>
-                                        <div class="gridicon-fullsizebox" #HeritageChoiceDetailsPopover="ngbPopover"
-                                            [ngbPopover]="HeritageChoiceDetailsTemplate" triggers="click">
-                                            <app-gridIcon [title]="heritage.name"
-                                                [detail]="heritage.traits.includes('Rare') ? 'Rare' : (heritage.traits.includes('Uncommon') ? 'Uncommon' : '')">
-                                            </app-gridIcon>
-                                            <header class="sectionHeader">
-                                                <span>{{heritage.name}}&nbsp;</span>
-                                                <cite class="trait" *ngIf="heritage.traits.includes('Rare')"
-                                                    [ngbPopover]="get_Traits('Rare')[0]?.desc" openDelay=100>Rare</cite>
-                                                <cite class="trait" *ngIf="heritage.traits.includes('Uncommon')"
-                                                    [ngbPopover]="get_Traits('Uncommon')[0]?.desc"
-                                                    openDelay=100>Uncommon</cite>
-                                            </header>
-                                        </div>
-                                    </div>
+                                    </ng-container>
                                 </ng-container>
                             </ng-container>
                         </ng-container>
@@ -2183,12 +2124,19 @@
                 </ng-container>
                 <!--Blessed Blood Content-->
                 <ng-container
-                    *ngFor="let blessedBloodContent of get_ActiveSpecialChoiceShown('blessedblood'); trackBy:trackByIndex;">
+                    *ngFor="let blessedBloodContent of get_ActiveSpecialChoiceShown('blessedblood'); trackBy:trackByID;">
                     <ng-container *ngFor="let blessedBloodSpells of [get_BlessedBloodSpells()]; trackBy:trackByIndex;">
                         <div class="newrow list-item padding-8 center-aligned">
                             <header class="box-header sectionHeader">
                                 Blessed Blood Deity Spells: {{blessedBloodSpells}}/3
                             </header>
+                        </div>
+                        <div class="list-item">
+                            <p>
+                                Add up to three of your deity's spells (spells your deity grants to clerics) to your
+                                spell list. They are not automatically added to your repertoire, but you can select them
+                                just as you would spells normally on the divine spell list.
+                            </p>
                         </div>
                         <div id="choiceArea" class="charactersheet-app">
                             <ng-container *ngFor="let spell of get_BlessedBloodDeitySpells(); trackBy:trackByIndex;">
@@ -2203,7 +2151,9 @@
                                                     <app-actionIcons [actionString]="spell.actions"></app-actionIcons>
                                                     {{(spell.castType) ? spell.castType : ""}}
                                                 </span>
-                                                <span style="flex-basis:auto; flex-shrink:0">Spell {{spell.levelreq}}</span>
+                                                <span style="flex-basis:auto; flex-shrink:0">
+                                                    Spell {{spell.levelreq}}
+                                                </span>
                                             </header>
                                             <div class="button newrow no-animation" *ngIf="!disabled"
                                                 [ngClass]="{'fancy-button':checked, 'disabled':disabled}">
@@ -2234,6 +2184,147 @@
                                 </ng-container>
                             </ng-container>
                         </div>
+                    </ng-container>
+                </ng-container>
+                <!--Additional Heritages content-->
+                <ng-container
+                    *ngFor="let additionalHeritagesContent of get_ActiveSpecialChoiceShown('additionalheritages'); trackBy:trackByID;">
+                    <ng-container
+                        *ngFor="let heritageGain of get_AdditionalHeritagesAvailable(additionalHeritagesContent.levelNumber); trackBy:trackByIndex">
+                        <ng-container
+                            *ngFor="let heritageIndex of get_AdditionalHeritageIndex(heritageGain.source); trackBy:trackByIndex">
+                            <ng-container *ngIf="heritageGain.source == additionalHeritagesContent.choice.source">
+                                <div class="newrow list-item padding-8 center-aligned">
+                                    <header class="box-header sectionHeader">
+                                        Heritage
+                                        ({{heritageGain.source}}){{(get_Character().class.additionalHeritages[heritageIndex].name)
+                                        ? ": "+ get_Character().class.additionalHeritages[heritageIndex].name : ""}}
+                                    </header>
+                                </div>
+                                <div id="choiceArea" class="charactersheet-app">
+                                    <ng-container
+                                        *ngFor="let heritage of get_AvailableHeritages('', heritageGain.ancestry, heritageIndex); trackBy:trackByIndex;">
+                                        <ng-container
+                                            *ngFor="let selected of [heritage.name === get_Character().class.additionalHeritages[heritageIndex].name]; trackBy:trackByIndex;">
+                                            <ng-container
+                                                *ngFor="let checked of [selected || get_HaveHeritage(heritage.name)]; trackBy:trackByIndex;">
+                                                <ng-container
+                                                    *ngFor="let disabled of [!selected && (checked || get_Character().class.additionalHeritages[heritageIndex].name)]; trackBy:trackByIndex;">
+                                                    <ng-template #HeritageChoiceDetailsTemplate>
+                                                        <header class="spellHeader">{{heritage.name}}</header>
+                                                        <div class="button newrow no-animation"
+                                                            *ngIf="!disabled && !heritage.subTypes.length"
+                                                            [ngClass]="{'fancy-button':selected, 'disabled':disabled}">
+                                                            <label>
+                                                                <input type="checkbox"
+                                                                    (change)="on_AdditionalHeritageChange(heritage, $event.target.checked, heritageIndex, heritageGain.source)"
+                                                                    [checked]="checked" [disabled]="disabled"
+                                                                    hidden>{{checked ? "Remove" : "Choose"}}
+                                                            </label>
+                                                        </div>
+                                                        <div class="newrow left-aligned tags">
+                                                            <cite class="trait"
+                                                                *ngFor="let trait of heritage.traits; trackBy:trackByIndex;"
+                                                                [ngbPopover]="get_Traits(trait)[0]?.desc"
+                                                                openDelay=100>{{trait}}</cite>
+                                                        </div>
+                                                        <div class="newrow left-aligned" *ngIf="heritage.sourceBook">
+                                                            <strong>Source</strong><i>&nbsp;{{heritage.sourceBook}}</i>
+                                                        </div>
+                                                        <div class="newrow left-aligned">
+                                                            <ng-container
+                                                                *ngFor="let desc of heritage.desc.split('\n\n'); trackBy:trackByIndex;">
+                                                                <p *ngIf="desc.split('\n').length == 1">{{desc}}</p>
+                                                                <ul *ngIf="desc.split('\n').length > 1">
+                                                                    <li
+                                                                        *ngFor="let line of desc.split('\n'); trackBy:trackByIndex;">
+                                                                        {{line}}
+                                                                    </li>
+                                                                </ul>
+                                                            </ng-container>
+                                                        </div>
+                                                        <ng-container
+                                                            *ngFor="let activityName of heritage.gainActivities; trackBy:trackByIndex;">
+                                                            <div class="newrow left-aligned"
+                                                                *ngFor="let activity of get_Activities(activityName); trackBy:trackByIndex;">
+                                                                <header class="spellHeader left-aligned">
+                                                                    {{activity.name}}
+                                                                    <app-actionIcons [actionString]="activity.actions">
+                                                                    </app-actionIcons>
+                                                                    {{(activity.activationType) ?
+                                                                    activity.activationType :
+                                                                    ""}}
+                                                                </header>
+                                                                <app-activity class="newrow" [activity]=activity
+                                                                    [allowActivate]=false>
+                                                                </app-activity>
+                                                            </div>
+                                                        </ng-container>
+                                                        <!--Subheritages-->
+                                                        <ng-container
+                                                            *ngFor="let subheritage of heritage.subTypes; trackBy:trackByIndex;">
+                                                            <ng-container
+                                                                *ngFor="let subheritageSelected of [subheritage.name === get_Character().class.additionalHeritages[heritageIndex].name]; trackBy:trackByIndex;">
+                                                                <ng-container
+                                                                    *ngFor="let subheritageChecked of [subheritageSelected || get_HaveHeritage(heritage.name)]; trackBy:trackByIndex;">
+                                                                    <ng-container
+                                                                        *ngFor="let subheritageDisabled of [!subheritageSelected && (subheritageChecked || get_Character().class.additionalHeritages[heritageIndex].name)]; trackBy:trackByIndex;">
+                                                                        <div class="list-item"
+                                                                            [ngClass]="{'selected':subheritageSelected}">
+                                                                            <div class="gridicon-fullsizebox lower">
+                                                                                <input id="{{subheritage.name}}"
+                                                                                    type="checkbox"
+                                                                                    class="character-choice"
+                                                                                    (change)="on_AdditionalHeritageChange(subheritage, $event.target.checked, heritageIndex, heritageGain.source)"
+                                                                                    [checked]="subheritageChecked"
+                                                                                    [disabled]="subheritageDisabled">
+                                                                                <label for="{{subheritage.name}}">
+                                                                                    <strong>{{subheritage.subType}}</strong>
+                                                                                </label>
+                                                                            </div>
+                                                                        </div>
+                                                                    </ng-container>
+                                                                </ng-container>
+                                                            </ng-container>
+                                                        </ng-container>
+                                                        <!--End Subheritages-->
+                                                    </ng-template>
+                                                    <div class="list-item gridicon-fullsizebox"
+                                                        [ngClass]="{'selected':selected}">
+                                                        <input *ngIf="!heritage.subTypes.length" id="{{heritage.name}}"
+                                                            type="checkbox" class="character-choice"
+                                                            (change)="on_AdditionalHeritageChange(heritage, $event.target.checked, heritageIndex, heritageGain.source)"
+                                                            [checked]="checked" [disabled]="disabled">
+                                                        <button class="character-choice"
+                                                            *ngIf="heritage.subTypes.length"
+                                                            (click)="HeritageChoiceDetailsPopover.toggle()">+</button>
+                                                        <div class="gridicon-fullsizebox"
+                                                            #HeritageChoiceDetailsPopover="ngbPopover"
+                                                            [ngbPopover]="HeritageChoiceDetailsTemplate"
+                                                            triggers="click">
+                                                            <app-gridIcon [title]="heritage.name"
+                                                                [detail]="heritage.traits.includes('Rare') ? 'Rare' : (heritage.traits.includes('Uncommon') ? 'Uncommon' : '')">
+                                                            </app-gridIcon>
+                                                            <header class="sectionHeader">
+                                                                <span>{{heritage.name}}&nbsp;</span>
+                                                                <cite class="trait"
+                                                                    *ngIf="heritage.traits.includes('Rare')"
+                                                                    [ngbPopover]="get_Traits('Rare')[0]?.desc"
+                                                                    openDelay=100>Rare</cite>
+                                                                <cite class="trait"
+                                                                    *ngIf="heritage.traits.includes('Uncommon')"
+                                                                    [ngbPopover]="get_Traits('Uncommon')[0]?.desc"
+                                                                    openDelay=100>Uncommon</cite>
+                                                            </header>
+                                                        </div>
+                                                    </div>
+                                                </ng-container>
+                                            </ng-container>
+                                        </ng-container>
+                                    </ng-container>
+                                </div>
+                            </ng-container>
+                        </ng-container>
                     </ng-container>
                 </ng-container>
             </div>
