@@ -1510,6 +1510,7 @@ GRIDICONS
 
 .gridicon-fullsizebox>:first-child {
     flex-shrink: 0;
+    flex-basis: auto;
 }
 
 .gridicon-fullsizebox>*:not(:first-child) {

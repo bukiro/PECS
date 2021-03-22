@@ -650,8 +650,7 @@
                                                         [ngClass]="{'fancy-button choicecleared':finished, 'activechoice':get_ShowList()=='differentworlds' && get_ShowContentLevelNumber()==level.number}"
                                                         (click)="toggle_List('differentworlds', level.number)">
                                                         Different Worlds{{(differentWorldsFeat.data.background) ? ": " +
-                                                        differentWorldsFeat.data.background :
-                                                        ""}}
+                                                        differentWorldsFeat.data.background : ""}}
                                                     </button>
                                                 </div>
                                                 <button class="specialchoice" *ngIf="get_TileMode()"
@@ -668,63 +667,29 @@
                                         </ng-container>
                                         <!--Blessed Blood-->
                                         <ng-container *ngIf="get_BlessedBloodFeat(level.number)">
-                                            <!--Blessed Blood spells-->
                                             <ng-container
                                                 *ngFor="let blessedBloodSpells of [get_BlessedBloodSpells()]; trackBy:trackByIndex;">
-                                                <div class="list-item"
-                                                    [ngClass]="{'fullsize-only':blessedBloodSpells >= 3}"
-                                                    *ngFor="let listID of ['differentWorlds_Name']; trackBy:trackByIndex;">
-                                                    <button class="newrow sublist-toggle specialchoice"
-                                                        [ngClass]="{'fancy-button choicecleared':blessedBloodSpells >= 3, 'activechoice':get_ShowList()==listID}"
-                                                        (click)="toggle_List(listID)">
-                                                        Deity Spells (Blessed Blood): {{blessedBloodSpells}}/3
-                                                    </button>
-                                                    <div class="list-item sublist specialchoice"
-                                                        [ngClass]="{'fancy-list':blessedBloodSpells >= 3}"
-                                                        *ngIf="get_ShowList()==listID">
-                                                        <div class="list-item"
-                                                            [ngClass]="{'selected':get_BlessedBloodHaveSpell(spell)}"
-                                                            *ngFor="let spell of get_BlessedBloodDeitySpells(); trackBy:trackByIndex;">
-                                                            <ng-container
-                                                                *ngFor="let itemID of ['blessedBlood'+spell.name]; trackBy:trackByIndex;">
-                                                                <span>
-                                                                    <input id="blessedBlood{{spell.name}}"
-                                                                        type="checkbox"
-                                                                        (change)="on_BlessedBloodSpellTaken(spell, level, $event.target.checked)"
-                                                                        [checked]="get_BlessedBloodHaveSpell(spell)"
-                                                                        [disabled]="blessedBloodSpells >= 3 && !get_BlessedBloodHaveSpell(spell)">
-                                                                    <label for="blessedBlood{{spell.name}}">
-                                                                        <strong>{{spell.name}}</strong>
-                                                                    </label>
-                                                                </span>
-                                                                <button (click)="toggle_Item(itemID)"
-                                                                    [ngClass]="{'fancy-button':get_ShowItem()=='blessedBlood'+spell.name}">
-                                                                    {{get_ShowItem()=='blessedBlood'+spell.name ?
-                                                                    "Hide"
-                                                                    :
-                                                                    "Show"}}
-                                                                    Description
-                                                                </button>
-                                                                <div class="newrow lower"
-                                                                    *ngIf="get_ShowItem()==itemID">
-                                                                    <header class="spellHeader newrow">
-                                                                        <span>{{spell.name}}
-                                                                            <app-actionIcons
-                                                                                [actionString]="spell.actions">
-                                                                            </app-actionIcons>
-                                                                            {{(spell.castType) ? spell.castType :
-                                                                            ""}}
-                                                                        </span>
-                                                                        <span>Spell {{spell.levelreq}}</span>
-                                                                    </header>
-                                                                    <app-spell class="newrow" [spell]=spell
-                                                                        [spellLevel]="spell.levelreq">
-                                                                    </app-spell>
-                                                                </div>
-                                                            </ng-container>
-                                                        </div>
+                                                <ng-container
+                                                    *ngFor="let finished of [blessedBloodSpells >= 3]; trackBy:trackByIndex;">
+                                                    <div class="list-item" *ngIf="!get_TileMode()"
+                                                        [ngClass]="{'fullsize-only':finished}">
+                                                        <button class="newrow sublist-toggle specialchoice"
+                                                            [ngClass]="{'fancy-button choicecleared':finished, 'activechoice':get_ShowList()=='blessedblood' && get_ShowContentLevelNumber()==level.number}"
+                                                            (click)="toggle_List('blessedblood', level.number)">
+                                                            Blessed Blood Deity Spells: {{blessedBloodSpells}}/3
+                                                        </button>
                                                     </div>
-                                                </div>
+                                                    <button class="specialchoice" *ngIf="get_TileMode()"
+                                                        [ngClass]="{'fancy-button choicecleared fullsize-only':finished, 'activechoice':get_ShowList()=='blessedblood' && get_ShowContentLevelNumber()==level.number}"
+                                                        (click)="toggle_List('blessedblood', level.number)">
+                                                        <app-gridIcon class="specialchoice"
+                                                            [ngClass]="{'fancy-button':finished}"
+                                                            [ngbTooltip]="'Blessed Blood Deity Spells: ' + blessedBloodSpells.toString() + '/3'"
+                                                            [title]="finished ? '3' : blessedBloodSpells.toString() + '/3'"
+                                                            [superTitle]="'icon-ra ra-burning-eye'">
+                                                        </app-gridIcon>
+                                                    </button>
+                                                </ng-container>
                                             </ng-container>
                                         </ng-container>
                                         <!--Additional Heritages-->
@@ -2213,9 +2178,61 @@
                                     </ng-container>
                                 </ng-container>
                             </ng-container>
-
-
-
+                        </div>
+                    </ng-container>
+                </ng-container>
+                <!--Blessed Blood Content-->
+                <ng-container
+                    *ngFor="let blessedBloodContent of get_ActiveSpecialChoiceShown('blessedblood'); trackBy:trackByIndex;">
+                    <ng-container *ngFor="let blessedBloodSpells of [get_BlessedBloodSpells()]; trackBy:trackByIndex;">
+                        <div class="newrow list-item padding-8 center-aligned">
+                            <header class="box-header sectionHeader">
+                                Blessed Blood Deity Spells: {{blessedBloodSpells}}/3
+                            </header>
+                        </div>
+                        <div id="choiceArea" class="charactersheet-app">
+                            <ng-container *ngFor="let spell of get_BlessedBloodDeitySpells(); trackBy:trackByIndex;">
+                                <ng-container
+                                    *ngFor="let checked of [get_BlessedBloodHaveSpell(spell)]; trackBy:trackByIndex">
+                                    <ng-container
+                                        *ngFor="let disabled of [blessedBloodSpells >= 3 && !checked]; trackBy:trackByIndex">
+                                        <ng-template #BlessedBloodChoiceDetailsTemplate>
+                                            <header class="spellHeader newrow">
+                                                <span style="flex-grow:10">
+                                                    {{spell.name}}
+                                                    <app-actionIcons [actionString]="spell.actions"></app-actionIcons>
+                                                    {{(spell.castType) ? spell.castType : ""}}
+                                                </span>
+                                                <span style="flex-basis:auto; flex-shrink:0">Spell {{spell.levelreq}}</span>
+                                            </header>
+                                            <div class="button newrow no-animation" *ngIf="!disabled"
+                                                [ngClass]="{'fancy-button':checked, 'disabled':disabled}">
+                                                <label>
+                                                    <input type="checkbox"
+                                                        (change)="on_BlessedBloodSpellTaken(spell, blessedBloodContent.levelNumber, $event.target.checked)"
+                                                        [checked]="checked" [disabled]="disabled" hidden>
+                                                    {{checked ? "Remove" : "Choose"}}
+                                                </label>
+                                            </div>
+                                            <app-spell class="newrow" [spell]=spell [spellLevel]="spell.levelreq">
+                                            </app-spell>
+                                        </ng-template>
+                                        <div class="list-item gridicon-fullsizebox" [ngClass]="{'selected':checked}">
+                                            <input id="{{spell.name}}" type="checkbox" class="character-choice"
+                                                (change)="on_BlessedBloodSpellTaken(spell, blessedBloodContent.levelNumber, $event.target.checked)"
+                                                [checked]="checked" [disabled]="disabled">
+                                            <div class="gridicon-fullsizebox"
+                                                [ngbPopover]="BlessedBloodChoiceDetailsTemplate" triggers="click">
+                                                <app-gridIcon [title]="spell.name">
+                                                </app-gridIcon>
+                                                <header class="sectionHeader">
+                                                    <span>{{spell.name}}</span>
+                                                </header>
+                                            </div>
+                                        </div>
+                                    </ng-container>
+                                </ng-container>
+                            </ng-container>
                         </div>
                     </ng-container>
                 </ng-container>

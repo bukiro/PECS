@@ -116,10 +116,6 @@ The very latest in Assistive Technologies for Dungeon Master (ATDM)
 Active to-do:
 - Implement Icons for Character building, Inventory and Spells
 - Implement icons and choice area content for the character component
--- Different Worlds
---- Name
---- Background
--- Blessed Blood
 -- Additional Heritages
 -- Fuse Stance
 
