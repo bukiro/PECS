@@ -514,7 +514,7 @@ export class FeatsService {
                         let newLength = characterService.add_CustomFeat(feat);
                         let newFeat = character.customFeats[newLength - 1];
                         newFeat.hide = true;
-                        newFeat.data = { name: "", stance1: "", stance2: "" }
+                        newFeat.data = { name: "", stances: [] as string[] }
                         newFeat.hints.length = 0;
                     }
                 } else {

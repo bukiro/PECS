@@ -109,7 +109,9 @@ export class ActivityComponent implements OnInit {
         this.gain.active = activated;
         this.get_FusedStances().forEach(gain => {
             let activity = (gain["can_Activate"] ? gain as ItemActivity : this.get_Activities(gain.name)[0])
-            this.activitiesService.activate_Activity(this.get_Creature(), "Character", this.characterService, this.conditionsService, this.itemsService, this.spellsService, gain, activity, activated);
+            if (activated != gain.active) {
+                this.activitiesService.activate_Activity(this.get_Creature(), "Character", this.characterService, this.conditionsService, this.itemsService, this.spellsService, gain, activity, activated);
+            }
         })
     }
 
@@ -202,7 +204,7 @@ export class ActivityComponent implements OnInit {
         let feat: Feat = this.get_FuseStanceFeat();
         if (feat) {
             return this.characterService.get_OwnedActivities(this.get_Creature())
-                .filter((gain: ItemActivity | ActivityGain) => gain.name == feat.data["stance1"] || gain.name == feat.data["stance2"])
+                .filter((gain: ItemActivity | ActivityGain) => feat.data["stances"].includes(gain.name))
         }
     }
 

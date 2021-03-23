@@ -37,6 +37,7 @@ import { Spell } from '../Spell';
 import { Character } from '../Character';
 import { NgbActiveModal, NgbModal, NgbPopoverConfig, NgbTooltipConfig } from '@ng-bootstrap/ng-bootstrap';
 import { SkillChoice } from '../SkillChoice';
+import { Activity } from '../Activity';
 
 @Component({
     selector: 'app-character',
@@ -907,22 +908,36 @@ export class CharacterComponent implements OnInit {
         }
     }
 
-    get_StancesToFuse(levelNumber: number) {
+    get_StancesToFuse(levelNumber: number, fuseStanceFeat: Feat) {
+        //Return all stances that you own.
+        //Since Fuse Stance can't use two stances that only allow one type of attack each, we check if one of the previously selected stances does that,
+        // and if so, make a note for each available stance with a restriction that it isn't available.
+        let showOtherOptions = this.get_Character().settings.showOtherOptions;
         let unique: string[] = [];
-        let stances: { name: string, reason: string }[] = [];
-        this.characterService.get_OwnedActivities(this.get_Character(), levelNumber).filter(activity => !unique.includes(activity.name)).forEach(activity => {
-            this.activitiesService.get_Activities(activity.name).filter(example => example.traits.includes("Stance")).forEach(example => {
-                //Stances that only allow one type of strike cannot be used for Fuse Stance.
-                if (!example.desc.includes("only Strikes")) {
-                    unique.push(activity.name);
-                    stances.push({ name: activity.name, reason: "" });
-                } else {
-                    unique.push(activity.name);
-                    stances.push({ name: activity.name, reason: "This stance has incompatible restrictions." });
-                }
-            })
+        let stances: { activity: Activity, restricted: boolean, reason: string }[] = [];
+        let restrictedConditions = this.get_Conditions().filter(condition => condition.attackRestrictions.length).map(condition => condition.name);
+        let activities = this.activitiesService.get_Activities().filter(activity => activity.traits.includes("Stance"));
+        let existingStances: Activity[] = [];
+        (fuseStanceFeat.data["stances"] as string[]).forEach(stance => {
+            existingStances.push(activities.find(example => example.name == stance));
         })
-        return stances.filter(stance => stance.name != "Fused Stance");
+        let restrictedStances = existingStances.some(example => example.gainConditions.some(gain => restrictedConditions.includes(gain.name)));
+        this.characterService.get_OwnedActivities(this.get_Character(), levelNumber)
+            .map(activity => activities.find(example => example.name == activity.name))
+            .filter(activity => activity && activity.name != "Fused Stance")
+            .forEach(activity => {
+                if (!unique.includes(activity.name) && (showOtherOptions || fuseStanceFeat.data["stances"].length < 2 || fuseStanceFeat.data["stances"].includes(activity.name))) {
+                    let restricted = activity.gainConditions.some(gain => restrictedConditions.includes(gain.name));
+                    if (restricted && restrictedStances && !fuseStanceFeat.data["stances"].includes(activity.name)) {
+                        unique.push(activity.name);
+                        stances.push({ activity: activity, restricted: restricted, reason: "Incompatible restrictions." });
+                    } else {
+                        unique.push(activity.name);
+                        stances.push({ activity: activity, restricted: restricted, reason: "" });
+                    }
+                }
+            });
+        return stances;
     }
 
     on_FuseStanceNameChange() {
@@ -930,12 +945,12 @@ export class CharacterComponent implements OnInit {
         this.characterService.process_ToChange();
     }
 
-    on_FuseStanceStanceChange(feat: Feat, which: string, stance: string, taken: boolean) {
+    on_FuseStanceStanceChange(feat: Feat, stance: string, taken: boolean) {
         if (taken) {
-            if (this.get_Character().settings.autoCloseChoices) { this.toggle_List(""); }
-            feat.data[which] = stance;
+            if (this.get_Character().settings.autoCloseChoices && feat.data["stances"].length == 1 && feat.data["name"]) { this.toggle_List(""); }
+            feat.data["stances"].push(stance);
         } else {
-            feat.data[which] = "";
+            feat.data["stances"] = feat.data["stances"].filter((existingStance: string) => existingStance != stance);
         }
         this.characterService.set_ToChange("Character", "activities");
         this.characterService.process_ToChange();
@@ -1064,12 +1079,12 @@ export class CharacterComponent implements OnInit {
         let showOtherOptions = this.get_Character().settings.showOtherOptions;
         return this.get_Heritages(name, ancestryName)
             .filter(availableHeritage =>
-                (
-                    showOtherOptions ||
-                    !heritage?.name ||
-                    availableHeritage.name == heritage.name ||
-                    availableHeritage.subTypes?.some(subType => subType.name == heritage.name))
-                )
+            (
+                showOtherOptions ||
+                !heritage?.name ||
+                availableHeritage.name == heritage.name ||
+                availableHeritage.subTypes?.some(subType => subType.name == heritage.name))
+            )
             .sort(function (a, b) {
                 if (a.name > b.name) {
                     return 1;

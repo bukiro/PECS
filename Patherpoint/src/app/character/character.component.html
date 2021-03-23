@@ -327,7 +327,7 @@
                         <ng-container *ngFor="let level of get_Character().class.levels; trackBy:trackByIndex;">
                             <div
                                 [ngClass]="{'invisible':!(level.number > 0 && [0,level.number].includes(get_ShowLevel()))}">
-                                <header class="sectionHeader" *ngIf="level.number > 0">Level {{level.number}}</header>
+                                <header class="sectionHeader levelHeader" *ngIf="level.number > 0">Level {{level.number}}</header>
                                 <div [ngClass]="{'character-choice-grid':get_TileMode()}">
                                     <div [ngClass]="{'icon-list vertical':get_TileMode()}">
                                         <ng-container
@@ -726,100 +726,29 @@
                                         <!--Fuse Stance-->
                                         <ng-container
                                             *ngFor="let feat of get_FuseStanceFeat(level.number); trackBy:trackByIndex;">
-                                            <!--Fuse Stance Name-->
-                                            <div class="list-item" [ngClass]="{'fullsize-only':(feat.data.name != '')}"
-                                                *ngFor="let listID of ['fuseStance_Name']; trackBy:trackByIndex;">
-                                                <button class="newrow sublist-toggle specialchoice"
-                                                    [ngClass]="{'fancy-button choicecleared':(feat.data.name != ''), 'activechoice':get_ShowList()==listID}"
-                                                    (click)="toggle_List(listID)">
-                                                    Fused Stance Name (Fuse Stance){{(feat.data.name) ? ": "+
-                                                    feat.data.name : ""}}
-                                                </button>
-                                                <div class="list-item sublist specialchoice"
-                                                    [ngClass]="{'fancy-list':(feat.data.name != '')}"
-                                                    *ngIf="get_ShowList()==listID">
-                                                    <div class="list-item">
-                                                        <strong>Name:
-                                                            <input type="text" [(ngModel)]="feat.data.name"
-                                                                (blur)="on_FuseStanceNameChange()" maxLength="30">
-                                                        </strong>
-                                                    </div>
+                                            <ng-container
+                                                *ngFor="let finished of [feat.data.stances.length == 2 && feat.data.name]; trackBy:trackByIndex">
+                                                <div class="list-item" *ngIf="!get_TileMode()"
+                                                    [ngClass]="{'fullsize-only':finished}">
+                                                    <button class="newrow sublist-toggle specialchoice"
+                                                        [ngClass]="{'fancy-button choicecleared':finished, 'activechoice':get_ShowList()=='fusestance' && get_ShowContentLevelNumber()==level.number}"
+                                                        (click)="toggle_List('fusestance', level.number)">
+                                                        Fuse Stance{{(finished) ? ": "+
+                                                        feat.data.name + " (" + feat.data.stances.join(', ') + ")" :
+                                                        ""}}
+                                                    </button>
                                                 </div>
-                                            </div>
-                                            <!--Fuse Stance Stance 1-->
-                                            <div class="list-item" [ngClass]="{'fullsize-only':feat.data.stance1}"
-                                                *ngFor="let listID of ['fuseStance_Stance1']; trackBy:trackByIndex;">
-                                                <button class="newrow sublist-toggle specialchoice"
-                                                    [ngClass]="{'fancy-button choicecleared':feat.data.stance1, 'activechoice':get_ShowList()==listID}"
-                                                    (click)="toggle_List(listID)">
-                                                    Fused Stance 1 (Fuse Stance){{(feat.data.stance1) ? ": "+
-                                                    feat.data.stance1
-                                                    : ""}}
+                                                <button class="specialchoice" *ngIf="get_TileMode()"
+                                                    [ngClass]="{'fancy-button choicecleared fullsize-only':finished, 'activechoice':get_ShowList()=='fusestance' && get_ShowContentLevelNumber()==level.number}"
+                                                    (click)="toggle_List('fusestance', level.number)">
+                                                    <app-gridIcon class="specialchoice"
+                                                        [ngClass]="{'fancy-button':finished}"
+                                                        [ngbTooltip]="'Fuse Stance' + (finished ? ': ' + feat.data.name + ' (' + feat.data.stances.join(', ') + ')' : '')"
+                                                        [title]="finished ? feat.data.name : ''"
+                                                        [superTitle]="'icon-ra ra-double-team'">
+                                                    </app-gridIcon>
                                                 </button>
-                                                <div class="list-item sublist specialchoice"
-                                                    [ngClass]="{'fancy-list':feat.data.stance1}"
-                                                    *ngIf="get_ShowList()==listID">
-                                                    <div class="list-item"
-                                                        [ngClass]="{'unavailable':stance.reason, 'selected':stance.name == feat.data.stance1}"
-                                                        *ngFor="let stance of get_StancesToFuse(level.number); trackBy:trackByIndex;">
-                                                        <div class="newrow"
-                                                            *ngFor="let itemID of ['fuseStance_stance1'+stance.name]; trackBy:trackByIndex;">
-                                                            <span>
-                                                                <input id="{{stance.name}}" type="checkbox"
-                                                                    (change)="on_FuseStanceStanceChange(feat, 'stance1', stance.name, $event.target.checked)"
-                                                                    [checked]="stance.name == feat.data.stance1 || stance.name == feat.data.stance2"
-                                                                    [disabled]="stance.name == feat.data.stance2 || (feat.data.stance1 && (stance.name != feat.data.stance1))"
-                                                                    *ngIf="!stance.reason">
-                                                                <label for="{{stance.name}}">
-                                                                    <strong>{{stance.name}}&nbsp;</strong>
-                                                                    <span>
-                                                                        <cite class="problem" *ngIf="stance.reason">
-                                                                            {{stance.reason}}
-                                                                        </cite>
-                                                                    </span>
-                                                                </label>
-                                                            </span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <!--Fuse Stance Stance 2-->
-                                            <div class="list-item" [ngClass]="{'fullsize-only':feat.data.stance2}"
-                                                *ngFor="let listID of ['fuseStance_Stance2']; trackBy:trackByIndex;">
-                                                <button class="newrow sublist-toggle"
-                                                    [ngClass]="{'fancy-button choicecleared':feat.data.stance2, 'activechoice':get_ShowList()==listID}"
-                                                    (click)="toggle_List(listID)">
-                                                    Fused Stance 2 (Fuse Stance){{(feat.data.stance2) ? ": "+
-                                                    feat.data.stance2
-                                                    : ""}}
-                                                </button>
-                                                <div class="list-item sublist specialchoice"
-                                                    [ngClass]="{'fancy-list':feat.data.stance2}"
-                                                    *ngIf="get_ShowList()==listID">
-                                                    <div class="list-item"
-                                                        [ngClass]="{'unavailable':stance.reason, 'selected':stance.name == feat.data.stance2}"
-                                                        *ngFor="let stance of get_StancesToFuse(level.number); trackBy:trackByIndex;">
-                                                        <div class="newrow"
-                                                            *ngFor="let itemID of ['fuseStance_stance2'+stance.name]; trackBy:trackByIndex;">
-                                                            <span>
-                                                                <input id="{{stance.name}}" type="checkbox"
-                                                                    (change)="on_FuseStanceStanceChange(feat, 'stance2', stance.name, $event.target.checked)"
-                                                                    [checked]="stance.name == feat.data.stance1 || stance.name == feat.data.stance2"
-                                                                    [disabled]="stance.name == feat.data.stance1 || (feat.data.stance2 && (stance.name != feat.data.stance2))"
-                                                                    *ngIf="!stance.reason">
-                                                                <label for="{{stance.name}}">
-                                                                    <strong>{{stance.name}}&nbsp;</strong>
-                                                                    <span>
-                                                                        <cite class="problem" *ngIf="stance.reason">
-                                                                            {{stance.reason}}
-                                                                        </cite>
-                                                                    </span>
-                                                                </label>
-                                                            </span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                            </ng-container>
                                         </ng-container>
                                         <!--Lore Training-->
                                         <ng-container *ngFor="let choice of level.loreChoices; trackBy:trackByIndex;">
@@ -2184,6 +2113,74 @@
                                 </ng-container>
                             </ng-container>
                         </div>
+                    </ng-container>
+                </ng-container>
+                <!--Fuse Stance content-->
+                <ng-container
+                    *ngFor="let fuseStanceContent of get_ActiveSpecialChoiceShown('fusestance'); trackBy:trackByID;">
+                    <ng-container
+                        *ngFor="let fuseStanceFeat of get_FuseStanceFeat(fuseStanceContent.levelNumber); trackBy:trackByIndex">
+                        <ng-container
+                            *ngFor="let finished of [fuseStanceFeat.data.stances.length == 2]; trackBy:trackByIndex">
+                            <div class="newrow list-item padding-8 center-aligned">
+                                <header class="box-header sectionHeader">
+                                    Fuse Stance{{(finished && fuseStanceFeat.data.name) ? ": "+
+                                    fuseStanceFeat.data.name + " (" + fuseStanceFeat.data.stances.join(', ') + ")" :
+                                    ""}}
+                                </header>
+                            </div>
+                            <div id="choiceArea" class="charactersheet-app">
+                                <div class="newrow list-item">
+                                    <div class="newrow list-item">
+                                        <strong>Stance name&nbsp;
+                                            <input type="text" [(ngModel)]="fuseStanceFeat.data.name"
+                                                (blur)="on_FuseStanceNameChange()" maxLength="30">
+                                        </strong>
+                                    </div>
+                                </div>
+                                <div class="list-item transparent">
+                                    <header class="sectionHeader">Fused Stances</header>
+                                </div>
+                                <ng-container
+                                    *ngFor="let stance of get_StancesToFuse(fuseStanceContent.levelNumber, fuseStanceFeat); trackBy:trackByIndex;">
+                                    <ng-template #FuseStanceChoiceDetailsPopover>
+                                        <header class="spellHeader">{{stance.activity.name}}
+                                            <app-actionIcons [actionString]="stance.activity.actions">
+                                            </app-actionIcons>{{(stance.activity.activationType) ?
+                                            stance.activity.activationType
+                                            : ""}}
+                                        </header>
+                                        <app-activity [creature]="'Character'" [activity]=stance.activity
+                                            [allowActivate]=false>
+                                        </app-activity>
+                                    </ng-template>
+                                    <div class="list-item gridicon-fullsizebox"
+                                        [ngClass]="{'unavailable':stance.reason, 'selected':fuseStanceFeat.data.stances.includes(stance.activity.name)}">
+                                        <input id="{{stance.activity.name}}" type="checkbox" class="character-choice"
+                                            (change)="on_FuseStanceStanceChange(fuseStanceFeat, stance.activity.name, $event.target.checked)"
+                                            [checked]="fuseStanceFeat.data.stances.includes(stance.activity.name)"
+                                            [disabled]="(finished || stance.reason) && !fuseStanceFeat.data.stances.includes(stance.activity.name)">
+                                        <div class="gridicon-fullsizebox" [ngbPopover]="FuseStanceChoiceDetailsPopover"
+                                            triggers="click">
+                                            <app-gridIcon [title]="stance.activity.name"
+                                                [superTitle]="stance.restricted ? 'icon-ra ra-bird-claw' : ''">
+                                            </app-gridIcon>
+                                            <header class="sectionHeader">
+                                                <span>{{stance.activity.name}}&nbsp;</span>
+                                                <cite class="trait" *ngIf="stance.restricted"
+                                                    [ngbPopover]="'While in this stance, you can only use the stance\'s special attack. You can only add one stance of this type to the fused stance.'"
+                                                    openDelay=100>
+                                                    Attack restrictions
+                                                </cite>
+                                                <cite class="problem" *ngIf="stance.reason">
+                                                    {{stance.reason}}
+                                                </cite>
+                                            </header>
+                                        </div>
+                                    </div>
+                                </ng-container>
+                            </div>
+                        </ng-container>
                     </ng-container>
                 </ng-container>
                 <!--Additional Heritages content-->

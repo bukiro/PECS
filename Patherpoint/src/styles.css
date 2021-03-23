@@ -219,6 +219,14 @@ button.activechoice,
 button.activechoice:focus:not(:focus-visible),
 .button.activechoice:focus:not(:focus-visible) {
     outline: auto;
+    outline-color: black;
+}
+
+.darkmode button.activechoice,
+.darkmode .button.activechoice,
+.darkmode button.activechoice:focus:not(:focus-visible),
+.darkmode .button.activechoice:focus:not(:focus-visible) {
+    outline-color: white;
 }
 
 button.choicecleared::after,
@@ -1539,10 +1547,21 @@ app-gridicon {
     display: inline-table;
     overflow: hidden;
     background-color: white;
+    color: initial;
 }
 
-.darkmode app-gridicon {
+app-gridicon.fancy-button {
+    background-color: white;
+}
+
+.itembox-inner .icon-list app-gridicon:not(.fancy-button) {
+    background-color: #CCC;
+}
+
+.darkmode app-gridicon:not(.fancy-button),
+.darkmode .itembox-inner .icon-list app-gridicon:not(.fancy-button) {
     background-color: #202020;
+    color: inherit;
 }
 
     /* top-left small number*/
@@ -1821,7 +1840,7 @@ SPECIFIC STYLE MODIFIERS
     display: none !important;
 }
 
-.minimized header.sectionHeader,
+.minimized :not(.gridicon-fullsizebox) > header.sectionHeader,
 .minimized header.subsectionHeader {
     margin: .3rem 0 0 0;
 }

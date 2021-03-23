@@ -114,15 +114,12 @@ The very latest in Assistive Technologies for Dungeon Master (ATDM)
 - [ ] Stretch Goal: Exporting statblock and files for other tools (e.g. Foundry VTT)
 
 Active to-do:
-Unfinished choice gridicons need a dark background in light mode
-- Implement Icons for Character building, Inventory and Spells
-- Implement icons and choice area content for the character component
--- Fuse Stance
 
 Implement:
 
 Next steps:
 - 5th level spells
+- Implement Icons for Inventory and Spells
 - Gnome feats
 - Hobgoblin feats
 - Leshy feats
