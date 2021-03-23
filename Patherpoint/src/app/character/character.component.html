@@ -327,7 +327,8 @@
                         <ng-container *ngFor="let level of get_Character().class.levels; trackBy:trackByIndex;">
                             <div
                                 [ngClass]="{'invisible':!(level.number > 0 && [0,level.number].includes(get_ShowLevel()))}">
-                                <header class="sectionHeader levelHeader" *ngIf="level.number > 0">Level {{level.number}}</header>
+                                <header class="sectionHeader levelHeader" *ngIf="level.number > 0">Level
+                                    {{level.number}}</header>
                                 <div [ngClass]="{'character-choice-grid':get_TileMode()}">
                                     <div [ngClass]="{'icon-list vertical':get_TileMode()}">
                                         <ng-container
@@ -1208,6 +1209,11 @@
                 <ng-container *ngIf="get_ShowList()=='languages'">
                     <div class="newrow list-item padding-8 center-aligned">
                         <header class="box-header sectionHeader">Languages</header>
+                    </div>
+                    <div class="list-item">
+                        <p>
+                            You can only choose as many languages as you have on your current character level.
+                        </p>
                     </div>
                     <div id="choiceArea" class="charactersheet-app">
                         <div class="newrow list-item left-aligned">
@@ -2128,6 +2134,18 @@
                                     fuseStanceFeat.data.name + " (" + fuseStanceFeat.data.stances.join(', ') + ")" :
                                     ""}}
                                 </header>
+                            </div>
+                            <div class="list-item">
+                                <p>
+                                    Choose two stances you know and combine them into a single fused stance. Give your
+                                    new fused stance a unique name. When you enter your fused stance, you gain all the
+                                    effects of both stances, including the requirements and restrictions.
+                                </p>
+                                <p>
+                                    You can't fuse stances with fundamentally incompatible requirements or restrictions
+                                    (such as Mountain Stance and Crane Stance, which both require using only one type of
+                                    Strike).
+                                </p>
                             </div>
                             <div id="choiceArea" class="charactersheet-app">
                                 <div class="newrow list-item">
