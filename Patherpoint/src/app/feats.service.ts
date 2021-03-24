@@ -695,11 +695,13 @@ export class FeatsService {
             if (feat.gainLanguages.length) {
                 if (taken) {
                     feat.gainLanguages.forEach(languageGain => {
-                        character.class.languages.push(Object.assign(new LanguageGain(), JSON.parse(JSON.stringify(languageGain))));
+                        let newLanguageGain = Object.assign(new LanguageGain(), JSON.parse(JSON.stringify(languageGain)));
+                        newLanguageGain.level = level.number;
+                        character.class.languages.push(newLanguageGain);
                     })
                 } else {
                     feat.gainLanguages.forEach(languageGain => {
-                        let langIndex = character.class.languages.indexOf(character.class.languages.find(lang => lang.name == languageGain.name && lang.source == languageGain.source))
+                        let langIndex = character.class.languages.indexOf(character.class.languages.find(lang => (!lang.locked || lang.name == languageGain.name) && lang.source == languageGain.source && lang.level == level.number))
                         if (langIndex != -1) {
                             character.class.languages = character.class.languages.splice(langIndex, 1);
                         }

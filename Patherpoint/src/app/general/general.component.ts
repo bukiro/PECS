@@ -130,7 +130,7 @@ export class GeneralComponent implements OnInit {
     }
 
     get_Languages() {
-        return this.get_Character().class.languages.filter(language => language.name != "").map(language => language.name).join(', ')
+        return this.get_Character().class.languages.filter(language => (!language.level || language.level <= this.get_Character().level) && language.name != "").map(language => language.name).join(', ')
     }
 
     get_DifferentWorldsFeat() {

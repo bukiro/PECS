@@ -216,14 +216,20 @@
                                 </div>
                             </ng-container>
                             <!--Languages-->
-                            <div class="list-item" [ngClass]="{'fullsize-only':!get_BlankLanguages()}"
-                                *ngIf="get_LanguagesAvailable()">
-                                <button class="newrow"
-                                    [ngClass]="{'fancy-button choicecleared':!get_BlankLanguages(), 'activechoice':get_ShowList()=='languages'}"
-                                    (click)="toggle_List('languages')">
-                                    Languages
-                                </button>
-                            </div>
+                            <ng-container
+                                *ngFor="let currentLanguages of [get_CurrentLanguages(get_Character().level)]; trackBy:trackByIndex">
+                                <ng-container
+                                    *ngFor="let blankLanguages of [get_BlankLanguages(get_Character().level)]; trackBy:trackByIndex">
+                                    <div class="list-item" [ngClass]="{'fullsize-only':!blankLanguages}"
+                                        *ngIf="get_LanguagesAvailable()">
+                                        <button class="newrow"
+                                            [ngClass]="{'fancy-button choicecleared':!blankLanguages, 'activechoice':get_ShowList()=='languages' && get_ShowContentLevelNumber()==get_Character().level}"
+                                            (click)="toggle_List('languages', get_Character().level)">
+                                            Languages
+                                        </button>
+                                    </div>
+                                </ng-container>
+                            </ng-container>
                             <!--Background-->
                             <ng-container *ngIf="get_Character().class.name">
                                 <div class="list-item"
@@ -290,14 +296,22 @@
                                 </button>
                             </ng-container>
                             <!--Languages-->
-                            <button
-                                [ngClass]="{'fancy-button choicecleared fullsize-only':!get_BlankLanguages(), 'activechoice':get_ShowList()=='languages'}"
-                                (click)="toggle_List('languages')" *ngIf="get_LanguagesAvailable()">
-                                <app-gridIcon [ngClass]="{'fancy-button':!get_BlankLanguages()}"
-                                    [ngbTooltip]="'Languages'" [title]="'L A N G'"
-                                    [superTitle]="get_Character().class.languages.length.toString()">
-                                </app-gridIcon>
-                            </button>
+                            <ng-container
+                                *ngFor="let currentLanguages of [get_CurrentLanguages(get_Character().level)]; trackBy:trackByIndex">
+                                <ng-container
+                                    *ngFor="let blankLanguages of [get_BlankLanguages(get_Character().level)]; trackBy:trackByIndex">
+                                    <button
+                                        [ngClass]="{'fancy-button choicecleared fullsize-only':!blankLanguages, 'activechoice':get_ShowList()=='languages' && get_ShowContentLevelNumber()==get_Character().level}"
+                                        (click)="toggle_List('languages', get_Character().level)"
+                                        *ngIf="get_LanguagesAvailable()">
+                                        <app-gridIcon
+                                            [ngClass]="{'fancy-button':!blankLanguages}"
+                                            [ngbTooltip]="'Languages'" [title]="'L A N G'"
+                                            [superTitle]="currentLanguages.toString()">
+                                        </app-gridIcon>
+                                    </button>
+                                </ng-container>
+                            </ng-container>
                             <!--Background-->
                             <ng-container *ngIf="get_Character().class.name">
                                 <button
@@ -529,24 +543,31 @@
                                         </ng-container>
                                         <!--Languages - show if you have gained languages this level-->
                                         <ng-container *ngIf="level.number > 0 && get_LanguagesAvailable(level.number)">
-                                            <div class="list-item" *ngIf="!get_TileMode()"
-                                                [ngClass]="{'fullsize-only':!get_BlankLanguages()}">
-                                                <button class="newrow specialchoice"
-                                                    [ngClass]="{'fancy-button choicecleared':!get_BlankLanguages(), 'activechoice':get_ShowList()=='languages'}"
-                                                    (click)="toggle_List('languages')">
-                                                    Languages
-                                                </button>
-                                            </div>
-                                            <button class="specialchoice" *ngIf="get_TileMode()"
-                                                [ngClass]="{'fancy-button choicecleared fullsize-only':!get_BlankLanguages(), 'activechoice':get_ShowList()=='languages'}"
-                                                (click)="toggle_List('languages')">
-                                                <app-gridIcon class="specialchoice"
-                                                    [ngClass]="{'fancy-button':!get_BlankLanguages()}"
-                                                    [ngbTooltip]="'Languages'"
-                                                    [title]="get_BlankLanguages() ? ((get_Character().class.languages.length - get_BlankLanguages()).toString() + '/' + get_Character().class.languages.length.toString()) : get_Character().class.languages.length.toString()"
-                                                    [superTitle]="'icon-ra ra-speech-bubbles'">
-                                                </app-gridIcon>
-                                            </button>
+                                            <ng-container
+                                                *ngFor="let currentLanguages of [get_CurrentLanguages(level.number)]; trackBy:trackByIndex">
+                                                <ng-container
+                                                    *ngFor="let blankLanguages of [get_BlankLanguages(level.number)]; trackBy:trackByIndex">
+                                                    <div class="list-item" *ngIf="!get_TileMode()"
+                                                        [ngClass]="{'fullsize-only':!blankLanguages}">
+                                                        <button class="newrow specialchoice"
+                                                            [ngClass]="{'fancy-button choicecleared':!blankLanguages, 'activechoice':get_ShowList()=='languages' && get_ShowContentLevelNumber()==level.number}"
+                                                            (click)="toggle_List('languages', level.number)">
+                                                            Languages: {{currentLanguages -
+                                                            blankLanguages}}/{{currentLanguages}}
+                                                        </button>
+                                                    </div>
+                                                    <button class="specialchoice" *ngIf="get_TileMode()"
+                                                        [ngClass]="{'fancy-button choicecleared fullsize-only':!blankLanguages, 'activechoice':get_ShowList()=='languages' && get_ShowContentLevelNumber()==level.number}"
+                                                        (click)="toggle_List('languages', level.number)">
+                                                        <app-gridIcon class="specialchoice"
+                                                            [ngClass]="{'fancy-button':!blankLanguages}"
+                                                            [ngbTooltip]="'Languages: ' + (currentLanguages - blankLanguages) + '/' + currentLanguages"
+                                                            [title]="blankLanguages ? blankLanguages.toString() : currentLanguages.toString()"
+                                                            [superTitle]="'icon-ra ra-speech-bubbles'">
+                                                        </app-gridIcon>
+                                                    </button>
+                                                </ng-container>
+                                            </ng-container>
                                         </ng-container>
                                         <!--"Specialchoice" feat choices (feats handle tile mode internally)-->
                                         <ng-container
@@ -1210,11 +1231,6 @@
                     <div class="newrow list-item padding-8 center-aligned">
                         <header class="box-header sectionHeader">Languages</header>
                     </div>
-                    <div class="list-item">
-                        <p>
-                            You can only choose as many languages as you have on your current character level.
-                        </p>
-                    </div>
                     <div id="choiceArea" class="charactersheet-app">
                         <div class="newrow list-item left-aligned">
                             <strong *ngIf="get_Character().class.ancestry.recommendedLanguages.length">
@@ -1222,19 +1238,29 @@
                             </strong>
                             {{get_Character().class.ancestry.recommendedLanguages.join(', ')}}
                         </div>
-                        <div class="list-item"
-                            *ngFor="let language of get_Character().class.languages; trackBy:trackByIndex;">
-                            <ng-template #LanguageSource>
-                                <span>
-                                    <strong>Source&nbsp;</strong>
-                                    {{language.source}}
-                                </span>
-                            </ng-template>
-                            <div class="newrow" [ngbPopover]="language.source ? LanguageSource : null">
-                                <input class="newrow" type="text" [(ngModel)]="language.name"
-                                    (blur)="on_LanguageChange()" [disabled]="language.locked">
+                        <ng-container *ngFor="let language of get_Character().class.languages; trackBy:trackByIndex;">
+                            <div class="list-item"
+                                *ngIf="language.locked || language.level <= get_ShowContentLevelNumber()">
+                                <ng-template #LanguageSource>
+                                    <div class="newrow">
+                                        <span>
+                                            <strong>Source</strong>
+                                            {{language.source}}
+                                        </span>
+                                    </div>
+                                    <div class="newrow" *ngIf="language.level > 0">
+                                        <span>
+                                            <strong>Level</strong>
+                                            {{language.level}}
+                                        </span>
+                                    </div>
+                                </ng-template>
+                                <div class="newrow" [ngbPopover]="language.source ? LanguageSource : null">
+                                    <input class="newrow" type="text" [(ngModel)]="language.name"
+                                        (blur)="on_LanguageChange()" [disabled]="language.locked">
+                                </div>
                             </div>
-                        </div>
+                        </ng-container>
                     </div>
                 </ng-container>
                 <!--Background choice content-->
@@ -1424,7 +1450,8 @@
                                             <app-gridIcon [title]="deity.name" [detail]="deity.alignment">
                                             </app-gridIcon>
                                             <header class="sectionHeader">
-                                                <span>{{deity.name}}</span>
+                                                <span>{{deity.name}}&nbsp;</span>
+                                                <cite class="trait">{{deity.alignment}}</cite>
                                             </header>
                                         </div>
                                     </div>

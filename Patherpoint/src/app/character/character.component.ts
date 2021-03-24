@@ -559,9 +559,14 @@ export class CharacterComponent implements OnInit {
         }
     }
 
-    get_BlankLanguages() {
+    get_CurrentLanguages(levelNumber: number) {
+        //Return the amount of languages are available up to the current level
+        return this.get_Character().class.languages.filter(language => language.level <= levelNumber || !language.level).length;
+    }
+
+    get_BlankLanguages(levelNumber: number) {
         //Return the amount of languages that haven't been filled out
-        return this.get_Character().class.languages.filter(language => !language.name).length;
+        return this.get_Character().class.languages.filter(language => !language.name && language.level <= levelNumber).length;
     }
 
     get_Character() {

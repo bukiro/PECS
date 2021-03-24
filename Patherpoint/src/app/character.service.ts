@@ -458,29 +458,145 @@ export class CharacterService {
 
     update_LanguageList() {
         //This function is called by the effects service after generating effects, so that new languages aren't thrown out before the effects are generated.
+        //Don't call this function in situations where effects are going to change.
         let character = this.get_Character();
         //Ensure that the language list is always as long as ancestry languages + INT + any relevant feats.
         if (character.class.name) {
-            let ancestry: Ancestry = character.class.ancestry;
-            let languages: number = character.class.languages.filter(language => !language.locked || language.source == ancestry.name).length || 0;
-            let maxLanguages: number = ancestry?.baseLanguages || 0;
-            let int = this.get_Abilities("Intelligence")[0]?.mod(character, this, this.effectsService)?.result;
-            if (int > 0) {
-                maxLanguages += int;
+            //Collect everything that gives you free languages, and the level on which it happens. This will allow us to mark languages as available depending on their level.
+            let languageSources: { name: string, level: number, amount: number }[] = [];
+            let maxLanguages: number = 0;
+
+            //Free languages from your ancestry
+            let ancestryLanguages: number = character.class.ancestry.baseLanguages - character.class.ancestry.languages.length;
+            if (ancestryLanguages) {
+                languageSources.push({ name: "Ancestry", level: 0, amount: ancestryLanguages });
+                maxLanguages += ancestryLanguages;
             }
-            this.effectsService.get_AbsolutesOnThis(this.get_Character(), "Max Languages").forEach(effect => {
-                maxLanguages = parseInt(effect.setValue);
+
+            //Free languages from your base intelligence
+            let baseIntelligence: number = this.get_Abilities("Intelligence")[0]?.baseValue(character, this, 0)?.result;
+            let baseInt: number = Math.floor((baseIntelligence - 10) / 2);
+            if (baseInt > 0) {
+                languageSources.push({ name: "Intelligence", level: 0, amount: baseInt })
+                maxLanguages += baseInt;
+            }
+            //Build an array of int per level for comparison between the levels, starting with the base at 0.
+            let int: number[] = [baseInt]
+
+            //Collect all feats that grant extra languages, then note if you have any of them, and on which level.
+            //Also add more languages if INT has been raised (and is positive).
+            let languageFeats: string[] = this.get_FeatsAndFeatures().filter(feat => feat.effects.some(effect => effect.affected == "Max Languages")).map(feat => feat.name);
+            character.class.levels.forEach(level => {
+                character.get_FeatsTaken(level.number, level.number).filter(taken => languageFeats.includes(taken.name)).forEach(taken => {
+                    //The amount will be added later by effects.
+                    languageSources.push({ name: taken.name, level: level.number, amount: 0 })
+                })
+                if (level.number > 0) {
+                    let levelIntelligence: number = this.get_Abilities("Intelligence")[0]?.baseValue(character, this, level.number)?.result;
+                    int.push(Math.floor((levelIntelligence - 10) / 2));
+                    let diff = int[level.number] - int[level.number - 1];
+                    if (diff > 0 && int[level.number] > 0) {
+                        languageSources.push({ name: "Intelligence", level: level.number, amount: Math.min(diff, int[level.number]) })
+                    }
+                    maxLanguages += Math.min(diff, int[level.number]);
+                }
             })
+
+            //Never apply absolute effects or negative effects to Max Languages. This should not happen in the game,
+            // and it could delete your prepared languages.
+            //Apply the relative effects by finding a language source fitting the effect and changing its amount accordingly.
+            // Only change sources that have no amount yet.
+            // If a source cannot be found, the effect is not from a feat and should be treated as temporary (level -2).
             this.effectsService.get_RelativesOnThis(this.get_Character(), "Max Languages").forEach(effect => {
-                maxLanguages += parseInt(effect.value);
+                if (parseInt(effect.value) > 0) {
+                    let source = languageSources.find(source => source.name == effect.source && source.amount == 0);
+                    if (source) {
+                        source.amount = parseInt(effect.value);
+                    } else {
+                        languageSources.push({ name: effect.source, level: -2, amount: parseInt(effect.value) })
+                    }
+                    maxLanguages += parseInt(effect.value);
+                }
             })
-            character.class.languages = character.class.languages.sort().filter(language => !(language.name == "" && language.source == "" && !language.locked));
+
+            //If the current INT is positive and higher than the base INT for the current level (e.g. because of an item bonus), add another language source.
+            let currentInt = this.get_Abilities("Intelligence")[0]?.mod(character, this, this.effectsService)?.result;
+            let diff = currentInt - int[character.level];
+            if (diff > 0 && currentInt > 0) {
+                languageSources.push({ name: "Intelligence", level: -2, amount: Math.min(diff, currentInt) })
+                maxLanguages += Math.min(diff, currentInt);
+            }
+
+            //Remove all free languages that have not been filled.
+            character.class.languages = character.class.languages.sort().filter(language => !(language.name == "" && !language.locked));
+            //Make a new list of all the free languages. We will pick and sort the free languages from here into the character language list.
+            let tempLanguages: LanguageGain[] = character.class.languages.filter(language => !language.locked).map(language => Object.assign(new LanguageGain(), JSON.parse(JSON.stringify(language))));
+            //Reduce the character language list to only the locked ones.
+            character.class.languages = character.class.languages.filter(language => language.locked);
+
+            //Add free languages based on the sources and the copied language list:
+            // - For each source, find a language that has the same source and the same level.
+            // - If not available, find a language that has the same source and no level (level -1).
+            // (This is mainly for the transition from the old language calculations. Languages should not have level -1 in the future.)
+            // - If not available, add a new blank language.
+            languageSources.forEach(languageSource => {
+                for (let index = 0; index < languageSource.amount; index++) {
+                    let existingLanguage = tempLanguages.find(language => language.source == languageSource.name && language.level == languageSource.level && !language.locked)
+                    if (existingLanguage) {
+                        character.class.languages.push(existingLanguage);
+                        tempLanguages.splice(tempLanguages.indexOf(existingLanguage), 1);
+                    } else {
+                        existingLanguage = tempLanguages.find(language => language.source == languageSource.name && language.level == -1 && !language.locked)
+                        if (existingLanguage) {
+                            let newLanguage = Object.assign(new LanguageGain(), JSON.parse(JSON.stringify(tempLanguages)));
+                            newLanguage.level = languageSource.level;
+                            character.class.languages.push(newLanguage);
+                            tempLanguages.splice(tempLanguages.indexOf(existingLanguage), 1);
+                        } else {
+                            character.class.languages.push(Object.assign(new LanguageGain(), { name: "", source: languageSource.name, locked: false, level: languageSource.level }));
+                        }
+                    }
+                }
+            })
+
+            //If any languages are left in the temporary list, assign them to any blank languages, preferring same source, Intelligence and then Multilingual as sources.
+            tempLanguages.forEach(lostLanguage => {
+                let targetLanguage = character.class.languages
+                    .find(freeLanguage =>
+                        !freeLanguage.locked &&
+                        freeLanguage.name == "" &&
+                        (freeLanguage.source == lostLanguage.source || freeLanguage.source == "Intelligence" || freeLanguage.source == "Multilingual" || true)
+                    )
+                if (targetLanguage) {
+                    targetLanguage.name = lostLanguage.name;
+                }
+            })
+
+            //Sort languages by locked > level > source > name.
             character.class.languages = character.class.languages
                 .sort(function (a, b) {
                     if (a.name > b.name) {
                         return 1;
                     }
                     if (a.name < b.name) {
+                        return -1;
+                    }
+                    return 0;
+                })
+                .sort(function (a, b) {
+                    if (a.source > b.source) {
+                        return 1;
+                    }
+                    if (a.source < b.source) {
+                        return -1;
+                    }
+                    return 0;
+                })
+                .sort(function (a, b) {
+                    if (a.level > b.level) {
+                        return 1;
+                    }
+                    if (a.level < b.level) {
                         return -1;
                     }
                     return 0;
@@ -494,16 +610,6 @@ export class CharacterService {
                     }
                     return 0;
                 })
-            languages = character.class.languages.filter(language => !language.locked || language.source == ancestry.name).length;
-            if (languages > maxLanguages) {
-                if (!character.class.languages.slice(maxLanguages).some(language => language.locked)) {
-                    character.class.languages.splice(maxLanguages);
-                }
-            } else {
-                while (languages < maxLanguages) {
-                    languages = character.class.languages.push(new LanguageGain());
-                }
-            }
         }
     }
 

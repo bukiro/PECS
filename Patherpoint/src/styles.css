@@ -1561,6 +1561,11 @@ app-gridicon.fancy-button {
 .darkmode app-gridicon:not(.fancy-button),
 .darkmode .itembox-inner .icon-list app-gridicon:not(.fancy-button) {
     background-color: #202020;
+}
+
+.darkmode app-gridicon:not(.fancy-button),
+.darkmode .itembox-inner .icon-list :not(.inactive-button) > app-gridicon:not(.fancy-button) {
+    background-color: #202020;
     color: inherit;
 }
 
