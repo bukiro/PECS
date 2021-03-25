@@ -28,31 +28,38 @@
                             </select>
                         </span>
                     </ng-container>
-                    <input id="{{conditionGain.id+'value'}}" class="invisible" type="checkbox"
-                        [(ngModel)]="conditionGain.showValue">
-                    <label for="{{conditionGain.id+'value'}}" [ngbTooltip]="'Change value'"
-                        *ngIf="conditionGain.value"><i class='bi-gear-fill'></i>&nbsp;</label>
-                    {{(conditionGain.value && !conditionGain.showValue) ? conditionGain.value : ""}}
-                    <ng-container *ngIf="conditionGain.showValue">
-                        <span *ngFor="let oldValue of [conditionGain.value]; trackBy:trackByIndex;">
-                            <span><button
-                                    (click)="change_ConditionValue(conditionGain, oldValue, -1)">-1</button></span>
-                            <select [(ngModel)]="conditionGain.value"
-                                (ngModelChange)="change_ConditionValue(conditionGain, oldValue)">
-                                <option *ngFor="let valueOption of [0,1,2,3,4,5,6,7,8,9,10]; trackBy:trackByIndex;"
-                                    [ngValue]="valueOption">
-                                    {{valueOption}}
-                                </option>
-                            </select>
-                            <span><button (click)="change_ConditionValue(conditionGain, oldValue, 1)">+1</button></span>
-                        </span>
-                    </ng-container>
+                    <span *ngIf="conditionGain.value && conditionGain.valueLockedByParent">
+                        {{conditionGain.value}}
+                    </span>
+                    <span *ngIf="conditionGain.value && !conditionGain.valueLockedByParent">
+                        <input id="{{conditionGain.id+'value'}}" class="invisible" type="checkbox"
+                            [(ngModel)]="conditionGain.showValue">
+                        <label for="{{conditionGain.id+'value'}}" [ngbTooltip]="'Change value'">
+                            <i class='bi-gear-fill'></i>&nbsp;
+                        </label>
+                        {{!conditionGain.showValue ? conditionGain.value : ""}}
+                        <ng-container *ngIf="conditionGain.showValue">
+                            <span *ngFor="let oldValue of [conditionGain.value]; trackBy:trackByIndex;">
+                                <span><button (click)="change_ConditionValue(conditionGain, oldValue, -1)"
+                                        [disabled]="oldValue == 1 && conditionGain.lockedByParent">-1</button></span>
+                                <select [(ngModel)]="conditionGain.value"
+                                    (ngModelChange)="change_ConditionValue(conditionGain, oldValue)">
+                                    <option *ngFor="let valueOption of [0,1,2,3,4,5,6,7,8,9,10]; trackBy:trackByIndex;"
+                                        [ngValue]="valueOption" [disabled]="oldValue == 1 && conditionGain.lockedByParent">
+                                        {{valueOption}}
+                                    </option>
+                                </select>
+                                <span><button
+                                        (click)="change_ConditionValue(conditionGain, oldValue, 1)">+1</button></span>
+                            </span>
+                        </ng-container>
+                    </span>
                 </strong>
             </span>
         </div>
-        <span>
+        <span *ngIf="!conditionGain.lockedByParent"
+            [ngbTooltip]="conditionGain.source.includes('Feat: ') ? 'Conditions gained from feats cannot be removed.' : ''">
             <button (click)="remove_Condition(conditionGain)"
-                [ngbTooltip]="conditionGain.source.includes('Feat: ') ? 'Conditions gained from feats cannot be removed.' : ''"
                 [disabled]="conditionGain.source.includes('Feat: ')" *ngIf="conditionGain.duration != 1">
                 Remove
             </button>

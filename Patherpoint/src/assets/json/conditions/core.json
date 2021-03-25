@@ -5927,6 +5927,8 @@
         "inputRequired": "Every time you reach this stage, take 1d4 poison damage.",
         "gainConditions": [
             {
+                "lockedByParent": true,
+                "valueLockedByParent": true,
                 "name": "Sickened",
                 "value": 1
             }
@@ -5944,6 +5946,8 @@
         "inputRequired": "Every time you reach this stage, take 1d6 poison damage.",
         "gainConditions": [
             {
+                "lockedByParent": true,
+                "valueLockedByParent": true,
                 "name": "Sickened",
                 "value": 2
             }
@@ -5964,6 +5968,8 @@
         "inputRequired": "Every time you reach this stage or fail your saving throw to reduce the stage, take 2d6 poison damage.",
         "gainConditions": [
             {
+                "lockedByParent": true,
+                "valueLockedByParent": true,
                 "name": "Sickened",
                 "value": 3
             }
@@ -10653,6 +10659,8 @@
                 "name": "Fatigued"
             },
             {
+                "lockedByParent": true,
+                "valueLockedByParent": true,
                 "name": "Drained",
                 "value": 2
             }

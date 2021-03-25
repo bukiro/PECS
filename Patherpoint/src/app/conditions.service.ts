@@ -218,6 +218,9 @@ export class ConditionsService {
                 if (!addCondition.heightened) {
                     addCondition.heightened = gain.heightened;
                 }
+                if (addCondition.lockedByParent) {
+                    addCondition.lockedByID = gain.id;
+                }
                 addCondition.source = gain.name;
                 addCondition.apply = true;
                 characterService.add_Condition(creature, addCondition, false, gain);
@@ -484,23 +487,22 @@ export class ConditionsService {
         if (characterService.get_Health(creature).damage == 0) {
             creature.conditions.filter(gain => gain.name == "Wounded").forEach(gain => characterService.remove_Condition(creature, gain, false));
         }
-        //After resting, the Fatigued condition is removed (unless another condition is making you fatigued), and the value of Doomed and Drained is reduced.
-        if (!creature.conditions.find(gain => this.get_Conditions(gain.name)?.[0]?.gainConditions.find(subgain => subgain.name == "Fatigued"))) {
-            creature.conditions.filter(gain => gain.name == "Fatigued").forEach(gain => characterService.remove_Condition(creature, gain), false);
-        }
         //If Verdant Metamorphosis is active, remove the following non-permanent conditions after resting: Drained, Enfeebled, Clumsy, Stupefied and all poisons and diseases of 19th level or lower. 
         if (characterService.effectsService.get_EffectsOnThis(creature, "Verdant Metamorphosis").length) {
-            creature.conditions.filter(gain => gain.duration != -1 && ["Drained", "Enfeebled", "Clumsy", "Stupefied"].includes(gain.name)).forEach(gain => { gain.value = -1 })
-            creature.conditions.filter(gain => gain.duration != -1 && gain.value != -1 && this.get_Conditions(gain.name)?.[0]?.type == "afflictions").forEach(gain => {
+            creature.conditions.filter(gain => gain.duration != -1 && !gain.lockedByParent && ["Drained", "Enfeebled", "Clumsy", "Stupefied"].includes(gain.name)).forEach(gain => { gain.value = -1 })
+            creature.conditions.filter(gain => gain.duration != -1 && !gain.lockedByParent && gain.value != -1 && this.get_Conditions(gain.name)?.[0]?.type == "afflictions").forEach(gain => {
                 if (!characterService.itemsService.get_CleanItems().alchemicalpoisons.some(poison => gain.name.includes(poison.name) && poison.level > 19)) {
                     gain.value = -1;
                 }
             })
         }
-        creature.conditions.filter(gain => gain.name == "Doomed").forEach(gain => { gain.value -= 1 });
-        creature.conditions.filter(gain => gain.name == "Drained").forEach(gain => {
+        //After resting, the Fatigued condition is removed (unless locked by its parent), and the value of Doomed and Drained is reduced (unless locked by its parent).
+        creature.conditions.filter(gain => gain.name == "Fatigued").forEach(gain => characterService.remove_Condition(creature, gain), false);
+        creature.conditions.filter(gain => gain.name == "Doomed" && !gain.valueLockedByParent).forEach(gain => { gain.value -= 1 });
+        creature.conditions.filter(gain => gain.name == "Drained" && !gain.valueLockedByParent).forEach(gain => {
             gain.value -= 1;
             if (
+                //If you have Fast Recovery or have activated the effect of Forge-Day's Rest, reduce the value by 2 instead of 1.
                 (
                     creature.type == "Character" &&
                     (creature as Character).get_FeatsTaken(1, creature.level, "Fast Recovery").length

@@ -114,11 +114,11 @@ The very latest in Assistive Technologies for Dungeon Master (ATDM)
 - [ ] Stretch Goal: Exporting statblock and files for other tools (e.g. Foundry VTT)
 
 Active to-do:
+- 5th level spells
 
 Implement:
 
 Next steps:
-- 5th level spells
 - Implement Icons for Inventory and Spells
 - Gnome feats
 - Hobgoblin feats

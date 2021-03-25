@@ -27,7 +27,7 @@ export class ConditionGain {
     public endsWithConditions: string[] = [];
     //Only activate this condition if this string evaluates to a numeral nonzero value. This is tested at the add_condition stage, so it can be combined with conditionChoiceFilter.
     public activationPrerequisite: string = "";
-    //For conditions within conditions, activate this dependent on the original condition's choice.
+    //For conditions within conditions, activate this condition only if this choice was made on the original condition.
     public conditionChoiceFilter: string = "";
     //Spells choose from multiple conditions those that match their level.
     //For example, if a spell has a ConditionGain with heightenedFilter 1 and one with heightenedFilter 2, and the spell is cast at 2nd level, only the heightenedFilter 2 ConditionGain is used.
@@ -50,6 +50,11 @@ export class ConditionGain {
     public persistent: boolean = false;
     //If the gain is ignorePersistent, it gets removed when its source is deactivated, even when the condition is usually persistent.
     public ignorePersistent: boolean = false;
+    //For conditions gained by conditions, if lockedByParent is set, the parent ID is copied into lockedByID. This condition cannot be removed until the condition with that ID is gone.
+    public lockedByParent: boolean = false;
+    public lockedByID: string = "";
+    //If valueLockedByParent is set, the condition value can't be changed while the parent condition exists.
+    public valueLockedByParent: boolean = false;
     //For spells, designate if the condition is meant for the caster or "" for the normal target creature.
     public targetFilter: string = "";
     //Some conditions have a choice that you can make. That is stored in this value.

@@ -457,20 +457,18 @@ export class CharacterService {
     }
 
     update_LanguageList() {
+        //Ensure that the language list is always as long as ancestry languages + INT + any relevant feats and bonuses.
         //This function is called by the effects service after generating effects, so that new languages aren't thrown out before the effects are generated.
-        //Don't call this function in situations where effects are going to change.
+        //Don't call this function in situations where effects are going to change, but haven't been generated yet - or you may lose languages.
         let character = this.get_Character();
-        //Ensure that the language list is always as long as ancestry languages + INT + any relevant feats.
         if (character.class.name) {
             //Collect everything that gives you free languages, and the level on which it happens. This will allow us to mark languages as available depending on their level.
             let languageSources: { name: string, level: number, amount: number }[] = [];
-            let maxLanguages: number = 0;
 
             //Free languages from your ancestry
             let ancestryLanguages: number = character.class.ancestry.baseLanguages - character.class.ancestry.languages.length;
             if (ancestryLanguages) {
                 languageSources.push({ name: "Ancestry", level: 0, amount: ancestryLanguages });
-                maxLanguages += ancestryLanguages;
             }
 
             //Free languages from your base intelligence
@@ -478,12 +476,11 @@ export class CharacterService {
             let baseInt: number = Math.floor((baseIntelligence - 10) / 2);
             if (baseInt > 0) {
                 languageSources.push({ name: "Intelligence", level: 0, amount: baseInt })
-                maxLanguages += baseInt;
             }
             //Build an array of int per level for comparison between the levels, starting with the base at 0.
             let int: number[] = [baseInt]
 
-            //Collect all feats that grant extra languages, then note if you have any of them, and on which level.
+            //Collect all feats that grant extra free languages, then note if you have any of them, and on which level.
             //Also add more languages if INT has been raised (and is positive).
             let languageFeats: string[] = this.get_FeatsAndFeatures().filter(feat => feat.effects.some(effect => effect.affected == "Max Languages")).map(feat => feat.name);
             character.class.levels.forEach(level => {
@@ -491,6 +488,7 @@ export class CharacterService {
                     //The amount will be added later by effects.
                     languageSources.push({ name: taken.name, level: level.number, amount: 0 })
                 })
+                //Compare INT on this level with INT on the previous level. Don't do this on Level 0, obviously.
                 if (level.number > 0) {
                     let levelIntelligence: number = this.get_Abilities("Intelligence")[0]?.baseValue(character, this, level.number)?.result;
                     int.push(Math.floor((levelIntelligence - 10) / 2));
@@ -498,12 +496,11 @@ export class CharacterService {
                     if (diff > 0 && int[level.number] > 0) {
                         languageSources.push({ name: "Intelligence", level: level.number, amount: Math.min(diff, int[level.number]) })
                     }
-                    maxLanguages += Math.min(diff, int[level.number]);
                 }
             })
 
             //Never apply absolute effects or negative effects to Max Languages. This should not happen in the game,
-            // and it could delete your prepared languages.
+            // and it could delete your chosen languages.
             //Apply the relative effects by finding a language source fitting the effect and changing its amount accordingly.
             // Only change sources that have no amount yet.
             // If a source cannot be found, the effect is not from a feat and should be treated as temporary (level -2).
@@ -515,7 +512,6 @@ export class CharacterService {
                     } else {
                         languageSources.push({ name: effect.source, level: -2, amount: parseInt(effect.value) })
                     }
-                    maxLanguages += parseInt(effect.value);
                 }
             })
 
@@ -524,7 +520,6 @@ export class CharacterService {
             let diff = currentInt - int[character.level];
             if (diff > 0 && currentInt > 0) {
                 languageSources.push({ name: "Intelligence", level: -2, amount: Math.min(diff, currentInt) })
-                maxLanguages += Math.min(diff, currentInt);
             }
 
             //Remove all free languages that have not been filled.
@@ -1415,17 +1410,22 @@ export class CharacterService {
             }
         }
         let originalCondition = this.get_Conditions(conditionGain.name)[0];
-        if (oldConditionGain) {
+        if (oldConditionGain && !oldConditionGain.lockedByParent) {
+            //If this condition is locked by its parent, it can't be removed.
             if (oldConditionGain.nextStage || oldConditionGain.duration == 1) {
                 this.set_ToChange(creature.type, "time");
                 this.set_ToChange(creature.type, "health");
             }
+            //Remove the parent lock for all conditions locked by this, so that they can be removed in the next step or later (if persistent).
+            this.remove_LockedByParent(creature, oldConditionGain.id);
             originalCondition.gainConditions.filter(extraCondition => !extraCondition.conditionChoiceFilter || extraCondition.conditionChoiceFilter == oldConditionGain.choice).forEach(extraCondition => {
                 let addCondition = Object.assign(new ConditionGain, JSON.parse(JSON.stringify(extraCondition)));
                 addCondition.source = oldConditionGain.name;
+                //Remove the lockedByParent flag for all conditions locked by this.
                 if (!(keepPersistent && addCondition.persistent)) {
                     this.remove_Condition(creature, addCondition, false, increaseWounded, keepPersistent);
                 } else if (addCondition.persistent) {
+                    //If this condition adds persistent conditions, don't remove them, but remove the persistent flag as its parent is gone.
                     this.remove_Persistent(creature, addCondition);
                 }
             })
@@ -1439,6 +1439,7 @@ export class CharacterService {
     }
 
     remove_Persistent(creature: Creature, conditionGain: ConditionGain) {
+        //This function removes the persistent attribute from a condition gain, allowing it to be removed normally.
         //Find the correct condition to remove the persistent attribute:
         //- Find all persistent condition gains with similar name, value and source, then if there are more than one of those:
         //-- Try finding one that has the exact same attributes.
@@ -1458,6 +1459,15 @@ export class CharacterService {
         if (oldConditionGain) {
             oldConditionGain.persistent = false;
         }
+    }
+
+    remove_LockedByParent(creature: Creature, id: string) {
+        //This function removes the lockedByParent and lockedByID attributes from all condition gains locked by the given ID.
+        creature.conditions.filter(gain => gain.lockedByID == id).forEach(gain => {
+            gain.lockedByParent = false;
+            gain.lockedByID = "";
+            gain.valueLockedByParent = false;
+        });
     }
 
     change_ConditionStage(creature: Creature, gain: ConditionGain, condition: Condition, change: number) {
