@@ -151,7 +151,7 @@ export class ConditionsService {
         }
     }
 
-    process_Condition(creature: Creature, characterService: CharacterService, effectsService: EffectsService, itemsService: ItemsService, gain: ConditionGain, condition: Condition, taken: boolean, increaseWounded: boolean = true) {
+    process_Condition(creature: Creature, characterService: CharacterService, effectsService: EffectsService, itemsService: ItemsService, gain: ConditionGain, condition: Condition, taken: boolean, increaseWounded: boolean = true, ignoreEndsWithConditions: boolean = false) {
 
         //Prepare components for refresh
         if (condition.gainActivities.length) {
@@ -228,7 +228,7 @@ export class ConditionsService {
         }
 
         //If this ends, remove conditions that have this listed in endsWithConditions
-        if (!taken) {
+        if (!taken && !ignoreEndsWithConditions) {
             let conditionsToRemove: ConditionGain[] = characterService.get_AppliedConditions(creature, "", "", true)
                 .filter(gain => gain.endsWithConditions.includes(condition.name))
                 .map(gain => Object.assign(new ConditionGain, JSON.parse(JSON.stringify(gain))));

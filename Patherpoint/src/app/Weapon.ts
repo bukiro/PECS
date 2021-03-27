@@ -59,6 +59,8 @@ export class Weapon extends Equipment {
     public battleforged: boolean = false;
     //Dexterity-based melee attacks force you to use dexterity for your attack modifier.
     public dexterityBased: boolean = false;
+    //If useHighestAttackProficiency is true, the proficiency level will be copied from your highest unarmed or weapon proficiency.
+    public useHighestAttackProficiency: boolean = false;
     get_RuneSource(creature: Creature, range: string) {
         //Under certain circumstances, other items' runes are applied when calculating attack bonus or damage.
         //[0] is the item whose fundamental runes will count, [1] is the item whose property runes will count, and [2] is the item that causes this change.
@@ -201,6 +203,11 @@ export class Weapon extends Equipment {
         //There are a lot of ways to be trained with a weapon.
         //To determine the skill level, we have to find skills for the item's proficiency, its name, its weapon base and any of its traits.
         let levels: number[] = [];
+        //If useHighestAttackProficiency is true, the proficiency level will be copied from your highest unarmed or weapon proficiency.
+        if (this.useHighestAttackProficiency) {
+            let highestProficiencySkill = new Skill("", "Highest Attack Proficiency", "Specific Weapon Proficiency");
+            levels.push((characterService.get_Skills(creature, this.name)[0] || highestProficiencySkill).level(creature, characterService, charLevel) || 0);
+        }
         //Weapon name, e.g. Demon Sword.
         let nameSkill: Skill = new Skill("", this.name, "Specific Weapon Proficiency");
         levels.push((characterService.get_Skills(creature, this.name)[0] || nameSkill).level(creature, characterService, charLevel) || 0);

@@ -1390,7 +1390,7 @@ export class CharacterService {
         }
     }
 
-    remove_Condition(creature: Creature, conditionGain: ConditionGain, reload: boolean = true, increaseWounded: boolean = true, keepPersistent: boolean = true) {
+    remove_Condition(creature: Creature, conditionGain: ConditionGain, reload: boolean = true, increaseWounded: boolean = true, keepPersistent: boolean = true, ignoreLockedByParent: boolean = false, ignoreEndsWithConditions: boolean = false) {
         //Find the correct condition gain to remove. This can be the exact same as the conditionGain parameter, but if it isn't, find the most similar one:
         //- Find all condition gains with similar name, value and source, then if there are more than one of those:
         //-- Try finding one that has the exact same attributes.
@@ -1410,7 +1410,7 @@ export class CharacterService {
             }
         }
         let originalCondition = this.get_Conditions(conditionGain.name)[0];
-        if (oldConditionGain && !oldConditionGain.lockedByParent) {
+        if (oldConditionGain && (ignoreLockedByParent || !oldConditionGain.lockedByParent)) {
             //If this condition is locked by its parent, it can't be removed.
             if (oldConditionGain.nextStage || oldConditionGain.duration == 1) {
                 this.set_ToChange(creature.type, "time");
@@ -1423,14 +1423,14 @@ export class CharacterService {
                 addCondition.source = oldConditionGain.name;
                 //Remove the lockedByParent flag for all conditions locked by this.
                 if (!(keepPersistent && addCondition.persistent)) {
-                    this.remove_Condition(creature, addCondition, false, increaseWounded, keepPersistent);
+                    this.remove_Condition(creature, addCondition, false, increaseWounded, keepPersistent, ignoreLockedByParent, ignoreEndsWithConditions);
                 } else if (addCondition.persistent) {
                     //If this condition adds persistent conditions, don't remove them, but remove the persistent flag as its parent is gone.
                     this.remove_Persistent(creature, addCondition);
                 }
             })
             creature.conditions.splice(creature.conditions.indexOf(oldConditionGain), 1)
-            this.conditionsService.process_Condition(creature, this, this.effectsService, this.itemsService, oldConditionGain, originalCondition, false, increaseWounded);
+            this.conditionsService.process_Condition(creature, this, this.effectsService, this.itemsService, oldConditionGain, originalCondition, false, increaseWounded, ignoreEndsWithConditions);
             this.set_ToChange(creature.type, "effects");
             if (reload) {
                 this.process_ToChange();

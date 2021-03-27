@@ -45,7 +45,8 @@
                                 <select [(ngModel)]="conditionGain.value"
                                     (ngModelChange)="change_ConditionValue(conditionGain, oldValue)">
                                     <option *ngFor="let valueOption of [0,1,2,3,4,5,6,7,8,9,10]; trackBy:trackByIndex;"
-                                        [ngValue]="valueOption" [disabled]="oldValue == 1 && conditionGain.lockedByParent">
+                                        [ngValue]="valueOption"
+                                        [disabled]="oldValue == 1 && conditionGain.lockedByParent">
                                         {{valueOption}}
                                     </option>
                                 </select>
@@ -59,8 +60,8 @@
         </div>
         <span *ngIf="!conditionGain.lockedByParent"
             [ngbTooltip]="conditionGain.source.includes('Feat: ') ? 'Conditions gained from feats cannot be removed.' : ''">
-            <button (click)="remove_Condition(conditionGain)"
-                [disabled]="conditionGain.source.includes('Feat: ')" *ngIf="conditionGain.duration != 1">
+            <button (click)="remove_Condition(conditionGain)" [disabled]="conditionGain.source.includes('Feat: ')"
+                *ngIf="conditionGain.duration != 1">
                 Remove
             </button>
             <button (click)="remove_Condition(conditionGain)"
@@ -113,9 +114,10 @@
             </div>
         </div>
     </div>
-    <div class="newrow left-aligned lower" *ngIf="conditionGain.persistent"
-        [ngbTooltip]="'This condition will remain if its source is removed.'">
-        Persistent
+    <div class="newrow left-aligned lower" *ngIf="conditionGain.persistent">
+        <span [ngbTooltip]="'This condition will remain if its source is removed.'">
+            Persistent
+        </span>
     </div>
     <div class="newrow left-aligned lower" *ngIf="conditionGain.radius">
         <input id="{{conditionGain.id+'radius'}}" class="invisible" type="checkbox"

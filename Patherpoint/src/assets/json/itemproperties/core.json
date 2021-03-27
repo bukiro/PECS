@@ -885,6 +885,14 @@
         "type": "checkbox"
     },
     {
+        "key": "useHighestAttackProficiency",
+        "priority": "10",
+        "group": "8-Weapons",
+        "name": "Use your highest attack proficiency",
+        "desc": "If this box is checked, the weapon will always use your highest weapon or unarmed attack proficiency when calculating its attack modifier, regardless of its own proficiency.",
+        "type": "checkbox"
+    },
+    {
         "key": "actions",
         "priority": "00",
         "group": "9-Consumables",

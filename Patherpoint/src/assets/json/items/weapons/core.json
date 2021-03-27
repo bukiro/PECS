@@ -5320,5 +5320,47 @@
       "group": "Brawling",
       "melee": 5,
       "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "9b91f45c-37c6-4cb1-8b17-aabbacd4031e",
+      "name": "Moon Frenzy Fangs",
+      "traits": [
+         "Unarmed"
+      ],
+      "displayName": "Fangs",
+      "weaponBase": "Moon Frenzy",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 2,
+      "dicesize": 8,
+      "dmgType": "P",
+      "criticalHint": "On a critical hit, the creature struck takes 1d4 persistent bleed damage.",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks",
+      "useHighestAttackProficiency": true
+   },
+   {
+      "hide": true,
+      "id": "df25510f-01c5-4d38-befa-2c79afeb06b2",
+      "name": "Moon Frenzy Claws",
+      "traits": [
+         "Agile",
+         "Finesse",
+         "Unarmed"
+      ],
+      "displayName": "Claws",
+      "weaponBase": "Moon Frenzy",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 2,
+      "dicesize": 6,
+      "dmgType": "S",
+      "criticalHint": "On a critical hit, the creature struck takes 1d4 persistent bleed damage.",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks",
+      "useHighestAttackProficiency": true
    }
 ]

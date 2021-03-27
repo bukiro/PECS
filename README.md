@@ -107,6 +107,7 @@ The very latest in Assistive Technologies for Dungeon Master (ATDM)
 - [ ] - Level 9 Spells
 - [ ] - Level 10 Spells
 - [x] Add custom conditions with effects
+- [ ] Add License notices to comply with Pathfinder Community Use Policy and Open Game License
 - [ ] Stretch Goal: Icons
 - [ ] Stretch Goal: Initiative tracker, battles, being a battle member, GM-Player-Communication.......
 - [ ] Stretch Goal: Include optional systems like Stamina & Resolve
@@ -115,10 +116,13 @@ The very latest in Assistive Technologies for Dungeon Master (ATDM)
 
 Active to-do:
 - 5th level spells
+- Show a note if a condition has no effects (and its hints have no effects)
+- A lot of older spells don't have a caster condition. Create these caster conditions for all spells that target allies, and make it so that when the target is the caster, they only receive the target condition. First review all caster conditions and ensure that the caster condition is never needed if you have the target condition.
 
 Implement:
 
 Next steps:
+- Add License page (see https://2e.aonprd.com/Licenses.aspx)
 - Implement Icons for Inventory and Spells
 - Gnome feats
 - Hobgoblin feats

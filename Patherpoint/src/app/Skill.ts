@@ -178,6 +178,10 @@ export class Skill {
                         (copy.minLevel ? skillLevel >= copy.minLevel : true)
                     ))
                 });
+            //If the skill name is "Highest Attack Proficiency", add an extra proficiency copy instruction that should return the highest weapon or unarmed procifiency that you have.
+            if (this.name == "Highest Attack Proficiency") {
+                proficiencyCopies.push(Object.assign(new ProficiencyCopy(), {name: "Highest Attack Proficiency", type: "Weapon Proficiency", featuresOnly: false}));
+            }
             //For each proficiency copy instruction, collect the desired skill increases, then keep the highest.
             let copyLevels: number[] = [];
             proficiencyCopies.forEach(copy => {

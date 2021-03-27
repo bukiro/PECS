@@ -253,6 +253,7 @@ export class EffectsService {
         let Familiar: Familiar = characterService.get_Familiar();
         let Level: number = Character.level;
         //Some values specific to conditions for effect values
+        let Duration: number = object.duration;
         let Value: number = object.value;
         let Heightened: number = object.heightened;
         let Choice: string = object.choice;
@@ -262,6 +263,9 @@ export class EffectsService {
         //Conditions pass their own gain as parentConditionGain for effects.
         //Conditions that are caused by conditions also pass the original conditionGain for the evaluation of their activationPrerequisite.
         if (parentConditionGain) {
+            if (!Duration) {
+                Duration = parentConditionGain.duration;
+            }
             if (!Value) {
                 Value = parentConditionGain.value;
             }
@@ -543,8 +547,9 @@ export class EffectsService {
         appliedConditions.forEach(gain => {
             let originalCondition = characterService.get_Conditions(gain.name)[0];
             if (originalCondition?.effects?.length) {
-                //Fit the condition effects into the box defined by get_SimpleEffects()
-                let effectsObject = { name: gain.name, value: gain.value, choice: gain.choice, effects: originalCondition.effects, heightened: gain.heightened }
+                //Create an object that contains the condition gain data and the condition effects.
+                let effectsObject: any = JSON.parse(JSON.stringify(gain));
+                effectsObject.effects = JSON.parse(JSON.stringify(originalCondition.effects));
                 simpleEffects = simpleEffects.concat(this.get_SimpleEffects(creature, characterService, effectsObject, "", gain));
             }
             originalCondition?.hints?.filter(hint => (hint.active || hint.active2 || hint.active3 || hint.active4 || hint.active5) && hint.effects?.length).forEach(hint => {
