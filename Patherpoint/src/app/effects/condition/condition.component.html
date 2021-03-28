@@ -116,7 +116,22 @@
     </div>
     <div class="newrow left-aligned lower" *ngIf="conditionGain.persistent">
         <span [ngbTooltip]="'This condition will remain if its source is removed.'">
-            Persistent
+            <strong>Persistent</strong>
+        </span>
+    </div>
+    <div class="newrow left-aligned lower" *ngIf="conditionGain.lockedByParent">
+        <span [ngbTooltip]="'This condition can\'t be removed while its parent condition is active.'">
+            <strong>Locked by parent condition</strong>
+        </span>
+    </div>
+    <div class="newrow left-aligned lower" *ngIf="conditionGain.valueLockedByParent">
+        <span [ngbTooltip]="'You can\'t change the value of this condition while its parent condition is active.'">
+            <strong>Value locked by parent condition</strong>
+        </span>
+    </div>
+    <div class="newrow left-aligned lower" *ngIf="get_IsInformationalCondition()">
+        <span [ngbTooltip]="'This condition has no numeral effects and is only displayed for your information.'">
+            <strong>Informational</strong>
         </span>
     </div>
     <div class="newrow left-aligned lower" *ngIf="conditionGain.radius">

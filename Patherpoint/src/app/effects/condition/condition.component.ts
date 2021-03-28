@@ -76,6 +76,10 @@ export class ConditionComponent implements OnInit {
         return this.timeService.get_Duration(duration);
     }
 
+    get_IsInformationalCondition() {
+        return !this.condition.effects?.length && !this.condition.hints.some(hint => hint.effects?.length);
+    }
+
     change_ConditionDuration(gain: ConditionGain, condition: Condition, turns: number) {
         gain.duration += turns;
         gain.maxDuration = gain.duration;

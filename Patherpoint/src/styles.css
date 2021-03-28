@@ -1414,6 +1414,22 @@ ngb-popover-window.list-item.sublist {
     color: inherit;
 }
 
+.bs-popover-auto[x-placement^=top], .bs-popover-top {
+    margin-bottom: 0;
+}
+
+.bs-popover-auto[x-placement^=bottom], .bs-popover-bottom {
+    margin-top: 0;
+}
+
+.bs-popover-auto[x-placement^=left], .bs-popover-left {
+    margin-right: 0;
+}
+
+.bs-popover-auto[x-placement^=right], .bs-popover-right {
+    margin-left: 0;
+}
+
 /* Bootstrap modal overrides */
 
 .modal-content {

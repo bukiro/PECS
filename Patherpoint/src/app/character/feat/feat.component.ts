@@ -5,6 +5,7 @@ import { FeatChoice } from 'src/app/FeatChoice';
 import { SpellsService } from 'src/app/spells.service';
 import { ActivitiesService } from 'src/app/activities.service';
 import { NgbPopoverConfig } from '@ng-bootstrap/ng-bootstrap';
+import { TraitsService } from 'src/app/traits.service';
 
 @Component({
     selector: 'app-feat',
@@ -26,6 +27,7 @@ export class FeatComponent implements OnInit {
         public characterService: CharacterService,
         private spellsService: SpellsService,
         private activitiesService: ActivitiesService,
+        private traitsService: TraitsService,
         popoverConfig: NgbPopoverConfig
     ) {
         popoverConfig.autoClose = "outside";
@@ -39,6 +41,10 @@ export class FeatComponent implements OnInit {
 
     trackByIndex(index: number, obj: any): any {
         return index;
+    }
+    
+    get_Traits(traitName: string = "") {
+        return this.traitsService.get_Traits(traitName);
     }
 
     create_IgnoreRequirementList(feat: Feat, choice: FeatChoice) {

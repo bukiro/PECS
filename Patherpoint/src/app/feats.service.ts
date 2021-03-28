@@ -363,15 +363,13 @@ export class FeatsService {
                             character.gain_Activity(characterService, Object.assign(new ActivityGain(), { name: gainActivity, source: feat.name }), level.number);
                         }
                     });
-
                 } else {
                     feat.gainActivities.forEach((gainActivity: string) => {
-                        let oldGain = character.class.activities.filter(gain => gain.name == gainActivity && gain.source == feat.name);
-                        if (oldGain.length) {
-                            character.lose_Activity(characterService, characterService.conditionsService, characterService.itemsService, characterService.spellsService, characterService.activitiesService, oldGain[0]);
+                        let oldGain = character.class.activities.find(gain => gain.name == gainActivity && gain.source == feat.name);
+                        if (oldGain) {
+                            character.lose_Activity(characterService, characterService.conditionsService, characterService.itemsService, characterService.spellsService, characterService.activitiesService, oldGain);
                         }
                     });
-
                 }
             }
 

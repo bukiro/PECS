@@ -3,6 +3,7 @@ import { ConditionGain } from '../ConditionGain';
 import { Feat } from '../Feat';
 import { NgbPopoverConfig, NgbTooltipConfig } from '@ng-bootstrap/ng-bootstrap';
 import { Effect } from '../Effect';
+import { Condition } from '../Condition';
 
 @Component({
     selector: 'app-gridIcon',
@@ -28,6 +29,8 @@ export class GridIconComponent implements OnInit {
     shortDesc: string = "";
     @Input()
     condition: ConditionGain = null;
+    @Input()
+    originalCondition: Condition = null;
     @Input()
     feat: Feat = null;
     @Input()
@@ -77,50 +80,47 @@ export class GridIconComponent implements OnInit {
     }
 
     get_IsOneWordTitle() {
+        let title: string = this.title;
         if (this.feat) {
             if (this.feat.subType) {
-                this.title = this.title || this.feat.superType;
+                title = this.title || this.feat.superType;
             } else {
-                this.title = this.title || this.feat.name;
+                title = this.title || this.feat.name;
             }
         } else if (this.condition) {
-            this.title = this.title || this.condition.name;
+            title = this.title || this.condition.name;
         } else if (this.effect) {
-            this.title = this.title || this.effect.target;
+            title = this.title || this.effect.target;
         }
-        return !this.title.includes(" ");
+        return !title.includes(" ");
     }
 
     get_IconTitle() {
+        let iconTitle: string = this.title;
         if (this.feat) {
             if (this.feat.subType) {
-                this.title = this.title || this.feat.superType;
+                iconTitle = this.title || this.feat.superType;
             } else {
-                this.title = this.title || this.feat.name;
+                iconTitle = this.title || this.feat.name;
             }
         } else if (this.condition) {
-            this.title = this.title || this.condition.name;
+            iconTitle = this.title || this.condition.name;
         } else if (this.effect) {
-            this.title = this.title || this.effect.target;
+            iconTitle = this.title || this.effect.target;
         }
-        let iconTitle: string = "";
-        if (this.title) {
-            if (!this.title.includes(" ")) {
+        if (iconTitle) {
+            if (!iconTitle.includes(" ")) {
                 //If the title does not contain spaces, and is not just a number, keep only letters and return the first 3 letters.
                 //Return numbers unchanged
-                if (isNaN(parseInt(this.title))) {
-                    iconTitle = this.title.replace(/[^A-Z]/gi, '').substr(0, 3);
-                } else {
-                    iconTitle = this.title;
+                if (isNaN(parseInt(iconTitle))) {
+                    iconTitle = iconTitle.replace(/[^A-Z]/gi, '').substr(0, 3);
                 }
-            } else if (this.title.match(".*[A-Z].*")) {
+            } else if (iconTitle.match(".*[A-Z].*")) {
                 //If the title has spaces and contains capital letters, keep only capital letters and return the first 4.
-                iconTitle = this.title.replace(/[^A-Z ]/g, '').split(" ").map(part => part.substr(0, 1)).join("").substr(0, 4);
-            } else if (this.title.match(".*[A-Za-z].*")) {
+                iconTitle = iconTitle.replace(/[^A-Z ]/g, '').split(" ").map(part => part.substr(0, 1)).join("").substr(0, 4);
+            } else if (iconTitle.match(".*[A-Za-z].*")) {
                 //If the title has spaces and contains no capital letters, keep only the first letters of every word and return the first 4.
-                iconTitle = this.title.replace(/[^A-Z ]/gi, '').split(" ").map(part => part.substr(0, 1)).join("").toUpperCase().substr(0, 4);
-            } else {
-                iconTitle = this.title;
+                iconTitle = iconTitle.replace(/[^A-Z ]/gi, '').split(" ").map(part => part.substr(0, 1)).join("").toUpperCase().substr(0, 4);
             }
         }
         if (iconTitle.length >= 4) {
@@ -131,19 +131,19 @@ export class GridIconComponent implements OnInit {
     }
 
     get_IconDetail() {
+        let iconDetail: string = this.detail;
         if (this.feat) {
             if (this.feat.subType) {
-                this.detail = this.detail || this.feat.subType;
+                iconDetail = this.detail || this.feat.subType;
             }
         } else if (this.condition) {
-            this.detail = this.detail || this.condition.choice;
+            iconDetail = this.detail || this.condition.choice;
         }
-        let iconDetail: string = "";
-        if (this.detail) {
-            if (this.detail.match(".*[A-Z].*")) {
-                iconDetail = this.detail.replace(/[^A-Z ]/g, '').split(" ").map(part => part.substr(0, 1)).join("").substr(0, 2);
+        if (iconDetail) {
+            if (iconDetail.match(".*[A-Z].*")) {
+                iconDetail = iconDetail.replace(/[^A-Z ]/g, '').split(" ").map(part => part.substr(0, 1)).join("").substr(0, 2);
             } else {
-                iconDetail = this.detail.replace(/[^a-z ]/gi, '').split(" ").map(part => part.substr(0, 1)).join("").toUpperCase().substr(0, 2);
+                iconDetail = iconDetail.replace(/[^a-z ]/gi, '').split(" ").map(part => part.substr(0, 1)).join("").toUpperCase().substr(0, 2);
             }
         }
         return iconDetail;
@@ -163,8 +163,13 @@ export class GridIconComponent implements OnInit {
                 superTitle = this.effect.value;
             }
         } else if (this.condition?.duration == 1) {
-            //return "&#9888;";
-            return "<i class='bi-exclamation-diamond-fill'></i>"
+            //If a condition has a duration of 1, it needs to be handled immediately, and we show an exclamation diamond to point that out.
+            return "<i class='bi-exclamation-diamond'></i>"
+        } else if (this.originalCondition) {
+            //If a condition has no effects, show an info circle to signify that it is only informational.
+            if (!this.originalCondition.effects?.length && !this.originalCondition.hints?.some(hint => hint.effects?.length)) {
+                return "<i class='bi-info-circle'></i>"
+            }
         }
         if (superTitle.length <= 2) {
             return superTitle;

@@ -1,6 +1,7 @@
 <ng-container *ngIf="feat">
     <div class="newrow left-aligned">
-        <cite class="trait" *ngFor="let trait of feat.traits; trackBy:trackByIndex;">
+        <cite class="trait" *ngFor="let trait of feat.traits; trackBy:trackByIndex;"
+            [ngbPopover]="get_Traits(trait)[0].desc">
             {{trait}}
         </cite>
     </div>

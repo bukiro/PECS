@@ -1,6 +1,7 @@
 <div id="{{creature}}-effects-height" class="attributeBox" [ngClass]="{'snug':!fullDisplay}">
     <ng-template #conditionTemplate let-conditionGain="conditionGain">
-        <div style="display:flex" [ngClass]="{'attention':(conditionGain.duration == 1) || (conditionGain.nextStage == -1 && (condition.previousCondition || condition.nextCondition))}"
+        <div style="display:flex"
+            [ngClass]="{'attention':(conditionGain.duration == 1) || (conditionGain.nextStage == -1 && (condition.previousCondition || condition.nextCondition))}"
             *ngFor="let condition of [get_Conditions(conditionGain.name)[0]]; trackBy:trackByIndex;">
             <ng-template #conditionContent>
                 <app-condition class="newrow" (showChoiceMessage)="receive_ItemMessage($event)" [creature]="creature"
@@ -8,11 +9,12 @@
                     [fullDisplay]="fullDisplay"></app-condition>
             </ng-template>
             <app-gridIcon class="condition" [ngClass]="{'penalty':!condition.buff, 'bonus':condition.buff}"
-                placement="right bottom top" [condition]="conditionGain" [ngbPopover]="conditionContent"
-                ngbTooltip="{{conditionGain.name}}" container="body" *ngIf="!fullDisplay">
+                placement="right bottom top" [condition]="conditionGain" [originalCondition]="condition"
+                [ngbPopover]="conditionContent" ngbTooltip="{{conditionGain.name}}" container="body"
+                *ngIf="!fullDisplay">
             </app-gridIcon>
             <div class="list-item gridicon-fullsizebox" *ngIf="fullDisplay">
-                <app-gridIcon class="condition" [condition]="conditionGain"
+                <app-gridIcon class="condition" [condition]="conditionGain" [originalCondition]="condition"
                     [ngClass]="{'penalty':!condition.buff, 'bonus':condition.buff}">
                 </app-gridIcon>
                 <ng-container *ngTemplateOutlet="conditionContent"></ng-container>

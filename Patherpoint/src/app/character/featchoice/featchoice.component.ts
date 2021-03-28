@@ -467,9 +467,9 @@ export class FeatchoiceComponent implements OnInit {
                         reasons.push({ reason: "Taken on higher levels", explain: "This feat has been selected all " + feat.limited + " times, including on higher levels." });
                     }
                 } else {
-                    //Has it already been taken up to this level, more often than it was taken by this FeatChoice?
+                    //Has it already been taken up to this level, excluding this FeatChoice?
                     //  Don't count temporary choices (showOnSheet == true) unless this is also temporary.
-                    if (haveUpToNow > takenByThis) {
+                    if (haveUpToNow) {
                         reasons.push({ reason: "Already taken", explain: "This feat cannot be taken more than once." });
                     }
                     //Has it been taken on a higher level (that is, not up to now, but up to Level 20)?
