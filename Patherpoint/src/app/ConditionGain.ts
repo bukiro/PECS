@@ -12,8 +12,7 @@ export class ConditionGain {
     public duration: number = -1;
     public maxDuration: number = -1;
     //nextStage in turns * 10
-    public nextStage: number = -1;
-    public onset: boolean = false;
+    public nextStage: number = 0;
     public name: string = "";
     public showChoices: boolean = false;
     public showNotes: boolean = false;
@@ -22,6 +21,7 @@ export class ConditionGain {
     public showRadius: boolean = false;
     public notes: string = "";
     public source: string = "";
+    public parentID: string = "";
     public value: number = 0;
     //Remove this condition if any of the endsWithConditions is removed.
     public endsWithConditions: string[] = [];
@@ -50,9 +50,8 @@ export class ConditionGain {
     public persistent: boolean = false;
     //If the gain is ignorePersistent, it gets removed when its source is deactivated, even when the condition is usually persistent.
     public ignorePersistent: boolean = false;
-    //For conditions gained by conditions, if lockedByParent is set, the parent ID is copied into lockedByID. This condition cannot be removed until the condition with that ID is gone.
+    //For conditions gained by conditions, if lockedByParent is set, this condition cannot be removed until the condition with the source ID is gone.
     public lockedByParent: boolean = false;
-    public lockedByID: string = "";
     //If valueLockedByParent is set, the condition value can't be changed while the parent condition exists.
     public valueLockedByParent: boolean = false;
     //For spells, designate if the condition is meant for the caster or "" for the normal target creature.

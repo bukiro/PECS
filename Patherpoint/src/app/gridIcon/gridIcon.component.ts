@@ -35,7 +35,7 @@ export class GridIconComponent implements OnInit {
     feat: Feat = null;
     @Input()
     effect: Effect = null;
-    
+
     constructor(
         popoverConfig: NgbPopoverConfig,
         tooltipConfig: NgbTooltipConfig
@@ -132,12 +132,17 @@ export class GridIconComponent implements OnInit {
 
     get_IconDetail() {
         let iconDetail: string = this.detail;
-        if (this.feat) {
+        if (this.feat && !iconDetail) {
             if (this.feat.subType) {
-                iconDetail = this.detail || this.feat.subType;
+                iconDetail = this.feat.subType;
             }
-        } else if (this.condition) {
-            iconDetail = this.detail || this.condition.choice;
+        } else if (this.condition && !iconDetail) {
+            if (this.condition.choice.substr(0,6) == "Stage ") {
+                iconDetail = this.condition.choice.replace("tage ", "");
+                return iconDetail;
+            } else {
+                iconDetail = this.condition.choice;
+            }
         }
         if (iconDetail) {
             if (iconDetail.match(".*[A-Z].*")) {
@@ -152,7 +157,7 @@ export class GridIconComponent implements OnInit {
     get_IconSuperTitle() {
         let superTitle: string = this.superTitle;
         //For icon- names, return a <i> with that icon.
-        if (this.superTitle.substr(0,5) == "icon-") {
+        if (this.superTitle.substr(0, 5) == "icon-") {
             return "<i class='" + superTitle.substr(5) + "'></i>"
         }
         //For effect values, show the value as SuperTitle if up to 2 characters long. Longer values will be shown as Value instead.
@@ -162,19 +167,20 @@ export class GridIconComponent implements OnInit {
             } else if (this.effect.value) {
                 superTitle = this.effect.value;
             }
-        } else if (this.condition?.duration == 1) {
+        } else if (this.condition?.duration == 1 || this.condition?.nextStage == -1) {
             //If a condition has a duration of 1, it needs to be handled immediately, and we show an exclamation diamond to point that out.
-            return "<i class='bi-exclamation-diamond'></i>"
-        } else if (this.originalCondition) {
+            return "<i class='bi-exclamation-diamond'></i>";
+        } else if (this.originalCondition && !this.originalCondition.effects?.length && !this.originalCondition.hints?.some(hint => hint.effects?.length)) {
             //If a condition has no effects, show an info circle to signify that it is only informational.
-            if (!this.originalCondition.effects?.length && !this.originalCondition.hints?.some(hint => hint.effects?.length)) {
-                return "<i class='bi-info-circle'></i>"
-            }
+            return "<i class='bi-info-circle'></i>";
+        } else if (this.condition?.lockedByParent || this.condition?.valueLockedByParent) {
+            //If a condition or its value is locked by its parent, show a lock.
+            return "<i class='bi-lock'></i>";
         }
         if (superTitle.length <= 2) {
             return superTitle;
         } else {
-            return ""
+            return "";
         }
     }
 

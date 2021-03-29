@@ -167,9 +167,7 @@ export class ConditionsService {
 
         //Copy the condition's ActivityGains to the ConditionGain so we can track its duration, cooldown etc.
         gain.gainActivities = condition.gainActivities.map(activityGain => Object.assign(new ActivityGain(), JSON.parse(JSON.stringify(activityGain))));
-
-        gain.onset = condition.onset;
-
+        
         if (!gain.endsWithConditions.length) {
             gain.endsWithConditions = condition.endsWithConditions;
         }
@@ -222,6 +220,7 @@ export class ConditionsService {
                     addCondition.lockedByID = gain.id;
                 }
                 addCondition.source = gain.name;
+                addCondition.parentID = gain.id;
                 addCondition.apply = true;
                 characterService.add_Condition(creature, addCondition, false, gain);
             })
@@ -246,9 +245,13 @@ export class ConditionsService {
             })
         }
 
-        //Conditions that start when this ends. This happens if there is a nextCondition and no nextStage value.
-        if (!taken && condition.nextCondition && !gain.nextStage) {
-            characterService.change_ConditionStage(creature, gain, condition, 1);
+        //Conditions that start when this ends. This happens if there is a nextCondition value.
+        if (!taken && condition.nextCondition) {
+            let newGain: ConditionGain = new ConditionGain();
+            newGain.source = gain.source;
+            newGain.name = condition.nextCondition.name;
+            newGain.duration = condition.nextCondition.duration || -1;
+            characterService.add_Condition(creature, newGain, false);
         }
 
         //Gain Items
@@ -433,7 +436,7 @@ export class ConditionsService {
                     return Math.min(...compareA) - Math.min(...compareB)
                 }
             });
-            if (activeConditions.some(gain => (gain.duration > 0 && !gain.onset) || gain.nextStage > 0) || activeConditions.some(gain => gain.decreasingValue)) {
+            if (activeConditions.some(gain => (gain.duration > 0 && gain.choice != "Onset") || gain.nextStage > 0) || activeConditions.some(gain => gain.decreasingValue)) {
                 //Get the first condition that will run out
                 let first: number;
                 //If any condition has a decreasing Value per round, step 5 (to the end of the Turn) if it is your Turn or 10 (1 turn) at most
@@ -445,17 +448,17 @@ export class ConditionsService {
                         first = 10;
                     }
                 } else {
-                    if (activeConditions.some(gain => (gain.duration > 0 && !gain.onset) || gain.nextStage > 0)) {
+                    if (activeConditions.some(gain => (gain.duration > 0 && gain.choice != "Onset") || gain.nextStage > 0)) {
                         let firstObject: ConditionGain = activeConditions.filter(gain => gain.duration > 0 || gain.nextStage > 0)[0]
                         let durations: number[] = [];
-                        if (firstObject.duration > 0 && !firstObject.onset) { durations.push(firstObject.duration); }
+                        if (firstObject.duration > 0 && firstObject.choice != "Onset") { durations.push(firstObject.duration); }
                         if (firstObject.nextStage > 0) { durations.push(firstObject.nextStage); }
                         first = Math.min(...durations);
                     }
                 }
                 //Either to the next condition to run out or decrease their value or step the given turns, whichever comes first
                 let step = Math.min(first, turns);
-                activeConditions.filter(gain => gain.duration > 0 && !gain.onset).forEach(gain => {
+                activeConditions.filter(gain => gain.duration > 0 && gain.choice != "Onset").forEach(gain => {
                     gain.duration -= step;
                 });
                 activeConditions.filter(gain => gain.nextStage > 0).forEach(gain => {
@@ -497,10 +500,13 @@ export class ConditionsService {
             })
         }
         //After resting, the Fatigued condition is removed (unless locked by its parent), and the value of Doomed and Drained is reduced (unless locked by its parent).
-        creature.conditions.filter(gain => gain.name == "Fatigued").forEach(gain => characterService.remove_Condition(creature, gain), false);
-        creature.conditions.filter(gain => gain.name == "Doomed" && !gain.valueLockedByParent).forEach(gain => { gain.value -= 1 });
-        creature.conditions.filter(gain => gain.name == "Drained" && !gain.valueLockedByParent).forEach(gain => {
+        creature.conditions.filter(gain => gain.name == "Fatigued" && !gain.valueLockedByParent).forEach(gain => characterService.remove_Condition(creature, gain), false);
+        creature.conditions.filter(gain => gain.name == "Doomed" && !gain.valueLockedByParent && !(gain.lockedByParent && gain.value == 1)).forEach(gain => { gain.value -= 1 });
+        creature.conditions.filter(gain => gain.name == "Drained" && !gain.valueLockedByParent && !(gain.lockedByParent && gain.value == 1)).forEach(gain => {
             gain.value -= 1;
+            if (gain.apply) {
+                creature.health.damage += creature.level;
+            }
             if (
                 //If you have Fast Recovery or have activated the effect of Forge-Day's Rest, reduce the value by 2 instead of 1.
                 (
@@ -510,8 +516,10 @@ export class ConditionsService {
                 characterService.featsService.get_Feats([], "Forge-Day's Rest")?.[0]?.hints.some(hint => hint.active)
             ) {
                 gain.value -= 1;
+                if (gain.apply) {
+                    creature.health.damage += creature.level;
+                }
             }
-            creature.health.damage += creature.level;
         });
     }
 
@@ -552,6 +560,9 @@ export class ConditionsService {
                     choice.name = "";
                 }
             })
+            if (condition.choices.length && !condition.choice) {
+                condition.choice = condition.choices[0].name
+            }
         });
     }
 

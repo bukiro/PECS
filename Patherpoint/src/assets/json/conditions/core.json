@@ -5931,75 +5931,53 @@
         "buff": true
     },
     {
-        "name": "Arsenic (Onset)",
-        "desc": "This toxin is a compound of arsenic and other substances. You can't reduce your sickened condition while affected.\n\n<strong>Saving Throw</strong> DC 18 Fortitude\n<var><strong>Onset</strong> 10 minutes</var>\n<strong>Maximum Duration</strong> 5 minutes\n<strong>Stage 1</strong> 1d4 poison damage and sickened 1 (1 minute)\n<strong>Stage 2</strong> 1d6 poison damage and sickened 2 (1 minute)\n<strong>Stage 3</strong> 2d6 poison damage and sickened 3 (1 minute)",
+        "name": "Arsenic",
+        "desc": "This toxin is a compound of arsenic and other substances. You can't reduce your sickened condition while affected.\n\n<strong>Saving Throw</strong> DC 18 Fortitude\n<strong>Onset</strong> 10 minutes\n<strong>Maximum Duration</strong> 5 minutes\n<strong>Stage 1</strong> 1d4 poison damage and sickened 1 (1 minute)\n<strong>Stage 2</strong> 1d6 poison damage and sickened 2 (1 minute)\n<strong>Stage 3</strong> 2d6 poison damage and sickened 3 (1 minute)",
         "type": "afflictions",
         "fixedDuration": 500,
-        "onset": true,
-        "nextCondition": {
-            "name": "Arsenic (Stage 1)"
-        },
-        "nextStage": 1000
-    },
-    {
-        "name": "Arsenic (Stage 1)",
-        "desc": "This toxin is a compound of arsenic and other substances. You can't reduce your sickened condition while affected.\n\n<strong>Saving Throw</strong> DC 18 Fortitude\n<strong>Onset</strong> 10 minutes\n<strong>Maximum Duration</strong> 5 minutes\n<var><strong>Stage 1</strong> 1d4 poison damage and sickened 1 (1 minute)</var>\n<strong>Stage 2</strong> 1d6 poison damage and sickened 2 (1 minute)\n<strong>Stage 3</strong> 2d6 poison damage and sickened 3 (1 minute)",
-        "type": "afflictions",
-        "fixedDuration": 500,
-        "inputRequired": "Every time you reach this stage, take 1d4 poison damage.",
+        "inputRequired": "Every time you reach the affliction onset, take poison damage appropriate to the new stage.",
+        "choice": "Onset",
+        "choices": [
+            {
+                "name": "Onset",
+                "nextStage": 1000
+            },
+            {
+                "name": "Stage 1",
+                "nextStage": 100
+            },
+            {
+                "name": "Stage 2",
+                "nextStage": 100
+            },
+            {
+                "name": "Stage 3",
+                "nextStage": 100
+            }
+        ],
         "gainConditions": [
             {
+                "conditionChoiceFilter": "Stage 1",
                 "lockedByParent": true,
                 "valueLockedByParent": true,
                 "name": "Sickened",
                 "value": 1
-            }
-        ],
-        "nextCondition": {
-            "name": "Arsenic (Stage 2)"
-        },
-        "nextStage": 100
-    },
-    {
-        "name": "Arsenic (Stage 2)",
-        "desc": "This toxin is a compound of arsenic and other substances. You can't reduce your sickened condition while affected.\n\n<strong>Saving Throw</strong> DC 18 Fortitude\n<strong>Onset</strong> 10 minutes\n<strong>Maximum Duration</strong> 5 minutes\n<strong>Stage 1</strong> 1d4 poison damage and sickened 1 (1 minute)\n<var><strong>Stage 2</strong> 1d6 poison damage and sickened 2 (1 minute)</var>\n<strong>Stage 3</strong> 2d6 poison damage and sickened 3 (1 minute)",
-        "type": "afflictions",
-        "fixedDuration": 500,
-        "inputRequired": "Every time you reach this stage, take 1d6 poison damage.",
-        "gainConditions": [
+            },
             {
+                "conditionChoiceFilter": "Stage 2",
                 "lockedByParent": true,
                 "valueLockedByParent": true,
                 "name": "Sickened",
                 "value": 2
-            }
-        ],
-        "previousCondition": {
-            "name": "Arsenic (Stage 1)"
-        },
-        "nextCondition": {
-            "name": "Arsenic (Stage 3)"
-        },
-        "nextStage": 100
-    },
-    {
-        "name": "Arsenic (Stage 3)",
-        "desc": "This toxin is a compound of arsenic and other substances. You can't reduce your sickened condition while affected.\n\n<strong>Saving Throw</strong> DC 18 Fortitude\n<strong>Onset</strong> 10 minutes\n<strong>Maximum Duration</strong> 5 minutes\n<strong>Stage 1</strong> 1d4 poison damage and sickened 1 (1 minute)\n<strong>Stage 2</strong> 1d6 poison damage and sickened 2 (1 minute)\n<var><strong>Stage 3</strong> 2d6 poison damage and sickened 3 (1 minute)</var>",
-        "type": "afflictions",
-        "fixedDuration": 500,
-        "inputRequired": "Every time you reach this stage or fail your saving throw to reduce the stage, take 2d6 poison damage.",
-        "gainConditions": [
+            },
             {
+                "conditionChoiceFilter": "Stage 3",
                 "lockedByParent": true,
                 "valueLockedByParent": true,
                 "name": "Sickened",
                 "value": 3
             }
-        ],
-        "previousCondition": {
-            "name": "Arsenic (Stage 2)"
-        },
-        "nextStage": 100
+        ]
     },
     {
         "name": "Viper Arrow",
@@ -6715,37 +6693,26 @@
         ]
     },
     {
-        "name": "Black Adder Venom (Stage 1)",
-        "desc": "Adder venom is a simple but effective way to enhance a weapon.\n\n<strong>Saving Throw</strong> DC 18 Fortitude\n<strong>Maximum Duration</strong> 3 rounds\n<var><strong>Stage 1</strong> 1d8 poison damage (1 round)</var>\n<strong>Stage 2</strong> 1d10 poison damage (1 round)\n<strong>Stage 3</strong> 2d6 poison damage (1 round)",
+        "name": "Black Adder Venom",
+        "desc": "Adder venom is a simple but effective way to enhance a weapon.\n\n<strong>Saving Throw</strong> DC 18 Fortitude\n<strong>Maximum Duration</strong> 3 rounds\n<strong>Stage 1</strong> 1d8 poison damage (1 round)\n<strong>Stage 2</strong> 1d10 poison damage (1 round)\n<strong>Stage 3</strong> 2d6 poison damage (1 round)",
         "type": "afflictions",
         "fixedDuration": 30,
-        "nextCondition": {
-            "name": "Black Adder Venom (Stage 2)"
-        },
-        "nextStage": 10
-    },
-    {
-        "name": "Black Adder Venom (Stage 2)",
-        "desc": "Adder venom is a simple but effective way to enhance a weapon.\n\n<strong>Saving Throw</strong> DC 18 Fortitude\n<strong>Maximum Duration</strong> 3 rounds\n<strong>Stage 1</strong> 1d8 poison damage (1 round)\n<var><strong>Stage 2</strong> 1d10 poison damage (1 round)</var>\n<strong>Stage 3</strong> 2d6 poison damage (1 round)",
-        "type": "afflictions",
-        "inputRequired": "Every time you reach this stage, take 1d4 poison damage.",
-        "previousCondition": {
-            "name": "Black Adder Venom (Stage 1)"
-        },
-        "nextCondition": {
-            "name": "Black Adder Venom (Stage 3)"
-        },
-        "nextStage": 10
-    },
-    {
-        "name": "Black Adder Venom (Stage 3)",
-        "desc": "Adder venom is a simple but effective way to enhance a weapon.\n\n<strong>Saving Throw</strong> DC 18 Fortitude\n<strong>Maximum Duration</strong> 3 rounds\n<strong>Stage 1</strong> 1d8 poison damage (1 round)\n<strong>Stage 2</strong> 1d10 poison damage (1 round)\n<var><strong>Stage 3</strong> 2d6 poison damage (1 round)</var>",
-        "type": "afflictions",
-        "inputRequired": "Every time you reach this stage, take 1d6 poison damage.",
-        "previousCondition": {
-            "name": "Black Adder Venom (Stage 2)"
-        },
-        "nextStage": 10
+        "inputRequired": "Every time you reach the affliction onset, take poison damage appropriate to the new stage.",
+        "choice": "Stage 1",
+        "choices": [
+            {
+                "name": "Stage 1",
+                "nextStage": 10
+            },
+            {
+                "name": "Stage 2",
+                "nextStage": 10
+            },
+            {
+                "name": "Stage 3",
+                "nextStage": 10
+            }
+        ]
     },
     {
         "name": "Cognitive Loophole",
@@ -7493,128 +7460,75 @@
         ]
     },
     {
-        "name": "Ghoul Fever (Stage 1)",
-        "desc": "<strong>Ghoul Fever</strong> (disease)\n<strong>Saving Throw</strong> Fortitude\n<var><strong>Stage 1</strong> carrier with no ill effects (1 day)</var>\n<strong>Stage 2</strong> 3d8 negative damage and the creature regains half as many Hit Points from all healing (1 day)\n<strong>Stage 3</strong> as stage 2 (1 day)\n<strong>Stage 4</strong> 3d8 negative damage and the creature gains no benefit from healing (1 day)\n<strong>Stage 5</strong> as stage 4 (1 day)\n<strong>Stage 6</strong> the creature dies and rises as a ghoul at the next midnight",
+        "name": "Ghoul Fever",
+        "desc": "<strong>Ghoul Fever</strong> (disease)\n<strong>Saving Throw</strong> Fortitude\n<strong>Stage 1</strong> carrier with no ill effects (1 day)\n<strong>Stage 2</strong> 3d8 negative damage and the creature regains half as many Hit Points from all healing (1 day)\n<strong>Stage 3</strong> as stage 2 (1 day)\n<strong>Stage 4</strong> 3d8 negative damage and the creature gains no benefit from healing (1 day)\n<strong>Stage 5</strong> as stage 4 (1 day)\n<strong>Stage 6</strong> the creature dies and rises as a ghoul at the next midnight",
         "type": "afflictions",
         "fixedDuration": -1,
-        "nextCondition": {
-            "name": "Ghoul Fever (Stage 2)"
-        },
-        "nextStage": 144000
-    },
-    {
-        "name": "Ghoul Fever (Stage 2)",
-        "desc": "<strong>Ghoul Fever</strong> (disease)\n<strong>Saving Throw</strong> Fortitude\n<strong>Stage 1</strong> carrier with no ill effects (1 day)\n<var><strong>Stage 2</strong> 3d8 negative damage and the creature regains half as many Hit Points from all healing (1 day)</var>\n<strong>Stage 3</strong> as stage 2 (1 day)\n<strong>Stage 4</strong> 3d8 negative damage and the creature gains no benefit from healing (1 day)\n<strong>Stage 5</strong> as stage 4 (1 day)\n<strong>Stage 6</strong> the creature dies and rises as a ghoul at the next midnight",
-        "type": "afflictions",
-        "fixedDuration": -1,
-        "inputRequired": "Every time you reach this stage, take 3d8 negative damage.",
+        "inputRequired": "Every time you reach the affliction onset, take negative damage appropriate to the new stage.",
         "hints": [
             {
-                "desc": "You gain half as many Hit Points from all healing.",
+                "desc": "From stage 2 on, you gain half as many Hit Points from all healing.\n\nFrom stage 4 on, you gain no benefit from healing.",
                 "showon": "Health"
             }
         ],
-        "previousCondition": {
-            "name": "Ghoul Fever (Stage 1)"
-        },
-        "nextCondition": {
-            "name": "Ghoul Fever (Stage 3)"
-        },
-        "nextStage": 144000
-    },
-    {
-        "name": "Ghoul Fever (Stage 3)",
-        "desc": "<strong>Ghoul Fever</strong> (disease)\n<strong>Saving Throw</strong> Fortitude\n<strong>Stage 1</strong> carrier with no ill effects (1 day)\n<strong>Stage 2</strong> 3d8 negative damage and the creature regains half as many Hit Points from all healing (1 day)\n<var><strong>Stage 3</strong> as stage 2 (1 day)</var>\n<strong>Stage 4</strong> 3d8 negative damage and the creature gains no benefit from healing (1 day)\n<strong>Stage 5</strong> as stage 4 (1 day)\n<strong>Stage 6</strong> the creature dies and rises as a ghoul at the next midnight",
-        "type": "afflictions",
-        "fixedDuration": -1,
-        "inputRequired": "Every time you reach this stage, take 3d8 negative damage.",
-        "hints": [
+        "choice": "Stage 1",
+        "choices": [
             {
-                "desc": "You gain half as many Hit Points from all healing.",
-                "showon": "Health"
+                "name": "Stage 1",
+                "nextStage": 144000
+            },
+            {
+                "name": "Stage 2",
+                "nextStage": 144000
+            },
+            {
+                "name": "Stage 3",
+                "nextStage": 144000
+            },
+            {
+                "name": "Stage 4",
+                "nextStage": 144000
+            },
+            {
+                "name": "Stage 5"
             }
         ],
-        "previousCondition": {
-            "name": "Ghoul Fever (Stage 2)"
-        },
-        "nextCondition": {
-            "name": "Ghoul Fever (Stage 4)"
-        },
-        "nextStage": 144000
-    },
-    {
-        "name": "Ghoul Fever (Stage 4)",
-        "desc": "<strong>Ghoul Fever</strong> (disease)\n<strong>Saving Throw</strong> Fortitude\n<strong>Stage 1</strong> carrier with no ill effects (1 day)\n<strong>Stage 2</strong> 3d8 negative damage and the creature regains half as many Hit Points from all healing (1 day)\n<strong>Stage 3</strong> as stage 2 (1 day)\n<var><strong>Stage 4</strong> 3d8 negative damage and the creature gains no benefit from healing (1 day)</var>\n<strong>Stage 5</strong> as stage 4 (1 day)\n<strong>Stage 6</strong> the creature dies and rises as a ghoul at the next midnight",
-        "type": "afflictions",
-        "fixedDuration": -1,
-        "inputRequired": "Every time you reach this stage, take 3d8 negative damage.",
-        "hints": [
-            {
-                "desc": "You gain no benefit from healing.",
-                "showon": "Health"
-            }
-        ],
-        "previousCondition": {
-            "name": "Ghoul Fever (Stage 3)"
-        },
-        "nextCondition": {
-            "name": "Ghoul Fever (Stage 5)"
-        },
-        "nextStage": 144000
-    },
-    {
-        "name": "Ghoul Fever (Stage 5)",
-        "desc": "<strong>Ghoul Fever</strong> (disease)\n<strong>Saving Throw</strong> Fortitude\n<strong>Stage 1</strong> carrier with no ill effects (1 day)\n<strong>Stage 2</strong> 3d8 negative damage and the creature regains half as many Hit Points from all healing (1 day)\n<strong>Stage 3</strong> as stage 2 (1 day)\n<strong>Stage 4</strong> 3d8 negative damage and the creature gains no benefit from healing (1 day)\n<var><strong>Stage 5</strong> as stage 4 (1 day)</var>\n<strong>Stage 6</strong> the creature dies and rises as a ghoul at the next midnight",
-        "type": "afflictions",
-        "fixedDuration": -1,
-        "inputRequired": "Every time you reach this stage, take 3d8 negative damage.",
-        "hints": [
-            {
-                "desc": "You gain no benefit from healing.",
-                "showon": "Health"
-            }
-        ],
-        "previousCondition": {
-            "name": "Ghoul Fever (Stage 4)"
-        },
-        "nextCondition": {
-            "name": "Dead"
-        },
-        "nextStage": 144000
-    },
-    {
-        "name": "Spider Venom (Stage 1)",
-        "desc": "<strong>Spider Venom</strong> (poison)\n<strong>Level</strong> 1\n<strong>Maximum Duration</strong> 4 rounds.\n<var><strong>Stage 1</strong> 1d4 poison damage and enfeebled 1 (1 round)</var>\n<strong>Stage 2</strong> 1d4 poison damage and enfeebled 2 (1 round).",
-        "type": "afflictions",
-        "fixedDuration": 40,
-        "inputRequired": "Every time you reach this stage, take 1d4 poison damage.",
         "gainConditions": [
             {
+                "conditionChoiceFilter": "Stage 5",
+                "name": "Dead"
+            }
+        ]
+    },
+    {
+        "name": "Spider Venom",
+        "desc": "<strong>Spider Venom</strong> (poison)\n<strong>Level</strong> 1\n<strong>Maximum Duration</strong> 4 rounds.\n<strong>Stage 1</strong> 1d4 poison damage and enfeebled 1 (1 round)\n<strong>Stage 2</strong> 1d4 poison damage and enfeebled 2 (1 round).",
+        "type": "afflictions",
+        "fixedDuration": 40,
+        "inputRequired": "Every time you reach the affliction onset, take poison damage appropriate to the new stage.",
+        "choice": "Stage 1",
+        "choices": [
+            {
+                "name": "Stage 1",
+                "nextStage": 10
+            },
+            {
+                "name": "Stage 2",
+                "nextStage": 10
+            }
+        ],
+        "gainConditions": [
+            {
+                "conditionChoiceFilter": "Stage 1",
                 "name": "Enfeebled",
                 "value": 1
-            }
-        ],
-        "nextCondition": {
-            "name": "Spider Venom (Stage 2)"
-        },
-        "nextStage": 10
-    },
-    {
-        "name": "Spider Venom (Stage 2)",
-        "desc": "<strong>Spider Venom</strong> (poison)\n<strong>Level</strong> 1\n<strong>Maximum Duration</strong> 4 rounds.\n<strong>Stage 1</strong> 1d4 poison damage and enfeebled 1 (1 round)\n<var><strong>Stage 2</strong> 1d4 poison damage and enfeebled 2 (1 round).</var>",
-        "type": "afflictions",
-        "fixedDuration": 40,
-        "inputRequired": "Every time you reach this stage, take 1d4 poison damage.",
-        "gainConditions": [
+            },
             {
+                "conditionChoiceFilter": "Stage 2",
                 "name": "Enfeebled",
                 "value": 2
             }
-        ],
-        "previousCondition": {
-            "name": "Spider Venom (Stage 1)"
-        },
-        "nextStage": 10
+        ]
     },
     {
         "name": "Glitterdust Invisibility Negation",
@@ -10983,38 +10897,34 @@
         ]
     },
     {
-        "name": "Swarming Wasp Venom (Stage 1)",
-        "desc": "<strong>Swarming Wasp Venom</strong> (poison)\n<strong>Level</strong> 7\n<strong>Maximum Duration</strong> 6 rounds.\n<var><strong>Stage 1</strong> 2d6 poison damage and clumsy 1 (1 round)</var>\n<strong>Stage 2</strong> 3d6 poison damage and clumsy 2 (1 round).",
+        "name": "Swarming Wasp Venom",
+        "desc": "<strong>Swarming Wasp Venom</strong> (poison)\n<strong>Level</strong> 7\n<strong>Maximum Duration</strong> 6 rounds.\n<strong>Stage 1</strong> 2d6 poison damage and clumsy 1 (1 round).\n<strong>Stage 2</strong> 3d6 poison damage and clumsy 2 (1 round).",
         "type": "afflictions",
         "fixedDuration": 60,
-        "inputRequired": "Every time you reach this stage, take 2d6 poison damage.",
-        "gainConditions": [
+        "inputRequired": "Every time you reach the affliction onset, take poison damage appropriate to the new stage.",
+        "choice": "Stage 1",
+        "choices": [
             {
-                "name": "Clumsy",
-                "value": 1
+                "name": "Stage 1",
+                "nextStage": 10
+            },
+            {
+                "name": "Stage 2",
+                "nextStage": 10
             }
         ],
-        "nextCondition": {
-            "name": "Swarming Wasp Venom (Stage 2)"
-        },
-        "nextStage": 10
-    },
-    {
-        "name": "Swarming Wasp Venom (Stage 2)",
-        "desc": "<strong>Swarming Wasp Venom</strong> (poison)\n<strong>Level</strong> 7\n<strong>Maximum Duration</strong> 6 rounds.\n<var><strong>Stage 1</strong> 2d6 poison damage and clumsy 1 (1 round)</var>\n<strong>Stage 2</strong> 3d6 poison damage and clumsy 2 (1 round).",
-        "type": "afflictions",
-        "fixedDuration": 60,
-        "inputRequired": "Every time you reach this stage, take 3d6 poison damage.",
         "gainConditions": [
             {
+                "conditionChoiceFilter": "Stage 1",
+                "name": "Clumsy",
+                "value": 1
+            },
+            {
+                "conditionChoiceFilter": "Stage 2",
                 "name": "Clumsy",
                 "value": 2
             }
-        ],
-        "previousCondition": {
-            "name": "Swarming Wasp Venom (Stage 1)"
-        },
-        "nextStage": 10
+        ]
     },
     {
         "name": "Talking Corpse",
@@ -15931,57 +15841,46 @@
         ]
     },
     {
-        "name": "Abyssal Plague (Stage 1)",
-        "desc": "Abyssal Plague siphons fragments of your soul away to empower the Abyss.\n\n<strong>Abyssal Plague</strong> (disease)\n<strong>Saving Throw</strong> Fortitude (DC equals that of the spell)\n<strong>Level</strong> 9\nThe target can't recover from the drained condition from Abyssal plague until the disease is cured.\n<var><strong>Stage 1</strong> drained 1 (1 day)</var>\n<strong>Stage 2</strong> drained increases by 2 (1 day)",
+        "name": "Abyssal Plague",
+        "desc": "Abyssal Plague siphons fragments of your soul away to empower the Abyss.\n\n<strong>Abyssal Plague</strong> (disease)\n<strong>Saving Throw</strong> Fortitude (DC equals that of the spell)\n<strong>Level</strong> 9\nThe target can't recover from the drained condition from Abyssal plague until the disease is cured.\n<strong>Stage 1</strong> drained 1 (1 day)\n<strong>Stage 2</strong> drained increases by 2 (1 day)",
         "type": "afflictions",
         "minLevel": 5,
         "fixedDuration": -1,
+        "inputRequired": "If you reach stage 2 repeatedly, increase the value of the drained condition by 2 each time.",
         "hints": [
             {
                 "desc": "You can't recover from the drained condition from Abyssal plague until the disease is cured.",
                 "showon": "Effects"
             }
         ],
+        "choices": [
+            {
+                "name": "Stage 1",
+                "nextStage": 144000
+            },
+            {
+                "name": "Stage 2",
+                "nextStage": 144000
+            }
+        ],
         "gainConditions": [
             {
+                "activationPrerequisite": "!characterService.get_AppliedConditions(creature, 'Drained', '', true).some(conditionGain => conditionGain.parentID == parentConditionGain.id) ? 1 : 0",
+                "conditionChoiceFilter": "Stage 1",
+                "lockedByParent": true,
                 "name": "Drained",
                 "value": 1
+            },
+            {
+                "conditionChoiceFilter": "Stage 2",
+                "addValue": 2,
+                "lockedByParent": true,
+                "name": "Drained"
             }
         ],
         "endConditions": [
             "Abyssal Plague (Success)"
-        ],
-        "nextCondition": {
-            "name": "Abyssal Plague (Stage 2)"
-        },
-        "nextStage": 144000
-    },
-    {
-        "name": "Abyssal Plague (Stage 2)",
-        "desc": "Abyssal Plague siphons fragments of your soul away to empower the Abyss.\n\n<strong>Abyssal Plague</strong> (disease)\n<strong>Saving Throw</strong> Fortitude (DC equals that of the spell)\n<strong>Level</strong> 9\nThe target can't recover from the drained condition from Abyssal plague until the disease is cured.\n<strong>Stage 1</strong> drained 1 (1 day)\n<var><strong>Stage 2</strong> drained increases by 2 (1 day)</var>",
-        "type": "afflictions",
-        "minLevel": 5,
-        "fixedDuration": -1,
-        "inputRequired": "If you reach this stage repeatedly, increase the value of the drained condition by 2 each time.",
-        "hints": [
-            {
-                "desc": "You can't recover from the drained condition from Abyssal plague until the disease is cured.",
-                "showon": "Effects"
-            }
-        ],
-        "gainConditions": [
-            {
-                "name": "Drained",
-                "value": 3
-            }
-        ],
-        "endConditions": [
-            "Abyssal Plague (Success)"
-        ],
-        "previousCondition": {
-            "name": "Abyssal Plague (Stage 1)"
-        },
-        "nextStage": 144000
+        ]
     },
     {
         "name": "Acid Storm",
@@ -15996,7 +15895,7 @@
         "choice": "Success or Failure",
         "choices": [
             {
-                "name": "Success or Failure"
+                "name": "Success or Failure (no effect)"
             },
             {
                 "name": "Critical Success"
@@ -16981,39 +16880,25 @@
         "buff": true
     },
     {
-        "name": "Wyvern Venom (Stage 1)",
-        "desc": "Wyvern Venom (poison)\n<strong>Saving Throw</strong> Fortitude (DC equals that of the spell)\n<strong>Level</strong> 9\n<strong>Maximum Duration</strong> 6 rounds\n<var><strong>Stage 1</strong> 5d6 poison damage (1 round)</var>\n<strong>Stage 2</strong> 6d6 poison damage (1 round)\n<strong>Stage 3</strong> 8d6 poison damage (1 round)",
+        "name": "Wyvern Venom",
+        "desc": "Wyvern Venom (poison)\n<strong>Saving Throw</strong> Fortitude (DC equals that of the spell)\n<strong>Level</strong> 9\n<strong>Maximum Duration</strong> 6 rounds\n<strong>Stage 1</strong> 5d6 poison damage (1 round).\n<strong>Stage 2</strong> 6d6 poison damage (1 round).\n<strong>Stage 3</strong> 8d6 poison damage (1 round).",
         "type": "afflictions",
         "fixedDuration": 60,
-        "inputRequired": "Every time you reach this stage, take 5d6 poison damage.",
-        "nextCondition": {
-            "name": "Wyvern Venom (Stage 2)"
-        },
-        "nextStage": 10
-    },
-    {
-        "name": "Wyvern Venom (Stage 2)",
-        "desc": "Wyvern Venom (poison)\n<strong>Saving Throw</strong> Fortitude (DC equals that of the spell)\n<strong>Level</strong> 9\n<strong>Maximum Duration</strong> 6 rounds\n<strong>Stage 1</strong> 5d6 poison damage (1 round)\n<var><strong>Stage 2</strong> 6d6 poison damage (1 round)</var>\n<strong>Stage 3</strong> 8d6 poison damage (1 round)",
-        "type": "afflictions",
-        "fixedDuration": 60,
-        "inputRequired": "Every time you reach this stage, take 6d6 poison damage.",
-        "previousCondition": {
-            "name": "Wyvern Venom (Stage 1)"
-        },
-        "nextCondition": {
-            "name": "Wyvern Venom (Stage 3)"
-        },
-        "nextStage": 10
-    },
-    {
-        "name": "Wyvern Venom (Stage 3)",
-        "desc": "Wyvern Venom (poison)\n<strong>Saving Throw</strong> Fortitude (DC equals that of the spell)\n<strong>Level</strong> 9\n<strong>Maximum Duration</strong> 6 rounds\n<strong>Stage 1</strong> 5d6 poison damage (1 round)\n<strong>Stage 2</strong> 6d6 poison damage (1 round)\n<var><strong>Stage 3</strong> 8d6 poison damage (1 round)</var>",
-        "type": "afflictions",
-        "fixedDuration": 60,
-        "inputRequired": "Every time you reach this stage, take 8d6 poison damage.",
-        "previousCondition": {
-            "name": "Wyvern Venom (Stage 2)"
-        },
-        "nextStage": 10
+        "inputRequired": "Every time you reach the affliction onset, take poison damage appropriate to the new stage.",
+        "choice": "Stage 1",
+        "choices": [
+            {
+                "name": "Stage 1",
+                "nextStage": 10
+            },
+            {
+                "name": "Stage 2",
+                "nextStage": 10
+            },
+            {
+                "name": "Stage 3",
+                "nextStage": 10
+            }
+        ]
     }
 ]

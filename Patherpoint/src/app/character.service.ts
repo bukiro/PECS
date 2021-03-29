@@ -1334,15 +1334,26 @@ export class CharacterService {
             }
             //If the condition has an activationPrerequisite, test that first and only activate if it evaluates to a nonzero number.
             if (conditionGain.activationPrerequisite) {
+                let testConditionGain: any = Object.assign(new ConditionGain(), JSON.parse(JSON.stringify(conditionGain)));
                 let testEffectGain: EffectGain = new EffectGain();
                 testEffectGain.value = conditionGain.activationPrerequisite;
-                let effects = this.effectsService.get_SimpleEffects(this.get_Character(), this, { effects: [testEffectGain], value: conditionGain.value, heightened: conditionGain.heightened, choice: conditionGain.choice, spellCastingAbility: null }, "", parentConditionGain);
+                testConditionGain.effects = [testEffectGain];
+                let effects = this.effectsService.get_SimpleEffects(this.get_Character(), this, testConditionGain, "", parentConditionGain);
                 if (effects?.[0]?.value == "0" || !(parseInt(effects?.[0]?.value))) {
                     activate = false;
                 }
             }
             if (activate) {
-                if (originalCondition.nextStage) {
+                //If there are choices, and the choice is not set by the gain, take the default or the first choice.
+                if (originalCondition.choices.length && !conditionGain.choice) {
+                    conditionGain.choice = originalCondition.choice || originalCondition.choices[0].name;
+                }
+                //If there is a choice, check if there is a nextStage value of that choice.
+                if (conditionGain.choice) {
+                    conditionGain.nextStage
+                }
+                conditionGain.nextStage = originalCondition.choices.find(choice => choice.name == conditionGain.choice)?.nextStage || 0;
+                if (conditionGain.nextStage) {
                     this.set_ToChange(creature.type, "time");
                     this.set_ToChange(creature.type, "health");
                 }
@@ -1352,28 +1363,40 @@ export class CharacterService {
                 if (!conditionGain.radius) {
                     conditionGain.radius = originalCondition.radius;
                 }
-                conditionGain.nextStage = originalCondition.nextStage;
-                conditionGain.decreasingValue = originalCondition.decreasingValue;
-                conditionGain.notes = originalCondition.notes;
-                conditionGain.showNotes = conditionGain.notes && true;
-                //The gain may be persistent by itself, so don't overwrite it with the condition's persistence, but definitely set it if the condition is - unless ignorePersistent is set.
+                //Set persistent if the condition is, unless ignorePersistent is set. Don't just set gain.persistent = condition.persistent, because condition.persistent could be false.
                 if (originalCondition.persistent && !conditionGain.ignorePersistent) {
                     conditionGain.persistent = true;
                 }
-                if (originalCondition.choices.length && !conditionGain.choice) {
-                    conditionGain.choice = originalCondition.choice ? originalCondition.choice : originalCondition.choices[0].name;
-                }
+                conditionGain.decreasingValue = originalCondition.decreasingValue;
+                conditionGain.notes = originalCondition.notes;
+                conditionGain.showNotes = conditionGain.notes && true;
                 let newLength: number = 0;
                 if (conditionGain.addValue) {
                     let existingConditions = creature.conditions.filter(gain => gain.name == conditionGain.name);
                     if (existingConditions.length) {
                         existingConditions.forEach(gain => {
                             gain.value += conditionGain.addValue;
+                            //If this condition gain has both locked properties and addValue, transfer these properties and change the parentID to this one, but only if the existing gain does not have them.
+                            if (conditionGain.lockedByParent && !gain.lockedByParent) {
+                                gain.lockedByParent = true;
+                                gain.parentID = conditionGain.parentID;
+                            }
+                            if (conditionGain.valueLockedByParent && !gain.valueLockedByParent) {
+                                gain.valueLockedByParent = true;
+                                gain.parentID = conditionGain.parentID;
+                            }
+                            if (conditionGain.persistent) {
+                                gain.persistent = true;
+                            }
                         })
                         this.set_ToChange(creature.type, "effects");
                     } else {
-                        conditionGain.value = conditionGain.addValue;
-                        newLength = creature.conditions.push(conditionGain);
+                        if (!conditionGain.value) {
+                            conditionGain.value = conditionGain.addValue;
+                        }
+                        if (conditionGain.value > 0) {
+                            newLength = creature.conditions.push(conditionGain);
+                        }
                     }
                 } else {
                     newLength = creature.conditions.push(conditionGain);
@@ -1410,23 +1433,23 @@ export class CharacterService {
             }
         }
         let originalCondition = this.get_Conditions(conditionGain.name)[0];
+        //If this condition is locked by its parent, it can't be removed.
         if (oldConditionGain && (ignoreLockedByParent || !oldConditionGain.lockedByParent)) {
-            //If this condition is locked by its parent, it can't be removed.
             if (oldConditionGain.nextStage || oldConditionGain.duration == 1) {
                 this.set_ToChange(creature.type, "time");
                 this.set_ToChange(creature.type, "health");
             }
             //Remove the parent lock for all conditions locked by this, so that they can be removed in the next step or later (if persistent).
             this.remove_LockedByParent(creature, oldConditionGain.id);
-            originalCondition.gainConditions.filter(extraCondition => !extraCondition.conditionChoiceFilter || extraCondition.conditionChoiceFilter == oldConditionGain.choice).forEach(extraCondition => {
-                let addCondition = Object.assign(new ConditionGain, JSON.parse(JSON.stringify(extraCondition)));
-                addCondition.source = oldConditionGain.name;
-                //Remove the lockedByParent flag for all conditions locked by this.
-                if (!(keepPersistent && addCondition.persistent)) {
-                    this.remove_Condition(creature, addCondition, false, increaseWounded, keepPersistent, ignoreLockedByParent, ignoreEndsWithConditions);
-                } else if (addCondition.persistent) {
+            this.get_AppliedConditions(creature, "", oldConditionGain.name, true).filter(gain =>
+                gain.parentID == oldConditionGain.id
+            ).forEach(extraCondition => {
+                if (!(keepPersistent && extraCondition.persistent)) {
+                    //Remove child conditions that are not persistent, or remove all if keepPersistent is false.
+                    this.remove_Condition(creature, extraCondition, false, increaseWounded, keepPersistent, ignoreLockedByParent, ignoreEndsWithConditions);
+                } else if (extraCondition.persistent) {
                     //If this condition adds persistent conditions, don't remove them, but remove the persistent flag as its parent is gone.
-                    this.remove_Persistent(creature, addCondition);
+                    this.remove_Persistent(creature, extraCondition);
                 }
             })
             creature.conditions.splice(creature.conditions.indexOf(oldConditionGain), 1)
@@ -1463,39 +1486,10 @@ export class CharacterService {
 
     remove_LockedByParent(creature: Creature, id: string) {
         //This function removes the lockedByParent and lockedByID attributes from all condition gains locked by the given ID.
-        creature.conditions.filter(gain => gain.lockedByID == id).forEach(gain => {
+        creature.conditions.filter(gain => gain.parentID == id).forEach(gain => {
             gain.lockedByParent = false;
-            gain.lockedByID = "";
             gain.valueLockedByParent = false;
         });
-    }
-
-    change_ConditionStage(creature: Creature, gain: ConditionGain, condition: Condition, change: number) {
-        if (change == 0) {
-            //If no change, the condition remains, but the onset is reset.
-            gain.nextStage = condition.nextStage;
-            this.set_ToChange(creature.type, "time");
-            this.set_ToChange(creature.type, "health");
-            this.set_ToChange(creature.type, "effects");
-        } else {
-            let newGain: ConditionGain = new ConditionGain();
-            newGain.nextStage = condition.nextStage;
-            if (condition.nextStage) {
-                this.set_ToChange(creature.type, "time");
-                this.set_ToChange(creature.type, "health");
-            }
-            newGain.source = gain.source;
-            if (change > 0) {
-                newGain.name = condition.nextCondition.name;
-                newGain.duration = condition.nextCondition.duration ? condition.nextCondition.duration : gain.duration;
-            } else if (change < 0) {
-                newGain.name = condition.previousCondition.name;
-                newGain.duration = condition.previousCondition.duration ? condition.previousCondition.duration : gain.duration;
-            }
-            this.remove_Condition(creature, gain, false);
-            this.add_Condition(creature, newGain, false);
-        }
-        this.process_ToChange();
     }
 
     process_OnceEffect(creature: Creature, effectGain: EffectGain, conditionValue: number = 0, conditionHeightened: number = 0, conditionChoice: string = "", conditionSpellCastingAbility: string = "") {

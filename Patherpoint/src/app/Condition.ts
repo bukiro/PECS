@@ -37,9 +37,6 @@ export class Condition {
     public source: string = "";
     public senses: SenseGain[] = [];
     public nextCondition: ConditionGain = null;
-    public previousCondition: ConditionGain = null;
-    public nextStage: number = 0;
-    public onset: boolean = false;
     public fixedDuration: number = 0;
     public persistent: boolean = false;
     public restricted: boolean = false;
@@ -50,7 +47,7 @@ export class Condition {
     public notes: string = "";
     //List choices you can make for this condition. The first choice must never have a featreq.
     public choices: ConditionChoice[] = [];
-    //$choices is a temporary value that stores the filtered result of get_Choices();
+    //$choices is a temporary value that stores the filtered name list produced by get_Choices();
     public $choices: string[] = [];
     //This property is only used to select a default choice before adding the condition. It is not read when evaluating the condition.
     public choice: string = "";
@@ -72,7 +69,6 @@ export class Condition {
                 let character = characterService.get_Character();
                 //If the choice has a featreq, check if you meet that (or a feat that has this supertype).
                 //Requirements like "Aggressive Block or Brutish Shove" are split in get_FeatsAndFeatures().
-                let result: Array<{ met?: boolean, desc?: string }> = [];
                 if (!choice.spelllevelreq || spellLevel >= choice.spelllevelreq) {
                     if (choice.featreq?.length) {
                         let featNotFound: boolean = false;
@@ -108,6 +104,9 @@ export class Condition {
         })
         this.$choices = choices;
         return this.$choices;
+    }
+    get_ChoiceNextStage(choiceName: string) {
+        return this.choices.find(choice => choice.name == choiceName)?.nextStage || 0;
     }
     get_HeightenedItems(levelNumber: number) {
         //This descends through the level numbers, starting with levelNumber and returning the first set of ItemGains found with a matching heightenedfilter.

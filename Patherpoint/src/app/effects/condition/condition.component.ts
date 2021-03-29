@@ -101,7 +101,7 @@ export class ConditionComponent implements OnInit {
             //When you lower your drained value, you regain Max HP, but not the lost HP.
             //Because HP is Max HP - Damage, we increase damage to represent not regaining the HP.
             //We subtract level*change from damage because change is negative.
-            this.get_Creature().health.damage -= this.get_Creature().level * change;
+            this.get_Creature().health.damage == Math.max(0, (this.get_Creature().health.damage - (this.get_Creature().level * change)));
         }
         this.toggle_Item("");
         gain.showValue = false;
@@ -139,12 +139,15 @@ export class ConditionComponent implements OnInit {
         }
         if (oldChoice != gain.choice) {
             let creature = this.get_Creature();
-            //Remove any conditions that were granted by the previous choice.
+            //Remove any conditions that were granted by the previous choice, unless they are persistent.
             if (oldChoice) {
                 condition.gainConditions.filter(extraCondition => extraCondition.conditionChoiceFilter == oldChoice).forEach(extraCondition => {
                     let addCondition = Object.assign(new ConditionGain, JSON.parse(JSON.stringify(extraCondition)));
                     addCondition.source = gain.name;
-                    this.characterService.remove_Condition(creature, addCondition, false)
+                    let originalCondition = this.characterService.get_Conditions(addCondition.name)[0];
+                    if (!(addCondition.persistent || originalCondition?.persistent)) {
+                        this.characterService.remove_Condition(creature, addCondition, false, false, true, true);
+                    }
                 })
             }
             //Add any conditions that are granted by the new choice.
@@ -155,8 +158,9 @@ export class ConditionComponent implements OnInit {
                         addCondition.heightened = gain.heightened;
                     }
                     addCondition.source = gain.name;
+                    addCondition.parentID = gain.id;
                     addCondition.apply = true;
-                    this.characterService.add_Condition(creature, addCondition, false)
+                    this.characterService.add_Condition(creature, addCondition, false, gain);
                 })
             }
         }
@@ -171,8 +175,27 @@ export class ConditionComponent implements OnInit {
         this.characterService.process_ToChange();
     }
 
-    change_ConditionStage(gain: ConditionGain, condition: Condition, change: number) {
-        this.characterService.change_ConditionStage(this.get_Creature(), gain, condition, change);
+    change_ConditionStage(gain: ConditionGain, condition: Condition, choices: string[], change: number) {
+        if (change == 0) {
+            //If no change, the condition remains, but the onset is reset.
+            gain.nextStage = condition.choices.find(choice => choice.name == gain.choice)?.nextStage || 0;
+            this.characterService.set_ToChange(this.creature, "time");
+            this.characterService.set_ToChange(this.creature, "health");
+            this.characterService.set_ToChange(this.creature, "effects");
+        } else {
+            let newChoice = choices[choices.indexOf(gain.choice) + change];
+            if (newChoice) {
+                gain.nextStage = condition.choices.find(choice => choice.name == newChoice)?.nextStage || 0;
+                if (gain.nextStage) {
+                    this.characterService.set_ToChange(this.creature, "time");
+                    this.characterService.set_ToChange(this.creature, "health");
+                }
+                let oldChoice = gain.choice;
+                gain.choice = newChoice;
+                this.change_ConditionChoice(gain, condition, oldChoice);
+            }
+        }
+        this.characterService.process_ToChange();
     }
 
     remove_Condition(conditionGain: ConditionGain) {

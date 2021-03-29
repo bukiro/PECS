@@ -1010,6 +1010,7 @@ header.featureHeader {
 
 .newrow {
     flex-basis: 100%;
+    gap: .3em;
     clear: both;
     display: flex;
     flex-direction: row;
