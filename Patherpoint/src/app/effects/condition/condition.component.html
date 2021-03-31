@@ -5,16 +5,22 @@
                 <span>
                     <input id="{{conditionGain.id+'notes'}}" class="invisible" type="checkbox"
                         [(ngModel)]="conditionGain.showNotes">
-                    <label for="{{conditionGain.id+'notes'}}" [ngbTooltip]="'Edit notes'"><i
-                            class='bi-pencil-square'></i>&nbsp;</label><strong
+                    <label for="{{conditionGain.id+'notes'}}" [ngbTooltip]="'Edit notes'">
+                        <i class='bi-pencil-square'></i>&nbsp;
+                    </label>
+                    <strong
                         [ngClass]="condition.buff ? 'bonus' : 'penalty'">{{conditionGain.name}}{{conditionGain.choice ?
                         ": " : ""}}
                         <input id="{{conditionGain.id+'choice'}}" class="invisible" type="checkbox"
                             [(ngModel)]="conditionGain.showChoices"
                             *ngIf="choices.length && !conditionGain.choiceLocked">
                         <label for="{{conditionGain.id+'choice'}}" [ngbTooltip]="'Change effect choice'"
-                            *ngIf="choices.length && !conditionGain.choiceLocked"><i class='bi-list-stars'></i></label>
-                        {{(conditionGain.choice && !conditionGain.showChoices) ? conditionGain.choice : ""}}
+                            style="text-shadow: none" *ngIf="choices.length && !conditionGain.choiceLocked">
+                            <i class='bi-list-stars'></i>
+                            <span *ngIf="conditionGain.choice && !conditionGain.showChoices">
+                                &nbsp;{{conditionGain.choice}}
+                            </span>
+                        </label>
                         <ng-container
                             *ngIf="conditionGain.showChoices && choices.length && !conditionGain.choiceLocked">
                             <span *ngFor="let oldChoice of [conditionGain.choice]; trackBy:trackByIndex;">
@@ -26,13 +32,16 @@
                                 </select>
                             </span>
                         </ng-container>
-                        <span *ngIf="conditionGain.value && conditionGain.valueLockedByParent && conditionGain.parentID">
+                        <span
+                            *ngIf="conditionGain.value && conditionGain.valueLockedByParent && conditionGain.parentID">
                             {{conditionGain.value}}
                         </span>
-                        <span *ngIf="conditionGain.value && !(conditionGain.valueLockedByParent && conditionGain.parentID)">
+                        <span
+                            *ngIf="conditionGain.value && !(conditionGain.valueLockedByParent && conditionGain.parentID)">
                             <input id="{{conditionGain.id+'value'}}" class="invisible" type="checkbox"
                                 [(ngModel)]="conditionGain.showValue">
-                            <label for="{{conditionGain.id+'value'}}" [ngbTooltip]="'Change value'">
+                            <label for="{{conditionGain.id+'value'}}" [ngbTooltip]="'Change value'"
+                                style="text-shadow: none">
                                 <i class='bi-gear-fill'></i>&nbsp;
                             </label>
                             {{!conditionGain.showValue ? conditionGain.value : ""}}
@@ -49,8 +58,10 @@
                                             {{valueOption}}
                                         </option>
                                     </select>
-                                    <span><button
-                                            (click)="change_ConditionValue(conditionGain, oldValue, 1)">+1</button></span>
+                                    <span>
+                                        <button (click)="change_ConditionValue(conditionGain, oldValue, 1)">+1
+                                        </button>
+                                    </span>
                                 </span>
                             </ng-container>
                         </span>
@@ -171,12 +182,14 @@
             </div>
         </div>
         <div class="newrow left-aligned" *ngIf="conditionGain.nextStage != 0 && conditionGain.choice && choices.length">
-            <span *ngIf="choices.indexOf(conditionGain.choice) < 1 || choices[choices.indexOf(conditionGain.choice) - 1] == 'Onset'">
+            <span
+                *ngIf="choices.indexOf(conditionGain.choice) < 1 || choices[choices.indexOf(conditionGain.choice) - 1] == 'Onset'">
                 <button (click)="remove_Condition(conditionGain)">{{conditionGain.nextStage == -1 ? "Success: " :
                     ""}}Recover
                 </button>
             </span>
-            <span *ngIf="choices.indexOf(conditionGain.choice) > 0 && choices[choices.indexOf(conditionGain.choice) - 1] != 'Onset'">
+            <span
+                *ngIf="choices.indexOf(conditionGain.choice) > 0 && choices[choices.indexOf(conditionGain.choice) - 1] != 'Onset'">
                 <button (click)="change_ConditionStage(conditionGain, condition, choices, -1)">{{conditionGain.nextStage
                     == -1 ? "Success: " : ""}}Previous stage</button>
             </span>
@@ -212,14 +225,13 @@
                 </button>
             </span>
         </div>
-        <div [ngbCollapse]="fullDisplay && get_ShowItem()!=conditionGain.id+'description'">
-            <div class="newrow lower left-aligned"
-                *ngFor="let desc of condition.desc.split('\n\n'); trackBy:trackByIndex;">
-                <p *ngIf="desc.split('\n').length == 1" [innerHTML]="desc"></p>
-                <ul *ngIf="desc.split('\n').length > 1">
-                    <li *ngFor="let line of desc.split('\n'); trackBy:trackByIndex;" [innerHTML]="line"></li>
-                </ul>
-            </div>
-        </div>
     </ng-container>
 </ng-container>
+<div [ngbCollapse]="fullDisplay && get_ShowItem()!=conditionGain.id+'description'">
+    <div class="newrow lower left-aligned" *ngFor="let desc of condition.desc.split('\n\n'); trackBy:trackByIndex;">
+        <p *ngIf="desc.split('\n').length == 1" [innerHTML]="desc"></p>
+        <ul *ngIf="desc.split('\n').length > 1">
+            <li *ngFor="let line of desc.split('\n'); trackBy:trackByIndex;" [innerHTML]="line"></li>
+        </ul>
+    </div>
+</div>

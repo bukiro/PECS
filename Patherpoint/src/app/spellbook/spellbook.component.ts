@@ -14,6 +14,7 @@ import { EffectGain } from '../EffectGain';
 import { Condition } from '../Condition';
 import { ConditionsService } from '../conditions.service';
 import { NgbPopoverConfig, NgbTooltipConfig } from '@ng-bootstrap/ng-bootstrap';
+import { Feat } from '../Feat';
 
 @Component({
     selector: 'app-spellbook',
@@ -91,8 +92,8 @@ export class SpellbookComponent implements OnInit {
         }
     }
 
-    receive_ChoiceMessage(name: string) {
-        this.toggle_List(name);
+    receive_ChoiceMessage(message: { name: string, levelNumber: number, choice: SpellChoice, casting: SpellCasting }) {
+        this.toggle_List(message.name);
     }
 
     receive_SpellMessage(name: string) {
@@ -385,7 +386,20 @@ export class SpellbookComponent implements OnInit {
         }
     }
 
-    on_Cast(levelNumber: number, gain: SpellGain, casting: SpellCasting, choice: SpellChoice, creature: string = "", spell: Spell, activated: boolean) {
+    get_BloodMagicFeats() {
+        let character = this.get_Character();
+        return this.characterService.get_Feats().filter(feat => feat.bloodMagic.length && feat.have(character, this.characterService, character.level));
+    }
+
+    get_IsBloodMagicTrigger(spell: Spell, bloodMagicFeats: Feat[]) {
+        return bloodMagicFeats.some(feat => feat.bloodMagic.some(bloodMagic => bloodMagic.trigger.includes(spell.name)));
+    }
+
+    can_Activate(spell: Spell, bloodMagicFeats: Feat[]) {
+        return spell.gainConditions?.length || this.get_IsBloodMagicTrigger(spell, bloodMagicFeats);
+    }
+
+    on_Cast(levelNumber: number, gain: SpellGain, casting: SpellCasting, choice: SpellChoice, creature: string = "", spell: Spell, activated: boolean, bloodMagicFeats: Feat[]) {
         let character = this.get_Character();
         //Spells with a cooldown can start their cooldown, but not use any resources.
         if (gain.cooldown) {
@@ -423,7 +437,6 @@ export class SpellbookComponent implements OnInit {
             }
         }
         //Trigger bloodline powers for sorcerers if your main class is Sorcerer.
-        let bloodMagicFeats = this.characterService.get_Feats().filter(feat => feat.bloodMagic.length && feat.have(character, this.characterService, character.level));
         bloodMagicFeats.forEach(feat => {
             feat.bloodMagic.forEach(bloodMagic => {
                 if (bloodMagic.trigger.includes(spell.name)) {

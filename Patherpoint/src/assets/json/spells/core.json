@@ -22331,7 +22331,7 @@
             },
             {
                 "duration": 6000,
-                "heightened": 5,
+                "heightenedFilter": 7,
                 "name": "Chromatic Wall",
                 "source": "Chromatic Wall",
                 "targetFilter": "caster"
@@ -22614,6 +22614,14 @@
         "success": "For 1 round, the creature can't use reactions and must attempt another save at the start of its turn; on a failure, it is slowed 1 for that turn as it sobs uncontrollably.",
         "failure": "As success, but the duration is 1 minute.",
         "critfailure": "As failure, and the creature is automatically slowed 1 for 1 minute.",
+        "gainConditions": [
+            {
+                "duration": 100,
+                "name": "Crushing Despair (Caster)",
+                "source": "Crushing Despair",
+                "targetFilter": "caster"
+            }
+        ],
         "desc5": [
             {
                 "variable": "var1"
@@ -24545,6 +24553,17 @@
                 "source": "Tongues",
                 "targetFilter": "target"
             }
+        ],
+        "desc5": [
+            {
+                "variable": "var1"
+            }
+        ],
+        "desc7": [
+            {
+                "value": "The duration is 8 hours. ",
+                "variable": "var1"
+            }
         ]
     },
     {
@@ -24577,6 +24596,30 @@
             {
                 "desc": "The tree you exit can be anywhere on the same planet.",
                 "level": "(9th)"
+            }
+        ],
+        "desc5": [
+            {
+                "value": "within 5 miles",
+                "variable": "var1"
+            }
+        ],
+        "desc6": [
+            {
+                "value": "within 50 miles",
+                "variable": "var1"
+            }
+        ],
+        "desc8": [
+            {
+                "value": "within 500 miles",
+                "variable": "var1"
+            }
+        ],
+        "desc9": [
+            {
+                "value": "anywhere on the same planet",
+                "variable": "var1"
             }
         ]
     },

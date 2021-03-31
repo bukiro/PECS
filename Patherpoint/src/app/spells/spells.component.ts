@@ -18,6 +18,10 @@ export class SpellsComponent implements OnInit {
     public allowHeightened: boolean = false;
     public allowBorrow: boolean = false;
     public prepared: boolean = false;
+    private showContent: SpellChoice = null;
+    private showSpellCasting: SpellCasting = null;
+    private showContentLevelNumber: number = 0;
+    
 
     constructor(
         private changeDetector: ChangeDetectorRef,
@@ -43,8 +47,18 @@ export class SpellsComponent implements OnInit {
         this.characterService.get_Character().settings.spellsMinimized = !this.characterService.get_Character().settings.spellsMinimized;
     }
 
+    toggle_TileMode() {
+        this.get_Character().settings.spellsTileMode = !this.get_Character().settings.spellsTileMode;
+        this.characterService.set_ToChange("Character", "spellchoices");
+        this.characterService.process_ToChange();
+    }
+
     get_Minimized() {
         return this.characterService.get_Character().settings.spellsMinimized;
+    }
+
+    get_TileMode() {
+        return this.characterService.get_Character().settings.spellsTileMode;
     }
 
     toggleSpellMenu() {
@@ -63,16 +77,30 @@ export class SpellsComponent implements OnInit {
         }
     }
 
-    toggle_Choice(name: string) {
-        if (this.showChoice == name) {
+    toggle_Choice(name: string, levelNumber: number = 0, content: SpellChoice = null, casting: SpellCasting = null) {
+        //Set the currently shown list name, level number and content so that the correct choice with the correct data can be shown in the choice area.
+        if (this.showChoice == name &&
+            (!levelNumber || this.showContentLevelNumber == levelNumber) &&
+            (!content || JSON.stringify(this.showContent) == JSON.stringify(content))) {
             this.showChoice = "";
+            this.showContentLevelNumber = 0;
+            this.showContent = null;
+            this.showSpellCasting = null;
         } else {
             this.showChoice = name;
+            this.showContentLevelNumber = levelNumber;
+            this.showContent = content;
+            this.showSpellCasting = casting;
+            this.reset_ChoiceArea();
         }
     }
 
-    receive_ChoiceMessage(name: string) {
-        this.toggle_Choice(name);
+    reset_ChoiceArea() {
+        document.getElementById("choiceArea-top").scrollIntoView({ behavior: 'smooth' });
+    }
+
+    receive_ChoiceMessage(message: { name: string, levelNumber: number, choice: SpellChoice, casting: SpellCasting }) {
+        this.toggle_Choice(message.name, message.levelNumber, message.choice, message.casting);
     }
 
     receive_SpellMessage(name: string) {
@@ -87,8 +115,22 @@ export class SpellsComponent implements OnInit {
         return this.showChoice;
     }
 
+    get_ActiveChoiceContent() {
+        //Get the currently shown spell choice with levelNumber and spellcasting.
+        //Also get the currently shown list name for compatibility.
+        if (this.showContent) {
+            return [{ name: this.get_ShowChoice(), levelNumber: this.showContentLevelNumber, choice: this.showContent, casting: this.showSpellCasting }];
+        }
+    }
+
     trackByIndex(index: number, obj: any): any {
         return index;
+    }
+
+    trackByID(index: number, obj: any): any {
+        //Track spell choices by id, so that when the selected choice changes, the choice area content is updated.
+        // The choice area content is only ever one choice, so the index would always be 0.
+        return obj.choice.id;
     }
 
     get_Character() {

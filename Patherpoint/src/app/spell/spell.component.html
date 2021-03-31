@@ -107,7 +107,7 @@
     </div>
     <div class="newrow left-aligned" *ngFor="let feat of get_FeatsShowingOn(spell.name); trackBy:trackByIndex;">
         <header class="spellHeader">{{feat.name}}</header>
-        <div class="newrow left-aligned">
+        <div class="newrow left-aligned" *ngIf="feat.traits.lenght">
             <cite class="trait" *ngFor="let trait of feat.traits; trackBy:trackByIndex;" [ngbPopover]="get_Traits(trait)[0].desc">{{trait}}</cite>
         </div>
         <div class="newrow left-aligned" *ngFor="let desc of feat.desc.split('\n\n'); trackBy:trackByIndex;">

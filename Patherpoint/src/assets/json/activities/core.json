@@ -4604,5 +4604,18 @@
         "frequency": "once per minute",
         "cooldown": 100,
         "desc": "You have learned how to invest magic more deeply by witnessing Aroden's works. The triggering blood magic effect lasts for 1 minute instead of 1 round."
+    },
+    {
+        "name": "Crushing Despair: Failed Save",
+        "actions": "",
+        "desc": "While crushing despair is active, you must attempt another save against the spell at the start of your turn; on a failure, you are slowed 1 for that turn as you sob uncontrollably.",
+        "gainConditions": [
+            {
+                "duration": 5,
+                "name": "Slowed",
+                "source": "Crushing Despair: Failed Save",
+                "value": 1
+            }
+        ]
     }
 ]

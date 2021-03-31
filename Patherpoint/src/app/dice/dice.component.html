@@ -90,6 +90,19 @@
                     <header class="sectionHeader">Clear</header>
                 </button>
             </div>
+            <ng-container *ngFor="let creatureType of ['Character','Companion','Familiar']; trackBy:trackByIndex">
+                <div class="newrow center-aligned" *ngFor="let creature of get_Creature(creatureType); trackBy:trackByIndex">
+                    <button class="center-aligned" (click)="on_Heal(creature)">
+                        Heal {{creature.name || creatureType}}
+                    </button>
+                    <button class="center-aligned" (click)="on_TakeDamage(creature)">
+                        Damage {{creature.name || creatureType}}
+                    </button>
+                    <button class="center-aligned" (click)="set_TempHP(creature)">
+                        Temp HP for {{creature.name || creatureType}}
+                    </button>
+                </div>
+            </ng-container>
         </div>
     </div>
 </div>

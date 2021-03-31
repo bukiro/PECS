@@ -244,8 +244,11 @@ export class CharacterService {
 
     toggle_Menu(menu: string = "", parameter: string = "") {
         this.characterMenuState = (menu == "character" && (this.characterMenuState == 'out')) ? 'in' : 'out';
-        this.companionMenuState = (menu == "companion" && (this.companionMenuState == 'out')) ? 'in' : 'out';
-        this.familiarMenuState = (menu == "familiar" && (this.familiarMenuState == 'out')) ? 'in' : 'out';
+        //Companion and Familiar menus don't need to close if the dice menu opens.
+        if (menu != "dice") {
+            this.companionMenuState = (menu == "companion" && (this.companionMenuState == 'out')) ? 'in' : 'out';
+            this.familiarMenuState = (menu == "familiar" && (this.familiarMenuState == 'out')) ? 'in' : 'out';
+        }
         this.itemsMenuState = (menu == "items" && (this.itemsMenuState == 'out')) ? 'in' : 'out';
         this.craftingMenuState = (menu == "crafting" && (this.craftingMenuState == 'out')) ? 'in' : 'out';
         this.spellsMenuState = (menu == "spells" && (this.spellsMenuState == 'out')) ? 'in' : 'out';

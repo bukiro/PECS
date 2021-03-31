@@ -26,4 +26,5 @@ export class Settings {
     archetypeFeats: boolean = true;
     hintsShowMoreInformation: boolean = true;
     characterTileMode: boolean = true;
+    spellsTileMode: boolean = true;
 }

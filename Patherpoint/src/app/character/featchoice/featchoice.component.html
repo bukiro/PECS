@@ -35,28 +35,43 @@
                         <div class="list-item gridicon-fullsizebox">
                             <input class="character-choice" id="unavailableFeats" type="checkbox"
                                 [(ngModel)]="unavailableFeats">
-                            <label for="unavailableFeats"><strong>Show unavailable {{choice.specialChoice ? 'options' :
-                                    'feats'}}</strong></label>
+                            <label for="unavailableFeats">
+                                <strong>
+                                    Show unavailable {{choice.specialChoice ? 'options' : 'feats'}}
+                                </strong>
+                            </label>
                         </div>
                         <div class="list-item gridicon-fullsizebox"
                             *ngIf="!choice.specialChoice && choice.type != 'Familiar'">
                             <input class="character-choice" id="lowerLevelFeats" type="checkbox"
                                 [(ngModel)]="lowerLevelFeats">
-                            <label for="lowerLevelFeats"><strong>Show lower level feats</strong></label>
+                            <label for="lowerLevelFeats">
+                                <strong>
+                                    Show lower level feats
+                                </strong>
+                            </label>
                         </div>
                         <div class="fullwidth" [ngbCollapse]="!unavailableFeats"
                             *ngIf="!choice.specialChoice && choice.type != 'Familiar'">
                             <div class="list-item gridicon-fullsizebox">
                                 <input class="character-choice" id="higherLevelFeats" type="checkbox"
                                     [(ngModel)]="higherLevelFeats">
-                                <label for="higherLevelFeats"><strong>Show higher level feats</strong></label>
+                                <label for="higherLevelFeats">
+                                    <strong>
+                                        Show higher level feats
+                                    </strong>
+                                </label>
                             </div>
                         </div>
                         <div class="list-item gridicon-fullsizebox"
                             *ngIf="!choice.specialChoice && choice.type != 'Familiar'">
                             <input class="character-choice" id="archetypeFeats" type="checkbox"
                                 [(ngModel)]="archetypeFeats">
-                            <label for="archetypeFeats"><strong>Show archetype feats</strong></label>
+                            <label for="archetypeFeats">
+                                <strong>
+                                    Show archetype feats
+                                </strong>
+                            </label>
                         </div>
                     </div>
                     <!-- End Filter -->
@@ -75,7 +90,7 @@
                                 <ng-container
                                     *ngFor="let checked of [taken || (!featSet.available && get_FeatTakenEver(featSet.feat))]; trackBy:trackByIndex">
                                     <ng-container
-                                        *ngFor="let disabled of [(get_Available(choice) <= choice.feats.length) && !taken]; trackBy:trackByIndex">
+                                        *ngFor="let disabled of [(availableFeats <= choice.feats.length) && !taken]; trackBy:trackByIndex">
                                         <ng-template #FeatChoiceDetailTemplate>
                                             <div class="newrow">
                                                 <header class="spellHeader">{{featSet.feat.name}}</header>
@@ -165,7 +180,7 @@
                                                 </ng-container>
                                             </div>
                                         </ng-template>
-                                        <div class="list-item gridicon-fullsizebox" triggers="click"
+                                        <div class="list-item gridicon-fullsizebox"
                                             [ngClass]="{'unavailable':(!featSet.available), 'selected':(taken || subFeatTakenByThis(undefined, featSet.feat, choice))}">
                                             <input *ngIf="!featSet.feat.subTypes" class="character-choice"
                                                 id="{{featSet.feat.name}}" type="checkbox"

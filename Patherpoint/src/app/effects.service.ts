@@ -22,6 +22,7 @@ import { WornItem } from './WornItem';
 import { ArmorRune } from './ArmorRune';
 import { WeaponRune } from './WeaponRune';
 import * as json_effectproperties from '../assets/json/effectproperties';
+import { forEachChild } from 'typescript';
 
 @Injectable({
     providedIn: 'root'
@@ -502,13 +503,17 @@ export class EffectsService {
                 simpleEffects = simpleEffects.concat(this.get_SimpleEffects(character, characterService, hint, "conditional, " + trait.name));
             })
         })
+        
+        //Write passive feat effects into a separate list first. All effects from feats should be hidden, after which they are moved into simpleEffects.
+        let featEffects: Effect[] = [];
+        
         //Character Feats and active hints
         if (character) {
             characterService.get_FeatsAndFeatures()
                 .filter(feat => (feat.effects?.length || feat.hints?.length) && feat.have(character, characterService, character.level))
                 .forEach(feat => {
                     if (feat.effects?.length) {
-                        simpleEffects = simpleEffects.concat(this.get_SimpleEffects(character, characterService, feat));
+                        featEffects = featEffects.concat(this.get_SimpleEffects(character, characterService, feat));
                     }
                     feat.hints?.filter(hint => (hint.active || hint.active2 || hint.active3 || hint.active4 || hint.active5) && hint.effects?.length).forEach(hint => {
                         simpleEffects = simpleEffects.concat(this.get_SimpleEffects(character, characterService, hint, "conditional, " + feat.name));
@@ -522,7 +527,7 @@ export class EffectsService {
             })
             companion.class?.specializations?.filter(spec => spec.effects?.length || spec.hints?.length).forEach(spec => {
                 if (spec.effects?.length) {
-                    simpleEffects = simpleEffects.concat(this.get_SimpleEffects(companion, characterService, spec));
+                    featEffects = featEffects.concat(this.get_SimpleEffects(companion, characterService, spec));
                 }
                 spec.hints?.filter(hint => (hint.active || hint.active2 || hint.active3 || hint.active4 || hint.active5) && hint.effects?.length).forEach(hint => {
                     simpleEffects = simpleEffects.concat(this.get_SimpleEffects(companion, characterService, hint, "conditional, " + spec.name));
@@ -535,13 +540,18 @@ export class EffectsService {
                 .filter(ability => ability.effects?.length || ability.hints?.length)
                 .forEach(ability => {
                     if (ability.effects?.length) {
-                        simpleEffects = simpleEffects.concat(this.get_SimpleEffects(familiar, characterService, ability));
+                        featEffects = featEffects.concat(this.get_SimpleEffects(familiar, characterService, ability));
                     }
                     ability.hints?.filter(hint => (hint.active || hint.active2 || hint.active3 || hint.active4 || hint.active5) && hint.effects?.length).forEach(hint => {
                         simpleEffects = simpleEffects.concat(this.get_SimpleEffects(familiar, characterService, hint, "conditional, " + ability.name));
                     })
                 });
         }
+        featEffects.forEach(effect => {
+            effect.show = false;
+        })
+        simpleEffects = simpleEffects.concat(featEffects);
+
         //Conditions
         let appliedConditions = characterService.get_AppliedConditions(creature).filter(condition => condition.apply);
         appliedConditions.forEach(gain => {
@@ -743,9 +753,6 @@ export class EffectsService {
         //Push simpleEffects and itemEffects into effects together.
         let allEffects: Effect[] = simpleEffects.concat(itemEffects).concat(foreignEffects);
 
-        //Process effects from feats
-        let featEffects: Effect[] = [];
-
         //If you have the Unburdened Iron feat and are taking speed penalties, reduce the first of them by 5.
         if (character?.get_FeatsTaken(0, character.level, "Unburdened Iron").length) {
             let done: boolean = false;
@@ -892,6 +899,7 @@ export class EffectsService {
             "Hardness",
             "Intimidation",
             "Lore",
+            "Max Dying",
             "Max HP",
             "Medicine",
             "Melee Attack Rolls",

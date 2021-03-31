@@ -15886,7 +15886,8 @@
         "name": "Acid Storm",
         "desc": "You have evoked a storm of acid rain that pelts the area for the spell's duration. A creature that begins its turn in the area takes 3d8 acid damage plus 1d8 for every two spell levels after 5th (basic Reflex save).",
         "type": "spells",
-        "minLevel": 5
+        "minLevel": 5,
+        "buff": true
     },
     {
         "name": "Banishment (Caster)",
@@ -16012,23 +16013,47 @@
     },
     {
         "name": "Cloudkill",
-        "desc": "You have conjured a poisonous fog. This functions as obscuring mist, except the area moves 10 feet away from you each round. You deal 6d8 poison damage plus 1d8 for every spell level after 5th to each breathing creature that starts its turn in the spell's area. You can Dismiss the spell.\n\n<strong>Obscuring Mist</strong> All creatures within the mist become concealed, and all creatures outside the mist become concealed to creatures within it.",
+        "desc": "You have conjured a poisonous fog. All creatures within the mist become concealed, and all creatures outside the mist become concealed to creatures within it. The area moves 10 feet away from you each round. You deal 6d8 poison damage plus 1d8 for every spell level after 5th to each breathing creature that starts its turn in the spell's area. You can Dismiss the spell.",
+        "type": "spells",
+        "minLevel": 5,
+        "buff": true
+    },
+    {
+        "name": "Crushing Despair (Caster)",
+        "desc": "You inflict despair on creatures in the area. The effects for each creature are determined by its Will save.\n\n<strong>Critical Success</strong> The creature is unaffected.\n<strong>Success</strong> For 1 round, the creature can't use reactions and must attempt another save at the start of its turn; on a failure, it is slowed 1 for that turn as it sobs uncontrollably.\n<strong>Failure</strong> As success, but the duration is 1 minute.\n<strong>Critical Failure</strong> As failure, and the creature is automatically slowed 1 for 1 minute.",
         "type": "spells",
         "minLevel": 5,
         "buff": true
     },
     {
         "name": "Crushing Despair",
-        "desc": "You can't use reactions and must attempt another save at the start of your turn; on a failure, you are is slowed 1 for that turn as you sob uncontrollably.\n\nOn a critical failure, you are automatically slowed 1 for 1 minute.",
+        "desc": "You can't use reactions and must attempt another save at the start of your turn; on a failure, you are slowed 1 for that turn as you sob uncontrollably.\n\nIf you critically failed the initial saving throw, you are automatically slowed 1 for 1 minute.\n\nYou gain the activity Crushing Despair: Fail Save, that you can activate when you fail your save.",
         "type": "spells",
         "minLevel": 5,
         "choice": "Success or Failure",
+        "hints": [
+            {
+                "desc": "You can't use reactions and must attempt another save at the start of your turn; on a failure, you are slowed 1 for that turn as you sob uncontrollably.\n\nYou gain the activity Crushing Despair: Fail Save, that you can activate when you fail your save.",
+                "showon": "Actions"
+            },
+            {
+                "desc": "You must attempt another save at the start of your turn; on a failure, you are slowed 1 for that turn as you sob uncontrollably.\n\nYou gain the activity Crushing Despair: Fail Save, that you can activate when you fail your save.",
+                "showon": "Saving Throws"
+            }
+        ],
         "choices": [
             {
                 "name": "Success or Failure"
             },
             {
                 "name": "Critical Failure"
+            }
+        ],
+        "gainActivities": [
+            {
+                "_className": "ActivityGain",
+                "name": "Crushing Despair: Failed Save",
+                "source": "Crushing Despair"
             }
         ],
         "gainConditions": [
@@ -16299,15 +16324,14 @@
     {
         "name": "Hallucination (Caster) Duration",
         "desc": "(Hallucination (Caster) Duration adds Hallucination (Caster) with the chosen duration, then immediately ends. It can't be chosen manually.)",
-        "type": "spells",
-        "minLevel": 5,
+        "type": "hidden",
         "choice": "1 hour",
         "choices": [
             {
                 "name": "1 hour"
             },
             {
-                "name": "Until preparations",
+                "name": "Until you prepare",
                 "spelllevelreq": 6
             },
             {
@@ -16323,13 +16347,13 @@
                 "persistent": true
             },
             {
-                "conditionChoiceFilter": "Until preparations",
+                "conditionChoiceFilter": "Until you prepare",
                 "duration": -2,
                 "name": "Hallucination (Caster)",
                 "persistent": true
             },
             {
-                "conditionChoiceFilter": "Until preparations",
+                "conditionChoiceFilter": "Unlimited",
                 "duration": -1,
                 "name": "Hallucination (Caster)",
                 "persistent": true
@@ -16340,13 +16364,27 @@
         "name": "Hallucination (Caster)",
         "desc": "The target consistently detects one thing as another, can't detect something that's there, or detects something that's not there, though it doesn't alter their beliefs. You choose which of these effects applies, and you determine the specifics of the hallucination. For example, you could make the target see all elves as humans, be unable to detect the presence of their brother, see their beloved pocket watch on their person even when it isn't, or see a tower in the center of town.\n\nThe target can attempt an initial Will save, with effects below. They also receive a Will save to disbelieve the hallucination every time they Seek or directly interact with the hallucination. For example, the target could attempt to disbelieve the hallucination each time they interacted with an elf, bumped into their brother accidentally, tried to check their pocket watch, or studied the tower. The target can attempt to disbelieve with a large circumstance bonus in situations determined by the GM, such as if the target attempted to climb the nonexistent tower.\n\n<strong>Critical Success</strong> The creature is unaffected.\n<strong>Success</strong> The creature perceives what you chose until it disbelieves, but it knows what the hallucination is.\n<strong>Failure</strong> The creature perceives what you chose until it disbelieves.\n<strong>Critical Failure</strong> The creature perceives what you chose until it disbelieves, and it trusts its false senses, taking a -4 circumstance penalty to saves to disbelieve.",
         "type": "spells",
-        "minLevel": 5
+        "minLevel": 5,
+        "buff": true
     },
     {
         "name": "Hallucination",
         "desc": "You consistently detect one thing as another, can't detect something that's there, or detect something that's not there, though it doesn't alter your beliefs.\n\nYou receive a Will save to disbelieve the hallucination every time you Seek or directly interact with the hallucination. You can attempt to disbelieve with a large circumstance bonus in situations determined by the GM.\n\n<strong>Critical Success</strong> You are unaffected.\n<strong>Success</strong> You perceive what the caster chose until you disbelieve, but you know what the hallucination is.\n<strong>Failure</strong> You perceive what the caster chose until you disbelieve.\n<strong>Critical Failure</strong> You perceive what the caster chose until you disbelieve, and you trust your false senses, taking a -4 circumstance penalty to saves to disbelieve.",
         "type": "spells",
         "minLevel": 5,
+        "hints": [
+            {
+                "desc": "If you critically failed your initial Will save, you take a -4 circumstance penalty to saves to disbelieve.",
+                "showon": "Will",
+                "effects": [
+                    {
+                        "affected": "Will",
+                        "type": "circumstance",
+                        "value": "Choice == 'Critical Failure' ? -4 : 0"
+                    }
+                ]
+            }
+        ],
         "choice": "Success",
         "choices": [
             {
@@ -16357,13 +16395,6 @@
             },
             {
                 "name": "Critical Failure"
-            }
-        ],
-        "effects": [
-            {
-                "affected": "Will",
-                "type": "circumstance",
-                "value": "Choice == 'Critical Failure' ? -4 : 0"
             }
         ]
     },
@@ -16683,10 +16714,16 @@
     },
     {
         "name": "Ravening Maw",
-        "desc": "Zevgavizeb's unceasing hunger has been inflicted upon you. You becomes overwhelmed with cannibalistic hunger and can restore your vitality by feasting on the flesh of the fallen. On your turn, you can use 2 actions (these actions have the manipulate trait) to cannibalize an adjacent dying or dead creature. If the cannibalized creature is dying, it dies. If the cannibalized creature is your ally, you regains 5d8 HP; otherwise, you regains 5d4 HP. Certain monsters (such as those whose blood is acidic or magical) might inflict additional effects on you when you cannibalize them, at the GM's discretion. Once cannibalized, a particular creature's body doesn't have enough meat to cannibalize again. During any round that there's a dying or dead creature within 30 feet of you, if you can't or don't cannibalize a creature, you take 5d4 mental damage.\n\nFor each spell level after 5th, the amount of HP restored by cannibalizing a creature increases by 1d8 for eating an ally and 1d4 otherwise, and the mental damage increases by 1d4.",
+        "desc": "Zevgavizeb's unceasing hunger has been inflicted upon you. You become overwhelmed with cannibalistic hunger and can restore your vitality by feasting on the flesh of the fallen. On your turn, you can use 2 actions (these actions have the manipulate trait) to cannibalize an adjacent dying or dead creature. If the cannibalized creature is dying, it dies. If the cannibalized creature is your ally, you regain 5d8 HP; otherwise, you regain 5d4 HP. Certain monsters (such as those whose blood is acidic or magical) might inflict additional effects on you when you cannibalize them, at the GM's discretion. Once cannibalized, a particular creature's body doesn't have enough meat to cannibalize again. During any round that there's a dying or dead creature within 30 feet of you, if you can't or don't cannibalize a creature, you take 5d4 mental damage.\n\nFor each spell level after 5th, the amount of HP restored by cannibalizing a creature increases by 1d8 for eating an ally and 1d4 otherwise, and the mental damage increases by 1d4.",
         "type": "spells",
         "minLevel": 5,
-        "inputRequired": "Restore HP when you cannibalize a creature, and take damage when you can't or don't cannibalize a nearby suitable creature."
+        "inputRequired": "Restore HP when you cannibalize a creature, and take damage when you can't or don't cannibalize a nearby suitable creature.",
+        "hints": [
+            {
+                "desc": "On your turn, you can use 2 actions (these actions have the manipulate trait) to cannibalize an adjacent dying or dead creature. If the cannibalized creature is dying, it dies. If the cannibalized creature is your ally, you regain 5d8 HP; otherwise, you regain 5d4 HP. Certain monsters (such as those whose blood is acidic or magical) might inflict additional effects on you when you cannibalize them, at the GM's discretion. Once cannibalized, a particular creature's body doesn't have enough meat to cannibalize again. During any round that there's a dying or dead creature within 30 feet of you, if you can't or don't cannibalize a creature, you take 5d4 mental damage.\n\nFor each spell level after 5th, the amount of HP restored by cannibalizing a creature increases by 1d8 for eating an ally and 1d4 otherwise, and the mental damage increases by 1d4.",
+                "showon": "Actions, Attacks, Health"
+            }
+        ]
     },
     {
         "name": "Shadow Walk",

@@ -189,7 +189,8 @@ button {
 
 .button.newrow:not(:last-child),
 button.newrow:not(:last-child) {
-    margin-bottom: .3rem;
+    /* I don't see the application... */
+    /* margin-bottom: .3rem; */
 }
 
 .button.sublist-toggle.newrow:not(:last-child),
@@ -631,42 +632,8 @@ header.spellHeader app-actionicons .actionIcon {
 
 svg,
 svg g {
-    fill: #616161;
-    fill: var(--textcolor);
-    stroke: #616161;
-    stroke: var(--textcolor);
-}
-
-.button svg,
-.button svg g,
-button svg,
-button svg g {
-    fill: white;
-    stroke: white;
-}
-
-header.spellHeader svg,
-header.spellHeader svg g {
-    fill: #cbc18f;
-}
-
-.diceBox button svg g {
-    fill: none;
-}
-
-.darkmode .diceBox button svg g {
-    stroke: #616161;
-    stroke: var(--textcolor);
-}
-
-.fancy-button svg,
-.fancy-button svg g,
-.darkmode .fancy-button svg,
-.darkmode .fancy-button svg g {
-    fill: #465A8C;
-    fill: rgb(var(--accent));
-    stroke: #465A8C;
-    stroke: rgb(var(--accent));
+    fill: transparent;
+    stroke: currentColor;
 }
 
 /*
@@ -750,6 +717,11 @@ app-top-bar {
 
 #top-bar button > i {
     font-size: 2em;
+}
+
+#top-bar button svg {
+    height: 2em;
+    width: auto;
 }
 
 /*
@@ -1024,7 +996,8 @@ header.featureHeader {
 }
 
 .newrow:not(:first-child):not(:empty):not(.list-item) {
-    margin-top: .3rem;
+    /* gap should be enough */
+    /* margin-top: .3rem; */
 }
 
 .newrow.tags:not(:first-child):not(:empty) {
@@ -1348,8 +1321,7 @@ app-itemOils,
 app-itemPoisons,
 app-itemRunes,
 app-itemTalismans,
-app-itemAeonStones,
-app-spellchoice {
+app-itemAeonStones {
     width: 100%;
 }
 
@@ -1481,7 +1453,6 @@ GRIDICONS
 .icon-list {
     min-height: calc(4rem + 4px);
     width: 100%;
-    height: 100%;
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
@@ -1655,8 +1626,8 @@ app-gridicon .gridicon-time-overlay {
 }
 
 app-gridicon .gridicon-time-overlay:before {
-    background: grey;
-    opacity: 40%;
+    background: black;
+    opacity: 50%;
     position: absolute;
     top: 0;
     left: 0;

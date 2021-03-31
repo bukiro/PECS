@@ -1,380 +1,500 @@
-<ng-container *ngFor="let spells of [get_AvailableSpells(choice)]; trackBy:trackByIndex;">
-    <ng-container *ngIf="cleanup_ChoiceSpells(spells, choice)"></ng-container>
-    <div class="list-item"
-        *ngIf="get_Available(choice) || get_SpellBlendingUsed() || get_InfinitePossibilitiesUsed() || get_AdaptedCantripUsed() || get_AdaptiveAdeptUsed()"
-        [ngClass]="{'problem':(choice.spells.length > get_Available(choice) || cannotTakeSome(choice)), 'fullsize-only':(get_Available(choice) == choice.spells.length)}">
-        <ng-container *ngFor="let signatureSpellsAllowed of [get_SignatureSpellsAllowed()]; trackBy:trackByIndex;">
-            <ng-container *ngFor="let available of [get_Available(choice)]; trackBy:trackByIndex;">
-                <button class="newrow left-aligned sublist-toggle"
-                    [ngClass]="{'fancy-button choicecleared':(available == choice.spells.length)}"
-                    (click)="toggle_Choice(choice.source+choice.id)">
-                    <span [ngbTooltip]="'Combination spell'" *ngIf="choice.spellCombinationAllowed"><i
-                            class='ra ra-frostfire'></i>&nbsp;</span>
-                    <span [ngbTooltip]="'Infinite Possibilities spell'" *ngIf="is_InfinitePossibilitiesSpell(choice)"><i
-                            class='ra ra-kaleidoscope'></i>&nbsp;</span>
-                    <span [ngbTooltip]="'Signature spell'" *ngIf="has_SignatureSpell(signatureSpellsAllowed)"><i
-                            class='bi-stars'></i>&nbsp;</span>
-                    <span [ngbTooltip]="'Crossblooded Evolution spell'" *ngIf="choice.crossbloodedEvolution"><i
-                            class='ra ra-zigzag-leaf'></i>&nbsp;</span>
-                    {{itemSpell || choice.showOnSheet ? "Level "+choice.level : ""}}
-                    {{choice.frequency ? capitalize(choice.frequency) : ""}}
-                    {{choice.tradition ? choice.tradition : ""}}
-                    {{is_AdaptedCantripSpell(choice) ? "non-"+spellCasting.tradition : ""}}
-                    {{is_AdaptiveAdeptSpell(choice) ? "non-"+spellCasting.tradition : ""}}
-                    {{choice.traitFilter.length ? choice.traitFilter.join(" ") : ""}}
-                    {{choice.spellCombinationAllowed ? "Combination" : ""}}
-                    {{choice.className}}
-                    {{choice.spellBookOnly ? "Spellbook" : ""}}
-                    Spell{{(available != 1) ? "s" : ""}}{{!itemSpell ? " ("+choice.source+")" : ""}}{{(available != 1) ?
-                    ": "+ choice.spells.length +"/"+ available :
-                    (choice.spells.length) ? ": "+ choice.spells[0].name + (choice.spells[0].combinationSpellName ? " &
-                    " +
-                    choice.spells[0].combinationSpellName : "") : ""}}
-                </button>
-                <div class="list-item sublist" [ngClass]="{'fancy-list':(available == choice.spells.length )}"
-                    *ngIf="get_ShowChoice()==choice.source+choice.id">
-                    <!-- Heightened -->
-                    <div class="list-item" *ngIf="spellbook && choice.level != 0">
-                        <span>
-                            <input id="{{choice.id}}allowHeightened" type="checkbox" [(ngModel)]="allowHeightened">
-                            <label for="{{choice.id}}allowHeightened">Allow heightened spells</label>
-                        </span>
-                    </div>
-                    <!-- End Heightened -->
-                    <!-- Adapted Cantrip -->
-                    <ng-container *ngIf="get_AdaptedCantripAllowed()">
-                        <div class="list-item">
-                            <strong>Adapted Cantrip</strong>
-                            <div class="newrow" *ngIf="get_AdaptedCantripUnlocked() && !choice.adaptedCantrip">
-                                An Adapted Cantrip spell slot has already been unlocked.
-                            </div>
-                            <div class="newrow" *ngIf="!get_AdaptedCantripUnlocked() || choice.adaptedCantrip">
-                                <span>
-                                    <input id="{{choice.id}}adaptedCantrip" type="checkbox"
-                                        [(ngModel)]="choice.adaptedCantrip" (ngModelChange)="on_AdaptedCantrip()"
-                                        [disabled]="(available <= choice.spells.length) && !choice.adaptedCantrip">
-                                    <label for="{{choice.id}}adaptedCantrip">Trade one spell slot in for an Adapted
-                                        Cantrip
-                                        spell of another tradition than your own.</label>
-                                </span>
-                            </div>
-                        </div>
-                    </ng-container>
-                    <!-- End Adapted Cantrip -->
-                    <!-- Adaptive Adept -->
-                    <ng-container *ngIf="get_AdaptiveAdeptAllowed()">
-                        <div class="list-item">
-                            <strong>Adaptive Adept</strong>
-                            <div class="newrow" *ngIf="get_AdaptiveAdeptUnlocked() && !choice.adaptiveAdept">
-                                An Adaptive Adept spell slot has already been unlocked.
-                            </div>
-                            <div class="newrow" *ngIf="!get_AdaptiveAdeptUnlocked() || choice.adaptiveAdept">
-                                <span>
-                                    <input id="{{choice.id}}adaptiveAdept" type="checkbox"
-                                        [(ngModel)]="choice.adaptiveAdept" (ngModelChange)="on_AdaptiveAdept()"
-                                        [disabled]="(available <= choice.spells.length) && !choice.adaptiveAdept">
-                                    <label for="{{choice.id}}adaptiveAdept">Trade one spell slot in for an Adaptive
-                                        Adept
-                                        spell slot of the same tradition as the Adapted Cantrip spell.</label>
-                                </span>
-                            </div>
-                        </div>
-                    </ng-container>
-                    <!-- End Adaptive Adept -->
-                    <!-- Spell Blending -->
-                    <ng-container *ngIf="spellbook && get_SpellBlendingAllowed()">
-                        <div class="list-item">
-                            <strong>Spell Blending</strong>
-                            <div class="newrow"
-                                *ngIf="get_SpellBlendingUnlocked(0) && get_SpellBlendingUnlocked(choice.level + 1) && get_SpellBlendingUnlocked(choice.level + 2) && choice.spellBlending.toString() == '0,0,0'">
-                                No bonus spell slots can currently be unlocked by trading in this spell slot.
-                            </div>
-                            <div class="newrow" *ngIf="!get_SpellBlendingUnlocked(0) || choice.spellBlending[0]">
-                                <span>
-                                    <button [disabled]="!choice.spellBlending[0]"
-                                        (click)="on_SpellBlending(0, -1)">-</button>
-                                    <button
-                                        [disabled]="get_SpellBlendingUnlocked(0) || available <= choice.spells.length"
-                                        (click)="on_SpellBlending(0, 1)">+</button>
-                                    {{choice.spellBlending[0]}} spell slot{{choice.spellBlending[0] ? "" : "s"}} traded
-                                    in
-                                    for 2
-                                    cantrip slots
-                                </span>
-                            </div>
-                            <div class="newrow"
-                                *ngIf="!get_SpellBlendingUnlocked(choice.level + 1) || choice.spellBlending[1]">
-                                <span>
-                                    <button [disabled]="!choice.spellBlending[1]"
-                                        (click)="on_SpellBlending(1, -1)">-</button>
-                                    <button
-                                        [disabled]="get_SpellBlendingUnlocked(choice.level + 1) || available <= choice.spells.length"
-                                        (click)="on_SpellBlending(1, 1)">+</button>
-                                    {{choice.spellBlending[1]}} spell slot{{choice.spellBlending[1] != 1 ? "s" : ""}}
-                                    traded
-                                    in for
-                                    level {{choice.level + 1}} spell slot (2 needed for 1)
-                                </span>
-                            </div>
-                            <div class="newrow"
-                                *ngIf="!get_SpellBlendingUnlocked(choice.level + 2) || choice.spellBlending[2]">
-                                <span>
-                                    <button [disabled]="!choice.spellBlending[2]"
-                                        (click)="on_SpellBlending(2, -1)">-</button>
-                                    <button
-                                        [disabled]="get_SpellBlendingUnlocked(choice.level + 2) || available <= choice.spells.length"
-                                        (click)="on_SpellBlending(2, 1)">+</button>
-                                    {{choice.spellBlending[2]}} spell slot{{choice.spellBlending[2] != 1 ? "s" : ""}}
-                                    traded
-                                    in for
-                                    level {{choice.level + 2}} spell slot (2 needed for 1)
-                                </span>
-                            </div>
-                        </div>
-                    </ng-container>
-                    <!-- End Spell Blending -->
-                    <!-- Infinite Possibilities -->
-                    <ng-container *ngIf="spellbook && get_InfinitePossibilitiesAllowed()">
-                        <div class="list-item">
-                            <strong><i class='ra ra-kaleidoscope'></i>&nbsp;Infinite Possibilities</strong>
-                            <div class="newrow"
-                                *ngIf="get_InfinitePossibilitiesUnlocked() && !choice.infinitePossibilities">
-                                An Infinite Possibilities spell slot has already been unlocked.
-                            </div>
-                            <div class="newrow"
-                                *ngIf="!get_InfinitePossibilitiesUnlocked() || choice.infinitePossibilities">
-                                <span>
-                                    <input id="{{choice.id}}infinitePossibilities" type="checkbox"
-                                        [(ngModel)]="choice.infinitePossibilities"
-                                        (ngModelChange)="on_InfinitePossibilities()"
-                                        [disabled]="(available <= choice.spells.length) && !choice.infinitePossibilities">
-                                    <label for="{{choice.id}}infinitePossibilities">Trade one spell slot in for a level
-                                        {{choice.level - 2}} Infinite Possibilities spell slot.</label>
-                                </span>
-                            </div>
-                        </div>
-                    </ng-container>
-                    <!-- End Infinite Possibilities -->
-                    <!-- Spell Combination -->
-                    <ng-container *ngIf="choice.spellCombinationAllowed">
-                        <div class="list-item">
-                            <strong><i class='ra ra-frostfire'></i>&nbsp;Spell Combination</strong>
-                            <div class="newrow">
-                                <span>
-                                    <input id="{{choice.id}}spellCombination" type="checkbox"
-                                        [(ngModel)]="choice.spellCombination"
-                                        (ngModelChange)="on_SpellCombination(choice)"
-                                        [disabled]="available <= choice.spells.length">
-                                    <label for="{{choice.id}}spellCombination">
-                                        Use this spell slot as a spell combination slot.
-                                    </label>
-                                </span>
-                            </div>
-                            <div class="newrow left-aligned" *ngIf="choice.spellCombination">
-                                <p>
-                                    Both spells must be level {{choice.level - 2}} or lower, and both must target only
-                                    one creature or object or have the option to target only one creature or object.
-                                </p>
-                                <p>
-                                    The second spell you choose for this spell slot must have the same means of
-                                    determining whether it has an effect as the first spell - both spells must require a
-                                    ranged spell attack roll, require the same type of saving throw, or automatically
-                                    affect the
-                                    target.
-                                </p>
-                            </div>
-                        </div>
-                    </ng-container>
-                    <!-- End Spell Combination -->
-                    <!-- Esoteric Polymath -->
-                    <ng-container *ngIf="is_EsotericPolymathSpell(choice)">
-                        <div class="list-item">
-                            <strong>Esoteric Polymath</strong>
-                            <span class="newrow left-aligned">
-                                <strong>Spell Level&nbsp;</strong>
-                                <button (click)="on_ChangeSpellLevel(choice, -1)"
-                                    [disabled]="choice.level <= 1">-</button>
-                                <button (click)="on_ChangeSpellLevel(choice, 1)"
-                                    [disabled]="choice.level >= get_HighestSpellLevel()">+</button>
-                            </span>
-                            <p>
-                                During your daily preparations, choose any one spell from your book of occult spells. If
-                                that spell is already in your spell repertoire, you can treat it as an additional
-                                signature spell that day. If it isn't in your repertoire, treat it as though it
-                                were until your next daily preparations.
-                            </p>
-                            <p>
-                                You may add all spells from your repertoire to this book for free, and you can use the
-                                Occultism skill to Learn Spells (page 238) and add them to your spellbook by paying the
-                                appropriate cost, similar to a wizard.
-                            </p>
-                        </div>
-                    </ng-container>
-                    <!-- End Esoteric Polymath -->
-                    <!-- Arcane Evolution -->
-                    <ng-container *ngIf="is_ArcaneEvolutionSpell(choice)">
-                        <div class="list-item">
-                            <strong>Arcane Evolution</strong>
-                            <span class="newrow left-aligned">
-                                <strong>Spell Level&nbsp;</strong>
-                                <button (click)="on_ChangeSpellLevel(choice, -1)"
-                                    [disabled]="choice.level <= 1">-</button>
-                                <button (click)="on_ChangeSpellLevel(choice, 1)"
-                                    [disabled]="choice.level >= get_HighestSpellLevel()">+</button>
-                            </span>
-                            <p>
-                                During your daily preparations, choose any one spell from your book of arcane spells. If
-                                that spell is already in your spell repertoire, you can treat it as an additional
-                                signature spell that day. If it isn't in your repertoire, add it to your spell
-                                repertoire until the next time you prepare.
-                            </p>
-                            <p>
-                                You may add all spells from your repertoire to this book for free, and you can use the
-                                Arcana skill to Learn Spells (page 238) and add them to your spellbook by paying the
-                                appropriate cost, similar to a wizard.
-                            </p>
-                        </div>
-                    </ng-container>
-                    <!-- End Arcane Evolution -->
-                    <!-- Occult Evolution -->
-                    <ng-container *ngIf="is_OccultEvolutionSpell(choice)">
-                        <div class="list-item">
-                            <strong>Occult Evolution</strong>
-                            <span class="newrow left-aligned">
-                                <strong>Spell Level&nbsp;</strong>
-                                <button (click)="on_ChangeSpellLevel(choice, -1)"
-                                    [disabled]="choice.level <= 1">-</button>
-                                <button (click)="on_ChangeSpellLevel(choice, 1)"
-                                    [disabled]="choice.level >= get_HighestSpellLevel()">+</button>
-                            </span>
-                            <p>
-                                Once per day, you can spend 1 minute to choose one mental occult spell you don’t know
-                                and add it to your spell repertoire. You lose this temporary spell the next time you
-                                make your daily preparations (though you can use this ability to add it again later).
-                            </p>
-                        </div>
-                    </ng-container>
-                    <!-- End Occult Evolution -->
-                    <!-- Crossblooded Evolution -->
-                    <ng-container
-                        *ngFor="let crossbloodedEvolutionAllowed of [get_CrossbloodedEvolutionAllowed()]; trackBy: trackByIndex">
-                        <ng-container *ngIf="crossbloodedEvolutionAllowed">
-                            <div class="list-item">
-                                <strong><i class='ra ra-zigzag-leaf'></i>&nbsp;Crossblooded Evolution</strong>
-                                <div class="newrow"
-                                    *ngIf="get_CrossbloodedEvolutionUnlocked(choice.level) && !choice.crossbloodedEvolution">
-                                    A Crossblooded Evolution spell has already been assigned for this level.
-                                </div>
-                                <div class="newrow"
-                                    *ngIf="crossbloodedEvolutionAllowed > 1 && get_CrossbloodedEvolutionUnlocked() >= crossbloodedEvolutionAllowed && !choice.crossbloodedEvolution">
-                                    The total maximum of {{crossbloodedEvolutionAllowed}} Crossblooded Evolution spells
-                                    has already been assigned.
-                                </div>
-                                <div class="newrow"
-                                    *ngIf="crossbloodedEvolutionAllowed == 1 && get_CrossbloodedEvolutionUnlocked() >= crossbloodedEvolutionAllowed && !choice.crossbloodedEvolution">
-                                    The Crossblooded Evolution spell has already been assigned.
-                                </div>
-                                <div class="newrow"
-                                    *ngIf="choice.crossbloodedEvolution || (!get_CrossbloodedEvolutionUnlocked(choice.level) && get_CrossbloodedEvolutionUnlocked() < crossbloodedEvolutionAllowed)">
-                                    <span>
-                                        <input id="{{choice.id}}crossbloodedEvolution" type="checkbox"
-                                            [(ngModel)]="choice.crossbloodedEvolution"
-                                            (ngModelChange)="on_CrossbloodedEvolution()">
-                                        <label for="{{choice.id}}crossbloodedEvolution">Allow a spell from another
-                                            tradition in this choice.</label>
-                                    </span>
-                                </div>
-                            </div>
-                        </ng-container>
-                    </ng-container>
-                    <!-- End Crossblooded Evolution -->
-                    <div class="list-item" *ngIf="!available && !choice.spells.length">
-                        <span>There are no spell slots available in this choice.</span>
-                    </div>
-                    <div class="list-item" *ngIf="available && !spells?.length">
-                        <span>No available spell matches the requirements of this spell choice, or no spells are
-                            available.</span>
-                        <span *ngIf="!allowHeightened">More spells may be found if you allow heightened
-                            spells.</span>
-                    </div>
-                    <div class="list-item gridicon-fullsizebox"
-                        [ngClass]="{'selected':spellTakenByThis(spell.name, choice)}"
-                        [ngbPopover]="(get_ShowSpell()==choice.id+spell.name+'desc') ? '' : spell.shortDesc"
-                        *ngFor="let spell of spells; trackBy:trackBySpellID;">
-                        <div class="list-item gridicon-fullsizebox">
-                            <input class="character-choice" id="{{choice.id+spell.name}}"
-                                *ngIf="spellCasting?.castingType!='Prepared' && !lockedSpellTakenByThis(spell.name, choice)"
-                                type="checkbox"
-                                (change)="on_SpellTaken(spell.name, $event.target.checked, choice, false)"
-                                [checked]="spellTakenByThis(spell.name, choice)"
-                                [disabled]="(cannotTake(spell, choice).length || choice.spells.length >= available) && !spellTakenByThis(spell.name, choice)">
-                            <span
-                                *ngIf="spellCasting?.castingType == 'Prepared' && (!choice.spellCombination || (choice.spellCombination && (!choice.spells.length || choice.spells[0].name == spell.name)))">
-                                <span
-                                    *ngIf="choice.spellCombination && (!choice.spells.length || choice.spells[0].name == spell.name)">1&nbsp;</span>
-                                <button class="character-choice" (click)="on_SpellTaken(spell.name, false, choice, false)"
-                                    [disabled]="!spellTakenByThis(spell.name, choice)"
-                                    *ngIf="spellCasting?.castingType=='Prepared'">-</button>
-                                <button class="character-choice" (click)="on_SpellTaken(spell.name, true, choice, false)"
-                                    [disabled]="cannotTake(spell, choice).length || choice.spells.length >= available || (spellTakenByThis(spell.name, choice) && choice.level == 0 && !choice.dynamicLevel)"
-                                    *ngIf="spellCasting?.castingType=='Prepared'">+</button>
-                            </span>
-                            <span
-                                *ngIf="spellCasting?.castingType == 'Prepared' && choice.spellCombination && choice.spells.length && choice.spells[0].name != spell.name && (!choice.spells[0].combinationSpellName || choice.spells[0].combinationSpellName == spell.name)">
-                                <span
-                                    *ngIf="choice.spellCombination && choice.spells.length && (!choice.spells[0].combinationSpellName || choice.spells[0].combinationSpellName == spell.name)">2&nbsp;</span>
-                                <button class="character-choice" (click)="on_SpellCombinationTaken(spell.name, false, choice)"
-                                    [disabled]="!spellTakenByThis(spell.name, choice)"
-                                    *ngIf="spellCasting?.castingType=='Prepared'">-</button>
-                                <button class="character-choice" (click)="on_SpellCombinationTaken(spell.name, true, choice)"
-                                    [disabled]="cannotTake(spell, choice).length || choice.spells.length >= available && choice.spells[0]?.combinationSpellName"
-                                    *ngIf="spellCasting?.castingType=='Prepared'">+</button>
-                            </span>
-                            <header class="sectionHeader">
-                                <!-- Signature Spells -->
-                                <ng-container *ngIf="spellTakenByThis(spell.name, choice) && signatureSpellsAllowed">
-                                    <div class="list-item newrow lower"
-                                        *ngFor="let takenSpell of [get_TakenSpell(spell.name, choice)]">
-                                        <span [ngbTooltip]="reason"
-                                            *ngFor="let reason of [get_CannotChooseSignatureSpell(signatureSpellsAllowed, takenSpell)]; trackBy:trackByIndex;">
-                                            <input id="{{choice.id+spell.name}}signaturespell" type="checkbox"
-                                                [(ngModel)]="takenSpell.signatureSpell"
-                                                (ngModelChange)="on_SignatureSpell()" [disabled]="reason != ''">
-                                            <label for="{{choice.id+spell.name}}signaturespell"><i
-                                                    class='bi-stars'></i>&nbsp;Choose this spell as a Signature
-                                                Spell that can be freely heightened</label>
-                                        </span>
-                                    </div>
-                                </ng-container>
-                                <!-- End Signature Spells -->
-                                <label for="{{choice.id+spell.name}}">
-                                    <strong>{{(spellCasting?.castingType == 'Prepared' && spellTakenByThis(spell.name,
-                                        choice)) ? " " + spellTakenByThis(spell.name, choice) + " " :
-                                        ""}}{{spell.name}}&nbsp;</strong><cite>Level
-                                        {{spell.levelreq}}</cite>
-                                    <cite class="trait" *ngIf="spell.traits.includes('Rare')"
-                                        [ngbPopover]="get_Traits('Rare')[0]?.desc">Rare</cite>
-                                    <cite class="trait" *ngIf="spell.traits.includes('Uncommon')"
-                                        [ngbPopover]="get_Traits('Uncommon')[0]?.desc">Uncommon</cite>
-                                </label>
-                                <cite class="problem"
-                                    *ngFor="let reason of cannotTake(spell, choice); trackBy:trackByIndex;">
-                                    {{reason}}
-                                </cite>
-                                <ng-container *ngFor="let spellID of [choice.id+spell.name+'desc']">
-                                    <button class="right-bound" (click)="toggle_Spell(spellID)"
-                                        [ngClass]="{'fancy-button':get_ShowSpell()==spellID}">
-                                        {{get_ShowSpell()==spellID ? "Hide" : "Show"}} Description
-                                    </button>
-                                    <div class="newrow left-aligned" *ngIf="get_ShowSpell()==spellID">
-                                        <app-spell [spell]="spell" [spellLevel]="level"></app-spell>
-                                    </div>
-                                </ng-container>
+<ng-container *ngFor="let listID of [choice.source+choice.id]; trackBy:trackByIndex">
+    <ng-container *ngFor="let availableSpells of [get_AvailableSpells()]; trackBy:trackByIndex;">
+        <!--Remove spells that are not among the available spells anymore-->
+        <ng-container *ngIf="cleanup_ChoiceSpells(availableSpells, choice)"></ng-container>
+        <ng-container *ngFor="let available of [get_Available()]; trackBy:trackByIndex;">
+            <ng-container *ngFor="let buttonTitle of [get_ButtonTitle(available)]; trackBy:trackByIndex;">
+                <ng-container
+                    *ngFor="let signatureSpellsAllowed of [get_SignatureSpellsAllowed()]; trackBy:trackByIndex;">
+                    <div *ngIf="available || get_SpellBlendingUsed() || get_InfinitePossibilitiesUsed() || get_AdaptedCantripUsed() || get_AdaptiveAdeptUsed()"
+                        [ngClass]="{'list-item': showTitle && !get_TileMode(), 'problem':(choice.spells.length > available || cannotTakeSome()), 'fullsize-only':(available == choice.spells.length)}">
+                        <ng-template #ButtonTitleTemplate>
+                            <span [ngbTooltip]="'Combination spell'" *ngIf="choice.spellCombinationAllowed"><i
+                                    class='ra ra-frostfire'></i>&nbsp;</span>
+                            <span [ngbTooltip]="'Infinite Possibilities spell'"
+                                *ngIf="is_InfinitePossibilitiesSpell()"><i class='ra ra-kaleidoscope'></i>&nbsp;</span>
+                            <span [ngbTooltip]="'Signature spell'" *ngIf="has_SignatureSpell(signatureSpellsAllowed)"><i
+                                    class='bi-stars'></i>&nbsp;</span>
+                            <span [ngbTooltip]="'Crossblooded Evolution spell'" *ngIf="choice.crossbloodedEvolution"><i
+                                    class='ra ra-zigzag-leaf'></i>&nbsp;</span>
+                            {{buttonTitle}}
+                        </ng-template>
+                        <!--Choice button shows in title mode-->
+                        <!--List mode button-->
+                        <button class="newrow left-aligned sublist-toggle"
+                            *ngIf="showTitle && (!get_TileMode() || showContent)"
+                            [ngClass]="{'fancy-button choicecleared':(available == choice.spells.length), 'activechoice': get_ShowChoice()==listID && (choice.showOnSheet && !itemSpell)}"
+                            (click)="toggle_Choice(listID)">
+                            <ng-container *ngTemplateOutlet="ButtonTitleTemplate"></ng-container>
+                        </button>
+                        <!--Tile mode button-->
+                        <button (click)="toggle_Choice(listID)" *ngIf="showTitle && !showContent && get_TileMode()"
+                            [ngClass]="{'fancy-button choicecleared':(available == choice.spells.length), 'activechoice':get_ShowChoice()==listID}">
+                            <app-gridIcon [ngbTooltip]="ButtonTitleTemplate" [superTitle]="available.toString()"
+                                [title]="(available == 1 && choice.spells.length) ? choice.spells[0].name : ((available > 1 && choice.spells.length > 0) ? choice.spells.length.toString() : '')"
+                                [ngClass]="{'fancy-button':(available == choice.spells.length)}">
+                            </app-gridIcon>
+                        </button>
+                        <!--Choice title shows above content in content only mode-->
+                        <div class="newrow list-item padding-8 center-aligned" *ngIf="!showTitle">
+                            <header class="box-header sectionHeader">
+                                <ng-container *ngTemplateOutlet="ButtonTitleTemplate"></ng-container>
                             </header>
                         </div>
+                        <!--Choice content shows in content mode-->
+                        <div id="{{!showTitle ? 'choiceArea' : ''}}"
+                            [ngClass]="{'list-item sublist': showTitle, 'fancy-list':showTitle && (available == choice.spells.length), 'charactersheet-app':!showTitle}"
+                            *ngIf="showContent && get_ShowChoice()==listID">
+                            <div class="list-item lower">
+                                <!-- Heightened -->
+                                <div class="list-item gridicon-fullsizebox" *ngIf="spellbook && choice.level != 0">
+                                    <input class="character-choice" id="{{choice.id}}allowHeightened" type="checkbox"
+                                        [(ngModel)]="allowHeightened">
+                                    <label for="{{choice.id}}allowHeightened">
+                                        <strong>
+                                            Allow heightened spells
+                                        </strong>
+                                    </label>
+                                </div>
+                                <!-- End Heightened -->
+                                <!-- Adapted Cantrip -->
+                                <ng-container *ngIf="get_AdaptedCantripAllowed()">
+                                    <div class="list-item">
+                                        <strong>Adapted Cantrip</strong>
+                                        <div class="newrow"
+                                            *ngIf="get_AdaptedCantripUnlocked() && !choice.adaptedCantrip">
+                                            An Adapted Cantrip spell slot has already been unlocked.
+                                        </div>
+                                        <div class="newrow gridicon-fullsizebox"
+                                            *ngIf="!get_AdaptedCantripUnlocked() || choice.adaptedCantrip">
+                                            <input class="character-choice" id="{{choice.id}}adaptedCantrip"
+                                                type="checkbox" [(ngModel)]="choice.adaptedCantrip"
+                                                (ngModelChange)="on_AdaptedCantrip()"
+                                                [disabled]="(available <= choice.spells.length) && !choice.adaptedCantrip">
+                                            <label for="{{choice.id}}adaptedCantrip">
+                                                <strong>
+                                                    Trade one spell slot in for an Adapted Cantrip spell of another
+                                                    tradition than your own.
+                                                </strong>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </ng-container>
+                                <!-- End Adapted Cantrip -->
+                                <!-- Adaptive Adept -->
+                                <ng-container *ngIf="get_AdaptiveAdeptAllowed()">
+                                    <div class="list-item">
+                                        <strong>Adaptive Adept</strong>
+                                        <div class="newrow"
+                                            *ngIf="get_AdaptiveAdeptUnlocked() && !choice.adaptiveAdept">
+                                            An Adaptive Adept spell slot has already been unlocked.
+                                        </div>
+                                        <div class="newrow gridicon-fullsizebox"
+                                            *ngIf="!get_AdaptiveAdeptUnlocked() || choice.adaptiveAdept">
+                                            <input class="character-choice" id="{{choice.id}}adaptiveAdept"
+                                                type="checkbox" [(ngModel)]="choice.adaptiveAdept"
+                                                (ngModelChange)="on_AdaptiveAdept()"
+                                                [disabled]="(available <= choice.spells.length) && !choice.adaptiveAdept">
+                                            <label for="{{choice.id}}adaptiveAdept">
+                                                <strong>
+                                                    Trade one spell slot in for an Adaptive Adept spell slot of the same
+                                                    tradition as the Adapted Cantrip spell.
+                                                </strong>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </ng-container>
+                                <!-- End Adaptive Adept -->
+                                <!-- Spell Blending -->
+                                <ng-container *ngIf="spellbook && get_SpellBlendingAllowed()">
+                                    <div class="list-item">
+                                        <strong>Spell Blending</strong>
+                                        <div class="newrow"
+                                            *ngIf="get_SpellBlendingUnlocked(0) && get_SpellBlendingUnlocked(choice.level + 1) && get_SpellBlendingUnlocked(choice.level + 2) && choice.spellBlending.toString() == '0,0,0'">
+                                            No bonus spell slots can currently be unlocked by trading in this spell
+                                            slot.
+                                        </div>
+                                        <div class="newrow gridicon-fullsizebox"
+                                            *ngIf="!get_SpellBlendingUnlocked(0) || choice.spellBlending[0]">
+                                            <span>
+                                                <button class="character-choice" [disabled]="!choice.spellBlending[0]"
+                                                    (click)="on_SpellBlending(0, -1)">-</button>
+                                                <button class="character-choice"
+                                                    [disabled]="get_SpellBlendingUnlocked(0) || available <= choice.spells.length"
+                                                    (click)="on_SpellBlending(0, 1)">+</button>
+                                            </span>
+                                            <strong>
+                                                {{choice.spellBlending[0]}} spell slot{{choice.spellBlending[0] ? "" :
+                                                "s"}} traded in for 2 cantrip slots
+                                            </strong>
+                                        </div>
+                                        <div class="newrow gridicon-fullsizebox"
+                                            *ngIf="!get_SpellBlendingUnlocked(choice.level + 1) || choice.spellBlending[1]">
+                                            <span>
+                                                <button class="character-choice" [disabled]="!choice.spellBlending[1]"
+                                                    (click)="on_SpellBlending(1, -1)">-</button>
+                                                <button class="character-choice"
+                                                    [disabled]="get_SpellBlendingUnlocked(choice.level + 1) || available <= choice.spells.length"
+                                                    (click)="on_SpellBlending(1, 1)">+</button>
+                                            </span>
+                                            <strong>
+                                                {{choice.spellBlending[1]}} spell slot{{choice.spellBlending[1] != 1 ?
+                                                "s" : ""}} traded in for level {{choice.level + 1}} spell slot (2 needed
+                                                for 1)
+                                            </strong>
+                                        </div>
+                                        <div class="newrow gridicon-fullsizebox"
+                                            *ngIf="!get_SpellBlendingUnlocked(choice.level + 2) || choice.spellBlending[2]">
+                                            <span>
+                                                <button class="character-choice" [disabled]="!choice.spellBlending[2]"
+                                                    (click)="on_SpellBlending(2, -1)">-</button>
+                                                <button class="character-choice"
+                                                    [disabled]="get_SpellBlendingUnlocked(choice.level + 2) || available <= choice.spells.length"
+                                                    (click)="on_SpellBlending(2, 1)">+</button>
+                                            </span>
+                                            <strong>
+                                                {{choice.spellBlending[2]}} spell slot{{choice.spellBlending[2] != 1 ?
+                                                "s" : ""}} traded in for level {{choice.level + 2}} spell slot (2 needed
+                                                for 1)
+                                            </strong>
+                                        </div>
+                                    </div>
+                                </ng-container>
+                                <!-- End Spell Blending -->
+                                <!-- Infinite Possibilities -->
+                                <ng-container *ngIf="spellbook && get_InfinitePossibilitiesAllowed()">
+                                    <div class="list-item">
+                                        <strong><i class='ra ra-kaleidoscope'></i>&nbsp;Infinite Possibilities</strong>
+                                        <div class="newrow"
+                                            *ngIf="get_InfinitePossibilitiesUnlocked() && !choice.infinitePossibilities">
+                                            An Infinite Possibilities spell slot has already been unlocked.
+                                        </div>
+                                        <div class="newrow gridicon-fullsizebox"
+                                            *ngIf="!get_InfinitePossibilitiesUnlocked() || choice.infinitePossibilities">
+                                            <input class="character-choice" id="{{choice.id}}infinitePossibilities"
+                                                type="checkbox" [(ngModel)]="choice.infinitePossibilities"
+                                                (ngModelChange)="on_InfinitePossibilities()"
+                                                [disabled]="(available <= choice.spells.length) && !choice.infinitePossibilities">
+                                            <label for="{{choice.id}}infinitePossibilities">
+                                                <strong>
+                                                    Trade one spell slot in for a level {{choice.level - 2}} Infinite
+                                                    Possibilities spell slot.
+                                                </strong>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </ng-container>
+                                <!-- End Infinite Possibilities -->
+                                <!-- Spell Combination -->
+                                <ng-container *ngIf="choice.spellCombinationAllowed">
+                                    <div class="list-item">
+                                        <strong><i class='ra ra-frostfire'></i>&nbsp;Spell Combination</strong>
+                                        <div class="newrow gridicon-fullsizebox">
+                                            <input class="character-choice" id="{{choice.id}}spellCombination"
+                                                type="checkbox" [(ngModel)]="choice.spellCombination"
+                                                (ngModelChange)="on_SpellCombination()"
+                                                [disabled]="available <= choice.spells.length">
+                                            <label for="{{choice.id}}spellCombination">
+                                                <strong>
+                                                    Use this spell slot as a spell combination slot.
+                                                </strong>
+                                            </label>
+                                        </div>
+                                        <div class="newrow left-aligned" *ngIf="choice.spellCombination">
+                                            <p>
+                                                Both spells must be level {{choice.level - 2}} or lower, and both must
+                                                target only one creature or object or have the option to target only one
+                                                creature or object.
+                                            </p>
+                                            <p>
+                                                The second spell you choose for this spell slot must have the same means
+                                                of determining whether it has an effect as the first spell - both spells
+                                                must require a ranged spell attack roll, require the same type of saving
+                                                throw, or automatically affect the target.
+                                            </p>
+                                        </div>
+                                    </div>
+                                </ng-container>
+                                <!-- End Spell Combination -->
+                                <!-- Esoteric Polymath -->
+                                <ng-container *ngIf="is_EsotericPolymathSpell(choice)">
+                                    <div class="list-item">
+                                        <strong>Esoteric Polymath</strong>
+                                        <span class="newrow left-aligned">
+                                            <strong>Spell Level&nbsp;</strong>
+                                            <button class="character-choice" (click)="on_ChangeSpellLevel(-1)"
+                                                [disabled]="choice.level <= 1">-</button>
+                                            <button class="character-choice" (click)="on_ChangeSpellLevel(1)"
+                                                [disabled]="choice.level >= get_HighestSpellLevel()">+</button>
+                                        </span>
+                                        <p>
+                                            During your daily preparations, choose any one spell from your book of
+                                            occult spells. If that spell is already in your spell repertoire, you can
+                                            treat it as an additional signature spell that day. If it isn't in your
+                                            repertoire, treat it as though it were until your next daily preparations.
+                                        </p>
+                                        <p>
+                                            You may add all spells from your repertoire to this book for free, and you
+                                            can use the Occultism skill to Learn Spells (page 238) and add them to your
+                                            spellbook by paying the appropriate cost, similar to a wizard.
+                                        </p>
+                                    </div>
+                                </ng-container>
+                                <!-- End Esoteric Polymath -->
+                                <!-- Arcane Evolution -->
+                                <ng-container *ngIf="is_ArcaneEvolutionSpell()">
+                                    <div class="list-item">
+                                        <strong>Arcane Evolution</strong>
+                                        <span class="newrow left-aligned">
+                                            <strong>Spell Level&nbsp;</strong>
+                                            <button class="character-choice" (click)="on_ChangeSpellLevel(-1)"
+                                                [disabled]="choice.level <= 1">-</button>
+                                            <button class="character-choice" (click)="on_ChangeSpellLevel(1)"
+                                                [disabled]="choice.level >= get_HighestSpellLevel()">+</button>
+                                        </span>
+                                        <p>
+                                            During your daily preparations, choose any one spell from your book of
+                                            arcane spells. If that spell is already in your spell repertoire, you can
+                                            treat it as an additional signature spell that day. If it isn't in your
+                                            repertoire, add it to your spell repertoire until the next time you prepare.
+                                        </p>
+                                        <p>
+                                            You may add all spells from your repertoire to this book for free, and you
+                                            can use the Arcana skill to Learn Spells (page 238) and add them to your
+                                            spellbook by paying the appropriate cost, similar to a wizard.
+                                        </p>
+                                    </div>
+                                </ng-container>
+                                <!-- End Arcane Evolution -->
+                                <!-- Occult Evolution -->
+                                <ng-container *ngIf="is_OccultEvolutionSpell()">
+                                    <div class="list-item">
+                                        <strong>Occult Evolution</strong>
+                                        <span class="newrow left-aligned">
+                                            <strong>Spell Level&nbsp;</strong>
+                                            <button class="character-choice" (click)="on_ChangeSpellLevel(-1)"
+                                                [disabled]="choice.level <= 1">-</button>
+                                            <button class="character-choice" (click)="on_ChangeSpellLevel(1)"
+                                                [disabled]="choice.level >= get_HighestSpellLevel()">+</button>
+                                        </span>
+                                        <p>
+                                            Once per day, you can spend 1 minute to choose one mental occult spell you
+                                            don't know and add it to your spell repertoire. You lose this temporary
+                                            spell the next time you make your daily preparations (though you can use
+                                            this ability to add it again later).
+                                        </p>
+                                    </div>
+                                </ng-container>
+                                <!-- End Occult Evolution -->
+                                <!-- Crossblooded Evolution -->
+                                <ng-container
+                                    *ngFor="let crossbloodedEvolutionAllowed of [get_CrossbloodedEvolutionAllowed()]; trackBy: trackByIndex">
+                                    <ng-container *ngIf="crossbloodedEvolutionAllowed">
+                                        <div class="list-item">
+                                            <strong><i class='ra ra-zigzag-leaf'></i>&nbsp;Crossblooded
+                                                Evolution</strong>
+                                            <div class="newrow"
+                                                *ngIf="get_CrossbloodedEvolutionUnlocked(choice.level) && !choice.crossbloodedEvolution">
+                                                A Crossblooded Evolution spell has already been assigned for this level.
+                                            </div>
+                                            <div class="newrow"
+                                                *ngIf="crossbloodedEvolutionAllowed > 1 && get_CrossbloodedEvolutionUnlocked() >= crossbloodedEvolutionAllowed && !choice.crossbloodedEvolution">
+                                                The total maximum of {{crossbloodedEvolutionAllowed}} Crossblooded
+                                                Evolution spells has already been assigned.
+                                            </div>
+                                            <div class="newrow"
+                                                *ngIf="crossbloodedEvolutionAllowed == 1 && get_CrossbloodedEvolutionUnlocked() >= crossbloodedEvolutionAllowed && !choice.crossbloodedEvolution">
+                                                The Crossblooded Evolution spell has already been assigned.
+                                            </div>
+                                            <div class="newrow gridicon-fullsizebox"
+                                                *ngIf="choice.crossbloodedEvolution || (!get_CrossbloodedEvolutionUnlocked(choice.level) && get_CrossbloodedEvolutionUnlocked() < crossbloodedEvolutionAllowed)">
+                                                <input class="character-choice" id="{{choice.id}}crossbloodedEvolution"
+                                                    type="checkbox" [(ngModel)]="choice.crossbloodedEvolution"
+                                                    (ngModelChange)="on_CrossbloodedEvolution()">
+                                                <label for="{{choice.id}}crossbloodedEvolution">
+                                                    <strong>
+                                                        Allow a spell from another tradition in this choice.
+                                                    </strong>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </ng-container>
+                                </ng-container>
+                                <!-- End Crossblooded Evolution -->
+                                <div class="list-item" *ngIf="!available && !choice.spells.length">
+                                    <span>There are no spell slots available in this choice.</span>
+                                </div>
+                                <div class="list-item" *ngIf="available && !availableSpells?.length">
+                                    <span>
+                                        No available spell matches the requirements of this spell choice, or no spells
+                                        are available.
+                                    </span>
+                                    <span *ngIf="!allowHeightened">
+                                        More spells may be found if you allow heightened spells.
+                                    </span>
+                                </div>
+                                <ng-container *ngFor="let spell of availableSpells; trackBy:trackBySpellID;">
+                                    <ng-container
+                                        *ngFor="let taken of [get_SpellTakenByThis(spell.name)]; trackBy:trackByIndex">
+                                        <ng-container
+                                            *ngFor="let checked of [taken || get_SpellTakenThisLevel(spell)]; trackBy:trackByIndex">
+                                            <ng-container
+                                                *ngFor="let cannotTake of [cannotTake(spell)]; trackBy:trackByIndex">
+                                                <ng-container
+                                                    *ngFor="let spontaneousDisabled of [(cannotTake.length || available <= choice.spells.length) && !taken]; trackBy:trackByIndex">
+                                                    <ng-template #SpellChoiceDetailTemplate>
+                                                        <div class="newrow">
+                                                            <header class="spellHeader">{{spell.name}} <app-actionIcons
+                                                                    [actionString]="spell.actions"></app-actionIcons>
+                                                            </header>
+                                                            <!--Spontaneous: Choose/Remove button-->
+                                                            <div class="button newrow no-animation"
+                                                                *ngIf="spellCasting?.castingType!='Prepared'"
+                                                                [ngClass]="{'fancy-button':taken, 'disabled':spontaneousDisabled}">
+                                                                <label>
+                                                                    <input type="checkbox"
+                                                                        (change)="on_SpellTaken(spell.name, $event.target.checked, false)"
+                                                                        [checked]="checked"
+                                                                        [disabled]="spontaneousDisabled || get_LockedSpellTakenByThis(spell.name) || (checked && !taken)"
+                                                                        hidden>
+                                                                    {{taken ? "Remove" : "Choose"}}
+                                                                </label>
+                                                            </div>
+                                                            <!--Prepared and no spell combination or first spell of spell combination: plus/minus buttons-->
+                                                            <div class="newrow left-aligned"
+                                                                *ngIf="spellCasting?.castingType == 'Prepared' && (!choice.spellCombination || (choice.spellCombination && (!choice.spells.length || choice.spells[0].name == spell.name)))">
+                                                                <button class="character-choice"
+                                                                    (click)="on_SpellTaken(spell.name, false, false)"
+                                                                    [disabled]="!taken"
+                                                                    *ngIf="spellCasting?.castingType=='Prepared'">-</button>
+                                                                <button class="character-choice"
+                                                                    (click)="on_SpellTaken(spell.name, true, false)"
+                                                                    [disabled]="cannotTake.length || choice.spells.length >= available || (taken && choice.level == 0 && !choice.dynamicLevel)"
+                                                                    *ngIf="spellCasting?.castingType=='Prepared'">+</button>
+                                                                <strong>
+                                                                    {{taken}} prepared
+                                                                    <span
+                                                                        *ngIf="choice.spellCombination && (!choice.spells.length || choice.spells[0].name == spell.name)">&nbsp;as
+                                                                        first spell combination spell</span>
+                                                                </strong>
+                                                            </div>
+                                                            <!--Prepared and spell combination: plus/minus buttons-->
+                                                            <div class="newrow left-aligned"
+                                                                *ngIf="spellCasting?.castingType == 'Prepared' && choice.spellCombination && choice.spells.length && choice.spells[0].name != spell.name && (!choice.spells[0].combinationSpellName || choice.spells[0].combinationSpellName == spell.name)">
+                                                                <button class="character-choice"
+                                                                    (click)="on_SpellCombinationTaken(spell.name, false)"
+                                                                    [disabled]="!taken"
+                                                                    *ngIf="spellCasting?.castingType=='Prepared'">-</button>
+                                                                <button class="character-choice"
+                                                                    (click)="on_SpellCombinationTaken(spell.name, true)"
+                                                                    [disabled]="cannotTake.length || (choice.spells.length >= available && choice.spells[0]?.combinationSpellName)"
+                                                                    *ngIf="spellCasting?.castingType=='Prepared'">+</button>
+                                                                <strong>
+                                                                    {{taken}} prepared as second spell combination spell
+                                                                </strong>
+                                                            </div>
+                                                            <div class="newrow left-aligned">
+                                                                <cite [ngbPopover]="reason.explain" class="problem"
+                                                                    *ngFor="let reason of cannotTake; trackBy:trackByIndex;">
+                                                                    {{reason.reason}}
+                                                                </cite>
+                                                            </div>
+                                                            <app-spell [spell]="spell" [spellLevel]="level"></app-spell>
+                                                        </div>
+                                                    </ng-template>
+                                                    <div class="list-item gridicon-fullsizebox"
+                                                        [ngClass]="{'selected':taken, 'unavailable':cannotTake.length}">
+                                                        <!--Spontaneous: Checkbox-->
+                                                        <input class="character-choice" id="{{choice.id+spell.name}}"
+                                                            *ngIf="spellCasting?.castingType!='Prepared'"
+                                                            type="checkbox"
+                                                            (change)="on_SpellTaken(spell.name, $event.target.checked, false)"
+                                                            [checked]="checked"
+                                                            [disabled]="spontaneousDisabled || get_LockedSpellTakenByThis(spell.name) || (checked && !taken)">
+                                                        <!--Prepared and no spell combination: plus/minus buttons-->
+                                                        <span
+                                                            *ngIf="spellCasting?.castingType == 'Prepared' && (!choice.spellCombination || (choice.spellCombination && (!choice.spells.length || choice.spells[0].name == spell.name)))">
+                                                            <span
+                                                                *ngIf="choice.spellCombination && (!choice.spells.length || choice.spells[0].name == spell.name)">1&nbsp;</span>
+                                                            <button class="character-choice"
+                                                                (click)="on_SpellTaken(spell.name, false, false)"
+                                                                [disabled]="!taken"
+                                                                *ngIf="spellCasting?.castingType=='Prepared'">-</button>
+                                                            <button class="character-choice"
+                                                                (click)="on_SpellTaken(spell.name, true, false)"
+                                                                [disabled]="cannotTake.length || choice.spells.length >= available || (taken && choice.level == 0 && !choice.dynamicLevel)"
+                                                                *ngIf="spellCasting?.castingType=='Prepared'">+</button>
+                                                        </span>
+                                                        <!--Prepared and spell combination: plus/minus buttons-->
+                                                        <span
+                                                            *ngIf="spellCasting?.castingType == 'Prepared' && choice.spellCombination && choice.spells.length && choice.spells[0].name != spell.name && (!choice.spells[0].combinationSpellName || choice.spells[0].combinationSpellName == spell.name)">
+                                                            <span
+                                                                *ngIf="choice.spellCombination && choice.spells.length && (!choice.spells[0].combinationSpellName || choice.spells[0].combinationSpellName == spell.name)">2&nbsp;</span>
+                                                            <button class="character-choice"
+                                                                (click)="on_SpellCombinationTaken(spell.name, false)"
+                                                                [disabled]="!taken"
+                                                                *ngIf="spellCasting?.castingType=='Prepared'">-</button>
+                                                            <button class="character-choice"
+                                                                (click)="on_SpellCombinationTaken(spell.name, true)"
+                                                                [disabled]="cannotTake.length || (choice.spells.length >= available && choice.spells[0]?.combinationSpellName)"
+                                                                *ngIf="spellCasting?.castingType=='Prepared'">+</button>
+                                                        </span>
+                                                        <div class="gridicon-fullsizebox"
+                                                            #SpellChoiceDetailPopover="ngbPopover"
+                                                            [ngbPopover]="SpellChoiceDetailTemplate" triggers="click">
+                                                            <app-gridIcon [title]="spell.name"
+                                                                [detail]="spell.traits.includes('Rare') ? 'Rare' : (spell.traits.includes('Uncommon') ? 'Uncommon' : '')">
+                                                            </app-gridIcon>
+                                                            <header class="sectionHeader">
+                                                                <!-- Signature Spells -->
+                                                                <ng-container *ngIf="taken && signatureSpellsAllowed">
+                                                                    <div class="list-item newrow lower"
+                                                                        *ngFor="let takenSpell of [get_TakenSpell(spell.name)]">
+                                                                        <span [ngbTooltip]="reason"
+                                                                            *ngFor="let reason of [get_CannotChooseSignatureSpell(signatureSpellsAllowed, takenSpell)]; trackBy:trackByIndex;">
+                                                                            <input
+                                                                                id="{{choice.id+spell.name}}signaturespell"
+                                                                                type="checkbox"
+                                                                                [(ngModel)]="takenSpell.signatureSpell"
+                                                                                (ngModelChange)="on_SignatureSpell()"
+                                                                                [disabled]="reason != ''">
+                                                                            <label
+                                                                                for="{{choice.id+spell.name}}signaturespell">
+                                                                                &nbsp;
+                                                                                <i class='bi-stars'></i>
+                                                                                &nbsp;Choose this spell as a Signature
+                                                                                Spell
+                                                                            </label>
+                                                                        </span>
+                                                                    </div>
+                                                                </ng-container>
+                                                                <!-- End Signature Spells -->
+                                                                <span
+                                                                    [ngbTooltip]="(!SpellChoiceDetailPopover.isOpen()) ? spell.shortDesc : ''"
+                                                                    triggers="hover" openDelay=100>
+                                                                    {{(spellCasting?.castingType == 'Prepared' && taken)
+                                                                    ? " " + taken + " " : ""}}{{spell.name}}&nbsp;
+                                                                </span>
+                                                                <cite>Level {{spell.levelreq}}</cite>
+                                                                <cite class="trait"
+                                                                    *ngIf="spell.traits.includes('Rare')"
+                                                                    [ngbPopover]="get_Traits('Rare')[0]?.desc">Rare</cite>
+                                                                <cite class="trait"
+                                                                    *ngIf="spell.traits.includes('Uncommon')"
+                                                                    [ngbPopover]="get_Traits('Uncommon')[0]?.desc">Uncommon</cite>
+                                                            </header>
+                                                        </div>
+                                                    </div>
+                                                </ng-container>
+                                            </ng-container>
+                                        </ng-container>
+                                    </ng-container>
+                                </ng-container>
+                            </div>
+                        </div>
                     </div>
-                </div>
+                </ng-container>
             </ng-container>
         </ng-container>
-    </div>
+    </ng-container>
 </ng-container>

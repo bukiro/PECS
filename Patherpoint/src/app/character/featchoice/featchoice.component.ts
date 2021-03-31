@@ -170,7 +170,7 @@ export class FeatchoiceComponent implements OnInit {
             }
         }
         if (this.creature != "Familiar") {
-            title += ' (' + this.choice.source + ')';
+            title += " (" + this.choice.source + ")";
         }
         if (availableFeats > 1) {
             title += ": " + this.choice.feats.length + "/" + availableFeats;
@@ -351,8 +351,8 @@ export class FeatchoiceComponent implements OnInit {
                     //Sort by level, then name. Divide level by 100 to create leading zeroes (and not sort 10 before 2), then cut it down to 3 digits. 0 will be 0.00.
                     //For skill feat choices and general feat choices, sort by the associated skill (if exactly one), then level and name.
                     //Feats with less or more required skills are sorted first.
-                    let sortLevel_a = ((a.feat.levelreq || 0.1) / 100).toString().substr(0,4);
-                    let sortLevel_b = ((b.feat.levelreq || 0.1) / 100).toString().substr(0,4);
+                    let sortLevel_a = ((a.feat.levelreq || 0.1) / 100).toString().substr(0, 4);
+                    let sortLevel_b = ((b.feat.levelreq || 0.1) / 100).toString().substr(0, 4);
                     let sort_a = sortLevel_a + a.feat.name;
                     let sort_b = sortLevel_b + b.feat.name;
                     if (["General", "Skill"].includes(choice.type)) {
@@ -423,7 +423,7 @@ export class FeatchoiceComponent implements OnInit {
     cannotTake(feat: Feat, choice: FeatChoice, skipLevel: boolean = false) {
         //Don't run the test on a blank feat - does not go well.
         if (feat?.name) {
-            let character = this.get_Character();
+            let creature = this.get_Creature();
             let levelNumber = this.levelNumber;
             let takenByThis: number = this.get_FeatTakenByChoice(feat, choice) ? 1 : 0;
             let ignoreRequirementsList: string[] = this.create_IgnoreRequirementList(feat, choice);
@@ -454,26 +454,27 @@ export class FeatchoiceComponent implements OnInit {
             //If the feat can be taken a limited number of times:
             //  (Don't count temporary choices (showOnSheet == true) unless this is also temporary.)
             let excludeTemporary = !choice.showOnSheet;
-            let haveUpToNow: number = feat.have(character, this.characterService, levelNumber, excludeTemporary, true) - takenByThis;
-            let haveLater: number = feat.have(character, this.characterService, 20, excludeTemporary, true, levelNumber + 1);
+            let haveUpToNow: number = feat.have(creature, this.characterService, levelNumber, excludeTemporary, true);
+            //Familiar abilities are independent of level. Don't check haveLater for them, because it will be the same result as haveUpToNow.
+            let haveLater: number = creature.type == "Character" ? feat.have(creature, this.characterService, 20, excludeTemporary, true, levelNumber + 1) : 0;
             if (!feat.unlimited) {
                 if (feat.limited) {
                     //Has it already been taken up to this level, excluding this FeatChoice, and more often than the limit?
                     //  Don't count temporary choices (showOnSheet == true) unless this is also temporary.
-                    if (haveUpToNow >= feat.limited) {
+                    if (haveUpToNow - takenByThis >= feat.limited) {
                         reasons.push({ reason: "Already taken", explain: "This feat cannot be taken more than " + feat.limited + " times." });
-                    } else if (haveUpToNow + haveLater >= feat.limited) {
+                    } else if (haveUpToNow - takenByThis + haveLater >= feat.limited) {
                         //Has it been taken more often than the limits, including higher levels?
                         reasons.push({ reason: "Taken on higher levels", explain: "This feat has been selected all " + feat.limited + " times, including on higher levels." });
                     }
                 } else {
                     //Has it already been taken up to this level, excluding this FeatChoice?
                     //  Don't count temporary choices (showOnSheet == true) unless this is also temporary.
-                    if (haveUpToNow) {
+                    if (haveUpToNow - takenByThis > 0) {
                         reasons.push({ reason: "Already taken", explain: "This feat cannot be taken more than once." });
                     }
                     //Has it been taken on a higher level (that is, not up to now, but up to Level 20)?
-                    if (haveLater) {
+                    if (haveLater > 0) {
                         reasons.push({ reason: "Taken on higher level", explain: "This feat has been selected on a higher level." });
                     }
                 }
@@ -481,7 +482,7 @@ export class FeatchoiceComponent implements OnInit {
             //Dedication feats (unless the dedication limit is ignored)
             if (feat.traits.includes("Dedication") && !ignoreRequirementsList.includes("dedicationlimit")) {
                 //Get all taken dedication feats that aren't this, then check if you have taken enough to allow a new archetype.
-                let takenFeats = this.get_FeatsAndFeatures().filter(feat => feat.have(character, this.characterService, levelNumber, true));
+                let takenFeats = this.get_FeatsAndFeatures().filter(feat => feat.have(creature, this.characterService, levelNumber, true));
                 takenFeats
                     .filter(libraryfeat => libraryfeat?.name != feat.name && libraryfeat?.traits.includes("Dedication")).forEach(takenfeat => {
                         let archetypeFeats = takenFeats
@@ -505,7 +506,7 @@ export class FeatchoiceComponent implements OnInit {
             //If a subtype has been taken and the feat is not limited, no other subfeat can be taken.
             if (feat.superType) {
                 let superfeat: Feat = this.get_Feats().find(superfeat => superfeat.name == feat.superType && !superfeat.hide);
-                let takenSubfeats: Feat[] = this.get_Feats().filter(subfeat => subfeat.superType == feat.superType && subfeat.name != feat.name && !subfeat.hide && subfeat.have(character, this.characterService, levelNumber));
+                let takenSubfeats: Feat[] = this.get_Feats().filter(subfeat => subfeat.superType == feat.superType && subfeat.name != feat.name && !subfeat.hide && subfeat.have(creature, this.characterService, levelNumber));
                 //If another subtype has been taken, but not in this choice, and the feat is not unlimited, no other subfeat can be taken.
                 if (!superfeat.unlimited && !superfeat.limited && takenSubfeats.length) {
                     reasons.push({ reason: "Feat already taken", explain: "This feat cannot be taken more than once." });
