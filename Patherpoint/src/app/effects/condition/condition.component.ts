@@ -77,7 +77,8 @@ export class ConditionComponent implements OnInit {
     }
 
     get_IsInformationalCondition() {
-        return !this.condition.effects?.length && !this.condition.hints.some(hint => hint.effects?.length);
+        //Return whether the condition is purely informational, i.e. has no effects and is not currently causing any conditions.
+        return !this.condition.effects?.length && !this.condition.hints.some(hint => hint.effects?.length) && !this.characterService.get_AppliedConditions(this.get_Creature(), "", "", true).some(existingCondition => existingCondition.parentID == this.conditionGain.id);
     }
 
     change_ConditionDuration(gain: ConditionGain, condition: Condition, turns: number) {
@@ -139,13 +140,13 @@ export class ConditionComponent implements OnInit {
         }
         if (oldChoice != gain.choice) {
             let creature = this.get_Creature();
-            //Remove any conditions that were granted by the previous choice, unless they are persistent.
+            //Remove any conditions that were granted by the previous choice, unless they are persistent (but still if they are ignorePersistentAtChoiceChange).
             if (oldChoice) {
                 condition.gainConditions.filter(extraCondition => extraCondition.conditionChoiceFilter == oldChoice).forEach(extraCondition => {
                     let addCondition = Object.assign(new ConditionGain, JSON.parse(JSON.stringify(extraCondition)));
                     addCondition.source = gain.name;
                     let originalCondition = this.characterService.get_Conditions(addCondition.name)[0];
-                    if (!(addCondition.persistent || originalCondition?.persistent)) {
+                    if (!(addCondition.persistent || originalCondition?.persistent) || addCondition.ignorePersistentAtChoiceChange) {
                         this.characterService.remove_Condition(creature, addCondition, false, false, true, true);
                     }
                 })

@@ -10,11 +10,13 @@
             </ng-template>
             <app-gridIcon class="condition" [ngClass]="{'penalty':!condition.buff, 'bonus':condition.buff}"
                 placement="right bottom top" [condition]="conditionGain" [originalCondition]="condition"
-                [ngbPopover]="conditionContent" ngbTooltip="{{conditionGain.name}}" container="body"
-                *ngIf="!fullDisplay">
+                [ngbPopover]="conditionContent"
+                [superTitle]="get_IsInformationalCondition(conditionGain, condition) ? 'icon-bi-info-circle' : ''"
+                ngbTooltip="{{conditionGain.name}}" container="body" *ngIf="!fullDisplay">
             </app-gridIcon>
             <div class="list-item gridicon-fullsizebox" *ngIf="fullDisplay">
                 <app-gridIcon class="condition" [condition]="conditionGain" [originalCondition]="condition"
+                    [superTitle]="get_IsInformationalCondition(conditionGain, condition) ? 'icon-bi-info-circle' : ''"
                     [ngClass]="{'penalty':!condition.buff, 'bonus':condition.buff}">
                 </app-gridIcon>
                 <ng-container *ngTemplateOutlet="conditionContent"></ng-container>

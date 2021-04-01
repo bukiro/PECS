@@ -7,6 +7,7 @@ import { ConditionGain } from '../ConditionGain';
 import { Effect } from '../Effect';
 import { Character } from '../Character';
 import { AnimalCompanion } from '../AnimalCompanion';
+import { Condition } from '../Condition';
 
 @Component({
     selector: 'app-effects',
@@ -166,6 +167,11 @@ export class EffectsComponent implements OnInit {
 
     get_Duration(duration: number) {
         return this.timeService.get_Duration(duration);
+    }
+
+    get_IsInformationalCondition(conditionGain: ConditionGain, condition: Condition) {
+        //Return whether the condition is purely informational, i.e. has no effects and is not currently causing any conditions.
+        return !condition.effects?.length && !condition.hints.some(hint => hint.effects?.length) && !this.characterService.get_AppliedConditions(this.get_Creature(), "", "", true).some(existingCondition => existingCondition.parentID == conditionGain.id);
     }
 
     calculate_InventoryEffects() {

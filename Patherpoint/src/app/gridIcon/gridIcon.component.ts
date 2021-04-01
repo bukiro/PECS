@@ -4,6 +4,7 @@ import { Feat } from '../Feat';
 import { NgbPopoverConfig, NgbTooltipConfig } from '@ng-bootstrap/ng-bootstrap';
 import { Effect } from '../Effect';
 import { Condition } from '../Condition';
+import { CharacterService } from '../character.service';
 
 @Component({
     selector: 'app-gridIcon',
@@ -170,9 +171,6 @@ export class GridIconComponent implements OnInit {
         } else if (this.condition?.duration == 1 || this.condition?.nextStage == -1) {
             //If a condition has a duration of 1, it needs to be handled immediately, and we show an exclamation diamond to point that out.
             return "<i class='bi-exclamation-diamond'></i>";
-        } else if (this.originalCondition && !this.originalCondition.effects?.length && !this.originalCondition.hints?.some(hint => hint.effects?.length)) {
-            //If a condition has no effects, show an info circle to signify that it is only informational.
-            return "<i class='bi-info-circle'></i>";
         } else if (this.condition?.lockedByParent || this.condition?.valueLockedByParent) {
             //If a condition or its value is locked by its parent, show a lock.
             return "<i class='bi-lock'></i>";

@@ -50,6 +50,8 @@ export class ConditionGain {
     public persistent: boolean = false;
     //If the gain is ignorePersistent, it gets removed when its source is deactivated, even when the condition is usually persistent.
     public ignorePersistent: boolean = false;
+    //If the gain is ignorePersistentAtChoiceChange, it gets removed when the parent condition changes choices, even when it is persistent.
+    public ignorePersistentAtChoiceChange: boolean = false;
     //For conditions gained by conditions, if lockedByParent is set, this condition cannot be removed until the condition with the source ID is gone.
     public lockedByParent: boolean = false;
     //If valueLockedByParent is set, the condition value can't be changed while the parent condition exists.

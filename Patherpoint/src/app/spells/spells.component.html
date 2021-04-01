@@ -25,13 +25,13 @@
             <div class="itembox-inner">
                 <div class="loading" *ngIf="still_loading()">Loading</div>
                 <ng-container *ngIf="!still_loading() && get_Character().class && get_SpellsMenuState()=='in'">
-                    <div class="list-item">
-                        <span>
-                            <input id="allowHeightened" type="checkbox" [(ngModel)]="allowHeightened">
-                            <label for="allowHeightened">Allow heightened spells</label>
-                        </span>
-                    </div>
                     <div class="itembox-inner">
+                        <div class="list-item">
+                            <span>
+                                <input id="allowHeightened" type="checkbox" [(ngModel)]="allowHeightened">
+                                <label for="allowHeightened">&nbsp;Allow heightened spells</label>
+                            </span>
+                        </div>
                         <ng-container
                             *ngFor="let casting of get_SpellCastings(); let index = index; trackBy:trackByIndex;">
                             <header class="sectionHeader">{{(casting.className + " " + casting.tradition +
@@ -121,7 +121,8 @@
                                     <!--Spell choices-->
                                     <ng-container
                                         *ngFor="let choices of [get_SpellChoices(casting, level)]; trackBy:trackByIndex;">
-                                        <div [ngClass]="{'icon-list':get_TileMode()}" *ngIf="choices.length" style="min-height: auto">
+                                        <div [ngClass]="{'icon-list':get_TileMode()}" *ngIf="choices.length"
+                                            style="min-height: auto">
                                             <ng-container *ngFor="let choice of choices; trackBy:trackByIndex;">
                                                 <app-spellchoice (showChoiceMessage)="receive_ChoiceMessage($event)"
                                                     (showSpellMessage)="receive_SpellMessage($event)"

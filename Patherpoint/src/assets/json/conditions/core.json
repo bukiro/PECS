@@ -12372,18 +12372,21 @@
         ],
         "gainConditions": [
             {
-                "addValue": -3,
+                "addValue": -1,
                 "name": "Frightened"
             },
             {
+                "addValue": -1,
                 "conditionChoiceFilter": "Failure",
                 "name": "Sickened"
             },
             {
+                "addValue": -2,
                 "conditionChoiceFilter": "Success",
                 "name": "Sickened"
             },
             {
+                "addValue": -3,
                 "conditionChoiceFilter": "Critical Success",
                 "name": "Sickened"
             }
@@ -16410,16 +16413,16 @@
         "name": "Mariner's Curse (Caster)",
         "desc": "You have afflicted the target with the curse of the roiling, unforgiving sea, with results according to the target's a Will save:\n\n<strong>Critical Success</strong> The target is unaffected.\n<strong>Success</strong> The target becomes sickened 1. Reducing its sickened condition to 0 ends the curse.\n<strong>Failure</strong> The target becomes sickened 1 and can't reduce its sickened condition below 1 while the curse remains. The curse can be lifted by remove curse or similar magic. Whenever the target is sickened and on the water at least a mile from shore, it is also slowed 1.\n<strong>Critical Failure</strong> As failure, but the target becomes sickened 2.",
         "type": "spells",
-        "minLevel": 5
+        "minLevel": 5,
+        "buff": true,
+        "inputRequired": "Since the curse is permanent, remove the condition when it gets lifted or you no longer need to be aware of it."
     },
     {
         "name": "Mariner's Curse",
         "desc": "You are afflicted with the curse of the roiling, unforgiving sea, with results according to your Will save:\n\n<strong>Critical Success</strong> You are unaffected.\n<strong>Success</strong> You become sickened 1. Reducing your sickened condition to 0 ends the curse.\n<strong>Failure</strong> You become sickened 1 and can't reduce your sickened condition below 1 while the curse remains. The curse can be lifted by remove curse or similar magic. Whenever you are sickened and on the water at least a mile from shore, you are also slowed 1.\n<strong>Critical Failure</strong> As failure, but you become sickened 2.",
         "type": "spells",
         "minLevel": 5,
-        "endsWithConditions": [
-            "Sickened"
-        ],
+        "inputRequired": "Remove the condition when you reduce your sickened condition to 0.",
         "choices": [
             {
                 "name": "Success"
@@ -16429,6 +16432,12 @@
             },
             {
                 "name": "Critical Failure"
+            },
+            {
+                "name": "Failure and on the sea"
+            },
+            {
+                "name": "Critical Failure and on the sea"
             }
         ],
         "gainConditions": [
@@ -16441,13 +16450,45 @@
                 "conditionChoiceFilter": "Failure",
                 "lockedByParent": true,
                 "name": "Sickened",
+                "persistent": true,
+                "ignorePersistentAtChoiceChange": true,
                 "value": 1
             },
             {
                 "conditionChoiceFilter": "Critical Failure",
                 "lockedByParent": true,
                 "name": "Sickened",
+                "persistent": true,
+                "ignorePersistentAtChoiceChange": true,
                 "value": 2
+            },
+            {
+                "conditionChoiceFilter": "Failure and on the sea",
+                "lockedByParent": true,
+                "name": "Sickened",
+                "persistent": true,
+                "ignorePersistentAtChoiceChange": true,
+                "value": 1
+            },
+            {
+                "conditionChoiceFilter": "Critical Failure and on the sea",
+                "lockedByParent": true,
+                "name": "Sickened",
+                "persistent": true,
+                "ignorePersistentAtChoiceChange": true,
+                "value": 2
+            },
+            {
+                "conditionChoiceFilter": "Failure and on the sea",
+                "lockedByParent": true,
+                "name": "Slowed",
+                "value": 1
+            },
+            {
+                "conditionChoiceFilter": "Critical Failure and on the sea",
+                "lockedByParent": true,
+                "name": "Slowed",
+                "value": 1
             }
         ]
     },
@@ -16455,7 +16496,8 @@
         "name": "Mind Probe (Caster)",
         "desc": "You cast your thoughts through a creature's mind, sifting for information. You access the target's memories and knowledge unless it fends you off with a Will save.\n\n<strong>Success</strong> The target is unaffected.\n<strong>Failure</strong> Each round of the spell's duration, you can Sustain the Spell to ask a different question and attempt to uncover the answer. For each question, the target can attempt a Deception check against your spell DC; if the target succeeds, you don't learn the answer, and on a critical success, the target gives you a false answer that you believe is truthful. Once you've asked the target a given question, asking it again, even with a separate casting of mind probe, produces the same result.\n<strong>Critical Failure</strong> As failure, and the target takes a -4 circumstance penalty to Deception checks against your questions.",
         "type": "spells",
-        "minLevel": 5
+        "minLevel": 5,
+        "buff": true
     },
     {
         "name": "Mind Probe",
@@ -16464,13 +16506,13 @@
         "minLevel": 5,
         "hints": [
             {
-                "desc": "If you failed your will save against mind probe, you take a -4 circumstance penalty to Deception checks against the caster's questions.",
+                "desc": "If you critically failed your will save against mind probe, you take a -4 circumstance penalty to Deception checks against the caster's questions.",
                 "showon": "Deception",
                 "effects": [
                     {
                         "affected": "Deception",
                         "type": "circumstance",
-                        "value": "-4"
+                        "value": "Choice == 'Critical Failure' ? -4 : 0"
                     }
                 ]
             }
@@ -16488,13 +16530,15 @@
         "name": "Moon Frenzy (Caster)",
         "desc": "A feral aspect has overcome the targets, making them tough and savage. Targets gain 5 temporary Hit Points, a +10-foot status bonus to their Speeds, and weakness 5 to silver (heightened statistics at the bottom). They also grow vicious fangs and claws, which are unarmed attacks. The fangs deal 2d8 piercing damage; the claws deal 2d6 slashing damage and have the agile and finesse traits. The targets use their highest weapon or unarmed attack proficiency with these attacks, and if they have weapon specialization or greater weapon specialization, they add this damage as well. On a critical hit with one of these unarmed attacks, the creature struck takes 1d4 persistent bleed damage.\n\nThe targets can't use concentrate actions unless those actions also have the rage trait, with the exception of Seek. A creature can attempt to end the spell's effect on itself by using a single action, which has the rage trait, to attempt a Will save against your spell DC; on a success, it ends the spell's effect on itself.\n\nIf a target is in the light of a full moon, it also grows by one size if it were Medium or smaller. This increases the reach of a Medium or Tiny creature by 5 feet.\n\n<strong>6th Level</strong> The temporary Hit Points increase to 10, the silver weakness to 10, and the damage dealt by the attacks to three dice.\n<strong>10th Level</strong> The temporary Hit Points increase to 20, the silver weakness to 20, and the damage dealt by the attacks to four dice.",
         "type": "spells",
-        "minLevel": 5
+        "minLevel": 5,
+        "buff": true
     },
     {
         "name": "Moon Frenzy",
-        "desc": "A feral aspect has overcome you, making you tough and savage. You gain 5 temporary Hit Points, a +10-foot status bonus to your Speeds, and weakness 5 to silver (heightened statistics at the bottom). You also grow vicious fangs and claws, which are unarmed attacks. The fangs deal 2d8 piercing damage; the claws deal 2d6 slashing damage and have the agile and finesse traits. You use your highest weapon or unarmed attack proficiency with these attacks, and if you have weapon specialization or greater weapon specialization, you add this damage as well. On a critical hit with one of these unarmed attacks, the creature struck takes 1d4 persistent bleed damage.\n\nYou can't use concentrate actions unless those actions also have the rage trait, with the exception of Seek. You can attempt to end the spell's effect on yourself by using a single action, which has the rage trait, to attempt a Will save against the caster's spell DC; on a success, you end the spell's effect on yourself.\n\nIf you are in the light of a full moon, You also grow by one size if you were Medium or smaller. This increases your reach by 5 feet if you were Medium or Tiny.\n\n<strong>6th Level</strong> The temporary Hit Points increase to 10, the silver weakness to 10, and the damage dealt by the attacks to three dice.\n<strong>10th Level</strong> The temporary Hit Points increase to 20, the silver weakness to 20, and the damage dealt by the attacks to four dice.",
+        "desc": "A feral aspect has overcome you, making you tough and savage. You gain 5 temporary Hit Points, a +10-foot status bonus to your Speeds, and weakness 5 to silver (heightened statistics at the bottom). You also grow vicious fangs and claws, which are unarmed attacks. The fangs deal 2d8 piercing damage; the claws deal 2d6 slashing damage and have the agile and finesse traits. You use your highest weapon or unarmed attack proficiency with these attacks, and if you have weapon specialization or greater weapon specialization, you add this damage as well. On a critical hit with one of these unarmed attacks, the creature struck takes 1d4 persistent bleed damage.\n\nYou can't use concentrate actions unless those actions also have the rage trait, with the exception of Seek. You can attempt to end the spell's effect on yourself by using a single action, which has the rage trait, to attempt a Will save against the caster's spell DC; on a success, you end the spell's effect on yourself.\n\nIf you are in the light of a full moon, you also grow by one size if you were Medium or smaller. This increases your reach by 5 feet if you were Medium or Tiny.\n\n<strong>6th Level</strong> The temporary Hit Points increase to 10, the silver weakness to 10, and the damage dealt by the attacks to three dice.\n<strong>10th Level</strong> The temporary Hit Points increase to 20, the silver weakness to 20, and the damage dealt by the attacks to four dice.",
         "type": "spells",
         "minLevel": 5,
+        "buff": true,
         "hints": [
             {
                 "desc": "If you are in the light of a full moon, you grow by one size if you were Medium or smaller. This increases your reach by 5 feet if you were Medium or Tiny.",
@@ -16523,17 +16567,17 @@
             },
             {
                 "affected": "Silver Resistance",
-                "value": "Heightened >= 10 ? -20 : (Heightened => 6 ? -10 : -5)"
+                "value": "Heightened >= 10 ? -20 : (Heightened >= 6 ? -10 : -5)"
             },
             {
                 "affected": "Moon Frenzy Dice Number",
-                "setValue": "Heightened >= 10 ? 4 : (Heightened => 6 ? 3 : null)"
+                "setValue": "Heightened >= 10 ? 4 : (Heightened >= 6 ? 3 : null)"
             }
         ],
         "onceEffects": [
             {
                 "affected": "Temporary HP",
-                "value": "Heightened >= 10 ? -20 : (Heightened => 6 ? -10 : -5)"
+                "value": "Heightened >= 10 ? 20 : (Heightened >= 6 ? 10 : 5)"
             }
         ],
         "endEffects": [
@@ -16557,13 +16601,15 @@
         "name": "Passwall",
         "desc": "You have created a visible tunnel through the wall in the chosen area, replacing the area with empty space. If the wall is thicker than 10 feet, the tunnel ends 10 feet in.\n\n<strong>7th Level</strong> The tunnel can be up to 20 feet deep. The areas of the wall that contain your tunnel's entrance appear completely normal (unless viewed with true seeing or a similar effect), despite the tunnel's existence. The tunnel's entrance functions as a solid wall, but you can specify a password or a trigger, allowing creatures to enter the tunnel freely.\n\nThis spell doesn't reduce the integrity of the structure. When the spell ends, anyone inside the tunnel is shunted to the nearest exit.",
         "type": "spells",
-        "minLevel": 5
+        "minLevel": 5,
+        "buff": true
     },
     {
         "name": "Pillars of Sand",
         "desc": "You have raised one or more pillars of solid sand from the earth. The total height of the pillars is 30 feet (plus 10 feet for every spell level after 5th), which must be used in 10-foot increments. Each pillar is 5 feet by 5 feet in length and width. The pillars must be conjured on a relatively flat area of natural earthen terrain such as sand, dirt, stone, or clay. Regardless of the terrain, the pillars are always made of tightly compacted sand particles that together become as hard and solid as stone (DC 15 Athletics to Climb).\n\nIf a creature occupies the space where you cast this spell, it is carried upward atop the pillar. The creature can attempt a Reflex save (DC equal to the caster's spell DC); on a success, the creature can either attempt to Grab an Edge or move into an adjacent unoccupied square. If the pillar would rise higher than the ceiling, it firmly abuts the ceiling but does not rise any higher. A creature caught between a pillar and a ceiling takes no damage (subject to GM discretion, such as is in the case of stalactites or other hazards) but becomes immobilized. The creature can attempt an Escape check to free itself, but it must thereafter Grab an Edge, Climb down, or fall from the top of the pillar. The Grab an Edge and Escape DCs are the same as the Reflex save.\n\nAs part of your action to Sustain the Spell, you can choose to either destroy one of your pillars, causing it to immediately crumble into nothing, or create a new pillar, as long as doing so wouldn't exceed the total number of feet of pillar you can create. You can Sustain the Spell two or more times on a single turn to destroy or create a pillar.",
         "type": "spells",
-        "minLevel": 5
+        "minLevel": 5,
+        "buff": true
     },
     {
         "name": "Plant Form",
@@ -16911,7 +16957,7 @@
     },
     {
         "name": "Wyvern Sting (Caster)",
-        "desc": "You duplicate the venomous sting of a wyvern. You deal 3d4 piercing damage to the touched creature and afflict it with wyvern venom. If the target takes piercing damage, they must attempt a Fortitude save.\n\n<strong>Wyvern Venom</strong> (poison) <strong>Level</strong> 9; <strong>Maximum Duration</strong> 6 rounds; <strong>Stage 1</strong> 5d6 poison damage (1 round); <strong>Stage 2</strong> 6d6 poison damage (1 round); <strong>Stage 3</strong> 8d6 poison damage (1 round)\n\n<strong>Critical Success</strong> The target is unaffected.\n<strong>Success</strong> The target takes 5d6 poison damage.\n<strong>Failure</strong> The target is afflicted with wyvern venom at stage 1.\n<strong>Critical Failure</strong> The target is afflicted with wyvern venom at stage 2.",
+        "desc": "You duplicate the venomous sting of a wyvern. If the target creature has taken piercing damage from your attack, it is afflicted with wyvern venom according to its Fortitude save.\n\n<strong>Wyvern Venom</strong> (poison) <strong>Level</strong> 9; <strong>Maximum Duration</strong> 6 rounds; <strong>Stage 1</strong> 5d6 poison damage (1 round); <strong>Stage 2</strong> 6d6 poison damage (1 round); <strong>Stage 3</strong> 8d6 poison damage (1 round)\n\n<strong>Critical Success</strong> The target is unaffected.\n<strong>Success</strong> The target takes 5d6 poison damage.\n<strong>Failure</strong> The target is afflicted with wyvern venom at stage 1.\n<strong>Critical Failure</strong> The target is afflicted with wyvern venom at stage 2.",
         "type": "spells",
         "minLevel": 5,
         "buff": true

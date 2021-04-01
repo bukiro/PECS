@@ -115,7 +115,6 @@ The very latest in Assistive Technologies for Dungeon Master (ATDM)
 - [ ] Stretch Goal: Exporting statblock and files for other tools (e.g. Foundry VTT)
 
 Active to-do:
-- 5th level spells
 - A lot of older spells don't have a caster condition. Create these caster conditions for all spells that target allies, and make it so that when the target is the caster, they only receive the target condition. First review all caster conditions and ensure that the caster condition is never needed if you have the target condition.
 - Make caster conditions optional if there is a target condition
 
