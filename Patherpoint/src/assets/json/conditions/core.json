@@ -602,6 +602,10 @@
             },
             {
                 "name": "Flat-Footed"
+            },
+            {
+                "name": "Prone",
+                "persistent": true
             }
         ],
         "endConditions": [

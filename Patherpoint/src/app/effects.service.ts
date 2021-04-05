@@ -550,7 +550,8 @@ export class EffectsService {
         featEffects.forEach(effect => {
             effect.show = false;
         })
-        simpleEffects = simpleEffects.concat(featEffects);
+        //Push featEffects into simpleEffects after.
+        simpleEffects.push(...featEffects);
 
         //Conditions
         let appliedConditions = characterService.get_AppliedConditions(creature).filter(condition => condition.apply);
@@ -774,9 +775,6 @@ export class EffectsService {
                 }
             })
         }
-
-        //Push featEffects into allEffects.
-        allEffects.push(...featEffects);
 
         //Split off effects that affect another creature for later. We don't want these to influence or be influenced by the next steps.
         let effectsForOthers = allEffects.filter(effect => effect.creature != creature.id);

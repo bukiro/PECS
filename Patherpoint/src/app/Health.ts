@@ -44,6 +44,7 @@ export class Health {
                 explain += "\nClass: " + classCreature.class.hitPoints + " + CON: " + (classCreature.class.hitPoints + CON) + " per Level: " + classHP;
             }
         }
+        let baseHP = ancestryHP + classHP;
         let effectsSum = 0
         effectsService.get_AbsolutesOnThis(creature, "Max HP").forEach(effect => {
             effectsSum = parseInt(effect.setValue);
@@ -53,7 +54,7 @@ export class Health {
             effectsSum += parseInt(effect.value);
             explain += "\n" + effect.source + ": " + effect.value;
         });
-        let result = ancestryHP + classHP + effectsSum;
+        let result = baseHP + effectsSum;
         return { result: result, explain: explain.trim() }
     }
     currentHP(creature: Creature, characterService: CharacterService, effectsService: EffectsService) {
@@ -65,7 +66,7 @@ export class Health {
         }
         explain += "\nDamage taken: " + (this.damage);
         //You can never get under 0 HP. If you do (because you just took damage), that gets corrected here,
-        //  and the health component gets reloaded in case we need to process conditions.
+        // and the health component gets reloaded in case we need to process new conditions.
         if (sum < 0) {
             this.damage += sum;
             sum = 0;
@@ -153,6 +154,9 @@ export class Health {
         if (wake) {
             characterService.get_AppliedConditions(creature, "Unconscious", "0 Hit Points").forEach(gain => {
                 characterService.remove_Condition(creature, gain);
+            });
+            characterService.get_AppliedConditions(creature, "Unconscious", "Dying").forEach(gain => {
+                characterService.remove_Condition(creature, gain, false);
             });
         }
     }
