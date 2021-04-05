@@ -118,9 +118,8 @@ Active to-do:
 - A lot of older spells don't have a caster condition. Create these caster conditions for all spells that target allies, and make it so that when the target is the caster, they only receive the target condition. First review all caster conditions and ensure that the caster condition is never needed if you have the target condition.
 - Make caster conditions optional for spells with target=="" where the caster doesn't need to be aware of the target's condition (how to determine?)
 - Add number of targets to all spells
-- Add default duration to spell conditions
-- Specify spell targets: self, ally, companion, familiar, object, area, other (default, can be blank)
-- Lose Unconscious from dying when you recover by being healed
+- Add default durations to spell conditions
+- Specify spell targets: self, ally, companion, familiar, (object, area) (maybe unnecessary), other (default, can be blank)
 
 Implement:
 

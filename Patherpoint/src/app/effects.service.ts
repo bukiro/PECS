@@ -497,10 +497,14 @@ export class EffectsService {
                 })
             });
         }
+        
+        //Write active hint effects into a separate list first. All effects from feats should be shown, after which they are moved into simpleEffects.
+        let hintEffects: Effect[] = [];
+        
         //Traits that are on currently equipped items
         characterService.traitsService.get_Traits().filter(trait => trait.hints.length).forEach(trait => {
             trait.hints.filter(hint => (hint.active || hint.active2 || hint.active3 || hint.active4 || hint.active5) && hint.effects?.length && trait.haveOn(creature).length).forEach(hint => {
-                simpleEffects = simpleEffects.concat(this.get_SimpleEffects(character, characterService, hint, "conditional, " + trait.name));
+                hintEffects = hintEffects.concat(this.get_SimpleEffects(character, characterService, hint, "conditional, " + trait.name));
             })
         })
         
@@ -516,21 +520,21 @@ export class EffectsService {
                         featEffects = featEffects.concat(this.get_SimpleEffects(character, characterService, feat));
                     }
                     feat.hints?.filter(hint => (hint.active || hint.active2 || hint.active3 || hint.active4 || hint.active5) && hint.effects?.length).forEach(hint => {
-                        simpleEffects = simpleEffects.concat(this.get_SimpleEffects(character, characterService, hint, "conditional, " + feat.name));
+                        hintEffects = hintEffects.concat(this.get_SimpleEffects(character, characterService, hint, "conditional, " + feat.name));
                     })
                 });
         }
         //Companion Specializations and active hints
         if (companion) {
             companion.class?.ancestry?.hints?.filter(hint => (hint.active || hint.active2 || hint.active3 || hint.active4 || hint.active5) && hint.effects?.length).forEach(hint => {
-                simpleEffects = simpleEffects.concat(this.get_SimpleEffects(character, characterService, hint, "conditional, " + companion.class.ancestry.name));
+                hintEffects = hintEffects.concat(this.get_SimpleEffects(character, characterService, hint, "conditional, " + companion.class.ancestry.name));
             })
             companion.class?.specializations?.filter(spec => spec.effects?.length || spec.hints?.length).forEach(spec => {
                 if (spec.effects?.length) {
                     featEffects = featEffects.concat(this.get_SimpleEffects(companion, characterService, spec));
                 }
                 spec.hints?.filter(hint => (hint.active || hint.active2 || hint.active3 || hint.active4 || hint.active5) && hint.effects?.length).forEach(hint => {
-                    simpleEffects = simpleEffects.concat(this.get_SimpleEffects(companion, characterService, hint, "conditional, " + spec.name));
+                    hintEffects = hintEffects.concat(this.get_SimpleEffects(companion, characterService, hint, "conditional, " + spec.name));
                 })
             })
         }
@@ -543,14 +547,14 @@ export class EffectsService {
                         featEffects = featEffects.concat(this.get_SimpleEffects(familiar, characterService, ability));
                     }
                     ability.hints?.filter(hint => (hint.active || hint.active2 || hint.active3 || hint.active4 || hint.active5) && hint.effects?.length).forEach(hint => {
-                        simpleEffects = simpleEffects.concat(this.get_SimpleEffects(familiar, characterService, hint, "conditional, " + ability.name));
+                        hintEffects = hintEffects.concat(this.get_SimpleEffects(familiar, characterService, hint, "conditional, " + ability.name));
                     })
                 });
         }
+        //Hide all feat effects and push them into simpleEffects.
         featEffects.forEach(effect => {
             effect.show = false;
         })
-        //Push featEffects into simpleEffects after.
         simpleEffects.push(...featEffects);
 
         //Conditions
@@ -564,7 +568,7 @@ export class EffectsService {
                 simpleEffects = simpleEffects.concat(this.get_SimpleEffects(creature, characterService, effectsObject, "", gain));
             }
             originalCondition?.hints?.filter(hint => (hint.active || hint.active2 || hint.active3 || hint.active4 || hint.active5) && hint.effects?.length).forEach(hint => {
-                simpleEffects = simpleEffects.concat(this.get_SimpleEffects(creature, characterService, hint, "conditional, " + originalCondition.name, gain));
+                hintEffects = hintEffects.concat(this.get_SimpleEffects(creature, characterService, hint, "conditional, " + originalCondition.name, gain));
             })
         });
         //Active activities and active hints
@@ -579,14 +583,14 @@ export class EffectsService {
                 simpleEffects = simpleEffects.concat(this.get_SimpleEffects(character, characterService, originalActivity));
             }
             originalActivity?.hints?.filter(hint => (hint.active || hint.active2 || hint.active3 || hint.active4 || hint.active5) && hint.effects?.length).forEach(hint => {
-                simpleEffects = simpleEffects.concat(this.get_SimpleEffects(character, characterService, hint, "conditional, " + originalActivity.name));
+                hintEffects = hintEffects.concat(this.get_SimpleEffects(character, characterService, hint, "conditional, " + originalActivity.name));
             })
         })
         //Active hints of equipped items
         if (!familiar) {
             function add_HintEffects(item: Equipment | Oil | WornItem | ArmorRune | WeaponRune, effectsService: EffectsService) {
                 item.hints?.filter(hint => (hint.active || hint.active2 || hint.active3 || hint.active4 || hint.active5) && hint.effects?.length).forEach(hint => {
-                    simpleEffects = simpleEffects.concat(effectsService.get_SimpleEffects(character, characterService, hint, "conditional, " + (item.get_Name ? item.get_Name() : item.name)));
+                    hintEffects = hintEffects.concat(effectsService.get_SimpleEffects(character, characterService, hint, "conditional, " + (item.get_Name ? item.get_Name() : item.name)));
                 })
             }
             creature.inventories.forEach(inventory => {
@@ -613,6 +617,13 @@ export class EffectsService {
                 });
             });
         }
+
+        //Show all hint effects and push them into simpleEffects.
+        hintEffects.forEach(effect => {
+            effect.show = true;
+        })
+        simpleEffects.push(...hintEffects);
+
 
         let itemEffects: Effect[] = [];
 

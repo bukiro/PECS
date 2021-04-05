@@ -751,6 +751,7 @@
     "hints": [
       {
         "showon": "Attacks",
+        "desc": "You can use a nonlethal weapon to make a lethal attack with a -2 circumstance penalty.",
         "effects": [
           {
             "affected": "Nonlethal Attack Rolls",

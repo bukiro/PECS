@@ -356,7 +356,9 @@ export class Weapon extends Equipment {
         //Add absolute effects
         effectsService.get_AbsolutesOnThese(creature, namesList)
             .forEach(effect => {
-                absolutes.push({ value: 0, setValue: effect.setValue, source: effect.source, penalty: false, type: effect.type });
+                if (effect.show) {
+                    absolutes.push({ value: 0, setValue: effect.setValue, source: effect.source, penalty: false, type: effect.type });
+                }
                 attackResult = parseInt(effect.setValue)
                 explain = effect.source + ": " + effect.setValue;
             });
@@ -371,7 +373,7 @@ export class Weapon extends Equipment {
             if (runeSource[2]) {
                 source = "Potency (" + runeSource[2].get_Name() + ")";
             }
-            calculatedEffects.push(new Effect(creature.type, "item", this.name, potencyRune.toString(), "", false, source, false, true, true, 0))
+            calculatedEffects.push(new Effect(creature.type, "item", this.name, potencyRune.toString(), "", false, source, false, true, false, 0))
         }
         if (runeSource[0].battleforged) {
             let source = "Battleforged"
@@ -379,13 +381,21 @@ export class Weapon extends Equipment {
             if (runeSource[2]) {
                 source = "Battleforged (" + runeSource[2].get_Name() + ")";
             }
-            calculatedEffects.push(new Effect(creature.type, "item", this.name, "+1", "", false, source, false, true, true, 0))
+            calculatedEffects.push(new Effect(creature.type, "item", this.name, "+1", "", false, source, false, true, false, 0))
+        }
+        //Powerful Fist ignores the nonlethal penalty on unarmed attacks.
+        let isPowerfulFist = false;
+        if (this.prof == "Unarmed Attacks") {
+            let character = characterService.get_Character();
+            if (character.get_FeatsTaken(0, character.level, "Powerful Fist").length) {
+                isPowerfulFist = true;
+            }
         }
         //Shoddy items have a -2 item penalty to attacks, unless you have the Junk Tinker feat and have crafted the item yourself.
         if (this.shoddy && characterService.get_Feats("Junk Tinker")[0]?.have(creature, characterService) && this.crafted) {
             explain += "\nShoddy (canceled by Junk Tinker): -0";
         } else if (this.shoddy) {
-            calculatedEffects.push(new Effect(creature.type, "item", this.name, "-2", "", false, "Shoddy", true, true, true, 0))
+            calculatedEffects.push(new Effect(creature.type, "item", this.name, "-2", "", false, "Shoddy", true, true, false, 0))
         }
         //Because of the Potency and Shoddy Effects, we need to filter the types a second time, even though get_RelativesOnThese comes pre-filtered.
         effectsService.get_TypeFilteredEffects(
@@ -393,14 +403,20 @@ export class Weapon extends Equipment {
                 .concat(effectsService.get_RelativesOnThese(creature, namesList)
                 ), false)
             .forEach(effect => {
-                if (parseInt(effect.value) < 0) {
-                    penalties.push({ value: parseInt(effect.value), setValue: "", source: effect.source, penalty: true, type: effect.type });
-                } else if (!effect.source.includes("Potency")) {
-                    //Don't turn the number green just from Potency.
-                    bonuses.push({ value: parseInt(effect.value), setValue: "", source: effect.source, penalty: false, type: effect.type });
+                //Powerful Fist ignores the nonlethal penalty on unarmed attacks.
+                if (isPowerfulFist && effect.source == "conditional, Nonlethal") {
+                    explain += "\nNonlethal (cancelled by Powerful Fist)";
+                } else {
+                    if (effect.show) {
+                        if (parseInt(effect.value) < 0) {
+                            penalties.push({ value: parseInt(effect.value), setValue: "", source: effect.source, penalty: true, type: effect.type });
+                        } else {
+                            bonuses.push({ value: parseInt(effect.value), setValue: "", source: effect.source, penalty: false, type: effect.type });
+                        }
+                    }
+                    effectsSum += parseInt(effect.value);
+                    explain += "\n" + effect.source + ": " + effect.value;
                 }
-                effectsSum += parseInt(effect.value);
-                explain += "\n" + effect.source + ": " + effect.value;
             });
         //Add up all modifiers and return the attack bonus for this attack
         attackResult += effectsSum;
@@ -508,7 +524,7 @@ export class Weapon extends Equipment {
                 if (runeSource[2]) {
                     source += " (" + runeSource[2].get_Name() + ")";
                 }
-                calculatedEffects.push(new Effect(creature.type, "untyped", this.name + " Dice Number", "", (1 + runeSource[0].get_StrikingRune()).toString(), false, source, false, true, true, 0))
+                calculatedEffects.push(new Effect(creature.type, "untyped", this.name + " Dice Number", "", (1 + runeSource[0].get_StrikingRune()).toString(), false, source, false, true, false, 0))
             }
             effectsService.get_TypeFilteredEffects(
                 calculatedEffects
@@ -523,7 +539,7 @@ export class Weapon extends Equipment {
             if (this.prof == "Unarmed Attacks") {
                 let character = characterService.get_Character();
                 if (character.get_FeatsTaken(0, character.level, "Diamond Fists").length && this.traits.includes("Forceful")) {
-                    calculatedEffects.push(new Effect(creature.type, "untyped", this.name + " Dice Number", "+1", "", false, "Diamond Fists", false, true, true, 0))
+                    calculatedEffects.push(new Effect(creature.type, "untyped", this.name + " Dice Number", "+1", "", false, "Diamond Fists", false, true, false, 0))
                 }
             }
             effectsService.get_TypeFilteredEffects(
@@ -549,7 +565,7 @@ export class Weapon extends Equipment {
                 if (favoredWeapons.includes(this.name) || favoredWeapons.includes(this.weaponBase)) {
                     let newDicesize = Math.max(Math.min(dicesize + 2, 12), 6);
                     if (newDicesize > dicesize) {
-                        calculatedEffects.push(new Effect(creature.type, "untyped", this.name + " Dice Size", "", newDicesize.toString(), false, "Deific Weapon", false, true, true, 0))
+                        calculatedEffects.push(new Effect(creature.type, "untyped", this.name + " Dice Size", "", newDicesize.toString(), false, "Deific Weapon", false, true, false, 0))
                     }
                 }
             }
@@ -559,7 +575,7 @@ export class Weapon extends Equipment {
                     let twoHandedDiceSize = parseInt(trait.substr(10))
                     if (twoHandedDiceSize) {
                         if (twoHandedDiceSize > dicesize) {
-                            calculatedEffects.push(new Effect(creature.type, "untyped", this.name + " Dice Size", "", twoHandedDiceSize.toString(), false, "Two-Hand", false, true, true, 0))
+                            calculatedEffects.push(new Effect(creature.type, "untyped", this.name + " Dice Size", "", twoHandedDiceSize.toString(), false, "Two-Hand", false, true, false, 0))
                         }
                     }
                 })
@@ -668,7 +684,7 @@ export class Weapon extends Equipment {
             if (abilityReason) {
                 abilitySource += "(" + abilityReason + ")"
             }
-            calculatedEffects.push(new Effect(creature.type, "untyped", this.name + " Damage", abilityMod.toString(), "", false, abilitySource, false, true, true, 0))
+            calculatedEffects.push(new Effect(creature.type, "untyped", this.name + " Damage", abilityMod.toString(), "", false, abilitySource, false, true, false, 0))
         }
         //Mature and Specialized Companions add extra Damage to their attacks.
         if (creature.type == "Companion") {
@@ -681,7 +697,7 @@ export class Weapon extends Equipment {
                         companionMod *= 2;
                         companionSource = "Specialized Animal Companion";
                     }
-                    calculatedEffects.push(new Effect(creature.type, "untyped", this.name + " Damage", companionMod.toString(), "", false, companionSource, false, true, true, 0))
+                    calculatedEffects.push(new Effect(creature.type, "untyped", this.name + " Damage", companionMod.toString(), "", false, companionSource, false, true, false, 0))
                 }
             })
         }
@@ -735,7 +751,9 @@ export class Weapon extends Equipment {
         }
         effectsService.get_AbsolutesOnThese(creature, list)
             .forEach(effect => {
-                absolutes.push({ value: 0, setValue: effect.setValue, source: effect.source, penalty: false })
+                if (effect.show) {
+                    absolutes.push({ value: 0, setValue: effect.setValue, source: effect.source, penalty: false })
+                }
                 dmgBonus = parseInt(effect.setValue);
                 bonusExplain = "\n" + effect.source + ": Bonus damage " + parseInt(effect.setValue);
             })
@@ -794,10 +812,12 @@ export class Weapon extends Equipment {
                 .concat(effectsService.get_RelativesOnThese(creature, list)
                 ), false)
             .forEach(effect => {
-                if (parseInt(effect.value) < 0) {
-                    penalties.push({ value: parseInt(effect.value), setValue: "", source: effect.source, penalty: true });
-                } else {
-                    bonuses.push({ value: parseInt(effect.value), setValue: "", source: effect.source, penalty: false });
+                if (effect.show) {
+                    if (parseInt(effect.value) < 0) {
+                        penalties.push({ value: parseInt(effect.value), setValue: "", source: effect.source, penalty: true });
+                    } else {
+                        bonuses.push({ value: parseInt(effect.value), setValue: "", source: effect.source, penalty: false });
+                    }
                 }
                 if (effect.target.toLowerCase().includes("damage per die")) {
                     effectBonus += parseInt(effect.value) * dicenum;
