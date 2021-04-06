@@ -1,4 +1,4 @@
-# patherpoint
+# Pathfinder Excessive Character Sheet (P.E.C.S.)
 The very latest in Assistive Technologies for Dungeon Master (ATDM)
 
 ## To Do
@@ -135,5 +135,3 @@ Next steps:
 - Champion
 - Cleric
 - Alchemist
-
-Test
