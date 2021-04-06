@@ -1,4 +1,4 @@
-# Patherpoint
+# Pathfinder Excessive Character Sheet (P.E.C.S.)
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 9.0.1.
 

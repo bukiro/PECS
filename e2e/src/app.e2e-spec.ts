@@ -10,7 +10,7 @@ describe('workspace-project App', () => {
 
   it('should display welcome message', () => {
     page.navigateTo();
-    expect(page.getTitleText()).toEqual('Patherpoint app is running!');
+    expect(page.getTitleText()).toEqual('PECS is running!');
   });
 
   afterEach(async () => {
