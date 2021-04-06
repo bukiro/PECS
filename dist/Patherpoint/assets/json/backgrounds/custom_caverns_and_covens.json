@@ -1,0 +1,209 @@
+[
+    {
+        "_className": "Background",
+        "name": "Twistings Explorer",
+        "abilityChoices": [
+            {
+                "_className": "AbilityChoice",
+                "available": 1,
+                "filter": [
+                    "Strength",
+                    "Wisdom"
+                ],
+                "id": "1-Ability-Background-0",
+                "source": "Background"
+            },
+            {
+                "_className": "AbilityChoice",
+                "available": 1,
+                "baseValuesLost": 1,
+                "id": "1-Ability-Background-1",
+                "source": "Background"
+            }
+        ],
+        "desc": "You have trained to travel in the mysterious and deadly Twistings, and have perhaps ventured into its uppermost reaches. Choose two ability boosts. One must be to Strength or Wisdom, and one is a free ability boost. You're trained in the Survival skill and the Twistings Lore skill. You gain the Forager skill feat. When selecting languages, you can choose Undercommon.",
+        "featChoices": [
+            {
+                "_className": "FeatChoice",
+                "type": "Skill",
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Forager",
+                        "source": "Background",
+                        "sourceId": "1-Feat-Background-0"
+                    }
+                ],
+                "id": "1-Feat-Background-0",
+                "source": "Background"
+            }
+        ],
+        "loreChoices": [
+            {
+                "_className": "LoreChoice",
+                "id": "1-Lore-Background-0",
+                "loreName": "Twistings",
+                "maxRank": 2,
+                "source": "Background"
+            }
+        ],
+        "skillChoices": [
+            {
+                "_className": "SkillChoice",
+                "id": "1-Skill-Background-0",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Survival",
+                        "source": "Background",
+                        "sourceId": "1-Skill-Background-0"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Background",
+                "type": "Skill"
+            }
+        ],
+        "sourceBook": "Caverns and Covens Player's Guide",
+        "adventurePath": "Caverns and Covens"
+    },
+    {
+        "_className": "Background",
+        "name": "Tanglewood Guardian",
+        "abilityChoices": [
+            {
+                "_className": "AbilityChoice",
+                "available": 1,
+                "filter": [
+                    "Constitution",
+                    "Wisdom"
+                ],
+                "id": "1-Ability-Background-0",
+                "source": "Background"
+            },
+            {
+                "_className": "AbilityChoice",
+                "available": 1,
+                "baseValuesLost": 1,
+                "id": "1-Ability-Background-1",
+                "source": "Background"
+            }
+        ],
+        "desc": "You seek to protect the beautiful Tanglewood Forest and its peaceful tenderleaf inhabitants from those who would exploit its resources. Choose two ability boosts. One must be to Constitution or Wisdom, and one is a free ability boost. You're trained in the Nature skill and the Tanglewood Lore skill. You gain the Train Animal skill feat.",
+        "featChoices": [
+            {
+                "_className": "FeatChoice",
+                "type": "Skill",
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Train Animal",
+                        "source": "Background",
+                        "sourceId": "1-Feat-Background-0"
+                    }
+                ],
+                "id": "1-Feat-Background-0",
+                "source": "Background"
+            }
+        ],
+        "loreChoices": [
+            {
+                "_className": "LoreChoice",
+                "id": "1-Lore-Background-0",
+                "loreName": "Tanglewood",
+                "maxRank": 2,
+                "source": "Background"
+            }
+        ],
+        "skillChoices": [
+            {
+                "_className": "SkillChoice",
+                "id": "1-Skill-Background-0",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Nature",
+                        "source": "Background",
+                        "sourceId": "1-Skill-Background-0"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Background",
+                "type": "Skill"
+            }
+        ],
+        "sourceBook": "Caverns and Covens Player's Guide",
+        "adventurePath": "Caverns and Covens"
+    },
+    {
+        "_className": "Background",
+        "name": "Shadow Sleeper",
+        "abilityChoices": [
+            {
+                "_className": "AbilityChoice",
+                "available": 1,
+                "filter": [
+                    "Charisma",
+                    "Wisdom"
+                ],
+                "id": "1-Ability-Background-0",
+                "source": "Background"
+            },
+            {
+                "_className": "AbilityChoice",
+                "available": 1,
+                "baseValuesLost": 1,
+                "id": "1-Ability-Background-1",
+                "source": "Background"
+            }
+        ],
+        "desc": "You frequently experience dreams that thrust you into a darker version of the world. Choose two ability boosts. One must be to Wisdom or Charisma, and one is a free ability boost. You're trained in the Religion skill and the Shadow Plane Lore skill. You gain the Dubious Knowledge skill feat.",
+        "featChoices": [
+            {
+                "_className": "FeatChoice",
+                "type": "Skill",
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Dubious Knowledge",
+                        "source": "Background",
+                        "sourceId": "1-Feat-Background-0"
+                    }
+                ],
+                "id": "1-Feat-Background-0",
+                "source": "Background"
+            }
+        ],
+        "loreChoices": [
+            {
+                "_className": "LoreChoice",
+                "id": "1-Lore-Background-0",
+                "loreName": "Shadow Plane",
+                "maxRank": 2,
+                "source": "Background"
+            }
+        ],
+        "skillChoices": [
+            {
+                "_className": "SkillChoice",
+                "id": "1-Skill-Background-0",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Religion",
+                        "source": "Background",
+                        "sourceId": "1-Skill-Background-0"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Background",
+                "type": "Skill"
+            }
+        ],
+        "sourceBook": "Caverns and Covens Player's Guide",
+        "adventurePath": "Caverns and Covens"
+    }
+]

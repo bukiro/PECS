@@ -1,0 +1,494 @@
+[
+    {
+        "id": "db6f8b42-95ba-11ea-bb37-0242ac130002",
+        "_className": "Oil",
+        "name": "Nectar of Purification",
+        "level": 1,
+        "price": 300,
+        "bulk": "L",
+        "usage": "held in 1 hand",
+        "desc": "A shimmering liquid, nectar of purification is often stored in bottles similar to those used for vinegar. This oil casts a 1st-level purify food and drink spell over any food or drink onto which it's poured. The nectar evaporates as it takes effect, leaving the taste and texture of the food or drink unaltered.",
+        "actions": "1A",
+        "activationType": "Interact",
+        "castSpells": [
+            {
+                "_className": "SpellCast",
+                "name": "Purify Food and Drink",
+                "level": 1
+            }
+        ],
+        "traits": [
+            "Consumable",
+            "Magical",
+            "Necromancy",
+            "Oil"
+        ]
+    },
+    {
+        "id": "db6f8d54-95ba-11ea-bb37-0242ac130002",
+        "_className": "Oil",
+        "name": "Oil of Weightlessness",
+        "level": 2,
+        "price": 600,
+        "bulk": "L",
+        "usage": "held in 2 hands",
+        "targets": [
+            "items"
+        ],
+        "weightLimit": 1,
+        "duration": 6000,
+        "bulkEffect": "-",
+        "desc": "You can spread this shimmering oil on an item of 1 Bulk or less to make it feel weightless. It has negligible Bulk for 1 hour.",
+        "actions": "1A",
+        "activationType": "Interact",
+        "traits": [
+            "Consumable",
+            "Magical",
+            "Oil",
+            "Transmutation"
+        ]
+    },
+    {
+        "id": "db6f8fa2-95ba-11ea-bb37-0242ac130002",
+        "_className": "Oil",
+        "name": "Oil of Potency",
+        "level": 2,
+        "price": 700,
+        "bulk": "L",
+        "usage": "held in 2 hands",
+        "targets": [
+            "weapons",
+            "armors"
+        ],
+        "duration": 100,
+        "potencyEffect": 1,
+        "strikingEffect": 1,
+        "resilientEffect": 1,
+        "desc": "When you apply this thick, viscous oil to a non-magical weapon or suit of armor, that item immediately becomes magically potent. If the item is a weapon, it temporarily becomes a +1 striking weapon, or, if it's armor, it temporarily becomes +1 resilient armor. This lasts for 1 minute.",
+        "actions": "1A",
+        "activationType": "Interact",
+        "traits": [
+            "Consumable",
+            "Magical",
+            "Oil",
+            "Transmutation"
+        ]
+    },
+    {
+        "id": "db6f9088-95ba-11ea-bb37-0242ac130002",
+        "_className": "Oil",
+        "name": "Oil of Mending",
+        "level": 3,
+        "price": 900,
+        "bulk": "L",
+        "usage": "held in 2 hands",
+        "inputRequired": "Repair a chosen item using the mending spell.",
+        "desc": "A vial of oil of mending appears to have countless translucent threads swirling within. Applying this oil to an item casts a 2nd-level mending spell to repair the item.",
+        "actions": "1A",
+        "activationType": "Interact",
+        "castSpells": [
+            {
+                "_className": "SpellCast",
+                "name": "Mending",
+                "level": 2
+            }
+        ],
+        "traits": [
+            "Consumable",
+            "Magical",
+            "Oil",
+            "Transmutation"
+        ]
+    },
+    {
+        "id": "db6f9150-95ba-11ea-bb37-0242ac130002",
+        "_className": "Oil",
+        "name": "Salve of Slipperiness",
+        "level": 5,
+        "price": 2500,
+        "bulk": "L",
+        "usage": "held in 2 hands",
+        "targets": [
+            "armors"
+        ],
+        "duration": 48000,
+        "hints": [
+            {
+                "desc": "The Salve of Slipperiness on your armor grants a +2 item bonus to Acrobatics checks to Escape or to Squeeze.",
+                "showon": "Acrobatics",
+                "effects": [
+                    {
+                        "affected": "Acrobatics",
+                        "value": "2",
+                        "type": "item"
+                    }
+                ]
+            }
+        ],
+        "desc": "This greenish, persistent grease can be applied to armor to make it extremely slippery for 8 hours, granting the wearer a +2 item bonus to Acrobatics checks to Escape or to Squeeze.",
+        "actions": "1A",
+        "activationType": "Interact",
+        "traits": [
+            "Consumable",
+            "Magical",
+            "Oil",
+            "Transmutation"
+        ]
+    },
+    {
+        "id": "db6f922c-95ba-11ea-bb37-0242ac130002",
+        "_className": "Oil",
+        "name": "Oil of Weightlessness (Greater)",
+        "level": 6,
+        "price": 3600,
+        "bulk": "L",
+        "subType": "Greater",
+        "subTypeDesc": "This oil can affect an item of 2 Bulk or less and lasts 8 hours.",
+        "usage": "held in 2 hands",
+        "targets": [
+            "items"
+        ],
+        "weightLimit": 2,
+        "duration": 48000,
+        "bulkEffect": "-",
+        "desc": "You can spread this shimmering oil on an item of 1 Bulk or less to make it feel weightless. It has negligible Bulk for 1 hour.",
+        "actions": "1A",
+        "activationType": "Interact",
+        "traits": [
+            "Consumable",
+            "Magical",
+            "Oil",
+            "Transmutation"
+        ]
+    },
+    {
+        "id": "db6f92f4-95ba-11ea-bb37-0242ac130002",
+        "_className": "Oil",
+        "name": "Salve of Antiparalysis",
+        "level": 6,
+        "price": 4000,
+        "bulk": "L",
+        "usage": "held in 2 hands",
+        "desc": "Applying this filmy salve to a creature helps it overcome magical paralysis. The creature recovers as if it were the target of a 3rd-level remove paralysis spell. ",
+        "actions": "1A",
+        "activationType": "Interact",
+        "castSpells": [
+            {
+                "_className": "SpellCast",
+                "name": "Remove Paralysis",
+                "level": 3
+            }
+        ],
+        "traits": [
+            "Consumable",
+            "Healing",
+            "Magical",
+            "Necromancy",
+            "Oil"
+        ]
+    },
+    {
+        "id": "db6f94de-95ba-11ea-bb37-0242ac130002",
+        "_className": "Oil",
+        "name": "Saints' Balm",
+        "level": 7,
+        "price": 7000,
+        "usage": "held in 1 hand",
+        "inputRequired": "Restore 3d8+10 Hit Points to a creature within reach.",
+        "desc": "This luminescent paste is made from the powdered bones of a long-forgotten saint, mixed with herbs and blessed by a priest. It typically comes in a tightly sealed, palm-sized dish etched with holy symbols. Applying saints' balm to yourself or a creature within reach restores 3d8+10 Hit Points to the creature to which it's applied. ",
+        "actions": "1A",
+        "activationType": "Interact",
+        "traits": [
+            "Uncommon",
+            "Consumable",
+            "Healing",
+            "Magical",
+            "Necromancy",
+            "Oil"
+        ]
+    },
+    {
+        "id": "db6f95b0-95ba-11ea-bb37-0242ac130002",
+        "_className": "Oil",
+        "name": "Aligned Oil (Chaos)",
+        "level": 9,
+        "price": 14000,
+        "bulk": "L",
+        "subType": "Chaos",
+        "subTypeDesc": "A weapon anointed with this oil gains the effects of the anarchic rune.",
+        "usage": "held in 2 hands",
+        "targets": [
+            "weapons"
+        ],
+        "duration": 100,
+        "runeEffect": {
+            "name": "Anarchic",
+            "_className": "WeaponRune"
+        },
+        "desc": "This oil fills a weapon with cosmic power of an alignment. Each aligned oil is crafted to one alignment: chaos, evil, good, or law (such as a good-aligned oil). A weapon anointed with this oil gains the effects of the property rune matching its alignment: anarchic (chaos), axiomatic (law), holy (good), or unholy (evil). This lasts for 1 minute.",
+        "actions": "1A",
+        "activationType": "Interact",
+        "traits": [
+            "Consumable",
+            "Divine",
+            "Evocation",
+            "Oil"
+        ]
+    },
+    {
+        "id": "db6f966e-95ba-11ea-bb37-0242ac130002",
+        "_className": "Oil",
+        "name": "Aligned Oil (Evil)",
+        "level": 9,
+        "price": 14000,
+        "bulk": "L",
+        "subType": "Evil",
+        "subTypeDesc": "A weapon anointed with this oil gains the effects of the unholy rune.",
+        "usage": "held in 2 hands",
+        "targets": [
+            "weapons"
+        ],
+        "duration": 100,
+        "runeEffect": {
+            "name": "Unholy",
+            "_className": "WeaponRune"
+        },
+        "desc": "This oil fills a weapon with cosmic power of an alignment. Each aligned oil is crafted to one alignment: chaos, evil, good, or law (such as a good-aligned oil). A weapon anointed with this oil gains the effects of the property rune matching its alignment: anarchic (chaos), axiomatic (law), holy (good), or unholy (evil). This lasts for 1 minute.",
+        "actions": "1A",
+        "activationType": "Interact",
+        "traits": [
+            "Consumable",
+            "Divine",
+            "Evocation",
+            "Oil"
+        ]
+    },
+    {
+        "id": "db6f972c-95ba-11ea-bb37-0242ac130002",
+        "_className": "Oil",
+        "name": "Aligned Oil (Good)",
+        "level": 9,
+        "price": 14000,
+        "bulk": "L",
+        "subType": "Good",
+        "subTypeDesc": "A weapon anointed with this oil gains the effects of the holy rune.",
+        "usage": "held in 2 hands",
+        "targets": [
+            "weapons"
+        ],
+        "duration": 100,
+        "runeEffect": {
+            "name": "Holy",
+            "_className": "WeaponRune"
+        },
+        "desc": "This oil fills a weapon with cosmic power of an alignment. Each aligned oil is crafted to one alignment: chaos, evil, good, or law (such as a good-aligned oil). A weapon anointed with this oil gains the effects of the property rune matching its alignment: anarchic (chaos), axiomatic (law), holy (good), or unholy (evil). This lasts for 1 minute.",
+        "actions": "1A",
+        "activationType": "Interact",
+        "traits": [
+            "Consumable",
+            "Divine",
+            "Evocation",
+            "Oil"
+        ]
+    },
+    {
+        "id": "db6f97e0-95ba-11ea-bb37-0242ac130002",
+        "_className": "Oil",
+        "name": "Aligned Oil (Law)",
+        "level": 9,
+        "price": 14000,
+        "bulk": "L",
+        "subType": "Law",
+        "subTypeDesc": "A weapon anointed with this oil gains the effects of the axiomatic rune.",
+        "usage": "held in 2 hands",
+        "targets": [
+            "weapons"
+        ],
+        "duration": 100,
+        "runeEffect": {
+            "name": "Axiomatic",
+            "_className": "WeaponRune"
+        },
+        "desc": "This oil fills a weapon with cosmic power of an alignment. Each aligned oil is crafted to one alignment: chaos, evil, good, or law (such as a good-aligned oil). A weapon anointed with this oil gains the effects of the property rune matching its alignment: anarchic (chaos), axiomatic (law), holy (good), or unholy (evil). This lasts for 1 minute.",
+        "actions": "1A",
+        "activationType": "Interact",
+        "traits": [
+            "Consumable",
+            "Divine",
+            "Evocation",
+            "Oil"
+        ]
+    },
+    {
+        "id": "db6f989e-95ba-11ea-bb37-0242ac130002",
+        "_className": "Oil",
+        "name": "Oil of Repulsion",
+        "level": 11,
+        "price": 17500,
+        "bulk": "L",
+        "usage": "held in 2 hands",
+        "targets": [
+            "armors"
+        ],
+        "duration": 100,
+        "desc": "This oil contains magnetically charged iron filings repelled into opposite ends of the vial. For 1 minute after you apply this oil to armor, any creature that hits you with a melee Strike must attempt a DC 28 Fortitude save with the following effects.",
+        "actions": "1A",
+        "activationType": "Interact",
+        "success": "The creature is unaffected.",
+        "failure": "The creature is pushed up to 10 feet away from you (the GM determines the direction).",
+        "critfailure": "As failure, and the creature is also knocked prone.",
+        "hints": [
+            {
+                "desc": "Any creature that hits you with a melee Strike must attempt a DC 28 Fortitude save with the following effects.\n\nSuccess: The creature is unaffected.\nFailure: The creature is pushed up to 10 feet away from you (the GM determines the direction).\nCritical Failure: As failure, and the creature is also knocked prone.",
+                "showon": "Defense"
+            }
+        ],
+        "traits": [
+            "Abjuration",
+            "Consumable",
+            "Magical",
+            "Oil"
+        ]
+    },
+    {
+        "id": "db6f9b1e-95ba-11ea-bb37-0242ac130002",
+        "_className": "Oil",
+        "name": "Oil of Keen Edges",
+        "level": 11,
+        "price": 25000,
+        "bulk": "L",
+        "rangereq": "melee",
+        "damagereq": "PS",
+        "usage": "held in 2 hands",
+        "targets": [
+            "weapons"
+        ],
+        "duration": 100,
+        "runeEffect": {
+            "name": "Keen",
+            "_className": "WeaponRune"
+        },
+        "desc": "When this silvery salve is applied to a melee weapon that deals piercing or slashing damage, the weapon grows sharper and more dangerous for 1 minute, granting it the benefits of the keen rune. ",
+        "actions": "1A",
+        "activationType": "Interact",
+        "traits": [
+            "Uncommon",
+            "Consumable",
+            "Magical",
+            "Oil",
+            "Transmutation"
+        ]
+    },
+    {
+        "id": "db6f9c0e-95ba-11ea-bb37-0242ac130002",
+        "_className": "Oil",
+        "name": "Salve of Antiparalysis (Greater)",
+        "level": 12,
+        "price": 32500,
+        "bulk": "L",
+        "subType": "Greater",
+        "subTypeDesc": "A greater salve of antiparalysis can potentially remove petrification. The creature recovers as if it were the target of both a 6th-level remove paralysis spell and a stone to flesh spell.",
+        "usage": "held in 2 hands",
+        "desc": "Applying this filmy salve to a creature helps it overcome magical paralysis. The creature recovers as if it were the target of a 3rd-level remove paralysis spell. ",
+        "actions": "1A",
+        "activationType": "Interact",
+        "castSpells": [
+            {
+                "_className": "SpellCast",
+                "name": "Remove Paralysis",
+                "level": 6
+            },
+            {
+                "_className": "SpellCast",
+                "name": "Stone to Flesh"
+            }
+        ],
+        "traits": [
+            "Consumable",
+            "Healing",
+            "Magical",
+            "Necromancy",
+            "Oil"
+        ]
+    },
+    {
+        "id": "0d171838-95be-11ea-bb37-0242ac130002",
+        "_className": "Oil",
+        "name": "Oil of Animation",
+        "level": 12,
+        "price": 33000,
+        "bulk": "L",
+        "usage": "held in 2 hands",
+        "inputRequired": "Remove the Oil of Animation from the weapon once you fail a flat check.",
+        "targets": [
+            "weapons"
+        ],
+        "rangereq": "melee",
+        "duration": -1,
+        "runeEffect": {
+            "name": "Dancing",
+            "_className": "WeaponRune"
+        },
+        "desc": "You can rub this bronze-colored oil onto a melee weapon to grant it the benefits of the dancing rune. Once you fail a flat check for the weapon, causing it to fall, this effect ends.",
+        "actions": "1A",
+        "activationType": "Interact",
+        "traits": [
+            "Uncommon",
+            "Consumable",
+            "Magical",
+            "Oil",
+            "Transmutation"
+        ]
+    },
+    {
+        "id": "0d171a40-95be-11ea-bb37-0242ac130002",
+        "_className": "Oil",
+        "name": "Obfuscation Oil",
+        "level": 15,
+        "price": 120000,
+        "bulk": "L",
+        "usage": "held in 2 hands",
+        "targets": [
+            "items"
+        ],
+        "weightLimit": 3,
+        "duration": -1,
+        "desc": "You can spread this blue-gray gel on a single item with a Bulk of 3 or less to ward it against magical detection. It becomes immune to divination magic of 8th level or lower (such as locate). This oil is permanent, but it can be removed with acid. Removing the oil in this way usually takes 1 minute for objects with Bulk of 1 or less, or a number of minutes equal to the item's Bulk.",
+        "actions": "1A",
+        "activationType": "Interact",
+        "traits": [
+            "Consumable",
+            "Illusion",
+            "Magical",
+            "Oil"
+        ]
+    },
+    {
+        "id": "0d171b30-95be-11ea-bb37-0242ac130002",
+        "_className": "Oil",
+        "name": "Antimagic Oil",
+        "level": 20,
+        "price": 1300000,
+        "bulk": "L",
+        "usage": "held in 2 hands",
+        "targets": [
+            "armors"
+        ],
+        "duration": 100,
+        "hints": [
+            {
+                "desc": "You are immune to all spells, effects of magic items (yours and those of others), and effects with the magical trait for 1 minute. The oil affects neither the magic of the armor nor the fundamental runes of weapons attacking you. Magical effects from a source of 20th level or higher, such as a deity, still function on the you.",
+                "showon": "Defense, Spellbook"
+            }
+        ],
+        "desc": "This oil contains energy that repels nearly all types of magic. When you apply this oil to armor, the creature wearing the armor becomes immune to all spells, effects of magic items (the wearer's and those of others), and effects with the magical trait for 1 minute. The oil affects neither the magic of the armor nor the fundamental runes of weapons attacking the wearer. Magical effects from a source of 20th level or higher, such as a deity, still function on the armor's wearer.",
+        "actions": "1A",
+        "activationType": "Interact",
+        "traits": [
+            "Rare",
+            "Abjuration",
+            "Consumable",
+            "Magical"
+        ]
+    }
+]

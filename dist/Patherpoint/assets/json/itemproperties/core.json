@@ -1,0 +1,1044 @@
+[
+    {
+        "key": "name",
+        "priority": "00",
+        "group": "1-Name",
+        "name": "Name",
+        "desc": "The base name of equipment may be expanded by runes and other effects and will be shown on the item if no display name is set. The name of consumables does not change."
+    },
+    {
+        "key": "displayName",
+        "priority": "01",
+        "group": "1-Name",
+        "name": "Display name",
+        "desc": "The display name will be shown instead of the name if set and doesn't change with runes. The display name can be changed later in the inventory."
+    },
+    {
+        "key": "bulk",
+        "priority": "00",
+        "group": "2-Basics",
+        "name": "Bulk",
+        "desc": "The bulk of the item is usually either nothing (leave the field empty), L for light bulk or a number."
+    },
+    {
+        "key": "carryingBulk",
+        "priority": "01",
+        "group": "2-Basics",
+        "name": "Bulk when unequipped",
+        "desc": "Some items (like backpacks) are bulkier when carried or stowed than they are equipped. Set the bulk of the item when carried here, if different."
+    },
+    {
+        "key": "stack",
+        "priority": "03",
+        "group": "2-Basics",
+        "name": "Stack size",
+        "desc": "An item's bulk is only counted per full stack. For example, arrows come in stacks of 10. The stack size is 1 for most items.",
+        "type": "number",
+        "validation": "1plus"
+    },
+    {
+        "key": "price",
+        "priority": "04",
+        "group": "2-Basics",
+        "name": "Price",
+        "desc": "The money worth of the item in copper pieces (1SP is 10CP, 1GP is 100CP and 1PP is 1000CP).",
+        "type": "number",
+        "validation": "0plus"
+    },
+    {
+        "key": "desc",
+        "priority": "05",
+        "group": "2-Basics",
+        "name": "Description",
+        "desc": "The description will be shown on the item and can be as detailed as needed.",
+        "type": "textarea"
+    },
+    {
+        "key": "craftRequirement",
+        "priority": "06",
+        "group": "2-Basics",
+        "name": "Crafting requirements",
+        "desc": "Describe what is needed to craft this item, other than the appropriate crafting feat and level."
+    },
+    {
+        "key": "traits",
+        "priority": "07",
+        "group": "2-Basics",
+        "name": "Traits",
+        "desc": "The item's traits are listed on the item. An item must have the Invested trait to be invested.",
+        "examples": "traits"
+    },
+    {
+        "key": "subType",
+        "priority": "08",
+        "group": "2-Basics",
+        "name": "Subtype",
+        "desc": "Items can come in different subtypes, like 'Lesser', 'Greater', etc."
+    },
+    {
+        "key": "subTypeDesc",
+        "priority": "09",
+        "group": "2-Basics",
+        "name": "Subtype Description",
+        "desc": "If the item has a subtype, describe the difference between this subtype and the regular item here."
+    },
+    {
+        "key": "notes",
+        "priority": "10",
+        "group": "2-Basics",
+        "name": "Notes",
+        "desc": "Notes that can be displayed on the item. The notes can be changed later."
+    },
+    {
+        "key": "prof",
+        "priority": "00",
+        "group": "3-Usage",
+        "name": "Proficiency",
+        "desc": "The proficiency used for this weapon or armor decides its effectiveness. All advanced weapons must be trained individually.",
+        "locked": true,
+        "examples": "prof"
+    },
+    {
+        "key": "hands",
+        "priority": "01",
+        "group": "3-Usage",
+        "name": "Hands",
+        "desc": "The number of free hands needed to effectively use this item.",
+        "type": "number",
+        "validation": "0plus"
+    },
+    {
+        "key": "usage",
+        "priority": "02",
+        "group": "3-Usage",
+        "name": "Usage",
+        "desc": "The way that this item is used."
+    },
+    {
+        "key": "equippable",
+        "priority": "03",
+        "group": "3-Usage",
+        "name": "Equippable",
+        "desc": "If this is set, the item can be equipped and unequipped.",
+        "type": "checkbox"
+    },
+    {
+        "key": "moddable",
+        "priority": "04",
+        "group": "3-Usage",
+        "name": "Modification type",
+        "desc": "The modification type decides what, if any, runes and materials can be applied to this item in the inventory. Set - for no modifications (you can still modify the item before transferring it to the character) or nothing for the default for this item type. This option is only useful to restrict items and for special items like the Handwraps of Mighty Blows. Applying a resilient rune on a weapon, for example, will not grant any benefits. If the modification type is anything other than -, the cost of materials and runes will be added to the finished item.",
+        "locked": true
+    },
+    {
+        "key": "gainInventory",
+        "priority": "05",
+        "group": "3-Usage",
+        "name": "Container",
+        "desc": "Choose whether this item is a container for other items, and whether this has any limits or alleviates bulk.",
+        "locked": true
+    },
+    {
+        "parent": "gainInventory",
+        "key": "bulkLimit",
+        "priority": "00",
+        "group": "",
+        "name": "Bulk Limit",
+        "desc": "The maximum bulk that can be added to this container. 0 is unlimited.",
+        "type": "number",
+        "validation": "0plus"
+    },
+    {
+        "parent": "gainInventory",
+        "key": "bulkReduction",
+        "priority": "01",
+        "group": "",
+        "name": "Bulk Reduction",
+        "desc": "This amount of bulk can be ignored while stored in this container. 0 is none.",
+        "type": "number",
+        "validation": "0plus"
+    },
+    {
+        "key": "activities",
+        "priority": "00",
+        "group": "4-Actions and Activities",
+        "name": "Unique actions or activities",
+        "desc": "Add a definition of what happens when this item is activated. It can include, for example, numeral effects, casting spells or adding items for the duration. If an item has multiple activities, only one of them can be active at the same time."
+    },
+    {
+        "parent": "activities",
+        "key": "name",
+        "priority": "00",
+        "group": "",
+        "name": "Activity Name"
+    },
+    {
+        "parent": "activities",
+        "key": "desc",
+        "priority": "01",
+        "group": "",
+        "name": "Description",
+        "desc": "Describe the effect of activating this item.",
+        "type": "textarea"
+    },
+    {
+        "parent": "activities",
+        "key": "traits",
+        "priority": "02",
+        "group": "",
+        "name": "Traits",
+        "desc": "The activity traits are listed on the item.",
+        "locked": true,
+        "examples": "traits"
+    },
+    {
+        "parent": "activities",
+        "key": "actions",
+        "priority": "03",
+        "group": "",
+        "name": "Time required to use",
+        "desc": "Number of actions to activate this item. Can be free or reaction, a number of actions, or an individual amount of time, like 1 hour.",
+        "examples": "activity"
+    },
+    {
+        "parent": "activities",
+        "key": "activationType",
+        "priority": "04",
+        "group": "",
+        "name": "Activation type",
+        "desc": "Type of action used to activate this item, like 'Command' or 'Interact'.",
+        "locked": true,
+        "examples": "activity"
+    },
+    {
+        "parent": "activities",
+        "key": "hints",
+        "priority": "05",
+        "group": "",
+        "name": "Hints",
+        "desc": "You can show hints to this activity while it is active, or always if it can't be toggled, e.g. on individual skills. These hints can include effects that can be turned on and off."
+    },
+    {
+        "parent": "activities",
+        "key": "toggle",
+        "priority": "06",
+        "group": "",
+        "name": "Permanent",
+        "desc": "Set this if the item stays activated until you deactivate it, e.g. if the item grants you a stance or another item while it is active.",
+        "type": "checkbox"
+    },
+    {
+        "parent": "activities",
+        "key": "cooldown",
+        "priority": "07",
+        "group": "",
+        "name": "Cooldown",
+        "desc": "How long you have to wait to activate this item after activating it once, in turns * 10. (1 hour is 6000, 1 day is 144000.)",
+        "type": "number",
+        "validation": "0plus",
+        "examples": "activity"
+    },
+    {
+        "parent": "activities",
+        "key": "frequency",
+        "priority": "08",
+        "group": "",
+        "name": "Frequency",
+        "desc": "A description of how often you can use this item, as defined by the cooldown. Often 'once per hour' or 'once per day'.",
+        "examples": "activity"
+    },
+    {
+        "parent": "activities",
+        "key": "charges",
+        "priority": "09",
+        "group": "",
+        "name": "Charges",
+        "desc": "How often can you use this activation within one cooldown period. If the item has any charges, the cooldown starts after the first use, but the item can still be used as long as it has charges left. If the activity has charges and no cooldown, it can never be recharged.",
+        "type": "number",
+        "validation": "0plus",
+        "examples": "activity"
+    },
+    {
+        "parent": "activities",
+        "key": "sharedChargesID",
+        "priority": "10",
+        "group": "",
+        "name": "Shared Charges ID",
+        "desc": "Activities on the same item that have the same ID (other than 0) share their charges with each other.",
+        "type": "number",
+        "validation": "0plus"
+    },
+    {
+        "parent": "activities",
+        "key": "cost",
+        "priority": "11",
+        "group": "",
+        "name": "Cost",
+        "desc": "Describe the cost (usually materials) for the activity. This is only for the player and has no mechanical function.",
+        "examples": "activity"
+    },
+    {
+        "parent": "activities",
+        "key": "trigger",
+        "priority": "12",
+        "group": "",
+        "name": "Trigger",
+        "desc": "Some items can be activated in a certain situation, like when you are about to be attacked. You can describe this trigger here. This is not reflected in the program, but helps the user understand the item.",
+        "examples": "activity"
+    },
+    {
+        "parent": "activities",
+        "key": "requirements",
+        "priority": "13",
+        "group": "",
+        "name": "Requirements",
+        "desc": "Some items can only be activated when certain requirements are met. You can describe the requirements here. This is not reflected in the program, but helps the user understand the item.",
+        "examples": "activity"
+    },
+    {
+        "parent": "activities",
+        "key": "gainItems",
+        "priority": "14",
+        "group": "",
+        "name": "Grant additional items",
+        "desc": "Add additional items when this item is activated. If the activation is permanent, the item is lost at deactivation."
+    },
+    {
+        "parent": "activities",
+        "key": "castSpells",
+        "priority": "15",
+        "group": "",
+        "name": "Cast spells",
+        "desc": "Cast spells when this item is activated."
+    },
+    {
+        "parent": "castSpells",
+        "key": "name",
+        "priority": "00",
+        "group": "",
+        "name": "Spell name",
+        "examples": "spellname",
+        "locked": true
+    },
+    {
+        "parent": "castSpells",
+        "key": "level",
+        "priority": "01",
+        "group": "",
+        "name": "Spell level",
+        "desc": "The spell level on which the spell is cast, between 0 and 10. 0 means the spell is heightened to the half the character level, rounded up.",
+        "locked": true,
+        "examples": "spelllevel"
+    },
+    {
+        "parent": "castSpells",
+        "key": "duration",
+        "priority": "01",
+        "group": "",
+        "name": "Spell duration",
+        "desc": "A specific duration for the spell other than the spell's original duration, in turns * 10. (1 hour is 6000, 1 day is 144000.)",
+        "type": "number",
+        "validation":"-1plus"
+    },
+    {
+        "parent": "activities",
+        "key": "gainConditions",
+        "priority": "16",
+        "group": "",
+        "name": "Cause condition",
+        "desc": "Add known conditions that will be caused when this item is activated."
+    },
+    {
+        "parent": "activities",
+        "key": "critsuccess",
+        "priority": "17",
+        "group": "",
+        "name": "Critical success effect",
+        "desc": "If you or the target must roll to decide the outcome of the item's activation, describe what happens at a critical success.",
+        "examples": "activity"
+    },
+    {
+        "parent": "activities",
+        "key": "success",
+        "priority": "18",
+        "group": "",
+        "name": "Success effect",
+        "desc": "If you or the target must roll to decide the outcome of the item's activation, describe what happens at a success.",
+        "examples": "activity"
+    },
+    {
+        "parent": "activities",
+        "key": "failure",
+        "priority": "19",
+        "group": "",
+        "name": "Failure effect",
+        "desc": "If you or the target must roll to decide the outcome of the item's activation, describe what happens at a failure.",
+        "examples": "activity"
+    },
+    {
+        "parent": "activities",
+        "key": "critfailure",
+        "priority": "20",
+        "group": "",
+        "name": "Critical failure effect",
+        "desc": "If you or the target must roll to decide the outcome of the item's activation, describe what happens at a critical failure.",
+        "examples": "activity"
+    },
+    {
+        "parent": "activities",
+        "key": "effects",
+        "priority": "21",
+        "group": "",
+        "name": "Permanent numeral effects",
+        "desc": "These bonuses or penalties will be applied while the item is activated."
+    },
+    {
+        "parent": "activities",
+        "key": "onceEffects",
+        "priority": "22",
+        "group": "",
+        "name": "One-time effects",
+        "desc": "These bonuses or penalties will be applied immediately when the item is activated, like granting temporary HP. There are only a few properties that can be affected this way. Dice rolls should be handled by the player."
+    },
+    {
+        "parent": "onceEffects",
+        "key": "affected",
+        "priority": "00",
+        "group": "",
+        "name": "Affected attribute",
+        "desc": "The effect will be applied to this attribute. There are only a few attributes that can be affected by one-time effects.",
+        "locked": true,
+        "examples": "onceEffects affected"
+    },
+    {
+        "parent": "onceEffects",
+        "key": "value",
+        "priority": "01",
+        "group": "",
+        "name": "Effect value",
+        "desc": "This is the number by which the attribute will change. You can use simple calculations and variables like: Level, Modifier('Strength'), Skill_Level('Acrobatics').",
+        "examples": "onceEffects value"
+    },
+    {
+        "parent": "activities",
+        "key": "inputRequired",
+        "priority": "23",
+        "group": "",
+        "name": "Player input required",
+        "desc": "Certain effects are not automated, such as repeated effects under complicated circumstances, or anything that requires a dice roll. If this item requires the player to perform a certain action after activating it, you can describe the expectations here.",
+        "examples": "inputRequired"
+    },
+    {
+        "parent": "activities",
+        "key": "resonant",
+        "priority": "24",
+        "group": "",
+        "name": "Resonant activity",
+        "desc": "Check this box if the activity is only supposed to be used when the item is slotted into a Wayfinder. This should only be used for Aeon Stones.",
+        "type": "checkbox"
+    },
+    {
+        "parent": "activities",
+        "key": "exclusiveActivityID",
+        "priority": "25",
+        "group": "",
+        "name": "Exclusive Activity ID",
+        "desc": "Activities on the same item that have the same exclusive activity ID (other than 0) can not be active at the same time. If you activate one of them, all others with that ID are deactivated automatically.",
+        "type": "number",
+        "validation": "0plus"
+    },
+    {
+        "key": "gainActivities",
+        "priority": "01",
+        "group": "4-Actions and Activities",
+        "name": "Known actions or activities",
+        "desc": "Add a known action or activity that should be triggered when this item is activated. If an item has multiple activities, only one of them can be active at the same time."
+    },
+    {
+        "parent": "gainActivities",
+        "key": "name",
+        "priority": "00",
+        "group": "",
+        "name": "Activity",
+        "desc": "",
+        "locked": true,
+        "examples": "gainactivity name"
+    },
+    {
+        "key": "hints",
+        "priority": "00",
+        "group": "5-Influence",
+        "name": "Hints",
+        "desc": "You can show a hints to this item on specific parts of the character sheet while the item is equipped or invested, e.g. on individual skills. These hints can include effects that can be turned on and off."
+    },
+    {
+        "parent": "hints",
+        "key": "showon",
+        "priority": "00",
+        "group": "",
+        "name": "Influenced attributes",
+        "desc": "On which attribute or attributes should this hint be shown?",
+        "examples": "showon"
+    },
+    {
+        "parent": "hints",
+        "key": "desc",
+        "priority": "01",
+        "group": "",
+        "name": "Hint text",
+        "desc": "This text will be displayed on mouseover of the item hint. If no hint text is given, the item description will be shown instead.",
+        "type": "textarea",
+        "examples": "hints desc"
+    },
+    {
+        "parent": "hints",
+        "key": "effects",
+        "priority": "02",
+        "group": "",
+        "name": "Numeral effects",
+        "desc": "These bonuses or penalties will be applied when the hint is activated."
+    },
+    {
+        "key": "effects",
+        "priority": "02",
+        "group": "5-Influence",
+        "name": "Numeral effects",
+        "desc": "These bonuses or penalties will be applied when the item is equipped or invested."
+    },
+    {
+        "parent": "effects",
+        "key": "affected",
+        "priority": "00",
+        "group": "",
+        "name": "Affected attribute",
+        "desc": "The effect will be applied to this attribute. This can be a skill, an ability or certain aspects of the character (like AC, Max Bulk etc.). An effect that lowers Bulk (like with a backpack) will be considered a bonus.",
+        "examples": "effects affected"
+    },
+    {
+        "parent": "effects",
+        "key": "setValue",
+        "priority": "01",
+        "group": "",
+        "name": "Absolute effect value",
+        "desc": "If this field has a number value (even 0), the attribute will be set to this exact value before circumstance and status bonuses are applied. You can use simple calculations and variables like: Level, Modifier('Strength'), Skill_Level('Acrobatics').",
+        "examples": "effects setvalue"
+    },
+    {
+        "parent": "effects",
+        "key": "value",
+        "priority": "02",
+        "group": "",
+        "name": "Relative effect value",
+        "desc": "This is the number by which the attribute will change. You can use simple calculations and variables like: Level, Modifier('Strength'), Skill_Level('Acrobatics').",
+        "examples": "effects value"
+    },
+    {
+        "parent": "effects",
+        "key": "toggle",
+        "priority": "03",
+        "group": "",
+        "name": "On/Off effect",
+        "desc": "If this is set, the effect doesn't need a value, but just sets a certain state. Some effects like 'Ignore Armor Penalty' use this.",
+        "type": "checkbox"
+    },
+    {
+        "parent": "effects",
+        "key": "type",
+        "priority": "04",
+        "group": "",
+        "name": "Effect type",
+        "desc": "Items usually grant 'item' type bonuses. Bonuses and penalties of the same type do not stack, except for untyped effects. Keep the field blank to have an untyped bonus.",
+        "locked": true,
+        "examples": "effects type"
+    },
+    {
+        "key": "gainItems",
+        "priority": "05",
+        "group": "5-Influence",
+        "name": "Grant additional items",
+        "desc": "Add additional items when receiving, equipping or activating this item."
+    },
+    {
+        "parent": "gainItems",
+        "key": "type",
+        "priority": "00",
+        "group": "",
+        "name": "Item type",
+        "desc": "Choose an item type to pick an item from.",
+        "locked": true,
+        "examples": "(gainItem type has its own function)"
+    },
+    {
+        "parent": "gainItems",
+        "key": "name",
+        "priority": "01",
+        "group": "",
+        "name": "Item",
+        "desc": "Choose a known item that will be granted when receiving or equipping this item.",
+        "locked": true,
+        "examples": "gainitems name"
+    },
+    {
+        "parent": "gainItems",
+        "key": "amount",
+        "priority": "02",
+        "group": "",
+        "name": "Amount",
+        "desc": "The number of items of this type you will receive.",
+        "type": "number",
+        "validation": "1plus"
+    },
+    {
+        "parent": "gainItems",
+        "key": "on",
+        "priority": "03",
+        "group": "",
+        "name": "Granting condition",
+        "desc": "The extra item is either granted when receiving this item, or granted when equipping and lost when unequipping it. For consumables, the extra item can be granted when using this item. The default is on grant, and the choice does not make a difference for an activity.",
+        "locked": true,
+        "examples": "gainitems on"
+    },
+    {
+        "parent": "gainItems",
+        "key": "expiration",
+        "priority": "04",
+        "group": "",
+        "name": "Expiration",
+        "desc": "For temporary items, the number of turns (* 10) that the item will exist after granting it.",
+        "type": "number",
+        "validation": "-1plus"
+    },
+    {
+        "key": "storedSpells",
+        "priority": "06",
+        "group": "5-Influence",
+        "name": "Store Spells",
+        "desc": "Allow this item to store spells. (See unique actions or activities for casting included spells)."
+    },
+    {
+        "parent": "storedSpells",
+        "key": "available",
+        "priority": "00",
+        "group": "",
+        "name": "Number of spells to store",
+        "desc": "How many spells can be held in this list? Add more lists to allow spells at different levels or of different traditions.",
+        "type": "number",
+        "validation": "1plus"
+    },
+    {
+        "parent": "storedSpells",
+        "key": "level",
+        "priority": "01",
+        "group": "",
+        "name": "Maximum spell level",
+        "desc": "0 for Cantrips, or 1-10 for spell levels.",
+        "type": "number",
+        "locked": true,
+        "examples": "storedspelllevel"
+    },
+    {
+        "parent": "storedSpells",
+        "key": "tradition",
+        "priority": "02",
+        "group": "",
+        "name": "Spell tradition",
+        "desc": "The tradition the spell needs to be chosen from. Leave empty for all traditions.",
+        "locked": true,
+        "examples": "spelltraditions"
+    },
+    {
+        "parent": "storedSpells",
+        "key": "target",
+        "priority": "03",
+        "group": "",
+        "name": "Spell target",
+        "desc": "Choose spells that can target enemies, other creatures or only the caster, or leave empty to allow all targets.",
+        "locked": true,
+        "examples": "spelltargets"
+    },
+    {
+        "key": "isArmoredSkirt",
+        "priority": "07",
+        "group": "5-Influence",
+        "name": "Act as Armored Skirt",
+        "desc": "Set if this item uses the 'Armored Skirt' functionality to change the effectiveness and weight of certain armors.",
+        "type": "checkbox"
+    },
+    {
+        "key": "isDoublingRings",
+        "priority": "08",
+        "group": "5-Influence",
+        "name": "Act as Doubling Rings",
+        "desc": "Set if this item uses the 'Doubling Rings' functionality to copy runes from one item to the other.",
+        "locked": true,
+        "examples":"isdoublingrings"
+    },
+    {
+        "key": "isHandwrapsOfMightyBlows",
+        "priority": "09",
+        "group": "5-Influence",
+        "name": "Act as Handwraps of Mighty Blows",
+        "desc": "Set if this item uses the 'Handwraps of Mighty Blows' functionality to enhance unarmed attacks with its own runes. The item's modification type will be set to 'weapon' automatically.",
+        "type": "checkbox"
+    },
+    {
+        "key": "isWayfinder",
+        "priority": "09",
+        "group": "5-Influence",
+        "name": "Act as Wayfinder",
+        "desc": "Set if this item uses the 'Wayfinder' functionality slot Aeon Stones and unlock their resonant abilities. Set to the number of Aeon Stones allowed in this Wayfinder.",
+        "type": "number",
+        "locked": true,
+        "examples":"iswayfinder"
+    },
+    {
+        "key": "isAeonStone",
+        "priority": "09",
+        "group": "5-Influence",
+        "name": "Act as Aeon Stone",
+        "desc": "Set if this item should be treated as an Aeon Stone and allowed to slot into a Wayfinder. See unique activities and the 'resonant activity' option to set which abilities should be locked until the item is slotted.",
+        "type": "checkbox"
+    },
+    {
+        "key": "group",
+        "priority": "00",
+        "group": "6-Armor & Weapons",
+        "name": "Group",
+        "desc": "The armor or weapon group for this item. The group is relevant for specialization effects.",
+        "examples": "group"
+    },
+    {
+        "key": "armorBase",
+        "priority": "00",
+        "group": "7-Armor & Shields",
+        "name": "Base armor type",
+        "desc": "If this armor is based on another armor, the base armor should be named here. This allows applying a specific armor proficiency and specialization effect to the item even if it is not named after the armor. Example: If you are creating a magical Leather Armor named Nightshroud, and you have master proficiency in leather armor, but trained in light armor, setting this to 'Leather Armor' will allow you to apply that master proficiency.",
+        "examples": "armorBase"
+    },
+    {
+        "key": "acbonus",
+        "priority": "01",
+        "group": "7-Armor & Shields",
+        "name": "AC bonus",
+        "desc": "The armor's or shield's inherent bonus to armor class. A shield must be raised in order to apply its AC bonus.",
+        "type": "number",
+        "validation": "0plus"
+    },
+    {
+        "key": "hardness",
+        "priority": "02",
+        "group": "7-Armor & Shields",
+        "name": "Shield hardness",
+        "desc": "The amount of damage this shield can absorb from one attack before losing hit points.",
+        "type": "number",
+        "validation": "0plus"
+    },
+    {
+        "key": "hitpoints",
+        "priority": "03",
+        "group": "7-Armor & Shields",
+        "name": "Shield hit points",
+        "desc": "The maximum number of hit points this shield will have.",
+        "type": "number",
+        "validation": "0plus"
+    },
+    {
+        "key": "brokenThreshold",
+        "priority": "04",
+        "group": "7-Armor & Shields",
+        "name": "Shield broken threshold",
+        "desc": "If the shield has less than this amount of hit points, it becomes broken and unusable, but can still be repaired. The broken threshold is usually half the maximum hit points.",
+        "type": "number",
+        "validation": "0plus"
+    },
+    
+    {
+        "key": "dexcap",
+        "priority": "05",
+        "group": "7-Armor & Shields",
+        "name": "Dexterity Cap",
+        "desc": "The highest dexterity bonus you can receive while wearing this armor, -1 for unlimited.",
+        "type": "number",
+        "validation": "-1plus"
+    },
+    {
+        "key": "skillpenalty",
+        "priority": "06",
+        "group": "7-Armor & Shields",
+        "name": "Check penalty",
+        "desc": "Certain skills take this penalty while wearing this armor if your strength does not match the armor's strength requirement.",
+        "type": "number",
+        "validation": "0minus"
+    },
+    {
+        "key": "speedpenalty",
+        "priority": "07",
+        "group": "7-Armor & Shields",
+        "name": "Speed penalty",
+        "desc": "The penalty to speed (in steps of -5 ft) taken while wearing this armor or shield. The penalty can be reduced by 5 for armors by matching the strength requirement.",
+        "type": "number",
+        "validation": "0minus"
+    },
+    {
+        "key": "strength",
+        "priority": "08",
+        "group": "7-Armor & Shields",
+        "name": "Strength requirement",
+        "desc": "The minimum strength required to eliminate or lessen this armor's skill and speed penalties.",
+        "type": "number",
+        "validation": "0plus"
+    },
+    {
+        "key": "coverbonus",
+        "priority": "09",
+        "group": "7-Armor & Shields",
+        "name": "Shield cover bonus",
+        "desc": "If this shield has a cover bonus value, you can take cover behind it while it is raised and gain this additional bonus to AC.",
+        "type": "number",
+        "validation": "0plus"
+    },
+    {
+        "key": "weaponBase",
+        "priority": "00",
+        "group": "8-Weapons",
+        "name": "Base weapon type",
+        "desc": "If this weapon is based on another weapon, the base weapon should be named here. This allows applying a specific weapon proficiency and critical specialization effect to the item even if it is not named after the weapon. Example: If you are creating a magical Longsword named Sunblade, and you have master proficiency in Longswords, but trained proficiency in martial weapons, setting this to 'Longsword' will allow you to apply that master proficiency.",
+        "examples": "weaponBase"
+    },
+    {
+        "key": "dicenum",
+        "priority": "01",
+        "group": "8-Weapons",
+        "name": "Starting number of damage dice",
+        "desc": "Weapons usually start with 1 damage die.",
+        "type": "number",
+        "validation": "1plus"
+    },
+    {
+        "key": "dicesize",
+        "priority": "02",
+        "group": "8-Weapons",
+        "name": "Damage dice size",
+        "desc": "Most weapons have damage dice between 4 and 12.",
+        "locked": true,
+        "examples": "dicesize"
+    },
+    {
+        "key": "dmgType",
+        "priority": "03",
+        "group": "8-Weapons",
+        "name": "Damage Type",
+        "desc": "Usually B for blunt, P for piercing or S for slashing damage, but can vary for versatile or modular weapons."
+    },
+    {
+        "key": "extraDamage",
+        "priority": "04",
+        "group": "8-Weapons",
+        "name": "Additional damage",
+        "desc": "Some rare weapons do additional damage without any runes. You can add this damage here, e.g. '+1d4F' for an additional d4 of fire damage."
+    },
+    {
+        "key": "melee",
+        "priority": "05",
+        "group": "8-Weapons",
+        "name": "Melee range",
+        "desc": "The range of the weapon in melee in ft., usually 5 or 10 for weapons with the Reach trait. Weapons without a melee range will not show a melee attack.",
+        "type": "number",
+        "validation": "0plus"
+    },
+    {
+        "key": "ranged",
+        "priority": "06",
+        "group": "8-Weapons",
+        "name": "Ranged increment",
+        "desc": "The range increment of the ranged weapon in ft.. Thrown weapons should have a range increment matching their Thrown trait. Weapons can be both ranged and melee, e.g. daggers.",
+        "type": "number",
+        "validation": "0plus"
+    },
+    {
+        "key": "ammunition",
+        "priority": "07",
+        "group": "8-Weapons",
+        "name": "Ammunition type",
+        "desc": "The kind of ammunition used by this ranged weapon, e.g. 'arrows' or 'bolts'."
+    },
+    {
+        "key": "reload",
+        "priority": "08",
+        "group": "8-Weapons",
+        "name": "Reload duration",
+        "desc": "The amount of actions it takes to reload this ranged weapon. Bows usually have a reload duration of 0."
+    },
+    {
+        "key": "criticalHint",
+        "priority": "09",
+        "group": "8-Weapons",
+        "name": "Critical hit effect",
+        "desc": "Describe anything that happens on a critical hit with this weapon."
+    },
+    {
+        "key": "dexterityBased",
+        "priority": "10",
+        "group": "8-Weapons",
+        "name": "Dexterity-based",
+        "desc": "A dexterity-based weapon uses your dexterity modifier for its attack and damage bonus instead of your strength modifier, even if it doen't have the Finesse trait.",
+        "type": "checkbox"
+    },
+    {
+        "key": "useHighestAttackProficiency",
+        "priority": "10",
+        "group": "8-Weapons",
+        "name": "Use your highest attack proficiency",
+        "desc": "If this box is checked, the weapon will always use your highest weapon or unarmed attack proficiency when calculating its attack modifier, regardless of its own proficiency.",
+        "type": "checkbox"
+    },
+    {
+        "key": "actions",
+        "priority": "00",
+        "group": "9-Consumables",
+        "name": "Time required to use",
+        "desc": "Number of actions to use this item. Can be free or reaction, or an individual amount of time, like 1 hour.",
+        "examples": "actions"
+    },
+    {
+        "key": "activationType",
+        "priority": "01",
+        "group": "9-Consumables",
+        "name": "Activation type",
+        "desc": "Type of action used to activate this item.",
+        "examples": "activity"
+    },
+    {
+        "key": "onceEffects",
+        "priority": "02",
+        "group": "9-Consumables",
+        "name": "One-time effects",
+        "desc": "These bonuses or penalties will be applied immediately when the item is activated, like granting temporary HP. There are only a few properties that can be affected this way. Dice rolls should be handled by the player."
+    },
+    {
+        "key": "inputRequired",
+        "priority": "03",
+        "group": "9-Consumables",
+        "name": "Player input required",
+        "desc": "Certain effects are not automated, such as repeated effects under complicated circumstances, or anything that requires a dice roll. If this item requires the player to perform a certain action after activating it, you can describe the expectations here.",
+        "examples": "inputRequired"
+    },
+    {
+        "key": "gainConditions",
+        "priority": "04",
+        "group": "9-Consumables",
+        "name": "Cause condition",
+        "desc": "Add known conditions that will be caused by using this item."
+    },
+    {
+        "key": "critsuccess",
+        "priority": "05",
+        "group": "9-Consumables",
+        "name": "Critical success effect",
+        "desc": "If you or the target must roll to decide the outcome of the item's activation, describe what happens at a critical success.",
+        "examples": "activity"
+    },
+    {
+        "key": "success",
+        "priority": "06",
+        "group": "9-Consumables",
+        "name": "Success effect",
+        "desc": "If you or the target must roll to decide the outcome of the item's activation, describe what happens at a success.",
+        "examples": "activity"
+    },
+    {
+        "key": "failure",
+        "priority": "07",
+        "group": "9-Consumables",
+        "name": "Failure effect",
+        "desc": "If you or the target must roll to decide the outcome of the item's activation, describe what happens at a failure.",
+        "examples": "activity"
+    },
+    {
+        "key": "critfailure",
+        "priority": "08",
+        "group": "9-Consumables",
+        "name": "Critical failure effect",
+        "desc": "If you or the target must roll to decide the outcome of the item's activation, describe what happens at a critical failure.",
+        "examples": "activity"
+    },
+    {
+        "parent": "gainConditions",
+        "key": "name",
+        "priority": "00",
+        "group": "",
+        "name": "Condition",
+        "desc": "",
+        "locked": true,
+        "examples": "gaincondition name"
+    },
+    {
+        "parent": "gainConditions",
+        "key": "value",
+        "priority": "01",
+        "group": "",
+        "name": "Condition value",
+        "desc": "Some conditions come with a value that influences how grave their effects are.",
+        "type": "number",
+        "validation": "0plus"
+    },
+    {
+        "parent": "gainConditions",
+        "key": "decreasingValue",
+        "priority": "02",
+        "group": "",
+        "name": "Decreasing Value",
+        "desc": "If this is set, the value decreases by 1 every turn until it is removed at 0.",
+        "type": "checkbox"
+    },
+    {
+        "parent": "gainConditions",
+        "key": "duration",
+        "priority": "03",
+        "group": "",
+        "name": "Condition duration",
+        "desc": "The duration of the condition upon activation, in turns * 10 or -1 for permanent. (1 hour is 6000, 1 day is 144000.) A condition with a duration of 0 will immediately expire.",
+        "type": "number",
+        "validation": "-1plus"
+    },
+    {
+        "parent": "gainConditions",
+        "key": "persistent",
+        "priority": "04",
+        "group": "",
+        "name": "Persistent condition",
+        "desc": "If this is set, the condition will remain even after the activation has finished.",
+        "type": "checkbox"
+    },
+    {
+        "parent": "gainConditions",
+        "key": "ignorePersistent",
+        "priority": "05",
+        "group": "",
+        "name": "Ignore persistent condition",
+        "desc": "Some conditions are persistent by nature (for example, Doomed or Fatigued). Set this to treat them as if they were not.",
+        "type": "checkbox"
+    },
+    {
+        "parent": "gainConditions",
+        "key": "source",
+        "priority": "06",
+        "group": "",
+        "name": "Condition source",
+        "desc": "The condition will show this as its source. Should usually be the item name."
+    },
+    {
+        "key": "benefit",
+        "priority": "05",
+        "group": "9-Consumables",
+        "name": "Benefit",
+        "desc": "Describe the beneficial effects of consuming this item."
+    },
+    {
+        "key": "drawback",
+        "priority": "06",
+        "group": "9-Consumables",
+        "name": "Drawback",
+        "desc": "Describe the harmful side effects of consuming this item."
+    }
+]

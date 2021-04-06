@@ -1,0 +1,350 @@
+[
+   {
+      "name": "Amphibious: Swim",
+      "shortdesc": "The familiar gains a swim Speed of 25 feet.",
+      "desc": "The familiar gains a swim Speed of 25 feet.",
+      "specialreqdesc": "land-based familiar",
+      "specialreq": "familiar.speeds[1].name == 'Land Speed'",
+      "traits": [
+         "Familiar Ability"
+      ],
+      "effects": [
+         {
+            "affected": "Swim Speed",
+            "setValue": "25"
+         }
+      ]
+   },
+   {
+      "name": "Amphibious: Land",
+      "shortdesc": "The familiar gains a Speed of 25 feet.",
+      "desc": "The familiar gains a Speed of 25 feet.",
+      "specialreqdesc": "water-based familiar",
+      "specialreq": "familiar.speeds[1].name == 'Swim Speed'",
+      "traits": [
+         "Familiar Ability"
+      ],
+      "effects": [
+         {
+            "affected": "Land Speed",
+            "setValue": "25"
+         }
+      ]
+   },
+   {
+      "name": "Burrower",
+      "shortdesc": "The familiar gains a burrow Speed of 5 feet, allowing it to dig Tiny holes.",
+      "desc": "The familiar gains a burrow Speed of 5 feet, allowing it to dig Tiny holes.",
+      "traits": [
+         "Familiar Ability"
+      ],
+      "effects": [
+         {
+            "affected": "Burrow Speed",
+            "setValue": "5"
+         }
+      ]
+   },
+   {
+      "name": "Climber",
+      "shortdesc": "The familiar gains a climb Speed of 25 feet.",
+      "desc": "The familiar gains a climb Speed of 25 feet.",
+      "traits": [
+         "Familiar Ability"
+      ],
+      "effects": [
+         {
+            "affected": "Climb Speed",
+            "setValue": "25"
+         }
+      ]
+   },
+   {
+      "name": "Damage Avoidance",
+      "shortdesc": "Choose one type of save. The familiar takes no damage when it succeeds at that type of save; this doesn't prevent effects other than damage.",
+      "desc": "Choose one type of save. The familiar takes no damage when it succeeds at that type of save; this doesn't prevent effects other than damage.",
+      "traits": [
+         "Familiar Ability"
+      ],
+      "subTypes": true
+   },
+   {
+      "name": "Damage Avoidance: Fortitude",
+      "shortdesc": "The familiar takes no damage when it succeeds at a Fortitude save; this doesn't prevent effects other than damage.",
+      "desc": "The familiar takes no damage when it succeeds at a Fortitude save; this doesn't prevent effects other than damage.",
+      "traits": [
+         "Familiar Ability"
+      ],
+      "hints": [
+         {
+            "desc": "The familiar takes no damage when it succeeds at a Fortitude save; this doesn't prevent effects other than damage.",
+            "showon": "Fortitude"
+         }
+      ],
+      "subType": "Fortitude",
+      "superType": "Damage Avoidance"
+   },
+   {
+      "name": "Damage Avoidance: Reflex",
+      "shortdesc": "The familiar takes no damage when it succeeds at a Reflex save; this doesn't prevent effects other than damage.",
+      "desc": "The familiar takes no damage when it succeeds at a Reflex save; this doesn't prevent effects other than damage.",
+      "traits": [
+         "Familiar Ability"
+      ],
+      "hints": [
+         {
+            "desc": "The familiar takes no damage when it succeeds at a Reflex save; this doesn't prevent effects other than damage.",
+            "showon": "Reflex"
+         }
+      ],
+      "subType": "Reflex",
+      "superType": "Damage Avoidance"
+   },
+   {
+      "name": "Damage Avoidance: Will",
+      "shortdesc": "The familiar takes no damage when it succeeds at a Will save; this doesn't prevent effects other than damage.",
+      "desc": "The familiar takes no damage when it succeeds at a Will save; this doesn't prevent effects other than damage.",
+      "traits": [
+         "Familiar Ability"
+      ],
+      "hints": [
+         {
+            "desc": "The familiar takes no damage when it succeeds at a Will save; this doesn't prevent effects other than damage.",
+            "showon": "Will"
+         }
+      ],
+      "subType": "Will",
+      "superType": "Damage Avoidance"
+   },
+   {
+      "name": "Darkvision",
+      "shortdesc": "The familiar gains darkvision.",
+      "desc": "The familiar gains darkvision.",
+      "traits": [
+         "Familiar Ability"
+      ],
+      "senses": [
+         "Darkvision"
+      ]
+   },
+   {
+      "name": "Fast Movement",
+      "shortdesc": "Increase one of the familiar's Speeds from 25 feet to 40 feet.",
+      "desc": "Increase one of the familiar's Speeds from 25 feet to 40 feet.",
+      "subTypes": true,
+      "traits": [
+         "Familiar Ability"
+      ]
+   },
+   {
+      "name": "Fast Movement: Climb",
+      "shortdesc": "The familiar's Climb Speed increases from 25 feet to 40 feet.",
+      "desc": "The familiar's Climb Speed increases from 25 feet to 40 feet.",
+      "specialreqdesc": "Climb Speed",
+      "specialreq": "familiar.speeds.filter(speed => speed.name == 'Climb Speed').length",
+      "subType": "Climb",
+      "superType": "Fast Movement",
+      "traits": [
+         "Familiar Ability"
+      ],
+      "effects": [
+         {
+            "affected": "Climb Speed",
+            "setValue": "40"
+         }
+      ]
+   },
+   {
+      "name": "Fast Movement: Fly",
+      "shortdesc": "The familiar's Fly Speed increases from 25 feet to 40 feet.",
+      "desc": "The familiar's Fly Speed increases from 25 feet to 40 feet.",
+      "specialreqdesc": "Fly Speed",
+      "specialreq": "familiar.speeds.filter(speed => speed.name == 'Fly Speed').length",
+      "subType": "Fly",
+      "superType": "Fast Movement",
+      "traits": [
+         "Familiar Ability"
+      ],
+      "effects": [
+         {
+            "affected": "Fly Speed",
+            "setValue": "40"
+         }
+      ]
+   },
+   {
+      "name": "Fast Movement: Land",
+      "shortdesc": "The familiar's Land Speed increases from 25 feet to 40 feet.",
+      "desc": "The familiar's Land Speed increases from 25 feet to 40 feet.",
+      "specialreqdesc": "Land Speed",
+      "specialreq": "familiar.speeds.filter(speed => speed.name == 'Land Speed').length",
+      "subType": "Land",
+      "superType": "Fast Movement",
+      "traits": [
+         "Familiar Ability"
+      ],
+      "effects": [
+         {
+            "affected": "Land Speed",
+            "setValue": "40"
+         }
+      ]
+   },
+   {
+      "name": "Fast Movement: Swim",
+      "shortdesc": "The familiar's Swim Speed increases from 25 feet to 40 feet.",
+      "desc": "The familiar's Swim Speed increases from 25 feet to 40 feet.",
+      "specialreqdesc": "Swim Speed",
+      "specialreq": "familiar.speeds.filter(speed => speed.name == 'Swim Speed').length",
+      "subType": "Swim",
+      "superType": "Fast Movement",
+      "traits": [
+         "Familiar Ability"
+      ],
+      "effects": [
+         {
+            "affected": "Swim Speed",
+            "setValue": "40"
+         }
+      ]
+   },
+   {
+      "name": "Flier",
+      "shortdesc": "The familiar gains a fly Speed of 25 feet.",
+      "desc": "The familiar gains a fly Speed of 25 feet.",
+      "traits": [
+         "Familiar Ability"
+      ],
+      "effects": [
+         {
+            "affected": "Fly Speed",
+            "setValue": "25"
+         }
+      ]
+   },
+   {
+      "name": "Kinspeech",
+      "shortdesc": "The familiar can understand and speak with animals of the same species. To select this, your familiar must be an animal, it must have the speech ability, and you must be at least 6th level.",
+      "desc": "The familiar can understand and speak with animals of the same species. To select this, your familiar must be an animal, it must have the speech ability, and you must be at least 6th level.",
+      "levelreq": 6,
+      "traits": [
+         "Familiar Ability"
+      ],
+      "featreq": [
+         "Familiar:Speech"
+      ],
+      "specialreq": "!Has_Feat('Character', 'Leshy Familiar')",
+      "specialreqdesc": "animal familiar"
+   },
+   {
+      "name": "Lab Assistant",
+      "shortdesc": "The familiar can use your Quick Alchemy action. You must have Quick Alchemy, and your familiar must be in your space. This has the same cost and requirement as if you used it. It must have the manual dexterity ability to select this.",
+      "desc": "The familiar can use your Quick Alchemy action. You must have Quick Alchemy, and your familiar must be in your space. This has the same cost and requirement as if you used it. It must have the manual dexterity ability to select this.",
+      "traits": [
+         "Familiar Ability"
+      ],
+      "featreq": [
+         "Quick Alchemy"
+      ]
+   },
+   {
+      "name": "Manual Dexterity",
+      "shortdesc": "The familiar can use up to two of its limbs as if they were hands to use manipulate actions.",
+      "desc": "The familiar can use up to two of its limbs as if they were hands to use manipulate actions.",
+      "traits": [
+         "Familiar Ability"
+      ]
+   },
+   {
+      "name": "Scent",
+      "shortdesc": "The familiar gains scent (imprecise, 30 feet).",
+      "desc": "The familiar gains scent (imprecise, 30 feet).",
+      "traits": [
+         "Familiar Ability"
+      ],
+      "senses": [
+         "Scent 30 feet (imprecise)"
+      ]
+   },
+   {
+      "name": "Speech",
+      "shortdesc": "The familiar understands and speaks a language you know.",
+      "desc": "The familiar understands and speaks a language you know.",
+      "traits": [
+         "Familiar Ability"
+      ]
+   },
+   {
+      "name": "Cantrip Connection",
+      "shortdesc": "You can prepare an additional cantrip, or if you have a repertoire, instead designate a cantrip to add to your repertoire every time you select this ability; you can retrain it but can't otherwise change it. You must be able to prepare cantrips or add them to your repertoire to select this.",
+      "desc": "You can prepare an additional cantrip, or if you have a repertoire, instead designate a cantrip to add to your repertoire every time you select this ability; you can retrain it but can't otherwise change it. You must be able to prepare cantrips or add them to your repertoire to select this.",
+      "specialreqdesc": "cantrips",
+      "specialreq": "character.class.spellCasting.some(casting => ['Spontaneous','Prepared'].includes(casting.castingType) && casting.charLevelAvailable <= character.level && casting.spellChoices.some(choice => choice.level >= 0))",
+      "traits": [
+         "Master Ability"
+      ],
+      "internalNote": "Hardcoded in feat processing"
+   },
+   {
+      "name": "Extra Reagents",
+      "shortdesc": "Your familiar grows extra infused reagents on or in its body. You gain an additional batch of infused reagents. You must have the infused reagents ability to select this ability.",
+      "desc": "Your familiar grows extra infused reagents on or in its body. You gain an additional batch of infused reagents. You must have the infused reagents ability to select this ability.",
+      "internalNote": "####### Reagents are not implemented yet ######",
+      "traits": [
+         "Master Ability",
+         "Concentrate"
+      ],
+      "effects": [
+         {
+            "affected": "Max Infused Reagents",
+            "value": "+1"
+         }
+      ],
+      "featreq": [
+         "Infused Reagents"
+      ]
+   },
+   {
+      "name": "Familiar Focus",
+      "shortdesc": "Once per day, your familiar can use 2 actions with the concentrate trait to regain 1 Focus Point, up to your usual maximum. You must have a focus pool to select this.",
+      "desc": "Once per day, your familiar can use 2 actions with the concentrate trait to regain 1 Focus Point, up to your usual maximum. You must have a focus pool to select this.\n\n(This shows up on your activity list.)",
+      "specialreqdesc": "Focus Pool",
+      "specialreq": "character.class.spellCasting.filter(casting => casting.castingType == 'Focus' && casting.charLevelAvailable <= character.level).length",
+      "traits": [
+         "Master Ability"
+      ],
+      "gainActivities": [
+         "Familiar Focus"
+      ]
+   },
+   {
+      "name": "Lifelink",
+      "shortdesc": "If your familiar would be reduced to 0 HP by damage, as a reaction with the concentrate trait, you can take the damage. If you do, you take all the damage and your familiar takes none. However, if special effects when a hit damages your familiar (such as snake venom) still apply to your familiar.",
+      "desc": "If your familiar would be reduced to 0 HP by damage, as a reaction with the concentrate trait, you can take the damage. If you do, you take all the damage and your familiar takes none. However, if special effects when a hit damages your familiar (such as snake venom) still apply to your familiar.",
+      "traits": [
+         "Master Ability"
+      ],
+      "gainActivities": [
+         "Lifelink"
+      ]
+   },
+   {
+      "name": "Spell Battery",
+      "shortdesc": "You gain one additional spell slot at least 3 levels lower than your highest-level spell slot; you must be able to cast 4th-level spells using spell slots to select this master ability.",
+      "desc": "You gain one additional spell slot at least 3 levels lower than your highest-level spell slot; you must be able to cast 4th-level spells using spell slots to select this master ability.",
+      "specialreqdesc": "ability to cast 4th-level spells using spell slots",
+      "specialreq": "character.class.spellCasting.find(casting => ['Spontaneous','Prepared'].includes(casting.castingType) && casting.className == characterService.get_Familiar().originClass && casting.charLevelAvailable <= character.level && casting.spellChoices.find(choice => choice.charLevelAvailable <= character.level && choice.level >= 4))",
+      "traits": [
+         "Master Ability"
+      ],
+      "internalNote": "Hardcoded in feat processing"
+   },
+   {
+      "name": "Spell Delivery",
+      "shortdesc": "If your familiar is in your space, you can cast a spell with a range of touch, transfer its power to your familiar, and command the familiar to deliver the spell. If you do, the familiar uses its 2 actions for the round to move to a target of your choice and touch that target. If it doesn't reach the target to touch it this turn, the spell has no effect.",
+      "desc": "If your familiar is in your space, you can cast a spell with a range of touch, transfer its power to your familiar, and command the familiar to deliver the spell. If you do, the familiar uses its 2 actions for the round to move to a target of your choice and touch that target. If it doesn't reach the target to touch it this turn, the spell has no effect.",
+      "traits": [
+         "Master Ability"
+      ]
+   }
+]

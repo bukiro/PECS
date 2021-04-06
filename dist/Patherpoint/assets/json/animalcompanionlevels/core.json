@@ -1,0 +1,422 @@
+[
+    {
+        "_className": "AnimalCompanionLevel"
+    },
+    {
+        "_className": "AnimalCompanionLevel",
+        "abilityChoices": [
+            {
+                "_className": "AbilityChoice",
+                "boosts": [
+                    {
+                        "name": "Strength",
+                        "type": "Boost",
+                        "source": "Young",
+                        "locked": true,
+                        "sourceId": "1-Ability-Young-0"
+                    },
+                    {
+                        "name": "Strength",
+                        "type": "Boost",
+                        "source": "Young",
+                        "locked": true,
+                        "sourceId": "1-Ability-Young-0"
+                    },
+                    {
+                        "name": "Dexterity",
+                        "type": "Boost",
+                        "source": "Young",
+                        "locked": true,
+                        "sourceId": "1-Ability-Young-0"
+                    },
+                    {
+                        "name": "Dexterity",
+                        "type": "Boost",
+                        "source": "Young",
+                        "locked": true,
+                        "sourceId": "1-Ability-Young-0"
+                    },
+                    {
+                        "name": "Constitution",
+                        "type": "Boost",
+                        "source": "Young",
+                        "locked": true,
+                        "sourceId": "1-Ability-Young-0"
+                    },
+                    {
+                        "name": "Intelligence",
+                        "type": "Flaw",
+                        "source": "Young",
+                        "locked": true,
+                        "sourceId": "1-Ability-Young-0"
+                    },
+                    {
+                        "name": "Intelligence",
+                        "type": "Flaw",
+                        "source": "Young",
+                        "locked": true,
+                        "sourceId": "1-Ability-Young-0"
+                    },
+                    {
+                        "name": "Intelligence",
+                        "type": "Flaw",
+                        "source": "Young",
+                        "locked": true,
+                        "sourceId": "1-Ability-Young-0"
+                    },
+                    {
+                        "name": "Intelligence",
+                        "type": "Flaw",
+                        "source": "Young",
+                        "locked": true,
+                        "sourceId": "1-Ability-Young-0"
+                    },
+                    {
+                        "name": "Wisdom",
+                        "type": "Boost",
+                        "source": "Young",
+                        "locked": true,
+                        "sourceId": "1-Ability-Young-0"
+                    }
+                ],
+                "source": "Young",
+                "id": "1-Ability-Young-0"
+            }
+        ],
+        "name": "Young",
+        "number": 1,
+        "skillChoices": [
+            {
+                "_className": "SkillChoice",
+                "increases": [
+                    {
+                        "name": "Unarmed Attacks",
+                        "source": "Young",
+                        "maxRank": 2,
+                        "locked": true,
+                        "sourceId": "1-Skill-Young-0"
+                    },
+                    {
+                        "name": "Unarmored Defense",
+                        "source": "Young",
+                        "maxRank": 2,
+                        "locked": true,
+                        "sourceId": "1-Skill-Young-0"
+                    },
+                    {
+                        "name": "Light Barding",
+                        "source": "Young",
+                        "maxRank": 2,
+                        "locked": true,
+                        "sourceId": "1-Skill-Young-0"
+                    },
+                    {
+                        "name": "Heavy Barding",
+                        "source": "Young",
+                        "maxRank": 2,
+                        "locked": true,
+                        "sourceId": "1-Skill-Young-0"
+                    },
+                    {
+                        "name": "Fortitude",
+                        "source": "Young",
+                        "maxRank": 2,
+                        "locked": true,
+                        "sourceId": "1-Skill-Young-0"
+                    },
+                    {
+                        "name": "Reflex",
+                        "source": "Young",
+                        "maxRank": 2,
+                        "locked": true,
+                        "sourceId": "1-Skill-Young-0"
+                    },
+                    {
+                        "name": "Will",
+                        "source": "Young",
+                        "maxRank": 2,
+                        "locked": true,
+                        "sourceId": "1-Skill-Young-0"
+                    },
+                    {
+                        "name": "Perception",
+                        "source": "Young",
+                        "maxRank": 2,
+                        "locked": true,
+                        "sourceId": "1-Skill-Young-0"
+                    },
+                    {
+                        "name": "Acrobatics",
+                        "source": "Young",
+                        "maxRank": 2,
+                        "locked": true,
+                        "sourceId": "1-Skill-Young-0"
+                    },
+                    {
+                        "name": "Athletics",
+                        "source": "Young",
+                        "maxRank": 2,
+                        "locked": true,
+                        "sourceId": "1-Skill-Young-0"
+                    }
+                ],
+                "type": "Any",
+                "maxRank": 2,
+                "source": "Young",
+                "id": "1-Skill-Young-0"
+            }
+        ]
+    },
+    {
+        "_className": "AnimalCompanionLevel",
+        "abilityChoices": [
+            {
+                "_className": "AbilityChoice",
+                "boosts": [
+                    {
+                        "name": "Strength",
+                        "type": "Boost",
+                        "source": "Mature",
+                        "locked": true,
+                        "sourceId": "2-Ability-Mature-0"
+                    },
+                    {
+                        "name": "Dexterity",
+                        "type": "Boost",
+                        "source": "Mature",
+                        "locked": true,
+                        "sourceId": "2-Ability-Mature-0"
+                    },
+                    {
+                        "name": "Constitution",
+                        "type": "Boost",
+                        "source": "Mature",
+                        "locked": true,
+                        "sourceId": "2-Ability-Mature-0"
+                    },
+                    {
+                        "name": "Wisdom",
+                        "type": "Boost",
+                        "source": "Mature",
+                        "locked": true,
+                        "sourceId": "2-Ability-Mature-0"
+                    }
+                ],
+                "source": "Ancestry",
+                "id": "2-Ability-Mature-0"
+            }
+        ],
+        "name": "Mature",
+        "number": 2,
+        "sizeChange": 1,
+        "skillChoices": [
+            {
+                "_className": "SkillChoice",
+                "increases": [
+                    {
+                        "name": "Fortitude",
+                        "source": "Mature",
+                        "maxRank": 4,
+                        "locked": true,
+                        "sourceId": "2-Skill-Mature-0"
+                    },
+                    {
+                        "name": "Reflex",
+                        "source": "Class",
+                        "maxRank": 4,
+                        "locked": true,
+                        "sourceId": "2-Skill-Mature-0"
+                    },
+                    {
+                        "name": "Will",
+                        "source": "Mature",
+                        "maxRank": 4,
+                        "locked": true,
+                        "sourceId": "2-Skill-Mature-0"
+                    },
+                    {
+                        "name": "Perception",
+                        "source": "Mature",
+                        "maxRank": 4,
+                        "locked": true,
+                        "sourceId": "2-Skill-Mature-0"
+                    },
+                    {
+                        "name": "Intimidation",
+                        "source": "Mature",
+                        "maxRank": 4,
+                        "locked": true,
+                        "sourceId": "2-Skill-Mature-0"
+                    },
+                    {
+                        "name": "Stealth",
+                        "source": "Mature",
+                        "maxRank": 4,
+                        "locked": true,
+                        "sourceId": "2-Skill-Mature-0"
+                    },
+                    {
+                        "name": "Survival",
+                        "source": "Mature",
+                        "maxRank": 4,
+                        "locked": true,
+                        "sourceId": "2-Skill-Mature-0"
+                    }
+                ],
+                "type": "Any",
+                "maxRank": 4,
+                "source": "Mature",
+                "id": "2-Skill-Mature-0"
+            }
+        ]
+    },
+    {
+        "_className": "AnimalCompanionLevel",
+        "number": 3,
+        "internalNote": "This level gets replaced by Nimble (4) or Savage (5) as needed"
+    },
+    {
+        "_className": "AnimalCompanionLevel",
+        "abilityChoices": [
+            {
+                "_className": "AbilityChoice",
+                "boosts": [
+                    {
+                        "name": "Strength",
+                        "type": "Boost",
+                        "source": "Nimble",
+                        "locked": true,
+                        "sourceId": "3-Ability-Nimble-0"
+                    },
+                    {
+                        "name": "Dexterity",
+                        "type": "Boost",
+                        "source": "Nimble",
+                        "locked": true,
+                        "sourceId": "3-Ability-Nimble-0"
+                    },
+                    {
+                        "name": "Dexterity",
+                        "type": "Boost",
+                        "source": "Nimble",
+                        "locked": true,
+                        "sourceId": "3-Ability-Nimble-0"
+                    },
+                    {
+                        "name": "Constitution",
+                        "type": "Boost",
+                        "source": "Nimble",
+                        "locked": true,
+                        "sourceId": "3-Ability-Nimble-0"
+                    },
+                    {
+                        "name": "Wisdom",
+                        "type": "Boost",
+                        "source": "Nimble",
+                        "locked": true,
+                        "sourceId": "3-Ability-Nimble-0"
+                    }
+                ],
+                "source": "Nimble",
+                "id": "3-Ability-Nimble-0"
+            }
+        ],
+        "extraDamage": 2,
+        "name": "Nimble",
+        "number": 4,
+        "skillChoices": [
+            {
+                "_className": "SkillChoice",
+                "increases": [
+                    {
+                        "name": "Acrobatics",
+                        "source": "Nimble",
+                        "maxRank": 4,
+                        "locked": true,
+                        "sourceId": "3-Skill-Nimble-0"
+                    },
+                    {
+                        "name": "Unarmored Defense",
+                        "source": "Nimble",
+                        "maxRank": 4,
+                        "locked": true,
+                        "sourceId": "3-Skill-Nimble-0"
+                    }
+                ],
+                "type": "Any",
+                "maxRank": 4,
+                "source": "Nimble",
+                "id": "3-Skill-Nimble-0"
+            }
+        ]
+    },
+    {
+        "_className": "AnimalCompanionLevel",
+        "abilityChoices": [
+            {
+                "_className": "AbilityChoice",
+                "boosts": [
+                    {
+                        "name": "Strength",
+                        "type": "Boost",
+                        "source": "Savage",
+                        "locked": true,
+                        "sourceId": "3-Ability-Savage-0"
+                    },
+                    {
+                        "name": "Strength",
+                        "type": "Boost",
+                        "source": "Savage",
+                        "locked": true,
+                        "sourceId": "3-Ability-Savage-0"
+                    },
+                    {
+                        "name": "Dexterity",
+                        "type": "Boost",
+                        "source": "Savage",
+                        "locked": true,
+                        "sourceId": "3-Ability-Savage-0"
+                    },
+                    {
+                        "name": "Constitution",
+                        "type": "Boost",
+                        "source": "Savage",
+                        "locked": true,
+                        "sourceId": "3-Ability-Savage-0"
+                    },
+                    {
+                        "name": "Wisdom",
+                        "type": "Boost",
+                        "source": "Savage",
+                        "locked": true,
+                        "sourceId": "3-Ability-Savage-0"
+                    }
+                ],
+                "source": "Savage",
+                "id": "3-Ability-Savage-0"
+            }
+        ],
+        "extraDamage": 3,
+        "name": "Savage",
+        "number": 5,
+        "sizeChange": 1,
+        "skillChoices": [
+            {
+                "_className": "SkillChoice",
+                "increases": [
+                    {
+                        "name": "Athletics",
+                        "source": "Savage",
+                        "maxRank": 4,
+                        "locked": true,
+                        "sourceId": "3-Skill-Savage-0"
+                    }
+                ],
+                "type": "Any",
+                "maxRank": 4,
+                "source": "Savage",
+                "id": "3-Skill-Savage-0"
+            }
+        ]
+    }
+]

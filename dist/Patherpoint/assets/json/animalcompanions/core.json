@@ -1,0 +1,1618 @@
+[
+    {
+        "_className": "AnimalCompanionAncestry",
+        "name": "Badger",
+        "desc": "Your companion is a badger, wolverine, or other big mustelid.",
+        "size": -1,
+        "gainItems": [
+            {
+                "_className": "ItemGain",
+                "name": "Badger Jaws",
+                "type": "weapons"
+            },
+            {
+                "_className": "ItemGain",
+                "name": "Badger Claw",
+                "type": "weapons"
+            }
+        ],
+        "abilityChoices": [
+            {
+                "_className": "AbilityChoice",
+                "boosts": [
+                    {
+                        "locked": true,
+                        "name": "Constitution",
+                        "source": "Badger",
+                        "sourceId": "#REF!",
+                        "type": "Boost"
+                    },
+                    {
+                        "locked": true,
+                        "name": "Wisdom",
+                        "source": "Badger",
+                        "sourceId": "#REF!",
+                        "type": "Boost"
+                    }
+                ],
+                "id": "#REF!",
+                "source": "Badger"
+            }
+        ],
+        "hitPoints": 8,
+        "skillChoices": [
+            {
+                "_className": "SkillChoice",
+                "id": "#REF!",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Survival",
+                        "source": "Badger",
+                        "sourceId": "#REF!"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Badger",
+                "type": "Skill"
+            }
+        ],
+        "senses": [
+            "Low-Light Vision",
+            "Scent 30 feet (imprecise)"
+        ],
+        "speeds": [
+            {
+                "name": "Land Speed",
+                "value": 25
+            },
+            {
+                "name": "Burrow Speed",
+                "value": 10
+            },
+            {
+                "name": "Climb Speed",
+                "value": 10
+            }
+        ],
+        "supportBenefit": "Your badger digs around your foe's position, interfering with its footing. Until the start of your next turn, if you hit and deal damage to a creature your badger threatens, the target can't use a Step action (unless it can Step through difficult terrain) until it moves from its current position.",
+        "activities": [
+            {
+                "_className": "ActivityGain",
+                "level": 1,
+                "name": "Support",
+                "source": "Badger"
+            },
+            {
+                "_className": "ActivityGain",
+                "level": 3,
+                "name": "Badger Rage",
+                "source": "Badger"
+            }
+        ],
+        "traits": [
+            "Minion"
+        ]
+    },
+    {
+        "_className": "AnimalCompanionAncestry",
+        "name": "Bear",
+        "desc": "Your companion is a black, grizzly, polar, or other type of bear.",
+        "size": -1,
+        "gainItems": [
+            {
+                "_className": "ItemGain",
+                "name": "Bear Jaws",
+                "type": "weapons"
+            },
+            {
+                "_className": "ItemGain",
+                "name": "Bear Claw",
+                "type": "weapons"
+            }
+        ],
+        "abilityChoices": [
+            {
+                "_className": "AbilityChoice",
+                "boosts": [
+                    {
+                        "locked": true,
+                        "name": "Strength",
+                        "source": "Bear",
+                        "sourceId": "#REF!",
+                        "type": "Boost"
+                    },
+                    {
+                        "locked": true,
+                        "name": "Constitution",
+                        "source": "Bear",
+                        "sourceId": "#REF!",
+                        "type": "Boost"
+                    }
+                ],
+                "id": "#REF!",
+                "source": "Bear"
+            }
+        ],
+        "hitPoints": 8,
+        "skillChoices": [
+            {
+                "_className": "SkillChoice",
+                "id": "#REF!",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Intimidation",
+                        "source": "Bear",
+                        "sourceId": "#REF!"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Bear",
+                "type": "Skill"
+            }
+        ],
+        "senses": [
+            "Darkvision",
+            "Scent 30 feet (imprecise)"
+        ],
+        "speeds": [
+            {
+                "name": "Land Speed",
+                "value": 35
+            }
+        ],
+        "supportBenefit": "Your bear mauls your enemies when you create an opening. Until the start of your next turn, each time you hit a creature in the bear's reach with a Strike, the creature takes 1d8 slashing damage from the bear. If your bear is nimble or savage, the slashing damage increases to 2d8.",
+        "activities": [
+            {
+                "_className": "ActivityGain",
+                "level": 1,
+                "name": "Support",
+                "source": "Bear"
+            },
+            {
+                "_className": "ActivityGain",
+                "level": 3,
+                "name": "Bear Hug",
+                "source": "Bear"
+            }
+        ],
+        "traits": [
+            "Minion"
+        ]
+    },
+    {
+        "_className": "AnimalCompanionAncestry",
+        "name": "Bird",
+        "desc": "Your companion is a bird of prey, such as an eagle, hawk, or owl.",
+        "size": -1,
+        "gainItems": [
+            {
+                "_className": "ItemGain",
+                "name": "Bird Jaws",
+                "type": "weapons"
+            },
+            {
+                "_className": "ItemGain",
+                "name": "Bird Talon",
+                "type": "weapons"
+            }
+        ],
+        "abilityChoices": [
+            {
+                "_className": "AbilityChoice",
+                "boosts": [
+                    {
+                        "locked": true,
+                        "name": "Dexterity",
+                        "source": "Bird",
+                        "sourceId": "#REF!",
+                        "type": "Boost"
+                    },
+                    {
+                        "locked": true,
+                        "name": "Wisdom",
+                        "source": "Bird",
+                        "sourceId": "#REF!",
+                        "type": "Boost"
+                    }
+                ],
+                "id": "#REF!",
+                "source": "Bird"
+            }
+        ],
+        "hitPoints": 4,
+        "skillChoices": [
+            {
+                "_className": "SkillChoice",
+                "id": "#REF!",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Stealth",
+                        "source": "Bird",
+                        "sourceId": "#REF!"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Bird",
+                "type": "Skill"
+            }
+        ],
+        "senses": [
+            "Low-Light Vision",
+            "Scent 30 feet (imprecise)"
+        ],
+        "speeds": [
+            {
+                "name": "Land Speed",
+                "value": 10
+            },
+            {
+                "name": "Fly Speed",
+                "value": 60
+            }
+        ],
+        "supportBenefit": "The bird pecks at your foes' eyes when you create an opening. Until the start of your next turn, your Strikes that damage a creature that your bird threatens also deal 1d4 persistent bleed damage, and the target is dazzled until it removes the bleed damage. If your bird is nimble or savage, the persistent bleed damage increases to 2d4.",
+        "activities": [
+            {
+                "_className": "ActivityGain",
+                "level": 1,
+                "name": "Support",
+                "source": "Bird"
+            },
+            {
+                "_className": "ActivityGain",
+                "level": 3,
+                "name": "Flyby Attack",
+                "source": "Bird"
+            }
+        ],
+        "traits": [
+            "Minion"
+        ]
+    },
+    {
+        "_className": "AnimalCompanionAncestry",
+        "name": "Camel (Medium, cold resistant)",
+        "desc": "Your companion is a camel or llama.",
+        "size": 0,
+        "gainItems": [
+            {
+                "_className": "ItemGain",
+                "name": "Camel Jaws",
+                "type": "weapons"
+            }
+        ],
+        "abilityChoices": [
+            {
+                "_className": "AbilityChoice",
+                "boosts": [
+                    {
+                        "locked": true,
+                        "name": "Strength",
+                        "source": "Camel",
+                        "sourceId": "#REF!",
+                        "type": "Boost"
+                    },
+                    {
+                        "locked": true,
+                        "name": "Constitution",
+                        "source": "Camel",
+                        "sourceId": "#REF!",
+                        "type": "Boost"
+                    }
+                ],
+                "id": "#REF!",
+                "source": "Camel"
+            }
+        ],
+        "hitPoints": 8,
+        "skillChoices": [
+            {
+                "_className": "SkillChoice",
+                "id": "#REF!",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Survival",
+                        "source": "Camel",
+                        "sourceId": "#REF!"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Camel",
+                "type": "Skill"
+            }
+        ],
+        "senses": [
+            "Low-Light Vision",
+            "Scent 30 feet (imprecise)"
+        ],
+        "speeds": [
+            {
+                "name": "Land Speed",
+                "value": 35
+            }
+        ],
+        "supportBenefit": "The camel makes a ranged attack to spit a long string of saliva at a foe within 10 feet. On a hit, the foe is dazzled for 1 round.",
+        "activities": [
+            {
+                "_className": "ActivityGain",
+                "level": 1,
+                "name": "Support",
+                "source": "Camel"
+            },
+            {
+                "_className": "ActivityGain",
+                "level": 3,
+                "name": "Sand Stride",
+                "source": "Camel"
+            }
+        ],
+        "traits": [
+            "Minion",
+            "Mount"
+        ],
+        "sourceBook": "Pathfinder #149: Against the Scarlet Triad",
+        "specialdesc": "mount; Your camel ignores the harmful effects of mild, severe, and extreme cold.",
+        "hints": [
+            {
+                "desc": "Your camel ignores the harmful effects of mild, severe, and extreme cold.",
+                "showon": "Resistances"
+            }
+        ]
+    },
+    {
+        "_className": "AnimalCompanionAncestry",
+        "name": "Camel (Medium, heat resistant)",
+        "desc": "Your companion is a camel or llama.",
+        "size": 0,
+        "gainItems": [
+            {
+                "_className": "ItemGain",
+                "name": "Camel Jaws",
+                "type": "weapons"
+            }
+        ],
+        "abilityChoices": [
+            {
+                "_className": "AbilityChoice",
+                "boosts": [
+                    {
+                        "locked": true,
+                        "name": "Strength",
+                        "source": "Camel",
+                        "sourceId": "#REF!",
+                        "type": "Boost"
+                    },
+                    {
+                        "locked": true,
+                        "name": "Constitution",
+                        "source": "Camel",
+                        "sourceId": "#REF!",
+                        "type": "Boost"
+                    }
+                ],
+                "id": "#REF!",
+                "source": "Camel"
+            }
+        ],
+        "hitPoints": 8,
+        "skillChoices": [
+            {
+                "_className": "SkillChoice",
+                "id": "#REF!",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Survival",
+                        "source": "Camel",
+                        "sourceId": "#REF!"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Camel",
+                "type": "Skill"
+            }
+        ],
+        "senses": [
+            "Low-Light Vision",
+            "Scent 30 feet (imprecise)"
+        ],
+        "speeds": [
+            {
+                "name": "Land Speed",
+                "value": 35
+            }
+        ],
+        "supportBenefit": "The camel makes a ranged attack to spit a long string of saliva at a foe within 10 feet. On a hit, the foe is dazzled for 1 round.",
+        "activities": [
+            {
+                "_className": "ActivityGain",
+                "level": 1,
+                "name": "Support",
+                "source": "Camel"
+            },
+            {
+                "_className": "ActivityGain",
+                "level": 3,
+                "name": "Sand Stride",
+                "source": "Camel"
+            }
+        ],
+        "traits": [
+            "Minion",
+            "Mount"
+        ],
+        "sourceBook": "Pathfinder #149: Against the Scarlet Triad",
+        "specialdesc": "mount; Your camel ignores the harmful effects of mild, severe, and extreme heat.",
+        "hints": [
+            {
+                "desc": "Your camel ignores the harmful effects of mild, severe, and extreme heat.",
+                "showon": "Resistances"
+            }
+        ]
+    },
+    {
+        "_className": "AnimalCompanionAncestry",
+        "name": "Camel (Large, cold resistant)",
+        "desc": "Your companion is a camel or llama.",
+        "size": 1,
+        "gainItems": [
+            {
+                "_className": "ItemGain",
+                "name": "Camel Jaws",
+                "type": "weapons"
+            }
+        ],
+        "abilityChoices": [
+            {
+                "_className": "AbilityChoice",
+                "boosts": [
+                    {
+                        "locked": true,
+                        "name": "Strength",
+                        "source": "Camel",
+                        "sourceId": "#REF!",
+                        "type": "Boost"
+                    },
+                    {
+                        "locked": true,
+                        "name": "Constitution",
+                        "source": "Camel",
+                        "sourceId": "#REF!",
+                        "type": "Boost"
+                    }
+                ],
+                "id": "#REF!",
+                "source": "Camel"
+            }
+        ],
+        "hitPoints": 8,
+        "skillChoices": [
+            {
+                "_className": "SkillChoice",
+                "id": "#REF!",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Survival",
+                        "source": "Camel",
+                        "sourceId": "#REF!"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Camel",
+                "type": "Skill"
+            }
+        ],
+        "senses": [
+            "Low-Light Vision",
+            "Scent 30 feet (imprecise)"
+        ],
+        "speeds": [
+            {
+                "name": "Land Speed",
+                "value": 35
+            }
+        ],
+        "supportBenefit": "The camel makes a ranged attack to spit a long string of saliva at a foe within 10 feet. On a hit, the foe is dazzled for 1 round.",
+        "activities": [
+            {
+                "_className": "ActivityGain",
+                "level": 1,
+                "name": "Support",
+                "source": "Camel"
+            },
+            {
+                "_className": "ActivityGain",
+                "level": 3,
+                "name": "Sand Stride",
+                "source": "Camel"
+            }
+        ],
+        "traits": [
+            "Minion",
+            "Mount"
+        ],
+        "sourceBook": "Pathfinder #149: Against the Scarlet Triad",
+        "specialdesc": "mount; Your camel ignores the harmful effects of mild, severe, and extreme cold.",
+        "hints": [
+            {
+                "desc": "Your camel ignores the harmful effects of mild, severe, and extreme cold.",
+                "showon": "Resistances"
+            }
+        ]
+    },
+    {
+        "_className": "AnimalCompanionAncestry",
+        "name": "Camel (Large, heat resistant)",
+        "desc": "Your companion is a camel or llama.",
+        "size": 1,
+        "gainItems": [
+            {
+                "_className": "ItemGain",
+                "name": "Camel Jaws",
+                "type": "weapons"
+            }
+        ],
+        "abilityChoices": [
+            {
+                "_className": "AbilityChoice",
+                "boosts": [
+                    {
+                        "locked": true,
+                        "name": "Strength",
+                        "source": "Camel",
+                        "sourceId": "#REF!",
+                        "type": "Boost"
+                    },
+                    {
+                        "locked": true,
+                        "name": "Constitution",
+                        "source": "Camel",
+                        "sourceId": "#REF!",
+                        "type": "Boost"
+                    }
+                ],
+                "id": "#REF!",
+                "source": "Camel"
+            }
+        ],
+        "hitPoints": 8,
+        "skillChoices": [
+            {
+                "_className": "SkillChoice",
+                "id": "#REF!",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Survival",
+                        "source": "Camel",
+                        "sourceId": "#REF!"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Camel",
+                "type": "Skill"
+            }
+        ],
+        "senses": [
+            "Low-Light Vision",
+            "Scent 30 feet (imprecise)"
+        ],
+        "speeds": [
+            {
+                "name": "Land Speed",
+                "value": 35
+            }
+        ],
+        "supportBenefit": "The camel makes a ranged attack to spit a long string of saliva at a foe within 10 feet. On a hit, the foe is dazzled for 1 round.",
+        "activities": [
+            {
+                "_className": "ActivityGain",
+                "level": 1,
+                "name": "Support",
+                "source": "Camel"
+            },
+            {
+                "_className": "ActivityGain",
+                "level": 3,
+                "name": "Sand Stride",
+                "source": "Camel"
+            }
+        ],
+        "traits": [
+            "Minion",
+            "Mount"
+        ],
+        "sourceBook": "Pathfinder #149: Against the Scarlet Triad",
+        "specialdesc": "mount; Your camel ignores the harmful effects of mild, severe, and extreme heat.",
+        "hints": [
+            {
+                "desc": "Your camel ignores the harmful effects of mild, severe, and extreme heat.",
+                "showon": "Resistances"
+            }
+        ]
+    },
+    {
+        "_className": "AnimalCompanionAncestry",
+        "name": "Cat",
+        "desc": "Your companion is a big cat, such as a leopard or tiger.",
+        "size": -1,
+        "gainItems": [
+            {
+                "_className": "ItemGain",
+                "name": "Cat Jaws",
+                "type": "weapons"
+            },
+            {
+                "_className": "ItemGain",
+                "name": "Cat Claw",
+                "type": "weapons"
+            }
+        ],
+        "abilityChoices": [
+            {
+                "_className": "AbilityChoice",
+                "boosts": [
+                    {
+                        "locked": true,
+                        "name": "Dexterity",
+                        "source": "Cat",
+                        "sourceId": "#REF!",
+                        "type": "Boost"
+                    },
+                    {
+                        "locked": true,
+                        "name": "Wisdom",
+                        "source": "Cat",
+                        "sourceId": "#REF!",
+                        "type": "Boost"
+                    }
+                ],
+                "id": "#REF!",
+                "source": "Cat"
+            }
+        ],
+        "hitPoints": 4,
+        "skillChoices": [
+            {
+                "_className": "SkillChoice",
+                "id": "#REF!",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Stealth",
+                        "source": "Cat",
+                        "sourceId": "#REF!"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Cat",
+                "type": "Skill"
+            }
+        ],
+        "senses": [
+            "Low-Light Vision",
+            "Scent 30 feet (imprecise)"
+        ],
+        "speeds": [
+            {
+                "name": "Land Speed",
+                "value": 35
+            }
+        ],
+        "supportBenefit": "Your cat throws your enemies off-balance when you create an opening. Until the start of your next turn, your Strikes that deal damage to a creature that your cat threatens make the target flat-footed until the end of your next turn.",
+        "activities": [
+            {
+                "_className": "ActivityGain",
+                "level": 1,
+                "name": "Support",
+                "source": "Cat"
+            },
+            {
+                "_className": "ActivityGain",
+                "level": 3,
+                "name": "Cat Pounce",
+                "source": "Cat"
+            }
+        ],
+        "traits": [
+            "Minion"
+        ]
+    },
+    {
+        "_className": "AnimalCompanionAncestry",
+        "name": "Cave Gecko",
+        "desc": "Your companion is a sticky-footed lizard like a gecko or anole.",
+        "size": -1,
+        "gainItems": [
+            {
+                "_className": "ItemGain",
+                "name": "Cave Gecko Jaws",
+                "type": "weapons"
+            }
+        ],
+        "abilityChoices": [
+            {
+                "_className": "AbilityChoice",
+                "boosts": [
+                    {
+                        "locked": true,
+                        "name": "Dexterity",
+                        "source": "Cave Gecko",
+                        "sourceId": "#REF!",
+                        "type": "Boost"
+                    },
+                    {
+                        "locked": true,
+                        "name": "Wisdom",
+                        "source": "Cave Gecko",
+                        "sourceId": "#REF!",
+                        "type": "Boost"
+                    }
+                ],
+                "id": "#REF!",
+                "source": "Cave Gecko"
+            }
+        ],
+        "hitPoints": 6,
+        "skillChoices": [
+            {
+                "_className": "SkillChoice",
+                "id": "#REF!",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Stealth",
+                        "source": "Cave Gecko",
+                        "sourceId": "#REF!"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Cave Gecko",
+                "type": "Skill"
+            }
+        ],
+        "senses": [
+            "Low-Light Vision",
+            "Scent 30 feet (imprecise)"
+        ],
+        "speeds": [
+            {
+                "name": "Land Speed",
+                "value": 25
+            },
+            {
+                "name": "Climb Speed",
+                "value": 25
+            }
+        ],
+        "supportBenefit": "Your cave gecko helps you stay afoot, leaning into you and propping you up as you maneuver your opponent. Until the end of your next turn, as long as you are adjacent to your cave gecko, if you attempt to Disarm, Shove, or Trip an opponent and roll a critical failure, you get a failure instead.",
+        "activities": [
+            {
+                "_className": "ActivityGain",
+                "level": 1,
+                "name": "Support",
+                "source": "Cave Gecko"
+            },
+            {
+                "_className": "ActivityGain",
+                "level": 3,
+                "name": "Tongue Pull",
+                "source": "Cave Gecko"
+            }
+        ],
+        "traits": [
+            "Minion"
+        ],
+        "sourceBook": "Pathfinder #154: Siege of the Dinosaurs"
+    },
+    {
+        "_className": "AnimalCompanionAncestry",
+        "name": "Cave Pterosaur",
+        "desc": "Your companion is a flying prehistoric creature, such as a dimorphodon or pterodactyl, that has adapted to life in the cavern vaults beneath the ground.",
+        "size": -1,
+        "gainItems": [
+            {
+                "_className": "ItemGain",
+                "name": "Cave Pterosaur Beak",
+                "type": "weapons"
+            },
+            {
+                "_className": "ItemGain",
+                "name": "Cave Pterosaur Talon",
+                "type": "weapons"
+            }
+        ],
+        "abilityChoices": [
+            {
+                "_className": "AbilityChoice",
+                "boosts": [
+                    {
+                        "locked": true,
+                        "name": "Dexterity",
+                        "source": "Cave Pterosaur",
+                        "sourceId": "#REF!",
+                        "type": "Boost"
+                    },
+                    {
+                        "locked": true,
+                        "name": "Wisdom",
+                        "source": "Cave Pterosaur",
+                        "sourceId": "#REF!",
+                        "type": "Boost"
+                    }
+                ],
+                "id": "#REF!",
+                "source": "Cave Pterosaur"
+            }
+        ],
+        "hitPoints": 4,
+        "skillChoices": [
+            {
+                "_className": "SkillChoice",
+                "id": "#REF!",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Thievery",
+                        "source": "Cave Pterosaur",
+                        "sourceId": "#REF!"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Cave Pterosaur",
+                "type": "Skill"
+            }
+        ],
+        "senses": [
+            "Darkvision"
+        ],
+        "speeds": [
+            {
+                "name": "Land Speed",
+                "value": 10
+            },
+            {
+                "name": "Fly Speed",
+                "value": 60
+            }
+        ],
+        "supportBenefit": "Your pterosaur expands its wings and makes distracting flapping motions. Any creature that would gain lesser cover from the pterosaur gains standard cover instead.",
+        "activities": [
+            {
+                "_className": "ActivityGain",
+                "level": 1,
+                "name": "Support",
+                "source": "Cave Pterosaur"
+            },
+            {
+                "_className": "ActivityGain",
+                "level": 3,
+                "name": "Pterosaur Swoop",
+                "source": "Cave Pterosaur"
+            }
+        ],
+        "traits": [
+            "Minion"
+        ],
+        "sourceBook": "Pathfinder #154: Siege of the Dinosaurs"
+    },
+    {
+        "_className": "AnimalCompanionAncestry",
+        "name": "Dromaeosaur",
+        "desc": "Your companion is a dromaeosaur (also called a raptor), such as a velociraptor or deinonychus.",
+        "size": -1,
+        "gainItems": [
+            {
+                "_className": "ItemGain",
+                "name": "Dromaeosaur Jaws",
+                "type": "weapons"
+            },
+            {
+                "_className": "ItemGain",
+                "name": "Dromaeosaur Talon",
+                "type": "weapons"
+            }
+        ],
+        "abilityChoices": [
+            {
+                "_className": "AbilityChoice",
+                "boosts": [
+                    {
+                        "locked": true,
+                        "name": "Dexterity",
+                        "source": "Dromaeosaur",
+                        "sourceId": "#REF!",
+                        "type": "Boost"
+                    },
+                    {
+                        "locked": true,
+                        "name": "Constitution",
+                        "source": "Dromaeosaur",
+                        "sourceId": "#REF!",
+                        "type": "Boost"
+                    }
+                ],
+                "id": "#REF!",
+                "source": "Dromaeosaur"
+            }
+        ],
+        "hitPoints": 6,
+        "skillChoices": [
+            {
+                "_className": "SkillChoice",
+                "id": "#REF!",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Stealth",
+                        "source": "Dromaeosaur",
+                        "sourceId": "#REF!"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Dromaeosaur",
+                "type": "Skill"
+            }
+        ],
+        "senses": [
+            "Low-Light Vision",
+            "Scent 30 feet (imprecise)"
+        ],
+        "speeds": [
+            {
+                "name": "Land Speed",
+                "value": 50
+            }
+        ],
+        "supportBenefit": "Your raptor constantly darts into flanking position. Until the start of your next turn, it counts as being in its space or an empty space of your choice within 10 feet when determining whether you and your companion are flanking; you can choose a different space for each of your attacks).",
+        "activities": [
+            {
+                "_className": "ActivityGain",
+                "level": 1,
+                "name": "Support",
+                "source": "Dromaeosaur"
+            },
+            {
+                "_className": "ActivityGain",
+                "level": 3,
+                "name": "Darting Attack",
+                "source": "Dromaeosaur"
+            }
+        ],
+        "traits": [
+            "Minion"
+        ]
+    },
+    {
+        "_className": "AnimalCompanionAncestry",
+        "name": "Horse (Medium)",
+        "desc": "Your companion is a horse, pony, or similar equine.",
+        "size": 0,
+        "gainItems": [
+            {
+                "_className": "ItemGain",
+                "name": "Horse Hoof",
+                "type": "weapons"
+            }
+        ],
+        "abilityChoices": [
+            {
+                "_className": "AbilityChoice",
+                "boosts": [
+                    {
+                        "locked": true,
+                        "name": "Strength",
+                        "source": "Horse",
+                        "sourceId": "#REF!",
+                        "type": "Boost"
+                    },
+                    {
+                        "locked": true,
+                        "name": "Constitution",
+                        "source": "Horse",
+                        "sourceId": "#REF!",
+                        "type": "Boost"
+                    }
+                ],
+                "id": "#REF!",
+                "source": "Horse"
+            }
+        ],
+        "hitPoints": 8,
+        "skillChoices": [
+            {
+                "_className": "SkillChoice",
+                "id": "#REF!",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Survival",
+                        "source": "Horse",
+                        "sourceId": "#REF!"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Horse",
+                "type": "Skill"
+            }
+        ],
+        "senses": [
+            "Low-Light Vision",
+            "Scent 30 feet (imprecise)"
+        ],
+        "speeds": [
+            {
+                "name": "Land Speed",
+                "value": 40
+            }
+        ],
+        "supportBenefit": "Your horse adds momentum to your charge. Until the start of your next turn, if you moved at least 10 feet on the action before your attack, add a circumstance bonus to damage to that attack equal to twice the number of damage dice. If your weapon already has the jousting weapon trait, increase the trait's damage bonus by 2 per die instead.",
+        "activities": [
+            {
+                "_className": "ActivityGain",
+                "level": 1,
+                "name": "Support",
+                "source": "Horse"
+            },
+            {
+                "_className": "ActivityGain",
+                "level": 3,
+                "name": "Gallop",
+                "source": "Horse"
+            }
+        ],
+        "traits": [
+            "Minion",
+            "Mount"
+        ],
+        "specialdesc": "mount"
+    },
+    {
+        "_className": "AnimalCompanionAncestry",
+        "name": "Horse (Large)",
+        "desc": "Your companion is a horse, pony, or similar equine.",
+        "size": 1,
+        "gainItems": [
+            {
+                "_className": "ItemGain",
+                "name": "Horse Hoof",
+                "type": "weapons"
+            }
+        ],
+        "abilityChoices": [
+            {
+                "_className": "AbilityChoice",
+                "boosts": [
+                    {
+                        "locked": true,
+                        "name": "Strength",
+                        "source": "Horse",
+                        "sourceId": "#REF!",
+                        "type": "Boost"
+                    },
+                    {
+                        "locked": true,
+                        "name": "Constitution",
+                        "source": "Horse",
+                        "sourceId": "#REF!",
+                        "type": "Boost"
+                    }
+                ],
+                "id": "#REF!",
+                "source": "Horse"
+            }
+        ],
+        "hitPoints": 8,
+        "skillChoices": [
+            {
+                "_className": "SkillChoice",
+                "id": "#REF!",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Survival",
+                        "source": "Horse",
+                        "sourceId": "#REF!"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Horse",
+                "type": "Skill"
+            }
+        ],
+        "senses": [
+            "Low-Light Vision",
+            "Scent 30 feet (imprecise)"
+        ],
+        "speeds": [
+            {
+                "name": "Land Speed",
+                "value": 40
+            }
+        ],
+        "supportBenefit": "Your horse adds momentum to your charge. Until the start of your next turn, if you moved at least 10 feet on the action before your attack, add a circumstance bonus to damage to that attack equal to twice the number of damage dice. If your weapon already has the jousting weapon trait, increase the trait's damage bonus by 2 per die instead.",
+        "activities": [
+            {
+                "_className": "ActivityGain",
+                "level": 1,
+                "name": "Support",
+                "source": "Horse"
+            },
+            {
+                "_className": "ActivityGain",
+                "level": 3,
+                "name": "Gallop",
+                "source": "Horse"
+            }
+        ],
+        "traits": [
+            "Minion",
+            "Mount"
+        ],
+        "specialdesc": "mount"
+    },
+    {
+        "_className": "AnimalCompanionAncestry",
+        "name": "Hyena",
+        "desc": "Your companion is a hyena.",
+        "size": -1,
+        "gainItems": [
+            {
+                "_className": "ItemGain",
+                "name": "Hyena Jaws",
+                "type": "weapons"
+            }
+        ],
+        "abilityChoices": [
+            {
+                "_className": "AbilityChoice",
+                "boosts": [
+                    {
+                        "locked": true,
+                        "name": "Dexterity",
+                        "source": "Hyena",
+                        "sourceId": "#REF!",
+                        "type": "Boost"
+                    },
+                    {
+                        "locked": true,
+                        "name": "Constitution",
+                        "source": "Hyena",
+                        "sourceId": "#REF!",
+                        "type": "Boost"
+                    }
+                ],
+                "id": "#REF!",
+                "source": "Hyena"
+            }
+        ],
+        "hitPoints": 6,
+        "skillChoices": [
+            {
+                "_className": "SkillChoice",
+                "id": "#REF!",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Intimidation",
+                        "source": "Hyena",
+                        "sourceId": "#REF!"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Hyena",
+                "type": "Skill"
+            }
+        ],
+        "senses": [
+            "Low-Light Vision",
+            "Scent 30 feet (imprecise)"
+        ],
+        "speeds": [
+            {
+                "name": "Land Speed",
+                "value": 40
+            }
+        ],
+        "supportBenefit": "The hyena mockingly yowls at your enemies and bites at them when you create an opening. Until the start of your next turn, each time you hit a creature in the hyena's reach with a Strike, the creature becomes frightened 1.",
+        "activities": [
+            {
+                "_className": "ActivityGain",
+                "level": 1,
+                "name": "Support",
+                "source": "Hyena"
+            },
+            {
+                "_className": "ActivityGain",
+                "level": 3,
+                "name": "Gnaw",
+                "source": "Hyena"
+            }
+        ],
+        "traits": [
+            "Minion"
+        ],
+        "sourceBook": "Pathfinder #149: Against the Scarlet Triad"
+    },
+    {
+        "_className": "AnimalCompanionAncestry",
+        "name": "Monitor Lizard",
+        "desc": "Your companion is a stocky-limbed lizard with a long, almost serpentine body.",
+        "size": 0,
+        "gainItems": [
+            {
+                "_className": "ItemGain",
+                "name": "Monitor Lizard Jaws",
+                "type": "weapons"
+            }
+        ],
+        "abilityChoices": [
+            {
+                "_className": "AbilityChoice",
+                "boosts": [
+                    {
+                        "locked": true,
+                        "name": "Strength",
+                        "source": "Monitor Lizard",
+                        "sourceId": "#REF!",
+                        "type": "Boost"
+                    },
+                    {
+                        "locked": true,
+                        "name": "Constitution",
+                        "source": "Monitor Lizard",
+                        "sourceId": "#REF!",
+                        "type": "Boost"
+                    }
+                ],
+                "id": "#REF!",
+                "source": "Monitor Lizard"
+            }
+        ],
+        "hitPoints": 8,
+        "skillChoices": [
+            {
+                "_className": "SkillChoice",
+                "id": "#REF!",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Survival",
+                        "source": "Monitor Lizard",
+                        "sourceId": "#REF!"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Monitor Lizard",
+                "type": "Skill"
+            }
+        ],
+        "senses": [
+            "Low-Light Vision",
+            "Scent 30 feet (imprecise)"
+        ],
+        "speeds": [
+            {
+                "name": "Land Speed",
+                "value": 30
+            }
+        ],
+        "supportBenefit": "The monitor lizard distracts an adjacent opponent with snapping jaws and rapid movements. Until the start of your next turn, if your Strike damages a foe, any time the foe attempts an action with the manipulate trait until the end of your next turn, it must attempt a DC 5 flat check. On a failure, the action is disrupted.",
+        "activities": [
+            {
+                "_className": "ActivityGain",
+                "level": 1,
+                "name": "Support",
+                "source": "Monitor Lizard"
+            },
+            {
+                "_className": "ActivityGain",
+                "level": 3,
+                "name": "Lurching Rush",
+                "source": "Monitor Lizard"
+            }
+        ],
+        "traits": [
+            "Minion",
+            "Mount"
+        ],
+        "sourceBook": "Pathfinder #154: Siege of the Dinosaurs",
+        "specialdesc": "mount"
+    },
+    {
+        "_className": "AnimalCompanionAncestry",
+        "name": "Snake",
+        "desc": "Your companion is a constrictor snake, such as a boa or python.",
+        "size": -1,
+        "gainItems": [
+            {
+                "_className": "ItemGain",
+                "name": "Snake Jaws",
+                "type": "weapons"
+            }
+        ],
+        "abilityChoices": [
+            {
+                "_className": "AbilityChoice",
+                "boosts": [
+                    {
+                        "locked": true,
+                        "name": "Strength",
+                        "source": "Snake",
+                        "sourceId": "#REF!",
+                        "type": "Boost"
+                    },
+                    {
+                        "locked": true,
+                        "name": "Dexterity",
+                        "source": "Snake",
+                        "sourceId": "#REF!",
+                        "type": "Boost"
+                    }
+                ],
+                "id": "#REF!",
+                "source": "Snake"
+            }
+        ],
+        "hitPoints": 6,
+        "skillChoices": [
+            {
+                "_className": "SkillChoice",
+                "id": "#REF!",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Stealth",
+                        "source": "Snake",
+                        "sourceId": "#REF!"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Snake",
+                "type": "Skill"
+            }
+        ],
+        "senses": [
+            "Low-Light Vision",
+            "Scent 30 feet (imprecise)"
+        ],
+        "speeds": [
+            {
+                "name": "Land Speed",
+                "value": 20
+            },
+            {
+                "name": "Climb Speed",
+                "value": 20
+            },
+            {
+                "name": "Swim Speed",
+                "value": 20
+            }
+        ],
+        "supportBenefit": "Your snake holds your enemies with its coils, interfering with reactions. Until the start of your next turn, any creature your snake threatens can't use reactions triggered by your actions unless its level is higher than yours.",
+        "activities": [
+            {
+                "_className": "ActivityGain",
+                "level": 1,
+                "name": "Support",
+                "source": "Snake"
+            },
+            {
+                "_className": "ActivityGain",
+                "level": 3,
+                "name": "Constrict",
+                "source": "Snake"
+            }
+        ],
+        "traits": [
+            "Minion"
+        ]
+    },
+    {
+        "_className": "AnimalCompanionAncestry",
+        "name": "Vulture",
+        "desc": "Your companion is a vulture, condor, or other large scavenging bird.",
+        "size": -1,
+        "gainItems": [
+            {
+                "_className": "ItemGain",
+                "name": "Vulture Jaws",
+                "type": "weapons"
+            }
+        ],
+        "abilityChoices": [
+            {
+                "_className": "AbilityChoice",
+                "boosts": [
+                    {
+                        "locked": true,
+                        "name": "Constitution",
+                        "source": "Vulture",
+                        "sourceId": "#REF!",
+                        "type": "Boost"
+                    },
+                    {
+                        "locked": true,
+                        "name": "Wisdom",
+                        "source": "Vulture",
+                        "sourceId": "#REF!",
+                        "type": "Boost"
+                    }
+                ],
+                "id": "#REF!",
+                "source": "Vulture"
+            }
+        ],
+        "hitPoints": 6,
+        "skillChoices": [
+            {
+                "_className": "SkillChoice",
+                "id": "#REF!",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Survival",
+                        "source": "Vulture",
+                        "sourceId": "#REF!"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Vulture",
+                "type": "Skill"
+            }
+        ],
+        "senses": [
+            "Low-Light Vision",
+            "Scent 30 feet (imprecise)"
+        ],
+        "speeds": [
+            {
+                "name": "Land Speed",
+                "value": 10
+            },
+            {
+                "name": "Fly Speed",
+                "value": 45
+            }
+        ],
+        "supportBenefit": "The vulture retches and vomits onto a foe within 10 feet. Until the start of your next turn, if you hit and deal damage to the target, the target must succeed at a Fortitude save or become sickened 1 (sickened 2 on a critical failure). The DC of the Fortitude save is 12 (or 14, if the vulture is a specialized animal companion) + your level + the vulture's Constitution modifier.",
+        "activities": [
+            {
+                "_className": "ActivityGain",
+                "level": 1,
+                "name": "Support",
+                "source": "Vulture"
+            },
+            {
+                "_className": "ActivityGain",
+                "level": 3,
+                "name": "Feast on the Fallen",
+                "source": "Vulture"
+            }
+        ],
+        "traits": [
+            "Minion"
+        ],
+        "sourceBook": "Pathfinder #149: Against the Scarlet Triad",
+        "specialdesc": "Your vulture gains a +1 status bonus to all saves against disease, and if it rolls a success on a save against a disease, the result is a critical success instead.",
+        "hints": [
+            {
+                "desc": "Your vulture gains a +1 status bonus to all saves against disease, and if it rolls a success on a save against a disease, the result is a critical success instead.",
+                "showon": "Saving Throws",
+                "effects": [
+                    {
+                        "affected": "Saving Throws",
+                        "value": 1,
+                        "type": "status"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "_className": "AnimalCompanionAncestry",
+        "name": "Wolf",
+        "desc": "Your companion is a wolf or other canine creature, such as a dog.",
+        "size": -1,
+        "gainItems": [
+            {
+                "_className": "ItemGain",
+                "name": "Wolf Jaws",
+                "type": "weapons"
+            }
+        ],
+        "abilityChoices": [
+            {
+                "_className": "AbilityChoice",
+                "boosts": [
+                    {
+                        "locked": true,
+                        "name": "Dexterity",
+                        "source": "Wolf",
+                        "sourceId": "#REF!",
+                        "type": "Boost"
+                    },
+                    {
+                        "locked": true,
+                        "name": "Constitution",
+                        "source": "Wolf",
+                        "sourceId": "#REF!",
+                        "type": "Boost"
+                    }
+                ],
+                "id": "#REF!",
+                "source": "Wolf"
+            }
+        ],
+        "hitPoints": 6,
+        "skillChoices": [
+            {
+                "_className": "SkillChoice",
+                "id": "#REF!",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Survival",
+                        "source": "Wolf",
+                        "sourceId": "#REF!"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Wolf",
+                "type": "Skill"
+            }
+        ],
+        "senses": [
+            "Low-Light Vision",
+            "Scent 30 feet (imprecise)"
+        ],
+        "speeds": [
+            {
+                "name": "Land Speed",
+                "value": 40
+            }
+        ],
+        "supportBenefit": "Your wolf tears tendons with each opening. Until the start of your next turn, your Strikes that damage creatures your wolf threatens give the target a '5-foot status penalty to its Speeds for 1 minute ('10 on a critical success).",
+        "activities": [
+            {
+                "_className": "ActivityGain",
+                "level": 1,
+                "name": "Support",
+                "source": "Wolf"
+            },
+            {
+                "_className": "ActivityGain",
+                "level": 3,
+                "name": "Knockdown (Wolf)",
+                "source": "Wolf"
+            }
+        ],
+        "traits": [
+            "Minion"
+        ]
+    }
+]

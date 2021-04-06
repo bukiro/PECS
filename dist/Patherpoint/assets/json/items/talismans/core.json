@@ -1,0 +1,1118 @@
+[
+    {
+        "name": "Owlbear Claw",
+        "_className": "Talisman",
+        "id": "a0d7cc62-c9b6-11ea-87d0-0242ac130003",
+        "level": 1,
+        "price": 300,
+        "traits": [
+            "Consumable",
+            "Evocation",
+            "Magical",
+            "Talisman"
+        ],
+        "usage": "affixed to a weapon",
+        "targets": [
+            "weapons"
+        ],
+        "actions": "Free",
+        "activationType": "Envision",
+        "trigger": "You critically succeed at an attack roll with the affixed weapon",
+        "desc": "This claw set in an iron clasp and chain isn't always the claw of an owlbear. When you activate the claw, the triggering attack gains the weapon's critical specialization effect."
+    },
+    {
+        "name": "Potency Crystal",
+        "_className": "Talisman",
+        "id": "a0d7ce74-c9b6-11ea-87d0-0242ac130003",
+        "level": 1,
+        "price": 400,
+        "traits": [
+            "Consumable",
+            "Evocation",
+            "Magical",
+            "Talisman"
+        ],
+        "usage": "affixed to a weapon",
+        "targets": [
+            "weapons"
+        ],
+        "actions": "Free",
+        "activationType": "Envision",
+        "trigger": "You make an attack with the affixed weapon, but you haven't rolled yet",
+        "desc": "This fluorite crystal glows with a strange phosphorescence. When you activate the crystal, the weapon becomes a +1 striking weapon for the rest of the turn, gaining a +1 item bonus to the attack roll and increasing the damage on a hit to two weapon damage dice.",
+        "gainConditions": [
+            {
+                "duration": 5,
+                "name": "Potency Crystal",
+                "source": "Potency Crystal"
+            }
+        ]
+    },
+    {
+        "name": "Wolf Fang",
+        "_className": "Talisman",
+        "id": "a0d7cf64-c9b6-11ea-87d0-0242ac130003",
+        "level": 1,
+        "price": 400,
+        "traits": [
+            "Consumable",
+            "Evocation",
+            "Magical",
+            "Talisman"
+        ],
+        "usage": "affixed to armor",
+        "targets": [
+            "armors"
+        ],
+        "actions": "Free",
+        "activationType": "Envision",
+        "trigger": "You successfully Trip a foe",
+        "requirements": "You are trained in Athletics",
+        "desc": "This wolf canine is bound in a strip of leather and tied to a buckle or strap of a suit of armor. When you activate the fang, you deal bludgeoning damage equal to your Strength modifier to the target of your Trip. If your Trip would already deal physical damage that doesn't include an ability modifier, add your Strength modifier to that damage."
+    },
+    {
+        "name": "Hunter's Bane",
+        "_className": "Talisman",
+        "id": "a0d7d02c-c9b6-11ea-87d0-0242ac130003",
+        "level": 2,
+        "price": 600,
+        "traits": [
+            "Consumable",
+            "Divination",
+            "Magical",
+            "Talisman"
+        ],
+        "usage": "affixed to armor",
+        "targets": [
+            "armors"
+        ],
+        "actions": "Free",
+        "activationType": "Envision",
+        "trigger": "An undetected enemy hits you with an attack",
+        "requirements": "You are trained in Survival",
+        "desc": "This talisman is a ring of dried, interwoven leaves. When you activate the hunter's bane, you sense the exact location of the attacker, making it hidden from you instead of undetected. If the attacker is behind lead, the hunter's bane fails and is wasted."
+    },
+    {
+        "name": "Jade Cat",
+        "_className": "Talisman",
+        "id": "a0d7d0f4-c9b6-11ea-87d0-0242ac130003",
+        "level": 2,
+        "price": 600,
+        "traits": [
+            "Abjuration",
+            "Consumable",
+            "Magical",
+            "Talisman"
+        ],
+        "usage": "affixed to armor",
+        "targets": [
+            "armors"
+        ],
+        "actions": "Free",
+        "activationType": "Command",
+        "trigger": "You fall or attempt an Acrobatics check to Balance",
+        "requirements": "You are trained in Acrobatics",
+        "desc": "A thumb-sized feline carved of rare stone, the jade cat is typically worn as a pendant upon a suit of armor. For 1 minute after you activate the cat, you treat all falls as 20 feet shorter, you are not flat-footed when you Balance, and narrow surfaces and uneven ground are not difficult terrain for you.",
+        "gainConditions": [
+            {
+                "duration": 100,
+                "name": "Jade Cat",
+                "source": "Jade Cat"
+            }
+        ]
+    },
+    {
+        "name": "Monkey Pin",
+        "_className": "Talisman",
+        "id": "a0d7d1bc-c9b6-11ea-87d0-0242ac130003",
+        "level": 2,
+        "price": 600,
+        "traits": [
+            "Consumable",
+            "Magical",
+            "Talisman",
+            "Transmutation"
+        ],
+        "usage": "affixed to armor",
+        "targets": [
+            "armors"
+        ],
+        "actions": "1A",
+        "activationType": "Climb",
+        "requirements": "You are trained in Athletics",
+        "desc": "This small brass pin is in the shape of a monkey climbing a tree. When you activate this talisman, use a Climb action. If you succeed, you move your full Speed during the Climb. If you roll a critical failure, you get a failure instead."
+    },
+    {
+        "name": "Bronze Bull Pendant",
+        "_className": "Talisman",
+        "id": "a0d7d284-c9b6-11ea-87d0-0242ac130003",
+        "level": 2,
+        "price": 700,
+        "traits": [
+            "Consumable",
+            "Evocation",
+            "Magical",
+            "Talisman"
+        ],
+        "usage": "affixed to armor",
+        "targets": [
+            "armors"
+        ],
+        "actions": "Free",
+        "activationType": "Envision",
+        "trigger": "You attempt an Athletics check to Shove, but you haven't rolled yet",
+        "requirements": "You are trained in Athletics",
+        "desc": "This pendant is forged from grainy steel and depicts a snorting bull's face. The pendant must be attached to the chest area or on a shoulder guard. When you activate the pendant, you gain a +2 status bonus to the Athletics check to Shove, and if you roll a critical failure on the check, you get a failure instead."
+    },
+    {
+        "name": "Crying Angel Pendant",
+        "_className": "Talisman",
+        "id": "a0d7d4be-c9b6-11ea-87d0-0242ac130003",
+        "level": 2,
+        "price": 700,
+        "traits": [
+            "Consumable",
+            "Divine",
+            "Necromancy",
+            "Talisman"
+        ],
+        "usage": "affixed to armor",
+        "targets": [
+            "armors"
+        ],
+        "actions": "Free",
+        "activationType": "Envision",
+        "trigger": "You critically fail to Administer First Aid",
+        "requirements": "You are trained in Medicine",
+        "desc": "When you activate this alabaster pendant, your critical failure becomes a normal failure instead."
+    },
+    {
+        "name": "Effervescent Ampoule",
+        "_className": "Talisman",
+        "id": "a0d7d57c-c9b6-11ea-87d0-0242ac130003",
+        "level": 2,
+        "price": 700,
+        "traits": [
+            "Consumable",
+            "Magical",
+            "Talisman",
+            "Transmutation"
+        ],
+        "usage": "affixed to armor",
+        "targets": [
+            "armors"
+        ],
+        "actions": "1A",
+        "activationType": "Interact",
+        "requirements": "You're an expert in Acrobatics",
+        "desc": "Light spring water fizzes and bubbles within this small glass globe, spilling onto the affixed armor when activated. Until the end of your turn, the armor lets you move across water and other liquids as if they were solid ground. If you Stride or Step over a weight-sensitive pressure plate, you don't cause the plate to depress, which prevents you from triggering any device or hazard attached to the pressure plate. When the ampoule's effect ends, you sink, fall, break through flimsy ground, or land on pressure plates as normal for your current location.",
+        "gainConditions": [
+            {
+                "duration": 5,
+                "name": "Effervescent Ampoule",
+                "source": "Effervescent Ampoule"
+            }
+        ]
+    },
+    {
+        "name": "Mesmerizing Opal",
+        "_className": "Talisman",
+        "id": "a0d7d63a-c9b6-11ea-87d0-0242ac130003",
+        "level": 2,
+        "price": 700,
+        "traits": [
+            "Consumable",
+            "Enchantment",
+            "Magical",
+            "Talisman"
+        ],
+        "usage": "affixed to armor",
+        "targets": [
+            "armors"
+        ],
+        "actions": "Free",
+        "activationType": "Envision",
+        "trigger": "You attempt a Deception check to Feint, but you haven't rolled yet",
+        "desc": "This silver-bound opal pendant is afire with iridescence. When you activate it, if the outcome of your triggering Deception check is a critical failure, you get a failure instead (or if the outcome is a success, you get a critical success instead)."
+    },
+    {
+        "name": "Onyx Panther",
+        "_className": "Talisman",
+        "id": "a0d7d6f8-c9b6-11ea-87d0-0242ac130003",
+        "level": 2,
+        "price": 700,
+        "traits": [
+            "Consumable",
+            "Magical",
+            "Talisman",
+            "Transmutation"
+        ],
+        "usage": "affixed to armor",
+        "targets": [
+            "armors"
+        ],
+        "actions": "Free",
+        "activationType": "Envision",
+        "trigger": "You use a Sneak action",
+        "requirements": "You are trained in Stealth",
+        "desc": "This small stone is a stylized panther shape. When you activate it, you can move your full Speed (instead of half) during the triggering Sneak and any other time you Sneak this turn.",
+        "gainConditions": [
+            {
+                "duration": 5,
+                "name": "Onyx Panther",
+                "source": "Onyx Panther"
+            }
+        ]
+    },
+    {
+        "name": "Savior Spike",
+        "_className": "Talisman",
+        "id": "a0d7d7ac-c9b6-11ea-87d0-0242ac130003",
+        "level": 2,
+        "price": 700,
+        "traits": [
+            "Abjuration",
+            "Consumable",
+            "Force",
+            "Magical",
+            "Talisman"
+        ],
+        "usage": "affixed to armor",
+        "targets": [
+            "armors"
+        ],
+        "actions": "Free",
+        "activationType": "Command",
+        "trigger": "You attempt to Grab an Edge but haven't rolled",
+        "requirements": "You're an expert in Reflex",
+        "desc": "This pyramid-shaped spike is attached to an armor's chest piece. When you activate the spike, it shoots a strand of force to help you gain purchase. If you roll a success on the triggering attempt, you get a critical success instead (if you roll a critical failure, you get a failure instead)."
+    },
+    {
+        "name": "Feather Step Stone",
+        "_className": "Talisman",
+        "id": "a0d7d86a-c9b6-11ea-87d0-0242ac130003",
+        "level": 3,
+        "price": 800,
+        "traits": [
+            "Consumable",
+            "Magical",
+            "Talisman",
+            "Transmutation"
+        ],
+        "usage": "affixed to armor",
+        "targets": [
+            "armors"
+        ],
+        "actions": "Free",
+        "activationType": "Envision",
+        "trigger": "You Stride or Step",
+        "requirements": "You are an expert in Acrobatics",
+        "desc": "This stone, usually shaped as a cabochon, is a small chunk of amber with a bit of feather or a flying insect caught within it. When you activate the stone, you ignore the effects of any difficult terrain and greater difficult terrain you move through until the end of your turn.",
+        "gainConditions": [
+            {
+                "duration": 5,
+                "name": "Feather Step Stone",
+                "source": "Feather Step Stone"
+            }
+        ]
+    },
+    {
+        "name": "Snapleaf",
+        "_className": "Talisman",
+        "id": "a0d7da9a-c9b6-11ea-87d0-0242ac130003",
+        "level": 3,
+        "price": 900,
+        "sourceBook": "Character Guide",
+        "traits": [
+            "Consumable",
+            "Illusion",
+            "Magical",
+            "Talisman"
+        ],
+        "usage": "affixed to armor",
+        "targets": [
+            "armors"
+        ],
+        "actions": "Reaction",
+        "activationType": "Interact",
+        "trigger": "You begin to fall",
+        "desc": "This small, crystalline carving takes the shape of a tree leaf and attaches to armor or clothing with a simple strap. When you activate the snapleaf, you gain the benefits of feather fall and a 2nd-level invisibility spell for 1 minute or until you stop falling, whichever comes first.",
+        "gainConditions": [
+            {
+                "duration": 100,
+                "name": "Snapleaf",
+                "source": "Snapleaf"
+            }
+        ]
+    },
+    {
+        "name": "Dragon Turtle Scale",
+        "_className": "Talisman",
+        "id": "a0d7dbee-c9b6-11ea-87d0-0242ac130003",
+        "level": 4,
+        "price": 1300,
+        "traits": [
+            "Consumable",
+            "Magical",
+            "Talisman",
+            "Transmutation"
+        ],
+        "usage": "affixed to armor",
+        "targets": [
+            "armors"
+        ],
+        "actions": "1A",
+        "activationType": "Envision",
+        "requirements": "You're an expert in Athletics",
+        "desc": "This shimmering green scale is usually attached to a golden clasp or chain. When you activate the scale, for 1 minute you gain a swim Speed equal to half your land Speed.",
+        "gainConditions": [
+            {
+                "duration": 100,
+                "name": "Dragon Turtle Scale",
+                "source": "Dragon Turtle Scale"
+            }
+        ]
+    },
+    {
+        "name": "Fortifying Pebble",
+        "_className": "Talisman",
+        "id": "a0d7dcfc-c9b6-11ea-87d0-0242ac130003",
+        "level": 4,
+        "price": 1300,
+        "sourceBook": "Character Guide",
+        "traits": [
+            "Uncommon",
+            "Abjuration",
+            "Consumable",
+            "Magical",
+            "Talisman"
+        ],
+        "usage": "affixed to armor, shield or weapon",
+        "targets": [
+            "armors",
+            "shields",
+            "weapons"
+        ],
+        "actions": "Free",
+        "activationType": "Envision",
+        "trigger": "The affixed object would take damage",
+        "desc": "This small pebble is strangely dense and surprisingly durable, affixed to an object by a sturdy steel chain. When you activate the pebble, the affixed object takes 10 less damage."
+    },
+    {
+        "name": "Bloodseeker Beak",
+        "_className": "Talisman",
+        "id": "a0d7ddc4-c9b6-11ea-87d0-0242ac130003",
+        "level": 4,
+        "price": 2000,
+        "traits": [
+            "Consumable",
+            "Magical",
+            "Necromancy",
+            "Talisman"
+        ],
+        "usage": "affixed to a weapon",
+        "targets": [
+            "weapons"
+        ],
+        "actions": "Free",
+        "activationType": "Envision",
+        "trigger": "You hit a flat-footed creature with the affixed weapon",
+        "desc": "This long, hollow proboscis is harvested from the notorious bloodseeker beast and drips a trickle of blood. When you activate the beak, you deal an extra 1d4 precision damage on your damage roll. If you deal sneak attack damage to the creature, you also deal 1d4 persistent bleed damage."
+    },
+    {
+        "name": "Fear Gem",
+        "_className": "Talisman",
+        "id": "a0d7de82-c9b6-11ea-87d0-0242ac130003",
+        "level": 4,
+        "price": 2000,
+        "traits": [
+            "Consumable",
+            "Enchantment",
+            "Fear",
+            "Magical",
+            "Mental",
+            "Talisman"
+        ],
+        "usage": "affixed to a weapon",
+        "targets": [
+            "weapons"
+        ],
+        "actions": "2A",
+        "activationType": "Intimidating Strike",
+        "desc": "Dark smoke seems to writhe within this obsidian gem. When you activate the gem, you make an Intimidating Strike, as the fighter feat.\n\nIf you have the Intimidating Strike feat, increase the frightened condition value from this Intimidating Strike to frightened 2, or frightened 3 on a critical hit.",
+        "showActivities": [
+            "Intimidating Strike"
+        ]
+    },
+    {
+        "name": "Sneaky Key",
+        "_className": "Talisman",
+        "id": "a0d7df4a-c9b6-11ea-87d0-0242ac130003",
+        "level": 5,
+        "price": 2200,
+        "traits": [
+            "Consumable",
+            "Evocation",
+            "Magical",
+            "Talisman"
+        ],
+        "usage": "affixed to armor",
+        "targets": [
+            "armors"
+        ],
+        "actions": "1A",
+        "activationType": "Interact",
+        "requirements": "You are an expert in Thievery",
+        "desc": "This small silver skeleton key can be pinned to armor or a sleeve. When you turn the key to activate it, for the next minute, if the outcome of any your attempts to Pick a Lock is a critical failure, you get a failure instead.",
+        "gainConditions": [
+            {
+                "duration": 100,
+                "name": "Sneaky Key",
+                "source": "Sneaky Key"
+            }
+        ]
+    },
+    {
+        "name": "Shark Tooth Charm",
+        "_className": "Talisman",
+        "id": "a0d7e008-c9b6-11ea-87d0-0242ac130003",
+        "level": 5,
+        "price": 2300,
+        "traits": [
+            "Abjuration",
+            "Consumable",
+            "Magical",
+            "Talisman"
+        ],
+        "usage": "affixed to armor",
+        "targets": [
+            "armors"
+        ],
+        "actions": "Free",
+        "activationType": "Command",
+        "trigger": "You attempt to Escape using Acrobatics for your roll, but you haven't rolled yet",
+        "requirements": "You are an expert in Acrobatics",
+        "desc": "This dried seaweed bracelet is lined with charms shaped like small shark teeth. When you activate the bracelet, if you roll a success on the triggering check, you get a critical success instead (if you roll a critical failure, you get a failure instead). If you fail the Acrobatics check against a grabbing creature, the creature must either release you as a free action or take 2d8 piercing damage as shark's teeth momentarily emerge from your skin."
+    },
+    {
+        "name": "Beckoning Cat Amulet",
+        "_className": "Talisman",
+        "id": "a0d7e21a-c9b6-11ea-87d0-0242ac130003",
+        "level": 5,
+        "price": 2600,
+        "sourceBook": "Pathfinder #152: Legacy of the Lost God",
+        "traits": [
+            "Uncommon",
+            "Consumable",
+            "Divination",
+            "Fortune",
+            "Magical",
+            "Talisman"
+        ],
+        "usage": "affixed to armor",
+        "targets": [
+            "armors"
+        ],
+        "actions": "Free",
+        "activationType": "Envision",
+        "trigger": "You use a feat or ability to reroll a failed or critically failed Reflex saving throw (such as Cat's Luck or Halfling Luck).",
+        "desc": "This clay figurine resembles a white cat with a paw outstretched. When it's activated, any allies within 10 feet who also just failed or critically failed a Reflex saving throw from the same source (such as a fireball spell) can also reroll their saving throw and use the better result."
+    },
+    {
+        "name": "Emerald Grasshopper",
+        "_className": "Talisman",
+        "id": "a0d7e2ec-c9b6-11ea-87d0-0242ac130003",
+        "level": 5,
+        "price": 3000,
+        "traits": [
+            "Consumable",
+            "Magical",
+            "Talisman",
+            "Transmutation"
+        ],
+        "usage": "affixed to armor",
+        "targets": [
+            "armors"
+        ],
+        "actions": "Free",
+        "activationType": "Envision",
+        "trigger": "You attempt a High Jump but haven't rolled yet",
+        "requirements": "You're an expert in Athletics",
+        "desc": "This metal grasshopper studded with emeralds is usually clasped to the legs of a suit of armor. When you activate it, if you succeed at the Athletics check, you Leap up to 50 feet vertically and up to 10 feet horizontally. If you critically succeed, you can Leap up to 75 feet vertically and 20 feet horizontally. If you don't end your jump on solid ground, you flutter in the air until the end of your turn, then fall harmlessly at a rate of 60 feet per round until you reach the ground."
+    },
+    {
+        "name": "Tiger Menuki",
+        "_className": "Talisman",
+        "id": "a0d7e3b4-c9b6-11ea-87d0-0242ac130003",
+        "level": 5,
+        "price": 3000,
+        "traits": [
+            "Consumable",
+            "Magical",
+            "Talisman",
+            "Transmutation"
+        ],
+        "usage": "affixed to a weapon",
+        "targets": [
+            "weapons"
+        ],
+        "actions": "Free",
+        "activationType": "Envision",
+        "trigger": "You Strike with the affixed weapon",
+        "desc": "This tiger formed of pewter snarls viciously from your weapon's grip. When you activate the tiger, the affixed weapon gains the sweep trait for the triggering attack and all other attacks for 1 minute.",
+        "gainConditions": [
+            {
+                "duration": 100,
+                "name": "Tiger Menuki",
+                "source": "Tiger Menuki"
+            }
+        ]
+    },
+    {
+        "name": "Iron Cube",
+        "_className": "Talisman",
+        "id": "a0d7e472-c9b6-11ea-87d0-0242ac130003",
+        "level": 6,
+        "price": 5000,
+        "traits": [
+            "Consumable",
+            "Evocation",
+            "Magical",
+            "Talisman"
+        ],
+        "usage": "affixed to a weapon",
+        "targets": [
+            "weapons"
+        ],
+        "actions": "2A",
+        "activationType": "Knockdown",
+        "requirements": "You are an expert with the affixed weapon",
+        "desc": "This cube of blackened iron is affixed to a weapon with an iron chain. When you activate the cube, you use Knockdown, as the fighter feat.\n\nIf you have the Knockdown feat, ignore its normal size restrictions.",
+        "showActivities": [
+            "Knockdown"
+        ]
+    },
+    {
+        "name": "Grim Trophy",
+        "_className": "Talisman",
+        "id": "9f7d8f2b-2fd6-41e2-a35a-387d3eb745a7",
+        "level": 7,
+        "price": 5500,
+        "traits": [
+            "Consumable",
+            "Enchantment",
+            "Magical",
+            "Talisman"
+        ],
+        "usage": "affixed to armor",
+        "targets": [
+            "armors"
+        ],
+        "actions": "Free",
+        "activationType": "Envision",
+        "trigger": "You attempt an Intimidation check to Coerce or Demoralize, but you haven't rolled yet",
+        "requirements": "You are an expert in Intimidation",
+        "desc": "This talisman comes in many forms, most often a severed piece of a humanoid creature displayed in some gruesome manner. When you activate the trophy, select two targets and compare your Intimidation check result to both of their DCs."
+    },
+    {
+        "name": "Murderer's Knot",
+        "_className": "Talisman",
+        "id": "f1bcd9af-7088-4ff3-8683-61bfc6cdc971",
+        "level": 7,
+        "price": 6600,
+        "traits": [
+            "Consumable",
+            "Evocation",
+            "Magical",
+            "Talisman"
+        ],
+        "usage": "affixed to a weapon",
+        "targets": [
+            "weapons"
+        ],
+        "actions": "Free",
+        "activationType": "Command",
+        "trigger": "You damage a flat-footed creature with a Strike using the Affixed weapon",
+        "requirements": "You are an expert with the affixed weapon",
+        "desc": "This black strand of leather is tied to look like a peace knot when the weapon is stowed, but it doesn't hamper drawing the weapon. When you activate the knot, the creature you damaged takes 1d6 persistent bleed damage.\n\nIf you have the Twist the Knife feat, the talisman instead deals persistent bleed damage equal to your sneak attack damage."
+    },
+    {
+        "name": "Swift Block Cabochon",
+        "_className": "Talisman",
+        "id": "a0d7e6ac-c9b6-11ea-87d0-0242ac130003",
+        "level": 7,
+        "price": 7000,
+        "traits": [
+            "Uncommon",
+            "Abjuration",
+            "Consumable",
+            "Magical",
+            "Talisman"
+        ],
+        "usage": "affixed to a shield",
+        "targets": [
+            "shields"
+        ],
+        "actions": "Free",
+        "activationType": "Envision",
+        "trigger": "You take damage from a physical attack while you don't have the affixed shield raised",
+        "desc": "This clear quartz cabochon attaches to the center of your shield. When you activate the cabochon, you use the Shield Block reaction even if you hadn't raised the affixed shield (and even if you don't normally have that reaction)."
+    },
+    {
+        "name": "Gallows Tooth",
+        "_className": "Talisman",
+        "id": "a0d7e8b4-c9b6-11ea-87d0-0242ac130003",
+        "level": 8,
+        "price": 10000,
+        "traits": [
+            "Consumable",
+            "Divination",
+            "Magical",
+            "Talisman"
+        ],
+        "usage": "affixed to a weapon",
+        "targets": [
+            "weapons"
+        ],
+        "actions": "Free",
+        "activationType": "Interact",
+        "trigger": "You attack an adjacent creature and haven't rolled your attack roll",
+        "requirements": "You're a master in Intimidation",
+        "desc": "This grisly molar hangs from a cord threaded through a tiny hole just above its dried, exposed root. When you activate this talisman, the creature you're attacking becomes flat-footed until the end of the current turn."
+    },
+    {
+        "name": "Jade Bauble",
+        "_className": "Talisman",
+        "id": "a0d7e986-c9b6-11ea-87d0-0242ac130003",
+        "level": 8,
+        "price": 10000,
+        "traits": [
+            "Consumable",
+            "Enchantment",
+            "Magical",
+            "Mental",
+            "Talisman"
+        ],
+        "usage": "affixed to a melee weapon",
+        "targets": [
+            "melee weapons"
+        ],
+        "actions": "1A",
+        "activationType": "Command",
+        "requirements": "You are a master with the affixed weapon",
+        "desc": "This bit of jade is usually carved in the shape of a duelist, or sometimes a multi-armed creature. When you activate the bauble, it magically draws the attention of foes. Until the start of your next turn, enemies within the reach of the weapon the talisman is affixed to are flat-footed.",
+        "gainConditions": [
+            {
+                "duration": 10,
+                "name": "Jade Bauble",
+                "source": "Jade Bauble"
+            }
+        ]
+    },
+    {
+        "name": "Vanishing Coin",
+        "_className": "Talisman",
+        "id": "a0d7eae4-c9b6-11ea-87d0-0242ac130003",
+        "level": 10,
+        "price": 16000,
+        "traits": [
+            "Consumable",
+            "Illusion",
+            "Magical",
+            "Talisman"
+        ],
+        "usage": "affixed to armor",
+        "targets": [
+            "armors"
+        ],
+        "actions": "Free",
+        "activationType": "Envision",
+        "trigger": "You attempt a Stealth check for initiative, but you haven't rolled yet",
+        "requirements": "You are a master in Stealth",
+        "desc": "This copper coin dangles from a leather strip strung through a hole drilled in the center. Until activated, the coin becomes invisible for a few seconds at random intervals every few minutes. When you activate the coin, it casts a 2nd-level invisibility spell on you, lasting until the end of your next turn.",
+        "gainConditions": [
+            {
+                "duration": 15,
+                "heightened": 2,
+                "name": "Invisibility",
+                "source": "Vanishing Coin"
+            }
+        ]
+    },
+    {
+        "name": "Iron Medallion",
+        "_className": "Talisman",
+        "id": "a0d7ec10-c9b6-11ea-87d0-0242ac130003",
+        "level": 10,
+        "price": 17500,
+        "traits": [
+            "Abjuration",
+            "Consumable",
+            "Magical",
+            "Talisman"
+        ],
+        "usage": "affixed to armor",
+        "targets": [
+            "armors"
+        ],
+        "actions": "Free",
+        "activationType": "Envision",
+        "trigger": "You attempt a Will save against a fear effect but haven't rolled yet",
+        "requirements": "You have master proficiency in Will saves or have the bravery class feature",
+        "desc": "This small medallion is shaped like a shield. When you activate it, you gain a +2 status bonus to saves against fear for 1 minute. On the triggering save, if the outcome of your roll is a failure, you get a success instead or if the outcome is a critical failure, you get a failure instead.",
+        "gainConditions": [
+            {
+                "duration": 100,
+                "name": "Iron Medallion",
+                "source": "Iron Medallion"
+            }
+        ]
+    },
+    {
+        "name": "Mummified Bat",
+        "_className": "Talisman",
+        "id": "a0d7ed0a-c9b6-11ea-87d0-0242ac130003",
+        "level": 10,
+        "price": 17500,
+        "traits": [
+            "Consumable",
+            "Divination",
+            "Magical",
+            "Talisman"
+        ],
+        "usage": "affixed to a weapon",
+        "targets": [
+            "weapons"
+        ],
+        "actions": "1A",
+        "activationType": "Command",
+        "requirements": "You are a master in Perception",
+        "desc": "This talisman is the magically treated corpse of a tiny bat bound in papyrus. When you activate the bat, the affixed weapon detects vibrations around you and guides your perception. You gain the benefits of the fighter Blind-Fight class feat for 1 minute.\n\nIf you have the Blind-Fight feat, you gain imprecise echolocation with a range of 30 feet for 1 minute. This makes creatures that would be undetected by you because you can't see them hidden instead.",
+        "gainConditions": [
+            {
+                "duration": 100,
+                "name": "Mummified Bat",
+                "source": "Mummified Bat"
+            }
+        ]
+    },
+    {
+        "name": "Lucky Rabbit's Foot",
+        "_className": "Talisman",
+        "id": "a0d7eddc-c9b6-11ea-87d0-0242ac130003",
+        "level": 10,
+        "price": 17500,
+        "sourceBook": "Gods & Magic",
+        "traits": [
+            "Uncommon",
+            "Consumable",
+            "Divination",
+            "Fortune",
+            "Magical",
+            "Talisman"
+        ],
+        "usage": "affixed to armor",
+        "targets": [
+            "armors"
+        ],
+        "actions": "Reaction",
+        "activationType": "Envision",
+        "trigger": "You fail a Reflex save against a damaging effect.",
+        "desc": "This treated rabbit's foot has shockingly blue fur and is often carried by vagabonds who worship Desna. When you activate the foot, reroll the triggering Reflex save. If you fail the second roll as well, you can Stride up to your Speed."
+    },
+    {
+        "name": "Fade Band",
+        "_className": "Talisman",
+        "id": "a0d7ee9a-c9b6-11ea-87d0-0242ac130003",
+        "level": 12,
+        "price": 32000,
+        "traits": [
+            "Consumable",
+            "Illusion",
+            "Magical",
+            "Talisman"
+        ],
+        "usage": "affixed to armor",
+        "targets": [
+            "armors"
+        ],
+        "actions": "Free",
+        "activationType": "Envision",
+        "trigger": "An attack misses you",
+        "requirements": "You are a master in Stealth",
+        "desc": "This thin, silvery wire wraps around your armor. When you activate the band, it casts a 2nd-level invisibility spell on you.",
+        "gainConditions": [
+            {
+                "duration": 1000,
+                "heightened": 2,
+                "name": "Invisibility",
+                "source": "Fade Band"
+            }
+        ]
+    },
+    {
+        "name": "Eye of Apprehension",
+        "_className": "Talisman",
+        "id": "a0d7f066-c9b6-11ea-87d0-0242ac130003",
+        "level": 12,
+        "price": 40000,
+        "traits": [
+            "Consumable",
+            "Divination",
+            "Magical",
+            "Talisman"
+        ],
+        "usage": "affixed to armor",
+        "targets": [
+            "armors"
+        ],
+        "actions": "Free",
+        "activationType": "Envision",
+        "trigger": "You are about to roll Perception for initiative but haven't rolled yet",
+        "requirements": "You are a master in Perception",
+        "desc": "This round piece of cymophane's silky inclusion makes it look like a cat's eye. While affixed, it makes you jittery. When you activate it, roll Perception twice and use the higher result."
+    },
+    {
+        "name": "Iron Equalizer",
+        "_className": "Talisman",
+        "id": "a0d7f142-c9b6-11ea-87d0-0242ac130003",
+        "level": 12,
+        "price": 40000,
+        "traits": [
+            "Consumable",
+            "Evocation",
+            "Magical",
+            "Talisman"
+        ],
+        "usage": "affixed to a weapon",
+        "targets": [
+            "weapons"
+        ],
+        "actions": "1A",
+        "activationType": "Certain Strike",
+        "requirements": "You are a master with the affixed weapon",
+        "desc": "This small iron band has a shifting weight that helps equalize the affixed weapon's balance. When you activate it, you use Certain Strike, as the fighter feat. You must meet the normal requirements, including those of the press trait.\n\nIf you have the Certain Strike feat, the failure effect increases to deal the weapon's normal damage.",
+        "showActivities": [
+            "Certain Strike"
+        ]
+    },
+    {
+        "name": "Mending Lattice",
+        "_className": "Talisman",
+        "id": "a0d7f200-c9b6-11ea-87d0-0242ac130003",
+        "level": 13,
+        "price": 52500,
+        "traits": [
+            "Uncommon",
+            "Abjuration",
+            "Consumable",
+            "Magical",
+            "Talisman"
+        ],
+        "usage": "affixed to a shield or weapon",
+        "targets": [
+            "shields",
+            "weapons"
+        ],
+        "actions": "Free",
+        "activationType": "Command",
+        "trigger": "The affixed item would take damage",
+        "requirements": "You are a master in Crafting",
+        "desc": "This lattice of reinforced iron is shaped into a perfect octagon. When you activate it, it negates the damage and instantly and completely repairs the affixed item."
+    },
+    {
+        "name": "Grinning Pugwampi",
+        "_className": "Talisman",
+        "id": "a0d7f2be-c9b6-11ea-87d0-0242ac130003",
+        "level": 14,
+        "price": 70000,
+        "sourceBook": "Pathfinder #149: Against the Scarlet Triad",
+        "traits": [
+            "Uncommon",
+            "Consumable",
+            "Enchantment",
+            "Magical",
+            "Misfortune",
+            "Talisman"
+        ],
+        "usage": "affixed to a weapon",
+        "targets": [
+            "weapons"
+        ],
+        "actions": "Free",
+        "activationType": "Envision",
+        "trigger": "You damage a flat-footed creature with the affixed weapon",
+        "desc": "This bone statuette of a sneering gremlin crumbles to dust when activated, imparting a fraction of its subject's infamous misfortune unto those you strike. The damaged creature must attempt a DC 33 Will save.",
+        "critsuccess": "The creature is unaffected.",
+        "success": "The creature must roll twice and take the worse result on the next check it attempts.",
+        "failure": "The creature must roll twice and take the worse result on all checks until the end of its next turn."
+    },
+    {
+        "name": "Viper's Fang",
+        "_className": "Talisman",
+        "id": "a0d7f37c-c9b6-11ea-87d0-0242ac130003",
+        "level": 14,
+        "price": 85000,
+        "traits": [
+            "Consumable",
+            "Evocation",
+            "Magical",
+            "Talisman"
+        ],
+        "usage": "affixed to a weapon",
+        "targets": [
+            "weapons"
+        ],
+        "actions": "Reaction",
+        "activationType": "Envision",
+        "trigger": "A creature within your reach uses a manipulate or move action, makes a ranged attack, or leaves a square during a moving action it's using",
+        "requirements": "You are a master with the affixed weapon",
+        "desc": "When you activate this resin-strengthened viper skull, you make an Attack of Opportunity against the triggering creature.\n\nIf you have Attack of Opportunity, you can activate the viper's fang as a free action.",
+        "showActivities": [
+            "Attack of Opportunity"
+        ]
+    },
+    {
+        "name": "Dazing Coil",
+        "_className": "Talisman",
+        "id": "a0d7f43a-c9b6-11ea-87d0-0242ac130003",
+        "level": 14,
+        "price": 90000,
+        "traits": [
+            "Consumable",
+            "Enchantment",
+            "Magical",
+            "Talisman"
+        ],
+        "usage": "affixed to a weapon",
+        "targets": [
+            "weapons"
+        ],
+        "actions": "Free",
+        "activationType": "Envision",
+        "trigger": "You deal damage to a flat-footed creature with the affixed weapon",
+        "desc": "This knot of copper wire reshapes itself in a new pattern every time its affixed weapon deals damage. When you activate the coil, the damaged creature must succeed at a DC 31 Will save or be stunned 1. If it critically fails, it instead becomes stunned 2."
+    },
+    {
+        "name": "Iron Cudgel",
+        "_className": "Talisman",
+        "id": "7d05bee4-c9bf-11ea-87d0-0242ac130003",
+        "level": 14,
+        "price": 90000,
+        "traits": [
+            "Consumable",
+            "Evocation",
+            "Magical",
+            "Talisman"
+        ],
+        "usage": "affixed to a weapon",
+        "targets": [
+            "weapons"
+        ],
+        "actions": "1A",
+        "activationType": "Brutal Finish",
+        "requirements": "You are a master with the affixed weapon",
+        "desc": "This miniature iron cudgel is typically affixed to a weapon by an iron chain. When you activate the cudgel, you use Brutal Finish, as the fighter feat. You must meet the normal requirements, including those of the press trait.\n\nIf you have the Brutal Finish feat, add two additional weapon damage dice on a success or a failure.",
+        "showActivities": [
+            "Brutal Finish"
+        ]
+    },
+    {
+        "name": "Flame Navette",
+        "_className": "Talisman",
+        "id": "7d05c0ec-c9bf-11ea-87d0-0242ac130003",
+        "level": 16,
+        "price": 180000,
+        "traits": [
+            "Abjuration",
+            "Consumable",
+            "Magical",
+            "Talisman"
+        ],
+        "usage": "affixed to armor",
+        "targets": [
+            "armors"
+        ],
+        "actions": "1A",
+        "activationType": "Envision",
+        "requirements": "You're an Expert in Will saves",
+        "desc": "This piece of bronzite is shaped like an oval with points at both ends. It has a carved flame at its center and is traditionally worn over the heart. You can activate only one flame navette per day. When you activate the navette, you gain the benefit of the fighter's Determination class feat, with a counteract modifier of +22. If you have the Determination feat, you can use your own modifier if it's better.",
+        "showActivities": [
+            "Determination"
+        ]
+    },
+    {
+        "name": "Ghost Dust",
+        "_className": "Talisman",
+        "id": "7d05c1e6-c9bf-11ea-87d0-0242ac130003",
+        "level": 16,
+        "price": 180000,
+        "traits": [
+            "Consumable",
+            "Illusion",
+            "Occult",
+            "Talisman"
+        ],
+        "usage": "affixed to armor",
+        "targets": [
+            "armors"
+        ],
+        "actions": "Free",
+        "activationType": "Envision",
+        "trigger": "You use an action with the move trait",
+        "requirements": "You are legendary in Stealth",
+        "desc": "This small vial is filled with a grayish-green dust rendered from dried ectoplasm. When you activate the dust, it casts a 4th-level invisibility spell on you. This comes into effect before you move during the triggering action.",
+        "gainConditions": [
+            {
+                "duration": 100,
+                "heightened": 4,
+                "name": "Invisibility",
+                "source": "Ghost Dust"
+            }
+        ]
+    },
+    {
+        "name": "Dispelling Sliver",
+        "_className": "Talisman",
+        "id": "7d05c448-c9bf-11ea-87d0-0242ac130003",
+        "level": 17,
+        "price": 240000,
+        "traits": [
+            "Abjuration",
+            "Consumable",
+            "Magical",
+            "Talisman"
+        ],
+        "usage": "affixed to a weapon",
+        "targets": [
+            "weapons"
+        ],
+        "actions": "Free",
+        "activationType": "Envision",
+        "trigger": "Your Strike damages a target",
+        "requirements": "You're a master with the affixed weapon",
+        "desc": "Made from a treated sliver of cold iron, this talisman allows you to counteract magical effects. When you activate the dispelling sliver, it attempts to counteract a single spell active on the target, with the effects of an 8th-level dispel magic spell (counteract modifier +29)\n\nIf you activate the talisman on a successful Dispelling Slice, the talisman attempts to counteract all spells active on the target."
+    },
+    {
+        "name": "Celestial Hair",
+        "_className": "Talisman",
+        "id": "7d05c51a-c9bf-11ea-87d0-0242ac130003",
+        "level": 20,
+        "price": 1250000,
+        "traits": [
+            "Rare",
+            "Abjuration",
+            "Consumable",
+            "Magical",
+            "Talisman"
+        ],
+        "usage": "affixed to armor",
+        "targets": [
+            "armors"
+        ],
+        "actions": "Free",
+        "activationType": "Interact",
+        "trigger": "You critically fail a saving throw or are critically hit by an attack",
+        "desc": "This strand of hair shimmers like the strands of fate. When you activate the string, it resonates with a single, perfect note. The triggering saving throw becomes a failure or the triggering attack roll becomes a regular hit, not critical one. If the source of the attack or effect is an evil creature, that creature must succeed at a DC 41 Will saving throw or be enfeebled 2 and stupefied 2 until the end of its next turn."
+    }
+]

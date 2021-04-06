@@ -1,0 +1,5366 @@
+[
+   {
+      "id": "08693211-8daa-11ea-abca-ffb46fbada73",
+      "name": "Fist",
+      "traits": [
+         "Agile",
+         "Finesse",
+         "Nonlethal",
+         "Unarmed"
+      ],
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicesize": 4,
+      "dmgType": "B",
+      "group": "Brawling",
+      "hands": "1",
+      "melee": 5,
+      "prof": "Unarmed Attacks",
+      "craftable": false
+   },
+   {
+      "hide": true,
+      "id": "5af0d97b-8112-4c07-a9aa-e03f118ee164",
+      "name": "Badger Jaws",
+      "traits": [
+         "Companion",
+         "Unarmed"
+      ],
+      "displayName": "Jaws",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicesize": 8,
+      "dmgType": "P",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "001fc578-8ea0-432f-90e2-2652737e2f9a",
+      "name": "Badger Claw",
+      "traits": [
+         "Agile",
+         "Companion",
+         "Unarmed"
+      ],
+      "displayName": "Claw",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dmgType": "S",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "08693213-8daa-11ea-abca-ffb46fbada73",
+      "name": "Bear Jaws",
+      "traits": [
+         "Companion",
+         "Unarmed"
+      ],
+      "displayName": "Jaws",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicesize": 8,
+      "dmgType": "P",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "08693215-8daa-11ea-abca-ffb46fbada73",
+      "name": "Bear Claw",
+      "traits": [
+         "Agile",
+         "Companion",
+         "Unarmed"
+      ],
+      "displayName": "Claw",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dmgType": "S",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "d0dfc3b6-f5c4-4dbe-9179-fc1b942ea456",
+      "name": "Bird Jaws",
+      "traits": [
+         "Companion",
+         "Finesse",
+         "Unarmed"
+      ],
+      "displayName": "Jaws",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dmgType": "P",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "61673f1d-755b-4211-92a6-b0d596d935dc",
+      "name": "Bird Talon",
+      "traits": [
+         "Agile",
+         "Companion",
+         "Finesse",
+         "Unarmed"
+      ],
+      "displayName": "Talon",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dmgType": "S",
+      "dicesize": 4,
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "bbfacf9e-3c69-4650-ae97-84f801a0c9bf",
+      "name": "Camel Jaws",
+      "traits": [
+         "Companion",
+         "Unarmed"
+      ],
+      "displayName": "Jaws",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dmgType": "P",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "958c9d00-e57c-4e1b-992b-e206b143ba53",
+      "name": "Cat Jaws",
+      "traits": [
+         "Companion",
+         "Finesse",
+         "Unarmed"
+      ],
+      "displayName": "Jaws",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicesize": 6,
+      "dmgType": "P",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "c27375e6-867a-4f4e-8fc9-9e67e7136c85",
+      "name": "Cat Claw",
+      "traits": [
+         "Agile",
+         "Companion",
+         "Finesse",
+         "Unarmed"
+      ],
+      "displayName": "Claw",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicesize": 4,
+      "dmgType": "S",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "86f3aeb0-6f59-43ed-9112-ea2e677b84a8",
+      "name": "Cave Gecko Jaws",
+      "traits": [
+         "Companion",
+         "Finesse",
+         "Unarmed"
+      ],
+      "displayName": "Jaws",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dmgType": "P",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "d013d54d-3638-4d1a-9075-db37d66fe844",
+      "name": "Cave Pterosaur Beak",
+      "traits": [
+         "Companion",
+         "Finesse",
+         "Unarmed"
+      ],
+      "displayName": "Beak",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dmgType": "P",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "57b96128-d269-460c-9290-83a082f349a3",
+      "name": "Cave Pterosaur Talon",
+      "traits": [
+         "Agile",
+         "Companion",
+         "Finesse",
+         "Unarmed"
+      ],
+      "displayName": "Talon",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dmgType": "S",
+      "dicesize": 4,
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "c9c0e4e0-a27d-4e05-9f25-5db7ad574da3",
+      "name": "Dromaeosaur Jaws",
+      "traits": [
+         "Companion",
+         "Finesse",
+         "Unarmed"
+      ],
+      "displayName": "Jaws",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dmgType": "P",
+      "dicesize": 8,
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "05c23b59-543b-439a-aaaf-f296e49ebbe9",
+      "name": "Dromaeosaur Talon",
+      "traits": [
+         "Agile",
+         "Companion",
+         "Finesse",
+         "Unarmed"
+      ],
+      "displayName": "Talon",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dmgType": "S",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "df41eb0c-2bc5-45b0-862d-45fe5b126b96",
+      "name": "Horse Hoof",
+      "traits": [
+         "Agile",
+         "Companion",
+         "Unarmed"
+      ],
+      "displayName": "Hoof",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dmgType": "B",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "81cc8765-fb24-4fad-b3b8-dff67e6fc1da",
+      "name": "Hyena Jaws",
+      "traits": [
+         "Companion",
+         "Finesse",
+         "Unarmed"
+      ],
+      "displayName": "Jaws",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dmgType": "P",
+      "dicesize": 8,
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "09e14bcd-c5fc-401f-81b4-14920e6eb33d",
+      "name": "Monitor Lizard Jaws",
+      "traits": [
+         "Companion",
+         "Unarmed"
+      ],
+      "displayName": "Jaws",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dmgType": "P",
+      "dicesize": 8,
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "00f4bdc3-0102-4bd4-b133-baf54bf89015",
+      "name": "Snake Jaws",
+      "traits": [
+         "Companion",
+         "Finesse",
+         "Unarmed"
+      ],
+      "displayName": "Jaws",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dmgType": "P",
+      "dicesize": 8,
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "63867b0b-94e6-46f7-9ae4-003b35033825",
+      "name": "Vulture Jaws",
+      "traits": [
+         "Companion",
+         "Finesse",
+         "Unarmed"
+      ],
+      "displayName": "Jaws",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dmgType": "P",
+      "dicesize": 8,
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "c9a40e0e-f448-4d04-9d0c-3ce9123c6258",
+      "name": "Wolf Jaws",
+      "traits": [
+         "Companion",
+         "Finesse",
+         "Unarmed"
+      ],
+      "displayName": "Jaws",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dmgType": "P",
+      "dicesize": 8,
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "59f51045-60c4-41c4-ae79-311941b0ca78",
+      "name": "Lizardfolk Claw",
+      "desc": "Your sharp claws offer an alternative to the fists other humanoids bring to a fight. You have a claw unarmed attack that deals 1d4 slashing damage and has the agile and finesse traits.",
+      "traits": [
+         "Agile",
+         "Finesse",
+         "Unarmed"
+      ],
+      "displayName": "Claw",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicesize": 4,
+      "dmgType": "S",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks",
+      "internalNote": "The brawling group is not specified, but we assume that every unarmed attack is like a fist unless otherwise specified."
+   },
+   {
+      "hide": true,
+      "id": "74cf862b-eb12-46e4-8d7d-6455b2690589",
+      "name": "Lizardfolk Fangs",
+      "desc": "Your teeth are formidable weapons. You gain a fangs unarmed attack that deals 1d8 piercing damage.",
+      "traits": [
+         "Unarmed"
+      ],
+      "displayName": "Fangs",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicesize": 8,
+      "dmgType": "P",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks",
+      "internalNote": "The brawling group is not specified, but we assume that every unarmed attack is like a fist unless otherwise specified."
+   },
+   {
+      "hide": true,
+      "id": "b3f9d9f4-dbdd-4d4f-952e-f3de3048dcc0",
+      "name": "Lizardfolk Tail",
+      "desc": "By birth or through training, your tail is strong enough to make for a powerful melee weapon. You gain a tail unarmed attack that deals 1d6 bludgeoning damage and has the sweep trait.",
+      "traits": [
+         "Sweep",
+         "Unarmed"
+      ],
+      "displayName": "Tail",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicesize": 6,
+      "dmgType": "B",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks",
+      "internalNote": "The brawling group is not specified, but we assume that every unarmed attack is like a fist unless otherwise specified."
+   },
+   {
+      "hide": true,
+      "id": "d46e3051-4451-4d0b-bf74-3f249457cb9c",
+      "name": "Fang Sharpener Goblin Jaws",
+      "desc": "You have filed your teeth into jagged points and have an unusually powerful jaw, making your mouth a dangerous weapon. You gain a jaws unarmed attack that deals 1d4 piercing damage. Whenever you score a critical hit with your jaws unarmed attack, your target takes 1 persistent bleed damage per weapon damage die.",
+      "traits": [
+         "Unarmed"
+      ],
+      "displayName": "Jaws",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicesize": 4,
+      "dmgType": "P",
+      "criticalHint": "Whenever you score a critical hit with your jaws unarmed attack, your target takes 1 persistent bleed damage per weapon damage die.",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks",
+      "internalNote": "The brawling group is not specified, but we assume that every unarmed attack is like a fist unless otherwise specified."
+   },
+   {
+      "hide": true,
+      "id": "e62fdedd-b087-4fba-b9fb-fb7ebf87cc82",
+      "name": "Tailed Goblin Tail",
+      "desc": "Your tail is much stronger than most, and you can lash out with it with the strength of a whip. You gain a tail unarmed attack that deals 1d6 bludgeoning damage.",
+      "traits": [
+         "Unarmed"
+      ],
+      "displayName": "Tail",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicesize": 6,
+      "dmgType": "B",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks",
+      "internalNote": "The brawling group is not specified, but we assume that every unarmed attack is like a fist unless otherwise specified."
+   },
+   {
+      "hide": true,
+      "id": "e4ee6d25-a2b8-4fc5-bafc-e4afeccfd2f8",
+      "name": "Razortooth Goblin Jaws",
+      "desc": "Your family's teeth are formidable weapons. You gain a jaws unarmed attack that deals 1d6 piercing damage. Your jaws are in the brawling group and have the finesse and unarmed traits.",
+      "traits": [
+         "Finesse",
+         "Unarmed"
+      ],
+      "displayName": "Jaws",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicesize": 6,
+      "dmgType": "P",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "abe14336-c17c-486d-a395-198faa41464a",
+      "name": "Boiling Spit Attack",
+      "desc": "Your bodily fluids burn with surprising volatility, as if you ran on oil instead of blood. As long as you are taking persistent fire damage, you gain a boiling spit ranged unarmed attack with a range of 30 feet that deals 1d6 fire damage.",
+      "traits": [
+         "Unarmed"
+      ],
+      "displayName": "Boiling Spit Attack",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicesize": 6,
+      "dmgType": "Fire",
+      "group": "Brawling",
+      "ranged": 30,
+      "prof": "Unarmed Attacks",
+      "internalNote": "The brawling group is not specified, but we assume that every unarmed attack is like a fist unless otherwise specified."
+   },
+   {
+      "hide": true,
+      "id": "08693217-8daa-11ea-abca-ffb46fbada73",
+      "name": "Crane Wing",
+      "traits": [
+         "Agile",
+         "Finesse",
+         "Nonlethal",
+         "Unarmed"
+      ],
+      "moddable": "-",
+      "_className": "Weapon",
+      "dmgType": "B",
+      "group": "Brawling",
+      "hands": "1",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "08693219-8daa-11ea-abca-ffb46fbada73",
+      "name": "Dragon Tail",
+      "traits": [
+         "Backswing",
+         "Nonlethal",
+         "Unarmed"
+      ],
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicesize": 10,
+      "dmgType": "B",
+      "group": "Brawling",
+      "hands": "1",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "0869321b-8daa-11ea-abca-ffb46fbada73",
+      "name": "Falling Stone",
+      "traits": [
+         "Forceful",
+         "Nonlethal",
+         "Unarmed"
+      ],
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicesize": 8,
+      "dmgType": "B",
+      "group": "Brawling",
+      "hands": "1",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "0869321d-8daa-11ea-abca-ffb46fbada73",
+      "name": "Fire Talon",
+      "traits": [
+         "Agile",
+         "Finesse",
+         "Fire",
+         "Nonlethal",
+         "Unarmed"
+      ],
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicesize": 4,
+      "dmgType": "Fire",
+      "group": "Brawling",
+      "hands": "1",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "0869321f-8daa-11ea-abca-ffb46fbada73",
+      "name": "Iron Sweep",
+      "traits": [
+         "Nonlethal",
+         "Parry",
+         "Sweep",
+         "Unarmed"
+      ],
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicesize": 8,
+      "dmgType": "B",
+      "group": "Brawling",
+      "hands": "1",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "08693221-8daa-11ea-abca-ffb46fbada73",
+      "name": "Lashing Branch",
+      "traits": [
+         "Agile",
+         "Finesse",
+         "Nonlethal",
+         "Unarmed"
+      ],
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicesize": 8,
+      "dmgType": "S",
+      "group": "Brawling",
+      "hands": "1",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "08693223-8daa-11ea-abca-ffb46fbada73",
+      "name": "Tiger Claw",
+      "traits": [
+         "Agile",
+         "Finesse",
+         "Nonlethal",
+         "Unarmed"
+      ],
+      "moddable": "-",
+      "_className": "Weapon",
+      "criticalHint": "On a critical success with your tiger claws, if you deal damage, the target takes 1d4 persistent bleed damage.",
+      "dicesize": 8,
+      "dmgType": "S",
+      "group": "Brawling",
+      "hands": "1",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "08693225-8daa-11ea-abca-ffb46fbada73",
+      "name": "Wind Crash",
+      "traits": [
+         "Agile",
+         "Nonlethal",
+         "Propulsive",
+         "Unarmed"
+      ],
+      "moddable": "-",
+      "_className": "Weapon",
+      "dmgType": "B",
+      "group": "Brawling",
+      "hands": "1",
+      "prof": "Unarmed Attacks",
+      "ranged": 30
+   },
+   {
+      "hide": true,
+      "id": "08693227-8daa-11ea-abca-ffb46fbada73",
+      "name": "Wolf Jaw",
+      "traits": [
+         "Agile",
+         "Backstabber",
+         "Finesse",
+         "Nonlethal",
+         "Unarmed"
+      ],
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicesize": 8,
+      "dmgType": "P",
+      "group": "Brawling",
+      "hands": "1",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "8ddc27ea-a966-11ea-bb37-0242ac130002",
+      "name": "Bestial Mutagen Jaws (Lesser)",
+      "traits": [
+         "Unarmed"
+      ],
+      "displayName": "Bestial Jaws",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicesize": 6,
+      "dmgType": "P",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "922ae412-a966-11ea-bb37-0242ac130002",
+      "name": "Bestial Mutagen Claw (Lesser)",
+      "traits": [
+         "Agile",
+         "Unarmed"
+      ],
+      "displayName": "Bestial Claw",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicesize": 4,
+      "dmgType": "S",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "cf55eba2-a966-11ea-bb37-0242ac130002",
+      "name": "Bestial Mutagen Jaws (Moderate)",
+      "traits": [
+         "Unarmed"
+      ],
+      "displayName": "Bestial Jaws",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicesize": 8,
+      "dmgType": "P",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "cf55eeb8-a966-11ea-bb37-0242ac130002",
+      "name": "Bestial Mutagen Claw (Moderate)",
+      "traits": [
+         "Agile",
+         "Unarmed"
+      ],
+      "displayName": "Bestial Claw",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicesize": 6,
+      "dmgType": "S",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "fb8ef128-a966-11ea-bb37-0242ac130002",
+      "name": "Bestial Mutagen Jaws (Greater)",
+      "traits": [
+         "Unarmed"
+      ],
+      "displayName": "Bestial Jaws",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicesize": 10,
+      "dmgType": "P",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "fb8ef326-a966-11ea-bb37-0242ac130002",
+      "name": "Bestial Mutagen Claw (Greater)",
+      "traits": [
+         "Agile",
+         "Unarmed"
+      ],
+      "displayName": "Bestial Claw",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicesize": 8,
+      "dmgType": "S",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "1c5658e4-a96a-11ea-bb37-0242ac130002",
+      "name": "Bestial Mutagen Jaws (Major)",
+      "traits": [
+         "Unarmed"
+      ],
+      "displayName": "Bestial Jaws",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicesize": 10,
+      "dmgType": "P",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "1c565ca4-a96a-11ea-bb37-0242ac130002",
+      "name": "Bestial Mutagen Claw (Major)",
+      "traits": [
+         "Agile",
+         "Unarmed"
+      ],
+      "displayName": "Bestial Claw",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicesize": 8,
+      "dmgType": "S",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "bulk": "L",
+      "desc": "This broad dagger is carried by dwarves as a weapon, tool, and designation of clan. Losing or having to surrender a clan dagger is considered a mark of embarrassment to most dwarves.",
+      "id": "08693229-8daa-11ea-abca-ffb46fbada73",
+      "name": "Clan Dagger",
+      "price": 200,
+      "traits": [
+         "Agile",
+         "Dwarf",
+         "Parry",
+         "Uncommon",
+         "Versatile B"
+      ],
+      "_className": "Weapon",
+      "dicesize": 4,
+      "dmgType": "P/B",
+      "group": "Knife",
+      "hands": "1",
+      "melee": 5
+   },
+   {
+      "bulk": "1",
+      "desc": "This is a piece of stout wood shaped or repurposed to bludgeon an enemy. Clubs can be intricately carved pieces of martial art or as simple as a tree branch or piece of wood.",
+      "id": "0869322b-8daa-11ea-abca-ffb46fbada73",
+      "name": "Club",
+      "traits": [
+         "Thrown 10 ft."
+      ],
+      "_className": "Weapon",
+      "dmgType": "B",
+      "group": "Club",
+      "hands": "1",
+      "melee": 5
+   },
+   {
+      "bulk": "L",
+      "desc": "This small, bladed weapon is held in one hand and used to stab a creature in close combat. It can also be thrown.",
+      "id": "0869322d-8daa-11ea-abca-ffb46fbada73",
+      "name": "Dagger",
+      "price": 20,
+      "traits": [
+         "Agile",
+         "Finesse",
+         "Thrown 10 ft.",
+         "Versatile S"
+      ],
+      "_className": "Weapon",
+      "dicesize": 4,
+      "dmgType": "P/S",
+      "group": "Knife",
+      "hands": "1",
+      "melee": 5,
+      "ranged": 10
+   },
+   {
+      "bulk": "L",
+      "desc": "A pair of these metal gloves comes with full plate, half plate, and splint armor; they can also be purchased separately and worn with other types of armor. They not only protect your hands but also transform your hands into lethal weapons.",
+      "id": "0869322f-8daa-11ea-abca-ffb46fbada73",
+      "name": "Gauntlet",
+      "price": 20,
+      "traits": [
+         "Agile",
+         "Free-Hand"
+      ],
+      "_className": "Weapon",
+      "dicesize": 4,
+      "dmgType": "B",
+      "group": "Brawling",
+      "hands": "1",
+      "melee": 5
+   },
+   {
+      "bulk": "L",
+      "desc": "A juggling club is lighter than a typical club and balanced to be easily caught and thrown again by a juggler. While a juggling club deals less damage, the extra throwing distance its light weight allows is important for Juggling.",
+      "id": "08693231-8daa-11ea-abca-ffb46fbada73",
+      "name": "Juggling Club",
+      "price": 10,
+      "traits": [
+         "Agile",
+         "Nonlethal",
+         "Thrown 20 ft.",
+         "Uncommon"
+      ],
+      "_className": "Weapon",
+      "dicesize": 4,
+      "dmgType": "B",
+      "group": "Club",
+      "hands": "1",
+      "melee": 5,
+      "ranged": 20
+   },
+   {
+      "bulk": "L",
+      "desc": "Also known as punching daggers, katars are characterized by their H-shaped hand grip that allows the blade to jut out from the knuckles.",
+      "id": "08693233-8daa-11ea-abca-ffb46fbada73",
+      "name": "Katar",
+      "price": 30,
+      "traits": [
+         "Agile",
+         "Deadly d6",
+         "Monk",
+         "Uncommon"
+      ],
+      "_className": "Weapon",
+      "dicesize": 4,
+      "dmgType": "P",
+      "group": "Knife",
+      "hands": "1",
+      "melee": 5
+   },
+   {
+      "bulk": "L",
+      "desc": "A light mace has a short wooden or metal shaft ending with a dense metal head. Used much like a club, it delivers heavy bludgeoning blows, but with extra power derived from the head's metal ridges or spikes.",
+      "id": "08693235-8daa-11ea-abca-ffb46fbada73",
+      "name": "Light Mace",
+      "price": 40,
+      "traits": [
+         "Agile",
+         "Finesse",
+         "Shove"
+      ],
+      "_className": "Weapon",
+      "dicesize": 4,
+      "dmgType": "B",
+      "group": "Club",
+      "hands": "1",
+      "melee": 5
+   },
+   {
+      "bulk": "2",
+      "desc": "This very long spear, sometimes called a pike, is purely for thrusting rather than throwing. Used by many soldiers and city watch for crowd control and defense against charging enemies, it must be wielded with two hands.",
+      "id": "08693237-8daa-11ea-abca-ffb46fbada73",
+      "name": "Longspear",
+      "price": 50,
+      "traits": [
+         "Reach"
+      ],
+      "_className": "Weapon",
+      "dicesize": 8,
+      "dmgType": "P",
+      "group": "Spear",
+      "hands": "2",
+      "melee": 10
+   },
+   {
+      "bulk": "1",
+      "desc": "With a stout haft and a heavy metal head, a mace is sturdy and allows its wielder to deliver powerful blows and dent armor.",
+      "id": "08693239-8daa-11ea-abca-ffb46fbada73",
+      "name": "Mace",
+      "price": 100,
+      "traits": [
+         "Shove"
+      ],
+      "_className": "Weapon",
+      "dmgType": "B",
+      "group": "Club",
+      "hands": "1",
+      "melee": 5
+   },
+   {
+      "bulk": "1",
+      "desc": "This weapon has a short shaft ending in a metal ball studded with spikes.",
+      "id": "0869323b-8daa-11ea-abca-ffb46fbada73",
+      "name": "Morningstar",
+      "price": 100,
+      "traits": [
+         "Versatile P"
+      ],
+      "_className": "Weapon",
+      "dmgType": "B/P",
+      "group": "Club",
+      "hands": "1",
+      "melee": 5
+   },
+   {
+      "bulk": "L",
+      "desc": "Poi are light weights tethered to ropes or chains. Performers swing the weights, usually one in each hand, in rhythmic patterns.",
+      "id": "0869323d-8daa-11ea-abca-ffb46fbada73",
+      "name": "Poi",
+      "price": 20,
+      "traits": [
+         "Agile",
+         "Backswing",
+         "Finesse",
+         "Nonlethal",
+         "Uncommon"
+      ],
+      "_className": "Weapon",
+      "dicesize": 4,
+      "dmgType": "B",
+      "group": "Flail",
+      "hands": "1",
+      "melee": 5
+   },
+   {
+      "bulk": "L",
+      "desc": "Originally a farming tool used for reaping grain, this one-handed weapon has a short wooden handle ending in a curved blade, sometimes sharpened on both sides.",
+      "id": "0869323f-8daa-11ea-abca-ffb46fbada73",
+      "name": "Sickle",
+      "price": 20,
+      "traits": [
+         "Agile",
+         "Finesse",
+         "Trip"
+      ],
+      "_className": "Weapon",
+      "dicesize": 4,
+      "dmgType": "S",
+      "group": "Knife",
+      "hands": "1",
+      "melee": 5
+   },
+   {
+      "bulk": "1",
+      "desc": "A long metal shaft ending with a metal spike, a spear can be used one-handed as a melee weapon and can be thrown.",
+      "id": "08693241-8daa-11ea-abca-ffb46fbada73",
+      "name": "Spear",
+      "price": 10,
+      "traits": [
+         "Thrown 20 ft."
+      ],
+      "_className": "Weapon",
+      "dmgType": "P",
+      "group": "Spear",
+      "hands": "1",
+      "melee": 5,
+      "ranged": 20
+   },
+   {
+      "bulk": "L",
+      "desc": "Providing the same defensive function as a standard gauntlet, this version has a group of spikes protruding from the knuckles to deliver piercing damage with a punch.",
+      "id": "08693243-8daa-11ea-abca-ffb46fbada73",
+      "name": "Spiked Gauntlet",
+      "price": 30,
+      "traits": [
+         "Agile",
+         "Free-Hand"
+      ],
+      "_className": "Weapon",
+      "weaponBase": "Gauntlet",
+      "dicesize": 4,
+      "dmgType": "P",
+      "group": "Brawling",
+      "hands": "1",
+      "melee": 5
+   },
+   {
+      "bulk": "L",
+      "desc": "This sharp-taloned +1 striking spiked gauntlet appears to have been crafted from dragon scales, with claws built from iron. In addition to the typical weapon traits, a Cinderclaw gauntlet has the versatile S trait.\n\nOn a critical hit, the Cinderclaw gauntlet deals an additional 1d6 fire damage.",
+      "id": "b8d39cb3-40c3-4d00-84c7-082a1c3b658b",
+      "name": "Cinderclaw Gauntlet",
+      "displayName": "Cinderclaw Gauntlet",
+      "level": 5,
+      "criticalHint": "On a critical hit, the Cinderclaw gauntlet deals an additional 1d6 fire damage.",
+      "moddable": "-",
+      "price": 15000,
+      "traits": [
+         "Uncommon",
+         "Agile",
+         "Evocation",
+         "Free-Hand",
+         "Magical",
+         "Versatile S"
+      ],
+      "_className": "Weapon",
+      "weaponBase": "Gauntlet",
+      "potencyRune": 1,
+      "strikingRune": 1,
+      "dicesize": 4,
+      "dmgType": "P/S",
+      "group": "Brawling",
+      "hands": "1",
+      "usage": "worn on 1 hand",
+      "melee": 5,
+      "activities": [
+         {
+            "actions": "Reaction",
+            "activationType": "Command",
+            "desc": "The creature you hit must succeed at a DC 19 Fortitude save or be sickened 1 by the gauntlet's acrid smoke. Creatures that don't need to breathe are immune.",
+            "trigger": "Your attack roll with the Cinderclaw gauntlet is a critical success.",
+            "name": "Cinderclaw Gauntlet",
+            "traits": [
+               "Uncommon",
+               "Evocation",
+               "Magical"
+            ],
+            "_className": "ItemActivity",
+            "source": "b8d39cb3-40c3-4d00-84c7-082a1c3b658b"
+         }
+      ]
+   },
+   {
+      "bulk": "1",
+      "desc": "This long piece of wood can aid in walking and deliver a mighty blow.",
+      "id": "08693245-8daa-11ea-abca-ffb46fbada73",
+      "name": "Staff",
+      "traits": [
+         "Two-Hand d8"
+      ],
+      "_className": "Weapon",
+      "dicesize": 4,
+      "dmgType": "B",
+      "group": "Club",
+      "hands": "1",
+      "melee": 5
+   },
+   {
+      "bulk": "L",
+      "desc": "This light knife is optimally balanced to be thrown accurately at a greater distance than a common dagger. While this comes at the cost of a significant cutting edge, the difference is worth it for characters focused on thrown weapons.",
+      "id": "08693247-8daa-11ea-abca-ffb46fbada73",
+      "name": "Throwing Knife",
+      "price": 30,
+      "traits": [
+         "Agile",
+         "Finesse",
+         "Thrown 20 ft.",
+         "Twin",
+         "Uncommon"
+      ],
+      "_className": "Weapon",
+      "dicesize": 4,
+      "dmgType": "P",
+      "group": "Knife",
+      "hands": "1",
+      "melee": 5,
+      "ranged": 20
+   },
+   {
+      "bulk": "1",
+      "desc": "This broad-bladed sword, sometimes called the hand‑and‑a‑half sword, has a longer grip so it can be held in one hand or used with two hands to provide extra piercing or slashing power.",
+      "id": "08693249-8daa-11ea-abca-ffb46fbada73",
+      "name": "Bastard Sword",
+      "price": 400,
+      "traits": [
+         "Two-Hand d12"
+      ],
+      "_className": "Weapon",
+      "dicesize": 8,
+      "dmgType": "S",
+      "group": "Sword",
+      "hands": "1",
+      "melee": 5,
+      "prof": "Martial Weapons"
+   },
+   {
+      "bulk": "1",
+      "desc": "These axes are designed explicitly as weapons, rather than tools. They typically weigh less, with a shaft reinforced with metal bands or bolts, and have a sharper blade, making them ideal for chopping limbs rather than wood.",
+      "id": "0869324b-8daa-11ea-abca-ffb46fbada73",
+      "name": "Battle Axe",
+      "price": 10,
+      "traits": [
+         "Sweep"
+      ],
+      "_className": "Weapon",
+      "dicesize": 8,
+      "dmgType": "S",
+      "group": "Axe",
+      "hands": "1",
+      "melee": 5,
+      "prof": "Martial Weapons"
+   },
+   {
+      "bulk": "1",
+      "desc": "The thin metal plates interwoven throughout this long scarf turn a fashion accessory into a deadly weapon.",
+      "id": "0869324d-8daa-11ea-abca-ffb46fbada73",
+      "name": "Bladed Scarf",
+      "price": 300,
+      "traits": [
+         "Monk",
+         "Parry",
+         "Reach",
+         "Trip"
+      ],
+      "_className": "Weapon",
+      "dicesize": 8,
+      "dmgType": "S",
+      "group": "Flail",
+      "hands": "2",
+      "melee": 10,
+      "prof": "Martial Weapons"
+   },
+   {
+      "bulk": "2",
+      "desc": "This strong but slender staff is tapered at the ends and well balanced. It's designed to be an offensive and defensive weapon.",
+      "id": "0869324f-8daa-11ea-abca-ffb46fbada73",
+      "name": "Bo Staff",
+      "weaponBase": "Staff",
+      "price": 20,
+      "traits": [
+         "Monk",
+         "Parry",
+         "Reach",
+         "Trip"
+      ],
+      "_className": "Weapon",
+      "dicesize": 8,
+      "dmgType": "B",
+      "group": "Club",
+      "hands": "2",
+      "melee": 10,
+      "prof": "Martial Weapons"
+   },
+   {
+      "bulk": "L",
+      "desc": "This short, curved, and crude makeshift blade often has holes drilled into it to reduce its weight. It's a favored weapon of goblins. ",
+      "id": "08693251-8daa-11ea-abca-ffb46fbada73",
+      "name": "Dogslicer",
+      "price": 10,
+      "traits": [
+         "Agile",
+         "Backstabber",
+         "Finesse",
+         "Goblin",
+         "Uncommon"
+      ],
+      "_className": "Weapon",
+      "dmgType": "S",
+      "group": "Sword",
+      "hands": "1",
+      "melee": 5,
+      "prof": "Martial Weapons"
+   },
+   {
+      "bulk": "2",
+      "desc": "Essentially a longer version of the scimitar, this traditional elven weapon has a thinner blade than its cousin. ",
+      "id": "08693253-8daa-11ea-abca-ffb46fbada73",
+      "name": "Elven Curve Blade",
+      "price": 400,
+      "traits": [
+         "Elf",
+         "Finesse",
+         "Forceful",
+         "Uncommon"
+      ],
+      "_className": "Weapon",
+      "dicesize": 8,
+      "dmgType": "S",
+      "group": "Sword",
+      "hands": "2",
+      "melee": 5,
+      "prof": "Martial Weapons"
+   },
+   {
+      "bulk": "2",
+      "desc": "This weapon is a heavier, two-handed version of the curved-bladed scimitar. It is weighted toward the blade's end, making it a powerful slashing weapon.",
+      "id": "08693255-8daa-11ea-abca-ffb46fbada73",
+      "name": "Falchion",
+      "price": 300,
+      "traits": [
+         "Forceful",
+         "Sweep"
+      ],
+      "_className": "Weapon",
+      "dicesize": 10,
+      "dmgType": "S",
+      "group": "Sword",
+      "hands": "2",
+      "melee": 5,
+      "prof": "Martial Weapons"
+   },
+   {
+      "bulk": "2",
+      "desc": "A fauchard is similar to a glaive, save that its cutting edge is along the concave side. Fauchards are favored by Crimson Reclaimers for hacking through waves of zombies. The fauchard is a martial melee weapon.",
+      "id": "08693257-8daa-11ea-abca-ffb46fbada73",
+      "name": "Fauchard",
+      "price": 140,
+      "traits": [
+         "Deadly d8",
+         "Reach",
+         "Sweep",
+         "Trip"
+      ],
+      "_className": "Weapon",
+      "dicesize": 8,
+      "dmgType": "S",
+      "group": "Polearm",
+      "hands": "2",
+      "melee": 10,
+      "prof": "Martial Weapons"
+   },
+   {
+      "bulk": "L",
+      "desc": "This fan is useful for elegant dances as well as for slicing unsuspecting foes with the blades along its outer edge. If used in performances, it might be disguised as a frilly accessory, or it might be an obvious, though elegant, weapon.",
+      "id": "08693259-8daa-11ea-abca-ffb46fbada73",
+      "name": "Fighting Fan",
+      "price": 110,
+      "traits": [
+         "Agile",
+         "Backstabber",
+         "Deadly d6",
+         "Finesse",
+         "Monk",
+         "Uncommon"
+      ],
+      "_className": "Weapon",
+      "dicesize": 4,
+      "dmgType": "S",
+      "group": "Knife",
+      "hands": "1",
+      "melee": 10,
+      "prof": "Martial Weapons"
+   },
+   {
+      "bulk": "L",
+      "desc": "This halfling weapon looks like a long, two-pronged fork and is used as both a weapon and a cooking implement.",
+      "id": "0869325b-8daa-11ea-abca-ffb46fbada73",
+      "name": "Filcher's Fork",
+      "price": 100,
+      "traits": [
+         "Agile",
+         "Backstabber",
+         "Deadly d6",
+         "Finesse",
+         "Halfling",
+         "Thrown 20 ft.",
+         "Uncommon"
+      ],
+      "_className": "Weapon",
+      "dicesize": 4,
+      "dmgType": "P",
+      "group": "Spear",
+      "hands": "1",
+      "melee": 5,
+      "prof": "Martial Weapons",
+      "ranged": 20
+   },
+   {
+      "bulk": "1",
+      "desc": "This weapon consists of a wooden handle attached to a spiked ball or cylinder by a chain, rope, or strap of leather. ",
+      "id": "0869325d-8daa-11ea-abca-ffb46fbada73",
+      "name": "Flail",
+      "price": 100,
+      "traits": [
+         "Disarm",
+         "Sweep",
+         "Trip"
+      ],
+      "_className": "Weapon",
+      "dmgType": "B",
+      "group": "Flail",
+      "hands": "1",
+      "melee": 5,
+      "prof": "Martial Weapons"
+   },
+   {
+      "bulk": "2",
+      "desc": "This polearm consists of a long, single-edged blade on the end of a 7-foot pole. It is extremely effective at delivering lethal cuts at a distance.",
+      "id": "0869325f-8daa-11ea-abca-ffb46fbada73",
+      "name": "Glaive",
+      "price": 200,
+      "traits": [
+         "Deadly d8",
+         "Forceful",
+         "Reach"
+      ],
+      "_className": "Weapon",
+      "dicesize": 8,
+      "dmgType": "S",
+      "group": "Polearm",
+      "hands": "2",
+      "melee": 10,
+      "prof": "Martial Weapons"
+   },
+   {
+      "bulk": "1",
+      "desc": "This gnome tool and weapon features a hammer at one end and a curved pick on the other. It's such a strange and awkward weapon that others think the gnomes are slightly erratic for using it.",
+      "id": "08693261-8daa-11ea-abca-ffb46fbada73",
+      "name": "Gnome Hooked Hammer",
+      "price": 200,
+      "traits": [
+         "Gnome",
+         "Trip",
+         "Two-Hand d10",
+         "Uncommon",
+         "Versatile P"
+      ],
+      "_className": "Weapon",
+      "dmgType": "B/P",
+      "group": "Hammer",
+      "hands": "1",
+      "melee": 5,
+      "prof": "Martial Weapons"
+   },
+   {
+      "bulk": "2",
+      "desc": "This large battle axe is too heavy to wield with only one hand. Many greataxes incorporate two blades, and they are often “bearded,” having a hook at the bottom to increase the strength of their chopping power. ",
+      "id": "08693263-8daa-11ea-abca-ffb46fbada73",
+      "name": "Greataxe",
+      "price": 100,
+      "traits": [
+         "Sweep"
+      ],
+      "_className": "Weapon",
+      "dicesize": 12,
+      "dmgType": "S",
+      "group": "Axe",
+      "hands": "2",
+      "melee": 5,
+      "prof": "Martial Weapons"
+   },
+   {
+      "bulk": "2",
+      "desc": "While many greatclubs are intricately carved, others are little more than a sturdy tree branch. These massive clubs are too heavy to wield with only one hand.",
+      "id": "08693265-8daa-11ea-abca-ffb46fbada73",
+      "name": "Greatclub",
+      "price": 100,
+      "traits": [
+         "Backswing",
+         "Shove"
+      ],
+      "_className": "Weapon",
+      "dicesize": 10,
+      "dmgType": "B",
+      "group": "Club",
+      "hands": "2",
+      "melee": 5,
+      "prof": "Martial Weapons"
+   },
+   {
+      "bulk": "2",
+      "desc": "This pick has a longer handle and broader head than a regular pick. It is too heavy to wield in one hand.",
+      "id": "08693267-8daa-11ea-abca-ffb46fbada73",
+      "name": "Greatpick",
+      "price": 200,
+      "traits": [
+         "Fatal d12"
+      ],
+      "_className": "Weapon",
+      "dicesize": 10,
+      "dmgType": "P",
+      "group": "Pick",
+      "hands": "2",
+      "melee": 5,
+      "prof": "Martial Weapons"
+   },
+   {
+      "bulk": "2",
+      "desc": "This immense two-handed sword is nearly as tall as its wielder. Its lower blade is often somewhat dulled to allow it to be gripped for extra leverage in close-quarter fights.",
+      "id": "08693269-8daa-11ea-abca-ffb46fbada73",
+      "name": "Greatsword",
+      "price": 200,
+      "traits": [
+         "Versatile P"
+      ],
+      "_className": "Weapon",
+      "dicesize": 12,
+      "dmgType": "S/P",
+      "group": "Sword",
+      "hands": "2",
+      "melee": 5,
+      "prof": "Martial Weapons"
+   },
+   {
+      "bulk": "2",
+      "desc": "This polearm bears a long, often one‑sided, curved blade with a hook protruding from the blunt side of the blade, which can allow its wielder to trip opponents at a distance. Its shaft is usually 8 feet long.",
+      "id": "0869326b-8daa-11ea-abca-ffb46fbada73",
+      "name": "Guisarme",
+      "price": 200,
+      "traits": [
+         "Reach",
+         "Trip"
+      ],
+      "_className": "Weapon",
+      "dicesize": 10,
+      "dmgType": "S",
+      "group": "Polearm",
+      "hands": "2",
+      "melee": 10,
+      "prof": "Martial Weapons"
+   },
+   {
+      "bulk": "2",
+      "desc": "This polearm has a relatively short, 5-foot shaft. The business end is a long spike with an axe blade attached. ",
+      "id": "0869326d-8daa-11ea-abca-ffb46fbada73",
+      "name": "Halberd",
+      "price": 200,
+      "traits": [
+         "Reach",
+         "Versatile S"
+      ],
+      "_className": "Weapon",
+      "dicesize": 10,
+      "dmgType": "P/S",
+      "group": "Polearm",
+      "hands": "2",
+      "melee": 10,
+      "prof": "Martial Weapons"
+   },
+   {
+      "bulk": "L",
+      "desc": "This small axe can be used in close combat or thrown.",
+      "id": "0869326f-8daa-11ea-abca-ffb46fbada73",
+      "name": "Hatchet",
+      "price": 40,
+      "traits": [
+         "Agile",
+         "Sweep",
+         "Thrown 10 ft."
+      ],
+      "_className": "Weapon",
+      "dmgType": "S",
+      "group": "Axe",
+      "hands": "1",
+      "melee": 5,
+      "prof": "Martial Weapons",
+      "ranged": 10
+   },
+   {
+      "bulk": "2",
+      "desc": "Created by goblins to battle horses, this weapon is essentially a long shaft ending in a blade with a large hook.",
+      "id": "08693271-8daa-11ea-abca-ffb46fbada73",
+      "name": "Horsechopper",
+      "price": 90,
+      "traits": [
+         "Goblin",
+         "Reach",
+         "Trip",
+         "Uncommon",
+         "Versatile P"
+      ],
+      "_className": "Weapon",
+      "dicesize": 8,
+      "dmgType": "S/P",
+      "group": "Polearm",
+      "hands": "2",
+      "melee": 10,
+      "prof": "Martial Weapons"
+   },
+   {
+      "bulk": "L",
+      "desc": "Similar to a sickle and used in some regions to reap grain, a kama has a short, slightly curved blade and a wooden handle.",
+      "id": "08693273-8daa-11ea-abca-ffb46fbada73",
+      "name": "Kama",
+      "price": 100,
+      "traits": [
+         "Agile",
+         "Monk",
+         "Trip",
+         "Uncommon"
+      ],
+      "_className": "Weapon",
+      "dmgType": "S",
+      "group": "Knife",
+      "hands": "1",
+      "melee": 5,
+      "prof": "Martial Weapons"
+   },
+   {
+      "bulk": "1",
+      "desc": "A katana is a curved, single-edged sword known for its wickedly sharped blade. ",
+      "id": "08693275-8daa-11ea-abca-ffb46fbada73",
+      "name": "Katana",
+      "price": 200,
+      "traits": [
+         "Deadly d8",
+         "Two-Hand d10",
+         "Uncommon",
+         "Versatile P"
+      ],
+      "_className": "Weapon",
+      "dmgType": "S/P",
+      "group": "Sword",
+      "hands": "1",
+      "melee": 5,
+      "prof": "Martial Weapons"
+   },
+   {
+      "bulk": "1",
+      "desc": "This curved sickle sword has a pointed tip, allowing it to be swung like a handaxe or thrust like a short sword. The tip of a khopesh is usually hooked so that it can be used to disarm an opponent's shield or weapon.",
+      "id": "08693277-8daa-11ea-abca-ffb46fbada73",
+      "name": "Khopesh",
+      "price": 200,
+      "traits": [
+         "Trip",
+         "Uncommon"
+      ],
+      "_className": "Weapon",
+      "dicesize": 8,
+      "dmgType": "S",
+      "group": "Sword",
+      "hands": "1",
+      "melee": 5,
+      "prof": "Martial Weapons"
+   },
+   {
+      "bulk": "L",
+      "desc": "The blade of this foot-long knife curves inward and lacks a cross guard at the hilt. ",
+      "id": "08693279-8daa-11ea-abca-ffb46fbada73",
+      "name": "Kukri",
+      "price": 60,
+      "traits": [
+         "Agile",
+         "Finesse",
+         "Trip",
+         "Uncommon"
+      ],
+      "_className": "Weapon",
+      "dmgType": "S",
+      "group": "Knife",
+      "hands": "1",
+      "melee": 5,
+      "prof": "Martial Weapons"
+   },
+   {
+      "bulk": "2",
+      "desc": "This spear-like weapon is used by a mounted creature to deal a great deal of damage.",
+      "id": "0869327b-8daa-11ea-abca-ffb46fbada73",
+      "name": "Lance",
+      "price": 100,
+      "traits": [
+         "Deadly d8",
+         "Jousting d6",
+         "Reach"
+      ],
+      "_className": "Weapon",
+      "dicesize": 8,
+      "dmgType": "P",
+      "group": "Spear",
+      "hands": "2",
+      "melee": 10,
+      "prof": "Martial Weapons"
+   },
+   {
+      "bulk": "L",
+      "desc": "This smaller version of the warhammer has a wooden or metal shaft ending in a metal head. Unlike its heavier cousin, it is light enough to throw.",
+      "id": "0869327d-8daa-11ea-abca-ffb46fbada73",
+      "name": "Light Hammer",
+      "price": 30,
+      "traits": [
+         "Agile",
+         "Thrown 20 ft."
+      ],
+      "_className": "Weapon",
+      "dmgType": "B",
+      "group": "Hammer",
+      "hands": "1",
+      "melee": 5,
+      "prof": "Martial Weapons",
+      "ranged": 20
+   },
+   {
+      "bulk": "L",
+      "desc": "A light pick is a modified mining implement with a wooden shaft ending in a pick head crafted more to pierce armor and flesh than chip rocks.",
+      "id": "0869327f-8daa-11ea-abca-ffb46fbada73",
+      "name": "Light Pick",
+      "price": 40,
+      "traits": [
+         "Agile",
+         "Fatal d8"
+      ],
+      "_className": "Weapon",
+      "dicesize": 4,
+      "dmgType": "P",
+      "group": "Pick",
+      "hands": "1",
+      "melee": 5,
+      "prof": "Martial Weapons"
+   },
+   {
+      "bulk": "1",
+      "desc": "Longswords can be one-edged or two‑edged swords. Their blades are heavy and they're between 3 and 4 feet in length. ",
+      "id": "08693281-8daa-11ea-abca-ffb46fbada73",
+      "name": "Longsword",
+      "price": 100,
+      "traits": [
+         "Versatile P"
+      ],
+      "_className": "Weapon",
+      "dicesize": 8,
+      "dmgType": "S/P",
+      "group": "Sword",
+      "hands": "1",
+      "melee": 5,
+      "prof": "Martial Weapons"
+   },
+   {
+      "bulk": "L",
+      "desc": "This medium-length sword has a wide blade and long grip. Though it is typically used to hack through heavy foliage, the machete can also be used as a deadly weapon.",
+      "id": "08693283-8daa-11ea-abca-ffb46fbada73",
+      "name": "Machete",
+      "price": 70,
+      "traits": [
+         "Deadly d8",
+         "Sweep"
+      ],
+      "_className": "Weapon",
+      "dicesize": 8,
+      "dmgType": "S",
+      "group": "Sword",
+      "hands": "1",
+      "melee": 5,
+      "prof": "Martial Weapons"
+   },
+   {
+      "bulk": "L",
+      "desc": "This parrying dagger features a robust guard to protect the wielder's hand. ",
+      "id": "08693285-8daa-11ea-abca-ffb46fbada73",
+      "name": "Main-gauche",
+      "price": 50,
+      "traits": [
+         "Agile",
+         "Disarm",
+         "Finesse",
+         "Parry",
+         "Versatile S"
+      ],
+      "_className": "Weapon",
+      "dicesize": 4,
+      "dmgType": "P/S",
+      "group": "Knife",
+      "hands": "1",
+      "melee": 5,
+      "prof": "Martial Weapons"
+   },
+   {
+      "bulk": "1",
+      "desc": "Also known as a hunga munga or danisco, this hybrid knife-axe consists of a hilt and a blade that curves backward toward the wielder. The curve of the blade is such that after a victim has been struck by a mambele, more damage is dealt as the weapon is extracted from the victim's body.",
+      "id": "08693287-8daa-11ea-abca-ffb46fbada73",
+      "name": "Mambele",
+      "price": 60,
+      "traits": [
+         "Deadly d8",
+         "Disarm",
+         "Thrown 20 ft.",
+         "Uncommon"
+      ],
+      "_className": "Weapon",
+      "dmgType": "S",
+      "group": "Axe",
+      "hands": "1",
+      "melee": 5,
+      "prof": "Martial Weapons",
+      "ranged": 20
+   },
+   {
+      "bulk": "2",
+      "desc": "Mauls are massive warhammers that must be swung with two hands.",
+      "id": "08695920-8daa-11ea-abca-ffb46fbada73",
+      "name": "Maul",
+      "price": 300,
+      "traits": [
+         "Shove"
+      ],
+      "_className": "Weapon",
+      "dicesize": 12,
+      "dmgType": "B",
+      "group": "Hammer",
+      "hands": "2",
+      "melee": 5,
+      "prof": "Martial Weapons"
+   },
+   {
+      "bulk": "2",
+      "desc": "This weapon consists of a long chain connected to a heavy weight at one end. When a wielder swings the weight by the chain, it builds momentum and can serve as a deadly bludgeon with incredible reach.",
+      "id": "08695922-8daa-11ea-abca-ffb46fbada73",
+      "name": "Meteor Hammer",
+      "price": 300,
+      "traits": [
+         "Backswing",
+         "Disarm",
+         "Reach",
+         "Trip"
+      ],
+      "_className": "Weapon",
+      "dicesize": 8,
+      "dmgType": "B",
+      "group": "Flail",
+      "hands": "2",
+      "melee": 10,
+      "prof": "Martial Weapons"
+   },
+   {
+      "bulk": "2",
+      "desc": "This 6-foot staff has a 2-foot-long, slightly curved, swordlike blade attached at one end. The long pole helps keep the wielder out of reach of swords and shorter weapons.",
+      "id": "08695924-8daa-11ea-abca-ffb46fbada73",
+      "name": "Naginata",
+      "price": 300,
+      "traits": [
+         "Deadly d8",
+         "Reach",
+         "Uncommon",
+         "Versatile P"
+      ],
+      "_className": "Weapon",
+      "dicesize": 8,
+      "dmgType": "S",
+      "group": "Polearm",
+      "hands": "2",
+      "melee": 10,
+      "prof": "Martial Weapons"
+   },
+   {
+      "bulk": "1",
+      "desc": "This sword has a broad blade, along which are threaded nine heavy metal rings. The rings add weight to the weapon for downward swings, as well as clashing together to make noise.",
+      "id": "08695926-8daa-11ea-abca-ffb46fbada73",
+      "name": "Nine-Ring Sword",
+      "price": 90,
+      "traits": [
+         "Disarm",
+         "Uncommon"
+      ],
+      "_className": "Weapon",
+      "dicesize": 8,
+      "dmgType": "S",
+      "group": "Sword",
+      "hands": "1",
+      "melee": 5,
+      "prof": "Martial Weapons"
+   },
+   {
+      "bulk": "L",
+      "desc": "The nunchaku is constructed of two wooden or metal bars connected by a short length of rope or chain.",
+      "id": "08695928-8daa-11ea-abca-ffb46fbada73",
+      "name": "Nunchaku",
+      "price": 20,
+      "traits": [
+         "Backswing",
+         "Disarm",
+         "Finesse",
+         "Monk",
+         "Uncommon"
+      ],
+      "_className": "Weapon",
+      "dmgType": "B",
+      "group": "Club",
+      "hands": "1",
+      "melee": 5,
+      "prof": "Martial Weapons"
+   },
+   {
+      "bulk": "L",
+      "desc": "This stout, metal blade of orc design has a horizontal basket hilt with blades jutting from each end, or sometimes one blade like that of a katar.",
+      "id": "0869592a-8daa-11ea-abca-ffb46fbada73",
+      "name": "Orc Knuckle Dagger",
+      "price": 70,
+      "traits": [
+         "Agile",
+         "Disarm",
+         "Orc",
+         "Uncommon"
+      ],
+      "_className": "Weapon",
+      "dmgType": "P",
+      "group": "Knife",
+      "hands": "1",
+      "melee": 5,
+      "prof": "Martial Weapons"
+   },
+   {
+      "bulk": "1",
+      "desc": "A pick designed solely for combat has a sturdy wooden shaft and a heavy, pointed head to deliver devastating blows.",
+      "id": "0869592c-8daa-11ea-abca-ffb46fbada73",
+      "name": "Pick",
+      "price": 70,
+      "traits": [
+         "Fatal d10"
+      ],
+      "_className": "Weapon",
+      "dmgType": "P",
+      "group": "Pick",
+      "hands": "1",
+      "melee": 5,
+      "prof": "Martial Weapons"
+   },
+   {
+      "bulk": "1",
+      "desc": "The polytool is a small metal rod with a number of simple tools folded inside. The user can extend a long ceramic blade, as well as an awl, a chisel, a file, flint and steel, a hook, an inkpen, a magnifying glass, pliers, scissors, and a small saw. The flint and steel can be used up to 10 times before needing to be replaced. Though inspired by advanced Numerian technology, the polytool is a simple enough feat of metalworking that any blacksmith could produce it -  perfect for the goddess Casandalee to spread innovation farther than actual Numerian tech could reach.\n\nCharacters from Numeria have access to the polytool.",
+      "id": "0869592e-8daa-11ea-abca-ffb46fbada73",
+      "level": 1,
+      "name": "Polytool",
+      "price": 1000,
+      "traits": [
+         "Agile",
+         "Modular P, B or S",
+         "Uncommon"
+      ],
+      "_className": "Weapon",
+      "dmgType": "modular",
+      "group": "Sword",
+      "hands": "1",
+      "melee": 5,
+      "prof": "Martial Weapons"
+   },
+   {
+      "bulk": "2",
+      "desc": "This polearm is a long trident with a central prong that's longer than the other two.",
+      "id": "08695930-8daa-11ea-abca-ffb46fbada73",
+      "name": "Ranseur",
+      "price": 200,
+      "traits": [
+         "Disarm",
+         "Reach"
+      ],
+      "_className": "Weapon",
+      "dicesize": 10,
+      "dmgType": "P",
+      "group": "Polearm",
+      "hands": "2",
+      "melee": 10,
+      "prof": "Martial Weapons"
+   },
+   {
+      "bulk": "1",
+      "desc": "The rapier is a long and thin piercing blade with a basket hilt. It is prized among many as a dueling weapon. ",
+      "id": "08695932-8daa-11ea-abca-ffb46fbada73",
+      "name": "Rapier",
+      "price": 200,
+      "traits": [
+         "Deadly d8",
+         "Disarm",
+         "Finesse"
+      ],
+      "_className": "Weapon",
+      "dmgType": "P",
+      "group": "Sword",
+      "hands": "1",
+      "melee": 5,
+      "prof": "Martial Weapons"
+   },
+   {
+      "bulk": "L",
+      "desc": "This piercing dagger is a metal spike flanked by a pair of prongs that can be used to trap an enemy's weapon.",
+      "id": "08695934-8daa-11ea-abca-ffb46fbada73",
+      "name": "Sai",
+      "price": 60,
+      "traits": [
+         "Agile",
+         "Disarm",
+         "Finesse",
+         "Monk",
+         "Uncommon",
+         "Versatile B"
+      ],
+      "_className": "Weapon",
+      "dicesize": 4,
+      "dmgType": "P/B",
+      "group": "Knife",
+      "hands": "1",
+      "melee": 5,
+      "prof": "Martial Weapons"
+   },
+   {
+      "bulk": "L",
+      "desc": "A sap has a soft wrapping around a dense core, typically a leather sheath around a lead rod. Its head is wider than its grip to disperse the force of a blow, as the weapon's purpose is to knock out its victim rather than to draw blood. ",
+      "id": "08695936-8daa-11ea-abca-ffb46fbada73",
+      "name": "Sap",
+      "price": 10,
+      "traits": [
+         "Agile",
+         "Nonlethal"
+      ],
+      "_className": "Weapon",
+      "dmgType": "B",
+      "group": "Club",
+      "hands": "1",
+      "melee": 5,
+      "prof": "Martial Weapons"
+   },
+   {
+      "bulk": "1",
+      "desc": "This one-handed curved blade is sharp on one side.",
+      "id": "08695938-8daa-11ea-abca-ffb46fbada73",
+      "name": "Scimitar",
+      "price": 100,
+      "traits": [
+         "Forceful",
+         "Sweep"
+      ],
+      "_className": "Weapon",
+      "dmgType": "S",
+      "group": "Sword",
+      "hands": "1",
+      "melee": 5,
+      "prof": "Martial Weapons"
+   },
+   {
+      "bulk": "L",
+      "desc": "A scorpion whip has a series of razor-sharp blades set along its tip. Unlike ordinary whips, a scorpion whip doesn't have the nonlethal trait, making it deadlier in combat but less effective when the wielder seeks to bring in foes alive.",
+      "id": "0869593a-8daa-11ea-abca-ffb46fbada73",
+      "name": "Scorpion Whip",
+      "weaponBase": "Whip",
+      "price": 50,
+      "traits": [
+         "Disarm",
+         "Finesse",
+         "Reach",
+         "Trip",
+         "Uncommon"
+      ],
+      "_className": "Weapon",
+      "dicesize": 4,
+      "dmgType": "S",
+      "group": "Flail",
+      "hands": "1",
+      "melee": 10,
+      "prof": "Martial Weapons"
+   },
+   {
+      "bulk": "1",
+      "desc": "A scourge - also known as a cat-o'-nine-tails - is a set of several knotted cords made from cotton or leather and attached to a handle. While most scourges are more suitable for torture than combat, the weapons used by the Order of the Scourge have metal barbs woven in to pierce clothing and armor. The scourge is a martial melee weapon.",
+      "id": "0869593c-8daa-11ea-abca-ffb46fbada73",
+      "name": "Scourge",
+      "price": 10,
+      "traits": [
+         "Agile",
+         "Disarm",
+         "Finesse",
+         "Nonlethal",
+         "Sweep"
+      ],
+      "_className": "Weapon",
+      "dicesize": 4,
+      "dmgType": "S",
+      "group": "Flail",
+      "hands": "1",
+      "melee": 5,
+      "prof": "Martial Weapons"
+   },
+   {
+      "bulk": "2",
+      "desc": "Derived from a farming tool used to mow down long grains and cereals, this weapon has a long wooden shaft with protruding handles, capped with a curved blade set at a right angle.",
+      "id": "0869593e-8daa-11ea-abca-ffb46fbada73",
+      "name": "Scythe",
+      "price": 200,
+      "traits": [
+         "Deadly d10",
+         "Trip"
+      ],
+      "_className": "Weapon",
+      "dicesize": 10,
+      "dmgType": "S",
+      "group": "Polearm",
+      "hands": "2",
+      "melee": 5,
+      "prof": "Martial Weapons"
+   },
+   {
+      "desc": "A shield bash is not actually a weapon, but a maneuver in which you thrust or swing your shield to hit your foe with an impromptu attack.",
+      "id": "08695940-8daa-11ea-abca-ffb46fbada73",
+      "name": "Shield Bash",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicesize": 4,
+      "dmgType": "B",
+      "group": "Shield",
+      "hands": "1",
+      "melee": 5,
+      "prof": "Martial Weapons"
+   },
+   {
+      "desc": "Typically a round, convex, or conical piece of thick metal attached to the center of a shield, a shield boss increases the bludgeoning damage of a shield bash.",
+      "id": "08695942-8daa-11ea-abca-ffb46fbada73",
+      "name": "Shield Boss",
+      "price": 50,
+      "traits": [
+         "Attached to Shield"
+      ],
+      "_className": "Weapon",
+      "dmgType": "B",
+      "group": "Shield",
+      "hands": "1",
+      "melee": 5,
+      "prof": "Martial Weapons"
+   },
+   {
+      "desc": "These metal spikes are strategically placed on the defensive side of the shield to deal piercing damage with a shield bash.",
+      "id": "08695944-8daa-11ea-abca-ffb46fbada73",
+      "name": "Shield Spikes",
+      "price": 50,
+      "traits": [
+         "Attached to Shield"
+      ],
+      "_className": "Weapon",
+      "dmgType": "P",
+      "group": "Shield",
+      "hands": "1",
+      "melee": 5,
+      "prof": "Martial Weapons"
+   },
+   {
+      "bulk": "L",
+      "desc": "These blades come in a variety of shapes and styles, but they are typically 2 feet long. ",
+      "id": "08695946-8daa-11ea-abca-ffb46fbada73",
+      "name": "Shortsword",
+      "price": 90,
+      "traits": [
+         "Agile",
+         "Finesse",
+         "Versatile S"
+      ],
+      "_className": "Weapon",
+      "dmgType": "P/S",
+      "group": "Sword",
+      "hands": "1",
+      "melee": 5,
+      "prof": "Martial Weapons"
+   },
+   {
+      "bulk": "1",
+      "desc": "This 4‑foot‑long length of chain is covered with barbs and has spikes on one or both ends. Some feature metal hoops used as handgrips.",
+      "id": "08695948-8daa-11ea-abca-ffb46fbada73",
+      "name": "Spiked Chain",
+      "price": 300,
+      "traits": [
+         "Disarm",
+         "Finesse",
+         "Trip",
+         "Uncommon"
+      ],
+      "_className": "Weapon",
+      "dicesize": 8,
+      "dmgType": "S",
+      "group": "Flail",
+      "hands": "2",
+      "melee": 5,
+      "prof": "Martial Weapons"
+   },
+   {
+      "bulk": "L",
+      "desc": "From a central metal ring, four tapering metal blades extend like points on a compass rose. When gripping a starknife from the center, the wielder can use it as a melee weapon. It can also be thrown short distances.",
+      "id": "0869594a-8daa-11ea-abca-ffb46fbada73",
+      "name": "Starknife",
+      "price": 200,
+      "traits": [
+         "Agile",
+         "Deadly d6",
+         "Finesse",
+         "Thrown 20 ft.",
+         "Versatile S"
+      ],
+      "_className": "Weapon",
+      "dicesize": 4,
+      "dmgType": "P/S",
+      "group": "Knife",
+      "hands": "1",
+      "melee": 5,
+      "prof": "Martial Weapons",
+      "ranged": 20
+   },
+   {
+      "bulk": "L",
+      "desc": "Four curved blades attached to a sturdy handlebar give the wielder of this close-combat weapon the illusion of having claws that extend from their fist. Adherents of Bastet favor the tekko-kagi for catching their foes off guard.",
+      "id": "0869594c-8daa-11ea-abca-ffb46fbada73",
+      "name": "Tekko-Kagi",
+      "price": 20,
+      "traits": [
+         "Agile",
+         "Disarm",
+         "Finesse",
+         "Parry",
+         "Trip",
+         "Uncommon"
+      ],
+      "_className": "Weapon",
+      "dicesize": 4,
+      "dmgType": "S",
+      "group": "Brawling",
+      "hands": "1",
+      "melee": 5,
+      "prof": "Martial Weapons"
+   },
+   {
+      "bulk": "1",
+      "desc": "This heavy blade is favored by guardians of religious sites. It has a distinctive, crescent-shaped blade that seems to be a mix of a sickle and sword. It often has holes drilled into the blade or the pommel so that bells or other holy trinkets can be affixed to the weapon as an aid for prayer or mediation.",
+      "id": "0869594e-8daa-11ea-abca-ffb46fbada73",
+      "name": "Temple Sword",
+      "price": 200,
+      "traits": [
+         "Monk",
+         "Trip",
+         "Uncommon"
+      ],
+      "_className": "Weapon",
+      "dicesize": 8,
+      "dmgType": "S",
+      "group": "Sword",
+      "hands": "1",
+      "melee": 5,
+      "prof": "Martial Weapons"
+   },
+   {
+      "bulk": "1",
+      "desc": "This three-pronged, spear-like weapon typically has a 4-foot shaft. Like a spear, it can be wielded with one hand or thrown. ",
+      "id": "08695950-8daa-11ea-abca-ffb46fbada73",
+      "name": "Trident",
+      "price": 100,
+      "traits": [
+         "Thrown 20 ft."
+      ],
+      "_className": "Weapon",
+      "dicesize": 8,
+      "dmgType": "P",
+      "group": "Spear",
+      "hands": "1",
+      "melee": 5,
+      "prof": "Martial Weapons",
+      "ranged": 20
+   },
+   {
+      "bulk": "2",
+      "desc": "A bouquet of whiplike blades extends from the hilt of this sword.",
+      "id": "08695952-8daa-11ea-abca-ffb46fbada73",
+      "name": "Urumi",
+      "price": 200,
+      "traits": [
+         "Deadly d10",
+         "Sweep",
+         "Uncommon"
+      ],
+      "_className": "Weapon",
+      "dmgType": "S",
+      "group": "Flail",
+      "hands": "1",
+      "melee": 5,
+      "prof": "Martial Weapons"
+   },
+   {
+      "bulk": "2",
+      "desc": "This large flail has a long shaft connected to a shorter piece of stout wood or metal that's sometimes inlaid with spikes.",
+      "id": "08695954-8daa-11ea-abca-ffb46fbada73",
+      "name": "War Flail",
+      "price": 200,
+      "traits": [
+         "Disarm",
+         "Sweep",
+         "Trip"
+      ],
+      "_className": "Weapon",
+      "dicesize": 10,
+      "dmgType": "B",
+      "group": "Flail",
+      "hands": "2",
+      "melee": 5,
+      "prof": "Martial Weapons"
+   },
+   {
+      "bulk": "L",
+      "desc": "A war razor is an exaggerated version of the barbers' tool. It is a brittle but extremely sharp weapon that is very easy to slip into a pocket or sleeve.",
+      "id": "08695956-8daa-11ea-abca-ffb46fbada73",
+      "name": "War Razor",
+      "price": 30,
+      "traits": [
+         "Agile",
+         "Backstabber",
+         "Deadly d8",
+         "Finesse"
+      ],
+      "_className": "Weapon",
+      "dicesize": 4,
+      "dmgType": "S",
+      "group": "Knife",
+      "hands": "1",
+      "melee": 5,
+      "prof": "Martial Weapons"
+   },
+   {
+      "bulk": "1",
+      "desc": "This weapon has a wooden shaft ending in a large, heavy metal head. The head of the hammer might be single-sided or double-sided, but it's always capable of delivering powerful bludgeoning blows. ",
+      "id": "08695958-8daa-11ea-abca-ffb46fbada73",
+      "name": "Warhammer",
+      "price": 100,
+      "traits": [
+         "Shove"
+      ],
+      "_className": "Weapon",
+      "dicesize": 8,
+      "dmgType": "B",
+      "group": "Hammer",
+      "hands": "1",
+      "melee": 5,
+      "prof": "Martial Weapons"
+   },
+   {
+      "bulk": "1",
+      "desc": "This long strand of thick leather, often braided, delivers a painful but nonlethal slash at a distance, usually accompanied by a distinctive cracking sound.",
+      "id": "0869595a-8daa-11ea-abca-ffb46fbada73",
+      "name": "Whip",
+      "price": 10,
+      "traits": [
+         "Disarm",
+         "Finesse",
+         "Nonlethal",
+         "Reach",
+         "Trip"
+      ],
+      "_className": "Weapon",
+      "dicesize": 4,
+      "dmgType": "S",
+      "group": "Flail",
+      "hands": "1",
+      "melee": 10,
+      "prof": "Martial Weapons"
+   },
+   {
+      "bulk": "1",
+      "desc": "The aklys is a throwing club with a hook on one end and a lengthy cord attached to the other. Though aklyses aren't available in most shops, one might be purchased for 5 gp from a vendor that specializes in strange weapons.",
+      "id": "0869595c-8daa-11ea-abca-ffb46fbada73",
+      "name": "Aklys",
+      "price": 500,
+      "traits": [
+         "Ranged Trip",
+         "Tethered",
+         "Thrown 20 ft.",
+         "Trip",
+         "Uncommon"
+      ],
+      "_className": "Weapon",
+      "dmgType": "B",
+      "group": "Club",
+      "hands": "1",
+      "melee": 5,
+      "prof": "Advanced Weapons",
+      "ranged": 20
+   },
+   {
+      "bulk": "1",
+      "desc": "An Aldori dueling sword is a slim, single-bladed dueling sword with a slight curve and a sharp, reinforced point.",
+      "id": "0869595e-8daa-11ea-abca-ffb46fbada73",
+      "name": "Aldori Dueling Sword",
+      "price": 2000,
+      "traits": [
+         "Finesse",
+         "Uncommon",
+         "Versatile P"
+      ],
+      "_className": "Weapon",
+      "dicesize": 8,
+      "dmgType": "S/P",
+      "group": "Sword",
+      "hands": "1",
+      "melee": 5,
+      "prof": "Advanced Weapons"
+   },
+   {
+      "bulk": "L",
+      "desc": "This weapon consists of two bladed discs joined by a central axel, and is spun on a rope whose ends are attached to wand-like sticks. The wielder can hurl the diabolo from the rope like a stone from a sling, or swing it on the rope in melee.",
+      "id": "08695960-8daa-11ea-abca-ffb46fbada73",
+      "name": "Bladed Diabolo",
+      "price": 200,
+      "traits": [
+         "Backswing",
+         "Disarm",
+         "Finesse",
+         "Thrown 40 ft.",
+         "Trip",
+         "Uncommon"
+      ],
+      "_className": "Weapon",
+      "dicesize": 4,
+      "dmgType": "S",
+      "group": "Flail",
+      "hands": "2",
+      "melee": 5,
+      "prof": "Advanced Weapons",
+      "ranged": 40
+   },
+   {
+      "bulk": "1",
+      "desc": "This circular hoop has blades along its outer edge. You can wield it in two hands (using the two-hand damage) or by spinning it around an arm. While you spin the hoop, it gains the free-hand trait. Setting the hoop spinning takes 1 Interact action. In addition to the normal restrictions of the free-hand trait, extended use of the arm for locomotion (such as to Climb) interferes with the hoop's spinning and forces you to Release the hoop. You can't spin a hoop underwater. Keeping the hoop spinning requires a free action each round, which has the concentrate and manipulate traits. You can keep a hoop spinning as an exploration activity, but doing so for more than 10 minutes makes you fatigued, similarly to Hustling.",
+      "id": "08695962-8daa-11ea-abca-ffb46fbada73",
+      "name": "Bladed Hoop",
+      "price": 250,
+      "traits": [
+         "Finesse",
+         "Sweep",
+         "Two-Hand d8",
+         "Uncommon"
+      ],
+      "_className": "Weapon",
+      "dmgType": "S",
+      "group": "Knife",
+      "hands": "0+",
+      "melee": 5,
+      "prof": "Advanced Weapons"
+   },
+   {
+      "bulk": "2",
+      "desc": "This favored weapon of the dwarves has a large, ornate head mounted on a thick handle. This powerful axe can be wielded with one hand or two.",
+      "id": "08695964-8daa-11ea-abca-ffb46fbada73",
+      "name": "Dwarven War Axe",
+      "price": 300,
+      "traits": [
+         "Dwarf",
+         "Sweep",
+         "Two-Hand d12",
+         "Uncommon"
+      ],
+      "_className": "Weapon",
+      "dicesize": 8,
+      "dmgType": "S",
+      "group": "Axe",
+      "hands": "1",
+      "melee": 5,
+      "prof": "Advanced Weapons"
+   },
+   {
+      "bulk": "L",
+      "desc": "These special poi are made from a rare, light metal or from fire-retardant fibers and can be ignited before being wielded. Igniting a pair of fire poi is an Interact action and requires 1 pint of oil for every 10 minutes the poi remain ignited. While lit, fire poi cast dim light in a 10-foot radius; in combat, they deal 1d4 bludgeoning plus 1d4 fire damage. On a critical hit with a lit fire poi, the target takes 1 persistent fire damage. The fire can be extinguished using the Interact action. When unlit, the poi deal only the listed bludgeoning damage. Regardless of whether it is lit, the poi's 1d4 bludgeoning damage is the weapon damage dice, so striking runes and other effects don't affect the fire damage.",
+      "criticalHint": "On a critical hit with a lit fire poi, the target takes 1 persistent fire damage. The fire can be extinguished using the Interact action.",
+      "id": "08698031-8daa-11ea-abca-ffb46fbada73",
+      "name": "Fire Poi",
+      "price": 500,
+      "traits": [
+         "Agile",
+         "Backswing",
+         "Finesse",
+         "Twin",
+         "Uncommon"
+      ],
+      "_className": "Weapon",
+      "dicesize": 4,
+      "dmgType": "B",
+      "extraDamage": "+1d4 Fire",
+      "group": "Flail",
+      "hands": "1",
+      "melee": 5,
+      "prof": "Advanced Weapons"
+   },
+   {
+      "bulk": "2",
+      "desc": "More a flail than a mace, this weapon has a short handle attached to a length of chain with a ball at the end. The ball is propelled to its reach with the flick of the wrist, the momentum of which brings the ball back to the wielder after the strike.",
+      "id": "08698033-8daa-11ea-abca-ffb46fbada73",
+      "name": "Gnome Flickmace",
+      "price": 300,
+      "traits": [
+         "Gnome",
+         "Reach",
+         "Uncommon"
+      ],
+      "_className": "Weapon",
+      "dicesize": 8,
+      "dmgType": "B",
+      "group": "Flail",
+      "hands": "1",
+      "melee": 10,
+      "prof": "Advanced Weapons"
+   },
+   {
+      "bulk": "2",
+      "desc": "Ogres are known for using immense, curved picks called ogre hooks.",
+      "id": "08698035-8daa-11ea-abca-ffb46fbada73",
+      "name": "Ogre Hook",
+      "price": 100,
+      "traits": [
+         "Deadly d10",
+         "Trip",
+         "Uncommon"
+      ],
+      "_className": "Weapon",
+      "dicesize": 10,
+      "dmgType": "P",
+      "group": "Pick",
+      "hands": "2",
+      "melee": 5,
+      "prof": "Advanced Weapons"
+   },
+   {
+      "bulk": "1",
+      "desc": "This single-bladed bearded axe has a jagged blade that's perfect for separating bone from tendon and cartilage.",
+      "id": "08698037-8daa-11ea-abca-ffb46fbada73",
+      "name": "Orc Necksplitter",
+      "price": 200,
+      "traits": [
+         "Forceful",
+         "Orc",
+         "Sweep",
+         "Uncommon"
+      ],
+      "_className": "Weapon",
+      "dicesize": 8,
+      "dmgType": "S",
+      "group": "Axe",
+      "hands": "1",
+      "melee": 5,
+      "prof": "Advanced Weapons"
+   },
+   {
+      "bulk": "L",
+      "desc": "The signature weapon of the Red Mantis assassins, this curved blade is serrated like a saw, hence the name.",
+      "id": "08698039-8daa-11ea-abca-ffb46fbada73",
+      "name": "Sawtooth Saber",
+      "price": 500,
+      "traits": [
+         "Agile",
+         "Finesse",
+         "Twin",
+         "Uncommon"
+      ],
+      "_className": "Weapon",
+      "dmgType": "S",
+      "group": "Sword",
+      "hands": "1",
+      "melee": 5,
+      "prof": "Advanced Weapons"
+   },
+   {
+      "bulk": "L",
+      "desc": "This long, narrow tube is used for shooting blowgun darts, using only the power of a forcefully exhaled breath. ",
+      "id": "0869803b-8daa-11ea-abca-ffb46fbada73",
+      "name": "Blowgun",
+      "price": 10,
+      "traits": [
+         "Agile",
+         "Nonlethal"
+      ],
+      "_className": "Weapon",
+      "ammunition": "Blowgun Darts",
+      "dicesize": 1,
+      "dmgType": "P",
+      "group": "Dart",
+      "hands": "1",
+      "ranged": 20,
+      "reload": "1"
+   },
+   {
+      "bulk": "1",
+      "desc": "This ranged weapon has a bow-like assembly mounted on a handled frame called a tiller. The tiller has a mechanism to lock the bowstring in place, attached to a trigger mechanism that releases the tension and launches a bolt.",
+      "id": "0869803d-8daa-11ea-abca-ffb46fbada73",
+      "name": "Crossbow",
+      "price": 300,
+      "_className": "Weapon",
+      "ammunition": "Bolts",
+      "dicesize": 8,
+      "dmgType": "P",
+      "group": "Bow",
+      "hands": "2",
+      "ranged": 120,
+      "reload": "1"
+   },
+   {
+      "bulk": "L",
+      "desc": "This thrown weapon is larger than an arrow but shorter than a javelin. It typically has a short shaft of wood ending in a metal tip and is sometimes stabilized by feathers or fur.",
+      "id": "0869803f-8daa-11ea-abca-ffb46fbada73",
+      "name": "Dart",
+      "price": 1,
+      "traits": [
+         "Agile",
+         "Thrown 20 ft."
+      ],
+      "_className": "Weapon",
+      "dicesize": 4,
+      "dmgType": "P",
+      "group": "Dart",
+      "hands": "1",
+      "ranged": 20
+   },
+   {
+      "bulk": "L",
+      "desc": "Sometimes referred to as an alley bow by rogues or ruffians, this small crossbow fires small bolts that are sometimes used to deliver poison to the target. It's small enough to be shot one-handed, but it still requires two hands to load.",
+      "id": "08698041-8daa-11ea-abca-ffb46fbada73",
+      "name": "Hand Crossbow",
+      "weaponBase": "Crossbow",
+      "price": 300,
+      "_className": "Weapon",
+      "ammunition": "Bolts",
+      "dmgType": "P",
+      "group": "Bow",
+      "hands": "1",
+      "ranged": 60,
+      "reload": "1"
+   },
+   {
+      "bulk": "2",
+      "desc": "This large crossbow is harder to load and more substantial than a regular crossbow, but it packs a greater punch.",
+      "id": "08698043-8daa-11ea-abca-ffb46fbada73",
+      "name": "Heavy Crossbow",
+      "weaponBase": "Crossbow",
+      "price": 400,
+      "_className": "Weapon",
+      "ammunition": "Bolts",
+      "dicesize": 10,
+      "dmgType": "P",
+      "group": "Bow",
+      "hands": "2",
+      "ranged": 120,
+      "reload": "2"
+   },
+   {
+      "bulk": "L",
+      "desc": "This thin spear is well balanced for throwing but is not designed for melee use. ",
+      "id": "08698045-8daa-11ea-abca-ffb46fbada73",
+      "name": "Javelin",
+      "price": 10,
+      "traits": [
+         "Thrown 30 ft."
+      ],
+      "_className": "Weapon",
+      "dmgType": "P",
+      "group": "Dart",
+      "hands": "1",
+      "ranged": 30
+   },
+   {
+      "bulk": "L",
+      "desc": "Little more than a leather cup attached to a pair of straps, a sling can be used to fling smooth stones or sling bullets at a range.",
+      "id": "08698047-8daa-11ea-abca-ffb46fbada73",
+      "name": "Sling",
+      "traits": [
+         "Propulsive"
+      ],
+      "_className": "Weapon",
+      "ammunition": "Sling Bullets",
+      "dmgType": "B",
+      "group": "Sling",
+      "hands": "1",
+      "ranged": 50,
+      "reload": "1"
+   },
+   {
+      "bulk": "L",
+      "desc": "This throwing weapon consists of weights tied to the end of long cords, which can be used to bludgeon foes or entangle their legs.",
+      "id": "08698049-8daa-11ea-abca-ffb46fbada73",
+      "name": "Bola",
+      "price": 50,
+      "traits": [
+         "Nonlethal",
+         "Ranged Trip",
+         "Thrown 20 ft.",
+         "Uncommon"
+      ],
+      "_className": "Weapon",
+      "dmgType": "B",
+      "group": "Sling",
+      "hands": "1",
+      "prof": "Martial Weapons",
+      "ranged": 20
+   },
+   {
+      "bulk": "2",
+      "desc": "This projectile weapon is made from horn, wood, and sinew laminated together to increase the power of its pull and the force of its projectile. Like all longbows, its great size also increases the bow's range and power. You must use two hands to fire it, and it cannot be used while mounted. Any time an ability is specifically restricted to a longbow, such as Erastil's favored weapon, it also applies to composite longbows unless otherwise stated.",
+      "id": "0869804b-8daa-11ea-abca-ffb46fbada73",
+      "name": "Composite Longbow",
+      "weaponBase": "Longbow",
+      "price": 2000,
+      "traits": [
+         "Deadly d10",
+         "Propulsive",
+         "Volley 30 ft."
+      ],
+      "_className": "Weapon",
+      "ammunition": "Arrows",
+      "dicesize": 8,
+      "dmgType": "P",
+      "group": "Bow",
+      "hands": "1+",
+      "prof": "Martial Weapons",
+      "ranged": 100,
+      "reload": "0"
+   },
+   {
+      "bulk": "1",
+      "desc": "This shortbow is made from horn, wood, and sinew laminated together to increase the power of its pull and the force of its projectile. Its compact size and power make it a favorite of mounted archers. Any time an ability is specifically restricted to a shortbow, it also applies to composite shortbows unless otherwise stated.",
+      "id": "0869804d-8daa-11ea-abca-ffb46fbada73",
+      "name": "Composite Shortbow",
+      "weaponBase": "Shortbow",
+      "price": 1400,
+      "traits": [
+         "Deadly d10",
+         "Propulsive"
+      ],
+      "_className": "Weapon",
+      "ammunition": "Arrows",
+      "dmgType": "P",
+      "group": "Bow",
+      "hands": "1+",
+      "prof": "Martial Weapons",
+      "ranged": 60,
+      "reload": "0"
+   },
+   {
+      "bulk": "1",
+      "desc": "This staff ends in a Y-shaped split that cradles a sling. The length of the staff provides excellent leverage when used two‑handed to fling rocks or bullets from the sling.",
+      "id": "0869804f-8daa-11ea-abca-ffb46fbada73",
+      "name": "Halfling Sling Staff",
+      "weaponBase": "Sling",
+      "price": 500,
+      "traits": [
+         "Halfling",
+         "Propulsive",
+         "Uncommon"
+      ],
+      "_className": "Weapon",
+      "ammunition": "Sling Bullets",
+      "dicesize": 10,
+      "dmgType": "B",
+      "group": "Sling",
+      "hands": "2",
+      "prof": "Martial Weapons",
+      "ranged": 80,
+      "reload": "1"
+   },
+   {
+      "bulk": "2",
+      "desc": "This 5-foot-tall bow, usually made of a single piece of elm, hickory, or yew, has a powerful draw and is excellent at propelling arrows with great force and at an extreme distance. You must use two hands to fire a longbow, and it can't be used while mounted.",
+      "id": "08698051-8daa-11ea-abca-ffb46fbada73",
+      "name": "Longbow",
+      "price": 600,
+      "traits": [
+         "Deadly d10",
+         "Volley 30 ft."
+      ],
+      "_className": "Weapon",
+      "ammunition": "Arrows",
+      "dicesize": 8,
+      "dmgType": "P",
+      "group": "Bow",
+      "hands": "1+",
+      "prof": "Martial Weapons",
+      "ranged": 100,
+      "reload": "0"
+   },
+   {
+      "bulk": "1",
+      "desc": "This smaller bow is made of a single piece of wood and favored by skirmishers and cavalry.",
+      "id": "08698053-8daa-11ea-abca-ffb46fbada73",
+      "name": "Shortbow",
+      "price": 300,
+      "traits": [
+         "Deadly d10"
+      ],
+      "_className": "Weapon",
+      "ammunition": "Arrows",
+      "dmgType": "P",
+      "group": "Bow",
+      "hands": "1+",
+      "prof": "Martial Weapons",
+      "ranged": 60,
+      "reload": "0"
+   },
+   {
+      "desc": "This “throwing star” is a small piece of flat metal with sharp edges, designed to be flung with a flick of the wrist.",
+      "id": "08698055-8daa-11ea-abca-ffb46fbada73",
+      "name": "Shuriken",
+      "price": 1,
+      "traits": [
+         "Agile",
+         "Monk",
+         "Thrown 20 ft.",
+         "Uncommon"
+      ],
+      "_className": "Weapon",
+      "dicesize": 4,
+      "dmgType": "P",
+      "group": "Dart",
+      "hands": "1",
+      "prof": "Martial Weapons",
+      "ranged": 20,
+      "reload": "0"
+   },
+   {
+      "desc": "Appearing to be just a small, flat disc made of twigs, this item can grow and shrink.",
+      "id": "08698057-8daa-11ea-abca-ffb46fbada73",
+      "level": 6,
+      "name": "Twining Staff",
+      "price": 25000,
+      "traits": [
+         "Magical",
+         "Transmutation"
+      ],
+      "equippable": false,
+      "activities": [
+         {
+            "activationType": "Interact",
+            "desc": "You cause the twigs to rapidly grow or contract, reshaping into a +1 striking staff, a +1 striking bo staff, or its disc form. In its disc form, it has negligible Bulk and must be held in one hand to be activated. In the other forms, it has the same Bulk as a normal weapon of its type. You can switch your grip as part of the activation.\n\nWhen you expand the item, you can use the force of the expansion to High Jump or to try to Force Open a door or the like by wedging the disc into a gap before activation. The staff makes the Athletics check with a +15 modifier.",
+            "gainItems": [
+               {
+                  "name": "Staff (Twining Staff)",
+                  "type": "weapons"
+               }
+            ],
+            "name": "Twining Staff: Staff",
+            "exclusiveActivityID": 1,
+            "toggle": true,
+            "traits": [
+               "Magical",
+               "Transmutation"
+            ],
+            "_className": "ItemActivity",
+            "source": "08698057-8daa-11ea-abca-ffb46fbada73"
+         },
+         {
+            "activationType": "Interact",
+            "desc": "You cause the twigs to rapidly grow or contract, reshaping into a +1 striking staff, a +1 striking bo staff, or its disc form. In its disc form, it has negligible Bulk and must be held in one hand to be activated. In the other forms, it has the same Bulk as a normal weapon of its type. You can switch your grip as part of the activation.\n\nWhen you expand the item, you can use the force of the expansion to High Jump or to try to Force Open a door or the like by wedging the disc into a gap before activation. The staff makes the Athletics check with a +15 modifier.",
+            "gainItems": [
+               {
+                  "name": "Bo Staff (Twining Staff)",
+                  "type": "weapons"
+               }
+            ],
+            "name": "Twining Staff: Bo Staff",
+            "exclusiveActivityID": 1,
+            "toggle": true,
+            "traits": [
+               "Magical",
+               "Transmutation"
+            ],
+            "_className": "ItemActivity",
+            "source": "08698057-8daa-11ea-abca-ffb46fbada73"
+         }
+      ],
+      "displayName": "Twining Staff (Disc)",
+      "moddable": "-",
+      "hints": [
+         {
+            "desc": "When you expand the Twining Staff, you can use the force of the expansion to High Jump or to try to Force Open a door or the like by wedging the disc into a gap before activation. The staff makes the Athletics check with a +15 modifier.",
+            "showon": "Athletics",
+            "effects": [
+               {
+                  "affected": "Athletics",
+                  "setValue": "15"
+               }
+            ]
+         }
+      ],
+      "_className": "Weapon",
+      "dicenum": 0,
+      "dicesize": 0,
+      "dmgType": "B",
+      "group": "Club",
+      "prof": "Simple/Martial Weapons"
+   },
+   {
+      "bulk": "2",
+      "desc": "This strong but slender staff is tapered at the ends and well balanced. It's designed to be an offensive and defensive weapon.",
+      "hide": true,
+      "id": "08698059-8daa-11ea-abca-ffb46fbada73",
+      "name": "Bo Staff (Twining Staff)",
+      "weaponBase": "Bo Staff",
+      "traits": [
+         "Magical",
+         "Monk",
+         "Parry",
+         "Reach",
+         "Transmutation",
+         "Trip"
+      ],
+      "displayName": "Twining Staff (+1 Striking Bo Staff)",
+      "moddable": "-",
+      "potencyRune": 1,
+      "strikingRune": 1,
+      "_className": "Weapon",
+      "dicesize": 8,
+      "dmgType": "B",
+      "group": "Club",
+      "hands": "2",
+      "melee": 10,
+      "prof": "Martial Weapons"
+   },
+   {
+      "bulk": "1",
+      "desc": "This long piece of wood can aid in walking and deliver a mighty blow.",
+      "hide": true,
+      "id": "0869805b-8daa-11ea-abca-ffb46fbada73",
+      "name": "Staff (Twining Staff)",
+      "weaponBase": "Staff",
+      "traits": [
+         "Magical",
+         "Two-Hand d8",
+         "Transmutation"
+      ],
+      "displayName": "Twining Staff (+1 Striking Staff)",
+      "moddable": "-",
+      "potencyRune": 1,
+      "strikingRune": 1,
+      "_className": "Weapon",
+      "dicesize": 4,
+      "dmgType": "B",
+      "group": "Club",
+      "hands": "1",
+      "melee": 5
+   },
+   {
+      "hide": true,
+      "id": "415973ca-1768-4968-8d51-bd74dd3f0a4b",
+      "name": "Shifting Form Claws",
+      "traits": [
+         "Finesse",
+         "Unarmed"
+      ],
+      "displayName": "Claws",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicesize": 8,
+      "dmgType": "S",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "desc": "The lion's head functions as +1 striking shield boss that can't be removed from the shield.",
+      "id": "9fbb57c9-51eb-4353-b8e0-0e391776439a",
+      "name": "Lion's Head Shield Boss",
+      "traits": [
+         "Attached to Shield"
+      ],
+      "_className": "Weapon",
+      "potencyRune": 1,
+      "strikingRune": 1,
+      "weaponBase": "Shield Boss",
+      "moddable": "-",
+      "dmgType": "B",
+      "group": "Shield",
+      "hands": "1",
+      "melee": 5,
+      "prof": "Martial Weapons"
+   },
+   {
+      "hide": true,
+      "desc": "The shield's biting maw is a martial melee weapon that deals 2d6 piercing damage and has the deadly 1d6 trait; it can't be enhanced by runes. The shield remains animated for 1 minute, during which time you can Strike with it each time you Raise the Shield, as well as with a Strike action.",
+      "id": "d3bbbe0d-65ae-40e3-b83c-574164eea80f",
+      "name": "Lion's Shield Biting Maw",
+      "traits": [
+         "Attached to Shield",
+         "Deadly d6"
+      ],
+      "dicenum": 2,
+      "dicesize": 6,
+      "_className": "Weapon",
+      "moddable": "-",
+      "dmgType": "P",
+      "group": "Shield",
+      "hands": "1",
+      "melee": 5,
+      "prof": "Martial Weapons"
+   },
+   {
+      "hide": true,
+      "desc": "Five jagged spines project from the surface of the Spined Shield. The spines are +1 striking shield spikes.\n\nWhen all the spines are gone, you lose the ability to attack with them until the spines regenerate the next day.",
+      "id": "50638403-1f38-4687-b5fe-b7b7bc2b3c05",
+      "name": "Spined Shield Spikes",
+      "weaponBase": "Shield Spikes",
+      "traits": [
+         "Attached to Shield"
+      ],
+      "moddable": "-",
+      "_className": "Weapon",
+      "potencyRune": 1,
+      "strikingRune": 1,
+      "dmgType": "P",
+      "group": "Shield",
+      "hands": "1",
+      "melee": 5,
+      "prof": "Martial Weapons"
+   },
+   {
+      "hide": true,
+      "id": "b62757a3-9220-4a72-8b09-27c3bbf24776",
+      "name": "Animal Form Ape Fist",
+      "traits": [
+         "Unarmed"
+      ],
+      "displayName": "Fist",
+      "weaponBase": "Animal Form Attacks",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 2,
+      "dicesize": 6,
+      "dmgType": "B",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "28e045eb-008b-44bc-aa84-35cd0a28c9c7",
+      "name": "Animal Form Bear Jaws",
+      "traits": [
+         "Unarmed"
+      ],
+      "displayName": "Jaws",
+      "weaponBase": "Animal Form Attacks",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 2,
+      "dicesize": 8,
+      "dmgType": "P",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "84e43725-627e-4699-8566-dd7ed4191fe3",
+      "name": "Animal Form Bear Claw",
+      "traits": [
+         "Agile",
+         "Unarmed"
+      ],
+      "displayName": "Claw",
+      "weaponBase": "Animal Form Attacks",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 1,
+      "dicesize": 8,
+      "dmgType": "S",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "ca05a1ce-f15d-486e-8af0-c54b41300a0d",
+      "name": "Animal Form Bull Horn",
+      "traits": [
+         "Unarmed"
+      ],
+      "displayName": "Horn",
+      "weaponBase": "Animal Form Attacks",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 2,
+      "dicesize": 8,
+      "dmgType": "P",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "0bc9fdff-76b3-4b64-ac28-84d63df300c8",
+      "name": "Animal Form Canine Jaws",
+      "traits": [
+         "Unarmed"
+      ],
+      "displayName": "Jaws",
+      "weaponBase": "Animal Form Attacks",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 2,
+      "dicesize": 8,
+      "dmgType": "P",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "4604539d-c1a3-40ef-8ee4-b0601f4665f8",
+      "name": "Animal Form Cat Jaws",
+      "traits": [
+         "Unarmed"
+      ],
+      "displayName": "Jaws",
+      "weaponBase": "Animal Form Attacks",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 2,
+      "dicesize": 6,
+      "dmgType": "P",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "965b0682-14eb-4552-bac4-588f9c8bb424",
+      "name": "Animal Form Cat Claw",
+      "traits": [
+         "Agile",
+         "Unarmed"
+      ],
+      "displayName": "Claw",
+      "weaponBase": "Animal Form Attacks",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 1,
+      "dicesize": 10,
+      "dmgType": "S",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "77e95414-209f-4b44-8b46-92dd161213aa",
+      "name": "Animal Form Deer Antler",
+      "traits": [
+         "Unarmed"
+      ],
+      "displayName": "Antler",
+      "weaponBase": "Animal Form Attacks",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 2,
+      "dicesize": 6,
+      "dmgType": "P",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "3339e51d-36cb-4dbc-a536-ab5a938ab08a",
+      "name": "Animal Form Frog Jaws",
+      "traits": [
+         "Unarmed"
+      ],
+      "displayName": "Jaws",
+      "weaponBase": "Animal Form Attacks",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 2,
+      "dicesize": 6,
+      "dmgType": "B",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "8d431e7b-9ab0-4061-8fac-02afa7ad3512",
+      "name": "Animal Form Frog Tongue",
+      "traits": [
+         "Reach 15 feet",
+         "Unarmed"
+      ],
+      "displayName": "Tongue",
+      "weaponBase": "Animal Form Attacks",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 2,
+      "dicesize": 4,
+      "dmgType": "B",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "4e41de90-3395-401a-9792-9f0996fbbf4b",
+      "name": "Animal Form Shark Jaws",
+      "traits": [
+         "Unarmed"
+      ],
+      "displayName": "Jaws",
+      "weaponBase": "Animal Form Attacks",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 2,
+      "dicesize": 8,
+      "dmgType": "P",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "373b4735-7370-478b-8e43-2616138c51d1",
+      "name": "Animal Form Snake Fangs",
+      "traits": [
+         "Unarmed"
+      ],
+      "displayName": "Fangs",
+      "weaponBase": "Animal Form Attacks",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 2,
+      "dicesize": 4,
+      "dmgType": "P",
+      "extraDamage": "+1d6 Poison",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "bulk": "1",
+      "desc": "This whip immediately jumps from your grasp and proceeds to attack your enemies until 1 minute has passed or it fails its flat check for dancing, at which point it vanishes. If the whip's target isn't prone, the whip uses its actions to attempt to Trip that creature instead of making a Strike. The whip's total attack modifier for Striking or Tripping is +18 instead of the normal bonus for a dancing weapon.",
+      "id": "316df90b-4f78-4373-9c30-dab996e2434c",
+      "name": "Whip (Feather Token)",
+      "weaponBase": "Whip",
+      "traits": [
+         "Disarm",
+         "Finesse",
+         "Nonlethal",
+         "Reach",
+         "Trip"
+      ],
+      "_className": "Weapon",
+      "dicesize": 4,
+      "dmgType": "S",
+      "group": "Flail",
+      "hands": "1",
+      "melee": 10,
+      "potencyRune": 1,
+      "strikingRune": 1,
+      "propertyRunes": [
+         {
+            "name": "Dancing",
+            "activities": [
+               {
+                  "active": true
+               }
+            ]
+         }
+      ],
+      "moddable": "-",
+      "hide": true,
+      "prof": "Martial Weapons"
+   },
+   {
+      "hide": true,
+      "id": "e4060d7b-88e5-4912-9195-c1b95a81beb7",
+      "name": "Insect Form Ant Mandibles",
+      "traits": [
+         "Unarmed"
+      ],
+      "displayName": "Mandibles",
+      "weaponBase": "Insect Form Attacks",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 2,
+      "dicesize": 6,
+      "dmgType": "B",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "3d2fb46d-cfd5-4dbb-9718-9a9fb531ac9c",
+      "name": "Insect Form Beetle Mandibles",
+      "traits": [
+         "Unarmed"
+      ],
+      "displayName": "Mandibles",
+      "weaponBase": "Insect Form Attacks",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 2,
+      "dicesize": 10,
+      "dmgType": "B",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "6b9ba60c-09f1-4560-af47-29e4474ccad9",
+      "name": "Insect Form Centipede Mandibles",
+      "traits": [
+         "Agile",
+         "Unarmed"
+      ],
+      "displayName": "Mandibles",
+      "weaponBase": "Insect Form Attacks",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 1,
+      "dicesize": 8,
+      "dmgType": "P",
+      "extraDamage": "+1d4 persistent Poison",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "0b163e5f-e559-491b-baa3-e5076963a95a",
+      "name": "Insect Form Mantis Foreleg",
+      "traits": [
+         "Unarmed"
+      ],
+      "displayName": "Foreleg",
+      "weaponBase": "Insect Form Attacks",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 2,
+      "dicesize": 8,
+      "dmgType": "B",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "ebd1663c-c066-4395-9999-99dc7e711e97",
+      "name": "Insect Form Scorpion Stinger",
+      "traits": [
+         "Unarmed"
+      ],
+      "displayName": "Stinger",
+      "weaponBase": "Insect Form Attacks",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 1,
+      "dicesize": 8,
+      "dmgType": "P",
+      "extraDamage": "+1d4 persistent Poison",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "81c02285-a320-416e-9ae7-5aa36bb1b703",
+      "name": "Insect Form Scorpion Pincer",
+      "traits": [
+         "Agile",
+         "Unarmed"
+      ],
+      "displayName": "Pincer",
+      "weaponBase": "Insect Form Attacks",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 1,
+      "dicesize": 6,
+      "dmgType": "B",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "d5cebc19-8ada-4be2-8f9b-88d2223213a1",
+      "name": "Insect Form Spider Fangs",
+      "traits": [
+         "Unarmed"
+      ],
+      "displayName": "Fangs",
+      "weaponBase": "Insect Form Attacks",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 1,
+      "dicesize": 6,
+      "dmgType": "P",
+      "extraDamage": "+1d4 persistent Poison",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "fbcacd7e-9818-4a4b-b8d9-57f7ff54089b",
+      "name": "Insect Form Spider Web",
+      "traits": [
+         "Unarmed"
+      ],
+      "displayName": "Web",
+      "weaponBase": "Insect Form Attacks",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 0,
+      "dicesize": 0,
+      "extraDamage": "Entangle the target for 1 round",
+      "group": "Brawling",
+      "melee": 0,
+      "ranged": 20,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "d5898aa5-d8f3-498c-9b29-e91de4e404bf",
+      "name": "Insect Form Centipede Mandibles (5th Level)",
+      "traits": [
+         "Agile",
+         "Unarmed"
+      ],
+      "displayName": "Mandibles",
+      "weaponBase": "Insect Form Attacks",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 1,
+      "dicesize": 8,
+      "dmgType": "P",
+      "extraDamage": "+2d4 persistent Poison",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "7e174dac-b0a2-41bc-9908-2c11f78d63bc",
+      "name": "Insect Form Scorpion Stinger (5th Level)",
+      "traits": [
+         "Unarmed"
+      ],
+      "displayName": "Stinger",
+      "weaponBase": "Insect Form Attacks",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 1,
+      "dicesize": 8,
+      "dmgType": "P",
+      "extraDamage": "+2d4 persistent Poison",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "6b1286f9-be0a-4de7-a5b7-a84451d3860e",
+      "name": "Insect Form Spider Fangs (5th Level)",
+      "traits": [
+         "Unarmed"
+      ],
+      "displayName": "Fangs",
+      "weaponBase": "Insect Form Attacks",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 1,
+      "dicesize": 6,
+      "dmgType": "P",
+      "extraDamage": "+2d4 persistent Poison",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "5a2e924f-c509-41de-848e-f18abaf53325",
+      "name": "Bestial Rage Ape Fist",
+      "traits": [
+         "Grapple",
+         "Unarmed"
+      ],
+      "displayName": "Fist",
+      "weaponBase": "Bestial Rage Attacks",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 1,
+      "dicesize": 10,
+      "dmgType": "B",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "a4a39469-ad91-46c2-8be8-3a72afe57072",
+      "name": "Bestial Rage Bear Jaws",
+      "traits": [
+         "Unarmed"
+      ],
+      "displayName": "Jaws",
+      "weaponBase": "Bestial Rage Attacks",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 1,
+      "dicesize": 10,
+      "dmgType": "P",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "97f9cbab-5480-4de1-93be-11155ac676ba",
+      "name": "Bestial Rage Bear Claw",
+      "traits": [
+         "Agile",
+         "Unarmed"
+      ],
+      "displayName": "Claw",
+      "weaponBase": "Bestial Rage Attacks",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 1,
+      "dicesize": 6,
+      "dmgType": "S",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "761120ff-22bb-4abd-a304-29e79eb6c630",
+      "name": "Bestial Rage Bull Horn",
+      "traits": [
+         "Shove",
+         "Unarmed"
+      ],
+      "displayName": "Horn",
+      "weaponBase": "Bestial Rage Attacks",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 1,
+      "dicesize": 10,
+      "dmgType": "P",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "ec6f8626-0903-4224-bd53-6f9156830278",
+      "name": "Bestial Rage Cat Jaws",
+      "traits": [
+         "Unarmed"
+      ],
+      "displayName": "Jaws",
+      "weaponBase": "Bestial Rage Attacks",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 1,
+      "dicesize": 10,
+      "dmgType": "P",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "ec8f9662-2113-4151-b60f-10038bd1b419",
+      "name": "Bestial Rage Cat Claw",
+      "traits": [
+         "Agile",
+         "Unarmed"
+      ],
+      "displayName": "Claw",
+      "weaponBase": "Bestial Rage Attacks",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 1,
+      "dicesize": 6,
+      "dmgType": "S",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "5e04296c-f7ed-4013-929c-9acf451d9334",
+      "name": "Bestial Rage Deer Antler",
+      "traits": [
+         "Grapple",
+         "Unarmed"
+      ],
+      "displayName": "Antler",
+      "weaponBase": "Bestial Rage Attacks",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 1,
+      "dicesize": 10,
+      "dmgType": "P",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "fe71d89c-d7cb-4b68-9f21-8d09d477116f",
+      "name": "Bestial Rage Frog Jaws",
+      "traits": [
+         "Unarmed"
+      ],
+      "displayName": "Jaws",
+      "moddable": "-",
+      "_className": "Weapon",
+      "weaponBase": "Bestial Rage Attacks",
+      "dicenum": 1,
+      "dicesize": 10,
+      "dmgType": "B",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "5a909495-bb03-4fae-ab11-933d8ac77120",
+      "name": "Bestial Rage Frog Tongue",
+      "traits": [
+         "Agile",
+         "Unarmed"
+      ],
+      "displayName": "Tongue",
+      "weaponBase": "Bestial Rage Attacks",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 1,
+      "dicesize": 4,
+      "dmgType": "B",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "a7993555-88ea-4301-85dd-dd76b94ff865",
+      "name": "Bestial Rage Shark Jaws",
+      "traits": [
+         "Grapple",
+         "Unarmed"
+      ],
+      "displayName": "Jaws",
+      "weaponBase": "Bestial Rage Attacks",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 1,
+      "dicesize": 10,
+      "dmgType": "P",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "094a759c-0eb9-418b-bc4a-fe9b08820162",
+      "name": "Bestial Rage Snake Fangs",
+      "traits": [
+         "Grapple",
+         "Unarmed"
+      ],
+      "displayName": "Fangs",
+      "weaponBase": "Bestial Rage Attacks",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 1,
+      "dicesize": 10,
+      "dmgType": "P",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "28bd6dac-25c6-4a94-a4f4-2741f813617d",
+      "name": "Bestial Rage Wolf Jaws",
+      "traits": [
+         "Trip",
+         "Unarmed"
+      ],
+      "displayName": "Jaws",
+      "weaponBase": "Bestial Rage Attacks",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 1,
+      "dicesize": 10,
+      "dmgType": "P",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "9f00d672-a000-4ce9-ba97-b207f6b1b0dc",
+      "name": "Aerial Form Bat Fangs",
+      "traits": [
+         "Unarmed"
+      ],
+      "displayName": "Fangs",
+      "weaponBase": "Aerial Form Attacks",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 2,
+      "dicesize": 8,
+      "dmgType": "P",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks",
+      "dexterityBased": true
+   },
+   {
+      "hide": true,
+      "id": "74dec501-a9ec-4ece-a200-d2b6b9f42dbd",
+      "name": "Aerial Form Bat Wing",
+      "traits": [
+         "Agile",
+         "Unarmed"
+      ],
+      "displayName": "Wing",
+      "weaponBase": "Aerial Form Attacks",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 2,
+      "dicesize": 6,
+      "dmgType": "B",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks",
+      "dexterityBased": true
+   },
+   {
+      "hide": true,
+      "id": "42c74449-3749-438d-bd5b-c59648f325c9",
+      "name": "Aerial Form Bird Beak",
+      "traits": [
+         "Unarmed"
+      ],
+      "displayName": "Beak",
+      "weaponBase": "Aerial Form Attacks",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 2,
+      "dicesize": 8,
+      "dmgType": "P",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks",
+      "dexterityBased": true
+   },
+   {
+      "hide": true,
+      "id": "fb3880a8-176e-4deb-94b3-2e53f028680c",
+      "name": "Aerial Form Bird Talon",
+      "traits": [
+         "Agile",
+         "Unarmed"
+      ],
+      "displayName": "Talon",
+      "weaponBase": "Aerial Form Attacks",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 1,
+      "dicesize": 10,
+      "dmgType": "S",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks",
+      "dexterityBased": true
+   },
+   {
+      "hide": true,
+      "id": "2a0d49ce-6eb2-48fd-9f24-0461943eeee6",
+      "name": "Aerial Form Pterosaur Beak",
+      "traits": [
+         "Unarmed"
+      ],
+      "displayName": "Beak",
+      "weaponBase": "Aerial Form Attacks",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 3,
+      "dicesize": 6,
+      "dmgType": "P",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks",
+      "dexterityBased": true
+   },
+   {
+      "hide": true,
+      "id": "e0e2a772-07f8-403d-aa91-d3adf9952392",
+      "name": "Aerial Form Wasp Stinger",
+      "traits": [
+         "Unarmed"
+      ],
+      "weaponBase": "Aerial Form Attacks",
+      "displayName": "Stinger",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 1,
+      "dicesize": 8,
+      "dmgType": "P",
+      "extraDamage": "+1d6 persistent Poison",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks",
+      "dexterityBased": true
+   },
+   {
+      "hide": true,
+      "id": "0aa50e7e-23dd-4120-8b7d-1a3973c5be5d",
+      "name": "Aerial Form Wasp Stinger (6th Level)",
+      "traits": [
+         "Unarmed"
+      ],
+      "displayName": "Stinger",
+      "weaponBase": "Aerial Form Attacks",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 1,
+      "dicesize": 8,
+      "dmgType": "P",
+      "extraDamage": "+2d6 persistent Poison",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks",
+      "dexterityBased": true
+   },
+   {
+      "hide": true,
+      "id": "22efb2d3-17fe-48e9-bde4-6509c71aa407",
+      "name": "Dinosaur Form Ankylosaurus Tail",
+      "traits": [
+         "Backswing",
+         "Reach 10 feet",
+         "Unarmed"
+      ],
+      "displayName": "Tail",
+      "weaponBase": "Dinosaur Form Attacks",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 2,
+      "dicesize": 6,
+      "dmgType": "B",
+      "group": "Brawling",
+      "melee": 10,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "2167f634-991d-486d-8439-aa06d9b3373e",
+      "name": "Dinosaur Form Ankylosaurus Foot",
+      "traits": [
+         "Unarmed"
+      ],
+      "displayName": "Foot",
+      "weaponBase": "Dinosaur Form Attacks",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 2,
+      "dicesize": 6,
+      "dmgType": "B",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "08ee159b-5ff4-47ef-b6b6-4b3154c26e39",
+      "name": "Dinosaur Form Brontosaurus Tail",
+      "traits": [
+         "Reach 15 feet",
+         "Unarmed"
+      ],
+      "displayName": "Tail",
+      "weaponBase": "Dinosaur Form Attacks",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 2,
+      "dicesize": 6,
+      "dmgType": "B",
+      "group": "Brawling",
+      "melee": 15,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "0b99c6a7-f28a-4cde-90be-d44888f57c31",
+      "name": "Dinosaur Form Brontosaurus Foot",
+      "traits": [
+         "Unarmed"
+      ],
+      "displayName": "Foot",
+      "weaponBase": "Dinosaur Form Attacks",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 2,
+      "dicesize": 8,
+      "dmgType": "B",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "36d2dd0d-c4d5-4985-81fc-bbd1f150ca66",
+      "name": "Dinosaur Form Deinonychus Talon",
+      "traits": [
+         "Agile",
+         "Unarmed"
+      ],
+      "displayName": "Talon",
+      "weaponBase": "Dinosaur Form Attacks",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 2,
+      "dicesize": 4,
+      "extraDamage": "+1 persistent Bleed",
+      "dmgType": "P",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "b7e22bd1-7d9b-4823-a462-bdea4c2a0339",
+      "name": "Dinosaur Form Deinonychus Jaws",
+      "traits": [
+         "Unarmed"
+      ],
+      "displayName": "Jaws",
+      "weaponBase": "Dinosaur Form Attacks",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 1,
+      "dicesize": 10,
+      "dmgType": "P",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "8398b466-cea6-4bcd-95be-356370b07919",
+      "name": "Dinosaur Form Stegosaurus Tail",
+      "traits": [
+         "Reach 10 feet",
+         "Unarmed"
+      ],
+      "displayName": "Tail",
+      "weaponBase": "Dinosaur Form Attacks",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 2,
+      "dicesize": 8,
+      "dmgType": "P",
+      "group": "Brawling",
+      "melee": 10,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "d83e3806-ce3d-498f-b5cf-4d05cc794c1c",
+      "name": "Dinosaur Form Triceratops Horn",
+      "traits": [
+         "Unarmed"
+      ],
+      "displayName": "Horn",
+      "weaponBase": "Dinosaur Form Attacks",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 2,
+      "dicesize": 8,
+      "dmgType": "P",
+      "criticalHint": "Whenever you score a critical hit with your Horn unarmed attack, your target takes 1d6 persistent bleed damage.",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "9c57d3ef-4b20-473e-a99f-5d6762032804",
+      "name": "Dinosaur Form Triceratops Foot",
+      "traits": [
+         "Unarmed"
+      ],
+      "displayName": "Foot",
+      "weaponBase": "Dinosaur Form Attacks",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 2,
+      "dicesize": 6,
+      "dmgType": "B",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "288afcd8-5913-4dea-bf78-0f1b7883307c",
+      "name": "Dinosaur Form Tyrannosaurus Jaws",
+      "traits": [
+         "Deadly",
+         "Reach 10 feet",
+         "Unarmed"
+      ],
+      "displayName": "Jaws",
+      "weaponBase": "Dinosaur Form Attacks",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 1,
+      "dicesize": 12,
+      "dmgType": "P",
+      "group": "Brawling",
+      "melee": 10,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "7b936348-3305-4fa3-8228-d15f91712b4e",
+      "name": "Dinosaur Form Tyrannosaurus Tail",
+      "traits": [
+         "Reach 10 feet",
+         "Unarmed"
+      ],
+      "displayName": "Tail",
+      "weaponBase": "Dinosaur Form Attacks",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 1,
+      "dicesize": 10,
+      "dmgType": "B",
+      "group": "Brawling",
+      "melee": 10,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "171055a6-606f-4a73-b4c4-69b9bc3d62f1",
+      "name": "Dinosaur Form Ankylosaurus Foot (5th Level)",
+      "traits": [
+         "Reach 10 feet",
+         "Unarmed"
+      ],
+      "displayName": "Foot",
+      "weaponBase": "Dinosaur Form Attacks",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 2,
+      "dicesize": 6,
+      "dmgType": "B",
+      "group": "Brawling",
+      "melee": 10,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "fccd1def-0474-41ad-a3af-76a5937155e1",
+      "name": "Dinosaur Form Brontosaurus Foot (5th Level)",
+      "traits": [
+         "Reach 10 feet",
+         "Unarmed"
+      ],
+      "displayName": "Foot",
+      "weaponBase": "Dinosaur Form Attacks",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 2,
+      "dicesize": 8,
+      "dmgType": "B",
+      "group": "Brawling",
+      "melee": 10,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "1efecc98-5565-42c4-a019-82f1215dd8eb",
+      "name": "Dinosaur Form Deinonychus Talon (5th Level)",
+      "traits": [
+         "Agile",
+         "Reach 10 feet",
+         "Unarmed"
+      ],
+      "displayName": "Talon",
+      "weaponBase": "Dinosaur Form Attacks",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 2,
+      "dicesize": 4,
+      "extraDamage": "+1 persistent Bleed",
+      "dmgType": "P",
+      "group": "Brawling",
+      "melee": 10,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "bdd9f1a8-46d2-4b34-bec5-ead284de9031",
+      "name": "Dinosaur Form Deinonychus Jaws (5th Level)",
+      "traits": [
+         "Reach 10 feet",
+         "Unarmed"
+      ],
+      "displayName": "Jaws",
+      "weaponBase": "Dinosaur Form Attacks",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 1,
+      "dicesize": 10,
+      "dmgType": "P",
+      "group": "Brawling",
+      "melee": 10,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "91ef8171-aa64-435a-9590-592d0d0225b8",
+      "name": "Dinosaur Form Triceratops Horn (5th Level)",
+      "traits": [
+         "Reach 10 feet",
+         "Unarmed"
+      ],
+      "displayName": "Horn",
+      "weaponBase": "Dinosaur Form Attacks",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 2,
+      "dicesize": 8,
+      "dmgType": "P",
+      "criticalHint": "Whenever you score a critical hit with your Horn unarmed attack, your target takes 1d6 persistent bleed damage.",
+      "group": "Brawling",
+      "melee": 10,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "0faa3aaf-e8bd-4a65-a460-d379387ce6ab",
+      "name": "Dinosaur Form Triceratops Foot (5th Level)",
+      "traits": [
+         "Reach 10 feet",
+         "Unarmed"
+      ],
+      "displayName": "Foot",
+      "weaponBase": "Dinosaur Form Attacks",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 2,
+      "dicesize": 6,
+      "dmgType": "B",
+      "group": "Brawling",
+      "melee": 10,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "3ceccceb-31f3-42ef-b6c5-a37b1b8fdc2a",
+      "name": "Orc Tusks",
+      "desc": "You have particularly long, jagged tusks perfect for tearing meat from bone. You gain a tusks unarmed attack that deals 1d6 piercing damage. Your tusks are in the brawling group and have the finesse and unarmed traits.",
+      "traits": [
+         "Unarmed"
+      ],
+      "displayName": "Tusks",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicesize": 6,
+      "dmgType": "P",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks",
+      "internalNote": "The brawling group is not specified, but we assume that every unarmed attack is like a fist unless otherwise specified."
+   },
+   {
+      "hide": true,
+      "id": "fce97252-6809-11eb-ae93-0242ac130002",
+      "name": "Dragon Form Tail",
+      "traits": [
+         "Reach 10 feet",
+         "Unarmed"
+      ],
+      "displayName": "Tail",
+      "weaponBase": "Dragon Form Attacks",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 3,
+      "dicesize": 10,
+      "dmgType": "B",
+      "group": "Brawling",
+      "melee": 10,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "fce9754a-6809-11eb-ae93-0242ac130002",
+      "name": "Dragon Form Claw",
+      "traits": [
+         "Agile",
+         "Unarmed"
+      ],
+      "displayName": "Claw",
+      "weaponBase": "Dragon Form Attacks",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 3,
+      "dicesize": 10,
+      "dmgType": "S",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "fce978c4-6809-11eb-ae93-0242ac130002",
+      "name": "Dragon Form Black Dragon Jaws",
+      "traits": [
+         "Unarmed"
+      ],
+      "displayName": "Jaws",
+      "weaponBase": "Dragon Form Attacks",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 2,
+      "dicesize": 12,
+      "dmgType": "P",
+      "extraDamage": "+2d6 Acid",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "fce97a36-6809-11eb-ae93-0242ac130002",
+      "name": "Dragon Form Horns",
+      "traits": [
+         "Reach 10 feet",
+         "Unarmed"
+      ],
+      "displayName": "Horns",
+      "weaponBase": "Dragon Form Attacks",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 3,
+      "dicesize": 8,
+      "dmgType": "P",
+      "group": "Brawling",
+      "melee": 10,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "fce97b9e-6809-11eb-ae93-0242ac130002",
+      "name": "Dragon Form Blue Dragon Jaws",
+      "traits": [
+         "Unarmed"
+      ],
+      "displayName": "Jaws",
+      "weaponBase": "Dragon Form Attacks",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 2,
+      "dicesize": 10,
+      "dmgType": "P",
+      "extraDamage": "+1d12 Electricity",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "fce97e64-6809-11eb-ae93-0242ac130002",
+      "name": "Dragon Form Brass Dragon Jaws",
+      "traits": [
+         "Unarmed"
+      ],
+      "displayName": "Jaws",
+      "weaponBase": "Dragon Form Attacks",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 3,
+      "dicesize": 8,
+      "dmgType": "P",
+      "extraDamage": "+2d4 Fire",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "fce97fd6-6809-11eb-ae93-0242ac130002",
+      "name": "Dragon Form Brass Dragon Spikes",
+      "traits": [
+         "Reach 10 feet",
+         "Unarmed"
+      ],
+      "displayName": "Spikes",
+      "weaponBase": "Dragon Form Attacks",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 3,
+      "dicesize": 8,
+      "dmgType": "P",
+      "group": "Brawling",
+      "melee": 10,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "fce98148-6809-11eb-ae93-0242ac130002",
+      "name": "Dragon Form Bronze Dragon Jaws",
+      "traits": [
+         "Unarmed"
+      ],
+      "displayName": "Jaws",
+      "weaponBase": "Dragon Form Attacks",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 2,
+      "dicesize": 10,
+      "dmgType": "P",
+      "extraDamage": "+1d12 Electricity",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "fce98468-6809-11eb-ae93-0242ac130002",
+      "name": "Dragon Form Bronze Dragon Wing",
+      "traits": [
+         "Reach 10 feet",
+         "Unarmed"
+      ],
+      "displayName": "Wing",
+      "weaponBase": "Dragon Form Attacks",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 3,
+      "dicesize": 8,
+      "dmgType": "S",
+      "group": "Brawling",
+      "melee": 10,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "fce985ee-6809-11eb-ae93-0242ac130002",
+      "name": "Dragon Form Copper Dragon Jaws",
+      "traits": [
+         "Unarmed"
+      ],
+      "displayName": "Jaws",
+      "weaponBase": "Dragon Form Attacks",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 2,
+      "dicesize": 12,
+      "dmgType": "P",
+      "extraDamage": "+2d6 Acid",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "fce98756-6809-11eb-ae93-0242ac130002",
+      "name": "Dragon Form Copper Dragon Wing",
+      "traits": [
+         "Reach 10 feet",
+         "Unarmed"
+      ],
+      "displayName": "Wing",
+      "weaponBase": "Dragon Form Attacks",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 3,
+      "dicesize": 8,
+      "dmgType": "B",
+      "group": "Brawling",
+      "melee": 10,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "fce988c8-6809-11eb-ae93-0242ac130002",
+      "name": "Dragon Form Gold Dragon Jaws",
+      "traits": [
+         "Unarmed"
+      ],
+      "displayName": "Jaws",
+      "weaponBase": "Dragon Form Attacks",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 2,
+      "dicesize": 12,
+      "dmgType": "P",
+      "extraDamage": "+2d6 Fire",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "fce98c56-6809-11eb-ae93-0242ac130002",
+      "name": "Dragon Form Gold Dragon Claw",
+      "traits": [
+         "Agile",
+         "Unarmed"
+      ],
+      "displayName": "Claw",
+      "weaponBase": "Dragon Form Attacks",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 4,
+      "dicesize": 6,
+      "dmgType": "S",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "fce98dc8-6809-11eb-ae93-0242ac130002",
+      "name": "Dragon Form Green Dragon Jaws",
+      "traits": [
+         "Unarmed"
+      ],
+      "displayName": "Jaws",
+      "weaponBase": "Dragon Form Attacks",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 2,
+      "dicesize": 12,
+      "dmgType": "P",
+      "extraDamage": "+2d6 Poison",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "fce99138-6809-11eb-ae93-0242ac130002",
+      "name": "Dragon Form Red Dragon Jaws",
+      "traits": [
+         "Unarmed"
+      ],
+      "displayName": "Jaws",
+      "weaponBase": "Dragon Form Attacks",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 2,
+      "dicesize": 12,
+      "dmgType": "P",
+      "extraDamage": "+2d6 Fire",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "fce9944e-6809-11eb-ae93-0242ac130002",
+      "name": "Dragon Form Red Dragon Claw",
+      "traits": [
+         "Agile",
+         "Unarmed"
+      ],
+      "displayName": "Claw",
+      "weaponBase": "Dragon Form Attacks",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 4,
+      "dicesize": 6,
+      "dmgType": "S",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "fce995de-6809-11eb-ae93-0242ac130002",
+      "name": "Dragon Form Red Dragon Wing",
+      "traits": [
+         "Reach 10 feet",
+         "Unarmed"
+      ],
+      "displayName": "Wing",
+      "weaponBase": "Dragon Form Attacks",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 3,
+      "dicesize": 8,
+      "dmgType": "B",
+      "group": "Brawling",
+      "melee": 10,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "fce99746-6809-11eb-ae93-0242ac130002",
+      "name": "Dragon Form Silver Dragon Jaws",
+      "traits": [
+         "Unarmed"
+      ],
+      "displayName": "Jaws",
+      "weaponBase": "Dragon Form Attacks",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 2,
+      "dicesize": 12,
+      "dmgType": "P",
+      "extraDamage": "+2d6 Cold",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "fce998b8-6809-11eb-ae93-0242ac130002",
+      "name": "Dragon Form White Dragon Jaws",
+      "traits": [
+         "Unarmed"
+      ],
+      "displayName": "Jaws",
+      "weaponBase": "Dragon Form Attacks",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 3,
+      "dicesize": 6,
+      "dmgType": "P",
+      "extraDamage": "+2d6 Cold",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "ae4d0acf-2716-4107-b70f-3a860fe267a7",
+      "name": "Wild Morph Wild Claws",
+      "desc": "Your hands are transformed into incredibly sharp claws. These claws are an unarmed attack you're trained in and deal 1d6 slashing damage each (agile, finesse). You can still hold and use items with your hands while they're transformed by this spell, but you cannot hold an item while attacking.",
+      "traits": [
+         "Agile",
+         "Finesse",
+         "Unarmed"
+      ],
+      "displayName": "Wild Claws",
+      "weaponBase": "Wild Morph Attacks",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 1,
+      "dicesize": 6,
+      "dmgType": "S",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "b4347c92-e88e-4529-83e2-74ed365d08a1",
+      "name": "Wild Morph Wild Claws (6th Level)",
+      "desc": "Your hands are transformed into incredibly sharp claws. These claws are an unarmed attack you're trained in and deal 1d6 slashing damage each (agile, finesse). They leave terrible, ragged wounds that also deal 2d6 persistent bleed damage on a hit. You can still hold and use items with your hands while they're transformed by this spell, but you cannot hold an item while attacking.",
+      "traits": [
+         "Agile",
+         "Finesse",
+         "Unarmed"
+      ],
+      "displayName": "Wild Claws",
+      "weaponBase": "Wild Morph Attacks",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 1,
+      "dicesize": 6,
+      "dmgType": "S",
+      "extraDamage": "+2d6 Persistent Bleed",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "fbea7165-471e-41af-9123-3a9b85268734",
+      "name": "Wild Morph Wild Claws (10th Level)",
+      "desc": "Your hands are transformed into incredibly sharp claws. These claws are an unarmed attack you're trained in and deal 1d6 slashing damage each (agile, finesse). They leave terrible, ragged wounds that also deal 4d6 persistent bleed damage on a hit. You can still hold and use items with your hands while they're transformed by this spell, but you cannot hold an item while attacking.",
+      "traits": [
+         "Agile",
+         "Finesse",
+         "Unarmed"
+      ],
+      "displayName": "Wild Claws",
+      "weaponBase": "Wild Morph Attacks",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 1,
+      "dicesize": 6,
+      "dmgType": "S",
+      "extraDamage": "+4d6 Persistent Bleed",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "5836f7b7-2163-4c8e-8dde-9ac33560dd8f",
+      "name": "Wild Morph Wild Jaws",
+      "desc": "You have transformed your mouth into wild jaws, an unarmed attack you're trained in that deals 1d8 piercing damage.",
+      "traits": [
+         "Unarmed"
+      ],
+      "displayName": "Wild Jaws",
+      "weaponBase": "Wild Morph Attacks",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 1,
+      "dicesize": 8,
+      "dmgType": "P",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "ec5860f8-4451-4803-bdb7-53a48589a99a",
+      "name": "Wild Morph Wild Jaws (6th Level)",
+      "desc": "You have transformed your mouth into wild jaws, an unarmed attack you're trained in that deals 1d8 piercing damage and is envenomed, also dealing 2d6 persistent poison damage on a hit.",
+      "traits": [
+         "Unarmed"
+      ],
+      "displayName": "Wild Jaws",
+      "weaponBase": "Wild Morph Attacks",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 1,
+      "dicesize": 8,
+      "dmgType": "P",
+      "extraDamage": "+2d6 Persistent Poison",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "ce75b90d-d928-4a78-9007-b09b5b4d7708",
+      "name": "Wild Morph Wild Jaws (10th Level)",
+      "desc": "You have transformed your mouth into wild jaws, an unarmed attack you're trained in that deals 1d8 piercing damage and is envenomed, also dealing 4d6 persistent poison damage on a hit.",
+      "traits": [
+         "Unarmed"
+      ],
+      "displayName": "Wild Jaws",
+      "weaponBase": "Wild Morph Attacks",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 1,
+      "dicesize": 8,
+      "dmgType": "P",
+      "extraDamage": "+4d6 Persistent Poison",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "c15179c2-5388-457c-8f35-40fb371bf455",
+      "name": "Elemental Form Air Gust",
+      "traits": [
+         "Unarmed"
+      ],
+      "displayName": "Gust",
+      "weaponBase": "Elemental Form Attacks",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 1,
+      "dicesize": 4,
+      "dmgType": "B",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "221cd07a-8303-4ec0-be0f-1f11cfd9d7b7",
+      "name": "Elemental Form Earth Fist",
+      "traits": [
+         "Unarmed"
+      ],
+      "displayName": "Fist",
+      "weaponBase": "Elemental Form Attacks",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 2,
+      "dicesize": 10,
+      "dmgType": "B",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "10945ae3-8204-4163-a6a5-0240f8b169e1",
+      "name": "Elemental Form Fire Tendril",
+      "traits": [
+         "Unarmed"
+      ],
+      "displayName": "Tendril",
+      "weaponBase": "Elemental Form Attacks",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 1,
+      "dicesize": 8,
+      "dmgType": "Fire",
+      "extraDamage": "+1d4 Persistent Fire",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "c1f6de90-55f3-4c2a-a0fd-8807032463e7",
+      "name": "Elemental Form Water Wave",
+      "traits": [
+         "Unarmed"
+      ],
+      "displayName": "Wave",
+      "weaponBase": "Elemental Form Attacks",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 1,
+      "dicesize": 12,
+      "dmgType": "B",
+      "hitEffect": "You can spend an action immediately after a hit to push the target 5 feet with the effects of a successful Shove.",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "a0608cdb-9afa-4c87-bc80-558d60ff6920",
+      "name": "Elemental Form Fire Tendril (7th Level)",
+      "traits": [
+         "Unarmed"
+      ],
+      "displayName": "Tendril",
+      "weaponBase": "Elemental Form Attacks",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 1,
+      "dicesize": 8,
+      "dmgType": "Fire",
+      "extraDamage": "+2d4 Persistent Fire",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "846fbda5-dec2-4adc-8365-5a88c5aa93c7",
+      "name": "Plant Form Arboreal Branch",
+      "traits": [
+         "Reach 15 feet",
+         "Unarmed"
+      ],
+      "displayName": "Branch",
+      "weaponBase": "Plant Form Attacks",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 2,
+      "dicesize": 10,
+      "dmgType": "B",
+      "group": "Brawling",
+      "melee": 15,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "2996a1e6-a6f4-4ac5-a9c3-7a7ce1f75e1f",
+      "name": "Plant Form Arboreal Foot",
+      "traits": [
+         "Unarmed"
+      ],
+      "displayName": "Foot",
+      "weaponBase": "Plant Form Attacks",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 2,
+      "dicesize": 8,
+      "dmgType": "B",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "bcc4ce5d-0fd6-40ae-bb91-3243f7095d69",
+      "name": "Plant Form Flytrap Leaf",
+      "traits": [
+         "Reach 10 feet",
+         "Unarmed"
+      ],
+      "displayName": "Leaf",
+      "weaponBase": "Plant Form Attacks",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 2,
+      "dicesize": 8,
+      "dmgType": "P",
+      "hitEffect": "You can spend an action after a hit to Grab the target.",
+      "group": "Brawling",
+      "melee": 10,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "8aebc516-c420-4fbf-b864-6f244916d209",
+      "name": "Plant Form Shambler Vine",
+      "traits": [
+         "Reach 15 feet",
+         "Unarmed"
+      ],
+      "displayName": "Vine",
+      "weaponBase": "Plant Form Attacks",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 2,
+      "dicesize": 8,
+      "dmgType": "S",
+      "group": "Brawling",
+      "melee": 15,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "14811c8b-d0fc-42d4-bd3c-abdac7053bdd",
+      "name": "Monstrosity Form Phoenix Beak",
+      "traits": [
+         "Reach 15 feet",
+         "Unarmed"
+      ],
+      "displayName": "Beak",
+      "weaponBase": "Monstrosity Form Attacks",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 2,
+      "dicesize": 6,
+      "dmgType": "+12 P",
+      "extraDamage": "+2d4 Persistent Fire\n+2d4 Persistent Fire",
+      "group": "Brawling",
+      "melee": 15,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "af9e4d5f-c0df-43d5-8ab6-ce305d83cf44",
+      "name": "Monstrosity Form Phoenix Talon",
+      "traits": [
+         "Agile",
+         "Reach 15 feet",
+         "Unarmed"
+      ],
+      "displayName": "Talon",
+      "weaponBase": "Monstrosity Form Attacks",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 2,
+      "dicesize": 8,
+      "dmgType": "+12 S",
+      "group": "Brawling",
+      "melee": 15,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "bcc8b67e-0bf6-4b8c-a146-21cd1c4a3cdf",
+      "name": "Monstrosity Form Purple Worm Jaws",
+      "traits": [
+         "Reach 10 feet",
+         "Unarmed"
+      ],
+      "displayName": "Jaws",
+      "weaponBase": "Monstrosity Form Attacks",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 2,
+      "dicesize": 12,
+      "dmgType": "+20 P",
+      "group": "Brawling",
+      "melee": 10,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "53ca4512-e6af-4b11-b136-08a95e689df5",
+      "name": "Monstrosity Form Purple Worm Stinger",
+      "traits": [
+         "Agile",
+         "Reach 10 feet",
+         "Unarmed"
+      ],
+      "displayName": "Stinger",
+      "weaponBase": "Monstrosity Form Attacks",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 2,
+      "dicesize": 8,
+      "dmgType": "+15 P",
+      "extraDamage": "+2d6 Persistent Poison",
+      "group": "Brawling",
+      "melee": 10,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "6dc3c4e9-2780-48a0-8467-22bfa7fa7075",
+      "name": "Monstrosity Form Purple Worm Body",
+      "traits": [
+         "Reach 10 feet",
+         "Unarmed"
+      ],
+      "displayName": "Body",
+      "weaponBase": "Monstrosity Form Attacks",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 2,
+      "dicesize": 8,
+      "dmgType": "+20 B",
+      "group": "Brawling",
+      "melee": 10,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "7f877519-f799-4c9c-82f6-04c0780c2e84",
+      "name": "Monstrosity Form Sea Serpent Jaws",
+      "traits": [
+         "Reach 15 feet",
+         "Unarmed"
+      ],
+      "displayName": "Jaws",
+      "weaponBase": "Monstrosity Form Attacks",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 2,
+      "dicesize": 12,
+      "dmgType": "+20 P",
+      "group": "Brawling",
+      "melee": 15,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "58bb5a01-b8c4-44de-86ad-e908597201a7",
+      "name": "Monstrosity Form Sea Serpent Tail",
+      "traits": [
+         "Reach 25 feet",
+         "Unarmed"
+      ],
+      "displayName": "Tail",
+      "weaponBase": "Monstrosity Form Attacks",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 2,
+      "dicesize": 8,
+      "dmgType": "+20 B",
+      "group": "Brawling",
+      "melee": 25,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "4d8f794b-514e-4889-8864-95bde384827a",
+      "name": "Nature Incarnate Green Man Vines",
+      "traits": [
+         "Reach 30 feet",
+         "Unarmed",
+         "Versatile P"
+      ],
+      "displayName": "Vines",
+      "weaponBase": "Nature Incarnate Attacks",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 6,
+      "dicesize": 8,
+      "dmgType": "+12 B/P",
+      "group": "Brawling",
+      "melee": 30,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "d844c283-d02c-45d0-a42a-54c8da7c6543",
+      "name": "Nature Incarnate Green Man Thorns",
+      "traits": [
+         "Unarmed"
+      ],
+      "displayName": "Thorns",
+      "weaponBase": "Nature Incarnate Attacks",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 6,
+      "dicesize": 6,
+      "dmgType": "+6 P",
+      "group": "Brawling",
+      "ranged": 100,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "41c79e5f-2211-4ea7-b45e-a1e5d1978ff4",
+      "name": "Nature Incarnate Kaiju Jaws",
+      "traits": [
+         "Reach 30 feet",
+         "Unarmed"
+      ],
+      "displayName": "Jaws",
+      "weaponBase": "Nature Incarnate Attacks",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 6,
+      "dicesize": 10,
+      "dmgType": "+10 P",
+      "group": "Brawling",
+      "melee": 30,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "422ffa1f-8c8e-4aa5-803e-1f98dcaa8119",
+      "name": "Nature Incarnate Kaiju Claws",
+      "traits": [
+         "Agile",
+         "Reach 30 feet",
+         "Unarmed"
+      ],
+      "displayName": "Claws",
+      "weaponBase": "Nature Incarnate Attacks",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 6,
+      "dicesize": 8,
+      "dmgType": "+8 S",
+      "group": "Brawling",
+      "melee": 30,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "abef91fe-43cc-414d-80a2-14ce8e139e51",
+      "name": "Nature Incarnate Kaiju Foot",
+      "traits": [
+         "Agile",
+         "Reach 15 feet",
+         "Unarmed"
+      ],
+      "displayName": "Claws",
+      "weaponBase": "Nature Incarnate Attacks",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 6,
+      "dicesize": 6,
+      "dmgType": "+10 B",
+      "group": "Brawling",
+      "melee": 15,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "4cbe534c-7907-4e8f-a1bc-cfeaec7b1c59",
+      "name": "Acid Dragon Claws",
+      "traits": [
+         "Finesse",
+         "Unarmed"
+      ],
+      "displayName": "Claws",
+      "weaponBase": "Dragon Claws",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 1,
+      "dicesize": 4,
+      "dmgType": "S",
+      "extraDamage":"+1d6 Acid",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "b076adcb-4ab1-4031-b70c-a3145f0b4488",
+      "name": "Electricity Dragon Claws",
+      "traits": [
+         "Finesse",
+         "Unarmed"
+      ],
+      "displayName": "Claws",
+      "weaponBase": "Dragon Claws",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 1,
+      "dicesize": 4,
+      "dmgType": "S",
+      "extraDamage":"+1d6 Electricity",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "4f3395a1-fc44-4dd9-a87f-826757228abd",
+      "name": "Fire Dragon Claws",
+      "traits": [
+         "Finesse",
+         "Unarmed"
+      ],
+      "displayName": "Claws",
+      "weaponBase": "Dragon Claws",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 1,
+      "dicesize": 4,
+      "dmgType": "S",
+      "extraDamage":"+1d6 Fire",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "498b5e8b-70e3-4983-9a03-d35d3df830b3",
+      "name": "Poison Dragon Claws",
+      "traits": [
+         "Finesse",
+         "Unarmed"
+      ],
+      "displayName": "Claws",
+      "weaponBase": "Dragon Claws",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 1,
+      "dicesize": 4,
+      "dmgType": "S",
+      "extraDamage":"+1d6 Poison",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "141bf809-6d93-4ae8-884a-7915d81cccbb",
+      "name": "Cold Dragon Claws",
+      "traits": [
+         "Finesse",
+         "Unarmed"
+      ],
+      "displayName": "Claws",
+      "weaponBase": "Dragon Claws",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 1,
+      "dicesize": 4,
+      "dmgType": "S",
+      "extraDamage":"+1d6 Cold",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "bba0caf1-466b-482a-ab1e-486cd6ce8893",
+      "name": "Acid Dragon Claws (5th Level)",
+      "traits": [
+         "Finesse",
+         "Unarmed"
+      ],
+      "displayName": "Claws",
+      "weaponBase": "Dragon Claws",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 1,
+      "dicesize": 4,
+      "dmgType": "S",
+      "extraDamage":"+2d6 Acid",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "f3d188b6-b287-4580-837e-85ddbea5cc59",
+      "name": "Electricity Dragon Claws (5th Level)",
+      "traits": [
+         "Finesse",
+         "Unarmed"
+      ],
+      "displayName": "Claws",
+      "weaponBase": "Dragon Claws",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 1,
+      "dicesize": 4,
+      "dmgType": "S",
+      "extraDamage":"+2d6 Electricity",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "f37b163a-f27a-4285-94f4-ec34d409d231",
+      "name": "Fire Dragon Claws (5th Level)",
+      "traits": [
+         "Finesse",
+         "Unarmed"
+      ],
+      "displayName": "Claws",
+      "weaponBase": "Dragon Claws",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 1,
+      "dicesize": 4,
+      "dmgType": "S",
+      "extraDamage":"+2d6 Fire",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "75cf2ccc-53d2-4ed3-9a90-f9688694f055",
+      "name": "Poison Dragon Claws (5th Level)",
+      "traits": [
+         "Finesse",
+         "Unarmed"
+      ],
+      "displayName": "Claws",
+      "weaponBase": "Dragon Claws",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 1,
+      "dicesize": 4,
+      "dmgType": "S",
+      "extraDamage":"+2d6 Poison",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "260f5e5d-7735-410e-a64e-963f55e521c1",
+      "name": "Cold Dragon Claws (5th Level)",
+      "traits": [
+         "Finesse",
+         "Unarmed"
+      ],
+      "displayName": "Claws",
+      "weaponBase": "Dragon Claws",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 1,
+      "dicesize": 4,
+      "dmgType": "S",
+      "extraDamage":"+2d6 Cold",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "0092c80e-f596-40f5-8557-e560695cda0a",
+      "name": "Acid Dragon Claws (9th Level)",
+      "traits": [
+         "Finesse",
+         "Unarmed"
+      ],
+      "displayName": "Claws",
+      "weaponBase": "Dragon Claws",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 1,
+      "dicesize": 4,
+      "dmgType": "S",
+      "extraDamage":"+3d6 Acid",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "bfb1017a-c749-4895-bfd0-cde2eab8d715",
+      "name": "Electricity Dragon Claws (9th Level)",
+      "traits": [
+         "Finesse",
+         "Unarmed"
+      ],
+      "displayName": "Claws",
+      "weaponBase": "Dragon Claws",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 1,
+      "dicesize": 4,
+      "dmgType": "S",
+      "extraDamage":"+3d6 Electricity",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "c1f47323-ac31-4e23-aad8-d1b2008ebf3a",
+      "name": "Fire Dragon Claws (9th Level)",
+      "traits": [
+         "Finesse",
+         "Unarmed"
+      ],
+      "displayName": "Claws",
+      "weaponBase": "Dragon Claws",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 1,
+      "dicesize": 4,
+      "dmgType": "S",
+      "extraDamage":"+3d6 Fire",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "8228ef19-2bfb-42cf-b527-d3a80045b913",
+      "name": "Poison Dragon Claws (9th Level)",
+      "traits": [
+         "Finesse",
+         "Unarmed"
+      ],
+      "displayName": "Claws",
+      "weaponBase": "Dragon Claws",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 1,
+      "dicesize": 4,
+      "dmgType": "S",
+      "extraDamage":"+3d6 Poison",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "32158a1e-595f-47aa-a83f-8605643e2c17",
+      "name": "Cold Dragon Claws (9th Level)",
+      "traits": [
+         "Finesse",
+         "Unarmed"
+      ],
+      "displayName": "Claws",
+      "weaponBase": "Dragon Claws",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 1,
+      "dicesize": 4,
+      "dmgType": "S",
+      "extraDamage":"+3d6 Cold",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "89210df0-4927-41f3-896d-e0f221d60968",
+      "name": "Glutton's Jaw",
+      "traits": [
+         "Forceful",
+         "Unarmed"
+      ],
+      "displayName": "Jaws",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 1,
+      "dicesize": 8,
+      "dmgType": "P",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks"
+   },
+   {
+      "hide": true,
+      "id": "9b91f45c-37c6-4cb1-8b17-aabbacd4031e",
+      "name": "Moon Frenzy Fangs",
+      "traits": [
+         "Unarmed"
+      ],
+      "displayName": "Fangs",
+      "weaponBase": "Moon Frenzy",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 2,
+      "dicesize": 8,
+      "dmgType": "P",
+      "criticalHint": "On a critical hit, the creature struck takes 1d4 persistent bleed damage.",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks",
+      "useHighestAttackProficiency": true
+   },
+   {
+      "hide": true,
+      "id": "df25510f-01c5-4d38-befa-2c79afeb06b2",
+      "name": "Moon Frenzy Claws",
+      "traits": [
+         "Agile",
+         "Finesse",
+         "Unarmed"
+      ],
+      "displayName": "Claws",
+      "weaponBase": "Moon Frenzy",
+      "moddable": "-",
+      "_className": "Weapon",
+      "dicenum": 2,
+      "dicesize": 6,
+      "dmgType": "S",
+      "criticalHint": "On a critical hit, the creature struck takes 1d4 persistent bleed damage.",
+      "group": "Brawling",
+      "melee": 5,
+      "prof": "Unarmed Attacks",
+      "useHighestAttackProficiency": true
+   }
+]

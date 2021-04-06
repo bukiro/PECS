@@ -1,0 +1,264 @@
+[
+    {
+        "name": "Tindertwig",
+        "id": "01b80fe6-ab63-11ea-bb37-0242ac130002",
+        "desc": "An alchemical substance applied to one end of this tiny wooden stick ignites when struck against a rough surface. Creating a flame with a tindertwig is much faster than creating a flame with flint and steel. You can ignite the tindertwig and touch it to a flammable object as part of the same Interact action.",
+        "level": 1,
+        "price": 20,
+        "traits": [
+            "Alchemical",
+            "Consumable",
+            "Fire"
+        ],
+        "_className": "Potion",
+        "actions": "1A",
+        "activationType": "Interact",
+        "usage": "held in 1 hand"
+    },
+    {
+        "name": "Snake Oil",
+        "id": "01b81248-ab63-11ea-bb37-0242ac130002",
+        "bulk": "L",
+        "desc": "You can apply snake oil onto a wound or other outward symptom of an affliction or condition (such as sores from a disease or discoloration from a poison). For the next hour, the symptom disappears and the wounded or afflicted creature doesn't feel as if it still has the wound or affliction, though all effects remain. A creature can uncover the ruse by succeeding at a DC 17 Perception check, but only if it uses a Seek action to specifically examine the snake oil's effects.",
+        "level": 1,
+        "price": 200,
+        "traits": [
+            "Alchemical",
+            "Consumable"
+        ],
+        "_className": "Potion",
+        "actions": "1A",
+        "activationType": "Interact",
+        "usage": "held in 2 hand",
+        "gainConditions": [
+            {
+                "_className": "ConditionGain",
+                "duration": 6000,
+                "name": "Snake Oil",
+                "source": "Snake Oil"
+            }
+        ]
+    },
+    {
+        "name": "Smokestick (Lesser)",
+        "id": "01b81338-ab63-11ea-bb37-0242ac130002",
+        "bulk": "L",
+        "desc": "With a sharp twist of this item, you instantly create a screen of thick, opaque smoke in a burst centered on one corner of your space. All creatures within that area are concealed, and all other creatures are concealed to them. The smoke lasts for 1 minute or until dispersed by a strong wind.",
+        "level": 1,
+        "price": 300,
+        "subType": "Lesser",
+        "subTypeDesc": "The radius of the burst is 5 feet.",
+        "traits": [
+            "Alchemical",
+            "Consumable"
+        ],
+        "_className": "Potion",
+        "actions": "1A",
+        "activationType": "Interact",
+        "usage": "held in 2 hand",
+        "gainConditions": [
+            {
+                "_className": "ConditionGain",
+                "duration": 100,
+                "name": "Smokestick (Lesser)",
+                "source": "Smokestick (Lesser)"
+            }
+        ]
+    },
+    {
+        "name": "Sunrod",
+        "id": "01b815c2-ab63-11ea-bb37-0242ac130002",
+        "bulk": "L",
+        "desc": "This 1-foot-long, gold-tipped rod glows after it's struck on a hard surface. For the next 6 hours, it sheds bright light in a 20-foot radius (and dim light to the next 40 feet).",
+        "level": 1,
+        "price": 300,
+        "traits": [
+            "Alchemical",
+            "Consumable",
+            "Light"
+        ],
+        "_className": "Potion",
+        "actions": "1A",
+        "activationType": "Interact",
+        "usage": "held in 1 hand",
+        "gainConditions": [
+            {
+                "_className": "ConditionGain",
+                "duration": 36000,
+                "name": "Sunrod",
+                "source": "Sunrod"
+            }
+        ]
+    },
+    {
+        "name": "Silversheen",
+        "id": "01b81694-ab63-11ea-bb37-0242ac130002",
+        "bulk": "L",
+        "desc": "You can slather this silvery paste onto one melee weapon, one thrown weapon, or 10 pieces of ammunition. Silversheen spoils quickly, so once you open a vial, you must use it all at once, rather than saving it. For the next hour, the weapon or ammunition counts as silver instead of its normal precious material (such as cold iron) for any physical damage it deals.",
+        "level": 2,
+        "price": 600,
+        "traits": [
+            "Alchemical",
+            "Consumable"
+        ],
+        "_className": "Potion",
+        "actions": "1A",
+        "activationType": "Interact",
+        "usage": "held in 2 hand",
+        "gainConditions": [
+            {
+                "_className": "ConditionGain",
+                "duration": 6000,
+                "name": "Silversheen",
+                "source": "Silversheen"
+            }
+        ]
+    },
+    {
+        "name": "Smokestick (Greater)",
+        "id": "01b81752-ab63-11ea-bb37-0242ac130002",
+        "bulk": "L",
+        "desc": "With a sharp twist of this item, you instantly create a screen of thick, opaque smoke in a burst centered on one corner of your space. All creatures within that area are concealed, and all other creatures are concealed to them. The smoke lasts for 1 minute or until dispersed by a strong wind.",
+        "level": 7,
+        "price": 5300,
+        "subType": "Greater",
+        "subTypeDesc": "The radius of the burst is 20 feet.",
+        "traits": [
+            "Alchemical",
+            "Consumable"
+        ],
+        "_className": "Potion",
+        "actions": "1A",
+        "activationType": "Interact",
+        "usage": "held in 1 hand",
+        "gainConditions": [
+            {
+                "_className": "ConditionGain",
+                "duration": 100,
+                "name": "Smokestick (Greater)",
+                "source": "Smokestick (Greater)"
+            }
+        ]
+    },
+    {
+        "name": "Purple Worm Repellent",
+        "id": "01b81810-ab63-11ea-bb37-0242ac130002",
+        "bulk": "L",
+        "desc": "Cave worm repellent is a highly noxious oil that can be applied to a creature or sprinkled in a circle around a 10-foot-radius area. In either case, after it is applied, it lasts for 24 hours or until it is scrubbed clean with 1 minute of work.\n\nWhen applied to a creature, the repellent causes cave worms of the indicated type to avoid attacking that creature in melee as long as they have something else nearby to attack. The repellent does not deter a cave worm from making ranged attacks against a coated target. If no creatures are within a cave worm's reach and it wants to approach and make a melee attack, it approaches and attacks a non-coated creature if it can without spending more actions to do so.\n\nIf the coated creature is swallowed by the designated type of cave worm, the cave worm must succeed at a Fortitude save or involuntarily regurgitate the swallowed creature on the next round (a single action).\n\nWhen sprinkled around an area, cave worm repellent negates any chance of a random encounter with the particular type of cave worm in that area, as the creatures purposefully avoid the affected area.\n\nOther types of repellent that function similarly to this one might exist at the GM's discretion. Uncommon or rare creatures are typically much harder to repel, and repellent against them might necessitate harvesting ingredients from the creatures themselves (such as the creature's liver or a certain gland).",
+        "level": 13,
+        "price": 55000,
+        "traits": [
+            "Uncommon",
+            "Alchemical",
+            "Consumable"
+        ],
+        "_className": "Potion",
+        "actions": "1A",
+        "activationType": "Interact",
+        "usage": "held in 1 hand",
+        "sourceBook": "Pathfinder #155: Lord of the Black Sands",
+        "gainConditions": [
+            {
+                "_className": "ConditionGain",
+                "duration": 144000,
+                "name": "Purple Worm Repellent",
+                "source": "Purple Worm Repellent"
+            }
+        ]
+    },
+    {
+        "name": "Azure Worm Repellent",
+        "id": "01b818d8-ab63-11ea-bb37-0242ac130002",
+        "bulk": "L",
+        "desc": "Cave worm repellent is a highly noxious oil that can be applied to a creature or sprinkled in a circle around a 10-foot-radius area. In either case, after it is applied, it lasts for 24 hours or until it is scrubbed clean with 1 minute of work.\n\nWhen applied to a creature, the repellent causes cave worms of the indicated type to avoid attacking that creature in melee as long as they have something else nearby to attack. The repellent does not deter a cave worm from making ranged attacks against a coated target. If no creatures are within a cave worm's reach and it wants to approach and make a melee attack, it approaches and attacks a non-coated creature if it can without spending more actions to do so.\n\nIf the coated creature is swallowed by the designated type of cave worm, the cave worm must succeed at a Fortitude save or involuntarily regurgitate the swallowed creature on the next round (a single action).\n\nWhen sprinkled around an area, cave worm repellent negates any chance of a random encounter with the particular type of cave worm in that area, as the creatures purposefully avoid the affected area.\n\nOther types of repellent that function similarly to this one might exist at the GM's discretion. Uncommon or rare creatures are typically much harder to repel, and repellent against them might necessitate harvesting ingredients from the creatures themselves (such as the creature's liver or a certain gland).",
+        "level": 15,
+        "price": 110000,
+        "traits": [
+            "Uncommon",
+            "Alchemical",
+            "Consumable"
+        ],
+        "_className": "Potion",
+        "actions": "1A",
+        "activationType": "Interact",
+        "usage": "held in 1 hand",
+        "sourceBook": "Pathfinder #155: Lord of the Black Sands",
+        "craftRequirement": "The initial raw ingredients must include an azure worm's scale.",
+        "gainConditions": [
+            {
+                "_className": "ConditionGain",
+                "duration": 144000,
+                "name": "Azure Worm Repellent",
+                "source": "Azure Worm Repellent"
+            }
+        ]
+    },
+    {
+        "name": "Green Gut",
+        "id": "01b81996-ab63-11ea-bb37-0242ac130002",
+        "bulk": "L",
+        "desc": "This watery, mint-green emetic of xulgath design is often carried in a delicate obsidian vial or other fragile container. In the unfortunate circumstance that a creature has been Swallowed Whole by another creature, the swallowed creature can break open a vial of greengut to immediately induce vomiting. The swallower must succeed at a DC 40 Fortitude save or take 18d6 poison damage and possibly vomit the contents of its stomach.",
+        "level": 17,
+        "price": 250000,
+        "traits": [
+            "Uncommon",
+            "Alchemical",
+            "Consumable",
+            "Potion"
+        ],
+        "_className": "Potion",
+        "actions": "1A",
+        "activationType": "Interact",
+        "usage": "held in 1 hand",
+        "sourceBook": "Pathfinder #155: Lord of the Black Sands",
+        "critsuccess": "The creature is unaffected.",
+        "success": "The creature takes half damage.",
+        "failure": "The creature takes full damage, is sickened 1, and vomits up any and all creatures Swallowed Whole on its next turn (a single action, which also allows it a Fortitude save against the sickened condition), as well as any stones or other objects it swallowed.",
+        "critfailure": "As failure, but the creature takes double damage and is sickened 2."
+    },
+    {
+        "name": "Crimson Worm Repellent",
+        "id": "01b81a54-ab63-11ea-bb37-0242ac130002",
+        "bulk": "L",
+        "desc": "Cave worm repellent is a highly noxious oil that can be applied to a creature or sprinkled in a circle around a 10-foot-radius area. In either case, after it is applied, it lasts for 24 hours or until it is scrubbed clean with 1 minute of work.\n\nWhen applied to a creature, the repellent causes cave worms of the indicated type to avoid attacking that creature in melee as long as they have something else nearby to attack. The repellent does not deter a cave worm from making ranged attacks against a coated target. If no creatures are within a cave worm's reach and it wants to approach and make a melee attack, it approaches and attacks a non-coated creature if it can without spending more actions to do so.\n\nIf the coated creature is swallowed by the designated type of cave worm, the cave worm must succeed at a Fortitude save or involuntarily regurgitate the swallowed creature on the next round (a single action).\n\nWhen sprinkled around an area, cave worm repellent negates any chance of a random encounter with the particular type of cave worm in that area, as the creatures purposefully avoid the affected area.\n\nOther types of repellent that function similarly to this one might exist at the GM's discretion. Uncommon or rare creatures are typically much harder to repel, and repellent against them might necessitate harvesting ingredients from the creatures themselves (such as the creature's liver or a certain gland).",
+        "level": 18,
+        "price": 450000,
+        "traits": [
+            "Uncommon",
+            "Alchemical",
+            "Consumable"
+        ],
+        "_className": "Potion",
+        "actions": "1A",
+        "activationType": "Interact",
+        "usage": "held in 1 hand",
+        "sourceBook": "Pathfinder #155: Lord of the Black Sands",
+        "craftRequirement": "The initial raw ingredients must include a crimson worm's liver.",
+        "gainConditions": [
+            {
+                "_className": "ConditionGain",
+                "duration": 144000,
+                "name": "Crimson Worm Repellent",
+                "source": "Crimson Worm Repellent"
+            }
+        ]
+    },
+    {
+        "name": "Philosopher's Stone",
+        "id": "01b81c7a-ab63-11ea-bb37-0242ac130002",
+        "bulk": "2",
+        "desc": "An alchemist with the Craft Philosopher's Stone feat can create a philosopher's stone once per month by spending 1 batch of infused reagents during their daily preparations using the advanced alchemy class feature. This is the only way to create a philosopher's stone.\n\nAt a glance, a philosopher's stone appears to be an ordinary, sooty piece of natural rock. Breaking the rock open with a Force Open action (DC 35) reveals a cavity at the stone's heart. The cavity is lined with a rare type of quicksilver that can transmute base metals into precious metals or create an elixir of rejuvenation.\n\nTo use the quicksilver, you must be legendary in Crafting and have the Alchemical Crafting feat. You can then use the stone's quicksilver for one of two effects:\n\nYou can apply the stone's quicksilver to an infused true elixir of life using an Interact action. This turns the elixir into an infused elixir of rejuvenation instantaneously. This doesn't require any crafting time or additional materials.\nYou can spend up to a month of downtime applying the quicksilver either to iron to create silver or to lead to create gold. Treat this as a 20th-level task to Earn Income using Crafting, except that you create 500 gp worth of your chosen metal per day on a success or 750 gp worth per day on a critical success.",
+        "level": 20,
+        "price": 0,
+        "traits": [
+            "Abjuration",
+            "Consumable",
+            "Magical",
+            "Potion"
+        ],
+        "_className": "Potion",
+        "actions": "1A or 1 or more days",
+        "activationType": "Interact",
+        "usage": "held in 2 hand"
+    }
+]

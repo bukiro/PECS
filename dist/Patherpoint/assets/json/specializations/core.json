@@ -1,0 +1,121 @@
+[
+    {
+        "name": "Axe",
+        "desc": "Choose one creature adjacent to the initial target and within reach. If its AC is lower than your attack roll result for the critical hit, you deal damage to that creature equal to the result of the weapon damage die you rolled (including extra dice for its potency rune, if any). This amount isn't doubled, and no bonuses or other additional dice apply to this damage.",
+        "type": "weapons"
+    },
+    {
+        "name": "Bomb",
+        "desc": "Increase the radius of the bomb's splash damage (if any) to 10 feet.",
+        "type": "weapons"
+    },
+    {
+        "name": "Bow",
+        "desc": "If the target of the critical hit is adjacent to a surface, it gets stuck to that surface by the missile. The target is immobilized and must spend an Interact action to attempt a DC 10 Athletics check to pull the missile free; it can't move from its space until it succeeds. The creature doesn't become stuck if it is incorporeal, is liquid (like a water elemental or some oozes), or could otherwise escape without effort.",
+        "type": "weapons"
+    },
+    {
+        "name": "Brawling",
+        "desc": "The target must succeed at a Fortitude save against your class DC or be slowed 1 until the end of your next turn.",
+        "type": "weapons"
+    },
+    {
+        "name": "Club",
+        "desc": "You knock the target away from you up to 10 feet (you choose the distance). This is forced movement.",
+        "type": "weapons"
+    },
+    {
+        "name": "Dart",
+        "desc": "The target takes 1d6 persistent bleed damage. You gain an item bonus to this bleed damage equal to the weapon's item bonus to attack rolls.",
+        "type": "weapons"
+    },
+    {
+        "name": "Flail",
+        "desc": "The target is knocked prone.",
+        "type": "weapons"
+    },
+    {
+        "name": "Hammer",
+        "desc": "The target is knocked prone.",
+        "type": "weapons"
+    },
+    {
+        "name": "Knife",
+        "desc": "The target takes 1d6 persistent bleed damage. You gain an item bonus to this bleed damage equal to the weapon's item bonus to attack rolls.",
+        "type": "weapons"
+    },
+    {
+        "name": "Pick",
+        "desc": "The weapon viciously pierces the target, who takes 2 additional damage per weapon damage die.",
+        "type": "weapons"
+    },
+    {
+        "name": "Polearm",
+        "desc": "The target is moved 5 feet in a direction of your choice. This is forced movement.",
+        "type": "weapons"
+    },
+    {
+        "name": "Shield",
+        "desc": "You knock the target back from you 5 feet. This is forced movement.",
+        "type": "weapons"
+    },
+    {
+        "name": "Sling",
+        "desc": "The target must succeed at a Fortitude save against your class DC or be stunned 1.",
+        "type": "weapons"
+    },
+    {
+        "name": "Spear",
+        "desc": "The weapon pierces the target, weakening its attacks. The target is clumsy 1 until the start of your next turn.",
+        "type": "weapons"
+    },
+    {
+        "name": "Sword",
+        "desc": "The target is made off-balance by your attack, becoming flat-footed until the start of your next turn.",
+        "type": "weapons"
+    },
+    {
+        "name": "Chain",
+        "desc": "The armor is so flexible it can bend with a critical hit and absorb some of the blow. Reduce the damage from critical hits by either 4 + the value of the armor's potency rune for medium armor, or 6 + the value of the armor's potency rune for heavy armor. This can't reduce the damage to less than the damage rolled for the hit before doubling for a critical hit.",
+        "hints": [
+            {
+                "desc": "Reduce the damage from critical hits by either 4 + the value of the armor's potency rune for medium armor, or 6 + the value of the armor's potency rune for heavy armor. This can't reduce the damage to less than the damage rolled for the hit before doubling for a critical hit.",
+                "showon": "Resistances, Armor"
+            }
+        ],
+        "type": "armors"
+    },
+    {
+        "name": "Composite",
+        "desc": "The numerous overlapping pieces of this armor protect you from piercing attacks. You gain resistance to piercing damage equal to 1 + the value of the armor's potency rune for medium armor, or 2 + the value of the armor's potency rune for heavy armor.",
+        "effects": [
+            {
+                "affected": "Piercing Damage Resistance",
+                "value": "Armor() && (Armor().get_Proficiency() == 'Medium Armor' ? 1 + Armor().get_PotencyRune() : 2 + Armor().get_PotencyRune())"
+            }
+        ],
+        "type": "armors"
+    },
+    {
+        "name": "Leather",
+        "desc": "The thick second skin of the armor disperses blunt force to reduce bludgeoning damage. You gain resistance to bludgeoning damage equal to 1 + the value of the armor's potency rune for medium armor, or 2 + the value of the armor's potency rune for heavy armor.",
+        "effects": [
+            {
+                "affected": "Bludgeoning Damage Resistance",
+                "value": "Armor() && (Armor().get_Proficiency() == 'Medium Armor' ? 1 + Armor().get_PotencyRune() : 2 + Armor().get_PotencyRune())"
+            }
+        ],
+        "type": "armors"
+    },
+    {
+        "name": "Plate",
+        "desc": "The sturdy plate provides no purchase for a cutting edge. You gain resistance to slashing damage equal to 1 + the value of the armor's potency rune for medium armor, or 2 + the value of the armor's potency rune for heavy armor.",
+        "effects": [
+            {
+                "affected": "Slashing Damage Resistance",
+                "value": "Armor() && (Armor().get_Proficiency() == 'Medium Armor' ? 1 + Armor().get_PotencyRune() : 2 + Armor().get_PotencyRune())"
+            }
+        ],
+        "type": "armors"
+    }
+]

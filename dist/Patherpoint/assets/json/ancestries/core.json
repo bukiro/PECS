@@ -1,0 +1,1336 @@
+[
+    {
+        "_className": "Ancestry",
+        "name": "Dwarf",
+        "desc": [
+            {
+                "name": "Description",
+                "value": "Dwarves have a well-earned reputation as a stoic and stern people, ensconced within citadels and cities carved from solid rock. While some see them as dour and humorless crafters of stone and metal, dwarves and those who have spent time among them understand their unbridled zeal for their work, caring far more about quality than quantity. To a stranger, they can seem untrusting and clannish, but to their friends and family, they are warm and caring, their halls filled with the sounds of laughter and hammers hitting anvils.\n\nDwarves are slow to trust those outside their kin, but this wariness is not without reason. Dwarves have a long history of forced exile from ancestral holds and struggles against the depredations of savage foes, especially giants, goblinoids, orcs, and the horrors that dwell deep below the surface. While trust from a dwarf is hard-won, once gained it is as strong as iron.\n\nIf you want to play a character who is as hard as nails, a stubborn and unrelenting adventurer, with a mix of rugged toughness and deep wisdom - or at least dogged conviction - you should play a dwarf."
+            },
+            {
+                "name": "Hit Points",
+                "value": "10"
+            },
+            {
+                "name": "Size",
+                "value": "Medium"
+            },
+            {
+                "name": "Speed",
+                "value": "20 feet"
+            },
+            {
+                "name": "Ability Boosts",
+                "value": "Constitution\nWisdom\nFree"
+            },
+            {
+                "name": "Ability Flaw(s)",
+                "value": "Charisma"
+            },
+            {
+                "name": "Languages",
+                "value": "Common\nDwarven"
+            },
+            {
+                "name": "Additional Languages",
+                "value": "Equal to your intelligence modifier (if it's positive). Choose from Gnomish, Goblin, Jotun, Orcish, Terran, Undercommon, and any other languages to which you have access (such as the languages prevalent in your region)."
+            },
+            {
+                "name": "Darkvision",
+                "value": "You can see in darkness and dim light just as well as you can see in bright light, though your vision in darkness is in black and white."
+            },
+            {
+                "name": "Clan Dagger",
+                "value": "You get one clan dagger of your clan for free, as it was given to you at birth. Selling this dagger is a terrible taboo and earns you the disdain of other dwarves."
+            }
+        ],
+        "ancestries": [
+            "Dwarf"
+        ],
+        "hitPoints": 10,
+        "size": 0,
+        "speeds": [
+            {
+                "name": "Land Speed",
+                "value": 20
+            }
+        ],
+        "traits": [
+            "Dwarf",
+            "Humanoid"
+        ],
+        "abilityChoices": [
+            {
+                "_className": "AbilityChoice",
+                "boosts": [
+                    {
+                        "locked": true,
+                        "name": "Constitution",
+                        "source": "Ancestry",
+                        "sourceId": "1-Ability-Ancestry-0",
+                        "type": "Boost"
+                    },
+                    {
+                        "locked": true,
+                        "name": "Wisdom",
+                        "source": "Ancestry",
+                        "sourceId": "1-Ability-Ancestry-0",
+                        "type": "Boost"
+                    },
+                    {
+                        "locked": true,
+                        "name": "Charisma",
+                        "source": "Ancestry",
+                        "sourceId": "1-Ability-Ancestry-0",
+                        "type": "Flaw"
+                    }
+                ],
+                "id": "1-Ability-Ancestry-0",
+                "source": "Ancestry"
+            },
+            {
+                "_className": "AbilityChoice",
+                "available": 1,
+                "baseValuesLost": 1,
+                "id": "1-Ability-Ancestry-1",
+                "source": "Ancestry"
+            }
+        ],
+        "baseLanguages": 2,
+        "languages": [
+            "Common",
+            "Dwarven"
+        ],
+        "recommendedLanguages": [
+            "Gnomish",
+            "Goblin",
+            "Jotun",
+            "Orcish",
+            "Terran",
+            "Undercommon"
+        ],
+        "senses": [
+            "Darkvision"
+        ],
+        "gainItems": [
+            {
+                "name": "Clan Dagger",
+                "type": "weapons"
+            }
+        ],
+        "heritages": [
+            "Ancient-Blooded Dwarf",
+            "Anvil Dwarf",
+            "Death Warden Dwarf",
+            "Elemental Heart Dwarf",
+            "Forge Dwarf",
+            "Half-Elf",
+            "Half-Orc",
+            "Oathkeeper Dwarf",
+            "Rock Dwarf",
+            "Strong-Blooded Dwarf"
+        ]
+    },
+    {
+        "_className": "Ancestry",
+        "name": "Elf",
+        "desc": [
+            {
+                "name": "Description",
+                "value": "As an ancient people, elves have seen great change and have the perspective that can come only from watching the arc of history. After leaving the world in ancient times, they returned to a changed land, and they still struggle to reclaim their ancestral homes, most notably from terrible demons that have invaded parts of their lands. To some, the elves are objects of awe - graceful and beautiful, with immense talent and knowledge. Among themselves, however, the elves place far more importance on personal freedom than on living up to these ideals.\n\nElves combine otherworldly grace, sharp intellect, and mysterious charm in a way that is practically magnetic to members of other ancestries. They are often voraciously intellectual, though their studies delve into a level of detail that most shorter-lived peoples find excessive or inefficient. Valuing kindness and beauty, elves ever strive to improve their manners, appearance, and culture.\n\nElves are often rather private people, steeped in the secrets of their groves and kinship groups. They're slow to build friendships outside their kinsfolk, but for a specific reason: they subtly and deeply attune to their environment and their companions. There's a physical element to this attunement, but it isn't only superficial. Elves who spend their lives among shorter‑lived peoples often develop a skewed perception of their own mortality and tend to become morose after watching generation after generation of companions age and die. These elves are called the Forlorn.\n\nIf you want a character who is magical, mystical, and mysterious, you should play an elf."
+            },
+            {
+                "name": "Hit Points",
+                "value": "6"
+            },
+            {
+                "name": "Size",
+                "value": "Medium"
+            },
+            {
+                "name": "Speed",
+                "value": "30 feet"
+            },
+            {
+                "name": "Ability Boosts",
+                "value": "Dexterity\nIntelligence\nFree"
+            },
+            {
+                "name": "Ability Flaw(s)",
+                "value": "Constitution"
+            },
+            {
+                "name": "Languages",
+                "value": "Common\nElven"
+            },
+            {
+                "name": "Additional Languages",
+                "value": "Equal to your intelligence modifier (if it's positive). Choose from Celestial, Draconic, Gnoll, Gnomish, Goblin, Orcish, Sylvan, and any other languages to which you have access (such as the languages prevalent in your region)."
+            },
+            {
+                "name": "Low-Light Vision",
+                "value": "You can see in dim light as though it were bright light, and you ignore the concealed condition due to dim light."
+            }
+        ],
+        "ancestries": [
+            "Elf"
+        ],
+        "hitPoints": 6,
+        "size": 0,
+        "speeds": [
+            {
+                "name": "Land Speed",
+                "value": 30
+            }
+        ],
+        "traits": [
+            "Elf",
+            "Humanoid"
+        ],
+        "abilityChoices": [
+            {
+                "_className": "AbilityChoice",
+                "boosts": [
+                    {
+                        "locked": true,
+                        "name": "Dexterity",
+                        "source": "Ancestry",
+                        "sourceId": "1-Ability-Ancestry-0",
+                        "type": "Boost"
+                    },
+                    {
+                        "locked": true,
+                        "name": "Intelligence",
+                        "source": "Ancestry",
+                        "sourceId": "1-Ability-Ancestry-0",
+                        "type": "Boost"
+                    },
+                    {
+                        "locked": true,
+                        "name": "Constitution",
+                        "source": "Ancestry",
+                        "sourceId": "1-Ability-Ancestry-0",
+                        "type": "Flaw"
+                    }
+                ],
+                "id": "1-Ability-Ancestry-0",
+                "source": "Ancestry"
+            },
+            {
+                "_className": "AbilityChoice",
+                "available": 1,
+                "baseValuesLost": 1,
+                "id": "1-Ability-Ancestry-1",
+                "source": "Ancestry"
+            }
+        ],
+        "baseLanguages": 2,
+        "languages": [
+            "Common",
+            "Elven"
+        ],
+        "recommendedLanguages": [
+            "Celestial",
+            "Draconic",
+            "Gnoll",
+            "Gnomish",
+            "Goblin",
+            "Orcish",
+            "Sylvan"
+        ],
+        "senses": [
+            "Low-Light Vision"
+        ],
+        "heritages": [
+            "Ancient Elf",
+            "Arctic Elf",
+            "Cavern Elf",
+            "Desert Elf",
+            "Half-Orc",
+            "Seer Elf",
+            "Whisper Elf",
+            "Woodland Elf"
+        ]
+    },
+    {
+        "_className": "Ancestry",
+        "name": "Gnome",
+        "desc": [
+            {
+                "name": "Description",
+                "value": "Long ago, early gnome ancestors emigrated from the First World, realm of the fey. While it's unclear why the first gnomes wandered to Golarion, this lineage manifests in modern gnomes as bizarre reasoning, eccentricity, obsessive tendencies, and what some see as naivete. These qualities are further reflected in their physical characteristics, such as spindly limbs, brightly colored hair, and childlike and extremely expressive facial features that further reflect their otherworldly origins.\n\nAlways hungry for new experiences, gnomes constantly wander both mentally and physically, attempting to stave off a terrible ailment that threatens all of their people. This affliction - the Bleaching - strikes gnomes who fail to dream, innovate, and take in new experiences, in the gnomes' absence of crucial magical essence from the First World. Gnomes latch onto a source of localized magic where they live, typically primal magic, as befits their fey lineage, but this isn't enough to avoid the Bleaching unless they supplement this magic with new experiences. The Bleaching slowly drains the color - literally - from gnomes, and it plunges those affected into states of deep depression that eventually claim their lives. Very few gnomes survive this scourge, becoming deeply morose and wise survivors known as bleachlings.\n\nIf you want a character with boundless enthusiasm and an alien, fey outlook on morality and life, you should play a gnome."
+            },
+            {
+                "name": "Hit Points",
+                "value": "8"
+            },
+            {
+                "name": "Size",
+                "value": "Small"
+            },
+            {
+                "name": "Speed",
+                "value": "25 feet"
+            },
+            {
+                "name": "Ability Boosts",
+                "value": "Constitution\nCharisma\nFree"
+            },
+            {
+                "name": "Ability Flaw(s)",
+                "value": "Strength"
+            },
+            {
+                "name": "Languages",
+                "value": "Common\nGnomish\nSylvan"
+            },
+            {
+                "name": "Additional Languages",
+                "value": "Equal to your intelligence modifier (if it's positive). Choose from Draconic, Dwarven, Elven, Goblin, Jotun, Orcish, and any other languages to which you have access (such as the languages prevalent in your region)."
+            },
+            {
+                "name": "Low-Light Vision",
+                "value": "You can see in dim light as though it were bright light, and you ignore the concealed condition due to dim light."
+            }
+        ],
+        "ancestries": [
+            "Gnome"
+        ],
+        "hitPoints": 8,
+        "size": -1,
+        "speeds": [
+            {
+                "name": "Land Speed",
+                "value": 25
+            }
+        ],
+        "traits": [
+            "Gnome",
+            "Humanoid"
+        ],
+        "abilityChoices": [
+            {
+                "_className": "AbilityChoice",
+                "boosts": [
+                    {
+                        "locked": true,
+                        "name": "Constitution",
+                        "source": "Ancestry",
+                        "sourceId": "1-Ability-Ancestry-0",
+                        "type": "Boost"
+                    },
+                    {
+                        "locked": true,
+                        "name": "Charisma",
+                        "source": "Ancestry",
+                        "sourceId": "1-Ability-Ancestry-0",
+                        "type": "Boost"
+                    },
+                    {
+                        "locked": true,
+                        "name": "Strength",
+                        "source": "Ancestry",
+                        "sourceId": "1-Ability-Ancestry-0",
+                        "type": "Flaw"
+                    }
+                ],
+                "id": "1-Ability-Ancestry-0",
+                "source": "Ancestry"
+            },
+            {
+                "_className": "AbilityChoice",
+                "available": 1,
+                "baseValuesLost": 1,
+                "id": "1-Ability-Ancestry-1",
+                "source": "Ancestry"
+            }
+        ],
+        "baseLanguages": 3,
+        "languages": [
+            "Common",
+            "Gnomish",
+            "Sylvan"
+        ],
+        "recommendedLanguages": [
+            "Draconic",
+            "Dwarven",
+            "Elven",
+            "Goblin",
+            "Jotun",
+            "Orcish"
+        ],
+        "senses": [
+            "Low-Light Vision"
+        ],
+        "heritages": [
+            "Chameleon Gnome",
+            "Fey-Touched Gnome",
+            "Half-Elf",
+            "Half-Orc",
+            "Sensate Gnome",
+            "Umbral Gnome",
+            "Vivacious Gnome",
+            "Wellspring Gnome"
+        ]
+    },
+    {
+        "_className": "Ancestry",
+        "name": "Goblin",
+        "desc": [
+            {
+                "name": "Description",
+                "value": "The convoluted histories other people cling to don't interest goblins. These small folk live in the moment, and they prefer tall tales over factual records. The wars of a few decades ago might as well be from the ancient past. Misunderstood by other people, goblins are happy how they are. Goblin virtues are about being present, creative, and honest. They strive to lead fulfilled lives, rather than worrying about how their journeys will end. To tell stories, not nitpick the facts. To be small, but dream big.\n\nGoblins have a reputation as simple creatures who love songs, fire, and eating disgusting things and who hate reading, dogs, and horses - and there are a great many for whom this description fits perfectly. However, great changes have come to goblinkind, and more and more goblins resist conformity to these stereotypes. Even among goblins that are more worldly, many still exemplify their old ways in some small manner, just to a more sensible degree. Some goblins remain deeply fascinated with fire or fearlessly devour a meal that might turn others' stomachs. Others are endless tinkerers and view their companions' trash as the components of gadgets yet to be made.\n\nThough goblins' culture has splintered radically, their reputation has changed little. As such, goblins who travel to larger cities are frequently subjected to derision, and many work twice as hard at proving their worth.\n\nIf you want a character who is eccentric, enthusiastic, and fun-loving, you should play a goblin."
+            },
+            {
+                "name": "Hit Points",
+                "value": "6"
+            },
+            {
+                "name": "Size",
+                "value": "Small"
+            },
+            {
+                "name": "Speed",
+                "value": "25 feet"
+            },
+            {
+                "name": "Ability Boosts",
+                "value": "Dexterity\nCharisma\nFree"
+            },
+            {
+                "name": "Ability Flaw(s)",
+                "value": "Wisdom"
+            },
+            {
+                "name": "Languages",
+                "value": "Common\nGoblin"
+            },
+            {
+                "name": "Additional Languages",
+                "value": "Equal to your intelligence modifier (if it's positive). Choose from Draconic, Dwarven, Gnoll, Gnomish, Halfling, Orcish, and any other languages to which you have access (such as the languages prevalent in your region)."
+            },
+            {
+                "name": "Darkvision",
+                "value": "You can see in darkness and dim light just as well as you can see in bright light, though your vision in darkness is in black and white."
+            }
+        ],
+        "ancestries": [
+            "Goblin"
+        ],
+        "hitPoints": 6,
+        "size": -1,
+        "speeds": [
+            {
+                "name": "Land Speed",
+                "value": 25
+            }
+        ],
+        "traits": [
+            "Goblin",
+            "Humanoid"
+        ],
+        "abilityChoices": [
+            {
+                "_className": "AbilityChoice",
+                "boosts": [
+                    {
+                        "locked": true,
+                        "name": "Dexterity",
+                        "source": "Ancestry",
+                        "sourceId": "1-Ability-Ancestry-0",
+                        "type": "Boost"
+                    },
+                    {
+                        "locked": true,
+                        "name": "Charisma",
+                        "source": "Ancestry",
+                        "sourceId": "1-Ability-Ancestry-0",
+                        "type": "Boost"
+                    },
+                    {
+                        "locked": true,
+                        "name": "Wisdom",
+                        "source": "Ancestry",
+                        "sourceId": "1-Ability-Ancestry-0",
+                        "type": "Flaw"
+                    }
+                ],
+                "id": "1-Ability-Ancestry-0",
+                "source": "Ancestry"
+            },
+            {
+                "_className": "AbilityChoice",
+                "available": 1,
+                "baseValuesLost": 1,
+                "id": "1-Ability-Ancestry-1",
+                "source": "Ancestry"
+            }
+        ],
+        "baseLanguages": 2,
+        "languages": [
+            "Common",
+            "Goblin"
+        ],
+        "recommendedLanguages": [
+            "Draconic",
+            "Dwarven",
+            "Gnoll",
+            "Gnomish",
+            "Halfling",
+            "Orcish"
+        ],
+        "senses": [
+            "Darkvision"
+        ],
+        "heritages": [
+            "Charhide Goblin",
+            "Half-Elf",
+            "Half-Orc",
+            "Irongut Goblin",
+            "Razortooth Goblin",
+            "Snow Goblin",
+            "Tailed Goblin",
+            "Treedweller Goblin",
+            "Unbreakable Goblin"
+        ]
+    },
+    {
+        "_className": "Ancestry",
+        "name": "Halfling",
+        "desc": [
+            {
+                "name": "Description",
+                "value": "Claiming no place as their own, halflings control few settlements larger than villages. Instead, they frequently live among humans within the walls of larger cities, carving out small communities alongside taller folk. Many halflings lead perfectly fulfilling lives in the shadows of their larger neighbors, while others prefer a nomadic existence, traveling the world and taking advantage of opportunities and adventures as they come.\n\nOptimistic and cheerful, blessed with uncanny luck, and driven by powerful wanderlust, halflings make up for their short stature with an abundance of bravado and curiosity. At once excitable and easygoing, they are the best kind of opportunists, and their passions favor joy over violence. Even in the jaws of danger, halflings rarely lose their sense of humor.\n\nMany taller people dismiss halflings due to their size or, worse, treat them like children. Halflings use these prejudices and misconceptions to their advantage, gaining access to opportunities and performing deeds of daring mischief or heroism. A halfling's curiosity is tempered by wisdom and caution, leading to calculated risks and narrow escapes.\n\nWhile their wanderlust and curiosity sometimes drive them toward adventure, halflings also carry strong ties to house and home, often spending above their means to achieve comfort in their homelife.\n\nIf you want to play a character who must contend with these opposing drives toward adventure and comfort, you should play a halfling."
+            },
+            {
+                "name": "Hit Points",
+                "value": "6"
+            },
+            {
+                "name": "Size",
+                "value": "Small"
+            },
+            {
+                "name": "Speed",
+                "value": "25 feet"
+            },
+            {
+                "name": "Ability Boosts",
+                "value": "Dexterity\nWisdom\nFree"
+            },
+            {
+                "name": "Ability Flaw(s)",
+                "value": "Strength"
+            },
+            {
+                "name": "Languages",
+                "value": "Common\nHalfling"
+            },
+            {
+                "name": "Additional Languages",
+                "value": "Equal to your intelligence modifier (if it's positive). Choose from Dwarven, Elven, Gnomish, Goblin, and any other languages to which you have access (such as the languages prevalent in your region)."
+            },
+            {
+                "name": "Keen Eyes",
+                "value": "Your eyes are sharp, allowing you to make out small details about concealed or even invisible creatures that others might miss. You gain a +2 circumstance bonus when using the Seek action to find hidden or undetected creatures within 30 feet of you. When you target an opponent that is concealed from you or hidden from you, reduce the DC of the flat check to 3 for a concealed target or 9 for a hidden one."
+            }
+        ],
+        "ancestries": [
+            "Halfling"
+        ],
+        "hitPoints": 6,
+        "size": -1,
+        "speeds": [
+            {
+                "name": "Land Speed",
+                "value": 25
+            }
+        ],
+        "traits": [
+            "Halfling",
+            "Humanoid"
+        ],
+        "abilityChoices": [
+            {
+                "_className": "AbilityChoice",
+                "boosts": [
+                    {
+                        "locked": true,
+                        "name": "Dexterity",
+                        "source": "Ancestry",
+                        "sourceId": "1-Ability-Ancestry-0",
+                        "type": "Boost"
+                    },
+                    {
+                        "locked": true,
+                        "name": "Wisdom",
+                        "source": "Ancestry",
+                        "sourceId": "1-Ability-Ancestry-0",
+                        "type": "Boost"
+                    },
+                    {
+                        "locked": true,
+                        "name": "Strength",
+                        "source": "Ancestry",
+                        "sourceId": "1-Ability-Ancestry-0",
+                        "type": "Flaw"
+                    }
+                ],
+                "id": "1-Ability-Ancestry-0",
+                "source": "Ancestry"
+            },
+            {
+                "_className": "AbilityChoice",
+                "available": 1,
+                "baseValuesLost": 1,
+                "id": "1-Ability-Ancestry-1",
+                "source": "Ancestry"
+            }
+        ],
+        "baseLanguages": 2,
+        "languages": [
+            "Common",
+            "Halfling"
+        ],
+        "recommendedLanguages": [
+            "Dwarven",
+            "Elven",
+            "Gnomish",
+            "Goblin"
+        ],
+        "heritages": [
+            "Gutsy Halfling",
+            "Half-Elf",
+            "Half-Orc",
+            "Hillock Halfling",
+            "Nomadic Halfling",
+            "Observant Halfling",
+            "Twilight Halfling",
+            "Wildwood Halfling"
+        ],
+        "featChoices": [
+            {
+                "_className": "FeatChoice",
+                "feats": [
+                    {
+                        "name": "Keen Eyes",
+                        "source": "Ancestry",
+                        "locked": true,
+                        "sourceId": "1-Feat-Ancestry-0"
+                    }
+                ],
+                "id": "1-Feat-Ancestry-0",
+                "level": 0,
+                "source": "Ancestry"
+            }
+        ]
+    },
+    {
+        "_className": "Ancestry",
+        "name": "Hobgoblin",
+        "sourceBook": "Character Guide",
+        "desc": [
+            {
+                "name": "Description",
+                "value": "Taller and stronger than their goblin kin, hobgoblins are equals in strength and size to humans, with broad shoulders and long, powerful arms.\n\nThe reputation of hobgoblins in the Inner Sea region has been upended by Oprak, the hobgoblin nation established recently in the mountains between Nidal and Nirmathas. The Ironfang Legion that stormed through Molthune and Nirmathas only a few years ago made a calculated decision to cease fighting, claim Oprak as a new homeland, and seek peace with its neighbors. Now under strict orders to not start conflicts with other nations, the hobgoblins of Oprak have begun to cautiously investigate Avistan in the spirit of cooperation rather than conquest. Many people, especially those that suffered terrible cruelties under the Ironfang Legion, fear that this is simply a pause in aggression while Oprak gains enough strength to crush its rivals. Others hope these bold soldiers might prove to be allies against the endless hordes of the Whispering Tyrant."
+            },
+            {
+                "name": "Hit Points",
+                "value": "8"
+            },
+            {
+                "name": "Size",
+                "value": "Medium"
+            },
+            {
+                "name": "Speed",
+                "value": "25 feet"
+            },
+            {
+                "name": "Ability Boosts",
+                "value": "Constitution\nIntelligence\nFree"
+            },
+            {
+                "name": "Ability Flaw(s)",
+                "value": "Wisdom"
+            },
+            {
+                "name": "Languages",
+                "value": "Common\nGoblin"
+            },
+            {
+                "name": "Additional Languages",
+                "value": "Equal to your intelligence modifier (if it's positive). Choose from Draconic, Dwarven, Gnoll, Jotun, Halfling, Orcish, and any other languages to which you have access (such as the languages prevalent in your region)."
+            },
+            {
+                "name": "Darkvision",
+                "value": "You can see in darkness and dim light just as well as you can see in bright light, though your vision in darkness is in black and white."
+            }
+        ],
+        "ancestries": [
+            "Hobgoblin"
+        ],
+        "hitPoints": 8,
+        "size": 0,
+        "speeds": [
+            {
+                "name": "Land Speed",
+                "value": 25
+            }
+        ],
+        "traits": [
+            "Uncommon",
+            "Goblin",
+            "Humanoid"
+        ],
+        "abilityChoices": [
+            {
+                "_className": "AbilityChoice",
+                "boosts": [
+                    {
+                        "locked": true,
+                        "name": "Constitution",
+                        "source": "Ancestry",
+                        "sourceId": "1-Ability-Ancestry-0",
+                        "type": "Boost"
+                    },
+                    {
+                        "locked": true,
+                        "name": "Intelligence",
+                        "source": "Ancestry",
+                        "sourceId": "1-Ability-Ancestry-0",
+                        "type": "Boost"
+                    },
+                    {
+                        "locked": true,
+                        "name": "Wisdom",
+                        "source": "Ancestry",
+                        "sourceId": "1-Ability-Ancestry-0",
+                        "type": "Flaw"
+                    }
+                ],
+                "id": "1-Ability-Ancestry-0",
+                "source": "Ancestry"
+            },
+            {
+                "_className": "AbilityChoice",
+                "available": 1,
+                "baseValuesLost": 1,
+                "id": "1-Ability-Ancestry-1",
+                "source": "Ancestry"
+            }
+        ],
+        "baseLanguages": 2,
+        "languages": [
+            "Common",
+            "Goblin"
+        ],
+        "recommendedLanguages": [
+            "Draconic",
+            "Dwarven",
+            "Gnoll",
+            "Jotun",
+            "Halfling",
+            "Orcish"
+        ],
+        "senses": [
+            "Darkvision"
+        ],
+        "heritages": [
+            "Elfbane Hobgoblin",
+            "Half-Elf",
+            "Half-Orc",
+            "Runtboss Hobgoblin",
+            "Smokeworker Hobgoblin",
+            "Warmarch Hobgoblin",
+            "Warrenbred Hobgoblin"
+        ]
+    },
+    {
+        "_className": "Ancestry",
+        "name": "Human",
+        "desc": [
+            {
+                "name": "Description",
+                "value": "As unpredictable and varied as any of Golarion's peoples, humans have exceptional drive and the capacity to endure and expand. Though many civilizations thrived before humanity rose to prominence, humans have built some of the greatest and the most terrible societies throughout the course of history, and today they are the most populous people in the realms around the Inner Sea.\n\nHumans' ambition, versatility, and exceptional potential have led to their status as the world's predominant ancestry. Their empires and nations are vast, sprawling things, and their citizens carve names for themselves with the strength of their sword arms and the power of their spells. Humanity is diverse and tumultuous, running the gamut from nomadic to imperial, sinister to saintly. Many of them venture forth to explore, to map the expanse of the multiverse, to search for long-lost treasure, or to lead mighty armies to conquer their neighbors - for no better reason than because they can.\n\nIf you want a character who can be just about anything, you should play a human."
+            },
+            {
+                "name": "Hit Points",
+                "value": "8"
+            },
+            {
+                "name": "Size",
+                "value": "Medium"
+            },
+            {
+                "name": "Speed",
+                "value": "25 feet"
+            },
+            {
+                "name": "Ability Boosts",
+                "value": "Two free ability boosts"
+            },
+            {
+                "name": "Languages",
+                "value": "Common"
+            },
+            {
+                "name": "Additional Languages",
+                "value": "Equal to 1 + your intelligence modifier (if it's positive). Choose from the list of common languages and any other languages to which you have access (such as the languages prevalent in your region)."
+            }
+        ],
+        "ancestries": [
+            "Human"
+        ],
+        "hitPoints": 8,
+        "size": 0,
+        "speeds": [
+            {
+                "name": "Land Speed",
+                "value": 25
+            }
+        ],
+        "traits": [
+            "Human",
+            "Humanoid"
+        ],
+        "abilityChoices": [
+            {
+                "_className": "AbilityChoice",
+                "available": 2,
+                "baseValuesLost": 1,
+                "id": "1-Ability-Ancestry-0",
+                "source": "Ancestry"
+            }
+        ],
+        "baseLanguages": 2,
+        "languages": [
+            "Common"
+        ],
+        "heritages": [
+            "Half-Elf",
+            "Half-Orc",
+            "Skilled Heritage",
+            "Versatile Heritage",
+            "Wintertouched Human"
+        ]
+    },
+    {
+        "_className": "Ancestry",
+        "name": "Leshy",
+        "sourceBook": "Character Guide",
+        "desc": [
+            {
+                "name": "Description",
+                "value": "Guardians and emissaries of the environment, leshies are immortal spirits of nature temporarily granted a physical form.\n\nLeshies are “born” when a skilled druid or other master of primal magic conducts a ritual to create a suitable vessel, and then a spirit chooses that vessel to be their temporary home. Leshies are self-sufficient from the moment the ritual ends, and so they do not depend upon these druids for care, though\n\nNot all leshies have a strong enough spirit to strike off completely on their own, however. Weaker nature spirits can form only tenuous bonds that are just strong enough to animate Tiny bodies. These spirits become leshy familiars, acting as companions to their druid creators. Independent leshies are often protective of such leshy familiars, advocating for them to be treated with dignity and respect."
+            },
+            {
+                "name": "Hit Points",
+                "value": "8"
+            },
+            {
+                "name": "Size",
+                "value": "Small"
+            },
+            {
+                "name": "Speed",
+                "value": "25 feet"
+            },
+            {
+                "name": "Ability Boosts",
+                "value": "Constitution\nWisdom\nFree"
+            },
+            {
+                "name": "Ability Flaw(s)",
+                "value": "Intelligence"
+            },
+            {
+                "name": "Languages",
+                "value": "Common\nSylvan"
+            },
+            {
+                "name": "Additional Languages",
+                "value": "Equal to your intelligence modifier (if it's positive). Choose from Draconic, Elven, Gnomish, Goblin, Halfling, Undercommon, and any other languages to which you have access (such as the languages prevalent in your region)."
+            },
+            {
+                "name": "Plant Nourishment",
+                "value": "You gain nourishment in the same way that the plants or fungi that match your body type normally do, through some combination of photosynthesis, absorbing minerals with your roots, or scavenging decaying matter. You typically do not need to pay for food. If you normally rely on photosynthesis and go without sunlight for 1 week, you begin to starve. You can derive nourishment from specially formulated bottles of sunlight instead of natural sunlight, but these bottles cost 10 times as much as standard rations (or 40 sp)."
+            }
+        ],
+        "ancestries": [
+            "Leshy"
+        ],
+        "hitPoints": 8,
+        "size": -1,
+        "speeds": [
+            {
+                "name": "Land Speed",
+                "value": 25
+            }
+        ],
+        "traits": [
+            "Uncommon",
+            "Leshy",
+            "Plant"
+        ],
+        "abilityChoices": [
+            {
+                "_className": "AbilityChoice",
+                "boosts": [
+                    {
+                        "locked": true,
+                        "name": "Constitution",
+                        "source": "Ancestry",
+                        "sourceId": "1-Ability-Ancestry-0",
+                        "type": "Boost"
+                    },
+                    {
+                        "locked": true,
+                        "name": "Wisdom",
+                        "source": "Ancestry",
+                        "sourceId": "1-Ability-Ancestry-0",
+                        "type": "Boost"
+                    },
+                    {
+                        "locked": true,
+                        "name": "Intelligence",
+                        "source": "Ancestry",
+                        "sourceId": "1-Ability-Ancestry-0",
+                        "type": "Flaw"
+                    }
+                ],
+                "id": "1-Ability-Ancestry-0",
+                "source": "Ancestry"
+            },
+            {
+                "_className": "AbilityChoice",
+                "available": 1,
+                "baseValuesLost": 1,
+                "id": "1-Ability-Ancestry-1",
+                "source": "Ancestry"
+            }
+        ],
+        "baseLanguages": 2,
+        "languages": [
+            "Common",
+            "Sylvan"
+        ],
+        "recommendedLanguages": [
+            "Draconic",
+            "Elven",
+            "Gnomish",
+            "Goblin",
+            "Halfling",
+            "Undercommon"
+        ],
+        "senses": [
+            "Low-Light Vision"
+        ],
+        "heritages": [
+            "Fungus Leshy",
+            "Gourd Leshy",
+            "Half-Elf",
+            "Half-Orc",
+            "Leaf Leshy",
+            "Vine Leshy"
+        ],
+        "featChoices": [
+            {
+                "_className": "FeatChoice",
+                "feats": [
+                    {
+                        "name": "Plant Nourishment",
+                        "source": "Ancestry",
+                        "locked": true,
+                        "sourceId": "1-Feat-Ancestry-0"
+                    }
+                ],
+                "id": "1-Feat-Ancestry-0",
+                "level": 0,
+                "source": "Ancestry"
+            }
+        ]
+    },
+    {
+        "_className": "Ancestry",
+        "name": "Lizardfolk",
+        "sourceBook": "Character Guide",
+        "desc": [
+            {
+                "name": "Description",
+                "value": "Lizardfolk are consummate survivors, heirs to empires considered ancient even by the elves.\n\nLizardfolk move through the societies of other humanoids with the steely reserve of born predators. They have a well-deserved reputation as outstanding rangers and unsentimental fighters. Though lizardfolk have adapted to many different environments, many of them still prefer to remain near bodies of water, using their ability to hold their breath to their advantage. As a result, lizardfolk usually prefer equipment that is not easily damaged by moisture, eschewing leather and metal for gear made of stone, ivory, glass, and bone."
+            },
+            {
+                "name": "Hit Points",
+                "value": "8"
+            },
+            {
+                "name": "Size",
+                "value": "Medium"
+            },
+            {
+                "name": "Speed",
+                "value": "25 feet"
+            },
+            {
+                "name": "Ability Boosts",
+                "value": "Strength\nWisdom\nFree"
+            },
+            {
+                "name": "Ability Flaw(s)",
+                "value": "Intelligence"
+            },
+            {
+                "name": "Languages",
+                "value": "Common\nIruxi"
+            },
+            {
+                "name": "Additional Languages",
+                "value": "Equal to your Intelligence modifier (if it's positive). Choose from Aquan, Boggard, Draconic, Elven, Jotun, Sylvan, and any other languages to which you have access (such as the languages prevalent in your region)."
+            },
+            {
+                "name": "Claws",
+                "value": "Your sharp claws offer an alternative to the fists other humanoids bring to a fight. You have a claw unarmed attack that deals 1d4 slashing damage and has the agile and finesse traits."
+            },
+            {
+                "name": "Aquatic Adaptation",
+                "value": "Your reptilian biology allows you to hold your breath for a long time. You gain the Breath Control general feat as a bonus feat."
+            }
+        ],
+        "ancestries": [
+            "Lizardfolk"
+        ],
+        "hitPoints": 8,
+        "size": 0,
+        "speeds": [
+            {
+                "name": "Land Speed",
+                "value": 25
+            }
+        ],
+        "traits": [
+            "Uncommon",
+            "Humanoid",
+            "Lizardfolk"
+        ],
+        "abilityChoices": [
+            {
+                "_className": "AbilityChoice",
+                "boosts": [
+                    {
+                        "locked": true,
+                        "name": "Strength",
+                        "source": "Ancestry",
+                        "sourceId": "1-Ability-Ancestry-0",
+                        "type": "Boost"
+                    },
+                    {
+                        "locked": true,
+                        "name": "Wisdom",
+                        "source": "Ancestry",
+                        "sourceId": "1-Ability-Ancestry-0",
+                        "type": "Boost"
+                    },
+                    {
+                        "locked": true,
+                        "name": "Intelligence",
+                        "source": "Ancestry",
+                        "sourceId": "1-Ability-Ancestry-0",
+                        "type": "Flaw"
+                    }
+                ],
+                "id": "1-Ability-Ancestry-0",
+                "source": "Ancestry"
+            },
+            {
+                "_className": "AbilityChoice",
+                "available": 1,
+                "baseValuesLost": 1,
+                "id": "1-Ability-Ancestry-1",
+                "source": "Ancestry"
+            }
+        ],
+        "baseLanguages": 2,
+        "languages": [
+            "Common",
+            "Iruxi"
+        ],
+        "recommendedLanguages": [
+            "Aquan",
+            "Boggard",
+            "Draconic",
+            "Elven",
+            "Jotun",
+            "Sylvan"
+        ],
+        "gainItems": [
+            {
+                "name": "Lizardfolk Claw",
+                "type": "weapons"
+            }
+        ],
+        "heritages": [
+            "Cliffscale Lizardfolk",
+            "Half-Elf",
+            "Half-Orc",
+            "Frilled Lizardfolk",
+            "Sandstrider Lizardfolk",
+            "Unseen Lizardfolk",
+            "Wetlander Lizardfolk"
+        ],
+        "featChoices": [
+            {
+                "_className": "FeatChoice",
+                "feats": [
+                    {
+                        "name": "Breath Control",
+                        "source": "Ancestry",
+                        "locked": true,
+                        "sourceId": "1-Feat-Ancestry-0"
+                    }
+                ],
+                "id": "1-Feat-Ancestry-0",
+                "level": 0,
+                "source": "Ancestry"
+            }
+        ]
+    },
+    {
+        "_className": "Ancestry",
+        "name": "Shoony",
+        "sourceBook": "Pathfinder #153: Life's Long Shadow",
+        "desc": [
+            {
+                "name": "Description",
+                "value": "Diminutive humanoids who resemble squat, bipedal dogs, shoonies are sometimes mistaken for weak and insular pacifists. However, their sheer perseverance, incredible work ethic, and resourceful use of diplomacy make shoonies far from helpless.\n\nAccording to shoonies, Aroden created their kind to provide him with pleasant company soon after he created the Isle of Kortos. Shoony culture is rooted in this myth and its implications, which help to explain the ancestry's long reputation for hospitality, good will, and pacifism. War is antithetical to the shoony way of life; shoonies rely on cooperation and persistence to make their way through a world that can seem at times hellbent on destroying them. Shoonies are unflappable in their optimism and always see the best in others, even when faced with frequent subjugation and exploitation that might create bitterness or xenophobia among other societies. To shoonies, peace is a goal always worth striving for, and no villain is beyond redemption, so they aim to resolve problems with peaceful solutions."
+            },
+            {
+                "name": "Hit Points",
+                "value": "6"
+            },
+            {
+                "name": "Size",
+                "value": "Small"
+            },
+            {
+                "name": "Speed",
+                "value": "25 feet"
+            },
+            {
+                "name": "Ability Boosts",
+                "value": "Dexterity\nCharisma\nFree"
+            },
+            {
+                "name": "Ability Flaw(s)",
+                "value": "Constitution"
+            },
+            {
+                "name": "Languages",
+                "value": "Common\nShoony"
+            },
+            {
+                "name": "Additional Languages",
+                "value": "Equal to your Intelligence modifier (if it's positive). Choose from Dwarven, Gnomish, Goblin, Halfling, Terran, and any other languages to which you have access (such as the languages prevalent in your region). "
+            },
+            {
+                "name": "Low-Light Vision",
+                "value": "You can see in dim light as though it were bright light, so you ignore the concealed condition due to dim light."
+            },
+            {
+                "name": "Blunt Snout",
+                "value": "Your small, blunt snout and labyrinthine sinus system make you resistant to phenomena that assail the nose. When you roll a saving throw against inhaled threats (such as inhaled poisons) and olfactory effects (such as xulgath stench), you get the outcome one degree of success better than the result of your roll."
+            }
+        ],
+        "ancestries": [
+            "Shoony"
+        ],
+        "hitPoints": 6,
+        "size": -1,
+        "speeds": [
+            {
+                "name": "Land Speed",
+                "value": 25
+            }
+        ],
+        "traits": [
+            "Rare",
+            "Humanoid",
+            "Shoony"
+        ],
+        "abilityChoices": [
+            {
+                "_className": "AbilityChoice",
+                "boosts": [
+                    {
+                        "locked": true,
+                        "name": "Dexterity",
+                        "source": "Ancestry",
+                        "sourceId": "1-Ability-Ancestry-0",
+                        "type": "Boost"
+                    },
+                    {
+                        "locked": true,
+                        "name": "Charisma",
+                        "source": "Ancestry",
+                        "sourceId": "1-Ability-Ancestry-0",
+                        "type": "Boost"
+                    },
+                    {
+                        "locked": true,
+                        "name": "Constitution",
+                        "source": "Ancestry",
+                        "sourceId": "1-Ability-Ancestry-0",
+                        "type": "Flaw"
+                    }
+                ],
+                "id": "1-Ability-Ancestry-0",
+                "source": "Ancestry"
+            },
+            {
+                "_className": "AbilityChoice",
+                "available": 1,
+                "baseValuesLost": 1,
+                "id": "1-Ability-Ancestry-1",
+                "source": "Ancestry"
+            }
+        ],
+        "baseLanguages": 2,
+        "languages": [
+            "Common",
+            "Shoony"
+        ],
+        "recommendedLanguages": [
+            "Dwarven",
+            "Gnomish",
+            "Goblin",
+            "Halfling",
+            "Terran"
+        ],
+        "senses": [
+            "Low-Light Vision"
+        ],
+        "heritages": [
+            "Bloodhound Shoony",
+            "Fishseeker Shoony",
+            "Half-Elf",
+            "Half-Orc",
+            "Paddler Shoony",
+            "Thickcoat Shoony"
+        ],
+        "featChoices": [
+            {
+                "_className": "FeatChoice",
+                "feats": [
+                    {
+                        "name": "Blunt Snout",
+                        "source": "Ancestry",
+                        "locked": true,
+                        "sourceId": "1-Feat-Ancestry-0"
+                    }
+                ],
+                "id": "1-Feat-Ancestry-0",
+                "level": 0,
+                "source": "Ancestry"
+            }
+        ]
+    },
+    {
+        "_className": "Ancestry",
+        "name": "Orc",
+        "sourceBook": "Advanced Player's Guide",
+        "desc": [
+            {
+                "name": "Description",
+                "value": "Orcs are forged in the fires of violence and conflict, often from the moment they are born. As they live lives that are frequently cut brutally short, orcs revel in testing their strength against worthy foes, whether by challenging a higher-ranking member of their community for dominance or raiding a neighboring settlement. Many orcs seek glory as soon as they can walk and carry a blade or club, taming wild beasts or hunting deadly monsters.\n\nOrcs often struggle to gain acceptance among other communities, who frequently see them as brutes. Those who earn the loyalty of an orc friend, however, soon learn that an orc's fidelity and honesty are unparalleled. Orc barbarians, fighters, and rangers are prized as gladiators and mercenaries. While some human settlements might be hesitant to accept an entire orc community into their midst, a small handful of orc mercenaries can do the job of an entire squad of human conscripts, so long as the orcs are well fed and well paid. Though the belief that orcs are only suited for battle is pervasive among other humanoids, the harsh orc mentality comes from a long history of conflict rather than a lack of ability in other areas.\n\nOrc culture teaches that they are shaped by the challenges they survive, and the most worthy survive the most hardships. Orcs who attain both a long life and great triumphs command immense respect.\n\nIf you want a character who is hardy, fearsome, and excels at feats of physical prowess, you should play an orc."
+            },
+            {
+                "name": "Hit Points",
+                "value": "10"
+            },
+            {
+                "name": "Size",
+                "value": "Medium"
+            },
+            {
+                "name": "Speed",
+                "value": "25 feet"
+            },
+            {
+                "name": "Ability Boosts",
+                "value": "Strength\nFree"
+            },
+            {
+                "name": "Languages",
+                "value": "Common\nOrcish"
+            },
+            {
+                "name": "Additional Languages",
+                "value": "Equal to your Intelligence modifier (if it's positive). Choose from Goblin, Jotun, Terran, Undercommon, and any other languages to which you have access (such as the languages prevalent in your region)."
+            },
+            {
+                "name": "Darkvision",
+                "value": "You can see in darkness and dim light just as well as you can see in bright light, though your vision in darkness is in black and white."
+            }
+        ],
+        "ancestries": [
+            "Orc"
+        ],
+        "hitPoints": 10,
+        "size": 0,
+        "speeds": [
+            {
+                "name": "Land Speed",
+                "value": 25
+            }
+        ],
+        "traits": [
+            "Uncommon",
+            "Humanoid",
+            "Orc"
+        ],
+        "abilityChoices": [
+            {
+                "_className": "AbilityChoice",
+                "boosts": [
+                    {
+                        "locked": true,
+                        "name": "Strength",
+                        "source": "Ancestry",
+                        "sourceId": "1-Ability-Ancestry-0",
+                        "type": "Boost"
+                    }
+                ],
+                "id": "1-Ability-Ancestry-0",
+                "source": "Ancestry"
+            },
+            {
+                "_className": "AbilityChoice",
+                "available": 1,
+                "baseValuesLost": 1,
+                "id": "1-Ability-Ancestry-1",
+                "source": "Ancestry"
+            }
+        ],
+        "baseLanguages": 2,
+        "languages": [
+            "Common",
+            "Orcish"
+        ],
+        "recommendedLanguages": [
+            "Goblin",
+            "Jotun",
+            "Terran",
+            "Undercommon"
+        ],
+        "senses": [
+            "Darkvision"
+        ],
+        "heritages": [
+            "Badlands Orc",
+            "Deep Orc",
+            "Half-Elf",
+            "Hold-Scarred Orc",
+            "Rainfall Orc"
+        ]
+    }
+]

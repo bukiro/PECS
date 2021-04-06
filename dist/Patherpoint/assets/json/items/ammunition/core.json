@@ -1,0 +1,219 @@
+[
+    {
+        "desc": "These projectiles are the ammunition for bows. The shaft of an arrow is made of wood. It is stabilized in flight by fletching at one end and bears a metal head on the other.",
+        "bulk": "L",
+        "id": "ed88f238-8ed4-11ea-bc55-0242ac130003",
+        "name": "Arrows",
+        "ammunition": "Arrows",
+        "_className": "Ammunition",
+        "price": 10,
+        "stack": 10
+    },
+    {
+        "desc": "These thin, light darts are typically made of hardwood and stabilized with fletching of down or fur. They are often hollow so they can be used to deliver poison.",
+        "bulk": "L",
+        "id": "ed88f44a-8ed4-11ea-bc55-0242ac130003",
+        "name": "Blowgun Darts",
+        "ammunition": "Blowgun Darts",
+        "_className": "Ammunition",
+        "price": 5,
+        "stack": 10
+    },
+    {
+        "desc": "Shorter than traditional arrows but similar in construction, bolts are the ammunition used by crossbows.",
+        "bulk": "L",
+        "id": "ed88f54e-8ed4-11ea-bc55-0242ac130003",
+        "name": "Bolts",
+        "ammunition": "Bolts",
+        "_className": "Ammunition",
+        "price": 10,
+        "stack": 10
+    },
+    {
+        "desc": "These are small metal balls, typically either iron or lead, designed to be used as ammunition in slings.",
+        "bulk": "L",
+        "id": "ed88f634-8ed4-11ea-bc55-0242ac130003",
+        "name": "Sling Bullets",
+        "ammunition": "Sling Bullets",
+        "_className": "Ammunition",
+        "price": 1,
+        "stack": 10
+    },
+    {
+        "desc": "Sleep arrows often have shafts of deep blue or black, and their fletching is exceptionally soft and downy. An activated sleep arrow deals no damage, but a living creature hit by it is subject to the effects of a sleep spell (DC 17).",
+        "activities": [
+            {
+                "actions": "1A",
+                "activationType": "Interact",
+                "castSpells": [
+                    {
+                        "_className": "SpellCast",
+                        "name": "Sleep"
+                    }
+                ],
+                "name": "Sleep Arrow",
+                "displayOnly": true,
+                "traits": [
+                    "Consumable",
+                    "Enchantment",
+                    "Magical",
+                    "Mental",
+                    "Sleep"
+                ],
+                "_className": "ItemActivity"
+            }
+        ],
+        "actions": "1A",
+        "activationType": "Interact",
+        "craftRequirement": "Supply one casting of sleep.",
+        "id": "ed88f882-8ed4-11ea-bc55-0242ac130003",
+        "levelreq": 3,
+        "name": "Sleep Arrow",
+        "ammunition": "Arrows",
+        "_className": "Ammunition",
+        "price": 1100,
+        "traits": [
+            "Consumable",
+            "Enchantment",
+            "Magical",
+            "Mental",
+            "Sleep"
+        ]
+    },
+    {
+        "desc": "Mystic patterns create a magic reservoir within this ammunition. You activate spellstrike ammunition by Casting a Spell into the ammunition. The spell must be of a spell level the ammunition can hold, and the spell must be able to target a creature other than the caster. A creature hit by activated spellstrike ammunition is targeted by the spell. If the creature isn't a valid target for the spell, the spell is lost.\n\nThe ammunition affects only the target hit, even if the spell would normally affect more than one target. If the spell requires a spell attack roll, use the result of your ranged attack roll with the ammunition to determine the degree of success of the spell. If the spell requires a saving throw, the target attempts the save against your spell DC.\n\nThe maximum level of spell the ammunition can hold determines its item level and Price.",
+        "bulk": "L",
+        "id": "ed88f706-8ed4-11ea-bc55-0242ac130003",
+        "levelreq": 3,
+        "name": "Spellstrike Ammunition (Type I)",
+        "ammunition": "Any",
+        "storedSpells":[
+            {
+                "_className": "SpellChoice",
+                "available": 1,
+                "level": 1,
+                "target": "Others"
+            }
+        ],
+        "activities": [
+            {
+                "actions": "2A",
+                "activationType": "Cast a Spell",
+                "desc": "You activate spellstrike ammunition by Casting a Spell into the ammunition. The spell must be of a spell level the ammunition can hold, and the spell must be able to target a creature other than the caster.",
+                "name": "Activate",
+                "displayOnly": true,
+                "traits": [
+                    "Consumable",
+                    "Magical",
+                    "Transmutation"
+                ],
+                "_className": "ItemActivity"
+            }
+        ],
+        "subType": "Type I",
+        "subTypeDesc": "Maximum Spell Level 1st",
+        "_className": "Ammunition",
+        "price": 1200,
+        "traits": [
+            "Consumable",
+            "Magical",
+            "Transmutation"
+        ]
+    },
+    {
+        "desc": "Leafy stalks protrude from the shaft of this rustic arrow. When an activated vine arrow hits a target, the arrow's shaft splits and grows, wrapping the target in vines. The target takes a –10-foot circumstance penalty to its Speeds for 2d4 rounds, or until it Escapes against a DC of 19. On a critical hit, the target is also immobilized until it Escapes.",
+        "actions": "1A",
+        "activationType": "Command",
+        "id": "c6e4d7b3-9dee-43ef-b3a1-ba371cfc13c6",
+        "levelreq": 3,
+        "name": "Vine Arrow",
+        "ammunition": "Arrows",
+        "_className": "Ammunition",
+        "price": 1000,
+        "traits": [
+            "Conjuration",
+            "Consumable",
+            "Magical"
+        ]
+    },
+    {
+        "desc": "The shaft of this arrow is covered in fine green scales, and its iron head comes to a pair of points almost like fangs. After an activated viper arrow hits a target, the arrow transforms into a viper (Pathfinder Bestiary 302). The target is affected by the viper's poison, as if it had been bitten. The viper then lands in an open space adjacent to the target.\n\nThe viper has the summoned trait and acts at the end of your turn, even though you didn't use the Sustain a Spell action. It is under the GM's control, but it generally attacks the creature the arrow struck. The viper vanishes after 1 minute or when slain.",
+        "actions": "1A",
+        "activationType": "Command",
+        "craftRequirement": "Supply one casting of summon animal.",
+        "id": "bafaccca-4d31-46f8-89cc-e39216392792",
+        "levelreq": 3,
+        "name": "Viper Arrow",
+        "ammunition": "Arrows",
+        "_className": "Ammunition",
+        "price": 1100,
+        "gainConditions": [
+            {
+                "name": "Viper Arrow",
+                "duration": 100
+            }
+        ],
+        "traits": [
+            "Conjuration",
+            "Consumable",
+            "Magical"
+        ]
+    },
+    {
+        "desc": "Mystic patterns create a magic reservoir within this ammunition. You activate spellstrike ammunition by Casting a Spell into the ammunition. The spell must be of a spell level the ammunition can hold, and the spell must be able to target a creature other than the caster. A creature hit by activated spellstrike ammunition is targeted by the spell. If the creature isn't a valid target for the spell, the spell is lost.\n\nThe ammunition affects only the target hit, even if the spell would normally affect more than one target. If the spell requires a spell attack roll, use the result of your ranged attack roll with the ammunition to determine the degree of success of the spell. If the spell requires a saving throw, the target attempts the save against your spell DC.\n\nThe maximum level of spell the ammunition can hold determines its item level and Price.",
+        "bulk": "L",
+        "id": "31c40460-8efd-11ea-bc55-0242ac130003",
+        "levelreq": 5,
+        "name": "Spellstrike Ammunition (Type II)",
+        "ammunition": "Any",
+        "storedSpells":[
+            {
+                "_className": "SpellChoice",
+                "available": 1,
+                "level": 2,
+                "target": "Others"
+            }
+        ],
+        "activities": [
+            {
+                "actions": "2A",
+                "activationType": "Cast a Spell",
+                "desc": "You activate spellstrike ammunition by Casting a Spell into the ammunition. The spell must be of a spell level the ammunition can hold, and the spell must be able to target a creature other than the caster.",
+                "name": "Activate",
+                "displayOnly": true,
+                "traits": [
+                    "Consumable",
+                    "Magical",
+                    "Transmutation"
+                ],
+                "_className": "ItemActivity"
+            }
+        ],
+        "subType": "Type II",
+        "subTypeDesc": "Maximum Spell Level 2nd",
+        "_className": "Ammunition",
+        "price": 3000,
+        "traits": [
+            "Consumable",
+            "Magical",
+            "Transmutation"
+        ]
+    },
+    {
+        "desc": "This piece of ammunition is coated in gritty black soot. When activated explosive ammunition hits a target, the missile explodes in a 10-foot burst, dealing 6d6 fire damage to each creature in the area (including the target). Each creature must attempt a DC 25 basic Reflex save.",
+        "actions": "1A",
+        "activationType": "Interact",
+        "id": "c365ac2f-31cf-4f7c-b920-41ef47cd3e1a",
+        "levelreq": 9,
+        "name": "Explosive Ammunition",
+        "ammunition": "Any",
+        "_className": "Ammunition",
+        "price": 13000,
+        "traits": [
+            "Consumable",
+            "Evocation",
+            "Fire",
+            "Magical"
+        ]
+    }
+]

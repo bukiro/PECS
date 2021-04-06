@@ -1,0 +1,769 @@
+[
+    {
+        "name": "Slick",
+        "id": "9caa4c72-aa4a-11ea-bb37-0242ac130002",
+        "level": 3,
+        "price": 4500,
+        "_className": "ArmorRune",
+        "usage": "etched onto armor",
+        "desc": "This property makes armor slippery, as though it were coated with a thin film of oil. You gain a +1 item bonus to Acrobatics checks to Escape and Squeeze.",
+        "traits": [
+            "Magical",
+            "Transmutation"
+        ],
+        "hints": [
+            {
+                "desc": "You gain a +1 item bonus to Acrobatics checks to Escape and Squeeze.",
+                "showon": "Acrobatics",
+                "effects": [
+                    {
+                        "affected": "Acrobatics",
+                        "value": "1",
+                        "type": "item"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Shadow",
+        "id": "9caa4ec0-aa4a-11ea-bb37-0242ac130002",
+        "level": 3,
+        "price": 5500,
+        "_className": "ArmorRune",
+        "usage": "etched onto light or medium nonmetallic armor",
+        "profreq": [
+            "Light Armor",
+            "Medium Armor"
+        ],
+        "nonmetallic": true,
+        "desc": "Armor with this rune becomes hazy black. You gain a +1 item bonus to Stealth checks while wearing the armor. ",
+        "traits": [
+            "Magical",
+            "Transmutation"
+        ],
+        "effects": [
+            {
+                "affected": "Stealth",
+                "type": "item",
+                "value": 1
+            }
+        ]
+    },
+    {
+        "name": "Armor Potency (+1)",
+        "id": "89bf31c1-8e09-11ea-9fab-e92c63c14723",
+        "level": 5,
+        "price": 16000,
+        "_className": "ArmorRune",
+        "usage": "etched onto armor",
+        "craftRequirement": "You are an expert in Crafting.",
+        "potency": 1,
+        "desc": "Magic wards deflect attacks. Increase the armor's item bonus to AC by 1. The armor can be etched with one property rune.\n\nYou can upgrade the armor potency rune already etched on a suit of armor to a stronger version, increasing the values of the existing rune to those of the new rune. You must have the formula of the stronger rune to do so, and the Price of the upgrade is the difference between the two runes' Prices.",
+        "traits": [
+            "Abjuration",
+            "Magical"
+        ],
+        "craftingRequirement": 4
+    },
+    {
+        "name": "Glamered",
+        "id": "9caa4fba-aa4a-11ea-bb37-0242ac130002",
+        "level": 5,
+        "price": 14000,
+        "_className": "ArmorRune",
+        "usage": "etched onto armor",
+        "desc": "This armor can be disguised with a mere thought.",
+        "traits": [
+            "Illusion",
+            "Magical"
+        ],
+        "activities": [
+            {
+                "_className": "ItemActivity",
+                "activationType": "Envision",
+                "desc": "You change the shape and appearance of this armor to appear as ordinary or fine clothes of your imagining. The armor's statistics do not change. Only a creature that is benefiting from true seeing or a similar effect can attempt to disbelieve this illusion, with a DC of 25.",
+                "gainConditions": [
+                    {
+                        "name": "Glamered Rune",
+                        "duration": -1,
+                        "source": "Glamered Rune"
+                    }
+                ],
+                "name": "Glamered Rune",
+                "source": "9caa4fba-aa4a-11ea-bb37-0242ac130002",
+                "toggle": true,
+                "traits": [
+                    "Illusion",
+                    "Magical"
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Energy-Resistant (Acid)",
+        "id": "9caa5082-aa4a-11ea-bb37-0242ac130002",
+        "level": 8,
+        "price": 42000,
+        "_className": "ArmorRune",
+        "usage": "etched onto armor",
+        "desc": "These symbols convey protective forces from the Elemental Planes. You gain resistance 5 to acid, cold, electricity, or fire. The crafter chooses the damage type when creating the rune. Multiple energy-resistant runes can be etched onto a suit of armor; rather than using only the highest-level effect, each must provide resistance to a different damage type. For instance, a +2 acid-resistant greater fire-resistant breastplate would give you acid resistance 5 and fire resistance 10.",
+        "traits": [
+            "Abjuration",
+            "Magical"
+        ],
+        "subType": "Acid",
+        "subTypeDesc": "You gain resistance 5 to acid.",
+        "effects": [
+            {
+                "affected": "Acid Resistance",
+                "value": 5
+            }
+        ]
+    },
+    {
+        "name": "Energy-Resistant (Cold)",
+        "id": "9caa51a4-aa4a-11ea-bb37-0242ac130002",
+        "level": 8,
+        "price": 42000,
+        "_className": "ArmorRune",
+        "usage": "etched onto armor",
+        "desc": "These symbols convey protective forces from the Elemental Planes. You gain resistance 5 to acid, cold, electricity, or fire. The crafter chooses the damage type when creating the rune. Multiple energy-resistant runes can be etched onto a suit of armor; rather than using only the highest-level effect, each must provide resistance to a different damage type. For instance, a +2 acid-resistant greater fire-resistant breastplate would give you acid resistance 5 and fire resistance 10.",
+        "traits": [
+            "Abjuration",
+            "Magical"
+        ],
+        "subType": "Acid",
+        "subTypeDesc": "You gain resistance 5 to cold.",
+        "effects": [
+            {
+                "affected": "Cold Resistance",
+                "value": 5
+            }
+        ]
+    },
+    {
+        "name": "Energy-Resistant (Electricity)",
+        "id": "9caa5438-aa4a-11ea-bb37-0242ac130002",
+        "level": 8,
+        "price": 42000,
+        "_className": "ArmorRune",
+        "usage": "etched onto armor",
+        "desc": "These symbols convey protective forces from the Elemental Planes. You gain resistance 5 to acid, cold, electricity, or fire. The crafter chooses the damage type when creating the rune. Multiple energy-resistant runes can be etched onto a suit of armor; rather than using only the highest-level effect, each must provide resistance to a different damage type. For instance, a +2 acid-resistant greater fire-resistant breastplate would give you acid resistance 5 and fire resistance 10.",
+        "traits": [
+            "Abjuration",
+            "Magical"
+        ],
+        "subType": "Acid",
+        "subTypeDesc": "You gain resistance 5 to electricity.",
+        "effects": [
+            {
+                "affected": "Electricity Resistance",
+                "value": 5
+            }
+        ]
+    },
+    {
+        "name": "Energy-Resistant (Fire)",
+        "id": "9caa551e-aa4a-11ea-bb37-0242ac130002",
+        "level": 8,
+        "price": 42000,
+        "_className": "ArmorRune",
+        "usage": "etched onto armor",
+        "desc": "These symbols convey protective forces from the Elemental Planes. You gain resistance 5 to acid, cold, electricity, or fire. The crafter chooses the damage type when creating the rune. Multiple energy-resistant runes can be etched onto a suit of armor; rather than using only the highest-level effect, each must provide resistance to a different damage type. For instance, a +2 acid-resistant greater fire-resistant breastplate would give you acid resistance 5 and fire resistance 10.",
+        "traits": [
+            "Abjuration",
+            "Magical"
+        ],
+        "subType": "Acid",
+        "subTypeDesc": "You gain resistance 5 to fire.",
+        "effects": [
+            {
+                "affected": "Fire Resistance",
+                "value": 5
+            }
+        ]
+    },
+    {
+        "name": "Invisibility",
+        "id": "5d2e9eb3-98bc-4489-9992-f32a75268ed1",
+        "level": 8,
+        "price": 50000,
+        "_className": "ArmorRune",
+        "usage": "etched onto light armor",
+        "craftRequirement": "Supply one casting of invisibility.",
+        "profreq": [
+            "Light Armor"
+        ],
+        "desc": "Light seems to partially penetrate this armor.",
+        "traits": [
+            "Illusion",
+            "Magical"
+        ],
+        "activities": [
+            {
+                "_className": "ItemActivity",
+                "activationType": "Command",
+                "castSpells": [
+                    {
+                        "_className": "SpellCast",
+                        "level": 2,
+                        "name": "Invisibility",
+                        "target": "self"
+                    }
+                ],
+                "cooldown": 144000,
+                "desc": "Whispering the command word, you become invisible for 1 minute, gaining the effects of a 2nd-level invisibility spell.",
+                "frequency": "once per day",
+                "name": "Invisibility Rune",
+                "source": "5d2e9eb3-98bc-4489-9992-f32a75268ed1",
+                "traits": [
+                    "Illusion",
+                    "Magical"
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Resilient",
+        "id": "89bf31c3-8e09-11ea-9fab-e92c63c14723",
+        "level": 8,
+        "price": 34000,
+        "_className": "ArmorRune",
+        "usage": "etched onto a armor",
+        "resilient": 1,
+        "desc": "Resilient runes imbue armor with additional protective magic. This grants the wearer a +1 item bonus to saving throws.\n\nYou can upgrade the resilient rune already etched on a suit of armor to a stronger version, increasing the values of the existing rune to those of the new rune. You must have the formula of the stronger rune to do so, and the Price of the upgrade is the difference between the two runes' Prices.",
+        "traits": [
+            "Abjuration",
+            "Magical"
+        ]
+    },
+    {
+        "name": "Sinister Knight",
+        "id": "9caa55dc-aa4a-11ea-bb37-0242ac130002",
+        "level": 8,
+        "price": 50000,
+        "_className": "ArmorRune",
+        "usage": "etched onto heavy armor",
+        "sourceBook": "Character Guide",
+        "profreq": [
+            "Heavy Armor"
+        ],
+        "desc": "Sinister knight armor shrouds the wearer's identity in secrecy, allowing Crimson Reclaimers to pass among foes without being immediately unmasked. The wearer gains a +1 item bonus to Deception checks.",
+        "traits": [
+            "Uncommon",
+            "Abjuration",
+            "Illusion",
+            "Magical"
+        ],
+        "effects": [
+            {
+                "affected": "Deception",
+                "type": "item",
+                "value": 1
+            }
+        ],
+        "activities": [
+            {
+                "_className": "ItemActivity",
+                "activationType": "Envision",
+                "desc": "With a thought, the wearer activates a disguise. While the sinister knight armor's disguise is active, any identifying insignia or aesthetic of the armor is replaced by generic malevolent aesthetics such as spikes or demonic faces. While in the disguise, the wearer is always considered to be taking precautions against lifesense, and even a creature that successfully notices the wearer with its lifesense mistakes the wearer for an undead unless it critically succeeds at its Perception check or the wearer critically fails a Deception or Stealth check. Finally, while in the disguise, the rune attempts to counteract any effects that would reveal your alignment; on a successful counteract check, rather than negate the effect, the rune causes the effect to perceive your alignment as evil (maintaining any lawful or chaotic component of your alignment).\n\nThe wearer can Dismiss the disguise, and if the wearer's armor is removed, the disguise deactivates automatically.",
+                "gainConditions": [
+                    {
+                        "name": "Sinister Knight Rune",
+                        "duration": -1,
+                        "source": "Sinister Knight Rune"
+                    }
+                ],
+                "name": "Sinister Knight Rune",
+                "source": "9caa55dc-aa4a-11ea-bb37-0242ac130002",
+                "toggle": true,
+                "traits": [
+                    "Uncommon",
+                    "Abjuration",
+                    "Illusion",
+                    "Magical"
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Slick (Greater)",
+        "id": "9caa56a4-aa4a-11ea-bb37-0242ac130002",
+        "level": 8,
+        "price": 45000,
+        "_className": "ArmorRune",
+        "usage": "etched onto armor",
+        "desc": "This property makes armor slippery, as though it were coated with a thin film of oil. You gain a +1 item bonus to Acrobatics checks to Escape and Squeeze.",
+        "traits": [
+            "Magical",
+            "Transmutation"
+        ],
+        "subType": "Greater",
+        "subTypeDesc": "The item bonus is +2.",
+        "hints": [
+            {
+                "desc": "You gain a +2 item bonus to Acrobatics checks to Escape and Squeeze.",
+                "showon": "Acrobatics",
+                "effects": [
+                    {
+                        "affected": "Acrobatics",
+                        "value": "2",
+                        "type": "item"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Shadow (Greater)",
+        "id": "9caa5758-aa4a-11ea-bb37-0242ac130002",
+        "level": 9,
+        "price": 65000,
+        "_className": "ArmorRune",
+        "usage": "etched onto light or medium nonmetallic armor",
+        "profreq": [
+            "Light Armor",
+            "Medium Armor"
+        ],
+        "nonmetallic": true,
+        "desc": "Armor with this rune becomes hazy black. You gain a +1 item bonus to Stealth checks while wearing the armor. ",
+        "traits": [
+            "Magical",
+            "Transmutation"
+        ],
+        "subType": "Greater",
+        "subTypeDesc": "The item bonus is +2.",
+        "effects": [
+            {
+                "affected": "Stealth",
+                "type": "item",
+                "value": 2
+            }
+        ]
+    },
+    {
+        "name": "Invisibility (Greater)",
+        "id": "db43c69d-8c8e-4ca9-80b5-3112f7182751",
+        "level": 10,
+        "price": 100000,
+        "_className": "ArmorRune",
+        "usage": "etched onto light armor",
+        "craftRequirement": "Supply one casting of invisibility.",
+        "profreq": [
+            "Light Armor"
+        ],
+        "desc": "Light seems to partially penetrate this armor.",
+        "traits": [
+            "Illusion",
+            "Magical"
+        ],
+        "subType": "Greater",
+        "subTypeDesc": "You can activate the armor up to three times per day.",
+        "activities": [
+            {
+                "_className": "ItemActivity",
+                "activationType": "Command",
+                "castSpells": [
+                    {
+                        "_className": "SpellCast",
+                        "level": 2,
+                        "name": "Invisibility",
+                        "target": "self"
+                    }
+                ],
+                "cooldown": 144000,
+                "charges": 3,
+                "desc": "Whispering the command word, you become invisible for 1 minute, gaining the effects of a 2nd-level invisibility spell.",
+                "frequency": "once per day",
+                "name": "Greater Invisibility Rune: 1st activation",
+                "source": "db43c69d-8c8e-4ca9-80b5-3112f7182751",
+                "traits": [
+                    "Illusion",
+                    "Magical"
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Armor Potency (+2)",
+        "id": "89bf31c5-8e09-11ea-9fab-e92c63c14723",
+        "level": 11,
+        "price": 106000,
+        "_className": "ArmorRune",
+        "usage": "etched onto armor",
+        "craftRequirement": "You are a master in Crafting.",
+        "potency": 2,
+        "desc": "Magic wards deflect attacks. Increase the armor's item bonus to AC by 1. The armor can be etched with one property rune.\n\nYou can upgrade the armor potency rune already etched on a suit of armor to a stronger version, increasing the values of the existing rune to those of the new rune. You must have the formula of the stronger rune to do so, and the Price of the upgrade is the difference between the two runes' Prices.",
+        "traits": [
+            "Abjuration",
+            "Magical"
+        ],
+        "subType": "2",
+        "subTypeDesc": "Increase the armor's item bonus to AC by 2, and the armor can be etched with two property runes.",
+        "craftingRequirement": 6
+    },
+    {
+        "name": "Energy-Resistant (Acid, Greater)",
+        "id": "9caa5816-aa4a-11ea-bb37-0242ac130002",
+        "level": 12,
+        "price": 165000,
+        "_className": "ArmorRune",
+        "usage": "etched onto armor",
+        "desc": "These symbols convey protective forces from the Elemental Planes. You gain resistance 5 to acid, cold, electricity, or fire. The crafter chooses the damage type when creating the rune. Multiple energy-resistant runes can be etched onto a suit of armor; rather than using only the highest-level effect, each must provide resistance to a different damage type. For instance, a +2 acid-resistant greater fire-resistant breastplate would give you acid resistance 5 and fire resistance 10.",
+        "traits": [
+            "Abjuration",
+            "Magical"
+        ],
+        "subType": "Acid",
+        "subTypeDesc": "You gain resistance 10 to acid.",
+        "effects": [
+            {
+                "affected": "Acid Resistance",
+                "value": 10
+            }
+        ]
+    },
+    {
+        "name": "Energy-Resistant (Cold, Greater)",
+        "id": "9caa58de-aa4a-11ea-bb37-0242ac130002",
+        "level": 12,
+        "price": 165000,
+        "_className": "ArmorRune",
+        "usage": "etched onto armor",
+        "desc": "These symbols convey protective forces from the Elemental Planes. You gain resistance 5 to acid, cold, electricity, or fire. The crafter chooses the damage type when creating the rune. Multiple energy-resistant runes can be etched onto a suit of armor; rather than using only the highest-level effect, each must provide resistance to a different damage type. For instance, a +2 acid-resistant greater fire-resistant breastplate would give you acid resistance 5 and fire resistance 10.",
+        "traits": [
+            "Abjuration",
+            "Magical"
+        ],
+        "subType": "Acid",
+        "subTypeDesc": "You gain resistance 10 to cold.",
+        "effects": [
+            {
+                "affected": "Cold Resistance",
+                "value": 10
+            }
+        ]
+    },
+    {
+        "name": "Energy-Resistant (Electricity, Greater)",
+        "id": "9caa5a00-aa4a-11ea-bb37-0242ac130002",
+        "level": 12,
+        "price": 165000,
+        "_className": "ArmorRune",
+        "usage": "etched onto armor",
+        "desc": "These symbols convey protective forces from the Elemental Planes. You gain resistance 5 to acid, cold, electricity, or fire. The crafter chooses the damage type when creating the rune. Multiple energy-resistant runes can be etched onto a suit of armor; rather than using only the highest-level effect, each must provide resistance to a different damage type. For instance, a +2 acid-resistant greater fire-resistant breastplate would give you acid resistance 5 and fire resistance 10.",
+        "traits": [
+            "Abjuration",
+            "Magical"
+        ],
+        "subType": "Acid",
+        "subTypeDesc": "You gain resistance 10 to electricity.",
+        "effects": [
+            {
+                "affected": "Electricity Resistance",
+                "value": 10
+            }
+        ]
+    },
+    {
+        "name": "Energy-Resistant (Fire, Greater)",
+        "id": "9caa5c76-aa4a-11ea-bb37-0242ac130002",
+        "level": 12,
+        "price": 165000,
+        "_className": "ArmorRune",
+        "usage": "etched onto armor",
+        "desc": "These symbols convey protective forces from the Elemental Planes. You gain resistance 5 to acid, cold, electricity, or fire. The crafter chooses the damage type when creating the rune. Multiple energy-resistant runes can be etched onto a suit of armor; rather than using only the highest-level effect, each must provide resistance to a different damage type. For instance, a +2 acid-resistant greater fire-resistant breastplate would give you acid resistance 5 and fire resistance 10.",
+        "traits": [
+            "Abjuration",
+            "Magical"
+        ],
+        "subType": "Acid",
+        "subTypeDesc": "You gain resistance 10 to fire.",
+        "effects": [
+            {
+                "affected": "Fire Resistance",
+                "value": 10
+            }
+        ]
+    },
+    {
+        "name": "Fortification",
+        "id": "9caa5d48-aa4a-11ea-bb37-0242ac130002",
+        "level": 12,
+        "price": 200000,
+        "_className": "ArmorRune",
+        "usage": "etched onto medium or heavy armor",
+        "profreq": [
+            "Medium Armor",
+            "Heavy Armor"
+        ],
+        "desc": "A fortification rune wards against the most deadly attacks. Each time you're critically hit while wearing the etched armor, attempt a DC 17 flat check. On a success, it becomes a normal hit. This property thickens the armor, increasing its Bulk by 1 and the Strength required to reduce its penalties by 2.",
+        "traits": [
+            "Abjuration",
+            "Magical"
+        ],
+        "hints": [
+            {
+                "desc": "Each time you're critically hit while wearing the etched armor, attempt a DC 17 flat check. On a success, it becomes a normal hit.",
+                "showon": "Defense"
+            }
+        ]
+    },
+    {
+        "name": "Rock-Braced",
+        "id": "9caa5dfc-aa4a-11ea-bb37-0242ac130002",
+        "level": 13,
+        "price": 300000,
+        "_className": "ArmorRune",
+        "usage": "etched onto medium or heavy armor",
+        "sourceBook": "Pathfinder #148: Fires of the Haunted City",
+        "profreq": [
+            "Medium Armor",
+            "Heavy Armor"
+        ],
+        "desc": "Rock-braced armor makes you as hard to move as a boulder. Whenever another creature attempts to forcibly move you from your space, you gain a +4 item bonus to your Fortitude DC against the check to move you. If the creature would not normally need to attempt a check to move you, then the creature must succeed at an Athletics check against your Fortitude DC (including the +4 item bonus) or you are unmoved.",
+        "traits": [
+            "Rare",
+            "Abjuration",
+            "Dwarf",
+            "Magical",
+            "Saggorak"
+        ],
+        "hints": [
+            {
+                "desc": "Whenever another creature attempts to forcibly move you from your space, you gain a +4 item bonus to your Fortitude DC against the check to move you. If the creature would not normally need to attempt a check to move you, then the creature must succeed at an Athletics check against your Fortitude DC (including the +4 item bonus) or you are unmoved.",
+                "showon": "Defense",
+                "effects": [
+                    {
+                        "affected": "Fortitude",
+                        "value": "4",
+                        "type": "item"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Resilient (Greater)",
+        "id": "89bf31c7-8e09-11ea-9fab-e92c63c14723",
+        "level": 14,
+        "price": 344000,
+        "_className": "ArmorRune",
+        "usage": "etched onto a armor",
+        "resilient": 2,
+        "desc": "Resilient runes imbue armor with additional protective magic. This grants the wearer a +1 item bonus to saving throws.\n\nYou can upgrade the resilient rune already etched on a suit of armor to a stronger version, increasing the values of the existing rune to those of the new rune. You must have the formula of the stronger rune to do so, and the Price of the upgrade is the difference between the two runes' Prices.",
+        "traits": [
+            "Abjuration",
+            "Magical"
+        ],
+        "subType": "Greater",
+        "subTypeDesc": "The armor grants a +2 item bonus to saving throws."
+    },
+    {
+        "name": "Antimagic",
+        "id": "9caa5eba-aa4a-11ea-bb37-0242ac130002",
+        "level": 15,
+        "price": 650000,
+        "_className": "ArmorRune",
+        "usage": "etched onto a armor",
+        "craftRequirement": "Supply one casting of dispel magic.",
+        "desc": "This intricate rune displaces spell energy, granting you a +1 status bonus to saving throws against magical effects.",
+        "traits": [
+            "Uncommon",
+            "Abjuration",
+            "Magical"
+        ],
+        "hints": [
+            {
+                "desc": "You gain a +1 status bonus to saving throws against magical effects.",
+                "showon": "Saving Throws",
+                "effects": [
+                    {
+                        "affected": "Saving Throws",
+                        "value": "1",
+                        "type": "status"
+                    }
+                ]
+            }
+        ],
+        "activities": [
+            {
+                "_className": "ItemActivity",
+                "actions": "Reaction",
+                "activationType": "Command",
+                "castSpells": [
+                    {
+                        "_className": "SpellCast",
+                        "level": 7,
+                        "name": "Dispel Magic"
+                    }
+                ],
+                "cooldown": 144000,
+                "desc": "The armor attempts to counteract the triggering spell with the effect of a 7th-level dispel magic spell and a counteract modifier of +26.",
+                "trigger": "A spell targets you or includes you in its area",
+                "frequency": "once per day",
+                "name": "Antimagic Rune",
+                "source": "9caa5eba-aa4a-11ea-bb37-0242ac130002",
+                "traits": [
+                    "Uncommon",
+                    "Abjuration",
+                    "Magical"
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Slick (Major)",
+        "id": "9caa5f78-aa4a-11ea-bb37-0242ac130002",
+        "level": 16,
+        "price": 900000,
+        "_className": "ArmorRune",
+        "usage": "etched onto armor",
+        "desc": "This property makes armor slippery, as though it were coated with a thin film of oil. You gain a +1 item bonus to Acrobatics checks to Escape and Squeeze.",
+        "traits": [
+            "Magical",
+            "Transmutation"
+        ],
+        "subType": "Greater",
+        "subTypeDesc": "The item bonus is +3.",
+        "hints": [
+            {
+                "desc": "You gain a +3 item bonus to Acrobatics checks to Escape and Squeeze.",
+                "showon": "Acrobatics",
+                "effects": [
+                    {
+                        "affected": "Acrobatics",
+                        "value": "3",
+                        "type": "item"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Ethereal",
+        "id": "9caa6036-aa4a-11ea-bb37-0242ac130002",
+        "level": 17,
+        "price": 1350000,
+        "_className": "ArmorRune",
+        "usage": "etched onto armor",
+        "craftRequirement": "Supply a casting of 9th level ethereal jaunt.",
+        "desc": "An ethereal rune replicates armor on the Ethereal Plane.",
+        "traits": [
+            "Uncommon",
+            "Conjuration",
+            "Magical"
+        ],
+        "activities": [
+            {
+                "_className": "ItemActivity",
+                "activationType": "Command",
+                "castSpells": [
+                    {
+                        "_className": "SpellCast",
+                        "level": 7,
+                        "duration": 1000,
+                        "name": "Ethereal Jaunt"
+                    }
+                ],
+                "cooldown": 144000,
+                "desc": "You gain the effects of an ethereal jaunt spell. This doesn't require concentration and lasts for 10 minutes or until you choose to return to material form as a free action.",
+                "frequency": "once per day",
+                "name": "Ethereal Rune",
+                "source": "9caa6036-aa4a-11ea-bb37-0242ac130002",
+                "traits": [
+                    "Uncommon",
+                    "Conjuration",
+                    "Magical"
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Shadow (Greater)",
+        "id": "9caa60f4-aa4a-11ea-bb37-0242ac130002",
+        "level": 17,
+        "price": 1400000,
+        "_className": "ArmorRune",
+        "usage": "etched onto light or medium nonmetallic armor",
+        "profreq": [
+            "Light Armor",
+            "Medium Armor"
+        ],
+        "nonmetallic": true,
+        "desc": "Armor with this rune becomes hazy black. You gain a +1 item bonus to Stealth checks while wearing the armor. ",
+        "traits": [
+            "Magical",
+            "Transmutation"
+        ],
+        "subType": "Major",
+        "subTypeDesc": "The item bonus is +3.",
+        "effects": [
+            {
+                "affected": "Stealth",
+                "type": "item",
+                "value": 3
+            }
+        ]
+    },
+    {
+        "name": "Armor Potency (+3)",
+        "id": "89bf31c9-8e09-11ea-9fab-e92c63c14723",
+        "level": 18,
+        "price": 2056000,
+        "_className": "ArmorRune",
+        "usage": "etched onto armor",
+        "craftRequirement": "You are legendary in Crafting.",
+        "potency": 3,
+        "desc": "Magic wards deflect attacks. Increase the armor's item bonus to AC by 1. The armor can be etched with one property rune.\n\nYou can upgrade the armor potency rune already etched on a suit of armor to a stronger version, increasing the values of the existing rune to those of the new rune. You must have the formula of the stronger rune to do so, and the Price of the upgrade is the difference between the two runes' Prices.",
+        "traits": [
+            "Abjuration",
+            "Magical"
+        ],
+        "subType": "3",
+        "subTypeDesc": "Increase the armor's item bonus to AC by 3, and the armor can be etched with three property runes.",
+        "craftingRequirement": 8
+    },
+    {
+        "name": "Fortification (Greater)",
+        "id": "9caa6392-aa4a-11ea-bb37-0242ac130002",
+        "level": 18,
+        "price": 2400000,
+        "_className": "ArmorRune",
+        "usage": "etched onto medium or heavy armor",
+        "profreq": [
+            "Medium Armor",
+            "Heavy Armor"
+        ],
+        "desc": "A fortification rune wards against the most deadly attacks. Each time you're critically hit while wearing the etched armor, attempt a DC 17 flat check. On a success, it becomes a normal hit. This property thickens the armor, increasing its Bulk by 1 and the Strength required to reduce its penalties by 2.",
+        "traits": [
+            "Abjuration",
+            "Magical"
+        ],
+        "subType": "Greater",
+        "subTypeDesc": "The flat check DC is 14.",
+        "hints": [
+            {
+                "desc": "Each time you're critically hit while wearing the etched armor, attempt a DC 14 flat check. On a success, it becomes a normal hit.",
+                "showon": "Defense"
+            }
+        ]
+    },
+    {
+        "name": "Resilient (Major)",
+        "id": "89bf31cb-8e09-11ea-9fab-e92c63c14723",
+        "level": 20,
+        "price": 4944000,
+        "_className": "ArmorRune",
+        "usage": "etched onto a armor",
+        "resilient": 3,
+        "desc": "Resilient runes imbue armor with additional protective magic. This grants the wearer a +1 item bonus to saving throws.\n\nYou can upgrade the resilient rune already etched on a suit of armor to a stronger version, increasing the values of the existing rune to those of the new rune. You must have the formula of the stronger rune to do so, and the Price of the upgrade is the difference between the two runes' Prices.",
+        "traits": [
+            "Abjuration",
+            "Magical"
+        ],
+        "subType": "Major",
+        "subTypeDesc": "The armor grants a +3 item bonus to saving throws."
+    }
+]

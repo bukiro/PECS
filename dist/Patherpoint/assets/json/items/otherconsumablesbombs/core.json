@@ -1,0 +1,56 @@
+[
+    {
+        "_className": "OtherConsumableBomb",
+        "id": "85e00a17-cd1e-43a3-87fb-e1c823046343",
+        "name": "Holy Water",
+        "actions": "1A",
+        "activationType": "Strike",
+        "bulk": "L",
+        "desc": "This vial contains water blessed by a good deity. You activate a vial of holy water by throwing it as a Strike. It's a simple thrown weapon with a range increment of 20 feet. Unlike an alchemical bomb, it doesn't add the manipulate trait to the attack made with it.\n\nHoly water deals 1d6 good damage and 1 good splash damage. It damages only fiends, undead, and creatures that have a weakness to good damage.",
+        "dicenum": 1,
+        "dicesize": 6,
+        "dmgType": "Good",
+        "extraDamage": "+1 Good Splash",
+        "group": "Bomb",
+        "hands": 1,
+        "level": 1,
+        "price": 300,
+        "prof": "Simple Weapons",
+        "ranged": 20,
+        "traits": [
+            "Consumable",
+            "Divine",
+            "Good",
+            "Splash",
+            "Thrown 20 ft."
+        ],
+        "usage": "held in 1 hand"
+    },
+    {
+        "_className": "OtherConsumableBomb",
+        "id": "19e978fa-3418-4750-bf76-f060600ccc8e",
+        "name": "Unholy Water",
+        "actions": "1A",
+        "activationType": "Strike",
+        "bulk": "L",
+        "desc": "An evil deity's malice lies within this vial of water. You activate a vial of unholy water by throwing it as a Strike. It's a simple thrown weapon with a range increment of 20 feet. Unlike an alchemical bomb, it doesn't add the manipulate trait to the attack made with it.\n\nUnholy water deals 1d6 evil damage and 1 evil splash damage. It damages only celestials and creatures that have a weakness to evil damage.",
+        "dicenum": 1,
+        "dicesize": 6,
+        "dmgType": "Evil",
+        "extraDamage": "+1 Evil Splash",
+        "group": "Bomb",
+        "hands": 1,
+        "level": 1,
+        "price": 300,
+        "prof": "Simple Weapons",
+        "ranged": 20,
+        "traits": [
+            "Consumable",
+            "Divine",
+            "Evil",
+            "Splash",
+            "Thrown 20 ft."
+        ],
+        "usage": "held in 1 hand"
+    }
+]

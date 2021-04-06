@@ -1,0 +1,1450 @@
+[
+    {
+        "desc": "Plants of supernatural significance provide a primal focus for primal spellcasters, such as druids, when using certain abilities and casting some spells. A bundle of holly and mistletoe must be held in one hand to use it. Other primal foci exist for druids focused on other aspects of nature. ",
+        "id": "89c6d2e2-8e09-11ea-9fab-e92c63c14723",
+        "name": "Holly and Mistletoe",
+        "_className": "AdventuringGear",
+        "hands": 1
+    },
+    {
+        "desc": "A lit candle sheds dim light in a 10-foot radius. ",
+        "id": "89c6d2e5-8e09-11ea-9fab-e92c63c14723",
+        "name": "Candle",
+        "price": 1,
+        "_className": "AdventuringGear",
+        "hands": 1
+    },
+    {
+        "id": "89c6d2e8-8e09-11ea-9fab-e92c63c14723",
+        "name": "Chalk",
+        "price": 1,
+        "_className": "AdventuringGear",
+        "hands": 1
+    },
+    {
+        "id": "89c6d2eb-8e09-11ea-9fab-e92c63c14723",
+        "name": "Mug",
+        "price": 1,
+        "_className": "AdventuringGear",
+        "hands": 1
+    },
+    {
+        "desc": "You can use oil to fuel lanterns, but you can also set a pint of oil aflame and throw it. You must first spend an Interact action preparing the oil, then throw it with another action as a ranged attack. If you hit, it splatters on the creature or in a single 5-foot square you target. You must succeed at a DC 10 flat check for the oil to ignite successfully when it hits. If the oil ignites, the target takes 1d6 fire damage. ",
+        "id": "89c6d2ee-8e09-11ea-9fab-e92c63c14723",
+        "name": "Oil",
+        "price": 1,
+        "_className": "AdventuringGear",
+        "hands": 2
+    },
+    {
+        "desc": "These small spikes can be used as anchors to make climbing easier. To affix a piton, you must hold it in one hand and use a hammer to drive it in with your other hand. You can attach a rope to the hammered piton so that you don't fall all the way to the ground on a critical failure while Climbing. ",
+        "id": "89c6d2f1-8e09-11ea-9fab-e92c63c14723",
+        "name": "Piton",
+        "price": 1,
+        "hints": [
+            {
+                "showon": "Athletics"
+            }
+        ],
+        "_className": "AdventuringGear",
+        "hands": 1
+    },
+    {
+        "bulk": "L",
+        "desc": "A sack can hold up to 8 Bulk worth of items. A sack containing 2 Bulk or less can be worn on the body, usually tucked into a belt. You can carry a sack with one hand, but must use two hands to transfer items in and out. ",
+        "id": "89c6d2f4-8e09-11ea-9fab-e92c63c14723",
+        "name": "Sack",
+        "price": 1,
+        "gainInventory": [
+            {
+                "_className": "InventoryGain",
+                "bulkLimit": 8
+            }
+        ],
+        "_className": "AdventuringGear",
+        "hands": 1
+    },
+    {
+        "desc": "A sheath or scabbard lets you easily carry a weapon on your person. ",
+        "id": "89c6d2f7-8e09-11ea-9fab-e92c63c14723",
+        "name": "Sheath",
+        "price": 1,
+        "_className": "AdventuringGear"
+    },
+    {
+        "bulk": "1",
+        "desc": "When wielding this long pole, you can use Seek to search a square up to 10 feet away. The pole is not sturdy enough to use as a weapon. ",
+        "id": "89c6f9f0-8e09-11ea-9fab-e92c63c14723",
+        "name": "Ten-Foot Pole",
+        "price": 1,
+        "hints": [
+            {
+                "showon": "Perception"
+            }
+        ],
+        "_className": "AdventuringGear",
+        "hands": 2
+    },
+    {
+        "bulk": "L",
+        "desc": "A torch sheds bright light in a 20-foot radius (and dim light to the next 20 feet). It can be used as an improvised weapon that deals 1d4 bludgeoning damage plus 1 fire damage. ",
+        "id": "89c6f9f3-8e09-11ea-9fab-e92c63c14723",
+        "name": "Torch",
+        "price": 1,
+        "_className": "AdventuringGear",
+        "hands": 1
+    },
+    {
+        "bulk": "L",
+        "id": "89c6f9f6-8e09-11ea-9fab-e92c63c14723",
+        "name": "Bedroll",
+        "price": 1,
+        "_className": "AdventuringGear"
+    },
+    {
+        "id": "89c6f9f9-8e09-11ea-9fab-e92c63c14723",
+        "name": "Soap",
+        "price": 2,
+        "_className": "AdventuringGear",
+        "hands": 1
+    },
+    {
+        "bulk": "3",
+        "id": "89c6f9fc-8e09-11ea-9fab-e92c63c14723",
+        "name": "Ladder",
+        "price": 3,
+        "_className": "AdventuringGear",
+        "hands": 2
+    },
+    {
+        "desc": "A belt pouch holds up to four items of light Bulk. ",
+        "id": "89c6f9ff-8e09-11ea-9fab-e92c63c14723",
+        "name": "Belt Pouch",
+        "price": 4,
+        "gainInventory": [
+            {
+                "_className": "InventoryGain",
+                "bulkLimit": 0.4
+            }
+        ],
+        "_className": "AdventuringGear"
+    },
+    {
+        "desc": "Flint and steel are useful in creating a fire if you have the time to catch a spark, though using them is typically too time-consuming to be practical during an encounter. Even in ideal conditions, using flint and steel to light a flame requires using at least 3 actions, and often significantly longer. ",
+        "id": "89c6fa02-8e09-11ea-9fab-e92c63c14723",
+        "name": "Flint and Steel",
+        "price": 5,
+        "_className": "AdventuringGear",
+        "hands": 2
+    },
+    {
+        "desc": "A simple glass vial holds up to 1 ounce of liquid. ",
+        "id": "89c6fa05-8e09-11ea-9fab-e92c63c14723",
+        "name": "Vial",
+        "price": 5,
+        "_className": "AdventuringGear",
+        "hands": 1
+    },
+    {
+        "bulk": "L",
+        "desc": "When it's full, a waterskin contains roughly 1 day's worth of water for a Small or Medium creature. ",
+        "id": "89c6fa08-8e09-11ea-9fab-e92c63c14723",
+        "name": "Waterskin",
+        "price": 5,
+        "_className": "AdventuringGear",
+        "hands": 1
+    },
+    {
+        "desc": "When sounded, a signal whistle can be heard clearly up to half a mile away across open terrain. ",
+        "id": "89c6fa0b-8e09-11ea-9fab-e92c63c14723",
+        "name": "Signal Whistle",
+        "price": 8,
+        "_className": "AdventuringGear",
+        "hands": 1
+    },
+    {
+        "desc": "Ordinary clothing is functional with basic tailoring, such as peasant garb, monk's robes, or work clothes.",
+        "id": "89c6fa0e-8e09-11ea-9fab-e92c63c14723",
+        "name": "Clothing (Ordinary)",
+        "price": 10,
+        "_className": "AdventuringGear"
+    },
+    {
+        "desc": "If you've crafted a large number of disguises, you can replenish your cosmetics supply with replacement cosmetics suitable for the type of your disguise kit.",
+        "id": "89c6fa11-8e09-11ea-9fab-e92c63c14723",
+        "name": "Disguise Kit (Replacement Cosmetics)",
+        "price": 10,
+        "_className": "AdventuringGear"
+    },
+    {
+        "bulk": "L",
+        "desc": "You can throw a grappling hook with a rope tied to it to make a climb easier. To anchor a grappling hook, make an attack roll with the secret trait against a DC depending on the target, typically at least DC 20. On a success, your hook has a firm hold, but on a critical failure, the hook seems like it will hold but actually falls when you're partway up. ",
+        "id": "89c6fa14-8e09-11ea-9fab-e92c63c14723",
+        "name": "Grappling Hook",
+        "price": 10,
+        "hints": [
+            {
+                "showon": "Athletics"
+            }
+        ],
+        "_className": "AdventuringGear",
+        "hands": 1
+    },
+    {
+        "bulk": "L",
+        "id": "89c6fa17-8e09-11ea-9fab-e92c63c14723",
+        "name": "Hammer",
+        "price": 10,
+        "_className": "AdventuringGear",
+        "hands": 1
+    },
+    {
+        "desc": "A backpack holds up to 4 Bulk of items. If you're carrying or stowing the pack rather than wearing it on your back, its bulk is light instead of negligible. The first 2 Bulk of items in your backpack don't count against your Bulk limits.",
+        "id": "89c6fa1a-8e09-11ea-9fab-e92c63c14723",
+        "name": "Backpack",
+        "price": 10,
+        "equippable": true,
+        "carryingBulk": "L",
+        "gainInventory": [
+            {
+                "_className": "InventoryGain",
+                "bulkLimit": 4,
+                "bulkReduction": 2
+            }
+        ],
+        "_className": "AdventuringGear"
+    },
+    {
+        "bulk": "L",
+        "desc": "This piece of wood is emblazoned with an image representing a deity. Some divine spellcasters, such as clerics, can use a religious symbol of their deity as a divine focus to use certain abilities and cast some spells. A religious symbol must be held in one hand to use it.",
+        "id": "89c6fa1d-8e09-11ea-9fab-e92c63c14723",
+        "name": "Religious Symbol (Wooden)",
+        "price": 10,
+        "_className": "AdventuringGear",
+        "hands": 1
+    },
+    {
+        "desc": "A satchel can hold up to 2 Bulk worth of items. If you are carrying or stowing a satchel rather than wearing it over your shoulder, it counts as light Bulk instead of negligible. ",
+        "id": "89c6fa20-8e09-11ea-9fab-e92c63c14723",
+        "name": "Satchel",
+        "price": 10,
+        "equippable": true,
+        "carryingBulk": "L",
+        "gainInventory": [
+            {
+                "_className": "InventoryGain",
+                "bulkLimit": 2
+            }
+        ],
+        "_className": "AdventuringGear",
+        "hands": 2
+    },
+    {
+        "desc": "Scrolls, maps, and other rolled documents are stored in scroll cases for safe transport. ",
+        "id": "89c6fa23-8e09-11ea-9fab-e92c63c14723",
+        "name": "Scroll Case",
+        "price": 10,
+        "_className": "AdventuringGear",
+        "hands": 2
+    },
+    {
+        "desc": "A bandolier holds up to eight items of light Bulk within easy reach and is usually used for alchemical items or potions. If you are carrying or stowing a bandolier rather than wearing it around your chest, it has light Bulk instead of negligible. A bandolier can be dedicated to a full set of tools, such as healer's tools, allowing you to draw the tools as part of the action that requires them. ",
+        "id": "89c6fa26-8e09-11ea-9fab-e92c63c14723",
+        "name": "Bandolier",
+        "price": 10,
+        "equippable": true,
+        "carryingBulk": "L",
+        "gainInventory": [
+            {
+                "_className": "InventoryGain",
+                "bulkLimit": 0.8
+            }
+        ],
+        "_className": "AdventuringGear"
+    },
+    {
+        "bulk": "L",
+        "desc": "This book contains formulas for Crafting common items. ",
+        "id": "89c6fa29-8e09-11ea-9fab-e92c63c14723",
+        "name": "Basic Crafter's Book",
+        "price": 10,
+        "_className": "AdventuringGear",
+        "hands": 2
+    },
+    {
+        "desc": "If you've written a large amount, you can refill your kit with extra ink and paper.",
+        "id": "89c72101-8e09-11ea-9fab-e92c63c14723",
+        "name": "Writing Set (Extra Ink and Paper)",
+        "price": 10,
+        "_className": "AdventuringGear"
+    },
+    {
+        "desc": "Picking a poor lock requires two successful DC 15 Thievery checks.",
+        "id": "89c72104-8e09-11ea-9fab-e92c63c14723",
+        "name": "Lock (Poor)",
+        "price": 20,
+        "_className": "AdventuringGear",
+        "hands": 2
+    },
+    {
+        "bulk": "L",
+        "id": "89c72107-8e09-11ea-9fab-e92c63c14723",
+        "name": "Merchant's Scale",
+        "price": 20,
+        "_className": "AdventuringGear"
+    },
+    {
+        "desc": "Saddlebags come in a pair. Each can hold up to 3 Bulk of items. The Bulk value given is for saddlebags worn by a mount. If you are carrying or stowing saddlebags, they count as 1 Bulk instead of light Bulk. ",
+        "id": "89c7210a-8e09-11ea-9fab-e92c63c14723",
+        "name": "Saddlebags",
+        "price": 20,
+        "equippable": true,
+        "carryingBulk": "1",
+        "gainInventory": [
+            {
+                "_className": "InventoryGain",
+                "bulkLimit": 3
+            },
+            {
+                "_className": "InventoryGain",
+                "bulkLimit": 3
+            }
+        ],
+        "_className": "AdventuringGear"
+    },
+    {
+        "desc": "You can manacle someone who is willing or otherwise at your mercy as an exploration activity taking 10-30 seconds depending on the creature's size and how many manacles you apply. A two-legged creature with its legs bound takes a -15-foot circumstance penalty to its Speeds, and a two-handed creature with its wrists bound has to succeed at a DC 5 flat check any time it uses a manipulate action or else that action fails. This DC may be higher depending on how tightly the manacles constrain the hands. A creature bound to a stationary object is immobilized. For creatures with more or fewer limbs, the GM determines what effect manacles have, if any. Freeing a creature from poor manacles requires two successful DC 17 Thievery checks.",
+        "id": "89c7210d-8e09-11ea-9fab-e92c63c14723",
+        "name": "Manacles (Poor)",
+        "price": 30,
+        "_className": "AdventuringGear",
+        "hands": 2
+    },
+    {
+        "desc": "If your thieves' tools are broken, you can repair them by replacing the lock picks with replacement picks appropriate to your tools; this doesn't require using the Repair action.",
+        "id": "89c72110-8e09-11ea-9fab-e92c63c14723",
+        "name": "Thieves' Tools (Replacement Picks)",
+        "price": 30,
+        "_className": "AdventuringGear"
+    },
+    {
+        "bulk": "L",
+        "desc": "These four-pronged metal spikes can cause damage to a creature's feet. You can scatter caltrops in an empty square adjacent to you with an Interact action. The first creature that moves into that square must succeed at a DC 14 Acrobatics check or take 1d4 piercing damage and 1 persistent bleed damage. A creature taking persistent bleed damage from caltrops takes a -5-foot penalty to its Speed. Spending an Interact action to pluck the caltrops free reduces the DC to stop the bleeding. Once a creature takes damage from caltrops, enough caltrops are ruined that other creatures moving into the square are safe.\n\nDeployed caltrops can be salvaged and reused if no creatures took damage from them. Otherwise, enough caltrops are ruined that they can't be salvaged.",
+        "id": "89c72113-8e09-11ea-9fab-e92c63c14723",
+        "name": "Caltrops",
+        "price": 30,
+        "_className": "AdventuringGear",
+        "hands": 1
+    },
+    {
+        "bulk": "L",
+        "desc": "Winter clothing allows you to negate the damage from severe environmental cold and reduce the damage from extreme cold to that of severe cold. ",
+        "id": "89c72116-8e09-11ea-9fab-e92c63c14723",
+        "name": "Clothing (Winter)",
+        "price": 40,
+        "equippable": true,
+        "hints": [
+            {
+                "showon": "Resistances"
+            }
+        ],
+        "_className": "AdventuringGear"
+    },
+    {
+        "bulk": "L",
+        "id": "89c72119-8e09-11ea-9fab-e92c63c14723",
+        "name": "Rations (1 week)",
+        "price": 40,
+        "_className": "AdventuringGear",
+        "hands": 1
+    },
+    {
+        "bulk": "L",
+        "id": "ecc356cd-637b-43f8-a0cf-8ac90318eb7f",
+        "name": "Sunlight Rations (1 week)",
+        "price": 400,
+        "_className": "AdventuringGear",
+        "hands": 1
+    },
+    {
+        "bulk": "L",
+        "desc": "This entry is a catchall for basic hand tools that don't have a specific adventuring purpose. A hand drill, ice hook, or trowel is a short tool. A tool can usually be used as an improvised weapon, dealing 1d4 damage for a short tool or 1d6 for a long tool. The GM determines the damage type that's appropriate or adjusts the damage if needed.",
+        "id": "89c7211c-8e09-11ea-9fab-e92c63c14723",
+        "name": "Tool (Short)",
+        "price": 40,
+        "_className": "AdventuringGear",
+        "hands": 1
+    },
+    {
+        "bulk": "1",
+        "desc": "This satchel includes 50 feet of rope, pulleys, a dozen pitons, a hammer, a grappling hook, and one set of crampons. Climbing kits allow you to attach yourself to the wall you're Climbing, moving half as quickly as usual (minimum 5 feet) but letting you attempt a DC 5 flat check whenever you critically fail to prevent a fall. A single kit has only enough materials for one climber; each climber needs their own kit.",
+        "id": "89c7211f-8e09-11ea-9fab-e92c63c14723",
+        "name": "Climbing Kit",
+        "price": 50,
+        "hints": [
+            {
+                "showon": "Athletics"
+            }
+        ],
+        "_className": "AdventuringGear",
+        "hands": 2
+    },
+    {
+        "bulk": "L",
+        "desc": "When Forcing Open an object that doesn't have an easy grip, a crowbar makes it easier to gain the necessary leverage. Without a crowbar, prying something open takes a -2 item penalty to the Athletics check to Force Open (similar to using a shoddy item). A levered crowbar grants you a +1 item bonus to Athletics checks to Force Open anything that can be pried open. ",
+        "id": "89c72122-8e09-11ea-9fab-e92c63c14723",
+        "name": "Crowbar",
+        "price": 50,
+        "hints": [
+            {
+                "showon": "Athletics"
+            }
+        ],
+        "_className": "AdventuringGear",
+        "hands": 2
+    },
+    {
+        "bulk": "L",
+        "desc": "This pouch contains material components for those spells that require them. Though the components are used up over time, you can refill spent components during your daily preparations. ",
+        "id": "89c72125-8e09-11ea-9fab-e92c63c14723",
+        "name": "Material Component Pouch",
+        "price": 50,
+        "_className": "AdventuringGear",
+        "hands": 1
+    },
+    {
+        "bulk": "L",
+        "id": "89c72128-8e09-11ea-9fab-e92c63c14723",
+        "name": "Rope",
+        "price": 50,
+        "_className": "AdventuringGear",
+        "hands": 2
+    },
+    {
+        "bulk": "2",
+        "desc": "A wooden chest can hold up to 8 Bulk of items. ",
+        "id": "89c7212b-8e09-11ea-9fab-e92c63c14723",
+        "name": "Chest",
+        "price": 60,
+        "gainInventory": [
+            {
+                "_className": "InventoryGain",
+                "bulkLimit": 8
+            }
+        ],
+        "_className": "AdventuringGear",
+        "hands": 2
+    },
+    {
+        "desc": "This item is the starter kit for an adventurer, containing the essential items for exploration and survival. The Bulk value is for the entire pack together, but see the descriptions of individual items as necessary.\n\nThe pack contains the following items: backpack (containing the other goods), bedroll, two belt pouches, 10 pieces of chalk, flint and steel, 50 feet of rope, 2 weeks' rations, soap, 5 torches, and a waterskin.",
+        "id": "89c74812-8e09-11ea-9fab-e92c63c14723",
+        "name": "Adventurer's Pack",
+        "price": 70,
+        "gainItems": [
+            {
+                "_className": "ItemGain",
+                "name": "Backpack",
+                "type": "adventuringgear"
+            },
+            {
+                "_className": "ItemGain",
+                "name": "Bedroll",
+                "type": "adventuringgear"
+            },
+            {
+                "_className": "ItemGain",
+                "name": "Belt Pouch",
+                "type": "adventuringgear"
+            },
+            {
+                "_className": "ItemGain",
+                "name": "Belt Pouch",
+                "type": "adventuringgear"
+            },
+            {
+                "_className": "ItemGain",
+                "amount": 10,
+                "name": "Chalk",
+                "type": "adventuringgear"
+            },
+            {
+                "_className": "ItemGain",
+                "name": "Flint and Steel",
+                "type": "adventuringgear"
+            },
+            {
+                "_className": "ItemGain",
+                "name": "Rope",
+                "type": "adventuringgear"
+            },
+            {
+                "_className": "ItemGain",
+                "name": "Rations (1 week)",
+                "type": "adventuringgear"
+            },
+            {
+                "_className": "ItemGain",
+                "name": "Rations (1 week)",
+                "type": "adventuringgear"
+            },
+            {
+                "_className": "ItemGain",
+                "name": "Soap",
+                "type": "adventuringgear"
+            },
+            {
+                "_className": "ItemGain",
+                "amount": 5,
+                "name": "Torch",
+                "type": "adventuringgear"
+            },
+            {
+                "_className": "ItemGain",
+                "name": "Waterskin",
+                "type": "adventuringgear"
+            }
+        ],
+        "_className": "AdventuringGear",
+        "storeBulk": "1"
+    },
+    {
+        "bulk": "L",
+        "desc": "A lantern sheds bright light and requires 1 pint of oil to function for 6 hours.\n\nA hooded lantern sheds light in a 30-foot radius (and dim light in the next 30 feet) and is equipped with shutters, which you can close to block the light. Closing or opening the shutters takes an Interact action. ",
+        "id": "89c74815-8e09-11ea-9fab-e92c63c14723",
+        "name": "Lantern (Hooded)",
+        "price": 70,
+        "_className": "AdventuringGear",
+        "hands": 1
+    },
+    {
+        "bulk": "1",
+        "desc": "This kit include a collapsible fishing pole, fishhooks, line, lures, and a fishing net.",
+        "id": "89c74818-8e09-11ea-9fab-e92c63c14723",
+        "name": "Fishing Tackle",
+        "price": 80,
+        "_className": "AdventuringGear",
+        "hands": 2
+    },
+    {
+        "bulk": "1",
+        "desc": "Handheld instruments include bagpipes, a small set of chimes, small drums, fiddles and viols, flutes and recorders, small harps, lutes, trumpets, and similarly sized instruments. The GM might rule that an especially large handheld instrument (like a tuba) has greater Bulk.",
+        "id": "89c7481b-8e09-11ea-9fab-e92c63c14723",
+        "name": "Musical Instrument (Handheld)",
+        "price": 80,
+        "hints": [
+            {
+                "showon": "Performance"
+            }
+        ],
+        "_className": "AdventuringGear",
+        "hands": 2
+    },
+    {
+        "bulk": "L",
+        "id": "89c7481e-8e09-11ea-9fab-e92c63c14723",
+        "name": "Tent (Pup)",
+        "price": 80,
+        "_className": "AdventuringGear",
+        "hands": 2
+    },
+    {
+        "bulk": "L",
+        "desc": "A compass helps you Sense Direction or navigate, provided you're in a location with uniform magnetic fields. Without a compass, you take a -2 item penalty to these checks (similar to using a shoddy item).",
+        "id": "89c74821-8e09-11ea-9fab-e92c63c14723",
+        "name": "Compass",
+        "price": 100,
+        "hints": [
+            {
+                "showon": "Survival"
+            }
+        ],
+        "_className": "AdventuringGear",
+        "hands": 1
+    },
+    {
+        "bulk": "2",
+        "id": "89c74824-8e09-11ea-9fab-e92c63c14723",
+        "name": "Cookware",
+        "price": 100,
+        "_className": "AdventuringGear",
+        "hands": 2
+    },
+    {
+        "bulk": "L",
+        "desc": "A formula book holds the formulas necessary to make items other than the common equipment from this chapter; alchemists typically get one for free. Each formula book can hold the formulas for up to 100 different items. Formulas can also appear on parchment sheets, tablets, and almost any other medium; there's no need for you to copy them into a specific book as long as you can keep them on hand to reference them. ",
+        "equippable": true,
+        "id": "89c74827-8e09-11ea-9fab-e92c63c14723",
+        "name": "Formula Book",
+        "price": 100,
+        "_className": "AdventuringGear",
+        "hands": 1
+    },
+    {
+        "bulk": "1",
+        "desc": "A lantern sheds bright light and requires 1 pint of oil to function for 6 hours.\n\nA bull's-eye lantern emits its light in a 60-foot cone (and dim light in the next 60 feet).",
+        "id": "89c7482a-8e09-11ea-9fab-e92c63c14723",
+        "name": "Lantern (Bull's-Eye)",
+        "price": 100,
+        "_className": "AdventuringGear",
+        "hands": 1
+    },
+    {
+        "id": "89c7482d-8e09-11ea-9fab-e92c63c14723",
+        "name": "Mirror",
+        "price": 100,
+        "_className": "AdventuringGear",
+        "hands": 1
+    },
+    {
+        "bulk": "L",
+        "desc": "This manuscript contains scripture of a particular religion. Some divine spellcasters, such as clerics, can use a religious text as a divine focus to use certain abilities and cast some spells. A religious text must be held in one hand to use it. ",
+        "id": "89c74830-8e09-11ea-9fab-e92c63c14723",
+        "name": "Religious Text",
+        "price": 100,
+        "_className": "AdventuringGear",
+        "hands": 1
+    },
+    {
+        "bulk": "L",
+        "desc": "A spellbook holds the written knowledge necessary to learn and prepare various spells, a necessity for wizards (who typically get one for free) and a useful luxury for other spellcasters looking to learn additional spells. Each spellbook can hold up to 100 spells. The Price listed is for a blank spellbook. ",
+        "equippable": true,
+        "id": "89c74833-8e09-11ea-9fab-e92c63c14723",
+        "name": "Spellbook",
+        "price": 100,
+        "_className": "AdventuringGear",
+        "hands": 1
+    },
+    {
+        "bulk": "1",
+        "desc": "This entry is a catchall for basic hand tools that don't have a specific adventuring purpose. A hoe, shovel, or sledgehammer is a long tool. A tool can usually be used as an improvised weapon, dealing 1d4 damage for a short tool or 1d6 for a long tool. The GM determines the damage type that's appropriate or adjusts the damage if needed.",
+        "id": "89c74836-8e09-11ea-9fab-e92c63c14723",
+        "name": "Tool (Long)",
+        "price": 100,
+        "_className": "AdventuringGear",
+        "hands": 2
+    },
+    {
+        "bulk": "L",
+        "desc": "Using a writing set, you can draft correspondence and scribe scrolls. A set includes stationery, including a variety of paper and parchment, as well as ink, a quill or inkpen, sealing wax, and a simple seal. If you've written a large amount, you can refill your kit with extra ink and paper.",
+        "id": "89c74839-8e09-11ea-9fab-e92c63c14723",
+        "name": "Writing Set",
+        "price": 100,
+        "_className": "AdventuringGear",
+        "hands": 2
+    },
+    {
+        "bulk": "L",
+        "desc": "Fine clothing, suitable for a noble or royal, is made with expensive fabrics, precious metals, and intricate patterns.",
+        "id": "89c7483c-8e09-11ea-9fab-e92c63c14723",
+        "name": "Clothing (Fine)",
+        "price": 200,
+        "_className": "AdventuringGear"
+    },
+    {
+        "bulk": "L",
+        "desc": "This small wooden box contains cosmetics, false facial hair, spirit gum, and a few simple wigs. You usually need a disguise kit to set up a disguise in order to Impersonate someone using the Deception skill. If you've crafted a large number of disguises, you can replenish your cosmetics supply with replacement cosmetics suitable for the type of your disguise kit.",
+        "id": "89c7483f-8e09-11ea-9fab-e92c63c14723",
+        "name": "Disguise Kit",
+        "price": 200,
+        "hints": [
+            {
+                "showon": "Deception"
+            }
+        ],
+        "_className": "AdventuringGear",
+        "hands": 2
+    },
+    {
+        "bulk": "16",
+        "desc": "Heavy instruments such as large drums, a full set of chimes, and keyboard instruments are less portable than handheld instruments and generally need to be stationary while played.",
+        "id": "89c74842-8e09-11ea-9fab-e92c63c14723",
+        "name": "Musical Instrument (Heavy)",
+        "price": 200,
+        "hints": [
+            {
+                "showon": "Performance"
+            }
+        ],
+        "_className": "AdventuringGear",
+        "hands": 2
+    },
+    {
+        "bulk": "L",
+        "desc": "This piece of silver is emblazoned with an image representing a deity. Some divine spellcasters, such as clerics, can use a religious symbol of their deity as a divine focus to use certain abilities and cast some spells. A religious symbol must be held in one hand to use it.",
+        "id": "89c74845-8e09-11ea-9fab-e92c63c14723",
+        "name": "Religious Symbol (Silver)",
+        "price": 200,
+        "_className": "AdventuringGear",
+        "hands": 1
+    },
+    {
+        "bulk": "1",
+        "desc": "A repair kit allows you to perform simple repairs while traveling. It contains a portable anvil, tongs, woodworking tools, a whetstone, and oils for conditioning leather and wood. You can use a repair kit to Repair items using the Crafting skill.",
+        "id": "89c74848-8e09-11ea-9fab-e92c63c14723",
+        "name": "Repair Kit",
+        "price": 200,
+        "hints": [
+            {
+                "showon": "Crafting"
+            }
+        ],
+        "_className": "AdventuringGear",
+        "hands": 2
+    },
+    {
+        "bulk": "L",
+        "desc": "These bioluminescent jellyfish are as bright as candles, come in a variety of colors, and can act as living lanterns. They dry up and die if removed from the water for more than 1 hour, but as long as they're allowed access to seawater, they can usually survive for up to 1 year by feeding on micronutrients. Rarely, a well-treated jellyfish lamp might live longer and potentially develop stronger light or additional abilities. ",
+        "id": "89c7484b-8e09-11ea-9fab-e92c63c14723",
+        "name": "Jellyfish Lamp",
+        "price": 200,
+        "_className": "AdventuringGear",
+        "usage": "held in 1 hand"
+    },
+    {
+        "bulk": "1",
+        "desc": "These armor-plated skirts, which are also known as armored kilts, are favored by Knights of Lastwall for their versatility and aesthetic appeal. An armored skirt can be donned with 2 Interact actions when it's worn with light or medium armor, or as part of donning heavy armor.\n\nWhen worn with a breastplate, chain shirt, chain mail, or scale mail, an armored skirt increases the armor's item bonus to AC by 1, worsens the armor's check penalty by 1, reduces the armor's Dex cap by 1, increases the Strength score required to ignore the check penalty and reduce the Speed penalty by 2, and adds the noisy trait. This also makes the armor one step heavier (from light to medium, or medium to heavy), and you use the proficiency bonus appropriate to this adjusted armor type.\n\nAlternatively, when wearing an armored skirt to replace appropriate portions of a set of half plate or full plate, reduce the armor's item bonus to AC by 1, lessen the check penalty by 1, decrease the Strength score required to ignore the check penalty and reduce the Speed penalty by 2, increase the armor's Dex cap by 1, and add the noisy trait to the armor. An armored skirt grants no benefit when worn by itself or with armors other than those listed here. ",
+        "id": "89c76f22-8e09-11ea-9fab-e92c63c14723",
+        "name": "Armored Skirt",
+        "price": 200,
+        "equippable": true,
+        "_className": "AdventuringGear",
+        "isArmoredSkirt": true
+    },
+    {
+        "bulk": "1",
+        "desc": "This mobile collection of vials and chemicals can be used for simple alchemical tasks. ",
+        "id": "89c76f25-8e09-11ea-9fab-e92c63c14723",
+        "name": "Alchemist's Tools",
+        "price": 300,
+        "_className": "AdventuringGear",
+        "hands": 2
+    },
+    {
+        "bulk": "L",
+        "id": "89c76f28-8e09-11ea-9fab-e92c63c14723",
+        "name": "Hourglass",
+        "price": 300,
+        "_className": "AdventuringGear",
+        "hands": 1
+    },
+    {
+        "bulk": "L",
+        "desc": "You need thieves' tools to Pick Locks or Disable Devices (of some types) using the Thievery skill. If your thieves' tools are broken, you can repair them by replacing the lock picks with replacement picks appropriate to your tools; this doesn't require using the Repair action.",
+        "id": "89c76f2b-8e09-11ea-9fab-e92c63c14723",
+        "name": "Thieves' Tools",
+        "price": 300,
+        "hints": [
+            {
+                "showon": "Thievery"
+            }
+        ],
+        "_className": "AdventuringGear",
+        "hands": 2
+    },
+    {
+        "bulk": "1",
+        "id": "89c76f2e-8e09-11ea-9fab-e92c63c14723",
+        "name": "Chain",
+        "price": 400,
+        "_className": "AdventuringGear",
+        "hands": 2
+    },
+    {
+        "bulk": "2",
+        "desc": "You need these tools to create items from raw materials with the Craft skill. Different sets are needed for different work, as determined by the GM; for example, blacksmith's tools differ from woodworker's tools.",
+        "id": "89c76f31-8e09-11ea-9fab-e92c63c14723",
+        "name": "Artisan's Tools",
+        "price": 400,
+        "_className": "AdventuringGear",
+        "hands": 2
+    },
+    {
+        "bulk": "1",
+        "desc": "Tack includes all the gear required to outfit a riding animal, including a saddle, bit and bridle, and stirrups if necessary. Especially large or oddly shaped animals might require specialty saddles. These can be more expensive or hard to find, as determined by the GM. The Bulk value given is for tack worn by a creature. If carried, the Bulk increases to 2. ",
+        "id": "89c76f34-8e09-11ea-9fab-e92c63c14723",
+        "name": "Tack",
+        "price": 400,
+        "equippable": true,
+        "carryingBulk": "2",
+        "_className": "AdventuringGear"
+    },
+    {
+        "bulk": "1",
+        "desc": "This kit of bandages, herbs, and suturing tools is necessary for Medicine checks to Administer First Aid, Treat Disease, Treat Poison, or Treat Wounds. When you carry the tools from place to place, you keep many of the components handy on your person, in pockets or bandoliers.",
+        "id": "89c76f37-8e09-11ea-9fab-e92c63c14723",
+        "name": "Healer's Tools",
+        "price": 500,
+        "hints": [
+            {
+                "showon": "Medicine"
+            }
+        ],
+        "_className": "AdventuringGear",
+        "hands": 2
+    },
+    {
+        "bulk": "L",
+        "desc": "These flippers attach to your feet like tight shoes - donning or removing them requires three Interact actions. While worn, you gain a +5-foot item bonus to the distance you move when rolling Athletics to Swim, not when using a swim Speed, and you take a -10-foot item penalty to your Speed. ",
+        "id": "89c76f3a-8e09-11ea-9fab-e92c63c14723",
+        "name": "Swim Fins",
+        "price": 500,
+        "equippable": true,
+        "effects": [
+            {
+                "_className": "EffectGain",
+                "affected": "Land Speed",
+                "value": -10
+            }
+        ],
+        "hints": [
+            {
+                "showon": "Athletics"
+            }
+        ],
+        "_className": "AdventuringGear"
+    },
+    {
+        "bulk": "2",
+        "desc": "This kit contains tools and materials for creating snares. A snare kit allows you to Craft snares using the Crafting skill.",
+        "id": "89c76f3d-8e09-11ea-9fab-e92c63c14723",
+        "name": "Snare Kit",
+        "price": 500,
+        "hints": [
+            {
+                "showon": "Crafting"
+            }
+        ],
+        "_className": "AdventuringGear",
+        "hands": 2
+    },
+    {
+        "bulk": "6",
+        "desc": "You need an alchemist's lab to Craft alchemical items during downtime.",
+        "id": "89c76f40-8e09-11ea-9fab-e92c63c14723",
+        "name": "Alchemist's Lab",
+        "price": 500,
+        "hints": [
+            {
+                "showon": "Crafting"
+            }
+        ],
+        "_className": "AdventuringGear",
+        "hands": 2
+    },
+    {
+        "bulk": "1",
+        "id": "89c76f43-8e09-11ea-9fab-e92c63c14723",
+        "name": "Tent (Four-Person)",
+        "price": 500,
+        "_className": "AdventuringGear",
+        "hands": 2
+    },
+    {
+        "bulk": "L",
+        "desc": "A typical spyglass lets you see eight times farther than normal.",
+        "id": "89c76f46-8e09-11ea-9fab-e92c63c14723",
+        "name": "Spyglass",
+        "price": 2000,
+        "hints": [
+            {
+                "showon": "Perception"
+            }
+        ],
+        "_className": "AdventuringGear",
+        "hands": 2
+    },
+    {
+        "desc": "This quality handheld lens gives you a +1 item bonus to Perception checks to notice minute details of documents, fabric, and the like.",
+        "id": "89c76f49-8e09-11ea-9fab-e92c63c14723",
+        "name": "Magnifying Glass",
+        "price": 4000,
+        "hints": [
+            {
+                "showon": "Perception",
+                "effects": [
+                    {
+                        "affected": "Perception",
+                        "value": "1",
+                        "type": "item"
+                    }
+                ]
+            }
+        ],
+        "_className": "AdventuringGear",
+        "hands": 1
+    },
+    {
+        "desc": "Picking a simple lock requires three successful DC 20 Thievery checks.",
+        "id": "89c76f4c-8e09-11ea-9fab-e92c63c14723",
+        "level": 1,
+        "name": "Lock (Simple)",
+        "price": 200,
+        "_className": "AdventuringGear",
+        "hands": 2
+    },
+    {
+        "desc": "You can manacle someone who is willing or otherwise at your mercy as an exploration activity taking 10-30 seconds depending on the creature's size and how many manacles you apply. A two-legged creature with its legs bound takes a -15-foot circumstance penalty to its Speeds, and a two-handed creature with its wrists bound has to succeed at a DC 5 flat check any time it uses a manipulate action or else that action fails. This DC may be higher depending on how tightly the manacles constrain the hands. A creature bound to a stationary object is immobilized. For creatures with more or fewer limbs, the GM determines what effect manacles have, if any. Freeing a creature from simple manacles requires three successes at DC 22.",
+        "id": "89c79632-8e09-11ea-9fab-e92c63c14723",
+        "level": 1,
+        "name": "Manacles (Simple)",
+        "price": 300,
+        "_className": "AdventuringGear",
+        "hands": 2
+    },
+    {
+        "bulk": "12",
+        "id": "89c79635-8e09-11ea-9fab-e92c63c14723",
+        "level": 2,
+        "name": "Tent (Pavilion)",
+        "price": 4000,
+        "_className": "AdventuringGear",
+        "hands": 2
+    },
+    {
+        "desc": "If you've crafted a large number of disguises, you can replenish your cosmetics supply with replacement cosmetics suitable for the type of your disguise kit.",
+        "id": "89c79638-8e09-11ea-9fab-e92c63c14723",
+        "level": 3,
+        "name": "Disguise Kit (Elite Cosmetics)",
+        "price": 50,
+        "_className": "AdventuringGear"
+    },
+    {
+        "desc": "If your thieves' tools are broken, you can repair them by replacing the lock picks with replacement picks appropriate to your tools; this doesn't require using the Repair action.",
+        "id": "89c7963b-8e09-11ea-9fab-e92c63c14723",
+        "level": 3,
+        "name": "Thieves' Tools (Infiltrator Picks)",
+        "price": 300,
+        "_className": "AdventuringGear"
+    },
+    {
+        "bulk": "L",
+        "desc": "Scholarly journals are uncommon. Each scholarly journal is a folio on a very specific topic, such as vampires or the history of a single town or neighborhood of a city. If you spend 1 minute referencing an academic journal before attempting a skill check to Recall Knowledge about the subject, you gain a +1 item bonus to the check. The GM determines what scholarly journals are available in any location.\n\nNumerous volumes and editions of the Pathfinder Chronicles exist, each cataloging different adventures. Pathfinder Chronicles are a type of scholarly journal that specifically devotes topics to Pathfinder discoveries, rather than more theoretical academic topics. Because Pathfinders have better access to these chronicles than other scholarly journals, they are particularly common among Pathfinder agents building a library of reference texts.",
+        "id": "89c7963e-8e09-11ea-9fab-e92c63c14723",
+        "level": 3,
+        "name": "Pathfinder Chronicle",
+        "price": 600,
+        "traits": [
+            "Uncommon"
+        ],
+        "hints": [
+            {
+                "desc": "If you spend 1 minute referencing an academic journal before attempting a skill check to Recall Knowledge about the subject, you gain a +1 item bonus to the check.",
+                "showon": "Arcana, Crafting, Lore, Medicine, Nature, Occultism, Religion, Society",
+                "effects": [
+                    {
+                        "affected": "Recall Knowledge Checks",
+                        "show": true,
+                        "value": "1",
+                        "type": "item"
+                    }
+                ]
+            }
+        ],
+        "_className": "AdventuringGear",
+        "usage": "held in 1 hand"
+    },
+    {
+        "bulk": "L",
+        "desc": "Scholarly journals are uncommon. Each scholarly journal is a folio on a very specific topic, such as vampires or the history of a single town or neighborhood of a city. If you spend 1 minute referencing an academic journal before attempting a skill check to Recall Knowledge about the subject, you gain a +1 item bonus to the check. The GM determines what scholarly journals are available in any location.",
+        "id": "89c79641-8e09-11ea-9fab-e92c63c14723",
+        "level": 3,
+        "name": "Scholarly Journal",
+        "price": 600,
+        "traits": [
+            "Uncommon"
+        ],
+        "hints": [
+            {
+                "desc": "If you spend 1 minute referencing an academic journal before attempting a skill check to Recall Knowledge about the subject, you gain a +1 item bonus to the check.",
+                "showon": "Arcana, Crafting, Lore, Medicine, Nature, Occultism, Religion, Society",
+                "effects": [
+                    {
+                        "affected": "Recall Knowledge Checks",
+                        "show": true,
+                        "value": "1",
+                        "type": "item"
+                    }
+                ]
+            }
+        ],
+        "_className": "AdventuringGear",
+        "hands": 1
+    },
+    {
+        "bulk": "L",
+        "desc": "Maps are uncommon. Most maps you can find are simple and functional. A survey map details a single location in excellent detail. One of these maps gives you a +1 item bonus to Survival checks and any skill checks to Recall Knowledge, provided the checks are related to the location detailed on the map. The GM determines what maps are available in any location.",
+        "id": "89c79644-8e09-11ea-9fab-e92c63c14723",
+        "level": 3,
+        "name": "Survey Map",
+        "price": 1000,
+        "traits": [
+            "Uncommon"
+        ],
+        "hints": [
+            {
+                "desc": "One of these maps gives you a +1 item bonus to Survival checks and any skill checks to Recall Knowledge, provided the checks are related to the location detailed on the map.",
+                "showon": "Survival, Arcana, Crafting, Lore, Medicine, Nature, Occultism, Religion, Society",
+                "effects": [
+                    {
+                        "affected": "Survival",
+                        "value": "1",
+                        "type": "item"
+                    },
+                    {
+                        "affected": "Recall Knowledge Checks",
+                        "show": true,
+                        "value": "1",
+                        "type": "item"
+                    }
+                ]
+            }
+        ],
+        "_className": "AdventuringGear",
+        "hands": 1
+    },
+    {
+        "desc": "Picking an average lock requires four successes at DC 25.",
+        "id": "89c79647-8e09-11ea-9fab-e92c63c14723",
+        "level": 3,
+        "name": "Lock (Average)",
+        "price": 1500,
+        "_className": "AdventuringGear",
+        "hands": 2
+    },
+    {
+        "bulk": "L",
+        "desc": "A compass helps you Sense Direction or navigate, provided you're in a location with uniform magnetic fields. Without a compass, you take a -2 item penalty to these checks (similar to using a shoddy item). A lensatic compass gives you a +1 item bonus to these checks.",
+        "id": "89c7964a-8e09-11ea-9fab-e92c63c14723",
+        "level": 3,
+        "name": "Compass (Lensatic)",
+        "price": 2000,
+        "hints": [
+            {
+                "showon": "Survival",
+                "effects": [
+                    {
+                        "affected": "Survival",
+                        "value": "1",
+                        "type": "item"
+                    }
+                ]
+            }
+        ],
+        "_className": "AdventuringGear",
+        "hands": 1
+    },
+    {
+        "bulk": "L",
+        "desc": "When Forcing Open an object that doesn't have an easy grip, a crowbar makes it easier to gain the necessary leverage. Without a crowbar, prying something open takes a -2 item penalty to the Athletics check to Force Open (similar to using a shoddy item). A levered crowbar grants you a +1 item bonus to Athletics checks to Force Open anything that can be pried open. ",
+        "id": "89c7964d-8e09-11ea-9fab-e92c63c14723",
+        "level": 3,
+        "name": "Crowbar (Levered)",
+        "price": 2000,
+        "hints": [
+            {
+                "showon": "Athletics",
+                "effects": [
+                    {
+                        "affected": "Athletics",
+                        "value": "1",
+                        "type": "item"
+                    }
+                ]
+            }
+        ],
+        "_className": "AdventuringGear",
+        "hands": 2
+    },
+    {
+        "bulk": "1",
+        "desc": "This kit include a collapsible fishing pole, fishhooks, line, lures, and a fishing net. Professional fishing tackle grants a +1 item bonus to checks to fish.",
+        "id": "89c79650-8e09-11ea-9fab-e92c63c14723",
+        "level": 3,
+        "name": "Fishing Tackle (Professional)",
+        "price": 2000,
+        "_className": "AdventuringGear",
+        "hands": 2
+    },
+    {
+        "desc": "You can manacle someone who is willing or otherwise at your mercy as an exploration activity taking 10-30 seconds depending on the creature's size and how many manacles you apply. A two-legged creature with its legs bound takes a -15-foot circumstance penalty to its Speeds, and a two-handed creature with its wrists bound has to succeed at a DC 5 flat check any time it uses a manipulate action or else that action fails. This DC may be higher depending on how tightly the manacles constrain the hands. A creature bound to a stationary object is immobilized. For creatures with more or fewer limbs, the GM determines what effect manacles have, if any. Freeing a creature from average manacles requires four successes at DC 27.",
+        "id": "89c79653-8e09-11ea-9fab-e92c63c14723",
+        "level": 3,
+        "name": "Manacles (Average)",
+        "price": 2000,
+        "_className": "AdventuringGear",
+        "hands": 2
+    },
+    {
+        "bulk": "1",
+        "desc": "A repair kit allows you to perform simple repairs while traveling. It contains a portable anvil, tongs, woodworking tools, a whetstone, and oils for conditioning leather and wood. You can use a repair kit to Repair items using the Crafting skill. A superb repair kit gives you a +1 item bonus to the check.",
+        "id": "89c79656-8e09-11ea-9fab-e92c63c14723",
+        "level": 3,
+        "name": "Repair Kit (Superb)",
+        "price": 2500,
+        "hints": [
+            {
+                "showon": "Crafting",
+                "effects": [
+                    {
+                        "affected": "Crafting",
+                        "value": "1",
+                        "type": "item"
+                    }
+                ]
+            }
+        ],
+        "_className": "AdventuringGear",
+        "hands": 2
+    },
+    {
+        "bulk": "L",
+        "desc": "Scholarly journals are uncommon. Each scholarly journal is a folio on a very specific topic, such as vampires or the history of a single town or neighborhood of a city. If you spend 1 minute referencing an academic journal before attempting a skill check to Recall Knowledge about the subject, you gain a +1 item bonus to the check. A compendium of journals costs five times as much as a single journal and requires both hands to use; each compendium contains several journals and grants its bonus on a broader topic, such as all undead or a whole city. The GM determines what scholarly journals are available in any location.",
+        "id": "89c79659-8e09-11ea-9fab-e92c63c14723",
+        "level": 3,
+        "name": "Scholarly Journal (Compendium)",
+        "price": 3000,
+        "traits": [
+            "Uncommon"
+        ],
+        "_className": "AdventuringGear",
+        "hands": 2
+    },
+    {
+        "bulk": "1",
+        "desc": "This satchel includes 50 feet of rope, pulleys, a dozen pitons, a hammer, a grappling hook, and one set of crampons. Climbing kits allow you to attach yourself to the wall you're Climbing, moving half as quickly as usual (minimum 5 feet) but letting you attempt a DC 5 flat check whenever you critically fail to prevent a fall. You gain a +1 item bonus to Athletics checks to Climb while using an extreme climbing kit. A single kit has only enough materials for one climber; each climber needs their own kit.",
+        "id": "89c7965c-8e09-11ea-9fab-e92c63c14723",
+        "level": 3,
+        "name": "Climbing Kit (Extreme)",
+        "price": 4000,
+        "hints": [
+            {
+                "showon": "Athletics",
+                "effects": [
+                    {
+                        "affected": "Athletics",
+                        "value": "1",
+                        "type": "item"
+                    }
+                ]
+            }
+        ],
+        "_className": "AdventuringGear",
+        "hands": 2
+    },
+    {
+        "bulk": "L",
+        "desc": "This small wooden box contains cosmetics, false facial hair, spirit gum, and a few simple wigs. You usually need a disguise kit to set up a disguise in order to Impersonate someone using the Deception skill. An elite disguise kit adds a +1 item bonus to relevant checks. If you've crafted a large number of disguises, you can replenish your cosmetics supply with replacement cosmetics suitable for the type of your disguise kit.",
+        "id": "89c7965f-8e09-11ea-9fab-e92c63c14723",
+        "level": 3,
+        "name": "Disguise Kit (Elite)",
+        "price": 4000,
+        "hints": [
+            {
+                "showon": "Deception",
+                "effects": [
+                    {
+                        "affected": "Deception",
+                        "value": "1",
+                        "type": "item"
+                    }
+                ]
+            }
+        ],
+        "_className": "AdventuringGear",
+        "hands": 2
+    },
+    {
+        "bulk": "1",
+        "desc": "This kit of bandages, herbs, and suturing tools is necessary for Medicine checks to Administer First Aid, Treat Disease, Treat Poison, or Treat Wounds. Expanded healer's tools provide a +1 item bonus to such checks. When you carry the tools from place to place, you keep many of the components handy on your person, in pockets or bandoliers.",
+        "id": "89c79662-8e09-11ea-9fab-e92c63c14723",
+        "level": 3,
+        "name": "Healer's Tools (Expanded)",
+        "price": 5000,
+        "hints": [
+            {
+                "showon": "Medicine",
+                "effects": [
+                    {
+                        "affected": "Medicine",
+                        "value": "1",
+                        "type": "item"
+                    }
+                ]
+            }
+        ],
+        "_className": "AdventuringGear",
+        "hands": 2
+    },
+    {
+        "bulk": "2",
+        "desc": "You need these tools to create items from raw materials with the Craft skill. Sterling artisan's tools give you a +1 item bonus to the check. Different sets are needed for different work, as determined by the GM; for example, blacksmith's tools differ from woodworker's tools.",
+        "id": "89c79665-8e09-11ea-9fab-e92c63c14723",
+        "level": 3,
+        "name": "Artisan's Tools (Sterling)",
+        "price": 5000,
+        "hints": [
+            {
+                "showon": "Crafting",
+                "effects": [
+                    {
+                        "affected": "Crafting",
+                        "value": "1",
+                        "type": "item"
+                    }
+                ]
+            }
+        ],
+        "_className": "AdventuringGear",
+        "hands": 2
+    },
+    {
+        "bulk": "1",
+        "desc": "Handheld instruments include bagpipes, a small set of chimes, small drums, fiddles and viols, flutes and recorders, small harps, lutes, trumpets, and similarly sized instruments. The GM might rule that an especially large handheld instrument (like a tuba) has greater Bulk.\n\nA virtuoso instrument gives a +1 item bonus to Performance checks using that instrument. ",
+        "id": "89c79668-8e09-11ea-9fab-e92c63c14723",
+        "level": 3,
+        "name": "Musical Instrument (Virtuoso Handheld)",
+        "price": 5000,
+        "hints": [
+            {
+                "showon": "Performance",
+                "effects": [
+                    {
+                        "affected": "Performance",
+                        "value": "1",
+                        "type": "item"
+                    }
+                ]
+            }
+        ],
+        "_className": "AdventuringGear",
+        "hands": 2
+    },
+    {
+        "bulk": "L",
+        "desc": "You need thieves' tools to Pick Locks or Disable Devices (of some types) using the Thievery skill. Infiltrator thieves' tools add a +1 item bonus to checks to Pick Locks and Disable Devices. If your thieves' tools are broken, you can repair them by replacing the lock picks with replacement picks appropriate to your tools; this doesn't require using the Repair action.",
+        "id": "89c7966b-8e09-11ea-9fab-e92c63c14723",
+        "level": 3,
+        "name": "Thieves' Tools (Infiltrator)",
+        "price": 5000,
+        "hints": [
+            {
+                "showon": "Thievery",
+                "effects": [
+                    {
+                        "affected": "Thievery",
+                        "value": "1",
+                        "type": "item"
+                    }
+                ]
+            }
+        ],
+        "_className": "AdventuringGear",
+        "hands": 2
+    },
+    {
+        "bulk": "L",
+        "desc": "Maps are uncommon. Most maps you can find are simple and functional. A survey map details a single location in excellent detail. One of these maps gives you a +1 item bonus to Survival checks and any skill checks to Recall Knowledge, provided the checks are related to the location detailed on the map. Maps sometimes come in atlases, containing a number of maps of the same quality, often on similar topics. An atlas costs five times as much as a single map and requires both hands to use. The GM determines what maps are available in any location.",
+        "id": "89c7966e-8e09-11ea-9fab-e92c63c14723",
+        "level": 3,
+        "name": "Survey Map (Atlas)",
+        "price": 5000,
+        "_className": "AdventuringGear",
+        "hands": 2
+    },
+    {
+        "bulk": "L",
+        "desc": "You gain a +1 item bonus to checks to Make an Impression on nobility or other upper-class folk while wearing high-fashion fine clothing.",
+        "id": "89c79671-8e09-11ea-9fab-e92c63c14723",
+        "level": 3,
+        "name": "Clothing (High-Fashion Fine)",
+        "price": 5500,
+        "hints": [
+            {
+                "showon": "Diplomacy",
+                "effects": [
+                    {
+                        "affected": "Diplomacy",
+                        "value": "1",
+                        "type": "item"
+                    }
+                ]
+            }
+        ],
+        "_className": "AdventuringGear"
+    },
+    {
+        "bulk": "2",
+        "desc": "This kit contains tools and materials for creating snares. A snare kit allows you to Craft snares using the Crafting skill. A specialist snare kit gives you a +1 item bonus to the check.",
+        "id": "89c79674-8e09-11ea-9fab-e92c63c14723",
+        "level": 3,
+        "name": "Snare Kit (Specialist)",
+        "price": 5500,
+        "hints": [
+            {
+                "showon": "Crafting",
+                "effects": [
+                    {
+                        "affected": "Crafting",
+                        "value": "1",
+                        "type": "item"
+                    }
+                ]
+            }
+        ],
+        "_className": "AdventuringGear",
+        "hands": 2
+    },
+    {
+        "bulk": "6",
+        "desc": "You need an alchemist's lab to Craft alchemical items during downtime. An expanded alchemist's lab gives a +1 item bonus to Crafting checks to create alchemical items.",
+        "id": "89c79677-8e09-11ea-9fab-e92c63c14723",
+        "level": 3,
+        "name": "Alchemist's Lab (Expanded)",
+        "price": 5500,
+        "hints": [
+            {
+                "showon": "Crafting",
+                "effects": [
+                    {
+                        "affected": "Crafting",
+                        "value": "1",
+                        "type": "item"
+                    }
+                ]
+            }
+        ],
+        "_className": "AdventuringGear",
+        "hands": 2
+    },
+    {
+        "bulk": "16",
+        "desc": "Heavy instruments such as large drums, a full set of chimes, and keyboard instruments are less portable than handheld instruments and generally need to be stationary while played.\n\nA virtuoso instrument gives a +1 item bonus to Performance checks using that instrument. ",
+        "id": "89c7967a-8e09-11ea-9fab-e92c63c14723",
+        "level": 3,
+        "name": "Musical Instrument (Virtuoso Heavy)",
+        "price": 10000,
+        "hints": [
+            {
+                "showon": "Performance",
+                "effects": [
+                    {
+                        "affected": "Performance",
+                        "value": "1",
+                        "type": "item"
+                    }
+                ]
+            }
+        ],
+        "_className": "AdventuringGear",
+        "hands": 2
+    },
+    {
+        "bulk": "L",
+        "desc": "A typical spyglass lets you see eight times farther than normal. A fine spyglass adds a +1 item bonus to Perception checks to notice details at a distance.",
+        "id": "89c7967d-8e09-11ea-9fab-e92c63c14723",
+        "level": 4,
+        "name": "Spyglass (Fine)",
+        "price": 8000,
+        "hints": [
+            {
+                "showon": "Perception",
+                "effects": [
+                    {
+                        "affected": "Perception",
+                        "value": "1",
+                        "type": "item"
+                    }
+                ]
+            }
+        ],
+        "_className": "AdventuringGear",
+        "hands": 2
+    },
+    {
+        "desc": "Picking a good lock requires five successes at DC 30.",
+        "id": "89c79680-8e09-11ea-9fab-e92c63c14723",
+        "level": 9,
+        "name": "Lock (Good)",
+        "price": 20000,
+        "_className": "AdventuringGear",
+        "hands": 2
+    },
+    {
+        "desc": "You can manacle someone who is willing or otherwise at your mercy as an exploration activity taking 10-30 seconds depending on the creature's size and how many manacles you apply. A two-legged creature with its legs bound takes a -15-foot circumstance penalty to its Speeds, and a two-handed creature with its wrists bound has to succeed at a DC 5 flat check any time it uses a manipulate action or else that action fails. This DC may be higher depending on how tightly the manacles constrain the hands. A creature bound to a stationary object is immobilized. For creatures with more or fewer limbs, the GM determines what effect manacles have, if any. Freeing a creature from good manacles requires five successes at DC 32.",
+        "id": "89c79683-8e09-11ea-9fab-e92c63c14723",
+        "level": 9,
+        "name": "Manacles (Good)",
+        "price": 25000,
+        "_className": "AdventuringGear",
+        "hands": 2
+    },
+    {
+        "bulk": "2",
+        "desc": "This mid-sized, silver cauldron is a boon within areas where access to fresh food is limited, for it can be commanded to fill itself with hearty (and delicious) vegetable stew. It can also be put to a much greater use in the pursuit of crafting certain items. When used to Craft alchemical items, potions, or oils, a bountiful cauldron grants a +2 item bonus to the Crafting check.",
+        "id": "89c79686-8e09-11ea-9fab-e92c63c14723",
+        "level": 9,
+        "name": "Bountiful Cauldron",
+        "price": 68000,
+        "traits": [
+            "Uncommon",
+            "Conjuration",
+            "Magical"
+        ],
+        "activities": [
+            {
+                "actions": "3A",
+                "activationType": "Command, Interact",
+                "castSpells": [
+                    {
+                        "_className": "SpellCast",
+                        "level": 4,
+                        "name": "Create Food"
+                    }
+                ],
+                "cooldown": 144000,
+                "desc": "You stir the cauldron, and it casts a 4th-level create food spell, filling itself with enough delicious vegetable stew to feed 12 Medium creatures.",
+                "frequency": "once per day",
+                "name": "Bountiful Cauldron",
+                "traits": [
+                    "Conjuration",
+                    "Magical",
+                    "Uncommon"
+                ],
+                "_className": "ItemActivity",
+                "source": "89c79686-8e09-11ea-9fab-e92c63c14723"
+            }
+        ],
+        "hints": [
+            {
+                "desc": "When used to Craft alchemical items, potions, or oils, a bountiful cauldron grants a +2 item bonus to the Crafting check.",
+                "showon": "Crafting",
+                "effects": [
+                    {
+                        "affected": "Crafting",
+                        "value": "2",
+                        "type": "item"
+                    }
+                ]
+            }
+        ],
+        "_className": "AdventuringGear"
+    },
+    {
+        "desc": "Picking a superior lock requires six successes at DC 40.",
+        "id": "89c79689-8e09-11ea-9fab-e92c63c14723",
+        "level": 17,
+        "name": "Lock (Superior)",
+        "price": 450000,
+        "_className": "AdventuringGear",
+        "hands": 2
+    },
+    {
+        "desc": "You can manacle someone who is willing or otherwise at your mercy as an exploration activity taking 10-30 seconds depending on the creature's size and how many manacles you apply. A two-legged creature with its legs bound takes a -15-foot circumstance penalty to its Speeds, and a two-handed creature with its wrists bound has to succeed at a DC 5 flat check any time it uses a manipulate action or else that action fails. This DC may be higher depending on how tightly the manacles constrain the hands. A creature bound to a stationary object is immobilized. For creatures with more or fewer limbs, the GM determines what effect manacles have, if any. Freeing a creature from superior manacles requires six successes at DC 42.",
+        "id": "89c7968c-8e09-11ea-9fab-e92c63c14723",
+        "level": 17,
+        "name": "Manacles (Superior)",
+        "price": 500000,
+        "_className": "AdventuringGear",
+        "hands": 2
+    }
+]

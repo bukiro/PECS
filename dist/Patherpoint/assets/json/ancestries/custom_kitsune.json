@@ -1,0 +1,148 @@
+[
+    {
+        "_className": "Ancestry",
+        "name": "Kitsune",
+        "sourceBook": "Custom",
+        "desc": [
+            {
+                "name": "Description",
+                "value": "Kitsune, or fox folk, are vulpine shapeshifters known for their love of both trickery and art. Kitsune possess two forms: that of an attractive human of slender build with salient eyes, and their true form of an anthropomorphic fox. Despite an irrepressible penchant for deception, kitsune prize loyalty and make true companions. They delight in the arts, particularly riddles and storytelling, and settle in ancestral clans, taking their wisdom from both the living and spirits.\n\nIn their human forms, kitsune tend toward quickness and lithe beauty. In all forms they possess golden, amber, or brilliant blue eyes. In their true forms, they are covered with a downy coat of auburn fur, although more exotic coloration is possible.\n\nKitsune society is enigmatic, as kitsune prize loyalty among their friends but delight in good-natured mischief and trickery. Kitsune take pleasure in the pursuit of creative arts and in all forms of competition, especially the telling of stories interwoven with tall tales and falsehoods.\n\nQuick-witted and nimble, kitsune make excellent bards and rogues. It is not uncommon for one to pursue sorcery. Kitsune tend to be neutral, or of alignments with a neutral component. Most kitsune worship the goddess of craftsmanship."
+            },
+            {
+                "name": "Hit Points",
+                "value": "6"
+            },
+            {
+                "name": "Size",
+                "value": "Medium"
+            },
+            {
+                "name": "Speed",
+                "value": "30 feet"
+            },
+            {
+                "name": "Ability Boosts",
+                "value": "Dexterity\nCharisma\nFree"
+            },
+            {
+                "name": "Ability Flaw(s)",
+                "value": "Constiturion"
+            },
+            {
+                "name": "Languages",
+                "value": "Common\nSylvan"
+            },
+            {
+                "name": "Additional Languages",
+                "value": "Equal to your intelligence modifier (if it's positive). Choose from Aklo, Celestial, Elven, Gnomish, and any other languages to which you have access (such as the languages prevalent in your region)."
+            },
+            {
+                "name": "Low-Light Vision",
+                "value": "You can see in dim light as though it were bright light, so you ignore the concealed condition due to dim light."
+            },
+            {
+                "name": "Jaws",
+                "value": "Your sharp fangs make your bite a considerable weapon. You have a jaws unarmed attack that deals 1d6 piercing damage. Your jaws are in the brawling group and have the finesse trait."
+            },
+            {
+                "name": "Human Form",
+                "value": "Choose a human form of your own gender which is static and cannot be changed. You can change to your human form at will. This works like a 2nd level humanoid form spell, except that there is only one form you can take, and the spell is permanent until dismissed. You cannot use your jaws attack in human form."
+            }
+        ],
+        "ancestries": [
+            "Kitsune"
+        ],
+        "hitPoints": 6,
+        "size": 0,
+        "speeds": [
+            {
+                "name": "Land Speed",
+                "value": 30
+            }
+        ],
+        "traits": [
+            "Kitsune",
+            "Humanoid"
+        ],
+        "abilityChoices": [
+            {
+                "_className": "AbilityChoice",
+                "boosts": [
+                    {
+                        "locked": true,
+                        "name": "Dexterity",
+                        "source": "Ancestry",
+                        "sourceId": "1-Ability-Ancestry-0",
+                        "type": "Boost"
+                    },
+                    {
+                        "locked": true,
+                        "name": "Charisma",
+                        "source": "Ancestry",
+                        "sourceId": "1-Ability-Ancestry-0",
+                        "type": "Boost"
+                    },
+                    {
+                        "locked": true,
+                        "name": "Constitution",
+                        "source": "Ancestry",
+                        "sourceId": "1-Ability-Ancestry-0",
+                        "type": "Flaw"
+                    }
+                ],
+                "id": "1-Ability-Ancestry-0",
+                "source": "Ancestry"
+            },
+            {
+                "_className": "AbilityChoice",
+                "available": 1,
+                "baseValuesLost": 1,
+                "id": "1-Ability-Ancestry-1",
+                "source": "Ancestry"
+            }
+        ],
+        "baseLanguages": 2,
+        "languages": [
+            "Common",
+            "Sylvan"
+        ],
+        "recommendedLanguages": [
+            "Aklo",
+            "Celestial",
+            "Elven",
+            "Gnomish"
+        ],
+        "senses": [
+            "Low-Light Vision"
+        ],
+        "gainItems": [
+            {
+                "name": "Kitsune Jaws",
+                "type": "weapons"
+            }
+        ],
+        "heritages": [
+            "Desert Fox Kitsune",
+            "Half-Elf",
+            "Half-Orc",
+            "Red Fox Kitsune",
+            "Snow Fox Kitsune"
+        ],
+        "featChoices": [
+            {
+                "_className": "FeatChoice",
+                "feats": [
+                    {
+                        "name": "Kitsune Human Form",
+                        "source": "Ancestry",
+                        "locked": true,
+                        "sourceId": "1-Feat-Ancestry-0"
+                    }
+                ],
+                "id": "1-Feat-Ancestry-0",
+                "level": 0,
+                "source": "Ancestry"
+            }
+        ]
+    }
+]

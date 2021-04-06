@@ -1,0 +1,2541 @@
+{
+    "name": "Ohm",
+    "id": "d23c3570-8bc9-11ea-b9d7-f3d8821790e1",
+    "level": 8,
+    "health": {
+        "_className": "Health"
+    },
+    "inventories": [
+        {
+            "_className": "ItemCollection",
+            "adventuringgear": [
+                {
+                    "_className": "AdventuringGear",
+                    "displayName": "Backpack",
+                    "id": "c9a1b604-94f8-11ea-b099-237d7b1e0b84",
+                    "refId": "89c6fa1a-8e09-11ea-9fab-e92c63c14723",
+                    "equipped": true,
+                    "invested": true,
+                    "showName": true
+                },
+                {
+                    "_className": "AdventuringGear",
+                    "displayName": "Belt Pouch 1",
+                    "id": "c9a20427-94f8-11ea-b099-237d7b1e0b84",
+                    "refId": "89c6f9ff-8e09-11ea-9fab-e92c63c14723",
+                    "equipped": true,
+                    "invested": true,
+                    "showName": true
+                },
+                {
+                    "_className": "AdventuringGear",
+                    "displayName": "Belt Pouch 2",
+                    "id": "c9a22b32-94f8-11ea-b099-237d7b1e0b84",
+                    "refId": "89c6f9ff-8e09-11ea-9fab-e92c63c14723",
+                    "equipped": true,
+                    "invested": true,
+                    "showName": true
+                },
+                {
+                    "_className": "AdventuringGear",
+                    "displayName": "Potions Bandolier",
+                    "id": "cef4ee62-94f8-11ea-b099-237d7b1e0b84",
+                    "refId": "89c6fa26-8e09-11ea-9fab-e92c63c14723",
+                    "equipped": true,
+                    "invested": true
+                }
+            ],
+            "armors": [
+                {
+                    "_className": "Armor",
+                    "id": "eb660d51-7b52-11ea-bc14-e18579ad6691",
+                    "refId": "89c1a2d1-8e09-11ea-9fab-e92c63c14723",
+                    "equipped": true,
+                    "invested": true,
+                    "potencyRune": 1,
+                    "showRunes": true
+                }
+            ],
+            "otheritems": [
+                {
+                    "_className": "OtherItem",
+                    "name": "Magic chalk board",
+                    "bulk": "L"
+                },
+                {
+                    "_className": "OtherItem",
+                    "name": "Test"
+                }
+            ],
+            "weapons": [
+                {
+                    "_className": "Weapon",
+                    "id": "a3b7ae01-7b52-11ea-abae-db80a7854627",
+                    "refId": "08693211-8daa-11ea-abca-ffb46fbada73",
+                    "equipped": true,
+                    "invested": true
+                },
+                {
+                    "_className": "Weapon",
+                    "id": "a5c4c6a1-7b53-11ea-bc14-e18579ad6691",
+                    "refId": "08698057-8daa-11ea-abca-ffb46fbada73",
+                    "activities": [
+                        {
+                            "activationType": "Interact",
+                            "desc": "You cause the twigs to rapidly grow or contract, reshaping into a +1 striking staff, a +1 striking bo staff, or its disc form. In its disc form, it has negligible Bulk and must be held in one hand to be activated. In the other forms, it has the same Bulk as a normal weapon of its type. You can switch your grip as part of the activation.\n\nWhen you expand the item, you can use the force of the expansion to High Jump or to try to Force Open a door or the like by wedging the disc into a gap before activation. The staff makes the Athletics check with a +15 modifier.",
+                            "gainItems": [
+                                {
+                                    "name": "Staff (Twining Staff)",
+                                    "type": "weapons"
+                                }
+                            ],
+                            "name": "Twining Staff: Staff",
+                            "toggle": true,
+                            "traits": [
+                                "Magical",
+                                "Transmutation"
+                            ],
+                            "_className": "ItemActivity",
+                            "source": "a5c4c6a1-7b53-11ea-bc14-e18579ad6691"
+                        },
+                        {
+                            "activationType": "Interact",
+                            "desc": "You cause the twigs to rapidly grow or contract, reshaping into a +1 striking staff, a +1 striking bo staff, or its disc form. In its disc form, it has negligible Bulk and must be held in one hand to be activated. In the other forms, it has the same Bulk as a normal weapon of its type. You can switch your grip as part of the activation.\n\nWhen you expand the item, you can use the force of the expansion to High Jump or to try to Force Open a door or the like by wedging the disc into a gap before activation. The staff makes the Athletics check with a +15 modifier.",
+                            "gainItems": [
+                                {
+                                    "name": "Bo Staff (Twining Staff)",
+                                    "type": "weapons",
+                                    "id": ""
+                                }
+                            ],
+                            "name": "Twining Staff: Bo Staff",
+                            "toggle": true,
+                            "traits": [
+                                "Magical",
+                                "Transmutation"
+                            ],
+                            "_className": "ItemActivity",
+                            "source": "a5c4c6a1-7b53-11ea-bc14-e18579ad6691"
+                        }
+                    ],
+                    "equipped": true,
+                    "invested": true
+                }
+            ],
+            "wornitems": [
+                {
+                    "_className": "WornItem",
+                    "id": "8eaf3311-7b53-11ea-bc14-e18579ad6691",
+                    "refId": "89c3c5a5-8e09-11ea-9fab-e92c63c14723",
+                    "equipped": true,
+                    "invested": true,
+                    "potencyRune": 1,
+                    "strikingRune": 1
+                },
+                {
+                    "_className": "WornItem",
+                    "id": "93a5f391-7b53-11ea-bc14-e18579ad6691",
+                    "refId": "89c3ecb3-8e09-11ea-9fab-e92c63c14723",
+                    "traits": [
+                        "Invested",
+                        "Magical"
+                    ],
+                    "activities": [
+                        {
+                            "actions": "2A",
+                            "activationType": "Interact",
+                            "desc": "You lift an object of up to 8 Bulk as though it were weightless. This requires two hands, and if the object is locked or otherwise held in place, you can attempt to Force it Open using Athletics as part of this activation. The object still has its full weight and Bulk for all other purposes—you just ignore that weight. The effect lasts until the end of your next turn.",
+                            "name": "Lifting Belt",
+                            "traits": [
+                                "Invested",
+                                "Magical",
+                                "Transmutation"
+                            ],
+                            "_className": "ItemActivity",
+                            "source": "93a5f391-7b53-11ea-bc14-e18579ad6691"
+                        }
+                    ],
+                    "equipped": true,
+                    "invested": true
+                },
+                {
+                    "_className": "WornItem",
+                    "displayName": "Spider-Man Shoes",
+                    "id": "a186a7c1-7b53-11ea-bc14-e18579ad6691",
+                    "refId": "89c3ecbf-8e09-11ea-9fab-e92c63c14723",
+                    "activities": [
+                        {
+                            "activationType": "Command",
+                            "cooldown": 6000,
+                            "desc": "Tiny, hairlike tendrils extend from the slippers' soles, allowing you to walk on vertical surfaces or even to move upside down along ceilings. For 1 minute, you gain a 20-foot climb Speed and you don't need to use your hands to Climb. However, the slippers require decent traction for you to walk on a wall, so they provide no benefit when you're moving across greased, icy, or oiled surfaces.",
+                            "frequency": "once per hour",
+                            "gainConditions": [
+                                {
+                                    "_className": "ConditionGain",
+                                    "duration": 100,
+                                    "name": "Slippers of Spider Climbing",
+                                    "source": "Slippers of Spider Climbing"
+                                }
+                            ],
+                            "name": "Slippers of Spider Climbing",
+                            "traits": [
+                                "Invested",
+                                "Magical",
+                                "Transmutation"
+                            ],
+                            "_className": "ItemActivity",
+                            "source": "a186a7c1-7b53-11ea-bc14-e18579ad6691"
+                        }
+                    ],
+                    "equipped": true,
+                    "invested": true
+                },
+                {
+                    "_className": "WornItem",
+                    "desc": "This savage-looking nose ring grants you a +2 item bonus to Perception checks that are based on smelling and scents.",
+                    "id": "c1e51f71-7b75-11ea-81cd-f76160dcaadd",
+                    "level": 4,
+                    "name": "Bruno's Nose Ring",
+                    "traits": [
+                        "Invested",
+                        "Magical",
+                        "Divination"
+                    ],
+                    "equipped": true,
+                    "hint": "You gain a +2 item bonus to Perception checks that are based on smelling and scents.",
+                    "invested": true,
+                    "showon": "Perception",
+                    "usage": "worn nose ring"
+                },
+                {
+                    "_className": "WornItem",
+                    "id": "beb2b361-8c0c-11ea-837d-c5e6f942ca4e",
+                    "refId": "89c3ecbc-8e09-11ea-9fab-e92c63c14723",
+                    "equipped": true,
+                    "invested": true
+                }
+            ]
+        },
+        {
+            "_className": "ItemCollection",
+            "adventuringgear": [
+                {
+                    "_className": "AdventuringGear",
+                    "id": "8cd00d11-8c0d-11ea-b477-91d6c75d430a",
+                    "refId": "89c6fa14-8e09-11ea-9fab-e92c63c14723"
+                },
+                {
+                    "_className": "AdventuringGear",
+                    "id": "6b752c80-8894-11ea-ba02-d98f0353d6b9",
+                    "refId": "89c79662-8e09-11ea-9fab-e92c63c14723"
+                },
+                {
+                    "_className": "AdventuringGear",
+                    "id": "c9a27952-94f8-11ea-b099-237d7b1e0b84",
+                    "refId": "89c72128-8e09-11ea-9fab-e92c63c14723"
+                },
+                {
+                    "_className": "AdventuringGear",
+                    "id": "d0843a10-7b53-11ea-bc14-e18579ad6691",
+                    "refId": "89c76f43-8e09-11ea-9fab-e92c63c14723"
+                },
+                {
+                    "_className": "AdventuringGear",
+                    "amount": 5,
+                    "id": "c9a2c772-94f8-11ea-b099-237d7b1e0b84",
+                    "refId": "89c6f9f3-8e09-11ea-9fab-e92c63c14723"
+                },
+                {
+                    "_className": "AdventuringGear",
+                    "amount": 2,
+                    "id": "c9a2a062-94f8-11ea-b099-237d7b1e0b84",
+                    "refId": "89c72119-8e09-11ea-9fab-e92c63c14723"
+                },
+                {
+                    "_className": "AdventuringGear",
+                    "id": "c9a20422-94f8-11ea-b099-237d7b1e0b84",
+                    "refId": "89c6f9f6-8e09-11ea-9fab-e92c63c14723"
+                }
+            ],
+            "bulkLimit": 4,
+            "bulkReduction": 2,
+            "itemId": "c9a1b604-94f8-11ea-b099-237d7b1e0b84"
+        },
+        {
+            "_className": "ItemCollection",
+            "adventuringgear": [
+                {
+                    "_className": "AdventuringGear",
+                    "amount": 10,
+                    "id": "c9a22b37-94f8-11ea-b099-237d7b1e0b84",
+                    "refId": "89c6d2e8-8e09-11ea-9fab-e92c63c14723"
+                },
+                {
+                    "_className": "AdventuringGear",
+                    "id": "c9a25242-94f8-11ea-b099-237d7b1e0b84",
+                    "refId": "89c6fa02-8e09-11ea-9fab-e92c63c14723"
+                },
+                {
+                    "_className": "AdventuringGear",
+                    "id": "c9a2a06c-94f8-11ea-b099-237d7b1e0b84",
+                    "refId": "89c6f9f9-8e09-11ea-9fab-e92c63c14723"
+                },
+                {
+                    "_className": "AdventuringGear",
+                    "id": "c9a2ee82-94f8-11ea-b099-237d7b1e0b84",
+                    "refId": "89c6fa08-8e09-11ea-9fab-e92c63c14723"
+                }
+            ],
+            "bulkLimit": 0.4,
+            "itemId": "c9a20427-94f8-11ea-b099-237d7b1e0b84"
+        },
+        {
+            "_className": "ItemCollection",
+            "bulkLimit": 0.4,
+            "helditems": [
+                {
+                    "_className": "HeldItem",
+                    "id": "99ad12a0-7b53-11ea-bc14-e18579ad6691",
+                    "refId": "89bd35f2-8e09-11ea-9fab-e92c63c14723",
+                    "activities": [
+                        {
+                            "actions": "Free",
+                            "activationType": "Interact",
+                            "castSpells": [
+                                {
+                                    "_className": "SpellCast",
+                                    "name": "Knock"
+                                }
+                            ],
+                            "cooldown": 144000,
+                            "desc": "The key casts knock on the lock you're trying to pick.",
+                            "frequency": "once per day",
+                            "name": "Skeleton Key",
+                            "traits": [
+                                "Magical",
+                                "Transmutation"
+                            ],
+                            "trigger": "You attempt to Pick a Lock but haven't rolled yet",
+                            "_className": "ItemActivity",
+                            "source": "99ad12a0-7b53-11ea-bc14-e18579ad6691"
+                        }
+                    ]
+                }
+            ],
+            "itemId": "c9a22b32-94f8-11ea-b099-237d7b1e0b84",
+            "otherconsumables": [
+                {
+                    "_className": "OtherConsumable",
+                    "id": "b86f5ef1-7b53-11ea-bc14-e18579ad6691",
+                    "refId": "89bee3a1-8e09-11ea-9fab-e92c63c14723",
+                    "equipped": false
+                },
+                {
+                    "_className": "OtherConsumable",
+                    "desc": "This shimmering scale allows you to immediately re-roll one d20 dice roll before it crumbles to dust. This is a luck effect.",
+                    "id": "49810111-7b76-11ea-81cd-f76160dcaadd",
+                    "name": "Kassen's Blessing",
+                    "traits": [
+                        "Magical"
+                    ],
+                    "actions": "Reaction",
+                    "activationType": "Interact",
+                    "equipped": false
+                }
+            ]
+        },
+        {
+            "_className": "ItemCollection",
+            "alchemicalelixirs": [
+                {
+                    "_className": "AlchemicalElixir",
+                    "id": "c013da50-7b53-11ea-bc14-e18579ad6691",
+                    "notes": "In Bandolier",
+                    "refId": "89bdd231-8e09-11ea-9fab-e92c63c14723",
+                    "showNotes": true,
+                    "equipped": false
+                },
+                {
+                    "_className": "AlchemicalElixir",
+                    "id": "c6909e91-7b53-11ea-bc14-e18579ad6691",
+                    "refId": "89bdd235-8e09-11ea-9fab-e92c63c14723",
+                    "equipped": false
+                }
+            ],
+            "bulkLimit": 0.8,
+            "itemId": "cef4ee62-94f8-11ea-b099-237d7b1e0b84",
+            "potions": [
+                {
+                    "_className": "Potion",
+                    "amount": 5,
+                    "id": "cac56ea1-7b53-11ea-bc14-e18579ad6691",
+                    "notes": "In Bandolier",
+                    "refId": "89be9581-8e09-11ea-9fab-e92c63c14723",
+                    "showNotes": true,
+                    "equipped": false
+                },
+                {
+                    "_className": "Potion",
+                    "id": "95389b41-8869-11ea-84b0-8bf2c78fa07e",
+                    "notes": "In Bandolier",
+                    "refId": "89be9585-8e09-11ea-9fab-e92c63c14723",
+                    "showNotes": true,
+                    "equipped": false
+                }
+            ]
+        }
+    ],
+    "_className": "Character",
+    "alignment": "Chaotic Good",
+    "baseValues": [
+        {
+            "name": "Strength",
+            "baseValue": 15
+        },
+        {
+            "name": "Dexterity",
+            "baseValue": 16
+        },
+        {
+            "name": "Constitution",
+            "baseValue": 14
+        },
+        {
+            "name": "Intelligence",
+            "baseValue": 11
+        },
+        {
+            "name": "Wisdom",
+            "baseValue": 14
+        },
+        {
+            "name": "Charisma",
+            "baseValue": 11
+        }
+    ],
+    "cash": [
+        0,
+        530,
+        14,
+        0
+    ],
+    "class": {
+        "_className": "Class",
+        "activities": [
+            {
+                "_className": "ActivityGain",
+                "level": 1,
+                "name": "Flurry of Blows",
+                "source": "Flurry of Blows"
+            },
+            {
+                "_className": "ActivityGain",
+                "level": 6,
+                "name": "Whirling Throw",
+                "source": "Whirling Throw"
+            },
+            {
+                "_className": "ActivityGain",
+                "level": 5,
+                "name": "Orc Ferocity",
+                "source": "Orc Ferocity"
+            },
+            {
+                "_className": "ActivityGain",
+                "level": 8,
+                "name": "Ironblood Stance",
+                "source": "Ironblood Stance"
+            }
+        ],
+        "ancestry": {
+            "_className": "Ancestry",
+            "abilityChoices": [
+                {
+                    "_className": "AbilityChoice",
+                    "available": 2,
+                    "baseValuesLost": 1,
+                    "boosts": [
+                        {
+                            "name": "Wisdom",
+                            "type": "Boost",
+                            "source": "Ancestry",
+                            "locked": false,
+                            "sourceId": "1-Ability-Ancestry-0"
+                        }
+                    ],
+                    "id": "1-Ability-Ancestry-0",
+                    "source": "Ancestry"
+                }
+            ],
+            "ancestries": [
+                "Human",
+                "Orc",
+                "Half-Orc"
+            ],
+            "baseLanguages": 2,
+            "heritages": [
+                "Half-Elf",
+                "Half-Orc",
+                "Skilled Heritage",
+                "Versatile Heritage",
+                "Wintertouched Human"
+            ],
+            "hitPoints": 8,
+            "languages": [
+                "Common",
+                "Orcish"
+            ],
+            "name": "Human",
+            "speed": 25,
+            "traits": [
+                "Human",
+                "Humanoid",
+                "Orc"
+            ],
+            "freeItems": []
+        },
+        "animalCompanion": {
+            "id": "d23c5c80-8bc9-11ea-b9d7-f3d8821790e1",
+            "inventories": [
+                {
+                    "_className": "ItemCollection",
+                    "armors": [
+                        {
+                            "_className": "Armor",
+                            "id": "d23cf8c2-8bc9-11ea-b9d7-f3d8821790e1",
+                            "name": "Unarmored",
+                            "equipped": true,
+                            "invested": true,
+                            "moddable": "-",
+                            "prof": "Unarmored"
+                        }
+                    ]
+                }
+            ],
+            "_className": "AnimalCompanion",
+            "class": {
+                "_className": "AnimalCompanionClass",
+                "levels": [
+                    {
+                        "_className": "AnimalCompanionLevel"
+                    },
+                    {
+                        "_className": "AnimalCompanionLevel",
+                        "abilityChoices": [
+                            {
+                                "_className": "AbilityChoice",
+                                "boosts": [
+                                    {
+                                        "name": "Strength",
+                                        "type": "Boost",
+                                        "source": "Ancestry",
+                                        "locked": true,
+                                        "sourceId": "1-Ability-Class-0"
+                                    },
+                                    {
+                                        "name": "Strength",
+                                        "type": "Boost",
+                                        "source": "Ancestry",
+                                        "locked": true,
+                                        "sourceId": "1-Ability-Class-0"
+                                    },
+                                    {
+                                        "name": "Dexterity",
+                                        "type": "Boost",
+                                        "source": "Ancestry",
+                                        "locked": true,
+                                        "sourceId": "1-Ability-Class-0"
+                                    },
+                                    {
+                                        "name": "Dexterity",
+                                        "type": "Boost",
+                                        "source": "Ancestry",
+                                        "locked": true,
+                                        "sourceId": "1-Ability-Class-0"
+                                    },
+                                    {
+                                        "name": "Constitution",
+                                        "type": "Boost",
+                                        "source": "Ancestry",
+                                        "locked": true,
+                                        "sourceId": "1-Ability-Class-0"
+                                    },
+                                    {
+                                        "name": "Intelligence",
+                                        "type": "Flaw",
+                                        "source": "Ancestry",
+                                        "locked": true,
+                                        "sourceId": "1-Ability-Class-0"
+                                    },
+                                    {
+                                        "name": "Intelligence",
+                                        "type": "Flaw",
+                                        "source": "Ancestry",
+                                        "locked": true,
+                                        "sourceId": "1-Ability-Class-0"
+                                    },
+                                    {
+                                        "name": "Intelligence",
+                                        "type": "Flaw",
+                                        "source": "Ancestry",
+                                        "locked": true,
+                                        "sourceId": "1-Ability-Class-0"
+                                    },
+                                    {
+                                        "name": "Intelligence",
+                                        "type": "Flaw",
+                                        "source": "Ancestry",
+                                        "locked": true,
+                                        "sourceId": "1-Ability-Class-0"
+                                    },
+                                    {
+                                        "name": "Wisdom",
+                                        "type": "Boost",
+                                        "source": "Ancestry",
+                                        "locked": true,
+                                        "sourceId": "1-Ability-Class-0"
+                                    }
+                                ],
+                                "id": "1-Ability-Class-0",
+                                "source": "Class"
+                            }
+                        ],
+                        "name": "Young",
+                        "number": 1,
+                        "skillChoices": [
+                            {
+                                "_className": "SkillChoice",
+                                "id": "1-Skill-Class-0",
+                                "increases": [
+                                    {
+                                        "name": "Unarmed Attacks",
+                                        "source": "Class",
+                                        "maxRank": 2,
+                                        "locked": true,
+                                        "sourceId": "1-Skill-Class-0"
+                                    },
+                                    {
+                                        "name": "Unarmored",
+                                        "source": "Class",
+                                        "maxRank": 2,
+                                        "locked": true,
+                                        "sourceId": "1-Skill-Class-0"
+                                    },
+                                    {
+                                        "name": "Light Barding",
+                                        "source": "Class",
+                                        "maxRank": 2,
+                                        "locked": true,
+                                        "sourceId": "1-Skill-Class-0"
+                                    },
+                                    {
+                                        "name": "Heavy Barding",
+                                        "source": "Class",
+                                        "maxRank": 2,
+                                        "locked": true,
+                                        "sourceId": "1-Skill-Class-0"
+                                    },
+                                    {
+                                        "name": "Fortitude",
+                                        "source": "Class",
+                                        "maxRank": 2,
+                                        "locked": true,
+                                        "sourceId": "1-Skill-Class-0"
+                                    },
+                                    {
+                                        "name": "Reflex",
+                                        "source": "Class",
+                                        "maxRank": 2,
+                                        "locked": true,
+                                        "sourceId": "1-Skill-Class-0"
+                                    },
+                                    {
+                                        "name": "Will",
+                                        "source": "Class",
+                                        "maxRank": 2,
+                                        "locked": true,
+                                        "sourceId": "1-Skill-Class-0"
+                                    },
+                                    {
+                                        "name": "Perception",
+                                        "source": "Class",
+                                        "maxRank": 2,
+                                        "locked": true,
+                                        "sourceId": "1-Skill-Class-0"
+                                    },
+                                    {
+                                        "name": "Acrobatics",
+                                        "source": "Class",
+                                        "maxRank": 2,
+                                        "locked": true,
+                                        "sourceId": "1-Skill-Class-0"
+                                    },
+                                    {
+                                        "name": "Athletics",
+                                        "source": "Class",
+                                        "maxRank": 2,
+                                        "locked": true,
+                                        "sourceId": "1-Skill-Class-0"
+                                    }
+                                ],
+                                "maxRank": 2,
+                                "source": "Class",
+                                "type": "Any"
+                            }
+                        ]
+                    },
+                    {
+                        "_className": "AnimalCompanionLevel",
+                        "abilityChoices": [
+                            {
+                                "_className": "AbilityChoice",
+                                "boosts": [
+                                    {
+                                        "name": "Strength",
+                                        "type": "Boost",
+                                        "source": "Ancestry",
+                                        "locked": true,
+                                        "sourceId": "2-Ability-Class-0"
+                                    },
+                                    {
+                                        "name": "Dexterity",
+                                        "type": "Boost",
+                                        "source": "Ancestry",
+                                        "locked": true,
+                                        "sourceId": "2-Ability-Class-0"
+                                    },
+                                    {
+                                        "name": "Constitution",
+                                        "type": "Boost",
+                                        "source": "Ancestry",
+                                        "locked": true,
+                                        "sourceId": "2-Ability-Class-0"
+                                    },
+                                    {
+                                        "name": "Wisdom",
+                                        "type": "Boost",
+                                        "source": "Ancestry",
+                                        "locked": true,
+                                        "sourceId": "2-Ability-Class-0"
+                                    }
+                                ],
+                                "id": "2-Ability-Class-0",
+                                "source": "Ancestry"
+                            }
+                        ],
+                        "extraDice": 1,
+                        "name": "Mature",
+                        "number": 2,
+                        "sizeChange": 1,
+                        "skillChoices": [
+                            {
+                                "_className": "SkillChoice",
+                                "id": "2-Skill-Class-0",
+                                "increases": [
+                                    {
+                                        "name": "Fortitude",
+                                        "source": "Class",
+                                        "maxRank": 4,
+                                        "locked": true,
+                                        "sourceId": "2-Skill-Class-0"
+                                    },
+                                    {
+                                        "name": "Reflex",
+                                        "source": "Class",
+                                        "maxRank": 4,
+                                        "locked": true,
+                                        "sourceId": "2-Skill-Class-0"
+                                    },
+                                    {
+                                        "name": "Will",
+                                        "source": "Class",
+                                        "maxRank": 4,
+                                        "locked": true,
+                                        "sourceId": "2-Skill-Class-0"
+                                    },
+                                    {
+                                        "name": "Perception",
+                                        "source": "Class",
+                                        "maxRank": 4,
+                                        "locked": true,
+                                        "sourceId": "2-Skill-Class-0"
+                                    },
+                                    {
+                                        "name": "Intimidation",
+                                        "source": "Class",
+                                        "maxRank": 4,
+                                        "locked": true,
+                                        "sourceId": "2-Skill-Class-0"
+                                    },
+                                    {
+                                        "name": "Stealth",
+                                        "source": "Class",
+                                        "maxRank": 4,
+                                        "locked": true,
+                                        "sourceId": "2-Skill-Class-0"
+                                    },
+                                    {
+                                        "name": "Survival",
+                                        "source": "Class",
+                                        "maxRank": 4,
+                                        "locked": true,
+                                        "sourceId": "2-Skill-Class-0"
+                                    }
+                                ],
+                                "maxRank": 4,
+                                "source": "Class",
+                                "type": "Any"
+                            }
+                        ]
+                    },
+                    {
+                        "_className": "AnimalCompanionLevel",
+                        "number": 3,
+                        "internalNote": "This level gets replaced by Nimble (4) or Savage (5) as needed"
+                    },
+                    {
+                        "_className": "AnimalCompanionLevel",
+                        "abilityChoices": [
+                            {
+                                "_className": "AbilityChoice",
+                                "boosts": [
+                                    {
+                                        "name": "Strength",
+                                        "type": "Boost",
+                                        "source": "Ancestry",
+                                        "locked": true,
+                                        "sourceId": "3-Ability-Class-0"
+                                    },
+                                    {
+                                        "name": "Dexterity",
+                                        "type": "Boost",
+                                        "source": "Ancestry",
+                                        "locked": true,
+                                        "sourceId": "3-Ability-Class-0"
+                                    },
+                                    {
+                                        "name": "Dexterity",
+                                        "type": "Boost",
+                                        "source": "Ancestry",
+                                        "locked": true,
+                                        "sourceId": "3-Ability-Class-0"
+                                    },
+                                    {
+                                        "name": "Constitution",
+                                        "type": "Boost",
+                                        "source": "Ancestry",
+                                        "locked": true,
+                                        "sourceId": "3-Ability-Class-0"
+                                    },
+                                    {
+                                        "name": "Wisdom",
+                                        "type": "Boost",
+                                        "source": "Ancestry",
+                                        "locked": true,
+                                        "sourceId": "3-Ability-Class-0"
+                                    }
+                                ],
+                                "id": "3-Ability-Class-0",
+                                "source": "Ancestry"
+                            }
+                        ],
+                        "extraDamage": 2,
+                        "name": "Nimble",
+                        "number": 4,
+                        "skillChoices": [
+                            {
+                                "_className": "SkillChoice",
+                                "id": "3-Skill-Class-0",
+                                "increases": [
+                                    {
+                                        "name": "Acrobatics",
+                                        "source": "Class",
+                                        "maxRank": 4,
+                                        "locked": true,
+                                        "sourceId": "3-Skill-Class-0"
+                                    },
+                                    {
+                                        "name": "Unarmored",
+                                        "source": "Class",
+                                        "maxRank": 4,
+                                        "locked": true,
+                                        "sourceId": "3-Skill-Class-0"
+                                    }
+                                ],
+                                "maxRank": 4,
+                                "source": "Class",
+                                "type": "Any"
+                            }
+                        ]
+                    },
+                    {
+                        "_className": "AnimalCompanionLevel",
+                        "abilityChoices": [
+                            {
+                                "_className": "AbilityChoice",
+                                "boosts": [
+                                    {
+                                        "name": "Strength",
+                                        "type": "Boost",
+                                        "source": "Ancestry",
+                                        "locked": true,
+                                        "sourceId": "3-Ability-Class-0"
+                                    },
+                                    {
+                                        "name": "Strength",
+                                        "type": "Boost",
+                                        "source": "Ancestry",
+                                        "locked": true,
+                                        "sourceId": "3-Ability-Class-0"
+                                    },
+                                    {
+                                        "name": "Dexterity",
+                                        "type": "Boost",
+                                        "source": "Ancestry",
+                                        "locked": true,
+                                        "sourceId": "3-Ability-Class-0"
+                                    },
+                                    {
+                                        "name": "Constitution",
+                                        "type": "Boost",
+                                        "source": "Ancestry",
+                                        "locked": true,
+                                        "sourceId": "3-Ability-Class-0"
+                                    },
+                                    {
+                                        "name": "Wisdom",
+                                        "type": "Boost",
+                                        "source": "Ancestry",
+                                        "locked": true,
+                                        "sourceId": "3-Ability-Class-0"
+                                    }
+                                ],
+                                "id": "3-Ability-Class-0",
+                                "source": "Ancestry"
+                            }
+                        ],
+                        "extraDamage": 3,
+                        "name": "Savage",
+                        "number": 5,
+                        "sizeChange": 1,
+                        "skillChoices": [
+                            {
+                                "_className": "SkillChoice",
+                                "id": "3-Skill-Class-0",
+                                "increases": [
+                                    {
+                                        "name": "Athletics",
+                                        "source": "Class",
+                                        "maxRank": 4,
+                                        "locked": true,
+                                        "sourceId": "3-Skill-Class-0"
+                                    }
+                                ],
+                                "maxRank": 4,
+                                "source": "Class",
+                                "type": "Any"
+                            }
+                        ]
+                    }
+                ]
+            }
+        },
+        "familiar": {
+            "id": "8d4d43e1-9061-11ea-9e3d-a1805b90c50f",
+            "_className": "Familiar"
+        },
+        "background": {
+            "_className": "Background",
+            "abilityChoices": [
+                {
+                    "_className": "AbilityChoice",
+                    "available": 1,
+                    "boosts": [
+                        {
+                            "name": "Dexterity",
+                            "type": "Boost",
+                            "source": "Background",
+                            "locked": false,
+                            "sourceId": "1-Ability-Background-0"
+                        }
+                    ],
+                    "filter": [
+                        "Strength",
+                        "Dexterity"
+                    ],
+                    "id": "1-Ability-Background-0",
+                    "source": "Background"
+                },
+                {
+                    "_className": "AbilityChoice",
+                    "available": 1,
+                    "baseValuesLost": 1,
+                    "id": "1-Ability-Background-1",
+                    "source": "Background"
+                }
+            ],
+            "featChoices": [
+                {
+                    "_className": "FeatChoice",
+                    "feats": [
+                        {
+                            "name": "Cat Fall",
+                            "source": "Background",
+                            "locked": true,
+                            "sourceId": "1-Feat-Background-0"
+                        }
+                    ],
+                    "id": "1-Feat-Background-0",
+                    "level": 0,
+                    "source": "Background"
+                }
+            ],
+            "loreChoices": [
+                {
+                    "_className": "LoreChoice",
+                    "id": "1-Lore-Background-0",
+                    "increases": [
+                        {
+                            "name": "Lore: Warfare",
+                            "source": "Background",
+                            "maxRank": 2,
+                            "locked": true,
+                            "sourceId": "1-Lore-Background-0"
+                        }
+                    ],
+                    "maxRank": 2,
+                    "source": "Background",
+                    "loreName": "Warfare"
+                }
+            ],
+            "name": "Martial Disciple (Acrobatics)",
+            "skillChoices": [
+                {
+                    "_className": "SkillChoice",
+                    "id": "1-Skill-Background-0",
+                    "increases": [
+                        {
+                            "name": "Acrobatics",
+                            "source": "Background",
+                            "maxRank": 2,
+                            "locked": true,
+                            "sourceId": "1-Skill-Background-0"
+                        }
+                    ],
+                    "maxRank": 2,
+                    "source": "Background",
+                    "type": "Skill"
+                }
+            ],
+            "subType": "Acrobatics",
+            "superType": "Martial Disciple",
+            "desc": "You dedicated yourself to intense training and rigorous study to become a great warrior. The school you attended might have been a traditionalist monastery, an elite military academy, or the local branch of a prestigious mercenary organization.\n\nChoose two ability boosts. One must be to Strength or Dexterity, and one is a free ability boost.\n\nYou're trained in your choice of either the Acrobatics or Athletics skill, as well as the Warfare Lore skill. You gain a skill feat: Cat Fall if you chose Acrobatics or Quick Jump if you chose Athletics."
+        },
+        "spellCasting": [
+            {
+                "_className": "SpellCasting",
+                "castingType": "Innate",
+                "className": "Innate",
+                "ability": "Charisma",
+                "source": "Innate",
+                "spellDC": {
+                    "_className": "SkillChoice",
+                    "increases": [
+                        {
+                            "name": "Innate Spell DC",
+                            "source": "Innate",
+                            "maxRank": 2,
+                            "locked": true,
+                            "sourceId": ""
+                        }
+                    ],
+                    "maxRank": 2,
+                    "source": "Innate",
+                    "type": "Spell DC"
+                },
+                "tradition": ""
+            },
+            {
+                "castingType": "Focus",
+                "_className": "SpellCasting",
+                "className": "Monk",
+                "ability": "Wisdom",
+                "charLevelAvailable": 1,
+                "tradition": "Divine",
+                "traditionFilter": [
+                    "Divine",
+                    "Occult"
+                ],
+                "spellChoices": [
+                    {
+                        "_className": "SpellChoice",
+                        "className": "Monk",
+                        "id": "f29dc926-9067-11ea-bb37-0242ac130002",
+                        "level": -1,
+                        "charLevelAvailable": 1,
+                        "source": "Feat: Ki Strike",
+                        "spells": [
+                            {
+                                "_className": "SpellGain",
+                                "locked": true,
+                                "name": "Ki Strike",
+                                "sourceId": "f29dc926-9067-11ea-bb37-0242ac130002"
+                            }
+                        ],
+                        "castingType": "Focus"
+                    },
+                    {
+                        "_className": "SpellChoice",
+                        "className": "Monk",
+                        "id": "d407650a-9065-11ea-bb37-0242ac130002",
+                        "level": -1,
+                        "charLevelAvailable": 1,
+                        "source": "Feat: Ki Rush",
+                        "spells": [
+                            {
+                                "_className": "SpellGain",
+                                "locked": true,
+                                "name": "Ki Rush",
+                                "sourceId": "d407650a-9065-11ea-bb37-0242ac130002"
+                            }
+                        ],
+                        "castingType": "Focus"
+                    }
+                ],
+                "spellDC": {
+                    "_className": "SkillChoice",
+                    "increases": [
+                        {
+                            "name": "Monk Divine Spell DC",
+                            "source": "Ki Spells",
+                            "maxRank": 2,
+                            "locked": true,
+                            "sourceId": ""
+                        }
+                    ],
+                    "maxRank": 2,
+                    "source": "Ki Spells",
+                    "type": "Spell DC"
+                },
+                "source": "Ki Spells",
+                "traditionAvailable": 1
+            }
+        ],
+        "customSkills": [
+            {
+                "name": "Monk Class DC",
+                "type": "Class DC"
+            }
+        ],
+        "focusPoints": 6,
+        "heritage": {
+            "_className": "Heritage",
+            "ancestries": [
+                "Orc",
+                "Half-Orc"
+            ],
+            "desc": "One of your parents was an orc, or one or both were half-orcs. You have a green tinge to your skin and other indicators of orc heritage. You gain the orc trait and low-light vision. In addition, you can select orc, half-orc, and human feats whenever you gain an ancestry feat.",
+            "name": "Half-Orc",
+            "senses": [
+                "Low-Light Vision"
+            ],
+            "traits": [
+                "Orc"
+            ]
+        },
+        "hitPoints": 10,
+        "levels": [
+            {
+                "_className": "Level",
+                "feats": [],
+                "animalCompanion": []
+            },
+            {
+                "_className": "Level",
+                "abilityChoices": [
+                    {
+                        "_className": "AbilityChoice",
+                        "available": 1,
+                        "boosts": [
+                            {
+                                "name": "Strength",
+                                "type": "Boost",
+                                "source": "Class Key Ability",
+                                "locked": false,
+                                "sourceId": "1-Ability-Class Key Ability-0"
+                            }
+                        ],
+                        "filter": [
+                            "Strength",
+                            "Dexterity"
+                        ],
+                        "id": "1-Ability-Class Key Ability-0",
+                        "source": "Class Key Ability"
+                    },
+                    {
+                        "_className": "AbilityChoice",
+                        "available": 4,
+                        "baseValuesLost": 4,
+                        "id": "1-Ability-Character Creation-0",
+                        "source": "Character Creation"
+                    },
+                    {
+                        "_className": "AbilityChoice",
+                        "available": 2,
+                        "baseValuesLost": 1,
+                        "boosts": [
+                            {
+                                "name": "Wisdom",
+                                "type": "Boost",
+                                "source": "Ancestry",
+                                "locked": false,
+                                "sourceId": "1-Ability-Ancestry-0"
+                            }
+                        ],
+                        "id": "1-Ability-Ancestry-0",
+                        "source": "Ancestry"
+                    },
+                    {
+                        "_className": "AbilityChoice",
+                        "available": 1,
+                        "boosts": [
+                            {
+                                "name": "Dexterity",
+                                "type": "Boost",
+                                "source": "Background",
+                                "locked": false,
+                                "sourceId": "1-Ability-Background-0"
+                            }
+                        ],
+                        "filter": [
+                            "Strength",
+                            "Dexterity"
+                        ],
+                        "id": "1-Ability-Background-0",
+                        "source": "Background"
+                    },
+                    {
+                        "_className": "AbilityChoice",
+                        "available": 1,
+                        "baseValuesLost": 1,
+                        "id": "1-Ability-Background-1",
+                        "source": "Background"
+                    }
+                ],
+                "featChoices": [
+                    {
+                        "_className": "FeatChoice",
+                        "feats": [
+                            {
+                                "name": "Powerful Fist",
+                                "source": "Monk",
+                                "locked": true,
+                                "sourceId": "1-Feature-Monk-0"
+                            },
+                            {
+                                "name": "Flurry of Blows",
+                                "source": "Monk",
+                                "locked": true,
+                                "sourceId": "1-Feature-Monk-0"
+                            }
+                        ],
+                        "id": "1-Feature-Monk-0",
+                        "source": "Monk",
+                        "type": "Feature"
+                    },
+                    {
+                        "_className": "FeatChoice",
+                        "available": 1,
+                        "feats": [
+                            {
+                                "name": "Natural Ambition",
+                                "source": "Class",
+                                "locked": false,
+                                "sourceId": "1-Feat-Class-0"
+                            }
+                        ],
+                        "id": "1-Feat-Class-0",
+                        "source": "Class",
+                        "type": "Ancestry"
+                    },
+                    {
+                        "_className": "FeatChoice",
+                        "available": 1,
+                        "feats": [
+                            {
+                                "name": "Ki Strike",
+                                "source": "Class",
+                                "locked": false,
+                                "sourceId": "1-Feat-Class-1"
+                            }
+                        ],
+                        "id": "1-Feat-Class-1",
+                        "source": "Class",
+                        "type": "Class"
+                    },
+                    {
+                        "_className": "FeatChoice",
+                        "feats": [
+                            {
+                                "name": "Cat Fall",
+                                "source": "Background",
+                                "locked": true,
+                                "sourceId": "1-Feat-Background-0"
+                            }
+                        ],
+                        "id": "1-Feat-Background-0",
+                        "source": "Background"
+                    },
+                    {
+                        "_className": "FeatChoice",
+                        "available": 1,
+                        "feats": [
+                            {
+                                "name": "Ki Rush",
+                                "source": "Feat: Natural Ambition",
+                                "locked": false,
+                                "sourceId": "1-Feat-Feat: Natural Ambition-0"
+                            }
+                        ],
+                        "id": "1-Feat-Feat: Natural Ambition-0",
+                        "level": 1,
+                        "source": "Feat: Natural Ambition",
+                        "type": "Class"
+                    }
+                ],
+                "loreChoices": [
+                    {
+                        "_className": "LoreChoice",
+                        "id": "1-Lore-Background-0",
+                        "increases": [
+                            {
+                                "name": "Lore: Warfare",
+                                "source": "Background",
+                                "maxRank": 2,
+                                "locked": true,
+                                "sourceId": "1-Lore-Background-0"
+                            }
+                        ],
+                        "maxRank": 2,
+                        "source": "Background",
+                        "loreName": "Warfare"
+                    }
+                ],
+                "number": 1,
+                "skillChoices": [
+                    {
+                        "_className": "SkillChoice",
+                        "id": "1-Skill-Class-0",
+                        "increases": [
+                            {
+                                "name": "Fortitude",
+                                "source": "Class",
+                                "maxRank": 2,
+                                "locked": true,
+                                "sourceId": "1-Skill-Class-0"
+                            },
+                            {
+                                "name": "Fortitude",
+                                "source": "Class",
+                                "maxRank": 4,
+                                "locked": true,
+                                "sourceId": "1-Skill-Class-0"
+                            },
+                            {
+                                "name": "Reflex",
+                                "source": "Class",
+                                "maxRank": 2,
+                                "locked": true,
+                                "sourceId": "1-Skill-Class-0"
+                            },
+                            {
+                                "name": "Reflex",
+                                "source": "Class",
+                                "maxRank": 4,
+                                "locked": true,
+                                "sourceId": "1-Skill-Class-0"
+                            },
+                            {
+                                "name": "Will",
+                                "source": "Class",
+                                "maxRank": 2,
+                                "locked": true,
+                                "sourceId": "1-Skill-Class-0"
+                            },
+                            {
+                                "name": "Will",
+                                "source": "Class",
+                                "maxRank": 4,
+                                "locked": true,
+                                "sourceId": "1-Skill-Class-0"
+                            },
+                            {
+                                "name": "Perception",
+                                "source": "Class",
+                                "maxRank": 2,
+                                "locked": true,
+                                "sourceId": "1-Skill-Class-0"
+                            },
+                            {
+                                "name": "Simple Weapons",
+                                "source": "Class",
+                                "maxRank": 2,
+                                "locked": true,
+                                "sourceId": "1-Skill-Class-0"
+                            },
+                            {
+                                "name": "Unarmed Attacks",
+                                "source": "Class",
+                                "maxRank": 2,
+                                "locked": true,
+                                "sourceId": "1-Skill-Class-0"
+                            },
+                            {
+                                "name": "Unarmored",
+                                "source": "Class",
+                                "maxRank": 2,
+                                "locked": true,
+                                "sourceId": "1-Skill-Class-0"
+                            },
+                            {
+                                "name": "Unarmored",
+                                "source": "Class",
+                                "maxRank": 4,
+                                "locked": true,
+                                "sourceId": "1-Skill-Class-0"
+                            },
+                            {
+                                "name": "Monk Class DC",
+                                "source": "Class",
+                                "maxRank": 2,
+                                "locked": true,
+                                "sourceId": "1-Skill-Class-0"
+                            }
+                        ],
+                        "maxRank": 2,
+                        "source": "Class",
+                        "type": "Any"
+                    },
+                    {
+                        "_className": "SkillChoice",
+                        "available": 4,
+                        "id": "1-Skill-Class-1",
+                        "increases": [
+                            {
+                                "name": "Athletics",
+                                "source": "Class",
+                                "maxRank": 2,
+                                "locked": false,
+                                "sourceId": "1-Skill-Class-1"
+                            },
+                            {
+                                "name": "Thievery",
+                                "source": "Class",
+                                "maxRank": 2,
+                                "locked": false,
+                                "sourceId": "1-Skill-Class-1"
+                            },
+                            {
+                                "name": "Stealth",
+                                "source": "Class",
+                                "maxRank": 2,
+                                "locked": false,
+                                "sourceId": "1-Skill-Class-1"
+                            },
+                            {
+                                "name": "Medicine",
+                                "source": "Class",
+                                "maxRank": 2,
+                                "locked": false,
+                                "sourceId": "1-Skill-Class-1"
+                            }
+                        ],
+                        "maxRank": 2,
+                        "source": "Class",
+                        "type": "Skill"
+                    },
+                    {
+                        "_className": "SkillChoice",
+                        "id": "1-Skill-Background-0",
+                        "increases": [
+                            {
+                                "name": "Acrobatics",
+                                "source": "Background",
+                                "maxRank": 2,
+                                "locked": true,
+                                "sourceId": "1-Skill-Background-0"
+                            }
+                        ],
+                        "maxRank": 2,
+                        "source": "Background",
+                        "type": "Skill"
+                    }
+                ],
+                "feats": [],
+                "animalCompanion": []
+            },
+            {
+                "_className": "Level",
+                "featChoices": [
+                    {
+                        "_className": "FeatChoice",
+                        "available": 1,
+                        "feats": [
+                            {
+                                "name": "Stunning Fist",
+                                "source": "Class",
+                                "locked": false,
+                                "sourceId": "2-Feat-Class-0"
+                            }
+                        ],
+                        "id": "2-Feat-Class-0",
+                        "source": "Class",
+                        "type": "Class"
+                    },
+                    {
+                        "_className": "FeatChoice",
+                        "available": 1,
+                        "feats": [
+                            {
+                                "name": "Titan Wrestler",
+                                "source": "Class",
+                                "locked": false,
+                                "sourceId": "2-Feat-Class-1"
+                            }
+                        ],
+                        "id": "2-Feat-Class-1",
+                        "source": "Class",
+                        "type": "Skill"
+                    }
+                ],
+                "number": 2,
+                "feats": [],
+                "animalCompanion": []
+            },
+            {
+                "_className": "Level",
+                "featChoices": [
+                    {
+                        "_className": "FeatChoice",
+                        "feats": [
+                            {
+                                "name": "Incredible Movement",
+                                "source": "Monk",
+                                "locked": true,
+                                "sourceId": "3-Feature-Monk-0"
+                            },
+                            {
+                                "name": "Mystic Strikes",
+                                "source": "Monk",
+                                "locked": true,
+                                "sourceId": "3-Feature-Monk-0"
+                            }
+                        ],
+                        "id": "3-Feature-Monk-0",
+                        "source": "Monk",
+                        "type": "Feature"
+                    },
+                    {
+                        "_className": "FeatChoice",
+                        "available": 1,
+                        "feats": [
+                            {
+                                "name": "Quick Jump",
+                                "source": "Class",
+                                "locked": false,
+                                "sourceId": "3-Feat-Class-0"
+                            }
+                        ],
+                        "id": "3-Feat-Class-0",
+                        "source": "Class",
+                        "type": "General"
+                    }
+                ],
+                "number": 3,
+                "skillChoices": [
+                    {
+                        "_className": "SkillChoice",
+                        "available": 1,
+                        "id": "3-Skill-Class-1",
+                        "increases": [
+                            {
+                                "name": "Athletics",
+                                "source": "Class",
+                                "maxRank": 4,
+                                "locked": false,
+                                "sourceId": "3-Skill-Class-1"
+                            }
+                        ],
+                        "maxRank": 4,
+                        "source": "Class",
+                        "type": "Skill"
+                    }
+                ],
+                "feats": [],
+                "animalCompanion": []
+            },
+            {
+                "_className": "Level",
+                "featChoices": [
+                    {
+                        "_className": "FeatChoice",
+                        "available": 1,
+                        "feats": [
+                            {
+                                "name": "Flurry of Maneuvers",
+                                "source": "Class",
+                                "locked": false,
+                                "sourceId": "4-Feat-Class-0"
+                            }
+                        ],
+                        "id": "4-Feat-Class-0",
+                        "source": "Class",
+                        "type": "Class"
+                    },
+                    {
+                        "_className": "FeatChoice",
+                        "available": 1,
+                        "feats": [
+                            {
+                                "name": "Steady Balance",
+                                "source": "Class",
+                                "locked": false,
+                                "sourceId": "4-Feat-Class-1"
+                            }
+                        ],
+                        "id": "4-Feat-Class-1",
+                        "source": "Class",
+                        "type": "Skill"
+                    }
+                ],
+                "number": 4,
+                "feats": [],
+                "animalCompanion": []
+            },
+            {
+                "_className": "Level",
+                "abilityChoices": [
+                    {
+                        "_className": "AbilityChoice",
+                        "available": 4,
+                        "boosts": [
+                            {
+                                "name": "Strength",
+                                "type": "Boost",
+                                "source": "Class",
+                                "locked": false,
+                                "sourceId": "5-Ability-Class-0"
+                            },
+                            {
+                                "name": "Dexterity",
+                                "type": "Boost",
+                                "source": "Class",
+                                "locked": false,
+                                "sourceId": "5-Ability-Class-0"
+                            },
+                            {
+                                "name": "Constitution",
+                                "type": "Boost",
+                                "source": "Class",
+                                "locked": false,
+                                "sourceId": "5-Ability-Class-0"
+                            },
+                            {
+                                "name": "Wisdom",
+                                "type": "Boost",
+                                "source": "Class",
+                                "locked": false,
+                                "sourceId": "5-Ability-Class-0"
+                            }
+                        ],
+                        "id": "5-Ability-Class-0",
+                        "source": "Class"
+                    }
+                ],
+                "featChoices": [
+                    {
+                        "_className": "FeatChoice",
+                        "available": 1,
+                        "feats": [
+                            {
+                                "name": "Orc Ferocity",
+                                "source": "Class",
+                                "locked": false,
+                                "sourceId": "5-Feat-Class-0"
+                            }
+                        ],
+                        "id": "5-Feat-Class-0",
+                        "source": "Class",
+                        "type": "Ancestry"
+                    },
+                    {
+                        "_className": "FeatChoice",
+                        "feats": [
+                            {
+                                "name": "Alertness",
+                                "source": "Monk",
+                                "locked": true,
+                                "sourceId": "5-Feature-Monk-0"
+                            },
+                            {
+                                "name": "Expert Strikes",
+                                "source": "Monk",
+                                "locked": true,
+                                "sourceId": "5-Feature-Monk-0"
+                            }
+                        ],
+                        "id": "5-Feature-Monk-0",
+                        "source": "Monk",
+                        "type": "Feature"
+                    }
+                ],
+                "number": 5,
+                "skillChoices": [
+                    {
+                        "_className": "SkillChoice",
+                        "id": "5-Perception-Alertness-0",
+                        "increases": [
+                            {
+                                "name": "Perception",
+                                "source": "Alertness",
+                                "maxRank": 4,
+                                "locked": true,
+                                "sourceId": "5-Perception-Alertness-0"
+                            }
+                        ],
+                        "maxRank": 4,
+                        "source": "Alertness",
+                        "type": "Perception"
+                    },
+                    {
+                        "_className": "SkillChoice",
+                        "id": "5-Weapon Proficiency-Expert Strikes-0",
+                        "increases": [
+                            {
+                                "name": "Unarmed Attacks",
+                                "source": "Expert Strikes",
+                                "maxRank": 4,
+                                "locked": true,
+                                "sourceId": "5-Weapon Proficiency-Expert Strikes-0"
+                            },
+                            {
+                                "name": "Simple Weapons",
+                                "source": "Expert Strikes",
+                                "maxRank": 4,
+                                "locked": true,
+                                "sourceId": "5-Weapon Proficiency-Expert Strikes-0"
+                            }
+                        ],
+                        "maxRank": 4,
+                        "source": "Expert Strikes",
+                        "type": "Weapon Proficiency"
+                    },
+                    {
+                        "_className": "SkillChoice",
+                        "available": 1,
+                        "id": "5-Skill-Class-0",
+                        "increases": [
+                            {
+                                "name": "Acrobatics",
+                                "source": "Class",
+                                "maxRank": 4,
+                                "locked": false,
+                                "sourceId": "5-Skill-Class-0"
+                            }
+                        ],
+                        "maxRank": 4,
+                        "source": "Class",
+                        "type": "Skill"
+                    }
+                ],
+                "feats": [],
+                "animalCompanion": []
+            },
+            {
+                "_className": "Level",
+                "featChoices": [
+                    {
+                        "_className": "FeatChoice",
+                        "available": 1,
+                        "feats": [
+                            {
+                                "name": "Whirling Throw",
+                                "source": "Class",
+                                "locked": false,
+                                "sourceId": "6-Feat-Class-0"
+                            }
+                        ],
+                        "id": "6-Feat-Class-0",
+                        "source": "Class",
+                        "type": "Class"
+                    },
+                    {
+                        "_className": "FeatChoice",
+                        "available": 1,
+                        "feats": [
+                            {
+                                "name": "Powerful Leap",
+                                "source": "Class",
+                                "locked": false,
+                                "sourceId": "6-Feat-Class-1"
+                            }
+                        ],
+                        "id": "6-Feat-Class-1",
+                        "source": "Class",
+                        "type": "Skill"
+                    }
+                ],
+                "number": 6,
+                "feats": [],
+                "animalCompanion": []
+            },
+            {
+                "_className": "Level",
+                "featChoices": [
+                    {
+                        "_className": "FeatChoice",
+                        "feats": [
+                            {
+                                "name": "Path to Perfection",
+                                "source": "Monk",
+                                "locked": true,
+                                "sourceId": "7-Feature-Monk-0"
+                            },
+                            {
+                                "name": "Weapon Specialization",
+                                "source": "Monk",
+                                "locked": true,
+                                "sourceId": "7-Feature-Monk-0"
+                            }
+                        ],
+                        "id": "7-Feature-Monk-0",
+                        "source": "Monk",
+                        "type": "Feature"
+                    },
+                    {
+                        "_className": "FeatChoice",
+                        "available": 1,
+                        "feats": [
+                            {
+                                "name": "Wall Jump",
+                                "source": "Class",
+                                "locked": false,
+                                "sourceId": "7-Feat-Class-0"
+                            }
+                        ],
+                        "id": "7-Feat-Class-0",
+                        "source": "Class",
+                        "type": "General"
+                    }
+                ],
+                "number": 7,
+                "skillChoices": [
+                    {
+                        "_className": "SkillChoice",
+                        "available": 1,
+                        "id": "7-Save-Path to Perfection-0",
+                        "increases": [
+                            {
+                                "name": "Will",
+                                "source": "Path to Perfection",
+                                "maxRank": 6,
+                                "locked": false,
+                                "sourceId": "7-Save-Path to Perfection-0"
+                            }
+                        ],
+                        "maxRank": 6,
+                        "source": "Path to Perfection",
+                        "type": "Save"
+                    },
+                    {
+                        "_className": "SkillChoice",
+                        "available": 1,
+                        "id": "7-Skill-Class-0",
+                        "increases": [
+                            {
+                                "name": "Athletics",
+                                "source": "Class",
+                                "maxRank": 6,
+                                "locked": false,
+                                "sourceId": "7-Skill-Class-0"
+                            }
+                        ],
+                        "maxRank": 6,
+                        "source": "Class",
+                        "type": "Skill"
+                    }
+                ],
+                "feats": [],
+                "animalCompanion": []
+            },
+            {
+                "_className": "Level",
+                "featChoices": [
+                    {
+                        "_className": "FeatChoice",
+                        "available": 1,
+                        "feats": [
+                            {
+                                "name": "Ironblood Stance",
+                                "source": "Class",
+                                "locked": false,
+                                "sourceId": "8-Feat-Class-0"
+                            }
+                        ],
+                        "id": "8-Feat-Class-0",
+                        "source": "Class",
+                        "type": "Class"
+                    },
+                    {
+                        "_className": "FeatChoice",
+                        "available": 1,
+                        "feats": [
+                            {
+                                "name": "Quick Climber",
+                                "source": "Class",
+                                "locked": false,
+                                "sourceId": "8-Feat-Class-1"
+                            }
+                        ],
+                        "id": "8-Feat-Class-1",
+                        "source": "Class",
+                        "type": "Skill"
+                    }
+                ],
+                "number": 8,
+                "feats": [],
+                "animalCompanion": []
+            },
+            {
+                "_className": "Level",
+                "featChoices": [
+                    {
+                        "_className": "FeatChoice",
+                        "feats": [
+                            {
+                                "name": "Metal Strikes",
+                                "source": "Monk",
+                                "locked": true,
+                                "sourceId": "9-Feature-Monk-0"
+                            },
+                            {
+                                "name": "Monk Expertise",
+                                "source": "Monk",
+                                "locked": true,
+                                "sourceId": "9-Feature-Monk-0"
+                            }
+                        ],
+                        "id": "9-Feature-Monk-0",
+                        "source": "Monk",
+                        "type": "Feature"
+                    },
+                    {
+                        "_className": "FeatChoice",
+                        "available": 1,
+                        "id": "9-Feat-Class-0",
+                        "source": "Class",
+                        "type": "Ancestry"
+                    }
+                ],
+                "number": 9,
+                "skillChoices": [
+                    {
+                        "_className": "SkillChoice",
+                        "id": "9-Class DC-Monk Expertise-0",
+                        "increases": [
+                            {
+                                "name": "Monk Class DC",
+                                "source": "Monk Expertise",
+                                "maxRank": 4,
+                                "locked": true,
+                                "sourceId": "9-Class DC-Monk Expertise-0"
+                            }
+                        ],
+                        "maxRank": 4,
+                        "source": "Monk Expertise",
+                        "type": "Class DC"
+                    },
+                    {
+                        "_className": "SkillChoice",
+                        "id": "9-Spell DC-Monk Expertise-1",
+                        "increases": [
+                            {
+                                "name": "Monk Divine Spell DC",
+                                "source": "Monk Expertise",
+                                "maxRank": 4,
+                                "locked": true,
+                                "sourceId": "9-Spell DC-Monk Expertise-1"
+                            }
+                        ],
+                        "maxRank": 4,
+                        "source": "Monk Expertise",
+                        "type": "Spell DC"
+                    },
+                    {
+                        "_className": "SkillChoice",
+                        "available": 1,
+                        "id": "9-Skill-Class-0",
+                        "maxRank": 6,
+                        "source": "Class",
+                        "type": "Skill"
+                    }
+                ],
+                "feats": [],
+                "animalCompanion": []
+            },
+            {
+                "_className": "Level",
+                "abilityChoices": [
+                    {
+                        "_className": "AbilityChoice",
+                        "available": 4,
+                        "id": "10-Ability-Class-0",
+                        "source": "Class"
+                    }
+                ],
+                "featChoices": [
+                    {
+                        "_className": "FeatChoice",
+                        "available": 1,
+                        "id": "10-Feat-Class-0",
+                        "source": "Class",
+                        "type": "Class"
+                    },
+                    {
+                        "_className": "FeatChoice",
+                        "available": 1,
+                        "id": "10-Feat-Class-1",
+                        "source": "Class",
+                        "type": "Skill"
+                    }
+                ],
+                "number": 10,
+                "feats": [],
+                "animalCompanion": []
+            },
+            {
+                "_className": "Level",
+                "featChoices": [
+                    {
+                        "_className": "FeatChoice",
+                        "feats": [
+                            {
+                                "name": "Second Path to Perfection",
+                                "source": "Monk",
+                                "locked": true,
+                                "sourceId": "11-Feature-Monk-0"
+                            }
+                        ],
+                        "id": "11-Feature-Monk-0",
+                        "source": "Monk",
+                        "type": "Feature"
+                    },
+                    {
+                        "_className": "FeatChoice",
+                        "available": 1,
+                        "id": "11-Feat-Class-0",
+                        "source": "Class",
+                        "type": "General"
+                    }
+                ],
+                "number": 11,
+                "skillChoices": [
+                    {
+                        "_className": "SkillChoice",
+                        "available": 1,
+                        "id": "11-Save-Second Path to Perfection-0",
+                        "source": "Second Path to Perfection",
+                        "type": "Save"
+                    },
+                    {
+                        "_className": "SkillChoice",
+                        "available": 1,
+                        "id": "11-Skill-Class-0",
+                        "maxRank": 6,
+                        "source": "Class",
+                        "type": "Skill"
+                    }
+                ],
+                "feats": [],
+                "animalCompanion": []
+            },
+            {
+                "_className": "Level",
+                "featChoices": [
+                    {
+                        "_className": "FeatChoice",
+                        "available": 1,
+                        "id": "12-Feat-Class-0",
+                        "source": "Class",
+                        "type": "Class"
+                    },
+                    {
+                        "_className": "FeatChoice",
+                        "available": 1,
+                        "id": "12-Feat-Class-1",
+                        "source": "Class",
+                        "type": "Skill"
+                    }
+                ],
+                "number": 12,
+                "feats": [],
+                "animalCompanion": []
+            },
+            {
+                "_className": "Level",
+                "featChoices": [
+                    {
+                        "_className": "FeatChoice",
+                        "feats": [
+                            {
+                                "name": "Graceful Mastery",
+                                "source": "Monk",
+                                "locked": true,
+                                "sourceId": "13-Feature-Monk-0"
+                            },
+                            {
+                                "name": "Master Strikes",
+                                "source": "Monk",
+                                "locked": true,
+                                "sourceId": "13-Feature-Monk-0"
+                            }
+                        ],
+                        "id": "13-Feature-Monk-0",
+                        "source": "Monk",
+                        "type": "Feature"
+                    },
+                    {
+                        "_className": "FeatChoice",
+                        "available": 1,
+                        "id": "13-Feat-Class-0",
+                        "source": "Class",
+                        "type": "Ancestry"
+                    }
+                ],
+                "number": 13,
+                "skillChoices": [
+                    {
+                        "_className": "SkillChoice",
+                        "id": "13-Armor Proficiency-Graceful Mastery-0",
+                        "increases": [
+                            {
+                                "name": "Unarmored",
+                                "source": "Graceful Mastery",
+                                "maxRank": 6,
+                                "locked": true,
+                                "sourceId": "13-Armor Proficiency-Graceful Mastery-0"
+                            }
+                        ],
+                        "maxRank": 6,
+                        "source": "Graceful Mastery",
+                        "type": "Armor Proficiency"
+                    },
+                    {
+                        "_className": "SkillChoice",
+                        "id": "13-Weapon Proficiency-Master Strikes-0",
+                        "increases": [
+                            {
+                                "name": "Unarmed Attacks",
+                                "source": "Master Strikes",
+                                "maxRank": 6,
+                                "locked": true,
+                                "sourceId": "13-Weapon Proficiency-Master Strikes-0"
+                            },
+                            {
+                                "name": "Simple Weapons",
+                                "source": "Master Strikes",
+                                "maxRank": 6,
+                                "locked": true,
+                                "sourceId": "13-Weapon Proficiency-Master Strikes-0"
+                            }
+                        ],
+                        "maxRank": 6,
+                        "source": "Master Strikes",
+                        "type": "Weapon Proficiency"
+                    },
+                    {
+                        "_className": "SkillChoice",
+                        "available": 1,
+                        "id": "13-Skill-Class-0",
+                        "maxRank": 6,
+                        "source": "Class",
+                        "type": "Skill"
+                    }
+                ],
+                "feats": [],
+                "animalCompanion": []
+            },
+            {
+                "_className": "Level",
+                "featChoices": [
+                    {
+                        "_className": "FeatChoice",
+                        "available": 1,
+                        "id": "14-Feat-Class-0",
+                        "source": "Class",
+                        "type": "Class"
+                    },
+                    {
+                        "_className": "FeatChoice",
+                        "available": 1,
+                        "id": "14-Feat-Class-1",
+                        "source": "Class",
+                        "type": "Skill"
+                    }
+                ],
+                "number": 14,
+                "feats": [],
+                "animalCompanion": []
+            },
+            {
+                "_className": "Level",
+                "abilityChoices": [
+                    {
+                        "_className": "AbilityChoice",
+                        "available": 4,
+                        "id": "15-Ability-Class-0",
+                        "source": "Class"
+                    }
+                ],
+                "featChoices": [
+                    {
+                        "_className": "FeatChoice",
+                        "feats": [
+                            {
+                                "name": "Greater Weapon Specialization",
+                                "source": "Monk",
+                                "locked": true,
+                                "sourceId": "15-Feature-Monk-0"
+                            },
+                            {
+                                "name": "Third Path to Perfection",
+                                "source": "Monk",
+                                "locked": true,
+                                "sourceId": "15-Feature-Monk-0"
+                            }
+                        ],
+                        "id": "15-Feature-Monk-0",
+                        "source": "Monk",
+                        "type": "Feature"
+                    },
+                    {
+                        "_className": "FeatChoice",
+                        "available": 1,
+                        "id": "15-Feat-Class-0",
+                        "source": "Class",
+                        "type": "General"
+                    }
+                ],
+                "number": 15,
+                "skillChoices": [
+                    {
+                        "_className": "SkillChoice",
+                        "available": 1,
+                        "filter": [
+                            "Will"
+                        ],
+                        "id": "15-Save-Third Path to Perfection-0",
+                        "source": "Third Path to Perfection",
+                        "type": "Save"
+                    },
+                    {
+                        "_className": "SkillChoice",
+                        "available": 1,
+                        "id": "15-Skill-Class-0",
+                        "source": "Class",
+                        "type": "Skill"
+                    }
+                ],
+                "feats": [],
+                "animalCompanion": []
+            },
+            {
+                "_className": "Level",
+                "featChoices": [
+                    {
+                        "_className": "FeatChoice",
+                        "available": 1,
+                        "id": "16-Feat-Class-0",
+                        "source": "Class",
+                        "type": "Class"
+                    },
+                    {
+                        "_className": "FeatChoice",
+                        "available": 1,
+                        "id": "16-Feat-Class-1",
+                        "source": "Class",
+                        "type": "Skill"
+                    }
+                ],
+                "number": 16,
+                "feats": [],
+                "animalCompanion": []
+            },
+            {
+                "_className": "Level",
+                "featChoices": [
+                    {
+                        "_className": "FeatChoice",
+                        "feats": [
+                            {
+                                "name": "Adamantine Strikes",
+                                "source": "Monk",
+                                "locked": true,
+                                "sourceId": "17-Feature-Monk-0"
+                            },
+                            {
+                                "name": "Graceful Legend",
+                                "source": "Monk",
+                                "locked": true,
+                                "sourceId": "17-Feature-Monk-0"
+                            }
+                        ],
+                        "id": "17-Feature-Monk-0",
+                        "source": "Monk",
+                        "type": "Feature"
+                    },
+                    {
+                        "_className": "FeatChoice",
+                        "available": 1,
+                        "id": "17-Feat-Class-0",
+                        "source": "Class",
+                        "type": "Ancestry"
+                    }
+                ],
+                "number": 17,
+                "skillChoices": [
+                    {
+                        "_className": "SkillChoice",
+                        "id": "17-Armor Proficiency-Graceful Legend-0",
+                        "increases": [
+                            {
+                                "name": "Unarmored",
+                                "source": "Graceful Legend",
+                                "maxRank": 8,
+                                "locked": true,
+                                "sourceId": "17-Armor Proficiency-Graceful Legend-0"
+                            }
+                        ],
+                        "source": "Graceful Legend",
+                        "type": "Armor Proficiency"
+                    },
+                    {
+                        "_className": "SkillChoice",
+                        "id": "17-Class DC-Graceful Legend-0",
+                        "increases": [
+                            {
+                                "name": "Monk Class DC",
+                                "source": "Graceful Legend",
+                                "maxRank": 6,
+                                "locked": true,
+                                "sourceId": "17-Class DC-Graceful Legend-0"
+                            }
+                        ],
+                        "maxRank": 6,
+                        "source": "Graceful Legend",
+                        "type": "Class DC"
+                    },
+                    {
+                        "_className": "SkillChoice",
+                        "id": "17-Spell DC-Graceful Legend-1",
+                        "increases": [
+                            {
+                                "name": "Monk Divine Spell DC",
+                                "source": "Graceful Legend",
+                                "maxRank": 6,
+                                "locked": true,
+                                "sourceId": "17-Spell DC-Graceful Legend-1"
+                            }
+                        ],
+                        "maxRank": 6,
+                        "source": "Graceful Legend",
+                        "type": "Spell DC"
+                    },
+                    {
+                        "_className": "SkillChoice",
+                        "available": 1,
+                        "id": "17-Skill-Class-0",
+                        "source": "Class",
+                        "type": "Skill"
+                    }
+                ],
+                "feats": [],
+                "animalCompanion": []
+            },
+            {
+                "_className": "Level",
+                "featChoices": [
+                    {
+                        "_className": "FeatChoice",
+                        "available": 1,
+                        "id": "18-Feat-Class-0",
+                        "source": "Class",
+                        "type": "Class"
+                    },
+                    {
+                        "_className": "FeatChoice",
+                        "available": 1,
+                        "id": "18-Feat-Class-1",
+                        "source": "Class",
+                        "type": "Skill"
+                    }
+                ],
+                "number": 18,
+                "feats": [],
+                "animalCompanion": []
+            },
+            {
+                "_className": "Level",
+                "featChoices": [
+                    {
+                        "_className": "FeatChoice",
+                        "feats": [
+                            {
+                                "name": "Perfected Form",
+                                "source": "Monk",
+                                "locked": true,
+                                "sourceId": "19-Feature-Monk-0"
+                            }
+                        ],
+                        "id": "19-Feature-Monk-0",
+                        "source": "Monk",
+                        "type": "Feature"
+                    },
+                    {
+                        "_className": "FeatChoice",
+                        "available": 1,
+                        "id": "19-Feat-Class-0",
+                        "source": "Class",
+                        "type": "General"
+                    }
+                ],
+                "number": 19,
+                "skillChoices": [
+                    {
+                        "_className": "SkillChoice",
+                        "available": 1,
+                        "id": "19-Skill-Class-0",
+                        "source": "Class",
+                        "type": "Skill"
+                    }
+                ],
+                "feats": [],
+                "animalCompanion": []
+            },
+            {
+                "_className": "Level",
+                "abilityChoices": [
+                    {
+                        "_className": "AbilityChoice",
+                        "available": 4,
+                        "id": "20-Ability-Class-0",
+                        "source": "Class"
+                    }
+                ],
+                "featChoices": [
+                    {
+                        "_className": "FeatChoice",
+                        "available": 1,
+                        "id": "20-Feat-Class-0",
+                        "source": "Class",
+                        "type": "Class"
+                    },
+                    {
+                        "_className": "FeatChoice",
+                        "available": 1,
+                        "id": "20-Feat-Class-1",
+                        "source": "Class",
+                        "type": "Skill"
+                    }
+                ],
+                "number": 20,
+                "feats": [],
+                "animalCompanion": []
+            }
+        ],
+        "name": "Monk"
+    },
+    "customFeats": [
+        {
+            "_className": "Feat",
+            "desc": "Even in the worst circumstances, you can perform basic tasks. Choose a skill you're trained in. You can forgo rolling a skill check for that skill to instead receive a result of 10 + your proficiency bonus (do not apply any other bonuses, penalties, or modifiers).",
+            "gainAnimalCompanion": false,
+            "hint": "You can forgo rolling a skill check for this skill to instead receive a result of 10 + your proficiency bonus (do not apply any other bonuses, penalties, or modifiers).",
+            "levelreq": 1,
+            "name": "Assurance: Lore: Warfare",
+            "shortdesc": "Receive a fixed result on a skill check.",
+            "showon": "Lore: Warfare",
+            "skillreq": [
+                {
+                    "skill": "Lore: Warfare",
+                    "value": 2
+                }
+            ],
+            "subType": "Lore: Warfare",
+            "superType": "Assurance",
+            "traits": [
+                "General",
+                "Fortune",
+                "Skill"
+            ]
+        },
+        {
+            "_className": "Feat",
+            "desc": "You know basic facts off the top of your head. Choose a skill you're an expert in that has the Recall Knowledge action and for which you have the Assurance feat. You can use the Recall Knowledge action with that skill as a free action once per round. If you do, you must use Assurance on the skill check.",
+            "featreq": [
+                "Assurance: Lore: Warfare"
+            ],
+            "gainAnimalCompanion": false,
+            "hint": "You can use the Recall Knowledge action with this skill as a free action once per round. If you do, you must use Assurance on the skill check.\n\nYou can use Automatic Knowledge with any skills you have chosen, but you can still use Automatic Knowledge only once per round.",
+            "levelreq": 2,
+            "name": "Automatic Knowledge: Lore: Warfare",
+            "shortdesc": "Recall Knowledge as a free action once per round.",
+            "showon": "Lore: Warfare",
+            "skillreq": [
+                {
+                    "skill": "Lore: Warfare",
+                    "value": 4
+                }
+            ],
+            "subType": "Lore: Warfare",
+            "superType": "Automatic Knowledge",
+            "traits": [
+                "General",
+                "Skill"
+            ]
+        }
+    ],
+    "customSkills": [
+        {
+            "name": "Monk Class DC",
+            "type": "Class DC",
+            "_className": "Skill"
+        },
+        {
+            "ability": "Intelligence",
+            "name": "Lore: Warfare",
+            "type": "Skill",
+            "_className": "Skill"
+        },
+        {
+            "ability": "Wisdom",
+            "name": "Monk Divine Spell DC",
+            "type": "Spell DC",
+            "_className": "Skill"
+        }
+    ],
+    "settings": {
+        "accent": "#008080",
+        "abilitiesMinimized": true,
+        "effectsMinimized": false,
+        "generalMinimized": true,
+        "healthMinimized": false,
+        "characterMinimized": false,
+        "defenseMinimized": true,
+        "skillsMinimized": false,
+        "activitiesMinimized": true,
+        "attacksMinimized": false,
+        "spellbookMinimized": true,
+        "inventoryMinimized": false
+    }
+}

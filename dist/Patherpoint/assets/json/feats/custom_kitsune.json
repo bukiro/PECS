@@ -1,0 +1,617 @@
+[
+    {
+        "name": "Red Fox Kitsune",
+        "desc": "Your people have long lived near settlements and learned to blend in and remain unnoticed when visiting. You gain a +2 circumstance bonus to Deception to Impersonate and to Stealth to Hide and Sneak as long as you are in a crowd or well trafficked urban area.",
+        "shortdesc": "Your people have long lived near settlements and learned to blend in and remain unnoticed when visiting.",
+        "hints": [
+            {
+                "desc": "You gain a +2 circumstance bonus to Deception to Impersonate and to Stealth to Hide and Sneak as long as you are in a crowd or well trafficked urban area.",
+                "showon": "Deception, Stealth",
+                "effects": [
+                    {
+                        "affected": "Deception",
+                        "value": "+2",
+                        "type": "circumstance"
+                    },
+                    {
+                        "affected": "Stealth",
+                        "value": "+2",
+                        "type": "circumstance"
+                    }
+                ]
+            }
+        ],
+        "sourceBook": "Custom"
+    },
+    {
+        "name": "Desert Fox Kitsune",
+        "desc": "Living in the desert's scorching heat, your people have grown bright fur and large ears. You gain a +2 circumstance bonus to locate undetected creatures that you could hear within 30 feet with a Seek action. Environmental heat effects are one step less extreme for you (incredible heat becomes extreme, extreme heat becomes severe, and so on).",
+        "hints": [
+            {
+                "desc": "Environmental heat effects are one step less extreme for you (incredible heat becomes extreme, extreme heat becomes severe, and so on).",
+                "showon": "Resistances"
+            },
+            {
+                "desc": "You gain a +2 circumstance bonus to locate undetected creatures that you could hear within 30 feet with a Seek action.",
+                "showon": "Perception",
+                "effects": [
+                    {
+                        "affected": "Perception",
+                        "value": "+2",
+                        "type": "circumstance"
+                    }
+                ]
+            }
+        ],
+        "sourceBook": "Custom",
+        "shortdesc": "Living in the desert's scorching heat, your people have grown bright fur and large ears."
+    },
+    {
+        "name": "Snow Fox Kitsune",
+        "desc": "You are acclimated to living in arctic climates and have thick, white fur. You gain cold resistance equal to half your level (minimum 1). You treat environmental cold effects as if they were one step less extreme (incredible cold becomes extreme, extreme cold becomes severe, and so on).",
+        "hints": [
+            {
+                "desc": "You treat environmental cold effects as if they were one step less extreme (incredible cold becomes extreme, extreme cold becomes severe, and so on).",
+                "showon": "Resistances"
+            }
+        ],
+        "shortdesc": "You are acclimated to living in arctic climates and have thick, white fur.",
+        "sourceBook": "Custom",
+        "effects": [
+            {
+                "affected": "Cold Resistance",
+                "value": "Math.max(Math.floor(Level / 2), 1)"
+            }
+        ]
+    },
+    {
+        "name": "Kitsune Human Form",
+        "desc": "You can change to your human form at will.",
+        "shortdesc": "You can change to your human form at will.",
+        "sourceBook": "Custom",
+        "gainActivities": [
+            "Kitsune Human Form"
+        ]
+    },
+    {
+        "name": "Duplicitous Kitsune",
+        "desc": "You know how to twist the truth to get what you want. You become trained in Deception and gain the Charming Liar skill feat. If you are already trained in Deception, you become trained in a skill of your choice.",
+        "shortdesc": "You know how to twist the truth to get what you want.",
+        "sourceBook": "Custom",
+        "traits": [
+            "Kitsune"
+        ],
+        "levelreq": 1,
+        "specialreq": "!character.get_FeatsTaken(1, charLevel, 'Charming Liar').length || this.have(character, characterService, charLevel)",
+        "specialreqdesc": "do not have Charming Liar",
+        "gainFeatChoice": [
+            {
+                "_className": "FeatChoice",
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Charming Liar"
+                    }
+                ],
+                "source": "Feat: Duplicitous Kitsune",
+                "type": "Feat"
+            }
+        ],
+        "gainSkillChoice": [
+            {
+                "_className": "SkillChoice",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Deception",
+                        "source": "Feat: Duplicitous Kitsune"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Feat: Duplicitous Kitsune",
+                "type": "Skill"
+            }
+        ]
+    },
+    {
+        "name": "Fast Shifter (Kitsune)",
+        "desc": "You can change into your human form using only one action and dismiss it as a free action.",
+        "shortdesc": "You can change into your human form using only one action and dismiss it as a free action.",
+        "hints": [
+            {
+                "desc": "You can change into your human form using only one action and dismiss it as a free action.",
+                "showon": "Kitsune Human Form, Kitsune Fox Shape"
+            }
+        ],
+        "sourceBook": "Custom",
+        "traits": [
+            "Kitsune"
+        ],
+        "levelreq": 1,
+        "featreq": [
+            "Kitsune Human Form"
+        ]
+    },
+    {
+        "name": "Gregarious Kitsune",
+        "desc": "When tempers flare, you quickly catch your mistake and attempt to smoothen things over with honeyed words.",
+        "shortdesc": "When tempers flare, you quickly catch your mistake and attempt to smoothen things over with honeyed words.",
+        "sourceBook": "Custom",
+        "traits": [
+            "Kitsune"
+        ],
+        "levelreq": 1,
+        "skillreq": [
+            {
+                "skill": "Diplomacy",
+                "value": 2
+            }
+        ],
+        "gainActivities": [
+            "Gregarious Kitsune"
+        ]
+    },
+    {
+        "name": "Kitsune Magic",
+        "desc": "You can cast Dancing Lights as an arcane innate cantrip at will.",
+        "shortdesc": "You can cast Dancing Lights as an arcane innate cantrip at will.",
+        "sourceBook": "Custom",
+        "traits": [
+            "Kitsune"
+        ],
+        "levelreq": 1,
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Innate",
+                "className": "Innate",
+                "level": "0",
+                "frequency": "at will",
+                "id": "426d0adc-f8fe-4477-9bc3-55dc7516b679",
+                "source": "Feat: Kitsune Magic",
+                "spells": [
+                    {
+                        "_className": "SpellGain",
+                        "locked": true,
+                        "name": "Dancing Lights"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Magic Fox Tail",
+        "desc": "In you flows the blood of the legendary nine-tailed fox, master of disguise and deception. Each time you take this feat, you grow an extra magic tail, allowing you to cast a different arcane innate spell, in order: 1st Level Illusory Disguise, 1nd Level Charm, 2nd Level Misdirection, 4th Level Invisibility, 4th Level Confusion, 5th Level Subconscious Suggestion, 6th Level Dominate, 7th Level Project Image.",
+        "shortdesc": "In you flows the blood of the legendary nine-tailed fox, master of disguise and deception.",
+        "specialdesc": "You can take this feat up to eight times. After the first time, it can be taken in place of a General feat. Each time, you must be on a level that allows you to cast spells at the new spell's level.",
+        "sourceBook": "Custom",
+        "limited": 8,
+        "subTypes": true,
+        "traits": [
+            "Kitsune",
+            "General"
+        ],
+        "levelreq": 1
+    },
+    {
+        "name": "Magic Fox Tail: 2nd tail",
+        "desc": "In you flows the blood of the legendary nine-tailed fox, master of disguise and deception. Each time you take this feat, you grow an extra magic tail, allowing you to cast a different arcane innate spell, in order: 1st Level Illusory Disguise, 1nd Level Charm, 2nd Level Misdirection, 4th Level Invisibility, 4th Level Confusion, 5th Level Subconscious Suggestion, 6th Level Dominate, 7th Level Project Image.",
+        "shortdesc": "In you flows the blood of the legendary nine-tailed fox, master of disguise and deception.",
+        "subType": "2nd tail: Illusory Disguise",
+        "superType": "Magic Fox Tail",
+        "traits": [
+            "Kitsune"
+        ],
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Innate",
+                "className": "Innate",
+                "id": "91e79881-058c-401a-a66c-3dc455598cab",
+                "frequency": "once per day",
+                "cooldown": 144000,
+                "level": 1,
+                "source": "Feat: Magic Fox Tail: 2nd tail",
+                "spells": [
+                    {
+                        "_className": "SpellGain",
+                        "locked": true,
+                        "name": "Illusory Disguise"
+                    }
+                ]
+            }
+        ],
+        "levelreq": 1
+    },
+    {
+        "name": "Magic Fox Tail: 3rd tail",
+        "desc": "In you flows the blood of the legendary nine-tailed fox, master of disguise and deception. Each time you take this feat, you grow an extra magic tail, allowing you to cast a different arcane innate spell, in order: 1st Level Illusory Disguise, 1nd Level Charm, 2nd Level Misdirection, 4th Level Invisibility, 4th Level Confusion, 5th Level Subconscious Suggestion, 6th Level Dominate, 7th Level Project Image.",
+        "shortdesc": "In you flows the blood of the legendary nine-tailed fox, master of disguise and deception.",
+        "subType": "3rd tail: Charm",
+        "superType": "Magic Fox Tail",
+        "traits": [
+            "Kitsune",
+            "General"
+        ],
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Innate",
+                "className": "Innate",
+                "id": "71bda243-b2e0-423b-80db-1db972bc3d03",
+                "frequency": "once per day",
+                "cooldown": 144000,
+                "level": 1,
+                "source": "Feat: Magic Fox Tail: 3rd tail",
+                "spells": [
+                    {
+                        "_className": "SpellGain",
+                        "locked": true,
+                        "name": "Charm"
+                    }
+                ]
+            }
+        ],
+        "levelreq": 1,
+        "featreq": [
+            "Magic Fox Tail: 2nd tail"
+        ]
+    },
+    {
+        "name": "Magic Fox Tail: 4th tail",
+        "desc": "In you flows the blood of the legendary nine-tailed fox, master of disguise and deception. Each time you take this feat, you grow an extra magic tail, allowing you to cast a different arcane innate spell, in order: 1st Level Illusory Disguise, 1nd Level Charm, 2nd Level Misdirection, 4th Level Invisibility, 4th Level Confusion, 5th Level Subconscious Suggestion, 6th Level Dominate, 7th Level Project Image.",
+        "shortdesc": "In you flows the blood of the legendary nine-tailed fox, master of disguise and deception.",
+        "subType": "4th tail: Misdirection",
+        "superType": "Magic Fox Tail",
+        "traits": [
+            "Kitsune",
+            "General"
+        ],
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Innate",
+                "className": "Innate",
+                "id": "e03dfe0f-9127-4241-9292-3a4f7d91f6c1",
+                "frequency": "once per day",
+                "cooldown": 144000,
+                "level": 2,
+                "source": "Feat: Magic Fox Tail: 4th tail",
+                "spells": [
+                    {
+                        "_className": "SpellGain",
+                        "locked": true,
+                        "name": "Misdirection"
+                    }
+                ]
+            }
+        ],
+        "levelreq": 3,
+        "featreq": [
+            "Magic Fox Tail: 3rd tail"
+        ]
+    },
+    {
+        "name": "Magic Fox Tail: 5th tail",
+        "desc": "In you flows the blood of the legendary nine-tailed fox, master of disguise and deception. Each time you take this feat, you grow an extra magic tail, allowing you to cast a different arcane innate spell, in order: 1st Level Illusory Disguise, 1nd Level Charm, 2nd Level Misdirection, 4th Level Invisibility, 4th Level Confusion, 5th Level Subconscious Suggestion, 6th Level Dominate, 7th Level Project Image.",
+        "shortdesc": "In you flows the blood of the legendary nine-tailed fox, master of disguise and deception.",
+        "subType": "5th tail: Invisibility",
+        "superType": "Magic Fox Tail",
+        "traits": [
+            "Kitsune",
+            "General"
+        ],
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Innate",
+                "className": "Innate",
+                "id": "f9698dfa-9839-470f-a2c7-61821a5e0865",
+                "frequency": "once per day",
+                "cooldown": 144000,
+                "level": 4,
+                "source": "Feat: Magic Fox Tail: 5th tail",
+                "spells": [
+                    {
+                        "_className": "SpellGain",
+                        "locked": true,
+                        "name": "Invisibility"
+                    }
+                ]
+            }
+        ],
+        "levelreq": 7,
+        "featreq": [
+            "Magic Fox Tail: 4th tail"
+        ]
+    },
+    {
+        "name": "Magic Fox Tail: 6th tail",
+        "desc": "In you flows the blood of the legendary nine-tailed fox, master of disguise and deception. Each time you take this feat, you grow an extra magic tail, allowing you to cast a different arcane innate spell, in order: 1st Level Illusory Disguise, 1nd Level Charm, 2nd Level Misdirection, 4th Level Invisibility, 4th Level Confusion, 5th Level Subconscious Suggestion, 6th Level Dominate, 7th Level Project Image.",
+        "shortdesc": "In you flows the blood of the legendary nine-tailed fox, master of disguise and deception.",
+        "subType": "6th tail: Confusion",
+        "superType": "Magic Fox Tail",
+        "traits": [
+            "Kitsune",
+            "General"
+        ],
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Innate",
+                "className": "Innate",
+                "id": "50d75024-f780-435d-8539-4a5ca14f80da",
+                "frequency": "once per day",
+                "cooldown": 144000,
+                "level": 4,
+                "source": "Feat: Magic Fox Tail: 6th tail",
+                "spells": [
+                    {
+                        "_className": "SpellGain",
+                        "locked": true,
+                        "name": "Confusion"
+                    }
+                ]
+            }
+        ],
+        "levelreq": 7,
+        "featreq": [
+            "Magic Fox Tail: 5th tail"
+        ]
+    },
+    {
+        "name": "Magic Fox Tail: 7th tail",
+        "desc": "In you flows the blood of the legendary nine-tailed fox, master of disguise and deception. Each time you take this feat, you grow an extra magic tail, allowing you to cast a different arcane innate spell, in order: 1st Level Illusory Disguise, 1nd Level Charm, 2nd Level Misdirection, 4th Level Invisibility, 4th Level Confusion, 5th Level Subconscious Suggestion, 6th Level Dominate, 7th Level Project Image.",
+        "shortdesc": "In you flows the blood of the legendary nine-tailed fox, master of disguise and deception.",
+        "subType": "7th tail: Subconscious Suggestion",
+        "superType": "Magic Fox Tail",
+        "traits": [
+            "Kitsune",
+            "General"
+        ],
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Innate",
+                "className": "Innate",
+                "id": "00295783-fccb-4360-b05d-276d4c5e39c6",
+                "frequency": "once per day",
+                "cooldown": 144000,
+                "level": 5,
+                "source": "Feat: Magic Fox Tail: 7th tail",
+                "spells": [
+                    {
+                        "_className": "SpellGain",
+                        "locked": true,
+                        "name": "Subconscious Suggestion"
+                    }
+                ]
+            }
+        ],
+        "levelreq": 9,
+        "featreq": [
+            "Magic Fox Tail: 6th tail"
+        ]
+    },
+    {
+        "name": "Magic Fox Tail: 8th tail",
+        "desc": "In you flows the blood of the legendary nine-tailed fox, master of disguise and deception. Each time you take this feat, you grow an extra magic tail, allowing you to cast a different arcane innate spell, in order: 1st Level Illusory Disguise, 1nd Level Charm, 2nd Level Misdirection, 4th Level Invisibility, 4th Level Confusion, 5th Level Subconscious Suggestion, 6th Level Dominate, 7th Level Project Image.",
+        "shortdesc": "In you flows the blood of the legendary nine-tailed fox, master of disguise and deception.",
+        "subType": "8th tail: Dominate",
+        "superType": "Magic Fox Tail",
+        "traits": [
+            "Kitsune",
+            "General"
+        ],
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Innate",
+                "className": "Innate",
+                "id": "0b337df9-3db3-4ad8-b809-060ea1c5b546",
+                "frequency": "once per day",
+                "cooldown": 144000,
+                "level": 6,
+                "source": "Feat: Magic Fox Tail: 8th tail",
+                "spells": [
+                    {
+                        "_className": "SpellGain",
+                        "locked": true,
+                        "name": "Dominate"
+                    }
+                ]
+            }
+        ],
+        "levelreq": 11,
+        "featreq": [
+            "Magic Fox Tail: 7th tail"
+        ]
+    },
+    {
+        "name": "Magic Fox Tail: 9th tail",
+        "desc": "In you flows the blood of the legendary nine-tailed fox, master of disguise and deception. Each time you take this feat, you grow an extra magic tail, allowing you to cast a different arcane innate spell, in order: 1st Level Illusory Disguise, 1nd Level Charm, 2nd Level Misdirection, 4th Level Invisibility, 4th Level Confusion, 5th Level Subconscious Suggestion, 6th Level Dominate, 7th Level Project Image.",
+        "shortdesc": "In you flows the blood of the legendary nine-tailed fox, master of disguise and deception.",
+        "subType": "9th tail: Project Image",
+        "superType": "Magic Fox Tail",
+        "traits": [
+            "Kitsune",
+            "General"
+        ],
+        "gainSpellChoice": [
+            {
+                "_className": "SpellChoice",
+                "castingType": "Innate",
+                "className": "Innate",
+                "id": "0b337df9-3db3-4ad8-b809-060ea1c5b546",
+                "frequency": "once per day",
+                "cooldown": 144000,
+                "level": 7,
+                "source": "Feat: Magic Fox Tail: 9th tail",
+                "spells": [
+                    {
+                        "_className": "SpellGain",
+                        "locked": true,
+                        "name": "Project Image"
+                    }
+                ]
+            }
+        ],
+        "levelreq": 13,
+        "featreq": [
+            "Magic Fox Tail: 8th tail"
+        ]
+    },
+    {
+        "name": "Nimble Kitsune",
+        "desc": "Your body twists and springs like a cat. You become trained in acrobatics and gain the Cat Fall skill feat. If you are already trained in Acrobatics, you become trained in a skill of your choice.",
+        "shortdesc": "Your body twists and springs like a cat.",
+        "sourceBook": "Custom",
+        "traits": [
+            "Kitsune"
+        ],
+        "levelreq": 1,
+        "specialreq": "!character.get_FeatsTaken(1, charLevel, 'Cat Fall').length || this.have(character, characterService, charLevel)",
+        "specialreqdesc": "do not have Cat Fall",
+        "gainFeatChoice": [
+            {
+                "_className": "FeatChoice",
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Cat Fall"
+                    }
+                ],
+                "source": "Feat: Nimble Kitsune",
+                "type": "Feat"
+            }
+        ],
+        "gainSkillChoice": [
+            {
+                "_className": "SkillChoice",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 2,
+                        "name": "Acrobatics",
+                        "source": "Feat: Nimble Kitsune"
+                    }
+                ],
+                "maxRank": 2,
+                "source": "Feat: Nimble Kitsune",
+                "type": "Skill"
+            }
+        ]
+    },
+    {
+        "name": "Kitsune Fox Shape",
+        "desc": "You have a magical connection to your animal kin.",
+        "shortdesc": "You have a magical connection to your animal kin.",
+        "sourceBook": "Custom",
+        "traits": [
+            "Kitsune"
+        ],
+        "levelreq": 5,
+        "gainActivities": [
+            "Kitsune Fox Shape"
+        ]
+    },
+    {
+        "name": "Swift Shapechanger (Kitsune)",
+        "desc": "You can change to your human or fox form as a free action.",
+        "shortdesc": "You can change to your human or fox form as a free action.",
+        "hints": [
+            {
+                "desc": "You can change to your human or fox form as a free action.",
+                "showon": "Kitsune Human Form, Kitsune Fox Shape"
+            }
+        ],
+        "sourceBook": "Custom",
+        "traits": [
+            "Kitsune"
+        ],
+        "levelreq": 5,
+        "featreq": [
+            "Fast Shifter (Kitsune)"
+        ]
+    },
+    {
+        "name": "Realistic Likeness (Kitsune)",
+        "desc": "You gain more control over your transformations, putting on different faces. You can use Human Form to take the form of any humanoid you have encountered. The +4 status bonus to Deception also applies to Deception checks to Impersonate an individual when impersonating this humanoid, and you don't need to create a disguise to do so.",
+        "shortdesc": "You gain more control over your transformations, putting on different faces.",
+        "hints": [
+            {
+                "desc": "You can use Human Form to take the form of any humanoid you have encountered. The +4 status bonus to Deception also applies to Deception checks to Impersonate an individual when impersonating this humanoid, and you don't need to create a disguise to do so.",
+                "showon": "Kitsune Human Form"
+            }
+        ],
+        "sourceBook": "Custom",
+        "traits": [
+            "Kitsune"
+        ],
+        "levelreq": 9,
+        "featreq": [
+            "Kitsune Human Form"
+        ]
+    },
+    {
+        "name": "Vulpine Pounce",
+        "desc": "You change into your Kitsune form and pounce on your enemy in one swift motion.",
+        "shortdesc": "You change into your Kitsune form and pounce on your enemy in one swift motion.",
+        "sourceBook": "Custom",
+        "traits": [
+            "Kitsune"
+        ],
+        "levelreq": 13,
+        "gainActivities": [
+            "Vulpine Pounce"
+        ]
+    },
+    {
+        "name": "Adopted Ancestry: Kitsune",
+        "desc": "You're fully immersed in another ancestry's culture and traditions, whether born into them, earned through rite of passage, or bonded through a deep friendship or romance. Choose a common ancestry. You can select ancestry feats from the ancestry you chose, in addition to your character's own ancestry, as long as the ancestry feats don't require any physiological feature that you lack, as determined by the GM.",
+        "subType": "Kitsune",
+        "superType": "Adopted Ancestry",
+        "shortdesc": "Gain access to ancestry feats from another ancestry.",
+        "traits": [
+            "General"
+        ],
+        "levelreq": 1,
+        "specialreq": "character.class.ancestry.name && !character.class.ancestry.ancestries.includes(this.subType) || this.have(character, characterService, charLevel)",
+        "specialreqdesc": "Any Ancestry except Kitsune",
+        "gainAncestry":"Kitsune"
+    },
+    {
+        "name": "Cultural Adaptability: Kitsune",
+        "desc": "During your adventures, you've honed your ability to adapt to the culture of the predominant ancestry around you. You gain the Adopted Ancestry general feat for the Kitsune ancestry, and you also gain one 1st-level ancestry feat from the Kitsune ancestry.",
+        "subType": "Kitsune",
+        "superType": "Cultural Adaptability",
+        "shortdesc": "During your adventures, you've honed your ability to adapt to the culture of the predominant ancestry around you.",
+        "traits": [
+            "Halfling"
+        ],
+        "levelreq": 5,
+        "specialreq": "character.class.ancestry.name && !character.class.ancestry.ancestries.includes(this.subType) || this.have(character, characterService, charLevel)",
+        "specialreqdesc": "Any Ancestry except Kitsune",
+        "gainFeatChoice": [
+            {
+                "_className": "FeatChoice",
+                "feats": [
+                    {
+                        "locked": true,
+                        "name": "Adopted Ancestry: Kitsune"
+                    }
+                ],
+                "source": "Feat: Cultural Adaptability: Kitsune",
+                "type": "General"
+            },
+            {
+                "_className": "FeatChoice",
+                "available": 1,
+                "level": 1,
+                "source": "Feat: Cultural Adaptability: Kitsune",
+                "type": "Kitsune"
+            }
+        ]
+    }
+]

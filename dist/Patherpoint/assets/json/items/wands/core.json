@@ -1,0 +1,518 @@
+[
+    {
+        "desc": "This baton is about a foot long and contains a single spell. The appearance typically relates to the spell within.",
+        "id": "970235d0-d17b-4f20-b0fd-56bbf649cb7f",
+        "level": 3,
+        "name": "Magic Wand (1st-Level Spell)",
+        "activationType": "Cast a Spell",
+        "storedSpells":[
+            {
+                "_className": "SpellChoice",
+                "available": 1,
+                "level": 1
+            }
+        ],
+        "_className": "Wand",
+        "price": 6000,
+        "traits": [
+            "Magical",
+            "Wand"
+        ]
+    },
+    {
+        "desc": "The end of this wand is forked instead of tapered",
+        "id": "d20a157f-aa34-40c3-b3d5-959cd1617408",
+        "level": 4,
+        "name": "Wand of Widening (1st-Level Spell)",
+        "frequency": "once per day, plus overcharge; This activation takes two actions if the spell normally takes one action to cast, or three actions if the spell normally takes two actions",
+        "craftingRequirement": "Supply a casting of a spell of the appropriate level. The spell must have a casting time of one action or two actions, can't have a duration, and must have an area of burst (10 feet or more), cone, or line.",
+        "effect": "You Cast the Spell, and increase its area. Add 5 feet to the radius of a burst that normally has a radius of at least 10 feet; add 5 feet to the length of a cone or line that is normally 15 feet long or smaller; or add 10 feet to the length of a larger cone or line.",
+        "activationType": "Cast a Spell",
+        "storedSpells":[
+            {
+                "_className": "SpellChoice",
+                "available": 1,
+                "level": 1
+            }
+        ],
+        "_className": "Wand",
+        "price": 10000,
+        "traits": [
+            "Magical",
+            "Wand"
+        ]
+    },
+    {
+        "desc": "This baton is about a foot long and contains a single spell. The appearance typically relates to the spell within.",
+        "id": "8776142b-538e-4711-8b57-5fef63a714c6",
+        "level": 5,
+        "name": "Magic Wand (2nd-Level Spell)",
+        "activationType": "Cast a Spell",
+        "storedSpells":[
+            {
+                "_className": "SpellChoice",
+                "available": 1,
+                "level": 2
+            }
+        ],
+        "_className": "Wand",
+        "price": 16000,
+        "traits": [
+            "Magical",
+            "Wand"
+        ]
+    },
+    {
+        "desc": "The end of this wand is forked instead of tapered",
+        "id": "3012ba89-8f12-4acc-853f-476e286c8010",
+        "level": 6,
+        "name": "Wand of Widening (2nd-Level Spell)",
+        "frequency": "once per day, plus overcharge; This activation takes two actions if the spell normally takes one action to cast, or three actions if the spell normally takes two actions",
+        "craftingRequirement": "Supply a casting of a spell of the appropriate level. The spell must have a casting time of one action or two actions, can't have a duration, and must have an area of burst (10 feet or more), cone, or line.",
+        "effect": "You Cast the Spell, and increase its area. Add 5 feet to the radius of a burst that normally has a radius of at least 10 feet; add 5 feet to the length of a cone or line that is normally 15 feet long or smaller; or add 10 feet to the length of a larger cone or line.",
+        "activationType": "Cast a Spell",
+        "storedSpells":[
+            {
+                "_className": "SpellChoice",
+                "available": 1,
+                "level": 2
+            }
+        ],
+        "_className": "Wand",
+        "price": 25000,
+        "traits": [
+            "Magical",
+            "Wand"
+        ]
+    },
+    {
+        "desc": "This baton is about a foot long and contains a single spell. The appearance typically relates to the spell within.",
+        "id": "c845e0c5-d19a-46cb-8cf3-11f2844e069f",
+        "level": 7,
+        "name": "Magic Wand (3rd-Level Spell)",
+        "activationType": "Cast a Spell",
+        "storedSpells":[
+            {
+                "_className": "SpellChoice",
+                "available": 1,
+                "level": 3
+            }
+        ],
+        "_className": "Wand",
+        "price": 36000,
+        "traits": [
+            "Magical",
+            "Wand"
+        ]
+    },
+    {
+        "desc": "This blackened, heavily burned stick smells faintly of bat guano.",
+        "id": "8fa3dbbd-c3c4-44a3-a6c5-a3bb185509b7",
+        "level": 8,
+        "name": "Wand of Smoldering Fireballs (3rd-Level Spell)",
+        "displayName": "Wand of Smoldering Fireballs (3rd-Level Spell)",
+        "craftingRequirement": "Supply a casting of fireball of the appropriate level.",
+        "effect": "You cast fireball of the indicated level. Each creature that fails its save takes persistent fire damage.",
+        "activationType": "Cast a Spell",
+        "storedSpells":[
+            {
+                "_className": "SpellChoice",
+                "level": 3,
+                "spells": [
+                    {
+                        "name": "Fireball",
+                        "locked": true
+                    }
+                ]
+            }
+        ],
+        "subType": "(3rd-Level Spell)",
+        "subTypeDesc": "Persistent Damage 1d6",
+        "_className": "Wand",
+        "price": 50000,
+        "traits": [
+            "Evocation",
+            "Fire",
+            "Magical",
+            "Wand"
+        ]
+    },
+    {
+        "desc": "The end of this wand is forked instead of tapered",
+        "id": "24bfb15f-5470-4786-88dc-d67ff08975f5",
+        "level": 8,
+        "name": "Wand of Widening (3rd-Level Spell)",
+        "frequency": "once per day, plus overcharge; This activation takes two actions if the spell normally takes one action to cast, or three actions if the spell normally takes two actions",
+        "craftingRequirement": "Supply a casting of a spell of the appropriate level. The spell must have a casting time of one action or two actions, can't have a duration, and must have an area of burst (10 feet or more), cone, or line.",
+        "effect": "You Cast the Spell, and increase its area. Add 5 feet to the radius of a burst that normally has a radius of at least 10 feet; add 5 feet to the length of a cone or line that is normally 15 feet long or smaller; or add 10 feet to the length of a larger cone or line.",
+        "activationType": "Cast a Spell",
+        "storedSpells":[
+            {
+                "_className": "SpellChoice",
+                "available": 1,
+                "level": 3
+            }
+        ],
+        "_className": "Wand",
+        "price": 50000,
+        "traits": [
+            "Magical",
+            "Wand"
+        ]
+    },
+    {
+        "desc": "This baton is about a foot long and contains a single spell. The appearance typically relates to the spell within.",
+        "id": "4043d431-2fa1-4b3c-8b7a-251740b27c8d",
+        "level": 9,
+        "name": "Magic Wand (4th-Level Spell)",
+        "activationType": "Cast a Spell",
+        "storedSpells":[
+            {
+                "_className": "SpellChoice",
+                "available": 1,
+                "level": 4
+            }
+        ],
+        "_className": "Wand",
+        "price": 70000,
+        "traits": [
+            "Magical",
+            "Wand"
+        ]
+    },
+    {
+        "desc": "The end of this wand is forked instead of tapered",
+        "id": "9adfba48-66d0-4d13-a6cb-208a9714e6a2",
+        "level": 10,
+        "name": "Wand of Widening (4th-Level Spell)",
+        "frequency": "once per day, plus overcharge; This activation takes two actions if the spell normally takes one action to cast, or three actions if the spell normally takes two actions",
+        "craftingRequirement": "Supply a casting of a spell of the appropriate level. The spell must have a casting time of one action or two actions, can't have a duration, and must have an area of burst (10 feet or more), cone, or line.",
+        "effect": "You Cast the Spell, and increase its area. Add 5 feet to the radius of a burst that normally has a radius of at least 10 feet; add 5 feet to the length of a cone or line that is normally 15 feet long or smaller; or add 10 feet to the length of a larger cone or line.",
+        "activationType": "Cast a Spell",
+        "storedSpells":[
+            {
+                "_className": "SpellChoice",
+                "available": 1,
+                "level": 4
+            }
+        ],
+        "_className": "Wand",
+        "price": 100000,
+        "traits": [
+            "Magical",
+            "Wand"
+        ]
+    },
+    {
+        "desc": "This baton is about a foot long and contains a single spell. The appearance typically relates to the spell within.",
+        "id": "4368dda8-8d77-44aa-93cc-7b10d1fde838",
+        "level": 11,
+        "name": "Magic Wand (5th-Level Spell)",
+        "activationType": "Cast a Spell",
+        "storedSpells":[
+            {
+                "_className": "SpellChoice",
+                "available": 1,
+                "level": 5
+            }
+        ],
+        "_className": "Wand",
+        "price": 150000,
+        "traits": [
+            "Magical",
+            "Wand"
+        ]
+    },
+    {
+        "desc": "This blackened, heavily burned stick smells faintly of bat guano.",
+        "id": "1e3ac3c5-d0e5-485e-9ce0-f1d0b3bbb86b",
+        "level": 12,
+        "name": "Wand of Smoldering Fireballs (5th-Level Spell)",
+        "displayName": "Wand of Smoldering Fireballs (5th-Level Spell)",
+        "craftingRequirement": "Supply a casting of fireball of the appropriate level.",
+        "effect": "You cast fireball of the indicated level. Each creature that fails its save takes persistent fire damage.",
+        "activationType": "Cast a Spell",
+        "storedSpells":[
+            {
+                "_className": "SpellChoice",
+                "level": 5,
+                "spells": [
+                    {
+                        "name": "Fireball",
+                        "locked": true
+                    }
+                ]
+            }
+        ],
+        "subType": "(5th-Level Spell)",
+        "subTypeDesc": "Persistent Damage 2d6",
+        "_className": "Wand",
+        "price": 200000,
+        "traits": [
+            "Evocation",
+            "Fire",
+            "Magical",
+            "Wand"
+        ]
+    },
+    {
+        "desc": "The end of this wand is forked instead of tapered",
+        "id": "331d5fe1-92b8-4376-a739-fdacb96c0869",
+        "level": 12,
+        "name": "Wand of Widening (5th-Level Spell)",
+        "frequency": "once per day, plus overcharge; This activation takes two actions if the spell normally takes one action to cast, or three actions if the spell normally takes two actions",
+        "craftingRequirement": "Supply a casting of a spell of the appropriate level. The spell must have a casting time of one action or two actions, can't have a duration, and must have an area of burst (10 feet or more), cone, or line.",
+        "effect": "You Cast the Spell, and increase its area. Add 5 feet to the radius of a burst that normally has a radius of at least 10 feet; add 5 feet to the length of a cone or line that is normally 15 feet long or smaller; or add 10 feet to the length of a larger cone or line.",
+        "activationType": "Cast a Spell",
+        "storedSpells":[
+            {
+                "_className": "SpellChoice",
+                "available": 1,
+                "level": 5
+            }
+        ],
+        "_className": "Wand",
+        "price": 200000,
+        "traits": [
+            "Magical",
+            "Wand"
+        ]
+    },
+    {
+        "desc": "This baton is about a foot long and contains a single spell. The appearance typically relates to the spell within.",
+        "id": "5d0a5b7c-7352-4652-ae67-2605e9bd736c",
+        "level": 13,
+        "name": "Magic Wand (6th-Level Spell)",
+        "activationType": "Cast a Spell",
+        "storedSpells":[
+            {
+                "_className": "SpellChoice",
+                "available": 1,
+                "level": 6
+            }
+        ],
+        "_className": "Wand",
+        "price": 300000,
+        "traits": [
+            "Magical",
+            "Wand"
+        ]
+    },
+    {
+        "desc": "The end of this wand is forked instead of tapered",
+        "id": "739e7fb8-b200-4500-82a0-d92cb57a3bae",
+        "level": 14,
+        "name": "Wand of Widening (6th-Level Spell)",
+        "frequency": "once per day, plus overcharge; This activation takes two actions if the spell normally takes one action to cast, or three actions if the spell normally takes two actions",
+        "craftingRequirement": "Supply a casting of a spell of the appropriate level. The spell must have a casting time of one action or two actions, can't have a duration, and must have an area of burst (10 feet or more), cone, or line.",
+        "effect": "You Cast the Spell, and increase its area. Add 5 feet to the radius of a burst that normally has a radius of at least 10 feet; add 5 feet to the length of a cone or line that is normally 15 feet long or smaller; or add 10 feet to the length of a larger cone or line.",
+        "activationType": "Cast a Spell",
+        "storedSpells":[
+            {
+                "_className": "SpellChoice",
+                "available": 1,
+                "level": 6
+            }
+        ],
+        "_className": "Wand",
+        "price": 450000,
+        "traits": [
+            "Magical",
+            "Wand"
+        ]
+    },
+    {
+        "desc": "This baton is about a foot long and contains a single spell. The appearance typically relates to the spell within.",
+        "id": "ae10fe03-1877-44f6-af26-2bafd897f513",
+        "level": 15,
+        "name": "Magic Wand (7th-Level Spell)",
+        "activationType": "Cast a Spell",
+        "storedSpells":[
+            {
+                "_className": "SpellChoice",
+                "available": 1,
+                "level": 7
+            }
+        ],
+        "_className": "Wand",
+        "price": 650000,
+        "traits": [
+            "Magical",
+            "Wand"
+        ]
+    },
+    {
+        "desc": "This blackened, heavily burned stick smells faintly of bat guano.",
+        "id": "fbdcc6ef-903b-4506-aabc-167d5cf95957",
+        "level": 16,
+        "name": "Wand of Smoldering Fireballs (7th-Level Spell)",
+        "displayName": "Wand of Smoldering Fireballs (7th-Level Spell)",
+        "craftingRequirement": "Supply a casting of fireball of the appropriate level.",
+        "effect": "You cast fireball of the indicated level. Each creature that fails its save takes persistent fire damage.",
+        "activationType": "Cast a Spell",
+        "storedSpells":[
+            {
+                "_className": "SpellChoice",
+                "level": 7,
+                "spells": [
+                    {
+                        "name": "Fireball",
+                        "locked": true
+                    }
+                ]
+            }
+        ],
+        "subType": "(7rd-Level Spell)",
+        "subTypeDesc": "Persistent Damage 3d6",
+        "_className": "Wand",
+        "price": 1000000,
+        "traits": [
+            "Evocation",
+            "Fire",
+            "Magical",
+            "Wand"
+        ]
+    },
+    {
+        "desc": "The end of this wand is forked instead of tapered",
+        "id": "4f694d0a-5ec8-4902-ae65-22f917bbdf75",
+        "level": 16,
+        "name": "Wand of Widening (7th-Level Spell)",
+        "frequency": "once per day, plus overcharge; This activation takes two actions if the spell normally takes one action to cast, or three actions if the spell normally takes two actions",
+        "craftingRequirement": "Supply a casting of a spell of the appropriate level. The spell must have a casting time of one action or two actions, can't have a duration, and must have an area of burst (10 feet or more), cone, or line.",
+        "effect": "You Cast the Spell, and increase its area. Add 5 feet to the radius of a burst that normally has a radius of at least 10 feet; add 5 feet to the length of a cone or line that is normally 15 feet long or smaller; or add 10 feet to the length of a larger cone or line.",
+        "activationType": "Cast a Spell",
+        "storedSpells":[
+            {
+                "_className": "SpellChoice",
+                "available": 1,
+                "level": 7
+            }
+        ],
+        "_className": "Wand",
+        "price": 1000000,
+        "traits": [
+            "Magical",
+            "Wand"
+        ]
+    },
+    {
+        "desc": "This baton is about a foot long and contains a single spell. The appearance typically relates to the spell within.",
+        "id": "60e424c2-48a8-4a27-af17-beec08cda098",
+        "level": 17,
+        "name": "Magic Wand (8th-Level Spell)",
+        "activationType": "Cast a Spell",
+        "storedSpells":[
+            {
+                "_className": "SpellChoice",
+                "available": 1,
+                "level": 8
+            }
+        ],
+        "_className": "Wand",
+        "price": 150000,
+        "traits": [
+            "Magical",
+            "Wand"
+        ]
+    },
+    {
+        "desc": "The end of this wand is forked instead of tapered",
+        "id": "2780a449-c2f3-4b55-971c-bc5b4a7cb2c2",
+        "level": 18,
+        "name": "Wand of Widening (8th-Level Spell)",
+        "frequency": "once per day, plus overcharge; This activation takes two actions if the spell normally takes one action to cast, or three actions if the spell normally takes two actions",
+        "craftingRequirement": "Supply a casting of a spell of the appropriate level. The spell must have a casting time of one action or two actions, can't have a duration, and must have an area of burst (10 feet or more), cone, or line.",
+        "effect": "You Cast the Spell, and increase its area. Add 5 feet to the radius of a burst that normally has a radius of at least 10 feet; add 5 feet to the length of a cone or line that is normally 15 feet long or smaller; or add 10 feet to the length of a larger cone or line.",
+        "activationType": "Cast a Spell",
+        "storedSpells":[
+            {
+                "_className": "SpellChoice",
+                "available": 1,
+                "level": 8
+            }
+        ],
+        "_className": "Wand",
+        "price": 2400000,
+        "traits": [
+            "Magical",
+            "Wand"
+        ]
+    },
+    {
+        "desc": "This baton is about a foot long and contains a single spell. The appearance typically relates to the spell within.",
+        "id": "ca50f5ab-e40b-45ae-a48b-bb7ee7a1c2c0",
+        "level": 19,
+        "name": "Magic Wand (9th-Level Spell)",
+        "activationType": "Cast a Spell",
+        "storedSpells":[
+            {
+                "_className": "SpellChoice",
+                "available": 1,
+                "level": 9
+            }
+        ],
+        "_className": "Wand",
+        "price": 400000,
+        "traits": [
+            "Magical",
+            "Wand"
+        ]
+    },
+    {
+        "desc": "This blackened, heavily burned stick smells faintly of bat guano.",
+        "id": "17055cfa-b9d1-409a-b1b9-7285974893a6",
+        "level": 20,
+        "name": "Wand of Smoldering Fireballs (9th-Level Spell)",
+        "displayName": "Wand of Smoldering Fireballs (9th-Level Spell)",
+        "craftingRequirement": "Supply a casting of fireball of the appropriate level.",
+        "effect": "You cast fireball of the indicated level. Each creature that fails its save takes persistent fire damage.",
+        "activationType": "Cast a Spell",
+        "storedSpells":[
+            {
+                "_className": "SpellChoice",
+                "available": 1,
+                "level": 9,
+                "spells": [
+                    {
+                        "name": "Fireball",
+                        "locked": true
+                    }
+                ]
+            }
+        ],
+        "subType": "(9th-Level Spell)",
+        "subTypeDesc": "Persistent Damage 4d6",
+        "_className": "Wand",
+        "price": 7000000,
+        "traits": [
+            "Evocation",
+            "Fire",
+            "Magical",
+            "Wand"
+        ]
+    },
+    {
+        "desc": "The end of this wand is forked instead of tapered",
+        "id": "7c9978f6-4bea-4a6d-b687-8f8d0433ac95",
+        "level": 20,
+        "name": "Wand of Widening (9th-Level Spell)",
+        "frequency": "once per day, plus overcharge; This activation takes two actions if the spell normally takes one action to cast, or three actions if the spell normally takes two actions",
+        "craftingRequirement": "Supply a casting of a spell of the appropriate level. The spell must have a casting time of one action or two actions, can't have a duration, and must have an area of burst (10 feet or more), cone, or line.",
+        "effect": "You Cast the Spell, and increase its area. Add 5 feet to the radius of a burst that normally has a radius of at least 10 feet; add 5 feet to the length of a cone or line that is normally 15 feet long or smaller; or add 10 feet to the length of a larger cone or line.",
+        "activationType": "Cast a Spell",
+        "storedSpells":[
+            {
+                "_className": "SpellChoice",
+                "available": 1,
+                "level": 9
+            }
+        ],
+        "_className": "Wand",
+        "price": 7000000,
+        "traits": [
+            "Magical",
+            "Wand"
+        ]
+    }
+]

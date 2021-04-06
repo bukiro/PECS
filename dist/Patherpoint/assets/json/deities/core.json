@@ -1,0 +1,9138 @@
+[
+   {
+      "name": "Abadar",
+      "category": "Gods of the Inner Sea",
+      "alignment": "Lawful Neutral",
+      "divineAbility": [
+         "Constitution",
+         "Intelligence"
+      ],
+      "divineFont": [
+         "Harm",
+         "Heal"
+      ],
+      "divineSkill": [
+         "Society"
+      ],
+      "favoredWeapon": [
+         "Crossbow"
+      ],
+      "domains": [
+         "Cities",
+         "Duty",
+         "Earth",
+         "Travel",
+         "Wealth"
+      ],
+      "clericSpells": [
+         {
+            "_className": "SpellCast",
+            "level": 1,
+            "name": "Illusory Object"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 4,
+            "name": "Creation"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 7,
+            "name": "Magnificent Mansion"
+         }
+      ],
+      "followerAlignments": [
+         "Lawful Good",
+         "Lawful Neutral",
+         "Lawful Evil"
+      ]
+   },
+   {
+      "name": "Asmodeus",
+      "category": "Gods of the Inner Sea",
+      "alignment": "Lawful Evil",
+      "divineAbility": [
+         "Strength",
+         "Dexterity",
+         "Constitution",
+         "Intelligence",
+         "Wisdom",
+         "Charisma"
+      ],
+      "divineFont": [
+         "Harm"
+      ],
+      "divineSkill": [
+         "Deception"
+      ],
+      "favoredWeapon": [
+         "Mace"
+      ],
+      "domains": [
+         "Confidence",
+         "Duty",
+         "Fire",
+         "Glyph",
+         "Trickery",
+         "Tyranny"
+      ],
+      "clericSpells": [
+         {
+            "_className": "SpellCast",
+            "level": 1,
+            "name": "Charm"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 4,
+            "name": "Suggestion"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 6,
+            "name": "Mislead"
+         }
+      ],
+      "followerAlignments": [
+         "Lawful Evil"
+      ]
+   },
+   {
+      "name": "Calistria",
+      "category": "Gods of the Inner Sea",
+      "alignment": "Chaotic Neutral",
+      "divineAbility": [
+         "Dexterity",
+         "Charisma"
+      ],
+      "divineFont": [
+         "Harm",
+         "Heal"
+      ],
+      "divineSkill": [
+         "Deception"
+      ],
+      "favoredWeapon": [
+         "Whip"
+      ],
+      "domains": [
+         "Pain",
+         "Passion",
+         "Secrecy",
+         "Trickery"
+      ],
+      "clericSpells": [
+         {
+            "_className": "SpellCast",
+            "level": 1,
+            "name": "Charm"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 3,
+            "name": "Enthrall"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 6,
+            "name": "Mislead"
+         }
+      ],
+      "followerAlignments": [
+         "Chaotic Good",
+         "Chaotic Neutral",
+         "Chaotic Evil"
+      ]
+   },
+   {
+      "name": "Cayden Cailean",
+      "category": "Gods of the Inner Sea",
+      "alignment": "Chaotic Good",
+      "divineAbility": [
+         "Constitution",
+         "Charisma"
+      ],
+      "divineFont": [
+         "Heal"
+      ],
+      "divineSkill": [
+         "Athletics"
+      ],
+      "favoredWeapon": [
+         "Rapier"
+      ],
+      "domains": [
+         "Cities",
+         "Freedom",
+         "Indulgence",
+         "Might"
+      ],
+      "clericSpells": [
+         {
+            "_className": "SpellCast",
+            "level": 1,
+            "name": "Fleet Step"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 2,
+            "name": "Touch of Idiocy"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 5,
+            "name": "Hallucination"
+         }
+      ],
+      "followerAlignments": [
+         "Neutral Good",
+         "Chaotic Good",
+         "Chaotic Neutral"
+      ]
+   },
+   {
+      "name": "Desna",
+      "category": "Gods of the Inner Sea",
+      "alignment": "Chaotic Good",
+      "divineAbility": [
+         "Dexterity",
+         "Charisma"
+      ],
+      "divineFont": [
+         "Heal"
+      ],
+      "divineSkill": [
+         "Acrobatics"
+      ],
+      "favoredWeapon": [
+         "Starknife"
+      ],
+      "domains": [
+         "Dreams",
+         "Luck",
+         "Moon",
+         "Star",
+         "Travel",
+         "Void"
+      ],
+      "clericSpells": [
+         {
+            "_className": "SpellCast",
+            "level": 1,
+            "name": "Sleep"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 4,
+            "name": "Fly"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 5,
+            "name": "Dreaming Potential"
+         }
+      ],
+      "followerAlignments": [
+         "Neutral Good",
+         "Chaotic Good",
+         "Chaotic Neutral"
+      ]
+   },
+   {
+      "name": "Erastil",
+      "category": "Gods of the Inner Sea",
+      "alignment": "Lawful Good",
+      "divineAbility": [
+         "Constitution",
+         "Wisdom"
+      ],
+      "divineFont": [
+         "Heal"
+      ],
+      "divineSkill": [
+         "Survival"
+      ],
+      "favoredWeapon": [
+         "Longbow"
+      ],
+      "domains": [
+         "Duty",
+         "Earth",
+         "Family",
+         "Nature",
+         "Wealth"
+      ],
+      "clericSpells": [
+         {
+            "_className": "SpellCast",
+            "level": 1,
+            "name": "True Strike"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 3,
+            "name": "Wall of Thorns"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 5,
+            "name": "Tree Stride"
+         }
+      ],
+      "followerAlignments": [
+         "Lawful Good",
+         "Neutral Good",
+         "Lawful Neutral"
+      ]
+   },
+   {
+      "name": "Gorum",
+      "category": "Gods of the Inner Sea",
+      "alignment": "Chaotic Neutral",
+      "divineAbility": [
+         "Strength",
+         "Constitution"
+      ],
+      "divineFont": [
+         "Harm",
+         "Heal"
+      ],
+      "divineSkill": [
+         "Athletics"
+      ],
+      "favoredWeapon": [
+         "Greatsword"
+      ],
+      "domains": [
+         "Confidence",
+         "Destruction",
+         "Might",
+         "Zeal"
+      ],
+      "clericSpells": [
+         {
+            "_className": "SpellCast",
+            "level": 1,
+            "name": "True Strike"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 2,
+            "name": "Enlarge"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 4,
+            "name": "Weapon Storm"
+         }
+      ],
+      "followerAlignments": [
+         "Chaotic Neutral",
+         "Chaotic Evil"
+      ]
+   },
+   {
+      "name": "Gozreh",
+      "category": "Gods of the Inner Sea",
+      "alignment": "Neutral",
+      "divineAbility": [
+         "Constitution",
+         "Wisdom"
+      ],
+      "divineFont": [
+         "Heal"
+      ],
+      "divineSkill": [
+         "Survival"
+      ],
+      "favoredWeapon": [
+         "Trident"
+      ],
+      "domains": [
+         "Air",
+         "Cold",
+         "Lightning",
+         "Nature",
+         "Travel",
+         "Water"
+      ],
+      "clericSpells": [
+         {
+            "_className": "SpellCast",
+            "level": 1,
+            "name": "Gust of Wind"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 3,
+            "name": "Lightning Bolt"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 5,
+            "name": "Control Water"
+         }
+      ],
+      "followerAlignments": [
+         "Neutral Good",
+         "Lawful Neutral",
+         "Neutral",
+         "Chaotic Neutral",
+         "Neutral Evil"
+      ]
+   },
+   {
+      "name": "Iomedae",
+      "category": "Gods of the Inner Sea",
+      "alignment": "Lawful Good",
+      "divineAbility": [
+         "Strength",
+         "Constitution"
+      ],
+      "divineFont": [
+         "Heal"
+      ],
+      "divineSkill": [
+         "Intimidation"
+      ],
+      "favoredWeapon": [
+         "Longsword"
+      ],
+      "domains": [
+         "Confidence",
+         "Duty",
+         "Might",
+         "Truth",
+         "Zeal"
+      ],
+      "clericSpells": [
+         {
+            "_className": "SpellCast",
+            "level": 1,
+            "name": "True Strike"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 2,
+            "name": "Enlarge"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 4,
+            "name": "Fire Shield"
+         }
+      ],
+      "followerAlignments": [
+         "Lawful Good",
+         "Neutral Good"
+      ]
+   },
+   {
+      "name": "Irori",
+      "category": "Gods of the Inner Sea",
+      "alignment": "Lawful Neutral",
+      "divineAbility": [
+         "Intelligence",
+         "Wisdom"
+      ],
+      "divineFont": [
+         "Harm",
+         "Heal"
+      ],
+      "divineSkill": [
+         "Athletics"
+      ],
+      "favoredWeapon": [
+         "Fist"
+      ],
+      "domains": [
+         "Change",
+         "Knowledge",
+         "Might",
+         "Perfection",
+         "Truth",
+         "Vigil"
+      ],
+      "clericSpells": [
+         {
+            "_className": "SpellCast",
+            "level": 1,
+            "name": "Jump"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 3,
+            "name": "Haste"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 4,
+            "name": "Stoneskin"
+         }
+      ],
+      "followerAlignments": [
+         "Lawful Good",
+         "Lawful Neutral",
+         "Lawful Evil"
+      ]
+   },
+   {
+      "name": "Lamashtu",
+      "category": "Gods of the Inner Sea",
+      "alignment": "Chaotic Evil",
+      "divineAbility": [
+         "Constitution",
+         "Strength"
+      ],
+      "divineFont": [
+         "Harm",
+         "Heal"
+      ],
+      "divineSkill": [
+         "Survival"
+      ],
+      "favoredWeapon": [
+         "Falchion"
+      ],
+      "domains": [
+         "Change",
+         "Family",
+         "Might",
+         "Nightmares",
+         "Trickery"
+      ],
+      "clericSpells": [
+         {
+            "_className": "SpellCast",
+            "level": 1,
+            "name": "Magic Fang"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 2,
+            "name": "Animal Form"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 4,
+            "name": "Nightmare"
+         }
+      ],
+      "followerAlignments": [
+         "Chaotic Evil"
+      ]
+   },
+   {
+      "name": "Nethys",
+      "category": "Gods of the Inner Sea",
+      "alignment": "Neutral",
+      "divineAbility": [
+         "Wisdom",
+         "Intelligence"
+      ],
+      "divineFont": [
+         "Harm",
+         "Heal"
+      ],
+      "divineSkill": [
+         "Arcana"
+      ],
+      "favoredWeapon": [
+         "Staff"
+      ],
+      "domains": [
+         "Destruction",
+         "Glyph",
+         "Knowledge",
+         "Magic",
+         "Protection"
+      ],
+      "clericSpells": [
+         {
+            "_className": "SpellCast",
+            "level": 1,
+            "name": "Magic Missile"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 2,
+            "name": "Magic Mouth"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 3,
+            "name": "Levitate"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 4,
+            "name": "Blink"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 5,
+            "name": "Prying Eye"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 6,
+            "name": "Wall of Force"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 7,
+            "name": "Warp Mind"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 8,
+            "name": "Maze"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 9,
+            "name": "Disjunction"
+         }
+      ],
+      "followerAlignments": [
+         "Neutral Good",
+         "Lawful Neutral",
+         "Neutral",
+         "Chaotic Neutral",
+         "Neutral Evil"
+      ]
+   },
+   {
+      "name": "Norgorber",
+      "category": "Gods of the Inner Sea",
+      "alignment": "Neutral Evil",
+      "divineAbility": [
+         "Dexterity",
+         "Intelligence"
+      ],
+      "divineFont": [
+         "Harm"
+      ],
+      "divineSkill": [
+         "Stealth"
+      ],
+      "favoredWeapon": [
+         "Shortsword"
+      ],
+      "domains": [
+         "Death",
+         "Secrecy",
+         "Trickery",
+         "Wealth"
+      ],
+      "clericSpells": [
+         {
+            "_className": "SpellCast",
+            "level": 1,
+            "name": "Illusory Disguise"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 2,
+            "name": "Invisibility"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 4,
+            "name": "Phantasmal Killer"
+         }
+      ],
+      "followerAlignments": [
+         "Neutral",
+         "Lawful Evil",
+         "Neutral Evil",
+         "Chaotic Evil"
+      ]
+   },
+   {
+      "name": "Pharasma",
+      "category": "Gods of the Inner Sea",
+      "alignment": "Neutral",
+      "divineAbility": [
+         "Constitution",
+         "Wisdom"
+      ],
+      "divineFont": [
+         "Heal"
+      ],
+      "divineSkill": [
+         "Medicine"
+      ],
+      "favoredWeapon": [
+         "Dagger"
+      ],
+      "domains": [
+         "Death",
+         "Fate",
+         "Healing",
+         "Knowledge",
+         "Soul",
+         "Time",
+         "Vigil"
+      ],
+      "clericSpells": [
+         {
+            "_className": "SpellCast",
+            "level": 1,
+            "name": "Mindlink"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 3,
+            "name": "Ghostly Weapon"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 4,
+            "name": "Phantasmal Killer"
+         }
+      ],
+      "followerAlignments": [
+         "Neutral Good",
+         "Lawful Neutral",
+         "Neutral"
+      ]
+   },
+   {
+      "name": "Rovagug",
+      "category": "Gods of the Inner Sea",
+      "alignment": "Chaotic Evil",
+      "divineAbility": [
+         "Strength",
+         "Constitution"
+      ],
+      "divineFont": [
+         "Harm"
+      ],
+      "divineSkill": [
+         "Athletics"
+      ],
+      "favoredWeapon": [
+         "Greataxe"
+      ],
+      "domains": [
+         "Air",
+         "Destruction",
+         "Earth",
+         "Swarm",
+         "Void",
+         "Zeal"
+      ],
+      "clericSpells": [
+         {
+            "_className": "SpellCast",
+            "level": 1,
+            "name": "Burning Hands"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 2,
+            "name": "Enlarge"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 6,
+            "name": "Disintegrate"
+         }
+      ],
+      "followerAlignments": [
+         "Neutral Evil",
+         "Chaotic Evil"
+      ]
+   },
+   {
+      "name": "Sarenrae",
+      "category": "Gods of the Inner Sea",
+      "alignment": "Neutral Good",
+      "divineAbility": [
+         "Constitution",
+         "Wisdom"
+      ],
+      "divineFont": [
+         "Heal"
+      ],
+      "divineSkill": [
+         "Medicine"
+      ],
+      "favoredWeapon": [
+         "Scimitar"
+      ],
+      "domains": [
+         "Fire",
+         "Healing",
+         "Repose",
+         "Sun",
+         "Truth"
+      ],
+      "clericSpells": [
+         {
+            "_className": "SpellCast",
+            "level": 1,
+            "name": "Burning Hands"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 3,
+            "name": "Fireball"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 4,
+            "name": "Wall of Fire"
+         }
+      ],
+      "followerAlignments": [
+         "Lawful Good",
+         "Neutral Good",
+         "Chaotic Good"
+      ]
+   },
+   {
+      "name": "Shelyn",
+      "category": "Gods of the Inner Sea",
+      "alignment": "Neutral Good",
+      "divineAbility": [
+         "Wisdom",
+         "Charisma"
+      ],
+      "divineFont": [
+         "Heal"
+      ],
+      "divineSkill": [
+         "Crafting",
+         "Performance"
+      ],
+      "favoredWeapon": [
+         "Glaive"
+      ],
+      "domains": [
+         "Creation",
+         "Family",
+         "Passion",
+         "Protection",
+         "Repose"
+      ],
+      "clericSpells": [
+         {
+            "_className": "SpellCast",
+            "level": 1,
+            "name": "Color Spray"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 3,
+            "name": "Enthrall"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 4,
+            "name": "Creation"
+         }
+      ],
+      "followerAlignments": [
+         "Lawful Good",
+         "Neutral Good",
+         "Chaotic Good"
+      ]
+   },
+   {
+      "name": "Torag",
+      "category": "Gods of the Inner Sea",
+      "alignment": "Lawful Good",
+      "divineAbility": [
+         "Constitution",
+         "Wisdom"
+      ],
+      "divineFont": [
+         "Heal"
+      ],
+      "divineSkill": [
+         "Crafting"
+      ],
+      "favoredWeapon": [
+         "Warhammer"
+      ],
+      "domains": [
+         "Creation",
+         "Duty",
+         "Earth",
+         "Family",
+         "Protection"
+      ],
+      "clericSpells": [
+         {
+            "_className": "SpellCast",
+            "level": 1,
+            "name": "Mindlink"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 3,
+            "name": "Earthbind"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 4,
+            "name": "Creation"
+         }
+      ],
+      "followerAlignments": [
+         "Lawful Good",
+         "Lawful Neutral"
+      ]
+   },
+   {
+      "name": "Urgathoa",
+      "category": "Gods of the Inner Sea",
+      "alignment": "Neutral Evil",
+      "divineAbility": [
+         "Constitution",
+         "Wisdom"
+      ],
+      "divineFont": [
+         "Harm"
+      ],
+      "divineSkill": [
+         "Intimidation"
+      ],
+      "favoredWeapon": [
+         "Scythe"
+      ],
+      "domains": [
+         "Decay",
+         "Indulgence",
+         "Magic",
+         "Might",
+         "Swarm",
+         "Undeath"
+      ],
+      "clericSpells": [
+         {
+            "_className": "SpellCast",
+            "level": 1,
+            "name": "Goblin Pox"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 2,
+            "name": "False Life"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 7,
+            "name": "Mask of Terror"
+         }
+      ],
+      "followerAlignments": [
+         "Lawful Evil",
+         "Neutral Evil",
+         "Chaotic Evil"
+      ]
+   },
+   {
+      "name": "Zon-Kuthon",
+      "category": "Gods of the Inner Sea",
+      "alignment": "Lawful Evil",
+      "divineAbility": [
+         "Constitution",
+         "Wisdom"
+      ],
+      "divineFont": [
+         "Harm"
+      ],
+      "divineSkill": [
+         "Intimidation"
+      ],
+      "favoredWeapon": [
+         "Spiked Chain"
+      ],
+      "domains": [
+         "Ambition",
+         "Darkness",
+         "Destruction",
+         "Pain",
+         "Void"
+      ],
+      "clericSpells": [
+         {
+            "_className": "SpellCast",
+            "level": 1,
+            "name": "Phantom Pain"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 3,
+            "name": "Wall of Thorns"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 5,
+            "name": "Shadow Walk"
+         }
+      ],
+      "followerAlignments": [
+         "Lawful Neutral",
+         "Lawful Evil",
+         "Neutral Evil"
+      ]
+   },
+   {
+      "name": "Achaekek",
+      "category": "Other Gods",
+      "alignment": "Lawful Evil",
+      "divineAbility": [
+         "Strength",
+         "Dexterity"
+      ],
+      "divineFont": [
+         "Harm"
+      ],
+      "divineSkill": [
+         "Stealth"
+      ],
+      "favoredWeapon": [
+         "Sawtooth Saber"
+      ],
+      "domains": [
+         "Death",
+         "Might",
+         "Trickery",
+         "Zeal"
+      ],
+      "clericSpells": [
+         {
+            "_className": "SpellCast",
+            "level": 1,
+            "name": "True Strike"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 2,
+            "name": "Invisibility"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 4,
+            "name": "Phantasmal Killer"
+         }
+      ],
+      "followerAlignments": [
+         "Lawful Neutral",
+         "Lawful Evil",
+         "Neutral Evil"
+      ]
+   },
+   {
+      "name": "Alseta",
+      "category": "Other Gods",
+      "alignment": "Lawful Neutral",
+      "divineAbility": [
+         "Intelligence",
+         "Charisma"
+      ],
+      "divineFont": [
+         "Heal"
+      ],
+      "divineSkill": [
+         "Diplomacy"
+      ],
+      "favoredWeapon": [
+         "Dagger"
+      ],
+      "domains": [
+         "Change",
+         "Magic",
+         "Protection",
+         "Time"
+      ],
+      "clericSpells": [
+         {
+            "_className": "SpellCast",
+            "level": 1,
+            "name": "Anticipate Peril"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 2,
+            "name": "Knock"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 4,
+            "name": "Dimension Door"
+         }
+      ],
+      "followerAlignments": [
+         "Lawful Good",
+         "Lawful Neutral",
+         "Neutral"
+      ]
+   },
+   {
+      "name": "Apsu",
+      "category": "Other Gods",
+      "alignment": "Lawful Good",
+      "divineAbility": [
+         "Wisdom",
+         "Charisma"
+      ],
+      "divineFont": [
+         "Heal"
+      ],
+      "divineSkill": [
+         "Diplomacy"
+      ],
+      "favoredWeapon": [
+         "Jaws",
+         "Staff"
+      ],
+      "domains": [
+         "Creation",
+         "Protection",
+         "Travel",
+         "Wyrmkin"
+      ],
+      "clericSpells": [
+         {
+            "_className": "SpellCast",
+            "level": 1,
+            "name": "Magic Fang"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 4,
+            "name": "Creation"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 6,
+            "name": "Dragon Form",
+            "note": "(metallic dragons only)"
+         }
+      ],
+      "followerAlignments": [
+         "Lawful Good"
+      ]
+   },
+   {
+      "name": "Arazni",
+      "category": "Other Gods",
+      "alignment": "Neutral Evil",
+      "divineAbility": [
+         "Constitution",
+         "Intelligence"
+      ],
+      "divineFont": [
+         "Harm"
+      ],
+      "divineSkill": [
+         "Intimidation"
+      ],
+      "favoredWeapon": [
+         "Rapier"
+      ],
+      "domains": [
+         "Confidence",
+         "Freedom",
+         "Pain",
+         "Protection",
+         "Sorrow"
+      ],
+      "clericSpells": [
+         {
+            "_className": "SpellCast",
+            "level": 1,
+            "name": "Endure"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 2,
+            "name": "Animus Mine"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 6,
+            "name": "Feeblemind"
+         }
+      ],
+      "followerAlignments": [
+         "Chaotic Good",
+         "Lawful Neutral",
+         "Neutral",
+         "Chaotic Neutral",
+         "Neutral Evil"
+      ]
+   },
+   {
+      "name": "Besmara",
+      "category": "Other Gods",
+      "alignment": "Chaotic Neutral",
+      "divineAbility": [
+         "Dexterity",
+         "Constitution"
+      ],
+      "divineFont": [
+         "Harm",
+         "Heal"
+      ],
+      "divineSkill": [
+         "Athletics"
+      ],
+      "favoredWeapon": [
+         "Rapier"
+      ],
+      "domains": [
+         "Destruction",
+         "Trickery",
+         "Water",
+         "Wealth"
+      ],
+      "clericSpells": [
+         {
+            "_className": "SpellCast",
+            "level": 1,
+            "name": "Hydraulic Push"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 3,
+            "name": "Feet To Fins"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 5,
+            "name": "Mariner's Curse"
+         }
+      ],
+      "followerAlignments": [
+         "Chaotic Good",
+         "Chaotic Neutral",
+         "Chaotic Evil"
+      ]
+   },
+   {
+      "name": "Brigh",
+      "category": "Other Gods",
+      "alignment": "Neutral",
+      "divineAbility": [
+         "Intelligence",
+         "Wisdom"
+      ],
+      "divineFont": [
+         "Harm",
+         "Heal"
+      ],
+      "divineSkill": [
+         "Crafting"
+      ],
+      "favoredWeapon": [
+         "Light Hammer"
+      ],
+      "domains": [
+         "Creation",
+         "Earth",
+         "Fire",
+         "Knowledge",
+         "Time"
+      ],
+      "clericSpells": [
+         {
+            "_className": "SpellCast",
+            "level": 1,
+            "name": "Temporary Tool"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 4,
+            "name": "Creation"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 7,
+            "name": "Duplicate Foe"
+         }
+      ],
+      "followerAlignments": [
+         "Neutral Good",
+         "Lawful Neutral",
+         "Neutral",
+         "Chaotic Neutral",
+         "Neutral Evil"
+      ]
+   },
+   {
+      "name": "Casandalee",
+      "category": "Other Gods",
+      "alignment": "Neutral",
+      "divineAbility": [
+         "Constitution",
+         "Intelligence"
+      ],
+      "divineFont": [
+         "Harm",
+         "Heal"
+      ],
+      "divineSkill": [
+         "Society"
+      ],
+      "favoredWeapon": [
+         "Polytool"
+      ],
+      "domains": [
+         "Ambition",
+         "Creation",
+         "Freedom",
+         "Knowledge",
+         "Lightning",
+         "Perfection"
+      ],
+      "clericSpells": [
+         {
+            "_className": "SpellCast",
+            "level": 1,
+            "name": "Floating Disk"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 3,
+            "name": "Hypercognition"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 6,
+            "name": "Wall of Force"
+         }
+      ],
+      "followerAlignments": [
+         "Neutral Good",
+         "Lawful Neutral",
+         "Neutral",
+         "Chaotic Neutral",
+         "Neutral Evil"
+      ]
+   },
+   {
+      "name": "Chaldira",
+      "category": "Other Gods",
+      "alignment": "Neutral Good",
+      "divineAbility": [
+         "Dexterity",
+         "Charisma"
+      ],
+      "divineFont": [
+         "Heal"
+      ],
+      "divineSkill": [
+         "Thievery"
+      ],
+      "favoredWeapon": [
+         "Shortsword"
+      ],
+      "domains": [
+         "Confidence",
+         "Luck",
+         "Trickery",
+         "Zeal"
+      ],
+      "clericSpells": [
+         {
+            "_className": "SpellCast",
+            "level": 1,
+            "name": "Fleet Step"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 2,
+            "name": "Misdirection"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 5,
+            "name": "Cloak of Colors"
+         }
+      ],
+      "followerAlignments": [
+         "Lawful Good",
+         "Neutral Good",
+         "Chaotic Good"
+      ]
+   },
+   {
+      "name": "Dahak",
+      "category": "Other Gods",
+      "alignment": "Chaotic Evil",
+      "divineAbility": [
+         "Strength",
+         "Constitution"
+      ],
+      "divineFont": [
+         "Harm"
+      ],
+      "divineSkill": [
+         "Athletics"
+      ],
+      "favoredWeapon": [
+         "Jaws",
+         "Whip"
+      ],
+      "domains": [
+         "Destruction",
+         "Fire",
+         "Wyrmkin",
+         "Zeal"
+      ],
+      "clericSpells": [
+         {
+            "_className": "SpellCast",
+            "level": 1,
+            "name": "Magic Fang"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 3,
+            "name": "Fireball"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 6,
+            "name": "Dragon Form",
+            "note": "(chromatic dragons only)"
+         }
+      ],
+      "followerAlignments": [
+         "Chaotic Evil"
+      ]
+   },
+   {
+      "name": "Erecura",
+      "category": "Other Gods",
+      "alignment": "Lawful Neutral",
+      "divineAbility": [
+         "Wisdom",
+         "Charisma"
+      ],
+      "divineFont": [
+         "Harm",
+         "Heal"
+      ],
+      "divineSkill": [
+         "Deception"
+      ],
+      "favoredWeapon": [
+         "Light Mace"
+      ],
+      "domains": [
+         "Fate",
+         "Secrecy",
+         "Trickery",
+         "Truth"
+      ],
+      "clericSpells": [
+         {
+            "_className": "SpellCast",
+            "level": 1,
+            "name": "Anticipate Peril"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 2,
+            "name": "Misdirection"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 3,
+            "name": "Nondetection"
+         }
+      ],
+      "followerAlignments": [
+         "Lawful Good",
+         "Lawful Neutral",
+         "Neutral"
+      ]
+   },
+   {
+      "name": "Gendowyn",
+      "category": "Other Gods",
+      "alignment": "Chaotic Neutral",
+      "divineAbility": [
+         "Dexterity",
+         "Charisma"
+      ],
+      "divineFont": [
+         "Heal"
+      ],
+      "divineSkill": [
+         "Stealth"
+      ],
+      "favoredWeapon": [
+         "Whip"
+      ],
+      "domains": [
+         "Earth",
+         "Family",
+         "Luck",
+         "Nature"
+      ],
+      "clericSpells": [
+         {
+            "_className": "SpellCast",
+            "level": 1,
+            "name": "Summon Fey"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 2,
+            "name": "Barkskin"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 5,
+            "name": "Tree Stride"
+         }
+      ],
+      "followerAlignments": [
+         "Chaotic Good",
+         "Neutral",
+         "Chaotic Neutral",
+         "Chaotic Evil"
+      ]
+   },
+   {
+      "name": "Ghlaunder",
+      "category": "Other Gods",
+      "alignment": "Chaotic Evil",
+      "divineAbility": [
+         "Constitution",
+         "Wisdom"
+      ],
+      "divineFont": [
+         "Harm"
+      ],
+      "divineSkill": [
+         "Nature"
+      ],
+      "favoredWeapon": [
+         "Spear"
+      ],
+      "domains": [
+         "Air",
+         "Decay",
+         "Plague",
+         "Swarm"
+      ],
+      "clericSpells": [
+         {
+            "_className": "SpellCast",
+            "level": 1,
+            "name": "Goblin Pox"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 2,
+            "name": "Vomit Swarm"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 3,
+            "name": "Insect Form"
+         }
+      ],
+      "followerAlignments": [
+         "Neutral Evil",
+         "Chaotic Evil"
+      ]
+   },
+   {
+      "name": "Grandmother Spider",
+      "category": "Other Gods",
+      "alignment": "Neutral",
+      "divineAbility": [
+         "Intelligence",
+         "Wisdom"
+      ],
+      "divineFont": [
+         "Harm",
+         "Heal"
+      ],
+      "divineSkill": [
+         "Crafting"
+      ],
+      "favoredWeapon": [
+         "Bola"
+      ],
+      "domains": [
+         "Change",
+         "Creation",
+         "Darkness",
+         "Family",
+         "Fate",
+         "Trickery"
+      ],
+      "clericSpells": [
+         {
+            "_className": "SpellCast",
+            "level": 1,
+            "name": "Pest Form"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 2,
+            "name": "Web"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 4,
+            "name": "Glibness"
+         }
+      ],
+      "followerAlignments": [
+         "Neutral Good",
+         "Chaotic Good",
+         "Neutral",
+         "Chaotic Neutral"
+      ]
+   },
+   {
+      "name": "Groetus",
+      "category": "Other Gods",
+      "alignment": "Chaotic Neutral",
+      "divineAbility": [
+         "Strength",
+         "Charisma"
+      ],
+      "divineFont": [
+         "Harm"
+      ],
+      "divineSkill": [
+         "Intimidation"
+      ],
+      "favoredWeapon": [
+         "War Flail"
+      ],
+      "domains": [
+         "Darkness",
+         "Decay",
+         "Destruction",
+         "Nightmares",
+         "Void"
+      ],
+      "clericSpells": [
+         {
+            "_className": "SpellCast",
+            "level": 1,
+            "name": "Phantom Pain"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 5,
+            "name": "Crushing Despair"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 9,
+            "name": "Disjunction"
+         }
+      ],
+      "followerAlignments": [
+         "Chaotic Neutral",
+         "Chaotic Evil"
+      ]
+   },
+   {
+      "name": "Gyronna",
+      "category": "Other Gods",
+      "alignment": "Chaotic Evil",
+      "divineAbility": [
+         "Wisdom",
+         "Charisma"
+      ],
+      "divineFont": [
+         "Harm"
+      ],
+      "divineSkill": [
+         "Intimidation"
+      ],
+      "favoredWeapon": [
+         "Dagger"
+      ],
+      "domains": [
+         "Ambition",
+         "Nightmares",
+         "Pain",
+         "Zeal"
+      ],
+      "clericSpells": [
+         {
+            "_className": "SpellCast",
+            "level": 1,
+            "name": "Ill Omen"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 2,
+            "name": "Paranoia"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 6,
+            "name": "Feeblemind"
+         }
+      ],
+      "followerAlignments": [
+         "Neutral Evil",
+         "Chaotic Evil"
+      ]
+   },
+   {
+      "name": "Hanspur",
+      "category": "Other Gods",
+      "alignment": "Chaotic Neutral",
+      "divineAbility": [
+         "Strength",
+         "Dexterity"
+      ],
+      "divineFont": [
+         "Harm"
+      ],
+      "divineSkill": [
+         "Athletics"
+      ],
+      "favoredWeapon": [
+         "Trident"
+      ],
+      "domains": [
+         "Death",
+         "Travel",
+         "Water",
+         "Wealth"
+      ],
+      "clericSpells": [
+         {
+            "_className": "SpellCast",
+            "level": 1,
+            "name": "Hydraulic Push"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 2,
+            "name": "Aqueous Orb"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 4,
+            "name": "Solid Fog"
+         }
+      ],
+      "followerAlignments": [
+         "Chaotic Good",
+         "Neutral",
+         "Chaotic Neutral",
+         "Chaotic Evil"
+      ]
+   },
+   {
+      "name": "Jaidi",
+      "category": "Other Gods",
+      "alignment": "Neutral Good",
+      "divineAbility": [
+         "Strength",
+         "Constitution"
+      ],
+      "divineFont": [
+         "Heal"
+      ],
+      "divineSkill": [
+         "Nature"
+      ],
+      "favoredWeapon": [
+         "Scythe"
+      ],
+      "domains": [
+         "Family",
+         "Might",
+         "Nature",
+         "Sun"
+      ],
+      "clericSpells": [
+         {
+            "_className": "SpellCast",
+            "level": 1,
+            "name": "Temporary Tool"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 2,
+            "name": "Shape Wood"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 3,
+            "name": "Wall of Thorns"
+         }
+      ],
+      "followerAlignments": [
+         "Lawful Good",
+         "Neutral Good",
+         "Neutral"
+      ]
+   },
+   {
+      "name": "Kazutal",
+      "category": "Other Gods",
+      "alignment": "Neutral Good",
+      "divineAbility": [
+         "Strength",
+         "Wisdom"
+      ],
+      "divineFont": [
+         "Heal"
+      ],
+      "divineSkill": [
+         "Society"
+      ],
+      "favoredWeapon": [
+         "Machete"
+      ],
+      "domains": [
+         "Cities",
+         "Family",
+         "Freedom",
+         "Might",
+         "Protection"
+      ],
+      "clericSpells": [
+         {
+            "_className": "SpellCast",
+            "level": 1,
+            "name": "Mage Armor"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 3,
+            "name": "Animal Form"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 4,
+            "name": "Stoneskin"
+         }
+      ],
+      "followerAlignments": [
+         "Lawful Good",
+         "Neutral Good",
+         "Chaotic Good"
+      ]
+   },
+   {
+      "name": "Kurgess",
+      "category": "Other Gods",
+      "alignment": "Neutral Good",
+      "divineAbility": [
+         "Strength",
+         "Constitution"
+      ],
+      "divineFont": [
+         "Heal"
+      ],
+      "divineSkill": [
+         "Athletics"
+      ],
+      "favoredWeapon": [
+         "Javelin"
+      ],
+      "domains": [
+         "Ambition",
+         "Might",
+         "Truth",
+         "Zeal"
+      ],
+      "clericSpells": [
+         {
+            "_className": "SpellCast",
+            "level": 1,
+            "name": "Ant Haul"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 2,
+            "name": "Enlarge"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 3,
+            "name": "Haste"
+         }
+      ],
+      "followerAlignments": [
+         "Lawful Good",
+         "Neutral Good",
+         "Chaotic Good",
+         "Neutral"
+      ]
+   },
+   {
+      "name": "Lissala",
+      "category": "Other Gods",
+      "alignment": "Lawful Evil",
+      "divineAbility": [
+         "Intelligence",
+         "Wisdom"
+      ],
+      "divineFont": [
+         "Harm"
+      ],
+      "divineSkill": [
+         "Arcana"
+      ],
+      "favoredWeapon": [
+         "Whip"
+      ],
+      "domains": [
+         "Fate",
+         "Glyph",
+         "Magic",
+         "Toil"
+      ],
+      "clericSpells": [
+         {
+            "_className": "SpellCast",
+            "level": 1,
+            "name": "Message Rune"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 2,
+            "name": "Secret Page"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 6,
+            "name": "Dominate"
+         }
+      ],
+      "followerAlignments": [
+         "Lawful Neutral",
+         "Lawful Evil"
+      ]
+   },
+   {
+      "name": "Milani",
+      "category": "Other Gods",
+      "alignment": "Chaotic Good",
+      "divineAbility": [
+         "Strength",
+         "Wisdom"
+      ],
+      "divineFont": [
+         "Heal"
+      ],
+      "divineSkill": [
+         "Society"
+      ],
+      "favoredWeapon": [
+         "Morningstar"
+      ],
+      "domains": [
+         "Change",
+         "Destruction",
+         "Freedom",
+         "Zeal"
+      ],
+      "clericSpells": [
+         {
+            "_className": "SpellCast",
+            "level": 1,
+            "name": "Mage Armor"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 3,
+            "name": "Enthrall"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 4,
+            "name": "Fire Shield"
+         }
+      ],
+      "followerAlignments": [
+         "Neutral Good",
+         "Chaotic Good",
+         "Chaotic Neutral"
+      ]
+   },
+   {
+      "name": "Naderi",
+      "category": "Other Gods",
+      "alignment": "Neutral",
+      "divineAbility": [
+         "Constitution",
+         "Charisma"
+      ],
+      "divineFont": [
+         "Harm"
+      ],
+      "divineSkill": [
+         "Diplomacy"
+      ],
+      "favoredWeapon": [
+         "Dagger"
+      ],
+      "domains": [
+         "Death",
+         "Passion",
+         "Sorrow",
+         "Water"
+      ],
+      "clericSpells": [
+         {
+            "_className": "SpellCast",
+            "level": 1,
+            "name": "Soothe"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 4,
+            "name": "Crushing Despair"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 5,
+            "name": "Drop Dead"
+         }
+      ],
+      "followerAlignments": [
+         "Neutral Good",
+         "Neutral",
+         "Neutral Evil"
+      ]
+   },
+   {
+      "name": "Nivi Rhombodazzle",
+      "category": "Other Gods",
+      "alignment": "Neutral",
+      "divineAbility": [
+         "Dexterity",
+         "Intelligence"
+      ],
+      "divineFont": [
+         "Harm",
+         "Heal"
+      ],
+      "divineSkill": [
+         "Stealth"
+      ],
+      "favoredWeapon": [
+         "Light Hammer"
+      ],
+      "domains": [
+         "Confidence",
+         "Earth",
+         "Family",
+         "Luck",
+         "Trickery",
+         "Wealth"
+      ],
+      "clericSpells": [
+         {
+            "_className": "SpellCast",
+            "level": 1,
+            "name": "Illusory Disguise"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 2,
+            "name": "Invisibility"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 4,
+            "name": "Private Sanctum"
+         }
+      ],
+      "followerAlignments": [
+         "Neutral Good",
+         "Lawful Neutral",
+         "Neutral",
+         "Chaotic Neutral"
+      ]
+   },
+   {
+      "name": "Nocticula",
+      "category": "Other Gods",
+      "alignment": "Chaotic Neutral",
+      "divineAbility": [
+         "Dexterity",
+         "Charisma"
+      ],
+      "divineFont": [
+         "Heal"
+      ],
+      "divineSkill": [
+         "Society"
+      ],
+      "favoredWeapon": [
+         "Dagger"
+      ],
+      "domains": [
+         "Change",
+         "Creation",
+         "Darkness",
+         "Travel"
+      ],
+      "clericSpells": [
+         {
+            "_className": "SpellCast",
+            "level": 1,
+            "name": "Penumbral Shroud"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 3,
+            "name": "Nondetection"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 4,
+            "name": "Creation"
+         }
+      ],
+      "followerAlignments": [
+         "Chaotic Good",
+         "Neutral",
+         "Chaotic Neutral"
+      ]
+   },
+   {
+      "name": "Sivanah",
+      "category": "Other Gods",
+      "alignment": "Neutral",
+      "divineAbility": [
+         "Wisdom",
+         "Charisma"
+      ],
+      "divineFont": [
+         "Harm",
+         "Heal"
+      ],
+      "divineSkill": [
+         "Deception"
+      ],
+      "favoredWeapon": [
+         "Bladed Scarf"
+      ],
+      "domains": [
+         "Delirium",
+         "Glyph",
+         "Magic",
+         "Secrecy",
+         "Trickery"
+      ],
+      "clericSpells": [
+         {
+            "_className": "SpellCast",
+            "level": 1,
+            "name": "Illusory Disguise"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 4,
+            "name": "Veil"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 5,
+            "name": "Shadow Siphon"
+         }
+      ],
+      "followerAlignments": [
+         "Neutral Good",
+         "Lawful Neutral",
+         "Neutral",
+         "Chaotic Neutral",
+         "Neutral Evil"
+      ]
+   },
+   {
+      "name": "Thamir",
+      "category": "Other Gods",
+      "alignment": "Chaotic Evil",
+      "divineAbility": [
+         "Dexterity",
+         "Charisma"
+      ],
+      "divineFont": [
+         "Harm"
+      ],
+      "divineSkill": [
+         "Thievery"
+      ],
+      "favoredWeapon": [
+         "Dagger"
+      ],
+      "domains": [
+         "Ambition",
+         "Confidence",
+         "Trickery",
+         "Wealth"
+      ],
+      "clericSpells": [
+         {
+            "_className": "SpellCast",
+            "level": 1,
+            "name": "Penumbral Shroud"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 3,
+            "name": "Invisibility Sphere"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 6,
+            "name": "Mislead"
+         }
+      ],
+      "followerAlignments": [
+         "Neutral Evil",
+         "Chaotic Evil"
+      ]
+   },
+   {
+      "name": "Walkena",
+      "category": "Other Gods",
+      "alignment": "Lawful Evil",
+      "divineAbility": [
+         "Strength",
+         "Wisdom"
+      ],
+      "divineFont": [
+         "Harm"
+      ],
+      "divineSkill": [
+         "Deception"
+      ],
+      "favoredWeapon": [
+         "Spear"
+      ],
+      "domains": [
+         "Family",
+         "Freedom",
+         "Sun",
+         "Tyranny"
+      ],
+      "clericSpells": [
+         {
+            "_className": "SpellCast",
+            "level": 1,
+            "name": "Burning Hands"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 3,
+            "name": "Fireball"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 4,
+            "name": "Wall of Fire"
+         }
+      ],
+      "followerAlignments": [
+         "Lawful Neutral",
+         "Lawful Evil"
+      ]
+   },
+   {
+      "name": "Zyphus",
+      "category": "Other Gods",
+      "alignment": "Neutral Evil",
+      "divineAbility": [
+         "Dexterity",
+         "Constitution"
+      ],
+      "divineFont": [
+         "Harm"
+      ],
+      "divineSkill": [
+         "Thievery"
+      ],
+      "favoredWeapon": [
+         "Pick"
+      ],
+      "domains": [
+         "Death",
+         "Sorrow",
+         "Soul",
+         "Undeath"
+      ],
+      "clericSpells": [
+         {
+            "_className": "SpellCast",
+            "level": 1,
+            "name": "Ill Omen"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 2,
+            "name": "Shatter"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 6,
+            "name": "Phantasmal Calamity"
+         }
+      ],
+      "followerAlignments": [
+         "Neutral Evil",
+         "Chaotic Evil"
+      ]
+   },
+   {
+      "name": "Anubis",
+      "category": "Ancient Osirian Gods",
+      "alignment": "Lawful Neutral",
+      "divineAbility": [
+         "Dexterity",
+         "Wisdom"
+      ],
+      "divineFont": [
+         "Harm",
+         "Heal"
+      ],
+      "divineSkill": [
+         "Occultism"
+      ],
+      "favoredWeapon": [
+         "Flail"
+      ],
+      "domains": [
+         "Death",
+         "Protection",
+         "Soul",
+         "Vigil"
+      ],
+      "clericSpells": [
+         {
+            "_className": "SpellCast",
+            "level": 1,
+            "name": "Unseen Servant"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 3,
+            "name": "Shifting Sand"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 5,
+            "name": "Wall of Stone"
+         }
+      ],
+      "followerAlignments": [
+         "Lawful Good",
+         "Lawful Neutral",
+         "Neutral"
+      ]
+   },
+   {
+      "name": "Bastet",
+      "category": "Ancient Osirian Gods",
+      "alignment": "Chaotic Neutral",
+      "divineAbility": [
+         "Intelligence",
+         "Charisma"
+      ],
+      "divineFont": [
+         "Heal"
+      ],
+      "divineSkill": [
+         "Deception"
+      ],
+      "favoredWeapon": [
+         "Claw",
+         "Tekko-Kagi"
+      ],
+      "domains": [
+         "Nature",
+         "Passion",
+         "Protection",
+         "Trickery"
+      ],
+      "clericSpells": [
+         {
+            "_className": "SpellCast",
+            "level": 1,
+            "name": "Pest Form",
+            "note": "(cats only)"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 3,
+            "name": "Animal Vision"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 4,
+            "name": "Private Sanctum"
+         }
+      ],
+      "followerAlignments": [
+         "Chaotic Good",
+         "Neutral",
+         "Chaotic Neutral"
+      ]
+   },
+   {
+      "name": "Bes",
+      "category": "Ancient Osirian Gods",
+      "alignment": "Neutral Good",
+      "divineAbility": [
+         "Constitution",
+         "Charisma"
+      ],
+      "divineFont": [
+         "Heal"
+      ],
+      "divineSkill": [
+         "Performance"
+      ],
+      "favoredWeapon": [
+         "Mambele"
+      ],
+      "domains": [
+         "Earth",
+         "Family",
+         "Luck",
+         "Protection"
+      ],
+      "clericSpells": [
+         {
+            "_className": "SpellCast",
+            "level": 1,
+            "name": "Sleep"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 2,
+            "name": "Hideous Laughter"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 3,
+            "name": "Enthrall"
+         }
+      ],
+      "followerAlignments": [
+         "Lawful Good",
+         "Neutral Good",
+         "Chaotic Good"
+      ]
+   },
+   {
+      "name": "Hathor",
+      "category": "Ancient Osirian Gods",
+      "alignment": "Chaotic Good",
+      "divineAbility": [
+         "Strength",
+         "Charisma"
+      ],
+      "divineFont": [
+         "Heal"
+      ],
+      "divineSkill": [
+         "Performance"
+      ],
+      "favoredWeapon": [
+         "Shortsword"
+      ],
+      "domains": [
+         "Family",
+         "Passion",
+         "Sun",
+         "Wealth"
+      ],
+      "clericSpells": [
+         {
+            "_className": "SpellCast",
+            "level": 1,
+            "name": "Charm"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 2,
+            "name": "Tree Shape"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 8,
+            "name": "Uncontrollable Dance"
+         }
+      ],
+      "followerAlignments": [
+         "Neutral Good",
+         "Chaotic Good"
+      ]
+   },
+   {
+      "name": "Horus",
+      "category": "Ancient Osirian Gods",
+      "alignment": "Lawful Neutral",
+      "divineAbility": [
+         "Strength",
+         "Charisma"
+      ],
+      "divineFont": [
+         "Heal"
+      ],
+      "divineSkill": [
+         "Diplomacy"
+      ],
+      "favoredWeapon": [
+         "Khopesh"
+      ],
+      "domains": [
+         "Air",
+         "Moon",
+         "Protection",
+         "Sun"
+      ],
+      "clericSpells": [
+         {
+            "_className": "SpellCast",
+            "level": 1,
+            "name": "Floating Disk"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 3,
+            "name": "Wall of Wind"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 4,
+            "name": "Aerial Form",
+            "note": "(bird only)"
+         }
+      ],
+      "followerAlignments": [
+         "Lawful Good",
+         "Neutral Good",
+         "Lawful Neutral",
+         "Neutral"
+      ]
+   },
+   {
+      "name": "Isis",
+      "category": "Ancient Osirian Gods",
+      "alignment": "Neutral Good",
+      "divineAbility": [
+         "Wisdom",
+         "Charisma"
+      ],
+      "divineFont": [
+         "Heal"
+      ],
+      "divineSkill": [
+         "Arcana"
+      ],
+      "favoredWeapon": [
+         "Staff"
+      ],
+      "domains": [
+         "Family",
+         "Healing",
+         "Magic",
+         "Passion"
+      ],
+      "clericSpells": [
+         {
+            "_className": "SpellCast",
+            "level": 1,
+            "name": "Soothe"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 2,
+            "name": "Humanoid Form"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 3,
+            "name": "Animal Vision"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 4,
+            "name": "Creation"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 5,
+            "name": "Control Water"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 6,
+            "name": "Wall of Force"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 7,
+            "name": "Magnificent Mansion"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 8,
+            "name": "Wind Walk"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 9,
+            "name": "Shapechange"
+         }
+      ],
+      "followerAlignments": [
+         "Lawful Good",
+         "Neutral Good",
+         "Chaotic Good"
+      ]
+   },
+   {
+      "name": "Ma'At",
+      "category": "Ancient Osirian Gods",
+      "alignment": "Lawful Neutral",
+      "divineAbility": [
+         "Intelligence",
+         "Wisdom"
+      ],
+      "divineFont": [
+         "Heal"
+      ],
+      "divineSkill": [
+         "Society"
+      ],
+      "favoredWeapon": [
+         "Starknife"
+      ],
+      "domains": [
+         "Knowledge",
+         "Protection",
+         "Star",
+         "Truth"
+      ],
+      "clericSpells": [
+         {
+            "_className": "SpellCast",
+            "level": 1,
+            "name": "Feather Fall"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 4,
+            "name": "Resilient Sphere"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 5,
+            "name": "Mind Probe"
+         }
+      ],
+      "followerAlignments": [
+         "Lawful Good",
+         "Lawful Neutral",
+         "Neutral"
+      ]
+   },
+   {
+      "name": "Osiris",
+      "category": "Ancient Osirian Gods",
+      "alignment": "Lawful Good",
+      "divineAbility": [
+         "Constitution",
+         "Wisdom"
+      ],
+      "divineFont": [
+         "Heal"
+      ],
+      "divineSkill": [
+         "Nature"
+      ],
+      "favoredWeapon": [
+         "Flail"
+      ],
+      "domains": [
+         "Change",
+         "Healing",
+         "Nature",
+         "Soul"
+      ],
+      "clericSpells": [
+         {
+            "_className": "SpellCast",
+            "level": 1,
+            "name": "Soothe"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 2,
+            "name": "False Life"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 6,
+            "name": "Tangling Creepers"
+         }
+      ],
+      "followerAlignments": [
+         "Lawful Good",
+         "Neutral Good"
+      ]
+   },
+   {
+      "name": "Ra",
+      "category": "Ancient Osirian Gods",
+      "alignment": "Lawful Neutral",
+      "divineAbility": [
+         "Strength",
+         "Intelligence"
+      ],
+      "divineFont": [
+         "Heal"
+      ],
+      "divineSkill": [
+         "Society"
+      ],
+      "favoredWeapon": [
+         "Spear"
+      ],
+      "domains": [
+         "Fire",
+         "Nature",
+         "Sun",
+         "Time"
+      ],
+      "clericSpells": [
+         {
+            "_className": "SpellCast",
+            "level": 1,
+            "name": "Burning Hands"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 2,
+            "name": "Flaming Sphere"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 3,
+            "name": "Threefold Aspect"
+         }
+      ],
+      "followerAlignments": [
+         "Lawful Good",
+         "Lawful Neutral",
+         "Neutral"
+      ]
+   },
+   {
+      "name": "Sekhmet",
+      "category": "Ancient Osirian Gods",
+      "alignment": "Chaotic Neutral",
+      "divineAbility": [
+         "Strength",
+         "Wisdom"
+      ],
+      "divineFont": [
+         "Harm",
+         "Heal"
+      ],
+      "divineSkill": [
+         "Medicine"
+      ],
+      "favoredWeapon": [
+         "Claw",
+         "Battle Axe"
+      ],
+      "domains": [
+         "Destruction",
+         "Healing",
+         "Indulgence",
+         "Might"
+      ],
+      "clericSpells": [
+         {
+            "_className": "SpellCast",
+            "level": 1,
+            "name": "True Strike"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 4,
+            "name": "Wall of Fire"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 5,
+            "name": "Moon Frenzy"
+         }
+      ],
+      "followerAlignments": [
+         "Chaotic Good",
+         "Neutral",
+         "Chaotic Neutral",
+         "Chaotic Evil"
+      ]
+   },
+   {
+      "name": "Selket",
+      "category": "Ancient Osirian Gods",
+      "alignment": "Chaotic Good",
+      "divineAbility": [
+         "Dexterity",
+         "Wisdom"
+      ],
+      "divineFont": [
+         "Heal"
+      ],
+      "divineSkill": [
+         "Medicine"
+      ],
+      "favoredWeapon": [
+         "Whip"
+      ],
+      "domains": [
+         "Healing",
+         "Magic",
+         "Nature",
+         "Protection"
+      ],
+      "clericSpells": [
+         {
+            "_className": "SpellCast",
+            "level": 1,
+            "name": "Soothe"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 3,
+            "name": "Paralyze"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 6,
+            "name": "Purple Worm Sting"
+         }
+      ],
+      "followerAlignments": [
+         "Neutral Good",
+         "Chaotic Good",
+         "Chaotic Neutral"
+      ]
+   },
+   {
+      "name": "Sobek",
+      "category": "Ancient Osirian Gods",
+      "alignment": "Chaotic Neutral",
+      "divineAbility": [
+         "Strength",
+         "Constitution"
+      ],
+      "divineFont": [
+         "Harm",
+         "Heal"
+      ],
+      "divineSkill": [
+         "Athletics"
+      ],
+      "favoredWeapon": [
+         "Falchion"
+      ],
+      "domains": [
+         "Might",
+         "Protection",
+         "Water",
+         "Wyrmkin"
+      ],
+      "clericSpells": [
+         {
+            "_className": "SpellCast",
+            "level": 1,
+            "name": "Hydraulic Push"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 3,
+            "name": "Feet To Fins"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 4,
+            "name": "Dinosaur Form",
+            "note": "(appears as crocodile)"
+         }
+      ],
+      "followerAlignments": [
+         "Chaotic Good",
+         "Neutral",
+         "Chaotic Neutral",
+         "Chaotic Evil"
+      ]
+   },
+   {
+      "name": "Thoth",
+      "category": "Ancient Osirian Gods",
+      "alignment": "Lawful Neutral",
+      "divineAbility": [
+         "Intelligence",
+         "Wisdom"
+      ],
+      "divineFont": [
+         "Harm",
+         "Heal"
+      ],
+      "divineSkill": [
+         "Arcana"
+      ],
+      "favoredWeapon": [
+         "Sickle"
+      ],
+      "domains": [
+         "Glyph",
+         "Knowledge",
+         "Magic",
+         "Moon"
+      ],
+      "clericSpells": [
+         {
+            "_className": "SpellCast",
+            "level": 1,
+            "name": "Message Rune"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 2,
+            "name": "Comprehend Language"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 3,
+            "name": "Secret Page"
+         }
+      ],
+      "followerAlignments": [
+         "Lawful Good",
+         "Lawful Neutral",
+         "Neutral"
+      ]
+   },
+   {
+      "name": "Wadjet",
+      "category": "Ancient Osirian Gods",
+      "alignment": "Lawful Good",
+      "divineAbility": [
+         "Dexterity",
+         "Wisdom"
+      ],
+      "divineFont": [
+         "Heal"
+      ],
+      "divineSkill": [
+         "Nature"
+      ],
+      "favoredWeapon": [
+         "Light Mace"
+      ],
+      "domains": [
+         "Protection",
+         "Travel",
+         "Water",
+         "Zeal"
+      ],
+      "clericSpells": [
+         {
+            "_className": "SpellCast",
+            "level": 1,
+            "name": "Mage Armor"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 2,
+            "name": "Animal Form",
+            "note": "(snake only)"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 4,
+            "name": "Fly"
+         }
+      ],
+      "followerAlignments": [
+         "Lawful Good",
+         "Neutral Good"
+      ]
+   },
+   {
+      "name": "Baalzebul",
+      "category": "Archdevils",
+      "alignment": "Lawful Evil",
+      "divineAbility": [
+         "Dexterity",
+         "Charisma"
+      ],
+      "divineFont": [
+         "Harm"
+      ],
+      "divineSkill": [
+         "Deception"
+      ],
+      "favoredWeapon": [
+         "Spear"
+      ],
+      "domains": [
+         "Air",
+         "Ambition",
+         "Magic",
+         "Trickery"
+      ],
+      "clericSpells": [
+         {
+            "_className": "SpellCast",
+            "level": 1,
+            "name": "Fleet Step"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 2,
+            "name": "Vomit Swarm"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 6,
+            "name": "Mislead"
+         }
+      ],
+      "followerAlignments": [
+         "Lawful Evil"
+      ]
+   },
+   {
+      "name": "Barbatos",
+      "category": "Archdevils",
+      "alignment": "Lawful Evil",
+      "divineAbility": [
+         "Constitution",
+         "Wisdom"
+      ],
+      "divineFont": [
+         "Harm"
+      ],
+      "divineSkill": [
+         "Nature"
+      ],
+      "favoredWeapon": [
+         "Staff"
+      ],
+      "domains": [
+         "Magic",
+         "Nature",
+         "Travel",
+         "Tyranny"
+      ],
+      "clericSpells": [
+         {
+            "_className": "SpellCast",
+            "level": 1,
+            "name": "Magic Fang"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 3,
+            "name": "Paralyze"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 4,
+            "name": "Clairvoyance"
+         }
+      ],
+      "followerAlignments": [
+         "Lawful Evil"
+      ]
+   },
+   {
+      "name": "Belial",
+      "category": "Archdevils",
+      "alignment": "Lawful Evil",
+      "divineAbility": [
+         "Intelligence",
+         "Charisma"
+      ],
+      "divineFont": [
+         "Harm"
+      ],
+      "divineSkill": [
+         "Diplomacy"
+      ],
+      "favoredWeapon": [
+         "Ranseur"
+      ],
+      "domains": [
+         "Change",
+         "Passion",
+         "Trickery",
+         "Zeal"
+      ],
+      "clericSpells": [
+         {
+            "_className": "SpellCast",
+            "level": 1,
+            "name": "Charm"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 2,
+            "name": "Humanoid Form"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 3,
+            "name": "Enthrall"
+         }
+      ],
+      "followerAlignments": [
+         "Lawful Evil"
+      ]
+   },
+   {
+      "name": "Dispater",
+      "category": "Archdevils",
+      "alignment": "Lawful Evil",
+      "divineAbility": [
+         "Strength",
+         "Charisma"
+      ],
+      "divineFont": [
+         "Harm"
+      ],
+      "divineSkill": [
+         "Society"
+      ],
+      "favoredWeapon": [
+         "Mace"
+      ],
+      "domains": [
+         "Cities",
+         "Confidence",
+         "Duty",
+         "Tyranny"
+      ],
+      "clericSpells": [
+         {
+            "_className": "SpellCast",
+            "level": 1,
+            "name": "Tether"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 4,
+            "name": "Suggestion"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 6,
+            "name": "Flesh To Stone"
+         }
+      ],
+      "followerAlignments": [
+         "Lawful Neutral",
+         "Lawful Evil"
+      ]
+   },
+   {
+      "name": "Geryon",
+      "category": "Archdevils",
+      "alignment": "Lawful Evil",
+      "divineAbility": [
+         "Intelligence",
+         "Wisdom"
+      ],
+      "divineFont": [
+         "Harm"
+      ],
+      "divineSkill": [
+         "Occultism"
+      ],
+      "favoredWeapon": [
+         "War Flail"
+      ],
+      "domains": [
+         "Might",
+         "Truth",
+         "Water",
+         "Wyrmkin"
+      ],
+      "clericSpells": [
+         {
+            "_className": "SpellCast",
+            "level": 1,
+            "name": "Acidic Burst"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 2,
+            "name": "Animal Form",
+            "note": "(snake only)"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 3,
+            "name": "Hypercognition"
+         }
+      ],
+      "followerAlignments": [
+         "Lawful Evil"
+      ]
+   },
+   {
+      "name": "Mammon",
+      "category": "Archdevils",
+      "alignment": "Lawful Evil",
+      "divineAbility": [
+         "Wisdom",
+         "Charisma"
+      ],
+      "divineFont": [
+         "Harm"
+      ],
+      "divineSkill": [
+         "Thievery"
+      ],
+      "favoredWeapon": [
+         "Spear"
+      ],
+      "domains": [
+         "Ambition",
+         "Creation",
+         "Toil",
+         "Wealth"
+      ],
+      "clericSpells": [
+         {
+            "_className": "SpellCast",
+            "level": 1,
+            "name": "Shattering Gem"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 4,
+            "name": "Creation"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 7,
+            "name": "Magnificent Mansion"
+         }
+      ],
+      "followerAlignments": [
+         "Lawful Evil"
+      ]
+   },
+   {
+      "name": "Mephistopheles",
+      "category": "Archdevils",
+      "alignment": "Lawful Evil",
+      "divineAbility": [
+         "Intelligence",
+         "Charisma"
+      ],
+      "divineFont": [
+         "Harm"
+      ],
+      "divineSkill": [
+         "Deception"
+      ],
+      "favoredWeapon": [
+         "Trident"
+      ],
+      "domains": [
+         "Glyph",
+         "Knowledge",
+         "Secrecy",
+         "Tyranny"
+      ],
+      "clericSpells": [
+         {
+            "_className": "SpellCast",
+            "level": 1,
+            "name": "Message Rune"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 2,
+            "name": "Blistering Invective"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 5,
+            "name": "Subconscious Suggestion"
+         }
+      ],
+      "followerAlignments": [
+         "Lawful Evil"
+      ]
+   },
+   {
+      "name": "Moloch",
+      "category": "Archdevils",
+      "alignment": "Lawful Evil",
+      "divineAbility": [
+         "Strength",
+         "Constitution"
+      ],
+      "divineFont": [
+         "Harm"
+      ],
+      "divineSkill": [
+         "Athletics"
+      ],
+      "favoredWeapon": [
+         "Whip"
+      ],
+      "domains": [
+         "Destruction",
+         "Duty",
+         "Fire",
+         "Might"
+      ],
+      "clericSpells": [
+         {
+            "_className": "SpellCast",
+            "level": 1,
+            "name": "Burning Hands"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 5,
+            "name": "Acid Storm"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 7,
+            "name": "Fiery Body"
+         }
+      ],
+      "followerAlignments": [
+         "Lawful Evil"
+      ]
+   },
+   {
+      "name": "Abraxas",
+      "category": "Demon Lords",
+      "alignment": "Chaotic Evil",
+      "divineAbility": [
+         "Intelligence",
+         "Wisdom"
+      ],
+      "divineFont": [
+         "Harm"
+      ],
+      "divineSkill": [
+         "Arcana"
+      ],
+      "favoredWeapon": [
+         "Whip"
+      ],
+      "domains": [
+         "Destruction",
+         "Knowledge",
+         "Magic",
+         "Wyrmkin"
+      ],
+      "clericSpells": [
+         {
+            "_className": "SpellCast",
+            "level": 1,
+            "name": "Share Lore"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 2,
+            "name": "Spectral Hand"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 3,
+            "name": "Hypercognition"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 4,
+            "name": "Reflective Scales"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 5,
+            "name": "Black Tentacles"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 6,
+            "name": "Feeblemind"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 7,
+            "name": "Spell Turning"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 8,
+            "name": "Unrelenting Observation"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 9,
+            "name": "Disjunction"
+         }
+      ],
+      "followerAlignments": [
+         "Neutral Evil",
+         "Chaotic Evil"
+      ]
+   },
+   {
+      "name": "Angazhan",
+      "category": "Demon Lords",
+      "alignment": "Chaotic Evil",
+      "divineAbility": [
+         "Strength",
+         "Constitution"
+      ],
+      "divineFont": [
+         "Harm"
+      ],
+      "divineSkill": [
+         "Athletics"
+      ],
+      "favoredWeapon": [
+         "Spear"
+      ],
+      "domains": [
+         "Destruction",
+         "Might",
+         "Nature",
+         "Tyranny"
+      ],
+      "clericSpells": [
+         {
+            "_className": "SpellCast",
+            "level": 1,
+            "name": "Magic Fang"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 3,
+            "name": "Animal Form",
+            "note": "(ape only)"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 5,
+            "name": "Moon Frenzy"
+         }
+      ],
+      "followerAlignments": [
+         "Chaotic Evil"
+      ]
+   },
+   {
+      "name": "Baphomet",
+      "category": "Demon Lords",
+      "alignment": "Chaotic Evil",
+      "divineAbility": [
+         "Intelligence",
+         "Wisdom"
+      ],
+      "divineFont": [
+         "Harm"
+      ],
+      "divineSkill": [
+         "Survival"
+      ],
+      "favoredWeapon": [
+         "Glaive"
+      ],
+      "domains": [
+         "Indulgence",
+         "Might",
+         "Secrecy",
+         "Zeal"
+      ],
+      "clericSpells": [
+         {
+            "_className": "SpellCast",
+            "level": 1,
+            "name": "Summon Animal"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 2,
+            "name": "Enlarge"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 8,
+            "name": "Maze"
+         }
+      ],
+      "followerAlignments": [
+         "Chaotic Neutral",
+         "Chaotic Evil"
+      ]
+   },
+   {
+      "name": "Cyth-V'Sug",
+      "category": "Demon Lords",
+      "alignment": "Chaotic Evil",
+      "divineAbility": [
+         "Constitution",
+         "Wisdom"
+      ],
+      "divineFont": [
+         "Harm",
+         "Heal"
+      ],
+      "divineSkill": [
+         "Nature"
+      ],
+      "favoredWeapon": [
+         "Scimitar"
+      ],
+      "domains": [
+         "Change",
+         "Decay",
+         "Nature",
+         "Plague"
+      ],
+      "clericSpells": [
+         {
+            "_className": "SpellCast",
+            "level": 1,
+            "name": "Summon Plant or Fungus"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 2,
+            "name": "Fungal Hyphae"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 5,
+            "name": "Plant Form"
+         }
+      ],
+      "followerAlignments": [
+         "Chaotic Evil"
+      ]
+   },
+   {
+      "name": "Dagon",
+      "category": "Demon Lords",
+      "alignment": "Chaotic Evil",
+      "divineAbility": [
+         "Strength",
+         "Constitution"
+      ],
+      "divineFont": [
+         "Harm"
+      ],
+      "divineSkill": [
+         "Athletics"
+      ],
+      "favoredWeapon": [
+         "Trident"
+      ],
+      "domains": [
+         "Change",
+         "Destruction",
+         "Water",
+         "Zeal"
+      ],
+      "clericSpells": [
+         {
+            "_className": "SpellCast",
+            "level": 1,
+            "name": "Hydraulic Push"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 3,
+            "name": "Feet To Fins"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 6,
+            "name": "Chain Lightning"
+         }
+      ],
+      "followerAlignments": [
+         "Chaotic Neutral",
+         "Chaotic Evil"
+      ]
+   },
+   {
+      "name": "Gogunta",
+      "category": "Demon Lords",
+      "alignment": "Chaotic Evil",
+      "divineAbility": [
+         "Strength",
+         "Wisdom"
+      ],
+      "divineFont": [
+         "Harm"
+      ],
+      "divineSkill": [
+         "Intimidation"
+      ],
+      "favoredWeapon": [
+         "Whip"
+      ],
+      "domains": [
+         "Indulgence",
+         "Might",
+         "Tyranny",
+         "Water"
+      ],
+      "clericSpells": [
+         {
+            "_className": "SpellCast",
+            "level": 1,
+            "name": "Jump"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 3,
+            "name": "Stinking Cloud"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 5,
+            "name": "Black Tentacles"
+         }
+      ],
+      "followerAlignments": [
+         "Chaotic Evil"
+      ]
+   },
+   {
+      "name": "Kabriri",
+      "category": "Demon Lords",
+      "alignment": "Chaotic Evil",
+      "divineAbility": [
+         "Dexterity",
+         "Intelligence"
+      ],
+      "divineFont": [
+         "Harm"
+      ],
+      "divineSkill": [
+         "Stealth"
+      ],
+      "favoredWeapon": [
+         "Jaws",
+         "Flail"
+      ],
+      "domains": [
+         "Indulgence",
+         "Knowledge",
+         "Undeath",
+         "Vigil"
+      ],
+      "clericSpells": [
+         {
+            "_className": "SpellCast",
+            "level": 1,
+            "name": "Jump"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 2,
+            "name": "Expeditious Excavation"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 3,
+            "name": "Paralyze"
+         }
+      ],
+      "followerAlignments": [
+         "Neutral Evil",
+         "Chaotic Evil"
+      ]
+   },
+   {
+      "name": "Kostchtchie",
+      "category": "Demon Lords",
+      "alignment": "Chaotic Evil",
+      "divineAbility": [
+         "Strength",
+         "Constitution"
+      ],
+      "divineFont": [
+         "Harm"
+      ],
+      "divineSkill": [
+         "Athletics"
+      ],
+      "favoredWeapon": [
+         "Warhammer"
+      ],
+      "domains": [
+         "Cold",
+         "Destruction",
+         "Might",
+         "Zeal"
+      ],
+      "clericSpells": [
+         {
+            "_className": "SpellCast",
+            "level": 1,
+            "name": "Chilling Spray"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 2,
+            "name": "Enlarge"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 5,
+            "name": "Cone of Cold"
+         }
+      ],
+      "followerAlignments": [
+         "Neutral Evil",
+         "Chaotic Evil"
+      ]
+   },
+   {
+      "name": "Nurgal",
+      "category": "Demon Lords",
+      "alignment": "Chaotic Evil",
+      "divineAbility": [
+         "Constitution",
+         "Charisma"
+      ],
+      "divineFont": [
+         "Harm"
+      ],
+      "divineSkill": [
+         "Survival"
+      ],
+      "favoredWeapon": [
+         "Mace"
+      ],
+      "domains": [
+         "Destruction",
+         "Dust",
+         "Fire",
+         "Sun"
+      ],
+      "clericSpells": [
+         {
+            "_className": "SpellCast",
+            "level": 1,
+            "name": "Burning Hands"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 2,
+            "name": "Flaming Sphere"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 3,
+            "name": "Cup of Dust"
+         }
+      ],
+      "followerAlignments": [
+         "Neutral Evil",
+         "Chaotic Evil"
+      ]
+   },
+   {
+      "name": "Pazuzu",
+      "category": "Demon Lords",
+      "alignment": "Chaotic Evil",
+      "divineAbility": [
+         "Dexterity",
+         "Charisma"
+      ],
+      "divineFont": [
+         "Harm"
+      ],
+      "divineSkill": [
+         "Diplomacy"
+      ],
+      "favoredWeapon": [
+         "Longsword"
+      ],
+      "domains": [
+         "Air",
+         "Swarm",
+         "Trickery",
+         "Tyranny"
+      ],
+      "clericSpells": [
+         {
+            "_className": "SpellCast",
+            "level": 1,
+            "name": "Gust of Wind"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 3,
+            "name": "Suggestion"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 4,
+            "name": "Fly"
+         }
+      ],
+      "followerAlignments": [
+         "Chaotic Evil"
+      ]
+   },
+   {
+      "name": "Shax",
+      "category": "Demon Lords",
+      "alignment": "Chaotic Evil",
+      "divineAbility": [
+         "Dexterity",
+         "Charisma"
+      ],
+      "divineFont": [
+         "Harm"
+      ],
+      "divineSkill": [
+         "Intimidation"
+      ],
+      "favoredWeapon": [
+         "Dagger"
+      ],
+      "domains": [
+         "Ambition",
+         "Death",
+         "Pain",
+         "Trickery"
+      ],
+      "clericSpells": [
+         {
+            "_className": "SpellCast",
+            "level": 1,
+            "name": "Phantom Pain"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 2,
+            "name": "Invisibility"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 3,
+            "name": "Haste"
+         }
+      ],
+      "followerAlignments": [
+         "Neutral Evil",
+         "Chaotic Evil"
+      ]
+   },
+   {
+      "name": "Sifkesh",
+      "category": "Demon Lords",
+      "alignment": "Chaotic Evil",
+      "divineAbility": [
+         "Wisdom",
+         "Charisma"
+      ],
+      "divineFont": [
+         "Harm"
+      ],
+      "divineSkill": [
+         "Deception"
+      ],
+      "favoredWeapon": [
+         "War Razor"
+      ],
+      "domains": [
+         "Nightmares",
+         "Pain",
+         "Sorrow",
+         "Trickery"
+      ],
+      "clericSpells": [
+         {
+            "_className": "SpellCast",
+            "level": 1,
+            "name": "Ill Omen"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 4,
+            "name": "Crushing Despair"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 5,
+            "name": "Subconscious Suggestion"
+         }
+      ],
+      "followerAlignments": [
+         "Neutral Evil",
+         "Chaotic Evil"
+      ]
+   },
+   {
+      "name": "Treerazer",
+      "category": "Demon Lords",
+      "alignment": "Chaotic Evil",
+      "divineAbility": [
+         "Strength",
+         "Constitution"
+      ],
+      "divineFont": [
+         "Harm",
+         "Heal"
+      ],
+      "divineSkill": [
+         "Survival"
+      ],
+      "favoredWeapon": [
+         "Battle Axe"
+      ],
+      "domains": [
+         "Destruction",
+         "Nature",
+         "Nightmares",
+         "Tyranny"
+      ],
+      "clericSpells": [
+         {
+            "_className": "SpellCast",
+            "level": 1,
+            "name": "Grim Tendrils"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 3,
+            "name": "Wall of Thorns"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 6,
+            "name": "Tangling Creepers"
+         }
+      ],
+      "followerAlignments": [
+         "Neutral Evil",
+         "Chaotic Evil"
+      ]
+   },
+   {
+      "name": "Zevgavizeb",
+      "category": "Demon Lords",
+      "alignment": "Chaotic Evil",
+      "divineAbility": [
+         "Strength",
+         "Constitution"
+      ],
+      "divineFont": [
+         "Harm"
+      ],
+      "divineSkill": [
+         "Survival"
+      ],
+      "favoredWeapon": [
+         "Spiked Gauntlet"
+      ],
+      "domains": [
+         "Destruction",
+         "Might",
+         "Nature",
+         "Wyrmkin"
+      ],
+      "clericSpells": [
+         {
+            "_className": "SpellCast",
+            "level": 1,
+            "name": "Magic Fang"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 4,
+            "name": "Dinosaur Form"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 8,
+            "name": "Earthquake"
+         }
+      ],
+      "followerAlignments": [
+         "Neutral Evil",
+         "Chaotic Evil"
+      ]
+   },
+   {
+      "name": "Zura",
+      "category": "Demon Lords",
+      "alignment": "Chaotic Evil",
+      "divineAbility": [
+         "Strength",
+         "Charisma"
+      ],
+      "divineFont": [
+         "Harm"
+      ],
+      "divineSkill": [
+         "Diplomacy"
+      ],
+      "favoredWeapon": [
+         "Rapier"
+      ],
+      "domains": [
+         "Delirium",
+         "Indulgence",
+         "Nightmares",
+         "Undeath"
+      ],
+      "clericSpells": [
+         {
+            "_className": "SpellCast",
+            "level": 1,
+            "name": "Charm"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 4,
+            "name": "Gaseous Form"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 6,
+            "name": "Dominate"
+         }
+      ],
+      "followerAlignments": [
+         "Neutral Evil",
+         "Chaotic Evil"
+      ]
+   },
+   {
+      "name": "Angradd",
+      "category": "Dwarven Gods",
+      "alignment": "Lawful Good",
+      "divineAbility": [
+         "Strength",
+         "Constitution"
+      ],
+      "divineFont": [
+         "Heal"
+      ],
+      "divineSkill": [
+         "Athletics"
+      ],
+      "favoredWeapon": [
+         "Greataxe"
+      ],
+      "domains": [
+         "Fate",
+         "Fire",
+         "Protection",
+         "Zeal"
+      ],
+      "clericSpells": [
+         {
+            "_className": "SpellCast",
+            "level": 1,
+            "name": "Burning Hands"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 2,
+            "name": "Blistering Invective"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 3,
+            "name": "Fireball"
+         }
+      ],
+      "followerAlignments": [
+         "Lawful Good",
+         "Lawful Neutral"
+      ]
+   },
+   {
+      "name": "Bolka",
+      "category": "Dwarven Gods",
+      "alignment": "Neutral Good",
+      "divineAbility": [
+         "Wisdom",
+         "Charisma"
+      ],
+      "divineFont": [
+         "Heal"
+      ],
+      "divineSkill": [
+         "Diplomacy"
+      ],
+      "favoredWeapon": [
+         "Mace"
+      ],
+      "domains": [
+         "Confidence",
+         "Family",
+         "Healing",
+         "Passion"
+      ],
+      "clericSpells": [
+         {
+            "_className": "SpellCast",
+            "level": 1,
+            "name": "Soothe"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 4,
+            "name": "Creation"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 6,
+            "name": "Collective Transposition"
+         }
+      ],
+      "followerAlignments": [
+         "Lawful Good",
+         "Neutral Good",
+         "Chaotic Good"
+      ]
+   },
+   {
+      "name": "Dranngvit",
+      "category": "Dwarven Gods",
+      "alignment": "Lawful Neutral",
+      "divineAbility": [
+         "Constitution",
+         "Wisdom"
+      ],
+      "divineFont": [
+         "Harm",
+         "Heal"
+      ],
+      "divineSkill": [
+         "Intimidation"
+      ],
+      "favoredWeapon": [
+         "Light Pick"
+      ],
+      "domains": [
+         "Knowledge",
+         "Might",
+         "Travel",
+         "Vigil"
+      ],
+      "clericSpells": [
+         {
+            "_className": "SpellCast",
+            "level": 1,
+            "name": "Longstrider"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 2,
+            "name": "Knock"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 5,
+            "name": "Passwall"
+         }
+      ],
+      "followerAlignments": [
+         "Lawful Neutral",
+         "Lawful Evil"
+      ]
+   },
+   {
+      "name": "Droskar",
+      "category": "Dwarven Gods",
+      "alignment": "Neutral Evil",
+      "divineAbility": [
+         "Constitution",
+         "Intelligence"
+      ],
+      "divineFont": [
+         "Harm"
+      ],
+      "divineSkill": [
+         "Crafting"
+      ],
+      "favoredWeapon": [
+         "Light Hammer"
+      ],
+      "domains": [
+         "Ambition",
+         "Duty",
+         "Earth",
+         "Fire",
+         "Toil",
+         "Truth",
+         "Tyranny"
+      ],
+      "clericSpells": [
+         {
+            "_className": "SpellCast",
+            "level": 1,
+            "name": "Ant Haul"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 3,
+            "name": "Haste"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 6,
+            "name": "Dominate"
+         }
+      ],
+      "followerAlignments": [
+         "Lawful Evil",
+         "Neutral Evil",
+         "Chaotic Evil"
+      ]
+   },
+   {
+      "name": "Folgrit",
+      "category": "Dwarven Gods",
+      "alignment": "Lawful Good",
+      "divineAbility": [
+         "Constitution",
+         "Wisdom"
+      ],
+      "divineFont": [
+         "Heal"
+      ],
+      "divineSkill": [
+         "Medicine"
+      ],
+      "favoredWeapon": [
+         "Staff"
+      ],
+      "domains": [
+         "Cities",
+         "Family",
+         "Protection",
+         "Repose"
+      ],
+      "clericSpells": [
+         {
+            "_className": "SpellCast",
+            "level": 1,
+            "name": "Endure"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 4,
+            "name": "Fire Shield"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 9,
+            "name": "Resplendent Mansion"
+         }
+      ],
+      "followerAlignments": [
+         "Lawful Good",
+         "Neutral Good",
+         "Lawful Neutral"
+      ]
+   },
+   {
+      "name": "Grundinnar",
+      "category": "Dwarven Gods",
+      "alignment": "Lawful Good",
+      "divineAbility": [
+         "Constitution",
+         "Charisma"
+      ],
+      "divineFont": [
+         "Heal"
+      ],
+      "divineSkill": [
+         "Diplomacy"
+      ],
+      "favoredWeapon": [
+         "Light Hammer"
+      ],
+      "domains": [
+         "Confidence",
+         "Family",
+         "Protection",
+         "Truth"
+      ],
+      "clericSpells": [
+         {
+            "_className": "SpellCast",
+            "level": 1,
+            "name": "Anticipate Peril"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 4,
+            "name": "Resilient Sphere"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 6,
+            "name": "Wall of Force"
+         }
+      ],
+      "followerAlignments": [
+         "Lawful Good",
+         "Neutral Good"
+      ]
+   },
+   {
+      "name": "Kols",
+      "category": "Dwarven Gods",
+      "alignment": "Lawful Neutral",
+      "divineAbility": [
+         "Strength",
+         "Wisdom"
+      ],
+      "divineFont": [
+         "Harm",
+         "Heal"
+      ],
+      "divineSkill": [
+         "Society"
+      ],
+      "favoredWeapon": [
+         "Light Hammer"
+      ],
+      "domains": [
+         "Duty",
+         "Knowledge",
+         "Might",
+         "Truth"
+      ],
+      "clericSpells": [
+         {
+            "_className": "SpellCast",
+            "level": 1,
+            "name": "Unseen Servant"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 4,
+            "name": "Suggestion"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 8,
+            "name": "Unrelenting Observation"
+         }
+      ],
+      "followerAlignments": [
+         "Lawful Good",
+         "Lawful Neutral"
+      ]
+   },
+   {
+      "name": "Magrim",
+      "category": "Dwarven Gods",
+      "alignment": "Lawful Neutral",
+      "divineAbility": [
+         "Constitution",
+         "Wisdom"
+      ],
+      "divineFont": [
+         "Heal"
+      ],
+      "divineSkill": [
+         "Crafting"
+      ],
+      "favoredWeapon": [
+         "Warhammer"
+      ],
+      "domains": [
+         "Death",
+         "Duty",
+         "Fate",
+         "Glyph"
+      ],
+      "clericSpells": [
+         {
+            "_className": "SpellCast",
+            "level": 1,
+            "name": "Temporary Tool"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 2,
+            "name": "Expeditious Excavation"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 9,
+            "name": "Earthquake"
+         }
+      ],
+      "followerAlignments": [
+         "Lawful Good",
+         "Lawful Neutral",
+         "Neutral"
+      ]
+   },
+   {
+      "name": "Trudd",
+      "category": "Dwarven Gods",
+      "alignment": "Neutral Good",
+      "divineAbility": [
+         "Strength",
+         "Constitution"
+      ],
+      "divineFont": [
+         "Heal"
+      ],
+      "divineSkill": [
+         "Athletics"
+      ],
+      "favoredWeapon": [
+         "Warhammer"
+      ],
+      "domains": [
+         "Confidence",
+         "Duty",
+         "Might",
+         "Protection"
+      ],
+      "clericSpells": [
+         {
+            "_className": "SpellCast",
+            "level": 1,
+            "name": "Endure"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 3,
+            "name": "Haste"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 4,
+            "name": "Stoneskin"
+         }
+      ],
+      "followerAlignments": [
+         "Lawful Good",
+         "Neutral Good"
+      ]
+   },
+   {
+      "name": "Count Ranalc",
+      "category": "Eldest",
+      "alignment": "Chaotic Neutral",
+      "divineAbility": [
+         "Dexterity",
+         "Charisma"
+      ],
+      "divineFont": [
+         "Harm",
+         "Heal"
+      ],
+      "divineSkill": [
+         "Stealth"
+      ],
+      "favoredWeapon": [
+         "Rapier"
+      ],
+      "domains": [
+         "Confidence",
+         "Darkness",
+         "Sorrow",
+         "Travel"
+      ],
+      "clericSpells": [
+         {
+            "_className": "SpellCast",
+            "level": 1,
+            "name": "Penumbral Shroud"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 4,
+            "name": "Private Sanctum"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 5,
+            "name": "Shadow Walk"
+         }
+      ],
+      "followerAlignments": [
+         "Chaotic Good",
+         "Neutral",
+         "Chaotic Neutral",
+         "Chaotic Evil"
+      ]
+   },
+   {
+      "name": "Imbrex",
+      "category": "Eldest",
+      "alignment": "Lawful Neutral",
+      "divineAbility": [
+         "Constitution",
+         "Wisdom"
+      ],
+      "divineFont": [
+         "Harm",
+         "Heal"
+      ],
+      "divineSkill": [
+         "Occultism"
+      ],
+      "favoredWeapon": [
+         "War Flail"
+      ],
+      "domains": [
+         "Dreams",
+         "Earth",
+         "Family",
+         "Might"
+      ],
+      "clericSpells": [
+         {
+            "_className": "SpellCast",
+            "level": 1,
+            "name": "Mindlink"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 2,
+            "name": "Mirror Image"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 4,
+            "name": "Stoneskin"
+         }
+      ],
+      "followerAlignments": [
+         "Lawful Neutral",
+         "Neutral",
+         "Lawful Evil"
+      ]
+   },
+   {
+      "name": "Magdh",
+      "category": "Eldest",
+      "alignment": "Lawful Neutral",
+      "divineAbility": [
+         "Intelligence",
+         "Wisdom"
+      ],
+      "divineFont": [
+         "Harm",
+         "Heal"
+      ],
+      "divineSkill": [
+         "Occultism"
+      ],
+      "favoredWeapon": [
+         "Scythe"
+      ],
+      "domains": [
+         "Fate",
+         "Glyph",
+         "Knowledge",
+         "Truth"
+      ],
+      "clericSpells": [
+         {
+            "_className": "SpellCast",
+            "level": 1,
+            "name": "Anticipate Peril"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 3,
+            "name": "Threefold Aspect"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 6,
+            "name": "Scrying"
+         }
+      ],
+      "followerAlignments": [
+         "Lawful Neutral",
+         "Neutral"
+      ]
+   },
+   {
+      "name": "Ng",
+      "category": "Eldest",
+      "alignment": "Neutral",
+      "divineAbility": [
+         "Wisdom",
+         "Charisma"
+      ],
+      "divineFont": [
+         "Harm",
+         "Heal"
+      ],
+      "divineSkill": [
+         "Survival"
+      ],
+      "favoredWeapon": [
+         "Gauntlet"
+      ],
+      "domains": [
+         "Knowledge",
+         "Magic",
+         "Secrecy",
+         "Travel"
+      ],
+      "clericSpells": [
+         {
+            "_className": "SpellCast",
+            "level": 1,
+            "name": "Pass Without Trace"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 2,
+            "name": "Invisibility"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 4,
+            "name": "Blink"
+         }
+      ],
+      "followerAlignments": [
+         "Neutral"
+      ]
+   },
+   {
+      "name": "Ragadahn",
+      "category": "Eldest",
+      "alignment": "Chaotic Evil",
+      "divineAbility": [
+         "Strength",
+         "Wisdom"
+      ],
+      "divineFont": [
+         "Harm",
+         "Heal"
+      ],
+      "divineSkill": [
+         "Occultism"
+      ],
+      "favoredWeapon": [
+         "Whip"
+      ],
+      "domains": [
+         "Destruction",
+         "Vigil",
+         "Water",
+         "Wyrmkin"
+      ],
+      "clericSpells": [
+         {
+            "_className": "SpellCast",
+            "level": 1,
+            "name": "Hydraulic Push"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 3,
+            "name": "Feet To Fins"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 6,
+            "name": "Purple Worm Sting"
+         }
+      ],
+      "followerAlignments": [
+         "Chaotic Neutral",
+         "Neutral Evil",
+         "Chaotic Evil"
+      ]
+   },
+   {
+      "name": "Shyka",
+      "category": "Eldest",
+      "alignment": "Neutral",
+      "divineAbility": [
+         "Dexterity",
+         "Intelligence"
+      ],
+      "divineFont": [
+         "Harm",
+         "Heal"
+      ],
+      "divineSkill": [
+         "Occultism"
+      ],
+      "favoredWeapon": [
+         "Light Mace"
+      ],
+      "domains": [
+         "Decay",
+         "Delirium",
+         "Fate",
+         "Time"
+      ],
+      "clericSpells": [
+         {
+            "_className": "SpellCast",
+            "level": 1,
+            "name": "Anticipate Peril"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 3,
+            "name": "Haste"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 7,
+            "name": "Time Beacon"
+         }
+      ],
+      "followerAlignments": [
+         "Neutral Good",
+         "Lawful Neutral",
+         "Neutral",
+         "Chaotic Neutral",
+         "Neutral Evil"
+      ]
+   },
+   {
+      "name": "The Green Mother",
+      "category": "Eldest",
+      "alignment": "Neutral Evil",
+      "divineAbility": [
+         "Constitution",
+         "Charisma"
+      ],
+      "divineFont": [
+         "Harm",
+         "Heal"
+      ],
+      "divineSkill": [
+         "Nature"
+      ],
+      "favoredWeapon": [
+         "Sickle"
+      ],
+      "domains": [
+         "Decay",
+         "Indulgence",
+         "Nature",
+         "Passion"
+      ],
+      "clericSpells": [
+         {
+            "_className": "SpellCast",
+            "level": 1,
+            "name": "Charm"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 4,
+            "name": "Suggestion"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 5,
+            "name": "Plant Form"
+         }
+      ],
+      "followerAlignments": [
+         "Neutral Evil",
+         "Chaotic Evil"
+      ]
+   },
+   {
+      "name": "The Lantern King",
+      "category": "Eldest",
+      "alignment": "Chaotic Neutral",
+      "divineAbility": [
+         "Intelligence",
+         "Charisma"
+      ],
+      "divineFont": [
+         "Harm",
+         "Heal"
+      ],
+      "divineSkill": [
+         "Deception"
+      ],
+      "favoredWeapon": [
+         "Dagger"
+      ],
+      "domains": [
+         "Change",
+         "Delirium",
+         "Passion",
+         "Trickery"
+      ],
+      "clericSpells": [
+         {
+            "_className": "SpellCast",
+            "level": 1,
+            "name": "Illusory Disguise"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 2,
+            "name": "Hideous Laughter"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 6,
+            "name": "Baleful Polymorph"
+         }
+      ],
+      "followerAlignments": [
+         "Chaotic Neutral",
+         "Chaotic Evil"
+      ]
+   },
+   {
+      "name": "The Lost Prince",
+      "category": "Eldest",
+      "alignment": "Neutral",
+      "divineAbility": [
+         "Intelligence",
+         "Wisdom"
+      ],
+      "divineFont": [
+         "Harm",
+         "Heal"
+      ],
+      "divineSkill": [
+         "Society"
+      ],
+      "favoredWeapon": [
+         "Staff"
+      ],
+      "domains": [
+         "Knowledge",
+         "Repose",
+         "Sorrow",
+         "Vigil"
+      ],
+      "clericSpells": [
+         {
+            "_className": "SpellCast",
+            "level": 1,
+            "name": "Soothe"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 4,
+            "name": "Modify Memory"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 5,
+            "name": "Crushing Despair"
+         }
+      ],
+      "followerAlignments": [
+         "Neutral Good",
+         "Neutral"
+      ]
+   },
+   {
+      "name": "Atreia",
+      "category": "Elemental Lords",
+      "alignment": "Neutral Good",
+      "divineAbility": [
+         "Wisdom",
+         "Charisma"
+      ],
+      "divineFont": [
+         "Heal"
+      ],
+      "divineSkill": [
+         "Performance"
+      ],
+      "favoredWeapon": [
+         "Katar"
+      ],
+      "domains": [
+         "Fire",
+         "Healing",
+         "Protection",
+         "Sun"
+      ],
+      "clericSpells": [
+         {
+            "_className": "SpellCast",
+            "level": 1,
+            "name": "Soothe"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 3,
+            "name": "Ghostly Weapon"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 4,
+            "name": "Fire Shield"
+         }
+      ],
+      "followerAlignments": [
+         "Lawful Good",
+         "Neutral Good",
+         "Chaotic Good",
+         "Neutral"
+      ]
+   },
+   {
+      "name": "Ayrzul",
+      "category": "Elemental Lords",
+      "alignment": "Neutral Evil",
+      "divineAbility": [
+         "Strength",
+         "Constitution"
+      ],
+      "divineFont": [
+         "Harm"
+      ],
+      "divineSkill": [
+         "Deception"
+      ],
+      "favoredWeapon": [
+         "Morningstar"
+      ],
+      "domains": [
+         "Destruction",
+         "Earth",
+         "Might",
+         "Secrecy"
+      ],
+      "clericSpells": [
+         {
+            "_className": "SpellCast",
+            "level": 1,
+            "name": "Shockwave"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 2,
+            "name": "Summon Elemental",
+            "note": "(earth only)"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 6,
+            "name": "Flesh To Stone"
+         }
+      ],
+      "followerAlignments": [
+         "Neutral",
+         "Lawful Evil",
+         "Neutral Evil",
+         "Chaotic Evil"
+      ]
+   },
+   {
+      "name": "Hshurha",
+      "category": "Elemental Lords",
+      "alignment": "Neutral Evil",
+      "divineAbility": [
+         "Strength",
+         "Dexterity"
+      ],
+      "divineFont": [
+         "Harm"
+      ],
+      "divineSkill": [
+         "Stealth"
+      ],
+      "favoredWeapon": [
+         "Longbow"
+      ],
+      "domains": [
+         "Air",
+         "Cold",
+         "Destruction",
+         "Dust"
+      ],
+      "clericSpells": [
+         {
+            "_className": "SpellCast",
+            "level": 1,
+            "name": "Gust of Wind"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 2,
+            "name": "Summon Elemental",
+            "note": "(air only)"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 4,
+            "name": "Gaseous Form"
+         }
+      ],
+      "followerAlignments": [
+         "Neutral",
+         "Lawful Evil",
+         "Neutral Evil",
+         "Chaotic Evil"
+      ]
+   },
+   {
+      "name": "Kelizandri",
+      "category": "Elemental Lords",
+      "alignment": "Neutral Evil",
+      "divineAbility": [
+         "Constitution",
+         "Charisma"
+      ],
+      "divineFont": [
+         "Harm"
+      ],
+      "divineSkill": [
+         "Athletics"
+      ],
+      "favoredWeapon": [
+         "Trident"
+      ],
+      "domains": [
+         "Destruction",
+         "Nightmares",
+         "Travel",
+         "Water"
+      ],
+      "clericSpells": [
+         {
+            "_className": "SpellCast",
+            "level": 1,
+            "name": "Fear"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 2,
+            "name": "Summon Elemental",
+            "note": "(water only)"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 4,
+            "name": "Hydraulic Torrent"
+         }
+      ],
+      "followerAlignments": [
+         "Neutral",
+         "Lawful Evil",
+         "Neutral Evil",
+         "Chaotic Evil"
+      ]
+   },
+   {
+      "name": "Lysianassa",
+      "category": "Elemental Lords",
+      "alignment": "Neutral Good",
+      "divineAbility": [
+         "Dexterity",
+         "Constitution"
+      ],
+      "divineFont": [
+         "Heal"
+      ],
+      "divineSkill": [
+         "Survival"
+      ],
+      "favoredWeapon": [
+         "Spear"
+      ],
+      "domains": [
+         "Change",
+         "Fate",
+         "Nature",
+         "Water"
+      ],
+      "clericSpells": [
+         {
+            "_className": "SpellCast",
+            "level": 1,
+            "name": "Hydraulic Push"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 3,
+            "name": "Aqueous Orb"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 5,
+            "name": "Control Water"
+         }
+      ],
+      "followerAlignments": [
+         "Lawful Good",
+         "Neutral Good",
+         "Chaotic Good",
+         "Neutral"
+      ]
+   },
+   {
+      "name": "Ranginori",
+      "category": "Elemental Lords",
+      "alignment": "Neutral Good",
+      "divineAbility": [
+         "Dexterity",
+         "Charisma"
+      ],
+      "divineFont": [
+         "Heal"
+      ],
+      "divineSkill": [
+         "Acrobatics"
+      ],
+      "favoredWeapon": [
+         "Whip"
+      ],
+      "domains": [
+         "Air",
+         "Freedom",
+         "Lightning",
+         "Travel"
+      ],
+      "clericSpells": [
+         {
+            "_className": "SpellCast",
+            "level": 1,
+            "name": "Liberating Command"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 4,
+            "name": "Fly"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 6,
+            "name": "Chain Lightning"
+         }
+      ],
+      "followerAlignments": [
+         "Lawful Good",
+         "Neutral Good",
+         "Chaotic Good",
+         "Neutral"
+      ]
+   },
+   {
+      "name": "Sairazul",
+      "category": "Elemental Lords",
+      "alignment": "Neutral Good",
+      "divineAbility": [
+         "Constitution",
+         "Charisma"
+      ],
+      "divineFont": [
+         "Heal"
+      ],
+      "divineSkill": [
+         "Nature"
+      ],
+      "favoredWeapon": [
+         "Pick"
+      ],
+      "domains": [
+         "Earth",
+         "Family",
+         "Toil",
+         "Wealth"
+      ],
+      "clericSpells": [
+         {
+            "_className": "SpellCast",
+            "level": 1,
+            "name": "Shattering Gem"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 2,
+            "name": "Expeditious Excavation"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 4,
+            "name": "Stoneskin"
+         }
+      ],
+      "followerAlignments": [
+         "Lawful Good",
+         "Neutral Good",
+         "Chaotic Good",
+         "Neutral"
+      ]
+   },
+   {
+      "name": "Ymeri",
+      "category": "Elemental Lords",
+      "alignment": "Neutral Evil",
+      "divineAbility": [
+         "Strength",
+         "Charisma"
+      ],
+      "divineFont": [
+         "Harm"
+      ],
+      "divineSkill": [
+         "Intimidation"
+      ],
+      "favoredWeapon": [
+         "Longsword"
+      ],
+      "domains": [
+         "Destruction",
+         "Dust",
+         "Fire",
+         "Zeal"
+      ],
+      "clericSpells": [
+         {
+            "_className": "SpellCast",
+            "level": 1,
+            "name": "Burning Hands"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 2,
+            "name": "Summon Elemental",
+            "note": "(fire only)"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 4,
+            "name": "Wall of Fire"
+         }
+      ],
+      "followerAlignments": [
+         "Neutral",
+         "Lawful Evil",
+         "Neutral Evil",
+         "Chaotic Evil"
+      ]
+   },
+   {
+      "name": "Findeladlara",
+      "category": "Elven Gods",
+      "alignment": "Chaotic Good",
+      "divineAbility": [
+         "Charisma",
+         "Intelligence"
+      ],
+      "divineFont": [
+         "Heal"
+      ],
+      "divineSkill": [
+         "Crafting"
+      ],
+      "favoredWeapon": [
+         "Staff"
+      ],
+      "domains": [
+         "Cities",
+         "Creation",
+         "Family",
+         "Star"
+      ],
+      "clericSpells": [
+         {
+            "_className": "SpellCast",
+            "level": 1,
+            "name": "Temporary Tool"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 4,
+            "name": "Shape Stone"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 7,
+            "name": "Magnificent Mansion"
+         }
+      ],
+      "followerAlignments": [
+         "Neutral Good",
+         "Chaotic Good",
+         "Neutral",
+         "Chaotic Neutral"
+      ]
+   },
+   {
+      "name": "Ketephys",
+      "category": "Elven Gods",
+      "alignment": "Chaotic Good",
+      "divineAbility": [
+         "Dexterity",
+         "Wisdom"
+      ],
+      "divineFont": [
+         "Heal"
+      ],
+      "divineSkill": [
+         "Survival"
+      ],
+      "favoredWeapon": [
+         "Longbow"
+      ],
+      "domains": [
+         "Darkness",
+         "Moon",
+         "Nature",
+         "Secrecy"
+      ],
+      "clericSpells": [
+         {
+            "_className": "SpellCast",
+            "level": 1,
+            "name": "Pass Without Trace"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 2,
+            "name": "Invisibility"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 3,
+            "name": "Animal Vision"
+         }
+      ],
+      "followerAlignments": [
+         "Neutral Good",
+         "Chaotic Good"
+      ]
+   },
+   {
+      "name": "Yuelral",
+      "category": "Elven Gods",
+      "alignment": "Neutral Good",
+      "divineAbility": [
+         "Intelligence",
+         "Wisdom"
+      ],
+      "divineFont": [
+         "Heal"
+      ],
+      "divineSkill": [
+         "Arcana"
+      ],
+      "favoredWeapon": [
+         "Dagger"
+      ],
+      "domains": [
+         "Creation",
+         "Earth",
+         "Knowledge",
+         "Magic"
+      ],
+      "clericSpells": [
+         {
+            "_className": "SpellCast",
+            "level": 1,
+            "name": "Shattering Gem"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 2,
+            "name": "Shape Wood"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 3,
+            "name": "Meld into Stone"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 4,
+            "name": "Speak with Plants"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 5,
+            "name": "Tree Stride"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 6,
+            "name": "Tangling Creepers"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 7,
+            "name": "Unfettered Pack"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 8,
+            "name": "Prismatic Wall"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 9,
+            "name": "Nature's Enmity"
+         }
+      ],
+      "followerAlignments": [
+         "Lawful Good",
+         "Neutral Good",
+         "Chaotic Good",
+         "Neutral"
+      ]
+   },
+   {
+      "name": "Andoletta",
+      "category": "Empyreal Lords",
+      "alignment": "Lawful Good",
+      "divineAbility": [
+         "Wisdom",
+         "Charisma"
+      ],
+      "divineFont": [
+         "Heal"
+      ],
+      "divineSkill": [
+         "Society"
+      ],
+      "favoredWeapon": [
+         "Staff"
+      ],
+      "domains": [
+         "Family",
+         "Knowledge",
+         "Protection",
+         "Sorrow"
+      ],
+      "clericSpells": [
+         {
+            "_className": "SpellCast",
+            "level": 1,
+            "name": "Shillelagh"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 4,
+            "name": "Aerial Form",
+            "note": "(bird only)"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 6,
+            "name": "Collective Transposition"
+         }
+      ],
+      "followerAlignments": [
+         "Lawful Good",
+         "Neutral Good"
+      ]
+   },
+   {
+      "name": "Arshea",
+      "category": "Empyreal Lords",
+      "alignment": "Neutral Good",
+      "divineAbility": [
+         "Constitution",
+         "Charisma"
+      ],
+      "divineFont": [
+         "Heal"
+      ],
+      "divineSkill": [
+         "Diplomacy"
+      ],
+      "favoredWeapon": [
+         "Flail"
+      ],
+      "domains": [
+         "Confidence",
+         "Freedom",
+         "Passion",
+         "Perfection"
+      ],
+      "clericSpells": [
+         {
+            "_className": "SpellCast",
+            "level": 1,
+            "name": "Mage Armor"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 2,
+            "name": "Humanoid Form"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 5,
+            "name": "Dreaming Potential"
+         }
+      ],
+      "followerAlignments": [
+         "Lawful Good",
+         "Neutral Good",
+         "Chaotic Good"
+      ]
+   },
+   {
+      "name": "Ashava",
+      "category": "Empyreal Lords",
+      "alignment": "Chaotic Good",
+      "divineAbility": [
+         "Dexterity",
+         "Charisma"
+      ],
+      "divineFont": [
+         "Heal"
+      ],
+      "divineSkill": [
+         "Performance"
+      ],
+      "favoredWeapon": [
+         "Bladed Scarf"
+      ],
+      "domains": [
+         "Darkness",
+         "Moon",
+         "Repose",
+         "Soul"
+      ],
+      "clericSpells": [
+         {
+            "_className": "SpellCast",
+            "level": 1,
+            "name": "Soothe"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 2,
+            "name": "Glitterdust"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 8,
+            "name": "Uncontrollable Dance"
+         }
+      ],
+      "followerAlignments": [
+         "Neutral Good",
+         "Chaotic Good"
+      ]
+   },
+   {
+      "name": "Black Butterfly",
+      "category": "Empyreal Lords",
+      "alignment": "Chaotic Good",
+      "divineAbility": [
+         "Dexterity",
+         "Wisdom"
+      ],
+      "divineFont": [
+         "Heal"
+      ],
+      "divineSkill": [
+         "Stealth"
+      ],
+      "favoredWeapon": [
+         "Starknife"
+      ],
+      "domains": [
+         "Freedom",
+         "Secrecy",
+         "Star",
+         "Void"
+      ],
+      "clericSpells": [
+         {
+            "_className": "SpellCast",
+            "level": 1,
+            "name": "Penumbral Shroud"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 2,
+            "name": "Blur"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 4,
+            "name": "Blink"
+         }
+      ],
+      "followerAlignments": [
+         "Neutral Good",
+         "Chaotic Good"
+      ]
+   },
+   {
+      "name": "Cernunnos",
+      "category": "Empyreal Lords",
+      "alignment": "Chaotic Good",
+      "divineAbility": [
+         "Strength",
+         "Constitution"
+      ],
+      "divineFont": [
+         "Heal"
+      ],
+      "divineSkill": [
+         "Survival"
+      ],
+      "favoredWeapon": [
+         "Longbow"
+      ],
+      "domains": [
+         "Lightning",
+         "Nature",
+         "Passion",
+         "Zeal"
+      ],
+      "clericSpells": [
+         {
+            "_className": "SpellCast",
+            "level": 1,
+            "name": "True Strike"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 2,
+            "name": "Animal Form"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 3,
+            "name": "Lightning Bolt"
+         }
+      ],
+      "followerAlignments": [
+         "Lawful Good",
+         "Neutral Good",
+         "Chaotic Good"
+      ]
+   },
+   {
+      "name": "Dammerich",
+      "category": "Empyreal Lords",
+      "alignment": "Lawful Good",
+      "divineAbility": [
+         "Constitution",
+         "Wisdom"
+      ],
+      "divineFont": [
+         "Harm",
+         "Heal"
+      ],
+      "divineSkill": [
+         "Athletics"
+      ],
+      "favoredWeapon": [
+         "Greataxe"
+      ],
+      "domains": [
+         "Death",
+         "Duty",
+         "Truth",
+         "Vigil"
+      ],
+      "clericSpells": [
+         {
+            "_className": "SpellCast",
+            "level": 1,
+            "name": "True Strike"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 3,
+            "name": "Paralyze"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 4,
+            "name": "Stoneskin"
+         }
+      ],
+      "followerAlignments": [
+         "Lawful Good"
+      ]
+   },
+   {
+      "name": "Eritrice",
+      "category": "Empyreal Lords",
+      "alignment": "Neutral Good",
+      "divineAbility": [
+         "Intelligence",
+         "Charisma"
+      ],
+      "divineFont": [
+         "Heal"
+      ],
+      "divineSkill": [
+         "Diplomacy"
+      ],
+      "favoredWeapon": [
+         "Dagger"
+      ],
+      "domains": [
+         "Confidence",
+         "Glyph",
+         "Knowledge",
+         "Truth"
+      ],
+      "clericSpells": [
+         {
+            "_className": "SpellCast",
+            "level": 1,
+            "name": "Mindlink"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 2,
+            "name": "Comprehend Languages"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 3,
+            "name": "Enthrall"
+         }
+      ],
+      "followerAlignments": [
+         "Lawful Good",
+         "Neutral Good",
+         "Chaotic Good"
+      ]
+   },
+   {
+      "name": "Falayna",
+      "category": "Empyreal Lords",
+      "alignment": "Lawful Good",
+      "divineAbility": [
+         "Strength",
+         "Charisma"
+      ],
+      "divineFont": [
+         "Heal"
+      ],
+      "divineSkill": [
+         "Athletics"
+      ],
+      "favoredWeapon": [
+         "Longsword"
+      ],
+      "domains": [
+         "Creation",
+         "Freedom",
+         "Might",
+         "Wealth"
+      ],
+      "clericSpells": [
+         {
+            "_className": "SpellCast",
+            "level": 1,
+            "name": "True Strike"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 3,
+            "name": "Ghostly Weapon"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 5,
+            "name": "Cloak of Colors"
+         }
+      ],
+      "followerAlignments": [
+         "Lawful Good",
+         "Neutral Good",
+         "Chaotic Good"
+      ]
+   },
+   {
+      "name": "Halcamora",
+      "category": "Empyreal Lords",
+      "alignment": "Neutral Good",
+      "divineAbility": [
+         "Constitution",
+         "Wisdom"
+      ],
+      "divineFont": [
+         "Heal"
+      ],
+      "divineSkill": [
+         "Nature"
+      ],
+      "favoredWeapon": [
+         "Club"
+      ],
+      "domains": [
+         "Indulgence",
+         "Luck",
+         "Nature",
+         "Swarm"
+      ],
+      "clericSpells": [
+         {
+            "_className": "SpellCast",
+            "level": 1,
+            "name": "Summon Plant or Fungus"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 2,
+            "name": "Touch of Idiocy"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 4,
+            "name": "Speak with Plants"
+         }
+      ],
+      "followerAlignments": [
+         "Lawful Good",
+         "Neutral Good",
+         "Neutral"
+      ]
+   },
+   {
+      "name": "Irez",
+      "category": "Empyreal Lords",
+      "alignment": "Neutral Good",
+      "divineAbility": [
+         "Dexterity",
+         "Intelligence"
+      ],
+      "divineFont": [
+         "Heal"
+      ],
+      "divineSkill": [
+         "Arcana"
+      ],
+      "favoredWeapon": [
+         "Dart"
+      ],
+      "domains": [
+         "Fate",
+         "Glyph",
+         "Luck",
+         "Magic"
+      ],
+      "clericSpells": [
+         {
+            "_className": "SpellCast",
+            "level": 1,
+            "name": "Anticipate Peril"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 2,
+            "name": "Mirror Image"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 3,
+            "name": "Secret Page"
+         }
+      ],
+      "followerAlignments": [
+         "Lawful Good",
+         "Neutral Good",
+         "Chaotic Good",
+         "Neutral"
+      ]
+   },
+   {
+      "name": "Jaidz",
+      "category": "Empyreal Lords",
+      "alignment": "Neutral Good",
+      "divineAbility": [
+         "Strength",
+         "Wisdom"
+      ],
+      "divineFont": [
+         "Heal"
+      ],
+      "divineSkill": [
+         "Intimidation"
+      ],
+      "favoredWeapon": [
+         "Shortsword"
+      ],
+      "domains": [
+         "Confidence",
+         "Nightmares",
+         "Protection",
+         "Travel"
+      ],
+      "clericSpells": [
+         {
+            "_className": "SpellCast",
+            "level": 1,
+            "name": "Longstrider"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 3,
+            "name": "Haste"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 7,
+            "name": "Mask of Terror"
+         }
+      ],
+      "followerAlignments": [
+         "Lawful Good",
+         "Neutral Good",
+         "Chaotic Good",
+         "Neutral"
+      ]
+   },
+   {
+      "name": "Korada",
+      "category": "Empyreal Lords",
+      "alignment": "Neutral Good",
+      "divineAbility": [
+         "Wisdom",
+         "Charisma"
+      ],
+      "divineFont": [
+         "Heal"
+      ],
+      "divineSkill": [
+         "Diplomacy"
+      ],
+      "favoredWeapon": [
+         "Fist"
+      ],
+      "domains": [
+         "Change",
+         "Healing",
+         "Magic",
+         "Protection"
+      ],
+      "clericSpells": [
+         {
+            "_className": "SpellCast",
+            "level": 1,
+            "name": "Soothe"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 3,
+            "name": "Slow"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 4,
+            "name": "Resilient Sphere"
+         }
+      ],
+      "followerAlignments": [
+         "Neutral Good",
+         "Neutral"
+      ]
+   },
+   {
+      "name": "Lymnieris",
+      "category": "Empyreal Lords",
+      "alignment": "Lawful Good",
+      "divineAbility": [
+         "Wisdom",
+         "Charisma"
+      ],
+      "divineFont": [
+         "Heal"
+      ],
+      "divineSkill": [
+         "Society"
+      ],
+      "favoredWeapon": [
+         "Longsword"
+      ],
+      "domains": [
+         "Change",
+         "Passion",
+         "Protection",
+         "Repose"
+      ],
+      "clericSpells": [
+         {
+            "_className": "SpellCast",
+            "level": 1,
+            "name": "Mage Armor"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 3,
+            "name": "Threefold Aspect"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 4,
+            "name": "Resilient Sphere"
+         }
+      ],
+      "followerAlignments": [
+         "Lawful Good",
+         "Neutral Good",
+         "Chaotic Good"
+      ]
+   },
+   {
+      "name": "Pulura",
+      "category": "Empyreal Lords",
+      "alignment": "Chaotic Good",
+      "divineAbility": [
+         "Constitution",
+         "Wisdom"
+      ],
+      "divineFont": [
+         "Heal"
+      ],
+      "divineSkill": [
+         "Survival"
+      ],
+      "favoredWeapon": [
+         "Sling"
+      ],
+      "domains": [
+         "Cold",
+         "Darkness",
+         "Sorrow",
+         "Star"
+      ],
+      "clericSpells": [
+         {
+            "_className": "SpellCast",
+            "level": 1,
+            "name": "Color Spray"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 5,
+            "name": "Chromatic Wall"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 6,
+            "name": "Teleport"
+         }
+      ],
+      "followerAlignments": [
+         "Neutral Good",
+         "Chaotic Good"
+      ]
+   },
+   {
+      "name": "Ragathiel",
+      "category": "Empyreal Lords",
+      "alignment": "Lawful Good",
+      "divineAbility": [
+         "Strength",
+         "Charisma"
+      ],
+      "divineFont": [
+         "Harm",
+         "Heal"
+      ],
+      "divineSkill": [
+         "Intimidation"
+      ],
+      "favoredWeapon": [
+         "Bastard Sword"
+      ],
+      "domains": [
+         "Destruction",
+         "Duty",
+         "Fire",
+         "Zeal"
+      ],
+      "clericSpells": [
+         {
+            "_className": "SpellCast",
+            "level": 1,
+            "name": "True Strike"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 3,
+            "name": "Haste"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 4,
+            "name": "Fire Shield"
+         }
+      ],
+      "followerAlignments": [
+         "Lawful Good"
+      ]
+   },
+   {
+      "name": "Shei",
+      "category": "Empyreal Lords",
+      "alignment": "Neutral Good",
+      "divineAbility": [
+         "Intelligence",
+         "Charisma"
+      ],
+      "divineFont": [
+         "Heal"
+      ],
+      "divineSkill": [
+         "Society"
+      ],
+      "favoredWeapon": [
+         "Sickle"
+      ],
+      "domains": [
+         "Family",
+         "Freedom",
+         "Healing",
+         "Perfection"
+      ],
+      "clericSpells": [
+         {
+            "_className": "SpellCast",
+            "level": 1,
+            "name": "Liberating Command"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 3,
+            "name": "Hypercognition"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 5,
+            "name": "Dreaming Potential"
+         }
+      ],
+      "followerAlignments": [
+         "Lawful Good",
+         "Neutral Good",
+         "Chaotic Good"
+      ]
+   },
+   {
+      "name": "Soralyon",
+      "category": "Empyreal Lords",
+      "alignment": "Neutral Good",
+      "divineAbility": [
+         "Strength",
+         "Intelligence"
+      ],
+      "divineFont": [
+         "Heal"
+      ],
+      "divineSkill": [
+         "Arcana"
+      ],
+      "favoredWeapon": [
+         "Pick"
+      ],
+      "domains": [
+         "Creation",
+         "Earth",
+         "Magic",
+         "Protection"
+      ],
+      "clericSpells": [
+         {
+            "_className": "SpellCast",
+            "level": 1,
+            "name": "Summon Construct"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 3,
+            "name": "Meld into Stone"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 4,
+            "name": "Stoneskin"
+         }
+      ],
+      "followerAlignments": [
+         "Lawful Good",
+         "Neutral Good",
+         "Chaotic Good",
+         "Neutral"
+      ]
+   },
+   {
+      "name": "Tanagaar",
+      "category": "Empyreal Lords",
+      "alignment": "Lawful Good",
+      "divineAbility": [
+         "Strength",
+         "Wisdom"
+      ],
+      "divineFont": [
+         "Heal"
+      ],
+      "divineSkill": [
+         "Stealth"
+      ],
+      "favoredWeapon": [
+         "Kukri"
+      ],
+      "domains": [
+         "Darkness",
+         "Duty",
+         "Nature",
+         "Zeal"
+      ],
+      "clericSpells": [
+         {
+            "_className": "SpellCast",
+            "level": 1,
+            "name": "Pass Without Trace"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 3,
+            "name": "Animal Vision"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 4,
+            "name": "Aerial Form",
+            "note": "(bird only)"
+         }
+      ],
+      "followerAlignments": [
+         "Lawful Good",
+         "Lawful Neutral"
+      ]
+   },
+   {
+      "name": "Vildeis",
+      "category": "Empyreal Lords",
+      "alignment": "Lawful Good",
+      "divineAbility": [
+         "Constitution",
+         "Charisma"
+      ],
+      "divineFont": [
+         "Harm",
+         "Heal"
+      ],
+      "divineSkill": [
+         "Medicine"
+      ],
+      "favoredWeapon": [
+         "Dagger"
+      ],
+      "domains": [
+         "Duty",
+         "Pain",
+         "Sorrow",
+         "Zeal"
+      ],
+      "clericSpells": [
+         {
+            "_className": "SpellCast",
+            "level": 1,
+            "name": "Phantom Pain"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 2,
+            "name": "Slough Skin",
+            "note": "(appears as streams of blood)"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 5,
+            "name": "Synaptic Pulse"
+         }
+      ],
+      "followerAlignments": [
+         "Lawful Good"
+      ]
+   },
+   {
+      "name": "Winlas",
+      "category": "Empyreal Lords",
+      "alignment": "Lawful Good",
+      "divineAbility": [
+         "Intelligence",
+         "Wisdom"
+      ],
+      "divineFont": [
+         "Heal"
+      ],
+      "divineSkill": [
+         "Occultism"
+      ],
+      "favoredWeapon": [
+         "Mace"
+      ],
+      "domains": [
+         "Glyph",
+         "Knowledge",
+         "Protection",
+         "Vigil"
+      ],
+      "clericSpells": [
+         {
+            "_className": "SpellCast",
+            "level": 1,
+            "name": "Share Lore"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 2,
+            "name": "Comprehend Language"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 4,
+            "name": "Veil"
+         }
+      ],
+      "followerAlignments": [
+         "Lawful Good",
+         "Neutral Good",
+         "Lawful Neutral"
+      ]
+   },
+   {
+      "name": "Ylimancha",
+      "category": "Empyreal Lords",
+      "alignment": "Neutral Good",
+      "divineAbility": [
+         "Dexterity",
+         "Wisdom"
+      ],
+      "divineFont": [
+         "Heal"
+      ],
+      "divineSkill": [
+         "Acrobatics"
+      ],
+      "favoredWeapon": [
+         "Longbow"
+      ],
+      "domains": [
+         "Air",
+         "Nature",
+         "Travel",
+         "Water"
+      ],
+      "clericSpells": [
+         {
+            "_className": "SpellCast",
+            "level": 1,
+            "name": "Feather Fall"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 3,
+            "name": "Feet To Fins"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 4,
+            "name": "Fly"
+         }
+      ],
+      "followerAlignments": [
+         "Lawful Good",
+         "Neutral Good",
+         "Chaotic Good",
+         "Neutral"
+      ]
+   },
+   {
+      "name": "Zohls",
+      "category": "Empyreal Lords",
+      "alignment": "Lawful Good",
+      "divineAbility": [
+         "Intelligence",
+         "Wisdom"
+      ],
+      "divineFont": [
+         "Heal"
+      ],
+      "divineSkill": [
+         "Society"
+      ],
+      "favoredWeapon": [
+         "Heavy Crossbow"
+      ],
+      "domains": [
+         "Ambition",
+         "Cities",
+         "Knowledge",
+         "Truth"
+      ],
+      "clericSpells": [
+         {
+            "_className": "SpellCast",
+            "level": 1,
+            "name": "Share Lore"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 3,
+            "name": "Hypercognition"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 7,
+            "name": "Retrocognition"
+         }
+      ],
+      "followerAlignments": [
+         "Lawful Good",
+         "Neutral Good",
+         "Lawful Neutral"
+      ]
+   },
+   {
+      "name": "Apollyon",
+      "category": "Horsemen",
+      "alignment": "Neutral Evil",
+      "divineAbility": [
+         "Strength",
+         "Constitution"
+      ],
+      "divineFont": [
+         "Harm"
+      ],
+      "divineSkill": [
+         "Medicine"
+      ],
+      "favoredWeapon": [
+         "Scythe"
+      ],
+      "domains": [
+         "Air",
+         "Decay",
+         "Plague",
+         "Swarm"
+      ],
+      "clericSpells": [
+         {
+            "_className": "SpellCast",
+            "level": 1,
+            "name": "Goblin Pox"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 2,
+            "name": "Vomit Swarm"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 5,
+            "name": "Cloudkill"
+         }
+      ],
+      "followerAlignments": [
+         "Lawful Evil",
+         "Neutral Evil",
+         "Chaotic Evil"
+      ]
+   },
+   {
+      "name": "Charon",
+      "category": "Horsemen",
+      "alignment": "Neutral Evil",
+      "divineAbility": [
+         "Constitution",
+         "Intelligence"
+      ],
+      "divineFont": [
+         "Harm"
+      ],
+      "divineSkill": [
+         "Occultism"
+      ],
+      "favoredWeapon": [
+         "Staff"
+      ],
+      "domains": [
+         "Death",
+         "Knowledge",
+         "Soul",
+         "Water"
+      ],
+      "clericSpells": [
+         {
+            "_className": "SpellCast",
+            "level": 1,
+            "name": "Grim Tendrils"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 4,
+            "name": "Crushing Despair"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 9,
+            "name": "Weird"
+         }
+      ],
+      "followerAlignments": [
+         "Lawful Evil",
+         "Neutral Evil",
+         "Chaotic Evil"
+      ]
+   },
+   {
+      "name": "Szuriel",
+      "category": "Horsemen",
+      "alignment": "Neutral Evil",
+      "divineAbility": [
+         "Strength",
+         "Constitution"
+      ],
+      "divineFont": [
+         "Harm"
+      ],
+      "divineSkill": [
+         "Athletics"
+      ],
+      "favoredWeapon": [
+         "Greatsword"
+      ],
+      "domains": [
+         "Ambition",
+         "Destruction",
+         "Fire",
+         "Might"
+      ],
+      "clericSpells": [
+         {
+            "_className": "SpellCast",
+            "level": 1,
+            "name": "Burning Hands"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 3,
+            "name": "Haste"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 4,
+            "name": "Weapon Storm"
+         }
+      ],
+      "followerAlignments": [
+         "Lawful Evil",
+         "Neutral Evil",
+         "Chaotic Evil"
+      ]
+   },
+   {
+      "name": "Trelmarixian",
+      "category": "Horsemen",
+      "alignment": "Neutral Evil",
+      "divineAbility": [
+         "Constitution",
+         "Wisdom"
+      ],
+      "divineFont": [
+         "Harm"
+      ],
+      "divineSkill": [
+         "Nature"
+      ],
+      "favoredWeapon": [
+         "Spiked Gauntlet"
+      ],
+      "domains": [
+         "Decay",
+         "Dust",
+         "Earth",
+         "Nightmares"
+      ],
+      "clericSpells": [
+         {
+            "_className": "SpellCast",
+            "level": 1,
+            "name": "Grease"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 2,
+            "name": "Feast of Ashes"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 5,
+            "name": "Acid Storm"
+         }
+      ],
+      "followerAlignments": [
+         "Lawful Evil",
+         "Neutral Evil",
+         "Chaotic Evil"
+      ]
+   },
+   {
+      "name": "Barzahk",
+      "category": "Monitor Demigods",
+      "alignment": "Neutral",
+      "divineAbility": [
+         "Constitution",
+         "Wisdom"
+      ],
+      "divineFont": [
+         "Heal"
+      ],
+      "divineSkill": [
+         "Survival"
+      ],
+      "favoredWeapon": [
+         "Club"
+      ],
+      "domains": [
+         "Death",
+         "Knowledge",
+         "Travel",
+         "Vigil"
+      ],
+      "clericSpells": [
+         {
+            "_className": "SpellCast",
+            "level": 1,
+            "name": "Longstrider"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 2,
+            "name": "Knock"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 6,
+            "name": "Teleport"
+         }
+      ],
+      "followerAlignments": [
+         "Neutral Good",
+         "Neutral",
+         "Chaotic Neutral"
+      ]
+   },
+   {
+      "name": "Imot",
+      "category": "Monitor Demigods",
+      "alignment": "Neutral",
+      "divineAbility": [
+         "Strength",
+         "Intelligence"
+      ],
+      "divineFont": [
+         "Harm",
+         "Heal"
+      ],
+      "divineSkill": [
+         "Occultism"
+      ],
+      "favoredWeapon": [
+         "Shield Boss"
+      ],
+      "domains": [
+         "Death",
+         "Destruction",
+         "Fate",
+         "Glyph"
+      ],
+      "clericSpells": [
+         {
+            "_className": "SpellCast",
+            "level": 1,
+            "name": "Ill Omen"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 2,
+            "name": "Paranoia"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 6,
+            "name": "Phantasmal Calamity"
+         }
+      ],
+      "followerAlignments": [
+         "Lawful Neutral",
+         "Neutral",
+         "Neutral Evil"
+      ]
+   },
+   {
+      "name": "Kerkamoth",
+      "category": "Monitor Demigods",
+      "alignment": "Lawful Neutral",
+      "divineAbility": [
+         "Constitution",
+         "Wisdom"
+      ],
+      "divineFont": [
+         "Harm",
+         "Heal"
+      ],
+      "divineSkill": [
+         "Occultism"
+      ],
+      "favoredWeapon": [
+         "Warhammer"
+      ],
+      "domains": [
+         "Darkness",
+         "Decay",
+         "Destruction",
+         "Void"
+      ],
+      "clericSpells": [
+         {
+            "_className": "SpellCast",
+            "level": 1,
+            "name": "Penumbral Shroud"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 5,
+            "name": "Shadow Siphon"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 6,
+            "name": "Disintegrate"
+         }
+      ],
+      "followerAlignments": [
+         "Lawful Neutral",
+         "Neutral"
+      ]
+   },
+   {
+      "name": "Monad",
+      "category": "Monitor Demigods",
+      "alignment": "Neutral",
+      "divineAbility": [
+         "Intelligence",
+         "Wisdom"
+      ],
+      "divineFont": [
+         "Harm",
+         "Heal"
+      ],
+      "divineSkill": [
+         "Occultism"
+      ],
+      "favoredWeapon": [
+         "Fist"
+      ],
+      "domains": [
+         "Creation",
+         "Knowledge",
+         "Truth",
+         "Void"
+      ],
+      "clericSpells": [
+         {
+            "_className": "SpellCast",
+            "level": 1,
+            "name": "Unseen Servant"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 2,
+            "name": "Spectral Hand"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 4,
+            "name": "Gaseous Form"
+         }
+      ],
+      "followerAlignments": [
+         "Lawful Neutral",
+         "Neutral"
+      ]
+   },
+   {
+      "name": "Mother Vulture",
+      "category": "Monitor Demigods",
+      "alignment": "Neutral",
+      "divineAbility": [
+         "Constitution",
+         "Wisdom"
+      ],
+      "divineFont": [
+         "Heal"
+      ],
+      "divineSkill": [
+         "Survival"
+      ],
+      "favoredWeapon": [
+         "Sickle"
+      ],
+      "domains": [
+         "Change",
+         "Death",
+         "Decay",
+         "Nature"
+      ],
+      "clericSpells": [
+         {
+            "_className": "SpellCast",
+            "level": 1,
+            "name": "Soothe"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 4,
+            "name": "Aerial Form"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 6,
+            "name": "Baleful Polymorph"
+         }
+      ],
+      "followerAlignments": [
+         "Neutral Good",
+         "Neutral",
+         "Neutral Evil"
+      ]
+   },
+   {
+      "name": "Narakaas",
+      "category": "Monitor Demigods",
+      "alignment": "Neutral",
+      "divineAbility": [
+         "Constitution",
+         "Wisdom"
+      ],
+      "divineFont": [
+         "Heal"
+      ],
+      "divineSkill": [
+         "Diplomacy"
+      ],
+      "favoredWeapon": [
+         "Greataxe"
+      ],
+      "domains": [
+         "Change",
+         "Death",
+         "Pain",
+         "Sorrow"
+      ],
+      "clericSpells": [
+         {
+            "_className": "SpellCast",
+            "level": 1,
+            "name": "Endure"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 2,
+            "name": "Slough Skin"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 4,
+            "name": "Modify Memory"
+         }
+      ],
+      "followerAlignments": [
+         "Neutral Good",
+         "Lawful Neutral",
+         "Neutral"
+      ]
+   },
+   {
+      "name": "Narriseminek",
+      "category": "Monitor Demigods",
+      "alignment": "Chaotic Neutral",
+      "divineAbility": [
+         "Dexterity",
+         "Wisdom"
+      ],
+      "divineFont": [
+         "Harm",
+         "Heal"
+      ],
+      "divineSkill": [
+         "Occultism"
+      ],
+      "favoredWeapon": [
+         "Hatchet"
+      ],
+      "domains": [
+         "Delirium",
+         "Freedom",
+         "Knowledge",
+         "Perfection"
+      ],
+      "clericSpells": [
+         {
+            "_className": "SpellCast",
+            "level": 1,
+            "name": "Mindlink"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 4,
+            "name": "Confusion"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 5,
+            "name": "Synesthesia"
+         }
+      ],
+      "followerAlignments": [
+         "Chaotic Good",
+         "Chaotic Neutral"
+      ]
+   },
+   {
+      "name": "Otolmens",
+      "category": "Monitor Demigods",
+      "alignment": "Lawful Neutral",
+      "divineAbility": [
+         "Dexterity",
+         "Intelligence"
+      ],
+      "divineFont": [
+         "Heal"
+      ],
+      "divineSkill": [
+         "Crafting"
+      ],
+      "favoredWeapon": [
+         "Mace"
+      ],
+      "domains": [
+         "Creation",
+         "Fate",
+         "Knowledge",
+         "Perfection"
+      ],
+      "clericSpells": [
+         {
+            "_className": "SpellCast",
+            "level": 1,
+            "name": "True Strike"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 4,
+            "name": "Gravity Well"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 7,
+            "name": "Reverse Gravity"
+         }
+      ],
+      "followerAlignments": [
+         "Lawful Good",
+         "Lawful Neutral"
+      ]
+   },
+   {
+      "name": "Saloc",
+      "category": "Monitor Demigods",
+      "alignment": "Neutral",
+      "divineAbility": [
+         "Wisdom",
+         "Charisma"
+      ],
+      "divineFont": [
+         "Heal"
+      ],
+      "divineSkill": [
+         "Diplomacy"
+      ],
+      "favoredWeapon": [
+         "Guisarme"
+      ],
+      "domains": [
+         "Change",
+         "Death",
+         "Freedom",
+         "Knowledge"
+      ],
+      "clericSpells": [
+         {
+            "_className": "SpellCast",
+            "level": 1,
+            "name": "Share Lore"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 3,
+            "name": "Hypercognition"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 5,
+            "name": "Dreaming Potential"
+         }
+      ],
+      "followerAlignments": [
+         "Neutral Good",
+         "Neutral",
+         "Neutral Evil"
+      ]
+   },
+   {
+      "name": "Valmallos",
+      "category": "Monitor Demigods",
+      "alignment": "Lawful Neutral",
+      "divineAbility": [
+         "Intelligence",
+         "Wisdom"
+      ],
+      "divineFont": [
+         "Harm",
+         "Heal"
+      ],
+      "divineSkill": [
+         "Arcana"
+      ],
+      "favoredWeapon": [
+         "Kukri"
+      ],
+      "domains": [
+         "Fate",
+         "Glyph",
+         "Knowledge",
+         "Magic"
+      ],
+      "clericSpells": [
+         {
+            "_className": "SpellCast",
+            "level": 1,
+            "name": "Mage Armor"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 6,
+            "name": "Feeblemind"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 7,
+            "name": "Contingency"
+         }
+      ],
+      "followerAlignments": [
+         "Lawful Good",
+         "Lawful Neutral"
+      ]
+   },
+   {
+      "name": "Ydajisk",
+      "category": "Monitor Demigods",
+      "alignment": "Chaotic Neutral",
+      "divineAbility": [
+         "Intelligence",
+         "Charisma"
+      ],
+      "divineFont": [
+         "Harm",
+         "Heal"
+      ],
+      "divineSkill": [
+         "Society"
+      ],
+      "favoredWeapon": [
+         "Jaws",
+         "Greatclub"
+      ],
+      "domains": [
+         "Change",
+         "Glyph",
+         "Knowledge",
+         "Trickery"
+      ],
+      "clericSpells": [
+         {
+            "_className": "SpellCast",
+            "level": 1,
+            "name": "Message Rune"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 2,
+            "name": "Blistering Invective"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 4,
+            "name": "Glibness"
+         }
+      ],
+      "followerAlignments": [
+         "Chaotic Good",
+         "Chaotic Neutral",
+         "Chaotic Evil"
+      ]
+   },
+   {
+      "name": "Azathoth",
+      "category": "Outer Gods and Great Old Ones",
+      "alignment": "Chaotic Neutral",
+      "divineAbility": [
+         "Constitution",
+         "Charisma"
+      ],
+      "divineFont": [
+         "Harm"
+      ],
+      "divineSkill": [
+         "Performance"
+      ],
+      "favoredWeapon": [
+         "Warhammer"
+      ],
+      "domains": [
+         "Decay",
+         "Destruction",
+         "Nightmares",
+         "Void"
+      ],
+      "clericSpells": [
+         {
+            "_className": "SpellCast",
+            "level": 1,
+            "name": "Ill Omen"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 5,
+            "name": "Synaptic Pulse"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 9,
+            "name": "Unfathomable Song"
+         }
+      ],
+      "followerAlignments": [
+         "Chaotic Neutral",
+         "Chaotic Evil"
+      ]
+   },
+   {
+      "name": "Hastur",
+      "category": "Outer Gods and Great Old Ones",
+      "alignment": "Chaotic Evil",
+      "divineAbility": [
+         "Intelligence",
+         "Charisma"
+      ],
+      "divineFont": [
+         "Harm"
+      ],
+      "divineSkill": [
+         "Deception"
+      ],
+      "favoredWeapon": [
+         "Rapier"
+      ],
+      "domains": [
+         "Glyph",
+         "Secrecy",
+         "Void",
+         "Wealth"
+      ],
+      "clericSpells": [
+         {
+            "_className": "SpellCast",
+            "level": 1,
+            "name": "Illusory Disguise"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 4,
+            "name": "Confusion"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 5,
+            "name": "Hallucination"
+         }
+      ],
+      "followerAlignments": [
+         "Neutral Evil",
+         "Chaotic Evil"
+      ]
+   },
+   {
+      "name": "Nhimbaloth",
+      "category": "Outer Gods and Great Old Ones",
+      "alignment": "Chaotic Evil",
+      "divineAbility": [
+         "Constitution",
+         "Wisdom"
+      ],
+      "divineFont": [
+         "Harm"
+      ],
+      "divineSkill": [
+         "Nature"
+      ],
+      "favoredWeapon": [
+         "Flail"
+      ],
+      "domains": [
+         "Decay",
+         "Nature",
+         "Undeath",
+         "Void"
+      ],
+      "clericSpells": [
+         {
+            "_className": "SpellCast",
+            "level": 1,
+            "name": "Grim Tendrils"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 2,
+            "name": "Entangle"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 5,
+            "name": "Cloudkill"
+         }
+      ],
+      "followerAlignments": [
+         "Chaotic Evil"
+      ]
+   },
+   {
+      "name": "Nyarlathotep",
+      "category": "Outer Gods and Great Old Ones",
+      "alignment": "Chaotic Evil",
+      "divineAbility": [
+         "Dexterity",
+         "Intelligence"
+      ],
+      "divineFont": [
+         "Harm"
+      ],
+      "divineSkill": [
+         "Arcana"
+      ],
+      "favoredWeapon": [
+         "Staff"
+      ],
+      "domains": [
+         "Knowledge",
+         "Magic",
+         "Nightmares",
+         "Trickery"
+      ],
+      "clericSpells": [
+         {
+            "_className": "SpellCast",
+            "level": 1,
+            "name": "Message Rune"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 2,
+            "name": "Humanoid Form"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 3,
+            "name": "Enthrall"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 4,
+            "name": "Suggestion"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 5,
+            "name": "Summon Entity"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 6,
+            "name": "Mislead"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 7,
+            "name": "Project Image"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 8,
+            "name": "Dream Council"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 9,
+            "name": "Weird"
+         }
+      ],
+      "followerAlignments": [
+         "Neutral Evil",
+         "Chaotic Evil"
+      ]
+   },
+   {
+      "name": "Xhamen-Dor",
+      "category": "Outer Gods and Great Old Ones",
+      "alignment": "Neutral Evil",
+      "divineAbility": [
+         "Constitution",
+         "Wisdom"
+      ],
+      "divineFont": [
+         "Harm"
+      ],
+      "divineSkill": [
+         "Nature"
+      ],
+      "favoredWeapon": [
+         "Spear"
+      ],
+      "domains": [
+         "Change",
+         "Decay",
+         "Dreams",
+         "Nature"
+      ],
+      "clericSpells": [
+         {
+            "_className": "SpellCast",
+            "level": 1,
+            "name": "Summon Plant or Fungus"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 3,
+            "name": "Wall of Thorns"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 7,
+            "name": "Warp Mind"
+         }
+      ],
+      "followerAlignments": [
+         "Neutral Evil",
+         "Chaotic Evil"
+      ]
+   },
+   {
+      "name": "Yog-Sothoth",
+      "category": "Outer Gods and Great Old Ones",
+      "alignment": "Chaotic Neutral",
+      "divineAbility": [
+         "Intelligence",
+         "Charisma"
+      ],
+      "divineFont": [
+         "Harm"
+      ],
+      "divineSkill": [
+         "Occultism"
+      ],
+      "favoredWeapon": [
+         "Dagger"
+      ],
+      "domains": [
+         "Knowledge",
+         "Time",
+         "Travel",
+         "Void"
+      ],
+      "clericSpells": [
+         {
+            "_className": "SpellCast",
+            "level": 1,
+            "name": "Fleet Step"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 5,
+            "name": "Black Tentacles"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 7,
+            "name": "Time Beacon"
+         }
+      ],
+      "followerAlignments": [
+         "Chaotic Neutral",
+         "Chaotic Evil"
+      ]
+   },
+   {
+      "name": "Dwarven Pantheon",
+      "category": "Pantheons",
+      "alignment": "Lawful Good",
+      "divineAbility": [
+         "Constitution",
+         "Wisdom"
+      ],
+      "divineFont": [
+         "Heal"
+      ],
+      "divineSkill": [
+         "Diplomacy"
+      ],
+      "favoredWeapon": [
+         "Warhammer"
+      ],
+      "domains": [
+         "Creation",
+         "Duty",
+         "Family",
+         "Glyph",
+         "Protection",
+         "Wealth"
+      ],
+      "clericSpells": [
+         {
+            "_className": "SpellCast",
+            "level": 1,
+            "name": "Ant Haul"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 4,
+            "name": "Creation"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 7,
+            "name": "Retrocognition"
+         }
+      ],
+      "followerAlignments": [
+         "Lawful Good",
+         "Neutral Good",
+         "Lawful Neutral",
+         "Neutral"
+      ]
+   },
+   {
+      "name": "Elven Pantheon",
+      "category": "Pantheons",
+      "alignment": "Chaotic Good",
+      "divineAbility": [
+         "Dexterity",
+         "Intelligence"
+      ],
+      "divineFont": [
+         "Heal"
+      ],
+      "divineSkill": [
+         "Survival"
+      ],
+      "favoredWeapon": [
+         "Longbow",
+         "Shortbow"
+      ],
+      "domains": [
+         "Creation",
+         "Magic",
+         "Moon",
+         "Nature"
+      ],
+      "clericSpells": [
+         {
+            "_className": "SpellCast",
+            "level": 1,
+            "name": "Shillelagh"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 2,
+            "name": "Shape Wood"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 5,
+            "name": "Tree Stride"
+         }
+      ],
+      "followerAlignments": [
+         "Neutral Good",
+         "Chaotic Good",
+         "Chaotic Neutral"
+      ]
+   },
+   {
+      "name": "The Godclaw",
+      "category": "Pantheons",
+      "alignment": "Lawful Neutral",
+      "divineAbility": [
+         "Strength",
+         "Intelligence"
+      ],
+      "divineFont": [
+         "Harm",
+         "Heal"
+      ],
+      "divineSkill": [
+         "Society"
+      ],
+      "favoredWeapon": [
+         "Morningstar"
+      ],
+      "domains": [
+         "Duty",
+         "Perfection",
+         "Protection",
+         "Tyranny",
+         "Zeal"
+      ],
+      "clericSpells": [
+         {
+            "_className": "SpellCast",
+            "level": 1,
+            "name": "Phantom Pain"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 4,
+            "name": "Fire Shield"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 6,
+            "name": "Dominate"
+         }
+      ],
+      "followerAlignments": [
+         "Lawful Good",
+         "Lawful Neutral",
+         "Lawful Evil"
+      ]
+   },
+   {
+      "name": "Ardad Lili",
+      "category": "Queens of the Night",
+      "alignment": "Lawful Evil",
+      "divineAbility": [
+         "Intelligence",
+         "Charisma"
+      ],
+      "divineFont": [
+         "Harm"
+      ],
+      "divineSkill": [
+         "Diplomacy"
+      ],
+      "favoredWeapon": [
+         "Dagger"
+      ],
+      "domains": [
+         "Creation",
+         "Darkness",
+         "Passion",
+         "Wyrmkin"
+      ],
+      "clericSpells": [
+         {
+            "_className": "SpellCast",
+            "level": 1,
+            "name": "Charm"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 3,
+            "name": "Enthrall"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 4,
+            "name": "Suggestion"
+         }
+      ],
+      "followerAlignments": [
+         "Lawful Neutral",
+         "Lawful Evil",
+         "Neutral Evil"
+      ]
+   },
+   {
+      "name": "Doloras",
+      "category": "Queens of the Night",
+      "alignment": "Lawful Evil",
+      "divineAbility": [
+         "Constitution",
+         "Wisdom"
+      ],
+      "divineFont": [
+         "Harm"
+      ],
+      "divineSkill": [
+         "Medicine"
+      ],
+      "favoredWeapon": [
+         "Kukri"
+      ],
+      "domains": [
+         "Creation",
+         "Pain",
+         "Repose",
+         "Sorrow"
+      ],
+      "clericSpells": [
+         {
+            "_className": "SpellCast",
+            "level": 1,
+            "name": "Phantom Pain"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 3,
+            "name": "Earthbind"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 5,
+            "name": "Synaptic Pulse"
+         }
+      ],
+      "followerAlignments": [
+         "Lawful Evil",
+         "Neutral Evil"
+      ]
+   },
+   {
+      "name": "Eisheth",
+      "category": "Queens of the Night",
+      "alignment": "Lawful Evil",
+      "divineAbility": [
+         "Strength",
+         "Dexterity"
+      ],
+      "divineFont": [
+         "Harm"
+      ],
+      "divineSkill": [
+         "Intimidation"
+      ],
+      "favoredWeapon": [
+         "Longbow"
+      ],
+      "domains": [
+         "Ambition",
+         "Destruction",
+         "Might",
+         "Zeal"
+      ],
+      "clericSpells": [
+         {
+            "_className": "SpellCast",
+            "level": 1,
+            "name": "True Strike"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 3,
+            "name": "Fireball"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 4,
+            "name": "Dimension Door"
+         }
+      ],
+      "followerAlignments": [
+         "Lawful Evil"
+      ]
+   },
+   {
+      "name": "Mahathallah",
+      "category": "Queens of the Night",
+      "alignment": "Lawful Evil",
+      "divineAbility": [
+         "Wisdom",
+         "Charisma"
+      ],
+      "divineFont": [
+         "Harm"
+      ],
+      "divineSkill": [
+         "Deception"
+      ],
+      "favoredWeapon": [
+         "Bola"
+      ],
+      "domains": [
+         "Fate",
+         "Trickery",
+         "Truth",
+         "Undeath"
+      ],
+      "clericSpells": [
+         {
+            "_className": "SpellCast",
+            "level": 1,
+            "name": "Illusory Disguise"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 2,
+            "name": "Misdirection"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 5,
+            "name": "Illusory Scene"
+         }
+      ],
+      "followerAlignments": [
+         "Lawful Neutral",
+         "Lawful Evil",
+         "Neutral Evil"
+      ]
+   },
+   {
+      "name": "Alglenweis",
+      "category": "Sarkorian Gods",
+      "alignment": "Chaotic Good",
+      "divineAbility": [
+         "Strength",
+         "Wisdom"
+      ],
+      "divineFont": [
+         "Heal"
+      ],
+      "divineSkill": [
+         "Nature"
+      ],
+      "favoredWeapon": [
+         "War Flail"
+      ],
+      "domains": [
+         "Cold",
+         "Creation",
+         "Might",
+         "Soul"
+      ],
+      "clericSpells": [
+         {
+            "_className": "SpellCast",
+            "level": 1,
+            "name": "Agitate"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 4,
+            "name": "Creation"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 5,
+            "name": "Cone of Cold"
+         }
+      ],
+      "followerAlignments": [
+         "Neutral Good",
+         "Neutral Good",
+         "Chaotic Neutral"
+      ]
+   },
+   {
+      "name": "Stag Mother of The Forest of Stones",
+      "category": "Sarkorian Gods",
+      "alignment": "Neutral",
+      "divineAbility": [
+         "Constitution",
+         "Intelligence"
+      ],
+      "divineFont": [
+         "Heal"
+      ],
+      "divineSkill": [
+         "Medicine"
+      ],
+      "favoredWeapon": [
+         "Ranseur"
+      ],
+      "domains": [
+         "Family",
+         "Healing",
+         "Nature",
+         "Pain"
+      ],
+      "clericSpells": [
+         {
+            "_className": "SpellCast",
+            "level": 1,
+            "name": "Phantom Pain"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 2,
+            "name": "Animal Form",
+            "note": "(bull only: appears as stag)"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 6,
+            "name": "Flesh To Stone"
+         }
+      ],
+      "followerAlignments": [
+         "Lawful Good",
+         "Neutral Good",
+         "Chaotic Good",
+         "Lawful Neutral",
+         "Neutral",
+         "Chaotic Neutral",
+         "Lawful Evil",
+         "Neutral Evil"
+      ]
+   },
+   {
+      "name": "Sturovenen",
+      "category": "Sarkorian Gods",
+      "alignment": "Lawful Good",
+      "divineAbility": [
+         "Dexterity",
+         "Charisma"
+      ],
+      "divineFont": [
+         "Heal"
+      ],
+      "divineSkill": [
+         "Diplomacy"
+      ],
+      "favoredWeapon": [
+         "Main-Gauche"
+      ],
+      "domains": [
+         "Air",
+         "Confidence",
+         "Passion",
+         "Sun"
+      ],
+      "clericSpells": [
+         {
+            "_className": "SpellCast",
+            "level": 1,
+            "name": "Charm"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 5,
+            "name": "Cloak of Colors"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 6,
+            "name": "Dragon Form"
+         }
+      ],
+      "followerAlignments": [
+         "Lawful Good",
+         "Neutral Good",
+         "Lawful Neutral"
+      ]
+   },
+   {
+      "name": "Daikitsu",
+      "category": "Tian Gods",
+      "alignment": "Neutral",
+      "divineAbility": [
+         "Dexterity",
+         "Intelligence"
+      ],
+      "divineFont": [
+         "Heal"
+      ],
+      "divineSkill": [
+         "Crafting"
+      ],
+      "favoredWeapon": [
+         "Flail"
+      ],
+      "domains": [
+         "Change",
+         "Creation",
+         "Family",
+         "Nature"
+      ],
+      "clericSpells": [
+         {
+            "_className": "SpellCast",
+            "level": 1,
+            "name": "Pest Form"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 2,
+            "name": "Humanoid Form"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 5,
+            "name": "Illusory Scene"
+         }
+      ],
+      "followerAlignments": [
+         "Neutral Good",
+         "Lawful Neutral",
+         "Neutral",
+         "Chaotic Neutral"
+      ]
+   },
+   {
+      "name": "Fumeiyoshi",
+      "category": "Tian Gods",
+      "alignment": "Neutral Evil",
+      "divineAbility": [
+         "Constitution",
+         "Charisma"
+      ],
+      "divineFont": [
+         "Harm"
+      ],
+      "divineSkill": [
+         "Intimidation"
+      ],
+      "favoredWeapon": [
+         "Naginata"
+      ],
+      "domains": [
+         "Ambition",
+         "Destruction",
+         "Earth",
+         "Undeath"
+      ],
+      "clericSpells": [
+         {
+            "_className": "SpellCast",
+            "level": 1,
+            "name": "Grim Tendrils"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 2,
+            "name": "Feast of Ashes"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 7,
+            "name": "Possession"
+         }
+      ],
+      "followerAlignments": [
+         "Lawful Evil",
+         "Neutral Evil",
+         "Chaotic Evil"
+      ]
+   },
+   {
+      "name": "General Susumu",
+      "category": "Tian Gods",
+      "alignment": "Lawful Evil",
+      "divineAbility": [
+         "Strength",
+         "Dexterity"
+      ],
+      "divineFont": [
+         "Harm"
+      ],
+      "divineSkill": [
+         "Athletics"
+      ],
+      "favoredWeapon": [
+         "Longbow"
+      ],
+      "domains": [
+         "Confidence",
+         "Destruction",
+         "Might",
+         "Zeal"
+      ],
+      "clericSpells": [
+         {
+            "_className": "SpellCast",
+            "level": 1,
+            "name": "True Strike"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 2,
+            "name": "Phantom Steed"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 3,
+            "name": "Wall of Wind"
+         }
+      ],
+      "followerAlignments": [
+         "Lawful Neutral",
+         "Lawful Evil"
+      ]
+   },
+   {
+      "name": "Hei Feng",
+      "category": "Tian Gods",
+      "alignment": "Chaotic Neutral",
+      "divineAbility": [
+         "Constitution",
+         "Charisma"
+      ],
+      "divineFont": [
+         "Harm",
+         "Heal"
+      ],
+      "divineSkill": [
+         "Performance"
+      ],
+      "favoredWeapon": [
+         "Nine-Ring Sword"
+      ],
+      "domains": [
+         "Air",
+         "Destruction",
+         "Indulgence",
+         "Lightning",
+         "Travel",
+         "Water"
+      ],
+      "clericSpells": [
+         {
+            "_className": "SpellCast",
+            "level": 1,
+            "name": "Gust of Wind"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 4,
+            "name": "Hydraulic Torrent"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 6,
+            "name": "Chain Lightning"
+         }
+      ],
+      "followerAlignments": [
+         "Chaotic Good",
+         "Chaotic Neutral",
+         "Chaotic Evil"
+      ]
+   },
+   {
+      "name": "Kofusachi",
+      "category": "Tian Gods",
+      "alignment": "Chaotic Good",
+      "divineAbility": [
+         "Dexterity",
+         "Constitution"
+      ],
+      "divineFont": [
+         "Heal"
+      ],
+      "divineSkill": [
+         "Performance"
+      ],
+      "favoredWeapon": [
+         "Staff"
+      ],
+      "domains": [
+         "Luck",
+         "Passion",
+         "Travel",
+         "Wealth"
+      ],
+      "clericSpells": [
+         {
+            "_className": "SpellCast",
+            "level": 1,
+            "name": "Soothe"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 2,
+            "name": "Hideous Laughter"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 8,
+            "name": "Uncontrollable Dance"
+         }
+      ],
+      "followerAlignments": [
+         "Neutral Good",
+         "Chaotic Good"
+      ]
+   },
+   {
+      "name": "Lady Jingxi",
+      "category": "Tian Gods",
+      "alignment": "Neutral Good",
+      "divineAbility": [
+         "Intelligence",
+         "Wisdom"
+      ],
+      "divineFont": [
+         "Heal"
+      ],
+      "divineSkill": [
+         "Performance"
+      ],
+      "favoredWeapon": [
+         "Fighting Fan"
+      ],
+      "domains": [
+         "Creation",
+         "Glyph",
+         "Knowledge",
+         "Repose"
+      ],
+      "clericSpells": [
+         {
+            "_className": "SpellCast",
+            "level": 1,
+            "name": "Sleep"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 2,
+            "name": "Mirror Image"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 5,
+            "name": "Chromatic Wall"
+         }
+      ],
+      "followerAlignments": [
+         "Neutral Good",
+         "Neutral"
+      ]
+   },
+   {
+      "name": "Lady Nanbyo",
+      "category": "Tian Gods",
+      "alignment": "Chaotic Evil",
+      "divineAbility": [
+         "Strength",
+         "Constitution"
+      ],
+      "divineFont": [
+         "Harm"
+      ],
+      "divineSkill": [
+         "Nature"
+      ],
+      "favoredWeapon": [
+         "Warhammer"
+      ],
+      "domains": [
+         "Destruction",
+         "Fire",
+         "Plague",
+         "Water"
+      ],
+      "clericSpells": [
+         {
+            "_className": "SpellCast",
+            "level": 1,
+            "name": "Burning Hands"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 5,
+            "name": "Control Water"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 6,
+            "name": "Dragon Form"
+         }
+      ],
+      "followerAlignments": [
+         "Neutral Evil",
+         "Chaotic Evil"
+      ]
+   },
+   {
+      "name": "Lao Shu Po",
+      "category": "Tian Gods",
+      "alignment": "Neutral Evil",
+      "divineAbility": [
+         "Dexterity",
+         "Intelligence"
+      ],
+      "divineFont": [
+         "Harm"
+      ],
+      "divineSkill": [
+         "Thievery"
+      ],
+      "favoredWeapon": [
+         "Dagger"
+      ],
+      "domains": [
+         "Darkness",
+         "Luck",
+         "Swarm",
+         "Trickery"
+      ],
+      "clericSpells": [
+         {
+            "_className": "SpellCast",
+            "level": 1,
+            "name": "Summon Animal",
+            "note": "(rodents only)"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 2,
+            "name": "Knock"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 3,
+            "name": "Nondetection"
+         }
+      ],
+      "followerAlignments": [
+         "Neutral",
+         "Lawful Evil",
+         "Neutral Evil",
+         "Chaotic Evil"
+      ]
+   },
+   {
+      "name": "Nalinivati",
+      "category": "Tian Gods",
+      "alignment": "Neutral",
+      "divineAbility": [
+         "Wisdom",
+         "Charisma"
+      ],
+      "divineFont": [
+         "Harm",
+         "Heal"
+      ],
+      "divineSkill": [
+         "Arcana"
+      ],
+      "favoredWeapon": [
+         "Jaws",
+         "Urumi"
+      ],
+      "domains": [
+         "Glyph",
+         "Magic",
+         "Passion",
+         "Wyrmkin"
+      ],
+      "clericSpells": [
+         {
+            "_className": "SpellCast",
+            "level": 1,
+            "name": "Charm"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 2,
+            "name": "Invisibility"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 3,
+            "name": "Lightning Bolt"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 4,
+            "name": "Reflective Scales"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 5,
+            "name": "Subconscious Suggestion"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 6,
+            "name": "Mislead"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 7,
+            "name": "Contingency"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 8,
+            "name": "Scintillating Pattern"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 9,
+            "name": "Storm of Vengeance"
+         }
+      ],
+      "followerAlignments": [
+         "Neutral Good",
+         "Lawful Neutral",
+         "Neutral",
+         "Neutral Evil"
+      ]
+   },
+   {
+      "name": "Qi Zhong",
+      "category": "Tian Gods",
+      "alignment": "Neutral Good",
+      "divineAbility": [
+         "Intelligence",
+         "Wisdom"
+      ],
+      "divineFont": [
+         "Heal"
+      ],
+      "divineSkill": [
+         "Medicine"
+      ],
+      "favoredWeapon": [
+         "Heavy Mace"
+      ],
+      "domains": [
+         "Healing",
+         "Knowledge",
+         "Magic",
+         "Protection"
+      ],
+      "clericSpells": [
+         {
+            "_className": "SpellCast",
+            "level": 1,
+            "name": "Soothe"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 2,
+            "name": "False Life"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 4,
+            "name": "Resilient Sphere"
+         }
+      ],
+      "followerAlignments": [
+         "Lawful Good",
+         "Neutral Good",
+         "Chaotic Good",
+         "Neutral"
+      ]
+   },
+   {
+      "name": "Shizuru",
+      "category": "Tian Gods",
+      "alignment": "Lawful Good",
+      "divineAbility": [
+         "Strength",
+         "Wisdom"
+      ],
+      "divineFont": [
+         "Heal"
+      ],
+      "divineSkill": [
+         "Society"
+      ],
+      "favoredWeapon": [
+         "Katana"
+      ],
+      "domains": [
+         "Duty",
+         "Perfection",
+         "Sorrow",
+         "Sun",
+         "Vigil"
+      ],
+      "clericSpells": [
+         {
+            "_className": "SpellCast",
+            "level": 1,
+            "name": "True Strike"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 4,
+            "name": "Reflective Scales"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 5,
+            "name": "Summon Dragon"
+         }
+      ],
+      "followerAlignments": [
+         "Lawful Good",
+         "Neutral Good",
+         "Lawful Neutral"
+      ]
+   },
+   {
+      "name": "Sun Wukong",
+      "category": "Tian Gods",
+      "alignment": "Chaotic Neutral",
+      "divineAbility": [
+         "Strength",
+         "Charisma"
+      ],
+      "divineFont": [
+         "Harm",
+         "Heal"
+      ],
+      "divineSkill": [
+         "Acrobatics"
+      ],
+      "favoredWeapon": [
+         "Staff"
+      ],
+      "domains": [
+         "Indulgence",
+         "Might",
+         "Nature",
+         "Trickery"
+      ],
+      "clericSpells": [
+         {
+            "_className": "SpellCast",
+            "level": 1,
+            "name": "Jump"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 3,
+            "name": "Mad Monkeys"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 4,
+            "name": "Creation"
+         }
+      ],
+      "followerAlignments": [
+         "Chaotic Good",
+         "Chaotic Neutral",
+         "Chaotic Evil"
+      ]
+   },
+   {
+      "name": "Tsukiyo",
+      "category": "Tian Gods",
+      "alignment": "Lawful Good",
+      "divineAbility": [
+         "Constitution",
+         "Intelligence"
+      ],
+      "divineFont": [
+         "Heal"
+      ],
+      "divineSkill": [
+         "Occultism"
+      ],
+      "favoredWeapon": [
+         "Spear"
+      ],
+      "domains": [
+         "Change",
+         "Delirium",
+         "Moon",
+         "Repose",
+         "Soul"
+      ],
+      "clericSpells": [
+         {
+            "_className": "SpellCast",
+            "level": 1,
+            "name": "Soothe"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 2,
+            "name": "Mirror Image"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 5,
+            "name": "Hallucination"
+         }
+      ],
+      "followerAlignments": [
+         "Lawful Good",
+         "Neutral Good",
+         "Chaotic Good",
+         "Lawful Neutral",
+         "Neutral"
+      ]
+   },
+   {
+      "name": "Yaezhing",
+      "category": "Tian Gods",
+      "alignment": "Lawful Evil",
+      "divineAbility": [
+         "Dexterity",
+         "Intelligence"
+      ],
+      "divineFont": [
+         "Harm"
+      ],
+      "divineSkill": [
+         "Stealth"
+      ],
+      "favoredWeapon": [
+         "Shuriken"
+      ],
+      "domains": [
+         "Death",
+         "Duty",
+         "Pain",
+         "Trickery"
+      ],
+      "clericSpells": [
+         {
+            "_className": "SpellCast",
+            "level": 1,
+            "name": "True Strike"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 2,
+            "name": "Invisibility"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 6,
+            "name": "Mislead"
+         }
+      ],
+      "followerAlignments": [
+         "Lawful Evil",
+         "Neutral Evil"
+      ]
+   },
+   {
+      "name": "Yamatsumi",
+      "category": "Tian Gods",
+      "alignment": "Neutral",
+      "divineAbility": [
+         "Strength",
+         "Wisdom"
+      ],
+      "divineFont": [
+         "Harm",
+         "Heal"
+      ],
+      "divineSkill": [
+         "Athletics"
+      ],
+      "favoredWeapon": [
+         "Greatclub"
+      ],
+      "domains": [
+         "Cold",
+         "Earth",
+         "Fire",
+         "Might"
+      ],
+      "clericSpells": [
+         {
+            "_className": "SpellCast",
+            "level": 1,
+            "name": "Shockwave"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 3,
+            "name": "Shifting Sand"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 7,
+            "name": "Volcanic Eruption"
+         }
+      ],
+      "followerAlignments": [
+         "Neutral Good",
+         "Lawful Neutral",
+         "Neutral",
+         "Chaotic Neutral"
+      ]
+   },
+   {
+      "name": "Arundhat",
+      "category": "Vudrani Gods",
+      "alignment": "Neutral Good",
+      "divineAbility": [
+         "Intelligence",
+         "Wisdom"
+      ],
+      "divineFont": [
+         "Heal"
+      ],
+      "divineSkill": [
+         "Nature"
+      ],
+      "favoredWeapon": [
+         "Staff"
+      ],
+      "domains": [
+         "Healing",
+         "Magic",
+         "Nature",
+         "Protection"
+      ],
+      "clericSpells": [
+         {
+            "_className": "SpellCast",
+            "level": 1,
+            "name": "Shillelagh"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 3,
+            "name": "Ghostly Weapon"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 4,
+            "name": "Speak with Plants"
+         }
+      ],
+      "followerAlignments": [
+         "Lawful Good",
+         "Neutral Good",
+         "Chaotic Good",
+         "Neutral"
+      ]
+   },
+   {
+      "name": "Ashukharma",
+      "category": "Vudrani Gods",
+      "alignment": "Chaotic Neutral",
+      "divineAbility": [
+         "Constitution",
+         "Intelligence"
+      ],
+      "divineFont": [
+         "Harm",
+         "Heal"
+      ],
+      "divineSkill": [
+         "Crafting"
+      ],
+      "favoredWeapon": [
+         "Greatsword"
+      ],
+      "domains": [
+         "Earth",
+         "Might",
+         "Protection",
+         "Repose"
+      ],
+      "clericSpells": [
+         {
+            "_className": "SpellCast",
+            "level": 1,
+            "name": "Shattering Gem"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 4,
+            "name": "Shape Stone"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 5,
+            "name": "Wall of Stone"
+         }
+      ],
+      "followerAlignments": [
+         "Chaotic Good",
+         "Neutral",
+         "Chaotic Neutral"
+      ]
+   },
+   {
+      "name": "Chamidu",
+      "category": "Vudrani Gods",
+      "alignment": "Neutral",
+      "divineAbility": [
+         "Strength",
+         "Constitution"
+      ],
+      "divineFont": [
+         "Harm",
+         "Heal"
+      ],
+      "divineSkill": [
+         "Medicine"
+      ],
+      "favoredWeapon": [
+         "Spear"
+      ],
+      "domains": [
+         "Healing",
+         "Lightning",
+         "Nature",
+         "Nightmares"
+      ],
+      "clericSpells": [
+         {
+            "_className": "SpellCast",
+            "level": 1,
+            "name": "Summon Animal"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 3,
+            "name": "Lightning Bolt"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 5,
+            "name": "Moon Frenzy"
+         }
+      ],
+      "followerAlignments": [
+         "Neutral Good",
+         "Neutral",
+         "Neutral Evil"
+      ]
+   },
+   {
+      "name": "Dhalavei",
+      "category": "Vudrani Gods",
+      "alignment": "Lawful Evil",
+      "divineAbility": [
+         "Strength",
+         "Charisma"
+      ],
+      "divineFont": [
+         "Harm",
+         "Heal"
+      ],
+      "divineSkill": [
+         "Deception"
+      ],
+      "favoredWeapon": [
+         "Temple Sword"
+      ],
+      "domains": [
+         "Destruction",
+         "Knowledge",
+         "Secrecy",
+         "Trickery"
+      ],
+      "clericSpells": [
+         {
+            "_className": "SpellCast",
+            "level": 1,
+            "name": "Fear"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 4,
+            "name": "Glibness"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 6,
+            "name": "Mislead"
+         }
+      ],
+      "followerAlignments": [
+         "Lawful Evil",
+         "Neutral Evil"
+      ]
+   },
+   {
+      "name": "Diomazul",
+      "category": "Vudrani Gods",
+      "alignment": "Lawful Evil",
+      "divineAbility": [
+         "Strength",
+         "Dexterity"
+      ],
+      "divineFont": [
+         "Harm",
+         "Heal"
+      ],
+      "divineSkill": [
+         "Athletics"
+      ],
+      "favoredWeapon": [
+         "Scimitar"
+      ],
+      "domains": [
+         "Destruction",
+         "Earth",
+         "Water",
+         "Zeal"
+      ],
+      "clericSpells": [
+         {
+            "_className": "SpellCast",
+            "level": 1,
+            "name": "Phantom Pain"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 2,
+            "name": "Slough Skin"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 4,
+            "name": "Weapon Storm"
+         }
+      ],
+      "followerAlignments": [
+         "Lawful Neutral",
+         "Lawful Evil"
+      ]
+   },
+   {
+      "name": "Gruhastha",
+      "category": "Vudrani Gods",
+      "alignment": "Lawful Good",
+      "divineAbility": [
+         "Intelligence",
+         "Wisdom"
+      ],
+      "divineFont": [
+         "Heal"
+      ],
+      "divineSkill": [
+         "Society"
+      ],
+      "favoredWeapon": [
+         "Shortbow"
+      ],
+      "domains": [
+         "Glyph",
+         "Knowledge",
+         "Nature",
+         "Perfection",
+         "Travel",
+         "Truth"
+      ],
+      "clericSpells": [
+         {
+            "_className": "SpellCast",
+            "level": 1,
+            "name": "Share Lore"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 2,
+            "name": "Comprehend Language"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 3,
+            "name": "Hypercognition"
+         }
+      ],
+      "followerAlignments": [
+         "Lawful Good",
+         "Neutral Good"
+      ]
+   },
+   {
+      "name": "Lahkgya",
+      "category": "Vudrani Gods",
+      "alignment": "Chaotic Evil",
+      "divineAbility": [
+         "Dexterity",
+         "Intelligence"
+      ],
+      "divineFont": [
+         "Harm"
+      ],
+      "divineSkill": [
+         "Thievery"
+      ],
+      "favoredWeapon": [
+         "Jaws",
+         "Battle Axe"
+      ],
+      "domains": [
+         "Indulgence",
+         "Nature",
+         "Swarm",
+         "Trickery"
+      ],
+      "clericSpells": [
+         {
+            "_className": "SpellCast",
+            "level": 1,
+            "name": "Fleet Step"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 3,
+            "name": "Mad Monkeys"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 4,
+            "name": "Confusion"
+         }
+      ],
+      "followerAlignments": [
+         "Chaotic Evil"
+      ]
+   },
+   {
+      "name": "Likha",
+      "category": "Vudrani Gods",
+      "alignment": "Neutral",
+      "divineAbility": [
+         "Intelligence",
+         "Charisma"
+      ],
+      "divineFont": [
+         "Harm",
+         "Heal"
+      ],
+      "divineSkill": [
+         "Performance"
+      ],
+      "favoredWeapon": [
+         "Hatchet"
+      ],
+      "domains": [
+         "Creation",
+         "Knowledge",
+         "Passion",
+         "Sorrow"
+      ],
+      "clericSpells": [
+         {
+            "_className": "SpellCast",
+            "level": 1,
+            "name": "Illusory Disguise"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 3,
+            "name": "Enthrall"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 5,
+            "name": "Illusory Scene"
+         }
+      ],
+      "followerAlignments": [
+         "Neutral Good",
+         "Lawful Neutral",
+         "Neutral",
+         "Chaotic Neutral"
+      ]
+   },
+   {
+      "name": "Matravash",
+      "category": "Vudrani Gods",
+      "alignment": "Lawful Neutral",
+      "divineAbility": [
+         "Constitution",
+         "Wisdom"
+      ],
+      "divineFont": [
+         "Heal"
+      ],
+      "divineSkill": [
+         "Survival"
+      ],
+      "favoredWeapon": [
+         "Whip"
+      ],
+      "domains": [
+         "Cities",
+         "Nature",
+         "Travel",
+         "Water"
+      ],
+      "clericSpells": [
+         {
+            "_className": "SpellCast",
+            "level": 1,
+            "name": "Share Lore"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 3,
+            "name": "Slow"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 4,
+            "name": "Speak with Plants"
+         }
+      ],
+      "followerAlignments": [
+         "Lawful Good",
+         "Lawful Neutral",
+         "Neutral"
+      ]
+   },
+   {
+      "name": "Ragdya",
+      "category": "Vudrani Gods",
+      "alignment": "Neutral",
+      "divineAbility": [
+         "Dexterity",
+         "Wisdom"
+      ],
+      "divineFont": [
+         "Heal"
+      ],
+      "divineSkill": [
+         "Acrobatics"
+      ],
+      "favoredWeapon": [
+         "Mace"
+      ],
+      "domains": [
+         "Air",
+         "Confidence",
+         "Might",
+         "Perfection"
+      ],
+      "clericSpells": [
+         {
+            "_className": "SpellCast",
+            "level": 1,
+            "name": "Shockwave"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 3,
+            "name": "Mad Monkeys"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 4,
+            "name": "Gaseous Form"
+         }
+      ],
+      "followerAlignments": [
+         "Neutral Good",
+         "Lawful Neutral",
+         "Neutral",
+         "Chaotic Neutral"
+      ]
+   },
+   {
+      "name": "Raumya",
+      "category": "Vudrani Gods",
+      "alignment": "Neutral Evil",
+      "divineAbility": [
+         "Strength",
+         "Charisma"
+      ],
+      "divineFont": [
+         "Harm",
+         "Heal"
+      ],
+      "divineSkill": [
+         "Performance"
+      ],
+      "favoredWeapon": [
+         "Trident"
+      ],
+      "domains": [
+         "Confidence",
+         "Knowledge",
+         "Might",
+         "Wealth"
+      ],
+      "clericSpells": [
+         {
+            "_className": "SpellCast",
+            "level": 1,
+            "name": "True Strike"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 2,
+            "name": "Invisibility"
+         },
+         {
+            "_className": "SpellCast",
+            "level": 4,
+            "name": "Weapon Storm"
+         }
+      ],
+      "followerAlignments": [
+         "Neutral Good",
+         "Neutral",
+         "Lawful Evil",
+         "Neutral Evil"
+      ]
+   }
+]

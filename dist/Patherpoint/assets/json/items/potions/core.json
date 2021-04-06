@@ -1,0 +1,1796 @@
+[
+    {
+        "name": "Healing Potion (Minor)",
+        "id": "06cb3e64-e105-408b-86a0-e75e2eaad5b0",
+        "bulk": "L",
+        "desc": "A healing potion is a vial of a ruby-red liquid that imparts a tingling sensation as the drinker's wounds heal rapidly. When you drink a healing potion, you regain the listed number of Hit Points.",
+        "level": 1,
+        "price": 400,
+        "subType": "Minor",
+        "subTypeDesc": "The potion restores 1d8 Hit Points.",
+        "traits": [
+            "Consumable",
+            "Healing",
+            "Magical",
+            "Necromancy",
+            "Potion"
+        ],
+        "_className": "Potion",
+        "activationType": "Interact",
+        "usage": "held in 1 hand"
+    },
+    {
+        "name": "Potion of Water Breathing",
+        "id": "192cda52-a8c6-11ea-bb37-0242ac130002",
+        "bulk": "L",
+        "desc": "This filmy, gray potion smells of an old fish midden and tastes even worse. After drinking this potion, you gain the effects of a 2nd-level water breathing spell for 1 hour.",
+        "level": 3,
+        "price": 1100,
+        "traits": [
+            "Consumable",
+            "Magical",
+            "Potion",
+            "Transmutation"
+        ],
+        "_className": "Potion",
+        "activationType": "Interact",
+        "usage": "held in 1 hand",
+        "castSpells": [
+            {
+                "_className": "SpellCast",
+                "name": "Water Breathing",
+                "level": 2,
+                "duration": 6000
+            }
+        ]
+    },
+    {
+        "name": "Healing Potion (Lesser)",
+        "id": "89be9581-8e09-11ea-9fab-e92c63c14723",
+        "bulk": "L",
+        "desc": "A healing potion is a vial of a ruby-red liquid that imparts a tingling sensation as the drinker's wounds heal rapidly. When you drink a healing potion, you regain the listed number of Hit Points.",
+        "level": 3,
+        "price": 1200,
+        "subType": "Lesser",
+        "subTypeDesc": "The potion restores 2d8+5 Hit Points.",
+        "traits": [
+            "Consumable",
+            "Healing",
+            "Magical",
+            "Necromancy",
+            "Potion"
+        ],
+        "_className": "Potion",
+        "activationType": "Interact",
+        "usage": "held in 1 hand"
+    },
+    {
+        "name": "Barkskin Potion",
+        "id": "192cdc6e-a8c6-11ea-bb37-0242ac130002",
+        "bulk": "L",
+        "desc": "After you drink this bitter draft, your skin thickens like bark. You gain the effects of a 2nd-level barkskin spell for 10 minutes.",
+        "level": 4,
+        "price": 1500,
+        "traits": [
+            "Abjuration",
+            "Consumable",
+            "Potion",
+            "Primal"
+        ],
+        "_className": "Potion",
+        "activationType": "Interact",
+        "usage": "held in 1 hand",
+        "castSpells": [
+            {
+                "_className": "SpellCast",
+                "name": "Barkskin",
+                "level": 2,
+                "duration": 1000
+            }
+        ]
+    },
+    {
+        "name": "Shrinking Potion",
+        "id": "192cdd68-a8c6-11ea-bb37-0242ac130002",
+        "bulk": "L",
+        "desc": "This fungus-flavored potion conveys the effects of the shrink spell to make you and all your gear smaller. After the onset, you remain small for 10 minutes.",
+        "level": 4,
+        "price": 1500,
+        "traits": [
+            "Consumable",
+            "Magical",
+            "Potion",
+            "Transmutation"
+        ],
+        "_className": "Potion",
+        "activationType": "Interact",
+        "usage": "held in 1 hand",
+        "castSpells": [
+            {
+                "_className": "SpellCast",
+                "name": "Shrink",
+                "level": 2,
+                "duration": 1000
+            }
+        ]
+    },
+    {
+        "name": "Invisibility Potion",
+        "id": "192cde3a-a8c6-11ea-bb37-0242ac130002",
+        "bulk": "L",
+        "desc": "An invisibility potion is colorless and oddly lightweight. Upon drinking it, you gain the effects of a 2nd-level invisibility spell.",
+        "level": 4,
+        "price": 2000,
+        "traits": [
+            "Uncommon",
+            "Consumable",
+            "Illusion",
+            "Magical",
+            "Potion"
+        ],
+        "_className": "Potion",
+        "activationType": "Interact",
+        "usage": "held in 1 hand",
+        "castSpells": [
+            {
+                "_className": "SpellCast",
+                "name": "Invisibility",
+                "level": 2
+            }
+        ]
+    },
+    {
+        "name": "Potion of Leaping",
+        "id": "192cdef8-a8c6-11ea-bb37-0242ac130002",
+        "bulk": "L",
+        "desc": "For 1 minute after you drink this fizzy potion, whenever you Leap, you gain the effect of the 1st-level jump spell.",
+        "level": 5,
+        "price": 2100,
+        "traits": [
+            "Consumable",
+            "Magical",
+            "Potion",
+            "Transmutation"
+        ],
+        "_className": "Potion",
+        "activationType": "Interact",
+        "usage": "held in 1 hand",
+        "castSpells": [
+            {
+                "_className": "SpellCast",
+                "name": "Jump",
+                "level": 1,
+                "duration": 100
+            }
+        ]
+    },
+    {
+        "name": "Potion of Acid Resistance (Lesser)",
+        "id": "192cdfc0-a8c6-11ea-bb37-0242ac130002",
+        "bulk": "L",
+        "desc": "Drinking this thick, fortifying potion grants resistance against a single damage type for 1 hour. Each potion of resistance is created to defend against acid, cold, electricity, fire, or sonic damage (and is called a lesser potion of fire resistance or the like).",
+        "level": 6,
+        "price": 4500,
+        "subType": "Acid, Lesser",
+        "subTypeDesc": "You gain acid resistance 5.",
+        "traits": [
+            "Abjuration",
+            "Consumable",
+            "Magical",
+            "Potion"
+        ],
+        "_className": "Potion",
+        "activationType": "Interact",
+        "usage": "held in 1 hand",
+        "gainConditions": [
+            {
+                "_className": "ConditionGain",
+                "duration": 6000,
+                "name": "Potion of Acid Resistance",
+                "source": "Potion of Acid Resistance (Lesser)",
+                "value": 5
+            }
+        ]
+    },
+    {
+        "name": "Potion of Cold Resistance (Lesser)",
+        "id": "192cee98-a8c6-11ea-bb37-0242ac130002",
+        "bulk": "L",
+        "desc": "Drinking this thick, fortifying potion grants resistance against a single damage type for 1 hour. Each potion of resistance is created to defend against acid, cold, electricity, fire, or sonic damage (and is called a lesser potion of fire resistance or the like).",
+        "level": 6,
+        "price": 4500,
+        "subType": "Cold, Lesser",
+        "subTypeDesc": "You gain cold resistance 5.",
+        "traits": [
+            "Abjuration",
+            "Consumable",
+            "Magical",
+            "Potion"
+        ],
+        "_className": "Potion",
+        "activationType": "Interact",
+        "usage": "held in 1 hand",
+        "gainConditions": [
+            {
+                "_className": "ConditionGain",
+                "duration": 6000,
+                "name": "Potion of Cold Resistance",
+                "source": "Potion of Cold Resistance (Lesser)",
+                "value": 5
+            }
+        ]
+    },
+    {
+        "name": "Potion of Electricity Resistance (Lesser)",
+        "id": "192cf08c-a8c6-11ea-bb37-0242ac130002",
+        "bulk": "L",
+        "desc": "Drinking this thick, fortifying potion grants resistance against a single damage type for 1 hour. Each potion of resistance is created to defend against acid, cold, electricity, fire, or sonic damage (and is called a lesser potion of fire resistance or the like).",
+        "level": 6,
+        "price": 4500,
+        "subType": "Electricity, Lesser",
+        "subTypeDesc": "You gain electricity resistance 5.",
+        "traits": [
+            "Abjuration",
+            "Consumable",
+            "Magical",
+            "Potion"
+        ],
+        "_className": "Potion",
+        "activationType": "Interact",
+        "usage": "held in 1 hand",
+        "gainConditions": [
+            {
+                "_className": "ConditionGain",
+                "duration": 6000,
+                "name": "Potion of Electricity Resistance",
+                "source": "Potion of Electricity Resistance (Lesser)",
+                "value": 5
+            }
+        ]
+    },
+    {
+        "name": "Potion of Fire Resistance (Lesser)",
+        "id": "192cf154-a8c6-11ea-bb37-0242ac130002",
+        "bulk": "L",
+        "desc": "Drinking this thick, fortifying potion grants resistance against a single damage type for 1 hour. Each potion of resistance is created to defend against acid, cold, electricity, fire, or sonic damage (and is called a lesser potion of fire resistance or the like).",
+        "level": 6,
+        "price": 4500,
+        "subType": "Fire, Lesser",
+        "subTypeDesc": "You gain fire resistance 5.",
+        "traits": [
+            "Abjuration",
+            "Consumable",
+            "Magical",
+            "Potion"
+        ],
+        "_className": "Potion",
+        "activationType": "Interact",
+        "usage": "held in 1 hand",
+        "gainConditions": [
+            {
+                "_className": "ConditionGain",
+                "duration": 6000,
+                "name": "Potion of Fire Resistance",
+                "source": "Potion of Fire Resistance (Lesser)",
+                "value": 5
+            }
+        ]
+    },
+    {
+        "name": "Potion of Sonic Resistance (Lesser)",
+        "id": "192cf212-a8c6-11ea-bb37-0242ac130002",
+        "bulk": "L",
+        "desc": "Drinking this thick, fortifying potion grants resistance against a single damage type for 1 hour. Each potion of resistance is created to defend against acid, cold, electricity, fire, or sonic damage (and is called a lesser potion of fire resistance or the like).",
+        "level": 6,
+        "price": 4500,
+        "subType": "Sonic, Lesser",
+        "subTypeDesc": "You gain sonic resistance 5.",
+        "traits": [
+            "Abjuration",
+            "Consumable",
+            "Magical",
+            "Potion"
+        ],
+        "_className": "Potion",
+        "activationType": "Interact",
+        "usage": "held in 1 hand",
+        "gainConditions": [
+            {
+                "_className": "ConditionGain",
+                "duration": 6000,
+                "name": "Potion of Sonic Resistance",
+                "source": "Potion of Sonic Resistance (Lesser)",
+                "value": 5
+            }
+        ]
+    },
+    {
+        "name": "Truth Potion",
+        "id": "192cedda-a8c6-11ea-bb37-0242ac130002",
+        "bulk": "L",
+        "desc": "For 10 minutes after drinking this astringent potion, you can't intentionally lie and may be compelled to tell the truth. Upon drinking the potion, attempt a DC 19 Will save. You can voluntarily fail or critically fail.",
+        "level": 6,
+        "price": 4600,
+        "traits": [
+            "Uncommon",
+            "Consumable",
+            "Enchantment",
+            "Magical",
+            "Mental",
+            "Potion"
+        ],
+        "_className": "Potion",
+        "activationType": "Interact",
+        "usage": "held in 1 hand",
+        "gainConditions": [
+            {
+                "_className": "ConditionGain",
+                "duration": 1000,
+                "name": "Truth Potion",
+                "source": "Truth Potion"
+            }
+        ],
+        "success": "The potion does not affect you.",
+        "failure": "When you speak, you must tell the truth.",
+        "critfailure": "As failure, and when someone asks you a question, you must attempt another DC 19 Will saving throw. If you fail this saving throw, you must answer the question truthfully if you are able to do so; if you succeed, you are temporarily immune to further attempts to ask the same question within the potion's duration."
+    },
+    {
+        "name": "Healing Potion (Moderate)",
+        "id": "89be9583-8e09-11ea-9fab-e92c63c14723",
+        "bulk": "L",
+        "desc": "A healing potion is a vial of a ruby-red liquid that imparts a tingling sensation as the drinker's wounds heal rapidly. When you drink a healing potion, you regain the listed number of Hit Points.",
+        "level": 6,
+        "price": 5000,
+        "subType": "Moderate",
+        "subTypeDesc": "The potion restores 3d8+10 Hit Points.",
+        "traits": [
+            "Consumable",
+            "Healing",
+            "Magical",
+            "Necromancy",
+            "Potion"
+        ],
+        "_className": "Potion",
+        "activationType": "Interact",
+        "usage": "held in 1 hand"
+    },
+    {
+        "name": "Potion of Swimming (Moderate)",
+        "id": "192ce074-a8c6-11ea-bb37-0242ac130002",
+        "bulk": "L",
+        "desc": "This potion tastes like salt water, and sandy grit settles to the bottom of its container. When you drink it, you gain a swim Speed equal to your land Speed for 10 minutes.",
+        "level": 6,
+        "price": 5000,
+        "traits": [
+            "Consumable",
+            "Magical",
+            "Potion",
+            "Transmutation"
+        ],
+        "_className": "Potion",
+        "activationType": "Interact",
+        "usage": "held in 1 hand",
+        "gainConditions": [
+            {
+                "_className": "ConditionGain",
+                "duration": 1000,
+                "name": "Potion of Swimming",
+                "source": "Potion of Swimming"
+            }
+        ]
+    },
+    {
+        "name": "Serum of Sex Shift",
+        "id": "89d356ac-b117-43a4-bc33-6cbf97d39329",
+        "bulk": "L",
+        "desc": "Upon drinking this potion, your biology instantly transforms to take on a set of sexual characteristics of your choice, changing your appearance and physiology accordingly. You have mild control over the details of this change, but you retain a strong \"family resemblance\" to your former appearance.\n\nThe magic functions instantaneously and can't be counteracted. Your new anatomy is as healthy and functional as your previous body's, potentially allowing you to procreate (depending on your ancestry's biology). Drinking a subsequent serum of sex shift allows you to either revert back to your original form or adopt other sexual characteristics, as you choose. The elixir has no effect if you are pregnant or from an ancestry with no sexual differentiation. Most ancestries have a wide spectrum of sexual differentiation, some common, others more rare.",
+        "level": 7,
+        "price": 6000,
+        "traits": [
+            "Consumable",
+            "Magical",
+            "Potion",
+            "Transmutation"
+        ],
+        "_className": "Potion",
+        "activationType": "Interact",
+        "usage": "held in 1 hand"
+    },
+    {
+        "name": "Black Dragon's Breath Potion (Young)",
+        "id": "d1d27dea-a8cc-11ea-bb37-0242ac130002",
+        "bulk": "L",
+        "desc": "This liquid contains blood from a certain type of dragon. For 1 hour after you imbibe the concoction, you can unleash a breath weapon used by that type of dragon. The potency of the breath depends on the potion's type, based on the age of the dragon whose blood was used to make the potion. This potion has the trait matching the damage type of the breath weapon.\n\nExhaling dragon breath uses a single action. The damage type and the area of the dragon breath depend on the type of dragon blood in the potion, as shown in the table below. Regardless of the dragon type, the breath weapon deals 4d6 damage, and each creature in the area must attempt a DC 23 basic save of a type determined by the type of the dragon. After you use the breath weapon, you can't do so again for 1d4 rounds.",
+        "level": 7,
+        "price": 7000,
+        "subType": "Black, Young",
+        "subTypeDesc": "The breath weapon is a 30-foot line of electricity, and the save type is Reflex.",
+        "traits": [
+            "Cold",
+            "Consumable",
+            "Evocation",
+            "Magical",
+            "Potion"
+        ],
+        "_className": "Potion",
+        "activationType": "Interact",
+        "usage": "held in 1 hand",
+        "gainConditions": [
+            {
+                "_className": "ConditionGain",
+                "duration": 6000,
+                "name": "Black Dragon's Breath Potion (Young)",
+                "source": "Black Dragon's Breath Potion (Young)"
+            }
+        ]
+    },
+    {
+        "name": "Copper Dragon's Breath Potion (Young)",
+        "id": "d1d27ea8-a8cc-11ea-bb37-0242ac130002",
+        "bulk": "L",
+        "desc": "This liquid contains blood from a certain type of dragon. For 1 hour after you imbibe the concoction, you can unleash a breath weapon used by that type of dragon. The potency of the breath depends on the potion's type, based on the age of the dragon whose blood was used to make the potion. This potion has the trait matching the damage type of the breath weapon.\n\nExhaling dragon breath uses a single action. The damage type and the area of the dragon breath depend on the type of dragon blood in the potion, as shown in the table below. Regardless of the dragon type, the breath weapon deals 4d6 damage, and each creature in the area must attempt a DC 23 basic save of a type determined by the type of the dragon. After you use the breath weapon, you can't do so again for 1d4 rounds.",
+        "level": 7,
+        "price": 7000,
+        "subType": "Copper, Young",
+        "subTypeDesc": "The breath weapon is a 30-foot line of electricity, and the save type is Reflex.",
+        "traits": [
+            "Cold",
+            "Consumable",
+            "Evocation",
+            "Magical",
+            "Potion"
+        ],
+        "_className": "Potion",
+        "activationType": "Interact",
+        "usage": "held in 1 hand",
+        "gainConditions": [
+            {
+                "_className": "ConditionGain",
+                "duration": 6000,
+                "name": "Copper Dragon's Breath Potion (Young)",
+                "source": "Copper Dragon's Breath Potion (Young)"
+            }
+        ]
+    },
+    {
+        "name": "Blue Dragon's Breath Potion (Young)",
+        "id": "d1d27f5c-a8cc-11ea-bb37-0242ac130002",
+        "bulk": "L",
+        "desc": "This liquid contains blood from a certain type of dragon. For 1 hour after you imbibe the concoction, you can unleash a breath weapon used by that type of dragon. The potency of the breath depends on the potion's type, based on the age of the dragon whose blood was used to make the potion. This potion has the trait matching the damage type of the breath weapon.\n\nExhaling dragon breath uses a single action. The damage type and the area of the dragon breath depend on the type of dragon blood in the potion, as shown in the table below. Regardless of the dragon type, the breath weapon deals 4d6 damage, and each creature in the area must attempt a DC 23 basic save of a type determined by the type of the dragon. After you use the breath weapon, you can't do so again for 1d4 rounds.",
+        "level": 7,
+        "price": 7000,
+        "subType": "Blue, Young",
+        "subTypeDesc": "The breath weapon is a 30-foot line of electricity, and the save type is Reflex.",
+        "traits": [
+            "Cold",
+            "Consumable",
+            "Evocation",
+            "Magical",
+            "Potion"
+        ],
+        "_className": "Potion",
+        "activationType": "Interact",
+        "usage": "held in 1 hand",
+        "gainConditions": [
+            {
+                "_className": "ConditionGain",
+                "duration": 6000,
+                "name": "Blue Dragon's Breath Potion (Young)",
+                "source": "Blue Dragon's Breath Potion (Young)"
+            }
+        ]
+    },
+    {
+        "name": "Bronze Dragon's Breath Potion (Young)",
+        "id": "d1d280f6-a8cc-11ea-bb37-0242ac130002",
+        "bulk": "L",
+        "desc": "This liquid contains blood from a certain type of dragon. For 1 hour after you imbibe the concoction, you can unleash a breath weapon used by that type of dragon. The potency of the breath depends on the potion's type, based on the age of the dragon whose blood was used to make the potion. This potion has the trait matching the damage type of the breath weapon.\n\nExhaling dragon breath uses a single action. The damage type and the area of the dragon breath depend on the type of dragon blood in the potion, as shown in the table below. Regardless of the dragon type, the breath weapon deals 4d6 damage, and each creature in the area must attempt a DC 23 basic save of a type determined by the type of the dragon. After you use the breath weapon, you can't do so again for 1d4 rounds.",
+        "level": 7,
+        "price": 7000,
+        "subType": "Bronze, Young",
+        "subTypeDesc": "The breath weapon is a 30-foot line of electricity, and the save type is Reflex.",
+        "traits": [
+            "Cold",
+            "Consumable",
+            "Evocation",
+            "Magical",
+            "Potion"
+        ],
+        "_className": "Potion",
+        "activationType": "Interact",
+        "usage": "held in 1 hand",
+        "gainConditions": [
+            {
+                "_className": "ConditionGain",
+                "duration": 6000,
+                "name": "Bronze Dragon's Breath Potion (Young)",
+                "source": "Bronze Dragon's Breath Potion (Young)"
+            }
+        ]
+    },
+    {
+        "name": "Brass Dragon's Breath Potion (Young)",
+        "id": "d1d281b4-a8cc-11ea-bb37-0242ac130002",
+        "bulk": "L",
+        "desc": "This liquid contains blood from a certain type of dragon. For 1 hour after you imbibe the concoction, you can unleash a breath weapon used by that type of dragon. The potency of the breath depends on the potion's type, based on the age of the dragon whose blood was used to make the potion. This potion has the trait matching the damage type of the breath weapon.\n\nExhaling dragon breath uses a single action. The damage type and the area of the dragon breath depend on the type of dragon blood in the potion, as shown in the table below. Regardless of the dragon type, the breath weapon deals 4d6 damage, and each creature in the area must attempt a DC 23 basic save of a type determined by the type of the dragon. After you use the breath weapon, you can't do so again for 1d4 rounds.",
+        "level": 7,
+        "price": 7000,
+        "subType": "Brass, Young",
+        "subTypeDesc": "The breath weapon is a 30-foot line of fire, and the save type is Reflex.",
+        "traits": [
+            "Cold",
+            "Consumable",
+            "Evocation",
+            "Magical",
+            "Potion"
+        ],
+        "_className": "Potion",
+        "activationType": "Interact",
+        "usage": "held in 1 hand",
+        "gainConditions": [
+            {
+                "_className": "ConditionGain",
+                "duration": 6000,
+                "name": "Brass Dragon's Breath Potion (Young)",
+                "source": "Brass Dragon's Breath Potion (Young)"
+            }
+        ]
+    },
+    {
+        "name": "Green Dragon's Breath Potion (Young)",
+        "id": "d1d28272-a8cc-11ea-bb37-0242ac130002",
+        "bulk": "L",
+        "desc": "This liquid contains blood from a certain type of dragon. For 1 hour after you imbibe the concoction, you can unleash a breath weapon used by that type of dragon. The potency of the breath depends on the potion's type, based on the age of the dragon whose blood was used to make the potion. This potion has the trait matching the damage type of the breath weapon.\n\nExhaling dragon breath uses a single action. The damage type and the area of the dragon breath depend on the type of dragon blood in the potion, as shown in the table below. Regardless of the dragon type, the breath weapon deals 4d6 damage, and each creature in the area must attempt a DC 23 basic save of a type determined by the type of the dragon. After you use the breath weapon, you can't do so again for 1d4 rounds.",
+        "level": 7,
+        "price": 7000,
+        "subType": "Green, Young",
+        "subTypeDesc": "The breath weapon is a 15-foot cone of poison, and the save type is Fortitude.",
+        "traits": [
+            "Cold",
+            "Consumable",
+            "Evocation",
+            "Magical",
+            "Potion"
+        ],
+        "_className": "Potion",
+        "activationType": "Interact",
+        "usage": "held in 1 hand",
+        "gainConditions": [
+            {
+                "_className": "ConditionGain",
+                "duration": 6000,
+                "name": "Green Dragon's Breath Potion (Young)",
+                "source": "Green Dragon's Breath Potion (Young)"
+            }
+        ]
+    },
+    {
+        "name": "Gold Dragon's Breath Potion (Young)",
+        "id": "d1d28330-a8cc-11ea-bb37-0242ac130002",
+        "bulk": "L",
+        "desc": "This liquid contains blood from a certain type of dragon. For 1 hour after you imbibe the concoction, you can unleash a breath weapon used by that type of dragon. The potency of the breath depends on the potion's type, based on the age of the dragon whose blood was used to make the potion. This potion has the trait matching the damage type of the breath weapon.\n\nExhaling dragon breath uses a single action. The damage type and the area of the dragon breath depend on the type of dragon blood in the potion, as shown in the table below. Regardless of the dragon type, the breath weapon deals 4d6 damage, and each creature in the area must attempt a DC 23 basic save of a type determined by the type of the dragon. After you use the breath weapon, you can't do so again for 1d4 rounds.",
+        "level": 7,
+        "price": 7000,
+        "subType": "Gold, Young",
+        "subTypeDesc": "The breath weapon is a 15-foot cone of fire, and the save type is Reflex.",
+        "traits": [
+            "Cold",
+            "Consumable",
+            "Evocation",
+            "Magical",
+            "Potion"
+        ],
+        "_className": "Potion",
+        "activationType": "Interact",
+        "usage": "held in 1 hand",
+        "gainConditions": [
+            {
+                "_className": "ConditionGain",
+                "duration": 6000,
+                "name": "Gold Dragon's Breath Potion (Young)",
+                "source": "Gold Dragon's Breath Potion (Young)"
+            }
+        ]
+    },
+    {
+        "name": "Red Dragon's Breath Potion (Young)",
+        "id": "d1d28556-a8cc-11ea-bb37-0242ac130002",
+        "bulk": "L",
+        "desc": "This liquid contains blood from a certain type of dragon. For 1 hour after you imbibe the concoction, you can unleash a breath weapon used by that type of dragon. The potency of the breath depends on the potion's type, based on the age of the dragon whose blood was used to make the potion. This potion has the trait matching the damage type of the breath weapon.\n\nExhaling dragon breath uses a single action. The damage type and the area of the dragon breath depend on the type of dragon blood in the potion, as shown in the table below. Regardless of the dragon type, the breath weapon deals 4d6 damage, and each creature in the area must attempt a DC 23 basic save of a type determined by the type of the dragon. After you use the breath weapon, you can't do so again for 1d4 rounds.",
+        "level": 7,
+        "price": 7000,
+        "subType": "Red, Young",
+        "subTypeDesc": "The breath weapon is a 15-foot cone of fire, and the save type is Reflex.",
+        "traits": [
+            "Cold",
+            "Consumable",
+            "Evocation",
+            "Magical",
+            "Potion"
+        ],
+        "_className": "Potion",
+        "activationType": "Interact",
+        "usage": "held in 1 hand",
+        "gainConditions": [
+            {
+                "_className": "ConditionGain",
+                "duration": 6000,
+                "name": "Red Dragon's Breath Potion (Young)",
+                "source": "Red Dragon's Breath Potion (Young)"
+            }
+        ]
+    },
+    {
+        "name": "Silver Dragon's Breath Potion (Young)",
+        "id": "89be9585-8e09-11ea-9fab-e92c63c14723",
+        "bulk": "L",
+        "desc": "This liquid contains blood from a certain type of dragon. For 1 hour after you imbibe the concoction, you can unleash a breath weapon used by that type of dragon. The potency of the breath depends on the potion's type, based on the age of the dragon whose blood was used to make the potion. This potion has the trait matching the damage type of the breath weapon.\n\nExhaling dragon breath uses a single action. The damage type and the area of the dragon breath depend on the type of dragon blood in the potion, as shown in the table below. Regardless of the dragon type, the breath weapon deals 4d6 damage, and each creature in the area must attempt a DC 23 basic save of a type determined by the type of the dragon. After you use the breath weapon, you can't do so again for 1d4 rounds.",
+        "level": 7,
+        "price": 7000,
+        "subType": "Silver, Young",
+        "subTypeDesc": "The breath weapon is a 15-foot cone of cold, and the save type is Reflex.",
+        "traits": [
+            "Cold",
+            "Consumable",
+            "Evocation",
+            "Magical",
+            "Potion"
+        ],
+        "_className": "Potion",
+        "activationType": "Interact",
+        "usage": "held in 1 hand",
+        "gainConditions": [
+            {
+                "_className": "ConditionGain",
+                "duration": 6000,
+                "name": "Silver Dragon's Breath Potion (Young)",
+                "source": "Silver Dragon's Breath Potion (Young)"
+            }
+        ]
+    },
+    {
+        "name": "White Dragon's Breath Potion (Young)",
+        "id": "949d88d2-9432-46b9-8be9-90e67c87673e",
+        "bulk": "L",
+        "desc": "This liquid contains blood from a certain type of dragon. For 1 hour after you imbibe the concoction, you can unleash a breath weapon used by that type of dragon. The potency of the breath depends on the potion's type, based on the age of the dragon whose blood was used to make the potion. This potion has the trait matching the damage type of the breath weapon.\n\nExhaling dragon breath uses a single action. The damage type and the area of the dragon breath depend on the type of dragon blood in the potion, as shown in the table below. Regardless of the dragon type, the breath weapon deals 4d6 damage, and each creature in the area must attempt a DC 23 basic save of a type determined by the type of the dragon. After you use the breath weapon, you can't do so again for 1d4 rounds.",
+        "level": 7,
+        "price": 7000,
+        "subType": "White, Young",
+        "subTypeDesc": "The breath weapon is a 15-foot cone of cold, and the save type is Reflex.",
+        "traits": [
+            "Cold",
+            "Consumable",
+            "Evocation",
+            "Magical",
+            "Potion"
+        ],
+        "_className": "Potion",
+        "activationType": "Interact",
+        "usage": "held in 1 hand",
+        "gainConditions": [
+            {
+                "_className": "ConditionGain",
+                "duration": 6000,
+                "name": "White Dragon's Breath Potion (Young)",
+                "source": "White Dragon's Breath Potion (Young)"
+            }
+        ]
+    },
+    {
+        "name": "Potion of Quickness",
+        "id": "192ce394-a8c6-11ea-bb37-0242ac130002",
+        "bulk": "L",
+        "desc": "Drinking this silver potion grants you the effects of haste for 1 minute.",
+        "level": 8,
+        "price": 9000,
+        "traits": [
+            "Consumable",
+            "Magical",
+            "Potion",
+            "Transmutation"
+        ],
+        "_className": "Potion",
+        "activationType": "Interact",
+        "usage": "held in 1 hand",
+        "castSpells": [
+            {
+                "_className": "SpellCast",
+                "name": "Haste"
+            }
+        ]
+    },
+    {
+        "name": "Shrinking Potion (Greater)",
+        "id": "192ce498-a8c6-11ea-bb37-0242ac130002",
+        "bulk": "L",
+        "desc": "This fungus-flavored potion conveys the effects of the shrink spell to make you and all your gear smaller. After the onset, you remain small for 10 minutes.",
+        "level": 8,
+        "price": 9000,
+        "subType": "Greater",
+        "subTypeDesc": "This potion has no onset, lasts for 1 hour, and grants the effects of a 4th-level shrink spell. In addition, you gain a +2 item bonus to Stealth checks while shrunken.",
+        "traits": [
+            "Consumable",
+            "Magical",
+            "Potion",
+            "Transmutation"
+        ],
+        "_className": "Potion",
+        "activationType": "Interact",
+        "usage": "held in 1 hand",
+        "castSpells": [
+            {
+                "_className": "SpellCast",
+                "name": "Shrink",
+                "level": 4,
+                "duration": 6000
+            }
+        ],
+        "gainConditions": [
+            {
+                "_className": "ConditionGain",
+                "duration": 6000,
+                "name": "Shrinking Potion (Greater)",
+                "source": "Shrinking Potion (Greater)"
+            }
+        ]
+    },
+    {
+        "name": "Potion of Flying",
+        "id": "83013ecd-8ae7-4d76-a6df-0703887fdfe6",
+        "bulk": "L",
+        "desc": "Upon drinking this effervescent concoction, you gain a fly Speed of 40 feet for 1 minute.",
+        "level": 8,
+        "price": 10000,
+        "traits": [
+            "Consumable",
+            "Magical",
+            "Potion",
+            "Transmutation"
+        ],
+        "_className": "Potion",
+        "activationType": "Interact",
+        "usage": "held in 1 hand",
+        "gainConditions": [
+            {
+                "_className": "ConditionGain",
+                "duration": 100,
+                "name": "Potion of Flying",
+                "source": "Potion of Flying"
+            }
+        ]
+    },
+    {
+        "name": "Potion of Acid Resistance (Moderate)",
+        "id": "192ce556-a8c6-11ea-bb37-0242ac130002",
+        "bulk": "L",
+        "desc": "Drinking this thick, fortifying potion grants resistance against a single damage type for 1 hour. Each potion of resistance is created to defend against acid, cold, electricity, fire, or sonic damage (and is called a lesser potion of fire resistance or the like).",
+        "level": 10,
+        "price": 18000,
+        "subType": "Acid, Moderate",
+        "subTypeDesc": "You gain acid resistance 10.",
+        "traits": [
+            "Abjuration",
+            "Consumable",
+            "Magical",
+            "Potion"
+        ],
+        "_className": "Potion",
+        "activationType": "Interact",
+        "usage": "held in 1 hand",
+        "gainConditions": [
+            {
+                "_className": "ConditionGain",
+                "duration": 6000,
+                "name": "Potion of Acid Resistance",
+                "source": "Potion of Acid Resistance (Moderate)",
+                "value": 10
+            }
+        ]
+    },
+    {
+        "name": "Potion of Cold Resistance (Moderate)",
+        "id": "da86c4c6-a8c9-11ea-bb37-0242ac130002",
+        "bulk": "L",
+        "desc": "Drinking this thick, fortifying potion grants resistance against a single damage type for 1 hour. Each potion of resistance is created to defend against acid, cold, electricity, fire, or sonic damage (and is called a lesser potion of fire resistance or the like).",
+        "level": 10,
+        "price": 18000,
+        "subType": "Cold, Moderate",
+        "subTypeDesc": "You gain cold resistance 10.",
+        "traits": [
+            "Abjuration",
+            "Consumable",
+            "Magical",
+            "Potion"
+        ],
+        "_className": "Potion",
+        "activationType": "Interact",
+        "usage": "held in 1 hand",
+        "gainConditions": [
+            {
+                "_className": "ConditionGain",
+                "duration": 6000,
+                "name": "Potion of Cold Resistance",
+                "source": "Potion of Cold Resistance (Moderate)",
+                "value": 10
+            }
+        ]
+    },
+    {
+        "name": "Potion of Electricity Resistance (Moderate)",
+        "id": "da86c714-a8c9-11ea-bb37-0242ac130002",
+        "bulk": "L",
+        "desc": "Drinking this thick, fortifying potion grants resistance against a single damage type for 1 hour. Each potion of resistance is created to defend against acid, cold, electricity, fire, or sonic damage (and is called a lesser potion of fire resistance or the like).",
+        "level": 10,
+        "price": 18000,
+        "subType": "Electricity, Moderate",
+        "subTypeDesc": "You gain electricity resistance 10.",
+        "traits": [
+            "Abjuration",
+            "Consumable",
+            "Magical",
+            "Potion"
+        ],
+        "_className": "Potion",
+        "activationType": "Interact",
+        "usage": "held in 1 hand",
+        "gainConditions": [
+            {
+                "_className": "ConditionGain",
+                "duration": 6000,
+                "name": "Potion of Electricity Resistance",
+                "source": "Potion of Electricity Resistance (Moderate)",
+                "value": 10
+            }
+        ]
+    },
+    {
+        "name": "Potion of Fire Resistance (Moderate)",
+        "id": "da86c8ae-a8c9-11ea-bb37-0242ac130002",
+        "bulk": "L",
+        "desc": "Drinking this thick, fortifying potion grants resistance against a single damage type for 1 hour. Each potion of resistance is created to defend against acid, cold, electricity, fire, or sonic damage (and is called a lesser potion of fire resistance or the like).",
+        "level": 10,
+        "price": 18000,
+        "subType": "Fire, Moderate",
+        "subTypeDesc": "You gain fire resistance 10.",
+        "traits": [
+            "Abjuration",
+            "Consumable",
+            "Magical",
+            "Potion"
+        ],
+        "_className": "Potion",
+        "activationType": "Interact",
+        "usage": "held in 1 hand",
+        "gainConditions": [
+            {
+                "_className": "ConditionGain",
+                "duration": 6000,
+                "name": "Potion of Fire Resistance",
+                "source": "Potion of Fire Resistance (Moderate)",
+                "value": 10
+            }
+        ]
+    },
+    {
+        "name": "Potion of Sonic Resistance (Moderate)",
+        "id": "da86c99e-a8c9-11ea-bb37-0242ac130002",
+        "bulk": "L",
+        "desc": "Drinking this thick, fortifying potion grants resistance against a single damage type for 1 hour. Each potion of resistance is created to defend against acid, cold, electricity, fire, or sonic damage (and is called a lesser potion of fire resistance or the like).",
+        "level": 10,
+        "price": 18000,
+        "subType": "Sonic, Moderate",
+        "subTypeDesc": "You gain sonic resistance 10.",
+        "traits": [
+            "Abjuration",
+            "Consumable",
+            "Magical",
+            "Potion"
+        ],
+        "_className": "Potion",
+        "activationType": "Interact",
+        "usage": "held in 1 hand",
+        "gainConditions": [
+            {
+                "_className": "ConditionGain",
+                "duration": 6000,
+                "name": "Potion of Sonic Resistance",
+                "source": "Potion of Sonic Resistance (Moderate)",
+                "value": 10
+            }
+        ]
+    },
+    {
+        "name": "Potion of Swimming (Greater)",
+        "id": "192ce664-a8c6-11ea-bb37-0242ac130002",
+        "bulk": "L",
+        "desc": "This potion tastes like salt water, and sandy grit settles to the bottom of its container. When you drink it, you gain a swim Speed equal to your land Speed for 10 minutes.",
+        "level": 11,
+        "price": 25000,
+        "subType": "Greater",
+        "subTypeDesc": "The swim Speed lasts for 1 hour.",
+        "traits": [
+            "Consumable",
+            "Magical",
+            "Potion",
+            "Transmutation"
+        ],
+        "_className": "Potion",
+        "activationType": "Interact",
+        "usage": "held in 1 hand",
+        "gainConditions": [
+            {
+                "_className": "ConditionGain",
+                "duration": 6000,
+                "name": "Potion of Swimming",
+                "source": "Potion of Swimming"
+            }
+        ]
+    },
+    {
+        "name": "Potion of Tongues",
+        "id": "192ce740-a8c6-11ea-bb37-0242ac130002",
+        "bulk": "L",
+        "desc": "This sour potion enlivens your tongue with unusual flavors and uncommon eloquence, allowing you to speak and understand all languages for 4 hours after you drink it. This doesn't allow you to read these languages in their written form.",
+        "level": 12,
+        "price": 32000,
+        "traits": [
+            "Uncommon",
+            "Consumable",
+            "Divination",
+            "Magical",
+            "Potion"
+        ],
+        "_className": "Potion",
+        "activationType": "Interact",
+        "usage": "held in 1 hand",
+        "gainConditions": [
+            {
+                "_className": "ConditionGain",
+                "duration": 24000,
+                "name": "Potion of Tongues",
+                "source": "Potion of Tongues"
+            }
+        ]
+    },
+    {
+        "name": "Black Dragon's Breath Potion (Adult)",
+        "id": "7a25b9d4-a8ce-11ea-bb37-0242ac130002",
+        "bulk": "L",
+        "desc": "This liquid contains blood from a certain type of dragon. For 1 hour after you imbibe the concoction, you can unleash a breath weapon used by that type of dragon. The potency of the breath depends on the potion's type, based on the age of the dragon whose blood was used to make the potion. This potion has the trait matching the damage type of the breath weapon.\n\nExhaling dragon breath uses a single action. The damage type and the area of the dragon breath depend on the type of dragon blood in the potion, as shown in the table below. Regardless of the dragon type, the breath weapon deals 4d6 damage, and each creature in the area must attempt a DC 23 basic save of a type determined by the type of the dragon. After you use the breath weapon, you can't do so again for 1d4 rounds.",
+        "level": 12,
+        "price": 40000,
+        "subType": "Black, Adult",
+        "subTypeDesc": "The damage is 6d6 and the save DC is 29. The breath weapon is a 30-foot line of electricity, and the save type is Reflex.",
+        "traits": [
+            "Cold",
+            "Consumable",
+            "Evocation",
+            "Magical",
+            "Potion"
+        ],
+        "_className": "Potion",
+        "activationType": "Interact",
+        "usage": "held in 1 hand",
+        "gainConditions": [
+            {
+                "_className": "ConditionGain",
+                "duration": 6000,
+                "name": "Black Dragon's Breath Potion (Adult)",
+                "source": "Black Dragon's Breath Potion (Adult)"
+            }
+        ]
+    },
+    {
+        "name": "Copper Dragon's Breath Potion (Adult)",
+        "id": "7a25bc54-a8ce-11ea-bb37-0242ac130002",
+        "bulk": "L",
+        "desc": "This liquid contains blood from a certain type of dragon. For 1 hour after you imbibe the concoction, you can unleash a breath weapon used by that type of dragon. The potency of the breath depends on the potion's type, based on the age of the dragon whose blood was used to make the potion. This potion has the trait matching the damage type of the breath weapon.\n\nExhaling dragon breath uses a single action. The damage type and the area of the dragon breath depend on the type of dragon blood in the potion, as shown in the table below. Regardless of the dragon type, the breath weapon deals 4d6 damage, and each creature in the area must attempt a DC 23 basic save of a type determined by the type of the dragon. After you use the breath weapon, you can't do so again for 1d4 rounds.",
+        "level": 12,
+        "price": 40000,
+        "subType": "Copper, Adult",
+        "subTypeDesc": "The damage is 6d6 and the save DC is 29. The breath weapon is a 30-foot line of electricity, and the save type is Reflex.",
+        "traits": [
+            "Cold",
+            "Consumable",
+            "Evocation",
+            "Magical",
+            "Potion"
+        ],
+        "_className": "Potion",
+        "activationType": "Interact",
+        "usage": "held in 1 hand",
+        "gainConditions": [
+            {
+                "_className": "ConditionGain",
+                "duration": 6000,
+                "name": "Copper Dragon's Breath Potion (Adult)",
+                "source": "Copper Dragon's Breath Potion (Adult)"
+            }
+        ]
+    },
+    {
+        "name": "Blue Dragon's Breath Potion (Adult)",
+        "id": "7a25bd44-a8ce-11ea-bb37-0242ac130002",
+        "bulk": "L",
+        "desc": "This liquid contains blood from a certain type of dragon. For 1 hour after you imbibe the concoction, you can unleash a breath weapon used by that type of dragon. The potency of the breath depends on the potion's type, based on the age of the dragon whose blood was used to make the potion. This potion has the trait matching the damage type of the breath weapon.\n\nExhaling dragon breath uses a single action. The damage type and the area of the dragon breath depend on the type of dragon blood in the potion, as shown in the table below. Regardless of the dragon type, the breath weapon deals 4d6 damage, and each creature in the area must attempt a DC 23 basic save of a type determined by the type of the dragon. After you use the breath weapon, you can't do so again for 1d4 rounds.",
+        "level": 12,
+        "price": 40000,
+        "subType": "Blue, Adult",
+        "subTypeDesc": "The damage is 6d6 and the save DC is 29. The breath weapon is a 30-foot line of electricity, and the save type is Reflex.",
+        "traits": [
+            "Cold",
+            "Consumable",
+            "Evocation",
+            "Magical",
+            "Potion"
+        ],
+        "_className": "Potion",
+        "activationType": "Interact",
+        "usage": "held in 1 hand",
+        "gainConditions": [
+            {
+                "_className": "ConditionGain",
+                "duration": 6000,
+                "name": "Blue Dragon's Breath Potion (Adult)",
+                "source": "Blue Dragon's Breath Potion (Adult)"
+            }
+        ]
+    },
+    {
+        "name": "Bronze Dragon's Breath Potion (Adult)",
+        "id": "7a25be16-a8ce-11ea-bb37-0242ac130002",
+        "bulk": "L",
+        "desc": "This liquid contains blood from a certain type of dragon. For 1 hour after you imbibe the concoction, you can unleash a breath weapon used by that type of dragon. The potency of the breath depends on the potion's type, based on the age of the dragon whose blood was used to make the potion. This potion has the trait matching the damage type of the breath weapon.\n\nExhaling dragon breath uses a single action. The damage type and the area of the dragon breath depend on the type of dragon blood in the potion, as shown in the table below. Regardless of the dragon type, the breath weapon deals 4d6 damage, and each creature in the area must attempt a DC 23 basic save of a type determined by the type of the dragon. After you use the breath weapon, you can't do so again for 1d4 rounds.",
+        "level": 12,
+        "price": 40000,
+        "subType": "Bronze, Adult",
+        "subTypeDesc": "The damage is 6d6 and the save DC is 29. The breath weapon is a 30-foot line of electricity, and the save type is Reflex.",
+        "traits": [
+            "Cold",
+            "Consumable",
+            "Evocation",
+            "Magical",
+            "Potion"
+        ],
+        "_className": "Potion",
+        "activationType": "Interact",
+        "usage": "held in 1 hand",
+        "gainConditions": [
+            {
+                "_className": "ConditionGain",
+                "duration": 6000,
+                "name": "Bronze Dragon's Breath Potion (Adult)",
+                "source": "Bronze Dragon's Breath Potion (Adult)"
+            }
+        ]
+    },
+    {
+        "name": "Brass Dragon's Breath Potion (Adult)",
+        "id": "7a25c032-a8ce-11ea-bb37-0242ac130002",
+        "bulk": "L",
+        "desc": "This liquid contains blood from a certain type of dragon. For 1 hour after you imbibe the concoction, you can unleash a breath weapon used by that type of dragon. The potency of the breath depends on the potion's type, based on the age of the dragon whose blood was used to make the potion. This potion has the trait matching the damage type of the breath weapon.\n\nExhaling dragon breath uses a single action. The damage type and the area of the dragon breath depend on the type of dragon blood in the potion, as shown in the table below. Regardless of the dragon type, the breath weapon deals 4d6 damage, and each creature in the area must attempt a DC 23 basic save of a type determined by the type of the dragon. After you use the breath weapon, you can't do so again for 1d4 rounds.",
+        "level": 12,
+        "price": 40000,
+        "subType": "Brass, Adult",
+        "subTypeDesc": "The damage is 6d6 and the save DC is 29. The breath weapon is a 30-foot line of fire, and the save type is Reflex.",
+        "traits": [
+            "Cold",
+            "Consumable",
+            "Evocation",
+            "Magical",
+            "Potion"
+        ],
+        "_className": "Potion",
+        "activationType": "Interact",
+        "usage": "held in 1 hand",
+        "gainConditions": [
+            {
+                "_className": "ConditionGain",
+                "duration": 6000,
+                "name": "Brass Dragon's Breath Potion (Adult)",
+                "source": "Brass Dragon's Breath Potion (Adult)"
+            }
+        ]
+    },
+    {
+        "name": "Green Dragon's Breath Potion (Adult)",
+        "id": "7a25c104-a8ce-11ea-bb37-0242ac130002",
+        "bulk": "L",
+        "desc": "This liquid contains blood from a certain type of dragon. For 1 hour after you imbibe the concoction, you can unleash a breath weapon used by that type of dragon. The potency of the breath depends on the potion's type, based on the age of the dragon whose blood was used to make the potion. This potion has the trait matching the damage type of the breath weapon.\n\nExhaling dragon breath uses a single action. The damage type and the area of the dragon breath depend on the type of dragon blood in the potion, as shown in the table below. Regardless of the dragon type, the breath weapon deals 4d6 damage, and each creature in the area must attempt a DC 23 basic save of a type determined by the type of the dragon. After you use the breath weapon, you can't do so again for 1d4 rounds.",
+        "level": 12,
+        "price": 40000,
+        "subType": "Green, Adult",
+        "subTypeDesc": "The damage is 6d6 and the save DC is 29. The breath weapon is a 15-foot cone of poison, and the save type is Fortitude.",
+        "traits": [
+            "Cold",
+            "Consumable",
+            "Evocation",
+            "Magical",
+            "Potion"
+        ],
+        "_className": "Potion",
+        "activationType": "Interact",
+        "usage": "held in 1 hand",
+        "gainConditions": [
+            {
+                "_className": "ConditionGain",
+                "duration": 6000,
+                "name": "Green Dragon's Breath Potion (Adult)",
+                "source": "Green Dragon's Breath Potion (Adult)"
+            }
+        ]
+    },
+    {
+        "name": "Gold Dragon's Breath Potion (Adult)",
+        "id": "7a25c1c2-a8ce-11ea-bb37-0242ac130002",
+        "bulk": "L",
+        "desc": "This liquid contains blood from a certain type of dragon. For 1 hour after you imbibe the concoction, you can unleash a breath weapon used by that type of dragon. The potency of the breath depends on the potion's type, based on the age of the dragon whose blood was used to make the potion. This potion has the trait matching the damage type of the breath weapon.\n\nExhaling dragon breath uses a single action. The damage type and the area of the dragon breath depend on the type of dragon blood in the potion, as shown in the table below. Regardless of the dragon type, the breath weapon deals 4d6 damage, and each creature in the area must attempt a DC 23 basic save of a type determined by the type of the dragon. After you use the breath weapon, you can't do so again for 1d4 rounds.",
+        "level": 12,
+        "price": 40000,
+        "subType": "Gold, Adult",
+        "subTypeDesc": "The damage is 6d6 and the save DC is 29. The breath weapon is a 15-foot cone of fire, and the save type is Reflex.",
+        "traits": [
+            "Cold",
+            "Consumable",
+            "Evocation",
+            "Magical",
+            "Potion"
+        ],
+        "_className": "Potion",
+        "activationType": "Interact",
+        "usage": "held in 1 hand",
+        "gainConditions": [
+            {
+                "_className": "ConditionGain",
+                "duration": 6000,
+                "name": "Gold Dragon's Breath Potion (Adult)",
+                "source": "Gold Dragon's Breath Potion (Adult)"
+            }
+        ]
+    },
+    {
+        "name": "Red Dragon's Breath Potion (Adult)",
+        "id": "7a25c280-a8ce-11ea-bb37-0242ac130002",
+        "bulk": "L",
+        "desc": "This liquid contains blood from a certain type of dragon. For 1 hour after you imbibe the concoction, you can unleash a breath weapon used by that type of dragon. The potency of the breath depends on the potion's type, based on the age of the dragon whose blood was used to make the potion. This potion has the trait matching the damage type of the breath weapon.\n\nExhaling dragon breath uses a single action. The damage type and the area of the dragon breath depend on the type of dragon blood in the potion, as shown in the table below. Regardless of the dragon type, the breath weapon deals 4d6 damage, and each creature in the area must attempt a DC 23 basic save of a type determined by the type of the dragon. After you use the breath weapon, you can't do so again for 1d4 rounds.",
+        "level": 12,
+        "price": 40000,
+        "subType": "Red, Adult",
+        "subTypeDesc": "The damage is 6d6 and the save DC is 29. The breath weapon is a 15-foot cone of fire, and the save type is Reflex.",
+        "traits": [
+            "Cold",
+            "Consumable",
+            "Evocation",
+            "Magical",
+            "Potion"
+        ],
+        "_className": "Potion",
+        "activationType": "Interact",
+        "usage": "held in 1 hand",
+        "gainConditions": [
+            {
+                "_className": "ConditionGain",
+                "duration": 6000,
+                "name": "Red Dragon's Breath Potion (Adult)",
+                "source": "Red Dragon's Breath Potion (Adult)"
+            }
+        ]
+    },
+    {
+        "name": "Silver Dragon's Breath Potion (Adult)",
+        "id": "7a25c348-a8ce-11ea-bb37-0242ac130002",
+        "bulk": "L",
+        "desc": "This liquid contains blood from a certain type of dragon. For 1 hour after you imbibe the concoction, you can unleash a breath weapon used by that type of dragon. The potency of the breath depends on the potion's type, based on the age of the dragon whose blood was used to make the potion. This potion has the trait matching the damage type of the breath weapon.\n\nExhaling dragon breath uses a single action. The damage type and the area of the dragon breath depend on the type of dragon blood in the potion, as shown in the table below. Regardless of the dragon type, the breath weapon deals 4d6 damage, and each creature in the area must attempt a DC 23 basic save of a type determined by the type of the dragon. After you use the breath weapon, you can't do so again for 1d4 rounds.",
+        "level": 12,
+        "price": 40000,
+        "subType": "Silver, Adult",
+        "subTypeDesc": "The damage is 6d6 and the save DC is 29. The breath weapon is a 15-foot cone of cold, and the save type is Reflex.",
+        "traits": [
+            "Cold",
+            "Consumable",
+            "Evocation",
+            "Magical",
+            "Potion"
+        ],
+        "_className": "Potion",
+        "activationType": "Interact",
+        "usage": "held in 1 hand",
+        "gainConditions": [
+            {
+                "_className": "ConditionGain",
+                "duration": 6000,
+                "name": "Silver Dragon's Breath Potion (Adult)",
+                "source": "Silver Dragon's Breath Potion (Adult)"
+            }
+        ]
+    },
+    {
+        "name": "White Dragon's Breath Potion (Adult)",
+        "id": "7a25c406-a8ce-11ea-bb37-0242ac130002",
+        "bulk": "L",
+        "desc": "This liquid contains blood from a certain type of dragon. For 1 hour after you imbibe the concoction, you can unleash a breath weapon used by that type of dragon. The potency of the breath depends on the potion's type, based on the age of the dragon whose blood was used to make the potion. This potion has the trait matching the damage type of the breath weapon.\n\nExhaling dragon breath uses a single action. The damage type and the area of the dragon breath depend on the type of dragon blood in the potion, as shown in the table below. Regardless of the dragon type, the breath weapon deals 4d6 damage, and each creature in the area must attempt a DC 23 basic save of a type determined by the type of the dragon. After you use the breath weapon, you can't do so again for 1d4 rounds.",
+        "level": 12,
+        "price": 40000,
+        "subType": "White, Adult",
+        "subTypeDesc": "The damage is 6d6 and the save DC is 29. The breath weapon is a 15-foot cone of cold, and the save type is Reflex.",
+        "traits": [
+            "Cold",
+            "Consumable",
+            "Evocation",
+            "Magical",
+            "Potion"
+        ],
+        "_className": "Potion",
+        "activationType": "Interact",
+        "usage": "held in 1 hand",
+        "gainConditions": [
+            {
+                "_className": "ConditionGain",
+                "duration": 6000,
+                "name": "White Dragon's Breath Potion (Adult)",
+                "source": "White Dragon's Breath Potion (Adult)"
+            }
+        ]
+    },
+    {
+        "name": "Healing Potion (Greater)",
+        "id": "ea8256bb-3d06-42d3-b726-8413fac35f9b",
+        "bulk": "L",
+        "desc": "A healing potion is a vial of a ruby-red liquid that imparts a tingling sensation as the drinker's wounds heal rapidly. When you drink a healing potion, you regain the listed number of Hit Points.",
+        "level": 12,
+        "price": 40000,
+        "subType": "Greater",
+        "subTypeDesc": "The potion restores 6d8+20 Hit Points.",
+        "traits": [
+            "Consumable",
+            "Healing",
+            "Magical",
+            "Necromancy",
+            "Potion"
+        ],
+        "_className": "Potion",
+        "activationType": "Interact",
+        "usage": "held in 1 hand"
+    },
+    {
+        "name": "Panacea",
+        "id": "192ce8bc-a8c6-11ea-bb37-0242ac130002",
+        "bulk": "L",
+        "desc": "This potion appears to shift colors, and no two observers describe it in the same way. When consumed, it attempts to counteract all curses and diseases affecting you, as well as the blinded and deafened conditions from spells affecting you. The potion has a counteract level of 7 and a +20 modifier for the roll.",
+        "level": 13,
+        "price": 45000,
+        "traits": [
+            "Uncommon",
+            "Consumable",
+            "Healing",
+            "Magical",
+            "Necromancy",
+            "Potion"
+        ],
+        "_className": "Potion",
+        "activationType": "Interact",
+        "usage": "held in 1 hand",
+        "inputRequired": "The potion attempts to counteract all curses and diseases affecting you, as well as the blinded and deafened conditions from spells affecting you. The potion has a counteract level of 7 and a +20 modifier for the roll."
+    },
+    {
+        "name": "Potion of Acid Resistance (Greater)",
+        "id": "192ce97a-a8c6-11ea-bb37-0242ac130002",
+        "bulk": "L",
+        "desc": "Drinking this thick, fortifying potion grants resistance against a single damage type for 1 hour. Each potion of resistance is created to defend against acid, cold, electricity, fire, or sonic damage (and is called a lesser potion of fire resistance or the like).",
+        "level": 14,
+        "price": 85000,
+        "subType": "Acid, Greater",
+        "subTypeDesc": "You gain acid resistance 15.",
+        "traits": [
+            "Abjuration",
+            "Consumable",
+            "Magical",
+            "Potion"
+        ],
+        "_className": "Potion",
+        "activationType": "Interact",
+        "usage": "held in 1 hand",
+        "gainConditions": [
+            {
+                "_className": "ConditionGain",
+                "duration": 6000,
+                "name": "Potion of Acid Resistance",
+                "source": "Potion of Acid Resistance (Greater)",
+                "value": 15
+            }
+        ]
+    },
+    {
+        "name": "Potion of Cold Resistance (Greater)",
+        "id": "da86ce62-a8c9-11ea-bb37-0242ac130002",
+        "bulk": "L",
+        "desc": "Drinking this thick, fortifying potion grants resistance against a single damage type for 1 hour. Each potion of resistance is created to defend against acid, cold, electricity, fire, or sonic damage (and is called a lesser potion of fire resistance or the like).",
+        "level": 14,
+        "price": 85000,
+        "subType": "Cold, Greater",
+        "subTypeDesc": "You gain cold resistance 15.",
+        "traits": [
+            "Abjuration",
+            "Consumable",
+            "Magical",
+            "Potion"
+        ],
+        "_className": "Potion",
+        "activationType": "Interact",
+        "usage": "held in 1 hand",
+        "gainConditions": [
+            {
+                "_className": "ConditionGain",
+                "duration": 6000,
+                "name": "Potion of Cold Resistance",
+                "source": "Potion of Cold Resistance (Greater)",
+                "value": 15
+            }
+        ]
+    },
+    {
+        "name": "Potion of Electricity Resistance (Greater)",
+        "id": "da86cda4-a8c9-11ea-bb37-0242ac130002",
+        "bulk": "L",
+        "desc": "Drinking this thick, fortifying potion grants resistance against a single damage type for 1 hour. Each potion of resistance is created to defend against acid, cold, electricity, fire, or sonic damage (and is called a lesser potion of fire resistance or the like).",
+        "level": 14,
+        "price": 85000,
+        "subType": "Electricity, Greater",
+        "subTypeDesc": "You gain electricity resistance 15.",
+        "traits": [
+            "Abjuration",
+            "Consumable",
+            "Magical",
+            "Potion"
+        ],
+        "_className": "Potion",
+        "activationType": "Interact",
+        "usage": "held in 1 hand",
+        "gainConditions": [
+            {
+                "_className": "ConditionGain",
+                "duration": 6000,
+                "name": "Potion of Electricity Resistance",
+                "source": "Potion of Electricity Resistance (Greater)",
+                "value": 15
+            }
+        ]
+    },
+    {
+        "name": "Potion of Fire Resistance (Greater)",
+        "id": "da86ccdc-a8c9-11ea-bb37-0242ac130002",
+        "bulk": "L",
+        "desc": "Drinking this thick, fortifying potion grants resistance against a single damage type for 1 hour. Each potion of resistance is created to defend against acid, cold, electricity, fire, or sonic damage (and is called a lesser potion of fire resistance or the like).",
+        "level": 14,
+        "price": 85000,
+        "subType": "Fire, Greater",
+        "subTypeDesc": "You gain fire resistance 15.",
+        "traits": [
+            "Abjuration",
+            "Consumable",
+            "Magical",
+            "Potion"
+        ],
+        "_className": "Potion",
+        "activationType": "Interact",
+        "usage": "held in 1 hand",
+        "gainConditions": [
+            {
+                "_className": "ConditionGain",
+                "duration": 6000,
+                "name": "Potion of Fire Resistance",
+                "source": "Potion of Fire Resistance (Greater)",
+                "value": 15
+            }
+        ]
+    },
+    {
+        "name": "Potion of Sonic Resistance (Greater)",
+        "id": "da86cc00-a8c9-11ea-bb37-0242ac130002",
+        "bulk": "L",
+        "desc": "Drinking this thick, fortifying potion grants resistance against a single damage type for 1 hour. Each potion of resistance is created to defend against acid, cold, electricity, fire, or sonic damage (and is called a lesser potion of fire resistance or the like).",
+        "level": 14,
+        "price": 85000,
+        "subType": "Sonic, Greater",
+        "subTypeDesc": "You gain sonic resistance 15.",
+        "traits": [
+            "Abjuration",
+            "Consumable",
+            "Magical",
+            "Potion"
+        ],
+        "_className": "Potion",
+        "activationType": "Interact",
+        "usage": "held in 1 hand",
+        "gainConditions": [
+            {
+                "_className": "ConditionGain",
+                "duration": 6000,
+                "name": "Potion of Sonic Resistance",
+                "source": "Potion of Sonic Resistance (Greater)",
+                "value": 15
+            }
+        ]
+    },
+    {
+        "name": "Potion of Flying (Greater)",
+        "id": "6f2f5e39-74e7-4caf-a028-e14295c97d36",
+        "bulk": "L",
+        "desc": "Upon drinking this effervescent concoction, you gain a fly Speed of 40 feet for 1 minute.",
+        "level": 15,
+        "price": 100000,
+        "subType": "Greater",
+        "subTypeDesc": "The fly Speed lasts for 1 hour.",
+        "traits": [
+            "Consumable",
+            "Magical",
+            "Potion",
+            "Transmutation"
+        ],
+        "_className": "Potion",
+        "activationType": "Interact",
+        "usage": "held in 1 hand",
+        "gainConditions": [
+            {
+                "_className": "ConditionGain",
+                "duration": 6000,
+                "name": "Potion of Flying",
+                "source": "Potion of Flying"
+            }
+        ]
+    },
+    {
+        "name": "Truesight Potion",
+        "id": "192cebaa-a8c6-11ea-bb37-0242ac130002",
+        "bulk": "L",
+        "desc": "Upon drinking this clear, refreshing potion, you can see things as they actually are. You gain the benefits of a 7th-level true seeing spell that has a counteract modifier of +25.",
+        "level": 16,
+        "price": 150000,
+        "traits": [
+            "Consumable",
+            "Divination",
+            "Magical",
+            "Potion"
+        ],
+        "_className": "Potion",
+        "activationType": "Interact",
+        "usage": "held in 1 hand",
+        "castSpells": [
+            {
+                "_className": "SpellCast",
+                "name": "True Seeing",
+                "level": 7
+            }
+        ]
+    },
+    {
+        "name": "Black Dragon's Breath Potion (Wyrm)",
+        "id": "18e0fdae-a8cf-11ea-bb37-0242ac130002",
+        "bulk": "L",
+        "desc": "This liquid contains blood from a certain type of dragon. For 1 hour after you imbibe the concoction, you can unleash a breath weapon used by that type of dragon. The potency of the breath depends on the potion's type, based on the age of the dragon whose blood was used to make the potion. This potion has the trait matching the damage type of the breath weapon.\n\nExhaling dragon breath uses a single action. The damage type and the area of the dragon breath depend on the type of dragon blood in the potion, as shown in the table below. Regardless of the dragon type, the breath weapon deals 4d6 damage, and each creature in the area must attempt a DC 23 basic save of a type determined by the type of the dragon. After you use the breath weapon, you can't do so again for 1d4 rounds.",
+        "level": 17,
+        "price": 300000,
+        "subType": "Black, Wyrm",
+        "subTypeDesc": "The damage is 10d6 and the save DC is 37. The breath weapon is a 30-foot line of electricity, and the save type is Reflex.",
+        "traits": [
+            "Cold",
+            "Consumable",
+            "Evocation",
+            "Magical",
+            "Potion"
+        ],
+        "_className": "Potion",
+        "activationType": "Interact",
+        "usage": "held in 1 hand",
+        "gainConditions": [
+            {
+                "_className": "ConditionGain",
+                "duration": 6000,
+                "name": "Black Dragon's Breath Potion (Wyrm)",
+                "source": "Black Dragon's Breath Potion (Wyrm)"
+            }
+        ]
+    },
+    {
+        "name": "Copper Dragon's Breath Potion (Wyrm)",
+        "id": "18e0ffde-a8cf-11ea-bb37-0242ac130002",
+        "bulk": "L",
+        "desc": "This liquid contains blood from a certain type of dragon. For 1 hour after you imbibe the concoction, you can unleash a breath weapon used by that type of dragon. The potency of the breath depends on the potion's type, based on the age of the dragon whose blood was used to make the potion. This potion has the trait matching the damage type of the breath weapon.\n\nExhaling dragon breath uses a single action. The damage type and the area of the dragon breath depend on the type of dragon blood in the potion, as shown in the table below. Regardless of the dragon type, the breath weapon deals 4d6 damage, and each creature in the area must attempt a DC 23 basic save of a type determined by the type of the dragon. After you use the breath weapon, you can't do so again for 1d4 rounds.",
+        "level": 17,
+        "price": 300000,
+        "subType": "Copper, Wyrm",
+        "subTypeDesc": "The damage is 10d6 and the save DC is 37. The breath weapon is a 30-foot line of electricity, and the save type is Reflex.",
+        "traits": [
+            "Cold",
+            "Consumable",
+            "Evocation",
+            "Magical",
+            "Potion"
+        ],
+        "_className": "Potion",
+        "activationType": "Interact",
+        "usage": "held in 1 hand",
+        "gainConditions": [
+            {
+                "_className": "ConditionGain",
+                "duration": 6000,
+                "name": "Copper Dragon's Breath Potion (Wyrm)",
+                "source": "Copper Dragon's Breath Potion (Wyrm)"
+            }
+        ]
+    },
+    {
+        "name": "Blue Dragon's Breath Potion (Wyrm)",
+        "id": "18e10344-a8cf-11ea-bb37-0242ac130002",
+        "bulk": "L",
+        "desc": "This liquid contains blood from a certain type of dragon. For 1 hour after you imbibe the concoction, you can unleash a breath weapon used by that type of dragon. The potency of the breath depends on the potion's type, based on the age of the dragon whose blood was used to make the potion. This potion has the trait matching the damage type of the breath weapon.\n\nExhaling dragon breath uses a single action. The damage type and the area of the dragon breath depend on the type of dragon blood in the potion, as shown in the table below. Regardless of the dragon type, the breath weapon deals 4d6 damage, and each creature in the area must attempt a DC 23 basic save of a type determined by the type of the dragon. After you use the breath weapon, you can't do so again for 1d4 rounds.",
+        "level": 17,
+        "price": 300000,
+        "subType": "Blue, Wyrm",
+        "subTypeDesc": "The damage is 10d6 and the save DC is 37. The breath weapon is a 30-foot line of electricity, and the save type is Reflex.",
+        "traits": [
+            "Cold",
+            "Consumable",
+            "Evocation",
+            "Magical",
+            "Potion"
+        ],
+        "_className": "Potion",
+        "activationType": "Interact",
+        "usage": "held in 1 hand",
+        "gainConditions": [
+            {
+                "_className": "ConditionGain",
+                "duration": 6000,
+                "name": "Blue Dragon's Breath Potion (Wyrm)",
+                "source": "Blue Dragon's Breath Potion (Wyrm)"
+            }
+        ]
+    },
+    {
+        "name": "Bronze Dragon's Breath Potion (Wyrm)",
+        "id": "18e10448-a8cf-11ea-bb37-0242ac130002",
+        "bulk": "L",
+        "desc": "This liquid contains blood from a certain type of dragon. For 1 hour after you imbibe the concoction, you can unleash a breath weapon used by that type of dragon. The potency of the breath depends on the potion's type, based on the age of the dragon whose blood was used to make the potion. This potion has the trait matching the damage type of the breath weapon.\n\nExhaling dragon breath uses a single action. The damage type and the area of the dragon breath depend on the type of dragon blood in the potion, as shown in the table below. Regardless of the dragon type, the breath weapon deals 4d6 damage, and each creature in the area must attempt a DC 23 basic save of a type determined by the type of the dragon. After you use the breath weapon, you can't do so again for 1d4 rounds.",
+        "level": 17,
+        "price": 300000,
+        "subType": "Bronze, Wyrm",
+        "subTypeDesc": "The damage is 10d6 and the save DC is 37. The breath weapon is a 30-foot line of electricity, and the save type is Reflex.",
+        "traits": [
+            "Cold",
+            "Consumable",
+            "Evocation",
+            "Magical",
+            "Potion"
+        ],
+        "_className": "Potion",
+        "activationType": "Interact",
+        "usage": "held in 1 hand",
+        "gainConditions": [
+            {
+                "_className": "ConditionGain",
+                "duration": 6000,
+                "name": "Bronze Dragon's Breath Potion (Wyrm)",
+                "source": "Bronze Dragon's Breath Potion (Wyrm)"
+            }
+        ]
+    },
+    {
+        "name": "Brass Dragon's Breath Potion (Wyrm)",
+        "id": "18e10524-a8cf-11ea-bb37-0242ac130002",
+        "bulk": "L",
+        "desc": "This liquid contains blood from a certain type of dragon. For 1 hour after you imbibe the concoction, you can unleash a breath weapon used by that type of dragon. The potency of the breath depends on the potion's type, based on the age of the dragon whose blood was used to make the potion. This potion has the trait matching the damage type of the breath weapon.\n\nExhaling dragon breath uses a single action. The damage type and the area of the dragon breath depend on the type of dragon blood in the potion, as shown in the table below. Regardless of the dragon type, the breath weapon deals 4d6 damage, and each creature in the area must attempt a DC 23 basic save of a type determined by the type of the dragon. After you use the breath weapon, you can't do so again for 1d4 rounds.",
+        "level": 17,
+        "price": 300000,
+        "subType": "Brass, Wyrm",
+        "subTypeDesc": "The damage is 10d6 and the save DC is 37. The breath weapon is a 30-foot line of fire, and the save type is Reflex.",
+        "traits": [
+            "Cold",
+            "Consumable",
+            "Evocation",
+            "Magical",
+            "Potion"
+        ],
+        "_className": "Potion",
+        "activationType": "Interact",
+        "usage": "held in 1 hand",
+        "gainConditions": [
+            {
+                "_className": "ConditionGain",
+                "duration": 6000,
+                "name": "Brass Dragon's Breath Potion (Wyrm)",
+                "source": "Brass Dragon's Breath Potion (Wyrm)"
+            }
+        ]
+    },
+    {
+        "name": "Green Dragon's Breath Potion (Wyrm)",
+        "id": "18e105f6-a8cf-11ea-bb37-0242ac130002",
+        "bulk": "L",
+        "desc": "This liquid contains blood from a certain type of dragon. For 1 hour after you imbibe the concoction, you can unleash a breath weapon used by that type of dragon. The potency of the breath depends on the potion's type, based on the age of the dragon whose blood was used to make the potion. This potion has the trait matching the damage type of the breath weapon.\n\nExhaling dragon breath uses a single action. The damage type and the area of the dragon breath depend on the type of dragon blood in the potion, as shown in the table below. Regardless of the dragon type, the breath weapon deals 4d6 damage, and each creature in the area must attempt a DC 23 basic save of a type determined by the type of the dragon. After you use the breath weapon, you can't do so again for 1d4 rounds.",
+        "level": 17,
+        "price": 300000,
+        "subType": "Green, Wyrm",
+        "subTypeDesc": "The damage is 10d6 and the save DC is 37. The breath weapon is a 15-foot cone of poison, and the save type is Fortitude.",
+        "traits": [
+            "Cold",
+            "Consumable",
+            "Evocation",
+            "Magical",
+            "Potion"
+        ],
+        "_className": "Potion",
+        "activationType": "Interact",
+        "usage": "held in 1 hand",
+        "gainConditions": [
+            {
+                "_className": "ConditionGain",
+                "duration": 6000,
+                "name": "Green Dragon's Breath Potion (Wyrm)",
+                "source": "Green Dragon's Breath Potion (Wyrm)"
+            }
+        ]
+    },
+    {
+        "name": "Gold Dragon's Breath Potion (Wyrm)",
+        "id": "18e106b4-a8cf-11ea-bb37-0242ac130002",
+        "bulk": "L",
+        "desc": "This liquid contains blood from a certain type of dragon. For 1 hour after you imbibe the concoction, you can unleash a breath weapon used by that type of dragon. The potency of the breath depends on the potion's type, based on the age of the dragon whose blood was used to make the potion. This potion has the trait matching the damage type of the breath weapon.\n\nExhaling dragon breath uses a single action. The damage type and the area of the dragon breath depend on the type of dragon blood in the potion, as shown in the table below. Regardless of the dragon type, the breath weapon deals 4d6 damage, and each creature in the area must attempt a DC 23 basic save of a type determined by the type of the dragon. After you use the breath weapon, you can't do so again for 1d4 rounds.",
+        "level": 17,
+        "price": 300000,
+        "subType": "Gold, Wyrm",
+        "subTypeDesc": "The damage is 10d6 and the save DC is 37. The breath weapon is a 15-foot cone of fire, and the save type is Reflex.",
+        "traits": [
+            "Cold",
+            "Consumable",
+            "Evocation",
+            "Magical",
+            "Potion"
+        ],
+        "_className": "Potion",
+        "activationType": "Interact",
+        "usage": "held in 1 hand",
+        "gainConditions": [
+            {
+                "_className": "ConditionGain",
+                "duration": 6000,
+                "name": "Gold Dragon's Breath Potion (Wyrm)",
+                "source": "Gold Dragon's Breath Potion (Wyrm)"
+            }
+        ]
+    },
+    {
+        "name": "Red Dragon's Breath Potion (Wyrm)",
+        "id": "18e10772-a8cf-11ea-bb37-0242ac130002",
+        "bulk": "L",
+        "desc": "This liquid contains blood from a certain type of dragon. For 1 hour after you imbibe the concoction, you can unleash a breath weapon used by that type of dragon. The potency of the breath depends on the potion's type, based on the age of the dragon whose blood was used to make the potion. This potion has the trait matching the damage type of the breath weapon.\n\nExhaling dragon breath uses a single action. The damage type and the area of the dragon breath depend on the type of dragon blood in the potion, as shown in the table below. Regardless of the dragon type, the breath weapon deals 4d6 damage, and each creature in the area must attempt a DC 23 basic save of a type determined by the type of the dragon. After you use the breath weapon, you can't do so again for 1d4 rounds.",
+        "level": 17,
+        "price": 300000,
+        "subType": "Red, Wyrm",
+        "subTypeDesc": "The damage is 10d6 and the save DC is 37. The breath weapon is a 15-foot cone of fire, and the save type is Reflex.",
+        "traits": [
+            "Cold",
+            "Consumable",
+            "Evocation",
+            "Magical",
+            "Potion"
+        ],
+        "_className": "Potion",
+        "activationType": "Interact",
+        "usage": "held in 1 hand",
+        "gainConditions": [
+            {
+                "_className": "ConditionGain",
+                "duration": 6000,
+                "name": "Red Dragon's Breath Potion (Wyrm)",
+                "source": "Red Dragon's Breath Potion (Wyrm)"
+            }
+        ]
+    },
+    {
+        "name": "Silver Dragon's Breath Potion (Wyrm)",
+        "id": "18e10826-a8cf-11ea-bb37-0242ac130002",
+        "bulk": "L",
+        "desc": "This liquid contains blood from a certain type of dragon. For 1 hour after you imbibe the concoction, you can unleash a breath weapon used by that type of dragon. The potency of the breath depends on the potion's type, based on the age of the dragon whose blood was used to make the potion. This potion has the trait matching the damage type of the breath weapon.\n\nExhaling dragon breath uses a single action. The damage type and the area of the dragon breath depend on the type of dragon blood in the potion, as shown in the table below. Regardless of the dragon type, the breath weapon deals 4d6 damage, and each creature in the area must attempt a DC 23 basic save of a type determined by the type of the dragon. After you use the breath weapon, you can't do so again for 1d4 rounds.",
+        "level": 17,
+        "price": 300000,
+        "subType": "Silver, Wyrm",
+        "subTypeDesc": "The damage is 10d6 and the save DC is 37. The breath weapon is a 15-foot cone of cold, and the save type is Reflex.",
+        "traits": [
+            "Cold",
+            "Consumable",
+            "Evocation",
+            "Magical",
+            "Potion"
+        ],
+        "_className": "Potion",
+        "activationType": "Interact",
+        "usage": "held in 1 hand",
+        "gainConditions": [
+            {
+                "_className": "ConditionGain",
+                "duration": 6000,
+                "name": "Silver Dragon's Breath Potion (Wyrm)",
+                "source": "Silver Dragon's Breath Potion (Wyrm)"
+            }
+        ]
+    },
+    {
+        "name": "White Dragon's Breath Potion (Wyrm)",
+        "id": "18e10b78-a8cf-11ea-bb37-0242ac130002",
+        "bulk": "L",
+        "desc": "This liquid contains blood from a certain type of dragon. For 1 hour after you imbibe the concoction, you can unleash a breath weapon used by that type of dragon. The potency of the breath depends on the potion's type, based on the age of the dragon whose blood was used to make the potion. This potion has the trait matching the damage type of the breath weapon.\n\nExhaling dragon breath uses a single action. The damage type and the area of the dragon breath depend on the type of dragon blood in the potion, as shown in the table below. Regardless of the dragon type, the breath weapon deals 4d6 damage, and each creature in the area must attempt a DC 23 basic save of a type determined by the type of the dragon. After you use the breath weapon, you can't do so again for 1d4 rounds.",
+        "level": 17,
+        "price": 300000,
+        "subType": "White, Wyrm",
+        "subTypeDesc": "The damage is 10d6 and the save DC is 37. The breath weapon is a 15-foot cone of cold, and the save type is Reflex.",
+        "traits": [
+            "Cold",
+            "Consumable",
+            "Evocation",
+            "Magical",
+            "Potion"
+        ],
+        "_className": "Potion",
+        "activationType": "Interact",
+        "usage": "held in 1 hand",
+        "gainConditions": [
+            {
+                "_className": "ConditionGain",
+                "duration": 6000,
+                "name": "White Dragon's Breath Potion (Wyrm)",
+                "source": "White Dragon's Breath Potion (Wyrm)"
+            }
+        ]
+    },
+    {
+        "name": "Potion of Undetectability",
+        "id": "192ced26-a8c6-11ea-bb37-0242ac130002",
+        "bulk": "L",
+        "desc": "Drinking this dull-black liquid makes you undetectable to divinations. This grants the same effects as mind blank, but without the bonus against mental effects. You also gain the effects of a 4th-level invisibility spell, which protects against see invisibility spells of 8th level and lower and has a DC of 36 against true seeing. The potion's effects last for 10 minutes. ",
+        "level": 18,
+        "price": 440000,
+        "traits": [
+            "Consumable",
+            "Illusion",
+            "Magical",
+            "Potion"
+        ],
+        "_className": "Potion",
+        "activationType": "Interact",
+        "usage": "held in 1 hand",
+        "castSpells": [
+            {
+                "_className": "SpellCast",
+                "name": "Mind Blank",
+                "duration": 1000
+            },
+            {
+                "_className": "SpellCast",
+                "name": "Invisibility",
+                "level": 4,
+                "duration": 1000
+            }
+        ]
+    },
+    {
+        "name": "Healing Potion (Major)",
+        "id": "b268bfa1-6183-4c5c-bfdc-5a20e1e445cf",
+        "bulk": "L",
+        "desc": "A healing potion is a vial of a ruby-red liquid that imparts a tingling sensation as the drinker's wounds heal rapidly. When you drink a healing potion, you regain the listed number of Hit Points.",
+        "level": 18,
+        "price": 500000,
+        "subType": "Major",
+        "subTypeDesc": "The potion restores 8d8+30 Hit Points.",
+        "traits": [
+            "Consumable",
+            "Healing",
+            "Magical",
+            "Necromancy",
+            "Potion"
+        ],
+        "_className": "Potion",
+        "activationType": "Interact",
+        "usage": "held in 1 hand"
+    }
+]
