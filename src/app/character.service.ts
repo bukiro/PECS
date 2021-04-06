@@ -693,7 +693,7 @@ export class CharacterService {
     }
 
     get_InvestedItems(creature: Creature) {
-        return creature.inventories[0].allEquipment().filter(item => item.invested && item.traits.includes("Invested"));
+        return creature.inventories[0]?.allEquipment().filter(item => item.invested && item.traits.includes("Invested")) || [];
     }
 
     create_WeaponFeats(weapons: Weapon[] = []) {
@@ -937,13 +937,13 @@ export class CharacterService {
         rune.loreChoices.forEach(choice => {
             //Check if only one (=this) item's rune has this lore (and therefore no other item has already created it on the character), and if so, create it.
             if (
-                this.get_Character().inventories[0].allEquipment()
+                this.get_Character().inventories[0]?.allEquipment()
                     .filter(item => item.propertyRunes
                         .some(propertyRune => propertyRune.loreChoices
                             .some(otherchoice => otherchoice.loreName == choice.loreName)
                         )
                     ).length +
-                this.get_Character().inventories[0].allEquipment()
+                this.get_Character().inventories[0]?.allEquipment()
                     .filter(item => item.oilsApplied
                         .some(oil => oil.runeEffect && oil.runeEffect.loreChoices
                             .some(otherchoice => otherchoice.loreName == choice.loreName)
@@ -958,14 +958,14 @@ export class CharacterService {
         //Iterate through the loreChoices (usually only one)
         rune.loreChoices.forEach(choice => {
             //Check if only one item's rune has this lore (and therefore no other rune still needs it created), and if so, remove it.
-            if (this.get_Character().inventories[0].allEquipment()
+            if (this.get_Character().inventories[0]?.allEquipment()
                 .filter(item => item.propertyRunes
                     .filter(propertyRune => propertyRune.loreChoices
                         .filter(otherchoice => otherchoice.loreName == choice.loreName)
                         .length)
                     .length)
                 .length +
-                this.get_Character().inventories[0].allEquipment()
+                this.get_Character().inventories[0]?.allEquipment()
                     .filter(item => item.oilsApplied
                         .filter(oil => oil.runeEffect && oil.runeEffect.loreChoices
                             .filter(otherchoice => otherchoice.loreName == choice.loreName)
@@ -1810,7 +1810,7 @@ export class CharacterService {
                 })
             } else {
                 //Without the all parameter, get activities only from equipped and invested items and their slotted items.
-                creature.inventories[0].allEquipment()
+                creature.inventories[0]?.allEquipment()
                     .filter(item =>
                         (item.equippable ? item.equipped : true) &&
                         (item.can_Invest() ? item.invested : true) &&

@@ -488,29 +488,29 @@ export class EffectsService {
 
         //Character and Companion Items
         if (!familiar) {
-            characterService.get_Inventories(creature)[0].allEquipment().filter(item => item.invested && !item.broken && item.effects?.length && item.type != "armorrunes").forEach(item => {
+            characterService.get_Inventories(creature)[0]?.allEquipment().filter(item => item.invested && !item.broken && item.effects?.length && item.type != "armorrunes").forEach(item => {
                 simpleEffects = simpleEffects.concat(this.get_SimpleEffects(creature, characterService, item));
             });
-            characterService.get_Inventories(creature)[0].allEquipment().filter(item => item.equipped && !item.broken && item.propertyRunes?.length).forEach(item => {
+            characterService.get_Inventories(creature)[0]?.allEquipment().filter(item => item.equipped && !item.broken && item.propertyRunes?.length).forEach(item => {
                 item.propertyRunes.filter(rune => rune["effects"]?.length).forEach(rune => {
                     simpleEffects = simpleEffects.concat(this.get_SimpleEffects(creature, characterService, rune));
                 })
             });
         }
-        
+
         //Write active hint effects into a separate list first. All effects from feats should be shown, after which they are moved into simpleEffects.
         let hintEffects: Effect[] = [];
-        
+
         //Traits that are on currently equipped items
         characterService.traitsService.get_Traits().filter(trait => trait.hints.length).forEach(trait => {
             trait.hints.filter(hint => (hint.active || hint.active2 || hint.active3 || hint.active4 || hint.active5) && hint.effects?.length && trait.haveOn(creature).length).forEach(hint => {
                 hintEffects = hintEffects.concat(this.get_SimpleEffects(character, characterService, hint, "conditional, " + trait.name));
             })
         })
-        
+
         //Write passive feat effects into a separate list first. All effects from feats should be hidden, after which they are moved into simpleEffects.
         let featEffects: Effect[] = [];
-        
+
         //Character Feats and active hints
         if (character) {
             characterService.get_FeatsAndFeatures()
@@ -674,7 +674,7 @@ export class EffectsService {
                 //For Saving Throws, add any resilient runes on the equipped armor
                 if (armor.get_ResilientRune() > 0 && !armor.broken) {
                     let resilient = armor.get_ResilientRune();
-                    itemEffects.push(new Effect(creature.id, 'item', "Saving Throws", "+" + resilient, "", false, armor.get_Resilient(resilient), false))                    
+                    itemEffects.push(new Effect(creature.id, 'item', "Saving Throws", "+" + resilient, "", false, armor.get_Resilient(resilient), false))
                 }
                 //Add Armor specialization effects if they apply
                 armor.get_ArmorSpecialization(creature, characterService).forEach(spec => {
@@ -1115,8 +1115,12 @@ export class EffectsService {
                             this.generate_Effects(target, characterService);
                         } else {
                             this.generate_Effects("Character", characterService);
-                            this.generate_Effects("Companion", characterService);
-                            this.generate_Effects("Familiar", characterService);
+                            if (characterService.get_CompanionAvailable()) {
+                                this.generate_Effects("Companion", characterService);
+                            }
+                            if (characterService.get_FamiliarAvailable()) {
+                                this.generate_Effects("Familiar", characterService);
+                            }
                         }
 
                     }
