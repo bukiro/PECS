@@ -1,5 +1,5 @@
 # Pathfinder Excessive Character Sheet (P.E.C.S.)
-The very latest in Assistive Technologies for Dungeon Master (ATDM)
+Internal To Do list
 
 ## To Do
 
