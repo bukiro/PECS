@@ -587,27 +587,27 @@ select option {
 }
 
 .action1A {
-    mask-image: url(/assets/img/1A.svg);
+    mask-image: url(assets/img/1A.svg);
     width: 1em;
 }
 
 .action2A {
-    mask-image: url(/assets/img/2A.svg);
+    mask-image: url(assets/img/2A.svg);
     width: 1.6em;
 }
 
 .action3A {
-    mask-image: url(/assets/img/3A.svg);
+    mask-image: url(assets/img/3A.svg);
     width: 2.1em;
 }
 
 .actionFree {
-    mask-image: url(/assets/img/Free.svg);
+    mask-image: url(assets/img/Free.svg);
     width: 1em;
 }
 
 .actionReaction {
-    mask-image: url(/assets/img/Reaction.svg);
+    mask-image: url(assets/img/Reaction.svg);
     width: 1em;
 }
 
