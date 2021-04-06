@@ -13,8 +13,8 @@ app.use(function(req, res, next) {
    next();
   });
 
-mongodb.connect('mongodb://localhost:27017', function(err, client) {
-    var db = client.db('patherpoint')
+mongodb.connect("mongodb+srv://PECSDBadmin:Ncnqyw6JgmwwRVRZ@pecs.n3rcj.mongodb.net/myFirstDatabase?retryWrites=true&w=majority", function(err, client) {
+    var db = client.db('pecs')
     var collection = db.collection('characters');
 
     app.post('/save', bodyParser.json(), function(req, res) {
