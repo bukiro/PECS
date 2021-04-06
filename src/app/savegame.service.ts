@@ -307,9 +307,9 @@ export class SavegameService {
                     }
                 }
                 //If the object is not cast yet, try casting it object as its _className.
-                if (object._className && object.constructor.name != object._ClassName) {
+                if (object._className && object.constructor.name != object._className) {
                     try {
-                        object = this.classCast(object, object._ClassName);
+                        object = this.classCast(object, object._className);
                     } catch (e) {
                         console.log("Failed reassigning " + keyName + ": " + e)
                     }
