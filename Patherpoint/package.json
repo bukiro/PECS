@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "concurrently --kill-others \"node ../Patherpoint-MongoDB-Connector/src/index.js\" \"ng serve --host 0.0.0.0 --disable-host-check --live-reload=false\"",
+    "start": "concurrently --kill-others \"node ../PECS-MongoDB-Connector/src/index.js\" \"ng serve --host 0.0.0.0 --disable-host-check --live-reload=false\"",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",

@@ -13,7 +13,7 @@ app.use(function(req, res, next) {
    next();
   });
 
-mongodb.connect("mongodb+srv://PECSDBadmin:Ncnqyw6JgmwwRVRZ@pecs.n3rcj.mongodb.net/myFirstDatabase?retryWrites=true&w=majority", function(err, client) {
+mongodb.connect("mongodb+srv://PECSDBconnect:6LzhFZZYkji8SZKN@pecs.n3rcj.mongodb.net/myFirstDatabase?retryWrites=true&w=majority", function(err, client) {
     var db = client.db('pecs')
     var collection = db.collection('characters');
 
