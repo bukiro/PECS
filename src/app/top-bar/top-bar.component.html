@@ -1,15 +1,24 @@
 <div id="top-bar" class="newrow">
     <header class="mainHeader" [ngbTooltip]="'Pathfinder Excessive Character Sheet'">P.E.C.S.</header>
     <button class="fancy-button loading" *ngIf="still_loading()">Loading</button>
-    <button [ngClass]="{'fancy-button':get_CharacterMenuState()=='out'}" (click)="toggle_Menu('character')" *ngIf="!still_loading()">{{get_Character().name ? get_Character().name : "Character"}}</button>
-    <button [ngClass]="{'fancy-button':get_CompanionMenuState()=='out'}" (click)="toggle_Menu('companion')" *ngIf="!still_loading() && get_CompanionAvailable()">{{get_Companion().name ? get_Companion().name : "Animal Companion"}}</button>
-    <button [ngClass]="{'fancy-button':get_FamiliarMenuState()=='out'}" (click)="toggle_Menu('familiar')" *ngIf="!still_loading() && get_FamiliarAvailable()">{{get_Familiar().name ? get_Familiar().name : "Familiar"}}</button>
-    <button [ngClass]="{'fancy-button':get_ItemsMenuState()=='out'}" (click)="toggle_Menu('items')" *ngIf="!still_loading()">Items</button>
-    <button [ngClass]="{'fancy-button':get_CraftingMenuState()=='out'}" (click)="toggle_Menu('crafting')" *ngIf="!still_loading()">Crafting</button>
-    <button [ngClass]="{'fancy-button':get_SpellsMenuState()=='out'}" (click)="toggle_Menu('spells')" *ngIf="!still_loading()">Spellbook</button>
-    <button [ngClass]="{'fancy-button':get_SpellLibraryMenuState()=='out'}" (click)="toggle_Menu('spelllibrary')" *ngIf="!still_loading()">Spell Library</button>
-    <button [ngClass]="{'fancy-button':get_ConditionsMenuState()=='out'}" (click)="toggle_Menu('conditions')" *ngIf="!still_loading()">Conditions</button>
-    <button [ngClass]="{'fancy-button':get_DiceMenuState()=='out'}" [ngbTooltip]="'Dice'" (click)="toggle_Menu('dice')" *ngIf="!still_loading()"><app-diceIcons_D20></app-diceIcons_D20></button>
-    <span style="flex-grow: initial" [ngbTooltip]="!get_Savegames() ? 'Database connection failed.' : (get_IsBlankCharacter() ? 'No changes to character yet.' : 'Save Character')"><button class="fancy-button" (click)="save()" *ngIf="!still_loading()" [disabled]="!get_Savegames() || get_IsBlankCharacter()"><i class="bi-file-earmark-arrow-up"></i></button></span>
-    <span style="flex-grow: initial" [ngbTooltip]="'Refresh all'"><button class="fancy-button" (click)="set_Changed()" *ngIf="!still_loading()"><i class="ra ra-cycle"></i></button></span>
+    <ng-container *ngIf="!still_loading()">
+        <button [ngClass]="{'fancy-button':get_CharacterMenuState()=='out'}" (click)="toggle_Menu('character')">{{get_Character().name || "Character"}}</button>
+        <button [ngClass]="{'fancy-button':get_CompanionMenuState()=='out'}" (click)="toggle_Menu('companion')" *ngIf="get_CompanionAvailable()">{{get_Companion().name || "Animal Companion"}}</button>
+        <button [ngClass]="{'fancy-button':get_FamiliarMenuState()=='out'}" (click)="toggle_Menu('familiar')" *ngIf="get_FamiliarAvailable()">{{get_Familiar().name || "Familiar"}}</button>
+        <button [ngClass]="{'fancy-button':get_ItemsMenuState()=='out'}" (click)="toggle_Menu('items')">Items</button>
+        <button [ngClass]="{'fancy-button':get_CraftingMenuState()=='out'}" (click)="toggle_Menu('crafting')">Crafting</button>
+        <button [ngClass]="{'fancy-button':get_SpellsMenuState()=='out'}" (click)="toggle_Menu('spells')">Spellbook</button>
+        <button [ngClass]="{'fancy-button':get_SpellLibraryMenuState()=='out'}" (click)="toggle_Menu('spelllibrary')">Spell Library</button>
+        <button [ngClass]="{'fancy-button':get_ConditionsMenuState()=='out'}" (click)="toggle_Menu('conditions')">Conditions</button>
+        <button [ngClass]="{'fancy-button':get_DiceMenuState()=='out'}" [ngbTooltip]="'Dice'" (click)="toggle_Menu('dice')"><app-diceIcons_D20></app-diceIcons_D20></button>
+        <span *ngIf="get_SavegamesInitializing()" style="flex-grow: initial" [ngbTooltip]="'Connecting to database...'"><button class="fancy-button loading" disabled><i class="bi-file-earmark-arrow-up"></i></button></span>
+        <ng-container *ngIf="!get_SavegamesInitializing()">
+            <span *ngIf="!get_Savegames()" style="flex-grow: initial" [ngbTooltip]="'Database connection failed.'"><button class="fancy-button" disabled><i class="bi-file-earmark-arrow-up"></i></button></span>
+            <ng-container *ngIf="get_Savegames()">
+                <span *ngIf="get_IsBlankCharacter()" style="flex-grow: initial" [ngbTooltip]="'No changes to character yet.'"><button class="fancy-button" disabled><i class="bi-file-earmark-arrow-up"></i></button></span>
+                <span *ngIf="!get_IsBlankCharacter()" style="flex-grow: initial" [ngbTooltip]="'Save Character'"><button class="fancy-button" (click)="save()"><i class="bi-file-earmark-arrow-up"></i></button></span>
+            </ng-container>
+        </ng-container>
+        <span style="flex-grow: initial" [ngbTooltip]="'Refresh all'"><button class="fancy-button" (click)="set_Changed()"><i class="ra ra-cycle"></i></button></span>
+    </ng-container>
 </div>

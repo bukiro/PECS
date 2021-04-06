@@ -187,12 +187,6 @@ button {
     color: #CCC;
 }
 
-.button.newrow:not(:last-child),
-button.newrow:not(:last-child) {
-    /* I don't see the application... */
-    /* margin-bottom: .3rem; */
-}
-
 .button.sublist-toggle.newrow:not(:last-child),
 button.sublist-toggle.newrow:not(:last-child) {
     margin-bottom: 0;
@@ -995,11 +989,6 @@ header.featureHeader {
     flex-basis: 100%;
 }
 
-.newrow:not(:first-child):not(:empty):not(.list-item) {
-    /* gap should be enough */
-    /* margin-top: .3rem; */
-}
-
 .newrow.tags:not(:first-child):not(:empty) {
     margin-top: initial;
 }
@@ -1669,18 +1658,17 @@ app-gridicon.specialchoice, .darkmode app-gridicon.specialchoice {
 /* Animated loading signifier */
 
 .loading {
-    margin: auto;
-    font-size: 1.5em;
     color: #616161;
-    color: var(--textcolor);
+    color: currentColor;
     -webkit-animation: altrclr 2s infinite;
     animation: altrclr 2s infinite;
     animation-name: altrclr;
     animation-duration: 2s;
 }
 
-.button.loading {
+.loading:not(.button):not(button) {
     margin: 0;
+    font-size: 1.5em;
 }
 
 @-webkit-keyframes altrclr {

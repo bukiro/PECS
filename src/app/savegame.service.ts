@@ -76,73 +76,11 @@ import { Equipment } from './Equipment';
 export class SavegameService {
 
     private savegames: Savegame[] = [];
+    private loadingError: boolean = false;
     private loading: boolean = false;
     private loader;
     //private server: string = "http://arne:8080"
     private server: string = "http://qjhkot3fbwyyxcvn.myfritz.net:23480"
-
-    //All these attributes may be needed by the reassign function, so they are explicitly defined here.
-    private AbilityChoice = AbilityChoice;
-    private ActivityGain = ActivityGain;
-    private AdventuringGear = AdventuringGear;
-    private AlchemicalBomb = AlchemicalBomb;
-    private AlchemicalElixir = AlchemicalElixir;
-    private AlchemicalPoison = AlchemicalPoison;
-    private AlchemicalTool = AlchemicalTool;
-    private Ammunition = Ammunition;
-    private Ancestry = Ancestry;
-    private AnimalCompanion = AnimalCompanion;
-    private AnimalCompanionAncestry = AnimalCompanionAncestry;
-    private AnimalCompanionClass = AnimalCompanionClass;
-    private AnimalCompanionLevel = AnimalCompanionLevel;
-    private AnimalCompanionSpecialization = AnimalCompanionSpecialization;
-    private Armor = Armor;
-    private ArmorMaterial = ArmorMaterial;
-    private ArmorRune = ArmorRune;
-    private Background = Background;
-    private Bulk = Bulk;
-    private Character = Character;
-    private Class = Class;
-    private ConditionGain = ConditionGain;
-    private Consumable = Consumable;
-    private EffectGain = EffectGain;
-    private Familiar = Familiar;
-    private Feat = Feat;
-    private FeatChoice = FeatChoice;
-    private FormulaChoice = FormulaChoice;
-    private Health = Health;
-    private HeldItem = HeldItem;
-    private Heritage = Heritage;
-    private InventoryGain = InventoryGain;
-    private Item = Item;
-    private ItemActivity = ItemActivity;
-    private ItemCollection = ItemCollection;
-    private ItemGain = ItemGain;
-    private Level = Level;
-    private LoreChoice = LoreChoice;
-    private Oil = Oil;
-    private OtherConsumable = OtherConsumable;
-    private OtherConsumableBomb = OtherConsumableBomb;
-    private OtherItem = OtherItem;
-    private Potion = Potion;
-    private Scroll = Scroll;
-    private Settings = Settings;
-    private Shield = Shield;
-    private Shieldmaterial = ShieldMaterial;
-    private Skill = Skill;
-    private SkillChoice = SkillChoice;
-    private Snare = Snare;
-    private Speed = Speed;
-    private SpellCast = SpellCast;
-    private SpellCasting = SpellCasting;
-    private SpellChoice = SpellChoice;
-    private SpellGain = SpellGain;
-    private Talisman = Talisman;
-    private Weapon = Weapon;
-    private WeaponMaterial = WeaponMaterial;
-    private WeaponRune = WeaponRune;
-    private WornItem = WornItem;
-    private Wand = Wand;
 
     constructor(
         private http: HttpClient
@@ -150,6 +88,10 @@ export class SavegameService {
 
     get_Savegames() {
         return this.savegames;
+    }
+
+    get_LoadingError() {
+        return this.loadingError;
     }
 
     load_Character(character: Character, itemsService: ItemsService, classesService: ClassesService, historyService: HistoryService, animalCompanionsService: AnimalCompanionsService) {
@@ -192,6 +134,74 @@ export class SavegameService {
             delete character['_id'];
         }
         return character;
+    }
+
+    classCast(obj: any, className: string) {
+        //This function tries to cast an object according to the given class name.
+        switch (className) {
+            case "AbilityChoice": return Object.assign(new AbilityChoice(), obj);
+            case "ActivityGain": return Object.assign(new ActivityGain(), obj);
+            case "AdventuringGear": return Object.assign(new AdventuringGear(), obj);
+            case "AlchemicalBomb": return Object.assign(new AlchemicalBomb(), obj);
+            case "AlchemicalElixir": return Object.assign(new AlchemicalElixir(), obj);
+            case "AlchemicalPoison": return Object.assign(new AlchemicalPoison(), obj);
+            case "AlchemicalTool": return Object.assign(new AlchemicalTool(), obj);
+            case "Ammunition": return Object.assign(new Ammunition(), obj);
+            case "Ancestry": return Object.assign(new Ancestry(), obj);
+            case "AnimalCompanion": return Object.assign(new AnimalCompanion(), obj);
+            case "AnimalCompanionAncestry": return Object.assign(new AnimalCompanionAncestry(), obj);
+            case "AnimalCompanionClass": return Object.assign(new AnimalCompanionClass(), obj);
+            case "AnimalCompanionLevel": return Object.assign(new AnimalCompanionLevel(), obj);
+            case "AnimalCompanionSpecialization": return Object.assign(new AnimalCompanionSpecialization(), obj);
+            case "Armor": return Object.assign(new Armor(), obj);
+            case "ArmorMaterial": return Object.assign(new ArmorMaterial(), obj);
+            case "ArmorRune": return Object.assign(new ArmorRune(), obj);
+            case "Background": return Object.assign(new Background(), obj);
+            case "Bulk": return Object.assign(new Bulk(), obj);
+            case "Character": return Object.assign(new Character(), obj);
+            case "Class": return Object.assign(new Class(), obj);
+            case "ConditionGain": return Object.assign(new ConditionGain(), obj);
+            case "Consumable": return Object.assign(new Consumable(), obj);
+            case "EffectGain": return Object.assign(new EffectGain(), obj);
+            case "Familiar": return Object.assign(new Familiar(), obj);
+            case "Feat": return Object.assign(new Feat(), obj);
+            case "FeatChoice": return Object.assign(new FeatChoice(), obj);
+            case "FormulaChoice": return Object.assign(new FormulaChoice(), obj);
+            case "Health": return Object.assign(new Health(), obj);
+            case "HeldItem": return Object.assign(new HeldItem(), obj);
+            case "Heritage": return Object.assign(new Heritage(), obj);
+            case "InventoryGain": return Object.assign(new InventoryGain(), obj);
+            case "Item": return Object.assign(new Item(), obj);
+            case "ItemActivity": return Object.assign(new ItemActivity(), obj);
+            case "ItemCollection": return Object.assign(new ItemCollection(), obj);
+            case "ItemGain": return Object.assign(new ItemGain(), obj);
+            case "Level": return Object.assign(new Level(), obj);
+            case "LoreChoice": return Object.assign(new LoreChoice(), obj);
+            case "Oil": return Object.assign(new Oil(), obj);
+            case "OtherConsumable": return Object.assign(new OtherConsumable(), obj);
+            case "OtherConsumableBomb": return Object.assign(new OtherConsumableBomb(), obj);
+            case "OtherItem": return Object.assign(new OtherItem(), obj);
+            case "Potion": return Object.assign(new Potion(), obj);
+            case "Scroll": return Object.assign(new Scroll(), obj);
+            case "Settings": return Object.assign(new Settings(), obj);
+            case "Shield": return Object.assign(new Shield(), obj);
+            case "ShieldMaterial": return Object.assign(new ShieldMaterial(), obj);
+            case "Skill": return Object.assign(new Skill(), obj);
+            case "SkillChoice": return Object.assign(new SkillChoice(), obj);
+            case "Snare": return Object.assign(new Snare(), obj);
+            case "Speed": return Object.assign(new Speed(), obj);
+            case "SpellCast": return Object.assign(new SpellCast(), obj);
+            case "SpellCasting": return Object.assign(new SpellCasting(obj.castingType), obj);
+            case "SpellChoice": return Object.assign(new SpellChoice(), obj);
+            case "SpellGain": return Object.assign(new SpellGain(), obj);
+            case "Talisman": return Object.assign(new Talisman(), obj);
+            case "Weapon": return Object.assign(new Weapon(), obj);
+            case "WeaponMaterial": return Object.assign(new WeaponMaterial(), obj);
+            case "WeaponRune": return Object.assign(new WeaponRune(), obj);
+            case "WornItem": return Object.assign(new WornItem(), obj);
+            case "Wand": return Object.assign(new Wand(), obj);
+            default: return obj;
+        }
     }
 
     merge(target: any, source: any) {
@@ -299,7 +309,7 @@ export class SavegameService {
                 //If the object is not cast yet, try casting it object as its _className.
                 if (object._className && object.constructor.name != object._ClassName) {
                     try {
-                        object = Object.assign(eval("new this." + object._className + "()"), object)
+                        object = this.classCast(object, object._ClassName);
                     } catch (e) {
                         console.log("Failed reassigning " + keyName + ": " + e)
                     }
@@ -378,12 +388,19 @@ export class SavegameService {
 
     initialize(characterService: CharacterService) {
         this.loading = true;
+        characterService.set_Changed("charactersheet");
+        characterService.set_Changed("top-bar");
         this.load_Characters()
             .subscribe((results: string[]) => {
                 this.loader = results;
                 this.finish_loading(characterService)
             }, (error) => {
                 console.log('Error loading characters from database: ' + error.message);
+                this.savegames = [];
+                this.loadingError = true;
+                this.loading = false;
+                characterService.set_Changed("charactersheet");
+                characterService.set_Changed("top-bar");
             });
     }
 
@@ -417,9 +434,10 @@ export class SavegameService {
                 }
             });
 
+            this.loadingError = false;
             this.loader = [];
             characterService.set_Changed("charactersheet");
-            characterService.process_ToChange();
+            characterService.set_Changed("top-bar");
         }
         if (this.loading) { this.loading = false; }
     }

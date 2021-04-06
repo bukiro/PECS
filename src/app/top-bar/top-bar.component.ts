@@ -27,7 +27,15 @@ export class TopBarComponent implements OnInit {
     }
 
     get_Savegames() {
-        return this.savegameService.get_Savegames();
+        if (this.savegameService.get_LoadingError() || this.get_SavegamesInitializing()) {
+            return null
+        } else {
+            return this.savegameService.get_Savegames();
+        }
+    }
+
+    get_SavegamesInitializing() {
+        return this.savegameService.still_loading();
     }
 
     set_Changed() {

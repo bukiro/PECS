@@ -31,18 +31,36 @@
                             New Character
                         </button>
                     </div>
-                    <div class="list-item">
-                        <button class="newrow" (click)="toggle_List('load')"
-                            [ngClass]="{'activechoice':get_ShowList()=='load'}">
-                            Load Character
-                        </button>
-                    </div>
-                    <div class="list-item" [ngbTooltip]="!get_Savegames() ? 'Database connection failed.' : ''">
-                        <button class="newrow" (click)="save_CharacterToDB()" *ngIf="!still_loading()"
-                            [disabled]="!get_Savegames() || get_IsBlankCharacter()">
-                            Save Character
-                        </button>
-                    </div>
+                    <ng-container *ngIf="get_SavegamesInitializing()">
+                        <div class="list-item">
+                            <button class="newrow loading" disabled>
+                                Connecting to database...
+                            </button>
+                        </div>
+                    </ng-container>
+                    <ng-container *ngIf="!get_SavegamesInitializing()">
+                        <ng-container *ngIf="!get_Savegames()">
+                            <div class="list-item">
+                                <button class="newrow" (click)="on_RetryDatabaseConnection()">
+                                    Database connection failed - click to retry
+                                </button>
+                            </div>
+                        </ng-container>
+                        <ng-container *ngIf="get_Savegames()">
+                            <div class="list-item">
+                                <button class="newrow" (click)="toggle_List('load')"
+                                    [ngClass]="{'activechoice':get_ShowList()=='load'}">
+                                    Load Character
+                                </button>
+                            </div>
+                            <div class="list-item">
+                                <button class="newrow" (click)="save_CharacterToDB()"
+                                    [disabled]="get_IsBlankCharacter()">
+                                    Save Character
+                                </button>
+                            </div>
+                        </ng-container>
+                    </ng-container>
                     <div class="list-item">
                         <button class="newrow" (click)="toggle_List('settings')"
                             [ngClass]="{'activechoice':get_ShowList()=='settings'}">
@@ -57,18 +75,35 @@
                             <app-gridIcon [ngbTooltip]="'New Character'" [title]="'N E W'">
                             </app-gridIcon>
                         </button>
-                        <button class="sublist-toggle" (click)="toggle_List('load')"
-                            [ngClass]="{'activechoice':get_ShowList()=='load'}">
-                            <app-gridIcon [ngbTooltip]="'Load Character'" [title]="'L O A D'">
-                            </app-gridIcon>
-                        </button>
-                        <button (click)="save_CharacterToDB()" *ngIf="!still_loading()"
-                            [disabled]="!get_Savegames() || get_IsBlankCharacter()">
-                            <app-gridIcon
-                                [ngbTooltip]="!get_Savegames() ? 'Database connection failed.' : (get_IsBlankCharacter() ? 'No changes to character yet.' : 'Save Character')"
-                                [title]="'S A V E'">
-                            </app-gridIcon>
-                        </button>
+                        <ng-container *ngIf="get_SavegamesInitializing()">
+                            <button disabled>
+                                <app-gridIcon class="loading" [ngbTooltip]="'Connecting to database...'"
+                                    [title]="'D B'" [superTitle]="'icon-bi-arrow-repeat'">
+                                </app-gridIcon>
+                            </button>
+                        </ng-container>
+                        <ng-container *ngIf="!get_SavegamesInitializing()">
+                            <ng-container *ngIf="!get_Savegames()">
+                                <button (click)="on_RetryDatabaseConnection()">
+                                    <app-gridIcon [ngbTooltip]="'Database connection failed - click to retry'"
+                                        [title]="'D B'" [superTitle]="'icon-bi-arrow-repeat'">
+                                    </app-gridIcon>
+                                </button>
+                            </ng-container>
+                            <ng-container *ngIf="get_Savegames()">
+                                <button (click)="toggle_List('load')"
+                                    [ngClass]="{'activechoice':get_ShowList()=='load'}">
+                                    <app-gridIcon [ngbTooltip]="'Load Character'" [title]="'L O A D'">
+                                    </app-gridIcon>
+                                </button>
+                                <button (click)="save_CharacterToDB()" [disabled]="get_IsBlankCharacter()">
+                                    <app-gridIcon
+                                        [ngbTooltip]="get_IsBlankCharacter() ? 'No changes to character yet.' : 'Save Character'"
+                                        [title]="'S A V E'">
+                                    </app-gridIcon>
+                                </button>
+                            </ng-container>
+                        </ng-container>
                         <button (click)="toggle_List('settings')"
                             [ngClass]="{'activechoice':get_ShowList()=='settings'}">
                             <app-gridIcon [ngbTooltip]="'Settings'" [title]="'C O N F'">
@@ -139,7 +174,7 @@
                                         maxLength="100">
                                 </span>
                             </div>
-                            <div class="newrow">
+                            <div class="newrow" *ngIf="get_Savegames()?.length">
                                 <span></span>
                                 <span>
                                     <select [(ngModel)]="get_Character().partyName">
@@ -304,8 +339,7 @@
                                         [ngClass]="{'fancy-button choicecleared fullsize-only':!blankLanguages, 'activechoice':get_ShowList()=='languages' && get_ShowContentLevelNumber()==get_Character().level}"
                                         (click)="toggle_List('languages', get_Character().level)"
                                         *ngIf="get_LanguagesAvailable()">
-                                        <app-gridIcon
-                                            [ngClass]="{'fancy-button':!blankLanguages}"
+                                        <app-gridIcon [ngClass]="{'fancy-button':!blankLanguages}"
                                             [ngbTooltip]="'Languages'" [title]="'L A N G'"
                                             [superTitle]="currentLanguages.toString()">
                                         </app-gridIcon>
@@ -820,7 +854,7 @@
                             Database connection failed.
                         </div>
                         <ng-container
-                            *ngFor="let savegame of get_Savegames(); let index = index; trackBy:trackByIndex;">
+                            *ngFor="let savegame of (get_Savegames() || []); let index = index; trackBy:trackByIndex;">
                             <ng-template #SavegameDeleteModal let-modal>
                                 <div class="modal-header">
                                     <header class="sectionHeader modal-title" id="modal-title">Delete Character
@@ -841,7 +875,7 @@
                                 </div>
                             </ng-template>
                             <header class="sectionHeader center-aligned"
-                                *ngIf="index == 0 || get_Savegames()[index].partyName != get_Savegames()[index-1].partyName">
+                                *ngIf="index == 0 || savegame.partyName != get_Savegames()[index-1].partyName">
                                 {{savegame.partyName}}</header>
                             <div class="list-item newrow">
                                 <span>

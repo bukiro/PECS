@@ -233,32 +233,44 @@ export class CharacterComponent implements OnInit {
         this.characterService.reset_Character();
     }
 
+    on_RetryDatabaseConnection() {
+        this.savegameService.initialize(this.characterService);
+    }
+
+    get_SavegamesInitializing() {
+        return this.savegameService.still_loading();
+    }
+
     get_Savegames() {
-        return this.savegameService.get_Savegames().sort(function (a, b) {
-            if (a.name > b.name) {
-                return 1;
-            }
-            if (a.name < b.name) {
-                return -1;
-            }
-            return 0;
-        }).sort(function (a, b) {
-            if (a.partyName > b.partyName) {
-                return 1;
-            }
-            if (a.partyName < b.partyName) {
-                return -1;
-            }
-            return 0;
-        }).sort(function (a, b) {
-            if (b.partyName == "No Party" && a.partyName != "No Party") {
-                return 1;
-            }
-            if (a.partyName == "No Party" && b.partyName != "No Party") {
-                return -1;
-            }
-            return 0;
-        });
+        if (!this.savegameService.get_LoadingError()) {
+            return this.savegameService.get_Savegames().sort(function (a, b) {
+                if (a.name > b.name) {
+                    return 1;
+                }
+                if (a.name < b.name) {
+                    return -1;
+                }
+                return 0;
+            }).sort(function (a, b) {
+                if (a.partyName > b.partyName) {
+                    return 1;
+                }
+                if (a.partyName < b.partyName) {
+                    return -1;
+                }
+                return 0;
+            }).sort(function (a, b) {
+                if (b.partyName == "No Party" && a.partyName != "No Party") {
+                    return 1;
+                }
+                if (a.partyName == "No Party" && b.partyName != "No Party") {
+                    return -1;
+                }
+                return 0;
+            });
+        } else {
+            return null;
+        }
     }
 
     get_SavegameTitle(savegame: Savegame) {

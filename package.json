@@ -3,8 +3,8 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "concurrently --kill-others \"node ../PECS-MongoDB-Connector/src/index.js\" \"ng serve --host 0.0.0.0 --disable-host-check --live-reload=false\"",
-    "build": "ng build --prod=false --optimization=false --outputPath=docs --baseHref=/PECS/",
+    "start": "ng serve --host 0.0.0.0 --disable-host-check --live-reload=false",
+    "build": "ng build --prod=true --optimization=true --outputPath=docs --baseHref=/PECS/",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
