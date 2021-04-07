@@ -58,6 +58,7 @@ import { AdventuringGear } from './AdventuringGear';
 import { Hint } from './Hint';
 import { Creature } from './Creature';
 import { LanguageGain } from './LanguageGain';
+import { ConfigService } from './config.service';
 
 @Injectable({
     providedIn: 'root'
@@ -86,6 +87,7 @@ export class CharacterService {
     diceMenuState: string = 'out';
 
     constructor(
+        private configService: ConfigService,
         private savegameService: SavegameService,
         public abilitiesService: AbilitiesService,
         private skillsService: SkillsService,
@@ -1990,6 +1992,7 @@ export class CharacterService {
     initialize(id: string) {
         this.set_Changed("top-bar");
         this.loading = true;
+        this.configService.initialize();
         this.traitsService.initialize();
         this.abilitiesService.initialize();
         this.activitiesService.initialize();

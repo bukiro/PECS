@@ -69,6 +69,7 @@ import { AlchemicalPoison } from './AlchemicalPoison';
 import { OtherConsumableBomb } from './OtherConsumableBomb';
 import { Wand } from './Wand';
 import { Equipment } from './Equipment';
+import { ConfigService } from './config.service';
 
 @Injectable({
     providedIn: 'root'
@@ -79,12 +80,13 @@ export class SavegameService {
     private loadingError: boolean = false;
     private loading: boolean = false;
     private loader;
-    //private server: string = "http://arne:8080"
-    private server: string = "http://qjhkot3fbwyyxcvn.myfritz.net:23480"
 
     constructor(
-        private http: HttpClient
-    ) { }
+        private http: HttpClient,
+        private configService: ConfigService
+    ) {
+
+    }
 
     get_Savegames() {
         return this.savegames;
@@ -366,20 +368,20 @@ export class SavegameService {
     }
 
     load_Characters(): Observable<string[]> {
-        return this.http.get<string[]>(this.server + '/list');
+        return this.http.get<string[]>(this.configService.dbConnectionURL + '/list');
     }
 
     load_CharacterFromDB(id: string): Observable<string[]> {
-        return this.http.get<string[]>(this.server + '/load/' + id);
+        return this.http.get<string[]>(this.configService.dbConnectionURL + '/load/' + id);
     }
 
     delete_CharacterFromDB(savegame: Savegame): Observable<string[]> {
         //Why is this a get?
-        return this.http.get<string[]>(this.server + '/delete/' + savegame.id);
+        return this.http.get<string[]>(this.configService.dbConnectionURL + '/delete/' + savegame.id);
     }
 
     save_CharacterToDB(savegame): Observable<string[]> {
-        return this.http.post<string[]>(this.server + '/save/', savegame);
+        return this.http.post<string[]>(this.configService.dbConnectionURL + '/save/', savegame);
     }
 
     still_loading() {

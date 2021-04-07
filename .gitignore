@@ -30,7 +30,6 @@ speed-measure-plugin*.json
 !.vscode/launch.json
 !.vscode/extensions.json
 .history/*
-pecs.code-workspace
 
 # misc
 /.sass-cache
@@ -45,3 +44,9 @@ testem.log
 # System Files
 .DS_Store
 Thumbs.db
+
+# private config
+
+
+# working environment
+pecs.code-workspace

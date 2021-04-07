@@ -62,7 +62,7 @@ import { NgbActiveModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { GridIconComponent } from './gridIcon/gridIcon.component';
 
 @NgModule({
-   declarations: [	
+   declarations: [ 
       AppComponent,
       AbilitiesComponent,
       TopBarComponent,
