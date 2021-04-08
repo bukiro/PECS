@@ -120,6 +120,7 @@ Active to-do:
 - Add number of targets to all spells
 - Add default durations to spell conditions
 - Specify spell targets: self, ally, companion, familiar, (object, area) (maybe unnecessary), other (default, can be blank)
+- Test whether Phantom Pain ends when you switch between choices (As it ends with sickened)
 
 Implement:
 

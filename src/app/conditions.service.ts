@@ -247,11 +247,14 @@ export class ConditionsService {
 
         //Conditions that start when this ends. This happens if there is a nextCondition value.
         if (!taken && condition.nextCondition) {
-            let newGain: ConditionGain = new ConditionGain();
-            newGain.source = gain.source;
-            newGain.name = condition.nextCondition.name;
-            newGain.duration = condition.nextCondition.duration || -1;
-            characterService.add_Condition(creature, newGain, false);
+            if (!condition.nextCondition.conditionChoiceFilter || gain.choice == condition.nextCondition.conditionChoiceFilter) {
+                let newGain: ConditionGain = new ConditionGain();
+                newGain.source = gain.source;
+                newGain.name = condition.nextCondition.name;
+                newGain.duration = condition.nextCondition.duration || -1;
+                newGain.choice = condition.choice || "";
+                characterService.add_Condition(creature, newGain, false);
+            }
         }
 
         //Gain Items
