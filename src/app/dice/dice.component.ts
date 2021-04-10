@@ -1,21 +1,25 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
 import { NgbTooltipConfig } from '@ng-bootstrap/ng-bootstrap';
 import { CharacterService } from '../character.service';
 import { Creature } from '../Creature';
+import { DiceService } from '../dice.service';
+import { DiceResult } from '../DiceResult';
 
 @Component({
     selector: 'app-dice',
     templateUrl: './dice.component.html',
-    styleUrls: ['./dice.component.css']
+    styleUrls: ['./dice.component.css'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DiceComponent implements OnInit {
 
-    public diceResult: { roll: string, result: number }[] = [];
     public diceNum: number = 5;
-    public cleared: boolean = true;
+    public bonus: number = 0;
 
     constructor(
+        private changeDetector: ChangeDetectorRef,
         private characterService: CharacterService,
+        private diceService: DiceService,
         tooltipConfig: NgbTooltipConfig
     ) {
         tooltipConfig.container = "body";
@@ -32,22 +36,17 @@ export class DiceComponent implements OnInit {
         return index;
     }
 
-    roll(amount: number, size: number) {
-        for (let index = 0; index < amount; index++) {
-            this.diceResult.push({ roll: "d" + size, result: Math.ceil(Math.random() * size) });
-        }
-        if (this.cleared) { this.cleared = false; }
+    still_loading() {
+        return this.characterService.still_loading()
     }
 
-    get_DiceSummary() {
-        let summary: string[] = [];
-        ["d4", "d6", "d8", "d10", "d12", "d20"].forEach(die => {
-            let count = this.diceResult.filter(result => result.roll == die).length;
-            if (count) {
-                summary.push(count + die);
-            }
-        })
-        return summary.join(", ");
+    get_DiceResults() {
+        return this.diceService.get_DiceResults();
+    }
+
+    roll(amount: number, size: number) {
+        this.diceService.roll(amount, size, this.bonus, this.characterService);
+        this.bonus = 0;
     }
 
     get_Creature(creatureType: string) {
@@ -61,7 +60,7 @@ export class DiceComponent implements OnInit {
     }
 
     on_Heal(creature: Creature) {
-        let amount = this.get_DiceSum();
+        let amount = this.get_TotalSum();
         let dying = creature.health.dying(creature, this.characterService);
         creature.health.heal(creature, this.characterService, this.characterService.effectsService, amount, true, true, dying);
         this.characterService.set_ToChange(creature.type, "health");
@@ -70,7 +69,7 @@ export class DiceComponent implements OnInit {
     }
 
     on_TakeDamage(creature: Creature) {
-        let amount = this.get_DiceSum();
+        let amount = this.get_TotalSum();
         let wounded = creature.health.wounded(creature, this.characterService);
         let dying = creature.health.dying(creature, this.characterService);
         creature.health.takeDamage(creature, this.characterService, this.characterService.effectsService, amount, false, wounded, dying);
@@ -80,7 +79,7 @@ export class DiceComponent implements OnInit {
     }
 
     set_TempHP(creature: Creature) {
-        let amount = this.get_DiceSum();
+        let amount = this.get_TotalSum();
         creature.health.temporaryHP[0] = { amount: amount, source: "Manual", sourceId: "" };
         creature.health.temporaryHP.length = 1;
         this.characterService.set_ToChange(creature.type, "health");
@@ -88,18 +87,44 @@ export class DiceComponent implements OnInit {
         this.characterService.process_ToChange();
     }
 
-    get_DiceSum() {
-        return this.diceResult.reduce((a, b) => a + b.result, 0);
+    get_DiceSum(diceResult: DiceResult) {
+        return diceResult.rolls.reduce((a, b) => a + b, 0) + diceResult.bonus;
+    }
+
+    get_TotalSum() {
+        return this.get_DiceResults().filter(diceResult => diceResult.included).reduce((a, b) => a + this.get_DiceSum(b), 0);
+    }
+
+    unselectAll() {
+        this.diceService.unselectAll();
     }
 
     clear() {
-        this.cleared = true;
-        setTimeout(() => {
-            this.diceResult.length = 0;
-        });
+        this.diceService.clear();
+    }
+
+    finish_Loading() {
+        if (this.still_loading()) {
+            setTimeout(() => this.finish_Loading(), 500)
+        } else {
+            this.characterService.get_Changed()
+                .subscribe((target) => {
+                    if (["dice", "all"].includes(target.toLowerCase())) {
+                        this.changeDetector.detectChanges();
+                    }
+                });
+            this.characterService.get_ViewChanged()
+                .subscribe((view) => {
+                    if (["dice", "all"].includes(view.target.toLowerCase())) {
+                        this.changeDetector.detectChanges();
+                    }
+                });
+            return true;
+        }
     }
 
     ngOnInit() {
+        this.finish_Loading();
     }
 
 }

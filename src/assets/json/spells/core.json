@@ -7644,6 +7644,11 @@
                 "level": "(6rd)"
             }
         ],
+        "desc1": [
+            {
+                "variable": "var1"
+            }
+        ],
         "desc3": [
             {
                 "value": "You can target up to 10 objects. ",

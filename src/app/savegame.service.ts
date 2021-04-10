@@ -438,10 +438,10 @@ export class SavegameService {
 
             this.loadingError = false;
             this.loader = [];
-            characterService.set_Changed("charactersheet");
-            characterService.set_Changed("top-bar");
         }
         if (this.loading) { this.loading = false; }
+        characterService.set_Changed("charactersheet");
+        characterService.set_Changed("top-bar");
     }
 
 }

@@ -19,7 +19,6 @@ import { Heritage } from './Heritage';
 import { Background } from './Background';
 import { ItemsService } from './items.service';
 import { Feat } from './Feat';
-import { Condition } from './Condition';
 import { ConditionsService } from './conditions.service';
 import { ConditionGain } from './ConditionGain';
 import { ActivitiesService } from './activities.service';
@@ -59,6 +58,7 @@ import { Hint } from './Hint';
 import { Creature } from './Creature';
 import { LanguageGain } from './LanguageGain';
 import { ConfigService } from './config.service';
+import { DiceService } from './dice.service';
 
 @Injectable({
     providedIn: 'root'
@@ -88,6 +88,7 @@ export class CharacterService {
 
     constructor(
         private configService: ConfigService,
+        private diceService: DiceService,
         private savegameService: SavegameService,
         public abilitiesService: AbilitiesService,
         private skillsService: SkillsService,
@@ -193,6 +194,7 @@ export class CharacterService {
         this.set_ToChange(creature, "effects");
         this.set_ToChange("Character", "charactersheet")
         if (ability == "Intelligence") {
+            this.set_ToChange("Character", "skillchoices")
             this.update_LanguageList();
         }
     }

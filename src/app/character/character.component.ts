@@ -135,12 +135,12 @@ export class CharacterComponent implements OnInit {
             this.showList = name;
             this.showContentLevelNumber = levelNumber;
             this.showContent = content;
-            this.reset_ChoiceArea();
         }
+        this.reset_ChoiceArea();
     }
 
     reset_ChoiceArea() {
-        document.getElementById("choiceArea-top").scrollIntoView({ behavior: 'smooth' });
+        document.getElementById("character-choiceArea-top").scrollIntoView({ behavior: 'smooth' });
     }
 
     receive_ChoiceMessage(message: { name: string, levelNumber: number, choice: SkillChoice }) {

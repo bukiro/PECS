@@ -805,6 +805,7 @@ app-dice {
     border: 4px solid rgb(var(--accent));
     border-top: none;
     border-radius: .15rem;
+    max-height: 90%;
 }
 
 app-familiarabilities.charactersheet-app {
@@ -826,6 +827,7 @@ app-familiarabilities.charactersheet-app {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    gap: .3rem;
 }
 
 #time .list-item:first-child {
@@ -849,6 +851,7 @@ CHARACTERSHEET APP INNER STYLES
     flex-direction: column;
     justify-content: flex-start;
     padding: .6em 1em 1em 1em;
+    gap: .3em;
 }
 
 /* Left-bound slide-in windows with full size */
@@ -863,11 +866,16 @@ CHARACTERSHEET APP INNER STYLES
     margin: 0;
     border-radius: .15rem;
     background-color: white;
+    gap: .3rem;
 }
 
 .itembox-inner {
     overflow-y: auto;
+    width: 100%;
     height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: .3rem;
 }
 
 .darkmode .itembox,
@@ -975,7 +983,6 @@ header.featureHeader {
 /* .newrow: line-breaking full-width element for content, default with same-width elements */
 
 .newrow {
-    flex-basis: 100%;
     gap: .3em;
     clear: both;
     display: flex;
@@ -1026,6 +1033,12 @@ header.featureHeader {
 
 /* .list-item: */
 
+.list {
+    display: flex;
+    flex-direction: column;
+    gap: .3rem;
+}
+
 .list-item {
     width: 100%;
     position: relative;
@@ -1033,9 +1046,8 @@ header.featureHeader {
     flex-wrap: wrap;
     flex-direction: row;
     justify-content: space-between;
-    gap: .3em;
+    gap: .3rem;
     padding: .3em .6em;
-    margin-top: .6rem;
     border-radius: .15rem;
     background-color: #E0E0E0;
     background-color: rgba(50, 50, 50, 0.1)
@@ -1064,10 +1076,6 @@ button.list-item {
     color: white;
 }
 
-.list-item:last-child {
-    margin-bottom: 0;
-}
-
 .darkmode button.list-item {
     background-color: #465A8C;
     background-color: rgb(var(--accent));
@@ -1083,7 +1091,6 @@ button.list-item {
 .lower .list-item {
     flex-basis: 100%;
     padding: .3em .6em;
-    margin-bottom: .15rem;
     border-radius: .15rem;
 }
 
@@ -1710,6 +1717,9 @@ app-gridicon.specialchoice, .darkmode app-gridicon.specialchoice {
     height: auto;
     margin-bottom: 0;
     font-size: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: .6rem;
 }
 
 #choiceArea > .newrow:first-child {
@@ -1811,6 +1821,7 @@ SPECIFIC STYLE MODIFIERS
     font-size: 90%;
     margin-top: auto;
     margin-bottom: auto;
+    gap: .15rem;
 }
 
 .notapplied {

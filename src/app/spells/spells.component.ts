@@ -96,7 +96,7 @@ export class SpellsComponent implements OnInit {
     }
 
     reset_ChoiceArea() {
-        document.getElementById("choiceArea-top").scrollIntoView({ behavior: 'smooth' });
+        document.getElementById("spells-choiceArea-top").scrollIntoView({ behavior: 'smooth' });
     }
 
     receive_ChoiceMessage(message: { name: string, levelNumber: number, choice: SpellChoice, casting: SpellCasting }) {

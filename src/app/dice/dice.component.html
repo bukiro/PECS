@@ -67,31 +67,49 @@
             <strong style="flex-basis: 7.5em; flex-grow:0;">Dice number</strong> <input class="slider" type="range"
                 min="1" max="20" [(ngModel)]="diceNum">
         </div>
+        <div class="newrow">
+            <strong style="flex-basis: 7.5em; flex-grow:0;">
+                Bonus
+                <input type="number" class="number3" [(ngModel)]="bonus">
+            </strong>
+            <input class="slider" type="range" min="-40" max="40" [(ngModel)]="bonus">
+        </div>
     </div>
-    <div [ngbCollapse]="cleared">
+    <div [ngbCollapse]="!get_DiceResults().length">
         <div class="list-item center-aligned">
-            <header class="sectionHeader box-header dice-result">{{get_DiceSum()}}</header>
-            <div class="newrow center-aligned" *ngIf="diceResult.length > 1">
-                <span>
-                    <span *ngFor="let result of diceResult; let index = index; trackBy:trackByIndex">
-                        {{index != 0 ? "+ " : ""}}
-                        <span [ngbTooltip]="result.roll">{{result.result}}</span>
+            <header class="sectionHeader box-header dice-result">{{get_TotalSum()}}</header>
+            <div class="itembox-inner" style="max-height: 30vh;">
+                <div class="list-item newrow" [ngClass]="{'notapplied': !result.included}"
+                    *ngFor="let result of get_DiceResults(); trackBy:trackByIndex">
+                    <span>
+                        {{result.desc}}
                     </span>
-                </span>
+                    <strong [ngClass]="{'variable': result.included}">
+                        <input type="checkbox" [(ngModel)]="result.included">&nbsp;{{get_DiceSum(result)}}
+                    </strong>
+                    <span>
+                        <span *ngFor="let roll of result.rolls; let index = index; trackBy:trackByIndex">
+                            {{index != 0 ? "+ " + roll : roll}}
+                        </span>
+                        <strong *ngIf="result.bonus">
+                            {{result.bonus > 0 ? "+ " + result.bonus : "- " + (result.bonus * -1)}}
+                        </strong>
+                    </span>
+                </div>
             </div>
-            <div class="newrow center-aligned" *ngIf="diceResult.length <= 1">&nbsp;</div>
             <div class="newrow center-aligned">
-                <span>
-                    ({{get_DiceSummary()}})
-                </span>
+                <button class="center-aligned" (click)="unselectAll()">
+                    <header class="sectionHeader">New chain</header>
+                </button>
             </div>
             <div class="newrow center-aligned">
                 <button class="center-aligned" (click)="clear()">
-                    <header class="sectionHeader">Clear</header>
+                    <header class="sectionHeader">Clear all</header>
                 </button>
             </div>
             <ng-container *ngFor="let creatureType of ['Character','Companion','Familiar']; trackBy:trackByIndex">
-                <div class="newrow center-aligned" *ngFor="let creature of get_Creature(creatureType); trackBy:trackByIndex">
+                <div class="newrow center-aligned"
+                    *ngFor="let creature of get_Creature(creatureType); trackBy:trackByIndex">
                     <button class="center-aligned" (click)="on_Heal(creature)">
                         Heal {{creature.name || creatureType}}
                     </button>

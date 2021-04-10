@@ -51,8 +51,7 @@
                             <div class="list-item" *ngIf="need_Spellbook(casting)">
                                 <span>
                                     <input id="allowBorrow" type="checkbox" [(ngModel)]="allowBorrow">
-                                    <label for="allowBorrow">Borrow
-                                        spells</label>
+                                    <label for="allowBorrow">&nbsp;Borrow spells</label>
                                 </span>
                                 <span [ngbPopover]="'Allow selecting spells not in your spellbook'">
                                     <button class="lower inactive-button">Details</button>
@@ -142,18 +141,16 @@
             </div>
         </div>
         <div class="charactersheet-column">
-            <div class="itembox-inner">
-                <div id="choiceArea-top"></div>
-                <!--Spell Choice content-->
-                <ng-container *ngFor="let choiceContent of get_ActiveChoiceContent(); trackBy:trackByID;">
-                    <app-spellchoice (showChoiceMessage)="receive_ChoiceMessage($event)"
-                        (showSpellMessage)="receive_SpellMessage($event)" [spellCasting]="choiceContent.casting"
-                        [choice]="choiceContent.choice" [allowHeightened]="allowHeightened" [allowBorrow]="allowBorrow"
-                        [showChoice]="choiceContent.name" [showSpell]="showSpell" [level]="choiceContent.levelNumber"
-                        [prepared]="prepared" [spellbook]="true" [showTitle]="false">
-                    </app-spellchoice>
-                </ng-container>
-            </div>
+            <div id="spells-choiceArea-top"></div>
+            <!--Spell Choice content-->
+            <ng-container *ngFor="let choiceContent of get_ActiveChoiceContent(); trackBy:trackByID;">
+                <app-spellchoice (showChoiceMessage)="receive_ChoiceMessage($event)"
+                    (showSpellMessage)="receive_SpellMessage($event)" [spellCasting]="choiceContent.casting"
+                    [choice]="choiceContent.choice" [allowHeightened]="allowHeightened" [allowBorrow]="allowBorrow"
+                    [showChoice]="choiceContent.name" [showSpell]="showSpell" [level]="choiceContent.levelNumber"
+                    [prepared]="prepared" [spellbook]="true" [showTitle]="false">
+                </app-spellchoice>
+            </ng-container>
         </div>
     </div>
 </div>

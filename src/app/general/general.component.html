@@ -6,7 +6,7 @@
     <i class='bi-arrows-expand' *ngIf="!get_Minimized()"></i>
 </button>
 <div id="{{creature}}-general-height" class="attributeBox">
-    <header class="sectionHeader box-header">General information</header>
+    <header class="sectionHeader box-header">General Information</header>
     <div class="loading" *ngIf="still_loading()">Loading</div>
     <ng-container *ngIf="!still_loading()">
         <ng-container *ngIf="creature=='Character'">
