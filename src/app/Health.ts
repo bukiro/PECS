@@ -128,7 +128,7 @@ export class Health {
             }
         }
         if (nonlethal && currentHP == 0) {
-            if (characterService.get_AppliedConditions(creature, "Unconscious", "0 Hit Points").length == 0) {
+            if (characterService.get_AppliedConditions(creature, "Unconscious", "0 Hit Points").length == 0 && characterService.get_AppliedConditions(creature, "Unconscious", "Dying").length == 0) {
                 characterService.add_Condition(creature, Object.assign(new ConditionGain, { name: "Unconscious", source: "0 Hit Points" }), false)
             }
         }

@@ -9,7 +9,9 @@
         <span>
             <span class="fullsize-only">
                 <input id="{{skill.name}}ShowNotes" class="invisible" type="checkbox" [(ngModel)]="skill.showNotes">
-                <label for="{{skill.name}}ShowNotes" [ngbTooltip]="'Edit notes'"><i class='bi-pencil-square'></i>&nbsp;</label>
+                <label for="{{skill.name}}ShowNotes" [ngbTooltip]="'Edit notes'">
+                    <i class='bi-pencil-square'></i>&nbsp;
+                </label>
             </span>
             <strong [ngbPopover]="calculatedSkill.ability ? AbilityPopover : null">{{get_Name(skill)}}</strong>
         </span>
@@ -18,6 +20,8 @@
             *ngIf="creature != 'Familiar'">
         </app-proficiency-form>
         <span *ngIf="showValue">
+            <app-quickdice *ngIf="!isDC" [diceNum]="1" [diceSize]="20" [bonus]="calculatedSkill.value.result" [type]="'('+get_Name(skill)+')'">
+            </app-quickdice>
             <div class="value" [ngbPopover]="((isDC) ? 'DC basis: 10\n' : '')+calculatedSkill.value.explain"
                 [ngClass]="{'penalty':calculatedSkill.penalties, 'bonus':calculatedSkill.bonuses, 'absolute':calculatedSkill.absolutes.length}">
                 {{calculatedSkill.value.result + ((isDC) ? 10 : 0)}}

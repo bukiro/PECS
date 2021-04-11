@@ -446,6 +446,8 @@ export class Weapon extends Equipment {
                     extraDamage += "\n" + weaponRune.extraDamage;
                 });
         }
+        extraDamage = extraDamage.split("+").map(part => part[0] == " " ? part.substr(1) : part).join(" + ");
+        extraDamage = extraDamage.split("-").map(part => part[0] == " " ? part.substr(1) : part).join(" - ");
         return extraDamage;
     }
     damage(creature: Character | AnimalCompanion, characterService: CharacterService, effectsService: EffectsService, range: string) {
@@ -682,7 +684,7 @@ export class Weapon extends Equipment {
                 abilitySource = "Dexterity Modifier";
             }
             if (abilityReason) {
-                abilitySource += "(" + abilityReason + ")"
+                abilitySource += " (" + abilityReason + ")"
             }
             calculatedEffects.push(new Effect(creature.type, "untyped", this.name + " Damage", abilityMod.toString(), "", false, abilitySource, false, true, false, 0))
         }
@@ -828,10 +830,17 @@ export class Weapon extends Equipment {
                 }
             })
         dmgBonus += effectBonus;
-        //Make a nice "+#" string from the Ability bonus if there is one, or else make it empty
-        let dmgBonusTotal: string = (dmgBonus) ? ((dmgBonus >= 0) && "+") + dmgBonus : "";
         //Concatenate the strings for a readable damage output
-        var dmgResult = baseDice + dmgBonusTotal + " " + this.dmgType + this.get_ExtraDamage(creature, characterService, range);
+        var dmgResult = baseDice;
+        if (dmgBonus > 0) {
+            dmgResult += " + " + dmgBonus;
+        } else if (dmgBonus < 0) {
+            dmgResult += " - " + (dmgBonus * -1);
+        }
+        if (this.dmgType) {
+            dmgResult += " " + this.dmgType;
+        }
+        dmgResult += " " + this.get_ExtraDamage(creature, characterService, range);
         let explain = (diceExplain.trim() + "\n" + bonusExplain.trim()).trim();
         return [dmgResult, explain, bonuses, penalties, absolutes];
     }

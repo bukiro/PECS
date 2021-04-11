@@ -45,7 +45,7 @@ export class DiceComponent implements OnInit {
     }
 
     roll(amount: number, size: number) {
-        this.diceService.roll(amount, size, this.bonus, this.characterService);
+        this.diceService.roll(amount, size, this.bonus, this.characterService, false);
         this.bonus = 0;
     }
 

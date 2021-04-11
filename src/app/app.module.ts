@@ -60,6 +60,7 @@ import { HintComponent } from './tags/hint/hint.component';
 import { ConditionComponent } from './effects/condition/condition.component';
 import { NgbActiveModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { GridIconComponent } from './gridIcon/gridIcon.component';
+import { QuickdiceComponent } from './dice/quickdice/quickdice.component';
 
 @NgModule({
    declarations: [ 
@@ -114,7 +115,8 @@ import { GridIconComponent } from './gridIcon/gridIcon.component';
       ItemBladeAllyComponent,
       HintComponent,
       ConditionComponent,
-      GridIconComponent
+      GridIconComponent,
+      QuickdiceComponent
    ],
    imports: [
       BrowserModule,

@@ -350,17 +350,24 @@ export class AttacksComponent implements OnInit {
     get_FlurryAllowed() {
         let creature = this.get_Creature();
         let character = this.characterService.get_Character();
+        this.conditionsService.get_AppliedConditions(creature, this.characterService, creature.conditions, true).filter(gain => gain.name == "Hunt Prey").length
         if (creature.type == "Character" || (creature.type == "Companion" && character.get_FeatsTaken(1, creature.level, "Animal Companion (Ranger)").length)) {
-            return character.get_FeatsTaken(1, creature.level, "Flurry").length + character.get_FeatsTaken(1, creature.level, "Manifold Edge").length;
+            return (
+                (
+                    character.get_FeatsTaken(1, creature.level, "Flurry").length &&
+                    this.conditionsService.get_AppliedConditions(character, this.characterService, creature.conditions, true).filter(gain => gain.name == "Hunt Prey").length
+                ) ||
+                this.conditionsService.get_AppliedConditions(creature, this.characterService, creature.conditions, true).filter(gain => gain.name == "Hunt Prey: Flurry").length
+            )
         } else {
-            return 0;
+            return this.conditionsService.get_AppliedConditions(creature, this.characterService, creature.conditions, true).filter(gain => gain.name == "Hunt Prey: Flurry").length;
         }
     }
 
     get_MultipleAttackPenalty() {
         let creature = this.get_Creature();
         let conditions: string[] = this.conditionsService.get_AppliedConditions(creature, this.characterService, creature.conditions, true)
-        .filter(gain => ["Multiple Attack Penalty: Second Attack", "Multiple Attack Penalty: Third Attack", "Multiple Attack Penalty: Second Attack (Flurry)", "Multiple Attack Penalty: Third Attack (Flurry)"].includes(gain.name) && gain.source == "Attacks")
+            .filter(gain => ["Multiple Attack Penalty: Second Attack", "Multiple Attack Penalty: Third Attack", "Multiple Attack Penalty: Second Attack (Flurry)", "Multiple Attack Penalty: Third Attack (Flurry)"].includes(gain.name) && gain.source == "Attacks")
             .map(gain => gain.name);
         if (conditions.includes("Multiple Attack Penalty: Third Attack (Flurry)")) {
             return "3f";

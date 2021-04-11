@@ -6397,10 +6397,6 @@
                         "value": 2
                     }
                 ]
-            },
-            {
-                "desc": "You ignore the penalty for making ranged attacks within your second range increment against the prey you're hunting.",
-                "showon": "Attacks"
             }
         ]
     },

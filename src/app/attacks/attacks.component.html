@@ -19,15 +19,13 @@
                     <button class="center-aligned" *ngIf="get_MultipleAttackPenalty() != '2'"
                         (click)="set_MultipleAttackPenalty('2')">Multiple Attack Penalty: Second Attack</button>
                     <button class="center-aligned fancy-button" *ngIf="get_MultipleAttackPenalty() == '2'"
-                        (click)="set_MultipleAttackPenalty('1')">End
-                        Multiple Attack Penalty</button>
+                        (click)="set_MultipleAttackPenalty('1')">End Multiple Attack Penalty</button>
                 </div>
                 <div class="list-item newrow">
                     <button class="center-aligned" *ngIf="get_MultipleAttackPenalty() != '3'"
                         (click)="set_MultipleAttackPenalty('3')">Multiple Attack Penalty: Third Attack</button>
                     <button class="center-aligned fancy-button" *ngIf="get_MultipleAttackPenalty() == '3'"
-                        (click)="set_MultipleAttackPenalty('1')">End
-                        Multiple Attack Penalty</button>
+                        (click)="set_MultipleAttackPenalty('1')">End Multiple Attack Penalty</button>
                 </div>
                 <ng-container *ngIf="get_FlurryAllowed()">
                     <div class="list-item newrow">
@@ -35,16 +33,14 @@
                             (click)="set_MultipleAttackPenalty('2f')">Multiple Attack Penalty: Second Attack
                             (Flurry)</button>
                         <button class="center-aligned fancy-button" *ngIf="get_MultipleAttackPenalty() == '2f'"
-                            (click)="set_MultipleAttackPenalty('1')">End
-                            Multiple Attack Penalty</button>
+                            (click)="set_MultipleAttackPenalty('1')">End Multiple Attack Penalty</button>
                     </div>
                     <div class="list-item newrow">
                         <button class="center-aligned" *ngIf="get_MultipleAttackPenalty() != '3f'"
                             (click)="set_MultipleAttackPenalty('3f')">Multiple Attack Penalty: Third Attack
                             (Flurry)</button>
                         <button class="center-aligned fancy-button" *ngIf="get_MultipleAttackPenalty() == '3f'"
-                            (click)="set_MultipleAttackPenalty('1')">End
-                            Multiple Attack Penalty</button>
+                            (click)="set_MultipleAttackPenalty('1')">End Multiple Attack Penalty</button>
                     </div>
                 </ng-container>
             </div>
@@ -62,8 +58,8 @@
                     <span style="flex-basis:auto">
                         <strong *ngIf="!['alchemicalbombs', 'otherconsumablesbombs'].includes(weapon.type)">
                             <span [ngbTooltip]="'Melee'" *ngIf="attack[0] == 'melee'"><i class='ra ra-sword'></i></span>
-                            <span [ngbTooltip]="'Ranged ' + weapon.ranged + ' feet'"
-                                *ngIf="attack[0] == 'ranged'"><i class='ra ra-target-arrows'></i></span> {{weapon.get_Name()}}
+                            <span [ngbTooltip]="'Ranged ' + weapon.ranged + ' feet'" *ngIf="attack[0] == 'ranged'"><i
+                                    class='ra ra-target-arrows'></i></span> {{weapon.get_Name()}}
                         </strong>
                         <strong *ngFor="let handwraps of get_HandwrapsOfMightyBlows(weapon); trackBy:trackByIndex;">
                             ({{handwraps.get_Name()}})
@@ -71,9 +67,10 @@
                         <button style="flex-basis:auto" [disabled]="!weapon.amount"
                             (click)="on_ConsumableUse(weapon, null)"
                             *ngIf="['alchemicalbombs', 'otherconsumablesbombs'].includes(weapon.type)">
-                            <span [ngbTooltip]="'Melee'" *ngIf="attack[0] == 'melee'"><i class='ra ra-sword'></i>&nbsp;</span>
-                            <span [ngbTooltip]="'Ranged ' + weapon.ranged + ' feet'"
-                                *ngIf="attack[0] == 'ranged'"><i class='ra ra-target-arrows'></i>&nbsp;</span>
+                            <span [ngbTooltip]="'Melee'" *ngIf="attack[0] == 'melee'"><i
+                                    class='ra ra-sword'></i>&nbsp;</span>
+                            <span [ngbTooltip]="'Ranged ' + weapon.ranged + ' feet'" *ngIf="attack[0] == 'ranged'"><i
+                                    class='ra ra-target-arrows'></i>&nbsp;</span>
                             <span>{{(weapon.amount != undefined && weapon.amount != 1) ?
                                 weapon.amount+" " : ""}}{{weapon.get_Name()}}<app-actionIcons
                                     [actionString]="weapon.actions">
@@ -84,17 +81,23 @@
                     <span style="flex-basis:auto">
                         Attack
                         <span>
+                            <app-quickdice [diceNum]="1" [diceSize]="20" [bonus]="attack[1]" [type]="'(Attack)'"></app-quickdice>
                             <div class="value" [ngbPopover]="attack[2]"
                                 [ngClass]="{'penalty':attack[4].length, 'bonus':attack[5].length, 'absolute':attack[6].length}">
                                 {{attack[1]}}
                             </div>
                         </span>
                         <ng-container *ngFor="let damage of [get_Damage(weapon, attack[0])]; trackBy:trackByIndex;">
-                            <span *ngIf="!damage[0].includes('0d0')">&nbsp;Damage&nbsp;</span>
-                            <ng-container *ngFor="let line of damage[0].split('\n'); let index = index; trackBy:trackByIndex;">
+                            <span *ngIf="!damage[0].includes('0d0')">
+                                &nbsp;Damage&nbsp;
+                                <app-quickdice [diceString]="damage[0]"></app-quickdice>
+                            </span>
+                            <ng-container
+                                *ngFor="let line of damage[0].split('\n'); let index = index; trackBy:trackByIndex;">
                                 <div class="value" [ngbPopover]="damage[1]"
                                     [ngClass]="{'penalty':!index && damage[3].length, 'bonus':!index && damage[2].length, 'absolute':!index && damage[4].length}"
-                                    *ngIf="!line.includes('0d0')">{{line}}
+                                    *ngIf="!line.includes('0d0')">
+                                    {{line}}
                                 </div>
                                 <br>
                             </ng-container>

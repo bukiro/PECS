@@ -5,9 +5,8 @@ import { TraitsService } from '../traits.service';
 import { AbilitiesService } from '../abilities.service';
 import { EffectsService } from '../effects.service';
 import { Skill } from '../Skill';
-import { v1 as uuidv1 } from 'uuid';
 import { NgbPopoverConfig, NgbTooltipConfig } from '@ng-bootstrap/ng-bootstrap';
-import { Effect } from '../Effect';
+import { DiceService } from '../dice.service';
 
 @Component({
     selector: 'app-skill',
@@ -29,6 +28,7 @@ export class SkillComponent implements OnInit {
     constructor(
         private changeDetector: ChangeDetectorRef,
         public characterService: CharacterService,
+        public diceService: DiceService,
         public abilitiesService: AbilitiesService,
         public skillsService: SkillsService,
         public traitsService: TraitsService,
@@ -67,7 +67,7 @@ export class SkillComponent implements OnInit {
 
     get_Name(skill: Skill) {
         if (!this.isDC && skill.name.includes("Spell DC")) {
-            return skill.name.replace("Spell DC", "Spell Attacks");
+            return skill.name.replace("Spell DC", "Spell Attack");
         } else {
             return skill.name;
         }
@@ -91,6 +91,10 @@ export class SkillComponent implements OnInit {
             }
         }
         return specialNames;
+    }
+
+    roll_Dice(bonus: number) {
+        this.diceService.roll(1, 20, bonus, this.characterService);
     }
 
     still_loading() {

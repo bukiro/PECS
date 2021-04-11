@@ -85,11 +85,16 @@
                         {{result.desc}}
                     </span>
                     <strong [ngClass]="{'variable': result.included}">
-                        <input type="checkbox" [(ngModel)]="result.included">&nbsp;{{get_DiceSum(result)}}
+                        <input type="checkbox" [(ngModel)]="result.included">&nbsp;
+                        {{get_DiceSum(result)}}{{result.type ? " " + result.type : ""}}
                     </strong>
                     <span>
                         <span *ngFor="let roll of result.rolls; let index = index; trackBy:trackByIndex">
-                            {{index != 0 ? "+ " + roll : roll}}
+                            {{index != 0 ? "+" : ""}}
+                            <span class="value" style="padding: 0 .25em"
+                                [ngClass]="{'penalty': roll == 1, 'bonus': roll == result.diceSize}">
+                                {{roll}}
+                            </span>
                         </span>
                         <strong *ngIf="result.bonus">
                             {{result.bonus > 0 ? "+ " + result.bonus : "- " + (result.bonus * -1)}}

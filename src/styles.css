@@ -436,6 +436,13 @@ background: rgb(var(--accent));
 cursor: pointer;
 }
 
+    /* Quick Dice Roll Button */
+
+app-quickdice svg {
+    height: 1em;
+    width: 1em;
+}
+
     /* Button Flash */
 
 button.no-animation:before,
