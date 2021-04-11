@@ -50,3 +50,5 @@ Thumbs.db
 
 # working environment
 pecs.code-workspace
+/src/config (demo).json
+/src/config (local).json

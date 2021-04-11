@@ -67,6 +67,12 @@
                             Settings
                         </button>
                     </div>
+                    <div class="list-item">
+                        <button class="newrow" (click)="toggle_List('licenses')"
+                            [ngClass]="{'activechoice':get_ShowList()=='licenses'}">
+                            Licenses
+                        </button>
+                    </div>
                 </ng-container>
                 <!--Management tile mode-->
                 <div class="newrow list-item" *ngIf="get_TileMode()">
@@ -107,6 +113,11 @@
                         <button (click)="toggle_List('settings')"
                             [ngClass]="{'activechoice':get_ShowList()=='settings'}">
                             <app-gridIcon [ngbTooltip]="'Settings'" [title]="'C O N F'">
+                            </app-gridIcon>
+                        </button>
+                        <button (click)="toggle_List('licenses')"
+                            [ngClass]="{'activechoice':get_ShowList()=='licenses'}">
+                            <app-gridIcon [ngbTooltip]="'Licenses'" [title]="'L I C'">
                             </app-gridIcon>
                         </button>
                     </div>
@@ -2379,6 +2390,17 @@
                         </ng-container>
                     </ng-container>
                 </ng-container>
+            </ng-container>
+            <!--Licenses content-->
+            <ng-container *ngIf="get_ShowList()=='licenses'">
+                <div class="newrow list-item padding-8 center-aligned">
+                    <header class="box-header sectionHeader">
+                        Licenses
+                    </header>
+                </div>
+                <div id="choiceArea" style="font-size: 1em;" class="charactersheet-app">
+                    <app-licenses></app-licenses>
+                </div>
             </ng-container>
         </div>
     </div>

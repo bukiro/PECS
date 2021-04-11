@@ -125,7 +125,6 @@ Active to-do:
 Implement:
 
 Next steps:
-- Add License page (see https://2e.aonprd.com/Licenses.aspx)
 - Implement Icons for Inventory and Spells
 - Gnome feats
 - Hobgoblin feats
