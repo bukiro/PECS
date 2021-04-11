@@ -438,7 +438,17 @@ cursor: pointer;
 
     /* Quick Dice Roll Button */
 
-app-quickdice svg {
+app-quickdice > button {
+    height: 1.5em;
+    width: 1.5em;
+    padding: 0;
+}
+
+app-quickdice > button > * {
+    margin: auto;
+}
+
+app-quickdice > button > * > svg {
     height: 1em;
     width: 1em;
 }

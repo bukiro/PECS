@@ -40,7 +40,7 @@ export class QuickdiceComponent implements OnInit {
                     }
                     diceRolls[index].diceNum = parseInt(dicePart.split("d")[0]);
                     diceRolls[index].diceSize = parseInt(dicePart.split("d")[1]);
-                } else if (dicePart == "+") {
+                } else if (dicePart == "+" || dicePart == "-") {
                     arithmetic = dicePart;
                 } else if (dicePart.match("^[0-9]+$")) {
                     if (diceRolls.length == 0 || diceRolls[index].bonus) {
