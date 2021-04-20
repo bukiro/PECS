@@ -34,6 +34,8 @@ export class ConditionsComponent implements OnInit {
     public showItem: string = "";
     public wordFilter: string = "";
     public permanent: boolean = true;
+    public untilRest: boolean = false;
+    public untilRefocus: boolean = false;
     public days: number = 0;
     public hours: number = 0;
     public minutes: number = 0;
@@ -228,8 +230,10 @@ export class ConditionsComponent implements OnInit {
         return this.conditionsService.get_Conditions(name, type);
     }
 
-    set_Permanent() {
-        this.permanent = true;
+    set_Permanent(duration: number) {
+        this.permanent = duration == -1;
+        this.untilRest = duration == -2;
+        this.untilRefocus = duration == -3;
         this.days = 0;
         this.hours = 0;
         this.minutes = 0;
@@ -238,32 +242,38 @@ export class ConditionsComponent implements OnInit {
 
     add_Day(days: number) {
         this.days = Math.max(this.days + days, 0);
-        this.permanent = false;
+        this.set_NonPermanent();
     }
 
-    set_Duration() {
-        if (this.permanent) {
-            this.permanent = false;
-        }
+    set_NonPermanent() {
+        this.permanent = this.untilRest = this.untilRefocus = false;
     }
 
     get_ConditionDuration(includeTurn: boolean = true) {
-        return this.permanent ? -1 :
-            (
-                this.days * 144000 +
-                this.hours * 6000 +
-                this.minutes * 100 +
-                this.turns * 10 +
-                (includeTurn ? (this.endOn == this.timeService.get_YourTurn() ? 0 : 5) : 0)
-            )
+        if (this.permanent) {
+            return -1;
+        }
+        if (this.untilRest) {
+            return -2;
+        }
+        if (this.untilRefocus) {
+            return -3;
+        }
+        return (
+            this.days * 144000 +
+            this.hours * 6000 +
+            this.minutes * 100 +
+            this.turns * 10 +
+            (includeTurn ? (this.endOn == this.timeService.get_YourTurn() ? 0 : 5) : 0)
+        )
     }
 
     get_ConditionChoices(condition: Condition) {
         return condition.get_Choices(this.characterService, false);
     }
 
-    get_Duration(duration: number = this.get_ConditionDuration()) {
-        return this.timeService.get_Duration(duration, true);
+    get_Duration(duration: number = this.get_ConditionDuration(), inASentence: boolean = false) {
+        return this.timeService.get_Duration(duration, true, inASentence);
     }
 
     add_Condition(creature: Creature, condition: Condition, duration: number = this.get_ConditionDuration(false)) {

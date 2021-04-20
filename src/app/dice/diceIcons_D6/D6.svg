@@ -2,7 +2,7 @@
      width="64px" height="64px" stroke-linejoin="round"
      viewBox="0 0 64 64">
   <g fill="none" stroke="#000000" stroke-width="4">
-  <path id="D6"
+  <path class="D6"
         d="M 8.00,8.00
            C 8.00,8.00 56.00,8.00 56.00,8.00
              56.00,8.00 56.00,56.00 56.00,56.00

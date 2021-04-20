@@ -11,6 +11,7 @@ import { ConditionChoice } from './ConditionChoice';
 import { CharacterService } from './character.service';
 import { Familiar } from './Familiar';
 import { Feat } from './Feat';
+import { ConditionDuration } from './ConditionDuration';
 
 export class Condition {
     public name: string = "";
@@ -37,7 +38,7 @@ export class Condition {
     public source: string = "";
     public senses: SenseGain[] = [];
     public nextCondition: ConditionGain = null;
-    public fixedDuration: number = 0;
+    public defaultDurations: ConditionDuration[] = [];
     public persistent: boolean = false;
     public restricted: boolean = false;
     public radius: number = 0;
@@ -107,6 +108,35 @@ export class Condition {
     }
     get_ChoiceNextStage(choiceName: string) {
         return this.choices.find(choice => choice.name == choiceName)?.nextStage || 0;
+    }
+    get_DefaultDuration(choiceName: string = "", spellLevel: number = 0) {
+        //Suggest a default duration for a condition in this order:
+        // 1. The default duration of the current condition choice, if one exists
+        // 2. If the condition has a minLevel (== is a spell), the default duration with the appropriate minLevel value, if one exists
+        // 3. The first default duration, if one exists
+        // 4. undefined
+        //Returns {duration: number, source: string}
+        let choice = this.choices.find(choice => choice.name == choiceName);
+        if (choice?.defaultDuration != undefined) {
+            return {duration: choice.defaultDuration, source: choice.name};
+        }
+        if (this.minLevel) {
+            //Levelnumber should not be below minLevel, but might be in the conditions menu.
+            let levelNumber = Math.max(this.minLevel, spellLevel);
+            if (this.defaultDurations.some(defaultDuration => defaultDuration.minLevel)) {
+                // Going down from levelNumber to minLevel, use the first default duration that matches the level.
+                for (levelNumber; levelNumber >= this.minLevel; levelNumber--) {
+                    let level = this.defaultDurations.find(defaultDuration => defaultDuration.minLevel == levelNumber);
+                    if (level?.duration != undefined) {
+                        return {duration: level.duration, source: "Spell level " + levelNumber};
+                    }
+                }
+            }
+        }
+        if (this.defaultDurations[0]?.duration != undefined) {
+            return {duration: this.defaultDurations[0].duration, source: "Default"};
+        }
+        return undefined;
     }
     get_HeightenedItems(levelNumber: number) {
         //This descends through the level numbers, starting with levelNumber and returning the first set of ItemGains found with a matching heightenedfilter.

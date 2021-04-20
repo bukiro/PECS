@@ -937,7 +937,7 @@ header.sectionHeader.box-header {
 }
 
 .darkmode header.sectionHeader.box-header {
-    text-shadow: 0 0 .35rem var(--textcolor), 0 0 .35rem var(--textcolor), 0 0 .35rem var(--textcolor), 0 0 .35rem var(--textcolor), 0 0 .35rem var(--textcolor);
+    text-shadow: 0 0 2px var(--textcolor), 0 0 2px var(--textcolor), 0 0 2px var(--textcolor), 0 0 2px var(--textcolor), 0 0 2px var(--textcolor);
 }
 
 .darkmode header.sectionHeader.box-header span {
@@ -1146,15 +1146,15 @@ button.list-item {
 .list-item.sublist :not(.list-item)>span>strong,
 .modal-content strong {
     color: rgb(var(--accent));
-    text-shadow: 0 0 .15rem white, 0 0 .15rem white, 0 0 .15rem white, 0 0 .15rem white, 0 0 .15rem white;
-    text-shadow: 0.05em 0 .15rem white, 0 0.05em .15rem white, -0.05em 0 .15rem white, 0 -0.05em .15rem white, -0.05em -0.05em .15rem white, -0.05em 0.05em .15rem white, 0.05em -0.05em .15rem white, 0.05em 0.05em .15rem white;
+    text-shadow: 0 0 2px white, 0 0 2px white, 0 0 2px white, 0 0 2px white, 0 0 2px white;
+    text-shadow: 1px 0 2px white, 0 1px 2px white, -1px 0 2px white, 0 -1px 2px white, -1px -1px 2px white, -1px 1px 2px white, 1px -1px 2px white, 1px 1px 2px white;
 }
 
 .darkmode .list-item.sublist :not(.list-item)>strong,
 .darkmode .list-item.sublist :not(.list-item)>span>strong,
 .darkmode .modal-content strong {
-    text-shadow: 0 0 .15rem var(--textcolor), 0 0 .15rem var(--textcolor), 0 0 .15rem var(--textcolor), 0 0 .15rem var(--textcolor), 0 0 .15rem var(--textcolor);
-    text-shadow: 0.05em 0 .15rem var(--textcolor), 0 0.05em .15rem var(--textcolor), -0.05em 0 .15rem var(--textcolor), 0 -0.05em .15rem var(--textcolor), -0.05em -0.05em .15rem var(--textcolor), -0.05em 0.05em .15rem var(--textcolor), 0.05em -0.05em .15rem var(--textcolor), 0.05em 0.05em .15rem var(--textcolor);
+    text-shadow: 0 0 2px var(--textcolor), 0 0 2px var(--textcolor), 0 0 2px var(--textcolor), 0 0 2px var(--textcolor), 0 0 2px var(--textcolor);
+    text-shadow: 1px 0 2px var(--textcolor), 0 1px 2px var(--textcolor), -1px 0 2px var(--textcolor), 0 -1px 2px var(--textcolor), -1px -1px 2px var(--textcolor), -1px 1px 2px var(--textcolor), 1px -1px 2px var(--textcolor), 1px 1px 2px var(--textcolor);
 }
 
 .list-item.sublist.fancy-list {
@@ -1358,11 +1358,11 @@ app-proficiency-form,
     font-weight: bolder;
     color: #465A8C;
     color: rgb(var(--accent));
-    text-shadow: 0 0 .35rem #616161, 0 0 .35rem #616161;
+    text-shadow: 0 0 2px #616161, 0 0 2px #616161;
 }
 
 .darkmode .proficiency.checked {
-    text-shadow: 0 0 .35rem #CCC, 0 0 .35rem #CCC;
+    text-shadow: 0 0 2px #CCC, 0 0 2px #CCC;
 }
 
 /*
@@ -1989,8 +1989,8 @@ var:not(:empty),
     font-weight: bold;
     font-style: normal;
     color: white;
-    text-shadow: 0 0 .15rem rgb(var(--accent)), 0 0 .15rem rgb(var(--accent)), 0 0 .15rem rgb(var(--accent)), 0 0 .15rem rgb(var(--accent)), 0 0 .15rem rgb(var(--accent));
-    text-shadow: 0.05em 0 .15rem rgb(var(--accent)), 0 0.05em .15rem rgb(var(--accent)), -0.05em 0 .15rem rgb(var(--accent)), 0 -0.05em .15rem rgb(var(--accent)), -0.05em -0.05em .15rem rgb(var(--accent)), -0.05em 0.05em .15rem rgb(var(--accent)), 0.05em -0.05em .15rem rgb(var(--accent)), 0.05em 0.05em .15rem rgb(var(--accent));
+    text-shadow: 0 0 1px rgb(var(--accent)), 0 0 1px rgb(var(--accent)), 0 0 1px rgb(var(--accent)), 0 0 1px rgb(var(--accent)), 0 0 1px rgb(var(--accent));
+    text-shadow: 1px 0 1px rgb(var(--accent)), 0 1px 1px rgb(var(--accent)), -1px 0 1px rgb(var(--accent)), 0 -1px 1px rgb(var(--accent)), -1px -1px 1px rgb(var(--accent)), -1px 1px 1px rgb(var(--accent)), 1px -1px 1px rgb(var(--accent)), 1px 1px 1px rgb(var(--accent));
 }
 
 .darkmode var:not(:empty),

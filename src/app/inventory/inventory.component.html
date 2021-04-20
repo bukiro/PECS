@@ -141,12 +141,18 @@
                             <button class="newrow left-aligned sublist-toggle"
                                 [ngClass]="{'fancy-button':((item.equippable && item.equipped) || (item.can_Invest() && item.invested)), 'problem':item.broken}"
                                 (click)="toggle_Item(inventoryID)">
-                                <span [ngbTooltip]="'Broken'" *ngIf="item.broken"><i class='ra ra-broken-shield'></i>&nbsp;</span>
-                                <span [ngbTooltip]="'Shoddy'" *ngIf="item.shoddy"><i class='ra ra-broken-bottle'></i>&nbsp;</span>
-                                <span [ngbTooltip]="'Temporary Item'" *ngIf="item.expiration"><i class='ra ra-clockwork'></i>&nbsp;</span>
-                                <span [ngbTooltip]="'Large Weapon'" *ngIf="item.large"><i class='ra ra-large-hammer'></i>&nbsp;</span>
-                                <span [ngbTooltip]="'Blade Ally'" *ngIf="item.bladeAlly"><i class='ra ra-fireball-sword'></i>&nbsp;</span>
-                                <span [ngbTooltip]="'Battleforged'" *ngIf="item.battleforged"><i class='ra ra-anvil'></i>&nbsp;</span>
+                                <span [ngbTooltip]="'Broken'" *ngIf="item.broken"><i
+                                        class='ra ra-broken-shield'></i>&nbsp;</span>
+                                <span [ngbTooltip]="'Shoddy'" *ngIf="item.shoddy"><i
+                                        class='ra ra-broken-bottle'></i>&nbsp;</span>
+                                <span [ngbTooltip]="'Temporary Item'" *ngIf="item.expiration"><i
+                                        class='ra ra-clockwork'></i>&nbsp;</span>
+                                <span [ngbTooltip]="'Large Weapon'" *ngIf="item.large"><i
+                                        class='ra ra-large-hammer'></i>&nbsp;</span>
+                                <span [ngbTooltip]="'Blade Ally'" *ngIf="item.bladeAlly"><i
+                                        class='ra ra-fireball-sword'></i>&nbsp;</span>
+                                <span [ngbTooltip]="'Battleforged'" *ngIf="item.battleforged"><i
+                                        class='ra ra-anvil'></i>&nbsp;</span>
                                 {{(item.amount != undefined && item.amount != 1) ? item.amount+" " : ""}}
                                 {{(item['get_Name']) ? item.get_Name() : item.name}}&nbsp;
                                 <span class="lower"
@@ -218,36 +224,29 @@
                                                 *ngIf="['companion', 'ally'].includes(spell.target) && get_FamiliarAvailable()"
                                                 [disabled]="item.broken">
                                                 <span>{{item.type == "wands" && item.cooldown ? "Overcharge (Cooldown "
-                                                    +
-                                                    get_Duration(item.cooldown) + ")" : "Use"}}
-                                                    <app-actionIcons [actionString]="spell.actions">
-                                                    </app-actionIcons>{{(spell.activationType) ? spell.activationType :
-                                                    ""}}
-                                                    (Cast spell on your familiar)
+                                                    + get_Duration(item.cooldown) + ")" : "Use"}} <app-actionIcons
+                                                        [actionString]="spell.actions"></app-actionIcons>
+                                                    {{(spell.activationType) ? spell.activationType : ""}} (Cast spell
+                                                    on your familiar)
                                                 </span>
                                             </button>
                                             <button class="newrow center-aligned"
                                                 (click)="on_SpellItemUse(item, '', inventory)"
                                                 *ngIf="spell.target == 'ally'" [disabled]="item.broken">
                                                 <span>{{item.type == "wands" && item.cooldown ? "Overcharge (Cooldown "
-                                                    +
-                                                    get_Duration(item.cooldown) + ")" : "Use"}}
-                                                    <app-actionIcons [actionString]="spell.actions">
-                                                    </app-actionIcons>{{(spell.activationType) ? spell.activationType :
-                                                    ""}}
-                                                    (Cast spell on ally)
+                                                    + get_Duration(item.cooldown) + ")" : "Use"}} <app-actionIcons
+                                                        [actionString]="spell.actions"></app-actionIcons>
+                                                    {{(spell.activationType) ? spell.activationType : ""}} (Cast spell
+                                                    on ally)
                                                 </span>
                                             </button>
                                             <button class="newrow center-aligned"
                                                 (click)="on_SpellItemUse(item, '', inventory)"
                                                 *ngIf="spell.target == ''" [disabled]="item.broken">
                                                 <span>{{item.type == "wands" && item.cooldown ? "Overcharge (Cooldown "
-                                                    +
-                                                    get_Duration(item.cooldown) + ")" : "Use"}}
-                                                    <app-actionIcons [actionString]="spell.actions">
-                                                    </app-actionIcons>{{(spell.activationType) ? spell.activationType :
-                                                    ""}}
-                                                    (Cast spell)
+                                                    + get_Duration(item.cooldown) + ")" : "Use"}} <app-actionIcons
+                                                        [actionString]="spell.actions"></app-actionIcons>
+                                                    {{(spell.activationType) ? spell.activationType : ""}} (Cast spell)
                                                 </span>
                                             </button>
                                         </div>
@@ -400,7 +399,8 @@
                                                 <input id="{{item.id}}broken" type="checkbox" [(ngModel)]="item.broken"
                                                     (ngModelChange)=onItemChange(item)
                                                     [disabled]="!get_RepairAllowed(item)">
-                                                <label for="{{item.id}}broken">&nbsp;<i class='ra ra-broken-shield'></i>&nbsp;Broken</label>
+                                                <label for="{{item.id}}broken">&nbsp;<i
+                                                        class='ra ra-broken-shield'></i>&nbsp;Broken</label>
                                             </span>
                                             <span>
                                                 <span
@@ -413,7 +413,8 @@
                                             <span>
                                                 <input id="{{item.id}}shoddy" type="checkbox" [(ngModel)]="item.shoddy"
                                                     (ngModelChange)=onItemChange(item)>
-                                                <label for="{{item.id}}shoddy">&nbsp;<i class='ra ra-broken-bottle'></i>&nbsp;Shoddy</label>
+                                                <label for="{{item.id}}shoddy">&nbsp;<i
+                                                        class='ra ra-broken-bottle'></i>&nbsp;Shoddy</label>
                                             </span>
                                             <span>
                                                 <span
@@ -428,7 +429,8 @@
                                     <span>
                                         <input id="{{item.id}}large" type="checkbox" [(ngModel)]="item.large"
                                             (ngModelChange)=onItemChange(item)>
-                                        <label for="{{item.id}}large">&nbsp;<i class='ra ra-large-hammer'></i>&nbsp;Large</label>
+                                        <label for="{{item.id}}large">&nbsp;<i
+                                                class='ra ra-large-hammer'></i>&nbsp;Large</label>
                                     </span>
                                     <span>
                                         <span
@@ -444,7 +446,8 @@
                                             <input id="{{item.id}}bladeally" type="checkbox"
                                                 [(ngModel)]="item.bladeAlly" (ngModelChange)=onItemChange(item)
                                                 [disabled]="get_BladeAllyUsed() && !item.bladeAlly">
-                                            <label for="{{item.id}}bladeally">&nbsp;<i class='ra ra-fireball-sword'></i>&nbsp;Blade Ally</label>
+                                            <label for="{{item.id}}bladeally">&nbsp;<i
+                                                    class='ra ra-fireball-sword'></i>&nbsp;Blade Ally</label>
                                         </span>
                                         <span>
                                             <span
@@ -461,7 +464,8 @@
                                     <span>
                                         <input id="{{item.id}}battleforged" type="checkbox"
                                             [(ngModel)]="item.battleforged" (ngModelChange)=onItemChange(item)>
-                                        <label for="{{item.id}}battleforged">&nbsp;<i class='ra ra-anvil'></i>&nbsp;Battleforged</label>
+                                        <label for="{{item.id}}battleforged">&nbsp;<i
+                                                class='ra ra-anvil'></i>&nbsp;Battleforged</label>
                                     </span>
                                     <span>
                                         <span
@@ -517,12 +521,13 @@
             <!--Other Items-->
             <header class="subsectionHeader fullsize-only">Miscellaneous Items</header>
             <button class="fullsize-only newrow center-aligned" (click)="add_NewOtherItem(inventory)">Add</button>
-            <div class="fullsize-only list-item" *ngFor="let item of inventory.otheritems; let index = index; trackBy:trackByIndex;">
+            <div class="fullsize-only list-item"
+                *ngFor="let item of inventory.otheritems; let index = index; trackBy:trackByIndex;">
                 <strong>Name</strong>
                 <input id="miscellaneousItemName{{inventory.itemId}}{{index}}" type="text" [(ngModel)]="item.name">
                 <strong>Bulk</strong>
-                <input id="miscellaneousItemBulk{{inventory.itemId}}{{index}}" class="number2" [(ngModel)]="item.bulk" (blur)="validate_Bulk(item)"
-                    (keypress)="bulkOnly($event)">
+                <input id="miscellaneousItemBulk{{inventory.itemId}}{{index}}" class="number2" [(ngModel)]="item.bulk"
+                    (blur)="validate_Bulk(item)" (keypress)="bulkOnly($event)">
                 <button (click)="remove_OtherItem(item, inventory)">Drop</button>
             </div>
         </div>

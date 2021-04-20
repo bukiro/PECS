@@ -144,28 +144,30 @@ export class SpellsService {
                     }
                     //Form Control changes the duration of the Wild Shape spell and the condition in various ways.
                     if (spell.name == "Wild Shape") {
+                        //If you have Insect Shape and use wild shape to polymorph into the non-flying insect form listed in pest form, the duration is 24 hours instead of 10 minutes.
+                        if (creature.type == "Character" && (creature as Character).get_FeatsTaken(1, creature.level, "Insect Shape").length) {
+                            if (newConditionGain.choice == "Pest Form (non-flying insect)") {
+                                gain.duration = 144000;
+                                newConditionGain.duration = gain.duration;
+                            }
+                        }
                         //If Form Control is activated,
                         // 1. The duration is permanent if you have Perfect Form Control
-                        // 2. Otherwise, the duration is 1 hour
+                        // 2. Otherwise, the duration is 1 hour or longer if it was already longer.
                         if (conditionsService.get_AppliedConditions(creature, characterService, creature.conditions, true).some(gain => gain.name == "Form Control")) {
                             if (creature.type == "Character" && (creature as Character).get_FeatsTaken(1, creature.level, "Perfect Form Control").length) {
                                 gain.duration = -1;
                                 newConditionGain.duration = gain.duration;
                             } else {
-                                gain.duration = 6000;
-                                newConditionGain.duration = gain.duration;
+                                if (gain.duration < 6000) {
+                                    gain.duration = 6000;
+                                    newConditionGain.duration = gain.duration;
+                                }
                             }
-                        //Without Form Control, Pest Form is 10 minutes, and every other form remains at 1 minute.
+                            //Without Form Control, Pest Form is 10 minutes, and every other form remains at 1 minute.
                         } else {
                             if (newConditionGain.choice == "Pest Form") {
                                 gain.duration = 1000;
-                                newConditionGain.duration = gain.duration;
-                            }
-                        }
-                        //If you have Insect Shape and use wild shape to polymorph into the non-flying insect form listed in pest form, the duration is 24 hours instead of 10 minutes.
-                        if (gain.duration != -1 && creature.type == "Character" && (creature as Character).get_FeatsTaken(1, creature.level, "Insect Shape").length) {
-                            if (newConditionGain.choice == "Pest Form (non-flying insect)") {
-                                gain.duration = 144000;
                                 newConditionGain.duration = gain.duration;
                             }
                         }

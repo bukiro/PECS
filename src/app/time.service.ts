@@ -228,8 +228,8 @@ export class TimeService {
             if (includeTurnState && duration == 5 && this.get_YourTurn() == 5) {
                 returnString += " to end of turn";
             }
-            if (!returnString) {
-                returnString = "0 Turns";
+            if (!returnString || returnString == "for ") {
+                returnString = inASentence ? "for 0 turns" : "0 Turns" ;
             }
             return returnString.trim();
         }

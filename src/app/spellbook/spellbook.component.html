@@ -225,7 +225,7 @@
                                                                                     </button>
                                                                                 </div>
                                                                                 <div class="newrow"
-                                                                                    *ngIf="['self', 'ally'].includes(spell.target) && !spellTaken.gain.active"
+                                                                                    *ngIf="['self', 'ally'].includes(spell.target) && (!spell.target.includes('you and')) && !spellTaken.gain.active"
                                                                                     [ngbTooltip]="cannotCast">
                                                                                     <button
                                                                                         class="newrow center-aligned"
@@ -261,7 +261,7 @@
                                                                                     </button>
                                                                                 </div>
                                                                                 <div class="newrow"
-                                                                                    *ngIf="['companion', 'ally'].includes(spell.target) && !spellTaken.gain.active && get_FamiliarAvailable()"
+                                                                                    *ngIf="['familiar', 'ally'].includes(spell.target) && !spellTaken.gain.active && get_FamiliarAvailable()"
                                                                                     [ngbTooltip]="cannotCast">
                                                                                     <button
                                                                                         class="newrow center-aligned"
@@ -278,24 +278,7 @@
                                                                                     </button>
                                                                                 </div>
                                                                                 <div class="newrow"
-                                                                                    *ngIf="spell.target == 'ally' && !spellTaken.gain.active"
-                                                                                    [ngbTooltip]="cannotCast">
-                                                                                    <button
-                                                                                        class="newrow center-aligned"
-                                                                                        (click)="on_Cast(level, spellTaken.gain, casting, spellTaken.choice, '', spell, true, bloodMagicFeats)"
-                                                                                        [disabled]="cannotCast"
-                                                                                        [ngbTooltip]="get_IsBloodMagicTrigger(spell, bloodMagicFeats) ? 'Casting this spell will trigger your blood magic power' : (!can_Activate(spell, bloodMagicFeats) ? 'The spell has no automatic effects.' : '')">
-                                                                                        <span>
-                                                                                            Cast on other targets <i
-                                                                                                class='bi-peace'
-                                                                                                *ngIf="!can_Activate(spell, bloodMagicFeats)"></i>
-                                                                                            <i class='ra ra-droplet-splash'
-                                                                                                *ngIf="get_IsBloodMagicTrigger(spell, bloodMagicFeats)"></i>
-                                                                                        </span>
-                                                                                    </button>
-                                                                                </div>
-                                                                                <div class="newrow"
-                                                                                    *ngIf="!spell.target && !spellTaken.gain.active"
+                                                                                    *ngIf="['ally', 'area', 'minion', 'object', 'other'].includes(spell.target) && !spellTaken.gain.active"
                                                                                     [ngbTooltip]="cannotCast">
                                                                                     <button
                                                                                         class="newrow center-aligned"
