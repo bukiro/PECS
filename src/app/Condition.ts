@@ -114,10 +114,10 @@ export class Condition {
         // 1. The default duration of the current condition choice, if one exists
         // 2. If the condition has a minLevel (== is a spell), the default duration with the appropriate minLevel value, if one exists
         // 3. The first default duration, if one exists
-        // 4. undefined
+        // 4. null
         //Returns {duration: number, source: string}
         let choice = this.choices.find(choice => choice.name == choiceName);
-        if (choice?.defaultDuration != undefined) {
+        if (choice?.defaultDuration != null) {
             return {duration: choice.defaultDuration, source: choice.name};
         }
         if (this.minLevel) {
@@ -127,16 +127,16 @@ export class Condition {
                 // Going down from levelNumber to minLevel, use the first default duration that matches the level.
                 for (levelNumber; levelNumber >= this.minLevel; levelNumber--) {
                     let level = this.defaultDurations.find(defaultDuration => defaultDuration.minLevel == levelNumber);
-                    if (level?.duration != undefined) {
+                    if (level?.duration != null) {
                         return {duration: level.duration, source: "Spell level " + levelNumber};
                     }
                 }
             }
         }
-        if (this.defaultDurations[0]?.duration != undefined) {
+        if (this.defaultDurations[0]?.duration != null) {
             return {duration: this.defaultDurations[0].duration, source: "Default"};
         }
-        return undefined;
+        return null;
     }
     get_HeightenedItems(levelNumber: number) {
         //This descends through the level numbers, starting with levelNumber and returning the first set of ItemGains found with a matching heightenedfilter.

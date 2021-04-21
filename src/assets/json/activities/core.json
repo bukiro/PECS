@@ -4229,7 +4229,7 @@
     {
         "name": "Dragon Form Breath Weapon",
         "actions": "2A",
-        "inputRequired": "After using the breath weapon, roll 1d4 and change the duration of the cooldown condition to the result.",
+        "inputRequired": "Roll 1d4 and choose the appropriate duration for the cooldown condition.",
         "traits": [
             "Arcane",
             "Evocation"
@@ -4237,7 +4237,7 @@
         "desc": "The shape, damage, and damage type of your breath weapon depend on your specific dragon form (see below). A creature in the area attempts a basic save against your spell DC. This is a Reflex save unless stated otherwise in the special ability description for your specific dragon form. Once activated, your breath weapon can't be used again for 1d4 rounds. Your breath weapon has the trait corresponding to the type of damage it deals.\n\nOn 8th spell level, you gain a +14 status bonus to the breath weapon's damage.\n\n<strong>Black</strong> 60-foot line, 11d6 acid.\n<strong>Blue</strong> 80-foot line, 6d12 electricity.\n<strong>Brass</strong> 60-foot line, 15d4 fire.\n<strong>Bronze</strong> 80-foot line, 6d12 electricity.\n<strong>Copper</strong> 60-foot line, 10d6 acid.\n<strong>Gold</strong> 30-foot cone, 6d10 fire.\n<strong>Green</strong> 30-foot cone, 10d6 poison (Fortitude save instead of Reflex).\n<strong>Red</strong> 30-foot cone, 10d6 fire.\n<strong>Silver</strong> 30-foot cone, 8d8 cold.\n<strong>White</strong> 30-foot cone, 10d6 cold.",
         "gainConditions": [
             {
-                "duration": 40,
+                "duration": -5,
                 "name": "Dragon Form Breath Weapon Cooldown",
                 "source": "Dragon Form Breath Weapon"
             }

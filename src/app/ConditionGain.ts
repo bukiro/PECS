@@ -8,7 +8,13 @@ export class ConditionGain {
     public id = uuidv1();
     public apply: boolean = true;
     public decreasingValue: boolean = false;
-    //duration in turns * 10, -1 for permanent or 1 for instant
+    //Duration in turns * 10, or:
+    // - -5 for automatic - the duration will be determined by choice and level (for spells).
+    // - -1 for permanent
+    // - -2 for until rest
+    // - -3 for until refocus
+    // - 1 for instant - will need to be resolved and removed manually before time can pass
+    // - 0 for no duration - will be processed and then immediately removed, useful for instant effects and chaining conditions
     public duration: number = -1;
     public maxDuration: number = -1;
     //nextStage in turns * 10

@@ -239,7 +239,7 @@ export class ActivityComponent implements OnInit {
     }
 
     get_ActivityConditions() {
-        //For all conditions that are included with this activity and has choices unlocked, create an effectChoice on the gain and set it to the default choice.
+        //For all conditions that are included with this activity and have any choices unlocked, create an effectChoice on the gain and set it to the default choice.
         let conditions: Condition[] = [];
         if (this.gain && !this.activity.hideChoices) {
             this.activity.gainConditions
@@ -262,7 +262,7 @@ export class ActivityComponent implements OnInit {
     }
 
     get_SpellConditions(spellCast: SpellCast, spellCastIndex: number) {
-        //For all conditions that are included with this spell on this level and has choices unlocked, create an effectChoice on the gain and set it to the default choice.
+        //For all conditions that are included with this spell on this level and hav choices unlocked, create an effectChoice on the gain and set it to the default choice.
         let conditions: Condition[] = [];
         if (this.gain) {
             let spell = this.spellsService.get_Spells(spellCast.name)[0];

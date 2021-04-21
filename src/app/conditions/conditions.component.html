@@ -117,7 +117,7 @@
                                                     <ng-container
                                                         *ngFor="let familiarAvailable of [get_FamiliarAvailable()]">
                                                         <div class="newrow"
-                                                            *ngIf="!condition.restricted && defaultDuration != undefined">
+                                                            *ngIf="!condition.restricted && defaultDuration != null">
                                                             <header class="subsectionHeader">Add
                                                                 {{get_Duration(defaultDuration.duration, true)}}
                                                                 ({{defaultDuration.source}})

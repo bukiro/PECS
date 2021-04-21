@@ -1398,6 +1398,9 @@ ngb-popover-window.list-item.sublist {
 
 .popover-body {
     color: inherit;
+    display: flex;
+    flex-direction: column;
+    gap: .6rem;
 }
 
 .bs-popover-auto[x-placement^=top], .bs-popover-top {

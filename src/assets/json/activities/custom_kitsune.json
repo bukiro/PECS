@@ -44,6 +44,15 @@
             {
                 "name": "Animal Form",
                 "level": 2,
+                "overrideChoices": [
+                    {
+                        "condition": "Animal Form",
+                        "choice": "Canine"
+                    }
+                ],
+                "hideChoices": [
+                    "Animal Form"
+                ],
                 "duration": -2,
                 "_className": "SpellCast"
             }

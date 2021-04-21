@@ -2466,14 +2466,16 @@
         ],
         "gainConditions": [
             {
-                "duration": 100,
+                "duration": -5,
                 "name": "Undeath's Blessing (Caster)",
                 "source": "Undeath's Blessing",
                 "targetFilter": "caster"
             },
             {
                 "duration": 100,
-                "name": "Undeath's Blessing (Willing or Failure)",
+                "choice": "Willing or Failure",
+                "choiceLocked": true,
+                "name": "Undeath's Blessing",
                 "source": "Undeath's Blessing",
                 "targetFilter": "target"
             }
@@ -2766,10 +2768,8 @@
             "Polymorph",
             "Transmutation"
         ],
-        "internalNote": "Some variations of Wild Shape have hardcoded duration changes.",
         "target": "self",
         "allowReturnFocusPoint": true,
-        "sustained": 100,
         "duration": "1 minute (or longer)",
         "desc": "You infuse yourself with primal essence and transform yourself into another form. You can polymorph into any form listed in pest form, which lasts 10 minutes. <var>var1</var>All other wild shape forms last 1 minute. You can add more forms to your wild shape list with druid feats; your feat might grant you some or all of the forms from a given polymorph spell. When you transform into a form granted by a spell, you gain all the effects of the form you chose from a version of the spell heightened to wild shape's level. Wild shape allows you to use your own shapeshifting training more easily than most polymorph spells. When you choose to use your own attack modifier while polymorphed instead of the form's default attack modifier, you gain a +2 status bonus to your attack rolls.",
         "heightened": [
@@ -2780,7 +2780,7 @@
         ],
         "gainConditions": [
             {
-                "duration": 100,
+                "duration": -5,
                 "name": "Wild Shape",
                 "source": "Wild Shape"
             }
@@ -3106,7 +3106,7 @@
         ],
         "gainConditions": [
             {
-                "duration": 30,
+                "duration": -5,
                 "name": "Angelic Wings",
                 "source": "Angelic Wings"
             }
@@ -5448,13 +5448,13 @@
         ],
         "gainConditions": [
             {
-                "duration": 1,
+                "duration": -5,
                 "name": "Arcane Countermeasure (Caster)",
                 "source": "Arcane Countermeasure",
                 "targetFilter": "caster"
             },
             {
-                "duration": 1,
+                "duration": -5,
                 "name": "Arcane Countermeasure",
                 "source": "Arcane Countermeasure",
                 "targetFilter": "target"
@@ -5544,14 +5544,7 @@
         ],
         "gainConditions": [
             {
-                "duration": 100,
-                "heightenedFilter": 5,
-                "name": "Dragon Wings",
-                "source": "Dragon Wings"
-            },
-            {
-                "duration": 1000,
-                "heightenedFilter": 8,
+                "duration": -5,
                 "name": "Dragon Wings",
                 "source": "Dragon Wings"
             }
@@ -6040,7 +6033,7 @@
         ],
         "gainConditions": [
             {
-                "duration": 10,
+                "duration": -5,
                 "name": "You're Mine (Caster)",
                 "source": "You're Mine",
                 "targetFilter": "caster"
@@ -8085,8 +8078,8 @@
         ],
         "gainConditions": [
             {
-                "duration": 0,
-                "name": "Sigil Target",
+                "duration": -5,
+                "name": "Sigil",
                 "source": "Sigil"
             }
         ],
@@ -8409,7 +8402,7 @@
         ],
         "gainConditions": [
             {
-                "duration": 10,
+                "duration": -5,
                 "name": "Agitate (Caster)",
                 "source": "Agitate",
                 "targetFilter": "caster"
@@ -8900,15 +8893,7 @@
         ],
         "gainConditions": [
             {
-                "duration": 6000,
-                "heightenedFilter": 1,
-                "name": "Charm (Caster)",
-                "source": "Charm (Caster)",
-                "targetFilter": "caster"
-            },
-            {
-                "duration": -2,
-                "heightenedFilter": 4,
+                "duration": -5,
                 "name": "Charm (Caster)",
                 "source": "Charm (Caster)",
                 "targetFilter": "caster"
@@ -9050,7 +9035,7 @@
         "critfailure": "The creature is stunned for 1 round and blinded for 1 minute.",
         "gainConditions": [
             {
-                "duration": 100,
+                "duration": 0,
                 "name": "Color Spray (Caster)",
                 "source": "Color Spray",
                 "targetFilter": "caster"
@@ -10336,7 +10321,7 @@
         ],
         "gainConditions": [
             {
-                "duration": 1000,
+                "duration": -5,
                 "name": "Illusory Object",
                 "source": "Illusory Object"
             }
@@ -10421,22 +10406,7 @@
         ],
         "gainConditions": [
             {
-                "duration": 6000,
-                "heightenedFilter": 1,
-                "name": "Item Facade",
-                "source": "Item Facade",
-                "targetFilter": "caster"
-            },
-            {
-                "duration": 144000,
-                "heightenedFilter": 2,
-                "name": "Item Facade",
-                "source": "Item Facade",
-                "targetFilter": "caster"
-            },
-            {
-                "duration": -1,
-                "heightenedFilter": 3,
+                "duration": -5,
                 "name": "Item Facade",
                 "source": "Item Facade",
                 "targetFilter": "caster"
@@ -10561,15 +10531,7 @@
         ],
         "gainConditions": [
             {
-                "duration": 144000,
-                "heightenedFilter": 1,
-                "name": "Lock",
-                "source": "Lock",
-                "targetFilter": "caster"
-            },
-            {
-                "duration": -1,
-                "heightenedFilter": 2,
+                "duration": -5,
                 "name": "Lock",
                 "source": "Lock",
                 "targetFilter": "caster"
@@ -10612,14 +10574,7 @@
         ],
         "gainConditions": [
             {
-                "duration": 6000,
-                "heightenedFilter": 1,
-                "name": "Longstrider",
-                "source": "Longstrider"
-            },
-            {
-                "duration": 48000,
-                "heightenedFilter": 2,
+                "duration": -5,
                 "name": "Longstrider",
                 "source": "Longstrider"
             }
@@ -11211,9 +11166,19 @@
         "traits": [
             "Abjuration"
         ],
-        "target": "self",
+        "target": "ally",
         "duration": "1 hour",
         "desc": "<var>var1</var>You obscure the tracks you leave behind and make it harder for others to find you. The DC of checks to Track you gains a +4 status bonus or is equal to your spell DC, whichever results in a higher DC. You can benefit from only one pass without trace spell at a time.",
+        "targetNumbers": [
+            {
+                "number": 0,
+                "minLevel": 1
+            },
+            {
+                "number": 10,
+                "minLevel": 4
+            }
+        ],
         "heightened": [
             {
                 "desc": "The duration increases to 8 hours.",
@@ -11226,22 +11191,18 @@
         ],
         "gainConditions": [
             {
-                "duration": 6000,
-                "heightenedFilter": 1,
+                "duration": -5,
                 "name": "Pass without Trace",
-                "source": "Pass without Trace"
+                "source": "Pass without Trace",
+                "targetFilter": "caster"
             },
             {
-                "duration": 48000,
-                "heightenedFilter": 2,
-                "name": "Pass without Trace",
-                "source": "Pass without Trace"
-            },
-            {
-                "duration": 48000,
+                "duration": -5,
                 "heightenedFilter": 4,
                 "name": "Pass without Trace",
-                "source": "Pass without Trace"
+                "radius": 20,
+                "source": "Pass without Trace",
+                "targetFilter": "target"
             }
         ],
         "desc1": [
@@ -11834,25 +11795,16 @@
         ],
         "gainConditions": [
             {
-                "duration": 1000,
-                "heightenedFilter": 1,
+                "duration": -5,
                 "name": "Share Lore",
                 "source": "Share Lore",
                 "targetFilter": "caster"
             },
             {
-                "duration": 6000,
-                "heightenedFilter": 3,
+                "duration": -5,
                 "name": "Share Lore",
                 "source": "Share Lore",
-                "targetFilter": "caster"
-            },
-            {
-                "duration": 48000,
-                "heightenedFilter": 5,
-                "name": "Share Lore",
-                "source": "Share Lore",
-                "targetFilter": "caster"
+                "targetFilter": "target"
             }
         ],
         "desc1": [
@@ -12297,15 +12249,8 @@
         ],
         "gainConditions": [
             {
-                "duration": 6000,
+                "duration": -5,
                 "heightenedFilter": 1,
-                "name": "Sleep (Caster)",
-                "source": "Sleep",
-                "targetFilter": "caster"
-            },
-            {
-                "duration": 100,
-                "heightenedFilter": 4,
                 "name": "Sleep (Caster)",
                 "source": "Sleep",
                 "targetFilter": "caster"
@@ -13427,14 +13372,8 @@
         ],
         "gainConditions": [
             {
-                "duration": 1000,
+                "duration": -5,
                 "heightenedFilter": 1,
-                "name": "Ventriloquism",
-                "source": "Ventriloquism"
-            },
-            {
-                "duration": 6000,
-                "heightenedFilter": 2,
                 "name": "Ventriloquism",
                 "source": "Ventriloquism"
             }
@@ -14101,7 +14040,7 @@
         "critfailure": "The spell has an unlimited duration.",
         "gainConditions": [
             {
-                "duration": 100,
+                "duration": -5,
                 "name": "Brand the Impenitent (Caster)",
                 "source": "Brand the Impenitent",
                 "targetFilter": "caster"
@@ -14553,29 +14492,15 @@
                 "targetFilter": "caster"
             },
             {
-                "duration": 6000,
+                "duration": -5,
                 "heightenedFilter": 3,
                 "name": "Darkvision (Caster)",
                 "source": "Darkvision",
                 "targetFilter": "caster"
             },
             {
-                "duration": -2,
-                "heightenedFilter": 5,
-                "name": "Darkvision (Caster)",
-                "source": "Darkvision",
-                "targetFilter": "caster"
-            },
-            {
-                "duration": 6000,
+                "duration": -5,
                 "heightenedFilter": 3,
-                "name": "Darkvision",
-                "source": "Darkvision",
-                "targetFilter": "target"
-            },
-            {
-                "duration": -1,
-                "heightenedFilter": 5,
                 "name": "Darkvision",
                 "source": "Darkvision",
                 "targetFilter": "target"
@@ -15219,7 +15144,7 @@
         ],
         "gainConditions": [
             {
-                "duration": 10008000,
+                "duration": -5,
                 "name": "Feast of Ashes (Caster)",
                 "source": "Feast of Ashes",
                 "targetFilter": "caster"
@@ -15489,14 +15414,7 @@
         ],
         "gainConditions": [
             {
-                "duration": -2,
-                "heightenedFilter": 2,
-                "name": "Gentle Repose",
-                "source": "Gentle Repose"
-            },
-            {
-                "duration": -1,
-                "heightenedFilter": 5,
+                "duration": -5,
                 "name": "Gentle Repose",
                 "source": "Gentle Repose"
             }
@@ -15565,7 +15483,7 @@
         "critfailure": "The target is blinded for 1 round and dazzled for 10 minutes. Its invisibility is negated for 10 minutes.",
         "gainConditions": [
             {
-                "duration": 1000,
+                "duration": -5,
                 "name": "Glitterdust (Caster)",
                 "source": "Glitterdust",
                 "targetFilter": "caster"
@@ -15828,29 +15746,13 @@
         ],
         "gainConditions": [
             {
-                "duration": 1000,
-                "heightenedFilter": 2,
+                "duration": -5,
                 "name": "Invisibility (Caster)",
                 "source": "Invisibility",
                 "targetFilter": "caster"
             },
             {
-                "duration": 100,
-                "heightenedFilter": 4,
-                "name": "Invisibility (Caster)",
-                "source": "Invisibility",
-                "targetFilter": "caster"
-            },
-            {
-                "duration": 1000,
-                "heightenedFilter": 2,
-                "name": "Invisibility",
-                "source": "Invisibility",
-                "targetFilter": "target"
-            },
-            {
-                "duration": 100,
-                "heightenedFilter": 4,
+                "duration": -5,
                 "name": "Invisibility",
                 "source": "Invisibility",
                 "targetFilter": "target"
@@ -15895,14 +15797,7 @@
         ],
         "gainConditions": [
             {
-                "duration": 6000,
-                "heightenedFilter": 2,
-                "name": "Iron Gut",
-                "source": "Iron Gut"
-            },
-            {
-                "duration": 48000,
-                "heightenedFilter": 3,
+                "duration": -5,
                 "name": "Iron Gut",
                 "source": "Iron Gut"
             }
@@ -16117,7 +16012,7 @@
         ],
         "gainConditions": [
             {
-                "duration": 100,
+                "duration": -5,
                 "name": "Paranoia (Caster)",
                 "source": "Paranoia",
                 "targetFilter": "caster"
@@ -16670,14 +16565,7 @@
         ],
         "gainConditions": [
             {
-                "duration": 1000,
-                "heightenedFilter": 2,
-                "name": "See Invisibility",
-                "source": "See Invisibility"
-            },
-            {
-                "duration": 48000,
-                "heightenedFilter": 5,
+                "duration": -5,
                 "name": "See Invisibility",
                 "source": "See Invisibility"
             }
@@ -17168,13 +17056,13 @@
         ],
         "gainConditions": [
             {
-                "duration": 1000,
+                "duration": -5,
                 "name": "Spider Climb (Caster)",
                 "source": "Spider Climb",
                 "targetFilter": "caster"
             },
             {
-                "duration": 1000,
+                "duration": -5,
                 "name": "Spider Climb",
                 "source": "Spider Climb",
                 "targetFilter": "target"
@@ -17664,43 +17552,13 @@
         ],
         "gainConditions": [
             {
-                "duration": 6000,
-                "heightenedFilter": 2,
+                "duration": -5,
                 "name": "Water Breathing (Caster)",
                 "source": "Water Breathing",
                 "targetFilter": "caster"
             },
             {
-                "duration": 48000,
-                "heightenedFilter": 3,
-                "name": "Water Breathing (Caster)",
-                "source": "Water Breathing",
-                "targetFilter": "caster"
-            },
-            {
-                "duration": -2,
-                "heightenedFilter": 4,
-                "name": "Water Breathing (Caster)",
-                "source": "Water Breathing",
-                "targetFilter": "caster"
-            },
-            {
-                "duration": 6000,
-                "heightenedFilter": 2,
-                "name": "Water Breathing",
-                "source": "Water Breathing",
-                "targetFilter": "target"
-            },
-            {
-                "duration": 48000,
-                "heightenedFilter": 3,
-                "name": "Water Breathing",
-                "source": "Water Breathing",
-                "targetFilter": "target"
-            },
-            {
-                "duration": -2,
-                "heightenedFilter": 4,
+                "duration": -5,
                 "name": "Water Breathing",
                 "source": "Water Breathing",
                 "targetFilter": "target"
@@ -17763,29 +17621,13 @@
         ],
         "gainConditions": [
             {
-                "duration": 1000,
-                "heightenedFilter": 2,
+                "duration": -5,
                 "name": "Water Walk (Caster)",
                 "source": "Water Walk",
                 "targetFilter": "caster"
             },
             {
-                "duration": 6000,
-                "heightenedFilter": 4,
-                "name": "Water Walk (Caster)",
-                "source": "Water Walk",
-                "targetFilter": "caster"
-            },
-            {
-                "duration": 1000,
-                "heightenedFilter": 2,
-                "name": "Water Walk",
-                "source": "Water Walk",
-                "targetFilter": "target"
-            },
-            {
-                "duration": 6000,
-                "heightenedFilter": 4,
+                "duration": -5,
                 "name": "Water Walk",
                 "source": "Water Walk",
                 "targetFilter": "target"
@@ -18079,29 +17921,13 @@
         ],
         "gainConditions": [
             {
-                "duration": 100,
-                "heightenedFilter": 3,
+                "duration": -5,
                 "name": "Circle of Protection (Caster)",
                 "source": "Circle of Protection",
                 "targetFilter": "caster"
             },
             {
-                "duration": 100,
-                "heightenedFilter": 3,
-                "name": "Circle of Protection",
-                "source": "Circle of Protection",
-                "targetFilter": "target"
-            },
-            {
-                "duration": 6000,
-                "heightenedFilter": 4,
-                "name": "Circle of Protection (Caster)",
-                "source": "Circle of Protection",
-                "targetFilter": "caster"
-            },
-            {
-                "duration": 6000,
-                "heightenedFilter": 4,
+                "duration": -5,
                 "name": "Circle of Protection",
                 "source": "Circle of Protection",
                 "targetFilter": "target"
@@ -18301,7 +18127,7 @@
         ],
         "gainConditions": [
             {
-                "duration": 144000,
+                "duration": -5,
                 "name": "Cup of Dust (Caster)",
                 "source": "Cup of Dust",
                 "targetFilter": "caster"
@@ -18430,7 +18256,7 @@
         "critfailure": "The target falls safely up to 120 feet. If it hits the ground, it can't Fly, levitate, or otherwise leave the ground for 1 minute.",
         "gainConditions": [
             {
-                "duration": 10,
+                "duration": -5,
                 "name": "Earthbind (Caster)",
                 "source": "Earthbind",
                 "targetFilter": "caster"
@@ -18502,29 +18328,13 @@
         ],
         "gainConditions": [
             {
-                "duration": 1000,
-                "heightenedFilter": 3,
+                "duration": -5,
                 "name": "Feet to Fins (Caster)",
                 "source": "Feet to Fins",
                 "targetFilter": "caster"
             },
             {
-                "duration": -2,
-                "heightenedFilter": 6,
-                "name": "Feet to Fins (Caster)",
-                "source": "Feet to Fins",
-                "targetFilter": "caster"
-            },
-            {
-                "duration": 1000,
-                "heightenedFilter": 3,
-                "name": "Feet to Fins",
-                "source": "Feet to Fins",
-                "targetFilter": "target"
-            },
-            {
-                "duration": -2,
-                "heightenedFilter": 6,
+                "duration": -5,
                 "name": "Feet to Fins",
                 "source": "Feet to Fins",
                 "targetFilter": "target"
@@ -19050,30 +18860,16 @@
         ],
         "gainConditions": [
             {
-                "duration": 1000,
-                "heightenedFilter": 3,
-                "name": "Invisibility Sphere",
-                "source": "Invisibility Sphere"
-            },
-            {
-                "duration": 6000,
-                "heightenedFilter": 5,
-                "name": "Invisibility Sphere",
-                "source": "Invisibility Sphere"
-            },
-            {
-                "duration": 1000,
-                "heightenedFilter": 3,
+                "duration": -5,
                 "name": "Invisibility Sphere",
                 "source": "Invisibility Sphere",
                 "targetFilter": "caster"
             },
             {
-                "duration": 6000,
-                "heightenedFilter": 5,
+                "duration": -5,
                 "name": "Invisibility Sphere",
                 "source": "Invisibility Sphere",
-                "targetFilter": "caster"
+                "targetFilter": "target"
             }
         ],
         "desc3": [
@@ -19275,7 +19071,7 @@
         "critfailure": "As failure, but the target is also slowed 1 for the duration.",
         "gainConditions": [
             {
-                "duration": 10,
+                "duration": -5,
                 "name": "Magical Fetters (Caster)",
                 "source": "Magical Fetters",
                 "targetFilter": "caster"
@@ -19438,7 +19234,7 @@
         ],
         "gainConditions": [
             {
-                "duration": 10,
+                "duration": -5,
                 "name": "Paralyze (Caster)",
                 "source": "Paralyze",
                 "targetFilter": "caster"
@@ -19916,7 +19712,7 @@
         ],
         "gainConditions": [
             {
-                "duration": 100,
+                "duration": -5,
                 "name": "Slow (Caster)",
                 "source": "Slow",
                 "targetFilter": "caster"
@@ -20829,7 +20625,7 @@
         "critfailure": "As success, except the effect is permanent.",
         "gainConditions": [
             {
-                "duration": 10,
+                "duration": -5,
                 "name": "Clownish Curse (Caster)",
                 "source": "Clownish Curse",
                 "targetFilter": "caster"
@@ -20871,7 +20667,7 @@
         ],
         "gainConditions": [
             {
-                "duration": 100,
+                "duration": -5,
                 "name": "Confusion (Caster)",
                 "source": "Confusion",
                 "targetFilter": "caster"
@@ -20961,15 +20757,7 @@
         ],
         "gainConditions": [
             {
-                "duration": 6000,
-                "heightenedFilter": 4,
-                "name": "Detect Scrying",
-                "source": "Detect Scrying",
-                "targetFilter": "caster"
-            },
-            {
-                "duration": -2,
-                "heightenedFilter": 6,
+                "duration": -5,
                 "name": "Detect Scrying",
                 "source": "Detect Scrying",
                 "targetFilter": "caster"
@@ -21074,7 +20862,7 @@
         "critfailure": "The effect's duration is 1 hour.",
         "gainConditions": [
             {
-                "duration": 100,
+                "duration": -5,
                 "name": "Dimensional Anchor (Caster)",
                 "source": "Dimensional Anchor",
                 "targetFilter": "caster"
@@ -21533,29 +21321,13 @@
         ],
         "gainConditions": [
             {
-                "duration": 500,
-                "heightenedFilter": 4,
+                "duration": -5,
                 "name": "Fly (Caster)",
                 "source": "Fly",
                 "targetFilter": "caster"
             },
             {
-                "duration": 6000,
-                "heightenedFilter": 7,
-                "name": "Fly (Caster)",
-                "source": "Fly",
-                "targetFilter": "caster"
-            },
-            {
-                "duration": 500,
-                "heightenedFilter": 4,
-                "name": "Fly",
-                "source": "Fly",
-                "targetFilter": "target"
-            },
-            {
-                "duration": 6000,
-                "heightenedFilter": 7,
+                "duration": -5,
                 "name": "Fly",
                 "source": "Fly",
                 "targetFilter": "target"
@@ -22065,7 +21837,7 @@
         ],
         "gainConditions": [
             {
-                "duration": 144000,
+                "duration": -5,
                 "name": "Necrotic Radiation",
                 "source": "Necrotic Radiation",
                 "targetFilter": "caster"
@@ -22161,7 +21933,7 @@
         "critfailure": "As failure, and creatures that the target encounters have an initial attitude toward them of two steps worse.",
         "gainConditions": [
             {
-                "duration": 1000,
+                "duration": -5,
                 "name": "Outcast's Curse (Caster)",
                 "source": "Outcast's Curse",
                 "targetFilter": "caster"
@@ -22749,7 +22521,7 @@
         "critfailure": "As failure, but the target is also stunned 3.",
         "gainConditions": [
             {
-                "duration": 10,
+                "duration": -5,
                 "name": "Spiritual Anamnesis (Caster)",
                 "source": "Spiritual Anamnesis",
                 "targetFilter": "caster"
@@ -22866,7 +22638,7 @@
         ],
         "gainConditions": [
             {
-                "duration": 100,
+                "duration": -5,
                 "name": "Suggestion (Caster)",
                 "source": "Suggestion",
                 "targetFilter": "caster"
@@ -23414,7 +23186,7 @@
         "critfailure": "The target is afflicted with Abyssal plague at stage 2.",
         "gainConditions": [
             {
-                "duration": -1,
+                "duration": -5,
                 "name": "Abyssal Plague (Caster)",
                 "source": "Abyssal Plague",
                 "targetFilter": "caster"
@@ -23729,15 +23501,7 @@
         ],
         "gainConditions": [
             {
-                "duration": 1000,
-                "heightenedFilter": 5,
-                "name": "Chromatic Wall",
-                "source": "Chromatic Wall",
-                "targetFilter": "caster"
-            },
-            {
-                "duration": 6000,
-                "heightenedFilter": 7,
+                "duration": -5,
                 "name": "Chromatic Wall",
                 "source": "Chromatic Wall",
                 "targetFilter": "caster"
@@ -24439,6 +24203,20 @@
         "success": "The creature perceives what you chose until it disbelieves, but it knows what the hallucination is.",
         "failure": "The creature perceives what you chose until it disbelieves.",
         "critfailure": "The creature perceives what you chose until it disbelieves, and it trusts its false senses, taking a -4 circumstance penalty to saves to disbelieve.",
+        "targetNumbers": [
+            {
+                "number": 1,
+                "minLevel": 5
+            },
+            {
+                "number": 10,
+                "minLevel": 6
+            },
+            {
+                "number": -1,
+                "minLevel": 8
+            }
+        ],
         "heightened": [
             {
                 "desc": "Choose to either target up to 10 creatures or change the spell's duration to until the next time you make your daily preparations.",
@@ -24508,15 +24286,7 @@
         ],
         "gainConditions": [
             {
-                "duration": 6000,
-                "heightenedFilter": 5,
-                "name": "Illusory Scene",
-                "source": "Illusory Scene",
-                "targetFilter": "caster"
-            },
-            {
-                "duration": -1,
-                "heightenedFilter": 8,
+                "duration": -5,
                 "name": "Illusory Scene",
                 "source": "Illusory Scene",
                 "targetFilter": "caster"
@@ -25924,7 +25694,7 @@
         ],
         "gainConditions": [
             {
-                "duration": 100,
+                "duration": -5,
                 "name": "Synesthesia (Caster)",
                 "source": "Synesthesia",
                 "targetFilter": "caster"
@@ -26032,29 +25802,13 @@
         ],
         "gainConditions": [
             {
-                "duration": 6000,
-                "heightenedFilter": 5,
+                "duration": -5,
                 "name": "Tongues (Caster)",
                 "source": "Tongues",
                 "targetFilter": "caster"
             },
             {
-                "duration": 48000,
-                "heightenedFilter": 7,
-                "name": "Tongues (Caster)",
-                "source": "Tongues",
-                "targetFilter": "caster"
-            },
-            {
-                "duration": 6000,
-                "heightenedFilter": 5,
-                "name": "Tongues",
-                "source": "Tongues",
-                "targetFilter": "target"
-            },
-            {
-                "duration": 48000,
-                "heightenedFilter": 7,
+                "duration": -5,
                 "name": "Tongues",
                 "source": "Tongues",
                 "targetFilter": "target"
@@ -27051,29 +26805,13 @@
         ],
         "gainConditions": [
             {
-                "duration": 100,
-                "heightenedFilter": 7,
+                "duration": -5,
                 "name": "Ethereal Jaunt",
                 "source": "Ethereal Jaunt",
                 "targetFilter": "caster"
             },
             {
-                "duration": 1000,
-                "heightened": 9,
-                "name": "Ethereal Jaunt",
-                "source": "Ethereal Jaunt",
-                "targetFilter": "caster"
-            },
-            {
-                "duration": 100,
-                "heightenedFilter": 7,
-                "name": "Ethereal Jaunt",
-                "source": "Ethereal Jaunt",
-                "targetFilter": "target"
-            },
-            {
-                "duration": 1000,
-                "heightened": 9,
+                "duration": -5,
                 "name": "Ethereal Jaunt",
                 "source": "Ethereal Jaunt",
                 "targetFilter": "target"

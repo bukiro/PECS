@@ -4,9 +4,6 @@ import { CharacterService } from './character.service';
 import { ItemsService } from './items.service';
 import { SpellGain } from './SpellGain';
 import { ConditionGain } from './ConditionGain';
-import { Item } from './Item';
-import { ItemGain } from './ItemGain';
-import { AnimalCompanion } from './AnimalCompanion';
 import { Character } from './Character';
 import { SpellCasting } from './SpellCasting';
 import { ConditionsService } from './conditions.service';
@@ -59,10 +56,12 @@ export class SpellsService {
         //If a spell is cast with a lower level than its minimum, the level is raised to the minimum.
         let spellLevel: number = spell.get_EffectiveSpellLevel(creature, level, characterService, characterService.effectsService);
 
-        //If this spell was cast by an activity, it may have a specified duration. Keep that here before the duration is changed to keep the spell active (or not).
-        let customDuration: number = 0;
+        //If this spell was cast by an activity, it may have a specified duration in the spellGain. Keep that here before the duration is changed to keep the spell active (or not).
+        //That spellGain is a temporary object with its duration coming from the spellCast object, and its duration can be freely changed without influencing the next time you cast the spell.
+        let activityDuration: number = 0;
+        let customDuration: number = spell.sustained || 0;
         if (activated && gain.duration) {
-            customDuration = gain.duration;
+            customDuration = activityDuration = gain.duration;
         }
 
         if (activated) {
@@ -73,12 +72,22 @@ export class SpellsService {
             }
         }
 
+        //The conditions listed in conditionsToRemove will be removed after the spell is processed.
+        let conditionsToRemove: string[] = [];
+
         if (activated && spell.sustained) {
             gain.active = true;
-            if (spell.sustained) {
-                gain.duration = customDuration || spell.sustained;
-                characterService.set_ToChange(creature.type, "spellbook");
-            }
+            //If an effect changes the duration of this spell, change the duration here only if it is sustained.
+            characterService.effectsService.get_AbsolutesOnThese(creature, ["Next Spell Duration", spell.name + " Duration"]).forEach(effect => {
+                customDuration = parseInt(effect.setValue);
+                conditionsToRemove.push(effect.source);
+            })
+            characterService.effectsService.get_RelativesOnThese(creature, ["Next Spell Duration", spell.name + " Duration"]).forEach(effect => {
+                customDuration += parseInt(effect.value);
+                conditionsToRemove.push(effect.source);
+            })
+            gain.duration = customDuration || spell.sustained;
+            characterService.set_ToChange(creature.type, "spellbook");
             gain.target = target;
         } else {
             gain.active = false;
@@ -104,16 +113,19 @@ export class SpellsService {
         //Remove conditions only if the spell was deactivated manually, i.e. if you want the condition to end.
         //If the spell ends by the time running out, the condition will also have a timer and run out by itself.
         //This allows us to manually change the duration for a condition and keep it running when the spell runs out
-        //  (because it's much more difficult to change the spell duration -and- the condition duration).
+        // (because it's much more difficult to change the spell duration -and- the condition duration).
         if (spell.get_HeightenedConditions(spellLevel)) {
             if (activated) {
                 let choicesIndex = 0;
                 spell.get_HeightenedConditions(spellLevel).forEach(conditionGain => {
                     let newConditionGain = Object.assign(new ConditionGain(), conditionGain);
                     let condition = conditionsService.get_Conditions(conditionGain.name)[0]
-                    //If this condition has choices, and the gain has choices prepared, apply the choice from the gain.
-                    // The order of gain.choices maps directly onto the order of the spell conditions that have choices.
-                    if (gain.choices.length >= choicesIndex - 1) {
+                    if (gain.overrideChoices.length && gain.overrideChoices.some(overrideChoice => overrideChoice.condition == condition.name && condition.$choices.includes(overrideChoice.choice))) {
+                        //If this condition has choices, and the gain has an override choice prepared that matches one of them, this choice is used.
+                        newConditionGain.choice = gain.overrideChoices.find(overrideChoice => overrideChoice.condition == condition.name && condition.$choices.includes(overrideChoice.choice)).choice;
+                    } else if (gain.choices.length >= choicesIndex - 1) {
+                        //If this condition has choices, and the gain has choices prepared, apply the choice from the gain.
+                        // The order of gain.choices maps directly onto the order of the spell conditions that have choices.
                         if (condition?.get_Choices(characterService, true, spellLevel).length && condition.$choices.includes(gain.choices[choicesIndex])) {
                             newConditionGain.choice = gain.choices[choicesIndex];
                             choicesIndex++;
@@ -126,8 +138,10 @@ export class SpellsService {
                             newConditionGain.choice = subType.subType;
                         }
                     }
-                    //Pass the spell level in case that condition effects change with level
-                    newConditionGain.heightened = spellLevel;
+                    //Pass the spell level in case that condition effects change with level - but only if the conditionGain doesn't have its own heightened value.
+                    if (!newConditionGain.heightened || newConditionGain.heightened < condition.minLevel) {
+                        newConditionGain.heightened = Math.max(spellLevel, condition.minLevel);
+                    }
                     //Pass the spellcasting ability in case the condition needs to use the modifier
                     if (casting) {
                         newConditionGain.spellCastingAbility = casting.ability;
@@ -135,42 +149,43 @@ export class SpellsService {
                     newConditionGain.spellSource = gain?.source || "";
                     newConditionGain.spellGainID = gain?.id || "";
                     //If this spell was cast by an activity, it may have a specified duration. Apply that here.
-                    if (customDuration) {
-                        newConditionGain.duration = customDuration;
+                    if (activityDuration) {
+                        newConditionGain.duration = activityDuration;
+                    } else if (newConditionGain.duration == -5) {
+                        //Otherwise, and if the conditionGain has duration -5, use the default duration depending on spell level and effect choice.
+                        newConditionGain.duration = condition.get_DefaultDuration(newConditionGain.choice, newConditionGain.heightened).duration;
+                    }
+                    //Check if an effect changes the duration of this condition.
+                    let effectDuration: number = newConditionGain.duration || 0;
+                    characterService.effectsService.get_AbsolutesOnThese(creature, ["Next Spell Duration", condition.name + " Duration"]).forEach(effect => {
+                        effectDuration = parseInt(effect.setValue);
+                        conditionsToRemove.push(effect.source);
+                    })
+                    if (effectDuration > 0) {
+                        characterService.effectsService.get_RelativesOnThese(creature, ["Next Spell Duration", condition.name + " Duration"]).forEach(effect => {
+                            effectDuration += parseInt(effect.value);
+                            conditionsToRemove.push(effect.source);
+                        })
+                    }
+                    //If an effect has changed the duration, use the effect duration unless it is shorter than the current duration.
+                    if (effectDuration) {
+                        if (effectDuration == -1) {
+                            //Unlimited is longer than anything.
+                            newConditionGain.duration = -1;
+                        } else if (newConditionGain.duration != -1) {
+                            //Anything is shorter than unlimited.
+                            if (effectDuration < -1 && newConditionGain.duration > 0 && newConditionGain.duration < 144000) {
+                                //Until Rest and Until Refocus are usually longer than anything below a day.
+                                newConditionGain.duration = effectDuration;
+                            } else if (effectDuration > newConditionGain.duration) {
+                                //If neither are unlimited and the above is not true, a higher value is longer than a lower value.
+                                newConditionGain.duration = effectDuration;
+                            }
+                        }
                     }
                     let conditionTarget = targetCreature;
                     if (conditionGain.targetFilter == "caster") {
                         conditionTarget = creature;
-                    }
-                    //Form Control changes the duration of the Wild Shape spell and the condition in various ways.
-                    if (spell.name == "Wild Shape") {
-                        //If you have Insect Shape and use wild shape to polymorph into the non-flying insect form listed in pest form, the duration is 24 hours instead of 10 minutes.
-                        if (creature.type == "Character" && (creature as Character).get_FeatsTaken(1, creature.level, "Insect Shape").length) {
-                            if (newConditionGain.choice == "Pest Form (non-flying insect)") {
-                                gain.duration = 144000;
-                                newConditionGain.duration = gain.duration;
-                            }
-                        }
-                        //If Form Control is activated,
-                        // 1. The duration is permanent if you have Perfect Form Control
-                        // 2. Otherwise, the duration is 1 hour or longer if it was already longer.
-                        if (conditionsService.get_AppliedConditions(creature, characterService, creature.conditions, true).some(gain => gain.name == "Form Control")) {
-                            if (creature.type == "Character" && (creature as Character).get_FeatsTaken(1, creature.level, "Perfect Form Control").length) {
-                                gain.duration = -1;
-                                newConditionGain.duration = gain.duration;
-                            } else {
-                                if (gain.duration < 6000) {
-                                    gain.duration = 6000;
-                                    newConditionGain.duration = gain.duration;
-                                }
-                            }
-                            //Without Form Control, Pest Form is 10 minutes, and every other form remains at 1 minute.
-                        } else {
-                            if (newConditionGain.choice == "Pest Form") {
-                                gain.duration = 1000;
-                                newConditionGain.duration = gain.duration;
-                            }
-                        }
                     }
                     if (conditionTarget) {
                         characterService.add_Condition(conditionTarget, newConditionGain, false);
@@ -191,6 +206,13 @@ export class SpellsService {
                     }
                 })
             }
+        }
+
+        //All Conditions that have affected the duration of this spell or its conditions are now removed.
+        if (conditionsToRemove.length) {
+            characterService.get_AppliedConditions(creature, "", "", true).filter(conditionGain => conditionsToRemove.includes(conditionGain.name)).forEach(conditionGain => {
+                characterService.remove_Condition(creature, conditionGain, false);
+            });
         }
 
         if (changeAfter) {

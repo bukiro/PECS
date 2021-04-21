@@ -131,10 +131,10 @@ Test:
 - Fey Glamour
 
 Implement:
-- Change next spell duration depending on "Spell Duration" and "[Spell Name] Duration" effects unless longer (See Extend Spell, Form Control, Lingering Composition)
-- Possibly change next spell value (See Inspire Heroics)
+- Possibly change next spell value with Effects (See Inspire Heroics)
 
 Next steps:
+- Apply choiceBySubType to activities
 - Create Pop-up slider for number fields to increase accessibility and save space where sliders are already used - ideally with an automatic component (but it needs to write back into the calling element's value)
 - Possibly Create tag that automatically inserts a dice rolling button for the included text
 - Implement conditions with duration +1 to allow for conditions that are instant (i.e. need attention) after their duration. (Start with sea surge with duration 11)

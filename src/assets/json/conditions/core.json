@@ -16501,7 +16501,12 @@
         "buff": true,
         "defaultDurations": [
             {
-                "duration": 1000
+                "duration": 1000,
+                "minLevel": 3
+            },
+            {
+                "duration": -2,
+                "minLevel": 6
             }
         ],
         "hints": [
@@ -16999,7 +17004,12 @@
         "buff": true,
         "defaultDurations": [
             {
-                "duration": 1000
+                "duration": 1000,
+                "minLevel": 3
+            },
+            {
+                "duration": 6000,
+                "minLevel": 5
             }
         ],
         "gainConditions": [
@@ -19394,7 +19404,12 @@
         "buff": true,
         "defaultDurations": [
             {
-                "duration": 500
+                "duration": 500,
+                "minLevel": 4
+            },
+            {
+                "duration": 6000,
+                "minLevel": 7
             }
         ]
     },

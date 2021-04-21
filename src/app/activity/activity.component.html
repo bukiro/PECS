@@ -229,17 +229,20 @@
                 </header>
                 <ng-container
                     *ngFor="let condition of get_SpellConditions(cast, spellCastIndex); let conditionIndex = index; trackBy:trackByIndex">
-                    <div class="newrow list-item" *ngIf="condition && condition.choices.length">
-                        <span>{{condition.name}} Effect selection:
-                            <select [(ngModel)]="gain.spellEffectChoices[spellCastIndex][conditionIndex]"
-                                (ngModelChange)="on_EffectChoiceChange()">
-                                <option *ngFor="let choice of condition.$choices; trackBy:trackByIndex;"
-                                    [ngValue]="choice">
-                                    {{choice}}
-                                </option>
-                            </select>
-                        </span>
-                    </div>
+                    <ng-container *ngIf="!cast.hideChoices.includes(condition.name)">
+
+                        <div class="newrow list-item" *ngIf="condition && condition.choices.length">
+                            <span>{{condition.name}} Effect selection:
+                                <select [(ngModel)]="gain.spellEffectChoices[spellCastIndex][conditionIndex]"
+                                    (ngModelChange)="on_EffectChoiceChange()">
+                                    <option *ngFor="let choice of condition.$choices; trackBy:trackByIndex;"
+                                        [ngValue]="choice">
+                                        {{choice}}
+                                    </option>
+                                </select>
+                            </span>
+                        </div>
+                    </ng-container>
                 </ng-container>
                 <app-spell [spell]=spell [spellLevel]="(cast.level) ? cast.level : 0"></app-spell>
             </div>

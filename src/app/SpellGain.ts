@@ -11,6 +11,8 @@ export class SpellGain {
     public prepared: boolean = false;
     //Copied from SpellChoice. Turns * 10 to wait before casting again.
     public cooldown: number = 0;
+    //These choices can override the spell condition choices. This applies only if the choice exists on the condition.
+    public overrideChoices: {condition: string, choice: string}[] = [];
     //In order to select a choice from the spell before casting it, the choice is saved here for each condition.
     public choices: string[] = [];
     //Set to spell's duration when activated, and automatically deactivate if it runs out by ticking time
