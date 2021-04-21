@@ -237,7 +237,15 @@
         "desc": "You fire a ray of sickening energy. Make a spell attack roll.",
         "critsuccess": "The target becomes sickened 2 and slowed 1 as long as it's sickened.",
         "success": "The target becomes sickened 1.",
-        "failure": "The target is unaffected."
+        "failure": "The target is unaffected.",
+        "gainConditions":[
+            {
+                "duration": -5,
+                "name": "Call of the Grave (Caster)",
+                "source": "Call of the Grave",
+                "targetFilter": "caster"
+            }
+        ]
     },
     {
         "name": "Charged Javelin",
@@ -309,7 +317,7 @@
         "critfailure": "The target is stunned 1 and can't use hostile actions against you.",
         "gainConditions": [
             {
-                "duration": 10,
+                "duration": -5,
                 "name": "Charming Words",
                 "source": "Charming Words",
                 "targetFilter": "caster"
@@ -1447,7 +1455,7 @@
         "savingThrow": "Will",
         "gainConditions": [
             {
-                "duration": 100,
+                "duration": -5,
                 "name": "Jealous Hex (Caster)",
                 "source": "Jealous Hex",
                 "targetFilter": "caster"
@@ -1699,7 +1707,7 @@
         "failure": "The composition lasts 1 round, but you don't spend the Focus Point for casting this spell.",
         "gainConditions": [
             {
-                "duration": 1,
+                "duration": -5,
                 "name": "Lingering Composition",
                 "source": "Lingering Composition"
             }
@@ -4568,7 +4576,7 @@
         "failure": "Your inspire courage or inspire defense provides only its normal bonus of +1, but you don't spend the Focus Point for casting this spell.",
         "gainConditions": [
             {
-                "duration": 1,
+                "duration": -5,
                 "name": "Inspire Heroics",
                 "source": "Inspire Heroics"
             }
@@ -5640,7 +5648,7 @@
             "Sorcerer"
         ],
         "range": "30 feet",
-        "area": "30-foot burst or ",
+        "area": "30-foot burst or",
         "targets": "up to 10 creatures",
         "target": "area",
         "duration": "10 minutes",
@@ -5653,13 +5661,13 @@
         "gainConditions": [
             {
                 "duration": 1000,
-                "name": "Fey Glamour",
+                "name": "Fey Glamour (Caster)",
                 "source": "Fey Glamour",
                 "targetFilter": "caster"
             },
             {
                 "duration": 0,
-                "name": "Fey Glamour (Creatures)",
+                "name": "Fey Glamour",
                 "source": "Fey Glamour",
                 "targetFilter": "target"
             }
@@ -6782,7 +6790,7 @@
         ],
         "gainConditions": [
             {
-                "duration": 10,
+                "duration": -5,
                 "name": "Daze (Caster)",
                 "source": "Daze",
                 "targetFilter": "caster"
@@ -8714,7 +8722,7 @@
         "critfailure": "The target is clumsy 3, stupefied 3, and confused.",
         "gainConditions": [
             {
-                "duration": 10,
+                "duration": -5,
                 "name": "Befuddle (Caster)",
                 "source": "Befuddle",
                 "targetFilter": "caster"
@@ -9613,7 +9621,7 @@
         "critfailure": "The target is afflicted with goblin pox at stage 2.",
         "gainConditions": [
             {
-                "duration": -1,
+                "duration": -5,
                 "name": "Goblin Pox (Caster)",
                 "source": "Goblin Pox",
                 "targetFilter": "caster"
@@ -10228,7 +10236,7 @@
         "critfailure": "Every time during the duration that the target rolls an attack roll or skill check, it must roll twice and take the worse result.",
         "gainConditions": [
             {
-                "duration": 10,
+                "duration": -5,
                 "name": "Ill Omen (Caster)",
                 "source": "Ill Omen",
                 "targetFilter": "caster"
@@ -11249,13 +11257,15 @@
         "failure": "The effect lasts its normal duration.",
         "gainConditions": [
             {
-                "duration": 1000,
+                "duration": -5,
                 "name": "Penumbral Shroud (Caster)",
                 "source": "Penumbral Shroud",
                 "targetFilter": "caster"
             },
             {
                 "duration": 1000,
+                "choice": "Willing or Failure",
+                "hideChoices": true,
                 "name": "Penumbral Shroud",
                 "source": "Penumbral Shroud",
                 "targetFilter": "target"
@@ -11444,7 +11454,7 @@
         ],
         "gainConditions": [
             {
-                "duration": -1,
+                "duration": -5,
                 "name": "Phantom Pain (Caster)",
                 "source": "Phantom Pain",
                 "targetFilter": "caster"
@@ -11635,7 +11645,7 @@
         "critfailure": "The target becomes enfeebled 3.",
         "gainConditions": [
             {
-                "duration": 100,
+                "duration": -5,
                 "name": "Ray of Enfeeblement (Caster)",
                 "source": "Ray of Enfeeblement",
                 "targetFilter": "caster"
@@ -13178,16 +13188,10 @@
         ],
         "gainConditions": [
             {
-                "duration": 100,
+                "duration": -5,
                 "name": "Tether (Caster)",
                 "source": "Tether",
                 "targetFilter": "caster"
-            },
-            {
-                "duration": 100,
-                "name": "Tether",
-                "source": "Tether",
-                "targetFilter": "target"
             }
         ],
         "desc1": [
@@ -14577,7 +14581,7 @@
         "failure": "The target dies.",
         "gainConditions": [
             {
-                "duration": 1000,
+                "duration": -5,
                 "name": "Death Knell",
                 "source": "Death Knell",
                 "targetFilter": "caster"
@@ -15520,7 +15524,7 @@
         "critfailure": "The target falls prone and can't use actions or reactions for 1 round. It then suffers the failure effects.",
         "gainConditions": [
             {
-                "duration": 1000,
+                "duration": -5,
                 "name": "Hideous Laughter (Caster)",
                 "source": "Hideous Laughter",
                 "targetFilter": "caster"
@@ -17446,7 +17450,7 @@
         "critfailure": "The target is stupefied 4.",
         "gainConditions": [
             {
-                "duration": 100,
+                "duration": -5,
                 "name": "Touch of Idiocy (Caster)",
                 "source": "Touch of Idiocy",
                 "targetFilter": "caster"
@@ -18004,7 +18008,7 @@
         ],
         "gainConditions": [
             {
-                "duration": 10,
+                "duration": -5,
                 "name": "Crisis of Faith (Caster)",
                 "source": "Crisis of Faith",
                 "targetFilter": "caster"
@@ -20479,7 +20483,7 @@
         ],
         "gainConditions": [
             {
-                "duration": 10,
+                "duration": -5,
                 "name": "Aromatic Lure (Caster)",
                 "source": "Aromatic Lure",
                 "targetFilter": "caster"
@@ -21111,7 +21115,7 @@
         ],
         "gainConditions": [
             {
-                "duration": -1,
+                "duration": -5,
                 "name": "Divine Wrath (Caster)",
                 "source": "Divine Wrath",
                 "targetFilter": "caster"
@@ -24349,7 +24353,7 @@
         "critfailure": "As failure, but the target becomes sickened 2.",
         "gainConditions": [
             {
-                "duration": -1,
+                "duration": -5,
                 "name": "Mariner's Curse (Caster)",
                 "source": "Mariner's Curse",
                 "targetFilter": "caster"
@@ -24386,7 +24390,7 @@
         "critfailure": "As failure, and the target takes a -4 circumstance penalty to Deception checks against your questions.",
         "gainConditions": [
             {
-                "duration": 100,
+                "duration": -5,
                 "name": "Mind Probe (Caster)",
                 "source": "Mind Probe",
                 "targetFilter": "caster"
@@ -25174,7 +25178,7 @@
         ],
         "gainConditions": [
             {
-                "duration": 6000,
+                "duration": -5,
                 "name": "Subconscious Suggestion (Caster)",
                 "source": "Subconscious Suggestion",
                 "targetFilter": "caster"
@@ -26027,7 +26031,7 @@
         "critfailure": "The target is afflicted with wyvern venom at stage 2.",
         "gainConditions": [
             {
-                "duration": 60,
+                "duration": -5,
                 "name": "Wyvern Sting (Caster)",
                 "source": "Wyvern Sting",
                 "targetFilter": "caster"

@@ -109,11 +109,11 @@ export class ActivitiesService {
             if (activity.maxDuration) {
                 gain.duration = activity.maxDuration;
                 //If an effect changes the duration of this activitiy, change the duration here.
-                characterService.effectsService.get_AbsolutesOnThese(creature, [activity.name + " Duration"]).forEach(effect => {
+                characterService.effectsService.get_AbsolutesOnThis(creature, activity.name + " Duration").forEach(effect => {
                     gain.duration = parseInt(effect.setValue);
                     conditionsToRemove.push(effect.source);
                 })
-                characterService.effectsService.get_RelativesOnThese(creature, [activity.name + " Duration"]).forEach(effect => {
+                characterService.effectsService.get_RelativesOnThis(creature, activity.name + " Duration").forEach(effect => {
                     gain.duration += parseInt(effect.value);
                     conditionsToRemove.push(effect.source);
                 })
@@ -194,12 +194,12 @@ export class ActivitiesService {
                     }
                     //Check if an effect changes the duration of this condition.
                     let effectDuration: number = newConditionGain.duration || 0;
-                    characterService.effectsService.get_AbsolutesOnThese(creature, [condition.name + " Duration"]).forEach(effect => {
+                    characterService.effectsService.get_AbsolutesOnThis(creature, condition.name + " Duration").forEach(effect => {
                         effectDuration = parseInt(effect.setValue);
                         conditionsToRemove.push(effect.source);
                     })
                     if (effectDuration > 0) {
-                        characterService.effectsService.get_RelativesOnThese(creature, ["Next Spell Duration", condition.name + " Duration"]).forEach(effect => {
+                        characterService.effectsService.get_RelativesOnThis(creature, condition.name + " Duration").forEach(effect => {
                             effectDuration += parseInt(effect.value);
                             conditionsToRemove.push(effect.source);
                         })
@@ -219,6 +219,19 @@ export class ActivitiesService {
                                 newConditionGain.duration = effectDuration;
                             }
                         }
+                    }
+                    if (condition.hasValue) {
+                        //Apply effects that change the value of this condition.
+                        let effectValue: number = newConditionGain.value || 0;
+                        characterService.effectsService.get_AbsolutesOnThis(creature, condition.name + " Value").forEach(effect => {
+                            effectValue = parseInt(effect.setValue);
+                            conditionsToRemove.push(effect.source);
+                        })
+                        characterService.effectsService.get_RelativesOnThis(creature, condition.name + " Value").forEach(effect => {
+                            effectValue += parseInt(effect.value);
+                            conditionsToRemove.push(effect.source);
+                        })
+                        newConditionGain.value = effectValue;
                     }
                     characterService.add_Condition(creature, newConditionGain, false);
                 });

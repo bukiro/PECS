@@ -106,31 +106,18 @@
                 </div>
                 <div class="list-item newrow">
                     <span>
-                        <strong>Take Damage</strong>
-                    </span>
-                    <span>
+                        <button [disabled]="damage <= 0"
+                            (click)="on_TakeDamage(health, calculatedHealth.wounded, calculatedHealth.dying)">Take
+                            Damage</button>&nbsp;
                         <input id="nonlethal" type="checkbox" [(ngModel)]="nonlethal"><label
                             for="nonlethal">&nbsp;nonlethal</label>
                     </span>
                     <span>
-                        <input class="number4" type="number" [(ngModel)]="damage" maxLength="3">
+                        <input class="number4" type="number" [(ngModel)]="damage" maxLength="3" min="0" max="999">
                     </span>
                     <span>
-                        <button [disabled]="damage <= 0"
-                            (click)="on_TakeDamage(health, calculatedHealth.wounded, calculatedHealth.dying)">Ouch!</button>
-                    </span>
-                </div>
-                <div class="list-item newrow">
-                    <span>
-                        <strong>Heal Damage</strong>
-                    </span>
-                    <span>&nbsp;</span>
-                    <span>
-                        <input class="number4" type="number" [(ngModel)]="healing" maxLength="3">
-                    </span>
-                    <span>
-                        <button [disabled]="healing <= 0"
-                            (click)="on_Heal(health, calculatedHealth.dying)">Heal</button>
+                        <button [disabled]="damage <= 0" (click)="on_Heal(health, calculatedHealth.dying)">Heal
+                            Damage</button>
                     </span>
                 </div>
                 <div class="list-item newrow" *ngIf="get_NumbToDeath()"
@@ -148,7 +135,6 @@
                     <span>
                         <strong>Temp HP</strong>
                     </span>
-                    <span>&nbsp;</span>
                     <span>
                         <input class="number4" type="number" [(ngModel)]="setTempHP" maxLength="3">
                     </span>

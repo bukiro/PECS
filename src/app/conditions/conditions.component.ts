@@ -279,7 +279,7 @@ export class ConditionsComponent implements OnInit {
     add_Condition(creature: Creature, condition: Condition, duration: number = this.get_ConditionDuration(false)) {
         let newGain = new ConditionGain();
         newGain.name = condition.name;
-        if (duration == -1) {
+        if (duration < 0 || duration == 1) {
             newGain.duration = duration;
         } else {
             newGain.duration = duration + (this.endOn == this.timeService.get_YourTurn() ? 0 : 5);

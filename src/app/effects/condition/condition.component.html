@@ -13,9 +13,9 @@
                         ": " : ""}}
                         <input id="{{conditionGain.id+'choice'}}" class="invisible" type="checkbox"
                             [(ngModel)]="conditionGain.showChoices"
-                            *ngIf="choices.length && !conditionGain.choiceLocked">
+                            *ngIf="(choices.length || conditionGain.name == 'Persistent Damage') && !conditionGain.choiceLocked">
                         <label for="{{conditionGain.id+'choice'}}" [ngbTooltip]="'Change effect choice'"
-                            style="text-shadow: none" *ngIf="choices.length && !conditionGain.choiceLocked">
+                            style="text-shadow: none" *ngIf="(choices.length || conditionGain.name == 'Persistent Damage') && !conditionGain.choiceLocked">
                             <i class='bi-list-stars'></i>
                             <span *ngIf="conditionGain.choice && !conditionGain.showChoices">
                                 &nbsp;{{conditionGain.choice}}

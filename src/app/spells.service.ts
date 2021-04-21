@@ -183,6 +183,19 @@ export class SpellsService {
                             }
                         }
                     }
+                    if (condition.hasValue) {
+                        //Apply effects that change the value of this condition.
+                        let effectValue: number = newConditionGain.value || 0;
+                        characterService.effectsService.get_AbsolutesOnThis(creature, condition.name + " Value").forEach(effect => {
+                            effectValue = parseInt(effect.setValue);
+                            conditionsToRemove.push(effect.source);
+                        })
+                        characterService.effectsService.get_RelativesOnThis(creature, condition.name + " Value").forEach(effect => {
+                            effectValue += parseInt(effect.value);
+                            conditionsToRemove.push(effect.source);
+                        })
+                        newConditionGain.value = effectValue;
+                    }
                     let conditionTarget = targetCreature;
                     if (conditionGain.targetFilter == "caster") {
                         conditionTarget = creature;

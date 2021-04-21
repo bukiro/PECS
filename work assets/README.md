@@ -117,32 +117,19 @@ Internal To Do list
 
 Active to-do:
 - Make it so that when the target of a spell with target==ally is the caster, they only receive the target condition. First review all caster conditions and ensure that the caster condition is never needed if you have the target condition.
-- Set spell condition durations automatically: If the choice has a default duration, use it, otherwise use the condition's default duration matching the spell level, otherwise use the first default duration
--- Some spells need to set individual durations (e.g. Invisibility Cloak). Only do it automatically if no duration is set (and set every spell.gainCondition.duration to undefined that should be set automatically)
 
 Test:
-- Test whether Phantom Pain ends when you switch between choices (As it ends with sickened)
-- Test whether Quivering Palm (Caster) ends itself (as it ends Quivering Palm (Caster))
-- Subconscious Suggestion (target condition and triggers)
-- True Shapeshifter starts Nature Incarnate and should then end
-- Goblin Pox
-- Pyrotechnics
-- Song of the Fallen
-- Fey Glamour
-
-Implement:
-- Possibly change next spell value with Effects (See Inspire Heroics)
 
 Next steps:
 - Apply choiceBySubType to activities
 - Create Pop-up slider for number fields to increase accessibility and save space where sliders are already used - ideally with an automatic component (but it needs to write back into the calling element's value)
 - Possibly Create tag that automatically inserts a dice rolling button for the included text
-- Implement conditions with duration +1 to allow for conditions that are instant (i.e. need attention) after their duration. (Start with sea surge with duration 11)
+- Implement conditions with duration X+1 to allow for conditions that are instant (i.e. need attention) after their duration. (Start with sea surge with duration 11)
 - Find a better way to implement losing all effects from armor (effectively unequipping your armor) from Gaseous Form
 - Also find a better way to implement Mage Armor without losing your current armor
 - Re-do the hardcoding for Wild Shape, using choice.defaultDuration instead
 - Don't show Stunned value if the condition is not permanent
-- If caster condition and target condition have the same choices, only show one set and apply to both.
+- If caster condition and target condition have the same choices, only show one set and apply to both. (Try on Fey Glamour)
 -- (Check if there are any spells that effectively cause more than two conditions with choices (caster and target), and if not, maybe the entire choices mechanism can be reduced to one set)
 -- If target is area, or if target is other and targetNumber is > 1, don't allow Saving Throw choices for the caster condition (if there are choices, assume choice with longest duration)
 - Create dialog for choosing targets if target is area or targetNumber is > 0 and target is ally

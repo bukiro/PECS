@@ -225,7 +225,7 @@
                                                                                     </button>
                                                                                 </div>
                                                                                 <div class="newrow"
-                                                                                    *ngIf="['self', 'ally'].includes(spell.target) && (!spell.target.includes('you and')) && !spellTaken.gain.active"
+                                                                                    *ngIf="['self', 'ally', 'area'].includes(spell.target) && (!spell.target.includes('you and')) && !spellTaken.gain.active"
                                                                                     [ngbTooltip]="cannotCast">
                                                                                     <button
                                                                                         class="newrow center-aligned"
@@ -243,7 +243,7 @@
                                                                                     </button>
                                                                                 </div>
                                                                                 <div class="newrow"
-                                                                                    *ngIf="['companion', 'ally'].includes(spell.target) && !spellTaken.gain.active && get_CompanionAvailable()"
+                                                                                    *ngIf="['companion', 'ally', 'area'].includes(spell.target) && !spellTaken.gain.active && get_CompanionAvailable()"
                                                                                     [ngbTooltip]="cannotCast">
                                                                                     <button
                                                                                         class="newrow center-aligned"
@@ -261,7 +261,7 @@
                                                                                     </button>
                                                                                 </div>
                                                                                 <div class="newrow"
-                                                                                    *ngIf="['familiar', 'ally'].includes(spell.target) && !spellTaken.gain.active && get_FamiliarAvailable()"
+                                                                                    *ngIf="['familiar', 'ally', 'area'].includes(spell.target) && !spellTaken.gain.active && get_FamiliarAvailable()"
                                                                                     [ngbTooltip]="cannotCast">
                                                                                     <button
                                                                                         class="newrow center-aligned"

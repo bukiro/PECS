@@ -1557,7 +1557,7 @@
             },
             {
                 "affected": "Wild Shape Duration",
-                "setValue": "Has_Feat(Character, 'Perfect Form Control') ? -1 : 6000"
+                "setValue": "Has_Feat('Character', 'Perfect Form Control') ? -1 : 6000"
             }
         ]
     },
@@ -11081,6 +11081,12 @@
                 "affected": "Next Spell Duration",
                 "setValue": "Choice == 'Critical Success' ? 40 : (Choice == 'Success' ? 30 : null)"
             }
+        ],
+        "onceEffects": [
+            {
+                "affected": "Focus Points",
+                "value": "Choice == 'Failure' ? 1 : 0"
+            }
         ]
     },
     {
@@ -11462,7 +11468,7 @@
                 "defaultDuration": 10
             },
             {
-                "name": "Failure"
+                "name": "Willing or Failure"
             }
         ]
     },
@@ -11489,7 +11495,7 @@
                 "defaultDuration": 10
             },
             {
-                "name": "Failure"
+                "name": "Willing or Failure"
             }
         ]
     },
@@ -18476,16 +18482,13 @@
                 "defaultDuration": 1
             },
             {
-                "name": "Success",
-                "defaultDuration": 10
+                "name": "Success"
             },
             {
-                "name": "Failure",
-                "defaultDuration": 10
+                "name": "Failure"
             },
             {
-                "name": "Critical Failure",
-                "defaultDuration": 10
+                "name": "Critical Failure"
             }
         ],
         "gainConditions": [
@@ -19619,6 +19622,16 @@
             {
                 "affected": "Inspire Courage Value",
                 "setValue": "Choice == 'Critical Success' ? 3 : (Choice == 'Success' ? 2 : null)"
+            },
+            {
+                "affected": "Inspire Defense Value",
+                "setValue": "Choice == 'Critical Success' ? 3 : (Choice == 'Success' ? 2 : null)"
+            }
+        ],
+        "onceEffects": [
+            {
+                "affected": "Focus Points",
+                "value": "Choice == 'Failure' ? 1 : 0"
             }
         ]
     },
@@ -21480,7 +21493,7 @@
         ]
     },
     {
-        "name": "Fey Glamour (Creatures)",
+        "name": "Fey Glamour",
         "desc": "(Fey Glamour adds Veil at one level lower, or does nothing if Illusory Disguise was chosen, then ends immediately. It cannot be added manually.)",
         "type": "hidden",
         "SortLevel": 5,
@@ -21489,7 +21502,7 @@
                 "duration": 0
             }
         ],
-        "choice": "Illusory Scene",
+        "choice": "Veil",
         "choices": [
             {
                 "name": "Illusory Scene"
@@ -21504,47 +21517,53 @@
                 "conditionChoiceFilter": "Veil",
                 "duration": 1000,
                 "heightened": 4,
-                "name": "Veil"
+                "name": "Veil",
+                "persistent": true
             },
             {
                 "activationPrerequisite": "parentConditionGain.heightened == 6 ? 1 : 0",
                 "conditionChoiceFilter": "Veil",
                 "duration": 1000,
                 "heightened": 5,
-                "name": "Veil"
+                "name": "Veil",
+                "persistent": true
             },
             {
                 "activationPrerequisite": "parentConditionGain.heightened == 6 ? 1 : 0",
                 "conditionChoiceFilter": "Veil",
                 "duration": 1000,
                 "heightened": 6,
-                "name": "Veil"
+                "name": "Veil",
+                "persistent": true
             },
             {
                 "activationPrerequisite": "parentConditionGain.heightened == 6 ? 1 : 0",
                 "conditionChoiceFilter": "Veil",
                 "duration": 1000,
                 "heightened": 7,
-                "name": "Veil"
+                "name": "Veil",
+                "persistent": true
             },
             {
                 "activationPrerequisite": "parentConditionGain.heightened == 6 ? 1 : 0",
                 "conditionChoiceFilter": "Veil",
                 "duration": 1000,
                 "heightened": 8,
-                "name": "Veil"
+                "name": "Veil",
+                "persistent": true
             },
             {
                 "activationPrerequisite": "parentConditionGain.heightened == 10 ? 1 : 0",
                 "conditionChoiceFilter": "Veil",
                 "duration": 1000,
                 "heightened": 8,
-                "name": "Veil"
+                "name": "Veil",
+                "persistent": true
             }
         ]
     },
     {
-        "name": "Fey Glamour",
+        "name": "Fey Glamour (Caster)",
         "desc": "Calling upon fey glamours, you have cloaked an area or the targets in illusion. This has the effect of either illusory scene on the area or veil on the creatures, as if heightened to a level 1 level lower than fey glamour, using fey glamour's range and duration.",
         "type": "spells",
         "minLevel": 5,
@@ -21606,37 +21625,37 @@
                 "activationPrerequisite": "parentConditionGain.heightened == 5 ? 1 : 0",
                 "conditionChoiceFilter": "Veil",
                 "heightened": 4,
-                "value": "Veil"
+                "name": "Veil (Caster)"
             },
             {
                 "activationPrerequisite": "parentConditionGain.heightened == 6 ? 1 : 0",
                 "conditionChoiceFilter": "Veil",
                 "heightened": 5,
-                "value": "Veil"
+                "name": "Veil (Caster)"
             },
             {
                 "activationPrerequisite": "parentConditionGain.heightened == 7 ? 1 : 0",
                 "conditionChoiceFilter": "Veil",
                 "heightened": 6,
-                "name": "Veil"
+                "name": "Veil (Caster)"
             },
             {
                 "activationPrerequisite": "parentConditionGain.heightened == 8 ? 1 : 0",
                 "conditionChoiceFilter": "Veil",
                 "heightened": 7,
-                "name": "Veil"
+                "name": "Veil (Caster)"
             },
             {
                 "activationPrerequisite": "parentConditionGain.heightened == 9 ? 1 : 0",
                 "conditionChoiceFilter": "Veil",
                 "heightened": 8,
-                "name": "Veil"
+                "name": "Veil (Caster)"
             },
             {
                 "activationPrerequisite": "parentConditionGain.heightened == 10 ? 1 : 0",
                 "conditionChoiceFilter": "Veil",
                 "heightened": 9,
-                "name": "Veil"
+                "name": "Veil (Caster)"
             }
         ]
     },
@@ -24188,6 +24207,7 @@
         "desc": "You gain a 60 foot aura. Enemies other than plants in the aura must succeed at a Fortitude save against your spell DC or become clumsy 1 for 1 round (clumsy 2 on a critical failure).",
         "type": "hidden",
         "SortLevel": 10,
+        "radius": 60,
         "buff": true
     },
     {
@@ -24455,7 +24475,7 @@
     },
     {
         "name": "Song of the Fallen",
-        "desc": "A dirge or an elegy is chanted that either rouses the dead to action or reminds undead that they should lay to rest.\n\nIf you are dead creature, and the spell targets dead creatures, your body animates and can continue acting as if you were alive. A creature animated in this way has 60 temporary Hit Points. You are slowed 1 but can otherwise act normally. Creatures animated with this spell die again once the spell ends.\n\nIf you are undead creature, and the spell targets undead creatures, you are affected according to your Will save.\n\n<strong>Critical Success</strong> You take 5d6 positive damage.\n<strong>Success</strong> You take 10d6 positive damage and is slowed 1 for 1 round.\n<strong>Failure</strong> You take 100 positive damage and is slowed 1 for 1 minute.\n<strong>Critical Failure</strong> You are destroyed.",
+        "desc": "A dirge or an elegy is chanted that either rouses the dead to action or reminds undead that they should lay to rest.\n\nIf you are dead creature, and the spell targets dead creatures, your body animates and can continue acting as if you were alive. A creature animated in this way has 60 temporary Hit Points. You are slowed 1 but can otherwise act normally. Creatures animated with this spell die again once the spell ends.\n\nIf you are undead creature, and the spell targets undead creatures, you are affected according to your Will save.\n\n<strong>Critical Success</strong> You take 5d6 positive damage.\n<strong>Success</strong> You take 10d6 positive damage and are slowed 1 for 1 round.\n<strong>Failure</strong> You take 100 positive damage and are slowed 1 for 1 minute.\n<strong>Critical Failure</strong> You are destroyed.",
         "type": "spells",
         "minLevel": 10,
         "SortLevel": 10,

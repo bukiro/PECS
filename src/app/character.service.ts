@@ -1357,9 +1357,8 @@ export class CharacterService {
                 }
                 //If there is a choice, check if there is a nextStage value of that choice.
                 if (conditionGain.choice) {
-                    conditionGain.nextStage
+                    conditionGain.nextStage = originalCondition.choices.find(choice => choice.name == conditionGain.choice)?.nextStage || 0;
                 }
-                conditionGain.nextStage = originalCondition.choices.find(choice => choice.name == conditionGain.choice)?.nextStage || 0;
                 if (conditionGain.nextStage) {
                     this.set_ToChange(creature.type, "time");
                     this.set_ToChange(creature.type, "health");
@@ -1406,7 +1405,10 @@ export class CharacterService {
                         }
                     }
                 } else {
-                    newLength = creature.conditions.push(conditionGain);
+                    //Don't add permanent persistent conditions without a value if the same condition already exists with these parameters.
+                    if (!(!conditionGain.value && conditionGain.persistent && conditionGain.duration == -1 && this.get_AppliedConditions(creature, "", "", true).some(existingGain => existingGain.name == conditionGain.name && !existingGain.value && existingGain.persistent && existingGain.duration == -1))) {
+                        newLength = creature.conditions.push(conditionGain);
+                    }
                 }
                 if (newLength) {
                     this.conditionsService.process_Condition(creature, this, this.effectsService, this.itemsService, conditionGain, this.conditionsService.get_Conditions(conditionGain.name)[0], true);

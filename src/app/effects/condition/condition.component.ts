@@ -147,7 +147,7 @@ export class ConditionComponent implements OnInit {
                     addCondition.source = gain.name;
                     let originalCondition = this.characterService.get_Conditions(addCondition.name)[0];
                     if (!(addCondition.persistent || originalCondition?.persistent) || addCondition.ignorePersistentAtChoiceChange) {
-                        this.characterService.remove_Condition(creature, addCondition, false, false, true, true);
+                        this.characterService.remove_Condition(creature, addCondition, false, false, true, true, true);
                     }
                 })
             }

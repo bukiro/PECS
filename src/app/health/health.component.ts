@@ -28,7 +28,6 @@ export class HealthComponent implements OnInit {
 
     public damage: number = 0;
     public nonlethal: boolean = false;
-    public healing: number = 0;
     public setTempHP: number = 0;
     public selectedTempHP: { amount: number, source: string, sourceId: string };
     public Math = Math;
@@ -183,7 +182,7 @@ export class HealthComponent implements OnInit {
     }
 
     on_Heal(health: Health, dying: number) {
-        health.heal(this.get_Creature(), this.characterService, this.effectsService, this.healing, true, true, dying);
+        health.heal(this.get_Creature(), this.characterService, this.effectsService, this.damage, true, true, dying);
         this.characterService.set_ToChange(this.creature, "health");
         this.characterService.set_ToChange(this.creature, "effects");
         this.characterService.process_ToChange();
