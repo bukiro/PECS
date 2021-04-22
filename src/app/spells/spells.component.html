@@ -26,10 +26,11 @@
                 <div class="loading" *ngIf="still_loading()">Loading</div>
                 <ng-container *ngIf="!still_loading() && get_Character().class && get_SpellsMenuState()=='in'">
                     <div class="itembox-inner">
-                        <div class="list-item">
+                        <div class="list-item" *ngIf="get_HasSpellChoices()">
                             <span>
-                                <input id="allowHeightened" type="checkbox" [(ngModel)]="allowHeightened">
-                                <label for="allowHeightened">&nbsp;Allow heightened spells</label>
+                                <input id="showHeightened" type="checkbox"
+                                    [(ngModel)]="get_Character().settings.showHeightenedSpells">
+                                <label for="showHeightened">&nbsp;Show heightened spells</label>
                             </span>
                         </div>
                         <ng-container
@@ -48,12 +49,12 @@
                                 [showTraits]=true [showFeats]=true [showItems]=true [showActivities]=true
                                 [showConditions]=true [showEffects]=true>
                             </app-tags>
-                            <div class="list-item" *ngIf="need_Spellbook(casting)">
+                            <div class="list-item" *ngIf="get_NeedSpellbook(casting)">
                                 <span>
                                     <input id="allowBorrow" type="checkbox" [(ngModel)]="allowBorrow">
                                     <label for="allowBorrow">&nbsp;Borrow spells</label>
                                 </span>
-                                <span [ngbPopover]="'Allow selecting spells not in your spellbook'">
+                                <span [ngbPopover]="'Allow selecting spells not in your spellbook, assuming you borrow them from another spellcaster or a different book.'">
                                     <button class="lower inactive-button">Details</button>
                                 </span>
                             </div>
@@ -92,7 +93,7 @@
                                         *ngIf="get_SpellsTaken(1, get_Character().level, level, '', casting, '', '', true).length">
                                         <button class="newrow sublist-toggle fancy-button"
                                             (click)="toggle_Choice(index+'showFixedChanges'+level)">
-                                            Show fixed changes
+                                            Show fixed spells
                                         </button>
                                         <div class="list-item sublist fancy-list"
                                             *ngIf="get_ShowChoice()==index+'showFixedChanges'+level">
@@ -126,7 +127,7 @@
                                                 <app-spellchoice (showChoiceMessage)="receive_ChoiceMessage($event)"
                                                     (showSpellMessage)="receive_SpellMessage($event)"
                                                     [spellCasting]="casting" [choice]="choice"
-                                                    [allowHeightened]="allowHeightened" [allowBorrow]="allowBorrow"
+                                                    [showHeightened]="get_Character().settings.showHeightenedSpells" [allowBorrow]="allowBorrow"
                                                     [showChoice]="showChoice" [showSpell]="showSpell" [level]="level"
                                                     [prepared]="prepared" [spellbook]="true" [showContent]="false"
                                                     [tileMode]="get_TileMode()"></app-spellchoice>
@@ -146,7 +147,7 @@
             <ng-container *ngFor="let choiceContent of get_ActiveChoiceContent(); trackBy:trackByID;">
                 <app-spellchoice (showChoiceMessage)="receive_ChoiceMessage($event)"
                     (showSpellMessage)="receive_SpellMessage($event)" [spellCasting]="choiceContent.casting"
-                    [choice]="choiceContent.choice" [allowHeightened]="allowHeightened" [allowBorrow]="allowBorrow"
+                    [choice]="choiceContent.choice" [showHeightened]="get_Character().settings.showHeightenedSpells" [allowBorrow]="allowBorrow"
                     [showChoice]="choiceContent.name" [showSpell]="showSpell" [level]="choiceContent.levelNumber"
                     [prepared]="prepared" [spellbook]="true" [showTitle]="false">
                 </app-spellchoice>

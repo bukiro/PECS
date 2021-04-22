@@ -78,7 +78,7 @@ export class CharacterService {
     itemsMenuState: string = 'out';
     itemsMenuTarget: string = 'Character';
     craftingMenuState: string = 'out';
-    characterMenuState: string = 'out';
+    characterMenuState: string = 'in';
     companionMenuState: string = 'out';
     familiarMenuState: string = 'out';
     spellsMenuState: string = 'out';
@@ -88,7 +88,6 @@ export class CharacterService {
 
     constructor(
         private configService: ConfigService,
-        private diceService: DiceService,
         private savegameService: SavegameService,
         public abilitiesService: AbilitiesService,
         private skillsService: SkillsService,

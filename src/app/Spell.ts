@@ -45,7 +45,7 @@ export class Spell {
     //Sustained spells are deactivated after this time (or permanent with -1, or when resting with -2)
     public sustained: number = 0;
     //target is used internally to determine whether you can cast this spell on yourself, your companion/familiar or any ally
-    //Should be: "ally", "area", "companion", "familiar', "minion", "object", "other" or "self"
+    //Should be: "ally", "area", "companion", "familiar", "minion", "object", "other" or "self"
     //For "companion", it can only be cast on the companion
     //For "familiar", it can only be cast on the familiar
     //For "self", the spell button will say "Cast", and you are the target
@@ -168,6 +168,15 @@ export class Spell {
         }
         let levelreq: boolean = this.meetsLevelReq(characterService, spellLevel).met;
         return levelreq;
+    }
+    get_IsHostile() {
+        //Return whether a spell is meant to be cast on enemies. This is usually the case if the spell is cast on other, or if the spell is cast on area and has no target conditions.
+        return (
+            this.target == "other" ||
+            (
+                this.target == "area" && !this.gainConditions.some(gain => gain.targetFilter != "caster")
+            )
+        )
     }
     hasTargetConditions() {
         return this.gainConditions.some(gain => gain.targetFilter != "caster");

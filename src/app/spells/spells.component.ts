@@ -15,13 +15,11 @@ export class SpellsComponent implements OnInit {
 
     public showSpell: string = "";
     public showChoice: string = "";
-    public allowHeightened: boolean = false;
     public allowBorrow: boolean = false;
     public prepared: boolean = false;
     private showContent: SpellChoice = null;
     private showSpellCasting: SpellCasting = null;
-    private showContentLevelNumber: number = 0;
-    
+    private showContentLevelNumber: number = 0;    
 
     constructor(
         private changeDetector: ChangeDetectorRef,
@@ -137,7 +135,11 @@ export class SpellsComponent implements OnInit {
         return this.characterService.get_Character();
     }
 
-    need_Spellbook(casting: SpellCasting) {
+    get_HasSpellChoices() {
+        return this.get_Character().class?.spellCasting.some(casting => casting.spellChoices.some(choice => choice.available));
+    }
+
+    get_NeedSpellbook(casting: SpellCasting) {
         return casting.castingType == "Prepared" && casting.className == "Wizard";
     }
 

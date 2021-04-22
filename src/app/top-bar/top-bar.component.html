@@ -7,7 +7,7 @@
         <button [ngClass]="{'fancy-button':get_FamiliarMenuState()=='out'}" (click)="toggle_Menu('familiar')" *ngIf="get_FamiliarAvailable()">{{get_Familiar().name || "Familiar"}}</button>
         <button [ngClass]="{'fancy-button':get_ItemsMenuState()=='out'}" (click)="toggle_Menu('items')">Items</button>
         <button [ngClass]="{'fancy-button':get_CraftingMenuState()=='out'}" (click)="toggle_Menu('crafting')">Crafting</button>
-        <button [ngClass]="{'fancy-button':get_SpellsMenuState()=='out'}" (click)="toggle_Menu('spells')">Spellbook</button>
+        <button [ngClass]="{'fancy-button':get_SpellsMenuState()=='out'}" (click)="toggle_Menu('spells')" *ngIf="get_HasSpells()">Spellbook</button>
         <button [ngClass]="{'fancy-button':get_SpellLibraryMenuState()=='out'}" (click)="toggle_Menu('spelllibrary')">Spell Library</button>
         <button [ngClass]="{'fancy-button':get_ConditionsMenuState()=='out'}" (click)="toggle_Menu('conditions')">Conditions</button>
         <button [ngClass]="{'fancy-button':get_DiceMenuState()=='out'}" [ngbTooltip]="'Dice'" (click)="toggle_Menu('dice')"><app-diceIcons_D20></app-diceIcons_D20></button>

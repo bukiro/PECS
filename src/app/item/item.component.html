@@ -248,7 +248,7 @@
     <app-item [item]=armoredSkirt></app-item>
 </div>
 <div class="list-item left-aligned" *ngFor="let choice of get_StoredSpells(item); trackBy:trackByIndex;">
-    <app-spellchoice [choice]="choice" [allowHeightened]="true" [level]="choice.level" [itemSpell]="true">
+    <app-spellchoice [choice]="choice" [showHeightened]="true" [level]="choice.level" [itemSpell]="true">
     </app-spellchoice>
 </div>
 <div class="list-item left-aligned" *ngFor="let choice of get_StoredSpellsTaken(item); trackBy:trackByIndex;">

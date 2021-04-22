@@ -127,6 +127,10 @@ export class TopBarComponent implements OnInit {
         )
     }
 
+    get_HasSpells() {
+        return this.get_Character().class?.spellCasting.some(casting => casting.spellChoices.length);
+    }
+
     save() {
         this.characterService.save_Character();
     }

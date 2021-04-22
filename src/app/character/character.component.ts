@@ -230,6 +230,7 @@ export class CharacterComponent implements OnInit {
     }
 
     on_NewCharacter() {
+        this.toggle_List("");
         this.characterService.reset_Character();
     }
 
@@ -550,6 +551,11 @@ export class CharacterComponent implements OnInit {
             this.characterService.set_ToChange("Familiar", "featchoices");
         }
 
+        this.characterService.process_ToChange();
+    }
+
+    on_UpdateSpellbook() {
+        this.characterService.set_ToChange("Character", "spellbook");
         this.characterService.process_ToChange();
     }
 

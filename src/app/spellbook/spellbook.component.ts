@@ -395,8 +395,36 @@ export class SpellbookComponent implements OnInit {
         return bloodMagicFeats.some(feat => feat.bloodMagic.some(bloodMagic => bloodMagic.trigger.includes(spell.name)));
     }
 
-    can_Activate(spell: Spell, bloodMagicFeats: Feat[]) {
-        return spell.gainConditions?.length || this.get_IsBloodMagicTrigger(spell, bloodMagicFeats);
+    can_Activate(spell: Spell, bloodMagicFeats: Feat[], noTarget: boolean = false) {
+        //Return whether this spell
+        // - causes any blood magic effect or
+        // - causes any target conditions and has a target or
+        // - causes any caster conditions and caster conditions are not disabled in general, or any of the caster conditions are not disabled.
+        return (
+            this.get_IsBloodMagicTrigger(spell, bloodMagicFeats) ||
+            (
+                !noTarget &&
+                spell.gainConditions.some(gain => gain.targetFilter != "caster")
+            )
+        ) ||
+            (
+                spell.gainConditions.some(gain => gain.targetFilter == "caster") &&
+                (
+                    (
+                        spell.get_IsHostile() ?
+                            !this.get_Character().settings.noHostileCasterConditions :
+                            !this.get_Character().settings.noFriendlyCasterConditions
+                    ) ||
+                    (
+                        this.conditionsService.get_Conditions()
+                            .filter(condition => spell.gainConditions.some(gain => gain.name == condition.name && gain.targetFilter == "caster"))
+                            .some(condition =>
+                                condition.get_HasEffects() ||
+                                condition.get_IsChangeable()
+                            )
+                    )
+                )
+            )
     }
 
     on_Cast(levelNumber: number, gain: SpellGain, casting: SpellCasting, choice: SpellChoice, creature: string = "", spell: Spell, activated: boolean, bloodMagicFeats: Feat[]) {

@@ -143,14 +143,31 @@ export class SpellsService {
                             newConditionGain.choice = subType.subType;
                         }
                     }
-                    //If there is a target condition, the target is also the caster, and either the caster and the target get the same condition or the caster condition is purely informational, don't add the caster condition.
+                    //Under certain circumstances, don't grant caster conditions:
+                    // - If there is a target condition, the target is also the caster, and the caster and the target get the same condition.
+                    // - If there is a target condition, the target is also the caster, and the caster condition is purely informational.
+                    // - If the spell is hostile, hostile caster conditions are disabled, and the caster condition is purely informational.
+                    // - If the spell is friendly, friendly caster conditions are disabled, and the caster condition is purely informational.
                     if (
                         !(
-                            hasTargetCondition &&
-                            targetCreature == creature &&
                             conditionGain.targetFilter == "caster" &&
                             (
-                                sameCondition ||
+                                hasTargetCondition &&
+                                targetCreature == creature &&
+                                (
+                                    sameCondition ||
+                                    (
+                                        !condition.get_HasEffects() &&
+                                        !condition.get_IsChangeable()
+                                    )
+                                )
+                            ) ||
+                            (
+                                (
+                                    spell.get_IsHostile() ?
+                                        characterService.get_Character().settings.noHostileCasterConditions :
+                                        characterService.get_Character().settings.noFriendlyCasterConditions
+                                ) &&
                                 (
                                     !condition.get_HasEffects() &&
                                     !condition.get_IsChangeable()

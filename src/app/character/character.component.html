@@ -974,6 +974,37 @@
                             <label for="archetypeFeats"><strong>Show archetype feats</strong></label>
                         </div>
                     </div>
+                    <div class="list-item">
+                        <strong>Spells</strong>
+                        <div class="list-item gridicon-fullsizebox">
+                            <input class="character-choice" id="showHeightenedSpells" type="checkbox"
+                                [(ngModel)]="get_Character().settings.showHeightenedSpells">
+                            <label for="showHeightenedSpells"><strong>Show heightened spells in spell
+                                    choices</strong></label>
+                        </div>
+                        <div class="list-item gridicon-fullsizebox">
+                            <input class="character-choice" id="noFriendlyCasterConditions" type="checkbox"
+                                [(ngModel)]="get_Character().settings.noFriendlyCasterConditions" (ngModelChange)="on_UpdateSpellbook()">
+                            <label for="noFriendlyCasterConditions"><strong>Avoid informational caster
+                                    conditions for friendly spells</strong></label>
+                            <span class="right-aligned"
+                                [ngbPopover]="'When casting targeted spells with a duration, the caster will receive a condition that tracks the duration. This option will disable these caster conditions for friendly spells if they have no effect on the caster.'">
+                                <button class="lower inactive-button">Details</button>
+                            </span>
+                        </div>
+                        <div class="fullwidth" [ngbCollapse]="!get_Character().settings.unavailableFeats">
+                            <div class="list-item gridicon-fullsizebox">
+                                <input class="character-choice" id="noHostileCasterConditions" type="checkbox"
+                                    [(ngModel)]="get_Character().settings.noHostileCasterConditions" (ngModelChange)="on_UpdateSpellbook()">
+                                <label for="noHostileCasterConditions"><strong>Avoid informational caster
+                                        conditions for hostile spells</strong></label>
+                                <span class="right-aligned"
+                                    [ngbPopover]="'When casting targeted spells with a duration, the caster will receive a condition that tracks the duration. This option will disable these caster conditions for hostile spells if they have no effect on the caster.'">
+                                    <button class="lower inactive-button">Details</button>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </ng-container>
             <!--History content-->

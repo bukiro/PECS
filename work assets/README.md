@@ -118,7 +118,6 @@ Internal To Do list
 Active to-do:
 
 Test:
-- Stone to Flesh
 
 Next steps:
 - Apply choiceBySubType to activities
@@ -135,8 +134,6 @@ Next steps:
 - Create dialog for choosing targets if target is area or targetNumber is > 0 and target is ally
 - Create method for sending target conditions to another character in another session
 - Allow manually changing condition duration to -1, -2 or -3 (in conditions component and in effects component)
-- Specify spell targets: self, ally, companion, familiar, object, area, minion, other
-- Make caster conditions optional for spells with target=="other" where the caster doesn't need to be aware of the target's condition (how to determine?)
 - Implement manual mode
 - Quick Effects button for Skills and Attacks (and quick removal button for manual effects)
 - Implement Icons for Inventory and Spells
