@@ -539,7 +539,7 @@
                 "_className": "SpellChoice",
                 "available": 1,
                 "level": 3,
-                "target": "Enemies"
+                "target": "Others"
             }
         ],
         "desc": "A spell-storing rune creates a reservoir of eldritch energy within the etched weapon. A spellcaster can spend 1 minute to cast a spell of 3rd level or lower into the weapon. The spell must have a casting of 2 actions or fewer and must be able to target a creature other than the caster. The spell has no immediate effect - it is instead stored for later. When you wield a spell-storing weapon, you immediately know the name and level of the stored spell. A spell-storing weapon found as treasure has a 50% chance of having a spell of the GM's choice stored in it.",
