@@ -118,29 +118,29 @@
                                                         *ngFor="let familiarAvailable of [get_FamiliarAvailable()]">
                                                         <div class="newrow"
                                                             *ngIf="!condition.restricted && defaultDuration != null">
-                                                            <header class="subsectionHeader">Add
+                                                            <header class="subsectionHeader" style="margin-bottom:0;">Add
                                                                 {{get_Duration(defaultDuration.duration, true)}}
                                                                 ({{defaultDuration.source}})
                                                             </header>
                                                             <div class="newrow">
                                                                 <button
-                                                                    (click)="add_Condition(get_Character(), condition, defaultDuration.duration)">
+                                                                    (click)="add_Condition(get_Character(), condition, defaultDuration.duration, false)">
                                                                     to {{get_Character().name || "Character"}}
                                                                 </button>
                                                                 <button
-                                                                    (click)="add_Condition(get_Companion(), condition, defaultDuration.duration)"
+                                                                    (click)="add_Condition(get_Companion(), condition, defaultDuration.duration, false)"
                                                                     *ngIf="companionAvailable">
                                                                     to {{get_Companion().name || "Animal Companion"}}
                                                                 </button>
                                                                 <button
-                                                                    (click)="add_Condition(get_Familiar(), condition, defaultDuration.duration)"
+                                                                    (click)="add_Condition(get_Familiar(), condition, defaultDuration.duration, false)"
                                                                     *ngIf="familiarAvailable">
                                                                     to {{get_Familiar().name || "Familiar"}}
                                                                 </button>
                                                             </div>
                                                         </div>
                                                         <div class="newrow" *ngIf="!condition.restricted">
-                                                            <header class="subsectionHeader">Add
+                                                            <header class="subsectionHeader" style="margin-bottom:0;">Add
                                                                 {{get_Duration(get_ConditionDuration(), true)}}
                                                             </header>
                                                             <div class="newrow">

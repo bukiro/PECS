@@ -89,10 +89,19 @@ export class ConditionComponent implements OnInit {
         )
     }
 
+    set_ConditionDuration(gain: ConditionGain, condition: Condition, turns: number) {
+        gain.duration = turns;
+        gain.maxDuration = gain.duration;
+        //Conditions who use their own duration in their effects need to update effects after changing duration.
+        if (condition?.effects.some(effect => effect.setValue?.includes("parentcondition.duration") || effect.value?.includes("parentcondition.duration"))) {
+            this.characterService.set_ToChange(this.creature, "effects");
+            this.characterService.process_ToChange();
+        }
+    }
+
     change_ConditionDuration(gain: ConditionGain, condition: Condition, turns: number) {
         gain.duration += turns;
         gain.maxDuration = gain.duration;
-        this.toggle_Item("");
         //Conditions who use their own duration in their effects need to update effects after changing duration.
         if (condition?.effects.some(effect => effect.setValue?.includes("parentcondition.duration") || effect.value?.includes("parentcondition.duration"))) {
             this.characterService.set_ToChange(this.creature, "effects");
@@ -112,7 +121,6 @@ export class ConditionComponent implements OnInit {
             //We subtract level*change from damage because change is negative.
             this.get_Creature().health.damage == Math.max(0, (this.get_Creature().health.damage - (this.get_Creature().level * change)));
         }
-        this.toggle_Item("");
         gain.showValue = false;
         this.characterService.set_ToChange(this.creature, "effects");
         this.characterService.process_ToChange();
@@ -171,6 +179,10 @@ export class ConditionComponent implements OnInit {
                     addCondition.apply = true;
                     this.characterService.add_Condition(creature, addCondition, false, gain);
                 })
+            }
+            //If the current duration is the default duration of the previous choice, then set the default duration for the current choice. This lets us change the choice directly after adding the condition if we made a mistake.
+            if (gain.duration == condition.get_DefaultDuration(oldChoice, gain.heightened).duration) {
+                gain.duration = condition.get_DefaultDuration(gain.choice, gain.heightened).duration;
             }
         }
         this.characterService.set_ToChange(this.creature, "effects");

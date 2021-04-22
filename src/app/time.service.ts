@@ -196,6 +196,9 @@ export class TimeService {
             return inASentence ? "instantly" : "Instant effect";
         } else {
             let returnString: string = ""
+            //Cut off anything that isn't divisible by 5
+            let remainder: number = duration % 5;
+            duration -= remainder;
             if (duration == 5) {
                 if (this.get_YourTurn() == 5) {
                     return inASentence ? "for rest of turn" : "Rest of turn";
@@ -206,30 +209,36 @@ export class TimeService {
             }
             returnString += inASentence ? "for " : "";
             if (duration >= 144000) {
-                returnString += Math.floor(duration / 144000) + " Day";
+                returnString += Math.floor(duration / 144000) + " day";
                 if (duration / 144000 >= 2) { returnString += "s"; }
                 duration %= 144000;
             }
             if (duration >= 6000) {
-                returnString += " " + Math.floor(duration / 6000) + " Hour";
+                returnString += " " + Math.floor(duration / 6000) + " hour";
                 if (duration / 6000 >= 2) { returnString += "s"; }
                 duration %= 6000;
             }
             if (duration >= 100) {
-                returnString += " " + Math.floor(duration / 100) + " Minute";
+                returnString += " " + Math.floor(duration / 100) + " minute";
                 if (duration / 100 >= 2) { returnString += "s"; }
                 duration %= 100;
             }
             if (duration >= 10) {
-                returnString += " " + Math.floor(duration / 10) + " Turn";
+                returnString += " " + Math.floor(duration / 10) + " turn";
                 if (duration / 10 >= 2) { returnString += "s"; }
                 duration %= 10;
             }
             if (includeTurnState && duration == 5 && this.get_YourTurn() == 5) {
                 returnString += " to end of turn";
             }
+            if (includeTurnState && duration == 5 && this.get_YourTurn() == 0) {
+                returnString += " to start of turn";
+            }
             if (!returnString || returnString == "for ") {
-                returnString = inASentence ? "for 0 turns" : "0 Turns" ;
+                returnString = inASentence ? "for 0 turns" : "0 turns" ;
+            }
+            if (remainder == 1) {
+                returnString += inASentence ? ", then instantly" : ", then instant";
             }
             return returnString.trim();
         }

@@ -131,7 +131,6 @@ Next steps:
 -- If target is area, or if target is other and targetNumber is > 1, don't allow Saving Throw choices for the caster condition (if there are choices, assume choice with longest duration)
 - Create dialog for choosing targets if target is area or targetNumber is > 0 and target is ally
 - Create method for sending target conditions to another character in another session
-- Allow manually changing condition duration to -1, -2 or -3 (in conditions component and in effects component)
 - Implement manual mode
 - Quick Effects button for Skills and Attacks (and quick removal button for manual effects)
 - Implement Icons for Inventory and Spells

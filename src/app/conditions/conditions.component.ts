@@ -276,10 +276,10 @@ export class ConditionsComponent implements OnInit {
         return this.timeService.get_Duration(duration, true, inASentence);
     }
 
-    add_Condition(creature: Creature, condition: Condition, duration: number = this.get_ConditionDuration(false)) {
+    add_Condition(creature: Creature, condition: Condition, duration: number = this.get_ConditionDuration(false), includeTurnState: boolean = true) {
         let newGain = new ConditionGain();
         newGain.name = condition.name;
-        if (duration < 0 || duration == 1) {
+        if (duration < 0 || duration == 1 || !includeTurnState) {
             newGain.duration = duration;
         } else {
             newGain.duration = duration + (this.endOn == this.timeService.get_YourTurn() ? 0 : 5);
