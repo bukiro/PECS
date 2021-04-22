@@ -44,8 +44,6 @@ export class Activity {
     public $cooldown: number = 0;
     //Set displayOnly if the activity should not be used, but displayed for information, e.g. for ammunition
     public displayOnly: boolean = false;
-    //If a gained condition has choices, these are shown on the activity. You can hide them with hideChoice.
-    public hideChoices: boolean = false;
     can_Activate() {
         //Test any circumstance under which this can be activated
         let isStance: boolean = (this.traits.includes("Stance"))

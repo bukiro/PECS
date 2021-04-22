@@ -3947,69 +3947,13 @@
             "Transmutation"
         ],
         "toggle": true,
-        "hideChoices": true,
+        "maxDuration": 100,
         "desc": "You transform into your animal. You gain the effects of the 3rd-level animal form spell except you use your own statistics, temporary Hit Points, and unarmed attacks instead of those granted by animal form. You also retain the constant abilities of your gear. If your animal is a frog, your tongue's reach increases to 15 feet. Dismissing the transformation gains the rage trait.",
         "gainConditions": [
             {
-                "activationPrerequisite": "Has_Feat(Creature.type, 'Animal Instinct: Ape') ? 1 : 0",
-                "choice": "Ape",
-                "choiceLocked": true,
-                "name": "Animal Rage",
-                "source": "Animal Rage"
-            },
-            {
-                "activationPrerequisite": "Has_Feat(Creature.type, 'Animal Instinct: Bear') ? 1 : 0",
-                "choice": "Bear",
-                "choiceLocked": true,
-                "name": "Animal Rage",
-                "source": "Animal Rage"
-            },
-            {
-                "activationPrerequisite": "Has_Feat(Creature.type, 'Animal Instinct: Bull') ? 1 : 0",
-                "choice": "Bull",
-                "choiceLocked": true,
-                "name": "Animal Rage",
-                "source": "Animal Rage"
-            },
-            {
-                "activationPrerequisite": "Has_Feat(Creature.type, 'Animal Instinct: Cat') ? 1 : 0",
-                "choice": "Cat",
-                "choiceLocked": true,
-                "name": "Animal Rage",
-                "source": "Animal Rage"
-            },
-            {
-                "activationPrerequisite": "Has_Feat(Creature.type, 'Animal Instinct: Deer') ? 1 : 0",
-                "choice": "Deer",
-                "choiceLocked": true,
-                "name": "Animal Rage",
-                "source": "Animal Rage"
-            },
-            {
-                "activationPrerequisite": "Has_Feat(Creature.type, 'Animal Instinct: Frog') ? 1 : 0",
-                "choice": "Frog",
-                "choiceLocked": true,
-                "name": "Animal Rage",
-                "source": "Animal Rage"
-            },
-            {
-                "activationPrerequisite": "Has_Feat(Creature.type, 'Animal Instinct: Shark') ? 1 : 0",
-                "choice": "Shark",
-                "choiceLocked": true,
-                "name": "Animal Rage",
-                "source": "Animal Rage"
-            },
-            {
-                "activationPrerequisite": "Has_Feat(Creature.type, 'Animal Instinct: Snake') ? 1 : 0",
-                "choice": "Snake",
-                "choiceLocked": true,
-                "name": "Animal Rage",
-                "source": "Animal Rage"
-            },
-            {
-                "activationPrerequisite": "Has_Feat(Creature.type, 'Animal Instinct: Wolf') ? 1 : 0",
-                "choice": "Canine",
-                "choiceLocked": true,
+                "choiceBySubType": "Animal Instinct",
+                "duration": 100,
+                "hideChoices": true,
                 "name": "Animal Rage",
                 "source": "Animal Rage"
             }

@@ -128,7 +128,8 @@ export class TopBarComponent implements OnInit {
     }
 
     get_HasSpells() {
-        return this.get_Character().class?.spellCasting.some(casting => casting.spellChoices.length);
+        let character = this.get_Character();
+        return character.class?.spellCasting.some(casting => casting.spellChoices.some(choice => choice.charLevelAvailable <= character.level));
     }
 
     save() {

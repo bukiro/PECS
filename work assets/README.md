@@ -89,8 +89,8 @@ Internal To Do list
 - [ ] Implement all Spells
 - [ ] - Focus Spells
 - [x] -- Monk
-- [ ] - Champion
-- [ ] - Cleric
+- [ ] -- Champion
+- [ ] -- Cleric
 - [x] -- Wizard
 - [x] -- Bard
 - [x] -- Druid
@@ -120,13 +120,11 @@ Active to-do:
 Test:
 
 Next steps:
-- Apply choiceBySubType to activities
 - Create Pop-up slider for number fields to increase accessibility and save space where sliders are already used - ideally with an automatic component (but it needs to write back into the calling element's value)
 - Possibly Create tag that automatically inserts a dice rolling button for the included text
 - Implement conditions with duration X+1 to allow for conditions that are instant (i.e. need attention) after their duration. (Start with sea surge with duration 11)
 - Find a better way to implement losing all effects from armor (effectively unequipping your armor) from Gaseous Form
 - Also find a better way to implement Mage Armor without losing your current armor
-- Re-do the hardcoding for Wild Shape, using choice.defaultDuration instead
 - Don't show Stunned value if the condition is not permanent
 - If caster condition and target condition have the same choices, only show one set and apply to both. (Try on Fey Glamour)
 -- (Check if there are any spells that effectively cause more than two conditions with choices (caster and target), and if not, maybe the entire choices mechanism can be reduced to one set)

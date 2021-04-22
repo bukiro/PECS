@@ -241,7 +241,7 @@ export class ActivityComponent implements OnInit {
     get_ActivityConditions() {
         //For all conditions that are included with this activity and have any choices unlocked, create an effectChoice on the gain and set it to the default choice.
         let conditions: Condition[] = [];
-        if (this.gain && !this.activity.hideChoices) {
+        if (this.gain) {
             this.activity.gainConditions
                 .map(conditionGain => { return { gain: conditionGain, condition: this.conditionsService.get_Conditions(conditionGain.name)[0] } })
                 .filter(conditionSet => conditionSet.condition?.get_Choices(this.characterService, true, conditionSet.gain.heightened).length > 1)

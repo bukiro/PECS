@@ -277,6 +277,7 @@ export class FeatsService {
                         }
                     });
                 }
+                characterService.set_ToChange("Character", "top-bar");
             }
 
             //Gain Spell or Spell Option
@@ -321,6 +322,7 @@ export class FeatsService {
                         }
                     });
                 }
+                characterService.set_ToChange("Character", "top-bar");
             }
 
             //Gain Lore
@@ -560,6 +562,7 @@ export class FeatsService {
                     characterService.initialize_AnimalCompanion();
                 }
                 characterService.set_ToChange("Companion", "all");
+                characterService.set_ToChange("Character", "top-bar");
             }
 
             //Feats that level up the animal companion to Mature, Nimble or Savage

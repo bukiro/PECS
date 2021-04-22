@@ -136,7 +136,8 @@ export class SpellsComponent implements OnInit {
     }
 
     get_HasSpellChoices() {
-        return this.get_Character().class?.spellCasting.some(casting => casting.spellChoices.some(choice => choice.available));
+        let character = this.get_Character();
+        return character.class?.spellCasting.some(casting => casting.spellChoices.some(choice => choice.available && choice.charLevelAvailable <= character.level));
     }
 
     get_NeedSpellbook(casting: SpellCasting) {

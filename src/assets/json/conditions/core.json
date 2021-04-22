@@ -5,6 +5,7 @@
         "type": "activities",
         "SortLevel": 0,
         "buff": true,
+        "defaultDuration": 100,
         "endsWithConditions": [
             "Rage"
         ],
