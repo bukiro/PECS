@@ -92,14 +92,21 @@
             "Sorcerer"
         ],
         "area": "15-foot emanation",
-        "target": "self",
+        "target": "area",
         "duration": "1 minute",
         "desc": "You gain an angelic halo with an aura that increases allies' healing from the heal spell. Allies in your halo's emanation who are healed by a heal spell gain a status bonus to Hit Points regained equal to double the heal spell's level.",
         "gainConditions": [
             {
                 "duration": 100,
+                "name": "Angelic Halo (Caster)",
+                "source": "Angelic Halo",
+                "targetFilter": "caster"
+            },
+            {
+                "duration": 100,
                 "name": "Angelic Halo",
-                "source": "Angelic Halo"
+                "source": "Angelic Halo",
+                "targetFilter": "target"
             }
         ]
     },
@@ -1392,9 +1399,15 @@
         "gainConditions": [
             {
                 "duration": 10,
-                "name": "Inspire Competence",
+                "name": "Inspire Competence (Caster)",
                 "source": "Inspire Competence",
                 "targetFilter": "caster"
+            },
+            {
+                "duration": 10,
+                "name": "Inspire Competence",
+                "source": "Inspire Competence",
+                "targetFilter": "target"
             }
         ]
     },
@@ -1418,7 +1431,7 @@
             "Mental"
         ],
         "area": "60-foot emanation",
-        "target": "self",
+        "target": "area",
         "duration": "1 round",
         "desc": "You inspire your allies with words or tunes of encouragement. You and all allies in the area gain a +1 status bonus to attack rolls, damage rolls, and saves against fear effects.",
         "gainConditions": [
@@ -1426,6 +1439,14 @@
                 "duration": 10,
                 "name": "Inspire Courage",
                 "source": "Inspire Courage",
+                "targetFilter": "caster",
+                "value": 1
+            },
+            {
+                "duration": 10,
+                "name": "Inspire Courage",
+                "source": "Inspire Courage",
+                "targetFilter": "target",
                 "value": 1
             }
         ]
@@ -2638,7 +2659,7 @@
         ],
         "range": "60 feet",
         "area": "5-foot burst or more",
-        "target": "self",
+        "target": "area",
         "duration": "1 minute",
         "desc": "You create illusory hazards that cover all surfaces in the area (typically the ground). <var>var1</var>Any creature moving through the illusion treats the squares as difficult terrain. A creature can attempt to disbelieve the effect as normal after using a Seek action or otherwise spending actions interacting with the illusion. If it successfully disbelieves, it ignores the effect for the remaining duration. For each additional action you use casting the spell, the burst's radius increases by 5 feet, to a maximum of 10 extra feet for 3 actions.",
         "heightened": [
@@ -2651,7 +2672,8 @@
             {
                 "duration": 100,
                 "name": "Warped Terrain",
-                "source": "Warped Terrain"
+                "source": "Warped Terrain",
+                "targetFilter": "caster"
             }
         ],
         "desc1": [
@@ -2899,6 +2921,14 @@
                 "duration": 10,
                 "name": "Inspire Defense",
                 "source": "Inspire Defense",
+                "targetFilter": "caster",
+                "value": 1
+            },
+            {
+                "duration": 10,
+                "name": "Inspire Defense",
+                "source": "Inspire Defense",
+                "targetFilter": "target",
                 "value": 1
             }
         ]
@@ -2923,14 +2953,21 @@
             "Mental"
         ],
         "area": "60-foot emanation",
-        "target": "self",
+        "target": "area",
         "duration": "1 round",
         "desc": "You dance at a lively tempo, speeding your allies' movement. You and all allies in the area gain a +10-foot status bonus to all Speeds for 1 round.",
         "gainConditions": [
             {
                 "duration": 10,
                 "name": "Triple Time",
-                "source": "Triple Time"
+                "source": "Triple Time",
+                "targetFilter": "caster"
+            },
+            {
+                "duration": 10,
+                "name": "Triple Time",
+                "source": "Triple Time",
+                "targetFilter": "target"
             }
         ]
     },
@@ -3152,14 +3189,15 @@
             "Mental"
         ],
         "area": "30-foot emanation",
-        "target": "self",
+        "target": "area",
         "duration": "1 round",
         "desc": "Foes within the area are frightened 1. They can't reduce their frightened value below 1 while they remain in the area.",
         "gainConditions": [
             {
                 "duration": 10,
                 "name": "Dirge of Doom",
-                "source": "Dirge of Doom"
+                "source": "Dirge of Doom",
+                "targetFilter": "caster"
             }
         ]
     },
@@ -4218,7 +4256,7 @@
             "Wizard"
         ],
         "area": "30-foot-radius emanation centered on you",
-        "target": "self",
+        "target": "area",
         "sustained": 100,
         "duration": "sustained up to 1 minute",
         "desc": "You emit an aura of terror. Foes in the area are frightened 1 and unable to reduce the condition.",
@@ -4226,7 +4264,8 @@
             {
                 "duration": 100,
                 "name": "Dread Aura",
-                "source": "Dread Aura"
+                "source": "Dread Aura",
+                "targetFilter": "caster"
             }
         ]
     },
@@ -4568,7 +4607,7 @@
             "Enchantment"
         ],
         "inputRequired": "The next inspire courage or inspire defense you cast with will have a bonus depending on your Performance check.",
-        "target": "self",
+        "target": "area",
         "allowReturnFocusPoint": true,
         "desc": "You call upon your muse to greatly increase the benefits you provide to your allies with your inspire courage or inspire defense composition. If your next action is to cast inspire courage or inspire defense, attempt a Performance check. The DC is usually a very hard DC of a level equal to that of the highest-level target of your composition, but the GM can assign a different DC based on the circumstances. The effect of your inspire courage or inspire defense composition depends on the result of your check.",
         "critsuccess": "The status bonus from your inspire courage or inspire defense increases to +3.",
@@ -8533,7 +8572,7 @@
         ],
         "range": "touch",
         "area": "20-foot burst",
-        "target": "self",
+        "target": "area",
         "requirements": "3 gp silver bell focus",
         "duration": "8 hours",
         "desc": "You ward an area to alert you when creatures enter without your permission. When you cast alarm, select a password. Whenever a Small or larger corporeal creature enters the spell's area without speaking the password, alarm sends your choice of a mental alert (in which case the spell gains the mental trait) or an audible alarm with the sound and volume of a hand bell (in which case the spell gains the auditory trait). <var>var1</var>Either option automatically awakens you, and the bell allows each creature in the area to attempt a DC 15 Perception check to wake up. A creature aware of the alarm must succeed at a Stealth check against the spell's DC or trigger the spell when moving into the area.",
@@ -8547,7 +8586,8 @@
             {
                 "duration": 48000,
                 "name": "Alarm",
-                "source": "Alarm"
+                "source": "Alarm",
+                "targetFilter": "caster"
             }
         ],
         "desc1": [
@@ -10314,7 +10354,7 @@
         ],
         "range": "500 feet",
         "area": "20-foot burst",
-        "target": "self",
+        "target": "area",
         "duration": "10 minutes",
         "desc": "You create an illusory visual image of a stationary object. The entire image must fit within the spell's area. <var>var1</var>\n\nAny creature that touches the image or uses the Seek action to examine it can attempt to disbelieve your illusion.",
         "heightened": [
@@ -10331,7 +10371,8 @@
             {
                 "duration": -5,
                 "name": "Illusory Object",
-                "source": "Illusory Object"
+                "source": "Illusory Object",
+                "targetFilter": "caster"
             }
         ],
         "desc1": [
@@ -15016,14 +15057,15 @@
         ],
         "range": "120 feet",
         "area": "10-foot burst",
-        "target": "self",
+        "target": "area",
         "duration": "5 minutes",
         "desc": "All creatures in the area when you cast the spell are limned in colorful, heatless fire of a color of your choice for the duration. Visible creatures can't be concealed while affected by faerie fire. If the creatures are invisible, they are concealed while affected by faerie fire, rather than being undetected.",
         "gainConditions": [
             {
                 "duration": 500,
                 "name": "Faerie Fire",
-                "source": "Faerie Fire"
+                "source": "Faerie Fire",
+                "targetFilter": "caster"
             }
         ]
     },
@@ -26526,8 +26568,16 @@
         ],
         "range": "touch",
         "targets": "petrified creature or human-size stone object",
+        "target": "ally",
         "singleTarget": true,
-        "desc": "Manipulating the fundamental particles of matter, you convert stone into flesh and blood. You restore a petrified creature to its normal state or transform a stone object into a mass of inert flesh (without stone's Hardness) in roughly the same shape."
+        "desc": "Manipulating the fundamental particles of matter, you convert stone into flesh and blood. You restore a petrified creature to its normal state or transform a stone object into a mass of inert flesh (without stone's Hardness) in roughly the same shape.",
+        "gainConditions": [
+            {
+                "duration": 0,
+                "name": "Stone to Flesh",
+                "source": "Stone to Flesh"
+            }
+        ]
     },
     {
         "name": "Tangling Creepers",

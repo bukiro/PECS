@@ -233,7 +233,7 @@
                                                                                         [disabled]="cannotCast"
                                                                                         [ngbTooltip]="get_IsBloodMagicTrigger(spell, bloodMagicFeats) ? 'Casting this spell will trigger your blood magic power' : (!can_Activate(spell, bloodMagicFeats) ? 'The spell has no automatic effects.' : '')">
                                                                                         <span>
-                                                                                            {{spell.target == 'ally' ?
+                                                                                            {{spell.target != 'self' ?
                                                                                             "Cast on yourself" :
                                                                                             "Cast"}} <i class='bi-peace'
                                                                                                 *ngIf="!can_Activate(spell, bloodMagicFeats)"></i>

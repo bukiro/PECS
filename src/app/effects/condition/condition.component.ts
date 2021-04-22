@@ -77,8 +77,16 @@ export class ConditionComponent implements OnInit {
     }
 
     get_IsInformationalCondition() {
-        //Return whether the condition is purely informational, i.e. has no effects and is not currently causing any conditions.
-        return !this.condition.effects?.length && !this.condition.hints.some(hint => hint.effects?.length) && !this.characterService.get_AppliedConditions(this.get_Creature(), "", "", true).some(existingCondition => existingCondition.parentID == this.conditionGain.id);
+        //Return whether the condition has any effects beyond showing text, and if it causes or overrides any conditions, whether these currently exist.
+        return !(
+            this.condition.effects?.length ||
+            this.condition.hints.some(hint => hint.effects?.length) ||
+            this.condition.endConditions.length ||
+            this.condition.gainItems.length ||
+            this.condition.gainActivities.length ||
+            (this.condition.gainConditions.length ? this.characterService.get_AppliedConditions(this.get_Creature(), "", "", true).some(existingCondition => existingCondition.parentID == this.conditionGain.id) : false) ||
+            (this.condition.overrideConditions.length ? this.characterService.get_AppliedConditions(this.get_Creature(), "", "", true).some(existingCondition => this.condition.overrideConditions.includes(existingCondition.name)) : false)
+        )
     }
 
     change_ConditionDuration(gain: ConditionGain, condition: Condition, turns: number) {

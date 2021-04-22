@@ -5,7 +5,6 @@ import { ItemGain } from './ItemGain';
 import { AttackRestriction } from './AttackRestriction';
 import { SenseGain } from './SenseGain';
 import { Hint } from './Hint';
-import { Creature } from './Creature';
 import { Character } from './Character';
 import { ConditionChoice } from './ConditionChoice';
 import { CharacterService } from './character.service';
@@ -53,6 +52,14 @@ export class Condition {
     //This property is only used to select a default choice before adding the condition. It is not read when evaluating the condition.
     public choice: string = "";
     public unlimited: boolean = false;
+    get_HasEffects() {
+        //Return whether the condition has any effects beyond showing text.
+        return this.effects?.length || this.hints.some(hint => hint.effects?.length) || this.gainConditions.length || this.overrideConditions.length || this.endConditions.length || this.gainItems.length || this.gainActivities.length;
+    }
+    get_IsChangeable() {
+        //Return whether the condition has values that you can change.
+        return this.hasValue || this.allowRadiusChange;
+    }
     get_Choices(characterService: CharacterService, filtered: boolean = false, spellLevel: number = 0) {
         //If this.choice is not one of the available choices, set it to the first.
         if (this.choices.length && !this.choices.map(choice => choice.name).includes(this.choice)) {

@@ -116,9 +116,9 @@ Internal To Do list
 - [ ] Stretch Goal: Exporting statblock and files for other tools (e.g. Foundry VTT)
 
 Active to-do:
-- Make it so that when the target of a spell with target==ally is the caster, they only receive the target condition. First review all caster conditions and ensure that the caster condition is never needed if you have the target condition.
 
 Test:
+- Stone to Flesh
 
 Next steps:
 - Apply choiceBySubType to activities

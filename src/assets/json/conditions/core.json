@@ -8797,6 +8797,25 @@
     },
     {
         "name": "Angelic Halo",
+        "desc": "You are in the emanation of an angelic halo, and your healing from the heal spell is increased. Whenever you are healed by a heal spell, you gain a status bonus to Hit Points regained equal to double the heal spell's level.",
+        "type": "spells",
+        "minLevel": 1,
+        "SortLevel": 1,
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": 100
+            }
+        ],
+        "hints": [
+            {
+                "desc": "Whenever you are healed by a heal spell, you gain a status bonus to Hit Points regained equal to double the heal spell's level.",
+                "showon": "Health"
+            }
+        ]
+    },
+    {
+        "name": "Angelic Halo (Caster)",
         "desc": "You gain an angelic halo with an aura that increases allies' healing from the heal spell. Allies in your halo's emanation who are healed by a heal spell gain a status bonus to Hit Points regained equal to double the heal spell's level.",
         "type": "spells",
         "minLevel": 1,
@@ -8813,25 +8832,6 @@
                 "desc": "Allies in your halo's emanation who are healed by a heal spell gain a status bonus to Hit Points regained equal to double the heal spell's level.",
                 "showon": "Heal"
             },
-            {
-                "desc": "Whenever you are healed by a heal spell, you gain a status bonus to Hit Points regained equal to double the heal spell's level.",
-                "showon": "Health"
-            }
-        ]
-    },
-    {
-        "name": "Angelic Halo (Area)",
-        "desc": "You are in the emanation of an angelic halo, and your healing from the heal spell is increased. Whenever you are healed by a heal spell, you gain a status bonus to Hit Points regained equal to double the heal spell's level.",
-        "type": "spells",
-        "minLevel": 1,
-        "SortLevel": 1,
-        "buff": true,
-        "defaultDurations": [
-            {
-                "duration": 100
-            }
-        ],
-        "hints": [
             {
                 "desc": "Whenever you are healed by a heal spell, you gain a status bonus to Hit Points regained equal to double the heal spell's level.",
                 "showon": "Health"
@@ -10745,6 +10745,27 @@
     },
     {
         "name": "Inspire Competence",
+        "desc": "The caster's encouragement inspires you to succeed at a task. They can Aid you on a skill check of their choice, rolling Performance instead of the normal skill check, and if they roll a failure, they get a success instead. If the caster is legendary in Performance, they automatically critically succeed.",
+        "type": "spells",
+        "minLevel": 1,
+        "SortLevel": 1,
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": 10
+            }
+        ],
+        "choices": [
+            {
+                "name": "-"
+            },
+            {
+                "name": "harmonized"
+            }
+        ]
+    },
+    {
+        "name": "Inspire Competence (Caster)",
         "desc": "Your encouragement inspires your ally to succeed at a task. This counts as having taken sufficient preparatory actions to Aid your ally on a skill check of your choice, regardless of the circumstances. When you later use the Aid reaction, you can roll Performance instead of the normal skill check, and if you roll a failure, you get a success instead. If you are legendary in Performance, you automatically critically succeed.\n\nThe GM might rule that you can't use this ability if the act of encouraging your ally would interfere with the skill check (such as a check to Sneak quietly or maintain a disguise).",
         "type": "spells",
         "minLevel": 1,
@@ -23565,6 +23586,20 @@
             {
                 "name": "Water"
             }
+        ]
+    },
+    {
+        "name": "Stone to Flesh",
+        "desc": "(Stone to Flesh removes Petrified, then immediately ends. It cannot be added manually.)",
+        "type": "hidden",
+        "SortLevel": 6,
+        "defaultDurations": [
+            {
+                "duration": 0
+            }
+        ],
+        "endConditions": [
+            "Petrified"
         ]
     },
     {
