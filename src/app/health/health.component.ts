@@ -90,11 +90,8 @@ export class HealthComponent implements OnInit {
     get_Waiting(duration: number) {
         let result: string = "";
         this.characterService.get_Creatures().forEach(creature => {
-            if (this.characterService.get_AppliedConditions(creature, "", "", true).some(gain => (gain.nextStage < duration && gain.nextStage > 0) || gain.nextStage == -1)) {
-                result = "One or more conditions" + (creature.type != "Character" ? " on your " + creature.type : "") + " need your attention before you can rest.";
-            }
-            if (this.characterService.get_AppliedConditions(creature, "", "", true).some(gain => (gain.duration == 1))) {
-                result = "One or more instant effects" + (creature.type != "Character" ? " on your " + creature.type : "") + " need to be resolved before you can rest.";
+            if (this.characterService.get_AppliedConditions(creature, "", "", true).some(gain => (gain.nextStage < duration && gain.nextStage > 0) || gain.nextStage == -1 || gain.duration == 1)) {
+                result = "One or more conditions" + (creature.type != "Character" ? " on your " + creature.type : "") + " need to be resolved before you can rest.";
             }
             if (this.characterService.get_Health(creature).temporaryHP.length > 1) {
                 result = "You need to select one set of temporary Hit Points" + (creature.type != "Character" ? " on your " + creature.type : "") + " before you can rest.";

@@ -7236,8 +7236,8 @@
         "effects": [
             {
                 "affected": "Actions per Turn",
-                "setValue": "(object.duration == -1 ? 0 : null)",
-                "value": "(object.duration == -1 ? 0 : -Value)"
+                "setValue": "(object.duration == -1 ? null : 0)",
+                "value": "(object.duration == -1 ? -Value : 0)"
             }
         ],
         "overrideConditions": [
@@ -15083,7 +15083,7 @@
         "buff": true,
         "defaultDurations": [
             {
-                "duration": 15
+                "duration": 11
             }
         ]
     },

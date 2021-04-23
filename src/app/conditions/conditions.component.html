@@ -70,7 +70,7 @@
                                 <ng-template #conditionTemplate>
                                     <div>
                                         <strong>{{condition.name}}</strong>&nbsp;
-                                        <div class="newrow" *ngIf="condition.hasValue">
+                                        <div class="newrow" *ngIf="condition.hasValue && !(!permanent && condition.name == 'Stunned')">
                                             <span>
                                                 Value: <select [(ngModel)]="value">
                                                     <option

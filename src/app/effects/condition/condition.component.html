@@ -38,7 +38,7 @@
                             {{conditionGain.value}}
                         </span>
                         <span
-                            *ngIf="conditionGain.value && !(conditionGain.valueLockedByParent && conditionGain.parentID)">
+                            *ngIf="conditionGain.value && !(conditionGain.valueLockedByParent && conditionGain.parentID) && !(conditionGain.name == 'Stunned' && conditionGain.duration != -1)">
                             <input id="{{conditionGain.id+'value'}}" class="invisible" type="checkbox"
                                 [(ngModel)]="conditionGain.showValue">
                             <label for="{{conditionGain.id+'value'}}" [ngbTooltip]="'Change value'"
@@ -76,7 +76,7 @@
                     Remove
                 </button>
                 <button (click)="remove_Condition(conditionGain)"
-                    [ngbTooltip]="'Instant effects should be resolved immediately and then ended.'"
+                    [ngbTooltip]="'This condition should be resolved immediately and then ended.'"
                     *ngIf="conditionGain.duration == 1">
                     Done
                 </button>

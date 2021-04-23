@@ -193,7 +193,7 @@ export class TimeService {
         } else if (duration == -1) {
             return inASentence ? "permanently" : "Permanent";
         } else if (duration == 1) {
-            return inASentence ? "instantly" : "Instant effect";
+            return inASentence ? "until resolved" : "Until resolved";
         } else {
             let returnString: string = ""
             //Cut off anything that isn't divisible by 5
@@ -238,7 +238,7 @@ export class TimeService {
                 returnString = inASentence ? "for 0 turns" : "0 turns" ;
             }
             if (remainder == 1) {
-                returnString += inASentence ? ", then instantly" : ", then instant";
+                returnString += ", then until resolved";
             }
             return returnString.trim();
         }

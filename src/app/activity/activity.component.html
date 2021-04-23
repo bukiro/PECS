@@ -59,7 +59,7 @@
                 [ngbTooltip]="gain.activeCooldown ? (maxCharges ? 'Recharged in: ' : 'Cooldown: ') + get_Duration(gain.activeCooldown, true, false) : ''"
                 *ngIf="gain.name != 'Fused Stance' && activity.can_Activate() && gain.active">
                 <button class="newrow center-aligned" (click)="on_Activate(gain, activity, false, creature)">
-                    {{gain.duration==1 ? "Done (instant effect)" : "" }} {{gain.duration !=1 ? (activity.sustained
+                    {{gain.duration==1 ? "Done" : "" }} {{gain.duration !=1 ? (activity.sustained
                     ? "Stop Sustaining" : "Deactivate" ) : "" }} {{(gain.duration && gain.duration !=1) ? "(" +
                     get_Duration(gain.duration) + " remaining)" : "" }} {{maxCharges ? "(" + (maxCharges -
                     gain.chargesUsed) + " of " + maxCharges + " charges)" : "" }} </button>

@@ -382,7 +382,7 @@ export class ConditionsService {
             characterService.set_ToChange(creature.type, "defense");
         }
 
-        //Update Time and Health if the condition has an instant duration.
+        //Update Time and Health if the condition needs attention.
         if (gain.duration == 1) {
             characterService.set_ToChange(creature.type, "time");
             characterService.set_ToChange(creature.type, "health");

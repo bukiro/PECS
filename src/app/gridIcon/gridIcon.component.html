@@ -8,7 +8,7 @@
     <div [innerHtml]="get_IconTitle()"></div>
 </span>
 <span class="iconSubTitle disable-text-selection" [innerHtml]="get_IconSubTitle()"></span>
-<ng-container *ngIf="(condition?.duration < condition?.maxDuration) || (effect?.duration < effect?.maxDuration)">
+<ng-container *ngIf="condition?.maxDuration > 0 || effect?.duration > 0">
     <ng-container *ngFor="let overlay of get_DurationOverlays(); trackBy:trackByIndex;">
         <div class="gridicon-time-overlay" [style.--offset]="overlay.offset" [style.--percentage]="overlay.percentage"
             [style.--over50]="overlay.over50" [ngClass]="{'transition5':!overlay.over50}"></div>

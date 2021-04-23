@@ -16548,7 +16548,7 @@
         "critfailure": "The creature is pushed 20 feet in the wave's direction, is knocked prone, and takes 3d6 bludgeoning damage.",
         "gainConditions": [
             {
-                "duration": 15,
+                "duration": 11,
                 "name": "Sea Surge",
                 "source": "Sea Surge",
                 "targetFilter": "caster"

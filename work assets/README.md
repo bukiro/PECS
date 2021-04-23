@@ -122,10 +122,8 @@ Test:
 Next steps:
 - Create Pop-up slider for number fields to increase accessibility and save space where sliders are already used - ideally with an automatic component (but it needs to write back into the calling element's value)
 - Possibly Create tag that automatically inserts a dice rolling button for the included text
-- Implement conditions with duration X+1 to allow for conditions that are instant (i.e. need attention) after their duration. (Start with sea surge with duration 11)
 - Find a better way to implement losing all effects from armor (effectively unequipping your armor) from Gaseous Form
 - Also find a better way to implement Mage Armor without losing your current armor
-- Don't show Stunned value if the condition is not permanent
 - If caster condition and target condition have the same choices, only show one set and apply to both. (Try on Fey Glamour)
 -- (Check if there are any spells that effectively cause more than two conditions with choices (caster and target), and if not, maybe the entire choices mechanism can be reduced to one set)
 -- If target is area, or if target is other and targetNumber is > 1, don't allow Saving Throw choices for the caster condition (if there are choices, assume choice with longest duration)
