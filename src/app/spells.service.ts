@@ -116,31 +116,34 @@ export class SpellsService {
         // (because it's much more difficult to change the spell duration -and- the condition duration).
         if (spell.get_HeightenedConditions(spellLevel)) {
             if (activated) {
-                let choicesIndex = 0;
                 let conditions = spell.get_HeightenedConditions(spellLevel);
                 let hasTargetCondition: boolean = conditions.some(conditionGain => conditionGain.targetFilter != "caster");
                 let hasCasterCondition: boolean = conditions.some(conditionGain => conditionGain.targetFilter == "caster");
                 //Do the target and the caster get the same condition?
                 let sameCondition: boolean = hasTargetCondition && hasCasterCondition && Array.from(new Set(conditions.map(conditionGain => conditionGain.name))).length == 1;
-                conditions.forEach(conditionGain => {
+                conditions.forEach((conditionGain, conditionIndex) => {
                     let newConditionGain = Object.assign(new ConditionGain(), conditionGain);
                     let condition = conditionsService.get_Conditions(conditionGain.name)[0]
-                    if (gain.overrideChoices.length && gain.overrideChoices.some(overrideChoice => overrideChoice.condition == condition.name && condition.$choices.includes(overrideChoice.choice))) {
-                        //If this condition has choices, and the gain has an override choice prepared that matches one of them, this choice is used.
-                        newConditionGain.choice = gain.overrideChoices.find(overrideChoice => overrideChoice.condition == condition.name && condition.$choices.includes(overrideChoice.choice)).choice;
-                    } else if (gain.choices.length >= choicesIndex - 1) {
-                        //If this condition has choices, and the gain has choices prepared, apply the choice from the gain.
-                        // The order of gain.choices maps directly onto the order of the spell conditions that have choices.
-                        if (condition?.get_Choices(characterService, true, spellLevel).length && condition.$choices.includes(gain.choices[choicesIndex])) {
-                            newConditionGain.choice = gain.choices[choicesIndex];
-                            choicesIndex++;
-                        }
-                    }
-                    //If there is a choiceBySubType value, and you have a feat with superType == choiceBySubType, set the choice to that feat's subType as long as it's a valid choice for the condition. This overrides any manual choice.
-                    if (newConditionGain.choiceBySubType) {
-                        let subType = (characterService.get_FeatsAndFeatures(newConditionGain.choiceBySubType, "", true, true).find(feat => feat.superType == newConditionGain.choiceBySubType && feat.have(creature, characterService, creature.level, false)));
-                        if (subType && condition.choices.map(choice => choice.name).includes(subType.subType)) {
-                            newConditionGain.choice = subType.subType;
+                    //Unless the conditionGain has a choice set, try to set it by various factors.
+                    if (!conditionGain.choice) {
+                        if (conditionGain.copyChoiceFrom && gain.effectChoices.length) {
+                            //If the gain has copyChoiceFrom set, use the choice from the designated condition. If there are multiple conditions with the same name, the first is taken.
+                            newConditionGain.choice = gain.effectChoices.find(choice => choice.condition == conditionGain.copyChoiceFrom)?.choice || condition.choice;
+                        } else if (gain.overrideChoices.length && gain.overrideChoices.some(overrideChoice => overrideChoice.condition == condition.name && condition.$choices.includes(overrideChoice.choice))) {
+                            //If the gain has an override choice prepared that matches this condition and is allowed for it, that choice is used.
+                            newConditionGain.choice = gain.overrideChoices.find(overrideChoice => overrideChoice.condition == condition.name && condition.$choices.includes(overrideChoice.choice)).choice;
+                        } else if (newConditionGain.choiceBySubType) {
+                            //If there is a choiceBySubType value, and you have a feat with superType == choiceBySubType, set the choice to that feat's subType as long as it's a valid choice for the condition.
+                            let subType = (characterService.get_FeatsAndFeatures(newConditionGain.choiceBySubType, "", true, true).find(feat => feat.superType == newConditionGain.choiceBySubType && feat.have(creature, characterService, creature.level, false)));
+                            if (subType && condition.choices.some(choice => choice.name == subType.subType)) {
+                                newConditionGain.choice = subType.subType;
+                            }
+                        } else if (gain.effectChoices.length) {
+                            //If this condition has choices, and the spellGain has choices prepared, apply the choice from the gain.
+                            //The order of gain.effectChoices maps directly onto the order of the conditions, no matter if they have choices.
+                            if (condition.$choices.includes(gain.effectChoices[conditionIndex].choice)) {
+                                newConditionGain.choice = gain.effectChoices[conditionIndex].choice;
+                            }
                         }
                     }
                     //Under certain circumstances, don't grant caster conditions:

@@ -1,11 +1,14 @@
-<ng-container *ngFor="let traits of [(item.get_Traits ? item.get_Traits(characterService, get_Creature()) : item.traits)]; trackBy:trackByIndex">
+<ng-container
+    *ngFor="let traits of [(item.get_Traits ? item.get_Traits(characterService, get_Creature()) : item.traits)]; trackBy:trackByIndex">
     <div class="newrow left-aligned tags" *ngIf="traits.length">
-        <cite class="trait" *ngFor="let trait of traits; trackBy:trackByIndex;" [ngbPopover]="get_Traits(trait)[0].desc">{{trait}}</cite>
+        <cite class="trait" *ngFor="let trait of traits; trackBy:trackByIndex;"
+            [ngbPopover]="get_Traits(trait)[0].desc">{{trait}}</cite>
     </div>
 </ng-container>
 
 <div class="newrow left-aligned tags">
-    <app-tags [creature]="creature" [objectName]="item.name" [showTraits]=true [showFeats]=true [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
+    <app-tags [creature]="creature" [objectName]="item.name" [showTraits]=true [showFeats]=true [showItems]=true
+        [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
 </div>
 <div class="newrow left-aligned" *ngIf="item.sourceBook">
     <span>
@@ -85,7 +88,8 @@
             [ngClass]="{'penalty':(item.get_MaxHP() < item.hitpoints), 'bonus':(item.get_MaxHP() > item.hitpoints)}">&nbsp;{{item.get_MaxHP
             ? item.get_MaxHP() : item.hitpoints}}
         </span>
-    <span *ngIf="item.brokenThreshold" [ngClass]="{'penalty':(item.get_BrokenThreshold() < item.brokenThreshold), 'bonus':(item.get_BrokenThreshold() > item.brokenThreshold)}">({{item.get_BrokenThreshold
+        <span *ngIf="item.brokenThreshold"
+            [ngClass]="{'penalty':(item.get_BrokenThreshold() < item.brokenThreshold), 'bonus':(item.get_BrokenThreshold() > item.brokenThreshold)}">({{item.get_BrokenThreshold
             ? item.get_BrokenThreshold() : item.brokenThreshold}})
         </span> &nbsp;
     </span>
@@ -221,7 +225,8 @@
         </select>
     </div>
     <div class="newrow left-aligned" *ngIf="item.isDoublingRings == 'Doubling Rings (Greater)'">
-        <input id="{{item.id}}doublingRingsApplyPropertyRunes" type="checkbox" [(ngModel)]="item.data[2]" (ngModelChange)="on_DoublingRingsChange()">
+        <input id="{{item.id}}doublingRingsApplyPropertyRunes" type="checkbox" [(ngModel)]="item.data[2]"
+            (ngModelChange)="on_DoublingRingsChange()">
         <label for="{{item.id}}doublingRingsApplyPropertyRunes">&nbsp;Apply property runes</label>
     </div>
 </div>
@@ -230,7 +235,8 @@
     <div *ngFor="let spell of get_Spells(cast.name); trackBy:trackByIndex;">
         <header class="spellHeader">{{spell.name}}
             <app-actionIcons [actionString]="spell.actions">
-            </app-actionIcons> {{spell.castType.toString()}}</header>
+            </app-actionIcons> {{spell.castType.toString()}}
+        </header>
         <app-spell [spell]=spell [spellLevel]="(cast.level) ? cast.level : 0"></app-spell>
     </div>
 </div>
@@ -248,7 +254,7 @@
     <app-item [item]=armoredSkirt></app-item>
 </div>
 <div class="list-item left-aligned" *ngFor="let choice of get_StoredSpells(item); trackBy:trackByIndex;">
-    <app-spellchoice [choice]="choice" [showHeightened]="true" [level]="choice.level" [itemSpell]="true">
+    <app-spellchoice class="newrow" [choice]="choice" [showHeightened]="true" [level]="choice.level" [itemSpell]="true">
     </app-spellchoice>
 </div>
 <div class="list-item left-aligned" *ngFor="let choice of get_StoredSpellsTaken(item); trackBy:trackByIndex;">
@@ -256,19 +262,38 @@
         <div *ngFor="let spell of get_Spells(taken.name); trackBy:trackByIndex;">
             <header class="spellHeader">{{spell.name}}
                 <app-actionIcons [actionString]="spell.actions">
-                </app-actionIcons> {{spell.castType.toString()}}</header>
-            <app-spell [spell]=spell [spellLevel]="(taken.level) ? taken.level : (choice.level ? choice.level : 0)"></app-spell>
+                </app-actionIcons> {{spell.castType.toString()}}
+            </header>
+            <ng-container *ngIf="!itemStore">
+                <ng-container
+                    *ngFor="let conditionSet of get_SpellConditions(spell, choice.level, taken); let conditionSetIndex = index; trackBy:trackByIndex">
+                    <div class="newrow list-item left-aligned"
+                        *ngIf="conditionSet.condition.$choices.length && !conditionSet.gain.choiceBySubType && !conditionSet.gain.choiceLocked && !conditionSet.gain.copyChoiceFrom && !conditionSet.gain.hideChoices">
+                        <span>{{conditionSet.condition.name}}
+                            effect selection:
+                            <select [(ngModel)]="taken.effectChoices[conditionSetIndex].choice">
+                                <option *ngFor="let choice of conditionSet.condition.$choices; trackBy:trackByIndex;"
+                                    [ngValue]="choice">
+                                    {{choice}}
+                                </option>
+                            </select>
+                        </span>
+                    </div>
+                </ng-container>
+            </ng-container>
+            <app-spell [spell]=spell [spellLevel]="(taken.level) ? taken.level : (choice.level ? choice.level : 0)">
+            </app-spell>
         </div>
     </ng-container>
 </div>
-
 <div class="list-item left-aligned" *ngFor="let activity of item.activities; trackBy:trackByIndex;">
     <header class="spellHeader" *ngIf="activity.name">
         {{activity.name}}
         <app-actionIcons [actionString]="activity.actions">
         </app-actionIcons>{{(activity.activationType) ? activity.activationType : ""}}
     </header>
-    <app-activity [creature]="creature" [activity]=activity [gain]=activity [allowActivate]="allowActivate && !item.broken && (activity.resonant ? isSubItem : true)" [isSubItem]=isSubItem>
+    <app-activity [creature]="creature" [activity]=activity [gain]=activity
+        [allowActivate]="allowActivate && !item.broken && (activity.resonant ? isSubItem : true)" [isSubItem]=isSubItem>
     </app-activity>
 </div>
 <ng-container *ngFor="let gain of item.gainActivities; trackBy:trackByIndex;">
@@ -278,7 +303,8 @@
             <app-actionIcons [actionString]="activity.actions">
             </app-actionIcons>{{(activity.activationType) ? activity.activationType : ""}}
         </header>
-        <app-activity [creature]="creature" [activity]=activity [gain]=gain [allowActivate]=allowActivate [isSubItem]=isSubItem></app-activity>
+        <app-activity [creature]="creature" [activity]=activity [gain]=gain [allowActivate]=allowActivate
+            [isSubItem]=isSubItem></app-activity>
     </div>
 </ng-container>
 <ng-container *ngFor="let activityName of item.showActivities; trackBy:trackByIndex;">

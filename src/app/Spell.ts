@@ -113,7 +113,7 @@ export class Spell {
             return 1;
         }
     }
-    get_HeightenedConditions(levelNumber: number) {
+    get_HeightenedConditions(levelNumber: number = this.levelreq) {
         //This descends through the level numbers, starting with levelNumber and returning the first set of ConditionGains found with a matching heightenedfilter.
         //If a heightenedFilter is found, the unheightened ConditionGains are returned as well.
         //If there are no ConditionGains with a heightenedFilter, return all.

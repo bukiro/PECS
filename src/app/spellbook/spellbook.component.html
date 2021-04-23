@@ -117,7 +117,7 @@
                                                             *ngIf="choicesIndex == 0">Level {{level}} Temporary Spell
                                                             Selections
                                                         </header>
-                                                        <app-spellchoice
+                                                        <app-spellchoice class="newrow"
                                                             (showChoiceMessage)="receive_ChoiceMessage($event)"
                                                             (showSpellMessage)="receive_SpellMessage($event)"
                                                             [spellCasting]="casting" [choice]="choice"
@@ -319,15 +319,15 @@
                                                                                     </button>
                                                                                 </div>
                                                                                 <ng-container
-                                                                                    *ngFor="let condition of get_SpellConditions(spell, effectiveSpellLevel, spellTaken.gain); let conditionIndex = index; trackBy:trackByIndex">
+                                                                                    *ngFor="let conditionSet of get_SpellConditions(spell, effectiveSpellLevel, spellTaken.gain); let conditionSetIndex = index; trackBy:trackByIndex">
                                                                                     <div class="newrow list-item left-aligned"
-                                                                                        *ngIf="condition.choices.length">
-                                                                                        <span>{{condition.name}} effect
-                                                                                            selection:
+                                                                                        *ngIf="conditionSet.condition.$choices.length && !conditionSet.gain.choiceBySubType && !conditionSet.gain.choiceLocked && !conditionSet.gain.copyChoiceFrom && !conditionSet.gain.hideChoices">
+                                                                                        <span>{{conditionSet.condition.name}}
+                                                                                            effect selection:
                                                                                             <select
-                                                                                                [(ngModel)]="spellTaken.gain.choices[conditionIndex]">
+                                                                                                [(ngModel)]="spellTaken.gain.effectChoices[conditionSetIndex].choice">
                                                                                                 <option
-                                                                                                    *ngFor="let choice of condition.$choices; trackBy:trackByIndex;"
+                                                                                                    *ngFor="let choice of conditionSet.condition.$choices; trackBy:trackByIndex;"
                                                                                                     [ngValue]="choice">
                                                                                                     {{choice}}
                                                                                                 </option>

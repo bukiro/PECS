@@ -114,18 +114,22 @@
             <app-tags [creature]="creature" [objectName]="activity.name" [showTraits]=true [showFeats]=true
                 [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
         </div>
-        <div class="newrow left-aligned"
-            *ngFor="let condition of get_ActivityConditions(); let conditionIndex = index; trackBy:trackByIndex">
-            <div class="newrow list-item" *ngIf="condition && condition.choices.length">
-                <span>{{condition.name}} Effect selection:
-                    <select [(ngModel)]="gain.effectChoices[conditionIndex]" (ngModelChange)="on_EffectChoiceChange()">
-                        <option *ngFor="let choice of condition.$choices; trackBy:trackByIndex;" [ngValue]="choice">
+        <ng-container
+            *ngFor="let conditionSet of get_ActivityConditions(); let conditionSetIndex = index; trackBy:trackByIndex">
+            <div class="newrow list-item left-aligned"
+                *ngIf="conditionSet.condition.$choices.length && !conditionSet.gain.choiceBySubType && !conditionSet.gain.choiceLocked && !conditionSet.gain.copyChoiceFrom && !conditionSet.gain.hideChoices">
+                <span>{{conditionSet.condition.name}} effect
+                    selection:
+                    <select [(ngModel)]="gain.effectChoices[conditionSetIndex].choice"
+                        (ngModelChange)="on_EffectChoiceChange()">
+                        <option *ngFor="let choice of conditionSet.condition.$choices; trackBy:trackByIndex;"
+                            [ngValue]="choice">
                             {{choice}}
                         </option>
                     </select>
                 </span>
             </div>
-        </div>
+        </ng-container>
         <div class="list-item lower newrow problem" *ngIf="activity.inputRequired">
             <strong>Player input required:</strong>
             <div class="newrow left-aligned">
@@ -228,20 +232,19 @@
                     </app-actionIcons>{{spell.castType.toString()}}
                 </header>
                 <ng-container
-                    *ngFor="let condition of get_SpellConditions(cast, spellCastIndex); let conditionIndex = index; trackBy:trackByIndex">
-                    <ng-container *ngIf="!cast.hideChoices.includes(condition.name)">
-                        <div class="newrow list-item" *ngIf="condition && condition.choices.length">
-                            <span>{{condition.name}} Effect selection:
-                                <select [(ngModel)]="gain.spellEffectChoices[spellCastIndex][conditionIndex]"
-                                    (ngModelChange)="on_EffectChoiceChange()">
-                                    <option *ngFor="let choice of condition.$choices; trackBy:trackByIndex;"
-                                        [ngValue]="choice">
-                                        {{choice}}
-                                    </option>
-                                </select>
-                            </span>
-                        </div>
-                    </ng-container>
+                    *ngFor="let conditionSet of get_SpellConditions(cast, spellCastIndex); let conditionSetIndex = index; trackBy:trackByIndex">
+                    <div class="newrow list-item left-aligned"
+                        *ngIf="!cast.hideChoices.includes(conditionSet.condition.name) && conditionSet.condition.$choices.length && !conditionSet.gain.choiceBySubType && !conditionSet.gain.choiceLocked && !conditionSet.gain.copyChoiceFrom && !conditionSet.gain.hideChoices">
+                        <span>{{conditionSet.condition.name}} effect selection:
+                            <select [(ngModel)]="gain.spellEffectChoices[spellCastIndex][conditionSetIndex].choice"
+                                (ngModelChange)="on_EffectChoiceChange()">
+                                <option *ngFor="let choice of conditionSet.condition.$choices; trackBy:trackByIndex;"
+                                    [ngValue]="choice">
+                                    {{choice}}
+                                </option>
+                            </select>
+                        </span>
+                    </div>
                 </ng-container>
                 <app-spell [spell]=spell [spellLevel]="(cast.level) ? cast.level : 0"></app-spell>
             </div>

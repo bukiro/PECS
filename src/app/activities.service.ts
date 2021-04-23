@@ -176,16 +176,22 @@ export class ActivitiesService {
                     if (!newConditionGain.source) {
                         newConditionGain.source = activity.name;
                     }
-                    //If this ActivityGain has effectChoices prepared, and the conditionGain does not include a choice, apply the choice to the conditionGain.
-                    // The order of gain.effectChoices maps directly onto the order of the conditions, no matter if they have choices.
+                    //Unless the conditionGain has a choice set, try to set it by various factors.
                     if (!newConditionGain.choice) {
-                        newConditionGain.choice = gain.effectChoices?.[conditionIndex] || "";
-                    }
-                    //If there is a choiceBySubType value, and you have a feat with superType == choiceBySubType, set the choice to that feat's subType as long as it's a valid choice for the condition. This overrides any manual choice.
-                    if (newConditionGain.choiceBySubType) {
-                        let subType = (characterService.get_FeatsAndFeatures(newConditionGain.choiceBySubType, "", true, true).find(feat => feat.superType == newConditionGain.choiceBySubType && feat.have(creature, characterService, creature.level, false)));
-                        if (subType && condition.choices.map(choice => choice.name).includes(subType.subType)) {
-                            newConditionGain.choice = subType.subType;
+                        if (newConditionGain.copyChoiceFrom) {
+                            newConditionGain.choice = gain.effectChoices.find(choice => choice.condition == conditionGain.copyChoiceFrom)?.choice || condition.choice;
+                        } else if (newConditionGain.choiceBySubType) {
+                            //If there is a choiceBySubType value, and you have a feat with superType == choiceBySubType, set the choice to that feat's subType as long as it's a valid choice for the condition.
+                            let subType = (characterService.get_FeatsAndFeatures(newConditionGain.choiceBySubType, "", true, true).find(feat => feat.superType == newConditionGain.choiceBySubType && feat.have(creature, characterService, creature.level, false)));
+                            if (subType && condition.choices.map(choice => choice.name).includes(subType.subType)) {
+                                newConditionGain.choice = subType.subType;
+                            }
+                        } else if (gain.effectChoices.length) {
+                            //If this condition has choices, and the activityGain has choices prepared, apply the choice from the gain.
+                            //The order of gain.effectChoices maps directly onto the order of the conditions, no matter if they have choices.
+                            if (condition.$choices.includes(gain.effectChoices[conditionIndex].choice)) {
+                                newConditionGain.choice = gain.effectChoices[conditionIndex].choice;
+                            }
                         }
                     }
                     if (newConditionGain.duration == -5) {
@@ -257,7 +263,7 @@ export class ActivitiesService {
                 let librarySpell = spellsService.get_Spells(cast.name)[0];
                 if (librarySpell) {
                     if (activated && gain.spellEffectChoices[spellCastIndex].length) {
-                        cast.spellGain.choices = gain.spellEffectChoices[spellCastIndex];
+                        cast.spellGain.effectChoices = gain.spellEffectChoices[spellCastIndex];
                     }
                     if (cast.overrideChoices.length) {
                         //If the SpellCast has overrideChoices, copy them to the SpellGain.

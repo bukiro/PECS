@@ -124,10 +124,8 @@ Next steps:
 - Possibly Create tag that automatically inserts a dice rolling button for the included text
 - Find a better way to implement losing all effects from armor (effectively unequipping your armor) from Gaseous Form
 - Also find a better way to implement Mage Armor without losing your current armor
-- If caster condition and target condition have the same choices, only show one set and apply to both. (Try on Fey Glamour)
--- (Check if there are any spells that effectively cause more than two conditions with choices (caster and target), and if not, maybe the entire choices mechanism can be reduced to one set)
--- If target is area, or if target is other and targetNumber is > 1, don't allow Saving Throw choices for the caster condition (if there are choices, assume choice with longest duration)
 - Create dialog for choosing targets if target is area or targetNumber is > 0 and target is ally
+-- If target is area, or if target is other and targetNumber is > 1, don't show or respect Saving Throw choices for the caster condition (if there are choices, assume choice with longest duration)
 - Create method for sending target conditions to another character in another session
 - Implement manual mode
 - Quick Effects button for Skills and Attacks (and quick removal button for manual effects)

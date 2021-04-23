@@ -60,7 +60,7 @@ export class Condition {
         //Return whether the condition has values that you can change.
         return this.hasValue || this.allowRadiusChange;
     }
-    get_Choices(characterService: CharacterService, filtered: boolean = false, spellLevel: number = 0) {
+    get_Choices(characterService: CharacterService, filtered: boolean = false, spellLevel: number = this.minLevel) {
         //If this.choice is not one of the available choices, set it to the first.
         if (this.choices.length && !this.choices.map(choice => choice.name).includes(this.choice)) {
             this.choice == this.choices[0].name;

@@ -13,6 +13,10 @@ import { SpellGain } from '../SpellGain';
 import { AlchemicalPoison } from '../AlchemicalPoison';
 import { Weapon } from '../Weapon';
 import { NgbPopoverConfig } from '@ng-bootstrap/ng-bootstrap';
+import { Spell } from '../Spell';
+import { ConditionGain } from '../ConditionGain';
+import { Condition } from '../Condition';
+import { ConditionsService } from '../conditions.service';
 
 @Component({
     selector: 'app-item',
@@ -40,6 +44,7 @@ export class ItemComponent implements OnInit {
         public characterService: CharacterService,
         private itemsService: ItemsService,
         private spellsService: SpellsService,
+        private conditionsService: ConditionsService,
         popoverConfig: NgbPopoverConfig
     ) {
         popoverConfig.autoClose = "outside";
@@ -175,6 +180,27 @@ export class ItemComponent implements OnInit {
 
     get_StoredSpellsTaken(item: Item) {
         return item.storedSpells.filter(choice => choice.spells.length);
+    }
+
+    get_SpellConditions(spell: Spell, spellLevel: number, gain: SpellGain) {
+        //For all conditions that are included with this spell on this level, create an effectChoice on the gain and set it to the default choice, if any. Add the name for later copyChoiceFrom actions.
+        let conditionSets: { gain: ConditionGain, condition: Condition }[] = [];
+        spell.get_HeightenedConditions(spellLevel)
+            .map(conditionGain => { return { gain: conditionGain, condition: this.conditionsService.get_Conditions(conditionGain.name)[0] } })
+            .forEach((conditionSet, index) => {
+                //Create the temporary list of currently available choices.
+                conditionSet.condition?.get_Choices(this.characterService, true, (conditionSet.gain.heightened ? conditionSet.gain.heightened : spellLevel));
+                //Add the condition to the selection list. Conditions with no choices or with automatic choices will not be displayed.
+                conditionSets.push(conditionSet);
+                //Then if the gain doesn't have a choice at that index or the choice isn't among the condition's choices, insert or replace that choice on the gain.
+                while (!gain.effectChoices.length || gain.effectChoices.length < index - 1) {
+                    gain.effectChoices.push({ condition: conditionSet.condition.name, choice: conditionSet.condition.choice });
+                }
+                if (!conditionSet.condition.$choices.includes(gain.effectChoices?.[index]?.choice)) {
+                    gain.effectChoices[index] = { condition: conditionSet.condition.name, choice: conditionSet.condition.choice };
+                }
+            })
+        return conditionSets;
     }
 
     on_SpellItemUse(item: Item) {

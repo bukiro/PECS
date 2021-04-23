@@ -583,7 +583,6 @@
             {
                 "duration": 100,
                 "choiceBySubType": "Dragon Type",
-                "hideChoices": true,
                 "name": "Dragon Claws",
                 "source": "Dragon Claws"
             }
@@ -1405,6 +1404,7 @@
             },
             {
                 "duration": 10,
+                "copyChoiceFrom": "Inspire Competence (Caster)",
                 "name": "Inspire Competence",
                 "source": "Inspire Competence",
                 "targetFilter": "target"
@@ -1444,6 +1444,7 @@
             },
             {
                 "duration": 10,
+                "copyChoiceFrom": "Inspire Courage",
                 "name": "Inspire Courage",
                 "source": "Inspire Courage",
                 "targetFilter": "target",
@@ -1904,6 +1905,7 @@
             },
             {
                 "duration": 15,
+                "copyChoiceFrom": "Physical Boost (Caster)",
                 "name": "Physical Boost",
                 "source": "Physical Boost",
                 "targetFilter": "target"
@@ -2501,9 +2503,8 @@
                 "targetFilter": "caster"
             },
             {
-                "duration": 100,
-                "choice": "Willing or Failure",
-                "choiceLocked": true,
+                "duration": -5,
+                "copyChoiceFrom": "Undeath's Blessing (Caster)",
                 "name": "Undeath's Blessing",
                 "source": "Undeath's Blessing",
                 "targetFilter": "target"
@@ -2926,6 +2927,7 @@
             },
             {
                 "duration": 10,
+                "copyChoiceFrom": "Inspire Defense",
                 "name": "Inspire Defense",
                 "source": "Inspire Defense",
                 "targetFilter": "target",
@@ -2965,6 +2967,7 @@
             },
             {
                 "duration": 10,
+                "copyChoiceFrom": "Triple Time",
                 "name": "Triple Time",
                 "source": "Triple Time",
                 "targetFilter": "target"
@@ -3392,7 +3395,6 @@
             {
                 "duration": 100,
                 "choiceBySubType": "Elemental Type",
-                "hideChoices": true,
                 "name": "Elemental Motion",
                 "source": "Elemental Motion"
             }
@@ -5502,6 +5504,7 @@
             },
             {
                 "duration": -5,
+                "copyChoiceFrom": "Arcane Countermeasure (Caster)",
                 "name": "Arcane Countermeasure",
                 "source": "Arcane Countermeasure",
                 "targetFilter": "target"
@@ -5706,6 +5709,7 @@
             },
             {
                 "duration": 0,
+                "copyChoiceFrom": "Fey Glamour (Caster)",
                 "name": "Fey Glamour",
                 "source": "Fey Glamour",
                 "targetFilter": "target"
@@ -9176,7 +9180,7 @@
         "gainConditions": [
             {
                 "duration": 144000,
-                "name": "Create Water (Caster)",
+                "name": "Create Water",
                 "source": "Create Water",
                 "targetFilter": "caster"
             }
@@ -11304,9 +11308,8 @@
                 "targetFilter": "caster"
             },
             {
-                "duration": 1000,
-                "choice": "Willing or Failure",
-                "hideChoices": true,
+                "duration": -5,
+                "copyChoiceFrom": "Penumbral Shroud (Caster)",
                 "name": "Penumbral Shroud",
                 "source": "Penumbral Shroud",
                 "targetFilter": "target"
@@ -11632,6 +11635,7 @@
             },
             {
                 "duration": 100,
+                "copyChoiceFrom": "Protection (Caster)",
                 "name": "Protection",
                 "source": "Protection",
                 "targetFilter": "target"
@@ -14691,6 +14695,7 @@
             },
             {
                 "duration": -2,
+                "copyChoiceFrom": "Endure Elements (Caster)",
                 "name": "Endure Elements",
                 "source": "Endure Elements",
                 "targetFilter": "target"
@@ -16294,6 +16299,7 @@
             },
             {
                 "duration": 1000,
+                "copyChoiceFrom": "Resist Energy (Caster)",
                 "name": "Resist Energy",
                 "source": "Resist Energy",
                 "targetFilter": "target"
@@ -17974,6 +17980,7 @@
             },
             {
                 "duration": -5,
+                "copyChoiceFrom": "Circle of Protection (Caster)",
                 "name": "Circle of Protection",
                 "source": "Circle of Protection",
                 "targetFilter": "target"
@@ -19409,6 +19416,7 @@
             },
             {
                 "duration": 144000,
+                "copyChoiceFrom": "Sanctified Ground (Caster)",
                 "name": "Sanctified Ground",
                 "source": "Sanctified Ground",
                 "targetFilter": "target"
@@ -22371,15 +22379,13 @@
         "failure": "The sphere has its normal effect.",
         "gainConditions": [
             {
-                "duration": 100,
+                "duration": -5,
                 "name": "Resilient Sphere (Caster)",
                 "source": "Resilient Sphere",
                 "targetFilter": "caster"
             },
             {
-                "duration": 100,
-                "choice": "Willing or Failure",
-                "hideChoices": true,
+                "duration": -5,
                 "name": "Resilient Sphere",
                 "source": "Resilient Sphere",
                 "targetFilter": "target"

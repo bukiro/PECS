@@ -192,36 +192,31 @@
                                             [ngbTooltip]="item.broken ? 'The item is broken and cannot be used.' : ''">
                                             <button class="newrow center-aligned"
                                                 (click)="on_SpellItemUse(item, creature, inventory)"
-                                                *ngIf="['self', 'ally'].includes(spell.target)"
+                                                *ngIf="['self', 'ally', 'area'].includes(spell.target) && (!spell.target.includes('you and')) && !spell.get_IsHostile()"
                                                 [disabled]="item.broken">
                                                 <span>{{item.type == "wands" && item.cooldown ? "Overcharge (Cooldown "
-                                                    +
-                                                    get_Duration(item.cooldown) + ")" : "Use"}}
+                                                    + get_Duration(item.cooldown) + ")" : "Use"}}
                                                     <app-actionIcons [actionString]="spell.actions">
                                                     </app-actionIcons>{{(spell.activationType) ? spell.activationType :
-                                                    ""}}
-                                                    {{spell.target == 'ally' ? "(Cast spell on yourself)" : "(Cast
+                                                    ""}} {{spell.target == 'ally' ? "(Cast spell on yourself)" : "(Cast
                                                     spell)"}}
                                                 </span>
                                             </button>
                                             <button class="newrow center-aligned"
                                                 (click)="on_SpellItemUse(item, (creature=='Character' ? 'Companion' : 'Character'), inventory)"
-                                                *ngIf="['companion', 'ally'].includes(spell.target) && get_CompanionAvailable()"
+                                                *ngIf="['companion', 'ally', 'area'].includes(spell.target) && !spell.get_IsHostile() && get_CompanionAvailable()"
                                                 [disabled]="item.broken">
                                                 <span>{{item.type == "wands" && item.cooldown ? "Overcharge (Cooldown "
-                                                    +
-                                                    get_Duration(item.cooldown) + ")" : "Use"}}
+                                                    + get_Duration(item.cooldown) + ")" : "Use"}}
                                                     <app-actionIcons [actionString]="spell.actions">
                                                     </app-actionIcons>{{(spell.activationType) ? spell.activationType :
-                                                    ""}}
-                                                    (Cast spell on
-                                                    {{creature == "Character" ? "your animal companion" : "your
-                                                    master"}})
+                                                    ""}} (Cast spell on {{creature == "Character" ? "your animal
+                                                    companion" : "your master"}})
                                                 </span>
                                             </button>
                                             <button class="newrow center-aligned"
                                                 (click)="on_SpellItemUse(item, 'Familiar', inventory)"
-                                                *ngIf="['companion', 'ally'].includes(spell.target) && get_FamiliarAvailable()"
+                                                *ngIf="['familiar', 'ally', 'area'].includes(spell.target) && !spell.get_IsHostile() && get_FamiliarAvailable()"
                                                 [disabled]="item.broken">
                                                 <span>{{item.type == "wands" && item.cooldown ? "Overcharge (Cooldown "
                                                     + get_Duration(item.cooldown) + ")" : "Use"}} <app-actionIcons
@@ -232,17 +227,8 @@
                                             </button>
                                             <button class="newrow center-aligned"
                                                 (click)="on_SpellItemUse(item, '', inventory)"
-                                                *ngIf="spell.target == 'ally'" [disabled]="item.broken">
-                                                <span>{{item.type == "wands" && item.cooldown ? "Overcharge (Cooldown "
-                                                    + get_Duration(item.cooldown) + ")" : "Use"}} <app-actionIcons
-                                                        [actionString]="spell.actions"></app-actionIcons>
-                                                    {{(spell.activationType) ? spell.activationType : ""}} (Cast spell
-                                                    on ally)
-                                                </span>
-                                            </button>
-                                            <button class="newrow center-aligned"
-                                                (click)="on_SpellItemUse(item, '', inventory)"
-                                                *ngIf="spell.target == ''" [disabled]="item.broken">
+                                                *ngIf="['ally', 'area', 'minion', 'object', 'other'].includes(spell.target)"
+                                                [disabled]="item.broken">
                                                 <span>{{item.type == "wands" && item.cooldown ? "Overcharge (Cooldown "
                                                     + get_Duration(item.cooldown) + ")" : "Use"}} <app-actionIcons
                                                         [actionString]="spell.actions"></app-actionIcons>

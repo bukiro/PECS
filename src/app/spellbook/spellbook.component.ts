@@ -230,26 +230,25 @@ export class SpellbookComponent implements OnInit {
     }
 
     get_SpellConditions(spell: Spell, levelNumber: number, gain: SpellGain) {
-        //For all conditions that are included with this spell on this level and has choices unlocked, create an effectChoice on the gain and set it to the default choice.
-        let conditions: Condition[] = [];
+        //For all conditions that are included with this spell on this level, create an effectChoice on the gain and set it to the default choice, if any. Add the name for later copyChoiceFrom actions.
+        let conditionSets: { gain: ConditionGain, condition: Condition }[] = [];
         let spellLevel: number = this.get_EffectiveSpellLevel(spell, levelNumber);
         spell.get_HeightenedConditions(spellLevel)
-            .filter(conditionGain => !conditionGain.hideChoices)
             .map(conditionGain => { return { gain: conditionGain, condition: this.conditionsService.get_Conditions(conditionGain.name)[0] } })
-            .filter(conditionSet => conditionSet.condition?.get_Choices(this.characterService, true, (conditionSet.gain.heightened ? conditionSet.gain.heightened : spellLevel))?.length > 1)
-            .map(conditionSet => conditionSet.condition)
-            .forEach((condition, index) => {
-                //Add the condition to the list of conditions that need to display a choice,
-                // then if the gain doesn't have a choice at that index or the choice isn't among the condition's choices, insert or replace that choice on the gain.
-                conditions.push(condition);
-                while (!gain.choices.length || gain.choices.length < index - 1) {
-                    gain.choices.push(condition.choice);
+            .forEach((conditionSet, index) => {
+                //Create the temporary list of currently available choices.
+                conditionSet.condition?.get_Choices(this.characterService, true, (conditionSet.gain.heightened ? conditionSet.gain.heightened : spellLevel));
+                //Add the condition to the selection list. Conditions with no choices or with automatic choices will not be displayed.
+                conditionSets.push(conditionSet);
+                //Then if the gain doesn't have a choice at that index or the choice isn't among the condition's choices, insert or replace that choice on the gain.
+                while (!gain.effectChoices.length || gain.effectChoices.length < index - 1) {
+                    gain.effectChoices.push({ condition: conditionSet.condition.name, choice: conditionSet.condition.choice });
                 }
-                if (!condition.$choices.includes(gain.choices?.[index])) {
-                    gain.choices[index] = condition.choice;
+                if (!conditionSet.condition.$choices.includes(gain.effectChoices?.[index]?.choice)) {
+                    gain.effectChoices[index] = { condition: conditionSet.condition.name, choice: conditionSet.condition.choice };
                 }
             })
-        return conditions;
+        return conditionSets;
     }
 
     get_EffectiveSpellLevel(spell: Spell, levelNumber: number) {

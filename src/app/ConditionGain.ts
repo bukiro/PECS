@@ -20,10 +20,15 @@ export class ConditionGain {
     //nextStage in turns * 10
     public nextStage: number = 0;
     public name: string = "";
+    //On an active condition, show the choice options. Set at runtime. Not to be confused with hideChoices, where the choices are hidden in spells and activities before adding the condition.
     public showChoices: boolean = false;
+    //On an active condition, show the notes. Set at runtime.
     public showNotes: boolean = false;
+    //On an active condition, show the duration options. Set at runtime.
     public showDuration: boolean = false;
+    //On an active condition, show the value options. Set at runtime.
     public showValue: boolean = false;
+    //On an active condition, show the radius options. Set at runtime.
     public showRadius: boolean = false;
     public notes: string = "";
     public source: string = "";
@@ -72,6 +77,9 @@ export class ConditionGain {
     public choiceLocked: boolean = false;
     //If hideChoices is true, the choice isn't visible on activities or spells.
     public hideChoices: boolean = false;
+    //Only for activities and spells: If copyChoiceFrom is set, the choice isn't visible, but is copied from a different choice on the same spell or activity.
+    //If there are multiple conditions with the same name, the first one's choice is taken. So in cases like Inspire Courage, make sure that the second condition copies from the first, not the other way around.
+    public copyChoiceFrom: string = "";
     //If acknowledgedInputRequired is true, the inputRequired message is not shown.
     public acknowledgedInputRequired: boolean = false;
 }

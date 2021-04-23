@@ -405,9 +405,9 @@ export class InventoryComponent implements OnInit {
         let spellName = item.storedSpells[0]?.spells[0]?.name || "";
         let spellChoice = item.storedSpells[0];
         if (spellChoice && spellName) {
-            let spell = this.get_Spells(item.storedSpells[0]?.spells[0]?.name)[0];
+            let spell = this.get_Spells(spellName)[0];
             if (spell && !(item instanceof Wand && item.overcharged)) {
-                let tempGain: SpellGain = new SpellGain();
+                let tempGain: SpellGain = Object.assign(new SpellGain(), JSON.parse(JSON.stringify(item.storedSpells[0].spells[0])));
                 this.spellsService.process_Spell(this.get_Character(), creature, this.characterService, this.itemsService, this.conditionsService, null, tempGain, spell, spellChoice.level, true, true, false);
             }
             if (item instanceof Wand) {
