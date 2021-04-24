@@ -93,6 +93,7 @@
         ],
         "area": "15-foot emanation",
         "target": "area",
+        "cannotTargetCaster": true,
         "duration": "1 minute",
         "desc": "You gain an angelic halo with an aura that increases allies' healing from the heal spell. Allies in your halo's emanation who are healed by a heal spell gain a status bonus to Hit Points regained equal to double the heal spell's level.",
         "gainConditions": [
@@ -1432,6 +1433,7 @@
         ],
         "area": "60-foot emanation",
         "target": "area",
+        "cannotTargetCaster": true,
         "duration": "1 round",
         "desc": "You inspire your allies with words or tunes of encouragement. You and all allies in the area gain a +1 status bonus to attack rolls, damage rolls, and saves against fear effects.",
         "gainConditions": [
@@ -1945,6 +1947,7 @@
         ],
         "area": "5-foot-radius emanation centered on you",
         "target": "area",
+        "cannotTargetCaster": true,
         "sustained": 100,
         "duration": "sustained up to 1 minute",
         "desc": "You emanate a shimmering aura of protective magic. You and any allies in the area gain a +1 status bonus to AC. Each time you Sustain the Spell, the emanation's radius increases by 5 feet, to a maximum of 30 feet.",
@@ -2101,6 +2104,7 @@
         ],
         "area": "60-foot emanation",
         "target": "area",
+        "cannotTargetCaster": true,
         "duration": "1 round",
         "desc": "The \"Song of Silver\" was an enchanted song used by the Silver Ravens to battle diabolic forces. You pull from select verses to temporarily replicate some of the legendary song's benefits, albeit on a much smaller scale.\n\nWeapon and unarmed attacks by allies in the area are treated as silver. In addition, this spell automatically attempts to counteract any dimension door cast by a devil within the area or cast by a devil attempting to enter the area using dimension door. If a devil attempts to enter the area using dimension door and the spell is counteracted, the devil remains where it started.",
         "gainConditions": [
@@ -2109,6 +2113,13 @@
                 "name": "Silver's Refrain (Caster)",
                 "source": "Silver's Refrain",
                 "targetFilter": "caster"
+            },
+            {
+                "duration": 10,
+                "copyChoiceFrom": "Silver's Refrain (Caster)",
+                "name": "Silver's Refrain",
+                "source": "Silver's Refrain",
+                "targetFilter": "target"
             }
         ]
     },
@@ -2914,7 +2925,8 @@
             "Mental"
         ],
         "area": "60-foot emanation",
-        "target": "self",
+        "target": "area",
+        "cannotTargetCaster": true,
         "duration": "1 round",
         "desc": "You inspire your allies to protect themselves more effectively. You and all allies in the area gain a +1 status bonus to AC and saving throws, as well as resistance equal to half the spell's level to physical damage.",
         "gainConditions": [
@@ -2956,6 +2968,7 @@
         ],
         "area": "60-foot emanation",
         "target": "area",
+        "cannotTargetCaster": true,
         "duration": "1 round",
         "desc": "You dance at a lively tempo, speeding your allies' movement. You and all allies in the area gain a +10-foot status bonus to all Speeds for 1 round.",
         "gainConditions": [
@@ -4609,7 +4622,7 @@
             "Enchantment"
         ],
         "inputRequired": "The next inspire courage or inspire defense you cast with will have a bonus depending on your Performance check.",
-        "target": "area",
+        "target": "self",
         "allowReturnFocusPoint": true,
         "desc": "You call upon your muse to greatly increase the benefits you provide to your allies with your inspire courage or inspire defense composition. If your next action is to cast inspire courage or inspire defense, attempt a Performance check. The DC is usually a very hard DC of a level equal to that of the highest-level target of your composition, but the GM can assign a different DC based on the circumstances. The effect of your inspire courage or inspire defense composition depends on the result of your check.",
         "critsuccess": "The status bonus from your inspire courage or inspire defense increases to +3.",
@@ -7209,11 +7222,6 @@
         "sustained": 100,
         "duration": "sustained up to 1 minute",
         "desc": "You ward an ally against the attacks and hostile spells from the target enemy. The target ally gains a <var>var1</var> status bonus to Armor Class and saving throws against the target enemy's attacks, spells, and other effects.",
-        "targetNumbers": [
-            {
-                "number": 2
-            }
-        ],
         "heightened": [
             {
                 "desc": "The status bonus increases to +2.",
@@ -8791,6 +8799,7 @@
         "area": "5-foot emanation",
         "targets": "you and allies in the area",
         "target": "area",
+        "cannotTargetCaster": true,
         "duration": "1 minute",
         "desc": "Blessings from beyond help your companions strike true. You and your allies in the area gain a +1 status bonus to attack rolls. Once per turn, starting the turn after you cast bless, you can use a single action, which has the concentrate trait, to increase the emanation's radius by 5 feet. Bless can counteract bane.",
         "gainConditions": [
@@ -9284,6 +9293,16 @@
         "singleTarget": true,
         "duration": "1 minute",
         "desc": "<var>var1</var>You infuse weapons with positive energy. Attacks with these weapons deal an extra <var>var2</var> positive damage to undead.",
+        "targetNumbers": [
+            {
+                "number": 2,
+                "minLevel": 1
+            },
+            {
+                "number": 3,
+                "minLevel": 5
+            }
+        ],
         "heightened": [
             {
                 "desc": "The damage increases to 2d4 damage.",
@@ -9460,6 +9479,7 @@
         "range": "touch",
         "targets": "you and 1 other humanoid",
         "target": "ally",
+        "cannotTargetCaster": true,
         "duration": "varies",
         "desc": "To mislead pursuers, the Lacunafex developed the means to swap visages. You trade appearances with the target, with the effects depending on the result of the target's Will saving throw. Willing and unconscious targets automatically critically fail this saving throw.",
         "critsuccess": "No effect.",
@@ -10500,6 +10520,16 @@
         ],
         "target": "ally",
         "desc": "<var>var1</var>Your legs surge with strength, ready to leap high and far. You jump 30 feet in any direction without touching the ground. You must land on a space of solid ground within 30 feet of you, or else you fall after using your next action.",
+        "targetNumbers": [
+            {
+                "number": 0,
+                "minLevel": 1
+            },
+            {
+                "number": 1,
+                "minLevel": 3
+            }
+        ],
         "heightened": [
             {
                 "desc": "The range becomes touch, the target changes to one touched creature, and the duration becomes 1 minute, allowing the target to jump as described whenever it takes the Leap action.",
@@ -11826,6 +11856,7 @@
         "range": "touch",
         "targets": "up to 3 creatures",
         "target": "ally",
+        "cannotTargetCaster": true,
         "duration": "10 minutes",
         "desc": "<var>var1</var>You share your knowledge with the touched creatures. Choose one Lore skill in which you are trained. The targets become trained in that Lore skill for the duration of the spell.",
         "targetNumbers": [
@@ -11851,7 +11882,7 @@
         "gainConditions": [
             {
                 "duration": -5,
-                "name": "Share Lore",
+                "name": "Share Lore (Caster)",
                 "source": "Share Lore",
                 "targetFilter": "caster"
             },
@@ -12572,6 +12603,7 @@
         "range": "30 feet",
         "targets": "1 willing creature",
         "target": "ally",
+        "cannotTargetCaster": true,
         "singleTarget": true,
         "duration": "10 minutes",
         "desc": "You form a spiritual link with another creature, allowing you to take in its pain. When you Cast this Spell and at the start of each of your turns, if the target is below maximum Hit Points, it regains <var>var1</var> Hit Points (or the difference between its current and maximum Hit Points, if that's lower). You lose as many Hit Points as the target regained.\n\nThis is a spiritual transfer, so no effects apply that would increase the Hit Points the target regains or decrease the Hit Points you lose. This transfer also ignores any temporary Hit Points you or the target have. Since this effect doesn't involve positive or negative energy, spirit link works even if you or the target is undead. While the duration persists, you gain no benefit from regeneration or fast healing. You can Dismiss this spell, and if you're ever at 0 Hit Points, spirit link ends automatically.",
@@ -14518,8 +14550,8 @@
                 "minLevel": 2
             },
             {
-                "number": 3,
-                "minLevel": 1
+                "number": 1,
+                "minLevel": 3
             }
         ],
         "heightened": [
@@ -16787,6 +16819,7 @@
         "range": "30 feet",
         "targets": "1 creature",
         "target": "ally",
+        "cannotTargetCaster": true,
         "singleTarget": true,
         "duration": "10 minutes",
         "desc": "You forge a temporary link between the target's life essence and your own. The target takes half damage from all effects that deal Hit Point damage, and you take the remainder of the damage. When you take damage through this link, you don't apply any resistances, weaknesses, or other abilities you have to that damage; you simply take that amount of damage. The spell ends if the target is ever more than 30 feet away from you. If either you or the target is reduced to 0 Hit Points, any damage from this spell is resolved and then the spell ends.",
@@ -18903,6 +18936,7 @@
         "area": "10-foot emanation",
         "targets": "you and any number of creatures in range",
         "target": "area",
+        "cannotTargetCaster": true,
         "duration": "10 minutes",
         "desc": "<var>var1</var>You and all targets are invisible except to each other as long as you remain within the spell's area. If a creature made invisible by this spell leaves the spell's area, it becomes visible and remains so even if it returns to the spell's area. If any creature made invisible by this spell uses a hostile action, the spell ends after the hostile action is completed.\n\nWhile exploring, it's easy to move together slowly and remain invisible. This is untenable in a battle, however. Once an encounter begins, creatures remain invisible until at most the end of the first round, at which point the spell ends.",
         "heightened": [
@@ -19405,6 +19439,7 @@
         ],
         "area": "30-foot burst centered on you",
         "target": "area",
+        "cannotTargetCaster": true,
         "duration": "24 hours",
         "desc": "You sanctify the area, sprinkling it with holy water and warding it against your foes. Choose aberrations, celestials, dragons, fiends, monitors, or undead. All creatures in the area gain a +1 status bonus to AC, attack rolls, damage rolls, and saving throws against the chosen creatures.",
         "gainConditions": [
@@ -19670,6 +19705,7 @@
         "area": "5-foot emanation",
         "targets": "you and allies in the area",
         "target": "area",
+        "cannotTargetCaster": true,
         "duration": "8 hours",
         "desc": "You and affected allies gain preternatural knowledge of the path ahead, allowing you to intuit the best way forward and avoid potential obstacles such as difficult or confusing terrain. <var>var1</var> Show the way does not prevent you from falling into traps or encountering other artificial obstacles and hazards.",
         "heightened": [
@@ -21579,6 +21615,7 @@
         ],
         "area": "10-foot burst centered on one corner of your space",
         "target": "area",
+        "cannotTargetCaster": true,
         "duration": "10 minutes",
         "desc": "You create an immobile globe around yourself that attempts to counteract any spell from outside the globe whose area or targets enter into the globe, as if the globe were a dispel magic spell 1 level lower than its actual spell level. If the counteract attempt succeeds, it prevents only the portion of the spell that would have entered the globe (so if the spell also has targets outside the globe, or part of its area is beyond the globe, those targets or that area is affected normally). You must form the sphere in an unbroken open space, so its edges don't pass through any creatures or objects, or the spell is lost (though creatures can enter the globe after the spell is cast).",
         "gainConditions": [
@@ -23913,6 +23950,7 @@
         "range": "touch",
         "targets": "1 willing sleeping creature",
         "target": "ally",
+        "cannotTargetCaster": true,
         "singleTarget": true,
         "duration": "8 hours",
         "desc": "You draw the target into a lucid dream where it can explore the endless possibilities of its own potential within the ever-changing backdrop of its dreamscape. If it sleeps the full 8 hours uninterrupted, when it wakes, it counts as having spent a day of downtime retraining, though it can't use dreaming potential for any retraining that would require either an instructor or specialized knowledge it can't access within the dream.",
@@ -25093,6 +25131,7 @@
         "range": "touch",
         "targets": "you and up to 9 willing creatures touched",
         "target": "ally",
+        "cannotTargetCaster": true,
         "duration": "8 hours",
         "desc": "You access the Shadow Plane, using its warped nature to spread your travels. The targets enter the edge of the Shadow Plane where it borders the Material Plane. Targets can't see the Material Plane while on the Shadow Plane (although elements of that plane can sometimes be a hazy reflection of the Material Plane). While on the Shadow Plane, the targets are exposed to potential encounters with that plane's denizens. The shadows on the border between the planes bend space, speeding up your movement with respect to the Material Plane. Every 3 minutes the targets travel along this border, they move as far as they would through the Material Plane in 1 hour. At any point, a target can Dismiss the spell's effects, although this affects only that target. The shadow bending is inexact, so when the spell ends, the targets appear roughly 1 mile from their intended location on the Material Plane (though those who are traveling together and Dismiss the spell at the same point on the Plane of Shadow appear together).",
         "targetNumbers": [
@@ -25802,6 +25841,7 @@
         "range": "touch",
         "targets": "you and up to 4 willing creatures touched",
         "target": "ally",
+        "cannotTargetCaster": true,
         "duration": "8 hours",
         "desc": "The targets can communicate telepathically with any or all of the other targets from any point on the same planet.",
         "targetNumbers": [

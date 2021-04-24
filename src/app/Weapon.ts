@@ -415,7 +415,7 @@ export class Weapon extends Equipment {
                         }
                     }
                     effectsSum += parseInt(effect.value);
-                    explain += "\n" + effect.source + ": " + effect.value;
+                    explain += "\n" + effect.source + ": " + (parseInt(effect.value) >= 0 ? "+" : "") + parseInt(effect.value);
                 }
             });
         //Add up all modifiers and return the attack bonus for this attack

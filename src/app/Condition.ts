@@ -11,6 +11,7 @@ import { CharacterService } from './character.service';
 import { Familiar } from './Familiar';
 import { Feat } from './Feat';
 import { ConditionDuration } from './ConditionDuration';
+import { Creature } from './Creature';
 
 export class Condition {
     public name: string = "";
@@ -54,11 +55,33 @@ export class Condition {
     public unlimited: boolean = false;
     get_HasEffects() {
         //Return whether the condition has any effects beyond showing text.
-        return this.effects?.length || this.hints.some(hint => hint.effects?.length) || this.gainConditions.length || this.overrideConditions.length || this.endConditions.length || this.gainItems.length || this.gainActivities.length;
+        return this.effects?.length || this.hints.some(hint => hint.effects?.length) || this.gainConditions.length || this.overrideConditions.length || this.endConditions.length || this.gainItems.length || this.gainActivities.length || this.senses.length || this.nextCondition || this.onceEffects || this.endEffects.length;
     }
     get_IsChangeable() {
         //Return whether the condition has values that you can change.
         return this.hasValue || this.allowRadiusChange;
+    }
+    get_HasHints() {
+        return this.hints.length;
+    }
+    get_IsInformationalCondition(creature: Creature, characterService: CharacterService, conditionGain: ConditionGain = null) {
+        //Return whether the condition has any effects beyond showing text, and if it causes or overrides any conditions, whether these currently exist.
+        return !(
+            this.effects?.length ||
+            this.hints.some(hint => hint.effects?.length) ||
+            this.endConditions.length ||
+            this.gainItems.length ||
+            this.gainActivities.length ||
+            this.senses.length ||
+            this.nextCondition ||
+            this.endEffects.length ||
+            (
+                conditionGain ?
+                    (this.gainConditions.length ? characterService.get_AppliedConditions(creature, "", "", true).some(existingCondition => existingCondition.parentID == conditionGain?.id) : false) :
+                    this.gainConditions.length
+            ) ||
+            (this.overrideConditions.length ? characterService.get_AppliedConditions(creature, "", "", true).some(existingCondition => this.overrideConditions.includes(existingCondition.name)) : false)
+        )
     }
     get_Choices(characterService: CharacterService, filtered: boolean = false, spellLevel: number = this.minLevel) {
         //If this.choice is not one of the available choices, set it to the first.
@@ -125,7 +148,7 @@ export class Condition {
         //Returns {duration: number, source: string}
         let choice = this.choices.find(choice => choice.name == choiceName);
         if (choice?.defaultDuration != null) {
-            return {duration: choice.defaultDuration, source: choice.name};
+            return { duration: choice.defaultDuration, source: choice.name };
         }
         if (this.minLevel) {
             //Levelnumber should not be below minLevel, but might be in the conditions menu.
@@ -135,13 +158,13 @@ export class Condition {
                 for (levelNumber; levelNumber >= this.minLevel; levelNumber--) {
                     let level = this.defaultDurations.find(defaultDuration => defaultDuration.minLevel == levelNumber);
                     if (level?.duration != null) {
-                        return {duration: level.duration, source: "Spell level " + levelNumber};
+                        return { duration: level.duration, source: "Spell level " + levelNumber };
                     }
                 }
             }
         }
         if (this.defaultDurations[0]?.duration != null) {
-            return {duration: this.defaultDurations[0].duration, source: "Default"};
+            return { duration: this.defaultDurations[0].duration, source: "Default" };
         }
         return null;
     }

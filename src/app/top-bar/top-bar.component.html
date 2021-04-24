@@ -17,8 +17,63 @@
             <ng-container *ngIf="get_Savegames()">
                 <span *ngIf="get_IsBlankCharacter()" style="flex-grow: initial" [ngbTooltip]="'No changes to character yet.'"><button class="fancy-button" disabled><i class="bi-file-earmark-arrow-up"></i></button></span>
                 <span *ngIf="!get_IsBlankCharacter()" style="flex-grow: initial" [ngbTooltip]="'Save Character'"><button class="fancy-button" (click)="save()"><i class="bi-file-earmark-arrow-up"></i></button></span>
+                <span *ngIf="!get_IsBlankCharacter()" style="flex-grow: initial" [ngbTooltip]="'Check for new effects'"><button class="fancy-button" (click)="get_Messages(NewMessagesModal)"><i class="ra ra-player-thunder-struck"></i></button></span>
             </ng-container>
         </ng-container>
         <span style="flex-grow: initial" [ngbTooltip]="'Refresh all'"><button class="fancy-button" (click)="set_Changed()"><i class="ra ra-cycle"></i></button></span>
     </ng-container>
 </div>
+<ng-template #NewMessagesModal let-modal>
+    <div class="modal-header">
+        <header class="sectionHeader modal-title" id="modal-title">{{newMessages.length}} New Effect{{newMessages.length > 1 ? "s" : ""}}
+        </header>
+        <button type="button" class="close" aria-label="close" (click)="modal.dismiss('Cross click')" ngbAutofocus>
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <p>Select all effects you want to apply. All other effects will be discarded.</p>
+        <div class="gridicon-fullsizebox">
+            <input id="messagesSelectAll" class="character-choice" type="checkbox"
+                (change)="on_SelectAllMessages($event.target.checked)" [checked]="get_AllMessagesSelected()">
+            <label for="messagesSelectAll" style="font-size: 1.5em;">
+                <strong>Select all</strong>
+            </label>
+        </div>
+        <div class="itembox-inner" style="max-height: 50vh;">
+            <ng-container *ngFor="let message of newMessages; trackBy:trackByIndex">
+                <ng-container *ngFor="let creature of [get_MessageCreature(message)]; trackBy:trackByIndex">
+                    <ng-container *ngFor="let sender of [get_MessageSender(message)]; trackBy:trackByIndex">
+                        <ng-container *ngIf="creature && message.gainCondition.length">
+                            <div class="list-item gridicon-fullsizebox">
+                                <input id="message{{message.id}}" class="character-choice" type="checkbox"
+                                    [(ngModel)]="message.selected">
+                                <label for="message{{message.id}}">
+                                    <div class="newrow left-aligned">
+                                        <i class="bi-plus-circle" *ngIf="message.activate"></i>
+                                        <i class="bi-minus-circle" *ngIf="!message.activate"></i>
+                                        <i class="ra ra-player" *ngIf="creature.type=='Character'"
+                                            style="line-height: 1.5;"></i>
+                                        <i class="ra ra-wolf-howl" *ngIf="creature.type=='Companion'"
+                                            style="line-height: 1.5;"></i>
+                                        <i class="ra ra-raven" *ngIf="creature.type=='Familiar'" style="line-height: 1.5;"></i>
+                                        <strong>{{message.gainCondition[0].name}}{{message.gainCondition[0].choice ? ": " + message.gainCondition[0].choice : ""}}</strong>
+                                            {{[get_Duration(message.gainCondition[0].duration)]}}
+                                    </div>
+                                    <div class="newrow lower">
+                                        Sent{{sender ? " by " + sender : ""}} at {{message.time}}
+                                    </div>
+                                </label>
+                            </div>
+                        </ng-container>
+                    </ng-container>
+                </ng-container>
+            </ng-container>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline-secondary" (click)="modal.dismiss('Cancel click')">Cancel</button>
+        <button type="button" class="btn btn-primary" style="background-color: rgb(var(--accent));"
+            (click)="modal.close('Apply click')">Apply these effects</button>
+    </div>
+</ng-template>

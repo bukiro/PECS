@@ -433,6 +433,14 @@ export class SavegameService {
                     if (savegame.class.heritage) {
                         this.savegames[newLength - 1].heritage = savegame.class.heritage.name || "";
                     }
+                    if (savegame.class.animalCompanion?.class) {
+                        this.savegames[newLength - 1].companionName = savegame.class.animalCompanion.name || savegame.class.animalCompanion.type;
+                        this.savegames[newLength - 1].companionId = savegame.class.animalCompanion.id;
+                    }
+                    if (savegame.class.familiar?.originClass) {
+                        this.savegames[newLength - 1].familiarName = savegame.class.familiar.name || savegame.class.familiar.type;
+                        this.savegames[newLength - 1].familiarId = savegame.class.familiar.id;
+                    }
                 }
             });
 

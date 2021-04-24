@@ -53,8 +53,12 @@ export class Spell {
     //For "area", it can be cast on any in-app creature witout target number limit or without target
     //For "object", "minion" or "other", the spell button will just say "Cast" without a target
     public target: string = "";
-    //If targets contains the text "you and", you cannot target yourself (because the spell gives you a suitable caster condition)
+    //The target description in the spell description.
     public targets: string = "";
+    //If cannotTargetCaster is set, you can't cast the spell on yourself, and you can't select yourself as one of the targets of an ally or area spell.
+    //This is needed for emanations (where the spell should give the caster the correct condition in the first place)
+    // and spells that exclusively target a different creature (in case of "you and [...]", the caster condition should take care of the caster's part.").
+    public cannotTargetCaster: boolean = false;
     public singleTarget: boolean = false;
     public traditions: string[] = [];
     public traits: string[] = [];
@@ -97,6 +101,10 @@ export class Spell {
         return text;
     }
     get_TargetNumber(levelNumber: number) {
+        //You can select any number of targets for an area spell.
+        if (this.target == "area") {
+            return -1;
+        }
         //This descends from levelnumber downwards and returns the first available targetNumber. 1 if no targetNumbers are configured, return 1, and if none have a minLevel, return the first.
         if (this.targetNumbers.length) {
             if (this.targetNumbers.some(targetNumber => targetNumber.minLevel)) {
@@ -142,7 +150,8 @@ export class Spell {
                 case 1:
                     if (this.gainConditions.some(gain => gain.heightenedFilter == 1)) { return this.gainConditions.filter(gain => !gain.heightenedFilter || gain.heightenedFilter == 1); }
                 default:
-                    return [];
+                    //The spell level might be too low for any of the existing ConditionGains with a heightenedFilter. Return all those without one in that case.
+                    return this.gainConditions.filter(gain => !gain.heightenedFilter);
             }
         }
     }
@@ -204,12 +213,12 @@ export class Spell {
         if (this.traits.includes("Cantrip")) {
             list.push("Cantrip Spell Levels");
         }
-        characterService.effectsService.get_AbsolutesOnThese(creature, list).forEach(effect => {
+        effectsService.get_AbsolutesOnThese(creature, list).forEach(effect => {
             if (parseInt(effect.setValue)) {
                 baseLevel = parseInt(effect.setValue);
             }
         })
-        characterService.effectsService.get_RelativesOnThese(creature, list).forEach(effect => {
+        effectsService.get_RelativesOnThese(creature, list).forEach(effect => {
             if (parseInt(effect.value)) {
                 baseLevel += parseInt(effect.value);
             }

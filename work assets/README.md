@@ -108,6 +108,7 @@ Internal To Do list
 - [ ] - Level 10 Spells
 - [x] Add custom conditions with effects
 - [x] Add License notices to comply with Pathfinder Community Use Policy and Open Game License
+- [ ] Add casting spells on party members
 - [ ] Add manual mode without automated conditions and effects and with bonus boxes for skills and attack
 - [ ] Stretch Goal: Icons
 - [ ] Stretch Goal: Initiative tracker, battles, being a battle member, GM-Player-Communication.......
@@ -124,9 +125,7 @@ Next steps:
 - Possibly Create tag that automatically inserts a dice rolling button for the included text
 - Find a better way to implement losing all effects from armor (effectively unequipping your armor) from Gaseous Form
 - Also find a better way to implement Mage Armor without losing your current armor
-- Create dialog for choosing targets if target is area or targetNumber is > 0 and target is ally
--- If target is area, or if target is other and targetNumber is > 1, don't show or respect Saving Throw choices for the caster condition (if there are choices, assume choice with longest duration)
-- Create method for sending target conditions to another character in another session
+- If target is area, or if target is other and targetNumber is > 1, don't show or respect Saving Throw choices for the caster condition (if there are choices, assume choice with longest duration)
 - Implement manual mode
 - Quick Effects button for Skills and Attacks (and quick removal button for manual effects)
 - Implement Icons for Inventory and Spells

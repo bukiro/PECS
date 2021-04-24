@@ -1,8 +1,10 @@
 import { Component, OnInit, HostBinding, ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
 import { CharacterService } from '../character.service';
-import { Subscription } from 'rxjs';
 import { SavegameService } from '../savegame.service';
-import { NgbTooltipConfig } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal, NgbModal, NgbTooltipConfig } from '@ng-bootstrap/ng-bootstrap';
+import { PlayerMessage } from '../PlayerMessage';
+import { MessageService } from '../message.service';
+import { TimeService } from '../time.service';
 
 @Component({
     selector: 'app-top-bar',
@@ -12,18 +14,27 @@ import { NgbTooltipConfig } from '@ng-bootstrap/ng-bootstrap';
 })
 export class TopBarComponent implements OnInit {
 
-    subscription: Subscription;
+    public newMessages: PlayerMessage[] = [];
+    private loading_messages: boolean = false;
 
     constructor(
         private changeDetector: ChangeDetectorRef,
         private characterService: CharacterService,
         private savegameService: SavegameService,
+        private messageService: MessageService,
+        private timeService: TimeService,
+        private modalService: NgbModal,
+        public modal: NgbActiveModal,
         tooltipConfig: NgbTooltipConfig
     ) {
         tooltipConfig.container = "body";
         //For touch compatibility, this openDelay prevents the tooltip from closing immediately on tap because a tap counts as hover and then click;
         tooltipConfig.openDelay = 1;
         tooltipConfig.triggers = "hover:click";
+    }
+
+    trackByIndex(index: number, obj: any): any {
+        return index;
     }
 
     get_Savegames() {
@@ -134,6 +145,86 @@ export class TopBarComponent implements OnInit {
 
     save() {
         this.characterService.save_Character();
+    }
+
+    get_Messages(modal) {
+        this.loading_messages;
+        this.messageService.load_Messages(this.get_Character().id)
+            .subscribe((results: string[]) => {
+                let loader = results;
+                this.newMessages = this.messageService.finish_loading(loader).sort((a, b) => {
+                    if (!a.activated && b.activated) {
+                        return 1;
+                    }
+                    if (a.activated && !b.activated) {
+                        return -1;
+                    }
+                    return 0;
+                });
+                this.remove_InvalidMessages();
+                if (this.newMessages.length) {
+                    this.open_NewMessagesModal(modal);
+                }
+            }, (error) => {
+                console.log('Error loading messages from database: ' + error.message);
+            });
+    }
+
+    remove_InvalidMessages() {
+        this.newMessages.forEach(message => {
+            if (!this.get_MessageCreature(message)) {
+                this.messageService.delete_MessageFromDB(message);
+                message.deleted = true;
+            }
+        })
+        this.newMessages = this.newMessages.filter(message => !message.deleted);
+    }
+
+    still_loadingMessages() {
+        return this.loading_messages;
+    }
+
+    get_MessageCreature(message: PlayerMessage) {
+        return this.characterService.get_Creatures().find(creature => creature.id == message.targetId);
+    }
+
+    get_MessageSender(message: PlayerMessage) {
+        return this.savegameService.get_Savegames().find(savegame => savegame.id == message.senderId)?.name;
+    }
+
+    open_NewMessagesModal(content) {
+        this.modalService.open(content, { centered: true, ariaLabelledBy: 'modal-title' }).result.then((result) => {
+            if (result == "Apply click") {
+                //Prepare to refresh the effects of all affected creatures;
+                this.characterService.get_Creatures().forEach(creature => {
+                    if (this.newMessages.some(message => message.id == creature.id)) {
+                        this.characterService.set_ToChange(creature.type, "effects");
+                    }
+                })
+                this.characterService.apply_MessageConditions(this.newMessages);
+                this.characterService.process_ToChange();
+            }
+        }, (reason) => {
+            //Do nothing if cancelled.
+        });
+    }
+
+    on_SelectAllMessages(checked: boolean) {
+        this.newMessages.forEach(message => {
+            message.selected = checked;
+        })
+    }
+
+    get_AllMessagesSelected() {
+        return (this.newMessages.filter(message => message.selected).length >= this.newMessages.filter(message => this.get_MessageCreature(message)).length);
+    }
+
+    get_Duration(duration: number) {
+        if (duration == -5) {
+            return "(Default duration)";
+        } else {
+            return this.timeService.get_Duration(duration, false, true);
+        }
     }
 
     finish_Loading() {

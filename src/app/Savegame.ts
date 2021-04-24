@@ -9,4 +9,8 @@ export class Savegame {
     ancestry: string;
     level: number;
     partyName: string;
+    companionName: string;
+    companionId: string;
+    familiarName: string;
+    familiarId: string;
 }

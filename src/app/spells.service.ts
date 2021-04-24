@@ -10,6 +10,7 @@ import { ConditionsService } from './conditions.service';
 import * as json_spells from '../assets/json/spells';
 import { Creature } from './Creature';
 import { SpellChoice } from './SpellChoice';
+import { SpellTarget } from './SpellTarget';
 
 @Injectable({
     providedIn: 'root'
@@ -96,16 +97,21 @@ export class SpellsService {
         }
 
         //Find out if target was given. If no target is set, most effects will not be applied.
-        let targetCreature: Creature | null = null;
+        let targets: (Creature | SpellTarget)[] = [];
         switch (target) {
             case "Character":
-                targetCreature = characterService.get_Character();
+                targets.push(characterService.get_Character());
                 break;
             case "Companion":
-                targetCreature = characterService.get_Companion();
+                targets.push(characterService.get_Companion());
                 break;
             case "Familiar":
-                targetCreature = characterService.get_Familiar();
+                targets.push(characterService.get_Familiar());
+                break;
+            case "Selected":
+                if (gain) {
+                    targets.push(...gain.targets.filter(target => target.selected))
+                }
                 break;
         }
 
@@ -147,33 +153,36 @@ export class SpellsService {
                         }
                     }
                     //Under certain circumstances, don't grant caster conditions:
-                    // - If there is a target condition, the target is also the caster, and the caster and the target get the same condition.
-                    // - If there is a target condition, the target is also the caster, and the caster condition is purely informational.
-                    // - If the spell is hostile, hostile caster conditions are disabled, and the caster condition is purely informational.
-                    // - If the spell is friendly, friendly caster conditions are disabled, and the caster condition is purely informational.
+                    // - If there is a target condition, the caster is also a target, and the caster and the targets get the same condition.
+                    // - If there is a target condition, the caster is also a target, and the caster condition is purely informational.
+                    // - If the spell is hostile, hostile caster conditions are disabled, the caster condition is purely informational, and the spell allows targeting the caster (which is always the case for hostile spells because they don't have target conditions).
+                    // - If the spell is friendly, friendly caster conditions are disabled, the caster condition is purely informational, and the spell allows targeting the caster (otherwise, it must be assumed that the caster condition is necessary).
                     if (
                         !(
                             conditionGain.targetFilter == "caster" &&
                             (
-                                hasTargetCondition &&
-                                targetCreature == creature &&
                                 (
-                                    sameCondition ||
+                                    hasTargetCondition &&
+                                    targets.includes(creature.id) &&
+                                    (
+                                        sameCondition ||
+                                        (
+                                            !condition.get_HasEffects() &&
+                                            !condition.get_IsChangeable()
+                                        )
+                                    )
+                                ) ||
+                                (
+                                    (
+                                        spell.get_IsHostile() ?
+                                            characterService.get_Character().settings.noHostileCasterConditions :
+                                            characterService.get_Character().settings.noFriendlyCasterConditions
+                                    ) &&
                                     (
                                         !condition.get_HasEffects() &&
-                                        !condition.get_IsChangeable()
+                                        !condition.get_IsChangeable() &&
+                                        !spell.cannotTargetCaster
                                     )
-                                )
-                            ) ||
-                            (
-                                (
-                                    spell.get_IsHostile() ?
-                                        characterService.get_Character().settings.noHostileCasterConditions :
-                                        characterService.get_Character().settings.noFriendlyCasterConditions
-                                ) &&
-                                (
-                                    !condition.get_HasEffects() &&
-                                    !condition.get_IsChangeable()
                                 )
                             )
                         )
@@ -236,28 +245,24 @@ export class SpellsService {
                             })
                             newConditionGain.value = effectValue;
                         }
-                        let conditionTarget = targetCreature;
-                        if (conditionGain.targetFilter == "caster") {
-                            conditionTarget = creature;
-                        }
-                        if (conditionTarget) {
-                            characterService.add_Condition(conditionTarget, newConditionGain, false);
-                        }
+                        let conditionTargets: (Creature | SpellTarget)[] = (conditionGain.targetFilter == "caster" ? [creature] : targets);
+                        conditionTargets.filter(target => target.constructor != SpellTarget).forEach(target => {
+                            characterService.add_Condition(target as Creature, newConditionGain, false);
+                        })
+                        characterService.send_ConditionToPlayers(conditionTargets.filter(target => target.constructor == SpellTarget) as SpellTarget[], newConditionGain);
                     }
                 });
             } else if (manual) {
                 spell.get_HeightenedConditions(spellLevel).forEach(conditionGain => {
-                    let conditionTarget = targetCreature;
-                    if (conditionGain.targetFilter == "caster") {
-                        conditionTarget = creature;
-                    }
-                    if (conditionTarget) {
-                        characterService.get_AppliedConditions(conditionTarget, conditionGain.name)
+                    let conditionTargets: (Creature | SpellTarget)[] = (conditionGain.targetFilter == "caster" ? [creature] : targets);
+                    conditionTargets.filter(target => target.constructor != SpellTarget).forEach(target => {
+                        characterService.get_AppliedConditions(target as Creature, conditionGain.name)
                             .filter(existingConditionGain => existingConditionGain.source == conditionGain.source)
                             .forEach(existingConditionGain => {
-                                characterService.remove_Condition(conditionTarget, existingConditionGain, false);
+                                characterService.remove_Condition(target as Creature, existingConditionGain, false);
                             });
-                    }
+                    })
+                    characterService.send_ConditionToPlayers(conditionTargets.filter(target => target.constructor == SpellTarget) as SpellTarget[], conditionGain, false);
                 })
             }
         }

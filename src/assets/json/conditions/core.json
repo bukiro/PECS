@@ -12044,7 +12044,7 @@
     },
     {
         "name": "Share Lore",
-        "desc": "You are sharing your knowledge with the touched creatures. All targets become trained in one chosen Lore skill in which the caster is trained for the duration of the spell (up to two on 5th Level).",
+        "desc": "The caster is sharing their knowledge with you and the other touched creatures. You become trained in one chosen Lore skill (up to two on 5th Level) in which the caster is trained for the duration of the spell.",
         "type": "spells",
         "minLevel": 1,
         "SortLevel": 1,
@@ -12065,7 +12065,35 @@
         ],
         "hints": [
             {
-                "desc": "All targets become trained in one chosen Lore skill in which the caster is trained for the duration of the spell.",
+                "desc": "You are trained in one chosen Lore skill in which the caster is trained for the duration of the spell.",
+                "showon": "Skills"
+            }
+        ]
+    },
+    {
+        "name": "Share Lore (Caster)",
+        "desc": "You are sharing your knowledge with the touched creatures. All targets become trained in one chosen Lore skill (up to two on 5th Level) in which you are trained for the duration of the spell.",
+        "type": "spells",
+        "minLevel": 1,
+        "SortLevel": 1,
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": 1000,
+                "minLevel": 1
+            },
+            {
+                "duration": 6000,
+                "minLevel": 3
+            },
+            {
+                "duration": 48000,
+                "minLevel": 5
+            }
+        ],
+        "hints": [
+            {
+                "desc": "All targets become trained in one chosen Lore skill in which you are trained for the duration of the spell.",
                 "showon": "Skills"
             }
         ]
@@ -12441,6 +12469,14 @@
             {
                 "desc": "Your weapon and unarmed attacks are treated as silver.",
                 "showon": "Attacks"
+            }
+        ],
+        "choices": [
+            {
+                "name": "-"
+            },
+            {
+                "name": "harmonized"
             }
         ]
     },

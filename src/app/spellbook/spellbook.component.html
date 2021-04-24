@@ -224,70 +224,134 @@
                                                                                         </span>
                                                                                     </button>
                                                                                 </div>
+                                                                                <ng-container *ngFor="let targetNumber of [spell.get_TargetNumber(effectiveSpellLevel)]; trackBy:trackByIndex">
+                                                                                    <div class="newrow"
+                                                                                        *ngIf="!spellTaken.gain.active && !spell.cannotTargetCaster && ['self', 'ally'].includes(spell.target) && targetNumber != 0 && !spell.get_IsHostile()"
+                                                                                        [ngbTooltip]="cannotCast">
+                                                                                        <button
+                                                                                            class="newrow center-aligned"
+                                                                                            (click)="on_Cast(level, spellTaken.gain, casting, spellTaken.choice, 'Character', spell, true, bloodMagicFeats)"
+                                                                                            [disabled]="cannotCast"
+                                                                                            [ngbTooltip]="get_IsBloodMagicTrigger(spell, bloodMagicFeats) ? 'Casting this spell will trigger your blood magic power' : (!can_Activate(spell, bloodMagicFeats, effectiveSpellLevel) ? 'The spell has no automatic effects.' : '')">
+                                                                                            <span>
+                                                                                                {{spell.target != 'self' ?
+                                                                                                "Cast on yourself" :
+                                                                                                "Cast"}} <i class='bi-peace'
+                                                                                                    *ngIf="!can_Activate(spell, bloodMagicFeats, effectiveSpellLevel)"></i>
+                                                                                                <i class='ra ra-droplet-splash'
+                                                                                                    *ngIf="get_IsBloodMagicTrigger(spell, bloodMagicFeats)"></i>
+                                                                                            </span>
+                                                                                        </button>
+                                                                                    </div>
+                                                                                    <div class="newrow"
+                                                                                        *ngIf="!spellTaken.gain.active && ['companion', 'ally'].includes(spell.target) && targetNumber != 0 && !spell.get_IsHostile() && get_CompanionAvailable()"
+                                                                                        [ngbTooltip]="cannotCast">
+                                                                                        <button
+                                                                                            class="newrow center-aligned"
+                                                                                            (click)="on_Cast(level, spellTaken.gain, casting, spellTaken.choice, 'Companion', spell, true, bloodMagicFeats)"
+                                                                                            [disabled]="cannotCast"
+                                                                                            [ngbTooltip]="get_IsBloodMagicTrigger(spell, bloodMagicFeats) ? 'Casting this spell will trigger your blood magic power' : (!can_Activate(spell, bloodMagicFeats, effectiveSpellLevel) ? 'The spell has no automatic effects.' : '')">
+                                                                                            <span>
+                                                                                                Cast on your animal companion <i
+                                                                                                    class='bi-peace'
+                                                                                                    *ngIf="!can_Activate(spell, bloodMagicFeats, effectiveSpellLevel)"></i>
+                                                                                                <i class='ra ra-droplet-splash'
+                                                                                                    *ngIf="get_IsBloodMagicTrigger(spell, bloodMagicFeats)"></i>
+                                                                                            </span>
+                                                                                        </button>
+                                                                                    </div>
+                                                                                    <div class="newrow"
+                                                                                        *ngIf="!spellTaken.gain.active && ['familiar', 'ally'].includes(spell.target) && targetNumber != 0 && !spell.get_IsHostile() && get_FamiliarAvailable()"
+                                                                                        [ngbTooltip]="cannotCast">
+                                                                                        <button
+                                                                                            class="newrow center-aligned"
+                                                                                            (click)="on_Cast(level, spellTaken.gain, casting, spellTaken.choice, 'Familiar', spell, true, bloodMagicFeats)"
+                                                                                            [disabled]="cannotCast"
+                                                                                            [ngbTooltip]="get_IsBloodMagicTrigger(spell, bloodMagicFeats) ? 'Casting this spell will trigger your blood magic power' : (!can_Activate(spell, bloodMagicFeats, effectiveSpellLevel) ? 'The spell has no automatic effects.' : '')">
+                                                                                            <span>
+                                                                                                Cast on your familiar <i
+                                                                                                    class='bi-peace'
+                                                                                                    *ngIf="!can_Activate(spell, bloodMagicFeats, effectiveSpellLevel)"></i>
+                                                                                                <i class='ra ra-droplet-splash'
+                                                                                                    *ngIf="get_IsBloodMagicTrigger(spell, bloodMagicFeats)"></i>
+                                                                                            </span>
+                                                                                        </button>
+                                                                                    </div>
+                                                                                    <ng-container *ngIf="!spellTaken.gain.active && !spell.get_IsHostile() && (spell.target == 'area' || (spell.target == 'ally' && targetNumber != 0))">
+                                                                                        <ng-container *ngFor="let targets of [get_SpellTargets(spell, spellTaken.gain)]; trackBy:trackByIndex">
+                                                                                            <ng-template #SpellTargetModal let-modal>
+                                                                                                <div class="modal-header">
+                                                                                                    <header class="sectionHeader modal-title" id="modal-title">{{spell.name}} targets
+                                                                                                    </header>
+                                                                                                    <button type="button" class="close" aria-label="close"
+                                                                                                        (click)="modal.dismiss('Cross click')" ngbAutofocus>
+                                                                                                        <span aria-hidden="true">&times;</span>
+                                                                                                    </button>
+                                                                                                </div>
+                                                                                                <div class="modal-body">
+                                                                                                    <p *ngIf="targetNumber > 0">Select up to {{targetNumber}} targets for this spell.</p>
+                                                                                                    <p *ngIf="targetNumber == -1">Select any number of targets for this spell.</p>
+                                                                                                    <div class="gridicon-fullsizebox">
+                                                                                                        <input id="spelltargetSelectAll" class="character-choice" type="checkbox"
+                                                                                                        (change)="on_SelectAllTargets(spellTaken.gain, targetNumber, $event.target.checked, spell)" [checked]="get_AllTargetsSelected(spellTaken.gain, targetNumber, spell)">
+                                                                                                        <label for="spelltargetSelectAll" style="font-size: 1.5em;">
+                                                                                                            <strong>Select all</strong>
+                                                                                                        </label>
+                                                                                                    </div>
+                                                                                                    <div class="itembox-inner" style="max-height: 50vh;">
+                                                                                                        <ng-container *ngFor="let target of targets; trackBy:trackByIndex">
+                                                                                                            <div class="list-item gridicon-fullsizebox">
+                                                                                                                <input id="spelltarget{{target.name}}" class="character-choice" *ngIf="!target.isPlayer || !spell.cannotTargetCaster" type="checkbox"
+                                                                                                                [(ngModel)]="target.selected" [disabled]="(target.isPlayer && spell.cannotTargetCaster) || (get_AllTargetsSelected(spellTaken.gain, targetNumber, spell) && !target.selected)">
+                                                                                                                <input id="spelltarget{{target.name}}AlreadySelected" class="character-choice" *ngIf="target.isPlayer && spell.cannotTargetCaster" type="checkbox"
+                                                                                                                disabled checked>
+                                                                                                                <label for="spelltarget{{target.name}}" style="font-size: 1.5em;">
+                                                                                                                    <div style="width:1em;" *ngIf="target.type != 'Character'"></div>
+                                                                                                                    <i class="ra ra-player" *ngIf="target.type=='Character'" style="line-height: 1.5;"></i>
+                                                                                                                    <i class="ra ra-wolf-howl" *ngIf="target.type=='Companion'" style="line-height: 1.5;"></i>
+                                                                                                                    <i class="ra ra-raven" *ngIf="target.type=='Familiar'" style="line-height: 1.5;"></i>
+                                                                                                                    <strong>{{target.name}}</strong>
+                                                                                                                </label>
+                                                                                                            </div>
+                                                                                                        </ng-container>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                                <div class="modal-footer">
+                                                                                                    <button type="button" class="btn btn-outline-secondary"
+                                                                                                        (click)="modal.dismiss('Cancel click')">Cancel</button>
+                                                                                                    <button type="button" class="btn btn-primary" style="background-color: rgb(var(--accent));"
+                                                                                                        (click)="modal.close('Cast click')">Cast spell on these targets</button>
+                                                                                                </div>
+                                                                                            </ng-template>
+                                                                                            <div class="newrow"
+                                                                                            [ngbTooltip]="cannotCast">
+                                                                                                <button
+                                                                                                    class="newrow center-aligned"
+                                                                                                    (click)="open_SpellTargetModal(SpellTargetModal, level, spellTaken.gain, casting, spellTaken.choice, spell, bloodMagicFeats)"
+                                                                                                    [disabled]="cannotCast"
+                                                                                                    [ngbTooltip]="get_IsBloodMagicTrigger(spell, bloodMagicFeats) ? 'Casting this spell will trigger your blood magic power' : (!can_Activate(spell, bloodMagicFeats, effectiveSpellLevel) ? 'The spell has no automatic effects.' : '')">
+                                                                                                    <span>
+                                                                                                        Cast on... <i class='bi-peace'
+                                                                                                        *ngIf="!can_Activate(spell, bloodMagicFeats, effectiveSpellLevel)"></i>
+                                                                                                        <i class='ra ra-droplet-splash'
+                                                                                                            *ngIf="get_IsBloodMagicTrigger(spell, bloodMagicFeats)"></i>
+                                                                                                    </span>
+                                                                                                </button>
+                                                                                            </div>
+                                                                                        </ng-container>
+                                                                                    </ng-container>
+                                                                                </ng-container>
                                                                                 <div class="newrow"
-                                                                                    *ngIf="['self', 'ally', 'area'].includes(spell.target) && (!spell.target.includes('you and')) && !spell.get_IsHostile() && !spellTaken.gain.active"
-                                                                                    [ngbTooltip]="cannotCast">
-                                                                                    <button
-                                                                                        class="newrow center-aligned"
-                                                                                        (click)="on_Cast(level, spellTaken.gain, casting, spellTaken.choice, 'Character', spell, true, bloodMagicFeats)"
-                                                                                        [disabled]="cannotCast"
-                                                                                        [ngbTooltip]="get_IsBloodMagicTrigger(spell, bloodMagicFeats) ? 'Casting this spell will trigger your blood magic power' : (!can_Activate(spell, bloodMagicFeats) ? 'The spell has no automatic effects.' : '')">
-                                                                                        <span>
-                                                                                            {{spell.target != 'self' ?
-                                                                                            "Cast on yourself" :
-                                                                                            "Cast"}} <i class='bi-peace'
-                                                                                                *ngIf="!can_Activate(spell, bloodMagicFeats)"></i>
-                                                                                            <i class='ra ra-droplet-splash'
-                                                                                                *ngIf="get_IsBloodMagicTrigger(spell, bloodMagicFeats)"></i>
-                                                                                        </span>
-                                                                                    </button>
-                                                                                </div>
-                                                                                <div class="newrow"
-                                                                                    *ngIf="['companion', 'ally', 'area'].includes(spell.target) && !spell.get_IsHostile() && !spellTaken.gain.active && get_CompanionAvailable()"
-                                                                                    [ngbTooltip]="cannotCast">
-                                                                                    <button
-                                                                                        class="newrow center-aligned"
-                                                                                        (click)="on_Cast(level, spellTaken.gain, casting, spellTaken.choice, 'Companion', spell, true, bloodMagicFeats)"
-                                                                                        [disabled]="cannotCast"
-                                                                                        [ngbTooltip]="get_IsBloodMagicTrigger(spell, bloodMagicFeats) ? 'Casting this spell will trigger your blood magic power' : (!can_Activate(spell, bloodMagicFeats) ? 'The spell has no automatic effects.' : '')">
-                                                                                        <span>
-                                                                                            Cast on your animal
-                                                                                            companion <i
-                                                                                                class='bi-peace'
-                                                                                                *ngIf="!can_Activate(spell, bloodMagicFeats)"></i>
-                                                                                            <i class='ra ra-droplet-splash'
-                                                                                                *ngIf="get_IsBloodMagicTrigger(spell, bloodMagicFeats)"></i>
-                                                                                        </span>
-                                                                                    </button>
-                                                                                </div>
-                                                                                <div class="newrow"
-                                                                                    *ngIf="['familiar', 'ally', 'area'].includes(spell.target) && !spell.get_IsHostile() && !spellTaken.gain.active && get_FamiliarAvailable()"
-                                                                                    [ngbTooltip]="cannotCast">
-                                                                                    <button
-                                                                                        class="newrow center-aligned"
-                                                                                        (click)="on_Cast(level, spellTaken.gain, casting, spellTaken.choice, 'Familiar', spell, true, bloodMagicFeats)"
-                                                                                        [disabled]="cannotCast"
-                                                                                        [ngbTooltip]="get_IsBloodMagicTrigger(spell, bloodMagicFeats) ? 'Casting this spell will trigger your blood magic power' : (!can_Activate(spell, bloodMagicFeats) ? 'The spell has no automatic effects.' : '')">
-                                                                                        <span>
-                                                                                            Cast on your familiar <i
-                                                                                                class='bi-peace'
-                                                                                                *ngIf="!can_Activate(spell, bloodMagicFeats)"></i>
-                                                                                            <i class='ra ra-droplet-splash'
-                                                                                                *ngIf="get_IsBloodMagicTrigger(spell, bloodMagicFeats)"></i>
-                                                                                        </span>
-                                                                                    </button>
-                                                                                </div>
-                                                                                <div class="newrow"
-                                                                                    *ngIf="['ally', 'area', 'minion', 'object', 'other'].includes(spell.target) && !spellTaken.gain.active"
+                                                                                    *ngIf=" !spellTaken.gain.active && ['ally', 'area', 'minion', 'object', 'other'].includes(spell.target)"
                                                                                     [ngbTooltip]="cannotCast">
                                                                                     <button
                                                                                         class="newrow center-aligned"
                                                                                         (click)="on_Cast(level, spellTaken.gain, casting, spellTaken.choice, '', spell, true, bloodMagicFeats)"
                                                                                         [disabled]="cannotCast"
-                                                                                        [ngbTooltip]="get_IsBloodMagicTrigger(spell, bloodMagicFeats) ? 'Casting this spell will trigger your blood magic power' : (!can_Activate(spell, bloodMagicFeats) ? 'The spell has no automatic effects.' : '')">
+                                                                                        [ngbTooltip]="get_IsBloodMagicTrigger(spell, bloodMagicFeats) ? 'Casting this spell will trigger your blood magic power' : (!can_Activate(spell, bloodMagicFeats, effectiveSpellLevel) ? 'The spell has no automatic effects.' : '')">
                                                                                         <span>
                                                                                             Cast <i class='bi-peace'
-                                                                                                *ngIf="!can_Activate(spell, bloodMagicFeats, true)"></i>
+                                                                                                *ngIf="!can_Activate(spell, bloodMagicFeats, effectiveSpellLevel, true)"></i>
                                                                                             <i class='ra ra-droplet-splash'
                                                                                                 *ngIf="get_IsBloodMagicTrigger(spell, bloodMagicFeats)"></i>
                                                                                         </span>

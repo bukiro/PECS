@@ -6,6 +6,7 @@ export class ConditionGain {
     public readonly _className: string = this.constructor.name;
     public addValue: number = 0;
     public id = uuidv1();
+    public foreignPlayerId: string = "";
     public apply: boolean = true;
     public decreasingValue: boolean = false;
     //Duration in turns * 10 [+1 to resolve afterwards], or:

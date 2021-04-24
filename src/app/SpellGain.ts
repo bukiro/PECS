@@ -1,5 +1,6 @@
 import { ItemGain } from './ItemGain';
 import { v1 as uuidv1 } from 'uuid';
+import { SpellTarget } from './SpellTarget';
 
 export class SpellGain {
     public readonly _className: string = this.constructor.name;
@@ -29,6 +30,8 @@ export class SpellGain {
     public sourceId: string = "";
     //For sustained spells, the target ("Character", "Companion", "Familiar") is saved here so any conditions can be removed when the spell ends.
     public target: string = "";
+    //The selected targets are saved here for casting a spell.
+    public targets: SpellTarget[] = [];
     //Condition gains save this id so they can end the spell when the condition ends.
     public id = uuidv1();
 }

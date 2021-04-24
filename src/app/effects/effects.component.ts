@@ -170,8 +170,7 @@ export class EffectsComponent implements OnInit {
     }
 
     get_IsInformationalCondition(conditionGain: ConditionGain, condition: Condition) {
-        //Return whether the condition is purely informational, i.e. has no effects and is not currently causing any conditions.
-        return !condition.effects?.length && !condition.hints.some(hint => hint.effects?.length) && !this.characterService.get_AppliedConditions(this.get_Creature(), "", "", true).some(existingCondition => existingCondition.parentID == conditionGain.id);
+        return condition.get_IsInformationalCondition(this.get_Creature(), this.characterService, conditionGain);
     }
 
     calculate_InventoryEffects() {
@@ -223,7 +222,7 @@ export class EffectsComponent implements OnInit {
     calculate_Bulk() {
         if (this.creature != "Familiar") {
             let bulk = this.get_Creature().bulk;
-            let calculatedBulk = bulk.calculate((this.get_Creature() as Character|AnimalCompanion), this.characterService, this.effectsService);
+            let calculatedBulk = bulk.calculate((this.get_Creature() as Character | AnimalCompanion), this.characterService, this.effectsService);
             if (calculatedBulk.current.value > calculatedBulk.encumbered.value && this.characterService.get_AppliedConditions(this.get_Creature(), "Encumbered", "Bulk").length == 0) {
                 this.characterService.add_Condition(this.get_Creature(), Object.assign(new ConditionGain, { name: "Encumbered", value: 0, source: "Bulk", apply: true }), true)
             }

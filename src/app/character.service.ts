@@ -58,7 +58,9 @@ import { Hint } from './Hint';
 import { Creature } from './Creature';
 import { LanguageGain } from './LanguageGain';
 import { ConfigService } from './config.service';
-import { DiceService } from './dice.service';
+import { SpellTarget } from './SpellTarget';
+import { PlayerMessage } from './PlayerMessage';
+import { MessageService } from './message.service';
 
 @Injectable({
     providedIn: 'root'
@@ -104,7 +106,8 @@ export class CharacterService {
         public defenseService: DefenseService,
         public deitiesService: DeitiesService,
         public animalCompanionsService: AnimalCompanionsService,
-        public familiarsService: FamiliarsService
+        public familiarsService: FamiliarsService,
+        private messageService: MessageService
     ) { }
 
     still_loading() {
@@ -1498,6 +1501,60 @@ export class CharacterService {
             gain.lockedByParent = false;
             gain.valueLockedByParent = false;
         });
+    }
+
+    send_ConditionToPlayers(targets: SpellTarget[], conditionGain: ConditionGain, activate: boolean = true) {
+        let messages: PlayerMessage[] = [];
+        targets.forEach(target => {
+            let message = new PlayerMessage();
+            message.recipientId = target.playerId;
+            message.senderId = this.get_Character().id;
+            message.targetId = target.id;
+            message.time = Date();
+            message.timeStamp = (new Date().getTime())
+            message.gainCondition.push(Object.assign(new ConditionGain(), JSON.parse(JSON.stringify(conditionGain))));
+            if (message.gainCondition.length) {
+                message.gainCondition[0].foreignPlayerId = message.senderId;
+            }
+            message.activate = activate;
+            messages.push(message);
+        })
+        if (messages.length) {
+            this.messageService.send_Messages(messages).subscribe((result) => {
+                console.log("Saved messages to " + (messages.length) + " targets to database.");
+            }, (error) => {
+                console.log('Error saving messages to database: ' + error.message);
+            });;
+        }
+    }
+
+    apply_MessageConditions(messages: PlayerMessage[]) {
+        messages.forEach(message => {
+            if (message.selected) {
+                if (message.activate) {
+                    let targetCreature = this.get_Creatures().find(creature => creature.id == message.targetId)
+                    if (targetCreature && message.gainCondition.length) {
+                        this.add_Condition(targetCreature, message.gainCondition[0], false, null)
+                    }
+                } else {
+                    let targetCreature = this.get_Creatures().find(creature => creature.id == message.targetId)
+                    if (targetCreature && message.gainCondition.length) {
+                        this.get_AppliedConditions(targetCreature, message.gainCondition[0].name)
+                            .filter(existingConditionGain => existingConditionGain.foreignPlayerId == message.senderId && existingConditionGain.source == message.gainCondition[0].source)
+                            .forEach(existingConditionGain => {
+                                this.remove_Condition(targetCreature, existingConditionGain, false);
+                            });
+                    }
+                }
+            }
+        })
+        messages.forEach(message => {
+            this.messageService.delete_MessageFromDB(message).subscribe((result) => {
+                console.log("Deleted message " + (message.id) + " from database.");
+            }, (error) => {
+                console.log('Error deleting message from database: ' + error.message);
+            });;;
+        })
     }
 
     process_OnceEffect(creature: Creature, effectGain: EffectGain, conditionValue: number = 0, conditionHeightened: number = 0, conditionChoice: string = "", conditionSpellCastingAbility: string = "") {

@@ -31,6 +31,10 @@ body {
     background-clip: border-box;
 }
 
+i {
+    color: inherit;
+}
+
 /*
 CLASSIC ELEMENTS
 */
@@ -1438,6 +1442,11 @@ ngb-popover-window.list-item.sublist {
     font-weight: bold;
 }
 
+.modal-content button.btn-primary {
+    background-color: rgb(var(--accent));
+    border-color: rgb(var(--accent));
+}
+
 .modal-header, .modal-body, .modal-footer {
     padding: .5em;
     border-color: rgb(var(--accent));
@@ -1446,6 +1455,12 @@ ngb-popover-window.list-item.sublist {
 .modal-header .close {
     padding: .5rem .5rem;
     margin: -.5rem -.5rem -.5rem auto;
+}
+
+.modal-body {
+    display: flex;
+    flex-direction: column;
+    gap: .3em;
 }
 
 /* Bootstrap toolip overrides */

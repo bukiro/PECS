@@ -13,8 +13,10 @@ import { ConditionGain } from '../ConditionGain';
 import { EffectGain } from '../EffectGain';
 import { Condition } from '../Condition';
 import { ConditionsService } from '../conditions.service';
-import { NgbPopoverConfig, NgbTooltipConfig } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal, NgbModal, NgbPopoverConfig, NgbTooltipConfig } from '@ng-bootstrap/ng-bootstrap';
 import { Feat } from '../Feat';
+import { SpellTarget } from '../SpellTarget';
+import { SavegameService } from '../savegame.service';
 
 @Component({
     selector: 'app-spellbook',
@@ -42,6 +44,9 @@ export class SpellbookComponent implements OnInit {
         private timeService: TimeService,
         private effectsService: EffectsService,
         private conditionsService: ConditionsService,
+        private savegameService: SavegameService,
+        private modalService: NgbModal,
+        public modal: NgbActiveModal,
         popoverConfig: NgbPopoverConfig,
         tooltipConfig: NgbTooltipConfig
     ) {
@@ -255,6 +260,68 @@ export class SpellbookComponent implements OnInit {
         return spell.get_EffectiveSpellLevel(this.get_Character(), levelNumber, this.characterService, this.effectsService);
     }
 
+    open_SpellTargetModal(content, levelNumber: number, gain: SpellGain, casting: SpellCasting, choice: SpellChoice, spell: Spell, bloodMagicFeats: Feat[]) {
+        this.modalService.open(content, { centered: true, ariaLabelledBy: 'modal-title' }).result.then((result) => {
+            if (result == "Cast click") {
+                this.on_Cast(levelNumber, gain, casting, choice, "Selected", spell, true, bloodMagicFeats)
+            }
+        }, (reason) => {
+            //Do nothing if cancelled.
+        });
+    }
+
+    get_SpellTargets(spell: Spell, gain: SpellGain) {
+        //Collect all possible targets for a spell (allies only).
+        //Hostile spells don't get targets.
+        if (spell.get_IsHostile()) {
+            return [];
+        }
+        let newTargets: SpellTarget[] = [];
+        let character = this.get_Character();
+        this.characterService.get_Creatures().forEach(creature => {
+            newTargets.push(Object.assign(new SpellTarget(), { name: creature.name || creature.type, id: creature.id, type: creature.type, selected: (gain.targets.find(target => target.id == creature.id)?.selected || false), isPlayer: creature === character }));
+        })
+        this.savegameService.get_Savegames().filter(savegame => savegame.partyName == character.partyName && savegame.id != character.id).forEach(savegame => {
+            newTargets.push(Object.assign(new SpellTarget(), { name: savegame.name || "Unnamed", id: savegame.id, playerId: savegame.id, type: "Character", selected: (gain.targets.find(target => target.id == savegame.id)?.selected || false) }));
+            if (savegame.companionId) {
+                newTargets.push(Object.assign(new SpellTarget(), { name: savegame.companionName || "Companion", id: savegame.companionId, playerId: savegame.id, type: "Companion", selected: (gain.targets.find(target => target.id == savegame.companionId)?.selected || false) }));
+            }
+            if (savegame.familiarId) {
+                newTargets.push(Object.assign(new SpellTarget(), { name: savegame.familiarName || "Familiar", id: savegame.familiarId, playerId: savegame.id, type: "Familiar", selected: (gain.targets.find(target => target.id == savegame.familiarId)?.selected || false) }));
+            }
+        })
+        gain.targets = newTargets;
+        return gain.targets;
+    }
+
+    on_SelectAllTargets(gain: SpellGain, targetNumber: number, checked: boolean, spell: Spell) {
+        if (checked) {
+            if (targetNumber == -1) {
+                gain.targets.forEach(target => {
+                    if (!target.isPlayer || !spell.cannotTargetCaster) {
+                        target.selected = true;
+                    }
+                })
+            } else {
+                for (let index = 0 + (spell.cannotTargetCaster ? 1 : 0); index < Math.min(targetNumber + (spell.cannotTargetCaster ? 1 : 0), gain.targets.length); index++) {
+                    gain.targets[index].selected = true;
+                }
+            }
+        } else {
+            gain.targets.forEach(target => {
+                target.selected = false;
+            })
+        }
+    }
+
+    get_AllTargetsSelected(gain: SpellGain, targetNumber: number, spell: Spell) {
+        if (targetNumber == -1) {
+            return (gain.targets.filter(target => target.selected).length >= gain.targets.length - (spell.cannotTargetCaster ? 1 : 0))
+        } else {
+            return (gain.targets.filter(target => target.selected).length >= Math.min(gain.targets.length - (spell.cannotTargetCaster ? 1 : 0), targetNumber));
+        }
+    }
+
     get_FocusPoints() {
         return Math.min(this.get_Character().class.focusPoints, this.get_MaxFocusPoints());
     }
@@ -394,20 +461,21 @@ export class SpellbookComponent implements OnInit {
         return bloodMagicFeats.some(feat => feat.bloodMagic.some(bloodMagic => bloodMagic.trigger.includes(spell.name)));
     }
 
-    can_Activate(spell: Spell, bloodMagicFeats: Feat[], noTarget: boolean = false) {
+    can_Activate(spell: Spell, bloodMagicFeats: Feat[], levelNumber: number, noTarget: boolean = false) {
         //Return whether this spell
         // - causes any blood magic effect or
         // - causes any target conditions and has a target or
         // - causes any caster conditions and caster conditions are not disabled in general, or any of the caster conditions are not disabled.
+        let gainConditions = spell.get_HeightenedConditions(levelNumber);
         return (
             this.get_IsBloodMagicTrigger(spell, bloodMagicFeats) ||
             (
                 !noTarget &&
-                spell.gainConditions.some(gain => gain.targetFilter != "caster")
+                gainConditions.some(gain => gain.targetFilter != "caster")
             )
         ) ||
             (
-                spell.gainConditions.some(gain => gain.targetFilter == "caster") &&
+                gainConditions.some(gain => gain.targetFilter == "caster") &&
                 (
                     (
                         spell.get_IsHostile() ?
@@ -416,7 +484,7 @@ export class SpellbookComponent implements OnInit {
                     ) ||
                     (
                         this.conditionsService.get_Conditions()
-                            .filter(condition => spell.gainConditions.some(gain => gain.name == condition.name && gain.targetFilter == "caster"))
+                            .filter(condition => gainConditions.some(gain => gain.name == condition.name && gain.targetFilter == "caster"))
                             .some(condition =>
                                 condition.get_HasEffects() ||
                                 condition.get_IsChangeable()
@@ -426,7 +494,7 @@ export class SpellbookComponent implements OnInit {
             )
     }
 
-    on_Cast(levelNumber: number, gain: SpellGain, casting: SpellCasting, choice: SpellChoice, creature: string = "", spell: Spell, activated: boolean, bloodMagicFeats: Feat[]) {
+    on_Cast(levelNumber: number, gain: SpellGain, casting: SpellCasting, choice: SpellChoice, target: string = "", spell: Spell, activated: boolean, bloodMagicFeats: Feat[]) {
         let character = this.get_Character();
         //Spells with a cooldown can start their cooldown, but not use any resources.
         if (gain.cooldown) {
@@ -478,11 +546,11 @@ export class SpellbookComponent implements OnInit {
                 }
             })
         })
-        this.spellsService.process_Spell(character, creature, this.characterService, this.itemsService, this.conditionsService, casting, gain, spell, levelNumber, activated, true);
+        this.spellsService.process_Spell(character, target, this.characterService, this.itemsService, this.conditionsService, casting, gain, spell, levelNumber, activated, true);
         if (gain.combinationSpellName) {
             let secondSpell = this.get_Spells(gain.combinationSpellName)[0];
             if (secondSpell) {
-                this.spellsService.process_Spell(character, creature, this.characterService, this.itemsService, this.conditionsService, casting, gain, secondSpell, levelNumber, activated, true);
+                this.spellsService.process_Spell(character, target, this.characterService, this.itemsService, this.conditionsService, casting, gain, secondSpell, levelNumber, activated, true);
             }
         }
     }
