@@ -25,8 +25,7 @@
                 </button>
                 <div class="list-item sublist" *ngIf="get_ShowList()=='QuickStatus'">
                     <div class="list-item newrow">
-                        <button class="center-aligned" *ngIf="!get_FlatFooted()" (click)="set_FlatFooted(true)">Enable
-                            Flat-Footed</button>
+                        <button class="center-aligned" *ngIf="!get_FlatFooted()" (click)="set_FlatFooted(true)">Flat-Footed</button>
                         <button class="center-aligned fancy-button" *ngIf="get_FlatFooted()" (click)="set_FlatFooted(false)">Disable
                             Flat-Footed</button>
                     </div>
@@ -47,6 +46,10 @@
                             Cover</button>
                         <button class="center-aligned fancy-button" *ngIf="get_Cover() == 4" (click)="set_Cover(0)">End
                             Cover</button>
+                    </div>
+                    <div class="list-item newrow">
+                        <button class="center-aligned" *ngIf="!get_Hidden()" (click)="set_Hidden(true)">Hidden</button>
+                        <button class="center-aligned fancy-button" *ngIf="get_Hidden()" (click)="set_Hidden(false)">Disable Hidden</button>
                     </div>
                 </div>
             </div>

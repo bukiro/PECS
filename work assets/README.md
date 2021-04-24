@@ -100,7 +100,7 @@ Internal To Do list
 - [x] - Level 2 Spells
 - [x] - Level 3 Spells
 - [x] - Level 4 Spells
-- [ ] - Level 5 Spells
+- [x] - Level 5 Spells
 - [ ] - Level 6 Spells
 - [ ] - Level 7 Spells
 - [ ] - Level 8 Spells

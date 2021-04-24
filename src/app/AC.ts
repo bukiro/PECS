@@ -13,11 +13,11 @@ export class AC {
     public name: string = "AC"
     set_Cover(creature: Creature, cover: number, shield: Shield = null, characterService: CharacterService, conditionsService: ConditionsService) {
         let conditions: ConditionGain[] = conditionsService.get_AppliedConditions(creature, characterService, creature.conditions, true)
-            .filter(gain => ["Lesser Cover", "Standard Cover", "Greater Cover"].includes(gain.name) && gain.source == "Defense");
-        let lesserCover = conditions.find(gain => gain.name == "Lesser Cover");
-        let standardCover = conditions.find(gain => gain.name == "Standard Cover");
-        let greaterCover = conditions.find(gain => gain.name == "Greater Cover");
-        let coverName: string = "";
+            .filter(gain => gain.name == "Cover" && gain.source == "Quick Status");
+        let lesserCover = conditions.find(gain => gain.name == "Cover" && gain.choice == "Lesser");
+        let standardCover = conditions.find(gain => gain.name == "Cover" && gain.choice == "Standard");
+        let greaterCover = conditions.find(gain => gain.name == "Cover" && gain.choice == "Greater");
+        let coverChoice: string = "";
         switch (cover) {
             case 0:
                 if (shield) {
@@ -26,12 +26,12 @@ export class AC {
                 break;
             case 1:
                 if (!lesserCover) {
-                    coverName = "Lesser Cover";
+                    coverChoice = "Lesser";
                 }
                 break;
             case 2:
                 if (!standardCover) {
-                    coverName = "Standard Cover";
+                    coverChoice = "Standard";
                 }
                 break;
             case 4:
@@ -39,7 +39,7 @@ export class AC {
                     shield.takingCover = true;
                 }
                 if (!greaterCover) {
-                    coverName = "Greater Cover";
+                    coverChoice = "Greater";
                 }
                 break;
         }
@@ -52,8 +52,8 @@ export class AC {
         if (greaterCover && cover != 4) {
             characterService.remove_Condition(creature, greaterCover, false);
         }
-        if (coverName) {
-            let newCondition: ConditionGain = Object.assign(new ConditionGain(), { name: coverName, source: "Defense", duration: -1, locked: true })
+        if (coverChoice) {
+            let newCondition: ConditionGain = Object.assign(new ConditionGain(), { name: "Cover", choice: coverChoice, source: "Quick Status", duration: -1, locked: true })
             characterService.add_Condition(creature, newCondition, false);
         }
         characterService.process_ToChange();

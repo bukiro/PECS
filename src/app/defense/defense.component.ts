@@ -105,16 +105,15 @@ export class DefenseComponent implements OnInit {
 
     get_Cover() {
         let creature = this.get_Creature();
-        let conditions: string[] = this.conditionsService.get_AppliedConditions(creature, this.characterService, creature.conditions, true)
-            .filter(gain => ["Lesser Cover", "Standard Cover", "Greater Cover"].includes(gain.name) && gain.source == "Defense")
-            .map(gain => gain.name);
-        if (conditions.includes("Greater Cover")) {
+        let conditions: ConditionGain[] = this.conditionsService.get_AppliedConditions(creature, this.characterService, creature.conditions, true)
+            .filter(gain => gain.name == "Cover" && gain.source == "Quick Status");
+        if (conditions.some(gain => gain.name == "Cover" && gain.choice == "Greater")) {
             return 4;
         }
-        if (conditions.includes("Standard Cover")) {
+        if (conditions.some(gain => gain.name == "Cover" && gain.choice == "Standard")) {
             return 2;
         }
-        if (conditions.includes("Lesser Cover")) {
+        if (conditions.some(gain => gain.name == "Cover" && gain.choice == "Lesser")) {
             return 1;
         }
         return 0;
@@ -137,7 +136,7 @@ export class DefenseComponent implements OnInit {
     get_FlatFooted() {
         let creature = this.get_Creature();
         return this.conditionsService.get_AppliedConditions(creature, this.characterService, creature.conditions, true)
-            .find(gain => gain.name == "Flat-Footed" && gain.source == "Defense");
+            .find(gain => gain.name == "Flat-Footed" && gain.source == "Quick Status");
     }
 
     set_FlatFooted(active: boolean) {
@@ -145,12 +144,34 @@ export class DefenseComponent implements OnInit {
         let flatFooted = this.get_FlatFooted();
         if (active) {
             if (!flatFooted) {
-                let newCondition: ConditionGain = Object.assign(new ConditionGain(), { name: "Flat-Footed", source: "Defense", duration: -1, locked: true })
+                let newCondition: ConditionGain = Object.assign(new ConditionGain(), { name: "Flat-Footed", source: "Quick Status", duration: -1, locked: true })
                 this.characterService.add_Condition(creature, newCondition, false);
             }
         } else {
             if (flatFooted) {
                 this.characterService.remove_Condition(creature, flatFooted, false);
+            }
+        }
+        this.characterService.process_ToChange();
+    }
+
+    get_Hidden() {
+        let creature = this.get_Creature();
+        return this.conditionsService.get_AppliedConditions(creature, this.characterService, creature.conditions, true)
+            .find(gain => gain.name == "Hidden" && gain.source == "Quick Status");
+    }
+
+    set_Hidden(active: boolean) {
+        let creature = this.get_Creature();
+        let hidden = this.get_Hidden();
+        if (active) {
+            if (!hidden) {
+                let newCondition: ConditionGain = Object.assign(new ConditionGain(), { name: "Hidden", source: "Quick Status", duration: -1, locked: true })
+                this.characterService.add_Condition(creature, newCondition, false);
+            }
+        } else {
+            if (hidden) {
+                this.characterService.remove_Condition(creature, hidden, false);
             }
         }
         this.characterService.process_ToChange();

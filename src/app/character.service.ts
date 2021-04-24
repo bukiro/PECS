@@ -1465,6 +1465,10 @@ export class CharacterService {
             })
             creature.conditions.splice(creature.conditions.indexOf(oldConditionGain), 1)
             this.conditionsService.process_Condition(creature, this, this.effectsService, this.itemsService, oldConditionGain, originalCondition, false, increaseWounded, ignoreEndsWithConditions);
+            if (oldConditionGain.source == "Quick Status") {
+                this.set_ToChange(creature.type, "defense");
+                this.set_ToChange(creature.type, "attacks");
+            }
             this.set_ToChange(creature.type, "effects");
             if (reload) {
                 this.process_ToChange();

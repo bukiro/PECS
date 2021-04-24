@@ -6554,6 +6554,57 @@
         ]
     },
     {
+        "name": "Cover",
+        "desc": "When you're behind an obstacle that could block weapons, guard you against explosions, and make you harder to detect, you're behind cover. Standard cover gives you a +2 circumstance bonus to AC, to Reflex saves against area effects, and to Stealth checks to Hide, Sneak, or otherwise avoid detection. You can increase this to greater cover using the Take Cover basic action, increasing the circumstance bonus to +4. If cover is especially light, typically when it's provided by a creature, you have lesser cover, which grants a +1 circumstance bonus to AC. A creature with standard cover or greater cover can attempt to use Stealth to Hide, but lesser cover isn't sufficient.\n\nCover is relative, so you might simultaneously have cover against one creature and not another. Cover applies only if your path to the target is partially blocked. If a creature is entirely behind a wall or the like, you don't have line of effect and typically can't target it at all.",
+        "type": "generic",
+        "SortLevel": 0,
+        "buff": true,
+        "hide": true,
+        "hints": [
+            {
+                "desc": "With standard cover, you gain a +2 circumstance bonus to Reflex saves against area effects. With greater cover, this bonus increases to +4.",
+                "showon": "Reflex",
+                "effects": [
+                    {
+                        "affected": "Reflex",
+                        "type": "circumstance",
+                        "value": "Choice == 'Greater' ? 4 : (Choice == 'Standard' ? 2 : 0)"
+                    }
+                ]
+            },
+            {
+                "desc": "With standard cover, you gain a +2 circumstance bonus to Stealth checks to Hide, Sneak, or otherwise avoid detection. You can attempt to use Stealth to Hide. With greater cover, this bonus increases to +4.",
+                "showon": "Stealth",
+                "effects": [
+                    {
+                        "affected": "Stealth",
+                        "type": "circumstance",
+                        "value": "Choice == 'Greater' ? 4 : (Choice == 'Standard' ? 2 : 0)"
+                    }
+                ]
+            }
+        ],
+        "choice": "Standard",
+        "choices": [
+            {
+                "name": "Greater"
+            },
+            {
+                "name": "Standard"
+            },
+            {
+                "name": "Lesser"
+            }
+        ],
+        "effects": [
+            {
+                "affected": "AC",
+                "type": "circumstance",
+                "value": "Choice == 'Greater' ? 4 : (Choice == 'Standard' ? 2 : 1)"
+            }
+        ]
+    },
+    {
         "name": "Dazzled",
         "desc": "Your eyes are overstimulated. If vision is your only precise sense, all creatures and objects are concealed from you.",
         "type": "generic",
@@ -6830,45 +6881,6 @@
         ]
     },
     {
-        "name": "Greater Cover",
-        "desc": "Greater cover gives you a +4 circumstance bonus to AC, to Reflex saves against area effects, and to Stealth checks to Hide, Sneak, or otherwise avoid detection. A creature with standard cover or greater cover can attempt to use Stealth to Hide.",
-        "type": "generic",
-        "SortLevel": 0,
-        "buff": true,
-        "hide": true,
-        "hints": [
-            {
-                "desc": "You gain a +4 circumstance bonus to Reflex saves against area effects.",
-                "showon": "Reflex",
-                "effects": [
-                    {
-                        "affected": "Reflex",
-                        "type": "circumstance",
-                        "value": "4"
-                    }
-                ]
-            },
-            {
-                "desc": "You gain a +4 circumstance bonus to Stealth checks to Hide, Sneak, or otherwise avoid detection. You can attempt to use Stealth to Hide.",
-                "showon": "Stealth",
-                "effects": [
-                    {
-                        "affected": "Stealth",
-                        "type": "circumstance",
-                        "value": "4"
-                    }
-                ]
-            }
-        ],
-        "effects": [
-            {
-                "affected": "AC",
-                "type": "circumstance",
-                "value": "4"
-            }
-        ]
-    },
-    {
         "name": "Helpful",
         "desc": "This condition reflects a creature's disposition toward a particular character, and only supernatural effects (like a spell) can impose these conditions on player characters. A creature that is helpful to a character wishes to actively aid that character. It will accept reasonable Requests from that character, as long as such requests aren't at the expense of the helpful creature's goals or quality of life. If the character or one of their allies uses a hostile action against the creature, the creature gains a worse attitude condition depending on the severity of the hostile action, as determined by the GM.",
         "type": "generic",
@@ -6935,108 +6947,73 @@
         ]
     },
     {
-        "name": "Lesser Cover",
-        "desc": "If cover is especially light, typically when it's provided by a creature, you have lesser cover, which grants a +1 circumstance bonus to AC. A creature with standard cover or greater cover can attempt to use Stealth to Hide, but lesser cover isn't sufficient.",
-        "type": "generic",
-        "SortLevel": 0,
-        "buff": true,
-        "hide": true,
-        "effects": [
-            {
-                "affected": "AC",
-                "type": "circumstance",
-                "value": "1"
-            }
-        ]
-    },
-    {
-        "name": "Multiple Attack Penalty: Second Attack",
-        "desc": "The second time you use an attack action during your turn, you take a -5 penalty to your attack roll. Every check that has the attack trait counts toward your multiple attack penalty, including Strikes, spell attack rolls, certain skill actions like Shove, and many others.\n\nSome weapons and abilities reduce multiple attack penalties, such as agile weapons, which reduce these penalties to -4 on the second attack.",
+        "name": "Multiple Attack Penalty",
+        "desc": "The more attacks you make beyond your first in a single turn, the less accurate you become, represented by the multiple attack penalty. The second time you use an attack action during your turn, you take a -5 penalty to your attack roll. The third time you attack, and on any subsequent attacks, you take a -10 penalty to your attack roll. Every check that has the attack trait counts toward your multiple attack penalty, including Strikes, spell attack rolls, certain skill actions like Shove, and many others.\n\nSome weapons and abilities reduce multiple attack penalties, such as agile weapons, which reduce these penalties to -4 on the second attack or -8 on further attacks.",
         "type": "generic",
         "SortLevel": 0,
         "hide": true,
-        "effects": [
+        "defaultDurations": [
             {
-                "affected": "Non-Agile Attack Rolls",
-                "value": "-5"
-            },
-            {
-                "affected": "Agile Attack Rolls",
-                "value": "Character.get_FeatsTaken(1, Level, 'Agile Grace').length ? -3 : -4"
-            },
-            {
-                "affected": "Spell Attack Rolls",
-                "value": "-5"
-            }
-        ]
-    },
-    {
-        "name": "Multiple Attack Penalty: Second Attack (Flurry)",
-        "desc": "You have trained to unleash a devastating flurry of attacks upon your prey. Your multiple attack penalty for attacks against your hunted prey is -3 (-2 with an agile weapon) on your second attack of the turn instead of -5.",
-        "type": "generic",
-        "SortLevel": 0,
-        "hide": true,
-        "effects": [
-            {
-                "affected": "Non-Agile Attack Rolls",
-                "value": "-3"
-            },
-            {
-                "affected": "Agile Attack Rolls",
-                "value": "-2"
-            },
-            {
-                "affected": "Spell Attack Rolls",
-                "value": "-3"
-            }
-        ]
-    },
-    {
-        "name": "Multiple Attack Penalty: Third Attack",
-        "desc": "The third time you attack, and on any subsequent attacks, you take a -10 penalty to your attack roll. Every check that has the attack trait counts toward your multiple attack penalty, including Strikes, spell attack rolls, certain skill actions like Shove, and many others.\n\nSome weapons and abilities reduce multiple attack penalties, such as agile weapons, which reduce these penalties to -8 on the third and further attacks.",
-        "type": "generic",
-        "SortLevel": 0,
-        "hide": true,
-        "effects": [
-            {
-                "affected": "Non-Agile Attack Rolls",
-                "value": "-10"
-            },
-            {
-                "affected": "Agile Attack Rolls",
-                "value": "Character.get_FeatsTaken(1, Level, 'Agile Grace').length ? -6 : -8"
-            },
-            {
-                "affected": "Spell Attack Rolls",
-                "value": "-10"
+                "duration": 5
             }
         ],
-        "endConditions": [
-            "Multiple Attack Penalty: Second Attack"
-        ]
-    },
-    {
-        "name": "Multiple Attack Penalty: Third Attack (Flurry)",
-        "desc": "You have trained to unleash a devastating flurry of attacks upon your prey. Your multiple attack penalty for attacks against your hunted prey is -6 (-4 with an agile weapon) on your third or subsequent attack of the turn, instead of -10.",
-        "type": "generic",
-        "SortLevel": 0,
-        "hide": true,
+        "choice": "Second Attack",
+        "choices": [
+            {
+                "name": "Second Attack"
+            },
+            {
+                "name": "Third Attack"
+            }
+        ],
         "effects": [
             {
                 "affected": "Non-Agile Attack Rolls",
-                "value": "-6"
+                "value": "Choice == 'Third Attack' ? -10 :-5"
             },
             {
                 "affected": "Agile Attack Rolls",
-                "value": "-4"
+                "value": "Character.get_FeatsTaken(1, Level, 'Agile Grace').length ? (Choice == 'Third Attack' ? -6 : -3) : (Choice == 'Third Attack' ? -8 : -4)"
             },
             {
                 "affected": "Spell Attack Rolls",
-                "value": "-6"
+                "value": "Choice == 'Third Attack' ? -10 :-5"
+            }
+        ]
+    },
+    {
+        "name": "Multiple Attack Penalty (Flurry)",
+        "desc": "You have trained to unleash a devastating flurry of attacks upon your prey. Your multiple attack penalty for attacks against your hunted prey is -3 (-2 with an agile weapon) on your second attack of the turn instead of -5, and -6 (-4 with an agile weapon) on your third or subsequent attack of the turn, instead of -10.",
+        "type": "generic",
+        "SortLevel": 0,
+        "hide": true,
+        "defaultDurations": [
+            {
+                "duration": 5
             }
         ],
-        "endConditions": [
-            "Multiple Attack Penalty: Second Attack"
+        "choice": "Second Attack",
+        "choices": [
+            {
+                "name": "Second Attack"
+            },
+            {
+                "name": "Third Attack"
+            }
+        ],
+        "effects": [
+            {
+                "affected": "Non-Agile Attack Rolls",
+                "value": "Choice == 'Third Attack' ? -6 :-3"
+            },
+            {
+                "affected": "Agile Attack Rolls",
+                "value": "Choice == 'Third Attack' ? -4 :-2"
+            },
+            {
+                "affected": "Spell Attack Rolls",
+                "value": "Choice == 'Third Attack' ? -6 :-3"
+            }
         ]
     },
     {
@@ -7184,45 +7161,6 @@
             {
                 "affected": "Actions per Turn",
                 "value": "(-Value)"
-            }
-        ]
-    },
-    {
-        "name": "Standard Cover",
-        "desc": "Standard cover gives you a +2 circumstance bonus to AC, to Reflex saves against area effects, and to Stealth checks to Hide, Sneak, or otherwise avoid detection. A creature with standard cover or greater cover can attempt to use Stealth to Hide.",
-        "type": "generic",
-        "SortLevel": 0,
-        "buff": true,
-        "hide": true,
-        "hints": [
-            {
-                "desc": "You gain a +2 circumstance bonus to Reflex saves against area effects.",
-                "showon": "Reflex",
-                "effects": [
-                    {
-                        "affected": "Reflex",
-                        "type": "circumstance",
-                        "value": "2"
-                    }
-                ]
-            },
-            {
-                "desc": "You gain a +2 circumstance bonus to Stealth checks to Hide, Sneak, or otherwise avoid detection. You can attempt to use Stealth to Hide.",
-                "showon": "Stealth",
-                "effects": [
-                    {
-                        "affected": "Stealth",
-                        "type": "circumstance",
-                        "value": "2"
-                    }
-                ]
-            }
-        ],
-        "effects": [
-            {
-                "affected": "AC",
-                "type": "circumstance",
-                "value": "2"
             }
         ]
     },
