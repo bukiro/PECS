@@ -6554,6 +6554,57 @@
         ]
     },
     {
+        "name": "Cover",
+        "desc": "When you're behind an obstacle that could block weapons, guard you against explosions, and make you harder to detect, you're behind cover. Standard cover gives you a +2 circumstance bonus to AC, to Reflex saves against area effects, and to Stealth checks to Hide, Sneak, or otherwise avoid detection. You can increase this to greater cover using the Take Cover basic action, increasing the circumstance bonus to +4. If cover is especially light, typically when it's provided by a creature, you have lesser cover, which grants a +1 circumstance bonus to AC. A creature with standard cover or greater cover can attempt to use Stealth to Hide, but lesser cover isn't sufficient.\n\nCover is relative, so you might simultaneously have cover against one creature and not another. Cover applies only if your path to the target is partially blocked. If a creature is entirely behind a wall or the like, you don't have line of effect and typically can't target it at all.",
+        "type": "generic",
+        "SortLevel": 0,
+        "buff": true,
+        "hide": true,
+        "hints": [
+            {
+                "desc": "With standard cover, you gain a +2 circumstance bonus to Reflex saves against area effects. With greater cover, this bonus increases to +4.",
+                "showon": "Reflex",
+                "effects": [
+                    {
+                        "affected": "Reflex",
+                        "type": "circumstance",
+                        "value": "Choice == 'Greater' ? 4 : (Choice == 'Standard' ? 2 : 0)"
+                    }
+                ]
+            },
+            {
+                "desc": "With standard cover, you gain a +2 circumstance bonus to Stealth checks to Hide, Sneak, or otherwise avoid detection. You can attempt to use Stealth to Hide. With greater cover, this bonus increases to +4.",
+                "showon": "Stealth",
+                "effects": [
+                    {
+                        "affected": "Stealth",
+                        "type": "circumstance",
+                        "value": "Choice == 'Greater' ? 4 : (Choice == 'Standard' ? 2 : 0)"
+                    }
+                ]
+            }
+        ],
+        "choice": "Standard",
+        "choices": [
+            {
+                "name": "Greater"
+            },
+            {
+                "name": "Standard"
+            },
+            {
+                "name": "Lesser"
+            }
+        ],
+        "effects": [
+            {
+                "affected": "AC",
+                "type": "circumstance",
+                "value": "Choice == 'Greater' ? 4 : (Choice == 'Standard' ? 2 : 1)"
+            }
+        ]
+    },
+    {
         "name": "Dazzled",
         "desc": "Your eyes are overstimulated. If vision is your only precise sense, all creatures and objects are concealed from you.",
         "type": "generic",
@@ -6830,45 +6881,6 @@
         ]
     },
     {
-        "name": "Greater Cover",
-        "desc": "Greater cover gives you a +4 circumstance bonus to AC, to Reflex saves against area effects, and to Stealth checks to Hide, Sneak, or otherwise avoid detection. A creature with standard cover or greater cover can attempt to use Stealth to Hide.",
-        "type": "generic",
-        "SortLevel": 0,
-        "buff": true,
-        "hide": true,
-        "hints": [
-            {
-                "desc": "You gain a +4 circumstance bonus to Reflex saves against area effects.",
-                "showon": "Reflex",
-                "effects": [
-                    {
-                        "affected": "Reflex",
-                        "type": "circumstance",
-                        "value": "4"
-                    }
-                ]
-            },
-            {
-                "desc": "You gain a +4 circumstance bonus to Stealth checks to Hide, Sneak, or otherwise avoid detection. You can attempt to use Stealth to Hide.",
-                "showon": "Stealth",
-                "effects": [
-                    {
-                        "affected": "Stealth",
-                        "type": "circumstance",
-                        "value": "4"
-                    }
-                ]
-            }
-        ],
-        "effects": [
-            {
-                "affected": "AC",
-                "type": "circumstance",
-                "value": "4"
-            }
-        ]
-    },
-    {
         "name": "Helpful",
         "desc": "This condition reflects a creature's disposition toward a particular character, and only supernatural effects (like a spell) can impose these conditions on player characters. A creature that is helpful to a character wishes to actively aid that character. It will accept reasonable Requests from that character, as long as such requests aren't at the expense of the helpful creature's goals or quality of life. If the character or one of their allies uses a hostile action against the creature, the creature gains a worse attitude condition depending on the severity of the hostile action, as determined by the GM.",
         "type": "generic",
@@ -6935,108 +6947,73 @@
         ]
     },
     {
-        "name": "Lesser Cover",
-        "desc": "If cover is especially light, typically when it's provided by a creature, you have lesser cover, which grants a +1 circumstance bonus to AC. A creature with standard cover or greater cover can attempt to use Stealth to Hide, but lesser cover isn't sufficient.",
-        "type": "generic",
-        "SortLevel": 0,
-        "buff": true,
-        "hide": true,
-        "effects": [
-            {
-                "affected": "AC",
-                "type": "circumstance",
-                "value": "1"
-            }
-        ]
-    },
-    {
-        "name": "Multiple Attack Penalty: Second Attack",
-        "desc": "The second time you use an attack action during your turn, you take a -5 penalty to your attack roll. Every check that has the attack trait counts toward your multiple attack penalty, including Strikes, spell attack rolls, certain skill actions like Shove, and many others.\n\nSome weapons and abilities reduce multiple attack penalties, such as agile weapons, which reduce these penalties to -4 on the second attack.",
+        "name": "Multiple Attack Penalty",
+        "desc": "The more attacks you make beyond your first in a single turn, the less accurate you become, represented by the multiple attack penalty. The second time you use an attack action during your turn, you take a -5 penalty to your attack roll. The third time you attack, and on any subsequent attacks, you take a -10 penalty to your attack roll. Every check that has the attack trait counts toward your multiple attack penalty, including Strikes, spell attack rolls, certain skill actions like Shove, and many others.\n\nSome weapons and abilities reduce multiple attack penalties, such as agile weapons, which reduce these penalties to -4 on the second attack or -8 on further attacks.",
         "type": "generic",
         "SortLevel": 0,
         "hide": true,
-        "effects": [
+        "defaultDurations": [
             {
-                "affected": "Non-Agile Attack Rolls",
-                "value": "-5"
-            },
-            {
-                "affected": "Agile Attack Rolls",
-                "value": "Character.get_FeatsTaken(1, Level, 'Agile Grace').length ? -3 : -4"
-            },
-            {
-                "affected": "Spell Attack Rolls",
-                "value": "-5"
-            }
-        ]
-    },
-    {
-        "name": "Multiple Attack Penalty: Second Attack (Flurry)",
-        "desc": "You have trained to unleash a devastating flurry of attacks upon your prey. Your multiple attack penalty for attacks against your hunted prey is -3 (-2 with an agile weapon) on your second attack of the turn instead of -5.",
-        "type": "generic",
-        "SortLevel": 0,
-        "hide": true,
-        "effects": [
-            {
-                "affected": "Non-Agile Attack Rolls",
-                "value": "-3"
-            },
-            {
-                "affected": "Agile Attack Rolls",
-                "value": "-2"
-            },
-            {
-                "affected": "Spell Attack Rolls",
-                "value": "-3"
-            }
-        ]
-    },
-    {
-        "name": "Multiple Attack Penalty: Third Attack",
-        "desc": "The third time you attack, and on any subsequent attacks, you take a -10 penalty to your attack roll. Every check that has the attack trait counts toward your multiple attack penalty, including Strikes, spell attack rolls, certain skill actions like Shove, and many others.\n\nSome weapons and abilities reduce multiple attack penalties, such as agile weapons, which reduce these penalties to -8 on the third and further attacks.",
-        "type": "generic",
-        "SortLevel": 0,
-        "hide": true,
-        "effects": [
-            {
-                "affected": "Non-Agile Attack Rolls",
-                "value": "-10"
-            },
-            {
-                "affected": "Agile Attack Rolls",
-                "value": "Character.get_FeatsTaken(1, Level, 'Agile Grace').length ? -6 : -8"
-            },
-            {
-                "affected": "Spell Attack Rolls",
-                "value": "-10"
+                "duration": 5
             }
         ],
-        "endConditions": [
-            "Multiple Attack Penalty: Second Attack"
-        ]
-    },
-    {
-        "name": "Multiple Attack Penalty: Third Attack (Flurry)",
-        "desc": "You have trained to unleash a devastating flurry of attacks upon your prey. Your multiple attack penalty for attacks against your hunted prey is -6 (-4 with an agile weapon) on your third or subsequent attack of the turn, instead of -10.",
-        "type": "generic",
-        "SortLevel": 0,
-        "hide": true,
+        "choice": "Second Attack",
+        "choices": [
+            {
+                "name": "Second Attack"
+            },
+            {
+                "name": "Third Attack"
+            }
+        ],
         "effects": [
             {
                 "affected": "Non-Agile Attack Rolls",
-                "value": "-6"
+                "value": "Choice == 'Third Attack' ? -10 :-5"
             },
             {
                 "affected": "Agile Attack Rolls",
-                "value": "-4"
+                "value": "Character.get_FeatsTaken(1, Level, 'Agile Grace').length ? (Choice == 'Third Attack' ? -6 : -3) : (Choice == 'Third Attack' ? -8 : -4)"
             },
             {
                 "affected": "Spell Attack Rolls",
-                "value": "-6"
+                "value": "Choice == 'Third Attack' ? -10 :-5"
+            }
+        ]
+    },
+    {
+        "name": "Multiple Attack Penalty (Flurry)",
+        "desc": "You have trained to unleash a devastating flurry of attacks upon your prey. Your multiple attack penalty for attacks against your hunted prey is -3 (-2 with an agile weapon) on your second attack of the turn instead of -5, and -6 (-4 with an agile weapon) on your third or subsequent attack of the turn, instead of -10.",
+        "type": "generic",
+        "SortLevel": 0,
+        "hide": true,
+        "defaultDurations": [
+            {
+                "duration": 5
             }
         ],
-        "endConditions": [
-            "Multiple Attack Penalty: Second Attack"
+        "choice": "Second Attack",
+        "choices": [
+            {
+                "name": "Second Attack"
+            },
+            {
+                "name": "Third Attack"
+            }
+        ],
+        "effects": [
+            {
+                "affected": "Non-Agile Attack Rolls",
+                "value": "Choice == 'Third Attack' ? -6 :-3"
+            },
+            {
+                "affected": "Agile Attack Rolls",
+                "value": "Choice == 'Third Attack' ? -4 :-2"
+            },
+            {
+                "affected": "Spell Attack Rolls",
+                "value": "Choice == 'Third Attack' ? -6 :-3"
+            }
         ]
     },
     {
@@ -7188,45 +7165,6 @@
         ]
     },
     {
-        "name": "Standard Cover",
-        "desc": "Standard cover gives you a +2 circumstance bonus to AC, to Reflex saves against area effects, and to Stealth checks to Hide, Sneak, or otherwise avoid detection. A creature with standard cover or greater cover can attempt to use Stealth to Hide.",
-        "type": "generic",
-        "SortLevel": 0,
-        "buff": true,
-        "hide": true,
-        "hints": [
-            {
-                "desc": "You gain a +2 circumstance bonus to Reflex saves against area effects.",
-                "showon": "Reflex",
-                "effects": [
-                    {
-                        "affected": "Reflex",
-                        "type": "circumstance",
-                        "value": "2"
-                    }
-                ]
-            },
-            {
-                "desc": "You gain a +2 circumstance bonus to Stealth checks to Hide, Sneak, or otherwise avoid detection. You can attempt to use Stealth to Hide.",
-                "showon": "Stealth",
-                "effects": [
-                    {
-                        "affected": "Stealth",
-                        "type": "circumstance",
-                        "value": "2"
-                    }
-                ]
-            }
-        ],
-        "effects": [
-            {
-                "affected": "AC",
-                "type": "circumstance",
-                "value": "2"
-            }
-        ]
-    },
-    {
         "name": "Stunned",
         "desc": "You've become senseless. You can't act while stunned. Stunned usually includes a value, which indicates how many total actions you lose, possibly over multiple turns, from being stunned. Each time you regain actions (such as at the start of your turn), reduce the number you regain by your stunned value, then reduce your stunned value by the number of actions you lost. For example, if you were stunned 4, you would lose all 3 of your actions on your turn, reducing you to stunned 1; on your next turn, you would lose 1 more action, and then be able to use your remaining 2 actions normally. Stunned might also have a duration instead of a value, such as \"stunned for 1 minute.\" In this case, you lose all your actions for the listed duration.\n\nTo add stunned with a value, set the duration to permanent. To add stunned with a duration, set a duration and choose any value.\n\nStunned overrides slowed. If the duration of your stunned condition ends while you are slowed, you count the actions lost to the stunned condition toward those lost to being slowed. So, if you were stunned 1 and slowed 2 at the beginning of your turn, you would lose 1 action from stunned, and then lose only 1 additional action by being slowed, so you would still have 1 action remaining to use that turn.",
         "type": "generic",
@@ -7236,8 +7174,8 @@
         "effects": [
             {
                 "affected": "Actions per Turn",
-                "setValue": "(object.duration == -1 ? 0 : null)",
-                "value": "(object.duration == -1 ? 0 : -Value)"
+                "setValue": "(object.duration == -1 ? null : 0)",
+                "value": "(object.duration == -1 ? -Value : 0)"
             }
         ],
         "overrideConditions": [
@@ -9292,6 +9230,11 @@
             },
             {
                 "name": "Critical Failure"
+            },
+            {
+                "name": "Multiple Targets",
+                "defaultDuration": -2,
+                "spelllevelreq": 8
             }
         ]
     },
@@ -9527,6 +9470,11 @@
             },
             {
                 "name": "Critical Failure"
+            },
+            {
+                "name": "Multiple Targets",
+                "defaultDuration": 10,
+                "spelllevelreq": 5
             }
         ]
     },
@@ -10183,6 +10131,11 @@
             },
             {
                 "name": "Critical Failure"
+            },
+            {
+                "name": "Multiple Targets",
+                "defaultDuration": 30,
+                "spelllevelreq": 3
             }
         ]
     },
@@ -12044,7 +11997,7 @@
     },
     {
         "name": "Share Lore",
-        "desc": "You are sharing your knowledge with the touched creatures. All targets become trained in one chosen Lore skill in which the caster is trained for the duration of the spell (up to two on 5th Level).",
+        "desc": "The caster is sharing their knowledge with you and the other touched creatures. You become trained in one chosen Lore skill (up to two on 5th Level) in which the caster is trained for the duration of the spell.",
         "type": "spells",
         "minLevel": 1,
         "SortLevel": 1,
@@ -12065,7 +12018,35 @@
         ],
         "hints": [
             {
-                "desc": "All targets become trained in one chosen Lore skill in which the caster is trained for the duration of the spell.",
+                "desc": "You are trained in one chosen Lore skill in which the caster is trained for the duration of the spell.",
+                "showon": "Skills"
+            }
+        ]
+    },
+    {
+        "name": "Share Lore (Caster)",
+        "desc": "You are sharing your knowledge with the touched creatures. All targets become trained in one chosen Lore skill (up to two on 5th Level) in which you are trained for the duration of the spell.",
+        "type": "spells",
+        "minLevel": 1,
+        "SortLevel": 1,
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": 1000,
+                "minLevel": 1
+            },
+            {
+                "duration": 6000,
+                "minLevel": 3
+            },
+            {
+                "duration": 48000,
+                "minLevel": 5
+            }
+        ],
+        "hints": [
+            {
+                "desc": "All targets become trained in one chosen Lore skill in which you are trained for the duration of the spell.",
                 "showon": "Skills"
             }
         ]
@@ -12441,6 +12422,14 @@
             {
                 "desc": "Your weapon and unarmed attacks are treated as silver.",
                 "showon": "Attacks"
+            }
+        ],
+        "choices": [
+            {
+                "name": "-"
+            },
+            {
+                "name": "harmonized"
             }
         ]
     },
@@ -14946,6 +14935,11 @@
             {
                 "name": "Critical Failure",
                 "defaultDuration": 100
+            },
+            {
+                "name": "Multiple Targets",
+                "defaultDuration": 100,
+                "spelllevelreq": 6
             }
         ]
     },
@@ -15083,7 +15077,7 @@
         "buff": true,
         "defaultDurations": [
             {
-                "duration": 15
+                "duration": 11
             }
         ]
     },
@@ -15304,6 +15298,24 @@
             {
                 "affected": "Climb Speed",
                 "setValue": "Speed('Land Speed')"
+            }
+        ]
+    },
+    {
+        "name": "Spider Climb (Caster)",
+        "desc": "Tiny clinging hairs have sprouted across the target's hands and feet, offering purchase on nearly any surface. The target gains a climb Speed equal to your Speed.",
+        "type": "spells",
+        "minLevel": 2,
+        "SortLevel": 2,
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": 1000,
+                "minLevel": 2
+            },
+            {
+                "duration": 6000,
+                "minLevel": 5
             }
         ]
     },
@@ -19516,6 +19528,12 @@
                 "affected": "Fly Speed",
                 "setValue": "10"
             }
+        ],
+        "gainItems": [
+            {
+                "name": "Unarmored",
+                "type": "armors"
+            }
         ]
     },
     {
@@ -20847,6 +20865,11 @@
             {
                 "name": "Critical Failure",
                 "defaultDuration": 1008000
+            },
+            {
+                "name": "Multiple Targets",
+                "defaultDuration": 1008000,
+                "spelllevelreq": 9
             }
         ],
         "gainConditions": [
@@ -21524,19 +21547,19 @@
                 "duration": 0
             }
         ],
-        "choice": "Veil",
+        "choice": "Creatures",
         "choices": [
             {
-                "name": "Illusory Scene"
+                "name": "Area"
             },
             {
-                "name": "Veil"
+                "name": "Creatures"
             }
         ],
         "gainConditions": [
             {
                 "activationPrerequisite": "parentConditionGain.heightened == 5 ? 1 : 0",
-                "conditionChoiceFilter": "Veil",
+                "conditionChoiceFilter": "Creatures",
                 "duration": 1000,
                 "heightened": 4,
                 "name": "Veil",
@@ -21544,31 +21567,31 @@
             },
             {
                 "activationPrerequisite": "parentConditionGain.heightened == 6 ? 1 : 0",
-                "conditionChoiceFilter": "Veil",
+                "conditionChoiceFilter": "Creatures",
                 "duration": 1000,
                 "heightened": 5,
                 "name": "Veil",
                 "persistent": true
             },
             {
-                "activationPrerequisite": "parentConditionGain.heightened == 6 ? 1 : 0",
-                "conditionChoiceFilter": "Veil",
+                "activationPrerequisite": "parentConditionGain.heightened == 7 ? 1 : 0",
+                "conditionChoiceFilter": "Creatures",
                 "duration": 1000,
                 "heightened": 6,
                 "name": "Veil",
                 "persistent": true
             },
             {
-                "activationPrerequisite": "parentConditionGain.heightened == 6 ? 1 : 0",
-                "conditionChoiceFilter": "Veil",
+                "activationPrerequisite": "parentConditionGain.heightened == 8 ? 1 : 0",
+                "conditionChoiceFilter": "Creatures",
                 "duration": 1000,
                 "heightened": 7,
                 "name": "Veil",
                 "persistent": true
             },
             {
-                "activationPrerequisite": "parentConditionGain.heightened == 6 ? 1 : 0",
-                "conditionChoiceFilter": "Veil",
+                "activationPrerequisite": "parentConditionGain.heightened == 9 ? 1 : 0",
+                "conditionChoiceFilter": "Creatures",
                 "duration": 1000,
                 "heightened": 8,
                 "name": "Veil",
@@ -21576,9 +21599,9 @@
             },
             {
                 "activationPrerequisite": "parentConditionGain.heightened == 10 ? 1 : 0",
-                "conditionChoiceFilter": "Veil",
+                "conditionChoiceFilter": "Creatures",
                 "duration": 1000,
-                "heightened": 8,
+                "heightened": 9,
                 "name": "Veil",
                 "persistent": true
             }
@@ -21597,85 +21620,85 @@
                 "duration": 1000
             }
         ],
-        "choice": "Illusory Scene",
+        "choice": "Area",
         "choices": [
             {
-                "name": "Illusory Scene"
+                "name": "Area"
             },
             {
-                "name": "Veil"
+                "name": "Creatures"
             }
         ],
         "gainConditions": [
             {
                 "activationPrerequisite": "parentConditionGain.heightened == 5 ? 1 : 0",
-                "conditionChoiceFilter": "Illusory Scene",
+                "conditionChoiceFilter": "Area",
                 "heightened": 5,
                 "name": "Illusory Scene"
             },
             {
                 "activationPrerequisite": "parentConditionGain.heightened == 6 ? 1 : 0",
-                "conditionChoiceFilter": "Illusory Scene",
+                "conditionChoiceFilter": "Area",
                 "heightened": 5,
                 "name": "Illusory Scene"
             },
             {
                 "activationPrerequisite": "parentConditionGain.heightened == 7 ? 1 : 0",
-                "conditionChoiceFilter": "Illusory Scene",
+                "conditionChoiceFilter": "Area",
                 "heightened": 6,
                 "name": "Illusory Scene"
             },
             {
                 "activationPrerequisite": "parentConditionGain.heightened == 8 ? 1 : 0",
-                "conditionChoiceFilter": "Illusory Scene",
+                "conditionChoiceFilter": "Area",
                 "heightened": 7,
                 "name": "Illusory Scene"
             },
             {
                 "activationPrerequisite": "parentConditionGain.heightened == 9 ? 1 : 0",
-                "conditionChoiceFilter": "Illusory Scene",
+                "conditionChoiceFilter": "Area",
                 "heightened": 8,
                 "name": "Illusory Scene"
             },
             {
                 "activationPrerequisite": "parentConditionGain.heightened == 10 ? 1 : 0",
-                "conditionChoiceFilter": "Illusory Scene",
+                "conditionChoiceFilter": "Area",
                 "heightened": 9,
                 "name": "Illusory Scene"
             },
             {
                 "activationPrerequisite": "parentConditionGain.heightened == 5 ? 1 : 0",
-                "conditionChoiceFilter": "Veil",
+                "conditionChoiceFilter": "Creatures",
                 "heightened": 4,
                 "name": "Veil (Caster)"
             },
             {
                 "activationPrerequisite": "parentConditionGain.heightened == 6 ? 1 : 0",
-                "conditionChoiceFilter": "Veil",
+                "conditionChoiceFilter": "Creatures",
                 "heightened": 5,
                 "name": "Veil (Caster)"
             },
             {
                 "activationPrerequisite": "parentConditionGain.heightened == 7 ? 1 : 0",
-                "conditionChoiceFilter": "Veil",
+                "conditionChoiceFilter": "Creatures",
                 "heightened": 6,
                 "name": "Veil (Caster)"
             },
             {
                 "activationPrerequisite": "parentConditionGain.heightened == 8 ? 1 : 0",
-                "conditionChoiceFilter": "Veil",
+                "conditionChoiceFilter": "Creatures",
                 "heightened": 7,
                 "name": "Veil (Caster)"
             },
             {
                 "activationPrerequisite": "parentConditionGain.heightened == 9 ? 1 : 0",
-                "conditionChoiceFilter": "Veil",
+                "conditionChoiceFilter": "Creatures",
                 "heightened": 8,
                 "name": "Veil (Caster)"
             },
             {
                 "activationPrerequisite": "parentConditionGain.heightened == 10 ? 1 : 0",
-                "conditionChoiceFilter": "Veil",
+                "conditionChoiceFilter": "Creatures",
                 "heightened": 9,
                 "name": "Veil (Caster)"
             }
@@ -21846,6 +21869,11 @@
             },
             {
                 "name": "Critical Failure"
+            },
+            {
+                "name": "Multiple Targets",
+                "defaultDuration": 6000,
+                "spelllevelreq": 6
             }
         ]
     },
@@ -22455,7 +22483,7 @@
         "buff": true,
         "defaultDurations": [
             {
-                "duration": -1
+                "duration": -2
             }
         ],
         "choice": "Failure",
@@ -22473,6 +22501,11 @@
             },
             {
                 "name": "Critical Failure"
+            },
+            {
+                "name": "Multiple Targets",
+                "defaultDuration": 100,
+                "spelllevelreq": 9
             }
         ]
     },
