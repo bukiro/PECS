@@ -151,28 +151,34 @@ export class TopBarComponent implements OnInit {
 
     get_Messages(modal) {
         this.loading_messages;
-        this.messageService.load_Messages(this.get_Character().id)
-            .subscribe((results: string[]) => {
-                let loader = results;
-                this.newMessages = this.messageService.finish_loading(loader).sort((a, b) => {
-                    if (!a.activated && b.activated) {
-                        return 1;
+        //Before getting messages, clean up old messages.
+        this.messageService.cleanup_OldMessages().subscribe((results) => {
+            this.messageService.load_Messages(this.get_Character().id)
+                .subscribe((results: string[]) => {
+                    let loader = results;
+                    this.newMessages = this.messageService.finish_loading(loader).sort((a, b) => {
+                        if (!a.activated && b.activated) {
+                            return 1;
+                        }
+                        if (a.activated && !b.activated) {
+                            return -1;
+                        }
+                        return 0;
+                    });
+                    this.remove_InvalidMessages();
+                    if (this.newMessages.length) {
+                        this.open_NewMessagesModal(modal);
+                    } else {
+                        this.toastService.show("No new effects found.", [], this.characterService)
                     }
-                    if (a.activated && !b.activated) {
-                        return -1;
-                    }
-                    return 0;
+                }, (error) => {
+                    this.toastService.show("An error occurred while searching for new effects. See console for more information.", [], this.characterService)
+                    console.log('Error loading messages from database: ' + error.message);
                 });
-                this.remove_InvalidMessages();
-                if (this.newMessages.length) {
-                    this.open_NewMessagesModal(modal);
-                } else {
-                    this.toastService.show("No new effects found.", [], this.characterService)
-                }
-            }, (error) => {
-                this.toastService.show("An error occurred while searching for new effects. See console for more information.", [], this.characterService)
-                console.log('Error loading messages from database: ' + error.message);
-            });
+        }, (error) => {
+            this.toastService.show("An error occurred while searching for new effects. See console for more information.", [], this.characterService)
+            console.log('Error loading messages from database: ' + error.message);
+        });;
     }
 
     remove_InvalidMessages() {

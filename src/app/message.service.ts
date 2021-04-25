@@ -16,12 +16,24 @@ export class MessageService {
         private configService: ConfigService
     ) { }
 
+    get_Time() {
+        return this.load_TimeFromConnector();
+    }
+
     send_Messages(messages: PlayerMessage[]) {
         return this.save_MessagesToDB(messages);
     }
 
     load_Messages(recipientId: string): Observable<string[]> {
         return this.http.get<string[]>(this.configService.dbConnectionURL + '/loadMessages/' + recipientId);
+    }
+
+    cleanup_OldMessages() {
+        return this.http.get<string[]>(this.configService.dbConnectionURL + '/cleanup');
+    }
+
+    load_TimeFromConnector(): Observable<string[]> {
+        return this.http.get<string[]>(this.configService.dbConnectionURL + '/time');
     }
 
     delete_MessageFromDB(message: PlayerMessage): Observable<string[]> {

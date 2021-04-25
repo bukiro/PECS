@@ -1511,29 +1511,36 @@ export class CharacterService {
     }
 
     send_ConditionToPlayers(targets: SpellTarget[], conditionGain: ConditionGain, activate: boolean = true) {
-        let messages: PlayerMessage[] = [];
-        targets.forEach(target => {
-            let message = new PlayerMessage();
-            message.recipientId = target.playerId;
-            message.senderId = this.get_Character().id;
-            message.targetId = target.id;
-            message.time = Date();
-            message.timeStamp = (new Date().getTime())
-            message.gainCondition.push(Object.assign(new ConditionGain(), JSON.parse(JSON.stringify(conditionGain))));
-            if (message.gainCondition.length) {
-                message.gainCondition[0].foreignPlayerId = message.senderId;
+        let timeStamp: number = 0;
+        this.messageService.get_Time().subscribe((result: string[]) => {
+            timeStamp = result["time"];
+            let messages: PlayerMessage[] = [];
+            targets.forEach(target => {
+                let message = new PlayerMessage();
+                message.recipientId = target.playerId;
+                message.senderId = this.get_Character().id;
+                message.targetId = target.id;
+                message.time = Date();
+                message.timeStamp = timeStamp;
+                message.gainCondition.push(Object.assign(new ConditionGain(), JSON.parse(JSON.stringify(conditionGain))));
+                if (message.gainCondition.length) {
+                    message.gainCondition[0].foreignPlayerId = message.senderId;
+                }
+                message.activate = activate;
+                messages.push(message);
+            })
+            if (messages.length) {
+                this.messageService.send_Messages(messages).subscribe((result) => {
+                    this.toastService.show("Sent effects to " + (messages.length) + " targets.", [], this);
+                }, (error) => {
+                    this.toastService.show("An error occurred while sending effects. See console for more information.", [], this);
+                    console.log('Error saving effect messages to database: ' + error.message);
+                });;
             }
-            message.activate = activate;
-            messages.push(message);
-        })
-        if (messages.length) {
-            this.messageService.send_Messages(messages).subscribe((result) => {
-                this.toastService.show("Sent effects to " + (messages.length) + " targets.", [], this);
-            }, (error) => {
-                this.toastService.show("An error occurred while sending effects. See console for more information.", [], this);
-                console.log('Error saving effect messages to database: ' + error.message);
-            });;
-        }
+        }, (error) => {
+            this.toastService.show("An error occurred while sending effects. See console for more information.", [], this);
+            console.log('Error saving effect messages to database: ' + error.message);
+        });;
     }
 
     apply_MessageConditions(messages: PlayerMessage[]) {
