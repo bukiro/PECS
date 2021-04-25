@@ -1579,6 +1579,9 @@ export class CharacterService {
                 console.log('Error deleting effect messages from database: ' + error.message);
             });;;
         })
+        this.set_ToChange("Character", "top-bar");
+        this.set_ToChange("Character", "check-messages");
+        this.process_ToChange();
     }
 
     process_OnceEffect(creature: Creature, effectGain: EffectGain, conditionValue: number = 0, conditionHeightened: number = 0, conditionChoice: string = "", conditionSpellCastingAbility: string = "") {

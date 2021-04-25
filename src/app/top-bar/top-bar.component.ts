@@ -17,7 +17,7 @@ export class TopBarComponent implements OnInit {
 
     public newMessages: PlayerMessage[] = [];
     private loading_messages: boolean = false;
-    private modalOpen: boolean = false;
+    public modalOpen: boolean = false;
     private reOpenModalTimeout: number = 10000;
     private reOpenModalTimeoutRunning: boolean = false;
     @ViewChild('NewMessagesModal', { static: false })
@@ -161,6 +161,7 @@ export class TopBarComponent implements OnInit {
             this.messageService.load_Messages(this.get_Character().id)
                 .subscribe((results: string[]) => {
                     let loader = results;
+                    let oldLength = this.newMessages.length;
                     this.newMessages = this.messageService.finish_loading(loader).sort((a, b) => {
                         if (!a.activated && b.activated) {
                             return 1;
@@ -171,20 +172,35 @@ export class TopBarComponent implements OnInit {
                         return 0;
                     });
                     this.remove_InvalidMessages();
-                    if (this.newMessages.length) {
-                        this.open_NewMessagesModal();
-                    } else {
-                        if (!automaticCheck) {
+                    if (!automaticCheck) {
+                        if (this.newMessages.length) {
+                            this.open_NewMessagesModal();
+                        } else {
                             this.toastService.show("No new effects found.", [], this.characterService)
+                        }
+                    } else {
+                        if (this.newMessages.length && this.newMessages.length != oldLength) {
+                            this.toastService.show(this.newMessages.length + " new effect" + (this.newMessages.length != 1 ? "s are" : " is") + " available.", [], this.characterService)
+                            this.changeDetector.detectChanges();
                         }
                     }
                     this.reopen_NewMessagesModal();
                 }, (error) => {
-                    this.toastService.show("An error occurred while searching for new effects. See console for more information.", [], this.characterService)
+                    let text = "An error occurred while searching for new effects. See console for more information.";
+                    if (this.get_Character().settings.checkMessagesAutomatically) {
+                        text += " Automatic checks have been disabled.";
+                        this.get_Character().settings.checkMessagesAutomatically = false;
+                    }
+                    this.toastService.show(text, [], this.characterService)
                     console.log('Error loading messages from database: ' + error.message);
                 });
         }, (error) => {
-            this.toastService.show("An error occurred while searching for new effects. See console for more information.", [], this.characterService)
+            let text = "An error occurred while searching for new effects. See console for more information.";
+            if (this.get_Character().settings.checkMessagesAutomatically) {
+                text += " Automatic checks have been disabled.";
+                this.get_Character().settings.checkMessagesAutomatically = false;
+            }
+            this.toastService.show(text, [], this.characterService)
             console.log('Error loading messages from database: ' + error.message);
         });;
     }
@@ -233,13 +249,18 @@ export class TopBarComponent implements OnInit {
         });
     }
 
-    reopen_NewMessagesModal() {
+    reopen_NewMessagesModal(immediately: boolean = false) {
         if (this.get_Character().settings.checkMessagesAutomatically && !this.modalOpen && !this.reOpenModalTimeoutRunning) {
             this.reOpenModalTimeoutRunning = true;
-            setTimeout(() => {
+            if (immediately) {
                 this.reOpenModalTimeoutRunning = false;
                 this.get_Messages(true);
-            }, this.reOpenModalTimeout);
+            } else {
+                setTimeout(() => {
+                    this.reOpenModalTimeoutRunning = false;
+                    this.get_Messages(true);
+                }, this.reOpenModalTimeout);
+            }
         }
     }
 
@@ -277,7 +298,7 @@ export class TopBarComponent implements OnInit {
                         this.changeDetector.detectChanges();
                     }
                     if (view.creature.toLowerCase() == "character" && view.target.toLowerCase() == "check-messages") {
-                        this.reopen_NewMessagesModal();
+                        this.get_Messages(true);
                     }
                 });
             return true;
