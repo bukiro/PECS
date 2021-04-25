@@ -19528,6 +19528,12 @@
                 "affected": "Fly Speed",
                 "setValue": "10"
             }
+        ],
+        "gainItems": [
+            {
+                "name": "Unarmored",
+                "type": "armors"
+            }
         ]
     },
     {

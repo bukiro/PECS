@@ -274,6 +274,7 @@ export class ConditionsService {
         if (creature && creature.type != "Familiar") {
             if (condition.gainItems.length) {
                 characterService.set_ToChange(creature.type, "attacks");
+                characterService.set_ToChange(creature.type, "inventory");
                 if (taken) {
                     gain.gainItems = condition.get_HeightenedItems(gain.heightened).map(itemGain => Object.assign(new ItemGain(), itemGain));
                     gain.gainItems

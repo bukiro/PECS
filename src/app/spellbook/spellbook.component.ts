@@ -146,8 +146,16 @@ export class SpellbookComponent implements OnInit {
         return this.characterService.get_CompanionAvailable();
     }
 
+    get_Companion() {
+        return this.characterService.get_Companion();
+    }
+
     get_FamiliarAvailable() {
         return this.characterService.get_FamiliarAvailable();
+    }
+
+    get_Familiar() {
+        return this.characterService.get_Familiar();
     }
 
     get_SpellDCs() {

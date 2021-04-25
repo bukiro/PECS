@@ -1334,8 +1334,9 @@ export class CharacterService {
         );
     }
 
-    add_Condition(creature: Creature, conditionGain: ConditionGain, reload: boolean = true, parentConditionGain: ConditionGain = null) {
+    add_Condition(creature: Creature, originalConditionGain: ConditionGain, reload: boolean = true, parentConditionGain: ConditionGain = null) {
         let activate: boolean = true;
+        let conditionGain = Object.assign(new ConditionGain(), JSON.parse(JSON.stringify(originalConditionGain)));
         let originalCondition = this.get_Conditions(conditionGain.name)[0];
         if (originalCondition) {
             if (conditionGain.heightened < originalCondition.minLevel) {

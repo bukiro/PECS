@@ -258,12 +258,14 @@ export class SpellsService {
                         conditionTargets.filter(target => target.constructor != SpellTarget).forEach(target => {
                             characterService.add_Condition(target as Creature, newConditionGain, false);
                         })
-                        //For foreign targets (whose turns don't end when the caster's turn ends), if the spell is not durationDependsOnTarget, and it doesn't have a duration of X+1, add 2 for "until another character's turn".
-                        // This allows the condition to persist until after the target's last turn, simulating that it hasn't been the caster's last turn yet.
-                        if (conditionGain.targetFilter != "caster" && !spell.durationDependsOnTarget && newConditionGain.duration >= 0 && newConditionGain.duration % 5 == 0) {
-                            newConditionGain.duration += 2;
+                        if (conditionGain.targetFilter != "caster" && conditionTargets.some(target => target.constructor == SpellTarget)) {
+                            //For foreign targets (whose turns don't end when the caster's turn ends), if the spell is not durationDependsOnTarget, and it doesn't have a duration of X+1, add 2 for "until another character's turn".
+                            // This allows the condition to persist until after the target's last turn, simulating that it hasn't been the caster's last turn yet.
+                            if (!spell.durationDependsOnTarget && newConditionGain.duration >= 0 && newConditionGain.duration % 5 == 0) {
+                                newConditionGain.duration += 2;
+                            }
+                            characterService.send_ConditionToPlayers(conditionTargets.filter(target => target.constructor == SpellTarget) as SpellTarget[], newConditionGain);
                         }
-                        characterService.send_ConditionToPlayers(conditionTargets.filter(target => target.constructor == SpellTarget) as SpellTarget[], newConditionGain);
                     }
                 });
             } else if (manual) {

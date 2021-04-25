@@ -244,7 +244,7 @@
                                                                                         </button>
                                                                                     </div>
                                                                                     <div class="newrow"
-                                                                                        *ngIf="!spellTaken.gain.active && ['companion', 'ally'].includes(spell.target) && targetNumber != 0 && !spell.get_IsHostile() && get_CompanionAvailable()"
+                                                                                        *ngIf="!spellTaken.gain.active && spell.target == 'companion' && targetNumber != 0 && !spell.get_IsHostile() && get_CompanionAvailable()"
                                                                                         [ngbTooltip]="cannotCast">
                                                                                         <button
                                                                                             class="newrow center-aligned"
@@ -252,7 +252,7 @@
                                                                                             [disabled]="cannotCast"
                                                                                             [ngbTooltip]="get_IsBloodMagicTrigger(spell, bloodMagicFeats) ? 'Casting this spell will trigger your blood magic power' : (!can_Activate(spell, bloodMagicFeats, effectiveSpellLevel) ? 'The spell has no automatic effects.' : '')">
                                                                                             <span>
-                                                                                                Cast on your animal companion <i
+                                                                                                Cast on {{get_Companion().name || "your animal companion"}} <i
                                                                                                     class='bi-peace'
                                                                                                     *ngIf="!can_Activate(spell, bloodMagicFeats, effectiveSpellLevel)"></i>
                                                                                                 <i class='ra ra-droplet-splash'
@@ -261,7 +261,7 @@
                                                                                         </button>
                                                                                     </div>
                                                                                     <div class="newrow"
-                                                                                        *ngIf="!spellTaken.gain.active && ['familiar', 'ally'].includes(spell.target) && targetNumber != 0 && !spell.get_IsHostile() && get_FamiliarAvailable()"
+                                                                                        *ngIf="!spellTaken.gain.active && spell.target == 'familiar' && targetNumber != 0 && !spell.get_IsHostile() && get_FamiliarAvailable()"
                                                                                         [ngbTooltip]="cannotCast">
                                                                                         <button
                                                                                             class="newrow center-aligned"
@@ -269,7 +269,7 @@
                                                                                             [disabled]="cannotCast"
                                                                                             [ngbTooltip]="get_IsBloodMagicTrigger(spell, bloodMagicFeats) ? 'Casting this spell will trigger your blood magic power' : (!can_Activate(spell, bloodMagicFeats, effectiveSpellLevel) ? 'The spell has no automatic effects.' : '')">
                                                                                             <span>
-                                                                                                Cast on your familiar <i
+                                                                                                Cast on {{get_Familiar().name || "your familiar"}} <i
                                                                                                     class='bi-peace'
                                                                                                     *ngIf="!can_Activate(spell, bloodMagicFeats, effectiveSpellLevel)"></i>
                                                                                                 <i class='ra ra-droplet-splash'

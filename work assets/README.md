@@ -108,7 +108,7 @@ Internal To Do list
 - [ ] - Level 10 Spells
 - [x] Add custom conditions with effects
 - [x] Add License notices to comply with Pathfinder Community Use Policy and Open Game License
-- [ ] Add casting spells on party members
+- [x] Add casting spells on party members
 - [ ] Add manual mode without automated conditions and effects and with bonus boxes for skills and attack
 - [ ] Stretch Goal: Icons
 - [ ] Stretch Goal: Initiative tracker, battles, being a battle member, GM-Player-Communication.......
@@ -123,8 +123,6 @@ Test:
 Next steps:
 - Create Pop-up slider for number fields to increase accessibility and save space where sliders are already used - ideally with an automatic component (but it needs to write back into the calling element's value)
 - Possibly Create tag that automatically inserts a dice rolling button for the included text
-- Find a better way to implement losing all effects from armor (effectively unequipping your armor) from Gaseous Form
-- Also find a better way to implement Mage Armor without losing your current armor
 - Implement manual mode
 - Quick Effects button for Skills and Attacks (and quick removal button for manual effects)
 - Implement Icons for Inventory and Spells
