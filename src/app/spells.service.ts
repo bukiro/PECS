@@ -99,6 +99,9 @@ export class SpellsService {
         //Find out if target was given. If no target is set, most effects will not be applied.
         let targets: (Creature | SpellTarget)[] = [];
         switch (target) {
+            case "self":
+                targets.push(creature);
+                break;
             case "Character":
                 targets.push(characterService.get_Character());
                 break;
@@ -163,7 +166,7 @@ export class SpellsService {
                             (
                                 (
                                     hasTargetCondition &&
-                                    targets.includes(creature.id) &&
+                                    targets.some(target => target.id == creature.id) &&
                                     (
                                         sameCondition ||
                                         (

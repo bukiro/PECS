@@ -3,8 +3,7 @@
     *ngFor="let calculatedSkill of [skill.calculate(get_Creature(), this.characterService,this.abilitiesService,this.effectsService, get_Character().level, isDC)]; trackBy:trackByIndex;">
     <div class="newrow">
         <ng-template #AbilityPopover>
-            <strong>Ability</strong>
-            {{calculatedSkill.ability}}
+            <strong>Ability</strong> {{calculatedSkill.ability}}
         </ng-template>
         <span>
             <span class="fullsize-only">

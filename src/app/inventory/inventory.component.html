@@ -187,55 +187,14 @@
                                 </button>
                                 <ng-container
                                     *ngIf="item.amount != undefined && item.storedSpells.length && !['weaponrunes', 'armorrunes', 'oils'].includes(this.item.type)">
-                                    <ng-container *ngFor="let spell of get_ItemSpell(item); trackBy:trackByIndex;">
-                                        <div class="newrow"
-                                            [ngbTooltip]="item.broken ? 'The item is broken and cannot be used.' : ''">
-                                            <button class="newrow center-aligned"
-                                                (click)="on_SpellItemUse(item, creature, inventory)"
-                                                *ngIf="['self', 'ally', 'area'].includes(spell.target) && (!spell.target.includes('you and')) && !spell.get_IsHostile()"
-                                                [disabled]="item.broken">
-                                                <span>{{item.type == "wands" && item.cooldown ? "Overcharge (Cooldown "
-                                                    + get_Duration(item.cooldown) + ")" : "Use"}}
-                                                    <app-actionIcons [actionString]="spell.actions">
-                                                    </app-actionIcons>{{(spell.activationType) ? spell.activationType :
-                                                    ""}} {{spell.target == 'ally' ? "(Cast spell on yourself)" : "(Cast
-                                                    spell)"}}
-                                                </span>
-                                            </button>
-                                            <button class="newrow center-aligned"
-                                                (click)="on_SpellItemUse(item, (creature=='Character' ? 'Companion' : 'Character'), inventory)"
-                                                *ngIf="['companion', 'ally', 'area'].includes(spell.target) && !spell.get_IsHostile() && get_CompanionAvailable()"
-                                                [disabled]="item.broken">
-                                                <span>{{item.type == "wands" && item.cooldown ? "Overcharge (Cooldown "
-                                                    + get_Duration(item.cooldown) + ")" : "Use"}}
-                                                    <app-actionIcons [actionString]="spell.actions">
-                                                    </app-actionIcons>{{(spell.activationType) ? spell.activationType :
-                                                    ""}} (Cast spell on {{creature == "Character" ? "your animal
-                                                    companion" : "your master"}})
-                                                </span>
-                                            </button>
-                                            <button class="newrow center-aligned"
-                                                (click)="on_SpellItemUse(item, 'Familiar', inventory)"
-                                                *ngIf="['familiar', 'ally', 'area'].includes(spell.target) && !spell.get_IsHostile() && get_FamiliarAvailable()"
-                                                [disabled]="item.broken">
-                                                <span>{{item.type == "wands" && item.cooldown ? "Overcharge (Cooldown "
-                                                    + get_Duration(item.cooldown) + ")" : "Use"}} <app-actionIcons
-                                                        [actionString]="spell.actions"></app-actionIcons>
-                                                    {{(spell.activationType) ? spell.activationType : ""}} (Cast spell
-                                                    on your familiar)
-                                                </span>
-                                            </button>
-                                            <button class="newrow center-aligned"
-                                                (click)="on_SpellItemUse(item, '', inventory)"
-                                                *ngIf="['ally', 'area', 'minion', 'object', 'other'].includes(spell.target)"
-                                                [disabled]="item.broken">
-                                                <span>{{item.type == "wands" && item.cooldown ? "Overcharge (Cooldown "
-                                                    + get_Duration(item.cooldown) + ")" : "Use"}} <app-actionIcons
-                                                        [actionString]="spell.actions"></app-actionIcons>
-                                                    {{(spell.activationType) ? spell.activationType : ""}} (Cast spell)
-                                                </span>
-                                            </button>
-                                        </div>
+                                    <ng-container *ngFor="let itemSpell of get_ItemSpell(item); trackBy:trackByIndex;">
+                                        <app-spellTarget class="newrow list" [creature]="creature" [phrase]="item.type == 'wands' && item.cooldown ? 'Overcharge (Cooldown '
+                                            + get_Duration(item.cooldown) + ') and cast' : 'Cast'" [showActions]="true"
+                                            [spell]="itemSpell.spell" [gain]="itemSpell.gain" [casting]="null"
+                                            [cannotCast]="item.broken ? 'The item is broken and cannot be used.' : ''"
+                                            [effectiveSpellLevel]="itemSpell.choice.level"
+                                            (castMessage)="on_SpellItemUse(item, $event.target, inventory)">
+                                        </app-spellTarget>
                                     </ng-container>
                                 </ng-container>
                                 <ng-container

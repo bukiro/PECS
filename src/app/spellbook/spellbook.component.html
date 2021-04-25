@@ -225,13 +225,14 @@
                                                                                     </button>
                                                                                 </div>
                                                                                 <app-spellTarget class="newrow list"
+                                                                                    [creature]="'Character'"
                                                                                     [spell]="spell"
                                                                                     [gain]="spellTaken.gain"
                                                                                     [casting]="casting"
-                                                                                    [choice]="spellTaken.choice"
                                                                                     [cannotCast]="cannotCast"
                                                                                     [effectiveSpellLevel]="effectiveSpellLevel"
                                                                                     [bloodMagicFeats]="bloodMagicFeats"
+                                                                                    [showDismiss]="true"
                                                                                     (castMessage)="on_Cast(level, spellTaken.gain, casting, spellTaken.choice, $event.target, spell, $event.activated, bloodMagicFeats)">
                                                                                 </app-spellTarget>
                                                                                 <div class="newrow"

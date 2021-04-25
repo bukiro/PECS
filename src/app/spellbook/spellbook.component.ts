@@ -15,8 +15,6 @@ import { Condition } from '../Condition';
 import { ConditionsService } from '../conditions.service';
 import { NgbActiveModal, NgbModal, NgbPopoverConfig, NgbTooltipConfig } from '@ng-bootstrap/ng-bootstrap';
 import { Feat } from '../Feat';
-import { SpellTarget } from '../SpellTarget';
-import { SavegameService } from '../savegame.service';
 
 @Component({
     selector: 'app-spellbook',

@@ -9,6 +9,7 @@ import { Creature } from './Creature';
 export class Activity {
     public actions: string = "1A";
     public activationType: string = "";
+    //When activated, the activity will cast this spell. Multiple spells must have the same target or targets.
     public castSpells: SpellCast[] = [];
     public cooldown: number = 0;
     //For Conditions that are toggled, if cooldownAfterEnd is set, the cooldown starts only after the active duration is finished.

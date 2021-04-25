@@ -55,7 +55,7 @@ export class Condition {
     public unlimited: boolean = false;
     get_HasEffects() {
         //Return whether the condition has any effects beyond showing text.
-        return this.effects?.length || this.hints.some(hint => hint.effects?.length) || this.gainConditions.length || this.overrideConditions.length || this.endConditions.length || this.gainItems.length || this.gainActivities.length || this.senses.length || this.nextCondition || this.onceEffects || this.endEffects.length;
+        return (this.effects?.length || this.hints.some(hint => hint.effects?.length) || this.gainConditions.length || this.overrideConditions.length || this.endConditions.length || this.gainItems.length || this.gainActivities.length || this.senses.length || this.nextCondition || this.onceEffects.length || this.endEffects.length);
     }
     get_IsChangeable() {
         //Return whether the condition has values that you can change.

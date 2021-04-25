@@ -17,6 +17,7 @@ import { Hint } from './Hint';
 import * as json_activities from '../assets/json/activities';
 import { Creature } from './Creature';
 import { ToastService } from './toast.service';
+import { SpellGain } from './SpellGain';
 
 @Injectable({
     providedIn: 'root'
@@ -257,14 +258,15 @@ export class ActivitiesService {
         //Cast Spells
         if (activity.castSpells) {
             if (activated) {
-                //For non-item activities, which are read-only, we have to store any temporary spell gain data (like duration) on the activity gain instead of the activity, so we copy all spell casts (which include spell gains) to the activity gain.
+                //For non-item activities, which are read-only, we have to store any temporary spell gain data (like duration and targets) on the activity gain instead of the activity, so we copy all spell casts (which include spell gains) to the activity gain.
                 if (gain.constructor == ActivityGain) {
-                    gain.castSpells = activity.castSpells.map(spellCast => Object.assign(new SpellCast(), spellCast));
+                    gain.castSpells = activity.castSpells.map(spellCast => Object.assign(new SpellCast(), JSON.parse(JSON.stringify(spellCast))));
                 }
             }
             gain.castSpells.forEach((cast, spellCastIndex) => {
                 let librarySpell = spellsService.get_Spells(cast.name)[0];
                 if (librarySpell) {
+                    cast.spellGain = Object.assign(new SpellGain(), cast.spellGain);
                     if (activated && gain.spellEffectChoices[spellCastIndex].length) {
                         cast.spellGain.effectChoices = gain.spellEffectChoices[spellCastIndex];
                     }

@@ -102,6 +102,19 @@ export class ActivityComponent implements OnInit {
         return this.timeService.get_Duration(duration, includeTurnState, inASentence);
     }
 
+    get_ActivitySpell() {
+        if (this.activity.castSpells.length) {
+            let spell = this.get_Spells(this.activity.castSpells[0].name)[0];
+            if (spell) {
+                return { spell: spell, gain: this.activity.castSpells[0].spellGain, cast: this.activity.castSpells[0] };
+            } else {
+                return null;
+            }
+        } else {
+            return null;
+        }
+    }
+
     on_Activate(gain: ActivityGain | ItemActivity, activity: Activity | ItemActivity, activated: boolean, target: string) {
         this.activitiesService.activate_Activity(this.get_Creature(), target, this.characterService, this.conditionsService, this.itemsService, this.spellsService, gain, activity, activated);
     }
@@ -263,7 +276,7 @@ export class ActivityComponent implements OnInit {
         return conditionSets;
     }
 
-    get_SpellConditions(spellCast: SpellCast, spellCastIndex: number) {
+    get_SpellConditions(spellCast: SpellCast) {
         //For all conditions that are included with this spell on this level, create an effectChoice on the gain at the index of this spellCast and set it to the default choice, if any. Add the name for later copyChoiceFrom actions.
         let conditionSets: { gain: ConditionGain, condition: Condition }[] = [];
         let gain = this.gain;

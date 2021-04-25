@@ -2,11 +2,11 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CharacterService } from '../character.service';
 import { ConditionsService } from '../conditions.service';
+import { Creature } from '../Creature';
 import { Feat } from '../Feat';
 import { SavegameService } from '../savegame.service';
 import { Spell } from '../Spell';
 import { SpellCasting } from '../SpellCasting';
-import { SpellChoice } from '../SpellChoice';
 import { SpellGain } from '../SpellGain';
 import { SpellTarget } from '../SpellTarget';
 import { TimeService } from '../time.service';
@@ -19,19 +19,25 @@ import { TimeService } from '../time.service';
 export class SpellTargetComponent implements OnInit {
 
     @Input()
+    creature: string;
+    @Input()
     spell: Spell;
     @Input()
     gain: SpellGain;
     @Input()
     casting: SpellCasting = null;
     @Input()
-    choice: SpellChoice = null;
-    @Input()
     cannotCast: string = "";
     @Input()
     effectiveSpellLevel: number = 0;
     @Input()
     bloodMagicFeats: Feat[] = [];
+    @Input()
+    phrase: string = "Cast";
+    @Input()
+    showActions: boolean = false;
+    @Input()
+    showDismiss: boolean = false;
     @Output()
     castMessage = new EventEmitter<{ target: string, activated: boolean }>();
 

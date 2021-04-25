@@ -407,8 +407,7 @@ export class InventoryComponent implements OnInit {
         if (spellChoice && spellName) {
             let spell = this.get_Spells(spellName)[0];
             if (spell && !(item instanceof Wand && item.overcharged)) {
-                let tempGain: SpellGain = Object.assign(new SpellGain(), JSON.parse(JSON.stringify(item.storedSpells[0].spells[0])));
-                this.spellsService.process_Spell(this.get_Character(), creature, this.characterService, this.itemsService, this.conditionsService, null, tempGain, spell, spellChoice.level, true, true, false);
+                this.spellsService.process_Spell(this.get_Character(), creature, this.characterService, this.itemsService, this.conditionsService, null, item.storedSpells[0].spells[0], spell, spellChoice.level, true, true, false);
             }
             if (item instanceof Wand) {
                 if (item.cooldown) {
@@ -570,7 +569,7 @@ export class InventoryComponent implements OnInit {
         if (item.storedSpells.length && item.storedSpells[0].spells.length) {
             let spell = this.get_Spells(item.storedSpells[0].spells[0].name)[0];
             if (spell) {
-                return [spell];
+                return [{ spell: spell, gain: item.storedSpells[0].spells[0], choice: item.storedSpells[0] }];
             } else {
                 return [];
             }
