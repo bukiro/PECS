@@ -16,13 +16,13 @@
         </div>
     </button>
 </div>
-<div id="character-height" class="itembox">
+<div id="character-height" class="itembox list">
     <button class="list-item center-aligned" (click)="toggleCharacterMenu()">
         <header class="sectionHeader">Close</header>
     </button>
     <div class="charactersheet-column-container">
         <div class="charactersheet-column">
-            <div class="itembox-inner">
+            <div class="fullsize-scroll-box list">
                 <div class="loading" *ngIf="still_loading()">Loading</div>
                 <!--Management list mode-->
                 <ng-container *ngIf="!get_TileMode()">
@@ -878,7 +878,7 @@
                                     <span aria-hidden="true">&times;</span>
                                 </button>
                             </div>
-                            <div class="modal-body">
+                            <div class="modal-body list">
                                 <p>Are you sure you want to delete <strong>{{savegame.name}}</strong>?</p>
                             </div>
                             <div class="modal-footer">

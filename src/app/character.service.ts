@@ -1512,22 +1512,29 @@ export class CharacterService {
 
     send_ConditionToPlayers(targets: SpellTarget[], conditionGain: ConditionGain, activate: boolean = true) {
         let timeStamp: number = 0;
+        let creatures = this.get_Creatures();
         this.messageService.get_Time().subscribe((result: string[]) => {
             timeStamp = result["time"];
             let messages: PlayerMessage[] = [];
             targets.forEach(target => {
-                let message = new PlayerMessage();
-                message.recipientId = target.playerId;
-                message.senderId = this.get_Character().id;
-                message.targetId = target.id;
-                message.time = Date();
-                message.timeStamp = timeStamp;
-                message.gainCondition.push(Object.assign(new ConditionGain(), JSON.parse(JSON.stringify(conditionGain))));
-                if (message.gainCondition.length) {
-                    message.gainCondition[0].foreignPlayerId = message.senderId;
+                if (creatures.some(creature => creature.id == target.id)) {
+                    //Catch any messages that go to your own creatures
+                    this.add_Condition(this.get_Creature(target.type), conditionGain);
+                } else {
+                    //Build a message to the correct player and creature, with the timestamp just received from the database connector.
+                    let message = new PlayerMessage();
+                    message.recipientId = target.playerId;
+                    message.senderId = this.get_Character().id;
+                    message.targetId = target.id;
+                    message.time = Date();
+                    message.timeStamp = timeStamp;
+                    message.gainCondition.push(Object.assign(new ConditionGain(), JSON.parse(JSON.stringify(conditionGain))));
+                    if (message.gainCondition.length) {
+                        message.gainCondition[0].foreignPlayerId = message.senderId;
+                    }
+                    message.activate = activate;
+                    messages.push(message);
                 }
-                message.activate = activate;
-                messages.push(message);
             })
             if (messages.length) {
                 this.messageService.send_Messages(messages).subscribe((result) => {

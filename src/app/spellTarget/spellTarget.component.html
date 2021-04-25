@@ -1,0 +1,132 @@
+<ng-container *ngFor="let parameters of [get_Parameters()]; trackBy:trackByIndex">
+    <div class="newrow"
+        *ngIf="!gain.active && !spell.cannotTargetCaster && ['self', 'ally'].includes(spell.target) && parameters.targetNumber != 0 && !spell.get_IsHostile()"
+        [ngbTooltip]="cannotCast">
+        <button class="newrow center-aligned"
+            (click)="on_Cast('Character', true)"
+            [disabled]="cannotCast"
+            [ngbTooltip]="parameters.isBloodMagicTrigger ? 'Casting this spell will trigger your blood magic power.' : (!parameters.canActivate ? 'The spell has no automatic effects.' : '')">
+            <span>
+                {{spell.target != 'self' ? "Cast on yourself" : "Cast"}}
+                <i class='bi-peace' *ngIf="!parameters.canActivate"></i>
+                <i class='ra ra-droplet-splash' *ngIf="parameters.isBloodMagicTrigger"></i>
+            </span>
+        </button>
+    </div>
+    <div class="newrow"
+        *ngIf="!gain.active && spell.target == 'companion' && parameters.targetNumber != 0 && !spell.get_IsHostile() && get_CompanionAvailable()"
+        [ngbTooltip]="cannotCast">
+        <button class="newrow center-aligned"
+            (click)="on_Cast('Companion', true)"
+            [disabled]="cannotCast"
+            [ngbTooltip]="parameters.isBloodMagicTrigger ? 'Casting this spell will trigger your blood magic power.' : (!parameters.canActivate ? 'The spell has no automatic effects.' : '')">
+            <span>
+                Cast on {{get_Companion().name || "your animal companion"}}
+                <i class='bi-peace' *ngIf="!parameters.canActivate"></i>
+                <i class='ra ra-droplet-splash' *ngIf="parameters.isBloodMagicTrigger"></i>
+            </span>
+        </button>
+    </div>
+    <div class="newrow"
+        *ngIf="!gain.active && spell.target == 'familiar' && parameters.targetNumber != 0 && !spell.get_IsHostile() && get_FamiliarAvailable()"
+        [ngbTooltip]="cannotCast">
+        <button class="newrow center-aligned"
+            (click)="on_Cast('Familiar', true)"
+            [disabled]="cannotCast"
+            [ngbTooltip]="parameters.isBloodMagicTrigger ? 'Casting this spell will trigger your blood magic power.' : (!parameters.canActivate ? 'The spell has no automatic effects.' : '')">
+            <span>
+                Cast on {{get_Familiar().name || "your familiar"}}
+                <i class='bi-peace' *ngIf="!parameters.canActivate"></i>
+                <i class='ra ra-droplet-splash' *ngIf="parameters.isBloodMagicTrigger"></i>
+            </span>
+        </button>
+    </div>
+    <ng-container
+        *ngIf="!gain.active && !spell.get_IsHostile() && (spell.target == 'area' || (spell.target == 'ally' && parameters.targetNumber != 0))">
+        <ng-container *ngFor="let targets of [get_SpellTargets()]; trackBy:trackByIndex">
+            <ng-template #SpellTargetModal let-modal>
+                <div class="modal-header">
+                    <header class="sectionHeader modal-title" id="modal-title">{{spell.name}} targets
+                    </header>
+                    <button type="button" class="close" aria-label="close" (click)="modal.dismiss('Cross click')"
+                        ngbAutofocus>
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body list">
+                    <p *ngIf="parameters.targetNumber > 0">Select up to {{parameters.targetNumber}} targets for this spell.</p>
+                    <p *ngIf="parameters.targetNumber == -1">Select any number of targets for this spell.</p>
+                    <div class="gridicon-fullsizebox">
+                        <input id="spelltargetSelectAll" class="character-choice" type="checkbox"
+                            (change)="on_SelectAllTargets(parameters.targetNumber, $event.target.checked)"
+                            [checked]="get_AllTargetsSelected(parameters.targetNumber)">
+                        <label for="spelltargetSelectAll" style="font-size: 1.5em;">
+                            <strong>Select all</strong>
+                        </label>
+                    </div>
+                    <div class="fullsize-scroll-box list" style="max-height: 50vh;">
+                        <ng-container *ngFor="let target of targets; trackBy:trackByIndex">
+                            <div class="list-item gridicon-fullsizebox">
+                                <input id="spelltarget{{target.name}}" class="character-choice"
+                                    *ngIf="!target.isPlayer || !spell.cannotTargetCaster" type="checkbox"
+                                    [(ngModel)]="target.selected"
+                                    [disabled]="(target.isPlayer && spell.cannotTargetCaster) || (get_AllTargetsSelected(parameters.targetNumber) && !target.selected)">
+                                <input id="spelltarget{{target.name}}AlreadySelected" class="character-choice"
+                                    *ngIf="target.isPlayer && spell.cannotTargetCaster" type="checkbox" disabled
+                                    checked>
+                                <label for="spelltarget{{target.name}}" style="font-size: 1.5em;">
+                                    <div style="width:1em;" *ngIf="target.type != 'Character'"></div>
+                                    <i class="ra ra-player" *ngIf="target.type=='Character'"
+                                        style="line-height: 1.5;"></i>
+                                    <i class="ra ra-wolf-howl" *ngIf="target.type=='Companion'"
+                                        style="line-height: 1.5;"></i>
+                                    <i class="ra ra-raven" *ngIf="target.type=='Familiar'"
+                                        style="line-height: 1.5;"></i>
+                                    <strong>{{target.name}}</strong>
+                                </label>
+                            </div>
+                        </ng-container>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary"
+                        (click)="modal.dismiss('Cancel click')">Cancel</button>
+                    <button type="button" class="btn btn-primary" style="background-color: rgb(var(--accent));"
+                        (click)="modal.close('Cast click')">Cast spell on these targets</button>
+                </div>
+            </ng-template>
+            <div class="newrow" [ngbTooltip]="cannotCast">
+                <button class="newrow center-aligned"
+                    (click)="open_SpellTargetModal(SpellTargetModal)"
+                    [disabled]="cannotCast"
+                    [ngbTooltip]="parameters.isBloodMagicTrigger ? 'Casting this spell will trigger your blood magic power.' : (!parameters.canActivate ? 'The spell has no automatic effects.' : '')">
+                    <span>
+                        Cast on...
+                        <i class='bi-peace' *ngIf="!parameters.canActivate"></i>
+                        <i class='ra ra-droplet-splash' *ngIf="parameters.isBloodMagicTrigger"></i>
+                    </span>
+                </button>
+            </div>
+        </ng-container>
+    </ng-container>
+    <div class="newrow" *ngIf=" !gain.active && ['ally', 'area', 'minion', 'object', 'other'].includes(spell.target)"
+        [ngbTooltip]="cannotCast">
+        <button class="newrow center-aligned"
+            (click)="on_Cast('', true)" [disabled]="cannotCast"
+            [ngbTooltip]="parameters.isBloodMagicTrigger ? 'Casting this spell will trigger your blood magic power.' : (!parameters.canActivateWithoutTarget ? 'The spell has no automatic effects.' : 'Cast with no specific target.')">
+            <span>
+                Cast
+                <i class='bi-peace' *ngIf="!parameters.canActivateWithoutTarget"></i>
+                <i class='ra ra-droplet-splash' *ngIf="parameters.isBloodMagicTrigger"></i>
+            </span>
+        </button>
+    </div>
+    <div class="newrow" *ngIf="gain.active">
+        <button class="newrow center-aligned"
+            (click)="on_Cast(gain.target, false)">
+            <span>Dismiss <span class="actionIcon action1A"></span> or Stop Sustaining {{gain.duration ? "(Duration: " +
+                get_Duration(gain.duration) + ")" : ""}}
+            </span>
+        </button>
+    </div>
+</ng-container>

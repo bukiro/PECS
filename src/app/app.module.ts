@@ -63,9 +63,10 @@ import { GridIconComponent } from './gridIcon/gridIcon.component';
 import { QuickdiceComponent } from './dice/quickdice/quickdice.component';
 import { LicensesComponent } from './character/licenses/licenses.component';
 import { ToastContainerComponent } from './toast-container/toast-container.component';
+import { SpellTargetComponent } from './spellTarget/spellTarget.component';
 
 @NgModule({
-   declarations: [	 
+   declarations: [		 
       AppComponent,
       AbilitiesComponent,
       TopBarComponent,
@@ -120,7 +121,8 @@ import { ToastContainerComponent } from './toast-container/toast-container.compo
       GridIconComponent,
       QuickdiceComponent,
       LicensesComponent,
-      ToastContainerComponent
+      ToastContainerComponent,
+      SpellTargetComponent
    ],
    imports: [
       BrowserModule,

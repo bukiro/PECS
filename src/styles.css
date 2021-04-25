@@ -880,23 +880,17 @@ CHARACTERSHEET APP INNER STYLES
 .itembox {
     height: 100%;
     overflow-y: auto;
-    display: flex;
-    flex-direction: column;
     justify-content: flex-start;
     padding: 1em 2em;
     margin: 0;
     border-radius: .15rem;
     background-color: white;
-    gap: .3rem;
 }
 
-.itembox-inner {
+.fullsize-scroll-box {
     overflow-y: auto;
     width: 100%;
     height: 100%;
-    display: flex;
-    flex-direction: column;
-    gap: .3rem;
 }
 
 .darkmode .itembox,
@@ -1064,10 +1058,10 @@ header.featureHeader {
     width: 100%;
     position: relative;
     display: flex;
-    flex-wrap: wrap;
     flex-direction: row;
-    justify-content: space-between;
     gap: .3rem;
+    flex-wrap: wrap;
+    justify-content: space-between;
     padding: .3em .6em;
     border-radius: .15rem;
     background-color: #E0E0E0;
@@ -1457,12 +1451,6 @@ ngb-popover-window.list-item.sublist {
     margin: -.5rem -.5rem -.5rem auto;
 }
 
-.modal-body {
-    display: flex;
-    flex-direction: column;
-    gap: .3em;
-}
-
 /* Bootstrap toolip overrides */
 
 .tooltip-inner {
@@ -1594,17 +1582,17 @@ app-gridicon.fancy-button {
     background-color: white;
 }
 
-.itembox-inner .icon-list app-gridicon:not(.fancy-button) {
+.fullsize-scroll-box .icon-list app-gridicon:not(.fancy-button) {
     background-color: #CCC;
 }
 
 .darkmode app-gridicon:not(.fancy-button),
-.darkmode .itembox-inner .icon-list app-gridicon:not(.fancy-button) {
+.darkmode .fullsize-scroll-box .icon-list app-gridicon:not(.fancy-button) {
     background-color: #202020;
 }
 
 .darkmode app-gridicon:not(.fancy-button),
-.darkmode .itembox-inner .icon-list :not(.inactive-button) > app-gridicon:not(.fancy-button) {
+.darkmode .fullsize-scroll-box .icon-list :not(.inactive-button) > app-gridicon:not(.fancy-button) {
     background-color: #202020;
     color: inherit;
 }
