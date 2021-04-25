@@ -89,21 +89,6 @@ export class ItemsComponent implements OnInit {
 
     toggle_Purpose(purpose: "items" | "formulas" | "scrollsavant" | "createcustomitem") {
         this.purpose = purpose;
-        let gains: {source: string, type: string, name: string, duration: number}[] = [];
-        this.get_Items().allItems().forEach(item => {
-            if ((item as Equipment).activities) {
-                (item as Equipment).activities.forEach(activity => {
-                    gains.push(...activity.gainConditions.map(gain => {return {source: activity.name, type: "itemactivity", name: gain.name, duration: gain.duration }}))
-                })
-            }
-            if ((item as Consumable).gainConditions) {
-                gains.push(...(item as Consumable).gainConditions.map(gain => {return {source: item.name, type: "item", name: gain.name, duration: gain.duration }}))
-            }
-        })
-        this.characterService.activitiesService.get_Activities().forEach(activity => {
-            gains.push(...activity.gainConditions.map(gain => {return {source: activity.name, type: "activity", name: gain.name, duration: gain.duration }}));
-        })
-        console.log(JSON.stringify(gains));
     }
 
     get_ShowPurpose() {

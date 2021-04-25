@@ -31,4 +31,7 @@ export class Settings {
     noFriendlyCasterConditions: boolean = false;
     noHostileCasterConditions: boolean = false;
     checkMessagesAutomatically: boolean = false;
+    applyMessagesAutomatically: boolean = false;
+    sendTurnStartMessage: boolean = false;
+    sendTurnEndMessage: boolean = false;
 }

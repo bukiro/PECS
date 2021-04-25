@@ -1425,6 +1425,7 @@ export class CharacterService {
                 }
             }
         }
+        return 0;
     }
 
     remove_Condition(creature: Creature, conditionGain: ConditionGain, reload: boolean = true, increaseWounded: boolean = true, keepPersistent: boolean = true, ignoreLockedByParent: boolean = false, ignoreEndsWithConditions: boolean = false) {
@@ -1476,7 +1477,9 @@ export class CharacterService {
             if (reload) {
                 this.process_ToChange();
             }
+            return true;
         }
+        return false;
     }
 
     remove_Persistent(creature: Creature, conditionGain: ConditionGain) {
@@ -1507,6 +1510,46 @@ export class CharacterService {
         creature.conditions.filter(gain => gain.parentID == id).forEach(gain => {
             gain.lockedByParent = false;
             gain.valueLockedByParent = false;
+        });
+    }
+
+    get_MessageCreature(message: PlayerMessage) {
+        return this.get_Creatures().find(creature => creature.id == message.targetId);
+    }
+
+    get_MessageSender(message: PlayerMessage) {
+        return this.savegameService.get_Savegames().find(savegame => savegame.id == message.senderId)?.name;
+    }
+
+    send_TurnChangeToPlayers() {
+        let timeStamp: number = 0;
+        let character = this.get_Character();
+        let targets = this.savegameService.get_Savegames().filter(savegame => savegame.partyName == character.partyName && savegame.id != character.id);
+        this.messageService.get_Time().subscribe((result: string[]) => {
+            timeStamp = result["time"];
+            let messages: PlayerMessage[] = [];
+            targets.forEach(target => {
+                let message = new PlayerMessage();
+                message.recipientId = target.id;
+                message.senderId = character.id;
+                message.targetId = "";
+                let date = new Date();
+                message.time = date.getHours() + ":" + date.getMinutes();
+                message.timeStamp = timeStamp;
+                message.turnChange = true;
+                messages.push(message);
+            })
+            if (messages.length) {
+                this.messageService.send_Messages(messages).subscribe((result) => {
+                    this.toastService.show("Sent turn change to " + (messages.length) + " targets.", [], this);
+                }, (error) => {
+                    this.toastService.show("An error occurred while sending effects. See console for more information.", [], this);
+                    console.log('Error saving effect messages to database: ' + error.message);
+                });;
+            }
+        }, (error) => {
+            this.toastService.show("An error occurred while sending effects. See console for more information.", [], this);
+            console.log('Error saving effect messages to database: ' + error.message);
         });
     }
 
@@ -1555,18 +1598,33 @@ export class CharacterService {
         messages.forEach(message => {
             if (message.selected) {
                 if (message.activate) {
-                    let targetCreature = this.get_Creatures().find(creature => creature.id == message.targetId)
+                    let targetCreature = this.get_MessageCreature(message);
                     if (targetCreature && message.gainCondition.length) {
-                        this.add_Condition(targetCreature, message.gainCondition[0], false, null)
+                        let conditionGain: ConditionGain = message.gainCondition[0];
+                        let newLength = this.add_Condition(targetCreature, conditionGain, false, null)
+                        if (newLength) {
+                            let senderName = this.get_MessageSender(message);
+                            this.toastService.show("Added <strong>" +
+                                conditionGain.name + (conditionGain.choice ? ": " + conditionGain.choice : "") + "</strong> condition to <strong>" +
+                                (targetCreature.name || targetCreature.type) + "</strong> (sent by <strong>" + senderName + "</strong>)", [], this);
+                        }
                     }
                 } else {
                     let targetCreature = this.get_Creatures().find(creature => creature.id == message.targetId)
                     if (targetCreature && message.gainCondition.length) {
+                        let conditionGain: ConditionGain = message.gainCondition[0];
+                        let removed: boolean = false
                         this.get_AppliedConditions(targetCreature, message.gainCondition[0].name)
                             .filter(existingConditionGain => existingConditionGain.foreignPlayerId == message.senderId && existingConditionGain.source == message.gainCondition[0].source)
                             .forEach(existingConditionGain => {
-                                this.remove_Condition(targetCreature, existingConditionGain, false);
+                                removed = this.remove_Condition(targetCreature, existingConditionGain, false);
                             });
+                        if (removed) {
+                            let senderName = this.get_MessageSender(message);
+                            this.toastService.show("Removed <strong>" +
+                                conditionGain.name + (conditionGain.choice ? ": " + conditionGain.choice : "") + "</strong> condition from <strong>" +
+                                (targetCreature.name || targetCreature.type) + "</strong> (added by <strong>" + senderName + "</strong>)", [], this);
+                        }
                     }
                 }
             }
@@ -1577,11 +1635,39 @@ export class CharacterService {
             }, (error) => {
                 this.toastService.show("An error occurred while deleting effects. See console for more information.", [], this);
                 console.log('Error deleting effect messages from database: ' + error.message);
-            });;;
+            });
         })
-        this.set_ToChange("Character", "top-bar");
-        this.set_ToChange("Character", "check-messages");
-        this.process_ToChange();
+
+    }
+
+    apply_TurnChangeMessage(messages: PlayerMessage[]) {
+        messages.forEach(message => {
+            if (message.selected) {
+                let removed: boolean = false;
+                this.get_Creatures().forEach(creature => {
+                    this.get_AppliedConditions(creature)
+                        .filter(existingConditionGain => existingConditionGain.foreignPlayerId == message.senderId && existingConditionGain.duration == 2)
+                        .forEach(existingConditionGain => {
+                            removed = this.remove_Condition(creature, existingConditionGain, false);
+                            if (removed) {
+                                let senderName = this.get_MessageSender(message);
+                                this.toastService.show("Automatically removed <strong>" +
+                                    existingConditionGain.name + (existingConditionGain.choice ? ": " + existingConditionGain.choice : "") + "</strong> condition from <strong>" +
+                                    (creature.name || creature.type) + "</strong> on turn of <strong>" + senderName + "</strong>", [], this);
+                                this.set_ToChange(creature.type, "effects");
+                            }
+                        });
+                })
+            }
+        })
+        messages.forEach(message => {
+            this.messageService.delete_MessageFromDB(message).subscribe((result) => {
+
+            }, (error) => {
+                this.toastService.show("An error occurred while deleting effects. See console for more information.", [], this);
+                console.log('Error deleting effect messages from database: ' + error.message);
+            });
+        })
     }
 
     process_OnceEffect(creature: Creature, effectGain: EffectGain, conditionValue: number = 0, conditionHeightened: number = 0, conditionChoice: string = "", conditionSpellCastingAbility: string = "") {

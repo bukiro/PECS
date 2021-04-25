@@ -2,7 +2,7 @@
     <header class="mainHeader" [ngbTooltip]="'Pathfinder Excessive Character Sheet'">P.E.C.S.</header>
     <button class="fancy-button loading" *ngIf="still_loading()">Loading</button>
     <ng-container *ngIf="!still_loading()">
-        <button [ngClass]="{'fancy-button':get_CharacterMenuState()=='out'}" (click)="toggle_Menu('character')">{{get_Character().name || "Character"}}</button>
+        <button [ngClass]="{'fancy-button':get_CharacterMenuState()=='out'}" (click)="toggle_Menu('character')">{{get_Character().name || "Character"}}&nbsp;<i class="bi-gear"></i></button>
         <button [ngClass]="{'fancy-button':get_CompanionMenuState()=='out'}" (click)="toggle_Menu('companion')" *ngIf="get_CompanionAvailable()">{{get_Companion().name || "Animal Companion"}}</button>
         <button [ngClass]="{'fancy-button':get_FamiliarMenuState()=='out'}" (click)="toggle_Menu('familiar')" *ngIf="get_FamiliarAvailable()">{{get_Familiar().name || "Familiar"}}</button>
         <button [ngClass]="{'fancy-button':get_ItemsMenuState()=='out'}" (click)="toggle_Menu('items')">Items</button>
@@ -18,7 +18,7 @@
                 <span *ngIf="get_IsBlankCharacter()" style="flex-grow: initial" [ngbTooltip]="'No changes to character yet.'"><button class="fancy-button" disabled><i class="bi-file-earmark-arrow-up"></i></button></span>
                 <span *ngIf="!get_IsBlankCharacter()" style="flex-grow: initial" [ngbTooltip]="'Save Character'"><button class="fancy-button" (click)="save()"><i class="bi-file-earmark-arrow-up"></i></button></span>
                 <span *ngIf="!get_IsBlankCharacter()" style="flex-grow: initial" [ngbTooltip]="'Check for new effects'"><button class="fancy-button" (click)="get_Messages()"><i class="ra ra-player-thunder-struck"></i>
-                    <div class="window-button-container" *ngIf="newMessages.length && !modalOpen">{{newMessages.length}}</div>
+                    <div class="window-button-container" *ngIf="get_NewConditionMessages().length && !modalOpen">{{get_NewConditionMessages().length}}</div>
                 </button></span>
             </ng-container>
         </ng-container>
@@ -43,7 +43,7 @@
             </label>
         </div>
         <div class="fullsize-scroll-box list" style="max-height: 50vh;">
-            <ng-container *ngFor="let message of newMessages; trackBy:trackByIndex">
+            <ng-container *ngFor="let message of get_NewConditionMessages(); trackBy:trackByIndex">
                 <ng-container *ngFor="let creature of [get_MessageCreature(message)]; trackBy:trackByIndex">
                     <ng-container *ngFor="let sender of [get_MessageSender(message)]; trackBy:trackByIndex">
                         <ng-container *ngIf="creature && message.gainCondition.length">

@@ -348,7 +348,9 @@ export class ConditionsService {
                     activityGain = activityGains[0];
                 }
                 let activity = characterService.activitiesService.get_Activities(activityGain.name)[0];
-                characterService.activitiesService.activate_Activity(creature, "", characterService, characterService.conditionsService, characterService.itemsService, characterService.spellsService, activityGain, activity, false, false);
+                if (activity) {
+                    characterService.activitiesService.activate_Activity(creature, "", characterService, characterService.conditionsService, characterService.itemsService, characterService.spellsService, activityGain, activity, false, false);
+                }
             }
         }
 

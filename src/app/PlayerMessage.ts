@@ -17,4 +17,5 @@ export class PlayerMessage {
     public activate: boolean = true;
     public selected: boolean = true;
     public deleted: boolean = false;
+    public turnChange: boolean = false;
 }

@@ -18,7 +18,7 @@ export class TopBarComponent implements OnInit {
     public newMessages: PlayerMessage[] = [];
     private loading_messages: boolean = false;
     public modalOpen: boolean = false;
-    private reOpenModalTimeout: number = 10000;
+    private reOpenModalTimeout: number = 5000;
     private reOpenModalTimeoutRunning: boolean = false;
     @ViewChild('NewMessagesModal', { static: false })
     private newMessagesModal;
@@ -50,6 +50,10 @@ export class TopBarComponent implements OnInit {
         } else {
             return this.savegameService.get_Savegames();
         }
+    }
+
+    get_NewConditionMessages() {
+        return this.newMessages.filter(message => message.gainCondition.length);
     }
 
     get_SavegamesInitializing() {
@@ -173,18 +177,33 @@ export class TopBarComponent implements OnInit {
                     });
                     this.remove_InvalidMessages();
                     if (!automaticCheck) {
+                        //Turn change messages are applied automatically even in manual mode, and then removed from the messages.
+                        if (this.newMessages.length) {
+                            this.apply_TurnChangeMessages();
+                        }
+                        //If any new messages are left, open the modal for the selection.
                         if (this.newMessages.length) {
                             this.open_NewMessagesModal();
                         } else {
                             this.toastService.show("No new effects found.", [], this.characterService)
                         }
                     } else {
-                        if (this.newMessages.length && this.newMessages.length != oldLength) {
-                            this.toastService.show(this.newMessages.length + " new effect" + (this.newMessages.length != 1 ? "s are" : " is") + " available.", [], this.characterService)
+                        //Turn change messages are applied automatically, and then removed from the messages.
+                        if (this.newMessages.length) {
+                            this.apply_TurnChangeMessages();
+                        }
+                        //If any messages are left, apply them automatically if applyMessagesAutomatically is set, otherwise only announce that messages are available, then update the component to show the number on the button.
+                        if (this.newMessages.length && this.get_Character().settings.checkMessagesAutomatically && this.get_Character().settings.applyMessagesAutomatically) {
+                            this.on_ApplyMessagesAutomatically();
+                        } else if (this.newMessages.length && this.newMessages.length != oldLength) {
+                            this.toastService.show("<strong>" + this.newMessages.length + "</strong> new effect" + (this.newMessages.length != 1 ? "s are" : " is") + " available.", [], this.characterService)
+                            this.changeDetector.detectChanges();
+                        } else if (!this.newMessages.length && oldLength) {
                             this.changeDetector.detectChanges();
                         }
                     }
-                    this.reopen_NewMessagesModal();
+                    //After checking for messages, find out if a new check needs to be scheduled.
+                    this.on_AutoCheckMessages();
                 }, (error) => {
                     let text = "An error occurred while searching for new effects. See console for more information.";
                     if (this.get_Character().settings.checkMessagesAutomatically) {
@@ -207,12 +226,20 @@ export class TopBarComponent implements OnInit {
 
     remove_InvalidMessages() {
         this.newMessages.forEach(message => {
-            if (!this.get_MessageCreature(message)) {
-                this.messageService.delete_MessageFromDB(message);
-                message.deleted = true;
+            if (message.gainCondition.length) {
+                if (!this.get_MessageCreature(message)) {
+                    this.messageService.delete_MessageFromDB(message);
+                    message.deleted = true;
+                }
             }
         })
         this.newMessages = this.newMessages.filter(message => !message.deleted);
+    }
+
+    apply_TurnChangeMessages() {
+        this.characterService.apply_TurnChangeMessage(this.newMessages.filter(message => message.turnChange));
+        this.newMessages = this.newMessages.filter(message => !message.turnChange);
+        this.characterService.process_ToChange();
     }
 
     still_loadingMessages() {
@@ -220,11 +247,11 @@ export class TopBarComponent implements OnInit {
     }
 
     get_MessageCreature(message: PlayerMessage) {
-        return this.characterService.get_Creatures().find(creature => creature.id == message.targetId);
+        return this.characterService.get_MessageCreature(message);
     }
 
     get_MessageSender(message: PlayerMessage) {
-        return this.savegameService.get_Savegames().find(savegame => savegame.id == message.senderId)?.name;
+        return this.characterService.get_MessageSender(message);
     }
 
     open_NewMessagesModal() {
@@ -237,19 +264,23 @@ export class TopBarComponent implements OnInit {
                         this.characterService.set_ToChange(creature.type, "effects");
                     }
                 })
-                this.characterService.apply_MessageConditions(this.newMessages);
+                this.characterService.apply_MessageConditions(this.newMessages.filter(message => message.gainCondition.length));
+                this.newMessages.length = 0;
+                this.characterService.set_ToChange("Character", "top-bar");
                 this.characterService.process_ToChange();
                 this.modalOpen = false;
-                this.reopen_NewMessagesModal();
+                //After checking for messages, find out if a new check needs to be scheduled.
+                this.on_AutoCheckMessages();
             }
         }, (reason) => {
             //Do nothing if cancelled.
             this.modalOpen = false;
-            this.reopen_NewMessagesModal();
+            this.on_AutoCheckMessages();
         });
     }
 
-    reopen_NewMessagesModal(immediately: boolean = false) {
+    on_AutoCheckMessages(immediately: boolean = false) {
+        //If checkMessagesAutomatically is set, no modal is currently open and no other timeout is already running, start a timeout to check for new messages again.
         if (this.get_Character().settings.checkMessagesAutomatically && !this.modalOpen && !this.reOpenModalTimeoutRunning) {
             this.reOpenModalTimeoutRunning = true;
             if (immediately) {
@@ -262,6 +293,17 @@ export class TopBarComponent implements OnInit {
                 }, this.reOpenModalTimeout);
             }
         }
+    }
+
+    on_ApplyMessagesAutomatically() {
+        this.newMessages.forEach(message => {
+            message.selected = true;
+        })
+        this.characterService.apply_MessageConditions(this.newMessages.filter(message => message.gainCondition.length));
+        this.newMessages.length = 0;
+        this.characterService.set_ToChange("Character", "top-bar");
+        this.characterService.process_ToChange();
+        this.on_AutoCheckMessages();
     }
 
     on_SelectAllMessages(checked: boolean) {
