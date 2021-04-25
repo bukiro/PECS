@@ -15,6 +15,7 @@ export class ConditionGain {
     // - -2 for until rest
     // - -3 for until refocus
     // - 1 for until resolved - will need to be resolved and removed manually before time can pass
+    // - 2 for until another character's turn - will end just like duration 5, but with a different text
     // - 0 for no duration - will be processed and then immediately removed, useful for instant effects and chaining conditions
     public duration: number = -1;
     public maxDuration: number = -1;

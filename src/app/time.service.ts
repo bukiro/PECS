@@ -192,6 +192,8 @@ export class TimeService {
             return inASentence ? "until the next time you make your daily preparations" : "Until the next time you make your daily preparations";
         } else if (duration == -1) {
             return inASentence ? "permanently" : "Permanent";
+        } else if (duration == 2) {
+            return inASentence ? "until another character's turn" : "Ends on another character's turn";
         } else if (duration == 1) {
             return inASentence ? "until resolved" : "Until resolved";
         } else {

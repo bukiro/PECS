@@ -9230,6 +9230,11 @@
             },
             {
                 "name": "Critical Failure"
+            },
+            {
+                "name": "Multiple Targets",
+                "defaultDuration": -2,
+                "spelllevelreq": 8
             }
         ]
     },
@@ -9465,6 +9470,11 @@
             },
             {
                 "name": "Critical Failure"
+            },
+            {
+                "name": "Multiple Targets",
+                "defaultDuration": 10,
+                "spelllevelreq": 5
             }
         ]
     },
@@ -10121,6 +10131,11 @@
             },
             {
                 "name": "Critical Failure"
+            },
+            {
+                "name": "Multiple Targets",
+                "defaultDuration": 30,
+                "spelllevelreq": 3
             }
         ]
     },
@@ -14920,6 +14935,11 @@
             {
                 "name": "Critical Failure",
                 "defaultDuration": 100
+            },
+            {
+                "name": "Multiple Targets",
+                "defaultDuration": 100,
+                "spelllevelreq": 6
             }
         ]
     },
@@ -20839,6 +20859,11 @@
             {
                 "name": "Critical Failure",
                 "defaultDuration": 1008000
+            },
+            {
+                "name": "Multiple Targets",
+                "defaultDuration": 1008000,
+                "spelllevelreq": 9
             }
         ],
         "gainConditions": [
@@ -21838,6 +21863,11 @@
             },
             {
                 "name": "Critical Failure"
+            },
+            {
+                "name": "Multiple Targets",
+                "defaultDuration": 6000,
+                "spelllevelreq": 6
             }
         ]
     },
@@ -22447,7 +22477,7 @@
         "buff": true,
         "defaultDurations": [
             {
-                "duration": -1
+                "duration": -2
             }
         ],
         "choice": "Failure",
@@ -22465,6 +22495,11 @@
             },
             {
                 "name": "Critical Failure"
+            },
+            {
+                "name": "Multiple Targets",
+                "defaultDuration": 100,
+                "spelllevelreq": 9
             }
         ]
     },

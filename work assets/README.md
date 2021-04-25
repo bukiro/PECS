@@ -125,7 +125,6 @@ Next steps:
 - Possibly Create tag that automatically inserts a dice rolling button for the included text
 - Find a better way to implement losing all effects from armor (effectively unequipping your armor) from Gaseous Form
 - Also find a better way to implement Mage Armor without losing your current armor
-- If target is area, or if target is other and targetNumber is > 1, don't show or respect Saving Throw choices for the caster condition (if there are choices, assume choice with longest duration)
 - Implement manual mode
 - Quick Effects button for Skills and Attacks (and quick removal button for manual effects)
 - Implement Icons for Inventory and Spells

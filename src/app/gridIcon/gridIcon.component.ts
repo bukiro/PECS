@@ -72,6 +72,8 @@ export class GridIconComponent implements OnInit {
                         return "";
                     case 1:
                         return "<i class='bi-exclamation-diamond-fill'></i>"
+                    case 2:
+                        return "<i class='bi-person-plus-fill'></i>"
                     case 5:
                         return "<i class='bi-play-fill'></i>"
                 }

@@ -1897,6 +1897,7 @@
         "target": "ally",
         "singleTarget": true,
         "duration": "until the end of the target's next turn",
+        "durationDependsOnTarget": true,
         "desc": "You temporarily improve the target's physique. The target gains a +2 status bonus to the next Acrobatics check, Athletics check, Fortitude save, or Reflex save it attempts.",
         "gainConditions": [
             {
@@ -9126,6 +9127,7 @@
         "target": "other",
         "singleTarget": true,
         "duration": "until the end of the target's next turn",
+        "durationDependsOnTarget": true,
         "desc": "You shout a command that's hard to ignore. <var>var1</var>You can command the target to approach you, run away (as if it had the fleeing condition), release what it's holding, drop prone, or stand in place. It can't Delay or take any reactions until it has obeyed your command. The effects depend on the target's Will save.",
         "savingThrow": "Will",
         "success": "The creature is unaffected.",
@@ -14539,7 +14541,6 @@
         "traits": [
             "Divination"
         ],
-        "inputRequired": "If you cast darkvision at 2nd level, you are always the target.",
         "target": "ally",
         "singleTarget": true,
         "duration": "1 hour",

@@ -245,10 +245,24 @@ export class SpellsService {
                             })
                             newConditionGain.value = effectValue;
                         }
-                        let conditionTargets: (Creature | SpellTarget)[] = (conditionGain.targetFilter == "caster" ? [creature] : targets);
+                        let conditionTargets: (Creature | SpellTarget)[] = targets;
+                        //Caster conditions are applied to the caster creature only. If the spell is durationDependsOnTarget, there are any foreign targets (whose turns don't end when the caster's turn ends)
+                        // and it doesn't have a duration of X+1, add 2 for "until another character's turn".
+                        // This allows the condition to persist until after the caster's last turn, simulating that it hasn't been the target's last turn yet.
+                        if (conditionGain.targetFilter == "caster") {
+                            conditionTargets = [creature];
+                            if (spell.durationDependsOnTarget && targets.some(target => target.constructor == SpellTarget) && newConditionGain.duration >= 0 && newConditionGain.duration % 5 == 0) {
+                                newConditionGain.duration += 2;
+                            }
+                        }
                         conditionTargets.filter(target => target.constructor != SpellTarget).forEach(target => {
                             characterService.add_Condition(target as Creature, newConditionGain, false);
                         })
+                        //For foreign targets (whose turns don't end when the caster's turn ends), if the spell is not durationDependsOnTarget, and it doesn't have a duration of X+1, add 2 for "until another character's turn".
+                        // This allows the condition to persist until after the target's last turn, simulating that it hasn't been the caster's last turn yet.
+                        if (conditionGain.targetFilter != "caster" && !spell.durationDependsOnTarget && newConditionGain.duration >= 0 && newConditionGain.duration % 5 == 0) {
+                            newConditionGain.duration += 2;
+                        }
                         characterService.send_ConditionToPlayers(conditionTargets.filter(target => target.constructor == SpellTarget) as SpellTarget[], newConditionGain);
                     }
                 });

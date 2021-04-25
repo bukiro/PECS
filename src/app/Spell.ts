@@ -28,6 +28,9 @@ export class Spell {
     public desc9: SpellDesc[] = [];
     public desc: string = "";
     public duration: string = "";
+    //When giving conditions to other player creatures, they should last half a round longer to allow for the caster's turn to end after their last.
+    // Spells with a duration like "until the end of the target's turn" instead give the caster half a turn longer. This is activated by durationDependsOnTarget.
+    public durationDependsOnTarget: boolean = false;
     public failure: string = "";
     public gainConditions: ConditionGain[] = [];
     public gainItems: ItemGain[] = [];
