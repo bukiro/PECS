@@ -17,7 +17,7 @@
             <ng-container *ngIf="get_Savegames()">
                 <span *ngIf="get_IsBlankCharacter()" style="flex-grow: initial" [ngbTooltip]="'No changes to character yet.'"><button class="fancy-button" disabled><i class="bi-file-earmark-arrow-up"></i></button></span>
                 <span *ngIf="!get_IsBlankCharacter()" style="flex-grow: initial" [ngbTooltip]="'Save Character'"><button class="fancy-button" (click)="save()"><i class="bi-file-earmark-arrow-up"></i></button></span>
-                <span *ngIf="!get_IsBlankCharacter()" style="flex-grow: initial" [ngbTooltip]="'Check for new effects'"><button class="fancy-button" (click)="get_Messages(NewMessagesModal)"><i class="ra ra-player-thunder-struck"></i></button></span>
+                <span *ngIf="!get_IsBlankCharacter()" style="flex-grow: initial" [ngbTooltip]="'Check for new effects'"><button class="fancy-button" (click)="get_Messages()"><i class="ra ra-player-thunder-struck"></i></button></span>
             </ng-container>
         </ng-container>
         <span style="flex-grow: initial" [ngbTooltip]="'Refresh all'"><button class="fancy-button" (click)="set_Changed()"><i class="ra ra-cycle"></i></button></span>
@@ -70,10 +70,14 @@
                 </ng-container>
             </ng-container>
         </div>
+        <div class="newrow left-aligned">
+            <input id="checkMessagesAutomatically" type="checkbox" [(ngModel)]="get_Character().settings.checkMessagesAutomatically">
+            <label for="checkMessagesAutomatically">&nbsp;Keep checking every 10 seconds (can be turned off in settings)</label>
+        </div>
     </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-outline-secondary" (click)="modal.dismiss('Cancel click')">Cancel</button>
         <button type="button" class="btn btn-primary" style="background-color: rgb(var(--accent));"
-            (click)="modal.close('Apply click')">Apply these effects</button>
+            (click)="modal.close('Apply click')">Apply selected effects</button>
     </div>
 </ng-template>

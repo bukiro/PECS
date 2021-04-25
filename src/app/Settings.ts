@@ -30,4 +30,5 @@ export class Settings {
     showHeightenedSpells: boolean = false;
     noFriendlyCasterConditions: boolean = false;
     noHostileCasterConditions: boolean = false;
+    checkMessagesAutomatically: boolean = false;
 }

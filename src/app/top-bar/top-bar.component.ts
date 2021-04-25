@@ -1,4 +1,4 @@
-import { Component, OnInit, HostBinding, ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy, ViewChild } from '@angular/core';
 import { CharacterService } from '../character.service';
 import { SavegameService } from '../savegame.service';
 import { NgbActiveModal, NgbModal, NgbTooltipConfig } from '@ng-bootstrap/ng-bootstrap';
@@ -17,6 +17,11 @@ export class TopBarComponent implements OnInit {
 
     public newMessages: PlayerMessage[] = [];
     private loading_messages: boolean = false;
+    private modalOpen: boolean = false;
+    private reOpenModalTimeout: number = 10000;
+    private reOpenModalTimeoutRunning: boolean = false;
+    @ViewChild('NewMessagesModal', { static: false })
+    private newMessagesModal;
 
     constructor(
         private changeDetector: ChangeDetectorRef,
@@ -149,7 +154,7 @@ export class TopBarComponent implements OnInit {
         this.characterService.save_Character();
     }
 
-    get_Messages(modal) {
+    get_Messages(automaticCheck: boolean = false) {
         this.loading_messages;
         //Before getting messages, clean up old messages.
         this.messageService.cleanup_OldMessages().subscribe((results) => {
@@ -167,10 +172,13 @@ export class TopBarComponent implements OnInit {
                     });
                     this.remove_InvalidMessages();
                     if (this.newMessages.length) {
-                        this.open_NewMessagesModal(modal);
+                        this.open_NewMessagesModal();
                     } else {
-                        this.toastService.show("No new effects found.", [], this.characterService)
+                        if (!automaticCheck) {
+                            this.toastService.show("No new effects found.", [], this.characterService)
+                        }
                     }
+                    this.reopen_NewMessagesModal();
                 }, (error) => {
                     this.toastService.show("An error occurred while searching for new effects. See console for more information.", [], this.characterService)
                     console.log('Error loading messages from database: ' + error.message);
@@ -203,8 +211,9 @@ export class TopBarComponent implements OnInit {
         return this.savegameService.get_Savegames().find(savegame => savegame.id == message.senderId)?.name;
     }
 
-    open_NewMessagesModal(content) {
-        this.modalService.open(content, { centered: true, ariaLabelledBy: 'modal-title' }).result.then((result) => {
+    open_NewMessagesModal() {
+        this.modalOpen = true;
+        this.modalService.open(this.newMessagesModal, { centered: true, ariaLabelledBy: 'modal-title' }).result.then((result) => {
             if (result == "Apply click") {
                 //Prepare to refresh the effects of all affected creatures;
                 this.characterService.get_Creatures().forEach(creature => {
@@ -214,10 +223,24 @@ export class TopBarComponent implements OnInit {
                 })
                 this.characterService.apply_MessageConditions(this.newMessages);
                 this.characterService.process_ToChange();
+                this.modalOpen = false;
+                this.reopen_NewMessagesModal();
             }
         }, (reason) => {
             //Do nothing if cancelled.
+            this.modalOpen = false;
+            this.reopen_NewMessagesModal();
         });
+    }
+
+    reopen_NewMessagesModal() {
+        if (this.get_Character().settings.checkMessagesAutomatically && !this.modalOpen && !this.reOpenModalTimeoutRunning) {
+            this.reOpenModalTimeoutRunning = true;
+            setTimeout(() => {
+                this.reOpenModalTimeoutRunning = false;
+                this.get_Messages(true);
+            }, this.reOpenModalTimeout);
+        }
     }
 
     on_SelectAllMessages(checked: boolean) {
@@ -252,6 +275,9 @@ export class TopBarComponent implements OnInit {
                 .subscribe((view) => {
                     if (view.creature.toLowerCase() == "character" && ["top-bar", "all"].includes(view.target.toLowerCase())) {
                         this.changeDetector.detectChanges();
+                    }
+                    if (view.creature.toLowerCase() == "character" && view.target.toLowerCase() == "check-messages") {
+                        this.reopen_NewMessagesModal();
                     }
                 });
             return true;

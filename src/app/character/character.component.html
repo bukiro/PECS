@@ -1005,6 +1005,14 @@
                             </div>
                         </div>
                     </div>
+                    <div class="list-item">
+                        <strong>Automation</strong>
+                        <div class="list-item gridicon-fullsizebox">
+                            <input class="character-choice" id="checkMessagesAutomatically" type="checkbox"
+                                [(ngModel)]="get_Character().settings.checkMessagesAutomatically" (change)="on_CheckMessagesAutomaticallyChange($event.target.checked)">
+                            <label for="checkMessagesAutomatically"><strong>Check for new effects from other players every 10 seconds</strong></label>
+                        </div>
+                    </div>
                 </div>
             </ng-container>
             <!--History content-->

@@ -234,6 +234,13 @@ export class CharacterComponent implements OnInit {
         this.characterService.reset_Character();
     }
 
+    on_CheckMessagesAutomaticallyChange(checked: boolean) {
+        if (checked) {
+            this.characterService.set_ToChange("Character", "check-messages");
+            this.characterService.process_ToChange();
+        }
+    }
+
     on_RetryDatabaseConnection() {
         this.savegameService.initialize(this.characterService);
     }

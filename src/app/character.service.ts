@@ -1526,7 +1526,8 @@ export class CharacterService {
                     message.recipientId = target.playerId;
                     message.senderId = this.get_Character().id;
                     message.targetId = target.id;
-                    message.time = Date();
+                    let date = new Date();
+                    message.time = date.getHours() + ":" + date.getMinutes();
                     message.timeStamp = timeStamp;
                     message.gainCondition.push(Object.assign(new ConditionGain(), JSON.parse(JSON.stringify(conditionGain))));
                     if (message.gainCondition.length) {
@@ -1547,7 +1548,7 @@ export class CharacterService {
         }, (error) => {
             this.toastService.show("An error occurred while sending effects. See console for more information.", [], this);
             console.log('Error saving effect messages to database: ' + error.message);
-        });;
+        });
     }
 
     apply_MessageConditions(messages: PlayerMessage[]) {
@@ -2171,6 +2172,7 @@ export class CharacterService {
             //Update everything once.
             this.set_Changed();
             this.set_ToChange("Character", "effects");
+            this.set_ToChange("Character", "check-messages");
             this.process_ToChange();
         }
     }
