@@ -65,6 +65,7 @@ import * as json_weaponrunes from '../assets/json/items/weaponrunes';
 import * as json_weapons from '../assets/json/items/weapons';
 import * as json_wornitems from '../assets/json/items/wornitems';
 import { Creature } from './Creature';
+import { ToastService } from './toast.service';
 
 @Injectable({
     providedIn: 'root'
@@ -109,7 +110,8 @@ export class ItemsService {
     itemsMenuState: string = 'out';
 
     constructor(
-        private savegameService: SavegameService
+        private savegameService: SavegameService,
+        private toastService: ToastService
     ) { }
 
     toggleItemsMenu(position: string = "") {
@@ -469,7 +471,7 @@ export class ItemsService {
                         grantedItem.grantedBy = "(Granted by " + item.name + ")";
                     };
                 } else {
-                    console.log("Failed granting " + gainItem.type + " " + gainItem.name + " - item not found.")
+                    this.toastService.show("Failed granting " + gainItem.type + " " + gainItem.name + " - item not found.", [], characterService)
                 }
             });
         }

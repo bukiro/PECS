@@ -62,9 +62,10 @@ import { NgbActiveModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { GridIconComponent } from './gridIcon/gridIcon.component';
 import { QuickdiceComponent } from './dice/quickdice/quickdice.component';
 import { LicensesComponent } from './character/licenses/licenses.component';
+import { ToastContainerComponent } from './toast-container/toast-container.component';
 
 @NgModule({
-   declarations: [ 
+   declarations: [	 
       AppComponent,
       AbilitiesComponent,
       TopBarComponent,
@@ -118,7 +119,8 @@ import { LicensesComponent } from './character/licenses/licenses.component';
       ConditionComponent,
       GridIconComponent,
       QuickdiceComponent,
-      LicensesComponent
+      LicensesComponent,
+      ToastContainerComponent
    ],
    imports: [
       BrowserModule,

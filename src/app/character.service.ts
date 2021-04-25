@@ -61,6 +61,7 @@ import { ConfigService } from './config.service';
 import { SpellTarget } from './SpellTarget';
 import { PlayerMessage } from './PlayerMessage';
 import { MessageService } from './message.service';
+import { ToastService } from './toast.service';
 
 @Injectable({
     providedIn: 'root'
@@ -107,7 +108,8 @@ export class CharacterService {
         public deitiesService: DeitiesService,
         public animalCompanionsService: AnimalCompanionsService,
         public familiarsService: FamiliarsService,
-        private messageService: MessageService
+        private messageService: MessageService,
+        private toastService: ToastService
     ) { }
 
     still_loading() {
@@ -1526,9 +1528,10 @@ export class CharacterService {
         })
         if (messages.length) {
             this.messageService.send_Messages(messages).subscribe((result) => {
-                console.log("Saved messages to " + (messages.length) + " targets to database.");
+                this.toastService.show("Sent effects to " + (messages.length) + " targets.", [], this);
             }, (error) => {
-                console.log('Error saving messages to database: ' + error.message);
+                this.toastService.show("An error occurred while sending effects. See console for more information.", [], this);
+                console.log('Error saving effect messages to database: ' + error.message);
             });;
         }
     }
@@ -1555,9 +1558,10 @@ export class CharacterService {
         })
         messages.forEach(message => {
             this.messageService.delete_MessageFromDB(message).subscribe((result) => {
-                console.log("Deleted message " + (message.id) + " from database.");
+
             }, (error) => {
-                console.log('Error deleting message from database: ' + error.message);
+                this.toastService.show("An error occurred while deleting effects. See console for more information.", [], this);
+                console.log('Error deleting effect messages from database: ' + error.message);
             });;;
         })
     }
@@ -2080,6 +2084,7 @@ export class CharacterService {
                     this.loader = results;
                     this.finish_loading()
                 }, (error) => {
+                    this.toastService.show("An error occurred while loading the character. See console for more information.", [], this);
                     console.log('Error loading character from database: ' + error.message);
                 });
         } else {
@@ -2094,9 +2099,10 @@ export class CharacterService {
 
     delete_Character(savegame: Savegame) {
         this.savegameService.delete_CharacterFromDB(savegame).subscribe((results) => {
-            console.log("Deleted " + (savegame.name || "character") + " from database.");
+            this.toastService.show("Deleted " + (savegame.name || "character") + " from database.", [], this);
             this.savegameService.initialize(this);
         }, (error) => {
+            this.toastService.show("An error occurred while deleting the character. See console for more information.", [], this);
             console.log('Error deleting from database: ' + error.message);
         });
     }
@@ -2159,12 +2165,13 @@ export class CharacterService {
         this.get_Character().yourTurn = this.timeService.get_YourTurn();
         this.savegameService.save_Character(this.get_Character(), this.itemsService, this.classesService, this.historyService, this.animalCompanionsService).subscribe((result) => {
             if (result["lastErrorObject"] && result["lastErrorObject"].updatedExisting) {
-                console.log("Saved " + (this.get_Character().name || "character") + " to database.");
+                this.toastService.show("Saved " + (this.get_Character().name || "character") + ".", [], this);
             } else {
-                console.log("Created " + (this.get_Character().name || "character") + " on database.");
+                this.toastService.show("Created " + (this.get_Character().name || "character") + ".", [], this);
             }
             this.savegameService.initialize(this);
         }, (error) => {
+            this.toastService.show("An error occurred while saving the character. See console for more information.", [], this);
             console.log('Error saving to database: ' + error.message);
         });
 

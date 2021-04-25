@@ -5,6 +5,7 @@ import { NgbActiveModal, NgbModal, NgbTooltipConfig } from '@ng-bootstrap/ng-boo
 import { PlayerMessage } from '../PlayerMessage';
 import { MessageService } from '../message.service';
 import { TimeService } from '../time.service';
+import { ToastService } from '../toast.service';
 
 @Component({
     selector: 'app-top-bar',
@@ -23,6 +24,7 @@ export class TopBarComponent implements OnInit {
         private savegameService: SavegameService,
         private messageService: MessageService,
         private timeService: TimeService,
+        private toastService: ToastService,
         private modalService: NgbModal,
         public modal: NgbActiveModal,
         tooltipConfig: NgbTooltipConfig
@@ -164,8 +166,11 @@ export class TopBarComponent implements OnInit {
                 this.remove_InvalidMessages();
                 if (this.newMessages.length) {
                     this.open_NewMessagesModal(modal);
+                } else {
+                    this.toastService.show("No new effects found.", [], this.characterService)
                 }
             }, (error) => {
+                this.toastService.show("An error occurred while searching for new effects. See console for more information.", [], this.characterService)
                 console.log('Error loading messages from database: ' + error.message);
             });
     }

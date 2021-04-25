@@ -16,6 +16,7 @@ import { ConditionsService } from './conditions.service';
 import { Hint } from './Hint';
 import * as json_activities from '../assets/json/activities';
 import { Creature } from './Creature';
+import { ToastService } from './toast.service';
 
 @Injectable({
     providedIn: 'root'
@@ -25,7 +26,9 @@ export class ActivitiesService {
     private activities: Activity[] = [];
     private loading: boolean = false;
 
-    constructor() { }
+    constructor(
+        private toastService: ToastService
+    ) { }
 
     get_Activities(name: string = "") {
         if (!this.still_loading()) {
@@ -153,7 +156,7 @@ export class ActivitiesService {
                             grantedItem.grantedBy = "(Granted by " + activity.name + ")";
                         };
                     } else {
-                        console.log("Failed granting " + gainItem.type + " " + gainItem.name + " - item not found.")
+                        this.toastService.show("Failed granting " + gainItem.type + " " + gainItem.name + " - item not found.", [], characterService)
                     }
                 });
             } else {

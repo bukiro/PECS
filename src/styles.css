@@ -1475,6 +1475,27 @@ ngb-popover-window.list-item.sublist {
     flex-basis: auto;
 }
 
+/* Bootstrap toast overrides */
+
+app-toast-container.ngb-toasts {
+    position: absolute;
+}
+
+app-toast-container .toast {
+    border-width: 4px;
+    border-style: solid;
+    border-color: #465A8C;
+    border-color: rgb(var(--accent));
+    border-radius: .15rem;
+    padding: .3em;
+    background-color: #E0E0E0;
+    box-shadow: 0 0.4rem 0.35rem;
+}
+
+.darkmode app-toast-container .toast {
+    background-color: #303030;
+}
+
 /*
 GRIDICONS
 */
