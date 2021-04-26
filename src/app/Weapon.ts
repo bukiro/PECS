@@ -94,7 +94,6 @@ export class Weapon extends Equipment {
         return runeSource;
     }
     get_Traits(characterService: CharacterService, creature: Creature) {
-        //characterService is not needed for armors, but for other types of item.
         //Test for certain feats that give traits to unarmed attacks.
         let traits: string[] = JSON.parse(JSON.stringify(this.traits));
         if (this.prof == "Unarmed Attacks") {
@@ -160,6 +159,7 @@ export class Weapon extends Equipment {
                 }
             }
         }
+        traits = traits.filter(trait => !this.material.some(material => material.removeTraits.includes(trait)));
         return traits;
     }
     get_Proficiency(creature: Character | AnimalCompanion, characterService: CharacterService, charLevel: number = characterService.get_Character().level) {

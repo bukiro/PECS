@@ -80,16 +80,10 @@ export class TimeComponent implements OnInit {
 
     start_Turn() {
         this.timeService.start_Turn(this.characterService, this.conditionsService, this.itemsService, this.spellsService, this.effectsService);
-        if (this.characterService.get_Character().settings.sendTurnStartMessage && !this.characterService.get_Character().settings.sendTurnEndMessage) {
-            this.characterService.send_TurnChangeToPlayers();
-        }
     }
 
     end_Turn() {
         this.timeService.end_Turn(this.characterService, this.conditionsService, this.itemsService, this.spellsService);
-        if (this.characterService.get_Character().settings.sendTurnStartMessage && this.characterService.get_Character().settings.sendTurnEndMessage) {
-            this.characterService.send_TurnChangeToPlayers();
-        }
     }
 
     tick(amount: number) {

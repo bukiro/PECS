@@ -99,7 +99,10 @@ export class Armor extends Equipment {
         return this.acbonus + this.$affectedByArmoredSkirt + this.$shoddy;
     }
     get_SkillPenalty() {
-        return this.skillpenalty - this.$affectedByArmoredSkirt + this.$shoddy;
+        return Math.min(0, this.skillpenalty - this.$affectedByArmoredSkirt + this.$shoddy + this.material.map(material => (material as ArmorMaterial).skillPenaltyModifier).reduce((a,b) => a + b, 0));
+    }
+    get_SpeedPenalty() {
+        return Math.min(0, this.speedpenalty + this.material.map(material => (material as ArmorMaterial).speedPenaltyModifier).reduce((a,b) => a + b, 0));
     }
     get_DexCap() {
         if (this.dexcap != -1) {
@@ -112,7 +115,9 @@ export class Armor extends Equipment {
     get_Strength() {
         //Fortification Runes raise the required strength
         let fortification = this.propertyRunes.filter(rune => rune.name.includes("Fortification")).length ? 2 : 0;
-        return this.strength + (this.$affectedByArmoredSkirt * 2) + fortification;
+        //Some materials lower the required strength
+        let material = this.material.map(material => (material as ArmorMaterial).strengthScoreModifier).reduce((a,b) => a + b, 0);
+        return this.strength + (this.$affectedByArmoredSkirt * 2) + fortification + material;
     }
     get_Proficiency(creature: Creature = null, characterService: CharacterService = null) {
         //creature and characterService are not needed for armors, but for weapons.
@@ -129,14 +134,16 @@ export class Armor extends Equipment {
     }
     get_Traits(characterService: CharacterService, creature: Creature) {
         //characterService and creature are not needed for armors, but for other types of item.
+        let traits = this.traits.filter(trait => !this.material.some(material => material.removeTraits.includes(trait)));
         if (this.$affectedByArmoredSkirt != 0) {
-            if (this.traits.includes("Noisy")) {
-                return this.traits.concat("Noisy");
+            //An armored skirt makes your armor noisy if it isn't already.
+            if (!traits.includes("Noisy")) {
+                return traits.concat("Noisy");
             } else {
-                return this.traits;
+                return traits;
             }
         } else {
-            return this.traits;
+            return traits;
         }
     }
     profLevel(creature: Character | AnimalCompanion, characterService: CharacterService, charLevel: number = characterService.get_Character().level) {

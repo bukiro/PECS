@@ -49,7 +49,10 @@
     </span>
     <span *ngIf="item.speedpenalty">
         <strong>Speed Penalty</strong>
-        {{item.speedpenalty}}&nbsp;
+        <span
+            [ngClass]="{'penalty':item.get_SpeedPenalty() < item.speedpenalty, 'bonus':item.get_SpeedPenalty() > item.speedpenalty}">
+            &nbsp;{{(item.get_SpeedPenalty ? item.get_SpeedPenalty() : item.speedpenalty)}}&nbsp;
+        </span>
     </span>
     <span *ngIf="(item.get_Strength ? item.get_Strength() : item.strength)">
         <strong>Strength</strong>
@@ -243,9 +246,9 @@
 <div class="list-item left-aligned" *ngFor="let material of item.material">
     <header class="spellHeader">{{material.name}}</header>
     <ng-container *ngFor="let desc of material.desc.split('\n\n'); trackBy:trackByIndex;">
-        <p *ngIf="desc.split('\n').length == 1">{{desc}}</p>
+        <p *ngIf="desc.split('\n').length == 1" [innerHtml]="desc"></p>
         <ul *ngIf="desc.split('\n').length > 1">
-            <li *ngFor="let line of desc.split('\n'); trackBy:trackByIndex;">{{line}}</li>
+            <li *ngFor="let line of desc.split('\n'); trackBy:trackByIndex;" [innerHtml]="line"></li>
         </ul>
     </ng-container>
 </div>

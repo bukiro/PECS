@@ -17,9 +17,12 @@
             <ng-container *ngIf="get_Savegames()">
                 <span *ngIf="get_IsBlankCharacter()" style="flex-grow: initial" [ngbTooltip]="'No changes to character yet.'"><button class="fancy-button" disabled><i class="bi-file-earmark-arrow-up"></i></button></span>
                 <span *ngIf="!get_IsBlankCharacter()" style="flex-grow: initial" [ngbTooltip]="'Save Character'"><button class="fancy-button" (click)="save()"><i class="bi-file-earmark-arrow-up"></i></button></span>
-                <span *ngIf="!get_IsBlankCharacter()" style="flex-grow: initial" [ngbTooltip]="'Check for new effects'"><button class="fancy-button" (click)="get_Messages()"><i class="ra ra-player-thunder-struck"></i>
-                    <div class="window-button-container" *ngIf="get_NewConditionMessages().length && !modalOpen">{{get_NewConditionMessages().length}}</div>
-                </button></span>
+                <span *ngIf="!get_IsBlankCharacter()" style="flex-grow: initial" [ngbTooltip]="get_Character().partyName ? 'Check for new effects' : 'You can only receive effects in a party.'">
+                    <button class="fancy-button" (click)="get_Messages()" [disabled]="!get_Character().partyName">
+                        <i class="ra ra-player-thunder-struck"></i>
+                        <div class="window-button-container" *ngIf="get_NewConditionMessages().length && !modalOpen">{{get_NewConditionMessages().length}}</div>
+                    </button>
+                </span>
             </ng-container>
         </ng-container>
         <span style="flex-grow: initial" [ngbTooltip]="'Refresh all'"><button class="fancy-button" (click)="set_Changed()"><i class="ra ra-cycle"></i></button></span>

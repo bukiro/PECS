@@ -33,4 +33,37 @@
             </ng-container>
         </ng-container>
     </ng-container>
+    <ng-container *ngIf="item.material && ((item.moddable=='armor' && item.constructor.name == 'Armor') || (customItemStore && item.moddable=='-' && item.constructor.name == 'Armor'))">
+        <div class="newrow">
+            <strong>Material</strong>
+            <select [(ngModel)]="newArmorMaterial[0]" (ngModelChange)="add_ArmorMaterial()">
+                <ng-container *ngFor="let material of get_InitialArmorMaterials(); let initialRuneIndex = index; trackBy:trackByIndex;">
+                    <option [ngValue]="material" *ngIf="initialRuneIndex == 0" [selected]=!item.material[0]>
+                        
+                    </option>
+                    <optgroup *ngIf="initialRuneIndex == 1" label="Current material">
+                        <option [ngValue]="material">
+                            {{material.material.name}}
+                        </option>
+                    </optgroup>
+                </ng-container>
+                <optgroup label="Available materials" *ngIf="get_ArmorMaterials().length">
+                    <option *ngFor="let material of get_ArmorMaterials(); trackBy:trackByIndex;" [ngValue]="material" [disabled]="material.disabled"
+                    title="{{get_Title(material.material)}}">
+                        {{material.material.name}}
+                    </option>
+                </optgroup>
+            </select>
+        </div>
+        <ng-container *ngIf="craftingStation">
+            <ng-container *ngFor="let material of item.material">
+                <div class="newrow" *ngIf="material.craftRequirement">
+                    <span>
+                        <strong>Craft Requirement&nbsp;</strong>
+                        <span>{{material.craftRequirement}}</span>
+                    </span>
+                </div>
+            </ng-container>
+        </ng-container>
+    </ng-container>
 </div>

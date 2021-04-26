@@ -988,9 +988,11 @@
                                 (ngModelChange)="on_UpdateSpellbook()">
                             <label for="noFriendlyCasterConditions"><strong>Avoid informational caster
                                     conditions for friendly spells</strong></label>
-                            <span class="right-aligned"
-                                [ngbPopover]="'When casting targeted spells with a duration, the caster will receive a condition that tracks the duration. This option will disable these caster conditions for friendly spells if they have no effect on the caster.'">
-                                <button class="lower inactive-button">Details</button>
+                            <span class="right-aligned">
+                                <span
+                                    [ngbPopover]="'When casting targeted spells with a duration, the caster will receive a condition that tracks the duration. This option will disable these caster conditions for friendly spells if they have no effect on the caster.'">
+                                    <button class="lower inactive-button">Details</button>
+                                </span>
                             </span>
                         </div>
                         <div class="fullwidth" [ngbCollapse]="!get_Character().settings.unavailableFeats">
@@ -1000,9 +1002,11 @@
                                     (ngModelChange)="on_UpdateSpellbook()">
                                 <label for="noHostileCasterConditions"><strong>Avoid informational caster
                                         conditions for hostile spells</strong></label>
-                                <span class="right-aligned"
-                                    [ngbPopover]="'When casting targeted spells with a duration, the caster will receive a condition that tracks the duration. This option will disable these caster conditions for hostile spells if they have no effect on the caster.'">
-                                    <button class="lower inactive-button">Details</button>
+                                <span class="right-aligned">
+                                    <span
+                                        [ngbPopover]="'When casting targeted spells with a duration, the caster will receive a condition that tracks the duration. This option will disable these caster conditions for hostile spells if they have no effect on the caster.'">
+                                        <button class="lower inactive-button">Details</button>
+                                    </span>
                                 </span>
                             </div>
                         </div>
@@ -1013,8 +1017,8 @@
                             <input class="character-choice" id="checkMessagesAutomatically" type="checkbox"
                                 [(ngModel)]="get_Character().settings.checkMessagesAutomatically"
                                 (change)="on_CheckMessagesAutomaticallyChange($event.target.checked)">
-                            <label for="checkMessagesAutomatically"><strong>Check for new effects from other party members
-                                    every 5 seconds</strong></label>
+                            <label for="checkMessagesAutomatically"><strong>Check for new effects from other party
+                                    members every 5 seconds</strong></label>
                         </div>
                         <div class="fullwidth" [ngbCollapse]="!get_Character().settings.checkMessagesAutomatically">
                             <div class="list-item gridicon-fullsizebox">
@@ -1022,26 +1026,32 @@
                                     [(ngModel)]="get_Character().settings.applyMessagesAutomatically">
                                 <label for="applyMessagesAutomatically"><strong>Automatically apply new
                                         effects</strong></label>
-                                <span class="right-aligned"
-                                    [ngbPopover]="'Only effects that are no older than 10 minutes will be applied. You will not be able to select which effects to keep.'">
-                                    <button class="lower inactive-button">Details</button>
+                                <span class="right-aligned">
+                                    <span
+                                        [ngbPopover]="'Only effects that are no older than 10 minutes will be applied. You will not be able to select which effects to keep.'">
+                                        <button class="lower inactive-button">Details</button>
+                                    </span>
                                 </span>
                             </div>
                         </div>
                         <div class="list-item gridicon-fullsizebox">
                             <input class="character-choice" id="sendTurnStartMessage" type="checkbox"
                                 [(ngModel)]="get_Character().settings.sendTurnStartMessage">
-                            <label for="sendTurnStartMessage"><strong>Send an event to your party when your turn starts</strong></label>
-                            <span class="right-aligned"
+                            <label for="sendTurnStartMessage"><strong>Send an event to your party when your turn
+                                    starts</strong></label>
+                            <span class="right-aligned">
+                                <span
                                     [ngbPopover]="'If you have given any conditions to your party members that end on your turn, sending this event will automatically end these conditions. The other players still need to check for effects manually or automatically if they want to use this function.'">
                                     <button class="lower inactive-button">Details</button>
                                 </span>
+                            </span>
                         </div>
                         <div class="fullwidth" [ngbCollapse]="!get_Character().settings.sendTurnStartMessage">
                             <div class="list-item gridicon-fullsizebox">
                                 <input class="character-choice" id="sendTurnEndMessage" type="checkbox"
                                     [(ngModel)]="get_Character().settings.sendTurnEndMessage">
-                                <label for="sendTurnEndMessage"><strong>Send event when your turn ends instead (experimental)</strong></label>
+                                <label for="sendTurnEndMessage"><strong>Send event when your turn ends instead
+                                        (experimental)</strong></label>
                             </div>
                         </div>
                     </div>

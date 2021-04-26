@@ -161,6 +161,12 @@ export class TopBarComponent implements OnInit {
     get_Messages(automaticCheck: boolean = false) {
         this.loading_messages;
         //Before getting messages, clean up old messages.
+        if (!this.get_Character().partyName) {
+            //Don't check for messages if you don't have a party, because nobody could have sent any messages for you (and we don't want the characters without a party to send messages to each other).
+            //Still schedule the next check, in case the party changes.
+            this.on_AutoCheckMessages();
+            return;
+        }
         this.messageService.cleanup_OldMessages().subscribe((results) => {
             this.messageService.load_Messages(this.get_Character().id)
                 .subscribe((results: string[]) => {

@@ -22,7 +22,8 @@ import { WornItem } from './WornItem';
 import { ArmorRune } from './ArmorRune';
 import { WeaponRune } from './WeaponRune';
 import * as json_effectproperties from '../assets/json/effectproperties';
-import { forEachChild } from 'typescript';
+import { Armor } from './Armor';
+import { Material } from './Material';
 
 @Injectable({
     providedIn: 'root'
@@ -588,7 +589,7 @@ export class EffectsService {
         })
         //Active hints of equipped items
         if (!familiar) {
-            function add_HintEffects(item: Equipment | Oil | WornItem | ArmorRune | WeaponRune, effectsService: EffectsService) {
+            function add_HintEffects(item: Equipment | Oil | WornItem | ArmorRune | WeaponRune | Material, effectsService: EffectsService) {
                 item.hints?.filter(hint => (hint.active || hint.active2 || hint.active3 || hint.active4 || hint.active5) && hint.effects?.length).forEach(hint => {
                     hintEffects = hintEffects.concat(effectsService.get_SimpleEffects(character, characterService, hint, "conditional, " + (item.get_Name ? item.get_Name() : item.name)));
                 })
@@ -604,14 +605,19 @@ export class EffectsService {
                             add_HintEffects(stone, this);
                         });
                     }
-                    if (item.moddable == "armor" && (item as Equipment).propertyRunes) {
+                    if ((item.moddable == "armor" || item.type == "armors") && (item as Equipment).propertyRunes) {
                         (item as Equipment).propertyRunes.forEach(rune => {
                             add_HintEffects(rune as ArmorRune, this);
                         });
                     }
-                    if (item.moddable == "weapon" && (item as Equipment).propertyRunes) {
+                    if ((item.moddable == "weapon" || item.type == "weapons") && (item as Equipment).propertyRunes) {
                         (item as Equipment).propertyRunes.forEach(rune => {
                             add_HintEffects(rune as WeaponRune, this);
+                        });
+                    }
+                    if ((item as Equipment).material) {
+                        (item as Equipment).material.forEach(material => {
+                            add_HintEffects(material, this);
                         });
                     }
                 });
@@ -736,20 +742,21 @@ export class EffectsService {
                 });
                 //Skip this if there is an "Ignore Armor Speed Penalty" effect.
                 if (!simpleEffects.find(effect => effect.creature == creature.id && effect.target == "Ignore Armor Speed Penalty" && effect.toggle)) {
-                    items.armors.filter(item => item.equipped && item.speedpenalty).forEach(item => {
+                    items.armors.filter(item => item.equipped && item.get_SpeedPenalty()).forEach(item => {
                         let name = item.get_Name();
+                        let speedPenalty = item.get_SpeedPenalty();
                         if (Strength < item.get_Strength()) {
                             //You are not strong enough to move unhindered in this armor. You get a speed penalty.
-                            itemEffects.push(new Effect(creature.id, 'untyped', "Speed", item.speedpenalty.toString(), "", false, name, true));
+                            itemEffects.push(new Effect(creature.id, 'untyped', "Speed", speedPenalty.toString(), "", false, name, true));
                         } else {
                             //You are strong enough, but if the armor is particularly heavy, your penalty is only lessened.
-                            if (item.speedpenalty < -5) {
+                            if (speedPenalty < -5) {
                                 //In this case we push both the avoided and the actual effect so you can feel at least a little good about yourself.
-                                itemEffects.push(new Effect(creature.id, 'untyped', "Speed", (item.speedpenalty + 5).toString(), "", false, name, true));
-                                itemEffects.push(new Effect(creature.id, 'untyped', "Speed", item.speedpenalty.toString(), "", false, name + " (cancelled by Strength)", true, false));
+                                itemEffects.push(new Effect(creature.id, 'untyped', "Speed", (speedPenalty + 5).toString(), "", false, name, true));
+                                itemEffects.push(new Effect(creature.id, 'untyped', "Speed", speedPenalty.toString(), "", false, name + " (cancelled by Strength)", true, false));
                             } else {
                                 //If you are strong enough and the armor only gave -5ft penalty, you get a fully avoided effect to gaze at.
-                                itemEffects.push(new Effect(creature.id, 'untyped', "Speed", item.speedpenalty.toString(), "", false, name + " (cancelled by Strength)", true, false));
+                                itemEffects.push(new Effect(creature.id, 'untyped', "Speed", speedPenalty.toString(), "", false, name + " (cancelled by Strength)", true, false));
                             }
                         }
                     });

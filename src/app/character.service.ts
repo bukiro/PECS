@@ -62,6 +62,7 @@ import { SpellTarget } from './SpellTarget';
 import { PlayerMessage } from './PlayerMessage';
 import { MessageService } from './message.service';
 import { ToastService } from './toast.service';
+import { Material } from './Material';
 
 @Injectable({
     providedIn: 'root'
@@ -2061,9 +2062,9 @@ export class CharacterService {
     }
 
     get_ItemsShowingOn(creature: Creature, objectName: string = "all") {
-        let returnedItems: Item[] = [];
+        let returnedItems: (Item|Material)[] = [];
         //Prepare function to add items whose hints match the objectName.
-        function get_Hint(item: Equipment | Oil | WornItem | ArmorRune) {
+        function get_Hint(item: Equipment | Oil | WornItem | ArmorRune | Material) {
             if (item.hints
                 .find(hint =>
                     hint.showon.split(",").find(showon =>
@@ -2093,6 +2094,11 @@ export class CharacterService {
                 if (item.moddable == "armor" && (item as Equipment).propertyRunes) {
                     (item as Equipment).propertyRunes.forEach(rune => {
                         get_Hint(rune as ArmorRune);
+                    });
+                }
+                if (item.moddable && (item as Equipment).material) {
+                    (item as Equipment).material.forEach(material => {
+                        get_Hint(material);
                     });
                 }
             });

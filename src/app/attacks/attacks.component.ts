@@ -19,6 +19,7 @@ import { Equipment } from '../Equipment';
 import { ConditionsService } from '../conditions.service';
 import { ConditionGain } from '../ConditionGain';
 import { NgbPopoverConfig, NgbTooltipConfig } from '@ng-bootstrap/ng-bootstrap';
+import { WeaponMaterial } from '../WeaponMaterial';
 
 @Component({
     selector: 'app-attacks',
@@ -107,6 +108,19 @@ export class AttacksComponent implements OnInit {
 
     get_ShowItem() {
         return this.showItem;
+    }
+
+    get_CriticalHints(weapon: Weapon) {
+        let hints: string[] = [];
+        if (weapon.criticalHint) {
+            hints.push(weapon.criticalHint);
+        }
+        weapon.material.forEach(material => {
+            if ((material as WeaponMaterial).criticalHint) {
+                hints.push((material as WeaponMaterial).criticalHint);
+            }
+        })
+        return hints;
     }
 
     get_CritSpecialization(weapon: Weapon, range: string) {

@@ -29,7 +29,6 @@ import { Equipment } from './Equipment';
 import { Scroll } from './Scroll';
 import { Oil } from './Oil';
 import { Talisman } from './Talisman';
-import { Familiar } from './Familiar';
 import { SpellsService } from './spells.service';
 import { SpellCast } from './SpellCast';
 import { AlchemicalBomb } from './AlchemicalBomb';
@@ -41,6 +40,7 @@ import { OtherConsumableBomb } from './OtherConsumableBomb';
 import { Wand } from './Wand';
 import { ConditionsService } from './conditions.service';
 import * as json_itemproperties from '../assets/json/itemproperties';
+import * as json_armormaterials from '../assets/json/armormaterials';
 import * as json_weaponmaterials from '../assets/json/weaponmaterials';
 import * as json_specializations from '../assets/json/specializations';
 import * as json_adventuringgear from '../assets/json/items/adventuringgear';
@@ -66,6 +66,7 @@ import * as json_weapons from '../assets/json/items/weapons';
 import * as json_wornitems from '../assets/json/items/wornitems';
 import { Creature } from './Creature';
 import { ToastService } from './toast.service';
+import { ArmorMaterial } from './ArmorMaterial';
 
 @Injectable({
     providedIn: 'root'
@@ -77,36 +78,10 @@ export class ItemsService {
     private craftingItems: ItemCollection;
     private itemProperties: ItemProperty[] = [];
     private weaponMaterials: WeaponMaterial[] = [];
+    private armorMaterials: ArmorMaterial[] = [];
     private specializations: Specialization[] = [];
-
-    private loading_itemProperties: boolean = false;
-    private loading_weaponMaterials: boolean = false;
-    private loading_specializations: boolean = false;
-    private loading_adventuringgear: boolean = false;
-    private loading_alchemicalbombs: boolean = false;
-    private loading_alchemicalelixirs: boolean = false;
-    private loading_alchemicaltools: boolean = false;
-    private loading_alchemicalpoisons: boolean = false;
-    private loading_ammunition: boolean = false;
-    private loading_armorrunes: boolean = false;
-    private loading_armors: boolean = false;
-    private loading_helditems: boolean = false;
-    private loading_oils: boolean = false;
-    private loading_otherconsumables: boolean = false;
-    private loading_otherconsumablesbombs: boolean = false;
-    private loading_potions: boolean = false;
-    private loading_scrolls: boolean = false;
-    private loading_shields: boolean = false;
-    private loading_snares: boolean = false;
-    private loading_talismans: boolean = false;
-    private loading_wands: boolean = false;
-    private loading_weaponrunes: boolean = false;
-    private loading_weapons: boolean = false;
-    private loading_wornitems: boolean = false;
-    /*
-    private loading_REPLACE1s: boolean = false;
-    */
-
+    private loading: boolean = false;
+    
     itemsMenuState: string = 'out';
 
     constructor(
@@ -171,6 +146,12 @@ export class ItemsService {
     get_WeaponMaterials() {
         if (!this.still_loading()) {
             return this.weaponMaterials;
+        } else { return [new WeaponMaterial] }
+    }
+
+    get_ArmorMaterials() {
+        if (!this.still_loading()) {
+            return this.armorMaterials;
         } else { return [new WeaponMaterial] }
     }
 
@@ -621,142 +602,50 @@ export class ItemsService {
     }
 
     still_loading() {
-        return (
-            this.loading_itemProperties ||
-            this.loading_weaponMaterials ||
-            this.loading_specializations ||
-            this.loading_adventuringgear ||
-            this.loading_alchemicalbombs ||
-            this.loading_alchemicalelixirs ||
-            this.loading_alchemicaltools ||
-            this.loading_alchemicalpoisons ||
-            this.loading_ammunition ||
-            this.loading_armorrunes ||
-            this.loading_armors ||
-            this.loading_helditems ||
-            this.loading_oils ||
-            this.loading_otherconsumables ||
-            this.loading_otherconsumablesbombs ||
-            this.loading_potions ||
-            this.loading_scrolls ||
-            this.loading_shields ||
-            this.loading_snares ||
-            this.loading_talismans ||
-            this.loading_wands ||
-            this.loading_weaponrunes ||
-            this.loading_weapons ||
-            this.loading_wornitems
-        );
+        return this.loading;
     }
 
     initialize(reset: boolean = true) {
         if (!this.items || reset) {
-            this.loading_itemProperties = true;
+            this.loading = true;
             this.load(json_itemproperties, "itemProperties", ItemProperty, "meta");
-            this.loading_itemProperties = false;
-
-            this.loading_weaponMaterials = true;
+            this.load(json_armormaterials, "armorMaterials", ArmorMaterial, "meta");
             this.load(json_weaponmaterials, "weaponMaterials", WeaponMaterial, "meta");
-            this.loading_weaponMaterials = false;
-
-            this.loading_specializations = true;
             this.load(json_specializations, "specializations", Specialization, "meta");
-            this.loading_specializations = false;
-
+            
             this.items = new ItemCollection();
             this.cleanItems = new ItemCollection();
             this.craftingItems = new ItemCollection();
 
-            this.loading_weapons = true;
             this.load(json_weapons, "weapons", Weapon, "item");
-            this.loading_weapons = false;
-
-            this.loading_armors = true;
             this.load(json_armors, "armors", Armor, "item");
-            this.loading_armors = false;
-
-            this.loading_shields = true;
             this.load(json_shields, "shields", Shield, "item");
-            this.loading_shields = false;
-
-            this.loading_wornitems = true;
             this.load(json_wornitems, "wornitems", WornItem, "item");
-            this.loading_wornitems = false;
-
-            this.loading_helditems = true;
             this.load(json_helditems, "helditems", HeldItem, "item");
-            this.loading_helditems = false;
-
-            this.loading_ammunition = true;
             this.load(json_ammunition, "ammunition", Ammunition, "item");
-            this.loading_ammunition = false;
-
-            this.loading_alchemicalelixirs = true;
             this.load(json_alchemicalelixirs, "alchemicalelixirs", AlchemicalElixir, "item");
-            this.loading_alchemicalelixirs = false;
-
-            this.loading_potions = true;
             this.load(json_potions, "potions", Potion, "item");
-            this.loading_potions = false;
-
-            this.loading_otherconsumables = true;
             this.load(json_otherconsumables, "otherconsumables", OtherConsumable, "item");
-            this.loading_otherconsumables = false;
-
-            this.loading_otherconsumablesbombs = true;
             this.load(json_otherconsumablesbombs, "otherconsumablesbombs", OtherConsumableBomb, "item");
-            this.loading_otherconsumablesbombs = false;
-
-            this.loading_adventuringgear = true;
             this.load(json_adventuringgear, "adventuringgear", AdventuringGear, "item");
-            this.loading_adventuringgear = false;
-
-            this.loading_armorrunes = true;
             this.load(json_armorrunes, "armorrunes", ArmorRune, "item");
-            this.loading_armorrunes = false;
-
-            this.loading_weaponrunes = true;
             this.load(json_weaponrunes, "weaponrunes", WeaponRune, "item");
-            this.loading_weaponrunes = false;
-
+            
             //Oils need to load after WeaponRunes, because they have to copy some of them.
-            this.loading_oils = true;
             this.load(json_oils, "oils", Oil, "item");
-            this.loading_oils = false;
-
-            this.loading_scrolls = true;
             this.load(json_scrolls, "scrolls", Scroll, "item");
-            this.loading_scrolls = false;
-
-            this.loading_talismans = true;
             this.load(json_talismans, "talismans", Talisman, "item");
-            this.loading_talismans = false;
-
-            this.loading_alchemicalbombs = true;
             this.load(json_alchemicalbombs, "alchemicalbombs", AlchemicalBomb, "item");
-            this.loading_alchemicalbombs = false;
-
-            this.loading_alchemicaltools = true;
             this.load(json_alchemicaltools, "alchemicaltools", AlchemicalTool, "item");
-            this.loading_alchemicaltools = false;
-
-            this.loading_snares = true;
             this.load(json_snares, "snares", Snare, "item");
-            this.loading_snares = false;
-
-            this.loading_alchemicalpoisons = true;
             this.load(json_alchemicalpoisons, "alchemicalpoisons", AlchemicalPoison, "item");
-            this.loading_alchemicalpoisons = false;
-
-            this.loading_wands = true;
             this.load(json_wands, "wands", Wand, "item");
-            this.loading_wands = false;
-
+            
             /*
-            this.loading_REPLACE0 = true;
             this.load(json_REPLACE0, "REPLACE0", REPLACE1, "item");
-            this.loading_REPLACE0 = false;
             */
+            this.loading = false;
+
         } else {
             //Disable any active hint effects when loading a character.
             this.specializations.forEach(spec => {

@@ -34,6 +34,7 @@ export class Equipment extends Item {
     public get freePropertyRunes(): number {
         //You can apply as many property runes as the level of your potency rune. Each rune with the Saggorak trait counts double.
         let runes = this.potencyRune - this.propertyRunes.length - this.propertyRunes.filter(rune => rune.traits.includes("Saggorak")).length;
+        //Material can allow you to have four runes instead of three.
         let extraRune = this.material?.[0]?.extraRune || 0;
         if (this.potencyRune == 3 && extraRune) {
             for (let index = 0; index < extraRune; index++) {
@@ -69,12 +70,13 @@ export class Equipment extends Item {
     //Store any talismans attached to this item.
     public talismans: Talisman[] = [];
     get_Bulk() {
-        //Return either the bulk set by an oil, or the bulk of the item reduced by the material (no lower than L).
+        //Return either the bulk set by an oil, or the bulk of the item, possibly reduced by the material.
         let bulk: string = this.bulk;
-        this.material.forEach(mat => {
+        this.material.forEach(material => {
             if (parseInt(this.bulk) && parseInt(this.bulk) != 0) {
-                bulk = (parseInt(this.bulk) - mat.bulkReduction).toString();
+                bulk = (parseInt(this.bulk) + material.bulkModifier).toString();
                 if (parseInt(bulk) == 0 && parseInt(this.bulk) != 0) {
+                    //Material can't reduce the bulk to 0.
                     bulk = "L";
                 }
             }
@@ -135,14 +137,21 @@ export class Equipment extends Item {
         if (this.displayName.length) {
             return this.displayName;
         } else {
+            let words: string[] = [];
             let potency = this.get_Potency(this.get_PotencyRune());
+            if (potency) {
+                words.push(potency);
+            }
             let secondary: string = "";
-            let properties: string = "";
-            let material: string = "";
+            let properties: string[] = [];
+            let material: string[] = [];
             if (this.moddable == "weapon" || (this.moddable == "-" && this.type == "weapons")) {
                 secondary = this.get_Striking(this.get_StrikingRune());
             } else if (this.moddable == "armor" || (this.moddable == "-" && this.type == "armors")) {
                 secondary = this.get_Resilient(this.get_ResilientRune());
+            }
+            if (secondary) {
+                words.push(secondary);
             }
             this.propertyRunes.forEach(rune => {
                 let name: string = rune.name;
@@ -151,7 +160,7 @@ export class Equipment extends Item {
                 } else if (rune.name.includes(", Greater)")) {
                     name = "Greater " + rune.name.substr(0, rune.name.indexOf(", Greater)")) + ")";
                 }
-                properties += " " + name;
+                properties.push(name);
             })
             if (this["bladeAlly"]) {
                 this.bladeAllyRunes.forEach(rune => {
@@ -161,17 +170,14 @@ export class Equipment extends Item {
                     } else if (rune.name.includes(", Greater)")) {
                         name = "Greater " + rune.name.substr(0, rune.name.indexOf(", Greater)")) + ")";
                     }
-                    properties += " " + name;
+                    properties.push(name);
                 })
             }
             this.material.forEach(mat => {
-                let name: string = mat.name;
-                if (mat.name.includes("(")) {
-                    name = mat.name.substr(0, mat.name.indexOf(" ("));
-                }
-                material += " " + name;
+                words.push(mat.get_Name());
             })
-            return (potency + " " + (secondary + " " + (properties + " " + (material + " " + this.name).trim()).trim()).trim()).trim();
+            words.push(this.name)
+            return words.join(" ");
         }
     }
     get_Price(itemsService: ItemsService) {

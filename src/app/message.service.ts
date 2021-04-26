@@ -29,7 +29,7 @@ export class MessageService {
     }
 
     cleanup_OldMessages() {
-        return this.http.get<string[]>(this.configService.dbConnectionURL + '/cleanup');
+        return this.http.get<string[]>(this.configService.dbConnectionURL + '/cleanupMessages');
     }
 
     load_TimeFromConnector(): Observable<string[]> {

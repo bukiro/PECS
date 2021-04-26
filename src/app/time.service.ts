@@ -34,7 +34,7 @@ export class TimeService {
 
     start_Turn(characterService: CharacterService, conditionsService: ConditionsService, itemsService: ItemsService, spellsService: SpellsService, effectsService: EffectsService) {
 
-        //Fast Healing
+        //Apply Fast Healing.
         let fastHealing: number = 0;
         characterService.get_Creatures().forEach(creature => {
             effectsService.get_AbsolutesOnThis(creature, "Fast Healing").forEach((effect: Effect) => {
@@ -47,12 +47,24 @@ export class TimeService {
                 creature.health.heal(creature, characterService, effectsService, fastHealing);
             }
         })
-
+        
         this.tick(characterService, conditionsService, itemsService, spellsService, 5);
+
+        //If the character is in a party and sendTurnStartMessage is set, send a turn end event to all your party members.
+        let character = characterService.get_Character();
+        if (character.partyName && character.settings.sendTurnStartMessage && !character.settings.sendTurnEndMessage) {
+            characterService.send_TurnChangeToPlayers();
+        }
     }
 
     end_Turn(characterService: CharacterService, conditionsService: ConditionsService, itemsService: ItemsService, spellsService: SpellsService) {
         this.tick(characterService, conditionsService, itemsService, spellsService, 5);
+        
+        //If the character is in a party and sendTurnEndMessage is set, send a turn end event to all your party members.
+        let character = characterService.get_Character();
+        if (character.partyName && character.settings.sendTurnStartMessage && character.settings.sendTurnEndMessage) {
+            characterService.send_TurnChangeToPlayers();
+        }
     }
 
     rest(characterService: CharacterService, conditionsService: ConditionsService, itemsService: ItemsService, spellsService: SpellsService,) {
@@ -237,7 +249,7 @@ export class TimeService {
                 returnString += " to start of turn";
             }
             if (!returnString || returnString == "for ") {
-                returnString = inASentence ? "for 0 turns" : "0 turns" ;
+                returnString = inASentence ? "for 0 turns" : "0 turns";
             }
             if (remainder == 1) {
                 returnString += ", then until resolved";

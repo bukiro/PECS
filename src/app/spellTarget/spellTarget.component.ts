@@ -144,15 +144,18 @@ export class SpellTargetComponent implements OnInit {
         this.characterService.get_Creatures().forEach(creature => {
             newTargets.push(Object.assign(new SpellTarget(), { name: creature.name || creature.type, id: creature.id, playerId: character.id, type: creature.type, selected: (this.gain.targets.find(target => target.id == creature.id)?.selected || false), isPlayer: creature === character }));
         })
-        this.savegameService.get_Savegames().filter(savegame => savegame.partyName == character.partyName && savegame.id != character.id).forEach(savegame => {
-            newTargets.push(Object.assign(new SpellTarget(), { name: savegame.name || "Unnamed", id: savegame.id, playerId: savegame.id, type: "Character", selected: (this.gain.targets.find(target => target.id == savegame.id)?.selected || false) }));
-            if (savegame.companionId) {
-                newTargets.push(Object.assign(new SpellTarget(), { name: savegame.companionName || "Companion", id: savegame.companionId, playerId: savegame.id, type: "Companion", selected: (this.gain.targets.find(target => target.id == savegame.companionId)?.selected || false) }));
-            }
-            if (savegame.familiarId) {
-                newTargets.push(Object.assign(new SpellTarget(), { name: savegame.familiarName || "Familiar", id: savegame.familiarId, playerId: savegame.id, type: "Familiar", selected: (this.gain.targets.find(target => target.id == savegame.familiarId)?.selected || false) }));
-            }
-        })
+        if (character.partyName) {
+            //Only allow selecting other players if you are in a party.
+            this.savegameService.get_Savegames().filter(savegame => savegame.partyName == character.partyName && savegame.id != character.id).forEach(savegame => {
+                newTargets.push(Object.assign(new SpellTarget(), { name: savegame.name || "Unnamed", id: savegame.id, playerId: savegame.id, type: "Character", selected: (this.gain.targets.find(target => target.id == savegame.id)?.selected || false) }));
+                if (savegame.companionId) {
+                    newTargets.push(Object.assign(new SpellTarget(), { name: savegame.companionName || "Companion", id: savegame.companionId, playerId: savegame.id, type: "Companion", selected: (this.gain.targets.find(target => target.id == savegame.companionId)?.selected || false) }));
+                }
+                if (savegame.familiarId) {
+                    newTargets.push(Object.assign(new SpellTarget(), { name: savegame.familiarName || "Familiar", id: savegame.familiarId, playerId: savegame.id, type: "Familiar", selected: (this.gain.targets.find(target => target.id == savegame.familiarId)?.selected || false) }));
+                }
+            })
+        }
         this.gain.targets = newTargets;
         return this.gain.targets;
     }
