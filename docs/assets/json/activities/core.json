@@ -514,7 +514,7 @@
         "desc": "You can patch up yourself or an adjacent ally, even in combat. Attempt a Medicine check with the same DC as for Treat Wounds, and restore a corresponding amount of Hit Points; this does not remove the wounded condition. As with Treat Wounds, you can attempt checks against higher DCs if you have the minimum proficiency rank. The target is then temporarily immune to your Battle Medicine for 1 day."
     },
     {
-        "name": "Eye of the Arclords: 1 Minute",
+        "name": "Eye of the Arclords",
         "actions": "1A",
         "traits": [
             "Uncommon",
@@ -539,44 +539,6 @@
             },
             {
                 "activationPrerequisite": "Skill_Level('Arcana') > 6 ? 1 : 0",
-                "duration": 500,
-                "name": "Eye of the Arclords",
-                "source": "Eye of the Arclords"
-            }
-        ]
-    },
-    {
-        "name": "Eye of the Arclords: 2 Minutes",
-        "actions": "1A",
-        "traits": [
-            "Uncommon",
-            "General",
-            "Skill"
-        ],
-        "frequency": "once per day",
-        "cooldown": 144000,
-        "desc": "You open an incandescent third eye upon your forehead. The eye can remain open for 1 minute, and you can close it before then with a single action with the concentrate trait. It can remain open for 2 minutes if you're a master in Arcana, or 5 minutes if you're legendary. While the eye is open, you gain the following benefits: you gain the effects of the detect magic arcane innate spell from your Arcane Sense at the start of each of your turns without needing to cast the spell; you gain darkvision; you gain a +2 status bonus to Perception checks to Seek undetected and hidden creatures and to your Perception DC against Hide and Sneak. After your third eye closes, you are dazzled for an amount of time equal to how long you had it open.",
-        "gainConditions": [
-            {
-                "duration": 200,
-                "name": "Eye of the Arclords",
-                "source": "Eye of the Arclords"
-            }
-        ]
-    },
-    {
-        "name": "Eye of the Arclords: 5 Minutes",
-        "actions": "1A",
-        "traits": [
-            "Uncommon",
-            "General",
-            "Skill"
-        ],
-        "frequency": "once per day",
-        "cooldown": 144000,
-        "desc": "You open an incandescent third eye upon your forehead. The eye can remain open for 1 minute, and you can close it before then with a single action with the concentrate trait. It can remain open for 2 minutes if you're a master in Arcana, or 5 minutes if you're legendary. While the eye is open, you gain the following benefits: you gain the effects of the detect magic arcane innate spell from your Arcane Sense at the start of each of your turns without needing to cast the spell; you gain darkvision; you gain a +2 status bonus to Perception checks to Seek undetected and hidden creatures and to your Perception DC against Hide and Sneak. After your third eye closes, you are dazzled for an amount of time equal to how long you had it open.",
-        "gainConditions": [
-            {
                 "duration": 500,
                 "name": "Eye of the Arclords",
                 "source": "Eye of the Arclords"
@@ -4453,7 +4415,7 @@
         "desc": "Once per day, you can transform into a kaiju, with the effects of nature incarnate; if you have Plant Shape, you can instead transform into a green man.",
         "gainConditions": [
             {
-                "duration": 100,
+                "duration": 0,
                 "name": "True Shapeshifter",
                 "source": "True Shapeshifter"
             }

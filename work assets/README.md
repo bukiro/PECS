@@ -27,16 +27,24 @@ Internal To Do list
 - [x] - Implement a spellcasting class
 - [x] - Implement all General and Skill Feats
 - [ ] - Implement all Weapons
-- [x] -- Implement all Alchemical Bombs and Consumable Bombs
 - [ ] - Implement all Armors
 - [ ] - Implement all Shields
 - [ ] - Implement all Worn Items
 - [ ] - Implement all Held Items
 - [ ] - Implement all Consumables
+- [x] -- Implement all Alchemical Bombs and Consumable Bombs
 - [x] -- Implement all Potions
 - [x] -- Implement all Alchemical Elixirs
 - [x] -- Implement all Alchemical Tools
+- [x] -- Implement all Oils
+- [x] -- Implement Scrolls
+- [ ] -- Implement all Talismans
+- [ ] -- Implement all Ammunition
 - [x] - Implement all Adventuring Gear
+- [ ] - Implement all Materials
+- [x] -- Weapon Materials
+- [x] -- Armor Materials
+- [ ] -- Shield Materials
 - [x] - Allow custom content
 - [x] - Implement one full Class with Feats and Features
 - [x] - Feat requirements
@@ -113,7 +121,7 @@ Internal To Do list
 - [ ] Stretch Goal: Icons
 - [ ] Stretch Goal: Initiative tracker, battles, being a battle member, GM-Player-Communication.......
 - [ ] Stretch Goal: Include optional systems like Stamina & Resolve
-- [ ] Stretch Goal: Icon-Driven UI with dynamic tooltips (e.g. with bootstrap or material)
+- [x] Stretch Goal: Icon-Driven UI with dynamic tooltips (e.g. with bootstrap or material)
 - [ ] Stretch Goal: Exporting statblock and files for other tools (e.g. Foundry VTT)
 
 Active to-do:
@@ -132,7 +140,6 @@ Next steps:
 - Leshy feats
 - Shoony feats
 - Implement Conditions for Poisons
-- Implement Armor materials
 - Champion
 - Cleric
 - Alchemist
