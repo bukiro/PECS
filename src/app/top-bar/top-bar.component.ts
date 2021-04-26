@@ -196,7 +196,11 @@ export class TopBarComponent implements OnInit {
                         if (this.newMessages.length && this.get_Character().settings.checkMessagesAutomatically && this.get_Character().settings.applyMessagesAutomatically) {
                             this.on_ApplyMessagesAutomatically();
                         } else if (this.newMessages.length && this.newMessages.length != oldLength) {
-                            this.toastService.show("<strong>" + this.newMessages.length + "</strong> new effect" + (this.newMessages.length != 1 ? "s are" : " is") + " available.", [], this.characterService)
+                            this.toastService.show("<strong>" + this.newMessages.length +
+                                "</strong> new effect" + (this.newMessages.length != 1 ? "s are" : " is") +
+                                " available.",
+                                { onClickCreature: "character", onClickAction: "check-messages-manually" },
+                                this.characterService)
                             this.changeDetector.detectChanges();
                         } else if (!this.newMessages.length && oldLength) {
                             this.changeDetector.detectChanges();
@@ -341,6 +345,9 @@ export class TopBarComponent implements OnInit {
                     }
                     if (view.creature.toLowerCase() == "character" && view.target.toLowerCase() == "check-messages") {
                         this.get_Messages(true);
+                    }
+                    if (view.creature.toLowerCase() == "character" && view.target.toLowerCase() == "check-messages-manually") {
+                        this.get_Messages();
                     }
                 });
             return true;

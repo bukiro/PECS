@@ -210,13 +210,13 @@ export class CharacterService {
                 this.set_ViewChanged({ creature: creature, target: "all", subtarget: "" });
             } else {
                 //Process effects first, as effects may stack up more of the others.
-                let uniqueEffectsStrings = this.toChange.filter(view => view.creature == creature && view.target == "effects").map(view => JSON.stringify(view))
+                let uniqueEffectsStrings = this.toChange.filter(view => view.creature.toLowerCase() == creature.toLowerCase() && view.target.toLowerCase() == "effects").map(view => JSON.stringify(view))
                 let uniqueEffects = Array.from(new Set(uniqueEffectsStrings)).map(view => JSON.parse(view));
                 uniqueEffects.forEach(view => {
                     this.set_ViewChanged(view);
                 });
                 //For the rest, copy the toChange list and clear it, so we don't get a loop if set_ViewChanged() causes more calls of process_ToChange().
-                let uniqueOthersStrings = this.toChange.filter(view => view.creature == creature && view.target != "effects").map(view => JSON.stringify(view))
+                let uniqueOthersStrings = this.toChange.filter(view => view.creature.toLowerCase() == creature.toLowerCase() && view.target.toLowerCase() != "effects").map(view => JSON.stringify(view))
                 let uniqueOthers = Array.from(new Set(uniqueOthersStrings)).map(view => JSON.parse(view));
                 this.clear_ToChange(creature);
                 uniqueOthers.forEach(view => {
@@ -227,7 +227,7 @@ export class CharacterService {
     }
 
     clear_ToChange(creature: string = "all") {
-        this.toChange = this.toChange.filter(view => view.creature != creature && creature != "all")
+        this.toChange = this.toChange.filter(view => view.creature.toLowerCase() != creature.toLowerCase() && creature.toLowerCase() != "all")
     }
 
     set_ViewChanged(view: { creature: string, target: string, subtarget: string }) {

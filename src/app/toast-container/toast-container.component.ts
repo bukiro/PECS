@@ -18,6 +18,14 @@ export class ToastContainerComponent {
 
     isTemplate(toast) { return toast.textOrTpl instanceof TemplateRef; }
 
+    on_Click(toast) {
+        if (toast.onClickAction) {
+            this.characterService.set_ToChange(toast.onClickCreature || "Character", toast.onClickAction);
+            this.characterService.process_ToChange();
+        }
+        this.toastService.remove(toast);
+    }
+
     finish_Loading() {
         if (this.characterService.still_loading()) {
             setTimeout(() => this.finish_Loading(), 500)
