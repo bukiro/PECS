@@ -368,20 +368,19 @@ export class SavegameService {
     }
 
     load_Characters(): Observable<string[]> {
-        return this.http.get<string[]>(this.configService.dbConnectionURL + '/list');
+        return this.http.get<string[]>(this.configService.dbConnectionURL + '/listCharacters');
     }
 
     load_CharacterFromDB(id: string): Observable<string[]> {
-        return this.http.get<string[]>(this.configService.dbConnectionURL + '/load/' + id);
+        return this.http.get<string[]>(this.configService.dbConnectionURL + '/loadCharacter/' + id);
     }
 
     delete_CharacterFromDB(savegame: Savegame): Observable<string[]> {
-        //Why is this a get?
-        return this.http.get<string[]>(this.configService.dbConnectionURL + '/delete/' + savegame.id);
+        return this.http.post<string[]>(this.configService.dbConnectionURL + '/deleteCharacter', {id: savegame.id});
     }
 
     save_CharacterToDB(savegame): Observable<string[]> {
-        return this.http.post<string[]>(this.configService.dbConnectionURL + '/save/', savegame);
+        return this.http.post<string[]>(this.configService.dbConnectionURL + '/saveCharacter', savegame);
     }
 
     still_loading() {

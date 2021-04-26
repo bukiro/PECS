@@ -1541,7 +1541,8 @@ export class CharacterService {
             })
             if (messages.length) {
                 this.messageService.send_Messages(messages).subscribe((result) => {
-                    this.toastService.show("Sent turn change to " + (messages.length) + " targets.", [], this);
+                    //Don't notify the user that a turn change was sent. It proved more annoying than useful.
+                    //this.toastService.show("Sent turn change to " + (messages.length) + " targets.", [], this);
                 }, (error) => {
                     this.toastService.show("An error occurred while sending effects. See console for more information.", [], this);
                     console.log('Error saving effect messages to database: ' + error.message);
@@ -1582,6 +1583,7 @@ export class CharacterService {
             })
             if (messages.length) {
                 this.messageService.send_Messages(messages).subscribe((result) => {
+                    //If messages were sent, send a summary toast.
                     this.toastService.show("Sent effects to " + (messages.length) + " targets.", [], this);
                 }, (error) => {
                     this.toastService.show("An error occurred while sending effects. See console for more information.", [], this);
@@ -1595,6 +1597,8 @@ export class CharacterService {
     }
 
     apply_MessageConditions(messages: PlayerMessage[]) {
+        //Iterate through all messages that have a gainCondition (only one per message will be applied) and either add or remove the appropriate conditions.
+        //The ConditionGains have a foreignPlayerId that allows us to recognize that they came from this player.
         messages.forEach(message => {
             if (message.selected) {
                 if (message.activate) {
@@ -1604,6 +1608,7 @@ export class CharacterService {
                         let newLength = this.add_Condition(targetCreature, conditionGain, false, null)
                         if (newLength) {
                             let senderName = this.get_MessageSender(message);
+                            //If a condition was created, send a toast to inform the user.
                             this.toastService.show("Added <strong>" +
                                 conditionGain.name + (conditionGain.choice ? ": " + conditionGain.choice : "") + "</strong> condition to <strong>" +
                                 (targetCreature.name || targetCreature.type) + "</strong> (sent by <strong>" + senderName + "</strong>)", [], this);
@@ -1621,6 +1626,7 @@ export class CharacterService {
                             });
                         if (removed) {
                             let senderName = this.get_MessageSender(message);
+                            //If a condition was removed, send a toast to inform the user.
                             this.toastService.show("Removed <strong>" +
                                 conditionGain.name + (conditionGain.choice ? ": " + conditionGain.choice : "") + "</strong> condition from <strong>" +
                                 (targetCreature.name || targetCreature.type) + "</strong> (added by <strong>" + senderName + "</strong>)", [], this);
@@ -1629,45 +1635,41 @@ export class CharacterService {
                 }
             }
         })
-        messages.forEach(message => {
-            this.messageService.delete_MessageFromDB(message).subscribe((result) => {
+        //Delete all non turn change messages addressed to this player.
+        this.messageService.delete_MyMessagesFromDB(this.get_Character().id, false).subscribe((result) => {
 
-            }, (error) => {
-                this.toastService.show("An error occurred while deleting effects. See console for more information.", [], this);
-                console.log('Error deleting effect messages from database: ' + error.message);
-            });
-        })
-
+        }, (error) => {
+            this.toastService.show("An error occurred while deleting effects. See console for more information.", [], this);
+            console.log('Error deleting effect messages from database: ' + error.message);
+        });
     }
 
     apply_TurnChangeMessage(messages: PlayerMessage[]) {
-        messages.forEach(message => {
-            if (message.selected) {
-                let removed: boolean = false;
-                this.get_Creatures().forEach(creature => {
-                    this.get_AppliedConditions(creature)
-                        .filter(existingConditionGain => existingConditionGain.foreignPlayerId == message.senderId && existingConditionGain.duration == 2)
-                        .forEach(existingConditionGain => {
-                            removed = this.remove_Condition(creature, existingConditionGain, false);
-                            if (removed) {
-                                let senderName = this.get_MessageSender(message);
-                                this.toastService.show("Automatically removed <strong>" +
-                                    existingConditionGain.name + (existingConditionGain.choice ? ": " + existingConditionGain.choice : "") + "</strong> condition from <strong>" +
-                                    (creature.name || creature.type) + "</strong> on turn of <strong>" + senderName + "</strong>", [], this);
-                                this.set_ToChange(creature.type, "effects");
-                            }
-                        });
-                })
-            }
+        //For each senderId that you have a turnChange message from, remove all conditions that came from this sender and have duration 2.
+        Array.from(new Set(messages.filter(message => message.selected).map(message => message.senderId))).forEach(senderId => {
+            let removed: boolean = false;
+            this.get_Creatures().forEach(creature => {
+                this.get_AppliedConditions(creature)
+                    .filter(existingConditionGain => existingConditionGain.foreignPlayerId == senderId && existingConditionGain.duration == 2)
+                    .forEach(existingConditionGain => {
+                        removed = this.remove_Condition(creature, existingConditionGain, false);
+                        if (removed) {
+                            let senderName = this.savegameService.get_Savegames().find(savegame => savegame.id == senderId)?.name || "Unknown";
+                            this.toastService.show("Automatically removed <strong>" +
+                                existingConditionGain.name + (existingConditionGain.choice ? ": " + existingConditionGain.choice : "") + "</strong> condition from <strong>" +
+                                (creature.name || creature.type) + "</strong> on turn of <strong>" + senderName + "</strong>", [], this);
+                            this.set_ToChange(creature.type, "effects");
+                        }
+                    });
+            })
         })
-        messages.forEach(message => {
-            this.messageService.delete_MessageFromDB(message).subscribe((result) => {
+        //Delete all turn change messages addressed to this player.
+        this.messageService.delete_MyMessagesFromDB(this.get_Character().id, true).subscribe((result) => {
 
-            }, (error) => {
-                this.toastService.show("An error occurred while deleting effects. See console for more information.", [], this);
-                console.log('Error deleting effect messages from database: ' + error.message);
-            });
-        })
+        }, (error) => {
+            this.toastService.show("An error occurred while deleting effects. See console for more information.", [], this);
+            console.log('Error deleting effect messages from database: ' + error.message);
+        });
     }
 
     process_OnceEffect(creature: Creature, effectGain: EffectGain, conditionValue: number = 0, conditionHeightened: number = 0, conditionChoice: string = "", conditionSpellCastingAbility: string = "") {
