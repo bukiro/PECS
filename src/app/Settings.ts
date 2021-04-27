@@ -26,6 +26,7 @@ export class Settings {
     archetypeFeats: boolean = true;
     hintsShowMoreInformation: boolean = true;
     characterTileMode: boolean = true;
+    conditionsTileMode: boolean = true;
     spellsTileMode: boolean = true;
     showHeightenedSpells: boolean = false;
     noFriendlyCasterConditions: boolean = false;

@@ -12,6 +12,7 @@ import { Shield } from '../Shield';
 import { ConditionGain } from '../ConditionGain';
 import { ConditionsService } from '../conditions.service';
 import { NgbPopoverConfig, NgbTooltipConfig } from '@ng-bootstrap/ng-bootstrap';
+import { ToastService } from '../toast.service';
 
 @Component({
     selector: 'app-defense',
@@ -36,6 +37,7 @@ export class DefenseComponent implements OnInit {
         private conditionsService: ConditionsService,
         public effectsService: EffectsService,
         public abilitiesService: AbilitiesService,
+        public toastService: ToastService,
         popoverConfig: NgbPopoverConfig,
         tooltipConfig: NgbTooltipConfig
     ) {
@@ -189,6 +191,8 @@ export class DefenseComponent implements OnInit {
         shield.damage += amount;
         if (shield.get_HitPoints() < shield.get_BrokenThreshold()) {
             shield.broken = true;
+            this.characterService.onEquip(this.get_Creature() as Character | AnimalCompanion, this.get_Creature().inventories[0], shield, false, false, true)
+            this.toastService.show("Your shield broke and was unequipped.", [], this.characterService)
         } else {
             shield.broken = false;
         }

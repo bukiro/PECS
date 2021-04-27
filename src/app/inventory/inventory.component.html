@@ -342,7 +342,7 @@
                                             <span
                                                 [ngbPopover]="!get_RepairAllowed(item) ? 'You cannot repair a broken shield unless you restore its hit points above the Broken Threshold.' : ''">
                                                 <input id="{{item.id}}broken" type="checkbox" [(ngModel)]="item.broken"
-                                                    (ngModelChange)=onItemChange(item)
+                                                    (ngModelChange)="onItemBroken(item);onItemChange(item);"
                                                     [disabled]="!get_RepairAllowed(item)">
                                                 <label for="{{item.id}}broken">&nbsp;<i
                                                         class='ra ra-broken-shield'></i>&nbsp;Broken</label>
@@ -357,7 +357,7 @@
                                         <div class="newrow">
                                             <span>
                                                 <input id="{{item.id}}shoddy" type="checkbox" [(ngModel)]="item.shoddy"
-                                                    (ngModelChange)=onItemChange(item)>
+                                                    (ngModelChange)="onItemChange(item)">
                                                 <label for="{{item.id}}shoddy">&nbsp;<i
                                                         class='ra ra-broken-bottle'></i>&nbsp;Shoddy</label>
                                             </span>
@@ -430,7 +430,7 @@
                                 </app-itemPoisons>
                                 <app-itemTalismans [item]=item [itemStore]=false *ngIf="can_ApplyTalismans(item)">
                                 </app-itemTalismans>
-                                <ng-container *ngIf="item.type =='shields'">
+                                <ng-container *ngIf="item.type=='shields'">
                                     <div class="list-item newrow">
                                         <strong>HP</strong>
                                         <div class="value"> {{item.get_HitPoints()}}</div>

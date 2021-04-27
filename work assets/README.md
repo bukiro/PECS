@@ -41,10 +41,7 @@ Internal To Do list
 - [ ] -- Implement all Talismans
 - [ ] -- Implement all Ammunition
 - [x] - Implement all Adventuring Gear
-- [ ] - Implement all Materials
-- [x] -- Weapon Materials
-- [x] -- Armor Materials
-- [ ] -- Shield Materials
+- [x] - Implement all Materials
 - [x] - Allow custom content
 - [x] - Implement one full Class with Feats and Features
 - [x] - Feat requirements

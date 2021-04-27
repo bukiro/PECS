@@ -142,7 +142,7 @@
             </div>
         </div>
         <div class="charactersheet-column">
-            <div id="spells-choiceArea-top"></div>
+            <div id="spells-choiceArea-top" style="margin-top:-.3em;"></div>
             <!--Spell Choice content-->
             <ng-container *ngFor="let choiceContent of get_ActiveChoiceContent(); trackBy:trackByID;">
                 <app-spellchoice (showChoiceMessage)="receive_ChoiceMessage($event)"

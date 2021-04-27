@@ -24,6 +24,8 @@ import { WeaponRune } from './WeaponRune';
 import * as json_effectproperties from '../assets/json/effectproperties';
 import { Armor } from './Armor';
 import { Material } from './Material';
+import { Weapon } from './Weapon';
+import { Shield } from './Shield';
 
 @Injectable({
     providedIn: 'root'
@@ -605,14 +607,14 @@ export class EffectsService {
                             add_HintEffects(stone, this);
                         });
                     }
-                    if ((item.moddable == "armor" || item.type == "armors") && (item as Equipment).propertyRunes) {
+                    if ((item.moddable == "armor" || item.constructor == Armor) && (item as Equipment).propertyRunes) {
                         (item as Equipment).propertyRunes.forEach(rune => {
                             add_HintEffects(rune as ArmorRune, this);
                         });
                     }
-                    if ((item.moddable == "weapon" || item.type == "weapons") && (item as Equipment).propertyRunes) {
+                    if ((item.moddable == "shield" || item.constructor == Shield) && (item as Equipment).propertyRunes) {
                         (item as Equipment).propertyRunes.forEach(rune => {
-                            add_HintEffects(rune as WeaponRune, this);
+                            add_HintEffects(rune as ArmorRune, this);
                         });
                     }
                     if ((item as Equipment).material) {

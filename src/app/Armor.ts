@@ -1,8 +1,6 @@
 import { CharacterService } from './character.service';
-import { EffectsService } from './effects.service';
 import { Equipment } from './Equipment';
 import { AnimalCompanion } from './AnimalCompanion';
-import { Familiar } from './Familiar';
 import { Character } from './Character';
 import { SpecializationGain } from './SpecializationGain';
 import { Specialization } from './Specialization';

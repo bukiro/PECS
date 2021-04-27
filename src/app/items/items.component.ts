@@ -277,11 +277,11 @@ export class ItemsComponent implements OnInit {
     }
 
     can_ApplyTalismans(item: Item) {
-        return (["armors", "shields", "weapons"].includes(item.type));
+        return (item.constructor == Armor || item.constructor == Shield || item.constructor == Weapon);
     }
 
     can_ChangeMaterial(item: Item) {
-        return (["armors", "shields", "weapons"].includes(item.type));
+        return (item.constructor == Armor || item.constructor == Shield || item.constructor == Weapon);
     }
 
     grant_Item(creature: string = "Character", item: Item, pay: boolean = false) {

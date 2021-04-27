@@ -333,6 +333,19 @@ button.tilemodebutton>div>div {
     padding-right: .3rem;
 }
 
+    /* Problem Button (for broken items etc.) */
+
+button.problem,
+.button.problem {
+    background-color: #DAAAA0;
+}
+
+.darkmode button.problem,
+.darkmode .button.problem {
+    color: #CCC;
+    background-color: #500000;
+}
+
     /* Inactive Button (for used spells etc) */
 
 .inactive-button,
@@ -772,6 +785,7 @@ app-character-sheet {
     grid-template-columns: 1fr 1fr;
     overflow-y: hidden;
     height: 100%;
+    gap: .6rem;
 }
 
 .charactersheet-column {
@@ -781,6 +795,7 @@ app-character-sheet {
     position: relative;
     display: flex;
     flex-direction: column;
+    gap: .3rem;
 }
 
 /* Character sheet apps */
@@ -1501,6 +1516,10 @@ GRIDICONS
     position: relative;
 }
 
+.fullsize-scroll-box .icon-list {
+    min-height: auto;
+}
+
 .icon-list.vertical {
     flex-direction: column;
 }
@@ -1582,17 +1601,17 @@ app-gridicon.fancy-button {
     background-color: white;
 }
 
-.fullsize-scroll-box .icon-list app-gridicon:not(.fancy-button) {
+.fullsize-scroll-box .icon-list app-gridicon:not(.fancy-button):not(.condition) {
     background-color: #CCC;
 }
 
 .darkmode app-gridicon:not(.fancy-button),
-.darkmode .fullsize-scroll-box .icon-list app-gridicon:not(.fancy-button) {
+.darkmode .fullsize-scroll-box .icon-list app-gridicon:not(.fancy-button):not(.condition) {
     background-color: #202020;
 }
 
 .darkmode app-gridicon:not(.fancy-button),
-.darkmode .fullsize-scroll-box .icon-list :not(.inactive-button) > app-gridicon:not(.fancy-button) {
+.darkmode .fullsize-scroll-box .icon-list :not(.inactive-button) > app-gridicon:not(.fancy-button):not(.condition) {
     background-color: #202020;
     color: inherit;
 }

@@ -1,6 +1,7 @@
 import { CharacterService } from './character.service';
 import { Creature } from './Creature';
 import { Equipment } from './Equipment';
+import { ShieldMaterial } from './ShieldMaterial';
 
 export class Shield extends Equipment {
     public readonly _className: string = this.constructor.name;
@@ -45,13 +46,25 @@ export class Shield extends Equipment {
         return this.$shieldAlly;
     }
     get_Hardness() {
-        return this.hardness + (this.$shieldAlly ? 2 : 0);
+        let hardness = this.hardness;
+        this.material.forEach((material: ShieldMaterial) => {
+            hardness = material.hardness;
+        })
+        return hardness + (this.$shieldAlly ? 2 : 0);
     }
     get_MaxHP() {
-        return this.hitpoints + (this.$shieldAlly ? (Math.floor(this.hitpoints / 2)) : 0);
+        let hitpoints = this.hitpoints;
+        this.material.forEach((material: ShieldMaterial) => {
+            hitpoints = material.hitpoints;
+        })
+        return hitpoints + (this.$shieldAlly ? (Math.floor(hitpoints / 2)) : 0);
     }
     get_BrokenThreshold() {
-        return this.brokenThreshold + (this.$shieldAlly ? (Math.floor(this.brokenThreshold / 2)) : 0);
+        let brokenThreshold = this.brokenThreshold;
+        this.material.forEach((material: ShieldMaterial) => {
+            brokenThreshold = material.brokenThreshold;
+        })
+        return brokenThreshold + (this.$shieldAlly ? (Math.floor(brokenThreshold / 2)) : 0);
     }
     get_ACBonus() {
         return this.acbonus + this.$shoddy;
@@ -63,5 +76,9 @@ export class Shield extends Equipment {
             this.broken = true;
         }
         return hitpoints;
+    }
+    get_SpeedPenalty() {
+        //The function is needed for compatibility with other equipment.
+        return this.speedpenalty;
     }
 }

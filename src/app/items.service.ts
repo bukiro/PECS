@@ -41,6 +41,7 @@ import { Wand } from './Wand';
 import { ConditionsService } from './conditions.service';
 import * as json_itemproperties from '../assets/json/itemproperties';
 import * as json_armormaterials from '../assets/json/armormaterials';
+import * as json_shieldmaterials from '../assets/json/shieldmaterials';
 import * as json_weaponmaterials from '../assets/json/weaponmaterials';
 import * as json_specializations from '../assets/json/specializations';
 import * as json_adventuringgear from '../assets/json/items/adventuringgear';
@@ -67,6 +68,7 @@ import * as json_wornitems from '../assets/json/items/wornitems';
 import { Creature } from './Creature';
 import { ToastService } from './toast.service';
 import { ArmorMaterial } from './ArmorMaterial';
+import { ShieldMaterial } from './ShieldMaterial';
 
 @Injectable({
     providedIn: 'root'
@@ -77,8 +79,9 @@ export class ItemsService {
     private cleanItems: ItemCollection;
     private craftingItems: ItemCollection;
     private itemProperties: ItemProperty[] = [];
-    private weaponMaterials: WeaponMaterial[] = [];
     private armorMaterials: ArmorMaterial[] = [];
+    private shieldMaterials: ArmorMaterial[] = [];
+    private weaponMaterials: WeaponMaterial[] = [];
     private specializations: Specialization[] = [];
     private loading: boolean = false;
     
@@ -143,15 +146,21 @@ export class ItemsService {
         } else { return [new ItemProperty] }
     }
 
-    get_WeaponMaterials() {
-        if (!this.still_loading()) {
-            return this.weaponMaterials;
-        } else { return [new WeaponMaterial] }
-    }
-
     get_ArmorMaterials() {
         if (!this.still_loading()) {
             return this.armorMaterials;
+        } else { return [new ArmorMaterial] }
+    }
+
+    get_ShieldMaterials() {
+        if (!this.still_loading()) {
+            return this.shieldMaterials;
+        } else { return [new ShieldMaterial] }
+    }
+
+    get_WeaponMaterials() {
+        if (!this.still_loading()) {
+            return this.weaponMaterials;
         } else { return [new WeaponMaterial] }
     }
 
@@ -327,7 +336,7 @@ export class ItemsService {
             }
         }
         //For base items that come with property Runes with name only, load the rune into the item here.
-        if (resetPropertyRunes && (newItem.type == "weapons" || newItem.moddable == "weapon") && newItem.propertyRunes?.length) {
+        if (resetPropertyRunes && (newItem.constructor == Weapon || newItem.moddable == "weapon") && newItem.propertyRunes?.length) {
             let newRunes: WeaponRune[] = [];
             newItem.propertyRunes.forEach((rune: WeaponRune) => {
                 let libraryItem = this.cleanItems.weaponrunes.find(newrune => newrune.name == rune.name)
@@ -337,7 +346,7 @@ export class ItemsService {
             })
             newItem.propertyRunes = newRunes;
         }
-        if (resetPropertyRunes && (newItem.type == "armors" || newItem.moddable == "armor") && newItem.propertyRunes?.length) {
+        if (resetPropertyRunes && (newItem.constructor == Armor || newItem.moddable == "armor") && newItem.propertyRunes?.length) {
             let newRunes: ArmorRune[] = [];
             newItem.propertyRunes.forEach((rune: ArmorRune) => {
                 let libraryItem = this.cleanItems.armorrunes.find(newrune => newrune.name == rune.name)
@@ -564,10 +573,10 @@ export class ItemsService {
                     }
                 }
                 characterService.set_ToChange(creature.type, "inventory");
-                if (item.type == "weapons" && (item as Equipment).equipped) {
+                if (item.constructor == Shield && (item as Equipment).equipped) {
                     characterService.set_ToChange(creature.type, "attacks");
                 }
-                if (["armors", "shields"].includes(item.type) && (item as Equipment).equipped) {
+                if ((item.constructor == Armor || item.constructor == Shield) && (item as Equipment).equipped) {
                     characterService.set_ToChange(creature.type, "defense");
                 }
             })
@@ -589,10 +598,10 @@ export class ItemsService {
                         oil.name = "DELETE";
                     }
                     characterService.set_ToChange(creature.type, "inventory");
-                    if (item.type == "weapons" && (item as Equipment).equipped) {
+                    if (item.constructor == Weapon && (item as Equipment).equipped) {
                         characterService.set_ToChange(creature.type, "attacks");
                     }
-                    if (["armors", "shields"].includes(item.type) && (item as Equipment).equipped) {
+                    if ((item.constructor == Armor || item.constructor == Shield) && (item as Equipment).equipped) {
                         characterService.set_ToChange(creature.type, "defense");
                     }
                 })
@@ -610,6 +619,7 @@ export class ItemsService {
             this.loading = true;
             this.load(json_itemproperties, "itemProperties", ItemProperty, "meta");
             this.load(json_armormaterials, "armorMaterials", ArmorMaterial, "meta");
+            this.load(json_shieldmaterials, "shieldMaterials", ShieldMaterial, "meta");
             this.load(json_weaponmaterials, "weaponMaterials", WeaponMaterial, "meta");
             this.load(json_specializations, "specializations", Specialization, "meta");
             

@@ -16,12 +16,13 @@ import { TimeService } from '../time.service';
 import { FormulaLearned } from '../FormulaLearned';
 import { Snare } from '../Snare';
 import { SpellsService } from '../spells.service';
-import { SpellGain } from '../SpellGain';
 import { Wand } from '../Wand';
 import { Shield } from '../Shield';
 import { ConditionsService } from '../conditions.service';
 import { Weapon } from '../Weapon';
 import { NgbPopoverConfig, NgbTooltipConfig } from '@ng-bootstrap/ng-bootstrap';
+import { Armor } from '../Armor';
+import { ToastService } from '../toast.service';
 
 @Component({
     selector: 'app-inventory',
@@ -50,6 +51,7 @@ export class InventoryComponent implements OnInit {
         private timeService: TimeService,
         private spellsService: SpellsService,
         private conditionsService: ConditionsService,
+        private toastService: ToastService,
         popoverConfig: NgbPopoverConfig,
         tooltipConfig: NgbTooltipConfig
     ) {
@@ -235,7 +237,7 @@ export class InventoryComponent implements OnInit {
     }
 
     can_Equip(item: Item, inventoryIndex: number) {
-        return (inventoryIndex == 0 && item.equippable && this.creature == "Character" && !item.traits.includes("Companion")) || (item.traits.includes("Companion") && this.creature == "Companion") || item.name == "Unarmored"
+        return (inventoryIndex == 0 && item.equippable && this.creature == "Character" && (!(item as Equipment).broken || item.constructor == Armor) && !item.traits.includes("Companion")) || (item.traits.includes("Companion") && this.creature == "Companion") || item.name == "Unarmored"
     }
 
     can_Invest(item: Item, inventoryIndex: number) {
@@ -377,6 +379,15 @@ export class InventoryComponent implements OnInit {
 
     on_Invest(item: Equipment, inventory: ItemCollection, invested: boolean) {
         this.characterService.on_Invest(this.get_Creature(), inventory, item, invested);
+    }
+
+    onItemBroken(item: Equipment) {
+        if (item.broken) {
+            if (!this.can_Equip(item, 0) && item.equipped) {
+                this.characterService.onEquip(this.get_Creature() as Character | AnimalCompanion, this.get_Creature().inventories[0], item, false, false, true)
+                this.toastService.show("Your shield broke and was unequipped.", [], this.characterService)
+            }
+        }
     }
 
     onItemChange(item: Item) {
@@ -596,12 +607,12 @@ export class InventoryComponent implements OnInit {
             this.effectsService.get_EffectsOnThis(this.get_Character(), "Allow Battleforger").length
         ) && (
                 (
-                    item.type == "weapons" &&
+                    item.constructor == Weapon &&
                     (item as Weapon).prof != "Unarmed Attacks"
                 ) ||
-                item.type == "armors" ||
+                item.constructor == Armor ||
                 (
-                    item.type == "wornitems" &&
+                    item.constructor == WornItem &&
                     (item as WornItem).isHandwrapsOfMightyBlows)
             );
     }
@@ -613,6 +624,7 @@ export class InventoryComponent implements OnInit {
         }
         if (shield.get_HitPoints() < shield.get_BrokenThreshold()) {
             shield.broken = true;
+            this.onItemBroken(shield);
         } else {
             shield.broken = false;
         }

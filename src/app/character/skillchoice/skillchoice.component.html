@@ -2,7 +2,7 @@
     <ng-container *ngFor="let maxAvailable of [get_Available()]; trackBy:trackByIndex;">
         <ng-container *ngFor="let buttonTitle of [get_ButtonTitle(maxAvailable)]; trackBy:trackByIndex;">
             <div *ngIf="maxAvailable"
-                [ngClass]="{'list-item': showTitle && !get_TileMode(), 'problem':(choice.increases.length > maxAvailable || someIllegal(choice)), 'fullsize-only':(choice.increases.length == maxAvailable)}">
+                [ngClass]="{'list-item': showTitle && !get_TileMode(), 'list': !showTitle, 'problem':(choice.increases.length > maxAvailable || someIllegal(choice)), 'fullsize-only':(choice.increases.length == maxAvailable)}">
                 <!--Choice button shows in title mode-->
                 <!--List mode button-->
                 <button class="newrow left-aligned sublist-toggle skillincrease"
@@ -27,8 +27,8 @@
                     </header>
                 </div>
                 <!--Choice content shows in content mode-->
-                <div id="{{!showTitle ? 'choiceArea' : ''}}" class="list-item sublist skillincrease"
-                    [ngClass]="{'list-item sublist':showTitle, 'fancy-list':showTitle && (choice.increases.length == maxAvailable), 'charactersheet-app':!showTitle}"
+                <div id="{{!showTitle ? 'choiceArea' : ''}}" class="list-item"
+                    [ngClass]="{'sublist skillincrease':showTitle, 'fancy-list':showTitle && (choice.increases.length == maxAvailable)}"
                     *ngIf="showContent && get_ShowChoice()==listID">
                     <ng-container
                         *ngFor="let skill of get_AvailableSkills(choice, levelNumber, maxAvailable); trackBy:trackByIndex;">

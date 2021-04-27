@@ -63,6 +63,7 @@ import { PlayerMessage } from './PlayerMessage';
 import { MessageService } from './message.service';
 import { ToastService } from './toast.service';
 import { Material } from './Material';
+import { WeaponRune } from './WeaponRune';
 
 @Injectable({
     providedIn: 'root'
@@ -844,7 +845,7 @@ export class CharacterService {
                 } else {
                     let equip = true;
                     //Don't equip the new item if it's a shield or armor and this one is too - only one shield or armor can be equipped
-                    if ((returnedInventoryItem.type == "armors" || returnedInventoryItem.type == "shields") && newItem.type == returnedInventoryItem.type) {
+                    if ((returnedInventoryItem.constructor == Armor || returnedInventoryItem.constructor == Shield) && newItem.constructor == returnedInventoryItem.constructor) {
                         equip = false;
                     }
                     let grantedItem = this.grant_InventoryItem(creature, inventory, newItem, true, false, equip);
@@ -2064,7 +2065,7 @@ export class CharacterService {
     get_ItemsShowingOn(creature: Creature, objectName: string = "all") {
         let returnedItems: (Item|Material)[] = [];
         //Prepare function to add items whose hints match the objectName.
-        function get_Hint(item: Equipment | Oil | WornItem | ArmorRune | Material) {
+        function get_Hint(item: Equipment | Oil | WornItem | ArmorRune | WeaponRune | Material) {
             if (item.hints
                 .find(hint =>
                     hint.showon.split(",").find(showon =>
@@ -2089,6 +2090,11 @@ export class CharacterService {
                 if ((item as WornItem).aeonStones) {
                     (item as WornItem).aeonStones.forEach(stone => {
                         get_Hint(stone);
+                    });
+                }
+                if (item.moddable == "weapon" && (item as Equipment).propertyRunes) {
+                    (item as Equipment).propertyRunes.forEach(rune => {
+                        get_Hint(rune as WeaponRune);
                     });
                 }
                 if (item.moddable == "armor" && (item as Equipment).propertyRunes) {

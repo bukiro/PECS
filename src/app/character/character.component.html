@@ -22,845 +22,833 @@
     </button>
     <div class="charactersheet-column-container">
         <div class="charactersheet-column">
-            <div class="fullsize-scroll-box list">
-                <div class="loading" *ngIf="still_loading()">Loading</div>
-                <!--Management list mode-->
-                <ng-container *ngIf="!get_TileMode()">
+            <div class="loading" *ngIf="still_loading()">Loading</div>
+            <!--Management list mode-->
+            <ng-container *ngIf="!get_TileMode()">
+                <div class="list-item">
+                    <button class="newrow" (click)="on_NewCharacter()">
+                        New Character
+                    </button>
+                </div>
+                <ng-container *ngIf="get_SavegamesInitializing()">
                     <div class="list-item">
-                        <button class="newrow" (click)="on_NewCharacter()">
-                            New Character
-                        </button>
-                    </div>
-                    <ng-container *ngIf="get_SavegamesInitializing()">
-                        <div class="list-item">
-                            <button class="newrow loading" disabled>
-                                Connecting to database...
-                            </button>
-                        </div>
-                    </ng-container>
-                    <ng-container *ngIf="!get_SavegamesInitializing()">
-                        <ng-container *ngIf="!get_Savegames()">
-                            <div class="list-item">
-                                <button class="newrow" (click)="on_RetryDatabaseConnection()">
-                                    Database connection failed - click to retry
-                                </button>
-                            </div>
-                        </ng-container>
-                        <ng-container *ngIf="get_Savegames()">
-                            <div class="list-item">
-                                <button class="newrow" (click)="toggle_List('load')"
-                                    [ngClass]="{'activechoice':get_ShowList()=='load'}">
-                                    Load Character
-                                </button>
-                            </div>
-                            <div class="list-item">
-                                <button class="newrow" (click)="save_CharacterToDB()"
-                                    [disabled]="get_IsBlankCharacter()">
-                                    Save Character
-                                </button>
-                            </div>
-                        </ng-container>
-                    </ng-container>
-                    <div class="list-item">
-                        <button class="newrow" (click)="toggle_List('settings')"
-                            [ngClass]="{'activechoice':get_ShowList()=='settings'}">
-                            Settings
-                        </button>
-                    </div>
-                    <div class="list-item">
-                        <button class="newrow" (click)="toggle_List('licenses')"
-                            [ngClass]="{'activechoice':get_ShowList()=='licenses'}">
-                            Licenses
+                        <button class="newrow loading" disabled>
+                            Connecting to database...
                         </button>
                     </div>
                 </ng-container>
-                <!--Management tile mode-->
-                <div class="newrow list-item" *ngIf="get_TileMode()">
-                    <div class="icon-list">
-                        <button (click)="on_NewCharacter()">
-                            <app-gridIcon [ngbTooltip]="'New Character'" [title]="'N E W'">
+                <ng-container *ngIf="!get_SavegamesInitializing()">
+                    <ng-container *ngIf="!get_Savegames()">
+                        <div class="list-item">
+                            <button class="newrow" (click)="on_RetryDatabaseConnection()">
+                                Database connection failed - click to retry
+                            </button>
+                        </div>
+                    </ng-container>
+                    <ng-container *ngIf="get_Savegames()">
+                        <div class="list-item">
+                            <button class="newrow" (click)="toggle_List('load')"
+                                [ngClass]="{'activechoice':get_ShowList()=='load'}">
+                                Load Character
+                            </button>
+                        </div>
+                        <div class="list-item">
+                            <button class="newrow" (click)="save_CharacterToDB()" [disabled]="get_IsBlankCharacter()">
+                                Save Character
+                            </button>
+                        </div>
+                    </ng-container>
+                </ng-container>
+                <div class="list-item">
+                    <button class="newrow" (click)="toggle_List('settings')"
+                        [ngClass]="{'activechoice':get_ShowList()=='settings'}">
+                        Settings
+                    </button>
+                </div>
+                <div class="list-item">
+                    <button class="newrow" (click)="toggle_List('licenses')"
+                        [ngClass]="{'activechoice':get_ShowList()=='licenses'}">
+                        Licenses
+                    </button>
+                </div>
+            </ng-container>
+            <!--Management tile mode-->
+            <div class="newrow list-item" *ngIf="get_TileMode()">
+                <div class="icon-list">
+                    <button (click)="on_NewCharacter()">
+                        <app-gridIcon [ngbTooltip]="'New Character'" [title]="'N E W'">
+                        </app-gridIcon>
+                    </button>
+                    <ng-container *ngIf="get_SavegamesInitializing()">
+                        <button disabled>
+                            <app-gridIcon class="loading" [ngbTooltip]="'Connecting to database...'" [title]="'D B'"
+                                [superTitle]="'icon-bi-arrow-repeat'">
                             </app-gridIcon>
                         </button>
-                        <ng-container *ngIf="get_SavegamesInitializing()">
-                            <button disabled>
-                                <app-gridIcon class="loading" [ngbTooltip]="'Connecting to database...'" [title]="'D B'"
-                                    [superTitle]="'icon-bi-arrow-repeat'">
+                    </ng-container>
+                    <ng-container *ngIf="!get_SavegamesInitializing()">
+                        <ng-container *ngIf="!get_Savegames()">
+                            <button (click)="on_RetryDatabaseConnection()">
+                                <app-gridIcon [ngbTooltip]="'Database connection failed - click to retry'"
+                                    [title]="'D B'" [superTitle]="'icon-bi-arrow-repeat'">
                                 </app-gridIcon>
                             </button>
                         </ng-container>
-                        <ng-container *ngIf="!get_SavegamesInitializing()">
-                            <ng-container *ngIf="!get_Savegames()">
-                                <button (click)="on_RetryDatabaseConnection()">
-                                    <app-gridIcon [ngbTooltip]="'Database connection failed - click to retry'"
-                                        [title]="'D B'" [superTitle]="'icon-bi-arrow-repeat'">
-                                    </app-gridIcon>
-                                </button>
-                            </ng-container>
-                            <ng-container *ngIf="get_Savegames()">
-                                <button (click)="toggle_List('load')"
-                                    [ngClass]="{'activechoice':get_ShowList()=='load'}">
-                                    <app-gridIcon [ngbTooltip]="'Load Character'" [title]="'L O A D'">
-                                    </app-gridIcon>
-                                </button>
-                                <button (click)="save_CharacterToDB()" [disabled]="get_IsBlankCharacter()">
-                                    <app-gridIcon
-                                        [ngbTooltip]="get_IsBlankCharacter() ? 'No changes to character yet.' : 'Save Character'"
-                                        [title]="'S A V E'">
-                                    </app-gridIcon>
-                                </button>
-                            </ng-container>
+                        <ng-container *ngIf="get_Savegames()">
+                            <button (click)="toggle_List('load')" [ngClass]="{'activechoice':get_ShowList()=='load'}">
+                                <app-gridIcon [ngbTooltip]="'Load Character'" [title]="'L O A D'">
+                                </app-gridIcon>
+                            </button>
+                            <button (click)="save_CharacterToDB()" [disabled]="get_IsBlankCharacter()">
+                                <app-gridIcon
+                                    [ngbTooltip]="get_IsBlankCharacter() ? 'No changes to character yet.' : 'Save Character'"
+                                    [title]="'S A V E'">
+                                </app-gridIcon>
+                            </button>
                         </ng-container>
-                        <button (click)="toggle_List('settings')"
-                            [ngClass]="{'activechoice':get_ShowList()=='settings'}">
-                            <app-gridIcon [ngbTooltip]="'Settings'" [title]="'C O N F'">
-                            </app-gridIcon>
-                        </button>
-                        <button (click)="toggle_List('licenses')"
-                            [ngClass]="{'activechoice':get_ShowList()=='licenses'}">
-                            <app-gridIcon [ngbTooltip]="'Licenses'" [title]="'L I C'">
-                            </app-gridIcon>
-                        </button>
+                    </ng-container>
+                    <button (click)="toggle_List('settings')" [ngClass]="{'activechoice':get_ShowList()=='settings'}">
+                        <app-gridIcon [ngbTooltip]="'Settings'" [title]="'C O N F'">
+                        </app-gridIcon>
+                    </button>
+                    <button (click)="toggle_List('licenses')" [ngClass]="{'activechoice':get_ShowList()=='licenses'}">
+                        <app-gridIcon [ngbTooltip]="'Licenses'" [title]="'L I C'">
+                        </app-gridIcon>
+                    </button>
+                </div>
+            </div>
+            <ng-container *ngIf="!still_loading() && get_CharacterMenuState() == 'in'">
+                <div class="list-item">
+                    <strong>Experience Points</strong>
+                    <span>
+                        <button (click)="on_LevelUp()"
+                            *ngIf="get_Character().experiencePoints >= 1000 && get_Character().level < 20">Level
+                            Up</button>
+                        <input type="number" class="number4" id="experiencePoints"
+                            [(ngModel)]="get_Character().experiencePoints" (keypress)="numbersOnly($event)"
+                            maxLength="4"
+                            [ngbTooltip]="(get_Character().experiencePoints >= 1000 && get_Character().level < 20) ? 'You are ready to level up!' : ''"
+                            [ngClass]="{'bonus':(get_Character().experiencePoints >= 1000 && get_Character().level < 20)}">
+                    </span>
+                </div>
+                <div class="list-item" *ngFor="let oldLevel of [get_Character().level]; trackBy:trackByIndex;">
+                    <strong>
+                        Level
+                    </strong>
+                    <span>
+                        <select [(ngModel)]="get_Character().level" (ngModelChange)="on_LevelChange(oldLevel)">
+                            <option
+                                *ngFor="let level of [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]; trackBy:trackByIndex;"
+                                [ngValue]="level">
+                                {{level}}
+                            </option>
+                        </select>
+                    </span>
+                </div>
+                <header class="subsectionHeader">Show Level</header>
+                <!--Level selection-->
+                <div class="list-item">
+                    <div id="levelBox" class="fullwidth levelBoxTop">
+                        <button class="center-aligned" (click)="toggle_Level(0)"
+                            [ngClass]="{'fancy-button':get_ShowLevel()==0}">Everything</button>
+                        <button class="center-aligned" (click)="toggle_Level(-1)"
+                            [ngClass]="{'fancy-button':get_ShowLevel()==-1}">History</button>
+                    </div>
+                    <div id="levelBox" class="fullwidth">
+                        <button class="center-aligned"
+                            *ngFor="let levelNumber of [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]; trackBy:trackByIndex;"
+                            (click)="toggle_Level(levelNumber)" [disabled]="!get_Character().class.name"
+                            [ngClass]="{'fancy-button':get_ShowLevel()==levelNumber}">{{levelNumber}}</button>
                     </div>
                 </div>
-                <ng-container *ngIf="!still_loading() && get_CharacterMenuState() == 'in'">
+                <app-tags [creature]="'Character'" [objectName]="'Character'" [showTraits]=true [showFeats]=true
+                    [showItems]=true [showActivities]=true [showConditions]=true></app-tags>
+                <div class="list" [ngClass]="{'invisible':get_ShowLevel() > 0}">
+                    <header class="sectionHeader">History</header>
                     <div class="list-item">
-                        <strong>Experience Points</strong>
+                        <strong>Name</strong>
                         <span>
-                            <button (click)="on_LevelUp()"
-                                *ngIf="get_Character().experiencePoints >= 1000 && get_Character().level < 20">Level
-                                Up</button>
-                            <input type="number" class="number4" id="experiencePoints"
-                                [(ngModel)]="get_Character().experiencePoints" (keypress)="numbersOnly($event)"
-                                maxLength="4"
-                                [ngbTooltip]="(get_Character().experiencePoints >= 1000 && get_Character().level < 20) ? 'You are ready to level up!' : ''"
-                                [ngClass]="{'bonus':(get_Character().experiencePoints >= 1000 && get_Character().level < 20)}">
+                            <input type="text" id="charactername" [(ngModel)]="get_Character().name"
+                                (blur)="on_NameChange()" maxLength="100">
                         </span>
                     </div>
-                    <div class="list-item" *ngFor="let oldLevel of [get_Character().level]; trackBy:trackByIndex;">
-                        <strong>
-                            Level
-                        </strong>
-                        <span>
-                            <select [(ngModel)]="get_Character().level" (ngModelChange)="on_LevelChange(oldLevel)">
-                                <option
-                                    *ngFor="let level of [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]; trackBy:trackByIndex;"
-                                    [ngValue]="level">
-                                    {{level}}
-                                </option>
-                            </select>
-                        </span>
-                    </div>
-                    <header class="subsectionHeader">Show Level</header>
-                    <!--Level selection-->
                     <div class="list-item">
-                        <div id="levelBox" class="fullwidth levelBoxTop">
-                            <button class="center-aligned" (click)="toggle_Level(0)"
-                                [ngClass]="{'fancy-button':get_ShowLevel()==0}">Everything</button>
-                            <button class="center-aligned" (click)="toggle_Level(-1)"
-                                [ngClass]="{'fancy-button':get_ShowLevel()==-1}">History</button>
-                        </div>
-                        <div id="levelBox" class="fullwidth">
-                            <button class="center-aligned"
-                                *ngFor="let levelNumber of [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]; trackBy:trackByIndex;"
-                                (click)="toggle_Level(levelNumber)" [disabled]="!get_Character().class.name"
-                                [ngClass]="{'fancy-button':get_ShowLevel()==levelNumber}">{{levelNumber}}</button>
-                        </div>
-                    </div>
-                    <app-tags [creature]="'Character'" [objectName]="'Character'" [showTraits]=true [showFeats]=true
-                        [showItems]=true [showActivities]=true [showConditions]=true></app-tags>
-                    <div class="list" [ngClass]="{'invisible':get_ShowLevel() > 0}">
-                        <header class="sectionHeader">History</header>
-                        <div class="list-item">
-                            <strong>Name</strong>
+                        <div class="newrow">
+                            <strong>Party name</strong>
                             <span>
-                                <input type="text" id="charactername" [(ngModel)]="get_Character().name"
-                                    (blur)="on_NameChange()" maxLength="100">
+                                <input type="text" id="partyname" [(ngModel)]="get_Character().partyName"
+                                    maxLength="100">
                             </span>
                         </div>
-                        <div class="list-item">
-                            <div class="newrow">
-                                <strong>Party name</strong>
-                                <span>
-                                    <input type="text" id="partyname" [(ngModel)]="get_Character().partyName"
-                                        maxLength="100">
-                                </span>
-                            </div>
-                            <div class="newrow" *ngIf="get_Savegames()?.length">
-                                <span></span>
-                                <span>
-                                    <select [(ngModel)]="get_Character().partyName">
-                                        <option *ngFor="let partyName of get_Parties(); trackBy:trackByIndex;"
-                                            [ngValue]="partyName">
-                                            {{partyName}}
-                                        </option>
-                                    </select>
-                                </span>
-                            </div>
-                        </div>
-                        <div class="list-item">
-                            <strong>
-                                Alignment
-                            </strong>
+                        <div class="newrow" *ngIf="get_Savegames()?.length">
+                            <span></span>
                             <span>
-                                <select [(ngModel)]="get_Character().alignment" (ngModelChange)="on_AlignmentChange()">
-                                    <option *ngFor="let alignment of get_Alignments(); trackBy:trackByIndex;"
-                                        [ngValue]="alignment">
-                                        {{alignment}}
+                                <select [(ngModel)]="get_Character().partyName">
+                                    <option *ngFor="let partyName of get_Parties(); trackBy:trackByIndex;"
+                                        [ngValue]="partyName">
+                                        {{partyName}}
                                     </option>
                                 </select>
                             </span>
                         </div>
-                        <!--Available Ancestry Feats-->
-                        <div class="list-item fullsize-only" *ngIf="get_Character().class.ancestry.name">
-                            <strong>Available Ancestry Feats</strong>
-                            <div class="newrow left-aligned" *ngIf="get_Character().class.ancestry?.ancestries.length">
-                                <cite class="trait"
-                                    *ngFor="let ancestry of get_Character().class.ancestry.ancestries; trackBy:trackByIndex;">{{ancestry}}&nbsp;</cite>
-                            </div>
+                    </div>
+                    <div class="list-item">
+                        <strong>
+                            Alignment
+                        </strong>
+                        <span>
+                            <select [(ngModel)]="get_Character().alignment" (ngModelChange)="on_AlignmentChange()">
+                                <option *ngFor="let alignment of get_Alignments(); trackBy:trackByIndex;"
+                                    [ngValue]="alignment">
+                                    {{alignment}}
+                                </option>
+                            </select>
+                        </span>
+                    </div>
+                    <!--Available Ancestry Feats-->
+                    <div class="list-item fullsize-only" *ngIf="get_Character().class.ancestry.name">
+                        <strong>Available Ancestry Feats</strong>
+                        <div class="newrow left-aligned" *ngIf="get_Character().class.ancestry?.ancestries.length">
+                            <cite class="trait"
+                                *ngFor="let ancestry of get_Character().class.ancestry.ancestries; trackBy:trackByIndex;">{{ancestry}}&nbsp;</cite>
                         </div>
-                        <!--History list mode-->
-                        <ng-container *ngIf="!get_TileMode()">
-                            <!--BaseValues-->
-                            <div class="list-item">
-                                <button class="newrow fancy-button"
-                                    [ngClass]="{'choicecleared':get_Character().baseValues.length, 'activechoice':get_ShowList()=='alternativeBaseValues'}"
-                                    (click)="toggle_List('alternativeBaseValues')">
-                                    Alternative Ability Values: {{(get_Character().baseValues.length) ? "Used" : "Not
-                                    Used"}}
-                                </button>
-                            </div>
-                            <!--Class-->
-                            <div class="list-item" [ngClass]="{'fullsize-only':get_Character().class.name}">
+                    </div>
+                    <!--History list mode-->
+                    <ng-container *ngIf="!get_TileMode()">
+                        <!--BaseValues-->
+                        <div class="list-item">
+                            <button class="newrow fancy-button"
+                                [ngClass]="{'choicecleared':get_Character().baseValues.length, 'activechoice':get_ShowList()=='alternativeBaseValues'}"
+                                (click)="toggle_List('alternativeBaseValues')">
+                                Alternative Ability Values: {{(get_Character().baseValues.length) ? "Used" : "Not
+                                Used"}}
+                            </button>
+                        </div>
+                        <!--Class-->
+                        <div class="list-item" [ngClass]="{'fullsize-only':get_Character().class.name}">
+                            <button class="newrow"
+                                [ngClass]="{'fancy-button choicecleared':get_Character().class.name, 'activechoice':get_ShowList()=='class'}"
+                                (click)="toggle_List('class')">
+                                Class{{(get_Character().class.name) ? ": "+ get_Character().class.name : ""}}
+                            </button>
+                        </div>
+                        <!--Ancestry-->
+                        <ng-container *ngIf="get_Character().class.name">
+                            <div class="list-item list-header"
+                                [ngClass]="{'fullsize-only':get_Character().class.ancestry.name}">
                                 <button class="newrow"
-                                    [ngClass]="{'fancy-button choicecleared':get_Character().class.name, 'activechoice':get_ShowList()=='class'}"
-                                    (click)="toggle_List('class')">
-                                    Class{{(get_Character().class.name) ? ": "+ get_Character().class.name : ""}}
+                                    [ngClass]="{'fancy-button choicecleared':get_Character().class.ancestry.name, 'activechoice':get_ShowList()=='ancestry'}"
+                                    (click)="toggle_List('ancestry')">
+                                    Ancestry{{(get_Character().class.ancestry.name) ? ": "+
+                                    get_Character().class.ancestry.name : ""}}
                                 </button>
                             </div>
-                            <!--Ancestry-->
-                            <ng-container *ngIf="get_Character().class.name">
-                                <div class="list-item list-header"
-                                    [ngClass]="{'fullsize-only':get_Character().class.ancestry.name}">
-                                    <button class="newrow"
-                                        [ngClass]="{'fancy-button choicecleared':get_Character().class.ancestry.name, 'activechoice':get_ShowList()=='ancestry'}"
-                                        (click)="toggle_List('ancestry')">
-                                        Ancestry{{(get_Character().class.ancestry.name) ? ": "+
-                                        get_Character().class.ancestry.name : ""}}
-                                    </button>
-                                </div>
-                            </ng-container>
-                            <!--Heritage-->
-                            <ng-container *ngIf="get_Character().class.ancestry.name">
-                                <div class="list-item"
-                                    [ngClass]="{'fullsize-only':get_Character().class.heritage.name}">
-                                    <button class="newrow"
-                                        [ngClass]="{'fancy-button choicecleared':get_Character().class.heritage.name, 'activechoice':get_ShowList()=='heritage'}"
-                                        (click)="toggle_List('heritage')">
-                                        Heritage{{(get_Character().class.heritage.name) ? ": "+
-                                        get_Character().class.heritage.name : ""}}
-                                    </button>
-                                </div>
-                            </ng-container>
-                            <!--Languages-->
+                        </ng-container>
+                        <!--Heritage-->
+                        <ng-container *ngIf="get_Character().class.ancestry.name">
+                            <div class="list-item" [ngClass]="{'fullsize-only':get_Character().class.heritage.name}">
+                                <button class="newrow"
+                                    [ngClass]="{'fancy-button choicecleared':get_Character().class.heritage.name, 'activechoice':get_ShowList()=='heritage'}"
+                                    (click)="toggle_List('heritage')">
+                                    Heritage{{(get_Character().class.heritage.name) ? ": "+
+                                    get_Character().class.heritage.name : ""}}
+                                </button>
+                            </div>
+                        </ng-container>
+                        <!--Languages-->
+                        <ng-container
+                            *ngFor="let currentLanguages of [get_CurrentLanguages(get_Character().level)]; trackBy:trackByIndex">
                             <ng-container
-                                *ngFor="let currentLanguages of [get_CurrentLanguages(get_Character().level)]; trackBy:trackByIndex">
-                                <ng-container
-                                    *ngFor="let blankLanguages of [get_BlankLanguages(get_Character().level)]; trackBy:trackByIndex">
-                                    <div class="list-item" [ngClass]="{'fullsize-only':!blankLanguages}"
-                                        *ngIf="get_LanguagesAvailable()">
-                                        <button class="newrow"
-                                            [ngClass]="{'fancy-button choicecleared':!blankLanguages, 'activechoice':get_ShowList()=='languages' && get_ShowContentLevelNumber()==get_Character().level}"
-                                            (click)="toggle_List('languages', get_Character().level)">
-                                            Languages
-                                        </button>
-                                    </div>
-                                </ng-container>
-                            </ng-container>
-                            <!--Background-->
-                            <ng-container *ngIf="get_Character().class.name">
-                                <div class="list-item"
-                                    [ngClass]="{'fullsize-only':(get_Character().class.background.name)}">
+                                *ngFor="let blankLanguages of [get_BlankLanguages(get_Character().level)]; trackBy:trackByIndex">
+                                <div class="list-item" [ngClass]="{'fullsize-only':!blankLanguages}"
+                                    *ngIf="get_LanguagesAvailable()">
                                     <button class="newrow"
-                                        [ngClass]="{'fancy-button choicecleared':((get_Character().class.background.name)), 'activechoice':get_ShowList()=='background'}"
-                                        (click)="toggle_List('background')">
-                                        Background{{(get_Character().class.background.name) ? ": "+
-                                        get_Character().class.background.name : ""}}
-                                    </button>
-                                </div>
-                            </ng-container>
-                            <!--Deity-->
-                            <ng-container *ngIf="get_Character().class.name">
-                                <div class="list-item" [ngClass]="{'fullsize-only':get_Character().class.deity}">
-                                    <button class="newrow"
-                                        [ngClass]="{'fancy-button choicecleared':get_Character().class.deity, 'activechoice':get_ShowList()=='deity'}"
-                                        (click)="toggle_List('deity')">
-                                        Deity{{get_Character().class.deity ? ": "+get_Character().class.deity : ""}}
+                                        [ngClass]="{'fancy-button choicecleared':!blankLanguages, 'activechoice':get_ShowList()=='languages' && get_ShowContentLevelNumber()==get_Character().level}"
+                                        (click)="toggle_List('languages', get_Character().level)">
+                                        Languages
                                     </button>
                                 </div>
                             </ng-container>
                         </ng-container>
-                        <!--History tile mode-->
-                        <div class="list-item icon-list" *ngIf="get_TileMode()">
-                            <!--BaseValues-->
-                            <button class="fancy-button"
-                                [ngClass]="{'choicecleared':get_Character().baseValues.length, 'activechoice':get_ShowList()=='alternativeBaseValues'}"
-                                (click)="toggle_List('alternativeBaseValues')">
-                                <app-gridIcon class="fancy-button"
-                                    [ngbTooltip]="'Alternative Ability Values: ' + (get_Character().baseValues.length ? 'Used' : 'Not Used')"
-                                    [title]="'A B I'">
-                                </app-gridIcon>
-                            </button>
-                            <!--Class-->
-                            <button
-                                [ngClass]="{'fancy-button choicecleared fullsize-only':get_Character().class.name, 'activechoice':get_ShowList()=='class'}"
-                                (click)="toggle_List('class')">
-                                <app-gridIcon [ngClass]="{'fancy-button':get_Character().class.name}"
-                                    [ngbTooltip]="'Class' + (get_Character().class.name ? ': ' + get_Character().class.name : '')"
-                                    [title]="get_Character().class.name ? get_Character().class.name : 'C L A S'">
-                                </app-gridIcon>
-                            </button>
-                            <!--Ancestry-->
-                            <ng-container *ngIf="get_Character().class.name">
-                                <button
-                                    [ngClass]="{'fancy-button choicecleared fullsize-only':get_Character().class.ancestry.name, 'activechoice':get_ShowList()=='ancestry'}"
-                                    (click)="toggle_List('ancestry')">
-                                    <app-gridIcon [ngClass]="{'fancy-button':get_Character().class.ancestry.name}"
-                                        [ngbTooltip]="'Ancestry' + (get_Character().class.ancestry.name ? ': ' + get_Character().class.ancestry.name : '')"
-                                        [title]="get_Character().class.ancestry.name ? get_Character().class.ancestry.name : 'A N C E'">
-                                    </app-gridIcon>
-                                </button>
-                            </ng-container>
-                            <!--Heritage-->
-                            <ng-container *ngIf="get_Character().class.ancestry.name">
-                                <button
-                                    [ngClass]="{'fancy-button choicecleared fullsize-only':get_Character().class.heritage.name, 'activechoice':get_ShowList()=='heritage'}"
-                                    (click)="toggle_List('heritage')">
-                                    <app-gridIcon [ngClass]="{'fancy-button':get_Character().class.heritage.name}"
-                                        [ngbTooltip]="'Heritage' + (get_Character().class.heritage.name ? ': ' + get_Character().class.heritage.name : '')"
-                                        [title]="get_Character().class.heritage.name ? get_Character().class.heritage.name : 'H E R I'">
-                                    </app-gridIcon>
-                                </button>
-                            </ng-container>
-                            <!--Languages-->
-                            <ng-container
-                                *ngFor="let currentLanguages of [get_CurrentLanguages(get_Character().level)]; trackBy:trackByIndex">
-                                <ng-container
-                                    *ngFor="let blankLanguages of [get_BlankLanguages(get_Character().level)]; trackBy:trackByIndex">
-                                    <button
-                                        [ngClass]="{'fancy-button choicecleared fullsize-only':!blankLanguages, 'activechoice':get_ShowList()=='languages' && get_ShowContentLevelNumber()==get_Character().level}"
-                                        (click)="toggle_List('languages', get_Character().level)"
-                                        *ngIf="get_LanguagesAvailable()">
-                                        <app-gridIcon [ngClass]="{'fancy-button':!blankLanguages}"
-                                            [ngbTooltip]="'Languages'" [title]="'L A N G'"
-                                            [superTitle]="currentLanguages.toString()">
-                                        </app-gridIcon>
-                                    </button>
-                                </ng-container>
-                            </ng-container>
-                            <!--Background-->
-                            <ng-container *ngIf="get_Character().class.name">
-                                <button
-                                    [ngClass]="{'fancy-button choicecleared fullsize-only':((get_Character().class.background.name)), 'activechoice':get_ShowList()=='background'}"
+                        <!--Background-->
+                        <ng-container *ngIf="get_Character().class.name">
+                            <div class="list-item"
+                                [ngClass]="{'fullsize-only':(get_Character().class.background.name)}">
+                                <button class="newrow"
+                                    [ngClass]="{'fancy-button choicecleared':((get_Character().class.background.name)), 'activechoice':get_ShowList()=='background'}"
                                     (click)="toggle_List('background')">
-                                    <app-gridIcon [ngClass]="{'fancy-button':get_Character().class.background.name}"
-                                        [ngbTooltip]="'Background' + (get_Character().class.background.name ? ': ' + get_Character().class.background.name : '')"
-                                        [title]="get_Character().class.background.name ? get_Character().class.background.name : 'B A C K'">
-                                    </app-gridIcon>
+                                    Background{{(get_Character().class.background.name) ? ": "+
+                                    get_Character().class.background.name : ""}}
                                 </button>
-                            </ng-container>
-                            <!--Deity-->
-                            <ng-container *ngIf="get_Character().class.name">
-                                <button
-                                    [ngClass]="{'fancy-button choicecleared fullsize-only':get_Character().class.deity, 'activechoice':get_ShowList()=='deity'}"
+                            </div>
+                        </ng-container>
+                        <!--Deity-->
+                        <ng-container *ngIf="get_Character().class.name">
+                            <div class="list-item" [ngClass]="{'fullsize-only':get_Character().class.deity}">
+                                <button class="newrow"
+                                    [ngClass]="{'fancy-button choicecleared':get_Character().class.deity, 'activechoice':get_ShowList()=='deity'}"
                                     (click)="toggle_List('deity')">
-                                    <app-gridIcon [ngClass]="{'fancy-button':get_Character().class.deity}"
-                                        [ngbTooltip]="'Deity' + (get_Character().class.deity ? ': ' + get_Character().class.deity : '')"
-                                        [title]="get_Character().class.deity ? get_Character().class.deity : 'D E I T'">
+                                    Deity{{get_Character().class.deity ? ": "+get_Character().class.deity : ""}}
+                                </button>
+                            </div>
+                        </ng-container>
+                    </ng-container>
+                    <!--History tile mode-->
+                    <div class="list-item icon-list" *ngIf="get_TileMode()">
+                        <!--BaseValues-->
+                        <button class="fancy-button"
+                            [ngClass]="{'choicecleared':get_Character().baseValues.length, 'activechoice':get_ShowList()=='alternativeBaseValues'}"
+                            (click)="toggle_List('alternativeBaseValues')">
+                            <app-gridIcon class="fancy-button"
+                                [ngbTooltip]="'Alternative Ability Values: ' + (get_Character().baseValues.length ? 'Used' : 'Not Used')"
+                                [title]="'A B I'">
+                            </app-gridIcon>
+                        </button>
+                        <!--Class-->
+                        <button
+                            [ngClass]="{'fancy-button choicecleared fullsize-only':get_Character().class.name, 'activechoice':get_ShowList()=='class'}"
+                            (click)="toggle_List('class')">
+                            <app-gridIcon [ngClass]="{'fancy-button':get_Character().class.name}"
+                                [ngbTooltip]="'Class' + (get_Character().class.name ? ': ' + get_Character().class.name : '')"
+                                [title]="get_Character().class.name ? get_Character().class.name : 'C L A S'">
+                            </app-gridIcon>
+                        </button>
+                        <!--Ancestry-->
+                        <ng-container *ngIf="get_Character().class.name">
+                            <button
+                                [ngClass]="{'fancy-button choicecleared fullsize-only':get_Character().class.ancestry.name, 'activechoice':get_ShowList()=='ancestry'}"
+                                (click)="toggle_List('ancestry')">
+                                <app-gridIcon [ngClass]="{'fancy-button':get_Character().class.ancestry.name}"
+                                    [ngbTooltip]="'Ancestry' + (get_Character().class.ancestry.name ? ': ' + get_Character().class.ancestry.name : '')"
+                                    [title]="get_Character().class.ancestry.name ? get_Character().class.ancestry.name : 'A N C E'">
+                                </app-gridIcon>
+                            </button>
+                        </ng-container>
+                        <!--Heritage-->
+                        <ng-container *ngIf="get_Character().class.ancestry.name">
+                            <button
+                                [ngClass]="{'fancy-button choicecleared fullsize-only':get_Character().class.heritage.name, 'activechoice':get_ShowList()=='heritage'}"
+                                (click)="toggle_List('heritage')">
+                                <app-gridIcon [ngClass]="{'fancy-button':get_Character().class.heritage.name}"
+                                    [ngbTooltip]="'Heritage' + (get_Character().class.heritage.name ? ': ' + get_Character().class.heritage.name : '')"
+                                    [title]="get_Character().class.heritage.name ? get_Character().class.heritage.name : 'H E R I'">
+                                </app-gridIcon>
+                            </button>
+                        </ng-container>
+                        <!--Languages-->
+                        <ng-container
+                            *ngFor="let currentLanguages of [get_CurrentLanguages(get_Character().level)]; trackBy:trackByIndex">
+                            <ng-container
+                                *ngFor="let blankLanguages of [get_BlankLanguages(get_Character().level)]; trackBy:trackByIndex">
+                                <button
+                                    [ngClass]="{'fancy-button choicecleared fullsize-only':!blankLanguages, 'activechoice':get_ShowList()=='languages' && get_ShowContentLevelNumber()==get_Character().level}"
+                                    (click)="toggle_List('languages', get_Character().level)"
+                                    *ngIf="get_LanguagesAvailable()">
+                                    <app-gridIcon [ngClass]="{'fancy-button':!blankLanguages}"
+                                        [ngbTooltip]="'Languages'" [title]="'L A N G'"
+                                        [superTitle]="currentLanguages.toString()">
                                     </app-gridIcon>
                                 </button>
                             </ng-container>
-                        </div>
+                        </ng-container>
+                        <!--Background-->
+                        <ng-container *ngIf="get_Character().class.name">
+                            <button
+                                [ngClass]="{'fancy-button choicecleared fullsize-only':((get_Character().class.background.name)), 'activechoice':get_ShowList()=='background'}"
+                                (click)="toggle_List('background')">
+                                <app-gridIcon [ngClass]="{'fancy-button':get_Character().class.background.name}"
+                                    [ngbTooltip]="'Background' + (get_Character().class.background.name ? ': ' + get_Character().class.background.name : '')"
+                                    [title]="get_Character().class.background.name ? get_Character().class.background.name : 'B A C K'">
+                                </app-gridIcon>
+                            </button>
+                        </ng-container>
+                        <!--Deity-->
+                        <ng-container *ngIf="get_Character().class.name">
+                            <button
+                                [ngClass]="{'fancy-button choicecleared fullsize-only':get_Character().class.deity, 'activechoice':get_ShowList()=='deity'}"
+                                (click)="toggle_List('deity')">
+                                <app-gridIcon [ngClass]="{'fancy-button':get_Character().class.deity}"
+                                    [ngbTooltip]="'Deity' + (get_Character().class.deity ? ': ' + get_Character().class.deity : '')"
+                                    [title]="get_Character().class.deity ? get_Character().class.deity : 'D E I T'">
+                                </app-gridIcon>
+                            </button>
+                        </ng-container>
                     </div>
-                    <!--Levels-->
-                    <ng-container *ngIf="get_Character().class">
-                        <ng-container *ngFor="let level of get_Character().class.levels; trackBy:trackByIndex;">
-                            <div
-                                [ngClass]="{'invisible':!(level.number > 0 && [0,level.number].includes(get_ShowLevel())), 'list':!get_TileMode()}">
-                                <header class="sectionHeader levelHeader" *ngIf="level.number > 0">Level
-                                    {{level.number}}</header>
-                                <div [ngClass]="{'character-choice-grid':get_TileMode(), 'list':!get_TileMode()}">
-                                    <div [ngClass]="{'icon-list vertical':get_TileMode()}">
+                </div>
+                <!--Levels-->
+                <ng-container *ngIf="get_Character().class">
+                    <ng-container *ngFor="let level of get_Character().class.levels; trackBy:trackByIndex;">
+                        <div
+                            [ngClass]="{'invisible':!(level.number > 0 && [0,level.number].includes(get_ShowLevel())), 'list':!get_TileMode()}">
+                            <header class="sectionHeader levelHeader" *ngIf="level.number > 0">Level
+                                {{level.number}}</header>
+                            <div [ngClass]="{'character-choice-grid':get_TileMode(), 'list':!get_TileMode()}">
+                                <div [ngClass]="{'icon-list vertical':get_TileMode()}">
+                                    <ng-container
+                                        *ngFor="let fixedAbilityBoosts of [get_AbilityBoosts(level.number, level.number, '', '', '', '', true)]; trackBy:trackByIndex;">
                                         <ng-container
-                                            *ngFor="let fixedAbilityBoosts of [get_AbilityBoosts(level.number, level.number, '', '', '', '', true)]; trackBy:trackByIndex;">
+                                            *ngFor="let fixedSkillIncreases of [get_SkillIncreases(level.number, level.number, '', '', '', true)]; trackBy:trackByIndex;">
                                             <ng-container
-                                                *ngFor="let fixedSkillIncreases of [get_SkillIncreases(level.number, level.number, '', '', '', true)]; trackBy:trackByIndex;">
+                                                *ngFor="let fixedFeats of [get_FeatsTaken(level.number, level.number, '', '', '', true, 'feat')]; trackBy:trackByIndex;">
                                                 <ng-container
-                                                    *ngFor="let fixedFeats of [get_FeatsTaken(level.number, level.number, '', '', '', true, 'feat')]; trackBy:trackByIndex;">
+                                                    *ngFor="let fixedFeatures of [get_FeatsTaken(level.number, level.number, '', '', '', true, 'feature')]; trackBy:trackByIndex;">
                                                     <ng-container
-                                                        *ngFor="let fixedFeatures of [get_FeatsTaken(level.number, level.number, '', '', '', true, 'feature')]; trackBy:trackByIndex;">
-                                                        <ng-container
-                                                            *ngIf="fixedAbilityBoosts.length + fixedSkillIncreases.length + fixedFeatures.length + fixedFeats.length > 0">
-                                                            <!--Fixed information list mode-->
-                                                            <div class="fullsize-only list-item"
-                                                                *ngIf="!get_TileMode()">
-                                                                <button class="newrow sublist-toggle fancy-button"
-                                                                    (click)="toggle_List('fixedchanges', level.number, {abilityBoosts:fixedAbilityBoosts, skillIncreases:fixedSkillIncreases, features:fixedFeatures, feats:fixedFeats})"
-                                                                    [ngClass]="{'activechoice':get_ShowList()=='fixedchanges' && get_ShowContentLevelNumber()==level.number}">
-                                                                    Show fixed changes
-                                                                </button>
-                                                            </div>
-                                                            <!--Fixed information tile mode-->
-                                                            <div class="fullsize-only" *ngIf="get_TileMode()">
-                                                                <button
-                                                                    [ngClass]="{'fancy-button activechoice':get_ShowFixedChangesLevelNumber()==level.number}"
-                                                                    (click)="toggle_FixedChangesLevelNumber(level.number)">
-                                                                    <app-gridIcon
-                                                                        [ngClass]="{'fancy-button':get_ShowFixedChangesLevelNumber()==level.number}"
-                                                                        [ngbTooltip]="(get_ShowFixedChangesLevelNumber()==level.number ? 'Hide' : 'Show') + ' fixed changes'"
-                                                                        [title]="'F I X'">
-                                                                    </app-gridIcon>
-                                                                </button>
-                                                            </div>
-                                                        </ng-container>
+                                                        *ngIf="fixedAbilityBoosts.length + fixedSkillIncreases.length + fixedFeatures.length + fixedFeats.length > 0">
+                                                        <!--Fixed information list mode-->
+                                                        <div class="fullsize-only list-item" *ngIf="!get_TileMode()">
+                                                            <button class="newrow sublist-toggle fancy-button"
+                                                                (click)="toggle_List('fixedchanges', level.number, {abilityBoosts:fixedAbilityBoosts, skillIncreases:fixedSkillIncreases, features:fixedFeatures, feats:fixedFeats})"
+                                                                [ngClass]="{'activechoice':get_ShowList()=='fixedchanges' && get_ShowContentLevelNumber()==level.number}">
+                                                                Show fixed changes
+                                                            </button>
+                                                        </div>
+                                                        <!--Fixed information tile mode-->
+                                                        <div class="fullsize-only" *ngIf="get_TileMode()">
+                                                            <button
+                                                                [ngClass]="{'fancy-button activechoice':get_ShowFixedChangesLevelNumber()==level.number}"
+                                                                (click)="toggle_FixedChangesLevelNumber(level.number)">
+                                                                <app-gridIcon
+                                                                    [ngClass]="{'fancy-button':get_ShowFixedChangesLevelNumber()==level.number}"
+                                                                    [ngbTooltip]="(get_ShowFixedChangesLevelNumber()==level.number ? 'Hide' : 'Show') + ' fixed changes'"
+                                                                    [title]="'F I X'">
+                                                                </app-gridIcon>
+                                                            </button>
+                                                        </div>
                                                     </ng-container>
                                                 </ng-container>
                                             </ng-container>
                                         </ng-container>
-                                    </div>
-                                    <!--Ability boosts-->
-                                    <div id="abilityboosts"
-                                        [ngClass]="{'icon-list vertical':get_TileMode(), 'list':!get_TileMode()}">
-                                        <!--Tile mode fixed ability boosts-->
+                                    </ng-container>
+                                </div>
+                                <!--Ability boosts-->
+                                <div id="abilityboosts"
+                                    [ngClass]="{'icon-list vertical':get_TileMode(), 'list':!get_TileMode()}">
+                                    <!--Tile mode fixed ability boosts-->
+                                    <ng-container
+                                        *ngIf="get_TileMode() && get_ShowFixedChangesLevelNumber()==level.number">
                                         <ng-container
-                                            *ngIf="get_TileMode() && get_ShowFixedChangesLevelNumber()==level.number">
-                                            <ng-container
-                                                *ngFor="let boost of get_AbilityBoosts(level.number, level.number, '', '', '', '', true); trackBy:trackByIndex;">
-                                                <ng-template #FixedAbilityBoostContent>
-                                                    <div class="newrow left-aligned">
-                                                        <strong>{{boost.type == 'Flaw' ? 'Flaw' :
-                                                            'Boost'}}&nbsp;</strong>
-                                                        {{boost.name}}
-                                                    </div>
-                                                    <div class="newrow left-aligned">
-                                                        <strong>Source&nbsp;</strong> {{boost.source}}
-                                                    </div>
-                                                </ng-template>
-                                                <button class="fullsize-only inactive-button"
-                                                    #FixedAbilityPopover="ngbPopover"
-                                                    [ngbPopover]="FixedAbilityBoostContent" triggers="click">
-                                                    <app-gridIcon class="abilityboost"
-                                                        [ngbTooltip]="!FixedAbilityPopover.isOpen() && ((boost.type == 'Flaw' ? 'Flaw: ' : 'Boost: ') + boost.name)"
-                                                        [title]="boost.name" [superTitle]="'icon-bi-lock-fill'"
-                                                        [detail]="(boost.type == 'Flaw' ? 'Flaw' : 'Boost')">
-                                                    </app-gridIcon>
-                                                </button>
-                                            </ng-container>
-                                        </ng-container>
-                                        <ng-container
-                                            *ngFor="let choice of level.abilityChoices; trackBy:trackByIndex;">
-                                            <ng-container
-                                                *ngFor="let maxAvailable of [get_MaxAvailable(choice)]; trackBy:trackByIndex;">
-                                                <!--List mode ability boost buttons-->
-                                                <div class="list-item" *ngIf="maxAvailable && !get_TileMode()"
-                                                    [ngClass]="{'problem':(choice.boosts.length > maxAvailable || someAbilitiesIllegal(choice, level.number)), 'fullsize-only':choice.boosts.length == maxAvailable}">
-                                                    <button class="newrow sublist-toggle abilityboost"
-                                                        [ngClass]="{'fancy-button choicecleared':choice.boosts.length == maxAvailable, 'activechoice':get_ShowList()==choice.id}"
-                                                        (click)="toggle_List(choice.id, level.number, choice)">
-                                                        {{get_AbilityChoiceTitle(choice)}}
-                                                    </button>
+                                            *ngFor="let boost of get_AbilityBoosts(level.number, level.number, '', '', '', '', true); trackBy:trackByIndex;">
+                                            <ng-template #FixedAbilityBoostContent>
+                                                <div class="newrow left-aligned">
+                                                    <strong>{{boost.type == 'Flaw' ? 'Flaw' :
+                                                        'Boost'}}&nbsp;</strong>
+                                                    {{boost.name}}
                                                 </div>
-                                                <!--Tile mode ability boost buttons-->
-                                                <button class="abilityboost" *ngIf="maxAvailable && get_TileMode()"
-                                                    (click)="toggle_List(choice.id, level.number, choice)"
-                                                    [ngClass]="{'problem':(choice.boosts.length > maxAvailable || someAbilitiesIllegal(choice, level.number)), 'fancy-button fullsize-only choicecleared':choice.boosts.length == maxAvailable, 'activechoice':get_ShowList()==choice.id}">
-                                                    <app-gridIcon class="abilityboost"
-                                                        [ngbTooltip]="get_AbilityChoiceTitle(choice)"
-                                                        [superTitle]="maxAvailable.toString()"
-                                                        [title]="(maxAvailable == 1 && choice.boosts.length) ? choice.boosts[0].name : ((maxAvailable > 1 && choice.boosts.length > 0) ? choice.boosts.length.toString() : '')"
-                                                        [ngClass]="{'fancy-button':choice.boosts.length == maxAvailable}">
-                                                    </app-gridIcon>
-                                                </button>
-                                            </ng-container>
-                                        </ng-container>
-                                    </div>
-                                    <!--Skill Increases-->
-                                    <div id="skillincreases"
-                                        [ngClass]="{'icon-list vertical':get_TileMode(), 'list':!get_TileMode()}">
-                                        <!--Tile mode fixed skill increases -->
-                                        <ng-container
-                                            *ngIf="get_TileMode() && get_ShowFixedChangesLevelNumber()==level.number">
-                                            <ng-container
-                                                *ngFor="let skillIncrease of get_SkillIncreases(level.number, level.number, '', '', '', true); trackBy:trackByIndex;">
-                                                <ng-template #FixedSkillIncreaseContent>
-                                                    <div class="newrow left-aligned">
-                                                        <strong>{{skillIncrease.name}}</strong>
-                                                    </div>
-                                                    <div class="newrow left-aligned">
-                                                        <strong>Source&nbsp;</strong> {{skillIncrease.source}}
-                                                    </div>
-                                                </ng-template>
-                                                <button class="fullsize-only inactive-button"
-                                                    #FixedSkillPopover="ngbPopover"
-                                                    [ngbPopover]="FixedSkillIncreaseContent" triggers="click">
-                                                    <app-gridIcon class="skillincrease"
-                                                        [ngbTooltip]="!FixedSkillPopover.isOpen() && skillIncrease.name"
-                                                        [title]="skillIncrease.name" [superTitle]="'icon-bi-lock-fill'">
-                                                    </app-gridIcon>
-                                                </button>
-                                            </ng-container>
-                                        </ng-container>
-                                        <!--Skill Choices handle tile mode internally-->
-                                        <ng-container
-                                            *ngFor="let choice of get_SkillChoices(level); let index = index; trackBy:trackByIndex;">
-                                            <app-skillchoice (showSkillChoiceMessage)="receive_ChoiceMessage($event)"
-                                                [choice]="choice" [showChoice]="get_ShowList()"
-                                                [levelNumber]="level.number" [showContent]="false"
-                                                [excludeTemporary]="true" [tileMode]="get_TileMode()">
-                                            </app-skillchoice>
-                                        </ng-container>
-                                    </div>
-                                    <!--Feat choices-->
-                                    <div id="featchoices"
-                                        [ngClass]="{'icon-list vertical':get_TileMode(), 'list':!get_TileMode()}">
-                                        <!--Tile mode fixed feats-->
-                                        <ng-container
-                                            *ngIf="get_TileMode() && get_ShowFixedChangesLevelNumber()==level.number">
-                                            <ng-container
-                                                *ngFor="let feat of get_FeatsTaken(level.number, level.number, '', '', '', true, 'feat'); trackBy:trackByIndex;">
-                                                <ng-template #FixedFeatContent>
-                                                    <header class="spellHeader">{{feat.name}}</header>
-                                                    <div class="newrow left-aligned">
-                                                        <strong>Source&nbsp;</strong>
-                                                        {{feat.source}}
-                                                    </div>
-                                                    <app-feat [feat]="get_FeatsAndFeatures(feat.name)[0]"
-                                                        [choice]="null" [levelNumber]="level.number">
-                                                    </app-feat>
-                                                </ng-template>
-                                                <button class="fullsize-only inactive-button"
-                                                    #FixedFeatPopover="ngbPopover" [ngbPopover]="FixedFeatContent"
-                                                    triggers="click">
-                                                    <app-gridIcon class="featchoice"
-                                                        [ngbTooltip]="!FixedFeatPopover.isOpen() && feat.name"
-                                                        [title]="feat.name" [superTitle]="'icon-bi-lock-fill'">
-                                                    </app-gridIcon>
-                                                </button>
-                                            </ng-container>
-                                        </ng-container>
-                                        <!--Feat Choices handle tile mode internally-->
-                                        <ng-container
-                                            *ngFor="let choice of get_FeatChoices(level, false); let index = index; trackBy:trackByIndex;">
-                                            <app-featchoice (showFeatChoiceMessage)="receive_ChoiceMessage($event)"
-                                                (showFeatMessage)="receive_FeatMessage($event)" [choice]="choice"
-                                                [levelNumber]="level.number" [showContent]="false"
-                                                [showFeat]="get_ShowItem()" [showChoice]="get_ShowList()"
-                                                [unavailableFeats]="get_Character().settings.unavailableFeats"
-                                                [lowerLevelFeats]="get_Character().settings.lowerLevelFeats"
-                                                [higherLevelFeats]="get_Character().settings.higherLevelFeats"
-                                                [archetypeFeats]="get_Character().settings.archetypeFeats"
-                                                [tileMode]="get_TileMode()">
-                                            </app-featchoice>
-                                        </ng-container>
-                                    </div>
-                                    <!--Special choices-->
-                                    <div id="specialchoices"
-                                        [ngClass]="{'icon-list vertical':get_TileMode(), 'list':!get_TileMode()}">
-                                        <!--Tile mode fixed features-->
-                                        <ng-container
-                                            *ngIf="get_TileMode() && get_ShowFixedChangesLevelNumber()==level.number">
-                                            <ng-container
-                                                *ngFor="let feature of get_FeatsTaken(level.number, level.number, '', '', '', true, 'feature'); trackBy:trackByIndex;">
-                                                <ng-template #FixedFeatureContent>
-                                                    <header class="spellHeader">{{feature.name}}</header>
-                                                    <div class="newrow left-aligned">
-                                                        <strong>Source&nbsp;</strong>
-                                                        {{feature.source}}
-                                                    </div>
-                                                    <app-feat [feat]="get_FeatsAndFeatures(feature.name)[0]"
-                                                        [choice]="null" [levelNumber]="level.number">
-                                                    </app-feat>
-                                                </ng-template>
-                                                <button class="fullsize-only inactive-button"
-                                                    #FixedFeaturePopover="ngbPopover" [ngbPopover]="FixedFeatureContent"
-                                                    triggers="click">
-                                                    <app-gridIcon class="specialchoice"
-                                                        [ngbTooltip]="!FixedFeaturePopover.isOpen() && feature.name"
-                                                        [title]="feature.name" [superTitle]="'icon-bi-lock-fill'">
-                                                    </app-gridIcon>
-                                                </button>
-                                            </ng-container>
-                                        </ng-container>
-                                        <!--Languages - show if you have gained languages this level-->
-                                        <ng-container *ngIf="level.number > 0 && get_LanguagesAvailable(level.number)">
-                                            <ng-container
-                                                *ngFor="let currentLanguages of [get_CurrentLanguages(level.number)]; trackBy:trackByIndex">
-                                                <ng-container
-                                                    *ngFor="let blankLanguages of [get_BlankLanguages(level.number)]; trackBy:trackByIndex">
-                                                    <div class="list-item" *ngIf="!get_TileMode()"
-                                                        [ngClass]="{'fullsize-only':!blankLanguages}">
-                                                        <button class="newrow specialchoice"
-                                                            [ngClass]="{'fancy-button choicecleared':!blankLanguages, 'activechoice':get_ShowList()=='languages' && get_ShowContentLevelNumber()==level.number}"
-                                                            (click)="toggle_List('languages', level.number)">
-                                                            Languages: {{currentLanguages -
-                                                            blankLanguages}}/{{currentLanguages}}
-                                                        </button>
-                                                    </div>
-                                                    <button class="specialchoice" *ngIf="get_TileMode()"
-                                                        [ngClass]="{'fancy-button choicecleared fullsize-only':!blankLanguages, 'activechoice':get_ShowList()=='languages' && get_ShowContentLevelNumber()==level.number}"
-                                                        (click)="toggle_List('languages', level.number)">
-                                                        <app-gridIcon class="specialchoice"
-                                                            [ngClass]="{'fancy-button':!blankLanguages}"
-                                                            [ngbTooltip]="'Languages: ' + (currentLanguages - blankLanguages) + '/' + currentLanguages"
-                                                            [title]="blankLanguages ? blankLanguages.toString() : currentLanguages.toString()"
-                                                            [superTitle]="'icon-ra ra-speech-bubbles'">
-                                                        </app-gridIcon>
-                                                    </button>
-                                                </ng-container>
-                                            </ng-container>
-                                        </ng-container>
-                                        <!--"Specialchoice" feat choices (feats handle tile mode internally)-->
-                                        <ng-container
-                                            *ngFor="let choice of get_FeatChoices(level, true); let index = index; trackBy:trackByIndex;">
-                                            <app-featchoice (showFeatChoiceMessage)="receive_ChoiceMessage($event)"
-                                                (showFeatMessage)="receive_FeatMessage($event)" [choice]="choice"
-                                                [levelNumber]="level.number" [showContent]="false"
-                                                [showFeat]="get_ShowItem()" [showChoice]="get_ShowList()"
-                                                [unavailableFeats]="get_Character().settings.unavailableFeats"
-                                                [lowerLevelFeats]="get_Character().settings.lowerLevelFeats"
-                                                [higherLevelFeats]="get_Character().settings.higherLevelFeats"
-                                                [archetypeFeats]="get_Character().settings.archetypeFeats"
-                                                [tileMode]="get_TileMode()">
-                                            </app-featchoice>
-                                        </ng-container>
-                                        <!--Animal Companion-->
-                                        <ng-container *ngIf="get_CompanionAvailable(level.number)">
-                                            <ng-container
-                                                *ngFor="let companion of [get_Companion()]; trackBy:trackByIndex">
-                                                <div class="list-item" *ngIf="!get_TileMode()"
-                                                    [ngClass]="{'fullsize-only':(companion.name && companion.species && companion.class.ancestry.name)}">
-                                                    <button class="newrow sublist-toggle specialchoice"
-                                                        [ngClass]="{'fancy-button choicecleared':(companion.name && companion.species && companion.class.ancestry.name), 'activechoice':get_ShowList()=='animalcompanion' && get_ShowContentLevelNumber()==level.number}"
-                                                        (click)="toggle_List('animalcompanion', level.number)">
-                                                        Animal Companion{{(companion.class.ancestry.name) ? ": "+
-                                                        companion.class.ancestry.name : ""}}
-                                                    </button>
+                                                <div class="newrow left-aligned">
+                                                    <strong>Source&nbsp;</strong> {{boost.source}}
                                                 </div>
-                                                <button class="specialchoice" *ngIf="get_TileMode()"
-                                                    [ngClass]="{'fancy-button choicecleared fullsize-only':(companion.name && companion.species && companion.class.ancestry.name), 'activechoice':get_ShowList()=='animalcompanion' && get_ShowContentLevelNumber()==level.number}"
-                                                    (click)="toggle_List('animalcompanion', level.number)">
-                                                    <app-gridIcon class="specialchoice"
-                                                        [ngClass]="{'fancy-button':(companion.name && companion.species && companion.class.ancestry.name)}"
-                                                        [ngbTooltip]="'Animal Companion' + ((companion.class.ancestry.name) ? ': ' + companion.class.ancestry.name : '')"
-                                                        [title]="companion.class.ancestry.name || ''"
-                                                        [superTitle]="'icon-ra ra-wolf-howl'">
-                                                    </app-gridIcon>
-                                                </button>
-                                            </ng-container>
-                                        </ng-container>
-                                        <!--Animal Specializations-->
-                                        <ng-container *ngIf="get_CompanionSpecializationsAvailable(level.number)">
-                                            <ng-container
-                                                *ngFor="let available of [get_CompanionSpecializationsAvailable(level.number)]; trackBy:trackByIndex;">
-                                                <ng-container
-                                                    *ngFor="let takenSpecializations of [get_TakenCompanionSpecializations(level.number)]; trackBy:trackByIndex">
-                                                    <div class="list-item" *ngIf="!get_TileMode()"
-                                                        [ngClass]="{'fullsize-only':takenSpecializations.length == available}">
-                                                        <button class="newrow sublist-toggle specialchoice"
-                                                            [ngClass]="{'fancy-button choicecleared':(takenSpecializations.length == available), 'activechoice':get_ShowList()=='companionspecialization' && get_ShowContentLevelNumber()==level.number}"
-                                                            (click)="toggle_List('companionspecialization', level.number)">
-                                                            Animal Companion Specialization{{available > 1 ? ": "+
-                                                            takenSpecializations.length +"/"+ available :
-                                                            (takenSpecializations.length == 1) ? ": "+
-                                                            takenSpecializations[0] : ""}}
-                                                        </button>
-                                                    </div>
-                                                    <button class="specialchoice" *ngIf="get_TileMode()"
-                                                        [ngClass]="{'fancy-button choicecleared fullsize-only':(takenSpecializations.length == available), 'activechoice':get_ShowList()=='companionspecialization' && get_ShowContentLevelNumber()==level.number}"
-                                                        (click)="toggle_List('companionspecialization', level.number)">
-                                                        <app-gridIcon class="specialchoice"
-                                                            [ngClass]="{'fancy-button':(takenSpecializations.length == available)}"
-                                                            [ngbTooltip]="'Animal Companion Specialization' + (available > 1 ? ': ' + takenSpecializations.length + '/' + available : (takenSpecializations.length == 1 ? ': ' + takenSpecializations[0] : ''))"
-                                                            [title]="(available > 1) ? takenSpecializations.length.toString() + '/' + available.toString() : (takenSpecializations.length ? takenSpecializations[0] : '')"
-                                                            [superTitle]="'icon-ra ra-love-howl'">
-                                                        </app-gridIcon>
-                                                    </button>
-                                                </ng-container>
-                                            </ng-container>
-                                        </ng-container>
-                                        <!--Familiar-->
-                                        <ng-container *ngIf="get_FamiliarAvailable(level.number)">
-                                            <ng-container
-                                                *ngFor="let finished of [get_Familiar().name && get_Familiar().species]; trackBy:trackByIndex;">
-                                                <div class="list-item" *ngIf="!get_TileMode()"
-                                                    [ngClass]="{'fullsize-only':finished}">
-                                                    <button class="newrow sublist-toggle specialchoice"
-                                                        [ngClass]="{'fancy-button choicecleared':finished, 'activechoice':get_ShowList()=='familiar' && get_ShowContentLevelNumber()==level.number}"
-                                                        (click)="toggle_List('familiar', level.number)">
-                                                        Familiar
-                                                    </button>
-                                                </div>
-                                                <button class="specialchoice" *ngIf="get_TileMode()"
-                                                    [ngClass]="{'fancy-button choicecleared fullsize-only':finished, 'activechoice':get_ShowList()=='familiar' && get_ShowContentLevelNumber()==level.number}"
-                                                    (click)="toggle_List('familiar', level.number)">
-                                                    <app-gridIcon class="specialchoice"
-                                                        [ngClass]="{'fancy-button':finished}" [ngbTooltip]="'Familiar'"
-                                                        [superTitle]="'icon-ra ra-raven'">
-                                                    </app-gridIcon>
-                                                </button>
-                                            </ng-container>
-                                        </ng-container>
-                                        <!--Different Worlds-->
-                                        <ng-container
-                                            *ngFor="let differentWorldsFeat of get_DifferentWorldsFeat(level.number); trackBy:trackByIndex;">
-                                            <ng-container
-                                                *ngFor="let finished of [differentWorldsFeat.data.name && differentWorldsFeat.data.background]; trackBy:trackByIndex;">
-                                                <!--Different Worlds-->
-                                                <div class="list-item" *ngIf="!get_TileMode()"
-                                                    [ngClass]="{'fullsize-only':finished}">
-                                                    <button class="newrow sublist-toggle specialchoice"
-                                                        [ngClass]="{'fancy-button choicecleared':finished, 'activechoice':get_ShowList()=='differentworlds' && get_ShowContentLevelNumber()==level.number}"
-                                                        (click)="toggle_List('differentworlds', level.number)">
-                                                        Different Worlds{{(differentWorldsFeat.data.background) ? ": " +
-                                                        differentWorldsFeat.data.background : ""}}
-                                                    </button>
-                                                </div>
-                                                <button class="specialchoice" *ngIf="get_TileMode()"
-                                                    [ngClass]="{'fancy-button choicecleared fullsize-only':finished, 'activechoice':get_ShowList()=='differentworlds' && get_ShowContentLevelNumber()==level.number}"
-                                                    (click)="toggle_List('differentworlds', level.number)">
-                                                    <app-gridIcon class="specialchoice"
-                                                        [ngClass]="{'fancy-button':finished}"
-                                                        [ngbTooltip]="'Different Worlds' + (differentWorldsFeat.data.background ? ': ' + differentWorldsFeat.data.background : '')"
-                                                        [title]="differentWorldsFeat.data.background"
-                                                        [superTitle]="'icon-ra ra-arcane-mask'">
-                                                    </app-gridIcon>
-                                                </button>
-                                            </ng-container>
-                                        </ng-container>
-                                        <!--Blessed Blood-->
-                                        <ng-container *ngIf="get_BlessedBloodFeat(level.number)">
-                                            <ng-container
-                                                *ngFor="let blessedBloodSpells of [get_BlessedBloodSpells()]; trackBy:trackByIndex;">
-                                                <ng-container
-                                                    *ngFor="let finished of [blessedBloodSpells >= 3]; trackBy:trackByIndex;">
-                                                    <div class="list-item" *ngIf="!get_TileMode()"
-                                                        [ngClass]="{'fullsize-only':finished}">
-                                                        <button class="newrow sublist-toggle specialchoice"
-                                                            [ngClass]="{'fancy-button choicecleared':finished, 'activechoice':get_ShowList()=='blessedblood' && get_ShowContentLevelNumber()==level.number}"
-                                                            (click)="toggle_List('blessedblood', level.number)">
-                                                            Blessed Blood Deity Spells: {{blessedBloodSpells}}/3
-                                                        </button>
-                                                    </div>
-                                                    <button class="specialchoice" *ngIf="get_TileMode()"
-                                                        [ngClass]="{'fancy-button choicecleared fullsize-only':finished, 'activechoice':get_ShowList()=='blessedblood' && get_ShowContentLevelNumber()==level.number}"
-                                                        (click)="toggle_List('blessedblood', level.number)">
-                                                        <app-gridIcon class="specialchoice"
-                                                            [ngClass]="{'fancy-button':finished}"
-                                                            [ngbTooltip]="'Blessed Blood Deity Spells: ' + blessedBloodSpells.toString() + '/3'"
-                                                            [title]="finished ? '3' : blessedBloodSpells.toString() + '/3'"
-                                                            [superTitle]="'icon-ra ra-burning-eye'">
-                                                        </app-gridIcon>
-                                                    </button>
-                                                </ng-container>
-                                            </ng-container>
-                                        </ng-container>
-                                        <!--Additional Heritages-->
-                                        <ng-container
-                                            *ngFor="let heritageGain of get_AdditionalHeritagesAvailable(level.number); trackBy:trackByIndex">
-                                            <ng-container
-                                                *ngFor="let heritageIndex of get_AdditionalHeritageIndex(heritageGain.source); trackBy:trackByIndex">
-                                                <ng-container
-                                                    *ngFor="let finished of [get_Character().class.additionalHeritages[heritageIndex].name]; trackBy:trackByIndex">
-                                                    <div class="list-item" *ngIf="!get_TileMode()"
-                                                        [ngClass]="{'fullsize-only':finished}">
-                                                        <button class="newrow sublist-toggle specialchoice"
-                                                            [ngClass]="{'fancy-button choicecleared':get_Character().class.additionalHeritages[heritageIndex].name, 'activechoice':get_ShowList()=='additionalheritage' && get_ShowContentLevelNumber()==level.number && this.get_ShowContent()?.id==heritageGain.source}"
-                                                            (click)="toggle_List('additionalheritages', level.number, {id: 'additionalheritage'+level.number+heritageGain.source, source: heritageGain.source})">
-                                                            Heritage
-                                                            ({{heritageGain.source}}){{finished ? ": "+
-                                                            get_Character().class.additionalHeritages[heritageIndex].name
-                                                            : ""}}
-                                                        </button>
-                                                    </div>
-                                                    <button class="specialchoice" *ngIf="get_TileMode()"
-                                                        [ngClass]="{'fancy-button choicecleared fullsize-only':finished, 'activechoice':get_ShowList()=='additionalheritage' && get_ShowContentLevelNumber()==level.number && this.get_ShowContent()?.id==heritageGain.source}"
-                                                        (click)="toggle_List('additionalheritages', level.number, {id: 'additionalheritage'+level.number+heritageGain.source, source: heritageGain.source})">
-                                                        <app-gridIcon class="specialchoice"
-                                                            [ngClass]="{'fancy-button':finished}"
-                                                            [ngbTooltip]="'Heritage (' + heritageGain.source + ')' + (finished ? ': ' + get_Character().class.additionalHeritages[heritageIndex].name : '')"
-                                                            [title]="finished ? get_Character().class.additionalHeritages[heritageIndex].name : ''"
-                                                            [superTitle]="'icon-ra ra-sprout-emblem'">
-                                                        </app-gridIcon>
-                                                    </button>
-                                                </ng-container>
-                                            </ng-container>
-                                        </ng-container>
-                                        <!--Fuse Stance-->
-                                        <ng-container
-                                            *ngFor="let feat of get_FuseStanceFeat(level.number); trackBy:trackByIndex;">
-                                            <ng-container
-                                                *ngFor="let finished of [feat.data.stances.length == 2 && feat.data.name]; trackBy:trackByIndex">
-                                                <div class="list-item" *ngIf="!get_TileMode()"
-                                                    [ngClass]="{'fullsize-only':finished}">
-                                                    <button class="newrow sublist-toggle specialchoice"
-                                                        [ngClass]="{'fancy-button choicecleared':finished, 'activechoice':get_ShowList()=='fusestance' && get_ShowContentLevelNumber()==level.number}"
-                                                        (click)="toggle_List('fusestance', level.number)">
-                                                        Fuse Stance{{(finished) ? ": "+
-                                                        feat.data.name + " (" + feat.data.stances.join(', ') + ")" :
-                                                        ""}}
-                                                    </button>
-                                                </div>
-                                                <button class="specialchoice" *ngIf="get_TileMode()"
-                                                    [ngClass]="{'fancy-button choicecleared fullsize-only':finished, 'activechoice':get_ShowList()=='fusestance' && get_ShowContentLevelNumber()==level.number}"
-                                                    (click)="toggle_List('fusestance', level.number)">
-                                                    <app-gridIcon class="specialchoice"
-                                                        [ngClass]="{'fancy-button':finished}"
-                                                        [ngbTooltip]="'Fuse Stance' + (finished ? ': ' + feat.data.name + ' (' + feat.data.stances.join(', ') + ')' : '')"
-                                                        [title]="finished ? feat.data.name : ''"
-                                                        [superTitle]="'icon-ra ra-double-team'">
-                                                    </app-gridIcon>
-                                                </button>
-                                            </ng-container>
-                                        </ng-container>
-                                        <!--Lore Training-->
-                                        <ng-container *ngFor="let choice of level.loreChoices; trackBy:trackByIndex;">
-                                            <div class="list-item" *ngIf="choice.available && !get_TileMode()"
-                                                [ngClass]="{'problem':(choice.increases.length > choice.available), 'fullsize-only':choice.increases.length == choice.available}">
-                                                <button class="newrow sublist-toggle specialchoice"
-                                                    [ngClass]="{'fancy-button choicecleared':choice.increases.length == choice.available, 'activechoice':get_ShowList()==choice.id}"
-                                                    (click)="toggle_List(choice.id, level.number, choice)">
-                                                    Lore Training
-                                                    ({{choice.source}}){{(choice.increases.length) ? ": "+
-                                                    choice.increases[0].name : ""}}
-                                                </button>
-                                            </div>
-                                            <button class="specialchoice" *ngIf="choice.available && get_TileMode()"
-                                                [ngClass]="{'fancy-button choicecleared fullsize-only':choice.increases.length == choice.available, 'activechoice':get_ShowList()=='choice.id'}"
-                                                (click)="toggle_List(choice.id, level.number, choice)">
-                                                <app-gridIcon class="specialchoice"
-                                                    [ngClass]="{'fancy-button':choice.increases.length == choice.available}"
-                                                    [ngbTooltip]="'Lore Training (' + choice.source + ')' + ((choice.increases.length) ? ': ' + choice.loreName : '')"
-                                                    [title]="choice.increases.length == choice.available ? choice.loreName : ''"
-                                                    [superTitle]="'icon-ra ra-book'">
+                                            </ng-template>
+                                            <button class="fullsize-only inactive-button"
+                                                #FixedAbilityPopover="ngbPopover"
+                                                [ngbPopover]="FixedAbilityBoostContent" triggers="click">
+                                                <app-gridIcon class="abilityboost"
+                                                    [ngbTooltip]="!FixedAbilityPopover.isOpen() && ((boost.type == 'Flaw' ? 'Flaw: ' : 'Boost: ') + boost.name)"
+                                                    [title]="boost.name" [superTitle]="'icon-bi-lock-fill'"
+                                                    [detail]="(boost.type == 'Flaw' ? 'Flaw' : 'Boost')">
                                                 </app-gridIcon>
                                             </button>
                                         </ng-container>
-                                    </div>
+                                    </ng-container>
+                                    <ng-container *ngFor="let choice of level.abilityChoices; trackBy:trackByIndex;">
+                                        <ng-container
+                                            *ngFor="let maxAvailable of [get_MaxAvailable(choice)]; trackBy:trackByIndex;">
+                                            <!--List mode ability boost buttons-->
+                                            <div class="list-item" *ngIf="maxAvailable && !get_TileMode()"
+                                                [ngClass]="{'problem':(choice.boosts.length > maxAvailable || someAbilitiesIllegal(choice, level.number)), 'fullsize-only':choice.boosts.length == maxAvailable}">
+                                                <button class="newrow sublist-toggle abilityboost"
+                                                    [ngClass]="{'fancy-button choicecleared':choice.boosts.length == maxAvailable, 'activechoice':get_ShowList()==choice.id}"
+                                                    (click)="toggle_List(choice.id, level.number, choice)">
+                                                    {{get_AbilityChoiceTitle(choice)}}
+                                                </button>
+                                            </div>
+                                            <!--Tile mode ability boost buttons-->
+                                            <button class="abilityboost" *ngIf="maxAvailable && get_TileMode()"
+                                                (click)="toggle_List(choice.id, level.number, choice)"
+                                                [ngClass]="{'problem':(choice.boosts.length > maxAvailable || someAbilitiesIllegal(choice, level.number)), 'fancy-button fullsize-only choicecleared':choice.boosts.length == maxAvailable, 'activechoice':get_ShowList()==choice.id}">
+                                                <app-gridIcon class="abilityboost"
+                                                    [ngbTooltip]="get_AbilityChoiceTitle(choice)"
+                                                    [superTitle]="maxAvailable.toString()"
+                                                    [title]="(maxAvailable == 1 && choice.boosts.length) ? choice.boosts[0].name : ((maxAvailable > 1 && choice.boosts.length > 0) ? choice.boosts.length.toString() : '')"
+                                                    [ngClass]="{'fancy-button':choice.boosts.length == maxAvailable}">
+                                                </app-gridIcon>
+                                            </button>
+                                        </ng-container>
+                                    </ng-container>
+                                </div>
+                                <!--Skill Increases-->
+                                <div id="skillincreases"
+                                    [ngClass]="{'icon-list vertical':get_TileMode(), 'list':!get_TileMode()}">
+                                    <!--Tile mode fixed skill increases -->
+                                    <ng-container
+                                        *ngIf="get_TileMode() && get_ShowFixedChangesLevelNumber()==level.number">
+                                        <ng-container
+                                            *ngFor="let skillIncrease of get_SkillIncreases(level.number, level.number, '', '', '', true); trackBy:trackByIndex;">
+                                            <ng-template #FixedSkillIncreaseContent>
+                                                <div class="newrow left-aligned">
+                                                    <strong>{{skillIncrease.name}}</strong>
+                                                </div>
+                                                <div class="newrow left-aligned">
+                                                    <strong>Source&nbsp;</strong> {{skillIncrease.source}}
+                                                </div>
+                                            </ng-template>
+                                            <button class="fullsize-only inactive-button"
+                                                #FixedSkillPopover="ngbPopover" [ngbPopover]="FixedSkillIncreaseContent"
+                                                triggers="click">
+                                                <app-gridIcon class="skillincrease"
+                                                    [ngbTooltip]="!FixedSkillPopover.isOpen() && skillIncrease.name"
+                                                    [title]="skillIncrease.name" [superTitle]="'icon-bi-lock-fill'">
+                                                </app-gridIcon>
+                                            </button>
+                                        </ng-container>
+                                    </ng-container>
+                                    <!--Skill Choices handle tile mode internally-->
+                                    <ng-container
+                                        *ngFor="let choice of get_SkillChoices(level); let index = index; trackBy:trackByIndex;">
+                                        <app-skillchoice (showSkillChoiceMessage)="receive_ChoiceMessage($event)"
+                                            [choice]="choice" [showChoice]="get_ShowList()" [levelNumber]="level.number"
+                                            [showContent]="false" [excludeTemporary]="true" [tileMode]="get_TileMode()">
+                                        </app-skillchoice>
+                                    </ng-container>
+                                </div>
+                                <!--Feat choices-->
+                                <div id="featchoices"
+                                    [ngClass]="{'icon-list vertical':get_TileMode(), 'list':!get_TileMode()}">
+                                    <!--Tile mode fixed feats-->
+                                    <ng-container
+                                        *ngIf="get_TileMode() && get_ShowFixedChangesLevelNumber()==level.number">
+                                        <ng-container
+                                            *ngFor="let feat of get_FeatsTaken(level.number, level.number, '', '', '', true, 'feat'); trackBy:trackByIndex;">
+                                            <ng-template #FixedFeatContent>
+                                                <header class="spellHeader">{{feat.name}}</header>
+                                                <div class="newrow left-aligned">
+                                                    <strong>Source&nbsp;</strong>
+                                                    {{feat.source}}
+                                                </div>
+                                                <app-feat [feat]="get_FeatsAndFeatures(feat.name)[0]" [choice]="null"
+                                                    [levelNumber]="level.number">
+                                                </app-feat>
+                                            </ng-template>
+                                            <button class="fullsize-only inactive-button" #FixedFeatPopover="ngbPopover"
+                                                [ngbPopover]="FixedFeatContent" triggers="click">
+                                                <app-gridIcon class="featchoice"
+                                                    [ngbTooltip]="!FixedFeatPopover.isOpen() && feat.name"
+                                                    [title]="feat.name" [superTitle]="'icon-bi-lock-fill'">
+                                                </app-gridIcon>
+                                            </button>
+                                        </ng-container>
+                                    </ng-container>
+                                    <!--Feat Choices handle tile mode internally-->
+                                    <ng-container
+                                        *ngFor="let choice of get_FeatChoices(level, false); let index = index; trackBy:trackByIndex;">
+                                        <app-featchoice (showFeatChoiceMessage)="receive_ChoiceMessage($event)"
+                                            (showFeatMessage)="receive_FeatMessage($event)" [choice]="choice"
+                                            [levelNumber]="level.number" [showContent]="false"
+                                            [showFeat]="get_ShowItem()" [showChoice]="get_ShowList()"
+                                            [unavailableFeats]="get_Character().settings.unavailableFeats"
+                                            [lowerLevelFeats]="get_Character().settings.lowerLevelFeats"
+                                            [higherLevelFeats]="get_Character().settings.higherLevelFeats"
+                                            [archetypeFeats]="get_Character().settings.archetypeFeats"
+                                            [tileMode]="get_TileMode()">
+                                        </app-featchoice>
+                                    </ng-container>
+                                </div>
+                                <!--Special choices-->
+                                <div id="specialchoices"
+                                    [ngClass]="{'icon-list vertical':get_TileMode(), 'list':!get_TileMode()}">
+                                    <!--Tile mode fixed features-->
+                                    <ng-container
+                                        *ngIf="get_TileMode() && get_ShowFixedChangesLevelNumber()==level.number">
+                                        <ng-container
+                                            *ngFor="let feature of get_FeatsTaken(level.number, level.number, '', '', '', true, 'feature'); trackBy:trackByIndex;">
+                                            <ng-template #FixedFeatureContent>
+                                                <header class="spellHeader">{{feature.name}}</header>
+                                                <div class="newrow left-aligned">
+                                                    <strong>Source&nbsp;</strong>
+                                                    {{feature.source}}
+                                                </div>
+                                                <app-feat [feat]="get_FeatsAndFeatures(feature.name)[0]" [choice]="null"
+                                                    [levelNumber]="level.number">
+                                                </app-feat>
+                                            </ng-template>
+                                            <button class="fullsize-only inactive-button"
+                                                #FixedFeaturePopover="ngbPopover" [ngbPopover]="FixedFeatureContent"
+                                                triggers="click">
+                                                <app-gridIcon class="specialchoice"
+                                                    [ngbTooltip]="!FixedFeaturePopover.isOpen() && feature.name"
+                                                    [title]="feature.name" [superTitle]="'icon-bi-lock-fill'">
+                                                </app-gridIcon>
+                                            </button>
+                                        </ng-container>
+                                    </ng-container>
+                                    <!--Languages - show if you have gained languages this level-->
+                                    <ng-container *ngIf="level.number > 0 && get_LanguagesAvailable(level.number)">
+                                        <ng-container
+                                            *ngFor="let currentLanguages of [get_CurrentLanguages(level.number)]; trackBy:trackByIndex">
+                                            <ng-container
+                                                *ngFor="let blankLanguages of [get_BlankLanguages(level.number)]; trackBy:trackByIndex">
+                                                <div class="list-item" *ngIf="!get_TileMode()"
+                                                    [ngClass]="{'fullsize-only':!blankLanguages}">
+                                                    <button class="newrow specialchoice"
+                                                        [ngClass]="{'fancy-button choicecleared':!blankLanguages, 'activechoice':get_ShowList()=='languages' && get_ShowContentLevelNumber()==level.number}"
+                                                        (click)="toggle_List('languages', level.number)">
+                                                        Languages: {{currentLanguages -
+                                                        blankLanguages}}/{{currentLanguages}}
+                                                    </button>
+                                                </div>
+                                                <button class="specialchoice" *ngIf="get_TileMode()"
+                                                    [ngClass]="{'fancy-button choicecleared fullsize-only':!blankLanguages, 'activechoice':get_ShowList()=='languages' && get_ShowContentLevelNumber()==level.number}"
+                                                    (click)="toggle_List('languages', level.number)">
+                                                    <app-gridIcon class="specialchoice"
+                                                        [ngClass]="{'fancy-button':!blankLanguages}"
+                                                        [ngbTooltip]="'Languages: ' + (currentLanguages - blankLanguages) + '/' + currentLanguages"
+                                                        [title]="blankLanguages ? blankLanguages.toString() : currentLanguages.toString()"
+                                                        [superTitle]="'icon-ra ra-speech-bubbles'">
+                                                    </app-gridIcon>
+                                                </button>
+                                            </ng-container>
+                                        </ng-container>
+                                    </ng-container>
+                                    <!--"Specialchoice" feat choices (feats handle tile mode internally)-->
+                                    <ng-container
+                                        *ngFor="let choice of get_FeatChoices(level, true); let index = index; trackBy:trackByIndex;">
+                                        <app-featchoice (showFeatChoiceMessage)="receive_ChoiceMessage($event)"
+                                            (showFeatMessage)="receive_FeatMessage($event)" [choice]="choice"
+                                            [levelNumber]="level.number" [showContent]="false"
+                                            [showFeat]="get_ShowItem()" [showChoice]="get_ShowList()"
+                                            [unavailableFeats]="get_Character().settings.unavailableFeats"
+                                            [lowerLevelFeats]="get_Character().settings.lowerLevelFeats"
+                                            [higherLevelFeats]="get_Character().settings.higherLevelFeats"
+                                            [archetypeFeats]="get_Character().settings.archetypeFeats"
+                                            [tileMode]="get_TileMode()">
+                                        </app-featchoice>
+                                    </ng-container>
+                                    <!--Animal Companion-->
+                                    <ng-container *ngIf="get_CompanionAvailable(level.number)">
+                                        <ng-container *ngFor="let companion of [get_Companion()]; trackBy:trackByIndex">
+                                            <div class="list-item" *ngIf="!get_TileMode()"
+                                                [ngClass]="{'fullsize-only':(companion.name && companion.species && companion.class.ancestry.name)}">
+                                                <button class="newrow sublist-toggle specialchoice"
+                                                    [ngClass]="{'fancy-button choicecleared':(companion.name && companion.species && companion.class.ancestry.name), 'activechoice':get_ShowList()=='animalcompanion' && get_ShowContentLevelNumber()==level.number}"
+                                                    (click)="toggle_List('animalcompanion', level.number)">
+                                                    Animal Companion{{(companion.class.ancestry.name) ? ": "+
+                                                    companion.class.ancestry.name : ""}}
+                                                </button>
+                                            </div>
+                                            <button class="specialchoice" *ngIf="get_TileMode()"
+                                                [ngClass]="{'fancy-button choicecleared fullsize-only':(companion.name && companion.species && companion.class.ancestry.name), 'activechoice':get_ShowList()=='animalcompanion' && get_ShowContentLevelNumber()==level.number}"
+                                                (click)="toggle_List('animalcompanion', level.number)">
+                                                <app-gridIcon class="specialchoice"
+                                                    [ngClass]="{'fancy-button':(companion.name && companion.species && companion.class.ancestry.name)}"
+                                                    [ngbTooltip]="'Animal Companion' + ((companion.class.ancestry.name) ? ': ' + companion.class.ancestry.name : '')"
+                                                    [title]="companion.class.ancestry.name || ''"
+                                                    [superTitle]="'icon-ra ra-wolf-howl'">
+                                                </app-gridIcon>
+                                            </button>
+                                        </ng-container>
+                                    </ng-container>
+                                    <!--Animal Specializations-->
+                                    <ng-container *ngIf="get_CompanionSpecializationsAvailable(level.number)">
+                                        <ng-container
+                                            *ngFor="let available of [get_CompanionSpecializationsAvailable(level.number)]; trackBy:trackByIndex;">
+                                            <ng-container
+                                                *ngFor="let takenSpecializations of [get_TakenCompanionSpecializations(level.number)]; trackBy:trackByIndex">
+                                                <div class="list-item" *ngIf="!get_TileMode()"
+                                                    [ngClass]="{'fullsize-only':takenSpecializations.length == available}">
+                                                    <button class="newrow sublist-toggle specialchoice"
+                                                        [ngClass]="{'fancy-button choicecleared':(takenSpecializations.length == available), 'activechoice':get_ShowList()=='companionspecialization' && get_ShowContentLevelNumber()==level.number}"
+                                                        (click)="toggle_List('companionspecialization', level.number)">
+                                                        Animal Companion Specialization{{available > 1 ? ": "+
+                                                        takenSpecializations.length +"/"+ available :
+                                                        (takenSpecializations.length == 1) ? ": "+
+                                                        takenSpecializations[0] : ""}}
+                                                    </button>
+                                                </div>
+                                                <button class="specialchoice" *ngIf="get_TileMode()"
+                                                    [ngClass]="{'fancy-button choicecleared fullsize-only':(takenSpecializations.length == available), 'activechoice':get_ShowList()=='companionspecialization' && get_ShowContentLevelNumber()==level.number}"
+                                                    (click)="toggle_List('companionspecialization', level.number)">
+                                                    <app-gridIcon class="specialchoice"
+                                                        [ngClass]="{'fancy-button':(takenSpecializations.length == available)}"
+                                                        [ngbTooltip]="'Animal Companion Specialization' + (available > 1 ? ': ' + takenSpecializations.length + '/' + available : (takenSpecializations.length == 1 ? ': ' + takenSpecializations[0] : ''))"
+                                                        [title]="(available > 1) ? takenSpecializations.length.toString() + '/' + available.toString() : (takenSpecializations.length ? takenSpecializations[0] : '')"
+                                                        [superTitle]="'icon-ra ra-love-howl'">
+                                                    </app-gridIcon>
+                                                </button>
+                                            </ng-container>
+                                        </ng-container>
+                                    </ng-container>
+                                    <!--Familiar-->
+                                    <ng-container *ngIf="get_FamiliarAvailable(level.number)">
+                                        <ng-container
+                                            *ngFor="let finished of [get_Familiar().name && get_Familiar().species]; trackBy:trackByIndex;">
+                                            <div class="list-item" *ngIf="!get_TileMode()"
+                                                [ngClass]="{'fullsize-only':finished}">
+                                                <button class="newrow sublist-toggle specialchoice"
+                                                    [ngClass]="{'fancy-button choicecleared':finished, 'activechoice':get_ShowList()=='familiar' && get_ShowContentLevelNumber()==level.number}"
+                                                    (click)="toggle_List('familiar', level.number)">
+                                                    Familiar
+                                                </button>
+                                            </div>
+                                            <button class="specialchoice" *ngIf="get_TileMode()"
+                                                [ngClass]="{'fancy-button choicecleared fullsize-only':finished, 'activechoice':get_ShowList()=='familiar' && get_ShowContentLevelNumber()==level.number}"
+                                                (click)="toggle_List('familiar', level.number)">
+                                                <app-gridIcon class="specialchoice"
+                                                    [ngClass]="{'fancy-button':finished}" [ngbTooltip]="'Familiar'"
+                                                    [superTitle]="'icon-ra ra-raven'">
+                                                </app-gridIcon>
+                                            </button>
+                                        </ng-container>
+                                    </ng-container>
+                                    <!--Different Worlds-->
+                                    <ng-container
+                                        *ngFor="let differentWorldsFeat of get_DifferentWorldsFeat(level.number); trackBy:trackByIndex;">
+                                        <ng-container
+                                            *ngFor="let finished of [differentWorldsFeat.data.name && differentWorldsFeat.data.background]; trackBy:trackByIndex;">
+                                            <!--Different Worlds-->
+                                            <div class="list-item" *ngIf="!get_TileMode()"
+                                                [ngClass]="{'fullsize-only':finished}">
+                                                <button class="newrow sublist-toggle specialchoice"
+                                                    [ngClass]="{'fancy-button choicecleared':finished, 'activechoice':get_ShowList()=='differentworlds' && get_ShowContentLevelNumber()==level.number}"
+                                                    (click)="toggle_List('differentworlds', level.number)">
+                                                    Different Worlds{{(differentWorldsFeat.data.background) ? ": " +
+                                                    differentWorldsFeat.data.background : ""}}
+                                                </button>
+                                            </div>
+                                            <button class="specialchoice" *ngIf="get_TileMode()"
+                                                [ngClass]="{'fancy-button choicecleared fullsize-only':finished, 'activechoice':get_ShowList()=='differentworlds' && get_ShowContentLevelNumber()==level.number}"
+                                                (click)="toggle_List('differentworlds', level.number)">
+                                                <app-gridIcon class="specialchoice"
+                                                    [ngClass]="{'fancy-button':finished}"
+                                                    [ngbTooltip]="'Different Worlds' + (differentWorldsFeat.data.background ? ': ' + differentWorldsFeat.data.background : '')"
+                                                    [title]="differentWorldsFeat.data.background"
+                                                    [superTitle]="'icon-ra ra-arcane-mask'">
+                                                </app-gridIcon>
+                                            </button>
+                                        </ng-container>
+                                    </ng-container>
+                                    <!--Blessed Blood-->
+                                    <ng-container *ngIf="get_BlessedBloodFeat(level.number)">
+                                        <ng-container
+                                            *ngFor="let blessedBloodSpells of [get_BlessedBloodSpells()]; trackBy:trackByIndex;">
+                                            <ng-container
+                                                *ngFor="let finished of [blessedBloodSpells >= 3]; trackBy:trackByIndex;">
+                                                <div class="list-item" *ngIf="!get_TileMode()"
+                                                    [ngClass]="{'fullsize-only':finished}">
+                                                    <button class="newrow sublist-toggle specialchoice"
+                                                        [ngClass]="{'fancy-button choicecleared':finished, 'activechoice':get_ShowList()=='blessedblood' && get_ShowContentLevelNumber()==level.number}"
+                                                        (click)="toggle_List('blessedblood', level.number)">
+                                                        Blessed Blood Deity Spells: {{blessedBloodSpells}}/3
+                                                    </button>
+                                                </div>
+                                                <button class="specialchoice" *ngIf="get_TileMode()"
+                                                    [ngClass]="{'fancy-button choicecleared fullsize-only':finished, 'activechoice':get_ShowList()=='blessedblood' && get_ShowContentLevelNumber()==level.number}"
+                                                    (click)="toggle_List('blessedblood', level.number)">
+                                                    <app-gridIcon class="specialchoice"
+                                                        [ngClass]="{'fancy-button':finished}"
+                                                        [ngbTooltip]="'Blessed Blood Deity Spells: ' + blessedBloodSpells.toString() + '/3'"
+                                                        [title]="finished ? '3' : blessedBloodSpells.toString() + '/3'"
+                                                        [superTitle]="'icon-ra ra-burning-eye'">
+                                                    </app-gridIcon>
+                                                </button>
+                                            </ng-container>
+                                        </ng-container>
+                                    </ng-container>
+                                    <!--Additional Heritages-->
+                                    <ng-container
+                                        *ngFor="let heritageGain of get_AdditionalHeritagesAvailable(level.number); trackBy:trackByIndex">
+                                        <ng-container
+                                            *ngFor="let heritageIndex of get_AdditionalHeritageIndex(heritageGain.source); trackBy:trackByIndex">
+                                            <ng-container
+                                                *ngFor="let finished of [get_Character().class.additionalHeritages[heritageIndex].name]; trackBy:trackByIndex">
+                                                <div class="list-item" *ngIf="!get_TileMode()"
+                                                    [ngClass]="{'fullsize-only':finished}">
+                                                    <button class="newrow sublist-toggle specialchoice"
+                                                        [ngClass]="{'fancy-button choicecleared':get_Character().class.additionalHeritages[heritageIndex].name, 'activechoice':get_ShowList()=='additionalheritage' && get_ShowContentLevelNumber()==level.number && this.get_ShowContent()?.id==heritageGain.source}"
+                                                        (click)="toggle_List('additionalheritages', level.number, {id: 'additionalheritage'+level.number+heritageGain.source, source: heritageGain.source})">
+                                                        Heritage
+                                                        ({{heritageGain.source}}){{finished ? ": "+
+                                                        get_Character().class.additionalHeritages[heritageIndex].name
+                                                        : ""}}
+                                                    </button>
+                                                </div>
+                                                <button class="specialchoice" *ngIf="get_TileMode()"
+                                                    [ngClass]="{'fancy-button choicecleared fullsize-only':finished, 'activechoice':get_ShowList()=='additionalheritage' && get_ShowContentLevelNumber()==level.number && this.get_ShowContent()?.id==heritageGain.source}"
+                                                    (click)="toggle_List('additionalheritages', level.number, {id: 'additionalheritage'+level.number+heritageGain.source, source: heritageGain.source})">
+                                                    <app-gridIcon class="specialchoice"
+                                                        [ngClass]="{'fancy-button':finished}"
+                                                        [ngbTooltip]="'Heritage (' + heritageGain.source + ')' + (finished ? ': ' + get_Character().class.additionalHeritages[heritageIndex].name : '')"
+                                                        [title]="finished ? get_Character().class.additionalHeritages[heritageIndex].name : ''"
+                                                        [superTitle]="'icon-ra ra-sprout-emblem'">
+                                                    </app-gridIcon>
+                                                </button>
+                                            </ng-container>
+                                        </ng-container>
+                                    </ng-container>
+                                    <!--Fuse Stance-->
+                                    <ng-container
+                                        *ngFor="let feat of get_FuseStanceFeat(level.number); trackBy:trackByIndex;">
+                                        <ng-container
+                                            *ngFor="let finished of [feat.data.stances.length == 2 && feat.data.name]; trackBy:trackByIndex">
+                                            <div class="list-item" *ngIf="!get_TileMode()"
+                                                [ngClass]="{'fullsize-only':finished}">
+                                                <button class="newrow sublist-toggle specialchoice"
+                                                    [ngClass]="{'fancy-button choicecleared':finished, 'activechoice':get_ShowList()=='fusestance' && get_ShowContentLevelNumber()==level.number}"
+                                                    (click)="toggle_List('fusestance', level.number)">
+                                                    Fuse Stance{{(finished) ? ": "+
+                                                    feat.data.name + " (" + feat.data.stances.join(', ') + ")" :
+                                                    ""}}
+                                                </button>
+                                            </div>
+                                            <button class="specialchoice" *ngIf="get_TileMode()"
+                                                [ngClass]="{'fancy-button choicecleared fullsize-only':finished, 'activechoice':get_ShowList()=='fusestance' && get_ShowContentLevelNumber()==level.number}"
+                                                (click)="toggle_List('fusestance', level.number)">
+                                                <app-gridIcon class="specialchoice"
+                                                    [ngClass]="{'fancy-button':finished}"
+                                                    [ngbTooltip]="'Fuse Stance' + (finished ? ': ' + feat.data.name + ' (' + feat.data.stances.join(', ') + ')' : '')"
+                                                    [title]="finished ? feat.data.name : ''"
+                                                    [superTitle]="'icon-ra ra-double-team'">
+                                                </app-gridIcon>
+                                            </button>
+                                        </ng-container>
+                                    </ng-container>
+                                    <!--Lore Training-->
+                                    <ng-container *ngFor="let choice of level.loreChoices; trackBy:trackByIndex;">
+                                        <div class="list-item" *ngIf="choice.available && !get_TileMode()"
+                                            [ngClass]="{'problem':(choice.increases.length > choice.available), 'fullsize-only':choice.increases.length == choice.available}">
+                                            <button class="newrow sublist-toggle specialchoice"
+                                                [ngClass]="{'fancy-button choicecleared':choice.increases.length == choice.available, 'activechoice':get_ShowList()==choice.id}"
+                                                (click)="toggle_List(choice.id, level.number, choice)">
+                                                Lore Training
+                                                ({{choice.source}}){{(choice.increases.length) ? ": "+
+                                                choice.increases[0].name : ""}}
+                                            </button>
+                                        </div>
+                                        <button class="specialchoice" *ngIf="choice.available && get_TileMode()"
+                                            [ngClass]="{'fancy-button choicecleared fullsize-only':choice.increases.length == choice.available, 'activechoice':get_ShowList()=='choice.id'}"
+                                            (click)="toggle_List(choice.id, level.number, choice)">
+                                            <app-gridIcon class="specialchoice"
+                                                [ngClass]="{'fancy-button':choice.increases.length == choice.available}"
+                                                [ngbTooltip]="'Lore Training (' + choice.source + ')' + ((choice.increases.length) ? ': ' + choice.loreName : '')"
+                                                [title]="choice.increases.length == choice.available ? choice.loreName : ''"
+                                                [superTitle]="'icon-ra ra-book'">
+                                            </app-gridIcon>
+                                        </button>
+                                    </ng-container>
                                 </div>
                             </div>
-                        </ng-container>
+                        </div>
                     </ng-container>
                 </ng-container>
-            </div>
+            </ng-container>
         </div>
         <div class="charactersheet-column">
-            <div id="character-choiceArea-top"></div>
+            <div id="character-choiceArea-top" style="margin-top:-.3em"></div>
             <!--Choice content and templates-->
             <!--Load character content-->
             <ng-container *ngIf="get_ShowList()=='load'">
                 <div class="newrow list-item padding-8 center-aligned">
                     <header class="box-header sectionHeader">Load Character</header>
                 </div>
-                <div id="choiceArea" class="charactersheet-app">
+                <div id="choiceArea" class="list-item">
                     <div class="list-item" *ngIf="get_Savegames() && !get_Savegames().length">
                         No characters available in database.
                     </div>
@@ -910,7 +898,7 @@
                 <div class="newrow list-item padding-8 center-aligned">
                     <header class="box-header sectionHeader">Settings</header>
                 </div>
-                <div id="choiceArea" class="charactersheet-app">
+                <div id="choiceArea" class="list-item">
                     <div class="list-item">
                         <strong>Look</strong>
                         <div class="list-item gridicon-fullsizebox">
@@ -1064,7 +1052,7 @@
                     <header class="box-header sectionHeader">Alternative Ability Values:
                         {{get_Character().baseValues.length ? 'Used' : 'Not used'}}</header>
                 </div>
-                <div id="choiceArea" class="charactersheet-app">
+                <div id="choiceArea" class="list-item">
                     <div class="list-item">
                         <p>
                             You can roll your own ability scores and enter them here. If you use these values, your
@@ -1097,7 +1085,7 @@
                         Class{{(get_Character().class.name) ? ": "+ get_Character().class.name : ""}}
                     </header>
                 </div>
-                <div id="choiceArea" class="charactersheet-app">
+                <div id="choiceArea" class="list-item">
                     <ng-container *ngFor="let class of get_AvailableClasses(); trackBy:trackByIndex;">
                         <ng-container
                             *ngFor="let checked of [class.name === get_Character().class.name]; trackBy:trackByIndex">
@@ -1166,7 +1154,7 @@
                         : ""}}
                     </header>
                 </div>
-                <div id="choiceArea" class="charactersheet-app">
+                <div id="choiceArea" class="list-item">
                     <ng-container *ngFor="let ancestry of get_AvailableAncestries(); trackBy:trackByIndex;">
                         <ng-container
                             *ngFor="let checked of [ancestry.name === get_Character().class.ancestry.name]; trackBy:trackByIndex">
@@ -1240,7 +1228,7 @@
                         : ""}}
                     </header>
                 </div>
-                <div id="choiceArea" class="charactersheet-app">
+                <div id="choiceArea" class="list-item">
                     <ng-container
                         *ngFor="let heritage of get_AvailableHeritages('', get_Character().class.ancestry.name); trackBy:trackByIndex;">
                         <ng-container
@@ -1354,7 +1342,7 @@
                 <div class="newrow list-item padding-8 center-aligned">
                     <header class="box-header sectionHeader">Languages</header>
                 </div>
-                <div id="choiceArea" class="charactersheet-app">
+                <div id="choiceArea" class="list-item">
                     <div class="newrow list-item left-aligned">
                         <strong *ngIf="get_Character().class.ancestry.recommendedLanguages.length">
                             Recommended Languages
@@ -1394,7 +1382,7 @@
                         get_Character().class.background.name : ""}}
                     </header>
                 </div>
-                <div id="choiceArea" class="charactersheet-app">
+                <div id="choiceArea" class="list-item">
                     <!-- Filter -->
                     <div class="list-item lower">
                         <strong>Filter</strong>
@@ -1517,7 +1505,7 @@
                         Deity{{get_Character().class.deity ? ": "+get_Character().class.deity : ""}}
                     </header>
                 </div>
-                <div id="choiceArea" class="charactersheet-app">
+                <div id="choiceArea" class="list-item">
                     <ng-container *ngFor="let deity of get_AvailableDeities(); trackBy:trackByIndex;">
                         <ng-container
                             *ngFor="let checked of [deity.name === get_Character().class.deity]; trackBy:trackByIndex">
@@ -1589,7 +1577,7 @@
                         Level {{this.get_ShowContentLevelNumber()}} fixed changes
                     </header>
                 </div>
-                <div id="choiceArea" class="charactersheet-app">
+                <div id="choiceArea" class="list-item">
                     <!--Fixed Ability boosts-->
                     <header class="sectionHeader center-aligned" *ngIf="this.get_ShowContent()?.abilityBoosts?.length">
                         Ability Boosts
@@ -1695,7 +1683,7 @@
                         {{get_AbilityChoiceTitle(abilityContent.choice)}}
                     </header>
                 </div>
-                <div id="choiceArea" class="charactersheet-app">
+                <div id="choiceArea" class="list-item">
                     <ng-container
                         *ngFor="let ability of get_AvailableAbilities(abilityContent.choice, abilityContent.levelNumber); trackBy:trackByIndex;">
                         <ng-container
@@ -1760,7 +1748,7 @@
                         loreContent.choice.loreName : ""}}
                     </header>
                 </div>
-                <div id="choiceArea" class="charactersheet-app">
+                <div id="choiceArea" class="list-item">
                     <ng-container
                         *ngFor="let checked of [get_SkillIncreases(loreContent.levelNumber, loreContent.levelNumber, 'Lore: '+loreContent.choice.loreName, loreContent.choice.source, loreContent.choice.id).length]; trackBy:trackByIndex">
                         <ng-container
@@ -1803,7 +1791,7 @@
                             : ""}}
                         </header>
                     </div>
-                    <div id="choiceArea" class="charactersheet-app">
+                    <div id="choiceArea" class="list-item">
                         <div class="newrow list-item">
                             <button class="newrow list-item" (click)="on_NewCompanion()">
                                 <header class="sectionHeader">Reset Animal Companion</header>
@@ -1968,7 +1956,7 @@
                                     with unarmed attacks from 2 to 4 or from 3 to 6.
                                 </p>
                             </div>
-                            <div id="choiceArea" class="charactersheet-app">
+                            <div id="choiceArea" class="list-item">
                                 <ng-container
                                     *ngFor="let spec of get_AvailableCompanionSpecializations(companionSpecializationContent.levelNumber); trackBy:trackByIndex;">
                                     <ng-container
@@ -2031,7 +2019,7 @@
                             Familiar
                         </header>
                     </div>
-                    <div id="choiceArea" class="charactersheet-app">
+                    <div id="choiceArea" class="list-item">
                         <div class="newrow list-item">
                             <button class="newrow list-item" (click)="on_NewFamiliar()">
                                 <header class="sectionHeader">Reset Familiar</header>
@@ -2074,7 +2062,7 @@
                             differentWorldsFeat.data.background : ""}}
                         </header>
                     </div>
-                    <div id="choiceArea" class="charactersheet-app">
+                    <div id="choiceArea" class="list-item">
                         <div class="newrow list-item">
                             <div class="newrow list-item">
                                 <strong>Alternative name&nbsp;
@@ -2207,7 +2195,7 @@
                             just as you would spells normally on the divine spell list.
                         </p>
                     </div>
-                    <div id="choiceArea" class="charactersheet-app">
+                    <div id="choiceArea" class="list-item">
                         <ng-container *ngFor="let spell of get_BlessedBloodDeitySpells(); trackBy:trackByIndex;">
                             <ng-container
                                 *ngFor="let checked of [get_BlessedBloodHaveSpell(spell)]; trackBy:trackByIndex">
@@ -2281,7 +2269,7 @@
                                 Strike).
                             </p>
                         </div>
-                        <div id="choiceArea" class="charactersheet-app">
+                        <div id="choiceArea" class="list-item">
                             <div class="newrow list-item">
                                 <div class="newrow list-item">
                                     <strong>Stance name&nbsp;
@@ -2350,7 +2338,7 @@
                                     ? ": "+ get_Character().class.additionalHeritages[heritageIndex].name : ""}}
                                 </header>
                             </div>
-                            <div id="choiceArea" class="charactersheet-app">
+                            <div id="choiceArea" class="list-item">
                                 <ng-container
                                     *ngFor="let heritage of get_AvailableHeritages('', heritageGain.ancestry, heritageIndex); trackBy:trackByIndex;">
                                     <ng-container

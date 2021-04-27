@@ -73,13 +73,12 @@ export class HintComponent implements OnInit {
                 return "Activity";
             case "Condition":
                 return "Condition";
-            case "AnimalCompanionSpecialization":
-                return "DescOnly";
-            case "Specialization":
-                return "DescOnly";
         }
         if (this.object.constructor.__proto__.__proto__.name == "Item" || this.object.constructor.__proto__.name == "Item") {
             return "Item";
+        }
+        if (this.object?.desc) {
+            return "DescOnly"
         }
         return "";
     }

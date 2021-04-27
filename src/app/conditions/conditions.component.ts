@@ -32,6 +32,7 @@ export class ConditionsComponent implements OnInit {
     public heightened: number = 1;
     public showList: string = "";
     public showItem: string = "";
+    public showCreature: "Character"|"Companion"|"Familiar" = "Character";
     public wordFilter: string = "";
     public permanent: boolean = true;
     public untilRest: boolean = false;
@@ -74,20 +75,20 @@ export class ConditionsComponent implements OnInit {
         }
     }
 
-    toggle_Item(type) {
-        if (this.showItem == type) {
+    get_ShowList() {
+        return this.showList;
+    }
+
+    toggle_Item(name) {
+        if (this.showItem == name) {
             this.showItem = "";
         } else {
-            this.showItem = type;
+            this.showItem = name;
         }
     }
 
     get_ShowItem() {
         return this.showItem;
-    }
-
-    get_ShowList() {
-        return this.showList;
     }
 
     toggle_Purpose(purpose: "conditions" | "customeffects") {
@@ -96,6 +97,24 @@ export class ConditionsComponent implements OnInit {
 
     get_ShowPurpose() {
         return this.purpose;
+    }
+
+    toggle_Creature(type) {
+        this.showCreature = type;
+    }
+
+    get_ShowCreature() {
+        return this.showCreature;
+    }
+
+    toggle_TileMode() {
+        this.get_Character().settings.conditionsTileMode = !this.get_Character().settings.conditionsTileMode;
+        this.characterService.set_ToChange("Character", "conditions");
+        this.characterService.process_ToChange();
+    }
+
+    get_TileMode() {
+        return this.get_Character().settings.conditionsTileMode;
     }
 
     //If you don't use trackByIndex on certain inputs, you lose focus everytime the value changes. I don't get that, but I'm using it now.

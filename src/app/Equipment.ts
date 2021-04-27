@@ -176,7 +176,20 @@ export class Equipment extends Item {
             this.material.forEach(mat => {
                 words.push(mat.get_Name());
             })
-            words.push(this.name)
+            //If you have any material in the name of the item, and it has a material applied, remove the original material. This list may grow.
+            let materials = [
+                "Wooden ",
+                "Steel "
+            ]
+            if (this.material.length && materials.some(mat => this.name.toLowerCase().includes(mat.toLowerCase()))) {
+                let name = this.name;
+                materials.forEach(mat => {
+                    name = name.replace(mat, "");
+                })
+                words.push(name);
+            } else {
+                words.push(this.name)
+            }
             return words.join(" ");
         }
     }
