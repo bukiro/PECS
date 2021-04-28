@@ -1664,7 +1664,7 @@ app-gridicon .iconSuperTitle div {
 app-gridicon .iconSubTitle {
     position: absolute;
     bottom: .15rem;
-    right: .15rem;
+    left: .15rem;
     display: flex;
     flex-direction: row;
     justify-content: flex-end;

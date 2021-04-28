@@ -5,6 +5,7 @@ import { NgbPopoverConfig, NgbTooltipConfig } from '@ng-bootstrap/ng-bootstrap';
 import { Effect } from '../Effect';
 import { Condition } from '../Condition';
 import { CharacterService } from '../character.service';
+import { SpellChoice } from '../SpellChoice';
 
 @Component({
     selector: 'app-gridIcon',
@@ -36,7 +37,7 @@ export class GridIconComponent implements OnInit {
     feat: Feat = null;
     @Input()
     effect: Effect = null;
-
+    
     constructor(
         popoverConfig: NgbPopoverConfig,
         tooltipConfig: NgbTooltipConfig
@@ -79,7 +80,16 @@ export class GridIconComponent implements OnInit {
                 }
             }
         }
-        return this.subTitle;
+        let subTitle = this.subTitle;
+        //Convert icon- names into a <i> with that icon. Icons can be separated with |.
+        subTitle = subTitle.split("|").map(split => {
+            if (split.substr(0, 5) == "icon-") {
+                return "<i class='" + split.substr(5) + "'></i>";
+            } else {
+                return split;
+            }
+        }).join("")
+        return subTitle;
     }
 
     get_IsOneWordTitle() {
@@ -159,10 +169,14 @@ export class GridIconComponent implements OnInit {
 
     get_IconSuperTitle() {
         let superTitle: string = this.superTitle;
-        //For icon- names, return a <i> with that icon.
-        if (this.superTitle.substr(0, 5) == "icon-") {
-            return "<i class='" + superTitle.substr(5) + "'></i>"
-        }
+        //Convert icon- names into a <i> with that icon. Icons can be separated with |.
+        superTitle = superTitle.split("|").map(split => {
+            if (split.substr(0, 5) == "icon-") {
+                return "<i class='" + superTitle.substr(5) + "'></i>"
+            } else {
+                return split;
+            }
+        }).join("")
         //For effect values, show the value as SuperTitle if up to 2 characters long. Longer values will be shown as Value instead.
         if (this.effect) {
             if (this.effect.setValue) {

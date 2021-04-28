@@ -122,7 +122,6 @@ Internal To Do list
 - [ ] Stretch Goal: Exporting statblock and files for other tools (e.g. Foundry VTT)
 
 Active to-do:
-- Show spell type icons (i.e. signature spell) in GridIcons in Spells
 
 Test:
 

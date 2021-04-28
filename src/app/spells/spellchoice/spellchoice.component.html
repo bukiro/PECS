@@ -32,6 +32,7 @@
                             [ngClass]="{'fancy-button choicecleared':(available == choice.spells.length), 'activechoice':get_ShowChoice()==listID}">
                             <app-gridIcon [ngbTooltip]="ButtonTitleTemplate" [superTitle]="available.toString()"
                                 [title]="(available == 1 && choice.spells.length) ? choice.spells[0].name : ((available > 1 && choice.spells.length > 0) ? choice.spells.length.toString() : '')"
+                                [subTitle]="(choice.spellCombinationAllowed ? 'icon-ra ra-frostfire' : '') + '|' + (is_InfinitePossibilitiesSpell() ? 'icon-ra ra-kaleidoscope' : '') + '|' + (has_SignatureSpell(signatureSpellsAllowed) ? 'icon-bi-stars' : '') + '|' + (choice.crossbloodedEvolution ? 'icon-ra ra-zigzag-leaf' : '')"
                                 [ngClass]="{'fancy-button':(available == choice.spells.length)}">
                             </app-gridIcon>
                         </button>
