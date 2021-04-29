@@ -8,10 +8,11 @@
     <div [innerHtml]="get_IconTitle()"></div>
 </span>
 <ng-container *ngFor="let iconSubTitle of [get_IconSubTitle()]; trackBy:trackByIndex">
-    <span class="iconSubTitle disable-text-selection" *ngIf="!iconSubTitle.includes('actionIcons')"
+    <span class="iconSubTitle disable-text-selection" *ngIf="!iconSubTitle.includes('actionIcons|')"
         [innerHtml]="iconSubTitle"></span>
-    <span class="iconSubTitle disable-text-selection" *ngIf="iconSubTitle.includes('actionIcons')">
+    <span class="iconSubTitle disable-text-selection" *ngIf="iconSubTitle.includes('actionIcons|')">
         <app-actionIcons [actionString]="iconSubTitle.split('|')[1]"></app-actionIcons>
+        <span *ngIf="iconSubTitle.split('|').length > 1" [innerHtml]="iconSubTitle.split('|')[2]"></span>
     </span>
 </ng-container>
 <ng-container *ngIf="condition?.maxDuration > 0 || effect?.duration > 0">

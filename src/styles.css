@@ -13,9 +13,8 @@ html {
 
 * {
     font-family: 'Roboto', Arial, sans-serif;
-    color: #616161;
-    color: var(--textcolor);
     box-sizing: border-box;
+    color: inherit;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
@@ -27,6 +26,8 @@ body {
     overflow-y: hidden;
     --textcolor: #616161;
     background-color: #333333;
+    color: #616161;
+    color: var(--textcolor);
     font-size: 14px;
     background-clip: border-box;
 }

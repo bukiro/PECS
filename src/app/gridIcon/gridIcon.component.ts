@@ -82,7 +82,7 @@ export class GridIconComponent implements OnInit {
             }
         }
         if (this.spell?.actions) {
-            let actions = this.spell.actions.replace("minutes","min").replace("minute","min").replace(" to 2A"," +").replace(" to 3A"," +");
+            let actions = this.spell.actions.replace("minutes","min").replace("minute","min").replace(" to 2A","| <i class='bi-plus-circle'></i>").replace(" to 3A","| <i class='bi-plus-circle'></i>");
             return "actionIcons|"+actions;
         }
         let subTitle = this.subTitle;
