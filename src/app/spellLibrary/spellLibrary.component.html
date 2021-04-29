@@ -1,4 +1,4 @@
-<div id="spelllibrary" class="itembox list">
+<div id="spelllibrary" class="itembox vlist">
     <button class="list-item center-aligned" (click)="toggleSpellLibraryMenu()">
         <header class="sectionHeader">Close</header>
     </button>
@@ -6,7 +6,7 @@
     <ng-container *ngIf="get_SpellLibraryMenuState()=='in'">
         <div class="list-item">
             <strong>Find (in Name, Description or Traits)</strong>
-            <span class="list" style="flex-direction:row">
+            <span class="hlist">
                 <input id="SpellsWordFilter" type=text [(ngModel)]="wordFilter" (keypress)=check_Filter() />
                 <button (click)="set_Filter()" [disabled]="wordFilter.length < 5">Show All</button>
                 <button (click)="wordFilter='';check_Filter()">Clear</button>
@@ -48,7 +48,7 @@
             <button (click)="toggle_Tradition('Focus')"
                 [ngClass]="{'fancy-button':(get_ShowTradition()=='Focus')}">Focus</button>
         </div>
-        <div class="fullsize-scroll-box list">
+        <div class="fullsize-scroll-box vlist">
             <ng-container *ngFor="let wizardCasting of [get_WizardSpellCasting()]; trackBy:trackByIndex;">
                 <ng-container *ngFor="let bardCasting of [get_BardSpellCasting()]; trackBy:trackByIndex;">
                     <ng-container *ngFor="let sorcererCasting of [get_SorcererSpellCasting()]; trackBy:trackByIndex;">

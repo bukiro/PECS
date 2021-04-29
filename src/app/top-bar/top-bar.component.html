@@ -36,7 +36,7 @@
             <span aria-hidden="true">&times;</span>
         </button>
     </div>
-    <div class="modal-body list">
+    <div class="modal-body vlist">
         <p>Select all effects you want to apply. All other effects will be discarded.</p>
         <div class="gridicon-fullsizebox">
             <input id="messagesSelectAll" class="character-choice" type="checkbox"
@@ -45,7 +45,7 @@
                 <strong>Select all</strong>
             </label>
         </div>
-        <div class="fullsize-scroll-box list" style="max-height: 50vh;">
+        <div class="fullsize-scroll-box vlist" style="max-height: 50vh;">
             <ng-container *ngFor="let message of get_NewConditionMessages(); trackBy:trackByIndex">
                 <ng-container *ngFor="let creature of [get_MessageCreature(message)]; trackBy:trackByIndex">
                     <ng-container *ngFor="let sender of [get_MessageSender(message)]; trackBy:trackByIndex">

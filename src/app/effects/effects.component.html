@@ -67,15 +67,31 @@
     </ng-template>
     <app-tags [creature]="creature" [objectName]="'Effects'" [showTraits]=true [showFeats]=true [showItems]=true
         [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
-    <div [ngClass]="{'charactersheet-column-container padding-8':!fullDisplay}">
+    <div class="charactersheet-column-container padding-8" *ngIf="!fullDisplay">
+        <div class="icon-list left-aligned dashed-border">
+            <div class="icon-list-title" style="right: 0">
+                <header class="sectionHeader box-header">Conditions</header>
+            </div>
+            <ng-container *ngFor="let conditionGain of get_AppliedConditions(true); trackBy:trackByConditionGainID;">
+                <ng-container *ngTemplateOutlet="conditionTemplate;context:{conditionGain:conditionGain}">
+                </ng-container>
+            </ng-container>
+        </div>
+        <div class="icon-list right-aligned dashed-border">
+            <div class="icon-list-title" style="left: 0">
+                <header class="sectionHeader box-header">Effects</header>
+            </div>
+            <ng-container *ngFor="let effect of get_AppliedEffects(); trackBy:trackByUniqueEffect;">
+                <ng-container *ngTemplateOutlet="effectTemplate;context:{effect:effect}"></ng-container>
+            </ng-container>
+        </div>
+    </div>
+    <ng-container *ngIf="fullDisplay">
         <div>
-            <header class="subsectionHeader" *ngIf="fullDisplay">
+            <header class="subsectionHeader">
                 Active Conditions
             </header>
-            <div [ngClass]="{'icon-list left-aligned dashed-border':!fullDisplay}">
-                <div class="icon-list-title" style="right: 0" *ngIf="!fullDisplay">
-                    <header class="sectionHeader box-header">Conditions</header>
-                </div>
+            <div>
                 <ng-container
                     *ngFor="let conditionGain of get_AppliedConditions(true); trackBy:trackByConditionGainID;">
                     <ng-container *ngTemplateOutlet="conditionTemplate;context:{conditionGain:conditionGain}">
@@ -84,20 +100,15 @@
             </div>
         </div>
         <div>
-            <header class="subsectionHeader" *ngIf="fullDisplay">
+            <header class="subsectionHeader">
                 Active Effects
             </header>
-            <div [ngClass]="{'icon-list right-aligned dashed-border':!fullDisplay}">
-                <div class="icon-list-title" style="left: 0" *ngIf="!fullDisplay">
-                    <header class="sectionHeader box-header">Effects</header>
-                </div>
+            <div>
                 <ng-container *ngFor="let effect of get_AppliedEffects(); trackBy:trackByUniqueEffect;">
                     <ng-container *ngTemplateOutlet="effectTemplate;context:{effect:effect}"></ng-container>
                 </ng-container>
             </div>
         </div>
-    </div>
-    <ng-container *ngIf="fullDisplay">
         <div>
             <header class="subsectionHeader">
                 Inactive Conditions

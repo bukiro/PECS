@@ -105,20 +105,30 @@
                     </span>
                 </div>
                 <div class="list-item newrow">
-                    <span>
+                    <span class="hlist">
                         <button [disabled]="damage <= 0"
-                            (click)="on_TakeDamage(health, calculatedHealth.wounded, calculatedHealth.dying)">Take
-                            Damage</button>&nbsp;
+                            (click)="on_TakeDamage(health, calculatedHealth.wounded, calculatedHealth.dying)">
+                            Take Damage
+                        </button>
                         <input id="nonlethal" type="checkbox" [(ngModel)]="nonlethal"><label
                             for="nonlethal">&nbsp;nonlethal</label>
                     </span>
-                    <span>
-                        <input class="number4" type="number" [(ngModel)]="damage" maxLength="3" min="0" max="999">
+                    <span class="hlist center-aligned">
+                        <input class="number3" type="number" [(ngModel)]="damage" maxLength="3" min="0"
+                            max="{{damageSliderMax}}">
+                        <button [ngClass]="{'fancy-button':showDamageSlider}" (click)="toggle_DamageSlider()">
+                            <i class="bi-sliders"></i>
+                        </button>
                     </span>
-                    <span>
-                        <button [disabled]="damage <= 0" (click)="on_Heal(health, calculatedHealth.dying)">Heal
-                            Damage</button>
+                    <span class="right-aligned">
+                        <button [disabled]="damage <= 0" (click)="on_Heal(health, calculatedHealth.dying)">
+                            Heal Damage
+                        </button>
                     </span>
+                    <div class="fullwidth" [ngbCollapse]="!showDamageSlider">
+                        <input class="slider" [style.--name]="'\'Damage\''" type="range" min="0"
+                            max="{{damageSliderMax}}" [(ngModel)]="damage">
+                    </div>
                 </div>
                 <div class="list-item newrow" *ngIf="get_NumbToDeath()"
                     [ngClass]="{'fullsize-only':(calculatedHealth.dying <= 0)}">
@@ -133,14 +143,21 @@
                 </div>
                 <div class="fullsize-only list-item newrow">
                     <span>
-                        <strong>Temp HP</strong>
+                        <strong>Temporary HP</strong>
                     </span>
-                    <span>
-                        <input class="number4" type="number" [(ngModel)]="setTempHP" maxLength="3">
+                    <span class="hlist center-aligned">
+                        <input class="number3" type="number" [(ngModel)]="setTempHP" maxLength="3" min="0">
+                        <button [ngClass]="{'fancy-button':showTempHPSlider}" (click)="toggle_TempHPSlider()">
+                            <i class="bi-sliders"></i>
+                        </button>
                     </span>
-                    <span>
+                    <span class="right-aligned">
                         <button [disabled]="setTempHP < 0" (click)="set_TempHP(setTempHP)">Set</button>
                     </span>
+                    <div class="fullwidth" [ngbCollapse]="!showTempHPSlider">
+                        <input class="slider" [style.--name]="'\'Temporary HP\''" type="range" min="0" max="100"
+                            [(ngModel)]="setTempHP">
+                    </div>
                 </div>
                 <header class="subsectionHeader">Resistances</header>
                 <ng-container *ngFor="let resistances of [get_Resistances()]; let index = index; trackBy:trackByIndex;">

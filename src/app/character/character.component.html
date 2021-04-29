@@ -16,7 +16,7 @@
         </div>
     </button>
 </div>
-<div id="character-height" class="itembox list">
+<div id="character-height" class="itembox vlist">
     <button class="list-item center-aligned" (click)="toggleCharacterMenu()">
         <header class="sectionHeader">Close</header>
     </button>
@@ -163,7 +163,7 @@
                 </div>
                 <app-tags [creature]="'Character'" [objectName]="'Character'" [showTraits]=true [showFeats]=true
                     [showItems]=true [showActivities]=true [showConditions]=true></app-tags>
-                <div class="list" [ngClass]="{'invisible':get_ShowLevel() > 0}">
+                <div class="vlist" [ngClass]="{'invisible':get_ShowLevel() > 0}">
                     <header class="sectionHeader">History</header>
                     <div class="list-item">
                         <strong>Name</strong>
@@ -866,7 +866,7 @@
                                     <span aria-hidden="true">&times;</span>
                                 </button>
                             </div>
-                            <div class="modal-body list">
+                            <div class="modal-body vlist">
                                 <p>Are you sure you want to delete <strong>{{savegame.name}}</strong>?</p>
                             </div>
                             <div class="modal-footer">

@@ -26,12 +26,15 @@ export class SpellbookComponent implements OnInit {
 
     @Input()
     public sheetSide: string = "left";
+    @Input()
+    public readOnly: boolean = false;
     private showSpell: number = 0;
     private id: number = 0;
     public hover: number = 0;
     public Math = Math;
     private showItem: string = "";
     private showList: string = "";
+    
 
     constructor(
         private changeDetector: ChangeDetectorRef,

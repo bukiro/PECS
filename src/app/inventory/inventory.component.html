@@ -188,7 +188,7 @@
                                 <ng-container
                                     *ngIf="item.amount != undefined && item.storedSpells.length && !['weaponrunes', 'armorrunes', 'oils'].includes(this.item.type)">
                                     <ng-container *ngFor="let itemSpell of get_ItemSpell(item); trackBy:trackByIndex;">
-                                        <app-spellTarget class="newrow list" [creature]="creature" [phrase]="item.type == 'wands' && item.cooldown ? 'Overcharge (Cooldown '
+                                        <app-spellTarget class="newrow vlist" [creature]="creature" [phrase]="item.type == 'wands' && item.cooldown ? 'Overcharge (Cooldown '
                                             + get_Duration(item.cooldown) + ') and cast' : 'Cast'" [showActions]="true"
                                             [spell]="itemSpell.spell" [gain]="itemSpell.gain" [casting]="null"
                                             [cannotCast]="item.broken ? 'The item is broken and cannot be used.' : ''"
@@ -444,14 +444,20 @@
                                             <button [disabled]="shieldDamage == 0"
                                                 (click)="on_ShieldHPChange(item, shieldDamage)">Damage</button>
                                         </span>
-                                        <span>
-                                            <input class="number3" type="number" [(ngModel)]="shieldDamage"
-                                                maxLength="3">
+                                        <span class="hlist center-aligned">
+                                            <input class="number3" type="number" [(ngModel)]="shieldDamage" maxLength="3" min="0" max="{{item.get_MaxHP()}}">
+                                            <button [ngClass]="{'fancy-button':showShieldDamageSlider}" (click)="toggle_ShieldDamageSlider()">
+                                                <i class="bi-sliders"></i>
+                                            </button>
                                         </span>
-                                        <span>
+                                        <span class="right-aligned">
                                             <button [disabled]="shieldDamage == 0"
                                                 (click)="on_ShieldHPChange(item, -shieldDamage)">Repair</button>
                                         </span>
+                                        <div class="fullwidth" [ngbCollapse]="!showShieldDamageSlider">
+                                            <input class="slider" [style.--name]="'\'Damage\''" type="range" min="0" max="{{item.get_MaxHP()}}"
+                                                [(ngModel)]="shieldDamage">
+                                        </div>
                                     </div>
                                 </ng-container>
                                 <app-item class="lower" [creature]="creature" [item]=item

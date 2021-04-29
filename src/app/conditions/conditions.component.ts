@@ -117,6 +117,13 @@ export class ConditionsComponent implements OnInit {
         return this.get_Character().settings.conditionsTileMode;
     }
 
+    validate_DurationNumbers() {
+        this.hours = Math.max(0, Math.min(23, this.hours))
+        this.minutes = Math.max(0, Math.min(59, this.minutes))
+        this.turns = Math.max(0, Math.min(9, this.turns))
+        this.set_NonPermanent();
+    }
+
     //If you don't use trackByIndex on certain inputs, you lose focus everytime the value changes. I don't get that, but I'm using it now.
     trackByIndex(index: number, obj: any): any {
         return index;

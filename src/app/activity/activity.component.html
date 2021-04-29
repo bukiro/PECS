@@ -5,7 +5,7 @@
                 *ngIf="gain.name != 'Fused Stance' && activity.can_Activate() && (gain.activeCooldown ? (maxCharges > gain.chargesUsed) : true)">
                 <ng-container *ngFor="let activitySpell of [get_ActivitySpell()]; trackBy:trackByIndex">
                     <ng-container *ngIf="activitySpell">
-                        <app-spellTarget class="newrow list"
+                        <app-spellTarget class="newrow vlist"
                             [creature]="creature"
                             [phrase]="'Activate' + (maxCharges ? ' (' + (maxCharges - gain.chargesUsed) + ' of ' + maxCharges + ' charges)' : '') + ' and cast'"
                             [spell]="activitySpell.spell" [gain]="activitySpell.gain" [casting]="null"

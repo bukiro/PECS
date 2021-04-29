@@ -63,7 +63,7 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <div class="modal-body list">
+                <div class="modal-body vlist">
                     <p *ngIf="parameters.targetNumber > 0">Select up to {{parameters.targetNumber}} targets for this
                         spell.</p>
                     <p *ngIf="parameters.targetNumber == -1">Select any number of targets for this spell.</p>
@@ -75,7 +75,7 @@
                             <strong>Select all</strong>
                         </label>
                     </div>
-                    <div class="fullsize-scroll-box list" style="max-height: 50vh;">
+                    <div class="fullsize-scroll-box vlist" style="max-height: 50vh;">
                         <ng-container *ngFor="let target of targets; trackBy:trackByIndex">
                             <div class="list-item gridicon-fullsizebox">
                                 <input id="spelltarget{{target.name}}" class="character-choice"

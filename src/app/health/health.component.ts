@@ -3,8 +3,6 @@ import { CharacterService } from '../character.service';
 import { EffectsService } from '../effects.service';
 import { ConditionGain } from '../ConditionGain';
 import { Health } from '../Health';
-import { Character } from '../Character';
-import { AnimalCompanion } from '../AnimalCompanion';
 import { TimeService } from '../time.service';
 import { ItemsService } from '../items.service';
 import { SpellsService } from '../spells.service';
@@ -25,6 +23,10 @@ export class HealthComponent implements OnInit {
     public showMinimizeButton: boolean = true;
     @Input()
     public sheetSide: string = "left";
+    
+    public showDamageSlider: boolean = false;
+    public damageSliderMax: number = 1;
+    public showTempHPSlider: boolean = false;
 
     public damage: number = 0;
     public nonlethal: boolean = false;
@@ -87,6 +89,14 @@ export class HealthComponent implements OnInit {
         return index;
     }
 
+    toggle_DamageSlider() {
+        this.showDamageSlider = !this.showDamageSlider;
+    }
+
+    toggle_TempHPSlider() {
+        this.showTempHPSlider = !this.showTempHPSlider;
+    }
+
     get_Waiting(duration: number) {
         let result: string = "";
         this.characterService.get_Creatures().forEach(creature => {
@@ -129,6 +139,7 @@ export class HealthComponent implements OnInit {
                 this.die("Dying value too high");
             }
         }
+        this.damageSliderMax = calculatedHealth.maxHP.result || 1;
         return calculatedHealth;
     }
 

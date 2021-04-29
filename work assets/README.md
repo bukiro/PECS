@@ -126,7 +126,6 @@ Active to-do:
 Test:
 
 Next steps:
-- Create Pop-up slider for number fields to increase accessibility and save space where sliders are already used - ideally with an automatic component (but it needs to write back into the calling element's value)
 - Possibly Create tag that automatically inserts a dice rolling button for the included text
 - Implement manual mode
 - Quick Effects button for Skills and Attacks (and quick removal button for manual effects)

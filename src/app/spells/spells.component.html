@@ -16,16 +16,16 @@
         </div>
     </button>
 </div>
-<div id="spells-height" class="itembox list">
+<div id="spells-height" class="itembox vlist">
     <button class="list-item center-aligned" (click)="toggleSpellMenu()">
         <header class="sectionHeader">Close</header>
     </button>
     <div class="charactersheet-column-container">
         <div class="charactersheet-column">
-            <div class="fullsize-scroll-box list">
+            <div class="fullsize-scroll-box vlist">
                 <div class="loading" *ngIf="still_loading()">Loading</div>
                 <ng-container *ngIf="!still_loading() && get_Character().class && get_SpellsMenuState()=='in'">
-                    <div class="fullsize-scroll-box list">
+                    <div class="fullsize-scroll-box vlist">
                         <div class="list-item" *ngIf="get_HasSpellChoices()">
                             <span>
                                 <input id="showHeightened" type="checkbox"

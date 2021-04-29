@@ -422,35 +422,49 @@ button.specialchoice:not(.fancy-button),
     /* Slider button */
 
 .slider {
--webkit-appearance: none;
-width: 100%;
-outline: none;
-opacity: 1;
--webkit-transition: .2s;
-transition: opacity .2s;
+    -webkit-appearance: none;
+    position: relative;
+    width: 100%;
+    outline: none;
+    opacity: 1;
+    -webkit-transition: .2s;
+    transition: opacity .2s;
 }
 
 .slider:hover {
-opacity: .8;
+    opacity: .8;
 }
 
 .slider::-webkit-slider-thumb {
--webkit-appearance: none;
-appearance: none;
-width: 1.4rem;
-height: 1.4rem;
-border-radius: .15rem;
-background: rgb(var(--accent));
-cursor: pointer;
-content: var(--thumbNumber);
+    -webkit-appearance: none;
+    appearance: none;
+    width: 1.4rem;
+    height: 1.4rem;
+    border-radius: .15rem;
+    background: rgb(var(--accent));
+    cursor: pointer;
+    z-index: 5
 }
 
 .slider::-moz-range-thumb {
-width: 1.4rem;
-height: 1.4rem;
-border-radius: .15rem;
-background: rgb(var(--accent));
-cursor: pointer;
+    appearance: none;
+    width: 1.4rem;
+    height: 1.4rem;
+    border-radius: .15rem;
+    background: rgb(var(--accent));
+    cursor: pointer;
+    z-index: 5
+}
+
+.slider:before {
+    content: var(--name);
+    position: absolute;
+    width: 100%;
+    font-weight: bold;
+    font-size: 1rem;
+    line-height: 1.4rem;
+    text-align: center;
+    z-index: 0
 }
 
     /* Quick Dice Roll Button */
@@ -1063,12 +1077,6 @@ header.featureHeader {
 
 /* .list-item: */
 
-.list {
-    display: flex;
-    flex-direction: column;
-    gap: .3rem;
-}
-
 .list-item {
     width: 100%;
     position: relative;
@@ -1432,6 +1440,21 @@ ngb-popover-window.list-item.sublist {
     margin-left: 0;
 }
 
+.popover.popup-slider {
+    width: 400px;
+    border-width: 4px;
+    border-style: solid;
+    border-color: #465A8C;
+    border-color: rgb(var(--accent));
+    border-radius: .15rem;
+    background-clip: border-box;
+    box-shadow: 0 .15rem .35rem;
+}
+
+.popover.popup-slider .popover-body {
+    padding: .3rem;
+}
+
 /* Bootstrap modal overrides */
 
 .modal-content {
@@ -1616,14 +1639,14 @@ app-gridicon.fancy-button {
     color: inherit;
 }
 
-    /* top-left small number*/
+    /* top-left small number */
 app-gridicon .iconValue {
     position: absolute;
     color: var(--textcolor);
     top: .15rem;
     left: .15rem;
 }
-    /* top-right specification*/
+    /* top-right specification */
 app-gridicon .iconDetail {
     position: absolute;
     color: var(--textcolor);
@@ -1631,6 +1654,7 @@ app-gridicon .iconDetail {
     right: .15rem;
 }
 
+    /* larger centered background title, max 2 characters */
 app-gridicon .iconTitle,
 app-gridicon .iconSuperTitle {
     margin-top: 0 !important;
@@ -1640,14 +1664,14 @@ app-gridicon .iconSuperTitle {
     height: 100%;
 }
 
-    /* large centered title, max 4 characters*/
+    /* large centered title, max 4 characters */
 app-gridicon .iconTitle {
     font-size: 1.5rem;
     line-height: .8em;
     color: var(--textcolor);
 }
 
-    /* larger centered overshadowing title, max 2 characters*/
+    /* larger centered overshadowing title, max 2 characters */
 app-gridicon .iconSuperTitle {
     font-size: 3rem;
     opacity: 50%;
@@ -1660,7 +1684,7 @@ app-gridicon .iconSuperTitle div {
     text-align: center !important;
 }
 
-    /* bottom-right subtitle with a little more room (5-8 characters) */
+    /* bottom-left subtitle with a little more room (5-8 characters) */
 app-gridicon .iconSubTitle {
     position: absolute;
     bottom: .15rem;
@@ -1723,8 +1747,6 @@ app-gridicon.specialchoice, .darkmode app-gridicon.specialchoice {
     color: rgb(125, 100, 50);
 }
     
-    
-
 /* Animated loading signifier */
 
 .loading {
@@ -1843,6 +1865,18 @@ SPECIFIC STYLE MODIFIERS
 
 .fullwidth {
     width: 100%;
+}
+
+.vlist {
+    display: flex;
+    flex-direction: column;
+    gap: .3rem;
+}
+
+.hlist {
+    display: flex;
+    flex-direction: row;
+    gap: .3rem;
 }
 
 .disable-text-selection {

@@ -1,4 +1,4 @@
-<div id="conditions" class="itembox list">
+<div id="conditions" class="itembox vlist">
     <div class="window-button-container">
         <button class="tilemodebutton" [ngClass]="{'fancy-button':get_TileMode()}" (click)="toggle_TileMode()"
             [ngbTooltip]="get_TileMode() ? 'Click to enable list layout' : 'Click to enable tiled layout'">
@@ -19,40 +19,41 @@
         <div class="charactersheet-column-container">
             <div class="charactersheet-column">
                 <header class="sectionHeader">Duration: {{get_Duration()}}</header>
-                <div class="fullsize-scroll-box list">
+                <div class="fullsize-scroll-box vlist">
                     <div class="list-item">
                         <div class="newrow">
-                            <button class="center-aligned" (click)="set_Permanent(-1)">Permanent</button>
-                            <button class="center-aligned" (click)="set_Permanent(-2)">Until your preparations</button>
-                            <button class="center-aligned" (click)="set_Permanent(-3)">Until you refocus</button>
+                            <button class="center-aligned" [ngClass]="{'fancy-button': permanent}"
+                                (click)="set_Permanent(-1)">Permanent</button>
+                            <button class="center-aligned" [ngClass]="{'fancy-button': untilRest}"
+                                (click)="set_Permanent(-2)">Until your preparations</button>
+                            <button class="center-aligned" [ngClass]="{'fancy-button': untilRefocus}"
+                                (click)="set_Permanent(-3)">Until you refocus</button>
                         </div>
                         <div class="newrow">
                             <button class="center-aligned" (click)="add_Day(-1)">-1 Day</button>
                             <button class="center-aligned" (click)="add_Day(1)">+1 Day</button>
                         </div>
-                        <div class="newrow">
-                            <strong style="flex-basis: 10%; flex-grow: 0;">Hours</strong>
-                            <input class="slider" type="range" min="0" max="23" [(ngModel)]="hours"
-                                (ngModelChange)="set_NonPermanent()">
+                        <div class="newrow center-aligned">
+                            <input class="slider" [style.--name]="'\'Hours\''" type="range" min="0" max="23"
+                                [(ngModel)]="hours" (ngModelChange)="set_NonPermanent()">
+                            <input class="slider" [style.--name]="'\'Minutes\''" type="range" min="0" max="59"
+                                [(ngModel)]="minutes" (ngModelChange)="set_NonPermanent()">
+                            <input class="slider" [style.--name]="'\'Turns\''" type="range" min="0" max="9"
+                                [(ngModel)]="turns" (ngModelChange)="set_NonPermanent()">
                         </div>
                         <div class="newrow">
-                            <strong style="flex-basis: 10%; flex-grow: 0;">Minutes</strong>
-                            <input class="slider" type="range" min="0" max="59" [(ngModel)]="minutes"
-                                (ngModelChange)="set_NonPermanent()">
-                        </div>
-                        <div class="newrow">
-                            <strong style="flex-basis: 10%; flex-grow: 0;">Turns</strong>
-                            <input class="slider" type="range" min="0" max="9" [(ngModel)]="turns"
-                                (ngModelChange)="set_NonPermanent()">
-                        </div>
-                        <div class="newrow left-aligned">
-                            End on:
-                        </div>
-                        <div class="newrow">
-                            <span><input type="radio" [(ngModel)]="endOn" [value]="5">&nbsp;Turn Start</span>
-                        </div>
-                        <div class="newrow">
-                            <span><input type="radio" [(ngModel)]="endOn" [value]="0">&nbsp;Turn End</span>
+                            <button class="center-aligned no-animation" [ngClass]="{'fancy-button':endOn==5}">
+                                <label class="fullwidth center-aligned">
+                                    <input name="endsOnRadio" id="turnStartRadio" type="radio" [(ngModel)]="endOn"
+                                        [value]="5" hidden>End on turn start
+                                </label>
+                            </button>
+                            <button class="center-aligned no-animation" [ngClass]="{'fancy-button':endOn==0}">
+                                <label class="fullwidth center-aligned">
+                                    <input name="endsOnRadio" id="turnEndRadio" type="radio" [(ngModel)]="endOn"
+                                        [value]="0" hidden>End on turn end
+                                </label>
+                            </button>
                         </div>
                     </div>
                     <div class="list-item">
@@ -65,7 +66,7 @@
                         <header class="sectionHeader">Add Conditions</header>
                         <div class="list-item">
                             <strong>Find (in Name or Description)</strong>
-                            <span class="list" style="flex-direction:row">
+                            <span class="hlist">
                                 <input type=text [(ngModel)]="wordFilter" (keypress)=check_Filter() />
                                 <button (click)="set_Filter()" [disabled]="wordFilter.length < 5">Show All</button>
                                 <button (click)="wordFilter='';check_Filter()">Clear</button>
@@ -75,7 +76,9 @@
                             *ngFor="let set of ['Generic','Activities','Afflictions','Alchemical Elixirs','Alchemical Tools','Ammunition','Blood Magic','Feats','Held Items','Other Consumables','Potions','Spells','Talismans','Worn Items']; trackBy:trackByIndex;">
                             <ng-container
                                 *ngFor="let visibleConditions of [get_VisibleConditionsSet(set)]; trackBy:trackByIndex;">
-                                <button class="list-item" (click)="toggle_List(set)" [ngClass]="{'fancy-button':get_ShowList()==set||get_ShowList()=='All'}" *ngIf="visibleConditions.length">
+                                <button class="list-item" (click)="toggle_List(set)"
+                                    [ngClass]="{'fancy-button':get_ShowList()==set||get_ShowList()=='All'}"
+                                    *ngIf="visibleConditions.length">
                                     <header class="sectionHeader">{{set}}</header>
                                 </button>
                                 <div [ngClass]="{'icon-list left-aligned':get_TileMode(), 'list':!get_TileMode()}"
@@ -215,7 +218,8 @@
                                             </div>
                                         </ng-container>
                                         <ng-container *ngIf="get_TileMode()">
-                                            <button [ngbPopover]="conditionTemplate" triggers="click">
+                                            <button [ngbPopover]="conditionTemplate" triggers="click"
+                                                (click)="toggle_Item('')">
                                                 <app-gridIcon class="condition" [ngbTooltip]="condition.name"
                                                     [title]="condition.name"
                                                     [ngClass]="{'penalty':!condition.buff, 'bonus':condition.buff}">
@@ -326,11 +330,14 @@
             <div class="charactersheet-column">
                 <header class="sectionHeader">Current conditions & effects</header>
                 <div class="list-item newrow" *ngIf="get_CompanionAvailable() || get_FamiliarAvailable()">
-                    <button [ngClass]="{'fancy-button':get_ShowCreature()=='Character'}" (click)="toggle_Creature('Character')">Character</button>
-                    <button [ngClass]="{'fancy-button':get_ShowCreature()=='Companion'}" *ngIf="get_CompanionAvailable()" (click)="toggle_Creature('Companion')">Companion</button>
-                    <button [ngClass]="{'fancy-button':get_ShowCreature()=='Familiar'}" *ngIf="get_FamiliarAvailable()" (click)="toggle_Creature('Familiar')">Familiar</button>
+                    <button [ngClass]="{'fancy-button':get_ShowCreature()=='Character'}"
+                        (click)="toggle_Creature('Character')">Character</button>
+                    <button [ngClass]="{'fancy-button':get_ShowCreature()=='Companion'}"
+                        *ngIf="get_CompanionAvailable()" (click)="toggle_Creature('Companion')">Companion</button>
+                    <button [ngClass]="{'fancy-button':get_ShowCreature()=='Familiar'}" *ngIf="get_FamiliarAvailable()"
+                        (click)="toggle_Creature('Familiar')">Familiar</button>
                 </div>
-                <div class="fullsize-scroll-box list">
+                <div class="fullsize-scroll-box vlist">
                     <div class="list-item">
                         <app-effects class="fullwidth" [creature]="get_ShowCreature()" [fullDisplay]="true"
                             [sheetSide]="'right'">
