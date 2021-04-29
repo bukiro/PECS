@@ -74,7 +74,7 @@ export class SpellLibraryComponent implements OnInit {
         return index;
     }
 
-    toggle_Item(id: string) {
+    toggle_Item(id: string = "") {
         if (this.showItem == id) {
             this.showItem = "";
         } else {
@@ -108,6 +108,20 @@ export class SpellLibraryComponent implements OnInit {
 
     get_SpellLibraryMenuState() {
         return this.characterService.get_SpellLibraryMenuState();
+    }
+
+    toggle_TileMode() {
+        this.get_Character().settings.spellLibraryTileMode = !this.get_Character().settings.spellLibraryTileMode;
+        this.characterService.set_ToChange("Character", "spelllibrary");
+        this.characterService.process_ToChange();
+    }
+
+    get_TileMode() {
+        return this.get_Character().settings.spellLibraryTileMode;
+    }
+
+    get_SpellbookMinimized() {
+        return this.characterService.get_Character().settings.spellbookMinimized;
     }
 
     get_Character() {
@@ -390,7 +404,7 @@ export class SpellLibraryComponent implements OnInit {
 
     learn_Spell(spell: Spell, source: string) {
         this.get_Character().learn_Spell(spell, source);
-        if (this.get_Character().settings.autoCloseChoices) { this.toggle_Item(""); }
+        if (this.get_Character().settings.autoCloseChoices) { this.toggle_Item(); }
         this.characterService.set_ToChange("Character", "spellchoices");
         this.characterService.process_ToChange();
     }

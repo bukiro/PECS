@@ -379,10 +379,10 @@
                 <ng-container *ngIf="get_Character().class">
                     <ng-container *ngFor="let level of get_Character().class.levels; trackBy:trackByIndex;">
                         <div
-                            [ngClass]="{'invisible':!(level.number > 0 && [0,level.number].includes(get_ShowLevel())), 'list':!get_TileMode()}">
+                            [ngClass]="{'invisible':!(level.number > 0 && [0,level.number].includes(get_ShowLevel())), 'vlist':!get_TileMode()}">
                             <header class="sectionHeader levelHeader" *ngIf="level.number > 0">Level
                                 {{level.number}}</header>
-                            <div [ngClass]="{'character-choice-grid':get_TileMode(), 'list':!get_TileMode()}">
+                            <div [ngClass]="{'character-choice-grid':get_TileMode(), 'vlist':!get_TileMode()}">
                                 <div [ngClass]="{'icon-list vertical':get_TileMode()}">
                                     <ng-container
                                         *ngFor="let fixedAbilityBoosts of [get_AbilityBoosts(level.number, level.number, '', '', '', '', true)]; trackBy:trackByIndex;">
@@ -422,7 +422,7 @@
                                 </div>
                                 <!--Ability boosts-->
                                 <div id="abilityboosts"
-                                    [ngClass]="{'icon-list vertical':get_TileMode(), 'list':!get_TileMode()}">
+                                    [ngClass]="{'icon-list vertical':get_TileMode(), 'vlist':!get_TileMode()}">
                                     <!--Tile mode fixed ability boosts-->
                                     <ng-container
                                         *ngIf="get_TileMode() && get_ShowFixedChangesLevelNumber()==level.number">
@@ -477,7 +477,7 @@
                                 </div>
                                 <!--Skill Increases-->
                                 <div id="skillincreases"
-                                    [ngClass]="{'icon-list vertical':get_TileMode(), 'list':!get_TileMode()}">
+                                    [ngClass]="{'icon-list vertical':get_TileMode(), 'vlist':!get_TileMode()}">
                                     <!--Tile mode fixed skill increases -->
                                     <ng-container
                                         *ngIf="get_TileMode() && get_ShowFixedChangesLevelNumber()==level.number">
@@ -512,7 +512,7 @@
                                 </div>
                                 <!--Feat choices-->
                                 <div id="featchoices"
-                                    [ngClass]="{'icon-list vertical':get_TileMode(), 'list':!get_TileMode()}">
+                                    [ngClass]="{'icon-list vertical':get_TileMode(), 'vlist':!get_TileMode()}">
                                     <!--Tile mode fixed feats-->
                                     <ng-container
                                         *ngIf="get_TileMode() && get_ShowFixedChangesLevelNumber()==level.number">
@@ -554,7 +554,7 @@
                                 </div>
                                 <!--Special choices-->
                                 <div id="specialchoices"
-                                    [ngClass]="{'icon-list vertical':get_TileMode(), 'list':!get_TileMode()}">
+                                    [ngClass]="{'icon-list vertical':get_TileMode(), 'vlist':!get_TileMode()}">
                                     <!--Tile mode fixed features-->
                                     <ng-container
                                         *ngIf="get_TileMode() && get_ShowFixedChangesLevelNumber()==level.number">

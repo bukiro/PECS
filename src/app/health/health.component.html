@@ -110,8 +110,8 @@
                             (click)="on_TakeDamage(health, calculatedHealth.wounded, calculatedHealth.dying)">
                             Take Damage
                         </button>
-                        <input id="nonlethal" type="checkbox" [(ngModel)]="nonlethal"><label
-                            for="nonlethal">&nbsp;nonlethal</label>
+                        <input id="nonlethal" type="checkbox" [(ngModel)]="nonlethal">
+                        <label for="nonlethal">nonlethal</label>
                     </span>
                     <span class="hlist center-aligned">
                         <input class="number3" type="number" [(ngModel)]="damage" maxLength="3" min="0"

@@ -7,7 +7,13 @@
 <span class="iconTitle newrow disable-text-selection" style="text-align: center;">
     <div [innerHtml]="get_IconTitle()"></div>
 </span>
-<span class="iconSubTitle disable-text-selection" [innerHtml]="get_IconSubTitle()"></span>
+<ng-container *ngFor="let iconSubTitle of [get_IconSubTitle()]; trackBy:trackByIndex">
+    <span class="iconSubTitle disable-text-selection" *ngIf="!iconSubTitle.includes('actionIcons')"
+        [innerHtml]="iconSubTitle"></span>
+    <span class="iconSubTitle disable-text-selection" *ngIf="iconSubTitle.includes('actionIcons')">
+        <app-actionIcons [actionString]="iconSubTitle.split('|')[1]"></app-actionIcons>
+    </span>
+</ng-container>
 <ng-container *ngIf="condition?.maxDuration > 0 || effect?.duration > 0">
     <ng-container *ngFor="let overlay of get_DurationOverlays(); trackBy:trackByIndex;">
         <div class="gridicon-time-overlay" [style.--offset]="overlay.offset" [style.--percentage]="overlay.percentage"

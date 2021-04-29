@@ -2,7 +2,7 @@
     <ng-container *ngFor="let maxAvailable of [get_Available()]; trackBy:trackByIndex;">
         <ng-container *ngFor="let buttonTitle of [get_ButtonTitle(maxAvailable)]; trackBy:trackByIndex;">
             <div *ngIf="maxAvailable"
-                [ngClass]="{'list-item': showTitle && !get_TileMode(), 'list': !showTitle, 'problem':(choice.increases.length > maxAvailable || someIllegal(choice)), 'fullsize-only':(choice.increases.length == maxAvailable)}">
+                [ngClass]="{'list-item': showTitle && !get_TileMode(), 'vlist': !showTitle, 'problem':(choice.increases.length > maxAvailable || someIllegal(choice)), 'fullsize-only':(choice.increases.length == maxAvailable)}">
                 <!--Choice button shows in title mode-->
                 <!--List mode button-->
                 <button class="newrow left-aligned sublist-toggle skillincrease"

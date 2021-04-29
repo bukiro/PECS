@@ -27,6 +27,7 @@ export class Settings {
     hintsShowMoreInformation: boolean = true;
     characterTileMode: boolean = true;
     conditionsTileMode: boolean = true;
+    spellLibraryTileMode: boolean = true;
     spellsTileMode: boolean = true;
     showHeightenedSpells: boolean = false;
     noFriendlyCasterConditions: boolean = false;

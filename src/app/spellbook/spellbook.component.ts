@@ -26,15 +26,12 @@ export class SpellbookComponent implements OnInit {
 
     @Input()
     public sheetSide: string = "left";
-    @Input()
-    public readOnly: boolean = false;
     private showSpell: number = 0;
     private id: number = 0;
     public hover: number = 0;
     public Math = Math;
     private showItem: string = "";
     private showList: string = "";
-    
 
     constructor(
         private changeDetector: ChangeDetectorRef,
@@ -135,6 +132,11 @@ export class SpellbookComponent implements OnInit {
 
     get_Traits(name: string = "") {
         return this.traitsService.get_Traits(name);
+    }
+
+    get_HasSpells() {
+        let character = this.get_Character();
+        return character.class?.spellCasting.some(casting => casting.spellChoices.some(choice => choice.charLevelAvailable <= character.level));
     }
 
     toggleSpellsMenu() {

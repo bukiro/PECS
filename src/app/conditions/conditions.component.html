@@ -81,10 +81,10 @@
                                     *ngIf="visibleConditions.length">
                                     <header class="sectionHeader">{{set}}</header>
                                 </button>
-                                <div [ngClass]="{'icon-list left-aligned':get_TileMode(), 'list':!get_TileMode()}"
+                                <div [ngClass]="{'icon-list left-aligned':get_TileMode(), 'vlist':!get_TileMode()}"
                                     *ngIf="visibleConditions.length && (get_ShowList()==set||get_ShowList()=='All')">
                                     <ng-container *ngFor="let condition of visibleConditions; trackBy:trackByIndex;">
-                                        <ng-template #conditionTemplate>
+                                        <ng-template #ConditionTemplate>
                                             <strong>{{condition.name}}</strong>
                                             <div class="newrow"
                                                 *ngIf="condition.hasValue && !(!permanent && condition.name == 'Stunned')">
@@ -213,12 +213,12 @@
                                                     {{condition.name}}
                                                 </button>
                                                 <div class="list-item sublist" *ngIf="get_ShowItem()==condition.name">
-                                                    <ng-container *ngTemplateOutlet="conditionTemplate"></ng-container>
+                                                    <ng-container *ngTemplateOutlet="ConditionTemplate"></ng-container>
                                                 </div>
                                             </div>
                                         </ng-container>
                                         <ng-container *ngIf="get_TileMode()">
-                                            <button [ngbPopover]="conditionTemplate" triggers="click"
+                                            <button [ngbPopover]="ConditionTemplate" triggers="click"
                                                 (click)="toggle_Item('')">
                                                 <app-gridIcon class="condition" [ngbTooltip]="condition.name"
                                                     [title]="condition.name"

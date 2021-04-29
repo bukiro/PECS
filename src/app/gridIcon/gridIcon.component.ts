@@ -4,8 +4,7 @@ import { Feat } from '../Feat';
 import { NgbPopoverConfig, NgbTooltipConfig } from '@ng-bootstrap/ng-bootstrap';
 import { Effect } from '../Effect';
 import { Condition } from '../Condition';
-import { CharacterService } from '../character.service';
-import { SpellChoice } from '../SpellChoice';
+import { Spell } from '../Spell';
 
 @Component({
     selector: 'app-gridIcon',
@@ -37,6 +36,8 @@ export class GridIconComponent implements OnInit {
     feat: Feat = null;
     @Input()
     effect: Effect = null;
+    @Input()
+    spell: Spell = null;
     
     constructor(
         popoverConfig: NgbPopoverConfig,
@@ -64,21 +65,25 @@ export class GridIconComponent implements OnInit {
             if (duration < 10) {
                 switch (duration) {
                     case -3:
-                        return "<i class='bi-eye-fill'></i>"
+                        return "<i class='bi-eye-fill'></i>";
                     case -2:
-                        return "<i class='bi-sunrise-fill'></i>"
+                        return "<i class='bi-sunrise-fill'></i>";
                     case -1:
-                        return "<i class='bi-arrow-repeat'></i>"
+                        return "<i class='bi-arrow-repeat'></i>";
                     case 0:
                         return "";
                     case 1:
-                        return "<i class='bi-exclamation-diamond-fill'></i>"
+                        return "<i class='bi-exclamation-diamond-fill'></i>";
                     case 2:
-                        return "<i class='bi-person-plus-fill'></i>"
+                        return "<i class='bi-person-plus-fill'></i>";
                     case 5:
-                        return "<i class='bi-play-fill'></i>"
+                        return "<i class='bi-play-fill'></i>";
                 }
             }
+        }
+        if (this.spell?.actions) {
+            let actions = this.spell.actions.replace("minutes","min").replace("minute","min").replace(" to 2A"," +").replace(" to 3A"," +");
+            return "actionIcons|"+actions;
         }
         let subTitle = this.subTitle;
         //Convert icon- names into a <i> with that icon. Icons can be separated with |.
@@ -191,7 +196,7 @@ export class GridIconComponent implements OnInit {
             //If a condition or its value is locked by its parent, show a lock.
             return "<i class='bi-lock'></i>";
         }
-        if (superTitle.length <= 2) {
+        if (superTitle.length <= 2 || superTitle.includes("<")) {
             return superTitle;
         } else {
             return "";
