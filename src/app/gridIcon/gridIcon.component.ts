@@ -184,7 +184,9 @@ export class GridIconComponent implements OnInit {
         }).join("")
         //For effect values, show the value as SuperTitle if up to 2 characters long. Longer values will be shown as Value instead.
         if (this.effect) {
-            if (this.effect.setValue) {
+            if (this.effect.toggle) {
+                superTitle ="";
+            } else if (this.effect.setValue) {
                 superTitle = this.effect.setValue;
             } else if (this.effect.value) {
                 superTitle = this.effect.value;

@@ -91,7 +91,7 @@
             <header class="subsectionHeader">
                 Active Conditions
             </header>
-            <div>
+            <div class="vlist">
                 <ng-container
                     *ngFor="let conditionGain of get_AppliedConditions(true); trackBy:trackByConditionGainID;">
                     <ng-container *ngTemplateOutlet="conditionTemplate;context:{conditionGain:conditionGain}">
@@ -103,7 +103,7 @@
             <header class="subsectionHeader">
                 Active Effects
             </header>
-            <div>
+            <div class="vlist">
                 <ng-container *ngFor="let effect of get_AppliedEffects(); trackBy:trackByUniqueEffect;">
                     <ng-container *ngTemplateOutlet="effectTemplate;context:{effect:effect}"></ng-container>
                 </ng-container>
@@ -113,7 +113,7 @@
             <header class="subsectionHeader">
                 Inactive Conditions
             </header>
-            <div class="notapplied">
+            <div class="notapplied vlist">
                 <ng-container
                     *ngFor="let conditionGain of get_AppliedConditions(false); trackBy:trackByConditionGainID;">
                     <ng-container *ngTemplateOutlet="conditionTemplate;context:{conditionGain:conditionGain}">
@@ -125,7 +125,7 @@
             <header class="subsectionHeader">
                 Inactive Effects
             </header>
-            <div class="notapplied">
+            <div class="notapplied vlist">
                 <ng-container *ngFor="let effect of get_NotAppliedEffects(); trackBy:trackByUniqueEffect;">
                     <ng-container *ngTemplateOutlet="effectTemplate;context:{effect:effect}"></ng-container>
                 </ng-container>
@@ -134,7 +134,7 @@
         <header class="subsectionHeader">
             Hidden Effects
         </header>
-        <div>
+        <div class="vlist">
             <ng-container *ngFor="let effect of get_HiddenEffects(); trackBy:trackByUniqueEffect;">
                 <ng-container *ngTemplateOutlet="effectTemplate;context:{effect:effect}"></ng-container>
             </ng-container>

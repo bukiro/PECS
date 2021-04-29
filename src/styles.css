@@ -669,10 +669,6 @@ app-actionicons .actionIcon {
     margin: 0;
 }
 
-header.spellHeader app-actionicons .actionIcon {
-    background-color: #cbc18f;
-}
-
 svg,
 svg g {
     fill: transparent;
