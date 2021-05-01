@@ -1680,6 +1680,19 @@ app-gridicon .iconSuperTitle {
     opacity: 50%;
 }
 
+app-gridicon.bonus .iconSuperTitle {
+    opacity: 40%;
+}
+
+app-gridicon.penalty .iconSuperTitle {
+    opacity: 30%;
+}
+
+.darkmode app-gridicon.bonus .iconSuperTitle,
+.darkmode app-gridicon.penalty .iconSuperTitle {
+    opacity: 50%;
+}
+
 app-gridicon .iconTitle div,
 app-gridicon .iconSuperTitle div {
     margin-top: auto;

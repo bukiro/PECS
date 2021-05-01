@@ -190,7 +190,7 @@
                                                     "Available "
                                                     : ""}}{{itemSet.name}}</header>
                                             </button>
-                                            <div [ngClass]="{'icon-list left-aligned':get_TileMode(), 'list-item':!get_TileMode()}"
+                                            <div [ngClass]="{'icon-list':get_TileMode(), 'list-item':!get_TileMode()}"
                                                 [ngStyle]="{'display':!visibleItems.length ? 'none' : 'flex' }"
                                                 *ngIf="get_ShowList()==listID || get_ShowList()=='All' || (get_ShowPurpose()=='scrollsavant' && get_ShowCreature()=='Character')">
                                                 <ng-container *ngFor="let item of visibleItems; trackBy:trackByIndex;">
@@ -198,8 +198,12 @@
                                                         *ngFor="let canUse of [get_CanUse(item)]; trackBy:trackByIndex">
                                                         <ng-template #ItemTitleTemplate>
                                                             <span>
-                                                                <i class="bi-x penalty" *ngIf="!get_TileMode() && canUse == false" [ngbTooltip]="'You are not trained with this item.'"></i>
-                                                                <i class="bi-check2 bonus" *ngIf="get_TileMode() && canUse" [ngbTooltip]="'You are trained with this item.'"></i>
+                                                                <i class="value bi-x penalty"
+                                                                    *ngIf="!get_TileMode() && canUse == false"
+                                                                    [ngbTooltip]="'You are not trained with this item.'"></i>
+                                                                <i class="value bi-check2 bonus"
+                                                                    *ngIf="!get_TileMode() && canUse"
+                                                                    [ngbTooltip]="'You are trained with this item.'"></i>
                                                                 {{(item.get_Name) ? item.get_Name() :
                                                                 item.name}}
                                                             </span>
@@ -245,13 +249,12 @@
                                                             </span>
                                                         </ng-template>
                                                         <ng-template #ItemTemplate>
+                                                            <header class="spellHeader newrow" *ngIf="get_TileMode()">
+                                                                <ng-container *ngTemplateOutlet="ItemTitleTemplate">
+                                                                </ng-container>
+                                                            </header>
                                                             <ng-container
                                                                 *ngIf="get_ShowPurpose()=='items' || get_ShowCreature()=='Companion'">
-                                                                <header class="spellHeader newrow"
-                                                                    *ngIf="get_TileMode()">
-                                                                    <ng-container *ngTemplateOutlet="ItemTitleTemplate">
-                                                                    </ng-container>
-                                                                </header>
                                                                 <div class="list-item" *ngIf="itemSet.name == 'Snares'">
                                                                     Snares cannot be bought or sold. They must be
                                                                     crafted and are immediately deployed upon creation.
@@ -356,7 +359,7 @@
                                                             </ng-container>-->
                                                             <ng-container *ngIf="!get_TileMode()">
                                                                 <div class="list-item">
-                                                                    <button class="newrow sublist-toggle left-aligned"
+                                                                    <button class="newrow sublist-toggle"
                                                                         [ngClass]="{'fancy-button':get_ShowPurpose()=='formulas' && get_ShowCreature()=='Character' && get_FormulasLearned(item.id).length}"
                                                                         (click)="toggle_Item(inventoryID)">
                                                                         <ng-container

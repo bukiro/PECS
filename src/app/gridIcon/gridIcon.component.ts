@@ -257,7 +257,7 @@ export class GridIconComponent implements OnInit {
         }
         if (this.item) {
             let value = "";
-            if ((this.item as Equipment)?.get_PotencyRune()) {
+            if ((this.item as Equipment)?.get_PotencyRune && (this.item as Equipment).get_PotencyRune()) {
                 value = "+" + (this.item as Equipment).get_PotencyRune().toString();
                 if ((this.item as Equipment)?.get_StrikingRune()) {
                     let striking = (this.item as Equipment).get_StrikingRune();
