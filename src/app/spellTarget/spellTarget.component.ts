@@ -1,9 +1,11 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ActivityGain } from '../ActivityGain';
 import { CharacterService } from '../character.service';
 import { ConditionsService } from '../conditions.service';
 import { Creature } from '../Creature';
 import { Feat } from '../Feat';
+import { ItemActivity } from '../ItemActivity';
 import { SavegameService } from '../savegame.service';
 import { Spell } from '../Spell';
 import { SpellCasting } from '../SpellCasting';
@@ -25,6 +27,8 @@ export class SpellTargetComponent implements OnInit {
     @Input()
     gain: SpellGain;
     @Input()
+    activityGain: ActivityGain|ItemActivity = null;
+    @Input()
     casting: SpellCasting = null;
     @Input()
     cannotCast: string = "";
@@ -38,6 +42,8 @@ export class SpellTargetComponent implements OnInit {
     showActions: boolean = false;
     @Input()
     showDismiss: boolean = false;
+    @Input()
+    dismissPhrase: boolean = false;
     @Output()
     castMessage = new EventEmitter<{ target: string, activated: boolean }>();
 
@@ -186,6 +192,16 @@ export class SpellTargetComponent implements OnInit {
         } else {
             return (this.gain.targets.filter(target => target.selected).length >= Math.min(this.gain.targets.length - (this.spell.cannotTargetCaster ? 1 : 0), targetNumber));
         }
+    }
+    
+    get_DeactivatePhrase() {
+        let phrase = this.dismissPhrase || "Dismiss <span class='actionIcon action1A'></span> or Stop Sustaining";
+        if (this.activityGain?.duration) {
+            phrase += " (Duration: " + this.get_Duration(this.activityGain?.duration) + ")"
+        } else if (this.gain.duration) {
+            phrase += " (Duration: " + this.get_Duration(this.gain?.duration) + ")"
+        }
+        return phrase;
     }
 
     get_Duration(turns: number, includeTurnState: boolean = true, inASentence: boolean = false) {

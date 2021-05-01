@@ -277,7 +277,10 @@ export class ActivitiesService {
                     if (cast.duration) {
                         cast.spellGain.duration = cast.duration;
                     }
-                    spellsService.process_Spell(creature, spellTarget, characterService, itemsService, conditionsService, null, cast.spellGain, librarySpell, cast.level, activated, true, false);
+                    if (activated) {
+                        cast.spellGain.target = spellTarget;
+                    }
+                    spellsService.process_Spell(creature, cast.spellGain.target, characterService, itemsService, conditionsService, null, cast.spellGain, librarySpell, cast.level, activated, true, false, gain);
                 }
             })
             if (!activated) {

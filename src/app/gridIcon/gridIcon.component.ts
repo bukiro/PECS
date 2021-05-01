@@ -5,6 +5,9 @@ import { NgbPopoverConfig, NgbTooltipConfig } from '@ng-bootstrap/ng-bootstrap';
 import { Effect } from '../Effect';
 import { Condition } from '../Condition';
 import { Spell } from '../Spell';
+import { Item } from '../Item';
+import { Equipment } from '../Equipment';
+import { Weapon } from '../Weapon';
 
 @Component({
     selector: 'app-gridIcon',
@@ -38,7 +41,9 @@ export class GridIconComponent implements OnInit {
     effect: Effect = null;
     @Input()
     spell: Spell = null;
-    
+    @Input()
+    item: Item = null;
+
     constructor(
         popoverConfig: NgbPopoverConfig,
         tooltipConfig: NgbTooltipConfig
@@ -82,8 +87,8 @@ export class GridIconComponent implements OnInit {
             }
         }
         if (this.spell?.actions) {
-            let actions = this.spell.actions.replace("minutes","min").replace("minute","min").replace(" to 2A","| <i class='bi-plus-circle'></i>").replace(" to 3A","| <i class='bi-plus-circle'></i>");
-            return "actionIcons|"+actions;
+            let actions = this.spell.actions.replace("minutes", "min").replace("minute", "min").replace(" to 2A", "| <i class='bi-plus-circle'></i>").replace(" to 3A", "| <i class='bi-plus-circle'></i>");
+            return "actionIcons|" + actions;
         }
         let subTitle = this.subTitle;
         //Convert icon- names into a <i> with that icon. Icons can be separated with |.
@@ -155,7 +160,7 @@ export class GridIconComponent implements OnInit {
                 iconDetail = this.feat.subType;
             }
         } else if (this.condition && !iconDetail) {
-            if (this.condition.choice.substr(0,6) == "Stage ") {
+            if (this.condition.choice.substr(0, 6) == "Stage ") {
                 iconDetail = this.condition.choice.replace("tage ", "");
                 return iconDetail;
             } else {
@@ -185,7 +190,7 @@ export class GridIconComponent implements OnInit {
         //For effect values, show the value as SuperTitle if up to 2 characters long. Longer values will be shown as Value instead.
         if (this.effect) {
             if (this.effect.toggle) {
-                superTitle ="";
+                superTitle = "";
             } else if (this.effect.setValue) {
                 superTitle = this.effect.setValue;
             } else if (this.effect.value) {
@@ -197,6 +202,42 @@ export class GridIconComponent implements OnInit {
         } else if (this.condition?.lockedByParent || this.condition?.valueLockedByParent) {
             //If a condition or its value is locked by its parent, show a lock.
             return "<i class='bi-lock'></i>";
+        }
+        if (this.item) {
+            if (this.item.constructor == Weapon) {
+                switch ((this.item as Weapon).group) {
+                    case "Axe":
+                        return "<i class='ra ra-axe'></i>";
+                    case "Bomb":
+                        return "<i class='ra ra-bomb-explosion'></i>";
+                    case "Bow":
+                        return "<i class='ra ra-crossbow'></i>";
+                    case "Brawling":
+                        return "<i class='ra ra-hand'></i>";
+                    case "Club":
+                        return "<i class='ra ra-spiked-mace'></i>";
+                    case "Dart":
+                        return "<i class='ra ra-kunai'></i>";
+                    case "Flail":
+                        return "<i class='ra ra-grappling-hook'></i>";
+                    case "Hammer":
+                        return "<i class='ra ra-flat-hammer'></i>";
+                    case "Knife":
+                        return "<i class='ra ra-plain-dagger'></i>";
+                    case "Pick":
+                        return "<i class='ra ra-mining-diamonds'></i>";
+                    case "Polearm":
+                        return "<i class='ra ra-halberd'></i>";
+                    case "Shield":
+                        return "<i class='ra ra-shield'></i>";
+                    case "Sling":
+                        return "<i class='ra ra-blaster'></i>";
+                    case "Spear":
+                        return "<i class='ra ra-spear-head'></i>";
+                    case "Sword":
+                        return "<i class='ra ra-sword'></i>";
+                }
+            }
         }
         if (superTitle.length <= 2 || superTitle.includes("<")) {
             return superTitle;
@@ -213,6 +254,44 @@ export class GridIconComponent implements OnInit {
             return this.effect.setValue;
         } else if (this.effect?.value?.length > 2) {
             return this.effect.value;
+        }
+        if (this.item) {
+            let value = "";
+            if ((this.item as Equipment)?.get_PotencyRune()) {
+                value = "+" + (this.item as Equipment).get_PotencyRune().toString();
+                if ((this.item as Equipment)?.get_StrikingRune()) {
+                    let striking = (this.item as Equipment).get_StrikingRune();
+                    switch (striking) {
+                        case 1:
+                            value += "S"
+                            break;
+                        case 2:
+                            value += "GS"
+                            break;
+                        case 1:
+                            value += "MS"
+                            break;
+                    }
+                }
+                if ((this.item as Equipment)?.get_ResilientRune()) {
+                    let resilient = (this.item as Equipment).get_ResilientRune();
+                    switch (resilient) {
+                        case 1:
+                            value += "S"
+                            break;
+                        case 2:
+                            value += "GS"
+                            break;
+                        case 1:
+                            value += "MS"
+                            break;
+                    }
+                }
+                if ((this.item as Equipment)?.propertyRunes.length) {
+                    value += "+";
+                }
+            }
+            return value;
         }
         return "";
     }

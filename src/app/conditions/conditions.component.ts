@@ -61,7 +61,7 @@ export class ConditionsComponent implements OnInit {
         popoverConfig.autoClose = "outside";
         popoverConfig.container = "body";
         //For touch compatibility, this openDelay prevents the popover from closing immediately on tap because a tap counts as hover and then click;
-        popoverConfig.openDelay = 1;
+        popoverConfig.openDelay = 50;
         popoverConfig.placement = "auto";
         popoverConfig.popoverClass = "list-item sublist";
         popoverConfig.triggers = "hover:click";
@@ -124,9 +124,12 @@ export class ConditionsComponent implements OnInit {
         this.set_NonPermanent();
     }
 
-    //If you don't use trackByIndex on certain inputs, you lose focus everytime the value changes. I don't get that, but I'm using it now.
     trackByIndex(index: number, obj: any): any {
         return index;
+    }
+
+    trackByName(index: number, obj: any): any {
+        return obj.name;
     }
 
     check_Filter() {

@@ -51,13 +51,13 @@ export class ActivityComponent implements OnInit {
         popoverConfig.autoClose = "outside";
         popoverConfig.container = "body";
         //For touch compatibility, this openDelay prevents the popover from closing immediately on tap because a tap counts as hover and then click;
-        popoverConfig.openDelay = 1;
+        popoverConfig.openDelay = 50;
         popoverConfig.placement = "auto";
         popoverConfig.popoverClass = "list-item sublist";
         popoverConfig.triggers = "hover:click";
         tooltipConfig.container = "body";
         //For touch compatibility, this openDelay prevents the tooltip from closing immediately on tap because a tap counts as hover and then click;
-        tooltipConfig.openDelay = 1;
+        tooltipConfig.openDelay = 100;
         tooltipConfig.triggers = "hover:click";
     }
 
@@ -276,10 +276,14 @@ export class ActivityComponent implements OnInit {
         return conditionSets;
     }
 
-    get_SpellConditions(spellCast: SpellCast) {
+    get_SpellConditions(spellCast: SpellCast, spellCastIndex: number) {
         //For all conditions that are included with this spell on this level, create an effectChoice on the gain at the index of this spellCast and set it to the default choice, if any. Add the name for later copyChoiceFrom actions.
         let conditionSets: { gain: ConditionGain, condition: Condition }[] = [];
         let gain = this.gain;
+        //Setup the spellEffectChoice collection for this SpellCast.
+        while (!gain.spellEffectChoices.length || gain.spellEffectChoices.length < spellCastIndex - 1) {
+            gain.spellEffectChoices.push([]);
+        }
         if (gain) {
             let spell = this.spellsService.get_Spells(spellCast.name)[0];
             spell.get_HeightenedConditions(spellCast.level)
@@ -290,11 +294,11 @@ export class ActivityComponent implements OnInit {
                     //Add the condition to the selection list. Conditions with no choices or with automatic choices will not be displayed.
                     conditionSets.push(conditionSet);
                     //Then if the gain doesn't have a choice at that index or the choice isn't among the condition's choices, insert or replace that choice on the gain.
-                    while (!gain.effectChoices.length || gain.effectChoices.length < index - 1) {
-                        gain.effectChoices.push({ condition: conditionSet.condition.name, choice: conditionSet.condition.choice });
+                    while (!gain.spellEffectChoices[spellCastIndex].length || gain.spellEffectChoices[spellCastIndex].length < index - 1) {
+                        gain.spellEffectChoices[spellCastIndex].push({ condition: conditionSet.condition.name, choice: conditionSet.condition.choice });
                     }
-                    if (!conditionSet.condition.$choices.includes(gain.effectChoices?.[index]?.choice)) {
-                        gain.effectChoices[index] = { condition: conditionSet.condition.name, choice: conditionSet.condition.choice };
+                    if (!conditionSet.condition.$choices.includes(gain.spellEffectChoices[spellCastIndex]?.[index]?.choice)) {
+                        gain.spellEffectChoices[spellCastIndex][index] = { condition: conditionSet.condition.name, choice: conditionSet.condition.choice };
                     }
                 })
         }

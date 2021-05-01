@@ -462,7 +462,7 @@ button.specialchoice:not(.fancy-button),
     position: absolute;
     width: 100%;
     font-weight: bold;
-    font-size: 1rem;
+    font-size: 1em;
     line-height: 1.4rem;
     text-align: center;
     z-index: 0
@@ -914,6 +914,7 @@ CHARACTERSHEET APP INNER STYLES
 }
 
 .fullsize-scroll-box {
+    position: relative;
     overflow-y: auto;
     width: 100%;
     height: 100%;
@@ -1354,6 +1355,9 @@ app-itemRunes,
 app-itemTalismans,
 app-itemAeonStones {
     width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: .3rem;
 }
 
     /* app-proficiency-form: the T E M L box for skills */
@@ -1418,7 +1422,7 @@ ngb-popover-window.list-item.sublist {
     color: inherit;
     display: flex;
     flex-direction: column;
-    gap: .6rem;
+    gap: .3rem;
 }
 
 .bs-popover-auto[x-placement^=top], .bs-popover-top {
@@ -1652,13 +1656,15 @@ app-gridicon .iconDetail {
 }
 
     /* larger centered background title, max 2 characters */
+    /* Using height: 100% causes performance issues, so we use height: 4rem.*/
 app-gridicon .iconTitle,
 app-gridicon .iconSuperTitle {
+    text-align: center;
     margin-top: 0 !important;
     display: flex;
     position: absolute;
-    width: 100%;
-    height: 100%;
+    width: calc(4rem - 8px);
+    height: calc(4rem - 8px);
 }
 
     /* large centered title, max 4 characters */
@@ -1678,7 +1684,8 @@ app-gridicon .iconTitle div,
 app-gridicon .iconSuperTitle div {
     margin-top: auto;
     margin-bottom: auto;
-    text-align: center !important;
+    text-align: center;
+    flex-grow: 1;
 }
 
     /* bottom-left subtitle with a little more room (5-8 characters) */

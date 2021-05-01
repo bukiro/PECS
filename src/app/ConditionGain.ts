@@ -1,11 +1,11 @@
 import { ActivityGain } from './ActivityGain';
 import { ItemGain } from './ItemGain';
-import { v1 as uuidv1 } from 'uuid';
+import { v4 as uuidv4 } from 'uuid';
 
 export class ConditionGain {
     public readonly _className: string = this.constructor.name;
     public addValue: number = 0;
-    public id = uuidv1();
+    public id = uuidv4();
     public foreignPlayerId: string = "";
     public apply: boolean = true;
     public decreasingValue: boolean = false;

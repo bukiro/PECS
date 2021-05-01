@@ -1,5 +1,5 @@
 import { ItemGain } from './ItemGain';
-import { v1 as uuidv1 } from 'uuid';
+import { v4 as uuidv4 } from 'uuid';
 import { SpellTarget } from './SpellTarget';
 
 export class SpellGain {
@@ -28,10 +28,10 @@ export class SpellGain {
     public source: string = "";
     //Copied from SpellChoice. For looking up details in the Choice - ideally always include the choice in the function so we don't have to look it up.
     public sourceId: string = "";
-    //For sustained spells, the target ("Character", "Companion", "Familiar") is saved here so any conditions can be removed when the spell ends.
+    //For sustained spells, the target is saved here so any conditions can be removed when the spell ends.
     public target: string = "";
     //The selected targets are saved here for casting a spell.
     public targets: SpellTarget[] = [];
     //Condition gains save this id so they can end the spell when the condition ends.
-    public id = uuidv1();
+    public id = uuidv4();
 }

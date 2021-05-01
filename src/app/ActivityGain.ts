@@ -25,5 +25,5 @@ export class ActivityGain {
     //If the activity causes a condition, in order to select a choice from the activity beforehand, the choice is saved here for each condition.
     public effectChoices: {condition: string, choice: string}[] = [];
     //If the activity casts a spell, in order to select a choice from the spell before casting it, the choice is saved here for each condition for each spell, recursively.
-    public spellEffectChoices: {condition: string, choice: string}[][] = [];
+    public spellEffectChoices: ({condition: string, choice: string}[])[] = [];
 }

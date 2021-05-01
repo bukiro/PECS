@@ -15,7 +15,7 @@ import { ItemProperty } from './ItemProperty';
 import { Item } from './Item';
 import { HeldItem } from './HeldItem';
 import { ActivityGain } from './ActivityGain';
-import { v1 as uuidv1 } from 'uuid';
+import { v4 as uuidv4 } from 'uuid';
 import { WeaponRune } from './WeaponRune';
 import { ArmorRune } from './ArmorRune';
 import { Potion } from './Potion';
@@ -300,11 +300,11 @@ export class ItemsService {
             newItem = this.cast_ItemByType(JSON.parse(JSON.stringify(item)));
         }
         if (newId) {
-            newItem.id = uuidv1();
+            newItem.id = uuidv4() ;
             newItem.activities?.forEach((activity: ItemActivity) => {
                 activity.castSpells?.forEach(cast => {
                     if (cast.spellGain) {
-                        cast.spellGain.id = uuidv1();
+                        cast.spellGain.id = uuidv4();
                     }
                 })
             })
@@ -445,7 +445,6 @@ export class ItemsService {
                 if (librarySpell) {
                     spellsService.process_Spell(creature, creature.type, characterService, itemsService, conditionsService, null, cast.spellGain, librarySpell, cast.level, true, true, false);
                 }
-
             })
         }
 

@@ -144,7 +144,6 @@ export class Equipment extends Item {
             }
             let secondary: string = "";
             let properties: string[] = [];
-            let material: string[] = [];
             if (this.moddable == "weapon" || (this.moddable == "-" && this.type == "weapons")) {
                 secondary = this.get_Striking(this.get_StrikingRune());
             } else if (this.moddable == "armor" || (this.moddable == "-" && this.type == "armors")) {
@@ -160,7 +159,7 @@ export class Equipment extends Item {
                 } else if (rune.name.includes(", Greater)")) {
                     name = "Greater " + rune.name.substr(0, rune.name.indexOf(", Greater)")) + ")";
                 }
-                properties.push(name);
+                words.push(name);
             })
             if (this["bladeAlly"]) {
                 this.bladeAllyRunes.forEach(rune => {
@@ -170,7 +169,7 @@ export class Equipment extends Item {
                     } else if (rune.name.includes(", Greater)")) {
                         name = "Greater " + rune.name.substr(0, rune.name.indexOf(", Greater)")) + ")";
                     }
-                    properties.push(name);
+                    words.push(name);
                 })
             }
             this.material.forEach(mat => {

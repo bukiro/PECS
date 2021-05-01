@@ -18,7 +18,8 @@ import { Scroll } from '../Scroll';
 import { SpellCasting } from '../SpellCasting';
 import { ItemCollection } from '../ItemCollection';
 import { OtherConsumableBomb } from '../OtherConsumableBomb';
-import { NgbTooltipConfig } from '@ng-bootstrap/ng-bootstrap';
+import { NgbPopoverConfig, NgbTooltipConfig } from '@ng-bootstrap/ng-bootstrap';
+import { AlchemicalBomb } from '../AlchemicalBomb';
 
 @Component({
     selector: 'app-items',
@@ -47,11 +48,19 @@ export class ItemsComponent implements OnInit {
         private changeDetector: ChangeDetectorRef,
         private itemsService: ItemsService,
         private characterService: CharacterService,
-        tooltipConfig: NgbTooltipConfig
+        tooltipConfig: NgbTooltipConfig,
+        popoverConfig: NgbPopoverConfig
     ) {
+        popoverConfig.autoClose = "outside";
+        popoverConfig.container = "body";
+        //For touch compatibility, this openDelay prevents the popover from closing immediately on tap because a tap counts as hover and then click;
+        popoverConfig.openDelay = 50;
+        popoverConfig.placement = "auto";
+        popoverConfig.popoverClass = "list-item sublist";
+        popoverConfig.triggers = "click";
         tooltipConfig.container = "body";
         //For touch compatibility, this openDelay prevents the tooltip from closing immediately on tap because a tap counts as hover and then click;
-        tooltipConfig.openDelay = 1;
+        tooltipConfig.openDelay = 100;
         tooltipConfig.triggers = "hover:click";
     }
 
@@ -67,6 +76,10 @@ export class ItemsComponent implements OnInit {
         return this.showList;
     }
 
+    get_InventoryMinimized() {
+        return this.characterService.get_Character().settings.inventoryMinimized;
+    }
+
     trackByIndex(index: number, obj: any): any {
         return index;
     }
@@ -75,7 +88,7 @@ export class ItemsComponent implements OnInit {
         return this.characterService.get_Character();
     }
 
-    toggle_Item(id: number) {
+    toggle_Item(id: number = 0) {
         if (this.showItem == id) {
             this.showItem = 0;
         } else {
@@ -95,6 +108,37 @@ export class ItemsComponent implements OnInit {
         return this.purpose;
     }
 
+    toggle_Creature(type) {
+        this.creature = type;
+        this.set_ItemsMenuTarget();
+    }
+
+    get_ShowCreature() {
+        return this.creature;
+    }
+
+    toggle_TileMode() {
+        this.get_Character().settings.itemsTileMode = !this.get_Character().settings.itemsTileMode;
+        this.characterService.set_ToChange("Character", "items");
+        this.characterService.process_ToChange();
+    }
+
+    get_TileMode() {
+        return this.get_Character().settings.itemsTileMode;
+    }
+
+    toggle_Sorting(type) {
+        this.sorting = type;
+    }
+
+    get_ShowSorting() {
+        return this.sorting;
+    }
+
+    get_CompanionAvailable() {
+        return this.characterService.get_CompanionAvailable();
+    }
+
     set_ItemsMenuTarget() {
         this.characterService.set_ItemsMenuTarget(this.creature);
     }
@@ -105,7 +149,11 @@ export class ItemsComponent implements OnInit {
 
     get_ItemsMenuTarget() {
         this.creature = this.characterService.get_ItemsMenuTarget();
-        return this.characterService.get_CompanionAvailable();
+        let companionAvailable = this.get_CompanionAvailable();
+        if (this.creature == "Companion" && !companionAvailable) {
+            this.characterService.set_ItemsMenuTarget("Character");
+        }
+        return companionAvailable;
     }
 
     check_Filter() {
@@ -148,6 +196,24 @@ export class ItemsComponent implements OnInit {
             }
             return 0;
         });
+    }
+
+    get_CanUse(item: Item) {
+        let canUse = undefined;
+        let character = this.get_Character();
+        if (item.constructor == Weapon) {
+            return (item as Weapon).profLevel(character, this.characterService, item, character.level) > 0;
+        }
+        if (item.constructor == Armor) {
+            return (item as Armor).profLevel(character, this.characterService, character.level) > 0;
+        }
+        if (item.constructor == AlchemicalBomb) {
+            return (item as AlchemicalBomb).profLevel(character, this.characterService, item, character.level) > 0;
+        }
+        if (item.constructor == OtherConsumableBomb) {
+            return (item as OtherConsumableBomb).profLevel(character, this.characterService, item, character.level) > 0;
+        }
+        return canUse;
     }
 
     get_Price(item: Item) {
@@ -578,7 +644,7 @@ export class ItemsComponent implements OnInit {
                 });
             this.characterService.get_ViewChanged()
                 .subscribe((view) => {
-                    if (view.creature.toLowerCase() == this.creature.toLowerCase() && ["items", "all"].includes(view.target.toLowerCase())) {
+                    if (["items", "all"].includes(view.target.toLowerCase())) {
                         this.changeDetector.detectChanges();
                     }
                 });

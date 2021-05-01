@@ -12,7 +12,7 @@
         </span>
     </ng-template>
     <div class="newrow"
-        *ngIf="!gain.active && !spell.cannotTargetCaster && ['self', 'ally'].includes(spell.target) && parameters.targetNumber != 0 && !spell.get_IsHostile()"
+        *ngIf="!activityGain?.active && !gain.active && !spell.cannotTargetCaster && ['self', 'ally'].includes(spell.target) && parameters.targetNumber != 0 && !spell.get_IsHostile()"
         [ngbTooltip]="cannotCast">
         <button class="newrow center-aligned" (click)="on_Cast('self', true)" [disabled]="cannotCast"
             [ngbTooltip]="parameters.isBloodMagicTrigger ? 'Casting this spell will trigger your blood magic power.' : (!parameters.canActivate ? 'The spell has no automatic effects.' : '')">
@@ -22,7 +22,7 @@
         </button>
     </div>
     <div class="newrow"
-        *ngIf="!gain.active && spell.target == 'ally' && parameters.targetNumber != 0 && !spell.get_IsHostile() && creature != 'Character'"
+        *ngIf="!activityGain?.active && !gain.active && spell.target == 'ally' && parameters.targetNumber != 0 && !spell.get_IsHostile() && creature != 'Character'"
         [ngbTooltip]="cannotCast">
         <button class="newrow center-aligned" (click)="on_Cast('Character', true)" [disabled]="cannotCast"
             [ngbTooltip]="parameters.isBloodMagicTrigger ? 'Casting this spell will trigger your blood magic power.' : (!parameters.canActivate ? 'The spell has no automatic effects.' : '')">
@@ -32,7 +32,7 @@
         </button>
     </div>
     <div class="newrow"
-        *ngIf="!gain.active && spell.target == 'companion' && parameters.targetNumber != 0 && !spell.get_IsHostile() && get_CompanionAvailable() && creature != 'Companion'"
+        *ngIf="!activityGain?.active && !gain.active && spell.target == 'companion' && parameters.targetNumber != 0 && !spell.get_IsHostile() && get_CompanionAvailable() && creature != 'Companion'"
         [ngbTooltip]="cannotCast">
         <button class="newrow center-aligned" (click)="on_Cast('Companion', true)" [disabled]="cannotCast"
             [ngbTooltip]="parameters.isBloodMagicTrigger ? 'Casting this spell will trigger your blood magic power.' : (!parameters.canActivate ? 'The spell has no automatic effects.' : '')">
@@ -42,7 +42,7 @@
         </button>
     </div>
     <div class="newrow"
-        *ngIf="!gain.active && spell.target == 'familiar' && parameters.targetNumber != 0 && !spell.get_IsHostile() && get_FamiliarAvailable() && creature != 'Familiar'"
+        *ngIf="!activityGain?.active && !gain.active && spell.target == 'familiar' && parameters.targetNumber != 0 && !spell.get_IsHostile() && get_FamiliarAvailable() && creature != 'Familiar'"
         [ngbTooltip]="cannotCast">
         <button class="newrow center-aligned" (click)="on_Cast('Familiar', true)" [disabled]="cannotCast"
             [ngbTooltip]="parameters.isBloodMagicTrigger ? 'Casting this spell will trigger your blood magic power.' : (!parameters.canActivate ? 'The spell has no automatic effects.' : '')">
@@ -52,7 +52,7 @@
         </button>
     </div>
     <ng-container
-        *ngIf="!gain.active && !spell.get_IsHostile() && (spell.target == 'area' || (spell.target == 'ally' && parameters.targetNumber != 0))">
+        *ngIf="!activityGain?.active && !gain.active && !spell.get_IsHostile() && (spell.target == 'area' || (spell.target == 'ally' && parameters.targetNumber != 0))">
         <ng-container *ngFor="let targets of [get_SpellTargets()]; trackBy:trackByIndex">
             <ng-template #SpellTargetModal let-modal>
                 <div class="modal-header">
@@ -117,7 +117,7 @@
             </div>
         </ng-container>
     </ng-container>
-    <div class="newrow" *ngIf=" !gain.active && ['ally', 'area', 'minion', 'object', 'other'].includes(spell.target)"
+    <div class="newrow" *ngIf="!activityGain?.active && !gain.active && ['ally', 'area', 'minion', 'object', 'other'].includes(spell.target)"
         [ngbTooltip]="cannotCast">
         <button class="newrow center-aligned" (click)="on_Cast('', true)" [disabled]="cannotCast"
             [ngbTooltip]="parameters.isBloodMagicTrigger ? 'Casting this spell will trigger your blood magic power.' : (!parameters.canActivateWithoutTarget ? 'The spell has no automatic effects.' : 'Cast with no specific target.')">
@@ -126,11 +126,9 @@
             </ng-container>
         </button>
     </div>
-    <div class="newrow" *ngIf="gain.active && showDismiss">
+    <div class="newrow" *ngIf="(activityGain?.active || gain.active) && showDismiss">
         <button class="newrow center-aligned" (click)="on_Cast(gain.target, false)">
-            <span>Dismiss <span class="actionIcon action1A"></span> or Stop Sustaining
-                {{gain.duration ? "(Duration: " + get_Duration(gain.duration) + ")" : ""}}
-            </span>
+            <span [innerHtml]="get_DeactivatePhrase()"></span>
         </button>
     </div>
 </ng-container>

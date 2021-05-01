@@ -8,20 +8,20 @@
     <header class="sectionHeader box-header">Inventory</header>
     <div class="loading" *ngIf="still_loading()">Loading</div>
     <ng-container *ngIf="!still_loading()">
-        <button class="fullsize-only list-item center-aligned"
+        <button class="fullsize-only list-item center-aligned" *ngIf="!itemStore"
             (click)="set_ItemsMenuTarget(creature); toggle_Menu('items')">
             Get Items
         </button>
         <header class="subsectionHeader" *ngIf="creature=='Character'">Currency</header>
         <div class="list-item" *ngIf="creature=='Character'">
-            <span [ngbTooltip]="'Platinum'">P</span>
-            <div class="value">{{this.characterService.get_Character().cash[0]}}</div>
-            <span [ngbTooltip]="'Gold'">G</span>
-            <div class="value">{{this.characterService.get_Character().cash[1]}}</div>
-            <span [ngbTooltip]="'Silver'">S</span>
-            <div class="value">{{this.characterService.get_Character().cash[2]}}</div>
-            <span [ngbTooltip]="'Copper'">C</span>
-            <div class="value">{{this.characterService.get_Character().cash[3]}}</div>
+            <strong>Platinum</strong>
+            <div class="value">{{get_Character().cash[0]}}</div>
+            <strong>Gold</strong>
+            <div class="value">{{get_Character().cash[1]}}</div>
+            <strong>Silver</strong>
+            <div class="value">{{get_Character().cash[2]}}</div>
+            <strong>Copper</strong>
+            <div class="value center-aligned">{{get_Character().cash[3]}}</div>
             <button class="center-aligned" [ngbTooltip]="'Exchange coins for higher currency (no higher than Gold).'"
                 (click)="sort_Cash();">Sort</button>
         </div>
@@ -445,8 +445,10 @@
                                                 (click)="on_ShieldHPChange(item, shieldDamage)">Damage</button>
                                         </span>
                                         <span class="hlist center-aligned">
-                                            <input class="number3" type="number" [(ngModel)]="shieldDamage" maxLength="3" min="0" max="{{item.get_MaxHP()}}">
-                                            <button [ngClass]="{'fancy-button':showShieldDamageSlider}" (click)="toggle_ShieldDamageSlider()">
+                                            <input class="number3" type="number" [(ngModel)]="shieldDamage"
+                                                maxLength="3" min="0" max="{{item.get_MaxHP()}}">
+                                            <button [ngClass]="{'fancy-button':showShieldDamageSlider}"
+                                                (click)="toggle_ShieldDamageSlider()">
                                                 <i class="bi-sliders"></i>
                                             </button>
                                         </span>
@@ -455,8 +457,8 @@
                                                 (click)="on_ShieldHPChange(item, -shieldDamage)">Repair</button>
                                         </span>
                                         <div class="fullwidth" [ngbCollapse]="!showShieldDamageSlider">
-                                            <input class="slider" [style.--name]="'\'Damage\''" type="range" min="0" max="{{item.get_MaxHP()}}"
-                                                [(ngModel)]="shieldDamage">
+                                            <input class="slider" [style.--name]="'\'Damage\''" type="range" min="0"
+                                                max="{{item.get_MaxHP()}}" [(ngModel)]="shieldDamage">
                                         </div>
                                     </div>
                                 </ng-container>

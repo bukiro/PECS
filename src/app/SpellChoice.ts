@@ -1,5 +1,5 @@
 import { SpellGain } from './SpellGain';
-import { v1 as uuidv1 } from 'uuid';
+import { v4 as uuidv4 } from 'uuid';
 
 export class SpellChoice {
     public readonly _className: string = this.constructor.name;
@@ -19,7 +19,7 @@ export class SpellChoice {
     public frequency: string = "";
     public filter: string[] = [];
     public traitFilter: string[] = [];
-    public id = uuidv1();
+    public id = uuidv4();
     //If insertClass is set, this SpellChoice is only granted by a feat if the character class name matches this name.
     // This is especially useful for class choices (hunter's edge, rogue racket, bloodline etc.) that don't give certain benefits when multiclassing.
     public insertClass: string = "";

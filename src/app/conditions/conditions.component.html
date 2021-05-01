@@ -19,7 +19,7 @@
         <div class="charactersheet-column-container">
             <div class="charactersheet-column">
                 <header class="sectionHeader">Duration: {{get_Duration()}}</header>
-                <div class="fullsize-scroll-box vlist">
+                <div class="vlist">
                     <div class="list-item">
                         <div class="newrow">
                             <button class="center-aligned" [ngClass]="{'fancy-button': permanent}"
@@ -62,6 +62,8 @@
                         <button (click)="toggle_Purpose('customeffects')"
                             [ngClass]="{'fancy-button':get_ShowPurpose()=='customeffects'}">Custom Effects</button>
                     </div>
+                </div>
+                <div class="fullsize-scroll-box vlist">
                     <ng-container *ngIf="get_ShowPurpose()=='conditions'">
                         <header class="sectionHeader">Add Conditions</header>
                         <div class="list-item">
@@ -81,11 +83,12 @@
                                     *ngIf="visibleConditions.length">
                                     <header class="sectionHeader">{{set}}</header>
                                 </button>
-                                <div [ngClass]="{'icon-list left-aligned':get_TileMode(), 'vlist':!get_TileMode()}"
+                                <div [ngClass]="{'icon-list left-aligned':get_TileMode(), 'list-item':!get_TileMode()}"
                                     *ngIf="visibleConditions.length && (get_ShowList()==set||get_ShowList()=='All')">
                                     <ng-container *ngFor="let condition of visibleConditions; trackBy:trackByIndex;">
                                         <ng-template #ConditionTemplate>
-                                            <strong>{{condition.name}}</strong>
+                                            <header class="spellHeader" *ngIf="get_TileMode()">{{condition.name}}
+                                            </header>
                                             <div class="newrow"
                                                 *ngIf="condition.hasValue && !(!permanent && condition.name == 'Stunned')">
                                                 <span>
@@ -135,11 +138,11 @@
                                                             *ngFor="let familiarAvailable of [get_FamiliarAvailable()]; trackBy:trackByIndex;">
                                                             <div class="newrow"
                                                                 *ngIf="!condition.restricted && defaultDuration != null">
-                                                                <header class="subsectionHeader"
-                                                                    style="margin-bottom:0;">Add
+                                                                <strong style="margin-bottom:0;">
+                                                                    Add
                                                                     {{get_Duration(defaultDuration.duration, true)}}
                                                                     ({{defaultDuration.source}})
-                                                                </header>
+                                                                </strong>
                                                                 <div class="newrow">
                                                                     <button
                                                                         (click)="add_Condition(get_Character(), condition, defaultDuration.duration, false)">
@@ -159,10 +162,10 @@
                                                                 </div>
                                                             </div>
                                                             <div class="newrow" *ngIf="!condition.restricted">
-                                                                <header class="subsectionHeader"
-                                                                    style="margin-bottom:0;">Add
+                                                                <strong style="margin-bottom:0;">
+                                                                    Add
                                                                     {{get_Duration(get_ConditionDuration(), true)}}
-                                                                </header>
+                                                                </strong>
                                                                 <div class="newrow">
                                                                     <button
                                                                         (click)="add_Condition(get_Character(), condition)">
@@ -221,7 +224,7 @@
                                             <button [ngbPopover]="ConditionTemplate" triggers="click"
                                                 (click)="toggle_Item('')">
                                                 <app-gridIcon class="condition" [ngbTooltip]="condition.name"
-                                                    [title]="condition.name"
+                                                    openDelay="100" [title]="condition.name"
                                                     [ngClass]="{'penalty':!condition.buff, 'bonus':condition.buff}">
                                                 </app-gridIcon>
                                             </button>
@@ -328,21 +331,18 @@
                 </div>
             </div>
             <div class="charactersheet-column">
-                <header class="sectionHeader">Current conditions & effects</header>
                 <div class="list-item newrow" *ngIf="get_CompanionAvailable() || get_FamiliarAvailable()">
-                    <button [ngClass]="{'fancy-button':get_ShowCreature()=='Character'}"
+                    <button class="center-aligned" [ngClass]="{'fancy-button':get_ShowCreature()=='Character'}"
                         (click)="toggle_Creature('Character')">Character</button>
-                    <button [ngClass]="{'fancy-button':get_ShowCreature()=='Companion'}"
+                    <button class="center-aligned" [ngClass]="{'fancy-button':get_ShowCreature()=='Companion'}"
                         *ngIf="get_CompanionAvailable()" (click)="toggle_Creature('Companion')">Companion</button>
-                    <button [ngClass]="{'fancy-button':get_ShowCreature()=='Familiar'}" *ngIf="get_FamiliarAvailable()"
-                        (click)="toggle_Creature('Familiar')">Familiar</button>
+                    <button class="center-aligned" [ngClass]="{'fancy-button':get_ShowCreature()=='Familiar'}"
+                        *ngIf="get_FamiliarAvailable()" (click)="toggle_Creature('Familiar')">Familiar</button>
                 </div>
-                <div class="fullsize-scroll-box vlist">
-                    <div class="list-item">
-                        <app-effects class="fullwidth" [creature]="get_ShowCreature()" [fullDisplay]="true"
-                            [sheetSide]="'right'">
-                        </app-effects>
-                    </div>
+                <div class="fullsize-scroll-box">
+                    <app-effects class="fullwidth" [creature]="get_ShowCreature()" [fullDisplay]="true"
+                        [sheetSide]="'right'">
+                    </app-effects>
                 </div>
             </div>
         </div>

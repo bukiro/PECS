@@ -34,7 +34,7 @@ export class TimeComponent implements OnInit {
     ) {
         tooltipConfig.container = "body";
         //For touch compatibility, this openDelay prevents the tooltip from closing immediately on tap because a tap counts as hover and then click;
-        tooltipConfig.openDelay = 1;
+        tooltipConfig.openDelay = 100;
         tooltipConfig.triggers = "hover:click";
     }
 

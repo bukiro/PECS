@@ -11,6 +11,7 @@ import * as json_spells from '../assets/json/spells';
 import { Creature } from './Creature';
 import { SpellChoice } from './SpellChoice';
 import { SpellTarget } from './SpellTarget';
+import { ActivityGain } from './ActivityGain';
 
 @Injectable({
     providedIn: 'root'
@@ -51,7 +52,7 @@ export class SpellsService {
         }
     }
 
-    process_Spell(creature: Creature, target: string = "", characterService: CharacterService, itemsService: ItemsService, conditionsService: ConditionsService, casting: SpellCasting, gain: SpellGain, spell: Spell, level: number, activated: boolean, manual: boolean = false, changeAfter: boolean = true) {
+    process_Spell(creature: Creature, target: string = "", characterService: CharacterService, itemsService: ItemsService, conditionsService: ConditionsService, casting: SpellCasting, gain: SpellGain, spell: Spell, level: number, activated: boolean, manual: boolean = false, changeAfter: boolean = true, activityGain: ActivityGain = null) {
 
         //Cantrips and Focus spells are automatically heightened to your maximum available spell level.
         //If a spell is cast with a lower level than its minimum, the level is raised to the minimum.
@@ -89,6 +90,10 @@ export class SpellsService {
             })
             gain.duration = customDuration || spell.sustained;
             characterService.set_ToChange(creature.type, "spellbook");
+            gain.target = target;
+        } else if (activated && activityGain?.active) {
+            gain.active = true;
+            gain.duration = activityGain?.duration;
             gain.target = target;
         } else {
             gain.active = false;
@@ -276,7 +281,7 @@ export class SpellsService {
                     let conditionTargets: (Creature | SpellTarget)[] = (conditionGain.targetFilter == "caster" ? [creature] : targets);
                     conditionTargets.filter(target => target.constructor != SpellTarget).forEach(target => {
                         characterService.get_AppliedConditions(target as Creature, conditionGain.name)
-                            .filter(existingConditionGain => existingConditionGain.source == conditionGain.source)
+                            .filter(existingConditionGain => existingConditionGain.source == conditionGain.source && existingConditionGain.spellGainID == (gain?.id || ""))
                             .forEach(existingConditionGain => {
                                 characterService.remove_Condition(target as Creature, existingConditionGain, false);
                             });

@@ -3,13 +3,13 @@ import { Health } from './Health';
 import { Speed } from './Speed';
 import { Bulk } from './Bulk';
 import { ConditionGain } from './ConditionGain';
-import { v1 as uuidv1 } from 'uuid';
+import { v4 as uuidv4 } from 'uuid';
 import { EffectGain } from './EffectGain';
 import { Skill } from './Skill';
 
 export class Creature {
     public name: string = "";
-    public id = uuidv1();
+    public id = uuidv4();
     public type: string = "";
     public level: number = 1;
     public customSkills: Skill[] = [];

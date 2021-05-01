@@ -1,8 +1,8 @@
 import { ConditionGain } from './ConditionGain';
-import { v1 as uuidv1 } from 'uuid';
+import { v4 as uuidv4 } from 'uuid';
 
 export class PlayerMessage {
-    public id = uuidv1();
+    public id = uuidv4();
     //The recipient is the character id of the character who will receive the message.
     public recipientId: string = "";
     //The sender is the character id of the character who sent the message.

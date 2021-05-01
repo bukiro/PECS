@@ -335,7 +335,7 @@ export class CharacterService {
         return this.itemsMenuTarget;
     }
 
-    set_ItemsMenuTarget(target: string) {
+    set_ItemsMenuTarget(target: string = "Character") {
         this.itemsMenuTarget = target;
         this.set_Changed("itemstore");
     }

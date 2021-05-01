@@ -1,4 +1,4 @@
-import { v1 as uuidv1 } from 'uuid';
+import { v4 as uuidv4 } from 'uuid';
 import { SpellChoice } from './SpellChoice';
 import { ItemActivity } from './ItemActivity';
 import { Oil } from './Oil';
@@ -35,7 +35,7 @@ export class Item {
     //Set only if the item is granted via an ItemGain
     public grantedBy: string = "";
     //Every item gets an ID to reference in activities or other items.
-    public id = uuidv1();
+    public id = uuidv4();
     //Theoretical Level before which the player should not have this item
     public level: number = 0;
     //Base name of the item, may be expanded by rune names for equipment

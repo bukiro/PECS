@@ -51,7 +51,7 @@ export class AttacksComponent implements OnInit {
         popoverConfig.autoClose = "outside";
         popoverConfig.container = "body";
         //For touch compatibility, this openDelay prevents the popover from closing immediately on tap because a tap counts as hover and then click;
-        popoverConfig.openDelay = 100;
+        popoverConfig.openDelay = 50;
         popoverConfig.placement = "auto";
         popoverConfig.popoverClass = "list-item sublist";
         popoverConfig.triggers = "click";

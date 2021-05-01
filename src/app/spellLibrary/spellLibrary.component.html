@@ -114,7 +114,7 @@
                                             <header class="sectionHeader" *ngIf="level == 0">Cantrips</header>
                                             <header class="sectionHeader" *ngIf="level > 0">{{"Level "+level}}</header>
                                         </button>
-                                        <div [ngClass]="{'icon-list left-aligned':get_TileMode(), 'vlist':!get_TileMode()}"
+                                        <div [ngClass]="{'icon-list left-aligned':get_TileMode(), 'list-item':!get_TileMode()}"
                                             *ngIf="visibleSpells.length && get_ShowList()==level||get_ShowList()==-2">
                                             <ng-container *ngFor="let spell of visibleSpells; trackBy:trackByIndex;">
                                                 <ng-template #SpellTemplate>
@@ -181,20 +181,15 @@
                                                         <i class='ra ra-crown'></i>&nbsp;Remove from Spell Mastery
                                                         selection
                                                     </button>
-                                                    <div class="newrow" *ngIf="get_TileMode()">
-                                                        <cite class="trait" *ngIf="spell.traits.includes('Rare')"
-                                                            [ngbPopover]="get_Traits('Rare')[0]?.desc">Rare</cite>
-                                                        <cite class="trait" *ngIf="spell.traits.includes('Uncommon')"
-                                                            [ngbPopover]="get_Traits('Uncommon')[0]?.desc">Uncommon</cite>
-                                                    </div>
                                                     <div class="list-item">
                                                         <strong>
-                                                            Show spells on level
+                                                            Show spell on level
                                                         </strong>
                                                         <span>
                                                             <select [(ngModel)]="showLevel">
                                                                 <option
                                                                     *ngFor="let levelOption of [0,1,2,3,4,5,6,7,8,9,10]; trackBy:trackByIndex;"
+                                                                    [disabled]="levelOption && spell.level < levelOption"
                                                                     [ngValue]="levelOption">
                                                                     {{levelOption == 0 ? "Default" : levelOption}}
                                                                 </option>
@@ -245,15 +240,15 @@
                                                         [ngClass]="{'fancy-button choicecleared':get_SpellsLearned(spell.name).length}"
                                                         [ngbPopover]="SpellTemplate" triggers="click"
                                                         (click)="toggle_Item()">
-                                                        <app-gridIcon class="condition" [ngClass]="{'fancy-button':get_SpellsLearned(spell.name).length, 'penalty':spell.get_IsHostile(), 'bonus':!spell.get_IsHostile()}"
-                                                            [ngbTooltip]="SpellTitleTemplate" [title]="spell.name"
+                                                        <app-gridIcon class="condition"
+                                                            [ngClass]="{'fancy-button':get_SpellsLearned(spell.name).length, 'penalty':spell.get_IsHostile(), 'bonus':!spell.get_IsHostile()}"
+                                                            [ngbTooltip]="SpellTitleTemplate" openDelay="100" [title]="spell.name"
                                                             [detail]="spell.traits.includes('Rare') ? 'R' : (spell.traits.includes('Uncommon') ? 'U' : '')"
                                                             [superTitle]="get_SpellMasterySelected(wizardCasting, spell) ? 'icon-ra ra-crown' : ''"
                                                             [spell]="spell">
                                                         </app-gridIcon>
                                                     </button>
                                                 </ng-container>
-
                                             </ng-container>
                                         </div>
                                     </ng-container>
@@ -264,8 +259,10 @@
                 </div>
             </div>
             <div class="charactersheet-column">
-                <app-spellbook [ngClass]="{'minimized':(get_SpellbookMinimized())}" [sheetSide]="'right'">
-                </app-spellbook>
+                <div class="fullsize-scroll-box">
+                    <app-spellbook [ngClass]="{'minimized':(get_SpellbookMinimized())}" [sheetSide]="'right'">
+                    </app-spellbook>
+                </div>
             </div>
         </div>
     </ng-container>

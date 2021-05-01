@@ -419,11 +419,21 @@
                         "_className": "SpellCast",
                         "duration": -1,
                         "level": 2,
+                        "overrideChoices": [
+                            {
+                                "condition": "Pest Form",
+                                "choice": "Non-Flying"
+                            }
+                        ],
+                        "hideChoices": [
+                            "Pest Form"
+                        ],
                         "name": "Pest Form"
                     }
                 ],
                 "desc": "You touch your animal companion to transform it into a nonthreatening Tiny creature of the same family or a similar creature (for instance, a house cat instead of a tiger, or a puppy instead of a wolf). This has the effects of 2nd level pest form. The effect lasts until you Dismiss it.",
                 "exclusiveActivityID": "1",
+                "inputRequired": "Use this activation if the companion can't fly.",
                 "name": "Pest Form",
                 "source": "a55f7068-9a05-11ea-bb37-0242ac130002",
                 "toggle": true,
@@ -443,6 +453,15 @@
                         "_className": "SpellCast",
                         "duration": -1,
                         "level": 4,
+                        "overrideChoices": [
+                            {
+                                "condition": "Pest Form",
+                                "choice": "Flying"
+                            }
+                        ],
+                        "hideChoices": [
+                            "Pest Form"
+                        ],
                         "name": "Pest Form"
                     }
                 ],
