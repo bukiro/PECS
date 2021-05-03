@@ -1632,17 +1632,21 @@ app-gridicon.fancy-button {
     background-color: white;
 }
 
-.fullsize-scroll-box .icon-list app-gridicon:not(.fancy-button):not(.condition) {
+app-gridicon.inactive-button {
+    border-color: grey;
+}
+
+.icon-list app-gridicon:not(.fancy-button):not(.condition):not(.effect) {
     background-color: #CCC;
 }
 
-.darkmode app-gridicon:not(.fancy-button),
-.darkmode .fullsize-scroll-box .icon-list app-gridicon:not(.fancy-button):not(.condition) {
+.darkmode app-gridicon:not(.fancy-button):not(.condition):not(.effect),
+.darkmode .icon-list app-gridicon:not(.fancy-button):not(.condition):not(.effect) {
     background-color: #202020;
 }
 
-.darkmode app-gridicon:not(.fancy-button),
-.darkmode .fullsize-scroll-box .icon-list :not(.inactive-button) > app-gridicon:not(.fancy-button):not(.condition) {
+.darkmode app-gridicon:not(.fancy-button):not(.condition):not(.effect),
+.darkmode .icon-list :not(.inactive-button) > app-gridicon:not(.fancy-button):not(.condition):not(.effect) {
     background-color: #202020;
     color: inherit;
 }

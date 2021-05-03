@@ -22,126 +22,123 @@
     </button>
     <div class="charactersheet-column-container">
         <div class="charactersheet-column">
-            <div class="fullsize-scroll-box vlist">
-                <div class="loading" *ngIf="still_loading()">Loading</div>
-                <ng-container *ngIf="!still_loading() && get_Character().class && get_SpellsMenuState()=='in'">
-                    <div class="fullsize-scroll-box vlist">
-                        <div class="list-item" *ngIf="get_HasSpellChoices()">
+            <div class="loading" *ngIf="still_loading()">Loading</div>
+            <ng-container *ngIf="!still_loading() && get_Character().class && get_SpellsMenuState()=='in'">
+                <div class="fullsize-scroll-box vlist">
+                    <div class="list-item" *ngIf="get_HasSpellChoices()">
+                        <span>
+                            <input id="showHeightened" type="checkbox"
+                                [(ngModel)]="get_Character().settings.showHeightenedSpells">
+                            <label for="showHeightened">&nbsp;Show heightened spells</label>
+                        </span>
+                    </div>
+                    <ng-container *ngFor="let casting of get_SpellCastings(); let index = index; trackBy:trackByIndex;">
+                        <header class="sectionHeader">{{(casting.className + " " + casting.tradition +
+                            ((casting.castingType ==
+                            "Focus") ? (" " + casting.source) : " Spells")).trim()}}
+                            <span class="lower" *ngIf="['Prepared', 'Spontaneous'].includes(casting.castingType)">
+                                <span class="lower">
+                                    {{casting.castingType}}
+                                </span>
+                            </span>
+                        </header>
+                        <app-tags [creature]="'Character'"
+                            [objectName]="casting.className + ' ' + casting.castingType + ' Spells'" [showTraits]=true
+                            [showFeats]=true [showItems]=true [showActivities]=true [showConditions]=true
+                            [showEffects]=true>
+                        </app-tags>
+                        <div class="list-item" *ngIf="get_NeedSpellbook(casting)">
                             <span>
-                                <input id="showHeightened" type="checkbox"
-                                    [(ngModel)]="get_Character().settings.showHeightenedSpells">
-                                <label for="showHeightened">&nbsp;Show heightened spells</label>
+                                <input id="allowBorrow" type="checkbox" [(ngModel)]="allowBorrow">
+                                <label for="allowBorrow">
+                                    Borrow spells
+                                </label>
+                                <i class="bi-question-circle"
+                                    [ngbPopover]="'Allow selecting spells not in your spellbook, assuming you borrow them from another spellcaster or a different book or scroll.'"></i>
                             </span>
                         </div>
-                        <ng-container
-                            *ngFor="let casting of get_SpellCastings(); let index = index; trackBy:trackByIndex;">
-                            <header class="sectionHeader">{{(casting.className + " " + casting.tradition +
-                                ((casting.castingType ==
-                                "Focus") ? (" " + casting.source) : " Spells")).trim()}}
-                                <span class="lower" *ngIf="['Prepared', 'Spontaneous'].includes(casting.castingType)">
-                                    <span class="lower">
-                                        {{casting.castingType}}
-                                    </span>
-                                </span>
-                            </header>
-                            <app-tags [creature]="'Character'"
-                                [objectName]="casting.className + ' ' + casting.castingType + ' Spells'"
-                                [showTraits]=true [showFeats]=true [showItems]=true [showActivities]=true
-                                [showConditions]=true [showEffects]=true>
-                            </app-tags>
-                            <div class="list-item" *ngIf="get_NeedSpellbook(casting)">
+                        <div class="list-item" *ngIf="apply_SpellSubstitution(casting)">
+                            <div class="newrow">
                                 <span>
-                                    <input id="allowBorrow" type="checkbox" [(ngModel)]="allowBorrow">
-                                    <label for="allowBorrow">
-                                        Borrow spells
+                                    <input id="allowSpellSubstitution" type="checkbox" [(ngModel)]="prepared">
+                                    <label for="allowSpellSubstitution">
+                                        Spell Substitution
                                     </label>
                                     <i class="bi-question-circle"
-                                        [ngbPopover]="'Allow selecting spells not in your spellbook, assuming you borrow them from another spellcaster or a different book or scroll.'"></i>
+                                        [ngbPopover]="'Selected spells are immediately prepared, as if you had used spell substitution to replace a currently prepared spell.'"></i>
                                 </span>
                             </div>
-                            <div class="list-item" *ngIf="apply_SpellSubstitution(casting)">
-                                <div class="newrow">
-                                    <span>
-                                        <input id="allowSpellSubstitution" type="checkbox" [(ngModel)]="prepared">
-                                        <label for="allowSpellSubstitution">
-                                            Spell Substitution
-                                        </label>
-                                        <i class="bi-question-circle"
-                                            [ngbPopover]="'Selected spells are immediately prepared, as if you had used spell substitution to replace a currently prepared spell.'"></i>
-                                    </span>
-                                </div>
-                                <app-tags [creature]="'Character'" [objectName]="'Spell Substitution'" [showTraits]=true
-                                    [showFeats]=true [showItems]=true [showActivities]=true [showConditions]=true
-                                    [showEffects]=true></app-tags>
-                            </div>
-                            <ng-container
-                                *ngFor="let level of [-1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]; trackBy:trackByIndex;">
-                                <ng-container *ngIf="level <= get_MaxSpellLevel()">
-                                    <header class="subsectionHeader"
-                                        *ngIf="level == -1 && casting.castingType == 'Focus' && get_SpellChoices(casting, level).length">
-                                        Focus Spells</header>
-                                    <header class="subsectionHeader"
-                                        *ngIf="level == 0 && casting.castingType == 'Focus' && get_SpellChoices(casting, level).length">
-                                        Focus Cantrips</header>
-                                    <header class="subsectionHeader"
-                                        *ngIf="level == 0 && casting.castingType != 'Focus' && get_SpellChoices(casting, level).length">
-                                        Cantrips</header>
-                                    <header class="subsectionHeader"
-                                        *ngIf="level > 0 && casting.castingType != 'Focus' && get_SpellChoices(casting, level).length">
-                                        {{"Level "+level}}</header>
-                                    <!--Fixed information-->
-                                    <div class="fullsize-only list-item"
-                                        *ngIf="get_SpellsTaken(1, get_Character().level, level, '', casting, '', '', true).length">
-                                        <button class="newrow sublist-toggle fancy-button"
-                                            (click)="toggle_Choice(index+'showFixedChanges'+level)">
-                                            Show fixed spells
-                                        </button>
-                                        <div class="list-item sublist fancy-list"
-                                            *ngIf="get_ShowChoice()==index+'showFixedChanges'+level">
-                                            <!--Fixed Spells gained-->
-                                            <div class="list-item"
-                                                *ngFor="let spellTaken of get_SpellsTaken(1, get_Character().level, level, '', casting, '', '', true); trackBy:trackByIndex;">
-                                                {{spellTaken.gain.name}} {{spellTaken.gain.source ?
-                                                "("+spellTaken.gain.source+")" :
-                                                ""}}
-                                                <ng-container
-                                                    *ngFor="let spellID of [spellTaken.choice.id+spellTaken.gain.name+'desc']">
-                                                    <button class="right-bound" (click)="toggle_Spell(spellID)"
-                                                        [ngClass]="{'fancy-button':get_ShowSpell()==spellID}">
-                                                        {{get_ShowSpell()==spellID ? "Hide" : "Show"}} Description
-                                                    </button>
-                                                    <div class="newrow left-aligned" *ngIf="get_ShowSpell()==spellID">
-                                                        <app-spell [spell]="get_Spells(spellTaken.gain.name)[0]"
-                                                            [spellLevel]="level">
-                                                        </app-spell>
-                                                    </div>
-                                                </ng-container>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!--Spell choices-->
-                                    <ng-container
-                                        *ngFor="let choices of [get_SpellChoices(casting, level)]; trackBy:trackByIndex;">
-                                        <div [ngClass]="{'icon-list':get_TileMode()}" *ngIf="choices.length"
-                                            style="min-height: auto">
-                                            <ng-container *ngFor="let choice of choices; trackBy:trackByIndex;">
-                                                <app-spellchoice (showChoiceMessage)="receive_ChoiceMessage($event)"
-                                                    (showSpellMessage)="receive_SpellMessage($event)"
-                                                    [spellCasting]="casting" [choice]="choice"
-                                                    [showHeightened]="get_Character().settings.showHeightenedSpells"
-                                                    [allowBorrow]="allowBorrow" [showChoice]="showChoice"
-                                                    [showSpell]="showSpell" [level]="level" [prepared]="prepared"
-                                                    [spellbook]="true" [showContent]="false"
-                                                    [tileMode]="get_TileMode()"></app-spellchoice>
+                            <app-tags [creature]="'Character'" [objectName]="'Spell Substitution'" [showTraits]=true
+                                [showFeats]=true [showItems]=true [showActivities]=true [showConditions]=true
+                                [showEffects]=true></app-tags>
+                        </div>
+                        <ng-container
+                            *ngFor="let level of [-1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]; trackBy:trackByIndex;">
+                            <ng-container *ngIf="level <= get_MaxSpellLevel()">
+                                <header class="subsectionHeader"
+                                    *ngIf="level == -1 && casting.castingType == 'Focus' && get_SpellChoices(casting, level).length">
+                                    Focus Spells</header>
+                                <header class="subsectionHeader"
+                                    *ngIf="level == 0 && casting.castingType == 'Focus' && get_SpellChoices(casting, level).length">
+                                    Focus Cantrips</header>
+                                <header class="subsectionHeader"
+                                    *ngIf="level == 0 && casting.castingType != 'Focus' && get_SpellChoices(casting, level).length">
+                                    Cantrips</header>
+                                <header class="subsectionHeader"
+                                    *ngIf="level > 0 && casting.castingType != 'Focus' && get_SpellChoices(casting, level).length">
+                                    {{"Level "+level}}</header>
+                                <!--Fixed information-->
+                                <div class="fullsize-only list-item"
+                                    *ngIf="get_SpellsTaken(1, get_Character().level, level, '', casting, '', '', true).length">
+                                    <button class="newrow sublist-toggle fancy-button"
+                                        (click)="toggle_Choice(index+'showFixedChanges'+level)">
+                                        Show fixed spells
+                                    </button>
+                                    <div class="list-item sublist fancy-list"
+                                        *ngIf="get_ShowChoice()==index+'showFixedChanges'+level">
+                                        <!--Fixed Spells gained-->
+                                        <div class="list-item"
+                                            *ngFor="let spellTaken of get_SpellsTaken(1, get_Character().level, level, '', casting, '', '', true); trackBy:trackByIndex;">
+                                            {{spellTaken.gain.name}} {{spellTaken.gain.source ?
+                                            "("+spellTaken.gain.source+")" :
+                                            ""}}
+                                            <ng-container
+                                                *ngFor="let spellID of [spellTaken.choice.id+spellTaken.gain.name+'desc']">
+                                                <button class="right-bound" (click)="toggle_Spell(spellID)"
+                                                    [ngClass]="{'fancy-button':get_ShowSpell()==spellID}">
+                                                    {{get_ShowSpell()==spellID ? "Hide" : "Show"}} Description
+                                                </button>
+                                                <div class="newrow left-aligned" *ngIf="get_ShowSpell()==spellID">
+                                                    <app-spell [spell]="get_Spells(spellTaken.gain.name)[0]"
+                                                        [spellLevel]="level">
+                                                    </app-spell>
+                                                </div>
                                             </ng-container>
                                         </div>
-                                    </ng-container>
+                                    </div>
+                                </div>
+                                <!--Spell choices-->
+                                <ng-container
+                                    *ngFor="let choices of [get_SpellChoices(casting, level)]; trackBy:trackByIndex;">
+                                    <div [ngClass]="{'icon-list':get_TileMode()}" *ngIf="choices.length"
+                                        style="min-height: auto">
+                                        <ng-container *ngFor="let choice of choices; trackBy:trackByIndex;">
+                                            <app-spellchoice (showChoiceMessage)="receive_ChoiceMessage($event)"
+                                                (showSpellMessage)="receive_SpellMessage($event)"
+                                                [spellCasting]="casting" [choice]="choice"
+                                                [showHeightened]="get_Character().settings.showHeightenedSpells"
+                                                [allowBorrow]="allowBorrow" [showChoice]="showChoice"
+                                                [showSpell]="showSpell" [level]="level" [prepared]="prepared"
+                                                [spellbook]="true" [showContent]="false" [tileMode]="get_TileMode()">
+                                            </app-spellchoice>
+                                        </ng-container>
+                                    </div>
                                 </ng-container>
                             </ng-container>
                         </ng-container>
-                    </div>
-                </ng-container>
-            </div>
+                    </ng-container>
+                </div>
+            </ng-container>
         </div>
         <div class="charactersheet-column">
             <div id="spells-choiceArea-top" style="margin-top:-.3em;"></div>

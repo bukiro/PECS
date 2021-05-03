@@ -122,14 +122,17 @@ Internal To Do list
 - [ ] Stretch Goal: Exporting statblock and files for other tools (e.g. Foundry VTT)
 
 Active to-do:
+- Implement choice area content and tile mode for fixed spells
+- Add Load as GM button that prevents receiving effects (and saving?)
 
 Test:
 
 Next steps:
+- Implement targets and target selection for activities
+- Implement tile mode for activities
 - Possibly Create tag that automatically inserts a dice rolling button for the included text
 - Implement manual mode
 - Quick Effects button for Skills and Attacks (and quick removal button for manual effects)
-- Implement Icons for Inventory and Spells
 - Gnome feats
 - Hobgoblin feats
 - Leshy feats

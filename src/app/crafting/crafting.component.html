@@ -282,10 +282,8 @@
                 </div>
             </div>
             <div class="charactersheet-column">
-                <div class="fullsize-scroll-box">
-                    <app-inventory [itemStore]="true" id="ItemStore-inventory" [sheetSide]="'right'"
-                        [ngClass]="{'minimized':(get_InventoryMinimized())}"></app-inventory>
-                </div>
+                <app-inventory [itemStore]="true" id="ItemStore-inventory" [sheetSide]="'right'"
+                    [ngClass]="{'minimized':(get_InventoryMinimized())}"></app-inventory>
             </div>
         </div>
     </ng-container>

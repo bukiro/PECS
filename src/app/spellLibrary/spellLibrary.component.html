@@ -242,7 +242,8 @@
                                                         (click)="toggle_Item()">
                                                         <app-gridIcon class="condition"
                                                             [ngClass]="{'fancy-button':get_SpellsLearned(spell.name).length, 'penalty':spell.get_IsHostile(), 'bonus':!spell.get_IsHostile()}"
-                                                            [ngbTooltip]="SpellTitleTemplate" openDelay="100" [title]="spell.name"
+                                                            [ngbTooltip]="SpellTitleTemplate" openDelay="100"
+                                                            [title]="spell.name"
                                                             [detail]="spell.traits.includes('Rare') ? 'R' : (spell.traits.includes('Uncommon') ? 'U' : '')"
                                                             [superTitle]="get_SpellMasterySelected(wizardCasting, spell) ? 'icon-ra ra-crown' : ''"
                                                             [spell]="spell">
@@ -259,10 +260,8 @@
                 </div>
             </div>
             <div class="charactersheet-column">
-                <div class="fullsize-scroll-box">
-                    <app-spellbook [ngClass]="{'minimized':(get_SpellbookMinimized())}" [sheetSide]="'right'">
-                    </app-spellbook>
-                </div>
+                <app-spellbook [ngClass]="{'minimized':(get_SpellbookMinimized())}" [sheetSide]="'right'">
+                </app-spellbook>
             </div>
         </div>
     </ng-container>

@@ -208,9 +208,10 @@ export class GridIconComponent implements OnInit {
     get_IconSuperTitle() {
         let superTitle: string = this.superTitle;
         //Convert icon- names into a <i> with that icon. Icons can be separated with |.
+        // There should only be one icon, ideally.
         superTitle = superTitle.split("|").map(split => {
             if (split.substr(0, 5) == "icon-") {
-                return "<i class='" + superTitle.substr(5) + "'></i>"
+                return "<i class='" + split.substr(5) + "'></i>"
             } else {
                 return split;
             }

@@ -34,6 +34,7 @@ export class Settings {
     skillsMinimized: boolean = false;
     spellLibraryTileMode: boolean = true;
     spellbookMinimized: boolean = false;
+    spellbookTileMode: boolean = true;
     spelllibraryMinimized: boolean = false;
     spellsMinimized: boolean = false;
     spellsTileMode: boolean = true;

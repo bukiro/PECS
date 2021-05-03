@@ -183,7 +183,7 @@
                                     {{(item.amount != undefined && item.amount != 1) ? item.amount+" " : ""}}
                                     {{(item['get_Name']) ? item.get_Name() : item.name}}&nbsp;
                                     <span class="lower"
-                                        *ngFor="let containedItems of [get_ContainedItems(item)]">{{containedItems ?
+                                        *ngFor="let containedItems of [get_ContainedItems(item)]; trackBy:trackByIndex;">{{containedItems ?
                                         "contains "+containedItems+" items" : ""}}</span>
                                 </ng-template>
                                 <ng-template #ItemTooltipTemplate>
@@ -208,7 +208,7 @@
                                     {{(item.amount != undefined && item.amount != 1) ? item.amount+" " : ""}}
                                     {{(item['get_Name']) ? item.get_Name() : item.name}}&nbsp;
                                     <span class="lower"
-                                        *ngFor="let containedItems of [get_ContainedItems(item)]">{{containedItems ?
+                                        *ngFor="let containedItems of [get_ContainedItems(item)]; trackBy:trackByIndex;">{{containedItems ?
                                         "contains "+containedItems+" items" : ""}}</span>
                                 </ng-template>
                                 <ng-template #ItemTemplate>
@@ -542,7 +542,6 @@
                                                 [ngClass]="{'fancy-button':((item.equippable && item.equipped) || (item.can_Invest() && item.invested)), 'problem':item.broken, 'penalty': canUse == false, 'bonus': canUse}"
                                                 [ngbTooltip]="ItemTooltipTemplate" openDelay="100"
                                                 [title]="item.displayName || item.name"
-                                                [detail]="(item.traits.includes('Rare') ? 'R' : (item.traits.includes('Uncommon') ? 'U' : '')) + (item.level || '')"
                                                 [item]="item">
                                             </app-gridIcon>
                                         </button>

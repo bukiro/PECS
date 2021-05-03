@@ -450,10 +450,8 @@
                     <button class="center-aligned" [ngClass]="{'fancy-button':get_ShowCreature()=='Companion'}"
                         *ngIf="get_CompanionAvailable()" (click)="toggle_Creature('Companion')">Companion</button>
                 </div>
-                <div class="fullsize-scroll-box">
-                    <app-inventory [itemStore]="true" id="ItemStore-inventory" [sheetSide]="'right'"
-                        [creature]="creature" [ngClass]="{'minimized':(get_InventoryMinimized())}"></app-inventory>
-                </div>
+                <app-inventory [itemStore]="true" id="ItemStore-inventory" [sheetSide]="'right'" [creature]="creature"
+                    [ngClass]="{'minimized':(get_InventoryMinimized())}"></app-inventory>
             </div>
         </div>
     </ng-container>

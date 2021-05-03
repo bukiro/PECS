@@ -9,14 +9,18 @@
                     <div *ngIf="available || get_SpellBlendingUsed() || get_InfinitePossibilitiesUsed() || get_AdaptedCantripUsed() || get_AdaptiveAdeptUsed()"
                         [ngClass]="{'list-item': showTitle && !get_TileMode(), 'vlist':!showTitle, 'problem':(choice.spells.length > available || cannotTakeSome()), 'fullsize-only':(available == choice.spells.length)}">
                         <ng-template #ButtonTitleTemplate>
-                            <span [ngbTooltip]="'Combination spell'" *ngIf="choice.spellCombinationAllowed"><i
-                                    class='ra ra-frostfire'></i>&nbsp;</span>
-                            <span [ngbTooltip]="'Infinite Possibilities spell'"
-                                *ngIf="is_InfinitePossibilitiesSpell()"><i class='ra ra-kaleidoscope'></i>&nbsp;</span>
-                            <span [ngbTooltip]="'Signature spell'" *ngIf="has_SignatureSpell(signatureSpellsAllowed)"><i
-                                    class='bi-stars'></i>&nbsp;</span>
-                            <span [ngbTooltip]="'Crossblooded Evolution spell'" *ngIf="choice.crossbloodedEvolution"><i
-                                    class='ra ra-zigzag-leaf'></i>&nbsp;</span>
+                            <span [ngbTooltip]="'Combination spell'" *ngIf="choice.spellCombinationAllowed">
+                                <i class='ra ra-frostfire'></i>
+                            </span>
+                            <span [ngbTooltip]="'Infinite Possibilities spell'" *ngIf="is_InfinitePossibilitiesSpell()">
+                                <i class='ra ra-kaleidoscope'></i>
+                            </span>
+                            <span [ngbTooltip]="'Signature spell'" *ngIf="has_SignatureSpell(signatureSpellsAllowed)">
+                                <i class='bi-stars'></i>
+                            </span>
+                            <span [ngbTooltip]="'Crossblooded Evolution spell'" *ngIf="choice.crossbloodedEvolution">
+                                <i class='ra ra-zigzag-leaf'></i>
+                            </span>
                             {{buttonTitle}}
                         </ng-template>
                         <!--Choice button shows in title mode-->

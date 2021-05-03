@@ -339,11 +339,9 @@
                     <button class="center-aligned" [ngClass]="{'fancy-button':get_ShowCreature()=='Familiar'}"
                         *ngIf="get_FamiliarAvailable()" (click)="toggle_Creature('Familiar')">Familiar</button>
                 </div>
-                <div class="fullsize-scroll-box">
-                    <app-effects class="fullwidth" [creature]="get_ShowCreature()" [fullDisplay]="true"
-                        [sheetSide]="'right'">
-                    </app-effects>
-                </div>
+                <app-effects class="fullwidth" [creature]="get_ShowCreature()" [fullDisplay]="true"
+                    [sheetSide]="'right'">
+                </app-effects>
             </div>
         </div>
     </ng-container>

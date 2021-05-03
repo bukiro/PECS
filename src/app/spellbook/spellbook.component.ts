@@ -67,7 +67,7 @@ export class SpellbookComponent implements OnInit {
         return this.characterService.get_Character().settings.spellbookMinimized;
     }
 
-    toggle_Spell(id: number) {
+    toggle_Spell(id: number = 0) {
         if (this.showSpell == id) {
             this.showSpell = 0;
         } else {
@@ -124,6 +124,16 @@ export class SpellbookComponent implements OnInit {
 
     get_Character() {
         return this.characterService.get_Character();
+    }
+
+    toggle_TileMode() {
+        this.get_Character().settings.spellbookTileMode = !this.get_Character().settings.spellbookTileMode;
+        this.characterService.set_ToChange("Character", "spellbook");
+        this.characterService.process_ToChange();
+    }
+
+    get_TileMode() {
+        return this.get_Character().settings.spellbookTileMode;
     }
 
     still_loading() {
