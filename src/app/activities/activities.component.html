@@ -10,40 +10,45 @@
     <ng-container *ngIf="!still_loading()">
         <app-tags [creature]="creature" [objectName]="'Activities'" [showTraits]=true [showFeats]=true [showItems]=true
             [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
-        <ng-container *ngFor="let skill of get_ClassDCs(); let index = index; trackBy:trackByIndex;">
-            <header class="subsectionHeader fullsize-only" *ngIf="index == 0">Class DCs</header>
-            <app-skill [skill]=skill [isDC]=true></app-skill>
-        </ng-container>
-        <header class="subsectionHeader">Actions and Activities</header>
-        <ng-container *ngFor="let gain of get_OwnedActivities(); trackBy:trackByIndex;">
-            <ng-container
-                *ngFor="let activity of (gain.can_Activate ? [gain] : get_Activities(gain.name)); trackBy:trackByIndex;">
-                <ng-container *ngFor="let maxCharges of [activity.maxCharges(get_Creature(), characterService)]">
-                    <div class="list-item" *ngFor="let activityID of [get_ID()]; trackBy:trackByIndex;">
-                        <button class="newrow left-aligned sublist-toggle"
-                            [ngClass]="{'fancy-button':gain.active, 'inactive-button':((gain.activeCooldown ? (maxCharges == gain.chargesUsed) : false) && !gain.active)}"
-                            (click)="toggle_Action(activityID)">
-                            <span *ngIf="activity.name == 'Fused Stance'">{{get_FuseStanceName()}}</span>
-                            <span *ngIf="activity.name != 'Fused Stance'">{{activity.name}}</span>
-                            <app-actionIcons [actionString]="activity.actions"></app-actionIcons>
-                            {{(activity.activationType) ? activity.activationType : ""}}
-                        </button>
-                        <div class="list-item sublist lower"
-                            [ngClass]="{'fancy-list':gain.active, 'inactive-list':((gain.activeCooldown ? (maxCharges == gain.chargesUsed) : false) && !gain.active)}"
-                            *ngIf="get_ShowAction()==activityID">
-                            <app-activity [creature]="creature" [activity]=activity [gain]=gain [allowActivate]="true">
-                            </app-activity>
+        <div class="vlist">
+            <header class="subsectionHeader fullsize-only">Class DCs</header>
+            <app-skill [skill]=skill [isDC]=true
+                *ngFor="let skill of get_ClassDCs(); let index = index; trackBy:trackByIndex;"></app-skill>
+        </div>
+        <div class="vlist">
+            <header class="subsectionHeader">Actions and Activities</header>
+            <ng-container *ngFor="let gain of get_OwnedActivities(); trackBy:trackByIndex;">
+                <ng-container
+                    *ngFor="let activity of (gain.can_Activate ? [gain] : get_Activities(gain.name)); trackBy:trackByIndex;">
+                    <ng-container *ngFor="let maxCharges of [activity.maxCharges(get_Creature(), characterService)]">
+                        <div class="list-item" *ngFor="let activityID of [get_ID()]; trackBy:trackByIndex;">
+                            <button class="newrow left-aligned sublist-toggle"
+                                [ngClass]="{'fancy-button':gain.active, 'inactive-button':((gain.activeCooldown ? (maxCharges == gain.chargesUsed) : false) && !gain.active)}"
+                                (click)="toggle_Action(activityID)">
+                                <span *ngIf="activity.name == 'Fused Stance'">{{get_FuseStanceName()}}</span>
+                                <span *ngIf="activity.name != 'Fused Stance'">{{activity.name}}</span>
+                                <app-actionIcons [actionString]="activity.actions"></app-actionIcons>
+                                {{(activity.activationType) ? activity.activationType : ""}}
+                            </button>
+                            <div class="list-item sublist lower"
+                                [ngClass]="{'fancy-list':gain.active, 'inactive-list':((gain.activeCooldown ? (maxCharges == gain.chargesUsed) : false) && !gain.active)}"
+                                *ngIf="get_ShowAction()==activityID">
+                                <app-activity [creature]="creature" [activity]=activity [gain]=gain
+                                    [allowActivate]="true">
+                                </app-activity>
+                            </div>
                         </div>
-                    </div>
+                    </ng-container>
                 </ng-container>
             </ng-container>
-        </ng-container>
-        <ng-container *ngFor="let choice of get_TemporaryFeatChoices(); let index = index; trackBy:trackByIndex;">
-            <header class="sectionHeader box-header" *ngIf="index == 0">Temporary Feats</header>
-            <app-featchoice (showChoiceNameMessage)="receive_ChoiceNameMessage($event)"
+        </div>
+        <div class="vlist">
+            <header class="subsectionHeader box-header">Temporary Feats</header>
+            <app-featchoice *ngFor="let choice of get_TemporaryFeatChoices(); let index = index; trackBy:trackByIndex;"
+                (showChoiceNameMessage)="receive_ChoiceNameMessage($event)"
                 (showFeatMessage)="receive_FeatMessage($event)" [choice]="choice" [levelNumber]="get_Creature().level"
                 [showFeat]="get_ShowItem()" [showChoice]="get_ShowList()">
             </app-featchoice>
-        </ng-container>
+        </div>
     </ng-container>
 </div>

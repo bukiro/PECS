@@ -331,32 +331,6 @@
                                                         </ng-template>
                                                         <ng-container
                                                             *ngFor="let inventoryID of [listID+item.id]; trackBy:trackByIndex;">
-                                                            <!--<ng-container>
-                                                                <ng-container *ngIf="!get_TileMode()">
-                                                                    <div class="list-item">
-                                                                        <button class="newrow sublist-toggle"
-                                                                            [ngClass]="{'fancy-button':get_ShowPurpose()=='formulas' && get_ShowCreature()=='Character' && get_FormulasLearned(item.id).length}"
-                                                                            (click)="toggle_Item(inventoryID)">
-                                                                            <ng-container
-                                                                                *ngTemplateOutlet="ItemTitleTemplate">
-                                                                            </ng-container>
-                                                                        </button>
-                                                                        <div class="list-item sublist lower"
-                                                                            [ngClass]="{'fancy-list':get_ShowPurpose()=='formulas' && get_ShowCreature()=='Character' && get_FormulasLearned(item.id).length}"
-                                                                            *ngIf="get_ShowItem()==inventoryID">
-                                                                            <ng-container *ngTemplateOutlet="ItemTemplate">
-                                                                            </ng-container>
-                                                                        </div>
-                                                                    </div>
-                                                                </ng-container>
-                                                                <ng-container *ngIf="get_TileMode()">
-                                                                    <button (click)="toggle_Item()">
-                                                                        <app-gridIcon [ngbTooltip]="ItemTooltipTemplate"
-                                                                            openDelay="100">
-                                                                        </app-gridIcon>
-                                                                    </button>
-                                                                </ng-container>
-                                                            </ng-container>-->
                                                             <ng-container *ngIf="!get_TileMode()">
                                                                 <div class="list-item">
                                                                     <button class="newrow sublist-toggle"

@@ -945,6 +945,7 @@ CHARACTERSHEET APP INNER STYLES
 }
 
 .dice-result {
+    text-align: center;
     margin-block-start: .5rem;
     margin-block-end: .5rem;
     font-size: 200%;
@@ -1009,6 +1010,11 @@ header.spellHeader * {
 header.subsectionHeader {
     font-weight: bold;
     margin: .6rem 0;
+}
+
+    /* Hide subsection headers for empty areas */
+header.subsectionHeader:only-child {
+    display:none;
 }
 
 header.featureHeader {

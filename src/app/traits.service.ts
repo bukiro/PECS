@@ -33,7 +33,7 @@ export class TraitsService {
                 return traits;
             } else {
                 console.error("Trait missing: " + traitName)
-                return [Object.assign(new Trait(), {name: ("Trait missing: " + traitName), desc: "This trait does not exist in the database."})]
+                return [Object.assign(new Trait(), { name: ("Trait missing: " + traitName), desc: "This trait does not exist in the database." })]
             }
         } else {
             return [new Trait()];
@@ -46,7 +46,16 @@ export class TraitsService {
             //uses the haveOn() method of Trait that returns any equipment that has this trait
             let traits = this.traits;
             return traits.filter(trait =>
-                trait.hints.find(hint => hint.showon.toLowerCase().includes(name.toLowerCase()))
+                trait.hints.some(hint =>
+                    hint.showon.split(",").some(showon =>
+                        showon.trim().toLowerCase() == name.toLowerCase() ||
+                        showon.trim().toLowerCase() == (creature.type + ":" + name).toLowerCase() ||
+                        (
+                            name.toLowerCase().includes("lore") &&
+                            showon.trim().toLowerCase() == "lore"
+                        )
+                    )
+                )
                 && trait.haveOn(creature).length > 0
             )
         } else {
@@ -62,7 +71,7 @@ export class TraitsService {
                 (
                     traitName.includes(" ") &&
                     traitName == trait
-                ) || 
+                ) ||
                 (
                     !traitName.includes(" ") &&
                     trait.split(" ")[0].toLowerCase() == traitName.toLowerCase()

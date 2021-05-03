@@ -2050,7 +2050,7 @@ export class CharacterService {
             .map((gainAndActivity: [ActivityGain | ItemActivity, Activity]) => gainAndActivity[1])
             .filter(activity =>
                 activity?.hints.find(hint =>
-                    hint.showon.split(",").find(showon =>
+                    hint.showon?.split(",").find(showon =>
                         objectName.trim().toLowerCase() == "all" ||
                         showon.trim().toLowerCase() == objectName.toLowerCase() ||
                         (
@@ -2068,7 +2068,7 @@ export class CharacterService {
         function get_Hint(item: Equipment | Oil | WornItem | ArmorRune | WeaponRune | Material) {
             if (item.hints
                 .find(hint =>
-                    hint.showon.split(",").find(showon =>
+                    hint.showon?.split(",").find(showon =>
                         objectName.trim().toLowerCase() == "all" ||
                         showon.trim().toLowerCase() == objectName.toLowerCase() ||
                         (

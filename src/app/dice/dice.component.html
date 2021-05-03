@@ -76,9 +76,9 @@
         </div>
     </div>
     <div [ngbCollapse]="!get_DiceResults().length">
-        <div class="list-item center-aligned">
+        <div class="list-item center-aligned vlist">
             <header class="sectionHeader box-header dice-result">{{get_TotalSum()}}</header>
-            <div class=" vlist" style="max-height: 30vh;">
+            <div class="fullsize-scroll-box vlist" style="max-height: 30vh;">
                 <div class="list-item newrow" [ngClass]="{'notapplied': !result.included}"
                     *ngFor="let result of get_DiceResults(); trackBy:trackByIndex">
                     <span>

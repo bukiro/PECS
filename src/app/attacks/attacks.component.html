@@ -164,7 +164,8 @@
                         </button>
                         <div class="list-item sublist fancy-list"
                             *ngIf="get_ShowItem()==weapon.id+attack[0]+'criticalHints'">
-                            <div class="list-item lower newrow left-aligned" *ngFor="let critEffect of critEffects; trackBy:trackByIndex">
+                            <div class="list-item lower newrow left-aligned"
+                                *ngFor="let critEffect of critEffects; trackBy:trackByIndex">
                                 {{critEffect}}
                             </div>
                         </div>
@@ -221,9 +222,10 @@
             <header class="sectionHeader box-header" *ngIf="index == 0">Ammunition</header>
             <app-tags [creature]="creature" [objectName]="'Ammunition'" [showTraits]=true [showFeats]=true
                 [showItems]=true [showActivities]=true [showConditions]=true></app-tags>
-            <ng-container *ngFor="let ammo of get_Ammo(ammoType); let ammoIndex = index; trackBy:trackByIndex;">
-                <header class="subsectionHeader fullsize-only" *ngIf="ammoIndex == 0">{{ammoType}}</header>
-                <div class="list-item">
+            <div class="vlist">
+                <header class="subsectionHeader fullsize-only">{{ammoType}}</header>
+                <div class="list-item"
+                    *ngFor="let ammo of get_Ammo(ammoType); let ammoIndex = index; trackBy:trackByIndex;">
                     <strong>{{(ammo.item.amount != undefined && ammo.item.amount != 1) ? ammo.item.amount+" " : ""}}
                         {{ammo.item.get_Name()}}</strong>
                     <div
@@ -234,7 +236,7 @@
                         </button>
                     </div>
                 </div>
-            </ng-container>
+            </div>
         </ng-container>
         <ng-container *ngIf="get_Snares().length">
             <header class="sectionHeader box-header">Deployed Snares</header>

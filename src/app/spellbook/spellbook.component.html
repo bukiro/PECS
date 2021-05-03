@@ -10,7 +10,8 @@
     <ng-container *ngIf="!still_loading()">
         <app-tags [creature]="'Character'" [objectName]="'Spellbook'" [showTraits]=true [showFeats]=true
             [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
-        <button class="fullsize-only center-aligned list-item" *ngIf="get_HasSpells()" (click)="toggleSpellsMenu()">Prepare Spells</button>
+        <button class="fullsize-only center-aligned list-item" *ngIf="get_HasSpells()"
+            (click)="toggleSpellsMenu()">Prepare Spells</button>
         <ng-container *ngFor="let skill of get_SpellDCs(); let index = index; trackBy:trackByIndex;">
             <header class="sectionHeader fullsize-only" *ngIf="index == 0">Spell Attacks & DCs</header>
             <app-skill [skill]=skill [isDC]=false></app-skill>
@@ -111,22 +112,23 @@
                                                             [showEffects]=true>
                                                         </app-tags>
                                                     </div>
-                                                    <div class="list-item"
-                                                        *ngFor="let choice of choiceList; let choicesIndex = index; trackBy:trackByIndex;">
-                                                        <header class="subsectionHeader box-header"
-                                                            *ngIf="choicesIndex == 0">Level {{level}} Temporary Spell
-                                                            Selections
+                                                    <div class="vlist" *ngIf="choiceList.length">
+                                                        <header class="subsectionHeader box-header">Level {{level}}
+                                                            Temporary Spell Selections
                                                         </header>
-                                                        <app-spellchoice class="newrow"
-                                                            (showChoiceMessage)="receive_ChoiceMessage($event)"
-                                                            (showSpellMessage)="receive_SpellMessage($event)"
-                                                            [spellCasting]="casting" [choice]="choice"
-                                                            [showHeightened]="true" [allowBorrow]="false"
-                                                            [showChoice]="get_ShowList()" [showSpell]="get_ShowItem()"
-                                                            [level]="choice.level"
-                                                            [prepared]="choice.source == 'Infinite Possibilities'"
-                                                            [spellbook]="true">
-                                                        </app-spellchoice>
+                                                        <div class="list-item"
+                                                            *ngFor="let choice of choiceList; let choicesIndex = index; trackBy:trackByIndex;">
+                                                            <app-spellchoice class="newrow"
+                                                                (showChoiceMessage)="receive_ChoiceMessage($event)"
+                                                                (showSpellMessage)="receive_SpellMessage($event)"
+                                                                [spellCasting]="casting" [choice]="choice"
+                                                                [showHeightened]="true" [allowBorrow]="false"
+                                                                [showChoice]="get_ShowList()"
+                                                                [showSpell]="get_ShowItem()" [level]="choice.level"
+                                                                [prepared]="choice.source == 'Infinite Possibilities'"
+                                                                [spellbook]="true">
+                                                            </app-spellchoice>
+                                                        </div>
                                                     </div>
                                                     <ng-container
                                                         *ngFor="let spellTaken of spellTakenList; let spellIndex = index; trackBy:trackByIndex;">

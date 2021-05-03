@@ -143,16 +143,18 @@
                 <app-tags [creature]="creature" [objectName]="'Size'" [showTraits]=true [showFeats]=true
                     [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
             </div>
-            <header class="subsectionHeader">Familiar Abilities</header>
-            <div class="list-item" *ngFor="let ability of get_Familiar().abilities.feats; trackBy:trackByIndex;">
-                <strong>{{ability.name}}</strong>
-                <div class="newrow left-aligned tags">
-                    <cite class="trait"
-                        *ngFor="let trait of get_FamiliarAbilities(ability.name)[0].traits; trackBy:trackByIndex;"
-                        [ngbPopover]="get_Traits(trait).length ? get_Traits(trait)[0].desc : ''">{{trait}}</cite>
-                </div>
-                <div class="newrow left-aligned">
-                    {{get_FamiliarAbilities(ability.name)[0].desc}}
+            <div class="vlist">
+                <header class="subsectionHeader">Familiar Abilities</header>
+                <div class="list-item" *ngFor="let ability of get_Familiar().abilities.feats; trackBy:trackByIndex;">
+                    <strong>{{ability.name}}</strong>
+                    <div class="newrow left-aligned tags">
+                        <cite class="trait"
+                            *ngFor="let trait of get_FamiliarAbilities(ability.name)[0].traits; trackBy:trackByIndex;"
+                            [ngbPopover]="get_Traits(trait).length ? get_Traits(trait)[0].desc : ''">{{trait}}</cite>
+                    </div>
+                    <div class="newrow left-aligned">
+                        {{get_FamiliarAbilities(ability.name)[0].desc}}
+                    </div>
                 </div>
             </div>
         </ng-container>

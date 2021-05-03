@@ -159,32 +159,28 @@
                             [(ngModel)]="setTempHP">
                     </div>
                 </div>
-                <header class="subsectionHeader">Resistances</header>
-                <ng-container *ngFor="let resistances of [get_Resistances()]; let index = index; trackBy:trackByIndex;">
-                    <div class="list-item" *ngIf="resistances.length">
-                        <div class="newrow" *ngFor="let resistance of resistances; trackBy:trackByIndex;">
-                            <span>
-                                <ng-template #ResistanceSourceTemplate>
-                                    <strong>Source{{resistance.source.includes('\n') ? 's' : ''}}</strong>
-                                    {{resistance.source}}
-                                </ng-template>
-                                <span [ngbPopover]="ResistanceSourceTemplate"
-                                    [ngClass]="(resistance.value < 0) ? 'penalty' : 'bonus'">{{resistance.target}}:
-                                    {{Math.abs(resistance.value)}}</span>
-                            </span>
-                        </div>
+                <div class="vlist">
+                    <header class="subsectionHeader">Resistances</header>
+                    <div class="newrow list-item" *ngFor="let resistance of get_Resistances(); trackBy:trackByIndex;">
+                        <span>
+                            <ng-template #ResistanceSourceTemplate>
+                                <strong>Source{{resistance.source.includes('\n') ? 's' : ''}}</strong>
+                                {{resistance.source}}
+                            </ng-template>
+                            <span [ngbPopover]="ResistanceSourceTemplate"
+                                [ngClass]="(resistance.value < 0) ? 'penalty' : 'bonus'">{{resistance.target}}:
+                                {{Math.abs(resistance.value)}}</span>
+                        </span>
                     </div>
-                    <app-tags [creature]="creature" [objectName]="'Resistances'" [showTraits]=true [showFeats]=true
-                        [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
-                </ng-container>
-                <ng-container *ngFor="let immunities of [get_Immunities()]; trackBy:trackByIndex;">
-                    <header class="subsectionHeader" *ngIf="immunities.length">Immunities</header>
-                    <div class="list-item" *ngIf="immunities.length">
-                        <div class="newrow" *ngFor="let immunity of immunities; trackBy:trackByIndex;">
-                            <span [ngbPopover]="'Source: ' + immunity.source" class="bonus">{{immunity.target}}</span>
-                        </div>
+                </div>
+                <div class="vlist">
+                    <header class="subsectionHeader">Immunities</header>
+                    <div class="newrow list-item" *ngFor="let immunity of get_Immunities(); trackBy:trackByIndex;">
+                        <span [ngbPopover]="'Source: ' + immunity.source" class="bonus">{{immunity.target}}</span>
                     </div>
-                </ng-container>
+                </div>
+                <app-tags [creature]="creature" [objectName]="'Resistances'" [showTraits]=true [showFeats]=true
+                    [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
             </ng-container>
         </ng-container>
     </ng-container>

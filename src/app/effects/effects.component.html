@@ -93,54 +93,44 @@
         <header class="sectionHeader">Conditions & Effects</header>
         <app-tags [creature]="creature" [objectName]="'Effects'" [showTraits]=true [showFeats]=true [showItems]=true
             [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
-        <div>
+        <div class="vlist">
             <header class="subsectionHeader">
                 Active Conditions
             </header>
-            <div class="vlist">
-                <ng-container
-                    *ngFor="let conditionGain of get_AppliedConditions(true); trackBy:trackByConditionGainID;">
-                    <ng-container *ngTemplateOutlet="conditionTemplate;context:{conditionGain:conditionGain}">
-                    </ng-container>
+            <ng-container *ngFor="let conditionGain of get_AppliedConditions(true); trackBy:trackByConditionGainID;">
+                <ng-container *ngTemplateOutlet="conditionTemplate;context:{conditionGain:conditionGain}">
                 </ng-container>
-            </div>
+            </ng-container>
         </div>
-        <div>
+        <div class="vlist">
             <header class="subsectionHeader">
                 Active Effects
             </header>
-            <div class="vlist">
-                <ng-container *ngFor="let effect of get_AppliedEffects(); trackBy:trackByUniqueEffect;">
-                    <ng-container *ngTemplateOutlet="effectTemplate;context:{effect:effect}"></ng-container>
-                </ng-container>
-            </div>
+            <ng-container *ngFor="let effect of get_AppliedEffects(); trackBy:trackByUniqueEffect;">
+                <ng-container *ngTemplateOutlet="effectTemplate;context:{effect:effect}"></ng-container>
+            </ng-container>
         </div>
-        <div>
+        <div class="vlist">
             <header class="subsectionHeader">
                 Inactive Conditions
             </header>
-            <div class="notapplied vlist">
-                <ng-container
-                    *ngFor="let conditionGain of get_AppliedConditions(false); trackBy:trackByConditionGainID;">
-                    <ng-container *ngTemplateOutlet="conditionTemplate;context:{conditionGain:conditionGain}">
-                    </ng-container>
+            <ng-container *ngFor="let conditionGain of get_AppliedConditions(false); trackBy:trackByConditionGainID;">
+                <ng-container *ngTemplateOutlet="conditionTemplate;context:{conditionGain:conditionGain}">
                 </ng-container>
-            </div>
+            </ng-container>
         </div>
-        <div>
+        <div class="vlist">
             <header class="subsectionHeader">
                 Inactive Effects
             </header>
-            <div class="notapplied vlist">
-                <ng-container *ngFor="let effect of get_NotAppliedEffects(); trackBy:trackByUniqueEffect;">
-                    <ng-container *ngTemplateOutlet="effectTemplate;context:{effect:effect}"></ng-container>
-                </ng-container>
-            </div>
+            <ng-container *ngFor="let effect of get_NotAppliedEffects(); trackBy:trackByUniqueEffect;">
+                <ng-container *ngTemplateOutlet="effectTemplate;context:{effect:effect}"></ng-container>
+            </ng-container>
         </div>
-        <header class="subsectionHeader">
-            Hidden Effects
-        </header>
         <div class="vlist">
+            <header class="subsectionHeader">
+                Hidden Effects
+            </header>
             <ng-container *ngFor="let effect of get_HiddenEffects(); trackBy:trackByUniqueEffect;">
                 <ng-container *ngTemplateOutlet="effectTemplate;context:{effect:effect}"></ng-container>
             </ng-container>
