@@ -313,10 +313,13 @@ export class InventoryComponent implements OnInit {
 
     validate_Bulk(item: OtherItem) {
         if (parseInt(item.bulk) || parseInt(item.bulk) == 0 || item.bulk == "L" || item.bulk == "") {
-            //OK - no change needed.
+            //OK - no change needed
         } else {
             item.bulk = "";
         }
+        //Update effects to re-calculate your bulk.
+        this.characterService.set_ToChange(this.creature, "effects");
+        this.characterService.process_ToChange();
     }
 
     remove_OtherItem(item: OtherItem, inventory: ItemCollection) {

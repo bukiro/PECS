@@ -9,6 +9,7 @@ export class Settings {
     autoCloseChoices: boolean = false;
     characterMinimized: boolean = false;
     characterTileMode: boolean = true;
+    craftingTileMode: boolean = true;
     checkMessagesAutomatically: boolean = false;
     companionMinimized: boolean = false;
     conditionsTileMode: boolean = true;

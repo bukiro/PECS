@@ -52,21 +52,22 @@
                             <div class="list-item" *ngIf="get_NeedSpellbook(casting)">
                                 <span>
                                     <input id="allowBorrow" type="checkbox" [(ngModel)]="allowBorrow">
-                                    <label for="allowBorrow">&nbsp;Borrow spells</label>
-                                </span>
-                                <span [ngbPopover]="'Allow selecting spells not in your spellbook, assuming you borrow them from another spellcaster or a different book.'">
-                                    <button class="lower inactive-button">Details</button>
+                                    <label for="allowBorrow">
+                                        Borrow spells
+                                    </label>
+                                    <i class="bi-question-circle"
+                                        [ngbPopover]="'Allow selecting spells not in your spellbook, assuming you borrow them from another spellcaster or a different book or scroll.'"></i>
                                 </span>
                             </div>
                             <div class="list-item" *ngIf="apply_SpellSubstitution(casting)">
                                 <div class="newrow">
                                     <span>
                                         <input id="allowSpellSubstitution" type="checkbox" [(ngModel)]="prepared">
-                                        <label for="allowSpellSubstitution">Spell
-                                            Substitution</label>
-                                    </span>
-                                    <span [ngbPopover]="'Selected spells are immediately prepared'">
-                                        <button class="lower inactive-button">Details</button>
+                                        <label for="allowSpellSubstitution">
+                                            Spell Substitution
+                                        </label>
+                                        <i class="bi-question-circle"
+                                            [ngbPopover]="'Selected spells are immediately prepared, as if you had used spell substitution to replace a currently prepared spell.'"></i>
                                     </span>
                                 </div>
                                 <app-tags [creature]="'Character'" [objectName]="'Spell Substitution'" [showTraits]=true
@@ -127,9 +128,10 @@
                                                 <app-spellchoice (showChoiceMessage)="receive_ChoiceMessage($event)"
                                                     (showSpellMessage)="receive_SpellMessage($event)"
                                                     [spellCasting]="casting" [choice]="choice"
-                                                    [showHeightened]="get_Character().settings.showHeightenedSpells" [allowBorrow]="allowBorrow"
-                                                    [showChoice]="showChoice" [showSpell]="showSpell" [level]="level"
-                                                    [prepared]="prepared" [spellbook]="true" [showContent]="false"
+                                                    [showHeightened]="get_Character().settings.showHeightenedSpells"
+                                                    [allowBorrow]="allowBorrow" [showChoice]="showChoice"
+                                                    [showSpell]="showSpell" [level]="level" [prepared]="prepared"
+                                                    [spellbook]="true" [showContent]="false"
                                                     [tileMode]="get_TileMode()"></app-spellchoice>
                                             </ng-container>
                                         </div>
@@ -147,9 +149,9 @@
             <ng-container *ngFor="let choiceContent of get_ActiveChoiceContent(); trackBy:trackByID;">
                 <app-spellchoice (showChoiceMessage)="receive_ChoiceMessage($event)"
                     (showSpellMessage)="receive_SpellMessage($event)" [spellCasting]="choiceContent.casting"
-                    [choice]="choiceContent.choice" [showHeightened]="get_Character().settings.showHeightenedSpells" [allowBorrow]="allowBorrow"
-                    [showChoice]="choiceContent.name" [showSpell]="showSpell" [level]="choiceContent.levelNumber"
-                    [prepared]="prepared" [spellbook]="true" [showTitle]="false">
+                    [choice]="choiceContent.choice" [showHeightened]="get_Character().settings.showHeightenedSpells"
+                    [allowBorrow]="allowBorrow" [showChoice]="choiceContent.name" [showSpell]="showSpell"
+                    [level]="choiceContent.levelNumber" [prepared]="prepared" [spellbook]="true" [showTitle]="false">
                 </app-spellchoice>
             </ng-container>
         </div>

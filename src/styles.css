@@ -160,7 +160,8 @@ input.number7 {
     /* Input labels */
 
 label, app-character-sheet label {
-    display: inline-flex;
+    /*display: inline-flex;*/
+    display: inline;
     margin-bottom: initial;
 }
 
@@ -1604,7 +1605,7 @@ GRIDICONS
 }
 
 .gridicon-fullsizebox>*:not(:first-child):not(.gridicon-fullsizebox) {
-    display: flex;
+    /*display: flex;*/
     flex-wrap: wrap;
 }
 

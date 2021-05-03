@@ -188,18 +188,22 @@
     <p *ngIf="item.craftRequirement">
         <strong>Craft Requirement</strong> {{item.craftRequirement}}
     </p>
-    <p *ngIf="item.critsuccess">
-        <strong>Critical Success</strong> {{item.critsuccess}}
-    </p>
-    <p *ngIf="item.success">
-        <strong>Success</strong> {{item.success}}
-    </p>
-    <p *ngIf="item.failure">
-        <strong>Failure</strong> {{item.failure}}
-    </p>
-    <p *ngIf="item.critfailure">
-        <strong>Critical Failure</strong> {{item.critfailure}}
-    </p>
+    <ng-container *ngIf="item.critsuccess || item.success || item.failure || item.critfailure">
+        <ul>
+            <li *ngIf="item.critsuccess">
+                <strong>Critical Success</strong> {{item.critsuccess}}
+            </li>
+            <li *ngIf="item.success">
+                <strong>Success</strong> {{item.success}}
+            </li>
+            <li *ngIf="item.failure">
+                <strong>Failure</strong> {{item.failure}}
+            </li>
+            <li *ngIf="item.critfailure">
+                <strong>Critical Failure</strong> {{item.critfailure}}
+            </li>
+        </ul>
+    </ng-container>
     <div class="list-item newrow problem" *ngIf="item.inputRequired">
         <strong>Player input required:</strong>
         <div class="newrow left-aligned">
@@ -216,7 +220,8 @@
         <select [(ngModel)]="item.data[0].value" (ngModelChange)="on_DoublingRingsChange()">
             <option *ngFor="let weapon of get_DoublingRingsOptions('gold'); trackBy:trackByIndex;"
                 [ngValue]="weapon.id">
-                {{weapon.get_Name()}}</option>
+                {{weapon.get_Name()}}
+            </option>
         </select>
     </div>
     <div class="newrow">
@@ -224,7 +229,8 @@
         <select [(ngModel)]="item.data[1].value" (ngModelChange)="on_DoublingRingsChange()">
             <option *ngFor="let weapon of get_DoublingRingsOptions('iron'); trackBy:trackByIndex;"
                 [ngValue]="weapon.id">
-                {{weapon.get_Name()}}</option>
+                {{weapon.get_Name()}}
+            </option>
         </select>
     </div>
     <div class="newrow left-aligned" *ngIf="item.isDoublingRings == 'Doubling Rings (Greater)'">

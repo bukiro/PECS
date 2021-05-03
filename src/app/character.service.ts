@@ -989,6 +989,8 @@ export class CharacterService {
 
     change_Cash(multiplier: number = 1, sum: number, plat: number = 0, gold: number = 0, silver: number = 0, copper: number = 0) {
         if (sum) {
+            //Resolve a sum (in copper) into platinum, gold, silver and copper.
+            // Gold is prioritised - only gold amounts over 1000 are exchanged for platinum.
             plat = gold = silver = copper = 0;
             plat = Math.floor(sum / 100000) * 100;
             sum %= 100000;

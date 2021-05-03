@@ -1,185 +1,292 @@
 <div id="crafting" class="itembox vlist">
+    <div class="window-button-container">
+        <button class="tilemodebutton" [ngClass]="{'fancy-button':get_TileMode()}" (click)="toggle_TileMode()"
+            [ngbTooltip]="get_TileMode() ? 'Click to enable list layout' : 'Click to enable tiled layout'">
+            <!--Content is css only-->
+            <div>
+                <div> </div>
+                <div> </div>
+                <div> </div>
+                <div> </div>
+            </div>
+        </button>
+    </div>
     <button class="list-item center-aligned" (click)="toggleCraftingMenu()">
         <header class="sectionHeader">Close</header>
     </button>
     <div class="loading" *ngIf="still_loading()">Loading</div>
-    <ng-container *ngIf="get_CraftingMenuState()=='in'">
-        <div class="list-item">
-            <strong>Find (in Name, Description or Traits)</strong>
-            <span>
-                <input type=text [(ngModel)]="wordFilter" (ngModelChange)=check_Filter() />
-                <button (click)="set_Filter()" [disabled]="wordFilter.length < 5">Show All</button>
-                <button (click)="wordFilter='';check_Filter()">Clear</button>
-            </span>
-        </div>
-        <div class="list-item">
-            <strong>Sort by</strong>
-            <select [(ngModel)]="sorting">
-                <option *ngFor="let sort of ['Name','Level']" [ngValue]="sort.toLowerCase()">
-                    {{sort}}
-                </option>
-            </select>
-        </div>
-        <div class="fullsize-scroll-box vlist">
-            <header class="subsectionHeader">Currency</header>
-            <div class="list-item">
-                <div class="newrow">
-                    <strong>Platinum</strong>
-                    <div class="value">{{get_Character().cash[0]}}</div>
-                    <strong>Gold</strong>
-                    <div class="value">{{get_Character().cash[1]}}</div>
-                    <strong>Silver</strong>
-                    <div class="value">{{get_Character().cash[2]}}</div>
-                    <strong>Copper</strong>
-                    <div class="value center-aligned">{{get_Character().cash[3]}}</div>
-                </div>
-            </div>
-            <header class="subsectionHeader">Currency</header>
-            <div class="list-item">
-                <div class="newrow">
-                    <strong>Platinum</strong>
-                    <input class="number4" type="number" [(ngModel)]="cashP" (keypress)="numbersOnly($event)">
-                    <strong>Gold</strong>
-                    <input class="number4" type="number" [(ngModel)]="cashG" (keypress)="numbersOnly($event)">
-                    <strong>Silver</strong>
-                    <input class="number4" type="number" [(ngModel)]="cashS" (keypress)="numbersOnly($event)">
-                    <strong>Copper</strong>
-                    <input class="number4 center-aligned" type="number" [(ngModel)]="cashC"
-                        (keypress)="numbersOnly($event)">
-                </div>
-                <div class="newrow">
-                    <span>
-                        <button (click)="change_Cash(1, 0, true)"
-                            [disabled]="cashP < 0 || cashG < 0 || cashS < 0 || cashC < 0">Gain</button>
-                    </span>
-                    <span>
-                        <button (click)="change_Cash(-1, 0, true)"
-                            [disabled]="cashP < 0 || cashG < 0 || cashS < 0 || cashC < 0"
-                            [disabled]="!have_Funds()">Spend</button>
+    <ng-container *ngIf="!still_loading() && get_CraftingMenuState()=='in'">
+        <div class="charactersheet-column-container">
+            <div class="charactersheet-column">
+                <div class="list-item">
+                    <strong>Find (in Name, Description or Traits)</strong>
+                    <span class="hlist">
+                        <input type=text [(ngModel)]="wordFilter" (ngModelChange)=check_Filter() />
+                        <button (click)="set_Filter()" [disabled]="wordFilter.length < 5">Show All</button>
+                        <button (click)="wordFilter='';check_Filter()">Clear</button>
                     </span>
                 </div>
-            </div>
-            <ng-container *ngFor="let items of [get_Items()]; trackBy:trackByIndex;">
-                <ng-container *ngIf="have_Feat('Snare Specialist')">
-                    <ng-container *ngFor="let preparations of [get_SnareSpecialistPreparations()]">
-                        <header class="sectionHeader">Snare Specialist</header>
-                        <div class="list-item">
-                            You can prepare {{preparations.available - preparations.prepared}} of
-                            {{preparations.available}} snares for quick deployment.
+                <div class="list-item">
+                    <strong>Sort by</strong>
+                    <div class="newrow">
+                        <button class="center-aligned" [ngClass]="{'fancy-button':get_ShowSorting()=='name'}"
+                            (click)="toggle_Sorting('name')">Name</button>
+                        <button class="center-aligned" [ngClass]="{'fancy-button':get_ShowSorting()=='level'}"
+                            (click)="toggle_Sorting('level')">Level</button>
+                    </div>
+                </div>
+                <div class="fullsize-scroll-box vlist">
+                    <header class="subsectionHeader">Change Currency</header>
+                    <div class="list-item">
+                        <div class="newrow">
+                            <strong>Platinum</strong>
+                            <input class="number4" type="number" [(ngModel)]="cashP" (keypress)="numbersOnly($event)">
+                            <strong>Gold</strong>
+                            <input class="number4" type="number" [(ngModel)]="cashG" (keypress)="numbersOnly($event)">
+                            <strong>Silver</strong>
+                            <input class="number4" type="number" [(ngModel)]="cashS" (keypress)="numbersOnly($event)">
+                            <strong>Copper</strong>
+                            <input class="number4 center-aligned" type="number" [(ngModel)]="cashC"
+                                (keypress)="numbersOnly($event)">
                         </div>
-                        <ng-container *ngFor="let snares of [get_VisibleItems(items.snares)]; trackBy:trackByIndex;">
-                            <ng-container *ngFor="let listID of ['snarespecialist']; trackBy:trackByIndex;">
-                                <button class="list-item" [ngClass]="{'invisible':!snares.length}"
+                        <div class="newrow">
+                            <span>
+                                <button (click)="change_Cash(1, 0, true)"
+                                    [disabled]="cashP < 0 || cashG < 0 || cashS < 0 || cashC < 0">Gain</button>
+                            </span>
+                            <span>
+                                <button (click)="change_Cash(-1, 0, true)"
+                                    [disabled]="cashP < 0 || cashG < 0 || cashS < 0 || cashC < 0"
+                                    [disabled]="!have_Funds()">Spend</button>
+                            </span>
+                        </div>
+                    </div>
+                    <ng-container *ngFor="let items of [get_Items()]; trackBy:trackByIndex;">
+                        <ng-container *ngIf="have_Feat('Snare Specialist')">
+                            <ng-container
+                                *ngFor="let preparations of [get_SnareSpecialistPreparations()]; trackBy:trackByIndex;">
+                                <header class="sectionHeader">Snare Specialist</header>
+                                <div class="list-item">
+                                    You can prepare {{preparations.available - preparations.prepared}} of
+                                    {{preparations.available}} snares for quick deployment.
+                                </div>
+                                <ng-container
+                                    *ngFor="let snares of [get_VisibleItems(items.snares)]; trackBy:trackByIndex;">
+                                    <ng-container *ngFor="let listID of ['snarespecialist']; trackBy:trackByIndex;">
+                                        <button class="list-item" [ngClass]="{'invisible':!snares.length}"
+                                            (click)="toggle_List(listID)">
+                                            <header class="sectionHeader">Snares</header>
+                                        </button>
+                                        <div [ngClass]="{'icon-list':get_TileMode(), 'list-item':!get_TileMode()}"
+                                            [ngClass]="{'invisible':!snares.length}"
+                                            *ngIf="get_ShowList()==listID||get_ShowList()=='All'">
+                                            <ng-container *ngFor="let item of snares; trackBy:trackByIndex;">
+                                                <ng-container
+                                                    *ngFor="let preparedAmount of [get_PreparedForQuickCrafting(item)]; trackBy:trackByIndex">
+                                                    <ng-template #SnareTemplate>
+                                                        <header class="spellHeader newrow" *ngIf="get_TileMode()">
+                                                            {{preparedAmount}}
+                                                            {{(item.get_Name) ? item.get_Name() : item.name}}
+                                                        </header>
+                                                        <span>
+                                                            <button class="center-aligned"
+                                                                (click)="on_PrepareForQuickCrafting(item, -1)"
+                                                                [disabled]="!preparedAmount">
+                                                                -
+                                                            </button>
+                                                            <button class="center-aligned"
+                                                                (click)="on_PrepareForQuickCrafting(item, 1)"
+                                                                [disabled]="preparations.available <= preparations.prepared">
+                                                                +
+                                                            </button>
+                                                            Prepare for quick deployment
+                                                        </span>
+                                                        <app-item [item]=item [itemStore]=true></app-item>
+                                                    </ng-template>
+                                                    <ng-container *ngIf="!get_TileMode()">
+                                                        <div class="list-item"
+                                                            *ngFor="let inventoryID of [listID+item.id]; trackBy:trackByIndex;">
+                                                            <button class="newrow sublist-toggle"
+                                                                [ngClass]="{'fancy-button':preparedAmount}"
+                                                                (click)="toggle_Item(inventoryID)">
+                                                                <span>{{preparedAmount}}
+                                                                    {{(item.get_Name) ? item.get_Name() :
+                                                                    item.name}}</span>
+                                                                <span>{{(item.level) ? "Level "+item.level :
+                                                                    "&nbsp;"}}</span>
+                                                            </button>
+                                                            <div class="list-item sublist lower"
+                                                                [ngClass]="{'fancy-list':preparedAmount}"
+                                                                *ngIf=" get_ShowItem()==inventoryID">
+                                                                <ng-container *ngTemplateOutlet="SnareTemplate">
+                                                                </ng-container>
+                                                            </div>
+                                                        </div>
+                                                    </ng-container>
+                                                    <ng-container *ngIf="get_TileMode()">
+                                                        <button [ngbPopover]="SnareTemplate" triggers="click"
+                                                            [ngClass]="{'fancy-button':preparedAmount}"
+                                                            (click)="toggle_Item()">
+                                                            <app-gridIcon [ngClass]="{'fancy-button':preparedAmount}"
+                                                                [ngbTooltip]="(preparedAmount ? preparedAmount + ' ' : '') + (item.get_Name ? item.get_Name() : item.name) + (item.level ? ' (Level ' + item.level + ')' : '')"
+                                                                openDelay="100" [subTitle]="preparedAmount"
+                                                                [title]="item.displayName || item.name"
+                                                                [detail]="(item.traits.includes('Rare') ? 'R' : (item.traits.includes('Uncommon') ? 'U' : '')) + (item.level || '')"
+                                                                [item]="item">
+                                                            </app-gridIcon>
+                                                        </button>
+                                                    </ng-container>
+                                                </ng-container>
+                                            </ng-container>
+                                        </div>
+                                    </ng-container>
+                                </ng-container>
+                            </ng-container>
+                        </ng-container>
+                        <header class="sectionHeader">Craft Items</header>
+                        <app-tags [creature]="creature" [objectName]="'Crafting'" [showTraits]=true [showFeats]=true
+                            [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
+                        <div class="list-item">
+                            <strong
+                                [ngbPopover]="'The material cost of Crafting an item can vary depending on your success using the Craft activity. If you Craft an item in any way that requires you to spend materials, manually spend the appropriate amount of currency and any required items.'">
+                                About crafting costs
+                                <i class="bi-question-circle"></i>
+                            </strong>
+                        </div>
+                        <div class="list-item">
+                            <strong
+                                [ngbPopover]="'When available, a shoddy item usually costs half the Price of a standard item, though you can never sell one in any case. Attacks and checks involving a shoddy item take a -2 item penalty. This penalty also applies to any DCs that a shoddy item applies to (such as AC, for shoddy armor). A shoddy suit of armor also worsens the armor\'s check penalty by 2. A shoddy item\'s Hit Points and Broken Threshold are each half that of a normal item of its type.'">
+                                About shoddy items
+                                <i class="bi-question-circle"></i>
+                            </strong>
+                        </div>
+                        <ng-container *ngFor="let itemSet of items.names; let index = index; trackBy:trackByIndex;">
+                            <ng-container *ngFor="let listID of [(index*1000+1000)]; trackBy:trackByIndex;">
+                                <button class="list-item"
+                                    [ngStyle]="{'display':!get_VisibleItems(items[itemSet.key]).length ? 'none' : 'flex' }"
                                     (click)="toggle_List(listID)">
-                                    <header class="sectionHeader">Snares</header>
+                                    <header class="sectionHeader">{{itemSet.name}}</header>
                                 </button>
-                                <div class="list-item" [ngClass]="{'invisible':!snares.length}"
+                                <div [ngClass]="{'icon-list':get_TileMode(), 'list-item':!get_TileMode()}"
+                                    [ngStyle]="{'display':!get_VisibleItems(items[itemSet.key]).length ? 'none' : 'flex' }"
                                     *ngIf="get_ShowList()==listID||get_ShowList()=='All'">
-                                    <ng-container *ngFor="let item of snares; trackBy:trackByIndex;">
-                                        <ng-container *ngFor="let prepared of [get_PreparedForQuickCrafting(item)]">
-                                            <div class="list-item"
-                                                *ngFor="let inventoryID of [listID+item.id]; trackBy:trackByIndex;">
-                                                <button class="newrow sublist-toggle"
-                                                    [ngClass]="{'fancy-button':prepared}"
-                                                    (click)="toggle_Item(inventoryID)">
-                                                    <span>{{prepared}}
-                                                        {{(item.get_Name) ? item.get_Name() : item.name}}</span>
-                                                    <span>{{(item.level) ? "Level "+item.level :
-                                                        "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"}}</span>
-                                                </button>
-                                                <div class="list-item sublist lower" [ngClass]="{'fancy-list':prepared}"
-                                                    *ngIf=" get_ShowItem()==inventoryID">
-                                                    <span>
-                                                        <button class="center-aligned"
-                                                            (click)="on_PrepareForQuickCrafting(item, -1)"
-                                                            [disabled]="!prepared">
-                                                            -
+                                    <ng-container
+                                        *ngFor="let item of get_VisibleItems(items[itemSet.key]); trackBy:trackByIndex;">
+                                        <ng-container *ngFor="let canUse of [get_CanUse(item)]; trackBy:trackByIndex">
+                                            <ng-template #ItemTitleTemplate>
+                                                <span>
+                                                    <i class="value bi-x penalty"
+                                                        *ngIf="!get_TileMode() && canUse == false"
+                                                        [ngbTooltip]="'You are not trained with this item.'"></i>
+                                                    <i class="value bi-check2 bonus" *ngIf="!get_TileMode() && canUse"
+                                                        [ngbTooltip]="'You are trained with this item.'"></i>
+                                                    {{(item.get_Name) ? item.get_Name() :
+                                                    item.name}}
+                                                </span>
+                                                <span *ngIf="item.type == 'armors'">
+                                                    {{(["Light Barding", "Heavy Barding"]
+                                                    .includes(item.prof)) ? item.prof :
+                                                    item.prof.split("
+                                                    ")[0]}} {{item.group}} {{(item.type=="armors" &&
+                                                    (!["Unarmored Defense","Light Barding", "Heavy
+                                                    Barding"].includes(item.prof))) ? "Armor" : ""}}
+                                                </span>
+                                                <span *ngIf="item.type == 'weapons'">
+                                                    {{(item.prof == 'Unarmed Attacks') ? item.prof :
+                                                    item.prof.substr(0, item.prof.length - 8)}}
+                                                    {{item.group}}
+                                                </span>
+                                                <span>
+                                                    {{(item.level) ? "Level "+item.level :
+                                                    "&nbsp;"}}
+                                                </span>
+                                            </ng-template>
+                                            <ng-template #ItemTooltipTemplate>
+                                                <span>
+                                                    {{(item.get_Name) ? item.get_Name() :
+                                                    item.name}}
+                                                </span>
+                                                <span *ngIf="item.type == 'armors'">
+                                                    ({{(item.level) ? "Level "+item.level+" " : ""}}{{(["Light
+                                                    Barding",
+                                                    "Heavy Barding"].includes(item.prof)) ? item.prof :
+                                                    item.prof.split(" ")[0]}} {{item.group}} {{(item.type=="armors"
+                                                    &&
+                                                    (!["Unarmored Defense","Light Barding", "Heavy
+                                                    Barding"].includes(item.prof))) ? "Armor" : ""}})
+                                                </span>
+                                                <span *ngIf="item.type == 'weapons'">
+                                                    ({{(item.level) ? "Level "+item.level+" " :""}}{{(item.prof ==
+                                                    'Unarmed Attacks') ? item.prof : item.prof.substr(0,
+                                                    item.prof.length - 8)}} {{item.group}})
+                                                </span>
+                                            </ng-template>
+                                            <ng-template #ItemTemplate>
+                                                <header class="spellHeader newrow" *ngIf="get_TileMode()">
+                                                    <ng-container *ngTemplateOutlet="ItemTitleTemplate">
+                                                    </ng-container>
+                                                </header>
+                                                <ng-container>
+                                                    <div class="newrow" [ngbTooltip]="cannot_Craft(item).join('\n')">
+                                                        <button class="newrow center-aligned" (click)="grant_Item(item)"
+                                                            [disabled]="cannot_Craft(item).length">
+                                                            Craft using Craft activity
                                                         </button>
-                                                        <button class="center-aligned"
-                                                            (click)="on_PrepareForQuickCrafting(item, 1)"
-                                                            [disabled]="preparations.available <= preparations.prepared">
-                                                            +
-                                                        </button>
-                                                        Prepare for quick deployment
-                                                    </span>
-                                                    <app-item [item]=item [itemStore]=true></app-item>
+                                                    </div>
+                                                </ng-container>
+                                                <app-itemMaterial class="newrow" [item]=item [craftingStation]="true">
+                                                </app-itemMaterial>
+                                                <div class="newrow list-item left-aligned"
+                                                    *ngIf="item.baseType=='Equipment'">
+                                                    <input id="{{item.id}}shoddy" type="checkbox"
+                                                        [(ngModel)]="item.shoddy">
+                                                    <label for="{{item.id}}shoddy">Shoddy</label>
                                                 </div>
-                                            </div>
+                                                <app-item [item]=item [itemStore]=true></app-item>
+                                            </ng-template>
+                                            <ng-container *ngIf="!get_TileMode()">
+                                                <div class="list-item"
+                                                    *ngFor="let inventoryID of [listID+item.id]; trackBy:trackByIndex;">
+                                                    <ng-container *ngIf="!get_TileMode()"></ng-container>
+                                                    <button class="newrow sublist-toggle"
+                                                        (click)="toggle_Item(inventoryID)">
+                                                        <ng-container *ngTemplateOutlet="ItemTitleTemplate">
+                                                        </ng-container>
+                                                    </button>
+                                                    <div class="list-item sublist lower"
+                                                        *ngIf="get_ShowItem()==inventoryID">
+                                                        <ng-container *ngTemplateOutlet="ItemTemplate">
+                                                        </ng-container>
+                                                    </div>
+                                                </div>
+                                            </ng-container>
+                                            <ng-container *ngIf="get_TileMode()">
+                                                <button [ngbPopover]="ItemTemplate" triggers="click"
+                                                    [ngClass]="{'penalty': canUse == false, 'bonus': canUse}"
+                                                    (click)="toggle_Item()">
+                                                    <app-gridIcon
+                                                        [ngClass]="{'penalty': canUse == false, 'bonus': canUse}"
+                                                        [ngbTooltip]="ItemTooltipTemplate" openDelay="100"
+                                                        [title]="item.displayName || item.name"
+                                                        [detail]="(item.traits.includes('Rare') ? 'R' : (item.traits.includes('Uncommon') ? 'U' : '')) + (item.level || '')"
+                                                        [item]="item">
+                                                    </app-gridIcon>
+                                                </button>
+                                            </ng-container>
                                         </ng-container>
                                     </ng-container>
                                 </div>
                             </ng-container>
                         </ng-container>
                     </ng-container>
-                </ng-container>
-                <header class="sectionHeader">Craft Items</header>
-                <app-tags [creature]="creature" [objectName]="'Crafting'" [showTraits]=true [showFeats]=true
-                    [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
-                <div class="list-item">
-                    <strong>Crafting costs</strong><br />
-                    The material cost of Crafting an item can vary depending on your success using the Craft activity.
-                    If you Craft an item in any way that requires you to spend materials, manually spend the appropriate
-                    amount of currency and any required items.
                 </div>
-                <div class="list-item">
-                    <strong>Shoddy items</strong><br />
-                    When available, a shoddy item usually costs half the Price of a standard item, though you can never
-                    sell one in any case. Attacks and checks involving a shoddy item take a –2 item penalty. This
-                    penalty also applies to any DCs that a shoddy item applies to (such as AC, for shoddy armor). A
-                    shoddy suit of armor also worsens the armor's check penalty by 2. A shoddy item's Hit Points and
-                    Broken Threshold are each half that of a normal item of its type.
+            </div>
+            <div class="charactersheet-column">
+                <div class="fullsize-scroll-box">
+                    <app-inventory [itemStore]="true" id="ItemStore-inventory" [sheetSide]="'right'"
+                        [ngClass]="{'minimized':(get_InventoryMinimized())}"></app-inventory>
                 </div>
-                <ng-container *ngFor="let itemSet of items.names; let index = index; trackBy:trackByIndex;">
-                    <ng-container *ngFor="let listID of [(index*1000+1000)]; trackBy:trackByIndex;">
-                        <button class="list-item"
-                            [ngStyle]="{'display':!get_VisibleItems(items[itemSet.key]).length ? 'none' : 'flex' }"
-                            (click)="toggle_List(listID)">
-                            <header class="sectionHeader">{{itemSet.name}}</header>
-                        </button>
-                        <div class="list-item"
-                            [ngStyle]="{'display':!get_VisibleItems(items[itemSet.key]).length ? 'none' : 'flex' }"
-                            *ngIf="get_ShowList()==listID||get_ShowList()=='All'">
-                            <ng-container
-                                *ngFor="let item of get_VisibleItems(items[itemSet.key]); trackBy:trackByIndex;">
-                                <div class="list-item"
-                                    *ngFor="let inventoryID of [listID+item.id]; trackBy:trackByIndex;">
-                                    <button class="newrow sublist-toggle" (click)="toggle_Item(inventoryID)">
-                                        <span>{{(item.get_Name) ? item.get_Name() : item.name}}</span>
-                                        <span *ngIf="item.type == 'armors'">{{(["Light Barding","Heavy
-                                            Barding"].includes(item.prof)) ? item.prof : item.prof.split(" ")[0]}}
-                                            {{item.group}}
-                                            {{(item.type=="armors" && (!["Unarmored Defense","Light Barding","Heavy
-                                            Barding"].includes(item.prof))) ? "Armor" : ""}}</span>
-                                        <span *ngIf="item.type == 'weapons'">{{(item.prof == 'Unarmed') ? item.prof :
-                                            item.prof.substr(0, item.prof.length - 8)}}
-                                            {{item.group}}</span>
-                                        <span>{{(item.level) ? "Level "+item.level :
-                                            "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"}}</span>
-                                    </button>
-                                    <div class="list-item sublist lower" *ngIf="get_ShowItem()==inventoryID">
-                                        <ng-container>
-                                            <button class="newrow center-aligned" (click)="grant_Item(item)"
-                                                [ngbTooltip]="cannot_Craft(item).join('\n')"
-                                                [disabled]="cannot_Craft(item).length">
-                                                Craft using Craft activity
-                                            </button>
-                                        </ng-container>
-                                        <app-itemMaterial class="newrow" [item]=item [craftingStation]="true">
-                                        </app-itemMaterial>
-                                        <div class="newrow list-item" *ngIf="item.baseType=='Equipment'">
-                                            <span>
-                                                <input id="{{item.id}}shoddy" type="checkbox" [(ngModel)]="item.shoddy">
-                                                <label for="{{item.id}}shoddy">Shoddy</label>
-                                            </span>
-                                        </div>
-                                        <app-item [item]=item [itemStore]=true></app-item>
-                                    </div>
-                                </div>
-                            </ng-container>
-                        </div>
-                    </ng-container>
-                </ng-container>
-            </ng-container>
+            </div>
         </div>
     </ng-container>
 </div>

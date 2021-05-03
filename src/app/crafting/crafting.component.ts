@@ -4,6 +4,10 @@ import { CharacterService } from '../character.service';
 import { Item } from '../Item';
 import { Character } from '../Character';
 import { NgbTooltipConfig } from '@ng-bootstrap/ng-bootstrap';
+import { Weapon } from '../Weapon';
+import { Armor } from '../Armor';
+import { AlchemicalBomb } from '../AlchemicalBomb';
+import { OtherConsumableBomb } from '../OtherConsumableBomb';
 
 @Component({
     selector: 'app-crafting',
@@ -47,6 +51,28 @@ export class CraftingComponent implements OnInit {
     get_ShowList() {
         return this.showList;
     }
+    
+    get_InventoryMinimized() {
+        return this.characterService.get_Character().settings.inventoryMinimized;
+    }
+
+    toggle_TileMode() {
+        this.get_Character().settings.craftingTileMode = !this.get_Character().settings.craftingTileMode;
+        this.characterService.set_ToChange("Character", "crafting");
+        this.characterService.process_ToChange();
+    }
+
+    get_TileMode() {
+        return this.get_Character().settings.craftingTileMode;
+    }
+
+    toggle_Sorting(type) {
+        this.sorting = type;
+    }
+
+    get_ShowSorting() {
+        return this.sorting;
+    }
 
     trackByIndex(index: number, obj: any): any {
         return index;
@@ -56,7 +82,7 @@ export class CraftingComponent implements OnInit {
         return this.characterService.get_Character();
     }
 
-    toggle_Item(id: number) {
+    toggle_Item(id: number = 0) {
         if (this.showItem == id) {
             this.showItem = 0;
         } else {
@@ -94,6 +120,24 @@ export class CraftingComponent implements OnInit {
             return false;
         }
         return true;
+    }
+
+    get_CanUse(item: Item) {
+        let canUse = undefined;
+        let character = this.get_Character();
+        if (item.constructor == Weapon) {
+            return (item as Weapon).profLevel(character, this.characterService, item, character.level) > 0;
+        }
+        if (item.constructor == Armor) {
+            return (item as Armor).profLevel(character, this.characterService, character.level) > 0;
+        }
+        if (item.constructor == AlchemicalBomb) {
+            return (item as AlchemicalBomb).profLevel(character, this.characterService, item, character.level) > 0;
+        }
+        if (item.constructor == OtherConsumableBomb) {
+            return (item as OtherConsumableBomb).profLevel(character, this.characterService, item, character.level) > 0;
+        }
+        return canUse;
     }
 
     get_Price(item: Item) {

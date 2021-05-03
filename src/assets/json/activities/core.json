@@ -3648,7 +3648,7 @@
         "requirements": "You have a fully grown tail.",
         "trigger": "You become grabbed.",
         "cooldown": 1008000,
-        "desc": "You can shed your tail to escape. You cease being grabbed, then Stride without triggering any reactions from the creature that grabbed you. It takes 1 week for your tail to fully grow back. Until it does, you can’t use your tail unarmed attack, and you take a –2 circumstance penalty on checks to Balance.",
+        "desc": "You can shed your tail to escape. You cease being grabbed, then Stride without triggering any reactions from the creature that grabbed you. It takes 1 week for your tail to fully grow back. Until it does, you can’t use your tail unarmed attack, and you take a -2 circumstance penalty on checks to Balance.",
         "gainConditions": [
             {
                 "duration": 1008000,
