@@ -23,6 +23,8 @@ import { Weapon } from '../Weapon';
 import { NgbPopoverConfig, NgbTooltipConfig } from '@ng-bootstrap/ng-bootstrap';
 import { Armor } from '../Armor';
 import { ToastService } from '../toast.service';
+import { AlchemicalBomb } from '../AlchemicalBomb';
+import { OtherConsumableBomb } from '../OtherConsumableBomb';
 
 @Component({
     selector: 'app-inventory',
@@ -116,7 +118,7 @@ export class InventoryComponent implements OnInit {
         return this.showList;
     }
 
-    toggle_Item(id: number) {
+    toggle_Item(id: number = 0) {
         if (this.showItem == id) {
             this.showItem = 0;
         } else {
@@ -126,6 +128,16 @@ export class InventoryComponent implements OnInit {
 
     get_ShowItem() {
         return this.showItem;
+    }
+
+    toggle_TileMode() {
+        this.get_Character().settings.inventoryTileMode = !this.get_Character().settings.inventoryTileMode;
+        this.characterService.set_ToChange("Character", "inventory");
+        this.characterService.process_ToChange();
+    }
+
+    get_TileMode() {
+        return this.get_Character().settings.inventoryTileMode;
     }
 
     get_Character() {
@@ -395,7 +407,7 @@ export class InventoryComponent implements OnInit {
         if (item.broken) {
             if (!this.can_Equip(item, 0) && item.equipped) {
                 this.characterService.onEquip(this.get_Creature() as Character | AnimalCompanion, this.get_Creature().inventories[0], item, false, false, true)
-                this.toastService.show("Your shield broke and was unequipped.", [], this.characterService)
+                this.toastService.show("Your <strong>" + item.get_Name() + "</strong> was unequipped because it is broken.", [], this.characterService)
             }
         }
     }
@@ -469,8 +481,8 @@ export class InventoryComponent implements OnInit {
     }
 
     get_Price(item: Item) {
-        if (item["get_Price"]) {
-            return item["get_Price"](this.itemsService);
+        if ((item as Equipment).get_Price) {
+            return (item as Equipment).get_Price(this.itemsService);
         } else {
             return item.price;
         }
@@ -580,6 +592,32 @@ export class InventoryComponent implements OnInit {
         } else {
             return item.actions;
         }
+    }
+
+    get_CanUse(item: Item) {
+        let canUse = undefined;
+        let character = this.get_Character();
+        if (item.constructor == Weapon) {
+            if (["Unarmed Attacks", "Simple Weapons", "Martial Weapons", "Advanced Weapons"].includes((item as Weapon).prof)) {
+                return (item as Weapon).profLevel(character, this.characterService, item, character.level) > 0;
+            }
+        }
+        if (item.constructor == Armor) {
+            if (["Unarmored", "Light Armor", "Medium Armor", "Heavy Armor"].includes((item as Weapon).prof)) {
+                return (item as Armor).profLevel(character, this.characterService, character.level) > 0;
+            }
+        }
+        if (item.constructor == AlchemicalBomb) {
+            if (["Unarmed Attacks", "Simple Weapons", "Martial Weapons", "Advanced Weapons"].includes((item as AlchemicalBomb).prof)) {
+                return (item as AlchemicalBomb).profLevel(character, this.characterService, item, character.level) > 0;
+            }
+        }
+        if (item.constructor == OtherConsumableBomb) {
+            if (["Unarmed Attacks", "Simple Weapons", "Martial Weapons", "Advanced Weapons"].includes((item as OtherConsumableBomb).prof)) {
+                return (item as OtherConsumableBomb).profLevel(character, this.characterService, item, character.level) > 0;
+            }
+        }
+        return canUse;
     }
 
     get_Spells(name: string = "", type: string = "", tradition: string = "") {

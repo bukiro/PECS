@@ -23,6 +23,7 @@ export class Settings {
     hintsShowMoreInformation: boolean = true;
     itemsTileMode: boolean = true;
     inventoryMinimized: boolean = false;
+    inventoryTileMode: boolean = true;
     lowerLevelFeats: boolean = true;
     noFriendlyCasterConditions: boolean = false;
     noHostileCasterConditions: boolean = false;

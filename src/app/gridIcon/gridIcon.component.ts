@@ -8,6 +8,7 @@ import { Spell } from '../Spell';
 import { Item } from '../Item';
 import { Equipment } from '../Equipment';
 import { Weapon } from '../Weapon';
+import { Armor } from '../Armor';
 
 @Component({
     selector: 'app-gridIcon',
@@ -89,6 +90,33 @@ export class GridIconComponent implements OnInit {
         if (this.spell?.actions) {
             let actions = this.spell.actions.replace("minutes", "min").replace("minute", "min").replace(" to 2A", "| <i class='bi-plus-circle'></i>").replace(" to 3A", "| <i class='bi-plus-circle'></i>");
             return "actionIcons|" + actions;
+        }
+        if (this.item) {
+            let itemSubTitle = "";
+            if ((this.item as Equipment).material?.length) {
+                itemSubTitle += "<i class='ra ra-diamond'></i>"
+            }
+            if ((this.item as Equipment).broken) {
+                itemSubTitle += "<i class='ra ra-broken-shield'></i>"
+            }
+            if ((this.item as Equipment).shoddy) {
+                itemSubTitle += "<i class='ra ra-broken-bottle'></i>"
+            }
+            if (this.item.expiration) {
+                itemSubTitle += "<i class='ra ra-clockwork'></i>"
+            }
+            if ((this.item as Weapon).large) {
+                itemSubTitle += "<i class='ra ra-large-hammer'></i>"
+            }
+            if ((this.item as Weapon).bladeAlly) {
+                itemSubTitle += "<i class='ra ra-fireball-sword'></i>"
+            }
+            if ((this.item as Weapon|Armor).battleforged) {
+                itemSubTitle += "<i class='ra ra-fireball-sword'></i>"
+            }
+            if (itemSubTitle) {
+                return itemSubTitle;
+            }
         }
         let subTitle = this.subTitle;
         //Convert icon- names into a <i> with that icon. Icons can be separated with |.
