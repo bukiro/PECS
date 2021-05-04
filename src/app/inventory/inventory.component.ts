@@ -256,7 +256,7 @@ export class InventoryComponent implements OnInit {
     }
 
     can_Equip(item: Item, inventoryIndex: number) {
-        return (inventoryIndex == 0 && item.equippable && this.creature == "Character" && (!(item as Equipment).broken || item.constructor == Armor) && !item.traits.includes("Companion")) || (item.traits.includes("Companion") && this.creature == "Companion") || item.name == "Unarmored"
+        return (inventoryIndex == 0 && item.equippable && this.creature == "Character" && (!(item as Equipment).broken || item instanceof Armor) && !item.traits.includes("Companion")) || (item.traits.includes("Companion") && this.creature == "Companion") || item.name == "Unarmored"
     }
 
     can_Invest(item: Item, inventoryIndex: number) {
@@ -597,24 +597,24 @@ export class InventoryComponent implements OnInit {
     get_CanUse(item: Item) {
         let canUse = undefined;
         let character = this.get_Character();
-        if (item.constructor == Weapon) {
-            if (["Unarmed Attacks", "Simple Weapons", "Martial Weapons", "Advanced Weapons"].includes((item as Weapon).prof)) {
-                return (item as Weapon).profLevel(character, this.characterService, item, character.level) > 0;
+        if (item instanceof Weapon) {
+            if (["Unarmed Attacks", "Simple Weapons", "Martial Weapons", "Advanced Weapons"].includes(item.prof)) {
+                return item.profLevel(character, this.characterService, item, character.level) > 0;
             }
         }
-        if (item.constructor == Armor) {
-            if (["Unarmored Defense", "Light Armor", "Medium Armor", "Heavy Armor"].includes((item as Weapon).prof)) {
-                return (item as Armor).profLevel(character, this.characterService, character.level) > 0;
+        if (item instanceof Armor) {
+            if (["Unarmored Defense", "Light Armor", "Medium Armor", "Heavy Armor"].includes(item.get_Proficiency())) {
+                return item.profLevel(character, this.characterService, character.level) > 0;
             }
         }
-        if (item.constructor == AlchemicalBomb) {
-            if (["Unarmed Attacks", "Simple Weapons", "Martial Weapons", "Advanced Weapons"].includes((item as AlchemicalBomb).prof)) {
-                return (item as AlchemicalBomb).profLevel(character, this.characterService, item, character.level) > 0;
+        if (item instanceof AlchemicalBomb) {
+            if (["Unarmed Attacks", "Simple Weapons", "Martial Weapons", "Advanced Weapons"].includes(item.prof)) {
+                return item.profLevel(character, this.characterService, item, character.level) > 0;
             }
         }
-        if (item.constructor == OtherConsumableBomb) {
-            if (["Unarmed Attacks", "Simple Weapons", "Martial Weapons", "Advanced Weapons"].includes((item as OtherConsumableBomb).prof)) {
-                return (item as OtherConsumableBomb).profLevel(character, this.characterService, item, character.level) > 0;
+        if (item instanceof OtherConsumableBomb) {
+            if (["Unarmed Attacks", "Simple Weapons", "Martial Weapons", "Advanced Weapons"].includes(item.prof)) {
+                return item.profLevel(character, this.characterService, item, character.level) > 0;
             }
         }
         return canUse;
@@ -655,13 +655,13 @@ export class InventoryComponent implements OnInit {
             this.effectsService.get_EffectsOnThis(this.get_Character(), "Allow Battleforger").length
         ) && (
                 (
-                    item.constructor == Weapon &&
-                    (item as Weapon).prof != "Unarmed Attacks"
+                    item instanceof Weapon &&
+                    item.prof != "Unarmed Attacks"
                 ) ||
-                item.constructor == Armor ||
+                item instanceof Armor ||
                 (
-                    item.constructor == WornItem &&
-                    (item as WornItem).isHandwrapsOfMightyBlows)
+                    item instanceof WornItem &&
+                    item.isHandwrapsOfMightyBlows)
             );
     }
 
@@ -682,8 +682,8 @@ export class InventoryComponent implements OnInit {
 
     get_RepairAllowed(item: Item) {
         if ((item as Equipment).broken) {
-            if (item.constructor == Shield) {
-                if ((item as Shield).get_HitPoints() < (item as Shield).get_BrokenThreshold()) {
+            if (item instanceof Shield) {
+                if (item.get_HitPoints() < item.get_BrokenThreshold()) {
                     return false;
                 }
             }

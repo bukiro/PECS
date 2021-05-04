@@ -127,7 +127,7 @@ export class ItemComponent implements OnInit {
         if (["armors", "shields"].includes(this.item.type)) {
             this.characterService.set_ToChange(this.creature, "defense");
         }
-        if (this.item.constructor == Weapon) {
+        if (this.item instanceof Weapon) {
             this.characterService.set_ToChange(this.creature, "attacks");
         }
         this.characterService.process_ToChange();
@@ -135,7 +135,7 @@ export class ItemComponent implements OnInit {
 
     on_PoisonUse(poison: AlchemicalPoison) {
         this.characterService.on_ConsumableUse(this.get_Creature(), poison);
-        if (this.item.constructor == Weapon) {
+        if (this.item instanceof Weapon) {
             this.item.poisonsApplied.length = 0;
             this.characterService.set_ToChange(this.creature, "attacks");
         }

@@ -125,7 +125,7 @@ export class ItemCollection {
         //Then returned at /10
         let sum: number = 0;
         function addup(item: Item|OtherItem) {
-            let bulk = item.constructor == OtherItem ? item.bulk : (item as Item).get_Bulk();
+            let bulk = item instanceof OtherItem ? item.bulk : (item as Item).get_Bulk();
             if ((item as Equipment).carryingBulk && !(item as Equipment).equipped) {
                 bulk = (item as Equipment).carryingBulk;
             }

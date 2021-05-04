@@ -9,6 +9,7 @@ import { Item } from '../Item';
 import { Equipment } from '../Equipment';
 import { Weapon } from '../Weapon';
 import { Armor } from '../Armor';
+import { Consumable } from '../Consumable';
 
 @Component({
     selector: 'app-gridIcon',
@@ -233,12 +234,13 @@ export class GridIconComponent implements OnInit {
             return "<i class='bi-lock'></i>";
         }
         if (this.item) {
-            if (this.item.constructor == Weapon) {
+            if (this.item instanceof Weapon) {
                 switch ((this.item as Weapon).group) {
                     case "Axe":
                         return "<i class='ra ra-axe'></i>";
                     case "Bomb":
-                        return "<i class='ra ra-bomb-explosion'></i>";
+                        //Bombs can stack. Instead of showing a bomb icon, show the amount.
+                        return this.item.amount.toString();
                     case "Bow":
                         return "<i class='ra ra-crossbow'></i>";
                     case "Brawling":
@@ -266,6 +268,9 @@ export class GridIconComponent implements OnInit {
                     case "Sword":
                         return "<i class='ra ra-sword'></i>";
                 }
+            }
+            if (this.item instanceof Consumable || this.item.amount != 1) {
+                return this.item.amount.toString();
             }
         }
         if (superTitle.length <= 2 || superTitle.includes("<")) {
@@ -319,8 +324,8 @@ export class GridIconComponent implements OnInit {
                 if ((this.item as Equipment)?.propertyRunes.length) {
                     value += "+";
                 }
+                return value;
             }
-            return value;
         }
         return "";
     }

@@ -201,24 +201,24 @@ export class ItemsComponent implements OnInit {
     get_CanUse(item: Item) {
         let canUse = undefined;
         let character = this.get_Character();
-        if (item.constructor == Weapon) {
-            if (["Unarmed Attacks", "Simple Weapons", "Martial Weapons", "Advanced Weapons"].includes((item as Weapon).prof)) {
-                return (item as Weapon).profLevel(character, this.characterService, item, character.level) > 0;
+        if (item instanceof Weapon) {
+            if (["Unarmed Attacks", "Simple Weapons", "Martial Weapons", "Advanced Weapons"].includes(item.prof)) {
+                return item.profLevel(character, this.characterService, item, character.level) > 0;
             }
         }
-        if (item.constructor == Armor) {
-            if (["Unarmored Defense", "Light Armor", "Medium Armor", "Heavy Armor"].includes((item as Weapon).prof)) {
-                return (item as Armor).profLevel(character, this.characterService, character.level) > 0;
+        if (item instanceof Armor) {
+            if (["Unarmored Defense", "Light Armor", "Medium Armor", "Heavy Armor"].includes(item.get_Proficiency())) {
+                return item.profLevel(character, this.characterService, character.level) > 0;
             }
         }
-        if (item.constructor == AlchemicalBomb) {
-            if (["Unarmed Attacks", "Simple Weapons", "Martial Weapons", "Advanced Weapons"].includes((item as AlchemicalBomb).prof)) {
-                return (item as AlchemicalBomb).profLevel(character, this.characterService, item, character.level) > 0;
+        if (item instanceof AlchemicalBomb) {
+            if (["Unarmed Attacks", "Simple Weapons", "Martial Weapons", "Advanced Weapons"].includes(item.prof)) {
+                return item.profLevel(character, this.characterService, item, character.level) > 0;
             }
         }
-        if (item.constructor == OtherConsumableBomb) {
-            if (["Unarmed Attacks", "Simple Weapons", "Martial Weapons", "Advanced Weapons"].includes((item as OtherConsumableBomb).prof)) {
-                return (item as OtherConsumableBomb).profLevel(character, this.characterService, item, character.level) > 0;
+        if (item instanceof OtherConsumableBomb) {
+            if (["Unarmed Attacks", "Simple Weapons", "Martial Weapons", "Advanced Weapons"].includes(item.prof)) {
+                return item.profLevel(character, this.characterService, item, character.level) > 0;
             }
         }
         return canUse;
@@ -351,11 +351,11 @@ export class ItemsComponent implements OnInit {
     }
 
     can_ApplyTalismans(item: Item) {
-        return (item.constructor == Armor || item.constructor == Shield || item.constructor == Weapon);
+        return (item instanceof Armor || item instanceof Shield || item instanceof Weapon);
     }
 
     can_ChangeMaterial(item: Item) {
-        return (item.constructor == Armor || item.constructor == Shield || item.constructor == Weapon);
+        return (item instanceof Armor || item instanceof Shield || item instanceof Weapon);
     }
 
     grant_Item(creature: string = "Character", item: Item, pay: boolean = false) {

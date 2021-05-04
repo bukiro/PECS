@@ -845,7 +845,7 @@ export class CharacterService {
                 } else {
                     let equip = true;
                     //Don't equip the new item if it's a shield or armor and this one is too - only one shield or armor can be equipped
-                    if ((returnedInventoryItem.constructor == Armor || returnedInventoryItem.constructor == Shield) && newItem.constructor == returnedInventoryItem.constructor) {
+                    if ((returnedInventoryItem instanceof Armor || returnedInventoryItem instanceof Shield) && newItem instanceof returnedInventoryItem.constructor) {
                         equip = false;
                     }
                     let grantedItem = this.grant_InventoryItem(creature, inventory, newItem, true, false, equip);
@@ -866,7 +866,7 @@ export class CharacterService {
                 activity.active = false;
             });
         }
-        if (returnedInventoryItem.constructor == AlchemicalBomb || returnedInventoryItem.constructor == OtherConsumableBomb || returnedInventoryItem.constructor == Ammunition || returnedInventoryItem.constructor == Snare) {
+        if (returnedInventoryItem instanceof AlchemicalBomb || returnedInventoryItem instanceof OtherConsumableBomb || returnedInventoryItem instanceof Ammunition || returnedInventoryItem instanceof Snare) {
             this.set_ToChange(creature.type, "attacks");
         }
         returnedInventoryItem["activities"]?.forEach((activity: ItemActivity) => {
@@ -885,7 +885,7 @@ export class CharacterService {
 
     drop_InventoryItem(creature: Character | AnimalCompanion, inventory: ItemCollection, item: Item, changeAfter: boolean = true, equipBasicItems: boolean = true, including: boolean = true, amount: number = 1) {
         this.set_ToChange(creature.type, "inventory");
-        if (item.constructor == AlchemicalBomb || item.constructor == OtherConsumableBomb || item.constructor == Ammunition || item.constructor == Snare) {
+        if (item instanceof AlchemicalBomb || item instanceof OtherConsumableBomb || item instanceof Ammunition || item instanceof Snare) {
             this.set_ToChange(creature.type, "attacks");
         }
         if (item["showon"]) {
@@ -1046,7 +1046,7 @@ export class CharacterService {
     }
 
     set_ItemViewChanges(creature: Character | AnimalCompanion, item: Item) {
-        if (item.constructor == AlchemicalBomb || item.constructor == OtherConsumableBomb || item.constructor == AlchemicalPoison || item.constructor == Ammunition || item.constructor == Snare) {
+        if (item instanceof AlchemicalBomb || item instanceof OtherConsumableBomb || item instanceof AlchemicalPoison || item instanceof Ammunition || item instanceof Snare) {
             this.set_ToChange(creature.type, "attacks");
         }
         if (item["showon"]) {
@@ -1055,20 +1055,20 @@ export class CharacterService {
         if (item["effects"]?.length) {
             this.set_ToChange(creature.type, "effects");
         }
-        if (item.constructor.prototype instanceof Equipment) {
+        if ((item as Equipment).baseType == "Equipment") {
             this.set_EquipmentViewChanges(this.get_Character(), item as Equipment);
         }
     }
 
     set_EquipmentViewChanges(creature: Character | AnimalCompanion, item: Equipment) {
         //Prepare refresh list according to the item's properties.
-        if (item.constructor == Shield || item.constructor == Armor || item.constructor == Weapon) {
+        if (item instanceof Shield || item instanceof Armor || item instanceof Weapon) {
             this.set_ToChange(creature.type, "defense");
             //There are effects that are based on your currently equipped armor and shield.
             //That means we have to check the effects whenever we equip or unequip one of those.
             this.set_ToChange(creature.type, "effects");
         }
-        if (item.constructor == Weapon) {
+        if (item instanceof Weapon) {
             this.set_ToChange(creature.type, "attacks");
             //There are effects that are based on your currently weapons.
             //That means we have to check the effects whenever we equip or unequip one of those.
@@ -1083,14 +1083,14 @@ export class CharacterService {
             })
         })
         if (item.effects?.length ||
-            item.constructor == Armor && (item as Armor).get_Strength()) {
+            item instanceof Armor && item.get_Strength()) {
             this.set_ToChange(creature.type, "effects");
         }
-        if (item.constructor == Weapon) {
+        if (item instanceof Weapon) {
             this.set_ToChange(creature.type, "attacks");
         }
-        if (item.constructor == Armor ||
-            item.constructor == Shield) {
+        if (item instanceof Armor ||
+            item instanceof Shield) {
             this.set_ToChange(creature.type, "defense");
         }
         if (item.activities?.length) {
@@ -1112,18 +1112,18 @@ export class CharacterService {
                 this.set_ToChange(creature.type, "activities");
             }
         });
-        if (item.constructor == AdventuringGear) {
-            if ((item as AdventuringGear).isArmoredSkirt) {
+        if (item instanceof AdventuringGear) {
+            if (item.isArmoredSkirt) {
                 this.set_ToChange(creature.type, "inventory");
                 this.set_ToChange(creature.type, "defense");
             }
         }
-        if (item.constructor == WornItem) {
-            if ((item as WornItem).isDoublingRings) {
+        if (item instanceof WornItem) {
+            if (item.isDoublingRings) {
                 this.set_ToChange(creature.type, "inventory");
                 this.set_ToChange(creature.type, "attacks");
             }
-            if ((item as WornItem).isHandwrapsOfMightyBlows) {
+            if (item.isHandwrapsOfMightyBlows) {
                 this.set_ToChange(creature.type, "inventory");
                 this.set_ToChange(creature.type, "attacks");
             }
@@ -2057,7 +2057,7 @@ export class CharacterService {
     get_ActivitiesShowingOn(creature: Creature, objectName: string = "all") {
         return this.get_OwnedActivities(creature)
             //Conflate ActivityGains and their respective Activities into one object...
-            .map(gain => gain.constructor == ItemActivity ? [gain, gain] : [gain, this.activitiesService.get_Activities(gain.name)[0]])
+            .map(gain => gain instanceof ItemActivity ? [gain, gain] : [gain, this.activitiesService.get_Activities(gain.name)[0]])
             //...so that we can find the activities where the gain is active or the activity doesn't need to be toggled...
             .filter((gainAndActivity: [ActivityGain | ItemActivity, Activity]) => gainAndActivity[1] && (gainAndActivity[0].active || !gainAndActivity[1].toggle))
             //...and then keep only the activities.

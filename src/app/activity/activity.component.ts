@@ -198,7 +198,7 @@ export class ActivityComponent implements OnInit {
     }
 
     get_ActivitiesFromGain(gain: ActivityGain | ItemActivity) {
-        return gain.constructor == ItemActivity ? [gain] : this.get_Activities(gain.name)
+        return gain instanceof ItemActivity ? [gain] : this.get_Activities(gain.name)
     }
 
     get_FuseStanceFeat() {

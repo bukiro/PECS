@@ -121,10 +121,10 @@ export class ItemTalismansComponent implements OnInit {
             }
         }
         this.characterService.set_ToChange("Character", "inventory");
-        if (this.item.constructor == Weapon) {
+        if (this.item instanceof Weapon) {
             this.characterService.set_ToChange("Character", "attacks");
         }
-        if (this.item.constructor == Armor || this.item.constructor == Shield) {
+        if (this.item instanceof Armor || this.item instanceof Shield) {
             this.characterService.set_ToChange("Character", "defense");
         }
         this.set_TalismanNames();

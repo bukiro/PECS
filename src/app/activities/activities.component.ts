@@ -119,7 +119,7 @@ export class ActivitiesComponent implements OnInit {
         let activities: (ActivityGain|ItemActivity)[] = [];
         let unique: string[] = [];
         this.characterService.get_OwnedActivities(this.get_Creature()).forEach(activity => {
-            if (activity.constructor == ItemActivity) {
+            if (activity instanceof ItemActivity) {
                 activity.get_Cooldown(this.get_Creature(), this.characterService)
             } else {
                 this.get_Activities(activity.name).forEach(actualActivity => {actualActivity.get_Cooldown(this.get_Creature(), this.characterService)})

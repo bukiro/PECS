@@ -10,10 +10,6 @@ import { Material } from './Material';
 import { Hint } from './Hint';
 
 export class Equipment extends Item {
-    //This is a list of all the attributes that should be saved if a refID exists. All others can be looked up via the refID when loading the character.
-    //If an attribute could be the same as a new Item, but different from its refID item, it should be on the save list.
-    //For example, a set of arrows comes with amount=10, but a standard item has amount=1.
-    // If you use up 9 arrows and then save, amount=1 will be deleted because it's the same as a new item, and you will have 10 arrows after loading.
     public readonly baseType = "Equipment";
     //Allow changing of "equippable" by custom item creation
     allowEquippable = true;

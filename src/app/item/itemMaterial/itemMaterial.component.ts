@@ -368,25 +368,22 @@ export class ItemMaterialComponent implements OnInit {
     }
 
     set_MaterialNames() {
-        if (this.item.constructor == Weapon) {
-            let weapon = this.item as Weapon;
+        if (this.item instanceof Weapon) {
             this.newWeaponMaterial =
-                (weapon.material ? [
-                    (weapon.material[0] ? { material: weapon.material[0] } : { material: new WeaponMaterial() })
+                (this.item.material ? [
+                    (this.item.material[0] ? { material: this.item.material[0] } : { material: new WeaponMaterial() })
                 ] : [{ material: new WeaponMaterial() }])
         }
-        if (this.item.constructor == Armor) {
-            let armor = this.item as Armor;
+        if (this.item instanceof Armor) {
             this.newArmorMaterial =
-                (armor.material ? [
-                    (armor.material[0] ? { material: armor.material[0] } : { material: new ArmorMaterial() })
+                (this.item.material ? [
+                    (this.item.material[0] ? { material: this.item.material[0] } : { material: new ArmorMaterial() })
                 ] : [{ material: new ArmorMaterial() }])
         }
-        if (this.item.constructor == Shield) {
-            let shield = this.item as Shield;
+        if (this.item instanceof Shield) {
             this.newShieldMaterial =
-                (shield.material ? [
-                    (shield.material[0] ? { material: shield.material[0] } : { material: new ShieldMaterial() })
+                (this.item.material ? [
+                    (this.item.material[0] ? { material: this.item.material[0] } : { material: new ShieldMaterial() })
                 ] : [{ material: new ShieldMaterial() }])
         }
     }

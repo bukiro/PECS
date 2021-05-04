@@ -439,7 +439,7 @@ export class EffectsService {
             }
             //Hide all relative effects that come from feats, so we don't see green effects permanently after taking a feat.
             show = effect.show;
-            if (effect.show == undefined && object.constructor == Feat) {
+            if (effect.show == undefined && object instanceof Feat) {
                 show = false;
             }
             if (source == "Custom Effect") {
@@ -577,7 +577,7 @@ export class EffectsService {
         //Active activities and active hints
         characterService.get_OwnedActivities(creature, creature.level, true).filter(activity => activity.active).forEach(activity => {
             let originalActivity: Activity;
-            if (activity.constructor == ItemActivity) {
+            if (activity instanceof ItemActivity) {
                 originalActivity = activity as ItemActivity;
             } else {
                 originalActivity = this.activitiesService.get_Activities(activity.name)[0];
@@ -607,12 +607,12 @@ export class EffectsService {
                             add_HintEffects(stone, this);
                         });
                     }
-                    if ((item.moddable == "armor" || item.constructor == Armor) && (item as Equipment).propertyRunes) {
+                    if ((item.moddable == "armor" || item instanceof Armor) && (item as Equipment).propertyRunes) {
                         (item as Equipment).propertyRunes.forEach(rune => {
                             add_HintEffects(rune as ArmorRune, this);
                         });
                     }
-                    if ((item.moddable == "shield" || item.constructor == Shield) && (item as Equipment).propertyRunes) {
+                    if ((item.moddable == "shield" || item instanceof Shield) && (item as Equipment).propertyRunes) {
                         (item as Equipment).propertyRunes.forEach(rune => {
                             add_HintEffects(rune as ArmorRune, this);
                         });

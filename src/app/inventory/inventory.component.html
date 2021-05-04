@@ -472,7 +472,7 @@
                                     </div>
                                     <div class="fullwidth" [ngbCollapse]="!item.showRunes"
                                         *ngIf="item.moddable && item.moddable != '-' && item.type != 'shield'">
-                                        <app-itemRunes class="list-item" [item]=item [itemStore]=false>
+                                        <app-itemRunes class="newrow" [item]=item [itemStore]=false>
                                         </app-itemRunes>
                                     </div>
                                     <app-itemOils [item]=item [itemStore]=false *ngIf="item.type != 'oils'">

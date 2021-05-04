@@ -144,7 +144,7 @@ export class ActivitiesService {
         //Gain Items on Activation
         if (activity.gainItems.length && creature.type != "Familiar") {
             if (activated) {
-                if (gain.constructor == ActivityGain) {
+                if (gain.constructor instanceof ActivityGain) {
                     gain.gainItems = activity.gainItems.map(gainItem => Object.assign(new ItemGain(), gainItem));
                 }
                 gain.gainItems.forEach(gainItem => {
@@ -164,7 +164,7 @@ export class ActivitiesService {
                 gain.gainItems.forEach(gainItem => {
                     characterService.lose_GainedItem(creature as Character | AnimalCompanion, gainItem);
                 });
-                if (gain.constructor == ActivityGain) {
+                if (gain instanceof ActivityGain) {
                     gain.gainItems = [];
                 }
             }
@@ -259,7 +259,7 @@ export class ActivitiesService {
         if (activity.castSpells) {
             if (activated) {
                 //For non-item activities, which are read-only, we have to store any temporary spell gain data (like duration and targets) on the activity gain instead of the activity, so we copy all spell casts (which include spell gains) to the activity gain.
-                if (gain.constructor == ActivityGain) {
+                if (gain instanceof ActivityGain) {
                     gain.castSpells = activity.castSpells.map(spellCast => Object.assign(new SpellCast(), JSON.parse(JSON.stringify(spellCast))));
                 }
             }
@@ -284,7 +284,7 @@ export class ActivitiesService {
                 }
             })
             if (!activated) {
-                if (gain.constructor == ActivityGain) {
+                if (gain instanceof ActivityGain) {
                     gain.castSpells = [];
                 }
             }
@@ -320,8 +320,8 @@ export class ActivitiesService {
         //Get the original activity information, and if its cooldown is exactly one day or until rest (-2), the activity gain's cooldown is reset.
         characterService.get_OwnedActivities(creature).filter((gain: ActivityGain | ItemActivity) => gain.activeCooldown != 0 || gain.duration == -2).forEach(gain => {
             let activity: Activity | ItemActivity;
-            if (gain.constructor == ItemActivity) {
-                activity = gain as ItemActivity;
+            if (gain instanceof ItemActivity) {
+                activity = gain;
             } else {
                 activity = this.get_Activities(gain.name)[0];
             }
@@ -340,8 +340,8 @@ export class ActivitiesService {
         //Get the original activity information, and if its cooldown is until refocus (-3), the activity gain's cooldown is reset.
         characterService.get_OwnedActivities(creature).filter((gain: ActivityGain | ItemActivity) => gain.activeCooldown == -3 || gain.duration == -3).forEach(gain => {
             let activity: Activity | ItemActivity;
-            if (gain.constructor == ItemActivity) {
-                activity = gain as ItemActivity;
+            if (gain instanceof ItemActivity) {
+                activity = gain;
             } else {
                 activity = this.get_Activities(gain.name)[0];
             }
@@ -359,8 +359,8 @@ export class ActivitiesService {
         characterService.get_OwnedActivities(creature, undefined, true).filter(gain => gain.activeCooldown || gain.duration).forEach(gain => {
             //Tick down the duration and the cooldown by the amount of turns.
             let activity: Activity | ItemActivity;
-            if (gain.constructor == ItemActivity) {
-                activity = gain as ItemActivity;
+            if (gain instanceof ItemActivity) {
+                activity = gain;
                 characterService.set_ToChange(creature.type, "inventory");
             } else {
                 activity = this.get_Activities(gain.name)[0];
@@ -387,7 +387,7 @@ export class ActivitiesService {
                     gain.chargesUsed = 0;
                 }
             }
-            if (gain.constructor == ItemActivity) {
+            if (gain instanceof ItemActivity) {
                 characterService.set_ToChange(creature.type, "inventory");
             }
         });
