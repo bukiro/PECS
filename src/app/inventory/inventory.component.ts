@@ -603,7 +603,7 @@ export class InventoryComponent implements OnInit {
             }
         }
         if (item.constructor == Armor) {
-            if (["Unarmored", "Light Armor", "Medium Armor", "Heavy Armor"].includes((item as Weapon).prof)) {
+            if (["Unarmored Defense", "Light Armor", "Medium Armor", "Heavy Armor"].includes((item as Weapon).prof)) {
                 return (item as Armor).profLevel(character, this.characterService, character.level) > 0;
             }
         }

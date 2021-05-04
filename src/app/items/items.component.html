@@ -205,16 +205,14 @@
                                                                 <i class="value bi-check2 bonus"
                                                                     *ngIf="!get_TileMode() && canUse"
                                                                     [ngbTooltip]="'You are trained with this item.'"></i>
-                                                                {{(item.get_Name) ? item.get_Name() :
-                                                                item.name}}
+                                                                {{(item.get_Name) ? item.get_Name() : item.name}}
                                                             </span>
                                                             <span *ngIf="item.type == 'armors'">
                                                                 {{(["Light Barding", "Heavy Barding"]
-                                                                .includes(item.prof)) ? item.prof :
-                                                                item.prof.split("
-                                                                ")[0]}} {{item.group}} {{(item.type=="armors" &&
+                                                                .includes(item.prof)) ? item.prof : item.prof.split("
+                                                                ")[0]}} {{item.group}}{{(item.type=="armors" &&
                                                                 (!["Unarmored Defense","Light Barding", "Heavy
-                                                                Barding"].includes(item.prof))) ? "Armor" : ""}}
+                                                                Barding"].includes(item.prof))) ? " Armor" : ""}}
                                                             </span>
                                                             <span *ngIf="item.type == 'weapons'">
                                                                 {{(item.prof == 'Unarmed Attacks') ? item.prof :
@@ -222,31 +220,27 @@
                                                                 {{item.group}}
                                                             </span>
                                                             <span>
-                                                                {{(item.level) ? "Level "+item.level :
-                                                                "&nbsp;"}}
+                                                                {{(item.level) ? "Level "+item.level : "&nbsp;"}}
                                                             </span>
                                                         </ng-template>
                                                         <ng-template #ItemTooltipTemplate>
                                                             <span>
-                                                                {{(item.get_Name) ? item.get_Name() :
-                                                                item.name}}
+                                                                {{(item.get_Name) ? item.get_Name() : item.name}}
                                                             </span>
                                                             <span *ngIf="item.type == 'armors'">
                                                                 ({{(item.level) ? "Level "+item.level+" " :
-                                                                ""}}{{(["Light
-                                                                Barding", "Heavy Barding"].includes(item.prof)) ?
-                                                                item.prof
-                                                                : item.prof.split(" ")[0]}} {{item.group}}
-                                                                {{(item.type=="armors" && (!["Unarmored Defense","Light
-                                                                Barding", "Heavy Barding"].includes(item.prof))) ?
-                                                                "Armor" :
-                                                                ""}})
+                                                                ""}}{{(["Light Barding", "Heavy
+                                                                Barding"].includes(item.prof)) ? item.prof :
+                                                                item.prof.split(" ")[0]}}{{item.group ? " " + item.group
+                                                                : ""}}{{(item.type=="armors" && (!["Unarmored
+                                                                Defense","Light Barding", "Heavy
+                                                                Barding"].includes(item.prof))) ? " Armor" : ""}})
                                                             </span>
                                                             <span *ngIf="item.type == 'weapons'">
                                                                 ({{(item.level) ? "Level "+item.level+" "
-                                                                :""}}{{(item.prof
-                                                                == 'Unarmed Attacks') ? item.prof : item.prof.substr(0,
-                                                                item.prof.length - 8)}} {{item.group}})
+                                                                :""}}{{(item.prof == 'Unarmed Attacks') ? item.prof :
+                                                                item.prof.substr(0, item.prof.length - 8)}}
+                                                                {{item.group}})
                                                             </span>
                                                         </ng-template>
                                                         <ng-template #ItemTemplate>

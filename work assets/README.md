@@ -122,7 +122,6 @@ Internal To Do list
 - [ ] Stretch Goal: Exporting statblock and files for other tools (e.g. Foundry VTT)
 
 Active to-do:
-- Implement choice area content and tile mode for fixed spells
 - Add Load as GM button that prevents receiving effects (and saving?)
 
 Test:

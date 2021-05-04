@@ -86,8 +86,20 @@
                                 <div [ngClass]="{'icon-list left-aligned':get_TileMode(), 'list-item':!get_TileMode()}"
                                     *ngIf="visibleConditions.length && (get_ShowList()==set||get_ShowList()=='All')">
                                     <ng-container *ngFor="let condition of visibleConditions; trackBy:trackByIndex;">
+                                        <ng-template #ConditionTitleTemplate>
+                                            <span>
+                                                <i class="value bi-patch-plus bonus"
+                                                    *ngIf="!get_TileMode() && condition.buff"
+                                                    [ngbTooltip]="'Positive condition'"></i>
+                                                <i class="value bi-patch-minus-fill penalty"
+                                                    *ngIf="!get_TileMode() && !condition.buff"
+                                                    [ngbTooltip]="'Negative condition'"></i>
+                                            </span>
+                                            {{condition.name}}
+                                        </ng-template>
                                         <ng-template #ConditionTemplate>
-                                            <header class="spellHeader" *ngIf="get_TileMode()">{{condition.name}}
+                                            <header class="spellHeader" *ngIf="get_TileMode()">
+                                                <ng-container *ngTemplateOutlet="ConditionTitleTemplate"></ng-container>
                                             </header>
                                             <div class="newrow"
                                                 *ngIf="condition.hasValue && !(!permanent && condition.name == 'Stunned')">
@@ -211,9 +223,9 @@
                                         </ng-template>
                                         <ng-container *ngIf="!get_TileMode()">
                                             <div class="list-item">
-                                                <button class="newrow sublist-toggle"
+                                                <button class="newrow sublist-toggle left-aligned"
                                                     (click)="toggle_Item(condition.name)">
-                                                    {{condition.name}}
+                                                    <ng-container *ngTemplateOutlet="ConditionTitleTemplate"></ng-container>
                                                 </button>
                                                 <div class="list-item sublist" *ngIf="get_ShowItem()==condition.name">
                                                     <ng-container *ngTemplateOutlet="ConditionTemplate"></ng-container>
@@ -221,10 +233,11 @@
                                             </div>
                                         </ng-container>
                                         <ng-container *ngIf="get_TileMode()">
-                                            <button [ngbPopover]="ConditionTemplate" triggers="click"
-                                                (click)="toggle_Item('')">
-                                                <app-gridIcon class="condition" [ngbTooltip]="condition.name"
-                                                    openDelay="100" [title]="condition.name"
+                                            <button [ngbPopover]="ConditionTemplate"
+                                                [ngClass]="{'penalty':!condition.buff, 'bonus':condition.buff}"
+                                                triggers="click" (click)="toggle_Item('')">
+                                                <app-gridIcon [ngbTooltip]="condition.name" openDelay="100"
+                                                    [title]="condition.name"
                                                     [ngClass]="{'penalty':!condition.buff, 'bonus':condition.buff}">
                                                 </app-gridIcon>
                                             </button>

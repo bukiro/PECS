@@ -126,16 +126,24 @@ export class CraftingComponent implements OnInit {
         let canUse = undefined;
         let character = this.get_Character();
         if (item.constructor == Weapon) {
-            return (item as Weapon).profLevel(character, this.characterService, item, character.level) > 0;
+            if (["Unarmed Attacks", "Simple Weapons", "Martial Weapons", "Advanced Weapons"].includes((item as Weapon).prof)) {
+                return (item as Weapon).profLevel(character, this.characterService, item, character.level) > 0;
+            }
         }
         if (item.constructor == Armor) {
-            return (item as Armor).profLevel(character, this.characterService, character.level) > 0;
+            if (["Unarmored Defense", "Light Armor", "Medium Armor", "Heavy Armor"].includes((item as Weapon).prof)) {
+                return (item as Armor).profLevel(character, this.characterService, character.level) > 0;
+            }
         }
         if (item.constructor == AlchemicalBomb) {
-            return (item as AlchemicalBomb).profLevel(character, this.characterService, item, character.level) > 0;
+            if (["Unarmed Attacks", "Simple Weapons", "Martial Weapons", "Advanced Weapons"].includes((item as AlchemicalBomb).prof)) {
+                return (item as AlchemicalBomb).profLevel(character, this.characterService, item, character.level) > 0;
+            }
         }
         if (item.constructor == OtherConsumableBomb) {
-            return (item as OtherConsumableBomb).profLevel(character, this.characterService, item, character.level) > 0;
+            if (["Unarmed Attacks", "Simple Weapons", "Martial Weapons", "Advanced Weapons"].includes((item as OtherConsumableBomb).prof)) {
+                return (item as OtherConsumableBomb).profLevel(character, this.characterService, item, character.level) > 0;
+            }
         }
         return canUse;
     }

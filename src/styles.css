@@ -293,11 +293,11 @@ button.tilemodebutton.fancy-button {
 button.tilemodebutton>div {
     width: 100%;
     height: 100%;
-    padding: .3em;
+    padding: 4px;
     display: grid;
     grid-template-columns: 100%;
     grid-template-rows: 1fr 1fr 1fr 1fr;
-    gap: .15rem
+    gap: 2px;
 }
 
 button.tilemodebutton.fancy-button>div {
@@ -1636,6 +1636,14 @@ app-gridicon.inactive-button {
     border-color: grey;
 }
 
+app-gridicon.condition, app-gridicon.effect {
+    background-color: white;
+}
+
+.darkmode app-gridicon.condition, .darkmode app-gridicon.effect {
+    background-color: #333333;
+}
+
 .icon-list app-gridicon:not(.fancy-button):not(.condition):not(.effect) {
     background-color: #CCC;
 }
@@ -1688,6 +1696,11 @@ app-gridicon .iconTitle {
     /* larger centered overshadowing title, max 2 characters */
 app-gridicon .iconSuperTitle {
     font-size: 3rem;
+    opacity: 30%;
+}
+
+app-gridicon.condition .iconSuperTitle,
+app-gridicon.effect .iconSuperTitle {
     opacity: 50%;
 }
 

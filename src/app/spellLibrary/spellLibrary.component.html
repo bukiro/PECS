@@ -202,6 +202,14 @@
                                                 </ng-template>
                                                 <ng-template #SpellTitleTemplate>
                                                     <span>
+                                                        <i class="value bi-patch-plus bonus"
+                                                            *ngIf="!get_TileMode() && !spell.get_IsHostile()"
+                                                            [ngbTooltip]="'Beneficial spell'"></i>
+                                                        <i class="value bi-patch-minus-fill penalty"
+                                                            *ngIf="!get_TileMode() && spell.get_IsHostile()"
+                                                            [ngbTooltip]="'Hostile spell'"></i>
+                                                    </span>
+                                                    <span>
                                                         {{spell.name}}
                                                         <app-actionIcons [actionString]="spell.actions">
                                                         </app-actionIcons>
@@ -237,10 +245,10 @@
                                                 </ng-container>
                                                 <ng-container *ngIf="get_TileMode()">
                                                     <button
-                                                        [ngClass]="{'fancy-button choicecleared':get_SpellsLearned(spell.name).length}"
+                                                        [ngClass]="{'fancy-button choicecleared':get_SpellsLearned(spell.name).length, 'penalty':spell.get_IsHostile(), 'bonus':!spell.get_IsHostile()}"
                                                         [ngbPopover]="SpellTemplate" triggers="click"
                                                         (click)="toggle_Item()">
-                                                        <app-gridIcon class="condition"
+                                                        <app-gridIcon
                                                             [ngClass]="{'fancy-button':get_SpellsLearned(spell.name).length, 'penalty':spell.get_IsHostile(), 'bonus':!spell.get_IsHostile()}"
                                                             [ngbTooltip]="SpellTitleTemplate" openDelay="100"
                                                             [title]="spell.name"
