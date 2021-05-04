@@ -401,9 +401,9 @@ export class CharacterService {
         } else { return [new Character()] }
     }
 
-    reset_Character(id: string = "") {
+    reset_Character(id: string = "", loadAsGM: boolean = false) {
         this.loading = true;
-        this.initialize(id);
+        this.initialize(id, loadAsGM);
     }
 
     get_Accent() {
@@ -1526,6 +1526,9 @@ export class CharacterService {
     }
 
     send_TurnChangeToPlayers() {
+        if (this.get_Character().GMMode) {
+            return false;
+        }
         let timeStamp: number = 0;
         let character = this.get_Character();
         let targets = this.savegameService.get_Savegames().filter(savegame => savegame.partyName == character.partyName && savegame.id != character.id);
@@ -1559,6 +1562,9 @@ export class CharacterService {
     }
 
     send_ConditionToPlayers(targets: SpellTarget[], conditionGain: ConditionGain, activate: boolean = true) {
+        if (this.get_Character().GMMode) {
+            return false;
+        }
         let timeStamp: number = 0;
         let creatures = this.get_Creatures();
         this.messageService.get_Time().subscribe((result: string[]) => {
@@ -1601,6 +1607,9 @@ export class CharacterService {
     }
 
     apply_MessageConditions(messages: PlayerMessage[]) {
+        if (this.get_Character().GMMode) {
+            return false;
+        }
         //Iterate through all messages that have a gainCondition (only one per message will be applied) and either add or remove the appropriate conditions.
         //The ConditionGains have a foreignPlayerId that allows us to recognize that they came from this player.
         messages.forEach(message => {
@@ -1649,6 +1658,9 @@ export class CharacterService {
     }
 
     apply_TurnChangeMessage(messages: PlayerMessage[]) {
+        if (this.get_Character().GMMode) {
+            return false;
+        }
         //For each senderId that you have a turnChange message from, remove all conditions that came from this sender and have duration 2.
         Array.from(new Set(messages.filter(message => message.selected).map(message => message.senderId))).forEach(senderId => {
             let removed: boolean = false;
@@ -2065,7 +2077,7 @@ export class CharacterService {
     }
 
     get_ItemsShowingOn(creature: Creature, objectName: string = "all") {
-        let returnedItems: (Item|Material)[] = [];
+        let returnedItems: (Item | Material)[] = [];
         //Prepare function to add items whose hints match the objectName.
         function get_Hint(item: Equipment | Oil | WornItem | ArmorRune | WeaponRune | Material) {
             if (item.hints
@@ -2178,7 +2190,7 @@ export class CharacterService {
         }
     }
 
-    initialize(id: string) {
+    initialize(id: string, loadAsGM: boolean = false) {
         this.set_Changed("top-bar");
         this.loading = true;
         this.configService.initialize();
@@ -2202,7 +2214,7 @@ export class CharacterService {
             this.load_CharacterFromDB(id)
                 .subscribe((results: string[]) => {
                     this.loader = results;
-                    this.finish_loading()
+                    this.finish_loading(loadAsGM)
                 }, (error) => {
                     this.toastService.show("An error occurred while loading the character. See console for more information.", [], this);
                     console.log('Error loading character from database: ' + error.message);
@@ -2213,7 +2225,7 @@ export class CharacterService {
         }
     }
 
-    load_CharacterFromDB(id: string): Observable<string[]> {
+    load_CharacterFromDB(id: string, loadAsGM: boolean = false): Observable<string[]> {
         return this.savegameService.load_CharacterFromDB(id);
     }
 
@@ -2231,9 +2243,10 @@ export class CharacterService {
         return this.savegameService.reassign(object, "", this.itemsService);
     }
 
-    finish_loading() {
+    finish_loading(loadAsGM: boolean = false) {
         if (this.loader) {
             this.me = Object.assign(new Character(), JSON.parse(JSON.stringify(this.loader)));
+            this.me.GMMode = loadAsGM;
             this.loader = [];
             this.finalize_Character();
         }
@@ -2277,7 +2290,10 @@ export class CharacterService {
             //Update everything once.
             this.set_Changed();
             this.set_ToChange("Character", "effects");
-            this.set_ToChange("Character", "check-messages");
+            //Check for messages once, also triggering the automatic loop if it's enabled.
+            if (!this.get_Character().GMMode) {
+                this.set_ToChange("Character", "check-messages");
+            }
             this.process_ToChange();
         }
     }

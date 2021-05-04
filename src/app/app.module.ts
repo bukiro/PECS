@@ -64,6 +64,7 @@ import { QuickdiceComponent } from './dice/quickdice/quickdice.component';
 import { LicensesComponent } from './character/licenses/licenses.component';
 import { ToastContainerComponent } from './toast-container/toast-container.component';
 import { SpellTargetComponent } from './spellTarget/spellTarget.component';
+import { StickyPopoverDirective } from './StickyPopover.directive';
 
 @NgModule({
    declarations: [		 
@@ -122,7 +123,8 @@ import { SpellTargetComponent } from './spellTarget/spellTarget.component';
       QuickdiceComponent,
       LicensesComponent,
       ToastContainerComponent,
-      SpellTargetComponent
+      SpellTargetComponent,
+      StickyPopoverDirective
    ],
    imports: [
       BrowserModule,

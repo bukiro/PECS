@@ -52,7 +52,7 @@
                                     <div class="newrow lower" *ngIf="casting.bondedItemCharges[0]"
                                         [ngbPopover]="superiorBond ? 'You can use Drain Bonded Item one additional time per day, but only to cast a spell 2 or more levels lower than your highest-level spell.' : ''">
                                         {{casting.bondedItemCharges[0]}}{{superiorBond ? "*" : ""}}
-                                        charge{{casting.bondedItemCharges[0] != 1 ? "s" : ""}} available
+                                        bonded item charge{{casting.bondedItemCharges[0] != 1 ? "s" : ""}} available
                                     </div>
                                 </ng-container>
                                 <div class="newrow lower" *ngIf="studiouscapacityslots"
@@ -104,7 +104,8 @@
                                                                 {{maxspellslots}}
                                                         </strong>
                                                         <strong *ngIf="casting.bondedItemCharges[level] && level != 0">
-                                                            {{casting.bondedItemCharges[level]}} charge available
+                                                            {{casting.bondedItemCharges[level]}} bonded item charge
+                                                            available
                                                         </strong>
                                                     </div>
                                                     <div class="list-item"
@@ -286,8 +287,8 @@
                                                                                     <button
                                                                                         class="newrow center-aligned"
                                                                                         (click)="on_Reprepare(spellTaken.gain)">
-                                                                                        <span
-                                                                                            class="center-aligned">Rerepare
+                                                                                        <span class="center-aligned">
+                                                                                            Rerepare
                                                                                             <app-actionIcons
                                                                                                 [actionString]="'10 minutes'">
                                                                                             </app-actionIcons>
@@ -395,10 +396,9 @@
                                                                                     </div>
                                                                                 </ng-container>
                                                                                 <ng-container *ngIf="get_TileMode()">
-                                                                                    <button [ngbPopover]="SpellTemplate"
-                                                                                        triggers="click"
-                                                                                        [ngClass]="{'inactive-button': cannotCast, 'penalty':!cannotCast && spell.get_IsHostile(), 'bonus':!cannotCast && !spell.get_IsHostile()}"
-                                                                                        (click)="toggle_Spell()">
+                                                                                    <button
+                                                                                        [stickyPopover]="SpellTemplate" triggers="click"
+                                                                                        [ngClass]="{'inactive-button': cannotCast, 'penalty':!cannotCast && spell.get_IsHostile(), 'bonus':!cannotCast && !spell.get_IsHostile()}">
                                                                                         <app-gridIcon
                                                                                             [ngClass]="{'inactive-button': cannotCast, 'penalty':!cannotCast && spell.get_IsHostile(), 'bonus':!cannotCast && !spell.get_IsHostile()}"
                                                                                             [ngbTooltip]="SpellTooltipTemplate"

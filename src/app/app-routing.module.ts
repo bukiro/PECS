@@ -1,8 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { ItemsComponent } from './items/items.component';
 import { CharacterSheetComponent } from './character-sheet/character-sheet.component';
-
 
 const routes: Routes = [
    { path: '', component: CharacterSheetComponent },
@@ -15,7 +13,6 @@ const routes: Routes = [
    exports: [
       RouterModule
    ],
-   declarations: [
-   ]
+   declarations: []
 })
 export class AppRoutingModule { }

@@ -52,7 +52,7 @@
                                 Load Character
                             </button>
                         </div>
-                        <div class="list-item">
+                        <div class="list-item" *ngIf="!get_GMMode()">
                             <button class="newrow" (click)="save_CharacterToDB()" [disabled]="get_IsBlankCharacter()">
                                 Save Character
                             </button>
@@ -99,7 +99,8 @@
                                 <app-gridIcon [ngbTooltip]="'Load Character'" [title]="'L O A D'">
                                 </app-gridIcon>
                             </button>
-                            <button (click)="save_CharacterToDB()" [disabled]="get_IsBlankCharacter()">
+                            <button *ngIf="!get_GMMode()" (click)="save_CharacterToDB()"
+                                [disabled]="get_IsBlankCharacter()">
                                 <app-gridIcon
                                     [ngbTooltip]="get_IsBlankCharacter() ? 'No changes to character yet.' : 'Save Character'"
                                     [title]="'S A V E'">
@@ -859,6 +860,18 @@
                     <div class="list-item" *ngIf="!get_Savegames()">
                         Database connection failed.
                     </div>
+                    <div class="list-item gridicon-fullsizebox">
+                        <input class="character-choice" id="loadAsGM" type="checkbox" [(ngModel)]="loadAsGM">
+                        <span>
+                            <label for="loadAsGM">
+                                <strong>
+                                    Load character as GM
+                                </strong>
+                            </label>
+                            <i class="bi-question-circle"
+                                [ngbPopover]="'Open the character in a read-only mode where it can\'t be saved and can\'t send or receive effects to or from other players.'"></i>
+                        </span>
+                    </div>
                     <ng-container
                         *ngFor="let savegame of (get_Savegames() || []); let index = index; trackBy:trackByIndex;">
                         <ng-template #SavegameDeleteModal let-modal>
@@ -875,9 +888,12 @@
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-outline-secondary"
-                                    (click)="modal.dismiss('Cancel click')">Cancel</button>
-                                <button type="button" class="btn btn-danger"
-                                    (click)="modal.close('Ok click')">Ok</button>
+                                    (click)="modal.dismiss('Cancel click')">
+                                    Cancel
+                                </button>
+                                <button type="button" class="btn btn-danger" (click)="modal.close('Ok click')">
+                                    Ok
+                                </button>
                             </div>
                         </ng-template>
                         <header class="sectionHeader center-aligned"
@@ -889,9 +905,13 @@
                                 <span>{{get_SavegameTitle(savegame)}}</span>
                             </span>
                             <span style="flex-basis: auto; flex-grow: 0;">
-                                <button (click)="load_CharacterFromDB(savegame)">Load</button>
+                                <button (click)="load_CharacterFromDB(savegame)">
+                                    Load{{loadAsGM ? " as GM" : ""}}
+                                </button>
                                 <button style="margin-left: .3em;"
-                                    (click)="open_DeleteModal(SavegameDeleteModal, savegame)">Delete</button>
+                                    (click)="open_DeleteModal(SavegameDeleteModal, savegame)">
+                                    Delete
+                                </button>
                             </span>
                         </div>
                     </ng-container>

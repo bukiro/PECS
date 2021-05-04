@@ -54,8 +54,9 @@ export class CharacterComponent implements OnInit {
     private showContent: any | FeatChoice | SkillChoice | AbilityChoice = null;
     private showContentLevelNumber: number = 0;
     private showFixedChangesLevelNumber: number = 0;
-    public adventureBackgrounds: Boolean = true;
-    public regionalBackgrounds: Boolean = true;
+    public adventureBackgrounds: boolean = true;
+    public regionalBackgrounds: boolean = true;
+    public loadAsGM: boolean = false;
     public blankCharacter: Character = new Character();
 
     constructor(
@@ -97,6 +98,10 @@ export class CharacterComponent implements OnInit {
 
     get_Minimized() {
         return this.characterService.get_Character().settings.characterMinimized;
+    }
+
+    get_GMMode() {
+        return this.get_Character().GMMode;
     }
 
     toggleCharacterMenu() {
@@ -311,7 +316,7 @@ export class CharacterComponent implements OnInit {
 
     load_CharacterFromDB(savegame: Savegame) {
         this.toggleCharacterMenu();
-        this.characterService.reset_Character(savegame.id);
+        this.characterService.reset_Character(savegame.id, this.loadAsGM);
     }
 
     delete_CharacterFromDB(savegame: Savegame) {

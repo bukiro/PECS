@@ -360,6 +360,8 @@ export class SavegameService {
             }
         }
 
+        savegame.GMMode = false;
+
         //Then go through the whole thing again and compare every object to its Class's default, deleting everything that has the same value as the default.
         savegame = this.clean(savegame, itemsService);
 

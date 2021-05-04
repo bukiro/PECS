@@ -39,6 +39,7 @@ export class Character extends Creature {
     public heroPoints: number = 1;
     public experiencePoints: number = 0;
     public settings: Settings = new Settings();
+    public GMMode: boolean = false;
     //yourTurn is only written when saving the character to the database and read when loading.
     public yourTurn: number = 0;
     get_Changed(characterService: CharacterService,) {
