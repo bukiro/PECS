@@ -1,7 +1,9 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { Activity } from '../Activity';
 import { ActivityGain } from '../ActivityGain';
 import { CharacterService } from '../character.service';
+import { ConditionGain } from '../ConditionGain';
 import { ConditionsService } from '../conditions.service';
 import { Creature } from '../Creature';
 import { Feat } from '../Feat';
@@ -16,7 +18,8 @@ import { TimeService } from '../time.service';
 @Component({
     selector: 'app-spellTarget',
     templateUrl: './spellTarget.component.html',
-    styleUrls: ['./spellTarget.component.scss']
+    styleUrls: ['./spellTarget.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SpellTargetComponent implements OnInit {
 
@@ -25,9 +28,11 @@ export class SpellTargetComponent implements OnInit {
     @Input()
     spell: Spell;
     @Input()
-    gain: SpellGain;
+    activity: Activity|ItemActivity;
     @Input()
-    activityGain: ActivityGain|ItemActivity = null;
+    gain: SpellGain|ActivityGain|ItemActivity;
+    @Input()
+    parentActivityGain: ActivityGain|ItemActivity = null;
     @Input()
     casting: SpellCasting = null;
     @Input()
@@ -48,6 +53,7 @@ export class SpellTargetComponent implements OnInit {
     castMessage = new EventEmitter<{ target: string, activated: boolean }>();
 
     constructor(
+        private changeDetector: ChangeDetectorRef,
         private characterService: CharacterService,
         private conditionsService: ConditionsService,
         private timeService: TimeService,
@@ -88,20 +94,30 @@ export class SpellTargetComponent implements OnInit {
         let isBloodMagicTrigger = this.get_IsBloodMagicTrigger();
         let canActivate = this.can_Activate();
         let canActivateWithoutTarget = this.can_Activate(true);
-        let targetNumber = this.spell.get_TargetNumber(this.effectiveSpellLevel);
+        let targetNumber = 1;
+        targetNumber = (this.spell || this.activity).get_TargetNumber(this.effectiveSpellLevel);
         return { isBloodMagicTrigger: isBloodMagicTrigger, canActivate: canActivate, canActivateWithoutTarget: canActivateWithoutTarget, targetNumber: targetNumber }
     }
 
     get_IsBloodMagicTrigger() {
-        return this.bloodMagicFeats.some(feat => feat.bloodMagic.some(bloodMagic => bloodMagic.trigger.includes(this.spell.name)));
+        if (this.spell) {
+            return this.bloodMagicFeats.some(feat => feat.bloodMagic.some(bloodMagic => bloodMagic.trigger.includes(this.spell.name)));
+        } else {
+            return false;
+        }
     }
 
     can_Activate(noTarget: boolean = false) {
-        //Return whether this spell
+        //Return whether this spell or activity
         // - causes any blood magic effect or
         // - causes any target conditions and has a target or
         // - causes any caster conditions and caster conditions are not disabled in general, or any of the caster conditions are not disabled.
-        let gainConditions = this.spell.get_HeightenedConditions(this.effectiveSpellLevel);
+        let gainConditions: ConditionGain[] = [];
+        if (this.spell) {
+            gainConditions = this.spell.get_HeightenedConditions(this.effectiveSpellLevel);
+        } else if (this.activity) {
+            gainConditions = this.activity.gainConditions;
+        }
         return (
             this.get_IsBloodMagicTrigger() ||
             (
@@ -113,7 +129,7 @@ export class SpellTargetComponent implements OnInit {
                 gainConditions.some(gain => gain.targetFilter == "caster") &&
                 (
                     (
-                        this.spell.get_IsHostile() ?
+                        (this.spell || this.activity).get_IsHostile() ?
                             !this.get_Character().settings.noHostileCasterConditions :
                             !this.get_Character().settings.noFriendlyCasterConditions
                     ) ||
@@ -140,9 +156,9 @@ export class SpellTargetComponent implements OnInit {
     }
 
     get_SpellTargets() {
-        //Collect all possible targets for a spell (allies only).
-        //Hostile spells don't get targets.
-        if (this.spell.get_IsHostile()) {
+        //Collect all possible targets for a spell/activity (allies only).
+        //Hostile spells and activities don't get targets.
+        if ((this.spell || this.activity).get_IsHostile()) {
             return [];
         }
         let newTargets: SpellTarget[] = [];
@@ -170,12 +186,12 @@ export class SpellTargetComponent implements OnInit {
         if (checked) {
             if (targetNumber == -1) {
                 this.gain.targets.forEach(target => {
-                    if (!target.isPlayer || !this.spell.cannotTargetCaster) {
+                    if (!target.isPlayer || !(this.spell || this.activity).cannotTargetCaster) {
                         target.selected = true;
                     }
                 })
             } else {
-                for (let index = 0 + (this.spell.cannotTargetCaster ? 1 : 0); index < Math.min(targetNumber + (this.spell.cannotTargetCaster ? 1 : 0), this.gain.targets.length); index++) {
+                for (let index = 0 + ((this.spell || this.activity).cannotTargetCaster ? 1 : 0); index < Math.min(targetNumber + ((this.spell || this.activity).cannotTargetCaster ? 1 : 0), this.gain.targets.length); index++) {
                     this.gain.targets[index].selected = true;
                 }
             }
@@ -188,16 +204,16 @@ export class SpellTargetComponent implements OnInit {
 
     get_AllTargetsSelected(targetNumber) {
         if (targetNumber == -1) {
-            return (this.gain.targets.filter(target => target.selected).length >= this.gain.targets.length - (this.spell.cannotTargetCaster ? 1 : 0))
+            return (this.gain.targets.filter(target => target.selected).length >= this.gain.targets.length - ((this.spell || this.activity).cannotTargetCaster ? 1 : 0))
         } else {
-            return (this.gain.targets.filter(target => target.selected).length >= Math.min(this.gain.targets.length - (this.spell.cannotTargetCaster ? 1 : 0), targetNumber));
+            return (this.gain.targets.filter(target => target.selected).length >= Math.min(this.gain.targets.length - ((this.spell || this.activity).cannotTargetCaster ? 1 : 0), targetNumber));
         }
     }
     
     get_DeactivatePhrase() {
         let phrase = this.dismissPhrase || "Dismiss <span class='actionIcon action1A'></span> or Stop Sustaining";
-        if (this.activityGain?.duration) {
-            phrase += " (Duration: " + this.get_Duration(this.activityGain?.duration) + ")"
+        if (this.parentActivityGain?.duration) {
+            phrase += " (Duration: " + this.get_Duration(this.parentActivityGain?.duration) + ")"
         } else if (this.gain.duration) {
             phrase += " (Duration: " + this.get_Duration(this.gain?.duration) + ")"
         }
@@ -207,8 +223,24 @@ export class SpellTargetComponent implements OnInit {
     get_Duration(turns: number, includeTurnState: boolean = true, inASentence: boolean = false) {
         return this.timeService.get_Duration(turns, includeTurnState, inASentence);
     }
+    
+    finish_Loading() {
+        this.characterService.get_Changed()
+            .subscribe((target) => {
+                if (target == "activities" || target == "spellbook" || target == "all" || target.toLowerCase() == this.creature.toLowerCase()) {
+                    this.changeDetector.detectChanges();
+                }
+            });
+        this.characterService.get_ViewChanged()
+        .subscribe((view) => {
+            if (view.creature.toLowerCase() == this.creature.toLowerCase() && ["activities", "spellbook", "all"].includes(view.target.toLowerCase())) {
+                this.changeDetector.detectChanges();
+            }
+        });
+    }
 
     ngOnInit() {
+        this.finish_Loading();
     }
 
 }

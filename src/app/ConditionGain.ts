@@ -53,8 +53,8 @@ export class ConditionGain {
     public spellCastingAbility: string = "";
     //Some conditions change depending on how the spell was cast (particularly if they were cast as an Innate spell), so we copy the spell's source.
     public spellSource: string = "";
-    //Save the id of the spellGain so that the spellgain can be deactivated when the condition ends.
-    public spellGainID: string = "";
+    //Save the id of the SpellGain or ActivityGain so that the Spellgain or ActivityGain can be deactivated when the condition ends.
+    public sourceGainID: string = "";
     //A condition's gainActivities gets copied here to track.
     public gainActivities: ActivityGain[] = [];
     //A condition's gainItems gets copied here to track.

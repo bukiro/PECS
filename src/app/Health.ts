@@ -120,46 +120,59 @@ export class Health {
         amount -= diff;
         this.damage += amount;
         let currentHP = this.currentHP(creature, characterService, effectsService).result;
+        let dyingAdded: number = 0;
+        let unconsciousAdded: boolean = false;
+        let wokeUp: boolean = false;
         //Then, if you have reached 0 HP with lethal damage, get dying 1+wounded
         //Dying and maxDying are compared in the Conditions service when Dying is added
         if (!nonlethal && currentHP == 0) {
             if (dying == 0) {
                 if (characterService.get_AppliedConditions(creature, "Unconscious", "0 Hit Points").length == 0 && characterService.get_AppliedConditions(creature, "Unconscious", "Dying").length == 0) {
+                    dyingAdded = wounded + 1;
                     characterService.add_Condition(creature, Object.assign(new ConditionGain, { name: "Dying", value: wounded + 1, source: "0 Hit Points" }), false)
                 }
             }
         }
         if (nonlethal && currentHP == 0) {
             if (characterService.get_AppliedConditions(creature, "Unconscious", "0 Hit Points").length == 0 && characterService.get_AppliedConditions(creature, "Unconscious", "Dying").length == 0) {
+                unconsciousAdded = true;
                 characterService.add_Condition(creature, Object.assign(new ConditionGain, { name: "Unconscious", source: "0 Hit Points" }), false)
             }
         }
         //Wake up if you are unconscious and take damage (without falling under 1 HP)
         if (currentHP > 0) {
             characterService.get_AppliedConditions(creature, "Unconscious").forEach(gain => {
+                wokeUp = true;
                 characterService.remove_Condition(creature, gain, false);
             });
         }
+        return {dyingAdded: dyingAdded, unconsciousAdded: unconsciousAdded, wokeUp: wokeUp};
     }
     heal(creature: Creature, characterService: CharacterService, effectsService: EffectsService, amount: number, wake: boolean = true, increaseWounded: boolean = true, dying: number = undefined) {
         if (dying == undefined) {
             dying = this.dying(creature, characterService);
         }
         this.damage = Math.max(0, this.damage - amount);
+        let dyingRemoved: boolean = false;
+        let unconsciousRemoved: boolean = false;
         //Recover from Dying and get Wounded++
         if (this.currentHP(creature, characterService, effectsService).result > 0 && dying > 0) {
             characterService.get_AppliedConditions(creature, "Dying").forEach(gain => {
+                dyingRemoved = true;
                 characterService.remove_Condition(creature, gain, false, increaseWounded);
             });
         }
         //Wake up from Healing
         if (wake) {
             characterService.get_AppliedConditions(creature, "Unconscious", "0 Hit Points").forEach(gain => {
+                unconsciousRemoved = true;
                 characterService.remove_Condition(creature, gain);
             });
             characterService.get_AppliedConditions(creature, "Unconscious", "Dying").forEach(gain => {
+                unconsciousRemoved = true;
                 characterService.remove_Condition(creature, gain, false);
             });
         }
+        return {dyingRemoved: dyingRemoved, unconsciousRemoved: unconsciousRemoved};
     }
 }

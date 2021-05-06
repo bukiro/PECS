@@ -90,15 +90,15 @@ export class SpellsService {
             })
             gain.duration = customDuration || spell.sustained;
             characterService.set_ToChange(creature.type, "spellbook");
-            gain.target = target;
+            gain.selectedTarget = target;
         } else if (activated && activityGain?.active) {
             gain.active = true;
             gain.duration = activityGain?.duration;
-            gain.target = target;
+            gain.selectedTarget = target;
         } else {
             gain.active = false;
             gain.duration = 0;
-            gain.target = "";
+            gain.selectedTarget = "";
         }
 
         //Find out if target was given. If no target is set, most effects will not be applied.
@@ -130,7 +130,7 @@ export class SpellsService {
         // (because it's much more difficult to change the spell duration -and- the condition duration).
         if (spell.get_HeightenedConditions(spellLevel)) {
             if (activated) {
-                let conditions = spell.get_HeightenedConditions(spellLevel);
+                let conditions: ConditionGain[] = spell.get_HeightenedConditions(spellLevel);
                 let hasTargetCondition: boolean = conditions.some(conditionGain => conditionGain.targetFilter != "caster");
                 let hasCasterCondition: boolean = conditions.some(conditionGain => conditionGain.targetFilter == "caster");
                 //Do the target and the caster get the same condition?
@@ -204,7 +204,7 @@ export class SpellsService {
                             newConditionGain.spellCastingAbility = casting.ability;
                         }
                         newConditionGain.spellSource = gain?.source || "";
-                        newConditionGain.spellGainID = gain?.id || "";
+                        newConditionGain.sourceGainID = gain?.id || "";
                         //If this spell was cast by an activity, it may have a specified duration. Apply that here.
                         if (activityDuration) {
                             newConditionGain.duration = activityDuration;
@@ -281,7 +281,7 @@ export class SpellsService {
                     let conditionTargets: (Creature | SpellTarget)[] = (conditionGain.targetFilter == "caster" ? [creature] : targets);
                     conditionTargets.filter(target => target.constructor != SpellTarget).forEach(target => {
                         characterService.get_AppliedConditions(target as Creature, conditionGain.name)
-                            .filter(existingConditionGain => existingConditionGain.source == conditionGain.source && existingConditionGain.spellGainID == (gain?.id || ""))
+                            .filter(existingConditionGain => existingConditionGain.source == conditionGain.source && existingConditionGain.sourceGainID == (gain?.id || ""))
                             .forEach(existingConditionGain => {
                                 characterService.remove_Condition(target as Creature, existingConditionGain, false);
                             });
@@ -346,7 +346,7 @@ export class SpellsService {
                 if (taken.gain.duration == 0) {
                     let spell: Spell = this.get_Spells(taken.gain.name)[0];
                     if (spell) {
-                        this.process_Spell(character, taken.gain.target, characterService, itemsService, conditionsService, null, taken.gain, spell, 0, false, false)
+                        this.process_Spell(character, taken.gain.selectedTarget, characterService, itemsService, conditionsService, null, taken.gain, spell, 0, false, false)
                     }
                 }
             }

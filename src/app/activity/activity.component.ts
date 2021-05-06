@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { Activity } from '../Activity';
 import { TraitsService } from '../traits.service';
 import { SpellsService } from '../spells.service';
@@ -21,7 +21,8 @@ import { ConditionGain } from '../ConditionGain';
 @Component({
     selector: 'app-activity',
     templateUrl: './activity.component.html',
-    styleUrls: ['./activity.component.css']
+    styleUrls: ['./activity.component.css'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ActivityComponent implements OnInit {
 
@@ -37,6 +38,7 @@ export class ActivityComponent implements OnInit {
     isSubItem: boolean = false;
 
     constructor(
+        private changeDetector: ChangeDetectorRef,
         public characterService: CharacterService,
         private traitsService: TraitsService,
         private spellsService: SpellsService,
@@ -67,6 +69,10 @@ export class ActivityComponent implements OnInit {
 
     get_Creature(creature: string = this.creature) {
         return this.characterService.get_Creature(creature) as Creature;
+    }
+
+    get_Character() {
+        return this.characterService.get_Character();
     }
 
     get_CompanionAvailable() {
@@ -310,10 +316,27 @@ export class ActivityComponent implements OnInit {
         this.characterService.set_ToChange(this.creature, "activities");
         this.characterService.process_ToChange();
     }
+    
+    finish_Loading() {
+        this.characterService.get_Changed()
+            .subscribe((target) => {
+                if (target == "activities" || target == "all" || target.toLowerCase() == this.creature.toLowerCase()) {
+                    this.changeDetector.detectChanges();
+                }
+            });
+        this.characterService.get_ViewChanged()
+        .subscribe((view) => {
+            if (view.creature.toLowerCase() == this.creature.toLowerCase() && ["activities", "all"].includes(view.target.toLowerCase())) {
+                this.changeDetector.detectChanges();
+            }
+        });
+    }
 
     ngOnInit() {
         if (this.activity.displayOnly) {
             this.allowActivate = false;
+        } else {
+            this.finish_Loading();
         }
     }
 

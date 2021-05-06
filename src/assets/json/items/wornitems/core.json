@@ -1839,6 +1839,7 @@
                 ],
                 "gainConditions": [
                     {
+                        "hideChoices": true,
                         "name": "Goggles of Night",
                         "duration": 6000
                     }
@@ -1893,6 +1894,8 @@
                 ],
                 "gainConditions": [
                     {
+                        "choice": "Greater",
+                        "hideChoices": true,
                         "name": "Goggles of Night",
                         "duration": -1
                     }

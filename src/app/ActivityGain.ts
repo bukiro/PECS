@@ -1,5 +1,7 @@
 import { ItemGain } from './ItemGain';
 import { SpellCast } from './SpellCast';
+import { v4 as uuidv4 } from 'uuid';
+import { SpellTarget } from './SpellTarget';
 
 export class ActivityGain {
     public readonly _className: string = this.constructor.name;
@@ -26,4 +28,10 @@ export class ActivityGain {
     public effectChoices: {condition: string, choice: string}[] = [];
     //If the activity casts a spell, in order to select a choice from the spell before casting it, the choice is saved here for each condition for each spell, recursively.
     public spellEffectChoices: ({condition: string, choice: string}[])[] = [];
+    //The target word ("self", "Character", "Companion", "Familiar" or "Selected") is saved here for processing in the activity service.
+    public selectedTarget: string = "";
+    //The selected targets are saved here for applying conditions.
+    public targets: SpellTarget[] = [];
+    //Condition gains save this id so they can be found and removed when the activity ends, or end the activity when the condition ends.
+    public id = uuidv4();
 }

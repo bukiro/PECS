@@ -14,8 +14,7 @@ import { Consumable } from '../Consumable';
 @Component({
     selector: 'app-gridIcon',
     templateUrl: './gridIcon.component.html',
-    styleUrls: ['./gridIcon.component.scss'],
-    providers: [NgbPopoverConfig] // add NgbPopoverConfig to the component providers
+    styleUrls: ['./gridIcon.component.scss']
 })
 export class GridIconComponent implements OnInit {
 
@@ -67,6 +66,10 @@ export class GridIconComponent implements OnInit {
     }
 
     get_IconSubTitle() {
+        let subTitle = this.subTitle;
+        if (subTitle.includes("noparse")) {
+            return subTitle.replace("noparse", "");
+        }
         if (this.condition?.duration || this.effect?.duration) {
             let duration = this.condition?.duration || this.effect?.duration || 0;
             if (duration < 10) {
@@ -112,14 +115,13 @@ export class GridIconComponent implements OnInit {
             if ((this.item as Weapon).bladeAlly) {
                 itemSubTitle += "<i class='ra ra-fireball-sword'></i>"
             }
-            if ((this.item as Weapon|Armor).battleforged) {
+            if ((this.item as Weapon | Armor).battleforged) {
                 itemSubTitle += "<i class='ra ra-fireball-sword'></i>"
             }
             if (itemSubTitle) {
                 return itemSubTitle;
             }
         }
-        let subTitle = this.subTitle;
         //Convert icon- names into a <i> with that icon. Icons can be separated with |.
         subTitle = subTitle.split("|").map(split => {
             if (split.substr(0, 5) == "icon-") {
@@ -149,6 +151,9 @@ export class GridIconComponent implements OnInit {
 
     get_IconTitle() {
         let iconTitle: string = this.title;
+        if (iconTitle.includes("noparse")) {
+            return iconTitle.replace("noparse", "");
+        }
         if (this.feat) {
             if (this.feat.subType) {
                 iconTitle = this.title || this.feat.superType;
@@ -184,11 +189,15 @@ export class GridIconComponent implements OnInit {
 
     get_IconDetail() {
         let iconDetail: string = this.detail;
+        if (iconDetail.includes("noparse")) {
+            return iconDetail.replace("noparse", "");
+        }
         if (this.feat && !iconDetail) {
             if (this.feat.subType) {
                 iconDetail = this.feat.subType;
             }
         } else if (this.condition && !iconDetail) {
+            //For condition stages, leave only the number.
             if (this.condition.choice.substr(0, 6) == "Stage ") {
                 iconDetail = this.condition.choice.replace("tage ", "");
                 return iconDetail;
@@ -197,10 +206,12 @@ export class GridIconComponent implements OnInit {
             }
         }
         if (iconDetail) {
-            if (iconDetail.match(".*[A-Z].*")) {
-                iconDetail = iconDetail.replace(/[^A-Z ]/g, '').split(" ").map(part => part.substr(0, 1)).join("").substr(0, 2);
-            } else {
-                iconDetail = iconDetail.replace(/[^a-z ]/gi, '').split(" ").map(part => part.substr(0, 1)).join("").toUpperCase().substr(0, 2);
+            if (isNaN(parseInt(iconDetail))) {
+                if (iconDetail.match(".*[A-Z].*")) {
+                    iconDetail = iconDetail.replace(/[^A-Z ]/g, '').split(" ").map(part => part.substr(0, 1)).join("").substr(0, 2);
+                } else {
+                    iconDetail = iconDetail.replace(/[^a-z ]/gi, '').split(" ").map(part => part.substr(0, 1)).join("").toUpperCase().substr(0, 2);
+                }
             }
         }
         return iconDetail;
@@ -208,6 +219,9 @@ export class GridIconComponent implements OnInit {
 
     get_IconSuperTitle() {
         let superTitle: string = this.superTitle;
+        if (superTitle.includes("noparse")) {
+            return superTitle.replace("noparse", "");
+        }
         //Convert icon- names into a <i> with that icon. Icons can be separated with |.
         // There should only be one icon, ideally.
         superTitle = superTitle.split("|").map(split => {

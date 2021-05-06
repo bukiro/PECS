@@ -535,13 +535,14 @@
                                         </div>
                                     </ng-container>
                                     <ng-container *ngIf="get_TileMode()">
-                                        <button [ngbPopover]="ItemTemplate" triggers="click"
+                                        <button [stickyPopover]="ItemTemplate" triggers="click"
                                             [ngClass]="{'fancy-button':((item.equippable && item.equipped) || (item.can_Invest() && item.invested)), 'problem':item.broken, 'penalty': canUse == false, 'bonus': canUse}"
                                             (click)="toggle_Item()">
                                             <app-gridIcon
                                                 [ngClass]="{'fancy-button':((item.equippable && item.equipped) || (item.can_Invest() && item.invested)), 'problem':item.broken, 'penalty': canUse == false, 'bonus': canUse}"
                                                 [ngbTooltip]="ItemTooltipTemplate" openDelay="100"
                                                 [title]="item.displayName || item.name"
+                                                [detail]="'noparse' + (item.level ? item.level.toString() : '')"
                                                 [item]="item">
                                             </app-gridIcon>
                                         </button>

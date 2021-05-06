@@ -28,10 +28,10 @@ export class SpellGain {
     public source: string = "";
     //Copied from SpellChoice. For looking up details in the Choice - ideally always include the choice in the function so we don't have to look it up.
     public sourceId: string = "";
-    //For sustained spells, the target is saved here so any conditions can be removed when the spell ends.
-    public target: string = "";
-    //The selected targets are saved here for casting a spell.
+    //The target word ("self", "Character", "Companion", "Familiar" or "Selected") is saved here for processing in the spell service.
+    public selectedTarget: string = "";
+    //The selected targets are saved here for applying conditions.
     public targets: SpellTarget[] = [];
-    //Condition gains save this id so they can end the spell when the condition ends.
+    //Condition gains save this id so they can be found and removed when the spell ends, or end the spell when the condition ends.
     public id = uuidv4();
 }

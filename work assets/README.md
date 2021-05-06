@@ -118,16 +118,22 @@ Internal To Do list
 - [ ] Stretch Goal: Icons
 - [ ] Stretch Goal: Initiative tracker, battles, being a battle member, GM-Player-Communication.......
 - [ ] Stretch Goal: Include optional systems like Stamina & Resolve
-- [x] Stretch Goal: Icon-Driven UI with dynamic tooltips (e.g. with bootstrap or material)
+- [x] Stretch Goal: Icon-Driven UI with dynamic tooltips
 - [ ] Stretch Goal: Exporting statblock and files for other tools (e.g. Foundry VTT)
 
 Active to-do:
+- Block automatic checking for effects while effect modal is open.
 
 Test:
 
 Next steps:
-- Implement targets and target selection for activities
 - Implement tile mode for activities
+- Check if Battle Prayer can be consolidated into one activity
+- Check if Favored Terrain can be consolidated into one activity
+- Many Activities need conditions (caster conditions at least)
+- Implement method to ignore single effects
+- Check if any item activities need a target other than self
+- Crosscheck and apply errata: https://paizo.com/pathfinder/faq
 - Possibly Create tag that automatically inserts a dice rolling button for the included text
 - Implement manual mode
 - Quick Effects button for Skills and Attacks (and quick removal button for manual effects)

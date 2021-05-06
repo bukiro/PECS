@@ -1624,7 +1624,7 @@ export class CharacterService {
                             //If a condition was created, send a toast to inform the user.
                             this.toastService.show("Added <strong>" +
                                 conditionGain.name + (conditionGain.choice ? ": " + conditionGain.choice : "") + "</strong> condition to <strong>" +
-                                (targetCreature.name || targetCreature.type) + "</strong> (sent by <strong>" + senderName + "</strong>)", [], this);
+                                (targetCreature.name || targetCreature.type) + "</strong> (sent by <strong>" + senderName.trim() + "</strong>)", [], this);
                         }
                     }
                 } else {
@@ -1642,7 +1642,7 @@ export class CharacterService {
                             //If a condition was removed, send a toast to inform the user.
                             this.toastService.show("Removed <strong>" +
                                 conditionGain.name + (conditionGain.choice ? ": " + conditionGain.choice : "") + "</strong> condition from <strong>" +
-                                (targetCreature.name || targetCreature.type) + "</strong> (added by <strong>" + senderName + "</strong>)", [], this);
+                                (targetCreature.name || targetCreature.type) + "</strong> (added by <strong>" + senderName.trim() + "</strong>)", [], this);
                         }
                     }
                 }
@@ -1713,6 +1713,11 @@ export class CharacterService {
                 //We intentionally add the point after we set the limit. This allows us to gain focus points with feats and raise the current points
                 // before the limit is increased. The focus points are automatically limited in the spellbook component, where they are displayed, and when casting focus spells.
                 (creature as Character).class.focusPoints += value;
+                if (value >= 0) {
+                    this.toastService.show("You gained " + value + " focus points.", [], this);
+                } else {
+                    this.toastService.show("You lost " + value * -1 + " focus points.", [], this);
+                }
                 this.set_ToChange("Character", "spellbook");
                 break;
             case "Temporary HP":
@@ -1727,11 +1732,14 @@ export class CharacterService {
                     if (effectGain.source == "Manual") {
                         creature.health.temporaryHP[0] = { amount: value, source: effectGain.source, sourceId: "" };
                         creature.health.temporaryHP.length = 1;
+                        this.toastService.show("You gained " + value + " temporary HP.", [], this);
                     } else if (creature.health.temporaryHP[0].amount == 0) {
                         creature.health.temporaryHP[0] = { amount: value, source: effectGain.source, sourceId: effectGain.sourceId };
                         creature.health.temporaryHP.length = 1;
+                        this.toastService.show("You gained " + value + " temporary HP from " + effectGain.source + ".", [], this);
                     } else {
                         creature.health.temporaryHP.push({ amount: value, source: effectGain.source, sourceId: effectGain.sourceId });
+                        this.toastService.show("You gained " + value + " temporary HP from " + effectGain.source + ". You already had temporary HP and must choose which amount to keep.", [], this);
                     }
                 } else {
                     let targetTempHPSet = creature.health.temporaryHP.find(tempHPSet => ((tempHPSet.source == "Manual") && (effectGain.source == "Manual")) || tempHPSet.sourceId == effectGain.sourceId)
@@ -1742,10 +1750,12 @@ export class CharacterService {
                             if (targetTempHPSet.amount <= 0) {
                                 creature.health.temporaryHP[0] = { amount: 0, source: "", sourceId: "" };
                             }
+                            this.toastService.show("You lost " + value * -1 + " temporary HP.", [], this);
                         } else {
                             if (targetTempHPSet.amount <= 0) {
                                 creature.health.temporaryHP.splice(creature.health.temporaryHP.indexOf(targetTempHPSet), 1);
                             }
+                            this.toastService.show("You lost " + value * -1 + " of the temporary HP gained from " + effectGain.source + ". This is not the set of temporary HP that you are currently using.", [], this);
                         }
                     }
                 }
@@ -1756,9 +1766,28 @@ export class CharacterService {
                 break;
             case "HP":
                 if (value > 0) {
-                    creature.health.heal(creature, this, this.effectsService, value, true)
+                    let result = creature.health.heal(creature, this, this.effectsService, value, true);
+                    let results: string = ""
+                    if (result.unconsciousRemoved) {
+                        results = " This removed your Unconscious condition."
+                    }
+                    if (result.dyingRemoved) {
+                        results = " This removed your Dying condition."
+                    }
+                    this.toastService.show("You gained " + value + " HP from " + effectGain.source + "." + results, [], this);
                 } else if (value < 0) {
-                    creature.health.takeDamage(creature, this, this.effectsService, -value, false)
+                    let result = creature.health.takeDamage(creature, this, this.effectsService, -value, false);
+                    let results: string = ""
+                    if (result.unconsciousAdded) {
+                        results = " You are now Unconscious."
+                    }
+                    if (result.dyingAdded) {
+                        results = " You are now Dying " + result.dyingAdded + "."
+                    }
+                    if (result.wokeUp) {
+                        results = " This removed your Unconscious condition."
+                    }
+                    this.toastService.show("You lost " + value * -1 + " HP from " + effectGain.source + "." + results, [], this);
                 }
                 this.set_ToChange(creature.type, "health");
                 this.set_ToChange(creature.type, "effects");
@@ -1768,8 +1797,10 @@ export class CharacterService {
                 if (shield) {
                     if (value > 0) {
                         shield.raised = true;
+                        this.toastService.show("Your shield was raised.", [], this);
                     } else {
                         shield.raised = false;
+                        this.toastService.show("Your shield was lowered.", [], this);
                     }
                     this.set_ToChange(creature.type, "defense");
                     this.set_ToChange(creature.type, "effects");
@@ -1777,6 +1808,20 @@ export class CharacterService {
                 break;
             case "Cover":
                 this.defenseService.get_AC().set_Cover(creature, value, null, this, this.conditionsService);
+                switch (value) {
+                    case 0:
+                        this.toastService.show("You are no longer taking cover.", [], this);
+                        break;
+                    case 1:
+                        this.toastService.show("You now have lesser cover.", [], this);
+                        break;
+                    case 2:
+                        this.toastService.show("You now have standard cover.", [], this);
+                        break;
+                    case 4:
+                        this.toastService.show("You now have greater cover.", [], this);
+                        break;
+                }
                 break;
         }
     }

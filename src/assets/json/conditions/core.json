@@ -104,6 +104,65 @@
         ]
     },
     {
+        "name": "Assisting Shot",
+        "desc": "Your ally has interfered with a foe in combat with a quick shot. If you are the next creature to attack the same target before the start of the originator's turn, you gain a +1 circumstance bonus to your roll if their Strike was a hit, or a +2 circumstance bonus if their Strike was a critical hit.",
+        "type": "activities",
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": 10
+            }
+        ],
+        "hints": [
+            {
+                "desc": "If you are the next creature to attack the same target before the start of the originator's turn, you gain a +1 circumstance bonus to your roll if their Strike was a hit, or a +2 circumstance bonus if their Strike was a critical hit.",
+                "showon": "Attacks",
+                "effects": [
+                    {
+                        "affected": "Attack Rolls",
+                        "type": "circumstance",
+                        "value": "Choice == 'Critical Hit' ? 2 : (Choice == 'Hit' ? 1 : 0)"
+                    }
+                ]
+            }
+        ],
+        "choice": "Hit",
+        "choices": [
+            {
+                "name": "Critical Hit"
+            },
+            {
+                "name": "Hit"
+            },
+            {
+                "name": "Miss"
+            }
+        ]
+    },
+    {
+        "name": "Assisting Shot (Originator)",
+        "desc": "With a quick shot, you have interfered with a foe in combat. If your Strike was a hit, the next creature other than you to attack the same target before the start of your next turn gains a +1 circumstance bonus to their roll, or a +2 circumstance bonus if your Strike was a critical hit.",
+        "type": "activities",
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": 10
+            }
+        ],
+        "choice": "Hit",
+        "choices": [
+            {
+                "name": "Critical Hit"
+            },
+            {
+                "name": "Hit"
+            },
+            {
+                "name": "Miss"
+            }
+        ]
+    },
+    {
         "name": "Avenge in Glory",
         "desc": "You honor your ally's life, gaining temporary Hit Points equal to your level for the duration. As long as you have these temporary Hit Points, you gain a +1 circumstance bonus to attack and damage rolls.",
         "type": "activities",
@@ -1865,6 +1924,53 @@
         ]
     },
     {
+        "name": "Glimpse of Redemption",
+        "desc": "Your foe hesitates under the weight of sin as visions of redemption play in their mind's eye. The foe must choose one of the following options:\n\nYou are is unharmed by the triggering damage.\nYou gain resistance to all damage against the triggering damage equal to 2 + the originator's level (assumed to be the same as your level). After the damaging effect is applied, the enemy becomes enfeebled 2 until the end of its next turn.",
+        "type": "activities",
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": 1
+            }
+        ],
+        "choice": "Unharmed",
+        "choices": [
+            {
+                "name": "Unharmed"
+            },
+            {
+                "name": "Resistance"
+            }
+        ]
+    },
+    {
+        "name": "Glimpse of Redemption (Originator)",
+        "desc": "Your foe hesitates under the weight of sin as visions of redemption play in their mind's eye. The foe must choose one of the following options:\n\nThe ally is unharmed by the triggering damage.\nThe ally gains resistance to all damage against the triggering damage equal to 2 + your level (assumed to be the same as the theirs). After the damaging effect is applied, the enemy becomes enfeebled 2 until the end of its next turn.",
+        "type": "activities",
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": 1
+            }
+        ],
+        "inputRequired": "If your level is not the same as the originator's, you must consider the difference when calculating the damage you take.",
+        "choice": "Unharmed",
+        "choices": [
+            {
+                "name": "Unharmed"
+            },
+            {
+                "name": "Resistance"
+            }
+        ],
+        "effects": [
+            {
+                "affected": "All Damage Resistance",
+                "value": "Choice == 'Resistance' ? 2 + Level : 0"
+            }
+        ]
+    },
+    {
         "name": "Goblin Song",
         "desc": "You are distracted by annoying goblin songs. The effect depends on the singer's Performance check.\n\n<strong>Critical Success</strong> You take a -1 status penalty to Perception checks and Will saves for 1 minute.\n<strong>Success</strong> You take a -1 status penalty to Perception checks and Will saves for 1 round.\n<strong>Critical Failure</strong> You are temporarily immune to attempts to use Goblin Song for 1 hour.",
         "type": "activities",
@@ -1899,12 +2005,12 @@
             {
                 "affected": "Perception",
                 "type": "status",
-                "value": "choice.includes('Success') ? -1 : 0"
+                "value": "Choice.includes('Success') ? -1 : 0"
             },
             {
                 "affected": "Will",
                 "type": "status",
-                "value": "choice.includes('Success') ? -1 : 0"
+                "value": "Choice.includes('Success') ? -1 : 0"
             }
         ],
         "gainConditions": [
@@ -1959,6 +2065,17 @@
                 "affected": "AC",
                 "type": "circumstance",
                 "value": "2"
+            }
+        ]
+    },
+    {
+        "name": "Guardian's Deflection (Originator)",
+        "desc": "You are using your weapon to deflect the attack against your ally, granting a +2 circumstance bonus to their Armor Class against the triggering attack. This turns the triggering critical hit into a hit, or the triggering hit into a miss.",
+        "type": "activities",
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": 1
             }
         ]
     },
@@ -2278,6 +2395,41 @@
     {
         "name": "Leyline Conduit",
         "desc": "You can cast your spells effortlessly by tapping into the leylines of the world. If your next action is to Cast a Spell of 5th level or lower that has no duration, you don't expend the prepared spell as you cast it.",
+        "type": "activities",
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": 1
+            }
+        ]
+    },
+    {
+        "name": "Liberating Step",
+        "desc": "Your ally frees you from restraint. If you were taking damage, you gain resistance to all damage against the triggering damage equal to 2 + the originator's level (assumed to be the same as yours). You can attempt to break free of effects grabbing, restraining, immobilizing, or paralyzing you. You either attempt a new save against one such effect that allows a save, or attempt to Escape from one effect as a free action. If you can move, you can Step as a free action, even if you didn't need to escape.",
+        "type": "activities",
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": 1
+            }
+        ],
+        "inputRequired": "If your level is not the same as the originator's, you must consider the difference when calculating the damage you take.",
+        "hints": [
+            {
+                "desc": "You can attempt to break free of effects grabbing, restraining, immobilizing, or paralyzing you. You either attempt a new save against one such effect that allows a save, or attempt to Escape from one effect as a free action. If you can move, you can Step as a free action, even if you didn't need to escape.",
+                "showon": "Reflex, Unarmed Attacks, Acrobatics, Movement"
+            }
+        ],
+        "effects": [
+            {
+                "affected": "All Damage Resistance",
+                "value": "2 + Level"
+            }
+        ]
+    },
+    {
+        "name": "Liberating Step (Originator)",
+        "desc": "You free an ally from restraint. If the trigger was an ally taking damage, the ally gains resistance to all damage against the triggering damage equal to 2 + your level (assumed to be the same as theirs). The ally can attempt to break free of effects grabbing, restraining, immobilizing, or paralyzing them. They either attempt a new save against one such effect that allows a save, or attempt to Escape from one effect as a free action. If they can move, the ally can Step as a free action, even if they didn't need to escape.",
         "type": "activities",
         "buff": true,
         "defaultDurations": [
@@ -2888,13 +3040,36 @@
         ]
     },
     {
-        "name": "Ringmaster's Introduction",
-        "desc": "You are quickened this turn and can spend the extra action to Stride, Strike, Demoralize, Feint, or Perform.",
+        "name": "Retributive Strike",
+        "desc": "Your ally protects you. You gain resistance to all damage against the triggering damage equal to 2 + the originator's level (assumed to be the same as yours).",
         "type": "activities",
         "buff": true,
         "defaultDurations": [
             {
-                "duration": 10
+                "duration": 1
+            }
+        ],
+        "inputRequired": "If your level is not the same as the originator's, you must consider the difference when calculating the damage you take."
+    },
+    {
+        "name": "Retributive Strike (Originator)",
+        "desc": "You protect your ally and strike your foe. The ally gains resistance to all damage against the triggering damage equal to 2 + your level (assumed to be the same as theirs).",
+        "type": "activities",
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": 1
+            }
+        ]
+    },
+    {
+        "name": "Ringmaster's Introduction",
+        "desc": "Your ally has announced you with a litany of your legendary achievements, spurring you to action. You are quickened this turn and can spend the extra action to Stride, Strike, Demoralize, Feint, or Perform.",
+        "type": "activities",
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": 5
             }
         ],
         "hints": [
@@ -2906,6 +3081,57 @@
         "gainConditions": [
             {
                 "name": "Quickened"
+            }
+        ]
+    },
+    {
+        "name": "Ringmaster's Introduction (Originator)",
+        "desc": "You have announced the triggering ally with a litany of their legendary achievements, spurring them to action. The target is quickened this turn and can spend the extra action to Stride, Strike, Demoralize, Feint, or Perform.",
+        "type": "activities",
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": 5
+            }
+        ]
+    },
+    {
+        "name": "Scout's Warning",
+        "desc": "Your ally has warned you of danger, granting you a +1 circumstance bonus to your initiative rolls.",
+        "type": "activities",
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": 1
+            }
+        ],
+        "hints": [
+            {
+                "desc": "You gain a +1 circumstance bonus to your initiative rolls.",
+                "showon": "Perception",
+                "effects": [
+                    {
+                        "affected": "Perception",
+                        "type": "circumstance",
+                        "value": "1"
+                    },
+                    {
+                        "affected": "Skill Checks",
+                        "type": "circumstance",
+                        "value": "1"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Scout's Warning (Originator)",
+        "desc": "You have warned your allies of danger, granting them each a +1 circumstance bonus to their initiative rolls.",
+        "type": "activities",
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": 1
             }
         ]
     },
@@ -3305,6 +3531,20 @@
         ]
     },
     {
+        "name": "Share Rage (Originator)",
+        "desc": "You stoke an ally's fury. While you are raging, one willing creature within 30 feet gains the effects of the Rage action, except it can still use concentrate actions.",
+        "type": "activities",
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": -1
+            }
+        ],
+        "endsWithConditions": [
+            "Rage"
+        ]
+    },
+    {
         "name": "Share Rage Cooldown",
         "desc": "You can't use Share Rage until the next time you rage.",
         "type": "activities",
@@ -3651,7 +3891,7 @@
         ]
     },
     {
-        "name": "Tupilac Carver",
+        "name": "Tupilaq Carver",
         "desc": "You have included a drop of blood, lock of hair, or other portion of a creature's body as part of casting summon construct. The summoned construct gains a +4 status bonus to Perception checks to sense or locate that creature.",
         "type": "activities",
         "buff": true,
@@ -3783,6 +4023,85 @@
             {
                 "affected": "Temporary HP",
                 "value": "-Temporary_HP('',effect.sourceId)"
+            }
+        ]
+    },
+    {
+        "name": "Warden's Boon",
+        "desc": "By pointing out vulnerabilities, your ally has granted you the benefits listed in Hunt Prey and their hunter's edge until the end of your next turn.",
+        "type": "activities",
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": 10
+            }
+        ],
+        "choice": "No edge",
+        "choices": [
+            {
+                "name": "No edge"
+            },
+            {
+                "name": "Flurry"
+            },
+            {
+                "name": "Outwit"
+            },
+            {
+                "name": "Precision"
+            }
+        ],
+        "gainConditions": [
+            {
+                "conditionChoiceFilter": "No edge",
+                "name": "Hunt Prey"
+            },
+            {
+                "conditionChoiceFilter": "Flurry",
+                "name": "Hunt Prey: Flurry"
+            },
+            {
+                "conditionChoiceFilter": "Outwit",
+                "name": "Hunt Prey: Outwit"
+            },
+            {
+                "conditionChoiceFilter": "Precision",
+                "name": "Hunt Prey: Precision"
+            }
+        ]
+    },
+    {
+        "name": "Warden's Boon (Originator)",
+        "desc": "By pointing out vulnerabilities, you have granted the benefits listed in Hunt Prey and your hunter's edge benefit to an ally until the end of their next turn.",
+        "type": "activities",
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": 10
+            }
+        ],
+        "choice": "No edge",
+        "choices": [
+            {
+                "name": "No edge"
+            },
+            {
+                "name": "Flurry",
+                "featreq": [
+                    "Flurry"
+                ]
+            },
+            {
+                "name": "Outwit",
+                "featreq": [
+                    "Outwit"
+                ]
+            },
+            {
+                "name": "Precision",
+                "featreq": [
+                    "Precision"
+                ]
             }
         ]
     },
@@ -5799,6 +6118,10 @@
                 "showon": "Perception",
                 "effects": [
                     {
+                        "affected": "Perception",
+                        "value": "-2"
+                    },
+                    {
                         "affected": "Skill Checks",
                         "value": "-2"
                     }
@@ -5852,6 +6175,10 @@
                 "showon": "Perception",
                 "effects": [
                     {
+                        "affected": "Perception",
+                        "value": "-2"
+                    },
+                    {
                         "affected": "Skill Checks",
                         "value": "-2"
                     }
@@ -5896,6 +6223,10 @@
                 "desc": "You take a -2 penalty to Initiative rolls.",
                 "showon": "Perception",
                 "effects": [
+                    {
+                        "affected": "Perception",
+                        "value": "-2"
+                    },
                     {
                         "affected": "Skill Checks",
                         "value": "-2"
@@ -5950,6 +6281,10 @@
                 "desc": "You take a -2 penalty to Initiative rolls.",
                 "showon": "Perception",
                 "effects": [
+                    {
+                        "affected": "Perception",
+                        "value": "-2"
+                    },
                     {
                         "affected": "Skill Checks",
                         "value": "-2"
@@ -25430,27 +25765,6 @@
         ],
         "overrideConditions": [
             "Dead"
-        ]
-    },
-    {
-        "name": "Song of the Fallen (Caster)",
-        "desc": "You chant a dirge or an elegy that either rouses the dead to action or reminds undead that they should lay to rest.\n\nIf you have targeted dead creatures, the bodies animate and can continue acting as if they were alive. A creature animated in this way has 60 temporary Hit Points. The animated creatures are slowed 1 but can otherwise act normally. Creatures animated with this spell die again once the spell ends.\n\nIf you have targeted undead creatures, they are affected according to their Will save.\n\n<strong>Critical Success</strong> The undead takes 5d6 positive damage.\n<strong>Success</strong> The undead takes 10d6 positive damage and is slowed 1 for 1 round.\n<strong>Failure</strong> The undead takes 100 positive damage and is slowed 1 for 1 minute.\n<strong>Critical Failure</strong> The undead is destroyed.",
-        "type": "spells",
-        "minLevel": 10,
-        "buff": true,
-        "defaultDurations": [
-            {
-                "duration": 100
-            }
-        ],
-        "choice": "Dead Creatures",
-        "choices": [
-            {
-                "name": "Dead Creatures"
-            },
-            {
-                "name": "Undead Creatures"
-            }
         ]
     },
     {

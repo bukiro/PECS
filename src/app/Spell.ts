@@ -55,7 +55,7 @@ export class Spell {
     //For "ally", it can be cast on any in-app creature (depending on targetNumber) or without target
     //For "area", it can be cast on any in-app creature witout target number limit or without target
     //For "object", "minion" or "other", the spell button will just say "Cast" without a target
-    public target: string = "";
+    public target: string = "self";
     //The target description in the spell description.
     public targets: string = "";
     //If cannotTargetCaster is set, you can't cast the spell on yourself, and you can't select yourself as one of the targets of an ally or area spell.
@@ -182,7 +182,7 @@ export class Spell {
         return levelreq;
     }
     get_IsHostile() {
-        //Return whether a spell is meant to be cast on enemies. This is usually the case if the spell is cast on other, or if the spell is cast on area and has no target conditions.
+        //Return whether a spell is meant to be cast on enemies. This is usually the case if the activity target is "other", or if the target is "area" and the spell has no target conditions.
         return (
             this.target == "other" ||
             (

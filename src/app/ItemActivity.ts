@@ -1,5 +1,7 @@
 import { Activity } from './Activity';
 import { SpellCast } from './SpellCast';
+import { SpellTarget } from './SpellTarget';
+import { v4 as uuidv4 } from 'uuid';
 
 //ItemActivity combines Activity and ActivityGain, so that an item can have its own contained activity.
 export class ItemActivity extends Activity {
@@ -17,11 +19,27 @@ export class ItemActivity extends Activity {
     public source: string = "";
     //Resonant item activities are only available when the item is slotted into a wayfinder.
     public resonant: boolean = false;
-    public data: {name:string, value:any}[] = [];
+    public data: { name: string, value: any }[] = [];
     //We copy the activities castSpells here whenever we activate it, so we can store the item ID.
     public castSpells: SpellCast[] = [];
     //If the activity causes a condition, in order to select a choice from the activity beforehand, the choice is saved here for each condition.
-    public effectChoices: {condition: string, choice: string}[] = [];
+    public effectChoices: { condition: string, choice: string }[] = [];
     //If the activity casts a spell, in order to select a choice from the spell before casting it, the choice is saved here for each condition for each spell, recursively.
-    public spellEffectChoices: ({condition: string, choice: string}[])[] = [];
+    public spellEffectChoices: ({ condition: string, choice: string }[])[] = [];
+    //target is used internally to determine whether you can cast this spell on yourself, your companion/familiar or any ally
+    //Should be: "ally", "area", "companion", "familiar", "minion", "object", "other" or "self"
+    //For "companion", it can only be cast on the companion
+    //For "familiar", it can only be cast on the familiar
+    //For "self", the spell button will say "Cast", and you are the target
+    //For "ally", it can be cast on any in-app creature (depending on targetNumber) or without target
+    //For "area", it can be cast on any in-app creature witout target number limit or without target
+    //For "object", "minion" or "other", the spell button will just say "Cast" without a target
+    public target: string = "self";
+    //The target word ("self", "Character", "Companion", "Familiar" or "Selected") is saved here for processing in the activity service.
+    //Most ItemActivities should apply to the user, so "self" is the default.
+    public selectedTarget: string = "self";
+    //The selected targets are saved here for applying conditions.
+    public targets: SpellTarget[] = [];
+    //Condition gains save this id so they can be found and removed when the activity ends, or end the activity when the condition ends.
+    public id = uuidv4();
 }
