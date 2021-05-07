@@ -1,9 +1,21 @@
-<button class="minimizebutton lower"
-    [ngbTooltip]="get_Minimized() ? 'Click to show all information.' : 'Click to show compact information.'"
-    [ngClass]="{'fancy-button':get_Minimized()}" (click)="minimize()" *ngIf="creature=='Character'">
-    <i class='bi-arrows-collapse' *ngIf="get_Minimized()"></i>
-    <i class='bi-arrows-expand' *ngIf="!get_Minimized()"></i>
-</button>
+<div class="window-button-container">
+    <button class="minimizebutton lower"
+        [ngbTooltip]="get_Minimized() ? 'Click to show all choices and information.' : 'Click to hide finished choices and show compact information.'"
+        [ngClass]="{'fancy-button':get_Minimized()}" (click)="minimize()">
+        <i class='bi-arrows-collapse' *ngIf="get_Minimized()"></i>
+        <i class='bi-arrows-expand' *ngIf="!get_Minimized()"></i>
+    </button>
+    <button class="tilemodebutton" [ngClass]="{'fancy-button':get_TileMode()}" (click)="toggle_TileMode()"
+        [ngbTooltip]="get_TileMode() ? 'Click to enable list layout' : 'Click to enable tiled layout'">
+        <!--Content is css only-->
+        <div>
+            <div> </div>
+            <div> </div>
+            <div> </div>
+            <div> </div>
+        </div>
+    </button>
+</div>
 <div id="{{creature}}-activities-height" class="attributeBox">
     <header class="sectionHeader box-header">Actions and Activities</header>
     <div class="loading" *ngIf="still_loading()">Loading</div>
@@ -17,30 +29,65 @@
         </div>
         <div class="vlist">
             <header class="subsectionHeader">Actions and Activities</header>
-            <ng-container *ngFor="let gain of get_OwnedActivities(); trackBy:trackByIndex;">
-                <ng-container
-                    *ngFor="let activity of (gain.can_Activate ? [gain] : get_Activities(gain.name)); trackBy:trackByIndex;">
-                    <ng-container *ngFor="let maxCharges of [activity.maxCharges(get_Creature(), characterService)]">
-                        <div class="list-item" *ngFor="let activityID of [get_ID()]; trackBy:trackByIndex;">
-                            <button class="newrow left-aligned sublist-toggle"
-                                [ngClass]="{'fancy-button':gain.active, 'inactive-button':((gain.activeCooldown ? (maxCharges == gain.chargesUsed) : false) && !gain.active)}"
-                                (click)="toggle_Action(activityID)">
-                                <span *ngIf="activity.name == 'Fused Stance'">{{get_FuseStanceName()}}</span>
-                                <span *ngIf="activity.name != 'Fused Stance'">{{activity.name}}</span>
-                                <app-actionIcons [actionString]="activity.actions"></app-actionIcons>
-                                {{(activity.activationType) ? activity.activationType : ""}}
-                            </button>
-                            <div class="list-item sublist lower"
-                                [ngClass]="{'fancy-list':gain.active, 'inactive-list':((gain.activeCooldown ? (maxCharges == gain.chargesUsed) : false) && !gain.active)}"
-                                *ngIf="get_ShowAction()==activityID">
-                                <app-activity [creature]="creature" [activity]=activity [gain]=gain
-                                    [allowActivate]="true">
-                                </app-activity>
-                            </div>
-                        </div>
+            <div [ngClass]="{'icon-list':get_TileMode(), 'list-item':!get_TileMode()}">
+                <ng-container *ngFor="let gain of get_OwnedActivities(); trackBy:trackByIndex;">
+                    <ng-container
+                        *ngFor="let activity of (gain.can_Activate ? [gain] : get_Activities(gain.name)); trackBy:trackByIndex;">
+                        <ng-container
+                            *ngFor="let maxCharges of [activity.maxCharges(get_Creature(), characterService)]; trackBy:trackByIndex;">
+                            <ng-container
+                                *ngFor="let cannotActivate of [((gain.activeCooldown ? (maxCharges == gain.chargesUsed) : false) && !gain.active)]; trackBy:trackByIndex;">
+                                <ng-template #ActivityTitleTemplate>
+                                    <span *ngIf="!get_TileMode()">
+                                        <i class="value bi-patch-plus bonus" *ngIf="!activity.get_IsHostile()"
+                                            [ngbTooltip]="'Beneficial activity'"></i>
+                                        <i class="value bi-patch-minus-fill penalty" *ngIf="activity.get_IsHostile()"
+                                            [ngbTooltip]="'Hostile activity'"></i>
+                                    </span>
+                                    <span *ngIf="activity.name == 'Fused Stance'">{{get_FuseStanceName()}}</span>
+                                    <span *ngIf="activity.name != 'Fused Stance'">{{activity.name}}</span>
+                                    <app-actionIcons *ngIf="activity.actions" [actionString]="activity.actions">
+                                    </app-actionIcons>
+                                    {{(activity.activationType) ? activity.activationType : ""}}
+                                </ng-template>
+                                <ng-template #ActivityTemplate>
+                                    <header class="spellHeader" *ngIf="get_TileMode()">
+                                        <ng-container *ngTemplateOutlet="ActivityTitleTemplate"></ng-container>
+                                    </header>
+                                    <app-activity [creature]="creature" [activity]=activity [gain]=gain
+                                        [allowActivate]="true">
+                                    </app-activity>
+                                </ng-template>
+                                <ng-container *ngIf="!get_TileMode()">
+                                    <div class="list-item" *ngFor="let activityID of [get_ID()]; trackBy:trackByIndex;">
+                                        <button class="newrow left-aligned sublist-toggle"
+                                            [ngClass]="{'fancy-button':gain.active, 'inactive-button':((gain.activeCooldown ? (maxCharges == gain.chargesUsed) : false) && !gain.active)}"
+                                            (click)="toggle_Action(activityID)">
+                                            <ng-container *ngTemplateOutlet="ActivityTitleTemplate"></ng-container>
+                                        </button>
+                                        <div class="list-item sublist lower"
+                                            [ngClass]="{'fancy-list':gain.active, 'inactive-list':((gain.activeCooldown ? (maxCharges == gain.chargesUsed) : false) && !gain.active)}"
+                                            *ngIf="get_ShowAction()==activityID">
+                                            <ng-container *ngTemplateOutlet="ActivityTemplate"></ng-container>
+                                        </div>
+                                    </div>
+                                </ng-container>
+                                <ng-container *ngIf="get_TileMode()">
+                                    <button [stickyPopover]="ActivityTemplate" triggers="click"
+                                        [ngClass]="{'fancy-button':gain.active, 'inactive-button':cannotActivate, 'penalty':!cannotActivate && activity.get_IsHostile(), 'bonus':!cannotActivate && !activity.get_IsHostile()}">
+                                        <app-gridIcon
+                                            [ngClass]="{'fancy-button':gain.active, 'inactive-button':cannotActivate, 'penalty':!cannotActivate && activity.get_IsHostile(), 'bonus':!cannotActivate && !activity.get_IsHostile()}"
+                                            [ngbTooltip]="ActivityTitleTemplate"
+                                            [title]="activity.name == 'Fused Stance' ? get_FuseStanceName() : activity.name"
+                                            [activity]="activity">
+                                        </app-gridIcon>
+                                    </button>
+                                </ng-container>
+                            </ng-container>
+                        </ng-container>
                     </ng-container>
                 </ng-container>
-            </ng-container>
+            </div>
         </div>
         <div class="vlist">
             <header class="subsectionHeader box-header">Temporary Feats</header>

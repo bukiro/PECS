@@ -1346,7 +1346,8 @@
                                             <div class="newrow left-aligned"
                                                 *ngFor="let activity of get_Activities(activityName); trackBy:trackByIndex;">
                                                 <header class="spellHeader left-aligned">{{activity.name}}
-                                                    <app-actionIcons [actionString]="activity.actions">
+                                                    <app-actionIcons *ngIf="activity.actions"
+                                                        [actionString]="activity.actions">
                                                     </app-actionIcons>
                                                     {{(activity.activationType) ? activity.activationType : ""}}
                                                 </header>
@@ -1979,7 +1980,8 @@
                                                 *ngFor="let activity of get_Activities(gain.name); trackBy:trackByIndex;">
                                                 <header class="spellHeader left-aligned">
                                                     Advanced Maneuver: {{activity.name}}
-                                                    <app-actionIcons [actionString]="activity.actions">
+                                                    <app-actionIcons *ngIf="activity.actions"
+                                                        [actionString]="activity.actions">
                                                     </app-actionIcons>
                                                     {{(activity.activationType) ? activity.activationType : ""}}
                                                 </header>
@@ -2282,7 +2284,8 @@
                                         <header class="spellHeader newrow">
                                             <span style="flex-grow:10">
                                                 {{spell.name}}
-                                                <app-actionIcons [actionString]="spell.actions"></app-actionIcons>
+                                                <app-actionIcons *ngIf="spell.actions" [actionString]="spell.actions">
+                                                </app-actionIcons>
                                                 {{(spell.castType) ? spell.castType : ""}}
                                             </span>
                                             <span style="flex-basis:auto; flex-shrink:0">
@@ -2361,7 +2364,8 @@
                                 *ngFor="let stance of get_StancesToFuse(fuseStanceContent.levelNumber, fuseStanceFeat); trackBy:trackByIndex;">
                                 <ng-template #FuseStanceChoiceDetailsPopover>
                                     <header class="spellHeader">{{stance.activity.name}}
-                                        <app-actionIcons [actionString]="stance.activity.actions">
+                                        <app-actionIcons *ngIf="stance.activity.actions"
+                                            [actionString]="stance.activity.actions">
                                         </app-actionIcons>{{(stance.activity.activationType) ?
                                         stance.activity.activationType
                                         : ""}}
@@ -2463,10 +2467,10 @@
                                                             *ngFor="let activity of get_Activities(activityName); trackBy:trackByIndex;">
                                                             <header class="spellHeader left-aligned">
                                                                 {{activity.name}}
-                                                                <app-actionIcons [actionString]="activity.actions">
+                                                                <app-actionIcons *ngIf="activity.actions"
+                                                                    [actionString]="activity.actions">
                                                                 </app-actionIcons>
-                                                                {{(activity.activationType) ?
-                                                                activity.activationType :
+                                                                {{(activity.activationType) ? activity.activationType :
                                                                 ""}}
                                                             </header>
                                                             <app-activity class="newrow" [activity]=activity

@@ -160,12 +160,12 @@
                                                                         <ng-container
                                                                             *ngFor="let cannotCast of [cannot_Cast(spell, level, casting, spellTaken.choice, spellTaken.gain, maxspellslots, externallyDisabled)]; trackBy:trackByIndex;">
                                                                             <ng-template #SpellTitleTemplate>
-                                                                                <span>
+                                                                                <span *ngIf="!get_TileMode()">
                                                                                     <i class="value bi-patch-plus bonus"
-                                                                                        *ngIf="!get_TileMode() && !spell.get_IsHostile()"
+                                                                                        *ngIf="!spell.get_IsHostile()"
                                                                                         [ngbTooltip]="'Beneficial spell'"></i>
                                                                                     <i class="value bi-patch-minus-fill penalty"
-                                                                                        *ngIf="!get_TileMode() && spell.get_IsHostile()"
+                                                                                        *ngIf="spell.get_IsHostile()"
                                                                                         [ngbTooltip]="'Hostile spell'"></i>
                                                                                 </span>
                                                                                 <span [ngbTooltip]="'Signature spell'"
@@ -402,7 +402,6 @@
                                                                                         <app-gridIcon
                                                                                             [ngClass]="{'inactive-button': cannotCast, 'penalty':!cannotCast && spell.get_IsHostile(), 'bonus':!cannotCast && !spell.get_IsHostile()}"
                                                                                             [ngbTooltip]="SpellTooltipTemplate"
-                                                                                            openDelay="100"
                                                                                             [title]="spell.name + (spellTaken.gain.combinationSpellName ? ' & ' + spellTaken.gain.combinationSpellName : '')"
                                                                                             [superTitle]="(is_SignatureSpell(casting, spellTaken.gain) ? 'icon-bi-stars|' : '') + (spellTaken.choice.spellCombination ? 'icon-ra ra-frostfire|' : '') + (is_InfinitePossibilitiesSpell(spellTaken.choice) ? 'icon-ra ra-kaleidoscope|' : '') + (is_SpellMasterySpell(spellTaken.choice) ? 'icon-ra ra-crown|' : '') + (spellTaken.choice.crossbloodedEvolution ? 'icon-ra ra-zigzag-leaf|' : '')"
                                                                                             [spell]="spell">

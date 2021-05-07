@@ -1,7 +1,9 @@
 <div class="newrow lower" *ngIf="spell">
     <div class="newrow left-aligned">
-        <cite class="trait" *ngFor="let trait of spell.traits; trackBy:trackByIndex;" [ngbPopover]="get_Traits(trait)[0].desc">{{trait}}</cite>
-        <app-tags [creature]="'Character'" [objectName]="spell.name" [showTraits]=true [showFeats]=true [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
+        <cite class="trait" *ngFor="let trait of spell.traits; trackBy:trackByIndex;"
+            [ngbPopover]="get_Traits(trait)[0].desc">{{trait}}</cite>
+        <app-tags [creature]="'Character'" [objectName]="spell.name" [showTraits]=true [showFeats]=true [showItems]=true
+            [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
     </div>
     <div class="list-item lower newrow problem" *ngIf="spell.inputRequired">
         <strong>Player input required:</strong>
@@ -32,7 +34,10 @@
     <div class="newrow left-aligned" *ngIf="spell.castType || spell.cost">
         <span *ngIf="spell.castType">
             <strong>Cast</strong>
-            <app-actionIcons [actionString]="spell.actions"></app-actionIcons><span>{{spell.castType}}&nbsp;</span>
+            <app-actionIcons *ngIf="spell.actions" [actionString]="spell.actions"></app-actionIcons>
+            <span>
+                {{spell.castType}}
+            </span>
         </span>
         <span *ngIf="spell.cost">
             <strong>Cost</strong>
@@ -69,7 +74,8 @@
             {{spell.duration}}
         </span>
     </div>
-    <div class="newrow left-aligned" *ngFor="let desc of get_Heightened(spell.desc).split('\n\n'); trackBy:trackByIndex;">
+    <div class="newrow left-aligned"
+        *ngFor="let desc of get_Heightened(spell.desc).split('\n\n'); trackBy:trackByIndex;">
         <p *ngIf="desc.split('\n').length == 1" [innerHTML]="desc"></p>
         <ul *ngIf="desc.split('\n').length > 1">
             <li *ngFor="let line of desc.split('\n'); trackBy:trackByIndex;" [innerHTML]="line"></li>
@@ -108,7 +114,8 @@
     <div class="newrow left-aligned" *ngFor="let feat of get_FeatsShowingOn(spell.name); trackBy:trackByIndex;">
         <header class="spellHeader">{{feat.name}}</header>
         <div class="newrow left-aligned" *ngIf="feat.traits.lenght">
-            <cite class="trait" *ngFor="let trait of feat.traits; trackBy:trackByIndex;" [ngbPopover]="get_Traits(trait)[0].desc">{{trait}}</cite>
+            <cite class="trait" *ngFor="let trait of feat.traits; trackBy:trackByIndex;"
+                [ngbPopover]="get_Traits(trait)[0].desc">{{trait}}</cite>
         </div>
         <div class="newrow left-aligned" *ngFor="let desc of feat.desc.split('\n\n'); trackBy:trackByIndex;">
             <p *ngIf="desc.split('\n').length == 1" [innerHTML]="desc"></p>
@@ -119,9 +126,12 @@
     </div>
     <div class="list-item left-aligned" *ngFor="let shownSpellSet of spell.showSpells; trackBy:trackByIndex;">
         <div *ngFor="let shownSpell of get_Spells(shownSpellSet.name); trackBy:trackByIndex;">
-            <header class="spellHeader left-aligned">{{shownSpell.name}}
-                <app-actionIcons [actionString]="shownSpell.actions">
-                </app-actionIcons> {{shownSpell.castType.toString()}}</header>
+            <header class="spellHeader left-aligned">
+                {{shownSpell.name}}
+                <app-actionIcons *ngIf="shownSpell.actions" [actionString]="shownSpell.actions">
+                </app-actionIcons>
+                {{shownSpell.castType.toString()}}
+            </header>
             <app-spell [spell]=shownSpell [spellLevel]="shownSpellSet.level || spellLevel || 0"></app-spell>
         </div>
     </div>

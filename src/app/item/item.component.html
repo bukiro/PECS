@@ -114,8 +114,9 @@
 <div class="newrow left-aligned">
     <p *ngIf="(item.activationType || (item.actions && item.actions != ' ')) && (!item.trigger && !item.requirements)">
         <strong>Activate</strong>
-        <app-actionIcons [actionString]="item.actions">
-        </app-actionIcons>{{item.activationType}}
+        <app-actionIcons *ngIf="item.actions" [actionString]="item.actions">
+        </app-actionIcons>
+        {{item.activationType}}
         <span *ngIf="item.trigger">
             <strong>Trigger</strong>
             {{item.trigger}}
@@ -171,8 +172,9 @@
     </p>
     <p *ngIf="(item.activationType || (item.actions && item.actions != ' ')) && (item.trigger || item.requirements)">
         <strong>Activate</strong>
-        <app-actionIcons [actionString]="item.actions">
-        </app-actionIcons>{{item.activationType}}
+        <app-actionIcons *ngIf="item.actions" [actionString]="item.actions">
+        </app-actionIcons>
+        {{item.activationType}}
         <span *ngIf="item.trigger">
             <strong>Trigger</strong>
             {{item.trigger}}
@@ -243,8 +245,9 @@
 <div class="list-item left-aligned" *ngFor="let cast of item.castSpells; trackBy:trackByIndex;">
     <div *ngFor="let spell of get_Spells(cast.name); trackBy:trackByIndex;">
         <header class="spellHeader">{{spell.name}}
-            <app-actionIcons [actionString]="spell.actions">
-            </app-actionIcons> {{spell.castType.toString()}}
+            <app-actionIcons *ngIf="spell.actions" [actionString]="spell.actions">
+            </app-actionIcons>
+            {{spell.castType.toString()}}
         </header>
         <app-spell [spell]=spell [spellLevel]="(cast.level) ? cast.level : 0"></app-spell>
     </div>
@@ -269,9 +272,11 @@
 <div class="list-item left-aligned" *ngFor="let choice of get_StoredSpellsTaken(item); trackBy:trackByIndex;">
     <ng-container *ngFor="let taken of choice.spells; trackBy:trackByIndex;">
         <div *ngFor="let spell of get_Spells(taken.name); trackBy:trackByIndex;">
-            <header class="spellHeader">{{spell.name}}
-                <app-actionIcons [actionString]="spell.actions">
-                </app-actionIcons> {{spell.castType.toString()}}
+            <header class="spellHeader">
+                {{spell.name}}
+                <app-actionIcons *ngIf="spell.actions" [actionString]="spell.actions">
+                </app-actionIcons>
+                {{spell.castType.toString()}}
             </header>
             <ng-container *ngIf="!itemStore">
                 <ng-container
@@ -298,8 +303,9 @@
 <div class="list-item left-aligned" *ngFor="let activity of item.activities; trackBy:trackByIndex;">
     <header class="spellHeader" *ngIf="activity.name">
         {{activity.name}}
-        <app-actionIcons [actionString]="activity.actions">
-        </app-actionIcons>{{(activity.activationType) ? activity.activationType : ""}}
+        <app-actionIcons *ngIf="activity.actions" [actionString]="activity.actions">
+        </app-actionIcons>
+        {{(activity.activationType) ? activity.activationType : ""}}
     </header>
     <app-activity [creature]="creature" [activity]=activity [gain]=activity
         [allowActivate]="allowActivate && !item.broken && (activity.resonant ? isSubItem : true)" [isSubItem]=isSubItem>
@@ -309,8 +315,9 @@
     <div class="list-item left-aligned" *ngFor="let activity of get_Activities(gain.name); trackBy:trackByIndex;">
         <header class="spellHeader">
             {{activity.name}}
-            <app-actionIcons [actionString]="activity.actions">
-            </app-actionIcons>{{(activity.activationType) ? activity.activationType : ""}}
+            <app-actionIcons *ngIf="activity.actions" [actionString]="activity.actions">
+            </app-actionIcons>
+            {{(activity.activationType) ? activity.activationType : ""}}
         </header>
         <app-activity [creature]="creature" [activity]=activity [gain]=gain [allowActivate]=allowActivate
             [isSubItem]=isSubItem></app-activity>
@@ -320,8 +327,9 @@
     <div class="list-item left-aligned" *ngFor="let activity of get_Activities(activityName); trackBy:trackByIndex;">
         <header class="spellHeader">
             {{activity.name}}
-            <app-actionIcons [actionString]="activity.actions">
-            </app-actionIcons>{{(activity.activationType) ? activity.activationType : ""}}
+            <app-actionIcons *ngIf="activity.actions" [actionString]="activity.actions">
+            </app-actionIcons>
+            {{(activity.activationType) ? activity.activationType : ""}}
         </header>
         <app-activity [creature]="creature" [activity]=activity [gain]=null [allowActivate]=false [isSubItem]=isSubItem>
         </app-activity>
@@ -347,8 +355,10 @@
     <header class="spellHeader">{{rune.name}} Rune</header>
     <ng-container *ngFor="let spell of get_ItemSpell(rune)">
         <button class="newrow center-aligned" (click)="on_SpellItemUse(rune)">
-            <span>Use<app-actionIcons [actionString]="spell.actions">
-                </app-actionIcons> (Cast spell)
+            <span>Use
+                <app-actionIcons *ngIf="spell.actions" [actionString]="spell.actions">
+                </app-actionIcons>
+                (Cast spell)
             </span>
         </button>
     </ng-container>
@@ -367,8 +377,11 @@
 <div class="list-item left-aligned" *ngFor="let talisman of item.talismans; let index = index; trackBy:trackByIndex;">
     <header class="spellHeader">{{talisman.name}}</header>
     <button class="newrow left-aligned" (click)="on_TalismanUse(talisman, index)" *ngIf="allowActivate">
-        <span>Activate<app-actionIcons [actionString]="talisman.actions">
-            </app-actionIcons>{{(talisman.activationType) ? talisman.activationType : ""}}
+        <span>
+            Activate
+            <app-actionIcons *ngIf="talisman.actions" [actionString]="talisman.actions">
+            </app-actionIcons>
+            {{(talisman.activationType) ? talisman.activationType : ""}}
         </span>
     </button>
     <app-item [creature]="creature" [item]=talisman [allowActivate]=allowActivate [isSubItem]=true></app-item>

@@ -9,6 +9,7 @@ import { Equipment } from '../Equipment';
 import { Weapon } from '../Weapon';
 import { Armor } from '../Armor';
 import { Consumable } from '../Consumable';
+import { Activity } from '../Activity';
 
 @Component({
     selector: 'app-gridIcon',
@@ -41,6 +42,8 @@ export class GridIconComponent implements OnInit {
     effect: Effect = null;
     @Input()
     spell: Spell = null;
+    @Input()
+    activity: Activity = null;
     @Input()
     item: Item = null;
 
@@ -77,7 +80,11 @@ export class GridIconComponent implements OnInit {
             }
         }
         if (this.spell?.actions) {
-            let actions = this.spell.actions.replace("minutes", "min").replace("minute", "min").replace(" to 2A", "| <i class='bi-plus-circle'></i>").replace(" to 3A", "| <i class='bi-plus-circle'></i>");
+            let actions = this.spell.actions.replace("hour", "hr").replace("minute", "min").replace(" to 2A", "| <i class='bi-plus-circle'></i>").replace(" to 3A", "| <i class='bi-plus-circle'></i>");
+            return "actionIcons|" + actions;
+        }
+        if (this.activity?.actions) {
+            let actions = this.activity.actions.replace("hour", "hr").replace("minute", "min").replace(" to 2A", "| <i class='bi-plus-circle'></i>").replace(" to 3A", "| <i class='bi-plus-circle'></i>");
             return "actionIcons|" + actions;
         }
         if (this.item) {

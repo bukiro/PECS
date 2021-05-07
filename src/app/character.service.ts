@@ -123,6 +123,7 @@ export class CharacterService {
         popoverConfig.popoverClass = "list-item sublist";
         popoverConfig.triggers = "hover:click";
         tooltipConfig.placement = "auto";
+        tooltipConfig.container = "body";
         tooltipConfig.openDelay = 100;
         tooltipConfig.triggers = "hover:click";
     }

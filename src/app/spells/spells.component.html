@@ -99,7 +99,7 @@
                                                 <ng-template #FixedSpellContent>
                                                     <header class="spellHeader left-aligned" *ngIf="get_TileMode()">
                                                         {{spellTaken.gain.name}}
-                                                        <app-actionIcons [actionString]="spell.actions">
+                                                        <app-actionIcons *ngIf="spell.actions" [actionString]="spell.actions">
                                                         </app-actionIcons>
                                                     </header>
                                                     <div class="newrow left-aligned"
@@ -120,7 +120,7 @@
                                                                 <i class="bi-lock-fill"></i>
                                                             </span>
                                                             {{spellTaken.gain.name}}
-                                                            <app-actionIcons [actionString]="spell.actions">
+                                                            <app-actionIcons *ngIf="spell.actions" [actionString]="spell.actions">
                                                             </app-actionIcons>
                                                         </button>
                                                         <div class="list-item sublist fancy-list"

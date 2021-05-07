@@ -68,7 +68,7 @@ export class ActivitiesComponent implements OnInit {
         }
     }
 
-    toggle_List(name: string) {
+    toggle_List(name: string = "") {
         if (this.showList == name) {
             this.showList = "";
         } else {
@@ -96,6 +96,20 @@ export class ActivitiesComponent implements OnInit {
     get_ID() {
         this.id++;
         return this.id;
+    }
+
+    get_Character() {
+        return this.characterService.get_Character();
+    }
+
+    toggle_TileMode() {
+        this.get_Character().settings.activitiesTileMode = !this.get_Character().settings.activitiesTileMode;
+        this.characterService.set_ToChange("Character", "activities");
+        this.characterService.process_ToChange();
+    }
+
+    get_TileMode() {
+        return this.get_Character().settings.activitiesTileMode;
     }
 
     still_loading() {

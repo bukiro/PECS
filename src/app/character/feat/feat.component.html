@@ -15,7 +15,10 @@
         <ng-container *ngFor="let reqs of [get_FeatRequirements(choice, feat)]; trackBy:trackByIndex;">
             <p *ngIf="reqs.length">
                 <strong>Requirements&nbsp;</strong>
-                <span [ngClass]="{'problem':(!req.met), 'disabled':(req.ignored)}" [ngbPopover]="req.ignored ? 'This requirement is ignored.' : ''" *ngFor="let req of reqs; trackBy:trackByIndex;">{{req.ignored ? "(" : ''}}{{req.desc}}{{req.ignored ? ")" : ''}}</span>
+                <span [ngClass]="{'problem':(!req.met), 'disabled':(req.ignored)}"
+                    [ngbPopover]="req.ignored ? 'This requirement is ignored.' : ''"
+                    *ngFor="let req of reqs; trackBy:trackByIndex;">{{req.ignored ? "(" : ''}}{{req.desc}}{{req.ignored
+                    ? ")" : ''}}</span>
             </p>
         </ng-container>
         <ng-container *ngFor="let desc of feat.desc.split('\n\n'); trackBy:trackByIndex;">
@@ -34,8 +37,9 @@
     </div>
     <ng-container *ngFor="let name of feat.gainActivities; trackBy:trackByIndex;">
         <div class="newrow left-aligned" *ngFor="let activity of get_Activities(name); trackBy:trackByIndex;">
-            <header class="spellHeader left-aligned">{{activity.name}}
-                <app-actionIcons [actionString]="activity.actions"></app-actionIcons>
+            <header class="spellHeader left-aligned">
+                {{activity.name}}
+                <app-actionIcons *ngIf="activity.actions" [actionString]="activity.actions"></app-actionIcons>
                 {{(activity.activationType) ? activity.activationType : ""}}
             </header>
             <app-activity class="newrow" [activity]=activity [allowActivate]=false>
@@ -45,8 +49,9 @@
     <ng-container *ngFor="let spellChoice of feat.gainSpellChoice; trackBy:trackByIndex;">
         <ng-container *ngFor="let spellGain of spellChoice.spells; trackBy:trackByIndex;">
             <ng-container *ngFor="let spell of get_Spells(spellGain.name); trackBy:trackByIndex;">
-                <header class="spellHeader left-aligned">{{spell.name}}
-                    <app-actionIcons [actionString]="spell.actions"></app-actionIcons>
+                <header class="spellHeader left-aligned">
+                    {{spell.name}}
+                    <app-actionIcons *ngIf="spell.actions" [actionString]="spell.actions"></app-actionIcons>
                     {{(spell.castType) ? spell.castType : ""}}
                 </header>
                 <app-spell class="newrow" [spell]=spell [spellLevel]="get_SpellLevel(levelNumber)">
@@ -57,7 +62,7 @@
     <ng-container *ngFor="let spellName of feat.gainSpellListSpells; trackBy:trackByIndex;">
         <ng-container *ngFor="let spell of get_Spells(spellName); trackBy:trackByIndex;">
             <header class="spellHeader left-aligned">{{spell.name}}
-                <app-actionIcons [actionString]="spell.actions"></app-actionIcons>
+                <app-actionIcons *ngIf="spell.actions" [actionString]="spell.actions"></app-actionIcons>
                 {{(spell.castType) ? spell.castType : ""}}
             </header>
             <app-spell class="newrow" [spell]=spell [spellLevel]="get_SpellLevel(levelNumber)">

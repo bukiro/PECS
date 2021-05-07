@@ -87,12 +87,12 @@
                                     *ngIf="visibleConditions.length && (get_ShowList()==set||get_ShowList()=='All')">
                                     <ng-container *ngFor="let condition of visibleConditions; trackBy:trackByIndex;">
                                         <ng-template #ConditionTitleTemplate>
-                                            <span>
+                                            <span *ngIf="!get_TileMode()">
                                                 <i class="value bi-patch-plus bonus"
-                                                    *ngIf="!get_TileMode() && condition.buff"
+                                                    *ngIf="condition.buff"
                                                     [ngbTooltip]="'Positive condition'"></i>
                                                 <i class="value bi-patch-minus-fill penalty"
-                                                    *ngIf="!get_TileMode() && !condition.buff"
+                                                    *ngIf="!condition.buff"
                                                     [ngbTooltip]="'Negative condition'"></i>
                                             </span>
                                             {{condition.name}}
@@ -225,7 +225,8 @@
                                             <div class="list-item">
                                                 <button class="newrow sublist-toggle left-aligned"
                                                     (click)="toggle_Item(condition.name)">
-                                                    <ng-container *ngTemplateOutlet="ConditionTitleTemplate"></ng-container>
+                                                    <ng-container *ngTemplateOutlet="ConditionTitleTemplate">
+                                                    </ng-container>
                                                 </button>
                                                 <div class="list-item sublist" *ngIf="get_ShowItem()==condition.name">
                                                     <ng-container *ngTemplateOutlet="ConditionTemplate"></ng-container>
@@ -236,8 +237,7 @@
                                             <button [ngbPopover]="ConditionTemplate"
                                                 [ngClass]="{'penalty':!condition.buff, 'bonus':condition.buff}"
                                                 triggers="click" (click)="toggle_Item('')">
-                                                <app-gridIcon [ngbTooltip]="condition.name" openDelay="100"
-                                                    [title]="condition.name"
+                                                <app-gridIcon [ngbTooltip]="condition.name" [title]="condition.name"
                                                     [ngClass]="{'penalty':!condition.buff, 'bonus':condition.buff}">
                                                 </app-gridIcon>
                                             </button>

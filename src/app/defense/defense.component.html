@@ -25,8 +25,10 @@
                 </button>
                 <div class="list-item sublist" *ngIf="get_ShowList()=='QuickStatus'">
                     <div class="list-item newrow">
-                        <button class="center-aligned" *ngIf="!get_FlatFooted()" (click)="set_FlatFooted(true)">Flat-Footed</button>
-                        <button class="center-aligned fancy-button" *ngIf="get_FlatFooted()" (click)="set_FlatFooted(false)">Disable
+                        <button class="center-aligned" *ngIf="!get_FlatFooted()"
+                            (click)="set_FlatFooted(true)">Flat-Footed</button>
+                        <button class="center-aligned fancy-button" *ngIf="get_FlatFooted()"
+                            (click)="set_FlatFooted(false)">Disable
                             Flat-Footed</button>
                     </div>
                     <div class="list-item newrow">
@@ -49,7 +51,8 @@
                     </div>
                     <div class="list-item newrow">
                         <button class="center-aligned" *ngIf="!get_Hidden()" (click)="set_Hidden(true)">Hidden</button>
-                        <button class="center-aligned fancy-button" *ngIf="get_Hidden()" (click)="set_Hidden(false)">Disable Hidden</button>
+                        <button class="center-aligned fancy-button" *ngIf="get_Hidden()"
+                            (click)="set_Hidden(false)">Disable Hidden</button>
                     </div>
                 </div>
             </div>
@@ -70,8 +73,11 @@
                         *ngFor="let talisman of armor.talismans; let index = index; trackBy:trackByIndex;">
                         <button [ngbTooltip]="get_TalismanTitle(talisman)"
                             (click)="on_TalismanUse(armor, talisman, index)">
-                            <span>Activate {{talisman.name}}<app-actionIcons [actionString]="talisman.actions">
-                                </app-actionIcons>{{(talisman.activationType) ? talisman.activationType : ""}}
+                            <span>
+                                Activate {{talisman.name}}
+                                <app-actionIcons *ngIf="talisman.actions" [actionString]="talisman.actions">
+                                </app-actionIcons>
+                                {{(talisman.activationType) ? talisman.activationType : ""}}
                             </span>
                         </button>
                     </div>
@@ -84,7 +90,7 @@
                     <header class="subsectionHeader fullsize-only">Shield</header>
                     <div class="newrow list-item">
                         <div>{{shield.get_Name()}} AC <div class="value">{{shield.get_ACBonus()}}</div>
-                                Hardness: <div class="value">{{shield.get_Hardness()}}</div>
+                            Hardness: <div class="value">{{shield.get_Hardness()}}</div>
                             <div class="fullsize-only newrow left-aligned" *ngIf="shield.traits.length">
                                 <cite class="trait" *ngFor="let trait of shield.traits; trackBy:trackByIndex;"
                                     [ngbPopover]="get_Traits(trait)[0].desc">{{trait}}</cite>
@@ -106,9 +112,12 @@
                                     (click)="set_Cover(0, shield)">End cover</button>
                             </div>
                             <div class="list-item newrow">
-                                <strong>HP</strong> <div class="value">{{shield.get_HitPoints()}}</div>
-                                <strong>Max HP</strong> <div class="value">{{shield.get_MaxHP()}}</div>
-                                <strong>BT</strong> <div class="value">{{shield.get_BrokenThreshold()}}</div>
+                                <strong>HP</strong>
+                                <div class="value">{{shield.get_HitPoints()}}</div>
+                                <strong>Max HP</strong>
+                                <div class="value">{{shield.get_MaxHP()}}</div>
+                                <strong>BT</strong>
+                                <div class="value">{{shield.get_BrokenThreshold()}}</div>
                             </div>
                             <div class="list-item newrow">
                                 <span>
@@ -116,8 +125,10 @@
                                         (click)="on_ShieldHPChange(shield, shieldDamage)">Damage</button>
                                 </span>
                                 <span class="hlist center-aligned">
-                                    <input class="number3" type="number" [(ngModel)]="shieldDamage" maxLength="3" min="0" max="{{shield.get_MaxHP()}}">
-                                    <button [ngClass]="{'fancy-button':showShieldDamageSlider}" (click)="toggle_ShieldDamageSlider()">
+                                    <input class="number3" type="number" [(ngModel)]="shieldDamage" maxLength="3"
+                                        min="0" max="{{shield.get_MaxHP()}}">
+                                    <button [ngClass]="{'fancy-button':showShieldDamageSlider}"
+                                        (click)="toggle_ShieldDamageSlider()">
                                         <i class="bi-sliders"></i>
                                     </button>
                                 </span>
@@ -126,16 +137,18 @@
                                         (click)="on_ShieldHPChange(shield, -shieldDamage)">Repair</button>
                                 </span>
                                 <div class="fullwidth" [ngbCollapse]="!showShieldDamageSlider">
-                                    <input class="slider" [style.--name]="'\'Damage\''" type="range" min="0" max="{{shield.get_MaxHP()}}"
-                                        [(ngModel)]="shieldDamage">
+                                    <input class="slider" [style.--name]="'\'Damage\''" type="range" min="0"
+                                        max="{{shield.get_MaxHP()}}" [(ngModel)]="shieldDamage">
                                 </div>
                             </div>
                             <div class="fullsize-only lower newrow left-aligned"
                                 *ngFor="let talisman of shield.talismans; let index = index; trackBy:trackByIndex;">
                                 <button [ngbTooltip]="get_TalismanTitle(talisman)"
                                     (click)="on_TalismanUse(shield, talisman, index)">
-                                    <span>Activate {{talisman.name}}<app-actionIcons [actionString]="talisman.actions">
-                                        </app-actionIcons>{{(talisman.activationType) ? talisman.activationType : ""}}
+                                    <span>Activate {{talisman.name}}
+                                        <app-actionIcons *ngIf="talisman.actions" [actionString]="talisman.actions">
+                                        </app-actionIcons>
+                                        {{(talisman.activationType) ? talisman.activationType : ""}}
                                     </span>
                                 </button>
                             </div>

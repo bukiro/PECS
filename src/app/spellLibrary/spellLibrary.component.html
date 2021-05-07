@@ -119,8 +119,10 @@
                                             <ng-container *ngFor="let spell of visibleSpells; trackBy:trackByIndex;">
                                                 <ng-template #SpellTemplate>
                                                     <header class="spellHeader" *ngIf="get_TileMode()">
-                                                        {{spell.name}}<app-actionIcons [actionString]="spell.actions">
-                                                        </app-actionIcons>{{spell.castType}}
+                                                        {{spell.name}}
+                                                        <app-actionIcons *ngIf="spell.actions" [actionString]="spell.actions">
+                                                        </app-actionIcons>
+                                                        {{spell.castType}}
                                                     </header>
                                                     <button class="newrow center-aligned"
                                                         (click)="learn_Spell(spell, 'wizard')"
@@ -201,17 +203,17 @@
                                                     </app-spell>
                                                 </ng-template>
                                                 <ng-template #SpellTitleTemplate>
-                                                    <span>
+                                                    <span *ngIf="!get_TileMode()">
                                                         <i class="value bi-patch-plus bonus"
-                                                            *ngIf="!get_TileMode() && !spell.get_IsHostile()"
+                                                            *ngIf="!spell.get_IsHostile()"
                                                             [ngbTooltip]="'Beneficial spell'"></i>
                                                         <i class="value bi-patch-minus-fill penalty"
-                                                            *ngIf="!get_TileMode() && spell.get_IsHostile()"
+                                                            *ngIf="spell.get_IsHostile()"
                                                             [ngbTooltip]="'Hostile spell'"></i>
                                                     </span>
                                                     <span>
                                                         {{spell.name}}
-                                                        <app-actionIcons [actionString]="spell.actions">
+                                                        <app-actionIcons *ngIf="spell.actions" [actionString]="spell.actions">
                                                         </app-actionIcons>
                                                         {{spell.castType}}
                                                     </span>
@@ -250,8 +252,7 @@
                                                         (click)="toggle_Item()">
                                                         <app-gridIcon
                                                             [ngClass]="{'fancy-button':get_SpellsLearned(spell.name).length, 'penalty':spell.get_IsHostile(), 'bonus':!spell.get_IsHostile()}"
-                                                            [ngbTooltip]="SpellTitleTemplate" openDelay="100"
-                                                            [title]="spell.name"
+                                                            [ngbTooltip]="SpellTitleTemplate" [title]="spell.name"
                                                             [detail]="spell.traits.includes('Rare') ? 'R' : (spell.traits.includes('Uncommon') ? 'U' : '')"
                                                             [superTitle]="get_SpellMasterySelected(wizardCasting, spell) ? 'icon-ra ra-crown' : ''"
                                                             [spell]="spell">

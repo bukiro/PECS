@@ -3,6 +3,7 @@ export class Settings {
     abilitiesMinimized: boolean = false;
     accent: string = "#465A8C";
     activitiesMinimized: boolean = false;
+    activitiesTileMode: boolean = true;
     applyMessagesAutomatically: boolean = false;
     archetypeFeats: boolean = true;
     attacksMinimized: boolean = false;

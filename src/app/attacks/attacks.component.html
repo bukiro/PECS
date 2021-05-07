@@ -71,10 +71,12 @@
                                     class='ra ra-sword'></i>&nbsp;</span>
                             <span [ngbTooltip]="'Ranged ' + weapon.ranged + ' feet'" *ngIf="attack[0] == 'ranged'"><i
                                     class='ra ra-target-arrows'></i>&nbsp;</span>
-                            <span>{{(weapon.amount != undefined && weapon.amount != 1) ?
-                                weapon.amount+" " : ""}}{{weapon.get_Name()}}<app-actionIcons
-                                    [actionString]="weapon.actions">
-                                </app-actionIcons>{{weapon.activationType ? weapon.activationType : ""}}
+                            <span>
+                                {{(weapon.amount != undefined && weapon.amount != 1) ? weapon.amount+" " :
+                                ""}}{{weapon.get_Name()}}
+                                <app-actionIcons *ngIf="weapon.actions" [actionString]="weapon.actions">
+                                </app-actionIcons>
+                                {{weapon.activationType ? weapon.activationType : ""}}
                             </span>
                         </button>
                     </span>
@@ -140,8 +142,11 @@
                     *ngFor="let talisman of weapon.talismans; let index = index; trackBy:trackByIndex;">
                     <button [ngbTooltip]="get_TalismanTitle(talisman)"
                         (click)="on_TalismanUse(weapon, talisman, index)">
-                        <span>Activate {{talisman.name}}<app-actionIcons [actionString]="talisman.actions">
-                            </app-actionIcons>{{(talisman.activationType) ? talisman.activationType : ""}}
+                        <span>
+                            Activate {{talisman.name}}
+                            <app-actionIcons *ngIf="talisman.actions" [actionString]="talisman.actions">
+                            </app-actionIcons>
+                            {{(talisman.activationType) ? talisman.activationType : ""}}
                         </span>
                     </button>
                 </div>
@@ -231,8 +236,11 @@
                     <div
                         [ngbTooltip]="ammo.item.storedSpells.length ? 'Cast spell on any target. To choose a specific target (if applicable), use the item in the inventory instead.' : ''">
                         <button [disabled]="!ammo.item.amount" (click)="on_ConsumableUse(ammo.item, ammo.inventory)">
-                            <span>Use<app-actionIcons [actionString]="ammo.item.actions">
-                                </app-actionIcons>{{(ammo.item.activationType) ? ammo.item.activationType : ""}}</span>
+                            <span>Use
+                                <app-actionIcons *ngIf="ammo.item.actions" [actionString]="ammo.item.actions">
+                                </app-actionIcons>
+                                {{(ammo.item.activationType) ? ammo.item.activationType : ""}}
+                            </span>
                         </button>
                     </div>
                 </div>

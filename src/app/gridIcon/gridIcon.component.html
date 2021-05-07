@@ -45,7 +45,8 @@
     </span>
 </ng-container>
 <ng-container *ngFor="let iconSubTitleResult of [get_IconSubTitle()]; trackBy:trackByIndex">
-    <ng-container *ngIf="iconSubTitleResult.includes('<') || iconSubTitleResult.includes('|'); then InnerHtmlDivTemplate; else TextDivTemplate">
+    <ng-container
+        *ngIf="iconSubTitleResult.includes('<') || iconSubTitleResult.includes('|'); then InnerHtmlDivTemplate; else TextDivTemplate">
     </ng-container>
     <ng-template #InnerHtmlDivTemplate>
         <span class="iconSubTitle disable-text-selection" *ngIf="!iconSubTitleResult.includes('actionIcons|')"

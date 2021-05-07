@@ -183,7 +183,8 @@
                                     {{(item.amount != undefined && item.amount != 1) ? item.amount+" " : ""}}
                                     {{(item['get_Name']) ? item.get_Name() : item.name}}&nbsp;
                                     <span class="lower"
-                                        *ngFor="let containedItems of [get_ContainedItems(item)]; trackBy:trackByIndex;">{{containedItems ?
+                                        *ngFor="let containedItems of [get_ContainedItems(item)]; trackBy:trackByIndex;">{{containedItems
+                                        ?
                                         "contains "+containedItems+" items" : ""}}</span>
                                 </ng-template>
                                 <ng-template #ItemTooltipTemplate>
@@ -208,7 +209,8 @@
                                     {{(item.amount != undefined && item.amount != 1) ? item.amount+" " : ""}}
                                     {{(item['get_Name']) ? item.get_Name() : item.name}}&nbsp;
                                     <span class="lower"
-                                        *ngFor="let containedItems of [get_ContainedItems(item)]; trackBy:trackByIndex;">{{containedItems ?
+                                        *ngFor="let containedItems of [get_ContainedItems(item)]; trackBy:trackByIndex;">{{containedItems
+                                        ?
                                         "contains "+containedItems+" items" : ""}}</span>
                                 </ng-template>
                                 <ng-template #ItemTemplate>
@@ -235,8 +237,10 @@
                                     <button class="newrow center-aligned" [disabled]="!item.amount"
                                         (click)="on_ConsumableUse(item, creature, inventory)"
                                         *ngIf="item.amount != undefined && !['alchemicalelixirs','potions','scrolls'].includes(item.type) && item.actions && (!item.targets || item.targets.length == 0)">
-                                        <span>Use<app-actionIcons [actionString]="item.actions">
-                                            </app-actionIcons>{{(item.activationType) ? item.activationType : ""}}
+                                        <span>Use
+                                            <app-actionIcons *ngIf="item.actions" [actionString]="item.actions">
+                                            </app-actionIcons>
+                                            {{(item.activationType) ? item.activationType : ""}}
                                         </span>
                                     </button>
                                     <ng-container
@@ -256,8 +260,10 @@
                                         *ngIf="item.amount != undefined && ['alchemicalelixirs','potions'].includes(item.type) && item.actions && (!item.targets || item.targets.length == 0)">
                                         <button class="newrow center-aligned" [disabled]="!item.amount"
                                             (click)="on_ConsumableUse(item, creature, inventory)">
-                                            <span>Use<app-actionIcons [actionString]="item.actions">
-                                                </app-actionIcons>{{(item.activationType) ? item.activationType : ""}}
+                                            <span>Use
+                                                <app-actionIcons *ngIf="item.actions" [actionString]="item.actions">
+                                                </app-actionIcons>
+                                                {{(item.activationType) ? item.activationType : ""}}
                                             </span>
                                         </button>
                                         <button class="newrow center-aligned" [disabled]="!item.amount"
@@ -540,7 +546,7 @@
                                             (click)="toggle_Item()">
                                             <app-gridIcon
                                                 [ngClass]="{'fancy-button':((item.equippable && item.equipped) || (item.can_Invest() && item.invested)), 'problem':item.broken, 'penalty': canUse == false, 'bonus': canUse}"
-                                                [ngbTooltip]="ItemTooltipTemplate" openDelay="100"
+                                                [ngbTooltip]="ItemTooltipTemplate"
                                                 [title]="item.displayName || item.name"
                                                 [detail]="'noparse' + (item.level ? item.level.toString() : '')"
                                                 [item]="item">
