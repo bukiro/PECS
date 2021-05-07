@@ -18,7 +18,7 @@ export class TopBarComponent implements OnInit {
     public newMessages: PlayerMessage[] = [];
     private loading_messages: boolean = false;
     public modalOpen: boolean = false;
-    private reOpenModalTimeout: number = 5000;
+    public reOpenModalTimeout: number = 5000;
     private reOpenModalTimeoutRunning: boolean = false;
     @ViewChild('NewMessagesModal', { static: false })
     private newMessagesModal;
@@ -168,13 +168,19 @@ export class TopBarComponent implements OnInit {
             return false;
         }
         this.loading_messages;
-        //Before getting messages, clean up old messages.
         if (!this.get_Character().partyName) {
             //Don't check for messages if you don't have a party, because nobody could have sent any messages for you (and we don't want the characters without a party to send messages to each other).
             //Still schedule the next check, in case the party changes.
             this.on_AutoCheckMessages();
             return;
         }
+        if (this.modalOpen) {
+            //Don't check for messages if you are currently selecting messages from a previous check.
+            //Still schedule the next check, so the automatism isn't broken.
+            this.on_AutoCheckMessages();
+            return;
+        };
+        //Before getting messages, clean up old messages.
         this.messageService.cleanup_OldMessages().subscribe((results) => {
             this.messageService.load_Messages(this.get_Character().id)
                 .subscribe((results: string[]) => {

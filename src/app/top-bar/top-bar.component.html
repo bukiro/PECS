@@ -79,7 +79,7 @@
         </div>
         <div class="newrow left-aligned">
             <input id="checkMessagesAutomatically" type="checkbox" [(ngModel)]="get_Character().settings.checkMessagesAutomatically">
-            <label for="checkMessagesAutomatically">&nbsp;Keep checking every 10 seconds (can be turned off in settings)</label>
+            <label for="checkMessagesAutomatically">&nbsp;Keep checking every {{reOpenModalTimeout / 1000}} seconds (can be turned off in settings)</label>
         </div>
     </div>
     <div class="modal-footer">
