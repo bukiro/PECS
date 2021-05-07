@@ -35,7 +35,7 @@ import { Item } from '../Item';
 import { FeatChoice } from '../FeatChoice';
 import { Spell } from '../Spell';
 import { Character } from '../Character';
-import { NgbActiveModal, NgbModal, NgbPopoverConfig, NgbTooltipConfig } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { SkillChoice } from '../SkillChoice';
 import { Activity } from '../Activity';
 
@@ -77,20 +77,8 @@ export class CharacterComponent implements OnInit {
         private traitsService: TraitsService,
         private familiarsService: FamiliarsService,
         private modalService: NgbModal,
-        public modal: NgbActiveModal,
-        popoverConfig: NgbPopoverConfig,
-        tooltipConfig: NgbTooltipConfig
-    ) {
-        popoverConfig.autoClose = "outside";
-        popoverConfig.container = "body";
-        popoverConfig.placement = "auto";
-        popoverConfig.popoverClass = "list-item sublist";
-        popoverConfig.triggers = "click";
-        tooltipConfig.container = "body";
-        //For touch compatibility, this openDelay prevents the tooltip from closing immediately on tap because a tap counts as hover and then click;
-        tooltipConfig.openDelay = 100;
-        tooltipConfig.triggers = "hover:click";
-    }
+        public modal: NgbActiveModal
+    ) { }
 
     minimize() {
         this.characterService.get_Character().settings.characterMinimized = !this.characterService.get_Character().settings.characterMinimized;

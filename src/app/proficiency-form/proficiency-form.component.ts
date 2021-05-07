@@ -3,7 +3,6 @@ import { Skill } from '../Skill';
 import { CharacterService } from '../character.service';
 import { AnimalCompanion } from '../AnimalCompanion';
 import { Character } from '../Character';
-import { NgbTooltipConfig } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
     selector: 'app-proficiency-form',
@@ -25,14 +24,8 @@ export class ProficiencyFormComponent implements OnInit {
     excludeTemporary: boolean = false;
 
     constructor(
-        private changeDetector: ChangeDetectorRef,
-        tooltipConfig: NgbTooltipConfig
-    ) {
-        tooltipConfig.triggers = "hover:click";
-        //For touch compatibility, this openDelay prevents the tooltip from closing immediately on tap because a tap counts as hover and then click;
-        tooltipConfig.openDelay = 100;
-        tooltipConfig.container = "body";
-    }
+        private changeDetector: ChangeDetectorRef
+    ) { }
 
     trackByIndex(index: number, obj: any): any {
         return index;

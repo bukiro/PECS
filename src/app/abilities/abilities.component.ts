@@ -2,10 +2,6 @@ import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy, Input } 
 import { AbilitiesService} from '../abilities.service';
 import { CharacterService } from '../character.service';
 import { EffectsService } from '../effects.service';
-import { Creature } from '../Creature';
-import { AnimalCompanion } from '../AnimalCompanion';
-import { Character } from '../Character';
-import { NgbPopoverConfig, NgbTooltipConfig } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
     selector: 'app-abilities',
@@ -24,21 +20,8 @@ export class AbilitiesComponent implements OnInit {
         private changeDetector: ChangeDetectorRef,
         public abilitiesService: AbilitiesService,
         public characterService: CharacterService,
-        public effectsService: EffectsService,
-        popoverConfig: NgbPopoverConfig,
-        tooltipConfig: NgbTooltipConfig
-    ) {
-        popoverConfig.autoClose = "outside";
-        popoverConfig.container = "body";
-        //For touch compatibility, this openDelay prevents the popover from closing immediately on tap because a tap counts as hover and then click;
-        popoverConfig.openDelay = 50;
-        popoverConfig.placement = "auto";
-        popoverConfig.popoverClass = "list-item sublist";
-        popoverConfig.triggers = "hover:click";
-        tooltipConfig.container = "body";
-        tooltipConfig.openDelay = 100;
-        tooltipConfig.triggers = "hover:click";
-    }
+        public effectsService: EffectsService
+    ) { }
 
     minimize() {
         this.characterService.get_Character().settings.abilitiesMinimized = !this.characterService.get_Character().settings.abilitiesMinimized;

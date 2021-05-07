@@ -1,7 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ConditionGain } from '../ConditionGain';
 import { Feat } from '../Feat';
-import { NgbPopoverConfig, NgbTooltipConfig } from '@ng-bootstrap/ng-bootstrap';
 import { Effect } from '../Effect';
 import { Condition } from '../Condition';
 import { Spell } from '../Spell';
@@ -45,21 +44,7 @@ export class GridIconComponent implements OnInit {
     @Input()
     item: Item = null;
 
-    constructor(
-        popoverConfig: NgbPopoverConfig,
-        tooltipConfig: NgbTooltipConfig
-    ) {
-        popoverConfig.autoClose = "outside";
-        popoverConfig.container = "body";
-        popoverConfig.placement = "auto";
-        popoverConfig.popoverClass = "list-item sublist";
-        popoverConfig.triggers = "click";
-        tooltipConfig.placement = "auto";
-        //For touch compatibility, the tooltip should open on hover, but not on tap. Because a tap counts as both hover and click,
-        // we allow both and have a delay of 0 so that the tooltip opens on hover and immediately closes again on click.
-        tooltipConfig.openDelay = 0;
-        tooltipConfig.triggers = "hover:click";
-    }
+    constructor() { }
 
     trackByIndex(index: number, obj: any): any {
         return index;

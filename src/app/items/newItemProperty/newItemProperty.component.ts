@@ -22,7 +22,6 @@ import { Ability } from 'src/app/Ability';
 import { SpellChoice } from 'src/app/SpellChoice';
 import { InventoryGain } from 'src/app/InventoryGain';
 import { Hint } from 'src/app/Hint';
-import { NgbPopoverConfig } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
     selector: 'app-newItemProperty',
@@ -51,17 +50,8 @@ export class NewItemPropertyComponent implements OnInit {
         private effectsService: EffectsService,
         private traitsService: TraitsService,
         private activitiesService: ActivitiesService,
-        private spellsService: SpellsService,
-        popoverConfig: NgbPopoverConfig
-    ) {
-        popoverConfig.autoClose = "outside";
-        popoverConfig.container = "body";
-        //For touch compatibility, this openDelay prevents the popover from closing immediately on tap because a tap counts as hover and then click;
-        popoverConfig.openDelay = 50;
-        popoverConfig.placement = "auto";
-        popoverConfig.popoverClass = "list-item sublist";
-        popoverConfig.triggers = "hover:click";
-    }
+        private spellsService: SpellsService
+    ) { }
 
     get_Parent() {
         let item = this.newItem;

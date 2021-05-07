@@ -3,7 +3,6 @@ import { ItemsService } from '../items.service';
 import { CharacterService } from '../character.service';
 import { Item } from '../Item';
 import { Character } from '../Character';
-import { NgbTooltipConfig } from '@ng-bootstrap/ng-bootstrap';
 import { Weapon } from '../Weapon';
 import { Armor } from '../Armor';
 import { AlchemicalBomb } from '../AlchemicalBomb';
@@ -21,7 +20,7 @@ export class CraftingComponent implements OnInit {
     private showItem: number = 0;
     public id: number = 0;
     public wordFilter: string = "";
-    public sorting: "level"|"name" = "level";
+    public sorting: "level" | "name" = "level";
     public creature: string = "Character";
     public cashP: number = 0;
     public cashG: number = 0;
@@ -31,14 +30,8 @@ export class CraftingComponent implements OnInit {
     constructor(
         private changeDetector: ChangeDetectorRef,
         private itemsService: ItemsService,
-        private characterService: CharacterService,
-        tooltipConfig: NgbTooltipConfig
-    ) {
-        tooltipConfig.container = "body";
-        //For touch compatibility, this openDelay prevents the tooltip from closing immediately on tap because a tap counts as hover and then click;
-        tooltipConfig.openDelay = 100;
-        tooltipConfig.triggers = "hover:click";
-    }
+        private characterService: CharacterService
+    ) { }
 
     toggle_List(type: string) {
         if (this.showList == type) {
@@ -51,7 +44,7 @@ export class CraftingComponent implements OnInit {
     get_ShowList() {
         return this.showList;
     }
-    
+
     get_InventoryMinimized() {
         return this.characterService.get_Character().settings.inventoryMinimized;
     }

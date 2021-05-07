@@ -4,7 +4,6 @@ import { CharacterService } from 'src/app/character.service';
 import { FeatChoice } from 'src/app/FeatChoice';
 import { SpellsService } from 'src/app/spells.service';
 import { ActivitiesService } from 'src/app/activities.service';
-import { NgbPopoverConfig } from '@ng-bootstrap/ng-bootstrap';
 import { TraitsService } from 'src/app/traits.service';
 
 @Component({
@@ -27,22 +26,13 @@ export class FeatComponent implements OnInit {
         public characterService: CharacterService,
         private spellsService: SpellsService,
         private activitiesService: ActivitiesService,
-        private traitsService: TraitsService,
-        popoverConfig: NgbPopoverConfig
-    ) {
-        popoverConfig.autoClose = "outside";
-        popoverConfig.container = "body";
-        //For touch compatibility, this openDelay prevents the popover from closing immediately on tap because a tap counts as hover and then click;
-        popoverConfig.openDelay = 50;
-        popoverConfig.placement = "auto";
-        popoverConfig.popoverClass = "list-item sublist";
-        popoverConfig.triggers = "hover:click";
-    }
+        private traitsService: TraitsService
+    ) { }
 
     trackByIndex(index: number, obj: any): any {
         return index;
     }
-    
+
     get_Traits(traitName: string = "") {
         return this.traitsService.get_Traits(traitName);
     }
@@ -65,16 +55,16 @@ export class FeatComponent implements OnInit {
 
     get_FeatRequirements(choice: FeatChoice, feat: Feat) {
         let ignoreRequirementsList: string[] = this.create_IgnoreRequirementList(feat, choice);
-        let result: Array<{met?:boolean, ignored?:boolean, desc?:string}> = [];
+        let result: Array<{ met?: boolean, ignored?: boolean, desc?: string }> = [];
         if (feat.levelreq) {
             result.push(feat.meetsLevelReq(this.characterService, this.featLevel));
-            result[result.length-1].ignored = ignoreRequirementsList.includes('levelreq');
+            result[result.length - 1].ignored = ignoreRequirementsList.includes('levelreq');
         }
         if (feat.abilityreq.length) {
             feat.meetsAbilityReq(this.characterService, this.levelNumber).forEach(req => {
                 result.push({ met: true, desc: ", " });
                 result.push(req);
-                result[result.length-1].ignored = ignoreRequirementsList.includes('abilityreq');
+                result[result.length - 1].ignored = ignoreRequirementsList.includes('abilityreq');
             });
         }
         if (feat.skillreq.length) {
@@ -85,21 +75,21 @@ export class FeatComponent implements OnInit {
                     result.push({ met: true, desc: " or " });
                 }
                 result.push(req);
-                result[result.length-1].ignored = ignoreRequirementsList.includes('skillreq');
+                result[result.length - 1].ignored = ignoreRequirementsList.includes('skillreq');
             });
         }
         if (feat.featreq.length) {
             feat.meetsFeatReq(this.characterService, this.levelNumber).forEach(req => {
                 result.push({ met: true, desc: ", " });
                 result.push(req);
-                result[result.length-1].ignored = ignoreRequirementsList.includes('featreq');
+                result[result.length - 1].ignored = ignoreRequirementsList.includes('featreq');
             });
         }
         if (feat.heritagereq) {
             feat.meetsHeritageReq(this.characterService, this.levelNumber).forEach(req => {
                 result.push({ met: true, desc: ", " });
                 result.push(req);
-                result[result.length-1].ignored = ignoreRequirementsList.includes('heritagereq');
+                result[result.length - 1].ignored = ignoreRequirementsList.includes('heritagereq');
             });
         }
         if (feat.specialreqdesc) {
@@ -111,14 +101,14 @@ export class FeatComponent implements OnInit {
                 result.shift();
             }
             if (result[0].desc == "requires " && result[1].desc == ", ") {
-                result.splice(1,1);
+                result.splice(1, 1);
             }
         } else if (result.length == 1 && result[0].desc == "requires ") {
             result.length = 0;
         }
         return result;
     }
-    
+
     get_Activities(name: string = "") {
         return this.activitiesService.get_Activities(name);
     }

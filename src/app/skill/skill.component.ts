@@ -5,7 +5,6 @@ import { TraitsService } from '../traits.service';
 import { AbilitiesService } from '../abilities.service';
 import { EffectsService } from '../effects.service';
 import { Skill } from '../Skill';
-import { NgbPopoverConfig, NgbTooltipConfig } from '@ng-bootstrap/ng-bootstrap';
 import { DiceService } from '../dice.service';
 
 @Component({
@@ -32,22 +31,8 @@ export class SkillComponent implements OnInit {
         public abilitiesService: AbilitiesService,
         public skillsService: SkillsService,
         public traitsService: TraitsService,
-        public effectsService: EffectsService,
-        popoverConfig: NgbPopoverConfig,
-        tooltipConfig: NgbTooltipConfig
-    ) {
-        popoverConfig.autoClose = "outside";
-        popoverConfig.container = "body";
-        //For touch compatibility, this openDelay prevents the popover from closing immediately on tap because a tap counts as hover and then click;
-        popoverConfig.openDelay = 50;
-        popoverConfig.placement = "auto";
-        popoverConfig.popoverClass = "list-item sublist";
-        popoverConfig.triggers = "hover:click";
-        tooltipConfig.container = "body";
-        //For touch compatibility, this openDelay prevents the tooltip from closing immediately on tap because a tap counts as hover and then click;
-        tooltipConfig.openDelay = 100;
-        tooltipConfig.triggers = "hover:click";
-    }
+        public effectsService: EffectsService
+    ) { }
 
     get_Skills(name: string = "", type: string = "") {
         return this.characterService.get_Skills(this.get_Creature(), name, type);

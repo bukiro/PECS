@@ -1311,14 +1311,17 @@
             }
         ],
         "specialreq": "deity",
-        "specialreqdesc": "you follow a deity",
-        "gainActivities": [
-            "Battle Prayer"
-        ]
+        "specialreqdesc": "you follow a deity"
     },
     {
         "name": "Battle Prayer: Chaos",
         "desc": "Calling out to your deity, you recite scripture to harm a foe.",
+        "hints": [
+            {
+                "desc": "Battle Prayer deals Chaotic damage.",
+                "showon": "Battle Prayer"
+            }
+        ],
         "subType": "Chaos",
         "superType": "Battle Prayer",
         "shortdesc": "Calling out to your deity, you recite scripture to harm a foe.",
@@ -1338,12 +1341,18 @@
         "specialreq": "deity && deity.alignment.includes('Chaotic')",
         "specialreqdesc": "you follow a chaotic deity",
         "gainActivities": [
-            "Battle Prayer: Chaos"
+            "Battle Prayer"
         ]
     },
     {
         "name": "Battle Prayer: Evil",
         "desc": "Calling out to your deity, you recite scripture to harm a foe.",
+        "hints": [
+            {
+                "desc": "Battle Prayer deals Evil damage.",
+                "showon": "Battle Prayer"
+            }
+        ],
         "subType": "Evil",
         "superType": "Battle Prayer",
         "shortdesc": "Calling out to your deity, you recite scripture to harm a foe.",
@@ -1363,12 +1372,18 @@
         "specialreq": "deity && deity.alignment.includes('Evil')",
         "specialreqdesc": "you follow an evil deity",
         "gainActivities": [
-            "Battle Prayer: Evil"
+            "Battle Prayer"
         ]
     },
     {
         "name": "Battle Prayer: Good",
         "desc": "Calling out to your deity, you recite scripture to harm a foe.",
+        "hints": [
+            {
+                "desc": "Battle Prayer deals Good damage.",
+                "showon": "Battle Prayer"
+            }
+        ],
         "subType": "Good",
         "superType": "Battle Prayer",
         "shortdesc": "Calling out to your deity, you recite scripture to harm a foe.",
@@ -1388,12 +1403,18 @@
         "specialreq": "deity && deity.alignment.includes('Good')",
         "specialreqdesc": "you follow a good deity",
         "gainActivities": [
-            "Battle Prayer: Good"
+            "Battle Prayer"
         ]
     },
     {
         "name": "Battle Prayer: Law",
         "desc": "Calling out to your deity, you recite scripture to harm a foe.",
+        "hints": [
+            {
+                "desc": "Battle Prayer deals Lawful damage.",
+                "showon": "Battle Prayer"
+            }
+        ],
         "subType": "Lawful",
         "superType": "Battle Prayer",
         "shortdesc": "Calling out to your deity, you recite scripture to harm a foe.",
@@ -1413,7 +1434,7 @@
         "specialreq": "deity && deity.alignment.includes('Lawful')",
         "specialreqdesc": "you follow a lawful deity",
         "gainActivities": [
-            "Battle Prayer: Law"
+            "Battle Prayer"
         ]
     },
     {
@@ -22653,8 +22674,16 @@
         "desc": "You have studied aquatic terrain to overcome its challenges. When in that terrain, you can ignore the effects of non-magical difficult terrain. If you have the wild stride class feature, while you are in aquatic terrain, you gain a swim Speed equal to your Speed. If you already had a swim Speed, you gain a +10-foot status bonus to your swim Speed.",
         "hints": [
             {
-                "desc": "When in aquatic terrain, you can ignore the effects of non-magical difficult terrain.",
-                "showon": "Movement"
+                "desc": "When in aquatic terrain, you can ignore the effects of non-magical difficult terrain.\n\nIf you have the wild stride class feature, while you are in aquatic terrain, you gain a swim Speed equal to your Speed. If you already had a swim Speed, you gain a +10-foot status bonus to your swim Speed.",
+                "showon": "Movement",
+                "effects": [
+                    {
+                        "affected": "Swim Speed",
+                        "setValue": "(Has_Feat(Creature.type, 'Wild Stride') && !effectsService.get_AbsolutesOnThis(creature, 'Swim Speed').concat(effectsService.get_RelativesOnThis(creature, 'Swim Speed')).find(effect => effect.source != name && !effect.penalty)) ? Speed('Land Speed') : null",
+                        "value": "(Has_Feat(Creature.type, 'Wild Stride') && effectsService.get_AbsolutesOnThis(creature, 'Swim Speed').concat(effectsService.get_RelativesOnThis(creature, 'Swim Speed')).find(effect => effect.source != name && !effect.penalty)) ? +10 : 0",
+                        "type": "status"
+                    }
+                ]
             }
         ],
         "subType": "Aquatic",
@@ -22663,18 +22692,23 @@
         "traits": [
             "Ranger"
         ],
-        "levelreq": 2,
-        "gainActivities": [
-            "Favored Terrain: Aquatic"
-        ]
+        "levelreq": 2
     },
     {
         "name": "Favored Terrain: Arctic",
         "desc": "You have studied arctic terrain to overcome its challenges. When in that terrain, you can ignore the effects of non-magical difficult terrain. If you have the wild stride class feature, while you are in arctic terrain, you need to eat and drink only one-tenth as much as usual, you aren't affected by severe or extreme cold, and you can walk across ice and snow at full Speed without needing to Balance.",
         "hints": [
             {
-                "desc": "When in arctic terrain, you can ignore the effects of non-magical difficult terrain.",
+                "desc": "When in arctic terrain, you can ignore the effects of non-magical difficult terrain.\n\nIf you have the wild stride class feature, you can walk across ice and snow at full Speed without needing to Balance while in arctic terrain.",
                 "showon": "Movement"
+            },
+            {
+                "desc": "If you have the wild stride class feature, you need to eat and drink only one-tenth as much as usual while in arctic terrain.",
+                "showon": "Health"
+            },
+            {
+                "desc": "If you have the wild stride class feature, you aren't affected by severe or extreme cold while in arctic terrain.",
+                "showon": "Resistances"
             }
         ],
         "subType": "Arctic",
@@ -22683,18 +22717,23 @@
         "traits": [
             "Ranger"
         ],
-        "levelreq": 2,
-        "gainActivities": [
-            "Favored Terrain: Arctic"
-        ]
+        "levelreq": 2
     },
     {
         "name": "Favored Terrain: Desert",
         "desc": "You have studied desert terrain to overcome its challenges. When in that terrain, you can ignore the effects of non-magical difficult terrain. If you have the wild stride class feature, while you are in desert terrain, you need to eat and drink only one-tenth as much as usual, you aren't affected by severe or extreme heat, and you can walk along sand at full Speed without needing to Balance.",
         "hints": [
             {
-                "desc": "When in desert terrain, you can ignore the effects of non-magical difficult terrain.",
+                "desc": "When in desert terrain, you can ignore the effects of non-magical difficult terrain.\n\nIf you have the wild stride class feature, you can walk along sand at full Speed without needing to Balance while in desert terrain.",
                 "showon": "Movement"
+            },
+            {
+                "desc": "If you have the wild stride class feature, you need to eat and drink only one-tenth as much as usual while in desert terrain.",
+                "showon": "Health"
+            },
+            {
+                "desc": "If you have the wild stride class feature, you aren't affected by severe or extreme heat while in desert terrain.",
+                "showon": "Resistances"
             }
         ],
         "subType": "Desert",
@@ -22703,18 +22742,23 @@
         "traits": [
             "Ranger"
         ],
-        "levelreq": 2,
-        "gainActivities": [
-            "Favored Terrain: Desert"
-        ]
+        "levelreq": 2
     },
     {
         "name": "Favored Terrain: Forest",
         "desc": "You have studied forest terrain to overcome its challenges. When in that terrain, you can ignore the effects of non-magical difficult terrain. If you have the wild stride class feature, while you are in forest terrain, you gain a climb Speed equal to your Speed. If you already had a climb Speed, you gain a +10-foot status bonus to your climb Speed.",
         "hints": [
             {
-                "desc": "When in forest terrain, you can ignore the effects of non-magical difficult terrain.",
-                "showon": "Movement"
+                "desc": "When in forest terrain, you can ignore the effects of non-magical difficult terrain.\n\nIf you have the wild stride class feature, while you are in forest terrain, you gain a climb Speed equal to your Speed. If you already had a climb Speed, you gain a +10-foot status bonus to your climb Speed.",
+                "showon": "Movement",
+                "effects": [
+                    {
+                        "affected": "Climb Speed",
+                        "setValue": "(Has_Feat(Creature.type, 'Wild Stride') && !effectsService.get_AbsolutesOnThis(creature, 'Climb Speed').concat(effectsService.get_RelativesOnThis(creature, 'Climb Speed')).find(effect => effect.source != name && !effect.penalty)) ? Speed('Land Speed') : null",
+                        "value": "(Has_Feat(Creature.type, 'Wild Stride') && effectsService.get_AbsolutesOnThis(creature, 'Climb Speed').concat(effectsService.get_RelativesOnThis(creature, 'Climb Speed')).find(effect => effect.source != name && !effect.penalty)) ? +10 : 0",
+                        "type": "status"
+                    }
+                ]
             }
         ],
         "subType": "Forest",
@@ -22723,18 +22767,23 @@
         "traits": [
             "Ranger"
         ],
-        "levelreq": 2,
-        "gainActivities": [
-            "Favored Terrain: Forest"
-        ]
+        "levelreq": 2
     },
     {
         "name": "Favored Terrain: Mountain",
         "desc": "You have studied mountain terrain to overcome its challenges. When in that terrain, you can ignore the effects of non-magical difficult terrain. If you have the wild stride class feature, while you are in mountain terrain, you gain a climb Speed equal to your Speed. If you already had a climb Speed, you gain a +10-foot status bonus to your climb Speed.",
         "hints": [
             {
-                "desc": "When in mountain terrain, you can ignore the effects of non-magical difficult terrain.",
-                "showon": "Movement"
+                "desc": "When in mountain terrain, you can ignore the effects of non-magical difficult terrain.\n\nIf you have the wild stride class feature, while you are in mountain terrain, you gain a climb Speed equal to your Speed. If you already had a climb Speed, you gain a +10-foot status bonus to your climb Speed.",
+                "showon": "Movement",
+                "effects": [
+                    {
+                        "affected": "Climb Speed",
+                        "setValue": "(Has_Feat(Creature.type, 'Wild Stride') && !effectsService.get_AbsolutesOnThis(creature, 'Climb Speed').concat(effectsService.get_RelativesOnThis(creature, 'Climb Speed')).find(effect => effect.source != name && !effect.penalty)) ? Speed('Land Speed') : null",
+                        "value": "(Has_Feat(Creature.type, 'Wild Stride') && effectsService.get_AbsolutesOnThis(creature, 'Climb Speed').concat(effectsService.get_RelativesOnThis(creature, 'Climb Speed')).find(effect => effect.source != name && !effect.penalty)) ? +10 : 0",
+                        "type": "status"
+                    }
+                ]
             }
         ],
         "subType": "Mountain",
@@ -22743,18 +22792,22 @@
         "traits": [
             "Ranger"
         ],
-        "levelreq": 2,
-        "gainActivities": [
-            "Favored Terrain: Mountain"
-        ]
+        "levelreq": 2
     },
     {
         "name": "Favored Terrain: Plains",
         "desc": "You have studied plains terrain to overcome its challenges. When in that terrain, you can ignore the effects of non-magical difficult terrain. If you have the wild stride class feature, while you are in plains terrain, you gain a +10-foot status bonus to your land Speed.",
         "hints": [
             {
-                "desc": "When in plains terrain, you can ignore the effects of non-magical difficult terrain.",
-                "showon": "Movement"
+                "desc": "When in plains terrain, you can ignore the effects of non-magical difficult terrain.\n\nIf you have the wild stride class feature, while you are in plains terrain, you gain a +10-foot status bonus to your land Speed.",
+                "showon": "Movement",
+                "effects": [
+                    {
+                        "affected": "Land Speed",
+                        "value": "Has_Feat(Creature.type, 'Wild Stride') ? +10 : 0",
+                        "type": "status"
+                    }
+                ]
             }
         ],
         "subType": "Plains",
@@ -22763,18 +22816,22 @@
         "traits": [
             "Ranger"
         ],
-        "levelreq": 2,
-        "gainActivities": [
-            "Favored Terrain: Plains"
-        ]
+        "levelreq": 2
     },
     {
         "name": "Favored Terrain: Sky",
         "desc": "You have studied sky terrain to overcome its challenges. When in that terrain, you can ignore the effects of non-magical difficult terrain. If you have the wild stride class feature, while you are in sky terrain, you gain a +10-foot status bonus to your fly Speed, if you have one.",
         "hints": [
             {
-                "desc": "When in sky terrain, you can ignore the effects of non-magical difficult terrain.",
-                "showon": "Movement"
+                "desc": "When in sky terrain, you can ignore the effects of non-magical difficult terrain.\n\nIf you have the wild stride class feature, while you are in sky terrain, you gain a +10-foot status bonus to your fly Speed, if you have one.",
+                "showon": "Movement",
+                "effects": [
+                    {
+                        "affected": "Fly Speed",
+                        "value": "Has_Feat(Creature.type, 'Wild Stride') && Speed('Fly Speed') ? +10 : 0",
+                        "type": "status"
+                    }
+                ]
             }
         ],
         "subType": "Sky",
@@ -22783,17 +22840,14 @@
         "traits": [
             "Ranger"
         ],
-        "levelreq": 2,
-        "gainActivities": [
-            "Favored Terrain: Sky"
-        ]
+        "levelreq": 2
     },
     {
         "name": "Favored Terrain: Swamp",
         "desc": "You have studied swamp terrain to overcome its challenges. When in that terrain, you can ignore the effects of non-magical difficult terrain. If you have the wild stride class feature, while you are in swamp terrain, you can move across bogs at full Speed, even if they are deep enough to be greater difficult terrain or to normally require you to Swim.",
         "hints": [
             {
-                "desc": "When in swamp terrain, you can ignore the effects of non-magical difficult terrain.",
+                "desc": "When in swamp terrain, you can ignore the effects of non-magical difficult terrain.\n\nIf you have the wild stride class feature, while you are in swamp terrain, you can move across bogs at full Speed, even if they are deep enough to be greater difficult terrain or to normally require you to Swim.",
                 "showon": "Movement"
             }
         ],
@@ -22803,18 +22857,23 @@
         "traits": [
             "Ranger"
         ],
-        "levelreq": 2,
-        "gainActivities": [
-            "Favored Terrain: Swamp"
-        ]
+        "levelreq": 2
     },
     {
         "name": "Favored Terrain: Underground",
         "desc": "You have studied underground terrain to overcome its challenges. When in that terrain, you can ignore the effects of non-magical difficult terrain. If you have the wild stride class feature, while you are in underground terrain, you gain a climb Speed equal to your Speed. If you already had a climb Speed, you gain a +10-foot status bonus to your climb Speed.",
         "hints": [
             {
-                "desc": "When in underground terrain, you can ignore the effects of non-magical difficult terrain.",
-                "showon": "Movement"
+                "desc": "When in underground terrain, you can ignore the effects of non-magical difficult terrain.\n\nIf you have the wild stride class feature, while you are in underground terrain, you gain a climb Speed equal to your Speed. If you already had a climb Speed, you gain a +10-foot status bonus to your climb Speed.",
+                "showon": "Movement",
+                "effects": [
+                    {
+                        "affected": "Climb Speed",
+                        "setValue": "(Has_Feat(Creature.type, 'Wild Stride') && !effectsService.get_AbsolutesOnThis(creature, 'Climb Speed').concat(effectsService.get_RelativesOnThis(creature, 'Climb Speed')).find(effect => effect.source != name && !effect.penalty)) ? Speed('Land Speed') : null",
+                        "value": "(Has_Feat(Creature.type, 'Wild Stride') && effectsService.get_AbsolutesOnThis(creature, 'Climb Speed').concat(effectsService.get_RelativesOnThis(creature, 'Climb Speed')).find(effect => effect.source != name && !effect.penalty)) ? +10 : 0",
+                        "type": "status"
+                    }
+                ]
             }
         ],
         "subType": "Underground",
@@ -22823,10 +22882,7 @@
         "traits": [
             "Ranger"
         ],
-        "levelreq": 2,
-        "gainActivities": [
-            "Favored Terrain: Underground"
-        ]
+        "levelreq": 2
     },
     {
         "name": "Hunter's Aim",

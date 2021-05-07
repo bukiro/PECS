@@ -470,7 +470,7 @@
                                                 (click)="toggle_List(choice.id, level.number, choice)"
                                                 [ngClass]="{'problem':(choice.boosts.length > maxAvailable || someAbilitiesIllegal(choice, level.number)), 'fancy-button fullsize-only choicecleared':choice.boosts.length == maxAvailable, 'activechoice':get_ShowList()==choice.id}">
                                                 <app-gridIcon class="abilityboost"
-                                                    [ngbTooltip]="get_AbilityChoiceTitle(choice)"
+                                                    [ngbTooltip]="get_AbilityChoiceTitle(choice)" openDelay=100
                                                     [superTitle]="maxAvailable.toString()"
                                                     [title]="(maxAvailable == 1 && choice.boosts.length) ? choice.boosts[0].name : ((maxAvailable > 1 && choice.boosts.length > 0) ? choice.boosts.length.toString() : '')"
                                                     [ngClass]="{'fancy-button':choice.boosts.length == maxAvailable}">
@@ -498,7 +498,7 @@
                                             </ng-template>
                                             <button class="fullsize-only inactive-button"
                                                 #FixedSkillPopover="ngbPopover" [ngbPopover]="FixedSkillIncreaseContent"
-                                                triggers="click">
+                                                triggers="click" triggers="click">
                                                 <app-gridIcon class="skillincrease"
                                                     [ngbTooltip]="!FixedSkillPopover.isOpen() && skillIncrease.name"
                                                     [title]="skillIncrease.name" [superTitle]="'icon-bi-lock-fill'">

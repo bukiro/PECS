@@ -15,7 +15,6 @@ import { Condition } from '../Condition';
 import { SpellCast } from '../SpellCast';
 import { Creature } from '../Creature';
 import { EffectsService } from '../effects.service';
-import { NgbPopoverConfig, NgbTooltipConfig } from '@ng-bootstrap/ng-bootstrap';
 import { ConditionGain } from '../ConditionGain';
 
 @Component({
@@ -46,22 +45,8 @@ export class ActivityComponent implements OnInit {
         private timeService: TimeService,
         private itemsService: ItemsService,
         private conditionsService: ConditionsService,
-        private effectsService: EffectsService,
-        popoverConfig: NgbPopoverConfig,
-        tooltipConfig: NgbTooltipConfig
-    ) {
-        popoverConfig.autoClose = "outside";
-        popoverConfig.container = "body";
-        //For touch compatibility, this openDelay prevents the popover from closing immediately on tap because a tap counts as hover and then click;
-        popoverConfig.openDelay = 50;
-        popoverConfig.placement = "auto";
-        popoverConfig.popoverClass = "list-item sublist";
-        popoverConfig.triggers = "hover:click";
-        tooltipConfig.container = "body";
-        //For touch compatibility, this openDelay prevents the tooltip from closing immediately on tap because a tap counts as hover and then click;
-        tooltipConfig.openDelay = 100;
-        tooltipConfig.triggers = "hover:click";
-    }
+        private effectsService: EffectsService
+    ) { }
 
     trackByIndex(index: number, obj: any): any {
         return index;
@@ -316,7 +301,7 @@ export class ActivityComponent implements OnInit {
         this.characterService.set_ToChange(this.creature, "activities");
         this.characterService.process_ToChange();
     }
-    
+
     finish_Loading() {
         this.characterService.get_Changed()
             .subscribe((target) => {
@@ -325,11 +310,11 @@ export class ActivityComponent implements OnInit {
                 }
             });
         this.characterService.get_ViewChanged()
-        .subscribe((view) => {
-            if (view.creature.toLowerCase() == this.creature.toLowerCase() && ["activities", "all"].includes(view.target.toLowerCase())) {
-                this.changeDetector.detectChanges();
-            }
-        });
+            .subscribe((view) => {
+                if (view.creature.toLowerCase() == this.creature.toLowerCase() && ["activities", "all"].includes(view.target.toLowerCase())) {
+                    this.changeDetector.detectChanges();
+                }
+            });
     }
 
     ngOnInit() {

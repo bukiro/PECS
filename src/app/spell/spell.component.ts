@@ -3,7 +3,6 @@ import { Spell } from '../Spell';
 import { TraitsService } from '../traits.service';
 import { CharacterService } from '../character.service';
 import { SpellsService } from '../spells.service';
-import { NgbPopoverConfig } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
     selector: 'app-spell',
@@ -22,22 +21,13 @@ export class SpellComponent implements OnInit {
         private changeDetector: ChangeDetectorRef,
         public characterService: CharacterService,
         private traitsService: TraitsService,
-        private spellsService: SpellsService,
-        popoverConfig: NgbPopoverConfig
-    ) {
-        popoverConfig.autoClose = "outside";
-        popoverConfig.container = "body";
-        //For touch compatibility, this openDelay prevents the popover from closing immediately on tap because a tap counts as hover and then click;
-        popoverConfig.openDelay = 50;
-        popoverConfig.placement = "auto";
-        popoverConfig.popoverClass = "list-item sublist";
-        popoverConfig.triggers = "hover:click";
-    }
+        private spellsService: SpellsService
+    ) { }
 
     trackByIndex(index: number, obj: any): any {
         return index;
     }
-    
+
     get_Traits(name: string = "") {
         return this.traitsService.get_Traits(name);
     }
@@ -65,21 +55,21 @@ export class SpellComponent implements OnInit {
             setTimeout(() => this.finish_Loading(), 500)
         } else {
             this.characterService.get_Changed()
-            .subscribe((target) => {
-                if (["individualspells", "all", "character"].includes(target.toLowerCase())) {
-                    this.changeDetector.detectChanges();
-                }
-            });
+                .subscribe((target) => {
+                    if (["individualspells", "all", "character"].includes(target.toLowerCase())) {
+                        this.changeDetector.detectChanges();
+                    }
+                });
             this.characterService.get_ViewChanged()
-            .subscribe((view) => {
-                if (view.creature.toLowerCase() == "character" && 
-                    (
-                        view.target.toLowerCase() == "all" ||
-                        (view.target.toLowerCase() == "individualspells" && [this.spell.name.toLowerCase(), "all"].includes(view.subtarget.toLowerCase()))
-                    )) {
-                    this.changeDetector.detectChanges();
-                }
-            });
+                .subscribe((view) => {
+                    if (view.creature.toLowerCase() == "character" &&
+                        (
+                            view.target.toLowerCase() == "all" ||
+                            (view.target.toLowerCase() == "individualspells" && [this.spell.name.toLowerCase(), "all"].includes(view.subtarget.toLowerCase()))
+                        )) {
+                        this.changeDetector.detectChanges();
+                    }
+                });
             return true;
         }
     }

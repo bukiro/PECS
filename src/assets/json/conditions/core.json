@@ -1600,181 +1600,6 @@
         ]
     },
     {
-        "name": "Favored Terrain: Aquatic",
-        "desc": "You have studied aquatic terrain to overcome its challenges. If you have the wild stride class feature, while you are in aquatic terrain, you gain a swim Speed equal to your Speed. If you already had a swim Speed, you gain a +10-foot status bonus to your swim Speed.",
-        "type": "activities",
-        "buff": true,
-        "defaultDurations": [
-            {
-                "duration": -1
-            }
-        ],
-        "effects": [
-            {
-                "affected": "Swim Speed",
-                "setValue": "(Has_Feat(Creature.type, 'Wild Stride') && !effectsService.get_AbsolutesOnThis(creature, 'Swim Speed').concat(effectsService.get_RelativesOnThis(creature, 'Swim Speed')).find(effect => effect.source != name && !effect.penalty)) ? Speed('Land Speed') : null"
-            },
-            {
-                "affected": "Swim Speed",
-                "type": "status",
-                "value": "(Has_Feat(Creature.type, 'Wild Stride') && effectsService.get_AbsolutesOnThis(creature, 'Swim Speed').concat(effectsService.get_RelativesOnThis(creature, 'Swim Speed')).find(effect => effect.source != name && !effect.penalty)) ? +10 : 0"
-            }
-        ]
-    },
-    {
-        "name": "Favored Terrain: Arctic",
-        "desc": "You have studied arctic terrain to overcome its challenges. If you have the wild stride class feature, while you are in arctic terrain, you need to eat and drink only one-tenth as much as usual, you aren't affected by severe or extreme cold, and you can walk across ice and snow at full Speed without needing to Balance.",
-        "type": "activities",
-        "buff": true,
-        "defaultDurations": [
-            {
-                "duration": -1
-            }
-        ],
-        "hints": [
-            {
-                "desc": "If you have the wild stride class feature, while you are in arctic terrain, you need to eat and drink only one-tenth as much as usual, you aren't affected by severe or extreme cold, and you can walk across ice and snow at full Speed without needing to Balance.",
-                "showon": "Health, Resistances, Movement"
-            }
-        ]
-    },
-    {
-        "name": "Favored Terrain: Desert",
-        "desc": "You have studied desert terrain to overcome its challenges. If you have the wild stride class feature, while you are in desert terrain, you need to eat and drink only one-tenth as much as usual, you aren't affected by severe or extreme heat, and you can walk along sand at full Speed without needing to Balance.",
-        "type": "activities",
-        "buff": true,
-        "defaultDurations": [
-            {
-                "duration": -1
-            }
-        ],
-        "hints": [
-            {
-                "desc": "If you have the wild stride class feature, while you are in desert terrain, you need to eat and drink only one-tenth as much as usual, you aren't affected by severe or extreme heat, and you can walk along sand at full Speed without needing to Balance.",
-                "showon": "Health, Resistances, Movement"
-            }
-        ]
-    },
-    {
-        "name": "Favored Terrain: Forest",
-        "desc": "You have studied forest terrain to overcome its challenges. If you have the wild stride class feature, while you are in forest terrain, you gain a climb Speed equal to your Speed. If you already had a climb Speed, you gain a +10-foot status bonus to your climb Speed.",
-        "type": "activities",
-        "buff": true,
-        "defaultDurations": [
-            {
-                "duration": -1
-            }
-        ],
-        "effects": [
-            {
-                "affected": "Climb Speed",
-                "setValue": "(Has_Feat(Creature.type, 'Wild Stride') && !effectsService.get_AbsolutesOnThis(creature, 'Climb Speed').concat(effectsService.get_RelativesOnThis(creature, 'Climb Speed')).find(effect => effect.source != name && !effect.penalty)) ? Speed('Land Speed') : null"
-            },
-            {
-                "affected": "Climb Speed",
-                "type": "status",
-                "value": "(Has_Feat(Creature.type, 'Wild Stride') && effectsService.get_AbsolutesOnThis(creature, 'Climb Speed').concat(effectsService.get_RelativesOnThis(creature, 'Climb Speed')).find(effect => effect.source != name && !effect.penalty)) ? +10 : 0"
-            }
-        ]
-    },
-    {
-        "name": "Favored Terrain: Mountain",
-        "desc": "You have studied mountain terrain to overcome its challenges. If you have the wild stride class feature, while you are in mountain terrain, you gain a climb Speed equal to your Speed. If you already had a climb Speed, you gain a +10-foot status bonus to your climb Speed.",
-        "type": "activities",
-        "buff": true,
-        "defaultDurations": [
-            {
-                "duration": -1
-            }
-        ],
-        "effects": [
-            {
-                "affected": "Climb Speed",
-                "setValue": "(Has_Feat(Creature.type, 'Wild Stride') && !effectsService.get_AbsolutesOnThis(creature, 'Climb Speed').concat(effectsService.get_RelativesOnThis(creature, 'Climb Speed')).find(effect => effect.source != name && !effect.penalty)) ? Speed('Land Speed') : null"
-            },
-            {
-                "affected": "Climb Speed",
-                "type": "status",
-                "value": "(Has_Feat(Creature.type, 'Wild Stride') && effectsService.get_AbsolutesOnThis(creature, 'Climb Speed').concat(effectsService.get_RelativesOnThis(creature, 'Climb Speed')).find(effect => effect.source != name && !effect.penalty)) ? +10 : 0"
-            }
-        ]
-    },
-    {
-        "name": "Favored Terrain: Plains",
-        "desc": "You have studied plains terrain to overcome its challenges. If you have the wild stride class feature, while you are in plains terrain, you gain a +10-foot status bonus to your land Speed.",
-        "type": "activities",
-        "buff": true,
-        "defaultDurations": [
-            {
-                "duration": -1
-            }
-        ],
-        "effects": [
-            {
-                "affected": "Land Speed",
-                "type": "status",
-                "value": "Has_Feat(Creature.type, 'Wild Stride') ? +10 : 0"
-            }
-        ]
-    },
-    {
-        "name": "Favored Terrain: Sky",
-        "desc": "You have studied sky terrain to overcome its challenges. If you have the wild stride class feature, while you are in sky terrain, you gain a +10-foot status bonus to your fly Speed, if you have one.",
-        "type": "activities",
-        "buff": true,
-        "defaultDurations": [
-            {
-                "duration": -1
-            }
-        ],
-        "effects": [
-            {
-                "affected": "Fly Speed",
-                "type": "status",
-                "value": "Has_Feat(Creature.type, 'Wild Stride') && Speed('Fly Speed') ? +10 : 0"
-            }
-        ]
-    },
-    {
-        "name": "Favored Terrain: Swamp",
-        "desc": "You have studied swamp terrain to overcome its challenges. If you have the wild stride class feature, while you are in swamp terrain, you can move across bogs at full Speed, even if they are deep enough to be greater difficult terrain or to normally require you to Swim.",
-        "type": "activities",
-        "buff": true,
-        "defaultDurations": [
-            {
-                "duration": -1
-            }
-        ],
-        "hints": [
-            {
-                "desc": "If you have the wild stride class feature, while you are in swamp terrain, you can move across bogs at full Speed, even if they are deep enough to be greater difficult terrain or to normally require you to Swim.",
-                "showon": "Movement"
-            }
-        ]
-    },
-    {
-        "name": "Favored Terrain: Underground",
-        "desc": "You have studied underground terrain to overcome its challenges. If you have the wild stride class feature, while you are in underground terrain, you gain a climb Speed equal to your Speed. If you already had a climb Speed, you gain a +10-foot status bonus to your climb Speed.",
-        "type": "activities",
-        "buff": true,
-        "defaultDurations": [
-            {
-                "duration": -1
-            }
-        ],
-        "effects": [
-            {
-                "affected": "Climb Speed",
-                "setValue": "(Has_Feat(Creature.type, 'Wild Stride') && !effectsService.get_AbsolutesOnThis(creature, 'Climb Speed').concat(effectsService.get_RelativesOnThis(creature, 'Climb Speed')).find(effect => effect.source != name && !effect.penalty)) ? Speed('Land Speed') : null"
-            },
-            {
-                "affected": "Climb Speed",
-                "type": "status",
-                "value": "(Has_Feat(Creature.type, 'Wild Stride') && effectsService.get_AbsolutesOnThis(creature, 'Climb Speed').concat(effectsService.get_RelativesOnThis(creature, 'Climb Speed')).find(effect => effect.source != name && !effect.penalty)) ? +10 : 0"
-            }
-        ]
-    },
-    {
         "name": "Form Control",
         "desc": "With additional care and effort, you can take on an alternate form for a longer period of time. If your next action is to cast wild shape, wild shape's spell level is 2 lower than normal (minimum 1st level), but you can remain transformed for up to 1 hour or the listed duration (whichever is longer). You can still Dismiss the form at any time, as permitted by the spell.",
         "type": "activities",
@@ -3745,11 +3570,42 @@
                 "duration": -1
             }
         ],
-        "inputRequired": "If you have the wild stride class feature, add the Favored Terrain condition for this terrain to gain its benefits.",
         "hints": [
             {
-                "desc": "While in the selected favored terrain, you can ignore the effects of non-magical difficult terrain. You do not gain the benefits of your original favored terrain.",
-                "showon": "Movement"
+                "desc": "While in the selected favored terrain, you can ignore the effects of non-magical difficult terrain. You do not gain the benefits of your original favored terrain.\n\nIf you have the wild stride class feature, you gain the following benefits depending on the selected terrain:\n\n<strong>Aquatic</strong> While you are in aquatic terrain, you gain a swim Speed equal to your Speed. If you already had a swim Speed, you gain a +10-foot status bonus to your swim Speed.\n<strong>Arctic</strong> You can walk across ice and snow at full Speed without needing to Balance while in arctic terrain.\n<strong>Desert</strong> You can walk along sand at full Speed without needing to Balance while in desert terrain.\n<strong>Forest</strong> While you are in forest terrain, you gain a climb Speed equal to your Speed. If you already had a climb Speed, you gain a +10-foot status bonus to your climb Speed.\n<strong>Mountain</strong> While you are in mountain terrain, you gain a climb Speed equal to your Speed. If you already had a climb Speed, you gain a +10-foot status bonus to your climb Speed.\n<strong>Plains</strong> While you are in plains terrain, you gain a +10-foot status bonus to your land Speed.\n<strong>Sky</strong> While you are in sky terrain, you gain a +10-foot status bonus to your fly Speed, if you have one.\n<strong>Swamp</strong> While you are in swamp terrain, you can move across bogs at full Speed, even if they are deep enough to be greater difficult terrain or to normally require you to Swim.\n<strong>Underground</strong> While you are in underground terrain, you gain a climb Speed equal to your Speed. If you already had a climb Speed, you gain a +10-foot status bonus to your climb Speed.",
+                "showon": "Movement",
+                "effects": [
+                    {
+                        "affected": "Swim Speed",
+                        "setValue": "(Choice == 'Aquatic' && Has_Feat(Creature.type, 'Wild Stride') && !effectsService.get_AbsolutesOnThis(creature, 'Swim Speed').concat(effectsService.get_RelativesOnThis(creature, 'Swim Speed')).find(effect => effect.source != name && !effect.penalty)) ? Speed('Land Speed') : null",
+                        "type": "status",
+                        "value": "(Choice == 'Aquatic' && Has_Feat(Creature.type, 'Wild Stride') && effectsService.get_AbsolutesOnThis(creature, 'Swim Speed').concat(effectsService.get_RelativesOnThis(creature, 'Swim Speed')).find(effect => effect.source != name && !effect.penalty)) ? +10 : 0"
+                    },
+                    {
+                        "affected": "Climb Speed",
+                        "setValue": "(['Forest', 'Mountain', 'Underground'].includes(Choice) && Has_Feat(Creature.type, 'Wild Stride') && !effectsService.get_AbsolutesOnThis(creature, 'Climb Speed').concat(effectsService.get_RelativesOnThis(creature, 'Climb Speed')).find(effect => effect.source != name && !effect.penalty)) ? Speed('Land Speed') : null",
+                        "type": "status",
+                        "value": "(['Forest', 'Mountain', 'Underground'].includes(Choice) && Has_Feat(Creature.type, 'Wild Stride') && effectsService.get_AbsolutesOnThis(creature, 'Climb Speed').concat(effectsService.get_RelativesOnThis(creature, 'Climb Speed')).find(effect => effect.source != name && !effect.penalty)) ? +10 : 0"
+                    },
+                    {
+                        "affected": "Land Speed",
+                        "type": "status",
+                        "value": "(Choice == 'Plains' && Has_Feat(Creature.type, 'Wild Stride')) ? +10 : 0"
+                    },
+                    {
+                        "affected": "Fly Speed",
+                        "type": "status",
+                        "value": "(Choice == 'Sky' && Has_Feat(Creature.type, 'Wild Stride') && Speed('Fly Speed')) ? +10 : 0"
+                    }
+                ]
+            },
+            {
+                "desc": "If you have the wild stride class feature, you gain the following benefits depending on the selected terrain:\n\n<strong>Arctic</strong> You need to eat and drink only one-tenth as much as usual while in arctic terrain.\n<strong>Desert</strong> You need to eat and drink only one-tenth as much as usual while in desert terrain.",
+                "showon": "Health"
+            },
+            {
+                "desc": "If you have the wild stride class feature, you gain the following benefits depending on the selected terrain:\n\n<strong>Arctic</strong> You aren't affected by severe or extreme cold while in arctic terrain.\n<strong>Desert</strong> You aren't affected by severe or extreme heat while in desert terrain.",
+                "showon": "Resistances"
             }
         ],
         "choice": "Aquatic",

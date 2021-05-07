@@ -1,5 +1,4 @@
 import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
-import { NgbTooltipConfig } from '@ng-bootstrap/ng-bootstrap';
 import { CharacterService } from '../character.service';
 import { EffectsService } from '../effects.service';
 import { FamiliarsService } from '../familiars.service';
@@ -16,14 +15,8 @@ export class FamiliarComponent implements OnInit {
         private changeDetector: ChangeDetectorRef,
         private characterService: CharacterService,
         private familiarsService: FamiliarsService,
-        private effectsService: EffectsService,
-        tooltipConfig: NgbTooltipConfig
-    ) {
-        tooltipConfig.container = "body";
-        //For touch compatibility, this openDelay prevents the tooltip from closing immediately on tap because a tap counts as hover and then click;
-        tooltipConfig.openDelay = 100;
-        tooltipConfig.triggers = "hover:click";
-    }
+        private effectsService: EffectsService
+    ) { }
 
     minimize() {
         this.characterService.get_Character().settings.familiarMinimized = !this.characterService.get_Character().settings.familiarMinimized;
@@ -49,7 +42,7 @@ export class FamiliarComponent implements OnInit {
     trackByIndex(index: number, obj: any): any {
         return index;
     }
-    
+
     set_Changed(target: string) {
         this.characterService.set_Changed(target);
     }
@@ -83,17 +76,17 @@ export class FamiliarComponent implements OnInit {
             setTimeout(() => this.finish_Loading(), 500)
         } else {
             this.characterService.get_Changed()
-            .subscribe((target) => {
-                if (["familiar", "all"].includes(target.toLowerCase())) {
-                    this.changeDetector.detectChanges();
-                }
-            });
+                .subscribe((target) => {
+                    if (["familiar", "all"].includes(target.toLowerCase())) {
+                        this.changeDetector.detectChanges();
+                    }
+                });
             this.characterService.get_ViewChanged()
-            .subscribe((view) => {
-                if (view.creature.toLowerCase() == "familiar" && ["familiar", "all"].includes(view.target.toLowerCase())) {
-                    this.changeDetector.detectChanges();
-                }
-            });
+                .subscribe((view) => {
+                    if (view.creature.toLowerCase() == "familiar" && ["familiar", "all"].includes(view.target.toLowerCase())) {
+                        this.changeDetector.detectChanges();
+                    }
+                });
             return true;
         }
     }

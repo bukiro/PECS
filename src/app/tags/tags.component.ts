@@ -1,10 +1,9 @@
-import { Component, OnInit, Input, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, Input, ChangeDetectorRef } from '@angular/core';
 import { CharacterService } from '../character.service';
 import { TraitsService } from '../traits.service';
 import { EffectsService } from '../effects.service';
 import { Effect } from '../Effect';
 import { Hint } from '../Hint';
-import { NgbPopoverConfig } from '@ng-bootstrap/ng-bootstrap';
 import { TimeService } from '../time.service';
 
 @Component({
@@ -19,21 +18,21 @@ export class TagsComponent implements OnInit {
     @Input()
     objectName: string = "";
     @Input()
-    showTraits:boolean = false;
+    showTraits: boolean = false;
     @Input()
-    showFeats:boolean = false;
+    showFeats: boolean = false;
     @Input()
-    showItems:boolean = false;
+    showItems: boolean = false;
     @Input()
-    showActivities:boolean = false;
+    showActivities: boolean = false;
     @Input()
-    showConditions:boolean = false;
+    showConditions: boolean = false;
     @Input()
-    showEffects:boolean = false;
+    showEffects: boolean = false;
     @Input()
-    specialNames:string[] = [];
+    specialNames: string[] = [];
     @Input()
-    specialEffects:Effect[] = []
+    specialEffects: Effect[] = []
 
     public parseInt = parseInt;
 
@@ -42,18 +41,9 @@ export class TagsComponent implements OnInit {
         public characterService: CharacterService,
         private traitsService: TraitsService,
         private effectsService: EffectsService,
-        private timeService: TimeService,
-        popoverConfig: NgbPopoverConfig
-    ) {
-        popoverConfig.placement = "auto";
-        popoverConfig.autoClose = "outside";
-        popoverConfig.triggers = "hover:click";
-        //For touch compatibility, this openDelay prevents the popover from closing immediately on tap because a tap counts as hover and then click;
-        popoverConfig.openDelay = 50;
-        popoverConfig.container = "body";
-        popoverConfig.popoverClass = "list-item sublist";
-    }
-    
+        private timeService: TimeService
+    ) { }
+
     still_loading() {
         return this.characterService.still_loading();
     }
@@ -61,7 +51,7 @@ export class TagsComponent implements OnInit {
     trackByIndex(index: number, obj: any): any {
         return index;
     }
-    
+
     get_Creature() {
         return this.characterService.get_Creature(this.creature);
     }
@@ -78,7 +68,7 @@ export class TagsComponent implements OnInit {
         }
     }
 
-    get_FeatsShowingOn(name: string, show: boolean ) {
+    get_FeatsShowingOn(name: string, show: boolean) {
         if (show && name && this.creature == "Character") {
             return this.sortByName(this.characterService.get_FeatsShowingOn(name));
         } else if (show && name && this.creature == "Companion") {
@@ -94,8 +84,8 @@ export class TagsComponent implements OnInit {
         if (this.showEffects && name) {
             return this.sortByName(
                 this.effectsService.get_AbsolutesOnThis(this.get_Creature(), name)
-                .concat(this.effectsService.get_RelativesOnThis(this.get_Creature(), name))
-                );
+                    .concat(this.effectsService.get_RelativesOnThis(this.get_Creature(), name))
+            );
         } else {
             return [];
         }
@@ -108,7 +98,7 @@ export class TagsComponent implements OnInit {
             return [];
         }
     }
-    
+
     get_ActivitiesShowingOn(name: string) {
         if (this.showActivities && name) {
             return this.sortByName(this.characterService.get_ActivitiesShowingOn(this.get_Creature(), name));
@@ -137,13 +127,13 @@ export class TagsComponent implements OnInit {
         return hints
             .filter(hint =>
                 hint.showon.split(",")
-                .find(showon => 
-                    showon.trim().toLowerCase() == name.toLowerCase() ||
-                    (
-                        name.toLowerCase().includes("lore") &&
-                        showon.trim().toLowerCase() == "lore"
+                    .find(showon =>
+                        showon.trim().toLowerCase() == name.toLowerCase() ||
+                        (
+                            name.toLowerCase().includes("lore") &&
+                            showon.trim().toLowerCase() == "lore"
+                        )
                     )
-                )
             )
     }
 
@@ -152,27 +142,27 @@ export class TagsComponent implements OnInit {
             setTimeout(() => this.finish_Loading(), 500)
         } else {
             this.characterService.get_Changed()
-            .subscribe((target) => {
-                if (["tags", "all", this.creature, this.objectName].includes(target)) {
-                    this.changeDetector.detectChanges();
-                }
-            });
+                .subscribe((target) => {
+                    if (["tags", "all", this.creature, this.objectName].includes(target)) {
+                        this.changeDetector.detectChanges();
+                    }
+                });
             this.characterService.get_ViewChanged()
-            .subscribe((view) => {
-                if (view.creature == this.creature &&
-                    (
-                        view.target == "all" ||
-                        (view.target == "tags" && [this.objectName, ...this.specialNames, "all"].includes(view.subtarget))
-                    )) {
-                    this.changeDetector.detectChanges();
-                }
-            });
+                .subscribe((view) => {
+                    if (view.creature == this.creature &&
+                        (
+                            view.target == "all" ||
+                            (view.target == "tags" && [this.objectName, ...this.specialNames, "all"].includes(view.subtarget))
+                        )) {
+                        this.changeDetector.detectChanges();
+                    }
+                });
             return true;
         }
     }
 
     sortByName(list: any[]) {
-        return list.sort(function(a,b) {
+        return list.sort(function (a, b) {
             if (a.name > b.name) {
                 return 1;
             }

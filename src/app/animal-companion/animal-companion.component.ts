@@ -1,7 +1,6 @@
 import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { CharacterService } from '../character.service';
 import { AnimalCompanionsService } from '../animalcompanions.service';
-import { NgbTooltipConfig } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
     selector: 'app-animal-companion',
@@ -14,16 +13,10 @@ export class AnimalCompanionComponent implements OnInit {
     public hover: string = '';
 
     constructor(
-        private changeDetector:ChangeDetectorRef,
+        private changeDetector: ChangeDetectorRef,
         private characterService: CharacterService,
-        private animalCompanionsService: AnimalCompanionsService,
-        tooltipConfig: NgbTooltipConfig
-    ) {
-        tooltipConfig.container = "body";
-        //For touch compatibility, this openDelay prevents the tooltip from closing immediately on tap because a tap counts as hover and then click;
-        tooltipConfig.openDelay = 100;
-        tooltipConfig.triggers = "hover:click";
-    }
+        private animalCompanionsService: AnimalCompanionsService
+    ) { }
 
     minimize() {
         this.characterService.get_Character().settings.companionMinimized = !this.characterService.get_Character().settings.companionMinimized;
@@ -70,17 +63,17 @@ export class AnimalCompanionComponent implements OnInit {
             setTimeout(() => this.finish_Loading(), 500)
         } else {
             this.characterService.get_Changed()
-            .subscribe((target) => {
-                if (["companion", "all"].includes(target.toLowerCase())) {
-                    this.changeDetector.detectChanges();
-                }
-            });
+                .subscribe((target) => {
+                    if (["companion", "all"].includes(target.toLowerCase())) {
+                        this.changeDetector.detectChanges();
+                    }
+                });
             this.characterService.get_ViewChanged()
-            .subscribe((view) => {
-                if (view.creature.toLowerCase() == "companion" && ["companion", "all"].includes(view.target.toLowerCase())) {
-                    this.changeDetector.detectChanges();
-                }
-            });
+                .subscribe((view) => {
+                    if (view.creature.toLowerCase() == "companion" && ["companion", "all"].includes(view.target.toLowerCase())) {
+                        this.changeDetector.detectChanges();
+                    }
+                });
             return true;
         }
     }

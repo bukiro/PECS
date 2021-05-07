@@ -438,6 +438,8 @@ export class Character extends Creature {
                 }
             }
             //Set components to update according to the skill type.
+            characterService.set_ToChange("Character", "featchoices");
+            characterService.set_ToChange("Character", "skillchoices");
             switch (characterService.get_Skills(characterService.get_Character(), skillName)[0]?.type) {
                 case "Skill":
                     characterService.set_ToChange("Character", "skills");
@@ -499,6 +501,8 @@ export class Character extends Creature {
                 }
             }
             //Set components to update according to the skill type.
+            characterService.set_ToChange("Character", "featchoices");
+            characterService.set_ToChange("Character", "skillchoices");
             switch (characterService.get_Skills(characterService.get_Character(), skillName)[0]?.type) {
                 case "Skill":
                     characterService.set_ToChange("Character", "skills");

@@ -20,7 +20,6 @@ import { Wand } from '../Wand';
 import { Shield } from '../Shield';
 import { ConditionsService } from '../conditions.service';
 import { Weapon } from '../Weapon';
-import { NgbPopoverConfig, NgbTooltipConfig } from '@ng-bootstrap/ng-bootstrap';
 import { Armor } from '../Armor';
 import { ToastService } from '../toast.service';
 import { AlchemicalBomb } from '../AlchemicalBomb';
@@ -56,22 +55,8 @@ export class InventoryComponent implements OnInit {
         private timeService: TimeService,
         private spellsService: SpellsService,
         private conditionsService: ConditionsService,
-        private toastService: ToastService,
-        popoverConfig: NgbPopoverConfig,
-        tooltipConfig: NgbTooltipConfig
-    ) {
-        popoverConfig.autoClose = "outside";
-        popoverConfig.container = "body";
-        //For touch compatibility, this openDelay prevents the popover from closing immediately on tap because a tap counts as hover and then click;
-        popoverConfig.openDelay = 50;
-        popoverConfig.placement = "auto";
-        popoverConfig.popoverClass = "list-item sublist";
-        popoverConfig.triggers = "hover:click";
-        tooltipConfig.container = "body";
-        //For touch compatibility, this openDelay prevents the tooltip from closing immediately on tap because a tap counts as hover and then click;
-        tooltipConfig.openDelay = 100;
-        tooltipConfig.triggers = "hover:click";
-    }
+        private toastService: ToastService
+    ) { }
 
     minimize() {
         this.characterService.get_Character().settings.inventoryMinimized = !this.characterService.get_Character().settings.inventoryMinimized;

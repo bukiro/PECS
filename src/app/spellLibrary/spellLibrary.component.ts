@@ -6,7 +6,6 @@ import { SpellCasting } from '../SpellCasting';
 import { SpellChoice } from '../SpellChoice';
 import { SpellGain } from '../SpellGain';
 import { TraitsService } from '../traits.service';
-import { NgbPopoverConfig, NgbTooltipConfig } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
     selector: 'app-spellLibrary',
@@ -29,22 +28,8 @@ export class SpellLibraryComponent implements OnInit {
         private changeDetector: ChangeDetectorRef,
         private spellsService: SpellsService,
         private characterService: CharacterService,
-        private traitsService: TraitsService,
-        popoverConfig: NgbPopoverConfig,
-        tooltipConfig: NgbTooltipConfig
-    ) {
-        popoverConfig.autoClose = "outside";
-        popoverConfig.container = "body";
-        //For touch compatibility, this openDelay prevents the popover from closing immediately on tap because a tap counts as hover and then click;
-        popoverConfig.openDelay = 50;
-        popoverConfig.placement = "auto";
-        popoverConfig.popoverClass = "list-item sublist";
-        popoverConfig.triggers = "hover:click";
-        tooltipConfig.container = "body";
-        //For touch compatibility, this openDelay prevents the tooltip from closing immediately on tap because a tap counts as hover and then click;
-        tooltipConfig.openDelay = 100;
-        tooltipConfig.triggers = "hover:click";
-    }
+        private traitsService: TraitsService
+    ) { }
 
     toggle_List(level: number) {
         if (this.showList == level) {

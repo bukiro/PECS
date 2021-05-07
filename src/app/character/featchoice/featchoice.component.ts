@@ -8,8 +8,6 @@ import { Familiar } from 'src/app/Familiar';
 import { Character } from 'src/app/Character';
 import { TraitsService } from 'src/app/traits.service';
 import { EffectsService } from 'src/app/effects.service';
-import { NgbPopoverConfig, NgbTooltipConfig } from '@ng-bootstrap/ng-bootstrap';
-import { TextAttribute } from '@angular/compiler/src/render3/r3_ast';
 
 @Component({
     selector: 'app-featchoice',
@@ -59,17 +57,8 @@ export class FeatchoiceComponent implements OnInit {
         private featsService: FeatsService,
         private familiarsService: FamiliarsService,
         private traitsService: TraitsService,
-        private effectsService: EffectsService,
-        popoverConfig: NgbPopoverConfig
-    ) {
-        popoverConfig.autoClose = "outside";
-        popoverConfig.container = "body";
-        //For touch compatibility, this openDelay prevents the popover from closing immediately on tap because a tap counts as hover and then click;
-        popoverConfig.openDelay = 50;
-        popoverConfig.placement = "auto";
-        popoverConfig.popoverClass = "list-item sublist";
-        popoverConfig.triggers = "hover:click";
-    }
+        private effectsService: EffectsService
+    ) { }
 
     toggle_Feat(name: string) {
         if (this.showFeat == name) {

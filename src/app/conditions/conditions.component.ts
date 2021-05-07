@@ -17,7 +17,6 @@ import { ActivitiesService } from '../activities.service';
 import { Equipment } from '../Equipment';
 import { Consumable } from '../Consumable';
 import { Effect } from '../Effect';
-import { NgbPopoverConfig } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
     selector: 'app-conditions',
@@ -32,7 +31,7 @@ export class ConditionsComponent implements OnInit {
     public heightened: number = 1;
     public showList: string = "";
     public showItem: string = "";
-    public showCreature: "Character"|"Companion"|"Familiar" = "Character";
+    public showCreature: "Character" | "Companion" | "Familiar" = "Character";
     public wordFilter: string = "";
     public permanent: boolean = true;
     public untilRest: boolean = false;
@@ -55,17 +54,8 @@ export class ConditionsComponent implements OnInit {
         private effectsService: EffectsService,
         private itemsService: ItemsService,
         private timeService: TimeService,
-        private traitsService: TraitsService,
-        popoverConfig: NgbPopoverConfig
-    ) {
-        popoverConfig.autoClose = "outside";
-        popoverConfig.container = "body";
-        //For touch compatibility, this openDelay prevents the popover from closing immediately on tap because a tap counts as hover and then click;
-        popoverConfig.openDelay = 50;
-        popoverConfig.placement = "auto";
-        popoverConfig.popoverClass = "list-item sublist";
-        popoverConfig.triggers = "hover:click";
-    }
+        private traitsService: TraitsService
+    ) { }
 
     toggle_List(type) {
         if (this.showList == type) {

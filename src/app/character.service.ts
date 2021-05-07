@@ -64,6 +64,7 @@ import { MessageService } from './message.service';
 import { ToastService } from './toast.service';
 import { Material } from './Material';
 import { WeaponRune } from './WeaponRune';
+import { NgbPopoverConfig, NgbTooltipConfig } from '@ng-bootstrap/ng-bootstrap';
 
 @Injectable({
     providedIn: 'root'
@@ -111,8 +112,20 @@ export class CharacterService {
         public animalCompanionsService: AnimalCompanionsService,
         public familiarsService: FamiliarsService,
         private messageService: MessageService,
-        private toastService: ToastService
-    ) { }
+        private toastService: ToastService,
+        popoverConfig: NgbPopoverConfig,
+        tooltipConfig: NgbTooltipConfig,
+    ) {
+        popoverConfig.autoClose = "outside";
+        popoverConfig.container = "body";
+        popoverConfig.openDelay = 100;
+        popoverConfig.placement = "auto";
+        popoverConfig.popoverClass = "list-item sublist";
+        popoverConfig.triggers = "hover:click";
+        tooltipConfig.placement = "auto";
+        tooltipConfig.openDelay = 100;
+        tooltipConfig.triggers = "hover:click";
+    }
 
     still_loading() {
         return this.loading;

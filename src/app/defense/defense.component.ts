@@ -11,7 +11,6 @@ import { Talisman } from '../Talisman';
 import { Shield } from '../Shield';
 import { ConditionGain } from '../ConditionGain';
 import { ConditionsService } from '../conditions.service';
-import { NgbPopoverConfig, NgbTooltipConfig } from '@ng-bootstrap/ng-bootstrap';
 import { ToastService } from '../toast.service';
 
 @Component({
@@ -38,22 +37,8 @@ export class DefenseComponent implements OnInit {
         private conditionsService: ConditionsService,
         public effectsService: EffectsService,
         public abilitiesService: AbilitiesService,
-        public toastService: ToastService,
-        popoverConfig: NgbPopoverConfig,
-        tooltipConfig: NgbTooltipConfig
-    ) {
-        popoverConfig.autoClose = "outside";
-        popoverConfig.container = "body";
-        //For touch compatibility, this openDelay prevents the popover from closing immediately on tap because a tap counts as hover and then click;
-        popoverConfig.openDelay = 50;
-        popoverConfig.placement = "auto";
-        popoverConfig.popoverClass = "list-item sublist";
-        popoverConfig.triggers = "hover:click";
-        tooltipConfig.container = "body";
-        //For touch compatibility, this openDelay prevents the tooltip from closing immediately on tap because a tap counts as hover and then click;
-        tooltipConfig.openDelay = 100;
-        tooltipConfig.triggers = "hover:click";
-    }
+        public toastService: ToastService
+    ) { }
 
     minimize() {
         this.characterService.get_Character().settings.defenseMinimized = !this.characterService.get_Character().settings.defenseMinimized;

@@ -8,12 +8,13 @@
                     [conditionGain]="conditionGain" [condition]="condition" [showItem]="get_ShowItem()"
                     [fullDisplay]="fullDisplay"></app-condition>
             </ng-template>
-            <app-gridIcon class="condition" [ngClass]="{'penalty':!condition.buff, 'bonus':condition.buff}"
-                placement="right bottom top" [condition]="conditionGain" [originalCondition]="condition"
-                [ngbPopover]="conditionContent"
-                [superTitle]="get_IsInformationalCondition(conditionGain, condition) ? 'icon-bi-info-circle' : ''"
-                ngbTooltip="{{conditionGain.name}}" container="body" *ngIf="!fullDisplay">
-            </app-gridIcon>
+            <div [ngbPopover]="conditionContent" triggers="click" *ngIf="!fullDisplay" style="display:flex;">
+                <app-gridIcon class="condition" [ngClass]="{'penalty':!condition.buff, 'bonus':condition.buff}"
+                    placement="right bottom top" [condition]="conditionGain" [originalCondition]="condition"
+                    [superTitle]="get_IsInformationalCondition(conditionGain, condition) ? 'icon-bi-info-circle' : ''"
+                    [ngbTooltip]="conditionGain.name" openDelay=0>
+                </app-gridIcon>
+            </div>
             <div class="list-item gridicon-fullsizebox" *ngIf="fullDisplay">
                 <app-gridIcon class="condition" [condition]="conditionGain" [originalCondition]="condition"
                     [superTitle]="get_IsInformationalCondition(conditionGain, condition) ? 'icon-bi-info-circle' : ''"
@@ -51,11 +52,13 @@
                     circumstances.</span>
             </div>
         </ng-template>
-        <app-gridIcon class="effect" [effect]="effect" placement="left bottom top"
-            [ngClass]="{'penalty':effect.penalty, 'bonus':!effect.penalty && !effect.setValue, 'absolute':effect.setValue}"
-            [ngbPopover]="effectContent" ngbTooltip="{{effect.target}}
-        {{parseInt(effect.value) ? effect.value : ''}}{{effect.setValue ? '= '+effect.setValue :
-        ''}}" container="body" *ngIf="!fullDisplay"></app-gridIcon>
+        <div [ngbPopover]="effectContent" triggers="click" *ngIf="!fullDisplay" style="display:flex;">
+            <app-gridIcon class="effect" [effect]="effect" placement="left bottom top"
+                [ngClass]="{'penalty':effect.penalty, 'bonus':!effect.penalty && !effect.setValue, 'absolute':effect.setValue}"
+                [ngbTooltip]="effect.target + (parseInt(effect.value) ? ' ' + effect.value : '') + (effect.setValue ? ' = '+effect.setValue : '')"
+                openDelay=0>
+            </app-gridIcon>
+        </div>
         <div class="list-item gridicon-fullsizebox" *ngIf="fullDisplay">
             <app-gridIcon class="effect" [effect]="effect"
                 [ngClass]="{'penalty':effect.penalty, 'bonus':!effect.penalty && !effect.setValue, 'absolute':effect.setValue}">

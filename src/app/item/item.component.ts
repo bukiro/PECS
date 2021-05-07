@@ -12,7 +12,6 @@ import { Talisman } from '../Talisman';
 import { SpellGain } from '../SpellGain';
 import { AlchemicalPoison } from '../AlchemicalPoison';
 import { Weapon } from '../Weapon';
-import { NgbPopoverConfig } from '@ng-bootstrap/ng-bootstrap';
 import { Spell } from '../Spell';
 import { ConditionGain } from '../ConditionGain';
 import { Condition } from '../Condition';
@@ -44,24 +43,15 @@ export class ItemComponent implements OnInit {
         public characterService: CharacterService,
         private itemsService: ItemsService,
         private spellsService: SpellsService,
-        private conditionsService: ConditionsService,
-        popoverConfig: NgbPopoverConfig
-    ) {
-        popoverConfig.autoClose = "outside";
-        popoverConfig.container = "body";
-        //For touch compatibility, this openDelay prevents the popover from closing immediately on tap because a tap counts as hover and then click;
-        popoverConfig.openDelay = 50;
-        popoverConfig.placement = "auto";
-        popoverConfig.popoverClass = "list-item sublist";
-        popoverConfig.triggers = "hover:click";
-    }
+        private conditionsService: ConditionsService
+    ) { }
 
     trackByIndex(index: number, obj: any): any {
         return index;
     }
-    
+
     get_Creature(type: string = this.creature) {
-        return this.characterService.get_Creature(type) as Character|AnimalCompanion;
+        return this.characterService.get_Creature(type) as Character | AnimalCompanion;
     }
 
     get_Traits(name: string = "") {
@@ -84,17 +74,17 @@ export class ItemComponent implements OnInit {
                 let price: number = this.get_FullPrice(item);
                 let priceString: string = "";
                 if (price >= 100) {
-                    priceString += Math.floor(price / 100)+"gp";
+                    priceString += Math.floor(price / 100) + "gp";
                     price %= 100;
-                    if (price >= 10) {priceString += " ";}
+                    if (price >= 10) { priceString += " "; }
                 }
                 if (price >= 10) {
-                    priceString += Math.floor(price / 10)+"sp";
+                    priceString += Math.floor(price / 10) + "sp";
                     price %= 10;
-                    if (price >= 1) {priceString += " ";}
+                    if (price >= 1) { priceString += " "; }
                 }
                 if (price >= 1) {
-                    priceString += price+"cp";
+                    priceString += price + "cp";
                 }
                 return priceString;
             }
@@ -142,7 +132,7 @@ export class ItemComponent implements OnInit {
         this.characterService.process_ToChange();
     }
 
-    get_DoublingRingsOptions(ring:string) {
+    get_DoublingRingsOptions(ring: string) {
         switch (ring) {
             case "gold":
                 return this.get_Creature().inventories[0].weapons.filter(weapon => weapon.melee && weapon.potencyRune);

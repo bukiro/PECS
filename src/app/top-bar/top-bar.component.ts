@@ -1,7 +1,7 @@
 import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy, ViewChild } from '@angular/core';
 import { CharacterService } from '../character.service';
 import { SavegameService } from '../savegame.service';
-import { NgbActiveModal, NgbModal, NgbTooltipConfig } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { PlayerMessage } from '../PlayerMessage';
 import { MessageService } from '../message.service';
 import { TimeService } from '../time.service';
@@ -31,14 +31,8 @@ export class TopBarComponent implements OnInit {
         private timeService: TimeService,
         private toastService: ToastService,
         private modalService: NgbModal,
-        public modal: NgbActiveModal,
-        tooltipConfig: NgbTooltipConfig
-    ) {
-        tooltipConfig.container = "body";
-        //For touch compatibility, this openDelay prevents the tooltip from closing immediately on tap because a tap counts as hover and then click;
-        tooltipConfig.openDelay = 100;
-        tooltipConfig.triggers = "hover:click";
-    }
+        public modal: NgbActiveModal
+    ) { }
 
     trackByIndex(index: number, obj: any): any {
         return index;

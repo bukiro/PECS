@@ -18,7 +18,6 @@ import { Scroll } from '../Scroll';
 import { SpellCasting } from '../SpellCasting';
 import { ItemCollection } from '../ItemCollection';
 import { OtherConsumableBomb } from '../OtherConsumableBomb';
-import { NgbPopoverConfig, NgbTooltipConfig } from '@ng-bootstrap/ng-bootstrap';
 import { AlchemicalBomb } from '../AlchemicalBomb';
 
 @Component({
@@ -47,22 +46,8 @@ export class ItemsComponent implements OnInit {
     constructor(
         private changeDetector: ChangeDetectorRef,
         private itemsService: ItemsService,
-        private characterService: CharacterService,
-        tooltipConfig: NgbTooltipConfig,
-        popoverConfig: NgbPopoverConfig
-    ) {
-        popoverConfig.autoClose = "outside";
-        popoverConfig.container = "body";
-        //For touch compatibility, this openDelay prevents the popover from closing immediately on tap because a tap counts as hover and then click;
-        popoverConfig.openDelay = 50;
-        popoverConfig.placement = "auto";
-        popoverConfig.popoverClass = "list-item sublist";
-        popoverConfig.triggers = "click";
-        tooltipConfig.container = "body";
-        //For touch compatibility, this openDelay prevents the tooltip from closing immediately on tap because a tap counts as hover and then click;
-        tooltipConfig.openDelay = 100;
-        tooltipConfig.triggers = "hover:click";
-    }
+        private characterService: CharacterService
+    ) { }
 
     toggle_List(type: string) {
         if (this.showList == type) {

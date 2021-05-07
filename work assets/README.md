@@ -122,14 +122,11 @@ Internal To Do list
 - [ ] Stretch Goal: Exporting statblock and files for other tools (e.g. Foundry VTT)
 
 Active to-do:
-- Block automatic checking for effects while effect modal is open.
+- Implement tile mode for activities
 
 Test:
 
 Next steps:
-- Implement tile mode for activities
-- Check if Battle Prayer can be consolidated into one activity
-- Check if Favored Terrain can be consolidated into one activity
 - Many Activities need conditions (caster conditions at least)
 - Implement method to ignore single effects
 - Check if any item activities need a target other than self

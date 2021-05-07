@@ -5,7 +5,6 @@ import { EffectsService } from '../effects.service';
 import { ItemsService } from '../items.service';
 import { SpellsService } from '../spells.service';
 import { ConditionsService } from '../conditions.service';
-import { NgbTooltipConfig } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
     selector: 'app-time',
@@ -30,13 +29,7 @@ export class TimeComponent implements OnInit {
         private spellsService: SpellsService,
         private effectsService: EffectsService,
         private conditionsService: ConditionsService,
-        tooltipConfig: NgbTooltipConfig
-    ) {
-        tooltipConfig.container = "body";
-        //For touch compatibility, this openDelay prevents the tooltip from closing immediately on tap because a tap counts as hover and then click;
-        tooltipConfig.openDelay = 100;
-        tooltipConfig.triggers = "hover:click";
-    }
+    ) { }
 
     minimize() {
         this.characterService.get_Character().settings.timeMinimized = !this.characterService.get_Character().settings.timeMinimized;
