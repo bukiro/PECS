@@ -860,7 +860,7 @@
                     <div class="list-item" *ngIf="!get_Savegames()">
                         Database connection failed.
                     </div>
-                    <div class="list-item gridicon-fullsizebox">
+                    <div *ngIf="get_Savegames() && get_Savegames().length" class="list-item gridicon-fullsizebox">
                         <input class="character-choice" id="loadAsGM" type="checkbox" [(ngModel)]="loadAsGM">
                         <span>
                             <label for="loadAsGM">
