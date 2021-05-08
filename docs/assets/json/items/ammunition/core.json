@@ -121,7 +121,7 @@
         ]
     },
     {
-        "desc": "Leafy stalks protrude from the shaft of this rustic arrow. When an activated vine arrow hits a target, the arrow's shaft splits and grows, wrapping the target in vines. The target takes a –10-foot circumstance penalty to its Speeds for 2d4 rounds, or until it Escapes against a DC of 19. On a critical hit, the target is also immobilized until it Escapes.",
+        "desc": "Leafy stalks protrude from the shaft of this rustic arrow. When an activated vine arrow hits a target, the arrow's shaft splits and grows, wrapping the target in vines. The target takes a -10-foot circumstance penalty to its Speeds for 2d4 rounds, or until it Escapes against a DC of 19. On a critical hit, the target is also immobilized until it Escapes.",
         "actions": "1A",
         "activationType": "Command",
         "id": "c6e4d7b3-9dee-43ef-b3a1-ba371cfc13c6",
