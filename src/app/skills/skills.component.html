@@ -26,7 +26,29 @@
                 <app-skill [creature]="creature" [skill]=skill></app-skill>
             </ng-container>
         </ng-container>
-        <header class="sectionHeader box-header">Movement</header>
+        <ng-template #SpeedEffectsPopoverContent>
+            <div class="fullsize-only newrow">
+                <app-objectEffects [creature]="creature" [objectName]="'Land Speed'"></app-objectEffects>
+            </div>
+            <div class="fullsize-only newrow">
+                <app-objectEffects [creature]="creature" [objectName]="'Burrow Speed'"></app-objectEffects>
+            </div>
+            <div class="fullsize-only newrow">
+                <app-objectEffects [creature]="creature" [objectName]="'Climb Speed'"></app-objectEffects>
+            </div>
+            <div class="fullsize-only newrow">
+                <app-objectEffects [creature]="creature" [objectName]="'Fly Speed'"></app-objectEffects>
+            </div>
+            <div class="fullsize-only newrow">
+                <app-objectEffects [creature]="creature" [objectName]="'Swim Speed'"></app-objectEffects>
+            </div>
+        </ng-template>
+        <header class="sectionHeader box-header">
+            <span class="fullsize-only" [ngbPopover]="SpeedEffectsPopoverContent" #SpeedEffectsPopover="ngbPopover" triggers="click">
+                <i [ngbTooltip]="!SpeedEffectsPopover.isOpen() ? 'Edit effects' : ''" class='bi-lightning-charge'></i>
+            </span>
+            Movement
+        </header>
         <ng-container *ngFor="let speed of get_Speeds(); trackBy:trackByIndex;">
             <div class="list-item">
                 <div class="newrow">

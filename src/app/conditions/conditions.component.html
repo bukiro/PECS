@@ -88,11 +88,9 @@
                                     <ng-container *ngFor="let condition of visibleConditions; trackBy:trackByIndex;">
                                         <ng-template #ConditionTitleTemplate>
                                             <span *ngIf="!get_TileMode()">
-                                                <i class="value bi-patch-plus bonus"
-                                                    *ngIf="condition.buff"
+                                                <i class="value bi-patch-plus bonus" *ngIf="condition.buff"
                                                     [ngbTooltip]="'Positive condition'"></i>
-                                                <i class="value bi-patch-minus-fill penalty"
-                                                    *ngIf="!condition.buff"
+                                                <i class="value bi-patch-minus-fill penalty" *ngIf="!condition.buff"
                                                     [ngbTooltip]="'Negative condition'"></i>
                                             </span>
                                             {{condition.name}}
@@ -249,9 +247,83 @@
                     </ng-container>
                     <ng-container *ngIf="get_ShowPurpose()=='customeffects'">
                         <header class="sectionHeader">Custom Effects</header>
+                        <ng-container *ngFor="let creature of get_Creatures(); trackBy:trackByIndex;">
+                            <button class="list-item" (click)="toggle_List('customEffects'+creature.type)">
+                                <header class="sectionHeader">Custom effects on {{creature.type}}</header>
+                            </button>
+                            <div class="list-item" *ngIf="get_ShowList()=='customEffects'+creature.type">
+                                <button class="newrow center-aligned" (click)="new_CustomEffect(creature)">Add
+                                    effect</button>
+                                <ng-container
+                                    *ngFor="let effect of creature.effects; let index = index; trackBy:trackByIndex;">
+                                    <div class="list-item"
+                                        *ngFor="let effectResult of get_EffectValue(creature, effect); trackBy:trackByIndex;">
+                                        <ng-template #FormulaTemplate>
+                                            <strong>Formula</strong>
+                                            {{effect.setValue || effect.value || ''}}
+                                        </ng-template>
+                                        <div class="newrow">
+                                            <span class="hlist">
+                                                <strong class="no-shadow">Target</strong>
+                                                <input type="text" id="customEffectAffected{{creature.type}}{{index}}"
+                                                    maxLength="30" [(ngModel)]="effect.affected"
+                                                    (blur)="update_Effects(creature)">
+                                            </span>
+                                        </div>
+                                        <div class="newrow">
+                                            <span class="hlist">
+                                                <strong class="no-shadow">Source</strong>
+                                                <input type="text" id="customEffectSource{{creature.type}}{{index}}"
+                                                    maxLength="30" [(ngModel)]="effect.source"
+                                                    (blur)="update_Effects(creature)">
+                                            </span>
+                                            <span class="hlist">
+                                                <strong class="no-shadow">Type</strong>
+                                                <select [(ngModel)]="effect.type"
+                                                    (ngModelChange)="update_Effects(creature)">
+                                                    <option
+                                                        *ngFor="let type of get_BonusTypes(); trackBy:trackByIndex;">
+                                                        {{type}}
+                                                    </option>
+                                                </select>
+                                            </span>
+                                            <span class="hlist">
+                                                <strong class="no-shadow">Value</strong>
+                                                <ng-container
+                                                    *ngIf="effect.setValue || (effect.value && get_IsFormula(effect.value))">
+                                                    <span>
+                                                        <span class="value"
+                                                            *ngFor="let value of [get_EffectValue(creature, effect)]; trackBy:trackByIndex;"
+                                                            [ngClass]="{'absolute':value[0]=='=', 'bonus':value[0]=='+', 'penalty':value[0]=='-'}">
+                                                            {{value}}
+                                                        </span>
+                                                        <i [ngbPopover]="FormulaTemplate"
+                                                            *ngIf="get_IsFormula(effect.setValue ? effect.setValue : effect.value)"
+                                                            class="bi-calculator"></i>
+                                                    </span>
+                                                </ng-container>
+                                                <ng-container *ngIf="effect.toggle">
+                                                    <span class="value absolute">
+                                                        on
+                                                    </span>
+                                                </ng-container>
+                                                <ng-container *ngIf="!effect.setValue && !get_IsFormula(effect.value)">
+                                                    <input type="number" class="number4"
+                                                        id="customEffectValue{{creature.type}}{{index}}" maxLength="30"
+                                                        [(ngModel)]="effect.value" (blur)="validate(creature, effect)"
+                                                        (keypress)="numbersOnly($event)">
+                                                </ng-container>
+                                            </span>
+                                            <button style="flex-basis:auto;flex-grow:0;"
+                                                (click)="remove_Effect(creature, effect)">Remove</button>
+                                        </div>
+                                    </div>
+                                </ng-container>
+                            </div>
+                        </ng-container>
                         <button class="list-item" (click)="toggle_List('addCustomEffect')"
                             *ngIf="get_ShowPurpose()=='customeffects'">
-                            <header class="sectionHeader">Add Custom Effect</header>
+                            <header class="sectionHeader">Create advanced custom effect</header>
                         </button>
                         <div class="newrow list-item"
                             *ngIf="get_ShowPurpose()=='customeffects' && get_ShowList()=='addCustomEffect'">
@@ -259,19 +331,19 @@
                                 *ngFor="let property of get_CustomEffectProperties(); let index = index; trackBy:trackByIndex;">
                                 <div class="newrow left-aligned">
                                     <strong [ngbPopover]="property.desc"
-                                        triggers="hover:click">{{property.name}}</strong>
+                                        triggers="hover:click">{{property.name}} <i class="bi-question-circle"></i></strong>
                                 </div>
                                 <div class="newrow">
                                     <input class="newrow" type="text" [(ngModel)]="newEffect[property.key]"
-                                        (blur)="validate(property.key, index)"
+                                        (blur)="validate_AdvancedEffect(property.key, index)"
                                         *ngIf="!property.type && !property.locked">
                                     <textarea class="newrow" rows=3 [(ngModel)]="newEffect[property.key]"
                                         *ngIf="property.type=='textarea'"></textarea>
                                     <input type="checkbox" [(ngModel)]="newEffect[property.key]"
                                         *ngIf="property.type=='checkbox'">
                                     <input type="number" [(ngModel)]="newEffect[property.key]"
-                                        (blur)="validate(property, index)" (keypress)="numbersOnly($event)"
-                                        *ngIf="property.type=='number'">
+                                        (blur)="validate_AdvancedEffect(property, index)"
+                                        (keypress)="numbersOnly($event)" *ngIf="property.type=='number'">
                                 </div>
                                 <div class="newrow" *ngIf="validationError[index]">
                                     <span class="problem">{{validationError[index]}}</span>
@@ -283,7 +355,7 @@
                                     *ngIf="property.type!='textarea' && property.type!='checkbox'">
                                     <select class="newrow" [(ngModel)]="newEffect[property.key]"
                                         [disabled]="!get_Examples(property).length"
-                                        (ngModelChange)="validate(property, index)">
+                                        (ngModelChange)="validate_AdvancedEffect(property, index)">
                                         <option *ngFor="let example of get_Examples(property); trackBy:trackByIndex;"
                                             [ngValue]="example">
                                             {{example}}
@@ -299,47 +371,6 @@
                                 </button>
                             </div>
                         </div>
-                        <ng-container *ngFor="let creature of get_Creatures(); trackBy:trackByIndex;">
-                            <ng-container *ngIf="creature.effects.length">
-                                <button class="list-item" (click)="toggle_List('customEffects'+creature.type)">
-                                    <header class="sectionHeader">Custom effects on {{creature.type}}</header>
-                                </button>
-                                <div class="list-item" *ngIf="get_ShowList()=='customEffects'+creature.type">
-                                    <ng-container
-                                        *ngFor="let effectGain of creature.effects; let index = index; trackBy:trackByIndex;">
-                                        <div class="list-item"
-                                            *ngFor="let effectResult of get_EffectValue(creature, effectGain); trackBy:trackByIndex;">
-                                            <span>
-                                                <span>{{effectGain.source || "Custom effect"}}: </span>
-                                                <ng-template #FormulaTemplate>
-                                                    <strong>Formula</strong>&nbsp;
-                                                    {{effectGain.setValue || effectGain.value || ''}}
-                                                </ng-template>
-                                                <strong [ngbPopover]="FormulaTemplate"
-                                                    [ngClass]="{'penalty':effectResult.penalty, 'bonus':!effectResult.penalty && !effectResult.setValue, 'absolute':effectResult.setValue}"
-                                                    triggers="hover:click">{{effectGain.affected}}
-                                                    {{parseInt(effectResult.value) ? effectResult.value :
-                                                    ''}}{{effectResult.setValue ? "= "+effectResult.setValue : ''}}
-                                                </strong>
-                                                <span
-                                                    *ngIf="effectResult.value || effectResult.setValue || effectResult.toggle">{{(effectResult.type
-                                                    != "untyped") ? effectResult.type+' ' : ''}}{{(effectResult.toggle
-                                                    ||
-                                                    effectResult.setValue) ? '' : (effectResult.penalty ? 'penalty' :
-                                                    'bonus')}}</span>
-                                                <span
-                                                    *ngIf="!effectResult.value && !effectResult.setValue && !effectResult.toggle">no
-                                                    effect</span> {{effectGain.duration ? "(" +
-                                                get_Duration(effectGain.duration) + ")" : ''}}
-                                            </span>
-                                            <button class="list-item newrow" (click)="remove_Effect(creature, index)">
-                                                Remove
-                                            </button>
-                                        </div>
-                                    </ng-container>
-                                </div>
-                            </ng-container>
-                        </ng-container>
                     </ng-container>
                 </div>
             </div>

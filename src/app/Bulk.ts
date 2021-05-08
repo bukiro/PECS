@@ -9,6 +9,7 @@ export class Bulk {
     calculate(creature: Character | AnimalCompanion, characterService: CharacterService, effectsService: EffectsService) {
         let maxabsolutes = this.absolutes(creature, effectsService, "Max Bulk");
         let currentabsolutes = this.absolutes(creature, effectsService, "Bulk");
+        let encumberedabsolutes = this.absolutes(creature, effectsService, "Encumbered Limit");
 
         let result = {
             maxabsolutes: maxabsolutes,
@@ -19,7 +20,10 @@ export class Bulk {
             currentbonuses: this.bonuses(creature, effectsService, "Bulk"),
             currentpenalties: this.penalties(creature, effectsService, "Bulk"),
             current: this.current(creature, characterService, effectsService, currentabsolutes),
-            encumbered: this.encumbered(creature, characterService, effectsService)
+            encumberedabsolutes: currentabsolutes,
+            encumberedbonuses: this.bonuses(creature, effectsService, "Encumbered Limit"),
+            encumberedpenalties: this.penalties(creature, effectsService, "Encumbered Limit"),
+            encumbered: this.encumbered(creature, characterService, effectsService, encumberedabsolutes)
         }
         return result;
     }

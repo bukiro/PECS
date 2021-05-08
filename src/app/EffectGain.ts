@@ -18,7 +18,7 @@ export class EffectGain {
     public type: string = "";
     public duration: number = 0;
     public maxDuration: number = 0;
-    //source and sourceId are copied from conditions and currently only used to track temporary HP.
+    //source and sourceId are copied from conditions and used to track temporary HP.
     public source: string = "";
     public sourceId: string = "";
     //spellSource is copied from conditions and used in value eval()s. Also only used to calculate temporary HP so far.

@@ -346,6 +346,10 @@ export class ConditionsComponent implements OnInit {
         return this.get_Character().inventories;
     }
 
+    get_IsFormula(value: string) {
+        return isNaN(parseInt(value));
+    }
+
     get_EffectInvalid() {
         if (!this.newEffect.affected || (!this.newEffect.toggle && !this.newEffect.setValue && this.newEffect.value == "0")) {
             return "This effect will not do anything."
@@ -366,8 +370,12 @@ export class ConditionsComponent implements OnInit {
         this.characterService.process_ToChange();
     }
 
-    remove_Effect(creature: Creature, index: number) {
-        creature.effects.splice(index, 1);
+    new_CustomEffect(creature: Creature) {
+        creature.effects.push(new EffectGain());
+    }
+
+    remove_Effect(creature: Creature, effect: EffectGain) {
+        creature.effects.splice(creature.effects.indexOf(effect), 1);
         this.characterService.set_ToChange(creature.type, "effects");
         this.characterService.set_ToChange(creature.type, "conditions");
         this.characterService.process_ToChange();
@@ -379,7 +387,14 @@ export class ConditionsComponent implements OnInit {
         this.characterService.process_ToChange();
     }
 
-    validate(propertyData: ItemProperty, index: number) {
+    validate(creature: Creature, effect: EffectGain) {
+        if (this.get_IsFormula(effect.value)) {
+            effect.value = "0";
+        }
+        this.update_Effects(creature);
+    }
+
+    validate_AdvancedEffect(propertyData: ItemProperty, index: number) {
         let value = this.newEffect[propertyData.key]
         if (propertyData.key == "value" && propertyData.parent == "effects") {
             if (value && value != "0") {
@@ -566,7 +581,7 @@ export class ConditionsComponent implements OnInit {
                 examples = examples.filter(example => typeof example == "string" && !example.toLowerCase().includes("object") && !example.toLowerCase().includes("heightened") && !example.toLowerCase().includes("value"));
                 break;
             case "effects type":
-                examples = ["", "item", "circumstance", "status", "proficiency"];
+                examples = this.get_BonusTypes();
                 break;
         }
 
@@ -581,6 +596,10 @@ export class ConditionsComponent implements OnInit {
                 }
                 return 0;
             });;
+    }
+    
+    get_BonusTypes() {
+        return this.effectsService.get_BonusTypes().map(type => type == "untyped" ? "" : type);
     }
 
     finish_Loading() {

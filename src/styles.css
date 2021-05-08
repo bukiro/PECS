@@ -1168,17 +1168,17 @@ button.list-item {
     background-color: #303030;
 }
 
-.list-item.sublist :not(.list-item)>strong,
-.list-item.sublist :not(.list-item)>span>strong,
-.modal-content strong {
+.list-item.sublist :not(.list-item)>strong:not(.no-shadow),
+.list-item.sublist :not(.list-item)>span>strong:not(.no-shadow),
+.modal-content strong:not(.no-shadow) {
     color: rgb(var(--accent));
     text-shadow: 0 0 2px white, 0 0 2px white, 0 0 2px white, 0 0 2px white, 0 0 2px white;
     text-shadow: 1px 0 2px white, 0 1px 2px white, -1px 0 2px white, 0 -1px 2px white, -1px -1px 2px white, -1px 1px 2px white, 1px -1px 2px white, 1px 1px 2px white;
 }
 
-.darkmode .list-item.sublist :not(.list-item)>strong,
-.darkmode .list-item.sublist :not(.list-item)>span>strong,
-.darkmode .modal-content strong {
+.darkmode .list-item.sublist :not(.list-item)>strong:not(.no-shadow),
+.darkmode .list-item.sublist :not(.list-item)>span>strong:not(.no-shadow),
+.darkmode .modal-content strong:not(.no-shadow) {
     text-shadow: 0 0 2px var(--textcolor), 0 0 2px var(--textcolor), 0 0 2px var(--textcolor), 0 0 2px var(--textcolor), 0 0 2px var(--textcolor);
     text-shadow: 1px 0 2px var(--textcolor), 0 1px 2px var(--textcolor), -1px 0 2px var(--textcolor), 0 -1px 2px var(--textcolor), -1px -1px 2px var(--textcolor), -1px 1px 2px var(--textcolor), 1px -1px 2px var(--textcolor), 1px 1px 2px var(--textcolor);
 }
@@ -1995,36 +1995,36 @@ SPECIFIC STYLE MODIFIERS
     background-color: rgb(100, 50, 50)
 }
 
-.absolute,
-cite.condition.absolute,
-cite.effect.absolute {
+.absolute:not(.value),
+cite.condition.absolute:not(.value),
+cite.effect.absolute:not(.value) {
     color: blue;
 }
 
-.darkmode .absolute:not(cite) {
+.darkmode .absolute:not(cite):not(.value) {
     color: aqua;
 }
 
-.bonus,
-cite.condition.bonus,
-cite.effect.bonus {
+.bonus:not(.value),
+cite.condition.bonus:not(.value),
+cite.effect.bonus:not(.value) {
     color: green;
 }
 
-.darkmode .bonus:not(cite) {
+.darkmode .bonus:not(cite):not(.value) {
     color: lightgreen;
 }
 
-.penalty,
-cite.condition.penalty,
-cite.effect.penalty {
+.penalty:not(.value),
+cite.condition.penalty:not(.value),
+cite.effect.penalty:not(.value) {
     color: #500000;
 }
 
         /* add '.darkmode .penalty:not(cite)' only to override the equivalent .bonus and .absolute rules. */
 
-.darkmode .penalty,
-.darkmode .penalty:not(cite) {
+.darkmode .penalty:not(.value),
+.darkmode .penalty:not(cite):not(.value) {
     color: red
 }
 
@@ -2108,14 +2108,22 @@ span.problem {
 .value {
     display: inline-block;
     font-weight: bold;
-    margin-left: auto;
-    margin-right: auto;
     border-radius: .3rem;
     padding: 0 1em;
 }
 
 .newrow:not(.left-aligned):not(.center-aligned)>*:last-child:not(:first-child)>.value {
     margin-right: 0;
+}
+
+.value.absolute {
+    background-color: lightblue;
+    color: #616161;
+    color: var(--textcolor);
+}
+
+.darkmode .value.absolute {
+    background-color: blue;
 }
 
 .value.bonus {
@@ -2136,16 +2144,6 @@ span.problem {
 
 .darkmode .value.penalty {
     background-color: #500000;
-}
-
-.value.absolute {
-    background-color: lightblue;
-    color: #616161;
-    color: var(--textcolor);
-}
-
-.darkmode .value.absolute {
-    background-color: blue;
 }
 
 /* Variable values in descriptions */

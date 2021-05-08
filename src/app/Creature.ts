@@ -20,4 +20,5 @@ export class Creature {
     public speeds: Speed[] = [new Speed("Speed"), new Speed("Land Speed")];
     public bulk: Bulk = new Bulk();
     public notes: string = "";
+    public skillNotes: {name: string, showNotes: boolean, notes: string}[] = [];
 }

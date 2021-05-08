@@ -22,8 +22,19 @@
     <ng-container *ngIf="!still_loading()">
         <app-tags [creature]="creature" [objectName]="'Activities'" [showTraits]=true [showFeats]=true [showItems]=true
             [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
+        <ng-template #EffectsPopoverContent>
+            <div class="fullsize-only newrow">
+                <app-objectEffects [creature]="creature" [objectName]="'Class DCs'"></app-objectEffects>
+            </div>
+        </ng-template>
         <div class="vlist">
-            <header class="subsectionHeader fullsize-only">Class DCs</header>
+            <header class="subsectionHeader fullsize-only">
+                <span class="fullsize-only" [ngbPopover]="EffectsPopoverContent" #EffectsPopover="ngbPopover"
+                    triggers="click">
+                    <i [ngbTooltip]="!EffectsPopover.isOpen() ? 'Edit effects' : ''" class='bi-lightning-charge'></i>
+                </span>
+                Class DCs
+            </header>
             <app-skill [skill]=skill [isDC]=true
                 *ngFor="let skill of get_ClassDCs(); let index = index; trackBy:trackByIndex;"></app-skill>
         </div>

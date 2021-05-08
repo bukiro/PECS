@@ -12,6 +12,7 @@ export class Skill {
     public readonly _className: string = this.constructor.name;
     public notes: string = "";
     public showNotes: boolean = false;
+    public showEffects: boolean = false;
     constructor(
         public ability: string = "",
         public name: string = "",
@@ -78,6 +79,7 @@ export class Skill {
         if (this.name.includes("Lore")) { list.push("Lore") }
         if (this.name.includes("Spell DC") && !isDC) { list.push("Attack Rolls"); list.push("Spell Attack Rolls") }
         if (this.name.includes("Spell DC") && isDC) { list.push("Spell DCs") }
+        if (this.name.includes("Class DC")) { list.push("Class DCs") }
         if (this.recallKnowledge) {
             list.push("Recall Knowledge Checks")
             if (creature.type != "Familiar") {

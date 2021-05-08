@@ -65,9 +65,10 @@ import { LicensesComponent } from './character/licenses/licenses.component';
 import { ToastContainerComponent } from './toast-container/toast-container.component';
 import { SpellTargetComponent } from './spellTarget/spellTarget.component';
 import { StickyPopoverDirective } from './StickyPopover.directive';
+import { ObjectEffectsComponent } from './objectEffects/objectEffects.component';
 
 @NgModule({
-   declarations: [		 
+   declarations: [			 
       AppComponent,
       AbilitiesComponent,
       TopBarComponent,
@@ -124,7 +125,8 @@ import { StickyPopoverDirective } from './StickyPopover.directive';
       LicensesComponent,
       ToastContainerComponent,
       SpellTargetComponent,
-      StickyPopoverDirective
+      StickyPopoverDirective,
+      ObjectEffectsComponent
    ],
    imports: [
       BrowserModule,

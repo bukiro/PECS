@@ -122,8 +122,6 @@ Internal To Do list
 - [ ] Stretch Goal: Exporting statblock and files for other tools (e.g. Foundry VTT)
 
 Active to-do:
-- Quick Effects button for Skills, AC, Speeds, Spell Attack Rolls and DCs, Class DCs and general Attack Rolls
-- Quick removal button for manual effects
 
 Test:
 

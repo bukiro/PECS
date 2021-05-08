@@ -6,10 +6,20 @@
 </button>
 <div id="{{creature}}-defense-height" class="attributeBox">
     <ng-container *ngFor="let calculatedAC of [get_CalculatedAC()]; trackBy:trackByIndex;">
-        <header class="sectionHeader box-header">Defense: Armor Class
+        <ng-template #EffectsPopoverContent>
+            <div class="fullsize-only newrow">
+                <app-objectEffects [creature]="creature" [objectName]="'AC'"></app-objectEffects>
+            </div>
+        </ng-template>
+        <header class="sectionHeader box-header">
+            <span class="fullsize-only" [ngbPopover]="EffectsPopoverContent" #EffectsPopover="ngbPopover" triggers="click">
+                <i [ngbTooltip]="!EffectsPopover.isOpen() ? 'Edit effects' : ''" class='bi-lightning-charge'></i>
+            </span>
+            Defense: Armor Class
             <span [ngbPopover]="calculatedAC.value.explain"
                 [ngClass]="{'penalty':calculatedAC.penalties, 'bonus':calculatedAC.bonuses, 'absolute':calculatedAC.absolutes.length}">
-                {{calculatedAC.value.result}}</span>
+                {{calculatedAC.value.result}}
+            </span>
         </header>
         <div class="loading" *ngIf="still_loading()">Loading</div>
         <ng-container *ngIf="!still_loading()">

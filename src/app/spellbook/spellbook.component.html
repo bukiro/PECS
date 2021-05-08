@@ -24,8 +24,22 @@
             [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
         <button class="fullsize-only center-aligned list-item" *ngIf="get_HasSpells()"
             (click)="toggleSpellsMenu()">Prepare Spells</button>
+        <ng-template #SpellAttacksEffectsPopoverContent>
+            <div class="fullsize-only newrow">
+                <app-objectEffects [creature]="'Character'" [objectName]="'Spell Attack Rolls'"></app-objectEffects>
+            </div>
+            <div class="fullsize-only newrow">
+                <app-objectEffects [creature]="'Character'" [objectName]="'Spell DCs'"></app-objectEffects>
+            </div>
+        </ng-template>
         <ng-container *ngFor="let skill of get_SpellDCs(); let index = index; trackBy:trackByIndex;">
-            <header class="sectionHeader fullsize-only" *ngIf="index == 0">Spell Attacks & DCs</header>
+            <header class="sectionHeader fullsize-only" *ngIf="index == 0">
+                <span class="fullsize-only" [ngbPopover]="SpellAttacksEffectsPopoverContent" #SpellAttacksEffectsPopover="ngbPopover"
+                    triggers="click">
+                    <i [ngbTooltip]="!SpellAttacksEffectsPopover.isOpen() ? 'Edit effects' : ''" class='bi-lightning-charge'></i>
+                </span>
+                Spell Attacks & DCs
+            </header>
             <app-skill [skill]=skill [isDC]=false></app-skill>
             <app-skill [skill]=skill [isDC]=true></app-skill>
         </ng-container>

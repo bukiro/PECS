@@ -1,0 +1,49 @@
+<div class="vlist">
+    <header class="subsectionHeader">
+        Custom effects on {{objectName}}
+    </header>
+    <button class="newrow center-aligned" (click)="new_CustomEffectOnThis()">Add effect</button>
+    <div class="newrow list-item" *ngFor="let effect of get_CustomEffectsOnThis(); let index = index; trackBy:trackByIndex;">
+        <ng-template #FormulaTemplate>
+            <strong>Formula</strong>
+            {{effect.setValue || effect.value || ''}}
+        </ng-template>
+        <span class="hlist">
+            <strong class="no-shadow">Source</strong>
+            <input type="text" id="customEffectSource{{objectName}}{{index}}" maxLength="30" [(ngModel)]="effect.source"
+                (blur)="update_Effects()">
+        </span>
+        <span class="hlist">
+            <strong class="no-shadow">Type</strong>
+            <select [(ngModel)]="effect.type" (ngModelChange)="update_Effects()">
+                <option *ngFor="let type of get_BonusTypes(); trackBy:trackByIndex;">
+                    {{type}}
+                </option>
+            </select>
+        </span>
+        <span class="hlist">
+            <strong class="no-shadow">Value</strong>
+            <ng-container *ngIf="effect.setValue || (effect.value && get_IsFormula(effect.value))">
+                <span>
+                    <span class="value" *ngFor="let value of [get_EffectValue(effect)]; trackBy:trackByIndex;"
+                        [ngClass]="{'absolute':value[0]=='=', 'bonus':value[0]=='+', 'penalty':value[0]=='-'}">
+                        {{value}}
+                    </span>
+                    <i [ngbPopover]="FormulaTemplate"
+                        *ngIf="get_IsFormula(effect.setValue ? effect.setValue : effect.value)"
+                        class="bi-calculator"></i>
+                </span>
+            </ng-container>
+            <ng-container *ngIf="effect.toggle">
+                <span class="value absolute">
+                    on
+                </span>
+            </ng-container>
+            <ng-container *ngIf="!effect.setValue && !get_IsFormula(effect.value)">
+                <input type="number" class="number4" id="customEffectValue{{objectName}}{{index}}" maxLength="30"
+                    [(ngModel)]="effect.value" (blur)="validate(effect)" (keypress)="numbersOnly($event)">
+            </ng-container>
+        </span>
+        <button style="flex-basis:auto;flex-grow:0;" (click)="remove_CustomEffect(effect)">Remove</button>
+    </div>
+</div>

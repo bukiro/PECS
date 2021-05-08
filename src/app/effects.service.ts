@@ -34,7 +34,7 @@ export class EffectsService {
 
     private effects: EffectCollection[] = [new EffectCollection(), new EffectCollection(), new EffectCollection()];
     //The bonus types are hardcoded. If Paizo ever adds a new bonus type, this is where we need to change them.
-    private bonusTypes: string[] = ["item", "circumstance", "status", "proficiency", "untyped"];
+    private bonusTypes: string[] = ["untyped", "item", "circumstance", "status", "proficiency"];
     private effectProperties: ItemProperty[] = [];
 
     constructor(
@@ -46,6 +46,10 @@ export class EffectsService {
     get_Effects(creature: string) {
         let index = this.get_CalculatedIndex(creature);
         return this.effects[index];
+    }
+    
+    get_BonusTypes() {
+        return this.bonusTypes;
     }
 
     get_CalculatedIndex(creature: string) {
@@ -1008,7 +1012,7 @@ export class EffectsService {
         let attacksWildcard: string[] = ["Attack Rolls", "Damage", "Dice Size", "Dice Number", "Proficiency Level", "Reach", "Damage Per Die"].map(name => name.toLowerCase());
         let individualskills: string[] = ["Perception", "Fortitude", "Reflex", "Will", "Acrobatics", "Arcana", "Athletics", "Crafting", "Deception", "Diplomacy", "Intimidation", "Medicine",
             "Nature", "Occultism", "Performance", "Religion", "Society", "Stealth", "Survival", "Thievery", "Fortitude", "Reflex", "Will"].map(name => name.toLowerCase());
-        let individualSkillsWildcard: string[] = ["Lore", "Class DC", "Spell DC"].map(name => name.toLowerCase());
+        let individualSkillsWildcard: string[] = ["Lore", "Class DC", "Spell DC", "Spell Attack", "Attack Rolls"].map(name => name.toLowerCase());
         let skillsWildcard: string[] = ["All Checks and DCs", "Skill Checks", "Untrained Skills", "Proficiency Level", "Recall Knowledge Checks", "Master Recall Knowledge Checks", "Saving Throws", "Speed"].map(name => name.toLowerCase());
         let inventory: string[] = ["Bulk", "Encumbered Limit", "Max Bulk", "Max Invested"].map(name => name.toLowerCase());
         let spellbook: string[] = ["Refocus Bonus Points", "Focus Points", "Focus Pool", "All Checks and DCs", "Attack Rolls", "Spell Attack Rolls", "Spell DCs"].map(name => name.toLowerCase());

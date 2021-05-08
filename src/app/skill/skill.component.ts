@@ -58,6 +58,19 @@ export class SkillComponent implements OnInit {
         }
     }
 
+    get_Notes(skill: Skill) {
+        if (this.get_Creature().customSkills.some(customSkill => customSkill.name == skill.name)) {
+            return skill;
+        } else {
+            if (this.get_Creature().skillNotes.some(note => note.name == skill.name)) {
+                return this.get_Creature().skillNotes.find(note => note.name == skill.name);
+            } else {
+                this.get_Creature().skillNotes.push({ name: skill.name, showNotes: false, notes: "" });
+                return this.get_Creature().skillNotes.find(note => note.name == skill.name);
+            }
+        }
+    }
+
     get_SpecialShowon(skill: Skill) {
         let creature = this.get_Creature();
         //Under certain circumstances, some Feats apply to skills independently of their name.
@@ -105,8 +118,20 @@ export class SkillComponent implements OnInit {
                                 (
                                     [this.skill.name.toLowerCase(), this.skill.ability.toLowerCase(), "all"].includes(view.subtarget.toLowerCase()) ||
                                     (
-                                        this.get_Name(this.skill).toLowerCase().includes("attacks") &&
-                                        view.subtarget == "attacks"
+                                        this.get_Name(this.skill).toLowerCase().includes("attack") &&
+                                        view.subtarget.toLowerCase() == "attacks"
+                                    ) ||
+                                    (
+                                        this.get_Name(this.skill).toLowerCase().includes("spell attack") &&
+                                        view.subtarget.toLowerCase().includes("spell attack")
+                                    ) ||
+                                    (
+                                        this.get_Name(this.skill).toLowerCase().includes("spell dc") &&
+                                        view.subtarget.toLowerCase().includes("spell dc")
+                                    ) ||
+                                    (
+                                        this.get_Name(this.skill).toLowerCase().includes("class dc") &&
+                                        view.subtarget.toLowerCase().includes("class dc")
                                     )
                                 )
                             )

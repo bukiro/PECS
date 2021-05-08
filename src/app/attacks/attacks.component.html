@@ -5,7 +5,20 @@
     <i class='bi-arrows-expand' *ngIf="!get_Minimized()"></i>
 </button>
 <div id="{{creature}}-attacks-height" class="attributeBox">
-    <header class="sectionHeader box-header">Attacks</header>
+    <ng-template #EffectsPopoverContent>
+        <div class="fullsize-only newrow">
+            <app-objectEffects [creature]="creature" [objectName]="'Attack Rolls'"></app-objectEffects>
+        </div>
+        <div class="fullsize-only newrow">
+            <app-objectEffects [creature]="creature" [objectName]="'Damage Rolls'"></app-objectEffects>
+        </div>
+    </ng-template>
+    <header class="sectionHeader box-header">
+        <span class="fullsize-only" [ngbPopover]="EffectsPopoverContent" #EffectsPopover="ngbPopover" triggers="click">
+            <i [ngbTooltip]="!EffectsPopover.isOpen() ? 'Edit effects' : ''" class='bi-lightning-charge'></i>
+        </span>
+        Attacks
+    </header>
     <div class="loading" *ngIf="still_loading()">Loading</div>
     <ng-container *ngIf="!still_loading()">
         <app-tags [creature]="creature" [objectName]="'Attacks'" [showTraits]=true [showFeats]=true [showItems]=true

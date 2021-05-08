@@ -52,12 +52,24 @@
                 <app-tags [creature]="creature" [objectName]="'Bulk'" [showTraits]=true [showFeats]=true
                     [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
             </div>
+            <ng-template #EncumbranceLimitEffectsPopoverContent>
+                <div class="fullsize-only newrow">
+                    <app-objectEffects [creature]="creature" [objectName]="'Encumbered Limit'"></app-objectEffects>
+                </div>
+            </ng-template>
             <div class="fullsize-only list-item">
                 <div class="newrow">
-                    <strong>Encumbrance Limit</strong>
+                    <span class="hlist">
+                        <span class="fullsize-only" [ngbPopover]="EncumbranceLimitEffectsPopoverContent"
+                            #EncumbranceLimitEffectsPopover="ngbPopover" triggers="click">
+                            <i [ngbTooltip]="!EncumbranceLimitEffectsPopover.isOpen() ? 'Edit effects' : ''"
+                                class='bi-lightning-charge'></i>
+                        </span>
+                        <strong>Encumbrance Limit</strong>
+                    </span>
                     <span>
                         <div class="value" [ngbPopover]="calculatedBulk.encumbered?.explain"
-                            [ngClass]="{'penalty':calculatedBulk.penalties, 'bonus':calculatedBulk.bonuses, 'absolute':calculatedBulk.absolutes?.length}">
+                            [ngClass]="{'penalty':calculatedBulk.encumberedpenalties, 'bonus':calculatedBulk.encumberedbonuses, 'absolute':calculatedBulk.encumberedabsolutes?.length}">
                             {{calculatedBulk.encumbered?.value}}
                         </div>
                     </span>
@@ -65,9 +77,21 @@
                 <app-tags [creature]="creature" [objectName]="'Encumbered Limit'" [showTraits]=true [showFeats]=true
                     [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
             </div>
+            <ng-template #MaxBulkEffectsPopoverContent>
+                <div class="fullsize-only newrow">
+                    <app-objectEffects [creature]="creature" [objectName]="'Max Bulk'"></app-objectEffects>
+                </div>
+            </ng-template>
             <div class="fullsize-only list-item">
                 <div class="newrow">
-                    <strong>Maximum Bulk</strong>
+                    <span class="hlist">
+                        <span class="fullsize-only" [ngbPopover]="MaxBulkEffectsPopoverContent"
+                            #MaxBulkEffectsPopover="ngbPopover" triggers="click">
+                            <i [ngbTooltip]="!MaxBulkEffectsPopover.isOpen() ? 'Edit effects' : ''"
+                                class='bi-lightning-charge'></i>
+                        </span>
+                        <strong>Maximum Bulk</strong>
+                    </span>
                     <span>
                         <div class="value" [ngbPopover]="calculatedBulk.max?.explain"
                             [ngClass]="{'penalty':calculatedBulk.maxpenalties, 'bonus':calculatedBulk.maxbonuses, 'absolute':calculatedBulk.maxabsolutes?.length}">
@@ -122,13 +146,25 @@
         <header class="sectionHeader fullsize-only box-header">Items</header>
         <app-tags [creature]="creature" [objectName]="'Inventory'" [showTraits]=true [showFeats]=true [showItems]=true
             [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
+        <ng-template #MaxInvestedEffectsPopoverContent>
+            <div class="fullsize-only newrow">
+                <app-objectEffects [creature]="creature" [objectName]="'Max Invested'"></app-objectEffects>
+            </div>
+        </ng-template>
         <div class="fullsize-only list-item" *ngFor="let maxInvested of [get_MaxInvested()]; trackBy:trackByIndex;">
             <strong>Invested</strong>
             <div class="value" [ngClass]="{'problem':(get_Invested() > maxInvested.value)}">
                 {{get_Invested()}}
             </div>
-            <strong>Max Invested</strong>
-            <div class="value" [ngbPopover]="maxInvested.explain"
+            <span class="hlist">
+                <span class="fullsize-only" [ngbPopover]="MaxInvestedEffectsPopoverContent"
+                    #MaxInvestedEffectsPopover="ngbPopover" triggers="click">
+                    <i [ngbTooltip]="!MaxInvestedEffectsPopover.isOpen() ? 'Edit effects' : ''"
+                        class='bi-lightning-charge'></i>
+                </span>
+                <strong>Max Invested</strong>
+            </span>
+            <div class="value right-aligned" [ngbPopover]="maxInvested.explain"
                 [ngClass]="{'penalty':maxInvested.penalties, 'bonus':maxInvested.bonuses, 'absolute':maxInvested.absolutes}">
                 {{get_MaxInvested().value}}
             </div>
