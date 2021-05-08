@@ -85,6 +85,10 @@ export class EffectsComponent implements OnInit {
         return obj.target + obj.setValue + obj.value + (obj.toggle ? "true" : "false") + (obj.penalty ? "true" : "false") + index.toString();
     }
 
+    get_ManualMode() {
+        return this.characterService.get_ManualMode();
+    }
+
     get_Creature() {
         return this.characterService.get_Creature(this.creature);
     }
@@ -176,7 +180,8 @@ export class EffectsComponent implements OnInit {
     calculate_InventoryEffects() {
         let speedRune: boolean = false;
         let enfeebledRune: boolean = false;
-        if (this.creature != "Familiar") {
+        //Conditions caused by equipment are not calculated for Familiars (who don't have an inventory) or in manual mode.
+        if (this.creature != "Familiar" && !this.get_ManualMode()) {
             this.get_Creature().inventories.forEach(inventory => {
                 inventory.allEquipment().forEach(item => {
                     item.propertyRunes.forEach(rune => {
@@ -220,7 +225,8 @@ export class EffectsComponent implements OnInit {
     }
 
     calculate_Bulk() {
-        if (this.creature != "Familiar") {
+        //Encumbered conditions are not calculated for Familiars (who don't have an inventory) or in manual mode.
+        if (this.creature != "Familiar" && !this.get_ManualMode()) {
             let bulk = this.get_Creature().bulk;
             let calculatedBulk = bulk.calculate((this.get_Creature() as Character | AnimalCompanion), this.characterService, this.effectsService);
             if (calculatedBulk.current.value > calculatedBulk.encumbered.value && this.characterService.get_AppliedConditions(this.get_Creature(), "Encumbered", "Bulk").length == 0) {

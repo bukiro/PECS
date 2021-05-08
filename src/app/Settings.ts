@@ -26,6 +26,7 @@ export class Settings {
     inventoryMinimized: boolean = false;
     inventoryTileMode: boolean = true;
     lowerLevelFeats: boolean = true;
+    manualMode: boolean = false;
     noFriendlyCasterConditions: boolean = false;
     noHostileCasterConditions: boolean = false;
     sendTurnEndMessage: boolean = false;

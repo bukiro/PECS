@@ -968,7 +968,7 @@ header.sectionHeader.box-header {
 }
 
 .darkmode header.sectionHeader.box-header span {
-    text-shadow: none;
+    text-shadow: inherit;
 }
 
 header.sectionHeader.center-aligned {
@@ -1918,6 +1918,7 @@ SPECIFIC STYLE MODIFIERS
     display: flex;
     flex-direction: row;
     gap: .3rem;
+    align-items: baseline;
 }
 
 .disable-text-selection {

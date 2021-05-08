@@ -1064,53 +1064,192 @@
                     </div>
                     <div class="list-item">
                         <strong>Automation</strong>
+                        <ng-template #ManualModeDescription>
+                            <p>
+                                Manual mode is for players who want more control of their character sheet, or just need
+                                to restore a spell quickly. Many automatic and temporary effects are disabled in manual
+                                mode, and buttons are added that allow you to change them yourself. The main differences
+                                are listed below:
+                            </p>
+                            <header class="subsectionHeader">Conditions and effects</header>
+                            <ul>
+                                <li>
+                                    Most mechanisms that would add conditions are disabled in manual mode. Conditions
+                                    can be added manually from the conditions menu, including those that would normally
+                                    be caused by activities, spells or items.
+                                </li>
+                                <li>
+                                    Any conditions that remain or are added manually still cause effects.
+                                </li>
+                                <li>
+                                    Conditions can still end automatically with time or through other factors, for
+                                    example by decreasing their value every turn.
+                                </li>
+                                <li>
+                                    Any custom effects still apply.
+                                </li>
+                                <li>
+                                    Hints can still be activated and will then grant their respective effects.
+                                </li>
+                                <li>
+                                    You cannot send or receive any conditions and effects to or from other players.
+                                </li>
+                            </ul>
+                            <header class="subsectionHeader">Activities</header>
+                            <ul>
+                                <li>
+                                    Activities do not cause conditions or one-time effects (like temporary Hit Points).
+                                </li>
+                                <li>
+                                    Activities do not cast spells.
+                                </li>
+                                <li>
+                                    Because activities don't cause conditions or cast spells, you cannot select a target
+                                    for an activity.
+                                </li>
+                                <li>
+                                    Activities still grant items on activation (like extra attacks or transformed
+                                    weapons).
+                                </li>
+                                <li>
+                                    Activities use charges and go into cooldown. Charges can be restored and cooldown
+                                    can be cancelled with a button.
+                                </li>
+                            </ul>
+                            <header class="subsectionHeader">Items</header>
+                            <ul>
+                                <li>
+                                    Consumables do not cause conditions or one-time effects, and do not grant other
+                                    items when activated (like extra attacks).
+                                </li>
+                                <li>
+                                    Consumables do not cast spells.
+                                </li>
+                                <li>
+                                    Because consumables don't cause conditions or cast spells, you cannot select a
+                                    target for them.
+                                </li>
+                                <li>
+                                    Activities on items can be activated and act according to the above description.
+                                </li>
+                                <li>
+                                    Equipped and invested items still grant abilities, bonuses and penalties.
+                                </li>
+                                <li>
+                                    Being encumbered does not cause the Encumbered condition.
+                                </li>
+                            </ul>
+                            <header class="subsectionHeader">Spells</header>
+                            <ul>
+                                <li>
+                                    Spells do not cause conditions. Because all effects of a spell come from the
+                                    conditions it causes, they don't cause any one-time effects, grant any items or
+                                    senses or apply any bonuses or penalties.
+                                </li>
+                                <li>
+                                    Because spells have no effects, you cannot select a target for them.
+                                </li>
+                                <li>
+                                    Spells use up spell slots and focus points, and prepared spells get used up. Buttons
+                                    are added to reprepare spells and restore spell slots and focus points.
+                                </li>
+                                <li>
+                                    Spells can still go into cooldown, which can be cancelled with a button.
+                                </li>
+                                <li>
+                                    Casting spells does not trigger bloodline powers in sorcerers.
+                                </li>
+                            </ul>
+                            <header class="subsectionHeader">Health</header>
+                            <ul>
+                                <li>
+                                    The wounded and dying value is not tied to a condition. You can manually change both
+                                    values with new buttons.
+                                </li>
+                                <li>
+                                    Being reduced to 0 Hit Points does not cause the Dying or Unconscious conditions,
+                                    and being healed from 0 Hit points does not end them.
+                                </li>
+                            </ul>
+                            <header class="subsectionHeader">Feats</header>
+                            <ul>
+                                <li>
+                                    Feats are unchanged, as their effects are not temporary.
+                                </li>
+                                <li>
+                                    Feats still cause conditions and effects, and apply one-time effects when you take
+                                    them.
+                                </li>
+                            </ul>
+                        </ng-template>
                         <div class="list-item gridicon-fullsizebox">
-                            <input class="character-choice" id="checkMessagesAutomatically" type="checkbox"
-                                [(ngModel)]="get_Character().settings.checkMessagesAutomatically"
-                                (change)="on_CheckMessagesAutomaticallyChange($event.target.checked)">
-                            <label for="checkMessagesAutomatically">
-                                <strong>
-                                    Check for new effects from other party members every 5 seconds
-                                </strong>
-                            </label>
+                            <input class="character-choice" id="manualMode" type="checkbox"
+                                [(ngModel)]="get_Character().settings.manualMode"
+                                (change)="on_ManualMode($event.target.checked)">
+                            <span>
+                                <label for="manualMode">
+                                    <strong>
+                                        Use manual mode
+                                    </strong>
+                                </label>
+                                <i *ngIf="!get_Character().settings.manualMode" class="bi-question-circle"
+                                    [ngbPopover]="ManualModeDescription" autoClose=false triggers="click"></i>
+                            </span>
                         </div>
-                        <div class="fullwidth" [ngbCollapse]="!get_Character().settings.checkMessagesAutomatically">
+                        <div class="fullwidth" [ngbCollapse]="!get_Character().settings.manualMode">
+                            <div class="lower">
+                                <ng-container *ngTemplateOutlet="ManualModeDescription"></ng-container>
+                            </div>
+                        </div>
+                        <div class="fullwidth vlist" [ngbCollapse]="get_Character().settings.manualMode">
                             <div class="list-item gridicon-fullsizebox">
-                                <input class="character-choice" id="applyMessagesAutomatically" type="checkbox"
-                                    [(ngModel)]="get_Character().settings.applyMessagesAutomatically">
+                                <input class="character-choice" id="checkMessagesAutomatically" type="checkbox"
+                                    [(ngModel)]="get_Character().settings.checkMessagesAutomatically"
+                                    (change)="on_CheckMessagesAutomaticallyChange($event.target.checked)">
+                                <label for="checkMessagesAutomatically">
+                                    <strong>
+                                        Check for new effects from other party members every 5 seconds
+                                    </strong>
+                                </label>
+                            </div>
+                            <div class="fullwidth" [ngbCollapse]="!get_Character().settings.checkMessagesAutomatically">
+                                <div class="list-item gridicon-fullsizebox">
+                                    <input class="character-choice" id="applyMessagesAutomatically" type="checkbox"
+                                        [(ngModel)]="get_Character().settings.applyMessagesAutomatically">
+                                    <span>
+                                        <label for="applyMessagesAutomatically">
+                                            <strong>
+                                                Automatically apply new effects
+                                            </strong>
+                                        </label>
+                                        <i class="bi-question-circle"
+                                            [ngbPopover]="'While automatically checking for new effects, all found effects are immediately applied. You will not be able to select which effects to keep.'"></i>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="list-item gridicon-fullsizebox">
+                                <input class="character-choice" id="sendTurnStartMessage" type="checkbox"
+                                    [(ngModel)]="get_Character().settings.sendTurnStartMessage">
                                 <span>
-                                    <label for="applyMessagesAutomatically">
+                                    <label for="sendTurnStartMessage">
                                         <strong>
-                                            Automatically apply new effects
+                                            Send an event to your party when your turn starts
                                         </strong>
                                     </label>
                                     <i class="bi-question-circle"
-                                        [ngbPopover]="'While automatically checking for new effects, all found effects are immediately applied. You will not be able to select which effects to keep.'"></i>
+                                        [ngbPopover]="'If you have given any conditions to your party members that end on your turn, sending this event will end these conditions on their side. The other players still need to check for effects manually or automatically if they want to benefit from this function.'"></i>
                                 </span>
                             </div>
-                        </div>
-                        <div class="list-item gridicon-fullsizebox">
-                            <input class="character-choice" id="sendTurnStartMessage" type="checkbox"
-                                [(ngModel)]="get_Character().settings.sendTurnStartMessage">
-                            <span>
-                                <label for="sendTurnStartMessage">
-                                    <strong>
-                                        Send an event to your party when your turn starts
-                                    </strong>
-                                </label>
-                                <i class="bi-question-circle"
-                                    [ngbPopover]="'If you have given any conditions to your party members that end on your turn, sending this event will end these conditions on their side. The other players still need to check for effects manually or automatically if they want to benefit from this function.'"></i>
-                            </span>
-                        </div>
-                        <div class="fullwidth" [ngbCollapse]="!get_Character().settings.sendTurnStartMessage">
-                            <div class="list-item gridicon-fullsizebox">
-                                <input class="character-choice" id="sendTurnEndMessage" type="checkbox"
-                                    [(ngModel)]="get_Character().settings.sendTurnEndMessage">
-                                <label for="sendTurnEndMessage">
-                                    <strong>
-                                        Send event when your turn ends instead (experimental)
-                                    </strong>
-                                </label>
+                            <div class="fullwidth" [ngbCollapse]="!get_Character().settings.sendTurnStartMessage">
+                                <div class="list-item gridicon-fullsizebox">
+                                    <input class="character-choice" id="sendTurnEndMessage" type="checkbox"
+                                        [(ngModel)]="get_Character().settings.sendTurnEndMessage">
+                                    <label for="sendTurnEndMessage">
+                                        <strong>
+                                            Send event when your turn ends instead (experimental)
+                                        </strong>
+                                    </label>
+                                </div>
                             </div>
                         </div>
                     </div>

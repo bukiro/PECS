@@ -120,6 +120,10 @@ export class SpellbookComponent implements OnInit {
         return this.get_Character().settings.spellbookTileMode;
     }
 
+    get_ManualMode() {
+        return this.characterService.get_ManualMode();
+    }
+
     still_loading() {
         return this.characterService.still_loading();
     }
@@ -279,6 +283,36 @@ export class SpellbookComponent implements OnInit {
         }
     }
 
+    get_ExtraSpellSlots(level: number, casting: SpellCasting, maxspellslots: number, studiouscapacityslots: number, firstgreatervitalevolutionslot: number, secondgreatervitalevolutionslot: number) {
+        let extraSpellSlots = "";
+        let studiouscapacityslotsused = this.get_UsedSpellSlots(0, casting);
+        let firstgreatervitalevolutionslotused = this.get_UsedSpellSlots(11, casting);
+        let secondgreatervitalevolutionslotused = this.get_UsedSpellSlots(12, casting);
+        if (level < this.get_MaxSpellLevel(casting) && (studiouscapacityslots - studiouscapacityslotsused > 0)) {
+            extraSpellSlots += "+" + (studiouscapacityslots - studiouscapacityslotsused).toString();
+        }
+        if (
+            (
+                firstgreatervitalevolutionslot ||
+                secondgreatervitalevolutionslot
+            ) && (
+                firstgreatervitalevolutionslotused == 0 ||
+                secondgreatervitalevolutionslotused == 0
+            ) && (
+                firstgreatervitalevolutionslotused != level &&
+                secondgreatervitalevolutionslotused != level
+            )
+        ) {
+            extraSpellSlots += "+1";
+        }
+        return extraSpellSlots;
+    }
+
+    on_ManualSpellSlotsChange(casting: SpellCasting, level: number, amount: number) {
+        //The amount is subtracted: We gain more spell slots by lowering the amount of used spell slots.
+        casting.spellSlotsUsed[level] -= amount;
+    }
+
     get_MaxSpellSlots(spellLevel: number, casting: SpellCasting) {
         if (casting.castingType == "Spontaneous") {
             let spellslots: number = 0;
@@ -325,7 +359,17 @@ export class SpellbookComponent implements OnInit {
     }
 
     on_RestoreFocusPoint() {
-        this.characterService.process_OnceEffect(this.get_Character(), Object.assign(new EffectGain(), { affected: "Focus Points", value: "+1" }));
+        this.on_ManualFocusPointChange(1);
+    }
+
+    on_ManualFocusPointChange(amount: number) {
+        let character = this.get_Character();
+        character.class.focusPoints = Math.min(character.class.focusPoints, this.get_MaxFocusPoints());
+        character.class.focusPoints = Math.max(Math.min(character.class.focusPoints + amount, this.get_MaxFocusPoints()), 0);
+    }
+
+    on_ManualEndCooldown(gain: SpellGain) {
+        gain.activeCooldown = 0;
     }
 
     get_Duration(turns: number, includeTurnState: boolean = true, inASentence: boolean = false) {
@@ -406,12 +450,11 @@ export class SpellbookComponent implements OnInit {
         } else {
             //Focus spells cost Focus points.
             if (casting.castingType == "Focus" && activated && choice.level == -1) {
-                this.get_Character().class.focusPoints = Math.min(character.class.focusPoints, this.get_MaxFocusPoints());
-                this.get_Character().class.focusPoints -= 1;
+                character.class.focusPoints = Math.min(character.class.focusPoints, this.get_MaxFocusPoints());
+                character.class.focusPoints -= 1;
             };
             //Spontaneous spells use up spell slots. If you don't have spell slots of this level left, use a Studious Capacity one as a bard (0th level) or a Greater Vital Evolution one as a Sorcerer (11th and 12th level).
             if (casting.castingType == "Spontaneous" && !spell.traits.includes("Cantrip") && activated) {
-
                 //With Bloodline Conduit active, prepared spells without a duration up to 5th level do not get expended.
                 if (!(levelNumber <= 5 && !spell.duration && this.conditionsService.get_AppliedConditions(character, this.characterService, character.conditions, true).some(gain => gain.name == "Bloodline Conduit"))) {
                     if (this.get_UsedSpellSlots(levelNumber, casting) < this.get_MaxSpellSlots(levelNumber, casting)) {
@@ -436,20 +479,23 @@ export class SpellbookComponent implements OnInit {
             }
         }
         //Trigger bloodline powers for sorcerers if your main class is Sorcerer.
-        bloodMagicFeats.forEach(feat => {
-            feat.bloodMagic.forEach(bloodMagic => {
-                if (bloodMagic.trigger.includes(spell.name)) {
-                    let conditionGain = new ConditionGain();
-                    conditionGain.name = bloodMagic.condition;
-                    conditionGain.duration = bloodMagic.duration;
-                    conditionGain.source = feat.name;
-                    conditionGain.heightened = spell.get_EffectiveSpellLevel(this.get_Character(), choice.level, this.characterService, this.effectsService);
-                    if (conditionGain.name) {
-                        this.characterService.add_Condition(this.get_Character(), conditionGain, false);
+        //Do not process in manual mode.
+        if (!this.get_ManualMode()) {
+            bloodMagicFeats.forEach(feat => {
+                feat.bloodMagic.forEach(bloodMagic => {
+                    if (bloodMagic.trigger.includes(spell.name)) {
+                        let conditionGain = new ConditionGain();
+                        conditionGain.name = bloodMagic.condition;
+                        conditionGain.duration = bloodMagic.duration;
+                        conditionGain.source = feat.name;
+                        conditionGain.heightened = spell.get_EffectiveSpellLevel(this.get_Character(), choice.level, this.characterService, this.effectsService);
+                        if (conditionGain.name) {
+                            this.characterService.add_Condition(this.get_Character(), conditionGain, false);
+                        }
                     }
-                }
+                })
             })
-        })
+        }
         this.spellsService.process_Spell(character, target, this.characterService, this.itemsService, this.conditionsService, casting, gain, spell, levelNumber, activated, true);
         if (gain.combinationSpellName) {
             let secondSpell = this.get_Spells(gain.combinationSpellName)[0];
@@ -537,11 +583,18 @@ export class SpellbookComponent implements OnInit {
         this.characterService.process_ToChange();
     }
 
-    can_Reprepare(level: number, spell: Spell) {
-        return level <= 4 &&
-            !spell.duration &&
-            this.have_Feat("Reprepare Spell") &&
-            !this.have_Feat("Spell Substitution")
+    can_Reprepare(level: number, spell: Spell, casting: SpellCasting) {
+        if (this.get_ManualMode()) {
+            //You can reprepare all spells in manual mode.
+            return true;
+        } else {
+            //If you are not in manual mode, you can only prepare certain spells if you have the Reprepare Spell wizard feat.
+            return casting.className == 'Wizard' &&
+                level <= 4 &&
+                !spell.duration &&
+                this.have_Feat("Reprepare Spell") &&
+                !this.have_Feat("Spell Substitution")
+        }
     }
 
     on_Reprepare(gain: SpellGain) {

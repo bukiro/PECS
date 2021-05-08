@@ -247,9 +247,10 @@
                                         *ngIf="item.amount != undefined && item.storedSpells.length && !['weaponrunes', 'armorrunes', 'oils'].includes(this.item.type)">
                                         <ng-container
                                             *ngFor="let itemSpell of get_ItemSpell(item); trackBy:trackByIndex;">
-                                            <app-spellTarget class="newrow vlist" [creature]="creature" [phrase]="item.type == 'wands' && item.cooldown ? 'Overcharge (Cooldown '
-                                            + get_Duration(item.cooldown) + ') and cast' : 'Cast'" [showActions]="true"
-                                                [spell]="itemSpell.spell" [gain]="itemSpell.gain" [casting]="null"
+                                            <app-spellTarget class="newrow vlist" [creature]="creature"
+                                                [phrase]="item.type == 'wands' && item.cooldown ? 'Overcharge (Cooldown ' + get_Duration(item.cooldown) + ') and cast' : 'Cast'"
+                                                [showActions]="true" [spell]="itemSpell.spell" [gain]="itemSpell.gain"
+                                                [casting]="null"
                                                 [cannotCast]="item.broken ? 'The item is broken and cannot be used.' : ''"
                                                 [effectiveSpellLevel]="itemSpell.choice.level"
                                                 (castMessage)="on_SpellItemUse(item, $event.target, inventory)">
@@ -260,26 +261,33 @@
                                         *ngIf="item.amount != undefined && ['alchemicalelixirs','potions'].includes(item.type) && item.actions && (!item.targets || item.targets.length == 0)">
                                         <button class="newrow center-aligned" [disabled]="!item.amount"
                                             (click)="on_ConsumableUse(item, creature, inventory)">
-                                            <span>Use
+                                            <span>
+                                                Use
                                                 <app-actionIcons *ngIf="item.actions" [actionString]="item.actions">
                                                 </app-actionIcons>
                                                 {{(item.activationType) ? item.activationType : ""}}
                                             </span>
                                         </button>
-                                        <button class="newrow center-aligned" [disabled]="!item.amount"
-                                            (click)="on_ConsumableUse(item, 'Companion', inventory)"
-                                            *ngIf="get_CompanionAvailable()">
-                                            <span>Use (Give to your animal companion)<app-actionIcons
-                                                    [actionString]="item.actions">
-                                                </app-actionIcons>{{(item.activationType) ? item.activationType : ""}}
+                                        <button class="newrow center-aligned"
+                                            *ngIf="!get_ManualMode() && get_CompanionAvailable()"
+                                            [disabled]="!item.amount"
+                                            (click)="on_ConsumableUse(item, 'Companion', inventory)">
+                                            <span>
+                                                Use (Give to your animal companion)
+                                                <app-actionIcons [actionString]="item.actions">
+                                                </app-actionIcons>
+                                                {{(item.activationType) ? item.activationType : ""}}
                                             </span>
                                         </button>
-                                        <button class="newrow center-aligned" [disabled]="!item.amount"
-                                            (click)="on_ConsumableUse(item, 'Familiar', inventory)"
-                                            *ngIf="get_FamiliarAvailable()">
-                                            <span>Use (Give to your familiar)<app-actionIcons
-                                                    [actionString]="item.actions">
-                                                </app-actionIcons>{{(item.activationType) ? item.activationType : ""}}
+                                        <button class="newrow center-aligned"
+                                            *ngIf="!get_ManualMode() && get_FamiliarAvailable()"
+                                            [disabled]="!item.amount"
+                                            (click)="on_ConsumableUse(item, 'Familiar', inventory)">
+                                            <span>
+                                                Use (Give to your familiar)
+                                                <app-actionIcons [actionString]="item.actions">
+                                                </app-actionIcons>
+                                                {{(item.activationType) ? item.activationType : ""}}
                                             </span>
                                         </button>
                                     </ng-container>

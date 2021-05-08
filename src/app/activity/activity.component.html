@@ -1,7 +1,7 @@
 <ng-container *ngFor="let maxCharges of [activity.maxCharges(get_Creature(), characterService)]">
     <ng-container *ngFor="let cooldown of [activity.get_Cooldown(get_Creature(), characterService)]">
         <ng-container *ngFor="let activitySpell of [get_ActivitySpell()]; trackBy:trackByIndex">
-            <!-- Targets if the activity is not a fuse stance and can be activated. Includes activities with no effect that can be toggled or has a cooldown. -->
+            <!-- Targets if the activity is not a fuse stance and can be activated. Includes activities with no effect that can be toggled or have a cooldown. -->
             <div class="newrow" *ngIf="allowActivate && !get_ExternallyDisabled()">
                 <ng-container *ngIf="gain.name != 'Fused Stance' && activity.can_Activate()">
                     <!-- Spell targets if a spell is cast by this activity -->
@@ -29,46 +29,62 @@
                 </ng-container>
             </div>
             <ng-container *ngIf="allowActivate && !activitySpell">
-                <div class="vlist">
-                    <!-- Fused Stance activation and deactivation -->
-                    <ng-container
-                        *ngIf="gain.name == 'Fused Stance' && (gain.activeCooldown ? (maxCharges > gain.chargesUsed) : true)">
-                        <div class="newrow"
-                            [ngbTooltip]="gain.activeCooldown ? (maxCharges ? 'Recharged in: ' : 'Cooldown: ') + get_Duration(gain.activeCooldown, true, false) : ''"
-                            *ngIf="!gain.active">
-                            <button class="newrow center-aligned" (click)="on_ActivateFuseStance(true)"
-                                [disabled]="!get_FuseStanceFeat() || !get_FuseStanceFeat().data">
-                                Activate {{maxCharges ? "(" + (maxCharges - gain.chargesUsed) + " of " + maxCharges + "
-                                charges)" : ""}}
-                            </button>
-                        </div>
-                        <div class="newrow"
-                            [ngbTooltip]="gain.activeCooldown ? (maxCharges ? 'Recharged in: ' : 'Cooldown: ') + get_Duration(gain.activeCooldown, true, false) : ''"
-                            *ngIf="gain.active">
-                            <button class="newrow center-aligned" (click)="on_ActivateFuseStance(false)"
-                                [disabled]="!get_FuseStanceFeat() || !get_FuseStanceFeat().data">
-                                Deactivate {{maxCharges ? "(" + (maxCharges - gain.chargesUsed) + " of " + maxCharges +
-                                " charges)" : ""}}
-                            </button>
-                        </div>
-                    </ng-container>
-                    <!-- Activity with no effect, not even toggled. This button literally does nothing. -->
-                    <ng-container *ngIf="!activity.can_Activate()">
-                        <button class="newrow center-aligned" [ngbTooltip]="'The activity has no automatic effects.'">
-                            <span>Activate <i class='bi-peace'></i></span>
-                        </button>
-                    </ng-container>
-                    <!-- Activity disabled by effect -->
-                    <div class="newrow" *ngIf="get_ExternallyDisabled()">
-                        <button class="newrow center-aligned" disabled>
-                            Cannot activate (disabled by effect)
+                <!-- Fused Stance activation and deactivation -->
+                <ng-container
+                    *ngIf="gain.name == 'Fused Stance' && (gain.activeCooldown ? (maxCharges > gain.chargesUsed) : true)">
+                    <div class="newrow"
+                        [ngbTooltip]="gain.activeCooldown ? (maxCharges ? 'Recharged in: ' : 'Cooldown: ') + get_Duration(gain.activeCooldown, true, false) : ''"
+                        *ngIf="!gain.active">
+                        <button class="newrow center-aligned" (click)="on_ActivateFuseStance(true)"
+                            [disabled]="!get_FuseStanceFeat() || !get_FuseStanceFeat().data">
+                            Activate {{maxCharges ? "(" + (maxCharges - gain.chargesUsed) + " of " + maxCharges + "
+                            charges)" : ""}}
                         </button>
                     </div>
-                    <!-- Unslotted Aeon Stone -->
-                    <div class="newrow" *ngIf="get_Resonant() && !isSubItem">
-                        <strong>Slot this item into a Wayfinder to unlock its resonant power.</strong>
+                    <div class="newrow"
+                        [ngbTooltip]="gain.activeCooldown ? (maxCharges ? 'Recharged in: ' : 'Cooldown: ') + get_Duration(gain.activeCooldown, true, false) : ''"
+                        *ngIf="gain.active">
+                        <button class="newrow center-aligned" (click)="on_ActivateFuseStance(false)"
+                            [disabled]="!get_FuseStanceFeat() || !get_FuseStanceFeat().data">
+                            Deactivate {{maxCharges ? "(" + (maxCharges - gain.chargesUsed) + " of " + maxCharges +
+                            " charges)" : ""}}
+                        </button>
                     </div>
+                </ng-container>
+                <!-- Activity with no effect, not even toggled. This button literally does nothing. -->
+                <ng-container *ngIf="!get_ManualMode() && !activity.can_Activate()">
+                    <button class="newrow center-aligned" [ngbTooltip]="'The activity has no automatic effects.'">
+                        <span>Activate <i class='bi-peace'></i></span>
+                    </button>
+                </ng-container>
+                <!-- Same button in manual mode, without the peace icon. -->
+                <ng-container *ngIf="get_ManualMode() && !activity.can_Activate()">
+                    <button class="newrow center-aligned">
+                        <span>Activate</span>
+                    </button>
+                </ng-container>
+                <!-- Activity disabled by effect -->
+                <div class="newrow" *ngIf="get_ExternallyDisabled()">
+                    <button class="newrow center-aligned" disabled>
+                        Cannot activate (disabled by effect)
+                    </button>
                 </div>
+                <!-- Unslotted Aeon Stone -->
+                <div class="newrow" *ngIf="get_Resonant() && !isSubItem">
+                    <strong>Slot this item into a Wayfinder to unlock its resonant power.</strong>
+                </div>
+            </ng-container>
+            <!-- End cooldown and restore charges button in manual mode-->
+            <ng-container *ngIf="get_ManualMode() && allowActivate && gain.activeCooldown">
+                <button class="newrow center-aligned" (click)="on_ManualEndCooldown()">
+                    <span>End cooldown</span>
+                </button>
+            </ng-container>
+            <!-- Restore charges button in manual mode-->
+            <ng-container *ngIf="get_ManualMode() && allowActivate && gain.chargesUsed">
+                <button class="newrow center-aligned" (click)="on_ManualRestoreCharge()">
+                    <span>Restore charge</span>
+                </button>
             </ng-container>
         </ng-container>
         <div class="newrow left-aligned">

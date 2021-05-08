@@ -125,6 +125,10 @@ export class InventoryComponent implements OnInit {
         return this.get_Character().settings.inventoryTileMode;
     }
 
+    get_ManualMode() {
+        return this.characterService.get_ManualMode();
+    }
+
     get_Character() {
         return this.characterService.get_Character();
     }

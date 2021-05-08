@@ -84,7 +84,7 @@ export class ItemsService {
     private weaponMaterials: WeaponMaterial[] = [];
     private specializations: Specialization[] = [];
     private loading: boolean = false;
-    
+
     itemsMenuState: string = 'out';
 
     constructor(
@@ -300,7 +300,7 @@ export class ItemsService {
             newItem = this.cast_ItemByType(JSON.parse(JSON.stringify(item)));
         }
         if (newId) {
-            newItem.id = uuidv4() ;
+            newItem.id = uuidv4();
             newItem.activities?.forEach((activity: ItemActivity) => {
                 activity.castSpells?.forEach(cast => {
                     if (cast.spellGain) {
@@ -422,47 +422,52 @@ export class ItemsService {
 
     process_Consumable(creature: Creature, characterService: CharacterService, itemsService: ItemsService, conditionsService: ConditionsService, spellsService: SpellsService, item: Consumable) {
 
-        //One time effects
-        if (item.onceEffects) {
-            item.onceEffects.forEach(effect => {
-                characterService.process_OnceEffect(creature, effect);
-            })
-        }
+        //Consumables don't do anything in manual mode, except be used up.
+        if (!characterService.get_ManualMode()) {
 
-        //Apply conditions
-        if (item["gainConditions"]) {
-            item["gainConditions"].forEach(gain => {
-                let newConditionGain = Object.assign(new ConditionGain(), gain);
-                characterService.add_Condition(creature, newConditionGain, false);
-            });
-        }
+            //One time effects
+            if (item.onceEffects) {
+                item.onceEffects.forEach(effect => {
+                    characterService.process_OnceEffect(creature, effect);
+                })
+            }
 
-        //Cast Spells
-        if (item["castSpells"]) {
-            item["castSpells"].forEach((cast: SpellCast) => {
-                cast.spellGain.duration = cast.duration;
-                let librarySpell = spellsService.get_Spells(cast.name)[0];
-                if (librarySpell) {
-                    spellsService.process_Spell(creature, creature.type, characterService, itemsService, conditionsService, null, cast.spellGain, librarySpell, cast.level, true, true, false);
-                }
-            })
-        }
+            //Apply conditions
+            if (item["gainConditions"]) {
+                item["gainConditions"].forEach(gain => {
+                    let newConditionGain = Object.assign(new ConditionGain(), gain);
+                    characterService.add_Condition(creature, newConditionGain, false);
+                });
+            }
 
-        //Gain Items on Activation
-        if (item.gainItems.length && creature.type != "Familiar") {
-            item.gainItems.forEach(gainItem => {
-                let newItem: Item = itemsService.get_CleanItems()[gainItem.type].filter((libraryItem: Item) => libraryItem.name.toLowerCase() == gainItem.name.toLowerCase())[0];
-                if (newItem) {
-                    let grantedItem = characterService.grant_InventoryItem(creature as Character | AnimalCompanion, creature.inventories[0], newItem, false, false, true);
-                    gainItem.id = grantedItem.id;
-                    grantedItem.expiration = gainItem.expiration;
-                    if (grantedItem.get_Name) {
-                        grantedItem.grantedBy = "(Granted by " + item.name + ")";
-                    };
-                } else {
-                    this.toastService.show("Failed granting " + gainItem.type + " " + gainItem.name + " - item not found.", [], characterService)
-                }
-            });
+            //Cast Spells
+            if (item["castSpells"]) {
+                item["castSpells"].forEach((cast: SpellCast) => {
+                    cast.spellGain.duration = cast.duration;
+                    let librarySpell = spellsService.get_Spells(cast.name)[0];
+                    if (librarySpell) {
+                        spellsService.process_Spell(creature, creature.type, characterService, itemsService, conditionsService, null, cast.spellGain, librarySpell, cast.level, true, true, false);
+                    }
+                })
+            }
+
+            //Gain Items on Activation
+            if (item.gainItems.length && creature.type != "Familiar") {
+                item.gainItems.forEach(gainItem => {
+                    let newItem: Item = itemsService.get_CleanItems()[gainItem.type].filter((libraryItem: Item) => libraryItem.name.toLowerCase() == gainItem.name.toLowerCase())[0];
+                    if (newItem) {
+                        let grantedItem = characterService.grant_InventoryItem(creature as Character | AnimalCompanion, creature.inventories[0], newItem, false, false, true);
+                        gainItem.id = grantedItem.id;
+                        grantedItem.expiration = gainItem.expiration;
+                        if (grantedItem.get_Name) {
+                            grantedItem.grantedBy = "(Granted by " + item.name + ")";
+                        };
+                    } else {
+                        this.toastService.show("Failed granting " + gainItem.type + " " + gainItem.name + " - item not found.", [], characterService)
+                    }
+                });
+            }
+
         }
 
     }
@@ -621,7 +626,7 @@ export class ItemsService {
             this.load(json_shieldmaterials, "shieldMaterials", ShieldMaterial, "meta");
             this.load(json_weaponmaterials, "weaponMaterials", WeaponMaterial, "meta");
             this.load(json_specializations, "specializations", Specialization, "meta");
-            
+
             this.items = new ItemCollection();
             this.cleanItems = new ItemCollection();
             this.craftingItems = new ItemCollection();
@@ -639,7 +644,7 @@ export class ItemsService {
             this.load(json_adventuringgear, "adventuringgear", AdventuringGear, "item");
             this.load(json_armorrunes, "armorrunes", ArmorRune, "item");
             this.load(json_weaponrunes, "weaponrunes", WeaponRune, "item");
-            
+
             //Oils need to load after WeaponRunes, because they have to copy some of them.
             this.load(json_oils, "oils", Oil, "item");
             this.load(json_scrolls, "scrolls", Scroll, "item");
@@ -649,7 +654,7 @@ export class ItemsService {
             this.load(json_snares, "snares", Snare, "item");
             this.load(json_alchemicalpoisons, "alchemicalpoisons", AlchemicalPoison, "item");
             this.load(json_wands, "wands", Wand, "item");
-            
+
             /*
             this.load(json_REPLACE0, "REPLACE0", REPLACE1, "item");
             */
@@ -679,18 +684,18 @@ export class ItemsService {
 
                 let duplicates: string[] = Array.from(new Set(
                     this.items[target]
-                        .filter((item: Item) => 
-                        this.items[target].filter((otherItem: Item) =>
+                        .filter((item: Item) =>
+                            this.items[target].filter((otherItem: Item) =>
                                 otherItem.id == item.id
                             ).length > 1
                         ).map((item: Item) => item.id)
-                    ));
+                ));
                 duplicates.forEach((itemID) => {
                     let highestPriority = Math.max(
                         ...this.items[target]
                             .filter((item: Item) => item.id == itemID)
                             .map((item: Item) => item.overridePriority)
-                        );
+                    );
                     let highestItem = this.items[target].find((item: Item) => item.id == itemID && item.overridePriority == highestPriority);
                     this.items[target] = this.items[target].filter((item: Item) => !(item.id == itemID && item !== highestItem));
                     let highestCleanItem = this.cleanItems[target].find((item: Item) => item.id == itemID && item.overridePriority == highestPriority);

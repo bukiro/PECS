@@ -101,194 +101,199 @@ export class SpellsService {
             gain.selectedTarget = "";
         }
 
-        //Find out if target was given. If no target is set, most effects will not be applied.
-        let targets: (Creature | SpellTarget)[] = [];
-        switch (target) {
-            case "self":
-                targets.push(creature);
-                break;
-            case "Character":
-                targets.push(characterService.get_Character());
-                break;
-            case "Companion":
-                targets.push(characterService.get_Companion());
-                break;
-            case "Familiar":
-                targets.push(characterService.get_Familiar());
-                break;
-            case "Selected":
-                if (gain) {
-                    targets.push(...gain.targets.filter(target => target.selected))
-                }
-                break;
-        }
+        //In manual mode, targets and conditions are not processed.
+        if (!characterService.get_ManualMode()) {
 
-        //Apply conditions.
-        //Remove conditions only if the spell was deactivated manually, i.e. if you want the condition to end.
-        //If the spell ends by the time running out, the condition will also have a timer and run out by itself.
-        //This allows us to manually change the duration for a condition and keep it running when the spell runs out
-        // (because it's much more difficult to change the spell duration -and- the condition duration).
-        if (spell.get_HeightenedConditions(spellLevel)) {
-            if (activated) {
-                let conditions: ConditionGain[] = spell.get_HeightenedConditions(spellLevel);
-                let hasTargetCondition: boolean = conditions.some(conditionGain => conditionGain.targetFilter != "caster");
-                let hasCasterCondition: boolean = conditions.some(conditionGain => conditionGain.targetFilter == "caster");
-                //Do the target and the caster get the same condition?
-                let sameCondition: boolean = hasTargetCondition && hasCasterCondition && Array.from(new Set(conditions.map(conditionGain => conditionGain.name))).length == 1;
-                conditions.forEach((conditionGain, conditionIndex) => {
-                    let newConditionGain = Object.assign(new ConditionGain(), conditionGain);
-                    let condition = conditionsService.get_Conditions(conditionGain.name)[0]
-                    //Unless the conditionGain has a choice set, try to set it by various factors.
-                    if (!conditionGain.choice) {
-                        if (conditionGain.copyChoiceFrom && gain.effectChoices.length) {
-                            //If the gain has copyChoiceFrom set, use the choice from the designated condition. If there are multiple conditions with the same name, the first is taken.
-                            newConditionGain.choice = gain.effectChoices.find(choice => choice.condition == conditionGain.copyChoiceFrom)?.choice || condition.choice;
-                        } else if (gain.overrideChoices.length && gain.overrideChoices.some(overrideChoice => overrideChoice.condition == condition.name && condition.$choices.includes(overrideChoice.choice))) {
-                            //If the gain has an override choice prepared that matches this condition and is allowed for it, that choice is used.
-                            newConditionGain.choice = gain.overrideChoices.find(overrideChoice => overrideChoice.condition == condition.name && condition.$choices.includes(overrideChoice.choice)).choice;
-                        } else if (newConditionGain.choiceBySubType) {
-                            //If there is a choiceBySubType value, and you have a feat with superType == choiceBySubType, set the choice to that feat's subType as long as it's a valid choice for the condition.
-                            let subType = (characterService.get_FeatsAndFeatures(newConditionGain.choiceBySubType, "", true, true).find(feat => feat.superType == newConditionGain.choiceBySubType && feat.have(creature, characterService, creature.level, false)));
-                            if (subType && condition.choices.some(choice => choice.name == subType.subType)) {
-                                newConditionGain.choice = subType.subType;
-                            }
-                        } else if (gain.effectChoices.length) {
-                            //If this condition has choices, and the spellGain has choices prepared, apply the choice from the gain.
-                            //The order of gain.effectChoices maps directly onto the order of the conditions, no matter if they have choices.
-                            if (condition.$choices.includes(gain.effectChoices[conditionIndex].choice)) {
-                                newConditionGain.choice = gain.effectChoices[conditionIndex].choice;
-                            }
-                        }
+            //Find out if target was given. If no target is set, most effects will not be applied.
+            let targets: (Creature | SpellTarget)[] = [];
+            switch (target) {
+                case "self":
+                    targets.push(creature);
+                    break;
+                case "Character":
+                    targets.push(characterService.get_Character());
+                    break;
+                case "Companion":
+                    targets.push(characterService.get_Companion());
+                    break;
+                case "Familiar":
+                    targets.push(characterService.get_Familiar());
+                    break;
+                case "Selected":
+                    if (gain) {
+                        targets.push(...gain.targets.filter(target => target.selected))
                     }
-                    //Under certain circumstances, don't grant caster conditions:
-                    // - If there is a target condition, the caster is also a target, and the caster and the targets get the same condition.
-                    // - If there is a target condition, the caster is also a target, and the caster condition is purely informational.
-                    // - If the spell is hostile, hostile caster conditions are disabled, the caster condition is purely informational, and the spell allows targeting the caster (which is always the case for hostile spells because they don't have target conditions).
-                    // - If the spell is friendly, friendly caster conditions are disabled, the caster condition is purely informational, and the spell allows targeting the caster (otherwise, it must be assumed that the caster condition is necessary).
-                    if (
-                        !(
-                            conditionGain.targetFilter == "caster" &&
-                            (
-                                (
-                                    hasTargetCondition &&
-                                    targets.some(target => target.id == creature.id) &&
-                                    (
-                                        sameCondition ||
-                                        (
-                                            !condition.get_HasEffects() &&
-                                            !condition.get_IsChangeable()
-                                        )
-                                    )
-                                ) ||
-                                (
-                                    (
-                                        spell.get_IsHostile() ?
-                                            characterService.get_Character().settings.noHostileCasterConditions :
-                                            characterService.get_Character().settings.noFriendlyCasterConditions
-                                    ) &&
-                                    (
-                                        !condition.get_HasEffects() &&
-                                        !condition.get_IsChangeable() &&
-                                        !spell.cannotTargetCaster
-                                    )
-                                )
-                            )
-                        )
-                    ) {
-                        //Pass the spell level in case that condition effects change with level - but only if the conditionGain doesn't have its own heightened value.
-                        if (!newConditionGain.heightened || newConditionGain.heightened < condition.minLevel) {
-                            newConditionGain.heightened = Math.max(spellLevel, condition.minLevel);
-                        }
-                        //Pass the spellcasting ability in case the condition needs to use the modifier
-                        if (casting) {
-                            newConditionGain.spellCastingAbility = casting.ability;
-                        }
-                        newConditionGain.spellSource = gain?.source || "";
-                        newConditionGain.sourceGainID = gain?.id || "";
-                        //If this spell was cast by an activity, it may have a specified duration. Apply that here.
-                        if (activityDuration) {
-                            newConditionGain.duration = activityDuration;
-                        } else if (newConditionGain.duration == -5) {
-                            //Otherwise, and if the conditionGain has duration -5, use the default duration depending on spell level and effect choice.
-                            newConditionGain.duration = condition.get_DefaultDuration(newConditionGain.choice, newConditionGain.heightened).duration;
-                        }
-                        //Check if an effect changes the duration of this condition.
-                        let effectDuration: number = newConditionGain.duration || 0;
-                        characterService.effectsService.get_AbsolutesOnThese(creature, ["Next Spell Duration", condition.name + " Duration"]).forEach(effect => {
-                            effectDuration = parseInt(effect.setValue);
-                            conditionsToRemove.push(effect.source);
-                        })
-                        if (effectDuration > 0) {
-                            characterService.effectsService.get_RelativesOnThese(creature, ["Next Spell Duration", condition.name + " Duration"]).forEach(effect => {
-                                effectDuration += parseInt(effect.value);
-                                conditionsToRemove.push(effect.source);
-                            })
-                        }
-                        //If an effect has changed the duration, use the effect duration unless it is shorter than the current duration.
-                        if (effectDuration) {
-                            if (effectDuration == -1) {
-                                //Unlimited is longer than anything.
-                                newConditionGain.duration = -1;
-                            } else if (newConditionGain.duration != -1) {
-                                //Anything is shorter than unlimited.
-                                if (effectDuration < -1 && newConditionGain.duration > 0 && newConditionGain.duration < 144000) {
-                                    //Until Rest and Until Refocus are usually longer than anything below a day.
-                                    newConditionGain.duration = effectDuration;
-                                } else if (effectDuration > newConditionGain.duration) {
-                                    //If neither are unlimited and the above is not true, a higher value is longer than a lower value.
-                                    newConditionGain.duration = effectDuration;
+                    break;
+            }
+
+            //Apply conditions.
+            //Remove conditions only if the spell was deactivated manually, i.e. if you want the condition to end.
+            //If the spell ends by the time running out, the condition will also have a timer and run out by itself.
+            //This allows us to manually change the duration for a condition and keep it running when the spell runs out
+            // (because it's much more difficult to change the spell duration -and- the condition duration).
+            if (spell.get_HeightenedConditions(spellLevel)) {
+                if (activated) {
+                    let conditions: ConditionGain[] = spell.get_HeightenedConditions(spellLevel);
+                    let hasTargetCondition: boolean = conditions.some(conditionGain => conditionGain.targetFilter != "caster");
+                    let hasCasterCondition: boolean = conditions.some(conditionGain => conditionGain.targetFilter == "caster");
+                    //Do the target and the caster get the same condition?
+                    let sameCondition: boolean = hasTargetCondition && hasCasterCondition && Array.from(new Set(conditions.map(conditionGain => conditionGain.name))).length == 1;
+                    conditions.forEach((conditionGain, conditionIndex) => {
+                        let newConditionGain = Object.assign(new ConditionGain(), conditionGain);
+                        let condition = conditionsService.get_Conditions(conditionGain.name)[0]
+                        //Unless the conditionGain has a choice set, try to set it by various factors.
+                        if (!conditionGain.choice) {
+                            if (conditionGain.copyChoiceFrom && gain.effectChoices.length) {
+                                //If the gain has copyChoiceFrom set, use the choice from the designated condition. If there are multiple conditions with the same name, the first is taken.
+                                newConditionGain.choice = gain.effectChoices.find(choice => choice.condition == conditionGain.copyChoiceFrom)?.choice || condition.choice;
+                            } else if (gain.overrideChoices.length && gain.overrideChoices.some(overrideChoice => overrideChoice.condition == condition.name && condition.$choices.includes(overrideChoice.choice))) {
+                                //If the gain has an override choice prepared that matches this condition and is allowed for it, that choice is used.
+                                newConditionGain.choice = gain.overrideChoices.find(overrideChoice => overrideChoice.condition == condition.name && condition.$choices.includes(overrideChoice.choice)).choice;
+                            } else if (newConditionGain.choiceBySubType) {
+                                //If there is a choiceBySubType value, and you have a feat with superType == choiceBySubType, set the choice to that feat's subType as long as it's a valid choice for the condition.
+                                let subType = (characterService.get_FeatsAndFeatures(newConditionGain.choiceBySubType, "", true, true).find(feat => feat.superType == newConditionGain.choiceBySubType && feat.have(creature, characterService, creature.level, false)));
+                                if (subType && condition.choices.some(choice => choice.name == subType.subType)) {
+                                    newConditionGain.choice = subType.subType;
+                                }
+                            } else if (gain.effectChoices.length) {
+                                //If this condition has choices, and the spellGain has choices prepared, apply the choice from the gain.
+                                //The order of gain.effectChoices maps directly onto the order of the conditions, no matter if they have choices.
+                                if (condition.$choices.includes(gain.effectChoices[conditionIndex].choice)) {
+                                    newConditionGain.choice = gain.effectChoices[conditionIndex].choice;
                                 }
                             }
                         }
-                        if (condition.hasValue) {
-                            //Apply effects that change the value of this condition.
-                            let effectValue: number = newConditionGain.value || 0;
-                            characterService.effectsService.get_AbsolutesOnThis(creature, condition.name + " Value").forEach(effect => {
-                                effectValue = parseInt(effect.setValue);
+                        //Under certain circumstances, don't grant caster conditions:
+                        // - If there is a target condition, the caster is also a target, and the caster and the targets get the same condition.
+                        // - If there is a target condition, the caster is also a target, and the caster condition is purely informational.
+                        // - If the spell is hostile, hostile caster conditions are disabled, the caster condition is purely informational, and the spell allows targeting the caster (which is always the case for hostile spells because they don't have target conditions).
+                        // - If the spell is friendly, friendly caster conditions are disabled, the caster condition is purely informational, and the spell allows targeting the caster (otherwise, it must be assumed that the caster condition is necessary).
+                        if (
+                            !(
+                                conditionGain.targetFilter == "caster" &&
+                                (
+                                    (
+                                        hasTargetCondition &&
+                                        targets.some(target => target.id == creature.id) &&
+                                        (
+                                            sameCondition ||
+                                            (
+                                                !condition.get_HasEffects() &&
+                                                !condition.get_IsChangeable()
+                                            )
+                                        )
+                                    ) ||
+                                    (
+                                        (
+                                            spell.get_IsHostile() ?
+                                                characterService.get_Character().settings.noHostileCasterConditions :
+                                                characterService.get_Character().settings.noFriendlyCasterConditions
+                                        ) &&
+                                        (
+                                            !condition.get_HasEffects() &&
+                                            !condition.get_IsChangeable() &&
+                                            !spell.cannotTargetCaster
+                                        )
+                                    )
+                                )
+                            )
+                        ) {
+                            //Pass the spell level in case that condition effects change with level - but only if the conditionGain doesn't have its own heightened value.
+                            if (!newConditionGain.heightened || newConditionGain.heightened < condition.minLevel) {
+                                newConditionGain.heightened = Math.max(spellLevel, condition.minLevel);
+                            }
+                            //Pass the spellcasting ability in case the condition needs to use the modifier
+                            if (casting) {
+                                newConditionGain.spellCastingAbility = casting.ability;
+                            }
+                            newConditionGain.spellSource = gain?.source || "";
+                            newConditionGain.sourceGainID = gain?.id || "";
+                            //If this spell was cast by an activity, it may have a specified duration. Apply that here.
+                            if (activityDuration) {
+                                newConditionGain.duration = activityDuration;
+                            } else if (newConditionGain.duration == -5) {
+                                //Otherwise, and if the conditionGain has duration -5, use the default duration depending on spell level and effect choice.
+                                newConditionGain.duration = condition.get_DefaultDuration(newConditionGain.choice, newConditionGain.heightened).duration;
+                            }
+                            //Check if an effect changes the duration of this condition.
+                            let effectDuration: number = newConditionGain.duration || 0;
+                            characterService.effectsService.get_AbsolutesOnThese(creature, ["Next Spell Duration", condition.name + " Duration"]).forEach(effect => {
+                                effectDuration = parseInt(effect.setValue);
                                 conditionsToRemove.push(effect.source);
                             })
-                            characterService.effectsService.get_RelativesOnThis(creature, condition.name + " Value").forEach(effect => {
-                                effectValue += parseInt(effect.value);
-                                conditionsToRemove.push(effect.source);
+                            if (effectDuration > 0) {
+                                characterService.effectsService.get_RelativesOnThese(creature, ["Next Spell Duration", condition.name + " Duration"]).forEach(effect => {
+                                    effectDuration += parseInt(effect.value);
+                                    conditionsToRemove.push(effect.source);
+                                })
+                            }
+                            //If an effect has changed the duration, use the effect duration unless it is shorter than the current duration.
+                            if (effectDuration) {
+                                if (effectDuration == -1) {
+                                    //Unlimited is longer than anything.
+                                    newConditionGain.duration = -1;
+                                } else if (newConditionGain.duration != -1) {
+                                    //Anything is shorter than unlimited.
+                                    if (effectDuration < -1 && newConditionGain.duration > 0 && newConditionGain.duration < 144000) {
+                                        //Until Rest and Until Refocus are usually longer than anything below a day.
+                                        newConditionGain.duration = effectDuration;
+                                    } else if (effectDuration > newConditionGain.duration) {
+                                        //If neither are unlimited and the above is not true, a higher value is longer than a lower value.
+                                        newConditionGain.duration = effectDuration;
+                                    }
+                                }
+                            }
+                            if (condition.hasValue) {
+                                //Apply effects that change the value of this condition.
+                                let effectValue: number = newConditionGain.value || 0;
+                                characterService.effectsService.get_AbsolutesOnThis(creature, condition.name + " Value").forEach(effect => {
+                                    effectValue = parseInt(effect.setValue);
+                                    conditionsToRemove.push(effect.source);
+                                })
+                                characterService.effectsService.get_RelativesOnThis(creature, condition.name + " Value").forEach(effect => {
+                                    effectValue += parseInt(effect.value);
+                                    conditionsToRemove.push(effect.source);
+                                })
+                                newConditionGain.value = effectValue;
+                            }
+                            let conditionTargets: (Creature | SpellTarget)[] = targets;
+                            //Caster conditions are applied to the caster creature only. If the spell is durationDependsOnTarget, there are any foreign targets (whose turns don't end when the caster's turn ends)
+                            // and it doesn't have a duration of X+1, add 2 for "until another character's turn".
+                            // This allows the condition to persist until after the caster's last turn, simulating that it hasn't been the target's last turn yet.
+                            if (conditionGain.targetFilter == "caster") {
+                                conditionTargets = [creature];
+                                if (spell.durationDependsOnTarget && targets.some(target => target instanceof SpellTarget) && newConditionGain.duration >= 0 && newConditionGain.duration % 5 == 0) {
+                                    newConditionGain.duration += 2;
+                                }
+                            }
+                            conditionTargets.filter(target => target.constructor != SpellTarget).forEach(target => {
+                                characterService.add_Condition(target as Creature, newConditionGain, false);
                             })
-                            newConditionGain.value = effectValue;
-                        }
-                        let conditionTargets: (Creature | SpellTarget)[] = targets;
-                        //Caster conditions are applied to the caster creature only. If the spell is durationDependsOnTarget, there are any foreign targets (whose turns don't end when the caster's turn ends)
-                        // and it doesn't have a duration of X+1, add 2 for "until another character's turn".
-                        // This allows the condition to persist until after the caster's last turn, simulating that it hasn't been the target's last turn yet.
-                        if (conditionGain.targetFilter == "caster") {
-                            conditionTargets = [creature];
-                            if (spell.durationDependsOnTarget && targets.some(target => target instanceof SpellTarget) && newConditionGain.duration >= 0 && newConditionGain.duration % 5 == 0) {
-                                newConditionGain.duration += 2;
+                            if (conditionGain.targetFilter != "caster" && conditionTargets.some(target => target instanceof SpellTarget)) {
+                                //For foreign targets (whose turns don't end when the caster's turn ends), if the spell is not durationDependsOnTarget, and it doesn't have a duration of X+1, add 2 for "until another character's turn".
+                                // This allows the condition to persist until after the target's last turn, simulating that it hasn't been the caster's last turn yet.
+                                if (!spell.durationDependsOnTarget && newConditionGain.duration >= 0 && newConditionGain.duration % 5 == 0) {
+                                    newConditionGain.duration += 2;
+                                }
+                                characterService.send_ConditionToPlayers(conditionTargets.filter(target => target instanceof SpellTarget) as SpellTarget[], newConditionGain);
                             }
                         }
+                    });
+                } else if (manual) {
+                    spell.get_HeightenedConditions(spellLevel).forEach(conditionGain => {
+                        let conditionTargets: (Creature | SpellTarget)[] = (conditionGain.targetFilter == "caster" ? [creature] : targets);
                         conditionTargets.filter(target => target.constructor != SpellTarget).forEach(target => {
-                            characterService.add_Condition(target as Creature, newConditionGain, false);
+                            characterService.get_AppliedConditions(target as Creature, conditionGain.name)
+                                .filter(existingConditionGain => existingConditionGain.source == conditionGain.source && existingConditionGain.sourceGainID == (gain?.id || ""))
+                                .forEach(existingConditionGain => {
+                                    characterService.remove_Condition(target as Creature, existingConditionGain, false);
+                                });
                         })
-                        if (conditionGain.targetFilter != "caster" && conditionTargets.some(target => target instanceof SpellTarget)) {
-                            //For foreign targets (whose turns don't end when the caster's turn ends), if the spell is not durationDependsOnTarget, and it doesn't have a duration of X+1, add 2 for "until another character's turn".
-                            // This allows the condition to persist until after the target's last turn, simulating that it hasn't been the caster's last turn yet.
-                            if (!spell.durationDependsOnTarget && newConditionGain.duration >= 0 && newConditionGain.duration % 5 == 0) {
-                                newConditionGain.duration += 2;
-                            }
-                            characterService.send_ConditionToPlayers(conditionTargets.filter(target => target instanceof SpellTarget) as SpellTarget[], newConditionGain);
-                        }
-                    }
-                });
-            } else if (manual) {
-                spell.get_HeightenedConditions(spellLevel).forEach(conditionGain => {
-                    let conditionTargets: (Creature | SpellTarget)[] = (conditionGain.targetFilter == "caster" ? [creature] : targets);
-                    conditionTargets.filter(target => target.constructor != SpellTarget).forEach(target => {
-                        characterService.get_AppliedConditions(target as Creature, conditionGain.name)
-                            .filter(existingConditionGain => existingConditionGain.source == conditionGain.source && existingConditionGain.sourceGainID == (gain?.id || ""))
-                            .forEach(existingConditionGain => {
-                                characterService.remove_Condition(target as Creature, existingConditionGain, false);
-                            });
+                        characterService.send_ConditionToPlayers(conditionTargets.filter(target => target instanceof SpellTarget) as SpellTarget[], conditionGain, false);
                     })
-                    characterService.send_ConditionToPlayers(conditionTargets.filter(target => target instanceof SpellTarget) as SpellTarget[], conditionGain, false);
-                })
+                }
             }
+
         }
 
         //All Conditions that have affected the duration of this spell or its conditions are now removed.

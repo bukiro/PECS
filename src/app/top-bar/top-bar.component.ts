@@ -118,7 +118,11 @@ export class TopBarComponent implements OnInit {
     }
 
     get_GMMode() {
-        return this.get_Character().GMMode;
+        return this.characterService.get_GMMode();
+    }
+
+    get_ManualMode() {
+        return this.characterService.get_ManualMode();
     }
 
     get_Companion() {
@@ -157,8 +161,8 @@ export class TopBarComponent implements OnInit {
     }
 
     get_Messages(automaticCheck: boolean = false) {
-        if (this.get_GMMode()) {
-            //Don't check effects in GM Mode.
+        if (this.get_GMMode() || this.get_ManualMode()) {
+            //Don't check effects in GM mode or manual mode.
             return false;
         }
         this.loading_messages;
@@ -298,9 +302,9 @@ export class TopBarComponent implements OnInit {
     }
 
     on_AutoCheckMessages(immediately: boolean = false) {
-        //Don't run in GM mode.
+        //Don't run in GM mode or manual mode.
         //If checkMessagesAutomatically is set, no modal is currently open and no other timeout is already running, start a timeout to check for new messages again.
-        if (!this.get_GMMode() && this.get_Character().settings.checkMessagesAutomatically && !this.modalOpen && !this.reOpenModalTimeoutRunning) {
+        if (!this.get_GMMode() && !this.get_ManualMode() && this.get_Character().settings.checkMessagesAutomatically && !this.modalOpen && !this.reOpenModalTimeoutRunning) {
             this.reOpenModalTimeoutRunning = true;
             if (immediately) {
                 this.reOpenModalTimeoutRunning = false;

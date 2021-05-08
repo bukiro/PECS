@@ -60,6 +60,10 @@ export class ActivityComponent implements OnInit {
         return this.characterService.get_Character();
     }
 
+    get_ManualMode() {
+        return this.characterService.get_ManualMode();
+    }
+
     get_CompanionAvailable() {
         return this.characterService.get_CompanionAvailable();
     }
@@ -118,6 +122,18 @@ export class ActivityComponent implements OnInit {
                 this.activitiesService.activate_Activity(this.get_Creature(), "Character", this.characterService, this.conditionsService, this.itemsService, this.spellsService, gain, activity, activated);
             }
         })
+    }
+
+    on_ManualRestoreCharge() {
+        this.gain.chargesUsed = Math.max(this.gain.chargesUsed - 1, 0);
+        if (this.gain.chargesUsed == 0) {
+            this.gain.activeCooldown = 0;
+        }
+    }
+
+    on_ManualEndCooldown() {
+        this.gain.activeCooldown = 0;
+        this.gain.chargesUsed = 0;
     }
 
     get_Traits(traitName: string = "") {

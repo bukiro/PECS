@@ -9,6 +9,7 @@ import { ItemsService } from './items.service';
 import { Character } from './Character';
 import { EffectGain } from './EffectGain';
 import { AnimalCompanion } from './AnimalCompanion';
+import { ToastService } from './toast.service';
 
 @Injectable({
     providedIn: 'root'
@@ -20,7 +21,8 @@ export class TimeService {
 
     constructor(
         private activitiesService: ActivitiesService,
-        private effectsService: EffectsService
+        private effectsService: EffectsService,
+        private toastService: ToastService
     ) { }
 
     get_YourTurn() {
@@ -92,6 +94,7 @@ export class TimeService {
             })
             multiplier = Math.max(1, multiplier);
             characterService.get_Health(creature).heal(creature, characterService, characterService.effectsService, heal * multiplier, true, true);
+            this.toastService.show((creature.type == "Character" ? "You" : (creature.name ? creature.name : "Your " + creature.type.toLowerCase())) + " gained " + (heal * multiplier).toString() + " HP from resting.", [], characterService)
             //Reset all "once per day" activity cooldowns.
             this.activitiesService.rest(creature, characterService);
             //Reset all conditions that are "until the next time you make your daily preparations".

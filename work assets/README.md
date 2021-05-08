@@ -114,14 +114,16 @@ Internal To Do list
 - [x] Add custom conditions with effects
 - [x] Add License notices to comply with Pathfinder Community Use Policy and Open Game License
 - [x] Add casting spells on party members
-- [ ] Add manual mode without automated conditions and effects and with bonus boxes for skills and attack
-- [ ] Stretch Goal: Icons
+- [x] Add manual mode without automated conditions and effects
+- [ ] Stretch Goal: Bitmap Icons for items, spells, feats, activities etc.
 - [ ] Stretch Goal: Initiative tracker, battles, being a battle member, GM-Player-Communication.......
 - [ ] Stretch Goal: Include optional systems like Stamina & Resolve
 - [x] Stretch Goal: Icon-Driven UI with dynamic tooltips
 - [ ] Stretch Goal: Exporting statblock and files for other tools (e.g. Foundry VTT)
 
 Active to-do:
+- Quick Effects button for Skills, AC, Speeds, Spell Attack Rolls and DCs, Class DCs and general Attack Rolls
+- Quick removal button for manual effects
 
 Test:
 
@@ -131,8 +133,6 @@ Next steps:
 - Check if any item activities need a target other than self
 - Crosscheck and apply errata: https://paizo.com/pathfinder/faq
 - Possibly Create tag that automatically inserts a dice rolling button for the included text
-- Implement manual mode
-- Quick Effects button for Skills and Attacks (and quick removal button for manual effects)
 - Gnome feats
 - Hobgoblin feats
 - Leshy feats

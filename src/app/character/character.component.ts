@@ -89,7 +89,7 @@ export class CharacterComponent implements OnInit {
     }
 
     get_GMMode() {
-        return this.get_Character().GMMode;
+        return this.characterService.get_GMMode();
     }
 
     toggleCharacterMenu() {
@@ -225,6 +225,27 @@ export class CharacterComponent implements OnInit {
     on_NewCharacter() {
         this.toggle_List("");
         this.characterService.reset_Character();
+    }
+
+    on_ManualMode(checked: boolean) {
+        if (!checked) {
+            if (this.get_Character().settings.checkMessagesAutomatically) {
+                //Resume automatic checking of messages.
+                this.characterService.set_ToChange("Character", "check-messages");
+            }
+        }
+        //Manual mode changes some buttons on some components, so we need to refresh these.
+        this.characterService.set_ToChange("Character", "activities");
+        this.characterService.set_ToChange("Companion", "activities");
+        this.characterService.set_ToChange("Familiar", "activities");
+        this.characterService.set_ToChange("Character", "health");
+        this.characterService.set_ToChange("Companion", "health");
+        this.characterService.set_ToChange("Familiar", "health");
+        this.characterService.set_ToChange("Character", "inventory");
+        this.characterService.set_ToChange("Companion", "inventory");
+        this.characterService.set_ToChange("Character", "spellbook");
+        this.characterService.set_ToChange("Character", "top-bar");
+        this.characterService.process_ToChange();
     }
 
     on_CheckMessagesAutomaticallyChange(checked: boolean) {

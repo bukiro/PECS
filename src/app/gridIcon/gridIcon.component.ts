@@ -80,11 +80,11 @@ export class GridIconComponent implements OnInit {
             }
         }
         if (this.spell?.actions) {
-            let actions = this.spell.actions.replace("hour", "hr").replace("minute", "min").replace(" to 2A", "| <i class='bi-plus-circle'></i>").replace(" to 3A", "| <i class='bi-plus-circle'></i>");
+            let actions = this.spell.actions.replace("hour", "hr").replace("minute", "min").replace(" to 2A", "| <i class='bi-plus-circle'></i>").replace(" to 3A", "| <i class='bi-plus-circle'></i>").replace(" or more", "| <i class='bi-plus-circle'></i>");
             return "actionIcons|" + actions;
         }
         if (this.activity?.actions) {
-            let actions = this.activity.actions.replace("hour", "hr").replace("minute", "min").replace(" to 2A", "| <i class='bi-plus-circle'></i>").replace(" to 3A", "| <i class='bi-plus-circle'></i>");
+            let actions = this.activity.actions.replace("hour", "hr").replace("minute", "min").replace(" to 2A", "| <i class='bi-plus-circle'></i>").replace(" to 3A", "| <i class='bi-plus-circle'></i>").replace(" or more", "| <i class='bi-plus-circle'></i>");
             return "actionIcons|" + actions;
         }
         if (this.item) {

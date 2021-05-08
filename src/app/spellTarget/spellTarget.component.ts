@@ -90,6 +90,10 @@ export class SpellTargetComponent implements OnInit {
         return this.characterService.get_Familiar();
     }
 
+    get_ManualMode() {
+        return this.characterService.get_ManualMode();
+    }
+
     get_Parameters() {
         let isBloodMagicTrigger = this.get_IsBloodMagicTrigger();
         let canActivate = this.can_Activate();

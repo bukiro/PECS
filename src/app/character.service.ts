@@ -377,6 +377,14 @@ export class CharacterService {
         } else { return new Character() }
     }
 
+    get_GMMode() {
+        return this.get_Character().GMMode;
+    }
+
+    get_ManualMode() {
+        return this.get_Character().settings.manualMode;
+    }
+
     get_CompanionAvailable(charLevel: number = this.get_Character().level) {
         //Return any feat that grants an animal companion that you own.
         return this.get_FeatsAndFeatures().find(feat => feat.gainAnimalCompanion == 1 && feat.have(this.get_Character(), this, charLevel));
@@ -1540,7 +1548,8 @@ export class CharacterService {
     }
 
     send_TurnChangeToPlayers() {
-        if (this.get_Character().GMMode) {
+        //Don't send messages in GM mode or manual mode.
+        if (this.get_GMMode() || this.get_ManualMode()) {
             return false;
         }
         let timeStamp: number = 0;
@@ -1576,7 +1585,8 @@ export class CharacterService {
     }
 
     send_ConditionToPlayers(targets: SpellTarget[], conditionGain: ConditionGain, activate: boolean = true) {
-        if (this.get_Character().GMMode) {
+        //Don't send messages in GM mode or manual mode.
+        if (this.get_GMMode() || this.get_ManualMode()) {
             return false;
         }
         let timeStamp: number = 0;
@@ -1621,7 +1631,8 @@ export class CharacterService {
     }
 
     apply_MessageConditions(messages: PlayerMessage[]) {
-        if (this.get_Character().GMMode) {
+        //Don't receive messages in GM mode or manual mode.
+        if (this.get_GMMode() || this.get_ManualMode()) {
             return false;
         }
         //Iterate through all messages that have a gainCondition (only one per message will be applied) and either add or remove the appropriate conditions.
@@ -1672,7 +1683,8 @@ export class CharacterService {
     }
 
     apply_TurnChangeMessage(messages: PlayerMessage[]) {
-        if (this.get_Character().GMMode) {
+        //Don't receive messages in GM mode or manual mode.
+        if (this.get_GMMode() || this.get_ManualMode()) {
             return false;
         }
         //For each senderId that you have a turnChange message from, remove all conditions that came from this sender and have duration 2.
@@ -1723,14 +1735,16 @@ export class CharacterService {
         }
         switch (effectGain.affected) {
             case "Focus Points":
-                (creature as Character).class.focusPoints = Math.min((creature as Character).class.focusPoints, this.get_MaxFocusPoints());
+                this.get_Character().class.focusPoints = Math.min(this.get_Character().class.focusPoints, this.get_MaxFocusPoints());
                 //We intentionally add the point after we set the limit. This allows us to gain focus points with feats and raise the current points
                 // before the limit is increased. The focus points are automatically limited in the spellbook component, where they are displayed, and when casting focus spells.
-                (creature as Character).class.focusPoints += value;
-                if (value >= 0) {
-                    this.toastService.show("You gained " + value + " focus points.", [], this);
+                let diff = Math.min(value, this.get_MaxFocusPoints() - this.get_Character().class.focusPoints);
+                (creature as Character).class.focusPoints += diff;
+                
+                if (diff >= 0) {
+                    this.toastService.show("You gained " + diff + " focus point" + (diff == 1 ? "" : "s") + ".", [], this);
                 } else {
-                    this.toastService.show("You lost " + value * -1 + " focus points.", [], this);
+                    this.toastService.show("You lost " + diff * -1 + " focus point" + (diff == 1 ? "" : "s") + ".", [], this);
                 }
                 this.set_ToChange("Character", "spellbook");
                 break;
@@ -2350,7 +2364,7 @@ export class CharacterService {
             this.set_Changed();
             this.set_ToChange("Character", "effects");
             //Check for messages once, also triggering the automatic loop if it's enabled.
-            if (!this.get_Character().GMMode) {
+            if (!this.get_GMMode()) {
                 this.set_ToChange("Character", "check-messages");
             }
             this.process_ToChange();
