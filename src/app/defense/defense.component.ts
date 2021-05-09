@@ -27,7 +27,6 @@ export class DefenseComponent implements OnInit {
     public sheetSide: string = "left";
     public shieldDamage: number = 0;
     private showList: string = "";
-    public showShieldDamageSlider: boolean = false;
 
     constructor(
         private changeDetector: ChangeDetectorRef,
@@ -73,10 +72,6 @@ export class DefenseComponent implements OnInit {
 
     get_ShowList() {
         return this.showList;
-    }
-
-    toggle_ShieldDamageSlider() {
-        this.showShieldDamageSlider = !this.showShieldDamageSlider;
     }
 
     get_ArmorSpecialization(armor: Armor) {

@@ -586,9 +586,6 @@ export class EffectsService {
             } else {
                 originalActivity = this.activitiesService.get_Activities(activity.name)[0];
             }
-            if (originalActivity?.effects?.length) {
-                simpleEffects = simpleEffects.concat(this.get_SimpleEffects(character, characterService, originalActivity));
-            }
             originalActivity?.hints?.filter(hint => (hint.active || hint.active2 || hint.active3 || hint.active4 || hint.active5) && hint.effects?.length).forEach(hint => {
                 hintEffects = hintEffects.concat(this.get_SimpleEffects(character, characterService, hint, "conditional, " + originalActivity.name));
             })

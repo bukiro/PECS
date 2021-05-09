@@ -23,9 +23,12 @@ export class StickyPopoverDirective extends NgbPopover implements OnInit, OnDest
     //This causes an issue in spells, items and activities when you open a target selection modal from inside the popover, with the popover closing when you click the modal.
     //If the popover is closed when the modal finishes, the context for the modal is gone, and the spell/item/activity is not activated.
     //A stickyPopover cannot close while a modal is opened, thereby avoiding this issue.
+    //Another issue is caused when a popover is opened within another popover.
+    //A stickyPopover cannot close while an element with the class "popover-keepalive" exists.
+    //CAUTION: To avoid a popover keeping itself open, never create a popover that contains an element with the "popover-keepalive" class.
     
     @Input() stickyPopover: TemplateRef<any>;
-
+    
     ngpPopover: TemplateRef<any>;
 
     constructor(
@@ -49,7 +52,8 @@ export class StickyPopoverDirective extends NgbPopover implements OnInit, OnDest
 
     close() {
         //Only close if no modal is open.
-        if (!document.getElementsByTagName("ngb-modal-window").length) {
+        if (document.getElementsByTagName("ngb-modal-window").length || document.getElementsByClassName("popover-keepalive").length) {
+        } else {
             super.close();
         }
     }

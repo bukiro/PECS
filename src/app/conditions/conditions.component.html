@@ -34,12 +34,18 @@
                             <button class="center-aligned" (click)="add_Day(1)">+1 Day</button>
                         </div>
                         <div class="newrow center-aligned">
-                            <input class="slider" [style.--name]="'\'Hours\''" type="range" min="0" max="23"
-                                [(ngModel)]="hours" (ngModelChange)="set_NonPermanent()">
-                            <input class="slider" [style.--name]="'\'Minutes\''" type="range" min="0" max="59"
-                                [(ngModel)]="minutes" (ngModelChange)="set_NonPermanent()">
-                            <input class="slider" [style.--name]="'\'Turns\''" type="range" min="0" max="9"
-                                [(ngModel)]="turns" (ngModelChange)="set_NonPermanent()">
+                            <div class="slider-container" [style.--name]="'\'Hours\''">
+                                <input class="slider" type="range" min="0" max="23" [(ngModel)]="hours"
+                                    (ngModelChange)="set_NonPermanent()">
+                            </div>
+                            <div class="slider-container" [style.--name]="'\'Minutes\''">
+                                <input class="slider" type="range" min="0" max="59" [(ngModel)]="minutes"
+                                    (ngModelChange)="set_NonPermanent()">
+                            </div>
+                            <div class="slider-container" [style.--name]="'\'Turns\''">
+                                <input class="slider" type="range" min="0" max="9" [(ngModel)]="turns"
+                                    (ngModelChange)="set_NonPermanent()">
+                            </div>
                         </div>
                         <div class="newrow">
                             <button class="center-aligned no-animation" [ngClass]="{'fancy-button':endOn==5}">
@@ -330,8 +336,8 @@
                             <div class="newrow list-item"
                                 *ngFor="let property of get_CustomEffectProperties(); let index = index; trackBy:trackByIndex;">
                                 <div class="newrow left-aligned">
-                                    <strong [ngbPopover]="property.desc"
-                                        triggers="hover:click">{{property.name}} <i class="bi-question-circle"></i></strong>
+                                    <strong [ngbPopover]="property.desc" triggers="hover:click">{{property.name}} <i
+                                            class="bi-question-circle"></i></strong>
                                 </div>
                                 <div class="newrow">
                                     <input class="newrow" type="text" [(ngModel)]="newEffect[property.key]"

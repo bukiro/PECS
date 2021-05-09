@@ -434,14 +434,6 @@ export class NewItemPropertyComponent implements OnInit {
                 this.characterService.get_Conditions().filter(condition => condition.effects.length).forEach((condition: Condition) => {
                     examples.push(...condition.effects.map(effect => effect.affected))
                 });
-                this.activitiesService.get_Activities().filter(activity => activity.effects.length).forEach((activity: Activity) => {
-                    examples.push(...activity.effects.map(effect => effect.affected))
-                });
-                this.get_Items().allEquipment().concat(...this.get_Inventories().map(inventory => inventory.allEquipment())).filter(item => item.activities.length).forEach((item: Equipment) => {
-                    item.activities.filter(activity => activity.effects.length).forEach((activity: Activity) => {
-                        examples.push(...activity.effects.map(effect => effect.affected))
-                    });
-                });
                 break;
             case "effects value":
                 this.characterService.get_FeatsAndFeatures().filter(feat => feat.onceEffects.length).forEach(feat => {
@@ -459,15 +451,9 @@ export class NewItemPropertyComponent implements OnInit {
                 this.activitiesService.get_Activities().filter(activity => activity.onceEffects.length).forEach((activity: Activity) => {
                     examples.push(...activity.onceEffects.map(effect => effect.value))
                 });
-                this.activitiesService.get_Activities().filter(activity => activity.effects.length).forEach((activity: Activity) => {
-                    examples.push(...activity.effects.map(effect => effect.value))
-                });
                 this.get_Items().allEquipment().concat(...this.get_Inventories().map(inventory => inventory.allEquipment())).filter(item => item.activities.length).forEach((item: Equipment) => {
                     item.activities.filter(activity => activity.onceEffects.length).forEach((activity: Activity) => {
                         examples.push(...activity.onceEffects.map(effect => effect.value))
-                    });
-                    item.activities.filter(activity => activity.effects.length).forEach((activity: Activity) => {
-                        examples.push(...activity.effects.map(effect => effect.value))
                     });
                 });
                 this.get_Items().allConsumables().concat(...this.get_Inventories().map(inventory => inventory.allConsumables())).filter(item => item.onceEffects.length).forEach((item: Consumable) => {
@@ -491,15 +477,9 @@ export class NewItemPropertyComponent implements OnInit {
                 this.activitiesService.get_Activities().filter(activity => activity.onceEffects.length).forEach((activity: Activity) => {
                     examples.push(...activity.onceEffects.map(effect => effect.setValue))
                 });
-                this.activitiesService.get_Activities().filter(activity => activity.effects.length).forEach((activity: Activity) => {
-                    examples.push(...activity.effects.map(effect => effect.setValue))
-                });
                 this.get_Items().allEquipment().concat(...this.get_Inventories().map(inventory => inventory.allEquipment())).filter(item => item.activities.length).forEach((item: Equipment) => {
                     item.activities.filter(activity => activity.onceEffects.length).forEach((activity: Activity) => {
                         examples.push(...activity.onceEffects.map(effect => effect.setValue))
-                    });
-                    item.activities.filter(activity => activity.effects.length).forEach((activity: Activity) => {
-                        examples.push(...activity.effects.map(effect => effect.setValue))
                     });
                 });
                 this.get_Items().allConsumables().concat(...this.get_Inventories().map(inventory => inventory.allConsumables())).filter(item => item.onceEffects.length).forEach((item: Consumable) => {

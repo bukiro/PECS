@@ -28,7 +28,6 @@ export class Activity {
     public critfailure: string = "";
     public critsuccess: string = "";
     public desc: string = "";
-    public effects: EffectGain[] = [];
     public failure: string = "";
     public frequency: string = "";
     public gainConditions: ConditionGain[] = [];
@@ -66,7 +65,7 @@ export class Activity {
     can_Activate() {
         //Test any circumstance under which this can be activated
         let isStance: boolean = (this.traits.includes("Stance"))
-        return isStance || this.gainItems.length || this.castSpells.length || this.gainConditions.length || this.cooldown || this.$cooldown || this.toggle || this.effects.length || this.onceEffects.length;
+        return isStance || this.gainItems.length || this.castSpells.length || this.gainConditions.length || this.cooldown || this.$cooldown || this.toggle || this.onceEffects.length;
     }
     get_IsHostile() {
         //Return whether an activity is meant to be applied on enemies. This is usually the case if the activity target is "other", or if the target is "area" and the activity has no target conditions.

@@ -541,26 +541,27 @@
                                             <div class="value"> {{item.get_BrokenThreshold()}}</div>
                                         </div>
                                         <div class="list-item newrow">
+                                            <ng-template #DamageSliderTemplate>
+                                                <div class="popover-keepalive slider-container" [style.--name]="'\'Damage\''"
+                                                    style="width:30rem;">
+                                                    <input class="slider" type="range" min="0"
+                                                        max="{{item.get_MaxHP()}}" [(ngModel)]="shieldDamage">
+                                                </div>
+                                            </ng-template>
                                             <span>
                                                 <button [disabled]="shieldDamage == 0"
                                                     (click)="on_ShieldHPChange(item, shieldDamage)">Damage</button>
                                             </span>
                                             <span class="hlist center-aligned">
-                                                <input class="number3" type="number" [(ngModel)]="shieldDamage"
-                                                    maxLength="3" min="0" max="{{item.get_MaxHP()}}">
-                                                <button [ngClass]="{'fancy-button':showShieldDamageSlider}"
-                                                    (click)="toggle_ShieldDamageSlider()">
-                                                    <i class="bi-sliders"></i>
-                                                </button>
+                                                <input [ngbPopover]="DamageSliderTemplate" #DamagePopover="ngbPopover"
+                                                    triggers="manual" (focus)="DamagePopover.open()" class="number3"
+                                                    type="number" [(ngModel)]="shieldDamage" maxLength="3" min="0"
+                                                    max="{{item.get_MaxHP()}}">
                                             </span>
                                             <span class="right-aligned">
                                                 <button [disabled]="shieldDamage == 0"
                                                     (click)="on_ShieldHPChange(item, -shieldDamage)">Repair</button>
                                             </span>
-                                            <div class="fullwidth" [ngbCollapse]="!showShieldDamageSlider">
-                                                <input class="slider" [style.--name]="'\'Damage\''" type="range" min="0"
-                                                    max="{{item.get_MaxHP()}}" [(ngModel)]="shieldDamage">
-                                            </div>
                                         </div>
                                     </ng-container>
                                     <app-item class="lower" [creature]="creature" [item]=item

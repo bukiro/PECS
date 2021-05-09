@@ -126,9 +126,9 @@ Active to-do:
 Test:
 
 Next steps:
+- Implement method to add bonus feats, skill increases and ability boosts
 - Many Activities need conditions (caster conditions at least)
 - Implement method to ignore single effects
-- Check if any item activities need a target other than self
 - Crosscheck and apply errata: https://paizo.com/pathfinder/faq
 - Possibly Create tag that automatically inserts a dice rolling button for the included text
 - Gnome feats

@@ -76,7 +76,7 @@
             <div class="newrow list-item" *ngIf="get_TileMode()">
                 <div class="icon-list">
                     <button (click)="on_NewCharacter()">
-                        <app-gridIcon [ngbTooltip]="'New Character'" [title]="'N E W'">
+                        <app-gridIcon [ngbTooltip]="'New Character'" [subTitle]="'New'" [superTitle]="'icon-bi-file-earmark-person'">
                         </app-gridIcon>
                     </button>
                     <ng-container *ngIf="get_SavegamesInitializing()">
@@ -90,30 +90,31 @@
                         <ng-container *ngIf="!get_Savegames()">
                             <button (click)="on_RetryDatabaseConnection()">
                                 <app-gridIcon [ngbTooltip]="'Database connection failed - click to retry'"
-                                    [title]="'D B'" [superTitle]="'icon-bi-arrow-repeat'">
+                                    [superTitle]="'icon-bi-arrow-repeat'">
                                 </app-gridIcon>
                             </button>
                         </ng-container>
                         <ng-container *ngIf="get_Savegames()">
                             <button (click)="toggle_List('load')" [ngClass]="{'activechoice':get_ShowList()=='load'}">
-                                <app-gridIcon [ngbTooltip]="'Load Character'" [title]="'L O A D'">
+                                <app-gridIcon [ngbTooltip]="'Load Character'" [subTitle]="'Load'"
+                                    [superTitle]="'icon-bi-file-earmark-arrow-down'">
                                 </app-gridIcon>
                             </button>
                             <button *ngIf="!get_GMMode()" (click)="save_CharacterToDB()"
                                 [disabled]="get_IsBlankCharacter()">
                                 <app-gridIcon
-                                    [ngbTooltip]="get_IsBlankCharacter() ? 'No changes to character yet.' : 'Save Character'"
-                                    [title]="'S A V E'">
+                                    [ngbTooltip]="get_IsBlankCharacter() ? 'No changes to character yet.' : 'Save Character'" [subTitle]="'Save'"
+                                    [superTitle]="'icon-bi-file-earmark-arrow-up'">
                                 </app-gridIcon>
                             </button>
                         </ng-container>
                     </ng-container>
                     <button (click)="toggle_List('settings')" [ngClass]="{'activechoice':get_ShowList()=='settings'}">
-                        <app-gridIcon [ngbTooltip]="'Settings'" [title]="'C O N F'">
+                        <app-gridIcon [ngbTooltip]="'Settings'" [subTitle]="'Settings'" [superTitle]="'icon-bi-gear'">
                         </app-gridIcon>
                     </button>
                     <button (click)="toggle_List('licenses')" [ngClass]="{'activechoice':get_ShowList()=='licenses'}">
-                        <app-gridIcon [ngbTooltip]="'Licenses'" [title]="'L I C'">
+                        <app-gridIcon [ngbTooltip]="'Licenses'" [subTitle]="'Licenses'" [superTitle]="'§'">
                         </app-gridIcon>
                     </button>
                 </div>
@@ -1066,7 +1067,7 @@
                         <strong>Automation</strong>
                         <ng-template #ManualModeDescription>
                             <p>
-                                Manual mode is for players who want more control of their character sheet, or just need
+                                Manual mode is for players who want more control over their attributes, or just need
                                 to restore a spell quickly. Many automatic and temporary effects are disabled in manual
                                 mode, and buttons are added that allow you to change them yourself. The main differences
                                 are listed below:

@@ -106,6 +106,7 @@
                 "activationType": "Raise a Shield",
                 "frequency": "once per day",
                 "cooldown": 144000,
+                "target": "other",
                 "gainItems": [
                     {
                         "name": "Lion's Shield Biting Maw",
@@ -155,6 +156,7 @@
                 "actions": "1A",
                 "activationType": "Interact",
                 "cooldown": 144000,
+                "target": "other",
                 "source": "ac36c974-2ec3-41b5-b7af-1118acc1cc45",
                 "charges": 5,
                 "sharedChargesID": 1

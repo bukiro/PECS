@@ -44,8 +44,7 @@ export class InventoryComponent implements OnInit {
     private showList: string = "";
     public shieldDamage: number = 0;
     public targetInventory = null;
-    public showShieldDamageSlider: boolean = false;
-
+    
     constructor(
         private changeDetector: ChangeDetectorRef,
         public characterService: CharacterService,
@@ -81,10 +80,6 @@ export class InventoryComponent implements OnInit {
 
     toggle_Menu(menu: string = "") {
         this.characterService.toggle_Menu(menu);
-    }
-
-    toggle_ShieldDamageSlider() {
-        this.showShieldDamageSlider = !this.showShieldDamageSlider;
     }
 
     trackByIndex(index: number, obj: any): any {

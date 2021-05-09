@@ -64,15 +64,19 @@
             </button>
         </div>
         <div class="newrow">
-            <strong style="flex-basis: 7.5em; flex-grow:0;">Dice number</strong> <input class="slider" type="range"
-                min="1" max="20" [(ngModel)]="diceNum">
+            <strong style="flex-basis: 7.5em; flex-grow:0;">Dice number</strong>
+            <div class="slider-container">
+                <input class="slider" type="range" min="1" max="20" [(ngModel)]="diceNum">
+            </div>
         </div>
         <div class="newrow">
             <strong style="flex-basis: 7.5em; flex-grow:0;">
                 Bonus
                 <input type="number" class="number3" [(ngModel)]="bonus">
             </strong>
-            <input class="slider" type="range" min="-40" max="40" [(ngModel)]="bonus">
+            <div class="slider-container">
+                <input class="slider" type="range" min="-40" max="40" [(ngModel)]="bonus">
+            </div>
         </div>
     </div>
     <div [ngbCollapse]="!get_DiceResults().length">

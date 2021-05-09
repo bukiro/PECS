@@ -23,10 +23,8 @@ export class HealthComponent implements OnInit {
     @Input()
     public sheetSide: string = "left";
 
-    public showDamageSlider: boolean = false;
     public damageSliderMax: number = 1;
-    public showTempHPSlider: boolean = false;
-
+    
     public damage: number = 0;
     public nonlethal: boolean = false;
     public setTempHP: number = 0;
@@ -76,14 +74,6 @@ export class HealthComponent implements OnInit {
 
     trackByIndex(index: number, obj: any): any {
         return index;
-    }
-
-    toggle_DamageSlider() {
-        this.showDamageSlider = !this.showDamageSlider;
-    }
-
-    toggle_TempHPSlider() {
-        this.showTempHPSlider = !this.showTempHPSlider;
     }
 
     get_Waiting(duration: number) {

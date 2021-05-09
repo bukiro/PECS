@@ -28,11 +28,11 @@ export class SpellTargetComponent implements OnInit {
     @Input()
     spell: Spell;
     @Input()
-    activity: Activity|ItemActivity;
+    activity: Activity | ItemActivity;
     @Input()
-    gain: SpellGain|ActivityGain|ItemActivity;
+    gain: SpellGain | ActivityGain | ItemActivity;
     @Input()
-    parentActivityGain: ActivityGain|ItemActivity = null;
+    parentActivityGain: ActivityGain | ItemActivity = null;
     @Input()
     casting: SpellCasting = null;
     @Input()
@@ -116,6 +116,7 @@ export class SpellTargetComponent implements OnInit {
         // - causes any blood magic effect or
         // - causes any target conditions and has a target or
         // - causes any caster conditions and caster conditions are not disabled in general, or any of the caster conditions are not disabled.
+        // - in case of an activity, adds items or onceeffects (which are independent of the target)
         let gainConditions: ConditionGain[] = [];
         if (this.spell) {
             gainConditions = this.spell.get_HeightenedConditions(this.effectiveSpellLevel);
@@ -127,8 +128,15 @@ export class SpellTargetComponent implements OnInit {
             (
                 !noTarget &&
                 gainConditions.some(gain => gain.targetFilter != "caster")
-            )
-        ) ||
+            ) ||
+            (
+                this.activity &&
+                (
+                    this.activity.traits.includes("Stance") ||
+                    this.activity.gainItems.length ||
+                    this.activity.onceEffects.length
+                )
+            ) ||
             (
                 gainConditions.some(gain => gain.targetFilter == "caster") &&
                 (
@@ -147,6 +155,7 @@ export class SpellTargetComponent implements OnInit {
                     )
                 )
             )
+        )
     }
 
     open_SpellTargetModal(content) {
@@ -213,7 +222,7 @@ export class SpellTargetComponent implements OnInit {
             return (this.gain.targets.filter(target => target.selected).length >= Math.min(this.gain.targets.length - ((this.spell || this.activity).cannotTargetCaster ? 1 : 0), targetNumber));
         }
     }
-    
+
     get_DeactivatePhrase() {
         let phrase = this.dismissPhrase || "Dismiss <span class='actionIcon action1A'></span> or Stop Sustaining";
         if (this.parentActivityGain?.duration) {
@@ -227,7 +236,7 @@ export class SpellTargetComponent implements OnInit {
     get_Duration(turns: number, includeTurnState: boolean = true, inASentence: boolean = false) {
         return this.timeService.get_Duration(turns, includeTurnState, inASentence);
     }
-    
+
     finish_Loading() {
         this.characterService.get_Changed()
             .subscribe((target) => {
@@ -236,11 +245,11 @@ export class SpellTargetComponent implements OnInit {
                 }
             });
         this.characterService.get_ViewChanged()
-        .subscribe((view) => {
-            if (view.creature.toLowerCase() == this.creature.toLowerCase() && ["activities", "spellbook", "all"].includes(view.target.toLowerCase())) {
-                this.changeDetector.detectChanges();
-            }
-        });
+            .subscribe((view) => {
+                if (view.creature.toLowerCase() == this.creature.toLowerCase() && ["activities", "spellbook", "all"].includes(view.target.toLowerCase())) {
+                    this.changeDetector.detectChanges();
+                }
+            });
     }
 
     ngOnInit() {

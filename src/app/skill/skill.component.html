@@ -38,7 +38,7 @@
             </div>
         </span>
     </div>
-    <app-tags [creature]="creature" [objectName]=skill.name [showTraits]=true [showFeats]=true [showItems]=true
+    <app-tags *ngIf="showValue" [creature]="creature" [objectName]=skill.name [showTraits]=true [showFeats]=true [showItems]=true
         [showActivities]=true [showConditions]=true [specialNames]=get_SpecialShowon(skill)
         [specialEffects]="calculatedSkill.absolutes.concat(calculatedSkill.relatives)">
     </app-tags>

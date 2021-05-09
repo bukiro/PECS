@@ -742,6 +742,7 @@
             {
                 "actions": "2A",
                 "activationType": "Interact",
+                "target": "object",
                 "desc": "You lift an object of up to 8 Bulk as though it were weightless. This requires two hands, and if the object is locked or otherwise held in place, you can attempt to Force it Open using Athletics as part of this activation. The object still has its full weight and Bulk for all other purposes - you just ignore that weight. The effect lasts until the end of your next turn.",
                 "name": "Lifting Belt",
                 "traits": [
@@ -984,6 +985,7 @@
                 "actions": "1A",
                 "activationType": "Interact",
                 "cooldown": 144000,
+                "target": "ally",
                 "desc": "You can soothe a willing, adjacent creature's wounds, restoring 2d6+7 Hit Points to that creature. This is a positive healing effect. You can't harm undead with this healing.",
                 "frequency": "once per day",
                 "name": "Healer's Gloves",
@@ -1025,6 +1027,7 @@
                 "activationType": "Interact",
                 "cooldown": 144000,
                 "desc": "You can soothe a willing, adjacent creature's wounds, restoring 2d6+7 Hit Points to that creature. This is a positive healing effect. You can't harm undead with this healing.",
+                "target": "ally",
                 "frequency": "once per day",
                 "name": "Healer's Gloves (Greater)",
                 "traits": [
@@ -1150,6 +1153,7 @@
                 "activationType": "Interact",
                 "requirements": "No item is stored in the gloves",
                 "desc": "One item you're holding with a Bulk of 1 or less vanishes into the gloves' extradimensional space.",
+                "target": "object",
                 "inputRequired": "Manually move an item to the gloves' container.",
                 "name": "Gloves of Storing: Store",
                 "traits": [
@@ -1168,6 +1172,7 @@
                 "requirements": "An item is stored in the gloves, and you have a free hand",
                 "cooldown": 100,
                 "desc": "The item stored in the gloves appears in your hand. The gloves can't be activated again for 1 minute.",
+                "target": "object",
                 "inputRequired": "Manually move an item from the gloves' container to your main inventory and equip it as needed.",
                 "name": "Gloves of Storing: Retrieve",
                 "traits": [
@@ -1980,6 +1985,7 @@
                 "activationType": "Interact",
                 "cooldown": 100,
                 "frequency": "once per minute",
+                "target": "other",
                 "desc": "A ram-shaped blast of force slams into one foe that you can see within 60 feet. The number of actions you spend to Activate this Item (from 1 to 3) determines the intensity of the force. The blow deals 2d6 force damage per action spent and pushes the target 5 feet per action spent. The target must attempt a DC 22 Fortitude save.",
                 "critsuccess": "The target is unaffected.",
                 "success": "The target takes half damage and is pushed half the distance.",
@@ -2020,6 +2026,7 @@
                 "activationType": "Interact",
                 "cooldown": 100,
                 "frequency": "once per minute",
+                "target": "other",
                 "desc": "A ram-shaped blast of force slams into one foe that you can see within 60 feet. The number of actions you spend to Activate this Item (from 1 to 3) determines the intensity of the force. The blow deals 3d6 force damage per action spent and pushes the target 5 feet per action spent. The target must attempt a DC 32 Fortitude save. When you activate the ring using 3 actions, you can disperse the force into multiple magical rams, targeting all creatures in a 30-foot cone instead of one target within 60 feet.",
                 "critsuccess": "The target is unaffected.",
                 "success": "The target takes half damage and is pushed half the distance.",

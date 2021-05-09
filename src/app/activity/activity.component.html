@@ -53,7 +53,7 @@
                 </ng-container>
                 <!-- Activity with no effect, not even toggled. This button literally does nothing. -->
                 <ng-container *ngIf="!get_ManualMode() && !activity.can_Activate()">
-                    <button class="newrow center-aligned" [ngbTooltip]="'The activity has no automatic effects.'">
+                    <button class="newrow center-aligned" [ngbTooltip]="'The activity has no automatic effects and no target.'">
                         <span>Activate <i class='bi-peace'></i></span>
                     </button>
                 </ng-container>
