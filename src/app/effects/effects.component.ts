@@ -177,6 +177,22 @@ export class EffectsComponent implements OnInit {
         return condition.get_IsInformationalCondition(this.get_Creature(), this.characterService, conditionGain);
     }
 
+    on_IgnoreEffect(effect: Effect, ignore: boolean) {
+        if (ignore) {
+            this.get_Creature().ignoredEffects.push(effect);
+        } else {
+            this.get_Creature().ignoredEffects = this.get_Creature().ignoredEffects.filter(ignoredEffect =>
+                !(
+                    ignoredEffect.creature == effect.creature &&
+                    ignoredEffect.target == effect.target &&
+                    ignoredEffect.source == effect.source
+                )
+            )
+        }
+        this.characterService.set_ToChange(this.creature, "effects");
+        this.characterService.process_ToChange();
+    }
+
     calculate_InventoryEffects() {
         let speedRune: boolean = false;
         let enfeebledRune: boolean = false;

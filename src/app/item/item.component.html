@@ -252,7 +252,7 @@
         <app-spell [spell]=spell [spellLevel]="(cast.level) ? cast.level : 0"></app-spell>
     </div>
 </div>
-<div class="list-item left-aligned" *ngFor="let material of item.material">
+<div class="list-item left-aligned" *ngFor="let material of item.material; trackBy:trackByIndex;">
     <header class="spellHeader">{{material.name}}</header>
     <ng-container *ngFor="let desc of material.desc.split('\n\n'); trackBy:trackByIndex;">
         <p *ngIf="desc.split('\n').length == 1" [innerHtml]="desc"></p>
@@ -353,7 +353,7 @@
 </div>
 <div class="list-item left-aligned" *ngFor="let rune of item.propertyRunes; trackBy:trackByIndex;">
     <header class="spellHeader">{{rune.name}} Rune</header>
-    <ng-container *ngFor="let spell of get_ItemSpell(rune)">
+    <ng-container *ngFor="let spell of get_ItemSpell(rune); trackBy:trackByIndex;">
         <button class="newrow center-aligned" (click)="on_SpellItemUse(rune)">
             <span>Use
                 <app-actionIcons *ngIf="spell.actions" [actionString]="spell.actions">

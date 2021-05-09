@@ -16,6 +16,10 @@ export class ToastContainerComponent {
         public toastService: ToastService
     ) { }
 
+    trackByIndex(index: number, obj: any): any {
+        return index;
+    }
+    
     isTemplate(toast) { return toast.textOrTpl instanceof TemplateRef; }
 
     on_Click(toast) {

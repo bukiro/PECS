@@ -38,7 +38,7 @@
                                 <ng-container
                                     *ngFor="let checked of [increased || skillLevel >= choice.maxRank]; trackBy:trackByIndex;">
                                     <ng-container
-                                        *ngFor="let disabled of [skillLockedByThis(skill, choice) || (((choice.increases.length >= maxAvailable) || cannotIncrease(skill, levelNumber, choice).length) && !increased)]">
+                                        *ngFor="let disabled of [skillLockedByThis(skill, choice) || (((choice.increases.length >= maxAvailable) || cannotIncrease(skill, levelNumber, choice).length) && !increased)]; trackBy:trackByIndex;">
                                         <div class="list-item gridicon-fullsizebox" triggers="click"
                                             [ngClass]="{'selected':increased}">
                                             <input class="character-choice" id="{{skill.name}}" type="checkbox"

@@ -1,4 +1,5 @@
 export class Effect {
+    public ignored: boolean = false;
     constructor(
         public creature: string = "",
         public type: string = "",

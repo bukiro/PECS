@@ -454,7 +454,7 @@
                                                                 <!-- Signature Spells -->
                                                                 <ng-container *ngIf="taken && signatureSpellsAllowed">
                                                                     <div class="list-item newrow lower"
-                                                                        *ngFor="let takenSpell of [get_TakenSpell(spell.name)]">
+                                                                        *ngFor="let takenSpell of [get_TakenSpell(spell.name)]; trackBy:trackByIndex;">
                                                                         <span [ngbTooltip]="reason"
                                                                             *ngFor="let reason of [get_CannotChooseSignatureSpell(signatureSpellsAllowed, takenSpell)]; trackBy:trackByIndex;">
                                                                             <input

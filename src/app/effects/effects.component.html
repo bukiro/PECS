@@ -34,34 +34,55 @@
                     </strong>
                 </span>
             </div>
+            <div class="newrow" *ngIf="effect.ignored">
+                <span>
+                    <strong>Ignored</strong>
+                    This effect doesn't apply while it is ignored.
+                </span>
+            </div>
             <div class="newrow" *ngIf="effect.type != 'untyped' && !effect.toggle && !effect.setValue">
                 <span>
-                    <strong>Type</strong> {{effect.type + " " + (effect.penalty ? 'penalty' : 'bonus')}}</span>
+                    <strong>Type</strong>
+                    {{effect.type + " " + (effect.penalty ? 'penalty' : 'bonus')}}
+                </span>
             </div>
             <div class="newrow" *ngIf="effect.duration">
                 <span>
-                    <strong>Duration</strong> {{effect.duration ? get_Duration(effect.duration) : ''}}
+                    <strong>Duration</strong>
+                    {{effect.duration ? get_Duration(effect.duration) : ''}}
                 </span>
             </div>
             <div class="newrow">
-                <span><strong>Source&nbsp;</strong>{{effect.source.includes('conditional, ') ? effect.source.substr(13)
-                    : effect.source}}</span>
+                <span><strong>Source</strong>
+                    {{effect.source.includes('conditional, ') ? effect.source.substr(13) : effect.source}}
+                </span>
             </div>
             <div class="newrow" *ngIf="effect.source.includes('conditional, ')">
-                <span><strong>Conditional&nbsp;</strong>This effect only applies for certain actions or under specific
-                    circumstances.</span>
+                <span>
+                    <strong>Conditional</strong>
+                    This effect only applies for certain actions or under specific circumstances.
+                </span>
             </div>
+            <span>
+                <button [ngbTooltip]="'Ignore effects on ' + effect.target + ' from ' + effect.source"
+                    *ngIf="!effect.ignored" (click)="on_IgnoreEffect(effect, true)">
+                    Ignore
+                </button>
+                <button *ngIf="effect.ignored" (click)="on_IgnoreEffect(effect, false)">
+                    Stop ignoring
+                </button>
+            </span>
         </ng-template>
         <div [ngbPopover]="effectContent" triggers="click" *ngIf="!fullDisplay" style="display:flex;">
             <app-gridIcon class="effect" [effect]="effect" placement="left bottom top"
-                [ngClass]="{'penalty':effect.penalty, 'bonus':!effect.penalty && !effect.setValue, 'absolute':effect.setValue}"
+                [ngClass]="{'penalty':effect.penalty && !effect.ignored, 'bonus':!effect.penalty && !effect.setValue && !effect.ignored, 'absolute':effect.setValue && !effect.ignored, 'inactive-button':effect.ignored}"
                 [ngbTooltip]="effect.target + (parseInt(effect.value) ? ' ' + effect.value : '') + (effect.setValue ? ' = '+effect.setValue : '')"
                 openDelay=0>
             </app-gridIcon>
         </div>
         <div class="list-item gridicon-fullsizebox" *ngIf="fullDisplay">
             <app-gridIcon class="effect" [effect]="effect"
-                [ngClass]="{'penalty':effect.penalty, 'bonus':!effect.penalty && !effect.setValue, 'absolute':effect.setValue}">
+                [ngClass]="{'penalty':effect.penalty && !effect.ignored, 'bonus':!effect.penalty && !effect.setValue && !effect.ignored, 'absolute':effect.setValue && !effect.ignored, 'inactive-button':effect.ignored}">
             </app-gridIcon>
             <div class="gridicon-sidebar">
                 <ng-container *ngTemplateOutlet="effectContent"></ng-container>

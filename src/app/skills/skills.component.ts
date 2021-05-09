@@ -103,7 +103,7 @@ export class SkillsComponent implements OnInit {
         }
         //We don't process the values yet - for now we just collect all Speeds that are mentioned in effects.
         // Since we pick up every effect that includes "Speed", but we don't want "Ignore Circumstance Penalties To Speed" to show up, we filter out "Ignore".
-        let speedEffects = this.effectsService.get_Effects(this.creature).all.filter(effect => effect.apply && (effect.target.includes("Speed") && !effect.target.includes("Ignore")));
+        let speedEffects = this.effectsService.get_Effects(this.creature).all.filter(effect => effect.apply && !effect.ignored && (effect.target.includes("Speed") && !effect.target.includes("Ignore")));
         speedEffects.forEach(effect => {
             if (!speeds.some(speed => speed.name == effect.target)) {
                 speeds.push(new Speed(effect.target))

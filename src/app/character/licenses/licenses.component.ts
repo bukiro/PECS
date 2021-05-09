@@ -16,6 +16,10 @@ export class LicensesComponent implements OnInit {
 
     constructor() { }
 
+    trackByIndex(index: number, obj: any): any {
+        return index;
+    }
+    
     ngOnInit() {
         Object.keys(ogl).forEach(key => {
             this.ogl.push({ title: ogl[key].title, desc: ogl[key].desc });

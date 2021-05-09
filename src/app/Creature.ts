@@ -6,6 +6,7 @@ import { ConditionGain } from './ConditionGain';
 import { v4 as uuidv4 } from 'uuid';
 import { EffectGain } from './EffectGain';
 import { Skill } from './Skill';
+import { Effect } from './Effect';
 
 export class Creature {
     public name: string = "";
@@ -16,6 +17,7 @@ export class Creature {
     public health: Health = new Health();
     public conditions: ConditionGain[] = [];
     public effects: EffectGain[] = [];
+    public ignoredEffects: Effect[] = [];
     public inventories: ItemCollection[] = [new ItemCollection()];
     public speeds: Speed[] = [new Speed("Speed"), new Speed("Land Speed")];
     public bulk: Bulk = new Bulk();

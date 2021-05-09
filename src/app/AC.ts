@@ -96,6 +96,7 @@ export class AC {
             let characterBonuses = effectsService.get_Effects(character.type).bonuses.some(effect =>
                 effect.creature == character.id &&
                 effect.apply &&
+                !effect.ignored &&
                 effect.show &&
                 effect.type != "circumstance" &&
                 effect.type != "status" &&
@@ -104,6 +105,7 @@ export class AC {
             let familiarBonuses = effectsService.get_Effects(creature.type).bonuses.some(effect =>
                 effect.creature == creature.id &&
                 effect.apply &&
+                !effect.ignored &&
                 effect.show &&
                 (effect.type == "circumstance" || effect.type == "status") &&
                 this.get_NamesList().map(name => name.toLowerCase()).includes(effect.target.toLowerCase())
@@ -119,6 +121,7 @@ export class AC {
             let characterPenalties = effectsService.get_Effects(character.type).penalties.some(effect =>
                 effect.creature == character.id &&
                 effect.apply &&
+                !effect.ignored &&
                 effect.show &&
                 effect.type != "circumstance" &&
                 effect.type != "status" &&
@@ -127,6 +130,7 @@ export class AC {
             let familiarPenalties = effectsService.get_Effects(creature.type).penalties.some(effect =>
                 effect.creature == creature.id &&
                 effect.apply &&
+                !effect.ignored &&
                 effect.show &&
                 (effect.type == "circumstance" || effect.type == "status") &&
                 this.get_NamesList().map(name => name.toLowerCase()).includes(effect.target.toLowerCase())

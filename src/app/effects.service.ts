@@ -47,7 +47,7 @@ export class EffectsService {
         let index = this.get_CalculatedIndex(creature);
         return this.effects[index];
     }
-    
+
     get_BonusTypes() {
         return this.bonusTypes;
     }
@@ -69,83 +69,83 @@ export class EffectsService {
 
     get_EffectsOnThis(creature: Creature, ObjectName: string) {
         let index = this.get_CalculatedIndex(creature.type);
-        return this.effects[index].all.filter(effect => effect.creature == creature.id && effect.target.toLowerCase() == ObjectName.toLowerCase() && effect.apply);
+        return this.effects[index].all.filter(effect => effect.creature == creature.id && effect.target.toLowerCase() == ObjectName.toLowerCase() && effect.apply && !effect.ignored);
     }
 
     get_RelativesOnThis(creature: Creature, ObjectName: string) {
         let index = this.get_CalculatedIndex(creature.type);
-        return this.effects[index].relatives.filter(effect => effect.creature == creature.id && effect.target.toLowerCase() == ObjectName.toLowerCase() && effect.apply);
+        return this.effects[index].relatives.filter(effect => effect.creature == creature.id && effect.target.toLowerCase() == ObjectName.toLowerCase() && effect.apply && !effect.ignored);
     }
 
     get_RelativesOnThese(creature: Creature, ObjectNames: string[], lowerIsBetter: boolean = false) {
         let index = this.get_CalculatedIndex(creature.type);
         //Since there can be an overlap between the different effects we're asking about, we need to break them down to one bonus and one penalty per effect type.
         return this.get_TypeFilteredEffects(
-            this.effects[index].relatives.filter(effect => effect.creature == creature.id && ObjectNames.map(name => name.toLowerCase()).includes(effect.target.toLowerCase()) && effect.apply)
+            this.effects[index].relatives.filter(effect => effect.creature == creature.id && ObjectNames.map(name => name.toLowerCase()).includes(effect.target.toLowerCase()) && effect.apply && !effect.ignored)
             , false, lowerIsBetter);
     }
 
     get_AbsolutesOnThis(creature: Creature, ObjectName: string) {
         let index = this.get_CalculatedIndex(creature.type);
-        return this.effects[index].absolutes.filter(effect => effect.creature == creature.id && effect.target.toLowerCase() == ObjectName.toLowerCase() && effect.apply);
+        return this.effects[index].absolutes.filter(effect => effect.creature == creature.id && effect.target.toLowerCase() == ObjectName.toLowerCase() && effect.apply && !effect.ignored);
     }
 
     get_AbsolutesOnThese(creature: Creature, ObjectNames: string[], lowerIsBetter: boolean = false) {
         let index = this.get_CalculatedIndex(creature.type);
         //Since there can be an overlap between the different effects we're asking about, we need to break them down to one bonus and one penalty per effect type.
         return this.get_TypeFilteredEffects(
-            this.effects[index].absolutes.filter(effect => effect.creature == creature.id && ObjectNames.map(name => name.toLowerCase()).includes(effect.target.toLowerCase()) && effect.apply)
+            this.effects[index].absolutes.filter(effect => effect.creature == creature.id && ObjectNames.map(name => name.toLowerCase()).includes(effect.target.toLowerCase()) && effect.apply && !effect.ignored)
             , true, lowerIsBetter);
     }
 
     get_BonusesOnThis(creature: Creature, ObjectName: string) {
         let index = this.get_CalculatedIndex(creature.type);
-        return this.effects[index].bonuses.filter(effect => effect.creature == creature.id && effect.target.toLowerCase() == ObjectName.toLowerCase() && effect.apply);
+        return this.effects[index].bonuses.filter(effect => effect.creature == creature.id && effect.target.toLowerCase() == ObjectName.toLowerCase() && effect.apply && !effect.ignored);
     }
 
     get_BonusesOnThese(creature: Creature, ObjectNames: string[], lowerIsBetter: boolean = false) {
         let index = this.get_CalculatedIndex(creature.type);
         //Since there can be an overlap between the different effects we're asking about, we need to break them down to one bonus and one penalty per effect type.
         return this.get_TypeFilteredEffects(
-            this.effects[index].bonuses.filter(effect => effect.creature == creature.id && ObjectNames.map(name => name.toLowerCase()).includes(effect.target.toLowerCase()) && effect.apply)
+            this.effects[index].bonuses.filter(effect => effect.creature == creature.id && ObjectNames.map(name => name.toLowerCase()).includes(effect.target.toLowerCase()) && effect.apply && !effect.ignored)
             , false, lowerIsBetter);
     }
 
     get_PenaltiesOnThis(creature: Creature, ObjectName: string) {
         let index = this.get_CalculatedIndex(creature.type);
-        return this.effects[index].penalties.filter(effect => effect.creature == creature.id && effect.target.toLowerCase() == ObjectName.toLowerCase() && effect.apply);
+        return this.effects[index].penalties.filter(effect => effect.creature == creature.id && effect.target.toLowerCase() == ObjectName.toLowerCase() && effect.apply && !effect.ignored);
     }
 
     get_PenaltiesOnThese(creature: Creature, ObjectNames: string[], lowerIsBetter: boolean = false) {
         let index = this.get_CalculatedIndex(creature.type);
         //Since there can be an overlap between the different effects we're asking about, we need to break them down to one bonus and one penalty per effect type.
         return this.get_TypeFilteredEffects(
-            this.effects[index].penalties.filter(effect => effect.creature == creature.id && ObjectNames.map(name => name.toLowerCase()).includes(effect.target.toLowerCase()) && effect.apply)
+            this.effects[index].penalties.filter(effect => effect.creature == creature.id && ObjectNames.map(name => name.toLowerCase()).includes(effect.target.toLowerCase()) && effect.apply && !effect.ignored)
             , false, lowerIsBetter);
     }
 
     show_BonusesOnThis(creature: Creature, ObjectName: string) {
         //This function is usually only used to determine if a value should be highlighted as a bonus. Because we don't want to highlight values if their bonus comes from a feat, we exclude hidden effects here.
         let index = this.get_CalculatedIndex(creature.type);
-        return this.effects[index].bonuses.some(effect => effect.creature == creature.id && effect.target.toLowerCase() == ObjectName.toLowerCase() && effect.apply && effect.show);
+        return this.effects[index].bonuses.some(effect => effect.creature == creature.id && effect.target.toLowerCase() == ObjectName.toLowerCase() && effect.apply && !effect.ignored && effect.show);
     }
 
     show_BonusesOnThese(creature: Creature, ObjectNames: string[]) {
         //This function is usually only used to determine if a value should be highlighted as a bonus. Because we don't want to highlight values if their bonus comes from a feat, we exclude hidden effects here.
         let index = this.get_CalculatedIndex(creature.type);
-        return this.effects[index].bonuses.some(effect => effect.creature == creature.id && ObjectNames.map(name => name.toLowerCase()).includes(effect.target.toLowerCase()) && effect.apply && effect.show);
+        return this.effects[index].bonuses.some(effect => effect.creature == creature.id && ObjectNames.map(name => name.toLowerCase()).includes(effect.target.toLowerCase()) && effect.apply && !effect.ignored && effect.show);
     }
 
     show_PenaltiesOnThis(creature: Creature, ObjectName: string) {
         //This function is usually only used to determine if a value should be highlighted as a penalty. Because we don't want to highlight values if their penalty comes from a feat, we exclude hidden effects here.
         let index = this.get_CalculatedIndex(creature.type);
-        return this.effects[index].penalties.some(effect => effect.creature == creature.id && effect.target.toLowerCase() == ObjectName.toLowerCase() && effect.apply && effect.show);
+        return this.effects[index].penalties.some(effect => effect.creature == creature.id && effect.target.toLowerCase() == ObjectName.toLowerCase() && effect.apply && !effect.ignored && effect.show);
     }
 
     show_PenaltiesOnThese(creature: Creature, ObjectNames: string[]) {
         //This function is usually only used to determine if a value should be highlighted as a penalty. Because we don't want to highlight values if their penalty comes from a feat, we exclude hidden effects here.
         let index = this.get_CalculatedIndex(creature.type);
-        return this.effects[index].penalties.some(effect => effect.creature == creature.id && ObjectNames.map(name => name.toLowerCase()).includes(effect.target.toLowerCase()) && effect.apply && effect.show);
+        return this.effects[index].penalties.some(effect => effect.creature == creature.id && ObjectNames.map(name => name.toLowerCase()).includes(effect.target.toLowerCase()) && effect.apply && !effect.ignored && effect.show);
     }
 
     get_TypeFilteredEffects(effects: Effect[], absolutes: boolean = false, lowerIsBetter: boolean = false) {
@@ -235,6 +235,14 @@ export class EffectsService {
 
     get_EffectProperties() {
         return this.effectProperties;
+    }
+
+    get_IgnoredEffect(creature: Creature, effect: Effect) {
+        return creature.ignoredEffects.some(ignoredEffect =>
+            ignoredEffect.creature == effect.creature &&
+            ignoredEffect.target == effect.target &&
+            ignoredEffect.source == effect.source
+        )
     }
 
     get_TestSpeed(name: string) {
@@ -895,6 +903,20 @@ export class EffectsService {
             effect.apply = false;
         })
 
+        //Ignore all effects that match the creature's ignoredEffects.
+        allEffects.filter(effect => this.get_IgnoredEffect(creature, effect)).forEach(effect => {
+            effect.ignored = true;
+        })
+
+        //Cleanup the creature's ignoredEffects and delete each that doesn't match an existing effect.
+        creature.ignoredEffects = creature.ignoredEffects.filter(ignoredEffect =>
+            allEffects.some(effect =>
+                ignoredEffect.creature == effect.creature &&
+                ignoredEffect.target == effect.target &&
+                ignoredEffect.source == effect.source
+            )
+        )
+
         //Add back the effects that affect another creature.
         allEffects = allEffects.concat(effectsForOthers);
 
@@ -1019,12 +1041,12 @@ export class EffectsService {
 
         let changedEffects: Effect[] = [];
         //Collect all new feats that don't exist in the old list or old feats that don't exist in the new list - that is, everything that has changed.
-        newEffects.filter(effect => effect.apply).forEach(newEffect => {
+        newEffects.filter(effect => effect.apply && !effect.ignored).forEach(newEffect => {
             if (!oldEffects.some(oldEffect => JSON.stringify(oldEffect) == JSON.stringify(newEffect))) {
                 changedEffects.push(newEffect);
             }
         })
-        oldEffects.filter(effect => effect.apply).forEach(oldEffect => {
+        oldEffects.filter(effect => effect.apply && !effect.ignored).forEach(oldEffect => {
             if (!newEffects.some(newEffect => JSON.stringify(newEffect) == JSON.stringify(oldEffect))) {
                 changedEffects.push(oldEffect);
             }

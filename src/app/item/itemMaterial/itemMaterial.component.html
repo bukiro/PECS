@@ -25,7 +25,7 @@
             </select>
         </div>
         <ng-container *ngIf="craftingStation">
-            <ng-container *ngFor="let material of item.material">
+            <ng-container *ngFor="let material of item.material; trackBy:trackByIndex;">
                 <div class="newrow" *ngIf="material.craftRequirement">
                     <span>
                         <strong>Craft Requirement&nbsp;</strong>
@@ -60,7 +60,7 @@
             </select>
         </div>
         <ng-container *ngIf="craftingStation">
-            <ng-container *ngFor="let material of item.material">
+            <ng-container *ngFor="let material of item.material; trackBy:trackByIndex;">
                 <div class="newrow" *ngIf="material.craftRequirement">
                     <span>
                         <strong>Craft Requirement&nbsp;</strong>
@@ -95,7 +95,7 @@
             </select>
         </div>
         <ng-container *ngIf="craftingStation">
-            <ng-container *ngFor="let material of item.material">
+            <ng-container *ngFor="let material of item.material; trackBy:trackByIndex;">
                 <div class="newrow" *ngIf="material.craftRequirement">
                     <span>
                         <strong>Craft Requirement&nbsp;</strong>

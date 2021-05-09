@@ -1,5 +1,5 @@
-<ng-container *ngFor="let maxCharges of [activity.maxCharges(get_Creature(), characterService)]">
-    <ng-container *ngFor="let cooldown of [activity.get_Cooldown(get_Creature(), characterService)]">
+<ng-container *ngFor="let maxCharges of [activity.maxCharges(get_Creature(), characterService)]; trackBy: trackByIndex;">
+    <ng-container *ngFor="let cooldown of [activity.get_Cooldown(get_Creature(), characterService)]; trackBy: trackByIndex;">
         <ng-container *ngFor="let activitySpell of [get_ActivitySpell()]; trackBy:trackByIndex">
             <!-- Targets if the activity is not a fuse stance and can be activated. Includes activities with no effect that can be toggled or have a cooldown. -->
             <div class="newrow" *ngIf="allowActivate && !get_ExternallyDisabled()">
