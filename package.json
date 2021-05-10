@@ -4,7 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve --host 0.0.0.0 --disable-host-check --live-reload=false",
-    "build": "ng build --prod=true --optimization=false --outputPath=docs --baseHref=/PECS/",
+    "build": "ng build --prod=true --optimization=false --outputPath=../build --baseHref=/PECS/",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
