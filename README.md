@@ -14,6 +14,8 @@ PECS was gratefully created under the [Paizo Inc. Community Use Policy](https://
 
 # Hosting
 
+This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 11.1.4.
+
 You need to provide a config.json with your database URL. See config.json.example for details (hint: It's a URL.)
 
 Run `ng serve` for a dev server, navigate to `http://localhost:4200` and never bother to go productive. Alternatively, run `ng build` to build the project, with the `--prod` flag for a production build. CAUTION: Definitely use `--optimization=false` and configure your initial budget with `"maximumError": "15mb"` in angular.json. PECS is a very complex piece of code and does not take kindly to minification.
@@ -21,8 +23,6 @@ Run `ng serve` for a dev server, navigate to `http://localhost:4200` and never b
 A modern computer should have no issues running PECS in a browser, but mind that it requires some processing power and is not great on smartphones. PECS looks best in the Edge browser. 
 
 Note: Add your custom content before you build the app.
-
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 11.1.4.
 
 # Database
 
