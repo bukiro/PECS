@@ -487,6 +487,11 @@ button.specialchoice:not(.fancy-button),
 
     /* Quick Dice Roll Button */
 
+app-quickdice {
+    margin-left: .3em;
+    margin-right: .3em;
+}
+
 app-quickdice > button {
     height: 1.5em;
     width: 1.5em;

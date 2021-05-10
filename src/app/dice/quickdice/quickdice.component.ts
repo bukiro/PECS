@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { CharacterService } from 'src/app/character.service';
 import { DiceService } from 'src/app/dice.service';
+import { SpellCasting } from 'src/app/SpellCasting';
 
 @Component({
     selector: 'app-quickdice',
@@ -19,17 +20,28 @@ export class QuickdiceComponent implements OnInit {
     private type: string = "";
     @Input()
     private diceString: string = "";
+    @Input()
+    private casting: SpellCasting = null;
 
     constructor(
         private characterService: CharacterService,
         private diceService: DiceService
     ) { }
 
+    get_SpellCastingModifier() {
+        let ability = this.casting?.ability || "Charisma";
+        let character = this.characterService.get_Character();
+        return this.characterService.abilitiesService.get_Abilities(ability)?.[0]?.mod(character, this.characterService, this.characterService.effectsService, character.level).result || 0;
+    }
+
     roll() {
         if (this.diceNum && this.diceSize) {
             this.diceService.roll(this.diceNum, this.diceSize, this.bonus, this.characterService, true, (this.type ? " " + this.type : ""));
         } else if (this.diceString) {
             let diceString = this.diceString.replace("\n", " ");
+            if (diceString.toLowerCase().includes("spellmod")) {
+                diceString = diceString.replace("spellmod", this.get_SpellCastingModifier().toString());
+            }
             let diceRolls: {diceNum: number, diceSize: number, bonus: number, type: string}[] = [];
             let index = 0;
             let arithmetic: string = "";
@@ -64,7 +76,11 @@ export class QuickdiceComponent implements OnInit {
 
     get_Description() {
         if (this.diceString) {
-            return this.diceString.replace("\n", " ");
+            let diceString = this.diceString.replace("\n", " ");
+            if (diceString.toLowerCase().includes("spellmod")) {
+                diceString = diceString.replace("spellmod", this.get_SpellCastingModifier().toString());
+            }
+            return diceString;
         } else if (this.diceNum && this.diceSize) {
             return this.diceNum + "d" + this.diceSize + (this.bonus > 0 ? " + " + this.bonus : " - " + (this.bonus * -1)) + (this.type ? " " + this.type : "");
         }

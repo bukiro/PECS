@@ -64,7 +64,6 @@ export class TopBarComponent implements OnInit {
 
     toggle_Menu(menu: string) {
         this.characterService.toggle_Menu(menu);
-        this.characterService.set_ToChange("Character", "items");
         this.characterService.set_ToChange("Character", "character-sheet");
         this.characterService.process_ToChange();
     }

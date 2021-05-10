@@ -266,7 +266,16 @@ export class CharacterService {
         }
     }
 
-    toggle_Menu(menu: string = "", parameter: string = "") {
+    toggle_Menu(menu: string = "") {
+        let characterMenuState = this.characterMenuState;
+        let companionMenuState = this.companionMenuState;
+        let familiarMenuState = this.familiarMenuState;
+        let itemsMenuState = this.itemsMenuState;
+        let craftingMenuState = this.craftingMenuState;
+        let spellsMenuState = this.spellsMenuState;
+        let spelllibraryMenuState = this.spelllibraryMenuState;
+        let conditionsMenuState = this.conditionsMenuState;
+        let diceMenuState = this.diceMenuState;
         this.characterMenuState = (menu == "character" && (this.characterMenuState == 'out')) ? 'in' : 'out';
         //Companion and Familiar menus don't need to close if the dice menu opens.
         if (menu != "dice") {
@@ -279,29 +288,86 @@ export class CharacterService {
         this.spelllibraryMenuState = (menu == "spelllibrary" && (this.spelllibraryMenuState == 'out')) ? 'in' : 'out';
         this.conditionsMenuState = (menu == "conditions" && (this.conditionsMenuState == 'out')) ? 'in' : 'out';
         this.diceMenuState = (menu == "dice" && (this.diceMenuState == 'out')) ? 'in' : 'out';
-        if (this.characterMenuState == 'in') {
-            this.set_Changed("charactersheet");
+        if (this.characterMenuState != characterMenuState) {
+            if (this.characterMenuState == 'in') {
+                this.set_Changed("charactersheet");
+            } else {
+                setTimeout(() => {
+                    this.set_Changed("charactersheet");
+                }, 400);
+            }
         }
-        if (this.companionMenuState == 'in') {
-            this.set_Changed("Companion");
+        if (this.companionMenuState != companionMenuState) {
+            if (this.companionMenuState == 'in') {
+                this.set_Changed("Companion");
+            } else {
+                setTimeout(() => {
+                    this.set_Changed("Companion");
+                }, 400);
+            }
         }
-        if (this.familiarMenuState == 'in') {
-            this.set_Changed("Familiar");
+        if (this.familiarMenuState != familiarMenuState) {
+            if (this.familiarMenuState == 'in') {
+                this.set_Changed("Familiar");
+            } else {
+                setTimeout(() => {
+                    this.set_Changed("Familiar");
+                }, 400);
+            }
         }
-        if (this.itemsMenuState == 'in') {
-            this.set_Changed("items");
+        if (this.itemsMenuState != itemsMenuState) {
+            if (this.itemsMenuState == 'in') {
+                this.set_Changed("items");
+            } else {
+                setTimeout(() => {
+                    this.set_Changed("items");
+                }, 400);
+            }
         }
-        if (this.craftingMenuState == 'in') {
-            this.set_Changed("crafting");
+        if (this.craftingMenuState != craftingMenuState) {
+            if (this.craftingMenuState == 'in') {
+                this.set_Changed("crafting");
+            } else {
+                setTimeout(() => {
+                    this.set_Changed("crafting");
+                }, 400);
+            }
         }
-        if (this.spellsMenuState == 'in') {
-            this.set_Changed("spells");
+        if (this.spellsMenuState != spellsMenuState) {
+            if (this.spellsMenuState == 'in') {
+                this.set_Changed("spells");
+            } else {
+                setTimeout(() => {
+                    this.set_Changed("spells");
+                }, 400);
+            }
         }
-        if (this.spelllibraryMenuState == 'in') {
-            this.set_Changed("spelllibrary");
+        if (this.spelllibraryMenuState != spelllibraryMenuState) {
+            if (this.spelllibraryMenuState == 'in') {
+                this.set_Changed("spelllibrary");
+            } else {
+                setTimeout(() => {
+                    this.set_Changed("spelllibrary");
+                }, 400);
+            }
         }
-        if (this.conditionsMenuState == 'in') {
-            this.set_Changed("conditions");
+        if (this.conditionsMenuState != conditionsMenuState) {
+            if (this.conditionsMenuState == 'in') {
+                this.set_Changed("conditions");
+            } else {
+                setTimeout(() => {
+                    this.set_Changed("conditions");
+                }, 400);
+            }
+        }
+        if (this.diceMenuState != diceMenuState) {
+            if (this.diceMenuState == 'in') {
+                this.set_Changed("dice");
+            } else {
+                setTimeout(() => {
+                    this.set_Changed("dice");
+                }, 400);
+            }
         }
         this.set_Changed("top-bar");
         if (this.toChange.length) {

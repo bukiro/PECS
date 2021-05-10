@@ -44,7 +44,7 @@ export class InventoryComponent implements OnInit {
     private showList: string = "";
     public shieldDamage: number = 0;
     public targetInventory = null;
-    
+
     constructor(
         private changeDetector: ChangeDetectorRef,
         public characterService: CharacterService,
@@ -84,6 +84,10 @@ export class InventoryComponent implements OnInit {
 
     trackByIndex(index: number, obj: any): any {
         return index;
+    }
+
+    trackByItemID(index: number, obj: Item): any {
+        return obj.id;
     }
 
     toggle_List(type: string) {
@@ -156,12 +160,12 @@ export class InventoryComponent implements OnInit {
         switch (this.creature) {
             case "Character":
                 if (this.characterService.get_CompanionAvailable()) {
-                    return [this.get_Creature("Companion").inventories[0]].concat(...this.get_Creature().inventories);
+                    return this.get_Creature().inventories.concat(this.get_Creature("Companion").inventories[0]);
                 } else {
                     return this.get_Creature().inventories;
                 }
             case "Companion":
-                return [this.get_Creature("Character").inventories[0]].concat(...this.get_Creature().inventories);
+                return this.get_Creature().inventories.concat(this.get_Creature("Character").inventories[0]);
         }
     }
 

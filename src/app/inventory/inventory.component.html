@@ -186,7 +186,7 @@
                     </header>
                     <div [ngClass]="{'icon-list':get_TileMode(), 'vlist fullwidth':!get_TileMode()}"
                         *ngIf="inventory[itemSet.key].length">
-                        <ng-container *ngFor="let item of sort_ItemSet(inventory[itemSet.key]); trackBy:trackByIndex;">
+                        <ng-container *ngFor="let item of sort_ItemSet(inventory[itemSet.key]); trackBy:trackByItemID;">
                             <ng-container *ngFor="let canUse of [get_CanUse(item)]; trackBy:trackByIndex">
                                 <ng-template #ItemTitleTemplate>
                                     <span>
@@ -217,11 +217,11 @@
                                         <i class='ra ra-anvil'></i>
                                     </span>
                                     {{(item.amount != undefined && item.amount != 1) ? item.amount+" " : ""}}
-                                    {{(item['get_Name']) ? item.get_Name() : item.name}}&nbsp;
+                                    {{(item['get_Name']) ? item.get_Name() : item.name}}
                                     <span class="lower"
-                                        *ngFor="let containedItems of [get_ContainedItems(item)]; trackBy:trackByIndex;">{{containedItems
-                                        ?
-                                        "contains "+containedItems+" items" : ""}}</span>
+                                        *ngFor="let containedItems of [get_ContainedItems(item)]; trackBy:trackByIndex;">
+                                        {{containedItems ? "contains "+containedItems+" items" : ""}}
+                                    </span>
                                 </ng-template>
                                 <ng-template #ItemTooltipTemplate>
                                     <span *ngIf="item.broken">
@@ -243,11 +243,11 @@
                                         <i class='ra ra-anvil'></i>
                                     </span>
                                     {{(item.amount != undefined && item.amount != 1) ? item.amount+" " : ""}}
-                                    {{(item['get_Name']) ? item.get_Name() : item.name}}&nbsp;
+                                    {{(item['get_Name']) ? item.get_Name() : item.name}}
                                     <span class="lower"
-                                        *ngFor="let containedItems of [get_ContainedItems(item)]; trackBy:trackByIndex;">{{containedItems
-                                        ?
-                                        "contains "+containedItems+" items" : ""}}</span>
+                                        *ngFor="let containedItems of [get_ContainedItems(item)]; trackBy:trackByIndex;">
+                                        {{containedItems ? "contains "+containedItems+" items" : ""}}
+                                    </span>
                                 </ng-template>
                                 <ng-template #ItemTemplate>
                                     <header class="spellHeader left-aligned newrow" *ngIf="get_TileMode()">
@@ -542,8 +542,8 @@
                                         </div>
                                         <div class="list-item newrow">
                                             <ng-template #DamageSliderTemplate>
-                                                <div class="popover-keepalive slider-container" [style.--name]="'\'Damage\''"
-                                                    style="width:30rem;">
+                                                <div class="popover-keepalive slider-container"
+                                                    [style.--name]="'\'Damage\''" style="width:30rem;">
                                                     <input class="slider" type="range" min="0"
                                                         max="{{item.get_MaxHP()}}" [(ngModel)]="shieldDamage">
                                                 </div>

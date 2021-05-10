@@ -66,9 +66,10 @@ import { ToastContainerComponent } from './toast-container/toast-container.compo
 import { SpellTargetComponent } from './spellTarget/spellTarget.component';
 import { StickyPopoverDirective } from './StickyPopover.directive';
 import { ObjectEffectsComponent } from './objectEffects/objectEffects.component';
+import { DiceTextComponent } from './formattedDescription/diceText.component';
 
 @NgModule({
-   declarations: [			 
+   declarations: [				 
       AppComponent,
       AbilitiesComponent,
       TopBarComponent,
@@ -126,7 +127,8 @@ import { ObjectEffectsComponent } from './objectEffects/objectEffects.component'
       ToastContainerComponent,
       SpellTargetComponent,
       StickyPopoverDirective,
-      ObjectEffectsComponent
+      ObjectEffectsComponent,
+      DiceTextComponent
    ],
    imports: [
       BrowserModule,

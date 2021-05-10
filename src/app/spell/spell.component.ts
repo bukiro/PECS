@@ -3,6 +3,7 @@ import { Spell } from '../Spell';
 import { TraitsService } from '../traits.service';
 import { CharacterService } from '../character.service';
 import { SpellsService } from '../spells.service';
+import { SpellCasting } from '../SpellCasting';
 
 @Component({
     selector: 'app-spell',
@@ -16,6 +17,8 @@ export class SpellComponent implements OnInit {
     spell: Spell
     @Input()
     spellLevel: number;
+    @Input()
+    casting: SpellCasting = null;
 
     constructor(
         private changeDetector: ChangeDetectorRef,

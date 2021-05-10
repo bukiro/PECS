@@ -2,7 +2,7 @@
     <button class="list-item center-aligned" (click)="toggleDiceMenu()">
         <header class="sectionHeader">Close</header>
     </button>
-    <div class="list-item" style="gap:8px;">
+    <div *ngIf="get_DiceMenuState()=='in'" class="list-item" style="gap:8px;">
         <div>
             <button class="center-aligned" (click)="roll(1, 4)" [ngbTooltip]="'Roll 1d4'">
                 <app-diceIcons_D4></app-diceIcons_D4>

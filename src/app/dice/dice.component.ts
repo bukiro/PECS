@@ -25,6 +25,10 @@ export class DiceComponent implements OnInit {
         this.characterService.toggle_Menu("dice");
     }
 
+    get_DiceMenuState() {
+        return this.characterService.get_DiceMenuState();
+    }
+
     trackByIndex(index: number, obj: any): any {
         return index;
     }

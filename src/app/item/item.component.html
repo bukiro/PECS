@@ -13,102 +13,101 @@
 <div class="newrow left-aligned" *ngIf="item.sourceBook">
     <span>
         <strong>Source</strong>
-        <i>&nbsp;{{item.sourceBook}}</i>
+        <i>{{item.sourceBook}}</i>
     </span>
 </div>
 <div class="newrow left-aligned">
     <span *ngIf="item.price">
         <strong>Price</strong>
-        {{get_Price(item)}}{{item.stack && item.stack > 1 ? " per "+item.stack : ""}}&nbsp;
+        {{get_Price(item)}}{{item.stack && item.stack > 1 ? " per "+item.stack : ""}}
     </span>
     <span *ngIf="item.dicenum">
         <strong>Damage</strong>
-        {{item.dicenum}}d{{item.dicesize}} {{item.dmgType}}&nbsp;
+        {{item.dicenum}}d{{item.dicesize}} {{item.dmgType}}
     </span>
     <span *ngIf="item.acbonus">
         <strong>AC Bonus</strong>
         <span
             [ngClass]="{'penalty':item.get_ACBonus && (item.get_ACBonus() < item.acbonus), 'bonus':item.get_ACBonus && (item.get_ACBonus() > item.acbonus)}">
             {{item.get_ACBonus ? item.get_ACBonus() : item.acbonus}}{{item.coverbonus ? " (" +
-            (item.acbonus+item.coverbonus) + ")" : ""}}&nbsp;
+            (item.acbonus+item.coverbonus) + ")" : ""}}
         </span>
     </span>
     <span *ngIf="(item.type == 'armors' && (item.get_DexCap ? item.get_DexCap() != -1 : item.dexcap != -1))">
         <strong>Dex Cap</strong>
         <span
             [ngClass]="{'penalty':item.get_DexCap() < item.dexcap, 'bonus':item.get_DexCap() > item.dexcap || (!item.get_DexCap() && item.dexcap)}">
-            &nbsp;{{(item.get_DexCap ? item.get_DexCap() : item.dexcap)}}&nbsp;
+            {{(item.get_DexCap ? item.get_DexCap() : item.dexcap)}}
         </span>
     </span>
     <span *ngIf="item.skillpenalty">
         <strong>Check Penalty</strong>
         <span
             [ngClass]="{'penalty':item.get_SkillPenalty() < item.skillpenalty, 'bonus':item.get_SkillPenalty() > item.skillpenalty}">
-            &nbsp;{{(item.get_SkillPenalty ? item.get_SkillPenalty() : item.skillpenalty)}}&nbsp;
+            {{(item.get_SkillPenalty ? item.get_SkillPenalty() : item.skillpenalty)}}
         </span>
     </span>
     <span *ngIf="item.speedpenalty">
         <strong>Speed Penalty</strong>
         <span
             [ngClass]="{'penalty':item.get_SpeedPenalty() < item.speedpenalty, 'bonus':item.get_SpeedPenalty() > item.speedpenalty}">
-            &nbsp;{{(item.get_SpeedPenalty ? item.get_SpeedPenalty() : item.speedpenalty)}}&nbsp;
+            {{(item.get_SpeedPenalty ? item.get_SpeedPenalty() : item.speedpenalty)}}
         </span>
     </span>
     <span *ngIf="(item.get_Strength ? item.get_Strength() : item.strength)">
         <strong>Strength</strong>
         <span [ngClass]="{'penalty':item.get_Strength() > item.strength, 'bonus':item.get_Strength() < item.strength}">
-            {{(item.get_Strength ? item.get_Strength() : item.strength)}}&nbsp;
+            {{(item.get_Strength ? item.get_Strength() : item.strength)}}
         </span>
     </span>
     <span *ngIf="item.usage">
         <strong>Usage</strong>
-        {{item.usage}}&nbsp;
+        {{item.usage}}
     </span>
     <span *ngIf="item.storeBulk">
         <strong>Bulk</strong>
-        {{item.storeBulk}}&nbsp;
+        {{item.storeBulk}}
     </span>
     <span *ngIf="item.get_Bulk()">
         <strong>Bulk{{item.carryingBulk && !item.equipped ? " (unequipped)" : ""}}</strong>
-        <span
-            [ngClass]="{'penalty':(get_BulkDifference(item) > 0), 'bonus':(get_BulkDifference(item) < 0)}">&nbsp;{{item.get_Bulk()}}&nbsp;
+        <span [ngClass]="{'penalty':(get_BulkDifference(item) > 0), 'bonus':(get_BulkDifference(item) < 0)}">
+            {{item.get_Bulk()}}
         </span>
     </span>
     <span *ngIf="item.carryingBulk && item.equipped">
         <strong>Bulk (unequipped)</strong>
-        {{item.carryingBulk}}&nbsp;
+        {{item.carryingBulk}}
     </span>
     <span *ngIf="item.hardness">
         <strong>Hardness</strong>
         <span
-            [ngClass]="{'penalty':(item.get_Hardness() < item.hardness), 'bonus':(item.get_Hardness() > item.hardness)}">&nbsp;{{item.get_Hardness
-            ? item.get_Hardness() : item.hardness}}&nbsp;
+            [ngClass]="{'penalty':(item.get_Hardness() < item.hardness), 'bonus':(item.get_Hardness() > item.hardness)}">
+            {{item.get_Hardness ? item.get_Hardness() : item.hardness}}
         </span>
     </span>
     <span *ngIf="item.hitpoints">
         <strong>HP</strong><strong *ngIf="item.brokenThreshold"> (BT)</strong>
-        <span
-            [ngClass]="{'penalty':(item.get_MaxHP() < item.hitpoints), 'bonus':(item.get_MaxHP() > item.hitpoints)}">&nbsp;{{item.get_MaxHP
-            ? item.get_MaxHP() : item.hitpoints}}
+        <span [ngClass]="{'penalty':(item.get_MaxHP() < item.hitpoints), 'bonus':(item.get_MaxHP() > item.hitpoints)}">
+            {{item.get_MaxHP ? item.get_MaxHP() : item.hitpoints}}
         </span>
         <span *ngIf="item.brokenThreshold"
             [ngClass]="{'penalty':(item.get_BrokenThreshold() < item.brokenThreshold), 'bonus':(item.get_BrokenThreshold() > item.brokenThreshold)}">({{item.get_BrokenThreshold
             ? item.get_BrokenThreshold() : item.brokenThreshold}})
-        </span> &nbsp;
+        </span>
     </span>
 </div>
 <div class="newrow left-aligned">
     <span *ngIf="item.hands">
         <strong>Hands</strong>
-        {{item.hands}}&nbsp;
+        {{item.hands}}
     </span>
     <span *ngIf="item.ranged">
         <strong>Range</strong>
-        {{item.ranged}} ft.&nbsp;
+        {{item.ranged}} ft.
     </span>
     <span *ngIf="item.reload">
         <strong>Reload</strong>
-        {{item.reload}}&nbsp;
+        {{item.reload}}
     </span>
 </div>
 <div class="newrow left-aligned">
@@ -138,7 +137,7 @@
 <div class="newrow left-aligned">
     <span *ngIf="item.ammunition">
         <strong>Ammunition</strong>
-        {{item.ammunition}}&nbsp;
+        {{item.ammunition}}
     </span>
 </div>
 <div class="newrow left-aligned">
@@ -151,22 +150,35 @@
     </ng-container>
     <ng-container *ngIf="item.name == 'Grievous'">
         <p *ngFor="let data of item.data; trackBy:trackByIndex;">
-            <strong>{{data.name}}&nbsp;</strong>{{data.value}}
+            <strong>{{data.name}}</strong>
+            {{data.value}}
         </p>
     </ng-container>
     <p *ngIf="item.benefit">
-        <strong>Benefit</strong> {{item.benefit}}
+        <strong>Benefit</strong>
+        {{item.benefit}}
     </p>
     <p *ngIf="item.drawback">
-        <strong>Drawback</strong> {{item.drawback}}
+        <strong>Drawback</strong>
+        {{item.drawback}}
     </p>
     <p *ngIf="item.savingThrow || item.maxDuration || item.stages?.length">
-        <span *ngIf="item.savingThrow"><strong>Saving Throw&nbsp;</strong>{{item.savingThrow}}&nbsp;</span>
-        <span *ngIf="item.stages[0]"><strong>Onset&nbsp;</strong>{{item.stages[0]}}&nbsp;</span>
-        <span *ngIf="item.maxDuration"><strong>Maximum Duration&nbsp;</strong>{{item.maxDuration}}&nbsp;</span>
+        <span *ngIf="item.savingThrow">
+            <strong>Saving Throw</strong>
+            {{item.savingThrow}}
+        </span>
+        <span *ngIf="item.stages[0]">
+            <strong>Onset</strong>
+            {{item.stages[0]}}
+        </span>
+        <span *ngIf="item.maxDuration">
+            <strong>Maximum Duration</strong>
+            {{item.maxDuration}}
+        </span>
         <ng-container *ngFor="let stage of item.stages; let stageIndex = index; trackBy:trackByIndex;">
             <span *ngIf="stageIndex > 0">
-                <strong>Stage {{stageIndex}}&nbsp;</strong>{{item.stages[stageIndex]}}&nbsp;
+                <strong>Stage {{stageIndex}}</strong>
+                {{item.stages[stageIndex]}}
             </span>
         </ng-container>
     </p>
@@ -238,7 +250,7 @@
     <div class="newrow left-aligned" *ngIf="item.isDoublingRings == 'Doubling Rings (Greater)'">
         <input id="{{item.id}}doublingRingsApplyPropertyRunes" type="checkbox" [(ngModel)]="item.data[2]"
             (ngModelChange)="on_DoublingRingsChange()">
-        <label for="{{item.id}}doublingRingsApplyPropertyRunes">&nbsp;Apply property runes</label>
+        <label for="{{item.id}}doublingRingsApplyPropertyRunes">Apply property runes</label>
     </div>
 </div>
 <app-itemAeonStones class="list-item" [item]=item [itemStore]=itemStore *ngIf="item.isWayfinder"></app-itemAeonStones>

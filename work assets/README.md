@@ -122,6 +122,9 @@ Internal To Do list
 - [ ] Stretch Goal: Exporting statblock and files for other tools (e.g. Foundry VTT)
 
 Active to-do:
+- Create tag that automatically inserts a dice rolling button for the included text:
+-- Use diceText component when displaying a suitable text
+-- Add the necessary tags to suitable descriptions. Pattern: "equal to<dice>var1 + spellmod</dice><var>var1</var> plus your spellcasting ability modifier"
 
 Test:
 
@@ -129,7 +132,6 @@ Next steps:
 - Implement method to add bonus feats, skill increases and ability boosts
 - Many Activities need conditions (caster conditions at least)
 - Crosscheck and apply errata: https://paizo.com/pathfinder/faq
-- Possibly Create tag that automatically inserts a dice rolling button for the included text
 - Gnome feats
 - Hobgoblin feats
 - Leshy feats
