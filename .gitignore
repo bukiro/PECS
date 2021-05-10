@@ -51,6 +51,8 @@ Thumbs.db
 /src/config.json
 /src/assets/json/**/index.ts
 /src/assets/json/**/custom*.json
+/docs/assets/json/**/index.ts
+/docs/assets/json/**/custom*.json
 
 # working environment
 pecs.code-workspace
