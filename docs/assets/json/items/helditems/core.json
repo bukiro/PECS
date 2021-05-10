@@ -127,6 +127,7 @@
                 "actions": "2A",
                 "activationType": "Envision, Interact",
                 "toggle": true,
+                "target": "object",
                 "desc": "You imagine a specific simple tool, and the any-tool transforms into it. (Usually, you can choose from a tool listed in Chapter 6). This transforms the wooden portion into any haft and the metal caps into spades, hammer heads, or the like, allowing for most basic tools but nothing more complex. You can return the item to its rod form with an Interact action.",
                 "name": "Traveler's Any-Tool",
                 "source": "722931a4-9b75-4ed2-b22b-c05a24a4c0fe",
@@ -420,8 +421,10 @@
                 "_className": "ItemActivity",
                 "actions": "1A",
                 "activationType": "Command, Interact",
+                "target": "object",
                 "desc": "Speaking \"stream,\" you cause water to pour out at a rate of 1 gallon per round.",
                 "name": "Endless Water: Stream",
+                "toggle": true,
                 "source": "2416b51a-3002-4227-b786-0eca68887977",
                 "traits": [
                     "Conjuration",
@@ -433,8 +436,10 @@
                 "_className": "ItemActivity",
                 "actions": "1A",
                 "activationType": "Command, Interact",
+                "target": "object",
                 "desc": "Speaking \"fountain,\" you cause water to pour out in a 5-foot-long stream at a rate of 5 gallons per round.",
                 "name": "Endless Water: Fountain",
+                "toggle": true,
                 "source": "2416b51a-3002-4227-b786-0eca68887977",
                 "traits": [
                     "Conjuration",
@@ -446,15 +451,16 @@
                 "_className": "ItemActivity",
                 "actions": "1A",
                 "activationType": "Command, Interact",
-                "castSpells": [
+                "target": "object",
+                "showSpells": [
                     {
-                        "_className": "SpellCast",
                         "name": "Hydraulic Push"
                     }
                 ],
                 "desc": "Speaking \"geyser,\" you cause a powerful deluge of water to erupt at a rate of 15 gallons per round. You can direct the stream at a creature, subjecting it to the effects of hydraulic push (spell attack roll +15). You can repeat this once per round as long as the geyser continues, spending an Interact action to direct the geyser each time.",
                 "name": "Endless Water: Geyser",
                 "source": "2416b51a-3002-4227-b786-0eca68887977",
+                "toggle": true,
                 "traits": [
                     "Conjuration",
                     "Magical",
@@ -767,7 +773,7 @@
             },
             {
                 "_className": "ItemActivity",
-                "actions": "",
+                "actions": " ",
                 "cooldown": 1008000,
                 "desc": "If the figurine is slain while in animal form, it reverts to its statue shape and cannot be activated again until 1 week has passed.",
                 "gainConditions": [

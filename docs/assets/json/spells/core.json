@@ -8271,7 +8271,7 @@
         "targets": "1 creature",
         "target": "other",
         "singleTarget": true,
-        "desc": "You hurl a loose, unattended object that is within range and that has 1 Bulk or less at the target. Make a spell attack against the target. If you hit, you deal bludgeoning, piercing, or slashing damage - as appropriate for the object you hurled - equal to <var>var1</var> plus your spellcasting ability modifier. No specific traits or magic properties of the hurled item affect the attack or the damage.",
+        "desc": "You hurl a loose, unattended object that is within range and that has 1 Bulk or less at the target. Make a spell attack against the target. If you hit, you deal bludgeoning, piercing, or slashing damage - as appropriate for the object you hurled - equal to<dice>var1 + spellmod</dice><var>var1</var> plus your spellcasting ability modifier. No specific traits or magic properties of the hurled item affect the attack or the damage.",
         "critsuccess": "You deal double damage.",
         "success": "You deal full damage.",
         "heightened": [

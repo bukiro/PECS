@@ -467,6 +467,7 @@
                 "cooldown": 144000,
                 "desc": "The target takes persistent bleed damage equal to 1d8 per weapon damage die of the etched weapon.",
                 "frequency": "once per day",
+                "target": "other",
                 "name": "Unholy Rune",
                 "traits": [
                     "Evil",
@@ -825,6 +826,7 @@
                 ],
                 "trigger": "You roll a natural 20 on a Strike with the weapon, critically succeed, and deal slashing damage.",
                 "_className": "ItemActivity",
+                "target": "other",
                 "source": "89c65de9-8e09-11ea-9fab-e92c63c14723"
             }
         ],
