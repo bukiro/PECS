@@ -8,7 +8,7 @@ Prepare spells, gain conditions, Bless your comrades and take a battle stance. O
 
 You can create new items on the fly, or if you're the one running the server, you can add custom content of every kind - ancestries, classes, items, feats... start at src/assets/json and go from there!
 
-PECS was created under the Paizo Inc. Community Use Policy and the Open Game License, and is available completely free.
+PECS was gratefully created under the [Paizo Inc. Community Use Policy](https://paizo.com/community/communityuse) and the Open Gaming License v1.0a, and is neither endorsed nor recognized bz Paizo. It is completely free.
 
 # Working demo [HERE](http://bukiro.github.io/PECS-Demo)
 
@@ -16,7 +16,7 @@ PECS was created under the Paizo Inc. Community Use Policy and the Open Game Lic
 
 You need to provide a config.json with your database URL. See config.json.example for details (hint: It's a URL.)
 
-Run `ng serve` for a dev server, navigate to `http://localhost:4200` and never bother to go productive. Run `ng build` to build the project, with the `--prod` flag for a production build. CAUTION: Definitely use `--optimization=false` and configure your initial budget with `"maximumError": "15mb"` in angular.json. PECS is a very complex piece of code and does not take kindly to minification. A modern computer should have no issues running it, but mind that it requires some processing power and is not great on smartphones. PECS looks best in the Edge browser. 
+Run `ng serve` for a dev server, navigate to `http://localhost:4200` and never bother to go productive. Or run `ng build` to build the project, with the `--prod` flag for a production build. CAUTION: Definitely use `--optimization=false` and configure your initial budget with `"maximumError": "15mb"` in angular.json. PECS is a very complex piece of code and does not take kindly to minification. A modern computer should have no issues running it, but mind that it requires some processing power and is not great on smartphones. PECS looks best in the Edge browser. 
 
 Note: Add your custom content before you build the app.
 
