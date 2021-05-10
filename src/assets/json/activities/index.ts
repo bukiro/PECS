@@ -1,6 +1,2 @@
-import core from './core.json';
-import custom_kitsune from './custom_kitsune.json';
-export {
-    core,
-    custom_kitsune
-};
+export { default as core } from './core.json';
+export { default as custom_kitsune } from './custom_kitsune.json';

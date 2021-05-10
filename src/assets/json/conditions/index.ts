@@ -1,6 +1,2 @@
-import core from './core.json';
-import custom_eselfreunde from './custom_eselfreunde.json';
-export {
-    core,
-    custom_eselfreunde
-};
+export { default as core } from './core.json';
+export { default as custom_eselfreunde } from './custom_eselfreunde.json';
