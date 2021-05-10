@@ -26,4 +26,4 @@ Note: Add your custom content before you build the app.
 
 # Database
 
-If you want to keep your characters, you need a database. The demo uses a mongodb database, but you can probably make it work with another product, as long as you have a connector URL that accepts a number of queries. See my [PECS-MongoDB connector](https://github.com/bukiro/PECS-MongoDB-Connector) for details, or just go ahead and use it!
+If you want to keep your characters, you need a database. The demo uses a mongodb database, but you can probably make it work with another product, as long as you have a connector URL that handles the necessary queries. See my [PECS-MongoDB connector](https://github.com/bukiro/PECS-MongoDB-Connector) for details, or just go ahead and use it with your own mongoDB database!
