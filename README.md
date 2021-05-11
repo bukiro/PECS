@@ -14,16 +14,16 @@ PECS was gratefully created under the [Paizo Inc. Community Use Policy](https://
 
 # Hosting
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 11.1.4.
+This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 11.1.4. It is intended for you and your group of players and will probably not scale well. You can host the server for your group, or everyone can run their own. If you want to cast spells on your party members or look at their character sheets, each server needs to connect to the same database.
 
-You need to provide a config.json with your database URL. See config.json.example for details (hint: It's a URL.)
+Before you can run the app, you need to provide a config.json with your database connector URL in src/. See `src/config.json.example` for an example and `Database.md` for details.
 
 Run `ng serve` for a dev server, navigate to `http://localhost:4200` and never bother to go productive. Alternatively, run `ng build` to build the project, with the `--prod` flag for a production build. CAUTION: Definitely use `--optimization=false` and configure your initial budget with `"maximumError": "15mb"` in angular.json. PECS is a very complex piece of code and does not take kindly to minification.
 
-A modern computer should have no issues running PECS in a browser, but mind that it requires some processing power and is not great on smartphones. PECS looks best in the Edge browser. 
+If you don't want to install Node and Angular, get the current production build from my [demo](http://bukiro.github.io/PECS-Demo) and run it as a webserver.
 
-Note: Add your custom content before you build the app.
+A modern computer or tablet should have no issues running PECS in a browser, but mind that it requires some processing power and has way too much on-screen content for a smartphone. PECS looks best in the Edge browser.
 
 # Database
 
-If you want to keep your characters, you need a database. The demo uses a mongodb database, but you can probably make it work with another product, as long as you have a connector URL that handles the necessary queries. See my [PECS-MongoDB connector](https://github.com/bukiro/PECS-MongoDB-Connector) for details, or just go ahead and use it with your own mongoDB database!
+If you want to keep your characters, you need a database. The demo uses a mongodb database, but you can probably make it work with another product, as long as you have a connector URL that handles the necessary queries. See `Database.md` for details, or just go ahead and use [my PECS-MongoDB connector](https://github.com/bukiro/PECS-MongoDB-Connector).
