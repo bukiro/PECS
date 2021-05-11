@@ -22,7 +22,7 @@ Alternatively, you can use any JSON database, as long as the connector can handl
 
 `POST` /saveCharacter - Save the posted content into the database, replacing an entry if `id` matches. The POST content is the character as JSON.
 
-`POST` /deleteCharacter - Delete one character identified by `id`. The POST content is a JSON blob containing the character ID (e.g. `{"id": [...]}` ).
+`POST` /deleteCharacter - Delete one character identified by `id`. The POST content is a JSON blob containing the character ID (`{"id": [...]}`).
 
 `GET` /time - Return the current time as a Unix timestamp. This is used to properly age messages independently of the players' system time.
 
@@ -30,8 +30,8 @@ Alternatively, you can use any JSON database, as long as the connector can handl
 
 `POST` /saveMessages - Save the posted content into the database in multiple entries as needed. The POST content is a JSON blob containing one or more messages.
 
-`POST` /deleteMessage - Delete one message identified by `id`. The POST content is a JSON blob containing the message ID (e.g. `{"id": [...]}` ).
+`POST` /deleteMessage - Delete one message identified by `id`. The POST content is a JSON blob containing the message ID (`{"id": [...]}`).
 
-`POST` /deleteMyMessages - Delete all message for a single recipient, identified by `recipientId`. The POST content is a JSON blob containing the recipient ID (e.g. `{"recipientId": [...]}` ).
+`POST` /deleteMyMessages - Delete all message for a single recipient, identified by `recipientId`. The POST content is a JSON blob containing the recipient ID (`{"recipientId": [...]}`).
 
-`POST` /cleanupMessages - Delete all expired messages, identified by `timeStamp`. You need to make the calculations in the connector (or the database), and you can choose the age limit. My default is 10 minutes. Feel free to do the cleanup in the database and have this query do nothing. It is sent every time a character checks for messages, just before /loadMessages.
+`POST` /cleanupMessages - Delete all expired messages, identified by `timeStamp` being older than the specified age limit. You need to make the calculations in the connector (or the database), and you can choose the age limit. My default is 10 minutes. Feel free to do the cleanup in the database and have this query do nothing. It is sent every time a character checks for messages, just before /loadMessages.

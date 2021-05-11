@@ -47,9 +47,9 @@ testem.log
 Thumbs.db
 
 # private config
-/src/config (demo).json
-/src/config (local).json
-/src/config.json
+/src/assets/config (demo).json
+/src/assets/config (local).json
+/src/assets/config.json
 /src/assets/json/**/index.ts
 /src/assets/json/**/custom*.json
 /docs/assets/json/**/index.ts
