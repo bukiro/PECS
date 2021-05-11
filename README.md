@@ -8,7 +8,7 @@ Prepare spells, gain conditions, Bless your comrades and take a battle stance. O
 
 You can create new items on the fly, or if you're the one running the server, you can add custom content of every kind - ancestries, classes, items, feats... start at src/assets/json and go from there!
 
-PECS was gratefully created under the [Paizo Inc. Community Use Policy](https://paizo.com/community/communityuse) and the Open Gaming License v1.0a, and is neither endorsed nor recognized bz Paizo. It is completely free.
+PECS was gratefully created under the [Paizo Inc. Community Use Policy](https://paizo.com/community/communityuse) and the [Open Gaming License v1.0a](https://paizo.com/pathfinder/compatibility/ogl), and is neither endorsed nor recognized bz Paizo. It is completely free.
 
 # Working demo [HERE](http://bukiro.github.io/PECS-Demo)
 

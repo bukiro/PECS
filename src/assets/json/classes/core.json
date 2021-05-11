@@ -2,6 +2,7 @@
     {
         "_className": "Class",
         "name": "Alchemist",
+        "warning": "Alchemist functionality and feats are not implemented yet.",
         "customSkills": [
             {
                 "ability": "Intelligence",
@@ -4145,6 +4146,7 @@
     {
         "_className": "Class",
         "name": "Champion",
+        "warning": "Champion feats are not implemented yet.",
         "customSkills": [
             {
                 "ability": "Charisma",
@@ -5551,6 +5553,7 @@
     {
         "_className": "Class",
         "name": "Cleric",
+        "warning": "Cleric functionality and feats are not implemented yet.",
         "customSkills": [
             {
                 "ability": "Wisdom",

@@ -1346,6 +1346,7 @@
                                         triggers="click">
                                         <app-gridIcon [title]="class.name"></app-gridIcon>
                                         <header class="sectionHeader">
+                                            <i [ngbTooltip]="class.warning" style="font-size:200%" *ngIf="class.warning" class="penalty bi-exclamation-triangle"></i>
                                             <span>
                                                 {{class.name}}
                                             </span>
@@ -1418,6 +1419,7 @@
                                             [detail]="ancestry.traits.includes('Rare') ? 'Rare' : (ancestry.traits.includes('Uncommon') ? 'Uncommon' : '')">
                                         </app-gridIcon>
                                         <header class="sectionHeader">
+                                            <i [ngbTooltip]="ancestry.warning" style="font-size:200%" *ngIf="ancestry.warning" class="penalty bi-exclamation-triangle"></i>
                                             <span>{{ancestry.name}}&nbsp;</span>
                                             <cite class="trait" *ngIf="ancestry.traits.includes('Rare')"
                                                 [ngbPopover]="get_Traits('Rare')[0]?.desc" openDelay=100>Rare</cite>

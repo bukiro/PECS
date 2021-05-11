@@ -255,6 +255,7 @@
     {
         "_className": "Ancestry",
         "name": "Gnome",
+        "warning": "Gnome feats are not implemented yet.",
         "desc": [
             {
                 "name": "Description",
@@ -628,6 +629,7 @@
     {
         "_className": "Ancestry",
         "name": "Hobgoblin",
+        "warning": "Hobgoblin feats are not implemented yet.",
         "sourceBook": "Character Guide",
         "desc": [
             {
@@ -818,6 +820,7 @@
     {
         "_className": "Ancestry",
         "name": "Leshy",
+        "warning": "Leshy feats are not implemented yet.",
         "sourceBook": "Character Guide",
         "desc": [
             {
@@ -1098,6 +1101,7 @@
     {
         "_className": "Ancestry",
         "name": "Shoony",
+        "warning": "Shoony feats are not implemented yet.",
         "sourceBook": "Pathfinder #153: Life's Long Shadow",
         "desc": [
             {
