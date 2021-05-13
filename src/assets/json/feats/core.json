@@ -1544,10 +1544,10 @@
     },
     {
         "name": "Bonded Animal",
-        "desc": "You forge strong connections with animals. You can spend 7 days of downtime trying to bond with a normal animal (not a companion or other special animal). After this duration, attempt a DC 20 Nature check. If successful, you bond with the animal. The animal is permanently helpful to you, unless you do something egregious to break your bond. A helpful animal is easier to direct, as described under Command an Animal.\n\nBonding with a new animal ends any previous bond you had. You can't have both a bonded animal and an animal companion (though you can have both a bonded animal and a familiar).",
+        "desc": "You forge strong connections with animals. You can spend 7 days of downtime regularly interacting with a normal animal (not a companion or other special animal) that is friendly or helpful to you. After this duration, attempt a DC 20 Nature check. If successful, you bond with the animal. The animal is permanently helpful to you, unless you do something egregious to break your bond. A helpful animal is easier to direct, as described under Command an Animal.\n\nBonding with a new animal ends any previous bond you had. You can't have both a bonded animal and an animal companion (though you can have both a bonded animal and a familiar).",
         "hints": [
             {
-                "desc": "You can spend 7 days of downtime trying to bond with a normal animal (not a companion or other special animal). After this duration, attempt a DC 20 Nature check. If successful, you bond with the animal. The animal is permanently helpful to you, unless you do something egregious to break your bond. A helpful animal is easier to direct, as described under Command an Animal.\n\nBonding with a new animal ends any previous bond you had. You can't have both a bonded animal and an animal companion (though you can have both a bonded animal and a familiar).",
+                "desc": "You can spend 7 days of downtime regularly interacting with a normal animal (not a companion or other special animal) that is friendly or helpful to you. After this duration, attempt a DC 20 Nature check. If successful, you bond with the animal. The animal is permanently helpful to you, unless you do something egregious to break your bond. A helpful animal is easier to direct, as described under Command an Animal.\n\nBonding with a new animal ends any previous bond you had. You can't have both a bonded animal and an animal companion (though you can have both a bonded animal and a familiar).",
                 "showon": "Nature"
             }
         ],
@@ -1914,7 +1914,8 @@
         "shortdesc": "Leverage your connections for favors and meetings.",
         "traits": [
             "General",
-            "Skill"
+            "Skill",
+            "Uncommon"
         ],
         "levelreq": 2,
         "featreq": [
@@ -2245,10 +2246,10 @@
     },
     {
         "name": "Dubious Knowledge",
-        "desc": "You're a treasure trove of information, but not all of it comes from reputable sources. When you fail a Recall Knowledge check using any skill, you learn a bit of true knowledge and a bit of erroneous knowledge, but you don't have any way to differentiate which is which.",
+        "desc": "You're a treasure trove of information, but not all of it comes from reputable sources. When you roll a failure on a Recall Knowledge check using any skill, you learn a bit of true knowledge and a bit of erroneous knowledge, but you don't have any way to differentiate which is which.",
         "hints": [
             {
-                "desc": "When you fail a Recall Knowledge check using any skill, you learn a bit of true knowledge and a bit of erroneous knowledge, but you don't have any way to differentiate which is which.",
+                "desc": "When you roll a failure on a Recall Knowledge check using any skill, you learn a bit of true knowledge and a bit of erroneous knowledge, but you don't have any way to differentiate which is which.",
                 "showon": "Arcana, Crafting, Lore, Medicine, Nature, Occultism, Religion, Society"
             }
         ],
@@ -6698,10 +6699,10 @@
     },
     {
         "name": "Toughness",
-        "desc": "You can withstand more punishment than most before succumbing. Increase your maximum Hit Points by your level. The DC of recovery checks is equal to 9 + your dying condition value.",
+        "desc": "You can withstand more punishment than most before succumbing. Increase your maximum Hit Points by your level. The DC of recovery checks is equal to 9 + your dying condition value (page 459).",
         "hints": [
             {
-                "desc": "The DC of recovery checks is equal to 9 + your dying condition value.",
+                "desc": "The DC of recovery checks is equal to 9 + your dying condition value (page 459).",
                 "showon": "Max Dying"
             }
         ],
@@ -6862,10 +6863,10 @@
     },
     {
         "name": "Unified Theory",
-        "desc": "You've started to make a meaningful connection about the common underpinnings of the four traditions of magic and magical essences, allowing you to understand them all through an arcane lens. Whenever you use an action or a skill feat that requires a Nature, Occultism, or Religion check, depending on the magic tradition, you can use Arcana instead. If you would normally take a penalty or have a higher DC for using Arcana on other magic (such as when using Identify Magic), you no longer do so.",
+        "desc": "You've started to make a meaningful connection about the common underpinnings of the four traditions of magic and magical essences, allowing you to understand them all through an arcane lens. Whenever you use a skill action or a skill feat that requires a Nature, Occultism, or Religion check, depending on the magic tradition, you can use Arcana instead. If you would normally take a penalty or have a higher DC for using Arcana on other magic (such as when using Identify Magic), you no longer do so.",
         "hints": [
             {
-                "desc": "Whenever you use an action or a skill feat that requires a Nature, Occultism, or Religion check, depending on the magic tradition, you can use Arcana instead. If you would normally take a penalty or have a higher DC for using Arcana on other magic (such as when using Identify Magic), you no longer do so.",
+                "desc": "Whenever you use a skill action or a skill feat that requires a Nature, Occultism, or Religion check, depending on the magic tradition, you can use Arcana instead. If you would normally take a penalty or have a higher DC for using Arcana on other magic (such as when using Identify Magic), you no longer do so.",
                 "showon": "Arcana"
             }
         ],
@@ -23566,10 +23567,9 @@
         ],
         "levelreq": 14,
         "featreq": [
+            "Animal Companion",
             "Camouflage"
         ],
-        "specialreq": "characterService.get_CompanionAvailable()",
-        "specialreqdesc": "an animal companion",
         "effects": [
             {
                 "affected": "Companion:Stealth Proficiency Level",
@@ -28685,10 +28685,10 @@
     },
     {
         "name": "Blank Slate",
-        "desc": "Your deceptions confound even the most powerful mortal divinations. Detection, revelation, and scrying effects pass right over you, your possessions, and your auras, detecting nothing unless the detecting effect has a counteract level of 20 or higher. For example, detect magic would still detect other magic in the area but not any magic on you, true seeing wouldn't reveal you, locate or scrying wouldn't find you, and so on.",
+        "desc": "Your deceptions confound even the most powerful mortal divinations. Detection, revelation, and scrying effects pass right over you, your possessions, and your auras, detecting nothing unless the detecting effect has a counteract level of 10 or higher. For example, detect magic would still detect other magic in the area but not any magic on you, true seeing wouldn't reveal you, locate or scrying wouldn't find you, and so on.",
         "hints": [
             {
-                "desc": "Detection, revelation, and scrying effects pass right over you, your possessions, and your auras, detecting nothing unless the detecting effect has a counteract level of 20 or higher. For example, detect magic would still detect other magic in the area but not any magic on you, true seeing wouldn't reveal you, locate or scrying wouldn't find you, and so on.",
+                "desc": "Detection, revelation, and scrying effects pass right over you, your possessions, and your auras, detecting nothing unless the detecting effect has a counteract level of 10 or higher. For example, detect magic would still detect other magic in the area but not any magic on you, true seeing wouldn't reveal you, locate or scrying wouldn't find you, and so on.",
                 "showon": "Deception"
             }
         ],

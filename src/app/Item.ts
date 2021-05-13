@@ -1,6 +1,5 @@
 import { v4 as uuidv4 } from 'uuid';
 import { SpellChoice } from './SpellChoice';
-import { ItemActivity } from './ItemActivity';
 import { Oil } from './Oil';
 import { ItemGain } from './ItemGain';
 
@@ -19,7 +18,7 @@ export class Item {
     //Some items need certain requirements to be crafted.
     public craftRequirement: string = "";
     //Some items need to store data - selected runes, spells, etc...
-    public data: {name:string, value:any}[] = [];
+    public data: { name: string, value: any }[] = [];
     //Full description of the item, ideally unchanged from the source material
     public desc: string = "";
     //For summoned items or infused reagents, the expiration ticks down, and the item is then dropped or the amount reduced. Expiration is turns * 10.
@@ -84,14 +83,13 @@ export class Item {
         return (this.traits.includes("Invested"));
     }
     can_Stack() {
-        return (!this.equippable &&
+        //Equipment, Runes and Snares have their own version of can_Stack.
+        return (
+            !this.equippable &&
             !this.can_Invest() &&
-            (this["gainInventory"] ? !this["gainInventory"].length : true) &&
-            (this["gainItems"] ? !this["gainItems"].filter(gain => gain.on != "use").length : true) &&
-            (this["gainActivities"] ? !this["gainActivities"].filter((activity: ItemActivity) => !activity.displayOnly).length : true) &&
-            (this["activities"] ? !this["activities"].filter((activity: ItemActivity) => !activity.displayOnly).length : true) &&
-            (this["storedSpells"] ? !this["storedSpells"].length : true)) &&
-            (this.constructor.name != "Snare")
+            !this.gainItems.filter(gain => gain.on != "use").length &&
+            !this.storedSpells.length
+        )
     }
     get_Name() {
         if (this.displayName) {

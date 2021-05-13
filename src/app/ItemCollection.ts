@@ -34,8 +34,6 @@ export class ItemCollection {
     public alchemicalelixirs: AlchemicalElixir[] = [];
     public armorrunes: ArmorRune[] = [];
     public armors: Armor[] = [];
-    //You cannot add any items to an inventory that would break its bulk limit.
-    public bulkLimit: number = 0;
     //This is the amount of bulk that can be ignored when weighing this inventory.
     public bulkReduction: number = 0;
     public helditems: HeldItem[] = [];
@@ -57,6 +55,8 @@ export class ItemCollection {
     public alchemicalpoisons: AlchemicalPoison[] = [];
     public snares: Snare[] = [];
     public wands: Wand[] = [];
+    //You cannot add any items to an inventory that would break its bulk limit.
+    constructor (public bulkLimit: number = 0) {};
     public readonly names: {name: string, key: string}[] = [
         {name:"Weapons",key:"weapons"},
         {name:"Armors",key:"armors"},
@@ -170,8 +170,11 @@ export class ItemCollection {
         if (!this.itemId) {
             characterService.get_Creatures().forEach(creature => {
                 if (creature.type != "Familiar") {
-                    if (creature.inventories.some(inventory => inventory === this)) {
+                    if (creature.inventories[0] === this) {
                         name = creature.name || creature.type;
+                    }
+                    if (creature.inventories[1] === this) {
+                        name = "Worn Tools";
                     }
                 }
             })

@@ -20,6 +20,7 @@ export class DiceService {
             this.unselectAll();
         }
         let diceResult = new DiceResult();
+        diceResult.diceNum = amount;
         diceResult.diceSize = size;
         diceResult.desc = "";
         if (amount && size) {

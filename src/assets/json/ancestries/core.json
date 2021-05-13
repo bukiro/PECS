@@ -778,7 +778,7 @@
             },
             {
                 "name": "Additional Languages",
-                "value": "Equal to 1 + your intelligence modifier (if it's positive). Choose from the list of common languages and any other languages to which you have access (such as the languages prevalent in your region)."
+                "value": "1 + your intelligence modifier (if it's positive). Choose from the list of common languages and any other languages to which you have access (such as the languages prevalent in your region)."
             }
         ],
         "ancestries": [

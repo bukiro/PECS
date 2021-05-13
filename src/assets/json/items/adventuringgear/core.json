@@ -65,13 +65,6 @@
         "hands": 1
     },
     {
-        "desc": "A sheath or scabbard lets you easily carry a weapon on your person. ",
-        "id": "89c6d2f7-8e09-11ea-9fab-e92c63c14723",
-        "name": "Sheath",
-        "price": 1,
-        "_className": "AdventuringGear"
-    },
-    {
         "bulk": "1",
         "desc": "When wielding this long pole, you can use Seek to search a square up to 10 feet away. The pole is not sturdy enough to use as a weapon. ",
         "id": "89c6f9f0-8e09-11ea-9fab-e92c63c14723",
@@ -98,7 +91,7 @@
         "bulk": "L",
         "id": "89c6f9f6-8e09-11ea-9fab-e92c63c14723",
         "name": "Bedroll",
-        "price": 1,
+        "price": 2,
         "_className": "AdventuringGear"
     },
     {
@@ -117,33 +110,12 @@
         "hands": 2
     },
     {
-        "desc": "A belt pouch holds up to four items of light Bulk. ",
-        "id": "89c6f9ff-8e09-11ea-9fab-e92c63c14723",
-        "name": "Belt Pouch",
-        "price": 4,
-        "gainInventory": [
-            {
-                "_className": "InventoryGain",
-                "bulkLimit": 0.4
-            }
-        ],
-        "_className": "AdventuringGear"
-    },
-    {
         "desc": "Flint and steel are useful in creating a fire if you have the time to catch a spark, though using them is typically too time-consuming to be practical during an encounter. Even in ideal conditions, using flint and steel to light a flame requires using at least 3 actions, and often significantly longer. ",
         "id": "89c6fa02-8e09-11ea-9fab-e92c63c14723",
         "name": "Flint and Steel",
         "price": 5,
         "_className": "AdventuringGear",
         "hands": 2
-    },
-    {
-        "desc": "A simple glass vial holds up to 1 ounce of liquid. ",
-        "id": "89c6fa05-8e09-11ea-9fab-e92c63c14723",
-        "name": "Vial",
-        "price": 5,
-        "_className": "AdventuringGear",
-        "hands": 1
     },
     {
         "bulk": "L",
@@ -224,45 +196,6 @@
         "hands": 1
     },
     {
-        "desc": "A satchel can hold up to 2 Bulk worth of items. If you are carrying or stowing a satchel rather than wearing it over your shoulder, it counts as light Bulk instead of negligible. ",
-        "id": "89c6fa20-8e09-11ea-9fab-e92c63c14723",
-        "name": "Satchel",
-        "price": 10,
-        "equippable": true,
-        "carryingBulk": "L",
-        "gainInventory": [
-            {
-                "_className": "InventoryGain",
-                "bulkLimit": 2
-            }
-        ],
-        "_className": "AdventuringGear",
-        "hands": 2
-    },
-    {
-        "desc": "Scrolls, maps, and other rolled documents are stored in scroll cases for safe transport. ",
-        "id": "89c6fa23-8e09-11ea-9fab-e92c63c14723",
-        "name": "Scroll Case",
-        "price": 10,
-        "_className": "AdventuringGear",
-        "hands": 2
-    },
-    {
-        "desc": "A bandolier holds up to eight items of light Bulk within easy reach and is usually used for alchemical items or potions. If you are carrying or stowing a bandolier rather than wearing it around your chest, it has light Bulk instead of negligible. A bandolier can be dedicated to a full set of tools, such as healer's tools, allowing you to draw the tools as part of the action that requires them. ",
-        "id": "89c6fa26-8e09-11ea-9fab-e92c63c14723",
-        "name": "Bandolier",
-        "price": 10,
-        "equippable": true,
-        "carryingBulk": "L",
-        "gainInventory": [
-            {
-                "_className": "InventoryGain",
-                "bulkLimit": 0.8
-            }
-        ],
-        "_className": "AdventuringGear"
-    },
-    {
         "bulk": "L",
         "desc": "This book contains formulas for Crafting common items. ",
         "id": "89c6fa29-8e09-11ea-9fab-e92c63c14723",
@@ -294,7 +227,7 @@
         "_className": "AdventuringGear"
     },
     {
-        "desc": "Saddlebags come in a pair. Each can hold up to 3 Bulk of items. The Bulk value given is for saddlebags worn by a mount. If you are carrying or stowing saddlebags, they count as 1 Bulk instead of light Bulk. ",
+        "desc": "Saddlebags come in a pair. Each can hold up to 3 Bulk of items. The Bulk value given is for saddlebags worn by a mount. If you are carrying or stowing saddlebags, they count as 1 Bulk instead of light Bulk. The first 1 Bulk of items in each saddlebag doesn't count against your mount's Bulk limits.",
         "id": "89c7210a-8e09-11ea-9fab-e92c63c14723",
         "name": "Saddlebags",
         "price": 20,
@@ -303,11 +236,13 @@
         "gainInventory": [
             {
                 "_className": "InventoryGain",
-                "bulkLimit": 3
+                "bulkLimit": 3,
+                "bulkReduction": 1
             },
             {
                 "_className": "InventoryGain",
-                "bulkLimit": 3
+                "bulkLimit": 3,
+                "bulkReduction": 1
             }
         ],
         "_className": "AdventuringGear"
@@ -436,10 +371,10 @@
         "hands": 2
     },
     {
-        "desc": "This item is the starter kit for an adventurer, containing the essential items for exploration and survival. The Bulk value is for the entire pack together, but see the descriptions of individual items as necessary.\n\nThe pack contains the following items: backpack (containing the other goods), bedroll, two belt pouches, 10 pieces of chalk, flint and steel, 50 feet of rope, 2 weeks' rations, soap, 5 torches, and a waterskin.",
+        "desc": "This item is the starter kit for an adventurer, containing the essential items for exploration and survival. The Bulk value is for the entire pack together, but see the descriptions of individual items as necessary.\n\nThe pack contains the following items: backpack (containing the other goods), bedroll, 10 pieces of chalk, flint and steel, 50 feet of rope, 2 weeks' rations, soap, 5 torches, and a waterskin.",
         "id": "89c74812-8e09-11ea-9fab-e92c63c14723",
         "name": "Adventurer's Pack",
-        "price": 70,
+        "price": 150,
         "gainItems": [
             {
                 "_className": "ItemGain",
@@ -449,16 +384,6 @@
             {
                 "_className": "ItemGain",
                 "name": "Bedroll",
-                "type": "adventuringgear"
-            },
-            {
-                "_className": "ItemGain",
-                "name": "Belt Pouch",
-                "type": "adventuringgear"
-            },
-            {
-                "_className": "ItemGain",
-                "name": "Belt Pouch",
                 "type": "adventuringgear"
             },
             {
@@ -717,7 +642,7 @@
         "name": "Alchemist's Tools",
         "price": 300,
         "_className": "AdventuringGear",
-        "hands": 2
+        "hands": "2 (1 when worn)"
     },
     {
         "bulk": "L",
@@ -739,7 +664,7 @@
             }
         ],
         "_className": "AdventuringGear",
-        "hands": 2
+        "hands": "2 (1 when worn)"
     },
     {
         "bulk": "1",
@@ -756,7 +681,7 @@
         "name": "Artisan's Tools",
         "price": 400,
         "_className": "AdventuringGear",
-        "hands": 2
+        "hands": "2 (1 when worn)"
     },
     {
         "bulk": "1",
@@ -780,7 +705,7 @@
             }
         ],
         "_className": "AdventuringGear",
-        "hands": 2
+        "hands": "2 (1 when worn)"
     },
     {
         "bulk": "L",
@@ -1173,7 +1098,7 @@
             }
         ],
         "_className": "AdventuringGear",
-        "hands": 2
+        "hands": "2 (1 when worn)"
     },
     {
         "bulk": "2",
@@ -1195,7 +1120,7 @@
             }
         ],
         "_className": "AdventuringGear",
-        "hands": 2
+        "hands": "2 (1 when worn)"
     },
     {
         "bulk": "1",
@@ -1239,7 +1164,7 @@
             }
         ],
         "_className": "AdventuringGear",
-        "hands": 2
+        "hands": "2 (1 when worn)"
     },
     {
         "bulk": "L",

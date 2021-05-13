@@ -65,6 +65,15 @@ export class Equipment extends Item {
     public strikingRune: number = 0;
     //Store any talismans attached to this item.
     public talismans: Talisman[] = [];
+    can_Stack() {
+        //Additionally to the usual considerations, equipment can't stack if it adds an inventory or any activities.
+        return (
+            super.can_Stack() &&
+            !this.gainInventory.length &&
+            !this.gainActivities.filter((activity: ItemActivity) => !activity.displayOnly).length &&
+            !this.activities.filter((activity: ItemActivity) => !activity.displayOnly).length
+        )
+    }
     get_Bulk() {
         //Return either the bulk set by an oil, or the bulk of the item, possibly reduced by the material.
         let bulk: string = this.bulk;

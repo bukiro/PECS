@@ -18,6 +18,10 @@ export class Settings {
     defenseMinimized: boolean = false;
     effectsMinimized: boolean = false;
     familiarMinimized: boolean = false;
+    foundryVTTSendRolls: boolean = false;
+    foundryVTTUrl: string = "";
+    foundryVTTRollDirectly: boolean = false;
+    foundryVTTTimeout: number = 500;
     generalMinimized: boolean = false;
     healthMinimized: boolean = false;
     higherLevelFeats: boolean = true;

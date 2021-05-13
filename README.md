@@ -26,6 +26,10 @@ A modern computer or tablet should have no issues running PECS in a browser, but
 
 If you want to keep your characters, you need a database. The demo uses a mongodb database, but you can probably make it work with another product, as long as you have a connector URL that handles the necessary queries. See `Database.md` for details, or just go ahead and use [my PECS-MongoDB connector](https://github.com/bukiro/PECS-MongoDB-Connector).
 
+# Integration with Foundry VTT
+
+You can send your dice rolls from PECS straight to your Foundry VTT session, provided you have both open in the same browser - and the FVTT server has the [External Dice Roll Connector module](https://github.com/bukiro/external-dice-roll-connector) installed.
+
 # State of development
 
 I generally avoid content from the Advanced Character Guide for now, while there is still core content to do.

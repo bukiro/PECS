@@ -25,10 +25,14 @@ import { FeatTaken } from './FeatTaken';
 import { Item } from './Item';
 import { FormulaLearned } from './FormulaLearned';
 import { ConditionsService } from './conditions.service';
+import { ItemCollection } from './ItemCollection';
 
 export class Character extends Creature {
     public readonly _className: string = this.constructor.name;
     readonly type = "Character";
+    public appVersionMajor: number = 0;
+    public appVersion: number = 0;
+    public appVersionMinor: number = 0;
     public partyName: string = "";
     public alignment: string = "";
     public baseValues: { name: string, baseValue: number }[] = [];
@@ -37,6 +41,8 @@ export class Character extends Creature {
     public customFeats: Feat[] = [];
     public customSkills: Skill[] = [];
     public heroPoints: number = 1;
+    //Characters get one extra inventory for worn items.
+    public inventories: ItemCollection[] = [new ItemCollection(), new ItemCollection(2)];
     public experiencePoints: number = 0;
     public settings: Settings = new Settings();
     public GMMode: boolean = false;
@@ -384,9 +390,6 @@ export class Character extends Creature {
                             break;
                         case "Bard Class DC":
                             characterService.add_CustomSkill(skillName, "Class DC", "Charisma");
-                            break;
-                        case "Druid Class DC":
-                            characterService.add_CustomSkill(skillName, "Class DC", "Wisdom");
                             break;
                         default:
                             //The Ability is the subtype of the taken feat.

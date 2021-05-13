@@ -456,7 +456,7 @@ export class Weapon extends Equipment {
         if (!this.dicenum && !this.dicesize && !this.extraDamage) {
             return ["0", "", [], [], []];
         }
-        let diceExplain: string = "Base dice: " + this.dicenum + "d" + this.dicesize;
+        let diceExplain: string = "Base dice: " + (this.dicenum ? this.dicenum + "d" : "") + this.dicesize;
         let bonusExplain: string = "";
         let str = characterService.get_Abilities("Strength")[0].mod(creature, characterService, effectsService).result;
         let dex = characterService.get_Abilities("Dexterity")[0].mod(creature, characterService, effectsService).result;
@@ -616,10 +616,17 @@ export class Weapon extends Equipment {
                 diceExplain += "\n" + effect.source + ": Dice size d" + dicesize;
             })
         }
-        //Get the basic "#d#" string from the weapon's dice values, unless dicenum is 0 or null (for instance some weapons deal exactly 1 base damage, which is represented by 0d1)
-        var baseDice = (dicenum ? dicenum + "d" : "") + dicesize;
-        //Get the +X value
+        //Get the basic "#d#" string from the weapon's dice values, unless dicenum is 0 or null (for instance some weapons deal exactly 1 base damage, which is represented by 0d1).
+        // In that case, add the damage to the damage bonus and ignore the #d# string.
+        let baseDice = "";
         let dmgBonus: number = 0;
+        if (dicenum) {
+            baseDice = dicenum + "d" + dicesize;
+        } else {
+            if (dicesize) {
+                dmgBonus += dicesize
+            }
+        };
         //Decide whether this weapon uses strength or dexterity (modifier, bonuses and penalties).
         //First, calculate dexterity and strength penalties to see which would be more beneficial. They are not immediately applied.
         let calculatedEffects: Effect[] = [];
@@ -833,9 +840,15 @@ export class Weapon extends Equipment {
         //Concatenate the strings for a readable damage output
         var dmgResult = baseDice;
         if (dmgBonus > 0) {
-            dmgResult += " + " + dmgBonus;
+            if (baseDice) {
+                dmgResult += " + "
+            }
+            dmgResult += dmgBonus;
         } else if (dmgBonus < 0) {
-            dmgResult += " - " + (dmgBonus * -1);
+            if (baseDice) {
+                dmgResult += " - "
+            }
+            dmgResult += (dmgBonus * -1);
         }
         if (this.dmgType) {
             dmgResult += " " + this.dmgType;

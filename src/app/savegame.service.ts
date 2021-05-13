@@ -70,6 +70,8 @@ import { OtherConsumableBomb } from './OtherConsumableBomb';
 import { Wand } from './Wand';
 import { Equipment } from './Equipment';
 import { ConfigService } from './config.service';
+import { default as package_json } from '../../package.json';
+import { isObjectBindingPattern } from 'typescript';
 
 @Injectable({
     providedIn: 'root'
@@ -135,6 +137,16 @@ export class SavegameService {
         if (character['_id']) {
             delete character['_id'];
         }
+
+        //Perform any updates between versions at this point.
+
+        //Characters below version 1.1.0 need a Worn Tools inventory added at index 1.
+        if (character.appVersionMajor == 0 && character.appVersion == 0 && character.appVersionMinor < 1) {
+            if (!character.inventories[1] || character.inventories[1].itemId) {
+                character.inventories.splice(1, 0, new ItemCollection(2));
+            }
+        }
+
         return character;
     }
 
@@ -327,6 +339,14 @@ export class SavegameService {
     save_Character(character: Character, itemsService: ItemsService, classesService: ClassesService, historyService: HistoryService, animalCompanionsService: AnimalCompanionsService) {
 
         let savegame: Character = JSON.parse(JSON.stringify(character));
+
+        let versionString: string = package_json.version;
+
+        if (versionString) {
+            savegame.appVersionMajor = parseInt(versionString.split(".")[0]) || 0;
+            savegame.appVersion = parseInt(versionString.split(".")[1]) || 0;
+            savegame.appVersionMinor = parseInt(versionString.split(".")[2]) || 0;
+        }
 
         //After copying the character into the savegame, we go through all its elements and make sure that they have the correct class.
 

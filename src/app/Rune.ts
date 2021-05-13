@@ -16,4 +16,11 @@ export class Rune extends Item {
     public usage: string = "";
     readonly allowEquippable = false;
     readonly equippable = false;
+    can_Stack() {
+        //Additionally to the usual considerations, runes can't stack if they add any activities.
+        return (            
+            super.can_Stack() &&
+            !this.activities.filter((activity: ItemActivity) => !activity.displayOnly).length
+        )
+    }
 }

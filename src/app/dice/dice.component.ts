@@ -3,6 +3,7 @@ import { CharacterService } from '../character.service';
 import { Creature } from '../Creature';
 import { DiceService } from '../dice.service';
 import { DiceResult } from '../DiceResult';
+import { IntegrationsService } from '../integrations.service';
 
 @Component({
     selector: 'app-dice',
@@ -18,7 +19,8 @@ export class DiceComponent implements OnInit {
     constructor(
         private changeDetector: ChangeDetectorRef,
         private characterService: CharacterService,
-        private diceService: DiceService
+        private diceService: DiceService,
+        private integrationsService: IntegrationsService
     ) { }
 
     toggleDiceMenu() {
@@ -35,6 +37,10 @@ export class DiceComponent implements OnInit {
 
     still_loading() {
         return this.characterService.still_loading()
+    }
+
+    get_FoundryVTTSendRolls() {
+        return this.characterService.get_Character().settings.foundryVTTSendRolls && this.characterService.get_Character().settings.foundryVTTUrl;
     }
 
     get_DiceResults() {
@@ -90,6 +96,10 @@ export class DiceComponent implements OnInit {
 
     get_TotalSum() {
         return this.get_DiceResults().filter(diceResult => diceResult.included).reduce((a, b) => a + this.get_DiceSum(b), 0);
+    }
+
+    on_SendToFoundry() {
+        this.integrationsService.send_RollToFoundry("", this.get_DiceResults(), this.characterService);
     }
 
     unselectAll() {

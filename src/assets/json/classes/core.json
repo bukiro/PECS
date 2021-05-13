@@ -6779,11 +6779,6 @@
                 "ability": "Wisdom",
                 "name": "Druid Primal Spell DC",
                 "type": "Spell DC"
-            },
-            {
-                "ability": "Wisdom",
-                "name": "Druid Class DC",
-                "type": "Class DC"
             }
         ],
         "desc": [
@@ -6818,10 +6813,6 @@
             {
                 "name": "Defenses",
                 "value": "Trained in light armor\nTrained in medium armor\nTrained in unarmored defense"
-            },
-            {
-                "name": "Class DC",
-                "value": "Trained in druid class DC"
             },
             {
                 "name": "Spells",
@@ -7013,13 +7004,6 @@
                                 "locked": true,
                                 "maxRank": 2,
                                 "name": "Unarmored Defense",
-                                "source": "Class",
-                                "sourceId": "1-Any-Class-0"
-                            },
-                            {
-                                "locked": true,
-                                "maxRank": 2,
-                                "name": "Druid Class DC",
                                 "source": "Class",
                                 "sourceId": "1-Any-Class-0"
                             },

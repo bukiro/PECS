@@ -313,7 +313,6 @@
         "name": "Sleeper Hold",
         "actions": "1A",
         "traits": [
-            "Attack",
             "Incapacitation",
             "Monk"
         ],
@@ -397,7 +396,7 @@
         "traits": [
             "Monk"
         ],
-        "requirements": "This is the first action of your turn.",
+        "trigger": "Your turn begins.",
         "target": "self",
         "desc": "You move between stances in an unceasing dance. You use an action with the stance trait."
     },
@@ -553,6 +552,7 @@
             "Manipulate",
             "Skill"
         ],
+        "requirements": "You are holding or wearing healer's tools.",
         "target": "ally",
         "desc": "You can patch up yourself or an adjacent ally, even in combat. Attempt a Medicine check with the same DC as for Treat Wounds, and restore a corresponding amount of Hit Points; this does not remove the wounded condition. As with Treat Wounds, you can attempt checks against higher DCs if you have the minimum proficiency rank. The target is then temporarily immune to your Battle Medicine for 1 day."
     },
@@ -943,7 +943,6 @@
             "Arcane",
             "Wizard"
         ],
-        "requirements": "You haven't acted yet on your turn.",
         "frequency": "once per day",
         "target": "self",
         "desc": "You expend the power stored in your bonded item. During your turn, you gain the ability to cast one spell you prepared today and already cast, without spending a spell slot. You must still Cast the Spell and meet the spell's other requirements."
@@ -956,7 +955,6 @@
             "Arcane",
             "Wizard"
         ],
-        "requirements": "You haven't acted yet on your turn.",
         "frequency": "once per day",
         "target": "self",
         "desc": "You expend the power stored in your familiar. During your turn, you gain the ability to cast one spell you prepared today and already cast, without spending a spell slot. You must still Cast the Spell and meet the spell's other requirements."
@@ -1724,6 +1722,7 @@
             "Fighter",
             "Press"
         ],
+        "requirements": "You are wielding a ranged weapon.",
         "target": "ally",
         "desc": "With a quick shot, you interfere with a foe in combat. Make a Strike with a ranged weapon. If the Strike hits, the next creature other than you to attack the same target before the start of your next turn gains a +1 circumstance bonus to their roll, or a +2 circumstance bonus if your Strike was a critical hit.",
         "targetNumbers": [
@@ -2253,7 +2252,7 @@
         "frequency": "once per day",
         "cooldown": 144000,
         "target": "self",
-        "desc": "Your training allows you to shrug off your foes' spells and conditions when the need is dire. Choose a single nonpermanent spell or condition that is affecting you. If you chose a condition, its effect on you ends. If you chose a spell, attempt to counteract the spell (your level is your counteract level, and you attempt a Will save as your counteract check).\n\nThis doesn't remove any Hit Point damage normally dealt by the spell or condition, and it doesn't prevent the spell or debilitating effect from affecting other allies or the environment around you. It can't remove an ongoing affliction or prevent such an affliction from inflicting conditions on you later. It can't remove conditions from the situation (such as prone or flanked). If the effect comes from a creature, hazard, or item of 20th level or higher, Determination can't remove its effect on you."
+        "desc": "Your training allows you to shrug off your foes' spells and conditions when the need is dire. Choose a single nonpermanent spell or condition that is affecting you. If you chose a condition, its effect on you ends. If you chose a spell, attempt to counteract the spell (your counteract level is equal to half your level, rounded up, and you attempt a Will save as your counteract check).\n\nThis doesn't remove any Hit Point damage normally dealt by the spell or condition, and it doesn't prevent the spell or debilitating effect from affecting other allies or the environment around you. It can't remove an ongoing affliction or prevent such an affliction from inflicting conditions on you later. It can't remove conditions from the situation (such as prone or flanked). If the effect comes from a creature, hazard, or item of 20th level or higher, Determination can't remove its effect on you."
     },
     {
         "name": "Guiding Finish",
@@ -3196,7 +3195,7 @@
             "Rogue"
         ],
         "target": "other",
-        "desc": "Your sneak attack slices through the threads binding magic to a target. Make a Strike against a flat-footed creature (your choice). If your Strike deals sneak attack damage, you attempt to counteract a single spell active on the target. Your counteract level is equal to your rogue level, and your counteract check modifier is equal to your class DC - 10."
+        "desc": "Your sneak attack slices through the threads binding magic to a target. Make a Strike against a flat-footed creature (your choice). If your Strike deals sneak attack damage, you attempt to counteract a single spell active on the target. Your counteract level is half your level (rounded up), and your counteract check modifier is equal to your class DC - 10."
     },
     {
         "name": "Perfect Distraction",
@@ -4268,7 +4267,7 @@
             "Rage"
         ],
         "target": "area",
-        "desc": "You unleash a terrifying howl. Attempt Intimidate checks to Demoralize each enemy within 30 feet. Regardless of the results of your checks, each creature is then temporarily immune to Terrifying Howl for 1 minute."
+        "desc": "You unleash a terrifying howl. Attempt Intimidate checks to Demoralize each enemy within 30 feet. Regardless of the results of your checks, each enemy is then temporarily immune to Terrifying Howl for 1 minute."
     },
     {
         "name": "Dragon's Rage Wings",
@@ -4375,7 +4374,7 @@
         "toggle": true,
         "maxDuration": 100,
         "target": "self",
-        "desc": "You transform into a ferocious Large dragon, gaining the effects of 6th-level dragon form except that you use your own AC and attack modifier, you apply your extra damage from Rage, and the Breath Weapon uses your class DC. The action to Dismiss the transformation gains the rage trait.\n\nAt 18th level, you gain a +20-foot status bonus to your fly Speed, your damage bonus with dragon Strikes increases to +12, and you gain a +14 status bonus to your breath weapon damage.",
+        "desc": "You transform into a ferocious Large dragon, gaining the effects of 6th-level dragon form except that you use your own AC and attack modifier, you apply your extra damage from Rage, and the Breath Weapon uses your class DC at all levels. The action to Dismiss the transformation gains the rage trait.\n\nAt 18th level, you gain a +20-foot status bonus to your fly Speed, your damage bonus with dragon Strikes increases to +12, and you gain a +14 status bonus to your breath weapon damage.",
         "gainConditions": [
             {
                 "duration": 100,

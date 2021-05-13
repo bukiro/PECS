@@ -278,6 +278,9 @@ export class GridIconComponent implements OnInit {
             if (this.item instanceof Consumable || this.item.amount != 1) {
                 return this.item.amount.toString();
             }
+            if (this.item instanceof Equipment && this.item.gainInventory.length) {
+                return "<i class='ra ra-hive-emblem'></i>";
+            }
         }
         if (superTitle.length <= 2 || superTitle.includes("<")) {
             return superTitle;

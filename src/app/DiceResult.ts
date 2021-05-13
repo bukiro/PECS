@@ -1,4 +1,5 @@
 export class DiceResult {
+    public diceNum: number = 0;
     public diceSize: number = 0;
     public desc: string;
     public rolls: number[] = [];

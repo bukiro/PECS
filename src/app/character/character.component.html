@@ -76,7 +76,8 @@
             <div class="newrow list-item" *ngIf="get_TileMode()">
                 <div class="icon-list">
                     <button (click)="on_NewCharacter()">
-                        <app-gridIcon [ngbTooltip]="'New Character'" [subTitle]="'New'" [superTitle]="'icon-bi-file-earmark-person'">
+                        <app-gridIcon [ngbTooltip]="'New Character'" [subTitle]="'New'"
+                            [superTitle]="'icon-bi-file-earmark-person'">
                         </app-gridIcon>
                     </button>
                     <ng-container *ngIf="get_SavegamesInitializing()">
@@ -103,8 +104,8 @@
                             <button *ngIf="!get_GMMode()" (click)="save_CharacterToDB()"
                                 [disabled]="get_IsBlankCharacter()">
                                 <app-gridIcon
-                                    [ngbTooltip]="get_IsBlankCharacter() ? 'No changes to character yet.' : 'Save Character'" [subTitle]="'Save'"
-                                    [superTitle]="'icon-bi-file-earmark-arrow-up'">
+                                    [ngbTooltip]="get_IsBlankCharacter() ? 'No changes to character yet.' : 'Save Character'"
+                                    [subTitle]="'Save'" [superTitle]="'icon-bi-file-earmark-arrow-up'">
                                 </app-gridIcon>
                             </button>
                         </ng-container>
@@ -1064,6 +1065,52 @@
                         </div>
                     </div>
                     <div class="list-item">
+                        <strong>Integration</strong>
+                        <div class="list-item gridicon-fullsizebox">
+                            <input class="character-choice" id="foundryVTTSendRolls" type="checkbox"
+                                [(ngModel)]="get_Character().settings.foundryVTTSendRolls">
+                            <span>
+                                <label for="manualMode">
+                                    <strong>
+                                        Send dice rolls to your Foundry VTT session
+                                    </strong>
+                                    Requires the External Dice Roll API module
+                                </label>
+                            </span>
+                        </div>
+                        <div class="fullwidth vlist" [ngbCollapse]="!get_Character().settings.foundryVTTSendRolls">
+                            <div class="list-item">
+                                <strong>
+                                    Foundry VTT session URL (e.g. http://your.server:30000)
+                                </strong>
+                                <input class="newrow" id="foundryVTTUrl" type="text"
+                                    [(ngModel)]="get_Character().settings.foundryVTTUrl">
+                            </div>
+                            <div class="list-item">
+                                <strong>
+                                    Time to close the Foundry API window (in ms)
+                                    <i class="bi-question-circle"
+                                        [ngbPopover]="'The API is opened in a new window that closes automatically after this time. If you find that your rolls don\'t turn up in Foundry, try raising this value.'"></i>
+                                </strong>
+                                <input class="number5" id="foundryVTTTimeout" type="number"
+                                    [(ngModel)]="get_Character().settings.foundryVTTTimeout">
+                            </div>
+                            <div class="list-item gridicon-fullsizebox">
+                                <input class="character-choice" id="foundryVTTRollDirectly" type="checkbox"
+                                    [(ngModel)]="get_Character().settings.foundryVTTRollDirectly">
+                                <span>
+                                    <label for="foundryVTTRollDirectly">
+                                        <strong>
+                                            Quick dice buttons roll directly in Foundry VTT
+                                        </strong>
+                                    </label>
+                                    <i class="bi-question-circle"
+                                        [ngbPopover]="'Quick dice buttons usually roll in PECS, where you can send the result to foundry. With this option, quick dice buttons send the dice formula directly to Foundry, where it is evaluated.'"></i>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="list-item">
                         <strong>Automation</strong>
                         <ng-template #ManualModeDescription>
                             <p>
@@ -1346,7 +1393,8 @@
                                         triggers="click">
                                         <app-gridIcon [title]="class.name"></app-gridIcon>
                                         <header class="sectionHeader">
-                                            <i [ngbTooltip]="class.warning" style="font-size:200%" *ngIf="class.warning" class="penalty bi-exclamation-triangle"></i>
+                                            <i [ngbTooltip]="class.warning" style="font-size:200%" *ngIf="class.warning"
+                                                class="penalty bi-exclamation-triangle"></i>
                                             <span>
                                                 {{class.name}}
                                             </span>
@@ -1419,7 +1467,8 @@
                                             [detail]="ancestry.traits.includes('Rare') ? 'Rare' : (ancestry.traits.includes('Uncommon') ? 'Uncommon' : '')">
                                         </app-gridIcon>
                                         <header class="sectionHeader">
-                                            <i [ngbTooltip]="ancestry.warning" style="font-size:200%" *ngIf="ancestry.warning" class="penalty bi-exclamation-triangle"></i>
+                                            <i [ngbTooltip]="ancestry.warning" style="font-size:200%"
+                                                *ngIf="ancestry.warning" class="penalty bi-exclamation-triangle"></i>
                                             <span>{{ancestry.name}}&nbsp;</span>
                                             <cite class="trait" *ngIf="ancestry.traits.includes('Rare')"
                                                 [ngbPopover]="get_Traits('Rare')[0]?.desc" openDelay=100>Rare</cite>
