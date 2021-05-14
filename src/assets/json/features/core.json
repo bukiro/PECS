@@ -243,17 +243,6 @@
         ]
     },
     {
-        "name": "Path to Perfection",
-        "desc": "You have progressed along your own path to enlightenment. Choose your Fortitude, Reflex, or Will saving throw. Your proficiency rank for the chosen saving throw increases to master. When you roll a success on the chosen saving throw, you get a critical success instead.",
-        "hints": [
-            {
-                "desc": "When you roll a success on this saving throw, you get a critical success instead.",
-                "showon": "Path to Perfection"
-            }
-        ],
-        "internalNote": "Skill increases through class features are handled in the class object."
-    },
-    {
         "name": "Perfected Form",
         "desc": "You have purged incompetence from your techniques. On your first Strike of your turn, if you roll lower than 10, you can treat the attack roll as a 10. This is a fortune effect.",
         "hints": [
@@ -297,17 +286,6 @@
         ]
     },
     {
-        "name": "Second Path to Perfection",
-        "desc": "You've learned to find perfection in every success. Choose a different saving throw than the one you chose for your path to perfection. Your proficiency rank for the chosen saving throw increases to master. If you roll a success with the chosen saving throw, you instead critically succeed.",
-        "hints": [
-            {
-                "desc": "If you roll a success with this saving throw, you instead critically succeed.",
-                "showon": "Second Path to Perfection"
-            }
-        ],
-        "internalNote": "Skill increases through class features are handled in the class object."
-    },
-    {
         "name": "Second Skin",
         "desc": "Your armor has become akin to a second skin for you. Your proficiency ranks for light armor, medium armor, and unarmored defense increase to master. When wearing light or medium armor, you can rest normally, rather than receiving poor rest that leaves you fatigued.",
         "hints": [
@@ -326,17 +304,6 @@
                 "showon": "Hunt Prey, Activities, Hunt Prey: Flurry, Hunt Prey: Outwit, Hunt Prey: Precision"
             }
         ]
-    },
-    {
-        "name": "Third Path to Perfection",
-        "desc": "You have made great progress in your personal studies of enlightenment. Choose one of the saving throws you selected for path to perfection or second path to perfection. Your proficiency rank for the chosen type of save increases to legendary. When you roll a critical failure on the chosen type of save, you get a failure instead. When you roll a failure on the chosen type of save against an effect that deals damage, you take half damage.",
-        "hints": [
-            {
-                "desc": "When you roll a critical failure on this type of save, you get a failure instead. When you roll a failure on this type of save against an effect that deals damage, you take half damage.",
-                "showon": "Third Path to Perfection"
-            }
-        ],
-        "internalNote": "Skill increases through class features are handled in the class object."
     },
     {
         "name": "Trackless Step",

@@ -369,14 +369,6 @@ export class Character extends Creature {
                     this.increase_Skill(characterService, skillName, true, newChoice, true);
                 }
             }
-            //The save that you increase with Path to Perfection is added to the filter of Third Path to Perfection
-            if (choice.source == "Path to Perfection" || choice.source == "Second Path to Perfection") {
-                let a = characterService.get_Level(15).skillChoices.filter(choice => choice.source == "Third Path to Perfection")[0];
-                if (a.filter.includes("none")) {
-                    a.filter.splice(a.filter.indexOf("none"), 1);
-                }
-                a.filter.push(skillName);
-            }
             //If you are getting trained in a skill you don't already know, it's usually a weapon proficiency or a class/spell DC.
             //We have to create that skill here then
             if (characterService.get_Skills(this, skillName).length == 0) {
@@ -492,17 +484,6 @@ export class Character extends Creature {
                     this.remove_SkillChoice(oldChoices[0]);
                 }
             }
-            //If you are deselecting Path to Perfection, the selected skill is removed from the filter of Third Path to Perfection.
-            //Also add a blank filter if nothing else is left.
-            if (choice.source == "Path to Perfection" || choice.source == "Second Path to Perfection") {
-                let a = characterService.get_Level(15).skillChoices.filter(choice => choice.source == "Third Path to Perfection")[0];
-                if (a.filter.includes(skillName)) {
-                    a.filter.splice(a.filter.indexOf(skillName), 1);
-                }
-                if (a.filter.length == 0) {
-                    a.filter.push("none");
-                }
-            }
             //Set components to update according to the skill type.
             characterService.set_ToChange("Character", "featchoices");
             characterService.set_ToChange("Character", "skillchoices");
@@ -581,7 +562,8 @@ export class Character extends Creature {
         }
     }
     take_Feat(creature: Character | Familiar, characterService: CharacterService, feat: Feat, featName: string, taken: boolean, choice: FeatChoice, locked: boolean) {
-        let level: Level = characterService.get_Level(parseInt(choice.id.split("-")[0]));
+        let levelNumber = parseInt(choice.id.split("-")[0]);
+        let level: Level = creature instanceof Character ? creature.class.levels[levelNumber] : characterService.get_Level(levelNumber);
         if (taken) {
             if (feat) {
                 featName = feat.name;

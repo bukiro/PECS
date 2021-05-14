@@ -71,30 +71,6 @@ export class SkillComponent implements OnInit {
         }
     }
 
-    get_SpecialShowon(skill: Skill) {
-        let creature = this.get_Creature();
-        //Under certain circumstances, some Feats apply to skills independently of their name.
-        //Return names that get_FeatsShowingOn should run on
-        let specialNames: string[] = []
-        //Show Path to Perfection notices on a save if any skill increases with that PtP as its source can be found
-        if (skill.type == "Save" && creature.type == "Character") {
-            if (creature.get_SkillIncreases(this.characterService, 1, this.get_Creature().level, skill.name, "Path to Perfection").length) {
-                specialNames.push("Path to Perfection");
-            }
-            if (creature.get_SkillIncreases(this.characterService, 1, this.get_Creature().level, skill.name, "Second Path to Perfection").length) {
-                specialNames.push("Second Path to Perfection");
-            }
-            if (creature.get_SkillIncreases(this.characterService, 1, this.get_Creature().level, skill.name, "Third Path to Perfection").length) {
-                specialNames.push("Third Path to Perfection");
-            }
-        }
-        return specialNames;
-    }
-
-    roll_Dice(bonus: number) {
-        this.diceService.roll(1, 20, bonus, this.characterService);
-    }
-
     still_loading() {
         return this.skillsService.still_loading() || this.characterService.still_loading();
     }

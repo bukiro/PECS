@@ -2398,7 +2398,7 @@ export class CharacterService {
             }, 500)
         } else {
             //Use this.me here instead of this.get_Character() because we're still_loading()
-            this.me = this.savegameService.load_Character(this.me, this.itemsService, this.classesService, this.historyService, this.animalCompanionsService)
+            this.me = this.savegameService.load_Character(this.me, this, this.itemsService, this.classesService, this.historyService, this.animalCompanionsService)
             if (this.loading) { this.loading = false; }
             this.grant_BasicItems();
             this.create_WeaponFeats();

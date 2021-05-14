@@ -12,13 +12,15 @@
         </ng-template>
         <span class="hlist">
             <span class="hlist fullsize-only">
-                <input id="{{skill.name}}ShowNotes" class="invisible" type="checkbox" [(ngModel)]="get_Notes(skill).showNotes">
+                <input id="{{skill.name}}ShowNotes" class="invisible" type="checkbox"
+                    [(ngModel)]="get_Notes(skill).showNotes">
                 <label for="{{skill.name}}ShowNotes" [ngbTooltip]="'Edit notes'">
                     <i class='bi-pencil-square'></i>
                 </label>
                 <ng-container *ngIf="(skill.name.includes(' DC') ? isDC : !isDC) && showValue">
-                    <span [ngbPopover]="EffectsPopoverContent" #EffectsPopover="ngbPopover"  triggers="click">
-                        <i [ngbTooltip]="!EffectsPopover.isOpen() ? 'Edit effects' : ''" class='bi-lightning-charge'></i>
+                    <span [ngbPopover]="EffectsPopoverContent" #EffectsPopover="ngbPopover" triggers="click">
+                        <i [ngbTooltip]="!EffectsPopover.isOpen() ? 'Edit effects' : ''"
+                            class='bi-lightning-charge'></i>
                     </span>
                 </ng-container>
             </span>
@@ -38,8 +40,8 @@
             </div>
         </span>
     </div>
-    <app-tags *ngIf="showValue" [creature]="creature" [objectName]=skill.name [showTraits]=true [showFeats]=true [showItems]=true
-        [showActivities]=true [showConditions]=true [specialNames]=get_SpecialShowon(skill)
+    <app-tags *ngIf="showValue" [creature]="creature" [objectName]=skill.name [showTraits]=true [showFeats]=true
+        [showItems]=true [showActivities]=true [showConditions]=true
         [specialEffects]="calculatedSkill.absolutes.concat(calculatedSkill.relatives)">
     </app-tags>
     <div class="fullwidth" [ngbCollapse]="!get_Notes(skill).showNotes">

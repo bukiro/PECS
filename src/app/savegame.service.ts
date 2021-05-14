@@ -71,7 +71,6 @@ import { Wand } from './Wand';
 import { Equipment } from './Equipment';
 import { ConfigService } from './config.service';
 import { default as package_json } from '../../package.json';
-import { isObjectBindingPattern } from 'typescript';
 
 @Injectable({
     providedIn: 'root'
@@ -98,10 +97,20 @@ export class SavegameService {
         return this.loadingError;
     }
 
-    load_Character(character: Character, itemsService: ItemsService, classesService: ClassesService, historyService: HistoryService, animalCompanionsService: AnimalCompanionsService) {
+    load_Character(character: Character, characterService: CharacterService, itemsService: ItemsService, classesService: ClassesService, historyService: HistoryService, animalCompanionsService: AnimalCompanionsService) {
+        //Make a copy of the character before restoration. This will be used in patching.
+        let savedCharacter = Object.assign(new Character(), JSON.parse(JSON.stringify(character)));
+
         //Restore a lot of data from reference objects.
         //This allows us to save a lot of data at saving by removing all data from certain objects that is the same as in their original template.
+
+        //Restore Inventories
         character.inventories = character.inventories.map(inventory => Object.assign(new ItemCollection(), inventory));
+
+        //Apply patches that need to be done before the class is restored.
+        //This is usually removing skill increases and feat choices, which can cause issues if the class doesn't have them at that index and the character still does.
+
+        character = this.patch(savedCharacter, character, 1, characterService);
 
         if (character.class.name) {
             if (character.class.ancestry && character.class.ancestry.name) {
@@ -140,14 +149,142 @@ export class SavegameService {
 
         //Perform any updates between versions at this point.
 
-        //Characters below version 1.1.0 need a Worn Tools inventory added at index 1.
-        if (character.appVersionMajor == 0 && character.appVersion == 0 && character.appVersionMinor < 1) {
-            if (!character.inventories[1] || character.inventories[1].itemId) {
-                character.inventories.splice(1, 0, new ItemCollection(2));
-            }
-        }
+        character = this.patch(savedCharacter, character, 2, characterService);
 
         return character;
+    }
+
+    patch(savedCharacter: Character, character: Character, stage: number, characterService: CharacterService) {
+
+        // STAGE 1
+        //Before restoring data from class, ancestry etc.
+        //If choices need to be added or removed that have already been added or removed in the class, do it here or your character's choices will get messed up.
+        //The character is not reassigned at this point, so we need to be careful with assuming that an object has a property.
+
+        if (stage == 1) {
+
+            //Monks below version 1.0.2 will lose their Path to Perfection skill increases and gain the feat choices instead.
+            //The matching feats will be added in stage 2.
+            if (character.class.name == "Monk" && character.appVersionMajor <= 1 && character.appVersion <= 1 && character.appVersionMinor < 2) {
+                
+                //Delete the feats that give you the old feature, if they.
+                let oldFirstPathChoice = character.class?.levels?.[7]?.featChoices?.find(choice => choice.id == "7-Feature-Monk-0") || null;
+                if (oldFirstPathChoice) {
+                    oldFirstPathChoice.feats = oldFirstPathChoice.feats.filter(feat => feat.name != "Path to Perfection");
+                }
+                let oldThirdPathChoice = character.class?.levels?.[15]?.featChoices?.find(choice => choice.id == "15-Feature-Monk-0") || null;
+                if (oldThirdPathChoice) {
+                    oldThirdPathChoice.feats = oldThirdPathChoice.feats.filter(feat => feat.name != "Third Path to Perfection");
+                }
+                //Delete the old skill choices, if they exist.
+                if (character.class?.levels?.[7]?.skillChoices?.length) {
+                    character.class.levels[7].skillChoices = character.class.levels[7].skillChoices.filter(choice => choice.source != "Path to Perfection");
+                }
+                if (character.class?.levels?.[11]?.skillChoices?.length) {
+                    character.class.levels[11].skillChoices = character.class.levels[11].skillChoices.filter(choice => choice.source != "Second Path to Perfection");
+                }
+                if (character.class?.levels?.[15]?.skillChoices?.length) {
+                    character.class.levels[15].skillChoices = character.class.levels[15].skillChoices.filter(choice => choice.source != "Third Path to Perfection");
+                }
+
+                //Create the feat choices, if they don't exist and the level has been touched before.
+                if (character.class?.levels?.[7]?.featChoices?.length) {
+                    if (!character.class?.levels?.[7]?.featChoices?.some(choice => choice.id == "7-Path to Perfection-Monk-2")) {
+                        let newFeatChoice = new FeatChoice();
+                        newFeatChoice.available = 1;
+                        newFeatChoice.filter = ["Path to Perfection"];
+                        newFeatChoice.id = "7-Path to Perfection-Monk-2";
+                        newFeatChoice.source = "Monk";
+                        newFeatChoice.specialChoice = true;
+                        newFeatChoice.type = "Path to Perfection";
+                        character.class?.levels?.[7]?.featChoices.splice(2, 0, newFeatChoice)
+                    }
+                }
+                if (character.class?.levels?.[11]?.featChoices?.length) {
+                    let secondChoice = character.class?.levels?.[11]?.featChoices?.find(choice => choice.id == "11-Feature-Monk-0") || null;
+                    if (secondChoice) {
+                        secondChoice.type = "Second Path to Perfection";
+                        secondChoice.id = "11-Second Path to Perfection-Monk-0";
+                        secondChoice.specialChoice = true;
+                        if (secondChoice.feats.some(feat => feat.name == "Second Path to Perfection")) {
+                            secondChoice.feats.length = 0;
+                            secondChoice.available = 1;
+                            secondChoice.filter = ["Second Path to Perfection"];
+                        }
+                    }
+                }
+                if (character.class?.levels?.[15]?.featChoices?.length) {
+                    if (!character.class?.levels?.[15]?.featChoices?.some(choice => choice.id == "15-Third Path to Perfection-Monk-2")) {
+                        let newFeatChoice = new FeatChoice();
+                        newFeatChoice.available = 1;
+                        newFeatChoice.filter = ["Third Path to Perfection"];
+                        newFeatChoice.id = "15-Third Path to Perfection-Monk-2";
+                        newFeatChoice.source = "Monk";
+                        newFeatChoice.specialChoice = true;
+                        newFeatChoice.type = "Third Path to Perfection";
+                        character.class?.levels?.[15]?.featChoices.splice(2, 0, newFeatChoice)
+                    }
+                }
+            }
+
+        }
+
+        // STAGE 2
+        //After restoring data and reassigning.
+
+        if (stage == 2) {
+
+            //Characters below version 1.0.1 need a Worn Tools inventory added at index 1.
+            if (character.appVersionMajor <= 1 && character.appVersion <= 1 && character.appVersionMinor < 1) {
+                if (!character.inventories[1] || character.inventories[1].itemId) {
+                    character.inventories.splice(1, 0, new ItemCollection(2));
+                }
+            }
+
+            //Monks below version 1.0.2 now get their lost Path to Perfection choices back.
+            if (character.class.name == "Monk" && character.appVersionMajor <= 1 && character.appVersion <= 1 && character.appVersionMinor < 2) {
+                //Get the original choices back from the savedCharacter.
+                let firstPath: string = savedCharacter.class?.levels?.[7]?.skillChoices?.find(choice => choice.source == "Path to Perfection")?.increases?.[0]?.name || "";
+                let secondPath: string = savedCharacter.class?.levels?.[11]?.skillChoices?.find(choice => choice.source == "Second Path to Perfection")?.increases?.[0]?.name || "";
+                let thirdPath: string = savedCharacter.class?.levels?.[15]?.skillChoices?.find(choice => choice.source == "Third Path to Perfection")?.increases?.[0]?.name || "";
+
+                if (firstPath) {
+                    let firstPathChoice = character.class?.levels?.[7]?.featChoices?.find(choice => choice.id == "7-Path to Perfection-Monk-2") || null;
+                    if (!firstPathChoice?.feats.length) {
+                        let firstPathFeat = characterService.get_Feats("Path to Perfection: " + firstPath)[0];
+                        if (firstPathFeat) {
+                            character.take_Feat(character, characterService, firstPathFeat, firstPathFeat.name, true, firstPathChoice, false);
+                        }
+                    }
+                }
+                if (secondPath) {
+                    let secondChoice = character.class?.levels?.[11]?.featChoices?.find(choice => choice.id == "11-Second Path to Perfection-Monk-0") || null;
+                    if (!secondChoice?.feats.length) {
+                        let secondPathFeat = characterService.get_Feats("Second Path to Perfection: " + secondPath)[0];
+                        if (secondPathFeat) {
+                            character.take_Feat(character, characterService, secondPathFeat, secondPathFeat.name, true, secondChoice, false);
+                        }
+                    }
+                }
+                if (thirdPath) {
+                    let thirdPathChoice = character.class?.levels?.[15]?.featChoices?.find(choice => choice.id == "15-Third Path to Perfection-Monk-2") || null;
+                    if (!thirdPathChoice?.feats.length) {
+                        let thirdPathFeat = characterService.get_Feats("Third Path to Perfection: " + thirdPath)[0];
+                        if (thirdPathFeat) {
+                            character.take_Feat(character, characterService, thirdPathFeat, thirdPathFeat.name, true, thirdPathChoice, false);
+                        }
+                    }
+                }
+
+            }
+
+
+        }
+
+
+
+        return character;
+
     }
 
     classCast(obj: any, className: string) {
@@ -398,7 +535,7 @@ export class SavegameService {
     }
 
     delete_CharacterFromDB(savegame: Savegame): Observable<string[]> {
-        return this.http.post<string[]>(this.configService.dbConnectionURL + '/deleteCharacter', {id: savegame.id});
+        return this.http.post<string[]>(this.configService.dbConnectionURL + '/deleteCharacter', { id: savegame.id });
     }
 
     save_CharacterToDB(savegame): Observable<string[]> {

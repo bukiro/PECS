@@ -46,10 +46,12 @@ export class DiceService {
             diceResult.rolls.push(Math.ceil(Math.random() * size));
         }
         this.diceResults.unshift(diceResult);
-        if (characterService.get_DiceMenuState() == 'out') {
-            characterService.toggle_Menu('dice');
+        if (characterService.get_DiceMenuState() == "out") {
+            characterService.toggle_Menu("dice");
         }
-        characterService.set_Changed('dice');
+        characterService.set_ToChange("character", "dice");
+        characterService.set_ToChange("character", "character-sheet");
+        characterService.set_ToChange("character", "top-bar");
     }
 
     unselectAll() {

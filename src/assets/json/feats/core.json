@@ -13236,6 +13236,302 @@
         ]
     },
     {
+        "name": "Path to Perfection",
+        "desc": "You have progressed along your own path to enlightenment. Choose your Fortitude, Reflex, or Will saving throw. Your proficiency rank for the chosen saving throw increases to master. When you roll a success on the chosen saving throw, you get a critical success instead.",
+        "subTypes": true,
+        "shortdesc": "You have progressed along your own path to enlightenment."
+    },
+    {
+        "name": "Path to Perfection: Fortitude",
+        "desc": "You have progressed along your own path to enlightenment. Your proficiency rank for Fortitude saving throws increases to master. When you roll a success on a Fortitude save, you get a critical success instead.",
+        "hints": [
+            {
+                "desc": "When you roll a success on a Fortitude save, you get a critical success instead.",
+                "showon": "Fortitude"
+            }
+        ],
+        "subType": "Fortitude",
+        "superType": "Path to Perfection",
+        "shortdesc": "You have progressed along your own path to enlightenment.",
+        "gainSkillChoice": [
+            {
+                "_className": "SkillChoice",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 6,
+                        "name": "Fortitude",
+                        "source": "Path to Perfection: Fortitude"
+                    }
+                ],
+                "maxRank": 6,
+                "source": "Path to Perfection: Fortitude",
+                "type": "Save"
+            }
+        ]
+    },
+    {
+        "name": "Path to Perfection: Reflex",
+        "desc": "You have progressed along your own path to enlightenment. Your proficiency rank for Reflex saving throws increases to master. When you roll a success on a Reflex save, you get a critical success instead.",
+        "hints": [
+            {
+                "desc": "When you roll a success on a Reflex save, you get a critical success instead.",
+                "showon": "Reflex"
+            }
+        ],
+        "subType": "Reflex",
+        "superType": "Path to Perfection",
+        "shortdesc": "You have progressed along your own path to enlightenment.",
+        "gainSkillChoice": [
+            {
+                "_className": "SkillChoice",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 6,
+                        "name": "Reflex",
+                        "source": "Path to Perfection: Reflex"
+                    }
+                ],
+                "maxRank": 6,
+                "source": "Path to Perfection: Reflex",
+                "type": "Save"
+            }
+        ]
+    },
+    {
+        "name": "Path to Perfection: Will",
+        "desc": "You have progressed along your own path to enlightenment. Your proficiency rank for Will saving throws increases to master. When you roll a success on a Will save, you get a critical success instead.",
+        "hints": [
+            {
+                "desc": "When you roll a success on a Will save, you get a critical success instead.",
+                "showon": "Will"
+            }
+        ],
+        "subType": "Will",
+        "superType": "Path to Perfection",
+        "shortdesc": "You have progressed along your own path to enlightenment.",
+        "gainSkillChoice": [
+            {
+                "_className": "SkillChoice",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 6,
+                        "name": "Will",
+                        "source": "Path to Perfection: Will"
+                    }
+                ],
+                "maxRank": 6,
+                "source": "Path to Perfection: Will",
+                "type": "Save"
+            }
+        ]
+    },
+    {
+        "name": "Second Path to Perfection",
+        "desc": "You've learned to find perfection in every success. Choose a different saving throw than the one you chose for your path to perfection. Your proficiency rank for the chosen saving throw increases to master. If you roll a success with the chosen saving throw, you instead critically succeed.",
+        "subTypes": true,
+        "shortdesc": "You've learned to find perfection in every success."
+    },
+    {
+        "name": "Second Path to Perfection: Fortitude",
+        "desc": "You've learned to find perfection in every success. Your proficiency rank for Fortitude saving throws increases to master. If you roll a success on a Fortitude Save, you get a critical success instead.",
+        "hints": [
+            {
+                "desc": "When you roll a success on a Fortitude save, you get a critical success instead.",
+                "showon": "Fortitude"
+            }
+        ],
+        "subType": "Fortitude",
+        "superType": "Second Path to Perfection",
+        "shortdesc": "You've learned to find perfection in every success.",
+        "specialreq": "!Has_Feat('Character', 'Path to Perfection: Fortitude')",
+        "specialreqdesc": "not Path to Perfection: Fortitude",
+        "gainSkillChoice": [
+            {
+                "_className": "SkillChoice",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 6,
+                        "name": "Fortitude",
+                        "source": "Second Path to Perfection: Fortitude"
+                    }
+                ],
+                "maxRank": 6,
+                "source": "Second Path to Perfection: Fortitude",
+                "type": "Save"
+            }
+        ]
+    },
+    {
+        "name": "Second Path to Perfection: Reflex",
+        "desc": "You've learned to find perfection in every success. Your proficiency rank for Reflex saving throws increases to master. If you roll a success on a Reflex Save, you get a critical success instead.",
+        "hints": [
+            {
+                "desc": "When you roll a success on a Reflex save, you get a critical success instead.",
+                "showon": "Reflex"
+            }
+        ],
+        "subType": "Reflex",
+        "superType": "Second Path to Perfection",
+        "shortdesc": "You've learned to find perfection in every success.",
+        "specialreq": "!Has_Feat('Character', 'Path to Perfection: Reflex')",
+        "specialreqdesc": "not Path to Perfection: Reflex",
+        "gainSkillChoice": [
+            {
+                "_className": "SkillChoice",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 6,
+                        "name": "Reflex",
+                        "source": "Second Path to Perfection: Reflex"
+                    }
+                ],
+                "maxRank": 6,
+                "source": "Second Path to Perfection: Reflex",
+                "type": "Save"
+            }
+        ]
+    },
+    {
+        "name": "Second Path to Perfection: Will",
+        "desc": "You've learned to find perfection in every success. Your proficiency rank for Will saving throws increases to master. If you roll a success on a Will Save, you get a critical success instead.",
+        "hints": [
+            {
+                "desc": "When you roll a success on a Will save, you get a critical success instead.",
+                "showon": "Will"
+            }
+        ],
+        "subType": "Will",
+        "superType": "Second Path to Perfection",
+        "shortdesc": "You've learned to find perfection in every success.",
+        "specialreq": "!Has_Feat('Character', 'Path to Perfection: Will')",
+        "specialreqdesc": "not Path to Perfection: Will",
+        "gainSkillChoice": [
+            {
+                "_className": "SkillChoice",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 6,
+                        "name": "Will",
+                        "source": "Second Path to Perfection: Will"
+                    }
+                ],
+                "maxRank": 6,
+                "source": "Second Path to Perfection: Will",
+                "type": "Save"
+            }
+        ]
+    },
+    {
+        "name": "Third Path to Perfection",
+        "desc": "You have made great progress in your personal studies of enlightenment. Choose one of the saving throws you selected for path to perfection or second path to perfection. Your proficiency rank for the chosen type of save increases to legendary. When you roll a critical failure on the chosen type of save, you get a failure instead. When you roll a failure on the chosen type of save against an effect that deals damage, you take half damage.",
+        "subTypes": true,
+        "shortdesc": "You have made great progress in your personal studies of enlightenment."
+    },
+    {
+        "name": "Third Path to Perfection: Fortitude",
+        "desc": "You have made great progress in your personal studies of enlightenment. Your proficiency rank for Fortitude saving throws increases to legendary. When you roll a critical failure on a Fortitude save, you get a failure instead. When you roll a failure on a Fortitude save against an effect that deals damage, you take half damage.",
+        "hints": [
+            {
+                "desc": "When you roll a critical failure on a Fortitude save, you get a failure instead. When you roll a failure on a Fortitude save against an effect that deals damage, you take half damage.",
+                "showon": "Fortitude"
+            }
+        ],
+        "subType": "Fortitude",
+        "superType": "Third Path to Perfection",
+        "shortdesc": "You have made great progress in your personal studies of enlightenment.",
+        "featreq": [
+            "Path to Perfection: Fortitude or Second Path to Perfection: Fortitude"
+        ],
+        "gainSkillChoice": [
+            {
+                "_className": "SkillChoice",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 8,
+                        "name": "Fortitude",
+                        "source": "Third Path to Perfection: Fortitude"
+                    }
+                ],
+                "maxRank": 8,
+                "source": "Third Path to Perfection: Fortitude",
+                "type": "Save"
+            }
+        ]
+    },
+    {
+        "name": "Third Path to Perfection: Reflex",
+        "desc": "You have made great progress in your personal studies of enlightenment. Your proficiency rank for Reflex saving throws increases to legendary. When you roll a critical failure on a Reflex save, you get a failure instead. When you roll a failure on a Reflex save against an effect that deals damage, you take half damage.",
+        "hints": [
+            {
+                "desc": "When you roll a critical failure on a Reflex save, you get a failure instead. When you roll a failure on a Reflex save against an effect that deals damage, you take half damage.",
+                "showon": "Reflex"
+            }
+        ],
+        "subType": "Reflex",
+        "superType": "Third Path to Perfection",
+        "shortdesc": "You have made great progress in your personal studies of enlightenment.",
+        "featreq": [
+            "Path to Perfection: Reflex or Second Path to Perfection: Reflex"
+        ],
+        "gainSkillChoice": [
+            {
+                "_className": "SkillChoice",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 8,
+                        "name": "Reflex",
+                        "source": "Third Path to Perfection: Reflex"
+                    }
+                ],
+                "maxRank": 8,
+                "source": "Third Path to Perfection: Reflex",
+                "type": "Save"
+            }
+        ]
+    },
+    {
+        "name": "Third Path to Perfection: Will",
+        "desc": "You have made great progress in your personal studies of enlightenment. Your proficiency rank for Will saving throws increases to legendary. When you roll a critical failure on a Will save, you get a failure instead. When you roll a failure on a Will save against an effect that deals damage, you take half damage.",
+        "hints": [
+            {
+                "desc": "When you roll a critical failure on a Will save, you get a failure instead. When you roll a failure on a Will save against an effect that deals damage, you take half damage.",
+                "showon": "Will"
+            }
+        ],
+        "subType": "Will",
+        "superType": "Third Path to Perfection",
+        "shortdesc": "You have made great progress in your personal studies of enlightenment.",
+        "featreq": [
+            "Path to Perfection: Will or Second Path to Perfection: Will"
+        ],
+        "gainSkillChoice": [
+            {
+                "_className": "SkillChoice",
+                "increases": [
+                    {
+                        "locked": true,
+                        "maxRank": 8,
+                        "name": "Will",
+                        "source": "Third Path to Perfection: Will"
+                    }
+                ],
+                "maxRank": 8,
+                "source": "Third Path to Perfection: Will",
+                "type": "Save"
+            }
+        ]
+    }
+    
+    ,
+    {
         "name": "Aberrant Bloodline",
         "desc": "Something speaks to you from beyond the stars or below the earth. Ancient and unknowable, this alien influence presses against your mind.\n\n<strong>Spell List</strong> occult\n<strong>Bloodline Skills</strong> Intimidation, Occultism\n<strong>Granted Spells</strong> cantrip: daze, 1st: spider sting, 2nd: touch of idiocy, 3rd: vampiric touch, 4th: confusion, 5th: black tentacles, 6th: feeblemind, 7th: warp mind, 8th: uncontrollable dance, 9th: unfathomable song\n<strong>Bloodline Spells</strong> initial: tentacular limbs, advanced: aberrant whispers, greater: unusual anatomy\n<strong>Blood Magic</strong> Aberrant whispers shield one target's mind or your own, granting a +2 status bonus to Will saving throws for 1 round.",
         "shortdesc": "Something speaks to you from beyond the stars or below the earth. Ancient and unknowable, this alien influence presses against your mind.",

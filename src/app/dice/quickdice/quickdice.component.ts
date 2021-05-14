@@ -40,8 +40,8 @@ export class QuickdiceComponent implements OnInit {
         return this.characterService.abilitiesService.get_Abilities(ability)?.[0]?.mod(character, this.characterService, this.characterService.effectsService, character.level).result || 0;
     }
 
-    roll() {
-        if (this.get_FoundryVTTRollDirectly()) {
+    roll(forceLocal: boolean = false) {
+        if (!forceLocal && this.get_FoundryVTTRollDirectly()) {
             //If the roll is to be made in a Foundry VTT session, build a formula here, then send it to Foundry.
             if (this.diceNum && this.diceSize) {
                 //A simple formula is built from diceNum d diceSize +/- bonus.
@@ -53,7 +53,7 @@ export class QuickdiceComponent implements OnInit {
                         formula += " - " + (this.bonus * -1);
                     }
                 }
-                this.integrationsService.send_RollToFoundry(formula, null, this.characterService);
+                this.integrationsService.send_RollToFoundry(formula, null, this.characterService, this);
             } else if (this.diceString) {
                 //For an existing diceString, we need to make sure there is no flavor text included. Only #d#, #, + or - are kept and sent to Foundry.
                 let diceString = this.diceString.replace("\n", " ");
@@ -66,7 +66,7 @@ export class QuickdiceComponent implements OnInit {
                         formulaParts.push(dicePart);
                     }
                 })
-                this.integrationsService.send_RollToFoundry(formulaParts.join(" "), null, this.characterService);
+                this.integrationsService.send_RollToFoundry(formulaParts.join(" "), null, this.characterService, this);
             }
         } else {
             if (this.diceNum && this.diceSize) {
@@ -109,6 +109,7 @@ export class QuickdiceComponent implements OnInit {
                 });
             }
         }
+        this.characterService.process_ToChange();
     }
 
     get_Description() {
