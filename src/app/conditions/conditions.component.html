@@ -205,7 +205,7 @@
                                                 </ng-container>
                                             </ng-container>
                                             <ng-container
-                                                *ngFor="let desc of condition.desc.split('\n\n'); trackBy:trackByIndex;">
+                                                *ngFor="let desc of get_HeightenedDescription(condition).split('\n\n'); trackBy:trackByIndex;">
                                                 <p *ngIf="desc.split('\n').length == 1" [innerHTML]="desc"></p>
                                                 <ul *ngIf="desc.split('\n').length > 1">
                                                     <li *ngFor="let line of desc.split('\n'); trackBy:trackByIndex;"

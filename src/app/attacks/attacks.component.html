@@ -96,7 +96,7 @@
                     <span style="flex-basis:auto">
                         Attack
                         <span>
-                            <app-quickdice [diceNum]="1" [diceSize]="20" [bonus]="attack[1]" [type]="'(Attack)'">
+                            <app-quickdice [creature]="creature" [diceNum]="1" [diceSize]="20" [bonus]="attack[1]" [type]="'(Attack)'">
                             </app-quickdice>
                             <div class="value" [ngbPopover]="attack[2]"
                                 [ngClass]="{'penalty':attack[4].length, 'bonus':attack[5].length, 'absolute':attack[6].length}">
@@ -106,7 +106,7 @@
                         <ng-container *ngFor="let damage of [get_Damage(weapon, attack[0])]; trackBy:trackByIndex;">
                             <span *ngIf="!damage[0].includes('0d0')">
                                 &nbsp;Damage&nbsp;
-                                <app-quickdice [diceString]="damage[0]"></app-quickdice>
+                                <app-quickdice [creature]="creature" [diceString]="damage[0]"></app-quickdice>
                             </span>
                             <ng-container
                                 *ngFor="let line of damage[0].split('\n'); let index = index; trackBy:trackByIndex;">

@@ -177,6 +177,7 @@ export class ConditionComponent implements OnInit {
             this.characterService.set_ToChange(this.creature, "skills");
         }
         gain.showChoices = false;
+        this.characterService.set_HintsToChange(this.creature, this.condition.hints);
         this.characterService.process_ToChange();
     }
 
@@ -201,6 +202,15 @@ export class ConditionComponent implements OnInit {
             }
         }
         this.characterService.process_ToChange();
+    }
+
+    get_HeightenedDescription() {
+        if (this.conditionGain) {
+            return this.condition.get_Heightened(this.condition.desc, this.conditionGain.heightened);
+        } else {
+            return this.condition.get_Heightened(this.condition.desc, this.condition.minLevel);
+        }
+
     }
 
     remove_Condition(conditionGain: ConditionGain) {

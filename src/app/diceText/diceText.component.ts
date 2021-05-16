@@ -12,17 +12,13 @@ export class DiceTextComponent implements OnInit {
     text: string = "";
     @Input()
     casting: SpellCasting = null;
+    @Input()
+    oneLiner: boolean = false;
 
     constructor() { }
 
     trackByIndex(index: number, obj: any): any {
         return index;
-    }
-
-    get_DiceSplit() {
-        let diceStart = new RegExp("<dice>", "g");
-        let diceEnd = new RegExp("</dice>", "g");
-        return this.text.replace(diceEnd,"|").replace(diceStart,"|quickdice-").split("|");
     }
 
     ngOnInit() {

@@ -66,7 +66,7 @@ import { ToastContainerComponent } from './toast-container/toast-container.compo
 import { SpellTargetComponent } from './spellTarget/spellTarget.component';
 import { StickyPopoverDirective } from './StickyPopover.directive';
 import { ObjectEffectsComponent } from './objectEffects/objectEffects.component';
-import { DiceTextComponent } from './formattedDescription/diceText.component';
+import { DiceTextComponent } from './diceText/diceText.component';
 
 @NgModule({
    declarations: [				 

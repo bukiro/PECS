@@ -51,14 +51,14 @@
                 [description]="activity.name"></app-hint>
         </ng-container>
     </ng-container>
-    <ng-container *ngFor="let condition of get_ConditionsShowingOn(objectName); trackBy:trackByIndex;">
-        <app-hint [creature]="creature" [ngClass]="'condition'" [object]="condition" [objectName]="objectName"
-            [description]="condition.name"></app-hint>
+    <ng-container *ngFor="let conditionSet of get_ConditionsShowingOn(objectName); trackBy:trackByIndex;">
+        <app-hint [creature]="creature" [ngClass]="'condition'" [object]="conditionSet" [objectName]="objectName"
+            [description]="conditionSet.condition.name"></app-hint>
     </ng-container>
     <ng-container *ngFor="let specialName of specialNames; trackBy:trackByIndex;">
-        <ng-container *ngFor="let condition of get_ConditionsShowingOn(specialName); trackBy:trackByIndex;">
-            <app-hint [creature]="creature" [ngClass]="'condition'" [object]="condition" [objectName]="specialName"
-                [description]="condition.name"></app-hint>
+        <ng-container *ngFor="let conditionSet of get_ConditionsShowingOn(specialName); trackBy:trackByIndex;">
+            <app-hint [creature]="creature" [ngClass]="'condition'" [object]="conditionSet" [objectName]="specialName"
+                [description]="conditionSet.condition.name"></app-hint>
         </ng-container>
     </ng-container>
     <ng-template #effectTemplate let-effect="effect">

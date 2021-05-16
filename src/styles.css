@@ -500,6 +500,7 @@ app-quickdice > button {
 
 app-quickdice > button > * {
     margin: auto;
+    display: inline-grid;
 }
 
 app-quickdice > button > * > svg {

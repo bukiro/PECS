@@ -655,7 +655,7 @@
         "targets": "1 creature",
         "target": "other",
         "singleTarget": true,
-        "desc": "With a flick of your wrist, you fling a chunk of your elemental matter at your foe. Make a spell attack roll, dealing <var>var1</var> bludgeoning damage (or fire damage if your element is fire) on a success, and double damage on a critical success. This spell has your element's trait.",
+        "desc": "With a flick of your wrist, you fling a chunk of your elemental matter at your foe. Make a spell attack roll, dealing |dice=var1 B| <var>var1</var> bludgeoning damage (or fire damage if your element is fire) on a success, and double damage on a critical success. This spell has your element's trait.",
         "heightened": [
             {
                 "desc": "The damage increases by 1d8.",
@@ -883,7 +883,7 @@
         ],
         "targets": "1 creature",
         "target": "other",
-        "desc": "You fire an unerring dart of force from your fingertips. It automatically hits and deals <var>var1</var> force damage to the target.",
+        "desc": "You fire an unerring dart of force from your fingertips. It automatically hits and deals |dice=var1 Force| <var>var1</var> force damage to the target.",
         "heightened": [
             {
                 "desc": "The damage increases by 1d4+1.",
@@ -956,7 +956,7 @@
         ],
         "target": "self",
         "duration": "1 minute",
-        "desc": "Your mouth transforms into a shadowy maw bristling with pointed teeth. These jaws are an unarmed attack with the forceful trait dealing 1d8 piercing damage. If you hit with your jaws and deal damage, you gain <var>var1</var> temporary Hit Points.",
+        "desc": "Your mouth transforms into a shadowy maw bristling with pointed teeth. These jaws are an unarmed attack with the forceful trait dealing 1d8 piercing damage. If you hit with your jaws and deal damage, you gain |dice=var1| <var>var1</var> temporary Hit Points.",
         "heightened": [
             {
                 "desc": "The temporary Hit Points increase by 1d6.",
@@ -1021,7 +1021,7 @@
         "targets": "1 ripe berry",
         "target": "object",
         "duration": "10 minutes",
-        "desc": "<var>var1</var>You imbue the target berry with the bounty of nature, turning it into a goodberry that can heal and sustain far beyond its normal capacity. A creature can eat the goodberry with an Interact action to regain 1d6+4 Hit Points. A berry not consumed during the duration withers away. Every six goodberries consumed gives as much nourishment as one square meal for a typical human.",
+        "desc": "<var>var1</var>You imbue the target berry with the bounty of nature, turning it into a goodberry that can heal and sustain far beyond its normal capacity. A creature can eat the goodberry with an Interact action to regain |dice=1d6 + 4| 1d6+4 Hit Points. A berry not consumed during the duration withers away. Every six goodberries consumed gives as much nourishment as one square meal for a typical human.",
         "heightened": [
             {
                 "desc": "You can target an additional berry. A creature can consume any number of goodberries from the same casting with a single Interact action.",
@@ -1213,7 +1213,7 @@
         "targets": "1 willing living animal creature",
         "target": "ally",
         "singleTarget": true,
-        "desc": "You heal an animal's wounds, restoring <var>var1</var>d8 Hit Points to the target. The number of actions spent Casting this Spell determines its effect.\n\n<strong><span class='actionIcon action1A'></span> somatic</strong> The spell has a range of touch.\n<strong><span class='actionIcon action2A'></span> somatic, verbal</strong> The spell has a range of 30 feet and restores an additional <var>var2</var> Hit Points to the target.",
+        "desc": "You heal an animal's wounds, restoring |dice=var1| <var>var1</var> Hit Points to the target. The number of actions spent Casting this Spell determines its effect.\n\n<strong><span class='actionIcon action1A'></span> somatic</strong> The spell has a range of touch.\n<strong><span class='actionIcon action2A'></span> somatic, verbal</strong> The spell has a range of 30 feet and restores an additional |dice=var1 + var2| <var>var2</var> Hit Points to the target.",
         "heightened": [
             {
                 "desc": "The amount of healing increases by 1d8, and the additional healing for the 2-action version increases by 8.",
@@ -1222,7 +1222,7 @@
         ],
         "desc1": [
             {
-                "value": "1",
+                "value": "1d8",
                 "variable": "var1"
             },
             {
@@ -1232,7 +1232,7 @@
         ],
         "desc2": [
             {
-                "value": "2",
+                "value": "2d8",
                 "variable": "var1"
             },
             {
@@ -1242,7 +1242,7 @@
         ],
         "desc3": [
             {
-                "value": "3",
+                "value": "3d8",
                 "variable": "var1"
             },
             {
@@ -1252,7 +1252,7 @@
         ],
         "desc4": [
             {
-                "value": "4",
+                "value": "4d8",
                 "variable": "var1"
             },
             {
@@ -1262,7 +1262,7 @@
         ],
         "desc5": [
             {
-                "value": "5",
+                "value": "5d8",
                 "variable": "var1"
             },
             {
@@ -1272,7 +1272,7 @@
         ],
         "desc6": [
             {
-                "value": "6",
+                "value": "6d8",
                 "variable": "var1"
             },
             {
@@ -1282,7 +1282,7 @@
         ],
         "desc7": [
             {
-                "value": "7",
+                "value": "7d8",
                 "variable": "var1"
             },
             {
@@ -1292,7 +1292,7 @@
         ],
         "desc8": [
             {
-                "value": "8",
+                "value": "8d8",
                 "variable": "var1"
             },
             {
@@ -1302,7 +1302,7 @@
         ],
         "desc9": [
             {
-                "value": "9",
+                "value": "9d8",
                 "variable": "var1"
             },
             {
@@ -1312,7 +1312,7 @@
         ],
         "desc10": [
             {
-                "value": "10",
+                "value": "10d8",
                 "variable": "var1"
             },
             {
@@ -1527,7 +1527,7 @@
             "Transmutation"
         ],
         "target": "self",
-        "desc": "You focus your ki into magical attacks. Make an unarmed Strike or Flurry of Blows (this doesn't change the limit on using only one flourish per turn). You gain a +1 status bonus to your attack rolls with the Strikes, and the Strikes deal <var>var1</var> extra damage. This damage can be any of the following types of your choice, chosen each time you Strike: force, lawful (only if you're lawful), negative, or positive.",
+        "desc": "You focus your ki into magical attacks. Make an unarmed Strike or Flurry of Blows (this doesn't change the limit on using only one flourish per turn). You gain a +1 status bonus to your attack rolls with the Strikes, and the Strikes deal |dice=var1| <var>var1</var> extra damage. This damage can be any of the following types of your choice, chosen each time you Strike: force, lawful (only if you're lawful), negative, or positive.",
         "heightened": [
             {
                 "desc": "The extra damage increases by 1d6.",
@@ -1599,7 +1599,7 @@
         "range": "touch",
         "targets": "1 willing creature or 1 undead creature",
         "target": "ally",
-        "desc": "Your hands become infused with positive energy, healing a living creature or damaging an undead creature with a touch. If you use lay on hands on a willing living target, you restore <var>var1</var> Hit Points; if the target is one of your allies, they also gain a +2 status bonus to AC for 1 round. Against an undead target, you deal <var>var2</var> damage and it must attempt a basic Fortitude save; if it fails, it also takes a -2 status penalty to AC for 1 round.",
+        "desc": "Your hands become infused with positive energy, healing a living creature or damaging an undead creature with a touch. If you use lay on hands on a willing living target, you restore |dice=var1| <var>var1</var> Hit Points; if the target is one of your allies, they also gain a +2 status bonus to AC for 1 round. Against an undead target, you deal |dice=var2| <var>var2</var> damage and it must attempt a basic Fortitude save; if it fails, it also takes a -2 status penalty to AC for 1 round.",
         "heightened": [
             {
                 "desc": "The amount of healing increases by 6, and the damage to an undead target increases by 1d6.",
@@ -2252,7 +2252,7 @@
         "targets": "1 creature",
         "target": "other",
         "singleTarget": true,
-        "desc": "You surround a foe in a swirling storm of violent winds, roiling clouds, and crackling lightning. The storm deals <var>var1</var> electricity damage. The target must attempt a basic Reflex save. On a failure, the target also is clumsy 2 for 1 round and takes <var>var2</var> persistent electricity damage.",
+        "desc": "You surround a foe in a swirling storm of violent winds, roiling clouds, and crackling lightning. The storm deals |dice=var1| <var>var1</var> electricity damage. The target must attempt a basic Reflex save. On a failure, the target also is clumsy 2 for 1 round and takes <var>var2</var> persistent electricity damage.",
         "savingThrow": "Reflex",
         "heightened": [
             {
@@ -3006,7 +3006,7 @@
             "Positive"
         ],
         "target": "self",
-        "desc": "You heal yourself in one of the following ways, chosen by you when you cast the spell.\n\nYou regain <var>var1</var> Hit Points.\nYou attempt to cure one poison or disease afflicting you; attempt to counteract the affliction.",
+        "desc": "You heal yourself in one of the following ways, chosen by you when you cast the spell.\n\nYou regain |dice=var1| <var>var1</var> Hit Points.\nYou attempt to cure one poison or disease afflicting you; attempt to counteract the affliction.",
         "heightened": [
             {
                 "desc": "If you choose to regain Hit Points, the Hit Points regained increase by 8.",
@@ -3089,8 +3089,11 @@
         "targets": "each foe in the area",
         "target": "area",
         "duration": "1 round",
-        "desc": "<var>var1</var>You utter phrases in an unknown tongue, assaulting the minds of those nearby. Each target must attempt a Will save. Regardless of the result of its save, each target is then temporarily immune for 1 minute. You can increase the number of actions it takes to Cast the Spell (to a maximum of 3 actions total). For each additional action, increase the emanation's radius by 5 feet, to a maximum of 10 extra feet for 3 actions.\n\n<strong>Success</strong> The target is unaffected.\n<strong>Failure</strong> The target is stupefied 2.\n<strong>Critical Failure</strong> The target is confused.",
+        "desc": "<var>var1</var>You utter phrases in an unknown tongue, assaulting the minds of those nearby. Each target must attempt a Will save. Regardless of the result of its save, each target is then temporarily immune for 1 minute. You can increase the number of actions it takes to Cast the Spell (to a maximum of 3 actions total). For each additional action, increase the emanation's radius by 5 feet, to a maximum of 10 extra feet for 3 actions.",
         "savingThrow": "Will",
+        "success": "The target is unaffected.",
+        "failure": "The target is stupefied 2.",
+        "critfailure": "The target is confused.",
         "heightened": [
             {
                 "desc": "The initial radius increases by 5 feet.",
@@ -3235,7 +3238,7 @@
         ],
         "area": "30-foot cone or 60-foot line originating from you",
         "target": "area",
-        "desc": "You spew energy from your mouth, dealing <var>var1</var> damage. The area, damage type, and save depend on the dragon type in your bloodline.\n\n<strong>Black and copper dragon</strong> 60-foot line of acid, Reflex save\n<strong>Blue and bronze dragon</strong> 60-foot line of electricity, Reflex save\n<strong>Brass dragon</strong> 60-foot line of fire, Reflex save\n<strong>Green dragon</strong> 30-foot cone of poison, Fortitude save\n<strong>Gold or red dragon</strong> 30-foot cone of fire, Reflex save\n<strong>Silver or white dragon</strong> 30-foot cone of cold, Reflex save",
+        "desc": "You spew energy from your mouth, dealing |dice=var1| <var>var1</var> damage. The area, damage type, and save depend on the dragon type in your bloodline.\n\n<strong>Black and copper dragon</strong> 60-foot line of acid, Reflex save\n<strong>Blue and bronze dragon</strong> 60-foot line of electricity, Reflex save\n<strong>Brass dragon</strong> 60-foot line of fire, Reflex save\n<strong>Green dragon</strong> 30-foot cone of poison, Fortitude save\n<strong>Gold or red dragon</strong> 30-foot cone of fire, Reflex save\n<strong>Silver or white dragon</strong> 30-foot cone of cold, Reflex save",
         "savingThrow": "basic Reflex or Fortitude",
         "heightened": [
             {
@@ -3312,7 +3315,7 @@
         "targets": "1 living creature",
         "target": "other",
         "singleTarget": true,
-        "desc": "You close your hand and pull life energy from another creature into yourself. This deals <var>var1</var> negative damage; the target must attempt a basic Fortitude save. You gain temporary Hit Points equal to the damage the target takes, after resolving its save and applying your blood magic if applicable. If the target's Hit Points were lower than the damage you dealt, you gain temporary Hit Points equal to their remaining Hit Points instead. The temporary Hit Points last for 1 minute.",
+        "desc": "You close your hand and pull life energy from another creature into yourself. This deals |dice=var1 Negative| <var>var1</var> negative damage; the target must attempt a basic Fortitude save. You gain temporary Hit Points equal to the damage the target takes, after resolving its save and applying your blood magic if applicable. If the target's Hit Points were lower than the damage you dealt, you gain temporary Hit Points equal to their remaining Hit Points instead. The temporary Hit Points last for 1 minute.",
         "savingThrow": "basic Fortitude",
         "heightened": [
             {
@@ -3668,7 +3671,7 @@
         ],
         "area": "15-foot cone or more",
         "target": "area",
-        "desc": "You unleash your ki as a powerful blast of force that deals <var>var1</var> force damage. If you use 2 actions to cast ki blast, increase the size of the cone to 30 feet and the damage to <var>var2</var>. If you use 3 actions to cast ki blast, increase the size of the cone to 60 feet and the damage to <var>var3</var>. Each creature in the area must attempt a Fortitude saving throw.",
+        "desc": "You unleash your ki as a powerful blast of force that deals |dice=var1 Force| <var>var1</var> force damage. If you use 2 actions to cast ki blast, increase the size of the cone to 30 feet and the damage to |dice=var2 Force| <var>var2</var>. If you use 3 actions to cast ki blast, increase the size of the cone to 60 feet and the damage to |dice=var3 Force| <var>var3</var>. Each creature in the area must attempt a Fortitude saving throw.",
         "savingThrow": "Fortitude",
         "critsuccess": "The creature is unaffected.",
         "success": "The creature takes half damage.",
@@ -3831,7 +3834,7 @@
         "area": "5-foot burst or more",
         "target": "area",
         "duration": "1 minute",
-        "desc": "<var>var1</var>Ground in the area turns swampy and fetid. The area is difficult terrain. The sludge at the bottom of the morass animates into diminutive sludge beasts that have a demonic appearance. These don't function as normal creatures, but they swarm over creatures in the swamp and exude a noxious stench. The swamp deals <var>var2</var> poison damage; creatures that end their turn in the area must attempt a basic Fortitude save. You can increase the number of actions it takes to Cast the Spell. For each additional action, increase the burst's radius by 5 feet.",
+        "desc": "<var>var1</var>Ground in the area turns swampy and fetid. The area is difficult terrain. The sludge at the bottom of the morass animates into diminutive sludge beasts that have a demonic appearance. These don't function as normal creatures, but they swarm over creatures in the swamp and exude a noxious stench. The swamp deals |dice=var2 Poison| <var>var2</var> poison damage; creatures that end their turn in the area must attempt a basic Fortitude save. You can increase the number of actions it takes to Cast the Spell. For each additional action, increase the burst's radius by 5 feet.",
         "savingThrow": "basic Fortitude",
         "heightened": [
             {
@@ -4372,7 +4375,7 @@
             "Wizard"
         ],
         "target": "self",
-        "desc": "Your spellcasting surrounds you in a storm of elemental energy. If the next action you take is to Cast a Spell from your wizard spell slots that's an evocation spell dealing acid, cold, electricity, or fire damage, a 10-foot emanation of energy surrounds you as you cast the spell. Foes in the area take 1d6 damage per spell level of the spell you just cast of the same damage type the spell deals (choose one if it deals multiple types). Combine the damage from both elemental tempest and the other spell against foes who take damage from both before applying bonuses, penalties, resistance, weakness, and the like."
+        "desc": "Your spellcasting surrounds you in a storm of elemental energy. If the next action you take is to Cast a Spell from your wizard spell slots that's an evocation spell dealing acid, cold, electricity, or fire damage, a 10-foot emanation of energy surrounds you as you cast the spell. Foes in the area take |dice=1d6| 1d6 damage per spell level of the spell you just cast of the same damage type the spell deals (choose one if it deals multiple types). Combine the damage from both elemental tempest and the other spell against foes who take damage from both before applying bonuses, penalties, resistance, weakness, and the like."
     },
     {
         "name": "Enduring Might",
@@ -4748,7 +4751,7 @@
         "inputRequired": "You regain 1d8 Hit Points per level of the spell.",
         "target": "self",
         "trigger": "You expend one of your wizard spell slots to cast a wizard spell of the necromancy school.",
-        "desc": "You use some of the spell's magic to heal yourself, regaining 1d8 Hit Points per level of the spell."
+        "desc": "You use some of the spell's magic to heal yourself, regaining |dice=1d8| 1d8 Hit Points per level of the spell."
     },
     {
         "name": "Localized Quake",
@@ -5415,7 +5418,7 @@
         ],
         "area": "60-foot cone",
         "target": "area",
-        "desc": "You evoke the energy of an Abyssal realm. The damage types of the spell (one energy and one physical) are based on the result of rolling 1d4 on the table below.\n\n<strong>Abyssal Wrath</strong>\n\n<strong>1:</strong> <strong>Realm</strong> Skies; <strong>Manifestation</strong> Bolts and lightning and flying debris; <strong>Damage Type</strong> Bludgeoning and electricity\n<strong>2:</strong> <strong>Realm</strong> Depths; <strong>Manifestation</strong> Acid and demonic shells; <strong>Damage Type</strong> Acid and slashing\n<strong>3:</strong> <strong>Realm</strong> Frozen; <strong>Manifestation</strong> Frigid air and ice; <strong>Damage Type</strong> Bludgeoning and cold\n<strong>4:</strong> <strong>Realm</strong> Volcanic; <strong>Manifestation</strong> Jagged volcanic rocks and magma; <strong>Damage Type</strong> Fire and piercing\n\nYou deal <var>var1</var> damage of each of the corresponding damage types to each creature in the cone (<var>var2</var> total damage).",
+        "desc": "You evoke the energy of an Abyssal realm. The damage types of the spell (one energy and one physical) are based on the result of rolling |dice=1d4| 1d4 on the table below.\n\n<strong>Abyssal Wrath</strong>\n\n<strong>1:</strong> <strong>Realm</strong> Skies; <strong>Manifestation</strong> Bolts and lightning and flying debris; <strong>Damage Type</strong> Bludgeoning and electricity\n<strong>2:</strong> <strong>Realm</strong> Depths; <strong>Manifestation</strong> Acid and demonic shells; <strong>Damage Type</strong> Acid and slashing\n<strong>3:</strong> <strong>Realm</strong> Frozen; <strong>Manifestation</strong> Frigid air and ice; <strong>Damage Type</strong> Bludgeoning and cold\n<strong>4:</strong> <strong>Realm</strong> Volcanic; <strong>Manifestation</strong> Jagged volcanic rocks and magma; <strong>Damage Type</strong> Fire and piercing\n\nYou deal |dice=var1 + var1| <var>var1</var> damage of each of the corresponding damage types to each creature in the cone (<var>var2</var> total damage).",
         "savingThrow": "basic Reflex",
         "heightened": [
             {
@@ -5546,7 +5549,7 @@
         "target": "other",
         "singleTarget": true,
         "duration": "1 round",
-        "desc": "A blazing symbol appears on the target, cursing it to face divine justice. You and your allies receive a +1 status bonus to your attack rolls and skill checks against it. Anytime a good creature damages it, the good creature deals an additional <var>var1</var> good damage. The target is then temporarily immune for 1 minute.",
+        "desc": "A blazing symbol appears on the target, cursing it to face divine justice. You and your allies receive a +1 status bonus to your attack rolls and skill checks against it. Anytime a good creature damages it, the good creature deals an additional |dice=var1| <var>var1</var> good damage. The target is then temporarily immune for 1 minute.",
         "heightened": [
             {
                 "desc": "The good damage increases by 1.",
@@ -5643,7 +5646,7 @@
         "range": "30 feet (burst only)",
         "area": "10-foot-radius burst, 30-foot cone, or 60-foot line",
         "target": "area",
-        "desc": "You gather elemental energy and blast your foes in one of the various listed shapes of your choosing, dealing <var>var1</var> bludgeoning damage (or fire damage if your element is fire). This spell has your element's trait.",
+        "desc": "You gather elemental energy and blast your foes in one of the various listed shapes of your choosing, dealing |dice=var1 B or Fire| <var>var1</var> bludgeoning damage (or fire damage if your element is fire). This spell has your element's trait.",
         "savingThrow": "basic Reflex",
         "heightened": [
             {
@@ -5748,7 +5751,7 @@
         "range": "60 feet",
         "area": "20-foot radius on the ground",
         "target": "area",
-        "desc": "Hundreds of skeletal arms erupt from the ground in the area, clawing at creatures within and attempting to hold them in place. The skeletal arms deal <var>var1</var> slashing damage. Each creature in the area must attempt a Reflex save.\n\n<strong>Critical Success</strong> The creature is unaffected.\n<strong>Success</strong> The creature takes half damage.\n<strong>Failure</strong> The creature takes full damage and a -10-foot circumstance penalty to its Speeds for 1 round.\n<strong>Critical Failure</strong> The creature takes double damage and is immobilized for 1 round or until it Escapes.",
+        "desc": "Hundreds of skeletal arms erupt from the ground in the area, clawing at creatures within and attempting to hold them in place. The skeletal arms deal |dice=var1 S| <var>var1</var> slashing damage. Each creature in the area must attempt a Reflex save.\n\n<strong>Critical Success</strong> The creature is unaffected.\n<strong>Success</strong> The creature takes half damage.\n<strong>Failure</strong> The creature takes full damage and a -10-foot circumstance penalty to its Speeds for 1 round.\n<strong>Critical Failure</strong> The creature takes double damage and is immobilized for 1 round or until it Escapes.",
         "savingThrow": "Reflex",
         "heightened": [
             {
@@ -5821,7 +5824,7 @@
         "range": "60 feet",
         "area": "10-foot radius, 60-foot-tall cylinder",
         "target": "area",
-        "desc": "You call forth a plume of hellfire that erupts from below, dealing <var>var1</var> fire damage and <var>var1</var> evil damage.",
+        "desc": "You call forth a plume of hellfire that erupts from below, dealing |dice=var1 Fire + var1 Evil| <var>var1</var> fire damage and <var>var1</var> evil damage.",
         "savingThrow": "basic Reflex",
         "heightened": [
             {
@@ -5976,7 +5979,7 @@
         ],
         "target": "self",
         "duration": "1 minute",
-        "desc": "You transform your flesh and organs into a bizarre amalgam of glistening skin, rough scales, tufts of hair, and tumorous protuberances. This has three effects:\n\nYou gain resistance <var>var1</var> to precision damage and resistance <var>var1</var> to extra damage from critical hits. If the resistance is greater than the extra damage, it reduces the extra damage to 0 but doesn't reduce the attack's normal damage.\nYou gain darkvision.\nAcid oozes from your skin. Any creature that hits you with an unarmed attack or with a non-reach melee weapon takes <var>var2</var> acid damage.",
+        "desc": "You transform your flesh and organs into a bizarre amalgam of glistening skin, rough scales, tufts of hair, and tumorous protuberances. This has three effects:\n\nYou gain resistance <var>var1</var> to precision damage and resistance <var>var1</var> to extra damage from critical hits. If the resistance is greater than the extra damage, it reduces the extra damage to 0 but doesn't reduce the attack's normal damage.\nYou gain darkvision.\nAcid oozes from your skin. Any creature that hits you with an unarmed attack or with a non-reach melee weapon takes |dice=var2 Acid| <var>var2</var> acid damage.",
         "heightened": [
             {
                 "desc": "The resistances increase by 5, and the acid damage increases by 1d6.",
@@ -6157,7 +6160,7 @@
             "Druid"
         ],
         "target": "minion",
-        "desc": "You enhance a summoned creature with the power of the elements. If your next action is to cast either summon animal or summon plant or fungus, choose air, earth, fire, or water, and the creature you summon gains the corresponding abilities.\n\n<strong>Air</strong> The creature gains a fly Speed of 60 feet.\n<strong>Earth</strong> The creature gains a burrow Speed of 20 feet, reduces its land Speed by 10 feet (minimum 5 feet), and gains resistance 5 to physical damage.\n<strong>Fire</strong> The creature's attacks deal 1d6 extra fire damage, and it gains resistance 10 to fire and weakness 5 to cold and water.\n<strong>Water</strong> The creature gains a swim Speed of 60 feet, can spend 1 action after a melee attack to attempt a Shove (ignoring multiple attack penalty), and gains resistance 5 to fire.",
+        "desc": "You enhance a summoned creature with the power of the elements. If your next action is to cast either summon animal or summon plant or fungus, choose air, earth, fire, or water, and the creature you summon gains the corresponding abilities.\n\n<strong>Air</strong> The creature gains a fly Speed of 60 feet.\n<strong>Earth</strong> The creature gains a burrow Speed of 20 feet, reduces its land Speed by 10 feet (minimum 5 feet), and gains resistance 5 to physical damage.\n<strong>Fire</strong> The creature's attacks deal |dice=1d6| 1d6 extra fire damage, and it gains resistance 10 to fire and weakness 5 to cold and water.\n<strong>Water</strong> The creature gains a swim Speed of 60 feet, can spend 1 action after a melee attack to attempt a Shove (ignoring multiple attack penalty), and gains resistance 5 to fire.",
         "gainConditions": [
             {
                 "duration": -1,
@@ -6251,7 +6254,7 @@
         "range": "30 feet",
         "targets": "you and up to 9 allies",
         "target": "ally",
-        "desc": "You draw upon your muse to soothe your allies. Choose one of the following three effects:\n\nThe spell attempts to counteract fear effects on the targets.\nThe spell attempts to counteract effects imposing paralysis on the targets.\nThe spell restores <var>var1</var> Hit Points to the targets.",
+        "desc": "You draw upon your muse to soothe your allies. Choose one of the following three effects:\n\nThe spell attempts to counteract fear effects on the targets.\nThe spell attempts to counteract effects imposing paralysis on the targets.\nThe spell restores |dice=var1| <var>var1</var> Hit Points to the targets.",
         "targetNumbers": [
             {
                 "number": 9
@@ -6308,7 +6311,7 @@
         "target": "area",
         "sustained": 100,
         "duration": "sustained up to 1 minute",
-        "desc": "The ground within the area transforms into a mass of dangerous briars that assault and impede your foes. The first time you Sustain this Spell each round, you can select one of the following effects to occur in the area.\n\n<strong>Ensnare</strong> The briars clump around your foes, attempting to hold them in place. A foe within the area (or flying at most 20 feet above the area) must attempt a Reflex save. On a failure, it takes a -10-foot circumstance penalty to all Speeds for 1 round, and on a critical failure, it is immobilized for 1 round unless it Escapes.\n<strong>Impede</strong> The briars twist and writhe, making the entire area difficult terrain.\n<strong>Wall</strong> A wall of thorns appears in the area, lasting for 1 round. The wall is greater difficult terrain instead of difficult terrain.\n\nIn addition, once per round you can direct the briars to impale any target in the area (or flying up to 20 feet above the area) that you can see by using a single action, which has the concentrate and manipulate traits. Make a spell attack roll. On a success, the target takes 10d6 piercing damage and takes a -10-foot circumstance penalty to all Speeds for 1 round; on a critical success, the target is immobilized for 1 round unless it Escapes.",
+        "desc": "The ground within the area transforms into a mass of dangerous briars that assault and impede your foes. The first time you Sustain this Spell each round, you can select one of the following effects to occur in the area.\n\n<strong>Ensnare</strong> The briars clump around your foes, attempting to hold them in place. A foe within the area (or flying at most 20 feet above the area) must attempt a Reflex save. On a failure, it takes a -10-foot circumstance penalty to all Speeds for 1 round, and on a critical failure, it is immobilized for 1 round unless it Escapes.\n<strong>Impede</strong> The briars twist and writhe, making the entire area difficult terrain.\n<strong>Wall</strong> A wall of thorns appears in the area, lasting for 1 round. The wall is greater difficult terrain instead of difficult terrain.\n\nIn addition, once per round you can direct the briars to impale any target in the area (or flying up to 20 feet above the area) that you can see by using a single action, which has the concentrate and manipulate traits. Make a spell attack roll. On a success, the target takes |dice=10d6 P| 10d6 piercing damage and takes a -10-foot circumstance penalty to all Speeds for 1 round; on a critical success, the target is immobilized for 1 round unless it Escapes.",
         "gainConditions": [
             {
                 "duration": 100,
@@ -6345,8 +6348,8 @@
         "desc": "Make a melee unarmed Strike. If you hit and the target is alive, anytime during the duration, you can spend a single action, which has the auditory and concentrate traits, to speak a word of death that could instantly slay it. The target must attempt a Fortitude save.\n\nIf you cast quivering palm again, the effects of any quivering palm you had previously cast end.",
         "savingThrow": "Fortitude",
         "critsuccess": "The target survives, the spell ends, and the target is then temporarily immune for 24 hours.",
-        "success": "The target is stunned 1 and takes <var>var1</var> damage, the spell ends, and the target is then temporarily immune for 24 hours.",
-        "failure": "The target is stunned 3 and takes <var>var2</var> damage. The spell's duration continues, but the target is then temporarily immune for 24 hours against being killed by quivering palm.",
+        "success": "The target is stunned 1 and takes |dice=var1| <var>var1</var> damage, the spell ends, and the target is then temporarily immune for 24 hours.",
+        "failure": "The target is stunned 3 and takes |dice=var2| <var>var2</var> damage. The spell's duration continues, but the target is then temporarily immune for 24 hours against being killed by quivering palm.",
         "critfailure": "The target dies.",
         "heightened": [
             {
@@ -6448,7 +6451,7 @@
         "requirements": "You are outdoors and aboveground.",
         "sustained": 100,
         "duration": "sustained up to 1 minute",
-        "desc": "The sky above you darkens in a matter of moments, swirling with ominous clouds punctuated by flashes of lighting. The first time you Sustain this Spell each round, you can select one of the following effects to occur in the area.\n\n<strong>Calm</strong> No additional effect.\n<strong>Fog</strong> Heavy fog rolls in, concealing the area with the effects of obscuring mist.\n<strong>Rain</strong> Torrential rain falls from the sky, dousing ordinary flames. Creatures in the area take a -2 circumstance penalty to Acrobatics and Perception checks.\n<strong>Wind</strong> Powerful winds buffet the area in all directions. Ranged attacks take a -4 circumstance penalty, and all flying is against the wind and counts as moving through difficult terrain.\n\nIn addition, once per round you can use a single action, which has the concentrate and manipulate traits, to call down a bolt of lightning, striking any target in range that you can see. You deal 10d6 electricity damage to the target; it must attempt a basic Reflex save. On a failure, it is also deafened for 1 round.",
+        "desc": "The sky above you darkens in a matter of moments, swirling with ominous clouds punctuated by flashes of lighting. The first time you Sustain this Spell each round, you can select one of the following effects to occur in the area.\n\n<strong>Calm</strong> No additional effect.\n<strong>Fog</strong> Heavy fog rolls in, concealing the area with the effects of obscuring mist.\n<strong>Rain</strong> Torrential rain falls from the sky, dousing ordinary flames. Creatures in the area take a -2 circumstance penalty to Acrobatics and Perception checks.\n<strong>Wind</strong> Powerful winds buffet the area in all directions. Ranged attacks take a -4 circumstance penalty, and all flying is against the wind and counts as moving through difficult terrain.\n\nIn addition, once per round you can use a single action, which has the concentrate and manipulate traits, to call down a bolt of lightning, striking any target in range that you can see. You deal |dice=10d6 Electricity| 10d6 electricity damage to the target; it must attempt a basic Reflex save. On a failure, it is also deafened for 1 round.",
         "gainConditions": [
             {
                 "duration": 100,
@@ -6539,7 +6542,7 @@
             "Positive"
         ],
         "target": "self",
-        "desc": "You shout in defiance, filling you with a sudden burst of healing. Just before applying the attack's damage, you recover 10d4+20 Hit Points. If this is enough to prevent the attack from bringing you to 0 Hit Points, you don't become unconscious or dying. Either way, cheating death is difficult, and you can't use hero's defiance again until you Refocus or the next time you prepare. Hero's defiance cannot be used against effects with the death trait or that would leave no remains, such as disintegrate."
+        "desc": "You shout in defiance, filling you with a sudden burst of healing. Just before applying the attack's damage, you recover |dice=10d4 + 20| 10d4+20 Hit Points. If this is enough to prevent the attack from bringing you to 0 Hit Points, you don't become unconscious or dying. Either way, cheating death is difficult, and you can't use hero's defiance again until you Refocus or the next time you prepare. Hero's defiance cannot be used against effects with the death trait or that would leave no remains, such as disintegrate."
     },
     {
         "name": "Song of the Fallen",
@@ -6565,9 +6568,9 @@
         "sustained": 100,
         "duration": "sustained up to 1 minute",
         "desc": "You chant a dirge or an elegy that either rouses the dead to action or reminds undead that they should lay to rest.\n\nIf you target dead creatures, the bodies animate and can continue acting as if they were alive. A creature animated in this way has 60 temporary Hit Points. The animated creatures are slowed 1 but can otherwise act normally. Creatures animated with this spell die again once the spell ends.\n\nIf you target undead creatures, each undead must attempt a basic Will save.",
-        "critsuccess": "The undead takes 5d6 positive damage.",
-        "success": "The undead takes 10d6 positive damage and is slowed 1 for 1 round.",
-        "failure": "The undead takes 100 positive damage and is slowed 1 for 1 minute.",
+        "critsuccess": "The undead takes |dice=5d6 Positive| 5d6 positive damage.",
+        "success": "The undead takes |dice=10d6 Positive| 10d6 positive damage and is slowed 1 for 1 round.",
+        "failure": "The undead takes |dice=100 Positive| 100 positive damage and is slowed 1 for 1 minute.",
         "critfailure": "The undead is destroyed.",
         "targetNumbers": [
             {
@@ -6604,7 +6607,7 @@
         "targets": "1 creature",
         "target": "other",
         "singleTarget": true,
-        "desc": "You splash a glob of acid that splatters creatures and objects alike. Make a spell attack. If you hit, you deal <var>var1</var> acid damage plus <var>var2</var> splash acid damage. On a critical success, the target also takes <var>var3</var> persistent acid damage.",
+        "desc": "You splash a glob of acid that splatters creatures and objects alike. Make a spell attack. If you hit, you deal |dice=var1 Acid + var2 Acid Splash| <var>var1</var> acid damage plus <var>var2</var> splash acid damage. On a critical success, the target also takes <var>var3</var> persistent acid damage.",
         "heightened": [
             {
                 "desc": "The initial damage increases to 1d6 + your spellcasting ability modifier, and the persistent damage increases to 2.",
@@ -6715,7 +6718,7 @@
         "targets": "1 living or undead creature",
         "target": "other",
         "singleTarget": true,
-        "desc": "Siphoning negative energy into yourself, your hand radiates a pale darkness. Your touch weakens the living and disorients undead, possibly even causing them to flee. The effect depends on whether the target is living or undead.\n\n<strong>Living Creature</strong> The spell deals negative damage equal to <var>var1</var> plus your spellcasting modifier. The target attempts a basic Fortitude save, but is also enfeebled 1 for 1 round on a critical failure.\n<strong>Undead Creature</strong> The target is flat-footed for 1 round on a failed Fortitude save. On a critical failure, the target is also fleeing for 1 round unless it succeeds at a Will save.",
+        "desc": "Siphoning negative energy into yourself, your hand radiates a pale darkness. Your touch weakens the living and disorients undead, possibly even causing them to flee. The effect depends on whether the target is living or undead.\n\n<strong>Living Creature</strong> The spell deals negative damage equal to |dice=var1 + spellmod Negative| <var>var1</var> plus your spellcasting modifier. The target attempts a basic Fortitude save, but is also enfeebled 1 for 1 round on a critical failure.\n<strong>Undead Creature</strong> The target is flat-footed for 1 round on a failed Fortitude save. On a critical failure, the target is also fleeing for 1 round unless it succeeds at a Will save.",
         "savingThrow": "Fortitude",
         "heightened": [
             {
@@ -6837,7 +6840,7 @@
         "target": "other",
         "singleTarget": true,
         "duration": "1 round",
-        "desc": "You cloud the target's mind and daze it with a mental jolt. The jolt deals mental damage equal to <var>var1</var>your spellcasting ability modifier; the target must attempt a basic Will save. If the target critically fails the save, it is also stunned 1.",
+        "desc": "You cloud the target's mind and daze it with a mental jolt. The jolt deals mental damage equal to |dice=var1 + spellmod Mental| <var>var1</var>your spellcasting ability modifier; the target must attempt a basic Will save. If the target critically fails the save, it is also stunned 1.",
         "savingThrow": "Will",
         "heightened": [
             {
@@ -6952,7 +6955,7 @@
         "range": "30 feet",
         "targets": "1 undead creature",
         "target": "other",
-        "desc": "You lance the target with energy. You deal <var>var1</var> positive damage plus your spellcasting ability modifier. The target must attempt a basic Fortitude save. If the creature critically fails the save, it is also enfeebled 1 for 1 round.",
+        "desc": "You lance the target with energy. You deal |dice=var1 + spellmod Positive| <var>var1</var> positive damage plus your spellcasting ability modifier. The target must attempt a basic Fortitude save. If the creature critically fails the save, it is also enfeebled 1 for 1 round.",
         "savingThrow": "Fortitude",
         "heightened": [
             {
@@ -7040,7 +7043,7 @@
         "targets": "1 creature",
         "target": "other",
         "singleTarget": true,
-        "desc": "You unleash a beam of divine energy. Choose an alignment your deity has (chaotic, evil, good, or lawful). You can't cast this spell if you don't have a deity or if your deity is true neutral. Make a ranged spell attack roll against the target's AC. On a hit, the target takes damage of the chosen alignment type equal to <var>var1</var> + your spellcasting ability modifier (double damage on a critical hit). The spell gains the trait of the alignment you chose.",
+        "desc": "You unleash a beam of divine energy. Choose an alignment your deity has (chaotic, evil, good, or lawful). You can't cast this spell if you don't have a deity or if your deity is true neutral. Make a ranged spell attack roll against the target's AC. On a hit, the target takes damage of the chosen alignment type equal to |dice=var1 + spellmod| <var>var1</var> + your spellcasting ability modifier (double damage on a critical hit). The spell gains the trait of the alignment you chose.",
         "heightened": [
             {
                 "desc": "The damage increases by 1d4.",
@@ -7128,7 +7131,7 @@
         "targets": "1 or 2 creatures",
         "target": "other",
         "singleTarget": true,
-        "desc": "An arc of lightning leaps from one target to another. You deal electricity damage equal to <var>var1</var> plus your spellcasting ability modifier.",
+        "desc": "An arc of lightning leaps from one target to another. You deal electricity damage equal to |dice=var1 + spellmod Electricity| <var>var1</var> plus your spellcasting ability modifier.",
         "savingThrow": "basic Reflex",
         "targetNumbers": [
             {
@@ -7773,7 +7776,7 @@
         "targets": "1 creature",
         "target": "other",
         "singleTarget": true,
-        "desc": "A small ball of flame appears in the palm of your hand, and you lash out with it either in melee or at range. Make a spell attack roll against your target's AC. This is normally a ranged attack, but you can also make a melee attack against a creature in your unarmed reach. On a success, you deal <var>var1</var> fire damage plus your spellcasting ability modifier. On a critical success, the target takes double damage and <var>var2</var> persistent fire damage.",
+        "desc": "A small ball of flame appears in the palm of your hand, and you lash out with it either in melee or at range. Make a spell attack roll against your target's AC. This is normally a ranged attack, but you can also make a melee attack against a creature in your unarmed reach. On a success, you deal |dice=var1 + spellmod Fire| <var>var1</var> fire damage plus your spellcasting ability modifier. On a critical success, the target takes double damage and |dice=var2 Persistent Fire| <var>var2</var> persistent fire damage.",
         "heightened": [
             {
                 "desc": "Increase the damage by 1d4 and the persistent damage on a critical hit by 1d4.",
@@ -7902,7 +7905,7 @@
         "targets": "1 creature",
         "target": "other",
         "singleTarget": true,
-        "desc": "You blast an icy ray. Make a spell attack roll. The ray deals cold damage equal to <var>var1</var> plus your spellcasting ability modifier.",
+        "desc": "You blast an icy ray. Make a spell attack roll. The ray deals cold damage equal to |dice=var1 + spellmod Cold| <var>var1</var> plus your spellcasting ability modifier.",
         "critsuccess": "The target takes double damage and takes a -10-foot status penalty to its Speeds for 1 round.",
         "success": "The target takes normal damage.",
         "heightened": [
@@ -8121,7 +8124,7 @@
         "target": "ally",
         "singleTarget": true,
         "duration": "unlimited (see below)",
-        "desc": "You harmlessly place your unique magical sigil, which is about 1 square inch in size, on the targeted creature or object. The mark can be visible or invisible, and you can change it from one state to another by using an Interact action to touch the target. The mark can be scrubbed or scraped off with 5 minutes of work. <var>var1</var>The time before the mark fades increases depending on your heightened level.",
+        "desc": "You harmlessly place your unique magical sigil, which is about 1 square inch in size, on the targeted creature or object. The mark can be visible or invisible, and you can change it from one state to another by using an Interact action to touch the target. The mark can be scrubbed or scraped off with 5 minutes of work. <var>var1</var>",
         "heightened": [
             {
                 "desc": "The sigil instead fades after 1 month.",
@@ -8272,7 +8275,7 @@
         "targets": "1 creature",
         "target": "other",
         "singleTarget": true,
-        "desc": "You hurl a loose, unattended object that is within range and that has 1 Bulk or less at the target. Make a spell attack against the target. If you hit, you deal bludgeoning, piercing, or slashing damage - as appropriate for the object you hurled - equal to<dice>var1 + spellmod</dice><var>var1</var> plus your spellcasting ability modifier. No specific traits or magic properties of the hurled item affect the attack or the damage.",
+        "desc": "You hurl a loose, unattended object that is within range and that has 1 Bulk or less at the target. Make a spell attack against the target. If you hit, you deal bludgeoning, piercing, or slashing damage - as appropriate for the object you hurled - equal to |dice=var1 + spellmod B/P/S| <var>var1</var> plus your spellcasting ability modifier. No specific traits or magic properties of the hurled item affect the attack or the damage.",
         "critsuccess": "You deal double damage.",
         "success": "You deal full damage.",
         "heightened": [
@@ -8359,7 +8362,7 @@
         ],
         "area": "5-foot emanation",
         "target": "area",
-        "desc": "You create a shell of acid around yourself that immediately bursts outward, dealing <var>var1</var> acid damage to each creature in the area.",
+        "desc": "You create a shell of acid around yourself that immediately bursts outward, dealing |dice=var1 Acid| <var>var1</var> acid damage to each creature in the area.",
         "savingThrow": "basic Reflex",
         "heightened": [
             {
@@ -8449,7 +8452,7 @@
         "target": "other",
         "singleTarget": true,
         "duration": "varies",
-        "desc": "You send the target's mind and body into overdrive, forcing it to become restless and hyperactive. During the duration, the target must Stride at least once each turn or take <var>var1</var> mental damage that turn. The duration of this effect depends on the target's Will save.",
+        "desc": "You send the target's mind and body into overdrive, forcing it to become restless and hyperactive. During the duration, the target must Stride at least once each turn or take |dice=var1 Mental| <var>var1</var> mental damage that turn. The duration of this effect depends on the target's Will save.",
         "savingThrow": "Will",
         "critsuccess": "The spell has no effect.",
         "success": "The duration is 1 round.",
@@ -8836,7 +8839,7 @@
         ],
         "area": "15-foot cone",
         "target": "area",
-        "desc": "Gouts of flame rush from your hands. You deal <var>var1</var> fire damage to creatures in the area.",
+        "desc": "Gouts of flame rush from your hands. You deal |dice=var1 Fire| <var>var1</var> fire damage to creatures in the area.",
         "savingThrow": "basic Reflex",
         "heightened": [
             {
@@ -8998,7 +9001,7 @@
         ],
         "area": "15-foot cone",
         "target": "area",
-        "desc": "A cone of icy shards bursts from your spread hands and coats the target in a layer of frost. You deal <var>var1</var> cold damage to creatures in the area; they must each attempt a Reflex save.",
+        "desc": "A cone of icy shards bursts from your spread hands and coats the target in a layer of frost. You deal |dice=var1 Cold| <var>var1</var> cold damage to creatures in the area; they must each attempt a Reflex save.",
         "savingThrow": "Will",
         "critsuccess": "The creature takes no damage.",
         "success": "The creature takes half damage.",
@@ -9747,7 +9750,7 @@
         ],
         "range": "30-foot line",
         "target": "area",
-        "desc": "Tendrils of darkness curl out from your fingertips and race through the air. You deal <var>var1</var> negative damage and <var>var2</var> persistent bleed damage to living creatures in the line. Each living creature in the line must attempt a Fortitude save.",
+        "desc": "Tendrils of darkness curl out from your fingertips and race through the air. You deal |dice=var1 Negative + var2 Persistent Bleed| <var>var1</var> negative damage and <var>var2</var> persistent bleed damage to living creatures in the line. Each living creature in the line must attempt a Fortitude save.",
         "savingThrow": "Fortitude",
         "critsuccess": "The creature is unaffected.",
         "success": "The creature takes half the negative damage and no persistent bleed damage.",
@@ -9909,7 +9912,7 @@
         "targets": "1 living creature or 1 willing undead creature",
         "target": "ally",
         "singleTarget": true,
-        "desc": "You channel negative energy to harm the living or heal the undead. If the target is a living creature, you deal <var>var1</var> negative damage to it, and it gets a basic Fortitude save. If the target is a willing undead creature, you restore that amount of Hit Points. The number of actions you spend when Casting this Spell determines its targets, range, area, and other parameters.\n\n<span class='actionIcon action1A'></span><strong> (somatic)</strong> The spell has a range of touch.\n<span class='actionIcon action2A'></span><strong> (verbal, somatic)</strong> The spell has a range of 30 feet. If you're healing an undead creature, increase the Hit Points restored by <var>var2</var>.\n<span class='actionIcon action3A'></span><strong> (material, verbal, somatic) </strong> You disperse negative energy in a 30-foot emanation. This targets all living and undead creatures in the area.",
+        "desc": "You channel negative energy to harm the living or heal the undead. If the target is a living creature, you deal |dice=var1 Negative| <var>var1</var> negative damage to it, and it gets a basic Fortitude save. If the target is a willing undead creature, you restore |dice=var1| that amount of Hit Points. The number of actions you spend when Casting this Spell determines its targets, range, area, and other parameters.\n\n<span class='actionIcon action1A'></span><strong> (somatic)</strong> The spell has a range of touch.\n<span class='actionIcon action2A'></span><strong> (verbal, somatic)</strong> The spell has a range of 30 feet. If you're healing an undead creature, increase the Hit Points restored by |dice=var1 + var2| <var>var2</var>.\n<span class='actionIcon action3A'></span><strong> (material, verbal, somatic) </strong> You disperse negative energy in a 30-foot emanation. This targets all living and undead creatures in the area.",
         "savingThrow": "basic Fortitude",
         "heightened": [
             {
@@ -10037,7 +10040,7 @@
         "targets": "1 willing living creature or 1 undead",
         "target": "ally",
         "singleTarget": true,
-        "desc": "You channel positive energy to heal the living or damage the undead. If the target is a willing living creature, you restore <var>var1</var> Hit Points. If the target is undead, you deal that amount of positive damage to it, and it gets a basic Fortitude save. The number of actions you spend when Casting this Spell determines its targets, range, area, and other parameters.\n\n<span class='actionIcon action1A'></span><strong> (somatic)</strong> The spell has a range of touch.\n<span class='actionIcon action2A'></span><strong> (verbal, somatic)</strong> The spell has a range of 30 feet. If you're healing a living creature, increase the Hit Points restored by <var>var2</var>.\n<span class='actionIcon action3A'></span><strong> (material, verbal, somatic) </strong> You disperse positive energy in a 30-foot emanation. This targets all living and undead creatures in the area.",
+        "desc": "You channel positive energy to heal the living or damage the undead. If the target is a willing living creature, you restore |dice=var1| <var>var1</var> Hit Points. If the target is undead, you deal |dice=var1 Positive| that amount of positive damage to it, and it gets a basic Fortitude save. The number of actions you spend when Casting this Spell determines its targets, range, area, and other parameters.\n\n<span class='actionIcon action1A'></span><strong> (somatic)</strong> The spell has a range of touch.\n<span class='actionIcon action2A'></span><strong> (verbal, somatic)</strong> The spell has a range of 30 feet. If you're healing a living creature, increase the Hit Points restored by |dice=var1 + var2| <var>var2</var>.\n<span class='actionIcon action3A'></span><strong> (material, verbal, somatic) </strong> You disperse positive energy in a 30-foot emanation. This targets all living and undead creatures in the area.",
         "savingThrow": "basic Fortitude",
         "heightened": [
             {
@@ -10167,8 +10170,8 @@
         "target": "other",
         "singleTarget": true,
         "desc": "You call forth a powerful blast of pressurized water that bludgeons the target and knocks it back. Make a ranged spell attack roll.",
-        "critsuccess": "The target takes <var>var2</var> bludgeoning damage and is knocked back 10 feet.",
-        "success": "The target takes <var>var1</var> bludgeoning damage and is knocked back 5 feet.",
+        "critsuccess": "The target takes |dice=var2 B| <var>var2</var> bludgeoning damage and is knocked back 10 feet.",
+        "success": "The target takes |dice=var1 B| <var>var1</var> bludgeoning damage and is knocked back 5 feet.",
         "heightened": [
             {
                 "desc": "The damage increases by 2d6.",
@@ -10886,7 +10889,7 @@
         "targets": "1 creature",
         "target": "other",
         "singleTarget": true,
-        "desc": "You send <var>var1</var> of force streaking toward a creature that you can see. It automatically hits and deals 1d4+1 force damage. For each additional action you use when Casting the Spell, increase the number of missiles you shoot by <var>var2</var>, to a maximum of <var>var3</var> missiles for 3 actions. You choose the target for each missile individually. If you shoot more than one missile at the same target, combine the damage before applying bonuses or penalties to damage, resistances, weaknesses, and so forth.",
+        "desc": "You send <var>var1</var> of force streaking toward a creature that you can see. Each dart automatically hits and deals |dice=1d4 + 1| 1d4+1 force damage. For each additional action you use when Casting the Spell, increase the number of missiles you shoot by <var>var2</var>, to a maximum of <var>var3</var> missiles for 3 actions. You choose the target for each missile individually. If you shoot more than one missile at the same target, combine the damage before applying bonuses or penalties to damage, resistances, weaknesses, and so forth.",
         "heightened": [
             {
                 "desc": "You shoot one additional missile with each action you spend.",
@@ -11518,7 +11521,7 @@
         "target": "other",
         "singleTarget": true,
         "duration": "1 minute",
-        "desc": "Illusory pain wracks the target, dealing <var>var1</var> mental damage and <var>var2</var> persistent mental damage. The target must attempt a Will save.",
+        "desc": "Illusory pain wracks the target, dealing |dice=var1 Mental + var2 Persistent Mental| <var>var1</var> mental damage and <var>var2</var> persistent mental damage. The target must attempt a Will save.",
         "savingThrow": "Will",
         "critsuccess": "The target is unaffected.",
         "success": "The target takes full initial damage but no persistent damage, and the spell ends immediately.",
@@ -11792,7 +11795,7 @@
         "target": "area",
         "sustained": 100,
         "duration": "sustained for up to 1 minute",
-        "desc": "<var>var1</var>You blast the area with grit that scours away soil and gets into creatures' eyes. For the duration of the spell, any plant-based difficult terrain smaller than a tree becomes loose, allowing each 5-foot square of it to be cleared with a single Interact action. In addition, scouring sand attempts to counteract entangle and other effects that create or manipulate plant-based terrain in its area. Successfully counteracting an effect removes only the portion of its area that overlaps with scouring sand's area. After one such attempt, the effect is temporarily immune to scouring sand's counteract for 24 hours. Each creature in the area when you Cast this Spell or that ends its turn in the area must attempt a Reflex save. <var>var2</var>",
+        "desc": "<var>var1</var>You blast the area with grit that scours away soil and gets into creatures' eyes. For the duration of the spell, any plant-based difficult terrain smaller than a tree becomes loose, allowing each 5-foot square of it to be cleared with a single Interact action. In addition, scouring sand attempts to counteract entangle and other effects that create or manipulate plant-based terrain in its area. Successfully counteracting an effect removes only the portion of its area that overlaps with scouring sand's area. After one such attempt, the effect is temporarily immune to scouring sand's counteract for 24 hours. <var>var2</var>Each creature in the area when you Cast this Spell or that ends its turn in the area must attempt a Reflex save.",
         "success": "The creature is unaffected.",
         "failure": "The creature is dazzled for 1 minute or until it uses an Interact action to get the sand out of its eyes.",
         "critfailure": "As failure, but the creature is also blinded for its next action.",
@@ -11827,7 +11830,7 @@
                 "variable": "var1"
             },
             {
-                "value": "Once per round when you Sustain the Spell, you can move the center of the burst to a spot within range.",
+                "value": "Once per round when you Sustain the Spell, you can move the center of the burst to a spot within range. ",
                 "variable": "var2"
             }
         ],
@@ -11837,7 +11840,7 @@
                 "variable": "var1"
             },
             {
-                "value": "Once per round when you Sustain the Spell, you can move the center of the burst to a spot within range.",
+                "value": "Once per round when you Sustain the Spell, you can move the center of the burst to a spot within range. ",
                 "variable": "var2"
             }
         ]
@@ -11886,7 +11889,7 @@
         "gainConditions": [
             {
                 "duration": -5,
-                "name": "Share Lore (Caster)",
+                "name": "Share Lore",
                 "source": "Share Lore",
                 "targetFilter": "caster"
             },
@@ -11936,7 +11939,7 @@
         "target": "ally",
         "singleTarget": true,
         "duration": "1 minute",
-        "desc": "A large gem floats around the target in an erratic pattern. The gem has <var>var1</var> Hit Points. Each time a creature Strikes the target, the target attempts a DC 11 flat check. On a success, the gem blocks the attack, so the attack first damages the gem and then applies any remaining damage to the target. If the gem is reduced to 0 Hit Points, it shatters, immediately dealing the creature that destroyed it <var>var2</var> slashing damage (basic Reflex save), as long as that creature is within 10 feet of the target.",
+        "desc": "A large gem floats around the target in an erratic pattern. The gem has <var>var1</var> Hit Points. Each time a creature Strikes the target, the target attempts a DC 11 flat check. On a success, the gem blocks the attack, so the attack first damages the gem and then applies any remaining damage to the target. If the gem is reduced to 0 Hit Points, it shatters, immediately dealing the creature that destroyed it |dice=var2 S| <var>var2</var> slashing damage (basic Reflex save), as long as that creature is within 10 feet of the target.",
         "heightened": [
             {
                 "desc": "The gem has 5 additional HP, and the damage dealt by its detonation increases by 1d8.",
@@ -12107,7 +12110,7 @@
         "targets": "1 creature",
         "target": "other",
         "singleTarget": true,
-        "desc": "You shroud your hands in a crackling field of lightning. Make a melee spell attack roll. On a hit, the target takes <var>var1</var> electricity damage. If the target is wearing metal armor or is made of metal, you gain a +1 circumstance bonus to your attack roll with shocking grasp, and the target also takes <var>var2</var> persistent electricity damage on a hit. On a critical hit, double the initial damage, but not the persistent damage.",
+        "desc": "You shroud your hands in a crackling field of lightning. Make a melee spell attack roll. On a hit, the target takes |dice=var1 Electricity| <var>var1</var> electricity damage. If the target is wearing metal armor or is made of metal, you gain a +1 circumstance bonus to your attack roll with shocking grasp, and the target also takes |dice=var2 Persistent Electricity| <var>var2</var> persistent electricity damage on a hit. On a critical hit, double the initial damage, but not the persistent damage.",
         "heightened": [
             {
                 "desc": "The damage increases by 1d12, and the persistent electricity damage increases by 1.",
@@ -12238,7 +12241,7 @@
         "critsuccess": "The creature is unaffected.",
         "success": "The creature is flat-footed until the start of its next turn.",
         "failure": "The creature falls prone.",
-        "critfailure": "As failure, plus the creature takes 1d6 damage.",
+        "critfailure": "As failure, plus the creature takes |dice=1d6| 1d6 damage.",
         "heightened": [
             {
                 "desc": "The area increases by 5 feet (to a 20-foot cone at 2nd level, and so on).",
@@ -12389,7 +12392,7 @@
         "targets": "1 creature",
         "target": "other",
         "singleTarget": true,
-        "desc": "You throw a magically propelled and chilled ball of dense snow. The target takes <var>var1</var> cold damage and potentially other effects, depending on the result of your spell attack roll.",
+        "desc": "You throw a magically propelled and chilled ball of dense snow. The target takes |dice=var1 Cold| <var>var1</var> cold damage and potentially other effects, depending on the result of your spell attack roll.",
         "critsuccess": "The target takes double damage and a -10-foot status penalty to its Speeds for 1 round.",
         "success": "The target takes full damage and a -5-foot status penalty to its Speeds for 1 round.",
         "failure": "No effect.",
@@ -12481,7 +12484,7 @@
         "target": "ally",
         "singleTarget": true,
         "duration": "1 minute",
-        "desc": "You grace the target's mind, boosting its mental defenses and healing its wounds. The target regains <var>var1</var> Hit Points when you Cast the Spell and gains a +2 status bonus to saves against mental effects for the duration.",
+        "desc": "You grace the target's mind, boosting its mental defenses and healing its wounds. The target regains |dice=var1| <var>var1</var> Hit Points when you Cast the Spell and gains a +2 status bonus to saves against mental effects for the duration.",
         "heightened": [
             {
                 "desc": "The amount of healing increases by 1d10+4.",
@@ -12582,10 +12585,10 @@
         "targets": "1 creature",
         "target": "other",
         "singleTarget": true,
-        "desc": "You magically duplicate a spider's venomous sting. You deal 1d4 piercing damage to the touched creature and afflict it with spider venom. The target must attempt a Fortitude save.\n\n<strong>Spider Venom</strong> (poison); <strong>Level</strong> 1; <strong>Maximum Duration</strong> 4 rounds. <strong>Stage 1</strong> 1d4 poison damage and enfeebled 1 (1 round); <strong>Stage 2</strong> 1d4 poison damage and enfeebled 2 (1 round).",
+        "desc": "You magically duplicate a spider's venomous sting. You deal |dice=1d4| 1d4 piercing damage to the touched creature and afflict it with spider venom. The target must attempt a Fortitude save.\n\n<strong>Spider Venom</strong> (poison); <strong>Level</strong> 1; <strong>Maximum Duration</strong> 4 rounds. <strong>Stage 1</strong> 1d4 poison damage and enfeebled 1 (1 round); <strong>Stage 2</strong> 1d4 poison damage and enfeebled 2 (1 round).",
         "savingThrow": "Fortitude",
         "critsuccess": "The target is unaffected.",
-        "success": "The target takes 1d4 poison damage.",
+        "success": "The target takes |dice=1d4 Poison| 1d4 poison damage.",
         "failure": "The target is afflicted with spider venom at stage 1.",
         "critfailure": "The target is afflicted with spider venom at stage 2."
     },
@@ -12610,7 +12613,7 @@
         "cannotTargetCaster": true,
         "singleTarget": true,
         "duration": "10 minutes",
-        "desc": "You form a spiritual link with another creature, allowing you to take in its pain. When you Cast this Spell and at the start of each of your turns, if the target is below maximum Hit Points, it regains <var>var1</var> Hit Points (or the difference between its current and maximum Hit Points, if that's lower). You lose as many Hit Points as the target regained.\n\nThis is a spiritual transfer, so no effects apply that would increase the Hit Points the target regains or decrease the Hit Points you lose. This transfer also ignores any temporary Hit Points you or the target have. Since this effect doesn't involve positive or negative energy, spirit link works even if you or the target is undead. While the duration persists, you gain no benefit from regeneration or fast healing. You can Dismiss this spell, and if you're ever at 0 Hit Points, spirit link ends automatically.",
+        "desc": "You form a spiritual link with another creature, allowing you to take in its pain. When you Cast this Spell and at the start of each of your turns, if the target is below maximum Hit Points, it regains |dice=var1| <var>var1</var> Hit Points (or the difference between its current and maximum Hit Points, if that's lower). You lose as many Hit Points as the target regained.\n\nThis is a spiritual transfer, so no effects apply that would increase the Hit Points the target regains or decrease the Hit Points you lose. This transfer also ignores any temporary Hit Points you or the target have. Since this effect doesn't involve positive or negative energy, spirit link works even if you or the target is undead. While the duration persists, you gain no benefit from regeneration or fast healing. You can Dismiss this spell, and if you're ever at 0 Hit Points, spirit link ends automatically.",
         "heightened": [
             {
                 "desc": "The number of Hit Points transferred each time increases by 2.",
@@ -12710,7 +12713,7 @@
         "target": "minion",
         "sustained": 100,
         "duration": "sustained up to 1 minute",
-        "desc": "You conjure an animal to fight for you. You summon a common creature that has the animal trait and whose level is <var>var1</var>. Heightening the spell increases the maximum level of creature you can summon.",
+        "desc": "You conjure an animal to fight for you. You summon a common creature that has the animal trait and whose level is <var>var1</var>.",
         "heightened": [
             {
                 "desc": "Level 1.",
@@ -13588,7 +13591,7 @@
         "targets": "1 creature",
         "target": "other",
         "singleTarget": true,
-        "desc": "You conjure an arrow of acid that continues corroding the target after it hits. Make a spell attack against the target. On a hit, you deal <var>var1</var> acid damage plus <var>var2</var> persistent acid damage. On a critical hit, double the initial damage, but not the persistent damage.",
+        "desc": "You conjure an arrow of acid that continues corroding the target after it hits. Make a spell attack against the target. On a hit, you deal |dice=var1 Acid + var2 Persistent Acid| <var>var1</var> acid damage plus <var>var2</var> persistent acid damage. On a critical hit, double the initial damage, but not the persistent damage.",
         "heightened": [
             {
                 "desc": "The initial damage increases by 2d8, and the persistent acid damage increases by 1d6.",
@@ -13878,7 +13881,7 @@
         ],
         "target": "self",
         "duration": "1 hour",
-        "desc": "You implant a mental mine within your psyche that detonates against anyone attempting to manipulate your thoughts. You can use a single action, which has the concentrate trait, to suppress the effects of the mine for 1 round to allow someone to safely use a mental effect on you. You can Dismiss the spell.\n\nThe first creature that uses a mental effect against you triggers the animus mine, causing the spell to end. The animus mine deals <var>var1</var> mental damage to the triggering creature, which must attempt a Will save.",
+        "desc": "You implant a mental mine within your psyche that detonates against anyone attempting to manipulate your thoughts. You can use a single action, which has the concentrate trait, to suppress the effects of the mine for 1 round to allow someone to safely use a mental effect on you. You can Dismiss the spell.\n\nThe first creature that uses a mental effect against you triggers the animus mine, causing the spell to end. The animus mine deals |dice=var1 Mental| <var>var1</var> mental damage to the triggering creature, which must attempt a Will save.",
         "savingThrow": "Will",
         "critsuccess": "The creature is unaffected.",
         "success": "The creature takes half damage.",
@@ -14260,7 +14263,7 @@
         "target": "ally",
         "singleTarget": true,
         "duration": "1 hour",
-        "desc": "<var>var1</var>The target can understand <var>var2</var>the meaning of a single language it is hearing or reading when you cast the spell. This doesn't let it understand codes, language couched in metaphor, and the like (subject to GM discretion). If the target can hear multiple languages and knows that, it can choose which language to understand; otherwise, choose one of the languages randomly.",
+        "desc": "<var>var1</var>The target can understand the meaning of <var>var2</var>a single language it is hearing or reading when you cast the spell. This doesn't let it understand codes, language couched in metaphor, and the like (subject to GM discretion). If the target can hear multiple languages and knows that, it can choose which language to understand; otherwise, choose one of the languages randomly.",
         "targetNumbers": [
             {
                 "number": 1,
@@ -15230,8 +15233,8 @@
         "savingThrow": "Fortitude",
         "critsuccess": "The creature is unaffected and is temporarily immune for 1 hour.",
         "success": "The creature is fatigued for 1 round.",
-        "failure": "The creature is immediately afflicted by hunger as if it hadn't eaten food in days. It becomes fatigued and takes <var>var1</var> damage each day that can't be healed until it sates its hunger. No amount of eating can sate the creature's hunger during the spell's duration. After the spell's duration, the creature takes damage from starvation.",
-        "critfailure": "As failure but the creature takes <var>var2</var> damage each day, twice as much as usual for hunger.",
+        "failure": "The creature is immediately afflicted by hunger as if it hadn't eaten food in days. It becomes fatigued and takes |dice=var1| <var>var1</var> damage each day that can't be healed until it sates its hunger. No amount of eating can sate the creature's hunger during the spell's duration. After the spell's duration, the creature takes damage from starvation.",
+        "critfailure": "As failure but the creature takes |dice=var2| <var>var2</var> damage each day, twice as much as usual for hunger.",
         "heightened": [
             {
                 "desc": "The hunger becomes more unbearable, increasing the damage each day by 1d4, or by 2d4 on a critical failure.",
@@ -15357,7 +15360,7 @@
         "target": "area",
         "sustained": 100,
         "duration": "sustained up to 1 minute",
-        "desc": "You create a sphere of flame in a square within range. The sphere must be supported by a solid surface, such as a stone floor. The sphere deals <var>var1</var> fire damage to each creature in the square where it first appears; each creature must attempt a basic Reflex save. On subsequent rounds, the first time you Sustain this Spell reach round, you can leave the sphere in its square or roll it to another square within range and deal <var>var1</var> fire damage; each creature in its square must attempt a basic Reflex save.\n\nCreatures that succeed at their save take no damage (instead of half).",
+        "desc": "You create a sphere of flame in a square within range. The sphere must be supported by a solid surface, such as a stone floor. The sphere deals |dice=var1 Fire| <var>var1</var> fire damage to each creature in the square where it first appears; each creature must attempt a basic Reflex save. On subsequent rounds, the first time you Sustain this Spell reach round, you can leave the sphere in its square or roll it to another square within range and deal |dice=var1 Fire| <var>var1</var> fire damage; each creature in its square must attempt a basic Reflex save.\n\nCreatures that succeed at their save take no damage (instead of half).",
         "savingThrow": "Reflex",
         "heightened": [
             {
@@ -15884,7 +15887,7 @@
         ],
         "target": "self",
         "duration": "1 hour",
-        "desc": "<var>var1</var>Your mouth, esophagus, and stomach become incredibly elastic and tougher than metal. For the duration of the spell, you can reach down your throat to store or retrieve a single object of light or negligible Bulk in your stomach, as though your stomach were a backpack or other container. Storing and retrieving an item in this way requires an Interact action. The object must be small enough to reasonably fit within your stomach. It is very difficult for other creatures to notice that you are hiding an object in this way; passive observers can't possibly notice and you gain a +4 circumstance bonus to your Stealth checks to Conceal the Object unless the searcher specifically searches your mouth and stomach. If at the end of the spell's duration you still have an object stored in your stomach, it is violently expelled, dealing 1d6 damage to you.",
+        "desc": "<var>var1</var>Your mouth, esophagus, and stomach become incredibly elastic and tougher than metal. For the duration of the spell, you can reach down your throat to store or retrieve a single object of light or negligible Bulk in your stomach, as though your stomach were a backpack or other container. Storing and retrieving an item in this way requires an Interact action. The object must be small enough to reasonably fit within your stomach. It is very difficult for other creatures to notice that you are hiding an object in this way; passive observers can't possibly notice and you gain a +4 circumstance bonus to your Stealth checks to Conceal the Object unless the searcher specifically searches your mouth and stomach. If at the end of the spell's duration you still have an object stored in your stomach, it is violently expelled, dealing |dice=1d6| 1d6 damage to you.",
         "heightened": [
             {
                 "desc": "The duration increases to 8 hours.",
@@ -16524,7 +16527,7 @@
         "area": "15-foot burst",
         "target": "area",
         "duration": "1 minute",
-        "desc": "<var>var1</var>You call down a chill wind. When you Cast this Spell, you deal <var>var2</var> cold damage to each creature in the area (basic Reflex save). If a creature in the area critically fails its Reflex save and was standing, it also falls prone.\n\nYou also create a layer of ice on all surfaces in the area, which become difficult terrain. Unattended objects in the area become slick with ice, and picking them up requires a successful Reflex save or Acrobatics check against your spell DC. The ice melts on any object that takes fire damage as well as in any square included in the area of a higher-level spell or effect with the fire trait.",
+        "desc": "<var>var1</var>You call down a chill wind. When you Cast this Spell, you deal |dice=var2 Cold| <var>var2</var> cold damage to each creature in the area (basic Reflex save). If a creature in the area critically fails its Reflex save and was standing, it also falls prone.\n\nYou also create a layer of ice on all surfaces in the area, which become difficult terrain. Unattended objects in the area become slick with ice, and picking them up requires a successful Reflex save or Acrobatics check against your spell DC. The ice melts on any object that takes fire damage as well as in any square included in the area of a higher-level spell or effect with the fire trait.",
         "savingThrow": "basic Reflex",
         "heightened": [
             {
@@ -16596,7 +16599,7 @@
         "desc": "You slap or stomp on a nearby solid or liquid surface, sending a surge of water rushing away from you. The water forms a flat, 5-foot-thick, 10-foot-high wall of water between 5 and 15 feet wide (you decide). It moves 60 feet in a direction of your choice along the struck surface, extinguishing all non-magical fires, carrying along unattended objects of 1 Bulk or less, and pushing larger objects. The wave moves another 60 feet in the same direction at the start of your next turn, then vanishes. Large or smaller creatures in the area or that enter the area the wave moves through must attempt a Fortitude save.",
         "success": "The creature is unaffected.",
         "failure": "The creature is knocked prone. If the creature was Swimming, it gets a critical failure instead.",
-        "critfailure": "The creature is pushed 20 feet in the wave's direction, is knocked prone, and takes 3d6 bludgeoning damage.",
+        "critfailure": "The creature is pushed 20 feet in the wave's direction, is knocked prone, and takes |dice=3d6 B| 3d6 bludgeoning damage.",
         "gainConditions": [
             {
                 "duration": 11,
@@ -16718,7 +16721,7 @@
         "targets": "1 unattended object",
         "target": "object",
         "singleTarget": true,
-        "desc": "A high-frequency sonic attack shatters a nearby object. You deal <var>var1</var> sonic damage to the object, ignoring the object's Hardness if it is <var>var2</var> or lower.",
+        "desc": "A high-frequency sonic attack shatters a nearby object. You deal |dice=var1 Sonic| <var>var1</var> sonic damage to the object, ignoring the object's Hardness if it is <var>var2</var> or lower.",
         "heightened": [
             {
                 "desc": "The damage increases by 1d10, and the Hardness the spell ignores increases by 2.",
@@ -17008,7 +17011,7 @@
         "range": "30 feet",
         "area": "10-foot burst",
         "target": "area",
-        "desc": "A cacophonous noise blasts out, dealing <var>var1</var> sonic damage. Each creature must attempt a Fortitude save.",
+        "desc": "A cacophonous noise blasts out, dealing |dice=var1 Sonic| <var>var1</var> sonic damage. Each creature must attempt a Fortitude save.",
         "savingThrow": "Fortitude",
         "critsuccess": "The creature is unaffected.",
         "success": "The creature takes half damage.",
@@ -17117,7 +17120,7 @@
         "range": "120 feet",
         "target": "self",
         "duration": "1 minute",
-        "desc": "You create a semicorporeal hand out of your essence that delivers touch spells for you. Whenever you Cast a Spell with a range of touch, you can have the hand crawl to a target within range along the ground, touch it, and then crawl back to you. When making a melee spell attack with the hand, you use your normal bonuses. The hand can move as far as it needs to within range. The hand has your AC and saves, but any damage to the hand destroys it and causes you to take 1d6 damage.",
+        "desc": "You create a semicorporeal hand out of your essence that delivers touch spells for you. Whenever you Cast a Spell with a range of touch, you can have the hand crawl to a target within range along the ground, touch it, and then crawl back to you. When making a melee spell attack with the hand, you use your normal bonuses. The hand can move as far as it needs to within range. The hand has your AC and saves, but any damage to the hand destroys it and causes you to take |dice=1d6| 1d6 damage.",
         "gainConditions": [
             {
                 "duration": 100,
@@ -17187,7 +17190,7 @@
         "requirements": "You have a deity.",
         "sustained": 100,
         "duration": "sustained up to 1 minute",
-        "desc": "A weapon made of pure magical force materializes and attacks foes you designate within range. This weapon has a ghostly appearance and manifests as your deity's favored weapon.\n\nWhen you cast the spell, the weapon appears next to a foe you choose within range and makes a Strike against it. Each time you Sustain the Spell, you can move the weapon to a new target within range (if needed) and Strike with it. The spiritual weapon uses and contributes to your multiple attack penalty.\n\nThe weapon's Strikes are melee spell attacks. Regardless of its appearance, the weapon deals force damage equal to <var>var1</var> plus your spellcasting ability modifier. You can deal damage of the type normally dealt by the weapon instead of force damage (or any of the available damage types for a versatile weapon). No other statistics or traits of the weapon apply, and even a ranged weapon attacks adjacent creatures only. Despite making a spell attack, the spiritual weapon is a weapon for purposes of triggers, resistances, and so forth.\n\nThe weapon doesn't take up space, grant flanking, or have any other attributes a creature would. The weapon can't make any attack other than its Strike, and feats or spells that affect weapons do not apply to it.",
+        "desc": "A weapon made of pure magical force materializes and attacks foes you designate within range. This weapon has a ghostly appearance and manifests as your deity's favored weapon.\n\nWhen you cast the spell, the weapon appears next to a foe you choose within range and makes a Strike against it. Each time you Sustain the Spell, you can move the weapon to a new target within range (if needed) and Strike with it. The spiritual weapon uses and contributes to your multiple attack penalty.\n\nThe weapon's Strikes are melee spell attacks. Regardless of its appearance, the weapon deals force damage equal to |dice=var1 + spellmod Force| <var>var1</var> plus your spellcasting ability modifier. You can deal damage of the type normally dealt by the weapon instead of force damage (or any of the available damage types for a versatile weapon). No other statistics or traits of the weapon apply, and even a ranged weapon attacks adjacent creatures only. Despite making a spell attack, the spiritual weapon is a weapon for purposes of triggers, resistances, and so forth.\n\nThe weapon doesn't take up space, grant flanking, or have any other attributes a creature would. The weapon can't make any attack other than its Strike, and feats or spells that affect weapons do not apply to it.",
         "heightened": [
             {
                 "desc": "The weapon's damage increases by 1d8.",
@@ -17311,7 +17314,7 @@
         "targets": "1 creature or object",
         "target": "other",
         "singleTarget": true,
-        "desc": "You call down a small bolt of lightning on the target, dealing <var>var1</var> electricity damage.",
+        "desc": "You call down a small bolt of lightning on the target, dealing |dice=var1 Electricity| <var>var1</var> electricity damage.",
         "savingThrow": "basic Reflex",
         "heightened": [
             {
@@ -17899,7 +17902,7 @@
         "targets": "1 creature",
         "target": "other",
         "singleTarget": true,
-        "desc": "You shoot an utterly cold ray of darkness tinged with unholy energy. Make a ranged spell attack against the target. You deal <var>var1</var> cold damage, plus <var>var2</var> evil damage if the target is a celestial.\n\nIf the ray passes through an area of magical light or targets a creature affected by magical light, chilling darkness attempts to counteract the light. If you need to determine whether the ray passes through an area of light, draw a line between yourself and the spell's target.",
+        "desc": "You shoot an utterly cold ray of darkness tinged with unholy energy. Make a ranged spell attack against the target. You deal |dice=var1 Cold| <var>var1</var> cold damage, plus |dice=var2 Evil| <var>var2</var> evil damage if the target is a celestial.\n\nIf the ray passes through an area of magical light or targets a creature affected by magical light, chilling darkness attempts to counteract the light. If you need to determine whether the ray passes through an area of light, draw a line between yourself and the spell's target.",
         "critsuccess": "The target takes double damage.",
         "success": "The target takes full damage.",
         "heightened": [
@@ -18088,7 +18091,7 @@
         "targets": "1 creature",
         "target": "other",
         "singleTarget": true,
-        "desc": "You assault the target's faith, riddling the creature with doubt and mental turmoil that deal <var>var1</var> mental damage, or <var>var2</var> mental damage if it can cast divine spells. The effects are determined by its Will save.\n\nTo many deities, casting this spell on a follower of your own deity without significant cause is anathema.",
+        "desc": "You assault the target's faith, riddling the creature with doubt and mental turmoil that deal |dice=var1 Mental| <var>var1</var> mental damage, or |dice=var2 Mental| <var>var2</var> mental damage if it can cast divine spells. The effects are determined by its Will save.\n\nTo many deities, casting this spell on a follower of your own deity without significant cause is anathema.",
         "savingThrow": "Will",
         "critsuccess": "The target is unaffected.",
         "success": "The target takes half damage.",
@@ -18215,8 +18218,8 @@
         "savingThrow": "Fortitude",
         "critsuccess": "The creature is unaffected and is temporarily immune for 1 hour.",
         "success": "The creature is fatigued for 1 round.",
-        "failure": "The creature is immediately afflicted by thirst as if it hadn't had a drink in days. It becomes fatigued and takes <var>var1</var> damage each hour that can't be healed until it quenches its thirst. No amount of drinking can quench the creature's thirst during the spell's duration.",
-        "critfailure": "As failure but the creature takes <var>var2</var> damage each hour, twice as much as usual for thirst.",
+        "failure": "The creature is immediately afflicted by thirst as if it hadn't had a drink in days. It becomes fatigued and takes |dice=var1| <var>var1</var> damage each hour that can't be healed until it quenches its thirst. No amount of drinking can quench the creature's thirst during the spell's duration.",
+        "critfailure": "As failure but the creature takes |dice=var2| <var>var2</var> damage each hour, twice as much as usual for thirst.",
         "heightened": [
             {
                 "desc": "The thirst becomes more unbearable, increasing the damage each hour by 1d4, or by 2d4 on a critical failure.",
@@ -18468,7 +18471,7 @@
         "range": "500 feet",
         "area": "20-foot burst",
         "target": "area",
-        "desc": "A roaring blast of fire appears at a spot you designate, dealing <var>var1</var> fire damage.",
+        "desc": "A roaring blast of fire appears at a spot you designate, dealing |dice=var1 Fire| <var>var1</var> fire damage.",
         "savingThrow": "basic Reflex",
         "heightened": [
             {
@@ -19035,7 +19038,7 @@
         "area": "120-foot line",
         "target": "area",
         "singleTarget": true,
-        "desc": "A bolt of lightning strikes outward from your hand, dealing <var>var1</var> electricity damage.",
+        "desc": "A bolt of lightning strikes outward from your hand, dealing |dice=var1 Electricity| <var>var1</var> electricity damage.",
         "savingThrow": "basic Reflex",
         "heightened": [
             {
@@ -19194,7 +19197,7 @@
         ],
         "target": "self",
         "duration": "10 minutes",
-        "desc": "You merge with an adjacent block of stone with enough volume to fit you and your worn and held possessions. You must touch the stone when you Cast the Spell. You can hear, but not see, what's going on outside the stone, and you can cast spells while in the stone as long as they don't require line of effect beyond the stone.\n\nSignificant physical damage to the stone while you are inside it expels you and deals 10d6 damage to you. Passwall expels you without dealing damage and ends meld into stone. You can Dismiss this spell.",
+        "desc": "You merge with an adjacent block of stone with enough volume to fit you and your worn and held possessions. You must touch the stone when you Cast the Spell. You can hear, but not see, what's going on outside the stone, and you can cast spells while in the stone as long as they don't require line of effect beyond the stone.\n\nSignificant physical damage to the stone while you are inside it expels you and deals |dice=10d6| 10d6 damage to you. Passwall expels you without dealing damage and ends meld into stone. You can Dismiss this spell.",
         "gainConditions": [
             {
                 "duration": 1000,
@@ -19402,7 +19405,7 @@
         "target": "object",
         "sustained": 100,
         "duration": "sustained up to 1 minute",
-        "desc": "You turn a fire into either a burst of blinding fireworks or a thick cloud of choking smoke, chosen when you Cast the Spell. The spell targets one fire source, which is immediately extinguished if it is a non-magical fire the size of a campfire or smaller. If the fire source is a creature, the creature takes 1d6 points of cold damage and is not extinguished.\n\n<strong>Fireworks</strong> The targeted fire explodes into a colorful array of flashy, fiery, glowing aerial fireworks in a 20-foot-radius burst. The first time you Sustain the Spell each round, you can cause the area of fireworks to ascend up to 20 feet, but you cannot move the area laterally. Creatures that start their turn within the area of the fireworks must attempt a Fortitude save, and are then temporarily immune for 1 minute.<br><strong>Critical Success</strong> The creature is unaffected<br><strong>Success</strong> The creature is dazzled until the end of its next turn.<br><strong>Failure</strong> The creature is blinded until the end of its next turn.<br><strong>Critical Failure</strong> The creature is blinded for 1 minute.\n<strong>Smoke Cloud</strong> Thick smoke billows out from the fire and coalesces into a cloud that spreads to fill a 20-foot-radius burst centered on the targeted fire. Creatures within the smoke cloud take a -4 circumstance penalty to visual Perception checks, and creatures outside the smoke cloud take a -4 circumstance penalty to visual Perception checks to detect creatures or objects within it. The first time you Sustain the Spell each round, you can cause the smoke cloud to descend up to 20 feet, but you cannot move the area laterally. Creatures that start their turn within the smoke cloud must attempt a Fortitude save, and are then temporarily immune for 1 minute.<br><strong>Success</strong> The creature is unaffected.<br><strong>Failure</strong> The creature is sickened 1.<br><strong>Critical Failure</strong> The creature is sickened 1 and cannot recover from the sickened condition while in the area of the smoke cloud.",
+        "desc": "You turn a fire into either a burst of blinding fireworks or a thick cloud of choking smoke, chosen when you Cast the Spell. The spell targets one fire source, which is immediately extinguished if it is a non-magical fire the size of a campfire or smaller. If the fire source is a creature, the creature takes |dice=1d6 Cold| 1d6 points of cold damage and is not extinguished.\n\n<strong>Fireworks</strong> The targeted fire explodes into a colorful array of flashy, fiery, glowing aerial fireworks in a 20-foot-radius burst. The first time you Sustain the Spell each round, you can cause the area of fireworks to ascend up to 20 feet, but you cannot move the area laterally. Creatures that start their turn within the area of the fireworks must attempt a Fortitude save, and are then temporarily immune for 1 minute.<br><strong>Critical Success</strong> The creature is unaffected<br><strong>Success</strong> The creature is dazzled until the end of its next turn.<br><strong>Failure</strong> The creature is blinded until the end of its next turn.<br><strong>Critical Failure</strong> The creature is blinded for 1 minute.\n<strong>Smoke Cloud</strong> Thick smoke billows out from the fire and coalesces into a cloud that spreads to fill a 20-foot-radius burst centered on the targeted fire. Creatures within the smoke cloud take a -4 circumstance penalty to visual Perception checks, and creatures outside the smoke cloud take a -4 circumstance penalty to visual Perception checks to detect creatures or objects within it. The first time you Sustain the Spell each round, you can cause the smoke cloud to descend up to 20 feet, but you cannot move the area laterally. Creatures that start their turn within the smoke cloud must attempt a Fortitude save, and are then temporarily immune for 1 minute.<br><strong>Success</strong> The creature is unaffected.<br><strong>Failure</strong> The creature is sickened 1.<br><strong>Critical Failure</strong> The creature is sickened 1 and cannot recover from the sickened condition while in the area of the smoke cloud.",
         "savingThrow": "Fortitude",
         "gainConditions": [
             {
@@ -19492,7 +19495,7 @@
         "targets": "1 creature",
         "target": "other",
         "singleTarget": true,
-        "desc": "You shoot a blazing ray of light tinged with holy energy. Make a ranged spell attack. The ray deals <var>var1</var> fire damage. If the target is a fiend or undead, you deal an extra <var>var2</var> good damage.\n\nIf the light passes through an area of magical darkness or targets a creature affected by magical darkness, searing light attempts to counteract the darkness. If you need to determine whether the light passes through an area of darkness, draw a line between yourself and the spell's target.",
+        "desc": "You shoot a blazing ray of light tinged with holy energy. Make a ranged spell attack. The ray deals |dice=var1 Fire| <var>var1</var> fire damage. If the target is a fiend or undead, you deal an extra |dice=var2 Good| <var>var2</var> good damage.\n\nIf the light passes through an area of magical darkness or targets a creature affected by magical darkness, searing light attempts to counteract the darkness. If you need to determine whether the light passes through an area of darkness, draw a line between yourself and the spell's target.",
         "critsuccess": "The target takes double fire damage, as well as double good damage if a fiend or undead.",
         "success": "The target takes full damage.",
         "heightened": [
@@ -19895,7 +19898,7 @@
         "desc": "You issue a blast of sudden wind that ripples outward from the center of the burst. The wind extinguishes small non-magical fires, disperses fog and mist, scatters objects of light Bulk or less, and pushes unsecured objects of 1 Bulk or less 5 feet away from the spell's origin point. Each Medium or smaller creature in the area when you Cast the Spell or that moves into spell's area must attempt a Fortitude saving throw.",
         "success": "The creature is unaffected.",
         "failure": "The creature is knocked prone. If the creature was Flying, it gets a critical failure instead.",
-        "critfailure": "The creature is pushed 30 feet away from the center of the burst, is knocked prone, and takes 2d6 bludgeoning damage.",
+        "critfailure": "The creature is pushed 30 feet away from the center of the burst, is knocked prone, and takes |dice=2d6 B| 2d6 bludgeoning damage.",
         "gainConditions": [
             {
                 "duration": 10,
@@ -19927,7 +19930,7 @@
         "targets": "1 living creature",
         "target": "other",
         "singleTarget": true,
-        "desc": "Your touch leeches the lifeblood out of a target to empower yourself. You deal <var>var1</var> negative damage to the target. You gain temporary Hit Points equal to half the negative damage the target takes (after applying resistances and the like). You lose any remaining temporary Hit Points after 1 minute.",
+        "desc": "Your touch leeches the lifeblood out of a target to empower yourself. You deal |dice=var1 Negative| <var>var1</var> negative damage to the target. You gain temporary Hit Points equal to half the negative damage the target takes (after applying resistances and the like). You lose any remaining temporary Hit Points after 1 minute.",
         "savingThrow": "basic Fortitude",
         "heightened": [
             {
@@ -20009,7 +20012,7 @@
         "range": "60 feet",
         "target": "self",
         "duration": "1 minute",
-        "desc": "Over the course of a minute, you cause a thick wall of thorny brambles to grow from the ground. You create a 5-foot-thick wall of brambles and thorns in a straight line up to 60 feet long and 10 feet high. You must create the wall in an unbroken open space so its edges don't pass through any creatures or objects, or the spell is lost. The wall stands vertically. If you wish, the wall can be of a shorter length or height. Everything on each side of the wall has cover from creatures on the opposite side, and the wall's spaces are difficult terrain. For every move action a creature uses to enter at least one of the wall's spaces, that creature takes <var>var1</var> piercing damage.\n\nEach 5-foot-by-5-foot section of the wall has AC 10, Hardness 10, and <var>var2</var> Hit Points. It's immune to critical hits and precision damage. A destroyed section can be moved through freely.",
+        "desc": "Over the course of a minute, you cause a thick wall of thorny brambles to grow from the ground. You create a 5-foot-thick wall of brambles and thorns in a straight line up to 60 feet long and 10 feet high. You must create the wall in an unbroken open space so its edges don't pass through any creatures or objects, or the spell is lost. The wall stands vertically. If you wish, the wall can be of a shorter length or height. Everything on each side of the wall has cover from creatures on the opposite side, and the wall's spaces are difficult terrain. For every move action a creature uses to enter at least one of the wall's spaces, that creature takes |dice=var1 P| <var>var1</var> piercing damage.\n\nEach 5-foot-by-5-foot section of the wall has AC 10, Hardness 10, and <var>var2</var> Hit Points. It's immune to critical hits and precision damage. A destroyed section can be moved through freely.",
         "heightened": [
             {
                 "desc": "The Hit Points of each section of the wall increase by 5, and the piercing damage increases by 1d4.",
@@ -20492,7 +20495,7 @@
         "targets": "the triggering creature",
         "target": "other",
         "singleTarget": true,
-        "desc": "You punish a creature that transgresses against your deity, drawing upon the anguish you feel upon seeing one of your deity's anathema committed.\n\nYou can cast this spell only when a creature actively commits a unique act of anathema. For example, if creating undead were anathema to your deity, you could use anathematic reprisal on a necromancer who had just created undead in front of you, but not on an undead creature just for existing.\n\nYou deal <var>var1</var> mental damage to the target, but a basic Will save can reduce this damage. If it fails, it is also stupefied 1 for 1 round. The creature is then temporarily immune for 1 minute.",
+        "desc": "You punish a creature that transgresses against your deity, drawing upon the anguish you feel upon seeing one of your deity's anathema committed.\n\nYou can cast this spell only when a creature actively commits a unique act of anathema. For example, if creating undead were anathema to your deity, you could use anathematic reprisal on a necromancer who had just created undead in front of you, but not on an undead creature just for existing.\n\nYou deal|dice=var1 Mental|  <var>var1</var> mental damage to the target, but a basic Will save can reduce this damage. If it fails, it is also stupefied 1 for 1 round. The creature is then temporarily immune for 1 minute.",
         "savingThrow": "Will",
         "heightened": [
             {
@@ -21199,7 +21202,7 @@
         "range": "120 feet",
         "area": "20-foot burst",
         "target": "area",
-        "desc": "You can channel the fury of your deity against foes of opposed alignment. Choose an alignment your deity has (chaotic, evil, good, or lawful). You can't cast this spell if you don't have a deity or your deity is true neutral. This spell gains the trait of the alignment you chose. You deal <var>var1</var>d10 damage of the alignment you chose; each creature in the area must attempt a Fortitude save. Creatures that match the alignment you chose are unaffected. Those that neither match nor oppose it treat the result of their saving throw as one degree better.",
+        "desc": "You can channel the fury of your deity against foes of opposed alignment. Choose an alignment your deity has (chaotic, evil, good, or lawful). You can't cast this spell if you don't have a deity or your deity is true neutral. This spell gains the trait of the alignment you chose. You deal |dice=var1| <var>var1</var> damage of the alignment you chose; each creature in the area must attempt a Fortitude save. Creatures that match the alignment you chose are unaffected. Those that neither match nor oppose it treat the result of their saving throw as one degree better.",
         "savingThrow": "Fortitude",
         "critsuccess": "The target is unaffected.",
         "success": "The creature takes half damage.",
@@ -21221,43 +21224,43 @@
         ],
         "desc4": [
             {
-                "value": "4",
+                "value": "4d10",
                 "variable": "var1"
             }
         ],
         "desc5": [
             {
-                "value": "5",
+                "value": "5d10",
                 "variable": "var1"
             }
         ],
         "desc6": [
             {
-                "value": "6",
+                "value": "6d10",
                 "variable": "var1"
             }
         ],
         "desc7": [
             {
-                "value": "7",
+                "value": "7d10",
                 "variable": "var1"
             }
         ],
         "desc8": [
             {
-                "value": "8",
+                "value": "8d10",
                 "variable": "var1"
             }
         ],
         "desc9": [
             {
-                "value": "9",
+                "value": "9d10",
                 "variable": "var1"
             }
         ],
         "desc10": [
             {
-                "value": "10",
+                "value": "10d10",
                 "variable": "var1"
             }
         ]
@@ -21339,7 +21342,7 @@
         ],
         "target": "self",
         "duration": "1 minute",
-        "desc": "You wreathe yourself in ghostly flames, gaining cold resistance <var>var1</var>. Additionally, adjacent creatures that hit you with a melee attack, as well as creatures that touch you or hit you with an unarmed attack, take <var>var2</var> fire damage each time they do.",
+        "desc": "You wreathe yourself in ghostly flames, gaining cold resistance <var>var1</var>. Additionally, adjacent creatures that hit you with a melee attack, as well as creatures that touch you or hit you with an unarmed attack, take |dice=var2 Fire| <var>var2</var> fire damage each time they do.",
         "heightened": [
             {
                 "desc": "The cold resistance increases by 5, and the fire damage increases by 1d6.",
@@ -21666,7 +21669,7 @@
         "area": "50-foot burst",
         "target": "area",
         "duration": "until the next time you make your daily preparations",
-        "desc": "You create an illusion that causes natural terrain to look, sound, feel, and smell like a different kind of terrain. This<var>var1</var> doesn't disguise any structures or creatures in the area.\n\nAny creature that touches the illusion or uses the Seek action to examine it can attempt to disbelieve your illusion.",
+        "desc": "You create an illusion that causes natural terrain to look, sound, feel, and smell like a different kind of terrain. <var>var1</var>\n\nAny creature that touches the illusion or uses the Seek action to examine it can attempt to disbelieve your illusion.",
         "gainConditions": [
             {
                 "duration": -2,
@@ -21677,12 +21680,13 @@
         ],
         "desc4": [
             {
+                "desc": "This doesn't disguise any structures or creatures in the area.",
                 "variable": "var1"
             }
         ],
         "desc5": [
             {
-                "value": " can disguise structures or create illusory structures, but",
+                "value": "This can disguise structures or create illusory structures, but doesn't disguise any creatures in the area.",
                 "variable": "var1"
             }
         ]
@@ -21707,7 +21711,7 @@
         "range": "500 feet",
         "area": "20-foot burst",
         "target": "area",
-        "desc": "You call upon sacred energy to amplify a vial of holy water, tossing it an incredible distance. It explodes in an enormous burst that deals <var>var1</var> bludgeoning damage to creatures in the area from the cascade of water. The water deals an additional <var>var2</var> positive damage to undead and <var>var2</var> good damage to fiends.",
+        "desc": "You call upon sacred energy to amplify a vial of holy water, tossing it an incredible distance. It explodes in an enormous burst that deals |dice=var1 B| <var>var1</var> bludgeoning damage to creatures in the area from the cascade of water. The water deals an additional |dice=var2 Positive| <var>var2</var> positive damage to undead and |dice=var2 Good| <var>var2</var> good damage to fiends.",
         "savingThrow": "basic Reflex",
         "heightened": [
             {
@@ -21802,7 +21806,7 @@
         ],
         "area": "60-foot line",
         "target": "area",
-        "desc": "A swirling torrent of water manifests along a straight line, battering those that are its path and possibly pushing them away from you. The torrent deals <var>var1</var> bludgeoning damage. Each creature in the area must attempt a basic Fortitude save. Creatures that fail the save are also knocked back 5 feet (10 feet on a critical failure).",
+        "desc": "A swirling torrent of water manifests along a straight line, battering those that are its path and possibly pushing them away from you. The torrent deals |dice=var1 B| <var>var1</var> bludgeoning damage. Each creature in the area must attempt a basic Fortitude save. Creatures that fail the save are also knocked back 5 feet (10 feet on a critical failure).",
         "savingThrow": "Fortitude",
         "heightened": [
             {
@@ -21928,7 +21932,7 @@
         "target": "other",
         "singleTarget": true,
         "duration": "24 hours",
-        "desc": "You imbue the touched object or space with slow-acting necrotic radiation. If you cast the spell on an object, any creature ending its turn holding or carrying the object takes <var>var1</var> negative damage. If you cast the spell on an area, any creature ending its turn in the area takes <var>var1</var> negative damage. You can attempt to use this spell on an attended object by touching the object. If you do, the creature attempts a Reflex save to reduce the effect.",
+        "desc": "You imbue the touched object or space with slow-acting necrotic radiation. If you cast the spell on an object, any creature ending its turn holding or carrying the object takes |dice=var1 Negative| <var>var1</var> negative damage. If you cast the spell on an area, any creature ending its turn in the area takes |dice=var1 Negative| <var>var1</var> negative damage. You can attempt to use this spell on an attended object by touching the object. If you do, the creature attempts a Reflex save to reduce the effect.",
         "critsuccess": "The object is unaffected.",
         "success": "The creature pulls the object away quickly. The spell only lasts 1 minute.",
         "failure": "The creature manages to slightly protect the object. The spell lasts 10 minutes.",
@@ -22069,9 +22073,9 @@
         "desc": "You create a phantasmal image of the most fearsome creature imaginable to the target. Only the spell's target can see the killer, though you can see the vague shape of the illusion as it races forth to attack. The effect of the killer is based on the outcome of the target's Will save.",
         "savingThrow": "Will",
         "critsuccess": "The target is unaffected.",
-        "success": "The target takes 4d6 mental damage and is frightened 1.",
-        "failure": "The target takes <var>var1</var> mental damage and is frightened 2.",
-        "critfailure": "The target is so afraid it might die. It must attempt a Fortitude save; if the target fails, it dies. On a successful Fortitude save, the target takes <var>var2</var> mental damage, is fleeing until the end of its next turn, and is frightened 4. This effect has the incapacitation trait.",
+        "success": "The target takes |dice=4d6 Mental| 4d6 mental damage and is frightened 1.",
+        "failure": "The target takes |dice=var1 Mental| <var>var1</var> mental damage and is frightened 2.",
+        "critfailure": "The target is so afraid it might die. It must attempt a Fortitude save; if the target fails, it dies. On a successful Fortitude save, the target takes |dice=var2 Mental| <var>var2</var> mental damage, is fleeing until the end of its next turn, and is frightened 4. This effect has the incapacitation trait.",
         "heightened": [
             {
                 "desc": "The damage increases by 2d6 on a failure and by 3d6 on a critical failure.",
@@ -22215,7 +22219,7 @@
         ],
         "target": "self",
         "trigger": "You are hit by a physical Strike.",
-        "desc": "You swiftly raise a reflective barrier, reducing physical damage and rebounding it onto your attacker. You gain resistance <var>var1</var> against one physical damage type the triggering attack deals. Your attacker takes <var>var2</var> damage of the same type.",
+        "desc": "You swiftly raise a reflective barrier, reducing physical damage and rebounding it onto your attacker. You gain resistance <var>var1</var> against one physical damage type the triggering attack deals. Your attacker takes |dice=var2| <var>var2</var> damage of the same type.",
         "heightened": [
             {
                 "desc": "The resistance increases by 2. Damage dealt to your attacker increases by 1.",
@@ -22310,7 +22314,7 @@
         ],
         "target": "self",
         "duration": "1 minute",
-        "desc": "You grow a set of colored glowing scales or scaled armor that stores energy before releasing it in a final burst. When you cast this spell, choose acid, cold, fire, electricity, or poison damage. You gain resistance <var>var1</var> against that type of damage. The scales' color depends on the damage type you chose and is usually the color of a type of dragon or other creature associated with that damage type, such as red or gold for fire damage.\n\nThe scales store up energy as they protect you. Keep track of how much damage the scales have prevented. As a 2-action activity that has the concentrate and manipulate traits, you can explode your scales outward in a 20-foot radius around you, dealing 1d6 damage of the chosen type to all creatures in the area for every 10 damage the scales have prevented, to a maximum of <var>var2</var> damage (after preventing <var>var3</var> damage). Once you do so, the spell ends.",
+        "desc": "You grow a set of colored glowing scales or scaled armor that stores energy before releasing it in a final burst. When you cast this spell, choose acid, cold, fire, electricity, or poison damage. You gain resistance <var>var1</var> against that type of damage. The scales' color depends on the damage type you chose and is usually the color of a type of dragon or other creature associated with that damage type, such as red or gold for fire damage.\n\nThe scales store up energy as they protect you. Keep track of how much damage the scales have prevented. As a 2-action activity that has the concentrate and manipulate traits, you can explode your scales outward in a 20-foot radius around you, dealing |dice=1d6| 1d6 damage of the chosen type to all creatures in the area for every 10 damage the scales have prevented, to a maximum of |dice=var2| <var>var2</var> damage (after preventing <var>var3</var> damage). Once you do so, the spell ends.",
         "heightened": [
             {
                 "desc": "The resistance increases by 5 and the maximum damage from the scale explosion increases by 5d6.",
@@ -22778,10 +22782,10 @@
         "range": "30 feet",
         "area": "10-foot burst",
         "target": "area",
-        "desc": "You manifest a swarm of disembodied wasp stingers that stab creatures in the area, possibly poisoning them. Creatures in the affected area take 1d6 piercing damage. Each creature that takes piercing damage must attempt a Fortitude save.\n\n<strong>Swarming Wasp Venom</strong> (poison) <strong>Level</strong> 7; <strong>Maximum Duration</strong> 6 rounds; <strong>Stage 1</strong> 2d6 poison damage and clumsy 1 (1 round); <strong>Stage 2</strong> 3d6 poison damage and clumsy 2 (1 round)",
+        "desc": "You manifest a swarm of disembodied wasp stingers that stab creatures in the area, possibly poisoning them. Creatures in the affected area take |dice=2d6 P| 1d6 piercing damage. Each creature that takes piercing damage must attempt a Fortitude save.\n\n<strong>Swarming Wasp Venom</strong> (poison) <strong>Level</strong> 7; <strong>Maximum Duration</strong> 6 rounds; <strong>Stage 1</strong> 2d6 poison damage and clumsy 1 (1 round); <strong>Stage 2</strong> 3d6 poison damage and clumsy 2 (1 round)",
         "savingThrow": "Fortitude",
         "critsuccess": "The target is unaffected.",
-        "success": "The target takes 2d6 poison damage.",
+        "success": "The target takes |dice=2d6 Poison| 2d6 poison damage.",
         "failure": "The target is afflicted with swarming wasp venom at stage 1.",
         "critfailure": "The target is afflicted with swarming wasp venom at stage 2."
     },
@@ -22971,7 +22975,7 @@
         ],
         "target": "self",
         "duration": "until your next daily preparations",
-        "desc": "Vitality radiates outward from you, allowing others to supplicate and receive healing. Once per round, either you or an ally can use an Interact action to supplicate and lay hands upon you to regain Hit Points. Each time the beacon heals someone, it decreases in strength. It restores <var>var1</var> Hit Points to the first creature, <var>var2</var> Hit Points to the second, <var>var3</var> Hit Points to the third, and <var>var4</var> Hit Points to the fourth, after which the spell ends. You can have only one vital beacon active at a time.",
+        "desc": "Vitality radiates outward from you, allowing others to supplicate and receive healing. Once per round, either you or an ally can use an Interact action to supplicate and lay hands upon you to regain Hit Points. Each time the beacon heals someone, it decreases in strength. It restores |dice=var1| <var>var1</var> Hit Points to the first creature, |dice=var2| <var>var2</var> Hit Points to the second, |dice=var3| <var>var3</var> Hit Points to the third, and |dice=var4| <var>var4</var> Hit Points to the fourth, after which the spell ends. You can have only one vital beacon active at a time.",
         "heightened": [
             {
                 "desc": "The beacon restores one additional die of Hit Points each time it heals, using the same die size as the others for that step.",
@@ -23131,7 +23135,7 @@
         "range": "120 feet",
         "target": "self",
         "duration": "1 minute",
-        "desc": "You raise a blazing wall that burns creatures passing through it. You create either a 5-foot-thick wall of flame in a straight line up to 60 feet long and 10 feet high, or a 5-foot-thick, 10-foot-radius ring of flame with the same height. The wall stands vertically in either form; if you wish, the wall can be of a shorter length or height. Everything on each side of the wall is concealed from creatures on the opposite side. Any creature that crosses the wall or is occupying the wall's area at the start of its turn takes <var>var1</var> fire damage.",
+        "desc": "You raise a blazing wall that burns creatures passing through it. You create either a 5-foot-thick wall of flame in a straight line up to 60 feet long and 10 feet high, or a 5-foot-thick, 10-foot-radius ring of flame with the same height. The wall stands vertically in either form; if you wish, the wall can be of a shorter length or height. Everything on each side of the wall is concealed from creatures on the opposite side. Any creature that crosses the wall or is occupying the wall's area at the start of its turn takes |dice=var1 Fire| <var>var1</var> fire damage.",
         "heightened": [
             {
                 "desc": "The fire damage increases by 1d6.",
@@ -23283,7 +23287,7 @@
         "desc": "Your touch afflicts the target with Abyssal plague, which siphons fragments of their soul away to empower the Abyss. The effect is based on the target's Fortitude save.\n\n<strong>Abyssal Plague</strong> (disease); <strong>Level</strong> 9. The target can't recover from the drained condition from Abyssal plague until the disease is cured. <strong>Stage 1</strong> drained 1 (1 day); <strong>Stage 2</strong> drained increases by 2 (1 day).",
         "savingThrow": "Fortitude",
         "critsuccess": "The target is unaffected.",
-        "success": "The target takes 2 evil damage per spell level, and takes a -2 status penalty to saves against Abyssal plague for 1 day or until the target contracts it, whichever comes first.",
+        "success": "The target takes |dice=var1 Evil| <var>var1</var> evil damage, and takes a -2 status penalty to saves against Abyssal plague for 1 day or until the target contracts it, whichever comes first.",
         "failure": "The target is afflicted with Abyssal plague at stage 1.",
         "critfailure": "The target is afflicted with Abyssal plague at stage 2.",
         "gainConditions": [
@@ -23292,6 +23296,42 @@
                 "name": "Abyssal Plague (Caster)",
                 "source": "Abyssal Plague",
                 "targetFilter": "caster"
+            }
+        ],
+        "desc5": [
+            {
+                "value": "10",
+                "variable": "var1"
+            }
+        ],
+        "desc6": [
+            {
+                "value": "12",
+                "variable": "var1"
+            }
+        ],
+        "desc7": [
+            {
+                "value": "14",
+                "variable": "var1"
+            }
+        ],
+        "desc8": [
+            {
+                "value": "16",
+                "variable": "var1"
+            }
+        ],
+        "desc9": [
+            {
+                "value": "18",
+                "variable": "var1"
+            }
+        ],
+        "desc10": [
+            {
+                "value": "20",
+                "variable": "var1"
             }
         ]
     },
@@ -23315,7 +23355,7 @@
         "area": "20-foot-radius burst",
         "target": "area",
         "duration": "1 minute",
-        "desc": "You evoke a storm of acid rain that pelts the area for the spell's duration. A creature that begins its turn in the area takes <var>var1</var> acid damage (basic Reflex save).",
+        "desc": "You evoke a storm of acid rain that pelts the area for the spell's duration. A creature that begins its turn in the area takes |dice=var1 Acid| <var>var1</var> acid damage (basic Reflex save).",
         "heightened": [
             {
                 "desc": "The damage increases by 1d8.",
@@ -23437,7 +23477,7 @@
         "area": "20-foot burst adjacent to a flat surface",
         "target": "area",
         "duration": "1 minute",
-        "desc": "Oily black tentacles rise up and attempt to capture creatures in the area. Make spell attack rolls against the Fortitude DC of each creature in the area. Any creature you succeed against is grabbed by a tentacle and takes 3d6 bludgeoning damage. Whenever a creature ends its turn in the area, the tentacles attempt to grab that creature if they haven't already, and they deal 1d6 bludgeoning damage to any creature already grabbed.\n\nThe tentacles' Escape DC is equal to your spell DC. A creature can attack a tentacle in an attempt to release its grip. Its AC is equal to your spell DC, and it is destroyed if it takes 12 or more damage. Even if destroyed, additional tentacles continue to grow in the area until the duration ends. You can Dismiss the spell.",
+        "desc": "Oily black tentacles rise up and attempt to capture creatures in the area. Make spell attack rolls against the Fortitude DC of each creature in the area. Any creature you succeed against is grabbed by a tentacle and takes |dice=3d6 B| 3d6 bludgeoning damage. Whenever a creature ends its turn in the area, the tentacles attempt to grab that creature if they haven't already, and they deal |dice=1d6 B| 1d6 bludgeoning damage to any creature already grabbed.\n\nThe tentacles' Escape DC is equal to your spell DC. A creature can attack a tentacle in an attempt to release its grip. Its AC is equal to your spell DC, and it is destroyed if it takes 12 or more damage. Even if destroyed, additional tentacles continue to grow in the area until the duration ends. You can Dismiss the spell.",
         "gainConditions": [
             {
                 "duration": 100,
@@ -23468,7 +23508,7 @@
         "targets": "1 creature",
         "target": "other",
         "singleTarget": true,
-        "desc": "Your head splits vertically into an enormous maw, which feasts upon the target's blood, dealing <var>var1</var> piercing damage, depending on your spell attack roll. After the spell, your head sews back together as if it had never split apart. You gain temporary Hit Points for 1 minute equal to half the piercing damage the target takes.\n\nIf you are a gug, increase the piercing damage by 2d6 and increase the persistent bleed damage you deal on a critical hit by 1d8. This spell doesn't alter a gug's appearance.",
+        "desc": "Your head splits vertically into an enormous maw, which feasts upon the target's blood, dealing |dice=var1 P| <var>var1</var> piercing damage, depending on your spell attack roll. After the spell, your head sews back together as if it had never split apart. You gain temporary Hit Points for 1 minute equal to half the piercing damage the target takes.\n\nIf you are a gug, increase the piercing damage by |dice=var1 P + 2d6 P| 2d6 and increase the persistent bleed damage you deal on a critical hit by |dice=1d8 + var2 Persistent Bleed| 1d8. This spell doesn't alter a gug's appearance.",
         "critsuccess": "The creature takes double damage and <var>var2</var> persistent bleed damage.",
         "success": "The creature takes full damage.",
         "failure": "You miss and the creature takes no damage.",
@@ -23568,7 +23608,7 @@
         "target": "ally",
         "singleTarget": true,
         "trigger": "A living creature within range would die.",
-        "desc": "Your blessing revives a creature at the moment of its death. You prevent the target from dying and restore Hit Points to the target equal to 4d8 plus your spellcasting ability modifier. You can't use breath of life if the triggering effect was disintegrate or a death effect.",
+        "desc": "Your blessing revives a creature at the moment of its death. You prevent the target from dying and restore Hit Points to the target equal to |dice=4d8 + spellmod| 4d8 plus your spellcasting ability modifier. You can't use breath of life if the triggering effect was disintegrate or a death effect.",
         "gainConditions": [
             {
                 "duration": 0,
@@ -23594,7 +23634,7 @@
         "range": "120 feet",
         "target": "area",
         "duration": "10 minutes",
-        "desc": "<var>var1</var>You create an opaque wall of light in a single vibrant color. The wall is straight and vertical, stretching 60 feet long and 30 feet high. If the wall would pass through a creature, the spell is lost. The wall sheds bright light for 20 feet on each side, and dim light for the next 20 feet. You can ignore the wall's effects.\n\nRoll <var>var2</var> to determine the color of the wall. Each color has a particular effect on items, effects, or creatures that attempt to pass through. Chromatic wall can't be counteracted normally; rather, each color is automatically counteracted when targeted by a specific spell, even if that spell's level is lower than that of chromatic wall.\n\n1. <strong>Red</strong> The wall destroys ranged weapon ammunition (such as arrows and crossbow bolts) that would pass through, and it deals <var>var_RedDamage</var> fire damage to anyone passing through, with a basic Reflex save. Cone of cold can counteract a red chromatic wall.\n2. <strong>Orange</strong> The wall destroys thrown weapons that would pass through, and it deals <var>var_OrangeDamage</var> acid damage to anyone passing through, with a basic Reflex save. Gust of wind can counteract an orange chromatic wall.\n3. <strong>Yellow</strong> The wall stops acid, cold, electricity, fire, force, negative, positive, and sonic effects from passing through, and it deals <var>var_YellowDamage</var> electricity damage to anyone passing through, with a basic Reflex save. Disintegrate can counteract a yellow chromatic wall.\n4. <strong>Green</strong> The wall stops toxins, gases, and breath weapons from passing through. It deals <var>var_GreenDamage</var> poison damage to anyone passing through and makes them enfeebled 1 for 1 minute. A basic Fortitude save reduces the damage and negates the enfeebled condition on a success. Passwall can counteract a green chromatic wall.\n5. <strong>Blue</strong> The wall stops auditory, petrification, and visual effects from passing through, and creatures passing through are subject to the effects of flesh to stone. Magic missile can counteract a blue chromatic wall.\n6. <strong>Indigo</strong> The wall stops divination and mental effects from passing through, and those passing through are subject to the effects of warp mind. Searing light can counteract an indigo chromatic wall.\n7. <strong>Violet</strong> The wall prevents spells from targeting the other side (area effects still cross as normal). Creatures passing through must succeed at a Will save or they are slowed 1 for 1 minute; on a critical failure, the creature is instead sent to another plane, with the effect of plane shift . Dispel magic can counteract a violet chromatic wall.\n8. Reroll, and creatures that pass through the wall take a -2 circumstance penalty to their saves.",
+        "desc": "<var>var1</var>You create an opaque wall of light in a single vibrant color. The wall is straight and vertical, stretching 60 feet long and 30 feet high. If the wall would pass through a creature, the spell is lost. The wall sheds bright light for 20 feet on each side, and dim light for the next 20 feet. You can ignore the wall's effects.\n\nRoll |dice=var2| <var>var2</var> to determine the color of the wall. Each color has a particular effect on items, effects, or creatures that attempt to pass through. Chromatic wall can't be counteracted normally; rather, each color is automatically counteracted when targeted by a specific spell, even if that spell's level is lower than that of chromatic wall.\n\n1. <strong>Red</strong> The wall destroys ranged weapon ammunition (such as arrows and crossbow bolts) that would pass through, and it deals |dice=var_RedDamage Fire| <var>var_RedDamage</var> fire damage to anyone passing through, with a basic Reflex save. Cone of cold can counteract a red chromatic wall.\n2. <strong>Orange</strong> The wall destroys thrown weapons that would pass through, and it deals |dice=var_OrangeDamage Acid| <var>var_OrangeDamage</var> acid damage to anyone passing through, with a basic Reflex save. Gust of wind can counteract an orange chromatic wall.\n3. <strong>Yellow</strong> The wall stops acid, cold, electricity, fire, force, negative, positive, and sonic effects from passing through, and it deals |dice=var_YellowDamage Electricity| <var>var_YellowDamage</var> electricity damage to anyone passing through, with a basic Reflex save. Disintegrate can counteract a yellow chromatic wall.\n4. <strong>Green</strong> The wall stops toxins, gases, and breath weapons from passing through. It deals |dice=var_GreenDamage Poison| <var>var_GreenDamage</var> poison damage to anyone passing through and makes them enfeebled 1 for 1 minute. A basic Fortitude save reduces the damage and negates the enfeebled condition on a success. Passwall can counteract a green chromatic wall.\n5. <strong>Blue</strong> The wall stops auditory, petrification, and visual effects from passing through, and creatures passing through are subject to the effects of flesh to stone. Magic missile can counteract a blue chromatic wall.\n6. <strong>Indigo</strong> The wall stops divination and mental effects from passing through, and those passing through are subject to the effects of warp mind. Searing light can counteract an indigo chromatic wall.\n7. <strong>Violet</strong> The wall prevents spells from targeting the other side (area effects still cross as normal). Creatures passing through must succeed at a Will save or they are slowed 1 for 1 minute; on a critical failure, the creature is instead sent to another plane, with the effect of plane shift . Dispel magic can counteract a violet chromatic wall.\n8. Reroll, and creatures that pass through the wall take a -2 circumstance penalty to their saves.",
         "heightened": [
             {
                 "desc": "The spell's duration increases to 1 hour. Roll 1d8 to determine the wall's color. A red, orange, yellow, or green wall deals an extra 10 damage.",
@@ -23720,7 +23760,7 @@
         "area": "20-foot burst",
         "target": "area",
         "duration": "1 minute",
-        "desc": "You conjure a poisonous fog. This functions as obscuring mist, except the area moves 10 feet away from you each round. You deal <var>var1</var> poison damage to each breathing creature that starts its turn in the spell's area. You can Dismiss the spell.",
+        "desc": "You conjure a poisonous fog. This functions as obscuring mist, except the area moves 10 feet away from you each round. You deal |dice=var1 Poison| <var>var1</var> poison damage to each breathing creature that starts its turn in the spell's area. You can Dismiss the spell.",
         "savingThrow": "basic Fortitude",
         "showSpells": [
             {
@@ -23795,7 +23835,7 @@
         ],
         "area": "60-foot cone",
         "target": "area",
-        "desc": "Icy cold rushes forth from your hands. You deal <var>var1</var> cold damage to creatures in the area.",
+        "desc": "Icy cold rushes forth from your hands. You deal |dice=var1 Cold| <var>var1</var> cold damage to creatures in the area.",
         "savingThrow": "basic Reflex",
         "heightened": [
             {
@@ -24234,7 +24274,7 @@
         "range": "120 feet",
         "area": "10-foot radius, 40-foot-tall cylinder",
         "target": "area",
-        "desc": "You call a rain of divine fire that plummets down from above, dealing <var>var1</var> fire damage. Because the flame is infused with divine energy, creatures in the area apply only half their usual fire resistance. Creatures that are immune to fire, instead of gaining the usual benefit of immunity, treat the results of their saving throws as one degree of success better.",
+        "desc": "You call a rain of divine fire that plummets down from above, dealing |dice=var1 Fire| <var>var1</var> fire damage. Because the flame is infused with divine energy, creatures in the area apply only half their usual fire resistance. Creatures that are immune to fire, instead of gaining the usual benefit of immunity, treat the results of their saving throws as one degree of success better.",
         "savingThrow": "basic Reflex",
         "heightened": [
             {
@@ -24515,7 +24555,7 @@
         "target": "ally",
         "singleTarget": true,
         "duration": "1 minute",
-        "desc": "A feral aspect overcomes the targets, making them tough and savage. Targets gain <var>var_temphp</var> temporary Hit Points, a +10-foot status bonus to their Speeds, and weakness <var>silverweakness</var> to silver. They also grow vicious fangs and claws, which are unarmed attacks. The fangs deal <var>var_dice</var>d8 piercing damage; the claws deal <var>var_dice</var>d6 slashing damage and have the agile and finesse traits. The targets use their highest weapon or unarmed attack proficiency with these attacks, and if they have weapon specialization or greater weapon specialization, they add this damage as well. On a critical hit with one of these unarmed attacks, the creature struck takes 1d4 persistent bleed damage.\n\nThe targets can't use concentrate actions unless those actions also have the rage trait, with the exception of Seek. A creature can attempt to end the spell's effect on itself by using a single action, which has the rage trait, to attempt a Will save against your spell DC; on a success, it ends the spell's effect on itself.\n\nIf a target is in the light of a full moon, it also grows by one size if it were Medium or smaller. This increases the reach of a Medium or Tiny creature by 5 feet.",
+        "desc": "A feral aspect overcomes the targets, making them tough and savage. Targets gain <var>var_temphp</var> temporary Hit Points, a +10-foot status bonus to their Speeds, and weakness <var>var_silverweakness</var> to silver. They also grow vicious fangs and claws, which are unarmed attacks. The fangs deal <var>var_dice</var>d8 piercing damage; the claws deal <var>var_dice</var>d6 slashing damage and have the agile and finesse traits. The targets use their highest weapon or unarmed attack proficiency with these attacks, and if they have weapon specialization or greater weapon specialization, they add this damage as well. On a critical hit with one of these unarmed attacks, the creature struck takes 1d4 persistent bleed damage.\n\nThe targets can't use concentrate actions unless those actions also have the rage trait, with the exception of Seek. A creature can attempt to end the spell's effect on itself by using a single action, which has the rage trait, to attempt a Will save against your spell DC; on a success, it ends the spell's effect on itself.\n\nIf a target is in the light of a full moon, it also grows by one size if it were Medium or smaller. This increases the reach of a Medium or Tiny creature by 5 feet.",
         "targetNumbers": [
             {
                 "number": 5
@@ -24918,7 +24958,7 @@
         "target": "other",
         "singleTarget": true,
         "duration": "3 rounds",
-        "desc": "You evoke Zevgavizeb's unceasing hunger and inflict it upon your target. The target becomes overwhelmed with cannibalistic hunger and can restore its vitality by feasting on the flesh of the fallen. On its turn, the target can use 2 actions (these actions have the manipulate trait) to cannibalize an adjacent dying or dead creature. If the cannibalized creature is dying, it dies. If the cannibalized creature is an ally of the target, the target regains <var>var1</var> HP; otherwise, the target regains <var>var2</var> HP. Certain monsters (such as those whose blood is acidic or magical) might inflict additional effects on those who cannibalize them at the GM's discretion. Once cannibalized, a particular creature's body doesn�t have enough meat to cannibalize again. During any round that there's a dying or dead creature within 30 feet of the target, if the target can't or doesn't cannibalize a creature, the target takes <var>var3</var> mental damage.",
+        "desc": "You evoke Zevgavizeb's unceasing hunger and inflict it upon your target. The target becomes overwhelmed with cannibalistic hunger and can restore its vitality by feasting on the flesh of the fallen. On its turn, the target can use 2 actions (these actions have the manipulate trait) to cannibalize an adjacent dying or dead creature. If the cannibalized creature is dying, it dies. If the cannibalized creature is an ally of the target, the target regains <var>var1</var> HP; otherwise, the target regains <var>var2</var> HP. Certain monsters (such as those whose blood is acidic or magical) might inflict additional effects on those who cannibalize them at the GM's discretion. Once cannibalized, a particular creature's body doesn't have enough meat to cannibalize again. During any round that there's a dying or dead creature within 30 feet of the target, if the target can't or doesn't cannibalize a creature, the target takes <var>var3</var> mental damage.",
         "heightened": [
             {
                 "desc": "The amount of HP restored by cannibalizing a creature increases by 1d8 for eating an ally and 1d4 otherwise, and the mental damage increases by 1d4.",
@@ -25058,7 +25098,7 @@
         "range": "varies",
         "area": "varies",
         "target": "area",
-        "desc": "You shape the quasi-real substance of the Shadow Plane into a blast. Choose acid, bludgeoning, cold, electricity, fire, force, piercing, slashing, or sonic damage, and choose a 30-foot cone, a 15-foot burst within 120 feet, or a 50-foot line. The blast deals <var>var1</var> damage of the type you chose to each creature in the area.",
+        "desc": "You shape the quasi-real substance of the Shadow Plane into a blast. Choose acid, bludgeoning, cold, electricity, fire, force, piercing, slashing, or sonic damage, and choose a 30-foot cone, a 15-foot burst within 120 feet, or a 50-foot line. The blast deals |dice=var1| <var>var1</var> damage of the type you chose to each creature in the area.",
         "savingThrow": "basic Reflex or Will (target's choice)",
         "heightened": [
             {
@@ -25185,7 +25225,7 @@
         "target": "object",
         "sustained": 100,
         "duration": "sustained up to 1 minute",
-        "desc": "A Medium guardian made of magical force appears and attacks foes you designate within range. The spiritual guardian is translucent and appears to be holding your deity's favored weapon.\n\nWhen you Cast the Spell, the spiritual guardian appears in an unoccupied space next to a foe of your choice within range and makes a Strike against it. Each time you Sustain the Spell, you can move the spiritual guardian to an unoccupied space next to a target within range (if necessary) and make a Strike with it. The guardian uses and contributes to your multiple attack penalty. Alternatively, when you Sustain the Spell, you can have the guardian move adjacent to an ally and protect that ally. If you do, each time the ally would take damage, the guardian takes the first 10 damage instead of your ally. It continues to do so until you move the guardian to attack an enemy or defend a different ally, or until the guardian is destroyed (it has <var>var1</var> Hit Points and can't recover Hit Points by any means). The guardian can't usually take damage except when protecting an ally, though disintegrate automatically destroys it if it hits the spiritual guardian's AC of 25.\n\nThe guardian's Strikes are melee spell attacks. Regardless of the appearance of the guardian's weapon, the guardian deals force damage equal to <var>var2</var> plus your spellcasting ability modifier, but you can deal damage of the type normally dealt by the weapon it holds instead of force damage. No other traits or statistics of the weapon apply, and even a ranged weapon attacks adjacent creatures only. Despite making a spell attack, the spiritual guardian's weapon is a weapon for the purposes of triggers, resistances, and so forth.\n\nThe guardian takes up space and allies can use it when flanking, but it doesn't have any other attributes a creature would normally have aside from Hit Points, and creatures can move through its space without hindrance. The guardian can't make any attack other than its Strike, and feats or spells that affect weapons or enhance allies do not apply to the guardian.",
+        "desc": "A Medium guardian made of magical force appears and attacks foes you designate within range. The spiritual guardian is translucent and appears to be holding your deity's favored weapon.\n\nWhen you Cast the Spell, the spiritual guardian appears in an unoccupied space next to a foe of your choice within range and makes a Strike against it. Each time you Sustain the Spell, you can move the spiritual guardian to an unoccupied space next to a target within range (if necessary) and make a Strike with it. The guardian uses and contributes to your multiple attack penalty. Alternatively, when you Sustain the Spell, you can have the guardian move adjacent to an ally and protect that ally. If you do, each time the ally would take damage, the guardian takes the first 10 damage instead of your ally. It continues to do so until you move the guardian to attack an enemy or defend a different ally, or until the guardian is destroyed (it has <var>var1</var> Hit Points and can't recover Hit Points by any means). The guardian can't usually take damage except when protecting an ally, though disintegrate automatically destroys it if it hits the spiritual guardian's AC of 25.\n\nThe guardian's Strikes are melee spell attacks. Regardless of the appearance of the guardian's weapon, the guardian deals force damage equal to |dice=var2 + spellmod Force| <var>var2</var> plus your spellcasting ability modifier, but you can deal damage of the type normally dealt by the weapon it holds instead of force damage. No other traits or statistics of the weapon apply, and even a ranged weapon attacks adjacent creatures only. Despite making a spell attack, the spiritual guardian's weapon is a weapon for the purposes of triggers, resistances, and so forth.\n\nThe guardian takes up space and allies can use it when flanking, but it doesn't have any other attributes a creature would normally have aside from Hit Points, and creatures can move through its space without hindrance. The guardian can't make any attack other than its Strike, and feats or spells that affect weapons or enhance allies do not apply to the guardian.",
         "heightened": [
             {
                 "desc": "The guardian's damage increases by 1d8, and its Hit Points increase by 20.",
@@ -25802,6 +25842,18 @@
                 "source": "Synesthesia",
                 "targetFilter": "caster"
             }
+        ],
+        "desc5": [
+            {
+                "value": "5",
+                "variable": "var1"
+            }
+        ],
+        "desc9": [
+            {
+                "value": "You can target up to five creatures. ",
+                "variable": "var1"
+            }
         ]
     },
     {
@@ -26006,7 +26058,7 @@
         "range": "120 feet",
         "target": "area",
         "duration": "1 minute",
-        "desc": "You sculpt a barrier of ice that blocks sight and, once shattered, freezes foes. You create either a 1-foot-thick wall of ice in a straight line up to 60 feet long and 10 feet high (the wall doesn't have to be vertical, but it must be anchored on both sides to a solid surface) or a 1-foot-thick, 10-foot radius hemisphere of ice. The ice that makes up the wall is opaque. If you wish, the wall can be of a smaller length, height, or radius. You must create the wall in an unbroken open space so its edges don't pass through any creatures or objects, or the spell is lost.\n\nEach 10-foot-by-10-foot section of the wall has AC 10, Hardness 10, and <var>var1</var> Hit Points, and it's immune to critical hits, cold damage, and precision damage. A section also has weakness to fire 15; a section of the wall destroyed by fire melts, evaporating into water and steam. A section destroyed by means other than fire leaves behind a chilling mass of ice that is difficult terrain and deals <var>var2</var> cold damage to any creature passing through it.",
+        "desc": "You sculpt a barrier of ice that blocks sight and, once shattered, freezes foes. You create either a 1-foot-thick wall of ice in a straight line up to 60 feet long and 10 feet high (the wall doesn't have to be vertical, but it must be anchored on both sides to a solid surface) or a 1-foot-thick, 10-foot radius hemisphere of ice. The ice that makes up the wall is opaque. If you wish, the wall can be of a smaller length, height, or radius. You must create the wall in an unbroken open space so its edges don't pass through any creatures or objects, or the spell is lost.\n\nEach 10-foot-by-10-foot section of the wall has AC 10, Hardness 10, and <var>var1</var> Hit Points, and it's immune to critical hits, cold damage, and precision damage. A section also has weakness to fire 15; a section of the wall destroyed by fire melts, evaporating into water and steam. A section destroyed by means other than fire leaves behind a chilling mass of ice that is difficult terrain and deals |dice=var2 Cold| <var>var2</var> cold damage to any creature passing through it.",
         "heightened": [
             {
                 "desc": "The Hit Points of each section of the wall increase by 10, and the cold damage dealt to creatures crossing a destroyed section increases by 1d6.",
@@ -26124,9 +26176,9 @@
         "targets": "1 creature",
         "target": "other",
         "singleTarget": true,
-        "desc": "You duplicate the venomous sting of a wyvern. You deal 3d4 piercing damage to the touched creature and afflict it with wyvern venom. If the target takes piercing damage, they must attempt a Fortitude save.\n\n<strong>Wyvern Venom</strong> (poison) <strong>Level</strong> 9; <strong>Maximum Duration</strong> 6 rounds; <strong>Stage 1</strong> 5d6 poison damage (1 round); <strong>Stage 2</strong> 6d6 poison damage (1 round); <strong>Stage 3</strong> 8d6 poison damage (1 round)",
+        "desc": "You duplicate the venomous sting of a wyvern. You deal |dice=3d4 P| 3d4 piercing damage to the touched creature and afflict it with wyvern venom. If the target takes piercing damage, they must attempt a Fortitude save.\n\n<strong>Wyvern Venom</strong> (poison) <strong>Level</strong> 9; <strong>Maximum Duration</strong> 6 rounds; <strong>Stage 1</strong> 5d6 poison damage (1 round); <strong>Stage 2</strong> 6d6 poison damage (1 round); <strong>Stage 3</strong> 8d6 poison damage (1 round)",
         "critsuccess": "The target is unaffected.",
-        "success": "The target takes 5d6 poison damage.",
+        "success": "The target takes |dice=5d6 Poison| 5d6 poison damage.",
         "failure": "The target is afflicted with wyvern venom at stage 1.",
         "critfailure": "The target is afflicted with wyvern venom at stage 2.",
         "gainConditions": [
@@ -26898,7 +26950,7 @@
         "target": "ally",
         "sustained": 100,
         "duration": "sustained up to 1 minute",
-        "desc": "<var>var1</var>You travel to the Ethereal Plane, which overlaps the Material Plane. Material Plane creatures can't see you, and you can move through things on the Material Plane. You move at half your normal Speeds, but can move in any direction (including up and down).\n\nYou can see onto the Material Plane within a radius of 60 feet; it is gray, hazy, and concealed from you. You can't affect the Material Plane, and you can't be affected by the Material Plane except by force effects and abjurations originating there.\n\nWhen the spell ends, you return to the Material Plane. If you're in the air, you fall (unless you can fly), and if you're inside an object, you're pushed into the nearest open space and take 1d6 damage per 5 feet you were pushed.\n\nIf you cast this spell when not on the Material Plane, it is lost.",
+        "desc": "<var>var1</var>You travel to the Ethereal Plane, which overlaps the Material Plane. Material Plane creatures can't see you, and you can move through things on the Material Plane. You move at half your normal Speeds, but can move in any direction (including up and down).\n\nYou can see onto the Material Plane within a radius of 60 feet; it is gray, hazy, and concealed from you. You can't affect the Material Plane, and you can't be affected by the Material Plane except by force effects and abjurations originating there.\n\nWhen the spell ends, you return to the Material Plane. If you're in the air, you fall (unless you can fly), and if you're inside an object, you're pushed into the nearest open space and take |dice=1d6| 1d6 damage per 5 feet you were pushed.\n\nIf you cast this spell when not on the Material Plane, it is lost.",
         "targetNumbers": [
             {
                 "number": 0,
@@ -27393,7 +27445,7 @@
         "area": "60-foot burst",
         "target": "area",
         "duration": "1 round",
-        "desc": "<var>var1</var>You shake the ground, topple creatures into fissures, and collapse structures.\n\nThe GM might add additional effects in certain areas. Cliffs might collapse, causing creatures to fall, or a lake might drain as fissures open up below its surface, leaving a morass of quicksand.\n<strong>Shaking Ground</strong> The ground is difficult terrain, and creatures on it take a -2 circumstance penalty to attack rolls, AC, and skill checks.\n<strong>Fissures</strong> Each creature on the ground must attempt a Reflex save at the start of its turn to keep its footing and avoid falling into 40-foot-deep fissures that open beneath it. The fissures are permanent, and their sides require DC 15 Athletics to Climb.\n<strong>Collapse</strong> Structures and ceilings might collapse. The GM rolls a flat check for each (DC 16 for a sturdy structure, DC 14 for an average structure and most natural formations, DC 9 for a shoddy structure, all adjusted higher or lower as the GM sees fit). A collapse deals 11d6 bludgeoning damage; each creature caught in a collapse must attempt a Reflex save to avoid it.\n\n \n\n<strong>Critical Success</strong> The creature takes half the collapse damage.\n<strong>Success</strong> The creature takes half the collapse damage and falls prone.\n<strong>Failure</strong> The creature takes the full collapse damage and falls prone.\n<strong>Critical Failure</strong> The creature takes the full collapse damage and falls into a fissure.",
+        "desc": "<var>var1</var>You shake the ground, topple creatures into fissures, and collapse structures.\n\nThe GM might add additional effects in certain areas. Cliffs might collapse, causing creatures to fall, or a lake might drain as fissures open up below its surface, leaving a morass of quicksand.\n<strong>Shaking Ground</strong> The ground is difficult terrain, and creatures on it take a -2 circumstance penalty to attack rolls, AC, and skill checks.\n<strong>Fissures</strong> Each creature on the ground must attempt a Reflex save at the start of its turn to keep its footing and avoid falling into 40-foot-deep fissures that open beneath it. The fissures are permanent, and their sides require DC 15 Athletics to Climb.\n<strong>Collapse</strong> Structures and ceilings might collapse. The GM rolls a flat check for each (DC 16 for a sturdy structure, DC 14 for an average structure and most natural formations, DC 9 for a shoddy structure, all adjusted higher or lower as the GM sees fit). A collapse deals |dice=11d6 B| 11d6 bludgeoning damage; each creature caught in a collapse must attempt a Reflex save to avoid it.\n\n<strong>Critical Success</strong> The creature takes half the collapse damage.\n<strong>Success</strong> The creature takes half the collapse damage and falls prone.\n<strong>Failure</strong> The creature takes the full collapse damage and falls prone.\n<strong>Critical Failure</strong> The creature takes the full collapse damage and falls into a fissure.",
         "heightened": [
             {
                 "desc": "You create a massive earthquake that can devastate a settlement. The range increases to half a mile and the area to a quarter-mile burst.",

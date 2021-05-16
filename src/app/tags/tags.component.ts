@@ -3,8 +3,9 @@ import { CharacterService } from '../character.service';
 import { TraitsService } from '../traits.service';
 import { EffectsService } from '../effects.service';
 import { Effect } from '../Effect';
-import { Hint } from '../Hint';
 import { TimeService } from '../time.service';
+import { ConditionGain } from '../ConditionGain';
+import { ConditionSet } from '../ConditionSet';
 
 @Component({
     selector: 'app-tags',
@@ -93,7 +94,7 @@ export class TagsComponent implements OnInit {
 
     get_ConditionsShowingOn(name: string) {
         if (this.showConditions && name) {
-            return this.sortByName(this.characterService.get_ConditionsShowingOn(this.get_Creature(), name));
+            return this.sortConditionSetByName(this.characterService.get_ConditionsShowingOn(this.get_Creature(), name));
         } else {
             return [];
         }
@@ -123,18 +124,33 @@ export class TagsComponent implements OnInit {
         }
     }
 
-    get_Hints(hints: Hint[], name: string) {
-        return hints
-            .filter(hint =>
-                hint.showon.split(",")
-                    .find(showon =>
-                        showon.trim().toLowerCase() == name.toLowerCase() ||
-                        (
-                            name.toLowerCase().includes("lore") &&
-                            showon.trim().toLowerCase() == "lore"
-                        )
-                    )
-            )
+    sortConditionSetByName(list: ConditionSet[]) {
+        return list.sort(function (a, b) {
+            if (a.condition.name > b.condition.name) {
+                return 1;
+            }
+            if (a.condition.name < b.condition.name) {
+                return -1;
+            }
+            return 0;
+        })
+    }
+
+    sortByName(list: any[]) {
+        return list.sort(function (a, b) {
+            if (a.name > b.name) {
+                return 1;
+            }
+            if (a.name < b.name) {
+                return -1;
+            }
+            return 0;
+        })
+    }
+
+    on_ActivateEffect() {
+        this.characterService.set_ToChange(this.creature, "effects");
+        this.characterService.process_ToChange();
     }
 
     finish_Loading() {
@@ -159,23 +175,6 @@ export class TagsComponent implements OnInit {
                 });
             return true;
         }
-    }
-
-    sortByName(list: any[]) {
-        return list.sort(function (a, b) {
-            if (a.name > b.name) {
-                return 1;
-            }
-            if (a.name < b.name) {
-                return -1;
-            }
-            return 0;
-        })
-    }
-
-    on_ActivateEffect() {
-        this.characterService.set_ToChange(this.creature, "effects");
-        this.characterService.process_ToChange();
     }
 
     ngOnInit() {

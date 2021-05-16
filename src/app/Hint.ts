@@ -19,4 +19,7 @@ export class Hint {
     public active5: boolean = false;
     //If extraActivations is 1 through 4, one or two more activation boxes are shown.
     public extraActivations: number = 0;
+    public conditionChoiceFilter: string = "";
+    public conditionMinHeightened: number = 0;
+    public conditionMaxHeightened: number = 0;
 }

@@ -220,8 +220,8 @@ export class Equipment extends Item {
             if (this.potencyRune) {
                 price += itemsService.get_CleanItems().armorrunes.find(rune => rune.potency == this.potencyRune).price;
             }
-            if (this.strikingRune) {
-                price += itemsService.get_CleanItems().armorrunes.find(rune => rune.resilient == this.strikingRune).price;
+            if (this.resilientRune) {
+                price += itemsService.get_CleanItems().armorrunes.find(rune => rune.resilient == this.resilientRune).price;
             }
             this.propertyRunes.forEach(rune => {
                 price += itemsService.get_CleanItems().armorrunes.find(armorRune => armorRune.name.toLowerCase() == rune.name.toLowerCase()).price;

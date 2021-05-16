@@ -65,6 +65,7 @@ import { ToastService } from './toast.service';
 import { Material } from './Material';
 import { WeaponRune } from './WeaponRune';
 import { NgbPopoverConfig, NgbTooltipConfig } from '@ng-bootstrap/ng-bootstrap';
+import { ConditionSet } from './ConditionSet';
 
 @Injectable({
     providedIn: 'root'
@@ -1801,18 +1802,20 @@ export class CharacterService {
         }
         switch (effectGain.affected) {
             case "Focus Points":
-                this.get_Character().class.focusPoints = Math.min(this.get_Character().class.focusPoints, this.get_MaxFocusPoints());
-                //We intentionally add the point after we set the limit. This allows us to gain focus points with feats and raise the current points
-                // before the limit is increased. The focus points are automatically limited in the spellbook component, where they are displayed, and when casting focus spells.
-                let diff = Math.min(value, this.get_MaxFocusPoints() - this.get_Character().class.focusPoints);
-                (creature as Character).class.focusPoints += diff;
-                
-                if (diff >= 0) {
-                    this.toastService.show("You gained " + diff + " focus point" + (diff == 1 ? "" : "s") + ".", [], this);
-                } else {
-                    this.toastService.show("You lost " + diff * -1 + " focus point" + (diff == 1 ? "" : "s") + ".", [], this);
+                if (value) {
+                    this.get_Character().class.focusPoints = Math.min(this.get_Character().class.focusPoints, this.get_MaxFocusPoints());
+                    //We intentionally add the point after we set the limit. This allows us to gain focus points with feats and raise the current points
+                    // before the limit is increased. The focus points are automatically limited in the spellbook component, where they are displayed, and when casting focus spells.
+                    let diff = Math.min(value, this.get_MaxFocusPoints() - this.get_Character().class.focusPoints);
+                    (creature as Character).class.focusPoints += diff;
+
+                    if (diff >= 0) {
+                        this.toastService.show("You gained " + diff + " focus point" + (diff == 1 ? "" : "s") + ".", [], this);
+                    } else {
+                        this.toastService.show("You lost " + diff * -1 + " focus point" + (diff == 1 ? "" : "s") + ".", [], this);
+                    }
+                    this.set_ToChange("Character", "spellbook");
                 }
-                this.set_ToChange("Character", "spellbook");
                 break;
             case "Temporary HP":
                 //When you get temporary HP, some things to process:
@@ -1835,7 +1838,7 @@ export class CharacterService {
                         creature.health.temporaryHP.push({ amount: value, source: effectGain.source, sourceId: effectGain.sourceId });
                         this.toastService.show("You gained " + value + " temporary HP from " + effectGain.source + ". You already had temporary HP and must choose which amount to keep.", [], this);
                     }
-                } else {
+                } else if (value < 0) {
                     let targetTempHPSet = creature.health.temporaryHP.find(tempHPSet => ((tempHPSet.source == "Manual") && (effectGain.source == "Manual")) || tempHPSet.sourceId == effectGain.sourceId)
                     if (targetTempHPSet) {
                         targetTempHPSet.amount += value;
@@ -2007,7 +2010,10 @@ export class CharacterService {
                     objectName.toLowerCase() == "all" ||
                     showon.trim().toLowerCase() == objectName.toLowerCase() ||
                     (
-                        objectName.toLowerCase().includes("lore") &&
+                        (
+                            objectName.toLowerCase().includes("lore:") ||
+                            objectName.toLowerCase().includes(" lore")
+                        ) &&
                         showon.trim().toLowerCase() == "lore"
                     )
                 )
@@ -2058,7 +2064,10 @@ export class CharacterService {
                     objectName.toLowerCase() == "all" ||
                     showon.trim().toLowerCase() == objectName.toLowerCase() ||
                     (
-                        objectName.toLowerCase().includes("lore") &&
+                        (
+                            objectName.toLowerCase().includes("lore:") ||
+                            objectName.toLowerCase().includes(" lore")
+                        ) &&
                         showon.trim().toLowerCase() == "lore"
                     )
                 )
@@ -2070,14 +2079,17 @@ export class CharacterService {
     get_ConditionsShowingOn(creature: Creature, objectName: string = "all") {
         return this.get_AppliedConditions(creature)
             .filter(conditionGain => conditionGain.apply)
-            .map(conditionGain => this.get_Conditions(conditionGain.name)[0])
-            .filter(condition =>
-                condition?.hints.find(hint =>
+            .map(conditionGain => { return Object.assign(new ConditionSet, { gain: conditionGain, condition: this.get_Conditions(conditionGain.name)[0] }) })
+            .filter(conditionSet =>
+                conditionSet.condition?.hints.find(hint =>
                     hint.showon?.split(",").find(showon =>
                         objectName.trim().toLowerCase() == "all" ||
                         showon.trim().toLowerCase() == objectName.toLowerCase() ||
                         (
-                            objectName.toLowerCase().includes("lore") &&
+                            (
+                                objectName.toLowerCase().includes("lore:") ||
+                                objectName.toLowerCase().includes(" lore")
+                            ) &&
                             showon.trim().toLowerCase() == "lore"
                         )
                     )
@@ -2207,7 +2219,10 @@ export class CharacterService {
                         objectName.trim().toLowerCase() == "all" ||
                         showon.trim().toLowerCase() == objectName.toLowerCase() ||
                         (
-                            objectName.toLowerCase().includes("lore") &&
+                            (
+                                objectName.toLowerCase().includes("lore:") ||
+                                objectName.toLowerCase().includes(" lore")
+                            ) &&
                             showon.trim().toLowerCase() == "lore"
                         )
                     )
@@ -2276,7 +2291,10 @@ export class CharacterService {
                                     objectName.trim().toLowerCase() == "all" ||
                                     showon.trim().toLowerCase() == objectName.toLowerCase() ||
                                     (
-                                        objectName.toLowerCase().includes("lore") &&
+                                        (
+                                            objectName.toLowerCase().includes("lore:") ||
+                                            objectName.toLowerCase().includes(" lore")
+                                        ) &&
                                         showon.trim().toLowerCase() == "lore"
                                     )
                                 )

@@ -383,7 +383,8 @@
                                                                                     *ngIf="!spellTaken.gain.combinationSpellName">
                                                                                     <app-spell class="list-item"
                                                                                         [spell]="spell"
-                                                                                        [spellLevel]="effectiveSpellLevel">
+                                                                                        [spellLevel]="effectiveSpellLevel"
+                                                                                        [casting]="casting">
                                                                                     </app-spell>
                                                                                 </ng-container>
                                                                                 <ng-container
@@ -400,7 +401,8 @@
                                                                                     </header>
                                                                                     <app-spell class="list-item"
                                                                                         [spell]="spell"
-                                                                                        [spellLevel]="effectiveSpellLevel">
+                                                                                        [spellLevel]="effectiveSpellLevel"
+                                                                                        [casting]="casting">
                                                                                     </app-spell>
                                                                                     <ng-container
                                                                                         *ngFor="let secondSpell of get_Spells(spellTaken.gain.combinationSpellName); trackBy:trackByIndex;">
@@ -415,7 +417,8 @@
                                                                                         </header>
                                                                                         <app-spell class="list-item"
                                                                                             [spell]="secondSpell"
-                                                                                            [spellLevel]="effectiveSpellLevel">
+                                                                                            [spellLevel]="effectiveSpellLevel"
+                                                                                            [casting]="casting">
                                                                                         </app-spell>
                                                                                     </ng-container>
                                                                                 </ng-container>

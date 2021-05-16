@@ -1,6 +1,4 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
 import { CharacterService } from './character.service';
 import { QuickdiceComponent } from './dice/quickdice/quickdice.component';
 import { DiceResult } from './DiceResult';
@@ -12,8 +10,7 @@ import { ToastService } from './toast.service';
 export class IntegrationsService {
 
     constructor(
-        private toastService: ToastService,
-        private http: HttpClient
+        private toastService: ToastService
     ) { }
 
     prepare_RollForFoundry(diceString: string = "", diceResults: DiceResult[] = []) {
@@ -76,7 +73,7 @@ export class IntegrationsService {
         return this.http.options(foundryVTTUrl, { params: { mode: "no-cors" }, observe: 'response' });
     }*/
 
-    send_RollToFoundry(diceString: string = "", diceResults: DiceResult[] = [], characterService: CharacterService, quickDiceComponent: QuickdiceComponent = null) {
+    send_RollToFoundry(creature: string, diceString: string = "", diceResults: DiceResult[] = [], characterService: CharacterService, quickDiceComponent: QuickdiceComponent = null) {
         let foundryVTTUrl = characterService.get_Character().settings.foundryVTTUrl;
         if (foundryVTTUrl) {
             function prepareAndSend(integrationsService: IntegrationsService) {
@@ -87,7 +84,19 @@ export class IntegrationsService {
                     }
                     let foundryVTTTimeout = characterService.get_Character().settings.foundryVTTTimeout;
                     //Open the foundry URL in a small window, then close it after the configured timeout.
-                    let foundryWindow = window.open(foundryVTTUrl + "/modules/external-dice-roll-connector/roll.html?roll=" + roll, "", "width=200, height=100");
+                    let roller = characterService.get_Creature(creature);
+                    let alias = ""
+                    if (creature == "Character") {
+                        alias = roller.name || ""
+                    } else {
+                        alias = roller.name || roller.type + " of " + characterService.get_Character().name;
+                    }
+                    let foundryWindow: Window;
+                    if (alias) {
+                        foundryWindow = window.open(foundryVTTUrl + "/modules/external-dice-roll-connector/roll.html?name=" + alias + "&roll=" + roll, "", "width=200, height=100");
+                    } else {
+                        foundryWindow = window.open(foundryVTTUrl + "/modules/external-dice-roll-connector/roll.html?roll=" + roll, "", "width=200, height=100");
+                    }
                     foundryWindow.blur();
                     window.self.focus();
                     setTimeout(() => {

@@ -1,5 +1,5 @@
 <!--Changing Weapon Material-->
-<div class="list-item" *ngIf="['weapon', 'armor', 'shield'].includes(item.moddable) || customItemStore">
+<div class="list-item" *ngIf="(['weapon', 'armor', 'shield'].includes(item.moddable) && !get_IsUnarmored(item)) || customItemStore">
     <ng-container
         *ngIf="item.material && ((item.moddable=='armor' && item.constructor.name == 'Armor') || (customItemStore && item.moddable=='-' && item.constructor.name == 'Armor'))">
         <div class="newrow">
@@ -8,7 +8,7 @@
                 <ng-container
                     *ngFor="let material of get_InitialArmorMaterials(); let initialRuneIndex = index; trackBy:trackByIndex;">
                     <option [ngValue]="material" *ngIf="initialRuneIndex == 0" [selected]=!item.material[0]>
-
+                        <!--Blank option to deselect-->
                     </option>
                     <optgroup *ngIf="initialRuneIndex == 1" label="Current material">
                         <option [ngValue]="material">
@@ -43,7 +43,7 @@
                 <ng-container
                     *ngFor="let material of get_InitialShieldMaterials(); let initialRuneIndex = index; trackBy:trackByIndex;">
                     <option [ngValue]="material" *ngIf="initialRuneIndex == 0" [selected]=!item.material[0]>
-
+                        <!--Blank option to deselect-->
                     </option>
                     <optgroup *ngIf="initialRuneIndex == 1" label="Current material">
                         <option [ngValue]="material">
@@ -78,7 +78,7 @@
                 <ng-container
                     *ngFor="let material of get_InitialWeaponMaterials(); let initialRuneIndex = index; trackBy:trackByIndex;">
                     <option [ngValue]="material" *ngIf="initialRuneIndex == 0" [selected]=!item.material[0]>
-
+                        <!--Blank option to deselect-->
                     </option>
                     <optgroup *ngIf="initialRuneIndex == 1" label="Current material">
                         <option [ngValue]="material">

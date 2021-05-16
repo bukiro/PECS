@@ -1,5 +1,7 @@
-<ng-container *ngFor="let maxCharges of [activity.maxCharges(get_Creature(), characterService)]; trackBy: trackByIndex;">
-    <ng-container *ngFor="let cooldown of [activity.get_Cooldown(get_Creature(), characterService)]; trackBy: trackByIndex;">
+<ng-container
+    *ngFor="let maxCharges of [activity.maxCharges(get_Creature(), characterService)]; trackBy: trackByIndex;">
+    <ng-container
+        *ngFor="let cooldown of [activity.get_Cooldown(get_Creature(), characterService)]; trackBy: trackByIndex;">
         <ng-container *ngFor="let activitySpell of [get_ActivitySpell()]; trackBy:trackByIndex">
             <!-- Targets if the activity is not a fuse stance and can be activated. Includes activities with no effect that can be toggled or have a cooldown. -->
             <div class="newrow" *ngIf="allowActivate && !get_ExternallyDisabled()">
@@ -53,7 +55,8 @@
                 </ng-container>
                 <!-- Activity with no effect, not even toggled. This button literally does nothing. -->
                 <ng-container *ngIf="!get_ManualMode() && !activity.can_Activate()">
-                    <button class="newrow center-aligned" [ngbTooltip]="'The activity has no automatic effects and no target.'">
+                    <button class="newrow center-aligned"
+                        [ngbTooltip]="'The activity has no automatic effects and no target.'">
                         <span>Activate <i class='bi-peace'></i></span>
                     </button>
                 </ng-container>
@@ -260,12 +263,17 @@
             </div>
         </div>
         <div class="newrow left-aligned"
-            *ngFor="let condition of get_ConditionsShowingOn(activity.name); trackBy:trackByIndex;">
-            <header class="spellHeader">{{condition.name}}</header>
-            <div class="newrow left-aligned" *ngFor="let desc of condition.desc.split('\n\n'); trackBy:trackByIndex;">
-                <p *ngIf="desc.split('\n').length == 1" [innerHTML]="desc"></p>
+            *ngFor="let conditionSet of get_ConditionsShowingOn(activity.name); trackBy:trackByIndex;">
+            <header class="spellHeader">{{conditionSet.condition.name}}</header>
+            <div class="newrow left-aligned"
+                *ngFor="let desc of conditionSet.condition.get_Heightened(conditionSet.condition.desc, conditionSet.gain.heightened).split('\n\n'); trackBy:trackByIndex;">
+                <p *ngIf="desc.split('\n').length == 1">
+                    <app-diceText [text]="desc"></app-diceText>
+                </p>
                 <ul *ngIf="desc.split('\n').length > 1">
-                    <li *ngFor="let line of desc.split('\n'); trackBy:trackByIndex;" [innerHTML]="line"></li>
+                    <li *ngFor="let line of desc.split('\n'); trackBy:trackByIndex;">
+                        <app-diceText [text]="line"></app-diceText>
+                    </li>
                 </ul>
             </div>
         </div>

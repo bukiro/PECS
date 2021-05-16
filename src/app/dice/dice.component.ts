@@ -99,8 +99,8 @@ export class DiceComponent implements OnInit {
         return this.get_DiceResults().filter(diceResult => diceResult.included).reduce((a, b) => a + this.get_DiceSum(b), 0);
     }
 
-    on_SendToFoundry() {
-        this.integrationsService.send_RollToFoundry("", this.get_DiceResults(), this.characterService);
+    on_SendToFoundry(creature: string) {
+        this.integrationsService.send_RollToFoundry(creature, "", this.get_DiceResults(), this.characterService);
     }
 
     unselectAll() {

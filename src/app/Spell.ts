@@ -96,7 +96,7 @@ export class Spell {
         }
     }
     get_Heightened(text: string, levelNumber: number) {
-        //For an arbitrary text (usually the spell description or the heightened descriptions), retrieve the appropriate description set for this level and replace the variables with the included strings.
+        //For an arbitrary text (usually the spell description or the saving throw result descriptions), retrieve the appropriate description set for this level and replace the variables with the included strings.
         this.get_DescriptionSet(levelNumber).forEach((descVar: SpellDesc) => {
             let regex = new RegExp(descVar.variable, "g")
             text = text.replace(regex, (descVar.value || ""));

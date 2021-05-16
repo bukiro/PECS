@@ -1,6 +1,10 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { Activity } from 'src/app/Activity';
 import { CharacterService } from 'src/app/character.service';
+import { ConditionSet } from 'src/app/ConditionSet';
+import { Feat } from 'src/app/Feat';
 import { Hint } from 'src/app/Hint';
+import { Item } from 'src/app/Item';
 
 @Component({
     selector: 'app-hint',
@@ -30,15 +34,24 @@ export class HintComponent implements OnInit {
         return this.characterService.get_Character().settings.hintsShowMoreInformation;
     }
 
-    get_Hints(hints: Hint[], name: string) {
-        return hints
-            .filter(hint =>
+    get_Hints() {
+        return (this.object instanceof ConditionSet ? this.object.condition.hints : this.object.hints)
+            .filter((hint: Hint) =>
+                this.object instanceof ConditionSet ?
+                    (
+                        (hint.conditionChoiceFilter ? this.object.gain.choice == hint.conditionChoiceFilter : true) &&
+                        (hint.conditionMinHeightened ? this.object.gain.heightened >= hint.conditionMinHeightened : true) &&
+                        (hint.conditionMaxHeightened ? this.object.gain.heightened <= hint.conditionMaxHeightened : true)
+                    ) :
+                    true
+            )
+            .filter((hint: Hint) =>
                 hint.showon.split(",")
                     .some(showon =>
-                        showon.trim().toLowerCase() == name.toLowerCase() ||
+                        showon.trim().toLowerCase() == this.objectName.toLowerCase() ||
                         showon.trim().toLowerCase() == (this.creature + ":" + name).toLowerCase() ||
                         (
-                            name.toLowerCase().includes("lore") &&
+                            this.objectName.toLowerCase().includes("lore") &&
                             showon.trim().toLowerCase() == "lore"
                         )
                     )
@@ -51,17 +64,16 @@ export class HintComponent implements OnInit {
     }
 
     get_ObjectType() {
-        switch (this.object?.constructor.name) {
-            case "Feat":
-                return "Feat";
-            case "Activity":
-                return "Activity";
-            case "ItemActivity":
-                return "Activity";
-            case "Condition":
-                return "Condition";
+        if (this.object instanceof Feat) {
+            return "Feat";
         }
-        if (this.object.constructor.__proto__.__proto__.name == "Item" || this.object.constructor.__proto__.name == "Item") {
+        if (this.object instanceof Activity) {
+            return "Activity";
+        }
+        if (this.object instanceof ConditionSet) {
+            return "ConditionSet";
+        }
+        if (this.object instanceof Item) {
             return "Item";
         }
         if (this.object?.desc) {

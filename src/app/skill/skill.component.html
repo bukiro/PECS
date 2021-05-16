@@ -31,7 +31,7 @@
             *ngIf="creature != 'Familiar'">
         </app-proficiency-form>
         <span *ngIf="showValue">
-            <app-quickdice *ngIf="!isDC" [diceNum]="1" [diceSize]="20" [bonus]="calculatedSkill.value.result"
+            <app-quickdice [creature]="creature" *ngIf="!isDC" [diceNum]="1" [diceSize]="20" [bonus]="calculatedSkill.value.result"
                 [type]="'('+get_Name(skill)+')'">
             </app-quickdice>
             <div class="value" [ngbPopover]="((isDC) ? 'DC basis: 10\n' : '')+calculatedSkill.value.explain"

@@ -83,10 +83,22 @@
         <div class="list-item center-aligned vlist">
             <header class="sectionHeader box-header dice-result">
                 {{get_TotalSum()}}
-                <button *ngIf="get_FoundryVTTSendRolls()" [ngbTooltip]="'Send this result to your Foundry VTT session.'" (click)="on_SendToFoundry()">
-                    <i class="bi-cloud-arrow-up"></i>
-                </button>
             </header>
+            <div class="newrow" *ngIf="get_FoundryVTTSendRolls()">
+                <span class="hlist center-aligned">
+                    <strong>Send roll to Foundry VTT: </strong>
+                    <ng-container
+                        *ngFor="let creatureType of ['Character','Companion','Familiar']; trackBy:trackByIndex">
+                        <button *ngFor="let creature of get_Creature(creatureType); trackBy:trackByIndex"
+                            [ngbTooltip]="'Send as ' + (creature.name || creature.type) + '.'"
+                            (click)="on_SendToFoundry(creatureType)">
+                            <i class="ra ra-player" *ngIf="creature.type == 'Character'"></i>
+                            <i class="ra ra-wolf-howl" *ngIf="creature.type == 'Companion'"></i>
+                            <i class="ra ra-raven" *ngIf="creature.type == 'Familiar'"></i>
+                        </button>
+                    </ng-container>
+                </span>
+            </div>
             <div class="fullsize-scroll-box vlist" style="max-height: 30vh;">
                 <div class="list-item newrow" [ngClass]="{'notapplied': !result.included}"
                     *ngFor="let result of get_DiceResults(); trackBy:trackByIndex">

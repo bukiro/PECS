@@ -1,5 +1,0 @@
-<ng-container *ngFor="let diceSplit of get_DiceSplit(); trackBy:trackByIndex;">
-    <app-quickdice *ngIf="diceSplit.includes('quickdice-')" [diceString]="diceSplit.replace('quickdice-','')" [casting]="casting">
-    </app-quickdice>
-    <span *ngIf="!diceSplit.includes('quickdice-')" [innerHtml]="diceSplit"></span>
-</ng-container>

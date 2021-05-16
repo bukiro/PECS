@@ -133,7 +133,7 @@
             "Abjuration",
             "Magical"
         ],
-        "subType": "Acid",
+        "subType": "Cold",
         "subTypeDesc": "You gain resistance 5 to cold.",
         "effects": [
             {
@@ -154,7 +154,7 @@
             "Abjuration",
             "Magical"
         ],
-        "subType": "Acid",
+        "subType": "Electricity",
         "subTypeDesc": "You gain resistance 5 to electricity.",
         "effects": [
             {
@@ -175,7 +175,7 @@
             "Abjuration",
             "Magical"
         ],
-        "subType": "Acid",
+        "subType": "Fire",
         "subTypeDesc": "You gain resistance 5 to fire.",
         "effects": [
             {
@@ -415,7 +415,7 @@
             "Abjuration",
             "Magical"
         ],
-        "subType": "Acid",
+        "subType": "Acid, Greater",
         "subTypeDesc": "You gain resistance 10 to acid.",
         "effects": [
             {
@@ -436,7 +436,7 @@
             "Abjuration",
             "Magical"
         ],
-        "subType": "Acid",
+        "subType": "Cold, Greater",
         "subTypeDesc": "You gain resistance 10 to cold.",
         "effects": [
             {
@@ -457,7 +457,7 @@
             "Abjuration",
             "Magical"
         ],
-        "subType": "Acid",
+        "subType": "Electricity, Greater",
         "subTypeDesc": "You gain resistance 10 to electricity.",
         "effects": [
             {
@@ -478,7 +478,7 @@
             "Abjuration",
             "Magical"
         ],
-        "subType": "Acid",
+        "subType": "Fire, Greater",
         "subTypeDesc": "You gain resistance 10 to fire.",
         "effects": [
             {

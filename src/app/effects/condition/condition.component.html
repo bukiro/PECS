@@ -234,7 +234,7 @@
     </ng-container>
 </ng-container>
 <div [ngbCollapse]="fullDisplay && get_ShowItem()!=conditionGain.id+'description'">
-    <div class="newrow lower left-aligned" *ngFor="let desc of condition.desc.split('\n\n'); trackBy:trackByIndex;">
+    <div class="newrow lower left-aligned" *ngFor="let desc of get_HeightenedDescription().split('\n\n'); trackBy:trackByIndex;">
         <p *ngIf="desc.split('\n').length == 1" [innerHTML]="desc"></p>
         <ul *ngIf="desc.split('\n').length > 1">
             <li *ngFor="let line of desc.split('\n'); trackBy:trackByIndex;" [innerHTML]="line"></li>

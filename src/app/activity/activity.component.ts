@@ -162,10 +162,10 @@ export class ActivityComponent implements OnInit {
         if (activityName) {
             return this.characterService.get_ConditionsShowingOn(this.get_Creature(), activityName)
                 .sort((a, b) => {
-                    if (a.name > b.name) {
+                    if (a.condition.name > b.condition.name) {
                         return 1;
                     }
-                    if (a.name < b.name) {
+                    if (a.condition.name < b.condition.name) {
                         return -1;
                     }
                     return 0;

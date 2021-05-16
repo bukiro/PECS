@@ -249,6 +249,14 @@ export class ConditionsComponent implements OnInit {
         return this.conditionsService.get_Conditions(name, type);
     }
 
+    get_HeightenedDescription(condition: Condition) {
+        if (this.heightened >= condition.minLevel) {
+            return condition.get_Heightened(condition.desc, this.heightened);
+        } else {
+            return condition.get_Heightened(condition.desc, condition.minLevel);
+        }
+    }
+
     set_Permanent(duration: number) {
         this.permanent = duration == -1;
         this.untilRest = duration == -2;

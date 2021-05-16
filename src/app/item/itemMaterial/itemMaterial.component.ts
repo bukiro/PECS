@@ -8,6 +8,7 @@ import { ItemsService } from 'src/app/items.service';
 import { Material } from 'src/app/Material';
 import { ArmorMaterial } from 'src/app/ArmorMaterial';
 import { ShieldMaterial } from 'src/app/ShieldMaterial';
+import { Item } from 'src/app/Item';
 
 @Component({
     selector: 'app-itemMaterial',
@@ -39,6 +40,13 @@ export class ItemMaterialComponent implements OnInit {
 
     get_Character() {
         return this.characterService.get_Character();
+    }
+
+    get_IsUnarmored(item: Item) {
+        if (item instanceof Armor) {
+            return item.get_Proficiency() == "Unarmored Defense";
+        }
+        return false;
     }
 
     get_InitialArmorMaterials() {
@@ -106,10 +114,10 @@ export class ItemMaterialComponent implements OnInit {
         //Only show materials that aren't disabled or, if they are disabled, don't share the name with an enabled material and don't share the name with another disabled material that comes before it.
         // This means you can still see a material that you can't take at the moment, but you don't see duplicates of a material that only apply to other items.
         let materials = allMaterials.filter((material, index) =>
-            !material.disabled || 
+            !material.disabled ||
             (
                 !allMaterials.some(othermaterial => othermaterial !== material && othermaterial.material.name == material.material.name && !othermaterial.disabled) &&
-                !allMaterials.slice(0,index).some(othermaterial => othermaterial !== material && othermaterial.material.name == material.material.name && othermaterial.disabled)
+                !allMaterials.slice(0, index).some(othermaterial => othermaterial !== material && othermaterial.material.name == material.material.name && othermaterial.disabled)
             )
         );
         return materials.sort(function (a, b) {
@@ -192,10 +200,10 @@ export class ItemMaterialComponent implements OnInit {
         //Only show materials that aren't disabled or, if they are disabled, don't share the name with an enabled material and don't share the name with another disabled material that comes before it.
         // This means you can still see a material that you can't take at the moment, but you don't see duplicates of a material that only apply to other items.
         let materials = allMaterials.filter((material, index) =>
-            !material.disabled || 
+            !material.disabled ||
             (
                 !allMaterials.some(othermaterial => othermaterial !== material && othermaterial.material.name == material.material.name && !othermaterial.disabled) &&
-                !allMaterials.slice(0,index).some(othermaterial => othermaterial !== material && othermaterial.material.name == material.material.name && othermaterial.disabled)
+                !allMaterials.slice(0, index).some(othermaterial => othermaterial !== material && othermaterial.material.name == material.material.name && othermaterial.disabled)
             )
         );
         return materials.sort(function (a, b) {
@@ -226,7 +234,7 @@ export class ItemMaterialComponent implements OnInit {
         this.set_MaterialNames();
         this.characterService.process_ToChange();
     }
-    
+
     get_InitialWeaponMaterials() {
         let weapon = this.item as Weapon;
         //Start with one empty slot to select nothing.
@@ -292,10 +300,10 @@ export class ItemMaterialComponent implements OnInit {
         //Only show materials that aren't disabled or, if they are disabled, don't share the name with an enabled material and don't share the name with another disabled material that comes before it.
         // This means you can still see a material that you can't take at the moment, but you don't see duplicates of a material that only apply to other items.
         let materials = allMaterials.filter((material, index) =>
-            !material.disabled || 
+            !material.disabled ||
             (
                 !allMaterials.some(othermaterial => othermaterial !== material && othermaterial.material.name == material.material.name && !othermaterial.disabled) &&
-                !allMaterials.slice(0,index).some(othermaterial => othermaterial !== material && othermaterial.material.name == material.material.name && othermaterial.disabled)
+                !allMaterials.slice(0, index).some(othermaterial => othermaterial !== material && othermaterial.material.name == material.material.name && othermaterial.disabled)
             )
         );
         return materials.sort(function (a, b) {
@@ -351,17 +359,17 @@ export class ItemMaterialComponent implements OnInit {
         } else {
             let priceString: string = "";
             if (price >= 100) {
-                priceString += Math.floor(price / 100)+"gp";
+                priceString += Math.floor(price / 100) + "gp";
                 price %= 100;
-                if (price >= 10) {priceString += " ";}
+                if (price >= 10) { priceString += " "; }
             }
             if (price >= 10) {
-                priceString += Math.floor(price / 10)+"sp";
+                priceString += Math.floor(price / 10) + "sp";
                 price %= 10;
-                if (price >= 1) {priceString += " ";}
+                if (price >= 1) { priceString += " "; }
             }
             if (price >= 1) {
-                priceString += price+"cp";
+                priceString += price + "cp";
             }
             return priceString;
         }
