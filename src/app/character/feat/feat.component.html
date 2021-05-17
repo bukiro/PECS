@@ -22,10 +22,7 @@
             </p>
         </ng-container>
         <ng-container *ngFor="let desc of feat.desc.split('\n\n'); trackBy:trackByIndex;">
-            <p *ngIf="desc.split('\n').length == 1" [innerHTML]="desc"></p>
-            <ul *ngIf="desc.split('\n').length > 1">
-                <li *ngFor="let line of desc.split('\n'); trackBy:trackByIndex;" [innerHTML]="line"></li>
-            </ul>
+            <app-diceText [text]="desc"></app-diceText>
         </ng-container>
         <p *ngIf="feat.specialdesc.length">
             <strong>Special</strong> {{feat.specialdesc}}

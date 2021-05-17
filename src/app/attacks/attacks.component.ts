@@ -19,6 +19,7 @@ import { Equipment } from '../Equipment';
 import { ConditionsService } from '../conditions.service';
 import { ConditionGain } from '../ConditionGain';
 import { WeaponMaterial } from '../WeaponMaterial';
+import { Hint } from '../Hint';
 
 @Component({
     selector: 'app-attacks',
@@ -63,6 +64,10 @@ export class AttacksComponent implements OnInit {
         return this.characterService.still_loading()
     }
 
+    get_Character() {
+        return this.characterService.get_Character();
+    }
+
     get_Creature(type: string = this.creature) {
         return this.characterService.get_Creature(type) as Character | AnimalCompanion;
     }
@@ -93,6 +98,10 @@ export class AttacksComponent implements OnInit {
 
     get_ShowItem() {
         return this.showItem;
+    }
+
+    get_HeightenedHint(hint: Hint) {
+        hint.get_Heightened(hint.desc, this.get_Character().level);
     }
 
     get_CriticalHints(weapon: Weapon) {

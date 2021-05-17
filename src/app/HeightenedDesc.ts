@@ -1,4 +1,4 @@
-export interface SpellDesc {
+export interface HeightenedDesc {
     variable: string;
     value: string;
 }

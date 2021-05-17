@@ -12,7 +12,8 @@ import { Familiar } from './Familiar';
 import { Feat } from './Feat';
 import { ConditionDuration } from './ConditionDuration';
 import { Creature } from './Creature';
-import { SpellDesc } from './SpellDesc';
+import { HeightenedDesc } from './HeightenedDesc';
+import { HeightenedDescSet } from './HeightenedDescSet';
 
 export class Condition {
     public name: string = "";
@@ -22,16 +23,7 @@ export class Condition {
     public hasValue: boolean = false;
     public decreasingValue: boolean = false;
     public value: number = 0;
-    public desc10: SpellDesc[] = [];
-    public desc1: SpellDesc[] = [];
-    public desc2: SpellDesc[] = [];
-    public desc3: SpellDesc[] = [];
-    public desc4: SpellDesc[] = [];
-    public desc5: SpellDesc[] = [];
-    public desc6: SpellDesc[] = [];
-    public desc7: SpellDesc[] = [];
-    public desc8: SpellDesc[] = [];
-    public desc9: SpellDesc[] = [];
+    public heightenedDescs: HeightenedDescSet[] = [];
     public desc: string = "";
     public hints: Hint[] = [];
     public inputRequired: string = "";
@@ -245,36 +237,20 @@ export class Condition {
         return items;
     }
     get_DescriptionSet(levelNumber: number) {
-        //This descends from levelnumber downwards and returns the first available description set.
+        //This descends from levelnumber downwards and returns the first description set with a matching level.
         //A description set contains variable names and the text to replace them with.
-        switch (levelNumber) {
-            case 10:
-                if (this.desc10.length) { return this.desc10; }
-            case 9:
-                if (this.desc9.length) { return this.desc9; }
-            case 8:
-                if (this.desc8.length) { return this.desc8; }
-            case 7:
-                if (this.desc7.length) { return this.desc7; }
-            case 6:
-                if (this.desc6.length) { return this.desc6; }
-            case 5:
-                if (this.desc5.length) { return this.desc5; }
-            case 4:
-                if (this.desc4.length) { return this.desc4; }
-            case 3:
-                if (this.desc3.length) { return this.desc3; }
-            case 2:
-                if (this.desc2.length) { return this.desc2; }
-            case 1:
-                if (this.desc1.length) { return this.desc1; }
-            default:
-                return [];
+        if (this.heightenedDescs.length) {
+            for (levelNumber; levelNumber > 0; levelNumber--) {
+                if (this.heightenedDescs.some(descSet => descSet.level == levelNumber)) {
+                    return this.heightenedDescs.find(descSet => descSet.level == levelNumber);
+                }
+            }
         }
+        return new HeightenedDescSet();
     }
     get_Heightened(text: string, levelNumber: number) {
         //For an arbitrary text (usually the condition description), retrieve the appropriate description set for this level and replace the variables with the included strings.
-        this.get_DescriptionSet(levelNumber).forEach((descVar: SpellDesc) => {
+        this.get_DescriptionSet(levelNumber).descs.forEach((descVar: HeightenedDesc) => {
             let regex = new RegExp(descVar.variable, "g")
             text = text.replace(regex, (descVar.value || ""));
         })

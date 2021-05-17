@@ -529,9 +529,6 @@ export class NewItemPropertyComponent implements OnInit {
                 });
                 break;
             case "hints desc":
-                this.characterService.get_FeatsAndFeatures().filter(feat => feat.hints.length).forEach(feat => {
-                    examples.push(...feat.hints.filter(hint => hint.desc.length).map(hint => hint.desc));
-                })
                 this.activitiesService.get_Activities().filter(activity => activity.hints.length).forEach(activity => {
                     examples.push(...activity.hints.filter(hint => hint.desc.length).map(hint => hint.desc));
                 })

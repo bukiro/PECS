@@ -69,6 +69,7 @@ import { Creature } from './Creature';
 import { ToastService } from './toast.service';
 import { ArmorMaterial } from './ArmorMaterial';
 import { ShieldMaterial } from './ShieldMaterial';
+import { Hint } from './Hint';
 
 @Injectable({
     providedIn: 'root'
@@ -357,6 +358,7 @@ export class ItemsService {
             newItem.propertyRunes = newRunes;
         }
         //Disable any active hint effects when loading an item.
+        item.hints = (item as Equipment).hints?.map(hint => Object.assign(new Hint(), hint));
         (item as Equipment).hints?.forEach(hint => {
             hint.active = hint.active2 = hint.active3 = hint.active4 = hint.active5 = false;
         })
@@ -661,8 +663,9 @@ export class ItemsService {
             this.loading = false;
 
         } else {
-            //Disable any active hint effects when loading a character.
+            //Disable any active hint effects when loading a character, and reinitialize the hints.
             this.specializations.forEach(spec => {
+                spec.hints = spec.hints.map(hint => Object.assign(new Hint(), hint));
                 spec.hints?.forEach(hint => {
                     hint.active = hint.active2 = hint.active3 = hint.active4 = hint.active5 = false;
                 })

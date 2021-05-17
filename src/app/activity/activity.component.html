@@ -163,33 +163,30 @@
             </span>
         </div>
         <div class="newrow left-aligned" *ngFor="let desc of activity.desc.split('\n\n'); trackBy:trackByIndex;">
-            <p *ngIf="desc.split('\n').length == 1" [innerHTML]="desc"></p>
-            <ul *ngIf="desc.split('\n').length > 1">
-                <li *ngFor="let line of desc.split('\n'); trackBy:trackByIndex;" [innerHTML]="line"></li>
-            </ul>
+            <app-diceText [text]="desc"></app-diceText>
         </div>
         <div class="newrow left-aligned" *ngIf="activity.critsuccess">
             <span>
                 <strong>Critical Success</strong>
-                {{activity.critsuccess}}
+                <app-diceText [text]="activity.critsuccess" [oneLiner]="true"></app-diceText>
             </span>
         </div>
         <div class="newrow left-aligned" *ngIf="activity.success">
             <span>
                 <strong>Success</strong>
-                {{activity.success}}
+                <app-diceText [text]="activity.success" [oneLiner]="true"></app-diceText>
             </span>
         </div>
         <div class="newrow left-aligned" *ngIf="activity.failure">
             <span>
                 <strong>Failure</strong>
-                {{activity.failure}}
+                <app-diceText [text]="activity.failure" [oneLiner]="true"></app-diceText>
             </span>
         </div>
         <div class="newrow left-aligned" *ngIf="activity.critfailure">
             <span>
                 <strong>Critical Failure</strong>
-                {{activity.critfailure}}
+                <app-diceText [text]="activity.critfailure" [oneLiner]="true"></app-diceText>
             </span>
         </div>
         <div class="newrow left-aligned" *ngIf="activity.specialdesc">
@@ -256,10 +253,7 @@
                     [ngbPopover]="get_Traits(trait)[0].desc">{{trait}}</cite>
             </div>
             <div class="newrow left-aligned" *ngFor="let desc of feat.desc.split('\n\n'); trackBy:trackByIndex;">
-                <p *ngIf="desc.split('\n').length == 1" [innerHTML]="desc"></p>
-                <ul *ngIf="desc.split('\n').length > 1">
-                    <li *ngFor="let line of desc.split('\n'); trackBy:trackByIndex;" [innerHTML]="line"></li>
-                </ul>
+                <app-diceText [text]="desc"></app-diceText>
             </div>
         </div>
         <div class="newrow left-aligned"
@@ -267,14 +261,7 @@
             <header class="spellHeader">{{conditionSet.condition.name}}</header>
             <div class="newrow left-aligned"
                 *ngFor="let desc of conditionSet.condition.get_Heightened(conditionSet.condition.desc, conditionSet.gain.heightened).split('\n\n'); trackBy:trackByIndex;">
-                <p *ngIf="desc.split('\n').length == 1">
-                    <app-diceText [text]="desc"></app-diceText>
-                </p>
-                <ul *ngIf="desc.split('\n').length > 1">
-                    <li *ngFor="let line of desc.split('\n'); trackBy:trackByIndex;">
-                        <app-diceText [text]="line"></app-diceText>
-                    </li>
-                </ul>
+                <app-diceText [text]="desc"></app-diceText>
             </div>
         </div>
         <ng-container *ngIf="allowActivate">

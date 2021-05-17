@@ -1376,14 +1376,7 @@
                                             *ngFor="let text of desc.value.split('\n\n'); let textIndex = index; trackBy:trackByIndex;">
                                             <header class="featureHeader" *ngIf="textIndex == 0">{{desc.name}}
                                             </header>
-                                            <p *ngIf="text.split('\n').length == 1">
-                                                {{text}}
-                                            </p>
-                                            <ul *ngIf="text.split('\n').length > 1">
-                                                <li *ngFor="let line of text.split('\n'); trackBy:trackByIndex;">
-                                                    {{line}}
-                                                </li>
-                                            </ul>
+                                            <app-diceText [text]="text"></app-diceText>
                                         </ng-container>
                                     </div>
                                 </ng-template>
@@ -1448,14 +1441,7 @@
                                             <header class="featureHeader" *ngIf="textIndex == 0">
                                                 {{desc.name}}
                                             </header>
-                                            <p *ngIf="text.split('\n').length == 1">
-                                                {{text}}
-                                            </p>
-                                            <ul *ngIf="text.split('\n').length > 1">
-                                                <li *ngFor="let line of text.split('\n'); trackBy:trackByIndex;">
-                                                    {{line}}
-                                                </li>
-                                            </ul>
+                                            <app-diceText [text]="text"></app-diceText>
                                         </ng-container>
                                     </div>
                                 </ng-template>
@@ -1526,12 +1512,7 @@
                                         <div class="newrow left-aligned">
                                             <ng-container
                                                 *ngFor="let desc of heritage.desc.split('\n\n'); trackBy:trackByIndex;">
-                                                <p *ngIf="desc.split('\n').length == 1">{{desc}}</p>
-                                                <ul *ngIf="desc.split('\n').length > 1">
-                                                    <li *ngFor="let line of desc.split('\n'); trackBy:trackByIndex;">
-                                                        {{line}}
-                                                    </li>
-                                                </ul>
+                                                <app-diceText [text]="desc"></app-diceText>
                                             </ng-container>
                                         </div>
                                         <ng-container
@@ -1703,12 +1684,7 @@
                                     <div class="newrow left-aligned">
                                         <ng-container
                                             *ngFor="let desc of background.desc.split('\n\n'); trackBy:trackByIndex;">
-                                            <p *ngIf="desc.split('\n').length == 1">{{desc}}</p>
-                                            <ul *ngIf="desc.split('\n').length > 1">
-                                                <li *ngFor="let line of desc.split('\n'); trackBy:trackByIndex;">
-                                                    {{line}}
-                                                </li>
-                                            </ul>
+                                            <app-diceText [text]="desc"></app-diceText>
                                         </ng-container>
                                     </div>
                                     <div class="list-item lower newrow problem" *ngIf="background.inputRequired">
@@ -2111,14 +2087,7 @@
                                             </div>
                                             <ng-container
                                                 *ngFor="let desc of type.desc.split('\n\n'); trackBy:trackByIndex;">
-                                                <p *ngIf="desc.split('\n').length == 1">
-                                                    {{desc}}
-                                                </p>
-                                                <ul *ngIf="desc.split('\n').length > 1">
-                                                    <li *ngFor="let line of desc.split('\n'); trackBy:trackByIndex;">
-                                                        {{line}}
-                                                    </li>
-                                                </ul>
+                                                <app-diceText [text]="desc"></app-diceText>
                                             </ng-container>
                                             <p>
                                                 <strong>Size</strong> {{size(type.size)}}
@@ -2400,13 +2369,7 @@
                                                 <ng-container
                                                     *ngFor="let desc of background.desc.split('\n\n'); let index = index; trackBy:trackByIndex;">
                                                     <ng-container *ngIf="index == 0">
-                                                        <p *ngIf="desc.split('\n').length == 1">{{desc}}</p>
-                                                        <ul *ngIf="desc.split('\n').length > 1">
-                                                            <li
-                                                                *ngFor="let line of desc.split('\n'); trackBy:trackByIndex;">
-                                                                {{line}}
-                                                            </li>
-                                                        </ul>
+                                                        <app-diceText [text]="desc"></app-diceText>
                                                     </ng-container>
                                                 </ng-container>
                                                 <ng-container *ngIf="background.loreChoices[0]?.loreName != ''">
@@ -2645,13 +2608,7 @@
                                                     <div class="newrow left-aligned">
                                                         <ng-container
                                                             *ngFor="let desc of heritage.desc.split('\n\n'); trackBy:trackByIndex;">
-                                                            <p *ngIf="desc.split('\n').length == 1">{{desc}}</p>
-                                                            <ul *ngIf="desc.split('\n').length > 1">
-                                                                <li
-                                                                    *ngFor="let line of desc.split('\n'); trackBy:trackByIndex;">
-                                                                    {{line}}
-                                                                </li>
-                                                            </ul>
+                                                            <app-diceText [text]="desc"></app-diceText>
                                                         </ng-container>
                                                     </div>
                                                     <ng-container

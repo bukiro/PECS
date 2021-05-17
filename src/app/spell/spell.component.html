@@ -76,42 +76,23 @@
     </div>
     <div class="newrow left-aligned"
         *ngFor="let desc of get_Heightened(spell.desc).split('\n\n'); trackBy:trackByIndex;">
-        <p *ngIf="desc.split('\n').length == 1">
-            <app-diceText [text]="desc" [casting]="casting"></app-diceText>
-        </p>
-        <ul *ngIf="desc.split('\n').length > 1">
-            <li *ngFor="let line of desc.split('\n'); trackBy:trackByIndex;">
-                <app-diceText [text]="line" [casting]="casting"></app-diceText>
-            </li>
-        </ul>
+        <app-diceText [text]="desc"></app-diceText>
     </div>
     <div class="newrow lower left-aligned" *ngIf="spell.critsuccess">
         <strong>Critical Success</strong>
-        <span>
-            <app-diceText [text]="get_Heightened(spell.critsuccess)" [casting]="casting">
-            </app-diceText>
-        </span>
+        <app-diceText [text]="spell.critsuccess" [oneLiner]="true"></app-diceText>
     </div>
     <div class="newrow lower left-aligned" *ngIf="spell.success">
         <strong>Success</strong>
-        <span>
-            <app-diceText [text]="get_Heightened(spell.success)" [casting]="casting">
-            </app-diceText>
-        </span>
+        <app-diceText [text]="spell.success" [oneLiner]="true"></app-diceText>
     </div>
     <div class="newrow lower left-aligned" *ngIf="spell.failure">
         <strong>Failure</strong>
-        <span>
-            <app-diceText [text]="get_Heightened(spell.failure)" [casting]="casting">
-            </app-diceText>
-        </span>
+        <app-diceText [text]="spell.failure" [oneLiner]="true"></app-diceText>
     </div>
     <div class="newrow lower left-aligned" *ngIf="spell.critfailure">
         <strong>Critical Failure</strong>
-        <span>
-            <app-diceText [text]="get_Heightened(spell.critfailure)" [casting]="casting">
-            </app-diceText>
-        </span>
+        <app-diceText [text]="spell.critfailure" [oneLiner]="true"></app-diceText>
     </div>
     <div class="newrow left-aligned" *ngFor="let heightened of spell.heightened; trackBy:trackByIndex;">
         <span>
@@ -126,10 +107,7 @@
                 [ngbPopover]="get_Traits(trait)[0].desc">{{trait}}</cite>
         </div>
         <div class="newrow left-aligned" *ngFor="let desc of feat.desc.split('\n\n'); trackBy:trackByIndex;">
-            <p *ngIf="desc.split('\n').length == 1" [innerHTML]="desc"></p>
-            <ul *ngIf="desc.split('\n').length > 1">
-                <li *ngFor="let line of desc.split('\n'); trackBy:trackByIndex;" [innerHTML]="line"></li>
-            </ul>
+            <app-diceText [text]="desc"></app-diceText>
         </div>
     </div>
     <div class="list-item left-aligned" *ngFor="let shownSpellSet of spell.showSpells; trackBy:trackByIndex;">

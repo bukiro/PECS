@@ -139,7 +139,7 @@
                     style="margin-top:initial">
                     <ng-container *ngFor="let rune of runes; trackBy:trackByIndex;">
                         <cite class="rune" *ngFor="let hint of rune.hints; trackBy:trackByIndex;"
-                            [ngbPopover]="hint.desc">{{rune.name}}</cite>
+                            [ngbPopover]="get_HeightenedHint(hint)">{{rune.name}}</cite>
                     </ng-container>
                 </div>
                 <app-tags [creature]="creature" [objectName]=weapon.name [showTraits]=true [showFeats]=true

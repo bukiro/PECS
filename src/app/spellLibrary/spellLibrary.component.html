@@ -83,11 +83,7 @@
                                     <div class="list-item" *ngIf="descblock.length">
                                         <ng-container
                                             *ngFor="let desc of descblock.split('\n\n'); trackBy:trackByIndex;">
-                                            <p *ngIf="desc.split('\n').length == 1">{{desc}}</p>
-                                            <ul *ngIf="desc.split('\n').length > 1">
-                                                <li *ngFor="let line of desc.split('\n'); trackBy:trackByIndex;">
-                                                    {{line}}</li>
-                                            </ul>
+                                            <app-diceText [text]="desc"></app-diceText>
                                         </ng-container>
                                     </div>
                                 </ng-container>
@@ -96,11 +92,7 @@
                                     <div class="list-item" *ngIf="descblock.length">
                                         <ng-container
                                             *ngFor="let desc of descblock.split('\n\n'); trackBy:trackByIndex;">
-                                            <p *ngIf="desc.split('\n').length == 1">{{desc}}</p>
-                                            <ul *ngIf="desc.split('\n').length > 1">
-                                                <li *ngFor="let line of desc.split('\n'); trackBy:trackByIndex;">
-                                                    {{line}}</li>
-                                            </ul>
+                                            <app-diceText [text]="desc"></app-diceText>
                                         </ng-container>
                                     </div>
                                 </ng-container>

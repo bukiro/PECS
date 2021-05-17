@@ -24,6 +24,7 @@ import * as json_feats from '../assets/json/feats';
 import * as json_features from '../assets/json/features';
 import { LanguageGain } from './LanguageGain';
 import { SpellCast } from './SpellCast';
+import { Hint } from './Hint';
 
 @Injectable({
     providedIn: 'root'
@@ -956,6 +957,7 @@ export class FeatsService {
             feat.gainSkillChoice = feat.gainSkillChoice.map(choice => Object.assign(new SkillChoice, choice));
             feat.gainSpellChoice = feat.gainSpellChoice.map(choice => Object.assign(new SpellChoice, choice));
             feat.gainSpellCasting = feat.gainSpellCasting.map(choice => Object.assign(new SpellCasting(choice.castingType), choice));
+            feat.hints = feat.hints.map(hint => Object.assign(new Hint(), hint));
         })
 
         let duplicates: string[] = Array.from(new Set(

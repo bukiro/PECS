@@ -1,3 +1,4 @@
+import { ThrowStmt } from '@angular/compiler';
 import { Component, Input, OnInit } from '@angular/core';
 import { Activity } from 'src/app/Activity';
 import { CharacterService } from 'src/app/character.service';
@@ -35,13 +36,17 @@ export class HintComponent implements OnInit {
     }
 
     get_Hints() {
-        return (this.object instanceof ConditionSet ? this.object.condition.hints : this.object.hints)
+        let isConditionSet = this.object instanceof ConditionSet;
+        return (isConditionSet ? this.object.condition.hints : this.object.hints)
             .filter((hint: Hint) =>
-                this.object instanceof ConditionSet ?
+                isConditionSet ?
                     (
-                        (hint.conditionChoiceFilter ? this.object.gain.choice == hint.conditionChoiceFilter : true) &&
-                        (hint.conditionMinHeightened ? this.object.gain.heightened >= hint.conditionMinHeightened : true) &&
-                        (hint.conditionMaxHeightened ? this.object.gain.heightened <= hint.conditionMaxHeightened : true)
+                        (
+                            hint.conditionChoiceFilter ?
+                                (hint.conditionChoiceFilter == "-" && this.object.gain.choice == "") ||
+                                (this.object.gain.choice == hint.conditionChoiceFilter) :
+                                true
+                        )
                     ) :
                     true
             )
@@ -56,6 +61,23 @@ export class HintComponent implements OnInit {
                         )
                     )
             )
+    }
+
+    get_HeightenedHint(hint: Hint) {
+        //Spell conditions have their hints heightened to their spell level, everything else is heightened to the character level.
+        if (this.object instanceof ConditionSet && this.object.condition.minLevel) {
+            return hint.get_Heightened(hint.desc, this.object.gain.heightened);
+        } else {
+            return hint.get_Heightened(hint.desc, this.characterService.get_Character().level);
+        }
+    }
+
+    get_HintChoice(hint: Hint) {
+        //Only for condition hints, append the choice if the hint only showed up because of the choice.
+        if (this.object instanceof ConditionSet && hint.conditionChoiceFilter) {
+            return ": " + this.object.gain.choice;
+        }
+        return "";
     }
 
     on_ActivateEffect() {

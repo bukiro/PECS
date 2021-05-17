@@ -13,9 +13,9 @@ import { Equipment } from './Equipment';
 import { EffectGain } from './EffectGain';
 import * as json_conditions from '../assets/json/conditions';
 import { Creature } from './Creature';
-import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { Activity } from './Activity';
 import { ItemActivity } from './ItemActivity';
+import { Hint } from './Hint';
 
 @Injectable({
     providedIn: 'root'
@@ -371,7 +371,7 @@ export class ConditionsService {
                 });
                 characterService.get_OwnedActivities(creature, 20, true).filter(activityGain => activityGain.id == gain.sourceGainID && activityGain.active).forEach(activityGain => {
                     //Tick down the duration and the cooldown.
-                    let activity: Activity|ItemActivity = null;
+                    let activity: Activity | ItemActivity = null;
                     if (activityGain instanceof ItemActivity) {
                         activity = activityGain;
                     } else {
@@ -597,6 +597,7 @@ export class ConditionsService {
             if (condition.choices.length && !condition.choice) {
                 condition.choice = condition.choices[0].name
             }
+            condition.hints = condition.hints.map(hint => Object.assign(new Hint(), hint));
         });
     }
 

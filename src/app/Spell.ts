@@ -1,4 +1,4 @@
-import { SpellDesc } from './SpellDesc';
+import { HeightenedDesc } from './HeightenedDesc';
 import { CharacterService } from './character.service';
 import { ConditionGain } from './ConditionGain';
 import { ItemGain } from './ItemGain';
@@ -7,6 +7,7 @@ import { SpellCast } from './SpellCast';
 import { EffectsService } from './effects.service';
 import { Creature } from './Creature';
 import { SpellTargetNumber } from './SpellTargetNumber';
+import { HeightenedDescSet } from './HeightenedDescSet';
 
 export class Spell {
     public actions: string = "1A";
@@ -16,16 +17,7 @@ export class Spell {
     public cost: string = "";
     public critfailure: string = "";
     public critsuccess: string = "";
-    public desc10: SpellDesc[] = [];
-    public desc1: SpellDesc[] = [];
-    public desc2: SpellDesc[] = [];
-    public desc3: SpellDesc[] = [];
-    public desc4: SpellDesc[] = [];
-    public desc5: SpellDesc[] = [];
-    public desc6: SpellDesc[] = [];
-    public desc7: SpellDesc[] = [];
-    public desc8: SpellDesc[] = [];
-    public desc9: SpellDesc[] = [];
+    public heightenedDescs: HeightenedDescSet[] = [];
     public desc: string = "";
     public duration: string = "";
     //When giving conditions to other player creatures, they should last half a round longer to allow for the caster's turn to end after their last.
@@ -60,7 +52,7 @@ export class Spell {
     public targets: string = "";
     //If cannotTargetCaster is set, you can't cast the spell on yourself, and you can't select yourself as one of the targets of an ally or area spell.
     //This is needed for emanations (where the spell should give the caster the correct condition in the first place)
-    // and spells that exclusively target a different creature (in case of "you and [...]", the caster condition should take care of the caster's part.").
+    // and spells that exclusively target a different creature (in case of "you and [...]", the caster condition should take care of the caster's part.).
     public cannotTargetCaster: boolean = false;
     public singleTarget: boolean = false;
     public traditions: string[] = [];
@@ -68,36 +60,20 @@ export class Spell {
     public trigger: string = "";
     public targetNumbers: SpellTargetNumber[] = [];
     get_DescriptionSet(levelNumber: number) {
-        //This descends from levelnumber downwards and returns the first available description set.
+        //This descends from levelnumber downwards and returns the first description set with a matching level.
         //A description set contains variable names and the text to replace them with.
-        switch (levelNumber) {
-            case 10:
-                if (this.desc10.length) { return this.desc10; }
-            case 9:
-                if (this.desc9.length) { return this.desc9; }
-            case 8:
-                if (this.desc8.length) { return this.desc8; }
-            case 7:
-                if (this.desc7.length) { return this.desc7; }
-            case 6:
-                if (this.desc6.length) { return this.desc6; }
-            case 5:
-                if (this.desc5.length) { return this.desc5; }
-            case 4:
-                if (this.desc4.length) { return this.desc4; }
-            case 3:
-                if (this.desc3.length) { return this.desc3; }
-            case 2:
-                if (this.desc2.length) { return this.desc2; }
-            case 1:
-                if (this.desc1.length) { return this.desc1; }
-            default:
-                return [];
+        if (this.heightenedDescs.length) {
+            for (levelNumber; levelNumber > 0; levelNumber--) {
+                if (this.heightenedDescs.some(descSet => descSet.level == levelNumber)) {
+                    return this.heightenedDescs.find(descSet => descSet.level == levelNumber);
+                }
+            }
         }
+        return new HeightenedDescSet();
     }
     get_Heightened(text: string, levelNumber: number) {
         //For an arbitrary text (usually the spell description or the saving throw result descriptions), retrieve the appropriate description set for this level and replace the variables with the included strings.
-        this.get_DescriptionSet(levelNumber).forEach((descVar: SpellDesc) => {
+        this.get_DescriptionSet(levelNumber).descs.forEach((descVar: HeightenedDesc) => {
             let regex = new RegExp(descVar.variable, "g")
             text = text.replace(regex, (descVar.value || ""));
         })

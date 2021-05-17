@@ -408,24 +408,37 @@
                                     </div>
                                     <div class="list-item newrow left-aligned">
                                         <span *ngIf="item['get_Name']">
-                                            <input id="{{item.id}}showname" type="checkbox" [(ngModel)]="item.showName">
-                                            <label for="{{item.id}}showname">&nbsp;Name&nbsp;</label>
+                                            <input class="invisible" id="{{item.id}}showname" type="checkbox"
+                                                [(ngModel)]="item.showName">
+                                            <label for="{{item.id}}showname">
+                                                <i class='bi-pencil-square'></i>
+                                                Name
+                                            </label>
                                         </span>
                                         <span>
-                                            <input id="{{item.id}}shownotes" type="checkbox"
+                                            <input class="invisible" id="{{item.id}}shownotes" type="checkbox"
                                                 [(ngModel)]="item.showNotes">
-                                            <label for="{{item.id}}shownotes">&nbsp;Notes&nbsp;</label>
+                                            <label for="{{item.id}}shownotes">
+                                                <i class='bi-pencil-square'></i>
+                                                Notes
+                                            </label>
                                         </span>
                                         <span
                                             *ngIf="!['Fist','Unarmored'].includes(item.name) && item.baseType == 'Equipment'">
-                                            <input id="{{item.id}}showstatus" type="checkbox"
+                                            <input class="invisible" id="{{item.id}}showstatus" type="checkbox"
                                                 [(ngModel)]="item.showStatus">
-                                            <label for="{{item.id}}showstatus">&nbsp;Status&nbsp;</label>
+                                            <label for="{{item.id}}showstatus">
+                                                <i class='bi-pencil-square'></i>
+                                                Status
+                                            </label>
                                         </span>
                                         <span *ngIf="item.moddable && item.moddable != '-' && item.type != 'shield'">
-                                            <input id="{{item.id}}showrunes" type="checkbox"
+                                            <input class="invisible" id="{{item.id}}showrunes" type="checkbox"
                                                 [(ngModel)]="item.showRunes">
-                                            <label for="{{item.id}}showrunes">&nbsp;Runes&nbsp;</label>
+                                            <label for="{{item.id}}showrunes">
+                                                <i class='bi-pencil-square'></i>
+                                                Runes
+                                            </label>
                                         </span>
                                     </div>
                                     <!--Changing Name-->

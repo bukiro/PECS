@@ -1,52 +1,33 @@
 <ng-container *ngFor="let hint of get_Hints(); trackBy:trackByIndex;">
     <ng-template #SimpleHintContent>
         <ng-container
-            *ngFor="let text of (hint.desc ? hint.desc : object.desc).split('\n\n'); let textIndex = index; trackBy:trackByIndex;">
-            <p *ngIf="text.split('\n').length == 1">
-                <app-diceText [text]="text"></app-diceText>
-            </p>
-            <ul *ngIf="text.split('\n').length > 1">
-                <ng-container *ngFor="let line of text.split('\n'); trackBy:trackByIndex;">
-                    <li>
-                        <app-diceText [text]="line"></app-diceText>
-                    </li>
-                </ng-container>
-            </ul>
+            *ngFor="let text of (hint.desc ? get_HeightenedHint(hint) : object.desc).split('\n\n'); let textIndex = index; trackBy:trackByIndex;">
+            <app-diceText [text]="text"></app-diceText>
         </ng-container>
     </ng-template>
     <ng-template #HintContent>
         <ng-container
-            *ngFor="let text of (hint.desc ? hint.desc : object.desc).split('\n\n'); let textIndex = index; trackBy:trackByIndex;">
-            <p *ngIf="text.split('\n').length == 1">
-                <app-diceText [text]="text"></app-diceText>
-            </p>
-            <ul *ngIf="text.split('\n').length > 1">
-                <ng-container *ngFor="let line of text.split('\n'); trackBy:trackByIndex;">
-                    <li>
-                        <app-diceText [text]="line"></app-diceText>
-                    </li>
-                </ng-container>
-            </ul>
+            *ngFor="let text of (hint.desc ? get_HeightenedHint(hint) : object.desc).split('\n\n'); let textIndex = index; trackBy:trackByIndex;">
+            <app-diceText [text]="text"></app-diceText>
         </ng-container>
         <div class="list-item" *ngIf="get_HintsShowMore() && get_ObjectType()">
             <header class="spellHeader" *ngIf="object.name">{{object.name}}</header>
             <app-feat *ngIf="get_ObjectType()=='Feat'" [feat]="object"></app-feat>
-            <app-condition *ngIf="get_ObjectType()=='ConditionSet'" [condition]="object.condition" [conditionGain]="object.gain">
+            <app-condition *ngIf="get_ObjectType()=='ConditionSet'" [condition]="object.condition"
+                [conditionGain]="object.gain">
             </app-condition>
             <app-activity *ngIf="get_ObjectType()=='Activity'" [allowActivate]="false" [activity]="object">
             </app-activity>
             <app-item *ngIf="get_ObjectType()=='Item'" [allowActivate]="false" [item]="object"></app-item>
             <div class="newrow left-aligned" *ngIf="get_ObjectType()=='DescOnly'">
-                <p>
-                    {{object.desc}}
-                </p>
+                <app-diceText [text]="object.desc"></app-diceText>
             </div>
         </div>
     </ng-template>
     <cite>
         <span #fullDetailPopover="ngbPopover" [ngbPopover]="HintContent" triggers="click">
             <span [ngbPopover]="!fullDetailPopover.isOpen() && SimpleHintContent" triggers="hover">
-                {{description}}
+                {{description}}{{get_HintChoice(hint)}}
             </span>
         </span>
         <input type="checkbox" [(ngModel)]="hint.active" (ngModelChange)="on_ActivateEffect()"
